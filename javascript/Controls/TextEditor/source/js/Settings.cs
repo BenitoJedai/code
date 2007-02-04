@@ -22,7 +22,7 @@ namespace MyEditor.source.js
         public static Item[] Controls = new Item[] 
             {
                 new Item(DemoControl.Alias, e => new DemoControl(e)),
-                new Item(Editor.Alias, e => new Editor(e))
+                new Item(TextEditor.Alias, e => new TextEditor(e))
             };
 
         /// <summary>

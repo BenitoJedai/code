@@ -13,16 +13,44 @@ using ScriptCoreLib.Shared.Drawing;
 
 namespace MyEditor.source.js.Controls
 {
+
     [Script]
-    public class Editor : SpawnControlBase
+    public abstract class WebResource
     {
+        public string Value;
+        public string Directory;
+
+        public static implicit operator IHTMLImage(WebResource e)
+        {
+            return new IHTMLImage(e.Directory + "/" + e.Value);
+        }
+    }
+
+    [Script]
+    public class TextEditor : SpawnControlBase
+    {
+
+        [Script]
+        public class fx : WebResource
+        {
+            public const string Alias = "fx/TextEditor";
+
+            public static implicit operator fx(string Value)
+            {
+                return new fx { Value, Directory = Alias };
+            }
+        }
+
         // http://download.dojotoolkit.org/release-0.2.2/dojo-0.2.2-widget/demos/widget/Editor.html
         // http://www.dynamicdrive.com/dynamicindex16/richtexteditor/index.htm
         // http://www.mozilla.org/editor/midas-spec.html
+        // http://www.mozilla.org/editor/ie2midas.html
+        // http://developer.mozilla.org/en/docs/Rich-Text_Editing_in_Mozilla
         // http://typetester.maratz.com/
 
         // http://tinymce.moxiecode.com/example_full.php?example=true
-        // http://www.mozilla.org/editor/ie2midas.html
+
+        // http://www.fckeditor.net/demo
 
         public const string Alias = "fx.Editor";
 
@@ -31,21 +59,7 @@ namespace MyEditor.source.js.Controls
         IHTMLTextArea Text = new IHTMLTextArea();
 
 
-        [Script]
-        class fx
-        {
-            public string Value;
 
-            public static implicit operator fx(string Value)
-            {
-                return new fx { Value };
-            }
-
-            public static implicit operator IHTMLImage(fx e)
-            {
-                return new IHTMLImage("fx/" + e.Value);
-            }
-        }
 
         IHTMLImage Spinner = (fx)"spinner.gif";
 
@@ -102,13 +116,44 @@ namespace MyEditor.source.js.Controls
                 pal.style.position = IStyle.PositionEnum.absolute;
                 pal.style.border = "1px solid gray";
                 //pal.style.padding = "2px";
-                pal.style.SetSize(138, 86);
+                pal.style.SetSize(128, 96 - 16);
                 pal.style.backgroundColor = Color.White;
 
 
                 pal.appendChild(
                     CreatePalette(colors)
                 );
+
+                /*
+                var more = new IHTMLButton();
+
+                IHTMLImage more_img = (fx)"menu.more.gif";
+
+                more.style.border = "1px solid gray";
+                more.style.backgroundColor = Color.Transparent;
+                more_img.ToBackground(more, false);
+                more.style.backgroundPosition = "center";
+                more.style.margin = "1px";
+                more.style.Float = IStyle.FloatEnum.left;
+                more.style.SetSize(126, 14);
+
+                more.onclick +=
+                    delegate
+                    {
+                        more.blur();
+                    };
+
+                more.disabled = true;
+
+                // rgb selector
+                // system color selector
+
+                pal.appendChild(more);
+                */
+
+                //pal.appendChild(
+                //    CreatePalette(Color.System.ButtonFace)
+                //    );
 
                 pal.onmouseover +=
                     delegate
@@ -130,9 +175,9 @@ namespace MyEditor.source.js.Controls
 
             }
 
-            public IHTMLDiv[] CreatePalette(Color[] e)
+            public IHTMLElement[] CreatePalette(Color[] e)
             {
-                var a = new IHTMLDiv[e.Length];
+                var a = new IHTMLElement[e.Length];
 
                 for (int i = 0; i < e.Length; i++)
                 {
@@ -142,23 +187,25 @@ namespace MyEditor.source.js.Controls
                 return a;
             }
 
-            public IHTMLDiv CreatePalette(Color e)
+            public IHTMLElement CreatePalette(Color e)
             {
-                var c1 = new IHTMLDiv();
-                c1.style.SetSize(11, 11);
+                var c1 = new IHTMLButton();
                 c1.style.border = "1px solid gray";
                 c1.style.backgroundColor = e;
                 c1.style.Float = IStyle.FloatEnum.left;
-                c1.style.margin = "2px";
+                c1.style.margin = "1px";
                 c1.style.overflow = IStyle.OverflowEnum.hidden;
                 c1.style.cursor = IStyle.CursorEnum.pointer;
 
+                c1.style.SetSize(14, 14);
 
 
 
                 c1.onclick +=
                     delegate(IEvent xe)
                     {
+                        c1.blur();
+
                         this.SelectedColor = e;
 
                         this.pal.Dispose();
@@ -211,11 +258,12 @@ namespace MyEditor.source.js.Controls
                      {
                          this.Hide();
                      };
-                    
+
             }
         }
 
-        public Editor(IHTMLElement e)
+
+        public TextEditor(IHTMLElement e)
             : base(e)
         {
             var ttoolbar = new IHTMLDiv();
@@ -256,27 +304,39 @@ namespace MyEditor.source.js.Controls
             btoolbar.style.backgroundRepeat = "repeat-x";
             btoolbar.style.backgroundColor = Color.FromGray(0xcb);
 
-            var design = AddButton((fx)"mode.design.gif", delegate
-            {
-                cnt2.Hide();
+            ToolbarButton design = null;
+            ToolbarButton html = null;
 
-                Document.body.innerHTML = this.Text.value;
+            design = AddButton((fx)"mode.design.gif", "Design",
+                    delegate
+                    {
+                        cnt2.Hide();
 
-                cnt.Show();
-            });
+                        Document.body.innerHTML = this.Text.value;
 
+                        cnt.Show();
 
+                        design.Enabled = false;
+                        html.Enabled = true;
+                    }
+                );
 
-            var html = AddButton((fx)"mode.html.gif", delegate
-            {
+            html = AddButton((fx)"mode.html.gif", "HTML",
+                    delegate
+                    {
+                        cnt.Hide();
 
+                        this.Text.value = Document.body.innerHTML;
 
-                cnt.Hide();
+                        cnt2.Show();
 
-                this.Text.value = Document.body.innerHTML;
+                        design.Enabled = true;
+                        html.Enabled = false;
 
-                cnt2.Show();
-            });
+                    }
+                );
+
+            design.Enabled = false;
 
             btoolbar.appendChild(design, html);
 
@@ -299,16 +359,16 @@ namespace MyEditor.source.js.Controls
             d.write("<html><body style='height: auto; border: 0; overflow: auto; background-color:transparent;'></body></html>");
             d.close();
 
-            ttoolbar.appendChild(Spinner);
+            //ttoolbar.appendChild(Spinner);
 
-            new IXMLHttpRequest(HTTPMethodEnum.GET, "example.html",
-                delegate(IXMLHttpRequest r)
-                {
-                    Spinner.FadeOut();
+            //new IXMLHttpRequest(HTTPMethodEnum.GET, "example.html",
+            //    delegate(IXMLHttpRequest r)
+            //    {
+            //        Spinner.FadeOut();
 
-                    this.Document.body.innerHTML = r.responseText;
-                }
-            );
+            //        this.Document.body.innerHTML = r.responseText;
+            //    }
+            //);
 
             d.DesignMode = true;
 
@@ -325,39 +385,43 @@ namespace MyEditor.source.js.Controls
             var outdent = AddButton((fx)"outdent.gif", "Outdent");
             var sup = AddButton((fx)"superscript.gif", "Superscript");
             var sub = AddButton((fx)"sub.gif", "Subscript");
+            //var incsize = AddButton((fx)"text-larger.gif", "increasefontsize");
+            //var decsize = AddButton((fx)"text-smaller.gif", "decreasefontsize");
             var removeformat = AddButton((fx)"removeformat.gif", "Removeformat");
             var insertorderedlist = AddButton((fx)"numberedlist.gif", "InsertOrderedList");
             var insertunorderedlist = AddButton((fx)"bulletedlist.gif", "InsertUnorderedList");
             var undo = AddButton((fx)"undo.gif", "undo");
             var redo = AddButton((fx)"redo.gif", "redo");
 
-            // create a palette
-            var forecolor = AddButton((fx)"forecolor.gif",
+            var fontfamily = AddButton((fx)"icon_font.gif",
                 delegate
                 {
-                    Document.execCommand("ForeColor", false, "#ffff00");
-                });
-            
-            //ColorPopup.Of(forecolor, 
-            //    delegate(Color c)
-            //    {
-            //        Document.execCommand("ForeColor", false, "#ffff00");
-            //        Document.execCommand("ForeColor", false, c.ToString());
-            //    }
-            //);
+                    Document.execCommand("fontname", false, "Verdana");
+                }
+            );
+
+            var fontsize = AddButton((fx)"icon_size.gif",
+                delegate
+                {
+                    Document.execCommand("fontsize", false, "7pt");
+                }
+            );
+
+            // create a palette
+            var forecolor = CreateButton((fx)"forecolor.gif");
+
+            ColorPopup.Of(forecolor,
+                delegate(Color c)
+                {
+                    Document.execCommand("ForeColor", false, c.ToString());
+                }
+            );
 
             var hilitecolor = CreateButton((fx)"hilitecolor.gif");
 
             ColorPopup.Of(hilitecolor,
                 delegate(Color c)
                 {
-                    //var s = Document.selection;
-
-                    
-                    //Native.DebugBreak();
-
-                    Frame.focus();
-
                     try
                     {
                         Document.execCommand("hilitecolor", false, c.ToString());
@@ -370,33 +434,62 @@ namespace MyEditor.source.js.Controls
                 }
             );
 
+            fontfamily.Enabled = false;
+            fontsize.Enabled = false;
 
-            //var fonts = new IHTMLSelect();
+            ToolbarButton[] tbuttons =
+                {
+                    fontfamily, fontsize,
 
-            //fonts.Add("Arial", "Verdana", "Times New Roman", "Courier");
-            //fonts.style.margin = "2px";
-            //var fonts = CreateButton();
+                    bold, italic, underline, strike, // Separator.cloneNode(false),
 
-            //fonts.style.paddingLeft = "1em";
-            //fonts.style.paddingRight = "1em";
-            //fonts.style.height = "100%";
-
-            //fonts.appendChild("font: Arial");
-
-            ttoolbar.appendChild(
-                //fonts,
-                bold, italic, underline, strike, // Separator.cloneNode(false),
-                justifyleft, justifycenter, justifyright, justifyfull, // Separator.cloneNode(false),
-                indent, outdent, //Separator.cloneNode(false),
-                 insertorderedlist, insertunorderedlist,
-                sup, sub, //Separator.cloneNode(false),
-                forecolor, hilitecolor,
-                removeformat,
-
-                undo, redo);
+                    
 
 
+                    justifyleft, justifycenter, justifyright, justifyfull, // Separator.cloneNode(false),
+                    indent, outdent, //Separator.cloneNode(false),
+                     insertorderedlist, insertunorderedlist,
+                    sup, sub, //Separator.cloneNode(false),
+                    //incsize, decsize,
+                    forecolor, hilitecolor,
+                    removeformat,
 
+                    undo, redo
+                };
+
+            foreach (ToolbarButton v in tbuttons)
+            {
+                v.Button.style.SetSize(24, 24);
+
+                ttoolbar.appendChild(v);
+            }
+
+
+
+
+        }
+
+        public ToolbarButton AddButton(IHTMLImage img, string text, EventHandler h)
+        {
+            var x = CreateButton();
+
+            x.Button.onclick += delegate
+            {
+                h();
+            };
+
+            x.Image = img;
+
+            var u = new IHTMLTable();
+
+            u.style.cursor = IStyle.CursorEnum.@default;
+            u.cellPadding = 0;
+            u.cellSpacing = 0;
+            u.AddBody().AddRow(x.Image, new ITextNode(""), new ITextNode(text));
+
+            x.Button.appendChild(u);
+
+            return x;
         }
 
 
@@ -429,16 +522,34 @@ namespace MyEditor.source.js.Controls
                 return e.Control;
             }
 
+            private bool _Enabled;
+
+            public bool Enabled
+            {
+                get { return _Enabled; }
+                set
+                {
+                    _Enabled = value;
+                    if (value)
+                        this.Button.style.Opacity = 1;
+                    else
+                        this.Button.style.Opacity = 0.5;
+
+                    this.Button.disabled = !value;
+                    this.Button.style.backgroundImage = "";
+                }
+            }
+
         }
 
 
-        IHTMLButton CreateButton()
+        ToolbarButton CreateButton()
         {
             var u = new IHTMLButton();
             u.style.padding = "0";
             u.style.backgroundColor = JSColor.Transparent;
 
-            u.style.SetSize(24, 24);
+            //u.style.height = "24px";
 
             u.style.border = "0";
 
@@ -453,20 +564,20 @@ namespace MyEditor.source.js.Controls
                 u.style.backgroundImage = "";
             };
 
-            return u;
-        }
-
-        ToolbarButton CreateButton(IHTMLImage img)
-        {
-            var u = CreateButton();
-
-            u.appendChild(img);
-
-            var z = new ToolbarButton { Image = img, Button = u };
+            var z = new ToolbarButton { Button = u };
 
             z.Control.style.position = IStyle.PositionEnum.relative;
             z.Control.appendChild(u);
 
+            return z;
+        }
+
+        ToolbarButton CreateButton(IHTMLImage img)
+        {
+            var z = CreateButton();
+
+            z.Button.appendChild(img);
+            z.Image = img;
 
             return z;
         }
