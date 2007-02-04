@@ -1,0 +1,769 @@
+<!--StartFragment-->
+<div style="font-size: 10pt; background: white; color: black; font-family: Consolas">
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;&nbsp;1</span> <span style="color: blue">
+            using</span> ScriptCoreLib;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;&nbsp;2</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;&nbsp;3</span> <span style="color: blue">
+            using</span> ScriptCoreLib.JavaScript.Controls;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;&nbsp;4</span> <span style="color: blue">
+            using</span> ScriptCoreLib.JavaScript;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;&nbsp;5</span> <span style="color: blue">
+            using</span> ScriptCoreLib.JavaScript.Runtime;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;&nbsp;6</span> <span style="color: blue">
+            using</span> ScriptCoreLib.JavaScript.Serialized;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;&nbsp;7</span> <span style="color: blue">
+            using</span> ScriptCoreLib.JavaScript.DOM.HTML;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;&nbsp;8</span> <span style="color: blue">
+            using</span> ScriptCoreLib.JavaScript.DOM.XML;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;&nbsp;9</span> <span style="color: blue">
+            using</span> ScriptCoreLib.JavaScript.DOM;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;10</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;11</span> <span style="color: blue">using</span>
+        ScriptCoreLib.Shared;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;12</span> <span style="color: blue">using</span>
+        ScriptCoreLib.Shared.Drawing;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;13</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;14</span> <span style="color: blue">namespace</span>
+        MyEditor.source.js.Controls</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;15</span> {</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;16</span> &nbsp; &nbsp; [<span style="color: teal">Script</span>]</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;17</span> &nbsp; &nbsp; <span style="color: blue">
+            public</span> <span style="color: blue">class</span> <span style="color: teal">Editor</span>
+        : <span style="color: teal">SpawnControlBase</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;18</span> &nbsp; &nbsp; {</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;19</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        <span style="color: green">// http://download.dojotoolkit.org/release-0.2.2/dojo-0.2.2-widget/demos/widget/Editor.html</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;20</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        <span style="color: green">// http://www.dynamicdrive.com/dynamicindex16/richtexteditor/index.htm</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;21</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        <span style="color: green">// http://www.mozilla.org/editor/midas-spec.html</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;22</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        <span style="color: green">// http://typetester.maratz.com/</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;23</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;24</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        <span style="color: green">// http://tinymce.moxiecode.com/example_full.php?example=true</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;25</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;26</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        <span style="color: blue">public</span> <span style="color: blue">const</span> <span
+            style="color: blue">string</span> Alias = <span style="color: maroon">"fx.Editor"</span>;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;27</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;28</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        <span style="color: teal">IHTMLDiv</span> Control = <span style="color: blue">new</span>
+        <span style="color: teal">IHTMLDiv</span>();</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;29</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        <span style="color: teal">IHTMLIFrame</span> Frame = <span style="color: blue">new</span>
+        <span style="color: teal">IHTMLIFrame</span>();</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;30</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        <span style="color: teal">IHTMLTextArea</span> Text = <span style="color: blue">new</span>
+        <span style="color: teal">IHTMLTextArea</span>();</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;31</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;32</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;33</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        [<span style="color: teal">Script</span>]</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;34</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        <span style="color: blue">class</span> <span style="color: teal">fx</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;35</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        {</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;36</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">public</span> <span style="color: blue">string</span>
+        Value;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;37</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;38</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">public</span> <span style="color: blue">static</span>
+        <span style="color: blue">implicit</span> <span style="color: blue">operator</span>
+        <span style="color: teal">fx</span>(<span style="color: blue">string</span> Value)</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;39</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; {</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;40</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue">return</span> <span style="color: blue">
+            new</span> <span style="color: teal">fx</span> { Value };</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;41</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; }</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;42</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;43</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">public</span> <span style="color: blue">static</span>
+        <span style="color: blue">implicit</span> <span style="color: blue">operator</span>
+        <span style="color: teal">IHTMLImage</span>(<span style="color: teal">fx</span>
+        e)</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;44</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; {</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;45</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue">return</span> <span style="color: blue">
+            new</span> <span style="color: teal">IHTMLImage</span>(<span style="color: maroon">"fx/"</span>
+        + e.Value);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;46</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; }</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;47</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        }</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;48</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;49</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        <span style="color: teal">IHTMLImage</span> Spinner = (<span style="color: teal">fx</span>)<span
+            style="color: maroon">"spinner.gif"</span>;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;50</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;51</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        <span style="color: blue">public</span> Editor(<span style="color: teal">IHTMLElement</span>
+        e)</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;52</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; : <span style="color: blue">base</span>(e)</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;53</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        {</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;54</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> ttoolbar = <span style="color: blue">
+            new</span> <span style="color: teal">IHTMLDiv</span>();</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;55</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;56</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">this</span>.Control.style.border = <span
+            style="color: maroon">"1px solid gray"</span>;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;57</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;58</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> cnt = <span style="color: blue">new</span>
+        <span style="color: teal">IHTMLDiv</span>();</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;59</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> cnt2 = <span style="color: blue">
+            new</span> <span style="color: teal">IHTMLDiv</span>();</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;60</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;61</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; cnt2.appendChild(<span style="color: blue">this</span>.Text);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;62</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;63</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; cnt2.Hide();</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;64</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;65</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">this</span>.Text.style.backgroundColor =
+        <span style="color: teal">JSColor</span>.Transparent;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;66</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">this</span>.Text.style.border = <span style="color: maroon">
+            "0"</span>;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;67</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">this</span>.Text.style.overflow = <span style="color: teal">
+            IStyle</span>.<span style="color: teal">OverflowEnum</span>.auto;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;68</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">this</span>.Text.style.display = <span style="color: teal">
+            IStyle</span>.<span style="color: teal">DisplayEnum</span>.block;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;69</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">this</span>.Text.style.width = <span style="color: maroon">
+            "100%"</span>;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;70</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">this</span>.Text.style.height = <span style="color: maroon">
+            "300px"</span>;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;71</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;72</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: green">//cnt.style.backgroundColor = Color.White;</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;73</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: green">//cnt.style.backgroundRepeat = "repeat-x";</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;74</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;75</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">this</span>.Frame.allowTransparency = <span
+            style="color: blue">true</span>;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;76</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;77</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">this</span>.Frame.style.border = <span style="color: maroon">
+            "0"</span>;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;78</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">this</span>.Frame.style.overflow = <span
+            style="color: teal">IStyle</span>.<span style="color: teal">OverflowEnum</span>.auto;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;79</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">this</span>.Frame.style.display = <span style="color: teal">
+            IStyle</span>.<span style="color: teal">DisplayEnum</span>.block;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;80</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">this</span>.Frame.style.width = <span style="color: maroon">
+            "100%"</span>;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;81</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">this</span>.Frame.style.height = <span style="color: maroon">
+            "300px"</span>;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;82</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;83</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; cnt.appendChild(<span style="color: blue">this</span>.Frame);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;84</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;85</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> btoolbar = <span style="color: blue">
+            new</span> <span style="color: teal">IHTMLDiv</span>();</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;86</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;87</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; Toolbar.ToBackground(btoolbar);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;88</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; btoolbar.style.backgroundRepeat = <span style="color: maroon">"repeat-x"</span>;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;89</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; btoolbar.style.backgroundColor = <span style="color: teal">Color</span>.FromGray(0xcb);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;90</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;91</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> design = AddButton((<span style="color: teal">fx</span>)<span
+            style="color: maroon">"mode.design.gif"</span>, <span style="color: blue">delegate</span>
+        {</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;92</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; cnt2.Hide();</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;93</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;94</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; Document.body.innerHTML = <span style="color: blue">this</span>.Text.value;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;95</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;96</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; cnt.Show();</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;97</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; } );</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;98</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> html = AddButton((<span style="color: teal">fx</span>)<span
+            style="color: maroon">"mode.html.gif"</span>, <span style="color: blue">delegate</span>
+        {</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;&nbsp;99</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;100</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;101</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; cnt.Hide();</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;102</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;103</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue">this</span>.Text.value = Document.body.innerHTML;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;104</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;105</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; cnt2.Show();</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;106</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; } );</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;107</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;108</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; btoolbar.appendChild(design, html);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;109</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;110</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; Gradient.ToBackground(Control);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;111</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;112</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; Control.style.backgroundRepeat = <span style="color: maroon">"repeat-x"</span>;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;113</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;114</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">this</span>.Control.appendChild(ttoolbar,
+        cnt, cnt2, btoolbar);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;115</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;116</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; e.insertNextSibling(Control);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;117</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;118</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; cnt.style.overflow = <span style="color: teal">IStyle</span>.<span
+            style="color: teal">OverflowEnum</span>.hidden;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;119</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;120</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;121</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;122</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;123</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> d = <span style="color: blue">this</span>.Document;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;124</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;125</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; d.write(<span style="color: maroon">"&lt;html&gt;&lt;body style='height: auto; border: 0; overflow: auto; background-color:transparent;'&gt;&lt;/body&gt;&lt;/html&gt;"</span>);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;126</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; d.close();</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;127</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;128</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; ttoolbar.appendChild(Spinner);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;129</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;130</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">new</span> <span style="color: teal">IXMLHttpRequest</span>(<span
+            style="color: teal">HTTPMethodEnum</span>.GET, <span style="color: maroon">"example.html"</span>,</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;131</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue">delegate</span>(<span style="color: teal">IXMLHttpRequest</span>
+        r)</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;132</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; {</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;133</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Spinner.FadeOut();</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;134</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;135</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue">this</span>.Document.body.innerHTML = r.responseText;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;136</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; }</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;137</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; );</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;138</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;139</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; d.DesignMode = <span style="color: blue">true</span>;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;140</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;141</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;142</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> bold = AddButton((<span style="color: teal">fx</span>)<span
+            style="color: maroon">"bold.gif"</span>, <span style="color: maroon">"Bold"</span>);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;143</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> underline = AddButton((<span style="color: teal">fx</span>)<span
+            style="color: maroon">"underline.gif"</span>, <span style="color: maroon">"Underline"</span>);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;144</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> strike = AddButton((<span style="color: teal">fx</span>)<span
+            style="color: maroon">"strikethrough.gif"</span>, <span style="color: maroon">"Strikethrough"</span>);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;145</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> italic = AddButton((<span style="color: teal">fx</span>)<span
+            style="color: maroon">"italic.gif"</span>, <span style="color: maroon">"Italic"</span>);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;146</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> justifyleft = AddButton((<span
+            style="color: teal">fx</span>)<span style="color: maroon">"justifyleft.gif"</span>,
+        <span style="color: maroon">"JustifyLeft"</span>);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;147</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> justifycenter = AddButton((<span
+            style="color: teal">fx</span>)<span style="color: maroon">"justifycenter.gif"</span>,
+        <span style="color: maroon">"Justifycenter"</span>);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;148</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> justifyright = AddButton((<span
+            style="color: teal">fx</span>)<span style="color: maroon">"justifyright.gif"</span>,
+        <span style="color: maroon">"Justifyright"</span>);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;149</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> justifyfull = AddButton((<span
+            style="color: teal">fx</span>)<span style="color: maroon">"justifyfull.gif"</span>,
+        <span style="color: maroon">"Justifyfull"</span>);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;150</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> indent = AddButton((<span style="color: teal">fx</span>)<span
+            style="color: maroon">"indent.gif"</span>, <span style="color: maroon">"Indent"</span>);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;151</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> outdent = AddButton((<span style="color: teal">fx</span>)<span
+            style="color: maroon">"outdent.gif"</span>, <span style="color: maroon">"Outdent"</span>);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;152</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> sup = AddButton((<span style="color: teal">fx</span>)<span
+            style="color: maroon">"superscript.gif"</span>, <span style="color: maroon">"Superscript"</span>);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;153</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> sub = AddButton((<span style="color: teal">fx</span>)<span
+            style="color: maroon">"sub.gif"</span>, <span style="color: maroon">"Subscript"</span>);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;154</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> removeformat = AddButton((<span
+            style="color: teal">fx</span>)<span style="color: maroon">"removeformat.gif"</span>,
+        <span style="color: maroon">"Removeformat"</span>);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;155</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> insertorderedlist = AddButton((<span
+            style="color: teal">fx</span>)<span style="color: maroon">"numberedlist.gif"</span>,
+        <span style="color: maroon">"InsertOrderedList"</span>);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;156</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> insertunorderedlist = AddButton((<span
+            style="color: teal">fx</span>)<span style="color: maroon">"bulletedlist.gif"</span>,
+        <span style="color: maroon">"InsertUnorderedList"</span>);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;157</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> undo = AddButton((<span style="color: teal">fx</span>)<span
+            style="color: maroon">"undo.gif"</span>, <span style="color: maroon">"undo"</span>);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;158</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: blue">var</span> redo = AddButton((<span style="color: teal">fx</span>)<span
+            style="color: maroon">"redo.gif"</span>, <span style="color: maroon">"redo"</span>);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;159</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;160</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;161</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: green">//Toolbar.ToBackground(div);</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;162</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;163</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;164</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;165</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: green">//var fonts = new IHTMLSelect();</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;166</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;167</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: green">//fonts.Add("Arial", "Verdana", "Times New
+            Roman", "Courier");</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;168</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: green">//fonts.style.margin = "2px";</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;169</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: green">//var fonts = CreateButton();</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;170</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;171</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: green">//fonts.style.paddingLeft = "1em";</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp;&nbsp;172</span> &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; <span style="color: green">//fonts.style.paddingRight = "1em";</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 173</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; <span style="color: green">//fonts.style.height = "100%";</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 174</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 175</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; <span style="color: green">//fonts.appendChild("font: Arial");</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 176</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 177</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; ttoolbar.appendChild(</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 178</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; <span style="color: green">//fonts,</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 179</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; bold, italic, underline, strike, <span style="color: green">
+            // Separator.cloneNode(false),</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 180</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; justifyleft, justifycenter, justifyright, justifyfull, <span style="color: green">// Separator.cloneNode(false),</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 181</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; indent, outdent, <span style="color: green">//Separator.cloneNode(false),</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 182</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; insertorderedlist, insertunorderedlist,</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 183</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; sup, sub, <span style="color: green">//Separator.cloneNode(false),</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 184</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; removeformat,</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 185</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 186</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; undo, redo);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 187</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 188</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 189</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 190</span> &nbsp; &nbsp; &nbsp; &nbsp; }</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 191</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 192</span> &nbsp; &nbsp; &nbsp; &nbsp; <span
+            style="color: teal">IHTMLDocument</span> Document</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 193</span> &nbsp; &nbsp; &nbsp; &nbsp; {</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 194</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; <span style="color: blue">get</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 195</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; {</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 196</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; <span style="color: blue">return</span> <span style="color: blue">
+            this</span>.Frame.contentWindow.document;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 197</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; }</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 198</span> &nbsp; &nbsp; &nbsp; &nbsp; }</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 199</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 200</span> &nbsp; &nbsp; &nbsp; &nbsp; <span
+            style="color: teal">IHTMLImage</span> Gradient = (<span style="color: teal">fx</span>)<span
+                style="color: maroon">"body_back.gif"</span>;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 201</span> &nbsp; &nbsp; &nbsp; &nbsp; <span
+            style="color: teal">IHTMLImage</span> Toolbar = (<span style="color: teal">fx</span>)<span
+                style="color: maroon">"toolbar-bg.gif"</span>;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 202</span> &nbsp; &nbsp; &nbsp; &nbsp; <span
+            style="color: teal">IHTMLImage</span> HotButton = (<span style="color: teal">fx</span>)<span
+                style="color: maroon">"hot-bg.gif"</span>;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 203</span> &nbsp; &nbsp; &nbsp; &nbsp; <span
+            style="color: teal">IHTMLImage</span> Separator = (<span style="color: teal">fx</span>)<span
+                style="color: maroon">"separator.horizontal.gif"</span>;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 204</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 205</span> &nbsp; &nbsp; &nbsp; &nbsp; <span
+            style="color: teal">IHTMLButton</span> CreateButton()</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 206</span> &nbsp; &nbsp; &nbsp; &nbsp; {</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 207</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; <span style="color: blue">var</span> u = <span style="color: blue">new</span>
+        <span style="color: teal">IHTMLButton</span>();</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 208</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; u.style.padding = <span style="color: maroon">"1px"</span>;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 209</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; u.style.backgroundColor = <span style="color: teal">JSColor</span>.Transparent;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 210</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 211</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 212</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; u.style.border = <span style="color: maroon">"0"</span>;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 213</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 214</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; u.onmouseover += <span style="color: blue">delegate</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 215</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; {</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 216</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; HotButton.ToBackground(u.style);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 217</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 218</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; };</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 219</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 220</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; u.onmouseout += <span style="color: blue">delegate</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 221</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; {</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 222</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; u.style.backgroundImage = <span style="color: maroon">
+            ""</span>;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 223</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; };</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 224</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 225</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; <span style="color: blue">return</span> u;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 226</span> &nbsp; &nbsp; &nbsp; &nbsp; }</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 227</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 228</span> &nbsp; &nbsp; &nbsp; &nbsp; <span
+            style="color: teal">IHTMLButton</span> AddButton(<span style="color: teal">IHTMLImage</span>
+        img, <span style="color: teal">EventHandler</span> h)</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 229</span> &nbsp; &nbsp; &nbsp; &nbsp; {</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 230</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; <span style="color: blue">var</span> u = CreateButton();</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 231</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 232</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; u.appendChild(img);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 233</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 234</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; u.onclick +=</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 235</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; <span style="color: blue">delegate</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 236</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; {</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 237</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; h();</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 238</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 239</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 240</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 241</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; };</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 242</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 243</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; <span style="color: blue">return</span> u;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 244</span> &nbsp; &nbsp; &nbsp; &nbsp; }</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 245</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 246</span> &nbsp; &nbsp; &nbsp; &nbsp; <span
+            style="color: teal">IHTMLButton</span> AddButton(<span style="color: teal">IHTMLImage</span>
+        img, <span style="color: blue">string</span> cmd)</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 247</span> &nbsp; &nbsp; &nbsp; &nbsp; {</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 248</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; <span style="color: blue">return</span> AddButton(img,</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 249</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; <span style="color: blue">delegate</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 250</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; {</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 251</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue">try</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 252</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 253</span> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Document.execCommand(cmd, 
+        <span style="color: blue">false</span>, <span style="color: blue">null</span>);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 254</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 255</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue">catch</span></p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 256</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 257</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: teal">Console</span>.Log(<span
+            style="color: maroon">"command failed: "</span> + cmd);</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 258</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 259</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 260</span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Frame.contentWindow.focus();</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 261</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; }</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 262</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; );</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 263</span> &nbsp; &nbsp; &nbsp; &nbsp; }</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 264</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 265</span> &nbsp; &nbsp; }</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 266</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 267</span>&nbsp;</p>
+    <p style="margin: 0px">
+        <span style="color: #2b91af">&nbsp; 268</span> }</p>
+</div>
+<!--EndFragment-->
