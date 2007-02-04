@@ -38,11 +38,13 @@ using ScriptCoreLib;
 
 [assembly:
     Script,
+    ScriptResources(MyEditor.source.js.Controls.TextEditor.fx.Alias),
     ScriptTypeFilter(ScriptType.JavaScript, "*.source.js"),
     ScriptTypeFilter(ScriptType.JavaScript, "*.source.shared"),
    // ScriptTypeFilter(ScriptType.PHP, "*.source.php"),
    //ScriptTypeFilter(ScriptType.PHP, "*.source.shared")
 ]
+
 
 namespace MyEditor.source.shared
 {
