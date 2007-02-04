@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{091C6968-3427-4A72-89CD-B3A0B4D3FB7F}</ProjectGuid>
+    <ProjectGuid>{75283E07-D796-4215-9C1F-B9B01ED73D76}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MyEditor</RootNamespace>
-    <AssemblyName>MyEditor</AssemblyName>
+    <RootNamespace>ScriptCoreLib.JavaScript.Controls.TextEditor</RootNamespace>
+    <AssemblyName>ScriptCoreLib.JavaScript.Controls.TextEditor</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,16 +35,16 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="source\csharp\Settings.cs" />
-    <Compile Include="source\js\Controls\Editor.cs" />
+    <Compile Include="source\js\Controls\TextEditor.cs" />
     <Compile Include="source\js\Settings.cs" />
     <Compile Include="source\js\Controls\DemoControl.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ScriptCoreLib\ScriptCoreLib.csproj">
+    <ProjectReference Include="..\..\..\..\ScriptCoreLib\ScriptCoreLib.csproj">
       <Project>{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}</Project>
       <Name>ScriptCoreLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ScriptCorLibA\ScriptCoreLibA.csproj">
+    <ProjectReference Include="..\..\..\..\ScriptCorLibA\ScriptCoreLibA.csproj">
       <Project>{477C5608-F5CD-436F-935D-66675988F1D9}</Project>
       <Name>ScriptCoreLibA</Name>
     </ProjectReference>
@@ -53,89 +53,46 @@
     <Content Include="web\example.2.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="web\fx\bulletedlist.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\mode.design.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\mode.html.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\numberedlist.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\redo.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\separator.horizontal.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\superscript.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\undo.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="web\fx\TextEditor\bulletedlist.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\mode.design.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\mode.html.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\numberedlist.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\redo.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\separator.horizontal.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\superscript.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\bold.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\undo.gif" />
     <Content Include="web\example.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="web\fx\body_back.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\bold.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\forecolor.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\hilitecolor.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\hot-bg.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\indent.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\italic.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\justifycenter.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\justifyfull.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\justifyleft.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\justifyright.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\outdent.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\removeformat.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\spinner.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\strikethrough.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\sub.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\toolbar-bg.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\underline.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="web\fx\TextEditor\icon_font.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\icon_size.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\text-larger.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\text-smaller.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\menu.more.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\body_back.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\forecolor.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\hilitecolor.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\hot-bg.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\indent.gif">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\fx\TextEditor\italic.gif">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\fx\TextEditor\justifycenter.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\justifyfull.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\justifyleft.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\justifyright.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\outdent.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\removeformat.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\spinner.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\strikethrough.gif">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\fx\TextEditor\sub.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\toolbar-bg.gif" />
+    <EmbeddedResource Include="web\fx\TextEditor\underline.gif" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="docs\" />
     <Folder Include="source\shared\" />
   </ItemGroup>
   <Import Project="$(ProgramFiles)\LINQ Preview\Misc\Linq.targets" />
