@@ -9,10 +9,12 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 using ScriptCoreLib.JavaScript.DOM;
 
 using ScriptCoreLib.Shared;
+using ScriptCoreLib.Shared.Serialized;
 using ScriptCoreLib.Shared.Drawing;
 
 namespace MyEditor.source.js.Controls
 {
+    using StringPair = Pair<string, string>;
 
     [Script]
     public abstract class WebResource
@@ -72,18 +74,210 @@ namespace MyEditor.source.js.Controls
             {
                 _Height = value;
 
-                this.Text.style.height = this._Height + "px";
-                this.Frame.style.height = this._Height + "px";
+                this.Text.style.height = value + "px";
+                this.Frame.style.height = value + "px";
 
             }
         }
 
+        [Script]
+        public abstract class Popup<T>
+        {
+            public readonly IHTMLDiv Control = new IHTMLDiv();
+
+            private T _Value;
+
+            public T Value
+            {
+                get { return _Value; }
+                set
+                {
+                    _Value = value;
+                    Changed(_Value);
+                }
+            }
+
+            public EventHandler<T> Changed;
+
+
+            public bool IsHot;
+
+            public Popup()
+            {
+                Control.style.position = IStyle.PositionEnum.absolute;
+                Control.style.border = "1px solid gray";
+                Control.style.backgroundColor = Color.White;
+                Control.style.padding = "2px";
+
+                Control.onmouseover +=
+                   delegate
+                   {
+                       this.IsHot = true;
+                   };
+
+                Control.onmouseout +=
+                    delegate
+                    {
+                        this.IsHot = false;
+                    };
+
+                Control.onclick +=
+                    delegate
+                    {
+                        Control.Dispose();
+                    };
+            }
+
+            /// <summary>
+            /// Hides this popup only if it is not hot - user selected another control in the page.
+            /// But if user clicks on a color, a manual action is required.
+            /// </summary>
+            protected void Hide()
+            {
+                if (this.IsHot)
+                    return;
+
+                Fader.FadeAndRemove(this.Control, 0, 50);
+            }
+
+            public void Show(IHTMLElement e, int x, int y)
+            {
+                this.IsHot = false;
+
+                e.appendChild(Control);
+
+                Helper.Invoke(BeforeShow);
+
+                Control.Show();
+                Control.style.SetLocation(x, y);
+
+                Control.style.zIndex = 100;
+            }
+
+            public EventHandler BeforeShow;
+
+            public Popup<T> AttachTo(ToolbarButton b)
+            {
+                b.Button.onclick +=
+                    delegate
+                    {
+                        b.Control.style.zIndex = 1100;
+
+                        this.Show(b.Control, 0, b.Control.Bounds.Height);
+                    };
+
+
+                b.Button.onblur +=
+                     delegate
+                     {
+                         this.Hide();
+                     };
+
+                return this;
+            }
+        }
+
+        [Script]
+        public class PopupMenu : Popup<string>
+        {
+
+            public string Width
+            {
+                get { return Control.style.width; }
+                set { Control.style.width = value; }
+            }
+
+
+            public string PaddingLeft
+            {
+                set
+                {
+                    foreach (INode v in Control.childNodes)
+                    {
+                        if (v.nodeType == INode.NodeTypeEnum.ElementNode)
+                        {
+                            var e = (IHTMLElement)v;
+
+                            e.style.paddingLeft = value;
+                        }
+                    }
+                }
+            }
+
+
+
+            public PopupMenu(params StringPair[] a)
+            {
+
+                foreach (var v in a)
+                {
+                    AddButton(v);
+                }
+
+                this.BeforeShow =
+                    delegate
+                    {
+                        this.Control.style.height = "auto";
+                    };
+            }
+
+
+            public void AddButton(StringPair e)
+            {
+                var x = new IHTMLButton(e.B);
+
+                x.style.display = IStyle.DisplayEnum.block;
+                x.style.border = "0";
+                x.style.width = "100%";
+                x.style.backgroundColor = Color.Transparent;
+                //x.style.margin = "1px";
+                x.style.textAlign = IStyle.TextAlignEnum.left;
+
+                x.onclick +=
+                    delegate
+                    {
+                        x.blur();
+
+                        ColdStyle(x);
+
+                        this.Value = e.A;
+                    };
+
+                x.onmouseover +=
+                    delegate
+                    {
+                        HotButton.ToBackground(x, true);
+
+                    };
+
+                x.onmouseout +=
+                    delegate
+                    {
+                        ColdStyle(x);
+                    };
+
+
+                ColdStyle(x);
+
+                this.Control.appendChild(x);
+            }
+
+            static void ColdStyle(IStyle s)
+            {
+                s.backgroundImage = "";
+            }
+
+
+
+
+        }
 
 
 
         [Script]
-        public class ColorPopup
+        public class ColorPopup : Popup<Color>
         {
+
             public static Color[] colors = {
                 0x000000, 0x993300, 0x333300, 0x003300, 0x003366, 0x000080, 0x333399, 0x333333,
                 0x800000, 0xff6600, 0x7e7e00, 0x007e00, 0x007e7e, 0x0000fc, 0x666699, 0x7e7e7e,
@@ -92,39 +286,17 @@ namespace MyEditor.source.js.Controls
                 0xff99cc, 0xffcc99, 0xffff99, 0xccffcc, 0xccffff, 0x99ccff, 0xcc99ff, 0xffffff
             };
 
-            public readonly IHTMLDiv pal = new IHTMLDiv();
-
-            public bool IsHot;
-
-            public static ColorPopup Of(ToolbarButton t, EventHandler<Color> h)
-            {
-                var z = new ColorPopup();
-
-
-                z.AttachTo(t);
-                z.Changed +=
-                    delegate
-                    {
-                        h(z.SelectedColor);
-                    };
-
-                return z;
-            }
-
             public ColorPopup()
             {
-                pal.style.position = IStyle.PositionEnum.absolute;
-                pal.style.border = "1px solid gray";
-                //pal.style.padding = "2px";
-                pal.style.SetSize(128, 96 - 16);
-                pal.style.backgroundColor = Color.White;
+                Control.style.SetSize(128, 96);
+
+                foreach (var v in colors)
+                {
+                    Control.appendChild(CreatePalette(v));
+                }
 
 
-                pal.appendChild(
-                    CreatePalette(colors)
-                );
 
-                /*
                 var more = new IHTMLButton();
 
                 IHTMLImage more_img = (fx)"menu.more.gif";
@@ -140,54 +312,21 @@ namespace MyEditor.source.js.Controls
                 more.onclick +=
                     delegate
                     {
-                        more.blur();
+
+
                     };
 
-                more.disabled = true;
 
-                // rgb selector
-                // system color selector
+                //rgb selector
+                //system color selector
 
-                pal.appendChild(more);
-                */
+                Control.appendChild(more);
 
-                //pal.appendChild(
-                //    CreatePalette(Color.System.ButtonFace)
-                //    );
-
-                pal.onmouseover +=
-                    delegate
-                    {
-                        this.IsHot = true;
-                    };
-
-                pal.onmouseout +=
-                    delegate
-                    {
-                        this.IsHot = false;
-                    };
-
-                pal.onclick +=
-                    delegate
-                    {
-                        pal.Dispose();
-                    };
 
             }
 
-            public IHTMLElement[] CreatePalette(Color[] e)
-            {
-                var a = new IHTMLElement[e.Length];
 
-                for (int i = 0; i < e.Length; i++)
-                {
-                    a[i] = CreatePalette(e[i]);
-                }
-
-                return a;
-            }
-
-            public IHTMLElement CreatePalette(Color e)
+            protected IHTMLElement CreatePalette(Color e)
             {
                 var c1 = new IHTMLButton();
                 c1.style.border = "1px solid gray";
@@ -206,66 +345,29 @@ namespace MyEditor.source.js.Controls
                     {
                         c1.blur();
 
-                        this.SelectedColor = e;
+                        this.Control.Dispose();
 
-                        this.pal.Dispose();
-
-                        Helper.Invoke(this.Changed);
+                        this.Value = e;
                     };
 
                 return c1;
             }
 
-            public Color SelectedColor;
-
-            public event EventHandler Changed;
-
-            /// <summary>
-            /// Hides this popup only if it is not hot - user selected another control in the page.
-            /// But if user clicks on a color, a manual action is required.
-            /// </summary>
-            public void Hide()
-            {
-                if (this.IsHot)
-                    return;
-
-                Fader.FadeAndRemove(this.pal, 0, 50);
-            }
 
 
 
-            public void Show(IHTMLElement e, int x, int y)
-            {
-                this.IsHot = false;
+        }
 
-                e.appendChild(pal);
-
-                pal.Show();
-                pal.style.SetLocation(x, y);
-            }
-
-            public void AttachTo(ToolbarButton b)
-            {
-                b.Button.onclick +=
-                    delegate
-                    {
-                        this.Show(b.Control, 0, b.Control.Bounds.Height);
-                    };
-
-
-                b.Button.onblur +=
-                     delegate
-                     {
-                         this.Hide();
-                     };
-
-            }
+        public void DoCommand(string cmd, object value)
+        {
+            Document.execCommand(cmd, false, value);
         }
 
 
         public TextEditor(IHTMLElement e)
             : base(e)
         {
+
             var ttoolbar = new IHTMLDiv();
 
             //this.Control.style.border = "1px solid gray";
@@ -273,85 +375,64 @@ namespace MyEditor.source.js.Controls
             var cnt = new IHTMLDiv();
             var cnt2 = new IHTMLDiv();
 
-            cnt2.appendChild(this.Text);
 
+            cnt2.appendChild(this.Text);
+            //cnt2.style.overflow = IStyle.OverflowEnum.hidden;
             cnt2.Hide();
 
-            this.Text.style.backgroundColor = JSColor.Transparent;
+            this.Text.style.backgroundColor = Color.Transparent;
             this.Text.style.border = "0";
+            this.Text.style.fontFamily = IStyle.FontFamilyEnum.Consolas;
+            this.Text.style.fontSize = "10pt";
+            this.Text.style.padding = "0";
+            this.Text.style.margin = "0";
             this.Text.style.overflow = IStyle.OverflowEnum.auto;
             this.Text.style.display = IStyle.DisplayEnum.block;
             this.Text.style.width = "100%";
+
 
             //cnt.style.backgroundColor = Color.White;
             //cnt.style.backgroundRepeat = "repeat-x";
 
             this.Frame.allowTransparency = true;
-
             this.Frame.style.border = "0";
             this.Frame.style.overflow = IStyle.OverflowEnum.auto;
             this.Frame.style.display = IStyle.DisplayEnum.block;
             this.Frame.style.width = "100%";
 
 
-            this.Height = 400;
+            this.Height = 200;
 
             cnt.appendChild(this.Frame);
 
             var btoolbar = new IHTMLDiv();
 
-            Toolbar.ToBackground(btoolbar);
-            btoolbar.style.backgroundRepeat = "repeat-x";
-            btoolbar.style.backgroundColor = Color.FromGray(0xcb);
+            Toolbar.InvokeOnComplete(
+                delegate
+                {
+                    Toolbar.ToBackground(btoolbar);
+
+                    btoolbar.style.backgroundRepeat = "repeat-x";
+                    btoolbar.style.backgroundColor = Color.FromGray(0xcb);
+                });
 
             ToolbarButton design = null;
             ToolbarButton html = null;
 
-            design = AddButton((fx)"mode.design.gif", "Design",
-                    delegate
-                    {
-                        cnt2.Hide();
 
-                        Document.body.innerHTML = this.Text.value;
-
-                        cnt.Show();
-
-                        design.Enabled = false;
-                        html.Enabled = true;
-                    }
-                );
-
-            html = AddButton((fx)"mode.html.gif", "HTML",
-                    delegate
-                    {
-                        cnt.Hide();
-
-                        this.Text.value = Document.body.innerHTML;
-
-                        cnt2.Show();
-
-                        design.Enabled = true;
-                        html.Enabled = false;
-
-                    }
-                );
-
-            design.Enabled = false;
-
-            btoolbar.appendChild(design, html);
 
             Gradient.ToBackground(Control);
 
-            Control.style.border = "1px solid gray";
+
             Control.style.backgroundRepeat = "repeat-x";
 
-            this.Control.appendChild(ttoolbar, cnt, cnt2, btoolbar);
+            var borders = new IHTMLDiv(ttoolbar, cnt, cnt2, btoolbar);
+
+            borders.style.border = "1px solid gray";
+
+            this.Control.appendChild(borders);
 
             e.insertNextSibling(Control);
-
-            cnt.style.overflow = IStyle.OverflowEnum.hidden;
-
-
 
 
             var d = this.Document;
@@ -385,63 +466,77 @@ namespace MyEditor.source.js.Controls
             var outdent = AddButton((fx)"outdent.gif", "Outdent");
             var sup = AddButton((fx)"superscript.gif", "Superscript");
             var sub = AddButton((fx)"sub.gif", "Subscript");
-            //var incsize = AddButton((fx)"text-larger.gif", "increasefontsize");
-            //var decsize = AddButton((fx)"text-smaller.gif", "decreasefontsize");
             var removeformat = AddButton((fx)"removeformat.gif", "Removeformat");
             var insertorderedlist = AddButton((fx)"numberedlist.gif", "InsertOrderedList");
             var insertunorderedlist = AddButton((fx)"bulletedlist.gif", "InsertUnorderedList");
             var undo = AddButton((fx)"undo.gif", "undo");
             var redo = AddButton((fx)"redo.gif", "redo");
 
-            var fontfamily = AddButton((fx)"icon_font.gif",
-                delegate
-                {
-                    Document.execCommand("fontname", false, "Verdana");
-                }
-            );
+            var fontfamily = CreateButton((fx)"icon_font.gif");
 
-            var fontsize = AddButton((fx)"icon_size.gif",
-                delegate
-                {
-                    Document.execCommand("fontsize", false, "7pt");
-                }
-            );
+            new PopupMenu(
+                new StringPair("consolas, courier new, courier", "Courier"),
+                new StringPair("Ariel", "Ariel"),
+                new StringPair("Tahoma", "Tahoma"),
+                new StringPair("Times New Roman", "Times New Roman"),
+                new StringPair("Verdana", "Verdana")
+            ) {
+                Width = "10em",
+                PaddingLeft = "24px"
+            }
+            .AttachTo(fontfamily).Changed = value => DoCommand("fontname", value);
 
-            // create a palette
+
+
+            var fontsize = CreateButton((fx)"icon_size.gif");
+
+            new PopupMenu(
+                new StringPair("1", "Smallest"),
+                new StringPair("2", "Smaller"),
+                new StringPair("3", "Small"),
+                new StringPair("4", "Medium"),
+                new StringPair("5", "Large"),
+                new StringPair("6", "Larger"),
+                new StringPair("7", "Largest")
+            ) {
+                Width = "10em",
+                PaddingLeft = "24px"
+            }
+            .AttachTo(fontsize).Changed = size => DoCommand("fontsize", size);
+
+
+
             var forecolor = CreateButton((fx)"forecolor.gif");
 
-            ColorPopup.Of(forecolor,
+            new ColorPopup().AttachTo(forecolor).Changed =
                 delegate(Color c)
                 {
-                    Document.execCommand("ForeColor", false, c.ToString());
-                }
-            );
+                    DoCommand("ForeColor", c.ToString());
+                };
 
             var hilitecolor = CreateButton((fx)"hilitecolor.gif");
 
-            ColorPopup.Of(hilitecolor,
+            new ColorPopup().AttachTo(hilitecolor).Changed =
                 delegate(Color c)
                 {
                     try
                     {
-                        Document.execCommand("hilitecolor", false, c.ToString());
+                        DoCommand("hilitecolor", c.ToString());
                     }
                     catch
                     {
-                        Document.execCommand("backcolor", false, c.ToString());
+                        DoCommand("backcolor", c.ToString());
                     }
 
-                }
-            );
+                };
 
-            fontfamily.Enabled = false;
-            fontsize.Enabled = false;
+
 
             ToolbarButton[] tbuttons =
                 {
                     fontfamily, fontsize,
 
-                    bold, italic, underline, strike, // Separator.cloneNode(false),
+                    bold, italic, underline, strike, //,  Separator.cloneNode(false),
 
                     
 
@@ -457,6 +552,13 @@ namespace MyEditor.source.js.Controls
                     undo, redo
                 };
 
+            var customize = CreateButton((fx)"customize.gif");
+
+            customize.Control.style.Float = IStyle.FloatEnum.right;
+
+
+            ttoolbar.appendChild(customize);
+
             foreach (ToolbarButton v in tbuttons)
             {
                 v.Button.style.SetSize(24, 24);
@@ -466,8 +568,59 @@ namespace MyEditor.source.js.Controls
 
 
 
+            design = AddButton((fx)"mode.design.gif", // "Design",
+                    delegate
+                    {
+                        cnt2.Hide();
+
+                        this.InnerHTML = this.Text.value;
+
+                        cnt.Show();
+
+                        design.Enabled = false;
+                        html.Enabled = true;
+
+
+                        foreach (var v in tbuttons)
+                        {
+                            v.Enabled = true;
+                        }
+                    }
+                );
+
+            html = AddButton((fx)"mode.html.gif", // "HTML",
+                    delegate
+                    {
+                        cnt.Hide();
+
+                        this.Text.value = this.InnerHTML;
+
+                        cnt2.Show();
+
+                        design.Enabled = true;
+                        html.Enabled = false;
+
+                        foreach (var v in tbuttons)
+                        {
+                            v.Enabled = false;
+                        }
+
+                    }
+                );
+
+            design.Enabled = false;
+
+            btoolbar.appendChild(design, html);
+
 
         }
+
+        public string InnerHTML
+        {
+            get { return Document.body.innerHTML; }
+            set { Document.body.innerHTML = value; }
+        }
+
 
         public ToolbarButton AddButton(IHTMLImage img, string text, EventHandler h)
         {
@@ -504,7 +657,9 @@ namespace MyEditor.source.js.Controls
 
         IHTMLImage Gradient = (fx)"body_back.gif";
         IHTMLImage Toolbar = (fx)"toolbar-bg.gif";
-        IHTMLImage HotButton = (fx)"hot-bg.gif";
+
+        static IHTMLImage HotButton = (fx)"hot-bg.gif";
+
         IHTMLImage Separator = (fx)"separator.horizontal.gif";
 
 
@@ -530,10 +685,11 @@ namespace MyEditor.source.js.Controls
                 set
                 {
                     _Enabled = value;
-                    if (value)
-                        this.Button.style.Opacity = 1;
-                    else
-                        this.Button.style.Opacity = 0.5;
+                    if (this.Image != null)
+                        if (value)
+                            this.Image.style.Opacity = 1;
+                        else
+                            this.Image.style.Opacity = 0.5;
 
                     this.Button.disabled = !value;
                     this.Button.style.backgroundImage = "";
@@ -547,7 +703,7 @@ namespace MyEditor.source.js.Controls
         {
             var u = new IHTMLButton();
             u.style.padding = "0";
-            u.style.backgroundColor = JSColor.Transparent;
+            u.style.backgroundColor = Color.Transparent;
 
             //u.style.height = "24px";
 
