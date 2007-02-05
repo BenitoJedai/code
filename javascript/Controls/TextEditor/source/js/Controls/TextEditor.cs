@@ -150,8 +150,9 @@ namespace MyEditor.source.js.Controls
 
                 Control.Show();
                 Control.style.SetLocation(x, y);
+                Control.style.zIndex = 1000;
+                //Control.style.marginTop = "1px";
 
-                Control.style.zIndex = 100;
             }
 
             public EventHandler BeforeShow;
@@ -375,6 +376,7 @@ namespace MyEditor.source.js.Controls
             var cnt = new IHTMLDiv();
             var cnt2 = new IHTMLDiv();
 
+            cnt.style.padding = "1px";
 
             cnt2.appendChild(this.Text);
             //cnt2.style.overflow = IStyle.OverflowEnum.hidden;
@@ -439,6 +441,10 @@ namespace MyEditor.source.js.Controls
 
             d.write("<html><body style='height: auto; border: 0; overflow: auto; background-color:transparent;'></body></html>");
             d.close();
+
+
+            this.InnerHTML = "<p><span style='font-family: verdana;'><b>Lorem</b> ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span><p>";
+
 
             //ttoolbar.appendChild(Spinner);
 
