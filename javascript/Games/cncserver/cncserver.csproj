@@ -1,0 +1,59 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A6C83EF0-601F-44A5-AE87-91102FFCC7E9}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>cncserver</RootNamespace>
+    <AssemblyName>cncserver</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Query" />
+    <Reference Include="System.Data.DLinq" />
+    <Reference Include="System.Data.Extensions" />
+    <Reference Include="System.Xml.XLinq" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\ScriptCoreLib\ScriptCoreLib.csproj">
+      <Project>{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}</Project>
+      <Name>ScriptCoreLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cnc\cnc.csproj">
+      <Project>{5D93F60E-27BC-4E9A-85CC-8EE0D3D73083}</Project>
+      <Name>cnc</Name>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(ProgramFiles)\LINQ Preview\Misc\Linq.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>call "X:\c#\jsc\jsc\$(OutDir)jsc.exe" "cnc.dll" -js
+</PostBuildEvent>
+  </PropertyGroup>
+</Project>

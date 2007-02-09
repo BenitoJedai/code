@@ -14,7 +14,7 @@ namespace cnc.source.js
 
 
     [Script]
-    static class Settings
+    public static class Settings
     {
         /// <summary>
         /// list of all standalone testable controls

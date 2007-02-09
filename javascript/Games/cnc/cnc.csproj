@@ -299,7 +299,7 @@
   </ItemGroup>
   <Import Project="$(ProgramFiles)\LINQ Preview\Misc\Linq.targets" />
   <PropertyGroup>
-    <PostBuildEvent>call "X:\c#\jsc\jsc\$(OutDir)jsc.exe" "$(TargetFileName)" -z
-</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
