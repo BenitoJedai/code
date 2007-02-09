@@ -42,6 +42,7 @@
     <Compile Include="source\js\Settings.cs" />
     <Compile Include="source\js\Controls\DemoControl.cs" />
     <Compile Include="source\php\WebPage.cs" />
+    <Compile Include="source\shared\Message.cs" />
     <Compile Include="web\fx\Description.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -293,9 +294,6 @@
     <EmbeddedResource Include="web\fx\building_4\420.png" />
     <EmbeddedResource Include="web\fx\building_4\421.png" />
     <EmbeddedResource Include="web\fx\building_4\422.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="source\shared\" />
   </ItemGroup>
   <Import Project="$(ProgramFiles)\LINQ Preview\Misc\Linq.targets" />
   <PropertyGroup>

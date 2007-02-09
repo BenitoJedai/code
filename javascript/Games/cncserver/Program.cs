@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Collections.Generic;
+using System.Collections;
 using System.Text;
 using System.Query;
 using System.Xml.XLinq;
@@ -11,10 +12,17 @@ using System.IO;
 
 namespace cncserver
 {
+    using ScriptCoreLib.Shared;
+    using cnc.source.shared;
+
+
+
     class Program
     {
         static void Main(string[] args)
         {
+            var m = new ServerTransport<Message>(new FileInfo(@"x:\json.txt").OpenRead());
+
             // start a server to stream 
             // assets to the client
 
@@ -38,8 +46,9 @@ namespace cncserver
                         {
                             Respond(c);
                         }
-                        catch
+                        catch (Exception ex)
                         {
+                            Console.WriteLine("error: " + ex.Message);
                         }
 
                     }
@@ -55,12 +64,22 @@ namespace cncserver
 
         private static void Respond(HttpListenerContext c)
         {
+            if (c.Request.HttpMethod == "POST")
+            {
+                var m = new ServerTransport<Message>(c.Request.InputStream);
 
+                Console.WriteLine(DateTime.Now + " : " + m.Data.Text);
+
+                c.Response.StatusCode = 204;
+                c.Response.Close();
+
+                return;
+            }
 
             var q = c.Request.Url.PathAndQuery;
 
             if (q == "/")
-                q +=  cnc.source.js.Controls.DemoControl.Alias + ".htm";
+                q += cnc.source.js.Controls.DemoControl.Alias + ".htm";
 
             var f = new FileInfo("web" + q);
 
@@ -97,7 +116,7 @@ namespace cncserver
                     f = fp;
             }
 
-            Console.WriteLine(f.Length.ToString().PadLeft(10) + " bytes " + c.Request.Url.PathAndQuery);
+            Console.WriteLine("loading: " + f.Length.ToString().PadLeft(10) + " bytes " + f.FullName);
 
 
             var from = f.OpenRead();

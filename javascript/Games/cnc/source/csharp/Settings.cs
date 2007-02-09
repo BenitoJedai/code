@@ -19,6 +19,7 @@ namespace cnc.source.csharp
             w.WriteLine("<html>");
             w.WriteLine("<body>");
 
+            w.WriteLine("<noscript>script disabled</noscript>");
 
             SharedHelper.DefineScript(w, SharedHelper.LocalModules);
 

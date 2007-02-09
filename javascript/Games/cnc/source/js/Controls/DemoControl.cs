@@ -2,6 +2,7 @@ using ScriptCoreLib;
 
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Net;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Serialized;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -13,6 +14,8 @@ using ScriptCoreLib.Shared.Drawing;
 
 namespace cnc.source.js.Controls
 {
+    using shared;
+
     [Script]
     class UnitCache
     {
@@ -225,9 +228,17 @@ namespace cnc.source.js.Controls
                 });
         }
 
-        private static void Setup(EventHandler done)
+
+        UnitCache building_1 = null;
+        UnitCache building_3 = null;
+        UnitCache building_4 = null;
+        UnitCache explosion_1 = null;
+
+        Timer t = null;
+
+        private void Setup(EventHandler done)
         {
-            var t = new Timer();
+            t = new Timer();
 
             //Native.Document.body.DisableContextMenu();
 
@@ -270,9 +281,6 @@ namespace cnc.source.js.Controls
                 }
             );
 
-            UnitCache building_1 = null;
-            UnitCache building_3 = null;
-            UnitCache building_4 = null;
 
             building_1 = UnitCache.Of("building_1", 365, 365 + 17, 72, 72,
                 delegate(UnitCache c)
@@ -335,7 +343,7 @@ namespace cnc.source.js.Controls
                     {
                         for (int i = 1; i < 10; i++)
                         {
-                            Unit.Of(c, 32 * 17, 24 * i, t, 6);
+                            Unit.Of(c, 32 * 17, 48 * i, t, 6);
 
                         }
                     });
@@ -359,7 +367,7 @@ namespace cnc.source.js.Controls
                }
             );
 
-            UnitCache.Of("explosion_1", 990, 1015, 78, 121,
+            explosion_1 = UnitCache.Of("explosion_1", 990, 1015, 78, 121,
                delegate(UnitCache c)
                {
                    adone(delegate
@@ -369,7 +377,10 @@ namespace cnc.source.js.Controls
                        Native.Document.body.onclick +=
                            delegate(IEvent ev)
                            {
-                               Unit.Of(c, ev.CursorX, ev.CursorY, t, 1).OnlyOnce = true;
+                               int cx =ev.CursorX;
+                               int cy =ev.CursorY;
+
+                               UserCreateExplosion(cx, cy);
                            };
                    });
                }
@@ -377,6 +388,36 @@ namespace cnc.source.js.Controls
 
 
 
+        }
+
+        private void UserCreateExplosion(int cx, int cy)
+        {
+            Unit.Of(explosion_1, cx, cy, t, 1).OnlyOnce = true;
+
+            var str = "explosion: " + new Point(cx, cy);
+
+            Console.WriteLine(str);
+
+            var tt = new ClientTansport<Message>("");
+
+            tt.IsVerbose = true;
+
+            tt.BeforeSend  += delegate 
+            {
+                tt.Data = new Message();
+                tt.Data.Text = str;
+                tt.Data.Identity = 0;
+                tt.Data.KnownIdentities = new int [] { };
+
+                tt.Descriptor.Description = "text broadcasting";
+            };
+
+            tt.Complete += delegate
+            {
+                Console.WriteLine("done broadcasting: " + tt.StatusString);
+            };
+
+            tt.Send();
         }
 
 
