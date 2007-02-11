@@ -33,12 +33,27 @@ namespace cncserver
             {
                 return Descriptor.Data;
             }
+            set
+            {
+                Descriptor.Data = value;
+            }
         }
-        
-
-       
 
 
+
+        public void WriteTo(Stream stream)
+        {
+            var s = new MemoryStream();
+
+            foreach (char v in JSONBase.Protocol)
+            {
+                s.WriteByte((byte)v);
+            }
+
+            JSONSerializer.Serialize(Descriptor, s);
+
+            s.WriteTo(stream);
+        }
     }
 
 }

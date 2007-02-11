@@ -9,6 +9,7 @@ using System.Data.DLinq;
 using System.Net.Sockets;
 using System.Net;
 using System.IO;
+using System.Reflection;
 
 namespace cncserver
 {
@@ -18,10 +19,11 @@ namespace cncserver
 
     using _int_char = ScriptCoreLib.Shared.Pair<int, char>;
 
-    delegate void ActionParams<A0, T>(A0 a0, params T[] e);
-    delegate void ActionParams<T>(params T[] e);
-    delegate void Action<T>(T e);
-    delegate void Action();
+    public delegate void ActionParams<A0, T>(A0 a0, params T[] e);
+    public delegate void ActionParams<T>(params T[] e);
+    public delegate void Action<T>(T e);
+    public delegate void Action<A, B>(A a, B b);
+    public delegate void Action();
 
 
     public static class JSONSerializer
@@ -64,9 +66,10 @@ namespace cncserver
 
         public static void Deserialize<T>(T o, Stream s)
         {
+            int StreamPosition = 0;
 
-            Func<Exception> NotImplemented = () => new NotImplementedException("Invalid char in json stream at " + s.Position);
-            Func<Exception> CreateException = () => new Exception("Invalid char in json stream at " + s.Position);
+            Func<NotImplementedException> NotImplemented = () => new NotImplementedException("Invalid char in json stream at " + StreamPosition);
+            Func<NotSupportedException> CreateException = () => new NotSupportedException("Invalid char in json stream at " + StreamPosition);
 
             Action<bool> ExpectB =
                 delegate(bool x)
@@ -78,6 +81,12 @@ namespace cncserver
                  delegate(object x)
                  {
                      ExpectB(x != null);
+                 };
+
+            Action<object, string> ExpectNText =
+                 delegate(object x, string text)
+                 {
+                     if (x == null) throw new NotSupportedException(text);
                  };
 
             ActionParams<char, char> Expect = ( x, xp) => ExpectB(xp.Contains(x)); ;
@@ -147,7 +156,12 @@ namespace cncserver
             #endregion
 
             // get char
-            Func<char> GetChar = () => (char)s.ReadByte();
+            Func<char> GetChar = delegate
+            {
+                StreamPosition++;
+
+                return (char)s.ReadByte();
+            };
 
             Func<char, char> SkipSpace =
                 delegate(char x)
@@ -170,10 +184,12 @@ namespace cncserver
                 {
                     var xz = new _int_char(xi, default(char));
 
-                    xz.B = GetChar();
-
+                   
                     while (true)
                     {
+                        xz.B = GetChar();
+
+
                         byte? x = AsciiCharToByte(xz.B);
 
                         if (x == null)
@@ -215,6 +231,8 @@ namespace cncserver
                             return '\t';
                         case 'b':
                             return '\b';
+                        case '/':
+                        case '$':
                         case '\\':
                         case '\'':
                         case '"':
@@ -306,8 +324,19 @@ namespace cncserver
 
                     goto ArrayNextOrUp;
                 }
+                else if (xx.ElementType.IsClass)
+                {
+                    Expect(c, '{');
 
-                throw CreateException();
+                    var value = Activator.CreateInstance(xx.ElementType);
+
+                    xx.List.Add(value);
+                    p.Push(value);
+
+                    goto Members;
+                }
+
+                throw NotImplemented();
             }
         // based on type we must read the stream
         ArrayNextOrUp:
@@ -362,7 +391,7 @@ namespace cncserver
 
                 var Field = GetCurrentType().GetField(FieldName);
 
-                ExpectN(Field);
+                ExpectNText(Field, "Field was removed, json is out of date");
 
                 var FieldType = Field.FieldType;
                 var SetFieldValue = Duplicate<object>(x => Field.SetValue(p.Peek(), x));
@@ -390,12 +419,17 @@ namespace cncserver
                 }
                 else if (FieldType == typeof(int))
                 {
-                    Invoke(GetIntegerAndNextChar, x => SetFieldValue(x), x => c = x);
+                    var x = GetIntegerVAndNextChar((int)AsciiCharToByte(c));
+
+                    SetFieldValue(x.A);
+                    c = x.B;
 
                     goto NextOrUpExplicit;
                 }
                 else if (FieldType.IsClass)
                 {
+                    if (ScanNull(c)) goto NextOrUp;
+
                     Expect(c, '{');
 
 
@@ -412,6 +446,163 @@ namespace cncserver
         }
 
 
+
+        public static void Serialize<T>(T obj, Stream s)
+        {
+            Action<char> WriteChar = c => s.WriteByte((byte)c);
+            Action<string> WriteChars =
+                delegate(string x)
+                {
+                    foreach (char v in x)
+                    {
+                        WriteChar(v);
+                    }
+                };
+
+
+
+            var h = new Hashtable();
+
+            Action<object> WriteObject = null;
+            Action<Array> WriteArray = null;
+            Action<string> WriteQuotedString = null;
+            Action<int> WriteInt32 = null;
+            Action<Type, Func<object>> WriteElement = null;
+
+            WriteQuotedString = delegate(string x)
+            {
+                if (x == null)
+                {
+                    WriteChars("null");
+
+                    return;
+                }
+
+                WriteChar('"');
+
+                foreach (char v in x)
+                {
+                    switch (v)
+                    {
+                        case '\n': WriteChars(@"\n"); continue;
+                        case '\t': WriteChars(@"\t"); continue;
+                        case '\r': WriteChars(@"\r"); continue;
+                        case '\b': WriteChars(@"\b"); continue;
+                        case '"': WriteChars("\\\""); continue;
+                        default:
+                            if (char.IsLetterOrDigit(v) || char.IsPunctuation(v) || v == ' ')
+                            {
+                                WriteChar(v);
+                            }
+                            else if (v > 0xFF)
+                            {
+                                WriteChars(string.Format(@"\u{0:x4}", (int)v));
+                            }
+                            else
+                            {
+                                WriteChars(string.Format(@"\x{0:x2}", (int)v));
+                            }
+
+                            continue;
+                    }
+                }
+
+                WriteChar('"');
+            };
+
+            WriteInt32 = delegate(int x)
+            {
+                foreach (char v in x.ToString())
+                {
+                    WriteChar(v);
+                }
+            };
+
+            WriteArray = delegate(Array x)
+            {
+                if (x == null)
+                {
+                    WriteChars("null");
+
+                    return;
+                }
+
+                WriteChar('[');
+
+                for (int i = 0; i < x.Length; i++)
+                {
+                    object v = x.GetValue(i);
+
+                    if (i > 0)
+                        WriteChar(',');
+
+                    if (v == null)
+                    {
+                        WriteChars("null");
+
+                        continue;
+                    }
+
+                    WriteElement(v.GetType(), () => v);
+                }
+
+                WriteChar(']');
+            };
+
+            WriteElement = delegate(Type ft, Func<object> fv)
+            {
+                if (ft == typeof(string))
+                {
+                    WriteQuotedString((string)fv());
+                }
+                else if (ft == typeof(int))
+                {
+                    WriteInt32((int)fv());
+                }
+                else if (ft.IsArray)
+                {
+                    WriteArray((Array)fv());
+                }
+                else if (ft.IsClass)
+                {
+                    WriteObject(fv());
+                }
+                else
+                    throw new NotImplementedException();
+            };
+
+            WriteObject = delegate(object x)
+            {
+                if (x == null)
+                {
+                    WriteChars("null");
+
+                    return;
+                }
+
+                WriteChar('{');
+
+                FieldInfo[] f = x.GetType().GetFields().ToArray();
+
+                for (int i = 0; i < f.Length; i++)
+                {
+                    var v = f[i];
+
+                    if (i > 0)
+                        WriteChar(',');
+
+                    WriteQuotedString(v.Name);
+
+                    WriteChar(':');
+
+                    WriteElement(v.FieldType, () => v.GetValue(x));
+                }
+
+                WriteChar('}');
+            };
+
+            WriteObject(obj);
+        }
     }
 
 
