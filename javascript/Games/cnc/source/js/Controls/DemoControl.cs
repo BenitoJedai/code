@@ -190,41 +190,98 @@ namespace cnc.source.js.Controls
 
     }
 
+
+
     [Script]
     public class DemoControl : SpawnControlBase
     {
         public const string Alias = "fx.DemoControl";
 
+        public ClientSession CurrentSession;
+
+        static IHTMLElement ImportStyleSheet(string url)
+        {
+            Console.WriteLine("importing css at " + url);
+
+            var s = new IHTMLElement(IHTMLElement.HTMLElementEnum.link);
+            
+            s.setAttribute("rel", "stylesheet");
+            s.setAttribute("type", "text/css");
+            s.setAttribute("href", url);
+            
+            s.attachToDocument();
+            
+            return s;
+        }
 
         public DemoControl(IHTMLElement e)
             : base(e)
         {
+            //Native.DebugBreak();
 
-            var loading = new IHTMLDiv("Loading ...");
+            Console.EnableActiveXConsole();
+            // Console.WriteLine("!!!");
+
+            ImportStyleSheet("fx/css/cnc.css");
+
+
+            var loading = new IHTMLDiv("Connecting to server...");
 
             loading.style.fontSize = "36pt";
-
+            loading.style.backgroundColor = Color.Black;
+            loading.style.padding = "2em";
 
             Native.Document.body.appendChild(loading);
 
             Native.Document.body.style.color = Color.White;
             Native.Document.body.style.backgroundColor = Color.Black;
 
-            new IHTMLImage("fx/bg/3877.jpg").InvokeOnComplete(
-                delegate(IHTMLImage bg)
+
+            this.CurrentSession = new ClientSession();
+            this.CurrentSession.Control = this;
+
+            this.CurrentSession.MethodA("a1", "a2",
+                delegate(string text)
                 {
+                    loading.innerHTML = "Entering lobby...";
 
-
-
-                    Setup(
-                        delegate
+                    this.CurrentSession.EnterLobby(
+                        delegate(string str)
                         {
-                            loading.Dispose();
+                            this.CurrentSession.ClientName = str;
+
+                            Native.Document.title = str;
+
+                            Console.WriteLine("i am: " + str);
+
+                            loading.innerHTML = "Loading gfx... " + text;
+
+                            new IHTMLImage("fx/bg/3877.jpg").InvokeOnComplete(
+                                delegate(IHTMLImage bg)
+                                {
+                                    bg.ToDocumentBackground();
+
+                                    Setup(
+                                        delegate
+                                        {
+
+                                            loading.innerHTML = "ready!";
+                                            loading.Dispose();
 
 
-                            bg.ToDocumentBackground();
-                        }
-                    );
+
+
+
+
+
+
+                                        }
+
+                                            );
+                                }
+                                    );
+                        });
+
                 });
         }
 
@@ -239,6 +296,25 @@ namespace cnc.source.js.Controls
         private void Setup(EventHandler done)
         {
             t = new Timer();
+
+            var text = new IHTMLInput(HTMLInputTypeEnum.text);
+
+            text.className = "TalkToOthers";
+
+            text.attachToDocument();
+
+            text.onkeypress += delegate(IEvent x)
+            {
+                if (x.IsReturn)
+                {
+                    this.CurrentSession.TalkToOthers(text.value);
+                    this.DisplayNotification(text.value, Color.Blue);
+
+                    text.value = "";
+                }
+            };
+
+            text.style.zIndex = 1000;
 
             //Native.Document.body.DisableContextMenu();
 
@@ -299,7 +375,7 @@ namespace cnc.source.js.Controls
 
                             To3 = delegate
                             {
-                                
+
                                 xu.Cache = building_3;
                                 xu.WhenDone = To4;
 
@@ -377,8 +453,8 @@ namespace cnc.source.js.Controls
                        Native.Document.body.onclick +=
                            delegate(IEvent ev)
                            {
-                               int cx =ev.CursorX;
-                               int cy =ev.CursorY;
+                               int cx = ev.CursorX;
+                               int cy = ev.CursorY;
 
                                UserCreateExplosion(cx, cy);
                            };
@@ -392,41 +468,52 @@ namespace cnc.source.js.Controls
 
         private void UserCreateExplosion(int cx, int cy)
         {
-            Unit.Of(explosion_1, cx, cy, t, 1).OnlyOnce = true;
+            DrawExplosion(cx, cy);
 
             var str = "explosion: " + new Point(cx, cy);
 
             Console.WriteLine(str);
 
-            var tt = new ClientTansport<Message>("");
+            CurrentSession.CreateExplosionAt(cx, cy,
+                delegate
+                {
+                    Console.WriteLine("did it get broadcasted?");
+                }
+            );
 
-            tt.IsVerbose = true;
 
-            tt.BeforeSend  += delegate 
-            {
-                tt.Data = new Message();
-                tt.Data.Text = str;
-                tt.Data.Identity = 0;
-                tt.Data.KnownIdentities = new int [] { };
+        }
 
-                tt.Descriptor.Description = "text broadcasting";
-            };
-
-            tt.Complete += delegate
-            {
-                Console.WriteLine("done broadcasting: " + tt.StatusString);
-            };
-
-            tt.Send();
+        public void DrawExplosion(int cx, int cy)
+        {
+            Unit.Of(explosion_1, cx, cy, t, 1).OnlyOnce = true;
         }
 
 
 
         // _1483b5833155c53585239c5e871e940c_600000c	2496	93.55%	871.254ms	1041.498ms	0.417ms
 
+        public void DisplayNotification(string text, Color color)
+        {
+            var x = new IHTMLDiv(new ITextNode(text));
 
+            x.style.color = color;
 
+            x.style.backgroundColor = Color.Black;
 
+            x.style.padding = "1em";
+            x.style.zIndex = 1000;
+
+            x.attachToDocument();
+
+            new Timer(
+                delegate
+                {
+                    x.Dispose();
+                }, 15000, 0);
+
+            
+        }
     }
 
 
