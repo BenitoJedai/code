@@ -37,6 +37,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ServerSession.Messaging.cs" />
+    <Compile Include="ServerSession.cs" />
+    <Compile Include="ServerLobby.cs" />
     <Compile Include="Net\ServerTransport.cs" />
     <Compile Include="Net\JSONSerializer.cs" />
     <Compile Include="Program.cs" />
@@ -55,7 +58,7 @@
   </ItemGroup>
   <Import Project="$(ProgramFiles)\LINQ Preview\Misc\Linq.targets" />
   <PropertyGroup>
-    <PostBuildEvent>::call "X:\c#\jsc\jsc\$(OutDir)jsc.exe" "cnc.dll" -js
+    <PostBuildEvent>call "X:\c#\jsc\jsc\$(OutDir)jsc.exe" "cnc.dll" -js
 </PostBuildEvent>
   </PropertyGroup>
 </Project>
