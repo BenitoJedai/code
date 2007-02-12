@@ -1,6 +1,7 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Net;
 using ScriptCoreLib.JavaScript.Runtime;
 
@@ -25,6 +26,13 @@ namespace cnc.source.js
         public void DisplayNotification(string text, int color)
         {
             Control.DisplayNotification(text, (Color)color);
+        }
+
+        public void ForceReload()
+        {
+            Console.WriteLine("server told us to reload!");
+
+            Native.Document.location.reload();
         }
 
     }

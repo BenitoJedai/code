@@ -56,5 +56,26 @@ namespace cnc.source.shared
         #endregion
 
 
+
+        #region ForceReload
+        [Script, Serializable]
+        public class _ForceReload
+        {
+           
+        }
+
+        partial class ServerToClient
+        {
+            public void ForceReload()
+            {
+                var ForceReload = new _ForceReload {  };
+                var m = new Message { ForceReload };
+
+                this.Send(m, null);
+            }
+        }
+
+        public _ForceReload ForceReload;
+        #endregion
     }
 }

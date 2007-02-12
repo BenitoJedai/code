@@ -270,6 +270,40 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\readme.txt" />
+    <EmbeddedResource Include="web\fx\veh_1\0.png" />
+    <EmbeddedResource Include="web\fx\veh_1\1.png" />
+    <EmbeddedResource Include="web\fx\veh_1\10.png" />
+    <EmbeddedResource Include="web\fx\veh_1\11.png" />
+    <EmbeddedResource Include="web\fx\veh_1\12.png" />
+    <EmbeddedResource Include="web\fx\veh_1\13.png" />
+    <EmbeddedResource Include="web\fx\veh_1\14.png" />
+    <EmbeddedResource Include="web\fx\veh_1\15.png" />
+    <EmbeddedResource Include="web\fx\veh_1\16.png" />
+    <EmbeddedResource Include="web\fx\veh_1\17.png" />
+    <EmbeddedResource Include="web\fx\veh_1\18.png" />
+    <EmbeddedResource Include="web\fx\veh_1\19.png" />
+    <EmbeddedResource Include="web\fx\veh_1\2.png" />
+    <EmbeddedResource Include="web\fx\veh_1\20.png" />
+    <EmbeddedResource Include="web\fx\veh_1\21.png" />
+    <EmbeddedResource Include="web\fx\veh_1\22.png" />
+    <EmbeddedResource Include="web\fx\veh_1\23.png" />
+    <EmbeddedResource Include="web\fx\veh_1\24.png" />
+    <EmbeddedResource Include="web\fx\veh_1\25.png" />
+    <EmbeddedResource Include="web\fx\veh_1\26.png" />
+    <EmbeddedResource Include="web\fx\veh_1\27.png" />
+    <EmbeddedResource Include="web\fx\veh_1\28.png" />
+    <EmbeddedResource Include="web\fx\veh_1\29.png" />
+    <EmbeddedResource Include="web\fx\veh_1\3.png" />
+    <EmbeddedResource Include="web\fx\veh_1\30.png" />
+    <EmbeddedResource Include="web\fx\veh_1\31.png" />
+    <EmbeddedResource Include="web\fx\veh_1\4.png" />
+    <EmbeddedResource Include="web\fx\veh_1\5.png" />
+    <EmbeddedResource Include="web\fx\veh_1\6.png" />
+    <EmbeddedResource Include="web\fx\veh_1\7.png" />
+    <EmbeddedResource Include="web\fx\veh_1\8.png" />
+    <EmbeddedResource Include="web\fx\veh_1\9.png" />
+    <EmbeddedResource Include="web\fx\gfx\logo\636.jpg" />
+    <EmbeddedResource Include="web\fx\gfx\logo\637.jpg" />
     <EmbeddedResource Include="web\fx\css\cnc.css" />
     <EmbeddedResource Include="web\sfx\23.mp3" />
     <EmbeddedResource Include="web\swf\SoundBridge.swf" />
@@ -301,6 +335,11 @@
     <EmbeddedResource Include="web\fx\building_4\420.png" />
     <EmbeddedResource Include="web\fx\building_4\421.png" />
     <EmbeddedResource Include="web\fx\building_4\422.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="docs\network.doc">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="source\js\Media\" />

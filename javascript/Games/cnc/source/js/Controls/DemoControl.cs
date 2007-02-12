@@ -256,10 +256,14 @@ namespace cnc.source.js.Controls
 
                             loading.innerHTML = "Loading gfx... " + text;
 
-                            new IHTMLImage("fx/bg/3877.jpg").InvokeOnComplete(
+                            new IHTMLImage("fx/gfx/logo/636.jpg").InvokeOnComplete(
                                 delegate(IHTMLImage bg)
                                 {
-                                    bg.ToDocumentBackground();
+                                    var bs = Native.Document.body.style;
+
+                                    bs.backgroundImage = "url(" + bg.src + ")";
+                                    bs.backgroundRepeat = "no-repeat";
+
 
                                     Setup(
                                         delegate
@@ -321,7 +325,7 @@ namespace cnc.source.js.Controls
             //CreateRotatingTank(96 + 48 * 7, 96 + 48 * 1, t, "tree_1", 383, 392);
             //CreateRotatingTank(96 + 48 * 1, 96 + 48 * 2, t, "tank_1", 308, 339);
 
-            int u = 7;
+            int u = 8;
             EventHandler idone = null;
 
             EventHandler<EventHandler> adone = delegate(EventHandler x)
@@ -357,6 +361,20 @@ namespace cnc.source.js.Controls
                 }
             );
 
+            UnitCache.Of("veh_1", 0, 0 + 31, 48, 48,
+                      delegate(UnitCache c)
+                      {
+                          adone(delegate
+                          {
+                              Console.WriteLine(".. veh");
+
+                              for (int i = 1; i < 10; i++)
+                              {
+                                  Unit.Of(c, 32 * 5, 24 * i, t, 5);
+                              }
+                          });
+                      }
+                  );
 
             building_1 = UnitCache.Of("building_1", 365, 365 + 17, 72, 72,
                 delegate(UnitCache c)

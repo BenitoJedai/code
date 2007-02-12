@@ -19,9 +19,23 @@ namespace cncserver
 
 
 
+    public class HttpListenerRequestInfo
+    {
+        public IPEndPoint RemoteEndPoint;
+        public string UserAgent;
+
+        public static implicit operator HttpListenerRequestInfo(HttpListenerRequest e)
+        {
+            return new HttpListenerRequestInfo {
+                e.RemoteEndPoint,
+                e.UserAgent
+            };
+        }
+    }
 
     public partial class ServerSession : Message.IServer
     {
+
         public string ClientName;
 
         public ServerLobby Lobby;
@@ -29,6 +43,8 @@ namespace cncserver
         public DateTime LastLagWarning;
         public DateTime LastSeen = DateTime.Now;
         public readonly DateTime FirstSeen = DateTime.Now;
+
+        public HttpListenerRequestInfo LastRequest;
 
         public string MethodA(string A, string B)
         {
@@ -104,11 +120,28 @@ namespace cncserver
             {
                 if (i > 0)
                     others += ", ";
-      
+
                 others += o[i].ClientName;
             }
 
             this.DisplayNotification("Currently in the lobby: " + others, Color.Green);
+        }
+
+  
+        public HttpListenerContext CurrentContext;
+
+        public Message[] Invoke(Message[] m, HttpListenerContext c)
+        {
+            Message[] v = null;
+            lock (this)
+            {
+                CurrentContext = c;
+
+                v = this.Invoke(m);
+
+                CurrentContext = null;
+            }
+            return v;
         }
     }
 

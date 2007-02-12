@@ -66,6 +66,9 @@ namespace cnc.source.shared
 
             [Script(NoDecoration = true)]
             void DisplayNotification(string text, int color);
+
+            [Script(NoDecoration = true)]
+            void ForceReload();
         }
 
         public int ToClientMessageId;

@@ -71,6 +71,7 @@ namespace cncserver
             Queue.Add(x);
         }
 
+
         public Message[] Invoke(Message[] e)
         {
             var a = new List<Message>();
@@ -123,11 +124,17 @@ namespace cncserver
 
                 var pinfo = zi.GetParameters().Select(i => xvt.GetField(i.Name).GetValue(z.v)).ToArray();
 
-                Console.WriteLine("invoke: " + zi.Name);
+                ConsoleColor.DarkCyan.Use(
+                    delegate
+                    {
+                        Console.WriteLine("invoke: " + zi.Name);
+                    }
+                );
 
                 var retval = zi.Invoke(s, pinfo);
 
-                var xrt = xvt.GetField("ReturnValue");
+                
+                var xrt = xvt.GetField(AsyncProxy.ReturnValue);
                 if (xrt != null)
                     xrt.SetValue(z.v, retval);
             }

@@ -20,6 +20,41 @@ namespace cncserver
 
     public static class Extensions
     {
+        public static T ToInterruptableCall<T>(out Action interrupt, Func<T> f)
+        {
+            T ReturnValue = default(T);
+            var r = new ManualResetEvent(false);
+
+            Thread t = new Thread
+            (
+                delegate()
+                {
+                    try
+                    {
+                        ReturnValue = f();
+                    }
+                    finally
+                    {
+                        r.Set();
+                    }
+                }
+            );
+
+            interrupt = delegate
+            {
+                r.Set();
+            };
+
+            t.Start();
+
+            r.WaitOne();
+
+            if (t.IsAlive)
+                t.Abort();
+
+            return ReturnValue;
+        }
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public static void Use(this ConsoleColor c, Action e)
         {
@@ -48,11 +83,49 @@ namespace cncserver
         }
     }
 
+    /// <summary>
+    /// allows to get console commands async as events
+    /// </summary>
+    class ConsoleSession
+    {
+        static public implicit operator ConsoleSession(Action<string> OnCommand)
+        {
+            return new ConsoleSession(OnCommand);
+        }
+
+        public Action<string> OnCommand;
+
+
+        public ConsoleSession(Action<string> e)
+        {
+            
+            OnCommand = e;
+
+            new Thread(
+                delegate()
+                {
+                    while (OnCommand != null)
+                    {
+                        var s = Console.ReadLine();
+
+                        OnCommand(s);
+                    }
+                }
+            ).Start();
+        }
+    }
+
+
+
+
+
     class Program
     {
+
+
         static void Main(string[] args)
         {
-            var m = new ServerTransport<Message[]>(new FileInfo(@"x:\json.txt").OpenRead());
+            //var m = new ServerTransport<Message[]>(new FileInfo(@"x:\json.txt").OpenRead());
 
             //using (var sf = new FileInfo(@"x:\json.out.txt").OpenWrite())
             //    m.WriteTo(sf);
@@ -68,12 +141,111 @@ namespace cncserver
 
             Console.WriteLine("server ready!");
 
+            ConsoleSession cs = null;
+
+            Action InterruptServer = null;
+
+            var commands = new {
+                clientreload = new Action (
+                    delegate {
+                        foreach (ServerSession c in Lobby.Clients.Values)
+                        {
+                           c.ForceReload();
+                           
+                        }
+                    }
+                ),
+                lobby = new Action(
+                    delegate {
+                        Console.WriteLine("Currently there are {0} clients.", Lobby.Clients.Count);
+
+                        foreach (ServerSession v in Lobby.Clients.Values)
+	                    {
+                	        Console.WriteLine("  clientname: " + v.ClientName);
+                            Console.WriteLine("   firstseen: " + v.FirstSeen);
+                            Console.WriteLine("    lastseen: " + v.LastSeen);
+                            Console.WriteLine("    endpoint: " + v.LastRequest.RemoteEndPoint);
+                            Console.WriteLine("   useragent: " + v.LastRequest.UserAgent);
+                            Console.WriteLine();
+	                    }
+                    }
+                ),
+                exit = new Action(
+                    delegate
+                    {
+                        Console.WriteLine("server is shutting down (1 sec)...");
+
+                        foreach (ServerSession c in Lobby.Clients.Values)
+                        {
+                            c.DisplayNotification("server is shutting down...", 0x00FF00);
+                        }
+
+                        cs.OnCommand = null;
+
+                        new Timer(
+                            delegate
+                            {
+                                Lobby.Close();
+
+                                if (InterruptServer != null)
+                                    InterruptServer();
+
+                            },  null, 1000, Timeout.Infinite);
+
+
+                        return;
+                    }
+                )
+            };
+
+            cs = (Action<string>)delegate(string cmd)
+            {
+                if (cmd == "?")
+                {
+                    ConsoleColor.White.Use(
+                        delegate
+                        {
+                            Console.WriteLine("Supported commands are:");
+
+                            foreach (var pi in commands.GetType().GetProperties())
+                                Console.WriteLine("    /" + pi.Name);
+                        }
+                    );
+
+                    return;
+                }
+
+                if (cmd.StartsWith("/"))
+                {
+
+                    var p = commands.GetType().GetProperties().Where(pi => pi.Name.ToLower() == cmd.Substring(1).ToLower()).SingleOrDefault();
+
+                    if (p != null)
+                    {
+                        ConsoleColor.White.Use(
+                            p.GetValue(commands, null) as Action
+                        );
+
+                        return;
+                    }
+                }
+
+                foreach (ServerSession c in Lobby.Clients.Values)
+                {
+                    c.DisplayNotification("server: " + cmd, 0x0000FF);
+                }
+            };
+
             while (true)
             {
-                var c = s.GetContext();
+                var c = Extensions.ToInterruptableCall<HttpListenerContext>(out InterruptServer, s.GetContext);
 
-                new Thread(
-                    delegate()
+                if (c == null)
+                    break;
+
+                ThreadPool.QueueUserWorkItem(
+
+                    delegate
                     {
 
                         try
@@ -82,17 +254,16 @@ namespace cncserver
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("error: " + ex.Message);
+                            Console.Error.WriteLine("error: " + ex.Message);
+                            Console.Error.WriteLine(ex.StackTrace);
                         }
 
                     }
-                ).Start();
+
+                );
             }
 
-
             s.Stop();
-
-
 
         }
 
@@ -102,6 +273,7 @@ namespace cncserver
 
         private static void Respond(HttpListenerContext c)
         {
+
             if (c.Request.HttpMethod == "POST")
             {
                 Lobby.Invoke(c);
@@ -137,6 +309,9 @@ namespace cncserver
 
         }
 
+        //static Dictionary<string, string> CacheList = new Dictionary<string, string>();
+
+
         private static void SendFileWithCache(HttpListenerContext c, FileInfo f)
         {
             c.Response.AddHeader("Cache-Control", "public, s-maxage=120");
@@ -165,16 +340,19 @@ namespace cncserver
 
             SendFile(c, f);
         }
-        
+
         private static void SendFile(HttpListenerContext c, FileInfo f)
         {
-            //if (f.Name.EndsWith(".js"))
-            //{
-            //    var fp = new FileInfo(f.FullName + ".packed.js");
+            if (f.Name.EndsWith(".js"))
+            {
+                var fp = new FileInfo(f.FullName + ".packed.js");
 
-            //    if (fp.Exists)
-            //        f = fp;
-            //}
+                if (fp.Exists)
+                {
+                    if (c.Request.UserHostName != "localhost")
+                        f = fp;
+                }
+            }
 
             ConsoleColor.Yellow.Use(
                     delegate
@@ -183,7 +361,7 @@ namespace cncserver
                     }
             );
 
-            
+
             using (var from = f.OpenRead())
             {
                 var to = c.Response.OutputStream;
