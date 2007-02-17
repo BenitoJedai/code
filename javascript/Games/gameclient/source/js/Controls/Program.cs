@@ -1,6 +1,8 @@
 using ScriptCoreLib;
+using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
 
@@ -45,7 +47,7 @@ namespace gameclient.source.js.Controls
             Native.Document.body.appendChild("loading...");
 
             this.Session.ToServer_EnterLobby(
-                delegate (string e)
+                delegate(string e)
                 {
                     Native.Document.body.appendChild("done!");
                     this.Session.ClientName = e;
@@ -58,7 +60,7 @@ namespace gameclient.source.js.Controls
                     a.SetLocation(Rectangle.Of(32, 32, 650, 480));
 
                     // set tha map canvas size to be something big
-                    a.SetCanvasSize(new Point(1000, 1000));
+                    a.SetCanvasSize(new Point(10000, 4000));
 
                     // put some elements on the canvas
                     a.DrawRectangleToCanvas(Rectangle.Of(48, 48, 128, 64), Color.Green);
@@ -70,8 +72,66 @@ namespace gameclient.source.js.Controls
                     a.DrawTextToInfo("just some data", new Point(44, 44), Color.Black);
                     a.DrawTextToInfo("just some data", new Point(45, 45), Color.Yellow);
 
-                    a.ApplySelection += r => a.DrawRectangleToCanvas(r, RandomColor);
 
+
+                    var m = new ArenaMinimapControl();
+
+                    m.ZoomValue = 0.02;
+
+                    m.Control.attachToDocument();
+
+                    m.SetLocation(Rectangle.Of(690, 50, 200, 200));
+                    m.SetCanvasSize(a.CurrentCanvasSize * m.ZoomValue);
+
+                    m.DrawRectangleToCanvas(Rectangle.Of(4, 6, 23, 5), RandomColor);
+                    m.DrawRectangleToCanvas(Rectangle.Of(60, 8, 23, 5), RandomColor);
+                    m.DrawRectangleToCanvas(Rectangle.Of(120, 12, 23, 5), RandomColor);
+                    m.DrawRectangleToCanvas(Rectangle.Of(300, 12, 23, 5), RandomColor);
+
+                    a.ApplySelection += delegate(Rectangle r)
+                    {
+                        var c = RandomColor;
+                        a.DrawRectangleToCanvas(r, c);
+                        m.DrawRectangleToCanvas(r * m.ZoomValue, c);
+                    };
+
+                    a.CanvasViewChanged += delegate(Rectangle p)
+                    {
+                        m.SetSelectionLocation(p * m.ZoomValue);
+                        m.MakeSelectionVisible();
+                    };
+
+                    a.SetCanvasPosition(Point.Zero);
+
+                    m.SelectionCenterChanged += delegate(Point p)
+                    {
+                        a.SetCanvasViewCenter(p / m.ZoomValue);
+                    };
+
+
+                    m.ZoomChanged += delegate
+                    {
+                        if (a.CurrentCanvasSize.X > a.CurrentCanvasSize.Y)
+                        {
+                            var w = m.CurrentLocation.Width / a.CurrentCanvasSize.X;
+
+                            if (m.ZoomValue < w)
+                                m.ZoomValue = w;
+                        }
+                        else
+                        {
+                            var h = m.CurrentLocation.Height / a.CurrentCanvasSize.Y;
+
+                            if (m.ZoomValue < h)
+                                m.ZoomValue = h;
+                        }
+
+                        m.Layers.Canvas.removeChildren();
+
+                        m.SetCanvasSize(a.CurrentCanvasSize * m.ZoomValue);
+                        m.SetSelectionLocation(a.CanvasView * m.ZoomValue);
+                        m.MakeSelectionVisible();
+                    };
                 }
             );
         }
@@ -80,7 +140,7 @@ namespace gameclient.source.js.Controls
         {
             get
             {
-                return Native.Math.floor( Native.Math.random() * 0xFFFFFF);
+                return Native.Math.floor(Native.Math.random() * 0xFFFFFF);
             }
         }
     }
