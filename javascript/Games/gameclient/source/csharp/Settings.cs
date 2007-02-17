@@ -6,7 +6,7 @@ using ScriptCoreLib;
 
 using ScriptCoreLib.Shared;
 
-namespace cnc.source.csharp
+namespace gameclient.source.csharp
 {
     static class Settings
     {
@@ -36,7 +36,7 @@ namespace cnc.source.csharp
 
         public static void DefineEntryPoint(IEntryPoint e)
         {
-            foreach (var v in cnc.source.js.Settings.Controls)
+            foreach (var v in gameclient.source.js.Settings.Controls)
             {
                 DefineSpawnPoint(e, v.A, Environment.MachineName);
             }

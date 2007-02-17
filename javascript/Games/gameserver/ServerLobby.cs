@@ -16,7 +16,7 @@ namespace cncserver
 {
     using ScriptCoreLib.Shared;
     using ScriptCoreLib.Shared.Drawing;
-    using cnc.source.shared;
+    using gameclient.source.shared;
 
 
 

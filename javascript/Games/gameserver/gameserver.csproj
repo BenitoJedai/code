@@ -7,8 +7,8 @@
     <ProjectGuid>{A6C83EF0-601F-44A5-AE87-91102FFCC7E9}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>cncserver</RootNamespace>
-    <AssemblyName>cncserver</AssemblyName>
+    <RootNamespace>gameserver</RootNamespace>
+    <AssemblyName>gameserver</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,7 +57,7 @@
   </ItemGroup>
   <Import Project="$(ProgramFiles)\LINQ Preview\Misc\Linq.targets" />
   <PropertyGroup>
-    <PostBuildEvent>call "X:\c#\jsc\jsc\$(OutDir)jsc.exe" "cnc.dll" -js
+    <PostBuildEvent>call "X:\c#\jsc\jsc\$(OutDir)jsc.exe" "gameclient.dll" -js
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

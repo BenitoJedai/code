@@ -7,8 +7,8 @@
     <ProjectGuid>{5D93F60E-27BC-4E9A-85CC-8EE0D3D73083}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>cnc</RootNamespace>
-    <AssemblyName>cnc</AssemblyName>
+    <RootNamespace>gameclient</RootNamespace>
+    <AssemblyName>gameclient</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,7 +40,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="source\csharp\Settings.cs" />
     <Compile Include="source\js\ClientSession.cs" />
-    <Compile Include="source\js\ClientSession.Messaging.cs" />
+    <Compile Include="source\js\Controls\ArenaControl.cs" />
+    <Compile Include="source\js\Controls\Program.cs" />
+    <Compile Include="source\js\ClientToServerBase.cs" />
     <Compile Include="source\js\Settings.cs" />
     <Compile Include="source\js\Controls\DemoControl.cs" />
     <Compile Include="source\php\WebPage.cs" />
@@ -270,6 +272,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\readme.html" />
+    <EmbeddedResource Include="web\fx\explosion\explosion.png" />
     <EmbeddedResource Include="web\fx\building\barrack.png" />
     <EmbeddedResource Include="web\fx\building\power.png" />
     <EmbeddedResource Include="web\fx\vehicle\veh_cy.png" />

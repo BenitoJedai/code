@@ -12,7 +12,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
 
-namespace cnc.source.js.Controls
+namespace gameclient.source.js.Controls
 {
     using shared;
 
@@ -245,7 +245,7 @@ namespace cnc.source.js.Controls
                 {
                     loading.innerHTML = "Entering lobby...";
 
-                    this.CurrentSession.EnterLobby(
+                    this.CurrentSession.ToServer_EnterLobby(
                         delegate(string str)
                         {
                             this.CurrentSession.ClientName = str;
@@ -342,11 +342,14 @@ namespace cnc.source.js.Controls
                         idone = null;
                     }
 
-                    done();
+                    //done();
 
-                    t.StartInterval(100);
+                    //t.StartInterval(100);
                 }
             };
+
+            done();
+            t.StartInterval(100);
 
             UnitCache.Of("harvester_1", 71, 71 + 31, 48, 48,
                 delegate(UnitCache c)
@@ -481,15 +484,15 @@ namespace cnc.source.js.Controls
 
 
             new IHTMLImage("fx/building/cy.png").InvokeOnComplete(
-                delegate (IHTMLImage img)
+                delegate(IHTMLImage img)
                 {
                     for (int i = 0; i < 3; i++)
                     {
                         SpawnAnimation(img, 50 + 72 * i, 300, 72, 72, 0, 34, t);
-                        
+
                     }
 
-                    
+
                 }
             );
 
@@ -514,10 +517,25 @@ namespace cnc.source.js.Controls
                     {
                         SpawnAnimation(img, 50 + 48 * i, 400, 48, 48, 0, 31, t);
                     }
-                    
+
                 }
             );
+
+            //.InvokeOnComplete(
+            //    delegate(IHTMLImage img)
+            //    {
+            //        this.Explosion = img;
+
+            //        for (int i = 0; i < 3; i++)
+            //        {
+            //            SpawnAnimation(img, 250 + 48 * i, 200, 78, 121, 0, 25, t);
+            //        }
+
+            //    }
+            //);
         }
+
+        public IHTMLImage Explosion = new IHTMLImage("fx/explosion/explosion.png");
 
         void SpawnAnimation(IHTMLImage img, int x, int y, int w, int h, int from, int to, Timer t)
         {
@@ -570,7 +588,8 @@ namespace cnc.source.js.Controls
 
         public void DrawExplosion(int cx, int cy)
         {
-            Unit.Of(explosion_1, cx, cy, t, 1).OnlyOnce = true;
+            SpawnAnimation(this.Explosion, cx, cy, 78, 121, 0, 25, t);
+            // Unit.Of(explosion_1, cx, cy, t, 1).OnlyOnce = true;
         }
 
 

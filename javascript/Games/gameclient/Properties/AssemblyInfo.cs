@@ -45,7 +45,7 @@ using ScriptCoreLib;
    //ScriptTypeFilter(ScriptType.PHP, "*.source.shared")
 ]
 
-namespace cnc.source.shared
+namespace gameclient.source.shared
 {
     using ScriptCoreLib.Shared;
 

@@ -5,10 +5,9 @@ using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 
 
-namespace cnc.source.js
+namespace gameclient.source.js
 {
-
-    using cnc.source.js.Controls;
+    using gameclient.source.js.Controls;
 
     using Item = Pair<string, EventHandler<IHTMLElement>>;
 
@@ -21,7 +20,8 @@ namespace cnc.source.js
         /// </summary>
         public static Item[] Controls = new Item[] 
             {
-                new Item(DemoControl.Alias, (e) => new DemoControl(e))
+                new Item(DemoControl.Alias, (e) => new DemoControl(e)),
+                new Item(Program.Alias, e => new Program(e))
             };
 
         /// <summary>

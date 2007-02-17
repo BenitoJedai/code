@@ -14,7 +14,7 @@ using System.Reflection;
 namespace cncserver
 {
     using ScriptCoreLib.Shared;
-    using cnc.source.shared;
+    using gameclient.source.shared;
 
 
     using _int_char = ScriptCoreLib.Shared.Pair<int, char>;

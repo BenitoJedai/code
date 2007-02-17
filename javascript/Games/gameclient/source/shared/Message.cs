@@ -1,7 +1,7 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 
-namespace cnc.source.shared
+namespace gameclient.source.shared
 {
     using Serializable = System.SerializableAttribute;
 
@@ -50,7 +50,7 @@ namespace cnc.source.shared
 
             void CreateExplosionAt(int x, int y);
 
-            string EnterLobby();
+            string ToServer_EnterLobby();
 
             void TalkToOthers(string text);
         }

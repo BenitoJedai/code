@@ -13,7 +13,7 @@ using System.IO;
 namespace cncserver
 {
     using ScriptCoreLib.Shared;
-    using cnc.source.shared;
+    using gameclient.source.shared;
 
 
    

@@ -15,7 +15,7 @@ namespace cncserver
 {
     using ScriptCoreLib.Shared;
     using ScriptCoreLib.Shared.Drawing;
-    using cnc.source.shared;
+    using gameclient.source.shared;
 
 
 
@@ -86,7 +86,7 @@ namespace cncserver
         #region EnterLobby
         public Func<string> OnEnterLobby;
 
-        public string EnterLobby()
+        public string ToServer_EnterLobby()
         {
             return OnEnterLobby();
         }

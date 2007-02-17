@@ -1,7 +1,7 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 
-namespace cnc.source.shared
+namespace gameclient.source.shared
 {
     using Serializable = System.SerializableAttribute;
 
@@ -55,23 +55,23 @@ namespace cnc.source.shared
 
         #region EnterLobby
         [Script, Serializable]
-        public class _EnterLobby
+        public class _ToServer_EnterLobby
         {
             public string ReturnValue;
         }
 
         partial class ClientToServer
         {
-            public void EnterLobby(EventHandler<string> done)
+            public void ToServer_EnterLobby(EventHandler<string> done)
             {
-                var EnterLobby = new _EnterLobby { };
-                var m = new Message { EnterLobby };
+                var ToServer_EnterLobby = new _ToServer_EnterLobby { };
+                var m = new Message { ToServer_EnterLobby };
 
-                this.Send(m, x => done(x.EnterLobby.ReturnValue));
+                this.Send(m, x => done(x.ToServer_EnterLobby.ReturnValue));
             }
         }
 
-        public _EnterLobby EnterLobby;
+        public _ToServer_EnterLobby ToServer_EnterLobby;
         #endregion
 
         #region TalkToOthers

@@ -3,6 +3,7 @@ using ScriptCoreLib;
 [assembly:
 ScriptResources("fx/building"),
 ScriptResources("fx/vehicle"),
+ScriptResources("fx/explosion"),
 
 ScriptResources("fx/building_1"),
 ScriptResources("fx/building_2"),

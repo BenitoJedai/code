@@ -16,7 +16,7 @@ using System.Security.Cryptography;
 namespace cncserver
 {
     using ScriptCoreLib.Shared;
-    using cnc.source.shared;
+    using gameclient.source.shared;
 
     public static class Extensions
     {
@@ -284,7 +284,7 @@ namespace cncserver
             var q = c.Request.Url.PathAndQuery;
 
             if (q == "/")
-                q += cnc.source.js.Controls.DemoControl.Alias + ".htm";
+                q += gameclient.source.js.Controls.Program.Alias + ".htm";
 
             var f = new FileInfo("web" + q);
 
@@ -314,45 +314,45 @@ namespace cncserver
 
         private static void SendFileWithCache(HttpListenerContext c, FileInfo f)
         {
-            c.Response.AddHeader("Cache-Control", "public, s-maxage=120");
-            //c.Response.AddHeader("Expires", "Wed, 24 Nov 2009 11:55:45 GMT");
+            //c.Response.AddHeader("Cache-Control", "public, s-maxage=120");
+            ////c.Response.AddHeader("Expires", "Wed, 24 Nov 2009 11:55:45 GMT");
 
-            var etag = f.ToMD5String();
+            //var etag = f.ToMD5String();
 
-            var m = c.Request.Headers["If-None-Match"];
+            //var m = c.Request.Headers["If-None-Match"];
 
-            if (m != null && m.IndexOf(etag) > -1)
-            {
-                c.Response.StatusCode = 304;
-                c.Response.Close();
+            //if (m != null && m.IndexOf(etag) > -1)
+            //{
+            //    c.Response.StatusCode = 304;
+            //    c.Response.Close();
 
-                ConsoleColor.DarkYellow.Use(
-                    delegate
-                    {
-                        Console.WriteLine("cached: " + f.Length.ToString().PadLeft(10) + " bytes " + c.Request.Url.PathAndQuery);
-                    }
-                );
+            //    ConsoleColor.DarkYellow.Use(
+            //        delegate
+            //        {
+            //            Console.WriteLine("cached: " + f.Length.ToString().PadLeft(10) + " bytes " + c.Request.Url.PathAndQuery);
+            //        }
+            //    );
 
-                return;
-            }
+            //    return;
+            //}
 
-            c.Response.AddHeader("ETag", '"' + etag + '"');
+            //c.Response.AddHeader("ETag", '"' + etag + '"');
 
             SendFile(c, f);
         }
 
         private static void SendFile(HttpListenerContext c, FileInfo f)
         {
-            if (f.Name.EndsWith(".js"))
-            {
-                var fp = new FileInfo(f.FullName + ".packed.js");
+            //if (f.Name.EndsWith(".js"))
+            //{
+            //    var fp = new FileInfo(f.FullName + ".packed.js");
 
-                if (fp.Exists)
-                {
-                    if (c.Request.UserHostName != "localhost")
-                        f = fp;
-                }
-            }
+            //    if (fp.Exists)
+            //    {
+            //        if (!c.Request.IsLocal)
+            //            f = fp;
+            //    }
+            //}
 
             ConsoleColor.Yellow.Use(
                     delegate

@@ -5,14 +5,13 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Net;
 using ScriptCoreLib.JavaScript.Runtime;
 
-namespace cnc.source.js
+namespace gameclient.source.js
 {
     using shared;
 
     [Script]
-    public partial class ClientSession : Message.IClient
+    public partial class ClientSession : ClientToServerBase, Message.IClient
     {
-        public string ClientName = "rpc";
 
         public Controls.DemoControl Control;
 

@@ -1,7 +1,7 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 
-namespace cnc.source.shared
+namespace gameclient.source.shared
 {
     using Serializable = System.SerializableAttribute;
 

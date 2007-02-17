@@ -2,7 +2,7 @@ using ScriptCoreLib;
 
 using ScriptCoreLib.PHP;
 
-namespace cnc.source.php
+namespace gameclient.source.php
 {
     [Script]
     static class WebPage
