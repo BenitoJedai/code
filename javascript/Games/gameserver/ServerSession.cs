@@ -143,6 +143,16 @@ namespace cncserver
             }
             return v;
         }
+
+       
+        public void IServer_DrawRectangle(RectangleInfo rect, int color)
+        {
+            foreach (ServerSession v in this.OthersInTheLobby())
+            {
+                v.IClient_DrawRectangle(rect, color);
+            }
+        }
+
     }
 
 }

@@ -1,5 +1,6 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
+using ScriptCoreLib.Shared.Drawing;
 
 namespace gameclient.source.shared
 {
@@ -50,9 +51,12 @@ namespace gameclient.source.shared
 
             void CreateExplosionAt(int x, int y);
 
-            string ToServer_EnterLobby();
 
             void TalkToOthers(string text);
+
+            string ToServer_EnterLobby();
+
+            void IServer_DrawRectangle(RectangleInfo rect, int color);
         }
         public int ToServerMessageId;
 
@@ -69,6 +73,9 @@ namespace gameclient.source.shared
 
             [Script(NoDecoration = true)]
             void ForceReload();
+
+            [Script(NoDecoration = true)]
+            void IClient_DrawRectangle(RectangleInfo rect, int color);
         }
 
         public int ToClientMessageId;

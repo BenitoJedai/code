@@ -66,13 +66,17 @@ namespace gameclient.source.js.Controls
 
             if (this.CurrentLocation.Height > CurrentCanvasSize.Y)
             {
-                this.CurrentCanvasPosition.Y = (this.CurrentLocation.Height - CurrentCanvasSize.Y) / 2;
+                this.CurrentCanvasPosition.Y = (this.CurrentLocation.Height - this.CurrentCanvasSize.Y) / 2;
             }
 
             if (this.CurrentLocation.Width > CurrentCanvasSize.X)
             {
-                this.CurrentCanvasPosition.X = (this.CurrentLocation.Width - CurrentCanvasSize.X) / 2;
+                this.CurrentCanvasPosition.X = (this.CurrentLocation.Width - this.CurrentCanvasSize.X) / 2;
             }
+
+            Console.WriteLine("canvas: " + p);
+            Console.WriteLine("CurrentLocation: " + CurrentLocation);
+            Console.WriteLine("CurrentCanvasSize: " + CurrentCanvasSize);
 
             Layers.Canvas.style.SetLocation(CurrentCanvasPosition.X, CurrentCanvasPosition.Y);
             Layers.CanvasInfo.style.SetLocation(CurrentCanvasPosition.X, CurrentCanvasPosition.Y);
@@ -117,7 +121,7 @@ namespace gameclient.source.js.Controls
 
         public void SetCanvasSize(Point p)
         {
-            CurrentCanvasSize = p;
+            CurrentCanvasSize = new Point(Native.Math.round( p.X), Native.Math.round(p.Y));
 
             Layers.Canvas.style.SetSize(p.X, p.Y);
             Layers.CanvasInfo.style.SetSize(p.X, p.Y);
@@ -188,6 +192,15 @@ namespace gameclient.source.js.Controls
                     }
 
                 };
+
+            u.onmouseout +=
+                delegate
+                {
+                    if (drag_enabled)
+                    {
+                        drag_enabled = false;
+                    }
+                };
         }
 
         
@@ -196,10 +209,34 @@ namespace gameclient.source.js.Controls
     [Script]
     public class ArenaMinimapControl : LayeredControl
     {
-        public double ZoomValue = 0.1;
-        public double ZoomStep = 0.005;
+        [Script]
+        public class ZoomValue
+        {
+            public double Value = 0.1;
+            public double Step = 0.005;
 
-        public event EventHandler<double> ZoomChanged;
+            public event EventHandler Validate;
+            public event EventHandler Changed;
+
+            public void SetValue(double e)
+            {
+                var v = Value;
+
+                Value = e;
+                
+                if (Validate != null)
+                    Validate();
+
+                if (v == Value)
+                    return;
+
+                if (Changed != null)
+                    Changed();
+            }
+        }
+
+        public readonly ZoomValue Zoom = new ZoomValue();
+
 
         IHTMLDiv Selection;
 
@@ -216,10 +253,8 @@ namespace gameclient.source.js.Controls
             this.Layers.User.onmousewheel +=
                 delegate(IEvent e)
                 {
-                    this.ZoomValue += e.WheelDirection * ZoomStep;
-
-                    if (ZoomChanged != null)
-                        ZoomChanged(this.ZoomValue);
+ 
+                    this.Zoom.SetValue(this.Zoom.Value + e.WheelDirection * this.Zoom.Step);
                 };
         }
 
@@ -268,6 +303,14 @@ namespace gameclient.source.js.Controls
                     {
                         selection_enabled = false;
                     }
+                };
+
+
+            u.onmouseout +=
+                delegate
+                {
+                    if (selection_enabled)
+                        selection_enabled = false;
                 };
 
         }
@@ -350,6 +393,16 @@ namespace gameclient.source.js.Controls
             InitializeCanvasDrag();
         }
 
+        public int SelectionMinimumSize = 4;
+
+        bool IsSelectionMinimumSize(Rectangle e)
+        {
+            var _w = e.Width < SelectionMinimumSize;
+            var _h = e.Height < SelectionMinimumSize;
+
+            return _w || _h;
+        }
+
         void InitializeCanvasSelection()
         {
             var u = this.Layers.User;
@@ -391,10 +444,8 @@ namespace gameclient.source.js.Controls
                         selection_rect.Height = size.Y;
                     }
 
-                    var _w = selection_rect.Width < 4;
-                    var _h = selection_rect.Height < 4;
-
-                    if (_w || _h)
+                    
+                    if (IsSelectionMinimumSize(selection_rect))
                     {
                         selection.style.display = IStyle.DisplayEnum.none;
                     }
@@ -443,16 +494,35 @@ namespace gameclient.source.js.Controls
                         {
                             selection_enabled = false;
 
-                            if (ApplySelection != null)
-                                ApplySelection(selection_rect);
+                            if (IsSelectionMinimumSize(selection_rect))
+                            {
+                                if (SelectionClick != null)
+                                    SelectionClick(selection_rect);
+                            }
+                            else
+                            {
+                                if (ApplySelection != null)
+                                    ApplySelection(selection_rect);
+                            }
 
 
                             this.Layers.CanvasInfo.removeChild(selection);
                         }
                     }
                 };
+
+            u.onmouseout +=
+                delegate
+                {
+                    if (selection_enabled)
+                    {
+                        selection_enabled = false;
+                        this.Layers.CanvasInfo.removeChild(selection);
+                    }
+                };
         }
 
+        public event EventHandler<Point> SelectionClick;
 
         public event EventHandler<Rectangle> ApplySelection;
 

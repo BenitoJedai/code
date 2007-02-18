@@ -34,5 +34,11 @@ namespace gameclient.source.js
             Native.Document.location.reload();
         }
 
+
+        public void IClient_DrawRectangle(RectangleInfo rect, int color)
+        {
+
+        }
+
     }
 }

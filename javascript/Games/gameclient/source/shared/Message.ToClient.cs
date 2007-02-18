@@ -1,5 +1,6 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
+using ScriptCoreLib.Shared.Drawing;
 
 namespace gameclient.source.shared
 {
@@ -77,5 +78,29 @@ namespace gameclient.source.shared
 
         public _ForceReload ForceReload;
         #endregion
+
+        #region IClient_DrawRectangle
+        [Script, Serializable]
+        public class _IClient_DrawRectangle
+        {
+            public RectangleInfo rect;
+            public int color;
+        }
+
+        partial class ServerToClient
+        {
+            public void IClient_DrawRectangle(RectangleInfo rect, int color)
+            {
+                var IClient_DrawRectangle = new _IClient_DrawRectangle { rect, color };
+                var m = new Message { IClient_DrawRectangle };
+
+                this.Send(m, null);
+            }
+        }
+
+        public _IClient_DrawRectangle IClient_DrawRectangle;
+        #endregion
+
+    
     }
 }

@@ -1,5 +1,6 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
+using ScriptCoreLib.Shared.Drawing;
 
 namespace gameclient.source.shared
 {
@@ -53,26 +54,6 @@ namespace gameclient.source.shared
         public _CreateExplosionAt CreateExplosionAt;
         #endregion
 
-        #region EnterLobby
-        [Script, Serializable]
-        public class _ToServer_EnterLobby
-        {
-            public string ReturnValue;
-        }
-
-        partial class ClientToServer
-        {
-            public void ToServer_EnterLobby(EventHandler<string> done)
-            {
-                var ToServer_EnterLobby = new _ToServer_EnterLobby { };
-                var m = new Message { ToServer_EnterLobby };
-
-                this.Send(m, x => done(x.ToServer_EnterLobby.ReturnValue));
-            }
-        }
-
-        public _ToServer_EnterLobby ToServer_EnterLobby;
-        #endregion
 
         #region TalkToOthers
         [Script, Serializable]
@@ -94,6 +75,52 @@ namespace gameclient.source.shared
 
         public _TalkToOthers TalkToOthers;
         #endregion
-    
+
+
+        #region EnterLobby
+        [Script, Serializable]
+        public class _ToServer_EnterLobby
+        {
+            public string ReturnValue;
+        }
+
+        partial class ClientToServer
+        {
+            public void ToServer_EnterLobby(EventHandler<string> done)
+            {
+                var ToServer_EnterLobby = new _ToServer_EnterLobby { };
+                var m = new Message { ToServer_EnterLobby };
+
+                this.Send(m, x => done(x.ToServer_EnterLobby.ReturnValue));
+            }
+        }
+
+        public _ToServer_EnterLobby ToServer_EnterLobby;
+        #endregion
+
+
+        #region DrawRectangle
+        [Script, Serializable]
+        public class _IServer_DrawRectangle
+        {
+            public RectangleInfo rect;
+            public int color;
+
+            public string ReturnValue;
+        }
+
+        partial class ClientToServer
+        {
+            public void IServer_DrawRectangle( RectangleInfo rect, int color)
+            {
+                var IServer_DrawRectangle = new _IServer_DrawRectangle { rect , color};
+                var m = new Message { IServer_DrawRectangle };
+
+                this.Send(m, null);
+            }
+        }
+
+        public _IServer_DrawRectangle IServer_DrawRectangle;
+        #endregion
     }
 }

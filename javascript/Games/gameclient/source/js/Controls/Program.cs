@@ -31,6 +31,17 @@ namespace gameclient.source.js.Controls
         }
 
         #endregion
+
+        public event EventHandler<Message._IClient_DrawRectangle> OnIClient_DrawRectangle;
+
+        public void IClient_DrawRectangle(RectangleInfo rect, int color)
+        {
+            if (OnIClient_DrawRectangle == null) return;
+
+            var p = new Message._IClient_DrawRectangle { rect, color };
+
+            OnIClient_DrawRectangle(p);
+        }
     }
 
 
@@ -50,6 +61,7 @@ namespace gameclient.source.js.Controls
                 delegate(string e)
                 {
                     Native.Document.body.appendChild("done!");
+
                     this.Session.ClientName = e;
 
                     var a = new ArenaControl();
@@ -60,7 +72,7 @@ namespace gameclient.source.js.Controls
                     a.SetLocation(Rectangle.Of(32, 32, 650, 480));
 
                     // set tha map canvas size to be something big
-                    a.SetCanvasSize(new Point(10000, 4000));
+                    a.SetCanvasSize(new Point(8000, 8000));
 
                     // put some elements on the canvas
                     a.DrawRectangleToCanvas(Rectangle.Of(48, 48, 128, 64), Color.Green);
@@ -76,28 +88,78 @@ namespace gameclient.source.js.Controls
 
                     var m = new ArenaMinimapControl();
 
-                    m.ZoomValue = 0.02;
+                    m.Zoom.Validate += delegate
+                    {
+                        if (a.CurrentCanvasSize.X > a.CurrentCanvasSize.Y)
+                        {
+                            var w = m.CurrentLocation.Width / a.CurrentCanvasSize.X;
+
+                            if (m.Zoom.Value < w)
+                                m.Zoom.Value = w;
+
+
+                        }
+                        else
+                        {
+                            var h = m.CurrentLocation.Height / a.CurrentCanvasSize.Y;
+
+                            if (m.Zoom.Value < h)
+                                m.Zoom.Value = h;
+                        }
+                    };
+
+                    m.Zoom.Changed += delegate
+                    {
+                        m.Layers.Canvas.removeChildren();
+
+                        m.SetCanvasSize(a.CurrentCanvasSize * m.Zoom.Value);
+                        m.SetSelectionLocation(a.CanvasView * m.Zoom.Value);
+                        m.MakeSelectionVisible();
+                    };
 
                     m.Control.attachToDocument();
 
                     m.SetLocation(Rectangle.Of(690, 50, 200, 200));
-                    m.SetCanvasSize(a.CurrentCanvasSize * m.ZoomValue);
 
-                    m.DrawRectangleToCanvas(Rectangle.Of(4, 6, 23, 5), RandomColor);
-                    m.DrawRectangleToCanvas(Rectangle.Of(60, 8, 23, 5), RandomColor);
-                    m.DrawRectangleToCanvas(Rectangle.Of(120, 12, 23, 5), RandomColor);
-                    m.DrawRectangleToCanvas(Rectangle.Of(300, 12, 23, 5), RandomColor);
+                    EventHandler<Rectangle, Color> DrawRectangleLocal = delegate(Rectangle r, Color c)
+                    {
+                        a.DrawRectangleToCanvas(r, c);
+                        m.DrawRectangleToCanvas(r * m.Zoom.Value, c);
+                    };
+
+                    EventHandler<Rectangle, Color> DrawRectangle = delegate(Rectangle r, Color c)
+                    {
+                        DrawRectangleLocal(r, c);
+
+                        this.Session.IServer_DrawRectangle(r, c);
+                    };
+
+                    this.Session.OnIClient_DrawRectangle += delegate(Message._IClient_DrawRectangle p)
+                    {
+                        var r = new Rectangle {
+                            p.rect.Left,
+                            p.rect.Top,
+                            p.rect.Width,
+                            p.rect.Height,
+                        };
+
+                        DrawRectangleLocal(r, p.color);
+                    };
+
+
+                    a.SelectionClick += delegate(Point p)
+                    {
+                        DrawRectangle(p.WithMargin(a.SelectionMinimumSize / 2), RandomColor);
+                    };
 
                     a.ApplySelection += delegate(Rectangle r)
                     {
-                        var c = RandomColor;
-                        a.DrawRectangleToCanvas(r, c);
-                        m.DrawRectangleToCanvas(r * m.ZoomValue, c);
+                        DrawRectangle(r, RandomColor);
                     };
 
                     a.CanvasViewChanged += delegate(Rectangle p)
                     {
-                        m.SetSelectionLocation(p * m.ZoomValue);
+                        m.SetSelectionLocation(p * m.Zoom.Value);
                         m.MakeSelectionVisible();
                     };
 
@@ -105,33 +167,11 @@ namespace gameclient.source.js.Controls
 
                     m.SelectionCenterChanged += delegate(Point p)
                     {
-                        a.SetCanvasViewCenter(p / m.ZoomValue);
+                        a.SetCanvasViewCenter(p / m.Zoom.Value);
                     };
 
+                    m.Zoom.SetValue(0);
 
-                    m.ZoomChanged += delegate
-                    {
-                        if (a.CurrentCanvasSize.X > a.CurrentCanvasSize.Y)
-                        {
-                            var w = m.CurrentLocation.Width / a.CurrentCanvasSize.X;
-
-                            if (m.ZoomValue < w)
-                                m.ZoomValue = w;
-                        }
-                        else
-                        {
-                            var h = m.CurrentLocation.Height / a.CurrentCanvasSize.Y;
-
-                            if (m.ZoomValue < h)
-                                m.ZoomValue = h;
-                        }
-
-                        m.Layers.Canvas.removeChildren();
-
-                        m.SetCanvasSize(a.CurrentCanvasSize * m.ZoomValue);
-                        m.SetSelectionLocation(a.CanvasView * m.ZoomValue);
-                        m.MakeSelectionVisible();
-                    };
                 }
             );
         }
