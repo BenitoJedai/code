@@ -245,7 +245,7 @@ namespace gameclient.source.js.Controls
                 {
                     loading.innerHTML = "Entering lobby...";
 
-                    this.CurrentSession.ToServer_EnterLobby(
+                    this.CurrentSession.IServer_EnterLobby(
                         delegate(string str)
                         {
                             this.CurrentSession.ClientName = str;
@@ -311,7 +311,7 @@ namespace gameclient.source.js.Controls
             {
                 if (x.IsReturn)
                 {
-                    this.CurrentSession.TalkToOthers(text.value);
+                    this.CurrentSession.IServer_TalkToOthers(text.value);
                     this.DisplayNotification(text.value, Color.Blue);
 
                     text.value = "";

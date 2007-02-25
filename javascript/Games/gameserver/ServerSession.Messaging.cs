@@ -132,7 +132,16 @@ namespace cncserver
                     }
                 );
 
-                var retval = zi.Invoke(s, pinfo);
+                object retval = null;
+
+                try
+                {
+                    retval = zi.Invoke(s, pinfo);
+                }
+                catch
+                {
+                    throw;
+                }
 
                 
                 var xrt = xvt.GetField(AsyncProxy.ReturnValue);

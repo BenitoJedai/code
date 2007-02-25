@@ -57,45 +57,45 @@ namespace gameclient.source.shared
 
         #region TalkToOthers
         [Script, Serializable]
-        public class _TalkToOthers
+        public class _IServer_TalkToOthers
         {
             public string text;
         }
 
         partial class ClientToServer
         {
-            public void TalkToOthers(string text)
+            public void IServer_TalkToOthers(string text)
             {
-                var TalkToOthers = new _TalkToOthers { text };
-                var m = new Message { TalkToOthers };
+                var IServer_TalkToOthers = new _IServer_TalkToOthers { text };
+                var m = new Message { IServer_TalkToOthers };
 
                 this.Send(m, null);
             }
         }
 
-        public _TalkToOthers TalkToOthers;
+        public _IServer_TalkToOthers IServer_TalkToOthers;
         #endregion
 
 
         #region EnterLobby
         [Script, Serializable]
-        public class _ToServer_EnterLobby
+        public class _IServer_EnterLobby
         {
             public string ReturnValue;
         }
 
         partial class ClientToServer
         {
-            public void ToServer_EnterLobby(EventHandler<string> done)
+            public void IServer_EnterLobby(EventHandler<string> done)
             {
-                var ToServer_EnterLobby = new _ToServer_EnterLobby { };
-                var m = new Message { ToServer_EnterLobby };
+                var IServer_EnterLobby = new _IServer_EnterLobby { };
+                var m = new Message { IServer_EnterLobby };
 
-                this.Send(m, x => done(x.ToServer_EnterLobby.ReturnValue));
+                this.Send(m, x => done(x.IServer_EnterLobby.ReturnValue));
             }
         }
 
-        public _ToServer_EnterLobby ToServer_EnterLobby;
+        public _IServer_EnterLobby IServer_EnterLobby;
         #endregion
 
 

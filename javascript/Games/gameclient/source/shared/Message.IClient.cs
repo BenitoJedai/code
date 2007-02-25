@@ -34,9 +34,9 @@ namespace gameclient.source.shared
         #endregion
 
 
-        #region DisplayNotification
+        #region IClient_DisplayNotification
         [Script, Serializable]
-        public class _DisplayNotification
+        public class _IClient_DisplayNotification
         {
             public string text;
             public int color;
@@ -44,16 +44,16 @@ namespace gameclient.source.shared
 
         partial class ServerToClient
         {
-            public void DisplayNotification(string text, int color)
+            public void IClient_DisplayNotification(string text, int color)
             {
-                var DisplayNotification = new _DisplayNotification { text, color };
-                var m = new Message { DisplayNotification };
+                var IClient_DisplayNotification = new _IClient_DisplayNotification { text, color };
+                var m = new Message { IClient_DisplayNotification };
 
                 this.Send(m, null);
             }
         }
 
-        public _DisplayNotification DisplayNotification;
+        public _IClient_DisplayNotification IClient_DisplayNotification;
         #endregion
 
 

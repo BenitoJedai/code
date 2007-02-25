@@ -98,7 +98,7 @@ namespace cncserver
 
         public ConsoleSession(Action<string> e)
         {
-            
+
             OnCommand = e;
 
             new Thread(
@@ -118,6 +118,14 @@ namespace cncserver
 
 
 
+    class ConsoleFunctions
+    {
+        public Action openbrowser;
+        public Action clientreload;
+        public Action lobby;
+        public Action exit;
+        public Action help;
+    }
 
     class Program
     {
@@ -145,8 +153,15 @@ namespace cncserver
 
             Action InterruptServer = null;
 
-            var commands = new {
-                clientreload = new Action (
+            ConsoleFunctions commands = null;
+            
+            commands = new ConsoleFunctions {
+                openbrowser = 
+                    delegate {
+                        System.Diagnostics.Process.Start("http://localhost/");
+                    }
+                ,
+                clientreload =
                     delegate {
                         foreach (ServerSession c in Lobby.Clients.Values)
                         {
@@ -154,8 +169,8 @@ namespace cncserver
                            
                         }
                     }
-                ),
-                lobby = new Action(
+                ,
+                lobby =
                     delegate {
                         Console.WriteLine("Currently there are {0} clients.", Lobby.Clients.Count);
 
@@ -169,15 +184,14 @@ namespace cncserver
                             Console.WriteLine();
 	                    }
                     }
-                ),
-                exit = new Action(
-                    delegate
+                ,
+                exit = delegate
                     {
                         Console.WriteLine("server is shutting down (1 sec)...");
 
                         foreach (ServerSession c in Lobby.Clients.Values)
                         {
-                            c.DisplayNotification("server is shutting down...", 0x00FF00);
+                            c.IClient_DisplayNotification("server is shutting down...", 0x00FF00);
                         }
 
                         cs.OnCommand = null;
@@ -195,22 +209,29 @@ namespace cncserver
 
                         return;
                     }
-                )
-            };
-
-            cs = (Action<string>)delegate(string cmd)
-            {
-                if (cmd == "?")
+                ,
+                help = delegate
                 {
                     ConsoleColor.White.Use(
                         delegate
                         {
                             Console.WriteLine("Supported commands are:");
 
-                            foreach (var pi in commands.GetType().GetProperties())
+                            foreach (var pi in commands.GetType().GetFields())
                                 Console.WriteLine("    /" + pi.Name);
                         }
                     );
+                }
+            };
+
+ 
+
+            
+            cs = (Action<string>)delegate(string cmd)
+            {
+                if (cmd == "?")
+                {
+                    commands.help();
 
                     return;
                 }
@@ -218,12 +239,12 @@ namespace cncserver
                 if (cmd.StartsWith("/"))
                 {
 
-                    var p = commands.GetType().GetProperties().Where(pi => pi.Name.ToLower() == cmd.Substring(1).ToLower()).SingleOrDefault();
+                    var p = commands.GetType().GetFields().Where(pi => pi.Name.ToLower() == cmd.Substring(1).ToLower()).SingleOrDefault();
 
                     if (p != null)
                     {
                         ConsoleColor.White.Use(
-                            p.GetValue(commands, null) as Action
+                            p.GetValue(commands) as Action
                         );
 
                         return;
@@ -232,9 +253,11 @@ namespace cncserver
 
                 foreach (ServerSession c in Lobby.Clients.Values)
                 {
-                    c.DisplayNotification("server: " + cmd, 0x0000FF);
+                    c.IClient_DisplayNotification("server: " + cmd, 0x0000FF);
                 }
             };
+
+            commands.help();
 
             while (true)
             {

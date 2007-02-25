@@ -52,12 +52,13 @@ namespace gameclient.source.shared
             void CreateExplosionAt(int x, int y);
 
 
-            void TalkToOthers(string text);
+            void IServer_TalkToOthers(string text);
 
-            string ToServer_EnterLobby();
+            string IServer_EnterLobby();
 
             void IServer_DrawRectangle(RectangleInfo rect, int color);
         }
+
         public int ToServerMessageId;
 
         [Script]
@@ -69,7 +70,7 @@ namespace gameclient.source.shared
             void CreateExplosionByServer(int x, int y, string text);
 
             [Script(NoDecoration = true)]
-            void DisplayNotification(string text, int color);
+            void IClient_DisplayNotification(string text, int color);
 
             [Script(NoDecoration = true)]
             void ForceReload();

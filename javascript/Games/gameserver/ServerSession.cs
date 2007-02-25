@@ -86,20 +86,21 @@ namespace cncserver
         #region EnterLobby
         public Func<string> OnEnterLobby;
 
-        public string ToServer_EnterLobby()
+        public string IServer_EnterLobby()
         {
             return OnEnterLobby();
         }
         #endregion
 
 
-        public EventHandler<string> OnTalkToOthers;
+        public event EventHandler<string> OnIServer_TalkToOthers;
 
-
-
-        public void TalkToOthers(string text)
+        public void IServer_TalkToOthers(string text)
         {
-            OnTalkToOthers(text);
+            if (this.ClientName == null) 
+                throw new NotSupportedException("Client must first enter the lobby to have a chat.");
+
+            OnIServer_TalkToOthers(text);
         }
 
 
@@ -109,7 +110,7 @@ namespace cncserver
 
             if (o.Length == 0)
             {
-                this.DisplayNotification("You are the first or the last, but alone you are.", Color.Green);
+                this.IClient_DisplayNotification("You are the first or the last, but alone you are.", Color.Green);
 
                 return;
             }
@@ -124,7 +125,7 @@ namespace cncserver
                 others += o[i].ClientName;
             }
 
-            this.DisplayNotification("Currently in the lobby: " + others, Color.Green);
+            this.IClient_DisplayNotification("Currently in the lobby: " + others, Color.Green);
         }
 
   

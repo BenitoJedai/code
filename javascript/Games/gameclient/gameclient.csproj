@@ -41,14 +41,16 @@
     <Compile Include="source\csharp\Settings.cs" />
     <Compile Include="source\js\ClientSession.cs" />
     <Compile Include="source\js\Controls\ArenaControl.cs" />
+    <Compile Include="source\js\Controls\LayeredTextBox.cs" />
+    <Compile Include="source\js\Controls\LayeredControl.cs" />
     <Compile Include="source\js\Controls\Program.cs" />
     <Compile Include="source\js\ClientToServerBase.cs" />
     <Compile Include="source\js\Settings.cs" />
     <Compile Include="source\js\Controls\DemoControl.cs" />
     <Compile Include="source\php\WebPage.cs" />
     <Compile Include="source\shared\Message.cs" />
-    <Compile Include="source\shared\Message.ToClient.cs" />
-    <Compile Include="source\shared\Message.ToServer.cs" />
+    <Compile Include="source\shared\Message.IClient.cs" />
+    <Compile Include="source\shared\Message.IServer.cs" />
     <Compile Include="web\Description.cs" />
   </ItemGroup>
   <ItemGroup>

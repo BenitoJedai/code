@@ -22,7 +22,7 @@ namespace gameclient.source.js
             Console.WriteLine("create the damn explosion at " + x + ", " + y);
         }
 
-        public void DisplayNotification(string text, int color)
+        public void IClient_DisplayNotification(string text, int color)
         {
             Control.DisplayNotification(text, (Color)color);
         }

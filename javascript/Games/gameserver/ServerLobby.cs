@@ -49,7 +49,7 @@ namespace cncserver
 
                     var ss = new ServerSession { ClientName, Lobby = this };
 
-                    ss.OnTalkToOthers = delegate(string text)
+                    ss.OnIServer_TalkToOthers += delegate(string text)
                     {
                         ConsoleColor.Cyan.Use(
                             delegate
@@ -66,9 +66,11 @@ namespace cncserver
                             return;
                         }
 
-                        foreach (Message.IClient v in ss.OthersInTheLobby())
+                        foreach (var v in ss.OthersInTheLobby())
                         {
-                            v.DisplayNotification(ss.ClientName + ": " + text, Color.White);
+                            var client =  (Message.ServerToClient)v;
+
+                            client.IClient_DisplayNotification(ss.ClientName + ": " + text, Color.White);
                         }
                     };
 
@@ -77,10 +79,10 @@ namespace cncserver
 
                     foreach (var v in ss.OthersInTheLobby())
                     {
-                        v.DisplayNotification(ClientName + " has joined the lobby", Color.Red);
+                        v.IClient_DisplayNotification(ClientName + " has joined the lobby", Color.Red);
                     }
 
-                    ss.DisplayNotification("Hello " + ClientName, Color.Green);
+                    ss.IClient_DisplayNotification("Hello " + ClientName, Color.Green);
 
 
                     ss.ToClient_ShowWhoIsInTheLobby();
@@ -133,7 +135,7 @@ namespace cncserver
 
                     foreach (ServerSession o in v.OthersInTheLobby())
                     {
-                        o.DisplayNotification("client {0} is slow " + v.ClientName, Color.Yellow);
+                        o.IClient_DisplayNotification("client {0} is slow " + v.ClientName, Color.Yellow);
                     }
                 }
             }
@@ -148,7 +150,7 @@ namespace cncserver
 
                 foreach (ServerSession o in s.OthersInTheLobby())
                 {
-                    o.DisplayNotification(msg, Color.Red);
+                    o.IClient_DisplayNotification(msg, Color.Red);
                 }
 
                 this.Clients.Remove(s.ClientName);
