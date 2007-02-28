@@ -101,11 +101,11 @@ namespace GMapsClone.source.js
 
             UBase.style.SetLocation(xOffset, yOffset, xWidth * 2, xHeight * 2);
 
-            Description.innerHTML = "zoom with wheel, or click on a tile to zoom in";
+            Description.innerHTML = "zoom with wheel, or click on a tile to zoom in. (<a href='http://jsc.svn.sourceforge.net/viewvc/jsc/javascript/Examples/GMapsClone/source/js/GoogleMaps.cs?view=markup'>sourcecode</a>)";
             Description.style.SetLocation(200, 8);
 
             
-            Up.style.SetLocation(64, 6);
+            Up.style.SetLocation(64, 6, 64, 20);
 
             
             
