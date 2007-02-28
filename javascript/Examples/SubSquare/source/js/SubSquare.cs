@@ -24,18 +24,28 @@ namespace SubSquare.source.js
 
         Rectangle Location;
 
-        public SubSquare(Rectangle size)
+        string _bg;
+        
+
+
+        public SubSquare(Rectangle size, string bg)
         {
+            this._bg = bg;
+
             Location = size;
 
             Base.style.SetLocation(size);
-            Base.style.backgroundColor = Color.White;
+            Base.style.backgroundImage = "url(" + bg + ")";
+
+            Base.style.backgroundPosition = (-size.Left) + "px " + (-size.Top) + "px";
 
             timer.Tick += new EventHandler<Timer>(timer_Tick);
 
             Base.onmouseover += delegate { if (value > step) timer.StartInterval(40); };
 
-            Base.onmouseout += delegate { timer.Stop(); Base.style.backgroundColor = Color.FromGray(value); };
+            Base.onmouseout += delegate { timer.Stop();
+                //Base.style.backgroundColor = Color.FromGray(value); 
+            };
 
             Base.attachToDocument();
         }
@@ -50,9 +60,9 @@ namespace SubSquare.source.js
 
                 value -= step;
 
-                Base.style.backgroundColor = Color.Red;
+                //Base.style.backgroundColor = Color.Red;
 
-                Base.style.Opacity = value / 0xFF;
+                Base.style.Opacity = 1 - (value / 0xFF);
 
                 if (value <= step)
                 {
@@ -62,7 +72,7 @@ namespace SubSquare.source.js
                     
                     timer.Stop();
 
-                    this.Base.style.backgroundColor = Color.Red;
+                    //this.Base.style.backgroundColor = Color.Red;
 
                     WorkPool p = Fader.FlashAndFadeOut(this.Base, 200);
 
@@ -71,18 +81,22 @@ namespace SubSquare.source.js
                     {
                         new SubSquare(
                         Rectangle.Of(Location.Left, Location.Top, Location.Width / 2, Location.Height / 2)
+                        , _bg
                           );
 
                         new SubSquare(
                             Rectangle.Of(Location.Left + Location.Width / 2, Location.Top, Location.Width / 2, Location.Height / 2)
+                            , _bg
                         );
 
                         new SubSquare(
                             Rectangle.Of(Location.Left + Location.Width / 2, Location.Top + Location.Height / 2, Location.Width / 2, Location.Height / 2)
+                            , _bg
                         );
 
                         new SubSquare(
                             Rectangle.Of(Location.Left, Location.Top + Location.Height / 2, Location.Width / 2, Location.Height / 2)
+                            , _bg
                         );
 
                         this.Base.Dispose();
@@ -96,15 +110,15 @@ namespace SubSquare.source.js
         static SubSquare()
         {
 
-            Native.Spawn("Web.ss",
-                delegate(IHTMLElement e)
-                {
-                    new SubSquare(Rectangle.Of(8,8, Native.Document.body.clientWidth - 16, Native.Document.body.clientHeight - 16));
+            //Native.Spawn("Web.ss",
+            //    delegate(IHTMLElement e)
+            //    {
+            //        new SubSquare(Rectangle.Of(8,8, Native.Document.body.clientWidth - 16, Native.Document.body.clientHeight - 16));
 
 
-                    e.Dispose();
-                }
-            );
+            //        e.Dispose();
+            //    }
+            //);
 
         }
     }

@@ -59,14 +59,14 @@ namespace SubSquare.source.js.Controls
                     var r = Rectangle.Of(
                             32,
                             32,
-                            800,
-                            600
+                            700,
+                            500
                         );
 
                     Console.WriteLine("bounds: " + r);
 
                     new SubSquare(
-                        r
+                        r, "fx/gfx/Follow.jpg"
                     );
 
                 }

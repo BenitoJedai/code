@@ -25,10 +25,7 @@ namespace GMapsClone.source.js.Controls
         void CreateDisposableButton(string e, EventHandler a)
         {
 
-            Native.Document.body.style.background = "#6591cd url(fx/gfx/editorBg.gif) repeat-x";
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
-
-
+      
             var btn = new IHTMLButton(e);
 
             this.Control.appendChild(btn);
@@ -45,6 +42,9 @@ namespace GMapsClone.source.js.Controls
         public DemoControl(IHTMLElement e)
             : base(e)
         {
+            Native.Document.body.style.background = "#6591cd url(fx/gfx/editorBg.gif) repeat-x";
+            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+
             e.insertNextSibling(Control);
             
             Control.appendChild(new IHTMLElement(IHTMLElement.HTMLElementEnum.h1, "This project demostrates how you could implement basic tiled map functionality with the help of jsc."));

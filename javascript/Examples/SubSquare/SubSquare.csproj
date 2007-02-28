@@ -54,6 +54,9 @@
     <EmbeddedResource Include="web\fx\gfx\editorBg.gif" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="web\fx\gfx\Follow.jpg" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="source\php\" />
     <Folder Include="source\shared\" />
   </ItemGroup>
