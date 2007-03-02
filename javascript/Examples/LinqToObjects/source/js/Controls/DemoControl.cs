@@ -31,17 +31,46 @@ namespace LinqToObjects.source.js.Controls
         {
             e.insertNextSibling(Control);
 
-            var a = new [] { "_a", "_x", "cc" };
 
+            var users = new IHTMLTextArea("neo, morpheous, trinity, Agent Smith");
 
+            users.rows = 10;
 
-            foreach (var v in 
-                from i in a 
-                where i.StartsWith("_")
-                select "select: " + i)
-            {
-                Control.appendChild(new IHTMLDiv(v));
-            }
+            var filter = new IHTMLInput(HTMLInputTypeEnum.text, "smith");
+            var result = new IHTMLDiv();
+
+            EventHandler Update =
+                delegate
+                {
+                    var user_names = users.value.Split(',').Select(i => i.Trim());
+                    var user_filter = filter.value.Trim().ToLower();
+
+                    result.removeChildren();
+
+                    foreach (var v in
+                        from i in user_names
+                        where i.ToLower().IndexOf(user_filter) > -1
+                        select "match: " + i)
+                    {
+                        result.appendChild(new IHTMLDiv(v));
+                    }
+                };
+
+            users.onchange += delegate { Update(); };
+            users.onkeyup += delegate { Update(); };
+
+            filter.onchange += delegate { Update(); };
+            filter.onkeyup += delegate { Update(); };
+
+            Control.appendChild(
+                users,
+                new IHTMLBreak(),
+                filter,
+                new IHTMLBreak(),
+                result
+            );
+
+            Update();
 
         }
 

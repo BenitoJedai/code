@@ -13,6 +13,12 @@ using ScriptCoreLib.Shared.Drawing;
 
 namespace ButterFly.source.js.Controls
 {
+
+    delegate void XZC<T>(T t);
+
+    [Script]
+    delegate X XZCX<T, X>(T t, X x);
+
     [Script]
     public class DemoControl : SpawnControlBase
     {
@@ -22,9 +28,31 @@ namespace ButterFly.source.js.Controls
 
         public IStyle Style { get { return Control.style; } }
 
+        static int SimpleCall(string e, int i)
+        {
+            Console.WriteLine("xxx");
+
+            return 0;
+        }
+
+        static void A(global::System.MulticastDelegate m)
+        {
+        }
+
+        static void A(global::System.Delegate m)
+        {
+
+        }
+
         public DemoControl(IHTMLElement e)
             : base(e)
         {
+            var z = new XZCX<string, int>(SimpleCall);
+
+            z += SimpleCall;
+
+            z("44", 88);
+
             e.insertNextSibling(Control);
 
             Control.appendChild("There is a buttrfly under your mouse. Can you see it? :)");
