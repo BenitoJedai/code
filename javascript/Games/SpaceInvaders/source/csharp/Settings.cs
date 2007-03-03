@@ -6,7 +6,7 @@ using ScriptCoreLib;
 
 using ScriptCoreLib.Shared;
 
-namespace SpaceInvaiders.source.csharp
+namespace SpaceInvaders.source.csharp
 {
     static class Settings
     {
@@ -35,7 +35,7 @@ namespace SpaceInvaiders.source.csharp
 
         public static void DefineEntryPoint(IEntryPoint e)
         {
-            foreach (var v in SpaceInvaiders.source.js.Settings.Controls)
+            foreach (var v in SpaceInvaders.source.js.Settings.Controls)
             {
                 DefineSpawnPoint(e, v.A, Environment.MachineName);
             }

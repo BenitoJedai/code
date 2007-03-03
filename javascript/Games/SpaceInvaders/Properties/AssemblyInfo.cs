@@ -42,7 +42,7 @@ using ScriptCoreLib;
     ScriptTypeFilter(ScriptType.JavaScript, "*.source.shared")
 ]
 
-namespace SpaceInvaiders.source.shared
+namespace SpaceInvaders.source.shared
 {
     using ScriptCoreLib.Shared;
 

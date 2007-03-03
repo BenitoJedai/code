@@ -7,7 +7,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 ScriptResources("gfx")
 ]
 
-namespace SpaceInvaiders.source.js.gfx
+namespace SpaceInvaders.source.js.gfx
 {
     [Script]
     public class ImageResources

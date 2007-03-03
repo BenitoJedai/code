@@ -5,10 +5,10 @@ using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 
 
-namespace SpaceInvaiders.source.js
+namespace SpaceInvaders.source.js
 {
 
-    using SpaceInvaiders.source.js.Controls;
+    using SpaceInvaders.source.js.Controls;
 
     using Item = Pair<string, EventHandler<IHTMLElement>>;
 
@@ -21,7 +21,7 @@ namespace SpaceInvaiders.source.js
         /// </summary>
         public static Item[] Controls = new Item[] 
             {
-                new Item(SpaceInvaiders.Alias, e => new SpaceInvaiders(e))
+                new Item(SpaceInvaders.Alias, e => new SpaceInvaders(e))
             };
 
         /// <summary>

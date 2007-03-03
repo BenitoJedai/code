@@ -35,7 +35,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="source\csharp\Settings.cs" />
-    <Compile Include="source\js\Query\Sequence.cs" />
     <Compile Include="source\js\Settings.cs" />
     <Compile Include="source\js\Controls\DemoControl.cs" />
   </ItemGroup>
@@ -47,6 +46,10 @@
     <ProjectReference Include="..\..\..\..\ScriptCorLibA\ScriptCoreLibA.csproj">
       <Project>{477C5608-F5CD-436F-935D-66675988F1D9}</Project>
       <Name>ScriptCoreLibA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\javascript+php\ScriptCoreLib.Query\ScriptCoreLib.Query.csproj">
+      <Project>{25C11821-6AAF-4AED-95D1-8B60431A0585}</Project>
+      <Name>ScriptCoreLib.Query</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

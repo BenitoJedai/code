@@ -12,16 +12,16 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
 
-namespace SpaceInvaiders.source.js.Controls
+namespace SpaceInvaders.source.js.Controls
 {
     [Script]
-    public class SpaceInvaiders : SpawnControlBase
+    public class SpaceInvaders : SpawnControlBase
     {
-        public const string Alias = "SpaceInvaiders";
+        public const string Alias = "SpaceInvaders";
 
         // http://www.digitalinsane.com/archives/2007/01/21/space_invaders/
 
-        public SpaceInvaiders(IHTMLElement e)
+        public SpaceInvaders(IHTMLElement e)
             : base(e)
         {
 
