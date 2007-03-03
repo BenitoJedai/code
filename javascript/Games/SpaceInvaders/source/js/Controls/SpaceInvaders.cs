@@ -282,6 +282,8 @@ namespace SpaceInvaders.source.js.Controls
                                 }
                             }
 
+
+
                             return hit;
                         };
                     #endregion
@@ -429,6 +431,7 @@ namespace SpaceInvaders.source.js.Controls
                             #endregion
 
 
+
                             Player.Show();
 
                             #region move ufo
@@ -488,6 +491,13 @@ namespace SpaceInvaders.source.js.Controls
 
                             var AliveEnemies = Sequence.Where(KnownEnemies.ToArray(), i => i.Visible);
                             var AliveCount = Sequence.Count(AliveEnemies);
+
+                            if (AliveCount == 0)
+                            {
+                                EndGame("Aliens destoried");
+
+                                return;
+                            }
 
                             if (GameTimer.Counter % (AliveCount / 2) == 0)
                             {
@@ -924,6 +934,19 @@ namespace SpaceInvaders.source.js.Controls
                              GetText2(" - pause", Color.White)
                              )
                          );
+
+                DrawBreak();
+                DrawBreak();
+
+
+                Control.appendChild(
+                    new IHTMLDiv(
+                        new IHTMLAnchor("http://zproxy.wordpress.com/2007/03/03/jsc-space-invaders/", "post a comment")
+                    ),
+                    new IHTMLDiv(
+                        new IHTMLAnchor("http://jsc.sourceforge.net", "powered by jsc")
+                    )
+                );
             }
         }
 
