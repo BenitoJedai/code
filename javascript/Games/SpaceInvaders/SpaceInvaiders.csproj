@@ -1,0 +1,72 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{17AD08D1-8C4F-4418-B07F-32661B45CA0F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SpaceInvaiders</RootNamespace>
+    <AssemblyName>SpaceInvaiders</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ScriptCoreLib, Version=3.0.2618.23669, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\jsc\bin\Debug\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Query, Version=1.0.2618.24140, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\jsc\bin\Debug\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="source\csharp\Settings.cs" />
+    <Compile Include="source\js\Settings.cs" />
+    <Compile Include="source\js\Controls\SpaceInvaiders.cs" />
+    <Compile Include="web\Description.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\ScriptCorLibA\ScriptCoreLibA.csproj">
+      <Project>{477C5608-F5CD-436F-935D-66675988F1D9}</Project>
+      <Name>ScriptCoreLibA</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\gfx\aenemy.gif" />
+    <EmbeddedResource Include="web\gfx\benemy.gif" />
+    <EmbeddedResource Include="web\gfx\biggun.gif" />
+    <EmbeddedResource Include="web\gfx\cenemy.gif" />
+    <EmbeddedResource Include="web\gfx\ufo.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="source\php\" />
+    <Folder Include="source\shared\" />
+  </ItemGroup>
+  <Import Project="$(ProgramFiles)\LINQ Preview\Misc\Linq.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>call "X:\c#\jsc\jsc\$(OutDir)jsc.exe" "$(TargetFileName)" -js
+</PostBuildEvent>
+  </PropertyGroup>
+</Project>
