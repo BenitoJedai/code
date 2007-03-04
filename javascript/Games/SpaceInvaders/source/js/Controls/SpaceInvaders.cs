@@ -71,7 +71,7 @@ namespace SpaceInvaders.source.js.Controls
             // at this point we want our images
 
 
-
+            // now wait while all images are loaded/complete
             Timer.While(
                 delegate
                 {
@@ -223,6 +223,7 @@ namespace SpaceInvaders.source.js.Controls
                         {
                             bool hit = false;
 
+                            #region did we hit ufo?
                             if (UFO.Visible)
                             {
                                 if (UFO.Bounds.Contains(a.Location))
@@ -234,6 +235,9 @@ namespace SpaceInvaders.source.js.Controls
                                     hit = true;
                                 }
                             }
+                            #endregion
+
+                            #region did we hit player 
                             if (Player.Bounds.Contains(a.Location))
                             {
                                 board.Lives--;
@@ -246,6 +250,8 @@ namespace SpaceInvaders.source.js.Controls
 
                                 }
                             }
+                            #endregion
+
 
                             foreach (Concrete v in KnownConcrete.ToArray())
                             {
@@ -572,13 +578,30 @@ namespace SpaceInvaders.source.js.Controls
                                 UFO.Visible = false;
 
                                 gameovermenu.Visible = false;
+
+                                // the animated gifs would stop after escape key
+                                ev.PreventDefault();
+
+                                GamePaused = false;
                             }
                         }
+
+                        int key_p = 80;
+
+
+                        if (ev.KeyCode == key_p)
+                        {
+                            GamePaused = !GamePaused;
+                        }
+
+                        // player shouldn't really move while game is paused
+                        // its cheating:)
+                        if (GamePaused)
+                            return;
 
                         int key_right = 39;
                         int key_left = 37;
                         int key_space = 32;
-                        int key_p = 80;
 
                         if (ev.KeyCode == key_left)
                         {
@@ -587,10 +610,6 @@ namespace SpaceInvaders.source.js.Controls
                         else if (ev.KeyCode == key_right)
                         {
                             UpdatePlayer(Player_X_step);
-                        }
-                        else if (ev.KeyCode == key_p)
-                        {
-                            GamePaused = !GamePaused;
                         }
                         else if (ev.KeyCode == key_space)
                         {
