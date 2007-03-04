@@ -110,7 +110,7 @@
     <Compile Include="JavaScript\System\StringImpl.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ScriptCorLibA\ScriptCoreLibA.csproj">
+    <ProjectReference Include="..\..\..\ScriptCorLibA\ScriptCoreLibA.csproj">
       <Project>{477C5608-F5CD-436F-935D-66675988F1D9}</Project>
       <Name>ScriptCoreLibA</Name>
     </ProjectReference>
@@ -166,7 +166,6 @@
     <Compile Include="PHP\System\ActivatorImpl.cs" />
     <Compile Include="PHP\System\Double.cs" />
     <Compile Include="PHP\System\Int32Impl.cs" />
-    <Compile Include="PHP\System\DelegateImplementation.cs" />
     <Compile Include="PHP\Native.API.cs" />
     <Compile Include="PHP\Native.Globals.cs" />
     <Compile Include="PHP\Runtime\Expando.cs" />
@@ -194,7 +193,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
     <None Include="external\ActiveXConsole.dll" />
     <None Include="web\inc\language\phpmailer.lang-en.php">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -205,6 +203,6 @@
   </ItemGroup>
   <Import Project="$(ProgramFiles)\LINQ Preview\Misc\Linq.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)$(TargetName).* X:\c#\jsc\jsc\$(OutDir)</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "X:\c#\jsc\jsc\$(OutDir)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

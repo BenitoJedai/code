@@ -25,30 +25,36 @@ namespace ScriptCoreLib.PHP.System
             return this;
         }
 
-        protected override void VirtualInvokeVarImpl<T>(T e)
+        protected override DelegateImpl RemoveImpl(DelegateImpl d)
         {
-            foreach (DelegateImpl d in list.ToArray())
-                d.InternalInvokeVar(e);
+            // ???
+
+            return this;
         }
+        //protected override void VirtualInvokeVarImpl<T>(T e)
+        //{
+        //    foreach (DelegateImpl d in list.ToArray())
+        //        d.InternalInvokeVar(e);
+        //}
 
-        protected override void VirtualInvokeImpl()
-        {
+        //protected override void VirtualInvokeImpl()
+        //{
 
-            foreach (DelegateImpl d in list.ToArray())
-                d.InternalInvoke();
+        //    foreach (DelegateImpl d in list.ToArray())
+        //        d.InternalInvoke();
 
-        }
+        //}
 
-        protected override TRet VirtualInvokeVarImplRet<TRet, var0, var1>(var0 e, var1 p)
-        {
-            TRet r = default(TRet);
+        //protected override TRet VirtualInvokeVarImplRet<TRet, var0, var1>(var0 e, var1 p)
+        //{
+        //    TRet r = default(TRet);
 
-            foreach (DelegateImpl d in list.ToArray())
-                r = d.InternalInvokeVarRet<TRet, var0, var1>(e, p);
+        //    foreach (DelegateImpl d in list.ToArray())
+        //        r = d.InternalInvokeVarRet<TRet, var0, var1>(e, p);
 
-            return r;
+        //    return r;
             
-        }
+        //}
 
     }
 }
