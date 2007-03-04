@@ -10,6 +10,20 @@ using ScriptException = global::ScriptCoreLib.JavaScript.System.ScriptException;
 namespace ScriptCoreLib.JavaScript.Query
 {
     [Script]
+    internal static class Error
+    {
+        public static ScriptException ArgumentNull(string paramName)
+        {
+            return new ScriptException("ArgumentNull: " + paramName);
+        }
+
+        public static ScriptException NoElements()
+        {
+            return new ScriptException("Sequence contains no elements");
+        }
+    }
+
+    [Script]
     public static class Sequence
     {
         [Script]
@@ -107,6 +121,100 @@ namespace ScriptCoreLib.JavaScript.Query
             }
 
             #endregion
+        }
+
+        #region Min
+        public static int Min(this IEnumerable<int> source)
+        {
+            if (source == null)
+            {
+                throw Error.ArgumentNull("source");
+            }
+            int num2 = 0;
+            bool flag2 = false;
+            foreach (int num3 in source)
+            {
+                if (flag2)
+                {
+                    if (num3 < num2)
+                    {
+                        num2 = num3;
+                    }
+                    continue;
+                }
+                num2 = num3;
+                flag2 = true;
+            }
+            if (!flag2)
+            {
+                throw Error.NoElements();
+            }
+            return num2;
+        }
+
+ 
+
+ 
+
+        #endregion
+
+        #region Max
+        public static int Max(this IEnumerable<int> source)
+        {
+            if (source == null)
+            {
+                throw Error.ArgumentNull("source");
+            }
+            int num2 = 0;
+            bool flag2 = false;
+            foreach (int num3 in source)
+            {
+                if (flag2)
+                {
+                    if (num3 > num2)
+                    {
+                        num2 = num3;
+                    }
+                    continue;
+                }
+                num2 = num3;
+                flag2 = true;
+            }
+            if (!flag2)
+            {
+                throw Error.NoElements();
+            }
+            return num2;
+        }
+        #endregion
+
+        public static int Count<T>(this IEnumerable<T> e)
+        {
+            int c = 0;
+
+            foreach (var v in e) c++;
+
+            return c;
+        }
+
+        public static T ElementAt<T>(this IEnumerable<T> e, int index)
+        {
+            int i = -1;
+
+            T r = default(T);
+
+            foreach (var v in e)
+            {
+                i++;
+
+                if (i == index)
+                {
+                    r = v;
+                    break;
+                }
+            }
+
+            return r;
         }
 
         #region Select
