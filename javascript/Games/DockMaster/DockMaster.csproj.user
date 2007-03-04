@@ -1,0 +1,6 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <StartAction>URL</StartAction>
+    <StartURL>file:///X:/c%23/jsc/DockMaster/bin/Debug/web/DockMaster.exe.js.htm</StartURL>
+  </PropertyGroup>
+</Project>

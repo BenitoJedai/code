@@ -61,6 +61,9 @@
     <EmbeddedResource Include="web\gfx\ufo.gif" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="tools\publish.bat" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="source\php\" />
     <Folder Include="source\shared\" />
   </ItemGroup>
