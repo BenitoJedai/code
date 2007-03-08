@@ -60,14 +60,14 @@ namespace ColorPicker.source.js.Controls
                      
                     if (ev.OffsetX <= 260)
                     {
-                        var hue = Convert.ToByte(ev.OffsetX / 260 * 240);
-                        var lum = Convert.ToByte(240 -  ev.OffsetY / 260 * 240);
+                        var hue = (byte)Native.Math.round( ev.OffsetX / 260 * 240);
+                        var lum = (byte)Native.Math.round(240 - ev.OffsetY / 260 * 240);
 
                         Native.Document.body.style.backgroundColor = JSColor.FromHLS(hue, lum, 240);
                     }
                     else
                     {
-                        var lum = Convert.ToByte(240 -  ev.OffsetY / 260 * 240);
+                        var lum = (byte)Native.Math.round(240 - ev.OffsetY / 260 * 240);
 
                         Native.Document.body.style.backgroundColor = JSColor.FromHLS(0, lum, 0);
                     }
