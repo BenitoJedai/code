@@ -28,6 +28,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ScriptCoreLib, Version=3.0.2619.36219, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\jsc\bin\Debug\ScriptCoreLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -41,10 +45,6 @@
     <Compile Include="web\Description.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\ScriptCoreLib\ScriptCoreLib.csproj">
-      <Project>{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}</Project>
-      <Name>ScriptCoreLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\ScriptCorLibA\ScriptCoreLibA.csproj">
       <Project>{477C5608-F5CD-436F-935D-66675988F1D9}</Project>
       <Name>ScriptCoreLibA</Name>

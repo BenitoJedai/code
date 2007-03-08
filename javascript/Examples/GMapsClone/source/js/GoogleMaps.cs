@@ -135,9 +135,7 @@ namespace GMapsClone.source.js
 
             Location = "";
 
-            Native.Document.body.appendChild(UBase, A, B, C, D, Up, Description
-                // , ULeft, URight
-                );
+            Native.Document.body.appendChild(UBase, A, B, C, D, Up, Description);
 
         }
 
@@ -161,30 +159,6 @@ namespace GMapsClone.source.js
 
 
 
-        static GoogleMaps()
-        {
-
-            Native.Spawn("Web.GoogleMaps",
-                delegate(IHTMLElement e)
-                {
-                    new GoogleMaps("http://kh3.google.com/kh?v=14&t=t", e);
-                }
-            );
-
-            Native.Spawn("Web.GoogleMaps+Moon",
-                delegate(IHTMLElement e)
-                {
-                    new GoogleMaps("http://moon.google.com/kh?v=2&t=t", e);
-                }
-            );
-
-
-            Native.Spawn("Web.GoogleMaps+Mars",
-                delegate(IHTMLElement e)
-                {
-                    new GoogleMaps("http://kh.google.com/movl?ov=52&t=t", e);
-                }
-            );
-        }
+        
     }
 }
