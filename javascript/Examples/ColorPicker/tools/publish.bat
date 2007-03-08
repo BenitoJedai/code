@@ -7,7 +7,7 @@ echo + publishing...
 
 set Xscp=C:\Program Files\WinSCP3\winscp3.com
 set Xhost=sftp://zproxy@jsc.sourceforge.net/
-set Xpath=jsc_web/examples/web/ColorPicker
+set Xpath=jsc_web/examples/web/GMapsClone
 
 ::call "%Xscp%" %Xhost% /command "cd %XPath%" "lls" "ls" "option exclude ""*.dll""" "option include ""*.packed.js""" "synchronize remote" "exit"
 
