@@ -12,12 +12,12 @@ using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Serialized;
 using ScriptCoreLib.Shared.Drawing;
 
-namespace MyEditor.source.js.Controls
+namespace ScriptCoreLib.JavaScript.Controls
 {
     using StringPair = Pair<string, string>;
 
     [Script]
-    public abstract class WebResource
+    internal abstract class WebResource
     {
         public string Value;
         public string Directory;
@@ -29,11 +29,11 @@ namespace MyEditor.source.js.Controls
     }
 
     [Script]
-    public class TextEditor : SpawnControlBase
+    public class TextEditor 
     {
 
         [Script]
-        public class fx : WebResource
+        internal class fx : WebResource
         {
             public const string Alias = "fx/TextEditor";
 
@@ -56,7 +56,8 @@ namespace MyEditor.source.js.Controls
 
         public const string Alias = "fx.Editor";
 
-        IHTMLDiv Control = new IHTMLDiv();
+        public readonly IHTMLDiv Control = new IHTMLDiv();
+
         IHTMLIFrame Frame = new IHTMLIFrame();
         IHTMLTextArea Text = new IHTMLTextArea();
 
@@ -365,8 +366,7 @@ namespace MyEditor.source.js.Controls
         }
 
 
-        public TextEditor(IHTMLElement e)
-            : base(e)
+        public TextEditor(IHTMLElement parent)
         {
 
             var ttoolbar = new IHTMLDiv();
@@ -434,7 +434,9 @@ namespace MyEditor.source.js.Controls
 
             this.Control.appendChild(borders);
 
-            e.insertNextSibling(Control);
+            parent.appendChild(Control);
+
+            // e.insertNextSibling(Control);
 
 
             var d = this.Document;

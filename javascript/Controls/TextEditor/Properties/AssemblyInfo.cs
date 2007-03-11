@@ -37,55 +37,10 @@ using ScriptCoreLib;
 [assembly: AssemblyFileVersion("1.0.*")]
 
 [assembly:
-    Script,
-    ScriptResources(MyEditor.source.js.Controls.TextEditor.fx.Alias),
-    ScriptTypeFilter(ScriptType.JavaScript, "*.source.js"),
-    ScriptTypeFilter(ScriptType.JavaScript, "*.source.shared"),
+    Script(IsCoreLib=true),
+    ScriptResources(ScriptCoreLib.JavaScript.Controls.TextEditor.fx.Alias),
+   ScriptTypeFilter(ScriptType.JavaScript, "ScriptCoreLib.JavaScript.Controls")
    // ScriptTypeFilter(ScriptType.PHP, "*.source.php"),
    //ScriptTypeFilter(ScriptType.PHP, "*.source.shared")
 ]
 
-
-namespace MyEditor.source.shared
-{
-    using ScriptCoreLib.Shared;
-
-    [Script]
-    public class AssemblyInfo : IAssemblyInfo
-    {
-        public static AssemblyInfo Current = new AssemblyInfo();
-
-        #region BuildDateTimeString
-        /// <summary>
-        /// date when library was compiled
-        /// </summary>
-        public string BuildDateTimeString
-        {
-            [Script(
-                UseCompilerConstants = true,
-                OptimizedCode = @"return '{BuildDate} UTC';"
-                )]
-            get
-            {
-                return default(string);
-            }
-        }
-        #endregion
-
-        #region ModuleName
-        public string ModuleName
-        {
-            [Script(
-                UseCompilerConstants = true,
-                OptimizedCode = @"return '{Module.Name}';"
-                )]
-            get
-            {
-                return default(string);
-            }
-        }
-        #endregion
-
-    }
-
-}
