@@ -32,7 +32,8 @@ namespace SpaceInvaders.source.js
         {
             Console.LogAssambley(
                 shared.AssemblyInfo.Current,
-                ScriptCoreLib.Shared.AssemblyInfo.Current
+                ScriptCoreLib.Shared.AssemblyInfo.Current,
+                ScriptCoreLib.Shared.Query.AssemblyInfo.Current
                 //ScriptCoreLib.GoogleAPI.Shared.AssemblyInfo.Current,
                 //ScriptCoreLib.Cards.Shared.AssemblyInfo.Current
                 );

@@ -2,7 +2,7 @@ using ScriptCoreLib;
 
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript;
-using ScriptCoreLib.JavaScript.Query;
+
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Serialized;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -11,6 +11,7 @@ using ScriptCoreLib.JavaScript.DOM;
 
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.Shared.Query;
 
 namespace SpaceInvaders.source.js.Controls
 {
@@ -21,25 +22,57 @@ namespace SpaceInvaders.source.js.Controls
 
         // http://www.digitalinsane.com/archives/2007/01/21/space_invaders/
 
-        public SpaceInvaders(IHTMLElement e)
-            : base(e)
+        [Script(NoDecoration = true)]
+        static void SpawnSpaceInvaders(string resx)
         {
+            new SpaceInvaders(null, resx);
+        }
 
-            var view = new IHTMLDiv();
+        public SpaceInvaders(IHTMLElement placeholder)
+            : this(placeholder, "")
+        {
+        }
 
+        public SpaceInvaders(IHTMLElement placeholder, string resx)
+            : base(placeholder)
+        {
+            Console.WriteLine("resx: " + resx);
+
+            gfx.ImageResources gfx = resx;
+
+            var overlay = new Overlay();
+
+            overlay.BackgroundColor = Color.Black;
+            overlay.MaximumOpacity = 1;
+            overlay.ControlInBack.style.zIndex = 100000;
+            overlay.ControlInFront.style.zIndex = 100001;
+
+            overlay.ControlInBack.onclick +=
+                delegate
+                {
+                    overlay.Visible = false;
+                };
+
+            var view = overlay.ControlInFront;
+
+            view.style.textAlign = IStyle.TextAlignEnum.center;
             view.style.SetSize(480, 480);
             view.style.backgroundColor = Color.Green;
             view.style.color = Color.White;
             view.style.fontFamily = IStyle.FontFamilyEnum.Fixedsys;
 
+            
 
-            Native.Document.body.appendChild(
-                new IHTMLElement(IHTMLElement.HTMLElementEnum.center,
-                view)
-                );
 
-            Native.Document.body.style.backgroundColor = Color.Black;
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            //Native.Document.body.appendChild(
+            //    new IHTMLElement(IHTMLElement.HTMLElementEnum.center,
+            //    view)
+            //    );
+
+
+
+            //Native.Document.body.style.backgroundColor = Color.Black;
+            // Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
             Func<IHTMLDiv> CreateCanvas =
                 delegate
@@ -70,17 +103,14 @@ namespace SpaceInvaders.source.js.Controls
 
             // at this point we want our images
 
+            overlay.Visible = true;
+            
+            Timer.DoAsync( overlay.UpdateLocation );
 
             // now wait while all images are loaded/complete
             Timer.While(
-                delegate
-                {
-                    return Sequence.Count(
-                        Sequence.Where(
-                            gfx.ImageResources.Default.Images, i => !i.complete
-                        )
-                ) > 0;
-                },
+                () => !gfx.IsComplete
+                ,
                 delegate
                 {
                     // loading images is done now.
@@ -88,8 +118,9 @@ namespace SpaceInvaders.source.js.Controls
 
 
                     // build the scoreboard
+                    var MyEnemyDirectory = new EnemyDirectory(gfx);
 
-                    var board = new ScoreBoard();
+                    var board = new ScoreBoard(gfx);
 
                     board.Control.style.SetLocation(8, 8, 464, 64);
 
@@ -104,7 +135,7 @@ namespace SpaceInvaders.source.js.Controls
 
                     // lets show main menu
 
-                    var mmenu = new MainMenu();
+                    var mmenu = new MainMenu(MyEnemyDirectory, gfx);
                     var gameovermenu = new GameOverMenu();
 
                     menu.appendChild(mmenu.Control, gameovermenu.Control);
@@ -120,7 +151,7 @@ namespace SpaceInvaders.source.js.Controls
                         Speed = 8
                     };
 
-                    var Player = (IHTMLImage)gfx.ImageResources.Default.biggun.cloneNode(false);
+                    var Player = (IHTMLImage)gfx.biggun.Clone();
                     var Player_Ammo = new AmmoInfo {
                         Color = Color.Green,
                         Speed = -8
@@ -178,7 +209,8 @@ namespace SpaceInvaders.source.js.Controls
                         canvas.appendChild(v.Control);
                     }
 
-                    var UFO = new EnemyUnit(EnemyDirectory.Default.UFO);
+
+                    var UFO = new EnemyUnit(MyEnemyDirectory.UFO);
                     var UFO_Direction = 1;
 
                     UFO.Visible = false;
@@ -192,11 +224,11 @@ namespace SpaceInvaders.source.js.Controls
 
                     var KnownEnemies = new List<EnemyUnit>();
 
-                    KnownEnemies.Add(EnemyUnit.Build(EnemyDirectory.Default.A, 20, EnemyTop + 0 * EnemySpacing, EnemyCount, EnemySpacing));
-                    KnownEnemies.Add(EnemyUnit.Build(EnemyDirectory.Default.B, 20, EnemyTop + 1 * EnemySpacing, EnemyCount, EnemySpacing));
-                    KnownEnemies.Add(EnemyUnit.Build(EnemyDirectory.Default.B, 20, EnemyTop + 2 * EnemySpacing, EnemyCount, EnemySpacing));
-                    KnownEnemies.Add(EnemyUnit.Build(EnemyDirectory.Default.C, 20, EnemyTop + 3 * EnemySpacing, EnemyCount, EnemySpacing));
-                    KnownEnemies.Add(EnemyUnit.Build(EnemyDirectory.Default.C, 20, EnemyTop + 4 * EnemySpacing, EnemyCount, EnemySpacing));
+                    KnownEnemies.Add(EnemyUnit.Build(MyEnemyDirectory.A, 20, EnemyTop + 0 * EnemySpacing, EnemyCount, EnemySpacing));
+                    KnownEnemies.Add(EnemyUnit.Build(MyEnemyDirectory.B, 20, EnemyTop + 1 * EnemySpacing, EnemyCount, EnemySpacing));
+                    KnownEnemies.Add(EnemyUnit.Build(MyEnemyDirectory.B, 20, EnemyTop + 2 * EnemySpacing, EnemyCount, EnemySpacing));
+                    KnownEnemies.Add(EnemyUnit.Build(MyEnemyDirectory.C, 20, EnemyTop + 3 * EnemySpacing, EnemyCount, EnemySpacing));
+                    KnownEnemies.Add(EnemyUnit.Build(MyEnemyDirectory.C, 20, EnemyTop + 4 * EnemySpacing, EnemyCount, EnemySpacing));
 
                     foreach (EnemyUnit v in KnownEnemies.ToArray())
                     {
@@ -237,7 +269,7 @@ namespace SpaceInvaders.source.js.Controls
                             }
                             #endregion
 
-                            #region did we hit player 
+                            #region did we hit player
                             if (Player.Bounds.Contains(a.Location))
                             {
                                 board.Lives--;
@@ -295,14 +327,14 @@ namespace SpaceInvaders.source.js.Controls
                     #endregion
 
 
-         
+
 
                     #region EnemyAction
                     Action EnemyAction =
                         delegate
                         {
-                            #region create ufo 
-                            
+                            #region create ufo
+
                             if (!UFO.Visible)
                             {
                                 if (Native.Math.random() < 0.1)
@@ -375,7 +407,7 @@ namespace SpaceInvaders.source.js.Controls
                                 {
                                     MoveAll(new Point(0, 8));
                                 };
-                            
+
 
                             #region move the gang
                             if (GangDirection > 0)
@@ -613,6 +645,9 @@ namespace SpaceInvaders.source.js.Controls
                         }
                         else if (ev.KeyCode == key_space)
                         {
+                            // the animated gifs would stop after escape key
+                            ev.PreventDefault();
+
                             if (!Player_Ammo.Visible)
                             {
                                 Player_Ammo.MoveTo(Player_X, Player_Y - 20);
@@ -860,7 +895,7 @@ namespace SpaceInvaders.source.js.Controls
                 }
             }
 
-            public MainMenu()
+            public MainMenu(EnemyDirectory MyEnemyDirectory, gfx.ImageResources gfx)
             {
                 Func<string, Color, IHTMLSpan> GetText2 =
                            delegate(string text, Color color)
@@ -883,17 +918,17 @@ namespace SpaceInvaders.source.js.Controls
 
                 Control.appendChild(
                     new IHTMLDiv(
-                        gfx.ImageResources.Default.cenemy.cloneNode(false),
+                        gfx.cenemy.Clone(),
                             GetText("&nbsp;SPACE&nbsp;", Color.White, "48px"),
-                        gfx.ImageResources.Default.cenemy.cloneNode(false)
+                        gfx.cenemy.Clone()
                     )
                 );
 
                 Control.appendChild(
                   new IHTMLDiv(
-                      gfx.ImageResources.Default.aenemy.cloneNode(false),
+                      gfx.aenemy.Clone(),
                           GetText("&nbsp;INVADERS&nbsp;", Color.Green, "48px"),
-                      gfx.ImageResources.Default.aenemy.cloneNode(false)
+                      gfx.aenemy.Clone()
                   )
                 );
 
@@ -919,19 +954,19 @@ namespace SpaceInvaders.source.js.Controls
                     {
                         Control.appendChild(
                           new IHTMLDiv(
-                              e.Image.cloneNode(false),
+                              e.Image.Clone(),
                                   GetText2("&nbsp;- " + e.Points + " points", Color.White)
                           )
                         );
                     };
 
-                DrawEnemyInfo(EnemyDirectory.Default.A);
+                DrawEnemyInfo(MyEnemyDirectory.A);
                 DrawBreak();
-                DrawEnemyInfo(EnemyDirectory.Default.B);
+                DrawEnemyInfo(MyEnemyDirectory.B);
                 DrawBreak();
-                DrawEnemyInfo(EnemyDirectory.Default.C);
+                DrawEnemyInfo(MyEnemyDirectory.C);
                 DrawBreak();
-                DrawEnemyInfo(EnemyDirectory.Default.UFO);
+                DrawEnemyInfo(MyEnemyDirectory.UFO);
                 DrawBreak();
                 DrawBreak();
 
@@ -972,37 +1007,30 @@ namespace SpaceInvaders.source.js.Controls
         [Script]
         public class EnemyDirectory
         {
-            public readonly EnemyInfo A = new EnemyInfo {
-                Image = gfx.ImageResources.Default.aenemy,
-                Points = 4
-            };
+            public readonly EnemyInfo A, B, C, UFO;
 
-            public readonly EnemyInfo B = new EnemyInfo {
-                Image = gfx.ImageResources.Default.benemy,
-                Points = 2
-            };
 
-            public readonly EnemyInfo C = new EnemyInfo {
-                Image = gfx.ImageResources.Default.cenemy,
-                Points = 1
-            };
-
-            public readonly EnemyInfo UFO = new EnemyInfo {
-                Image = gfx.ImageResources.Default.ufo,
-                Points = 10
-            };
-
-            static private EnemyDirectory _Default;
-
-            static public EnemyDirectory Default
+            public EnemyDirectory(gfx.ImageResources gfx)
             {
-                get
-                {
-                    if (_Default == null)
-                        _Default = new EnemyDirectory();
+                this.A = new EnemyInfo {
+                    Image = gfx.aenemy,
+                    Points = 4
+                };
 
-                    return _Default;
-                }
+                this.B = new EnemyInfo {
+                    Image = gfx.benemy,
+                    Points = 2
+                };
+
+                this.C = new EnemyInfo {
+                    Image = gfx.cenemy,
+                    Points = 1
+                };
+
+                this.UFO = new EnemyInfo {
+                    Image = gfx.ufo,
+                    Points = 10
+                };
             }
 
         }
@@ -1010,7 +1038,7 @@ namespace SpaceInvaders.source.js.Controls
         [Script]
         public class EnemyInfo
         {
-            public IHTMLImage Image;
+            public gfx.ImageResources.Item Image;
 
             public int Points;
         }
@@ -1042,7 +1070,7 @@ namespace SpaceInvaders.source.js.Controls
             public EnemyUnit(EnemyInfo i)
             {
                 Info = i;
-                Control = (IHTMLImage)Info.Image.cloneNode(false);
+                Control = (IHTMLImage)Info.Image.Clone();
 
                 Visible = false;
             }
@@ -1107,9 +1135,11 @@ namespace SpaceInvaders.source.js.Controls
             readonly IHTMLSpan lives_label = new IHTMLSpan("Lives:");
             readonly IHTMLSpan lives_value = new IHTMLSpan();
 
-            readonly IHTMLImage Life1 = (IHTMLImage)gfx.ImageResources.Default.biggun.cloneNode(false);
-            readonly IHTMLImage Life2 = (IHTMLImage)gfx.ImageResources.Default.biggun.cloneNode(false);
-            readonly IHTMLImage Life3 = (IHTMLImage)gfx.ImageResources.Default.biggun.cloneNode(false);
+            readonly IHTMLImage Life1;
+            readonly IHTMLImage Life2;
+            readonly IHTMLImage Life3;
+
+
 
             private int _Score;
 
@@ -1149,8 +1179,13 @@ namespace SpaceInvaders.source.js.Controls
                 }
             }
 
-            public ScoreBoard()
+
+            public ScoreBoard(gfx.ImageResources gfx)
             {
+                Life1 = gfx.biggun.Clone();
+                Life2 = gfx.biggun.Clone();
+                Life3 = gfx.biggun.Clone();
+
                 score_label.style.color = Color.White;
                 lives_label.style.color = Color.White;
 
