@@ -1,0 +1,29 @@
+
+Requirements:
+
+Primary:
+- Select Month [Next/ Previous]
+- Select Year  [Next/ Previous]
+- Select Day
+
+Secondary:
+- Select as a popup
+- Select no date
+- Select today
+- Display additional text within dates (as marquee ?)
+- Drag the popup
+- Time with calendar
+
+See for reference:
+http://www.dhtmlgoodies.com/scripts/js_calendar/js_calendar.html
+http://www.javascriptkit.com/script/script2/epoch/index.shtml
+http://www.calendarxp.net/
+http://www.softcomplex.com/products/tigra_calendar/demo1.html
+http://www.scriptcalendar.com/scrptcal/iexample.aspx
+http://software.future-shock.net/html/date-picker.asp
+http://www.kerberosdev.net/developer-resources/02-popup-date-picker/demo.aspx
+http://www.dynarch.com/projects/calendar/
+http://www.dynarch.com/demos/jscalendar/
+http://sourceforge.net/projects/jscalendar/
+http://jscalendar.cvs.sourceforge.net/jscalendar/jscalendar/calendar.js?view=markup
+http://www.w3schools.com/js/js_obj_date.asp
