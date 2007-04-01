@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{6DD452BD-77E1-4A16-B6FC-864F142D3F8E}"
+	ProjectSection(SolutionItems) = preProject
+		about.txt = about.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Control", "Control", "{86D04C63-FB47-4DF7-B5D3-95E121188AD0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Example", "Example", "{CA0B0719-CE65-4751-9C62-3812DA0B3E7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonthCalendar", "Control\MonthCalendar\MonthCalendar.csproj", "{A784C239-A238-493C-90A0-D79B2A7B2B92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonthCalendarExample", "Example\MonthCalendarExample\MonthCalendarExample.csproj", "{52994768-DD74-464E-B83F-DEDB8A5E20D4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A784C239-A238-493C-90A0-D79B2A7B2B92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A784C239-A238-493C-90A0-D79B2A7B2B92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A784C239-A238-493C-90A0-D79B2A7B2B92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A784C239-A238-493C-90A0-D79B2A7B2B92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52994768-DD74-464E-B83F-DEDB8A5E20D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52994768-DD74-464E-B83F-DEDB8A5E20D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52994768-DD74-464E-B83F-DEDB8A5E20D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52994768-DD74-464E-B83F-DEDB8A5E20D4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A784C239-A238-493C-90A0-D79B2A7B2B92} = {86D04C63-FB47-4DF7-B5D3-95E121188AD0}
+		{52994768-DD74-464E-B83F-DEDB8A5E20D4} = {CA0B0719-CE65-4751-9C62-3812DA0B3E7C}
+	EndGlobalSection
+EndGlobal
