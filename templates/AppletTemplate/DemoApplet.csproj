@@ -1,0 +1,74 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F8CEDDEC-A386-47DC-BE6F-6C9C93A7A9DC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DemoApplet</RootNamespace>
+    <AssemblyName>DemoApplet</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibJava, Version=1.2006.222.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Query" />
+    <Reference Include="System.Data.DLinq" />
+    <Reference Include="System.Data.Extensions" />
+    <Reference Include="System.Xml.XLinq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="source\csharp\Setup.cs" />
+    <Compile Include="source\java\DemoApplet.Script.cs" />
+    <Compile Include="source\java\DemoApplet.Designer.cs" />
+    <Compile Include="source\java\DemoApplet.Program.cs" />
+    <Compile Include="source\java\DemoApplet.Settings.cs" />
+    <Compile Include="source\java\DemoApplet.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="docs\about.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tools\build.bat" />
+    <None Include="tools\compile.java.bat" />
+    <None Include="tools\find.java.bat" />
+    <None Include="tools\create.jar.bat" />
+    <None Include="tools\run.jar.bat" />
+    <None Include="tools\test.applet.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="web\" />
+  </ItemGroup>
+  <Import Project="$(ProgramFiles)\LINQ Preview\Misc\Linq.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>C:\util\jsc\bin\jsc.exe "$(TargetFileName)" -z</PostBuildEvent>
+  </PropertyGroup>
+</Project>
