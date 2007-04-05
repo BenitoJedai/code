@@ -14,6 +14,10 @@ Secondary:
 - Drag the popup
 - Time with calendar
 
+Notes:
+
+Due to jsc current limitation resources cannot be bundeled to a Control library via the ScriptResourcesAttribute
+
 See for reference:
 http://www.dhtmlgoodies.com/scripts/js_calendar/js_calendar.html
 http://www.javascriptkit.com/script/script2/epoch/index.shtml
@@ -27,3 +31,4 @@ http://www.dynarch.com/demos/jscalendar/
 http://sourceforge.net/projects/jscalendar/
 http://jscalendar.cvs.sourceforge.net/jscalendar/jscalendar/calendar.js?view=markup
 http://www.w3schools.com/js/js_obj_date.asp
+http://www.w3schools.com/jsref/jsref_obj_date.asp
