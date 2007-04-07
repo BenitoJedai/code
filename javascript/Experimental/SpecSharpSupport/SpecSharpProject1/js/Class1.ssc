@@ -1,0 +1,65 @@
+using System;
+
+using ScriptCoreLib;
+using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+
+[assembly: Script]
+[assembly: ScriptTypeFilter(ScriptType.JavaScript, "*.js")]
+
+namespace ClassLibrary1.js
+{
+	// http://research.microsoft.com/specsharp/
+	// TODO: update jsc to be able to support specsharp (2008 ?)
+	
+	[Script]
+    public class Class1
+    {
+		IHTMLElement Control = new IHTMLDiv("Spec# hello world");
+		
+		public const string Alias = "fx.Class1";
+		
+		IHTMLButton btn;
+
+		
+        public Class1(IHTMLElement e)
+        {
+			e.insertPreviousSibling(Control);
+			
+			btn = new IHTMLButton("button1");
+			
+			btn.onclick +=	button1_onclick;
+			
+			Control.appendChild(btn);
+        }
+       
+        
+        
+        
+        void AddText(string! e)
+        {
+			this.btn.innerHTML += e;
+        
+        }
+        
+        void button1_onclick(IEvent e)
+        {
+			
+
+			this.AddText("non null text");
+
+			
+        }
+        
+        static void Spawn(IHTMLElement e)
+        {
+			new Class1(e); 
+        }
+        
+        static Class1()
+        {
+			Native.Spawn(Alias, Spawn);
+        }
+    }
+}
