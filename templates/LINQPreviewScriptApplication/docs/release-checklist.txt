@@ -1,3 +1,6 @@
 1. project template created.
 2. sf.net release created.
 3. template commited to svn.
+4. demo copied to web server.
+5. website updated
+6- blog entry posted
