@@ -28,6 +28,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ScriptCoreLib, Version=3.0.2661.20614, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Query, Version=1.0.2661.20615, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -39,27 +51,13 @@
     <Compile Include="source\js\Controls\DemoControl.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\ScriptCoreLib\ScriptCoreLib.csproj">
-      <Project>{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}</Project>
-      <Name>ScriptCoreLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ScriptCorLibA\ScriptCoreLibA.csproj">
-      <Project>{477C5608-F5CD-436F-935D-66675988F1D9}</Project>
-      <Name>ScriptCoreLibA</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\javascript+php\ScriptCoreLib.Query\ScriptCoreLib.Query.csproj">
-      <Project>{25C11821-6AAF-4AED-95D1-8B60431A0585}</Project>
-      <Name>ScriptCoreLib.Query</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="source\php\" />
     <Folder Include="source\shared\" />
     <Folder Include="web\" />
   </ItemGroup>
   <Import Project="$(ProgramFiles)\LINQ Preview\Misc\Linq.targets" />
   <PropertyGroup>
-    <PostBuildEvent>call "X:\c#\jsc\jsc\$(OutDir)jsc.exe" "$(TargetFileName)" -js
+    <PostBuildEvent>call "c:\util\jsc\bin\jsc.exe" "$(TargetFileName)" -js
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

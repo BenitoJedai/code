@@ -15,7 +15,7 @@ using global::System.Collections.Generic;
 
 namespace LinqToObjects.source.js.Controls
 {
-    using ScriptCoreLib.JavaScript.Query;
+    using ScriptCoreLib.Shared.Query;
 
     [Script]
     internal static class SequenceWrapper 
@@ -25,22 +25,22 @@ namespace LinqToObjects.source.js.Controls
 
         public static IEnumerable<S> Select<T, S>(this T[] source, Func<T, S> selector)
         {
-            return ScriptCoreLib.JavaScript.Query.Sequence.Select(source, selector);
+            return Sequence.Select(source, selector);
         }
 
         public static IEnumerable<S> Select<T, S>(this IEnumerable<T> source, Func<T, S> selector)
         {
-            return ScriptCoreLib.JavaScript.Query.Sequence.Select(source, selector);
+            return Sequence.Select(source, selector);
         }
 
         public static IEnumerable<T> Where<T>(this T[] source, Func<T, bool> predicate)
         {
-            return ScriptCoreLib.JavaScript.Query.Sequence.Where(source, predicate);
+            return Sequence.Where(source, predicate);
         }
 
         public static IEnumerable<T> Where<T>(this IEnumerable<T> source, Func<T, bool> predicate)
         {
-            return ScriptCoreLib.JavaScript.Query.Sequence.Where(source, predicate);
+            return Sequence.Where(source, predicate);
         }
     }
 
