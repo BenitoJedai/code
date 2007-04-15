@@ -6,6 +6,23 @@
 
 Namespace JavaScript
 
+
+    '<Script()> Public Class Class1
+
+    <Script> Module Stuff
+        Function CreateFieldset(ByVal name As String, ByVal ParamArray controls() As INode) As IHTMLElement
+            CreateFieldset = New IHTMLElement(IHTMLElement.HTMLElementEnum.fieldset)
+
+            Dim legend As New IHTMLElement(IHTMLElement.HTMLElementEnum.legend)
+            legend.innerText = name
+
+            CreateFieldset.appendChild(legend)
+            CreateFieldset.appendChild(controls)
+
+        End Function
+    End Module
+    
+
     <Script()> Public Class Class1
 
         Dim Text As New IHTMLSpan
@@ -40,23 +57,13 @@ Namespace JavaScript
             ColorSelector.Add("green")
             ColorSelector.Add("blue")
 
-            Dim frame As New IHTMLElement(IHTMLElement.HTMLElementEnum.fieldset)
-            Dim legend As New IHTMLElement(IHTMLElement.HTMLElementEnum.legend)
 
 
-            legend.innerText = "Change the color of the background"
-            frame.appendChild(legend, ColorSelector)
-
-
-
-
-            Control.appendChild(frame)
-
-
-
-
+            Control.appendChild(CreateFieldset("Change the color of the background", ColorSelector))
 
         End Sub
+
+
 
 
         Shared Sub New()
