@@ -33,11 +33,11 @@
   <ItemGroup>
     <Reference Include="ScriptCoreLib, Version=3.0.2633.16974, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+      <HintPath>..\..\..\jsc\bin\Debug\ScriptCoreLib.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+      <HintPath>..\..\..\jsc\bin\Debug\ScriptCoreLibA.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -68,6 +68,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Setup.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -98,7 +99,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
+    <!-- 
     <PostBuildEvent>call "c:\util\jsc\bin\jsc.exe" "$(TargetFileName)" -js</PostBuildEvent>
+    -->
+    <PostBuildEvent>call "X:\c#\jsc\jsc\bin\Debug\jsc.exe" "$(TargetFileName)" -js</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
