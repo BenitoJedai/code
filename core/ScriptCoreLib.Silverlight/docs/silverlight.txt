@@ -1,0 +1,1 @@
+Information about silverlight api can be found at http://msdn2.microsoft.com/en-us/library/bb188312.aspx
