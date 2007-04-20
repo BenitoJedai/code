@@ -12,7 +12,7 @@ using ScriptCoreLib;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("neutronic")]
 [assembly: AssemblyProduct("ScriptCoreLib.Query")]
-[assembly: AssemblyCopyright("Copyright ? neutronic 2006")]
+[assembly: AssemblyCopyright("Copyright ? neutronic 2007")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -42,47 +42,3 @@ using ScriptCoreLib;
 
 [assembly: ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript")]
 [assembly: ScriptTypeFilter(ScriptType.JavaScript, "*.Shared")]
-
-namespace ScriptCoreLib.Query.source.shared
-{
-    using ScriptCoreLib.Shared;
-
-    [Script]
-    public class AssemblyInfo : IAssemblyInfo
-    {
-        public static AssemblyInfo Current = new AssemblyInfo();
-
-        #region BuildDateTimeString
-        /// <summary>
-        /// date when library was compiled
-        /// </summary>
-        public string BuildDateTimeString
-        {
-            [Script(
-                UseCompilerConstants = true,
-                OptimizedCode = @"return '{BuildDate} UTC';"
-                )]
-            get
-            {
-                return default(string);
-            }
-        }
-        #endregion
-
-        #region ModuleName
-        public string ModuleName
-        {
-            [Script(
-                UseCompilerConstants = true,
-                OptimizedCode = @"return '{Module.Name}';"
-                )]
-            get
-            {
-                return default(string);
-            }
-        }
-        #endregion
-
-    }
-
-}

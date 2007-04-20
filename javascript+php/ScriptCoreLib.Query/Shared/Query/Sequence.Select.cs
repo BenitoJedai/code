@@ -16,14 +16,14 @@ namespace ScriptCoreLib.Shared.Query
 
         #region Select
 
-        public static IEnumerable<S> Select<T, S>(this T[] source, Func<T, S> selector)
-        {
-            return Select( (SZArrayEnumerator<T>) source, selector);
-        }
+        //public static IEnumerable<S> Select<T, S>(this T[] source, Func<T, S> selector)
+        //{
+        //    return Select( (SZArrayEnumerator<T>) source, selector);
+        //}
 
         public static IEnumerable<S> Select<T, S>(this IEnumerable<T> source, Func<T, S> selector)
         {
-            return SelectIterator<T, S>(source, selector);
+            return SelectIterator<T, S>(source.AsEnumerable(), selector);
         }
 
         #region yield return e.Select(f);

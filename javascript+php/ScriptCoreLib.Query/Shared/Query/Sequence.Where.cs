@@ -16,14 +16,14 @@ namespace ScriptCoreLib.Shared.Query
 
         #region Where
 
-        public static IEnumerable<T> Where<T>(this T[] source, Func<T, bool> predicate)
-        {
-            return Where( (SZArrayEnumerator<T>)source, predicate);
-        }
+        //public static IEnumerable<T> Where<T>(this T[] source, Func<T, bool> predicate)
+        //{
+        //    return Where( (SZArrayEnumerator<T>)source, predicate);
+        //}
 
         public static IEnumerable<T> Where<T>(this IEnumerable<T> source, Func<T, bool> predicate)
         {
-            return WhereIterator<T>(source, predicate);
+            return WhereIterator<T>(source.AsEnumerable(), predicate);
         }
 
         [Script]

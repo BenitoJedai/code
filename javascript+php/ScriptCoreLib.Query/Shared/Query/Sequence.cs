@@ -4,6 +4,7 @@ using ScriptCoreLib.Shared;
 using global::System.Collections;
 using global::System.Collections.Generic;
 
+
 using IDisposable = global::System.IDisposable;
 using ScriptException = global::ScriptCoreLib.JavaScript.System.ScriptException;
 
@@ -11,108 +12,6 @@ namespace ScriptCoreLib.Shared.Query
 {
 
 
-    [Script]
-    public class SZArrayEnumerator<T> :
-        IEnumerable<T>, IEnumerator<T>,
-        IEnumerable, IEnumerator, IDisposable
-    {
-        T[] _array;
-        int _index;
-        int _endIndex;
-
-        public SZArrayEnumerator(T[] array)
-        {
-            this._array = array;
-            this._index = -1;
-            this._endIndex = array.Length;
-        }
-
-        #region IEnumerable<T> Members
-
-        IEnumerator<T> IEnumerable<T>.GetEnumerator()
-        {
-            if (_index == -1)
-            {
-                return this;
-            }
-            else
-            {
-                return new SZArrayEnumerator<T>(this._array);
-            }
-        }
-
-        #endregion
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            if (_index == -1)
-            {
-                return this;
-            }
-            else
-            {
-                return new SZArrayEnumerator<T>(this._array);
-            }
-        }
-
-        #region IEnumerator<T> Members
-
-        public T Current
-        {
-            get
-            {
-
-                if (this._index < 0)
-                    throw new ScriptException("InvalidOperation_EnumNotStarted");
-                if (this._index >= this._endIndex)
-                    throw new ScriptException("InvalidOperation_EnumEnded");
-
-                return this._array[this._index];
-            }
-        }
-
-        #endregion
-
-        #region IDisposable Members
-
-        public void Dispose()
-        {
-            this._index = -1;
-        }
-
-        #endregion
-
-        #region IEnumerator Members
-
-        object IEnumerator.Current
-        {
-            get { return this.Current; }
-        }
-
-        public bool MoveNext()
-        {
-            if (this._index < this._endIndex)
-            {
-                this._index++;
-                return (this._index < this._endIndex);
-            }
-
-            return false;
-        }
-
-        public void Reset()
-        {
-            throw new ScriptException("The method or operation is not implemented.");
-        }
-
-        #endregion
-
-
-        public static implicit operator SZArrayEnumerator<T>(T[] e)
-        {
-            return new SZArrayEnumerator<T>(e);
-        }
-    }
 
 
     [Script]
@@ -128,7 +27,7 @@ namespace ScriptCoreLib.Shared.Query
             }
             int num2 = 0;
             bool flag2 = false;
-            foreach (int num3 in source)
+            foreach (int num3 in source.AsEnumerable())
             {
                 if (flag2)
                 {
@@ -163,7 +62,7 @@ namespace ScriptCoreLib.Shared.Query
             }
             int num2 = 0;
             bool flag2 = false;
-            foreach (int num3 in source)
+            foreach (int num3 in source.AsEnumerable())
             {
                 if (flag2)
                 {
@@ -188,7 +87,7 @@ namespace ScriptCoreLib.Shared.Query
         {
             int c = 0;
 
-            foreach (var v in e) c++;
+            foreach (var v in e.AsEnumerable()) c++;
 
             return c;
         }
@@ -199,7 +98,7 @@ namespace ScriptCoreLib.Shared.Query
 
             T r = default(T);
 
-            foreach (var v in e)
+            foreach (var v in e.AsEnumerable())
             {
                 i++;
 
@@ -213,8 +112,19 @@ namespace ScriptCoreLib.Shared.Query
             return r;
         }
 
+        /// <summary>
+        /// target language shall override this
+        /// </summary>
+        static internal Func<IEnumerable, IEnumerable> InternalAsEnumerableImplementation;
+
         public static IEnumerable<TSource> AsEnumerable<TSource>(this IEnumerable<TSource> source)
         {
+            // the runtime should create a SZArray for arrays but it does not for the moment
+
+            if (InternalAsEnumerableImplementation != null)
+                return (IEnumerable<TSource>)InternalAsEnumerableImplementation(source);
+
+
             return source;
         }
 
@@ -232,7 +142,7 @@ namespace ScriptCoreLib.Shared.Query
 
             TSource current;
 
-            using (IEnumerator<TSource> enumerator = source.GetEnumerator())
+            using (IEnumerator<TSource> enumerator = source.AsEnumerable().GetEnumerator())
             {
                 if (enumerator.MoveNext())
                 {
@@ -263,7 +173,7 @@ namespace ScriptCoreLib.Shared.Query
             TSource current;
 
 
-            using (IEnumerator<TSource> enumerator = source.GetEnumerator())
+            using (IEnumerator<TSource> enumerator = source.AsEnumerable().GetEnumerator())
             {
                 if (enumerator.MoveNext())
                 {
@@ -288,7 +198,7 @@ namespace ScriptCoreLib.Shared.Query
 
             TSource current;
 
-            using (IEnumerator<TSource> enumerator = source.GetEnumerator())
+            using (IEnumerator<TSource> enumerator = source.AsEnumerable().GetEnumerator())
             {
                 if (!enumerator.MoveNext())
                 {
@@ -314,7 +224,10 @@ namespace ScriptCoreLib.Shared.Query
 
 
 
-
-
     }
+
+
+
+
+
 }
