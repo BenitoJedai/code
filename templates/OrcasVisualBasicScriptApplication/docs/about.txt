@@ -1,0 +1,2 @@
+﻿1. It looks like vb compiler does not emit the CompilerGenerated attribute for clousures - thus anonynous delegates cannot be used
+2. visual basic translates for loop to do {} while (...); which is also not supported
