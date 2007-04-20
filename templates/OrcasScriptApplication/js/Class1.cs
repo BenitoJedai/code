@@ -37,49 +37,44 @@ namespace OrcasScriptApplication.js
             // on pressing the button the next message in text element is displayed
 
 
-            var btn = new IHTMLButton("Toggle message");
-
-            var index = 0;
-            var messages = new[] {
-                               "1. Hello world!",
-                               "2. This control is powered by jsc",
-                               "3. Visit the project at <a href='http://jsc.sf.net'>jsc.sf.net</a>",
-                               "4. This is the last message"
-                      };
-
-            var text = new IHTMLDiv(Alias + " created");
 
 
             IHTMLDiv Control = new IHTMLDiv();
 
-            Control.appendChild(text, btn);
 
             DataElement.insertNextSibling(
                 Control
 
             );
 
-            text.onmouseover += e => { text.style.color = Color.Red; };
-            text.onmouseout += e => text.style.color = Color.None;
-
-            btn.onclick +=
-                delegate
-                {
-                    text.innerHTML = messages[index % messages.Length];
-
-                    index++;
-                };
-
-
+     
             #region linq example
 
+            // http://www.imdb.com/title/tt0133093/
 
-            var users = new IHTMLTextArea("neo, morpheous, trinity, Agent Smith");
+            var users1 = new IHTMLTextArea("neo, morpheous, trinity, Agent Smith");
+            var users2 = new IHTMLTextArea("Rhineheart, Agent Jones, Agent Brown, Dozer, Switch, Mouse");
+            var users3 = new IHTMLTextArea("Apoc, Tank, Cypher, Oracle");
 
-            users.rows = 10;
+            users1.rows = 10;
+            users2.rows = 10;
+            users3.rows = 10;
 
             var filter = new IHTMLInput(HTMLInputTypeEnum.text, "smith");
-            var result = new IHTMLDiv();
+            var result = new IHTMLElement(IHTMLElement.HTMLElementEnum.ol);
+
+
+
+
+            Func<IHTMLTextArea, string[]> ToNames = i => 
+            {
+                var u = new [] { ',' };
+
+                // jsc cannot handle the params attribute that well :)
+
+                return i.value.Split(u);
+            };
+
 
             EventHandler Update =
                 delegate
@@ -89,41 +84,55 @@ namespace OrcasScriptApplication.js
                     result.removeChildren();
 
 
-                    var items = users.value.Split(',');
 
+                    var items = ToNames(users1)
+                        .Concat(ToNames(users2))
+                        .Concat(ToNames(users3));
 
+                    
                     foreach (var v in
-                        //Sequence.Select(
-                        //    Sequence.Where(
-                        //        Sequence.Select(
-                        //            users.value.Split(',')
-                        //            , i => i.Trim()
-                        //        ), i => i.ToLower().IndexOf(user_filter) > -1
-                        //    ), i => "match: " + i
-                        //)
-
                            from i in items.Select(i => i.Trim())
                            where i.ToLower().IndexOf(user_filter) > -1
-                           select "match: " + i
+                           select i
                     )
                     {
-                        result.appendChild(new IHTMLDiv(v));
+                        var item = new IHTMLElement(IHTMLElement.HTMLElementEnum.li, 
+                                       new IHTMLAnchor(
+                                           "http://www.imdb.com/Find?select=Characters&for=" + Native.Window.escape(v), 
+                                           "imdb: " + v));
+
+                        result.appendChild(item);
                     }
                 };
 
-            users.onchange += delegate { Update(); };
-            users.onkeyup += delegate { Update(); };
+            users1.onchange += delegate { Update(); };
+            users1.onkeyup += delegate { Update(); };
 
+            users2.onchange += delegate { Update(); };
+            users2.onkeyup += delegate { Update(); };
+
+            users3.onchange += delegate { Update(); };
+            users3.onkeyup += delegate { Update(); };
+            
             filter.onchange += delegate { Update(); };
             filter.onkeyup += delegate { Update(); };
 
             Func<IHTMLBreak> br = () => new IHTMLBreak();
+            Func<string, IHTMLElement> h1 = (i) => new IHTMLElement(IHTMLElement.HTMLElementEnum.h1, i);
+            Func<string, IHTMLElement> paragraph = (i) => new IHTMLElement(IHTMLElement.HTMLElementEnum.p, i);
 
             Control.appendChild(
+                h1("linq to objects"),
+                paragraph(
+                    @"This example demostrates the use of 'linq to objects' within jsc:javascript.
+The actual source code is in c#. It is compiled to an assembly. Then it is recompiled into javascript.
+This example makes heavy use of delegates, dom, and query operators.
+                "),
+                 new IHTMLAnchor("http://jsc.svn.sourceforge.net/viewvc/jsc/templates/OrcasScriptApplication/js/Class1.cs?view=markup", "view source"),
                  br(),
-                new IHTMLLabel("Enter a list of names separated by commas", users),
+                new IHTMLLabel("Enter a list of names separated by commas"),
                 br(),
-                users,
+                users1, users2, users3,
                 br(),
                 new IHTMLLabel("Enter a partial name to be found from the list above.", filter),
                 br(),
@@ -141,12 +150,6 @@ namespace OrcasScriptApplication.js
 
             //SelectManyExample();
 
-            var x = Expando.Of(Native.Document.childNodes);
-
-            Console.WriteLine("childNodes is Array : " + x.IsArray);
-            Console.WriteLine("TypeString : " + x.TypeString);
-            Console.WriteLine("constructor : " + x.constructor);
-            Console.WriteLine("prototype : " + x.prototype);
 
             var DOMdump = Lambadas.Y<int, INode>(
                     f =>
@@ -176,12 +179,13 @@ namespace OrcasScriptApplication.js
             DOMdump(Native.Document);
 
             var doc = new IXMLDocument("mytag");
-
+            
             doc.documentElement.appendChild("hello world");
             doc.documentElement.appendChild(new IXMLElement(doc, "yoda", "whut"));
             doc.documentElement.appendChild(new IXMLElement(doc, "yoda", "whut"));
             doc.documentElement.appendChild(new IXMLElement(doc, "yoda", "whut"));
 
+            
             
             Console.WriteLine("dynamic xml: ");
 
