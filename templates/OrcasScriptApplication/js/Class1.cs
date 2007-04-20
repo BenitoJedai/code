@@ -1,60 +1,24 @@
-﻿using ScriptCoreLib;
+﻿//using System.Linq;
+
+using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 
 using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.Shared.Query;
+
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.DOM.XML;
 
-using global::System.Collections.Generic;
+//using global::System.Collections.Generic;
+
+
 
 namespace OrcasScriptApplication.js
 {
-    [Script]
-    internal static class SequenceWrapper
-    {
-        // LINQ may 2006 CTP seems to have some issues if the extension class
-        // is inside another assembly which is not the System.Query.dll
-        //
-        // it seems to be the same for March CTP 2007, i wonder why
-        //
-        // current version of jsc cannot provide IEnumerable<T> implementation
-        // for an array like T[], use method overloading as a workaround
 
-        public static IEnumerable<S> Select<T, S>(this T[] source, Func<T, S> selector)
-        {
-            return ScriptCoreLib.Shared.Query.Sequence.Select(source, selector);
-        }
-
-        public static IEnumerable<S> Select<T, S>(this IEnumerable<T> source, Func<T, S> selector)
-        {
-            return ScriptCoreLib.Shared.Query.Sequence.Select(source, selector);
-        }
-
-        public static IEnumerable<T> Where<T>(this T[] source, Func<T, bool> predicate)
-        {
-            return ScriptCoreLib.Shared.Query.Sequence.Where(source, predicate);
-        }
-
-        public static IEnumerable<T> Where<T>(this IEnumerable<T> source, Func<T, bool> predicate)
-        {
-            return ScriptCoreLib.Shared.Query.Sequence.Where(source, predicate);
-        }
-
-        /* is missing from current query dll
-         * 
-        public static int Count<T>(this T[] source)
-        {
-            return ScriptCoreLib.Shared.Query.Sequence.Count(source);
-        }*/
-
-        public static int Count<T>(this IEnumerable<T> source)
-        {
-            return ScriptCoreLib.Shared.Query.Sequence.Count(source);
-        }
-
-    }
 
     [Script]
     public class Class1
@@ -92,10 +56,10 @@ namespace OrcasScriptApplication.js
 
             DataElement.insertNextSibling(
                 Control
-         
+
             );
 
-            text.onmouseover += e => text.style.color = Color.Red;
+            text.onmouseover += e => { text.style.color = Color.Red; };
             text.onmouseout += e => text.style.color = Color.None;
 
             btn.onclick +=
@@ -108,7 +72,7 @@ namespace OrcasScriptApplication.js
 
 
             #region linq example
-            
+
 
             var users = new IHTMLTextArea("neo, morpheous, trinity, Agent Smith");
 
@@ -124,6 +88,10 @@ namespace OrcasScriptApplication.js
 
                     result.removeChildren();
 
+
+                    var items = users.value.Split(',');
+
+
                     foreach (var v in
                         //Sequence.Select(
                         //    Sequence.Where(
@@ -134,7 +102,7 @@ namespace OrcasScriptApplication.js
                         //    ), i => "match: " + i
                         //)
 
-                           from i in users.value.Split(',').Select(i => i.Trim())
+                           from i in items.Select(i => i.Trim())
                            where i.ToLower().IndexOf(user_filter) > -1
                            select "match: " + i
                     )
@@ -170,14 +138,77 @@ namespace OrcasScriptApplication.js
 
             #endregion
 
+
+            //SelectManyExample();
+
+            var x = Expando.Of(Native.Document.childNodes);
+
+            Console.WriteLine("childNodes is Array : " + x.IsArray);
+            Console.WriteLine("TypeString : " + x.TypeString);
+            Console.WriteLine("constructor : " + x.constructor);
+            Console.WriteLine("prototype : " + x.prototype);
+
+            var DOMdump = Lambadas.Y<int, INode>(
+                    f =>
+                        (int indent, INode target) =>
+                        {
+                               for (int i = 0; i < indent; i++)
+                                {
+                                    Console.Write("\t");
+                                }
+
+                            Console.WriteLine(target.nodeName);
+
+
+                            foreach (INode n in target.childNodes.Where(i => i.nodeType == INode.NodeTypeEnum.ElementNode))
+                            {
+ 
+
+
+                                f(indent + 1, n);
+                            }
+
+                        }
+                ).FixFirstParam(0);
+
+            
+
+            DOMdump(Native.Document);
+
+            var doc = new IXMLDocument("mytag");
+
+            doc.documentElement.appendChild("hello world");
+            doc.documentElement.appendChild(new IXMLElement(doc, "yoda", "whut"));
+            doc.documentElement.appendChild(new IXMLElement(doc, "yoda", "whut"));
+            doc.documentElement.appendChild(new IXMLElement(doc, "yoda", "whut"));
+
+            
+            Console.WriteLine("dynamic xml: ");
+
+            DOMdump(doc);
+
+            Console.WriteLine(doc.ToXMLString());
+
+            // not array
+            // is object
+            // no prototype
         }
+
+
+
 
         static Class1()
         {
+            Console.EnableActiveXConsole();
+
             // spawn this class when document is loaded 
             Native.Spawn(
                 new Pair<string, EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
                 );
+
         }
+
+
     }
+
 }
