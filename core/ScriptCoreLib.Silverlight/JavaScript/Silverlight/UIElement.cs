@@ -34,6 +34,24 @@ namespace ScriptCoreLib.JavaScript.Silverlight
         {
             return default(DependencyObject);
         }
+
+
+        // http://msdn2.microsoft.com/en-us/library/bb190687.aspx
+        public double CanvasLeft
+        {
+            [Script(DefineAsStatic = true)]
+            get { return this.GetValue<double>("Canvas.Left"); }
+            [Script(DefineAsStatic = true)]
+            set { this.SetValue("Canvas.Left", value); }
+        }
+
+        public double CanvasTop
+        {
+            [Script(DefineAsStatic = true)]
+            get { return this.GetValue<double>("Canvas.Top"); }
+            [Script(DefineAsStatic = true)]
+            set { this.SetValue("Canvas.Top", value); }
+        }
     }
 
 

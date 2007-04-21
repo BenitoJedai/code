@@ -48,7 +48,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JavaScript\Silverlight\DependencyObject.cs" />
+    <Compile Include="JavaScript\Silverlight\Controls\Canvas.cs" />
     <Compile Include="JavaScript\Silverlight\Input\MouseEventArgs.cs" />
+    <Compile Include="JavaScript\Silverlight\Media\ScaleTransform.cs" />
+    <Compile Include="JavaScript\Silverlight\Media\RotateTransform.cs" />
     <Compile Include="JavaScript\Silverlight\Media\Translate.cs" />
     <Compile Include="JavaScript\Silverlight\Media\TranslateTransform.cs" />
     <Compile Include="JavaScript\Silverlight\Shapes\Rectangle.cs" />
