@@ -218,6 +218,27 @@ namespace ScriptCoreLib.Shared.Query
         }
 
 
+        public static void ForEach<T>(this IEnumerable<T> array, Action<T> action)
+        {
+            if (array == null)
+            {
+                throw Error.ArgumentNull("array");
+            }
+            if (action == null)
+            {
+                throw Error.ArgumentNull("action");
+            }
+
+            foreach (var v in array)
+            {
+                action(v);
+            }
+      
+        }
+
+ 
+
+ 
 
 
 
