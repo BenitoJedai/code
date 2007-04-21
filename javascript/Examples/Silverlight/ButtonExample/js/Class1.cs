@@ -9,6 +9,7 @@ using ScriptCoreLib.JavaScript.Silverlight;
 using ScriptCoreLib.JavaScript.Silverlight.Input;
 using ScriptCoreLib.JavaScript.Silverlight.Media;
 using ScriptCoreLib.JavaScript.Silverlight.Shapes;
+using ScriptCoreLib.JavaScript.Silverlight.Controls;
 
 using ScriptCoreLib.Shared.Query;
 
@@ -45,6 +46,8 @@ namespace ButtonExample.js
             UpdateVisuals(sender);
         }
 
+        static int ClickCount = 0;
+
         [Script(NoDecoration=true)]
         public static void button_MouseLeftButtonUp(UIElement sender, MouseEventArgs args)
         {
@@ -56,6 +59,12 @@ namespace ButtonExample.js
             Console.WriteLine(args.Position.ToString());
 
             UpdateVisuals(sender);
+
+            if (args.Ctrl)
+            {
+                ClickCount++;
+                sender.GetHost().FullScreen = ClickCount % 2 == 0;
+            }
         }
 
         [Script(NoDecoration = true)]
@@ -132,6 +141,35 @@ namespace ButtonExample.js
 
         static Class1()
         {
+            Native.Window.onload +=
+                delegate
+                {
+                    IHTMLButton.Create("spawn",
+                        delegate
+                        {
+                            var ag = (SilverlightControl)Native.Document.getElementById("wpfeControl1");
+
+                            var c2 = (Canvas)ag.FindName("button2");
+
+
+                            c2.CanvasLeft = 100;
+                            c2.CanvasTop = 200;
+                            c2.Opacity = 0.4;
+
+                            var s2 = (ScaleTransform)ag.FindName("button2_scale");
+
+                            s2.ScaleX = 0.5;
+                            s2.ScaleY = 0.5;
+
+                            var r2 = (RotateTransform)ag.FindName("button2_rotate");
+
+                            Timer.Interval((t) => r2.Angle++, 50);
+
+
+                        }
+                    ).attachToDocument();
+                };
+
             // spawn this class when document is loaded 
             Native.Spawn(
                 new Pair<string, EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
