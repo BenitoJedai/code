@@ -1,0 +1,28 @@
+	
+<Canvas Width="300" Height="300"
+	    xmlns="http://schemas.microsoft.com/client/2007"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<!-- Button -->
+	
+	<Canvas
+		x:Name="button"
+		Canvas.Top="10" Canvas.Left="20"
+		MouseLeftButtonDown="javascript:button_MouseLeftButtonDown"
+		MouseLeftButtonUp="javascript:button_MouseLeftButtonUp"
+		MouseEnter="javascript:button_MouseEnter"
+		MouseLeave="javascript:button_MouseLeave">
+		<Canvas.RenderTransform>
+			<TransformGroup>
+				<TranslateTransform x:Name="button_transform" X="0" Y="0"/>
+			</TransformGroup>
+		</Canvas.RenderTransform>
+		<Rectangle Stroke="#FF000000" Fill="sc#1, 0.8123474, 0.8123474, 0.8123474"
+			Width="128.8" Height="56" x:Name="button_rectangle"/>
+		<Rectangle Stroke="sc#1, 0.912730157, 0.37122494, 0.17111966" StrokeThickness="5"
+			Width="126.8" Height="54" Canvas.Left="1" Canvas.Top="1"
+			Opacity="0"
+			x:Name="button_highlight"/>
+		<TextBlock Text="Press me!" FontSize="20" Canvas.Left="22" Canvas.Top="12"/>
+	</Canvas>
+</Canvas>

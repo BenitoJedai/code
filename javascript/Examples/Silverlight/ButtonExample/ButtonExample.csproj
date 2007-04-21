@@ -52,11 +52,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="js\Class1.cs" />
+    <Compile Include="js\Support.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="web\Default.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="docs\about.txt" />
+    <Content Include="web\aghost.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="web\plugin.xaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <!-- 
   

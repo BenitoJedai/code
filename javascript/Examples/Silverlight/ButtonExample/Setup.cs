@@ -12,7 +12,7 @@ namespace ButtonExample
         public static void DefineEntryPoint(IEntryPoint e)
         {
             DefineSpawnPoint(e, js.Class1.Alias, js.Class1.DefaultData);
-            DefineSpawnPoint(e, js.Class1.Main);
+            //DefineSpawnPoint(e, js.Class1.Main);
         }
 
         static void DefineSpawnPoint(IEntryPoint e, Action h)

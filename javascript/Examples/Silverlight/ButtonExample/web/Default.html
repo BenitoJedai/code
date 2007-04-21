@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+	<head>
+		<title>Untitled Page</title>
+		<script type="text/javascript" src="aghost.js"></script>
+
+		<script type='text/javascript' src='ScriptCoreLib.dll.js'></script>
+		<script type='text/javascript' src='ScriptCoreLib.Query.dll.js'></script>
+		<script type='text/javascript' src='ScriptCoreLib.Silverlight.dll.js'></script>
+		<script type='text/javascript' src='ButtonExample.dll.js'></script>
+
+		<script></script>
+	</head>
+	<body>
+		test
+
+		<div id="wpfeControl1Host" >
+			<script type="text/javascript">
+				agHost("wpfeControl1Host", // hostElementID (HTML element to put WPF/E control into)
+				"wpfeControl1",     // ID of the WPF/E ActiveX control we create
+				"400",              // Width
+				"400",              // Height
+				"white",            // Background color
+				null,               // SourceElement (name of script tag containing xaml)
+				"plugin.xaml",      // Source file
+				"false",            // IsWindowless
+				"30",               // MaxFrameRate
+				null,               // OnError handler (method name -- no quotes)
+				0,                  // Minimum major version required
+				8,                  // Minimum minor version required
+				5                   // Minimum build required
+				)
+			</script>
+		</div>
+	
+		<input type='hidden' value='Q2xhc3MxRGF0YQ==' class='Class1' />
+		
+	</body>
+</html>
