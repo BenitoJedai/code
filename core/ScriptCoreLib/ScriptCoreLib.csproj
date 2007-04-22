@@ -1,0 +1,206 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ScriptCoreLib</RootNamespace>
+    <AssemblyName>ScriptCoreLib</AssemblyName>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <DocumentationFile>bin\Debug\ScriptCoreLib.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'HTShop|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\HTShop\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\jsc\bin\Debug\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="JavaScript\DOM\Extensions\IMath.cs" />
+    <Compile Include="JavaScript\DOM\Extensions\IStyle.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLOption.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLSelect.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLAnchor.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLBold.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLButton.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLSpan.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLTableColumn.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLElementTemplate.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLLabel.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLLink.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLTable.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLTableRow.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLTextArea.cs" />
+    <Compile Include="JavaScript\DOM\IActiveX.cs" />
+    <Compile Include="JavaScript\DOM\IDocument.cs" />
+    <Compile Include="JavaScript\DOM\IElement.cs" />
+    <Compile Include="JavaScript\DOM\IRegExp.cs" />
+    <Compile Include="JavaScript\DOM\XML\IXMLSerializer.cs" />
+    <Compile Include="JavaScript\Runtime\AsyncArgs.cs" />
+    <Compile Include="JavaScript\Runtime\Cookie.cs" />
+    <Compile Include="JavaScript\Runtime\Expando.cs" />
+    <Compile Include="JavaScript\DOM\IFunction.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLImage.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLInput.cs" />
+    <Compile Include="JavaScript\DOM\ILocation.cs" />
+    <Compile Include="JavaScript\DOM\IMath.cs" />
+    <Compile Include="JavaScript\DOM\IArray.cs" />
+    <Compile Include="JavaScript\DOM\IDate.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLDocument.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLElement.cs" />
+    <Compile Include="JavaScript\DOM\IEvent.cs" />
+    <Compile Include="JavaScript\DOM\INode.cs" />
+    <Compile Include="JavaScript\DOM\IScreen.cs" />
+    <Compile Include="JavaScript\DOM\ISink.cs" />
+    <Compile Include="JavaScript\DOM\IStyle.cs" />
+    <Compile Include="JavaScript\DOM\ITextNode.cs" />
+    <Compile Include="JavaScript\DOM\IWindow.cs" />
+    <Compile Include="JavaScript\DOM\XML\IXMLDocument.cs" />
+    <Compile Include="JavaScript\DOM\XML\IXMLElement.cs" />
+    <Compile Include="JavaScript\DOM\XML\IXMLHttpRequest.cs" />
+    <Compile Include="JavaScript\Native.cs" />
+    <Compile Include="JavaScript\Runtime\StringWriter.cs" />
+    <Compile Include="PHP\Native.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="JavaScript\Runtime\Color.cs" />
+    <Compile Include="JavaScript\Runtime\Convert.cs" />
+    <Compile Include="JavaScript\Runtime\Fader.cs" />
+    <Compile Include="JavaScript\Runtime\Indexer.cs" />
+    <Compile Include="JavaScript\Runtime\List.cs" />
+    <Compile Include="JavaScript\System\Double.cs" />
+    <Compile Include="Shared\Drawing\Rectangle.cs" />
+    <Compile Include="JavaScript\Runtime\Console.cs" />
+    <Compile Include="JavaScript\Runtime\Timer.cs" />
+    <Compile Include="JavaScript\Runtime\UrlMonitor.cs" />
+    <Compile Include="JavaScript\System\Delegate.cs" />
+    <Compile Include="JavaScript\System\Exception.cs" />
+    <Compile Include="JavaScript\System\Int32.cs" />
+    <Compile Include="JavaScript\System\IntPtr.cs" />
+    <Compile Include="JavaScript\System\MulticastDelegate.cs" />
+    <Compile Include="JavaScript\System\Object.cs" />
+    <Compile Include="JavaScript\System\StringImpl.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="JavaScript\Controls\DragHelper.cs" />
+    <Compile Include="JavaScript\Controls\Effects\OpacityTween.cs" />
+    <Compile Include="JavaScript\Controls\InlineButton.cs" />
+    <Compile Include="JavaScript\Controls\SpawnControlBase.cs" />
+    <Compile Include="JavaScript\CSharp\CodeWriter.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLScript.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLEmbed.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLParam.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLApplet.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLDiv.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLObject.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLForm.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLCode.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLIFrame.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLBreak.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLTableBody.cs" />
+    <Compile Include="JavaScript\Net\ClientTransport.cs" />
+    <Compile Include="JavaScript\Runtime\TimeFilter.cs" />
+    <Compile Include="JavaScript\Runtime\TweenData.cs" />
+    <Compile Include="JavaScript\Runtime\WorkPool.cs" />
+    <Compile Include="JavaScript\Serialized\ObjectStreamHelper.cs" />
+    <Compile Include="JavaScript\System\Implementation.cs" />
+    <Compile Include="PHP\Drawing\Image.API.cs" />
+    <Compile Include="PHP\Drawing\Image.cs" />
+    <Compile Include="PHP\IO\DirectoryInfo.cs" />
+    <Compile Include="PHP\IO\FileInfo.cs" />
+    <Compile Include="PHP\IO\FileUploadInfo.cs" />
+    <Compile Include="PHP\IO\FileSystemInfo.cs" />
+    <Compile Include="PHP\Net\ServerTransport.Switch.cs" />
+    <Compile Include="PHP\Net\LDAPClient.cs" />
+    <Compile Include="PHP\Runtime\CacheHelper.cs" />
+    <Compile Include="PHP\Runtime\Convert.cs" />
+    <Compile Include="PHP\Runtime\CustomSwitch.cs" />
+    <Compile Include="PHP\Runtime\FTPClient.cs" />
+    <Compile Include="PHP\Runtime\HTMLTemplate.cs" />
+    <Compile Include="PHP\Runtime\PHPMailer.cs" />
+    <Compile Include="PHP\Runtime\Properties.cs" />
+    <Compile Include="PHP\Serialized\ObjectStreamHelper.cs" />
+    <Compile Include="Shared\Helper.cs" />
+    <Compile Include="Shared\IAssemblyInfo.cs" />
+    <Compile Include="Shared\Serialized\SimpleEmailTag.cs" />
+    <Compile Include="Shared\TextWriter.cs" />
+    <Compile Include="PHP\System\ByteImpl.cs" />
+    <Compile Include="PHP\Net\NetworkInfo.cs" />
+    <Compile Include="PHP\Runtime\ApplicationSwitch.cs" />
+    <Compile Include="JavaScript\System\BooleanImpl.cs" />
+    <Compile Include="PHP\Runtime\JSON.cs" />
+    <Compile Include="PHP\Net\ServerTransport.cs" />
+    <Compile Include="PHP\System\ActivatorImpl.cs" />
+    <Compile Include="PHP\System\Double.cs" />
+    <Compile Include="PHP\System\Int32Impl.cs" />
+    <Compile Include="PHP\Native.API.cs" />
+    <Compile Include="PHP\Native.Globals.cs" />
+    <Compile Include="PHP\Runtime\Expando.cs" />
+    <Compile Include="PHP\Runtime\IArray.cs" />
+    <Compile Include="PHP\Data\MySQL.cs" />
+    <Compile Include="PHP\System\Delegate.cs" />
+    <Compile Include="PHP\System\IntPtr.cs" />
+    <Compile Include="PHP\System\MulticastDelegate.cs" />
+    <Compile Include="PHP\System\Object.cs" />
+    <Compile Include="PHP\System\StringImpl.cs" />
+    <Compile Include="PHP\System\Exception.cs" />
+    <Compile Include="Shared\Drawing\Color.cs" />
+    <Compile Include="Shared\Serialized\DualNotation.cs" />
+    <Compile Include="Shared\Shared.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="web\inc\class.phpmailer.php">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="web\inc\class.smtp.php">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="web\inc\class.JSON.php">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="web\inc\language\phpmailer.lang-en.php">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\external\ActiveXConsole.dll" />
+  </ItemGroup>
+  <Import Project="$(ProgramFiles)\LINQ Preview\Misc\Linq.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin\"</PostBuildEvent>
+  </PropertyGroup>
+</Project>
