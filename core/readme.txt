@@ -1,0 +1,1 @@
+This directory shall contain all core libraries needed to develop jsc projects.
