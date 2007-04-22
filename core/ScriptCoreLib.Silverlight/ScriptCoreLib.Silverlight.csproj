@@ -43,10 +43,19 @@
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JavaScript\Silverlight\Controls\Image.cs" />
+    <Compile Include="JavaScript\Silverlight\Controls\UIElementCollection.cs" />
+    <Compile Include="JavaScript\Silverlight\Controls\MediaElement.cs" />
+    <Compile Include="JavaScript\EventHandlerProxy.cs" />
+    <Compile Include="JavaScript\Silverlight\ISilverlightEventSink.cs" />
+    <Compile Include="JavaScript\Silverlight\Downloader.cs" />
     <Compile Include="JavaScript\Silverlight\DependencyObject.cs" />
     <Compile Include="JavaScript\Silverlight\Controls\Canvas.cs" />
     <Compile Include="JavaScript\Silverlight\Input\MouseEventArgs.cs" />

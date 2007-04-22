@@ -8,6 +8,5 @@ namespace ScriptCoreLib.JavaScript.Silverlight.Shapes
     [Script(HasNoPrototype=true)]
     public class Rectangle : Shape
     {
-        public double Opacity;
     }
 }

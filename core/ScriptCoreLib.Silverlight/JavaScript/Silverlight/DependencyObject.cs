@@ -8,6 +8,8 @@ namespace ScriptCoreLib.JavaScript.Silverlight
     [Script(HasNoPrototype = true)]
     public abstract class DependencyObject
     {
+        public string Name;
+
         public T GetValue<T>(string propertyName)
         {
             return default(T);

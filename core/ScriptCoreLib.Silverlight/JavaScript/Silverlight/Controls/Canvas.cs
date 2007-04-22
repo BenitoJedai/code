@@ -7,7 +7,7 @@ namespace ScriptCoreLib.JavaScript.Silverlight.Controls
 
     [Script(HasNoPrototype=true)]
     public class Canvas : UIElement
-    { 
-        
+    {
+        public UIElementCollection Children;
     }
 }
