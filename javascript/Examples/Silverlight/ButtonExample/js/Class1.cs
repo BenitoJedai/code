@@ -24,6 +24,7 @@ namespace ButtonExample.js
 {
     using Color = ScriptCoreLib.Shared.Drawing.Color;
 
+    
     [Script]
     public class Class1
     {
@@ -46,9 +47,9 @@ namespace ButtonExample.js
             UpdateVisuals(sender);
         }
 
-        static int ClickCount = 0;
+        static int ClickCount = 1;
 
-        [Script(NoDecoration=true)]
+        [Script(NoDecoration = true)]
         public static void button_MouseLeftButtonUp(UIElement sender, MouseEventArgs args)
         {
             Console.WriteLine("button_MouseUp");
@@ -83,6 +84,12 @@ namespace ButtonExample.js
             MouseOver = false;
 
             UpdateVisuals(sender);
+        }
+
+        [Script(NoDecoration = true)]
+        public static void DynamicClick(UIElement sender, MouseEventArgs args)
+        {
+            Console.WriteLine("DynamicClick");
         }
 
         static void UpdateVisuals(UIElement sender)
@@ -134,21 +141,41 @@ namespace ButtonExample.js
         /// <param name="DataElement">The hidden data element</param>
         public Class1(IHTMLElement DataElement)
         {
-       
+
             // do nothing
 
         }
 
+        
         static Class1()
         {
             Native.Window.onload +=
                 delegate
                 {
-                    IHTMLButton.Create("spawn",
+                    var ag = (SilverlightControl)Native.Document.getElementById("wpfeControl1");
+
+                    Action<SilverlightControl> ag_FullScreenChanged =
                         delegate
                         {
-                            var ag = (SilverlightControl)Native.Document.getElementById("wpfeControl1");
+                            Console.WriteLine("FullScreenChanged A");
+                        };
 
+                    ag.FullScreenChanged +=
+                        ag_FullScreenChanged;
+
+                    ag.FullScreenChanged +=
+                        delegate
+                        {
+                            Console.WriteLine("FullScreenChanged B");
+                        };
+
+                    ag.FullScreenChanged -=
+                        ag_FullScreenChanged;
+
+                    ag.InvokeOnComplete(
+                        delegate
+                        {
+                            var c1 = (Canvas)ag.FindName("button");
                             var c2 = (Canvas)ag.FindName("button2");
 
 
@@ -165,9 +192,71 @@ namespace ButtonExample.js
 
                             Timer.Interval((t) => r2.Angle++, 50);
 
+                            var cm = (Canvas)ag.FindName("canvas_main");
+
+
+
+                            //cm.Children.Add( ag.CreateFromXAML("<Image Source='star.png' />") );
+
+
+                            var music = new MediaElement(ag);
+
+                            music.BufferingProgressChanged +=
+                                delegate
+                                {
+                                    Console.WriteLine("BufferingProgressChanged: " + music.BufferingProgress * 100 + "%");
+                                };
+
+                            music.CurrentStateChanged +=
+                                delegate
+                                {
+                                    Console.WriteLine("CurrentStateChanged: " + music.CurrentState);
+                                };
+
+                            
+                            music.Source = "music.mp3";
+
+                            cm.Children.Add(music);
+
+
+                            //c2.AddEventListener("MouseLeftButtonUp", "javascript:xxx$ccc");
+
+                            int y = 1;
+
+
+                            Action<UIElement, MouseEventArgs> c2_handler =
+                                delegate
+                                {
+                                    y++;
+
+                                    var img = new Image(ag)
+                                      {
+                                          Source = "star.png",
+                                          CanvasLeft = 32,
+                                          CanvasTop = 32 * y
+                                      };
+
+                                    cm.Children.Add(img);
+                                };
+
+                            c2.MouseLeftButtonUp += c2_handler;
+                            c2.MouseEnter += delegate { c2.Opacity = .2; };
+                            c2.MouseLeave += delegate { c2.Opacity = 1; };
+
+                            //Action<UIElement, MouseEventArgs> ptr = DynamicClick;
+
+                            //var f = IFunction.OfDelegate(ptr);
+
+                            //c2.AddEventListener("MouseLeftButtonUp", f);
+
+                            //c2.MouseLeftButtonUp +=
+                            //    delegate
+                            //    {
+                            //        Native.Window.alert("wadap");
+                            //    };
 
                         }
-                    ).attachToDocument();
+                    );
                 };
 
             // spawn this class when document is loaded 

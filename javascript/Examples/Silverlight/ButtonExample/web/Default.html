@@ -12,7 +12,7 @@
 
 		<script></script>
 	</head>
-	<body>
+	<body style='background: url(star.png) no-repeat; '>
 		test
 
 		<div id="wpfeControl1Host" >
@@ -21,20 +21,28 @@
 				"wpfeControl1",     // ID of the WPF/E ActiveX control we create
 				"400",              // Width
 				"400",              // Height
-				"white",            // Background color
+				"#04008080",            // Background color
 				null,               // SourceElement (name of script tag containing xaml)
 				"plugin.xaml",      // Source file
-				"false",            // IsWindowless
+				"true",            // IsWindowless
 				"30",               // MaxFrameRate
 				null,               // OnError handler (method name -- no quotes)
 				0,                  // Minimum major version required
 				8,                  // Minimum minor version required
 				5                   // Minimum build required
 				)
+				
+				var xxx$ccc = function () { alert('yo'); };
 			</script>
 		</div>
 	
 		<input type='hidden' value='Q2xhc3MxRGF0YQ==' class='Class1' />
+		
+		<script type="text/xaml" id="xamlContent">
+			<Canvas xmlns="http://schemas.microsoft.com/client/2007">
+			<TextBlock Canvas.Left="20" FontSize="24" Loaded="javascript:setDate" />
+			</Canvas>
+		</script>
 		
 	</body>
 </html>

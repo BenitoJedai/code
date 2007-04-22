@@ -7,6 +7,10 @@ using ScriptCoreLib.Shared;
 
 namespace ButtonExample
 {
+    static class ForcedReferences
+    {
+        static ScriptCoreLib.Shared.Query.SZArrayEnumerator<object> Query;
+    }
     static class Setup
     {
         public static void DefineEntryPoint(IEntryPoint e)
