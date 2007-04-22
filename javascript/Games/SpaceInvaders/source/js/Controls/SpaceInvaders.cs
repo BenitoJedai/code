@@ -1012,25 +1012,15 @@ namespace SpaceInvaders.source.js.Controls
 
             public EnemyDirectory(gfx.ImageResources gfx)
             {
-                this.A = new EnemyInfo {
-                    Image = gfx.aenemy,
-                    Points = 4
-                };
+                Func<gfx.ImageResources.Item, int, EnemyInfo> ctor =
+                    ( Image, Points) => new EnemyInfo { Image, Points };
 
-                this.B = new EnemyInfo {
-                    Image = gfx.benemy,
-                    Points = 2
-                };
-
-                this.C = new EnemyInfo {
-                    Image = gfx.cenemy,
-                    Points = 1
-                };
-
-                this.UFO = new EnemyInfo {
-                    Image = gfx.ufo,
-                    Points = 10
-                };
+                this.A = ctor(gfx.aenemy, 4);
+                this.B = ctor(gfx.benemy, 2);
+                this.C = ctor(gfx.cenemy, 1);
+                this.UFO = ctor(gfx.ufo, 10);
+                
+              
             }
 
         }
