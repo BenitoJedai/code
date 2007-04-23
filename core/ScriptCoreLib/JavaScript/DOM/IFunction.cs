@@ -12,10 +12,22 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         public Expando prototype;
 
-        public IFunction(params string[] e)
+        public IFunction(string body)
         {
 
         }
+
+        public IFunction(string a, string body)
+        {
+
+        }
+
+        public IFunction(string a, string b, string body)
+        {
+
+        }
+
+
 
         [Script(OptimizedCode=@"return new f();")]
         static Expando CreateType(IFunction f)
@@ -81,6 +93,12 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             return ((System.DelegateImpl)(object)h).InvokePointer;
         }
+
+        public static IFunction OfDelegate(global::System.Delegate h)
+        {
+            return ((System.DelegateImpl)(object)h).InvokePointer;
+        }
+
 
         [Script(DefineAsStatic = true)]
         public void Export(string name)
