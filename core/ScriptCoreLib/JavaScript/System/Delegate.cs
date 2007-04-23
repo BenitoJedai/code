@@ -75,11 +75,34 @@ namespace ScriptCoreLib.JavaScript.System
 
         public override bool Equals(object obj)
         {
-            DelegateImpl v = (DelegateImpl)obj;
+            return IsEqual(this,  (DelegateImpl)obj );
 
-            return v.Method == this.Method &&
-                    v.Target == this.Target;
         }
+
+
+        public static bool IsEqual(DelegateImpl a, DelegateImpl b)
+        {
+            if ((object)a == null)
+                return false;
+
+            if ((object)b == null)
+                return false;
+
+            return a.Method == b.Method &&
+                    a.Target == b.Target;
+        }
+
+        // a bug if the operator itself compares to nulls
+
+        //public static bool operator == (DelegateImpl a, DelegateImpl b)
+        //{
+        //    return IsEqual(a, b);
+        //}
+
+        //public static bool operator != (DelegateImpl a, DelegateImpl b)
+        //{
+        //    return !IsEqual(a, b);
+        //}
 
         public override int GetHashCode()
         {
