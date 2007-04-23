@@ -43,7 +43,9 @@ namespace ScriptCoreLib.JavaScript.Silverlight
             var _a = (DelegateImpl)(object)a;
             var _b = (DelegateImpl)(object)b;
 
-            return DelegateImpl.IsEqual(_a, _b);
+            // return DelegateImpl.IsEqual(_a, _b);
+
+            return _a == _b;
         }
 
         [Script(OptimizedCode="delete {arg0}[{arg1}];", UseCompilerConstants=true)]
@@ -53,16 +55,21 @@ namespace ScriptCoreLib.JavaScript.Silverlight
 
         static public Item Remove(global::System.Delegate Handler)
         {
-            var c = Cache.ToArray().FirstOrDefault(i => DelegateEquals(i.Handler, Handler));
+            var e = Cache.ToArray().Where(i => DelegateEquals(i.Handler, Handler)).GetEnumerator();
+            var x = default(Item);
 
-            if (c != null)
+
+            if (e.MoveNext())
             {
-                Cache.Remove(c);
+                x = e.Current;
 
-                NativeDelete(Native.Window, c.FunctionName);
+                Cache.Remove(x);
+
+                NativeDelete(Native.Window, x.FunctionName);
+
             }
 
-            return c;
+            return x;
         }
 
         static public string GetValueString(object Target, string Member)
@@ -102,7 +109,7 @@ namespace ScriptCoreLib.JavaScript.Silverlight
                     Handler = Handler
                 };
 
-            IFunction.OfDelegate(Handler).Export(n.FunctionName);
+            ((DelegateImpl)(object)(Handler)).InvokePointer.Export(n.FunctionName);
 
             Counter++;
 
