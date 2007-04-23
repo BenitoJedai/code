@@ -188,6 +188,53 @@ namespace ScriptCoreLib.Shared.Query
 
         }
 
+        public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source)
+        {
+            if (source == null)
+            {
+                throw Error.ArgumentNull("source");
+            }
+
+            var current = default(TSource);
+
+            using (IEnumerator<TSource> enumerator = source.AsEnumerable().GetEnumerator())
+            {
+                if (enumerator.MoveNext())
+                {
+                    current = enumerator.Current;
+                }
+            }
+
+            return current;
+        }
+
+        public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            if (source == null)
+            {
+                throw Error.ArgumentNull("source");
+            }
+            if (predicate == null)
+            {
+                throw Error.ArgumentNull("predicate");
+            }
+
+            var value = default(TSource);
+
+            foreach (TSource local in source.AsEnumerable())
+            {
+                if (predicate(local))
+                {
+                    value = local;
+
+                    break;
+                }
+            }
+
+            return value;
+        }
+
+ 
 
         public static TSource Single<TSource>(this IEnumerable<TSource> source)
         {
