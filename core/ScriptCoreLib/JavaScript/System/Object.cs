@@ -5,6 +5,22 @@ namespace ScriptCoreLib.JavaScript.System
     [Script(Implements = typeof(global::System.Object))]
     internal class Object
     {
+        public static bool Equals(object objA, object objB)
+        {
+            if (objA == objB)
+            {
+                return true;
+            }
+            if ((objA != null) && (objB != null))
+            {
+                return objA.Equals(objB);
+            }
+            return false;
+        }
+
+
+
+
 
 
         public new virtual bool Equals(object obj)

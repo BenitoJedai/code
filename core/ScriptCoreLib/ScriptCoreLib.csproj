@@ -136,6 +136,7 @@
     <Compile Include="JavaScript\Runtime\WorkPool.cs" />
     <Compile Include="JavaScript\Serialized\ObjectStreamHelper.cs" />
     <Compile Include="JavaScript\System\Implementation.cs" />
+    <Compile Include="JavaScript\System\Text\StringBuilder.cs" />
     <Compile Include="PHP\Drawing\Image.API.cs" />
     <Compile Include="PHP\Drawing\Image.cs" />
     <Compile Include="PHP\IO\DirectoryInfo.cs" />
