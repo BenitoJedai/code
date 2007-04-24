@@ -295,6 +295,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="tools\publish.bat" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="source\shared\" />
   </ItemGroup>
   <Import Project="$(ProgramFiles)\LINQ Preview\Misc\Linq.targets" />

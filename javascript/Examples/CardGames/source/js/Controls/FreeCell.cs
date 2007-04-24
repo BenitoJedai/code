@@ -102,9 +102,12 @@ namespace CardGames.source.js.Controls
             public int Moves;
             public int CardsLeft;
 
+            public bool Loading;
+
             public override void Update()
             {
-                Control.innerHTML = "cards left: " + CardsLeft + ", moves: "+ Moves;
+
+                Control.innerHTML = "cards left: " + CardsLeft + ", moves: " + Moves;
 
                 Control.appendChild(SoundSettingDiv);
             }
@@ -128,193 +131,231 @@ namespace CardGames.source.js.Controls
 
             MyDeck.UnusedCards.Add(CardInfo.FullDeck());
 
-            MyDeck.Stacks.ItemAdded +=
-                delegate(CardStack s)
-                {
-                    s.SetBackground(MyDeck.GfxPath + "/spider.empty.png");
-                };
+            var images = new List<IHTMLImage>();
 
-            Console.Log("creating stacklists... ");
+            foreach (CardInfo v in MyDeck.UnusedCards.ToArray())
+            {
+                images.Add(v.ToImage("fx/cards"));
+            }
 
-            PlayStacks = MyDeck.CreateStackList();
-            TempStacks = MyDeck.CreateStackList();
-            GoalStacks = MyDeck.CreateStackList();
-            
-           
             var king = new KingIcon(new Point(500, 100));
-            var status = new StatusInfo();
 
-            var usesound_cookie = Storage["usesound"];
 
-            status.MoveTo(new Point(500, 20));
-            status.Update();
-            status.SoundSettingChanged +=
+
+            Timer.While(
                 delegate
                 {
-                    sounds.Enabled = status.UseSounds;
-                    usesound_cookie.BooleanValue = status.UseSounds;
-                };
+                    var ready = true;
 
-            status.UseSounds = usesound_cookie.BooleanValue;
-
-            #region rules
-            MyDeck.ApplyCardRules += delegate(Card e)
-            {
-                e.Enabled = true;
-                e.Moved +=
-                    delegate
+                    foreach (IHTMLImage image in images.ToArray())
                     {
-                        status.Moves++;
-                        status.Update();
-
-                        
-                    };
-
-                #region automove
-          
-
-                e.Drag.MiddleClick +=
-                    delegate
-                    {
-                        TryAutoMove(e);
-                    };
-
-                e.DoubleClick +=
-                    delegate
-                    {
-                        TryAutoMove(e);
-                    };
-                #endregion
-
-                e.Drag.DragStop +=
-                    delegate
-                    {
-                        sounds.PlaySoundDrop();
-                    };
-
-                e.Drag.DragStart +=
-                    delegate
-                    {
-                        sounds.PlaySoundDrag();
-
-                    };
-
-                // rules for starting a drag
-                e.Drag.DragStartValidate +=
-                    delegate(Predicate p)
-                    {
-                        if (UseNoValidationCheat)
-                            return;
-
-                        // cannot remove cards from goal stack
-                        if (GoalStacks.Contains(e.CurrentStack))
+                        if (!image.complete)
                         {
-                            p.Value = false;
+                            Console.WriteLine(image.src);
 
-                            return;
+                            ready = false;
+                            break;
                         }
+                    }
 
-                        // cannot drag a pile of cards
-                        if (e.HasStackedCards)
-                            p.Value = false;
-                    };
-
-                // rules for ending a drag
-                e.ValidateDragStop +=
-                    delegate(Predicate<CardStack> p)
-                    {
-                        if (UseNoValidationCheat)
-                            return;
-
-                        if (IsStackTypeAndDoesNotFit(e, PlayStacks, p, IsFitForPlayStack))
-                        {
-                            p.Target = null;
-                        }
-                        else if (IsStackTypeAndDoesNotFit(e, TempStacks, p, IsFitForTempStack))
-                        {
-                            p.Target = null;
-                        }
-                        else if (IsStackTypeAndDoesNotFit(e, GoalStacks, p, IsFitForGoalStack))
-                        {
-                            p.Target = null;
-                        }
-
-
-                    };
-
-
-            };
-            #endregion
-
-            GoalStacks.ItemAdded += delegate(CardStack s)
-            {
-                s.Cards.ItemAdded += delegate(Card u)
+                    return !ready;
+                }
+                ,
+                delegate
                 {
-                    // hide the previous, as we never need it to be seen again
-                    status.CardsLeft--;
+                    var status = new StatusInfo();
+
                     status.Update();
 
-                    #region end suit
-                    if (u.Info.Rank == CardInfo.RankEnum.Rank2)
-                    {
-                        s.Enabled = false;
-
-                        if (status.CardsLeft == 0)
+                    MyDeck.Stacks.ItemAdded +=
+                        delegate(CardStack s)
                         {
-                            king.IsSmile = true;
-                            king.Update();
+                            s.SetBackground(MyDeck.GfxPath + "/spider.empty.png");
+                        };
+
+                    Console.Log("creating stacklists... ");
+
+                    PlayStacks = MyDeck.CreateStackList();
+                    TempStacks = MyDeck.CreateStackList();
+                    GoalStacks = MyDeck.CreateStackList();
 
 
-                            sounds.PlaySoundWin();
-                        }
 
-                        // check for victory?
-                    }
+
+                    var usesound_cookie = Storage["usesound"];
+
+                    status.MoveTo(new Point(500, 20));
+                    status.Update();
+                    status.SoundSettingChanged +=
+                        delegate
+                        {
+                            sounds.Enabled = status.UseSounds;
+                            usesound_cookie.BooleanValue = status.UseSounds;
+                        };
+
+                    status.UseSounds = usesound_cookie.BooleanValue;
+
+                    #region rules
+                    MyDeck.ApplyCardRules += delegate(Card e)
+                    {
+                        e.Enabled = true;
+                        e.Moved +=
+                            delegate
+                            {
+                                status.Moves++;
+                                status.Update();
+
+
+                            };
+
+                        #region automove
+
+
+                        e.Drag.MiddleClick +=
+                            delegate
+                            {
+                                TryAutoMove(e);
+                            };
+
+                        e.DoubleClick +=
+                            delegate
+                            {
+                                TryAutoMove(e);
+                            };
+                        #endregion
+
+                        e.Drag.DragStop +=
+                            delegate
+                            {
+                                sounds.PlaySoundDrop();
+                            };
+
+                        e.Drag.DragStart +=
+                            delegate
+                            {
+                                sounds.PlaySoundDrag();
+
+                            };
+
+                        // rules for starting a drag
+                        e.Drag.DragStartValidate +=
+                            delegate(Predicate p)
+                            {
+                                if (UseNoValidationCheat)
+                                    return;
+
+                                // cannot remove cards from goal stack
+                                if (GoalStacks.Contains(e.CurrentStack))
+                                {
+                                    p.Value = false;
+
+                                    return;
+                                }
+
+                                // cannot drag a pile of cards
+                                if (e.HasStackedCards)
+                                    p.Value = false;
+                            };
+
+                        // rules for ending a drag
+                        e.ValidateDragStop +=
+                            delegate(Predicate<CardStack> p)
+                            {
+                                if (UseNoValidationCheat)
+                                    return;
+
+                                if (IsStackTypeAndDoesNotFit(e, PlayStacks, p, IsFitForPlayStack))
+                                {
+                                    p.Target = null;
+                                }
+                                else if (IsStackTypeAndDoesNotFit(e, TempStacks, p, IsFitForTempStack))
+                                {
+                                    p.Target = null;
+                                }
+                                else if (IsStackTypeAndDoesNotFit(e, GoalStacks, p, IsFitForGoalStack))
+                                {
+                                    p.Target = null;
+                                }
+
+
+                            };
+
+
+                    };
                     #endregion
 
-                };
+                    GoalStacks.ItemAdded += delegate(CardStack s)
+                    {
+                        s.Cards.ItemAdded += delegate(Card u)
+                        {
+                            // hide the previous, as we never need it to be seen again
+                            status.CardsLeft--;
+                            status.Update();
 
-                // each card on top of eachother
-                s.CardMargin *= 0;
-            };
+                            #region end suit
+                            if (u.Info.Rank == CardInfo.RankEnum.Rank2)
+                            {
+                                s.Enabled = false;
 
-            Console.Log("creating tempstack... ");
+                                if (status.CardsLeft == 0)
+                                {
+                                    king.IsSmile = true;
+                                    king.Update();
 
-            TempStacks.Add(
-                new CardStack(new Point(100, 100)),
-                new CardStack(new Point(200, 100)),
-                new CardStack(new Point(300, 100)),
-                new CardStack(new Point(400, 100))
+
+                                    sounds.PlaySoundWin();
+                                }
+
+                                // check for victory?
+                            }
+                            #endregion
+
+                        };
+
+                        // each card on top of eachother
+                        s.CardMargin *= 0;
+                    };
+
+                    Console.Log("creating tempstack... ");
+
+                    TempStacks.Add(
+                        new CardStack(new Point(100, 100)),
+                        new CardStack(new Point(200, 100)),
+                        new CardStack(new Point(300, 100)),
+                        new CardStack(new Point(400, 100))
+                    );
+
+
+                    Console.Log("creating goalstack... ");
+
+                    GoalStacks.Add(
+                        new CardStack(new Point(600, 100)),
+                        new CardStack(new Point(700, 100)),
+                        new CardStack(new Point(800, 100)),
+                        new CardStack(new Point(900, 100))
+                    );
+
+                    Console.Log("creating playstack... ");
+
+                    PlayStacks.Add(
+                        new CardStack(new Point(150, 240), MyDeck.FetchCards(7)),
+                        new CardStack(new Point(250, 240), MyDeck.FetchCards(7)),
+                        new CardStack(new Point(350, 240), MyDeck.FetchCards(7)),
+                        new CardStack(new Point(450, 240), MyDeck.FetchCards(7)),
+                        new CardStack(new Point(550, 240), MyDeck.FetchCards(6)),
+                        new CardStack(new Point(650, 240), MyDeck.FetchCards(6)),
+                        new CardStack(new Point(750, 240), MyDeck.FetchCards(6)),
+                        new CardStack(new Point(850, 240), MyDeck.FetchCards(6))
+                        );
+
+                    Console.Log("updating status... ");
+
+                    status.Moves = 0;
+                    status.CardsLeft = MyDeck.Cards.Count;
+                    status.Update();
+                }, 300
             );
 
-
-            Console.Log("creating goalstack... ");
-
-            GoalStacks.Add(
-                new CardStack(new Point(600, 100)),
-                new CardStack(new Point(700, 100)),
-                new CardStack(new Point(800, 100)),
-                new CardStack(new Point(900, 100))
-            );
-
-            Console.Log("creating playstack... ");
-
-            PlayStacks.Add(
-                new CardStack(new Point(150, 240), MyDeck.FetchCards(7)),
-                new CardStack(new Point(250, 240), MyDeck.FetchCards(7)),
-                new CardStack(new Point(350, 240), MyDeck.FetchCards(7)),
-                new CardStack(new Point(450, 240), MyDeck.FetchCards(7)),
-                new CardStack(new Point(550, 240), MyDeck.FetchCards(6)),
-                new CardStack(new Point(650, 240), MyDeck.FetchCards(6)),
-                new CardStack(new Point(750, 240), MyDeck.FetchCards(6)),
-                new CardStack(new Point(850, 240), MyDeck.FetchCards(6))
-                );
-
-            Console.Log("updating status... ");
-
-            status.Moves = 0;
-            status.CardsLeft = MyDeck.Cards.Count;
-            status.Update();
         }
 
         private void TryAutoMove(Card c)
