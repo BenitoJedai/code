@@ -36,7 +36,18 @@ namespace OrcasScriptApplication.js
             // on mouseover over the color text is changed
             // on pressing the button the next message in text element is displayed
 
+            var x = new
+                    {
+                        about = "this is an anonymous type",
+                        pos = new 
+                        {
+                            x = 8,
+                            y = 9
+                        }
+                    };
 
+            Console.WriteLine(x.about);
+            Console.WriteLine(x.ToString());
 
 
             IHTMLDiv Control = new IHTMLDiv();
