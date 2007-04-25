@@ -8,10 +8,10 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class ISink 
     {
         [Script(DefineAsStatic = true, NoExeptions = true)]
-        public void InternalEvent(bool b, object e, string _EventListener, string _Event)
+        public void InternalEvent(bool b, global::System.Delegate e, string _EventListener, string _Event)
         {
 
-            object z = ((DelegateImpl)e).InvokePointer;
+            IFunction z = ((DelegateImpl)(object)e).InvokePointer;
 
             if (b)
             {
@@ -30,44 +30,29 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         
         [Script(DefineAsStatic=true, NoExeptions=true)]
-        public void InternalEvent(bool b, object e, string f)
+        public void InternalEvent(bool b, global::System.Delegate e, string f)
         {
             InternalEvent(b, e, f, "on" + f);
 
-            //object z = ((DelegateImpl)e).InvokePointer;
-
-            //if (b)
-            //{
-            //    if (Expando.InternalIsMember(this, "addEventListener"))
-            //        addEventListener(f, z, false);
-            //    if (Expando.InternalIsMember(this, "attachEvent"))
-            //        attachEvent("on" + f, z);
-            //}
-            //else
-            //{
-            //    if (Expando.InternalIsMember(this, "removeEventListener"))
-            //        removeEventListener(f, z, false);
-            //    if (Expando.InternalIsMember(this, "detachEvent"))
-            //        detachEvent("on" + f, z);
-            //}
+            
         }
 
-        internal void attachEvent(string f, object e)
+        internal void attachEvent(string f, IFunction e)
         {
 
         }
 
-        internal void detachEvent(string f, object e)
+        internal void detachEvent(string f, IFunction e)
         {
 
         }
 
-        internal void addEventListener(string f, object e, bool c)
+        internal void addEventListener(string f, IFunction e, bool c)
         {
 
         }
 
-        internal void removeEventListener(string f, object e, bool c)
+        internal void removeEventListener(string f, IFunction e, bool c)
         {
 
         }

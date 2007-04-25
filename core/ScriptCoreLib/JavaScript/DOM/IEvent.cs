@@ -257,6 +257,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         [Script(DefineAsStatic = true)]
         public void PreventDefault() { InternalPreventDefault(this); }
 
+        internal string returnValue;
+
         [Script(OptimizedCode = @"
            
             if (a0['returnValue'] != void(0)) 

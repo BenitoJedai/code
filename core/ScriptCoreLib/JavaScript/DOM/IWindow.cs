@@ -195,6 +195,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
         #endregion
+
         #region event onunload
         public event EventHandler<IEvent> onunload
         {
@@ -211,6 +212,43 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
+        [Script]
+        public class Confirmation
+        {
+            public string Text;
+        }
+
+        #region event onunload
+        public event Action<Confirmation> onbeforeunload
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                Func<IEvent, object> w =
+                    delegate (IEvent e)
+                    {
+                        var c = new Confirmation();
+
+                        value(c);
+
+                        e.returnValue = c.Text;
+
+                        return c.Text;
+                    };
+
+                base.InternalEvent(true, w, "beforeunload");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                throw new System.ScriptException("Not implemented");
+
+                // TODO: via proxy
+
+                //base.InternalEvent(false, value, "beforeunload");
+            }
+        }
+        #endregion
 
         #region event onresize
         public event EventHandler<IEvent> onresize
