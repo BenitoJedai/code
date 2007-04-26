@@ -1,0 +1,3 @@
+﻿This assembly is a wrapper to "lib_jnistb" which enables one to use native libraries.
+
+"lib_jnistb" is provided by thrid party and is not directly part of the jsc:java project.

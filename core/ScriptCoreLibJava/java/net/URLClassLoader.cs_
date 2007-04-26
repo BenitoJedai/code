@@ -1,0 +1,95 @@
+using ScriptCoreLib;
+
+using java.net;
+using java.security;
+using java.util.jar;
+using java.util;
+using java.lang;
+
+namespace java.net
+{
+    [Script(IsNative=true)]
+    public class URLClassLoader : java.security.SecureClassLoader
+    {
+
+        private URLClassLoader(URL[] e)
+        {
+
+        }
+
+        #region methods
+        /// <summary>
+        /// Appends the specified URL to the list of URLs to search for classes and resources.
+        /// </summary>
+        protected void addURL(URL url)
+        {
+        }
+
+        /// <summary>
+        /// Defines a new package by name in this ClassLoader.
+        /// </summary>
+        protected Package definePackage(string name, Manifest man, URL url)
+        {
+            return default(Package);
+        }
+
+        /// <summary>
+        /// Finds and loads the class with the specified name from the URL search path.
+        /// </summary>
+        protected Class findClass(string name)
+        {
+            return default(Class);
+        }
+
+        /// <summary>
+        /// Finds the resource with the specified name on the URL search path.
+        /// </summary>
+        public URL findResource(string name)
+        {
+            return default(URL);
+        }
+
+        /// <summary>
+        /// Returns an Enumeration of URLs representing all of the resources on the URL search path having the specified name.
+        /// </summary>
+        public Enumeration findResources(string name)
+        {
+            return default(Enumeration);
+        }
+
+        /// <summary>
+        /// Returns the permissions for the given codesource object.
+        /// </summary>
+        protected PermissionCollection getPermissions(CodeSource codesource)
+        {
+            return default(PermissionCollection);
+        }
+
+        /// <summary>
+        /// Returns the search path of URLs for loading classes and resources.
+        /// </summary>
+        public URL[] getURLs()
+        {
+            return default(URL[]);
+        }
+
+        /// <summary>
+        /// Creates a new instance of URLClassLoader for the specified URLs and default parent class loader.
+        /// </summary>
+        public static URLClassLoader newInstance(URL[] urls)
+        {
+            return default(URLClassLoader);
+        }
+
+        /// <summary>
+        /// Creates a new instance of URLClassLoader for the specified URLs and parent class loader.
+        /// </summary>
+        public static URLClassLoader newInstance(URL[] urls, ClassLoader parent)
+        {
+            return default(URLClassLoader);
+        }
+
+        #endregion
+
+    }
+}

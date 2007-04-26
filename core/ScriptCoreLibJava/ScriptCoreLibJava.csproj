@@ -1,0 +1,248 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.20404</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5F295F12-F93F-4347-B417-AA89990652A3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ScriptCoreLib</RootNamespace>
+    <AssemblyName>ScriptCoreLibJava</AssemblyName>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <DocumentationFile>bin\Debug\ScriptCoreLibJava.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;Test20051227</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug with Doc|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="javax.common\runtime\WrappedBigDecimal.cs" />
+    <Compile Include="javax.common\runtime\Helper.cs" />
+    <Compile Include="javax.common\runtime\Expando.cs" />
+    <Compile Include="javax.common\runtime\Timer.cs" />
+    <Compile Include="javax.common\runtime\VariantValue.cs" />
+    <Compile Include="java\applet\Applet.cs" />
+    <Compile Include="java\applet\AppletStub.cs" />
+    <Compile Include="java\applet\AppletContext.cs" />
+    <Compile Include="java\awt\Container.cs" />
+    <Compile Include="java\awt\Component.cs" />
+    <Compile Include="java\awt\Button.cs" />
+    <Compile Include="java\awt\Choice.cs" />
+    <Compile Include="java\awt\AWTEvent.cs" />
+    <Compile Include="java\awt\Color.cs" />
+    <Compile Include="java\awt\Checkbox.cs" />
+    <Compile Include="java\awt\Rectangle.cs" />
+    <Compile Include="java\awt\Font.cs" />
+    <Compile Include="java\awt\TextField.cs" />
+    <Compile Include="java\awt\Label.cs" />
+    <Compile Include="java\awt\LayoutManager.cs" />
+    <Compile Include="java\awt\event\ActionEvent.cs" />
+    <Compile Include="java\awt\event\ActionListener.cs" />
+    <Compile Include="java\awt\event\ItemEvent.cs" />
+    <Compile Include="java\awt\event\ItemListener.cs" />
+    <Compile Include="java\awt\event\KeyEvent.cs" />
+    <Compile Include="java\awt\event\KeyListener.cs" />
+    <Compile Include="java\awt\Graphics.cs" />
+    <Compile Include="java\awt\Panel.cs" />
+    <Compile Include="java\io\BufferedReader.cs" />
+    <Compile Include="java\io\ByteArrayOutputStream.cs" />
+    <Compile Include="java\io\PrintWriter.cs" />
+    <Compile Include="java\io\Writer.cs" />
+    <Compile Include="java\io\OutputStreamWriter.cs" />
+    <Compile Include="java\io\FileWriter.cs" />
+    <Compile Include="java\io\FileReader.cs" />
+    <Compile Include="java\io\FileChannel.cs" />
+    <Compile Include="java\io\FileDescriptor.cs" />
+    <Compile Include="java\io\PipedOutputStream.cs" />
+    <Compile Include="java\io\DataInput.cs" />
+    <Compile Include="java\io\FileFilter.cs" />
+    <Compile Include="java\io\FilenameFilter.cs" />
+    <Compile Include="java\io\FileInputStream.cs" />
+    <Compile Include="java\io\DataInputStream.cs" />
+    <Compile Include="java\io\FilterInputStream.cs" />
+    <Compile Include="java\io\File.cs" />
+    <Compile Include="java\io\FilterOutputStream.cs" />
+    <Compile Include="java\io\InputStream.cs" />
+    <Compile Include="java\io\InputStreamReader.cs" />
+    <Compile Include="java\io\IOException.cs" />
+    <Compile Include="java\io\OutputStream.cs" />
+    <Compile Include="java\io\PipedInputStream.cs" />
+    <Compile Include="java\io\PrintStream.cs" />
+    <Compile Include="java\io\RandomAccessFile.cs" />
+    <Compile Include="java\io\Reader.cs" />
+    <Compile Include="java\lang\CharSequence.cs" />
+    <Compile Include="java\lang\ClassLoader.cs" />
+    <Compile Include="java\lang\Cloneable.cs" />
+    <Compile Include="java\lang\Class.cs" />
+    <Compile Include="java\lang\Boolean.cs" />
+    <Compile Include="java\lang\Byte.cs" />
+    <Compile Include="java\lang\Object.cs" />
+    <Compile Include="java\lang\reflect\Array.cs" />
+    <Compile Include="java\lang\Short.cs" />
+    <Compile Include="java\lang\Double.cs" />
+    <Compile Include="java\lang\Exception.cs" />
+    <Compile Include="java\lang\Process.cs" />
+    <Compile Include="java\lang\Runtime.cs" />
+    <Compile Include="java\lang\Math.cs" />
+    <Compile Include="java\lang\Package.cs" />
+    <Compile Include="java\lang\reflect\Constructor.cs" />
+    <Compile Include="java\lang\reflect\Modifier.cs" />
+    <Compile Include="java\lang\reflect\Method.cs" />
+    <Compile Include="java\lang\reflect\Field.cs" />
+    <Compile Include="java\lang\ThreadGroup.cs" />
+    <Compile Include="java\lang\Thread.cs" />
+    <Compile Include="java\lang\Runnable.cs" />
+    <Compile Include="java\lang\Integer.cs" />
+    <Compile Include="java\lang\Long.cs" />
+    <Compile Include="java\lang\String.cs" />
+    <Compile Include="java\lang\StringBuffer.cs" />
+    <Compile Include="java\lang\Throwable.cs" />
+    <Compile Include="java\math\BigDecimal.cs" />
+    <Compile Include="java\net\InetSocketAddress.cs" />
+    <Compile Include="java\net\URLClassLoader.cs" />
+    <Compile Include="java\net\SocketImplFactory.cs" />
+    <Compile Include="java\net\SocketChannel.cs" />
+    <Compile Include="java\net\SocketAddress.cs" />
+    <Compile Include="java\net\URL.cs" />
+    <Compile Include="java\net\URI.cs" />
+    <Compile Include="java\net\InetAddress.cs" />
+    <Compile Include="java\net\Socket.cs" />
+    <Compile Include="java\net\ServerSocket.cs" />
+    <Compile Include="java\nio\ByteBuffer.cs" />
+    <Compile Include="java\nio\Buffer.cs" />
+    <Compile Include="java\nio\CharBuffer.cs" />
+    <Compile Include="java\nio\ByteOrder.cs" />
+    <Compile Include="java\nio\IntBuffer.cs" />
+    <Compile Include="java\nio\ShortBuffer.cs" />
+    <Compile Include="java\nio\LongBuffer.cs" />
+    <Compile Include="java\nio\FloatBuffer.cs" />
+    <Compile Include="java\nio\DoubleBuffer.cs" />
+    <Compile Include="java\security\CodeSource.cs" />
+    <Compile Include="java\security\PermissionCollection.cs" />
+    <Compile Include="java\security\SecureClassLoader.cs" />
+    <Compile Include="java\security\ProtectionDomain.cs" />
+    <Compile Include="java\text\DecimalFormatSymbols.cs" />
+    <Compile Include="java\text\DecimalFormat.cs" />
+    <Compile Include="java\text\FieldPosition.cs" />
+    <Compile Include="java\text\ParsePosition.cs" />
+    <Compile Include="java\text\NumberFormat.cs" />
+    <Compile Include="java\text\Format.cs" />
+    <Compile Include="java\text\DateFormat.cs" />
+    <Compile Include="java\text\SimpleDateFormat.cs" />
+    <Compile Include="java\util\AbstractMap.cs" />
+    <Compile Include="java\util\ArrayList.cs" />
+    <Compile Include="java\util\Arrays.cs" />
+    <Compile Include="java\util\Comparator.cs" />
+    <Compile Include="java\util\Calendar.cs" />
+    <Compile Include="java\util\Collection.cs" />
+    <Compile Include="java\util\Collections.cs" />
+    <Compile Include="java\util\EventObject.cs" />
+    <Compile Include="java\util\EventListener.cs" />
+    <Compile Include="java\util\Random.cs" />
+    <Compile Include="java\util\regex\Matcher.cs" />
+    <Compile Include="java\util\regex\Pattern.cs" />
+    <Compile Include="java\util\SortedSet.cs" />
+    <Compile Include="java\util\SortedMap.cs" />
+    <Compile Include="java\util\Map.cs" />
+    <Compile Include="java\util\Stack.cs" />
+    <Compile Include="java\util\Vector.cs" />
+    <Compile Include="java\util\TimeZone.cs" />
+    <Compile Include="java\util\GregorianCalendar.cs" />
+    <Compile Include="java\util\Date.cs" />
+    <Compile Include="java\util\Enumeration.cs" />
+    <Compile Include="java\util\jar\Manifest.cs" />
+    <Compile Include="java\util\List.cs" />
+    <Compile Include="java\util\Locale.cs" />
+    <Compile Include="java\util\logging\LogRecord.cs" />
+    <Compile Include="java\util\ResourceBundle.cs" />
+    <Compile Include="java\util\logging\Handler.cs" />
+    <Compile Include="java\util\logging\Filter.cs" />
+    <Compile Include="java\util\logging\Level.cs" />
+    <Compile Include="java\util\logging\Logger.cs" />
+    <Compile Include="java\util\Properies.cs" />
+    <Compile Include="java\util\HashMap.cs" />
+    <Compile Include="java\util\Hashtable.cs" />
+    <Compile Include="java\util\Set.cs" />
+    <Compile Include="org\xml\sax\ContentHandler.cs" />
+    <Compile Include="org\xml\sax\Attributes.cs" />
+    <Compile Include="org\xml\sax\Locator.cs" />
+    <Compile Include="org\xml\sax\InputSource.cs" />
+    <Compile Include="org\xml\sax\helpers\XMLReaderFactory.cs" />
+    <Compile Include="org\xml\sax\XMLReader.cs" />
+    <Compile Include="org\xml\sax\SAXException.cs" />
+    <Compile Include="org\xml\sax\SAXParseException.cs" />
+    <Compile Include="org\xml\sax\ErrorHandler.cs" />
+    <Compile Include="org\xml\sax\EntityResolver.cs" />
+    <Compile Include="org\xml\sax\DTDHandler.cs" />
+    <Compile Include="org\xml\sax\helpers\DefaultHandler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="javax.common\wrapper\wrapper.cs" />
+    <Compile Include="javax.common\runtime\Console.cs" />
+    <Compile Include="javax.common\runtime\Convert.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="docs\" />
+    <Folder Include="javax\microedition\lcdui\" />
+    <Folder Include="javax\microedition\media\" />
+    <Folder Include="javax\microedition\midlet\" />
+    <Folder Include="javax\obex\" />
+    <Folder Include="org\xml\sax\ext\" />
+    <Folder Include="web\bin\" />
+    <Folder Include="web\java\" />
+    <Folder Include="web\release\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin\"
+</PostBuildEvent>
+  </PropertyGroup>
+</Project>
