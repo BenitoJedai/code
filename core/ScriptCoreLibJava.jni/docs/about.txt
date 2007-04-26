@@ -1,3 +1,7 @@
 ﻿This assembly is a wrapper to "lib_jnistb" which enables one to use native libraries.
 
 "lib_jnistb" is provided by thrid party and is not directly part of the jsc:java project.
+
+http://java.sun.com/products/jdk/faq/jnifaq.html
+
+The source for "lib_jnistb" can be found at ../web/bin/jnistb10
