@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.20404</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B3728390-BB82-49BB-BC04-47CC63E8BC40}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -11,6 +11,15 @@
     <AssemblyName>WhidbeyVisualBasicScriptApplication</AssemblyName>
     <MyType>Windows</MyType>
     <OptionCompare>Binary</OptionCompare>
+    <OptionStrict>On</OptionStrict>
+    <OptionExplicit>On</OptionExplicit>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -19,25 +28,33 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>WhidbeyVisualBasicScriptApplication.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <NoWarn>
+    </NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>WhidbeyVisualBasicScriptApplication.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <NoWarn>
+    </NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ScriptCoreLib, Version=3.0.2633.16974, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ScriptCoreLib, Version=3.0.2670.32930, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\jsc\bin\Debug\ScriptCoreLib.dll</HintPath>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Query, Version=1.0.2668.29296, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\jsc\bin\Debug\ScriptCoreLibA.dll</HintPath>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -45,11 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Import Include="ScriptCoreLib" />
-    <Import Include="ScriptCoreLib.JavaScript" />
-    <Import Include="ScriptCoreLib.JavaScript.DOM" />
-    <Import Include="ScriptCoreLib.JavaScript.DOM.HTML" />
     <Import Include="ScriptCoreLib.Shared" />
-    <Import Include="ScriptCoreLib.Shared.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JavaScript\Class1.vb" />
@@ -90,9 +103,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="web\fx.Class1.htm">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="web\gfx\loadingBar.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -102,10 +112,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
-    <!-- 
     <PostBuildEvent>call "c:\util\jsc\bin\jsc.exe" "$(TargetFileName)" -js</PostBuildEvent>
-    -->
-    <PostBuildEvent>call "X:\c#\jsc\jsc\bin\Debug\jsc.exe" "$(TargetFileName)" -js</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

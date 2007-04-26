@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Javascript\Query\Sequence.cs" />
+    <Compile Include="Shared\Query\Sequence.NotImplementedHere.cs" />
     <Compile Include="Shared\Query\Lambadas.cs" />
     <Compile Include="Shared\Query\SZArrayEnumerator.cs" />
     <Compile Include="Shared\Query\Sequence.SelectMany.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="PHP\" />
     <Folder Include="Shared\Query\Implementation\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -112,23 +112,7 @@ namespace ScriptCoreLib.Shared.Query
             return r;
         }
 
-        /// <summary>
-        /// target language shall override this
-        /// </summary>
-        static internal Func<IEnumerable, IEnumerable> InternalAsEnumerableImplementation;
-
-        public static IEnumerable<TSource> AsEnumerable<TSource>(this IEnumerable<TSource> source)
-        {
-            // the runtime should create a SZArray for arrays but it does not for the moment
-
-            if (InternalAsEnumerableImplementation != null)
-                return (IEnumerable<TSource>)InternalAsEnumerableImplementation(source);
-
-
-            return source;
-        }
-
-
+      
 
 
 

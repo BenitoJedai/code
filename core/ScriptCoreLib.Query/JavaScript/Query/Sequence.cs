@@ -1,5 +1,8 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
+using ScriptCoreLib.Shared.Query;
+using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.DOM;
 
 using global::System.Collections;
 using global::System.Collections.Generic;
@@ -9,33 +12,41 @@ using ScriptException = global::ScriptCoreLib.JavaScript.System.ScriptException;
 
 namespace ScriptCoreLib.JavaScript.Query
 {
-    [Script]
-    internal static class Sequence
+    [Script(Implements = typeof(ScriptCoreLib.Shared.Query.InternalSequence))]
+    internal static class InternalSequenceImplementation
     {
-        static Sequence()
+        public static TSource[] ToArray<TSource>(IEnumerable<TSource> source)
         {
-            // this is just a hack, future version of jsc should fix array vs enumerable issues
+            var a = new IArray<TSource>();
 
-            Shared.Query.Sequence.InternalAsEnumerableImplementation =
-                delegate(IEnumerable e)
+            foreach (var v in source.AsEnumerable())
+            {
+                a.push(v);
+            }
+
+            return a.ToArray();
+        }
+
+        public static IEnumerable<TSource> AsEnumerable<TSource>(this IEnumerable<TSource> source)
+        {
+            var u = ScriptCoreLib.JavaScript.Runtime.Expando.Of(source);
+
+            if (!u.IsArray)
+            {
+                if (u.prototype == null)
                 {
-                    var u = ScriptCoreLib.JavaScript.Runtime.Expando.Of(e);
-
-                    if (!u.IsArray)
+                    if (ScriptCoreLib.JavaScript.Runtime.Expando.InternalIsMember(u, "length"))
                     {
-                        if (u.prototype == null)
-                        {
-                            if (ScriptCoreLib.JavaScript.Runtime.Expando.InternalIsMember(u, "length"))
-                            {
-                                // DOM list ?
-                            }
-                            else return e;
-                        }
-                        else return e;
+                        // DOM list ?
                     }
+                    else return source;
+                }
+                else return source;
+            }
 
-                    return (ScriptCoreLib.Shared.Query.SZArrayEnumerator<object>)u.To<object[]>();
-                };
+            return (ScriptCoreLib.Shared.Query.SZArrayEnumerator<TSource>)u.To<TSource[]>();
         }
     }
+
+
 }

@@ -1,7 +1,18 @@
+Imports ScriptCoreLib.JavaScript.DOM.HTML
+Imports ScriptCoreLib.JavaScript.DOM
+Imports ScriptCoreLib.JavaScript
+Imports ScriptCoreLib.Shared.Drawing
+Imports ScriptCoreLib.Shared.Query
+
+
+
+
+
+
+
 <Assembly: Script()> 
 <Assembly: ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript")> 
 
-' imports ScriptCoreLib.JavaScript.DOM.HTML
 
 
 Namespace JavaScript
@@ -9,7 +20,7 @@ Namespace JavaScript
 
     '<Script()> Public Class Class1
 
-    <Script> Module Stuff
+    <Script()> Module Stuff
         Function CreateFieldset(ByVal name As String, ByVal ParamArray controls() As INode) As IHTMLElement
             CreateFieldset = New IHTMLElement(IHTMLElement.HTMLElementEnum.fieldset)
 
@@ -21,7 +32,7 @@ Namespace JavaScript
 
         End Function
     End Module
-    
+
 
     <Script()> Public Class Class1
 
@@ -40,6 +51,9 @@ Namespace JavaScript
 
         Dim WithEvents ColorSelector As New IHTMLSelect
 
+        Dim WithEvents IncludeKnownColors As IHTMLInput
+
+        Dim AllColors As Color()
 
         Sub New()
             LongTaskDisplay.Hide()
@@ -48,18 +62,31 @@ Namespace JavaScript
             Control.appendChild(New IHTMLBreak, LongTask, Me.ButtonBlue, Me.ButtonRed, New IHTMLBreak, Me.Text, LongTaskDisplay)
 
 
+            Me.AllColors = New Color() { _
+                Color.System.ThreeDFace, _
+                Color.System.AppWorkspace, _
+                Color.FromKnownName("cyan"), _
+                Color.Black, _
+                Color.White, _
+                Color.Red, _
+                Color.Green, _
+                Color.Blue _
+            }
 
-            ColorSelector.Add(Color.System.ThreeDFace.ToString())
-            ColorSelector.Add(Color.System.AppWorkspace.ToString)
 
-            ColorSelector.Add("black")
-            ColorSelector.Add("red")
-            ColorSelector.Add("green")
-            ColorSelector.Add("blue")
+
+            Me.IncludeKnownColors = New IHTMLInput(HTMLInputTypeEnum.checkbox)
+
+            Dim IncludeKnownColors_Label = New IHTMLLabel("Include known colors", IncludeKnownColors)
 
 
 
-            Control.appendChild(CreateFieldset("Change the color of the background", ColorSelector))
+
+
+            Control.appendChild(CreateFieldset("Change the color of the background", _
+                IncludeKnownColors, IncludeKnownColors_Label, ColorSelector))
+
+            IncludeKnownColors_onclick()
 
         End Sub
 
@@ -117,6 +144,46 @@ Namespace JavaScript
 
         Private Sub ColorSelector_onchange(ByVal e As ScriptCoreLib.JavaScript.DOM.IEvent) Handles ColorSelector.onchange
             Native.Document.body.style.backgroundColor = Color.FromKnownName(ColorSelector.value)
+
+
+        End Sub
+
+
+
+        Shared Function ColorToString(ByVal e As Color) As String
+            ColorToString = e.ToString
+
+        End Function
+
+
+        <Script()> Class Incrementor
+
+            Public Value As Integer = 0
+
+            Public Function Increment() As Incrementor
+                Value += 1
+
+                Return Me
+            End Function
+        End Class
+
+        Private Sub IncludeKnownColors_onclick() Handles IncludeKnownColors.onclick
+
+            Me.ColorSelector.removeChildren()
+
+            Dim x = New Incrementor
+
+
+            Dim z As String() = ( _
+                                  From i In (From ix In AllColors Select New With {.index = x.Increment.Value, .ix = ix}) _
+                                  Where String.IsNullOrEmpty(i.ix.KnownName) Or IncludeKnownColors.checked _
+                                  Select i.index.ToString & " - " & ColorToString(i.ix) _
+                                  ).ToArray
+
+            Me.ColorSelector.Add(z)
+
+
+
 
 
         End Sub

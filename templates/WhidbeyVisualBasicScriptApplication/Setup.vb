@@ -14,7 +14,7 @@ Public Module Setup
         w.WriteLine("<html>")
         w.WriteLine("<head>")
 
-        w.WriteLine("<!-- created at " + System.DateTime.Now + " -->")
+        w.WriteLine("<!-- created at " + System.DateTime.Now.ToString + " -->")
 
         SharedHelper.DefineScript(w, SharedHelper.LocalModules)
 

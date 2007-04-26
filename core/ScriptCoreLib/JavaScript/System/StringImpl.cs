@@ -9,6 +9,24 @@ namespace ScriptCoreLib.JavaScript.System
     [Script(Implements=typeof(global::System.String))]
     internal class StringImpl 
     {
+        public static string Format(string format, object a, object b)
+        {
+            // fast solution 
+
+            return format.Replace("{0}", "" + a).Replace("{1}", "" + b);
+        }
+
+        public static bool IsNullOrEmpty(string e)
+        {
+            if (e == null)
+                return true;
+
+            if (e == "")
+                return true;
+
+            return false;
+        }
+
         // http://www.pageresource.com/jscript/jstring2.htm
 
         [Script(OptimizedCode = "return e.charCodeAt(o);")]

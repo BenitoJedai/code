@@ -4,7 +4,7 @@ using ScriptCoreLib.JavaScript.DOM;
 namespace ScriptCoreLib.JavaScript.System
 {
     [Script(Implements = typeof(global::System.Collections.ArrayList))]
-    public class ArrayList
+    internal class ArrayList
     {
         readonly IArray<object> items = new IArray<object>();
 
@@ -15,11 +15,23 @@ namespace ScriptCoreLib.JavaScript.System
     }
 
     [Script(Implements = typeof(global::System.WeakReference))]
-    public class WeakReference
+    internal class WeakReference
     {
         public WeakReference(object e)
         {
             // weak reference not supported
+        }
+    }
+
+    [Script(Implements = typeof(global::System.Threading.Monitor))]
+    internal class Monitor
+    {
+        public static void Enter(object e)
+        {
+        }
+
+        public static  void Exit(object obj)
+        {
         }
     }
 }
