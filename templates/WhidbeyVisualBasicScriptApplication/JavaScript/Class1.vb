@@ -167,6 +167,10 @@ Namespace JavaScript
             End Function
         End Class
 
+        Shared Sub SetOptionValueToColor(ByVal e As IHTMLOption)
+            e.style.color = e.value
+
+        End Sub
         Private Sub IncludeKnownColors_onclick() Handles IncludeKnownColors.onclick
 
             Me.ColorSelector.removeChildren()
@@ -174,13 +178,21 @@ Namespace JavaScript
             Dim x = New Incrementor
 
 
-            Dim z As String() = ( _
-                                  From i In (From ix In AllColors Select New With {.index = x.Increment.Value, .ix = ix}) _
-                                  Where String.IsNullOrEmpty(i.ix.KnownName) Or IncludeKnownColors.checked _
-                                  Select i.index.ToString & " - " & ColorToString(i.ix) _
-                                  ).ToArray
+            Dim z = From i In (From ix In AllColors Select New With {.index = x.Increment.Value, .ix = ix}) _
+                      Where String.IsNullOrEmpty(i.ix.KnownName) Or IncludeKnownColors.checked _
+                      Select _
+                        New IHTMLOption() _
+                        With { _
+                            .value = i.ix.ToString, _
+                            .innerHTML = i.index.ToString & " - " & ColorToString(i.ix) _
+                        }
 
-            Me.ColorSelector.Add(z)
+
+
+
+            z.ForEach(AddressOf SetOptionValueToColor)
+
+            Me.ColorSelector.appendChild(z.ToArray)
 
 
 

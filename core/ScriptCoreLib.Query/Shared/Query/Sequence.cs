@@ -260,7 +260,7 @@ namespace ScriptCoreLib.Shared.Query
                 throw Error.ArgumentNull("action");
             }
 
-            foreach (var v in array)
+            foreach (var v in array.AsEnumerable())
             {
                 action(v);
             }
