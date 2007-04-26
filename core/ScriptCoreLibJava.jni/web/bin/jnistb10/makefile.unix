@@ -1,0 +1,110 @@
+#
+# @(#)makefile.unix	1.10 98/03/22
+#
+# Copyright (c) 1998 Sun Microsystems, Inc. All Rights Reserved.
+#
+# See also the LICENSE file in this distribution.
+#
+# Makefile for the example demonstrating shared dispatchers with JNI.
+#
+
+#
+# Change this to reflect your setting.  Or override it at the make
+# command line:
+#	% make JDK=/home/you/jdk
+#
+JDK     = /usr/local/java/jdk1.2/solaris
+
+#
+# Convenience, so you can set SUFFIX from the make command line and
+# to run this example under java_g, if you have java_g:
+#	% make SUFFIX=_g
+#
+SUFFIX  = 
+
+#
+# Set THREADS_FLAG choice to "native" by default to work around a
+# bug in 1.2beta3.  You can turn this into "green" at the make
+# command line.
+#
+THREADS_FLAG = native
+
+#
+# Other variables.
+#
+CLASSES    = Main.class CFunc.class CPtr.class CMalloc.class
+OBJS       = dispatch_sparc.o dispatch.o
+CFLAGS     = -g -DSOLARIS2 -I$(JDK)/include -I$(JDK)/include/solaris
+.SUFFIXES: .java .class
+
+#
+# Targets.
+#
+run: build FORCE
+	@echo $(JDK)/bin/java$(SUFFIX) -$(THREADS_FLAG) Main
+	@LD_LIBRARY_PATH=.:$$LD_LIBRARY_PATH; export LD_LIBRARY_PATH; \
+	$(JDK)/bin/java$(SUFFIX) -$(THREADS_FLAG) Main
+
+build: checkjdk $(CLASSES) libdisp$(SUFFIX).so FORCE
+
+#
+# Build class files.
+#
+.java.class:
+	$(JDK)/bin/javac $<
+
+#
+# Run javah.
+#
+.class.h:
+	$(JDK)/bin/javah -jni $(<:%.class=%)
+
+#
+# Build .c files.
+#
+libdisp$(SUFFIX).so: $(OBJS)
+	ld -G $(OBJS) -o $@
+
+dispatch.c: CFunc.h CPtr.h CMalloc.h
+
+#
+# Remove generated stuff.
+#
+clean: FORCE
+	rm -f *.o CFunc.h CMalloc.h CPtr.h
+	rm -f *.so *.class
+
+#
+# Check that the user has a valid JDK install.
+#
+checkjdk: FORCE
+	@if [ ! -x $(JDK)/bin/java ]; then				\
+	    echo "ERROR: JDK not found!";				\
+	    echo "";							\
+	    echo "Please install JDK version 1.1 or higher, and";	\
+	    echo "invoke make like this:";				\
+	    echo "        % $(MAKE) JDK=/path/to/jdk";			\
+	    echo "";							\
+	    exit 1;							\
+	fi
+
+#
+# Handling phony targets.
+#
+FORCE: ;
+
+#
+# Generate documentation.
+#
+DOCFLAGS += -author -overview README.html \
+	    -title "Shared Stubs JNI Example"
+DOCDIR    = docs
+
+javadoc: checkjdk
+	rm -fr docs
+	mkdir -p docs
+	@echo '<body><pre>' > README.html
+	@sed '1,7d' README >> README.html
+	@echo '</pre></body>' >> README.html
+	$(JDK)/bin/javadoc $(DOCFLAGS) -d $(DOCDIR) ""
+	@rm -f README.html

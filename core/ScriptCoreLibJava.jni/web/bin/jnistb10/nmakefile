@@ -1,0 +1,83 @@
+#
+# @(#)nmakefile	1.2 98/03/22
+#
+# Copyright (c) 1998 Sun Microsystems, Inc. All Rights Reserved.
+#
+# See also the LICENSE file in this distribution.
+#
+# NMake makefile for the example demonstrating shared dispatchers with
+# JNI.
+#
+
+#
+# Change this to reflect your setting.  Or override it at the make
+# command line:
+#	C:> nmake JDK=x:\path\to\your\jdk
+#
+JDK     = c:\jdk1.2beta2
+
+#
+# Convenience, so you can set SUFFIX from the make command line and
+# to run this example under java_g, if you have java_g:
+#	C:> nmake SUFFIX=_g
+#
+SUFFIX  = 
+
+#
+# Other variables.
+#
+CLASSES    = Main.class CFunc.class CPtr.class CMalloc.class
+OBJS       = dispatch_x86.obj dispatch.obj
+CFLAGS     = -nologo -Zi -DWIN32 -I$(JDK)\include -I$(JDK)\include\win32
+.SUFFIXES: .java .class
+
+#
+# Targets
+#
+run: build FORCE
+	@echo ------------------
+	@echo Running example...
+	@echo ------------------
+	$(JDK)\bin\java.exe Main
+
+build: checkjdk $(CLASSES) disp$(SUFFIX).dll FORCE
+
+#
+# Build .class files.
+#
+.java.class:
+	$(JDK)\bin\javac $<
+
+#
+# Run javah.
+#
+.class.h:
+	$(JDK)\bin\javah -jni $(<:.class=)
+
+#
+# Build .c files.
+#
+disp$(SUFFIX).dll: $(OBJS)
+	link -nologo -debug -dll -out:$@ $?
+
+dispatch.c: CFunc.h CMalloc.h CPtr.h
+
+dispatch_x86.c: CFunc.h CMalloc.h CPtr.h
+
+#
+# Check that the user has a valid JDK install.  This will cause a
+# premature death if JDK is not defined.
+#
+checkjdk: $(JDK)\bin\java.exe
+
+#
+# Help deal with phony targets.
+#
+FORCE: ;
+
+#
+# Cleanliness.
+#
+clean:
+	-del *.class *.dll *.obj *.pdb *.exp *.lib *.exp *.ilk
+	-del CFunc.h CMalloc.h CPtr.h
