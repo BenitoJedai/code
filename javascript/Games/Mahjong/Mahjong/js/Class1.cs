@@ -52,7 +52,7 @@ namespace Mahjong.js
 
 
 
-        
+
         public Tile(TileInfo Info, TileSettings Settings)
         {
             this.Settings = Settings;
@@ -89,26 +89,40 @@ namespace Mahjong.js
 
 
             var i1 = new TileInfo { Image = "assets/1.png" };
+            var i3 = new TileInfo { Image = "assets/3.png" };
+            var i4 = new TileInfo { Image = "assets/4.png" };
+            var i5 = new TileInfo { Image = "assets/5.png" };
+            var i6 = new TileInfo { Image = "assets/6.png" };
             var i7 = new TileInfo { Image = "assets/7.png" };
 
+            #region CreateTile
+            Func<int, int, TileInfo, Tile> CreateTile =
+                (x, y, i) =>
+                {
+                    var a = new Tile(i, s);
 
-            var a = new Tile(i1, s);
+                    a.Background.attachToDocument();
+                    a.Background.SetCenteredLocation(x, y);
 
-            a.Background.attachToDocument();
-            a.Background.SetCenteredLocation(128, 128);
-
-            var b = new Tile(i7, s);
-
-            b.Background.attachToDocument();
-            b.Background.SetCenteredLocation(228, 128);
-
-            a.Background.onmouseover +=
-                delegate { a.Background.style.Opacity = 0.5; };
+                    a.Background.onmouseover +=
+                        delegate { a.Background.style.Opacity = 0.5; };
 
 
-            a.Background.onmouseout +=
-                delegate { a.Background.style.Opacity = 1; };
-                
+                    a.Background.onmouseout +=
+                        delegate { a.Background.style.Opacity = 1; };
+
+                    return a;
+                };
+            #endregion
+
+
+            CreateTile(40 * 1, 40, i1);
+            CreateTile(40 * 2, 40, i3);
+            CreateTile(40 * 3, 40, i4);
+            CreateTile(40 * 4, 40, i5);
+            CreateTile(40 * 5, 40, i6);
+            CreateTile(40 * 7, 40, i7);
+
         }
 
 
