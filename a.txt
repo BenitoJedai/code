@@ -1,0 +1,15 @@
+jsc sdk
+2007
+
+
+- "templates" 
+    for IDEs to create new projects
+    
+- "core" 
+    to build supporting assemblies
+    
+- "examples"
+    to show what can be done in various environments with jsc
+    
+- "web"
+    the public website
