@@ -100,17 +100,18 @@ namespace OrcasScriptApplication.js
                         .Concat(ToNames(users2))
                         .Concat(ToNames(users3));
 
-                    
+
                     foreach (var v in
                            from i in items.Select(i => i.Trim())
                            where i.ToLower().IndexOf(user_filter) > -1
-                           select i
+                           let xlength = i.Length
+                           select new { i, xlength }
                     )
                     {
-                        var item = new IHTMLElement(IHTMLElement.HTMLElementEnum.li, 
+                        var item = new IHTMLElement(IHTMLElement.HTMLElementEnum.li,
                                        new IHTMLAnchor(
-                                           "http://www.imdb.com/Find?select=Characters&for=" + Native.Window.escape(v), 
-                                           "imdb: " + v));
+                                           "http://www.imdb.com/Find?select=Characters&for=" + Native.Window.escape(v.i),
+                                           "imdb: " + v.i + "(length: " + v.xlength + ")"));
 
                         result.appendChild(item);
                     }
