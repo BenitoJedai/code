@@ -71,6 +71,16 @@ namespace GameOfLife.js
 
             vv.Layers.Canvas.Hide();
 
+            Action<string, Point, Color> DrawTextWithShadow =
+                (text, pos, c) =>
+                {
+                    vv.DrawTextToInfo(text, pos + new Point(2, 2), Color.Black);
+                    vv.DrawTextToInfo(text, pos, Color.White);
+                    vv.DrawTextToInfo(text, pos + new Point(1, 1), c);
+                };
+
+            DrawTextWithShadow("Game Of Life - Use middle mouse button to drag map around", new Point(8, 8), Color.Red);
+
             int index = 0;
 
             var State = new
@@ -84,9 +94,9 @@ namespace GameOfLife.js
             Func<Color> RandomState = () => Native.Math.random() > 0.5 ? State.ColorDeath : State.ColorBirth;
 
 
-            for (int __i = 0; __i < cx; __i++)
+            for (int ti = 0; ti < cx; ti++)
             {
-                var i = __i;
+                var i = ti;
 
                 data[i] = new LayeredControl.CanvasRectangle[cy];
 
@@ -125,9 +135,12 @@ namespace GameOfLife.js
                     vv.Layers.Canvas.Show();
 
 
+
+                    // todo: evolution
                 }
                 );
 
+            
 
         }
 
