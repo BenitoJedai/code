@@ -26,7 +26,7 @@ namespace SpaceInvaders.source.js.gfx
 
             public static implicit operator Item(string URL)
             {
-                return new Item { URL };
+                return new Item { URL = URL };
             }
 
             public Func<string> GetBaseURL;
@@ -94,7 +94,7 @@ namespace SpaceInvaders.source.js.gfx
 
             public static implicit operator ImageResources(string BaseURL)
             {
-                return new ImageResources { BaseURL };
+                return new ImageResources { BaseURL = BaseURL };
             }
 
         }
