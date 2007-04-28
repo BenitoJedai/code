@@ -163,6 +163,12 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
         }
 
+        public static void LogError(object u)
+        {
+            Log("*** " + u.ToString());
+
+        }
+
         public static void WriteLine()
         {
             WriteLine("");

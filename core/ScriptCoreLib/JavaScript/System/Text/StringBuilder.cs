@@ -34,7 +34,7 @@ namespace ScriptCoreLib.JavaScript.System
 
         public override string ToString()
         {
-            return data.join();
+            return data.join("");
         }
 
 

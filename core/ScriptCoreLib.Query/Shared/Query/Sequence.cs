@@ -54,6 +54,15 @@ namespace ScriptCoreLib.Shared.Query
         #endregion
 
         #region Max
+
+        public static int Max(this int e, int x)
+        {
+            if (e > x)
+                return e;
+
+            return x;
+        }
+
         public static int Max(this IEnumerable<int> source)
         {
             if (source == null)
@@ -82,6 +91,15 @@ namespace ScriptCoreLib.Shared.Query
             return num2;
         }
         #endregion
+
+        public static int Count<T>(this IEnumerable<T> e, Func<T, bool> predicate)
+        {
+            int c = 0;
+
+            foreach (var v in e.AsEnumerable()) if (predicate(v)) c++;
+
+            return c;
+        }
 
         public static int Count<T>(this IEnumerable<T> e)
         {

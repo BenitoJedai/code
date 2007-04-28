@@ -29,7 +29,7 @@ namespace ScriptCoreLib
             [Script(ExternalTarget = "screen")]
             static public IScreen Screen;
 
-            [Script(OptimizedCode = "debugger;")]
+            [Script(OptimizedCode = "debugger;", NoDecoration=true)]
             static public void DebugBreak()
             {
 
