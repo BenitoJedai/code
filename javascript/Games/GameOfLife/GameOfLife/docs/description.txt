@@ -1,1 +1,1 @@
-﻿Browser application. Crosscompiled from c# to javascript.
+﻿Based on http://bendiken.net/2006/02/26/game-of-life-in-javascript.
