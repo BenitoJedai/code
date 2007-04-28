@@ -1,5 +1,6 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
+using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Controls;
@@ -27,7 +28,7 @@ namespace gameclient.source.js.Controls
 
         public void IClient_DisplayNotification(string text, int color)
         {
-            var p = new Message._IClient_DisplayNotification { text = text, color = color};
+            var p = new Message._IClient_DisplayNotification { text = text, color = color };
 
             Helper.Invoke(OnIClient_DisplayNotification, p);
         }
@@ -44,7 +45,7 @@ namespace gameclient.source.js.Controls
 
         public void IClient_DrawRectangle(RectangleInfo rect, int color)
         {
-            var p = new Message._IClient_DrawRectangle { rect = rect, color = color};
+            var p = new Message._IClient_DrawRectangle { rect = rect, color = color };
 
             Helper.Invoke(OnIClient_DrawRectangle, p);
         }
@@ -67,10 +68,11 @@ namespace gameclient.source.js.Controls
 
         public static TimerEvent DelayOnce(long Interval)
         {
-            return new TimerEvent {
+            return new TimerEvent
+                   {
                        Interval = Interval,
-                TimeToLive = 1
-            };
+                       TimeToLive = 1
+                   };
         }
     }
 
@@ -136,11 +138,12 @@ namespace gameclient.source.js.Controls
         {
             set
             {
-                var z = new TimerEventInfo {
-                    Trigger = CurrentTicks + e.Interval,
-                    Handler = value,
-                    Settings = e
-                };
+                var z = new TimerEventInfo
+                        {
+                            Trigger = CurrentTicks + e.Interval,
+                            Handler = value,
+                            Settings = e
+                        };
 
                 this.events.Add(z);
             }
@@ -148,7 +151,7 @@ namespace gameclient.source.js.Controls
     }
 
 
-    
+
     /// <summary>
     /// a building, footman, tree, helicopter
     /// </summary>
@@ -190,8 +193,8 @@ namespace gameclient.source.js.Controls
         public bool IsSelected
         {
             get { return _IsSelected; }
-            set 
-            { 
+            set
+            {
                 _IsSelected = value;
 
                 if (_IsSelected == true)
@@ -275,7 +278,7 @@ namespace gameclient.source.js.Controls
                     u = v;
                     break;
                 }
-                    
+
             }
 
             return u;
@@ -314,6 +317,9 @@ namespace gameclient.source.js.Controls
         public const string Alias = "fx.Program";
 
         public readonly MySession Session;
+
+
+
         public readonly MasterTimer SessionTimer = new MasterTimer(50);
 
         // on firefox:
@@ -322,8 +328,15 @@ namespace gameclient.source.js.Controls
 
         public Program(IHTMLElement placeholder)
         {
+            // http://www.howtocreate.co.uk/tutorials/javascript/browserwindow
+            // http://www.quirksmode.org/js/doctypes.html
+            // http://www.evolt.org/article/document_body_doctype_switching_and_more/17/30655/index.html
+
+            // we do not want to see those scrollbars
+            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
 
+            Console.EnableActiveXConsole();
 
 
             Session = new MySession();
@@ -331,7 +344,7 @@ namespace gameclient.source.js.Controls
             this.Session.IServer_EnterLobby(
                 delegate(string e)
                 {
-
+                    var TheWorld = new MyGameWorld();
 
                     #region supporting user chat
 
@@ -340,6 +353,24 @@ namespace gameclient.source.js.Controls
                     Native.Document.onkeypress +=
                         delegate(IEvent ev)
                         {
+                            if (ev.KeyCode == 'q') Console.Log("Q");
+                            if (ev.KeyCode == 'w') Console.Log("W");
+                            if (ev.KeyCode == 'e') Console.Log("E");
+                            if (ev.KeyCode == 'r')
+                            {
+                                var random_spawn_position = new
+                                                            {
+                                                                x = Native.Math.random() * 600,
+                                                                y = Native.Math.random() * 400,
+                                                            };
+
+                                Console.Log("random_spawn_position: " + random_spawn_position);
+
+                                // Lets Spawn Something into the world
+                            }
+
+                            Console.Log("onkeypress: " + new { KeyCode = ev.KeyCode });
+
                             if (!ChatBox.IsVisible)
                             {
                                 if (ev.KeyCode == 't')
@@ -362,39 +393,45 @@ namespace gameclient.source.js.Controls
 
 
                     var a = new ArenaControl();
+                    var m = new ArenaMinimapControl();
 
                     a.Control.attachToDocument();
+
+                    a.Layers.Canvas.style.backgroundColor = Color.FromRGB(0, 0x80, 0);
 
                     // set the map to be somewhere left
                     a.SetLocation(Rectangle.Of(32, 32, 640, 480));
 
+    
                     // set tha map canvas size to be something big
                     a.SetCanvasSize(new Point(8000, 8000));
 
-                    EventHandler<string, Color> DrawText =
-                        delegate(string text, Color color)
-                        {
-                            var z = new IHTMLDiv(new ITextNode(text));
+                    #region DrawTextWithTimeout
+                    EventHandler<string, Color> DrawTextWithTimeout =
+                                   delegate(string text, Color color)
+                                   {
+                                       var z = new IHTMLDiv(new ITextNode(text));
 
-                            z.style.color = color;
-                            z.style.backgroundColor = Color.Black;
+                                       z.style.color = color;
+                                       z.style.backgroundColor = Color.Black;
 
-                            a.Layers.Info.appendChild(z);
+                                       a.Layers.Info.appendChild(z);
 
-                            this.SessionTimer[TimerEvent.DelayOnce(9000)] =
-                                delegate
-                                {
-                                    z.Dispose();
-                                };
-                        };
+                                       this.SessionTimer[TimerEvent.DelayOnce(9000)] =
+                                           delegate
+                                           {
+                                               z.Dispose();
+                                           };
+                                   }; 
+                    #endregion
 
                     this.SessionTimer[TimerEvent.DelayOnce(1000)] =
                        delegate
                        {
-                           a.DrawTextToInfo("just some data", new Point(44, 244), Color.Black);
+                           a.DrawTextToInfo("just some data", new Point(46, 246), Color.Black);
                            a.DrawTextToInfo("just some data", new Point(45, 245), Color.Yellow);
 
-                           DrawText("hello world", Color.Red);
+                           DrawTextWithTimeout("hello world", Color.Red);
                        };
 
 
@@ -403,7 +440,6 @@ namespace gameclient.source.js.Controls
 
                     #region minimap
 
-                    var m = new ArenaMinimapControl();
 
                     m.Zoom.Validate += delegate
                     {
@@ -432,7 +468,7 @@ namespace gameclient.source.js.Controls
                         m.SetSelectionLocation(a.CanvasView * m.Zoom.Value);
                         m.MakeSelectionVisible();
 
-                 
+
                         var data_array = data.ToArray();
 
                         foreach (var v in data_array)
@@ -452,43 +488,43 @@ namespace gameclient.source.js.Controls
                     #endregion
 
 
-                    EventHandler<Rectangle, Color> DrawRectangleLocal = delegate(Rectangle r, Color c)
-                    {
-                        var p =  new Pair<Rectangle, Color>(r, c);
+                    EventHandler<Rectangle, Color> DrawRectangleLocal =
+                        delegate(Rectangle r, Color c)
+                        {
+                            var p = new Pair<Rectangle, Color>(r, c);
 
-                        data.Add(p);
+                            data.Add(p);
 
-                        a.DrawRectangleToCanvas(r, c);
-                        m.DrawRectangleToCanvas(r * m.Zoom.Value, c);
-                    };
+                            a.DrawRectangleToCanvas(r, c);
+                            m.DrawRectangleToCanvas(r * m.Zoom.Value, c);
+                        };
 
-                    EventHandler<Rectangle, Color> DrawRectangle = delegate(Rectangle r, Color c)
-                    {
-                        DrawRectangleLocal(r, c);
+                    EventHandler<Rectangle, Color> DrawRectangle =
+                        delegate(Rectangle r, Color c)
+                        {
+                            DrawRectangleLocal(r, c);
 
-                        this.Session.IServer_DrawRectangle(r, c);
-                    };
+                            this.Session.IServer_DrawRectangle(r, c);
+                        };
+
 
                     this.Session.OnIClient_DrawRectangle += delegate(Message._IClient_DrawRectangle p)
                     {
-                        var r = new Rectangle {
-                            Left =  p.rect.Left,
-                            Top = p.rect.Top,
-                            Width = p.rect.Width,
-                            Height = p.rect.Height,
-                        };
+                        var r = new Rectangle
+                                {
+                                    Left = p.rect.Left,
+                                    Top = p.rect.Top,
+                                    Width = p.rect.Width,
+                                    Height = p.rect.Height,
+                                };
 
                         DrawRectangleLocal(r, p.color);
                     };
 
-                    
-
-            
-
 
                     a.SelectionClick += delegate(Point p, IEvent ev)
                     {
-                        Console.WriteLine("SelectionClick_1");
+                        Console.Log("SelectionClick_1");
 
                         if (ev.ctrlKey)
                         {
@@ -497,7 +533,7 @@ namespace gameclient.source.js.Controls
 
                     };
 
-             
+
                     a.ApplySelection += delegate(Rectangle r, IEvent ev)
                     {
                         if (ev.ctrlKey)
@@ -541,14 +577,14 @@ namespace gameclient.source.js.Controls
 
                     ChatBox.Send += delegate(string text)
                     {
-                        DrawText(text, Color.White);
+                        DrawTextWithTimeout(text, Color.White);
 
                         this.Session.IServer_TalkToOthers(text);
                     };
 
 
 
-                    this.Session.OnIClient_DisplayNotification += x => DrawText(x.text, x.color);
+                    this.Session.OnIClient_DisplayNotification += x => DrawTextWithTimeout(x.text, x.color);
 
 
                     // put some elements on the canvas
@@ -588,7 +624,7 @@ namespace gameclient.source.js.Controls
                     }
 
 
-                    
+
                     {
 
                         var mcy = new ArenaUnit();
@@ -606,7 +642,7 @@ namespace gameclient.source.js.Controls
 
                         mcy.SetLocation(new Point(250, 200));
                         var mfx = fx.Settings.ConstructionYard;
-                        
+
                         mcy.SetSize(mfx.Size);
 
                         mfx.ShowFrame(mcy.Control, 12);
@@ -666,13 +702,13 @@ namespace gameclient.source.js.Controls
                     #endregion
 
                     a.SelectionClick +=
-                        delegate (Point p, IEvent ev)
+                        delegate(Point p, IEvent ev)
                         {
                             ai.SelectUnits(p);
                         };
 
                     a.ApplySelection +=
-                        delegate (Rectangle r, IEvent ev)
+                        delegate(Rectangle r, IEvent ev)
                         {
                             ai.SelectUnits(r);
                         };

@@ -31,11 +31,14 @@ namespace TextEditorDemo.source.js.Controls
 
             text.InnerHTML = "<p>jsc:javascript <b>TextEditor</b></p>";
 
+            text.IsFadeEnabled = false;
+
             var cookie = new Cookie("TextData");
 
 
-            var save = new IHTMLButton("save");
-            var load = new IHTMLButton("load");
+
+            var save = new IHTMLButton("save to cookie");
+            var load = new IHTMLButton("load from cookie");
 
             save.onclick += delegate { cookie.Value = text.InnerHTML; };
             load.onclick += delegate { text.InnerHTML = cookie.Value; };

@@ -87,7 +87,10 @@ namespace GMapsClone.source.js.Controls
 
 
             CreateDisposableButton("Show Earth - extra zoom 4",
-                          delegate { new GoogleMaps("http://kh0.google.com/kh?n=404&v=15&t=tsqqrqrsrrqtqqrsrs", null); }
+                          delegate
+                          {
+                              new GoogleMaps("http://kh0.google.com/kh?n=404&v=15&t=tsqqrqrsrrqtqqrsrs", null) { BaseZoomLevel = 18 };
+                          }
                       );
             
            

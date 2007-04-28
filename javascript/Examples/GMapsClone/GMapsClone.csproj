@@ -54,6 +54,9 @@
     <EmbeddedResource Include="web\fx\gfx\editorBg.gif" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="tools\publish.bat" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="source\php\" />
     <Folder Include="source\shared\" />
   </ItemGroup>

@@ -37,7 +37,7 @@ using ScriptCoreLib;
 [assembly: AssemblyFileVersion("1.0.*")]
 
 [assembly:
-    Script(IsCoreLib=true),
+    Script,
     ScriptResources(ScriptCoreLib.JavaScript.Controls.TextEditor.fx.Alias),
    ScriptTypeFilter(ScriptType.JavaScript, "ScriptCoreLib.JavaScript.Controls")
    // ScriptTypeFilter(ScriptType.PHP, "*.source.php"),

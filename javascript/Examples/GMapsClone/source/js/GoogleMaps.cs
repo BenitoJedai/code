@@ -25,7 +25,7 @@ namespace GMapsClone.source.js
         int xWidth2 = 256 * 2;
         int xHeight2 = 256 * 2;
 
-        int xOffset = 128;
+        int xOffset = 8;
         int yOffset = 32;
 
         IHTMLDiv A = new IHTMLDiv();
@@ -36,7 +36,9 @@ namespace GMapsClone.source.js
 
 
         //IHTMLDiv ULeft = new IHTMLDiv();
-        //IHTMLDiv URight = new IHTMLDiv();
+        
+        // the big map on the right side
+        IHTMLImage URight = new IHTMLImage();
 
         IHTMLButton Up = new IHTMLButton("Up ");
         IHTMLDiv Description = new IHTMLDiv();
@@ -60,7 +62,7 @@ namespace GMapsClone.source.js
 
                 string src = World + value;
 
-                Console.WriteLine(src);
+                Console.WriteLine(src + ", level=" + this.ZoomLevel);
 
                 UBase.src = src;
 
@@ -76,6 +78,9 @@ namespace GMapsClone.source.js
                 UBase.InvokeOnComplete(
                     delegate
                     {
+                      
+
+
                          //ULeft.style.backgroundImage = "url(" + UBase.src + ")";
                          //URight.style.backgroundImage = "url(" + UBase.src + ")"; 
                         DetailedImages["details"]
@@ -83,14 +88,32 @@ namespace GMapsClone.source.js
                         delegate
                         {
                             A.style.backgroundImage = "url(" + UBase.src + "q)";
+                            A.title = A.style.backgroundImage;
+
                             B.style.backgroundImage = "url(" + UBase.src + "r)";
+                            B.title = B.style.backgroundImage;
+
                             C.style.backgroundImage = "url(" + UBase.src + "t)";
+                            C.title = C.style.backgroundImage;
+
                             D.style.backgroundImage = "url(" + UBase.src + "s)";
+                            D.title = D.style.backgroundImage;
                         };
                     }
                 );
             }
         }
+
+        public int BaseZoomLevel = 1;
+
+        int ZoomLevel
+        {
+            get
+            {
+                return BaseZoomLevel + _location.Length;
+            }
+        }
+        
 
         public GoogleMaps(string _world, IHTMLElement e)
         {
@@ -114,8 +137,12 @@ namespace GMapsClone.source.js
             C.style.SetLocation(xOffset, yOffset + xHeight, xWidth, xHeight);
             D.style.SetLocation(xOffset + xWidth, yOffset + xHeight, xWidth, xHeight);
 
+
+
             //ULeft.style.SetLocation(xOffset - xWidth2, yOffset, xWidth2, xHeight2);
             //URight.style.SetLocation(xOffset + xWidth2, yOffset, xWidth2, xHeight2);
+            //URight.style.backgroundColor = Color.Gray;
+
            
             
             Up.onclick += delegate { GoUp(); };
@@ -151,10 +178,14 @@ namespace GMapsClone.source.js
 
         }
 
+        string GetUpperLocation(int z)
+        {
+                return Location.Substring(0, Location.Length - z);
+        }
 
         private void GoUp()
         {
-            Location = Location.Substring(0, Location.Length - 1);
+            Location = GetUpperLocation(1);
         }
 
 

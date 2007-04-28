@@ -11,7 +11,7 @@ set Xpath=jsc_web/examples/web/SpaceInvaders
 
 ::call "%Xscp%" %Xhost% /command "cd %XPath%" "lls" "ls" "option exclude ""*.dll""" "option include ""*.packed.js""" "synchronize remote" "exit"
 
-call "%Xscp%" %Xhost% /command "cd %XPath%" "option exclude ""*.dll""" "option include ""*.htm""" include ""*.packed.js""" "synchronize remote" "exit"
+call "%Xscp%" %Xhost% /command "cd %XPath%" "option exclude ""*.dll"""  "option include ""*.packed.js""" "synchronize remote" "exit"
 
 echo.
 echo done

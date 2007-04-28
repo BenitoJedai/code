@@ -41,7 +41,7 @@
     <Compile Include="web\Description.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\ScriptCoreLib\ScriptCoreLib.csproj">
+    <ProjectReference Include="..\..\..\javascript+php\ScriptCoreLib\ScriptCoreLib.csproj">
       <Project>{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}</Project>
       <Name>ScriptCoreLib</Name>
     </ProjectReference>
