@@ -1,0 +1,329 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.20404</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5D93F60E-27BC-4E9A-85CC-8EE0D3D73083}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>gameclient</RootNamespace>
+    <AssemblyName>gameclient</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ScriptCoreLib, Version=3.0.2668.20345, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Controls.LayeredControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Controls.LayeredControl.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="source\csharp\Settings.cs" />
+    <Compile Include="source\js\ClientSession.cs" />
+    <Compile Include="source\js\Controls\ArenaControl.cs" />
+    <Compile Include="source\js\Controls\LayeredTextBox.cs" />
+    <Compile Include="source\js\Controls\Program.cs" />
+    <Compile Include="source\js\ClientToServerBase.cs" />
+    <Compile Include="source\js\Settings.cs" />
+    <Compile Include="source\js\Controls\DemoControl.cs" />
+    <Compile Include="source\shared\Message.cs" />
+    <Compile Include="source\shared\Message.IClient.cs" />
+    <Compile Include="source\shared\Message.IServer.cs" />
+    <Compile Include="web\Description.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\fx\bg\3877.jpg" />
+    <EmbeddedResource Include="web\fx\harvester_1\100.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\101.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\102.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\103.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\104.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\105.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\106.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\107.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\108.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\109.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\110.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\111.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\112.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\113.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\114.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\115.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\116.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\117.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\118.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\119.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\120.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\121.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\122.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\123.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\124.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\125.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\126.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\127.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\128.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\129.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\130.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\131.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\132.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\133.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\134.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\71.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\72.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\73.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\74.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\75.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\76.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\77.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\78.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\79.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\80.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\81.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\82.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\83.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\84.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\85.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\86.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\87.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\88.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\89.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\90.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\91.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\92.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\93.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\94.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\95.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\96.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\97.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\98.png" />
+    <EmbeddedResource Include="web\fx\harvester_1\99.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1562.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1563.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1564.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1565.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1566.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1567.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1568.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1569.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1570.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1571.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1572.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1573.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1574.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1575.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1576.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1577.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1578.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1579.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1580.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1581.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1582.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1583.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1584.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1585.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1586.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1587.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1588.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1589.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1590.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1591.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1592.png" />
+    <EmbeddedResource Include="web\fx\tank_1\1593.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\fx\explosion_1\1000.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\1001.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\1002.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\1003.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\1004.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\1005.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\1006.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\1007.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\1008.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\1009.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\1010.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\1011.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\1012.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\1013.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\1014.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\1015.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\990.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\991.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\992.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\993.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\994.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\995.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\996.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\997.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\998.png" />
+    <EmbeddedResource Include="web\fx\explosion_1\999.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\fx\building_1\365.png" />
+    <EmbeddedResource Include="web\fx\building_1\366.png" />
+    <EmbeddedResource Include="web\fx\building_1\367.png" />
+    <EmbeddedResource Include="web\fx\building_1\368.png" />
+    <EmbeddedResource Include="web\fx\building_1\369.png" />
+    <EmbeddedResource Include="web\fx\building_1\370.png" />
+    <EmbeddedResource Include="web\fx\building_1\371.png" />
+    <EmbeddedResource Include="web\fx\building_1\372.png" />
+    <EmbeddedResource Include="web\fx\building_1\373.png" />
+    <EmbeddedResource Include="web\fx\building_1\374.png" />
+    <EmbeddedResource Include="web\fx\building_1\375.png" />
+    <EmbeddedResource Include="web\fx\building_1\376.png" />
+    <EmbeddedResource Include="web\fx\building_1\377.png" />
+    <EmbeddedResource Include="web\fx\building_1\378.png" />
+    <EmbeddedResource Include="web\fx\building_1\379.png" />
+    <EmbeddedResource Include="web\fx\building_1\380.png" />
+    <EmbeddedResource Include="web\fx\building_1\381.png" />
+    <EmbeddedResource Include="web\fx\building_1\382.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\fx\tank_2\308.png" />
+    <EmbeddedResource Include="web\fx\tank_2\309.png" />
+    <EmbeddedResource Include="web\fx\tank_2\310.png" />
+    <EmbeddedResource Include="web\fx\tank_2\311.png" />
+    <EmbeddedResource Include="web\fx\tank_2\312.png" />
+    <EmbeddedResource Include="web\fx\tank_2\313.png" />
+    <EmbeddedResource Include="web\fx\tank_2\314.png" />
+    <EmbeddedResource Include="web\fx\tank_2\315.png" />
+    <EmbeddedResource Include="web\fx\tank_2\316.png" />
+    <EmbeddedResource Include="web\fx\tank_2\317.png" />
+    <EmbeddedResource Include="web\fx\tank_2\318.png" />
+    <EmbeddedResource Include="web\fx\tank_2\319.png" />
+    <EmbeddedResource Include="web\fx\tank_2\320.png" />
+    <EmbeddedResource Include="web\fx\tank_2\321.png" />
+    <EmbeddedResource Include="web\fx\tank_2\322.png" />
+    <EmbeddedResource Include="web\fx\tank_2\323.png" />
+    <EmbeddedResource Include="web\fx\tank_2\324.png" />
+    <EmbeddedResource Include="web\fx\tank_2\325.png" />
+    <EmbeddedResource Include="web\fx\tank_2\326.png" />
+    <EmbeddedResource Include="web\fx\tank_2\327.png" />
+    <EmbeddedResource Include="web\fx\tank_2\328.png" />
+    <EmbeddedResource Include="web\fx\tank_2\329.png" />
+    <EmbeddedResource Include="web\fx\tank_2\330.png" />
+    <EmbeddedResource Include="web\fx\tank_2\331.png" />
+    <EmbeddedResource Include="web\fx\tank_2\332.png" />
+    <EmbeddedResource Include="web\fx\tank_2\333.png" />
+    <EmbeddedResource Include="web\fx\tank_2\334.png" />
+    <EmbeddedResource Include="web\fx\tank_2\335.png" />
+    <EmbeddedResource Include="web\fx\tank_2\336.png" />
+    <EmbeddedResource Include="web\fx\tank_2\337.png" />
+    <EmbeddedResource Include="web\fx\tank_2\338.png" />
+    <EmbeddedResource Include="web\fx\tank_2\339.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\fx\building_2\1252.png" />
+    <EmbeddedResource Include="web\fx\building_2\1253.png" />
+    <EmbeddedResource Include="web\fx\building_2\1254.png" />
+    <EmbeddedResource Include="web\fx\building_2\1255.png" />
+    <EmbeddedResource Include="web\fx\building_2\1256.png" />
+    <EmbeddedResource Include="web\fx\building_2\1257.png" />
+    <EmbeddedResource Include="web\fx\building_2\1258.png" />
+    <EmbeddedResource Include="web\fx\building_2\1259.png" />
+    <EmbeddedResource Include="web\fx\building_2\1260.png" />
+    <EmbeddedResource Include="web\fx\building_2\1261.png" />
+    <EmbeddedResource Include="web\fx\building_2\1262.png" />
+    <EmbeddedResource Include="web\fx\building_2\1263.png" />
+    <EmbeddedResource Include="web\fx\building_2\1264.png" />
+    <EmbeddedResource Include="web\fx\building_2\1265.png" />
+    <EmbeddedResource Include="web\fx\building_2\1266.png" />
+    <EmbeddedResource Include="web\fx\building_2\1267.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\fx\building_3\393.png" />
+    <EmbeddedResource Include="web\fx\building_3\394.png" />
+    <EmbeddedResource Include="web\fx\building_3\395.png" />
+    <EmbeddedResource Include="web\fx\building_3\396.png" />
+    <EmbeddedResource Include="web\fx\building_3\397.png" />
+    <EmbeddedResource Include="web\fx\building_3\398.png" />
+    <EmbeddedResource Include="web\fx\building_3\399.png" />
+    <EmbeddedResource Include="web\fx\building_3\400.png" />
+    <EmbeddedResource Include="web\fx\building_3\401.png" />
+    <EmbeddedResource Include="web\fx\building_3\402.png" />
+    <EmbeddedResource Include="web\fx\building_3\403.png" />
+    <EmbeddedResource Include="web\fx\building_3\404.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="docs\readme.html" />
+    <EmbeddedResource Include="web\fx\explosion\explosion.png" />
+    <EmbeddedResource Include="web\fx\building\barrack.png" />
+    <EmbeddedResource Include="web\fx\building\power.png" />
+    <EmbeddedResource Include="web\fx\vehicle\veh_cy.png" />
+    <EmbeddedResource Include="web\fx\building\cy.png" />
+    <EmbeddedResource Include="web\fx\gfx\logo\636.jpg" />
+    <EmbeddedResource Include="web\fx\gfx\logo\637.jpg" />
+    <EmbeddedResource Include="web\fx\css\cnc.css" />
+    <EmbeddedResource Include="web\sfx\23.mp3" />
+    <EmbeddedResource Include="web\fx\tree_1\383.png" />
+    <EmbeddedResource Include="web\fx\tree_1\384.png" />
+    <EmbeddedResource Include="web\fx\tree_1\385.png" />
+    <EmbeddedResource Include="web\fx\tree_1\386.png" />
+    <EmbeddedResource Include="web\fx\tree_1\387.png" />
+    <EmbeddedResource Include="web\fx\tree_1\388.png" />
+    <EmbeddedResource Include="web\fx\tree_1\389.png" />
+    <EmbeddedResource Include="web\fx\tree_1\390.png" />
+    <EmbeddedResource Include="web\fx\tree_1\391.png" />
+    <EmbeddedResource Include="web\fx\tree_1\392.png" />
+    <EmbeddedResource Include="web\fx\building_4\405.png" />
+    <EmbeddedResource Include="web\fx\building_4\406.png" />
+    <EmbeddedResource Include="web\fx\building_4\407.png" />
+    <EmbeddedResource Include="web\fx\building_4\408.png" />
+    <EmbeddedResource Include="web\fx\building_4\409.png" />
+    <EmbeddedResource Include="web\fx\building_4\410.png" />
+    <EmbeddedResource Include="web\fx\building_4\411.png" />
+    <EmbeddedResource Include="web\fx\building_4\412.png" />
+    <EmbeddedResource Include="web\fx\building_4\413.png" />
+    <EmbeddedResource Include="web\fx\building_4\414.png" />
+    <EmbeddedResource Include="web\fx\building_4\415.png" />
+    <EmbeddedResource Include="web\fx\building_4\416.png" />
+    <EmbeddedResource Include="web\fx\building_4\417.png" />
+    <EmbeddedResource Include="web\fx\building_4\418.png" />
+    <EmbeddedResource Include="web\fx\building_4\419.png" />
+    <EmbeddedResource Include="web\fx\building_4\420.png" />
+    <EmbeddedResource Include="web\fx\building_4\421.png" />
+    <EmbeddedResource Include="web\fx\building_4\422.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="source\js\Media\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

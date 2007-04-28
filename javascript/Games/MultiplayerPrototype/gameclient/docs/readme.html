@@ -1,0 +1,66 @@
+<body>
+
+<h1>
+    User interface</h1>
+    <p>
+        Changing the cursor: http://developer.mozilla.org/en/docs/Using_URL_values_for_the_cursor_property</p>
+    <h1>
+        Lobby</h1>
+
+A player is inserted into a random map, where it can move its units around the map.
+When he finds others there will be a possibility to join a game, by building or setting a flag.
+Each game should be left open so that late comers can also join.
+    <br />
+    <br />
+    <h3>
+        Building units<br />
+    </h3>
+    <br />
+    A client can notify server that an unit has been built. Server will notify others
+    in the game.<br />
+    A client requests server to create a unit. Server notifies its clients about the
+    new unit.<br />
+    <br />
+    <h3>
+        Animating frames</h3>
+    A loop of frames could be saved within one file.<br />
+    <br />
+
+
+
+<h1>Generic polling game networking protocol.</h1>
+    <p>
+        Each client polls periodically the server. On each poll any queued messages will
+        be sent and any messages will be recieved. Once the polling stops, the server may
+        destroy the session.</p>
+    <p>
+        Methods which are availible for clients without session or with invalid sessions
+        should be marked with an attribute SafeForAnonymousClients.</p>
+    <p>
+        &nbsp;</p>
+
+<h2>CheckVersion</h2>
+If a browser has cached the client application, this will atleast stop the client with a message to clear the cache.
+
+<h2>JoinLobby</h2>
+Until this moment the client is considered to be anonymous. This will create its own session. A client with a session may time out and the session will be deleted. An anonymous client cannot receive any server sent messages.
+
+<h2>DisplayText</h2>
+Server sends text for the client to be displayed.
+
+<h2>ClientReload</h2>
+Forces the clients to reload. This may be used to indicate that the server has been set to work in slave mode, which can invalidate all given sessions.
+    <br />
+    <br />
+    <br />
+    Links:<br />
+    <ol>
+        <li><a href="http://www.arno-fleck.de/command/cnc.htm">http://www.arno-fleck.de/command/cnc.htm</a></li>
+        <li></li>
+    </ol>
+    <br />
+
+
+
+<p><i>Disclaimer: Some graphics found in this project are subject to copyright to their respectful owners. This project is a non-commercial technology demo.</i></p>
+</body>
