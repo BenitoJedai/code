@@ -215,7 +215,7 @@ This example makes heavy use of delegates, dom, and query operators.
 
         static Class1()
         {
-            Console.EnableActiveXConsole();
+            //Console.EnableActiveXConsole();
 
             // spawn this class when document is loaded 
             Native.Spawn(
