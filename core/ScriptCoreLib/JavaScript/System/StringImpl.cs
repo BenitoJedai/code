@@ -107,46 +107,46 @@ namespace ScriptCoreLib.JavaScript.System
 
         #region concat
         [Script(OptimizedCode = "return a0.join('');")]
-        public static StringImpl Concat(object[] a0)
+        public static string Concat(object[] a0)
         {
-            return default(StringImpl);
+            return default(string);
         }
 
         [Script(OptimizedCode = "return {arg0}+'';",
                 UseCompilerConstants=true)]
-        public static StringImpl Concat(object a0)
+        public static string Concat(object a0)
         {
-            return default(StringImpl);
+            return default(string);
         }
 
         [Script(OptimizedCode = "return a0+a1")]
-        public static StringImpl Concat(object a0, object a1)
+        public static string Concat(object a0, object a1)
         {
-            return default(StringImpl);
+            return default(string);
         }
 
         [Script(OptimizedCode = "return a0+a1+a2")]
-        public static StringImpl Concat(object a0, object a1, object a2)
+        public static string Concat(object a0, object a1, object a2)
         {
-            return default(StringImpl);
+            return default(string);
         }
 
         [Script(OptimizedCode = "return a0+a1")]
-        public static StringImpl Concat(StringImpl a0, StringImpl a1)
+        public static string Concat(string a0, string a1)
         {
-            return default(StringImpl);
+            return default(string);
         }
 
         [Script(OptimizedCode = "return a0+a1+a2")]
-        public static StringImpl Concat(StringImpl a0, StringImpl a1, StringImpl a2)
+        public static string Concat(string  a0, string a1, string a2)
         {
-            return default(StringImpl);
+            return default(string);
         }
 
         [Script(OptimizedCode = "return a0+a1+a2+a3")]
-        public static StringImpl Concat(StringImpl a0, StringImpl a1, StringImpl a2, StringImpl a3)
+        public static string Concat(string a0, string a1, string a2, string a3)
         {
-            return default(StringImpl);
+            return default(string);
         }
 
         #endregion
