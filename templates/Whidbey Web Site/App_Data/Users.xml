@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<users>
+  <user>
+    <name>John</name>
+    <surname>Doe</surname>
+    <secret>a1</secret>
+  </user>
+  <user>
+    <name>Jane</name>
+    <surname>Doe</surname>
+    <secret>x9</secret>
+  </user>
+</users>
