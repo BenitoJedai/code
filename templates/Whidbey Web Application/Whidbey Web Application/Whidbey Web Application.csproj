@@ -72,7 +72,6 @@
     <Content Include="Documents\about.txt" />
     <Content Include="Documents\description.txt" />
     <Content Include="Global.asax" />
-    <Content Include="music.mp3" />
     <Content Include="star.png" />
     <Content Include="Web.config" />
     <Content Include="default.aspx" />

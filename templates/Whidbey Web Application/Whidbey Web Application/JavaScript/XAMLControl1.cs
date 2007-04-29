@@ -182,24 +182,24 @@ namespace Whidbey_Web_Application.JavaScript
                             //cm.Children.Add( ag.CreateFromXAML("<Image Source='star.png' />") );
 
 
-                            MediaElement music = new MediaElement(ag);
+                            //MediaElement music = new MediaElement(ag);
 
-                            music.BufferingProgressChanged +=
-                                delegate
-                                {
-                                    Console.WriteLine("BufferingProgressChanged: " + music.BufferingProgress * 100 + "%");
-                                };
+                            //music.BufferingProgressChanged +=
+                            //    delegate
+                            //    {
+                            //        Console.WriteLine("BufferingProgressChanged: " + music.BufferingProgress * 100 + "%");
+                            //    };
 
-                            music.CurrentStateChanged +=
-                                delegate
-                                {
-                                    Console.WriteLine("CurrentStateChanged: " + music.CurrentState);
-                                };
+                            //music.CurrentStateChanged +=
+                            //    delegate
+                            //    {
+                            //        Console.WriteLine("CurrentStateChanged: " + music.CurrentState);
+                            //    };
 
 
-                            music.Source = "music.mp3";
+                            //music.Source = "music.mp3";
 
-                            cm.Children.Add(music);
+                            //cm.Children.Add(music);
 
 
                             //c2.AddEventListener("MouseLeftButtonUp", "javascript:xxx$ccc");

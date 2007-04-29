@@ -1,5 +1,8 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm2.aspx.cs" Inherits="Whidbey_Web_Application.WebForm2" %>
 
+<%@ Register Assembly="Whidbey Web Application" Namespace="Whidbey_Web_Application.Controls"
+    TagPrefix="cc1" %>
+
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -33,6 +36,7 @@
 		</div>
     <form id="form1" runat="server">
     <div>
+        <cc1:XAMLControl1 ID="XAMLControl1_1" runat="server" />
     
     </div>
     </form>

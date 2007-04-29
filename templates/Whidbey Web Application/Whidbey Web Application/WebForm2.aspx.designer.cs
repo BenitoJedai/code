@@ -8,19 +8,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Whidbey_Web_Application
-{
-
-
+namespace Whidbey_Web_Application {
+    
+    
     /// <summary>
     /// WebForm2 class.
     /// </summary>
     /// <remarks>
     /// Auto-generated class.
     /// </remarks>
-    public partial class WebForm2
-    {
-
+    public partial class WebForm2 {
+        
         /// <summary>
         /// form1 control.
         /// </summary>
@@ -29,6 +27,14 @@ namespace Whidbey_Web_Application
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-
+        
+        /// <summary>
+        /// XAMLControl1_1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Whidbey_Web_Application.Controls.XAMLControl1 XAMLControl1_1;
     }
 }
