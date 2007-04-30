@@ -102,12 +102,6 @@
             http://www.regular-expressions.info/javascriptexample.html
             </summary>
         </member>
-        <member name="T:ScriptCoreLib.JavaScript.DOM.XML.IXMLSerializer`1">
-            <summary>
-            serializes to and from c# xml structure
-            </summary>
-            <typeparam name="TRoot"></typeparam>
-        </member>
         <member name="P:ScriptCoreLib.JavaScript.Runtime.Cookie`1.Value">
             <summary>
             this is a time expensive property
@@ -243,67 +237,6 @@
             http://www.faqts.com/knowledge_base/view.phtml/aid/34769/fid/616
             http://webfx.eae.net/dhtml/xmlextras/demo.html
             http://sarissa.sourceforge.net/doc/
-            </summary>
-        </member>
-        <member name="T:ScriptCoreLib.JavaScript.DOM.XML.IXMLHttpRequest">
-            <summary>
-            http://www.devguru.com/Technologies/xmldom/quickref/obj_httpRequest.html
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.JavaScript.DOM.XML.IXMLHttpRequest.#ctor(ScriptCoreLib.Shared.HTTPMethodEnum,System.String,ScriptCoreLib.Shared.EventHandler{ScriptCoreLib.JavaScript.DOM.XML.IXMLHttpRequest})">
-            <summary>
-            creates object, opens connection
-            </summary>
-            <param name="method"></param>
-            <param name="url"></param>
-            <param name="handler"></param>
-        </member>
-        <member name="M:ScriptCoreLib.JavaScript.DOM.XML.IXMLHttpRequest.InternalConstructor(System.String,ScriptCoreLib.Shared.EventHandler{ScriptCoreLib.JavaScript.DOM.XML.IXMLHttpRequest},System.Boolean)">
-            <summary>
-            sends no data, with head method
-            </summary>
-            <param name="url"></param>
-            <param name="handler"></param>
-            <param name="async"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ScriptCoreLib.JavaScript.DOM.XML.IXMLHttpRequest.InternalConstructor(System.String,ScriptCoreLib.JavaScript.DOM.XML.IXMLDocument,ScriptCoreLib.Shared.EventHandler{ScriptCoreLib.JavaScript.DOM.XML.IXMLHttpRequest},System.Boolean)">
-            <summary>
-            sends data with POST method
-            </summary>
-            <param name="url"></param>
-            <param name="data"></param>
-            <param name="handler"></param>
-            <param name="async"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ScriptCoreLib.JavaScript.DOM.XML.IXMLHttpRequest.InternalConstructor(ScriptCoreLib.Shared.HTTPMethodEnum,System.String,ScriptCoreLib.Shared.EventHandler{ScriptCoreLib.JavaScript.DOM.XML.IXMLHttpRequest})">
-            <summary>
-            sends http request, with no data
-            </summary>
-            <param name="method"></param>
-            <param name="url"></param>
-            <param name="handler"></param>
-            <returns></returns>
-        </member>
-        <member name="P:ScriptCoreLib.JavaScript.DOM.XML.IXMLHttpRequest.responseXML">
-            <summary>
-            parses the xml
-            
-            Content-type: application/xhtml+xml
-            -OR-
-            Content-type: text/xml
-            &lt;?xml version='1.0' encoding='utf-8' standalone='yes'?&gt;
-            </summary>
-        </member>
-        <member name="T:ScriptCoreLib.JavaScript.DOM.XML.IXMLHttpRequest.HTTPStatusCodes">
-            <summary>
-            http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.1.1
-            </summary>
-        </member>
-        <member name="F:ScriptCoreLib.JavaScript.DOM.XML.IXMLHttpRequest.HTTPStatusCodes.Accepted">
-            <summary>
-            202 - ok to read xml
             </summary>
         </member>
         <member name="M:ScriptCoreLib.JavaScript.Native.Spawn(System.String,ScriptCoreLib.Shared.EventHandler{ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement})">
@@ -1329,19 +1262,6 @@
             <summary>
             starts the timer with the default timeout (300 ms)
             </summary>
-        </member>
-        <member name="T:ScriptCoreLib.JavaScript.Runtime.UrlMonitor">
-            <summary>
-            Provides a way to monitor web resource, and get notified as the resource changes
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.JavaScript.Runtime.UrlMonitor.#ctor(System.String,System.Int32,ScriptCoreLib.Shared.EventHandler{ScriptCoreLib.JavaScript.Runtime.UrlMonitor})">
-            <summary>
-            monitors an url, and notifies if the etag changes
-            </summary>
-            <param name="url"></param>
-            <param name="interval"></param>
-            <param name="ETagChanged"></param>
         </member>
         <member name="T:ScriptCoreLib.JavaScript.Controls.SpawnControlBase">
             <summary>

@@ -135,8 +135,8 @@
 
         Console.WriteLine(this.Context.Request.AppRelativeCurrentExecutionFilePath);
         
-        if (System.Diagnostics.Debugger.IsAttached)
-            throw new NotSupportedException();
+        //if (System.Diagnostics.Debugger.IsAttached)
+        //    throw new NotSupportedException();
         
         jsc.server.WebTools.VirtualRequest(this.Context);
         

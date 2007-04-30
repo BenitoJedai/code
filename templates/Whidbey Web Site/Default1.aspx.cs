@@ -10,6 +10,7 @@ namespace JavaScript
 
     using ScriptCoreLib.JavaScript.Runtime;
     using ScriptCoreLib.JavaScript.DOM;
+    using ScriptCoreLib.JavaScript.Net;
     using ScriptCoreLib.JavaScript.DOM.HTML;
     using ScriptCoreLib.JavaScript.DOM.XML;
 
@@ -37,8 +38,6 @@ namespace JavaScript
 
             foreach (IXMLElement v in e.childNodes)
             {
-                if (v.nodeType != INode.NodeTypeEnum.ElementNode)
-                    throw new ScriptCoreLib.JavaScript.System.ScriptException("ElementNode expected");
 
                 x.SetMember(v.nodeName, DeserializeAsValue(v));
             }
@@ -84,7 +83,7 @@ namespace JavaScript
             Native.Window.onload +=
                 delegate
                 {
-                    IHTMLButton btn = new IHTMLButton("asp.net c# : hello world 6");
+                    IHTMLButton btn = new IHTMLButton("asp.net c# : hello world 8");
 
                     Native.Document.body.appendChild(btn);
 
