@@ -7,7 +7,7 @@
     <ProjectGuid>{685EA72E-191F-429B-9028-40723A623DF8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScriptCoreLib.Net</RootNamespace>
+    <RootNamespace>ScriptCoreLib</RootNamespace>
     <AssemblyName>ScriptCoreLib.Net</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -45,6 +45,7 @@
     <Compile Include="JavaScript\Net\IXMLHttpRequest.cs" />
     <Compile Include="JavaScript\Net\IXMLSerializer.cs" />
     <Compile Include="JavaScript\Net\UrlMonitor.cs" />
+    <Compile Include="JavaScript\Net\WebServiceProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
