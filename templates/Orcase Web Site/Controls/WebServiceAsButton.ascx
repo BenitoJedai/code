@@ -1,0 +1,2 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="WebServiceAsButton.ascx.cs" Inherits="Controls_WebServiceAsButton" %>
+<button  class="WebServiceAsButton">Click this button to invoke the web service</button>
