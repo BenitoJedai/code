@@ -68,7 +68,6 @@
     <Compile Include="JavaScript\DOM\IDocument.cs" />
     <Compile Include="JavaScript\DOM\IElement.cs" />
     <Compile Include="JavaScript\DOM\IRegExp.cs" />
-    <Compile Include="JavaScript\DOM\XML\IXMLSerializer.cs" />
     <Compile Include="JavaScript\Runtime\AsyncArgs.cs" />
     <Compile Include="JavaScript\Runtime\Cookie.cs" />
     <Compile Include="JavaScript\Runtime\Expando.cs" />
@@ -90,7 +89,6 @@
     <Compile Include="JavaScript\DOM\IWindow.cs" />
     <Compile Include="JavaScript\DOM\XML\IXMLDocument.cs" />
     <Compile Include="JavaScript\DOM\XML\IXMLElement.cs" />
-    <Compile Include="JavaScript\DOM\XML\IXMLHttpRequest.cs" />
     <Compile Include="JavaScript\Native.cs" />
     <Compile Include="JavaScript\Runtime\StringWriter.cs" />
     <Compile Include="PHP\Native.cs" />
@@ -104,7 +102,6 @@
     <Compile Include="Shared\Drawing\Rectangle.cs" />
     <Compile Include="JavaScript\Runtime\Console.cs" />
     <Compile Include="JavaScript\Runtime\Timer.cs" />
-    <Compile Include="JavaScript\Runtime\UrlMonitor.cs" />
     <Compile Include="JavaScript\System\Delegate.cs" />
     <Compile Include="JavaScript\System\Exception.cs" />
     <Compile Include="JavaScript\System\Int32.cs" />
@@ -130,7 +127,6 @@
     <Compile Include="JavaScript\DOM\HTML\IHTMLIFrame.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLBreak.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLTableBody.cs" />
-    <Compile Include="JavaScript\Net\ClientTransport.cs" />
     <Compile Include="JavaScript\Runtime\TimeFilter.cs" />
     <Compile Include="JavaScript\Runtime\TweenData.cs" />
     <Compile Include="JavaScript\Runtime\WorkPool.cs" />
