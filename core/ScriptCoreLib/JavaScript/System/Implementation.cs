@@ -3,6 +3,18 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.System
 {
+    [Script(Implements = typeof(global::System.Diagnostics.Debugger))]
+    internal class Debugger
+    {
+
+        // Summary:
+        //     Signals a breakpoint to an attached debugger.
+        public static void Break()
+        {
+            Native.DebugBreak();
+        }
+    }
+
     [Script(Implements = typeof(global::System.Collections.ArrayList))]
     internal class ArrayList
     {
