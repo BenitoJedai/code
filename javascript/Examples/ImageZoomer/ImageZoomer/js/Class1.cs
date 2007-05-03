@@ -31,7 +31,6 @@ namespace ImageZoomer.js
     {
         public XSize size { get; set; }
         public double opacity { get; set; }
-        public double zoom { get; set; }
         public IHTMLDiv z { get; set; }
         public IHTMLImage x { get; set; }
     }
@@ -56,63 +55,64 @@ namespace ImageZoomer.js
 
             i.attachToDocument();
 
+            var ax = new List<XMagnifier>();
+            var zoom = 2.5;
 
-            //var mag1a = new [] 
-            //           {
-            //               new
-            //               {
-            //                   size = new { w = 120, h = 90 },
-            //                   zoom = 2.0,
-            //                   opacity = 0.8,
-            //                   z = default(IHTMLDiv),
-            //                   x = default(IHTMLImage)
-            //               }
-            //           };
-
-
-            var mag1a =
-                new[] 
-                {
+            for (int axi = 1; axi < 6; axi++)
+            {
+                ax.Add(
                    new XMagnifier
                    {
-                       size = new XSize { w = 120, h = 90 },
-                       zoom = 2.0,
-                       opacity = 0.4
-                   },
-                   new XMagnifier
-                   {
-                       size = new XSize { w = 90, h = 60 },
-                       zoom = 2.0,
-                       opacity = 0.5
-                   },
-                   new XMagnifier
-                   {
-                       size = new XSize { w = 60, h = 45 },
-                       zoom = 2.0,
-                       opacity = 0.6
-                   },
-                   new XMagnifier
-                   {
-                       size = new XSize { w = 45, h = 30 },
-                       zoom = 2.0,
-                       opacity = 0.7
+                       size = new XSize { w = 120 - axi * 4, h = 120 - axi * 4 },
+                       opacity = axi / 10
                    }
-                };
+                );
+            }
+
+            var mag1a = ax.ToArray();
+
+            var p = new Point(0, 0);
+
 
             EventHandler<IEvent> update =
                 delegate(IEvent e)
                 {
-                    var p = new Point(e.CursorX - i.Bounds.Left, e.CursorY - i.Bounds.Top);
+                    p = new Point(e.CursorX - i.Bounds.Left, e.CursorY - i.Bounds.Top);
 
                     foreach (var mag1 in mag1a)
                     {
                         mag1.x.style.SetLocation(
-                            (int)((p.X * -mag1.zoom) + mag1.size.w / 2),
-                            (int)((p.Y * -mag1.zoom) + mag1.size.h / 2)
+                            (int)((p.X * -zoom) + mag1.size.w / 2),
+                            (int)((p.Y * -zoom) + mag1.size.h / 2)
                             );
 
                         mag1.z.SetCenteredLocation(e.CursorPosition);
                     }
+                };
+
+            EventHandler<IEvent> onzoom =
+                delegate(IEvent e)
+                {
+                    if (e.WheelDirection == 1)
+                    {
+                        zoom += 0.15;
+                    }
+                    else
+                    {
+                        zoom -= 0.15;
+
+                    }
+                    foreach (var mag1 in mag1a)
+                    {
+                        mag1.x.style.SetSize((int)(i.width * zoom), (int)(i.height * zoom));
+
+                        mag1.x.style.SetLocation(
+                            (int)((p.X * -zoom) + mag1.size.w / 2),
+                            (int)((p.Y * -zoom) + mag1.size.h / 2)
+                            );
+                    }
+
+                    Console.WriteLine(new { zoom = zoom }.ToString());
                 };
 
             foreach (var mag1 in mag1a)
@@ -124,12 +124,13 @@ namespace ImageZoomer.js
 
                 mag1.x = new IHTMLImage(i.src);
 
-                mag1.x.style.SetSize((int)(i.width * mag1.zoom), (int)(i.height * mag1.zoom));
+                mag1.x.style.SetSize((int)(i.width * zoom), (int)(i.height * zoom));
                 mag1.z.style.Opacity = mag1.opacity;
                 mag1.z.appendChild(mag1.x);
                 mag1.z.attachToDocument();
 
                 mag1.z.onmousemove += update;
+                mag1.z.onmousewheel += onzoom;
             }
 
 
@@ -139,6 +140,8 @@ namespace ImageZoomer.js
 
 
             i.onmousemove += update;
+
+            i.onmousewheel += onzoom;
 
 
 
