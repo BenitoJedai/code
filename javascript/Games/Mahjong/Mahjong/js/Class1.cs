@@ -19,6 +19,8 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 
 namespace Mahjong.js
 {
+   
+
     [Script]
     class TileSettings
     {
@@ -82,18 +84,12 @@ namespace Mahjong.js
         /// <param name="DataElement">The hidden data element</param>
         public Class1(IHTMLElement DataElement)
         {
+            Native.Document.body.style.backgroundColor = Color.Gray;
+
             var s = new TileSettings
                     {
                         BackgroundImage = "assets/tile0.png"
                     };
-
-
-            var i1 = new TileInfo { Image = "assets/1.png" };
-            var i3 = new TileInfo { Image = "assets/3.png" };
-            var i4 = new TileInfo { Image = "assets/4.png" };
-            var i5 = new TileInfo { Image = "assets/5.png" };
-            var i6 = new TileInfo { Image = "assets/6.png" };
-            var i7 = new TileInfo { Image = "assets/7.png" };
 
             #region CreateTile
             Func<int, int, TileInfo, Tile> CreateTile =
@@ -105,7 +101,7 @@ namespace Mahjong.js
                     a.Background.SetCenteredLocation(x, y);
 
                     a.Background.onmouseover +=
-                        delegate { a.Background.style.Opacity = 0.5; };
+                        delegate { a.Background.style.Opacity = 0.8; };
 
 
                     a.Background.onmouseout +=
@@ -116,12 +112,32 @@ namespace Mahjong.js
             #endregion
 
 
-            CreateTile(40 * 1, 40, i1);
-            CreateTile(40 * 2, 40, i3);
-            CreateTile(40 * 3, 40, i4);
-            CreateTile(40 * 4, 40, i5);
-            CreateTile(40 * 5, 40, i6);
-            CreateTile(40 * 7, 40, i7);
+         
+
+
+            Action<int, Asset[]> CreateTiles =
+                (y, a) =>
+                {
+                    int c = 0;
+
+                    foreach (var v in a)
+                    {
+                        var i = new TileInfo { Image = v.Source };
+
+                        c++;
+
+                        CreateTile((s.OuterWidth + 2) * c, (s.OuterHeight + 2) * y, i);
+                    }
+                };
+
+            CreateTiles(1, BambusAsset.Collection);
+            CreateTiles(2, RingAsset.Collection);
+            CreateTiles(3, GlyphAsset.Collection);
+            CreateTiles(4, SeasonAsset.Collection);
+            CreateTiles(5, FlowerAsset.Collection);
+            
+
+
 
         }
 
