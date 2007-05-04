@@ -12,11 +12,11 @@ namespace OrcasScriptApplication
     {
         public static void DefineEntryPoint(IEntryPoint e)
         {
-            DefineSpawnPoint(e, js.Class1.Alias, js.Class1.DefaultData);
-
+            DefineSpawnPoint(e, js.Class1.Alias, js.Class1.DefaultData, false);
+            DefineSpawnPoint(e, js.Class1.Alias, js.Class1.DefaultData, true);
         }
 
-        static void DefineSpawnPoint(IEntryPoint e, string alias, string data)
+        static void DefineSpawnPoint(IEntryPoint e, string alias, string data, bool packed)
         {
             var w = new TextWriter();
 
@@ -24,8 +24,13 @@ namespace OrcasScriptApplication
             w.WriteLine("<html>");
             w.WriteLine("<head>");
             w.WriteLine("<title>ScriptApplication</title>");
-            
-            SharedHelper.DefineScript(w, SharedHelper.LocalModules);
+
+
+            SharedHelper.DefineScript(w,
+                packed ?
+                SharedHelper.LocalModules.Select(i => i + ".js.packed").ToArray() :
+                SharedHelper.LocalModules
+            );
 
             w.WriteLine("<script></script>");
 
@@ -37,7 +42,7 @@ namespace OrcasScriptApplication
             w.WriteLine("</body>");
             w.WriteLine("</html>");
 
-            e[alias + ".htm"] = w.Text;
+            e[alias + (packed ? ".packed" : "") + ".htm"] = w.Text;
         }
     }
 }
