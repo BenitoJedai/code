@@ -49,10 +49,13 @@ namespace ImageZoomer.js
         /// </summary>
         public readonly EventHandler<IEvent> UpdateTo;
 
+
         public bool Enabled { get; set; }
 
         public MyMagnifier(IHTMLImage i, string zoom_src, int size, int frames, int framestep)
         {
+            Console.Log("new MyMagnifier");
+
             Enabled = true;
 
             var ax = new List<XMagnifierInfo>();
@@ -80,10 +83,16 @@ namespace ImageZoomer.js
                 delegate(IEvent e)
                 {
                     if (mag1a == null)
+                    {
+                        Console.WriteLine("disposed");
                         return;
+                    }
 
                     if (!Enabled)
+                    {
+                        Console.WriteLine("not enabled");
                         return;
+                    }
 
                     p = new Point(e.CursorX - i.Bounds.Left, e.CursorY - i.Bounds.Top);
 
@@ -197,11 +206,16 @@ namespace ImageZoomer.js
                     }
 
                     mag1a = null;
+
+                    i.onmousemove -= UpdateTo;
+                    Native.Document.onmousemove -= UpdateTo;
+                    
                 };
 
 
-            i.onmousemove += UpdateTo;
-
+                    i.onmousemove += UpdateTo;
+                    i.style.border = "1px solid black";
+    
             Native.Document.onmousemove += UpdateTo;
 
             //i.onmousewheel += onzoom;
@@ -306,7 +320,12 @@ namespace ImageZoomer.js
 
                     Control.appendChild(i);
 
-                    MyMagnifier.CreateClickableMagnifier(i, zoom_src);
+                    // browser bug: pressing ctrl-f5 wont allow to attach to mousemove
+                    // doasync will workaround that glitch
+
+                    Timer.DoAsync(
+                        () => MyMagnifier.CreateClickableMagnifier(i, zoom_src)
+                    );
                 };
 
             Action<string, string> SpawnFreezable =
@@ -318,7 +337,9 @@ namespace ImageZoomer.js
 
                     Control.appendChild(i);
 
-                    MyMagnifier.CreateFreezableMagnifier(i, zoom_src);
+                    Timer.DoAsync(
+                        () => MyMagnifier.CreateFreezableMagnifier(i, zoom_src)
+                    );
                 };
 
             Control.appendChild(new IHTMLElement(IHTMLElement.HTMLElementEnum.p, "Click to disable or re-enable the magnifier!"));
