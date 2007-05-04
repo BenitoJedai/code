@@ -1,2 +1,5 @@
 ﻿Based on
 http://valid.tjp.hu/tjpzoom/
+
+Another implementation can be found at:
+http://www.netzgesta.de/loupe/

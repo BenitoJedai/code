@@ -49,8 +49,12 @@ namespace ImageZoomer.js
         /// </summary>
         public readonly EventHandler<IEvent> UpdateTo;
 
-        public MyMagnifier(IHTMLImage i, int size, int frames, int framestep)
+        public bool Enabled { get; set; }
+
+        public MyMagnifier(IHTMLImage i, string zoom_src, int size, int frames, int framestep)
         {
+            Enabled = true;
+
             var ax = new List<XMagnifierInfo>();
             var zoom = 2.5;
 
@@ -60,7 +64,7 @@ namespace ImageZoomer.js
                    new XMagnifierInfo
                    {
                        size = new XSize { w = size - axi * framestep, h = size - axi * framestep },
-                       opacity = axi / (frames - 1)
+                       opacity = (axi + 1) / frames
                    }
                 );
             }
@@ -70,19 +74,7 @@ namespace ImageZoomer.js
             var p = new Point(0, 0);
 
 
-            var cursors = new
-                          {
-                              cursor = new IHTMLDiv(),
-                              offset = new IHTMLDiv()
-                          };
 
-            cursors.cursor.style.backgroundColor = Color.Red;
-            cursors.cursor.style.SetSize(16, 16);
-            cursors.cursor.attachToDocument();
-
-            cursors.offset.style.backgroundColor = Color.Blue;
-            cursors.offset.style.SetSize(16, 16);
-            cursors.offset.attachToDocument();
 
             UpdateTo =
                 delegate(IEvent e)
@@ -90,22 +82,16 @@ namespace ImageZoomer.js
                     if (mag1a == null)
                         return;
 
+                    if (!Enabled)
+                        return;
 
-
-                    //Console.WriteLine(e.Element.nodeName);
-
-                    //cursors.cursor.style.SetLocation(e.CursorX + 1, e.CursorY + 1);
-                    //cursors.offset.style.SetLocation(e.OffsetX + 1, e.OffsetY + 1);
-
-                    //return;
-
-                    p = new Point(e.OffsetX, e.OffsetY );
+                    p = new Point(e.CursorX - i.Bounds.Left, e.CursorY - i.Bounds.Top);
 
                     var vis = new[] { p.X, p.Y, i.width - p.X, i.height - p.Y }.Min();
 
 
                     var vis_margin = (size / 2) / zoom;
-                    int vis_length = size;
+                    int vis_length = size / 2;
 
                     foreach (var mag1 in mag1a)
                     {
@@ -116,6 +102,7 @@ namespace ImageZoomer.js
                         else
                         {
                             mag1.z.style.display = IStyle.DisplayEnum.block;
+
                             if (vis > vis_length + vis_margin)
                                 mag1.z.style.Opacity = mag1.opacity;
                             else
@@ -135,7 +122,10 @@ namespace ImageZoomer.js
             EventHandler<IEvent> onzoom =
                 delegate(IEvent e)
                 {
+                    e.StopPropagation();
                     e.PreventDefault();
+
+                    Console.WriteLine("zooming");
 
                     if (e.WheelDirection == 1)
                     {
@@ -145,6 +135,9 @@ namespace ImageZoomer.js
                     {
                         zoom -= 0.15;
 
+                        if (zoom < 0.8)
+                            zoom = 0.8;
+                            
                     }
                     foreach (var mag1 in mag1a)
                     {
@@ -167,17 +160,21 @@ namespace ImageZoomer.js
                 mag1.z.style.SetSize(mag1.size.w, mag1.size.h);
                 mag1.z.style.overflow = IStyle.OverflowEnum.hidden;
 
-                mag1.x = new IHTMLImage(i.src);
+                mag1.x = new IHTMLImage(zoom_src);
 
                 mag1.x.style.SetSize((int)(i.width * zoom), (int)(i.height * zoom));
                 mag1.z.style.Opacity = mag1.opacity;
                 mag1.z.appendChild(mag1.x);
                 mag1.z.attachToDocument();
 
-                //mag1.z.onmousemove += UpdateTo;
+                mag1.z.onmousemove += UpdateTo;
                 mag1.z.onmousewheel += onzoom;
-                mag1.z.onclick += (ev) => this.Click(ev);
 
+                //DisableEvent(mag1.z, "onmousewheel");
+
+
+                mag1.z.onclick += (ev) => this.Click(ev);
+                
 
 
             }
@@ -203,7 +200,9 @@ namespace ImageZoomer.js
                 };
 
 
-            Native.Document.documentElement.onmousemove += UpdateTo;
+            i.onmousemove += UpdateTo;
+
+            Native.Document.onmousemove += UpdateTo;
 
             //i.onmousewheel += onzoom;
         }
@@ -221,15 +220,16 @@ namespace ImageZoomer.js
 
         #endregion
 
-        [Script(NoDecoration=true)]
-        public static Func<MyMagnifier> CreateClickableMagnifier(IHTMLImage i)
+
+
+        public static Func<MyMagnifier> CreateClickableMagnifier(IHTMLImage i, string zoom_src)
         {
             var x = default(MyMagnifier);
 
             Action create =
                 () =>
                 {
-                    x = new MyMagnifier(i, 180, 8, 5);
+                    x = new MyMagnifier(i, zoom_src, 180, 4, 6);
 
                     x.Click +=
                          delegate
@@ -257,6 +257,23 @@ namespace ImageZoomer.js
 
             return () => x;
         }
+
+        public static Func<MyMagnifier> CreateFreezableMagnifier(IHTMLImage i, string zoom_src)
+        {
+            var x =  new MyMagnifier(i, zoom_src, 180, 4, 6);
+
+            Action<IEvent> click =
+                (ev) =>
+                {
+                    x.Enabled = !x.Enabled;
+                    x.UpdateTo(ev);
+                };
+
+            i.onclick += (ev) => { click(ev); };
+            x.Click += (ev) =>{ click(ev); };
+
+            return () => x;
+        }
     }
 
     [Script]
@@ -277,26 +294,46 @@ namespace ImageZoomer.js
 
             Control.appendChild( new IHTMLDiv("A simple image zoomer example") );
             Control.appendChild(new IHTMLAnchor("http://valid.tjp.hu/tjpzoom/", "based on tjpZoom"));
-            Control.appendChild(new IHTMLElement(IHTMLElement.HTMLElementEnum.p, "Use your mouse wheel to zoom and click to disable or re-enable the magnifier on an image."));
+            Control.appendChild(new IHTMLElement(IHTMLElement.HTMLElementEnum.p, "Use your mouse wheel to zoom!"));
             Control.appendChild(new IHTMLElement(IHTMLElement.HTMLElementEnum.hr));
 
+            Action<string, string> Spawn =
+                (src, zoom_src) =>
+                {
+                    var i = new IHTMLImage(src);
+
+                    i.style.margin = "2px";
+
+                    Control.appendChild(i);
+
+                    MyMagnifier.CreateClickableMagnifier(i, zoom_src);
+                };
+
+            Action<string, string> SpawnFreezable =
+                (src, zoom_src) =>
+                {
+                    var i = new IHTMLImage(src);
+
+                    i.style.margin = "2px";
+
+                    Control.appendChild(i);
+
+                    MyMagnifier.CreateFreezableMagnifier(i, zoom_src);
+                };
+
+            Control.appendChild(new IHTMLElement(IHTMLElement.HTMLElementEnum.p, "Click to disable or re-enable the magnifier!"));
             new[] {
                 "assets/boat.jpg",
-                //"assets/boat2.jpg",
-                //"assets/tea.jpg",
-                //"assets/town.jpg",
-            }.ForEach(
-            src =>
-            {
-                var i = new IHTMLImage(src);
+                "assets/boat2.jpg",
+                "assets/tea.jpg",
+                "assets/town.jpg",
+            }.ForEach( src => Spawn(src, src) );
 
-                i.style.margin = "2px";
+            Control.appendChild(new IHTMLElement(IHTMLElement.HTMLElementEnum.p, "Click to freeze the magnifier!"));
 
-                Control.appendChild(i);
-
-                MyMagnifier.CreateClickableMagnifier(i);
-            }
-            );
+            SpawnFreezable("assets/belchite_bw.jpg", "assets/belchite.jpg");
+            SpawnFreezable("assets/belchite.jpg", "assets/belchite_bw_neg.jpg");
+            
         }
 
 
@@ -304,7 +341,7 @@ namespace ImageZoomer.js
 
         static Class1()
         {
-            Console.EnableActiveXConsole();
+            //Console.EnableActiveXConsole();
 
             // spawn this class when document is loaded 
             Native.Spawn(
