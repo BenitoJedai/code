@@ -15,77 +15,147 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 
 //using global::System.Collections.Generic;
 
+[assembly:
+    ScriptResources("assets/mahjong/bamboo"),
+    ScriptResources("assets/mahjong/characters"),
+    ScriptResources("assets/mahjong/dots"),
+    ScriptResources("assets/mahjong/dragons"),
+    ScriptResources("assets/mahjong/flowers"),
+    ScriptResources("assets/mahjong/seasons"),
+    ScriptResources("assets/mahjong/special"),
+    ScriptResources("assets/mahjong/winds"),
 
+]
 
 namespace Mahjong.js
 {
     [Script]
     class Asset
     {
-        public string Source = "assets";
+        public string Source = "assets/mahjong";
 
-        
+
+        public static implicit operator IHTMLImage(Asset e)
+        {
+            return e.Source;
+        }
     }
 
     [Script]
-    class BambusAsset : Asset
+    class SpecialAsset : Asset
     {
-        public static Asset[] Collection
-        {
-            get
-            {
-                return new BambusAsset[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-            }
-        }
 
-        public static implicit operator BambusAsset(string e)
+        public static implicit operator SpecialAsset(string e)
         {
-            var v = new BambusAsset();
+            var v = new SpecialAsset();
 
-            v.Source += "/bambus/" + e + ".png";
+            v.Source += "/special/" + e + ".png";
 
             return v;
         }
     }
 
     [Script]
-    class GlyphAsset : Asset
+    class BambooAsset : Asset
     {
         public static Asset[] Collection
         {
             get
             {
-                return new GlyphAsset[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", 
-                               "c", "e", "f", "n", "s", "w" };
+                return new BambooAsset[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
             }
         }
 
-        public static implicit operator GlyphAsset(string e)
+        public static implicit operator BambooAsset(string e)
         {
-            var v = new GlyphAsset();
+            var v = new BambooAsset();
 
-            v.Source += "/glyphs/" + e + ".png";
+            v.Source += "/bamboo/" + e + ".png";
 
             return v;
         }
     }
 
     [Script]
-    class RingAsset : Asset
+    class CharacterAsset : Asset
     {
         public static Asset[] Collection
         {
             get
             {
-                return new RingAsset[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+                return new CharacterAsset[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", 
+                               };
             }
         }
 
-        public static implicit operator RingAsset(string e)
+        public static implicit operator CharacterAsset(string e)
         {
-            var v = new RingAsset();
+            var v = new CharacterAsset();
 
-            v.Source += "/rings/" + e + ".png";
+            v.Source += "/characters/" + e + ".png";
+
+            return v;
+        }
+    }
+
+    [Script]
+    class DragonAsset : Asset
+    {
+        public static Asset[] Collection
+        {
+            get
+            {
+                return new DragonAsset[] { "c", "f" };
+            }
+        }
+
+        public static implicit operator DragonAsset(string e)
+        {
+            var v = new DragonAsset();
+
+            v.Source += "/dragons/" + e + ".png";
+
+            return v;
+        }
+    }
+
+    [Script]
+    class WindAsset : Asset
+    {
+        public static Asset[] Collection
+        {
+            get
+            {
+                return new WindAsset[] { "e", "n", "s", "w" };
+            }
+        }
+
+        public static implicit operator WindAsset(string e)
+        {
+            var v = new WindAsset();
+
+            v.Source += "/winds/" + e + ".png";
+
+            return v;
+        }
+    }
+
+    [Script]
+    class DotsAsset : Asset
+    {
+        public static Asset[] Collection
+        {
+            get
+            {
+                return new DotsAsset[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+            }
+        }
+
+        public static implicit operator DotsAsset(string e)
+        {
+            var v = new DotsAsset();
+
+            v.Source += "/dots/" + e + ".png";
 
             return v;
         }

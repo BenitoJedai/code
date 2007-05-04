@@ -88,7 +88,7 @@ namespace Mahjong.js
 
             var s = new TileSettings
                     {
-                        BackgroundImage = "assets/tile0.png"
+                        BackgroundImage = (SpecialAsset)"tile0"
                     };
 
             #region CreateTile
@@ -130,11 +130,13 @@ namespace Mahjong.js
                     }
                 };
 
-            CreateTiles(1, BambusAsset.Collection);
-            CreateTiles(2, RingAsset.Collection);
-            CreateTiles(3, GlyphAsset.Collection);
-            CreateTiles(4, SeasonAsset.Collection);
-            CreateTiles(5, FlowerAsset.Collection);
+            CreateTiles(1, BambooAsset.Collection);
+            CreateTiles(2, DotsAsset.Collection);
+            CreateTiles(3, CharacterAsset.Collection);
+            CreateTiles(4, WindAsset.Collection);
+            CreateTiles(5, DragonAsset.Collection);
+            CreateTiles(6, SeasonAsset.Collection);
+            CreateTiles(7, FlowerAsset.Collection);
             
 
 
