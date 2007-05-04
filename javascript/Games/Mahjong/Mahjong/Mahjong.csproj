@@ -58,93 +58,48 @@
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\readme.txt" />
-    <Resource Include="assets\mahjong\bamboo\1.png">
-    </Resource>
-    <Resource Include="assets\mahjong\bamboo\2.Png">
-    </Resource>
-    <Resource Include="assets\mahjong\bamboo\3.png">
-    </Resource>
-    <Resource Include="assets\mahjong\bamboo\4.png">
-    </Resource>
-    <Resource Include="assets\mahjong\bamboo\5.png">
-    </Resource>
-    <Resource Include="assets\mahjong\bamboo\6.png">
-    </Resource>
-    <Resource Include="assets\mahjong\bamboo\7.png">
-    </Resource>
-    <Resource Include="assets\mahjong\bamboo\8.png">
-    </Resource>
-    <Resource Include="assets\mahjong\bamboo\9.png">
-    </Resource>
-    <Resource Include="assets\mahjong\flowers\bam.png">
-    </Resource>
-    <Resource Include="assets\mahjong\flowers\flum.png">
-    </Resource>
-    <Resource Include="assets\mahjong\flowers\mum.png">
-    </Resource>
-    <Resource Include="assets\mahjong\flowers\orc.png">
-    </Resource>
-    <Resource Include="assets\mahjong\characters\1.png">
-    </Resource>
-    <Resource Include="assets\mahjong\characters\2.png">
-    </Resource>
-    <Resource Include="assets\mahjong\characters\3.png">
-    </Resource>
-    <Resource Include="assets\mahjong\characters\4.png">
-    </Resource>
-    <Resource Include="assets\mahjong\characters\5.png">
-    </Resource>
-    <Resource Include="assets\mahjong\characters\6.png">
-    </Resource>
-    <Resource Include="assets\mahjong\characters\7.png">
-    </Resource>
-    <Resource Include="assets\mahjong\characters\8.png">
-    </Resource>
-    <Resource Include="assets\mahjong\characters\9.png">
-    </Resource>
-    <Resource Include="assets\mahjong\dragons\c.png">
-    </Resource>
-    <Resource Include="assets\mahjong\winds\e.png">
-    </Resource>
-    <Resource Include="assets\mahjong\dragons\f.png">
-    </Resource>
-    <Resource Include="assets\mahjong\winds\n.png">
-    </Resource>
-    <Resource Include="assets\mahjong\winds\s.png">
-    </Resource>
-    <Resource Include="assets\mahjong\winds\w.png">
-    </Resource>
-    <Resource Include="assets\mahjong\dots\1.png">
-    </Resource>
-    <Resource Include="assets\mahjong\dots\2.png">
-    </Resource>
-    <Resource Include="assets\mahjong\dots\3.png">
-    </Resource>
-    <Resource Include="assets\mahjong\dots\4.png">
-    </Resource>
-    <Resource Include="assets\mahjong\dots\5.png">
-    </Resource>
-    <Resource Include="assets\mahjong\dots\6.png">
-    </Resource>
-    <Resource Include="assets\mahjong\dots\7.png">
-    </Resource>
-    <Resource Include="assets\mahjong\dots\8.png">
-    </Resource>
-    <Resource Include="assets\mahjong\dots\9.png">
-    </Resource>
-    <Resource Include="assets\mahjong\seasons\aut.png">
-    </Resource>
-    <Resource Include="assets\mahjong\seasons\spr.png">
-    </Resource>
-    <Resource Include="assets\mahjong\seasons\sum.png">
-    </Resource>
-    <Resource Include="assets\mahjong\seasons\win.png">
-    </Resource>
-    <Resource Include="assets\mahjong\special\tile0.png">
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="web\" />
+    <EmbeddedResource Include="web\assets\mahjong\bamboo\1.png" />
+    <EmbeddedResource Include="web\assets\mahjong\bamboo\2.Png" />
+    <EmbeddedResource Include="web\assets\mahjong\bamboo\3.png" />
+    <EmbeddedResource Include="web\assets\mahjong\bamboo\4.png" />
+    <EmbeddedResource Include="web\assets\mahjong\bamboo\5.png" />
+    <EmbeddedResource Include="web\assets\mahjong\bamboo\6.png" />
+    <EmbeddedResource Include="web\assets\mahjong\bamboo\7.png" />
+    <EmbeddedResource Include="web\assets\mahjong\bamboo\8.png" />
+    <EmbeddedResource Include="web\assets\mahjong\bamboo\9.png" />
+    <EmbeddedResource Include="web\assets\mahjong\characters\1.png" />
+    <EmbeddedResource Include="web\assets\mahjong\characters\2.png" />
+    <EmbeddedResource Include="web\assets\mahjong\characters\3.png" />
+    <EmbeddedResource Include="web\assets\mahjong\characters\4.png" />
+    <EmbeddedResource Include="web\assets\mahjong\characters\5.png" />
+    <EmbeddedResource Include="web\assets\mahjong\characters\6.png" />
+    <EmbeddedResource Include="web\assets\mahjong\characters\7.png" />
+    <EmbeddedResource Include="web\assets\mahjong\characters\8.png" />
+    <EmbeddedResource Include="web\assets\mahjong\characters\9.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dots\1.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dots\2.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dots\3.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dots\4.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dots\5.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dots\6.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dots\7.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dots\8.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dots\9.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dragons\c.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dragons\f.png" />
+    <EmbeddedResource Include="web\assets\mahjong\flowers\bam.png" />
+    <EmbeddedResource Include="web\assets\mahjong\flowers\flum.png" />
+    <EmbeddedResource Include="web\assets\mahjong\flowers\mum.png" />
+    <EmbeddedResource Include="web\assets\mahjong\flowers\orc.png" />
+    <EmbeddedResource Include="web\assets\mahjong\seasons\aut.png" />
+    <EmbeddedResource Include="web\assets\mahjong\seasons\spr.png" />
+    <EmbeddedResource Include="web\assets\mahjong\seasons\sum.png" />
+    <EmbeddedResource Include="web\assets\mahjong\seasons\win.png" />
+    <EmbeddedResource Include="web\assets\mahjong\special\tile0.png" />
+    <EmbeddedResource Include="web\assets\mahjong\winds\e.png" />
+    <EmbeddedResource Include="web\assets\mahjong\winds\n.png" />
+    <EmbeddedResource Include="web\assets\mahjong\winds\s.png" />
+    <EmbeddedResource Include="web\assets\mahjong\winds\w.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
