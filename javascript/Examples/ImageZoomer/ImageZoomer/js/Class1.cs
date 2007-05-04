@@ -320,11 +320,11 @@ namespace ImageZoomer.js
 
                     Control.appendChild(i);
 
-                    // browser bug: pressing ctrl-f5 wont allow to attach to mousemove
-                    // doasync will workaround that glitch
+                    // note: image should be loeaded before attaching events on it!
 
-                    Timer.DoAsync(
-                        () => MyMagnifier.CreateClickableMagnifier(i, zoom_src)
+
+                    i.InvokeOnComplete(
+                        (img) => MyMagnifier.CreateClickableMagnifier(i, zoom_src)
                     );
                 };
 
@@ -337,8 +337,8 @@ namespace ImageZoomer.js
 
                     Control.appendChild(i);
 
-                    Timer.DoAsync(
-                        () => MyMagnifier.CreateFreezableMagnifier(i, zoom_src)
+                    i.InvokeOnComplete(
+                        (img) => MyMagnifier.CreateFreezableMagnifier(i, zoom_src)
                     );
                 };
 
