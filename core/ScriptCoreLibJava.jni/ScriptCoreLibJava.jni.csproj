@@ -52,12 +52,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="docs\about.txt" />
     <Content Include="web\bin\lib_jnistb10.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="docs\" />
     <Folder Include="web\java\" />
     <Folder Include="web\release\" />
   </ItemGroup>

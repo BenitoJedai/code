@@ -2,7 +2,7 @@ using ScriptCoreLib.JavaScript;
 
 namespace ScriptCoreLib.JavaScript.System
 {
-    [Script(Implements = typeof(bool))]
+    [Script(Implements = typeof(global::System.Boolean))]
     internal class BooleanImpl
     {
         [Script(OptimizedCode=@"return !!e;")]

@@ -223,7 +223,9 @@
     <Compile Include="javax.common\runtime\Convert.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="docs\" />
+    <Content Include="docs\about.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="javax\microedition\lcdui\" />
     <Folder Include="javax\microedition\media\" />
     <Folder Include="javax\microedition\midlet\" />

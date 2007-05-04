@@ -157,10 +157,10 @@ namespace ScriptCoreLib.JavaScript.DOM
                 }
                 else if (Expando.InternalIsMember(this, "clientX"))
                 {
-                    x = this.clientX + Native.Document.body.scrollLeft;
+                    x = this.clientX;
                 }
 
-                return x;
+                return x + ((HTML.IHTMLElement)this.Element.ownerDocument.documentElement).scrollLeft;
             }
         }
 
@@ -169,15 +169,15 @@ namespace ScriptCoreLib.JavaScript.DOM
             [Script(DefineAsStatic = true)]
             get
             {
+                int r = 0;
 
                 if (Expando.InternalIsMember(this, "pageY"))
-                    return this.pageY;
+                    r = this.pageY;
 
                 if (Expando.InternalIsMember(this, "clientY"))
-                    return this.clientY + Native.Document.body.scrollTop;
+                    r = this.clientY;
 
-
-                return 0;
+                return r + ((HTML.IHTMLElement)this.Element.ownerDocument.documentElement).scrollTop;
             }
         }
 
@@ -261,13 +261,13 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         [Script(OptimizedCode = @"
            
-            if (a0['returnValue'] != void(0)) 
-                a0.returnValue = false;
+            if ('returnValue' in a)
+                a.returnValue = false;
 
-            if (a0['stopPropagation'] != void(0)) 
-                a0.preventDefault(); 
+            if ('stopPropagation' in a) 
+                a.preventDefault(); 
             ")]
-        static internal void InternalPreventDefault(object a0) { }
+        static internal void InternalPreventDefault(object a) { }
         #endregion
 
         #region Element
