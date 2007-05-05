@@ -13,41 +13,23 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.XML;
 
-//using global::System.Collections.Generic;
+using global::System.Collections.Generic;
 
 
 
 namespace Mahjong.js
 {
-   
-
-    [Script]
-    class TileSettings
-    {
-        public int OuterWidth = 32;
-        public int OuterHeight = 46;
-
-        public int InnerWidth = 24;
-        public int InnerHeight = 38;
-
-        public IHTMLImage BackgroundImage;
-
-    }
-
     [Script]
     class TileInfo
     {
         public IHTMLImage Image;
-
-
-
     }
 
     [Script]
     class Tile
     {
         public readonly TileInfo Info;
-        public readonly TileSettings Settings;
+        public readonly Asset.Settings Settings;
 
         public readonly IHTMLDiv Background = new IHTMLDiv();
         public readonly IHTMLDiv Display = new IHTMLDiv();
@@ -55,7 +37,7 @@ namespace Mahjong.js
 
 
 
-        public Tile(TileInfo Info, TileSettings Settings)
+        public Tile(TileInfo Info, Asset.Settings Settings)
         {
             this.Settings = Settings;
             this.Info = Info;
@@ -68,7 +50,7 @@ namespace Mahjong.js
             this.Background.style.SetSize(Settings.OuterWidth, Settings.OuterHeight);
             this.Background.appendChild(this.Display);
 
-            Settings.BackgroundImage.ToBackground(Background);
+            Settings.BackgroundTile.ToBackground(Background);
         }
     }
 
@@ -86,10 +68,7 @@ namespace Mahjong.js
         {
             Native.Document.body.style.backgroundColor = Color.Gray;
 
-            var s = new TileSettings
-                    {
-                        BackgroundImage = (SpecialAsset)"tile0"
-                    };
+            var s = new Asset.Settings();
 
             #region CreateTile
             Func<int, int, TileInfo, Tile> CreateTile =
@@ -113,14 +92,16 @@ namespace Mahjong.js
 
 
          
+            
 
-
-            Action<int, Asset[]> CreateTiles =
+            Action<int, IEnumerable<Asset>> CreateTiles =
                 (y, a) =>
                 {
                     int c = 0;
 
-                    foreach (var v in a)
+
+
+                    foreach (var v in a.AsEnumerable())
                     {
                         var i = new TileInfo { Image = v.Source };
 
@@ -130,13 +111,28 @@ namespace Mahjong.js
                     }
                 };
 
-            CreateTiles(1, BambooAsset.Collection);
-            CreateTiles(2, DotsAsset.Collection);
-            CreateTiles(3, CharacterAsset.Collection);
-            CreateTiles(4, WindAsset.Collection);
-            CreateTiles(5, DragonAsset.Collection);
-            CreateTiles(6, SeasonAsset.Collection);
-            CreateTiles(7, FlowerAsset.Collection);
+            var stuff = Asset.Bamboo.
+                            Concat(Asset.Characters).
+                            Concat(Asset.Dots).
+                            Concat(Asset.Dragons).
+                            Concat(Asset.Flowers).
+                            Concat(Asset.Seasons).
+                            Concat(Asset.Winds);
+
+
+
+
+            CreateTiles(1, Asset.Bamboo);
+            CreateTiles(2, Asset.Dots);
+            CreateTiles(3, Asset.Characters);
+            CreateTiles(4, Asset.Winds);
+            CreateTiles(5, Asset.Dragons);
+            CreateTiles(6, Asset.Seasons);
+            CreateTiles(7, Asset.Flowers);
+            CreateTiles(8, stuff.Randomize());
+            CreateTiles(9, stuff.Randomize());
+
+
             
 
 
@@ -148,7 +144,7 @@ namespace Mahjong.js
 
         static Class1()
         {
-            Console.EnableActiveXConsole();
+            //Console.EnableActiveXConsole();
 
             // spawn this class when document is loaded 
             Native.Spawn(

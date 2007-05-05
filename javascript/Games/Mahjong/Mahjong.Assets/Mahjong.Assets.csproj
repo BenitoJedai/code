@@ -1,0 +1,114 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.20404</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{37337673-4A19-4F25-B7CC-B1532AB909CE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Mahjong.Assets</RootNamespace>
+    <AssemblyName>Mahjong.Assets</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ScriptCoreLib, Version=3.0.2665.39893, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="js\Assets.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="docs\about.txt" />
+    <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\mahjong\bamboo\1.png" />
+    <EmbeddedResource Include="web\assets\mahjong\bamboo\2.Png" />
+    <EmbeddedResource Include="web\assets\mahjong\bamboo\3.png" />
+    <EmbeddedResource Include="web\assets\mahjong\bamboo\4.png" />
+    <EmbeddedResource Include="web\assets\mahjong\bamboo\5.png" />
+    <EmbeddedResource Include="web\assets\mahjong\bamboo\6.png" />
+    <EmbeddedResource Include="web\assets\mahjong\bamboo\7.png" />
+    <EmbeddedResource Include="web\assets\mahjong\bamboo\8.png" />
+    <EmbeddedResource Include="web\assets\mahjong\bamboo\9.png" />
+    <EmbeddedResource Include="web\assets\mahjong\characters\1.png" />
+    <EmbeddedResource Include="web\assets\mahjong\characters\2.png" />
+    <EmbeddedResource Include="web\assets\mahjong\characters\3.png" />
+    <EmbeddedResource Include="web\assets\mahjong\characters\4.png" />
+    <EmbeddedResource Include="web\assets\mahjong\characters\5.png" />
+    <EmbeddedResource Include="web\assets\mahjong\characters\6.png" />
+    <EmbeddedResource Include="web\assets\mahjong\characters\7.png" />
+    <EmbeddedResource Include="web\assets\mahjong\characters\8.png" />
+    <EmbeddedResource Include="web\assets\mahjong\characters\9.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dots\1.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dots\2.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dots\3.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dots\4.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dots\5.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dots\6.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dots\7.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dots\8.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dots\9.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dragons\c.png" />
+    <EmbeddedResource Include="web\assets\mahjong\dragons\f.png" />
+    <EmbeddedResource Include="web\assets\mahjong\flowers\bam.png" />
+    <EmbeddedResource Include="web\assets\mahjong\flowers\flum.png" />
+    <EmbeddedResource Include="web\assets\mahjong\flowers\mum.png" />
+    <EmbeddedResource Include="web\assets\mahjong\flowers\orc.png" />
+    <EmbeddedResource Include="web\assets\mahjong\seasons\aut.png" />
+    <EmbeddedResource Include="web\assets\mahjong\seasons\spr.png" />
+    <EmbeddedResource Include="web\assets\mahjong\seasons\sum.png" />
+    <EmbeddedResource Include="web\assets\mahjong\seasons\win.png" />
+    <EmbeddedResource Include="web\assets\mahjong\special\tile0.png" />
+    <EmbeddedResource Include="web\assets\mahjong\winds\e.png" />
+    <EmbeddedResource Include="web\assets\mahjong\winds\n.png" />
+    <EmbeddedResource Include="web\assets\mahjong\winds\s.png" />
+    <EmbeddedResource Include="web\assets\mahjong\winds\w.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

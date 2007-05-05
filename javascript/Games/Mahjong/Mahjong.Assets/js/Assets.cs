@@ -30,14 +30,38 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 namespace Mahjong.js
 {
     [Script]
-    class Asset
+    public class Asset
     {
         public string Source = "assets/mahjong";
 
+        [Script]
+        public class Settings
+        {
+            public int OuterWidth = 32;
+            public int OuterHeight = 46;
+
+            public int InnerWidth = 24;
+            public int InnerHeight = 38;
+
+            public IHTMLImage BackgroundTile = (SpecialAsset)"tile0";
+        }
+        
+        static public Asset[] Bamboo { get { return BambooAsset.Collection; } }
+        static public Asset[] Characters { get { return CharacterAsset.Collection; } }
+        static public Asset[] Dots { get { return DotsAsset.Collection; } }
+        static public Asset[] Dragons { get { return DragonAsset.Collection; } }
+        static public Asset[] Flowers { get { return FlowerAsset.Collection; } }
+        static public Asset[] Seasons { get { return SeasonAsset.Collection; } }
+        static public Asset[] Winds { get { return WindAsset.Collection; } }
 
         public static implicit operator IHTMLImage(Asset e)
         {
             return e.Source;
+        }
+
+        public IHTMLImage ToImage()
+        {
+            return this.Source;
         }
     }
 
