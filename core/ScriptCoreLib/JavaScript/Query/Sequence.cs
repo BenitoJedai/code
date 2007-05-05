@@ -1,6 +1,6 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
-using ScriptCoreLib.Shared.Query;
+
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 
@@ -15,19 +15,8 @@ namespace ScriptCoreLib.JavaScript.Query
     [Script(Implements = typeof(ScriptCoreLib.Shared.Query.InternalSequence))]
     internal static class InternalSequenceImplementation
     {
-        public static TSource[] ToArray<TSource>(IEnumerable<TSource> source)
-        {
-            var a = new IArray<TSource>();
 
-            foreach (var v in source.AsEnumerable())
-            {
-                a.push(v);
-            }
-
-            return a.ToArray();
-        }
-
-        public static IEnumerable<TSource> AsEnumerable<TSource>(this IEnumerable<TSource> source)
+        public static IEnumerable<TSource> AsEnumerable<TSource>(IEnumerable<TSource> source)
         {
             var u = ScriptCoreLib.JavaScript.Runtime.Expando.Of(source);
 

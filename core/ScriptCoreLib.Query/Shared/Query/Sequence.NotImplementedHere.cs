@@ -9,31 +9,10 @@ using ScriptException = global::ScriptCoreLib.JavaScript.System.ScriptException;
 
 namespace ScriptCoreLib.Shared.Query
 {
-    internal static class InternalSequence
-    {
-        public static TSource[] ToArray<TSource>(IEnumerable<TSource> source)
-        {
-            return default(TSource[]);
-        }
-
-        public static IEnumerable<TSource> AsEnumerable<TSource>(IEnumerable<TSource> source)
-        {
-            return default(IEnumerable<TSource>);
-
-        }
-    }
-
     public static partial class Sequence
     {
         static void NoOptimization() { }
 
-        [Script(NotImplementedHere = true)]
-        public static TSource[] ToArray<TSource>(this IEnumerable<TSource> source)
-        {
-            NoOptimization();
-
-            return InternalSequence.ToArray(source);
-        }
 
 
 

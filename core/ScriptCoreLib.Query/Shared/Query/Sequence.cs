@@ -285,9 +285,40 @@ namespace ScriptCoreLib.Shared.Query
       
         }
 
- 
 
- 
+        public static List<TSource> ToList<TSource>(this IEnumerable<TSource> source)
+        {
+            if (source == null)
+            {
+                throw Error.ArgumentNull("source");
+            }
+            return new List<TSource>(source);
+        }
+
+
+        public static IEnumerable<TSource> Randomize<TSource>(this IEnumerable<TSource> u)
+        {
+            var x = u.ToList();
+            var y = new List<TSource>();
+            var r = new System.Random();
+
+            while (x.Count > 0)
+            {
+                var i = r.Next(x.Count - 1);
+
+                y.Add(x[i]);
+                x.RemoveAt(i);
+            }
+
+            return y;
+        }
+
+
+
+        public static TSource[] ToArray<TSource>(this IEnumerable<TSource> source)
+        {
+            return source.ToList().ToArray();
+        } 
 
 
 

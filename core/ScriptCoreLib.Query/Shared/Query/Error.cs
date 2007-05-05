@@ -13,6 +13,11 @@ namespace ScriptCoreLib.Shared.Query
     [Script]
     internal static class Error
     {
+        internal static ScriptException ArgumentOutOfRange(string paramName)
+        {
+            return new ScriptException("ArgumentOutOfRange: " + paramName);
+        }
+
         public static ScriptException ArgumentNull(string paramName)
         {
             return new ScriptException("ArgumentNull: " + paramName);
@@ -34,6 +39,11 @@ namespace ScriptCoreLib.Shared.Query
 
 
 
+
+        internal static ScriptException NotImplemented()
+        {
+            throw new ScriptException("The method or operation is not implemented.");
+        }
     }
 
 }

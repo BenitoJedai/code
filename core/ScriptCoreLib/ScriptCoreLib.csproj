@@ -127,6 +127,7 @@
     <Compile Include="JavaScript\DOM\HTML\IHTMLIFrame.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLBreak.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLTableBody.cs" />
+    <Compile Include="JavaScript\Query\Sequence.cs" />
     <Compile Include="JavaScript\Runtime\TimeFilter.cs" />
     <Compile Include="JavaScript\Runtime\TweenData.cs" />
     <Compile Include="JavaScript\Runtime\WorkPool.cs" />
@@ -151,6 +152,8 @@
     <Compile Include="PHP\Serialized\ObjectStreamHelper.cs" />
     <Compile Include="Shared\Helper.cs" />
     <Compile Include="Shared\IAssemblyInfo.cs" />
+    <Compile Include="Shared\Query\Sequence.cs" />
+    <Compile Include="Shared\Query\SZArrayEnumerator.cs" />
     <Compile Include="Shared\Serialized\SimpleEmailTag.cs" />
     <Compile Include="Shared\TextWriter.cs" />
     <Compile Include="PHP\System\ByteImpl.cs" />

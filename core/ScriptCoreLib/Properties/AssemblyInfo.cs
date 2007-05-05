@@ -45,6 +45,8 @@ ScriptResources("external")]
 [assembly: ScriptTypeFilter(ScriptType.PHP, "*.PHP")]
 [assembly: ScriptTypeFilter(ScriptType.PHP, "*.Shared")]
 
+[assembly:InternalsVisibleTo("ScriptCoreLib.Query")]
+
 namespace ScriptCoreLib.Shared
 {
     [Script]

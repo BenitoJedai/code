@@ -94,7 +94,7 @@ namespace ScriptCoreLib.Shared.Query
 
             public void Reset()
             {
-                throw new ScriptException("The method or operation is not implemented.");
+                throw Error.NotImplemented();
             }
 
 

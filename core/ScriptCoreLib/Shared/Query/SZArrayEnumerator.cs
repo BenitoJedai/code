@@ -23,7 +23,7 @@ namespace ScriptCoreLib.Shared.Query
         public SZArrayEnumerator(T[] array)
         {
             if (array == null)
-                throw Error.ArgumentNull("array");
+                throw new ScriptException("ArgumentNullException");
 
             this._array = array;
             this._index = -1;
