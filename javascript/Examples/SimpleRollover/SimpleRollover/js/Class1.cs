@@ -219,12 +219,12 @@ namespace SimpleRollover.js
 
 
 
-            styles.dark.AddRule("body").style.backgroundImage = "url(assets/vistax.png)";
+            styles.dark.AddRule("body").style.backgroundImage = "url(assets/vistax.jpg)";
             styles.dark.AddRule(".effect1").style.backgroundImage = "url(assets/vista.jpg)";
             styles.dark.AddRule(".moon1").style.backgroundColor = Color.Yellow;
 
             styles.light.AddRule("body").style.backgroundImage = "url(assets/vista.jpg)";
-            styles.light.AddRule(".effect1").style.backgroundImage = "url(assets/vistax.png)";
+            styles.light.AddRule(".effect1").style.backgroundImage = "url(assets/vistax.jpg)";
             styles.light.AddRule(".moon1").style.backgroundColor = Color.Red;
 
 
