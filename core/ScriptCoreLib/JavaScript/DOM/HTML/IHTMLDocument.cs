@@ -13,6 +13,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     [Script(HasNoPrototype = true)]
     public class IHTMLDocument : IDocument<IHTMLElement>
     {
+        public IHTMLStyle[] styleSheets;
+
         //// http://msdn.microsoft.com/workshop/author/dhtml/reference/methods/querycommandsupported.asp
         //public bool queryCommandSupported(string sCommand)
         //{

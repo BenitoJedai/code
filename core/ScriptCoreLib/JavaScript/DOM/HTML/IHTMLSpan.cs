@@ -16,6 +16,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         {
         }
 
+        public IHTMLSpan(params INode[] e)
+        {
+        }
+
         static IHTMLSpan InternalConstructor()
         {
             return (IHTMLSpan)Native.Document.createElement(IHTMLElement.HTMLElementEnum.span);
@@ -26,6 +30,15 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             IHTMLSpan n = new IHTMLSpan();
 
             n.innerHTML = e;
+
+            return n;
+        }
+
+       static IHTMLSpan InternalConstructor(params INode[] e)
+        {
+            IHTMLSpan n = new IHTMLSpan();
+
+            n.appendChild( e );
 
             return n;
         }

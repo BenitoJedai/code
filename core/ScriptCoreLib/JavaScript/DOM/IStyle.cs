@@ -1,46 +1,140 @@
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.Shared;
 
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    [Script(InternalConstructor = true)]
+    public partial class IStyleSheetRule
+    {
+        public string selectorText;
+        public IStyle style;
+
+    }
+
+    [Script(InternalConstructor = true)]
+    public partial class IStyleSheet
+    {
+        public bool disabled;
+
+        internal IStyleSheetRule[] rules;
+        internal IStyleSheetRule[] cssRules;
+
+        public IStyleSheetRule[] Rules
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                if (Expando.InternalIsMember(this, "rules"))
+                    return this.rules;
+
+                if (Expando.InternalIsMember(this, "cssRules"))
+                    return this.cssRules;
+
+                return null;
+            }
+        }
 
 
-    [Script(HasNoPrototype=true)]
+        #region Constructor
+
+        public IStyleSheet()
+        {
+            // InternalConstructor
+        }
+
+        static IStyleSheet InternalConstructor()
+        {
+            HTML.IHTMLStyle s = new HTML.IHTMLStyle();
+
+            s.attachToDocument();
+
+            return s.StyleSheet;
+        }
+
+        #endregion
+
+
+        internal object addRule(string s, string d, int i)
+        {
+            return null;
+        }
+
+        internal object insertRule(string r, int i)
+        {
+            return null;
+        }
+
+
+        // http://www.javascriptkit.com/domref/stylesheet.shtml
+        [Script(DefineAsStatic = true)]
+        public IStyleSheetRule AddRule(string selector, string declaration, int index)
+        {
+
+            if (Expando.InternalIsMember(this, "addRule"))
+                this.addRule(selector, declaration, index);
+
+            if (Expando.InternalIsMember(this, "insertRule"))
+                this.insertRule(selector + "{" + declaration + "}", index);
+
+            return this.Rules[index];
+        }
+
+        [Script(DefineAsStatic = true)]
+        public IStyleSheetRule AddRule(string selector)
+        {
+            return AddRule(selector, "/**/", this.Rules.Length);
+        }
+
+        [Script(DefineAsStatic = true)]
+        public IStyleSheetRule AddRule(string selector, Action<IStyleSheetRule> r)
+        {
+            var x = AddRule(selector);
+
+            r(x);
+
+            return x;
+        }
+
+    }
+
+    [Script(HasNoPrototype = true)]
     public partial class IStyle
     {
-        
+
         public string clear;
 
         #region white-space
 
         public WhiteSpaceEnum whiteSpace;
 
-        [Script(IsStringEnum=true)]
+        [Script(IsStringEnum = true)]
         public enum WhiteSpaceEnum
         {
             /// <summary>
             /// White-space is ignored by the browser
             /// </summary>
-            normal  	,
+            normal,
             /// <summary>
             /// White-space is preserved by the browser. Acts like the <pre> tag in HTML
             /// </summary>
 
-            pre 	,
+            pre,
             /// <summary>
             /// The text will never wrap, it continues on the same line until a <br> tag is encountered
             /// </summary>
-            nowrap 	
+            nowrap
         }
         #endregion
 
 
         #region cursor
         // TODO support per member values in enum
-        [Script(IsStringEnum=true)]
+        [Script(IsStringEnum = true)]
         public enum CursorEnum
         {
-            @default, auto, crosshair, pointer, move, text, wait, help 
+            @default, auto, crosshair, pointer, move, text, wait, help
 
         }
 
@@ -74,7 +168,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             empty
 
         }
-        public DisplayEnum display; 
+        public DisplayEnum display;
         #endregion
 
         #region visibility
@@ -101,8 +195,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         [Script(IsStringEnum = true)]
         public enum FontFamilyEnum
         {
-            Times, Helvetica, /*Zapf-Chancery,*/ Western, 
-            [Script(ExternalTarget="Consolas, Courier New, Courier")]
+            Times, Helvetica, /*Zapf-Chancery,*/ Western,
+            [Script(ExternalTarget = "Consolas, Courier New, Courier")]
             Consolas,
             Courier, Verdana, Tahoma, Arial,
             Fixedsys
@@ -113,7 +207,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         //public string fontFamilyValue;
         #endregion
 
-        
+
         public string fontWeight;
         public string fontSize;
 
@@ -153,6 +247,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         [Script(IsStringEnum = true)]
         public enum PositionEnum
         {
+            @static,
             absolute,
             relative
         }
@@ -162,7 +257,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
         #region overflow
-        [Script(IsStringEnum=true)]
+        [Script(IsStringEnum = true)]
         public enum OverflowEnum
         {
             visible, hidden, scroll, auto
@@ -182,6 +277,29 @@ namespace ScriptCoreLib.JavaScript.DOM
         #endregion
 
         public string textDecoration;
+
+        [Script(IsStringEnum = true)]
+        public enum TextTransformEnum
+        {
+            /// <summary>
+            /// Default. Defines normal text, with lower case letters and capital letters
+            /// </summary>
+            none,
+            /// <summary>
+            /// Each word in a text starts with a capital letter
+            /// </summary>
+            capitalize,
+            /// <summary>
+            /// Defines only capital letters
+            /// </summary>
+            uppercase
+                ,
+            /// <summary>
+            /// Defines no capital letters, only lower case letters
+            /// </summary>
+            lowercase
+        }
+        public TextTransformEnum textTransform;
 
         public string verticalAlign;
 

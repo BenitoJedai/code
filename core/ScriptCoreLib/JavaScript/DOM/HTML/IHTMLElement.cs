@@ -21,46 +21,98 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         [Script(IsStringEnum = true)]
         public enum HTMLElementEnum
         {
+            a,
+            abbr,
+            acronym,
+            address,
             applet,
+            area,
             b,
+            @base,
+            basefont,
+            bdo,
+            big,
+            blockquote,
+            body,
+            br,
             button,
-            code,
+            caption,
             center,
+            cite,
+            code,
+            col,
+            colgroup,
+            dd,
+            del,
+            dfn,
+            dir,
+            div,
+            dl,
+            dt,
+            em,
+            embed,
+            fieldset,
+            font,
+            form,
+            frame,
+            frameset,
+            head,
             h1,
             h2,
             h3,
             h4,
             h5,
-            frameset,
-            fieldset,
-            legend,
-            div,
-            embed,
-            span,
-            script,
-            form,
-            p,
-            pre,
-            label,
-            link,
-            li,
-            ul,
-            ol,
-            textarea,
-            input,
-            iframe,
-            a,
+            h6,
             hr,
-            br,
+            html,
+            i,
+            iframe,
+            img,
+            input,
+            ins,
+            kbd,
+            label,
+            legend,
+            li,
+            link,
+            map,
+            marquee,
+            menu,
+            meta,
+            noframes,
+            noscript,
+            @object,
+            ol,
+            optgroup,
+            option,
+            p,
+            param,
+            pre,
+            q,
+            s,
+            samp,
+            script,
+            select,
+            small,
+            span,
+            strike,
+            strong,
             style,
+            sub,
+            sup,
             table,
             tbody,
-            tr,
             td,
-            select,
-            option,
-            @object,
-            param
+            textarea,
+            tfoot,
+            th,
+            thead,
+            title,
+            tr,
+            tt,
+            u,
+            ul,
+            @var,
         }
 
         #region constructors
@@ -130,7 +182,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         public string innerText
         {
             [Script(DefineAsStatic = true)]
-            get 
+            get
             {
                 if (this.childNodes.Length == 1)
                 {
@@ -141,7 +193,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                     }
                 }
 
-                return ""; 
+                return "";
             }
             [Script(DefineAsStatic = true)]
             set
@@ -178,7 +230,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                     this.appendChild(n);
                 }
 
-                
+
 
                 n.nodeValue = value;
             }

@@ -29,28 +29,33 @@ namespace ScriptCoreLib
             [Script(ExternalTarget = "screen")]
             static public IScreen Screen;
 
-            [Script(OptimizedCode = "debugger;", NoDecoration=true)]
+            [Script(OptimizedCode = "debugger;", NoDecoration = true)]
             static public void DebugBreak()
             {
 
             }
 
-            public readonly static EventHandler<IEvent> DisabledEventHandler =
-                delegate(IEvent e)
+            public static EventHandler<IEvent> DisabledEventHandler
+            {
+                get
                 {
-                    e.PreventDefault();
-                    e.StopPropagation();
-                };
+                    return delegate(IEvent e)
+                    {
+                        e.PreventDefault();
+                        e.StopPropagation();
+                    };
+                }
+            }
 
             static Native()
             {
-   
+
 
             }
 
             public static void Spawn(params SpawnItem[] e)
             {
-                Helper.ForEach(e, (x) => Native.Spawn(x.A, x.B));
+                Helper.ForEach(e, ( x) => Native.Spawn(x.A, x.B));
             }
 
             /// <summary>
@@ -93,13 +98,13 @@ namespace ScriptCoreLib
                             {
                                 Console.Log("spawn: {" + id + "}");
 
-                                
+
                                 s(v, id);
                             }
 
                         );
 
-      
+
 
                     };
             }
@@ -138,5 +143,5 @@ namespace ScriptCoreLib
 
 
 
-   
+
 }

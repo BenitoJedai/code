@@ -9,6 +9,13 @@ namespace ScriptCoreLib.JavaScript.System
     [Script(Implements=typeof(global::System.String))]
     internal class StringImpl 
     {
+        public static string Format(string format, object a)
+        {
+            // fast solution 
+
+            return format.Replace("{0}", "" + a);
+        }
+
         public static string Format(string format, object a, object b)
         {
             // fast solution 

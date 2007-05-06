@@ -116,6 +116,9 @@
     <Compile Include="JavaScript\Controls\InlineButton.cs" />
     <Compile Include="JavaScript\Controls\SpawnControlBase.cs" />
     <Compile Include="JavaScript\CSharp\CodeWriter.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLStyle.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLArea.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLMap.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLScript.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLEmbed.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLParam.cs" />

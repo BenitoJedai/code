@@ -24,6 +24,13 @@ namespace ScriptCoreLib.Shared
     public delegate void Action<A, B, C>(A a, B b, C c);
 
     [Script]
+    public delegate void ActionParams<T>(params T[] e);
+       
+    [Script]
+    public delegate R FuncParams<T, R>(params T[] e);
+
+
+    [Script]
     public delegate T Func<T>();
 
     [Script]
@@ -48,7 +55,7 @@ namespace ScriptCoreLib.Shared
         {
             set
             {
-                if (Predicate.Invoke(this.TargetIn , e, TargetInComparer))
+                if (Predicate.Invoke(this.TargetIn, e, TargetInComparer))
                 {
                     this.TargetOut = value;
                     this.Value = true;
@@ -153,7 +160,7 @@ namespace ScriptCoreLib.Shared
         public static bool Invoke<T>(T a, EventHandler<Predicate<T>> h)
         {
             var p = new Predicate<T>();
-            
+
             p.Target = a;
             p.Invoke(h);
 
@@ -230,7 +237,7 @@ namespace ScriptCoreLib.Shared
     [Script(IsStringEnum = true)]
     public enum HTMLInputTypeEnum
     {
-        text, password, checkbox, radio, submit, reset, file, hidden, image, button, 
+        text, password, checkbox, radio, submit, reset, file, hidden, image, button,
         /// <summary>
         /// this is not actually a part of html input tag, but denotes to multiline text
         /// </summary>
