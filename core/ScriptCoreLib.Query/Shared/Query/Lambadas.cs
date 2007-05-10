@@ -30,6 +30,30 @@ namespace ScriptCoreLib.Shared.Query
 
         #endregion
 
+        #region FixFirstParam
+
+        public static Func<A, T> FixLastParam<A, B, T>(this Func<A, B, T> f, B b)
+        {
+            return (a) => f(a, b);
+        }
+
+        public static Action<A> FixLastParam<A, B>(this Action<A, B> f, B b)
+        {
+            return (a) => f(a, b);
+        }
+
+        public static Func<A, B, T> FixLastParam<A, B, C, T>(this Func<A, B, C, T> f, C c)
+        {
+            return (a, b) => f(a, b, c);
+        }
+
+        public static Action<A, B> FixLastParam<A, B, C>(this Action<A, B, C> f, C c)
+        {
+            return (a, b) => f(a, b, c);
+        }
+
+        #endregion
+
         public static Action<A> AsAction<A, T>(this Func<A, T> f)
         {
             return (a) => f(a);
