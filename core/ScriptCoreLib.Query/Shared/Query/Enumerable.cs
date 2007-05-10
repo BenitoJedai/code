@@ -286,14 +286,7 @@ namespace ScriptCoreLib.Shared.Query
         }
 
 
-        public static List<TSource> ToList<TSource>(this IEnumerable<TSource> source)
-        {
-            if (source == null)
-            {
-                throw Error.ArgumentNull("source");
-            }
-            return new List<TSource>(source);
-        }
+
 
 
         public static IEnumerable<TSource> Randomize<TSource>(this IEnumerable<TSource> u)
@@ -320,6 +313,15 @@ namespace ScriptCoreLib.Shared.Query
             return source.ToList().ToArray();
         }
 
+        public static List<TSource> ToList<TSource>(this IEnumerable<TSource> source)
+        {
+            if (source == null)
+            {
+                throw Error.ArgumentNull("source");
+            }
+            return new List<TSource>(source);
+        }
+
 
         public static U Aggregate<T, U>(this IEnumerable<T> source,
                                 U seed, Func<U, T, U> func)
@@ -333,6 +335,11 @@ namespace ScriptCoreLib.Shared.Query
         }
 
 
+    
+
+ 
+
+ 
 
 
 
