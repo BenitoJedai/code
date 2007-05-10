@@ -10,7 +10,7 @@ using ScriptException = global::ScriptCoreLib.JavaScript.System.ScriptException;
 namespace ScriptCoreLib.Shared.Query
 {
 
-    public static partial class Sequence
+    public static partial class Enumerable
     {
       
 

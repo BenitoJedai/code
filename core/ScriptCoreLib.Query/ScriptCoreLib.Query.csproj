@@ -51,16 +51,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Shared\Query\Sequence.Range.MoveNext.cs" />
-    <Compile Include="Shared\Query\Sequence.Range.cs" />
-    <Compile Include="Shared\Query\Sequence.NotImplementedHere.cs" />
+    <Compile Include="Shared\Query\Enumerable.Range.MoveNext.cs" />
+    <Compile Include="Shared\Query\Enumerable.Range.cs" />
+    <Compile Include="Shared\Query\Enumerable.NotImplementedHere.cs" />
     <Compile Include="Shared\Query\Lambadas.cs" />
-    <Compile Include="Shared\Query\Sequence.SelectMany.cs" />
-    <Compile Include="Shared\Query\Sequence.Concat.cs" />
+    <Compile Include="Shared\Query\Enumerable.SelectMany.cs" />
+    <Compile Include="Shared\Query\Enumerable.Concat.cs" />
     <Compile Include="Shared\Query\Error.cs" />
-    <Compile Include="Shared\Query\Sequence.Select.cs" />
-    <Compile Include="Shared\Query\Sequence.Where.cs" />
-    <Compile Include="Shared\Query\Sequence.cs" />
+    <Compile Include="Shared\Query\Enumerable.Select.cs" />
+    <Compile Include="Shared\Query\Enumerable.Where.cs" />
+    <Compile Include="Shared\Query\Enumerable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

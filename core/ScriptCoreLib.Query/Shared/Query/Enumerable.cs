@@ -14,8 +14,8 @@ namespace ScriptCoreLib.Shared.Query
 
 
 
-    [Script]
-    public static partial class Sequence
+    [Script(Implements=typeof(global::System.Linq.Enumerable))]
+    public static partial class Enumerable
     {
 
         #region Min
@@ -318,8 +318,19 @@ namespace ScriptCoreLib.Shared.Query
         public static TSource[] ToArray<TSource>(this IEnumerable<TSource> source)
         {
             return source.ToList().ToArray();
-        } 
+        }
 
+
+        public static U Aggregate<T, U>(this IEnumerable<T> source,
+                                U seed, Func<U, T, U> func)
+        {
+            U result = seed;
+
+            foreach (T element in source)
+                result = func(result, element);
+
+            return result;
+        }
 
 
 
