@@ -18,7 +18,7 @@ using global::System.Collections.Generic;
 
 namespace OrcasScriptApplication.js
 {
-
+    using StyleBuilder = Dictionary<string, Action<IStyleSheetRule>>;
 
     [Script]
     public class Class1
@@ -36,36 +36,32 @@ namespace OrcasScriptApplication.js
             // on mouseover over the color text is changed
             // on pressing the button the next message in text element is displayed
 
-            var styles = new Dictionary<string, Action<IStyleSheetRule>>
-                         {
-                            {"textarea", 
-                                r =>
-                                {
-                                    r.style.border = "1px solid gray";
-                                    r.style.margin = "1em";   
-                                }
-                            },
-                            {"textarea:hover", 
-                                r =>
-                                {
-                                    r.style.border = "1px solid blue";
-                                }
-                            },
-                            {"textarea:focus",
-                                r =>
-                                {
-                                    r.style.border = "1px solid red";
-                                }
-                            }
-                         };
+            //foreach (var v in
+             new StyleBuilder
+             {
+                {"textarea", 
+                    r =>
+                    {
+                        r.style.border = "1px solid gray";
+                        r.style.margin = "1em";   
 
+                        
+                    }
+                },
+                {"textarea:hover", 
+                    r =>
+                    {
+                        r.style.border = "1px solid blue";
+                    }
+                },
+                {"textarea:focus",
+                    r =>
+                    {
+                        r.style.border = "1px solid red";
+                    }
+                }
+             }.ForEach(i => IStyleSheet.Default.AddRule(i));
 
-
-            styles.Select(i => IStyleSheet.Default.AddRule(i)).ToArray();
-
-            //styles.Aggregate(new IStyleSheet(), (sheet, i) => sheet.AddRule(i));
-
-          
 
 
             var x = new
