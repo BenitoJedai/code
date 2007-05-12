@@ -6,7 +6,6 @@ using global::System.Collections.Generic;
 
 
 using IDisposable = global::System.IDisposable;
-using ScriptException = global::ScriptCoreLib.JavaScript.System.ScriptException;
 
 namespace ScriptCoreLib.Shared.Query
 {
@@ -328,7 +327,7 @@ namespace ScriptCoreLib.Shared.Query
         {
             U result = seed;
 
-            foreach (T element in source)
+            foreach (T element in source.AsEnumerable())
                 result = func(result, element);
 
             return result;

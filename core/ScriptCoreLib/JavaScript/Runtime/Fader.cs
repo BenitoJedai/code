@@ -2,7 +2,6 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Runtime;
 
-using ScriptCoreLib.JavaScript.System;
 
 using ScriptCoreLib.Shared;
 

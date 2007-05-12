@@ -1,13 +1,14 @@
-using ScriptCoreLib.JavaScript.Runtime;
-using ScriptCoreLib.JavaScript;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-using ScriptCoreLib.JavaScript.DOM;
-
-
-namespace ScriptCoreLib.JavaScript.System
+namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-    [Script(Implements=typeof(global::System.String))]
-    internal class StringImpl 
+    using ScriptCoreLib.JavaScript.Runtime;
+    using ScriptCoreLib.JavaScript.DOM;
+
+    [Script(Implements = typeof(global::System.String))]
+    internal class __String
     {
         public static string Format(string format, object a)
         {
@@ -51,35 +52,35 @@ namespace ScriptCoreLib.JavaScript.System
 
 
         [Script(DefineAsStatic = true)]
-        public int CompareTo(StringImpl e)
+        public int CompareTo(__String e)
         {
             return Expando.Compare(this, e);
-            
+
         }
 
-        [Script(OptimizedCode="return e.charAt(i);")]
-        static internal char InternalCharAt(StringImpl e, int i)
+        [Script(OptimizedCode = "return e.charAt(i);")]
+        static internal char InternalCharAt(__String e, int i)
         {
             return default(char);
         }
 
-        
+
 
         [Script(OptimizedCode = "return e.length;")]
-        static internal int InternalLength(StringImpl e)
+        static internal int InternalLength(__String e)
         {
             return default(int);
         }
 
         [Script(OptimizedCode = "return e.indexOf(c);")]
-        static internal int InternalIndexOf(StringImpl e, object c)
+        static internal int InternalIndexOf(__String e, object c)
         {
             return default(int);
         }
 
 
 
-        [Script(DefineAsStatic=true)]
+        [Script(DefineAsStatic = true)]
         public int IndexOf(char c)
         {
             return InternalIndexOf(this, c);
@@ -107,7 +108,7 @@ namespace ScriptCoreLib.JavaScript.System
         }
 
         [Script(DefineAsStatic = true)]
-        public  bool Contains(string a)
+        public bool Contains(string a)
         {
             return InternalIndexOf(this, a) > -1;
         }
@@ -120,7 +121,7 @@ namespace ScriptCoreLib.JavaScript.System
         }
 
         [Script(OptimizedCode = "return {arg0}+'';",
-                UseCompilerConstants=true)]
+                UseCompilerConstants = true)]
         public static string Concat(object a0)
         {
             return default(string);
@@ -145,7 +146,7 @@ namespace ScriptCoreLib.JavaScript.System
         }
 
         [Script(OptimizedCode = "return a0+a1+a2")]
-        public static string Concat(string  a0, string a1, string a2)
+        public static string Concat(string a0, string a1, string a2)
         {
             return default(string);
         }
@@ -157,50 +158,50 @@ namespace ScriptCoreLib.JavaScript.System
         }
 
         #endregion
-        [Script(DefineAsStatic = true, OptimizedCode="return a0.split(a1).join(a2)")]
+        [Script(DefineAsStatic = true, OptimizedCode = "return a0.split(a1).join(a2)")]
         internal object InternalReplace(object a0, object a1, object a2)
         {
             return default(object);
         }
-      
+
         [Script(DefineAsStatic = true)]
-        public StringImpl Replace(StringImpl a0, StringImpl a1)
+        public __String Replace(__String a0, __String a1)
         {
-            return (StringImpl)InternalReplace(this, a0, a1);
+            return (__String)InternalReplace(this, a0, a1);
         }
 
-        [Script(OptimizedCode=@"return a1.join(a0);")]
-        static public StringImpl Join(StringImpl a0, StringImpl[] a1)
+        [Script(OptimizedCode = @"return a1.join(a0);")]
+        static public __String Join(__String a0, __String[] a1)
         {
-            return default(StringImpl);
-        }
-
-        [Script(NoDecoration=true)]
-        internal StringImpl toLowerCase()
-        {
-            return default(StringImpl);
+            return default(__String);
         }
 
         [Script(NoDecoration = true)]
-        internal StringImpl toUpperCase()
+        internal __String toLowerCase()
         {
-            return default(StringImpl);
+            return default(__String);
+        }
+
+        [Script(NoDecoration = true)]
+        internal __String toUpperCase()
+        {
+            return default(__String);
         }
 
         [Script(DefineAsStatic = true)]
-        public StringImpl ToLower()
+        public __String ToLower()
         {
             return toLowerCase();
         }
 
         [Script(DefineAsStatic = true)]
-        public StringImpl ToUpper()
+        public __String ToUpper()
         {
             return toUpperCase();
         }
 
         [Script(DefineAsStatic = true)]
-        public StringImpl Trim()
+        public __String Trim()
         {
             return IRegExp.Trim.replace(this, "");
         }
@@ -243,26 +244,26 @@ namespace ScriptCoreLib.JavaScript.System
         #region substr
 
         [Script(OptimizedCode = "return a0.substr(a1);")]
-        internal static StringImpl InternalSubstring(StringImpl a0, int a1)
+        internal static __String InternalSubstring(__String a0, int a1)
         {
-            return default(StringImpl);
+            return default(__String);
         }
 
         [Script(OptimizedCode = "return a0.substr(a1, a2);")]
-        internal static StringImpl InternalSubstring(StringImpl a0, int a1, int a2)
+        internal static __String InternalSubstring(__String a0, int a1, int a2)
         {
-            return default(StringImpl);
+            return default(__String);
         }
 
         [Script(DefineAsStatic = true)]
-        public StringImpl Substring(int a0)
+        public __String Substring(int a0)
         {
             return InternalSubstring(this, a0);
         }
 
 
         [Script(DefineAsStatic = true)]
-        public StringImpl Substring(int a0, int a1)
+        public __String Substring(int a0, int a1)
         {
             return InternalSubstring(this, a0, a1);
         }
@@ -270,17 +271,17 @@ namespace ScriptCoreLib.JavaScript.System
         [Script(DefineAsStatic = true)]
         public string[] Split(params char[] e)
         {
-            return IArray<string>.Split((string)(object)(this), StringImpl.FromCharCode(e[0]));
+            return IArray<string>.Split((string)(object)(this), __String.FromCharCode(e[0]));
         }
 
         [Script(DefineAsStatic = true)]
-        public bool EndsWith(StringImpl a0)
+        public bool EndsWith(__String a0)
         {
             return InternalSubstring(this, this.Length - a0.Length) == a0;
         }
 
         [Script(DefineAsStatic = true)]
-        public bool StartsWith(StringImpl a0)
+        public bool StartsWith(__String a0)
         {
             return InternalSubstring(this, 0, a0.Length) == a0;
         }
@@ -289,7 +290,7 @@ namespace ScriptCoreLib.JavaScript.System
 
         #region equal
         [Script(OptimizedCode = "return a == b")]
-        public static bool operator ==(StringImpl a, StringImpl b)
+        public static bool operator ==(__String a, __String b)
         {
             return default(bool);
         }
@@ -297,11 +298,11 @@ namespace ScriptCoreLib.JavaScript.System
         [Script(DefineAsStatic = true)]
         public override bool Equals(object obj)
         {
-            return this == (StringImpl)obj;
+            return this == (__String)obj;
         }
 
         [Script(OptimizedCode = "return a != b")]
-        public static bool operator !=(StringImpl a, StringImpl b)
+        public static bool operator !=(__String a, __String b)
         {
             return default(bool);
         }
@@ -310,7 +311,10 @@ namespace ScriptCoreLib.JavaScript.System
         public override int GetHashCode()
         {
             return base.GetHashCode();
-        } 
+        }
         #endregion
     }
+
+
 }
+

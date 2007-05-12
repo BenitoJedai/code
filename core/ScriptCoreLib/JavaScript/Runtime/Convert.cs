@@ -1,12 +1,13 @@
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 
-using ScriptCoreLib.JavaScript.System;
 
 using ScriptCoreLib.Shared;
 
 namespace ScriptCoreLib.JavaScript.Runtime
 {
+    using ScriptCoreLib.JavaScript.BCLImplementation.System;
+
     // http://www.devguru.com/Technologies/ecmascript/quickref/js_property.html
 
     [Script]
@@ -121,9 +122,9 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
             while (b)
             {
-                chr1 = StringImpl.GetCharCodeAt(input, i++);
-                chr2 = StringImpl.GetCharCodeAt(input, i++);
-                chr3 = StringImpl.GetCharCodeAt(input, i++);
+                chr1 = __String.GetCharCodeAt(input, i++);
+                chr2 = __String.GetCharCodeAt(input, i++);
+                chr3 = __String.GetCharCodeAt(input, i++);
 
                 enc1 = chr1 >> 2;
                 enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
@@ -172,15 +173,15 @@ namespace ScriptCoreLib.JavaScript.Runtime
                 chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
                 chr3 = ((enc3 & 3) << 6) | enc4;
 
-                output += StringImpl.FromCharCode(chr1);
+                output += __String.FromCharCode(chr1);
 
                 if (enc3 != 64)
                 {
-                    output += StringImpl.FromCharCode(chr2);
+                    output += __String.FromCharCode(chr2);
                 }
                 if (enc4 != 64)
                 {
-                    output += StringImpl.FromCharCode(chr3);
+                    output += __String.FromCharCode(chr3);
                 }
 
                 b = i < input.Length;
@@ -203,7 +204,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
             for (int i = 0; i < e.Length; i++)
             {
-                int c = System.StringImpl.GetCharCodeAt(e, i);
+                int c = __String.GetCharCodeAt(e, i);
 
                 w.Write(@"%" + Convert.ToHexString(c));
             }

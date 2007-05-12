@@ -2,7 +2,6 @@ using ScriptCoreLib.Shared;
 
 using ScriptCoreLib.JavaScript;
 
-using ScriptCoreLib.JavaScript.System;
 
 namespace ScriptCoreLib.JavaScript.Runtime
 {

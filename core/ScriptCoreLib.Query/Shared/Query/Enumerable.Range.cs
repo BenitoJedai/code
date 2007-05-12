@@ -5,7 +5,6 @@ using global::System.Collections;
 using global::System.Collections.Generic;
 
 using IDisposable = global::System.IDisposable;
-using ScriptException = global::ScriptCoreLib.JavaScript.System.ScriptException;
 
 namespace ScriptCoreLib.Shared.Query
 {
@@ -13,7 +12,7 @@ namespace ScriptCoreLib.Shared.Query
     public static partial class Enumerable
     {
 
-        public static IEnumerable<int> Range(int start, int count)
+        public static IEnumerable<int> Range(this int start, int count)
         {
             long num;
             num = (((long)start) + ((long)count)) - ((long)1);

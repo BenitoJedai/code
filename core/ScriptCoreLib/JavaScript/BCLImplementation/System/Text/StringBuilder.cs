@@ -1,20 +1,22 @@
-using ScriptCoreLib.JavaScript.DOM;
-using ScriptCoreLib.JavaScript.Runtime;
-using ScriptCoreLib.JavaScript;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace ScriptCoreLib.JavaScript.System
+namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 {
+    using ScriptCoreLib.JavaScript.DOM;
+
     [Script(Implements = typeof(global::System.Text.StringBuilder))]
-    internal class StringBuilder
+    internal class __StringBuilder
     {
         readonly IArray<string> data = new IArray<string>();
 
-        public StringBuilder()
+        public __StringBuilder()
         {
 
         }
 
-        public StringBuilder Append(string e)
+        public __StringBuilder Append(string e)
         {
             if (e != null)
                 data.push(e);
@@ -22,7 +24,7 @@ namespace ScriptCoreLib.JavaScript.System
             return this;
         }
 
-        public StringBuilder Append(object value)
+        public __StringBuilder Append(object value)
         {
             if (value == null)
             {
@@ -40,4 +42,5 @@ namespace ScriptCoreLib.JavaScript.System
 
 
     }
+
 }

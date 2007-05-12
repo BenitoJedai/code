@@ -5,7 +5,6 @@ using global::System.Collections;
 using global::System.Collections.Generic;
 
 using IDisposable = global::System.IDisposable;
-using ScriptException = global::ScriptCoreLib.JavaScript.System.ScriptException;
 
 namespace ScriptCoreLib.Shared.Query
 {
@@ -23,7 +22,7 @@ namespace ScriptCoreLib.Shared.Query
         public SZArrayEnumerator(T[] array)
         {
             if (array == null)
-                throw new ScriptException("ArgumentNullException");
+                throw new global::System.Exception("ArgumentNullException");
 
             this._array = array;
             this._index = -1;
@@ -66,9 +65,9 @@ namespace ScriptCoreLib.Shared.Query
             {
 
                 if (this._index < 0)
-                    throw new ScriptException("InvalidOperation_EnumNotStarted");
+                    throw new global::System.Exception("InvalidOperation_EnumNotStarted");
                 if (this._index >= this._endIndex)
-                    throw new ScriptException("InvalidOperation_EnumEnded");
+                    throw new global::System.Exception("InvalidOperation_EnumEnded");
 
                 return this._array[this._index];
             }
@@ -105,7 +104,7 @@ namespace ScriptCoreLib.Shared.Query
 
         public void Reset()
         {
-            throw new ScriptException("The method or operation is not implemented.");
+            throw new global::System.Exception("The method or operation is not implemented.");
         }
 
         #endregion

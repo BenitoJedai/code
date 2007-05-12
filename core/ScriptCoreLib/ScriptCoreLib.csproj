@@ -98,19 +98,30 @@
     <Compile Include="JavaScript\Runtime\Fader.cs" />
     <Compile Include="JavaScript\Runtime\Indexer.cs" />
     <Compile Include="JavaScript\Runtime\List.cs" />
-    <Compile Include="JavaScript\System\Double.cs" />
     <Compile Include="Shared\Drawing\Rectangle.cs" />
     <Compile Include="JavaScript\Runtime\Console.cs" />
     <Compile Include="JavaScript\Runtime\Timer.cs" />
-    <Compile Include="JavaScript\System\Delegate.cs" />
-    <Compile Include="JavaScript\System\Exception.cs" />
-    <Compile Include="JavaScript\System\Int32.cs" />
-    <Compile Include="JavaScript\System\IntPtr.cs" />
-    <Compile Include="JavaScript\System\MulticastDelegate.cs" />
-    <Compile Include="JavaScript\System\Object.cs" />
-    <Compile Include="JavaScript\System\StringImpl.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JavaScript\BCLImplementation\System\Boolean.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Collections\ArrayList.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Dictonary.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\KeyValuePair.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\List.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Console.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Delegate.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Diagnostics\Debugger.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Double.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Exception.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Int32.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\IntPtr.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Monitor.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\MulticastDelegate.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Object.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Random.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\String.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Text\StringBuilder.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\WeakReference.cs" />
     <Compile Include="JavaScript\Controls\DragHelper.cs" />
     <Compile Include="JavaScript\Controls\Effects\OpacityTween.cs" />
     <Compile Include="JavaScript\Controls\InlineButton.cs" />
@@ -135,8 +146,6 @@
     <Compile Include="JavaScript\Runtime\TweenData.cs" />
     <Compile Include="JavaScript\Runtime\WorkPool.cs" />
     <Compile Include="JavaScript\Serialized\ObjectStreamHelper.cs" />
-    <Compile Include="JavaScript\System\Implementation.cs" />
-    <Compile Include="JavaScript\System\Text\StringBuilder.cs" />
     <Compile Include="PHP\Drawing\Image.API.cs" />
     <Compile Include="PHP\Drawing\Image.cs" />
     <Compile Include="PHP\IO\DirectoryInfo.cs" />
@@ -162,7 +171,6 @@
     <Compile Include="PHP\System\ByteImpl.cs" />
     <Compile Include="PHP\Net\NetworkInfo.cs" />
     <Compile Include="PHP\Runtime\ApplicationSwitch.cs" />
-    <Compile Include="JavaScript\System\BooleanImpl.cs" />
     <Compile Include="PHP\Runtime\JSON.cs" />
     <Compile Include="PHP\Net\ServerTransport.cs" />
     <Compile Include="PHP\System\ActivatorImpl.cs" />
@@ -201,6 +209,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="web\external\ActiveXConsole.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Documents\" />
   </ItemGroup>
   <Import Project="$(ProgramFiles)\LINQ Preview\Misc\Linq.targets" />
   <PropertyGroup>

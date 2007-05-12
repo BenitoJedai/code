@@ -2,7 +2,6 @@ using ScriptCoreLib.Shared;
 
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript;
-using ScriptCoreLib.JavaScript.System;
 using ScriptCoreLib.JavaScript.Runtime;
 
 
@@ -180,7 +179,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         [Script(DefineAsStatic = true)]
         public void sort(EventHandler<int, TItem, TItem> e)
         {
-            sort(((DelegateImpl)(object)e).InvokePointer);
+            sort(((BCLImplementation.System.__Delegate)(object)e).InvokePointer);
         }
 
         public bool IsArray

@@ -16,7 +16,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
             return Self.To<IFunction>().apply(Owner, args);
         }
 
-        
+
 
         public ExpandoMember(Expando o, string m)
         {
@@ -152,7 +152,11 @@ namespace ScriptCoreLib.JavaScript.Runtime
     public class Expando
     {
 
-
+        [Script(OptimizedCode = "return a === b;")]
+        public static bool ReferenceEquals<A, B>(A a, B b)
+        {
+            return false;
+        }
 
         [Script(DefineAsStatic = true)]
         public string ToJSON()
@@ -300,7 +304,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
                     {
                         char x = e[i];
 
-                        int c = System.StringImpl.GetCharCodeAt(e, i);
+                        int c = BCLImplementation.System.__String.GetCharCodeAt(e, i);
 
 
                         if ("\"\'\\\b\f\n\r\t".IndexOf(x) > -1)
@@ -385,7 +389,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
                 }
                 catch
                 {
-                    throw new System.ScriptException("Could not create object from json string : " + e);
+                    throw new global::System.Exception("Could not create object from json string : " + e);
 
                 }
             }
@@ -508,7 +512,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
         }
 
         [Script(OptimizedCode = @"return {};")]
-        static Expando  InternalConstructor()
+        static Expando InternalConstructor()
         {
             return default(Expando);
         }
@@ -778,7 +782,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
             }
         }
 
-        [Script(OptimizedCode=@"return e instanceof Number;")]
+        [Script(OptimizedCode = @"return e instanceof Number;")]
         public static bool IsNativeNumberObject(object e)
         {
             return default(bool);
@@ -863,13 +867,13 @@ namespace ScriptCoreLib.JavaScript.Runtime
         }
 
         [Script(DefineAsStatic = true)]
-        public T GetMember<T>(string m)
+        public T GetMember<T>(object m)
         {
             return (T)Expando.InternalGetMember(this, m);
         }
 
         [Script(DefineAsStatic = true)]
-        public void SetMember<T>(string m, T value)
+        public void SetMember<T>(object m, T value)
         {
             Expando.InternalSetMember(this, m, value);
         }
@@ -1009,7 +1013,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
         }
 
         [Script(DefineAsStatic = true)]
-        public bool Contains(string p)
+        public bool Contains(object p)
         {
             return this[p] != null;
         }
@@ -1026,6 +1030,27 @@ namespace ScriptCoreLib.JavaScript.Runtime
             {
                 v.CopyTo(x);
             }
+        }
+
+        [Script(OptimizedCode = "delete t[key];")]
+        internal static void InternalRemove(object t, object key)
+        {
+        }
+
+        [Script(DefineAsStatic = true)]
+        public void Remove(object key)
+        {
+            InternalRemove(this, key);
+        }
+
+        [Script(OptimizedCode = "for (var i in t) delete t[i];")]
+        internal static void InternalRemoveAll(object t)
+        {
+        }
+
+        internal void RemoveAll()
+        {
+            InternalRemoveAll(this);
         }
     }
 }

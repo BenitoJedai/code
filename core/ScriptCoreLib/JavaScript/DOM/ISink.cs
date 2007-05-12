@@ -1,5 +1,4 @@
 using ScriptCoreLib.JavaScript.Runtime;
-using ScriptCoreLib.JavaScript.System;
 
 
 namespace ScriptCoreLib.JavaScript.DOM
@@ -11,7 +10,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         public void InternalEvent(bool b, global::System.Delegate e, string _EventListener, string _Event)
         {
 
-            IFunction z = ((DelegateImpl)(object)e).InvokePointer;
+            IFunction z = ((BCLImplementation.System.__Delegate)(object)e).InvokePointer;
 
             if (b)
             {

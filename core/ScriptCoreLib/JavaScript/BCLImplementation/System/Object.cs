@@ -1,9 +1,11 @@
-using ScriptCoreLib.JavaScript;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace ScriptCoreLib.JavaScript.System
+namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     [Script(Implements = typeof(global::System.Object))]
-    internal class Object
+    internal class __Object
     {
         public static bool Equals(object objA, object objB)
         {
@@ -38,4 +40,5 @@ namespace ScriptCoreLib.JavaScript.System
             return default(string);
         }
     }
+
 }

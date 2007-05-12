@@ -43,7 +43,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
         /// abort event will be called if the last job entry took longer than the time specified in the timeout field
         /// </summary>
         public event EventHandler<WorkPool> Abort;
-        public event EventHandler<System.ScriptException> Error;
+        public event EventHandler<global::System.Exception> Error;
 
         void Worker_Tick(Timer e)
         {
@@ -66,7 +66,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
                     List.Clear();
                 }
             }
-            catch (System.ScriptException ex)
+            catch (global::System.Exception ex)
             {
                 if (Error != null)
                     Error(ex);

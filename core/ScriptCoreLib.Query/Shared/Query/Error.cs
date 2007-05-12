@@ -5,7 +5,8 @@ using global::System.Collections;
 using global::System.Collections.Generic;
 
 using IDisposable = global::System.IDisposable;
-using ScriptException = global::ScriptCoreLib.JavaScript.System.ScriptException;
+
+using System;
 
 namespace ScriptCoreLib.Shared.Query
 {
@@ -13,24 +14,24 @@ namespace ScriptCoreLib.Shared.Query
     [Script]
     internal static class Error
     {
-        internal static ScriptException ArgumentOutOfRange(string paramName)
+        internal static Exception ArgumentOutOfRange(string paramName)
         {
-            return new ScriptException("ArgumentOutOfRange: " + paramName);
+            return new Exception("ArgumentOutOfRange: " + paramName);
         }
 
-        public static ScriptException ArgumentNull(string paramName)
+        public static Exception ArgumentNull(string paramName)
         {
-            return new ScriptException("ArgumentNull: " + paramName);
+            return new Exception("ArgumentNull: " + paramName);
         }
 
-        public static ScriptException NoElements()
+        public static Exception NoElements()
         {
-            return new ScriptException("Sequence contains no elements");
+            return new Exception("Sequence contains no elements");
         }
 
-        internal static ScriptException MoreThanOneElement()
+        internal static Exception MoreThanOneElement()
         {
-            return new ScriptException("Sequence contains more than one element");
+            return new Exception("Sequence contains more than one element");
         }
 
 
@@ -40,9 +41,9 @@ namespace ScriptCoreLib.Shared.Query
 
 
 
-        internal static ScriptException NotImplemented()
+        internal static Exception NotImplemented()
         {
-            throw new ScriptException("The method or operation is not implemented.");
+            throw new Exception("The method or operation is not implemented.");
         }
     }
 

@@ -2,7 +2,6 @@ using ScriptCoreLib.Shared;
 
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Runtime;
-using ScriptCoreLib.JavaScript.System;
 
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
@@ -42,7 +41,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
                 Console.LogError(u);
 
-                throw new ScriptException(u);
+                throw new global::System.Exception(u);
             }
             
         }

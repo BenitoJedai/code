@@ -5,7 +5,7 @@ using global::System.Collections;
 using global::System.Collections.Generic;
 
 using IDisposable = global::System.IDisposable;
-using ScriptException = global::ScriptCoreLib.JavaScript.System.ScriptException;
+using System;
 
 namespace ScriptCoreLib.Shared.Query
 {
@@ -248,7 +248,7 @@ namespace ScriptCoreLib.Shared.Query
 
             public void Reset()
             {
-                throw new ScriptException("The method or operation is not implemented.");
+                throw new Exception("The method or operation is not implemented.");
             }
 
             #endregion

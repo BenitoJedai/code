@@ -5,7 +5,6 @@ using global::System.Collections;
 using global::System.Collections.Generic;
 
 using IDisposable = global::System.IDisposable;
-using ScriptException = global::ScriptCoreLib.JavaScript.System.ScriptException;
 
 namespace ScriptCoreLib.Shared.Query
 {
@@ -22,17 +21,10 @@ namespace ScriptCoreLib.Shared.Query
             return source.ToDictionary<TSource, TKey, TSource>(keySelector, IdentityFunction<TSource>.Instance, comparer);
         }
 
- 
-
- 
-
-
         public static Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector)
         {
             return source.ToDictionary<TSource, TKey, TElement>(keySelector, elementSelector, null);
         }
-
-
 
         public static Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, IEqualityComparer<TKey> comparer)
         {
@@ -49,7 +41,7 @@ namespace ScriptCoreLib.Shared.Query
                 throw Error.ArgumentNull("elementSelector");
             }
             Dictionary<TKey, TElement> dictionary = new Dictionary<TKey, TElement>(comparer);
-            foreach (TSource local in source)
+            foreach (TSource local in source.AsEnumerable())
             {
                 dictionary.Add(keySelector(local), elementSelector(local));
             }

@@ -1,10 +1,13 @@
-using ScriptCoreLib.JavaScript;
-using ScriptCoreLib.JavaScript.DOM;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace ScriptCoreLib.JavaScript.System
+namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
+    using ScriptCoreLib.JavaScript.DOM;
+
     [Script(Implements = typeof(global::System.Delegate))]
-    public class DelegateImpl
+    public class __Delegate
     {
         [ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.Target)]
         public object Target;
@@ -15,7 +18,7 @@ namespace ScriptCoreLib.JavaScript.System
         // TODO: dom events and delay events do not support truly multiple targets
         public IFunction InvokePointer;
 
-        public DelegateImpl(object e, global::System.IntPtr p)
+        public __Delegate(object e, global::System.IntPtr p)
         {
             Target = e == null ? Native.Window : e;
             Method = p;
@@ -32,7 +35,7 @@ namespace ScriptCoreLib.JavaScript.System
             return default(IFunction);
         }
 
-        public static DelegateImpl Combine(DelegateImpl a, DelegateImpl b)
+        public static __Delegate Combine(__Delegate a, __Delegate b)
         {
             if (a == null)
             {
@@ -46,12 +49,12 @@ namespace ScriptCoreLib.JavaScript.System
             return a.CombineImpl(b);
         }
 
-        protected virtual DelegateImpl CombineImpl(DelegateImpl d)
+        protected virtual __Delegate CombineImpl(__Delegate d)
         {
-            throw new ScriptException("use MulticastDelegate instead");
+            throw new global::System.Exception("use MulticastDelegate instead");
         }
 
-        public static DelegateImpl Remove(DelegateImpl source, DelegateImpl value)
+        public static __Delegate Remove(__Delegate source, __Delegate value)
         {
             if (source == null)
             {
@@ -64,7 +67,7 @@ namespace ScriptCoreLib.JavaScript.System
             return source.RemoveImpl(value);
         }
 
-        protected virtual DelegateImpl RemoveImpl(DelegateImpl d)
+        protected virtual __Delegate RemoveImpl(__Delegate d)
         {
             if (!d.Equals(this))
             {
@@ -75,12 +78,12 @@ namespace ScriptCoreLib.JavaScript.System
 
         public override bool Equals(object obj)
         {
-            return IsEqual(this,  (DelegateImpl)obj );
+            return IsEqual(this,  (BCLImplementation.System.__Delegate)obj );
 
         }
 
 
-        public static bool IsEqual(DelegateImpl a, DelegateImpl b)
+        public static bool IsEqual(__Delegate a, __Delegate b)
         {
             if ((object)a == null)
                 return false;
@@ -109,4 +112,5 @@ namespace ScriptCoreLib.JavaScript.System
             return default(int);
         }
     }
+
 }

@@ -110,7 +110,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         [Script(DefineAsStatic=true)]
         internal int setTimeout(EventHandler code, int time)
         {
-            return setTimeout(((System.DelegateImpl)((object)code)).InvokePointer, time);
+            return setTimeout(((BCLImplementation.System.__Delegate)((object)code)).InvokePointer, time);
         }
         #endregion
 
@@ -128,7 +128,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         [Script(DefineAsStatic = true)]
         internal int setInterval(EventHandler code, int time)
         {
-            return setInterval(((System.DelegateImpl)((object)code)).InvokePointer, time);
+            return setInterval(((BCLImplementation.System.__Delegate)((object)code)).InvokePointer, time);
         }
         #endregion
 
@@ -241,7 +241,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             [Script(DefineAsStatic = true)]
             remove
             {
-                throw new System.ScriptException("Not implemented");
+                throw new global::System.Exception("Not implemented");
 
                 // TODO: via proxy
 

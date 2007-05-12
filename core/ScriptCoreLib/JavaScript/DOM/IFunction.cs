@@ -86,17 +86,17 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public static IFunction Of(EventHandler h)
         {
-            return ((System.DelegateImpl)(object)h).InvokePointer;
+            return ((BCLImplementation.System.__Delegate)(object)h).InvokePointer;
         }
 
         public static IFunction Of<TArg>(EventHandler<TArg> h)
         {
-            return ((System.DelegateImpl)(object)h).InvokePointer;
+            return ((BCLImplementation.System.__Delegate)(object)h).InvokePointer;
         }
 
         public static IFunction OfDelegate(global::System.Delegate h)
         {
-            return ((System.DelegateImpl)(object)h).InvokePointer;
+            return ((BCLImplementation.System.__Delegate)(object)h).InvokePointer;
         }
 
 

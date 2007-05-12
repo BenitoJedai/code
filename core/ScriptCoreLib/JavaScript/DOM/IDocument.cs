@@ -1,5 +1,4 @@
 using ScriptCoreLib.JavaScript;
-using ScriptCoreLib.JavaScript.System;
 
 // http://www.w3.org/TR/DOM-Level-2-HTML/html.html#ID-5353782642
 
@@ -12,7 +11,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         [Script(DefineAsStatic=true)]
         public new void appendChild<T>(T e)
         {
-            throw new ScriptException("IDocument.appendChild is forbidden");
+            throw new global::System.Exception("IDocument.appendChild is forbidden");
         }
 
         public ITextNode createTextNode(string text)

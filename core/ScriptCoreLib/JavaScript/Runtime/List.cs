@@ -8,7 +8,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
 {
 
 
-    [Script]
+    [Script, global::System.Obsolete]
     public class List<TItem> where TItem : class
     {
         public IArray<TItem> ListArray = new IArray<TItem>();
