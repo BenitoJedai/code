@@ -5,7 +5,7 @@ using ScriptCoreLib.Shared;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM.HTML;
-using ScriptCoreLib.JavaScript.Net;
+//using ScriptCoreLib.JavaScript.Net;
 
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript;

@@ -74,10 +74,7 @@ namespace SpaceInvaders.source.js.gfx
         {
             get 
             {
-                return 
-                    Sequence.Count(
-                        Sequence.Where(Items, i => !i.Image.complete)
-                    ) == 0;
+                return Items.Where(i => !i.Image.complete).Count() == 0;
             }
         }
       

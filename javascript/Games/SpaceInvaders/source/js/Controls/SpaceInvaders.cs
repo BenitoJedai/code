@@ -357,19 +357,19 @@ namespace SpaceInvaders.source.js.Controls
                             }
                             #endregion
 
-                            var ev = Sequence.Where(KnownEnemies.ToArray(), i => i.Visible);
+                            var ev = Enumerable.Where(KnownEnemies.ToArray(), i => i.Visible);
 
                             if (!Enemy_Ammo.Visible)
                             {
-                                var ei = Native.Math.round(Native.Math.random() * Sequence.Count(ev));
+                                var ei = Native.Math.round(Native.Math.random() * Enumerable.Count(ev));
 
-                                EnemyUnit et = Sequence.ElementAt(ev, ei);
+                                EnemyUnit et = Enumerable.ElementAt(ev, ei);
 
                                 if (et == null)
                                     Console.WriteLine("element at " + ei + " not found");
                                 else
                                 {
-                                    int ey = Sequence.Max(Sequence.Select(Sequence.Where(ev, i => i.X == et.X), i => i.Y));
+                                    int ey = Enumerable.Max(Enumerable.Select(Enumerable.Where(ev, i => i.X == et.X), i => i.Y));
 
                                     Enemy_Ammo.MoveTo(et.X, ey + 20);
                                     Enemy_Ammo.Visible = true;
@@ -412,7 +412,7 @@ namespace SpaceInvaders.source.js.Controls
                             #region move the gang
                             if (GangDirection > 0)
                             {
-                                int ex_max = Sequence.Max(Sequence.Select(ev, i => i.X));
+                                int ex_max = Enumerable.Max(Enumerable.Select(ev, i => i.X));
 
                                 // gang goes right
 
@@ -428,7 +428,7 @@ namespace SpaceInvaders.source.js.Controls
                             }
                             else
                             {
-                                int ex_min = Sequence.Min(Sequence.Select(ev, i => i.X));
+                                int ex_min = Enumerable.Min(Enumerable.Select(ev, i => i.X));
 
                                 // gang goes left
 
@@ -527,8 +527,8 @@ namespace SpaceInvaders.source.js.Controls
 
 
 
-                            var AliveEnemies = Sequence.Where(KnownEnemies.ToArray(), i => i.Visible);
-                            var AliveCount = Sequence.Count(AliveEnemies);
+                            var AliveEnemies = Enumerable.Where(KnownEnemies.ToArray(), i => i.Visible);
+                            var AliveCount = Enumerable.Count(AliveEnemies);
 
                             if (AliveCount == 0)
                             {
