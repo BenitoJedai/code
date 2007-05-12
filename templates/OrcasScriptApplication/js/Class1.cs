@@ -12,7 +12,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.XML;
 
-//using global::System.Collections.Generic;
+using global::System.Collections.Generic;
 
 
 
@@ -36,10 +36,42 @@ namespace OrcasScriptApplication.js
             // on mouseover over the color text is changed
             // on pressing the button the next message in text element is displayed
 
+            var styles = new Dictionary<string, Action<IStyleSheetRule>>
+                         {
+                            {"textarea", 
+                                r =>
+                                {
+                                    r.style.border = "1px solid gray";
+                                    r.style.margin = "1em";   
+                                }
+                            },
+                            {"textarea:hover", 
+                                r =>
+                                {
+                                    r.style.border = "1px solid blue";
+                                }
+                            },
+                            {"textarea:focus",
+                                r =>
+                                {
+                                    r.style.border = "1px solid red";
+                                }
+                            }
+                         };
+
+
+
+            styles.Select(i => IStyleSheet.Default.AddRule(i)).ToArray();
+
+            //styles.Aggregate(new IStyleSheet(), (sheet, i) => sheet.AddRule(i));
+
+          
+
+
             var x = new
                     {
                         about = "this is an anonymous type",
-                        pos = new 
+                        pos = new
                         {
                             x = 8,
                             y = 9
@@ -58,7 +90,7 @@ namespace OrcasScriptApplication.js
 
             );
 
-     
+
             #region linq example
 
             // http://www.imdb.com/title/tt0133093/
@@ -77,9 +109,9 @@ namespace OrcasScriptApplication.js
 
 
 
-            Func<IHTMLTextArea, string[]> ToNames = i => 
+            Func<IHTMLTextArea, string[]> ToNames = i =>
             {
-                var u = new [] { ',' };
+                var u = new[] { ',' };
 
                 // jsc cannot handle the params attribute that well :)
 
@@ -125,7 +157,7 @@ namespace OrcasScriptApplication.js
 
             users3.onchange += delegate { Update(); };
             users3.onkeyup += delegate { Update(); };
-            
+
             filter.onchange += delegate { Update(); };
             filter.onkeyup += delegate { Update(); };
 
@@ -167,17 +199,17 @@ This example makes heavy use of delegates, dom, and query operators.
                     f =>
                         (int indent, INode target) =>
                         {
-                               for (int i = 0; i < indent; i++)
-                                {
-                                    Console.Write("\t");
-                                }
+                            for (int i = 0; i < indent; i++)
+                            {
+                                Console.Write("\t");
+                            }
 
                             Console.WriteLine(target.nodeName);
 
 
                             foreach (INode n in target.childNodes.Where(i => i.nodeType == INode.NodeTypeEnum.ElementNode))
                             {
- 
+
 
 
                                 f(indent + 1, n);
@@ -186,24 +218,29 @@ This example makes heavy use of delegates, dom, and query operators.
                         }
                 ).FixFirstParam(0);
 
-            
+
 
             DOMdump(Native.Document);
 
             var doc = new IXMLDocument("mytag");
-            
+
             doc.documentElement.appendChild("hello world");
+
+
             doc.documentElement.appendChild(new IXMLElement(doc, "yoda", "whut"));
             doc.documentElement.appendChild(new IXMLElement(doc, "yoda", "whut"));
             doc.documentElement.appendChild(new IXMLElement(doc, "yoda", "whut"));
 
-            
-            
+
+
             Console.WriteLine("dynamic xml: ");
 
             DOMdump(doc);
 
             Console.WriteLine(doc.ToXMLString());
+
+            new IHTMLElement(IHTMLElement.HTMLElementEnum.hr).attachToDocument();
+
 
             // not array
             // is object
