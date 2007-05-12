@@ -430,7 +430,7 @@ namespace SimpleRollover.js
 
             var a =
                 from i in
-                    (from j in Sequence.Range(0, (frames / 2) - 0) select j / frames * pi)
+                    (from j in Enumerable.Range(0, (frames / 2) - 0) select j / frames * pi)
                 let x = Native.Math.cos(i)
                 let y = Native.Math.sin(i)
                 select new { x, y };
@@ -443,7 +443,7 @@ namespace SimpleRollover.js
 
             var dualmoon =
                 (from offset in
-                     (from j in Sequence.Range(0, moon_range) select (j - (moon_range / 2)) / moon_frames * pi)
+                     (from j in Enumerable.Range(0, moon_range) select (j - (moon_range / 2)) / moon_frames * pi)
                  select new
                         {
                             offset,
