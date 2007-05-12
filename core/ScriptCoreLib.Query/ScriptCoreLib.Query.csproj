@@ -51,12 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Shared\Lambadas\Lambadas.cs" />
     <Compile Include="Shared\Query\Enumerable.ToDictionary.cs" />
     <Compile Include="Shared\Query\Enumerable.Range.MoveNext.cs" />
     <Compile Include="Shared\Query\Enumerable.Range.cs" />
     <Compile Include="Shared\Query\Enumerable.NotImplementedHere.cs" />
     <Compile Include="Shared\Query\IdentityFunction.cs" />
-    <Compile Include="Shared\Query\Lambadas.cs" />
     <Compile Include="Shared\Query\Enumerable.SelectMany.cs" />
     <Compile Include="Shared\Query\Enumerable.Concat.cs" />
     <Compile Include="Shared\Query\Error.cs" />

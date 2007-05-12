@@ -1,6 +1,6 @@
 ﻿using ScriptCoreLib;
 
-namespace ScriptCoreLib.Shared.Query
+namespace ScriptCoreLib.Shared.Lambadas
 {
     [Script]
     public static partial class Lambadas
