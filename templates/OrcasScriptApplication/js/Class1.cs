@@ -1,10 +1,7 @@
 ﻿//using System.Linq;
 
 using ScriptCoreLib;
-using ScriptCoreLib.Shared;
 
-using ScriptCoreLib.Shared.Drawing;
-using ScriptCoreLib.Shared.Query;
 
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Runtime;
@@ -13,12 +10,19 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.XML;
 
 using global::System.Collections.Generic;
-
+//using global::System.Linq;
+using global::ScriptCoreLib.Shared.Lambadas;
+using global::ScriptCoreLib.Shared.Query;
 
 
 namespace OrcasScriptApplication.js
 {
-    using StyleBuilder = Dictionary<string, Action<IStyleSheetRule>>;
+    using ScriptCoreLib.Shared;
+    using ScriptCoreLib.Shared.Lambadas;
+
+    using ScriptCoreLib.Shared.Drawing;
+
+    using StyleBuilder = Dictionary<string, ScriptCoreLib.Shared.Action<IStyleSheetRule>>;
 
     [Script]
     public class Class1
@@ -60,7 +64,7 @@ namespace OrcasScriptApplication.js
                         r.style.border = "1px solid red";
                     }
                 }
-             }.ForEach(i => IStyleSheet.Default.AddRule(i));
+             }.Select(i => IStyleSheet.Default.AddRule(i)).ToArray();
 
 
 
