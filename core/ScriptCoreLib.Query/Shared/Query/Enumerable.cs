@@ -266,6 +266,11 @@ namespace ScriptCoreLib.Shared.Query
         }
 
 
+        //public static void ForEach<T, R>(this IEnumerable<T> array, Func<T, R> func)
+        //{
+        //    array.ForEach(func.AsAction());
+        //}
+
         public static void ForEach<T>(this IEnumerable<T> array, Action<T> action)
         {
             if (array == null)
@@ -333,7 +338,11 @@ namespace ScriptCoreLib.Shared.Query
             return result;
         }
 
-
+        //public static U Aggregate<T, U>(this IEnumerable<T> source,
+        //                        U seed, Action<U, T> func)
+        //{
+        //    return source.Aggregate(seed, (u, t) => { func(u, t); return u; });
+        //}
     
 
  

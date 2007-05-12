@@ -16,6 +16,19 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(InternalConstructor = true)]
     public partial class IStyleSheet
     {
+        static IStyleSheet _Default;
+
+        public static IStyleSheet Default
+        {
+            get
+            {
+                if (_Default == null)
+                    _Default = new IStyleSheet();
+
+                return _Default;
+            }
+        }
+
         public bool disabled;
 
         internal IStyleSheetRule[] rules;
@@ -85,6 +98,14 @@ namespace ScriptCoreLib.JavaScript.DOM
         public IStyleSheetRule AddRule(string selector)
         {
             return AddRule(selector, "/**/", this.Rules.Length);
+        }
+
+        [Script(DefineAsStatic = true)]
+        public IStyleSheetRule AddRule(global::System.Collections.Generic.KeyValuePair<string, Action<IStyleSheetRule>> r)
+        {
+
+            return this.AddRule(r.Key, r.Value);
+
         }
 
         [Script(DefineAsStatic = true)]

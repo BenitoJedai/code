@@ -23,5 +23,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
             set { _Value = value; }
         }
 
+        public __KeyValuePair()
+        {
+
+        }
+
+        public __KeyValuePair(TKey Key, TValue Value)
+        {
+            this._Key = Key;
+            this._Value = Value;
+        }
     }
 }

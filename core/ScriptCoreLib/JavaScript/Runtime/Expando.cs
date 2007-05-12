@@ -605,13 +605,13 @@ namespace ScriptCoreLib.JavaScript.Runtime
         }
 
         [Script(OptimizedCode = @"var x = []; for (var z in e) x.push(z); return x;")]
-        internal static string[] InternalGetMemberNames(object e)
+        internal static object[] InternalGetMemberNames(object e)
         {
             return default(string[]);
         }
 
         [Script(DefineAsStatic = true)]
-        public string[] GetMemberNames()
+        public object[] GetMemberNames()
         {
             return InternalGetMemberNames(this);
         }
@@ -691,14 +691,14 @@ namespace ScriptCoreLib.JavaScript.Runtime
             return GetMembers(false, false, false, false, true, false);
         }
 
-        public int MaxMemberNameLength
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return Helper.Max(this.GetMemberNames(), 0, ( p) => p.TargetOut = p.TargetIn.Length);
-            }
-        }
+        //public int MaxMemberNameLength
+        //{
+        //    [Script(DefineAsStatic = true)]
+        //    get
+        //    {
+        //        return Helper.Max(this.GetMemberNames(), 0, ( p) => p.TargetOut = p.TargetIn.Length);
+        //    }
+        //}
 
         [Script(OptimizedCode = "return (e instanceof c);")]
         internal static bool InternalIsInstanceOf(object e, object c)
@@ -995,7 +995,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
         {
             Console.WriteLine("functions:");
 
-            var max = MaxMemberNameLength;
+            var max = 20;
 
             foreach (ExpandoMember v in this.GetFunctions())
             {

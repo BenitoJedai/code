@@ -39,7 +39,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         public ICollection<TKey> Keys
         {
-            get { throw new global::System.Exception("The method or operation is not implemented."); }
+            get { 
+            
+                 global::System.Collections.Generic.List<TKey> a = new  global::System.Collections.Generic.List<TKey>();
+
+                foreach (var v in list.GetMemberNames())
+                {
+                    a.Add((TKey)v);
+                } 
+                
+                return a;
+            }
         }
 
         public bool Remove(TKey key)
@@ -47,9 +57,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
             if (!list.Contains(key))
                 return false;
 
-            
+
             list.Remove(key);
-            
+
             return true;
         }
 
@@ -60,7 +70,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         public ICollection<TValue> Values
         {
-            get { throw new global::System.Exception("The method or operation is not implemented."); }
+            get
+            {
+
+                throw new global::System.Exception("The method or operation is not implemented.");
+            }
         }
 
         public TValue this[TKey key]
@@ -123,7 +137,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
         {
-            throw new global::System.Exception("The method or operation is not implemented.");
+            return this.GetEnumerator();
         }
 
         #endregion
@@ -133,10 +147,61 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new global::System.Exception("The method or operation is not implemented.");
+            return this.GetEnumerator();
         }
 
         #endregion
+
+        public __Dictionary<TKey, TValue>.__Enumerator GetEnumerator()
+        {
+            return new __Enumerator(this);
+        }
+
+        [Script(ImplementationType = typeof(global::System.Collections.Generic.Dictionary<,>.Enumerator))]
+        public class __Enumerator : IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IEnumerator
+        {
+            IEnumerator<KeyValuePair<TKey, TValue>> list;
+
+            public __Enumerator(__Dictionary<TKey, TValue> e)
+            {
+                global::System.Collections.Generic.List<KeyValuePair<TKey, TValue>> a = new global::System.Collections.Generic.List<KeyValuePair<TKey, TValue>>();
+
+                foreach (var v in e.Keys)
+                {
+                    a.Add(new KeyValuePair<TKey, TValue>(v, e[v]));
+                }
+
+                this.list = a.GetEnumerator();
+            }
+
+            public KeyValuePair<TKey, TValue> Current { get { return list.Current; } }
+
+            public void Dispose()
+            {
+                list.Dispose();
+            }
+
+            public bool MoveNext()
+            {
+                return list.MoveNext();
+            }
+
+
+
+            #region IEnumerator Members
+
+            object IEnumerator.Current
+            {
+                get { return this.Current; }
+            }
+
+            public void Reset()
+            {
+                throw new Exception("The method or operation is not implemented.");
+            }
+
+            #endregion
+        }
     }
 
 }
