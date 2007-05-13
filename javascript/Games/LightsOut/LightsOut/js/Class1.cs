@@ -5,6 +5,7 @@ using ScriptCoreLib.Shared;
 
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Query;
+using ScriptCoreLib.Shared.Lambda;
 
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Runtime;
