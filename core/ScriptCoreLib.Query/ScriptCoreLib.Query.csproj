@@ -51,7 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Shared\Lambadas\Lambadas.cs" />
+    <Compile Include="Shared\Lambda\Lambda.cs" />
     <Compile Include="Shared\Query\Enumerable.ToDictionary.cs" />
     <Compile Include="Shared\Query\Enumerable.Range.MoveNext.cs" />
     <Compile Include="Shared\Query\Enumerable.Range.cs" />
