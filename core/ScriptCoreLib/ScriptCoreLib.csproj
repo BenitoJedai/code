@@ -108,6 +108,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Dictonary.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\KeyValuePair.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\List.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\ComponentCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Console.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Delegate.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Diagnostics\Debugger.cs" />
