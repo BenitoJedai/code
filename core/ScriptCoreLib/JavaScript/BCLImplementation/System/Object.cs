@@ -7,6 +7,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Object))]
     internal class __Object
     {
+        [Script(DefineAsStatic=true)]
+        new public Type GetType()
+        {
+            return null;
+        }
+
         public static bool Equals(object objA, object objB)
         {
             if (objA == objB)
@@ -18,6 +24,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 return objA.Equals(objB);
             }
             return false;
+
+
         }
 
 

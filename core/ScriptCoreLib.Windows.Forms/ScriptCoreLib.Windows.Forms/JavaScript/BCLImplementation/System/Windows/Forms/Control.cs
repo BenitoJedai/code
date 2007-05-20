@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Drawing;
@@ -12,16 +13,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     internal class __Control
     {
         [Script(Implements = typeof(global::System.Windows.Forms.Control.ControlCollection))]
-        internal class __ControlCollection
+        internal class __ControlCollection : Layout.__ArrangedElementCollection
         {
+            readonly Control Owner;
+
             public __ControlCollection(Control owner)
             {
-
+                this.Owner = owner;
             }
+
+            readonly List<Control> Items = new List<Control>();
 
             public void Add(Control e)
             {
+                Items.Add(e);
             }
+
+            public override IEnumerator GetEnumerator()
+            {
+                return Items.GetEnumerator();
+            }
+
         }
 
         public void PerformLayout()

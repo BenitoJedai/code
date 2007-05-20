@@ -12,6 +12,7 @@ namespace ScriptCoreLib.JavaScript.Windows.Forms
             get
             {
                 yield return typeof(ScriptCoreLib.JavaScript.Drawing.AssemblyReferenceToken);
+                yield return typeof(ScriptCoreLib.JavaScript.AssemblyReferenceToken);
             }
         }
     }

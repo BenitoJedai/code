@@ -56,6 +56,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ContainerControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ButtonBase.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Layout\ArrangedElementCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ScrollableControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Label.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\UserControl.cs" />
