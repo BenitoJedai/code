@@ -13,7 +13,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.XML;
 
-//using global::System.Collections.Generic;
+using global::System.Windows.Forms;
 
 
 
@@ -34,9 +34,29 @@ namespace FormsExample.js
         public Class1(IHTMLElement DataElement)
         {
 
-            new UserControl1();
+            
 
             new IHTMLSpan("hello world").attachToDocument();
+
+            var u = new UserControl1();
+
+            foreach (Control v in u.Controls)
+            {
+                var t = v.GetType();
+
+
+
+                
+                //if (v is Button)
+                //{
+                //    Console.WriteLine("button: " + v.Name);
+                //}
+                //else
+                //{
+                    Console.WriteLine("control: " + v.Name);
+                //}
+                
+            }
         }
 
 

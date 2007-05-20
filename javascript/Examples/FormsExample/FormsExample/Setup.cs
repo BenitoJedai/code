@@ -15,6 +15,7 @@ namespace FormsExample
             get
             {
                 yield return typeof(ScriptCoreLib.JavaScript.Windows.Forms.AssemblyReferenceToken);
+                yield return typeof(ScriptCoreLib.JavaScript.AssemblyReferenceToken);
             }
         }
         
