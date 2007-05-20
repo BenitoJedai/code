@@ -17,6 +17,9 @@ namespace ScriptCoreLib.JavaScript.Query
 
         public static IEnumerable<TSource> AsEnumerable<TSource>(IEnumerable<TSource> source)
         {
+            if (source == null)
+                return null;
+
             var u = ScriptCoreLib.JavaScript.Runtime.Expando.Of(source);
 
             if (!u.IsArray)

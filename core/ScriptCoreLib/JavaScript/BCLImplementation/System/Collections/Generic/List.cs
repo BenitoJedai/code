@@ -22,6 +22,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         public __List(IEnumerable<T> collection)
         {
+            if (collection == null)
+                throw new global::System.Exception("collection is null");
+
             foreach (T v in InternalSequenceImplementation.AsEnumerable(collection))
             {
                 this.Add(v);
