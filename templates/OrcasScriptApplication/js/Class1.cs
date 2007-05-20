@@ -11,14 +11,14 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 
 using global::System.Collections.Generic;
 //using global::System.Linq;
-using global::ScriptCoreLib.Shared.Lambadas;
+using global::ScriptCoreLib.Shared.Lambda;
 using global::ScriptCoreLib.Shared.Query;
 
 
 namespace OrcasScriptApplication.js
 {
     using ScriptCoreLib.Shared;
-    using ScriptCoreLib.Shared.Lambadas;
+    using ScriptCoreLib.Shared.Lambda;
 
     using ScriptCoreLib.Shared.Drawing;
 
@@ -195,7 +195,7 @@ This example makes heavy use of delegates, dom, and query operators.
             //SelectManyExample();
 
 
-            var DOMdump = Lambadas.Y<int, INode>(
+            var DOMdump = Lambda.Y<int, INode>(
                     f =>
                         (int indent, INode target) =>
                         {
