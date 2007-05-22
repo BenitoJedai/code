@@ -16,5 +16,30 @@ namespace FormsExample.js
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            button1.Text = "Clicked";
+
+            Console.WriteLine("Zen!!");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.comboBox1.Items.Add("data");
+        }
+
+        [SettingsBindable(true), Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(System.Drawing.Design.UITypeEditor))]
+        public override string Text
+        {
+            get
+            {
+                return button1.Text;
+            }
+            set
+            {
+                button1.Text = value;
+            }
+        }
     }
 }

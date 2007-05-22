@@ -8,6 +8,7 @@ using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared.Lambda;
 
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -39,11 +40,11 @@ namespace FormsExample.js
                 new IHTMLSpan("hello world").attachToDocument();
             }
 
-            var u = new UserControl1();
 
 
-            SpawnUserControl(u, new Point(400, 200));
-            SpawnUserControl(u, new Point(420, 450));
+            SpawnUserControl(new UserControl1(), new Point(400, 200));
+            SpawnUserControl(new UserControl2(), new Point(420, 450));
+            SpawnUserControl(new UserControl3(), new Point(820, 250));
         }
 
         static bool TypeEquals(object o, System.Type t)
@@ -57,14 +58,18 @@ namespace FormsExample.js
             return x.Value == y.Value;
         }
 
-        private static void SpawnUserControl(UserControl1 u, Point pos)
+        private static void SpawnUserControl(UserControl u, Point pos)
         {
+            var bg = u.GetHTMLTarget();
+
+            if (bg == null)
+                throw new System.Exception();
 
 
-            var bg = new IHTMLDiv();
+            var s = u.Size;
 
-            bg.style.backgroundColor = "threedface";
-            bg.style.SetSize(u.Size.Width, u.Size.Height);
+
+            bg.style.SetSize(s.Width, s.Height);
 
             bg.attachToDocument();
             bg.SetCenteredLocation(pos.X, pos.Y);
@@ -82,6 +87,8 @@ namespace FormsExample.js
         {
             foreach (Control v in ctrls)
             {
+
+                
                 IHTMLElement item = null;
 
                 var IsTypeOf = Lambda.FixFirstParam<object, global::System.Type, bool>(TypeEquals, v);
@@ -90,7 +97,8 @@ namespace FormsExample.js
                 {
                     var btn = (Button)v;
 
-                    item = new IHTMLButton(btn.Text);
+
+                    item = btn.GetHTMLTarget();
 
                     //h.onclick += btn.Click;
 
@@ -101,9 +109,13 @@ namespace FormsExample.js
                 {
                     var cmb = (ComboBox)v;
 
-                    item = new IHTMLSelect();
+                    item = cmb.GetHTMLTarget();
 
 
+                }
+                else if (IsTypeOf(typeof(GroupBox)))
+                {
+                    item = v.GetHTMLTarget();
                 }
                 else if (IsTypeOf(typeof(TextBox)))
                 {
@@ -115,7 +127,13 @@ namespace FormsExample.js
                     }
                     else
                     {
-                        item = new IHTMLInput(HTMLInputTypeEnum.text, txt.Text);
+                        var ta = new IHTMLTextArea(txt.Text); ;
+
+                        ta.rows = 1;
+                        ta.style.overflow = IStyle.OverflowEnum.auto;
+
+                        item = ta;
+                        //item = new IHTMLInput(HTMLInputTypeEnum.text, txt.Text);
                     }
 
                     //h.onclick += btn.Click;
@@ -133,8 +151,10 @@ namespace FormsExample.js
                     System.Console.WriteLine("control: " + v.Name);
                 }
 
+
                 bg.style.display = IStyle.DisplayEnum.none;
                 bg.appendChild(item);
+
 
                 item.style.SetLocation(
                     v.Location.X, v.Location.Y, v.Size.Width, v.Size.Height
