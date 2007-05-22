@@ -7,10 +7,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Object))]
     internal class __Object
     {
+        [Script(OptimizedCode="return i.constructor.prototype;")]
+        static IntPtr GetPrototype(object i)
+        {
+            return default(IntPtr);
+        }
+
+
         [Script(DefineAsStatic=true)]
         new public Type GetType()
         {
-            return null;
+            var x = new __RuntimeTypeHandle(
+                GetPrototype(this)
+               //(IntPtr) new DOM.IFunction("i", "return i.constructor.prototype;").apply(null, this)
+               
+            );
+
+            return Type.GetTypeFromHandle( x );
         }
 
         public static bool Equals(object objA, object objB)

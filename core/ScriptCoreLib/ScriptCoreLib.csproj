@@ -121,6 +121,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\MulticastDelegate.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Object.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Random.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\RuntimeTypeHandle.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\String.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\StringBuilder.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Type.cs" />
