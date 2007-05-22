@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio Codename Orcas
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "drag", "drag.csproj", "{BC6B2577-9B84-4C36-8EB8-08EE0957CE7A}"
 EndProject
 Global
