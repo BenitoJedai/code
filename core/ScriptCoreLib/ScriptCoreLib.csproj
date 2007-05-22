@@ -119,7 +119,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\Exception.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Int32.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IntPtr.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Monitor.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Math.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Threading\Monitor.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\MulticastDelegate.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Object.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Random.cs" />

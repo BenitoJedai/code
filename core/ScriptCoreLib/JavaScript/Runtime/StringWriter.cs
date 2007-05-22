@@ -3,7 +3,7 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLib.JavaScript.Runtime
 {
-    [Script]
+    [Script, System.Obsolete("BCL", false)]
     public class StringWriter
     {
         public readonly IArray<string> Buffer = new IArray<string>();

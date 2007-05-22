@@ -8,7 +8,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
 {
 
 
-    [Script, global::System.Obsolete]
+    [Script, global::System.Obsolete("Use BCL List<> instead.", false)]
     public class List<TItem> where TItem : class
     {
         public IArray<TItem> ListArray = new IArray<TItem>();

@@ -2,7 +2,7 @@ using ScriptCoreLib.JavaScript;
 
 namespace ScriptCoreLib.JavaScript.Runtime
 {
-    [Script]
+    [Script, System.Obsolete("Should not be used.", true)]
     public class AsyncArgs<TItem, TSource>
         where TItem : class
         where TSource : class

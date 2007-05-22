@@ -2,7 +2,6 @@ using ScriptCoreLib.Shared;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.XML;
-using ScriptCoreLib.JavaScript.System;
 using ScriptCoreLib.JavaScript.Runtime;
 
 
@@ -23,7 +22,7 @@ namespace ScriptCoreLib.JavaScript.Net
 
         public IXMLHttpRequest Request;
 
-        public ScriptException LastException;
+        public System.Exception LastException;
 
         public static bool IsOnline
         {
@@ -53,7 +52,7 @@ namespace ScriptCoreLib.JavaScript.Net
             set
             {
                 if (Descriptor == null)
-                    throw new ScriptException("no descriptor set");
+                    throw new System.Exception("no descriptor set");
 
                 Descriptor.Data = value;
             }
@@ -119,7 +118,7 @@ namespace ScriptCoreLib.JavaScript.Net
                 IHTMLElement template = Native.Document.getElementById(Helper.FormTemplateID);
 
                 if (template == null)
-                    throw new ScriptException("form template not found");
+                    throw new System.Exception("form template not found");
 
                 Form = (IHTMLForm)template.cloneNode(false);
                 Form.action = Url;
@@ -195,7 +194,7 @@ namespace ScriptCoreLib.JavaScript.Net
 
                 if (DemandHeader)
                 {
-                    throw new ScriptException(err);
+                    throw new System.Exception(err);
                 }
             }
 
@@ -270,7 +269,7 @@ namespace ScriptCoreLib.JavaScript.Net
 
 
             }
-            catch (ScriptException exc)
+            catch (System.Exception exc)
             {
                 LastException = exc;
 

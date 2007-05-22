@@ -23,17 +23,13 @@ namespace ScriptCoreLib
             [Script(ExternalTarget = "document")]
             static public IHTMLDocument Document;
 
-            [Script(ExternalTarget = "Math")]
+            
+            [Script(ExternalTarget = "Math"), System.Obsolete("Use global::System.Math instead!", false)]
             static public IMath Math;
 
             [Script(ExternalTarget = "screen")]
             static public IScreen Screen;
 
-            [Script(OptimizedCode = "debugger;", NoDecoration = true)]
-            static public void DebugBreak()
-            {
-
-            }
 
             public static EventHandler<IEvent> DisabledEventHandler
             {

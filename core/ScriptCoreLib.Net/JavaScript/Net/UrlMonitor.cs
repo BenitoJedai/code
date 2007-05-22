@@ -5,7 +5,6 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Runtime;
 
 
-using ScriptCoreLib.JavaScript.System;
 using ScriptCoreLib.JavaScript.DOM.XML;
 
 namespace  ScriptCoreLib.JavaScript.Net
