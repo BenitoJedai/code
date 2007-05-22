@@ -9,20 +9,12 @@ using System.Windows.Forms;
 
 namespace FormsExample.js
 {
-    using ScriptCoreLib;
-
-    [Script]
-    public partial class UserControl1 : UserControl
+    [ScriptCoreLib.Script]
+    public partial class UserControl2 : UserControl
     {
-        public UserControl1()
+        public UserControl2()
         {
             InitializeComponent();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            
-            Console.WriteLine("hello world");
         }
     }
 }

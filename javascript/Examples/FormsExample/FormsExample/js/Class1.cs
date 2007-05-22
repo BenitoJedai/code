@@ -20,7 +20,6 @@ using global::System.Windows.Forms;
 namespace FormsExample.js
 {
 
-
     [Script]
     public class Class1
     {
@@ -42,7 +41,7 @@ namespace FormsExample.js
 
             var u = new UserControl1();
 
-            System.Diagnostics.Debugger.Break();
+            //System.Diagnostics.Debugger.Break();
 
 
 
@@ -54,27 +53,34 @@ namespace FormsExample.js
                 var a = t.TypeHandle.Value ;
                 var b = typeof(Button).TypeHandle.Value;
 
-                
+                IHTMLElement item = null;
+
                 if (a == b)
                 {
                     var btn = (Button)v;
 
-                    var h = new IHTMLButton(btn.Text);
+                    item = new IHTMLButton(btn.Text);
 
                     //h.onclick += btn.Click;
 
-                    h.attachToDocument();
-
-                    h.style.SetLocation(
-                        btn.Location.X, btn.Location.Y, btn.Size.Width, btn.Size.Height
-                        );
 
                     System.Console.WriteLine("button: " + v.Name);
                 }
                 else
                 {
+                    item = new IHTMLDiv();
+                    item.style.border = "1px solid gray";
+                    item.innerText = v.Text;
+
                     System.Console.WriteLine("control: " + v.Name);
                 }
+
+                item.attachToDocument();
+
+                item.style.SetLocation(
+                    v.Location.X, v.Location.Y, v.Size.Width, v.Size.Height
+                    );
+
                 
             }
         }

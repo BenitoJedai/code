@@ -9,7 +9,12 @@ namespace FormsExample.Test
     {
         static void Main(string[] args)
         {
-            new FormsExample.js.Class1(null);
+            var f = new System.Windows.Forms.Form();
+
+            f.Controls.Add(new FormsExample.js.UserControl1());
+
+            f.ShowDialog();
+            //new FormsExample.js.Class1(null);
         }
     }
 }

@@ -32,6 +32,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.userControl21 = new FormsExample.js.UserControl2();
+            this.userControl22 = new FormsExample.js.UserControl2();
             this.SuspendLayout();
             // 
             // button1
@@ -52,7 +54,6 @@
             this.button2.TabIndex = 1;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label1
             // 
@@ -70,10 +71,28 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "label2";
             // 
+            // userControl21
+            // 
+            this.userControl21.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.userControl21.Location = new System.Drawing.Point(41, 93);
+            this.userControl21.Name = "userControl21";
+            this.userControl21.Size = new System.Drawing.Size(127, 88);
+            this.userControl21.TabIndex = 4;
+            // 
+            // userControl22
+            // 
+            this.userControl22.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.userControl22.Location = new System.Drawing.Point(186, 93);
+            this.userControl22.Name = "userControl22";
+            this.userControl22.Size = new System.Drawing.Size(127, 88);
+            this.userControl22.TabIndex = 5;
+            // 
             // UserControl1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.userControl22);
+            this.Controls.Add(this.userControl21);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
@@ -90,5 +109,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private UserControl2 userControl21;
+        private UserControl2 userControl22;
     }
 }
