@@ -48,6 +48,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Drawing\SizeF.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Drawing\Size.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Drawing\Point.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Drawing\SystemColors.cs" />
     <Compile Include="JavaScript\Drawing\AssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

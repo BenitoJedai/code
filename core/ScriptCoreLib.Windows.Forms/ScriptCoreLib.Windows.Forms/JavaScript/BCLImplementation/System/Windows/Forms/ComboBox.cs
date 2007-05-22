@@ -9,8 +9,55 @@ using System.Windows.Forms;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
+    using ScriptCoreLib.JavaScript.DOM.HTML;
+
     [Script(Implements = typeof(global::System.Windows.Forms.ComboBox))]
     internal class __ComboBox : __ListControl
     {
+
+        public IHTMLSelect HTMLTarget { get; set; }
+
+        public __ComboBox()
+        {
+            HTMLTarget = new IHTMLSelect();
+
+            Items = new __ObjectCollection { Owner = this };
+        }
+
+        public override IHTMLElement HTMLTargetRef
+        {
+            get
+            {
+                return HTMLTarget;
+            }
+        }
+
+        [Script(Implements = typeof(global::System.Windows.Forms.ComboBox.ObjectCollection))]
+        internal class __ObjectCollection
+        {
+            public __ComboBox Owner;
+
+            public int Add(object e)
+            {
+                Owner.HTMLTarget.Add(e.ToString());
+
+                return 0;
+            }
+        }
+
+        public __ObjectCollection Items { get; protected set; }
+
+
+        #region
+        static public implicit operator ComboBox(__ComboBox e)
+        {
+            return (ComboBox)(object)e;
+        }
+
+        static public implicit operator __ComboBox(ComboBox e)
+        {
+            return (__ComboBox)(object)e;
+        }
+        #endregion
     }
 }

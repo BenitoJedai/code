@@ -7,7 +7,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     using ScriptCoreLib.JavaScript.Runtime;
 
     [Script(InternalConstructor = true, Implements = typeof(global::System.Exception))]
-    public class __Exception 
+    public class __Exception
     {
 
         public string Message
@@ -21,10 +21,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         #region Constructor
 
-        public __Exception(string message)  { }
+        public __Exception(string message) { }
 
         [Script(OptimizedCode = @"return new Error(e);")]
         static __Exception InternalConstructor(string e)
+        {
+            return default(__Exception);
+        }
+
+        public __Exception() { }
+
+        [Script(OptimizedCode = @"return new Error();")]
+        static __Exception InternalConstructor()
         {
             return default(__Exception);
         }

@@ -8,11 +8,40 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
     [Script(Implements = typeof(global::System.Drawing.Color))]
     internal class __Color
     {
+        public Shared.Drawing.Color Value;
+
         public static Color FromArgb(int red, int green, int blue)
         {
-            return default(Color);
+            return new __Color { Value = Shared.Drawing.Color.FromRGB(red, green, blue) };
         }
 
+        static __Color()
+        {
+            Green = new __Color { Value = Shared.Drawing.Color.Green };
+            Red = new __Color { Value = Shared.Drawing.Color.Red };
+            Yellow = new __Color { Value = Shared.Drawing.Color.Yellow };
+        }
+
+        static public Color Green { get; set; }
         static public Color Red { get; set; }
+        static public Color Yellow { get; set; }
+
+
+        #region
+        static public implicit operator Color(__Color e)
+        {
+            return (Color)(object)e;
+        }
+
+        static public implicit operator __Color(Color e)
+        {
+            return (__Color)(object)e;
+        }
+        #endregion
+
+        public override string ToString()
+        {
+            return this.Value.ToString();
+        }
     }
 }
