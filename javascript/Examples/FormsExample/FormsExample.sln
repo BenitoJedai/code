@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C# Express Codename Orcas
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsExample", "FormsExample\FormsExample.csproj", "{734ABE6D-57A0-435D-9E6E-F726074925E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsExample.Test", "FormsExample.Test\FormsExample.Test.csproj", "{F2111173-955E-4DA7-8C49-C6DFFB935F7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{734ABE6D-57A0-435D-9E6E-F726074925E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{734ABE6D-57A0-435D-9E6E-F726074925E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{734ABE6D-57A0-435D-9E6E-F726074925E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2111173-955E-4DA7-8C49-C6DFFB935F7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2111173-955E-4DA7-8C49-C6DFFB935F7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2111173-955E-4DA7-8C49-C6DFFB935F7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2111173-955E-4DA7-8C49-C6DFFB935F7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

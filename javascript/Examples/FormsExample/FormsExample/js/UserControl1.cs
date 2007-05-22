@@ -12,13 +12,16 @@ namespace FormsExample.js
     using ScriptCoreLib;
 
     [Script]
-    partial class UserControl1 : 
-        UserControl
-        // ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__UserControl
+    partial class UserControl1 : UserControl
     {
         public UserControl1()
         {
             InitializeComponent();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("hello world");
         }
     }
 }

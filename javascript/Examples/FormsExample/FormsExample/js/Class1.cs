@@ -34,32 +34,53 @@ namespace FormsExample.js
         public Class1(IHTMLElement DataElement)
         {
 
-            
 
-            new IHTMLSpan("hello world").attachToDocument();
+            if (DataElement != null)
+            {
+                new IHTMLSpan("hello world").attachToDocument();
+            }
 
             var u = new UserControl1();
 
+            System.Diagnostics.Debugger.Break();
+
+
+
             foreach (Control v in u.Controls)
             {
+
                 var t = v.GetType();
 
-
+                var a = t.TypeHandle.Value ;
+                var b = typeof(Button).TypeHandle.Value;
 
                 
-                //if (v is Button)
-                //{
-                //    Console.WriteLine("button: " + v.Name);
-                //}
-                //else
-                //{
-                    Console.WriteLine("control: " + v.Name);
-                //}
+                if (a == b)
+                {
+                    var btn = (Button)v;
+
+                    var h = new IHTMLButton(btn.Text);
+
+                    //h.onclick += btn.Click;
+
+                    h.attachToDocument();
+
+                    h.style.SetLocation(
+                        btn.Location.X, btn.Location.Y, btn.Size.Width, btn.Size.Height
+                        );
+
+                    System.Console.WriteLine("button: " + v.Name);
+                }
+                else
+                {
+                    System.Console.WriteLine("control: " + v.Name);
+                }
                 
             }
         }
 
 
+        
 
 
         static Class1()
