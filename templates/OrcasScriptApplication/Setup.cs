@@ -25,7 +25,8 @@ namespace OrcasScriptApplication
             w.WriteLine("<head>");
             w.WriteLine("<title>ScriptApplication</title>");
 
-
+            w.WriteLine("<!-- created at " + System.DateTime.Now.ToString + " -->")
+            
             SharedHelper.DefineScript(w,
                 packed ?
                 SharedHelper.LocalModules.Select(i => i + ".js.packed").ToArray() :

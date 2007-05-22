@@ -86,7 +86,19 @@ Namespace JavaScript
             ColorSelector.Add("blue")
 
 
+            Dim userlist_style = IStyleSheet.Default.AddRule(".userlist").style
 
+
+            userlist_style.border = "1px solid blue"
+            userlist_style.margin = "1em"
+
+            IStyleSheet.Default.AddRule(".userlist:hover").style.borderColor = Color.Red
+
+
+
+            Users1.className = "userlist"
+            Users2.className = "userlist"
+            Users3.className = "userlist"
 
 
 
@@ -188,7 +200,8 @@ Namespace JavaScript
 
 
 
-            Sequence.ForEach(items, AddressOf AddAsResult)
+
+            Enumerable.ForEach(items, AddressOf AddAsResult)
 
 
         End Sub

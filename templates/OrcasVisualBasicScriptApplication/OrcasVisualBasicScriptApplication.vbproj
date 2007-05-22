@@ -65,7 +65,6 @@
   <ItemGroup>
     <Import Include="ScriptCoreLib" />
     <Import Include="ScriptCoreLib.Shared" />
-    <Import Include="ScriptCoreLib.Shared.Query" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JavaScript\Class1.vb" />
