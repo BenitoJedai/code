@@ -114,6 +114,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\Delegate.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Diagnostics\Debugger.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Double.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\EventArgs.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\EventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Exception.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Int32.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IntPtr.cs" />
