@@ -51,6 +51,7 @@ namespace ScriptCoreLib
 
             public static void Spawn(params SpawnItem[] e)
             {
+                
                 Helper.ForEach(e, ( x) => Native.Spawn(x.A, x.B));
             }
 

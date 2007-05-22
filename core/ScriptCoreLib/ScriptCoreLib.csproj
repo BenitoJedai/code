@@ -104,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JavaScript\AssemblyReferenceToken.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\DateTime.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Boolean.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\ArrayList.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Dictonary.cs" />

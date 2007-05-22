@@ -34,6 +34,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 return Items.GetEnumerator();
             }
 
+            public override int Count
+            {
+                get
+                {
+                    return Items.Count;
+                }
+            }
         }
 
         public void PerformLayout()
@@ -65,7 +72,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public Color ForeColor { get; set; }
         public Color BackColor { get; set; }
 
-        public event EventHandler Click;
+        //public event EventHandler Click;
 
         //public void RaiseClick(object sender, EventArgs args)
         //{
