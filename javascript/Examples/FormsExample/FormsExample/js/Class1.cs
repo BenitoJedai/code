@@ -2,8 +2,8 @@
 
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
-
 using ScriptCoreLib.Shared.Drawing;
+
 using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared.Lambda;
 
@@ -41,21 +41,52 @@ namespace FormsExample.js
 
             var u = new UserControl1();
 
-            //System.Diagnostics.Debugger.Break();
+
+            SpawnUserControl(u, new Point(400, 200));
+            SpawnUserControl(u, new Point(420, 450));
+        }
+
+        static bool TypeEquals(object o, System.Type t)
+        {
+            // this seems to fault
+            var a = o.GetType();
+
+            var x = a.TypeHandle;
+            var y = t.TypeHandle;
+
+            return x.Value == y.Value;
+        }
+
+        private static void SpawnUserControl(UserControl1 u, Point pos)
+        {
 
 
+            var bg = new IHTMLDiv();
 
-            foreach (Control v in u.Controls)
+            bg.style.backgroundColor = "threedface";
+            bg.style.SetSize(u.Size.Width, u.Size.Height);
+
+            bg.attachToDocument();
+            bg.SetCenteredLocation(pos.X, pos.Y);
+
+            var ctrls = u.Controls;
+
+            System.Console.WriteLine("start: " + System.DateTime.Now.Ticks);
+
+            SpawnControls(bg, ctrls);
+
+            System.Console.WriteLine("end: " + System.DateTime.Now.Ticks);
+        }
+
+        private static void SpawnControls(IHTMLElement bg, Control.ControlCollection ctrls)
+        {
+            foreach (Control v in ctrls)
             {
-
-                var t = v.GetType();
-
-                var a = t.TypeHandle.Value ;
-                var b = typeof(Button).TypeHandle.Value;
-
                 IHTMLElement item = null;
 
-                if (a == b)
+                var IsTypeOf = Lambda.FixFirstParam<object, global::System.Type, bool>(TypeEquals, v);
+
+                if (IsTypeOf(typeof(Button)))
                 {
                     var btn = (Button)v;
 
@@ -66,27 +97,60 @@ namespace FormsExample.js
 
                     System.Console.WriteLine("button: " + v.Name);
                 }
+                else if (IsTypeOf(typeof(ComboBox)))
+                {
+                    var cmb = (ComboBox)v;
+
+                    item = new IHTMLSelect();
+
+
+                }
+                else if (IsTypeOf(typeof(TextBox)))
+                {
+                    var txt = (TextBox)v;
+
+                    if (txt.Multiline)
+                    {
+                        item = new IHTMLTextArea(txt.Text);
+                    }
+                    else
+                    {
+                        item = new IHTMLInput(HTMLInputTypeEnum.text, txt.Text);
+                    }
+
+                    //h.onclick += btn.Click;
+
+                    System.Console.WriteLine("textbox: " + v.Name);
+                }
                 else
                 {
                     item = new IHTMLDiv();
-                    item.style.border = "1px solid gray";
-                    item.innerText = v.Text;
+                    item.style.border = "1px dotted gray";
+
+                    if (v.Text != null)
+                        item.innerText = v.Text;
 
                     System.Console.WriteLine("control: " + v.Name);
                 }
 
-                item.attachToDocument();
+                bg.style.display = IStyle.DisplayEnum.none;
+                bg.appendChild(item);
 
                 item.style.SetLocation(
                     v.Location.X, v.Location.Y, v.Size.Width, v.Size.Height
                     );
 
-                
+                System.Console.WriteLine("children: " + v.Controls.Count);
+
+                if (v.Controls.Count > 0)
+                    SpawnControls(item, v.Controls);
+
+                bg.style.display = IStyle.DisplayEnum.block;
             }
         }
 
 
-        
+
 
 
         static Class1()

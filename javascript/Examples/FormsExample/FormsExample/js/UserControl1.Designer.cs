@@ -32,8 +32,11 @@
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.userControl21 = new FormsExample.js.UserControl2();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.userControl22 = new FormsExample.js.UserControl2();
+            this.userControl21 = new FormsExample.js.UserControl2();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // button1
@@ -71,13 +74,22 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "label2";
             // 
-            // userControl21
+            // textBox1
             // 
-            this.userControl21.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.userControl21.Location = new System.Drawing.Point(41, 93);
-            this.userControl21.Name = "userControl21";
-            this.userControl21.Size = new System.Drawing.Size(127, 88);
-            this.userControl21.TabIndex = 4;
+            this.textBox1.Location = new System.Drawing.Point(156, 42);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(105, 37);
+            this.textBox1.TabIndex = 6;
+            this.textBox1.Text = "Yenna";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(161, 16);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.TabIndex = 7;
+            this.textBox2.Text = "Jinx";
             // 
             // userControl22
             // 
@@ -87,10 +99,29 @@
             this.userControl22.Size = new System.Drawing.Size(127, 88);
             this.userControl22.TabIndex = 5;
             // 
+            // userControl21
+            // 
+            this.userControl21.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.userControl21.Location = new System.Drawing.Point(41, 93);
+            this.userControl21.Name = "userControl21";
+            this.userControl21.Size = new System.Drawing.Size(127, 88);
+            this.userControl21.TabIndex = 4;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(127, 198);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 8;
+            // 
             // UserControl1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.userControl22);
             this.Controls.Add(this.userControl21);
             this.Controls.Add(this.label2);
@@ -100,6 +131,7 @@
             this.Name = "UserControl1";
             this.Size = new System.Drawing.Size(390, 238);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -111,5 +143,8 @@
         private System.Windows.Forms.Label label2;
         private UserControl2 userControl21;
         private UserControl2 userControl22;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
