@@ -1,6 +1,5 @@
 using ScriptCoreLib;
 
-using ScriptCoreLib.JavaScript.System;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.Controls.Effects;
@@ -380,7 +379,7 @@ namespace ScriptCoreLib.JavaScript.Cards
                 return;
 
             if (this.HasStackedCards)
-                throw new ScriptException("single card expected");
+                throw new System.Exception("single card expected");
 
             CurrentStack.AttachCards(
                 delegate(Card c)
