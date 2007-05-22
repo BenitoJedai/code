@@ -61,8 +61,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public Size Size { get; set; }
         public int TabIndex { get; set; }
         public bool AutoSize { get; set; }
-        public Color ForeColor { get; set; }
 
+        public Color ForeColor { get; set; }
+        public Color BackColor { get; set; }
+
+        public event EventHandler Click;
+
+        //public void RaiseClick(object sender, EventArgs args)
+        //{
+        //    this.Click(sender, null);
+        //}
+        
+        
         #region 
         static public implicit operator Control(__Control e)
         {

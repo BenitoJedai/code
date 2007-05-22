@@ -124,6 +124,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     public partial class IStyle
     {
 
+        public string clip;
         public string clear;
 
         #region white-space

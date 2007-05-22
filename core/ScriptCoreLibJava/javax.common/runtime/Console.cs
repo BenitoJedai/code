@@ -151,9 +151,15 @@ namespace javax.common.runtime
             t.printStackTrace();
         }
 
-        public static void WriteLine(string e)
+        internal static void InternalWriteLine(string e)
         {
             JavaSystem.@out.println(e);
+
+        }
+
+        public static void WriteLine(string e)
+        {
+            InternalWriteLine(e);
         }
 
         public static sbyte[] ReadAllBytes()
