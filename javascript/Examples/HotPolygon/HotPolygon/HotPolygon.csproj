@@ -63,6 +63,9 @@
     <Content Include="web\assets\HotPolygon\99851426_7f408a6cc3_o_gray.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="web\assets\HotPolygon\cursor01.cur">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="web\assets\HotPolygon\down.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -7,6 +7,7 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Query;
 
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.Controls.Effects;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
@@ -20,11 +21,26 @@ using global::System.Collections.Generic;
 namespace HotPolygon.js
 {
     [Script]
-    public class Extension
+    public class DynamicProperty<T>
     {
+        Action<DynamicProperty<T>> _Changed;
 
+        public DynamicProperty(Action<DynamicProperty<T>> e)
+        {
+            _Changed = e;
+        }
+
+        private T _Value;
+
+        public T Value
+        {
+            get { return _Value; }
+            set { _Value = value; _Changed(this); }
+        }
 
     }
+
+
 
     [Script]
     public delegate void ActionParams<X, T>(X x, params T[] e);
@@ -46,7 +62,10 @@ namespace HotPolygon.js
 
 
             IStyleSheet.Default.AddRule("html", "height: 100%; overflow: hidden; margin: 0; padding: 0; ", 0);
-            IStyleSheet.Default.AddRule("body", "height: 100%; overflow: hidden; margin: 0; padding: 0; background-color: gray;", 0);
+            IStyleSheet.Default.AddRule("a", "color: blue; text-decoration: none;", 0);
+            IStyleSheet.Default.AddRule("a:hover", "border-bottom: 1px dashed blue;", 0);
+
+            IStyleSheet.Default.AddRule("body", "height: 100%; overflow: hidden; margin: 0; padding: 0; background-color: black;", 0);
             IStyleSheet.Default.AddRule("img",
                 r =>
                 {
@@ -57,7 +76,7 @@ namespace HotPolygon.js
 
 
 
-            IStyleSheet.Default.AddRule("*", "cursor: url('assets/HotPolygon/3dgarro.cur'), auto;", 0);
+            IStyleSheet.Default.AddRule("*", "cursor: url('assets/HotPolygon/cursor01.cur'), auto;", 0);
 
             var img = new IHTMLImage("assets/HotPolygon/99851426_7f408a6cc3_o_gray.png");
             var img_up = new IHTMLImage("assets/HotPolygon/up.png");
@@ -70,25 +89,185 @@ namespace HotPolygon.js
             img_up.attachToDocument();
             img_up_neg.attachToDocument();
 
+
+            var info_size = new
+                {
+                    width = 350,
+                    height = 200
+                };
+
             var info_bg = new IHTMLDiv();
 
-            info_bg.style.backgroundColor = Color.Black;
-            info_bg.style.SetLocation(60, 60, 300, 200);
+            info_bg.style.SetLocation(60, 60, info_size.width, info_size.height);
             info_bg.style.Opacity = 0.2;
             info_bg.style.zIndex = 1;
             info_bg.attachToDocument();
 
+            var info_borders = new IHTMLDiv();
+
+            info_borders.style.SetLocation(60 - 4, 60 - 4, info_size.width + 8, info_size.height + 8);
+            info_borders.style.Opacity = 0.2;
+            info_borders.style.zIndex = 4;
+            info_borders.attachToDocument();
+
+            var info_drag_tween = new TweenDataDouble();
+
+            var info_bg_useimage_cookie = new Cookie("setting1");
+
+            var info_bg_useimage = new DynamicProperty<bool>(
+                p =>
+                {
+                    info_bg_useimage_cookie.BooleanValue = p.Value;
+
+                    if (p.Value)
+                    {
+                        info_borders.style.backgroundImage = "url(assets/HotPolygon/up_neg.png)";
+                        info_bg.style.backgroundImage = "url(assets/HotPolygon/up_neg.png)";
+                    }
+                    else
+                    {
+                        info_borders.style.backgroundImage = "";
+                        info_bg.style.backgroundImage = "";
+
+                    }
+
+                    info_drag_tween.Value = 0.5;
+                }
+             ) { Value = info_bg_useimage_cookie.BooleanValue };
+
+            
+
+
+            var info_drag = new DragHelper(info_borders);
+
+            info_drag_tween.Value = 0;
+            info_drag_tween.ValueChanged +=
+                delegate
+                {
+                    var i = Convert.ToInteger(255 * info_drag_tween.Value);
+
+                    if (!info_bg_useimage.Value)
+                    {
+                        info_bg.style.backgroundColor = Color.FromRGB(i, i, 0);
+                        info_borders.style.backgroundColor = Color.FromRGB(i, i, 0);
+                    }
+                    else
+                    {
+                        if (i < 1)
+                            i = 1;
+
+                        info_bg.style.Opacity = i / 255;
+                        info_borders.style.Opacity = i / 255 * 0.5;
+                    }
+
+                };
+
+            info_borders.style.cursor = IStyle.CursorEnum.move;
+
+            info_borders.onmouseover +=
+                delegate
+                {
+                    if (info_drag.IsDrag)
+                        return;
+
+                    info_drag_tween.Value = 1;
+                };
+
+
+
+            info_borders.onmouseout +=
+                delegate
+                {
+                    if (info_drag.IsDrag)
+                        return;
+
+                    info_drag_tween.Value = 0;
+                };
+
+
+
+
             var info = new IHTMLDiv();
+
+            info.onmouseover +=
+                delegate
+                {
+                    if (info_drag.IsDrag)
+                        return;
+
+                    info_drag_tween.Value = 0.5;
+                };
+
+
+
+            info.onmouseout +=
+                delegate
+                {
+                    if (info_drag.IsDrag)
+                        return;
+
+                    info_drag_tween.Value = 0;
+                };
 
             info.style.color = Color.White;
             info.style.fontFamily = IStyle.FontFamilyEnum.Tahoma;
-            info.innerHTML = "This example demonstrates the use of custom cursors, map, area and timed animation. <br /><br /> You can change the background of this page by hovering above the tree or one of the clouds.";
+
+            Func<string, IHTMLElement> par = texty => new IHTMLElement(IHTMLElement.HTMLElementEnum.p, texty);
+
+
+            Native.Document.title = "HotPolygon";
+
+            info.innerHTML = @"<h1>HotPolygon</h1>";
+
+            info.appendChild( 
+                par("This example demonstrates the use of custom cursors, map, area, timed animation, cookies and a custom dialog.") ,
+                par("You can change the background of this page by hovering above the tree or one of the clouds.") ,
+                par("And yes you can drag this dialog at the borders :)"),
+                
+                new IHTMLDiv(
+                @"
+                    <ul>
+                        <li>visit <a href='http://jsc.sf.net/'>jsc homepage</a></li>
+                        <li>visit <a href='http://zproxy.wordpress.com/'>blog</a></li>
+                    </ul>
+                                ")
+                );
+
+
+
+            var info_option = new IHTMLInput(HTMLInputTypeEnum.checkbox);
+            var info_option_label = new IHTMLLabel("Alternative background", info_option);
+
+
+            info.appendChild(new IHTMLElement(IHTMLElement.HTMLElementEnum.p, info_option, info_option_label));
+
+    
+
+            info_option.onclick += i => info_bg_useimage.Value = info_option.@checked;
+            info_option.@checked = info_bg_useimage.Value;
 
             info.style.overflow = IStyle.OverflowEnum.auto;
 
-            info.style.SetLocation(70, 70, 280, 180);
-            info.style.zIndex = 4;
+            info.style.SetLocation(70, 70, info_size.width - 20, info_size.height - 20);
+            info.style.zIndex = 5;
             info.attachToDocument();
+
+            info_drag.DragMove +=
+                delegate
+                {
+                    if (info_bg_useimage.Value)
+                    {
+                        info_borders.style.backgroundPosition = (-(info_drag.Position.X - 4)) + "px " + (-(info_drag.Position.Y - 4)) + "px";
+                        info_bg.style.backgroundPosition = (-info_drag.Position.X) + "px " + (-info_drag.Position.Y) + "px";
+                    }
+
+                    info_borders.style.SetLocation(info_drag.Position.X - 4, info_drag.Position.Y - 4);
+                    info_bg.style.SetLocation(info_drag.Position.X, info_drag.Position.Y);
+                    info.style.SetLocation(info_drag.Position.X + 10, info_drag.Position.Y + 10);
+                };
+
+            info_drag.Position = new Point(60, 60);
+            info_drag.Enabled = true;
 
             // 416 x 100
 
@@ -179,16 +358,23 @@ namespace HotPolygon.js
             AnimationRandomOn =
                 () =>
                 {
-                    if (new System.Random().NextDouble() > 0.5)
+                    try
                     {
-                        img_here.SetCenteredLocation(589, 509);
-                    }
-                    else
-                    {
-                        img_here.SetCenteredLocation(686, 141);
-                    }
+                        if (new System.Random().NextDouble() > 0.5)
+                        {
+                            img_here.SetCenteredLocation(589, 509);
+                        }
+                        else
+                        {
+                            img_here.SetCenteredLocation(686, 141);
+                        }
 
-                    Wait(AnimationOn, new System.Random().Next() % 15000);
+                        Wait(AnimationOn, new System.Random().Next() % 15000);
+                    }
+                    catch
+                    {
+
+                    }
                 };
 
 
