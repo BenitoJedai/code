@@ -56,17 +56,61 @@ namespace HotPolygon.js
         /// <param name="DataElement">The hidden data element</param>
         public Class1(IHTMLElement DataElement)
         {
+            IStyleSheet.Default.AddRule("html", "height: 100%; overflow: hidden; margin: 0; padding: 0; ", 0);
+            IStyleSheet.Default.AddRule("a", "color: blue; text-decoration: none;", 0);
+            IStyleSheet.Default.AddRule("a:hover", "border-bottom: 1px dashed blue;", 0);
+
+            IStyleSheet.Default.AddRule("body", "height: 100%; overflow: hidden; margin: 0; padding: 0; background-color: black; color: white;", 0);
+
+
+            var img = new [] {
+                "assets/HotPolygon/99851426_7f408a6cc3_o_gray.png",
+                "assets/HotPolygon/up.png",
+                "assets/HotPolygon/up_neg.png",
+                "assets/HotPolygon/down.png",
+                "assets/HotPolygon/here/here0.png",
+                "assets/HotPolygon/here/here1.png",
+                "assets/HotPolygon/here/here2.png",
+                "assets/HotPolygon/here/here3.png",
+                "assets/HotPolygon/here/here4.png",
+                "assets/HotPolygon/here/here5.png",
+            }.Select(src => new IHTMLImage(src)).ToArray();
+
+            var loading =  new IHTMLElement(IHTMLElement.HTMLElementEnum.pre);
+
+            loading.attachToDocument();
+
+            Timer.While(
+                () =>
+                {
+                    var a = (from i in img where !i.complete select i.src).ToArray();
+
+                    loading.innerHTML = "";
+
+                    foreach (var v in a)
+	                {
+
+                        loading.innerHTML += "loading: " + v + "<br />";
+	                }
+
+                    return a.Length > 0;
+                },
+                () =>
+                {
+                    loading.Dispose();
+
+                    Spawn();
+                }, 300);
+        }
+
+        private static void Spawn()
+        {
             // this ctor creates a new div which has a text and a button element
             // on mouseover over the color text is changed
             // on pressing the button the next message in text element is displayed
 
 
-            IStyleSheet.Default.AddRule("html", "height: 100%; overflow: hidden; margin: 0; padding: 0; ", 0);
-            IStyleSheet.Default.AddRule("a", "color: blue; text-decoration: none;", 0);
-            IStyleSheet.Default.AddRule("a:hover", "border-bottom: 1px dashed blue;", 0);
-
-            IStyleSheet.Default.AddRule("body", "height: 100%; overflow: hidden; margin: 0; padding: 0; background-color: black;", 0);
-            IStyleSheet.Default.AddRule("img",
+            IStyleSheet.Default.AddRule("img.fx1",
                 r =>
                 {
                     r.style.position = IStyle.PositionEnum.absolute;
@@ -78,10 +122,11 @@ namespace HotPolygon.js
 
             IStyleSheet.Default.AddRule("*", "cursor: url('assets/HotPolygon/cursor01.cur'), auto;", 0);
 
-            var img = new IHTMLImage("assets/HotPolygon/99851426_7f408a6cc3_o_gray.png");
-            var img_up = new IHTMLImage("assets/HotPolygon/up.png");
-            var img_up_neg = new IHTMLImage("assets/HotPolygon/up_neg.png");
-            var img_down = new IHTMLImage("assets/HotPolygon/down.png");
+            var img = new IHTMLImage("assets/HotPolygon/99851426_7f408a6cc3_o_gray.png") { className = "fx1" };
+
+            var img_up = new IHTMLImage("assets/HotPolygon/up.png") { className = "fx1" };
+            var img_up_neg = new IHTMLImage("assets/HotPolygon/up_neg.png") { className = "fx1" };
+            var img_down = new IHTMLImage("assets/HotPolygon/down.png") { className = "fx1" };
 
 
 
@@ -135,7 +180,7 @@ namespace HotPolygon.js
                 }
              ) { Value = info_bg_useimage_cookie.BooleanValue };
 
-            
+
 
 
             var info_drag = new DragHelper(info_borders);
@@ -219,11 +264,17 @@ namespace HotPolygon.js
 
             info.innerHTML = @"<h1>HotPolygon</h1>";
 
-            info.appendChild( 
-                par("This example demonstrates the use of custom cursors, map, area, timed animation, cookies and a custom dialog.") ,
-                par("You can change the background of this page by hovering above the tree or one of the clouds.") ,
+            var preview = new IHTMLImage("Preview.png");
+
+            preview.style.Float = IStyle.FloatEnum.right;
+            preview.style.margin = "1em";
+
+            info.appendChild(
+                preview,
+                par("This example demonstrates the use of custom cursors, map, area, timed animation, cookies and a custom dialog."),
+                par("You can change the background of this page by hovering above the tree or one of the clouds."),
                 par("And yes you can drag this dialog at the borders :)"),
-                
+
                 new IHTMLDiv(
                 @"
                     <ul>
@@ -241,7 +292,7 @@ namespace HotPolygon.js
 
             info.appendChild(new IHTMLElement(IHTMLElement.HTMLElementEnum.p, info_option, info_option_label));
 
-    
+
 
             info_option.onclick += i => info_bg_useimage.Value = info_option.@checked;
             info_option.@checked = info_bg_useimage.Value;
@@ -271,11 +322,11 @@ namespace HotPolygon.js
 
             // 416 x 100
 
-            var img_here_src_off = (from i in 0.Range(6)
+            var img_here_src_off = (from i in 0.Range(5)
                                     select string.Format("assets/HotPolygon/here/here{0}.png", i)).ToArray();
 
-            var img_here_src_on = (from i in 0.Range(6)
-                                   select string.Format("assets/HotPolygon/here/here{0}.png", 6 - i)).ToArray();
+            var img_here_src_on = (from i in 0.Range(5)
+                                   select string.Format("assets/HotPolygon/here/here{0}.png", 5 - i)).ToArray();
 
 
             var img_here = new IHTMLDiv();
