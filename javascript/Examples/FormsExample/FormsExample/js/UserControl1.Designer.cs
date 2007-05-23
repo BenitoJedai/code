@@ -35,10 +35,8 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.userControl22 = new FormsExample.js.UserControl2();
             this.userControl21 = new FormsExample.js.UserControl2();
-            this.groupBox1.SuspendLayout();
+            this.webCalculator1 = new FormsExample.js.WebCalculator();
             this.SuspendLayout();
             // 
             // button1
@@ -101,24 +99,6 @@
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 8;
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.userControl22);
-            this.groupBox1.Location = new System.Drawing.Point(175, 85);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 136);
-            this.groupBox1.TabIndex = 9;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
-            // 
-            // userControl22
-            // 
-            this.userControl22.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.userControl22.Location = new System.Drawing.Point(54, 37);
-            this.userControl22.Name = "userControl22";
-            this.userControl22.Size = new System.Drawing.Size(127, 88);
-            this.userControl22.TabIndex = 6;
-            // 
             // userControl21
             // 
             this.userControl21.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
@@ -127,11 +107,18 @@
             this.userControl21.Size = new System.Drawing.Size(127, 88);
             this.userControl21.TabIndex = 4;
             // 
+            // webCalculator1
+            // 
+            this.webCalculator1.Location = new System.Drawing.Point(180, 99);
+            this.webCalculator1.Name = "webCalculator1";
+            this.webCalculator1.Size = new System.Drawing.Size(233, 213);
+            this.webCalculator1.TabIndex = 9;
+            // 
             // UserControl1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.webCalculator1);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
@@ -141,8 +128,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Name = "UserControl1";
-            this.Size = new System.Drawing.Size(390, 238);
-            this.groupBox1.ResumeLayout(false);
+            this.Size = new System.Drawing.Size(468, 330);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -158,7 +144,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private UserControl2 userControl22;
+        private WebCalculator webCalculator1;
     }
 }
