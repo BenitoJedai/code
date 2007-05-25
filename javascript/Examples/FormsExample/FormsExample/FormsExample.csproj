@@ -67,11 +67,14 @@
     <Compile Include="js\Gradient.Designer.cs">
       <DependentUpon>Gradient.cs</DependentUpon>
     </Compile>
-    <Compile Include="js\TweenComponent.cs">
+    <Compile Include="js\SimpleDragComponent.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="js\TweenComponent.Designer.cs">
-      <DependentUpon>TweenComponent.cs</DependentUpon>
+    <Compile Include="js\SimpleTweenComponent.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="js\SimpleTweenComponent.Designer.cs">
+      <DependentUpon>SimpleTweenComponent.cs</DependentUpon>
     </Compile>
     <Compile Include="js\UserControl1.cs">
       <SubType>UserControl</SubType>
@@ -115,9 +118,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>Gradient.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="js\TweenComponent.resx">
+    <EmbeddedResource Include="js\SimpleTweenComponent.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>TweenComponent.cs</DependentUpon>
+      <DependentUpon>SimpleTweenComponent.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="js\UserControl1.resx">
       <SubType>Designer</SubType>

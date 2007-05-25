@@ -31,6 +31,7 @@ namespace FormsExample.js
                     };
             }
 
+            
         }
 
         public Button[] NumberButtons
@@ -88,7 +89,9 @@ namespace FormsExample.js
 
         private void WebCalculator_Resize(object sender, EventArgs e)
         {
-            gradient1.SetBounds(0, 0, Width, Height);
+            panel1.SetBounds(0, 0, Width, panel1.Height);
+
+            gradient1.SetBounds(0, panel1.Height, Width, Height - panel1.Height);
         }
 
         private void WebCalculator_MouseEnter(object sender, EventArgs e)
@@ -109,55 +112,34 @@ namespace FormsExample.js
         }
 
 
-        Point DragLocation;
-        Point DragStart;
-        int Drag;
+
 
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
-            Console.WriteLine("mousedown");
 
-            if (Drag == 0)
-            {
-                panel1.GradientStartColor = Color.FromArgb(0, 0, 0xff);
-
-                DragLocation = this.Location;
-                DragStart = e.Location;
-            }
-
-            Drag++;
         }
 
         private void panel1_MouseUp(object sender, MouseEventArgs e)
         {
-            if (Drag > 0)
-            {
-                Drag--;
 
-                if (Drag == 0)
-                {
-                    panel1.GradientStartColor = Color.FromArgb(0, 0, 80);
-                }
-            }
         }
 
 
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
-            Console.WriteLine("mousemove" + new { e.X, e.Y, Drag }  );
+            //Console.WriteLine("mousemove" + new { e.X, e.Y, Drag }  );
 
-            if (Drag > 0)
-            {
-                this.Location = new Point(
 
-                            DragLocation.X + (e.X - DragStart.X),
-                            DragLocation.Y + (e.Y - DragStart.Y)
+        }
 
-                        );
+        private void simpleDragComponent1_DragStart()
+        {
+            this.panel1.GradientStartColor = Color.FromArgb(0xff, 0, 0);
+        }
 
-                //Console.WriteLine("offset: " + p);
-
-            }
+        private void simpleDragComponent1_DragStop()
+        {
+            this.panel1.GradientStartColor = Color.FromArgb(0x80, 0x80, 0);
         }
 
 

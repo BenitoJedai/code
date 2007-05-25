@@ -17,6 +17,14 @@ namespace FormsExample.js
     {
         List<Panel> Gradients = new List<Panel>();
 
+        private Orientation _Orientation;
+
+        public Orientation Orientation
+        {
+            get { return _Orientation; }
+            set { _Orientation = value; UpdateGradientLocation(); }
+        }
+
         public Gradient()
         {
             InitializeComponent();
@@ -47,25 +55,40 @@ namespace FormsExample.js
 
         private void Gradient_Resize(object sender, EventArgs e)
         {
-            var h = (int)Math.Floor((double)(this.Height / Gradients.Count));
+            UpdateGradientLocation();
+
+
+        }
+
+        private void UpdateGradientLocation()
+        {
+            int step = 0;
+
+            if (Orientation == Orientation.Vertical)
+                step = (int)Math.Floor((double)(this.Height / Gradients.Count));
+            else
+                step = (int)Math.Floor((double)(this.Width / Gradients.Count));
 
             for (int i = 0; i < Gradients.Count; i++)
             {
                 var p = Gradients[i]; //.GetHTMLTarget();
 
-                //p.style.SetLocation(0, h * i);
-                p.Top = i * h;
-
-                if (i == Gradients.Count - 1)
+                if (Orientation == Orientation.Vertical)
                 {
-                    h = Height - i * h;
+                    p.Location = new Point(0,  i * step);
+                    if (i == Gradients.Count - 1)
+                        step = Height - i * step;
+                    p.Size = new Size(Width, step);
                 }
+                else
+                {
+                    p.Location = new Point( i * step, 0);
 
-                p.Size = new Size( Width, h);
+                    if (i == Gradients.Count - 1)
+                        step = Width - i * step;
+                    p.Size = new Size(step, Height);
+                }
             }
-
-            Console.WriteLine(new { w = this.Width, h = this.Height });
-
         }
 
         void UpdateGradientColors()

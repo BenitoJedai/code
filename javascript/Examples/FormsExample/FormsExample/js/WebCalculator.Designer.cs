@@ -52,12 +52,13 @@
             this.reverse = new System.Windows.Forms.Button();
             this.panel1 = new FormsExample.js.Gradient();
             this.gradient1 = new FormsExample.js.Gradient();
-            this.tweenComponent1 = new FormsExample.js.TweenComponent(this.components);
+            this.tweenComponent1 = new FormsExample.js.SimpleTweenComponent(this.components);
+            this.simpleDragComponent1 = new FormsExample.js.SimpleDragComponent();
             this.SuspendLayout();
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(29, 19);
+            this.textBox1.Location = new System.Drawing.Point(29, 29);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(192, 21);
             this.textBox1.TabIndex = 0;
@@ -267,11 +268,12 @@
             // 
             // panel1
             // 
-            this.panel1.GradientEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.panel1.GradientEndColor = System.Drawing.Color.Black;
             this.panel1.GradientStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
-            this.panel1.Location = new System.Drawing.Point(3, 0);
+            this.panel1.Location = new System.Drawing.Point(5, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(35, 247);
+            this.panel1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.panel1.Size = new System.Drawing.Size(237, 14);
             this.panel1.TabIndex = 22;
             this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
@@ -281,15 +283,26 @@
             // 
             this.gradient1.GradientEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.gradient1.GradientStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
-            this.gradient1.Location = new System.Drawing.Point(16, 19);
+            this.gradient1.Location = new System.Drawing.Point(16, 46);
             this.gradient1.Name = "gradient1";
-            this.gradient1.Size = new System.Drawing.Size(226, 228);
+            this.gradient1.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.gradient1.Size = new System.Drawing.Size(226, 201);
             this.gradient1.TabIndex = 21;
             // 
             // tweenComponent1
             // 
-            this.tweenComponent1.Duration = System.TimeSpan.Parse("00:00:05");
+            this.tweenComponent1.Duration = 3000;
+            this.tweenComponent1.Enabled = false;
+            this.tweenComponent1.Step = 0;
+            this.tweenComponent1.TargetValue = 0;
             this.tweenComponent1.Value = 0;
+            // 
+            // simpleDragComponent1
+            // 
+            this.simpleDragComponent1.Caption = this.panel1;
+            this.simpleDragComponent1.Content = this;
+            this.simpleDragComponent1.DragStart += new ScriptCoreLib.Shared.Action(this.simpleDragComponent1_DragStart);
+            this.simpleDragComponent1.DragStop += new ScriptCoreLib.Shared.Action(this.simpleDragComponent1_DragStop);
             // 
             // WebCalculator
             // 
@@ -321,7 +334,7 @@
             this.Controls.Add(this.gradient1);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "WebCalculator";
-            this.Size = new System.Drawing.Size(256, 251);
+            this.Size = new System.Drawing.Size(277, 258);
             this.MouseLeave += new System.EventHandler(this.WebCalculator_MouseLeave);
             this.Resize += new System.EventHandler(this.WebCalculator_Resize);
             this.MouseEnter += new System.EventHandler(this.WebCalculator_MouseEnter);
@@ -355,6 +368,7 @@
         private System.Windows.Forms.Button reverse;
         private Gradient gradient1;
         private Gradient panel1;
-        private TweenComponent tweenComponent1;
+        private SimpleTweenComponent tweenComponent1;
+        private SimpleDragComponent simpleDragComponent1;
     }
 }
