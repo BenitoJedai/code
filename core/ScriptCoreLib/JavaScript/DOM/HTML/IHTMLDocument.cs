@@ -289,5 +289,12 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 }
             }
         }
+
+
+        // ff
+        internal IEvent createEvent(string p)
+        {
+            return null;
+        }
     }
 }

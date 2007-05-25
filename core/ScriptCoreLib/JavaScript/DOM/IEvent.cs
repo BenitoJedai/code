@@ -289,5 +289,24 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         #endregion
+
+
+        internal void initMouseEvent(object type, object canBubble,object cancelable,object view, 
+                     object detail,object screenX,object screenY,object clientX,object clientY, 
+                     object ctrlKey,object altKey,object shiftKey,object metaKey, 
+                     object button,object relatedTarget)
+        {
+
+        }
+
+        internal object type;
+        internal object bubbles;
+        internal object cancelable;
+        internal object view;
+        internal object detail;
+        internal object screenX;
+        internal object screenY;
+        internal object metaKey;
+        internal object relatedTarget;
     }
 }

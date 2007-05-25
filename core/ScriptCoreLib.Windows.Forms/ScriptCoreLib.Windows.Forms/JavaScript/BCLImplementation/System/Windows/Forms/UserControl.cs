@@ -27,6 +27,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             HTMLTarget = new IHTMLDiv();
 
+            //HTMLTarget.style.border = "1px dotted gray";
+
             this.Size = new global::System.Drawing.Size(150, 150);
             this.BackColor = SystemColors.ButtonFace;
         }

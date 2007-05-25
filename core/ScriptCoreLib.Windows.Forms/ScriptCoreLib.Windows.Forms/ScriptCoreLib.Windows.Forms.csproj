@@ -58,10 +58,14 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ContainerControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ButtonBase.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ControlEventArgs.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ControlEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Cursor.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Cursors.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\MouseEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\GroupBox.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ListControl.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\MouseEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Panel.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\TextBoxBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Layout\ArrangedElementCollection.cs" />

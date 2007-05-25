@@ -4,7 +4,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 namespace ScriptCoreLib.JavaScript.DOM
 {
     [Script(HasNoPrototype = true)]
-    public class ISink 
+    public class ISink
     {
         [Script(DefineAsStatic = true, NoExeptions = true)]
         public void InternalEvent(bool b, global::System.Delegate e, string _EventListener, string _Event)
@@ -27,13 +27,13 @@ namespace ScriptCoreLib.JavaScript.DOM
                     detachEvent(_Event, z);
             }
         }
-        
-        [Script(DefineAsStatic=true, NoExeptions=true)]
+
+        [Script(DefineAsStatic = true, NoExeptions = true)]
         public void InternalEvent(bool b, global::System.Delegate e, string f)
         {
             InternalEvent(b, e, f, "on" + f);
 
-            
+
         }
 
         internal void attachEvent(string f, IFunction e)
@@ -45,6 +45,19 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
 
         }
+
+        [Script(DefineAsStatic = true)]
+        internal void addEventListener(string f, System.Delegate e, bool c)
+        {
+            this.addEventListener(f, ((BCLImplementation.System.__Delegate)(object)e).InvokePointer, c);
+        }
+
+        [Script(DefineAsStatic = true)]
+        internal void removeEventListener(string f, System.Delegate e, bool c)
+        {
+            this.removeEventListener(f, ((BCLImplementation.System.__Delegate)(object)e).InvokePointer, c);
+        }
+
 
         internal void addEventListener(string f, IFunction e, bool c)
         {

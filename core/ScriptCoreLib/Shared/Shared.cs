@@ -25,7 +25,7 @@ namespace ScriptCoreLib.Shared
 
     [Script]
     public delegate void ActionParams<T>(params T[] e);
-       
+
     [Script]
     public delegate R FuncParams<T, R>(params T[] e);
 
@@ -41,6 +41,8 @@ namespace ScriptCoreLib.Shared
 
     [Script]
     public delegate T Func<A, B, C, T>(A a, B b, C c);
+
+
 
 
 

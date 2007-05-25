@@ -768,5 +768,85 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             Native.Document.body.appendChild(this);
         }
+
+
+        void setCapture()
+        {
+        }
+
+        void releaseCapture()
+        {
+        }
+
+        static  string[] InternalCaptureMouseEvents = new string[] { "click", "mousedown", "mouseup", "mousemove", "mouseover", "mouseout" };
+
+        static Action InternalCaptureMouse(IHTMLElement self)
+        {
+             // http://www.activewidgets.com/javascript.forum.8933.28/problems-with-version-1-0.html
+
+            if (Expando.Of(self).Contains("setCapture"))
+            {
+                self.setCapture();
+
+                return
+                        delegate
+                        {
+                            self.releaseCapture();
+                        }
+                    ;
+
+
+            }
+
+            bool flag = false;
+
+            EventHandler<IEvent> _capture =
+                delegate(IEvent e)
+                {
+                    if (flag)
+                        return;
+
+                    flag = true;
+
+                    e.StopPropagation();
+
+                    IEvent _event = Native.Document.createEvent("MouseEvents");
+
+                    _event.initMouseEvent(
+                        e.type,
+                        e.bubbles, e.cancelable, e.view, e.detail,
+                        e.screenX, e.screenY, e.clientX, e.clientY,
+                        e.ctrlKey, e.altKey, e.shiftKey, e.metaKey,
+                        e.button, e.relatedTarget);
+
+                    self.dispatchEvent(_event);
+                    flag = false;
+                };
+
+
+            foreach (string v in InternalCaptureMouseEvents)
+                Native.Window.addEventListener(v, _capture, true);
+
+            return delegate
+                    {
+                        foreach (string v in InternalCaptureMouseEvents)
+                            Native.Window.removeEventListener(v, _capture, true);
+                    }
+                ;
+        }
+
+        [Script(DefineAsStatic = true)]
+        public Action  CaptureMouse()
+        {
+           return InternalCaptureMouse(this);
+        }
+
+        // ff
+        private void dispatchEvent(IEvent _event)
+        {
+
+        }
+
+
     }
 }

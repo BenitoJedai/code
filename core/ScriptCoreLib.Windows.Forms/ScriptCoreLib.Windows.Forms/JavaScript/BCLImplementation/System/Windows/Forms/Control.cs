@@ -10,6 +10,11 @@ using System.Windows.Forms;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     using ScriptCoreLib.JavaScript.Drawing;
+    using ScriptCoreLib.JavaScript.Windows.Forms;
+
+
+    using DOMHandler = Shared.EventHandler<DOM.IEvent>;
+
 
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
     internal class __Control // : ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel.__Component
@@ -37,6 +42,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             public void Add(Control e)
             {
                 Items.Add(e);
+
+                var bg = this.Owner.GetHTMLTarget();
+
+                if (bg.firstChild == null)
+                    bg.appendChild(e.GetHTMLTarget());
+                else
+                    bg.insertBefore(e.GetHTMLTarget(), bg.firstChild);
+
+                ((__Control)this.Owner).OnControlAdded(new ControlEventArgs(e));
+
             }
 
             public override IEnumerator GetEnumerator()
@@ -119,6 +134,67 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public int Left
+        {
+            get
+            {
+                return this.x;
+            }
+            set
+            {
+                this.SetBounds(value, this.y, this.width, this.height, BoundsSpecified.X);
+            }
+        }
+
+        public int Top
+        {
+            get
+            {
+                return this.y;
+            }
+            set
+            {
+                this.SetBounds(this.x, value, this.width, this.height, BoundsSpecified.Y);
+            }
+        }
+
+        public Point Location
+        {
+            get
+            {
+                return new Point(this.x, this.y);
+            }
+            set
+            {
+                this.SetBounds(value.X, value.Y, this.width, this.height, BoundsSpecified.Location);
+            }
+        }
+
+
+        public void SetBounds(int x, int y, int width, int height)
+        {
+            var _x = (this.x != x);
+            var _y = (this.y != y);
+            var _width = (this.width != width);
+            var _height = this.height != height;
+
+            var _xy = (_x || _y);
+            var _wh = (_width || _height);
+
+            if (_xy || _wh)
+            {
+                UpdateBounds(x, y, width, height);
+                //this.SetBoundsCore(x, y, width, height, BoundsSpecified.All);
+                //LayoutTransaction.DoLayout(this.ParentInternal, this, PropertyNames.Bounds);
+            }
+            //else
+            //{
+            //    this.InitScaling(BoundsSpecified.All);
+            //}
+        }
+
+
+
         public void SetBounds(int x, int y, int width, int height, BoundsSpecified specified)
         {
             if ((specified & BoundsSpecified.X) == BoundsSpecified.None)
@@ -166,8 +242,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             var _width = (this.width != width);
             var _height = this.height != height;
 
-            bool flag = _x|| _y;
-            bool flag2 = _width ||_height /*|| (this.clientWidth != clientWidth)) || (this.clientHeight != clientHeight)*/;
+            bool flag = _x || _y;
+            bool flag2 = _width || _height /*|| (this.clientWidth != clientWidth)) || (this.clientHeight != clientHeight)*/;
             this.x = x;
             this.y = y;
             this.width = width;
@@ -176,16 +252,49 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //this.clientHeight = clientHeight;
             if (flag)
             {
-                //this.OnLocationChanged(EventArgs.Empty);
+                this.HTMLTargetRef.style.SetLocation(x, y);
+
+
+                this.OnLocationChanged(null);
             }
             if (flag2)
             {
+                if (this.HTMLTargetRef == null)
+                    throw new Exception("Html element not set: " + this.Name);
+
+                this.HTMLTargetRef.style.SetSize(width, height);
+
                 this.OnSizeChanged(null);
                 //this.OnClientSizeChanged(EventArgs.Empty);
                 //CommonProperties.xClearPreferredSizeCache(this);
                 //LayoutTransaction.DoLayout(this.ParentInternal, this, PropertyNames.Bounds);
             }
         }
+
+        #region Move
+        public event EventHandler Move;
+
+        protected virtual void OnMove(EventArgs e)
+        {
+            if (Move != null)
+                Move(this, e);
+        }
+        #endregion
+
+
+        #region LocationChanged
+        public event EventHandler LocationChanged;
+
+        protected virtual void OnLocationChanged(EventArgs e)
+        {
+            this.OnMove(null);
+
+            if (LocationChanged != null)
+                LocationChanged(this, null);
+        }
+        #endregion
+
+
 
         public event EventHandler Resize;
 
@@ -207,15 +316,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         }
 
- 
 
- 
 
- 
 
- 
 
- 
+
+
+
+
+
 
 
         private __Cursor _Cursor;
@@ -233,7 +342,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
         public Control.ControlCollection Controls { get; set; }
-        public Point Location { get; set; }
         public string Name { get; set; }
         public virtual string Text { get; set; }
 
@@ -353,7 +461,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
+
+
         #region Click
+
+
+
         EventHandler EventClick;
 
         Shared.EventHandler<DOM.IEvent> EventClickInternal;
@@ -362,6 +475,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             add
             {
+
                 EventClick += value;
 
                 if (EventClick != null && EventClickInternal == null)
@@ -373,6 +487,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
             remove
             {
+
                 EventClick -= value;
 
 
@@ -385,6 +500,215 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
         #endregion
+
+        [Script]
+        class Handler<A, B>
+        {
+            public A Event;
+            public B EventInternal;
+
+            public static implicit operator bool(Handler<A, B> e)
+            {
+                if (e.Event == null)
+                    return false;
+
+                return e.EventInternal == null;
+            }
+        }
+
+
+        Handler<MouseEventHandler, DOMHandler> _MouseMove = new Handler<MouseEventHandler, DOMHandler>();
+        Handler<MouseEventHandler, DOMHandler> _MouseDown = new Handler<MouseEventHandler, DOMHandler>();
+        Handler<MouseEventHandler, DOMHandler> _MouseUp = new Handler<MouseEventHandler, DOMHandler>();
+
+        #region MouseMove
+
+        public event MouseEventHandler MouseMove
+        {
+            add
+            {
+                _MouseMove.Event += value;
+                if (_MouseMove)
+                {
+                    _MouseMove.EventInternal = i =>
+                                                   {
+                                                       this._MouseMove.Event(this, i.GetMouseEventHandler(MouseButtons.None));
+                                                   };
+
+                    this.HTMLTargetRef.onmousemove += _MouseMove.EventInternal;
+                }
+            }
+            remove
+            {
+
+                _MouseMove.Event -= value;
+                if (!_MouseMove)
+                {
+                    this.HTMLTargetRef.onmousemove -= _MouseMove.EventInternal;
+                    _MouseMove.EventInternal = null;
+                }
+            }
+        }
+
+        #endregion
+
+
+
+
+        DOM.HTML.IHTMLDocument OwnerDocument
+        {
+            get
+            {
+                return (DOM.HTML.IHTMLDocument)(object)this.HTMLTargetRef.ownerDocument;
+            }
+        }
+
+        Shared.Action _Capture;
+        int _CaptureCount;
+
+        #region MouseDown
+
+        public event MouseEventHandler MouseDown
+        {
+            add
+            {
+                _MouseDown.Event += value;
+                if (_MouseDown)
+                {
+                    _MouseDown.EventInternal =
+                        i =>
+                        {
+                            if (_CaptureCount == 0)
+                            {
+                                _Capture = HTMLTargetRef.CaptureMouse();
+                            }
+
+                            _CaptureCount++;
+
+                            Console.WriteLine("mousedown: " + _CaptureCount);
+
+                            #region workaround
+
+                            //if (_DocumentMouseCounter == 0)
+                            //{
+                            //    _DocumentMouseMove = j => this._MouseMove.Event(this, j.GetMouseEventHandler(MouseButtons.None));
+                            //    _DocumentMouseUp =
+                            //        j =>
+                            //        {
+                            //            Console.WriteLine("c_up: " + _DocumentMouseCounter);
+
+
+                            //            _DocumentMouseCounter--;
+
+                            //            if (_DocumentMouseCounter == 0)
+                            //            {
+                            //                var doc_up = OwnerDocument;
+
+                            //                doc_up.onmousemove -= _DocumentMouseMove;
+                            //                doc_up.onmouseup -= _DocumentMouseUp;
+
+                            //                _DocumentMouseMove = null;
+                            //                _DocumentMouseUp = null;
+                            //            }
+
+                            //            this._MouseUp.Event(this, j.GetMouseEventHandler(j.GetMouseButton()));
+                            //        };
+
+                            //    var doc = OwnerDocument;
+
+                            //    doc.onmousemove += _DocumentMouseMove;
+                            //    doc.onmouseup += _DocumentMouseUp;
+
+
+                            //}
+
+                            //_DocumentMouseCounter++;
+
+                            //Console.WriteLine("c: " + _DocumentMouseCounter);
+                            #endregion
+
+                            // http://blogger.org.cn/blog/more.asp?name=lhwork&id=19173
+
+
+
+                            this._MouseDown.Event(this, i.GetMouseEventHandler(i.GetMouseButton()));
+                        };
+
+                    this.HTMLTargetRef.onmousedown += _MouseDown.EventInternal;
+                }
+            }
+            remove
+            {
+
+                _MouseDown.Event -= value;
+                if (!_MouseDown)
+                {
+                    this.HTMLTargetRef.onmousedown -= _MouseDown.EventInternal;
+                    _MouseDown.EventInternal = null;
+                }
+            }
+        }
+
+        #endregion
+
+
+
+        #region Mouseup
+
+        public event MouseEventHandler MouseUp
+        {
+            add
+            {
+                _MouseUp.Event += value;
+
+                if (_MouseUp)
+                {
+                    _MouseUp.EventInternal =
+                        i =>
+                        {
+                            Console.WriteLine("mouseup: " + _CaptureCount);
+
+                            this._MouseUp.Event(this, i.GetMouseEventHandler(i.GetMouseButton()));
+
+
+                            _CaptureCount--;
+
+                            if (_CaptureCount == 0)
+                            {
+                                _Capture();
+                                _Capture = null;
+                            }
+
+
+                        };
+
+                    this.HTMLTargetRef.onmouseup += _MouseUp.EventInternal;
+                }
+
+            }
+            remove
+            {
+
+                _MouseUp.Event -= value;
+                if (!_MouseUp)
+                {
+                    this.HTMLTargetRef.onmouseup -= _MouseUp.EventInternal;
+                    _MouseUp.EventInternal = null;
+                }
+
+            }
+        }
+
+        #endregion
+
+        public event ControlEventHandler ControlAdded;
+
+        protected  virtual void OnControlAdded(ControlEventArgs e)
+        {
+            if (ControlAdded != null)
+                ControlAdded(this, e);
+        }
+
 
         #region
         static public implicit operator Control(__Control e)

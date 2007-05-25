@@ -10,6 +10,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
     {
         public Shared.Drawing.Color Value;
 
+
+        public int R
+        {
+            get { return Value.R; }
+        }
+
+        public int G
+        {
+            get { return Value.G; }
+        }
+
+        public int B
+        {
+            get { return Value.B; }
+        }
+	
+
         public static Color FromArgb(int red, int green, int blue)
         {
             return new __Color { Value = Shared.Drawing.Color.FromRGB(red, green, blue) };

@@ -26,6 +26,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public __Panel()
         {
             HTMLTarget = new IHTMLDiv();
+            HTMLTarget.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
 
             this.Size = new global::System.Drawing.Size(150, 150);
             this.BackColor = SystemColors.ButtonFace;
