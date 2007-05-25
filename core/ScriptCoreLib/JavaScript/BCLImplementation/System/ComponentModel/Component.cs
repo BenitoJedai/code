@@ -11,5 +11,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel
         {
             return e;
         }
+
+        public bool DesignMode { get; set; }
     }
 }
