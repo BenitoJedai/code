@@ -232,6 +232,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public string fontWeight;
         public string fontSize;
+        public string font;
 
         public string margin;
         public string marginLeft;

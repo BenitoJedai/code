@@ -9,6 +9,8 @@ using System.Windows.Forms;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
+    using ScriptCoreLib.JavaScript.Drawing;
+
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
     internal class __Control // : ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel.__Component
     {
@@ -63,6 +65,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
 
         }
+        protected void UpdateStyles()
+        {
+        }
+        protected void SetStyle(ControlStyles flag, bool value)
+        {
+        }
 
         public __Control()
         {
@@ -70,6 +78,145 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
         }
+
+        int x;
+        int y;
+        int width;
+        public int Width
+        {
+            get
+            {
+                return this.width;
+            }
+            set
+            {
+                this.SetBounds(this.x, this.y, value, this.height, BoundsSpecified.Width);
+            }
+        }
+
+        int height;
+        public int Height
+        {
+            get
+            {
+                return this.height;
+            }
+            set
+            {
+                this.SetBounds(this.x, this.y, this.width, value, BoundsSpecified.Height);
+            }
+        }
+
+        public Size Size
+        {
+            get
+            {
+                return new Size(this.width, this.height);
+            }
+            set
+            {
+                this.SetBounds(this.x, this.y, value.Width, value.Height, BoundsSpecified.Size);
+            }
+        }
+
+        public void SetBounds(int x, int y, int width, int height, BoundsSpecified specified)
+        {
+            if ((specified & BoundsSpecified.X) == BoundsSpecified.None)
+            {
+                x = this.x;
+            }
+            if ((specified & BoundsSpecified.Y) == BoundsSpecified.None)
+            {
+                y = this.y;
+            }
+            if ((specified & BoundsSpecified.Width) == BoundsSpecified.None)
+            {
+                width = this.width;
+            }
+            if ((specified & BoundsSpecified.Height) == BoundsSpecified.None)
+            {
+                height = this.height;
+            }
+
+            var _x = (this.x != x);
+            var _y = (this.y != y);
+            var _width = (this.width != width);
+            var _height = this.height != height;
+
+            var _xy = (_x || _y);
+            var _wh = (_width || _height);
+
+            if (_xy || _wh)
+            {
+                UpdateBounds(x, y, width, height);
+                //this.SetBoundsCore(x, y, width, height, specified);
+                //LayoutTransaction.DoLayout(this.ParentInternal, this, PropertyNames.Bounds);
+            }
+            //else
+            //{
+            //    // this.InitScaling(specified);
+            //}
+        }
+
+
+        protected void UpdateBounds(int x, int y, int width, int height/*, int clientWidth, int clientHeight*/)
+        {
+            var _x = (this.x != x);
+            var _y = (this.y != y);
+            var _width = (this.width != width);
+            var _height = this.height != height;
+
+            bool flag = _x|| _y;
+            bool flag2 = _width ||_height /*|| (this.clientWidth != clientWidth)) || (this.clientHeight != clientHeight)*/;
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            //this.clientWidth = clientWidth;
+            //this.clientHeight = clientHeight;
+            if (flag)
+            {
+                //this.OnLocationChanged(EventArgs.Empty);
+            }
+            if (flag2)
+            {
+                this.OnSizeChanged(null);
+                //this.OnClientSizeChanged(EventArgs.Empty);
+                //CommonProperties.xClearPreferredSizeCache(this);
+                //LayoutTransaction.DoLayout(this.ParentInternal, this, PropertyNames.Bounds);
+            }
+        }
+
+        public event EventHandler Resize;
+
+
+        protected virtual void OnResize(EventArgs e)
+        {
+            if (Resize != null)
+                Resize(this, null);
+        }
+
+        public event EventHandler SizeChanged;
+
+        protected virtual void OnSizeChanged(EventArgs e)
+        {
+            this.OnResize(null);
+
+            if (SizeChanged != null)
+                SizeChanged(this, null);
+
+        }
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
 
         private __Cursor _Cursor;
 
@@ -89,12 +236,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public Point Location { get; set; }
         public string Name { get; set; }
         public virtual string Text { get; set; }
-        public Size Size { get; set; }
+
+
         public int TabIndex { get; set; }
         public bool AutoSize { get; set; }
 
 
-
+        #region ForeColor
         private Color _ForeColor;
 
         public Color ForeColor
@@ -106,7 +254,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this.HTMLTargetRef.style.color = value.ToString();
             }
         }
+        #endregion
 
+        #region Font
+        private Font _Font;
+
+        public Font Font
+        {
+            get { return _Font; }
+            set
+            {
+                _Font = value;
+
+                this.HTMLTargetRef.style.font = value.ToCssString();
+            }
+        }
+        #endregion
+
+        #region BackColor
         private Color _BackColor;
 
         public Color BackColor
@@ -118,6 +283,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this.HTMLTargetRef.style.backgroundColor = value.ToString();
             }
         }
+        #endregion
 
         #region MouseLeave
 

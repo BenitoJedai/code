@@ -25,6 +25,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
         static public Color Green { get; set; }
         static public Color Red { get; set; }
         static public Color Yellow { get; set; }
+        static public Color Blue { get { return new __Color { Value = Shared.Drawing.Color.Blue }; } }
+        static public Color Transparent { get { return new __Color { Value = Shared.Drawing.Color.Transparent }; } }
 
 
         #region

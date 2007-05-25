@@ -18,6 +18,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public __Button()
         {
             HTMLTarget = new IHTMLButton();
+            HTMLTarget.style.padding = "0";
         }
 
         public override IHTMLElement HTMLTargetRef

@@ -62,6 +62,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Cursors.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\GroupBox.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ListControl.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Panel.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\TextBoxBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Layout\ArrangedElementCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ScrollableControl.cs" />
