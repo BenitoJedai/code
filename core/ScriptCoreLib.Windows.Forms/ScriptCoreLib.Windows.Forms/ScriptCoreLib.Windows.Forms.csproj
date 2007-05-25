@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Button.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\CheckBox.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ComboBox.cs">
     </Compile>
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ContainerControl.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ControlEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Cursor.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Cursors.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ListBox.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\MouseEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\GroupBox.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ListControl.cs" />

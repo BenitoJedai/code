@@ -21,6 +21,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             HTMLTarget.style.padding = "0";
         }
 
+        
         public override IHTMLElement HTMLTargetRef
         {
             get
@@ -29,6 +30,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public override bool Enabled
+        {
+            get
+            {
+                return !HTMLTarget.disabled;
+            }
+            set
+            {
+                HTMLTarget.disabled = !value;
+            }
+        }
         public override string Text
         {
             get

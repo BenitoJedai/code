@@ -16,6 +16,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     using DOMHandler = Shared.EventHandler<DOM.IEvent>;
 
 
+    [Script]
+    class Handler<A, B>
+    {
+        public A Event;
+        public B EventInternal;
+
+        public static implicit operator bool(Handler<A, B> e)
+        {
+            if (e.Event == null)
+                return false;
+
+            return e.EventInternal == null;
+        }
+    }
+
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
     internal class __Control // : ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel.__Component
     {
@@ -501,20 +516,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
-        [Script]
-        class Handler<A, B>
-        {
-            public A Event;
-            public B EventInternal;
-
-            public static implicit operator bool(Handler<A, B> e)
-            {
-                if (e.Event == null)
-                    return false;
-
-                return e.EventInternal == null;
-            }
-        }
 
 
         Handler<MouseEventHandler, DOMHandler> _MouseMove = new Handler<MouseEventHandler, DOMHandler>();
@@ -709,6 +710,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 ControlAdded(this, e);
         }
 
+
+        public virtual bool Enabled
+        {
+            get { return true; }
+            set { }
+        }
 
         #region
         static public implicit operator Control(__Control e)
