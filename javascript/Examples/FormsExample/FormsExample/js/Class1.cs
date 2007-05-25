@@ -66,108 +66,53 @@ namespace FormsExample.js
                 throw new System.Exception();
 
 
-            var s = u.Size;
+            //var s = u.Size;
 
 
-            bg.style.SetSize(s.Width, s.Height);
+            //bg.style.SetSize(s.Width, s.Height);
 
             bg.attachToDocument();
             bg.SetCenteredLocation(pos.X, pos.Y);
 
             var ctrls = u.Controls;
 
-            System.Console.WriteLine("start: " + System.DateTime.Now.Ticks);
+            //System.Console.WriteLine("start: " + System.DateTime.Now.Ticks);
 
-            SpawnControls(bg, ctrls);
+            ////SpawnControls(bg, ctrls);
 
-            System.Console.WriteLine("end: " + System.DateTime.Now.Ticks);
+            //System.Console.WriteLine("end: " + System.DateTime.Now.Ticks);
         }
 
-        private static void SpawnControls(IHTMLElement bg, Control.ControlCollection ctrls)
-        {
-            foreach (Control v in ctrls)
-            {
+        //private static void SpawnControls(IHTMLElement bg, Control.ControlCollection ctrls)
+        //{
+        //    bg.style.display = IStyle.DisplayEnum.none;
 
-                
-                IHTMLElement item = null;
+        //    foreach (Control v in ctrls)
+        //    {
 
-                var IsTypeOf = Lambda.FixFirstParam<object, global::System.Type, bool>(TypeEquals, v);
+        //        try
+        //        {
+        //            IHTMLElement item = v.GetHTMLTarget();
 
-                if (IsTypeOf(typeof(Button)))
-                {
-                    var btn = (Button)v;
+        //            var IsTypeOf = Lambda.FixFirstParam<object, global::System.Type, bool>(TypeEquals, v);
 
+        //            if (bg.firstChild == null)
+        //                bg.appendChild(item);
+        //            else
+        //                bg.insertBefore(item, bg.firstChild);
 
-                    item = btn.GetHTMLTarget();
+        //            if (v.Controls.Count > 0)
+        //                SpawnControls(item, v.Controls);
 
-                    //h.onclick += btn.Click;
+        //        }
+        //        catch (System.Exception exc)
+        //        {
+        //            Console.WriteLine("error: " + exc.Message + ", control: " + v.Name);
+        //        }
+        //    }
 
-
-                    System.Console.WriteLine("button: " + v.Name);
-                }
-                else if (IsTypeOf(typeof(ComboBox)))
-                {
-                    var cmb = (ComboBox)v;
-
-                    item = cmb.GetHTMLTarget();
-
-
-                }
-                else if (IsTypeOf(typeof(GroupBox)))
-                {
-                    item = v.GetHTMLTarget();
-                }
-                else if (IsTypeOf(typeof(TextBox)))
-                {
-                    var txt = (TextBox)v;
-
-                    if (txt.Multiline)
-                    {
-                        item = new IHTMLTextArea(txt.Text);
-                    }
-                    else
-                    {
-                        var ta = new IHTMLTextArea(txt.Text); ;
-
-                        ta.rows = 1;
-                        ta.style.overflow = IStyle.OverflowEnum.auto;
-
-                        item = ta;
-                        //item = new IHTMLInput(HTMLInputTypeEnum.text, txt.Text);
-                    }
-
-                    //h.onclick += btn.Click;
-
-                    System.Console.WriteLine("textbox: " + v.Name);
-                }
-                else
-                {
-                    item = new IHTMLDiv();
-                    item.style.border = "1px dotted gray";
-
-                    if (v.Text != null)
-                        item.innerText = v.Text;
-
-                    System.Console.WriteLine("control: " + v.Name);
-                }
-
-
-                bg.style.display = IStyle.DisplayEnum.none;
-                bg.appendChild(item);
-
-
-                item.style.SetLocation(
-                    v.Location.X, v.Location.Y, v.Size.Width, v.Size.Height
-                    );
-
-                System.Console.WriteLine("children: " + v.Controls.Count);
-
-                if (v.Controls.Count > 0)
-                    SpawnControls(item, v.Controls);
-
-                bg.style.display = IStyle.DisplayEnum.block;
-            }
-        }
+        //    bg.style.display = IStyle.DisplayEnum.block;
+        //}
 
 
 

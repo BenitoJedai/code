@@ -35,8 +35,8 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.webCalculator2 = new FormsExample.js.WebCalculator();
             this.userControl21 = new FormsExample.js.UserControl2();
-            this.webCalculator1 = new FormsExample.js.WebCalculator();
             this.SuspendLayout();
             // 
             // button1
@@ -50,10 +50,11 @@
             // 
             // button2
             // 
+            this.button2.Font = new System.Drawing.Font("Tahoma", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.ForeColor = System.Drawing.Color.Red;
-            this.button2.Location = new System.Drawing.Point(300, 45);
+            this.button2.Location = new System.Drawing.Point(267, 45);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(167, 54);
             this.button2.TabIndex = 1;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
@@ -99,6 +100,17 @@
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 8;
             // 
+            // webCalculator2
+            // 
+            this.webCalculator2.BackColor = System.Drawing.Color.Transparent;
+            this.webCalculator2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.webCalculator2.Location = new System.Drawing.Point(183, 117);
+            this.webCalculator2.Name = "webCalculator2";
+            this.webCalculator2.NumberColor = System.Drawing.Color.Blue;
+            this.webCalculator2.OperatorColor = System.Drawing.Color.Red;
+            this.webCalculator2.Size = new System.Drawing.Size(251, 218);
+            this.webCalculator2.TabIndex = 10;
+            // 
             // userControl21
             // 
             this.userControl21.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
@@ -107,18 +119,11 @@
             this.userControl21.Size = new System.Drawing.Size(127, 88);
             this.userControl21.TabIndex = 4;
             // 
-            // webCalculator1
-            // 
-            this.webCalculator1.Location = new System.Drawing.Point(180, 99);
-            this.webCalculator1.Name = "webCalculator1";
-            this.webCalculator1.Size = new System.Drawing.Size(233, 213);
-            this.webCalculator1.TabIndex = 9;
-            // 
             // UserControl1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.webCalculator1);
+            this.Controls.Add(this.webCalculator2);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
@@ -128,7 +133,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Name = "UserControl1";
-            this.Size = new System.Drawing.Size(468, 330);
+            this.Size = new System.Drawing.Size(468, 350);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -144,6 +149,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.ComboBox comboBox1;
-        private WebCalculator webCalculator1;
+        private WebCalculator webCalculator2;
     }
 }
