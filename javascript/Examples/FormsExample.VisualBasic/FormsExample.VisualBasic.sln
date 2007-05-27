@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Basic Express Codename Orcas
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "FormsExample.VisualBasic", "FormsExample.VisualBasic\FormsExample.VisualBasic.vbproj", "{BDCFE58E-3110-4F66-B80C-27BC7408D3DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BDCFE58E-3110-4F66-B80C-27BC7408D3DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDCFE58E-3110-4F66-B80C-27BC7408D3DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDCFE58E-3110-4F66-B80C-27BC7408D3DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDCFE58E-3110-4F66-B80C-27BC7408D3DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

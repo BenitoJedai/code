@@ -47,16 +47,7 @@ namespace FormsExample.js
             SpawnUserControl(new UserControl3(), new Point(820, 250));
         }
 
-        static bool TypeEquals(object o, System.Type t)
-        {
-            // this seems to fault
-            var a = o.GetType();
 
-            var x = a.TypeHandle;
-            var y = t.TypeHandle;
-
-            return x.Value == y.Value;
-        }
 
         private static void SpawnUserControl(UserControl u, Point pos)
         {
@@ -76,46 +67,10 @@ namespace FormsExample.js
 
             var ctrls = u.Controls;
 
-            //System.Console.WriteLine("start: " + System.DateTime.Now.Ticks);
-
-            ////SpawnControls(bg, ctrls);
-
-            //System.Console.WriteLine("end: " + System.DateTime.Now.Ticks);
+           
         }
 
-        //private static void SpawnControls(IHTMLElement bg, Control.ControlCollection ctrls)
-        //{
-        //    bg.style.display = IStyle.DisplayEnum.none;
-
-        //    foreach (Control v in ctrls)
-        //    {
-
-        //        try
-        //        {
-        //            IHTMLElement item = v.GetHTMLTarget();
-
-        //            var IsTypeOf = Lambda.FixFirstParam<object, global::System.Type, bool>(TypeEquals, v);
-
-        //            if (bg.firstChild == null)
-        //                bg.appendChild(item);
-        //            else
-        //                bg.insertBefore(item, bg.firstChild);
-
-        //            if (v.Controls.Count > 0)
-        //                SpawnControls(item, v.Controls);
-
-        //        }
-        //        catch (System.Exception exc)
-        //        {
-        //            Console.WriteLine("error: " + exc.Message + ", control: " + v.Name);
-        //        }
-        //    }
-
-        //    bg.style.display = IStyle.DisplayEnum.block;
-        //}
-
-
-
+        
 
 
         static Class1()
