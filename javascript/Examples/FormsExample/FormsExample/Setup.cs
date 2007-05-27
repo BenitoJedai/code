@@ -6,6 +6,8 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 
+[assembly: ScriptResources("assets/WebCalculator")]
+
 namespace FormsExample
 {
     static class Setup

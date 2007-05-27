@@ -32,5 +32,15 @@ namespace FormsExample.js
             button3.Enabled = checkBox1.Checked;
             checkBox2.Enabled = checkBox1.Checked;
         }
+
+        private void button2_Enter(object sender, EventArgs e)
+        {
+            button2.ForeColor = Color.FromArgb(0x00, 0x00, 0x80);
+        }
+
+        private void button2_Leave(object sender, EventArgs e)
+        {
+            button2.ForeColor = Color.FromArgb(0x00, 0xff, 0x00);
+        }
     }
 }

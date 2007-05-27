@@ -111,6 +111,7 @@
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\WebCalculator\sc.png" />
     <EmbeddedResource Include="web\assets\WebCalculator\sc.ico" />
   </ItemGroup>
   <ItemGroup>
