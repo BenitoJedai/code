@@ -25,6 +25,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         IHTMLInput check;
         IHTMLLabel label;
 
+
+
+        public __CheckBox()
+        {
+            HTMLTarget = new IHTMLDiv();
+
+            check = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox, "");
+            label = new IHTMLLabel("", check);
+
+            HTMLTarget.appendChild(check, label);
+        }
+
+
         public override bool Enabled
         {
             get
@@ -36,16 +49,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 check.disabled = !value;
             }
         }
-        public __CheckBox()
-        {
-            HTMLTarget = new IHTMLDiv();
-
-            check = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox, "");
-            label = new IHTMLLabel("", check);
-
-            HTMLTarget.appendChild(check, label);
-        }
-
         public override string Text
         {
             get
@@ -58,7 +61,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-        private bool myVar;
 
         public bool Checked
         {

@@ -69,6 +69,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ListControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\MouseEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Panel.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\RadioButton.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\TextBoxBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Layout\ArrangedElementCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ScrollableControl.cs" />

@@ -16,6 +16,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     using DOMHandler = Shared.EventHandler<DOM.IEvent>;
 
 
+
     [Script]
     class Handler<A, B>
     {
@@ -479,44 +480,77 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
         #region Click
-
-
-
-        EventHandler EventClick;
-
-        Shared.EventHandler<DOM.IEvent> EventClickInternal;
+        Handler<EventHandler, DOMHandler> _Click = new Handler<EventHandler, DOMHandler>();
 
         public event EventHandler Click
         {
             add
             {
-
-                EventClick += value;
-
-                if (EventClick != null && EventClickInternal == null)
-                {
-                    EventClickInternal = i => this.EventClick(this, null);
-
-                    this.HTMLTargetRef.onclick += EventClickInternal;
-                }
+                var h = _Click;
+                h.Event += value;
+                if (!h) return;
+                h.EventInternal = i => h.Event(this, null);
+                this.HTMLTargetRef.onclick += h.EventInternal;
             }
             remove
             {
-
-                EventClick -= value;
-
-
-                if (EventClick == null && EventClickInternal != null)
-                {
-                    this.HTMLTargetRef.onclick -= EventClickInternal;
-
-                    EventClickInternal = null;
-                }
+                var h = _Click;
+                h.Event -= value;
+                if (h) return;
+                this.HTMLTargetRef.onclick -= h.EventInternal;
+                h.EventInternal = null;
             }
         }
         #endregion
 
+        #region Enter
+        Handler<EventHandler, DOMHandler> _Enter = new Handler<EventHandler, DOMHandler>();
 
+        public event EventHandler Enter
+        {
+            add
+            {
+                var h = _Enter;
+                h.Event += value;
+                if (!h) return;
+                h.EventInternal = i => h.Event(this, null);
+                this.HTMLTargetRef.onfocus += h.EventInternal;
+            }
+            remove
+            {
+                var h = _Enter;
+                h.Event -= value;
+                if (h) return;
+                this.HTMLTargetRef.onfocus -= h.EventInternal;
+                h.EventInternal = null;
+            }
+        }
+        #endregion
+
+        #region Leave
+        Handler<EventHandler, DOMHandler> _Leave = new Handler<EventHandler, DOMHandler>();
+
+        public event EventHandler Leave
+        {
+            add
+            {
+                var h = _Leave;
+                h.Event += value;
+                if (!h) return;
+                h.EventInternal = i => h.Event(this, null);
+                this.HTMLTargetRef.onblur += h.EventInternal;
+            }
+            remove
+            {
+                var h = _Leave;
+                h.Event -= value;
+                if (h) return;
+                this.HTMLTargetRef.onblur -= h.EventInternal;
+                h.EventInternal = null;
+            }
+        }
+
+        #endregion
 
         Handler<MouseEventHandler, DOMHandler> _MouseMove = new Handler<MouseEventHandler, DOMHandler>();
         Handler<MouseEventHandler, DOMHandler> _MouseDown = new Handler<MouseEventHandler, DOMHandler>();
@@ -579,14 +613,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     _MouseDown.EventInternal =
                         i =>
                         {
-                            if (_CaptureCount == 0)
+                            if (_MouseUp.Event != null)
                             {
-                                _Capture = HTMLTargetRef.CaptureMouse();
+                                if (_CaptureCount == 0)
+                                {
+                                    _Capture = HTMLTargetRef.CaptureMouse();
+                                }
+
+                                _CaptureCount++;
+
                             }
-
-                            _CaptureCount++;
-
-                            Console.WriteLine("mousedown: " + _CaptureCount);
 
                             #region workaround
 
@@ -671,15 +707,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                             this._MouseUp.Event(this, i.GetMouseEventHandler(i.GetMouseButton()));
 
-
-                            _CaptureCount--;
-
-                            if (_CaptureCount == 0)
+                            if (_MouseDown.Event != null)
                             {
-                                _Capture();
-                                _Capture = null;
-                            }
+                                _CaptureCount--;
 
+                                if (_CaptureCount == 0)
+                                {
+                                    _Capture();
+                                    _Capture = null;
+                                }
+
+                            }
 
                         };
 
@@ -704,7 +742,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public event ControlEventHandler ControlAdded;
 
-        protected  virtual void OnControlAdded(ControlEventArgs e)
+        protected virtual void OnControlAdded(ControlEventArgs e)
         {
             if (ControlAdded != null)
                 ControlAdded(this, e);
