@@ -14,7 +14,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     {
         public bool Multiline { get; set; }
 
-        public IHTMLTextArea  HTMLTarget { get; set; }
+        public IHTMLTextArea HTMLTarget { get; set; }
 
         public override IHTMLElement HTMLTargetRef
         {
@@ -30,7 +30,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             HTMLTarget = new IHTMLTextArea();
 
             this.Size = new global::System.Drawing.Size(100, 20);
-            
+
+        }
+
+        public bool ReadOnly
+        {
+            get { return this.HTMLTarget.readOnly; }
+            set { this.HTMLTarget.readOnly = value; }
         }
 
         public override string Text
@@ -42,6 +48,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             set
             {
                 this.HTMLTarget.value = value;
+            }
+        }
+
+        public bool WordWrap
+        {
+            get
+            {
+                return false;
+
+                //return this.HTMLTarget.style.whiteSpace == ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.normal;
+            }
+            set
+            {
+                //if (value)
+                //    this.HTMLTarget.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.normal;
+                //else
+                //    this.HTMLTarget.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
+
             }
         }
 

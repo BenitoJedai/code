@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Drawing;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
@@ -55,6 +56,30 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             HTMLTarget.appendChild(button, label);
         }
+
+        #region CheckAlign
+        private ContentAlignment _CheckAlign;
+
+        public ContentAlignment CheckAlign
+        {
+            get { return _CheckAlign; }
+            set
+            {
+                _CheckAlign = value;
+
+                if (_CheckAlign == ContentAlignment.MiddleRight)
+                {
+                    HTMLTarget.appendChild(label, button);
+                    HTMLTarget.style.textAlign = ScriptCoreLib.JavaScript.DOM.IStyle.TextAlignEnum.right;
+                }
+                else
+                {
+                    HTMLTarget.appendChild(button, label);
+                    HTMLTarget.style.textAlign = ScriptCoreLib.JavaScript.DOM.IStyle.TextAlignEnum.left;
+                }
+            }
+        }
+        #endregion
 
         public override bool Enabled
         {

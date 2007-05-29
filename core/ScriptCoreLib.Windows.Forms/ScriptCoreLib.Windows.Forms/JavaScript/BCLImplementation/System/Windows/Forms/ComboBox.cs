@@ -43,6 +43,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 HTMLTarget.disabled = !value;
             }
         }
+
+        public override string Text
+        {
+            get
+            {
+                return this.HTMLTarget.value;
+            }
+            set
+            {
+                this.HTMLTarget.value = value;
+            }
+        }
         [Script(Implements = typeof(global::System.Windows.Forms.ComboBox.ObjectCollection))]
         internal class __ObjectCollection
         {
