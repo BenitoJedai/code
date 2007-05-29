@@ -106,6 +106,15 @@ namespace JavaScript
                     };
 
                     Console.Log("asp net hello world : c#");
+
+                    IHTMLButton b2 = new IHTMLButton("xxx");
+
+                    b2.attachToDocument();
+
+                    b2.onclick += delegate
+                    {
+                        Native.Document.body.style.backgroundColor = Color.Red;
+                    };
                 };
         }
     }

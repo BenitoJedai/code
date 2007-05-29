@@ -2,4 +2,8 @@
   <PropertyGroup>
     <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <StartAction>URL</StartAction>
+    <StartURL>file:///C:/work/jsc/svn/javascript/Examples/FormsExample.VisualBasic/FormsExample.VisualBasic/bin/Debug/web/fx.Class1.packed.htm</StartURL>
+  </PropertyGroup>
 </Project>

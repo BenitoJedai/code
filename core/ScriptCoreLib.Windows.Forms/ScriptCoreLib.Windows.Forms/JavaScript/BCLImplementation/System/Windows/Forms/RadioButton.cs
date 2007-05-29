@@ -23,30 +23,48 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-        IHTMLInput check;
-        IHTMLLabel label;
+        internal IHTMLInput button;
+        internal IHTMLLabel label;
 
 
 
         public __RadioButton()
         {
+            // http://msdn2.microsoft.com/en-us/library/system.windows.forms.radiobutton.aspx
+            /* Use the Checked property to get or set the state of a RadioButton. 
+             * The option button's appearance can be altered to appear as a toggle-style 
+             * button or as a standard option button by setting the Appearance property.
+             */
+
+            // http://javascript.about.com/library/blradio2.htm
+            /* The solution here is to give all of the radio buttons within the group 
+             * the same name but different values. Here is the code used to code just 
+             * radio button themselves on the previous page that shows you how this is done.
+             */
+
+            // http://www.thescripts.com/forum/thread468483.html
+
+            // IE support
+            // http://www.gtalbot.org/DHTMLSection/DynamicallyCreateRadioButtons.html
+
             HTMLTarget = new IHTMLDiv();
+            HTMLTarget.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
-            check = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.radio, "");
-            label = new IHTMLLabel("", check);
+            button = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.radio);
+            label = new IHTMLLabel("", button);
 
-            HTMLTarget.appendChild(check, label);
+            HTMLTarget.appendChild(button, label);
         }
 
         public override bool Enabled
         {
             get
             {
-                return !check.disabled;
+                return !button.disabled;
             }
             set
             {
-                check.disabled = !value;
+                button.disabled = !value;
             }
         }
         public override string Text
@@ -57,6 +75,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
             set
             {
+                button.value = value;
                 label.innerText = value;
             }
         }
@@ -64,8 +83,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public bool Checked
         {
-            get { return check.@checked; }
-            set { check.@checked = value; }
+            get { return button.@checked; }
+            set { button.@checked = value; }
         }
+
+
+        #region
+        static public implicit operator RadioButton(__RadioButton e)
+        {
+            return (RadioButton)(object)e;
+        }
+
+        static public implicit operator __RadioButton(RadioButton e)
+        {
+            return (__RadioButton)(object)e;
+        }
+        #endregion
     }
 }

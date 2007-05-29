@@ -16,6 +16,7 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 
 //using global::System.Collections.Generic;
 
+using Math = System.Math;
 
 
 namespace SimpleRollover.js
@@ -399,8 +400,9 @@ namespace SimpleRollover.js
 
             public void SetCenteredLocation(int x, int y)
             {
-                SetLocation(Native.Math.floor(x - (this.x * zoom) / 2),
-                    Native.Math.floor(y - (this.y * zoom) / 2));
+                //System.Math.Floor(
+                SetLocation((int)Math.Floor(x - (this.x * zoom) / 2),
+                    (int)Math.Floor(y - (this.y * zoom) / 2));
             }
             public void SetLocation(int x, int y)
             {
@@ -416,7 +418,7 @@ namespace SimpleRollover.js
             {
                 var s = div.style;
 
-                s.SetSize(Native.Math.floor(x * zoom), Native.Math.floor(y * zoom));
+                s.SetSize((int)Math.Floor(x * zoom), (int)Math.Floor(y * zoom));
             }
         }
 
@@ -424,27 +426,27 @@ namespace SimpleRollover.js
         {
             var cur_size = 128;
 
-            var pi = Native.Math.atan(1) * 4;
+            var pi = Math.Atan(1) * 4;
 
             var frames = 24;
 
             var a =
                 from i in
                     (from j in Enumerable.Range(0, (frames / 2) - 0) select j / frames * pi)
-                let x = Native.Math.cos(i)
-                let y = Native.Math.sin(i)
+                let x = Math.Cos(i)
+                let y = Math.Sin(i)
                 select new { x, y };
 
             //a.ForEach(z => Console.WriteLine(z.ToString()));
 
             var moon_frames = frames * 1.3;
-            var moon_range = Native.Math.floor((moon_frames * 0.33));
+            var moon_range = (int)Math.Floor((moon_frames * 0.33));
             var moon_max = (0 - (moon_range / 2)) / moon_frames * pi;
 
             var dualmoon =
                 (from offset in
                      (from j in Enumerable.Range(0, moon_range) select (j - (moon_range / 2)) / moon_frames * pi)
-                 select new
+                        select new
                         {
                             offset,
                             moon1 = new SpecialLayer(),
@@ -455,9 +457,9 @@ namespace SimpleRollover.js
             dualmoon.ForEach(
                 dual =>
                 {
-                    var op = 1 - (Native.Math.abs(dual.offset / moon_max));
+                    double op = 1 - (Math.Abs((double)(dual.offset / moon_max)));
 
-                    var size = Native.Math.floor(4 * (op + 1));
+                    int size = (int) Math.Floor(4 * (op + 1));
 
                     dual.moon1.div.style.Opacity = 0.6;
                     dual.moon2.div.style.Opacity = 0.6;
@@ -514,7 +516,7 @@ namespace SimpleRollover.js
                     dualmoon.ForEach(
                         dual =>
                         {
-                            var rad = seed + dual.offset;
+                            double rad = seed + dual.offset;
 
                             var deg = (rad + pi / 2) % (2 * pi);
 
@@ -536,14 +538,15 @@ namespace SimpleRollover.js
                                 dual.moon2.div.style.visibility = IStyle.VisibilityEnum.hidden;
                             }
 
-                            new[] { dual.moon1, dual.moon2 }.ForEach(
+
+                            new[] { dual.moon1 }.Concat(new[] { dual.moon2 }).ForEach(
                                 moon =>
                                 {
-                                    var cos = Native.Math.cos(rad) * cur_size;
+                                    var cos = Math.Cos(rad) * cur_size;
 
                                     moon.SetCenteredLocation(
-                                        Native.Math.floor(p.X + cos),
-                                        Native.Math.floor(p.Y + -cos * 0.6)
+                                        (int)Math.Floor(p.X + cos),
+                                        (int)Math.Floor(p.Y + -cos * 0.6)
                                     );
 
 

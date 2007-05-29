@@ -114,8 +114,12 @@ Namespace JavaScript
 
 
             Dim u = New UserControl1
+            Dim ue = u.GetHTMLTarget
 
-            Extensions.GetHTMLTarget(u).attachToDocument()
+
+            ue.style.SetLocation(400, 400)
+
+            ue.attachToDocument()
 
 
 

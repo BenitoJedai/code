@@ -1012,10 +1012,16 @@ namespace ScriptCoreLib.JavaScript.Runtime
             }
         }
 
+        [Script(OptimizedCode="return (m in t);")]
+        static bool InternalContains(object m, object t)
+        {
+            return default(bool);
+        }
+
         [Script(DefineAsStatic = true)]
         public bool Contains(object p)
         {
-            return this[p] != null;
+            return InternalContains(p, this);
         }
 
 

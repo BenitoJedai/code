@@ -6,6 +6,7 @@ Imports ScriptCoreLib.JavaScript
 
 
 Imports System.Runtime.CompilerServices
+Imports System.Xml.Linq
 
 <Assembly: Script()> 
 <Assembly: ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript")> 
@@ -14,6 +15,8 @@ Imports System.Runtime.CompilerServices
 
 
 Namespace JavaScript
+
+
 
 
     '<Script()> Public Class Class1
@@ -39,6 +42,7 @@ Namespace JavaScript
         End Function
 
     End Module
+
 
 
     <Script()> Public Class Class1
@@ -69,8 +73,11 @@ Namespace JavaScript
 
 
 
+
         Sub New()
             LongTaskDisplay.Hide()
+
+
 
 
             Control.appendChild(New IHTMLBreak, LongTask, Me.ButtonBlue, Me.ButtonRed, New IHTMLBreak, Me.Text, LongTaskDisplay)
@@ -79,6 +86,8 @@ Namespace JavaScript
 
             ColorSelector.Add(Color.System.ThreeDFace.ToString())
             ColorSelector.Add(Color.System.AppWorkspace.ToString)
+
+
 
             ColorSelector.Add("black")
             ColorSelector.Add("red")

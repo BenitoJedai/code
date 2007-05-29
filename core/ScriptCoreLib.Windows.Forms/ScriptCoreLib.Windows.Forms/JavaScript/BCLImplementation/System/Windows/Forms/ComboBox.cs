@@ -54,6 +54,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 return 0;
             }
+
+            public void AddRange(object[] items)
+            {
+                foreach (var v in items)
+                    Add(v);
+            }
         }
 
         public __ObjectCollection Items { get; protected set; }

@@ -15,6 +15,15 @@ namespace ScriptCoreLib.JavaScript.Windows.Forms
     [Script]
     public static class Extensions
     {
+        static internal bool IsTypeOf(this object e, Type t)
+        {
+            var x = e.GetType();
+            var a = x.TypeHandle.Value;
+            var b = t.TypeHandle.Value;
+
+            return a == b;
+        }
+
         static public MouseButtons GetMouseButton(this IEvent e)
         {
             var button = MouseButtons.None;

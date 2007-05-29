@@ -10,7 +10,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
     [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>))]
     internal class __Dictionary<TKey, TValue> : IDictionary<TKey, TValue>, IEnumerable
     {
-        Expando list = new Expando();
+        readonly global::System.Collections.Generic.List<TKey> _keys = new global::System.Collections.Generic.List<TKey>();
+        readonly global::System.Collections.Generic.List<TValue> _values = new global::System.Collections.Generic.List<TValue>();
+
+        //Expando list = new Expando();
 
         public __Dictionary()
         {
@@ -26,39 +29,47 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         public void Add(TKey key, TValue value)
         {
-            if (list.Contains(key))
+            //if (list.Contains(key))
+            if (this.ContainsKey(key))
                 throw new global::System.Exception("Argument_AddingDuplicate");
 
-            list.SetMember(key, value);
+
+            _keys.Add(key);
+            _values.Add(value);
         }
+
+
 
         public bool ContainsKey(TKey key)
         {
-            return list.Contains(key);
+            return _keys.Contains(key);
         }
 
         public ICollection<TKey> Keys
         {
-            get { 
-            
-                 global::System.Collections.Generic.List<TKey> a = new  global::System.Collections.Generic.List<TKey>();
+            get
+            {
 
-                foreach (var v in list.GetMemberNames())
-                {
-                    a.Add((TKey)v);
-                } 
-                
-                return a;
+                // global::System.Collections.Generic.List<TKey> a = new  global::System.Collections.Generic.List<TKey>();
+
+                //foreach (var v in list.GetMemberNames())
+                //{
+                //    a.Add((TKey)v);
+                //} 
+
+                return _keys;
             }
         }
 
         public bool Remove(TKey key)
         {
-            if (!list.Contains(key))
+            if (!ContainsKey(key))
                 return false;
 
+            var i = _keys.IndexOf(key);
 
-            list.Remove(key);
+            _keys.RemoveAt(i);
+            _values.RemoveAt(i);
 
             return true;
         }
@@ -72,8 +83,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
         {
             get
             {
-
-                throw new global::System.Exception("The method or operation is not implemented.");
+                return this.Values;
             }
         }
 
@@ -81,14 +91,28 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
         {
             get
             {
-                if (this.ContainsKey(key))
-                    return list.GetMember<TValue>(key);
+                var i = _keys.IndexOf(key);
 
-                throw new Exception("Not found.");
+                if (i == -1)
+                    throw new Exception("Not found.");
+
+                return _values[i];
+
+
             }
             set
             {
-                list.SetMember(key, value);
+                var i = _keys.IndexOf(key);
+
+                if (i == -1)
+                {
+                    _keys.Add(key);
+                    _values.Add(value);
+                }
+                else
+                {
+                    _values[i] = value;
+                }
             }
         }
 
@@ -103,7 +127,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         public void Clear()
         {
-            list.RemoveAll();
+            _keys.Clear();
+            _values.Clear();
         }
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
@@ -118,7 +143,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         public int Count
         {
-            get { throw new global::System.Exception("The method or operation is not implemented."); }
+            get { return _keys.Count; }
         }
 
         public bool IsReadOnly

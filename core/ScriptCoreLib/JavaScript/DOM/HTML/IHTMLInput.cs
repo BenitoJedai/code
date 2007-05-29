@@ -62,11 +62,23 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             return (IHTMLInput)Native.Document.createElement(HTMLElementEnum.input);
         }
 
+
         internal static IHTMLInput InternalConstructor(HTMLInputTypeEnum type)
         {
-            IHTMLInput n = new IHTMLInput();
+            IHTMLInput n = null;
 
-            n.type = type;
+            var _radio = HTMLInputTypeEnum.radio;
+
+            if (type == _radio)
+            {
+                n = (IHTMLInput) new IFunction("e", "/*@cc_on return this.createElement(e); @*/ return null;").apply(Native.Document, "<input type='radio' name='' value='' />");
+            }
+            
+            if (n == null)
+            {
+                n = new IHTMLInput();
+                n.type = type;
+            }
 
             return n;
         }

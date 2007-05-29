@@ -742,8 +742,46 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public event ControlEventHandler ControlAdded;
 
+        static int ControlKeyStatic = 0;
+        static Dictionary<object, int> ControlKeys = new Dictionary<object, int>();
+
+        internal string ControlGroupName
+        {
+            get
+            {
+                int v = 0;
+
+
+                if (ControlKeys.ContainsKey(this))
+                {
+                    v = ControlKeys[this];
+
+                    //Console.WriteLine("old : " + v);
+                }
+                else
+                {
+                    v = ControlKeyStatic;
+
+                    //Console.WriteLine("new : " + v);
+
+                    ControlKeys[this] = v;
+
+                    ControlKeyStatic++;
+                }
+
+                return "$g" + v;
+            }
+        }
+
         protected virtual void OnControlAdded(ControlEventArgs e)
         {
+            if (e.Control.IsTypeOf(typeof(RadioButton)))
+            {
+                var r = (__RadioButton)(RadioButton)e.Control;
+
+                r.button.name = this.ControlGroupName;
+            }
+
             if (ControlAdded != null)
                 ControlAdded(this, e);
         }

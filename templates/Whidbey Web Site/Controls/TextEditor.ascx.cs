@@ -27,7 +27,9 @@ namespace JavaScript.ASPNET.UI
                     {
                         IHTMLElement target = v;
 
-                        new ScriptCoreLib.JavaScript.Controls.TextEditor(target);
+                        ScriptCoreLib.JavaScript.Controls.TextEditor xx = new ScriptCoreLib.JavaScript.Controls.TextEditor(target);
+
+                        
 
                     } 
 

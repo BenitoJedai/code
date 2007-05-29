@@ -146,12 +146,15 @@ namespace ButtonExample.js
 
         }
 
-        
+
         static Class1()
         {
+
             Native.Window.onload +=
                 delegate
                 {
+                    Console.WriteLine("Window onload");
+
                     var ag = (SilverlightControl)Native.Document.getElementById("wpfeControl1");
 
                     Action<SilverlightControl> ag_FullScreenChanged =
@@ -172,9 +175,14 @@ namespace ButtonExample.js
                     ag.FullScreenChanged -=
                         ag_FullScreenChanged;
 
+                    Console.WriteLine("InvokeOnComplete set");
+
                     ag.InvokeOnComplete(
                         delegate
                         {
+                            Console.WriteLine("InvokeOnComplete called");
+
+
                             var c1 = (Canvas)ag.FindName("button");
                             var c2 = (Canvas)ag.FindName("button2");
 

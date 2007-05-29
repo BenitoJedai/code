@@ -31,7 +31,7 @@ namespace SimpleBankPage.js
             // on pressing the button the next message in text element is displayed
 
 
-           
+            
 
             IHTMLDiv Control = new IHTMLDiv();
 
