@@ -30,6 +30,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             return e.EventInternal == null;
         }
+
+        public void Rewire(Control oldControl, Control newControl)
+        {
+
+        }
     }
 
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
@@ -55,6 +60,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             readonly List<Control> Items = new List<Control>();
 
+            public void Remove(Control e)
+            {
+                throw new global::System.Exception("Not implemented");
+            }
+
             public void Add(Control e)
             {
                 Items.Add(e);
@@ -65,6 +75,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     bg.appendChild(e.GetHTMLTarget());
                 else
                     bg.insertBefore(e.GetHTMLTarget(), bg.firstChild);
+
+                var c = (__Control)e;
+
+                c.AssignParent(this.Owner);
 
                 ((__Control)this.Owner).OnControlAdded(new ControlEventArgs(e));
 
@@ -480,7 +494,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
         #region Click
-        Handler<EventHandler, DOMHandler> _Click = new Handler<EventHandler, DOMHandler>();
+        protected Handler<EventHandler, DOMHandler> _Click = new Handler<EventHandler, DOMHandler>();
 
         public event EventHandler Click
         {
@@ -775,13 +789,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         protected virtual void OnControlAdded(ControlEventArgs e)
         {
-            if (e.Control.IsTypeOf(typeof(RadioButton)))
-            {
-                var r = (__RadioButton)(RadioButton)e.Control;
-
-                r.button.name = this.ControlGroupName;
-            }
-
             if (ControlAdded != null)
                 ControlAdded(this, e);
         }
@@ -804,6 +811,73 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             return (__Control)(object)e;
         }
         #endregion
+
+        #region Parent
+        Control _parent;
+
+        internal void AssignParent(Control control)
+        {
+            _parent = control;
+
+            //BUG: there seems to be a bug loading static field has rerouted implementation
+
+            this.OnParentChanged(null);
+        }
+
+        public event EventHandler ParentChanged;
+
+        protected void RaiseParentChanged(EventArgs e)
+        {
+            if (ParentChanged != null)
+                ParentChanged(this, e);
+        }
+
+        protected virtual void OnParentChanged(EventArgs e)
+        {
+            RaiseParentChanged(e);
+        }
+
+        public Control Parent
+        {
+            get
+            {
+                return this.ParentInternal;
+            }
+            set
+            {
+                this.ParentInternal = value;
+            }
+        }
+
+        internal virtual Control ParentInternal
+        {
+            get
+            {
+                return this._parent;
+            }
+            set
+            {
+                if (this._parent == value)
+                    return;
+
+                if (value == null)
+                {
+                    this._parent.Controls.Remove(this);
+                    return;
+                }
+
+                value.Controls.Add(this);
+            }
+        }
+ 
+
+ 
+
+ 
+
+        #endregion
+
+
 
     }
 }

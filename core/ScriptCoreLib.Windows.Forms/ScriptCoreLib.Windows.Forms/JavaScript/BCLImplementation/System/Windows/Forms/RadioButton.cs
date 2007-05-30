@@ -57,6 +57,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             HTMLTarget.appendChild(button, label);
         }
 
+        protected override void OnParentChanged(EventArgs e)
+        {
+            // calling base method that was overriden is not supported at this time
+
+            __Control c = this.Parent;
+
+            var v = button.value;
+            button.Dispose();
+            this.button = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.radio, c.ControlGroupName,  v);
+            // we need to rewire
+            this.button.id = this.label.htmlFor;
+            
+            
+
+            InternalUpdate();
+
+            base.RaiseParentChanged(e);
+        }
+
+
         #region CheckAlign
         private ContentAlignment _CheckAlign;
 
@@ -67,16 +87,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 _CheckAlign = value;
 
-                if (_CheckAlign == ContentAlignment.MiddleRight)
-                {
-                    HTMLTarget.appendChild(label, button);
-                    HTMLTarget.style.textAlign = ScriptCoreLib.JavaScript.DOM.IStyle.TextAlignEnum.right;
-                }
-                else
-                {
-                    HTMLTarget.appendChild(button, label);
-                    HTMLTarget.style.textAlign = ScriptCoreLib.JavaScript.DOM.IStyle.TextAlignEnum.left;
-                }
+                InternalUpdate();
+            }
+        }
+
+        private void InternalUpdate()
+        {
+            if (_CheckAlign == ContentAlignment.MiddleRight)
+            {
+                HTMLTarget.appendChild(label, button);
+                HTMLTarget.style.textAlign = ScriptCoreLib.JavaScript.DOM.IStyle.TextAlignEnum.right;
+            }
+            else
+            {
+                HTMLTarget.appendChild(button, label);
+                HTMLTarget.style.textAlign = ScriptCoreLib.JavaScript.DOM.IStyle.TextAlignEnum.left;
             }
         }
         #endregion

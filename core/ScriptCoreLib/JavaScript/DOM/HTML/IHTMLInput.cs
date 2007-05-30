@@ -56,6 +56,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         public IHTMLInput() { }
         public IHTMLInput(HTMLInputTypeEnum type) { }
         public IHTMLInput(HTMLInputTypeEnum type, string value) { }
+        public IHTMLInput(HTMLInputTypeEnum type, string value, string name) { }
 
         internal static IHTMLInput InternalConstructor()
         {
@@ -91,6 +92,33 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             return n;
         }
+
+        internal static IHTMLInput InternalConstructor(HTMLInputTypeEnum type, string name, string value)
+        {
+            IHTMLInput n = null;
+
+            var _radio = HTMLInputTypeEnum.radio;
+
+            if (type == _radio)
+            {
+                // TODO: escape name and value
+
+                n = (IHTMLInput)new IFunction("e", "/*@cc_on return this.createElement(e); @*/ return null;").apply(Native.Document, 
+                    "<input type='radio' name='" + name + "' value='" + value + "' />"
+                    );
+            }
+
+            if (n == null)
+            {
+                n = new IHTMLInput();
+                n.type = type;
+                n.name = name;
+                n.value = value;
+            }
+
+            return n;
+        }
+
         #endregion
 
 
