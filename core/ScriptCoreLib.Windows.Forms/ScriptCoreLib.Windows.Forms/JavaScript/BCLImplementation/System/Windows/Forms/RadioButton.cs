@@ -8,6 +8,9 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
+    using DOMHandler = Shared.EventHandler<DOM.IEvent>;
+
+
     [Script(Implements=typeof(RadioButton))]
     class __RadioButton : __ButtonBase
     {
@@ -61,19 +64,48 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             // calling base method that was overriden is not supported at this time
 
+            InternalCreateRadio();
+
+
+
+            base.RaiseParentChanged(e);
+        }
+
+        private void InternalCreateRadio()
+        {
             __Control c = this.Parent;
 
-            var v = button.value;
+            if (c == null)
+                return;
+
+            var old = button;
+            var old_checked = old.@checked;
+
+            // remove events from the old element
+            if (_CheckedChanged.EventInternal != null)
+            {
+                this.button.onchange -= _CheckedChanged.EventInternal;
+            }
+
+
             button.Dispose();
-            this.button = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.radio, c.ControlGroupName,  v);
+
+
+            this.button = IHTMLInput.CreateRadio(c.ControlGroupName, old.value, old_checked);
             // we need to rewire
             this.button.id = this.label.htmlFor;
-            
-            
 
             InternalUpdate();
 
-            base.RaiseParentChanged(e);
+
+            // add events to the new element
+            if (_CheckedChanged.EventInternal != null)
+            {
+                this.button.onchange += _CheckedChanged.EventInternal;
+            }
+
+
+            Console.WriteLine("checked: " + old_checked);
         }
 
 
@@ -136,6 +168,44 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             get { return button.@checked; }
             set { button.@checked = value; }
         }
+
+        #region CheckedChanged
+        Handler<EventHandler, DOMHandler> _CheckedChanged = new Handler<EventHandler, DOMHandler>();
+
+
+        public event EventHandler CheckedChanged
+        {
+            add
+            {
+                _CheckedChanged.Event += value;
+
+                if (_CheckedChanged)
+                {
+                    _CheckedChanged.EventInternal =
+                        i =>
+                        {
+                            this._CheckedChanged.Event(this, null);
+
+                        };
+
+                    this.button.onchange += _CheckedChanged.EventInternal;
+                }
+
+            }
+            remove
+            {
+
+                _CheckedChanged.Event -= value;
+                if (!_CheckedChanged)
+                {
+                    this.button.onchange -= _CheckedChanged.EventInternal;
+                    _CheckedChanged.EventInternal = null;
+                }
+
+            }
+        }
+
+        #endregion
 
 
         #region

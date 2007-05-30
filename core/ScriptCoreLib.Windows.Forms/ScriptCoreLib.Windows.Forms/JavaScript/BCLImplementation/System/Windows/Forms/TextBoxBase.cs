@@ -39,6 +39,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             set { this.HTMLTarget.readOnly = value; }
         }
 
+        public void Clear()
+        {
+            Text = "";
+        }
+
         public override string Text
         {
             get

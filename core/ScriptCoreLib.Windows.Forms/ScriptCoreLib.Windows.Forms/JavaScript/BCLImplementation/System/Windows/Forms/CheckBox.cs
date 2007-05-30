@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -94,9 +95,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             set { check.@checked = value; }
         }
 
-        Handler<EventHandler, DOMHandler> _CheckedChanged = new Handler<EventHandler, DOMHandler>();
+        public CheckState CheckState
+        {
+            get
+            {
+                if (Checked)
+                    return CheckState.Checked;
+
+                return CheckState.Unchecked;
+            }
+            set
+            {
+                Checked = value == CheckState.Checked;
+            }
+        }
 
         #region CheckedChanged
+        Handler<EventHandler, DOMHandler> _CheckedChanged = new Handler<EventHandler, DOMHandler>();
+
 
         public event EventHandler CheckedChanged
         {
@@ -113,7 +129,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         };
 
-                    this.HTMLTargetRef.onchange += _CheckedChanged.EventInternal;
+                    this.check.onchange += _CheckedChanged.EventInternal;
                 }
 
             }
@@ -123,7 +139,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 _CheckedChanged.Event -= value;
                 if (!_CheckedChanged)
                 {
-                    this.HTMLTargetRef.onchange -= _CheckedChanged.EventInternal;
+                    this.check.onchange -= _CheckedChanged.EventInternal;
                     _CheckedChanged.EventInternal = null;
                 }
 

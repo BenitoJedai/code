@@ -37,6 +37,7 @@ Partial Class UserControl1
         Me.RadioButton4 = New System.Windows.Forms.RadioButton
         Me.TextBox2 = New System.Windows.Forms.TextBox
         Me.TextBox3 = New System.Windows.Forms.TextBox
+        Me.Button3 = New System.Windows.Forms.Button
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -99,6 +100,8 @@ Partial Class UserControl1
         'RadioButton1
         '
         Me.RadioButton1.AutoSize = True
+        Me.RadioButton1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.RadioButton1.Checked = True
         Me.RadioButton1.Location = New System.Drawing.Point(149, 23)
         Me.RadioButton1.Name = "RadioButton1"
         Me.RadioButton1.Size = New System.Drawing.Size(90, 17)
@@ -117,6 +120,8 @@ Partial Class UserControl1
         'CheckBox2
         '
         Me.CheckBox2.AutoSize = True
+        Me.CheckBox2.Checked = True
+        Me.CheckBox2.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckBox2.Location = New System.Drawing.Point(17, 4)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(81, 17)
@@ -132,7 +137,6 @@ Partial Class UserControl1
         Me.RadioButton2.Name = "RadioButton2"
         Me.RadioButton2.Size = New System.Drawing.Size(90, 17)
         Me.RadioButton2.TabIndex = 9
-        Me.RadioButton2.TabStop = True
         Me.RadioButton2.Text = "RadioButton2"
         Me.RadioButton2.UseVisualStyleBackColor = True
         '
@@ -178,7 +182,7 @@ Partial Class UserControl1
         Me.TextBox2.Multiline = True
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.ReadOnly = True
-        Me.TextBox2.Size = New System.Drawing.Size(222, 79)
+        Me.TextBox2.Size = New System.Drawing.Size(222, 161)
         Me.TextBox2.TabIndex = 11
         Me.TextBox2.Text = "system0:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system1:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system2: demo  demo  demo  demo  demo  demo" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system3:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system" & _
             "4:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system5:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
@@ -198,10 +202,20 @@ Partial Class UserControl1
         Me.TextBox3.Text = "system0:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system1:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system2: demo  demo  demo  demo  demo  demo" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system3:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system" & _
             "4:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system5:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         '
+        'Button3
+        '
+        Me.Button3.Location = New System.Drawing.Point(245, 350)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(75, 23)
+        Me.Button3.TabIndex = 13
+        Me.Button3.Text = "Clear"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
         'UserControl1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.TextBox3)
         Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.GroupBox1)
@@ -216,7 +230,7 @@ Partial Class UserControl1
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button1)
         Me.Name = "UserControl1"
-        Me.Size = New System.Drawing.Size(520, 310)
+        Me.Size = New System.Drawing.Size(520, 388)
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.ResumeLayout(False)
@@ -238,5 +252,6 @@ Partial Class UserControl1
     Friend WithEvents RadioButton4 As System.Windows.Forms.RadioButton
     Friend WithEvents TextBox2 As System.Windows.Forms.TextBox
     Friend WithEvents TextBox3 As System.Windows.Forms.TextBox
+    Friend WithEvents Button3 As System.Windows.Forms.Button
 
 End Class

@@ -56,7 +56,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         public IHTMLInput() { }
         public IHTMLInput(HTMLInputTypeEnum type) { }
         public IHTMLInput(HTMLInputTypeEnum type, string value) { }
-        public IHTMLInput(HTMLInputTypeEnum type, string value, string name) { }
+        public IHTMLInput(HTMLInputTypeEnum type, string name, string value) { }
 
         internal static IHTMLInput InternalConstructor()
         {
@@ -122,7 +122,29 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         #endregion
 
 
+        public static IHTMLInput CreateRadio(string name, string value, bool @checked)
+        {
+            IHTMLInput n = null;
 
+            string c = "";
+
+            if (@checked)
+                c = " checked='checked'";
+
+            // packer shall not remove the cc statement
+
+            n = (IHTMLInput)new IFunction("e", "/*@cc_on return this.createElement(e); @*/ return null;").apply(Native.Document,
+                "<input type='radio' name='" + name + "' value='" + value + "'" + c + " />"
+                );
+
+            if (n == null)
+            {
+                n = new IHTMLInput(HTMLInputTypeEnum.radio, name, value);
+                n.@checked = @checked;
+            }
+
+            return n;
+        }
 
 
 
