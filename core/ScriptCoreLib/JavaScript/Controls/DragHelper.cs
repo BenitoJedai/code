@@ -43,7 +43,8 @@ namespace ScriptCoreLib.JavaScript.Controls
         EventHandler<IEvent> ondocumentmouseup;
         EventHandler<IEvent> onmousedown;
 
-        public List<Point> History;
+        // needs to be updated to BCL List
+        internal List<Point> History;
 
 
         private bool _Enabled;

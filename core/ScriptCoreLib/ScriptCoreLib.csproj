@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.20404</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -110,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JavaScript\AssemblyReferenceToken.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Activator.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\Component.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\Container.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\DateTime.cs" />
@@ -129,6 +130,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\Int32.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IntPtr.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Math.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Reflection\MemberInfo.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Reflection\FieldInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Monitor.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\MulticastDelegate.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Object.cs" />

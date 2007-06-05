@@ -4,6 +4,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
+    using Reflection;
+
     [Script(Implements = typeof(global::System.Type))]
     internal class __Type
     {
@@ -15,6 +17,38 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             set { _TypeHandle = value; }
         }
 
+
+        public __FieldInfo GetField(string name)
+        {
+            __FieldInfo r = null;
+
+            foreach (var m in Runtime.Expando.Of(_TypeHandle.Value).GetFields())
+            {
+                if (m.Name == name)
+                {
+                    r = new __FieldInfo { _Name = m.Name };
+
+                    break;
+                }
+
+            }
+
+            return r;
+        }
+
+        public __FieldInfo[] GetFields()
+        {
+            var a = new List<__FieldInfo>();
+
+            foreach (var m in Runtime.Expando.Of(_TypeHandle.Value).GetFields())
+            {
+                a.Add(new __FieldInfo { _Name = m.Name });
+
+            }
+            
+
+            return a.ToArray();
+        }
 
         public static Type GetTypeFromHandle(RuntimeTypeHandle handle)
         {
