@@ -51,6 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="js\Class1.cs" />
+    <Compile Include="js\DynamicEnumerable.cs" />
+    <Compile Include="js\DynamicEnumerator.cs" />
+    <Compile Include="js\GoogleGears.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup.cs" />
   </ItemGroup>

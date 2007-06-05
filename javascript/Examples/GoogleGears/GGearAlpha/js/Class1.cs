@@ -7,6 +7,7 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared.Lambda;
 
+using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -19,151 +20,13 @@ using global::System.Collections.Generic;
 
 namespace GGearAlpha.js
 {
+
+
     [Script]
-    public static class GoogleGearsFactoryExtensions
+    public sealed class DemoDataEntity
     {
-        static public IEnumerable<string[]> GetColumns(this GoogleGearsFactory.IRecordset rs, int columns)
-        {
-            var a = new List<string[]>();
-
-            while (rs.isValidRow())
-            {
-                var x = new string[columns];
-
-                for (int i = 0; i < columns; i++)
-                {
-                    x[i] = rs.field(i);
-                }
-
-                a.Add(x);
-
-                rs.next();
-            }
-
-            rs.close();
-
-            return a;
-        }
-    }
-
-    [Script(InternalConstructor = true)]
-    public class GoogleGearsFactory
-    {
-        [Script(InternalConstructor = true)]
-        public class IRecordset
-        {
-            public bool isValidRow()
-            {
-                throw new Exception();
-            }
-
-            public void next()
-            {
-            }
-
-            public void close()
-            {
-
-            }
-
-            public string field(int i)
-            {
-                throw new Exception();
-            }
-        }
-
-        [Script(InternalConstructor = true)]
-        public class Database
-        {
-            public void open(string dbname)
-            {
-            }
-
-            public IRecordset execute(string command, params object[] parameters)
-            {
-                throw new Exception();
-            }
-
-            public Database()
-            {
-
-            }
-
-            internal static Database InternalConstructor()
-            {
-                return GoogleGearsFactory.Default.create("beta.database", "1.0");
-            }
-
-        }
-
-        static GoogleGearsFactory _Default;
-
-        public static GoogleGearsFactory Default
-        {
-            get
-            {
-                if (_Default == null)
-                    _Default = new GoogleGearsFactory();
-
-                return _Default;
-            }
-        }
-
-        public GoogleGearsFactory()
-        {
-
-        }
-
-        public Database create(string id, string version)
-        {
-            throw new Exception();
-        }
-
-        internal static GoogleGearsFactory InternalConstructor()
-        {
-            object r = null;
-
-            try
-            {
-                r = IFunction.Of("GearsFactory").CreateType();
-            }
-            catch
-            {
-                try
-                {
-                    r = new ScriptCoreLib.JavaScript.DOM.IActiveX("Gears.Factory");
-                }
-                catch
-                {
-
-                }
-            }
-
-            if (r == null)
-                throw new System.Exception("Google Gears is not installed or not supported!");
-
-            return (GoogleGearsFactory)r;
-
-            //// Firefox
-            //if (typeof GearsFactory != 'undefined') {
-            //  factory = new GearsFactory();
-            //} else {
-            //  // IE
-            //  try {
-            //    factory = new ActiveXObject('Gears.Factory');
-            //  } catch (e) {
-            //    // Safari
-            //    if (navigator.mimeTypes["application/x-googlegears"]) {
-            //      factory = document.createElement("object");
-            //      factory.style.display = "none";
-            //      factory.width = 0;
-            //      factory.height = 0;
-            //      factory.type = "application/x-googlegears";
-            //      document.documentElement.appendChild(factory);
-            //    }
-            //  }
-            //}
-        }
+        public string Phrase;
+        public long Timestamp;
     }
 
 
@@ -219,6 +82,9 @@ namespace GGearAlpha.js
                 Control.appendChild(err);
             }
 
+            IStyleSheet.Default.AddRule(".odd").style.backgroundColor = Color.FromGray(0xa0);
+            IStyleSheet.Default.AddRule(".even").style.backgroundColor = Color.FromGray(0xef);
+
             if (db != null)
             {
                 db.open("demo1");
@@ -230,9 +96,14 @@ namespace GGearAlpha.js
                 var textfield = new IHTMLInput(HTMLInputTypeEnum.text, "text1", "");
 
                 var btnadd = new IHTMLButton("Add new entry");
+                var btnrefresh = new IHTMLButton("Refresh");
                 var btnclear = new IHTMLButton("Clear");
 
-                Control.appendChild(textfield, btnadd, btnclear);
+                Control.appendChild(textfield, btnadd, btnclear, btnrefresh,
+                    
+                    new IHTMLCode(GoogleGearsFactory.Default.getBuildInfo())
+                        
+                        );
 
 
 
@@ -240,7 +111,9 @@ namespace GGearAlpha.js
 
                 Control.appendChild(list);
 
-                Action read = delegate
+                var read = default(Action);
+
+                read = delegate
                 {
                     //from i in Demo
                     //select new { Phrase, Timestamp }
@@ -248,32 +121,89 @@ namespace GGearAlpha.js
 
                     list.removeChildren();
 
-                    foreach (var v in db.execute("select Phrase, Timestamp from Demo order by Timestamp desc").GetColumns(2))
+                    ScriptCoreLib.Shared.Func<string, IHTMLElement> AddItem = 
+                        text => new IHTMLElement(IHTMLElement.HTMLElementEnum.li, text).Aggregate(v => list.appendChild(v));
+
+
+
+                    // this could be rewritten as an expression once they are supported by jsc
+
+                    int counter = 0;
+
+                    var query = from Data in db.AsEnumerable<DemoDataEntity>(
+                                                "select * from Demo order by Timestamp desc",
+                                                typeof(DemoDataEntity)
+                                            )
+                                let ListItem = AddItem(Data.Timestamp + " - " + Data.Phrase)
+                                select new { ListItem, Data };
+
+                    foreach (var v in query)
                     {
-                        list.appendChild(
-                             new IHTMLElement(IHTMLElement.HTMLElementEnum.li,
-                                          v[1] + " - " + v[0]
-                             )
-                         );
+                        counter++;
+                        var vx = v;
+
+
+                        if (counter % 2 == 0)
+                            v.ListItem.className = "odd";
+                        else
+                            v.ListItem.className = "even";
+
+                        #region -
+                        var btndel = new IHTMLButton("-");
+
+                        btndel.style.color = Color.Red;
+
+                        btndel.onclick +=
+                            delegate
+                            {
+                                db.execute("delete from Demo where Timestamp = ?", vx.Data.Timestamp);
+
+                                read();
+                            };
+                        #endregion
+
+                        #region +
+                        var btnclone = new IHTMLButton("+");
+
+                        btnclone.style.color = Color.Blue;
+
+                        btnclone.onclick +=
+                            delegate
+                            {
+                                db.Insert("Demo", vx.Data);
+
+
+                                read();
+                            };
+                        #endregion
+
+                        v.ListItem.insertBefore(btnclone, v.ListItem.firstChild);
+                        v.ListItem.insertBefore(btndel, v.ListItem.firstChild);
+
                     }
 
-                    // raw style
-                    /*
-                    var rs = db.execute("select * from Demo order by Timestamp desc");
 
-                    while (rs.isValidRow())
-                    {
-                        list.appendChild(
-                            new IHTMLElement(IHTMLElement.HTMLElementEnum.li,
-                                         rs.field(1) + " - " + rs.field(0)
-                            )
-                        );
+                    #region raw
+                    //var rs = db.execute("select * from Demo order by Timestamp desc");
 
-                        rs.next();
-                    }
+                    //while (rs.isValidRow())
+                    //{
+                    //    var xt = typeof(DemoDataEntity);
+                    //    var xx = (DemoDataEntity)Activator.CreateInstance(xt);
 
-                    rs.close();
-                     * */
+                    //    for (int i = 0; i < rs.fieldCount(); i++)
+                    //    {
+                    //        xt.GetField(rs.fieldName(i)).SetValue(xx, rs.field(i));
+                    //    }
+
+                    //    AddItem(xx.Timestamp + " - " + xx.Phrase);
+
+                    //    rs.next();
+                    //}
+
+                    //rs.close();
+                    #endregion
+
                 };
 
                 btnclear.onclick +=
@@ -287,10 +217,24 @@ namespace GGearAlpha.js
                 btnadd.onclick +=
                     delegate
                     {
-                        db.execute("insert into Demo values (?, ?)", textfield.value, IDate.Now.getTime());
+                        db.Insert("Demo",
+                            new DemoDataEntity
+                            {
+                                Phrase = textfield.value,
+                                Timestamp = IDate.Now.getTime()
+                            }
+                        );
+
+                        //db.execute("insert into Demo (Phrase, Timestamp) values (?, ?)", textfield.value, IDate.Now.getTime());
 
                         textfield.value = "";
 
+                        read();
+                    };
+
+                btnrefresh.onclick +=
+                    delegate
+                    {
                         read();
                     };
 
