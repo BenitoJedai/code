@@ -485,7 +485,7 @@ namespace SimpleRollover.js
             var b = a.Select(
                 i =>
                 {
-                    var layer = new SpecialLayer { x = Native.Math.floor(i.x * cur_size), y = Native.Math.floor(i.y * cur_size) };
+                    var layer = new SpecialLayer { x = (int)System.Math.Floor(i.x * cur_size), y = (int)System.Math.Floor(i.y * cur_size) };
 
                     layer.div.style.Opacity = 0.4;
                     layer.div.className = "effect1";
