@@ -2,6 +2,8 @@ using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.JavaScript.DOM;
 
+using System.Collections.Generic;
+
 namespace ScriptCoreLib.JavaScript.Runtime
 {
     /// <summary>
@@ -49,7 +51,9 @@ namespace ScriptCoreLib.JavaScript.Runtime
         {
             try
             {
-                EntryItem i = List.ListArray.shift();
+                EntryItem i = List[0];
+
+                List.RemoveAt(0);
 
                 double z = IDate.Now.getTime();
 
@@ -130,11 +134,12 @@ namespace ScriptCoreLib.JavaScript.Runtime
         /// <param name="key"></param>
         public void Remove(string key)
         {
-            List.RemoveBy(
-                delegate(Predicate<EntryItem> p)
+            List.RemoveAll(
+                delegate(EntryItem t)
                 {
-                    p.Value = p.Target.Key == key;
-                });
+                    return t.Key == key;
+                }
+            );
 
             Touch();
         }

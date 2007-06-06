@@ -6,6 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 {
     using ScriptCoreLib;
+    using ScriptCoreLib.JavaScript.Query;
     using ScriptCoreLib.JavaScript.DOM;
     using ScriptCoreLib.JavaScript.Runtime;
     using ScriptCoreLib.JavaScript.Query;
@@ -25,10 +26,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
             if (collection == null)
                 throw new global::System.Exception("collection is null");
 
-            foreach (T v in InternalSequenceImplementation.AsEnumerable(collection))
-            {
-                this.Add(v);
-            }
+            this.AddRange(collection);
         }
 
 
@@ -116,7 +114,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         public void Insert(int index, T item)
         {
-            throw new Exception("The method or operation is not implemented.");
+            this._items.splice(index, 0, item);
         }
 
         public void RemoveAt(int index)
@@ -152,11 +150,34 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         #endregion
 
+        public void ForEach(Action<T> action)
+        {
+            if (action == null)
+            {
+                throw new Exception("ArgumentOutOfRangeException");
+            }
+            for (int i = 0; i < this.Count; i++)
+            {
+                action(this._items[i]);
+            }
+        }
+
+ 
+
+
         #region ICollection<T> Members
 
         public void Add(T item)
         {
             _items.push(item);
+        }
+
+        public void AddRange(IEnumerable<T> collection)
+        {
+            foreach (T v in InternalSequenceImplementation.AsEnumerable(collection))
+            {
+                this.Add(v);
+            }
         }
 
         public void Clear()
@@ -204,6 +225,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
             RemoveAt(i);
 
             return true;
+        }
+
+
+        public int RemoveAll(global::System.Predicate<T> a)
+        {
+            var x = 0;
+
+            for (int i = 0; i < Count; i++)
+            {
+                if (a(this[i]))
+                {
+                    RemoveAt(x);
+
+                    x--;
+                }
+
+                x++;
+            }
+
+            return x;
         }
 
         #endregion

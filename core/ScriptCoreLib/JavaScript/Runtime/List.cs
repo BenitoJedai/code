@@ -8,8 +8,11 @@ namespace ScriptCoreLib.JavaScript.Runtime
 {
 
 
-    [Script, global::System.Obsolete("Use BCL List<> instead.", false)]
-    internal class List<TItem> where TItem : class
+    [
+        //Script, 
+        global::System.Obsolete("Use BCL List<> instead.", true)
+    ]
+    internal class __List<TItem> where TItem : class
     {
         public IArray<TItem> ListArray = new IArray<TItem>();
 
@@ -84,7 +87,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
             return a.ToArray();
         }
 
-        public static implicit operator TItem[](List<TItem> m)
+        public static implicit operator TItem[](__List<TItem> m)
         {
             return m.ToArray();
         }
@@ -160,11 +163,11 @@ namespace ScriptCoreLib.JavaScript.Runtime
             }
         }
 
-        public List<TItem> this[int offset, int length]
+        public __List<TItem> this[int offset, int length]
         {
             get
             {
-                var a = new List<TItem>();
+                var a = new __List<TItem>();
 
                 for (int i = 0; i < length; i++)
                 {

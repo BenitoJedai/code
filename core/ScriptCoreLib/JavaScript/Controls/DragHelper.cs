@@ -44,7 +44,7 @@ namespace ScriptCoreLib.JavaScript.Controls
         EventHandler<IEvent> onmousedown;
 
         // needs to be updated to BCL List
-        internal List<Point> History;
+        public global::System.Collections.Generic.List<Point> History;
 
 
         private bool _Enabled;

@@ -9,8 +9,11 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
 
 using ScriptCoreLib.Shared;
+using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared.Drawing;
 
+using global::System.Collections.Generic;
+using System.ComponentModel;
 
 namespace ScriptCoreLib.JavaScript.Cards
 {
@@ -19,7 +22,7 @@ namespace ScriptCoreLib.JavaScript.Cards
     {
         public event EventHandler<Card> Click;
 
-        public readonly List<Card> Cards = new List<Card>();
+        public readonly BindingList<Card> Cards = new BindingList<Card>();
 
         public readonly IHTMLDiv Control = new IHTMLDiv();
 
@@ -58,7 +61,7 @@ namespace ScriptCoreLib.JavaScript.Cards
 
             if (Cards.Count > 0)
             {
-                Native.Document.body.insertBefore(Control, Cards.First.Control);
+                Native.Document.body.insertBefore(Control, Cards.First().Control);
             }
         }
 
@@ -136,7 +139,8 @@ namespace ScriptCoreLib.JavaScript.Cards
         {
             var a = new List<Card>();
 
-            a.Add(e);
+
+            a.AddRange(e);
 
             var z = new Pair<Card, EventHandler>(null, null);
 
@@ -266,11 +270,12 @@ namespace ScriptCoreLib.JavaScript.Cards
                 v.Opacity = 0;
             }
 
-            Cards.Remove(e);
+            foreach (var v in e) Cards.Remove(v);
+
 
             if (CurrentDeck != null)
             {
-                CurrentDeck.Cards.Remove(e);
+                foreach (var v in e) CurrentDeck.Cards.Remove(v);
             }
         }
 
@@ -295,8 +300,8 @@ namespace ScriptCoreLib.JavaScript.Cards
             if (this.Cards.Count == 0)
                 return;
 
-            if (!this.Cards.Last.Enabled)
-                this.Cards.Last.Enabled = true;
+            if (!this.Cards.Last().Enabled)
+                this.Cards.Last().Enabled = true;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace ScriptCoreLib
 
             
             [Script(ExternalTarget = "Math"), System.Obsolete("Use global::System.Math instead!", false)]
-            static public IMath Math;
+            static internal IMath Math;
 
             [Script(ExternalTarget = "screen")]
             static public IScreen Screen;

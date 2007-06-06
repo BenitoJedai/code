@@ -10,10 +10,13 @@ namespace OrcasScriptApplication
 {
     static class Setup
     {
+        static Type Reference_ScriptCoreLib_Query = typeof(global::ScriptCoreLib.Shared.Query.AssemblyReferenceToken);
+        static Type Reference_ScriptCoreLib = typeof(global::ScriptCoreLib.Shared.AssemblyReferenceToken);
+
         public static void DefineEntryPoint(IEntryPoint e)
         {
             DefineSpawnPoint(e, js.Class1.Alias, js.Class1.DefaultData, false);
-            DefineSpawnPoint(e, js.Class1.Alias, js.Class1.DefaultData, true);
+            // DefineSpawnPoint(e, js.Class1.Alias, js.Class1.DefaultData, true);
         }
 
         static void DefineSpawnPoint(IEntryPoint e, string alias, string data, bool packed)

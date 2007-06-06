@@ -110,9 +110,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JavaScript\AssemblyReferenceToken.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Action.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Activator.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Collections\ObjectModel\Collection.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\BindingList.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\Component.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\Container.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\ListChangedEventArgs.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\ListChangedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\DateTime.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Boolean.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\ArrayList.cs" />
@@ -130,6 +135,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Int32.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IntPtr.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Math.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Predicate.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\MemberInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\FieldInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Monitor.cs" />
@@ -182,6 +188,7 @@
     <Compile Include="PHP\Runtime\PHPMailer.cs" />
     <Compile Include="PHP\Runtime\Properties.cs" />
     <Compile Include="PHP\Serialized\ObjectStreamHelper.cs" />
+    <Compile Include="Shared\AssemblyReferenceToken.cs" />
     <Compile Include="Shared\Helper.cs" />
     <Compile Include="Shared\IAssemblyInfo.cs" />
     <Compile Include="Shared\Query\Sequence.cs" />

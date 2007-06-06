@@ -8,8 +8,11 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
 
 using ScriptCoreLib.Shared;
+using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared.Drawing;
 
+using global::System.Collections.Generic;
+using global::System.ComponentModel;
 
 namespace ScriptCoreLib.JavaScript.Cards
 {
@@ -21,7 +24,7 @@ namespace ScriptCoreLib.JavaScript.Cards
         public string GfxPath = "fx/cards";
 
         public readonly List<CardInfo> UnusedCards = new List<CardInfo>();
-        public readonly List<CardStack> Stacks = new List<CardStack>();
+        public readonly BindingList<CardStack> Stacks = new BindingList<CardStack>();
 
         /// <summary>
         /// override this if the current game does not use default card ranking
@@ -30,10 +33,13 @@ namespace ScriptCoreLib.JavaScript.Cards
 
         public CardDeck()
         {
-            Stacks.ItemAdded +=
-                delegate(CardStack s)
+            Stacks.ListChanged += (sender, args) =>
                 {
-                    s.CurrentDeck = this;
+                    if (args.ListChangedType == ListChangedType.ItemAdded)
+                    {
+                        Stacks[args.NewIndex].CurrentDeck = this;
+                        return;
+                    }
                 };
         }
 
@@ -45,7 +51,7 @@ namespace ScriptCoreLib.JavaScript.Cards
                     return null;
 
 
-                var x = Native.Math.floor(Native.Math.random() * UnusedCards.Count);
+                var x = (int)System.Math.Floor(new System.Random().NextDouble() * UnusedCards.Count);
 
                 var i = UnusedCards[x];
 
@@ -73,7 +79,7 @@ namespace ScriptCoreLib.JavaScript.Cards
         {
             CardStack r = null;
 
-            foreach (CardStack v in this.Stacks.ToArray())
+            foreach (CardStack v in this.Stacks)
             {
                 if (v.HitTest(point))
                 {
@@ -136,28 +142,45 @@ namespace ScriptCoreLib.JavaScript.Cards
         ///  will be added to the decks stack list as backreference
         /// </summary>
         /// <returns></returns>
-        public List<CardStack> CreateStackList()
+        public BindingList<CardStack> CreateStackList()
         {
-            var p = new List<CardStack>();
+            var p = new BindingList<CardStack>();
 
-            p.ItemAdded += (s) => this.Stacks.Add(s);
-            p.ItemRemoved += ( s) => this.Stacks.Remove(s);
+            p.ListChanged +=
+                (sender, args) =>
+                {
+                    if (args.ListChangedType == ListChangedType.ItemAdded)
+                    {
+                        //System.Diagnostics.Debugger.Break();
+                        this.Stacks.Add(p[args.NewIndex]);
+                        return;
+                    }
+
+                    if (args.ListChangedType == ListChangedType.ItemDeleted)
+                    {
+                        //System.Diagnostics.Debugger.Break();
+                        // sync?
+
+                        this.Stacks.RemoveAt(args.NewIndex);
+                        return;
+                    }
+                };
 
             return p;
         }
 
 
-        public bool TryToFitToAnyStack(Card c, List<CardStack> s, EventHandler<Predicate<CardStack, Card>> h)
+        public bool TryToFitToAnyStack(Card c, IEnumerable<CardStack> s, EventHandler<Predicate<CardStack, Card>> h)
         {
             var r = false;
 
-            foreach (CardStack v in s.ToArray())
+            foreach (CardStack v in s.AsEnumerable())
             {
                 if (Predicate.Invoke(v, c, h))
                 {
                     v.AttachCardsAndMove(false, c.MovableCards);
 
-                    
+
                     r = true;
 
                     break;

@@ -109,6 +109,7 @@ namespace ScriptCoreLib.Shared.Query
             return c;
         }
 
+
         public static T ElementAt<T>(this IEnumerable<T> e, int index)
         {
             int i = -1;
@@ -290,7 +291,18 @@ namespace ScriptCoreLib.Shared.Query
         }
 
 
+        public static void ForEachReversed<T>(this IEnumerable<T> array, Action<T> action)
+        {
+            var a = array.ToArray();
 
+            for (int i = a.Length - 1; i >= 0; i--)
+            {
+                action(a[i]);
+            }
+
+ 
+
+        }
 
 
         public static IEnumerable<TSource> Randomize<TSource>(this IEnumerable<TSource> u)

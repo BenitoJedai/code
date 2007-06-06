@@ -10,6 +10,8 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
 
+using global::System.Collections.Generic;
+
 namespace ScriptCoreLib.JavaScript.Cards
 {
     [Script]
@@ -150,7 +152,7 @@ namespace ScriptCoreLib.JavaScript.Cards
 
             while (multiple > 0)
             {
-                a.Add(By(suit));
+                a.AddRange(By(suit));
 
                 multiple--;
             }
@@ -164,7 +166,7 @@ namespace ScriptCoreLib.JavaScript.Cards
 
             foreach (SuitEnum s in suit)
             {
-                a.Add(By(s,
+                a.AddRange(By(s,
                RankEnum.RankAce,
                RankEnum.RankKing,
                RankEnum.RankQueen,
@@ -190,8 +192,8 @@ namespace ScriptCoreLib.JavaScript.Cards
         {
             var a = new List<CardInfo>();
 
-            a.Add(FullDeck(false));
-            a.Add(FullDeck(true));
+            a.AddRange(FullDeck(false));
+            a.AddRange(FullDeck(true));
 
             return a.ToArray();
         }

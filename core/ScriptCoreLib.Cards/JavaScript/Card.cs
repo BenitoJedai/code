@@ -9,6 +9,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
 
 using ScriptCoreLib.Shared;
+using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared.Drawing;
 
 
@@ -89,7 +90,7 @@ namespace ScriptCoreLib.JavaScript.Cards
 
             MoveTo(Drag.Position);
 
-            Drag.History = new List<Point>();
+            Drag.History = new System.Collections.Generic.List<Point>();
 
             Drag.DragStop +=
                 delegate
@@ -99,7 +100,7 @@ namespace ScriptCoreLib.JavaScript.Cards
                     var s = FindStack();
 
                     if (s == null)
-                        MoveTo(Drag.History.First);
+                        MoveTo(Drag.History.First());
                     else
                     {
                         s.AttachCards(this.MovableCards);
@@ -223,10 +224,10 @@ namespace ScriptCoreLib.JavaScript.Cards
         {
             get
             {
-                var a = new List<Card>();
+                var a = new System.Collections.Generic.List<Card>();
 
                 a.Add(this);
-                a.Add(StackedCards);
+                a.AddRange(StackedCards);
 
                 return a.ToArray();
             }
@@ -251,7 +252,7 @@ namespace ScriptCoreLib.JavaScript.Cards
         {
             get
             {
-                var a = new List<Card>();
+                var a = new System.Collections.Generic.List<Card>();
 
                 if (CurrentStack != null)
                 {
