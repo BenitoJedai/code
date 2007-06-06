@@ -9,9 +9,12 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
 
 using ScriptCoreLib.Shared;
+using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared.Drawing;
 
 using ScriptCoreLib.JavaScript.Cards;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace CardGames.source.js.Controls
 {
@@ -34,7 +37,7 @@ namespace CardGames.source.js.Controls
                 Control.appendChild(SoundSettingDiv);
             }
 
-          
+
         }
 
         #endregion
@@ -51,10 +54,10 @@ namespace CardGames.source.js.Controls
         CardGameSoundManager MySounds = new CardGameSoundManager();
 
         //List<CardStack> TempStacks = new List<CardStack>();
-        List<CardStack> DealStacks;
-        List<CardStack> PlayStacks;
+        BindingList<CardStack> DealStacks;
+        BindingList<CardStack> PlayStacks;
 
-        List<CardStack> DeadStacks;
+        BindingList<CardStack> DeadStacks;
 
         #region levels
         static CardInfo.SuitEnum[] LevelEasy = new CardInfo.SuitEnum[]
@@ -141,7 +144,8 @@ namespace CardGames.source.js.Controls
             }
         }
 
-        public Spider(IHTMLElement spawn) : base(spawn)
+        public Spider(IHTMLElement spawn)
+            : base(spawn)
         {
             MyStatus.Visible = false;
 
@@ -162,7 +166,7 @@ namespace CardGames.source.js.Controls
             var top = CardInfo.Height / 2 + 12;
             var bottom = 500;
 
-            
+
 
             MyStatus.MoveTo(new Point(500, bottom));
             var usesound_cookie = Storage["usesound"];
@@ -182,7 +186,7 @@ namespace CardGames.source.js.Controls
                 {
                     MyStatus.MoveTo(new Point(500, BottomY));
 
-                    foreach (CardStack v in DealStacks.ToArray())
+                    foreach (CardStack v in DealStacks)
                     {
                         v.MoveTo(new Point(v.Position.X, BottomY));
                     }
@@ -191,7 +195,7 @@ namespace CardGames.source.js.Controls
 
             Console.Log("adding card infos... ");
 
-            MyDeck.UnusedCards.Add(CardInfo.By(2, level));
+            MyDeck.UnusedCards.AddRange(CardInfo.By(2, level));
 
             MyDeck.RankConverter = RankConverter;
 
@@ -201,33 +205,43 @@ namespace CardGames.source.js.Controls
             PlayStacks = MyDeck.CreateStackList();
             DeadStacks = MyDeck.CreateStackList();
 
-            PlayStacks.ItemAdded +=
-                delegate(CardStack s)
+            PlayStacks.ListChanged +=
+                (sender, args) =>
                 {
-                    s.SetBackground(MyDeck.GfxPath + "/spider.empty.png");
+                    if (args.ListChangedType == ListChangedType.ItemAdded)
+                    {
+                        var s = PlayStacks[args.NewIndex];
+
+                        s.SetBackground(MyDeck.GfxPath + "/spider.empty.png");
+
+                    }
                 };
 
-            DeadStacks.ItemAdded +=
-                 delegate(CardStack s)
-                 {
-                     s.Control.Hide();
-
-                     s.CardMargin = new Point(2, 0);
-
-                     s.Cards.ItemAdded +=
-                         delegate(Card c)
-                         {
-                             c.Enabled = false;
-                         };
-                 };
-
-            DealStacks.ItemAdded +=
-                delegate (CardStack s)
+            DeadStacks.ListChanged +=
+                (sender, args) =>
                 {
-                    s.Control.Hide();
+                    if (args.ListChangedType == ListChangedType.ItemAdded)
+                    {
+                        var s = DeadStacks[args.NewIndex];
+
+                        s.Control.Hide();
+
+                        s.CardMargin = new Point(2, 0);
+
+                        s.Cards.ListChanged +=
+                            (sender2, args2) =>
+                            {
+                                if (args2.ListChangedType == ListChangedType.ItemAdded)
+                                    s[args2.NewIndex].Enabled = false;
+
+                            };
+
+                    }
                 };
 
-      
+
+
+
 
             #region drag rules
             MyDeck.ApplyCardRules += delegate(Card c)
@@ -277,7 +291,7 @@ namespace CardGames.source.js.Controls
                     TryAutoMove(c);
                 };
 
-               
+
                 #endregion
 
                 // rules for starting a drag
@@ -317,7 +331,7 @@ namespace CardGames.source.js.Controls
             };
             #endregion
 
-         
+
 
             Console.Log("creating playstack... ");
 
@@ -334,14 +348,17 @@ namespace CardGames.source.js.Controls
                 new CardStack(new Point(950, top), MyDeck.FetchCards(4))
                 );
 
+
             PlayStacks.ForEach(
+                (Action<CardStack>)
                 delegate(CardStack s)
                 {
-                    s.Cards.ItemRemoved +=
-                        delegate
+                    s.Cards.ListChanged +=
+                        (sender, args) =>
                         {
-                            if (MyStatus.Ready)
-                                s.RevealLastCard();
+                            if (args.ListChangedType == ListChangedType.ItemDeleted)
+                                if (MyStatus.Ready)
+                                    s.RevealLastCard();
                         };
 
 
@@ -359,29 +376,33 @@ namespace CardGames.source.js.Controls
                 }
             );
 
-            
 
-            DealStacks.ItemAdded +=
-                delegate(CardStack s)
+
+            DealStacks.ListChanged +=
+                (sender, args) =>
                 {
-                    
-                    s.CardMargin *= 0;
-                    s.Update();
+                    if (args.ListChangedType == ListChangedType.ItemAdded)
+                    {
+                        var s = DealStacks[args.NewIndex];
 
-                    s.Click +=
-                        delegate
-                        {
-                            if (DealStacks.Contains(s))
-                            {
-                                if (MyStatus.Ready)
-                                    DealRow(null);
-                            }
-                            else
-                            {
-                                Console.LogError("whoops wrong stack click ");
+                        s.CardMargin *= 0;
+                        s.Update();
 
-                            }
-                        };
+                        s.Click +=
+                            delegate
+                            {
+                                if (DealStacks.Contains(s))
+                                {
+                                    if (MyStatus.Ready)
+                                        DealRow(null);
+                                }
+                                else
+                                {
+                                    Console.LogError("whoops wrong stack click ");
+
+                                }
+                            };
+                    }
                 };
 
             Console.Log("creating dealstack... ");
@@ -432,7 +453,7 @@ namespace CardGames.source.js.Controls
                 MyStatus.Score += 100;
                 MyStatus.Update();
 
-                var sxx = DeadStacks.Last;
+                var sxx = DeadStacks.Last();
 
                 MyStatus.Ready = false;
 
@@ -497,16 +518,23 @@ namespace CardGames.source.js.Controls
             if (!PlayStacks.Contains(s))
                 return null;
 
-            List<Card> xx = s.Cards[s.Cards.Count - 13, 13];
 
-            if (xx.Count != 13)
+            var xx = s.Cards.Range(s.Cards.Count - 13, 13);
+
+            if (xx.Length != 13)
             {
                 return null;
             }
 
-            var p = xx.First;
-            var z = xx.Last;
+            var p = xx.First();
 
+            if (p == null)
+                throw new System.Exception("First card is null");
+
+            var z = xx.Last();
+
+            if (z == null)
+                throw new System.Exception("Last card is null");
 
             if (p.ModifiedRank != (int)SpiderRankEnum.RankKing)
             {
@@ -520,16 +548,16 @@ namespace CardGames.source.js.Controls
                 Console.Log("last isnt ace...");
 
                 return null;
-                
+
             }
 
-       
+
 
             Console.Log("checking for good suit...");
 
             var r = true;
 
-            var arr = xx.ToArray();
+            var arr = xx/*.ToArray()*/;
 
             Card u = null;
 
@@ -559,7 +587,7 @@ namespace CardGames.source.js.Controls
                 u = c;
             }
 
-            
+
             return arr;
         }
 
@@ -604,15 +632,19 @@ namespace CardGames.source.js.Controls
                 return;
             }
 
-            if (PlayStacks.Find(( p) => p.Value = p.Target.Cards.Count == 0) != null)
+            // correct translation?
+            //if (PlayStacks.Find((p) => p.Value = p.Target.Cards.Count == 0) != null)
+            if (Enumerable.Count( PlayStacks, t => t.Cards.Count == 0) > 1)
             {
+                Console.Log("no move found!");
+
                 this.MySounds.PlaySoundNoMoveFound();
 
                 return;
             }
 
             MyStatus.Ready = false;
-            
+
             Console.Log("dealing new row of cards...");
 
             //Console.Log("deal last stack of " + DealingStack.Cards.Count + " to " + PlayStacks.Count + " stacks");
@@ -623,11 +655,11 @@ namespace CardGames.source.js.Controls
 
                 var ToBeAnimated = new List<Card>();
 
-                foreach (CardStack v in PlayStacks.ToArray())
+                foreach (CardStack v in PlayStacks)
                 {
-                    var c = DealingStack.Cards.Last;
+                    var c = DealingStack.Cards.Last();
 
-                   
+
                     c.Enabled = true;
                     c.Drag.Enabled = false;
 
@@ -642,7 +674,7 @@ namespace CardGames.source.js.Controls
 
                 Console.Log("reordering cards, and animating...");
 
-                ToBeAnimated.ForEachReversed( (c) => c.BringToFront() );
+                ToBeAnimated.ForEachReversed((c) => c.BringToFront());
 
                 //Console.Log("cards to be animated: " + ToBeAnimated.Count);
 
@@ -678,7 +710,7 @@ namespace CardGames.source.js.Controls
                                 });
                         }
 
-                       
+
                     };
 
                 NextCard();
@@ -686,14 +718,14 @@ namespace CardGames.source.js.Controls
             }
         }
 
-     
+
 
         private void TryAutoMove(Card c)
         {
             Console.Log("finding free move... ");
 
             // try to send to a location / multiple cards?
-  
+
 
             if (!this.PlayStacks.Contains(c))
                 return;
@@ -730,7 +762,7 @@ namespace CardGames.source.js.Controls
             if (s.Cards.Count == 0)
                 return;
 
-            var last = s.Cards.Last;
+            var last = s.Cards.Last();
 
             if (!last.Drag.Enabled)
             {

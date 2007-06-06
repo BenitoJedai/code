@@ -10,6 +10,8 @@ using ScriptCoreLib.JavaScript.DOM;
 
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 
 namespace CardGames.source.js
@@ -17,7 +19,7 @@ namespace CardGames.source.js
     [Script]
     class SoundManager
     {
-        public List<IHTMLEmbed> History = new List<IHTMLEmbed>();
+        public BindingList<IHTMLEmbed> History = new BindingList<IHTMLEmbed>();
 
         public int Size = 8;
 
@@ -25,21 +27,28 @@ namespace CardGames.source.js
 
         public SoundManager()
         {
-            History.ItemRemoved +=
-                delegate(IHTMLEmbed e)
+            History.ListChanged +=
+                (sender, args) =>
                 {
-                    e.Dispose();
-                };
-
-            History.ItemAdded +=
-                delegate
-                {
-                    if (History.Count > Size)
+                    if (args.ListChangedType == ListChangedType.ItemDeleted)
                     {
+                        History[args.NewIndex].Dispose();
 
-                        History.RemoveFirst();
+                    }
+
+
+                    if (args.ListChangedType == ListChangedType.ItemAdded)
+                    {
+                        if (History.Count > Size)
+                        {
+
+                            History.RemoveFirst();
+                        }
                     }
                 };
+
+
+
         }
 
         public void Play(string e)

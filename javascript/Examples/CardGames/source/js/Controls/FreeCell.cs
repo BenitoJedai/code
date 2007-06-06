@@ -9,9 +9,12 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
 
 using ScriptCoreLib.Shared;
+using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared.Drawing;
 
 using ScriptCoreLib.JavaScript.Cards;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace CardGames.source.js.Controls
 {
@@ -30,9 +33,9 @@ namespace CardGames.source.js.Controls
 
         CardDeck MyDeck = new CardDeck();
 
-        List<CardStack> TempStacks;
-        List<CardStack> GoalStacks;
-        List<CardStack> PlayStacks;
+        BindingList<CardStack> TempStacks;
+        BindingList<CardStack> GoalStacks;
+        BindingList<CardStack> PlayStacks;
 
 
         [Script]
@@ -167,10 +170,16 @@ namespace CardGames.source.js.Controls
 
                     status.Update();
 
-                    MyDeck.Stacks.ItemAdded +=
-                        delegate(CardStack s)
+                    MyDeck.Stacks.ListChanged +=
+                        (sender, args) =>
                         {
-                            s.SetBackground(MyDeck.GfxPath + "/spider.empty.png");
+
+                            if (args.ListChangedType == ListChangedType.ItemAdded)
+                            {
+                                var s = MyDeck.Stacks[args.NewIndex];
+
+                                s.SetBackground(MyDeck.GfxPath + "/spider.empty.png");
+                            }
                         };
 
                     Console.Log("creating stacklists... ");
@@ -284,37 +293,49 @@ namespace CardGames.source.js.Controls
                     };
                     #endregion
 
-                    GoalStacks.ItemAdded += delegate(CardStack s)
-                    {
-                        s.Cards.ItemAdded += delegate(Card u)
+                    GoalStacks.ListChanged +=
+                        (sender0, args0) =>
                         {
-                            // hide the previous, as we never need it to be seen again
-                            status.CardsLeft--;
-                            status.Update();
-
-                            #region end suit
-                            if (u.Info.Rank == CardInfo.RankEnum.Rank2)
+                            if (args0.ListChangedType == ListChangedType.ItemAdded)
                             {
-                                s.Enabled = false;
+                                var s = GoalStacks[args0.NewIndex];
 
-                                if (status.CardsLeft == 0)
-                                {
-                                    king.IsSmile = true;
-                                    king.Update();
+                                s.Cards.ListChanged +=
+
+                                    (sender1, args1) =>
+                                    {
+                                        if (args1.ListChangedType == ListChangedType.ItemAdded)
+                                        {
+                                            var u = s.Cards[args1.NewIndex];
+                                            // hide the previous, as we never need it to be seen again
+                                            status.CardsLeft--;
+                                            status.Update();
+
+                                            #region end suit
+                                            if (u.Info.Rank == CardInfo.RankEnum.Rank2)
+                                            {
+                                                s.Enabled = false;
+
+                                                if (status.CardsLeft == 0)
+                                                {
+                                                    king.IsSmile = true;
+                                                    king.Update();
 
 
-                                    sounds.PlaySoundWin();
-                                }
+                                                    sounds.PlaySoundWin();
+                                                }
 
-                                // check for victory?
+                                                // check for victory?
+                                            }
+                                            #endregion
+
+                                        }
+                                    };
+
+                                // each card on top of eachother
+                                s.CardMargin *= 0;
                             }
-                            #endregion
-
                         };
-
-                        // each card on top of eachother
-                        s.CardMargin *= 0;
-                    };
 
                     Console.Log("creating tempstack... ");
 
@@ -395,9 +416,9 @@ namespace CardGames.source.js.Controls
         }
 
 
-        public static bool IsStackTypeAndDoesNotFit(Card c, List<CardStack> s, CardStack p, EventHandler<Predicate<CardStack, Card>> h)
+        public static bool IsStackTypeAndDoesNotFit(Card c, IEnumerable<CardStack> s, CardStack p, EventHandler<Predicate<CardStack, Card>> h)
         {
-            if (s.Contains(p))
+            if (s.Count(i => i == p) > 0)
             {
                 if (!Predicate.Invoke(p, c, h))
                     return true;
@@ -420,7 +441,7 @@ namespace CardGames.source.js.Controls
 
             if (s.Cards.Count > 0)
             {
-                if (s.Cards.Last.Info.Rank + 1 != c.Info.Rank)
+                if (s.Cards.Last().Info.Rank + 1 != c.Info.Rank)
                 {
                     p.Value = false;
 
@@ -464,7 +485,7 @@ namespace CardGames.source.js.Controls
             if (s.Cards.Count > 0)
             {
                 // must be of the same suit
-                if (s.Cards.Last.Info.Suit != c.Info.Suit)
+                if (s.Cards.Last().Info.Suit != c.Info.Suit)
                 {
                     p.Value = false;
 
@@ -474,7 +495,7 @@ namespace CardGames.source.js.Controls
                 {
                     // one lesser then the previous
 
-                    if (s.Cards.Last.Info.Rank + 1 != c.Info.Rank)
+                    if (s.Cards.Last().Info.Rank + 1 != c.Info.Rank)
                     {
                         p.Value = false;
 

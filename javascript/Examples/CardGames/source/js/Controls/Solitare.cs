@@ -12,6 +12,8 @@ using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
 
 using ScriptCoreLib.JavaScript.Cards;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace CardGames.source.js.Controls
 {
@@ -31,8 +33,8 @@ namespace CardGames.source.js.Controls
         CardDeck MyDeck = new CardDeck();
 
         //List<CardStack> TempStacks;
-        List<CardStack> GoalStacks;
-        List<CardStack> PlayStacks;
+        BindingList<CardStack> GoalStacks;
+        BindingList<CardStack> PlayStacks;
 
 
      
@@ -51,10 +53,14 @@ namespace CardGames.source.js.Controls
 
             MyDeck.UnusedCards.Add(CardInfo.FullDeck());
 
-            MyDeck.Stacks.ItemAdded +=
-                delegate(CardStack s)
+            MyDeck.Stacks.ListChanged +=
+                (sender, args) =>
                 {
-                    s.SetBackground(MyDeck.GfxPath + "/spider.empty.png");
+                    if (args.ListChangedType == ListChangedType.ItemAdded)
+                    {
+                        var s = MyDeck.Stacks[args.NewIndex];
+                        s.SetBackground(MyDeck.GfxPath + "/spider.empty.png");
+                    }
                 };
 
             Console.Log("creating stacklists... ");

@@ -12,6 +12,7 @@ using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
 
 using ScriptCoreLib.JavaScript.Cards;
+using System.Collections.Generic;
 
 namespace CardGames.source.js.Controls
 {
