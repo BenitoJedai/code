@@ -12,6 +12,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Query;
+using System.Collections.Generic;
 
 namespace SpaceInvaders.source.js.Controls
 {
@@ -199,10 +200,10 @@ namespace SpaceInvaders.source.js.Controls
                     var KnownConcrete = new List<Concrete>();
                     var ConcreteTop = 432;
 
-                    KnownConcrete.Add(Concrete.BuildAt(new Point(62 + 120 * 0, ConcreteTop)));
-                    KnownConcrete.Add(Concrete.BuildAt(new Point(62 + 120 * 1, ConcreteTop)));
-                    KnownConcrete.Add(Concrete.BuildAt(new Point(62 + 120 * 2, ConcreteTop)));
-                    KnownConcrete.Add(Concrete.BuildAt(new Point(62 + 120 * 3, ConcreteTop)));
+                    KnownConcrete.AddRange(Concrete.BuildAt(new Point(62 + 120 * 0, ConcreteTop)));
+                    KnownConcrete.AddRange(Concrete.BuildAt(new Point(62 + 120 * 1, ConcreteTop)));
+                    KnownConcrete.AddRange(Concrete.BuildAt(new Point(62 + 120 * 2, ConcreteTop)));
+                    KnownConcrete.AddRange(Concrete.BuildAt(new Point(62 + 120 * 3, ConcreteTop)));
 
                     foreach (Concrete v in KnownConcrete.ToArray())
                     {
@@ -224,11 +225,11 @@ namespace SpaceInvaders.source.js.Controls
 
                     var KnownEnemies = new List<EnemyUnit>();
 
-                    KnownEnemies.Add(EnemyUnit.Build(MyEnemyDirectory.A, 20, EnemyTop + 0 * EnemySpacing, EnemyCount, EnemySpacing));
-                    KnownEnemies.Add(EnemyUnit.Build(MyEnemyDirectory.B, 20, EnemyTop + 1 * EnemySpacing, EnemyCount, EnemySpacing));
-                    KnownEnemies.Add(EnemyUnit.Build(MyEnemyDirectory.B, 20, EnemyTop + 2 * EnemySpacing, EnemyCount, EnemySpacing));
-                    KnownEnemies.Add(EnemyUnit.Build(MyEnemyDirectory.C, 20, EnemyTop + 3 * EnemySpacing, EnemyCount, EnemySpacing));
-                    KnownEnemies.Add(EnemyUnit.Build(MyEnemyDirectory.C, 20, EnemyTop + 4 * EnemySpacing, EnemyCount, EnemySpacing));
+                    KnownEnemies.AddRange(EnemyUnit.Build(MyEnemyDirectory.A, 20, EnemyTop + 0 * EnemySpacing, EnemyCount, EnemySpacing));
+                    KnownEnemies.AddRange(EnemyUnit.Build(MyEnemyDirectory.B, 20, EnemyTop + 1 * EnemySpacing, EnemyCount, EnemySpacing));
+                    KnownEnemies.AddRange(EnemyUnit.Build(MyEnemyDirectory.B, 20, EnemyTop + 2 * EnemySpacing, EnemyCount, EnemySpacing));
+                    KnownEnemies.AddRange(EnemyUnit.Build(MyEnemyDirectory.C, 20, EnemyTop + 3 * EnemySpacing, EnemyCount, EnemySpacing));
+                    KnownEnemies.AddRange(EnemyUnit.Build(MyEnemyDirectory.C, 20, EnemyTop + 4 * EnemySpacing, EnemyCount, EnemySpacing));
 
                     foreach (EnemyUnit v in KnownEnemies.ToArray())
                     {
@@ -327,6 +328,7 @@ namespace SpaceInvaders.source.js.Controls
                     #endregion
 
 
+                    var MyRandom = new System.Random();
 
 
                     #region EnemyAction
@@ -337,11 +339,11 @@ namespace SpaceInvaders.source.js.Controls
 
                             if (!UFO.Visible)
                             {
-                                if (Native.Math.random() < 0.1)
+                                if (MyRandom.NextDouble() < 0.1)
                                 {
                                     Console.WriteLine("UFO!");
 
-                                    if (Native.Math.random() > 0.5)
+                                    if (MyRandom.NextDouble() > 0.5)
                                     {
                                         UFO_Direction = 1;
                                         UFO.MoveTo(0, EnemyTop - UFO.Control.height * 2);
@@ -361,15 +363,18 @@ namespace SpaceInvaders.source.js.Controls
 
                             if (!Enemy_Ammo.Visible)
                             {
-                                var ei = Native.Math.round(Native.Math.random() * Enumerable.Count(ev));
+                                var ei = (int)System.Math.Round(MyRandom.NextDouble() * Enumerable.Count(ev));
 
                                 EnemyUnit et = Enumerable.ElementAt(ev, ei);
 
                                 if (et == null)
-                                    Console.WriteLine("element at " + ei + " not found");
+                                    System.Console.WriteLine("element at " + ei + " not found");
                                 else
                                 {
-                                    int ey = Enumerable.Max(Enumerable.Select(Enumerable.Where(ev, i => i.X == et.X), i => i.Y));
+                                    int ey = Enumerable.Max(
+                                        from i in ev where i.X == et.X select i.Y
+                                    //    Enumerable.Select(Enumerable.Where(ev, i => i.X == et.X), i => i.Y)
+                                    );
 
                                     Enemy_Ammo.MoveTo(et.X, ey + 20);
                                     Enemy_Ammo.Visible = true;
