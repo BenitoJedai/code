@@ -55,7 +55,7 @@
     <Folder Include="source\shared\" />
     <Folder Include="web\" />
   </ItemGroup>
-  <Import Project="$(ProgramFiles)\LINQ Preview\Misc\Linq.targets" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>call "c:\util\jsc\bin\jsc.exe" "$(TargetFileName)" -js
 </PostBuildEvent>

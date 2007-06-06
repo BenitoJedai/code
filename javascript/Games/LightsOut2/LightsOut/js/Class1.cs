@@ -241,7 +241,7 @@ namespace LightsOut.js
             );
 
             var ani = new Timer(t =>
-                               canvas_bg.style.left = -Native.Math.floor(((IDate.Now.getTime() / 75) % canvas_size.x)) + "px");
+                               canvas_bg.style.left = -(int)System.Math.Floor((double)((IDate.Now.getTime() / 75) % canvas_size.x)) + "px");
 
 
 

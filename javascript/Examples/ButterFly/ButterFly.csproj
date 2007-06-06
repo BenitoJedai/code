@@ -1,14 +1,19 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.20404</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{405F0458-6DA0-486A-B580-E437B1D01C2F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ButterFly</RootNamespace>
     <AssemblyName>ButterFly</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>0.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,6 +33,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ScriptCoreLib, Version=3.0.2713.27172, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -41,16 +54,6 @@
     <Compile Include="web\Description.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\javascript+php\ScriptCoreLib\ScriptCoreLib.csproj">
-      <Project>{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}</Project>
-      <Name>ScriptCoreLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ScriptCorLibA\ScriptCoreLibA.csproj">
-      <Project>{477C5608-F5CD-436F-935D-66675988F1D9}</Project>
-      <Name>ScriptCoreLibA</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="web\fx\gfx\buttryfly.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -59,9 +62,9 @@
     <Folder Include="source\php\" />
     <Folder Include="source\shared\" />
   </ItemGroup>
-  <Import Project="$(ProgramFiles)\LINQ Preview\Misc\Linq.targets" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>call "X:\c#\jsc\jsc\$(OutDir)jsc.exe" "$(TargetFileName)" -js
+    <PostBuildEvent>call "c:\util\jsc\bin\jsc.exe" "$(TargetFileName)" -js
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

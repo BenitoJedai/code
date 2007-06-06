@@ -200,7 +200,7 @@ namespace DockMaster.source.js
                 laine.style.left = ((t.Counter % ViewWidth) - ViewWidth) + "px";
                 antilaine.style.left = (-t.Counter % ViewWidth) + "px";
 
-                if (Native.Math.abs(kalax - cursor.X) > 32)
+                if (System.Math.Abs(kalax - cursor.X) > 32)
                 {
                     if (kalax > cursor.X)
                     {

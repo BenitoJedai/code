@@ -14,6 +14,7 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 
 //using global::System.Collections.Generic;
 using IDisposable = global::System.IDisposable;
+using System.Collections.Generic;
 
 
 
