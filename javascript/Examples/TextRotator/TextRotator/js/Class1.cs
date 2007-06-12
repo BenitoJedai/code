@@ -32,18 +32,16 @@ namespace TextRotator.js
         /// <param name="DataElement">The hidden data element</param>
         public Class1(IHTMLElement DataElement)
         {
-            
+            string Status = "";
 
-            IStyleSheet.Default.AddRule("html",
-                r =>
-                {
-                    r.style.backgroundColor = Color.Black;
-                    r.style.color = Color.Green;
-                    r.style.fontFamily = IStyle.FontFamilyEnum.Consolas;
-                    r.style.padding = "3em";
-                    r.style.overflow = IStyle.OverflowEnum.hidden;
-                }
-            );
+  
+            Status = "loading style";
+
+
+            CreateStyle();
+
+
+            Status = "creating elements";
 
             var c = new IHTMLElement(IHTMLElement.HTMLElementEnum.center, "");
             var cursor = Native.Document.createElement("blink");
@@ -57,6 +55,7 @@ namespace TextRotator.js
 
             var delay_delayed = false;
 
+            Status = "creating actions";
             var Delay = default(Action<Action, int>);
 
             Delay = (h, due) => new Timer(
@@ -71,7 +70,7 @@ namespace TextRotator.js
 
             }, due, 0);
 
-            Func<string> CurrentLineString = () => index + ". " + lines[index];
+            Func<string> CurrentLineString = () => (1+index) + ". " + lines[index].Trim();
 
             var DeleteChar = default(Action);
             var PrintChar = default(Action);
@@ -109,6 +108,8 @@ namespace TextRotator.js
                             x = 200;
 
 
+                        if (index_char > 1)
+                            span.style.color = Color.None;
 
                         span.innerText = CurrentLineString().Substring(0, index_char);
                         Delay(PrintChar, x);
@@ -125,9 +126,12 @@ namespace TextRotator.js
                     index = new System.Random().Next() % lines.Length;
                     index_char = 0;
                     span.innerText = "";
+                    span.style.color = Color.White;
 
                     PrintChar();
                 };
+
+            Status = "adding to document";
 
             c.onmouseover +=
                 delegate
@@ -148,6 +152,98 @@ namespace TextRotator.js
             c.attachToDocument();
 
             ChooseLine();
+    
+        }
+
+        private static void CreateStyle()
+        {
+            try
+            {
+               
+                IStyleSheet.Default.AddRule("html",
+                    r =>
+                    {
+                        r.style.backgroundColor = Color.Black;
+                        r.style.color = Color.Green;
+                        r.style.fontFamily = IStyle.FontFamilyEnum.Consolas;
+                        r.style.padding = "3em";
+                        r.style.overflow = IStyle.OverflowEnum.hidden;
+
+                    }
+                );
+            }
+            catch (System.Exception ex)
+            {
+                Native.Window.alert(ex.ToString());
+            }
+        }
+
+        static void DualDump(object left, object right)
+        {
+            var t = new IHTMLTable();
+            var b = t.AddBody();
+            var r = b.AddRow();
+
+            Dump(left, r.AddColumn(), right);
+            Dump(right, r.AddColumn(), left);
+
+            t.attachToDocument();
+        }
+
+        private static IHTMLElement Dump(object xs, IHTMLElement to, object diff)
+        {
+
+            var c = new IHTMLDiv();
+
+            c.style.backgroundColor = Color.White;
+            c.style.border = "1px solid gray";
+            c.style.padding = "1em";
+            c.style.fontFamily = IStyle.FontFamilyEnum.Consolas;
+
+            var ttx = new IHTMLDiv(xs.ToString());
+
+            c.appendChild(ttx);
+
+            var dx = Expando.Of(diff);
+
+            foreach (var v in Expando.Of(xs).GetMembers())
+            {
+                var tt = default(IHTMLDiv);
+                var ok = true;
+
+                if (dx != null)
+                {
+                    if (dx.Contains(v.Name))
+                    {
+                        if (dx[v.Name] == v.Self)
+                            ok = false;
+                    }
+                }
+
+                if (ok)
+                {
+                    if (v.Self.IsFunction)
+                    {
+                        tt = new IHTMLDiv(v.Self.TypeString + " " + v.Name);
+                        tt.style.color = Color.Red;
+
+                    }
+                    else if (v.Self.IsObject)
+                    {
+                        tt = new IHTMLDiv(v.Self.TypeString + " " + v.Name + " = " + v.Self.ToString());
+                        tt.style.color = Color.Blue;
+                    }
+                    else
+                        tt = new IHTMLDiv(v.Self.TypeString + " " + v.Name + " = " + v.Self.ToString());
+
+                    c.appendChild(tt);
+                }
+            }
+
+            to.appendChild(c);
+
+            return to;
+
         }
 
         // see http://www.cncden.com/tsmods/tsfaq.zip
@@ -201,7 +297,7 @@ Tracers work both ways.
 The only thing more accurate than incoming enemy fire is incoming friendly fire.
 If you take more than your share of objectives, you will have more than your fair share to take.
 When both sides are convinced they are about to lose, they're both right.
-";
+".Trim();
 
             }
         }
