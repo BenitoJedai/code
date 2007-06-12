@@ -33,6 +33,36 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.BackColor = SystemColors.ButtonFace;
         }
 
+        BorderStyle _BorderStyle;
+
+        public BorderStyle BorderStyle
+        {
+            get
+            {
+                return this._BorderStyle;
+            }
+            set
+            {
+                this._BorderStyle = value;
+
+                if (value == BorderStyle.None)
+                {
+                    this.HTMLTargetRef.style.border = "";
+                }
+                else if (value == BorderStyle.FixedSingle)
+                {
+                    this.HTMLTargetRef.style.borderStyle = "solid";
+                    this.HTMLTargetRef.style.borderWidth = "1px";
+                    this.HTMLTargetRef.style.borderColor = Shared.Drawing.Color.System.ActiveBorder;
+                }
+                else
+                {
+                    this.HTMLTargetRef.style.borderStyle = "inset";
+                    this.HTMLTargetRef.style.borderWidth = "1px";
+                    this.HTMLTargetRef.style.borderColor = Shared.Drawing.Color.System.ActiveBorder;                    
+                }
+            }
+        }
 
         #region
         static public implicit operator UserControl(__UserControl e)

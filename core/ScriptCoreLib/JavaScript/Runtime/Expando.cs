@@ -849,6 +849,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
         }
 
         [Script(OptimizedCode = "try { return o[m] != void(0); } catch (exc) { return 'unknown'; } ")]
+        //[Script(OptimizedCode = "return m in o;")]
         public static bool InternalIsMember(object o, string m)
         {
             return default(bool);

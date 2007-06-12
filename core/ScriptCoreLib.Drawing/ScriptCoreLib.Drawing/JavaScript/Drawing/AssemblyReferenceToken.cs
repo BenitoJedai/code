@@ -10,7 +10,7 @@ namespace ScriptCoreLib.JavaScript.Drawing
         {
             get
             {
-                yield return typeof(ScriptCoreLib.JavaScript.AssemblyReferenceToken);
+                yield return typeof(ScriptCoreLib.Shared.AssemblyReferenceToken);
             }
         }
     }

@@ -25,6 +25,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 if (_Default == null)
                     _Default = new IStyleSheet();
 
+                
                 return _Default;
             }
         }
@@ -39,13 +40,15 @@ namespace ScriptCoreLib.JavaScript.DOM
             [Script(DefineAsStatic = true)]
             get
             {
-                if (Expando.InternalIsMember(this, "rules"))
-                    return this.rules;
+
 
                 if (Expando.InternalIsMember(this, "cssRules"))
                     return this.cssRules;
 
-                return null;
+                if (Expando.InternalIsMember(this, "rules"))
+                    return this.rules;
+
+                throw new System.Exception("member IStyleSheet.Rules not found");
             }
         }
 
@@ -61,7 +64,14 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             HTML.IHTMLStyle s = new HTML.IHTMLStyle();
 
-            s.attachToDocument();
+            // http://phrogz.net/JS/AddCSS_test.html
+
+            var h = Native.Document.getElementsByTagName("head");
+
+            if (h.Length > 0)
+                h[0].appendChild(s);
+            else
+                s.attachToDocument();
 
             return s.StyleSheet;
         }
@@ -80,16 +90,18 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
 
+        // http://www.susaaland.dk/sharedoc/kdelibs-devel-3/khtml/html/classDOM_1_1CSSStyleSheet.html#a9
         // http://www.javascriptkit.com/domref/stylesheet.shtml
         [Script(DefineAsStatic = true)]
         public IStyleSheetRule AddRule(string selector, string declaration, int index)
         {
-
-            if (Expando.InternalIsMember(this, "addRule"))
-                this.addRule(selector, declaration, index);
-
             if (Expando.InternalIsMember(this, "insertRule"))
                 this.insertRule(selector + "{" + declaration + "}", index);
+            else if (Expando.InternalIsMember(this, "addRule"))
+                this.addRule(selector, declaration, index);
+            else
+                throw new System.Exception("fault at IStyleSheetRule.AddRule");
+
 
             return this.Rules[index];
         }
@@ -118,6 +130,25 @@ namespace ScriptCoreLib.JavaScript.DOM
             return x;
         }
 
+
+
+        internal DOM.HTML.IHTMLElement owningElement;
+        internal DOM.HTML.IHTMLElement ownerNode;
+
+        public DOM.HTML.IHTMLElement Owner
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                if (Expando.InternalIsMember(this, "ownerNode"))
+                    return this.ownerNode;
+
+                if (Expando.InternalIsMember(this, "owningElement"))
+                    return this.owningElement;
+
+                throw new System.Exception("fault at IStyleSheet.Owner");
+            }
+        }
     }
 
     [Script(HasNoPrototype = true)]

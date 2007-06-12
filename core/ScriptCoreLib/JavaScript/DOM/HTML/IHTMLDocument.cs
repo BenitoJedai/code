@@ -15,6 +15,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     {
         public IHTMLStyle[] styleSheets;
 
+
+
         //// http://msdn.microsoft.com/workshop/author/dhtml/reference/methods/querycommandsupported.asp
         //public bool queryCommandSupported(string sCommand)
         //{

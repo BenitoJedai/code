@@ -14,6 +14,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         internal IStyleSheet styleSheet;
 
+        public string type;
 
         public IStyleSheet StyleSheet
         {
@@ -26,7 +27,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 if (Expando.InternalIsMember(this, "styleSheet"))
                     return this.styleSheet;
 
-                return null;
+                throw new System.Exception("fault at IHTMLStyle.StyleSheet, members: " + Expando.InternalGetMember(this, "sheet"));
             }
         }
 
@@ -40,7 +41,16 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         static IHTMLStyle InternalConstructor()
         {
-            return (IHTMLStyle)new IHTMLElement(HTMLElementEnum.style);
+            var s = (IHTMLStyle)new IHTMLElement(HTMLElementEnum.style);
+
+            // safari wont init sheet if not child is added
+            // http://www.cs.washington.edu/research/projects/se/www/kde/reuse_patterns/source_code/kdelibs.src/classes/kdelibs'HTMLStyleElementImpl.html
+            try { s.appendChild("/**/"); }
+            catch { };
+
+            s.type = "text/css";
+
+            return s;
         }
 
         #endregion
