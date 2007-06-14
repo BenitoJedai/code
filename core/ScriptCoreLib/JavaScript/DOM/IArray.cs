@@ -177,7 +177,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         [Script(DefineAsStatic = true)]
-        public void sort(EventHandler<int, TItem, TItem> e)
+        public void sort(InternalFunc<TItem, TItem, int> e)
         {
             sort(((BCLImplementation.System.__Delegate)(object)e).InvokePointer);
         }

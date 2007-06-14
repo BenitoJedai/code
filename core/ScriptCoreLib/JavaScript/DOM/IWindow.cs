@@ -218,13 +218,13 @@ namespace ScriptCoreLib.JavaScript.DOM
             public string Text;
         }
 
-        #region event onunload
-        public event Action<Confirmation> onbeforeunload
+        #region event onbeforeunload
+        public event System.Action<Confirmation> onbeforeunload
         {
             [Script(DefineAsStatic = true)]
             add
             {
-                Func<IEvent, object> w =
+                InternalFunc<IEvent, object> w =
                     delegate (IEvent e)
                     {
                         var c = new Confirmation();

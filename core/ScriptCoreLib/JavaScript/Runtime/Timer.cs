@@ -194,23 +194,6 @@ namespace ScriptCoreLib.JavaScript.Runtime
         }
 
 
-        internal static void While(Func<bool> condition, Action done, int interval)
-        {
-            Timer t = null;
 
-            t = new Timer(
-                delegate
-                {
-                   if (!condition())
-                   {
-                       t.Stop();
-
-                       done();
-                   }
-                }
-            );
-
-            t.StartInterval(interval);
-        }
     }
 }

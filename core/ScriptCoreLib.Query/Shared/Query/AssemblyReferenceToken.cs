@@ -7,5 +7,6 @@ namespace ScriptCoreLib.Shared.Query
 {
     public class AssemblyReferenceToken
     {
+        
     }
 }

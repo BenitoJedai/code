@@ -113,7 +113,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         [Script(DefineAsStatic = true)]
-        public IStyleSheetRule AddRule(global::System.Collections.Generic.KeyValuePair<string, Action<IStyleSheetRule>> r)
+        public IStyleSheetRule AddRule(global::System.Collections.Generic.KeyValuePair<string, System.Action<IStyleSheetRule>> r)
         {
 
             return this.AddRule(r.Key, r.Value);
@@ -121,7 +121,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         [Script(DefineAsStatic = true)]
-        public IStyleSheetRule AddRule(string selector, Action<IStyleSheetRule> r)
+        public IStyleSheetRule AddRule(string selector, System.Action<IStyleSheetRule> r)
         {
             var x = AddRule(selector);
 

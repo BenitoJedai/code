@@ -2,8 +2,8 @@ using Serializable = System.SerializableAttribute;
 
 namespace ScriptCoreLib.Shared
 {
-    [Script]
-    public delegate TRet EventHandler<TRet, var0, var1>(var0 e, var1 p);
+    //[Script]
+    //public delegate TRet EventHandler<TRet, var0, var1>(var0 e, var1 p);
     [Script]
     public delegate void EventHandler<var0, var1>(var0 e, var1 p);
     [Script]
@@ -30,20 +30,25 @@ namespace ScriptCoreLib.Shared
     public delegate R FuncParams<T, R>(params T[] e);
 
 
+
+    [Script]
+    public delegate T InternalFunc<A, T>(A a);
+
+    [Script]
+    public delegate T InternalFunc<A, B, T>(A a, B b);
+
+/*
     [Script]
     internal delegate T Func<T>();
 
-    [Script]
-    internal delegate T Func<A, T>(A a);
 
-    [Script]
-    internal delegate T Func<A, B, T>(A a, B b);
+
 
     [Script]
     internal delegate T Func<A, B, C, T>(A a, B b, C c);
 
 
-
+    */
 
 
     [Script]
