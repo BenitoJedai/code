@@ -47,12 +47,16 @@
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="source\csharp\Settings.cs" />
+    <Compile Include="source\js\Extensions.cs" />
     <Compile Include="source\js\Overlay.cs" />
     <Compile Include="source\js\Settings.cs" />
     <Compile Include="source\js\Controls\SpaceInvaders.cs" />

@@ -11,11 +11,13 @@ using ScriptCoreLib.JavaScript.DOM;
 
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
-using ScriptCoreLib.Shared.Query;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SpaceInvaders.source.js.Controls
 {
+    using fbool = Func<bool>;
+
     [Script]
     public class SpaceInvaders : SpawnControlBase
     {
@@ -62,7 +64,7 @@ namespace SpaceInvaders.source.js.Controls
             view.style.color = Color.White;
             view.style.fontFamily = IStyle.FontFamilyEnum.Fixedsys;
 
-            
+
 
 
             //Native.Document.body.appendChild(
@@ -75,7 +77,7 @@ namespace SpaceInvaders.source.js.Controls
             //Native.Document.body.style.backgroundColor = Color.Black;
             // Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
-            Func<IHTMLDiv> CreateCanvas =
+            System.Linq.Func<IHTMLDiv> CreateCanvas =
                 delegate
                 {
                     var c = new IHTMLDiv();
@@ -105,572 +107,573 @@ namespace SpaceInvaders.source.js.Controls
             // at this point we want our images
 
             overlay.Visible = true;
-            
-            Timer.DoAsync( overlay.UpdateLocation );
+
+            Timer.DoAsync(overlay.UpdateLocation);
 
             // now wait while all images are loaded/complete
-            Timer.While(
-                () => !gfx.IsComplete
-                ,
-                delegate
+
+            ((fbool)(() => !gfx.IsComplete)).Trigger(
+            delegate
+            {
+                // loading images is done now.
+
+
+
+                // build the scoreboard
+                var MyEnemyDirectory = new EnemyDirectory(gfx);
+
+                var board = new ScoreBoard(gfx);
+
+                board.Control.style.SetLocation(8, 8, 464, 64);
+
+                canvas.appendChild(board.Control);
+
+                board.Lives = 2;
+                board.Score = 450;
+
+                // now we can see lives and score.
+                // ie does not issue keypress for control keys.
+                // scriptcorelib should filter firefox events...
+
+                // lets show main menu
+
+                var mmenu = new MainMenu(MyEnemyDirectory, gfx);
+                var gameovermenu = new GameOverMenu();
+
+                menu.appendChild(mmenu.Control, gameovermenu.Control);
+
+                gameovermenu.Visible = false;
+                gameovermenu.Control.style.SetLocation(0, 100, 468, 468 - 100);
+
+                mmenu.Control.style.SetLocation(0, 64, 468, 468 - 64);
+                mmenu.Visible = true;
+
+                var Enemy_Ammo = new AmmoInfo
+                                 {
+                                     Color = Color.White,
+                                     Speed = 8
+                                 };
+
+                var Player = (IHTMLImage)gfx.biggun.Clone();
+                var Player_Ammo = new AmmoInfo
+                                  {
+                                      Color = Color.Green,
+                                      Speed = -8
+                                  };
+
+                var Map_Top = 64;
+                var Map_Left = 20;
+                var Map_Right = 450;
+                var Map_Bottom = 470;
+
+                var Map_Rect = new Rectangle();
+
+                Map_Rect.Top = Map_Top;
+                Map_Rect.Left = Map_Left;
+                Map_Rect.Right = Map_Right;
+                Map_Rect.Bottom = Map_Bottom;
+
+                var Player_Y = 460;
+                var Player_X = 200;
+
+                var Player_X_step = 8;
+
+                Action<int> UpdatePlayer =
+                    delegate(int v)
+                    {
+                        Player_X += v;
+
+                        if (Player_X < Map_Left)
+                            Player_X = Map_Left;
+
+                        if (Player_X > Map_Right)
+                            Player_X = Map_Right;
+
+
+                        Player.SetCenteredLocation(Player_X, Player_Y);
+                        Player.style.position = IStyle.PositionEnum.absolute;
+                    };
+
+                Player.Hide();
+
+                canvas.appendChild(Player, Player_Ammo.Control, Enemy_Ammo.Control);
+
+                AmmoInfo[] KnownAmmo = new[] { Player_Ammo, Enemy_Ammo };
+
+                var KnownConcrete = new List<Concrete>();
+                var ConcreteTop = 432;
+
+                KnownConcrete.AddRange(Concrete.BuildAt(new Point(62 + 120 * 0, ConcreteTop)));
+                KnownConcrete.AddRange(Concrete.BuildAt(new Point(62 + 120 * 1, ConcreteTop)));
+                KnownConcrete.AddRange(Concrete.BuildAt(new Point(62 + 120 * 2, ConcreteTop)));
+                KnownConcrete.AddRange(Concrete.BuildAt(new Point(62 + 120 * 3, ConcreteTop)));
+
+                foreach (Concrete v in KnownConcrete.ToArray())
                 {
-                    // loading images is done now.
+                    canvas.appendChild(v.Control);
+                }
 
 
+                var UFO = new EnemyUnit(MyEnemyDirectory.UFO);
+                var UFO_Direction = 1;
 
-                    // build the scoreboard
-                    var MyEnemyDirectory = new EnemyDirectory(gfx);
+                UFO.Visible = false;
 
-                    var board = new ScoreBoard(gfx);
+                canvas.appendChild(UFO.Control);
 
-                    board.Control.style.SetLocation(8, 8, 464, 64);
 
-                    canvas.appendChild(board.Control);
+                var EnemyTop = 128;
+                var EnemySpacing = 32;
+                var EnemyCount = 9;
 
-                    board.Lives = 2;
-                    board.Score = 450;
+                var KnownEnemies = new List<EnemyUnit>();
 
-                    // now we can see lives and score.
-                    // ie does not issue keypress for control keys.
-                    // scriptcorelib should filter firefox events...
+                KnownEnemies.AddRange(EnemyUnit.Build(MyEnemyDirectory.A, 20, EnemyTop + 0 * EnemySpacing, EnemyCount, EnemySpacing));
+                KnownEnemies.AddRange(EnemyUnit.Build(MyEnemyDirectory.B, 20, EnemyTop + 1 * EnemySpacing, EnemyCount, EnemySpacing));
+                KnownEnemies.AddRange(EnemyUnit.Build(MyEnemyDirectory.B, 20, EnemyTop + 2 * EnemySpacing, EnemyCount, EnemySpacing));
+                KnownEnemies.AddRange(EnemyUnit.Build(MyEnemyDirectory.C, 20, EnemyTop + 3 * EnemySpacing, EnemyCount, EnemySpacing));
+                KnownEnemies.AddRange(EnemyUnit.Build(MyEnemyDirectory.C, 20, EnemyTop + 4 * EnemySpacing, EnemyCount, EnemySpacing));
 
-                    // lets show main menu
+                foreach (EnemyUnit v in KnownEnemies.ToArray())
+                {
+                    canvas.appendChild(v.Control);
+                }
 
-                    var mmenu = new MainMenu(MyEnemyDirectory, gfx);
-                    var gameovermenu = new GameOverMenu();
+                var HitDamage = 40;
 
-                    menu.appendChild(mmenu.Control, gameovermenu.Control);
+                Timer GameTimer = new Timer();
 
-                    gameovermenu.Visible = false;
-                    gameovermenu.Control.style.SetLocation(0, 100, 468, 468 - 100);
+                int GangDirection = 1;
 
-                    mmenu.Control.style.SetLocation(0, 64, 468, 468 - 64);
-                    mmenu.Visible = true;
+                Action<string> EndGame =
+                    delegate
+                    {
+                        gameovermenu.Visible = true;
 
-                    var Enemy_Ammo = new AmmoInfo {
-                        Color = Color.White,
-                        Speed = 8
+                        GameTimer.Stop();
                     };
 
-                    var Player = (IHTMLImage)gfx.biggun.Clone();
-                    var Player_Ammo = new AmmoInfo {
-                        Color = Color.Green,
-                        Speed = -8
-                    };
-
-                    var Map_Top = 64;
-                    var Map_Left = 20;
-                    var Map_Right = 450;
-                    var Map_Bottom = 470;
-
-                    var Map_Rect = new Rectangle();
-
-                    Map_Rect.Top = Map_Top;
-                    Map_Rect.Left = Map_Left;
-                    Map_Rect.Right = Map_Right;
-                    Map_Rect.Bottom = Map_Bottom;
-
-                    var Player_Y = 460;
-                    var Player_X = 200;
-
-                    var Player_X_step = 8;
-
-                    Action<int> UpdatePlayer =
-                        delegate(int v)
-                        {
-                            Player_X += v;
-
-                            if (Player_X < Map_Left)
-                                Player_X = Map_Left;
-
-                            if (Player_X > Map_Right)
-                                Player_X = Map_Right;
-
-
-                            Player.SetCenteredLocation(Player_X, Player_Y);
-                            Player.style.position = IStyle.PositionEnum.absolute;
-                        };
-
-                    Player.Hide();
-
-                    canvas.appendChild(Player, Player_Ammo.Control, Enemy_Ammo.Control);
-
-                    AmmoInfo[] KnownAmmo = new [] { Player_Ammo, Enemy_Ammo };
-
-                    var KnownConcrete = new List<Concrete>();
-                    var ConcreteTop = 432;
-
-                    KnownConcrete.AddRange(Concrete.BuildAt(new Point(62 + 120 * 0, ConcreteTop)));
-                    KnownConcrete.AddRange(Concrete.BuildAt(new Point(62 + 120 * 1, ConcreteTop)));
-                    KnownConcrete.AddRange(Concrete.BuildAt(new Point(62 + 120 * 2, ConcreteTop)));
-                    KnownConcrete.AddRange(Concrete.BuildAt(new Point(62 + 120 * 3, ConcreteTop)));
-
-                    foreach (Concrete v in KnownConcrete.ToArray())
+                #region DoAmmoDamage
+                Func<AmmoInfo, bool> DoAmmoDamage =
+                    delegate(AmmoInfo a)
                     {
-                        canvas.appendChild(v.Control);
-                    }
+                        bool hit = false;
 
-
-                    var UFO = new EnemyUnit(MyEnemyDirectory.UFO);
-                    var UFO_Direction = 1;
-
-                    UFO.Visible = false;
-
-                    canvas.appendChild(UFO.Control);
-
-
-                    var EnemyTop = 128;
-                    var EnemySpacing = 32;
-                    var EnemyCount = 9;
-
-                    var KnownEnemies = new List<EnemyUnit>();
-
-                    KnownEnemies.AddRange(EnemyUnit.Build(MyEnemyDirectory.A, 20, EnemyTop + 0 * EnemySpacing, EnemyCount, EnemySpacing));
-                    KnownEnemies.AddRange(EnemyUnit.Build(MyEnemyDirectory.B, 20, EnemyTop + 1 * EnemySpacing, EnemyCount, EnemySpacing));
-                    KnownEnemies.AddRange(EnemyUnit.Build(MyEnemyDirectory.B, 20, EnemyTop + 2 * EnemySpacing, EnemyCount, EnemySpacing));
-                    KnownEnemies.AddRange(EnemyUnit.Build(MyEnemyDirectory.C, 20, EnemyTop + 3 * EnemySpacing, EnemyCount, EnemySpacing));
-                    KnownEnemies.AddRange(EnemyUnit.Build(MyEnemyDirectory.C, 20, EnemyTop + 4 * EnemySpacing, EnemyCount, EnemySpacing));
-
-                    foreach (EnemyUnit v in KnownEnemies.ToArray())
-                    {
-                        canvas.appendChild(v.Control);
-                    }
-
-                    var HitDamage = 40;
-
-                    Timer GameTimer = new Timer();
-
-                    int GangDirection = 1;
-
-                    Action<string> EndGame =
-                        delegate
+                        #region did we hit ufo?
+                        if (UFO.Visible)
                         {
-                            gameovermenu.Visible = true;
-
-                            GameTimer.Stop();
-                        };
-
-                    #region DoAmmoDamage
-                    Func<AmmoInfo, bool> DoAmmoDamage =
-                        delegate(AmmoInfo a)
-                        {
-                            bool hit = false;
-
-                            #region did we hit ufo?
-                            if (UFO.Visible)
+                            if (UFO.Bounds.Contains(a.Location))
                             {
-                                if (UFO.Bounds.Contains(a.Location))
-                                {
-                                    board.Score += UFO.Info.Points;
+                                board.Score += UFO.Info.Points;
 
-                                    UFO.Visible = false;
-
-                                    hit = true;
-                                }
-                            }
-                            #endregion
-
-                            #region did we hit player
-                            if (Player.Bounds.Contains(a.Location))
-                            {
-                                board.Lives--;
+                                UFO.Visible = false;
 
                                 hit = true;
-
-                                if (board.Lives < 1)
-                                {
-                                    EndGame("Ship destroied");
-
-                                }
                             }
-                            #endregion
+                        }
+                        #endregion
 
-
-                            foreach (Concrete v in KnownConcrete.ToArray())
-                            {
-                                if (v.Visible)
-                                {
-                                    if (v.Bounds.Contains(a.Location))
-                                    {
-                                        v.Health -= HitDamage;
-
-                                        if (v.Health > 0)
-                                        {
-                                            hit = true;
-                                        }
-                                        else
-                                        {
-                                            v.Visible = false;
-                                        }
-                                    }
-                                }
-                            }
-
-                            foreach (EnemyUnit v in KnownEnemies.ToArray())
-                            {
-                                if (v.Visible)
-                                {
-                                    if (v.Bounds.Contains(a.Location))
-                                    {
-                                        v.Visible = false;
-
-                                        hit = true;
-
-                                        board.Score += v.Info.Points;
-                                    }
-                                }
-                            }
-
-
-
-                            return hit;
-                        };
-                    #endregion
-
-
-                    var MyRandom = new System.Random();
-
-
-                    #region EnemyAction
-                    Action EnemyAction =
-                        delegate
+                        #region did we hit player
+                        if (Player.Bounds.Contains(a.Location))
                         {
-                            #region create ufo
+                            board.Lives--;
 
-                            if (!UFO.Visible)
+                            hit = true;
+
+                            if (board.Lives < 1)
                             {
-                                if (MyRandom.NextDouble() < 0.1)
-                                {
-                                    Console.WriteLine("UFO!");
+                                EndGame("Ship destroied");
 
-                                    if (MyRandom.NextDouble() > 0.5)
+                            }
+                        }
+                        #endregion
+
+
+                        foreach (Concrete v in KnownConcrete.ToArray())
+                        {
+                            if (v.Visible)
+                            {
+                                if (v.Bounds.Contains(a.Location))
+                                {
+                                    v.Health -= HitDamage;
+
+                                    if (v.Health > 0)
                                     {
-                                        UFO_Direction = 1;
-                                        UFO.MoveTo(0, EnemyTop - UFO.Control.height * 2);
+                                        hit = true;
                                     }
                                     else
                                     {
-                                        UFO_Direction = -1;
-                                        UFO.MoveTo(478, EnemyTop - UFO.Control.height * 2);
+                                        v.Visible = false;
                                     }
-
-                                    UFO.Visible = true;
                                 }
                             }
-                            #endregion
+                        }
 
-                            var ev = Enumerable.Where(KnownEnemies.ToArray(), i => i.Visible);
-
-                            if (!Enemy_Ammo.Visible)
+                        foreach (EnemyUnit v in KnownEnemies.ToArray())
+                        {
+                            if (v.Visible)
                             {
-                                var ei = (int)System.Math.Round(MyRandom.NextDouble() * Enumerable.Count(ev));
+                                if (v.Bounds.Contains(a.Location))
+                                {
+                                    v.Visible = false;
 
-                                EnemyUnit et = Enumerable.ElementAt(ev, ei);
+                                    hit = true;
 
-                                if (et == null)
-                                    System.Console.WriteLine("element at " + ei + " not found");
+                                    board.Score += v.Info.Points;
+                                }
+                            }
+                        }
+
+
+
+                        return hit;
+                    };
+                #endregion
+
+
+                var MyRandom = new System.Random();
+
+
+                #region EnemyAction
+                Action EnemyAction =
+                    delegate
+                    {
+                        #region create ufo
+
+                        if (!UFO.Visible)
+                        {
+                            if (MyRandom.NextDouble() < 0.1)
+                            {
+                                Console.WriteLine("UFO!");
+
+                                if (MyRandom.NextDouble() > 0.5)
+                                {
+                                    UFO_Direction = 1;
+                                    UFO.MoveTo(0, EnemyTop - UFO.Control.height * 2);
+                                }
                                 else
                                 {
-                                    int ey = Enumerable.Max(
-                                        from i in ev where i.X == et.X select i.Y
+                                    UFO_Direction = -1;
+                                    UFO.MoveTo(478, EnemyTop - UFO.Control.height * 2);
+                                }
+
+                                UFO.Visible = true;
+                            }
+                        }
+                        #endregion
+
+                        var ev = Enumerable.Where(KnownEnemies.ToArray(), i => i.Visible);
+
+                        if (!Enemy_Ammo.Visible)
+                        {
+                            var ei = (int)System.Math.Round(MyRandom.NextDouble() * Enumerable.Count(ev));
+
+                            EnemyUnit et = Enumerable.ElementAt(ev, ei);
+
+                            if (et == null)
+                                System.Console.WriteLine("element at " + ei + " not found");
+                            else
+                            {
+                                int ey = Enumerable.Max(
+                                    from i in ev where i.X == et.X select i.Y
                                     //    Enumerable.Select(Enumerable.Where(ev, i => i.X == et.X), i => i.Y)
-                                    );
+                                );
 
-                                    Enemy_Ammo.MoveTo(et.X, ey + 20);
-                                    Enemy_Ammo.Visible = true;
+                                Enemy_Ammo.MoveTo(et.X, ey + 20);
+                                Enemy_Ammo.Visible = true;
+                            }
+                        }
+
+
+                        #region MoveAll
+                        Action<Point> MoveAll =
+                            delegate(Point to)
+                            {
+                                var ConcreteReached = false;
+
+                                foreach (EnemyUnit v in ev)
+                                {
+                                    var vy = v.Y + to.Y;
+
+                                    if (vy > ConcreteTop)
+                                    {
+                                        ConcreteReached = true;
+                                    }
+
+                                    v.MoveTo(v.X + to.X, vy);
                                 }
+
+                                if (ConcreteReached)
+                                {
+                                    EndGame("The walls have been breached.");
+                                }
+                            };
+                        #endregion
+
+                        Action MoveAllDown =
+                            delegate
+                            {
+                                MoveAll(new Point(0, 8));
+                            };
+
+
+                        #region move the gang
+                        if (GangDirection > 0)
+                        {
+                            int ex_max = Enumerable.Max(Enumerable.Select(ev, i => i.X));
+
+                            // gang goes right
+
+                            if (ex_max >= Map_Rect.Right)
+                            {
+                                GangDirection = -1;
+                                MoveAllDown();
+                            }
+                            else
+                            {
+                                MoveAll(new Point(4, 0));
+                            }
+                        }
+                        else
+                        {
+                            int ex_min = Enumerable.Min(Enumerable.Select(ev, i => i.X));
+
+                            // gang goes left
+
+                            if (ex_min <= Map_Rect.Left)
+                            {
+                                GangDirection = 1;
+                                MoveAllDown();
+                            }
+                            else
+                            {
+                                MoveAll(new Point(-4, 0));
+                            }
+                        }
+                        #endregion
+
+                    };
+                #endregion
+
+                bool GamePaused = false;
+
+
+
+
+                GameTimer.Tick +=
+                    delegate
+                    {
+
+                        #region only blink while paused
+                        if (GamePaused)
+                        {
+                            if (GameTimer.Counter % 15 == 0)
+                            {
+                                Player.ToggleVisible();
                             }
 
-
-                            #region MoveAll
-                            Action<Point> MoveAll =
-                                delegate(Point to)
-                                {
-                                    var ConcreteReached = false;
-
-                                    foreach (EnemyUnit v in ev)
-                                    {
-                                        var vy = v.Y + to.Y;
-
-                                        if (vy > ConcreteTop)
-                                        {
-                                            ConcreteReached = true;
-                                        }
-
-                                        v.MoveTo(v.X + to.X, vy);
-                                    }
-
-                                    if (ConcreteReached)
-                                    {
-                                        EndGame("The walls have been breached.");
-                                    }
-                                };
-                            #endregion
-
-                            Action MoveAllDown =
-                                delegate
-                                {
-                                    MoveAll(new Point(0, 8));
-                                };
+                            return;
+                        }
+                        #endregion
 
 
-                            #region move the gang
-                            if (GangDirection > 0)
+
+                        Player.Show();
+
+                        #region move ufo
+
+                        if (UFO.Visible)
+                        {
+                            if (UFO_Direction > 0)
                             {
-                                int ex_max = Enumerable.Max(Enumerable.Select(ev, i => i.X));
+                                UFO.MoveTo(UFO.X + 4, UFO.Y);
 
-                                // gang goes right
-
-                                if (ex_max >= Map_Rect.Right)
+                                if (UFO.X > 478 + UFO.Control.width)
                                 {
-                                    GangDirection = -1;
-                                    MoveAllDown();
-                                }
-                                else
-                                {
-                                    MoveAll(new Point(4, 0));
+                                    UFO.Visible = false;
                                 }
                             }
                             else
                             {
-                                int ex_min = Enumerable.Min(Enumerable.Select(ev, i => i.X));
+                                UFO.MoveTo(UFO.X - 4, UFO.Y);
 
-                                // gang goes left
-
-                                if (ex_min <= Map_Rect.Left)
+                                if (UFO.X < -UFO.Control.width)
                                 {
-                                    GangDirection = 1;
-                                    MoveAllDown();
-                                }
-                                else
-                                {
-                                    MoveAll(new Point(-4, 0));
+                                    UFO.Visible = false;
                                 }
                             }
-                            #endregion
-
-                        };
-                    #endregion
-
-                    bool GamePaused = false;
+                        }
+                        #endregion
 
 
-
-
-                    GameTimer.Tick +=
-                        delegate
+                        #region do ammo stuff
+                        foreach (AmmoInfo v in KnownAmmo)
                         {
-
-                            #region only blink while paused
-                            if (GamePaused)
+                            if (v.Visible)
                             {
-                                if (GameTimer.Counter % 15 == 0)
+                                var y = v.Y + v.Speed;
+
+                                if (Map_Rect.Contains(new Point(v.X, y)))
                                 {
-                                    Player.ToggleVisible();
-                                }
-
-                                return;
-                            }
-                            #endregion
-
-
-
-                            Player.Show();
-
-                            #region move ufo
-
-                            if (UFO.Visible)
-                            {
-                                if (UFO_Direction > 0)
-                                {
-                                    UFO.MoveTo(UFO.X + 4, UFO.Y);
-
-                                    if (UFO.X > 478 + UFO.Control.width)
-                                    {
-                                        UFO.Visible = false;
-                                    }
-                                }
-                                else
-                                {
-                                    UFO.MoveTo(UFO.X - 4, UFO.Y);
-
-                                    if (UFO.X < -UFO.Control.width)
-                                    {
-                                        UFO.Visible = false;
-                                    }
-                                }
-                            }
-                            #endregion
-
-
-                            #region do ammo stuff
-                            foreach (AmmoInfo v in KnownAmmo)
-                            {
-                                if (v.Visible)
-                                {
-                                    var y = v.Y + v.Speed;
-
-                                    if (Map_Rect.Contains(new Point(v.X, y)))
-                                    {
-                                        // did we hit?
-                                        if (DoAmmoDamage(v))
-                                        {
-                                            v.Visible = false;
-                                        }
-                                        else
-                                        {
-                                            v.MoveTo(v.X, y);
-                                        }
-                                    }
-                                    else
+                                    // did we hit?
+                                    if (DoAmmoDamage(v))
                                     {
                                         v.Visible = false;
                                     }
+                                    else
+                                    {
+                                        v.MoveTo(v.X, y);
+                                    }
+                                }
+                                else
+                                {
+                                    v.Visible = false;
                                 }
                             }
-                            #endregion
+                        }
+                        #endregion
 
 
 
-                            var AliveEnemies = Enumerable.Where(KnownEnemies.ToArray(), i => i.Visible);
-                            var AliveCount = Enumerable.Count(AliveEnemies);
+                        var AliveEnemies = Enumerable.Where(KnownEnemies.ToArray(), i => i.Visible);
+                        var AliveCount = Enumerable.Count(AliveEnemies);
 
-                            if (AliveCount == 0)
-                            {
-                                EndGame("Aliens destoried");
+                        if (AliveCount == 0)
+                        {
+                            EndGame("Aliens destoried");
 
-                                return;
-                            }
+                            return;
+                        }
 
-                            if (GameTimer.Counter % (AliveCount / 2) == 0)
-                            {
-                                EnemyAction();
-                            }
+                        if (GameTimer.Counter % (AliveCount / 2) == 0)
+                        {
+                            EnemyAction();
+                        }
 
-                        };
+                    };
 
-                    Native.Document.onkeydown += delegate(IEvent ev)
+                Native.Document.onkeydown += delegate(IEvent ev)
+                {
+                    if (mmenu.Visible)
                     {
-                        if (mmenu.Visible)
+                        if (ev.IsReturn)
                         {
-                            if (ev.IsReturn)
+                            mmenu.Visible = false;
+
+                            Player_X = 220;
+                            board.Score = 0;
+                            board.Lives = 3;
+
+                            Player.Show();
+
+                            foreach (Concrete v in KnownConcrete.ToArray())
                             {
-                                mmenu.Visible = false;
-
-                                Player_X = 220;
-                                board.Score = 0;
-                                board.Lives = 3;
-
-                                Player.Show();
-
-                                foreach (Concrete v in KnownConcrete.ToArray())
-                                {
-                                    v.Health = 255;
-                                    v.Visible = true;
-                                }
-
-
-                                foreach (EnemyUnit v in KnownEnemies.ToArray())
-                                {
-                                    v.ResetPosition();
-                                    v.Visible = true;
-                                }
-
-                                EnemyAction();
-
-                                GameTimer.StartInterval(50);
-
-                                UpdatePlayer(0);
-
-
+                                v.Health = 255;
+                                v.Visible = true;
                             }
 
-                            return;
-                        }
-                        else
-                        {
-                            if (ev.IsEscape)
+
+                            foreach (EnemyUnit v in KnownEnemies.ToArray())
                             {
-                                GameTimer.Stop();
-
-                                Player.Hide();
-
-                                mmenu.Visible = true;
-
-                                foreach (AmmoInfo v in KnownAmmo)
-                                {
-                                    v.Visible = false;
-                                }
-
-                                foreach (Concrete v in KnownConcrete.ToArray())
-                                {
-                                    v.Visible = false;
-                                }
-
-                                foreach (EnemyUnit v in KnownEnemies.ToArray())
-                                {
-                                    v.Visible = false;
-                                }
-
-                                UFO.Visible = false;
-
-                                gameovermenu.Visible = false;
-
-                                // the animated gifs would stop after escape key
-                                ev.PreventDefault();
-
-                                GamePaused = false;
+                                v.ResetPosition();
+                                v.Visible = true;
                             }
+
+                            EnemyAction();
+
+                            GameTimer.StartInterval(50);
+
+                            UpdatePlayer(0);
+
+
                         }
 
-                        int key_p = 80;
-
-
-                        if (ev.KeyCode == key_p)
+                        return;
+                    }
+                    else
+                    {
+                        if (ev.IsEscape)
                         {
-                            GamePaused = !GamePaused;
-                        }
+                            GameTimer.Stop();
 
-                        // player shouldn't really move while game is paused
-                        // its cheating:)
-                        if (GamePaused)
-                            return;
+                            Player.Hide();
 
-                        int key_right = 39;
-                        int key_left = 37;
-                        int key_space = 32;
+                            mmenu.Visible = true;
 
-                        if (ev.KeyCode == key_left)
-                        {
-                            UpdatePlayer(-Player_X_step);
-                        }
-                        else if (ev.KeyCode == key_right)
-                        {
-                            UpdatePlayer(Player_X_step);
-                        }
-                        else if (ev.KeyCode == key_space)
-                        {
+                            foreach (AmmoInfo v in KnownAmmo)
+                            {
+                                v.Visible = false;
+                            }
+
+                            foreach (Concrete v in KnownConcrete.ToArray())
+                            {
+                                v.Visible = false;
+                            }
+
+                            foreach (EnemyUnit v in KnownEnemies.ToArray())
+                            {
+                                v.Visible = false;
+                            }
+
+                            UFO.Visible = false;
+
+                            gameovermenu.Visible = false;
+
                             // the animated gifs would stop after escape key
                             ev.PreventDefault();
 
-                            if (!Player_Ammo.Visible)
-                            {
-                                Player_Ammo.MoveTo(Player_X, Player_Y - 20);
-
-
-                                Player_Ammo.Visible = true;
-
-                            }
+                            GamePaused = false;
                         }
-                        else
+                    }
+
+                    int key_p = 80;
+
+
+                    if (ev.KeyCode == key_p)
+                    {
+                        GamePaused = !GamePaused;
+                    }
+
+                    // player shouldn't really move while game is paused
+                    // its cheating:)
+                    if (GamePaused)
+                        return;
+
+                    int key_right = 39;
+                    int key_left = 37;
+                    int key_space = 32;
+
+                    if (ev.KeyCode == key_left)
+                    {
+                        UpdatePlayer(-Player_X_step);
+                    }
+                    else if (ev.KeyCode == key_right)
+                    {
+                        UpdatePlayer(Player_X_step);
+                    }
+                    else if (ev.KeyCode == key_space)
+                    {
+                        // the animated gifs would stop after escape key
+                        ev.PreventDefault();
+
+                        if (!Player_Ammo.Visible)
                         {
-                            Console.WriteLine("key: " + ev.KeyCode);
-                        }
-                    };
+                            Player_Ammo.MoveTo(Player_X, Player_Y - 20);
 
-                    msg_loading.Dispose();
-                }
-                , 50);
+
+                            Player_Ammo.Visible = true;
+
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("key: " + ev.KeyCode);
+                    }
+                };
+
+                msg_loading.Dispose();
+            }
+            , 50);
 
 
         }
@@ -1024,8 +1027,8 @@ namespace SpaceInvaders.source.js.Controls
                 this.B = ctor(gfx.benemy, 2);
                 this.C = ctor(gfx.cenemy, 1);
                 this.UFO = ctor(gfx.ufo, 10);
-                
-              
+
+
             }
 
         }

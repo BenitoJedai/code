@@ -1,9 +1,9 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
-using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using System.Linq;
 
 [assembly:
 ScriptResources("gfx")

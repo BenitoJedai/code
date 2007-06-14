@@ -10,6 +10,8 @@ namespace SpaceInvaders.source.csharp
 {
     static class Settings
     {
+        static Type ScriptCoreLib_Query { get { return typeof(ScriptCoreLib.Shared.Query.AssemblyReferenceToken); } }
+
         static void DefineSpawnPoint(IEntryPoint e, string alias, string data)
         {
             var w = new TextWriter();
