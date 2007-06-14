@@ -1,0 +1,148 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9A8F7CBD-D310-4945-BAB3-16477B2051F5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HulaGirl</RootNamespace>
+    <AssemblyName>HulaGirl</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ScriptCoreLib, Version=3.0.2619.36219, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\jsc\bin\Debug\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\jsc\bin\Debug\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="source\csharp\Settings.cs" />
+    <Compile Include="source\js\Settings.cs" />
+    <Compile Include="source\js\Controls\DemoControl.cs" />
+    <Compile Include="web\Description.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\gfx_demo\gradient.gif" />
+    <EmbeddedResource Include="web\gfx_demo\tongue.gif" />
+    <EmbeddedResource Include="web\gfx_demo\WebPage.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="docs\readme.txt" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_01.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_02.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_03.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_04.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_05.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_06.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_07.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_08.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_09.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_10.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_11.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_12.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_13.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_14.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_15.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_16.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_17.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_18.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_19.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_20.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_21.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_22.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_23.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_24.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_25.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_26.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_27.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_28.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_29.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_30.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_31.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_32.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_33.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_34.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_35.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_36.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_37.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_38.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_39.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_40.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_41.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_42.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_43.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_44.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_45.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_46.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_47.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_48.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_49.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_50.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_51.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_52.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_53.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_54.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_55.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_56.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_57.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_58.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_59.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_60.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_61.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_62.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_63.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_64.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_65.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_66.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_67.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_68.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_69.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_70.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_71.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_72.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_73.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_74.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_75.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_76.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_77.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_78.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_79.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_80.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_81.png" />
+    <EmbeddedResource Include="web\gfx_hula_girl_100\hula_girl_82.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="source\shared\" />
+  </ItemGroup>
+  <Import Project="$(ProgramFiles)\LINQ Preview\Misc\Linq.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>call "x:\c#\jsc\jsc\bin\Debug\jsc.exe" "$(TargetFileName)" -js
+</PostBuildEvent>
+  </PropertyGroup>
+</Project>

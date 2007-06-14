@@ -37,6 +37,7 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
@@ -44,7 +45,6 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.webCalculator2 = new FormsExample.js.WebCalculator();
             this.userControl21 = new FormsExample.js.UserControl2();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -141,6 +141,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
             // 
+            // radioButton2
+            // 
+            this.radioButton2.Location = new System.Drawing.Point(58, 303);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(85, 23);
+            this.radioButton2.TabIndex = 18;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "radioButton2";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
             // radioButton1
             // 
             this.radioButton1.Location = new System.Drawing.Point(58, 280);
@@ -208,16 +218,6 @@
             this.userControl21.Name = "userControl21";
             this.userControl21.Size = new System.Drawing.Size(127, 88);
             this.userControl21.TabIndex = 4;
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.Location = new System.Drawing.Point(58, 303);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(85, 23);
-            this.radioButton2.TabIndex = 18;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "radioButton2";
-            this.radioButton2.UseVisualStyleBackColor = true;
             // 
             // UserControl1
             // 

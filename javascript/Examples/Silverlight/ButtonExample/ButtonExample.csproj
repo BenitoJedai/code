@@ -77,18 +77,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="tools\.svn\all-wcprops" />
-    <None Include="tools\.svn\entries" />
-    <None Include="tools\.svn\format" />
-    <None Include="tools\.svn\text-base\publish.bat.svn-base" />
     <None Include="tools\publish.bat" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="tools\.svn\prop-base\" />
-    <Folder Include="tools\.svn\props\" />
-    <Folder Include="tools\.svn\tmp\prop-base\" />
-    <Folder Include="tools\.svn\tmp\props\" />
-    <Folder Include="tools\.svn\tmp\text-base\" />
   </ItemGroup>
   <!-- 
   
