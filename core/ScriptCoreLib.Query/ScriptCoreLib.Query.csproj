@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JavaScript\BCLImplementation\System\Linq\Func.cs" />
     <Compile Include="Shared\Lambda\Lambda.cs" />
     <Compile Include="Shared\Query\AssemblyReferenceToken.cs" />
     <Compile Include="Shared\Query\Enumerable.ToDictionary.cs" />

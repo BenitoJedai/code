@@ -13,8 +13,8 @@ namespace ScriptCoreLib.Shared.Query
 
     public static partial class Enumerable
     {
-       
-        public static IEnumerable<TResult> SelectMany<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, IEnumerable<TResult>> selector)
+
+        public static IEnumerable<TResult> SelectMany<TSource, TResult>(this IEnumerable<TSource> source, global::System.Linq.Func<TSource, IEnumerable<TResult>> selector)
         {
             if (source == null)
             {
@@ -28,7 +28,7 @@ namespace ScriptCoreLib.Shared.Query
         }
 
 
-        private static IEnumerable<TResult> SelectManyIterator<TSource, TResult>(IEnumerable<TSource> source, Func<TSource, IEnumerable<TResult>> selector)
+        private static IEnumerable<TResult> SelectManyIterator<TSource, TResult>(IEnumerable<TSource> source, global::System.Linq.Func<TSource, IEnumerable<TResult>> selector)
         {
             return new _SelectManyIterator_d__16<TSource, TResult>(-2) { __3__source = source.AsEnumerable(), __3__selector = selector };
         }
@@ -45,14 +45,14 @@ namespace ScriptCoreLib.Shared.Query
 
 
             public IEnumerable<TSource> __3__source;
-            public Func<TSource, IEnumerable<TResult>> __3__selector;
+            public global::System.Linq.Func<TSource, IEnumerable<TResult>> __3__selector;
 
             public IEnumerator<TSource> __7__wrap19;
             public IEnumerator<TResult> __7__wrap1a;
 
 
             public IEnumerable<TSource> source;
-            public Func<TSource, IEnumerable<TResult>> selector;
+            public global::System.Linq.Func<TSource, IEnumerable<TResult>> selector;
 
             public _SelectManyIterator_d__16(int _state)
             {

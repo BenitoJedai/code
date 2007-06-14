@@ -194,7 +194,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
         }
 
 
-        public static void While(Func<bool> condition, Action done, int interval)
+        internal static void While(Func<bool> condition, Action done, int interval)
         {
             Timer t = null;
 

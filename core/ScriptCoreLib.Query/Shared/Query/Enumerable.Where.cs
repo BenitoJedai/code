@@ -1,5 +1,4 @@
 using ScriptCoreLib;
-using ScriptCoreLib.Shared;
 
 using global::System.Collections;
 using global::System.Collections.Generic;
@@ -20,7 +19,7 @@ namespace ScriptCoreLib.Shared.Query
         //    return Where( (SZArrayEnumerator<T>)source, predicate);
         //}
 
-        public static IEnumerable<T> Where<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+        public static IEnumerable<T> Where<T>(this IEnumerable<T> source, global::System.Linq.Func<T, bool> predicate)
         {
             return WhereIterator<T>(source.AsEnumerable(), predicate);
         }
@@ -38,10 +37,10 @@ namespace ScriptCoreLib.Shared.Query
             }
 
             public IEnumerable<T> _3_source;
-            public Func<T, bool> _3_predicate;
+            public global::System.Linq.Func<T, bool> _3_predicate;
 
             public IEnumerable<T> source;
-            public Func<T, bool> predicate;
+            public global::System.Linq.Func<T, bool> predicate;
 
             #region IEnumerable<S> Members
 
@@ -157,7 +156,7 @@ namespace ScriptCoreLib.Shared.Query
             #endregion
         }
 
-        private static IEnumerable<T> WhereIterator<T>(IEnumerable<T> source, Func<T, bool> predicate)
+        private static IEnumerable<T> WhereIterator<T>(IEnumerable<T> source, global::System.Linq.Func<T, bool> predicate)
         {
             return new _WhereIterator_d__0<T>(-2) 
             { 

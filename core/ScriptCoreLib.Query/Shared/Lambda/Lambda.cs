@@ -6,19 +6,19 @@ namespace ScriptCoreLib.Shared.Lambda
     public static partial class Lambda
     {
 
-        public static Func<T> FixParam<A, T>(this Func<A, T> f, A a)
+        public static global::System.Linq.Func<T> FixParam<A, T>(this global::System.Linq.Func<A, T> f, A a)
         {
             return () => f(a);
         }
 
-        public static Func<A, T> FixParam<A, B, T>(this Func<A, B, T> f, B b)
+        public static global::System.Linq.Func<A, T> FixParam<A, B, T>(this global::System.Linq.Func<A, B, T> f, B b)
         {
             return (a) => f(a, b);
         }
 
         #region FixFirstParam
 
-        public static Func<B, T> FixFirstParam<A, B, T>(this Func<A, B, T> f, A a)
+        public static global::System.Linq.Func<B, T> FixFirstParam<A, B, T>(this global::System.Linq.Func<A, B, T> f, A a)
         {
             return (b) => f(a, b);
         }
@@ -32,7 +32,7 @@ namespace ScriptCoreLib.Shared.Lambda
 
         #region FixFirstParam
 
-        public static Func<A, T> FixLastParam<A, B, T>(this Func<A, B, T> f, B b)
+        public static global::System.Linq.Func<A, T> FixLastParam<A, B, T>(this global::System.Linq.Func<A, B, T> f, B b)
         {
             return (a) => f(a, b);
         }
@@ -42,7 +42,7 @@ namespace ScriptCoreLib.Shared.Lambda
             return (a) => f(a, b);
         }
 
-        public static Func<A, B, T> FixLastParam<A, B, C, T>(this Func<A, B, C, T> f, C c)
+        public static global::System.Linq.Func<A, B, T> FixLastParam<A, B, C, T>(this global::System.Linq.Func<A, B, C, T> f, C c)
         {
             return (a, b) => f(a, b, c);
         }
@@ -54,7 +54,7 @@ namespace ScriptCoreLib.Shared.Lambda
 
         #endregion
 
-        public static Action<A> AsAction<A, T>(this Func<A, T> f)
+        public static Action<A> AsAction<A, T>(this global::System.Linq.Func<A, T> f)
         {
             return (a) => f(a);
         }
@@ -66,23 +66,23 @@ namespace ScriptCoreLib.Shared.Lambda
     }
 
     [Script]
-    public delegate Func<A, T> YFunc<A, T>(Func<A, T> e);
+    public delegate global::System.Linq.Func<A, T> YFunc<A, T>(global::System.Linq.Func<A, T> e);
 
     [Script]
-    public delegate Func<A, B, T> YFunc<A, B, T>(Func<A, B, T> e);
+    public delegate global::System.Linq.Func<A, B, T> YFunc<A, B, T>(global::System.Linq.Func<A, B, T> e);
 
 
 
     partial class Lambda
     {
-        public static Func<A, T> Y<A, T>(this YFunc<A, T> le)
+        public static global::System.Linq.Func<A, T> Y<A, T>(this YFunc<A, T> le)
         {
-            var me = default(Func<A, T>); return me = (a) => le(me)(a);
+            var me = default(global::System.Linq.Func<A, T>); return me = (a) => le(me)(a);
         }
 
-        public static Func<A, B, T> Y<A, B, T>(this YFunc<A, B, T> le)
+        public static global::System.Linq.Func<A, B, T> Y<A, B, T>(this YFunc<A, B, T> le)
         {
-            var me = default(Func<A, B, T>); return me = (a, b) => le(me)(a, b);
+            var me = default(global::System.Linq.Func<A, B, T>); return me = (a, b) => le(me)(a, b);
         }
 
 

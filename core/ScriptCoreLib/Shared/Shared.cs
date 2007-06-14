@@ -31,16 +31,16 @@ namespace ScriptCoreLib.Shared
 
 
     [Script]
-    public delegate T Func<T>();
+    internal delegate T Func<T>();
 
     [Script]
-    public delegate T Func<A, T>(A a);
+    internal delegate T Func<A, T>(A a);
 
     [Script]
-    public delegate T Func<A, B, T>(A a, B b);
+    internal delegate T Func<A, B, T>(A a, B b);
 
     [Script]
-    public delegate T Func<A, B, C, T>(A a, B b, C c);
+    internal delegate T Func<A, B, C, T>(A a, B b, C c);
 
 
 
