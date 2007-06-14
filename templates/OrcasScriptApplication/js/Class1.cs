@@ -10,9 +10,8 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.XML;
 
 using global::System.Collections.Generic;
-//using global::System.Linq;
+using global::System.Linq;
 using global::ScriptCoreLib.Shared.Lambda;
-using global::ScriptCoreLib.Shared.Query;
 
 
 namespace OrcasScriptApplication.js
@@ -132,6 +131,8 @@ namespace OrcasScriptApplication.js
                         .Concat(ToNames(users2))
                         .Concat(ToNames(users3));
 
+
+                    //var xx = items.Any();
 
                     foreach (var v in
                            from i in items.Select(i => i.Trim())
