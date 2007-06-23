@@ -13,6 +13,8 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.XML;
 
+using System.Linq;
+
 //using global::System.Collections.Generic;
 
 [assembly:
@@ -30,9 +32,22 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 namespace Mahjong.js
 {
     [Script]
-    public class Asset
+    public class RankAsset : Asset
     {
-        public string Source = "assets/mahjong";
+        public string Suit;
+        public string Rank;
+
+        public override IHTMLImage ToImage()
+        {
+            return this.Source + "/" + this.Suit + "/" + this.Rank + ".png";
+        }
+    }
+
+    [Script]
+    public abstract class Asset
+    {
+        protected string Source = "assets/mahjong";
+
 
         [Script]
         public class Settings
@@ -46,43 +61,44 @@ namespace Mahjong.js
             public IHTMLImage BackgroundTile = (SpecialAsset)"tile0";
         }
         
-        static public Asset[] Bamboo { get { return BambooAsset.Collection; } }
-        static public Asset[] Characters { get { return CharacterAsset.Collection; } }
-        static public Asset[] Dots { get { return DotsAsset.Collection; } }
-        static public Asset[] Dragons { get { return DragonAsset.Collection; } }
-        static public Asset[] Flowers { get { return FlowerAsset.Collection; } }
-        static public Asset[] Seasons { get { return SeasonAsset.Collection; } }
-        static public Asset[] Winds { get { return WindAsset.Collection; } }
+        static public RankAsset[] Bamboo { get { return BambooAsset.Collection; } }
+        static public RankAsset[] Characters { get { return CharacterAsset.Collection; } }
+        static public RankAsset[] Dots { get { return DotsAsset.Collection; } }
+        static public RankAsset[] Dragons { get { return DragonAsset.Collection; } }
+        static public RankAsset[] Flowers { get { return FlowerAsset.Collection; } }
+        static public RankAsset[] Seasons { get { return SeasonAsset.Collection; } }
+        static public RankAsset[] Winds { get { return WindAsset.Collection; } }
 
         public static implicit operator IHTMLImage(Asset e)
         {
-            return e.Source;
+            return e.ToImage();
         }
 
-        public IHTMLImage ToImage()
+        public abstract IHTMLImage ToImage();
+    }
+
+    [Script]
+    class SpecialAsset : RankAsset
+    {
+        public SpecialAsset()
         {
-            return this.Source;
+            this.Suit = "special";
+        }
+
+        public static implicit operator SpecialAsset(string Rank)
+        {
+            return new SpecialAsset { Rank = Rank };
         }
     }
 
     [Script]
-    class SpecialAsset : Asset
+    class BambooAsset : RankAsset
     {
-
-        public static implicit operator SpecialAsset(string e)
+        public BambooAsset()
         {
-            var v = new SpecialAsset();
-
-            v.Source += "/special/" + e + ".png";
-
-            return v;
+            this.Suit = "bamboo";
         }
-    }
-
-    [Script]
-    class BambooAsset : Asset
-    {
-        public static Asset[] Collection
+        public static RankAsset[] Collection
         {
             get
             {
@@ -90,20 +106,21 @@ namespace Mahjong.js
             }
         }
 
-        public static implicit operator BambooAsset(string e)
+        public static implicit operator BambooAsset(string Rank)
         {
-            var v = new BambooAsset();
-
-            v.Source += "/bamboo/" + e + ".png";
-
-            return v;
+            return new BambooAsset { Rank = Rank };
         }
     }
 
     [Script]
-    class CharacterAsset : Asset
+    class CharacterAsset : RankAsset
     {
-        public static Asset[] Collection
+        public CharacterAsset()
+        {
+            this.Suit = "characters";
+        }
+
+        public static RankAsset[] Collection
         {
             get
             {
@@ -112,20 +129,21 @@ namespace Mahjong.js
             }
         }
 
-        public static implicit operator CharacterAsset(string e)
+        public static implicit operator CharacterAsset(string Rank)
         {
-            var v = new CharacterAsset();
-
-            v.Source += "/characters/" + e + ".png";
-
-            return v;
+            return new CharacterAsset { Rank = Rank };
         }
     }
 
     [Script]
-    class DragonAsset : Asset
+    class DragonAsset : RankAsset
     {
-        public static Asset[] Collection
+        public DragonAsset()
+        {
+            this.Suit = "dragons";
+        }
+
+        public static RankAsset[] Collection
         {
             get
             {
@@ -133,20 +151,21 @@ namespace Mahjong.js
             }
         }
 
-        public static implicit operator DragonAsset(string e)
+        public static implicit operator DragonAsset(string Rank)
         {
-            var v = new DragonAsset();
-
-            v.Source += "/dragons/" + e + ".png";
-
-            return v;
+            return new DragonAsset { Rank = Rank };
         }
     }
 
     [Script]
-    class WindAsset : Asset
+    class WindAsset : RankAsset
     {
-        public static Asset[] Collection
+        public WindAsset()
+        {
+            this.Suit = "winds";
+        }
+
+        public static RankAsset[] Collection
         {
             get
             {
@@ -154,20 +173,21 @@ namespace Mahjong.js
             }
         }
 
-        public static implicit operator WindAsset(string e)
+        public static implicit operator WindAsset(string Rank)
         {
-            var v = new WindAsset();
-
-            v.Source += "/winds/" + e + ".png";
-
-            return v;
+            return new WindAsset { Rank = Rank };
         }
     }
 
     [Script]
-    class DotsAsset : Asset
+    class DotsAsset : RankAsset
     {
-        public static Asset[] Collection
+        public DotsAsset()
+        {
+            this.Suit = "dots";
+        }
+
+        public static RankAsset[] Collection
         {
             get
             {
@@ -175,20 +195,21 @@ namespace Mahjong.js
             }
         }
 
-        public static implicit operator DotsAsset(string e)
+        public static implicit operator DotsAsset(string Rank)
         {
-            var v = new DotsAsset();
-
-            v.Source += "/dots/" + e + ".png";
-
-            return v;
+            return new DotsAsset { Rank = Rank };
         }
     }
 
     [Script]
-    class SeasonAsset : Asset
+    class SeasonAsset : RankAsset
     {
-        public static Asset[] Collection
+        public SeasonAsset()
+        {
+            this.Suit = "seasons";
+        }
+
+        public static RankAsset[] Collection
         {
             get
             {
@@ -196,20 +217,21 @@ namespace Mahjong.js
             }
         }
 
-        public static implicit operator SeasonAsset(string e)
+        public static implicit operator SeasonAsset(string Rank)
         {
-            var v = new SeasonAsset();
-
-            v.Source += "/seasons/" + e + ".png";
-
-            return v;
+            return new SeasonAsset { Rank = Rank };
         }
     }
 
     [Script]
-    class FlowerAsset : Asset
+    class FlowerAsset : RankAsset
     {
-        public static Asset[] Collection
+        public FlowerAsset()
+        {
+            this.Suit = "flowers";
+        }
+
+        public static RankAsset[] Collection
         {
             get
             {
@@ -217,13 +239,9 @@ namespace Mahjong.js
             }
         }
 
-        public static implicit operator FlowerAsset(string e)
+        public static implicit operator FlowerAsset(string Rank)
         {
-            var v = new FlowerAsset();
-
-            v.Source += "/flowers/" + e + ".png";
-
-            return v;
+            return new FlowerAsset { Rank = Rank };
         }
     }
 }

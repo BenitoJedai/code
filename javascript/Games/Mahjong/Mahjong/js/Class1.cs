@@ -4,7 +4,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 
 using ScriptCoreLib.Shared.Drawing;
-using ScriptCoreLib.Shared.Query;
+using ScriptCoreLib.Shared.Lambda;
 
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Runtime;
@@ -14,6 +14,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.XML;
 
 using global::System.Collections.Generic;
+using System.Linq;
 
 
 
@@ -23,6 +24,8 @@ namespace Mahjong.js
     class TileInfo
     {
         public IHTMLImage Image;
+
+        public RankAsset Asset;
     }
 
     [Script]
@@ -52,6 +55,27 @@ namespace Mahjong.js
 
             Settings.BackgroundTile.ToBackground(Background);
         }
+
+        public bool IsMatch(Tile a)
+        {
+            if (a == null)
+                return false;
+
+
+
+            if (a.Info.Asset.Rank != this.Info.Asset.Rank)
+                return false;
+
+            if (a.Info.Asset.Suit != this.Info.Asset.Suit)
+                return false;
+
+            return true;
+        }
+
+        public void Hide()
+        {
+            this.Background.Dispose();
+        }
     }
 
     [Script]
@@ -70,14 +94,39 @@ namespace Mahjong.js
 
             var s = new Asset.Settings();
 
+            var last = default(Tile);
+
             #region CreateTile
             Func<int, int, TileInfo, Tile> CreateTile =
                 (x, y, i) =>
                 {
                     var a = new Tile(i, s);
 
+
                     a.Background.attachToDocument();
                     a.Background.SetCenteredLocation(x, y);
+
+                    a.Background.onclick += delegate
+                    {
+                        var next = a;
+
+                        if (last != null)
+                        {
+                            if (last.IsMatch(a))
+                            {
+                                Console.WriteLine("match!");
+
+                                last.Hide();
+                                a.Hide();
+
+                                next = null;
+                            }
+                        }
+
+                        Console.WriteLine("click: " + a.Info.Asset.Suit + " / " + a.Info.Asset.Rank);
+
+                        last = next;
+                    };
 
                     a.Background.onmouseover +=
                         delegate { a.Background.style.Opacity = 0.8; };
@@ -91,10 +140,8 @@ namespace Mahjong.js
             #endregion
 
 
-         
-            
 
-            Action<int, IEnumerable<Asset>> CreateTiles =
+            Action<int, IEnumerable<RankAsset>> CreateTiles =
                 (y, a) =>
                 {
                     int c = 0;
@@ -103,7 +150,8 @@ namespace Mahjong.js
 
                     foreach (var v in a.AsEnumerable())
                     {
-                        var i = new TileInfo { Image = v.Source };
+
+                        var i = new TileInfo { Image = v, Asset = v };
 
                         c++;
 
@@ -133,7 +181,7 @@ namespace Mahjong.js
             CreateTiles(9, stuff.Randomize());
 
 
-            
+
 
 
 
