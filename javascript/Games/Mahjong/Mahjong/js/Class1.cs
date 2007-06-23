@@ -28,55 +28,7 @@ namespace Mahjong.js
         public RankAsset Asset;
     }
 
-    [Script]
-    class Tile
-    {
-        public readonly TileInfo Info;
-        public readonly Asset.Settings Settings;
 
-        public readonly IHTMLDiv Background = new IHTMLDiv();
-        public readonly IHTMLDiv Display = new IHTMLDiv();
-
-
-
-
-        public Tile(TileInfo Info, Asset.Settings Settings)
-        {
-            this.Settings = Settings;
-            this.Info = Info;
-
-            this.Display.style.SetLocation(
-                Settings.OuterWidth - Settings.InnerWidth - 1, 1, Settings.InnerWidth, Settings.InnerHeight);
-
-            Info.Image.ToBackground(this.Display.style);
-
-            this.Background.style.SetSize(Settings.OuterWidth, Settings.OuterHeight);
-            this.Background.appendChild(this.Display);
-
-            Settings.BackgroundTile.ToBackground(Background);
-        }
-
-        public bool IsMatch(Tile a)
-        {
-            if (a == null)
-                return false;
-
-
-
-            if (a.Info.Asset.Rank != this.Info.Asset.Rank)
-                return false;
-
-            if (a.Info.Asset.Suit != this.Info.Asset.Suit)
-                return false;
-
-            return true;
-        }
-
-        public void Hide()
-        {
-            this.Background.Dispose();
-        }
-    }
 
     [Script]
     public class Class1
@@ -94,13 +46,13 @@ namespace Mahjong.js
 
             var s = new Asset.Settings();
 
-            var last = default(Tile);
+            var last = default(VisibleTile);
 
             #region CreateTile
-            Func<int, int, TileInfo, Tile> CreateTile =
+            Func<int, int, TileInfo, VisibleTile> CreateTile =
                 (x, y, i) =>
                 {
-                    var a = new Tile(i, s);
+                    var a = new VisibleTile(i, s);
 
 
                     a.Background.attachToDocument();
