@@ -22,7 +22,7 @@ namespace Mahjong.js
     [Script]
     class VisibleTile
     {
-        public readonly TileInfo Info;
+        public readonly LoadedAsset Info;
         public readonly Asset.Settings Settings;
 
         public readonly IHTMLDiv Background = new IHTMLDiv();
@@ -31,7 +31,7 @@ namespace Mahjong.js
 
 
 
-        public VisibleTile(TileInfo Info, Asset.Settings Settings)
+        public VisibleTile(LoadedAsset Info, Asset.Settings Settings)
         {
             this.Settings = Settings;
             this.Info = Info;

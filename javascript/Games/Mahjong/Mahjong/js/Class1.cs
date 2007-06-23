@@ -21,11 +21,16 @@ using System.Linq;
 namespace Mahjong.js
 {
     [Script]
-    class TileInfo
+    class LoadedAsset
     {
         public IHTMLImage Image;
 
         public RankAsset Asset;
+
+        public static implicit operator LoadedAsset(RankAsset e)
+        {
+            return new LoadedAsset { Asset = e, Image = e };
+        }
     }
 
 
@@ -49,7 +54,7 @@ namespace Mahjong.js
             var last = default(VisibleTile);
 
             #region CreateTile
-            Func<int, int, TileInfo, VisibleTile> CreateTile =
+            Func<int, int, LoadedAsset, VisibleTile> CreateTile =
                 (x, y, i) =>
                 {
                     var a = new VisibleTile(i, s);
@@ -103,11 +108,10 @@ namespace Mahjong.js
                     foreach (var v in a.AsEnumerable())
                     {
 
-                        var i = new TileInfo { Image = v, Asset = v };
 
                         c++;
 
-                        CreateTile((s.OuterWidth + 2) * c, (s.OuterHeight + 2) * y, i);
+                        CreateTile((s.OuterWidth + 2) * c, (s.OuterHeight + 2) * y, (LoadedAsset)v);
                     }
                 };
 
@@ -133,7 +137,10 @@ namespace Mahjong.js
             CreateTiles(9, stuff.Randomize());
 
 
+            var stack1 = stuff.Randomize();
 
+
+            CreateTile(220, 220, stack1.ElementAt(0));
 
 
 
