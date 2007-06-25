@@ -1,0 +1,73 @@
+[Root]
+Most Recent Package=AXC
+Most Recent Deploy=AXCd
+
+
+[Package|AXC|Root]
+SubWizProgID=PDWizard.InetCABPkgSubWiz
+BuildFolder=C:\Documents and Settings\Arvo\My Documents\vbp\ActiveXConsole\Package
+
+[Package|AXC|Configure DAO ISAMs]
+Applicable=No
+
+[Package|AXC|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|AXC|Files Found]
+
+[Package|AXC|Files Released]
+
+[Package|AXC|Missing Dependency Information]
+
+[Package|AXC|Out-of-Date Dependency Information]
+
+[Package|AXC|Files Added]
+
+[Package|AXC|Files Removed]
+
+[Package|AXC|Files In Project]
+C:\Documents and Settings\Arvo\My Documents\vbp\ActiveXConsole.dll=Yes
+C:\WINDOWS\system32\msvbvm60.dll=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+
+[Package|AXC|Configure Registry Files]
+Applicable=No
+
+[Package|AXC|Configure Remote Servers]
+Applicable=No
+
+[Package|AXC|Install Locations]
+
+[Package|AXC|Configure Shared Files]
+Applicable=
+
+[Package|AXC|ComponentInfo]
+ActiveXConsole.dll=thiscab
+msvbvm60.dll=http://activex.microsoft.com/controls/vb6/VBRun60.cab
+OLEAUT32.DLL=http://activex.microsoft.com/controls/vb6/VBRun60.cab
+OLEPRO32.DLL=http://activex.microsoft.com/controls/vb6/VBRun60.cab
+ASYCFILT.DLL=http://activex.microsoft.com/controls/vb6/VBRun60.cab
+STDOLE2.TLB=http://activex.microsoft.com/controls/vb6/VBRun60.cab
+COMCAT.DLL=http://activex.microsoft.com/controls/vb6/VBRun60.cab
+
+[Package|AXC|ObjectInfo]
+Console=true;true
+
+[Package|AXC|Package]
+PackageFolder=C:\Documents and Settings\Arvo\My Documents\vbp\ActiveXConsole\Package
+ProjectFolder=C:\Documents and Settings\Arvo\My Documents\vbp\ActiveXConsole
+ServerSideCab=C:\Documents and Settings\Arvo\My Documents\vbp\ActiveXConsole\Package\ActiveXConsole.CAB
+File1=C:\Documents and Settings\Arvo\My Documents\vbp\ActiveXConsole\Package\ActiveXConsole.CAB
+File2=C:\Documents and Settings\Arvo\My Documents\vbp\ActiveXConsole\Package\ActiveXConsole.HTM
+Handler1=PDWizard.WebPostDplySubWiz
+Handler2=PDWizard.FolderDplySubWiz
+
+[Deploy|AXCd|Root]
+Package=AXC
+Handler=PDWizard.FolderDplySubWiz
+Folder=C:\Documents and Settings\Arvo\My Documents\vbp\ActiveXConsoleD
