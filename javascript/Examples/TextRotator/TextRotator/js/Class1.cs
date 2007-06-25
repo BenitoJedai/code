@@ -32,21 +32,23 @@ namespace TextRotator.js
         /// <param name="DataElement">The hidden data element</param>
         public Class1(IHTMLElement DataElement)
         {
-            string Status = "";
 
   
-            Status = "loading style";
+            //Status = "loading style";
 
 
             CreateStyle();
 
+            GenerateView(Class1.Text.Split('\n'));
+        }
 
-            Status = "creating elements";
+        public static void GenerateView(string[] lines)
+        {
+            string Status = "";
 
             var c = new IHTMLElement(IHTMLElement.HTMLElementEnum.center, "");
             var cursor = Native.Document.createElement("blink");
             cursor.innerText = "_";
-            var lines = Text.Split('\n');
 
             var index = 0;
             var index_char = 0;
@@ -70,7 +72,7 @@ namespace TextRotator.js
 
             }, due, 0);
 
-            Func<string> CurrentLineString = () => (1+index) + ". " + lines[index].Trim();
+            Func<string> CurrentLineString = () => (1 + index) + ". " + lines[index].Trim();
 
             var DeleteChar = default(Action);
             var PrintChar = default(Action);
@@ -152,10 +154,9 @@ namespace TextRotator.js
             c.attachToDocument();
 
             ChooseLine();
-    
         }
 
-        private static void CreateStyle()
+        public static void CreateStyle()
         {
             try
             {
