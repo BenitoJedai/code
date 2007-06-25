@@ -32,3 +32,6 @@ http://sourceforge.net/projects/jscalendar/
 http://jscalendar.cvs.sourceforge.net/jscalendar/jscalendar/calendar.js?view=markup
 http://www.w3schools.com/js/js_obj_date.asp
 http://www.w3schools.com/jsref/jsref_obj_date.asp
+
+
+http://www.comptechdoc.org/independent/web/cgi/javamanual/javadate.html
