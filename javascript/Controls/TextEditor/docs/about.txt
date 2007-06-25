@@ -1,1 +1,4 @@
 This is the rich text editor control.
+
+windows vista:
+http://msdn2.microsoft.com/en-us/library/aa663363.aspx
