@@ -51,8 +51,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="js\Class1.cs" />
+    <Compile Include="js\Class2.cs" />
     <Compile Include="js\DynamicEnumerable.cs" />
     <Compile Include="js\DynamicEnumerator.cs" />
+    <Compile Include="js\Extensions.cs" />
     <Compile Include="js\GoogleGears.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup.cs" />
@@ -61,6 +63,15 @@
     <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\gears.txt" />
+    <Content Include="web\assets\GearsDemo1\back.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\assets\GearsDemo1\postcard-alpha.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\assets\GearsDemo1\shadow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

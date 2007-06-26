@@ -68,7 +68,7 @@ namespace GGearAlpha.js
             return
                new DynamicEnumerable<T>
                {
-                   
+
                    DynamicGetEnumerator = delegate
                    {
                        var rs = db.execute(command);
@@ -85,7 +85,7 @@ namespace GGearAlpha.js
                               {
                                   if (dirty)
                                       rs.next();
-                                  
+
                                   dirty = true;
 
                                   return rs.isValidRow().Aggregate(
@@ -234,12 +234,20 @@ namespace GGearAlpha.js
         {
             object r = null;
 
+            var error = "Google Gears is not installed or not supported for current browser!";
+
+            // Mozilla
             try
             {
                 r = IFunction.Of("GearsFactory").CreateType();
             }
             catch
             {
+
+            }
+
+            // IE
+            if (r == null)
                 try
                 {
                     r = new ScriptCoreLib.JavaScript.DOM.IActiveX("Gears.Factory");
@@ -248,10 +256,23 @@ namespace GGearAlpha.js
                 {
 
                 }
-            }
+
+            // Safari
+            if (r == null)
+                try
+                {
+                    var s = new IFunction("return !!navigator.mimeTypes['application/x-googlegears']").apply(null);
+
+                    
+                    error = "Google Gears for safari is not yet supported (June 2007); plugin installed: " + s;
+                }
+                catch
+                {
+
+                }
 
             if (r == null)
-                throw new System.Exception("Google Gears is not installed or not supported!");
+                throw new System.Exception(error);
 
             return (GoogleGearsFactory)r;
 
