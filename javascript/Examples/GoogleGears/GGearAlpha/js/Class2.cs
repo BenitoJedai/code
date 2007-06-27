@@ -29,114 +29,22 @@ namespace GGearAlpha.js
 
         public Class2(IHTMLElement e)
         {
-            IStyleSheet.Default.AddRule("html",
-                r =>
-                {
-                    r.style.overflow = IStyle.OverflowEnum.hidden;
-                    r.style.margin = "0";
-                    r.style.padding = "0";
-                }
-            );
+            //Native.Window.alert("alert 1");
 
-            IStyleSheet.Default.AddRule("body",
-                r =>
-                {
-                    r.style.background = "url(assets/GearsDemo1/back.jpg)";
-                    r.style.overflow = IStyle.OverflowEnum.hidden;
-                    r.style.margin = "0";
-                    r.style.padding = "0";
-                }
-            );
+            CreateStyles();
 
-            IStyleSheet.Default.AddRule(".shadow",
-                r =>
-                {
-
-                    r.style.background = "url(assets/GearsDemo1/shadow.png) repeat-x";
-                    r.style.position = IStyle.PositionEnum.absolute;
-                    r.style.width = "100%";
-                    r.style.height = "100%";
-                    r.style.overflow = IStyle.OverflowEnum.hidden;
-                }
-            );
-
-
-            IStyleSheet.Default.AddRule(".workspace0",
-                r =>
-                {
-
-
-                    r.style.position = IStyle.PositionEnum.absolute;
-                    r.style.width = "100%";
-                    r.style.height = "100%";
-                    r.style.overflow = IStyle.OverflowEnum.hidden;
-
-                    r.style.background = "url(assets/GearsDemo1/power2.png) no-repeat";
-                }
-            );
-
-            IStyleSheet.Default.AddRule(".workspace0 *",
-                r =>
-                {
-                    r.style.paddingTop = "4em";
-                    r.style.paddingBottom = "4em";
-                    r.style.paddingLeft = "2em";
-                    r.style.paddingRight = "2em";
-
-                }
-            );
-
-            IStyleSheet.Default.AddRule(".workspace",
-                r =>
-                {
-                    r.style.cursor = IStyle.CursorEnum.pointer;
-                    r.style.background = "black";
-                    r.style.Opacity = 0;
-                    r.style.position = IStyle.PositionEnum.absolute;
-                    r.style.width = "100%";
-                    r.style.height = "100%";
-                    r.style.overflow = IStyle.OverflowEnum.hidden;
-                    r.style.fontSize = "2em";
-                }
-            );
-
-            IStyleSheet.Default.AddRule(".error",
-                r =>
-                {
-                    r.style.padding = "1em";
-                    r.style.color = "red";
-                    r.style.backgroundColor = "white";
-                }
-            );
-
-
-            IStyleSheet.Default.AddRule(".content",
-                r =>
-                {
-                    r.style.border = "1px solid gray";
-                    r.style.backgroundColor = "transparent";
-                    r.style.background = "url(assets/GearsDemo1/shadow-bottom-100.png) repeat-x bottom";
-                    r.style.position = IStyle.PositionEnum.absolute;
-                    r.style.overflow = IStyle.OverflowEnum.auto;
-                }
-            );
-            IStyleSheet.Default.AddRule(".content", "background-attachment: fixed;", 0);
-
-            IStyleSheet.Default.AddRule(".content:focus",
-                r =>
-                {
-                    r.style.background = "url(assets/GearsDemo1/green-bottom.png) repeat-x bottom";
-                }
-            );
-
+            //Native.Window.alert("alert 2");
+            
             var shadow = new div { className = "shadow" };
             var workspace0 = new div { className = "workspace0" };
             var workspace = new div { className = "workspace" };
 
-            workspace0.appendChild (new div( "You can create new postcards by clicking on the background image. You can drag those postcards by their borders. You can use your mouse wheel to zoom in or out, too. All postcards will be saved via Google Gears."));
+            workspace0.appendChild(new div("You can create new postcards by clicking on the background image. You can drag those postcards by their borders. You can use your mouse wheel to zoom in or out, too. All postcards will be saved via Google Gears."));
 
             shadow.appendChild(workspace0, workspace);
 
+            //AppendError(workspace0, "loading 1...");
+            
 
             var BackgroundTween = new TweenDataDouble();
 
@@ -147,38 +55,28 @@ namespace GGearAlpha.js
                     workspace.style.Opacity = BackgroundTween.Value;
                 };
 
-            BackgroundTween.Value = 0;
+            BackgroundTween.Value = 0.5;
 
             workspace.onmouseover +=
-    delegate
-    {
-        BackgroundTween.Value = 0.5;
-    };
+                delegate
+                {
+                    BackgroundTween.Value = 0;
+                };
 
             workspace.onmouseout +=
-      delegate
-      {
-          BackgroundTween.Value  = 0;
-      };
-            
-            new img
-            {
-                src = "assets/GearsDemo1/postcard-alpha.png",
-            }.InvokeOnComplete(
+                  delegate
+                  {
+                      BackgroundTween.Value = 0.5;
+                  };
+
+            //AppendError(workspace0, "loading 2...");
+            "assets/GearsDemo1/postcard-alpha.png".ToImage(
                 postcard =>
-
-
-            new img
-            {
-                src = "assets/GearsDemo1/postcard-alpha-200-unfocus.png",
-            }.InvokeOnComplete(
-
-                // at this point we have the image and we know how large it is
-
+            "assets/GearsDemo1/postcard-alpha-200-unfocus.png".ToImage(
                 postcard200 =>
                 {
-
-
+                    // at this point we have the image and we know how large it is
+                    //AppendError(workspace0, "loading 3...");
 
                     GoogleGearsFactory.Database db = null;
 
@@ -202,6 +100,8 @@ namespace GGearAlpha.js
                         AppendError(workspace0, err_msg);
                     }
 
+                    //AppendError(workspace0, "loading 4...");
+
                     Func<PostcardEntry, Postcard> Spawn =
                         template =>
                         {
@@ -215,7 +115,7 @@ namespace GGearAlpha.js
 
                             if (template.Text == null)
                             {
-                                template.Text = new[] { "Hello!", "Yo!", "Whuzza!", "Howdy!", "Cheers!" }.Randomize().First();
+                                template.Text = new[] { "Hello!", "Yo!", "Whuzza!", "Howdy!", "Cheers!" }.Randomize().First() + "\nWrite something here!"; 
                             }
 
                             if (template.Zoom100 == 0)
@@ -326,6 +226,109 @@ namespace GGearAlpha.js
             );
 
             Native.Document.body.appendChild(shadow);
+        }
+
+        private static void CreateStyles()
+        {
+            IStyleSheet.Default.AddRule("html",
+                r =>
+                {
+                    r.style.overflow = IStyle.OverflowEnum.hidden;
+                    r.style.margin = "0";
+                    r.style.padding = "0";
+                }
+            );
+
+            IStyleSheet.Default.AddRule("body",
+                r =>
+                {
+                    r.style.background = "url(assets/GearsDemo1/back.jpg)";
+                    r.style.overflow = IStyle.OverflowEnum.hidden;
+                    r.style.margin = "0";
+                    r.style.padding = "0";
+                }
+            );
+
+            IStyleSheet.Default.AddRule(".shadow",
+                r =>
+                {
+
+                    r.style.background = "url(assets/GearsDemo1/shadow.png) repeat-x";
+                    r.style.position = IStyle.PositionEnum.absolute;
+                    r.style.width = "100%";
+                    r.style.height = "100%";
+                    r.style.overflow = IStyle.OverflowEnum.hidden;
+                }
+            );
+
+
+            IStyleSheet.Default.AddRule(".workspace0",
+                r =>
+                {
+
+
+                    r.style.position = IStyle.PositionEnum.absolute;
+                    r.style.width = "100%";
+                    r.style.height = "100%";
+                    r.style.overflow = IStyle.OverflowEnum.hidden;
+
+                    r.style.background = "url(assets/GearsDemo1/power2.png) no-repeat";
+                }
+            );
+
+            IStyleSheet.Default.AddRule(".workspace0 *",
+                r =>
+                {
+                    r.style.paddingTop = "4em";
+                    r.style.paddingBottom = "4em";
+                    r.style.paddingLeft = "2em";
+                    r.style.paddingRight = "2em";
+
+                }
+            );
+
+            IStyleSheet.Default.AddRule(".workspace",
+                r =>
+                {
+                    r.style.cursor = IStyle.CursorEnum.pointer;
+                    r.style.background = "black";
+                    r.style.Opacity = 0;
+                    r.style.position = IStyle.PositionEnum.absolute;
+                    r.style.width = "100%";
+                    r.style.height = "100%";
+                    r.style.overflow = IStyle.OverflowEnum.hidden;
+                    r.style.fontSize = "2em";
+                }
+            );
+
+            IStyleSheet.Default.AddRule(".error",
+                r =>
+                {
+                    r.style.padding = "1em";
+                    r.style.color = "red";
+                    r.style.backgroundColor = "white";
+                }
+            );
+
+
+            IStyleSheet.Default.AddRule(".content",
+                r =>
+                {
+                    r.style.border = "1px solid gray";
+                    r.style.backgroundColor = "transparent";
+                    r.style.background = "url(assets/GearsDemo1/shadow-bottom-100.png) repeat-x bottom";
+                    r.style.position = IStyle.PositionEnum.absolute;
+                    r.style.overflow = IStyle.OverflowEnum.auto;
+                }
+            );
+            IStyleSheet.Default.AddRule(".content", "background-attachment: fixed;", 0);
+
+            IStyleSheet.Default.AddRule(".content:focus",
+                r =>
+                {
+                    r.style.background = "url(assets/GearsDemo1/green-bottom.png) repeat-x bottom";
+                }
+            );
         }
 
         private static void AppendError(IHTMLDiv workspace0, string err_msg)

@@ -30,5 +30,12 @@ namespace GGearAlpha.js
             if (e != null)
                 e();
         }
+
+        public static void ToImage(this string src, EventHandler<IHTMLImage> a)
+        {
+            var img = new IHTMLImage(src);
+
+            img.InvokeOnComplete(a);
+        }
     }
 }
