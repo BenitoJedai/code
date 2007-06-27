@@ -36,13 +36,18 @@ namespace GGearAlpha.js
             //Native.Window.alert("alert 2");
             
             var shadow = new div { className = "shadow" };
+            var toolbar = new div { className = "toolbar" };
             var workspace0 = new div { className = "workspace0" };
             var workspace = new div { className = "workspace" };
 
-            workspace0.appendChild(new div("You can create new postcards by clicking on the background image. You can drag those postcards by their borders. You can use your mouse wheel to zoom in or out, too. All postcards will be saved via Google Gears."));
+            workspace0.appendChild(
+                new div("You can create new postcards by clicking on the background image. You can drag those postcards by their borders. You can use your mouse wheel to zoom in or out, too. All postcards will be saved via Google Gears. Doubleclick a postcard to delete it."));
 
-            shadow.appendChild(workspace0, workspace);
+            shadow.appendChild(workspace0, workspace, toolbar);
 
+
+
+            toolbar.innerHTML = "<a href='http://gears.google.com/'>get google gears</a> | <a href='http://jsc.sourceforge.net/'>jsc homepage</a> | <a href='http://zproxy.wordpress.com/'>blog</a>";
             //AppendError(workspace0, "loading 1...");
             
 
@@ -276,7 +281,7 @@ namespace GGearAlpha.js
                 }
             );
 
-            IStyleSheet.Default.AddRule(".workspace0 *",
+            IStyleSheet.Default.AddRule(".workspace0 div",
                 r =>
                 {
                     r.style.paddingTop = "4em";
@@ -298,6 +303,41 @@ namespace GGearAlpha.js
                     r.style.height = "100%";
                     r.style.overflow = IStyle.OverflowEnum.hidden;
                     r.style.fontSize = "2em";
+                }
+            );
+
+
+
+            IStyleSheet.Default.AddRule(".toolbar",
+                r =>
+                {
+
+                    r.style.background = "url(assets/GearsDemo1/shadow-bottom-100.png) repeat-x bottom";
+                    r.style.position = IStyle.PositionEnum.absolute;
+                    r.style.bottom = "0px";
+                    r.style.width = "100%";
+                    r.style.padding = "4em";
+                    r.style.paddingBottom = "1em";
+                    r.style.paddingTop = "1em";
+
+                }
+            );
+
+            IStyleSheet.Default.AddRule(".toolbar a",
+                r =>
+                {
+
+                    r.style.color = "white";
+
+                }
+            );
+
+            IStyleSheet.Default.AddRule(".toolbar a:hover",
+                r =>
+                {
+
+                    r.style.color = "red";
+
                 }
             );
 

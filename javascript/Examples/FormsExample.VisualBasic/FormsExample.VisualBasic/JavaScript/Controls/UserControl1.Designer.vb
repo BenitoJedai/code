@@ -38,6 +38,7 @@ Partial Class UserControl1
         Me.TextBox2 = New System.Windows.Forms.TextBox
         Me.TextBox3 = New System.Windows.Forms.TextBox
         Me.Button3 = New System.Windows.Forms.Button
+        Me.UserControl21 = New FormsExample.VisualBasic.UserControl2
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -182,7 +183,7 @@ Partial Class UserControl1
         Me.TextBox2.Multiline = True
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.ReadOnly = True
-        Me.TextBox2.Size = New System.Drawing.Size(222, 161)
+        Me.TextBox2.Size = New System.Drawing.Size(120, 161)
         Me.TextBox2.TabIndex = 11
         Me.TextBox2.Text = "system0:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system1:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system2: demo  demo  demo  demo  demo  demo" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system3:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system" & _
             "4:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system5:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
@@ -193,28 +194,38 @@ Partial Class UserControl1
         Me.TextBox3.BackColor = System.Drawing.Color.Black
         Me.TextBox3.Font = New System.Drawing.Font("Courier New", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBox3.ForeColor = System.Drawing.Color.White
-        Me.TextBox3.Location = New System.Drawing.Point(245, 212)
+        Me.TextBox3.Location = New System.Drawing.Point(143, 212)
         Me.TextBox3.Multiline = True
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.ReadOnly = True
-        Me.TextBox3.Size = New System.Drawing.Size(222, 79)
+        Me.TextBox3.Size = New System.Drawing.Size(136, 79)
         Me.TextBox3.TabIndex = 12
         Me.TextBox3.Text = "system0:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system1:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system2: demo  demo  demo  demo  demo  demo" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system3:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system" & _
             "4:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system5:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         '
         'Button3
         '
-        Me.Button3.Location = New System.Drawing.Point(245, 350)
+        Me.Button3.Location = New System.Drawing.Point(179, 350)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(75, 23)
         Me.Button3.TabIndex = 13
         Me.Button3.Text = "Clear"
         Me.Button3.UseVisualStyleBackColor = True
         '
+        'UserControl21
+        '
+        Me.UserControl21.AutoScroll = True
+        Me.UserControl21.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.UserControl21.Location = New System.Drawing.Point(296, 212)
+        Me.UserControl21.Name = "UserControl21"
+        Me.UserControl21.Size = New System.Drawing.Size(172, 124)
+        Me.UserControl21.TabIndex = 14
+        '
         'UserControl1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.UserControl21)
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.TextBox3)
         Me.Controls.Add(Me.TextBox2)
@@ -253,5 +264,6 @@ Partial Class UserControl1
     Friend WithEvents TextBox2 As System.Windows.Forms.TextBox
     Friend WithEvents TextBox3 As System.Windows.Forms.TextBox
     Friend WithEvents Button3 As System.Windows.Forms.Button
+    Friend WithEvents UserControl21 As FormsExample.VisualBasic.UserControl2
 
 End Class

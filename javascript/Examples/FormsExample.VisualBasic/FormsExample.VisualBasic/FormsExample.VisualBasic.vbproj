@@ -85,6 +85,12 @@
     <Compile Include="JavaScript\Controls\UserControl1.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="JavaScript\Controls\UserControl2.Designer.vb">
+      <DependentUpon>UserControl2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="JavaScript\Controls\UserControl2.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -106,6 +112,10 @@
     <EmbeddedResource Include="JavaScript\Controls\UserControl1.resx">
       <SubType>Designer</SubType>
       <DependentUpon>UserControl1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JavaScript\Controls\UserControl2.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>UserControl2.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
