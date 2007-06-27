@@ -14,10 +14,12 @@ using System.Text;
 namespace GGearAlpha.js
 {
     using textarea = IHTMLTextArea;
+    using span = IHTMLSpan;
     using div = IHTMLDiv;
     using img = IHTMLImage;
     using ScriptCoreLib.Shared;
     using ScriptCoreLib.Shared.Drawing;
+    using ScriptCoreLib.JavaScript.Runtime;
 
     [Script]
     class Class2
@@ -62,43 +64,68 @@ namespace GGearAlpha.js
             IStyleSheet.Default.AddRule(".workspace0",
                 r =>
                 {
-                    r.style.marginTop = "4em";
-                    r.style.marginLeft = "2em";
-                    r.style.marginRight = "2em";
+
 
                     r.style.position = IStyle.PositionEnum.absolute;
                     r.style.width = "100%";
                     r.style.height = "100%";
                     r.style.overflow = IStyle.OverflowEnum.hidden;
+
+                    r.style.background = "url(assets/GearsDemo1/power2.png) no-repeat";
+                }
+            );
+
+            IStyleSheet.Default.AddRule(".workspace0 *",
+                r =>
+                {
+                    r.style.paddingTop = "4em";
+                    r.style.paddingBottom = "4em";
+                    r.style.paddingLeft = "2em";
+                    r.style.paddingRight = "2em";
+
                 }
             );
 
             IStyleSheet.Default.AddRule(".workspace",
                 r =>
                 {
+                    r.style.cursor = IStyle.CursorEnum.pointer;
                     r.style.background = "black";
                     r.style.Opacity = 0;
                     r.style.position = IStyle.PositionEnum.absolute;
                     r.style.width = "100%";
                     r.style.height = "100%";
                     r.style.overflow = IStyle.OverflowEnum.hidden;
+                    r.style.fontSize = "2em";
                 }
             );
 
             IStyleSheet.Default.AddRule(".error",
                 r =>
                 {
+                    r.style.padding = "1em";
                     r.style.color = "red";
                     r.style.backgroundColor = "white";
                 }
             );
+
 
             IStyleSheet.Default.AddRule(".content",
                 r =>
                 {
                     r.style.border = "1px solid gray";
                     r.style.backgroundColor = "transparent";
+                    r.style.background = "url(assets/GearsDemo1/shadow-bottom-100.png) repeat-x bottom";
                     r.style.position = IStyle.PositionEnum.absolute;
+                    r.style.overflow = IStyle.OverflowEnum.auto;
+                }
+            );
+            IStyleSheet.Default.AddRule(".content", "background-attachment: fixed;", 0);
+
+            IStyleSheet.Default.AddRule(".content:focus",
+                r =>
+                {
+                    r.style.background = "url(assets/GearsDemo1/green-bottom.png) repeat-x bottom";
                 }
             );
 
@@ -106,25 +133,51 @@ namespace GGearAlpha.js
             var workspace0 = new div { className = "workspace0" };
             var workspace = new div { className = "workspace" };
 
-            workspace0.innerHTML = "You can create new postcards by clicking on the background image. You can drag those postcards by their borders. You can use your mouse wheel to zoom in or out, too.";
+            workspace0.appendChild (new div( "You can create new postcards by clicking on the background image. You can drag those postcards by their borders. You can use your mouse wheel to zoom in or out, too. All postcards will be saved via Google Gears."));
 
             shadow.appendChild(workspace0, workspace);
 
+
+            var BackgroundTween = new TweenDataDouble();
+
+
+            BackgroundTween.ValueChanged +=
+                delegate
+                {
+                    workspace.style.Opacity = BackgroundTween.Value;
+                };
+
+            BackgroundTween.Value = 0;
+
+            workspace.onmouseover +=
+    delegate
+    {
+        BackgroundTween.Value = 0.5;
+    };
+
+            workspace.onmouseout +=
+      delegate
+      {
+          BackgroundTween.Value  = 0;
+      };
+            
             new img
             {
                 src = "assets/GearsDemo1/postcard-alpha.png",
-                alt = "postcard"
             }.InvokeOnComplete(
+                postcard =>
+
+
+            new img
+            {
+                src = "assets/GearsDemo1/postcard-alpha-200-unfocus.png",
+            }.InvokeOnComplete(
+
                 // at this point we have the image and we know how large it is
 
-                postcard =>
+                postcard200 =>
                 {
 
-                    var p0 = new Postcard(postcard, workspace);
-
-                    p0.CurrentDrag.Position.X = 400;
-                    p0.CurrentDrag.Position.Y = 200;
-                    p0.AttachTo(shadow);
 
 
                     GoogleGearsFactory.Database db = null;
@@ -134,23 +187,25 @@ namespace GGearAlpha.js
                         db = new GoogleGearsFactory.Database();
 
                         db.open("demo1");
+                        //db.execute("drop table Postcards");
                         db.execute(@"
-        create table if not exists Postcards
-        (Id varchar(255), Text varchar(255), X int, Y int)
+        create table if not exists  Postcards
+        (Id varchar(255), Text varchar(255), X int, Y int, Zoom100 int)
                 ");
+
+
+
                     }
                     catch (System.Exception exc)
                     {
-                        var err = new IHTMLElement(IHTMLElement.HTMLElementEnum.pre, exc.Message) { className = "error" };
-
-
-                        workspace0.appendChild(err);
+                        var err_msg = exc.Message;
+                        AppendError(workspace0, err_msg);
                     }
 
                     Func<PostcardEntry, Postcard> Spawn =
                         template =>
                         {
-                            var p2 = new Postcard(postcard, workspace);
+                            var p2 = new Postcard(postcard, postcard200, workspace);
 
                             p2.CurrentDrag.Position.X = template.X;
                             p2.CurrentDrag.Position.Y = template.Y;
@@ -158,12 +213,34 @@ namespace GGearAlpha.js
 
                             System.Console.WriteLine("new: " + p2.Id);
 
+                            if (template.Text == null)
+                            {
+                                template.Text = new[] { "Hello!", "Yo!", "Whuzza!", "Howdy!", "Cheers!" }.Randomize().First();
+                            }
+
+                            if (template.Zoom100 == 0)
+                            {
+                                template.Zoom100 = (int)System.Math.Floor((new System.Random().NextDouble() + 0.5) * 100);
+                            }
+
+                            p2.Content.value = template.Text;
+                            p2.SetZoom(template.Zoom100 / 100);
+
                             if (template.Id == null)
                             {
-
-                                db.Insert("Postcards",
-                                    new PostcardEntry { Id = p2.Id, Text = p2.Text, /* Zoom = p2.Zoom,*/ X = p2.CurrentDrag.Position.X, Y = p2.CurrentDrag.Position.Y }
-                                );
+                                try
+                                {
+                                    if (db != null)
+                                    {
+                                        db.Insert("Postcards",
+                                            new PostcardEntry { Id = p2.Id, Text = p2.Text, Zoom100 = (int)System.Math.Floor(p2.Zoom * 100), X = p2.CurrentDrag.Position.X, Y = p2.CurrentDrag.Position.Y }
+                                        );
+                                    }
+                                }
+                                catch (System.Exception exc)
+                                {
+                                    AppendError(workspace0, exc.Message);
+                                }
                             }
                             else
                             {
@@ -182,20 +259,35 @@ namespace GGearAlpha.js
                             p2.Changed +=
                                 delegate
                                 {
-                                    System.Console.WriteLine("changed: " + new PostcardEntry { Id = p2.Id, Text = p2.Text/*, Zoom = p2.Zoom*/, X = p2.CurrentDrag.Position.X, Y = p2.CurrentDrag.Position.Y }.ToString());
+                                    System.Console.WriteLine("changed: " + new PostcardEntry { Id = p2.Id, Text = p2.Text, Zoom100 = (int)System.Math.Floor(p2.Zoom * 100), X = p2.CurrentDrag.Position.X, Y = p2.CurrentDrag.Position.Y }.ToString());
 
-                                    db.execute("delete from Postcards where Id = ?", p2.Id);
-                                    db.Insert("Postcards",
-                                        new PostcardEntry { Id = p2.Id, Text = p2.Text/*, Zoom = p2.Zoom*/, X = p2.CurrentDrag.Position.X, Y = p2.CurrentDrag.Position.Y }
-                                    );
+                                    if (db != null)
+                                    {
+
+                                        db.execute("delete from Postcards where Id = ?", p2.Id);
+                                        db.Insert("Postcards",
+                                            new PostcardEntry { Id = p2.Id, Text = p2.Text, Zoom100 = (int)System.Math.Floor(p2.Zoom * 100), X = p2.CurrentDrag.Position.X, Y = p2.CurrentDrag.Position.Y }
+                                        );
+                                    }
                                 };
 
-                            p2.Text = template.Text;
+                            System.Console.WriteLine("item: " + template.ToString());
+
+
+
+
+                            p2.ZoomAndMove();
+
+                            p2.CurrentDrag.DragStart +=
+                                delegate
+                                {
+                                    p2.AttachTo(shadow);
+                                };
 
                             return p2;
                         };
 
-                         
+
 
                     workspace.onclick +=
                         delegate(IEvent ev)
@@ -206,35 +298,126 @@ namespace GGearAlpha.js
 
                         };
 
-                    var query = from Data in db.AsEnumerable<PostcardEntry>(
-                                                "select * from Postcards",
-                                                typeof(PostcardEntry)
-                                            )
-                                select new { Control = Spawn(Data), Data = Data };
+                    if (db != null)
+                        try
+                        {
+                            var query = from Data in db.AsEnumerable<PostcardEntry>(
+                                                        "select * from Postcards",
+                                                        typeof(PostcardEntry)
+                                                    )
+                                        select new { Control = Spawn(Data), Data = Data };
 
-                    foreach (var v in query)
-	                {
-                        System.Console.WriteLine("item: " + v.Data.ToString()) ;
-                		 
-	                }
+                            foreach (var v in query)
+                            {
+
+                                //Dump(v.Data, shadow, null);
+
+                                System.Console.WriteLine("item: " + v.Data.ToString());
+
+                            }
+
+                        }
+                        catch (System.Exception exc)
+                        {
+                            AppendError(workspace0, exc.Message);
+                        }
                 }
+            )
             );
 
             Native.Document.body.appendChild(shadow);
         }
+
+        private static void AppendError(IHTMLDiv workspace0, string err_msg)
+        {
+            var err = new IHTMLElement(IHTMLElement.HTMLElementEnum.pre, err_msg) { className = "error" };
+
+
+            workspace0.appendChild(err);
+        }
+
+        #region dump
+        static void DualDump(object left, object right)
+        {
+            var t = new IHTMLTable();
+            var b = t.AddBody();
+            var r = b.AddRow();
+
+            Dump(left, r.AddColumn(), right);
+            Dump(right, r.AddColumn(), left);
+
+            t.attachToDocument();
+        }
+
+        private static IHTMLElement Dump(object xs, IHTMLElement to, object diff)
+        {
+
+            var c = new IHTMLDiv();
+
+            c.style.backgroundColor = Color.White;
+            c.style.border = "1px solid gray";
+            c.style.padding = "1em";
+            c.style.fontFamily = IStyle.FontFamilyEnum.Consolas;
+
+            var ttx = new IHTMLDiv(xs.ToString());
+
+            c.appendChild(ttx);
+
+            var dx = Expando.Of(diff);
+
+            foreach (var v in Expando.Of(xs).GetMembers())
+            {
+                var tt = default(IHTMLDiv);
+                var ok = true;
+
+                if (dx != null)
+                {
+                    if (dx.Contains(v.Name))
+                    {
+                        if (dx[v.Name] == v.Self)
+                            ok = false;
+                    }
+                }
+
+                if (ok)
+                {
+                    if (v.Self.IsFunction)
+                    {
+                        tt = new IHTMLDiv(v.Self.TypeString + " " + v.Name);
+                        tt.style.color = Color.Red;
+
+                    }
+                    else if (v.Self.IsObject)
+                    {
+                        tt = new IHTMLDiv(v.Self.TypeString + " " + v.Name + " = " + v.Self.ToString());
+                        tt.style.color = Color.Blue;
+                    }
+                    else
+                        tt = new IHTMLDiv(v.Self.TypeString + " " + v.Name + " = " + v.Self.ToString());
+
+                    c.appendChild(tt);
+                }
+            }
+
+            to.appendChild(c);
+
+            return to;
+
+        }
+        #endregion
 
         [Script]
         sealed class PostcardEntry
         {
             public string Id;
             public string Text;
-            //public double Zoom;
+            public int Zoom100 = 0;
             public int X;
             public int Y;
 
             public override string ToString()
             {
-                return "{Id = " + Id + ", Text = " + Text + /*", Zoom = " + Zoom +*/ ", X = " + X + ", Y = " + Y + "}";
+                return "{Id = " + Id + ", Text = " + Text + ", Zoom100 = " + Zoom100 + ", X = " + X + ", Y = " + Y + "}";
             }
         }
 
@@ -254,6 +437,7 @@ namespace GGearAlpha.js
         class Postcard : SerializedObject
         {
             readonly img postcard;
+            readonly img postcard200;
 
             public readonly div layer;
             public readonly img img0;
@@ -302,28 +486,60 @@ namespace GGearAlpha.js
                 layer.Zoom(Zoom, postcard);
                 layer.SetCenteredLocation(CurrentDrag.Position);
 
+                var x = postcard.width * Zoom / 2;
+                var y = postcard.height * Zoom / 2;
+
                 Content.style.fontSize = Zoom + "em";
-                Content.Zoom(Zoom / 2, postcard);
-                Content.SetCenteredLocation(CurrentDrag.Position);
+
+
+                Content.style.SetLocation(
+                    (int)System.Math.Floor(CurrentDrag.Position.X - x + (x * 0.05)),
+                    (int)System.Math.Floor(CurrentDrag.Position.Y - y + (x * 0.3)),
+                    (int)System.Math.Floor(x * 1.5), (int)System.Math.Floor(y * 1.3)
+                    );
             }
 
             public event Action DoubleClick;
 
-            public Postcard(img postcard, div workspace)
+            public Postcard(img postcard, img postcard200, div workspace)
             {
 
                 this.postcard = postcard;
+                this.postcard200 = postcard200;
 
 
                 this.layer = new div();
-                this.img0 = (img)postcard.cloneNode(false);
+                this.img0 = (img)postcard200.cloneNode(false);
 
                 layer.style.backgroundColor = "red";
 
                 layer.style.Opacity = 0;
 
+                layer.onmouseover +=
+                    delegate
+                    {
+                        this.img0.src = postcard.src;
+                    };
+
+                layer.onmouseout +=
+                    delegate
+                    {
+                        this.img0.src = postcard200.src;
+                    };
 
                 Content = new textarea { className = "content" };
+
+                Content.onmouseover +=
+                    delegate
+                    {
+                        this.img0.src = postcard.src;
+                    };
+
+                Content.onmouseout +=
+                    delegate
+                    {
+                        this.img0.src = postcard200.src;
+                    };
 
                 Content.onchange +=
                     delegate
@@ -354,13 +570,8 @@ namespace GGearAlpha.js
 
                         z += (0.05 * ev.WheelDirection);
 
-                        if (z < 0.3)
-                            z = 0.3;
-
-                        if (z > 2)
-                            z = 2;
-
-                        Zoom = z;
+                        z = SetZoom(z);
+                        ZoomAndMove();
                     };
 
 
@@ -373,6 +584,20 @@ namespace GGearAlpha.js
                     };
 
                 CurrentDrag.Enabled = true;
+
+
+            }
+
+            public double SetZoom(double z)
+            {
+                if (z < 0.3)
+                    z = 0.3;
+
+                if (z > 2)
+                    z = 2;
+
+                _Zoom = z;
+                return z;
             }
 
             public void Dispose()

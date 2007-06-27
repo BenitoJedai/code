@@ -21,8 +21,8 @@ namespace GGearAlpha.js
         public static void Zoom(this IHTMLElement e, double z, IHTMLElement x)
         {
 
-            e.style.width = System.Math.Abs(x.width * z) + "px";
-            e.style.height = System.Math.Abs(x.height * z) + "px";
+            e.style.width = System.Math.Floor(x.width * z) + "px";
+            e.style.height = System.Math.Floor(x.height * z) + "px";
         }
 
         public static void SafeInvoke(this Action e)
