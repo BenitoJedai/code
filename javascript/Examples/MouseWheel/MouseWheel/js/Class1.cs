@@ -34,7 +34,10 @@ namespace MouseWheel.js
         {
             // based on http://adomas.org/javascript-mouse-wheel/test.html
 
+
+            // ie7 scrollbar be gone!
             IStyleSheet.Default.AddRule("html").style.overflow = IStyle.OverflowEnum.hidden;
+            IStyleSheet.Default.AddRule(".block").style.background = "url(assets/shadow-bottom.png) repeat-x bottom";
 
             Native.Document.body.style.margin = "0";
             Native.Document.body.style.padding = "0";
@@ -43,44 +46,67 @@ namespace MouseWheel.js
             
             var div2 = CreateDiv();
                 
-            div2.style.top = "50%";
-            div2.style.backgroundColor = Color.Green;
+            div2.div.style.top = "50%";
+            div2.div.style.backgroundColor = Color.Green;
 
             var div3 = CreateDiv();
 
-            div3.style.left = "60%";
-            div3.style.top = "20%";
-            div3.style.height = "60%";
-            div3.style.width = "30%";
-            div3.style.backgroundColor = Color.Red;
+            div3.div.style.left = "60%";
+            div3.y = 50;
 
-        }
+            div3.div.style.top = "20%";
+            div3.div.style.height = "60%";
+            div3.div.style.width = "30%";
+            div3.div.style.backgroundColor = Color.Red;
 
-        private static IHTMLDiv CreateDiv()
-        {
-            int y = 0;
 
-            var div = new IHTMLDiv();
-
-            div.attachToDocument();
-
-            div.onmousewheel +=
-                delegate(IEvent e)
+            div3.div.onmousewheel +=
+                delegate(IEvent ev)
                 {
-                    div.innerHTML = "wheel, " + y;
-                    div.appendChild(": " + e.WheelDirection);
-
-                    y += e.WheelDirection;
+                    div3.div.style.left =  (10 + System.Math.Abs(div3.y % 60)) + "%";
                 };
 
-            div.style.position = IStyle.PositionEnum.absolute;
-            div.style.height = "50%";
-            div.style.width = "100%";
-            div.style.backgroundColor = Color.Yellow;
+            div3.div.appendChild(new IHTMLDiv("You can move this block scrolling your mouse wheel over here."));
+        }
 
-            div.innerHTML = "scroll here";
+        [Script]
+        class Tuple
+        {
+            public IHTMLDiv div;
+            public int y;
+        }
 
-            return div;
+        private static Tuple CreateDiv()
+        {
+            var t = new Tuple
+                    {
+                        y = 0,
+                        div = new IHTMLDiv { className = "block" }
+                    };
+
+            var info = new IHTMLSpan();
+
+            t.div.appendChild(info);
+
+            t.div.attachToDocument();
+
+            t.div.onmousewheel +=
+                delegate(IEvent e)
+                {
+                    info.innerHTML = "wheel, " + t.y;
+                    info.appendChild(": " + e.WheelDirection);
+
+                    t.y += e.WheelDirection;
+                };
+
+            t.div.style.position = IStyle.PositionEnum.absolute;
+            t.div.style.height = "50%";
+            t.div.style.width = "100%";
+            t.div.style.backgroundColor = Color.Yellow;
+
+            info.innerHTML = "scroll here";
+
+            return t;
         }
 
 
