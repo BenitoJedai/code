@@ -20,6 +20,7 @@ namespace GGearAlpha.js
     using ScriptCoreLib.Shared;
     using ScriptCoreLib.Shared.Drawing;
     using ScriptCoreLib.JavaScript.Runtime;
+    using System.Linq;
 
     [Script]
     class Class2
@@ -29,6 +30,8 @@ namespace GGearAlpha.js
 
         public Class2(IHTMLElement e)
         {
+            TestActivator();
+
             //Native.Window.alert("alert 1");
 
             CreateStyles();
@@ -168,9 +171,7 @@ namespace GGearAlpha.js
 
                                     if (db != null)
                                     {
-
-                                        db.execute("delete from Postcards where Id = ?", p2.Id);
-                                        db.Insert("Postcards",
+                                        db.DeleteAndInsert("Postcards",
                                             new PostcardEntry { Id = p2.Id, Text = p2.Text, Zoom100 = (int)System.Math.Floor(p2.Zoom * 100), X = p2.CurrentDrag.Position.X, Y = p2.CurrentDrag.Position.Y }
                                         );
                                     }
@@ -203,34 +204,63 @@ namespace GGearAlpha.js
 
                         };
 
-                    if (db != null)
-                        try
-                        {
-                            var query = from Data in db.AsEnumerable<PostcardEntry>(
-                                                        "select * from Postcards",
-                                                        typeof(PostcardEntry)
-                                                    )
-                                        select new { Control = Spawn(Data), Data = Data };
-
-                            foreach (var v in query)
-                            {
-
-                                //Dump(v.Data, shadow, null);
-
-                                System.Console.WriteLine("item: " + v.Data.ToString());
-
-                            }
-
-                        }
-                        catch (System.Exception exc)
-                        {
-                            AppendError(workspace0, exc.Message);
-                        }
+                    LoadFromDatabase(db, Spawn);
                 }
             )
             );
 
             Native.Document.body.appendChild(shadow);
+        }
+
+        private static void TestActivator()
+        {
+            // bug in jsc.exe
+            // System.Activator does not respect inheritance 28.06.2007
+
+
+            //System.Diagnostics.Debugger.Break();
+
+            //var t = typeof(PostcardEntry);
+            //var x = t.Create();
+
+            
+            //if (!Expando.Of(x).Contains("Id"))
+            //    throw new System.Exception("Member is missing");
+        }
+
+        private static void LoadFromDatabase(GoogleGearsFactory.Database db, Func<PostcardEntry, Postcard> Spawn)
+        {
+            if (db != null)
+            {
+#if DEBUG
+#else                        
+                        try
+                        {
+#endif
+                var query = from Data in db.AsEnumerable<PostcardEntry>(
+                                                "select * from Postcards",
+                                                typeof(PostcardEntry)
+                                            )
+                            select new { Control = Spawn(Data), Data = Data };
+
+                foreach (var v in query)
+                {
+
+                    //Dump(v.Data, shadow, null);
+
+                    System.Console.WriteLine("item: " + v.Data.ToString());
+
+                }
+
+#if DEBUG
+#else
+                        }
+                        catch (System.Exception exc)
+                        {
+                            AppendError(workspace0, exc.Message);
+                        }
+#endif
+            }
         }
 
         private static void CreateStyles()
@@ -450,9 +480,9 @@ namespace GGearAlpha.js
         #endregion
 
         [Script]
-        sealed class PostcardEntry
+        sealed partial class PostcardEntry : ISerializedObject
         {
-            public string Id;
+            
             public string Text;
             public int Zoom100 = 0;
             public int X;
@@ -464,21 +494,48 @@ namespace GGearAlpha.js
             }
         }
 
-        [Script]
-        class SerializedObject
+
+        partial class PostcardEntry // mixin
         {
             public string Id;
 
-            public SerializedObject()
-            {
-                this.Id = "$id+" + new System.Random().NextDouble();
 
+            public /* override */ string VirtualId
+            {
+                get
+                {
+                    return this.Id;
+                }
+                set
+                {
+                    this.Id = value;
+                }
             }
         }
 
-        [Script]
-        class Postcard : SerializedObject
+        partial class Postcard // mixin
         {
+            public string Id;
+
+            public override string VirtualId
+            {
+                get
+                {
+                    return this.Id;
+                }
+                set
+                {
+                    this.Id = value;
+                }
+            }
+        }
+
+
+        [Script]
+        partial class Postcard : SerializedObject
+        {
+
+
             readonly img postcard;
             readonly img postcard200;
 

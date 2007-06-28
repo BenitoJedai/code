@@ -15,6 +15,7 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 using System;
 
 using global::System.Collections.Generic;
+using System.Linq;
 
 namespace GGearAlpha.js
 {

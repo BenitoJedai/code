@@ -4,7 +4,6 @@ using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 
 using ScriptCoreLib.Shared.Drawing;
-using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared.Lambda;
 
 using ScriptCoreLib.JavaScript.Runtime;
@@ -15,6 +14,7 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 using System;
 
 using global::System.Collections.Generic;
+using System.Linq;
 
 
 
@@ -121,7 +121,7 @@ namespace GGearAlpha.js
 
                     list.removeChildren();
 
-                    ScriptCoreLib.Shared.Func<string, IHTMLElement> AddItem = 
+                    Func<string, IHTMLElement> AddItem = 
                         text => new IHTMLElement(IHTMLElement.HTMLElementEnum.li, text).Aggregate(v => list.appendChild(v));
 
 

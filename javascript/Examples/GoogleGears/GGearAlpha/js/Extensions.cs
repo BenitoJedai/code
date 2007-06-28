@@ -37,5 +37,17 @@ namespace GGearAlpha.js
 
             img.InvokeOnComplete(a);
         }
+
+        public static object Create(this System.Type e)
+        {
+            // we have a bug!
+            // GGearAlpha.js.Extensions.Create
+            // var UwAABpEQ0D6VJPcvXn_anDA = _5wMABsIroDG3IdF6ulsSww;
+
+            if (e == null)
+                throw new System.ArgumentNullException("e");
+
+            return System.Activator.CreateInstance(e);
+        }
     }
 }

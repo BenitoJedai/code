@@ -1,4 +1,6 @@
 ﻿using ScriptCoreLib;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ScriptCoreLib.Shared.Lambda
 {
@@ -118,6 +120,40 @@ namespace ScriptCoreLib.Shared.Lambda
             a(e);
 
             return e;
+        }
+
+
+
+        public static void ForEach<T>(this IEnumerable<T> array, Action<T> action)
+        {
+            if (array == null)
+            {
+                throw new System.ArgumentNullException("array");
+            }
+            if (action == null)
+            {
+                throw new System.ArgumentNullException("action");
+            }
+
+            foreach (var v in array.AsEnumerable())
+            {
+                action(v);
+            }
+
+        }
+
+
+        public static void ForEachReversed<T>(this IEnumerable<T> array, Action<T> action)
+        {
+            var a = array.ToArray();
+
+            for (int i = a.Length - 1; i >= 0; i--)
+            {
+                action(a[i]);
+            }
+
+
+
         }
     }
 }

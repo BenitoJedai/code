@@ -4,7 +4,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 
 using ScriptCoreLib.Shared.Drawing;
-using ScriptCoreLib.Shared.Query;
+
 using ScriptCoreLib.Shared.Lambda;
 
 using ScriptCoreLib.JavaScript.Runtime;
@@ -13,6 +13,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.XML;
 using System;
+using System.Linq;
 
 using global::System.Collections.Generic;
 
@@ -25,6 +26,16 @@ namespace GGearAlpha.js
     [Script]
     public static class GoogleGearsFactoryExtensions
     {
+        static public void DeleteAndInsert<T>(this GoogleGearsFactory.Database db, string table, T value) where T : ISerializedObject
+        {
+            if (value.VirtualId == null)
+                throw new Exception("VirtualId is null");
+
+
+            db.execute("delete from " + table + " where Id = ?", value.VirtualId);
+            db.Insert(table, value);
+        }
+
         static public void Insert(this GoogleGearsFactory.Database db, string table, object e)
         {
             var w = new global::System.Text.StringBuilder();
@@ -95,7 +106,13 @@ namespace GGearAlpha.js
 
                                           for (int i = 0; i < rs.fieldCount(); i++)
                                           {
-                                              e.GetField(rs.fieldName(i)).SetValue(c, rs.field(i));
+                                              var n = rs.fieldName(i);
+                                              var f = e.GetField(n);
+
+                                              if (f == null)
+                                                  throw new Exception("A known field is missing for the activated object. Check the implementation for Activator.CreateInstance.");
+
+                                              f.SetValue(c, rs.field(i));
                                           }
                                       }
                                   );
@@ -263,7 +280,7 @@ namespace GGearAlpha.js
                 {
                     var s = new IFunction("return !!navigator.mimeTypes['application/x-googlegears']").apply(null);
 
-                    
+
                     error = "Google Gears for safari is not yet supported (June 2007); plugin installed: " + s;
                 }
                 catch
