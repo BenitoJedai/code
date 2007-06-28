@@ -455,12 +455,27 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             [Script(DefineAsStatic = true)]
             add
             {
-                base.InternalEvent(true, value, "DOMMouseScroll", "onmousewheel");
+                base.InternalEvent(true, value,
+                    new ISink.EventNames
+                    {
+                        Event = "onmousewheel",
+                        EventListener = "DOMMouseScroll",
+                        EventListenerAlt = "mousewheel"
+                    }
+                );
+
             }
             [Script(DefineAsStatic = true)]
             remove
             {
-                base.InternalEvent(false, value, "DOMMouseScroll", "onmousewheel");
+                base.InternalEvent(false, value,
+                    new ISink.EventNames
+                    {
+                        Event = "onmousewheel",
+                        EventListener = "DOMMouseScroll",
+                        EventListenerAlt = "mousewheel"
+                    }
+                );
             }
         }
         #endregion

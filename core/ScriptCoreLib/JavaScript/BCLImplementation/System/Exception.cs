@@ -24,7 +24,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public __Exception(string message) { }
 
         [Script(OptimizedCode = @"return new Error(e);")]
-        static __Exception InternalConstructor(string e)
+        internal static __Exception InternalConstructor(string e)
         {
             return default(__Exception);
         }

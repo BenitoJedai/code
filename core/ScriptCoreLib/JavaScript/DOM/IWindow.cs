@@ -7,7 +7,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-    [Script(HasNoPrototype=true)]
+    [Script(HasNoPrototype = true)]
     public class IWindow : ISink
     {
         public IFunction Array;
@@ -19,7 +19,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public void alert<T>(T a0) { }
 
-        public bool confirm(string e) { return default(bool);  }
+        public bool confirm(string e) { return default(bool); }
 
         public string prompt(string text, string value, string title)
         {
@@ -31,15 +31,15 @@ namespace ScriptCoreLib.JavaScript.DOM
         /// <summary>
         /// brings window to foreground, if currently another browser window is active
         /// </summary>
-        public void focus() {}
-        public void blur() {}
+        public void focus() { }
+        public void blur() { }
 
         [Script]
         public class NavigatorInfo
         {
             public string userAgent;
             public string appVersion;
-            
+
             [Script]
             public class PluginInfo
             {
@@ -75,9 +75,9 @@ namespace ScriptCoreLib.JavaScript.DOM
         public IWindow open(string URL, string target) { return default(IWindow); }
         public IWindow open(string URL, string target, string features) { return default(IWindow); }
 
-        [Script(DefineAsStatic=true)]
-        public IWindow open(string URL, string target, 
-            int width, 
+        [Script(DefineAsStatic = true)]
+        public IWindow open(string URL, string target,
+            int width,
             int height,
             bool scrollbars)
         {
@@ -86,7 +86,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             f.push("width=" + width);
             f.push("height=" + height);
             f.push("scrollbars=" + (scrollbars ? "yes" : "no"));
-           
+
 
 
             return open(URL, target, f.join(","));
@@ -107,7 +107,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             return default(int);
         }
 
-        [Script(DefineAsStatic=true)]
+        [Script(DefineAsStatic = true)]
         internal int setTimeout(EventHandler code, int time)
         {
             return setTimeout(((BCLImplementation.System.__Delegate)((object)code)).InvokePointer, time);
@@ -212,6 +212,9 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
+
+
+
         [Script]
         public class Confirmation
         {
@@ -225,7 +228,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             add
             {
                 InternalFunc<IEvent, object> w =
-                    delegate (IEvent e)
+                    delegate(IEvent e)
                     {
                         var c = new Confirmation();
 
@@ -295,7 +298,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             return null;
         }
 
-        [Script(UseCompilerConstants=true, OptimizedCode= @"
+        [Script(UseCompilerConstants = true, OptimizedCode = @"
     var s = {arg0}.self;
 
     if (s && s.innerHeight)
@@ -340,7 +343,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public int Height
         {
-            [Script(DefineAsStatic=true)]
+            [Script(DefineAsStatic = true)]
             get
             {
                 return InternalHeight(this);
