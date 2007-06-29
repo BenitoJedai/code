@@ -10,7 +10,7 @@ using System;
 namespace ScriptCoreLib.Shared.Query
 {
 
-    public static partial class Enumerable
+    internal static partial class __Enumerable
     {
 
 

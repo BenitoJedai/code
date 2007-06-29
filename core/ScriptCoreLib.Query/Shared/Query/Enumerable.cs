@@ -14,7 +14,7 @@ namespace ScriptCoreLib.Shared.Query
 
 
     [Script(Implements=typeof(global::System.Linq.Enumerable))]
-    public static partial class Enumerable
+    internal static partial class __Enumerable
     {
 
         #region Min
@@ -274,22 +274,7 @@ namespace ScriptCoreLib.Shared.Query
 
 
 
-        public static IEnumerable<TSource> Randomize<TSource>(this IEnumerable<TSource> u)
-        {
-            var x = u.ToList();
-            var y = new List<TSource>();
-            var r = new System.Random();
 
-            while (x.Count > 0)
-            {
-                var i = r.Next(x.Count - 1);
-
-                y.Add(x[i]);
-                x.RemoveAt(i);
-            }
-
-            return y;
-        }
 
 
 

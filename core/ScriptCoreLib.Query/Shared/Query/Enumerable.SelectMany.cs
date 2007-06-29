@@ -11,7 +11,7 @@ using System;
 namespace ScriptCoreLib.Shared.Query
 {
 
-    public static partial class Enumerable
+    internal static partial class __Enumerable
     {
 
         public static IEnumerable<TResult> SelectMany<TSource, TResult>(this IEnumerable<TSource> source, global::System.Linq.Func<TSource, IEnumerable<TResult>> selector)

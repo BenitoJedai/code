@@ -9,7 +9,7 @@ using IDisposable = global::System.IDisposable;
 namespace ScriptCoreLib.Shared.Query
 {
 
-    public static partial class Enumerable
+    internal static partial class __Enumerable
     {
         public static Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(this IEnumerable<TSource> source, global::System.Linq.Func<TSource, TKey> keySelector)
         {
