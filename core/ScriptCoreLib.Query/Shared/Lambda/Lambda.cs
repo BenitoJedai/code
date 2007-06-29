@@ -122,7 +122,22 @@ namespace ScriptCoreLib.Shared.Lambda
             return e;
         }
 
+        public static IEnumerable<TSource> Randomize<TSource>(this IEnumerable<TSource> u)
+        {
+            var x = u.ToList();
+            var y = new List<TSource>();
+            var r = new System.Random();
 
+            while (x.Count > 0)
+            {
+                var i = r.Next(x.Count - 1);
+
+                y.Add(x[i]);
+                x.RemoveAt(i);
+            }
+
+            return y;
+        }
 
         public static void ForEach<T>(this IEnumerable<T> array, Action<T> action)
         {
