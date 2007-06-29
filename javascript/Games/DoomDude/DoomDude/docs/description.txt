@@ -1,0 +1,8 @@
+﻿Browser application. Crosscompiled from c# to javascript.
+
+
+A game to point and click. 
+
+Doom dudes will be spawned. Clicking them will blow them up.
+
+Coins should be collected for scores.
