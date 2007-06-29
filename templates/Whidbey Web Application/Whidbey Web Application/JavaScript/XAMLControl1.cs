@@ -148,6 +148,8 @@ namespace Whidbey_Web_Application.JavaScript
 
                     SilverlightControl ag = (SilverlightControl)Native.Document.getElementById("wpfeControl1");
 
+                    if (ag == null)
+                        return;
 
 
                     SilverlightControlExtensions.InvokeOnComplete(ag,

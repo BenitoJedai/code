@@ -4,7 +4,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{80FE9F29-EC10-4CAD-913C-71D3853AC283}</ProjectGuid>
+    <ProjectGuid>{242BF5DC-4F24-4690-B522-2D7493F9E264}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ScriptApplication</RootNamespace>

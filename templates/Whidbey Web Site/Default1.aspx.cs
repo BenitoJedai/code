@@ -17,54 +17,19 @@ namespace JavaScript
 
     using ScriptCoreLib;
     using ScriptCoreLib.Shared;
+    using ScriptCoreLib.Shared.Query;
     using ScriptCoreLib.Shared.Drawing;
 
     [Script]
-    public sealed class ProxyWebService
+    public sealed class MyWebService
     {
-        public readonly string URL;
-
-        public ProxyWebService(string URL)
+        public MyWebService(WebServiceProxy p)
         {
-            this.URL = URL;
+            // if we knew the return types we could spawn the proxies
+            // automatically
 
-            this.HelloWorld = CreateComplexProxy<JavaScript.U>(URL, "HelloWorld");
-            this.HelloWorld2 = CreateComplexProxy<JavaScript.UX>(URL, "HelloWorld2");
-        }
-
-        static Expando DeserializeAsExpando(INode e)
-        {
-            Expando x = new Expando();
-
-            foreach (IXMLElement v in e.childNodes)
-            {
-
-                x.SetMember(v.nodeName, DeserializeAsValue(v));
-            }
-
-            return x;
-        }
-
-        static Expando DeserializeAsValue(INode e)
-        {
-            if (e.childNodes.Length == 1)
-                if (e.childNodes[0].nodeType == INode.NodeTypeEnum.TextNode)
-                    return Expando.Of(e.childNodes[0].nodeValue);
-
-            return DeserializeAsExpando(e);
-        }
-
-        static Action<Action<T>> CreateComplexProxy<T>(string URL, string method)
-        {
-            return delegate(Action<T> done)
-            {
-                new IXMLHttpRequest(URL + "/" + method, "",
-                     delegate(IXMLHttpRequest r)
-                     {
-                         done(DeserializeAsValue(r.responseXML.documentElement).To<T>());
-                     }
-                 );
-            };
+            this.HelloWorld = p.CreateComplexProxy<JavaScript.U>("HelloWorld");
+            this.HelloWorld2 = p.CreateComplexProxy<JavaScript.UX>("HelloWorld2");
         }
 
         public readonly Action<Action<JavaScript.U>> HelloWorld;
@@ -83,13 +48,15 @@ namespace JavaScript
             Native.Window.onload +=
                 delegate
                 {
+                    MyWebService p = new MyWebService(new WebServiceProxy("WebService.asmx"));
+
+                    
+
                     IHTMLButton btn = new IHTMLButton("asp.net c# : hello world 8");
 
                     Native.Document.body.appendChild(btn);
 
                     btn.style.color = Color.Red;
-
-                    ProxyWebService p = new ProxyWebService("WebService.asmx");
 
                     btn.onclick += delegate
                     {
