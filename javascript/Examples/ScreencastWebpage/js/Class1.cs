@@ -11,6 +11,70 @@ using global::System.Collections.Generic;
 
 namespace ScreencastWebpage.js
 {
+    static class FooClass
+    {
+        delegate void FooDelegate();
+
+        static event FooDelegate Bar;
+
+
+        private int myVar;
+
+        public int MyProperty
+        {
+            get { return myVar; }
+            set { myVar = value; }
+        }
+	
+
+ 
+
+ 
+
+ 
+
+ 
+
+        static event FooDelegate BarSpecial
+        {
+            add
+            {
+                Bar += value;
+            }
+            remove
+            {
+                Bar -= value;
+            }
+        }
+
+        static void Foo()
+        {
+            FooClass.Bar += LoadWebPage_Handler;
+
+            int bar = 0;
+
+            LoadWebPage("http://example.com", () => bar++);
+        }
+
+        static void LoadWebPage(string url, Action done)
+        {
+            LoadWebPage("http://example.com", new Action(LoadWebPage_Handler));
+            LoadWebPage("http://example.com", LoadWebPage_Handler);
+            LoadWebPage("http://example.com",
+                delegate() { Console.WriteLine("done!"); }
+                );
+            LoadWebPage("http://example.com", () => Console.WriteLine("done!"));
+        }
+
+        static void LoadWebPage_Handler()
+        {
+            Console.WriteLine("done!");
+        }
+
+
+    }
+
+
     [Script]
     public static class ScreencastWebpage
     {
@@ -97,6 +161,8 @@ namespace ScreencastWebpage.js
             return new IHTMLDiv(t);
         }
 
+
+
         static void LoadWebPage(string url, Action<IHTMLIFrame> done)
         {
             var i = new IHTMLIFrame();
@@ -114,8 +180,19 @@ namespace ScreencastWebpage.js
             i.attachToDocument();
         }
 
+
+
+
+
+
+
+
+
         static ScreencastWebpage()
         {
+
+
+
             Native.Window.onload +=
                 delegate
                 {
@@ -245,7 +322,7 @@ namespace ScreencastWebpage.js
                             autoload = PlayThis;
                     }
 
-                    Dock.appendChild( fieldset );
+                    Dock.appendChild(fieldset);
 
                     if (autoload != null)
                         autoload();

@@ -29,7 +29,12 @@ namespace ClassLibrary1.js
 			
 			btn = new IHTMLButton("button1");
 			
-			btn.onclick +=	button1_onclick;
+			btn.onclick +=
+				delegate
+				{
+					this.AddText("non null text");
+				};
+				
 			
 			Control.appendChild(btn);
         }
