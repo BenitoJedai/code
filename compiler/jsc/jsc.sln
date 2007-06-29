@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jsc", "jsc.csproj", "{77861F2D-D284-4913-B9E9-D906C7262219}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibA", "..\ScriptCorLibA\ScriptCoreLibA.csproj", "{477C5608-F5CD-436F-935D-66675988F1D9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug with Doc|Any CPU = Debug with Doc|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		HTShop|Any CPU = HTShop|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{77861F2D-D284-4913-B9E9-D906C7262219}.Debug with Doc|Any CPU.ActiveCfg = Debug with Doc|Any CPU
+		{77861F2D-D284-4913-B9E9-D906C7262219}.Debug with Doc|Any CPU.Build.0 = Debug with Doc|Any CPU
+		{77861F2D-D284-4913-B9E9-D906C7262219}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77861F2D-D284-4913-B9E9-D906C7262219}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77861F2D-D284-4913-B9E9-D906C7262219}.HTShop|Any CPU.ActiveCfg = HTShop|Any CPU
+		{77861F2D-D284-4913-B9E9-D906C7262219}.HTShop|Any CPU.Build.0 = HTShop|Any CPU
+		{77861F2D-D284-4913-B9E9-D906C7262219}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77861F2D-D284-4913-B9E9-D906C7262219}.Release|Any CPU.Build.0 = Release|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.Debug with Doc|Any CPU.ActiveCfg = Debug with Doc|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.Debug with Doc|Any CPU.Build.0 = Debug with Doc|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.HTShop|Any CPU.ActiveCfg = HTShop|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.HTShop|Any CPU.Build.0 = HTShop|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

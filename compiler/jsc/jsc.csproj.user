@@ -1,0 +1,35 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <LastOpenVersion>8.0.50215</LastOpenVersion>
+    <PublishUrlHistory>http://localhost/jsc/</PublishUrlHistory>
+    <InstallUrlHistory>
+    </InstallUrlHistory>
+    <SupportUrlHistory>
+    </SupportUrlHistory>
+    <UpdateUrlHistory>
+    </UpdateUrlHistory>
+    <BootstrapperUrlHistory>
+    </BootstrapperUrlHistory>
+    <ApplicationRevision>0</ApplicationRevision>
+    <FallbackCulture>en-US</FallbackCulture>
+    <VerifyUploadedFiles>true</VerifyUploadedFiles>
+    <ProjectView>ShowAllFiles</ProjectView>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <StartWorkingDirectory>X:\c#\jsc\svn\javascript\Games\SpaceInvaders\bin\Release</StartWorkingDirectory>
+    <StartArguments>SpaceInvaders.dll -js</StartArguments>
+    <RemoteDebugEnabled>false</RemoteDebugEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <StartWorkingDirectory>X:\c#\jsc\ScriptCoreLibTest\bin\Release\</StartWorkingDirectory>
+    <StartArguments>ScriptCoreLibTest.exe</StartArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'HTShop|AnyCPU' ">
+    <StartWorkingDirectory>X:\c#\jsc\HTShop\bin\Debug</StartWorkingDirectory>
+    <StartArguments>HTShop.dll -PHP</StartArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug with Doc|AnyCPU' ">
+    <StartWorkingDirectory>\\titanium\c$\util\jsc\test\</StartWorkingDirectory>
+    <StartArguments>OrcasScriptApplication1.dll -js</StartArguments>
+  </PropertyGroup>
+</Project>

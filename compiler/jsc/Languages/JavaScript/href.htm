@@ -1,0 +1,92 @@
+
+
+
+<script>
+
+function $spawn(_7, _8){
+ var 
+ _1 = 0,
+ _2='onreadystatechange',
+ _3=document.getElementsByTagName('HEAD')[0],
+ _4,
+ _5;
+ 
+ for (_4 in _7)
+ {
+ _5=document.createElement('SCRIPT');
+ _5.src=_7[_4];
+ _3.appendChild(_5);
+ 
+ _5[_2 in _5 ? _2 : 'onload'] =
+ function ()
+ {
+ var _6=_5.readyState;
+ if(_6==null||_6=='loaded'||_6=='complete')
+ if (++_1 == _7.length) _8();
+ };
+ }
+ };
+
+
+
+
+function $spawn3(_7, _8)
+{
+    var a = [];
+    
+    var _2 = function (i)
+    {
+        return function ()
+        {
+            $spawn([_7[i]], function () { 
+                a[i + 1]();
+            } ); 
+        };
+    }
+    
+    for (var i in _7)
+    {
+        a[a.length] = _2(a.length);
+    }
+    
+    a[a.length] = _8;
+
+    a[0]();
+}
+
+var $spawn2_cache = {};
+
+function $spawn2(_7, _8)
+{
+    var z = '' + _7;
+    
+    if (z in $spawn2_cache)
+    {
+        dump('block');
+        return;
+    }
+  
+    $spawn2_cache[z] = null;
+  
+  
+  
+  $spawn3(_7, function () { delete $spawn2_cache[z]; _8(); });
+}
+
+function $spawn_spaceinvaders()
+{
+    $spawn2(
+        ['ScriptCoreLib.dll.js.packed.js',
+        'ScriptCoreLib.Query.dll.js.packed.js',
+        'SpaceInvaders.dll.js.packed.js'],
+        function () {SpawnSpaceInvaders('http://jsc.sourceforge.net/examples/web/SpaceInvaders/') }
+    );
+
+}
+
+</script>
+
+
+<a style="text-decoration: none !important;" href="javascript: $spawn_spaceinvaders()"><img src="thumb_SpaceInvaders.png/thumb_SpaceInvaders-full.jpg" style="border: 0pt none ; margin: 1em; vertical-align: middle;"> 
+Spawn <b>Space Invaders</b></a>
+

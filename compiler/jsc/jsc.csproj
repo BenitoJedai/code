@@ -1,0 +1,151 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{77861F2D-D284-4913-B9E9-D906C7262219}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>jsc</RootNamespace>
+    <AssemblyName>jsc</AssemblyName>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <ApplicationIcon>Resx\App.ico</ApplicationIcon>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>neutronic.snk</AssemblyOriginatorKeyFile>
+    <PublishUrl>http://localhost/jsc/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'HTShop|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\HTShop\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug with Doc|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug with Doc\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.Build.Utilities" />
+    <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CodeModel\TypeInfo.cs" />
+    <Compile Include="CodeModel\VariableInfo.cs" />
+    <Compile Include="CommandLineOption.cs" />
+    <Compile Include="CommandLineOptions.cs" />
+    <Compile Include="Helper.cs" />
+    <Compile Include="Languages\CompilerBase.DIA.cs" />
+    <Compile Include="Languages\CompilerBase.CompilerConstants.cs" />
+    <Compile Include="Languages\CompilerJob.cs" />
+    <Compile Include="Languages\CompilerBase.Handler.cs" />
+    <Compile Include="Languages\C\CCompiler.cs" />
+    <Compile Include="Languages\DelegateHint.cs" />
+    <Compile Include="Languages\JavaScript\DelegateImplementationProvider.cs" />
+    <Compile Include="Languages\JavaScript\IL2Script.cs" />
+    <Compile Include="AssamblyTypeInfo.cs" />
+    <Compile Include="Languages\JavaScript\IL2ScriptWriterHelper.cs" />
+    <Compile Include="CodeModel\ILBlock.cs" />
+    <Compile Include="CodeModel\ILFlow.cs" />
+    <Compile Include="Languages\IdentWriter.cs" />
+    <Compile Include="CodeModel\ILInstruction.cs" />
+    <Compile Include="Languages\JavaScript\IL2ScriptGenerator.cs" />
+    <Compile Include="Languages\Java\CompilerJob.cs" />
+    <Compile Include="Languages\PHP\DelegateImplementationProvider.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecursionGuard.cs" />
+    <Compile Include="Languages\CompilerBase.cs" />
+    <Compile Include="Languages\CompilerCLike.cs" />
+    <Compile Include="Languages\Java\JavaCompiler.cs" />
+    <Compile Include="Languages\PHP\PHPCompiler.cs" />
+    <Compile Include="Task.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="about.txt" />
+    <EmbeddedResource Include="Languages\JavaScript\%24ctor%24.js" />
+    <Content Include="Languages\JavaScript\href.htm" />
+    <Content Include="license.txt" />
+    <Content Include="Resx\App.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="neutronic.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Dia2Lib">
+      <Guid>{106173A0-0173-4E5C-84E7-E915422BE997}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Languages\ActionScript\" />
+    <Folder Include="Profiler\" />
+    <Folder Include="tools\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)*.exe" "c:\util\jsc\bin" /y
+copy "$(TargetDir)*.dll" "c:\util\jsc\bin" /y</PostBuildEvent>
+  </PropertyGroup>
+</Project>
