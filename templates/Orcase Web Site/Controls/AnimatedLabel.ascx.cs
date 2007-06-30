@@ -50,7 +50,7 @@ namespace JavaScript
                         Action RandomizeColors =
                             () =>
                             {
-                                Func<Color> RandomColor = () => (Color)Native.Math.floor(Native.Math.random() * 0xffffff);
+                                Func<Color> RandomColor = () => (Color)System.Math.Floor(new System.Random().NextDouble() * 0xffffff);
 
                                 if (!IsHot)
                                 {

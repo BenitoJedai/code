@@ -57,7 +57,7 @@
     <Folder Include="source\php\" />
     <Folder Include="source\shared\" />
   </ItemGroup>
-  <Import Project="$(ProgramFiles)\LINQ Preview\Misc\Linq.targets" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>call "X:\c#\jsc\jsc\$(OutDir)jsc.exe" "$(TargetFileName)" -z
 </PostBuildEvent>

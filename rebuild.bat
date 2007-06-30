@@ -18,6 +18,7 @@ call :build core\ScriptCoreLibJava.jni\ScriptCoreLibJava.jni.sln
 
 :: rebuild framework
 
+call :build core\jsc.server\jsc.server.sln
 call :build core\ScriptCoreLib\ScriptCoreLib.sln
 call :build core\ScriptCoreLib.Query\ScriptCoreLib.Query.sln
 call :build core\ScriptCoreLib.Cards\ScriptCoreLib.Cards.sln
