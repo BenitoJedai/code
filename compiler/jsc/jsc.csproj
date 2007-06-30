@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.20404</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{77861F2D-D284-4913-B9E9-D906C7262219}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -126,7 +126,12 @@
     <Content Include="about.txt" />
     <EmbeddedResource Include="Languages\JavaScript\%24ctor%24.js" />
     <Content Include="Languages\JavaScript\href.htm" />
-    <Content Include="license.txt" />
+    <Content Include="license.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resx\App.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +155,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)*.exe" "c:\util\jsc\bin" /y
-copy "$(TargetDir)*.dll" "c:\util\jsc\bin" /y</PostBuildEvent>
+copy "$(TargetDir)*.dll" "c:\util\jsc\bin" /y
+copy "$(TargetDir)*.txt" "c:\util\jsc\bin" /y</PostBuildEvent>
   </PropertyGroup>
 </Project>
