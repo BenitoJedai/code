@@ -35,11 +35,11 @@ namespace CardGames.source.js
         /// </summary>
         static Settings()
         {
-            Console.LogAssambley(
-                shared.AssemblyInfo.Current,
-                ScriptCoreLib.Shared.AssemblyInfo.Current,
-                ScriptCoreLib.Shared.Cards.AssemblyInfo.Current
-                );
+            //Console.LogAssambley(
+            //    shared.AssemblyInfo.Current,
+            //    ScriptCoreLib.Shared.AssemblyInfo.Current,
+            //    ScriptCoreLib.Shared.Cards.AssemblyInfo.Current
+            //    );
 
 
             Native.Spawn(Controls);
