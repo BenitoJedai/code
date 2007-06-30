@@ -8,8 +8,9 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
 
 using ScriptCoreLib.Shared;
-using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared.Drawing;
+
+using System.Linq;
 
 using global::System.Collections.Generic;
 using global::System.ComponentModel;

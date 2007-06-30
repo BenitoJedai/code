@@ -9,7 +9,9 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
 
 using ScriptCoreLib.Shared;
-using ScriptCoreLib.Shared.Query;
+
+using System.Linq;
+
 using ScriptCoreLib.Shared.Drawing;
 
 using global::System.Collections.Generic;

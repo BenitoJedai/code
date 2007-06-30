@@ -12,6 +12,7 @@ using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared.Drawing;
 
+using System.Linq;
 
 namespace ScriptCoreLib.JavaScript.Cards
 {
