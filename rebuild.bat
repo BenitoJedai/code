@@ -34,8 +34,11 @@ call :build templates\AppletTemplate\DemoApplet.sln
 
 :: rebuild examples
 call :build javascript\Games\SpaceInvaders\SpaceInvaders.sln
+call :build javascript\Games\DockMaster\DockMaster.sln
 call :build javascript\Games\LightsOut\LightsOut.sln
-call :build javascript\Games\LightsOut2\LightsOut.sln
+call :build javascript\Games\LightsOut2\LightsOut2.sln
+call :build javascript\Games\GameOfLife\GameOfLife.sln
+call :build javascript\Games\Mahjong\Mahjong.sln
 
 call :build javascript\Examples\ButterFly\ButterFly.sln
 call :build javascript\Examples\CardGames\CardGames.sln
