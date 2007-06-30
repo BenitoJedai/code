@@ -10,6 +10,7 @@ using ScriptCoreLib.JavaScript.DOM;
 
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
+using System.Linq;
 
 namespace HulaGirl.source.js.Controls
 {

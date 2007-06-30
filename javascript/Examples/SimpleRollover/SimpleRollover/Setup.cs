@@ -13,7 +13,7 @@ namespace SimpleRollover
         public static void DefineEntryPoint(IEntryPoint e)
         {
             DefineSpawnPoint(e, js.Class1.Alias, js.Class1.DefaultData, false);
-            DefineSpawnPoint(e, js.Class1.Alias, js.Class1.DefaultData, true);
+            //DefineSpawnPoint(e, js.Class1.Alias, js.Class1.DefaultData, true);
 
         }
 
