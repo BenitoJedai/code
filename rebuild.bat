@@ -9,6 +9,7 @@ set target=C:\util\jsc\bin
 :: C:\util\jsc\bin is expected to exist
 
 :: rebuild compiler
+call :build compiler\ScriptCoreLibA\ScriptCoreLibA.sln
 call :build compiler\jsc\jsc.sln
 
 :: rebuild framework
@@ -18,6 +19,9 @@ call :build core\ScriptCoreLib.Cards\ScriptCoreLib.Cards.sln
 call :build core\ScriptCoreLib.Net\ScriptCoreLib.Net.sln
 call :build core\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing.sln
 call :build core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.sln
+
+:: rebuild controls
+call :build javascript\Controls\TextEditor\ScriptCoreLib.Controls.TextEditor.sln
 
 
 :: rebuild templates
@@ -30,7 +34,9 @@ call :build javascript\Games\SpaceInvaders\SpaceInvaders.sln
 
 call :build javascript\Examples\ButterFly\ButterFly.sln
 call :build javascript\Examples\CardGames\CardGames.sln
+call :build javascript\Examples\DragStan\drag.sln
 call :build javascript\Examples\TextRotator\TextRotator.sln
+call :build javascript\Examples\TextEditorDemo\TextEditorDemo.sln
 call :build javascript\Examples\GoogleGears\GGearAlpha.sln
 call :build javascript\Examples\GMapsClone\GMapsClone.sln
 call :build javascript\Examples\FormsExample\FormsExample.sln
@@ -42,10 +48,7 @@ call :build javascript\Examples\HulaGirl\HulaGirl.sln
 
 :: msbuild does not work with visual basic 9 at the moment...
 
-:: rebuild visual basic templates
 ::call :build templates\OrcasVisualBasicScriptApplication\OrcasVisualBasicScriptApplication.sln
-
-:: rebuild visual basic examples
 ::call :build javascript\Examples\FormsExample.VisualBasic\FormsExample.VisualBasic.sln
 
 

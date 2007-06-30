@@ -15,6 +15,7 @@ using ScriptCoreLib.Shared.Drawing;
 namespace ScriptCoreLib.JavaScript.Controls
 {
     using StringPair = Pair<string, string>;
+    using System.Linq;
 
     [Script]
     internal abstract class WebResource
@@ -39,7 +40,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 
             public static implicit operator fx(string Value)
             {
-                return new fx { Value, Directory = Alias };
+                return new fx { Value = Value, Directory = Alias };
             }
         }
 

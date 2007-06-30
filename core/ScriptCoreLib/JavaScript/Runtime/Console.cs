@@ -128,6 +128,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
         #endregion
 
+        [System.Obsolete("Obselete", true)]
         public static void LogAssambley(params IAssemblyInfo[] e)
         {
             if (Native.Document == null)
