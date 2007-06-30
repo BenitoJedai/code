@@ -12,9 +12,12 @@ set target=C:\util\jsc\bin
 call :build compiler\ScriptCoreLibA\ScriptCoreLibA.sln
 call :build compiler\jsc\jsc.sln
 
-:: rebuild framework
+:: java
 call :build core\ScriptCoreLibJava\ScriptCoreLibJava.sln
 call :build core\ScriptCoreLibJava.jni\ScriptCoreLibJava.jni.sln
+
+:: rebuild framework
+
 call :build core\ScriptCoreLib\ScriptCoreLib.sln
 call :build core\ScriptCoreLib.Query\ScriptCoreLib.Query.sln
 call :build core\ScriptCoreLib.Cards\ScriptCoreLib.Cards.sln
@@ -24,6 +27,7 @@ call :build core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.sln
 
 :: rebuild controls
 call :build javascript\Controls\TextEditor\ScriptCoreLib.Controls.TextEditor.sln
+call :build javascript\Controls\LayeredControl\ScriptCoreLib.Controls.LayeredControl.sln
 
 
 :: rebuild templates

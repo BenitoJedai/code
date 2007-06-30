@@ -4,7 +4,6 @@ using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 
 using ScriptCoreLib.Shared.Drawing;
-using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared.Lambda;
 
 using ScriptCoreLib.JavaScript;
@@ -15,6 +14,7 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 using ScriptCoreLib.JavaScript.Controls.Effects;
 //using global::System.Collections.Generic;
 
+using System.Linq;
 
 
 namespace LightsOut.js

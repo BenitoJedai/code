@@ -130,7 +130,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 
         public void SetCanvasSize(Point p)
         {
-            CurrentCanvasSize = new Point(Native.Math.round(p.X), Native.Math.round(p.Y));
+            CurrentCanvasSize = new Point((int)System.Math.Round((double)p.X), (int)System.Math.Round((double)p.Y));
 
             Layers.Canvas.style.SetSize(p.X, p.Y);
             Layers.CanvasInfo.style.SetSize(p.X, p.Y);
