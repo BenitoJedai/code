@@ -31,6 +31,26 @@
             http://www.w3schools.com/css/pr_class_display.asp
             </summary>
         </member>
+        <member name="F:ScriptCoreLib.JavaScript.DOM.IStyle.TextTransformEnum.none">
+            <summary>
+            Default. Defines normal text, with lower case letters and capital letters
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.JavaScript.DOM.IStyle.TextTransformEnum.capitalize">
+            <summary>
+            Each word in a text starts with a capital letter
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.JavaScript.DOM.IStyle.TextTransformEnum.uppercase">
+            <summary>
+            Defines only capital letters
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.JavaScript.DOM.IStyle.TextTransformEnum.lowercase">
+            <summary>
+            Defines no capital letters, only lower case letters
+            </summary>
+        </member>
         <member name="T:ScriptCoreLib.JavaScript.DOM.IElement">
             <summary>
             http://developer.kde.org/documentation/library/3.3-api/khtml/html/classDOM_1_1Element.html
@@ -1237,7 +1257,7 @@
             <param name="fadetime"></param>
             <param name="done"></param>
         </member>
-        <member name="M:ScriptCoreLib.JavaScript.Runtime.List`1.RemoveBy(ScriptCoreLib.Shared.EventHandler{ScriptCoreLib.Shared.Predicate{`0}})">
+        <member name="M:ScriptCoreLib.JavaScript.Runtime.__List`1.RemoveBy(ScriptCoreLib.Shared.EventHandler{ScriptCoreLib.Shared.Predicate{`0}})">
             <summary>
             if predicate value is set to true, item will be removed
             </summary>

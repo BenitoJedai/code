@@ -29,6 +29,10 @@ namespace JavaScript
     using ScriptCoreLib.Shared.Query;
     using ScriptCoreLib.Shared.Drawing;
 
+    interface AssemblyReferenceToken :
+        ScriptCoreLib.Shared.Query.AssemblyReferenceToken
+    {
+    }
 
     [Script]
     public class ClientScriptReflector
@@ -51,7 +55,7 @@ namespace JavaScript
                             {
                                 var demo = new { now = "" + IDate.Now, text = "" };
 
-                                Native.DebugBreak();
+                                System.Diagnostics.Debugger.Break();
 
                                 demo.text = "we should see this in the debugger.";
 
