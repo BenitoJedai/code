@@ -47,17 +47,24 @@ call :build javascript\Games\Mahjong\Mahjong.sln
 call :build javascript\Examples\ButterFly\ButterFly.sln
 call :build javascript\Examples\CardGames\CardGames.sln
 call :build javascript\Examples\DragStan\drag.sln
+call :build javascript\Examples\FormsExample\FormsExample.sln
+call :build javascript\Examples\GMapsClone\GMapsClone.sln
+call :build javascript\Examples\GoogleGears\GGearAlpha.sln
+call :build javascript\Examples\HotPolygon\HotPolygon.sln
+call :build javascript\Examples\HulaGirl\HulaGirl.sln
+call :build javascript\Examples\ImageZoomer\ImageZoomer.sln
+call :build javascript\Examples\MouseWheel\MouseWheel.sln
+
+call :build javascript\Examples\NumberGuessingGame\NumberGuessingGame.sln
+call :build javascript\Examples\SimpleBankPage\SimpleBankPage.sln
+call :build javascript\Examples\SimpleFilmstrip\SimpleFilmstrip.sln
+call :build javascript\Examples\SimpleRollover\SimpleRollover.sln
+call :build javascript\Examples\SubSquare\SubSquare.sln
 call :build javascript\Examples\TextRotator\TextRotator.sln
 call :build javascript\Examples\TextEditorDemo\TextEditorDemo.sln
-call :build javascript\Examples\GoogleGears\GGearAlpha.sln
-call :build javascript\Examples\GMapsClone\GMapsClone.sln
-call :build javascript\Examples\FormsExample\FormsExample.sln
-call :build javascript\Examples\ImageZoomer\ImageZoomer.sln
-call :build javascript\Examples\HotPolygon\HotPolygon.sln
-call :build javascript\Examples\SimpleRollover\SimpleRollover.sln
-call :build javascript\Examples\MouseWheel\MouseWheel.sln
-call :build javascript\Examples\HulaGirl\HulaGirl.sln
-call :build javascript\Examples\NumberGuessingGame\NumberGuessingGame.sln
+
+
+
 
 :: msbuild does not work with visual basic 9 at the moment...
 

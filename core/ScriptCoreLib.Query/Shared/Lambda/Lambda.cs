@@ -7,7 +7,13 @@ namespace ScriptCoreLib.Shared.Lambda
     [Script]
     public static partial class Lambda
     {
+        public static int Max(this int e, int x)
+        {
+            if (e > x)
+                return e;
 
+            return x;
+        }
         public static global::System.Linq.Func<T> FixParam<A, T>(this global::System.Linq.Func<A, T> f, A a)
         {
             return () => f(a);

@@ -4,7 +4,6 @@ using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 
 using ScriptCoreLib.Shared.Drawing;
-using ScriptCoreLib.Shared.Query;
 
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Controls;
@@ -12,6 +11,10 @@ using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.XML;
+
+using System.Linq;
+
+using ScriptCoreLib.Shared.Lambda;
 
 //using global::System.Collections.Generic;
 
@@ -131,7 +134,7 @@ namespace GameOfLife.js
                             ColorBirth = Color.Black
                         };
 
-            Func<Color> RandomState = () => Native.Math.random() > 0.5 ? State.ColorDeath : State.ColorBirth;
+            Func<Color> RandomState = () => new System.Random().NextDouble() > 0.5 ? State.ColorDeath : State.ColorBirth;
 
 
             #region reset

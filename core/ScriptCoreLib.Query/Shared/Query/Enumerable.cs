@@ -54,13 +54,7 @@ namespace ScriptCoreLib.Shared.Query
 
         #region Max
 
-        public static int Max(this int e, int x)
-        {
-            if (e > x)
-                return e;
 
-            return x;
-        }
 
         public static int Max(this IEnumerable<int> source)
         {
