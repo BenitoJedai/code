@@ -92,8 +92,11 @@ namespace javax.common.wrapper
     }
 #endif
 
+
+
+
     [Script(Implements = typeof(global::System.IDisposable))]
-    public interface IDisposableImplementation
+    public interface __IDisposable
     {
         void Dispose();
     }

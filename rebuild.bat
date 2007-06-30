@@ -6,13 +6,15 @@ set flags=/nologo /verbosity:q
 
 set target=C:\util\jsc\bin
 
-:: C:\util\jsc\bin is expected to exist
+:: C:\util\jsc\bin is expected to exist as compiler and framework assemblies will be placed there
 
 :: rebuild compiler
 call :build compiler\ScriptCoreLibA\ScriptCoreLibA.sln
 call :build compiler\jsc\jsc.sln
 
 :: rebuild framework
+call :build core\ScriptCoreLibJava\ScriptCoreLibJava.sln
+call :build core\ScriptCoreLibJava.jni\ScriptCoreLibJava.jni.sln
 call :build core\ScriptCoreLib\ScriptCoreLib.sln
 call :build core\ScriptCoreLib.Query\ScriptCoreLib.Query.sln
 call :build core\ScriptCoreLib.Cards\ScriptCoreLib.Cards.sln
@@ -26,6 +28,7 @@ call :build javascript\Controls\TextEditor\ScriptCoreLib.Controls.TextEditor.sln
 
 :: rebuild templates
 call :build templates\OrcasScriptApplication\OrcasScriptApplication.sln
+call :build templates\AppletTemplate\AppletTemplate.sln
 
 
 

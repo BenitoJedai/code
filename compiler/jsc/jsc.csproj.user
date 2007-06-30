@@ -29,7 +29,7 @@
     <StartArguments>HTShop.dll -PHP</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug with Doc|AnyCPU' ">
-    <StartWorkingDirectory>\\titanium\c$\util\jsc\test\</StartWorkingDirectory>
-    <StartArguments>OrcasScriptApplication1.dll -js</StartArguments>
+    <StartWorkingDirectory>Z:\work\jsc\svn\templates\AppletTemplate\bin\Release</StartWorkingDirectory>
+    <StartArguments>DemoApplet.dll -java</StartArguments>
   </PropertyGroup>
 </Project>

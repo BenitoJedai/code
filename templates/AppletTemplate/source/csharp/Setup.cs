@@ -16,6 +16,33 @@ using PrimaryAppletSettings = DemoApplet.source.java.DemoApplet.Settings;
 
 namespace AppletTemplate.source.csharp
 {
+    class SettingsInfo
+    {
+        public string ProjectName {get; set;}
+        public string CompilandNamespace0 { get; set; }
+        public string CompilandNamespace1 { get; set; }
+        public string AppletWebPage { get; set; }
+        public string CompilandType { get; set; }
+        public string CompilandFullName { get; set; }
+        public string PackageName { get; set; }
+    }
+
+    class AppletElementInfo
+    {
+        public string code { get; set; }
+        public string codebase { get; set; }
+        public string archive { get; set; }
+        public int width { get; set; }
+        public int height { get; set; }
+        public string mayscript { get; set; }
+    }
+
+    class ParamInfo
+    {
+        public string name { get; set; }
+        public object value { get; set; }
+    }
+
     class Setup
     {
         public const string SettingsFileName = "setup.settings.cmd";
@@ -23,7 +50,8 @@ namespace AppletTemplate.source.csharp
         public static void DefineEntryPoint(IEntryPoint e)
         {
 
-            var settings = new {
+            var settings = new SettingsInfo
+            {
                 ProjectName = PrimaryAppletSettings.Alias,
                 CompilandNamespace0 = PrimaryAppletSettings.AliasNamespace.Replace(".", "/"),
                 CompilandNamespace1 = PrimaryAppletSettings.AliasNamespace,
@@ -45,7 +73,8 @@ namespace AppletTemplate.source.csharp
             e[settings.AppletWebPage] =
                 new XElement("body",
                     ToElementWithAttributes("applet",
-                        new {
+                        new AppletElementInfo
+                        {
                             code = settings.CompilandFullName, 
                             codebase = "bin",
                             archive = settings.PackageName, 
@@ -53,12 +82,12 @@ namespace AppletTemplate.source.csharp
                             height = PrimaryAppletSettings.DefaultHeight,
                             mayscript="true"
                         }
-                        , ToParameters(
+                        /*, ToParameters(
                             new {
                                 foo = "unused",
                                 bar = "unused"
                             }
-                        ).ToArray()
+                        ).ToArray()*/
                     )
                 ).Xml;
         }
@@ -82,7 +111,8 @@ namespace AppletTemplate.source.csharp
             {
                 yield return new XElement("param",
                         ToAttributes(
-                            new {
+                            new ParamInfo
+                            {
                                 name =z.Name,
                                 value = z.GetValue(v, null)
                             }
