@@ -59,19 +59,5 @@ namespace FormsExample.Properties {
                 resourceCulture = value;
             }
         }
-        
-        internal static System.Drawing.Bitmap cal {
-            get {
-                object obj = ResourceManager.GetObject("cal", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap dicon_reference {
-            get {
-                object obj = ResourceManager.GetObject("dicon_reference", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }
