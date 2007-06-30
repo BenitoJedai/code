@@ -57,6 +57,7 @@ call :build javascript\Examples\HotPolygon\HotPolygon.sln
 call :build javascript\Examples\SimpleRollover\SimpleRollover.sln
 call :build javascript\Examples\MouseWheel\MouseWheel.sln
 call :build javascript\Examples\HulaGirl\HulaGirl.sln
+call :build javascript\Examples\NumberGuessingGame\NumberGuessingGame.sln
 
 :: msbuild does not work with visual basic 9 at the moment...
 

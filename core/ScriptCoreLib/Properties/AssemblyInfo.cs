@@ -36,8 +36,9 @@ using ScriptCoreLib;
 [assembly: AssemblyVersion("3.0.*")]
 [assembly: AssemblyFileVersion("3.0.*")]
 
-[assembly: Script(IsCoreLib=true),
-ScriptResources("external")]
+[assembly: Script(IsCoreLib=true)
+    //,ScriptResources("external")
+]
 
 [assembly: ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript")]
 [assembly: ScriptTypeFilter(ScriptType.JavaScript, "*.Shared")]

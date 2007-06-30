@@ -39,8 +39,8 @@ namespace DockMaster.source.js.gfx
 
         public void WaitUntilLoaded(Action e)
         {
-            Timer.While(
-                delegate
+            new Timer(
+                t =>
                 {
                     bool r = false;
 
@@ -55,8 +55,15 @@ namespace DockMaster.source.js.gfx
                         }
                     }
 
-                    return r;
-                }, e, 300);
+                    
+                    if (!r)
+                    {
+                        t.Stop();
+
+                    e();
+                    }
+                    
+                }, 0, 300);
         }
 
         static ImageResources _Default;
