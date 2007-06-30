@@ -3,7 +3,6 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text;
 
-using Microsoft.Build.Utilities;
 
 namespace jsc
 {
@@ -12,14 +11,14 @@ namespace jsc
     {
         public class LoggingHelper
         {
-            public TaskLoggingHelper TaskLogging;
+            //public TaskLoggingHelper TaskLogging;
 
             public void LogMessage(string e, params object[] args)
             {
-                if (TaskLogging == null)
+                //if (TaskLogging == null)
                     Console.WriteLine(e, args);
-                else
-                    TaskLogging.LogMessage(Microsoft.Build.Framework.MessageImportance.High, e, args);
+                //else
+                    //TaskLogging.LogMessage(Microsoft.Build.Framework.MessageImportance.High, e, args);
             }
         }
 
