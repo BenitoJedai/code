@@ -10,6 +10,15 @@ namespace TextRotator
 {
     static class Setup
     {
+        static IEnumerable<Type> References
+        {
+            get
+            {
+                yield return typeof(ScriptCoreLib.Shared.AssemblyReferenceToken);
+                yield return typeof(ScriptCoreLib.Shared.Query.AssemblyReferenceToken);
+            }
+        }
+
         public static void DefineEntryPoint(IEntryPoint e)
         {
             DefineSpawnPoint(e, js.Class1.Alias, js.Class1.DefaultData);
