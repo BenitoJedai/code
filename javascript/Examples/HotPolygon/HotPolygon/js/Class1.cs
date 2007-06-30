@@ -1,10 +1,10 @@
 ﻿//using System.Linq;
 
 using ScriptCoreLib;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Shared;
 
 using ScriptCoreLib.Shared.Drawing;
-using ScriptCoreLib.Shared.Query;
 
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Controls;
@@ -16,7 +16,7 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 
 using global::System.Collections.Generic;
 
-
+using System.Linq;
 
 namespace HotPolygon.js
 {
@@ -80,8 +80,8 @@ namespace HotPolygon.js
 
             loading.attachToDocument();
 
-            Timer.While(
-                () =>
+            new Timer(
+                t =>
                 {
                     var a = (from i in img where !i.complete select i.src).ToArray();
 
@@ -93,14 +93,16 @@ namespace HotPolygon.js
                         loading.innerHTML += "loading: " + v + "<br />";
 	                }
 
-                    return a.Length > 0;
-                },
-                () =>
-                {
+                    if (a.Length > 0)
+                        return;
+
+                    t.Stop();
+
                     loading.Dispose();
 
                     Spawn();
-                }, 300);
+
+                }, 1, 300);
         }
 
         private static void Spawn()
@@ -322,10 +324,10 @@ namespace HotPolygon.js
 
             // 416 x 100
 
-            var img_here_src_off = (from i in 0.Range(5)
+            var img_here_src_off = (from i in Enumerable.Range( 0, 5)
                                     select string.Format("assets/HotPolygon/here/here{0}.png", i)).ToArray();
 
-            var img_here_src_on = (from i in 0.Range(5)
+            var img_here_src_on = (from i in Enumerable.Range(0, 5)
                                    select string.Format("assets/HotPolygon/here/here{0}.png", 5 - i)).ToArray();
 
 

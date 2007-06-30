@@ -5,7 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.Query
 {
-    public class AssemblyReferenceToken
+    public interface AssemblyReferenceToken : 
+        ScriptCoreLib.Shared.AssemblyReferenceToken
     {
         
     }

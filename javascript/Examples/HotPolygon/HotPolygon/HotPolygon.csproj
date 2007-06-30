@@ -30,17 +30,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ScriptCoreLib, Version=3.0.2665.39893, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ScriptCoreLib, Version=3.0.2737.20098, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ScriptCoreLib.Query, Version=1.0.2737.20107, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">

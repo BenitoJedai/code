@@ -1,4 +1,5 @@
-Imports ScriptCoreLib.Shared.Query
+'Imports ScriptCoreLib.Shared.Query
+Imports ScriptCoreLib.Shared.Lambda
 Imports ScriptCoreLib.Shared.Drawing
 Imports ScriptCoreLib.JavaScript.DOM.HTML
 Imports ScriptCoreLib.JavaScript.DOM
@@ -6,7 +7,7 @@ Imports ScriptCoreLib.JavaScript
 
 
 Imports System.Runtime.CompilerServices
-Imports System.Xml.Linq
+Imports System.Linq
 
 <Assembly: Script()> 
 <Assembly: ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript")> 
@@ -210,7 +211,9 @@ Namespace JavaScript
 
 
 
-            Enumerable.ForEach(items, AddressOf AddAsResult)
+
+
+            Lambda.ForEach(items, AddressOf AddAsResult)
 
 
         End Sub

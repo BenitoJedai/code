@@ -21,7 +21,7 @@ namespace OrcasScriptApplication.js
 
     using ScriptCoreLib.Shared.Drawing;
 
-    using StyleBuilder = Dictionary<string, ScriptCoreLib.Shared.Action<IStyleSheetRule>>;
+    using StyleBuilder = Dictionary<string, System.Action<IStyleSheetRule>>;
 
     [Script]
     public class Class1

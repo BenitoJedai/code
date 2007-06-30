@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared
 {
-    public class AssemblyReferenceToken
+    public interface AssemblyReferenceToken
     {
     }
 }
