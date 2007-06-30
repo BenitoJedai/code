@@ -1,0 +1,64 @@
+table.speed {
+    table-layout: fixed;
+    width: 90%;
+    background-color: #ffeee8;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-top: 0.8em;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom:  2em;
+}
+
+table.speed th {
+    text-align: center;
+}
+
+table.speed td, table.speed th {
+    border: 1px solid black;
+    margin: 0;
+    padding: 0.4em 0.8em;
+    vertical-align: baseline;
+}
+
+table.speed td pre {
+    margin: 0;
+    padding: 0;
+}
+
+table.speed td.speed-result-processing {
+    background-color: #ccffcc;
+    text-align: center;
+}
+
+table.speed td.speed-result {
+    text-align: right;
+}
+
+table.speed td.speed-result-error {
+    background-color: #ffcccc;
+    color: black;
+    text-align: left;
+}
+
+col.speed-name {
+    width: 30%;
+}
+
+col.speed-code {
+    width: 60%;
+}
+
+pre {
+    overflow: auto;
+}
+
+col.speed-result {
+    text-align: right;
+    width: 16ex;
+}
+
+input.start-tests-button {
+    font-size: 125%;
+    padding: 0.2em 1em;
+}

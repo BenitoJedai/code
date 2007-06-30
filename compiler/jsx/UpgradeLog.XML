@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="jsx">
+</Property><Property Name="Solution File" Value="X:\c#\jsc\svn\compiler\jsx\jsx.sln">
+</Property><Property Name="Date" Value="30. juuni 2007. a.">
+</Property><Property Name="Time" Value="11:14">
+</Property></Properties><Event ErrorLevel="0" Project="jsx" Source="jsx.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="jsx" Source="jsx.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="jsx.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="jsx.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="jsx" Source="jsx.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

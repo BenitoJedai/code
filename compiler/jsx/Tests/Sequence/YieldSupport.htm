@@ -1,0 +1,182 @@
+<html>
+<head>
+    <title>yield return</title>
+    <script type="text/javascript" src="YieldSupport.Array.js"></script>
+    <script type="text/javascript" src="YieldSupport.Console.js"></script>
+    <script type="text/javascript" src="YieldSupport.SZArrayEnumerator.js"></script>
+    <script type="text/javascript" src="YieldSupport.WhereIterator.js"></script>
+    <script type="text/javascript" src="YieldSupport.ConcatIterator.js"></script>
+    <script type="text/javascript" src="YieldSupport.SelectIterator.js"></script>
+    <script type="text/javascript" src="YieldSupport.SelectManyIterator.js"></script>
+    <script type="text/javascript" src="YieldSupport.FuzzyIterator.js"></script>
+    <script type="text/javascript" src="YieldSupport.MixedIterator.js"></script>
+
+    <script type="text/javascript" src="YieldSupport.Sequence.js"></script>
+
+</head>
+<body>
+
+    <script type="text/javascript">
+    // If comparand and the value in location1 are equal, then value 
+    // is stored in location1. Otherwise, no operation is performed. 
+    // The compare and exchange operations are performed as an atomic 
+    // operation. The return value of CompareExchange is the original 
+    // value in location1, whether or not the exchange takes place.    
+    // Interlocked.CompareExchange = function (_location1, _value, _comparand)
+    
+    var w = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 88, 100 ].SequenceWhere(
+        function (i)
+        {
+            return ((i % 2) == 0);
+        }
+    );
+        
+    w.SequenceForEach(
+        function (v)
+        {
+            Console.WriteLine(v);
+        }
+    );
+
+    Console.WriteLine('---');
+    Console.WriteLine('// Mixed');
+    
+    var w = SequenceMixed(
+        ["a", "b", "c", "d", "e", "f" ],
+        ["A", "B", "C" ]
+    );
+    
+    w.SequenceToConsole();
+
+    Console.WriteLine('---');
+    Console.WriteLine('// SelectMany');
+    
+
+    
+    var w = [ 
+                {b: [1,2,3,4,5]},
+                {b: [6,7,8,9,0]},
+                {b: [11,22,33,44,55]}
+            ].SequenceSelectMany(
+        function (i)
+        {
+            return i.b;
+        }
+    );
+    
+    w.SequenceToConsole();
+    
+        Console.WriteLine('---');
+    
+    Console.WriteLine('// SequenceWhere');
+    var w = [ 'a', 'bb', 'ccc', 'd', 'ee', 'fff' ].SequenceWhere(
+        function (i)
+        {
+            return i.length > 1;
+        }
+    );
+    
+    w.SequenceToConsole();
+        
+    Console.WriteLine('---');    
+
+    var w = [1,3,5]
+       .SequenceConcat([4,6,8,10]
+      ).SequenceConcat([88,99,77,101, -1, 2 ]
+      ).SequenceWhere(
+        function (i)
+        {
+            return i % 2 == 1 || i > 8;
+        }        
+    );
+    
+    var wcount = w.SequenceCount();
+    
+    Console.WriteLine("count: " + wcount);
+    
+    w.SequenceToConsole();
+    
+    Console.WriteLine('---');    
+    
+    [
+        {v: 1, h: function () { Console.WriteLine('a:' + this.v); } },
+        {v: 2, h: function () { Console.WriteLine('b:' + this.v); } },
+        {v: 3, h: function () { Console.WriteLine('c:' + this.v); } }
+    ].SequenceWhere(
+        function (i)
+        {
+            return i.v > 1;
+        }
+    ).SequenceForEach(
+        function (i)
+        {
+            return i.h();        
+        }
+    );
+    
+    Console.WriteLine('---');    
+    
+    Fuzzy(
+        0,
+        [ "a", "b", "c" ],
+        [ "d", "e", "f" ],
+        [ "g", "h", "i" ],
+        function () { Console.Write("( "); },
+        function () { Console.WriteLine(" )"); },
+        function () { Console.WriteLine("---"); }
+    ).SequenceForEach(
+        function (v)
+        {
+            Console.Write(v);
+        }
+    );
+    
+    Fuzzy(
+        1,
+        [ "a", "b", "c" ],
+        [ "d", "e", "f" ],
+        [ "g", "h", "i" ],
+        function () { Console.Write("[ "); },
+        function () { Console.WriteLine(" ]"); },
+        function () { Console.WriteLine("---"); }
+    ).SequenceForEach(
+        function (v)
+        {
+            Console.Write(v);
+        }
+    );    
+    
+    Fuzzy(
+        2,
+        [ "a", "b", "c" ],
+        [ "d", "e", "f" ],
+        [ "g", "h", "i" ],
+        function () { Console.Write("{ "); },
+        function () { Console.WriteLine(" }"); },
+        function () { Console.WriteLine("---"); }
+    ).SequenceForEach(
+        function (v)
+        {
+            Console.Write(v);
+        }
+    );  
+    
+    Fuzzy(
+        3,
+        [ "a", "b", "c" ],
+        [ "d", "e", "f" ],
+        [ "g", "h", "i" ],
+        function () { Console.Write("< "); },
+        function () { Console.WriteLine(" >"); },
+        function () { Console.WriteLine("---"); }
+    ).SequenceForEach(
+        function (v)
+        {
+            Console.Write(v);
+        }
+    );    
+        
+    </script>
+
+</body>
+</html>

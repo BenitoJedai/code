@@ -1,0 +1,108 @@
+<script>
+
+    // prefixes a function
+    function $ctor$(p, b, x)
+    {
+        var f = null;
+        
+        var z = b instanceof Function ? b : x[b];
+        
+        // 'this' is only valid due to 'new' keyword
+        if (p) // defined ctor is wrapped, inheritance is applied
+            f = function ()
+            {
+                var a = this;
+                var n = new p();
+                
+                var c = function (i) { if (a[i] == void(0)) a[i] = n[i]; };
+                
+                for (var i in n) 
+                    c(i);
+                    
+                c('toString');
+                
+                if (z)
+                    z.apply(a, arguments);        
+            };
+        else if (z) // defined ctor is reused
+            f = z;
+        else // a default ctor will be created
+            f = function () { };
+
+        f.prototype = x;
+
+        return f;
+    }
+    
+    // prototpye
+    var a3 = {
+        data: 'this is a3',
+        a3_ctor1: function (e)
+        {
+            this.data += '.ctor1:' + e;
+        },
+        a3_ctor2: function (e)
+        {
+            this.a3_ctor1(e);
+            this.data += '.ctor2';
+        }        
+    };
+
+    
+    var a3_ctor0 = $ctor$(/* base */ null, null, a3);
+    var a3_ctor1 = $ctor$(/* base */ null, a3.a3_ctor1, a3);
+    var a3_ctor2 = $ctor$(/* base */ null, a3.a3_ctor2, a3);
+
+//    alert( new a3_ctor2('x').data );
+
+    var a4 = {
+        zen: 'uno',
+        a4_ctor1: function (e)
+        {
+            // call super ctor
+            this.a3_ctor1(e);
+            
+            this.zen += this.data + ':' + e;
+        },
+        
+        a4_ctor2: function (e)
+        {
+            // call super ctor
+            this.a3_ctor2(e);
+            
+            this.zen += this.data + '2:' + e;
+        }        
+    }
+    
+    var a4_ctor0 = $ctor$(/* base */ a3_ctor0, null, a4);
+    var a4_ctor1 = $ctor$(
+        /* base ctor */ a3_ctor0,
+        /* ctor body */ a4.a4_ctor1, 
+        /* prototype */ a4
+        );
+        
+   var a4_ctor2 = $ctor$(
+        /* base ctor */ a3_ctor0,
+        /* ctor body */ 'a4_ctor2', 
+        /* prototype */ a4
+        );        
+
+    var a5 = {
+        a5_ctor1: function (e)
+        {
+            this.data += 'a5 : ' + e;  
+        }
+    }
+    
+   var a5_ctor1 = $ctor$(
+        /* base ctor */ a4_ctor0,
+        /* ctor body */ 'a5_ctor1', 
+        /* prototype */ a5
+        );   
+            
+debugger;
+    alert( new a5_ctor1('x').data );
+    
+
+</script>
+

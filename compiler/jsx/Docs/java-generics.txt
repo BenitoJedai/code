@@ -1,0 +1,1 @@
+see: http://www.buunguyen.net/blog/java-and-net-generics.html
