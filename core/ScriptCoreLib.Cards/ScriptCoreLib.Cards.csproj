@@ -41,7 +41,7 @@
     </Reference>
     <Reference Include="ScriptCoreLib.Query, Version=1.0.2698.23141, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+      <HintPath>C:\util\jsc\bin\\ScriptCoreLib.Query.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
