@@ -28,12 +28,14 @@ call :build javascript\Controls\TextEditor\ScriptCoreLib.Controls.TextEditor.sln
 
 :: rebuild templates
 call :build templates\OrcasScriptApplication\OrcasScriptApplication.sln
-call :build templates\AppletTemplate\AppletTemplate.sln
+call :build templates\AppletTemplate\DemoApplet.sln
 
 
 
 :: rebuild examples
 call :build javascript\Games\SpaceInvaders\SpaceInvaders.sln
+call :build javascript\Games\LightsOut\LightsOut.sln
+call :build javascript\Games\LightsOut2\LightsOut.sln
 
 call :build javascript\Examples\ButterFly\ButterFly.sln
 call :build javascript\Examples\CardGames\CardGames.sln
