@@ -2,7 +2,7 @@
 using ScriptCoreLib.Shared.Query;
 
 using System.Collections.Generic;
-
+using System.Linq;
 
 namespace CardGames.source.js
 {

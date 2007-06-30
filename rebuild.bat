@@ -27,12 +27,18 @@ call :build templates\OrcasScriptApplication\OrcasScriptApplication.sln
 
 :: rebuild examples
 call :build javascript\Games\SpaceInvaders\SpaceInvaders.sln
+
+call :build javascript\Examples\ButterFly\ButterFly.sln
+call :build javascript\Examples\CardGames\CardGames.sln
 call :build javascript\Examples\TextRotator\TextRotator.sln
 call :build javascript\Examples\GoogleGears\GGearAlpha.sln
+call :build javascript\Examples\GMapsClone\GMapsClone.sln
 call :build javascript\Examples\FormsExample\FormsExample.sln
 call :build javascript\Examples\ImageZoomer\ImageZoomer.sln
 call :build javascript\Examples\HotPolygon\HotPolygon.sln
 call :build javascript\Examples\SimpleRollover\SimpleRollover.sln
+call :build javascript\Examples\MouseWheel\MouseWheel.sln
+call :build javascript\Examples\HulaGirl\HulaGirl.sln
 
 :: msbuild does not work with visual basic 9 at the moment...
 

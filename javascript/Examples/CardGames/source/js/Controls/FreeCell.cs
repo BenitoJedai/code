@@ -9,12 +9,14 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
 
 using ScriptCoreLib.Shared;
-using ScriptCoreLib.Shared.Query;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Shared.Drawing;
 
 using ScriptCoreLib.JavaScript.Cards;
 using System.Collections.Generic;
 using System.ComponentModel;
+
+using System.Linq;
 
 namespace CardGames.source.js.Controls
 {
@@ -145,27 +147,27 @@ namespace CardGames.source.js.Controls
 
 
 
-            Timer.While(
-                delegate
-                {
-                    var ready = true;
+            //Timer.While(
+            //    delegate
+            //    {
+            //        var ready = true;
 
-                    foreach (IHTMLImage image in images.ToArray())
-                    {
-                        if (!image.complete)
-                        {
-                            Console.WriteLine(image.src);
+            //        foreach (IHTMLImage image in images.ToArray())
+            //        {
+            //            if (!image.complete)
+            //            {
+            //                Console.WriteLine(image.src);
 
-                            ready = false;
-                            break;
-                        }
-                    }
+            //                ready = false;
+            //                break;
+            //            }
+            //        }
 
-                    return !ready;
-                }
-                ,
-                delegate
-                {
+            //        return !ready;
+            //    }
+            //    ,
+            //    delegate
+            //    {
                     var status = new StatusInfo();
 
                     status.Update();
@@ -374,8 +376,8 @@ namespace CardGames.source.js.Controls
                     status.Moves = 0;
                     status.CardsLeft = MyDeck.Cards.Count;
                     status.Update();
-                }, 300
-            );
+                //}, 300
+            //);
 
         }
 

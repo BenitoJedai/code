@@ -9,12 +9,14 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
 
 using ScriptCoreLib.Shared;
-using ScriptCoreLib.Shared.Query;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Shared.Drawing;
 
 using ScriptCoreLib.JavaScript.Cards;
 using System.Collections.Generic;
 using System.ComponentModel;
+
+using System.Linq;
 
 namespace CardGames.source.js.Controls
 {
