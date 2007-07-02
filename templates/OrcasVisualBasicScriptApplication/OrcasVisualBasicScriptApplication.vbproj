@@ -109,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
+    <Content Include="docs\description.txt" />
     <Content Include="web\gfx\loadingBar.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

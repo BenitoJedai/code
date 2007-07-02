@@ -1,0 +1,1 @@
+﻿Browser application. Crosscompiled from visual basic to javascript.

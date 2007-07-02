@@ -62,26 +62,8 @@ namespace NatureBoy.js
 
             stage.attachToDocument();
 
-            Func<int, double> ZoomFunc = y => (y + 300) / (600);
 
-            Func<double, double, double> GetAngle =
-                (x, y) =>
-                {
-                    if (x == 0)
-                        return System.Math.PI / 2;
-
-                    var a = System.Math.Atan(y / x);
-
-                    if (x < 0)
-                        a += System.Math.PI;
-                    else if (y < 0)
-                        a += System.Math.PI * 2;
-
-
-                    return a;
-                };
-
-            var dude4 = new Dude { ZoomFunc = ZoomFunc };
+            var dude4 = new Dude { ZoomFunc = y => (y + 300) / (600) };
 
 
 
@@ -96,13 +78,10 @@ namespace NatureBoy.js
             stage.onclick +=
                 delegate(IEvent ev)
                 {
-                    double dx = ev.CursorX - dude4.X;
-                    double dy = ev.CursorY - dude4.Y;
+                    var a =  ev.CursorPosition.GetAngle(dude4.X, dude4.Y);
 
+                    System.Console.WriteLine(new { a = a}.ToString());
 
-
-
-                    System.Console.WriteLine(new { dx, dy, a = GetAngle(dx, dy) }.ToString());
 
                     //dude4.TeleportTo(ev.CursorX, ev.CursorY);
                 };
