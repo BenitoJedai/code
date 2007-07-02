@@ -18,6 +18,8 @@ namespace NatureBoy.js
 {
     using div = IHTMLDiv;
     using img = IHTMLImage;
+    using ScriptCoreLib.Shared;
+    using ScriptCoreLib.Shared.Drawing;
 
     [Script]
     public class Dude
@@ -74,6 +76,29 @@ namespace NatureBoy.js
             Zoom = 1;
 
             Control.appendChild(Shadow, Idle, Walk1, Walk2);
+
+            this.Walk +=
+                delegate
+                {
+                    if (this.TargetLocation == null)
+                        return;
+
+                    var z = this.TargetLocation.GetRange(this.CurrentLocation);
+
+                    if (z / this.CurrentSpeed < 1)
+                    {
+                        // we are there
+                        this.IsWalking = false;
+
+                        if (this.DoneWalking != null)
+                            this.DoneWalking(this);
+
+                        return;
+                    }
+
+                    this.TeleportToArc(this.CurrentSpeed, this.Rotation);
+                };
+
         }
 
         private double _Zoom;
@@ -99,7 +124,7 @@ namespace NatureBoy.js
                 Walk1.style.SetSize(w, h);
                 Walk2.style.SetSize(w, h);
 
-                SetRotation(_Rotation);
+                SetRotation16(_Rotation16);
             }
         }
 
@@ -127,16 +152,34 @@ namespace NatureBoy.js
             }
         }
 
-        private int _Rotation;
+        public double _Rotation;
 
-        public int Rotation
+        public double Rotation
         {
-            get { return _Rotation; }
-            set { _Rotation = value; SetRotation(value); }
+            set
+            {
+                _Rotation = value;
+
+                var z = System.Convert.ToInt32(16 * value / (System.Math.PI * 2) - (0.7 / 16));
+
+
+                this.Rotation16 = z + 12;
+            }
+            get
+            {
+                return _Rotation;
+            }
+        }
+        private int _Rotation16;
+
+        public int Rotation16
+        {
+            get { return _Rotation16; }
+            set { _Rotation16 = value; SetRotation16(value); }
         }
 
 
-        void SetRotation(int i)
+        void SetRotation16(int i)
         {
             var x = i % 16;
 
@@ -171,6 +214,23 @@ namespace NatureBoy.js
             Walk2.style.clip = clip;
         }
 
+        public double RawSpeed = 7;
+
+        public double CurrentSpeed
+        {
+            get
+            {
+                return this.RawSpeed * this.Zoom;
+            }
+        }
+
+        
+
+        public event Action<Dude> DoneWalking;
+        public event Action<Dude> Walk;
+
+        public Point TargetLocation;
+
         Timer WalkTimer;
 
         private bool _IsWalking;
@@ -204,6 +264,10 @@ namespace NatureBoy.js
                                     //Walk2.style.display = IStyle.DisplayEnum.none;
                                 }
 
+
+                                if (Walk != null)
+                                    Walk(this);
+
                             }
                         );
                     }
@@ -234,12 +298,30 @@ namespace NatureBoy.js
             }
         }
 
-        public int X { get; private set; }
-        public int Y { get; private set; }
+        public Point CurrentLocation
+        {
+            get
+            {
+                return new Point(
+                           System.Convert.ToInt32(this.X),
+                           System.Convert.ToInt32(this.Y)
+                       );
+            }
+        }
+        public double X { get; private set; }
+        public double Y { get; private set; }
 
-        public Func<int, double> ZoomFunc;
+        public Func<double, double> ZoomFunc;
 
-        public void TeleportTo(int x, int y)
+        public void TeleportToArc(double z, double a)
+        {
+            this.TeleportTo(
+                this.X + System.Math.Cos(a) * z,
+                this.Y + System.Math.Sin(a) * z
+                );
+        }
+
+        public void TeleportTo(double x, double y)
         {
             if (this.ZoomFunc != null)
                 this.Zoom = this.ZoomFunc(y);
@@ -247,7 +329,25 @@ namespace NatureBoy.js
             this.X = x;
             this.Y = y;
 
-            this.Control.style.SetLocation( x - Width / 2, y - Height + ShadowHeight / 2, Width, Height);
+            this.Control.style.SetLocation(
+                System.Convert.ToInt32(x - Width / 2), 
+                System.Convert.ToInt32(y - Height + ShadowHeight / 2), 
+                
+                Width, Height);
+
+            this.Control.style.zIndex = System.Convert.ToInt32(y);
+        }
+
+        public void WalkTo(Point point)
+        {
+            LookAt(point);
+            this.IsWalking = true;
+        }
+
+        public void LookAt(Point point)
+        {
+            this.TargetLocation = point;
+            this.Rotation = this.TargetLocation.GetAngle(this.X, this.Y);
         }
     }
 

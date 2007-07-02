@@ -19,6 +19,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public static double Cos(double d) { return m.cos(d); }
         public static double Sin(double d) { return m.sin(d); }
         public static double Abs(double e) { return m.abs(e); }
+        public static double Sqrt(double e) { return m.sqrt(e); }
         public static int Abs(int e) { return (int)m.abs(e); }
         public static double Round(double e) { return m.round(e); }
     }

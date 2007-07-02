@@ -65,26 +65,50 @@ namespace NatureBoy.js
 
             var dude4 = new Dude { ZoomFunc = y => (y + 300) / (600) };
 
-
-
-
             dude4.TeleportTo(200, 200);
-
             dude4.Control.attachToDocument();
+            dude4.AutoRotate(1);
 
-            //dude4.AutoRotate(0.25);
-            dude4.IsWalking = true;
+            var dude5 = new Dude { ZoomFunc = dude4.ZoomFunc };
+
+            dude5.TeleportTo(600, 300);
+            dude5.Control.attachToDocument();
+            dude5.AutoRotateToCursor(stage);
+
+            var dude6 = new Dude { ZoomFunc = dude4.ZoomFunc };
+
+            dude6.TeleportTo(300, 400);
+            dude6.Control.attachToDocument();
+
+            var dude7 = new Dude { ZoomFunc = dude4.ZoomFunc };
+
+            dude7.TeleportTo(200, 400);
+            dude7.Control.attachToDocument();
+
+            var CurrentDude = dude6;
+
+            dude6.Control.onclick +=
+                delegate
+                {
+                    CurrentDude = dude6;
+                };
+
+
+            dude7.Control.onclick +=
+                delegate
+                {
+                    CurrentDude = dude7;
+                };
 
             stage.onclick +=
                 delegate(IEvent ev)
                 {
-                    var a =  ev.CursorPosition.GetAngle(dude4.X, dude4.Y);
+                    CurrentDude.WalkTo(ev.CursorPosition);
 
-                    System.Console.WriteLine(new { a = a}.ToString());
+                    dude5.WalkTo(ev.CursorPosition);
 
-
-                    //dude4.TeleportTo(ev.CursorX, ev.CursorY);
                 };
+
         }
 
 
