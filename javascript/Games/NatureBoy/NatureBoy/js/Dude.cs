@@ -31,6 +31,9 @@ namespace NatureBoy.js
         public readonly div Control = new div();
 
         public img Shadow;
+        public img SelectionImage;
+        public img HotImage;
+
         public img Idle;
         public img Walk1;
         public img Walk2;
@@ -60,6 +63,12 @@ namespace NatureBoy.js
             Shadow = new img("assets/NatureBoy/alpha/2.png");
             Shadow.style.position = IStyle.PositionEnum.absolute;
 
+            SelectionImage = new img("assets/NatureBoy/alpha/green-ring.png");
+            SelectionImage.style.position = IStyle.PositionEnum.absolute;
+
+            HotImage = new img("assets/NatureBoy/alpha/yellow-ring-50.png");
+            HotImage.style.position = IStyle.PositionEnum.absolute;
+
 
             Idle = new img("assets/NatureBoy/dude1/1.png") { className = "idle" };
             Idle.style.position = IStyle.PositionEnum.absolute;
@@ -75,7 +84,7 @@ namespace NatureBoy.js
             IsWalking = false;
             Zoom = 1;
 
-            Control.appendChild(Shadow, Idle, Walk1, Walk2);
+            Control.appendChild(Shadow, SelectionImage, HotImage, Idle, Walk1, Walk2);
 
             this.Walk +=
                 delegate
@@ -99,6 +108,22 @@ namespace NatureBoy.js
                     this.TeleportToArc(this.CurrentSpeed, this.Rotation);
                 };
 
+            this.IsSelected = false;
+
+            Control.onmouseover +=
+                delegate
+                {
+                    this.HotImage.style.display = IStyle.DisplayEnum.block;
+                };
+
+            Control.onmouseout +=
+                delegate
+                {
+                    this.HotImage.style.display = IStyle.DisplayEnum.none;
+                };
+
+            this.HotImage.style.display = IStyle.DisplayEnum.none;
+
         }
 
         private double _Zoom;
@@ -116,6 +141,17 @@ namespace NatureBoy.js
                 Shadow.style.height = ShadowHeight + "px";
                 Shadow.style.width = Width + "px";
                 Shadow.style.clip = "rect(0px, 0px, " + ShadowHeight + "px, " + Width + "px)";
+
+                SelectionImage.style.top = (Height - ShadowHeight) + "px";
+                SelectionImage.style.height = ShadowHeight + "px";
+                SelectionImage.style.width = Width + "px";
+                SelectionImage.style.clip = "rect(0px, 0px, " + ShadowHeight + "px, " + Width + "px)";
+
+                HotImage.style.top = (Height - ShadowHeight) + "px";
+                HotImage.style.height = ShadowHeight + "px";
+                HotImage.style.width = Width + "px";
+                HotImage.style.clip = "rect(0px, 0px, " + ShadowHeight + "px, " + Width + "px)";
+
 
                 var w = System.Convert.ToInt32(512 * Zoom);
                 var h = System.Convert.ToInt32(256 * Zoom);
@@ -321,6 +357,8 @@ namespace NatureBoy.js
                 );
         }
 
+        public event Action<Dude> AfterTeleport;
+
         public void TeleportTo(double x, double y)
         {
             if (this.ZoomFunc != null)
@@ -336,6 +374,9 @@ namespace NatureBoy.js
                 Width, Height);
 
             this.Control.style.zIndex = System.Convert.ToInt32(y);
+
+            if (AfterTeleport != null)
+                AfterTeleport(this);
         }
 
         public void WalkTo(Point point)
@@ -349,6 +390,22 @@ namespace NatureBoy.js
             this.TargetLocation = point;
             this.Rotation = this.TargetLocation.GetAngle(this.X, this.Y);
         }
+
+
+        private bool _IsSelected;
+
+        public bool IsSelected
+        {
+            get { return _IsSelected; }
+            set { _IsSelected = value;
+                if (value)
+                    this.SelectionImage.style.display = IStyle.DisplayEnum.block;
+                else
+                    this.SelectionImage.style.display = IStyle.DisplayEnum.none;
+            }
+        }
+
+	
     }
 
 }

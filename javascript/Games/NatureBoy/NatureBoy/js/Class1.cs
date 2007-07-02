@@ -35,12 +35,14 @@ namespace NatureBoy.js
         /// <param name="DataElement">The hidden data element</param>
         public Class1(IHTMLElement DataElement)
         {
+            IStyleSheet.Default.AddRule("*", "cursor: url('assets/NatureBoy/cursor.cur'), auto;", 0);
+
             IStyleSheet.Default.AddRule("body",
                 r =>
                 {
                     r.style.backgroundColor = Color.Gray;
-                    r.style.backgroundImage = "assets/NatureBoy/back/IMG_0506.jpg".ToCSSImage();
                     r.style.overflow = IStyle.OverflowEnum.hidden;
+                    r.style.padding = "0px";
                 }
             );
 
@@ -57,6 +59,17 @@ namespace NatureBoy.js
                     r.style.Opacity = 0.0;
                 }
             );
+
+
+
+            var bg = new IHTMLImage("assets/NatureBoy/back/IMG_0572.jpg");
+
+            bg.style.position = IStyle.PositionEnum.absolute;
+            bg.style.SetLocation(0, 0);
+            bg.style.width = "100%";
+            bg.attachToDocument();
+
+
 
             var stage = new IHTMLDiv { className = "stage" };
 
@@ -85,19 +98,40 @@ namespace NatureBoy.js
             dude7.TeleportTo(200, 400);
             dude7.Control.attachToDocument();
 
-            var CurrentDude = dude6;
+            var dude8 = new Dude { ZoomFunc = dude4.ZoomFunc };
+
+            dude8.TeleportTo(250, 300);
+            dude8.Control.attachToDocument();
+
+            var CurrentDude = default(Dude);
+
+            Action<Dude> SelectDude = i =>
+                                          {
+                                              if (CurrentDude != null)
+                                                  CurrentDude.IsSelected = false;
+
+                                              CurrentDude = i;
+                                              CurrentDude.IsSelected = true;
+                                          };
 
             dude6.Control.onclick +=
                 delegate
                 {
-                    CurrentDude = dude6;
+                    SelectDude(dude6);
                 };
-
 
             dude7.Control.onclick +=
                 delegate
                 {
-                    CurrentDude = dude7;
+                    SelectDude(dude7);
+   
+                };
+
+            dude8.Control.onclick +=
+                delegate
+                {
+                    SelectDude(dude8);
+
                 };
 
             stage.onclick +=
@@ -106,7 +140,6 @@ namespace NatureBoy.js
                     CurrentDude.WalkTo(ev.CursorPosition);
 
                     dude5.WalkTo(ev.CursorPosition);
-
                 };
 
         }
