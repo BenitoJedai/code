@@ -21,7 +21,7 @@ namespace ScriptCoreLib.Shared.Query
         //    return Select( (SZArrayEnumerator<T>) source, selector);
         //}
 
-        public static IEnumerable<S> Select<T, S>(this IEnumerable<T> source, global::System.Linq.Func<T, S> selector)
+        public static IEnumerable<S> Select<T, S>(this IEnumerable<T> source, global::System.Func<T, S> selector)
         {
             return SelectIterator<T, S>(source.AsEnumerable(), selector);
         }
@@ -38,7 +38,7 @@ namespace ScriptCoreLib.Shared.Query
             private S _2_current;
 
             public IEnumerable<T> _3_source;
-            public global::System.Linq.Func<T, S> _3_selector;
+            public global::System.Func<T, S> _3_selector;
 
             public T _e_5;
 
@@ -46,7 +46,7 @@ namespace ScriptCoreLib.Shared.Query
 
 
             public IEnumerable<T> source;
-            public global::System.Linq.Func<T, S> selector;
+            public global::System.Func<T, S> selector;
 
             public _SelectIterator_d__b(int _1_state)
             {
@@ -165,7 +165,7 @@ namespace ScriptCoreLib.Shared.Query
 
         #endregion
 
-        private static IEnumerable<S> SelectIterator<T, S>(IEnumerable<T> source, global::System.Linq.Func<T, S> selector)
+        private static IEnumerable<S> SelectIterator<T, S>(IEnumerable<T> source, global::System.Func<T, S> selector)
         {
             return new _SelectIterator_d__b<T, S>(-2)
             {

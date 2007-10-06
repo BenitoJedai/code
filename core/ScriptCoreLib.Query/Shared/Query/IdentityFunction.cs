@@ -9,7 +9,7 @@ namespace ScriptCoreLib.Shared.Query
     internal class IdentityFunction<TElement>
     {
         // Properties
-        public static global::System.Linq.Func<TElement, TElement> Instance
+        public static global::System.Func<TElement, TElement> Instance
         {
             get
             {

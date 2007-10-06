@@ -18,5 +18,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             Console.WriteLine(e);
         }
+
+        public static void Write(string e)
+        {
+            Console.Write(e);
+        }
     }
 }

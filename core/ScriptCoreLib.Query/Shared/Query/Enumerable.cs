@@ -85,7 +85,7 @@ namespace ScriptCoreLib.Shared.Query
         }
         #endregion
 
-        public static int Count<T>(this IEnumerable<T> e, global::System.Linq.Func<T, bool> predicate)
+        public static int Count<T>(this IEnumerable<T> e, global::System.Func<T, bool> predicate)
         {
             int c = 0;
 
@@ -204,7 +204,7 @@ namespace ScriptCoreLib.Shared.Query
             return current;
         }
 
-        public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, global::System.Linq.Func<TSource, bool> predicate)
+        public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, global::System.Func<TSource, bool> predicate)
         {
             if (source == null)
             {
@@ -288,7 +288,7 @@ namespace ScriptCoreLib.Shared.Query
 
 
         public static U Aggregate<T, U>(this IEnumerable<T> source,
-                                U seed, global::System.Linq.Func<U, T, U> func)
+                                U seed, global::System.Func<U, T, U> func)
         {
             U result = seed;
 
