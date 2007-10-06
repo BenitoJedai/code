@@ -17,6 +17,7 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 using global::System.Collections.Generic;
 
 using System.Linq;
+using System;
 
 namespace HotPolygon.js
 {
@@ -191,7 +192,7 @@ namespace HotPolygon.js
             info_drag_tween.ValueChanged +=
                 delegate
                 {
-                    var i = Convert.ToInteger(255 * info_drag_tween.Value);
+                    var i = ScriptCoreLib.JavaScript.Runtime.Convert.ToInteger(255 * info_drag_tween.Value);
 
                     if (!info_bg_useimage.Value)
                     {
@@ -471,7 +472,7 @@ namespace HotPolygon.js
 
             area1.onmouseover += i =>
                                      {
-                                         Console.WriteLine("over");
+                                         System.Console.WriteLine("over");
                                          tw_up_neg.Value = 1; /*tw_down.Value = 0.2;*/
                                      };
             area1.onmouseout += i =>
@@ -479,7 +480,7 @@ namespace HotPolygon.js
 
                                         try
                                         {
-                                            Console.WriteLine("out");
+                                            System.Console.WriteLine("out");
                                             tw_up_neg.Value = 0;/* tw_down.Value = 1;*/
                                         }
                                         catch
@@ -499,14 +500,14 @@ namespace HotPolygon.js
 
             area2.onmouseover += i =>
                                      {
-                                         Console.WriteLine("over");
+                                         System.Console.WriteLine("over");
                                          tw_up.Value = 1; /*tw_down.Value = 0.2;*/
                                      };
             area2.onmouseout += i =>
                                     {
                                         try
                                         {
-                                            Console.WriteLine("out");
+                                            System.Console.WriteLine("out");
                                             tw_up.Value = 0;/* tw_down.Value = 1;*/
                                         }
                                         catch
@@ -570,7 +571,7 @@ namespace HotPolygon.js
 
             // spawn this class when document is loaded 
             Native.Spawn(
-                new Pair<string, EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
+                new Pair<string, ScriptCoreLib.Shared.EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
                 );
 
         }
