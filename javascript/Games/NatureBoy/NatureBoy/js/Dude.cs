@@ -25,6 +25,17 @@ namespace NatureBoy.js
     [Script]
     public class Dude2
     {
+
+        public img[] Frames { get; set; }
+
+        public double Direction { get; set; }
+        public double DirectionIndex { get; set; }
+
+        public Func<double, double> VisualZoomFunc;
+
+        public double VisualZoom { get; set; }
+
+        public double Zoom { get; set; }
     }
 
     [Script]
@@ -266,7 +277,7 @@ namespace NatureBoy.js
             }
         }
 
-        
+
 
         public event Action<Dude> DoneWalking;
         public event Action<Dude> Walk;
@@ -374,9 +385,9 @@ namespace NatureBoy.js
             this.Y = y;
 
             this.Control.style.SetLocation(
-                System.Convert.ToInt32(x - Width / 2), 
-                System.Convert.ToInt32(y - Height + ShadowHeight / 2), 
-                
+                System.Convert.ToInt32(x - Width / 2),
+                System.Convert.ToInt32(y - Height + ShadowHeight / 2),
+
                 Width, Height);
 
             this.Control.style.zIndex = System.Convert.ToInt32(y);
@@ -403,7 +414,9 @@ namespace NatureBoy.js
         public bool IsSelected
         {
             get { return _IsSelected; }
-            set { _IsSelected = value;
+            set
+            {
+                _IsSelected = value;
                 if (value)
                     this.SelectionImage.style.display = IStyle.DisplayEnum.block;
                 else
@@ -411,7 +424,7 @@ namespace NatureBoy.js
             }
         }
 
-	
+
     }
 
 }

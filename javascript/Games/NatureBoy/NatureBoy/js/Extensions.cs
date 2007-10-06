@@ -57,9 +57,15 @@ namespace NatureBoy.js
             stage.onmousemove +=
                 delegate(IEvent ev)
                 {
+
                     e.LookAt(ev.CursorPosition);
 
                 };
+        }
+
+        public static IHTMLImage[] ToImages(this string[] e)
+        {
+            return e.Select(src => new IHTMLImage( src) ).ToArray();
         }
 
     }
