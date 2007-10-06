@@ -22,6 +22,12 @@ using System;
 namespace HotPolygon.js
 {
     [Script]
+    class XSize
+{
+        public int width { get; set; }
+        public int height { get; set; }
+}
+    [Script]
     public class DynamicProperty<T>
     {
         Action<DynamicProperty<T>> _Changed;
@@ -138,7 +144,7 @@ namespace HotPolygon.js
             img_up_neg.attachToDocument();
 
 
-            var info_size = new
+            var info_size = new XSize
                 {
                     width = 350,
                     height = 200
