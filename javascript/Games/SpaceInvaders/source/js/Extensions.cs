@@ -5,7 +5,7 @@ using System.Text;
 
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.Runtime;
-using ScriptCoreLib.Shared;
+//using ScriptCoreLib.Shared;
 
 namespace SpaceInvaders.source.js
 {

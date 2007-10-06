@@ -3,7 +3,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript;
 
-using ScriptCoreLib.JavaScript.Runtime;
+//using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Serialized;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 //using ScriptCoreLib.JavaScript.DOM.XML;
@@ -12,6 +12,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
 using System.Collections.Generic;
+using System;
 using System.Linq;
 
 namespace SpaceInvaders.source.js.Controls
@@ -77,7 +78,7 @@ namespace SpaceInvaders.source.js.Controls
             //Native.Document.body.style.backgroundColor = Color.Black;
             // Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
-            System.Linq.Func<IHTMLDiv> CreateCanvas =
+            System.Func<IHTMLDiv> CreateCanvas =
                 delegate
                 {
                     var c = new IHTMLDiv();
@@ -108,7 +109,7 @@ namespace SpaceInvaders.source.js.Controls
 
             overlay.Visible = true;
 
-            Timer.DoAsync(overlay.UpdateLocation);
+            ScriptCoreLib.JavaScript.Runtime.Timer.DoAsync(overlay.UpdateLocation);
 
             // now wait while all images are loaded/complete
 
@@ -241,7 +242,7 @@ namespace SpaceInvaders.source.js.Controls
 
                 var HitDamage = 40;
 
-                Timer GameTimer = new Timer();
+                var GameTimer = new ScriptCoreLib.JavaScript.Runtime.Timer();
 
                 int GangDirection = 1;
 
@@ -939,6 +940,7 @@ namespace SpaceInvaders.source.js.Controls
                       gfx.aenemy.Clone()
                   )
                 );
+
 
                 Action DrawBreak =
                     delegate
