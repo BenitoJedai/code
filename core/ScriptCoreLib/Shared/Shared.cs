@@ -11,9 +11,12 @@ namespace ScriptCoreLib.Shared
     [Script]
     public delegate void EventHandler();
 
+    
     [Script]
-    public delegate void Action();
+    public delegate void InternalAction();
+    
 
+    /*
     [Script]
     public delegate void Action<A>(A a);
 
@@ -22,6 +25,7 @@ namespace ScriptCoreLib.Shared
 
     [Script]
     public delegate void Action<A, B, C>(A a, B b, C c);
+    */
 
     [Script]
     public delegate void ActionParams<T>(params T[] e);

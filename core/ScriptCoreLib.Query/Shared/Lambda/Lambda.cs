@@ -1,6 +1,7 @@
 ﻿using ScriptCoreLib;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace ScriptCoreLib.Shared.Lambda
 {
@@ -99,10 +100,10 @@ namespace ScriptCoreLib.Shared.Lambda
 
 
     [Script]
-    public delegate Action<A> YAction<A>(Action<A> e);
+    public delegate System.Action<A> YAction<A>(System.Action<A> e);
 
     [Script]
-    public delegate Action<A, B> YAction<A, B>(Action<A, B> e);
+    public delegate System.Action<A, B> YAction<A, B>(System.Action<A, B> e);
 
 
 

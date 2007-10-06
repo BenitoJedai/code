@@ -555,9 +555,10 @@ namespace jsc
 
 
 
+            var found_implementation = w.Session.ResolveImplementation(m.DeclaringType, m);
 
             OpCode_call_override(w, p, i, s,
-                 w.Session.ResolveImplementation(m.DeclaringType, m) ?? m
+                 found_implementation ?? m
                  );
 
 

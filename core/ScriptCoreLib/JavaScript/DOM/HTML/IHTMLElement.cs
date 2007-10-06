@@ -795,7 +795,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         static  string[] InternalCaptureMouseEvents = new string[] { "click", "mousedown", "mouseup", "mousemove", "mouseover", "mouseout" };
 
-        static Action InternalCaptureMouse(IHTMLElement self)
+        static InternalAction InternalCaptureMouse(IHTMLElement self)
         {
              // http://www.activewidgets.com/javascript.forum.8933.28/problems-with-version-1-0.html
 
@@ -851,7 +851,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
 
         [Script(DefineAsStatic = true)]
-        public Action  CaptureMouse()
+        public InternalAction  CaptureMouse()
         {
            return InternalCaptureMouse(this);
         }

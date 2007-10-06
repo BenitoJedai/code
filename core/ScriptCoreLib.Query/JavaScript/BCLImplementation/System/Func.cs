@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Linq
+namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-    /* changed in beta 2
-     * 
     [Script(Implements = typeof(global::System.Func<>))]
     internal delegate T __Func<T>();
 
@@ -21,5 +19,5 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Linq
 
     [Script(Implements = typeof(global::System.Func<,,,,>))]
     internal delegate TResult __Func<TArg0, TArg1, TArg2, TArg3, TResult>(TArg0 arg0, TArg1 arg1, TArg2 arg2, TArg3 arg3);
-    */
+
 }

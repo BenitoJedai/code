@@ -29,7 +29,7 @@
     <StartArguments>HTShop.dll -PHP</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug with Doc|AnyCPU' ">
-    <StartWorkingDirectory>Z:\work\jsc\svn\templates\AppletTemplate\bin\Release</StartWorkingDirectory>
-    <StartArguments>DemoApplet.dll -java</StartArguments>
+    <StartWorkingDirectory>Z:\work\jsc\svn\javascript\Games\SpaceInvaders\bin\Release</StartWorkingDirectory>
+    <StartArguments>SpaceInvaders.dll -js</StartArguments>
   </PropertyGroup>
 </Project>
