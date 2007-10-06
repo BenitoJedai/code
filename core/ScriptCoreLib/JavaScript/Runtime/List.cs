@@ -7,7 +7,7 @@ using ScriptCoreLib.JavaScript.DOM;
 namespace ScriptCoreLib.JavaScript.Runtime
 {
 
-
+    #if BLOAT
     [
         //Script, 
         global::System.Obsolete("Use BCL List<> instead.", true)
@@ -309,4 +309,5 @@ namespace ScriptCoreLib.JavaScript.Runtime
             return a;
         }
     }
+#endif
 }

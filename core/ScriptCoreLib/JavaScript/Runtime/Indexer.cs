@@ -7,6 +7,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.Runtime
 {
+    #if BLOAT
     [Script]
     public class Indexer<TValue, TIndex>
     {
@@ -60,4 +61,5 @@ namespace ScriptCoreLib.JavaScript.Runtime
             }
         }
     }
+#endif
 }

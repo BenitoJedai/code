@@ -53,7 +53,7 @@ namespace ScriptCoreLib.Shared
 
 
     */
-
+    #if BLOAT
 
     [Script]
     public class ConvertTo<TIn, TOut> : Predicate<TIn, TOut>
@@ -90,7 +90,7 @@ namespace ScriptCoreLib.Shared
             return c.TargetOut;
         }
     }
-
+    #endif
     [Script]
     public class Predicate<TIn, TOut> : Predicate
     {
@@ -139,6 +139,7 @@ namespace ScriptCoreLib.Shared
             return p.Target;
         }
     }
+
 
     [Script]
     public class Predicate

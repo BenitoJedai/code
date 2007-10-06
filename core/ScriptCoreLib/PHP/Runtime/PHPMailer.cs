@@ -153,6 +153,7 @@ namespace ScriptCoreLib.PHP.Runtime
 
         public bool IsLogging;
 
+
         public static PHPMailer Of(SimpleEmailTag z, string host)
         {
             PHPMailer m = new PHPMailer();

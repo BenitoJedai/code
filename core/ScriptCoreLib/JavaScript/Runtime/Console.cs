@@ -128,6 +128,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
         #endregion
 
+#if BLOAT
         [System.Obsolete("Obselete", true)]
         public static void LogAssambley(params IAssemblyInfo[] e)
         {
@@ -143,7 +144,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
                 Console.Log(a.ModuleName.PadRight(max) + " : " + a.BuildDateTimeString);
             }
         }
-
+#endif
         public static bool ShowLogAsStatus = false;
 
         public static void Log(string p)

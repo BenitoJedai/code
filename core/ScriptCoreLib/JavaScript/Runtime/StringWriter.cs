@@ -3,8 +3,9 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLib.JavaScript.Runtime
 {
+    
     [Script, System.Obsolete("BCL", false)]
-    public class StringWriter
+    internal class StringWriter
     {
         public readonly IArray<string> Buffer = new IArray<string>();
 
@@ -69,4 +70,5 @@ namespace ScriptCoreLib.JavaScript.Runtime
             Buffer.splice(0, Buffer.length);
         }
     }
+
 }

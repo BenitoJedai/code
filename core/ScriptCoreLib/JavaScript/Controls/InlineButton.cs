@@ -10,6 +10,7 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib;
 using ScriptCoreLib.Shared.Drawing;
 
+#if BLOAT
 namespace ScriptCoreLib.JavaScript.Controls
 {
     [Script]
@@ -205,3 +206,4 @@ namespace ScriptCoreLib.JavaScript.Controls
     }
 
 }
+#endif

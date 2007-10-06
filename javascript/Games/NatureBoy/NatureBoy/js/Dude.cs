@@ -23,33 +23,289 @@ namespace NatureBoy.js
     using System;
 
     [Script]
-    public class Dude2
+    public class DudeBase
     {
+        public img Shadow;
+        public img SelectionImage;
+        public img HotImage;
 
-        public img[] Frames { get; set; }
+        public Point TargetLocation;
 
-        public double Direction { get; set; }
-        public double DirectionIndex { get; set; }
+        public Point CurrentLocation
+        {
+            get
+            {
+                return new Point(
+                           System.Convert.ToInt32(this.X),
+                           System.Convert.ToInt32(this.Y)
+                       );
+            }
+        }
+        public double X { get; protected set; }
+        public double Y { get; protected set; }
 
-        public Func<double, double> VisualZoomFunc;
 
-        public double VisualZoom { get; set; }
+        public DudeBase()
+        {
+            Shadow = new img("assets/NatureBoy/alpha/2.png");
+            Shadow.style.position = IStyle.PositionEnum.absolute;
 
-        public double Zoom { get; set; }
+            SelectionImage = new img("assets/NatureBoy/alpha/green-ring.png");
+            SelectionImage.style.position = IStyle.PositionEnum.absolute;
+
+            HotImage = new img("assets/NatureBoy/alpha/yellow-ring-50.png");
+            HotImage.style.position = IStyle.PositionEnum.absolute;
+
+
+            Control.style.position = IStyle.PositionEnum.absolute;
+            Control.style.overflow = IStyle.OverflowEnum.hidden;
+
+            this.IsSelected = false;
+
+            Control.appendChild(Shadow, SelectionImage, HotImage);
+
+            Control.onmouseover +=
+                delegate
+                {
+                    this.IsHot = true;
+                };
+
+            Control.onmouseout +=
+                delegate
+                {
+                    this.IsHot = false;
+                };
+
+            this.HotImage.style.display = IStyle.DisplayEnum.none;
+        }
+
+
+        private bool _IsHot;
+
+        public bool IsHot
+        {
+            get { return _IsHot; }
+            set
+            {
+                _IsHot = value;
+                if (value)
+                    this.HotImage.style.display = IStyle.DisplayEnum.block;
+                else
+                    this.HotImage.style.display = IStyle.DisplayEnum.none;
+            }
+        }
+
+        private bool _IsSelected;
+
+        public bool IsSelected
+        {
+            get { return _IsSelected; }
+            set
+            {
+                _IsSelected = value;
+                if (value)
+                    this.SelectionImage.style.display = IStyle.DisplayEnum.block;
+                else
+                    this.SelectionImage.style.display = IStyle.DisplayEnum.none;
+            }
+        }
+
+        public readonly div Control = new div();
     }
 
     [Script]
-    public class Dude
+    public class FrameInfo
+    {
+        public img Image;
+        public double Weight;
+    }
+
+    [Script]
+    public class Dude2 : DudeBase
+    {
+
+        public FrameInfo[] Frames { get; set; }
+
+        public img CurrentFrame;
+        public img CurrentFrameBuffer;
+
+        double _Direction;
+
+        public double Direction
+        {
+            get
+            {
+                return _Direction;
+            }
+            set
+            {
+                _Direction = value;
+
+                if (value == 0)
+                {
+                    this.SetCurrentFrame(this.Frames[0].Image);
+
+                    return;
+                }
+
+
+                var z = this.Frames[0];
+
+                var p = value / (Math.PI * 2);
+
+                foreach (var v in this.Frames)
+                {
+                    if (p < v.Weight)
+                    {
+                        //Console.WriteLine(v.Image.src + " - " + p + " - " + v.Weight);
+
+                        z = v;
+
+                        p = 1;
+                    }
+                    else
+                    {
+                        p -= v.Weight;
+                    }
+                }
+
+                this.SetCurrentFrame(z.Image);
+            }
+        }
+
+        public void LookAt(Point point)
+        {
+            this.TargetLocation = point;
+
+            var a = this.TargetLocation.GetAngle(this.X, this.Y);
+
+            //Console.WriteLine("a = " + a);
+
+            this.Direction = a;
+        }
+
+        [Script]
+        public class ZoomInfo
+        {
+            public event Action Changed;
+
+            public Func<double, double> DynamicZoomFunc;
+
+            public double DynamicZoom { get; set; }
+
+            double _StaticZoom;
+            public double StaticZoom
+            {
+                get { return _StaticZoom; }
+                set
+                {
+                    _StaticZoom = value; 
+                    
+                    if (this.Changed != null)
+                        this.Changed();
+                }
+            }
+
+            public double Value
+            {
+                get
+                {
+                    return DynamicZoom * StaticZoom;
+                }
+            }
+
+            public ZoomInfo()
+            {
+                this.DynamicZoom = 1;
+                this.StaticZoom = 1;
+            }
+        }
+
+        public readonly ZoomInfo Zoom = new ZoomInfo();
+
+
+        public Dude2()
+        {
+            this.CurrentFrame = new img();
+            this.CurrentFrameBuffer = new img();
+
+            this.Control.style.overflow = IStyle.OverflowEnum.visible;
+
+            this.CurrentFrame.style.display = IStyle.DisplayEnum.none;
+            this.CurrentFrameBuffer.style.display = IStyle.DisplayEnum.none;
+
+            this.Control.appendChild(this.CurrentFrame, this.CurrentFrameBuffer);
+
+            this.Zoom.Changed +=
+                delegate
+                {
+                    Console.WriteLine("Zoomed");
+                };
+        }
+
+        public void SetCurrentFrame(img e)
+        {
+            var zx = Convert.ToInt32( this.Width * this.Zoom.Value);
+            var zy = Convert.ToInt32( this.Height * this.Zoom.Value);
+
+            this.CurrentFrameBuffer.src = e.src;
+            this.CurrentFrameBuffer.style.SetLocation((zx - e.width) / 2, zy - 16 - e.height, Convert.ToInt32(e.width * this.Zoom.Value), Convert.ToInt32(e.height  * this.Zoom.Value));
+
+            this.CurrentFrame.style.display = IStyle.DisplayEnum.none;
+            this.CurrentFrameBuffer.style.display = IStyle.DisplayEnum.block;
+
+            var f = this.CurrentFrame;
+
+            this.CurrentFrame = this.CurrentFrameBuffer;
+            this.CurrentFrameBuffer = f;
+
+        }
+
+        public int Width;
+        public int Height;
+
+        public void SetSize(int x, int y)
+        {
+            this.Width = x;
+            this.Height = y;
+
+            var zx = Convert.ToInt32( x * this.Zoom.Value);
+            var zy = Convert.ToInt32( y * this.Zoom.Value);
+
+            this.Shadow.style.SetLocation((zx - 64) / 2, zy - 32, 64, 32);
+            this.HotImage.style.SetLocation((zx - 64) / 2, zy - 32, 64, 32);
+
+            this.Control.style.SetSize(zx, zy);
+
+        }
+
+        public void TeleportTo(double x, double y)
+        {
+            //if (this.ZoomFunc != null)
+            //this.Zoom = this.ZoomFunc(y);
+
+            this.X = x;
+            this.Y = y;
+
+            this.Control.style.SetLocation(
+                System.Convert.ToInt32(x - Width / 2),
+                System.Convert.ToInt32(y - Height + 32 / 2),
+
+                Width, Height);
+
+            this.Control.style.zIndex = System.Convert.ToInt32(y);
+        }
+    }
+
+    [Script]
+    public class Dude : DudeBase
     {
         public const int TileWidth = 64;
         public const int TileHeight = 128;
 
 
-        public readonly div Control = new div();
 
-        public img Shadow;
-        public img SelectionImage;
-        public img HotImage;
+
 
         public img Idle;
         public img Walk1;
@@ -74,18 +330,6 @@ namespace NatureBoy.js
         {
 
 
-            Control.style.position = IStyle.PositionEnum.absolute;
-            Control.style.overflow = IStyle.OverflowEnum.hidden;
-
-            Shadow = new img("assets/NatureBoy/alpha/2.png");
-            Shadow.style.position = IStyle.PositionEnum.absolute;
-
-            SelectionImage = new img("assets/NatureBoy/alpha/green-ring.png");
-            SelectionImage.style.position = IStyle.PositionEnum.absolute;
-
-            HotImage = new img("assets/NatureBoy/alpha/yellow-ring-50.png");
-            HotImage.style.position = IStyle.PositionEnum.absolute;
-
 
             Idle = new img("assets/NatureBoy/dude1/1.png") { className = "idle" };
             Idle.style.position = IStyle.PositionEnum.absolute;
@@ -101,7 +345,8 @@ namespace NatureBoy.js
             IsWalking = false;
             Zoom = 1;
 
-            Control.appendChild(Shadow, SelectionImage, HotImage, Idle, Walk1, Walk2);
+
+            Control.appendChild(Idle, Walk1, Walk2);
 
             this.Walk +=
                 delegate
@@ -125,21 +370,8 @@ namespace NatureBoy.js
                     this.TeleportToArc(this.CurrentSpeed, this.Rotation);
                 };
 
-            this.IsSelected = false;
 
-            Control.onmouseover +=
-                delegate
-                {
-                    this.HotImage.style.display = IStyle.DisplayEnum.block;
-                };
 
-            Control.onmouseout +=
-                delegate
-                {
-                    this.HotImage.style.display = IStyle.DisplayEnum.none;
-                };
-
-            this.HotImage.style.display = IStyle.DisplayEnum.none;
 
         }
 
@@ -409,20 +641,7 @@ namespace NatureBoy.js
         }
 
 
-        private bool _IsSelected;
 
-        public bool IsSelected
-        {
-            get { return _IsSelected; }
-            set
-            {
-                _IsSelected = value;
-                if (value)
-                    this.SelectionImage.style.display = IStyle.DisplayEnum.block;
-                else
-                    this.SelectionImage.style.display = IStyle.DisplayEnum.none;
-            }
-        }
 
 
     }

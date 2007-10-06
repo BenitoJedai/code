@@ -2,6 +2,7 @@ using ScriptCoreLib.JavaScript;
 
 namespace ScriptCoreLib.JavaScript.Runtime
 {
+    #if BLOAT
     [Script, System.Obsolete("Should not be used.", true)]
     public class AsyncArgs<TItem, TSource>
         where TItem : class
@@ -15,4 +16,5 @@ namespace ScriptCoreLib.JavaScript.Runtime
             Source = s;
         }
     }
+#endif
 }

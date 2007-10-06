@@ -7,6 +7,8 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib;
 
+#if BLOAT
+
 namespace ScriptCoreLib.JavaScript.CSharp
 {
     [Script]
@@ -167,3 +169,5 @@ namespace ScriptCoreLib.JavaScript.CSharp
         }
     }
 }
+
+#endif

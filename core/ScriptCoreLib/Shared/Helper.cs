@@ -6,6 +6,7 @@ namespace ScriptCoreLib.Shared
     [Script]
     public static class Helper
     {
+        #if BLOAT
         public static T[] ForEach<T>(T[] a, EventHandler<T> h)
         {
             
@@ -16,6 +17,7 @@ namespace ScriptCoreLib.Shared
 
             return a;
         }
+        #endif
 
         /// <summary>
         /// date when library was compiled
@@ -125,6 +127,7 @@ namespace ScriptCoreLib.Shared
             return b;
         }
 
+#if BLOAT
         internal static int Max<TArg>(TArg[] e, int val, EventHandler<ConvertTo<TArg, int>> h)
         {
             int u = val;
@@ -139,5 +142,6 @@ namespace ScriptCoreLib.Shared
 
             return u;
         }
+#endif
     }
 }
