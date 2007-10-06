@@ -22,6 +22,7 @@ namespace NatureBoy.js
     using ScriptCoreLib.Shared.Drawing;
 
     using StyleBuilder = Dictionary<string, System.Action<IStyleSheetRule>>;
+    using System;
 
     [Script]
     public class Class1
@@ -114,25 +115,13 @@ namespace NatureBoy.js
                                               CurrentDude.IsSelected = true;
                                           };
 
-            dude6.Control.onclick +=
-                delegate
-                {
-                    SelectDude(dude6);
-                };
+            Action<Dude> BindSelectDude =
+                i => i.Control.onclick += delegate { SelectDude(i); };
 
-            dude7.Control.onclick +=
-                delegate
-                {
-                    SelectDude(dude7);
-   
-                };
+            BindSelectDude(dude6);
+            BindSelectDude(dude7);
+            BindSelectDude(dude8);
 
-            dude8.Control.onclick +=
-                delegate
-                {
-                    SelectDude(dude8);
-
-                };
 
             stage.onclick +=
                 delegate(IEvent ev)
@@ -153,7 +142,7 @@ namespace NatureBoy.js
 
             // spawn this class when document is loaded 
             Native.Spawn(
-                new Pair<string, EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
+                new Pair<string, ScriptCoreLib.Shared.EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
                 );
 
         }

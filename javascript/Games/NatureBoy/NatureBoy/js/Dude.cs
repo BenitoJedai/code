@@ -20,6 +20,12 @@ namespace NatureBoy.js
     using img = IHTMLImage;
     using ScriptCoreLib.Shared;
     using ScriptCoreLib.Shared.Drawing;
+    using System;
+
+    [Script]
+    public class Dude2
+    {
+    }
 
     [Script]
     public class Dude

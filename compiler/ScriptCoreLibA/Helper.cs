@@ -7,6 +7,7 @@ using System.Linq;
 
 namespace ScriptCoreLib
 {
+    
 
     /// <summary>
     /// this class is shared among scriptcorelib assemblies 
