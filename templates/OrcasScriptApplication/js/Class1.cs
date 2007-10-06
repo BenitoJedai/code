@@ -14,6 +14,8 @@ using global::System.Linq;
 using global::ScriptCoreLib.Shared.Lambda;
 
 
+
+
 namespace OrcasScriptApplication.js
 {
     using ScriptCoreLib.Shared;
@@ -22,6 +24,14 @@ namespace OrcasScriptApplication.js
     using ScriptCoreLib.Shared.Drawing;
 
     using StyleBuilder = Dictionary<string, System.Action<IStyleSheetRule>>;
+    using System;
+
+    [Script]
+    public class __Type1
+    {
+        public string i { get; set; }
+        public int xlength { get; set; }
+    }
 
     [Script]
     public class Class1
@@ -66,7 +76,7 @@ namespace OrcasScriptApplication.js
              }.Select(i => IStyleSheet.Default.AddRule(i)).ToArray();
 
 
-
+            /*
             var x = new
                     {
                         about = "this is an anonymous type",
@@ -79,7 +89,7 @@ namespace OrcasScriptApplication.js
 
             Console.WriteLine(x.about);
             Console.WriteLine(x.ToString());
-
+            */
 
             IHTMLDiv Control = new IHTMLDiv();
 
@@ -117,8 +127,8 @@ namespace OrcasScriptApplication.js
                 return i.value.Split(u);
             };
 
-
-            EventHandler Update =
+            
+             ScriptCoreLib.Shared.EventHandler Update =
                 delegate
                 {
                     var user_filter = filter.value.Trim().ToLower();
@@ -137,8 +147,9 @@ namespace OrcasScriptApplication.js
                     foreach (var v in
                            from i in items.Select(i => i.Trim())
                            where i.ToLower().IndexOf(user_filter) > -1
-                           let xlength = i.Length
-                           select new { i, xlength }
+                           // let xlength = i.Length
+                           // *** orcas beta 2 anonymous types not supported again
+                           select new __Type1 { i = i, xlength = i.Length }
                     )
                     {
                         var item = new IHTMLElement(IHTMLElement.HTMLElementEnum.li,
@@ -257,7 +268,7 @@ This example makes heavy use of delegates, dom, and query operators.
 
             // spawn this class when document is loaded 
             Native.Spawn(
-                new Pair<string, EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
+                new Pair<string, ScriptCoreLib.Shared.EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
                 );
 
         }
