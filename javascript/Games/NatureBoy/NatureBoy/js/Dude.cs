@@ -184,6 +184,7 @@ namespace NatureBoy.js
             this.Direction = a;
         }
 
+        #region 
         [Script]
         public class ZoomInfo
         {
@@ -223,6 +224,7 @@ namespace NatureBoy.js
 
         public readonly ZoomInfo Zoom = new ZoomInfo();
 
+        #endregion
 
         public Dude2()
         {
@@ -235,7 +237,12 @@ namespace NatureBoy.js
             this.CurrentFrameBuffer.style.display = IStyle.DisplayEnum.none;
 
             this.Control.appendChild(this.CurrentFrame, this.CurrentFrameBuffer);
-
+            /*
+            this.CurrentFrame.style.border = "1px solid blue";
+            this.CurrentFrameBuffer.style.border = "1px solid blue";
+            this.Control.style.border = "1px solid yellow";
+            this.Shadow.style.border = "1px solid red";
+            */
             this.Zoom.Changed +=
                 delegate
                 {
@@ -245,11 +252,19 @@ namespace NatureBoy.js
 
         public void SetCurrentFrame(img e)
         {
-            var zx = Convert.ToInt32( this.Width * this.Zoom.Value);
-            var zy = Convert.ToInt32( this.Height * this.Zoom.Value);
+            var zx = ZoomedWidth;
+            var zy = ZoomedHeight;
 
+            var ix = Convert.ToInt32(e.width  * this.Zoom.Value);
+            var iy = Convert.ToInt32(e.height  * this.Zoom.Value);
+ 
             this.CurrentFrameBuffer.src = e.src;
-            this.CurrentFrameBuffer.style.SetLocation((zx - e.width) / 2, zy - 16 - e.height, Convert.ToInt32(e.width * this.Zoom.Value), Convert.ToInt32(e.height  * this.Zoom.Value));
+            this.CurrentFrameBuffer.style.SetLocation(
+                (zx - ix) / 2, 
+                zy - iy - 16,
+                ix, 
+                iy
+                );
 
             this.CurrentFrame.style.display = IStyle.DisplayEnum.none;
             this.CurrentFrameBuffer.style.display = IStyle.DisplayEnum.block;
@@ -264,13 +279,18 @@ namespace NatureBoy.js
         public int Width;
         public int Height;
 
+        public int ZoomedWidth { get { return Convert.ToInt32( Width * this.Zoom.Value); }}
+        public int ZoomedHeight { get { return Convert.ToInt32( Height * this.Zoom.Value); }}
+
         public void SetSize(int x, int y)
         {
             this.Width = x;
             this.Height = y;
 
-            var zx = Convert.ToInt32( x * this.Zoom.Value);
-            var zy = Convert.ToInt32( y * this.Zoom.Value);
+            var zx = ZoomedWidth;
+            var zy = ZoomedHeight;
+
+            Console.WriteLine("size: " + zx + ", " + zy );
 
             this.Shadow.style.SetLocation((zx - 64) / 2, zy - 32, 64, 32);
             this.HotImage.style.SetLocation((zx - 64) / 2, zy - 32, 64, 32);
@@ -289,9 +309,9 @@ namespace NatureBoy.js
 
             this.Control.style.SetLocation(
                 System.Convert.ToInt32(x - Width / 2),
-                System.Convert.ToInt32(y - Height + 32 / 2),
+                System.Convert.ToInt32(y - Height + 32 / 2)/*,
 
-                Width, Height);
+                Width, Height*/);
 
             this.Control.style.zIndex = System.Convert.ToInt32(y);
         }

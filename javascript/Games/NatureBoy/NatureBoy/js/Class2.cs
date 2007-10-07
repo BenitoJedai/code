@@ -78,7 +78,7 @@ namespace NatureBoy.js
             };
 
             dude1.Zoom.DynamicZoomFunc = y => (y + 300) / (600);
-            dude1.Zoom.StaticZoom = 0.6;
+            dude1.Zoom.StaticZoom = 1;
 
             dude1.SetSize(48, 72);
             dude1.TeleportTo(300, 300);
