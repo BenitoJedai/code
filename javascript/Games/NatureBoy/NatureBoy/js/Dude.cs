@@ -117,7 +117,11 @@ namespace NatureBoy.js
     public class FrameInfo
     {
         public img Image;
+
         public double Weight;
+
+        public int OffsetX;
+        public int OffsetY;
     }
 
     [Script]
@@ -126,8 +130,9 @@ namespace NatureBoy.js
 
         public FrameInfo[] Frames { get; set; }
 
-        public img CurrentFrame;
-        public img CurrentFrameBuffer;
+        
+        public img CurrentFrameImage;
+        public img CurrentFrameBufferImage;
 
         double _Direction;
 
@@ -141,11 +146,20 @@ namespace NatureBoy.js
             {
                 _Direction = value;
 
+                this.UpdateFrameImage(CurrentFrame);
+            }
+        }
+
+
+        public FrameInfo CurrentFrame
+        {
+            get
+            {
+                var value = this.Direction;
+
                 if (value == 0)
                 {
-                    this.SetCurrentFrame(this.Frames[0].Image);
-
-                    return;
+                    return this.Frames[0];
                 }
 
 
@@ -169,7 +183,7 @@ namespace NatureBoy.js
                     }
                 }
 
-                this.SetCurrentFrame(z.Image);
+                return z;
             }
         }
 
@@ -183,6 +197,23 @@ namespace NatureBoy.js
 
             this.Direction = a;
         }
+
+        public void LookAtMouse(IHTMLElement e)
+        {
+            e.onmousemove +=
+                delegate(IEvent ev)
+                {
+                    try
+                    {
+                        this.LookAt(ev.CursorPosition);
+                    }
+                    catch
+                    {
+
+                    }
+                };
+        }
+
 
         #region 
         [Script]
@@ -228,51 +259,63 @@ namespace NatureBoy.js
 
         public Dude2()
         {
-            this.CurrentFrame = new img();
-            this.CurrentFrameBuffer = new img();
+            this.CurrentFrameImage = new img();
+            this.CurrentFrameBufferImage = new img();
 
             this.Control.style.overflow = IStyle.OverflowEnum.visible;
 
-            this.CurrentFrame.style.display = IStyle.DisplayEnum.none;
-            this.CurrentFrameBuffer.style.display = IStyle.DisplayEnum.none;
+            this.CurrentFrameImage.style.display = IStyle.DisplayEnum.none;
+            this.CurrentFrameBufferImage.style.display = IStyle.DisplayEnum.none;
 
-            this.Control.appendChild(this.CurrentFrame, this.CurrentFrameBuffer);
+            this.Control.appendChild(this.CurrentFrameImage, this.CurrentFrameBufferImage);
+            
             /*
-            this.CurrentFrame.style.border = "1px solid blue";
-            this.CurrentFrameBuffer.style.border = "1px solid blue";
+            this.CurrentFrameImage.style.border = "1px solid blue";
+            this.CurrentFrameBufferImage.style.border = "1px solid blue";
             this.Control.style.border = "1px solid yellow";
             this.Shadow.style.border = "1px solid red";
             */
             this.Zoom.Changed +=
                 delegate
                 {
-                    Console.WriteLine("Zoomed");
+                    UpdateFrameImage(this.CurrentFrame);
+                    // UpdateSize();
+                    TeleportTo(this.X, this.Y);
+
                 };
         }
 
-        public void SetCurrentFrame(img e)
+
+        public void UpdateFrameImage(FrameInfo frame)
         {
-            var zx = ZoomedWidth;
-            var zy = ZoomedHeight;
+            
+            var e = frame.Image;
 
             var ix = Convert.ToInt32(e.width  * this.Zoom.Value);
             var iy = Convert.ToInt32(e.height  * this.Zoom.Value);
  
-            this.CurrentFrameBuffer.src = e.src;
-            this.CurrentFrameBuffer.style.SetLocation(
-                (zx - ix) / 2, 
-                zy - iy - 16,
+            var dx = Convert.ToInt32((Width - e.width - frame.OffsetX) * this.Zoom.Value);
+            var dy = Convert.ToInt32((Height - e.height - frame.OffsetY) * this.Zoom.Value);
+
+            var a64 = (this.Zoom.Value * 64).ToInt32();
+            var a32 = a64 / 2;
+            var a16 = a32 / 2;
+
+            this.CurrentFrameBufferImage.src = e.src;
+            this.CurrentFrameBufferImage.style.SetLocation(
+                dx / 2, 
+                dy - a16,
                 ix, 
                 iy
                 );
 
-            this.CurrentFrame.style.display = IStyle.DisplayEnum.none;
-            this.CurrentFrameBuffer.style.display = IStyle.DisplayEnum.block;
+            this.CurrentFrameImage.style.display = IStyle.DisplayEnum.none;
+            this.CurrentFrameBufferImage.style.display = IStyle.DisplayEnum.block;
 
-            var f = this.CurrentFrame;
+            var f = this.CurrentFrameImage;
 
-            this.CurrentFrame = this.CurrentFrameBuffer;
-            this.CurrentFrameBuffer = f;
+            this.CurrentFrameImage = this.CurrentFrameBufferImage;
+            this.CurrentFrameBufferImage = f;
 
         }
 
@@ -287,31 +330,45 @@ namespace NatureBoy.js
             this.Width = x;
             this.Height = y;
 
+            //Console.WriteLine("size: " + zx + ", " + zy );
+
+            UpdateSize();
+
+        }
+
+        private void UpdateSize()
+        {
             var zx = ZoomedWidth;
             var zy = ZoomedHeight;
 
-            Console.WriteLine("size: " + zx + ", " + zy );
+            var a64 = (this.Zoom.Value * 64).ToInt32();
+            var a32 = a64 / 2;
 
-            this.Shadow.style.SetLocation((zx - 64) / 2, zy - 32, 64, 32);
-            this.HotImage.style.SetLocation((zx - 64) / 2, zy - 32, 64, 32);
+            this.Shadow.style.SetLocation((zx - a64) / 2, zy - a32, a64, a32);
+            this.HotImage.style.SetLocation((zx - a64) / 2, zy - a32, a64, a32);
 
             this.Control.style.SetSize(zx, zy);
-
         }
 
         public void TeleportTo(double x, double y)
         {
-            //if (this.ZoomFunc != null)
-            //this.Zoom = this.ZoomFunc(y);
+            var f = this.Zoom.DynamicZoomFunc;
+ 
+            if (f != null)
+                this.Zoom.DynamicZoom = f(y);
 
             this.X = x;
             this.Y = y;
 
-            this.Control.style.SetLocation(
-                System.Convert.ToInt32(x - Width / 2),
-                System.Convert.ToInt32(y - Height + 32 / 2)/*,
+            var a64 = (this.Zoom.Value * 64).ToInt32();
+            var a32 = a64 / 2;
 
-                Width, Height*/);
+            this.Control.style.SetLocation(
+                System.Convert.ToInt32(x - ZoomedWidth / 2),
+                System.Convert.ToInt32(y - ZoomedHeight + a32 / 2)//,
+                );
+
+            this.UpdateSize();
 
             this.Control.style.zIndex = System.Convert.ToInt32(y);
         }

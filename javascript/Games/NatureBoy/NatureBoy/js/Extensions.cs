@@ -40,6 +40,13 @@ namespace NatureBoy.js
             return a;
         }
 
+        public static int ToInt32(this double e)
+        {
+            var dummy = 0;
+
+            return System.Convert.ToInt32(e);
+        }
+
         public static string ToCSSImage(this string url)
         {
             return "url(" + url + ")";
@@ -68,5 +75,13 @@ namespace NatureBoy.js
             return e.Select(src => new IHTMLImage( src) ).ToArray();
         }
 
+        public static IHTMLDiv AttachToDocument(this string e)
+        {
+            var r = new IHTMLDiv(e);
+            
+            r.attachToDocument();
+
+            return r;
+        }
     }
 }

@@ -15,6 +15,8 @@ namespace NatureBoy.js
     {
         public const string Alias = "Class2";
 
+
+
         public Class2(IHTMLElement DataElement)
         //    : base(DataElement)
         {
@@ -29,12 +31,21 @@ namespace NatureBoy.js
                 }
             );
 
-                        var bg = new IHTMLImage("assets/NatureBoy/back/IMG_0572.jpg");
+            
+@"Click on the background to spawn new dudes.
+They will look at the mouse and do nothing :)
+<h3>Mousewheel</h3>Use your mouse wheel to resize them. 
+You can size them all at once or each invidually.
+".AttachToDocument();
+
+
+            /*
+            var bg = new IHTMLImage("assets/NatureBoy/back/IMG_0572.jpg");
 
             bg.style.position = IStyle.PositionEnum.absolute;
             bg.style.SetLocation(0, 0);
             bg.style.width = "100%";
-            bg.attachToDocument();
+            bg.attachToDocument();*/
 
             var stage = new IHTMLDiv { className = "stage" };
 
@@ -56,52 +67,62 @@ namespace NatureBoy.js
 
 
 
-            var stand = "assets/NatureBoy/dude2/stand/";
+            Action<Dude2, IEvent> WheelAction =
+                (d, ev) => 
+                    d.Zoom.StaticZoom += ev.WheelDirection * 0.2;
 
-            var frames = new[] {
-                new FrameInfo { Image = stand + "TILE1406h.png",  Weight = 1d / 6 } ,
-                new FrameInfo { Image = stand + "TILE1405.png",  Weight = 1d / 6 } ,
-                new FrameInfo { Image = stand + "TILE1406.png",  Weight = 1d / 6 } ,
-                new FrameInfo { Image = stand + "TILE1407.png",  Weight = 1d / 10 } ,
-                new FrameInfo { Image = stand + "TILE1408.png",  Weight = 1d / 10 } ,
-                new FrameInfo { Image = stand + "TILE1409.png",  Weight = 1d / 10 } ,
-                new FrameInfo { Image = stand + "TILE1408h.png",  Weight = 1d / 10 } ,
-                new FrameInfo { Image = stand + "TILE1407h.png",  Weight = 1d / 10 } 
-            };
+            var list = new List<Dude2>();
 
 
-
-            var dude1 = new Dude2
+            Func<FrameInfo[], int, int, Dude2> SpawnLookingDude =
+            (f, x, y) =>
             {
-                Frames = frames,
-                
-            };
-
-            dude1.Zoom.DynamicZoomFunc = y => (y + 300) / (600);
-            dude1.Zoom.StaticZoom = 1;
-
-            dude1.SetSize(48, 72);
-            dude1.TeleportTo(300, 300);
-            
-            dude1.Control.attachToDocument();
-
-            dude1.Direction = 5;
-
-            stage.onmousemove +=
-                delegate(IEvent ev)
+                var r = new Dude2
                 {
-                    dude1.LookAt(ev.CursorPosition);
+                    Frames = f,
                 };
 
-            /* 
-            new ScriptCoreLib.JavaScript.Runtime.Timer(
-                t =>
+                r.Zoom.DynamicZoomFunc = a => (a + 300) / (600);
+                r.Zoom.StaticZoom = 1;
+
+                r.SetSize(48, 72);
+                r.TeleportTo(x, y);
+
+                r.Control.attachToDocument();
+                r.Direction = 5;
+                r.LookAtMouse(stage);
+
+                r.Control.onmousewheel +=
+                    (ev) =>
+                        {
+                            WheelAction(r, ev);
+                        };
+
+                list.Add(r);
+
+                return r;
+            };
+
+
+            SpawnLookingDude(Frames.PigCop, 300, 300);
+            SpawnLookingDude(Frames.Trooper, 500, 300);
+            SpawnLookingDude(Frames.Duke, 400, 300);
+
+            stage.onclick +=
+                (ev) =>
                 {
-                    dude1.SetCurrentFrame(frames[t.Counter % frames.Length]);
-                }
-                ,0, 300
-            );
-            */
+                    SpawnLookingDude(Frames.Duke, ev.CursorX, ev.CursorY);
+                };
+
+            stage.onmousewheel +=
+                (ev) =>
+                {
+                    foreach (var v in list)
+                    {
+                        WheelAction(v, ev);
+                    }
+                };
+
         }
 
         static Class2()
