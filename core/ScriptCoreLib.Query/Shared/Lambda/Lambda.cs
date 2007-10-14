@@ -8,6 +8,32 @@ namespace ScriptCoreLib.Shared.Lambda
     [Script]
     public static partial class Lambda
     {
+        #region min max
+
+       public static double Max(this double e, double x)
+        {
+            if (e > x)
+                return e;
+
+            return x;
+        }
+
+        public static double Min(this double e, double x)
+        {
+            if (e < x)
+                return e;
+
+            return x;
+        }
+
+        public static int Min(this int e, int x)
+        {
+            if (e < x)
+                return e;
+
+            return x;
+        }
+
         public static int Max(this int e, int x)
         {
             if (e > x)
@@ -15,6 +41,8 @@ namespace ScriptCoreLib.Shared.Lambda
 
             return x;
         }
+        #endregion
+
         public static global::System.Func<T> FixParam<A, T>(this global::System.Func<A, T> f, A a)
         {
             return () => f(a);
