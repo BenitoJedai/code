@@ -3,6 +3,7 @@
 using ScriptCoreLib;
 
 
+using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
@@ -23,7 +24,7 @@ namespace NatureBoy.js
     using System;
 
     [Script]
-    public class DudeBase
+    public abstract class DudeBase
     {
         public img Shadow;
         public img SelectionImage;
@@ -44,6 +45,15 @@ namespace NatureBoy.js
         public double X { get; protected set; }
         public double Y { get; protected set; }
 
+        public void TeleportToArc(double z, double a)
+        {
+            this.TeleportTo(
+                this.X + System.Math.Cos(a) * z,
+                this.Y + System.Math.Sin(a) * z
+                );
+        }
+
+        public abstract void TeleportTo(double x, double y);
 
         public DudeBase()
         {
@@ -116,7 +126,20 @@ namespace NatureBoy.js
     [Script]
     public class FrameInfo
     {
-        public img Image;
+        public string Source;
+
+        img _Image;
+
+        public img Image
+        {
+            get
+            {
+                if (_Image == null)
+                    _Image = Source;
+
+                return _Image;
+            }
+        }
 
         public double Weight;
 
@@ -125,12 +148,89 @@ namespace NatureBoy.js
     }
 
     [Script]
+    public class DudeAnimationInfo
+    {
+        public FrameInfo[] Frames_Stand;
+        public FrameInfo[][] Frames_Walk;
+
+        public int WalkAnimationInterval = 100;
+    }
+
+    [Script]
     public class Dude2 : DudeBase
     {
+        public readonly DudeAnimationInfo AnimationInfo = new DudeAnimationInfo();
+
+        public event Action DoneWalking;
+        public event Action Walking;
+
+        Timer _WalkingTimer;
+
+        public double TargetLocationDistanceMultiplier = 8;
+        
+        public bool IsWalking
+        {
+            get
+            {
+                return !(_WalkingTimer == null);
+            }
+            set
+            {
+                if (AnimationInfo.Frames_Stand == null) throw new ArgumentNullException("Frames_Stand");
+                if (AnimationInfo.Frames_Walk == null) throw new ArgumentNullException("Frames_Walk");
+
+                if (value == IsWalking)
+                    return;
+
+                if (value)
+                {
+                    _WalkingTimer = AnimationInfo.Frames_Walk.Swap(AnimationInfo.WalkAnimationInterval,
+                        f =>
+                        {
+                            this.Frames = f;
+                            this.UpdateFrameImage();
+
+                            if (this.TargetLocation == null)
+                                return;
+
+                            var z = this.TargetLocation.GetRange(this.CurrentLocation);
+
+                            //Console.WriteLine("range: " + z + " to/from " + this.TargetLocation + " - " + this.CurrentLocation);
+
+                            if (z < this.CurrentWalkSpeed *  TargetLocationDistanceMultiplier)
+                            {
+                                // we are there
+                                this.IsWalking = false;
+
+                                if (this.DoneWalking != null)
+                                    this.DoneWalking();
+
+                                return;
+                            }
+
+                            this.TeleportToArc(this.CurrentWalkSpeed, this.Direction);
+
+                            if (this.Walking != null)
+                                this.Walking();
+                        }
+                    );
+                }
+                else
+                {
+                    _WalkingTimer.Stop();
+                    _WalkingTimer = null;
+
+                    this.Frames = AnimationInfo.Frames_Stand;
+                    this.UpdateFrameImage();
+                }
+
+
+            }
+        }
 
         public FrameInfo[] Frames { get; set; }
 
-        
+
         public img CurrentFrameImage;
         public img CurrentFrameBufferImage;
 
@@ -198,11 +298,17 @@ namespace NatureBoy.js
             this.Direction = a;
         }
 
-        public void LookAtMouse(IHTMLElement e)
+
+
+
+        public Action LookAtMouse(IHTMLElement e)
         {
-            e.onmousemove +=
+
+
+            ScriptCoreLib.Shared.EventHandler<IEvent> h =
                 delegate(IEvent ev)
                 {
+
                     try
                     {
                         this.LookAt(ev.CursorPosition);
@@ -211,11 +317,26 @@ namespace NatureBoy.js
                     {
 
                     }
+
+                };
+
+
+            e.onmousemove += h;
+
+            return
+                () =>
+                {
+                    if (h == null)
+                        return;
+
+                    e.onmousemove -= h;
+
+                    h = null;
                 };
         }
 
 
-        #region 
+        #region
         [Script]
         public class ZoomInfo
         {
@@ -231,8 +352,8 @@ namespace NatureBoy.js
                 get { return _StaticZoom; }
                 set
                 {
-                    _StaticZoom = value; 
-                    
+                    _StaticZoom = value.Max(0.1).Min(4.0);
+
                     if (this.Changed != null)
                         this.Changed();
                 }
@@ -242,7 +363,8 @@ namespace NatureBoy.js
             {
                 get
                 {
-                    return DynamicZoom * StaticZoom;
+
+                    return (DynamicZoom * StaticZoom).Max(0.1).Min(4.0);
                 }
             }
 
@@ -255,7 +377,18 @@ namespace NatureBoy.js
 
         public readonly ZoomInfo Zoom = new ZoomInfo();
 
+
         #endregion
+
+        public double RawWalkSpeed = 7;
+
+        public double CurrentWalkSpeed
+        {
+            get
+            {
+                return this.RawWalkSpeed * this.Zoom.Value;
+            }
+        }
 
         public Dude2()
         {
@@ -268,7 +401,7 @@ namespace NatureBoy.js
             this.CurrentFrameBufferImage.style.display = IStyle.DisplayEnum.none;
 
             this.Control.appendChild(this.CurrentFrameImage, this.CurrentFrameBufferImage);
-            
+
             /*
             this.CurrentFrameImage.style.border = "1px solid blue";
             this.CurrentFrameBufferImage.style.border = "1px solid blue";
@@ -278,7 +411,7 @@ namespace NatureBoy.js
             this.Zoom.Changed +=
                 delegate
                 {
-                    UpdateFrameImage(this.CurrentFrame);
+                    UpdateFrameImage();
                     // UpdateSize();
                     TeleportTo(this.X, this.Y);
 
@@ -286,14 +419,19 @@ namespace NatureBoy.js
         }
 
 
+        public void UpdateFrameImage()
+        {
+            UpdateFrameImage(this.CurrentFrame);
+        }
+
         public void UpdateFrameImage(FrameInfo frame)
         {
-            
+
             var e = frame.Image;
 
-            var ix = Convert.ToInt32(e.width  * this.Zoom.Value);
-            var iy = Convert.ToInt32(e.height  * this.Zoom.Value);
- 
+            var ix = Convert.ToInt32(e.width * this.Zoom.Value);
+            var iy = Convert.ToInt32(e.height * this.Zoom.Value);
+
             var dx = Convert.ToInt32((Width - e.width - frame.OffsetX) * this.Zoom.Value);
             var dy = Convert.ToInt32((Height - e.height - frame.OffsetY) * this.Zoom.Value);
 
@@ -303,9 +441,9 @@ namespace NatureBoy.js
 
             this.CurrentFrameBufferImage.src = e.src;
             this.CurrentFrameBufferImage.style.SetLocation(
-                dx / 2, 
+                dx / 2,
                 dy - a16,
-                ix, 
+                ix,
                 iy
                 );
 
@@ -322,8 +460,8 @@ namespace NatureBoy.js
         public int Width;
         public int Height;
 
-        public int ZoomedWidth { get { return Convert.ToInt32( Width * this.Zoom.Value); }}
-        public int ZoomedHeight { get { return Convert.ToInt32( Height * this.Zoom.Value); }}
+        public int ZoomedWidth { get { return Convert.ToInt32(Width * this.Zoom.Value); } }
+        public int ZoomedHeight { get { return Convert.ToInt32(Height * this.Zoom.Value); } }
 
         public void SetSize(int x, int y)
         {
@@ -346,14 +484,15 @@ namespace NatureBoy.js
 
             this.Shadow.style.SetLocation((zx - a64) / 2, zy - a32, a64, a32);
             this.HotImage.style.SetLocation((zx - a64) / 2, zy - a32, a64, a32);
+            this.SelectionImage.style.SetLocation((zx - a64) / 2, zy - a32, a64, a32);
 
             this.Control.style.SetSize(zx, zy);
         }
 
-        public void TeleportTo(double x, double y)
+        public override void TeleportTo(double x, double y)
         {
             var f = this.Zoom.DynamicZoomFunc;
- 
+
             if (f != null)
                 this.Zoom.DynamicZoom = f(y);
 
@@ -371,6 +510,17 @@ namespace NatureBoy.js
             this.UpdateSize();
 
             this.Control.style.zIndex = System.Convert.ToInt32(y);
+        }
+
+
+
+        public void WalkTo(Point point)
+        {
+            this.TargetLocation = point;
+            this.LookAt(this.TargetLocation);
+            this.IsWalking = true;
+
+
         }
     }
 
@@ -591,7 +741,6 @@ namespace NatureBoy.js
         public event Action<Dude> DoneWalking;
         public event Action<Dude> Walk;
 
-        public Point TargetLocation;
 
         Timer WalkTimer;
 
@@ -660,32 +809,14 @@ namespace NatureBoy.js
             }
         }
 
-        public Point CurrentLocation
-        {
-            get
-            {
-                return new Point(
-                           System.Convert.ToInt32(this.X),
-                           System.Convert.ToInt32(this.Y)
-                       );
-            }
-        }
-        public double X { get; private set; }
-        public double Y { get; private set; }
 
         public Func<double, double> ZoomFunc;
 
-        public void TeleportToArc(double z, double a)
-        {
-            this.TeleportTo(
-                this.X + System.Math.Cos(a) * z,
-                this.Y + System.Math.Sin(a) * z
-                );
-        }
+
 
         public event Action<Dude> AfterTeleport;
 
-        public void TeleportTo(double x, double y)
+        public override void TeleportTo(double x, double y)
         {
             if (this.ZoomFunc != null)
                 this.Zoom = this.ZoomFunc(y);

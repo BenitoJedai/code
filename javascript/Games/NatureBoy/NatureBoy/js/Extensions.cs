@@ -13,6 +13,27 @@ namespace NatureBoy.js
     [Script]
     static class Extensions
     {
+        public static Timer Swap<T>(this T[] e, int interval, Action<T> h)
+        {
+            return new ScriptCoreLib.JavaScript.Runtime.Timer(
+                t =>
+                {
+                    h(e[t.Counter % e.Length]);
+
+
+                }, interval.Random(), interval);
+        }
+
+        public static double Random(this double e)
+        {
+            return new System.Random().NextDouble() * e;
+        }
+
+        public static int Random(this int e)
+        {
+            return new System.Random().Next(e);
+        }
+
         public static double GetRange(this Point a, Point b)
         {
             var dx = a.X - b.X;
