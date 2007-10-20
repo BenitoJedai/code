@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.20404</ProductVersion>
+    <ProductVersion>9.0.20706</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{734ABE6D-57A0-435D-9E6E-F726074925E6}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -61,6 +61,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="js\Class1.cs" />
+    <Compile Include="js\dialogs\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="js\dialogs\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="js\Gradient.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -115,6 +121,10 @@
     <EmbeddedResource Include="web\assets\WebCalculator\sc.ico" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="js\dialogs\Form1.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="js\Gradient.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Gradient.cs</DependentUpon>

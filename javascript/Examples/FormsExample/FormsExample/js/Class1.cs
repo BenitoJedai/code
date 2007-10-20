@@ -42,9 +42,19 @@ namespace FormsExample.js
 
 
 
-            SpawnUserControl(new UserControl1(), new Point(400, 200));
-            SpawnUserControl(new UserControl2(), new Point(420, 450));
-            SpawnUserControl(new UserControl3(), new Point(820, 250));
+            //SpawnUserControl(new UserControl1(), new Point(400, 200));
+            //SpawnUserControl(new UserControl2(), new Point(420, 450));
+            //SpawnUserControl(new UserControl3(), new Point(820, 250));
+
+            var f1 = new dialogs.Form1();
+
+            f1.Location = new System.Drawing.Point(200, 100);
+            f1.Show();
+
+            var f2 = new dialogs.Form1();
+
+            f2.Location = new System.Drawing.Point(100, 400);
+            f2.Show();
         }
 
 

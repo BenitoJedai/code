@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.20404</ProductVersion>
+    <ProductVersion>9.0.20706</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B8D28279-57CD-4163-86F9-1DFDF540B58B}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -63,6 +63,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ControlEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Cursor.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Cursors.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Form.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ListBox.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\MouseEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\GroupBox.cs" />

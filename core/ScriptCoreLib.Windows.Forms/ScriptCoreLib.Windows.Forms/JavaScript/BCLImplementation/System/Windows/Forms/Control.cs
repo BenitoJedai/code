@@ -96,6 +96,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     return Items.Count;
                 }
             }
+
+            public virtual Control this[int index]
+            {
+                get
+                {
+                    if (index < 0)
+                        throw new Exception("IndexOutOfRange");
+
+                    if (index >= this.Count)
+                        throw new Exception("IndexOutOfRange");
+
+                    return (Control)Items[index];
+                }
+            }
+
+
         }
 
         public void PerformLayout()
@@ -869,13 +885,162 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 value.Controls.Add(this);
             }
         }
- 
 
- 
 
- 
+
+
+
 
         #endregion
+
+
+        public void Show()
+        {
+            this.Visible = true;
+        }
+
+        public void Hide()
+        {
+            this.Visible = false;
+        }
+
+        public bool Visible
+        {
+            get
+            {
+                return this.GetVisibleCore();
+            }
+            set
+            {
+                this.SetVisibleCore(value);
+            }
+        }
+
+
+        internal virtual bool GetVisibleCore()
+        {
+            if (!this._Visible)
+                return false;
+
+            if (this.ParentInternal == null)
+                return false;
+
+
+            return ((__Control)this.ParentInternal).GetVisibleCore();
+        }
+
+        bool _Visible;
+
+        protected virtual void SetVisibleCore(bool value)
+        {
+            if (this.GetVisibleCore() != value)
+            {
+                _Visible = value;
+
+                this.OnVisibleChanged(null /*EventArgs.Empty*/);
+
+            }
+        }
+
+        public event EventHandler VisibleChanged;
+
+
+        protected virtual void OnVisibleChanged(EventArgs e)
+        {
+            var visible = this.Visible;
+
+
+            if (VisibleChanged != null)
+                VisibleChanged(this, e);
+
+            var c = this.Controls;
+
+            if (c != null)
+            {
+                for (int i = 0; i < c.Count; i++)
+                {
+                    __Control v = c[i];
+
+                    if (v.Visible)
+                    {
+                        v.OnParentVisibleChanged(null /* EventArgs.Empty */ );
+                    }
+
+                    if (!visible)
+                    {
+                        v.OnParentBecameInvisible();
+                    }
+
+                }
+
+            }
+        }
+
+        protected virtual void OnParentVisibleChanged(EventArgs e)
+        {
+            /*
+            if (this.GetState(2))
+            {
+                this.OnVisibleChanged(e);
+            }
+            */
+        }
+
+        internal virtual void OnParentBecameInvisible()
+        {
+
+
+        }
+
+        public Size ClientSize
+        {
+            get
+            {
+                return new Size(this.clientWidth, this.clientHeight);
+            }
+            set
+            {
+                this.SetClientSizeCore(value.Width, value.Height);
+            }
+        }
+
+        private int clientWidth;
+        private int clientHeight;
+
+
+
+        protected virtual Size SizeFromClientSize(Size clientSize)
+        {
+            return this.SizeFromClientSize(clientSize.Width, clientSize.Height);
+        }
+
+
+        internal Size SizeFromClientSize(int width, int height)
+        {
+            return new Size(width, height);
+        }
+
+
+
+        protected virtual void SetClientSizeCore(int x, int y)
+        {
+            this.Size = this.SizeFromClientSize(x, y);
+            this.clientWidth = x;
+            this.clientHeight = y;
+            this.OnClientSizeChanged(null /* bug */);
+        }
+
+        public event EventHandler ClientSizeChanged;
+
+        protected virtual void OnClientSizeChanged(EventArgs e)
+        {
+            if (ClientSizeChanged != null)
+            {
+                ClientSizeChanged(this, e);
+            }
+        }
+
+
 
 
 

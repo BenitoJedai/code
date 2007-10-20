@@ -7,3 +7,8 @@ Steps taken while creating this template:
 3. Add Attributes to AssemblyInfo.cs
 4. Create Class1
 5. Implement Setup.cs
+
+
+
+Todo:
+http://blogs.msdn.com/mattwar/archive/2007/10/09/linq-building-an-iqueryable-provider-part-viii.aspx
