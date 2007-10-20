@@ -301,8 +301,8 @@
             // 
             this.simpleDragComponent1.Caption = this.panel1;
             this.simpleDragComponent1.Content = this;
-            this.simpleDragComponent1.DragStart += new ScriptCoreLib.Shared.Action(this.simpleDragComponent1_DragStart);
-            this.simpleDragComponent1.DragStop += new ScriptCoreLib.Shared.Action(this.simpleDragComponent1_DragStop);
+            this.simpleDragComponent1.DragStart += new System.Action(this.simpleDragComponent1_DragStart);
+            this.simpleDragComponent1.DragStop += new System.Action(this.simpleDragComponent1_DragStop);
             // 
             // WebCalculator
             // 

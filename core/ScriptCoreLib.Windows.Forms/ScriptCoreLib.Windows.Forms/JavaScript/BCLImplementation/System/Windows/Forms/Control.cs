@@ -612,7 +612,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-        Shared.Action _Capture;
+        ScriptCoreLib.Shared.InternalAction _Capture;
         int _CaptureCount;
 
         #region MouseDown
