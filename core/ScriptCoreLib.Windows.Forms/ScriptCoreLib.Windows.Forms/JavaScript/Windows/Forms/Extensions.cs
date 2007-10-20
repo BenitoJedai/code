@@ -60,7 +60,17 @@ namespace ScriptCoreLib.JavaScript.Windows.Forms
             return r;
         }
 
+        static public IHTMLElement GetHTMLTargetContainer(this Control e)
+        {
+            __Control x = e;
 
+            var r = x.HTMLTargetContainerRef;
+
+            if (r == null)
+                throw new Exception("HTML element has not been set for this control.");
+
+            return r;
+        }
 
     }
 }

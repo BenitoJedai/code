@@ -48,6 +48,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public virtual DOM.HTML.IHTMLElement HTMLTargetContainerRef
+        {
+            get
+            {
+                return HTMLTargetRef;
+            }
+        }
+
         [Script(Implements = typeof(global::System.Windows.Forms.Control.ControlCollection))]
         internal class __ControlCollection : Layout.__ArrangedElementCollection
         {
@@ -69,7 +77,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 Items.Add(e);
 
-                var bg = this.Owner.GetHTMLTarget();
+                var bg = this.Owner.GetHTMLTargetContainer();
 
                 if (bg.firstChild == null)
                     bg.appendChild(e.GetHTMLTarget());
@@ -136,9 +144,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public __Control()
         {
             this.Controls = new Control.ControlCollection(this);
-
-
         }
+
 
         int x;
         int y;

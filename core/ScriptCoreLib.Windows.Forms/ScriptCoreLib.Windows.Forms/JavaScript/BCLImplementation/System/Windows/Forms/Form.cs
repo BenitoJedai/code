@@ -14,23 +14,53 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public IHTMLDiv HTMLTarget { get; set; }
 
+        IHTMLDiv caption = new IHTMLDiv();
+        IHTMLDiv container = new IHTMLDiv();
+
+        public override IHTMLElement HTMLTargetContainerRef
+        {
+            get
+            {
+                return container;
+
+            }
+        }
+
         public __Form()
         {
+
             HTMLTarget = new IHTMLDiv();
-            HTMLTarget.style.backgroundColor = Shared.Drawing.Color.System.ThreeDFace;
+            //HTMLTarget.style.backgroundColor = Shared.Drawing.Color.System.ThreeDFace;
             HTMLTarget.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-            HTMLTarget.style.borderWidth = "2px";
-            HTMLTarget.style.borderStyle = "outset";
+            HTMLTarget.style.border = "1px solid red";
+
 
             //HTMLTarget.style.SetLocation(64, 64, 100, 100);
             HTMLTarget.style.padding = "0";
 
-            HTMLTarget.attachToDocument();
 
-            
+
+            caption.style.backgroundColor = Shared.Drawing.Color.System.ActiveCaption;
+            caption.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+            caption.style.left = "1px";
+            caption.style.top = "1px";
+            caption.style.right = "1px";
+            caption.style.height = "20px";
+
+
+            container.style.backgroundColor = Shared.Drawing.Color.System.ThreeDFace;
+            container.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+            container.style.left = "1px";
+            container.style.top = "22px";
+            container.style.right = "1px";
+            container.style.bottom = "1px";
+
+            HTMLTarget.appendChild(caption, container);
+
+            HTMLTarget.attachToDocument();
         }
 
-        
+
 
         public override IHTMLElement HTMLTargetRef
         {
@@ -52,7 +82,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-
+        public override string Text
+        {
+            get
+            {
+                return caption.innerText;
+            }
+            set
+            {
+                caption.innerText = value;
+            }
+        }
 
 
     }
