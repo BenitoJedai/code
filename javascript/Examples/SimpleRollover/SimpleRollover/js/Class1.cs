@@ -22,6 +22,78 @@ using System.Linq;
 
 namespace SimpleRollover.js
 {
+    [Script]
+    class SpecialLayer
+    {
+        public readonly IHTMLDiv div = new IHTMLDiv();
+
+        public int x;
+        public int y;
+
+        public double zoom = 1;
+
+
+
+        public SpecialLayer()
+        {
+            div.style.position = IStyle.PositionEnum.absolute;
+        }
+
+        public void SetCenteredLocation(int x, int y)
+        {
+            //System.Math.Floor(
+            SetLocation((int)Math.Floor(x - (this.x * zoom) / 2),
+                (int)Math.Floor(y - (this.y * zoom) / 2));
+        }
+        public void SetLocation(int x, int y)
+        {
+            var s = div.style;
+
+            s.backgroundPosition = (-x) + "px " + (-y) + "px";
+
+            s.left = x + "px";
+            s.top = y + "px";
+        }
+
+        public void UpdateSize()
+        {
+            var s = div.style;
+
+            s.SetSize((int)Math.Floor(x * zoom), (int)Math.Floor(y * zoom));
+        }
+    }
+
+    [Script]
+    class XDualMoon
+    {
+        public double offset { get; set; }
+        public SpecialLayer moon1 { get; set; }
+        public SpecialLayer moon2 { get; set; }
+    }
+
+    [Script]
+    class XStyles
+    {
+        public IStyleSheet dark { get; set; }
+        public IStyleSheet light { get; set; }
+        public IHTMLAnchor switchbutton { get; set; }
+        public int counter { get; set; }
+    }
+
+    [Script]
+    class XState
+    {
+        public System.Action Show { get; set; }
+        public System.Action Hide { get; set; }
+        public bool Selected { get; set; }
+    }
+
+    [Script]
+    class XPosition
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
 
 
     [Script]
@@ -41,7 +113,7 @@ namespace SimpleRollover.js
 
 
             #region AnimateCharacterColors
-            Func<string, INode> AnimateCharacterColors =
+            System.Func<string, INode> AnimateCharacterColors =
                 (text) =>
                 {
                     var s = new IHTMLSpan();
@@ -106,7 +178,7 @@ namespace SimpleRollover.js
             u.style.width = "100%";
             u.style.overflow = IStyle.OverflowEnum.auto;
 
-            var styles = new
+            var styles = new XStyles
             {
                 dark = new IStyleSheet(),
                 light = new IStyleSheet(),
@@ -265,7 +337,12 @@ namespace SimpleRollover.js
             sheet.AddRule(".special1:hover .cold", "display: none;", 1);
 
 
-            var states = new[] { new { Show = default(Action), Hide = default(Action), Selected = false } }.Where(p => false);
+            var states = new[] { 
+                new XState { 
+                    Show = default(System.Action), 
+                    Hide = default(System.Action), 
+                    Selected = false } 
+            }.Where(p => false);
 
 
             ActionParams<string> Spawn =
@@ -310,14 +387,14 @@ namespace SimpleRollover.js
 
                              tween.Value = 0;
 
-                             var state = new
+                             var state = new XState
                                 {
-                                    Show = (Action)(() =>
+                                    Show = (System.Action)(() =>
                                                         {
                                                             tween.Value = tween_max;
                                                         }
                                     ),
-                                    Hide = (Action)(() => tween.Value = 0),
+                                    Hide = (System.Action)(() => tween.Value = 0),
                                     Selected = false
                                 };
 
@@ -382,46 +459,6 @@ namespace SimpleRollover.js
 
         }
 
-        [Script]
-        class SpecialLayer
-        {
-            public readonly IHTMLDiv div = new IHTMLDiv();
-
-            public int x;
-            public int y;
-
-            public double zoom = 1;
-
-
-
-            public SpecialLayer()
-            {
-                div.style.position = IStyle.PositionEnum.absolute;
-            }
-
-            public void SetCenteredLocation(int x, int y)
-            {
-                //System.Math.Floor(
-                SetLocation((int)Math.Floor(x - (this.x * zoom) / 2),
-                    (int)Math.Floor(y - (this.y * zoom) / 2));
-            }
-            public void SetLocation(int x, int y)
-            {
-                var s = div.style;
-
-                s.backgroundPosition = (-x) + "px " + (-y) + "px";
-
-                s.left = x + "px";
-                s.top = y + "px";
-            }
-
-            public void UpdateSize()
-            {
-                var s = div.style;
-
-                s.SetSize((int)Math.Floor(x * zoom), (int)Math.Floor(y * zoom));
-            }
-        }
 
         private static void SpawnCursor()
         {
@@ -434,9 +471,9 @@ namespace SimpleRollover.js
             var a =
                 from i in
                     (from j in Enumerable.Range(0, (frames / 2) - 0) select j / frames * pi)
-                let x = Math.Cos(i)
-                let y = Math.Sin(i)
-                select new { x, y };
+                //let x = Math.Cos(i)
+                //let y = Math.Sin(i)
+                select new XPosition { x = Math.Cos(i), y = Math.Sin(i) };
 
             //a.ForEach(z => Console.WriteLine(z.ToString()));
 
@@ -447,12 +484,12 @@ namespace SimpleRollover.js
             var dualmoon =
                 (from offset in
                      (from j in Enumerable.Range(0, moon_range) select (j - (moon_range / 2)) / moon_frames * pi)
-                        select new
-                        {
-                            offset,
-                            moon1 = new SpecialLayer(),
-                            moon2 = new SpecialLayer()
-                        }).ToArray();
+                 select new XDualMoon
+                 {
+                     offset = offset,
+                     moon1 = new SpecialLayer(),
+                     moon2 = new SpecialLayer()
+                 }).ToArray();
 
 
             dualmoon.ForEach(
@@ -460,7 +497,7 @@ namespace SimpleRollover.js
                 {
                     double op = 1 - (Math.Abs((double)(dual.offset / moon_max)));
 
-                    int size = (int) Math.Floor(4 * (op + 1));
+                    int size = (int)Math.Floor(4 * (op + 1));
 
                     dual.moon1.div.style.Opacity = 0.6;
                     dual.moon2.div.style.Opacity = 0.6;
@@ -508,7 +545,7 @@ namespace SimpleRollover.js
             );
 
 
-            Action moon_update =
+            System.Action moon_update =
                 () =>
                 {
                     var seed = IDate.Now.getTime() / 1000;

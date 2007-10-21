@@ -229,7 +229,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
             return Expando.Of(p).ToJSON();
         }
 
-        #if BLOAT
+       // #if BLOAT
         public static TRet To<TArg, TRet>(TArg e, TRet def, EventHandler<ConvertTo<TArg, TRet>> h)
         {
             var p = new ConvertTo<TArg, TRet>();
@@ -242,6 +242,6 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
             return p.TargetOut;
         }
-#endif
+//#endif
     }
 }

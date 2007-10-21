@@ -43,7 +43,7 @@ namespace HulaGirl.source.js.Controls
                     }
                 );
 
-            Func<int, string> GetFilename = i => "hula_girl_" + ("" + i).PadLeft(2, '0') + ".png";
+            System.Func<int, string> GetFilename = i => "hula_girl_" + ("" + i).PadLeft(2, '0') + ".png";
 
             
             for (int i = 1; i <= 82; i++)
@@ -59,6 +59,16 @@ namespace HulaGirl.source.js.Controls
             var img = new IHTMLImage("gfx_hula_girl_100/" + GetFilename(52));
                 
                 img.attachToDocument();
+
+            var _width = 120;
+            var _zoom = 1.0;
+
+            img.onmousewheel += 
+                ev =>
+                    {
+                        _zoom += 0.1 * ev.WheelDirection;
+                        img.style.width = (_width * _zoom) + "px";
+                    };
 
             var index = 1;
 

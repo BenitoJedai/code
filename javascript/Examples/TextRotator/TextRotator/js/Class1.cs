@@ -59,7 +59,7 @@ namespace TextRotator.js
             var delay_delayed = false;
 
             Status = "creating actions";
-            var Delay = default(Action<Action, int>);
+            var Delay = default(System.Action<System.Action, int>);
 
             Delay = (h, due) => new Timer(
 
@@ -73,11 +73,11 @@ namespace TextRotator.js
 
             }, due, 0);
 
-            Func<string> CurrentLineString = () => (1 + index) + ". " + lines[index].Trim();
+            System.Func<string> CurrentLineString = () => (1 + index) + ". " + lines[index].Trim();
 
-            var DeleteChar = default(Action);
-            var PrintChar = default(Action);
-            var ChooseLine = default(Action);
+            var DeleteChar = default(System.Action);
+            var PrintChar = default(System.Action);
+            var ChooseLine = default(System.Action);
 
             DeleteChar =
                 () =>

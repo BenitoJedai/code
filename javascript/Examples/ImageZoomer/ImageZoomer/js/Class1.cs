@@ -45,7 +45,7 @@ namespace ImageZoomer.js
         /// <summary>
         /// user clicks on the magnifier
         /// </summary>
-        public event Action<IEvent> Click;
+        public event System.Action<IEvent> Click;
 
         /// <summary>
         /// magnifier should be moved to the location given by the event
@@ -161,7 +161,7 @@ namespace ImageZoomer.js
                             );
                     }
 
-                    Console.WriteLine(new { zoom = zoom }.ToString());
+                    // Console.WriteLine(new  { zoom = zoom }.ToString());
                 };
 
             foreach (var mag1 in mag1a)
@@ -226,7 +226,7 @@ namespace ImageZoomer.js
 
         #region IDisposable Members
 
-        Action OnDispose;
+        System.Action OnDispose;
 
         public void Dispose()
         {
@@ -239,11 +239,11 @@ namespace ImageZoomer.js
 
 
 
-        public static Func<MyMagnifier> CreateClickableMagnifier(IHTMLImage i, string zoom_src)
+        public static System.Func<MyMagnifier> CreateClickableMagnifier(IHTMLImage i, string zoom_src)
         {
             var x = default(MyMagnifier);
 
-            Action create =
+            System.Action create =
                 () =>
                 {
                     x = new MyMagnifier(i, zoom_src, 180, 4, 6);
@@ -275,11 +275,11 @@ namespace ImageZoomer.js
             return () => x;
         }
 
-        public static Func<MyMagnifier> CreateFreezableMagnifier(IHTMLImage i, string zoom_src)
+        public static System.Func<MyMagnifier> CreateFreezableMagnifier(IHTMLImage i, string zoom_src)
         {
             var x =  new MyMagnifier(i, zoom_src, 180, 4, 6);
 
-            Action<IEvent> click =
+            System.Action<IEvent> click =
                 (ev) =>
                 {
                     x.Enabled = !x.Enabled;
@@ -314,7 +314,7 @@ namespace ImageZoomer.js
             Control.appendChild(new IHTMLElement(IHTMLElement.HTMLElementEnum.p, "Use your mouse wheel to zoom!"));
             Control.appendChild(new IHTMLElement(IHTMLElement.HTMLElementEnum.hr));
 
-            Action<string, string> Spawn =
+            System.Action<string, string> Spawn =
                 (src, zoom_src) =>
                 {
                     var i = new IHTMLImage(src);
@@ -331,7 +331,7 @@ namespace ImageZoomer.js
                     );
                 };
 
-            Action<string, string> SpawnFreezable =
+            System.Action<string, string> SpawnFreezable =
                 (src, zoom_src) =>
                 {
                     var i = new IHTMLImage(src);

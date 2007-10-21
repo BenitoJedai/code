@@ -175,9 +175,9 @@ namespace ScriptCoreLib.JavaScript.Controls
 
             public EventHandler BeforeShow;
 
-            Func<bool> IsFadeEnabled;
+            System.Func<bool> IsFadeEnabled;
 
-            public Popup<T> AttachTo(ToolbarButton b, Func<bool> IsFadeEnabled)
+            public Popup<T> AttachTo(ToolbarButton b, System.Func<bool> IsFadeEnabled)
             {
                 this.IsFadeEnabled = IsFadeEnabled;
 

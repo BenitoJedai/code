@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 
 using System.Linq;
+//using System;
 
 namespace CardGames.source.js.Controls
 {
@@ -151,7 +152,7 @@ namespace CardGames.source.js.Controls
         {
             MyStatus.Visible = false;
 
-            Console.Log("--- spider ---");
+            ScriptCoreLib.JavaScript.Runtime.Console.Log("--- spider ---");
 
             BackgroundImage.ToDocumentBackground();
 
@@ -352,7 +353,7 @@ namespace CardGames.source.js.Controls
 
 
             PlayStacks.ForEach(
-                (Action<CardStack>)
+                (System.Action<CardStack>)
                 delegate(CardStack s)
                 {
                     s.Cards.ListChanged +=
@@ -594,7 +595,7 @@ namespace CardGames.source.js.Controls
         }
 
 
-        private static void IsDraggableFormPlayStack(Predicate<Card> p)
+        private static void IsDraggableFormPlayStack(ScriptCoreLib.Shared.Predicate<Card> p)
         {
             var c = p.Target;
 
@@ -622,7 +623,7 @@ namespace CardGames.source.js.Controls
         }
 
 
-        public void DealRow(EventHandler done)
+        public void DealRow(ScriptCoreLib.Shared.EventHandler done)
         {
 
             var DealingStack = DealStacks.Pop();

@@ -9,6 +9,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
 
 using ScriptCoreLib.Shared;
+//using ScriptCoreLib.Shared.Query;
 
 using System.Linq;
 
@@ -125,14 +126,19 @@ namespace ScriptCoreLib.JavaScript.Cards
 
         public void AttachCards(EventHandler<Card> h, params Card[] e)
         {
-            Helper.ForEach(e,
-                delegate(Card c)
-                {
-                    c.AttachToStack(this);
+                        //Helper.ForEach(e,
+            //    delegate(Card c)
+            //    {
+            foreach (var c in e)
+            {
+                                    c.AttachToStack(this);
 
                     Helper.Invoke(h, c);
-                }
-            );
+            }
+
+
+            //    }
+            //);
 
             Helper.Invoke(CardsMovedToStack);
         }

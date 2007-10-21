@@ -63,14 +63,15 @@ namespace GMapsClone.source.js.Controls
 
 
 
-
+            /*
             CreateDisposableButton("Show Moon",
                 delegate { new GoogleMaps("http://moon.google.com/kh?v=2&t=t", null); }
-            );
+            );*/
 
+            /*
             CreateDisposableButton("Show Mars",
-                delegate { new GoogleMaps("http://kh.google.com/movl?ov=52&t=t", null); }
-            );
+                delegate { new GoogleMaps("http://mw1.google.com/mw-planetary/mars/elevation/t{0}.jpg", null); }
+            );*/
 
 
             CreateDisposableButton("Show Earth - extra zoom 1",

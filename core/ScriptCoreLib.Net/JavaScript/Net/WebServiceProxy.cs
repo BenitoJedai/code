@@ -14,6 +14,7 @@ namespace ScriptCoreLib.JavaScript.Net
     using ScriptCoreLib;
     using ScriptCoreLib.Shared;
     using ScriptCoreLib.Shared.Drawing;
+    using System;
 
     [Script]
     public class WebServiceProxy
