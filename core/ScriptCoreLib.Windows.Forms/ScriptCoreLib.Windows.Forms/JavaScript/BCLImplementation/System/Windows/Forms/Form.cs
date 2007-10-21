@@ -26,6 +26,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        ScriptCoreLib.JavaScript.Controls.DragHelper drag;
+
         public __Form()
         {
 
@@ -56,6 +58,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             container.style.bottom = "1px";
 
             HTMLTarget.appendChild(caption, container);
+
+            drag = new ScriptCoreLib.JavaScript.Controls.DragHelper(caption);
+
+            drag.Enabled = true;
+            drag.DragMove += 
+                delegate
+                {
+                    HTMLTarget.style.SetLocation(drag.Position.X, drag.Position.Y);
+                };
 
             HTMLTarget.attachToDocument();
         }
@@ -94,6 +105,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        protected override void OnMove(EventArgs e)
+        {
+            drag.Position = new Shared.Drawing.Point(this.Location.X, this.Location.Y);
 
+            base.RaiseMove(e);
+        }
     }
 }

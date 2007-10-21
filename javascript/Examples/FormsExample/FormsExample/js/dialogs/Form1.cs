@@ -17,5 +17,15 @@ namespace FormsExample.js.dialogs
         {
             InitializeComponent();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Text = "Button1";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Text = "Button2";
+        }
     }
 }

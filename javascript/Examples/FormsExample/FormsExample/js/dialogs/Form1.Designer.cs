@@ -33,6 +33,7 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.userControl11 = new FormsExample.js.UserControl1();
             this.SuspendLayout();
             // 
             // label1
@@ -40,9 +41,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 70);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(291, 13);
+            this.label1.Size = new System.Drawing.Size(214, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "This is a simple windows form with one label and one button.";
+            this.label1.Text = "This is a complex form with multiple controls.";
             // 
             // button1
             // 
@@ -52,6 +53,7 @@
             this.button1.TabIndex = 1;
             this.button1.Text = "Ok";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // checkBox1
             // 
@@ -81,12 +83,21 @@
             this.button2.TabIndex = 1;
             this.button2.Text = "Ok";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // userControl11
+            // 
+            this.userControl11.Location = new System.Drawing.Point(15, 151);
+            this.userControl11.Name = "userControl11";
+            this.userControl11.Size = new System.Drawing.Size(649, 376);
+            this.userControl11.TabIndex = 4;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(362, 173);
+            this.ClientSize = new System.Drawing.Size(681, 539);
+            this.Controls.Add(this.userControl11);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.button2);
@@ -106,5 +117,6 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.Button button2;
+        private UserControl1 userControl11;
     }
 }

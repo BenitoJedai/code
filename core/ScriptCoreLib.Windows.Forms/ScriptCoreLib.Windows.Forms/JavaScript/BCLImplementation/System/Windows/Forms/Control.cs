@@ -327,10 +327,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         #region Move
         public event EventHandler Move;
 
-        protected virtual void OnMove(EventArgs e)
+        protected void RaiseMove(EventArgs e)
         {
             if (Move != null)
                 Move(this, e);
+        }
+
+        protected virtual void OnMove(EventArgs e)
+        {
+            RaiseMove(e);
         }
         #endregion
 
