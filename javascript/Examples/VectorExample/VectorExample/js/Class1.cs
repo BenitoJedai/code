@@ -44,6 +44,7 @@ namespace VectorExample.js
         // http://jmvidal.cse.sc.edu/talks/canvassvg/gradient.xml?style=White
         // http://www.treebuilder.de/default.asp?file=163540.xml
         // http://www.ibm.com/developerworks/library/x-svgint/
+        // http://starkravingfinkle.org/projects/richdraw/richdraw_demo.htm
 
         /// <summary>
         /// Creates a new control
@@ -85,6 +86,71 @@ namespace VectorExample.js
 
             CreateButton(Test1, "svg hello world");
             CreateButton(Test2, "svg advanced");
+            CreateButton(Test3, "vml (IE) hello world");
+        }
+
+        // http://msdn2.microsoft.com/en-us/library/ms535854.aspx
+        [Script(HasNoPrototype=true)]
+        internal class IMSNamespace
+        {
+
+        }
+
+        // http://msdn2.microsoft.com/en-us/library/ms537470.aspx#
+        [Script(HasNoPrototype=true)]
+        internal class IMSNamespaceCollection
+        {
+            public IMSNamespace item(int i)
+            {
+                return default(IMSNamespace);
+            }
+
+            public IMSNamespace item(string sNamespace)
+            {
+                return default(IMSNamespace);
+            }
+
+            public IMSNamespace add(string sNamespace, string sUrn)
+            {
+                return default(IMSNamespace);
+            }
+
+            public int length;
+        }
+
+        [Script(HasNoPrototype=true)]
+        internal class IMSHTMLDocument : IHTMLDocument
+        {
+            public IMSNamespaceCollection namespaces;
+        }
+
+        private static void Test3()
+        {
+            var doc = ((IMSHTMLDocument)Native.Document);
+            var namespaces = doc.namespaces;
+            var vml = namespaces.add("v" , "urn:schemas-microsoft-com:vml");
+            var vmlcss = new IStyleSheet();
+
+
+            vmlcss.AddRule("v\\:*" , "behavior:url(#default#VML)", 0);
+
+            var container = "div".AttachToDocument();
+
+            container.style.border = "1px solid red";
+            container.style.width = "400px";
+            container.style.height = "300px";
+
+            var layer = new IHTMLElement("v:group").AttachTo(container);
+            var rect = new IHTMLElement("v:rect").AttachTo(layer);
+
+            // http://midiwebconcept.free.fr/
+
+            rect.setAttribute("fillcolor", "red");
+            rect.style.left = "10";
+            rect.style.top = "10";
+            rect.style.width = "200";
+            rect.style.height = "200";
+
         }
 
         private static void Test2()

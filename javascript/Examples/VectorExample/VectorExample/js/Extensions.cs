@@ -21,6 +21,13 @@ namespace VectorExample.js
             return (h, x) => h();
         }
 
+        public static IHTMLElement AttachTo(this IHTMLElement e, IHTMLElement c)
+        {
+            c.appendChild(e);
+
+            return e;
+        }
+
         public static IHTMLElement AttachToDocument(this string tag)
         {
             var e = tag.AsElement();
