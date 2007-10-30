@@ -8,7 +8,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class IDocument : INode
     {
-        [Script(DefineAsStatic=true)]
+        [Script(DefineAsStatic = true)]
         public new void appendChild<T>(T e)
         {
             throw new global::System.Exception("IDocument.appendChild is forbidden");
@@ -27,9 +27,14 @@ namespace ScriptCoreLib.JavaScript.DOM
     }
 
     [Script(HasNoPrototype = true)]
-    public class IDocument<DOMElement> : IDocument 
+    public class IDocument<DOMElement> : IDocument
         where DOMElement : IElement
     {
+        internal DOMElement createElementNS(string ns, string tag)
+        {
+            return default(DOMElement);
+        }
+
         public DOMElement createElement(string tagName)
         {
             return default(DOMElement);

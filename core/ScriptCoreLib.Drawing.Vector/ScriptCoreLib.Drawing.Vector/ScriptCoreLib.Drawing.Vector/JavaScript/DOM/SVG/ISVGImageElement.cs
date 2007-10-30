@@ -7,7 +7,7 @@ namespace ScriptCoreLib.JavaScript.DOM.SVG
 {
     // http://www.xulplanet.com/references/objref/SVGImageElement.html
     [Script(InternalConstructor = true)]
-    public class ISVGImageElement : ISVGElement
+    public class ISVGImageElement : ISVGElementBase
     {
 
         public ISVGImageElement()
@@ -21,16 +21,16 @@ namespace ScriptCoreLib.JavaScript.DOM.SVG
             {
                 // http://www.thescripts.com/forum/thread152404.html
 
-                var x = (IElementNS)(object)this;
+                //var x = (IElementNS)(object)this;
 
-                x.setAttributeNS("http://www.w3.org/1999/xlink", "href", value);
+                this.setAttributeNS("http://www.w3.org/1999/xlink", "href", value);
 
             }
         }
 
         internal static ISVGImageElement InternalConstructor()
         {
-            return (ISVGImageElement)new ISVGElement("image");
+            return (ISVGImageElement)new ISVGElementBase("image");
         }
     }
 }

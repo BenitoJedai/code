@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.DOM.SVG
 {
     [Script(InternalConstructor = true)]
-    public class ISVGTextElement : ISVGElement
+    public class ISVGTextElement : ISVGElementBase
     {
         public string textContent;
         public string x;
@@ -19,7 +19,7 @@ namespace ScriptCoreLib.JavaScript.DOM.SVG
 
         internal static ISVGTextElement InternalConstructor()
         {
-            return (ISVGTextElement)new ISVGElement("text");
+            return (ISVGTextElement)new ISVGElementBase("text");
         }
     }
 }

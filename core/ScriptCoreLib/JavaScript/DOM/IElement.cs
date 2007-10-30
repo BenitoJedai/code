@@ -13,6 +13,10 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         public string tagName;
 
+        internal void setAttributeNS(string ns, string name, object value)
+        {
+
+        }
 
         public void setAttribute(string name, object value)
         {

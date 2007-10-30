@@ -22,6 +22,11 @@ namespace VectorExample.js
     using ScriptCoreLib.Shared.Lambda;
     using ScriptCoreLib.JavaScript.DOM.SVG;
     using ScriptCoreLib.Shared.Drawing;
+    using ScriptCoreLib.JavaScript.DOM.VML;
+
+
+
+
 
 
 
@@ -45,6 +50,9 @@ namespace VectorExample.js
         // http://www.treebuilder.de/default.asp?file=163540.xml
         // http://www.ibm.com/developerworks/library/x-svgint/
         // http://starkravingfinkle.org/projects/richdraw/richdraw_demo.htm
+        // http://www.dynamicdrive.com/dynamicindex11/editor.htm
+        // http://draw.labs.autodesk.com/ADDraw/draw.html
+        // http://yeonisalive.net/javascript/MindWeb001.php
 
         /// <summary>
         /// Creates a new control
@@ -55,23 +63,30 @@ namespace VectorExample.js
             Native.Document.body.style.backgroundColor = Color.System.ThreeDFace;
 
             "h2".AttachToDocument().innerText = "svg + vml example";
-            "p".AttachToDocument().innerText = "done loading!";
 
             #region CreateButton
-            Action<Action, string> CreateButton =
+            Func<Action, string, IHTMLButton> CreateButton =
                 (h, text) =>
                 {
                     var btn = new IHTMLButton(text);
 
                     btn.attachToDocument();
 
+                    Action onclick =
+                        delegate
+                        {
+                            h();
+                            btn.Dispose();
+                        };
+
                     btn.onclick +=
                         delegate
                         {
+                            // onclick();
+
                             try
                             {
-                                h();
-                                btn.Dispose();
+                                onclick();
                             }
                             catch (Exception ex)
                             {
@@ -79,68 +94,39 @@ namespace VectorExample.js
                                 btn.innerText = "error: " + ex.Message;
                             }
                         };
+
+                    return btn;
                 };
             #endregion
 
             // CreateButton = CreateButton.AsDefaultDelegate();
 
-            CreateButton(Test1, "svg hello world");
-            CreateButton(Test2, "svg advanced");
-            CreateButton(Test3, "vml (IE) hello world");
+            CreateButton(Test1, "svg hello world").disabled = !ISVGElementBase.Settings.IsSupported;
+            CreateButton(Test2, "svg advanced").disabled = !ISVGElementBase.Settings.IsSupported;
+            CreateButton(Test3, "vml (IE) hello world").disabled = !IVMLElementBase.Settings.IsSupported;
         }
 
-        // http://msdn2.microsoft.com/en-us/library/ms535854.aspx
-        [Script(HasNoPrototype=true)]
-        internal class IMSNamespace
-        {
-
-        }
-
-        // http://msdn2.microsoft.com/en-us/library/ms537470.aspx#
-        [Script(HasNoPrototype=true)]
-        internal class IMSNamespaceCollection
-        {
-            public IMSNamespace item(int i)
-            {
-                return default(IMSNamespace);
-            }
-
-            public IMSNamespace item(string sNamespace)
-            {
-                return default(IMSNamespace);
-            }
-
-            public IMSNamespace add(string sNamespace, string sUrn)
-            {
-                return default(IMSNamespace);
-            }
-
-            public int length;
-        }
-
-        [Script(HasNoPrototype=true)]
-        internal class IMSHTMLDocument : IHTMLDocument
-        {
-            public IMSNamespaceCollection namespaces;
-        }
 
         private static void Test3()
         {
-            var doc = ((IMSHTMLDocument)Native.Document);
-            var namespaces = doc.namespaces;
-            var vml = namespaces.add("v" , "urn:schemas-microsoft-com:vml");
-            var vmlcss = new IStyleSheet();
-
-
-            vmlcss.AddRule("v\\:*" , "behavior:url(#default#VML)", 0);
+            //var settings = VMLSettings.Default;
 
             var container = "div".AttachToDocument();
 
             container.style.border = "1px solid red";
             container.style.width = "400px";
             container.style.height = "300px";
+            container.style.overflow = IStyle.OverflowEnum.hidden;
 
-            var layer = new IHTMLElement("v:group").AttachTo(container);
+            container.style.position = IStyle.PositionEnum.relative;
+
+            var layer = new IVMLGroup().AttachTo(container);
+
+            layer.setAttribute("coordsize", "400,300");
+
+            layer.style.width = "400px";
+            layer.style.height = "300px";
+
             var rect = new IHTMLElement("v:rect").AttachTo(layer);
 
             // http://midiwebconcept.free.fr/
@@ -148,8 +134,53 @@ namespace VectorExample.js
             rect.setAttribute("fillcolor", "red");
             rect.style.left = "10";
             rect.style.top = "10";
-            rect.style.width = "200";
-            rect.style.height = "200";
+            rect.style.width = "200px";
+            rect.style.height = "200px";
+
+            var fill = new IHTMLElement("v:fill").AttachTo(rect);
+
+            fill.setAttribute("color2", "blue");
+            fill.setAttribute("type", "gradient");
+
+            {
+                var image = new IVMLImage()
+                    {
+                        src = "assets/VectorExample/TILE1436.png"
+                    }.AttachTo(layer);
+
+                image.style.width = "200px";
+                image.style.height = "200px";
+            }
+
+            container.onmousemove +=
+                ev =>
+                {
+                    if (ev.ctrlKey)
+                    {
+                        if (ev.Element == container)
+                        {
+                            var image = new IVMLImage()
+                                {
+                                    src = "assets/VectorExample/TILE1436.png"
+                                }.AttachTo(layer);
+
+                            image.style.left = ev.OffsetX + "px";
+                            image.style.top = ev.OffsetY + "px";
+                            image.style.width = "200px";
+                            image.style.height = "200px";
+                        }
+                    }
+                };
+
+
+            var polyline = new IVMLPolyline();
+
+            polyline.points = "10,8 100,100 55,77";
+
+            polyline.AttachTo(layer);
+
+
+
 
         }
 
@@ -164,14 +195,14 @@ namespace VectorExample.js
             var svg = new ISVGSVGElement();
             var layer = new ISVGGElement();
 
-            var defs = new ISVGElement("defs");
-            var radialGradient = new ISVGElement("radialGradient");
+            var defs = new ISVGElementBase("defs");
+            var radialGradient = new ISVGElementBase("radialGradient");
 
             radialGradient.id = "myRadGrad";
             radialGradient.setAttribute("r", "10%");
             radialGradient.setAttribute("spreadMethod", "reflect");
 
-            var stop1 = new ISVGElement("stop");
+            var stop1 = new ISVGElementBase("stop");
 
             stop1.setAttribute("offset", "5%");
             stop1.setAttribute("stop-color", "red");
@@ -179,7 +210,7 @@ namespace VectorExample.js
 
             radialGradient.appendChild(stop1);
 
-            var stop2 = new ISVGElement("stop");
+            var stop2 = new ISVGElementBase("stop");
 
             stop2.setAttribute("offset", "95%");
             //stop2.setAttribute("stop-color", "blue");

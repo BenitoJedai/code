@@ -12,6 +12,7 @@
     <AssemblyName>ScriptCoreLib.Drawing.Vector</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ScriptCoreLib, Version=3.0.2850.21355, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ScriptCoreLib, Version=3.0.2859.35091, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
@@ -51,18 +52,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JavaScript\DOM\HTML\IHTMLDocumentNS.cs" />
-    <Compile Include="JavaScript\DOM\IElementNS.cs" />
-    <Compile Include="JavaScript\DOM\SVG\ISVGElement.cs" />
+    <Compile Include="JavaScript\DOM\SVG\ISVGElementBase.cs" />
     <Compile Include="JavaScript\DOM\SVG\ISVGGElement.cs" />
     <Compile Include="JavaScript\DOM\SVG\ISVGImageElement.cs" />
     <Compile Include="JavaScript\DOM\SVG\ISVGRectElement.cs" />
     <Compile Include="JavaScript\DOM\SVG\ISVGSVGElement.cs" />
     <Compile Include="JavaScript\DOM\SVG\ISVGTextElement.cs" />
+    <Compile Include="JavaScript\DOM\VML\IVMLElementBase.cs" />
+    <Compile Include="JavaScript\DOM\VML\IVMLGroup.cs" />
+    <Compile Include="JavaScript\DOM\VML\IVMLImage.cs" />
+    <Compile Include="JavaScript\DOM\VML\IVMLPolyline.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="JavaScript\DOM\VML\" />
+    <Folder Include="JavaScript\DOM\HTML\" />
     <Folder Include="JavaScript\Drawing\Vector\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

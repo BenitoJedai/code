@@ -46,6 +46,17 @@ namespace ScriptCoreLib.JavaScript.DOM
                 public string description;
             }
 
+            // http://www.comptechdoc.org/independent/web/cgi/javamanual/javamimetype.html
+            // http://www.irt.org/xref/MimeType.htm
+            [Script]
+            public class MimeTypeInfo
+            {
+                public string description;
+                public string type;
+            }
+
+
+            public IArray<MimeTypeInfo> mimeTypes;
             public IArray<PluginInfo> plugins;
         }
 

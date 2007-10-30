@@ -13,8 +13,41 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     [Script(HasNoPrototype = true)]
     public class IHTMLDocument : IDocument<IHTMLElement>
     {
+
         public IHTMLStyle[] styleSheets;
 
+        #region namespaces
+        // http://msdn2.microsoft.com/en-us/library/ms535854.aspx
+        [Script(HasNoPrototype = true)]
+        internal class IMSNamespace
+        {
+
+        }
+
+        // http://msdn2.microsoft.com/en-us/library/ms537470.aspx#
+        [Script(HasNoPrototype = true)]
+        internal class IMSNamespaceCollection
+        {
+            public IMSNamespace item(int i)
+            {
+                return default(IMSNamespace);
+            }
+
+            public IMSNamespace item(string sNamespace)
+            {
+                return default(IMSNamespace);
+            }
+
+            public IMSNamespace add(string sNamespace, string sUrn)
+            {
+                return default(IMSNamespace);
+            }
+
+            public int length;
+        }
+
+        internal IMSNamespaceCollection namespaces;
+        #endregion
 
 
         //// http://msdn.microsoft.com/workshop/author/dhtml/reference/methods/querycommandsupported.asp
@@ -24,16 +57,16 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         //}
 
         // http://msdn.microsoft.com/workshop/author/dhtml/reference/methods/execcommand.asp
-        public bool execCommand(string sCommand , bool bUserInterface, object value)
+        public bool execCommand(string sCommand, bool bUserInterface, object value)
         {
             return default(bool);
         }
 
 
         public object selection;
-        
-                // http://www.webreference.com/js/column12/crossbrowser.html
-        
+
+        // http://www.webreference.com/js/column12/crossbrowser.html
+
         //interface HTMLDocument : Document {
         public string title;
         public readonly string referrer;
@@ -56,6 +89,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         public void writeln(string a0) { }
 
         public INode[] getElementsByName(string e) { return default(INode[]); }
+
+
 
         public IHTMLElement createElement(IHTMLElement.HTMLElementEnum e)
         {

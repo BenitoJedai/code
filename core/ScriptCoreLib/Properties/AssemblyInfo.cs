@@ -36,7 +36,7 @@ using ScriptCoreLib;
 [assembly: AssemblyVersion("3.0.*")]
 [assembly: AssemblyFileVersion("3.0.*")]
 
-[assembly: Script(IsCoreLib=true)
+[assembly: Script(IsCoreLib = true)
     //,ScriptResources("external")
 ]
 
@@ -46,8 +46,9 @@ using ScriptCoreLib;
 [assembly: ScriptTypeFilter(ScriptType.PHP, "*.PHP")]
 [assembly: ScriptTypeFilter(ScriptType.PHP, "*.Shared")]
 
-[assembly:InternalsVisibleTo("ScriptCoreLib.Query")]
-[assembly:InternalsVisibleTo("ScriptCoreLib.Windows.Forms")]
+[assembly: InternalsVisibleTo("ScriptCoreLib.Query")]
+[assembly: InternalsVisibleTo("ScriptCoreLib.Windows.Forms")]
+[assembly: InternalsVisibleTo("ScriptCoreLib.Drawing.Vector")]
 
 
 namespace ScriptCoreLib.Shared

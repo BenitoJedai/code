@@ -12,6 +12,7 @@ namespace ScriptCoreLib.Shared.Lambda
 
        public static double Max(this double e, double x)
         {
+           
             if (e > x)
                 return e;
 
