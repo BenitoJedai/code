@@ -10,6 +10,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         public bool noWrap;
 
         public int colSpan;
+        public int rowSpan;
 
         #region ctor
         public IHTMLTableColumn()

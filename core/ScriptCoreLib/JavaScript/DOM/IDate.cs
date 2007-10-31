@@ -7,7 +7,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         /*
          * ref: http://www.w3schools.com/jsref/jsref_obj_date.asp
-         * 
+         * http://www.aspnetcenter.com/cliktoprogram/javascript/date.asp
          */
 
         public IDate()
@@ -17,6 +17,10 @@ namespace ScriptCoreLib.JavaScript.DOM
         public IDate(double i)
         {
         }
+
+        public void setFullYear(int i) {}
+        public void setMonth(int i) {}
+        public void setDate(int i) {}
 
         public int getMilliseconds() { return default(int); }
         public int getSeconds() { return default(int); }

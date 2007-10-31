@@ -31,6 +31,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
 
+        public __DateTime(int year, int month, int day)
+        {
+            Value = new IDate();
+            Value.setFullYear(year);
+            Value.setMonth(month);
+            Value.setDate(day);
+        }
+
+
+
+
 
 
         public static __DateTime Now
@@ -73,6 +84,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             get
             {
                 return this.Value.getHours();
+            }
+        }
+
+        public DayOfWeek DayOfWeek
+        {
+            get
+            {
+                return (DayOfWeek)this.Value.getDay();
             }
         }
 
