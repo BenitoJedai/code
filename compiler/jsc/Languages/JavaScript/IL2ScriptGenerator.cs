@@ -141,6 +141,7 @@ namespace jsc
                      OpCodes.Ldc_I4_8,
                      OpCodes.Ldc_R4,
                      OpCodes.Ldc_R8,
+                     OpCodes.Ldc_I8,
                      OpCodes.Ldc_I4_M1] = new OpCodeHandler(OpCode_ldc);
 
             Handlers[OpCodes.Ldstr] = new OpCodeHandler(OpCode_ldstr);
@@ -575,6 +576,12 @@ namespace jsc
             if (i == OpCodes.Ldc_R4)
             {
                 w.WriteNumeric(i.OpParamAsFloat);
+                return;
+            }
+
+            if (i == OpCodes.Ldc_I8)
+            {
+                w.WriteNumeric((long)i.TargetLong);
                 return;
             }
 

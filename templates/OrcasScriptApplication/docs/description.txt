@@ -1,1 +1,1 @@
-﻿Browser application. Crosscompiled from c# to javascript.
+﻿ScriptApplication within webbrowser.

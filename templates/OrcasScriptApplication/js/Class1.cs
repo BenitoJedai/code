@@ -181,8 +181,8 @@ namespace OrcasScriptApplication.js
                 h1("linq to objects"),
                 paragraph(
                     @"This example demostrates the use of 'linq to objects' within jsc:javascript.
-The actual source code is in c#. It is compiled to an assembly. Then it is recompiled into javascript.
-This example makes heavy use of delegates, dom, and query operators.
+The actual source code is in c#. MSIL is recompiled into javascript.
+This example makes use of delegates, dom, and query operators.
                 "),
                  new IHTMLAnchor("http://jsc.svn.sourceforge.net/viewvc/jsc/templates/OrcasScriptApplication/js/Class1.cs?view=markup", "view source"),
                  br(),

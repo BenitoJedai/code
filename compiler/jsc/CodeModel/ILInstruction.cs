@@ -116,7 +116,7 @@ namespace jsc
                 return false;
 
 
-                return true;
+            return true;
         }
         public string ToString(ILInstruction e)
         {
@@ -136,7 +136,7 @@ namespace jsc
                     w.Write("break");
                     return w.ToString();
                 }
-                
+
 
                 w.Write("while ( [0x{0:x4} to 0x{1:x4}] ) "
                       , CFirst.Offset
@@ -172,7 +172,7 @@ namespace jsc
         {
             return ToString(null);
 
-            
+
         }
     }
 
@@ -219,25 +219,25 @@ namespace jsc
 
                 i = i.Next;
 
-                if (i == null || i.Offset > BodyTrueLast.Offset)
-                    return null;
-                
-            skip:
-
-                
-
-                if (i.InlineIfElseConstruct == null)
-                    goto next;
-
-                if (i.InlineIfElseConstruct.IsExternalCoCondition)
-                    goto next;
-                
-
-                if (i.InlineIfElseConstruct.BodyTrueLast == BodyTrueLast
-                    || i.InlineIfElseConstruct.BodyFalseLast == BodyTrueLast)
-                    return i.InlineIfElseConstruct;
-
+            if (i == null || i.Offset > BodyTrueLast.Offset)
                 return null;
+
+        skip:
+
+
+
+            if (i.InlineIfElseConstruct == null)
+                goto next;
+
+        if (i.InlineIfElseConstruct.IsExternalCoCondition)
+            goto next;
+
+
+        if (i.InlineIfElseConstruct.BodyTrueLast == BodyTrueLast
+            || i.InlineIfElseConstruct.BodyFalseLast == BodyTrueLast)
+            return i.InlineIfElseConstruct;
+
+        return null;
             }
         }
 
@@ -311,28 +311,28 @@ namespace jsc
                 if (this.Join == i)
                     return false;
 
-                if (i.StackAfter.Count == 0)
+            if (i.StackAfter.Count == 0)
+            {
+                if (i.InlineIfElseConstruct != null)
                 {
-                    if (i.InlineIfElseConstruct != null)
-                    {
-                        if (i.InlineIfElseConstruct.Join == this.Join)
-                            goto go_next;
+                    if (i.InlineIfElseConstruct.Join == this.Join)
+                        goto go_next;
 
-                        if (i.InlineIfElseConstruct.Join.Offset > this.Join.Offset)
-                            return true;
-                    }
+                    if (i.InlineIfElseConstruct.Join.Offset > this.Join.Offset)
+                        return true;
                 }
+            }
 
 
-            go_next:
-                i = i.Next;
-                goto next;
+        go_next:
+            i = i.Next;
+        goto next;
 
-                
+
             }
         }
-        
-      
+
+
 
         public bool IsPlainIfClause
         {
@@ -372,20 +372,20 @@ namespace jsc
                     if (IsPlainIfClause)
                     {
 
-                            w.Write("if ");
-                            w.Write(Branch.StackBeforeStrict[0]);
+                        w.Write("if ");
+                        w.Write(Branch.StackBeforeStrict[0]);
 
-                            if (this.FCondition != null)
-                                w.Write(" C ");
+                        if (this.FCondition != null)
+                            w.Write(" C ");
 
-                            w.Write("[0x{0:x4} to 0x{1:x4}]", BodyTrueFirst.Offset, BodyTrueLast.Offset);
-                            w.Write(" else ");
+                        w.Write("[0x{0:x4} to 0x{1:x4}]", BodyTrueFirst.Offset, BodyTrueLast.Offset);
+                        w.Write(" else ");
 
-                            w.Write("[0x{0:x4} to 0x{1:x4}]", BodyFalseFirst.Offset, BodyFalseLast.Offset);
+                        w.Write("[0x{0:x4} to 0x{1:x4}]", BodyFalseFirst.Offset, BodyFalseLast.Offset);
 
-                            w.Write(" join ");
-                            w.Write("[0x{0:x4}]", Join.Offset);
-                        
+                        w.Write(" join ");
+                        w.Write("[0x{0:x4}]", Join.Offset);
+
                     }
                     else
                     {
@@ -450,7 +450,7 @@ namespace jsc
             ILBlock b = i.Flow.OwnerBlock;
 
             return b.Root.ByInstruction(i);
-        } 
+        }
     }
 
     public class ILInstruction
@@ -548,7 +548,7 @@ namespace jsc
                         b = !b;
                     }
                 }
-                
+
                 return this;
             }
 
@@ -562,37 +562,37 @@ namespace jsc
                     if (Ripple > 0)
                     {
 
-                            int gen = Ripple;
-                            int idx = 0;
+                        int gen = Ripple;
+                        int idx = 0;
 
-                            ILInstructionList n = new ILInstructionList();
+                        ILInstructionList n = new ILInstructionList();
 
-                            // skip zero
-                            while (Index[idx] == 0) idx++;
+                        // skip zero
+                        while (Index[idx] == 0) idx++;
 
                     loop:
-                            // skio non-zero
-                            while (Index[idx] > 0) idx++;
-                            while (Index[idx] == 0)
-                            {
-                                n.Add(RootBlock.Instructrions[idx]);
-                                idx++;
-                            }
+                        // skio non-zero
+                        while (Index[idx] > 0) idx++;
+                    while (Index[idx] == 0)
+                    {
+                        n.Add(RootBlock.Instructrions[idx]);
+                        idx++;
+                    }
 
-                            if (gen > 2)
-                            {
-                                
+                    if (gen > 2)
+                    {
 
-                                gen -= 2;
 
-                                goto loop;
-                            }
-                            
+                        gen -= 2;
 
-                            if (n.Count == 0)
-                                Debugger.Break();
+                        goto loop;
+                    }
 
-                            return n;
+
+                    if (n.Count == 0)
+                        Debugger.Break();
+
+                    return n;
 
                     }
 
@@ -625,18 +625,18 @@ namespace jsc
                             VisitInstructions(z, p);
                     }
 
-   
+
                 }
             }
         }
 
 
-        public  bool IsNegativeOperator
+        public bool IsNegativeOperator
         {
             get
             {
                 if (this != OpCodes.Ceq)
-                    return false ;
+                    return false;
 
 
                 ILFlow.StackItem[] s = StackBeforeStrict;
@@ -665,7 +665,7 @@ namespace jsc
                 return
                     this == OpCodes.Ceq |
                     this == OpCodes.Clt |
-                    this == OpCodes.Cgt ;
+                    this == OpCodes.Cgt;
             }
         }
 
@@ -712,7 +712,7 @@ namespace jsc
 
                         if (_left == OpCodes.Ldc_I4_1
                             && _right.TargetVariable != null
-                            && _right.TargetVariable.LocalIndex == 
+                            && _right.TargetVariable.LocalIndex ==
                             this.TargetVariable.LocalIndex)
                         {
                             return true;
@@ -722,7 +722,7 @@ namespace jsc
             }
 
             return false;
-            
+
         }
 
         public bool IsInlinePrefixOperator(OpCode e)
@@ -776,7 +776,7 @@ namespace jsc
 
                             if (this.Next.Next.Next.Next.TargetVariable.LocalIndex == this.TargetVariable.LocalIndex)
                                 return true;
-                            
+
                         }
                     }
                 }
@@ -963,7 +963,7 @@ namespace jsc
             return Offset >= low.Offset && Offset <= high.Offset;
         }
 
-        public static ILIfElseConstruct ResolveIfClause ( ILInstruction t, ILInstruction f )
+        public static ILIfElseConstruct ResolveIfClause(ILInstruction t, ILInstruction f)
         {
             if (t.Offset > f.Offset)
                 throw new NotSupportedException();
@@ -991,7 +991,7 @@ namespace jsc
 
         }
 
-       
+
 
 
         RecursionGuard _InlineIfElseConstruct_guard = new RecursionGuard();
@@ -1170,7 +1170,7 @@ namespace jsc
                 if (NextInstruction != null && NextInstruction.BranchSources.Count > 0)
                     return true;
 
-                
+
 
 
                 return false;
@@ -1216,7 +1216,7 @@ namespace jsc
             }
         }
 
-        
+
         public ILInstruction First
         {
             get
@@ -1313,18 +1313,56 @@ namespace jsc
 
                 if (OpParam.Length == n)
                 {
-                    double x = 0;
 
+                    /*
                     byte* b = (byte*)&x;
 
                     while (n-- > 0)
                         b[n] = OpParam[n];
+                    */
+
+                    double x = 0;
+
+                    OpParamAsBytes((byte*)&x, n);
 
                     return x;
                 }
                 else
                     throw new Exception();
             }
+        }
+
+        public unsafe long OpParamAsLong
+        {
+            get
+            {
+                int n = sizeof(long);
+
+                if (OpParam.Length == n)
+                {
+
+                    /*
+                    byte* b = (byte*)&x;
+
+                    while (n-- > 0)
+                        b[n] = OpParam[n];
+                    */
+
+                    long x = 0;
+
+                    OpParamAsBytes((byte*)&x, n);
+
+                    return x;
+                }
+                else
+                    throw new Exception();
+            }
+        }
+
+        public unsafe void OpParamAsBytes(byte* b, int n)
+        {
+            while (n-- > 0)
+                b[n] = OpParam[n];
         }
 
         public unsafe float OpParamAsFloat
@@ -1349,6 +1387,7 @@ namespace jsc
             }
         }
 
+        /*
         public unsafe long OpParamAsLong
         {
             get
@@ -1370,7 +1409,7 @@ namespace jsc
                     throw new Exception();
             }
         }
-
+        */
         public byte[] OpParamLookup(ref byte[] x)
         {
             byte[] z = new byte[OpParamSize];
@@ -1385,7 +1424,7 @@ namespace jsc
             ILInstruction z = this;
 
 
-            int o =  z.Offset + z.Size + i;
+            int o = z.Offset + z.Size + i;
 
             while (z != null)
             {
@@ -1507,7 +1546,7 @@ namespace jsc
 
                     if (OpCode.FlowControl == FlowControl.Call)
                     {
-                        
+
 
                         if (TargetMethod != null)
                         {
@@ -1602,13 +1641,13 @@ namespace jsc
 
 
 
-                   
+
                 }
                 else
                 {
                     if (this == OpCodes.Ldarg_0) Debugger.Break();
 
- 
+
                     if (this == OpCodes.Ldarg_1) return p[0];
                     if (this == OpCodes.Ldarg_2) return p[1];
                     if (this == OpCodes.Ldarg_3) return p[2];
@@ -1617,7 +1656,7 @@ namespace jsc
                 }
 
 
-      
+
                 return null;
             }
         }
@@ -1631,7 +1670,7 @@ namespace jsc
                 if (this.OpParam.Length != 4)
                     return null;
 
-                Type[] ma = (OwnerMethod.IsGenericMethod) ? OwnerMethod.GetGenericArguments(): null ;
+                Type[] ma = (OwnerMethod.IsGenericMethod) ? OwnerMethod.GetGenericArguments() : null;
 
 
 
@@ -1640,8 +1679,8 @@ namespace jsc
 
                     // OwnerMethod.Module.Assembly.ModuleResolve += new ModuleResolveEventHandler(Assembly_ModuleResolve);
 
-                    MethodBase x = OwnerMethod.Module.ResolveMethod(OpParamAsInt32, 
-                        OwnerMethod.DeclaringType.GetGenericArguments(), 
+                    MethodBase x = OwnerMethod.Module.ResolveMethod(OpParamAsInt32,
+                        OwnerMethod.DeclaringType.GetGenericArguments(),
                         ma);
 
                     if (x is MethodInfo)
@@ -1650,9 +1689,9 @@ namespace jsc
                         return null;
                 }
 
-                catch  (ArgumentException e)
+                catch (ArgumentException e)
                 {
-                    
+
                     // not a method nor a ctor
                     return null;
                 }
@@ -1661,7 +1700,7 @@ namespace jsc
                     throw;
                 }
 
-                
+
             }
         }
 
@@ -1675,7 +1714,7 @@ namespace jsc
         {
             get
             {
-                
+
                 if (this.OpParam.Length != 4)
                     return null;
 
@@ -1695,12 +1734,12 @@ namespace jsc
                 catch (ArgumentException e)
                 {
                     // not a method nor a ctor
-                    return null; 
+                    return null;
                 }
                 catch { throw; }
 
 
-                
+
             }
         }
 
@@ -1720,8 +1759,8 @@ namespace jsc
                 {
                     if (OpCode.FlowControl == FlowControl.Call)
                     {
-                        
-              
+
+
                         if (TargetMethod != null)
                         {
                             return TargetMethod.ReturnType == typeof(void) ? 0 : 1;
@@ -1736,7 +1775,7 @@ namespace jsc
 
                 throw new Exception("unable to extract stackpushcount");
 
-                
+
 
             }
         }
@@ -1765,13 +1804,13 @@ namespace jsc
                 {
                     return OwnerMethod.Module.ResolveType(OpParamAsInt32, this.OwnerMethod.DeclaringType.GetGenericArguments(), this.OwnerMethod.IsGenericMethod ? this.OwnerMethod.GetGenericArguments() : null);
                 }
-                catch 
+                catch
                 {
                     try
                     {
                         return OwnerMethod.Module.ResolveType(OpParamAsInt32, this.OwnerMethod.DeclaringType.GetGenericArguments(), this.OwnerMethod.GetGenericArguments());
                     }
-                    catch 
+                    catch
                     {
                         Debugger.Break();
 
@@ -1832,12 +1871,12 @@ namespace jsc
                 if (this == OpCodes.Ldloc_1 || this == OpCodes.Stloc_1) return this.OwnerMethod.GetMethodBody().LocalVariables[1];
                 if (this == OpCodes.Ldloc_2 || this == OpCodes.Stloc_2) return this.OwnerMethod.GetMethodBody().LocalVariables[2];
                 if (this == OpCodes.Ldloc_3 || this == OpCodes.Stloc_3) return this.OwnerMethod.GetMethodBody().LocalVariables[3];
-                if (this == OpCodes.Ldloc_S || this == OpCodes.Stloc_S ||this == OpCodes.Ldloca_S) 
+                if (this == OpCodes.Ldloc_S || this == OpCodes.Stloc_S || this == OpCodes.Ldloca_S)
                     return this.OwnerMethod.GetMethodBody().LocalVariables[this.OpParamAsInt8];
-                if (this == OpCodes.Ldloc || this == OpCodes.Stloc || this == OpCodes.Ldloca) 
+                if (this == OpCodes.Ldloc || this == OpCodes.Stloc || this == OpCodes.Ldloca)
                     return this.OwnerMethod.GetMethodBody().LocalVariables[this.OpParamAsInt32];
 
-                
+
 
                 return null;
             }
@@ -1894,7 +1933,8 @@ namespace jsc
         /// </summary>
         public Type ReferencedType
         {
-            get{
+            get
+            {
 
                 Type cexc = null;
 
@@ -1943,6 +1983,7 @@ namespace jsc
             }
         }
 
+
         public int? TargetInteger
         {
             get
@@ -1957,8 +1998,8 @@ namespace jsc
                 if (this == OpCodes.Ldc_I4_6) return 6;
                 if (this == OpCodes.Ldc_I4_7) return 7;
                 if (this == OpCodes.Ldc_I4_8) return 8;
-                if (this == OpCodes.Ldc_I4_M1)return -1;
-                if (this == OpCodes.Ldc_I4)   return this.OpParamAsInt32;
+                if (this == OpCodes.Ldc_I4_M1) return -1;
+                if (this == OpCodes.Ldc_I4) return this.OpParamAsInt32;
                 if (this == OpCodes.Ldc_I4_S) return (sbyte)this.OpParamAsInt8;
 
 
@@ -1970,7 +2011,7 @@ namespace jsc
         {
             get
             {
-                
+
 
                 if (this.OpParam.Length != 4)
                     return null;
@@ -1991,11 +2032,11 @@ namespace jsc
 
         public override string ToString()
         {
-           // int ip = 0;
+            // int ip = 0;
 
             try
             {
-                
+
                 StringWriter w = new StringWriter();
 
                 w.Write("[0x{0:x4}] {1} ", this.Offset, this.OpCode.Name.PadRight(10));
@@ -2020,7 +2061,7 @@ namespace jsc
 
                 return w.ToString();
             }
-            catch(Exception exc)
+            catch (Exception exc)
             {
                 return "error: " + exc.Message + " : " + exc.StackTrace;
             }
@@ -2056,8 +2097,8 @@ namespace jsc
                         : ConsoleColor.Yellow
                     )
                 );
-            Console.Write(" {0} [{1}] ", OpCode.Name.PadRight(12), 
-                InlineIfElseConstruct != null 
+            Console.Write(" {0} [{1}] ", OpCode.Name.PadRight(12),
+                InlineIfElseConstruct != null
                 ? InlineIfElseConstruct.ToString(this)
                 :
                     InlineLoopConstruct != null
@@ -2086,7 +2127,7 @@ namespace jsc
                 else
                 {
 
-                    Console.Write(" IL_{0:x4}",  BranchTargets[0].Offset);
+                    Console.Write(" IL_{0:x4}", BranchTargets[0].Offset);
                 }
 
 
@@ -2151,7 +2192,7 @@ namespace jsc
             Console.WriteLine();
 
 
-            
+
             if (IsLastInFlow || (StackAfter != null && StackAfter.Count == 0))
             {
                 Console.ForegroundColor = IsLastInFlow ? ConsoleColor.Red : ConsoleColor.Yellow;
@@ -2159,7 +2200,7 @@ namespace jsc
 
                 Console.Write("".PadLeft(ident - 2) + "| ");
 
-                   Console.WriteLine();
+                Console.WriteLine();
 
             }
             Console.ForegroundColor = ConsoleColor.Gray;
@@ -2227,7 +2268,7 @@ namespace jsc
             throw new Exception();
         }
 
-       
+
         public ScriptAttribute MemberScriptAttribute
         {
             get
@@ -2335,8 +2376,8 @@ namespace jsc
 
             LocalVariableInfo t = TargetVariable;
 
-            return t != null 
-                &&  t.LocalIndex == v.LocalIndex
+            return t != null
+                && t.LocalIndex == v.LocalIndex
                 && t.LocalType == v.LocalType;
 
 

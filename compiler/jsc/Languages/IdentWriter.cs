@@ -123,6 +123,15 @@ namespace jsc
 
         }
 
+        public void WriteNumeric(long i)
+        {
+            NumberFormatInfo provider = new NumberFormatInfo();
+
+            this.Write(Convert.ToString(i, provider));
+
+
+        }
+
         public void WriteNumeric(float i)
         {
             NumberFormatInfo provider = new NumberFormatInfo();

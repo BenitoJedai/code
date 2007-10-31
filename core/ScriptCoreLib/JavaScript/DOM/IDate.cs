@@ -18,6 +18,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
         }
 
+        public int getMilliseconds() { return default(int); }
         public int getSeconds() { return default(int); }
         public int getMinutes() { return default(int); }
         public int getHours() { return default(int); }
