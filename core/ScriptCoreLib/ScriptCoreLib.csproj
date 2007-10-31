@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.20404</ProductVersion>
+    <ProductVersion>9.0.20706</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -109,7 +109,6 @@
     <Compile Include="JavaScript\Runtime\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JavaScript\AssemblyReferenceToken.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ArgumentNullException.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Action.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Activator.cs" />
@@ -169,6 +168,7 @@
     <Compile Include="JavaScript\DOM\HTML\IHTMLIFrame.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLBreak.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLTableBody.cs" />
+    <Compile Include="JavaScript\DOM\IDOMImplementation.cs" />
     <Compile Include="JavaScript\Query\Sequence.cs" />
     <Compile Include="JavaScript\Runtime\TimeFilter.cs" />
     <Compile Include="JavaScript\Runtime\TweenData.cs" />
@@ -190,7 +190,7 @@
     <Compile Include="PHP\Runtime\PHPMailer.cs" />
     <Compile Include="PHP\Runtime\Properties.cs" />
     <Compile Include="PHP\Serialized\ObjectStreamHelper.cs" />
-    <Compile Include="Shared\AssemblyReferenceToken.cs" />
+    <Compile Include="Shared\IAssemblyReferenceToken.cs" />
     <Compile Include="Shared\Helper.cs" />
     <Compile Include="Shared\IAssemblyInfo.cs" />
     <Compile Include="Shared\Query\Sequence.cs" />

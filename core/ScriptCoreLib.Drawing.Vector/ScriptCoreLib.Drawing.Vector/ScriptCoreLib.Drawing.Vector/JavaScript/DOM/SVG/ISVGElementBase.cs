@@ -12,7 +12,12 @@ namespace ScriptCoreLib.JavaScript.DOM.SVG
         [Script]
         public class Settings
         {
-            public static readonly string MimeType = "image/svg+xml";
+            // http://thomas.tanreisoftware.com/?p=79
+
+            public static readonly string[] MimeTypes =
+                new[] { "image/svg+xml", "image/svg-xml", "image/svg" };
+
+            public static string MimeType { get { return MimeTypes[0]; } }
 
             static bool _IsSupported;
 
@@ -20,11 +25,15 @@ namespace ScriptCoreLib.JavaScript.DOM.SVG
             {
                 get
                 {
+                    // document.implementation.hasFeature("org.w3c.dom.svg", "1.0")
+
+                    return Native.Document.implementation.hasFeature("org.w3c.dom.svg", "1.0");
+                    /*
                     var p = Native.Window.navigator.mimeTypes;
 
                     for (int i = 0; i < p.length; i++)
                     {
-                        if (p[i].type == MimeType)
+                        if (MimeTypes.Contains(p[i].type))
                         {
                             _IsSupported = true;
 
@@ -35,6 +44,7 @@ namespace ScriptCoreLib.JavaScript.DOM.SVG
                     }
 
                     return _IsSupported;
+                     * */
                 }
             }
         }

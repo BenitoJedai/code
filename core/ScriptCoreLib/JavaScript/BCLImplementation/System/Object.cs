@@ -1,12 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     [Script(Implements = typeof(global::System.Object))]
     internal class __Object
     {
+        public static bool ReferenceEquals(object objA, object objB)
+        {
+            return Expando.ReferenceEquals(objA, objB);
+        }
+
         [Script(OptimizedCode="return i.constructor.prototype;")]
         static IntPtr GetPrototype(object i)
         {

@@ -47,6 +47,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
 
         internal IMSNamespaceCollection namespaces;
+
         #endregion
 
 

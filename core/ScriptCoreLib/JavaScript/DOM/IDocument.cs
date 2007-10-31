@@ -8,6 +8,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class IDocument : INode
     {
+        readonly internal IDOMImplementation implementation;
+
         [Script(DefineAsStatic = true)]
         public new void appendChild<T>(T e)
         {

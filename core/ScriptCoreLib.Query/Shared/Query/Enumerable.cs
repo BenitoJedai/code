@@ -16,6 +16,22 @@ namespace ScriptCoreLib.Shared.Query
     [Script(Implements=typeof(global::System.Linq.Enumerable))]
     internal static partial class __Enumerable
     {
+        public static bool Contains<TSource>(this IEnumerable<TSource> source, TSource value)
+        {
+            var r = false;
+
+            foreach (var v in source.AsEnumerable())
+            {
+                if (object.ReferenceEquals(v, value))
+                {
+                    r = true;
+
+                    break;
+                }
+            }
+
+            return r;
+        }
 
         #region Min
         public static int Min(this IEnumerable<int> source)

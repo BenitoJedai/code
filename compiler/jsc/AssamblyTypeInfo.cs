@@ -272,11 +272,18 @@ namespace jsc
                     {
                         // fixme generic type comparision
 
-                        if (vpt[i].GUID == t[i].GUID)
+                        var vpt_i = vpt[i];
+                        var t_i = t[i];
+
+                        // extension method Enumerable.Contains
+                        if (vpt_i.IsGenericParameter && !t_i.IsGenericParameter)
                             continue;
 
-                        if (vpt[i].GUID == impl_type.GUID)
-                            if (src_type.GUID == t[i].GUID)
+                        if (vpt_i.GUID == t_i.GUID)
+                            continue;
+
+                        if (vpt_i.GUID == impl_type.GUID)
+                            if (src_type.GUID == t_i.GUID)
                                 continue;
 
                         

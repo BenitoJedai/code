@@ -36,9 +36,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.Drawing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ScriptCoreLib.Query, Version=3.5.2850.22448, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Drawing.dll</HintPath>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -62,6 +62,7 @@
     <Compile Include="JavaScript\DOM\VML\IVMLGroup.cs" />
     <Compile Include="JavaScript\DOM\VML\IVMLImage.cs" />
     <Compile Include="JavaScript\DOM\VML\IVMLPolyline.cs" />
+    <Compile Include="Shared\Drawing\Vector\IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

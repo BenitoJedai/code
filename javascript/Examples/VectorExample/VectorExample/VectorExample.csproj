@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="js\Class1.cs" />
     <Compile Include="js\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

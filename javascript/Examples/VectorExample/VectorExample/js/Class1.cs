@@ -99,7 +99,6 @@ namespace VectorExample.js
                 };
             #endregion
 
-            // CreateButton = CreateButton.AsDefaultDelegate();
 
             CreateButton(Test1, "svg hello world").disabled = !ISVGElementBase.Settings.IsSupported;
             CreateButton(Test2, "svg advanced").disabled = !ISVGElementBase.Settings.IsSupported;
