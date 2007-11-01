@@ -32,6 +32,7 @@ namespace MonthSchedule.js
     using tr = IHTMLTableRow;
     using td = IHTMLTableColumn;
     using input = IHTMLInput;
+    using MonthSchedule.js.Controls;
 
     [Script]
     public class Class1
@@ -45,559 +46,166 @@ namespace MonthSchedule.js
         /// <param name="DataElement">The hidden data element</param>
         public Class1(IHTMLElement DataElement)
         {
-            var date = System.DateTime.Now;
+            /*
+            var print = new IStyleSheet();
 
-            IStyleSheet.Default.AddRule(".hover",
-                r =>
-                {
-                    r.style.backgroundColor = Color.Blue;
-                    r.style.color = Color.White;
-                }
-            );
+            print.Owner.media = "print";
+            print.AddRule(".noprint", "display: none;", 0);
+            */
+
+            IStyleSheet.Default.AddRule(".hover", "background-color: blue !important", 0);
+            IStyleSheet.Default.AddRule(".hover", "color: white !important", 0);
+            IStyleSheet.Default.AddRule("a", "text-decoration: none;", 0);
 
             // http://simiandesign.com/2006/04/18/superscripts-subscripts-css-and-the-line-height/
 
-            IStyleSheet.Default.AddRule(".sub",
-                            r =>
-                            {
-                                r.style.fontSize = "small";
-                                r.style.lineHeight = "0";
-                            }
-                        );
 
-            IStyleSheet.Default.AddRule(".sup",
-                            r =>
-                            {
-                                r.style.fontSize = "small";
-                                r.style.lineHeight = "0";
-                            }
-                        );
-
-
-            Action<td, DateTime> ApplyStyle =
-                (col, x) =>
+            Action<td, DateTime> ApplyStyle = (col, x) =>
                 {
 
+                    // users will want to notice weekends
+
+                    if (x.IsFirstDayOfMonth())
+                        col.style.borderLeft = "1px solid gray";
 
                     if (x.DayOfWeek == DayOfWeek.Saturday)
-                        col.style.borderLeft = "1px solid black";
+                    {
+                        col.style.borderLeft = "1px solid gray";
+                        col.style.backgroundColor = "#efefef";
+                    }
 
                     if (x.DayOfWeek == DayOfWeek.Sunday)
-                        col.style.borderRight = "1px solid black";
+                    {
+                        col.style.borderRight = "1px solid gray";
+                        col.style.backgroundColor = "#efefef";
+                    }
+
+                    if (x.IsLastDayOfMonth())
+                        col.style.borderRight = "1px solid gray";
 
                     col.style.width = "2em";
                     col.style.height = "2em";
                     col.style.textAlign = IStyle.TextAlignEnum.center;
                 };
 
-            //new IHTMLDiv("days: " + DateTime.DaysInMonth(2007, 10)).attachToDocument();
-            new IHTMLDiv("&laquo;" + "year: " + date.Year + "&raquo;").attachToDocument();
-            new IHTMLDiv("&laquo;" + "month: " + date.Month + "&raquo;").attachToDocument();
-            //new IHTMLDiv("day: " + date.Day).attachToDocument();
-            //new IHTMLDiv("Hour: " + date.Hour).attachToDocument();
-            //new IHTMLDiv("Minute: " + date.Minute).attachToDocument();
-            //new IHTMLDiv("Second: " + date.Second).attachToDocument();
-            //new IHTMLDiv("Millisecond: " + date.Millisecond).attachToDocument();
-            //new IHTMLDiv("ticks: " + date.Ticks).attachToDocument();
-
-            var t = new table();
-
-            t.border = 0;
-            t.cellSpacing = 0;
-            t.cellPadding = 0;
-
-            var b = t.AddBody();
-
-            var r0 = b.AddRow();
-            var c0 = r0.AddColumn();
-
-            c0.rowSpan = 2;
-            c0.innerText = "NIMI";
-
-            var days = date.DaysInMonth();
+            //var sch = new ScheduleController(ApplyStyle);
 
 
+            var DateSelectionChanged = default(Action);
 
-            for (int i = 0; i < days; i++)
+            var date = DateTime.Now;
+
+            #region spinners
+
+            var YearSpinner = new SpinnerSpan<int>.SpinnerSpanSettings
             {
-                var c1 = r0.AddColumn();
+                Value = date.Year,
+                GetText = i => "aasta: " + i,
+                GetNext = date.Year.MakeNextFunc(3),
+                GetPrevious = date.Year.MakePreviousFunc(3),
+                Changed =
+                                    delegate
+                                    {
+                                        if (DateSelectionChanged != null) DateSelectionChanged();
+                                    }
 
-                ApplyStyle(c1, date.GetDayWithinMonth(i + 1));
+            }.Create();
 
-                c1.innerText = "" + 1 + i;
-            }
-
-            var c2 = r0.AddColumn();
-
-            c2.rowSpan = 2;
-
-            var r1 = b.AddRow();
-
-
-
-
-
-
-            for (int i = 0; i < days; i++)
+            var MonthSpinner = new SpinnerSpan<int>.SpinnerSpanSettings
             {
-                var c3 = r1.AddColumn();
-                var x = date.GetDayWithinMonth(i + 1);
-
-                ApplyStyle(c3, x);
-
-                c3.innerText = x.DayOfWeek.AsString();
-            }
-
-            // dynamic
-
-            var TotalPersentageStates = new[]
-                {
-                    new ToggleButtonState { Text = "2", Percentage = 2 },
-                    new ToggleButtonState { Text = "2½", Percentage = 2.5 },
-                    new ToggleButtonState { Text = "3", Percentage = 3 },
-                    new ToggleButtonState { Text = "3½", Percentage = 3.5 },
-                    new ToggleButtonState { Text = "0", Percentage = 0 },
-                    new ToggleButtonState { Text = "1", Percentage = 1 },
-                    new ToggleButtonState { Text = "1½", Percentage = 1.5 },
-                };
-
-            var WorkerStates = new[]
-                {
-                    new ToggleButtonState { Text = "", Hours = 12, Percentage = 1 },
-                    new ToggleButtonState { Text = "P", Hours = 0, Percentage = 0 },
-                    new ToggleButtonState { Text = "13", StyleClass = "sup", Hours = 13 - 9, Percentage = 0.5 },
-                    new ToggleButtonState { Text = "17", StyleClass = "sub", Hours = 21 - 17, Percentage = 0.5 },
-                };
-
-
-            var ActualPercentageRow = b.AddRow();
-            ActualPercentageRow.AddColumn();
-
-            var ActualPercentageColumns = days.AsRange().Select(
-                    i =>
+                Value = date.Month,
+                GetText = i => "kuu: " + i,
+                GetNext = i =>
                     {
-                        var c5 = ActualPercentageRow.AddColumn();
+                        if (i == 12)
+                        {
+                            YearSpinner.Silent = true;
+                            YearSpinner.GoNext();
+                            YearSpinner.Silent = false;
 
-                        c5.innerHTML = "&nbsp;";
+                            return 1;
+                        }
 
-                        ApplyStyle(c5, date.GetDayWithinMonth(i + 1));
+                        return i++;
+                    },
+                GetPrevious = i =>
+                       {
+                           if (i == 1)
+                           {
+                               YearSpinner.Silent = true;
+                               YearSpinner.GoPrevious();
+                               YearSpinner.Silent = false;
+                               return 12;
+                           }
 
-                        return c5;
-                    }
-            ).ToArray();
-
-            var UpdateActualPercentage = default(Action<int>);
-
-            Action UpdateActualPercentages = () => days.AsRange().ForEach(UpdateActualPercentage);
-
-            var TotalPercentageRow = b.AddRow();
-            TotalPercentageRow.AddColumn();
-
-            var TotalPercentageButtons = days.AsRange().Select(
-                    i =>
+                           return i--;
+                       },
+                Changed =
+                    delegate
                     {
-                        var c5 = TotalPercentageRow.AddColumn();
-
-                        var x = date.GetDayWithinMonth(i + 1);
-
-                        ApplyStyle(c5, x);
-
-                        var settings = new ToggleButtonSettings
-                        {
-                            States = TotalPersentageStates,
-
-                        };
-
-
-                        var btn = new ToggleButton
-                        {
-                            Settings = settings,
-                            Control = c5,
-                            Changed = () => UpdateActualPercentage(i),
-
-                        }.Attach();
-
-                        if (x.IsWeekend())
-                            btn.SetValueSilently(TotalPersentageStates[1]);
-
-                        return btn;
+                        if (DateSelectionChanged != null) DateSelectionChanged();
                     }
-                ).ToArray();
+            }.Create();
 
-            var AddWorker = default(Func<Worker>);
-            var Workers = new List<Worker>();
+            YearSpinner.Control.AttachTo(Native.Document.body);
+            MonthSpinner.Control.AttachTo(Native.Document.body);
 
+            if (Storage.Workers == null)
+                Storage.Workers = new[] { "Worker1", "Worker2" };
 
-            Func<int, double> ActualPercentageOfWorkers =
-                 idx =>
-                     Workers.Where(w => !w.Name.IsNullOrEmpty()).Sum(w => w.Days[idx].Value.Percentage)
-                        - TotalPercentageButtons[idx].Value.Percentage;
+            var Make = new IHTMLAnchor("tee töögraafik!");
 
-
-
-            AddWorker =
+            Action MakeNewSchedule =
                 delegate
                 {
-                    var TSettings = new ToggleButtonSettings
-                    {
-                        States = WorkerStates,
+                    var schnew = new ScheduleController(ApplyStyle, new DateTime(YearSpinner.Value, MonthSpinner.Value, 1));
 
+                    schnew.Control.AttachTo(Native.Document.body);
 
-                    };
-
-                    var row = new tr();
-
-                    b.insertBefore(row, ActualPercentageRow);
-
-                    var c4 = row.AddColumn();
-
-                    c4.style.paddingRight = "2px";
-
-                    var w = new Worker
-                        {
-                            Row = row,
-                            NameInput = new input(HTMLInputTypeEnum.text).AttachTo(c4),
-                            SettingsForDays = TSettings
-                        }.AddTo(Workers);
-
-                    // disable planning on a nameless worker
-                    TSettings.IsEnabled = () => !w.Name.IsNullOrEmpty();
-
-                    w.Disposing += () => Workers.Remove(w);
-
-
-                    w.Days = days.AsRange().Select(
-                        i =>
-                        {
-                            var c5 = row.AddColumn();
-
-                            ApplyStyle(c5, date.GetDayWithinMonth(i + 1));
-
-                            return new ToggleButton
-                            {
-                                Settings = TSettings,
-                                Control = c5,
-                                Changed = () => UpdateActualPercentage(i)
-                            }.Attach();
-                        }
-                    ).ToArray();
-
-                    w.count = row.AddColumn();
-
-                    w.count.style.paddingLeft = "2px";
-
-                    TSettings.Changed = delegate
-                    {
-                        if (w.Name.IsNullOrEmpty())
-                        {
-                            w.count.innerText = "";
-
-                            return;
-                        }
-
-                        var total = w.Days.Sum(i => i.Value.Hours);
-
-                        w.count.innerText = "" + total;
-                    };
-
-                    TSettings.Changed();
-
-                    w.NameInput.WhenNoLongerEmpty(
+                    schnew.WorkersChanged +=
                         delegate
                         {
-                            AddWorker();
-                            UpdateActualPercentages();
-                            w.SettingsForDays.Changed();
-                        });
-
-                    // compiler bug: cannot take implicit delegate from a type with Script(HasNoPrototype=true)
-                    // compiler bug: will loose parameters if statement is complex - workaround: use locals
-
-                    Func<Worker, bool> IsNamelessWorker = i => i.NameInput.value.IsNullOrEmpty();
-
-                    w.NameInput.WhenNoLongerNeeded(() => Workers.Count(IsNamelessWorker) > 1,
-                        delegate
-                        {
-                            w.Dispose();
-                            UpdateActualPercentages();
-                        });
-
-                    return w;
+                            Storage.Workers = schnew.Workers.Where(w => !w.Name.IsNullOrEmpty()).Select(w => w.Name).ToArray();
+                        };
+                    
+                    schnew.LazyLoad(
+                     () => { }, Storage.Workers.Concat(new[] { "" }).ToArray()
+                     );
                 };
 
-
-            UpdateActualPercentage =
-                idx =>
+            Make.AttachTo(Native.Document.body).onclick +=
+                ev =>
                 {
-                    Console.WriteLine("update idx: " + idx);
+                    ev.PreventDefault();
 
-                    var a = ActualPercentageOfWorkers(idx);
-                    var target = ActualPercentageColumns[idx];
-
-
-                    if (a == 0)
-                        target.innerHTML = "&nbsp;";
-                    else
-                    {
-                        if (a > 0)
-                        {
-                            target.innerHTML = "<small>+" + a + "</small>";
-                            target.style.color = Color.Gray;
-                        }
-                        else
-                        {
-                            target.innerHTML = "<small>-</small>" + (-a);
-                            target.style.color = Color.Red;
-                        }
-                    }
+                    MakeNewSchedule();
                 };
 
-            AddWorker().Name = "Krista";
-            AddWorker().Name = "Birgit";
-            AddWorker().Name = "Õie";
+            #endregion
 
-            AddWorker();
-
-            UpdateActualPercentages();
-
-            t.attachToDocument();
-
-
-
-
-        }
-
-        [Script]
-        public class ToggleButtonState
-        {
-            public string Text;
-
-            public string StyleClass;
-
-            /// <summary>
-            /// how many hours the worker is there
-            /// </summary>
-            public int Hours;
-
-            /// <summary>
-            /// is it a fullday or half a day
-            /// </summary>
-            public double Percentage;
-        }
-
-        [Script]
-        public class ToggleButtonSettings
-        {
-            public Func<bool> IsEnabled;
-
-            public ToggleButtonState[] States;
-
-            public Action Changed;
-        }
-
-        [Script]
-        public class ClassNameLiteral
-        {
-            public string Value;
-
-            public static ClassNameLiteral operator -(ClassNameLiteral e, string name)
-            {
-                return string.Join(" ", e.ToArray().Where(i => i != name).ToArray());
-            }
-
-            public static ClassNameLiteral operator +(ClassNameLiteral e, string name)
-            {
-                return string.Join(" ", e.ToArray().Concat(new[] { name }).ToArray());
-            }
-
-            public string[] ToArray()
-            {
-                return this.Value.Split(' ');
-            }
-
-            public static implicit operator ClassNameLiteral(string e)
-            {
-                return new ClassNameLiteral { Value = e };
-            }
-
-            public static implicit operator string(ClassNameLiteral e)
-            {
-                return e.Value;
-            }
-        }
-
-        [Script]
-        public class ClassNameLiteralSupport
-        {
-            public IHTMLElement Control;
-
-            public ClassNameLiteral className
-            {
-                get
+            DateSelectionChanged =
+                delegate
                 {
-                    return this.Control.className;
-                }
-                set
-                {
-                    this.Control.className = value;
-                }
-            }
+                    // compiler bug: opcode strobj not supported - cannot store struct to field directly.
+
+                    //var newdate = new DateTime(YearSpinner.Value, MonthSpinner.Value, 1);
+
+                    //date = newdate;
+                    //days = newdays;
+
+                };
+
+            //sch.Control.AttachTo(Native.Document.body);
+
+
+
+            MakeNewSchedule();
+
+
+
+
         }
 
-        [Script]
-        public class ToggleButton
-        {
-
-
-
-            public ToggleButtonSettings Settings;
-            public IHTMLElement Control;
-
-            ToggleButtonState _Value_Old;
-
-            public Action Changed;
-
-            public ToggleButtonState Value
-            {
-                get
-                {
-                    return this.Settings.States.Where(i => i.Text == this.Control.innerHTML).Single();
-                }
-
-                set
-                {
-                    if (value == null)
-                        throw new Exception("value null");
-
-                    if (Control.innerHTML != value.Text)
-                    {
-                        SetValueSilently(value);
-
-
-                        if (this.Changed != null)
-                            this.Changed();
-
-                        if (this.Settings.Changed != null)
-                            this.Settings.Changed();
-                    }
-                }
-            }
-
-            public void SetValueSilently(ToggleButtonState value)
-            {
-                Control.innerHTML = value.Text;
-
-                var n = new ClassNameLiteralSupport { Control = Control };
-
-                if (_Value_Old != null)
-                {
-                    n.className -= _Value_Old.StyleClass;
-
-                }
-
-                n.className += value.StyleClass;
-
-                _Value_Old = value;
-            }
-
-
-            public bool IsEnabled
-            {
-                get
-                {
-                    if (this.Settings.IsEnabled == null)
-                        return true;
-
-                    return this.Settings.IsEnabled();
-                }
-            }
-
-
-            public ToggleButton Attach()
-            {
-                Action Next =
-                    () => this.Value = this.Settings.States.Next(i => i.Text == this.Control.innerHTML);
-                Action Previous =
-                    () => this.Value = this.Settings.States.Previous(i => i.Text == this.Control.innerHTML);
-
-                SetValueSilently(this.Settings.States.First());
-
-                Control.style.cursor = IStyle.CursorEnum.pointer;
-                Control.onclick +=
-                    delegate
-                    {
-                        if (!IsEnabled) return;
-
-                        Next();
-                    };
-
-                Control.onmouseover +=
-                    delegate
-                    {
-
-
-                        var n = new ClassNameLiteralSupport { Control = Control };
-
-                        n.className += "hover";
-                        //Control.className += "hover";
-                    };
-
-
-                Control.onmouseout +=
-                    delegate
-                    {
-                        try
-                        {
-
-                            var n = new ClassNameLiteralSupport { Control = Control };
-
-                            n.className -= "hover";
-                        }
-                        catch
-                        {
-
-                        }
-                    };
-
-                Control.onmousewheel +=
-                    ev =>
-                    {
-                        if (!IsEnabled) return;
-
-                        if (ev.WheelDirection > 0)
-                            Next();
-                        else
-                            Previous();
-                    };
-
-                return this;
-            }
-        }
-
-        [Script]
-        class Worker
-        {
-            public tr Row;
-
-            public input NameInput;
-
-            public ToggleButtonSettings SettingsForDays;
-
-            public ToggleButton[] Days;
-            public td count;
-
-            public event Action Disposing;
-
-            public void Dispose()
-            {
-                if (Disposing != null)
-                    Disposing();
-
-                Row.Dispose();
-            }
-
-            public string Name { get { return NameInput.value; } set { NameInput.value = value; SettingsForDays.Changed(); } }
-        }
 
 
 
@@ -615,6 +223,57 @@ namespace MonthSchedule.js
         }
 
 
+
+    }
+
+
+    [Script]
+    public class ClassNameLiteral
+    {
+        public string Value;
+
+        public static ClassNameLiteral operator -(ClassNameLiteral e, string name)
+        {
+            return string.Join(" ", e.ToArray().Where(i => i != name).ToArray());
+        }
+
+        public static ClassNameLiteral operator +(ClassNameLiteral e, string name)
+        {
+            return string.Join(" ", e.ToArray().Concat(new[] { name }).ToArray());
+        }
+
+        public string[] ToArray()
+        {
+            return this.Value.Split(' ');
+        }
+
+        public static implicit operator ClassNameLiteral(string e)
+        {
+            return new ClassNameLiteral { Value = e };
+        }
+
+        public static implicit operator string(ClassNameLiteral e)
+        {
+            return e.Value;
+        }
+    }
+
+    [Script]
+    public class ClassNameLiteralSupport
+    {
+        public IHTMLElement Control;
+
+        public ClassNameLiteral className
+        {
+            get
+            {
+                return this.Control.className;
+            }
+            set
+            {
+                this.Control.className = value;
+            }
+        }
     }
 
 }

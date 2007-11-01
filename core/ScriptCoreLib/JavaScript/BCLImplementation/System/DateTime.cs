@@ -35,7 +35,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             Value = new IDate();
             Value.setFullYear(year);
-            Value.setMonth(month);
+            Value.setMonth(month - 1);
             Value.setDate(day);
         }
 
@@ -141,6 +141,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             if (month > 12)
                 throw new Exception("ArgumentOutOfRange_Month");
 
+
             int[] numArray = IsLeapYear(year) ? DaysToMonth366 : DaysToMonth365;
 
             return (numArray[month] - numArray[month - 1]);
@@ -148,8 +149,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         static __DateTime()
         {
+            // compiler bug: zero valued elements are skipped
+
             DaysToMonth365 = __ArrayDummy(0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365);
+            DaysToMonth365[0] = 0;
             DaysToMonth366 = __ArrayDummy(0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366);
+            DaysToMonth366[0] = 0;
+
         }
 
         static T[] __ArrayDummy<T>(params T[] e)
@@ -184,7 +190,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
 
-
+        public override string ToString()
+        {
+            return this.Hour + ":" + this.Minute + ":" + this.Second + "." + this.Millisecond;
+        }
 
     }
 }

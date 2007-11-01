@@ -12,14 +12,73 @@ namespace MonthSchedule.js
     [Script]
     public static class Extensions
     {
+        public static bool IsFirstDayOfMonth(this DateTime e)
+        {
+            return e.Day == 1;
+        }
+
+        public static bool IsLastDayOfMonth(this DateTime e)
+        {
+            return e.Day == e.DaysInMonth();
+        }
+
+
+        public static Func<int, int> MakePreviousFunc(this int x, int n)
+        {
+            return i =>
+                {
+                    if (i < x - n)
+                        return x + n;
+
+                    return i--;
+                };
+        }
+
+        public static Func<int, int> MakeNextFunc(this int x, int n)
+        {
+            return i =>
+                    {
+                        if (i > x + n)
+                            return x - n;
+
+                        return i++;
+                    };
+        }
+
+        public static string GetFractString(this double val)
+        {
+            if (val < 0)
+                return "-" + GetAbsFractString(val);
+
+            if (val > 0)
+                return "+" + GetAbsFractString(val);
+
+            return GetAbsFractString(val);
+        }
+
+        public static string GetAbsFractString(this double val)
+        {
+            var aa = Math.Abs(val);
+            var z = aa % 1;
+
+            if (z == 0.5)
+            {
+                if (aa - z == 0)
+                    return "½";
+                else
+                    return (aa - z) + "½";
+            }
+            else
+                return "" + aa;
+        }
 
         public static bool IsWeekend(this DateTime date)
         {
             if (date.DayOfWeek == DayOfWeek.Saturday)
                 return true;
 
-            
-            return  date.DayOfWeek == DayOfWeek.Sunday;
+
+            return date.DayOfWeek == DayOfWeek.Sunday;
         }
         public static DateTime GetDayWithinMonth(this DateTime date, int day)
         {
@@ -113,7 +172,9 @@ namespace MonthSchedule.js
         {
             return new IHTMLElement(tag);
         }
-        public static T AttachTo<T>(this T e, IHTMLElement c) where T : IHTMLElement
+        public static T AttachTo<T, C>(this T e, C c)
+            where T : INode
+            where C : INode
         {
             c.appendChild(e);
 

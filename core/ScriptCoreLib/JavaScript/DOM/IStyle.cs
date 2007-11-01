@@ -30,6 +30,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
+        public readonly string media;
         public bool disabled;
 
         internal IStyleSheetRule[] rules;
@@ -132,10 +133,10 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-        internal DOM.HTML.IHTMLElement owningElement;
-        internal DOM.HTML.IHTMLElement ownerNode;
+        internal DOM.HTML.IHTMLStyle owningElement;
+        internal DOM.HTML.IHTMLStyle ownerNode;
 
-        public DOM.HTML.IHTMLElement Owner
+        public DOM.HTML.IHTMLStyle Owner
         {
             [Script(DefineAsStatic = true)]
             get

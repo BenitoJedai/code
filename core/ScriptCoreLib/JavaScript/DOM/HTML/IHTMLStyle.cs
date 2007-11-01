@@ -14,6 +14,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         internal IStyleSheet styleSheet;
 
+        public string media;
         public string type;
 
         public IStyleSheet StyleSheet
