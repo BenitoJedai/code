@@ -6,6 +6,7 @@ using global::System.Collections.Generic;
 
 
 using IDisposable = global::System.IDisposable;
+using System;
 
 namespace ScriptCoreLib.Shared.Query
 {
@@ -16,6 +17,8 @@ namespace ScriptCoreLib.Shared.Query
     [Script(Implements=typeof(global::System.Linq.Enumerable))]
     internal static partial class __Enumerable
     {
+ 
+
         public static bool Contains<TSource>(this IEnumerable<TSource> source, TSource value)
         {
             var r = false;

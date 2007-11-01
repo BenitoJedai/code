@@ -154,6 +154,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public partial class IStyle
     {
+        public string lineHeight;
 
         public string clip;
         public string clear;

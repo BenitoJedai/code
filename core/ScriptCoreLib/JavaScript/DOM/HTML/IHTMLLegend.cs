@@ -6,22 +6,22 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://www.w3schools.com/tags/tag_fieldset.asp
     [Script(InternalConstructor = true)]
-    internal class IHTMLElementTemplate : IHTMLElement
+    public class IHTMLLegend : IHTMLElement
     {
 
 
         #region Constructor
 
-        public IHTMLElementTemplate()
+        public IHTMLLegend()
         {
             // InternalConstructor
         }
 
-        [Script(OptimizedCode = @"")]
-        static IHTMLElementTemplate InternalConstructor()
+        static IHTMLLegend InternalConstructor()
         {
-            return default(IHTMLElementTemplate);
+            return (IHTMLLegend)IHTMLElement.InternalConstructor(HTMLElementEnum.legend);
         }
 
         #endregion

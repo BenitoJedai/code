@@ -8,11 +8,50 @@ namespace ScriptCoreLib.Shared.Lambda
     [Script]
     public static partial class Lambda
     {
+        public static T Previous<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+        {
+            var prev = source.Last();
+            var r = default(T);
+
+            foreach (var v in source.AsEnumerable())
+            {
+                if (predicate(v))
+                {
+                    r = prev;
+                    break;
+                }
+
+                prev = v;
+            }
+
+            return r;
+        }
+
+        public static T Next<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+        {
+            var last = source.Last();
+            var r = default(T);
+
+            foreach (var v in source.AsEnumerable())
+            {
+                if (predicate(last))
+                {
+                    r = v;
+                    break;
+                }
+
+                last = v;
+            }
+
+            return r;
+        }
+
+
         #region min max
 
-       public static double Max(this double e, double x)
+        public static double Max(this double e, double x)
         {
-           
+
             if (e > x)
                 return e;
 
