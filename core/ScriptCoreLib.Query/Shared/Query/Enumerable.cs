@@ -251,6 +251,11 @@ namespace ScriptCoreLib.Shared.Query
 
  
 
+        public static TSource Single<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            return source.Where(predicate).Single();
+        }
+
         public static TSource Single<TSource>(this IEnumerable<TSource> source)
         {
             if (source == null)

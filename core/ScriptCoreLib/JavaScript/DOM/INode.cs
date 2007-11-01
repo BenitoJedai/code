@@ -1,16 +1,46 @@
 using ScriptCoreLib.JavaScript;
 
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+
     [Script(HasNoPrototype = true)]
     public class INode : ISink
     {
-        protected INode() {}
+        [Script(HasNoPrototype = true)]
+        class __INode_text : INode
+        {
+            public string text;
+            public string textContent;
+        }
+
+        protected INode() { }
 
         public string nodeValue;
         public string nodeName;
+
+        public string text
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                // http://www.webmasterworld.com/forum26/119.htm
+
+                var x = (__INode_text) this;
+
+                if (Expando.InternalIsMember(x, "text"))
+                    return x.text;
+
+                if (Expando.InternalIsMember(x, "textContent"))
+                    return x.textContent;
+
+                throw new System.Exception(".text");
+            }
+
+
+        }
 
         /// <summary>
         /// http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/nodetype.asp
@@ -33,7 +63,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public INode[] childNodes;
 
-        public INode cloneNode(bool deep) { return default(INode);  }
+        public INode cloneNode(bool deep) { return default(INode); }
 
         public readonly IDocument<IElement> ownerDocument;
 
@@ -74,18 +104,18 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
-        [Script(DefineAsStatic=true)]
+        [Script(DefineAsStatic = true)]
         public void appendChild(params INode[] children)
         {
-                foreach (INode x in children)
-                    appendChild(x);
+            foreach (INode x in children)
+                appendChild(x);
 
         }
 
-        [Script(DefineAsStatic=true)]
+        [Script(DefineAsStatic = true)]
         public void appendChild(params string[] e)
         {
-            foreach(string z in e)
+            foreach (string z in e)
                 appendChild(new ITextNode(this.ownerDocument, z));
         }
 

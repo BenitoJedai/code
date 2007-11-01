@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.Net;
 using ScriptCoreLib.JavaScript.DOM.XML;
+using ScriptCoreLib.JavaScript;
 
 namespace MonthSchedule.js
 {
@@ -19,9 +20,15 @@ namespace MonthSchedule.js
             System.Diagnostics.Debugger.Break();
 
             // to unqoute!
-            var res = doc.selectNodes("//*[.='" + e + "']");
+            // //text/eng[.='year']/
+            var res = doc.selectSingleNode("//text/eng[.='" + e + "']");
             
-            return e;
+            if (res == null)
+                return e;
+
+            res = res.parentNode.childNodes.Where(x => x.nodeName == "est").Single();
+
+            return res.text;
         }
     }
 
