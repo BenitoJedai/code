@@ -46,6 +46,14 @@ namespace MonthSchedule.js
         /// <param name="DataElement">The hidden data element</param>
         public Class1(IHTMLElement DataElement)
         {
+            Locals.Default.WhenDownloadComplete(
+                locals =>
+                {
+                    Console.WriteLine(locals.Content.ToXMLString());
+
+                    Console.WriteLine("year".Localize());
+                }
+            );
             /*
             var print = new IStyleSheet();
 

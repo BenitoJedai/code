@@ -14,6 +14,16 @@ namespace ScriptCoreLib.JavaScript.DOM.XML
     {
         public IXMLDocument(string name) { }
     
+        public INode selectSingleNode(string path)
+        {
+            return default(INode);
+        }
+
+        public INode[] selectNodes(string path)
+        {
+            return default(INode[]);
+
+        }
 
         [Script(OptimizedCode= @"
 try

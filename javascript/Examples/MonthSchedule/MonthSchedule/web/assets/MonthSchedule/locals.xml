@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dictonary>
+  <text>
+    <eng>year</eng>
+    <est>aasta</est>
+  </text>
+  <text>
+    <eng>month</eng>
+    <est>kuu</est>
+  </text>
+  <text>
+    <eng>work schedule</eng>
+    <est>töögraafik</est>
+  </text>
+</dictonary>
