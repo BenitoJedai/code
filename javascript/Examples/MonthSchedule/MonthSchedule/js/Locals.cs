@@ -17,7 +17,7 @@ namespace MonthSchedule.js
             var doc = Locals.Default.Content;
             var dictonary = doc.documentElement;
 
-            System.Diagnostics.Debugger.Break();
+            //System.Diagnostics.Debugger.Break();
 
             // to unqoute!
             // //text/eng[.='year']/

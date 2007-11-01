@@ -51,7 +51,7 @@ namespace MonthSchedule.js
                 {
                     Console.WriteLine(locals.Content.ToXMLString());
 
-                    ("year localized: " + "year".Localize()).AttachToDocument();
+                    new IHTMLDiv( ("year localized: " + "year".Localize())).attachToDocument();
                 }
             );
             /*

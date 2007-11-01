@@ -9,23 +9,71 @@ namespace ScriptCoreLib.JavaScript.DOM.XML
     /// http://webfx.eae.net/dhtml/xmlextras/demo.html
     /// http://sarissa.sourceforge.net/doc/
     /// </summary>
-    [Script(InternalConstructor=true)]
+    [Script(InternalConstructor = true)]
     public class IXMLDocument : IDocument<IXMLElement>
     {
         public IXMLDocument(string name) { }
-    
+
+        // http://weblogs.asp.net/ssargent/archive/2007/01/25/selectsinglenode-and-firefox.aspx
+
+        [Script(HasNoPrototype = true)]
+        class __IXMLDocument_IE
+        {
+            public INode selectSingleNode(string path)
+            {
+                return default(INode);
+            }
+
+            public INode[] selectNodes(string path)
+            {
+                return default(INode[]);
+
+            }
+        }
+
+        [Script(DefineAsStatic = true)]
         public INode selectSingleNode(string path)
         {
-            return default(INode);
+            if (IActiveX.IsSupported)
+                return ((__IXMLDocument_IE)(object)this).selectSingleNode(path);
+
+            return (INode)
+                new IFunction("elementPath", @"
+       var xpe = new XPathEvaluator();
+           var nsResolver = xpe.createNSResolver( this.ownerDocument == null ? this.documentElement : this.ownerDocument.documentElement);
+           var results = xpe.evaluate(elementPath,this,nsResolver,XPathResult.FIRST_ORDERED_NODE_TYPE, null);
+           return results.singleNodeValue;             
+            ").apply( this, path);
         }
 
         public INode[] selectNodes(string path)
         {
-            return default(INode[]);
+            if (IActiveX.IsSupported)
+                return ((__IXMLDocument_IE)(object)this).selectNodes(path);
+
+            return (INode[])
+                new IFunction("sXPath", @"
+    var oEvaluator = new XPathEvaluator();
+    var oResult = oEvaluator.evaluate(sXPath, this, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
+    var aNodes = new Array();
+
+    if (oResult != null) 
+    {
+        var oElement = oResult.iterateNext();
+
+        while(oElement) 
+        {
+            aNodes.push(oElement);
+            oElement = oResult.iterateNext();
+        }
+    }
+
+    return aNodes;
+").apply(this, path);
 
         }
 
-        [Script(OptimizedCode= @"
+        [Script(OptimizedCode = @"
 try
 {
             return document.implementation.createDocument('', name, null);
@@ -49,7 +97,7 @@ var z = new ActiveXObject('Microsoft.XMLDOM');
 
 
 
-        [Script(OptimizedCode=@"
+        [Script(OptimizedCode = @"
 
   if (typeof XMLSerializer != 'undefined') {
     return new XMLSerializer().serializeToString(node);
@@ -66,7 +114,7 @@ var z = new ActiveXObject('Microsoft.XMLDOM');
             return default(string);
         }
 
-        [Script(OptimizedCode=@"
+        [Script(OptimizedCode = @"
 
  var xmlDocument = null;
   if (typeof DOMParser != 'undefined') {
