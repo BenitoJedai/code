@@ -5,7 +5,6 @@ using ScriptCoreLib.Shared;
 
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Runtime;
-using ScriptCoreLib.JavaScript.System;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 
@@ -97,7 +96,7 @@ namespace NumberGuessingGame.source.js
             {
                 get
                 {
-                    return Convert.ToInteger( Native.Math.random()  * 0xffff );
+                    return Convert.ToInteger( new System.Random().NextDouble()  * 0xffff );
                 }
             }
 

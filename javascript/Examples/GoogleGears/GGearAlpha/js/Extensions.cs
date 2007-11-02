@@ -7,6 +7,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System;
 
 namespace GGearAlpha.js
 {
@@ -31,7 +32,7 @@ namespace GGearAlpha.js
                 e();
         }
 
-        public static void ToImage(this string src, EventHandler<IHTMLImage> a)
+        public static void ToImage(this string src, ScriptCoreLib.Shared.EventHandler<IHTMLImage> a)
         {
             var img = new IHTMLImage(src);
 

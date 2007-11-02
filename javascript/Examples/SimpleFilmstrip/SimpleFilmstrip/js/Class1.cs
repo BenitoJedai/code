@@ -8,6 +8,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 
 using global::System.Collections.Generic;
+using System;
 
 namespace SimpleFilmstrip.js
 {
@@ -160,7 +161,7 @@ namespace SimpleFilmstrip.js
         {
             // spawn this class when document is loaded 
             Native.Spawn(
-                new Pair<string, EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
+                new Pair<string, ScriptCoreLib.Shared.EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
                 );
         }
     }

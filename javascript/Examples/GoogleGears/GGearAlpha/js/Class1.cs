@@ -30,6 +30,12 @@ namespace GGearAlpha.js
     }
 
 
+    [Script]
+    class __Type2
+    {
+        public IHTMLElement ListItem;
+        public DemoDataEntity Data;
+    }
 
     [Script]
     public class Class1
@@ -134,8 +140,8 @@ namespace GGearAlpha.js
                                                 "select * from Demo order by Timestamp desc",
                                                 typeof(DemoDataEntity)
                                             )
-                                let ListItem = AddItem(Data.Timestamp + " - " + Data.Phrase)
-                                select new { ListItem, Data };
+                                // let ListItem = AddItem(Data.Timestamp + " - " + Data.Phrase)
+                                select new __Type2 { ListItem = AddItem(Data.Timestamp + " - " + Data.Phrase), Data  = Data};
 
                     foreach (var v in query)
                     {

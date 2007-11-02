@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.20404</ProductVersion>
+    <ProductVersion>9.0.20706</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{405F0458-6DA0-486A-B580-E437B1D01C2F}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -57,6 +57,9 @@
     <EmbeddedResource Include="web\fx\gfx\buttryfly.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\fx\gfx\nocursor.cur" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="source\php\" />

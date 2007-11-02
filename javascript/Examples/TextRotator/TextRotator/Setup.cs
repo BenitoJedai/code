@@ -8,14 +8,15 @@ using ScriptCoreLib.Shared;
 
 namespace TextRotator
 {
+
     static class Setup
     {
         static IEnumerable<Type> References
         {
             get
             {
-                yield return typeof(ScriptCoreLib.Shared.AssemblyReferenceToken);
-                yield return typeof(ScriptCoreLib.Shared.Query.AssemblyReferenceToken);
+                yield return typeof(ScriptCoreLib.Shared.IAssemblyReferenceToken);
+                yield return typeof(ScriptCoreLib.Shared.Query.IAssemblyReferenceToken);
             }
         }
 

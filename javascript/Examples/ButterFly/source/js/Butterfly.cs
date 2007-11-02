@@ -15,6 +15,8 @@ namespace ButterFly.source.js
     {
         public static void Spawn(IHTMLElement e)
         {
+
+
             Native.Document.body.style.margin = "0px";
             Native.Document.body.style.padding = "0px";
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
@@ -33,6 +35,7 @@ namespace ButterFly.source.js
                 delegate
                 {
                     loading.FadeOut();
+                    IStyleSheet.Default.AddRule("*", "cursor: url('fx/gfx/nocursor.cur'), auto;", 0);
 
                     e.style.backgroundImage = "url(fx/gfx/buttryfly.gif)";
                     e.style.backgroundRepeat = "no-repeat";
@@ -44,12 +47,12 @@ namespace ButterFly.source.js
                     e.onmousemove +=
                         delegate(IEvent i)
                         {
-                           
+
                             Console.WriteLine("pos: " + i.CursorPosition);
 
                             e.style.backgroundPosition = i.CursorX + "px " + i.CursorY + "px";
 
-                    
+
                         };
                 });
 

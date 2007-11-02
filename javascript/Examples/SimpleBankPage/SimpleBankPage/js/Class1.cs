@@ -59,7 +59,7 @@ namespace SimpleBankPage.js
                         }
                     );
 
-                    ev.Text = "This is a sequre website, do you want to leave?";
+                    ev.Text = "This is a secure website, do you want to leave?";
                 };
 
             var anchor = new IHTMLAnchor("http://example.com", "example.com");

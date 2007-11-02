@@ -30,12 +30,12 @@ namespace NumberGuessingGame.source.js
         /// </summary>
         static Settings()
         {
-            Console.LogAssambley(
-                shared.AssemblyInfo.Current,
-                ScriptCoreLib.Shared.AssemblyInfo.Current
-                //ScriptCoreLib.GoogleAPI.Shared.AssemblyInfo.Current,
-                //ScriptCoreLib.Cards.Shared.AssemblyInfo.Current
-                );
+            //Console.LogAssambley(
+            //    shared.AssemblyInfo.Current,
+            //    ScriptCoreLib.Shared.AssemblyInfo.Current
+            //    //ScriptCoreLib.GoogleAPI.Shared.AssemblyInfo.Current,
+            //    //ScriptCoreLib.Cards.Shared.AssemblyInfo.Current
+            //    );
 
 
             Native.Spawn(Controls);

@@ -21,6 +21,7 @@ namespace GGearAlpha.js
     using ScriptCoreLib.Shared.Drawing;
     using ScriptCoreLib.JavaScript.Runtime;
     using System.Linq;
+    using System;
 
     [Script]
     class Class2
@@ -228,6 +229,15 @@ namespace GGearAlpha.js
             //    throw new System.Exception("Member is missing");
         }
 
+
+        [Script]
+        class __Type1
+        {
+            public Postcard Control;
+            public PostcardEntry Data;
+        }
+
+
         private static void LoadFromDatabase(GoogleGearsFactory.Database db, Func<PostcardEntry, Postcard> Spawn)
         {
             if (db != null)
@@ -241,7 +251,7 @@ namespace GGearAlpha.js
                                                 "select * from Postcards",
                                                 typeof(PostcardEntry)
                                             )
-                            select new { Control = Spawn(Data), Data = Data };
+                            select new __Type1 { Control = Spawn(Data), Data = Data };
 
                 foreach (var v in query)
                 {
@@ -257,7 +267,7 @@ namespace GGearAlpha.js
                         }
                         catch (System.Exception exc)
                         {
-                            AppendError(workspace0, exc.Message);
+                            //AppendError(workspace0, exc.Message);
                         }
 #endif
             }
