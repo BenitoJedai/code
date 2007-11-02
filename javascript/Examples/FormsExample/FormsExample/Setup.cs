@@ -10,18 +10,19 @@ using ScriptCoreLib.Shared;
 
 namespace FormsExample
 {
+    interface IAssemblyReferenceToken :
+        ScriptCoreLib.Shared.Windows.Forms.IAssemblyReferenceToken,
+        ScriptCoreLib.Shared.Drawing.IAssemblyReferenceToken,
+        ScriptCoreLib.Shared.Query.IAssemblyReferenceToken,
+        ScriptCoreLib.Shared.IAssemblyReferenceToken
+
+    {
+
+    }
+
     static class Setup
     {
-        static IEnumerable<Type> References
-        {
-            get
-            {
-                yield return typeof(ScriptCoreLib.JavaScript.Windows.Forms.AssemblyReferenceToken);
-                yield return typeof(ScriptCoreLib.JavaScript.Drawing.AssemblyReferenceToken);
-                yield return typeof(ScriptCoreLib.Shared.Query.AssemblyReferenceToken);
-                yield return typeof(ScriptCoreLib.Shared.AssemblyReferenceToken);
-            }
-        }
+
         
         public static void DefineEntryPoint(IEntryPoint e)
         {

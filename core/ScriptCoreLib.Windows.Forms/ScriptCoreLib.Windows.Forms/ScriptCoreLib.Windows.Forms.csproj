@@ -78,7 +78,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\TextBox.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Timer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\UserControl.cs" />
-    <Compile Include="JavaScript\Windows\Forms\AssemblyReferenceToken.cs" />
+    <Compile Include="Shared\Windows\Forms\IAssemblyReferenceToken.cs" />
     <Compile Include="JavaScript\Windows\Forms\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

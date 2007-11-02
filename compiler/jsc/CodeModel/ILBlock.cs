@@ -724,7 +724,9 @@ namespace jsc
                         }
                         else
                         {
-                            CompilerBase.BreakToDebugger("unknown while condition at " + this.Instruction.OwnerMethod.ToString());
+                            CompilerBase.BreakToDebugger(
+                                "unknown while condition at " + this.Instruction.OwnerMethod.ToString()
+                                + ". Maybe you did not turn off c# compiler 'optimize code' feature?");
                         }
 
 

@@ -22,5 +22,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public static double Sqrt(double e) { return m.sqrt(e); }
         public static int Abs(int e) { return (int)m.abs(e); }
         public static double Round(double e) { return m.round(e); }
+
+        public static byte Max(byte e, byte x) { return (byte)m.max(e, x); }
+        public static int Max(int e, int x) { return m.max(e, x); }
+        public static double Max(double e, double x) { return m.max(e, x); }
+
+        public static byte Min(byte e, byte x) { return (byte)m.min(e, x); }
+        public static int Min(int e, int x) { return m.min(e, x); }
+        public static double Min(double e, double x) { return m.min(e, x); }
+
     }
 }
