@@ -3,11 +3,13 @@ using ScriptCoreLib.Shared;
 
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.JavaScript;
-using ScriptCoreLib.JavaScript.Runtime;
+//using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 
 using global::System.Collections.Generic;
+using System;
+//using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScreencastWebpage.js
 {
@@ -18,13 +20,13 @@ namespace ScreencastWebpage.js
         static event FooDelegate Bar;
 
 
-        private int myVar;
+        //private int myVar;
 
-        public int MyProperty
-        {
-            get { return myVar; }
-            set { myVar = value; }
-        }
+        //public int MyProperty
+        //{
+        //    get { return myVar; }
+        //    set { myVar = value; }
+        //}
 	
 
  
@@ -126,7 +128,7 @@ namespace ScreencastWebpage.js
             public void Hide(string e)
             {
                 Text = e;
-                Fader.FadeOut(Control, 1000, 300);
+                ScriptCoreLib.JavaScript.Runtime.Fader.FadeOut(Control, 1000, 300);
             }
         }
 
@@ -268,7 +270,7 @@ namespace ScreencastWebpage.js
                         Action PlayThis =
                             delegate
                             {
-                                Timer.DoAsync(
+                                ScriptCoreLib.JavaScript.Runtime.Timer.DoAsync(
                                     delegate
                                     {
                                         Native.Document.location.hash = "" + x_index;

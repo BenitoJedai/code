@@ -51,26 +51,30 @@ namespace ColorPicker.source.js.Controls
 
 
             layer.onmousemove +=
-                delegate (IEvent ev)
+                delegate(IEvent ev)
                 {
-                    
+
                     Console.WriteLine("" + ev.OffsetPosition + ", x " + layer.Bounds);
 
                     // jscolor will be merged with color sometime in the future
-                     
-                    if (ev.OffsetX <= 260)
-                    {
-                        var hue = (byte)Native.Math.round( ev.OffsetX / 260 * 240);
-                        var lum = (byte)Native.Math.round(240 - ev.OffsetY / 260 * 240);
 
-                        Native.Document.body.style.backgroundColor = JSColor.FromHLS(hue, lum, 240);
-                    }
-                    else
+                    if (ev.OffsetX > 260)
                     {
-                        var lum = (byte)Native.Math.round(240 - ev.OffsetY / 260 * 240);
+                        
+                        var lum = (byte)System.Math.Round((double)(240 - ev.OffsetY / 260 * 240));
+
+                        Console.WriteLine("lum: " + lum);
 
                         Native.Document.body.style.backgroundColor = JSColor.FromHLS(0, lum, 0);
                     }
+                    else
+                    {
+                        var hue = (byte)System.Math.Round((double)(ev.OffsetX / 260 * 240));
+                        var lum = (byte)System.Math.Round((double)(240 - ev.OffsetY / 260 * 240));
+
+                        Native.Document.body.style.backgroundColor = JSColor.FromHLS(hue, lum, 240);
+                    }
+
                 };
         }
 

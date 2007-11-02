@@ -30,10 +30,10 @@ namespace ColorPicker.source.js
         /// </summary>
         static Settings()
         {
-            Console.LogAssambley(
-                shared.AssemblyInfo.Current,
-                ScriptCoreLib.Shared.AssemblyInfo.Current
-                );
+            //Console.LogAssambley(
+            //    shared.AssemblyInfo.Current,
+            //    ScriptCoreLib.Shared.AssemblyInfo.Current
+            //    );
 
 
             Native.Spawn(Controls);

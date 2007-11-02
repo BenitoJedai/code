@@ -8,6 +8,10 @@ using ScriptCoreLib.Shared;
 
 namespace LinqToObjects.source.csharp
 {
+    interface IAssemblyReferenceToken : ScriptCoreLib.Shared.Query.IAssemblyReferenceToken
+    {
+    }
+
     static class Settings
     {
         static void DefineSpawnPoint(IEntryPoint e, string alias, string data)

@@ -10,6 +10,10 @@ using ScriptCoreLib.Shared;
 
 namespace ScreencastWebpage
 {
+    interface IAssemblyReferenceToken : ScriptCoreLib.Shared.Query.IAssemblyReferenceToken
+    {
+    }
+
     static class Setup
     {
         public static void DefineEntryPoint(IEntryPoint e)
