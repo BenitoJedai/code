@@ -12,6 +12,44 @@ namespace MonthSchedule.js
     [Script]
     public static class Extensions
     {
+        
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> e, TKey k)
+        {
+            if (e.ContainsKey(k))
+                return e[k];
+
+            return default(TValue);
+        }
+
+        public static void DictonaryToArguments(this ILocation location, Dictionary<string, string> e)
+        {
+            location.search = "?" + string.Join("&", e.Keys.Select(key => key + "=" + e[key]).ToArray());
+        }
+
+        public static Dictionary<string, string> ArgumentsToDictonary(this ILocation e)
+        {
+            var d = new Dictionary<string, string>();
+
+            if (e.search.StartsWith("?"))
+            {
+                var x = e.search.Substring(1);
+
+                foreach (var p in x.Split('&'))
+                {
+                    var z = p.Split('=');
+
+                    if (z.Length == 2)
+                    {
+                        d[z[0]] = z[1];
+                    }
+                }
+
+
+            }
+
+            return d;
+        }
+
         public static bool IsFirstDayOfMonth(this DateTime e)
         {
             return e.Day == 1;
@@ -157,13 +195,13 @@ namespace MonthSchedule.js
 
         public static string AsString(this DayOfWeek e)
         {
-            if (e == DayOfWeek.Sunday) return "P";
-            if (e == DayOfWeek.Monday) return "E";
-            if (e == DayOfWeek.Tuesday) return "T";
-            if (e == DayOfWeek.Wednesday) return "K";
-            if (e == DayOfWeek.Thursday) return "N";
-            if (e == DayOfWeek.Friday) return "R";
-            if (e == DayOfWeek.Saturday) return "L";
+            if (e == DayOfWeek.Sunday) return "Su".Localize();
+            if (e == DayOfWeek.Monday) return "M".Localize();
+            if (e == DayOfWeek.Tuesday) return "Tu".Localize();
+            if (e == DayOfWeek.Wednesday) return "W".Localize();
+            if (e == DayOfWeek.Thursday) return "Th".Localize();
+            if (e == DayOfWeek.Friday) return "F".Localize();
+            if (e == DayOfWeek.Saturday) return "Sa".Localize();
 
             throw new Exception("DayOfWeek");
         }
@@ -186,6 +224,13 @@ namespace MonthSchedule.js
             var e = tag.AsElement();
 
             Native.Document.body.appendChild(e);
+
+            return e;
+        }
+
+        public static IHTMLElement WithText(this IHTMLElement e, string text)
+        {
+            e.innerText = text;
 
             return e;
         }

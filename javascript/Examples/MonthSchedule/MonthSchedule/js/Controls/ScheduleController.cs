@@ -76,10 +76,10 @@ namespace MonthSchedule.js.Controls
 
             WorkerStates = new[]
                 {
-                    new ToggleButtonState { Text = "·", Hours = 12, Percentage = 1 },
+                    new ToggleButtonState { Text = "·", Hours = 11.5, Percentage = 1 },
                     new ToggleButtonState { Text = "P", Hours = 0, Percentage = 0 },
-                    new ToggleButtonState { Text = "13", Hours = 13 - 9, Percentage = 0.5 },
-                    new ToggleButtonState { Text = "17", Hours = 21 - 17, Percentage = 0.5 },
+                    new ToggleButtonState { Text = "17", Hours = 17 - 9.5, Percentage = 0.5 },
+                    new ToggleButtonState { Text = "13", Hours = 21 - 13, Percentage = 0.5 },
                 };
 
             days = date.DaysInMonth();
@@ -114,7 +114,7 @@ namespace MonthSchedule.js.Controls
             Control.style.padding = "2em";
 
             Header = new IHTMLElement(IHTMLElement.HTMLElementEnum.h2);
-            Header.innerText = "Töögraafik";
+            Header.innerText = "work schedule".Localize();
 
             var h4 = new IHTMLElement(IHTMLElement.HTMLElementEnum.h4);
             h4.style.Float = IStyle.FloatEnum.right;
@@ -123,7 +123,7 @@ namespace MonthSchedule.js.Controls
             var br = new IHTMLBreak();
             br.style.clear = "both";
 
-            var close = new IHTMLAnchor("sulge!");
+            var close = new IHTMLAnchor("close!".Localize());
             close.className = "noprint";
 
             close.onclick +=
@@ -152,7 +152,8 @@ namespace MonthSchedule.js.Controls
             var c0 = RowOfDateNumbers.AddColumn();
 
             c0.rowSpan = 2;
-            c0.innerText = "NIMI";
+            c0.innerText = "name".Localize();
+            c0.style.padding = "2px";
 
             for (int i = 0; i < this.days; i++)
             {
@@ -326,9 +327,12 @@ namespace MonthSchedule.js.Controls
                     return;
                 }
 
-                var total = w.Days.Sum(i => i.Value.Hours);
+                var total = w.Days.Sum(i => i.Value.Hours);//.GetFractString();
 
-                w.CountColumn.innerText = "" + total;
+                // compiler bug: cannot chain this call?
+                var total_str = total.GetFractString();
+
+                w.CountColumn.innerText = total_str;
             };
 
             TSettings.Changed();
@@ -562,7 +566,7 @@ namespace MonthSchedule.js.Controls
             /// <summary>
             /// how many hours the worker is there
             /// </summary>
-            public int Hours;
+            public double Hours;
 
             /// <summary>
             /// is it a fullday or half a day

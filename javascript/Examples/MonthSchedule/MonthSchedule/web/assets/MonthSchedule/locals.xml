@@ -1,15 +1,88 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <dictonary>
-  <text>
-    <eng>year</eng>
-    <est>aasta</est>
-  </text>
-  <text>
-    <eng>month</eng>
-    <est>kuu</est>
-  </text>
-  <text>
-    <eng>work schedule</eng>
-    <est>töögraafik</est>
-  </text>
+	<text>
+		<eng>year</eng>
+		<est>aasta</est>
+		<de>jahr</de>
+	</text>
+	<text>
+		<eng>month</eng>
+		<est>kuu</est>
+		<de>monat</de>
+	</text>
+	<text>
+		<eng>work schedule</eng>
+		<est>töögraafik</est>
+		<de>arbeitsplan</de>
+	</text>
+	<text>
+		<eng>make new work schedule</eng>
+		<est>tee uus töögraafik</est>
+		<de>erstelle neu arbeitsplan</de>
+	</text>
+	<text>
+		<eng>name</eng>
+		<est>nimi</est>
+		<de>name</de>
+	</text>
+	<text>
+		<eng>close!</eng>
+		<est>sulge!</est>
+		<de>schließen!</de>
+	</text>
+
+	<text>
+		<eng>Su</eng>
+		<est>P</est>
+		<de>So</de>
+	</text>
+
+	<text>
+		<eng>M</eng>
+		<est>E</est>
+		<de>Mo</de>
+	</text>
+
+	<text>
+		<eng>Tu</eng>
+		<est>T</est>
+		<de>Di</de>
+	</text>
+
+	<text>
+		<eng>W</eng>
+		<est>K</est>
+		<de>Mi</de>
+	</text>
+
+	<text>
+		<eng>Th</eng>
+		<est>N</est>
+		<de>Do</de>
+	</text>
+
+	<text>
+		<eng>F</eng>
+		<est>R</est>
+		<de>Fr</de>
+	</text>
+
+	<text>
+		<eng>Sa</eng>
+		<est>L</est>
+		<de>Sa</de>
+	</text>
+
+	<text>
+		<eng>about</eng>
+		<est>lisainfo</est>
+		<de>hilfe</de>
+	</text>
+
+	<text>
+		<eng>This Application lets you manage the workschedule of your workers. You can add or remove workers on the left, specify how many workers must be present at any given day at the bottom, which days are free days, when to come later and when to go earlier. It also calculates total workhours on the right. You can use your mousewheel or just click on the buttons.</eng>
+		<est>See programm aitab koostada sinu töötajate töögraafikut. Siin saad lisada ja eemaldada töötajaid vasakul, määrata mitu töötajat korraga päevas kohal peab olema, mis päevad on vabad, millal tulla hiljem ja millal minna varem töölt. Samuti arvutab ta kokku töötaja töötunnid paremal. Sa saad kasutada hiirerulli või lihtsalt klikkida nuppudel.</est>
+		<de>Diese Anwendung läßt Sie das workschedule Ihrer Arbeiter handhaben. Sie können hinzufügen, oder, Arbeiter auf dem links zu entfernen, spezifizieren Sie wieviele Arbeiter sein müssen anwesend an jedem möglichem gegebenen Tag an der Unterseite, die Tage freie Tage sind, an wann man später kommt und wann man früh geht. Er errechnet auch Gesamtworkhours auf dem Recht. Sie können Ihr mousewheel benutzen, oder gerecht klicken Sie an die Tasten.</de>
+	</text>
+	
 </dictonary>

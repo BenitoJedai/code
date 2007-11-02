@@ -12,6 +12,7 @@ namespace MonthSchedule.js
     [Script]
     public static class LocalsExtension
     {
+
         public static string Localize(this string e)
         {
             var doc = Locals.Default.Content;
@@ -26,7 +27,7 @@ namespace MonthSchedule.js
             if (res == null)
                 return e;
 
-            res = res.parentNode.childNodes.Where(x => x.nodeName == "est").Single();
+            res = res.parentNode.childNodes.Where(x => x.nodeName == Locals.Default.Language).Single();
 
             return res.text;
         }
@@ -35,6 +36,19 @@ namespace MonthSchedule.js
     [Script]
     public class Locals
     {
+        public string Language
+        {
+            get
+            {
+                var x = Native.Document.location.ArgumentsToDictonary().GetValueOrDefault("lang");
+
+                if (x.IsNullOrEmpty())
+                    return "eng";
+
+                return x;
+            }
+        }
+
         public readonly string Source;
         public readonly IXMLHttpRequest Request;
 
