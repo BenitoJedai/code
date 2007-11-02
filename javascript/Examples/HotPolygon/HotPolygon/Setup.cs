@@ -8,9 +8,9 @@ using ScriptCoreLib.Shared;
 
 namespace HotPolygon
 {
-    public interface AssemblyReferenceToken :
-        ScriptCoreLib.Shared.AssemblyReferenceToken,
-        ScriptCoreLib.Shared.Query.AssemblyReferenceToken
+    public interface IAssemblyReferenceToken :
+        ScriptCoreLib.Shared.IAssemblyReferenceToken,
+        ScriptCoreLib.Shared.Query.IAssemblyReferenceToken
     {
     }
 
