@@ -35,8 +35,8 @@ namespace jsXMLhttpRequest
         {
             ColorBeta c = new ColorBeta();
 
-            int cMax = Native.Math.max(Native.Math.max(R, G), B);
-            int cMin = Native.Math.min(Native.Math.min(R, G), B);
+            int cMax = System.Math.Max(System.Math.Max(R, G), B);
+            int cMin = System.Math.Min(System.Math.Min(R, G), B);
 
             int H, L, S;
 
@@ -74,9 +74,9 @@ namespace jsXMLhttpRequest
                     H -= HLSMAX;
             }
 
-            c.H = (byte)Native.Math.floor(H);
-            c.L = (byte)Native.Math.floor(L);
-            c.S = (byte)Native.Math.floor(S);
+            c.H = (byte)System.Math.Floor((double)H);
+            c.L = (byte)System.Math.Floor((double)L);
+            c.S = (byte)System.Math.Floor((double)S);
 
             return c;
         }
@@ -134,9 +134,9 @@ namespace jsXMLhttpRequest
                 Magic1 = 2 * lum - Magic2;
 
                 /* get RGB, change units from HLSMAX to RGBMAX */
-                c.R = (byte)Native.Math.round((HueToRGB(Magic1, Magic2, hue + (HLSMAX / 3)) * RGBMAX + (HLSMAX / 2)) / HLSMAX);
-                c.G = (byte)Native.Math.round((HueToRGB(Magic1, Magic2, hue) * RGBMAX + (HLSMAX / 2)) / HLSMAX);
-                c.B = (byte)Native.Math.round((HueToRGB(Magic1, Magic2, hue - (HLSMAX / 3)) * RGBMAX + (HLSMAX / 2)) / HLSMAX);
+                c.R = (byte)System.Math.Round((double)(HueToRGB(Magic1, Magic2, hue + (HLSMAX / 3)) * RGBMAX + (HLSMAX / 2)) / HLSMAX);
+                c.G = (byte)System.Math.Round((double)(HueToRGB(Magic1, Magic2, hue) * RGBMAX + (HLSMAX / 2)) / HLSMAX);
+                c.B = (byte)System.Math.Round((double)(HueToRGB(Magic1, Magic2, hue - (HLSMAX / 3)) * RGBMAX + (HLSMAX / 2)) / HLSMAX);
             }
 
 
@@ -341,11 +341,11 @@ namespace jsXMLhttpRequest
 
                 int _x, _y;
 
-                _x = Native.Math.max(0, e.CursorX - _move_x);
-                _x = Native.Math.min(_x, Native.Document.body.clientWidth - _view.clientWidth);
+                _x = System.Math.Max(0, e.CursorX - _move_x);
+                _x = System.Math.Min(_x, Native.Document.body.clientWidth - _view.clientWidth);
 
-                _y = Native.Math.max(0, e.CursorY - _move_y);
-                _y = Native.Math.min(_y, Native.Document.body.clientHeight - _view.clientHeight);
+                _y = System.Math.Max(0, e.CursorY - _move_y);
+                _y = System.Math.Min(_y, Native.Document.body.clientHeight - _view.clientHeight);
 
 
                 _view.style.SetLocation(_x, _y);

@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.JavaScript.Net;
 
 
 namespace jsXMLhttpRequest

@@ -1,9 +1,14 @@
 Imports System.Linq
 
+
+
+
 Public Module Setup
 
-    Public Drawing As System.Type = GetType(ScriptCoreLib.JavaScript.Drawing.AssemblyReferenceToken)
-    public Form  As System.Type = GetType(ScriptCoreLib.JavaScript.Windows.Forms.AssemblyReferenceToken)
+
+
+    Public Drawing As System.Type = GetType(ScriptCoreLib.Shared.Drawing.IAssemblyReferenceToken)
+    Public Form As System.Type = GetType(ScriptCoreLib.Shared.Windows.Forms.IAssemblyReferenceToken)
 
 
     Public Sub DefineEntryPoint(ByVal e As IEntryPoint)
@@ -42,11 +47,11 @@ Public Module Setup
         w.WriteLine("</body>")
         w.WriteLine("</html>")
 
-        If packed Then
-            e(ControlAlias + ".packed.htm") = w.Text
-        Else
-            e(ControlAlias + ".htm") = w.Text
-        End If
+        'If packed Then
+        ' e(ControlAlias + ".packed.htm") = w.Text
+        'Else
+        e(ControlAlias + ".htm") = w.Text
+        'End If
 
         'e.Define(ControlAlias + ".htm", w.Text)
     End Sub
