@@ -3,6 +3,7 @@ using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared;
 
 using System.Linq;
+using System;
 
 namespace LightsOut.js
 {

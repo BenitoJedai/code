@@ -11,6 +11,7 @@ using ScriptCoreLib.JavaScript.DOM;
 namespace gameclient.source.js.Controls
 {
     using shared;
+    using System.Collections.Generic;
 
     [Script]
     public class MySession : ClientToServerBase, Message.IClient
@@ -360,8 +361,8 @@ namespace gameclient.source.js.Controls
                             {
                                 var random_spawn_position = new
                                                             {
-                                                                x = Native.Math.random() * 600,
-                                                                y = Native.Math.random() * 400,
+                                                                x = new System.Random().NextDouble() * 600,
+                                                                y = new System.Random().NextDouble() * 400,
                                                             };
 
                                 Console.Log("random_spawn_position: " + random_spawn_position);
@@ -369,7 +370,7 @@ namespace gameclient.source.js.Controls
                                 // Lets Spawn Something into the world
                             }
 
-                            Console.Log("onkeypress: " + new { KeyCode = ev.KeyCode });
+                            //Console.Log("onkeypress: " + new { KeyCode = ev.KeyCode });
 
                             if (!ChatBox.IsVisible)
                             {
@@ -738,7 +739,7 @@ namespace gameclient.source.js.Controls
         {
             get
             {
-                return Native.Math.floor(Native.Math.random() * 0xFFFFFF);
+                return (Color) System.Math.Floor(new System.Random().NextDouble() * 0xFFFFFF);
             }
         }
     }

@@ -13,7 +13,6 @@ namespace LightsOut
         public static void DefineEntryPoint(IEntryPoint e)
         {
             DefineSpawnPoint(e, js.Class1.Alias, js.Class1.DefaultData, false);
-            DefineSpawnPoint(e, js.Class1.Alias, js.Class1.DefaultData, true);
 
         }
 
@@ -28,8 +27,6 @@ namespace LightsOut
 
 
             SharedHelper.DefineScript(w,
-                packed ?
-                SharedHelper.LocalModules.Select(i => i + ".js.packed").ToArray() :
                 SharedHelper.LocalModules
             );
 
@@ -43,7 +40,7 @@ namespace LightsOut
             w.WriteLine("</body>");
             w.WriteLine("</html>");
 
-            e[alias + (packed ? ".packed" : "") + ".htm"] = w.Text;
+            e[alias  + ".htm"] = w.Text;
         }
     }
 }

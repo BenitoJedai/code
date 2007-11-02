@@ -13,6 +13,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.XML;
 
 using IDisposable = global::System.IDisposable;
+using System;
 
 
 
@@ -70,7 +71,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 
         public Point CurrentCanvasPosition = Point.Zero;
 
-        public event EventHandler<Rectangle> CanvasViewChanged;
+        public event ScriptCoreLib.Shared.EventHandler<Rectangle> CanvasViewChanged;
 
         protected void InternalSetCanvasPosition(Point p)
         {
@@ -303,7 +304,7 @@ namespace ScriptCoreLib.JavaScript.Controls
                 };
         }
 
-        public event EventHandler<Point> MouseMove;
+        public event ScriptCoreLib.Shared.EventHandler<Point> MouseMove;
 
         public int SelectionMinimumSize = 4;
 
@@ -329,7 +330,7 @@ namespace ScriptCoreLib.JavaScript.Controls
             var selection_end = Point.Zero;
             var selection_rect = new Rectangle();
 
-            EventHandler UpdateSelection =
+            ScriptCoreLib.Shared.EventHandler UpdateSelection =
                 delegate
                 {
                     var size = selection_end - selection_start;

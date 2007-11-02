@@ -55,7 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyReferenceToken.cs" />
+    <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="JavaScript\Card.cs" />
     <Compile Include="JavaScript\CardDeck.cs" />
     <Compile Include="JavaScript\CardInfo.cs" />

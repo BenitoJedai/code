@@ -15,6 +15,7 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 using System.Linq;
 
 using ScriptCoreLib.Shared.Lambda;
+using System;
 
 //using global::System.Collections.Generic;
 
@@ -77,6 +78,12 @@ namespace GameOfLife.js
         public const string Alias = "Class1";
         public const string DefaultData = "Class1Data";
 
+        [Script]
+        class __Type1
+        {
+            public Color  ColorDeath;
+            public Color  ColorBirth;
+        }
 
         /// <summary>
         /// Creates a new control
@@ -126,7 +133,7 @@ namespace GameOfLife.js
 
             int index = 0;
 
-            var State = new
+            var State = new __Type1
                         {
 
                             ColorDeath = Color.White,
@@ -247,7 +254,7 @@ namespace GameOfLife.js
 
                     int timeout = (int)(IDate.Now.getTime() - t) - 0;
 
-                    Console.WriteLine("time: " + timeout);
+                    System.Console.WriteLine("time: " + timeout);
 
                     SleepAndEvolve(timeout.Max(100));
                 };
@@ -266,7 +273,7 @@ namespace GameOfLife.js
 
             // spawn this class when document is loaded 
             Native.Spawn(
-                new Pair<string, EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
+                new Pair<string, ScriptCoreLib.Shared.EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
                 );
 
         }

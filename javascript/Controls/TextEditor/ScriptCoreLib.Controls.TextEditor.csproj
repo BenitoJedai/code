@@ -54,7 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyReferenceToken.cs" />
+    <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="JavaScript\Controls\TextEditor.cs" />
   </ItemGroup>

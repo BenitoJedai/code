@@ -4,6 +4,7 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using System;
 
 [assembly:
 ScriptResources("fx")
@@ -48,7 +49,7 @@ namespace DockMaster.source.js.gfx
                     {
                         if (!v.complete)
                         {
-                            Console.WriteLine("not loaded: "  + v.src);
+                            System.Console.WriteLine("not loaded: "  + v.src);
 
                             r = true;
                             break;

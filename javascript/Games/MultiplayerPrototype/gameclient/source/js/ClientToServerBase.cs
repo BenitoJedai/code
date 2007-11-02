@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 namespace gameclient.source.js
 {
     using shared;
+    using System.Collections.Generic;
 
     [Script]
     public class ClientToServerBase : Message.ClientToServer
@@ -185,7 +186,7 @@ namespace gameclient.source.js
                 }
             }
 
-            return a;
+            return a.ToArray();
         }
 
         int MessageId = 1;

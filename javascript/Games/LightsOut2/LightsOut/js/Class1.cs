@@ -20,7 +20,24 @@ using System.Linq;
 namespace LightsOut.js
 {
     using web.assets;
+    using System;
 
+    [Script]
+    class __Type1
+    {
+        public int x;
+        public int y;
+
+        public __Type2 tile;
+    }
+
+    [Script]
+    class __Type2
+    {
+        public int w;
+        public int h;
+        public double cold;
+    }
 
     [Script]
     public class Class1
@@ -40,22 +57,22 @@ namespace LightsOut.js
             // what happens in beta2 when the anonymous types are immutable? :)
 
 
-            var usersettings = new { x = 5, y = 5, tile = new { w = 64, h = 64, cold = 0.8 } };
+            var usersettings = new __Type1 { x = 5, y = 5, tile = new __Type2 { w = 64, h = 64, cold = 0.8 } };
             var search = Native.Document.location.search;
 
-            if (search.StartsWith("?"))
-            {
-                var values = from i in search.Substring(1).Split('&')
-                             let kvp = i.Split('=')
-                             where kvp.Length == 2
-                             select new { key = kvp[0], value = kvp[1] };
+            //if (search.StartsWith("?"))
+            //{
+            //    var values = from i in search.Substring(1).Split('&')
+            //                 let kvp = i.Split('=')
+            //                 where kvp.Length == 2
+            //                 select new { key = kvp[0], value = kvp[1] };
 
-                var _x = values.FirstOrDefault(i => i.key == "x");
-                if (_x != null) usersettings.x = int.Parse(_x.value);
+            //    var _x = values.FirstOrDefault(i => i.key == "x");
+            //    if (_x != null) usersettings.x = int.Parse(_x.value);
 
-                var _y = values.FirstOrDefault(i => i.key == "y");
-                if (_y != null) usersettings.y = int.Parse(_y.value);
-            }
+            //    var _y = values.FirstOrDefault(i => i.key == "y");
+            //    if (_y != null) usersettings.y = int.Parse(_y.value);
+            //}
 
             var a = new Array2D<IHTMLDiv>(usersettings.x, usersettings.y);
             var m = a.ToBooleanArray();
@@ -76,7 +93,7 @@ namespace LightsOut.js
 
             canvas.className = "canvas";
 
-            var canvas_size = new { x = ((a.XLength + 1) * usersettings.tile.w), y = ((a.YLength + 1) * usersettings.tile.h) };
+            var canvas_size = new __Type1 { x = ((a.XLength + 1) * usersettings.tile.w), y = ((a.YLength + 1) * usersettings.tile.h) };
 
             canvas.style.position = IStyle.PositionEnum.relative;
             canvas.style.border = "2px solid black";
@@ -155,7 +172,7 @@ namespace LightsOut.js
             Action<int, int> Toggle =
                 (x, y) =>
                 {
-                    Console.WriteLine("click at: " + new { x, y } + " = " + m[x, y]);
+                    //Console.WriteLine("click at: " + new { x, y } + " = " + m[x, y]);
 
                     var f = ToggleDirect.WithOffset(x, y);
 
@@ -283,7 +300,7 @@ namespace LightsOut.js
 
             // spawn this class when document is loaded 
             Native.Spawn(
-                new Pair<string, EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
+                new Pair<string, ScriptCoreLib.Shared.EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
                 );
 
         }

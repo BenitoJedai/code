@@ -10,8 +10,8 @@ namespace NatureBoy
 {
     static class Setup
     {
-        static Type Reference_ScriptCoreLib_Query = typeof(global::ScriptCoreLib.Shared.Query.AssemblyReferenceToken);
-        static Type Reference_ScriptCoreLib = typeof(global::ScriptCoreLib.Shared.AssemblyReferenceToken);
+        static Type Reference_ScriptCoreLib_Query = typeof(global::ScriptCoreLib.Shared.Query.IAssemblyReferenceToken);
+        static Type Reference_ScriptCoreLib = typeof(global::ScriptCoreLib.Shared.IAssemblyReferenceToken);
 
         public static void DefineEntryPoint(IEntryPoint e)
         {

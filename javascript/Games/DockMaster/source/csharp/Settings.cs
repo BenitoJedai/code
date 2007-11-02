@@ -8,8 +8,13 @@ using ScriptCoreLib.Shared;
 
 namespace DockMaster.source.csharp
 {
+    interface IAssemblyReferenceToken : ScriptCoreLib.Shared.Query.IAssemblyReferenceToken
+    {
+    }
+
     static class Settings
     {
+        
         static void DefineSpawnPoint(IEntryPoint e, string alias, string body)
         {
             TextWriter w = new TextWriter();

@@ -15,6 +15,7 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 
 using global::System.Collections.Generic;
 using System.Linq;
+using System;
 
 
 
@@ -71,7 +72,7 @@ namespace Mahjong.js
                         {
                             if (last.IsMatch(a))
                             {
-                                Console.WriteLine("match!");
+                                System.Console.WriteLine("match!");
 
                                 last.Hide();
                                 a.Hide();
@@ -80,7 +81,7 @@ namespace Mahjong.js
                             }
                         }
 
-                        Console.WriteLine("click: " + a.Info.Asset.Suit + " / " + a.Info.Asset.Rank);
+                        System.Console.WriteLine("click: " + a.Info.Asset.Suit + " / " + a.Info.Asset.Rank);
 
                         last = next;
                     };
@@ -155,7 +156,7 @@ namespace Mahjong.js
 
             // spawn this class when document is loaded 
             Native.Spawn(
-                new Pair<string, EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
+                new Pair<string, ScriptCoreLib.Shared.EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
                 );
 
         }
