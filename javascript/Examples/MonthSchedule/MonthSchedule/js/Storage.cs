@@ -15,7 +15,7 @@ namespace MonthSchedule.js
 
 
         static Cookie<string[]> _Workers = new Cookie<string[]>("MonthSchedule.Workers");
-        public static string[] Workers { get { return _Workers.Value; } set { _Workers.Value = value; } }
+        public static string[] Workers { get { return  _Workers.Value; } set { _Workers.Value = value; } }
 
 
     }

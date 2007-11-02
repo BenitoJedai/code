@@ -25,28 +25,40 @@ namespace MonthSchedule.js.Controls
     {
         public void LazyLoad(Action done, params string[] e)
         {
-            var w = new WorkPool();
+            int stage = 1;
 
-            foreach (var v0 in e)
+            try
             {
-                var v1 = v0;
+                stage = 2;
+                var w = new WorkPool();
+                stage = 3;
+                foreach (var v0 in e)
+                {
+                    var v1 = v0;
 
+                    w.Add(
+                        delegate
+                        {
+                            this.AddWorker().Name = v1;
+                        }
+                    );
+                }
+                stage = 4;
                 w.Add(
-                    delegate
-                    {
-                        this.AddWorker().Name = v1;
-                    }
+                     delegate
+                     {
+                         this.UpdateActualPercentages();
+
+                         done();
+                     }
                 );
+                stage = 5;
             }
-
-            w.Add(
-                 delegate
-                 {
-                     this.UpdateActualPercentages();
-
-                     done();
-                 }
-            );
+            catch (Exception exc)
+            {
+                throw new Exception("LazyLoad failed: {" + exc.Message + "}; stage: " + stage);
+                
+            }
         }
 
         public ScheduleController(Action<td, DateTime> ApplyStyle)
@@ -54,7 +66,7 @@ namespace MonthSchedule.js.Controls
         {
 
         }
-        
+
         public Action WorkersChanged;
 
         public ScheduleController(Action<td, DateTime> ApplyStyle, DateTime date)
@@ -127,16 +139,16 @@ namespace MonthSchedule.js.Controls
             close.className = "noprint";
 
             close.onclick +=
-                ev=>
-                    {
-                        ev.PreventDefault();
+                ev =>
+                {
+                    ev.PreventDefault();
 
-                        this.Control.Dispose();
-                    };
+                    this.Control.Dispose();
+                };
 
             close.style.Float = IStyle.FloatEnum.right;
 
-            var c = new IHTMLElement(IHTMLElement.HTMLElementEnum.center, close,  Header, h4, br, this.ScheduleTable);
+            var c = new IHTMLElement(IHTMLElement.HTMLElementEnum.center, close, Header, h4, br, this.ScheduleTable);
 
             c.AttachTo(this.Control);
 
@@ -500,7 +512,8 @@ namespace MonthSchedule.js.Controls
 
                             //n.className += "hover";
 
-                            Control.className = "hover";
+                            if (IsEnabled)
+                                Control.className = "hover";
                         }
                         catch
                         {

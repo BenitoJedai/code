@@ -46,6 +46,17 @@ namespace MonthSchedule.js
         /// <param name="DataElement">The hidden data element</param>
         public Class1(IHTMLElement DataElement)
         {
+            //Native.Window.alert( "cookie:" + Native.Document.cookie);
+
+            //var c = new Cookie("xx");
+
+            //c.Value = "hello world";
+
+            //Native.Document.cookie = "bandwidth=4;path=/;expires=Tue, 2 Jun 2015 00:00:00 UTC;";
+
+
+            //Native.Window.alert( "cookie:" + Native.Document.cookie);
+
 
             IStyleSheet.Default.AddRule(".hover", "background-color: blue !important", 0);
             IStyleSheet.Default.AddRule(".hover", "color: white !important", 0);
@@ -63,7 +74,7 @@ namespace MonthSchedule.js
 
             var langbar = "div".AsElement().AttachTo(Native.Document.body);
             langbar.style.Float = IStyle.FloatEnum.right;
-            
+
 
 
             #region SpawnLanguageLink
@@ -83,9 +94,9 @@ namespace MonthSchedule.js
 
                            Native.Document.location.DictonaryToArguments(dict);
 
-                       }; 
+                       };
             #endregion
-                    
+
 
             SpawnLanguageLink("eng");
             SpawnLanguageLink("est");
@@ -97,31 +108,51 @@ namespace MonthSchedule.js
             Locals.Default.WhenDownloadComplete(
                 delegate
                 {
-                    var about = new IHTMLAnchor("about".Localize())
-                        {
-                            className = "language_link"
-                        }.AttachTo(langbar);
-                    
-                    var about_div = "div".AsElement().AttachTo(Native.Document.body);
 
-                    about_div.className = "about";
+                    int stage = 0;
 
-                    
-                    about_div.Show(!Storage.About);
+                    try
+                    {
+                        stage = 100;
 
-                    about_div.innerText = "This Application lets you manage the workschedule of your workers. You can add or remove workers on the left, specify how many workers must be present at any given day at the bottom, which days are free days, when to come later and when to go earlier. It also calculates total workhours on the right. You can use your mousewheel or just click on the buttons.".Localize();
+                        var about_text = "about".Localize();
 
-                    about.onclick +=
-                        ev =>
-                        {
-                            ev.PreventDefault();
+                        stage = 200;
 
-                            Storage.About = !about_div.ToggleVisible();
-                        };
+                        var about = new IHTMLAnchor(about_text)
+                            {
+                                className = "language_link"
+                            }.AttachTo(langbar);
 
-                    SpawnDefaultView();
 
-                    loading.FadeOut();
+                        stage = 3;
+                        var about_div = "div".AsElement().AttachTo(Native.Document.body);
+                        stage = 4;
+                        about_div.className = "about";
+                        stage = 5;
+
+                        about_div.Show(!Storage.About);
+                        stage = 6;
+                        about_div.innerText = "This Application lets you manage the workschedule of your workers. You can add or remove workers on the left, specify how many workers must be present at any given day at the bottom, which days are free days, when to come later and when to go earlier. It also calculates total workhours on the right. You can use your mousewheel or just click on the buttons.".Localize();
+                        stage = 7;
+                        about.onclick +=
+                            ev =>
+                            {
+                                ev.PreventDefault();
+
+                                Storage.About = !about_div.ToggleVisible();
+                            };
+                        stage = 7;
+                        SpawnDefaultView();
+                        stage = 8;
+                        loading.FadeOut();
+                        stage = 9;
+                    }
+                    catch (Exception exc)
+                    {
+                        loading.innerText = "WhenDownloadComplete failed: {" + exc.Message + "}; stage: " + stage;
+                        loading.style.color = Color.Red;
+                    }
                 }
             );
 
@@ -142,7 +173,7 @@ namespace MonthSchedule.js
         {
             // http://simiandesign.com/2006/04/18/superscripts-subscripts-css-and-the-line-height/
 
-
+            #region ApplyStyle
             Action<td, DateTime> ApplyStyle = (col, x) =>
             {
 
@@ -170,6 +201,7 @@ namespace MonthSchedule.js
                 col.style.height = "2em";
                 col.style.textAlign = IStyle.TextAlignEnum.center;
             };
+            #endregion
 
             //var sch = new ScheduleController(ApplyStyle);
 
@@ -233,8 +265,20 @@ namespace MonthSchedule.js
             YearSpinner.Control.AttachTo(Native.Document.body);
             MonthSpinner.Control.AttachTo(Native.Document.body);
 
+            var _DefaultWorkers = new[] { "Worker1", "Worker2" };
+
             if (Storage.Workers == null)
-                Storage.Workers = new[] { "Worker1", "Worker2" };
+            {
+                // safari wont save cookies when document isnt from a webserver
+                Storage.Workers = _DefaultWorkers;
+
+
+                //if (Storage.Workers == null)
+                //    throw new Exception( "Cookies are not working!!");
+                //if (Storage.Workers.Length != _new.Length)
+                //    throw new Exception( "Cookies are not working!");
+            }
+
 
             var Make = new IHTMLAnchor("make new work schedule".Localize());
 
@@ -243,19 +287,43 @@ namespace MonthSchedule.js
             Action MakeNewSchedule =
                 delegate
                 {
-                    var schnew = new ScheduleController(ApplyStyle, new DateTime(YearSpinner.Value, MonthSpinner.Value, 1));
+                    int stage = 1;
 
-                    schnew.Control.AttachTo(Native.Document.body);
+                    try
+                    {
+                        stage = 2;
+                        var schnew = new ScheduleController(ApplyStyle, new DateTime(YearSpinner.Value, MonthSpinner.Value, 1));
 
-                    schnew.WorkersChanged +=
-                        delegate
-                        {
-                            Storage.Workers = schnew.Workers.Where(w => !w.Name.IsNullOrEmpty()).Select(w => w.Name).ToArray();
-                        };
+                        stage = 3;
+                        schnew.Control.AttachTo(Native.Document.body);
+                        stage = 4;
+                        schnew.WorkersChanged +=
+                            delegate
+                            {
+                                Storage.Workers = schnew.Workers.Where(w => !w.Name.IsNullOrEmpty()).Select(w => w.Name).ToArray();
+                            };
+                        stage = 5;
 
-                    schnew.LazyLoad(
-                     () => { }, Storage.Workers.Concat(new[] { "" }).ToArray()
-                     );
+                        // compiler bug: passing params attribute when they are not first should use local variable!
+
+                        var _Workers = Storage.Workers;
+
+                        if (_Workers == null)
+                            _Workers = _DefaultWorkers;
+
+                        _Workers = _Workers.Concat(new[] { "" }).ToArray();
+
+                        stage = 6;
+
+                        schnew.LazyLoad(
+                            () => { }, _Workers
+                        );
+                        stage = 7;
+                    }
+                    catch (Exception exc)
+                    {
+                        throw new Exception("MakeNewSchedule failed: {" + exc.Message + "}; stage: " + stage);
+                    }
                 };
 
             Make.AttachTo(Native.Document.body).onclick +=

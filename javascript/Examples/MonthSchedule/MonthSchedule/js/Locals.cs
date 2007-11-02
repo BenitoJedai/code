@@ -16,6 +16,10 @@ namespace MonthSchedule.js
         public static string Localize(this string e)
         {
             var doc = Locals.Default.Content;
+
+            if (doc == null)
+                throw new Exception("Localize cannot find xml document");
+
             var dictonary = doc.documentElement;
 
             //System.Diagnostics.Debugger.Break();
@@ -52,16 +56,24 @@ namespace MonthSchedule.js
         public readonly string Source;
         public readonly IXMLHttpRequest Request;
 
-        public IXMLDocument Content;
+        public IXMLDocument Content
+        {
+            get
+            {
+                return Request.responseXML;
+            }
+        }
 
         public Locals(string source)
         {
             this.Source = source;
 
             this.Request = new IXMLHttpRequest(ScriptCoreLib.Shared.HTTPMethodEnum.GET, this.Source,
-                (IXMLHttpRequest e) =>
+                delegate
                 {
-                    Content = e.responseXML;
+                    // xml document is not set at this moment? why is that
+
+                    
                 }
             );
 

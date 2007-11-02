@@ -17,7 +17,7 @@ namespace ScriptCoreLib.JavaScript.DOM.XML
         // http://weblogs.asp.net/ssargent/archive/2007/01/25/selectsinglenode-and-firefox.aspx
 
         [Script(HasNoPrototype = true)]
-        class __IXMLDocument_IE
+        class __IXMLDocument_Native
         {
             public INode selectSingleNode(string path)
             {
@@ -34,8 +34,14 @@ namespace ScriptCoreLib.JavaScript.DOM.XML
         [Script(DefineAsStatic = true)]
         public INode selectSingleNode(string path)
         {
+            var native = ((__IXMLDocument_Native)(object)this);
+
             if (IActiveX.IsSupported)
-                return ((__IXMLDocument_IE)(object)this).selectSingleNode(path);
+                return native.selectSingleNode(path);
+
+            // opera: http://www.opera.com/docs/changelogs/windows/902/
+            if (Expando.InternalIsMember(this, "selectSingleNode"))
+                return native.selectSingleNode(path);
 
             return (INode)
                 new IFunction("elementPath", @"
@@ -43,13 +49,18 @@ namespace ScriptCoreLib.JavaScript.DOM.XML
            var nsResolver = xpe.createNSResolver( this.ownerDocument == null ? this.documentElement : this.ownerDocument.documentElement);
            var results = xpe.evaluate(elementPath,this,nsResolver,XPathResult.FIRST_ORDERED_NODE_TYPE, null);
            return results.singleNodeValue;             
-            ").apply( this, path);
+            ").apply(this, path);
         }
 
         public INode[] selectNodes(string path)
         {
+            var native = ((__IXMLDocument_Native)(object)this);
+
             if (IActiveX.IsSupported)
-                return ((__IXMLDocument_IE)(object)this).selectNodes(path);
+                return native.selectNodes(path);
+
+            if (Expando.InternalIsMember(this, "selectNodes"))
+                return native.selectNodes(path);
 
             return (INode[])
                 new IFunction("sXPath", @"

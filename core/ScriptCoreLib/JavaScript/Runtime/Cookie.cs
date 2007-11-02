@@ -198,7 +198,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
                     return;
 
 
-                string v = EscapedName + "=" + x;
+                string v = EscapedName + "=" + x +";path=/;";
 
                 Native.Document.cookie = v;
 
