@@ -14,6 +14,13 @@ namespace gameclient.source.js.Controls
     using System.Collections.Generic;
 
     [Script]
+    class __Type1
+    {
+        public double x;
+        public double y;
+    }
+
+    [Script]
     public class MySession : ClientToServerBase, Message.IClient
     {
         #region IClient Members
@@ -359,7 +366,7 @@ namespace gameclient.source.js.Controls
                             if (ev.KeyCode == 'e') Console.Log("E");
                             if (ev.KeyCode == 'r')
                             {
-                                var random_spawn_position = new
+                                var random_spawn_position = new __Type1
                                                             {
                                                                 x = new System.Random().NextDouble() * 600,
                                                                 y = new System.Random().NextDouble() * 400,

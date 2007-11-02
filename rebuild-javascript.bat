@@ -2,7 +2,7 @@
 setlocal
 
 set msbuild=%SystemRoot%\Microsoft.NET\Framework\v3.5\MSBuild.exe
-set flags=/nologo /verbosity:q /property:WarningLevel=0;
+set flags=/nologo /verbosity:q 
 
 set target=C:\util\jsc\bin
 
