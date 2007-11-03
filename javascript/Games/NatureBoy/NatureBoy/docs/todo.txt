@@ -1,2 +1,8 @@
 ﻿More sprites:
 http://kofler.dot.at/c64/
+
+raycast:
+http://www.abrahamjoffe.com.au/ben/canvascape/
+
+...
+http://www.whenpenguinsattack.com/2007/01/10/5-cool-javascript-apps/

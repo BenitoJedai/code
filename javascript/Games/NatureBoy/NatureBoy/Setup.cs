@@ -17,6 +17,7 @@ namespace NatureBoy
         {
             DefineSpawnPoint(e, js.Class1.Alias, js.Class1.DefaultData, false);
             DefineSpawnPoint(e, js.Class2.Alias, "", false);
+            DefineSpawnPoint(e, js.Class3.Alias, "", false);
         }
 
         static void DefineSpawnPoint(IEntryPoint e, string alias, string data, bool packed)

@@ -13,6 +13,17 @@ namespace NatureBoy.js
     [Script]
     static class Extensions
     {
+        public static IEnumerable<T> Range<T>(this int count, Func<int, T> s)
+        {
+            return count.Range().Select(s);
+        }
+
+
+        public static IEnumerable<int> Range(this int count)
+        {
+            return Enumerable.Range(0, count);
+        }
+
         public static Timer Swap<T>(this T[] e, int interval, Action<T> h)
         {
             return new ScriptCoreLib.JavaScript.Runtime.Timer(

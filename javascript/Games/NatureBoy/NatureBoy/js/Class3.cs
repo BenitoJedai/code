@@ -11,13 +11,13 @@ using ScriptCoreLib.Shared.Drawing;
 namespace NatureBoy.js
 {
     [Script]
-    class Class2 //: Class1
+    class Class3 //: Class1
     {
-        public const string Alias = "Class2";
+        public const string Alias = "Class3";
 
 
 
-        public Class2(IHTMLElement DataElement)
+        public Class3(IHTMLElement DataElement)
         //    : base(DataElement)
         {
             IStyleSheet.Default.AddRule(".cursorred", "cursor: url('assets/NatureBoy/cursor-red.cur'), auto;", 0);
@@ -199,6 +199,15 @@ You can size them all at once or each invidually.
             w2.WalkTo(new Point(r400(), r400()));
             BindSelectDude(w2);
 
+            // doom
+
+            var imp = SpawnLookingDude(Frames.DoomImp, r400(), r400());
+            imp.Zoom.StaticZoom = 1.75;
+            imp.AnimationInfo.Frames_Walk = Frames.DoomImp_Walk;
+            imp.WalkTo(new Point(r400(), r400()));
+            //imp.RawWalkSpeed /= 4;
+            BindSelectDude(imp);
+
             #endregion
 
             var runner = SpawnLookingDude(Frames.Duke, r400(), r400());
@@ -231,17 +240,20 @@ You can size them all at once or each invidually.
             stage.onclick +=
                 (ev) =>
                 {
+
                     if (ev.ctrlKey)
-                    {
-                        var n = SpawnLookingDude(Frames.Duke, ev.CursorX, ev.CursorY);
+                        if (Selection != null)
+                        {
+                            var n = SpawnLookingDude(Selection.AnimationInfo.Frames_Stand, ev.CursorX, ev.CursorY);
 
-                        n.AnimationInfo.Frames_Walk = Frames.Duke_Walk;
+                            n.AnimationInfo.Frames_Walk = Selection.AnimationInfo.Frames_Walk;
+                            n.Zoom.StaticZoom = Selection.Zoom.StaticZoom;
 
-                        BindSelectDude(n);
-                        SelectDude(n);
+                            BindSelectDude(n);
+                            SelectDude(n);
 
-                        return;
-                    }
+                            return;
+                        }
 
                     if (Selection != null)
                         Selection.WalkTo(ev.CursorPosition);
@@ -264,10 +276,10 @@ You can size them all at once or each invidually.
                 };
         }
 
-        static Class2()
+        static Class3()
         {
             ScriptCoreLib.JavaScript.Native.Spawn(
-                Alias, e => new Class2(e)
+                Alias, e => new Class3(e)
                 );
         }
     }

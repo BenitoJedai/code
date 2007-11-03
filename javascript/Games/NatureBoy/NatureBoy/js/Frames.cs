@@ -13,7 +13,7 @@ namespace NatureBoy.js
     [Script]
     static class Frames
     {
-        #region duke    
+        #region duke
         const string DukeTile = "assets/NatureBoy/dude2/stand/";
 
         public static FrameInfo[] Duke = new[] {
@@ -67,7 +67,7 @@ namespace NatureBoy.js
                 new FrameInfo { Source = DukeTile_Walk3 + "TILE1437h.png",  Weight = 1d / 10 , OffsetX = -3, OffsetY = 1} 
             };
 
-        public static FrameInfo[][] Duke_Walk = new [] { Duke_Walk2, Duke_Walk3, Duke_Walk1 };
+        public static FrameInfo[][] Duke_Walk = new[] { Duke_Walk2, Duke_Walk3, Duke_Walk1 };
 
         #endregion
 
@@ -99,31 +99,73 @@ namespace NatureBoy.js
 
         const double d8 = 1d / 8;
 
+        #region wolf3d
         // http://www.wolf3d.co.uk/enemies.html
-        const string WolfSoldierTile = "assets/NatureBoy/dude5/stand/";
 
-        public static FrameInfo[] WolfSoldier = new[] {
-                new FrameInfo { Source = WolfSoldierTile + "120.png",  Weight = d8 , OffsetX = 0, OffsetY = 0} ,
-                new FrameInfo { Source = WolfSoldierTile + "121.png",  Weight = d8 , OffsetX = 0, OffsetY = 0 } ,
-                new FrameInfo { Source = WolfSoldierTile + "114.png",  Weight = d8, OffsetX = 0, OffsetY = 0 } ,
-                new FrameInfo { Source = WolfSoldierTile + "115.png",  Weight = d8 , OffsetX = 0, OffsetY = 0} ,
-                new FrameInfo { Source = WolfSoldierTile + "116.png",  Weight = d8 , OffsetX = 0, OffsetY = 0} ,
-                new FrameInfo { Source = WolfSoldierTile + "117.png",  Weight = d8 , OffsetX = 0, OffsetY = 0} ,
-                new FrameInfo { Source = WolfSoldierTile + "118.png",  Weight = d8 , OffsetX = 0, OffsetY = 0} ,
-                new FrameInfo { Source = WolfSoldierTile + "119.png",  Weight = d8 , OffsetX = 0, OffsetY = 0} 
-            };
+        public static FrameInfo[] WolfSoldier =
+            7.Range(i => 114 + (i + 6) % 8)
+            .Select(i =>
+                new FrameInfo
+                {
+                    Source = "assets/NatureBoy/dude5/stand/" + i + ".png",
+                    Weight = d8
+                }
+            ).ToArray();
+
+        // compiler bug: casting wont work from IEnumerable<T[]> to T[]
+
+        public static FrameInfo[][] WolfSoldier_Walk = 
+            3.Range(
+                j =>
+                    7.Range(i => (122 + j * 8) + (i + 6) % 8)
+                    .Select(i =>
+                        new FrameInfo
+                        {
+                            Source = "assets/NatureBoy/dude5/walk" + (j + 1) + "/" + i  + ".png",
+                            Weight = d8
+                        }
+                    ).ToArray()
+            ).ToArray();
+
+         // doom
+         public static FrameInfo[] DoomImp =
+            7.Range(i => 244 + (i + 6) % 8)
+            .Select(i =>
+                new FrameInfo
+                {
+                    Source = "assets/NatureBoy/dude6/" + i + ".png",
+                    Weight = d8
+                }
+            ).ToArray();
 
 
-        public static FrameInfo[][] AllFrames = new [] 
+        public static FrameInfo[][] DoomImp_Walk = 
+            3.Range(
+                j =>
+                    7.Range(i => (252 + j * 8) + (i + 6) % 8)
+                    .Select(i =>
+                        new FrameInfo
+                        {
+                            Source = "assets/NatureBoy/dude6/" + i  + ".png",
+                            Weight = d8
+                        }
+                    ).ToArray()
+            ).ToArray();
+
+        #endregion
+
+        public static FrameInfo[][] AllFrames = new[] 
         {
             Duke,
-            Duke_Walk1,
-            Duke_Walk2,
-            Duke_Walk3,
             Trooper,
             PigCop,
-            WolfSoldier
-        };
+            WolfSoldier,
+            DoomImp
+        }
+        .Concat(Duke_Walk)
+        .Concat(WolfSoldier_Walk)
+        .Concat(DoomImp_Walk)
+        .ToArray();
     }
 
 }
