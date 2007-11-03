@@ -103,7 +103,7 @@ namespace NatureBoy.js
         // http://www.wolf3d.co.uk/enemies.html
 
         public static FrameInfo[] WolfSoldier =
-            7.Range(i => 114 + (i + 6) % 8)
+            8.Range(i => 114 + (i + 6) % 8)
             .Select(i =>
                 new FrameInfo
                 {
@@ -114,39 +114,39 @@ namespace NatureBoy.js
 
         // compiler bug: casting wont work from IEnumerable<T[]> to T[]
 
-        public static FrameInfo[][] WolfSoldier_Walk = 
-            3.Range(
+        public static FrameInfo[][] WolfSoldier_Walk =
+            4.Range(
                 j =>
-                    7.Range(i => (122 + j * 8) + (i + 6) % 8)
+                    8.Range(i => (122 + j * 8) + (i + 6) % 8)
                     .Select(i =>
                         new FrameInfo
                         {
-                            Source = "assets/NatureBoy/dude5/walk" + (j + 1) + "/" + i  + ".png",
+                            Source = "assets/NatureBoy/dude5/walk" + (j + 1) + "/" + i + ".png",
                             Weight = d8
                         }
                     ).ToArray()
             ).ToArray();
 
-         // doom
-         public static FrameInfo[] DoomImp =
-            7.Range(i => 244 + (i + 6) % 8)
-            .Select(i =>
-                new FrameInfo
-                {
-                    Source = "assets/NatureBoy/dude6/" + i + ".png",
-                    Weight = d8
-                }
-            ).ToArray();
+        // doom
+        public static FrameInfo[] DoomImp =
+           8.Range(i => 244 + (i + 6) % 8)
+           .Select(i =>
+               new FrameInfo
+               {
+                   Source = "assets/NatureBoy/dude6/" + i + ".png",
+                   Weight = d8
+               }
+           ).ToArray();
 
 
-        public static FrameInfo[][] DoomImp_Walk = 
-            3.Range(
+        public static FrameInfo[][] DoomImp_Walk =
+            4.Range(
                 j =>
-                    7.Range(i => (252 + j * 8) + (i + 6) % 8)
+                    8.Range(i => (252 + j * 8) + (i + 6) % 8)
                     .Select(i =>
                         new FrameInfo
                         {
-                            Source = "assets/NatureBoy/dude6/" + i  + ".png",
+                            Source = "assets/NatureBoy/dude6/" + i + ".png",
                             Weight = d8
                         }
                     ).ToArray()
@@ -154,17 +154,70 @@ namespace NatureBoy.js
 
         #endregion
 
+        public static FrameInfo[] Shrek =
+           8.Range(i => i + 1)
+           .Select(i =>
+               new FrameInfo
+               {
+                   Source = "assets/NatureBoy/dude7/" + i + ".png",
+                   Weight = d8,
+                   OffsetY = -20
+               }
+           ).ToArray();
+
+        public static FrameInfo[] Dragon =
+           8.Range(i => i + 1)
+           .Select(i =>
+               new FrameInfo
+               {
+                   Source = "assets/NatureBoy/dude8/" + i + ".png",
+                   Weight = d8,
+                   OffsetY = -80
+               }
+           ).ToArray();
+
+
+
+        public static FrameInfo[] WhiteDog =
+           8.Range(i => i + 1)
+           .Select(i =>
+               new FrameInfo
+               {
+                   Source = "assets/NatureBoy/dude9/" + i + ".png",
+                   Weight = d8,
+                   OffsetY = -10
+               }
+           ).ToArray();
+
+        public static FrameInfo[][] WhiteDog_Walk =
+            2.Range(
+                j =>
+                    8.Range(i => (9 + j * 8) + i)
+                    .Select(i =>
+                        new FrameInfo
+                        {
+                            Source = "assets/NatureBoy/dude9/" + i + ".png",
+                            Weight = d8,
+                            OffsetY = -10
+                        }
+                    ).ToArray()
+            ).ToArray();
+
         public static FrameInfo[][] AllFrames = new[] 
         {
             Duke,
             Trooper,
             PigCop,
             WolfSoldier,
-            DoomImp
+            DoomImp,
+            Shrek,
+            Dragon,
+            WhiteDog
         }
         .Concat(Duke_Walk)
         .Concat(WolfSoldier_Walk)
         .Concat(DoomImp_Walk)
+        .Concat(WhiteDog_Walk)
         .ToArray();
     }
 

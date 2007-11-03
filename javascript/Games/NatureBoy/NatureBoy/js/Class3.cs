@@ -75,6 +75,9 @@ You can size them all at once or each invidually.
                         {
                             if (!j.Image.complete)
                                 c++;
+                            else
+                                Console.WriteLine("loaded: " + j.Source);
+
                         }
                     }
 
@@ -177,8 +180,8 @@ You can size them all at once or each invidually.
             Func<int> r400 = () => 400.Random() + 100;
 
 
-            SpawnLookingDude(Frames.PigCop, r400(), r400()).LookAtMouse(stage);
-            SpawnLookingDude(Frames.Trooper, r400(), r400()).LookAtMouse(stage);
+            //SpawnLookingDude(Frames.PigCop, r400(), r400()).LookAtMouse(stage);
+            //SpawnLookingDude(Frames.Trooper, r400(), r400()).LookAtMouse(stage);
 
             #region wolf3d
             // say hello to wolf3d
@@ -210,12 +213,31 @@ You can size them all at once or each invidually.
 
             #endregion
 
+
+            var shrek1 = SpawnLookingDude(Frames.Shrek, r400(), r400());
+            shrek1.Zoom.StaticZoom = 1.2;
+            shrek1.AnimationInfo.Frames_Walk = new[] { Frames.Shrek };
+            //shrek1.WalkTo(new Point(r400(), r400()));
+            //imp.RawWalkSpeed /= 4;
+            //shrek1.LookAtMouse(stage);
+            BindSelectDude(shrek1);
+
+
+            var dragon1 = SpawnLookingDude(Frames.Dragon, r400(), r400());
+            dragon1.AnimationInfo.Frames_Walk = new[] { Frames.Dragon };
+            BindSelectDude(dragon1);
+
+            var whitedog1 = SpawnLookingDude(Frames.WhiteDog, r400(), r400());
+            whitedog1.AnimationInfo.Frames_Walk = Frames.WhiteDog_Walk;
+            BindSelectDude(whitedog1);
+
+            /*
             var runner = SpawnLookingDude(Frames.Duke, r400(), r400());
 
             runner.AnimationInfo.Frames_Walk = Frames.Duke_Walk;
             runner.WalkTo(new Point(r400(), r400()));
             BindSelectDude(runner);
-
+            */
             stage.onmousemove +=
                 ev =>
                 {
