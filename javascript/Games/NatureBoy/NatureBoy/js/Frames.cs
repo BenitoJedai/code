@@ -97,6 +97,22 @@ namespace NatureBoy.js
                 new FrameInfo { Source = TrooperTile + "TILE1682h.png",  Weight = 1d / 10 , OffsetX = -1, OffsetY = -3} 
             };
 
+        const double d8 = 1d / 8;
+
+        // http://www.wolf3d.co.uk/enemies.html
+        const string WolfSoldierTile = "assets/NatureBoy/dude5/stand/";
+
+        public static FrameInfo[] WolfSoldier = new[] {
+                new FrameInfo { Source = WolfSoldierTile + "120.png",  Weight = d8 , OffsetX = 0, OffsetY = 0} ,
+                new FrameInfo { Source = WolfSoldierTile + "121.png",  Weight = d8 , OffsetX = 0, OffsetY = 0 } ,
+                new FrameInfo { Source = WolfSoldierTile + "114.png",  Weight = d8, OffsetX = 0, OffsetY = 0 } ,
+                new FrameInfo { Source = WolfSoldierTile + "115.png",  Weight = d8 , OffsetX = 0, OffsetY = 0} ,
+                new FrameInfo { Source = WolfSoldierTile + "116.png",  Weight = d8 , OffsetX = 0, OffsetY = 0} ,
+                new FrameInfo { Source = WolfSoldierTile + "117.png",  Weight = d8 , OffsetX = 0, OffsetY = 0} ,
+                new FrameInfo { Source = WolfSoldierTile + "118.png",  Weight = d8 , OffsetX = 0, OffsetY = 0} ,
+                new FrameInfo { Source = WolfSoldierTile + "119.png",  Weight = d8 , OffsetX = 0, OffsetY = 0} 
+            };
+
 
         public static FrameInfo[][] AllFrames = new [] 
         {
@@ -105,7 +121,8 @@ namespace NatureBoy.js
             Duke_Walk2,
             Duke_Walk3,
             Trooper,
-            PigCop
+            PigCop,
+            WolfSoldier
         };
     }
 

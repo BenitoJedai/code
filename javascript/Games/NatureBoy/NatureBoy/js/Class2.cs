@@ -195,6 +195,10 @@ You can size them all at once or each invidually.
 
             SpawnLookingDude(Frames.PigCop, 300, 300).LookAtMouse(stage);
             SpawnLookingDude(Frames.Trooper, 500, 300).LookAtMouse(stage);
+            
+            var w1 = SpawnLookingDude(Frames.WolfSoldier, 200, 600);
+                w1.Zoom.StaticZoom = 1.75;
+                w1.LookAtMouse(stage);
 
 
             var runner = SpawnLookingDude(Frames.Duke, r400(), r400());
