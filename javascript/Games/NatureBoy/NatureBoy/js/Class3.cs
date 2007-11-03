@@ -7,6 +7,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.JavaScript;
 
 namespace NatureBoy.js
 {
@@ -45,7 +46,7 @@ namespace NatureBoy.js
             );
 
 
-            @"Ctrl+Click on the background to spawn new dudes.
+            var info = @"Ctrl+Click on the background to spawn new dudes.
 You can select them and order them to move.
 <h3>Mousewheel</h3>Use your mouse wheel to resize them. 
 You can size them all at once or each invidually.
@@ -64,42 +65,55 @@ You can size them all at once or each invidually.
 
             loading.className = "loading";
 
-            new ScriptCoreLib.JavaScript.Runtime.Timer(
-                t =>
+            new IHTMLImage("assets/NatureBoy/back/IMG_1211.png").InvokeOnComplete
+                (
+                bg =>
                 {
-                    var c = 0;
 
-                    foreach (var i in Frames.AllFrames)
+                    new ScriptCoreLib.JavaScript.Runtime.Timer(
+                    t =>
                     {
-                        foreach (var j in i)
+
+                        var c = 0;
+
+                        foreach (var i in Frames.AllFrames)
                         {
-                            if (!j.Image.complete)
-                                c++;
-                            else
-                                Console.WriteLine("loaded: " + j.Source);
+                            foreach (var j in i)
+                            {
+                                if (!j.Image.complete)
+                                    c++;
+                                else
+                                    Console.WriteLine("loaded: " + j.Source);
 
+                            }
                         }
-                    }
 
-                    if (c == 0)
-                    {
-                        t.Stop();
-                        loading.FadeOut();
-                        BuildStage();
+                        if (c == 0)
+                        {
+                            t.Stop();
+                            loading.FadeOut();
+                            BuildStage(bg, info);
 
-                        return;
-                    }
-                    loading.innerHTML = "Loading... " + c + " images";
+                            return;
+                        }
+                        loading.innerHTML = "Loading... " + c + " images";
 
 
-                }, 0, 100);
+                    }, 0, 100);
+                }
+                );
 
 
         }
 
-        private static void BuildStage()
+        private static void BuildStage(IHTMLImage bg, IHTMLElement info)
         {
             var stage = new IHTMLDiv { className = "stage" };
+
+            bg.ToBackground(Native.Document.body, false);
+            Native.Document.body.style.color = Color.Red;
+
+            info.style.backgroundColor =Color.Black;
 
             stage.attachToDocument();
 
@@ -225,11 +239,16 @@ You can size them all at once or each invidually.
 
             var dragon1 = SpawnLookingDude(Frames.Dragon, r400(), r400());
             dragon1.AnimationInfo.Frames_Walk = new[] { Frames.Dragon };
+            dragon1.Zoom.StaticZoom = 0.3;
             BindSelectDude(dragon1);
 
             var whitedog1 = SpawnLookingDude(Frames.WhiteDog, r400(), r400());
             whitedog1.AnimationInfo.Frames_Walk = Frames.WhiteDog_Walk;
             BindSelectDude(whitedog1);
+
+            var dragon2 = SpawnLookingDude(Frames.BabyDragon, r400(), r400());
+            dragon2.AnimationInfo.Frames_Walk = Frames.BabyDragon_Walk;
+            BindSelectDude(dragon2);
 
             /*
             var runner = SpawnLookingDude(Frames.Duke, r400(), r400());

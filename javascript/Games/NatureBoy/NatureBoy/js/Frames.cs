@@ -203,6 +203,33 @@ namespace NatureBoy.js
                     ).ToArray()
             ).ToArray();
 
+
+        public static FrameInfo[] BabyDragon =
+           8.Range(i => i + 1)
+           .Select(i =>
+               new FrameInfo
+               {
+                   Source = "assets/NatureBoy/dude10/" + i + ".png",
+                   Weight = d8,
+                   OffsetY = -30
+               }
+           ).ToArray();
+
+        public static FrameInfo[][] BabyDragon_Walk =
+            2.Range(
+                j =>
+                    8.Range(i => (9 + j * 8) + i)
+                    .Select(i =>
+                        new FrameInfo
+                        {
+                            Source = "assets/NatureBoy/dude10/" + i + ".png",
+                            Weight = d8,
+                            OffsetY = -30
+                        }
+                    ).ToArray()
+            ).ToArray();
+
+
         public static FrameInfo[][] AllFrames = new[] 
         {
             Duke,
@@ -212,12 +239,14 @@ namespace NatureBoy.js
             DoomImp,
             Shrek,
             Dragon,
-            WhiteDog
+            WhiteDog,
+            BabyDragon
         }
         .Concat(Duke_Walk)
         .Concat(WolfSoldier_Walk)
         .Concat(DoomImp_Walk)
         .Concat(WhiteDog_Walk)
+        .Concat(BabyDragon_Walk)
         .ToArray();
     }
 
