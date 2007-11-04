@@ -15,6 +15,26 @@ namespace ScriptCoreLib.JavaScript.Windows.Forms
     [Script]
     public static class Extensions
     {
+        static public void ApplyBorderStyle(this IHTMLElement e, BorderStyle value)
+        {
+            if (value == BorderStyle.None)
+            {
+                e.style.border = "";
+            }
+            else if (value == BorderStyle.FixedSingle)
+            {
+                e.style.borderStyle = "solid";
+                e.style.borderWidth = "1px";
+                e.style.borderColor = Shared.Drawing.Color.System.ActiveBorder;
+            }
+            else
+            {
+                e.style.borderStyle = "inset";
+                e.style.borderWidth = "1px";
+                e.style.borderColor = Shared.Drawing.Color.System.ActiveBorder;
+            }
+        }
+
         static internal bool IsTypeOf(this object e, Type t)
         {
             var x = e.GetType();

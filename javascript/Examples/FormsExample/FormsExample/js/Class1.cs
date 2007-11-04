@@ -51,7 +51,7 @@ namespace FormsExample.js
             f1.Location = new System.Drawing.Point(200, 100);
             f1.Show();
 
-            var f2 = new dialogs.Form1();
+            var f2 = new dialogs.SystemColorsForm();
 
             f2.Location = new System.Drawing.Point(100, 400);
             f2.Show();

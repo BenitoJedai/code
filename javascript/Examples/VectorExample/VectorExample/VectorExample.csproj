@@ -61,6 +61,9 @@
     <Compile Include="Setup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="web\assets\VectorExample\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="web\assets\VectorExample\TILE1436.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

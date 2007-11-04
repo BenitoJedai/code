@@ -61,11 +61,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="js\Class1.cs" />
+    <Compile Include="js\ColorDemo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="js\ColorDemo.Designer.cs">
+      <DependentUpon>ColorDemo.cs</DependentUpon>
+    </Compile>
     <Compile Include="js\dialogs\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="js\dialogs\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="js\dialogs\SystemColorsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="js\dialogs\SystemColorsForm.Designer.cs">
+      <DependentUpon>SystemColorsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="js\Gradient.cs">
       <SubType>UserControl</SubType>
@@ -117,13 +129,24 @@
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
+    <Content Include="web\assets\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="web\assets\WebCalculator\sc.png" />
     <EmbeddedResource Include="web\assets\WebCalculator\sc.ico" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="js\ColorDemo.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ColorDemo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="js\dialogs\Form1.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="js\dialogs\SystemColorsForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SystemColorsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="js\Gradient.resx">
       <SubType>Designer</SubType>

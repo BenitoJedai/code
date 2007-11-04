@@ -5,6 +5,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
+using ScriptCoreLib.JavaScript.Windows.Forms;
+
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     using DOM.HTML;
@@ -32,6 +34,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.BackColor = SystemColors.ButtonFace;
         }
 
+        BorderStyle _BorderStyle;
+        public BorderStyle BorderStyle
+        {
+            get
+            {
+                return this._BorderStyle;
+            }
+            set
+            {
+                this._BorderStyle = value;
+
+                this.HTMLTargetRef.ApplyBorderStyle(value);
+            }
+        }
 
         #region
         static public implicit operator Panel(__Panel e)
