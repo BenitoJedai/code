@@ -4,6 +4,9 @@ using System.Web;
 using System.Collections;
 using System.Web.Services;
 using System.Web.Services.Protocols;
+using System.Xml.Linq;
+
+
 
 using ScriptCoreLib;
 
@@ -27,7 +30,6 @@ namespace JavaScript
     }
 }
 
-
 /// <summary>
 /// Summary description for WebService
 /// </summary>
@@ -48,7 +50,7 @@ public class WebService : System.Web.Services.WebService {
     {
         JavaScript.U u = new JavaScript.U();
 
-        u.A = "" + DateTime.Now.ToLongDateString();
+        u.A = "CLR:" + Environment.Version;
         u.B = 55;
 
         return u;

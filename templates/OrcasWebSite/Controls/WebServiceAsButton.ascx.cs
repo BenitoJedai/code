@@ -27,6 +27,14 @@ namespace JavaScript
     using ScriptCoreLib.Shared;
     using ScriptCoreLib.Shared.Drawing;
 
+
+    namespace __WebServiceAsButton
+    {
+        interface AssemblyReferenceToken :
+            ScriptCoreLib.Shared.Query.IAssemblyReferenceToken
+        {
+        }
+    }
     [Script]
     public sealed class MyWebService
     {
@@ -70,7 +78,7 @@ namespace JavaScript
                                       {
                                           x.disabled = false;
 
-                                          x.innerText = new { Time = i.A, Text = i.B.A }.ToString();
+                                          x.innerText = i.A  + " " + i.B.A;
 
                                       }
                                   );

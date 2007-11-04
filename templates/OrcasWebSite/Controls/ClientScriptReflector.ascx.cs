@@ -29,9 +29,35 @@ namespace JavaScript
     using ScriptCoreLib.Shared.Query;
     using ScriptCoreLib.Shared.Drawing;
 
-    interface AssemblyReferenceToken :
-        ScriptCoreLib.Shared.Query.AssemblyReferenceToken
+    namespace __ClientScriptReflector
     {
+        interface AssemblyReferenceToken :
+            ScriptCoreLib.Shared.Query.IAssemblyReferenceToken
+        {
+        }
+    }
+
+    [Script]
+    class __Type1
+    {
+        public string src;
+
+        public override string ToString()
+        {
+            return src;
+        }
+    }
+
+    [Script]
+    class __Type2
+    {
+        public int status;
+        public string headers;
+
+        public override string ToString()
+        {
+            return status + " " + headers;
+        }
     }
 
     [Script]
@@ -48,21 +74,21 @@ namespace JavaScript
 
                         var btn = new IHTMLButton("Find scripts in this page");
                         var btn_clear = new IHTMLButton("Clear the list");
-                        var btn_break = new IHTMLButton("Debug break and show the current time");
+                        //var btn_break = new IHTMLButton("Debug break and show the current time");
 
-                        btn_break.onclick +=
-                            delegate
-                            {
-                                var demo = new { now = "" + IDate.Now, text = "" };
+                        //btn_break.onclick +=
+                        //    delegate
+                        //    {
+                        //        //var demo = new { now = "" + IDate.Now, text = "" };
 
-                                System.Diagnostics.Debugger.Break();
+                        //        //System.Diagnostics.Debugger.Break();
 
-                                demo.text = "we should see this in the debugger.";
+                        //        //demo.text = "we should see this in the debugger.";
 
-                                Native.Window.alert(demo.ToString());
-                            };
+                        //        //Native.Window.alert(demo.ToString());
+                        //    };
 
-                        target.appendChild(btn, btn_clear, btn_break);
+                        target.appendChild(btn, btn_clear/*, btn_break*/);
 
                         var ol = new IHTMLElement(IHTMLElement.HTMLElementEnum.ol);
 
@@ -88,9 +114,8 @@ namespace JavaScript
                                 ol.removeChildren();
                                
                                 foreach (var vx in from i in Native.Document.getElementsByTagName("script")
-                                                  let script_tag = ((IHTMLScript)i)
-                                                  where !string.IsNullOrEmpty(script_tag.src)
-                                                  select new { src = script_tag.src } )
+                                                   where !string.IsNullOrEmpty(((IHTMLScript)i).src)
+                                                   select new __Type1 { src = ((IHTMLScript)i).src })
                                 {
                                     var script_size = new IHTMLElement(IHTMLElement.HTMLElementEnum.pre, "reading the file size");
 
@@ -107,7 +132,7 @@ namespace JavaScript
                                     new IXMLHttpRequest(HTTPMethodEnum.HEAD, vx.src,
                                         (r) =>
                                             {
-                                                var data = new { status = (int)r.status, headers = r.getAllResponseHeaders() };
+                                                var data = new __Type2 { status = (int)r.status, headers = r.getAllResponseHeaders() };
 
 
                                                 script_size.innerText = data.ToString();

@@ -27,6 +27,13 @@ namespace JavaScript
     using ScriptCoreLib.Shared;
     using ScriptCoreLib.Shared.Drawing;
 
+    namespace __AnimatedLabel
+    {
+        interface AssemblyReferenceToken :
+            ScriptCoreLib.Shared.Query.IAssemblyReferenceToken
+        {
+        }
+    }
 
     [Script]
     public class AnimatedLabel
@@ -86,6 +93,13 @@ namespace JavaScript
                                 IsHot = false;
              
                                 RandomizeColors();
+                            };
+
+                        target.onclick +=
+                            delegate
+                            {
+
+                                
                             };
                     }
 
