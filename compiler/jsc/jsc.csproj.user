@@ -13,7 +13,7 @@
     <ApplicationRevision>0</ApplicationRevision>
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>true</VerifyUploadedFiles>
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <StartWorkingDirectory>X:\c#\jsc\svn\javascript\Games\SpaceInvaders\bin\Release</StartWorkingDirectory>
@@ -29,7 +29,7 @@
     <StartArguments>HTShop.dll -PHP</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug with Doc|AnyCPU' ">
-    <StartWorkingDirectory>Z:\work\jsc\svn\javascript\Examples\VectorExample\VectorExample\bin\Release</StartWorkingDirectory>
-    <StartArguments>VectorExample.dll -js</StartArguments>
+    <StartWorkingDirectory>Z:\work\jsc\svn\javascript\Games\NatureBoy\NatureBoy\bin\Release</StartWorkingDirectory>
+    <StartArguments>NatureBoy.dll -js</StartArguments>
   </PropertyGroup>
 </Project>

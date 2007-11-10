@@ -14,10 +14,10 @@ namespace ScriptCoreLib.Shared.Query
 
 
 
-    [Script(Implements=typeof(global::System.Linq.Enumerable))]
+    [Script(Implements = typeof(global::System.Linq.Enumerable))]
     internal static partial class __Enumerable
     {
- 
+
 
         public static bool Contains<TSource>(this IEnumerable<TSource> source, TSource value)
         {
@@ -143,7 +143,7 @@ namespace ScriptCoreLib.Shared.Query
             return r;
         }
 
-      
+
 
 
 
@@ -249,7 +249,7 @@ namespace ScriptCoreLib.Shared.Query
             return value;
         }
 
- 
+
 
         public static TSource Single<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
@@ -284,6 +284,31 @@ namespace ScriptCoreLib.Shared.Query
             return current;
         }
 
+
+        public static TSource SingleOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            return source.Where(predicate).SingleOrDefault();
+        }
+
+        public static TSource SingleOrDefault<TSource>(this IEnumerable<TSource> source)
+        {
+            if (source == null)
+            {
+                throw Error.ArgumentNull("source");
+            }
+
+            var current = default(TSource);
+
+            using (IEnumerator<TSource> enumerator = source.AsEnumerable().GetEnumerator())
+            {
+                if (enumerator.MoveNext())
+                    current = enumerator.Current;
+
+                
+            }
+
+            return current;
+        }
 
         //public static void ForEach<T, R>(this IEnumerable<T> array, Func<T, R> func)
         //{
@@ -327,11 +352,11 @@ namespace ScriptCoreLib.Shared.Query
         //{
         //    return source.Aggregate(seed, (u, t) => { func(u, t); return u; });
         //}
-    
 
- 
 
- 
+
+
+
 
 
 

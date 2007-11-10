@@ -84,6 +84,9 @@ namespace jsc
                     }
                 }
 
+                if (p.Instruction.IsLoadInstruction)
+                    throw new Exception("a load instruction was selected as prestatement. this is a bug within jsc. " + p.Instruction.Location);
+
                 w.WriteIdent();
                 IL2ScriptGenerator.OpCodeHandler(w, p);
                 w.WriteLine(";");
@@ -1341,67 +1344,66 @@ namespace jsc
                 #endregion
 
                 // usage?
+                // !!! xml serialization
 
-                //foreach (FieldInfo zf in fi)
-                //{
-                //    if (zf.IsLiteral)
-                //        continue;
+                foreach (FieldInfo zf in fi)
+                {
+                    if (zf.IsLiteral)
+                        continue;
 
-                //    if (zf.FieldType.IsEnum)
-                //        continue;
+                    if (zf.FieldType.IsEnum)
+                        continue;
 
-                //    if (zf.IsStatic)
-                //        continue;
+                    if (zf.IsStatic)
+                        continue;
 
-                //    // TODO: add primitive type constructors
-                //    // string, number, boolean
+                    // TODO: add primitive type constructors
+                    // string, number, boolean
 
-                //    if (zf.FieldType.IsArray)
-                //    {
-                //        #region type.prototype.meta.field = [];
-                //        w.Helper.WriteOptionalIdent();
-                //        w.WriteDecorated(type);
-                //        w.Helper.WriteAccessor();
-                //        w.Helper.WritePrototype();
-                //        w.Helper.WriteAccessor();
-                //        w.Write(ScriptAttribute.MetadataMember);
-                //        w.Helper.WriteAccessor();
-                //        w.WriteDecoratedMemberInfo(zf);
-                //        w.Helper.WriteAssignment();
-                //        w.Helper.WriteCreateArray();
-                //        w.Helper.WriteTerminator();
-                //        w.Helper.WriteOptionalNewline();
-                //        #endregion
+                    if (zf.FieldType.IsArray)
+                    {
+                        #region type.prototype.meta.field = [];
+                        w.Helper.WriteOptionalIdent();
+                        w.WriteDecorated(type);
+                        w.Helper.WriteAccessor();
+                        w.Helper.WritePrototype();
+                        w.Helper.WriteAccessor();
+                        w.Write(ScriptAttribute.MetadataMember);
+                        w.Helper.WriteAccessor();
+                        w.WriteDecoratedMemberInfo(zf);
+                        w.Helper.WriteAssignment();
+                        w.Helper.WriteCreateArray();
+                        w.Helper.WriteTerminator();
+                        w.Helper.WriteOptionalNewline();
+                        #endregion
 
-                //        continue;
-                //    }
+                        continue;
+                    }
 
-                //    ScriptAttribute sf = ScriptAttribute.Of(zf.FieldType);
+                    ScriptAttribute sf = ScriptAttribute.Of(zf.FieldType);
 
-                //    if (sf != null)
-                //    {
-                //        #region type.prototype.meta.field = 'ctor';
-                //        w.Helper.WriteOptionalIdent();
-                //        w.WriteDecorated(type);
-                //        w.Helper.WriteAccessor();
-                //        w.Helper.WritePrototype();
-                //        w.Helper.WriteAccessor();
-                //        w.Write(ScriptAttribute.MetadataMember);
-                //        w.Helper.WriteAccessor();
-                //        w.WriteDecoratedMemberInfo(zf);
-                //        w.Helper.WriteAssignment();
-                //        w.Write("'");
-                //        w.Write(zf.FieldType.Name);
-                //        w.Write("'");
-                //        w.Helper.WriteTerminator();
-                //        w.Helper.WriteOptionalNewline();
-                //        #endregion
+                    if (sf != null)
+                    {
+                        #region type.prototype.meta.field = 'ctor';
+                        w.Helper.WriteOptionalIdent();
+                        w.WriteDecorated(type);
+                        w.Helper.WriteAccessor();
+                        w.Helper.WritePrototype();
+                        w.Helper.WriteAccessor();
+                        w.Write(ScriptAttribute.MetadataMember);
+                        w.Helper.WriteAccessor();
+                        w.WriteDecoratedMemberInfo(zf);
+                        w.Helper.WriteAssignment();
+                        w.Write("'");
+                        w.Write(zf.FieldType.Name);
+                        w.Write("'");
+                        w.Helper.WriteTerminator();
+                        w.Helper.WriteOptionalNewline();
+                        #endregion
 
-                //    }
+                    }
 
-
-
-                //}
+                }
 
                 w.Helper.WriteOptionalNewline();
             }

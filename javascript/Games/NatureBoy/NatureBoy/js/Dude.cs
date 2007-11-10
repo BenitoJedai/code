@@ -130,6 +130,9 @@ namespace NatureBoy.js
 
         img _Image;
 
+        /// <summary>
+        /// loads the image first time accessed
+        /// </summary>
         public img Image
         {
             get
@@ -154,6 +157,20 @@ namespace NatureBoy.js
         public FrameInfo[][] Frames_Walk;
 
         public int WalkAnimationInterval = 100;
+
+        public IEnumerable<IHTMLImage> Images
+        {
+            get
+            {
+                return new[] 
+                    {
+                        Frames_Stand
+                    }
+                    .Concat(Frames_Walk)
+                    .SelectMany(f => f)
+                    .Select(f => f.Image);
+            }
+        }
     }
 
     [Script]
@@ -167,7 +184,15 @@ namespace NatureBoy.js
         Timer _WalkingTimer;
 
         public double TargetLocationDistanceMultiplier = 8;
-        
+
+        public double CurrentDistanceToTarget
+        {
+            get
+            {
+                return this.TargetLocation.GetRange(this.CurrentLocation);
+            }
+        }
+
         public bool IsWalking
         {
             get
@@ -193,11 +218,11 @@ namespace NatureBoy.js
                             if (this.TargetLocation == null)
                                 return;
 
-                            var z = this.TargetLocation.GetRange(this.CurrentLocation);
+                            var z = CurrentDistanceToTarget;
 
                             //Console.WriteLine("range: " + z + " to/from " + this.TargetLocation + " - " + this.CurrentLocation);
 
-                            if (z < this.CurrentWalkSpeed *  TargetLocationDistanceMultiplier)
+                            if (z < this.CurrentWalkSpeed * TargetLocationDistanceMultiplier)
                             {
                                 // we are there
                                 this.IsWalking = false;

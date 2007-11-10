@@ -567,6 +567,11 @@ namespace jsc
 
         static void OpCode_ldstr(IdentWriter w, ilbp p, ili i, ilfsi[] s)
         {
+            /*var @break = i.TargetLiteral == "jsc.break";
+
+            if (@break)
+                Debugger.Break();*/
+
             w.WriteLiteral(i.TargetLiteral);
         }
 

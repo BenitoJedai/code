@@ -26,7 +26,28 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return this;
         }
 
-        
+        protected override __Delegate  RemoveImpl(__Delegate d)
+        {
+            var j = -1;
+
+            for (int i = 0; i < list.length; i++)
+            {
+                if (list[i] == d)
+                {
+                    j = i;
+                    break;
+                }
+            }
+ 	 
+            if (j > -1)
+                list.splice(j, 1);
+            
+            if (list.length == 0)
+                return null;
+
+            return this;
+        }
+
 
     }
 

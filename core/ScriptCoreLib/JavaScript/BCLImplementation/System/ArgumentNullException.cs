@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-    [Script(InternalConstructor = true, Implements = typeof(global::System.Exception))]
+    [Script(InternalConstructor = true, Implements = typeof(global::System.ArgumentNullException))]
     internal class __ArgumentNullException : __Exception
     {
         public __ArgumentNullException(string message) { }

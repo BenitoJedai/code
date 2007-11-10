@@ -69,11 +69,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         protected virtual __Delegate RemoveImpl(__Delegate d)
         {
-            if (!d.Equals(this))
-            {
-                return this;
-            }
-            return null;
+            throw new global::System.Exception("use MulticastDelegate instead");
+
         }
 
         public override bool Equals(object obj)

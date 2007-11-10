@@ -4,6 +4,7 @@ using global::System.Collections;
 using global::System.Collections.Generic;
 
 using IDisposable = global::System.IDisposable;
+using System;
 
 namespace ScriptCoreLib.Shared.Query
 {
@@ -21,6 +22,9 @@ namespace ScriptCoreLib.Shared.Query
 
         public static IEnumerable<T> Where<T>(this IEnumerable<T> source, global::System.Func<T, bool> predicate)
         {
+            if (predicate == null) throw new ArgumentNullException("predicate");
+            if (source == null) throw new ArgumentNullException("source");
+
             return WhereIterator<T>(source.AsEnumerable(), predicate);
         }
 
