@@ -71,7 +71,7 @@ namespace SpaceInvaders.source.csharp
             {
                 if (i > 0)
                     w.Write(",");
-                w.Write("'" + BaseURL + a[i] + ".js.packed.js'");
+                w.Write("'" + BaseURL + a[i] + ".js'");
             }
 
             w.Write("],function(){" + code + "}))");
