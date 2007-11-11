@@ -42,6 +42,7 @@ namespace NatureBoy
 
             w.WriteLine("</head>");
             w.WriteLine("<body>");
+            //w.WriteLine("<div class='fx.loading'>Loading...</div>");
 
             SharedHelper.DefineSpawnPoint(w, alias, data);
 

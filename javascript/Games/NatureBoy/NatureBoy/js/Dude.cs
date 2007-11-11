@@ -259,6 +259,11 @@ namespace NatureBoy.js
         public img CurrentFrameImage;
         public img CurrentFrameBufferImage;
 
+        public void LookDown()
+        {
+            Direction = Math.PI / 2;
+        }
+
         double _Direction;
 
         public double Direction
@@ -537,7 +542,55 @@ namespace NatureBoy.js
             this.Control.style.zIndex = System.Convert.ToInt32(y);
         }
 
+        public event Action DoneWalkingOnce
+        {
+            add
+            {
+                var h = default(Action);
 
+                h = delegate
+                {
+                    this.DoneWalking -= h;
+
+                    value();
+                };
+
+                this.DoneWalking += h;
+            }
+            remove
+            {
+            }
+        }
+
+
+        public event Action WalkingOnce
+        {
+            add
+            {
+                var h = default(Action);
+
+                h = delegate
+                {
+                    this.Walking -= h;
+
+                    value();
+                };
+
+                this.Walking += h;
+            }
+            remove
+            {
+            }
+        }
+
+
+        public void WalkToArc(double z, double a)
+        {
+            var x = this.X + System.Math.Cos(a) * z;
+            var y = this.Y + System.Math.Sin(a) * z;
+
+            WalkTo(new Point(x.ToInt32(), y.ToInt32()));
+        }
 
         public void WalkTo(Point point)
         {

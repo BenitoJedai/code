@@ -17,6 +17,39 @@ namespace NatureBoy.js
     [Script]
     static class Extensions
     {
+        public static void AsyncForEach<T>(this IEnumerable<T> e, Func<T, int> h, Action done)
+        {
+            var x = e.AsEnumerable().GetEnumerator();
+
+            var t = new Timer();
+
+            t.Tick +=
+                delegate
+                {
+                    if (x.MoveNext())
+                    {
+                        t.StartTimeout(h(x.Current));
+                    }
+                    else
+                    {
+                        x.Dispose();
+                        done();
+                    }
+                };
+
+            t.StartTimeout(1);
+        }
+
+        public static string Left(this string e, int length)
+        {
+            return e.Substring(0, length);
+        }
+
+        public static string[] Split(this string e, string d)
+        {
+            return e.Split(new [] { d }, StringSplitOptions.None );
+        }
+
         public static IHTMLElement AttachTo(this IHTMLElement e, IHTMLElement c)
         {
             c.appendChild(e);
@@ -152,6 +185,13 @@ namespace NatureBoy.js
 
 
             return a;
+        }
+
+        public static int ToInt32(this string e)
+        {
+            var dummy = 0;
+
+            return int.Parse(e);
         }
 
         public static int ToInt32(this double e)

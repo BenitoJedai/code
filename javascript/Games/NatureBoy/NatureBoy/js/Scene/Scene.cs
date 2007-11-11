@@ -43,6 +43,10 @@ namespace NatureBoy.js.Scene
     [Script, Serializable]
     public sealed class Document
     {
+        public string IntroText;
+        public string TextDelimiter;
+        public string SlowText;
+
         public Frame[] Frames;
     }
 

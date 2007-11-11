@@ -244,8 +244,15 @@ namespace ScriptCoreLib.JavaScript.Runtime
             JSColor c = new JSColor();
 
             if (this.S == 0)
-            {            /* achromatic case */
-                c.R = c.G = c.B = (byte)((this.L * RGBMAX) / HLSMAX);
+            {   
+                /* achromatic case */
+                // compiler bug: multiple assignments not supported
+                var v = (byte)((this.L * RGBMAX) / HLSMAX);
+
+                c.R = v;
+                c.G = v;
+                c.B = v;
+
                 if (this.H != UNDEFINED)
                 {
                     /* ERROR */

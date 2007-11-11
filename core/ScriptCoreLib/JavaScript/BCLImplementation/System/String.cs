@@ -21,7 +21,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             // fast solution 
 
-            return format.Replace("{0}", "" + a).Replace("{1}", "" + b);
+            return format
+                .Replace("{0}", "" + a)
+                .Replace("{1}", "" + b);
         }
 
         public static bool IsNullOrEmpty(string e)
@@ -272,6 +274,28 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public string[] Split(params char[] e)
         {
             return IArray<string>.Split((string)(object)(this), __String.FromCharCode(e[0]));
+        }
+
+        [Script(DefineAsStatic = true)]
+        public string[] Split(string[] e, StringSplitOptions o)
+        {
+            if (e.Length != 1)
+                throw new NotImplementedException();
+
+            var x = IArray<string>.Split((string)(object)(this), e[0]);
+
+            if (o == StringSplitOptions.None)
+                return x;
+
+            var a = new IArray<string>();
+
+            foreach (var v in x.ToArray())
+            {
+                if (!string.IsNullOrEmpty(v))
+                    a.push(v);
+            }
+
+            return a.ToArray();
         }
 
         [Script(DefineAsStatic = true)]

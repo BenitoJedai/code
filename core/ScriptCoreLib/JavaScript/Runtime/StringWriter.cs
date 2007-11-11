@@ -24,8 +24,17 @@ namespace ScriptCoreLib.JavaScript.Runtime
         public void Write(object e)
         {
             var len = Buffer.length;
+
             if (len > 0)
-                Buffer[len - 1] += e;
+            {
+                //     (CS$0$0001 = this.Buffer)[CS$0$0002 = len - 1] = CS$0$0001[CS$0$0002] + e;
+
+                var idx = len - 1;
+                var buf = Buffer;
+                var val = buf[idx];
+
+                buf[idx] = val + e;
+            }
             else
                 Buffer.push(e + "");
         }

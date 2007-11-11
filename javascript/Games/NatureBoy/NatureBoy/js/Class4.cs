@@ -12,6 +12,7 @@ using ScriptCoreLib.JavaScript.Controls.Effects;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM.XML;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace NatureBoy.js
 {
@@ -29,6 +30,20 @@ namespace NatureBoy.js
 
             IStyleSheet.Default.AddRule("body", "cursor: url('assets/NatureBoy/cursor.cur'), auto;", 0);
 
+            IStyleSheet.Default.AddRule("html",
+                   r =>
+                   {
+
+                       r.style.backgroundColor = Color.Black;
+                       r.style.color = Color.White;
+                       r.style.overflow = IStyle.OverflowEnum.hidden;
+                       r.style.padding = "0px";
+                       r.style.margin = "0px";
+                       r.style.height = "100%";
+                       r.style.width = "100%";
+                   }
+               );
+
             IStyleSheet.Default.AddRule("body",
                 r =>
                 {
@@ -37,6 +52,10 @@ namespace NatureBoy.js
                     r.style.color = Color.White;
                     r.style.overflow = IStyle.OverflowEnum.hidden;
                     r.style.padding = "0px";
+                    r.style.margin = "0px";
+                    r.style.height = "100%";
+                    r.style.width = "100%";
+
                 }
             );
 
@@ -75,12 +94,17 @@ namespace NatureBoy.js
 
             // load me an imp
 
+            LoadImage("assets/NatureBoy/alpha/2.png");
+            LoadImage("assets/NatureBoy/alpha/power.png");
+            LoadImage("assets/NatureBoy/alpha/green-ring.png");
+            LoadImage("assets/NatureBoy/alpha/yellow-ring-50.png");
 
             var dude = new DudeAnimationInfo
             {
                 Frames_Stand = Frames.DoomImp,
                 Frames_Walk = Frames.DoomImp_Walk
             };
+
 
             dude.Images.ForEach(LoadImage);
 
@@ -157,6 +181,7 @@ namespace NatureBoy.js
             public Func<Scene.Frame, bool> NextRoomSelector;
             public Action ReadyToTeleport;
         }
+
         void Spawn(DudeAnimationInfo LoadedCharacter, Scene.Document LoadedScene)
         {
             var ViewSize = new Size { Width = 640, Height = 480 };
@@ -172,10 +197,17 @@ namespace NatureBoy.js
 
 
 
-            var Room = new IHTMLDiv();
 
             var Margin = 48;
             var MarginSafe = 72;
+
+
+
+            var CurrentFrame = LoadedScene.Frames.Randomize().First();
+            //var CurrentFrame = LoadedScene.Frames.Single(f => f.Name == "C");
+
+            var Room = new IHTMLDiv();
+
 
 
             Room.style.border = "1px solid #00ff00";
@@ -183,9 +215,13 @@ namespace NatureBoy.js
             Room.style.position = IStyle.PositionEnum.absolute;
             Room.style.overflow = IStyle.OverflowEnum.hidden;
 
-            var CurrentFrame = LoadedScene.Frames.Randomize().First();
 
-            var BackgroundImage = new IHTMLImage(CurrentFrame.Image.Source);
+            Room.attachToDocument();
+            Room.KeepInCenter();
+
+
+
+
             var tween = Room.ToOpacityTween();
 
             Action HideRoom = () => tween.Value = 1;
@@ -193,18 +229,38 @@ namespace NatureBoy.js
 
             HideRoom();
 
-            Room.attachToDocument();
-            Room.KeepInCenter();
+            //var GroundOverlay2 = new IHTMLDiv();
 
+            //GroundOverlay2.style.backgroundColor = Color.Blue;
+            ////GroundOverlay.style.Opacity = 0;
+
+            //GroundOverlay2.style.position = IStyle.PositionEnum.absolute;
+            //GroundOverlay2.style.SetLocation(0, 0, ViewSize.Width, ViewSize.Height);
+            //GroundOverlay2.AttachTo(Room);
+
+            var BackgroundImage = new IHTMLImage(CurrentFrame.Image.Source);
+
+            BackgroundImage.style.SetLocation(0, 0, ViewSize.Width, ViewSize.Height);
+            BackgroundImage.alt = "BackgroundImage";
             BackgroundImage.AttachTo(Room);
-            BackgroundImage.style.SetSize(ViewSize.Width, ViewSize.Height);
-            /*
+
+            //GroundOverlay2.style.backgroundImage = "url(" + CurrentFrame.Image.Source + ")";
+            //BackgroundImage.InvokeOnComplete(
+            //    delegate
+            //    {
+            //        //BackgroundImage.style.backgroundColor = Color.Red;
+            //        //BackgroundImage.style.SetLocation(0,0, ViewSize.Width, ViewSize.Height);
+            //        BackgroundImage.AttachTo(GroundOverlay2);
+            //    }
+            //);
+
+
             var GroundOverlay = new IHTMLDiv();
 
             GroundOverlay.style.backgroundColor = Color.Blue;
-            GroundOverlay.style.Opacity = 0.5;
+            GroundOverlay.style.Opacity = 0;
             GroundOverlay.style.SetLocation(0, 0, ViewSize.Width, ViewSize.Height);
-            GroundOverlay.AttachTo(Room);*/
+            GroundOverlay.AttachTo(Room);
 
             var Ground = new IHTMLDiv();
 
@@ -214,32 +270,39 @@ namespace NatureBoy.js
 
             var AnimateRoomChange = default(Action<Action>);
 
-            Action<TryToChangeRoomsArgs> TryToChangeRooms =
+            Func<TryToChangeRoomsArgs, bool> TryToChangeRooms =
                 e =>
                 {
                     if (e == null)
-                        return;
+                        return false;
 
                     if (e.NextRoomSelector == null) throw new ArgumentNullException("NextRoomSelector");
 
                     var next = LoadedScene.Frames.SingleOrDefault(e.NextRoomSelector);
 
-                    if (next != null)
+                    var r = next != null;
+
+                    if (r)
+                    {
                         AnimateRoomChange(
                             delegate
                             {
                                 CurrentFrame = next;
+                                //GroundOverlay2.style.backgroundImage = "url(" + CurrentFrame.Image.Source + ")";
                                 BackgroundImage.src = CurrentFrame.Image.Source;
 
                                 e.ReadyToTeleport();
                             }
                         );
+                    }
+
+
+                    return r;
                 };
 
             var dude = CreateDude(LoadedCharacter);
 
             dude.Control.AttachTo(Ground);
-            dude.IsSelected = true;
 
 
             var Doors = new[]
@@ -292,6 +355,29 @@ namespace NatureBoy.js
                             }
                 };
 
+            Action<string, Action> PrintText =
+                (text, done) =>
+                {
+                    text.Length.Range().AsyncForEach(
+                        i =>
+                        {
+                            Wallpaper.innerText = text.Left(i + 1);
+
+                            var c = text[i];
+
+                            if (LoadedScene.SlowText.Contains("" + c))
+                                return 100.Random();
+
+                            return 50.Random();
+                        }, done
+                    );
+                };
+
+            Action<string, Action> PrintRandomText =
+                (text, done) => PrintText(text.Split(LoadedScene.TextDelimiter).Randomize().First(), done);
+
+
+
             dude.DoneWalking +=
                 delegate
                 {
@@ -299,21 +385,38 @@ namespace NatureBoy.js
 
                     System.Console.WriteLine("done walking in " + CurrentFrame.Name + " at " + dude.CurrentLocation);
 
+                    if (TryToChangeRooms(Doors.FirstOrDefault(d => d.Condition())))
+                        return;
+
+
                     if (CurrentFrame.Items != null)
                     {
-                        var text = CurrentFrame.Items.Where(
-                            i => new Point(int.Parse( i.X), int.Parse(i.Y)).GetRange(dude.CurrentLocation) < int.Parse(i.R)
+                        var item = CurrentFrame.Items.Where(
+                            i => new Point(i.X.ToInt32(), i.Y.ToInt32()).GetRange(dude.CurrentLocation) < i.R.ToInt32()
                             ).FirstOrDefault();
 
-                        if (text != null)
+                        if (item != null)
                         {
-                            Wallpaper.innerText = text.Text;
-                            dude.IsSelected = false;
-                            dude.Direction = Math.PI / 2;
-                        }
-                    } 
 
-                    TryToChangeRooms(Doors.FirstOrDefault(d => d.Condition()));
+                            dude.IsSelected = false;
+                            dude.LookDown();
+
+                            PrintRandomText(item.Text,
+                                delegate
+                                {
+
+                                    dude.WalkingOnce +=
+                                        delegate
+                                        {
+                                            Wallpaper.innerText = "";
+                                        };
+
+                                    dude.IsSelected = true;
+                                }
+                            );
+                        }
+                    }
+
                 };
 
             AnimateRoomChange =
@@ -364,16 +467,53 @@ namespace NatureBoy.js
             Ground.onclick +=
                 ev =>
                 {
+                    if (ev.Element != Ground)
+                        return;
+
                     System.Console.WriteLine(ev.CursorPosition);
 
                     if (dude.IsSelected)
                         dude.WalkTo(ev.OffsetPosition);
                 };
 
-            dude.TeleportTo(ViewSize.Width / 2, ViewSize.Height / 2);
-            dude.Direction = Math.PI / 2;
+            GroundOverlay.onclick +=
+                ev =>
+                {
+                    if (ev.Element != GroundOverlay)
+                        return;
+
+                    System.Console.WriteLine(ev.CursorPosition);
+
+                    if (dude.IsSelected)
+                        dude.WalkTo(ev.OffsetPosition);
+                };
+
+
+            dude.TeleportTo(ViewSize.Width / 2, (ViewSize.Height - MarginSafe) / 2);
+            dude.LookDown();
 
             ShowRoom();
+
+            dude.DoneWalkingOnce +=
+                delegate
+                {
+                    PrintRandomText(
+                        LoadedScene.IntroText,
+                        delegate
+                        {
+
+                            dude.WalkingOnce +=
+                              delegate
+                              {
+                                  Wallpaper.innerText = "";
+                              };
+
+                            dude.IsSelected = true;
+                        }
+                    );
+                };
+
+            dude.WalkToArc(MarginSafe, dude.Direction);
 
         }
 
@@ -393,7 +533,7 @@ namespace NatureBoy.js
             r.TeleportTo(100, 100);
 
             r.Control.className = "cursorred";
-            r.TargetLocationDistanceMultiplier = 2;
+            r.TargetLocationDistanceMultiplier = 1;
 
 
             r.Direction = Math.PI.Random() * 2;

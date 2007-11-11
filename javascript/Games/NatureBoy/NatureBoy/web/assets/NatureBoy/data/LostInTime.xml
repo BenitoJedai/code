@@ -1,91 +1,224 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Document>
+	<TextDelimiter>;;</TextDelimiter>
+	<SlowText>",.!? </SlowText>
+	<IntroText>Hey!;;Hello!;;What's up!?;;Who summoned me?;;Ready!</IntroText>
 	<Frames>
 		<Frame>
 			<Image>
-				<Source>http://lh3.google.com/dadeval/RzYZou0ateI/AAAAAAAAACE/oxHD_U4oIk4/scan05.png</Source>
+				<Source>assets/NatureBoy/data/LostInTime/scan05.png</Source>
 			</Image>
 			<Name>A</Name>
 			<Left></Left>
 			<Right>B</Right>
+
+			<Items>
+				<Item>
+					<Text>A knife!</Text>
+					<X>230</X>
+					<Y>265</Y>
+					<R>48</R>
+				</Item>
+
+				<Item>
+					<Text>Damn, I'm hungry!</Text>
+					<X>123</X>
+					<Y>199</Y>
+					<R>48</R>
+				</Item>
+
+				<Item>
+					<Text>Nippers... Need one?</Text>
+					<X>256</X>
+					<Y>122</Y>
+					<R>48</R>
+				</Item>
+
+			</Items>
 		</Frame>
 		<Frame>
 			<Image>
-				<Source>http://lh4.google.com/dadeval/RzYZo-0atfI/AAAAAAAAACM/0mpkl1Rh-o4/scan06.png</Source>
+				<Source>assets/NatureBoy/data/LostInTime/scan06.png</Source>
 			</Image>
 			<Name>B</Name>
 			<Left>A</Left>
 			<Right>C</Right>
-		</Frame>
-		<Frame>
-			<Image>
-				<Source>http://lh4.google.com/dadeval/RzYZo-0atgI/AAAAAAAAACU/JxQKZpW7LdI/scan07.png</Source>
-			</Image>
-			<Name>C</Name>
-			<Left>B</Left>
-			<Right>D</Right>
+
 			<Items>
 				<Item>
-					<Text>Yay! A telephone!;; What? A mobile? Thats it?;; Finally! I can now dial 666 and talk to other imps!</Text>
-					<X>93</X>
-					<Y>311</Y>
+					<Text>These are my gloves to deal with the cold around here.</Text>
+					<X>277</X>
+					<Y>108</Y>
 					<R>48</R>
 				</Item>
 			</Items>
 		</Frame>
 		<Frame>
 			<Image>
-				<Source>http://lh4.google.com/dadeval/RzYZo-0athI/AAAAAAAAACc/wY9wd9zb7qE/scan08.png</Source>
+				<Source>assets/NatureBoy/data/LostInTime/scan07.png</Source>
+			</Image>
+			<Name>C</Name>
+			<Left>B</Left>
+			<Right>D</Right>
+			<Items>
+				<Item>
+					<Text>Yay! A telephone!;;What? A mobile? Thats it?;; Finally! I can now dial 666 and talk to other imps!</Text>
+					<X>93</X>
+					<Y>311</Y>
+					<R>48</R>
+				</Item>
+				<Item>
+					<Text>There is no spoon!</Text>
+					<X>82</X>
+					<Y>184</Y>
+					<R>48</R>
+				</Item>
+				<Item>
+					<Text>Ctrl Key.. it's a keyboard!</Text>
+					<X>471</X>
+					<Y>184</Y>
+					<R>48</R>
+				</Item>
+				<Item>
+					<Text>"Windows Presentation Foundation" by Nathan. It's a book!</Text>
+					<X>177</X>
+					<Y>130</Y>
+					<R>48</R>
+				</Item>
+			</Items>
+		</Frame>
+		<Frame>
+			<Image>
+				<Source>assets/NatureBoy/data/LostInTime/scan08.png</Source>
 			</Image>
 			<Name>D</Name>
 			<Left>C</Left>
 			<Right>E</Right>
+
+			<Items>
+				<Item>
+					<Text>An airport!.... Haha, kidding, its still just a keyboard;;Dunno..;;A keyboard!</Text>
+					<X>282</X>
+					<Y>117</Y>
+					<R>48</R>
+				</Item>
+
+			</Items>
 		</Frame>
 		<Frame>
 			<Image>
-				<Source>http://lh5.google.com/dadeval/RzYZpO0atiI/AAAAAAAAACk/PIzceeeOEok/scan09.png</Source>
+				<Source>assets/NatureBoy/data/LostInTime/scan09.png</Source>
 			</Image>
 			<Name>E</Name>
 			<Left>D</Left>
 			<Right>F</Right>
+
+			<Items>
+				<Item>
+					<Text>"Powered by jsc"</Text>
+					<X>336</X>
+					<Y>168</Y>
+					<R>48</R>
+				</Item>
+				<Item>
+					<Text>"jsc.sf.net"</Text>
+					<X>356</X>
+					<Y>249</Y>
+					<R>48</R>
+				</Item>
+			</Items>
 		</Frame>
 		<Frame>
 			<Image>
-				<Source>http://lh3.google.com/dadeval/RzYbOu0atjI/AAAAAAAAACs/4QcDZ8MLmaw/scan10.png</Source>
+				<Source>assets/NatureBoy/data/LostInTime/scan10.png</Source>
 			</Image>
 			<Name>F</Name>
 			<Left>E</Left>
 			<Right></Right>
 			<Top>G</Top>
+
+			<Items>
+				<Item>
+					<Text>A pen!</Text>
+					<X>323</X>
+					<Y>107</Y>
+					<R>48</R>
+				</Item>
+
+			</Items>
 		</Frame>
 		<Frame>
 			<Image>
-				<Source>http://lh3.google.com/dadeval/RzYbOu0atkI/AAAAAAAAAC0/gNhpIfqjJ_A/scan11.png</Source>
+				<Source>assets/NatureBoy/data/LostInTime/scan11.png</Source>
 			</Image>
 			<Name>G</Name>
 			<Left></Left>
 			<Right></Right>
 			<Bottom>F</Bottom>
 			<Top>H</Top>
+
+			<Items>
+				<Item>
+					<Text>A very nice car. SPR 996</Text>
+					<X>446</X>
+					<Y>355</Y>
+					<R>48</R>
+				</Item>
+				<Item>
+					<Text>Tuletikud</Text>
+					<X>413</X>
+					<Y>271</Y>
+					<R>48</R>
+				</Item>
+			</Items>
 		</Frame>
 		<Frame>
 			<Image>
-				<Source>http://lh3.google.com/dadeval/RzYbOu0atlI/AAAAAAAAAC8/KBmSG0RShPI/scan12.png</Source>
+				<Source>assets/NatureBoy/data/LostInTime/scan12.png</Source>
 			</Image>
 			<Name>H</Name>
 			<Left></Left>
 			<Right>I</Right>
 			<Bottom>G</Bottom>
 			<Top></Top>
-		</Frame><Frame>
+
+			<Items>
+				<Item>
+					<Text>7600GS - My new GFX card!</Text>
+					<X>138</X>
+					<Y>81</Y>
+					<R>48</R>
+				</Item>
+
+				<Item>
+					<Text>Jägala</Text>
+					<X>362</X>
+					<Y>73</Y>
+					<R>48</R>
+				</Item>
+			</Items>
+		</Frame>
+		<Frame>
 			<Image>
-				<Source>http://lh4.google.com/dadeval/RzYbO-0atmI/AAAAAAAAADE/VK2io2TIA8s/scan13.png</Source>
+				<Source>assets/NatureBoy/data/LostInTime/scan13.png</Source>
 			</Image>
 			<Name>I</Name>
 			<Left>H</Left>
 			<Right></Right>
 			<Bottom></Bottom>
 			<Top></Top>
+
+
+			<Items>
+				<Item>
+					<Text>Cannot read this!;;Nothing!</Text>
+					<X>427</X>
+					<Y>249</Y>
+					<R>48</R>
+				</Item>
+
+
+			</Items>
 		</Frame>
 	</Frames>
 </Document>
