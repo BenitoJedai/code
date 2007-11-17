@@ -19,7 +19,7 @@ namespace TextScreenSaver.js.Qoutes
             /// <returns></returns>
             public static string[] Lines(this Document e)
             {
-                return e.Content.Split("\n\n").Select(t => t.Trim()).ToArray();
+                return e.Content.Split("\n", StringSplitOptions.RemoveEmptyEntries).Select(t => t.Trim()).ToArray();
             }
 
             public static Style ApplyTo(this Style e, IStyle s)
@@ -48,6 +48,21 @@ namespace TextScreenSaver.js.Qoutes
         public string Topic;
         public string Content;
         public Style Style;
+        public string Count;
+
+    }
+
+    [Script, Serializable]
+    public sealed class DocumentRef
+    {
+        public string Source;
+        public Document Document;
+    }
+
+    [Script, Serializable]
+    public sealed class DocumentList
+    {
+        public DocumentRef[] Documents;
 
     }
 
@@ -56,6 +71,8 @@ namespace TextScreenSaver.js.Qoutes
     {
         public static object[] KnownTypes = new object[]
         {
+            new Qoutes.DocumentList(),
+            new Qoutes.DocumentRef(),
             new Qoutes.Document(),
             new Qoutes.Style(),
         };

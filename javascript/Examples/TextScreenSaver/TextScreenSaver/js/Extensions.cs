@@ -15,6 +15,18 @@ namespace TextScreenSaver.js
     [Script]
     static class Extensions
     {
+        public static int GetOffsetRight(this IHTMLElement e)
+        {
+            return e.offsetLeft + e.offsetWidth;
+        }
+
+        public static int ToInt32(this string e)
+        {
+            var dummy = 0;
+
+            return int.Parse(e);
+        }
+
         public static int ToInt32(this double e)
         {
             var dummy = 0;
@@ -22,26 +34,26 @@ namespace TextScreenSaver.js
             return System.Convert.ToInt32(e);
         }
 
-        public static int Floor(this double f) 
+        public static int Floor(this double f)
         {
             return Math.Floor(f).ToInt32();
         }
 
-        public static Timer Delayed(this int i, Action e) 
+        public static Timer Delayed(this int i, Action e)
         {
             return new Timer(
                 t => e(), i, 0
                 );
         }
 
-        public static Timer Delayed(this int i, Action<Timer> e) 
+        public static Timer Delayed(this int i, Action<Timer> e)
         {
             return new Timer(
                 t => e(t), i, 0
                 );
         }
 
-        public static Timer AsTimer(this int i, Action<Timer> e) 
+        public static Timer AsTimer(this int i, Action<Timer> e)
         {
             return Timer.Interval(t => e(t), i);
         }
@@ -76,9 +88,25 @@ namespace TextScreenSaver.js
             MoveToCenter();
         }
 
-        public static void SpawnTo(this string alias, Action<IHTMLElement> h)
+        public static T Deserialize<T>(this IXMLDocument e, object[] k)
+            where T : class, new()
         {
-            ScriptCoreLib.JavaScript.Native.Spawn(alias, i => h(i));
+            return new IXMLSerializer<T>(k).Deserialize(e);
+        }
+
+        public static void SpawnTo<T>(this string alias, object[] KnownTypes, Action<T> h)
+            where T : class, new()
+        {
+            ScriptCoreLib.JavaScript.Native.Spawn(alias, 
+                i => 
+                {
+                    var xml = i.text;
+
+                    var doc = IXMLDocument.Parse(xml);
+
+                    h( doc.Deserialize<T>(KnownTypes) );
+                }
+            );
         }
 
         public static string ToConsole(this string e)
@@ -87,7 +115,7 @@ namespace TextScreenSaver.js
 
             return e;
         }
-        
+
         public static IHTMLElement AttachTo(this IHTMLElement e, IHTMLElement c)
         {
             c.appendChild(e);
@@ -97,12 +125,12 @@ namespace TextScreenSaver.js
 
         public static string[] Split(this string e, string d, StringSplitOptions op)
         {
-            return e.Split(new [] { d }, op );
+            return e.Split(new[] { d }, op);
         }
 
         public static string[] Split(this string e, string d)
         {
-            return e.Split(new [] { d }, StringSplitOptions.None );
+            return e.Split(new[] { d }, StringSplitOptions.None);
         }
 
         public static IXMLDocument SerializeToXML<T>(this T e)
@@ -111,11 +139,7 @@ namespace TextScreenSaver.js
             return new IXMLSerializer<T>().Serialize(e);
         }
 
-        public static T Deserialize<T>(this IXMLDocument e, object[] k)
-            where T : class, new()
-        {
-            return new IXMLSerializer<T>(k).Deserialize(e);
-        }
+
 
         public static void DownloadToXML(this string url, Action<IXMLHttpRequest> done)
         {

@@ -24,26 +24,62 @@ namespace TextScreenSaver.js
 
     using Qoutes.Extensions;
     using System;
+    using ScriptCoreLib.JavaScript.Controls;
 
 
     [Script]
     public class Class1
     {
-        public const string Alias = "Class1";
-        public const string DefaultData = "Class1Data";
+        public static readonly string Alias = "Class1";
+        public static readonly Qoutes.DocumentList DefaultData =
+            new Qoutes.DocumentList
+            {
+                Documents = new[]
+                {
+                    //new Qoutes.DocumentRef {
+                    //    Document = new Qoutes.Document
+                    //    {
+                    //        Topic = "Debug",
+                    //        Count = "10",
+                    //        Style = new TextScreenSaver.js.Qoutes.Style
+                    //        {
+                    //            BackgroundColor = "black",
+                    //            Color = "white",
+                    //            HoverColor = "red"
+                    //        },
+                    //        Content = "Hello world1\nHello world2"
+                    //    }
+                    //}
+                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes.xml" },
+                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes2.xml" },
+                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes3.xml" }
+                }
+            };
 
         /// <summary>
         /// Creates a new control
         /// </summary>
-        public Class1()
+        public Class1(Qoutes.DocumentList list)
         {
-            IStyleSheet.Default.AddRule("body", "cursor: url('assets/TextScreenSaver/cursor.cur'), auto;", 0);
+            IStyleSheet.Default.AddRule("*", "cursor: url('assets/TextScreenSaver/cursor.cur'), auto;", 0);
 
-            new [] {
-            "assets/TextScreenSaver/data/Qoutes.xml",
-            "assets/TextScreenSaver/data/Qoutes2.xml",
-            "assets/TextScreenSaver/data/Qoutes3.xml"
-            }.Random().DownloadToXML<Qoutes.Document>(Qoutes.Settings.KnownTypes,
+            IStyleSheet.Default.AddRule("html", 
+                r =>
+                {
+                    r.style.overflow = IStyle.OverflowEnum.hidden;
+                }
+            );
+
+            Action<Qoutes.DocumentRef,Action<Qoutes.Document>> PrepareDocument =
+                (doc, done) =>
+                {
+                    if (doc.Document == null)
+                        doc.Source.DownloadToXML<Qoutes.Document>(Qoutes.Settings.KnownTypes, done);
+                    else
+                        done(doc.Document);
+                };
+
+            PrepareDocument(list.Documents.Random(),
                 doc =>
                 {
                     Native.Document.title = doc.Topic.Trim();
@@ -56,14 +92,14 @@ namespace TextScreenSaver.js
                     body.style.fontFamily = IStyle.FontFamilyEnum.Verdana;
                     body.style.backgroundImage = "url(assets/TextScreenSaver/powered_by_jsc.png)";
                     body.style.backgroundRepeat = "no-repeat";
-                    
+
 
                     //("BackgroundColor: " + doc.Style.BackgroundColor).ToConsole();
                     //("Color: " + doc.Style.Color).ToConsole();
 
                     doc.Style.ApplyTo(body.style);
 
-                    
+
 
                     var lines = doc.Lines();
 
@@ -78,17 +114,34 @@ namespace TextScreenSaver.js
                             var v = new IHTMLDiv { innerText = lines.Random() };
 
                             v.style.whiteSpace = IStyle.WhiteSpaceEnum.nowrap;
-                            v.style.fontSize = (z * 3) + "em";
-                            v.style.Opacity = z;
-                            v.style.zIndex = (z * 1000).Floor();
 
+                            Action ApplyZ =
+                                () =>
+                                {
+                                    v.style.fontSize = (z * 3) + "em";
+                                    v.style.Opacity = z;
+                                    v.style.zIndex = (z * 1000).Floor();
+                                };
+
+
+                            ApplyZ();
 
                             var x = 100d;
+                            var y = 80.Random();
 
                             v.style.position = IStyle.PositionEnum.absolute;
-                            v.style.left = x + "%";
-                            v.style.top = 80.Random() + "%";
+
+                            Action UpdatePosition =
+                                () =>
+                                {
+                                    v.style.left = x + "%";
+                                    v.style.top = y + "%";
+                                };
+
+                            UpdatePosition();
+
                             v.AttachTo(body);
+
 
                             var handler = default(Action<Timer>);
 
@@ -97,21 +150,25 @@ namespace TextScreenSaver.js
                                 delegate
                                 {
                                     timer_handler -= handler;
-                                    v.Dispose();
+                                    v.FadeOut();
 
                                     done();
                                 };
 
-                            v.onclick +=
+                            v.ondblclick +=
                                 ev =>
                                 {
-                                    if (ev.ctrlKey)
-                                    {
-                                        DisposeThisVector();
-                                    }
+
+                                    DisposeThisVector();
                                 };
 
                             var IsHover = false;
+
+                            v.onmousedown +=
+                                ev =>
+                                {
+                                    ev.PreventDefault();
+                                };
 
                             v.onmouseover +=
                                 delegate
@@ -127,17 +184,50 @@ namespace TextScreenSaver.js
                                     IsHover = false;
                                 };
 
+                            v.onmousewheel +=
+                                ev =>
+                                {
+                                    z = (z + 0.02 * ev.WheelDirection).Max(0.5).Min(1.0);
+
+                                    ApplyZ();
+                                };
+
+                            var drag = new DragHelper(v);
+
+                            drag.Enabled = true;
+                            drag.DragMove +=
+                                delegate
+                                {
+                                    var w = Native.Window.Width;
+                                    var h = Native.Window.Height;
+
+
+                                    x = (drag.Position.X * 100 / w);
+                                    y = (drag.Position.Y * 100 / h);
+
+                                    UpdatePosition();
+
+                                    // v.style.SetLocation(drag.Position.X, drag.Position.Y);
+
+                                };
+
                             handler =
                                 timer =>
                                 {
+                                    if (drag.IsDrag)
+                                        return;
+
                                     if (IsHover)
-                                        x -= 0.2 * z;
-                                    else
-                                        x -= 0.4 * z;
+                                        return;
 
-                                    v.style.left = x + "%";
 
-                                    if (x < -200)
+                                    x -= 0.4 * z;
+
+                                    UpdatePosition();
+
+                                    drag.Position = new Point(v.offsetLeft, v.offsetTop);
+
+                                    if (v.GetOffsetRight() < 0)
                                     {
                                         DisposeThisVector();
                                     }
@@ -148,8 +238,8 @@ namespace TextScreenSaver.js
 
                     var SpawnNextVector = SpawnVector.AsCyclic();
 
-                    
-                    var SpawnRandom = default(Action<int, int, Action> );
+
+                    var SpawnRandom = default(Action<int, int, Action>);
 
                     SpawnRandom =
                         (counter, max, h) =>
@@ -167,8 +257,8 @@ namespace TextScreenSaver.js
                             );
                         };
 
-                    
-                    SpawnRandom(4, 3000, SpawnNextVector);
+
+                    SpawnRandom(doc.Count.ToInt32(), 3000, SpawnNextVector);
 
                 }
             );
@@ -176,7 +266,7 @@ namespace TextScreenSaver.js
 
         static Class1()
         {
-            Alias.SpawnTo(i => new Class1());
+            Alias.SpawnTo<Qoutes.DocumentList>(Qoutes.Settings.KnownTypes, i => new Class1(i));
 
         }
 

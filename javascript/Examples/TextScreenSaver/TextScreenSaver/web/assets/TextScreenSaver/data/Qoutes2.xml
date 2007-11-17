@@ -9,6 +9,7 @@
 		<Color>#00ff00</Color>
 		<HoverColor>#ffff00</HoverColor>
 	</Style>
+	<Count>6</Count>
 	<Content>
 		If the enemy is in range, so are you.
 
