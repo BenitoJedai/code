@@ -83,6 +83,20 @@ namespace ScriptCoreLib.Shared.Lambda
         }
         #endregion
 
+        public static Action AsCyclic(this global::System.Action<Action> f)
+        {
+            var done = default(Action);
+
+            done = () => f(done);
+
+            return done;
+        }
+
+        public static Action FixParam<A>(this global::System.Action<A> f, A a)
+        {
+            return () => f(a);
+        }
+
         public static global::System.Func<T> FixParam<A, T>(this global::System.Func<A, T> f, A a)
         {
             return () => f(a);
@@ -212,6 +226,11 @@ namespace ScriptCoreLib.Shared.Lambda
             }
 
             return y;
+        }
+
+        public static T Random<T>(this IEnumerable<T> e)
+        {
+            return e.Randomize().First();
         }
 
         public static void ForEach<T>(this IEnumerable<T> array, Action<T> action)
