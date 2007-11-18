@@ -207,7 +207,7 @@ namespace jsc
         public MD5 md5 = null;
         //public MD5 md5 = new MD5CryptoServiceProvider();
 
-        public AssamblyTypeInfo Session;
+        public AssamblyTypeInfo Session = new AssamblyTypeInfo();
 
 
         public void WriteMD5(string e, params object[] arg)
@@ -287,6 +287,18 @@ namespace jsc
                 }
                 else
                 {
+                    if (x == '\"')
+                    {
+                        this.Write("\\\"");
+                        continue;
+                    }
+
+                    if (x == '\'')
+                    {
+                        this.Write("\\\'");
+                        continue;
+                    }
+
                     this.Write(@"\u{0:x4}", (int)x);
 
                     //this.Write(@"\x{0:x2}", (byte)x);
@@ -320,7 +332,7 @@ namespace jsc
         {
             if (qoute)
                 Write("'");
-            
+
             e();
 
             if (qoute)
@@ -346,7 +358,7 @@ namespace jsc
         }
         public void WriteDecoratedType(Type x, bool qoute)
         {
-            WriteQoute(qoute, delegate { WriteGUID64(x); } );
+            WriteQoute(qoute, delegate { WriteGUID64(x); });
 
             WriteHint("[{0}] {1}", x.Module.Name, x.FullName);
 
@@ -421,7 +433,7 @@ namespace jsc
         {
 
             ScriptAttribute sa = ScriptAttribute.Of(x);
-            ScriptAttribute ta = ScriptAttribute.Of(ToGenericDefinition( x.DeclaringType));
+            ScriptAttribute ta = ScriptAttribute.Of(ToGenericDefinition(x.DeclaringType));
 
 
 
@@ -521,7 +533,7 @@ namespace jsc
             WriteSpecialBase64(m.ToArray());
         }
 
-        
+
         private void WriteGUIDAndToken(MemberInfo x)
         {
             WriteDecoratedGuid(ToGenericDefinition(x.DeclaringType).GUID);

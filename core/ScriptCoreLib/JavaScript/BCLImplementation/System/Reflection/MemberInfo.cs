@@ -7,12 +7,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
     [Script(Implements = typeof(global::System.Reflection.MemberInfo))]
     internal abstract class __MemberInfo
     {
-        public virtual string Name
+        public abstract string Name
         {
-            get
-            {
-                throw new Exception();
-            }
+            get;
         }
 
     }

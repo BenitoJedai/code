@@ -5,9 +5,10 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     using Reflection;
+using ScriptCoreLib.JavaScript.Runtime;
 
     [Script(Implements = typeof(global::System.Type))]
-    internal class __Type
+    internal class __Type : __MemberInfo
     {
         private RuntimeTypeHandle _TypeHandle;
 
@@ -36,11 +37,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return r;
         }
 
+        Expando AsExpando()
+        {
+            return Runtime.Expando.Of(_TypeHandle.Value);
+        }
+
         public __FieldInfo[] GetFields()
         {
             var a = new List<__FieldInfo>();
 
-            foreach (var m in Runtime.Expando.Of(_TypeHandle.Value).GetFields())
+            foreach (var m in AsExpando().GetFields())
             {
                 a.Add(new __FieldInfo { _Name = m.Name });
 
@@ -71,5 +77,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         //    return a == b;
         //}
-     }
+
+        public override string Name
+        {
+            get 
+            {
+                return (string)Expando.InternalGetMember(AsExpando().constructor, "TypeName");
+            }
+        }
+    }
 }

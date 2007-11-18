@@ -1301,6 +1301,9 @@ namespace jsc
 
 
                 #region type.prototype.meta.typename = 'typename';
+
+
+
                 w.Helper.WriteOptionalIdent();
                 w.Helper.WritePrototypeAlias(type);
                 //w.WriteDecorated(type);

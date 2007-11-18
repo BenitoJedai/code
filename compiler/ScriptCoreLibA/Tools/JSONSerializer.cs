@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Threading;
 using System.Collections.Generic;
-using System.Collections;
-using System.Text;
-using System.Net.Sockets;
-using System.Net;
-using System.IO;
 using System.Linq;
-using System.Reflection;
+using System.Text;
 
 internal class Pair<TA, TB>
 {
@@ -21,12 +15,13 @@ internal class Pair<TA, TB>
     }
 }
 
-namespace jsc.server.Net
+namespace ScriptCoreLib.Tools
 {
-
-
-
     using _int_char = Pair<int, char>;
+    using System.IO;
+    using System.Collections;
+    using System.Reflection;
+
 
     public delegate void ActionParams<A0, T>(A0 a0, params T[] e);
     public delegate void ActionParams<T>(params T[] e);
@@ -35,7 +30,7 @@ namespace jsc.server.Net
     public delegate void Action();
 
 
-    public static class JSONSerializer 
+    public static class JSONSerializer
     {
         class ArrayBuilder
         {
@@ -98,7 +93,7 @@ namespace jsc.server.Net
                      if (x == null) throw new NotSupportedException(text);
                  };
 
-            ActionParams<char, char> Expect = ( x, xp) => ExpectB(xp.Contains(x)); ;
+            ActionParams<char, char> Expect = (x, xp) => ExpectB(xp.Contains(x)); ;
 
 
 
@@ -193,7 +188,7 @@ namespace jsc.server.Net
                 {
                     var xz = new _int_char(xi, default(char));
 
-                   
+
                     while (true)
                     {
                         xz.B = GetChar();
@@ -267,12 +262,12 @@ namespace jsc.server.Net
                 next:
                     var xc = GetChar();
 
-                    if (xc == '"')
-                        return x;
+                if (xc == '"')
+                    return x;
 
-                    x += (xc == '\\') ? GetEscapedChar() : xc;
+                x += (xc == '\\') ? GetEscapedChar() : xc;
 
-                    goto next;
+                goto next;
                 };
             #endregion
 
@@ -307,156 +302,178 @@ namespace jsc.server.Net
             goto Members;
         NextOrUp:
             c = GetNonSpaceChar();
-        NextOrUpExplicit:
-            switch (c)
-            {
-                case ',':
-                    goto Members;
-                case '}':
-                case ']':
-                    goto Members_Explicit;
-                default:
-                    throw CreateException();
-            }
-        ArrayMembers:
-            {
-                var xx = p.Peek() as ArrayBuilder;
-
-                ExpectN(xx);
-
-                if (xx.ElementType == typeof(int))
-                {
-                    var xp = GetIntegerVAndNextChar(GetAsciiCharAsByte(c));
-
-                    xx.List.Add(xp.A);
-                    c = SkipSpace(xp.B);
-
-                    goto ArrayNextOrUp;
-                }
-                else if (xx.ElementType.IsClass)
-                {
-                    Expect(c, '{');
-
-                    var value = Activator.CreateInstance(xx.ElementType);
-
-                    xx.List.Add(value);
-                    p.Push(value);
-
-                    goto Members;
-                }
-
-                throw NotImplemented();
-            }
-        // based on type we must read the stream
-        ArrayNextOrUp:
-            switch (c)
-            {
-                case ',':
-                    goto Members;
-                case ']':
-                    goto Members_Explicit;
-                default:
-                    throw CreateException();
-            }
-        Members:
-            c = GetNonSpaceChar();
-        Members_Explicit:
-            switch (c)
-            {
-                case '}':
-                    ExpectB(GetCurrentType().IsClass);
-
-                    p.Pop();
-
-                    if (p.Count == 0)
-                        return;
-
-                    goto NextOrUp;
-                case ']':
-                    var x = p.Peek() as ArrayBuilder;
-
-                    ExpectN(x);
-
-                    p.Pop();
-                    x.Handler();
-
-                    goto NextOrUp;
-            }
-
-            if (GetCurrentType() == typeof(ArrayBuilder))
-                goto ArrayMembers;
-
-            if (c == '"')
-            {
-                var FieldName = GetQuotedString();
-
-                c = GetNonSpaceChar();
-
-                Expect(c, ':');
-
-                c = GetNonSpaceChar();
-
-                // at this point we need to know does this property exist, and what type it is.
-
-                var Field = GetCurrentType().GetField(FieldName);
-
-                ExpectNText(Field, "Field was removed, json is out of date");
-
-                var FieldType = Field.FieldType;
-                var SetFieldValue = Duplicate<object>(x => Field.SetValue(p.Peek(), x));
-                // [], "", {}, 0
-
-                if (FieldType.IsArray)
-                {
-                    Expect(c, '[');
-
-                    p.Push(
-                        new ArrayBuilder(x => SetFieldValue(x), FieldType.GetElementType())
-                    );
-
-                    goto Members;
-                }
-                else if (FieldType == typeof(string))
-                {
-                    if (ScanNull(c)) goto NextOrUp;
-
-                    Expect(c, '"');
-
-                    SetFieldValue(GetQuotedString());
-
-                    goto NextOrUp;
-                }
-                else if (FieldType == typeof(int))
-                {
-                    var x = GetIntegerVAndNextChar((int)AsciiCharToByte(c));
-
-                    SetFieldValue(x.A);
-                    c = x.B;
-
-                    goto NextOrUpExplicit;
-                }
-                else if (FieldType.IsClass)
-                {
-                    if (ScanNull(c)) goto NextOrUp;
-
-                    Expect(c, '{');
-
-
-                    p.Push(SetFieldValue(Activator.CreateInstance(FieldType)));
-
-                    goto Members;
-                }
-
+    NextOrUpExplicit:
+        switch (c)
+        {
+            case ',':
+                goto Members;
+            case '}':
+            case ']':
+                goto Members_Explicit;
+            default:
                 throw CreateException();
-            }
+        }
+ArrayMembers:
+    {
+        var xx = p.Peek() as ArrayBuilder;
+
+        ExpectN(xx);
+
+        if (xx.ElementType == typeof(int))
+        {
+            var xp = GetIntegerVAndNextChar(GetAsciiCharAsByte(c));
+
+            xx.List.Add(xp.A);
+            c = SkipSpace(xp.B);
+
+            goto ArrayNextOrUp;
+        }
+        else if (xx.ElementType.IsClass)
+        {
+            Expect(c, '{');
+
+            var value = Activator.CreateInstance(xx.ElementType);
+
+            xx.List.Add(value);
+            p.Push(value);
+
+            goto Members;
+        }
+
+        throw NotImplemented();
+    }
+// based on type we must read the stream
+ArrayNextOrUp:
+switch (c)
+{
+    case ',':
+        goto Members;
+    case ']':
+        goto Members_Explicit;
+    default:
+        throw CreateException();
+}
+Members:
+c = GetNonSpaceChar();
+Members_Explicit:
+switch (c)
+{
+    case '}':
+        ExpectB(GetCurrentType().IsClass);
+
+        p.Pop();
+
+        if (p.Count == 0)
+            return;
+
+        goto NextOrUp;
+    case ']':
+        var x = p.Peek() as ArrayBuilder;
+
+        ExpectN(x);
+
+        p.Pop();
+        x.Handler();
+
+        goto NextOrUp;
+}
+
+if (GetCurrentType() == typeof(ArrayBuilder))
+    goto ArrayMembers;
+
+if (c == '"')
+{
+    var FieldName = GetQuotedString();
+
+    c = GetNonSpaceChar();
+
+    Expect(c, ':');
+
+    c = GetNonSpaceChar();
+
+    // at this point we need to know does this property exist, and what type it is.
+
+    var Field = GetCurrentType().GetField(FieldName);
+
+    ExpectNText(Field, "Field was removed, json is out of date");
+
+    var FieldType = Field.FieldType;
+    var SetFieldValue = Duplicate<object>(x => Field.SetValue(p.Peek(), x));
+    // [], "", {}, 0
+
+    if (FieldType.IsArray)
+    {
+        Expect(c, '[');
+
+        p.Push(
+            new ArrayBuilder(x => SetFieldValue(x), FieldType.GetElementType())
+        );
+
+        goto Members;
+    }
+    else if (FieldType == typeof(string))
+    {
+        if (ScanNull(c)) goto NextOrUp;
+
+        Expect(c, '"');
+
+        SetFieldValue(GetQuotedString());
+
+        goto NextOrUp;
+    }
+    else if (FieldType == typeof(int))
+    {
+        var x = GetIntegerVAndNextChar((int)AsciiCharToByte(c));
+
+        SetFieldValue(x.A);
+        c = x.B;
+
+        goto NextOrUpExplicit;
+    }
+    else if (FieldType.IsClass)
+    {
+        if (ScanNull(c)) goto NextOrUp;
+
+        Expect(c, '{');
+
+
+        p.Push(SetFieldValue(Activator.CreateInstance(FieldType)));
+
+        goto Members;
+    }
+
+    throw CreateException();
+}
 
 
 
         }
 
 
+        public static string Serialize<T>(T obj)
+        {
+            var w = new MemoryStream();
+
+            Serialize(obj, w);
+
+            return Encoding.ASCII.GetString(w.ToArray());
+        }
+
+        public static string Serialize<T>(T obj, char QouteChar)
+        {
+            var w = new MemoryStream();
+
+            Serialize(obj, w, QouteChar);
+
+            return Encoding.ASCII.GetString(w.ToArray());
+        }
 
         public static void Serialize<T>(T obj, Stream s)
+        {
+            Serialize(obj, s, '"');
+        }
+
+        public static void Serialize<T>(T obj, Stream s, char QouteChar)
         {
             Action<char> WriteChar = c => s.WriteByte((byte)c);
             Action<string> WriteChars =
@@ -487,7 +504,7 @@ namespace jsc.server.Net
                     return;
                 }
 
-                WriteChar('"');
+                WriteChar(QouteChar);
 
                 foreach (char v in x)
                 {
@@ -498,6 +515,7 @@ namespace jsc.server.Net
                         case '\r': WriteChars(@"\r"); continue;
                         case '\b': WriteChars(@"\b"); continue;
                         case '"': WriteChars("\\\""); continue;
+                        case '\'': WriteChars("\\\'"); continue;
                         default:
                             if (char.IsLetterOrDigit(v) || char.IsPunctuation(v) || v == ' ')
                             {
@@ -516,7 +534,7 @@ namespace jsc.server.Net
                     }
                 }
 
-                WriteChar('"');
+                WriteChar(QouteChar);
             };
 
             WriteInt32 = delegate(int x)
@@ -600,7 +618,8 @@ namespace jsc.server.Net
                     if (i > 0)
                         WriteChar(',');
 
-                    WriteQuotedString(v.Name);
+                    //WriteQuotedString(v.Name);
+                    WriteChars(v.Name);
 
                     WriteChar(':');
 
@@ -613,6 +632,5 @@ namespace jsc.server.Net
             WriteObject(obj);
         }
     }
-
 
 }

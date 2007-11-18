@@ -94,17 +94,29 @@ namespace TextScreenSaver.js
             return new IXMLSerializer<T>(k).Deserialize(e);
         }
 
-        public static void SpawnTo<T>(this string alias, object[] KnownTypes, Action<T> h)
+
+
+        public static void SpawnTo<T>(this Type alias, object[] KnownTypes, Action<T> h)
             where T : class, new()
         {
-            ScriptCoreLib.JavaScript.Native.Spawn(alias, 
-                i => 
+            ScriptCoreLib.JavaScript.Native.Spawn(alias.Name,
+                i =>
                 {
-                    var xml = i.text;
+                    var tag = (IHTMLScript)i;
+                    var text = i.text;
 
-                    var doc = IXMLDocument.Parse(xml);
+                    if (tag.type == "text/xml")
+                    {
+                        var doc = IXMLDocument.Parse(text);
 
-                    h( doc.Deserialize<T>(KnownTypes) );
+                        h(doc.Deserialize<T>(KnownTypes));
+                    }
+                    else if (tag.type == "text/json")
+                    {
+                        // reflection info will be lost here?
+
+                        h((T)(object)Expando.FromJSON(text));
+                    }
                 }
             );
         }

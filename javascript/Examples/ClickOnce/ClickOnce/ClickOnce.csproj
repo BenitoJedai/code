@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.20706</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{139A0D94-849B-4F25-B4D3-F165B1F1F5B4}</ProjectGuid>
+    <ProjectGuid>{AD3A71E2-3D8C-408A-BE0E-142B62F636C7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TextScreenSaver</RootNamespace>
-    <AssemblyName>TextScreenSaver</AssemblyName>
+    <RootNamespace>ClickOnce</RootNamespace>
+    <AssemblyName>ClickOnce</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -55,31 +55,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="js\Class1.cs" />
-    <Compile Include="js\Class2.cs" />
     <Compile Include="js\Extensions.cs" />
-    <Compile Include="js\Qoutes\Qoutes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="web\assets\TextScreenSaver\cursor.cur">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\TextScreenSaver\data\Qoutes3.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\TextScreenSaver\data\Qoutes2.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\TextScreenSaver\powered_by_jsc.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\TextScreenSaver\data\Qoutes.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
-    <Content Include="web\assets\TextScreenSaver\Preview.jpg">
+    <Content Include="web\assets\ClickOnce\Button_19.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

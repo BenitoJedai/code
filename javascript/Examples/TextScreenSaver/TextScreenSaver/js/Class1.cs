@@ -27,10 +27,9 @@ namespace TextScreenSaver.js
     using ScriptCoreLib.JavaScript.Controls;
 
 
-    [Script]
+    [Script, ScriptApplicationEntryPoint(IsClickOnce=true)]
     public class Class1
     {
-        public static readonly string Alias = "Class1";
         public static readonly Qoutes.DocumentList DefaultData =
             new Qoutes.DocumentList
             {
@@ -61,6 +60,12 @@ namespace TextScreenSaver.js
         /// </summary>
         public Class1(Qoutes.DocumentList list)
         {
+            var type = typeof(Class1);
+
+            var name = type.Name;
+
+            Console.WriteLine("type: " + name);
+
             IStyleSheet.Default.AddRule("*", "cursor: url('assets/TextScreenSaver/cursor.cur'), auto;", 0);
 
             IStyleSheet.Default.AddRule("html", 
@@ -266,7 +271,7 @@ namespace TextScreenSaver.js
 
         static Class1()
         {
-            Alias.SpawnTo<Qoutes.DocumentList>(Qoutes.Settings.KnownTypes, i => new Class1(i));
+            typeof(Class1).SpawnTo<Qoutes.DocumentList>(Qoutes.Settings.KnownTypes, i => new Class1(i));
 
         }
 

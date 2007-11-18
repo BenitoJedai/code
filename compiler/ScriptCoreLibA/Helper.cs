@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ScriptCoreLib
 {
-    
+
 
     /// <summary>
     /// this class is shared among scriptcorelib assemblies 
@@ -26,6 +26,21 @@ namespace ScriptCoreLib
         {
             foreach (var v in Modules)
                 DefineScript(w, v);
+        }
+
+
+        public static void DefineScript(StreamWriter w, string[] Modules)
+        {
+            foreach (var v in Modules)
+                DefineScript(w, v);
+        }
+
+        public static void DefineScript(StreamWriter w, string src)
+        {
+            if (!src.EndsWith(".js"))
+                src += ".js";
+
+            w.WriteLine("<script type='text/javascript' src='" + src + "'></script>");
         }
 
         public static void PHPInclude(ITextWriter e, string src)
@@ -70,9 +85,9 @@ namespace ScriptCoreLib
                     return 1;
                 }
 
-                if (y.GetReferencedAssemblies().Select(i => i.Name).Contains(x.GetName().Name)) 
+                if (y.GetReferencedAssemblies().Select(i => i.Name).Contains(x.GetName().Name))
                 {
-                    System.Diagnostics.Debug.WriteLine(y.GetName().Name + " depends on " +x.GetName().Name);
+                    System.Diagnostics.Debug.WriteLine(y.GetName().Name + " depends on " + x.GetName().Name);
                     return -1;
                 }
 
@@ -93,14 +108,14 @@ namespace ScriptCoreLib
         {
             var u = LoadReferencedAssemblies(a);
 
-            
+
 
 
             if (includethis)
-                u = u.Concat( new [] { a } );
+                u = u.Concat(new[] { a });
 
-            
-            
+
+
             var x = u.GroupBy(i => i.GetName().FullName).Distinct().Select(i => i.First()).ToArray();
 
             Array.Sort(x, new DependencyComparer());
@@ -127,14 +142,19 @@ namespace ScriptCoreLib
             }
         }
 
+        public static string[] LocalModulesOf(Assembly e)
+        {
+            return
+                (from i in ModulesOf(e)
+                 let f = new FileInfo(i)
+                 select f.Name).Distinct().ToArray();
+        }
+
         public static string[] LocalModules
         {
             get
             {
-                return
-                    (from i in ModulesOf(Assembly.GetCallingAssembly())
-                    let f = new FileInfo(i)
-                    select f.Name).Distinct().ToArray();
+                return LocalModulesOf(Assembly.GetCallingAssembly());
 
             }
         }

@@ -11,7 +11,7 @@ namespace jsc
 {
     public class AssamblyTypeInfo
     {
-        public CommandLineOptions Options;
+        public CommandLineOptions Options = new CommandLineOptions();
 
         public Type[] Types;
 

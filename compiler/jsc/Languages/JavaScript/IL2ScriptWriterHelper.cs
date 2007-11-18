@@ -10,6 +10,7 @@ namespace jsc
     using ilbp = ILBlock.Prestatement;
     using ili = ILInstruction;
     using ilfsi = ILFlow.StackItem;
+    using System.IO;
 
 
     public class IL2ScriptWriterHelper
@@ -65,7 +66,7 @@ namespace jsc
             w.WriteLine();
         }
 
-        
+
         //public void DOMAttribute(string name, params string[] args)
         //{
         //    w.WriteIdent();
@@ -76,7 +77,7 @@ namespace jsc
         //    {
         //        w.Write("(");
 
-                
+
         //        w.Write("'" + String.Join("', '", args) + "'");
 
         //        w.Write(")");
@@ -171,7 +172,7 @@ namespace jsc
                 w.Write(" ");
                 a();
             }
-                    
+
 
         }
 
@@ -180,7 +181,7 @@ namespace jsc
             DOMReturnExpression(
                 delegate { w.Write(n); }
             );
-           
+
         }
 
         public void DOMStatement(params ThreadStart[] e)
@@ -264,7 +265,17 @@ namespace jsc
             w.Write("function ");
             w.WriteDecorated(t);
             w.WriteLine("() { };");
-            
+
+            w.WriteIdent();
+            w.WriteDecorated(t);
+            w.Helper.WriteAccessor();
+            w.Write("TypeName");
+            w.Helper.WriteAssignment();
+
+            w.WriteQoute(true, () => w.WriteSafeLiteral(t.Name));
+            w.WriteLine(";");
+
+
             //w.WriteBeginScope();
 
             //WriteBaseConstructorCallIfAny(basetype);
@@ -319,20 +330,20 @@ namespace jsc
             w.WriteIdent();
             w.Write(")");
             w.Write("()");
-            
+
         }
 
         public void DOMCallScopeAsFunction(params ThreadStart[] e)
         {
             w.Write("(");
-                w.Write("(");
-                    w.Write("function");
-                    w.Write("()");
-                    w.Write("{");
-                        this.DOMWriteTerminator(e);
-                    w.Write("}");
-                w.Write(")");
-                w.Write("()");
+            w.Write("(");
+            w.Write("function");
+            w.Write("()");
+            w.Write("{");
+            this.DOMWriteTerminator(e);
+            w.Write("}");
+            w.Write(")");
+            w.Write("()");
             w.Write(")");
         }
 
@@ -351,7 +362,9 @@ namespace jsc
         }
 
 
-        public  void WriteWrappedConstructor(ConstructorInfo zc)
+        
+
+        public void WriteWrappedConstructor(ConstructorInfo zc)
         {
             w.Write("ctor$");
             w.WriteDecoratedMemberInfo(zc);
@@ -414,7 +427,7 @@ namespace jsc
             w.WriteLine(");");
         }
 
-        public void DefineTypeInheritanceConstructor(Type z, ConstructorInfo zc,  Type basetype)
+        public void DefineTypeInheritanceConstructor(Type z, ConstructorInfo zc, Type basetype)
         {
             w.WriteIdent();
             w.Write("var ");
@@ -440,9 +453,9 @@ namespace jsc
                 w.Write(", null, ");
             else
             {
-            w.Write(", '");
-            w.WriteDecoratedMethodName(zc);
-            w.Write("', ");
+                w.Write(", '");
+                w.WriteDecoratedMethodName(zc);
+                w.Write("', ");
             }
 
             w.Helper.WritePrototypeAlias(z);

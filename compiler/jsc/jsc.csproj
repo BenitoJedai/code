@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.20404</ProductVersion>
+    <ProductVersion>9.0.20706</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{77861F2D-D284-4913-B9E9-D906C7262219}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -79,6 +79,9 @@
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
@@ -96,6 +99,7 @@
     <Compile Include="Languages\C\CCompiler.cs" />
     <Compile Include="Languages\DelegateHint.cs" />
     <Compile Include="Languages\JavaScript\DelegateImplementationProvider.cs" />
+    <Compile Include="Languages\JavaScript\EntryPointProvider.cs" />
     <Compile Include="Languages\JavaScript\IL2Script.cs" />
     <Compile Include="AssamblyTypeInfo.cs" />
     <Compile Include="Languages\JavaScript\IL2ScriptWriterHelper.cs" />

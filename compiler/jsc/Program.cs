@@ -21,6 +21,7 @@ using System.Drawing;
 namespace jsc
 {
     using Script;
+    using jsc.Languages.JavaScript;
 
 
     public class Program
@@ -500,8 +501,9 @@ namespace jsc
             }
             else if (type == ScriptType.JavaScript)
             {
-
                 IL2Script.DeclareTypes(xw, xw.Session.Types, false, AssamblyS);
+
+                _assambly_loaded.WriteEntryPoints(TargetDirectory);
             }
 
 

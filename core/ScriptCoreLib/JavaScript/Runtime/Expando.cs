@@ -459,6 +459,8 @@ namespace ScriptCoreLib.JavaScript.Runtime
                 if (Metadata == null)
                     return null;
 
+
+                // todo: return gettype(xxx).Name
                 return Metadata[ScriptAttribute.MetadataMemberTypeName].GetValue();
             }
         }

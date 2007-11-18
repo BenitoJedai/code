@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.20404</ProductVersion>
+    <ProductVersion>9.0.20706</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{477C5608-F5CD-436F-935D-66675988F1D9}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -58,8 +58,10 @@
     <Compile Include="ITextWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LanguageProviders\Providers.cs" />
+    <Compile Include="ScriptApplicationEntryPointAttribute.cs" />
     <Compile Include="ScriptAttribute.cs" />
     <Compile Include="ScriptLanguageProvider.cs" />
+    <Compile Include="Tools\JSONSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="neutronic.snk" />
