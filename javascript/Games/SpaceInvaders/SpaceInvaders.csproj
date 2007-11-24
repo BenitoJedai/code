@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.20404</ProductVersion>
+    <ProductVersion>9.0.20706</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{17AD08D1-8C4F-4418-B07F-32661B45CA0F}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="source\csharp\Settings.cs" />
+    <Compile Include="source\js\Controls\SpaceInvadersGame.cs" />
     <Compile Include="source\js\Extensions.cs" />
     <Compile Include="source\js\Overlay.cs" />
     <Compile Include="source\js\Settings.cs" />

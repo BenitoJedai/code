@@ -7,14 +7,25 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.Net
 {
+    /*
+    static class Extensions
+    {
+        public TRoot Deserialize(IXMLHttpRequest r)
+        {
+            if (r == null)
+                return null;
+
+            return Deserialize(r.responseXML);
+        }
+    }*/
     /// <summary>
     /// http://www.devguru.com/Technologies/xmldom/quickref/obj_httpRequest.html
     /// </summary>
-    [Script(InternalConstructor=true)]
+    [Script(InternalConstructor = true)]
     public class IXMLHttpRequest //: ISink
     {
         #region constructors
-        [Script(HasNoPrototype=true, ExternalTarget = "XMLHttpRequest")]
+        [Script(HasNoPrototype = true, ExternalTarget = "XMLHttpRequest")]
         private class InternalXMLHttpRequest { }
 
         public IXMLHttpRequest() { }
@@ -38,14 +49,14 @@ namespace ScriptCoreLib.JavaScript.Net
         {
             IXMLHttpRequest n = null;
 
-                try
-                {
-                    n = (IXMLHttpRequest)((object)new InternalXMLHttpRequest());
-                }
-                catch
-                {
-                    n = (IXMLHttpRequest)((object)new IActiveX("Msxml2.XMLHTTP.3.0", "Microsoft.XMLHTTP") );
-                }
+            try
+            {
+                n = (IXMLHttpRequest)((object)new InternalXMLHttpRequest());
+            }
+            catch
+            {
+                n = (IXMLHttpRequest)((object)new IActiveX("Msxml2.XMLHTTP.3.0", "Microsoft.XMLHTTP"));
+            }
 
 
             return n;
@@ -98,7 +109,7 @@ namespace ScriptCoreLib.JavaScript.Net
             req.InvokeOnComplete(handler, async);
 
             return req;
-            
+
         }
 
         private static IXMLHttpRequest InternalConstructor(string url, IXMLDocument data, EventHandler<IXMLHttpRequest> handler)
@@ -151,7 +162,7 @@ namespace ScriptCoreLib.JavaScript.Net
 
 
 
-        
+
         public string ETag
         {
             [Script(DefineAsStatic = true)]
@@ -201,7 +212,7 @@ namespace ScriptCoreLib.JavaScript.Net
             }
         }
 
-        [Script(DefineAsStatic=true)]
+        [Script(DefineAsStatic = true)]
         public void send()
         {
             send<object>(null);
@@ -215,7 +226,7 @@ namespace ScriptCoreLib.JavaScript.Net
         {
         }
 
-        
+
         public bool complete
         {
             [Script(DefineAsStatic = true)]
@@ -297,7 +308,7 @@ namespace ScriptCoreLib.JavaScript.Net
         /// </summary>
         public IXMLDocument responseXML
         {
-            [Script(DefineAsStatic=true)]
+            [Script(DefineAsStatic = true)]
             get
             {
                 return IXMLDocument.Parse(responseText);
@@ -361,7 +372,7 @@ namespace ScriptCoreLib.JavaScript.Net
                 return false;
             }
         }
-        
+
         public readonly HTTPStatusCodes status;
         public readonly string statusText;
 

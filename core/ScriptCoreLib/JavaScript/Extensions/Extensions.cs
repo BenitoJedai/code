@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.XML;
-using ScriptCoreLib.JavaScript.Net;
 using ScriptCoreLib.JavaScript.Runtime;
-using ScriptCoreLib;
 
-namespace ClickOnce.js
+namespace ScriptCoreLib.JavaScript.Extensions
 {
     [Script]
     public static class Extensions
     {
-        /*
         public static IHTMLElement AttachTo(this IHTMLElement e, IHTMLElement c)
         {
             c.appendChild(e);
@@ -56,6 +52,5 @@ namespace ClickOnce.js
                 }
             );
         }
-        */
     }
 }

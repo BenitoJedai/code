@@ -29,7 +29,7 @@
     <StartArguments>HTShop.dll -PHP</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug with Doc|AnyCPU' ">
-    <StartWorkingDirectory>Z:\work\jsc\svn\javascript\Games\NatureBoy\NatureBoy\bin\Release</StartWorkingDirectory>
-    <StartArguments>NatureBoy.dll -js</StartArguments>
+    <StartWorkingDirectory>Z:\work\jsc\svn\javascript\Examples\ClickOnce\ClickOnce\bin\Release</StartWorkingDirectory>
+    <StartArguments>ClickOnce.dll -js</StartArguments>
   </PropertyGroup>
 </Project>

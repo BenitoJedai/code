@@ -19,6 +19,7 @@ namespace SpaceInvaders.source.js.Controls
 {
     using fbool = Func<bool>;
 
+  
     [Script]
     public class SpaceInvaders : SpawnControlBase
     {
@@ -27,7 +28,7 @@ namespace SpaceInvaders.source.js.Controls
         // http://www.digitalinsane.com/archives/2007/01/21/space_invaders/
 
         [Script(NoDecoration = true)]
-        static void SpawnSpaceInvaders(string resx)
+        public static void SpawnSpaceInvaders(string resx)
         {
             new SpaceInvaders(null, resx);
         }

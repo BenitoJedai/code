@@ -780,7 +780,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
                 double d = this.To<double>();
 
-                return Native.Math.round(d) != d;
+                return System.Math.Round(d) != d;
             }
         }
 
@@ -982,7 +982,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
         public static string GetUniqueID(string e)
         {
-            return e + Convert.ToHexString((int)(Native.Math.random() * 32000));
+            return e + Convert.ToHexString((int)(new System.Random().Next(32000)));
         }
 
         public static void ResolveDualNotation<TType>(DualNotation<TType> dualNotation)

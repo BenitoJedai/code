@@ -4,6 +4,7 @@ using ScriptCoreLib;
 
 
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -58,6 +59,7 @@ namespace ClickOnce.js
 
         public readonly TipDocument Data;
 
+        
         public Class1(TipDocument _Data)
         {
             this.Data = _Data;
