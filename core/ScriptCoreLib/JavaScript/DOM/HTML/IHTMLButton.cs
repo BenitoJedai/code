@@ -1,4 +1,5 @@
 using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Shared;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
@@ -47,7 +48,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             var b = new IHTMLButton(p);
 
             b.onclick += ( e) => Helper.Invoke(h);
-            b.attachToDocument();
+            b.AttachToDocument();
 
             return b;
         }

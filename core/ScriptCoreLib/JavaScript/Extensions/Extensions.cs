@@ -10,6 +10,15 @@ namespace ScriptCoreLib.JavaScript.Extensions
     [Script]
     public static class Extensions
     {
+
+        /// <summary>
+        /// attaches this element to the current document body
+        /// </summary>
+        public static IHTMLElement AttachToDocument(this IHTMLElement e)
+        {
+            return e.AttachTo(Native.Document.body);
+        }
+
         public static IHTMLElement AttachTo(this IHTMLElement e, IHTMLElement c)
         {
             c.appendChild(e);
@@ -24,6 +33,10 @@ namespace ScriptCoreLib.JavaScript.Extensions
         }
 
 
+        public static void SpawnTo(this Type alias, Action<IHTMLElement> h)
+        {
+            ScriptCoreLib.JavaScript.Native.Spawn(alias.Name, i => h(i));
+        }
 
         public static void SpawnTo<T>(this Type alias, object[] KnownTypes, Action<T> h)
             where T : class, new()

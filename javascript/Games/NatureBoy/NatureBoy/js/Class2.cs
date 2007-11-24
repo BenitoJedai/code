@@ -6,14 +6,14 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Shared.Drawing;
 
 namespace NatureBoy.js
 {
-    [Script]
+    [Script, ScriptApplicationEntryPoint]
     class Class2 //: Class1
     {
-        public const string Alias = "Class2";
 
 
 
@@ -24,15 +24,15 @@ namespace NatureBoy.js
             IStyleSheet.Default.AddRule("body", "cursor: url('assets/NatureBoy/cursor.cur'), auto;", 0);
 
             IStyleSheet.Default.AddRule(".loading",
-    r =>
-    {
+                r =>
+                {
 
-        r.style.backgroundColor = Color.Black;
-        r.style.color = Color.Yellow;
-        r.style.padding = "2em";
-        r.style.margin = "2em";
-    }
-);
+                    r.style.backgroundColor = Color.Black;
+                    r.style.color = Color.Yellow;
+                    r.style.padding = "2em";
+                    r.style.margin = "2em";
+                }
+            );
 
             IStyleSheet.Default.AddRule("body",
                 r =>
@@ -266,9 +266,7 @@ You can size them all at once or each invidually.
 
         static Class2()
         {
-            ScriptCoreLib.JavaScript.Native.Spawn(
-                Alias, e => new Class2(e)
-                );
+            typeof(Class2).SpawnTo(e => new Class2(e));
         }
     }
 }

@@ -1,1 +1,1 @@
-﻿ScriptApplication within webbrowser.
+﻿ScriptApplication within webbrowser. Crosscompiled from c# to javascript.

@@ -4,6 +4,8 @@ Imports ScriptCoreLib.Shared.Drawing
 Imports ScriptCoreLib.JavaScript.DOM.HTML
 Imports ScriptCoreLib.JavaScript.DOM
 Imports ScriptCoreLib.JavaScript
+Imports ScriptCoreLib.JavaScript.Extensions
+
 
 
 Imports System.Runtime.CompilerServices
@@ -46,7 +48,7 @@ Namespace JavaScript
 
 
 
-    <Script()> Public Class Class1
+    <Script(), ScriptApplicationEntryPoint(IsClickOnce:=True)> Public Class Class1
 
         Dim Text As New IHTMLSpan
 
@@ -120,27 +122,28 @@ Namespace JavaScript
 
             UpdateView()
 
+            Control.AttachToDocument()
+
+
 
         End Sub
 
+
+
+        Shared Function Spawn(ByVal i As IHTMLElement) As Class1
+            Spawn = New Class1
+
+
+        End Function
 
 
 
         Shared Sub New()
 
-            Native.Spawn(ControlAlias, AddressOf Spawn)
-
-
-
+            GetType(Class1).SpawnTo(AddressOf Spawn)
         End Sub
 
-        Shared Sub Spawn(ByVal e As IHTMLElement)
-            Dim x As New Class1
 
-            e.insertPreviousSibling(x.Control)
-
-
-        End Sub
 
 
         Private Sub Control_onclick(ByVal e As ScriptCoreLib.JavaScript.DOM.IEvent) Handles Control.onclick

@@ -1,5 +1,6 @@
 using ScriptCoreLib.Shared;
 
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -136,7 +137,7 @@ namespace ScriptCoreLib
                 s.type = "text/javascript";
                 s.src = src;
 
-                s.attachToDocument();
+                s.AttachToDocument();
             }
         }
     }

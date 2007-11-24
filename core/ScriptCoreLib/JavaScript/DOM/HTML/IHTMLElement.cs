@@ -768,22 +768,6 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             }
         }
 
-        /// <summary>
-        /// attaches this element to the current document body
-        /// </summary>
-        [Script(DefineAsStatic = true)]
-        public void attachToDocument()
-        {
-            if (Native.Document.body == null)
-            {
-                Console.LogError("document has no body");
-
-                return;
-            }
-
-            Native.Document.body.appendChild(this);
-        }
-
 
         void setCapture()
         {

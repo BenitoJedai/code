@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.20404</ProductVersion>
+    <ProductVersion>9.0.20706</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B3728390-BB82-49BB-BC04-47CC63E8BC40}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -109,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
+    <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="web\gfx\loadingBar.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

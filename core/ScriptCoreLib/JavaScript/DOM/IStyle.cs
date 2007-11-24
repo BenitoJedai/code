@@ -1,4 +1,5 @@
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared;
 
@@ -72,7 +73,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             if (h.Length > 0)
                 h[0].appendChild(s);
             else
-                s.attachToDocument();
+                s.AttachToDocument();
 
             return s.StyleSheet;
         }

@@ -4,6 +4,7 @@ using ScriptCoreLib;
 
 
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -34,17 +35,15 @@ namespace MonthSchedule.js
     using input = IHTMLInput;
     using MonthSchedule.js.Controls;
 
-    [Script]
+    [Script, ScriptApplicationEntryPoint]
     public class Class1
     {
-        public const string Alias = "Class1";
-        public const string DefaultData = "Class1Data";
 
         /// <summary>
         /// Creates a new control
         /// </summary>
         /// <param name="DataElement">The hidden data element</param>
-        public Class1(IHTMLElement DataElement)
+        public Class1()
         {
             //Native.Window.alert( "cookie:" + Native.Document.cookie);
 
@@ -362,12 +361,8 @@ namespace MonthSchedule.js
 
         static Class1()
         {
-            //Console.EnableActiveXConsole();
+            typeof(Class1).SpawnTo(i => new Class1());
 
-            // spawn this class when document is loaded 
-            Native.Spawn(
-                new Pair<string, ScriptCoreLib.Shared.EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
-                );
 
         }
 

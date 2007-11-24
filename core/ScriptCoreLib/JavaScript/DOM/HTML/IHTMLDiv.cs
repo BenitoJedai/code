@@ -1,3 +1,4 @@
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript;
@@ -66,7 +67,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
             if (this.parentNode != Native.Document.body)
-                this.attachToDocument();
+                this.AttachToDocument();
 
             var p = new Point(Native.Window.Width, Native.Window.Height);
 

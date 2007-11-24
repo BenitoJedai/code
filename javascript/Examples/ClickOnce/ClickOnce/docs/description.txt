@@ -1,1 +1,1 @@
-﻿ScriptApplication within webbrowser.
+﻿Browser application. c# to javascript.

@@ -1,1 +1,1 @@
-﻿Browser application. Crosscompiled from visual basic to javascript.
+﻿ScriptApplication within webbrowser. Crosscompiled from visual basic to javascript.

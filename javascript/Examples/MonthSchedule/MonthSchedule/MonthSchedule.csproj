@@ -61,7 +61,7 @@
     <Compile Include="js\Locals.cs" />
     <Compile Include="js\Storage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Setup.cs" />
+    <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />

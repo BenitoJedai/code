@@ -8,15 +8,11 @@ using ScriptCoreLib.Shared;
 
 namespace ClickOnce
 {
-    class IAssemblyReferenceToken :
+    interface IAssemblyReferenceToken :
         ScriptCoreLib.Shared.Query.IAssemblyReferenceToken,
         ScriptCoreLib.Shared.IAssemblyReferenceToken
     {
     }
 
-    static class Setup
-    {
 
-       
-    }
 }

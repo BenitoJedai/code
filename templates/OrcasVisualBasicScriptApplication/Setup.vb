@@ -3,7 +3,7 @@ Imports System.Linq
 Public Module Setup
     Public Sub DefineEntryPoint(ByVal e As IEntryPoint)
 
-        DefineControlEntryPoint(e, JavaScript.Class1.ControlAlias)
+        'DefineControlEntryPoint(e, JavaScript.Class1.ControlAlias)
 
 
     End Sub

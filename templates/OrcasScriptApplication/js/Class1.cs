@@ -1,9 +1,8 @@
-﻿//using System.Linq;
-
-using ScriptCoreLib;
+﻿using ScriptCoreLib;
 
 
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -33,17 +32,15 @@ namespace OrcasScriptApplication.js
         public int xlength { get; set; }
     }
 
-    [Script]
+    [Script, ScriptApplicationEntryPoint(IsClickOnce=true)]
     public class Class1
     {
-        public const string Alias = "Class1";
-        public const string DefaultData = "Class1Data";
 
         /// <summary>
         /// Creates a new control
         /// </summary>
         /// <param name="DataElement">The hidden data element</param>
-        public Class1(IHTMLElement DataElement)
+        public Class1()
         {
             // this ctor creates a new div which has a text and a button element
             // on mouseover over the color text is changed
@@ -93,11 +90,8 @@ namespace OrcasScriptApplication.js
 
             IHTMLDiv Control = new IHTMLDiv();
 
-
-            DataElement.insertNextSibling(
-                Control
-
-            );
+            Control.AttachToDocument();
+            
 
 
             #region linq example
@@ -251,7 +245,7 @@ This example makes use of delegates, dom, and query operators.
 
             Console.WriteLine(doc.ToXMLString());
 
-            new IHTMLElement(IHTMLElement.HTMLElementEnum.hr).attachToDocument();
+            new IHTMLElement(IHTMLElement.HTMLElementEnum.hr).AttachToDocument();
 
 
             // not array
@@ -264,13 +258,7 @@ This example makes use of delegates, dom, and query operators.
 
         static Class1()
         {
-            //Console.EnableActiveXConsole();
-
-            // spawn this class when document is loaded 
-            Native.Spawn(
-                new Pair<string, ScriptCoreLib.Shared.EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
-                );
-
+            typeof(Class1).SpawnTo(i => new Class1());
         }
 
 

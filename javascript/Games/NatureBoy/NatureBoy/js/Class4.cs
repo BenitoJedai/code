@@ -7,6 +7,7 @@ using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Net;
 using ScriptCoreLib.JavaScript.Controls.Effects;
 using ScriptCoreLib.JavaScript.Runtime;
@@ -19,10 +20,9 @@ namespace NatureBoy.js
 
 
 
-    [Script]
+    [Script, ScriptApplicationEntryPoint]
     class Class4
     {
-        public const string Alias = "Class4";
 
         public Class4()
         {
@@ -542,7 +542,7 @@ namespace NatureBoy.js
 
         static Class4()
         {
-            Alias.SpawnTo(e => new Class4());
+            typeof(Class4).SpawnTo(e => new Class4());
         }
     }
 }
