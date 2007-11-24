@@ -54,11 +54,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.cs" />
     <Compile Include="ServerSession.Messaging.cs" />
     <Compile Include="ServerSession.cs" />
     <Compile Include="ServerLobby.cs" />
     <Compile Include="Net\ServerTransport.cs" />
-    <Compile Include="Net\JSONSerializer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

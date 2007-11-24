@@ -21,18 +21,24 @@ namespace gameinstaller
 
             string[] n = a.GetManifestResourceNames();
 
-            string p = "gameinstaller.Package";
-
-            foreach (string x in n)
-            {
-                if (x.StartsWith(p))
+            Action<string> Extract =
+                p =>
                 {
-                    FileInfo f = new FileInfo(Target.FullName + "/" + x.Substring(p.Length + 1));
+                    foreach (string x in n)
+                    {
+                        if (x.StartsWith(p))
+                        {
+                            FileInfo f = new FileInfo(Target.FullName + "/" + x.Substring(p.Length + 1));
 
-                    using (Stream s = f.OpenWrite()) CopyStream(a.GetManifestResourceStream(x), s);
+                            using (Stream s = f.OpenWrite()) CopyStream(a.GetManifestResourceStream(x), s);
 
-                }
-            }
+                        }
+                    }
+                };
+
+            Extract("gameinstaller.Package.client");
+            Extract("gameinstaller.Package.server");
+            Extract("gameinstaller.Package.jsc");
 
             // exec jsc
 
@@ -41,7 +47,7 @@ namespace gameinstaller
             {
                 ProcessStartInfo pi = new ProcessStartInfo(Target.FullName + "/jsc.exe", "gameclient.dll -js");
 
-                
+
                 pi.WorkingDirectory = Target.FullName;
                 pi.CreateNoWindow = false;
                 pi.UseShellExecute = false;
@@ -75,7 +81,7 @@ namespace gameinstaller
 
                 ps.WaitForExit();
 
-                
+
             }
 
             new FileInfo(Target.FullName + "/jsc.exe").Delete();

@@ -3,6 +3,7 @@ using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -319,10 +320,10 @@ namespace gameclient.source.js.Controls
         }
     }
 
-    [Script]
+    [Script, ScriptApplicationEntryPoint]
     public class Program
     {
-        public const string Alias = "fx.Program";
+        //public const string Alias = "fx.Program";
 
         public readonly MySession Session;
 
@@ -333,6 +334,10 @@ namespace gameclient.source.js.Controls
         // on firefox:
         // menu/options/advanced/general/browsing/use autoscrolling = false
         // autoscrolling: false
+        static Program()
+        {
+            typeof(Program).SpawnTo(i => new Program(i));
+        }
 
         public Program(IHTMLElement placeholder)
         {
@@ -403,7 +408,7 @@ namespace gameclient.source.js.Controls
                     var a = new ArenaControl();
                     var m = new ArenaMinimapControl();
 
-                    a.Control.attachToDocument();
+                    a.Control.AttachToDocument();
 
                     a.Layers.Canvas.style.backgroundColor = Color.FromRGB(0, 0x80, 0);
 
@@ -488,7 +493,7 @@ namespace gameclient.source.js.Controls
                         }
                     };
 
-                    m.Control.attachToDocument();
+                    m.Control.AttachToDocument();
 
                     m.SetLocation(Rectangle.Of(690, 50, 200, 200));
 

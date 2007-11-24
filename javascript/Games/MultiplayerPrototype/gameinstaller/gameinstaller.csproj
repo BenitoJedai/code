@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.20404</ProductVersion>
+    <ProductVersion>9.0.20706</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{55515081-4DE9-4C72-AB26-A69696EB9D28}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -43,18 +43,41 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Package\Interop.Dia2Lib.dll" />
-    <EmbeddedResource Include="Package\jsc.exe" />
-    <EmbeddedResource Include="Package\ScriptCoreLib.dll" />
-    <EmbeddedResource Include="Package\ScriptCoreLibA.dll" />
+    <EmbeddedResource Include="..\gameclient\bin\Release\gameclient.dll">
+      <Link>Package\client\gameclient.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\gameclient\bin\Release\ScriptCoreLib.Controls.LayeredControl.dll">
+      <Link>Package\client\ScriptCoreLib.Controls.LayeredControl.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\gameclient\bin\Release\ScriptCoreLib.dll">
+      <Link>Package\client\ScriptCoreLib.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\gameclient\bin\Release\ScriptCoreLib.Net.dll">
+      <Link>Package\client\ScriptCoreLib.Net.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\gameclient\bin\Release\ScriptCoreLib.Query.dll">
+      <Link>Package\client\ScriptCoreLib.Query.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\gameclient\bin\Release\ScriptCoreLibA.dll">
+      <Link>Package\client\ScriptCoreLibA.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="C:\util\jsc\bin\Interop.Dia2Lib.dll">
+      <Link>Package\jsc\Interop.Dia2Lib.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="C:\util\jsc\bin\jsc.exe">
+      <Link>Package\jsc\jsc.exe</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="C:\util\jsc\bin\ScriptCoreLibA.dll">
+      <Link>Package\jsc\ScriptCoreLibA.dll</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Package\gameclient.dll" />
-    <EmbeddedResource Include="Package\gameserver.exe" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Package\ScriptCoreLib.Controls.LayeredControl.dll" />
-    <EmbeddedResource Include="Package\System.Query.dll" />
+    <EmbeddedResource Include="..\gameserver\bin\Release\gameserver.exe">
+      <Link>Package\server\gameserver.exe</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\gameserver\bin\Release\jsc.server.dll">
+      <Link>Package\server\jsc.server.dll</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Docs\" />

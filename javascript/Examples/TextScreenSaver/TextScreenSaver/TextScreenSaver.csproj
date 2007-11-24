@@ -59,7 +59,7 @@
     <Compile Include="js\Extensions.cs" />
     <Compile Include="js\Qoutes\Qoutes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Setup.cs" />
+    <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="web\assets\TextScreenSaver\cursor.cur">

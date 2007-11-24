@@ -1,6 +1,7 @@
 using ScriptCoreLib;
 
 using ScriptCoreLib.JavaScript.Controls;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Serialized;
@@ -13,19 +14,23 @@ using ScriptCoreLib.Shared.Drawing;
 
 namespace TextEditorDemo.source.js.Controls
 {
-    [Script]
-    public class DemoControl : SpawnControlBase
+    [Script, ScriptApplicationEntryPoint(IsClickOnce = true)]
+    public class DemoControl //: SpawnControlBase
     {
-        public const string Alias = "fx.DemoControl";
 
         IHTMLDiv Control = new IHTMLDiv();
 
         public IStyle Style { get { return Control.style; } }
 
-        public DemoControl(IHTMLElement e)
-            : base(e)
+        static DemoControl()
         {
-            e.insertNextSibling(Control);
+            typeof(DemoControl).SpawnTo(i => new DemoControl());
+        }
+
+        public DemoControl()
+            //: base(e)
+        {
+            Control.AttachToDocument();
 
             var text = new TextEditor(Control);
 

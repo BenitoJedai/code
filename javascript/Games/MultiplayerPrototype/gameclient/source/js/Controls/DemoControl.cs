@@ -2,6 +2,7 @@ using ScriptCoreLib;
 
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Net;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Serialized;
@@ -136,7 +137,7 @@ namespace gameclient.source.js.Controls
 
         public void Moveto(int x, int y, int w, int h)
         {
-            Control.attachToDocument();
+            Control.AttachToDocument();
             Control.style.SetSize(w, h);
             Control.SetCenteredLocation(x, y);
         }
@@ -192,30 +193,35 @@ namespace gameclient.source.js.Controls
 
 
 
-    [Script]
-    public class DemoControl : SpawnControlBase
+    [Script, ScriptApplicationEntryPoint]
+    public class DemoControl //: SpawnControlBase
     {
-        public const string Alias = "fx.DemoControl";
+        //public const string Alias = "fx.DemoControl";
 
         public ClientSession CurrentSession;
+
+        static DemoControl()
+        {
+            typeof(DemoControl).SpawnTo(i => new DemoControl(i));
+        }
 
         static IHTMLElement ImportStyleSheet(string url)
         {
             Console.WriteLine("importing css at " + url);
 
             var s = new IHTMLElement(IHTMLElement.HTMLElementEnum.link);
-            
+
             s.setAttribute("rel", "stylesheet");
             s.setAttribute("type", "text/css");
             s.setAttribute("href", url);
-            
-            s.attachToDocument();
-            
+
+            s.AttachToDocument();
+
             return s;
         }
 
         public DemoControl(IHTMLElement e)
-            : base(e)
+        //: base(e)
         {
             //Native.DebugBreak();
 
@@ -305,7 +311,7 @@ namespace gameclient.source.js.Controls
 
             text.className = "TalkToOthers";
 
-            text.attachToDocument();
+            text.AttachToDocument();
 
             text.onkeypress += delegate(IEvent x)
             {
@@ -607,7 +613,7 @@ namespace gameclient.source.js.Controls
             x.style.padding = "1em";
             x.style.zIndex = 1000;
 
-            x.attachToDocument();
+            x.AttachToDocument();
 
             new Timer(
                 delegate
@@ -615,7 +621,7 @@ namespace gameclient.source.js.Controls
                     x.Dispose();
                 }, 15000, 0);
 
-            
+
         }
     }
 

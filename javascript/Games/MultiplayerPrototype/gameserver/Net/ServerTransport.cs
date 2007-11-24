@@ -20,7 +20,8 @@ namespace cncserver
 
         public ServerTransport(Stream s)
         {
-            JSONSerializer.Deserialize(Descriptor, s);
+            
+            ScriptCoreLib.Tools.JSONSerializer.Deserialize(Descriptor, s);
         }
 
 
@@ -47,7 +48,7 @@ namespace cncserver
                 s.WriteByte((byte)v);
             }
 
-            JSONSerializer.Serialize(Descriptor, s);
+            ScriptCoreLib.Tools.JSONSerializer.Serialize(Descriptor, s);
 
             s.WriteTo(stream);
         }

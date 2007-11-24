@@ -60,14 +60,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="source\csharp\Settings.cs" />
     <Compile Include="source\js\ClientSession.cs" />
     <Compile Include="source\js\Controls\ArenaControl.cs" />
     <Compile Include="source\js\Controls\LayeredTextBox.cs" />
     <Compile Include="source\js\Controls\Program.cs" />
     <Compile Include="source\js\ClientToServerBase.cs" />
     <Compile Include="source\js\GameUnits.cs" />
-    <Compile Include="source\js\Settings.cs" />
     <Compile Include="source\js\Controls\DemoControl.cs" />
     <Compile Include="source\shared\Message.cs" />
     <Compile Include="source\shared\Message.IClient.cs" />
