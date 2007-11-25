@@ -3,6 +3,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.Controls.Effects;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Serialized;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -21,10 +22,10 @@ using System.Linq;
 
 namespace CardGames.source.js.Controls
 {
-    [Script]
-    public class Spider : SpawnControlBase
+    [Script, ScriptApplicationEntryPoint(IsClickOnce=true)]
+    public class Spider //: SpawnControlBase
     {
-        public const string Alias = "fx.Spider";
+        //public const string Alias = "fx.Spider";
 
         #region status
         [Script]
@@ -137,7 +138,7 @@ namespace CardGames.source.js.Controls
         public bool CheatNoValidation = false;
         public bool CheatReveal = false;
 
-        Cookie Storage = new Cookie(Alias);
+        Cookie Storage = new Cookie(typeof(Spider).Name);
 
         int BottomY
         {
@@ -147,8 +148,17 @@ namespace CardGames.source.js.Controls
             }
         }
 
+        static Spider()
+        {
+            typeof(Spider).SpawnTo(i => new Spider(i));
+        }
+
+        public Spider() : this(null)
+        {
+        }
+
         public Spider(IHTMLElement spawn)
-            : base(spawn)
+        //: base(spawn)
         {
             MyStatus.Visible = false;
 
@@ -637,7 +647,7 @@ namespace CardGames.source.js.Controls
 
             // correct translation?
             //if (PlayStacks.Find((p) => p.Value = p.Target.Cards.Count == 0) != null)
-            if (Enumerable.Count( PlayStacks, t => t.Cards.Count == 0) > 1)
+            if (Enumerable.Count(PlayStacks, t => t.Cards.Count == 0) > 1)
             {
                 Console.Log("no move found!");
 

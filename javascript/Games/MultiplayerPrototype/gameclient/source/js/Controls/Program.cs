@@ -1,5 +1,7 @@
+using System.Linq;
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.JavaScript;
@@ -13,6 +15,8 @@ namespace gameclient.source.js.Controls
 {
     using shared;
     using System.Collections.Generic;
+    using NatureBoy.js;
+    using System;
 
     [Script]
     class __Type1
@@ -33,13 +37,15 @@ namespace gameclient.source.js.Controls
 
 
         // implement interface member as an event
-        public event EventHandler<Message._IClient_DisplayNotification> OnIClient_DisplayNotification;
+        public event Action<Message._IClient_DisplayNotification> OnIClient_DisplayNotification;
 
         public void IClient_DisplayNotification(string text, int color)
         {
             var p = new Message._IClient_DisplayNotification { text = text, color = color };
 
-            Helper.Invoke(OnIClient_DisplayNotification, p);
+            if (OnIClient_DisplayNotification != null)
+                OnIClient_DisplayNotification(p);
+            //Helper.Invoke(OnIClient_DisplayNotification, p);
         }
 
         public void ForceReload()
@@ -50,14 +56,28 @@ namespace gameclient.source.js.Controls
         #endregion
 
         // implement interface member as an event
-        public event EventHandler<Message._IClient_DrawRectangle> OnIClient_DrawRectangle;
+        public event Action<Message._IClient_DrawRectangle> OnIClient_DrawRectangle;
 
         public void IClient_DrawRectangle(RectangleInfo rect, int color)
         {
             var p = new Message._IClient_DrawRectangle { rect = rect, color = color };
 
-            Helper.Invoke(OnIClient_DrawRectangle, p);
+            if (OnIClient_DrawRectangle != null)
+                OnIClient_DrawRectangle(p);
+            //Helper.Invoke(OnIClient_DrawRectangle, p);
         }
+
+
+        public event Action<Message._IClient_SpawnHarvester> OnIClient_SpawnHarvester;
+
+        public void IClient_SpawnHarvester(Point Location, int Direction)
+        {
+            var IClient_SpawnHarvester = new Message._IClient_SpawnHarvester { Location = Location, Direction = Direction };
+
+            if (OnIClient_SpawnHarvester != null)
+                OnIClient_SpawnHarvester(IClient_SpawnHarvester);
+        }
+
     }
 
     [Script]
@@ -92,7 +112,7 @@ namespace gameclient.source.js.Controls
 
         public TimerEvent Settings;
 
-        public EventHandler<TimerEvent> Handler;
+        public Action<TimerEvent> Handler;
     }
 
 
@@ -127,7 +147,9 @@ namespace gameclient.source.js.Controls
                                 v.Settings.TimeToLive--;
                             }
 
-                            Helper.Invoke(v.Handler, v.Settings);
+                            if (v.Handler != null)
+                                v.Handler(v.Settings);
+                            //Helper.Invoke(v.Handler, v.Settings);
 
                             if (v.Settings.TimeToLive == 0)
                             {
@@ -143,7 +165,7 @@ namespace gameclient.source.js.Controls
         readonly List<TimerEventInfo> events = new List<TimerEventInfo>();
 
 
-        public EventHandler<TimerEvent> this[TimerEvent e]
+        public Action<TimerEvent> this[TimerEvent e]
         {
             set
             {
@@ -348,9 +370,17 @@ namespace gameclient.source.js.Controls
             // we do not want to see those scrollbars
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
+            // Preload Images
+            foreach (var v in Frames.Harvester1)
+            {
+                var dummy = v.Image;
+            }
 
-            Console.EnableActiveXConsole();
+            //Console.EnableActiveXConsole();
 
+            var MyDudeHotRange = 24;
+            var MyDudes = new List<Dude2>();
+            var MySelectedDudes = new Dude2[] { };
 
             Session = new MySession();
 
@@ -366,9 +396,9 @@ namespace gameclient.source.js.Controls
                     Native.Document.onkeypress +=
                         delegate(IEvent ev)
                         {
-                            if (ev.KeyCode == 'q') Console.Log("Q");
-                            if (ev.KeyCode == 'w') Console.Log("W");
-                            if (ev.KeyCode == 'e') Console.Log("E");
+                            if (ev.KeyCode == 'q') Console.WriteLine("Q");
+                            if (ev.KeyCode == 'w') Console.WriteLine("W");
+                            if (ev.KeyCode == 'e') Console.WriteLine("E");
                             if (ev.KeyCode == 'r')
                             {
                                 var random_spawn_position = new __Type1
@@ -377,7 +407,7 @@ namespace gameclient.source.js.Controls
                                                                 y = new System.Random().NextDouble() * 400,
                                                             };
 
-                                Console.Log("random_spawn_position: " + random_spawn_position);
+                                Console.WriteLine("random_spawn_position: " + random_spawn_position);
 
                                 // Lets Spawn Something into the world
                             }
@@ -415,7 +445,7 @@ namespace gameclient.source.js.Controls
                     // set the map to be somewhere left
                     a.SetLocation(Rectangle.Of(32, 32, 640, 480));
 
-    
+
                     // set tha map canvas size to be something big
                     a.SetCanvasSize(new Point(8000, 8000));
 
@@ -435,7 +465,7 @@ namespace gameclient.source.js.Controls
                                            {
                                                z.Dispose();
                                            };
-                                   }; 
+                                   };
                     #endregion
 
                     this.SessionTimer[TimerEvent.DelayOnce(1000)] =
@@ -500,8 +530,8 @@ namespace gameclient.source.js.Controls
 
                     #endregion
 
-
-                    EventHandler<Rectangle, Color> DrawRectangleLocal =
+                    #region DrawRectangle
+                    Action<Rectangle, Color> DrawRectangleLocal =
                         delegate(Rectangle r, Color c)
                         {
                             var p = new Pair<Rectangle, Color>(r, c);
@@ -512,13 +542,6 @@ namespace gameclient.source.js.Controls
                             m.DrawRectangleToCanvas(r * m.Zoom.Value, c);
                         };
 
-                    EventHandler<Rectangle, Color> DrawRectangle =
-                        delegate(Rectangle r, Color c)
-                        {
-                            DrawRectangleLocal(r, c);
-
-                            this.Session.IServer_DrawRectangle(r, c);
-                        };
 
 
                     this.Session.OnIClient_DrawRectangle += delegate(Message._IClient_DrawRectangle p)
@@ -535,23 +558,96 @@ namespace gameclient.source.js.Controls
                     };
 
 
+                    Action<Rectangle, Color> DrawRectangle =
+                        delegate(Rectangle r, Color c)
+                        {
+                            DrawRectangleLocal(r, c);
+
+                            this.Session.IServer_DrawRectangle(r, c);
+                        };
+
+                    #endregion
+
+                    #region SpawnHarvester
+                    Action<Point, double> SpawnHarvester_Local =
+                        delegate(Point Location, double Direction)
+                        {
+                            // add new dude
+                            var dude = CreateHarvester();
+
+                            dude.Direction = Direction;
+                            dude.Zoom.StaticZoom = 1;
+                            dude.TeleportTo(Location.X, Location.Y);
+
+                            dude.Control.AttachTo(a.Layers.Canvas);
+
+                            MyDudes.Add(dude);
+                        };
+
+                    this.Session.OnIClient_SpawnHarvester += 
+                        ev => SpawnHarvester_Local(ev.Location, (ev.Direction / 32d));
+
+                    Action<Point, double> SpawnHarvester =
+                        (Location, Direction) =>
+                        {
+                            SpawnHarvester_Local(Location, Direction);
+                            this.Session.IServer_SpawnHarvester(Location, (Direction * 32).ToInt32());
+                        };
+
+                    //(Location, Direction) =>
+                    //{
+                    //    SpawnHarvester_Local(Location, Direction);
+                    //};
+                    #endregion
+
                     a.SelectionClick += delegate(Point p, IEvent ev)
                     {
-                        Console.Log("SelectionClick_1");
+                        Console.WriteLine("SelectionClick_1");
 
                         if (ev.ctrlKey)
                         {
-                            DrawRectangle(p.WithMargin(a.SelectionMinimumSize * 2), Color.Green);
-                        }
+                            SpawnHarvester(p, (Math.PI * 2).Random());
 
+                            // DrawRectangle(p.WithMargin(a.SelectionMinimumSize * 2), Color.Green);
+                        }
+                        else
+                        {
+                            var Selection = MyDudes.Where(v => v.CurrentLocation.GetRange(p) < MyDudeHotRange).ToArray();
+
+                            if (Selection.Length == 0)
+                            {
+                                MySelectedDudes.ForEach(v => v.WalkTo(p));
+                            }
+                            else
+                            {
+                                MySelectedDudes.ForEach(v => v.IsSelected = false);
+                                MySelectedDudes = Selection;
+                                MySelectedDudes.ForEach(v => v.IsSelected = true);
+                            }
+
+                        }
                     };
 
+                    a.MouseMove +=
+                        point =>
+                        {
+                            foreach (var v in MyDudes)
+                            {
+                                v.IsHot = v.CurrentLocation.GetRange(point) < MyDudeHotRange;
+                            }
+                        };
 
                     a.ApplySelection += delegate(Rectangle r, IEvent ev)
                     {
                         if (ev.ctrlKey)
                         {
                             DrawRectangle(r, RandomColor);
+                        }
+                        else
+                        {
+                            MySelectedDudes.ForEach(v => v.IsSelected = false);
+                            MySelectedDudes = MyDudes.Where(v => r.Contains(v.CurrentLocation)).ToArray();
+                            MySelectedDudes.ForEach(v => v.IsSelected = true);
                         }
                     };
 
@@ -615,6 +711,8 @@ namespace gameclient.source.js.Controls
                     ai.Arena = a;
                     ai.Minimap = m;
 
+                    #region hidden
+                    /*
                     {
                         var mcy = new ArenaUnit();
 
@@ -635,8 +733,9 @@ namespace gameclient.source.js.Controls
                         // remeber that we have such a unit
                         ai.Units.Add(mcy);
                     }
+                    */
 
-
+                    /*
 
                     {
 
@@ -703,7 +802,8 @@ namespace gameclient.source.js.Controls
 
                         // remeber that we have such a unit
                         ai.Units.Add(mcy);
-                    }
+                    }*/
+                    #endregion
 
                     m.Zoom.Changed +=
                         delegate
@@ -731,6 +831,38 @@ namespace gameclient.source.js.Controls
             );
         }
 
+        private static Dude2 CreateHarvester()
+        {
+            var dude = new Dude2();
+
+            System.Console.WriteLine("new dude");
+
+            dude.Frames = Frames.Harvester1;
+
+
+
+            dude.AnimationInfo.Frames_Stand = dude.Frames;
+            dude.AnimationInfo.Frames_Walk = new[] { dude.Frames };
+
+            dude.Zoom.StaticZoom = 1;
+            dude.Zoom.DynamicZoom = 1;
+            dude.Zoom.DynamicZoomFunc = i => 1;
+            //dude.RawWalkSpeed = 0.4;
+
+            dude.SetSize(48, 48);
+
+            dude.TargetLocationDistanceMultiplier = 1;
+
+
+            //dude.Direction = System.Math.PI.Random() * 2;
+            //dude.Direction = 0;
+
+            //dude.Control.style.border = "1px solid red";
+
+            //dude.Control.AttachToDocument();
+            return dude;
+        }
+
         private static void Test1(ArenaControl a)
         {
             a.SelectionClick += delegate(Point p, IEvent ev)
@@ -751,7 +883,7 @@ namespace gameclient.source.js.Controls
         {
             get
             {
-                return (Color) System.Math.Floor(new System.Random().NextDouble() * 0xFFFFFF);
+                return (Color)System.Math.Floor(new System.Random().NextDouble() * 0xFFFFFF);
             }
         }
     }

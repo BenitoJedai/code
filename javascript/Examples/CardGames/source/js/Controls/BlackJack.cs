@@ -17,7 +17,7 @@ using System.Collections.Generic;
 namespace CardGames.source.js.Controls
 {
     [Script]
-    public class BlackJack : SpawnControlBase
+    public class BlackJack// : SpawnControlBase
     {
         public const string Alias = "fx.BlackJack";
 
@@ -41,7 +41,7 @@ namespace CardGames.source.js.Controls
 
 
         public BlackJack(IHTMLElement spawn)
-            : base(spawn)
+           // : base(spawn)
         {
 
             Console.Log("--- BlackJack ---");

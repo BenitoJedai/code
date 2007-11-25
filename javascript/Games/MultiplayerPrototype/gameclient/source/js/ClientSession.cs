@@ -40,5 +40,15 @@ namespace gameclient.source.js
 
         }
 
+
+        #region IClient Members
+
+
+        public void IClient_SpawnHarvester(Point Location, int Direction)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        #endregion
     }
 }

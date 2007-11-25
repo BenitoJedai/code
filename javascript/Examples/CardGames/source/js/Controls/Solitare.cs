@@ -3,6 +3,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.Controls.Effects;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Serialized;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -17,10 +18,10 @@ using System.ComponentModel;
 
 namespace CardGames.source.js.Controls
 {
-    [Script]
-    public class Solitare : SpawnControlBase
+    [Script, ScriptApplicationEntryPoint]
+    public class Solitare //: SpawnControlBase
     {
-        public const string Alias = "fx.Solitare";
+        //public const string Alias = "fx.Solitare";
 
         static IHTMLImage BackgroundImage
         {
@@ -41,8 +42,14 @@ namespace CardGames.source.js.Controls
         CardGameSoundManager sounds = new CardGameSoundManager();
 
 
+
+        static Solitare()
+        {
+            typeof(Solitare).SpawnTo(i => new Solitare(i));
+        }
+
         public Solitare(IHTMLElement spawn)
-            : base(spawn)
+            //: base(spawn)
         {
 
             Console.Log("--- solitare ---");

@@ -271,7 +271,7 @@ namespace TextScreenSaver.js
 
         static Class1()
         {
-            typeof(Class1).SpawnTo<Qoutes.DocumentList>(Qoutes.Settings.KnownTypes, i => new Class1(i));
+            typeof(Class1).SpawnTo(Qoutes.Settings.KnownTypes, (Qoutes.DocumentList i) => new Class1(i));
 
         }
 

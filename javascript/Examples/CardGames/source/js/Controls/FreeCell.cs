@@ -3,6 +3,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.Controls.Effects;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Serialized;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -20,10 +21,10 @@ using System.Linq;
 
 namespace CardGames.source.js.Controls
 {
-    [Script]
-    public class FreeCell : SpawnControlBase
+    [Script, ScriptApplicationEntryPoint(IsClickOnce=true)]
+    public class FreeCell// : SpawnControlBase
     {
-        public const string Alias = "fx.FreeCell";
+        //public const string Alias = "fx.FreeCell";
 
         static IHTMLImage BackgroundImage
         {
@@ -120,12 +121,22 @@ namespace CardGames.source.js.Controls
 
         CardGameSoundManager sounds = new CardGameSoundManager();
 
-        Cookie Storage = new Cookie(Alias);
+        Cookie Storage = new Cookie(typeof(FreeCell).Name);
 
         public bool UseNoValidationCheat = false;
 
+        static FreeCell()
+        {
+            typeof(FreeCell).SpawnTo(i => new FreeCell(i));
+        }
+
+
+        public FreeCell() : this(null)
+        {
+        }
+
         public FreeCell(IHTMLElement spawn)
-            : base(spawn)
+        //: base(spawn)
         {
 
             Console.Log("--- freecell ---");
@@ -168,215 +179,215 @@ namespace CardGames.source.js.Controls
             //    ,
             //    delegate
             //    {
-                    var status = new StatusInfo();
+            var status = new StatusInfo();
 
-                    status.Update();
+            status.Update();
 
-                    MyDeck.Stacks.ListChanged +=
-                        (sender, args) =>
-                        {
+            MyDeck.Stacks.ListChanged +=
+                (sender, args) =>
+                {
 
-                            if (args.ListChangedType == ListChangedType.ItemAdded)
-                            {
-                                var s = MyDeck.Stacks[args.NewIndex];
-
-                                s.SetBackground(MyDeck.GfxPath + "/spider.empty.png");
-                            }
-                        };
-
-                    Console.Log("creating stacklists... ");
-
-                    PlayStacks = MyDeck.CreateStackList();
-                    TempStacks = MyDeck.CreateStackList();
-                    GoalStacks = MyDeck.CreateStackList();
-
-
-
-
-                    var usesound_cookie = Storage["usesound"];
-
-                    status.MoveTo(new Point(500, 20));
-                    status.Update();
-                    status.SoundSettingChanged +=
-                        delegate
-                        {
-                            sounds.Enabled = status.UseSounds;
-                            usesound_cookie.BooleanValue = status.UseSounds;
-                        };
-
-                    status.UseSounds = usesound_cookie.BooleanValue;
-
-                    #region rules
-                    MyDeck.ApplyCardRules += delegate(Card e)
+                    if (args.ListChangedType == ListChangedType.ItemAdded)
                     {
-                        e.Enabled = true;
-                        e.Moved +=
-                            delegate
-                            {
-                                status.Moves++;
-                                status.Update();
+                        var s = MyDeck.Stacks[args.NewIndex];
+
+                        s.SetBackground(MyDeck.GfxPath + "/spider.empty.png");
+                    }
+                };
+
+            Console.Log("creating stacklists... ");
+
+            PlayStacks = MyDeck.CreateStackList();
+            TempStacks = MyDeck.CreateStackList();
+            GoalStacks = MyDeck.CreateStackList();
 
 
-                            };
-
-                        #region automove
 
 
-                        e.Drag.MiddleClick +=
-                            delegate
-                            {
-                                TryAutoMove(e);
-                            };
+            var usesound_cookie = Storage["usesound"];
 
-                        e.DoubleClick +=
-                            delegate
-                            {
-                                TryAutoMove(e);
-                            };
-                        #endregion
+            status.MoveTo(new Point(500, 20));
+            status.Update();
+            status.SoundSettingChanged +=
+                delegate
+                {
+                    sounds.Enabled = status.UseSounds;
+                    usesound_cookie.BooleanValue = status.UseSounds;
+                };
 
-                        e.Drag.DragStop +=
-                            delegate
-                            {
-                                sounds.PlaySoundDrop();
-                            };
+            status.UseSounds = usesound_cookie.BooleanValue;
 
-                        e.Drag.DragStart +=
-                            delegate
-                            {
-                                sounds.PlaySoundDrag();
-
-                            };
-
-                        // rules for starting a drag
-                        e.Drag.DragStartValidate +=
-                            delegate(Predicate p)
-                            {
-                                if (UseNoValidationCheat)
-                                    return;
-
-                                // cannot remove cards from goal stack
-                                if (GoalStacks.Contains(e.CurrentStack))
-                                {
-                                    p.Value = false;
-
-                                    return;
-                                }
-
-                                // cannot drag a pile of cards
-                                if (e.HasStackedCards)
-                                    p.Value = false;
-                            };
-
-                        // rules for ending a drag
-                        e.ValidateDragStop +=
-                            delegate(Predicate<CardStack> p)
-                            {
-                                if (UseNoValidationCheat)
-                                    return;
-
-                                if (IsStackTypeAndDoesNotFit(e, PlayStacks, p, IsFitForPlayStack))
-                                {
-                                    p.Target = null;
-                                }
-                                else if (IsStackTypeAndDoesNotFit(e, TempStacks, p, IsFitForTempStack))
-                                {
-                                    p.Target = null;
-                                }
-                                else if (IsStackTypeAndDoesNotFit(e, GoalStacks, p, IsFitForGoalStack))
-                                {
-                                    p.Target = null;
-                                }
-
-
-                            };
+            #region rules
+            MyDeck.ApplyCardRules += delegate(Card e)
+            {
+                e.Enabled = true;
+                e.Moved +=
+                    delegate
+                    {
+                        status.Moves++;
+                        status.Update();
 
 
                     };
-                    #endregion
 
-                    GoalStacks.ListChanged +=
-                        (sender0, args0) =>
+                #region automove
+
+
+                e.Drag.MiddleClick +=
+                    delegate
+                    {
+                        TryAutoMove(e);
+                    };
+
+                e.DoubleClick +=
+                    delegate
+                    {
+                        TryAutoMove(e);
+                    };
+                #endregion
+
+                e.Drag.DragStop +=
+                    delegate
+                    {
+                        sounds.PlaySoundDrop();
+                    };
+
+                e.Drag.DragStart +=
+                    delegate
+                    {
+                        sounds.PlaySoundDrag();
+
+                    };
+
+                // rules for starting a drag
+                e.Drag.DragStartValidate +=
+                    delegate(Predicate p)
+                    {
+                        if (UseNoValidationCheat)
+                            return;
+
+                        // cannot remove cards from goal stack
+                        if (GoalStacks.Contains(e.CurrentStack))
                         {
-                            if (args0.ListChangedType == ListChangedType.ItemAdded)
+                            p.Value = false;
+
+                            return;
+                        }
+
+                        // cannot drag a pile of cards
+                        if (e.HasStackedCards)
+                            p.Value = false;
+                    };
+
+                // rules for ending a drag
+                e.ValidateDragStop +=
+                    delegate(Predicate<CardStack> p)
+                    {
+                        if (UseNoValidationCheat)
+                            return;
+
+                        if (IsStackTypeAndDoesNotFit(e, PlayStacks, p, IsFitForPlayStack))
+                        {
+                            p.Target = null;
+                        }
+                        else if (IsStackTypeAndDoesNotFit(e, TempStacks, p, IsFitForTempStack))
+                        {
+                            p.Target = null;
+                        }
+                        else if (IsStackTypeAndDoesNotFit(e, GoalStacks, p, IsFitForGoalStack))
+                        {
+                            p.Target = null;
+                        }
+
+
+                    };
+
+
+            };
+            #endregion
+
+            GoalStacks.ListChanged +=
+                (sender0, args0) =>
+                {
+                    if (args0.ListChangedType == ListChangedType.ItemAdded)
+                    {
+                        var s = GoalStacks[args0.NewIndex];
+
+                        s.Cards.ListChanged +=
+
+                            (sender1, args1) =>
                             {
-                                var s = GoalStacks[args0.NewIndex];
+                                if (args1.ListChangedType == ListChangedType.ItemAdded)
+                                {
+                                    var u = s.Cards[args1.NewIndex];
+                                    // hide the previous, as we never need it to be seen again
+                                    status.CardsLeft--;
+                                    status.Update();
 
-                                s.Cards.ListChanged +=
-
-                                    (sender1, args1) =>
+                                    #region end suit
+                                    if (u.Info.Rank == CardInfo.RankEnum.Rank2)
                                     {
-                                        if (args1.ListChangedType == ListChangedType.ItemAdded)
+                                        s.Enabled = false;
+
+                                        if (status.CardsLeft == 0)
                                         {
-                                            var u = s.Cards[args1.NewIndex];
-                                            // hide the previous, as we never need it to be seen again
-                                            status.CardsLeft--;
-                                            status.Update();
-
-                                            #region end suit
-                                            if (u.Info.Rank == CardInfo.RankEnum.Rank2)
-                                            {
-                                                s.Enabled = false;
-
-                                                if (status.CardsLeft == 0)
-                                                {
-                                                    king.IsSmile = true;
-                                                    king.Update();
+                                            king.IsSmile = true;
+                                            king.Update();
 
 
-                                                    sounds.PlaySoundWin();
-                                                }
-
-                                                // check for victory?
-                                            }
-                                            #endregion
-
+                                            sounds.PlaySoundWin();
                                         }
-                                    };
 
-                                // each card on top of eachother
-                                s.CardMargin *= 0;
-                            }
-                        };
+                                        // check for victory?
+                                    }
+                                    #endregion
 
-                    Console.Log("creating tempstack... ");
+                                }
+                            };
 
-                    TempStacks.Add(
-                        new CardStack(new Point(100, 100)),
-                        new CardStack(new Point(200, 100)),
-                        new CardStack(new Point(300, 100)),
-                        new CardStack(new Point(400, 100))
-                    );
+                        // each card on top of eachother
+                        s.CardMargin *= 0;
+                    }
+                };
+
+            Console.Log("creating tempstack... ");
+
+            TempStacks.Add(
+                new CardStack(new Point(100, 100)),
+                new CardStack(new Point(200, 100)),
+                new CardStack(new Point(300, 100)),
+                new CardStack(new Point(400, 100))
+            );
 
 
-                    Console.Log("creating goalstack... ");
+            Console.Log("creating goalstack... ");
 
-                    GoalStacks.Add(
-                        new CardStack(new Point(600, 100)),
-                        new CardStack(new Point(700, 100)),
-                        new CardStack(new Point(800, 100)),
-                        new CardStack(new Point(900, 100))
-                    );
+            GoalStacks.Add(
+                new CardStack(new Point(600, 100)),
+                new CardStack(new Point(700, 100)),
+                new CardStack(new Point(800, 100)),
+                new CardStack(new Point(900, 100))
+            );
 
-                    Console.Log("creating playstack... ");
+            Console.Log("creating playstack... ");
 
-                    PlayStacks.Add(
-                        new CardStack(new Point(150, 240), MyDeck.FetchCards(7)),
-                        new CardStack(new Point(250, 240), MyDeck.FetchCards(7)),
-                        new CardStack(new Point(350, 240), MyDeck.FetchCards(7)),
-                        new CardStack(new Point(450, 240), MyDeck.FetchCards(7)),
-                        new CardStack(new Point(550, 240), MyDeck.FetchCards(6)),
-                        new CardStack(new Point(650, 240), MyDeck.FetchCards(6)),
-                        new CardStack(new Point(750, 240), MyDeck.FetchCards(6)),
-                        new CardStack(new Point(850, 240), MyDeck.FetchCards(6))
-                        );
+            PlayStacks.Add(
+                new CardStack(new Point(150, 240), MyDeck.FetchCards(7)),
+                new CardStack(new Point(250, 240), MyDeck.FetchCards(7)),
+                new CardStack(new Point(350, 240), MyDeck.FetchCards(7)),
+                new CardStack(new Point(450, 240), MyDeck.FetchCards(7)),
+                new CardStack(new Point(550, 240), MyDeck.FetchCards(6)),
+                new CardStack(new Point(650, 240), MyDeck.FetchCards(6)),
+                new CardStack(new Point(750, 240), MyDeck.FetchCards(6)),
+                new CardStack(new Point(850, 240), MyDeck.FetchCards(6))
+                );
 
-                    Console.Log("updating status... ");
+            Console.Log("updating status... ");
 
-                    status.Moves = 0;
-                    status.CardsLeft = MyDeck.Cards.Count;
-                    status.Update();
-                //}, 300
+            status.Moves = 0;
+            status.CardsLeft = MyDeck.Cards.Count;
+            status.Update();
+            //}, 300
             //);
 
         }

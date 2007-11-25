@@ -179,7 +179,7 @@ namespace ScriptCoreLib.JavaScript.Controls
             x.style.overflow = IStyle.OverflowEnum.hidden;
 
             c._Dispose =
-                delegate (CanvasRectangle u)
+                delegate(CanvasRectangle u)
                 {
                     if (x == null)
                         return;
@@ -297,9 +297,16 @@ namespace ScriptCoreLib.JavaScript.Controls
             u.onmousemove +=
                 delegate(IEvent ev)
                 {
-                    if (state)
+                    try
                     {
-                        Helper.Invoke(this.MouseMove, ev.OffsetPosition - this.CurrentCanvasPosition);
+                        if (state)
+                        {
+                            Helper.Invoke(this.MouseMove, ev.OffsetPosition - this.CurrentCanvasPosition);
+                        }
+                    }
+                    catch
+                    {
+                        // document unloaded
                     }
                 };
         }

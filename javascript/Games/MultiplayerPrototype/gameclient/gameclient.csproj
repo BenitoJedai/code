@@ -55,6 +55,9 @@
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -65,8 +68,11 @@
     <Compile Include="source\js\Controls\LayeredTextBox.cs" />
     <Compile Include="source\js\Controls\Program.cs" />
     <Compile Include="source\js\ClientToServerBase.cs" />
+    <Compile Include="source\js\Extensions.cs" />
+    <Compile Include="source\js\Frames.cs" />
     <Compile Include="source\js\GameUnits.cs" />
     <Compile Include="source\js\Controls\DemoControl.cs" />
+    <Compile Include="source\js\NatureBoy\DudeBase.cs" />
     <Compile Include="source\shared\Message.cs" />
     <Compile Include="source\shared\Message.IClient.cs" />
     <Compile Include="source\shared\Message.IServer.cs" />
@@ -287,6 +293,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\readme.html" />
+    <EmbeddedResource Include="web\assets\NatureBoy\alpha\2.png" />
+    <EmbeddedResource Include="web\assets\NatureBoy\alpha\green-ring.png" />
+    <EmbeddedResource Include="web\assets\NatureBoy\alpha\yellow-ring-50.png" />
     <EmbeddedResource Include="web\fx\explosion\explosion.png" />
     <EmbeddedResource Include="web\fx\building\barrack.png" />
     <EmbeddedResource Include="web\fx\building\power.png" />

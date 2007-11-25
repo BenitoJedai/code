@@ -102,5 +102,26 @@ namespace gameclient.source.shared
         #endregion
 
     
+        #region IClient_SpawnHarvester
+        [Script, Serializable]
+        public class _IClient_SpawnHarvester
+        {
+            public Point Location;
+            public int Direction;
+        }
+
+        partial class ServerToClient
+        {
+            public void IClient_SpawnHarvester(Point Location, int Direction)
+            {
+                var IClient_SpawnHarvester = new _IClient_SpawnHarvester { Location = Location, Direction = Direction };
+                var m = new Message { IClient_SpawnHarvester = IClient_SpawnHarvester };
+
+                this.Send(m, null);
+            }
+        }
+
+        public _IClient_SpawnHarvester IClient_SpawnHarvester;
+        #endregion
     }
 }

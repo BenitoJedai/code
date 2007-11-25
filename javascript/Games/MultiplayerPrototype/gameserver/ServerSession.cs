@@ -152,6 +152,20 @@ namespace cncserver
             }
         }
 
+
+        #region IServer Members
+
+
+        public void IServer_SpawnHarvester(Point Location, int Direction)
+        {
+            foreach (var v in this.OthersInTheLobby())
+            {
+                v.IClient_SpawnHarvester(Location, Direction);
+            }
+            
+        }
+
+        #endregion
     }
 
 }

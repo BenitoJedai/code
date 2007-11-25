@@ -122,5 +122,30 @@ namespace gameclient.source.shared
 
         public _IServer_DrawRectangle IServer_DrawRectangle;
         #endregion
+
+
+        #region SpawnHarvester
+        [Script, Serializable]
+        public class _IServer_SpawnHarvester
+        {
+            public Point Location;
+            public int Direction;
+
+            //public string ReturnValue;
+        }
+
+        partial class ClientToServer
+        {
+            public void IServer_SpawnHarvester( Point Location, int Direction)
+            {
+                var IServer_SpawnHarvester = new _IServer_SpawnHarvester { Location = Location, Direction = Direction };
+                var m = new Message { IServer_SpawnHarvester = IServer_SpawnHarvester };
+
+                this.Send(m, null);
+            }
+        }
+
+        public _IServer_SpawnHarvester IServer_SpawnHarvester;
+        #endregion
     }
 }

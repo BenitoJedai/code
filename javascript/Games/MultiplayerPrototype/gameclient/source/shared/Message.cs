@@ -57,6 +57,8 @@ namespace gameclient.source.shared
             string IServer_EnterLobby();
 
             void IServer_DrawRectangle(RectangleInfo rect, int color);
+
+            void IServer_SpawnHarvester(Point Location, int Direction);
         }
 
         public int ToServerMessageId;
@@ -77,6 +79,9 @@ namespace gameclient.source.shared
 
             [Script(NoDecoration = true)]
             void IClient_DrawRectangle(RectangleInfo rect, int color);
+
+            [Script(NoDecoration = true)]
+            void IClient_SpawnHarvester(Point Location, int Direction);
         }
 
         public int ToClientMessageId;

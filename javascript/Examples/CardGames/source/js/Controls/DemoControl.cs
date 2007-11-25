@@ -1,6 +1,7 @@
 using ScriptCoreLib;
 
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Serialized;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -11,7 +12,7 @@ using ScriptCoreLib.Shared.Drawing;
 
 namespace CardGames.source.js.Controls
 {
-    [Script]
+    [Script, ScriptApplicationEntryPoint]
     public class DemoControl
     {
         public const string Alias = "fx.DemoControl";
@@ -33,14 +34,19 @@ namespace CardGames.source.js.Controls
 
 
 
-            Control.onmouseover += ( _) => Style.color = Color.Blue;
-            Control.onmouseout += ( _) => Style.color = Color.None;
+            Control.onmouseover += (_) => Style.color = Color.Blue;
+            Control.onmouseout += (_) => Style.color = Color.None;
 
 
             Style.cursor = IStyle.CursorEnum.pointer;
 
         }
+
+        static DemoControl()
+        {
+            typeof(DemoControl).SpawnTo(i => new DemoControl(i));
+        }
     }
 
-  
+
 }

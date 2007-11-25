@@ -191,12 +191,18 @@ namespace ScriptCoreLib.Shared.Drawing
             get { return new Point(0, 0); }
         }
 
+
+        // jsc:php can only have 1 ctor at the moment... so we have broken it with this change
+        public Point()
+        {
+        }
+
         public Point(int x, int y)
         {
             X = x;
             Y = y;
         }
-
+        
         public override string ToString()
         {
             return "[" + X + ", " + Y + "]";

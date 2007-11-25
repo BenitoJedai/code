@@ -39,8 +39,8 @@ using ScriptCoreLib;
 [assembly:
     Script,
 
-    ScriptTypeFilter(ScriptType.JavaScript, "*.source.js"),
-    ScriptTypeFilter(ScriptType.JavaScript, "*.source.shared")
+    ScriptTypeFilter(ScriptType.JavaScript, "*"),
+    //ScriptTypeFilter(ScriptType.JavaScript, "*.source.shared")
    // ScriptTypeFilter(ScriptType.PHP, "*.source.php"),
    //ScriptTypeFilter(ScriptType.PHP, "*.source.shared")
 ]

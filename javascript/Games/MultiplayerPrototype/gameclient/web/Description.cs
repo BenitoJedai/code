@@ -4,6 +4,8 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 
 [assembly:
+ScriptResources("assets/NatureBoy/alpha"),
+
 ScriptResources("fx/building"),
 ScriptResources("fx/vehicle"),
 ScriptResources("fx/explosion"),
