@@ -152,6 +152,7 @@ namespace NatureBoy.js
             {
                 Images = new[]
                 {
+                    new Zak.ImageRef { Name = "empty", Source = ZakSprites + "/empty.gif" },
                     new Zak.ImageRef { Name = "r1", Source = ZakSprites + "/r1.png" },
                     new Zak.ImageRef { Name = "r1_bed", Source = ZakSprites + "/r1_bed.png" },
                     new Zak.ImageRef { Name = "clock_left", Source = ZakSprites + "/clock_left.png" },
@@ -268,14 +269,14 @@ namespace NatureBoy.js
 
     }
 
-    [Script, ScriptApplicationEntryPoint(IsClickOnce = true, Format = SerializedDataFormat.xml)]
+    [Script, ScriptApplicationEntryPoint(IsClickOnce = true)]
     partial class Class5
     {
         // todo: overlay, inline spawn from space invaders
 
         void Initialize()
         {
-
+            
             Console.WriteLine("new Class5");
 
             if (Data == null)
@@ -335,7 +336,7 @@ namespace NatureBoy.js
             ImagesLoadedEvent =
                 delegate
                 {
-                    c.innerHTML = "";
+                    c.innerHTML = "building...";
 
                     var Images = Data.Images.ToDictionary(iref => iref.Name);
 
@@ -348,25 +349,6 @@ namespace NatureBoy.js
                                       ((r.To.Y.ToInt32() - r.From.Y.ToInt32()) * ViewPortSize.Z).ToInt32()
                                  )
                       ).ToArray();
-
-                    #region layers
-                    var ContentLayer = new IHTMLDiv();
-                    var InputLayer = new IHTMLDiv();
-
-                    ViewPortSize.ApplyZoomedSize(ContentLayer);
-                    ViewPortSize.ApplyZoomedSize(InputLayer);
-
-                    ContentLayer.style.SetLocation(0, 0);
-                    InputLayer.style.SetLocation(0, 0);
-
-                    InputLayer.style.backgroundColor = Color.Green;
-                    InputLayer.style.Opacity = 0.01;
-
-                    ContentLayer.AttachTo(c);
-                    InputLayer.AttachTo(c);
-
-                    InputLayer.style.zIndex = 10000;
-                    #endregion
 
                     Func<string, IHTMLImage> GetImage = Name =>
                         {
@@ -384,10 +366,30 @@ namespace NatureBoy.js
                             return img;
                         };
 
+                    #region layers
+                    var ContentLayer = new IHTMLDiv();
+                    var InputLayer = new IHTMLDiv();
+
+                    ViewPortSize.ApplyZoomedSize(ContentLayer);
+                    ViewPortSize.ApplyZoomedSize(InputLayer);
+
+                    ContentLayer.style.SetLocation(0, 0);
+                    InputLayer.style.SetLocation(0, 0);
+
+                    new IHTMLImage(Images["empty"].Source).ToBackground(InputLayer);
+
+
+
+                    InputLayer.style.zIndex = 10000;
+                    #endregion
+
+
+
                     // background
                     var bg = GetImage(Data.BackgroundImageName);
                     ViewPortSize.ApplyZoomedSize(bg);
-                    bg.AttachTo(ContentLayer);
+
+
 
 
                     // item 1 - hardcoded
@@ -401,7 +403,6 @@ namespace NatureBoy.js
                         Y = 43
                     }.ApplyZoomedSize(bed);
 
-                    bed.AttachTo(ContentLayer);
                     bed.style.zIndex = 1000;
 
                     new ZoomedPoint
@@ -412,7 +413,8 @@ namespace NatureBoy.js
                     }.ApplyZoomedLocation(bed);
                     #endregion
 
-
+                    
+                   
                     // item 2 - clock
                     #region item
                     var clock_left = GetImage("clock_left");
@@ -424,9 +426,7 @@ namespace NatureBoy.js
                     };
 
                     clock_right.Hide();
-                    
-                    clock_left.AttachTo(ContentLayer);
-                    clock_right.AttachTo(ContentLayer);
+
 
                     new ZoomedPoint
                     {
@@ -504,7 +504,7 @@ namespace NatureBoy.js
                     dude.TeleportTo(DudeLocation.ZoomedX, DudeLocation.ZoomedY);
                     dude.Direction = Math.PI.Random() * 2;
 
-                    dude.Control.AttachTo(ContentLayer);
+
 
 
 
@@ -518,6 +518,7 @@ namespace NatureBoy.js
 
                             return !ok;
                         };
+
 
                     // click to  move the dude
                     InputLayer.onclick +=
@@ -545,6 +546,24 @@ namespace NatureBoy.js
                                 dude.WalkToArc(dude.CurrentWalkSpeed , (Math.PI / 2) * dict[ev.KeyCode]);
 
                         };
+
+                    c.innerHTML = "done!";
+
+                    new ScriptCoreLib.JavaScript.Runtime.Timer(
+                        delegate
+                        {
+                            c.innerHTML = "";
+
+                            ContentLayer.AttachTo(c);
+                            InputLayer.AttachTo(c);
+
+                            bg.AttachTo(ContentLayer);
+                            bed.AttachTo(ContentLayer);
+
+                            clock_left.AttachTo(ContentLayer);
+                            clock_right.AttachTo(ContentLayer);
+                            dude.Control.AttachTo(ContentLayer);
+                        }, 500, 0);
                 };
         }
     }
