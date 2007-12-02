@@ -89,8 +89,8 @@ namespace jsc
                 if (!options.EnableRemoteExecution)
                     DisableRemoteExecution();
 
-                Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.BelowNormal;
-                Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
+                //Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.BelowNormal;
+                //Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
 
 
                 //AppDomain.CurrentDomain.AppendPrivatePath( options.TargetAssembly.DirectoryName );

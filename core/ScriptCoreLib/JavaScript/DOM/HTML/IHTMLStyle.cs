@@ -28,7 +28,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 if (Expando.InternalIsMember(this, "styleSheet"))
                     return this.styleSheet;
 
-                throw new System.Exception("fault at IHTMLStyle.StyleSheet, members: " + Expando.InternalGetMember(this, "sheet"));
+                throw new System.Exception("fault at IHTMLStyle.StyleSheet, members: " +
+                    Expando.InternalGetMemberNames(this));
             }
         }
 

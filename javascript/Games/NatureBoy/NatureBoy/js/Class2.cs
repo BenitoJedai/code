@@ -98,7 +98,7 @@ You can size them all at once or each invidually.
         {
             var stage = new IHTMLDiv { className = "stage" };
 
-            stage.attachToDocument();
+            stage.AttachToDocument();
 
             IStyleSheet.Default.AddRule(".stage",
                 r =>
@@ -158,7 +158,7 @@ You can size them all at once or each invidually.
 
                 r.Control.className = "cursorred";
 
-                r.Control.attachToDocument();
+                r.Control.AttachToDocument();
 
                 r.Direction = Math.PI.Random() * 2;
 

@@ -69,41 +69,41 @@ namespace NatureBoy.js
             bg.style.position = IStyle.PositionEnum.absolute;
             bg.style.SetLocation(0, 0);
             bg.style.width = "100%";
-            bg.attachToDocument();
+            bg.AttachToDocument();
 
 
 
             var stage = new IHTMLDiv { className = "stage" };
 
-            stage.attachToDocument();
+            stage.AttachToDocument();
 
 
             var dude4 = new Dude { ZoomFunc = y => (y + 300) / (600) };
 
             dude4.TeleportTo(200, 200);
-            dude4.Control.attachToDocument();
+            dude4.Control.AttachToDocument();
             dude4.AutoRotate(1);
 
             var dude5 = new Dude { ZoomFunc = dude4.ZoomFunc };
 
             dude5.TeleportTo(600, 300);
-            dude5.Control.attachToDocument();
+            dude5.Control.AttachToDocument();
             dude5.AutoRotateToCursor(stage);
 
             var dude6 = new Dude { ZoomFunc = dude4.ZoomFunc };
 
             dude6.TeleportTo(300, 400);
-            dude6.Control.attachToDocument();
+            dude6.Control.AttachToDocument();
 
             var dude7 = new Dude { ZoomFunc = dude4.ZoomFunc };
 
             dude7.TeleportTo(200, 400);
-            dude7.Control.attachToDocument();
+            dude7.Control.AttachToDocument();
 
             var dude8 = new Dude { ZoomFunc = dude4.ZoomFunc };
 
             dude8.TeleportTo(250, 300);
-            dude8.Control.attachToDocument();
+            dude8.Control.AttachToDocument();
 
             var CurrentDude = default(Dude);
 

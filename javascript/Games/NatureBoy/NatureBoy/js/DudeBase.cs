@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace NatureBoy.js
 {
@@ -11,6 +13,8 @@ namespace NatureBoy.js
     using ScriptCoreLib.Shared.Drawing;
     using System;
     using ScriptCoreLib;
+    using ScriptCoreLib.JavaScript.Runtime;
+    using ScriptCoreLib.JavaScript.DOM;
 
     [Script]
     public abstract class DudeBase
@@ -76,6 +80,22 @@ namespace NatureBoy.js
                 };
 
             this.HotImage.style.display = IStyle.DisplayEnum.none;
+        }
+
+
+        private bool _HasShadow = true;
+
+        public bool HasShadow
+        {
+            get { return _HasShadow; }
+            set
+            {
+                _HasShadow = value;
+                if (value)
+                    this.Shadow.style.display = IStyle.DisplayEnum.block;
+                else
+                    this.Shadow.style.display = IStyle.DisplayEnum.none;
+            }
         }
 
 
@@ -448,11 +468,11 @@ namespace NatureBoy.js
 
             var e = frame.Image;
 
-            var ix = Convert.ToInt32(e.width * this.Zoom.Value);
-            var iy = Convert.ToInt32(e.height * this.Zoom.Value);
+            var ix = System.Convert.ToInt32(e.width * this.Zoom.Value);
+            var iy = System.Convert.ToInt32(e.height * this.Zoom.Value);
 
-            var dx = Convert.ToInt32((Width - e.width - frame.OffsetX) * this.Zoom.Value);
-            var dy = Convert.ToInt32((Height - e.height - frame.OffsetY) * this.Zoom.Value);
+            var dx = System.Convert.ToInt32((Width - e.width - frame.OffsetX) * this.Zoom.Value);
+            var dy = System.Convert.ToInt32((Height - e.height - frame.OffsetY) * this.Zoom.Value);
 
             var a64 = (this.Zoom.Value * 64).ToInt32();
             var a32 = a64 / 2;
@@ -479,8 +499,8 @@ namespace NatureBoy.js
         public int Width;
         public int Height;
 
-        public int ZoomedWidth { get { return Convert.ToInt32(Width * this.Zoom.Value); } }
-        public int ZoomedHeight { get { return Convert.ToInt32(Height * this.Zoom.Value); } }
+        public int ZoomedWidth { get { return System.Convert.ToInt32(Width * this.Zoom.Value); } }
+        public int ZoomedHeight { get { return System.Convert.ToInt32(Height * this.Zoom.Value); } }
 
         public void SetSize(int x, int y)
         {

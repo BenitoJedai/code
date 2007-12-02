@@ -128,12 +128,7 @@ namespace TextScreenSaver.js
             return e;
         }
 
-        public static IHTMLElement AttachTo(this IHTMLElement e, IHTMLElement c)
-        {
-            c.appendChild(e);
 
-            return e;
-        }
 
         public static string[] Split(this string e, string d, StringSplitOptions op)
         {

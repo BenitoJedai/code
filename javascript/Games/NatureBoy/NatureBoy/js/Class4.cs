@@ -192,7 +192,7 @@ namespace NatureBoy.js
             Wallpaper.style.background = "url(assets/NatureBoy/alpha/power.png)";
             Wallpaper.style.backgroundRepeat = "no-repeat";
             Wallpaper.style.backgroundPosition = "center center";
-            Wallpaper.attachToDocument();
+            Wallpaper.AttachToDocument();
             Wallpaper.KeepInCenter();
 
 
@@ -216,7 +216,7 @@ namespace NatureBoy.js
             Room.style.overflow = IStyle.OverflowEnum.hidden;
 
 
-            Room.attachToDocument();
+            Room.AttachToDocument();
             Room.KeepInCenter();
 
 

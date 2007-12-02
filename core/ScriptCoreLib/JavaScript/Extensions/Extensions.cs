@@ -38,7 +38,16 @@ namespace ScriptCoreLib.JavaScript.Extensions
             ScriptCoreLib.JavaScript.Native.Spawn(alias.Name, i => h(i));
         }
 
+        // compiler bug:
+        // Error	4	No implementation found for this native method, please implement [System.Action`2.Invoke(, ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement)]	
+
         public static void SpawnTo<T>(this Type alias, object[] KnownTypes, Action<T> h)
+            where T : class, new()
+        {
+            SpawnTo<T>(alias, KnownTypes, (t, i) => h(t));
+        }
+
+        public static void SpawnTo<T>(this Type alias, object[] KnownTypes, Action<T, IHTMLElement> h)
             where T : class, new()
         {
             ScriptCoreLib.JavaScript.Native.Spawn(alias.Name,
@@ -53,17 +62,19 @@ namespace ScriptCoreLib.JavaScript.Extensions
                         {
                             var doc = IXMLDocument.Parse(text);
 
-                            h(doc.Deserialize<T>(KnownTypes));
+                            h(doc.Deserialize<T>(KnownTypes), i);
                         }
                         else if (tag.type == "text/json")
                         {
                             // reflection info will be lost here?
 
-                            h((T)(object)Expando.FromJSON(text));
+                            h((T)(object)Expando.FromJSON(text), i);
                         }
                     }
                 }
             );
         }
+
+
     }
 }

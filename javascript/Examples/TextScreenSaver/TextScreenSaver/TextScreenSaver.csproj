@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.20706</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{139A0D94-849B-4F25-B4D3-F165B1F1F5B4}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -63,6 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="web\assets\TextScreenSaver\cursor.cur">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\assets\TextScreenSaver\data\Qoutes4.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="web\assets\TextScreenSaver\data\Qoutes3.xml">

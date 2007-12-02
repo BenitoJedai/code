@@ -70,7 +70,7 @@ namespace jsc.Languages.JavaScript
 
             w.WriteLine("</head>");
             w.WriteLine("<body>");
-            w.WriteLine("<noscript>ScriptApplication cannot run without JavaScript</noscript>");
+            w.WriteLine("<noscript>ScriptApplication cannot run without JavaScript!</noscript>");
 
 
             WriteBody();
@@ -165,18 +165,19 @@ namespace jsc.Languages.JavaScript
 
                         // ...
                     }
-                    //else
-                    //{
-                    using (var w = dir.CreateFile(v.Name + ".xml.htm"))
-                    {
-                        a.DefineSpawnPoint(w, v.Name, "text/xml", data.SerializeToXML());
-                    }
 
-                    using (var w = dir.CreateFile(v.Name + ".json.htm"))
-                    {
-                        a.DefineSpawnPoint(w, v.Name, "text/json", data == null ? null : data.SerializeToJSON());
-                    }
-                    //}
+
+                    if ((s.Format & SerializedDataFormat.xml) == SerializedDataFormat.xml)
+                        using (var w = dir.CreateFile(v.Name + ".xml.htm"))
+                        {
+                            a.DefineSpawnPoint(w, v.Name, "text/xml", data.SerializeToXML());
+                        }
+
+                    if ((s.Format & SerializedDataFormat.json) == SerializedDataFormat.json)
+                        using (var w = dir.CreateFile(v.Name + ".json.htm"))
+                        {
+                            a.DefineSpawnPoint(w, v.Name, "text/json", data == null ? null : data.SerializeToJSON());
+                        }
                 }
             }
         }

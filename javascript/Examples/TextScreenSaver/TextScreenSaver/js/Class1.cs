@@ -4,6 +4,7 @@ using ScriptCoreLib;
 
 
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -27,7 +28,7 @@ namespace TextScreenSaver.js
     using ScriptCoreLib.JavaScript.Controls;
 
 
-    [Script, ScriptApplicationEntryPoint(IsClickOnce=true)]
+    [Script, ScriptApplicationEntryPoint(IsClickOnce = true)]
     public class Class1
     {
         public static readonly Qoutes.DocumentList DefaultData =
@@ -51,7 +52,8 @@ namespace TextScreenSaver.js
                     //}
                     new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes.xml" },
                     new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes2.xml" },
-                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes3.xml" }
+                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes3.xml" },
+                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes4.xml" }
                 }
             };
 
@@ -66,16 +68,23 @@ namespace TextScreenSaver.js
 
             Console.WriteLine("type: " + name);
 
-            IStyleSheet.Default.AddRule("*", "cursor: url('assets/TextScreenSaver/cursor.cur'), auto;", 0);
+            try
+            {
+                IStyleSheet.Default.AddRule("*", "cursor: url('assets/TextScreenSaver/cursor.cur'), auto;", 0);
 
-            IStyleSheet.Default.AddRule("html", 
-                r =>
-                {
-                    r.style.overflow = IStyle.OverflowEnum.hidden;
-                }
-            );
+                IStyleSheet.Default.AddRule("html",
+                    r =>
+                    {
+                        r.style.overflow = IStyle.OverflowEnum.hidden;
+                    }
+                );
+            }
+            catch (Exception exc)
+            {
+                new IHTMLElement(IHTMLElement.HTMLElementEnum.div, "error: " + exc.Message.Replace(",", ", ")).AttachToDocument().style.width = "80em";
+            }
 
-            Action<Qoutes.DocumentRef,Action<Qoutes.Document>> PrepareDocument =
+            Action<Qoutes.DocumentRef, Action<Qoutes.Document>> PrepareDocument =
                 (doc, done) =>
                 {
                     if (doc.Document == null)
@@ -95,7 +104,7 @@ namespace TextScreenSaver.js
                     body.style.width = "100%";
                     body.style.height = "100%";
                     body.style.fontFamily = IStyle.FontFamilyEnum.Verdana;
-                    body.style.backgroundImage = "url(assets/TextScreenSaver/powered_by_jsc.png)";
+                    //body.style.backgroundImage = "url(assets/TextScreenSaver/powered_by_jsc.png)";
                     body.style.backgroundRepeat = "no-repeat";
 
 

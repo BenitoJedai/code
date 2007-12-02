@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Diagnostics;
 using System.Reflection;
 using System.Collections.Generic;
@@ -405,16 +406,22 @@ namespace jsc
 
             Type eg = (e.IsGenericType ? e.GetGenericTypeDefinition() : e);
 
-            foreach (Type z in ImplementationTypes)
+            foreach (var i in
+                from z in ImplementationTypes
+                let sa = ScriptAttribute.OfProvider(z)
+                where sa != null
+                where sa.Implements != null
+                // orderby z.Name
+                select new { z, sa })
             {
 
-                ScriptAttribute sa = ScriptAttribute.OfProvider(z);
+                //ScriptAttribute sa = ScriptAttribute.OfProvider(z);
 
-                if (sa == null)
-                    continue;
+                //if (sa == null)
+                //    continue;
 
-                if (sa.Implements == null)
-                    continue;
+                //if (sa.Implements == null)
+                //    continue;
 
                 //if (e.IsGenericType)
                 //{
@@ -431,8 +438,9 @@ namespace jsc
                 //    }
                 //}
                 //else
-                if (sa.Implements.GUID.Equals(eg.GUID))
-                    return z;
+
+                if (i.sa.Implements.GUID.Equals(eg.GUID))
+                    return i.z;
 
             }
 

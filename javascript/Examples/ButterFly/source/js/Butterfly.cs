@@ -1,10 +1,12 @@
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
+using System;
 
 namespace ButterFly.source.js
 {
@@ -35,7 +37,15 @@ namespace ButterFly.source.js
                 delegate
                 {
                     loading.FadeOut();
-                    IStyleSheet.Default.AddRule("*", "cursor: url('fx/gfx/nocursor.cur'), auto;", 0);
+
+                    try
+                    {
+                        IStyleSheet.Default.AddRule("*", "cursor: url('fx/gfx/nocursor.cur'), auto;", 0);
+                    }
+                    catch (Exception exc)
+                    {
+                        new IHTMLElement(IHTMLElement.HTMLElementEnum.pre, exc.Message).Att
+                    }
 
                     e.style.backgroundImage = "url(fx/gfx/buttryfly.gif)";
                     e.style.backgroundRepeat = "no-repeat";

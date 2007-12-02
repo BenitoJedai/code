@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
@@ -17,6 +18,14 @@ namespace NatureBoy.js
     [Script]
     static class Extensions
     {
+        public static void AttachAsNextOrToDocument(this IHTMLElement e, IHTMLElement anchor)
+        {
+            if (anchor == null)
+                e.AttachToDocument();
+            else
+                anchor.insertNextSibling(e);
+        }
+
         public static void AsyncForEach<T>(this IEnumerable<T> e, Func<T, int> h, Action done)
         {
             var x = e.AsEnumerable().GetEnumerator();
@@ -194,6 +203,13 @@ namespace NatureBoy.js
             return int.Parse(e);
         }
 
+        public static double ToDouble(this string e)
+        {
+            var dummy = 0;
+
+            return double.Parse(e);
+        }
+
         public static int ToInt32(this double e)
         {
             var dummy = 0;
@@ -233,7 +249,7 @@ namespace NatureBoy.js
         {
             var r = new IHTMLDiv(e);
 
-            r.attachToDocument();
+            r.AttachToDocument();
 
             return r;
         }
