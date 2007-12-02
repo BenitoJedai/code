@@ -528,12 +528,19 @@ namespace NatureBoy.js
             this.Control.style.SetSize(zx, zy);
         }
 
+        public Func<Point, bool> CanTeleportTo;
+
         public override void TeleportTo(double x, double y)
         {
+            if (CanTeleportTo != null)
+                if (CanTeleportTo(new Point { X = x.ToInt32(), Y = y.ToInt32() }))
+                    return;
+
             var f = this.Zoom.DynamicZoomFunc;
 
             if (f != null)
                 this.Zoom.DynamicZoom = f(y);
+
 
             this.X = x;
             this.Y = y;

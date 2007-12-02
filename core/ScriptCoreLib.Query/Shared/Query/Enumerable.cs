@@ -17,7 +17,22 @@ namespace ScriptCoreLib.Shared.Query
     [Script(Implements = typeof(global::System.Linq.Enumerable))]
     internal static partial class __Enumerable
     {
+        public static bool Any<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> p)
+        {
+            var r = false;
 
+            foreach (var v in source.AsEnumerable())
+            {
+                if (p(v))
+                {
+                    r = true;
+
+                    break;
+                }
+            }
+
+            return r;
+        }
 
         public static bool Contains<TSource>(this IEnumerable<TSource> source, TSource value)
         {

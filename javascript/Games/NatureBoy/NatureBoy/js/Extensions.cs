@@ -18,6 +18,11 @@ namespace NatureBoy.js
     [Script]
     static class Extensions
     {
+        public static IEnumerable<T> SelectMany<T>(this IEnumerable<IEnumerable<T>> e)
+        {
+            return e.SelectMany(i => i);
+        }
+
         public static void AttachAsNextOrToDocument(this IHTMLElement e, IHTMLElement anchor)
         {
             if (anchor == null)
