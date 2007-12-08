@@ -53,7 +53,8 @@ namespace TextScreenSaver.js
                     new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes.xml" },
                     new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes2.xml" },
                     new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes3.xml" },
-                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes4.xml" }
+                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes4.xml" },
+                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes5.xml" }
                 }
             };
 
@@ -88,12 +89,63 @@ namespace TextScreenSaver.js
                 (doc, done) =>
                 {
                     if (doc.Document == null)
-                        doc.Source.DownloadToXML<Qoutes.Document>(Qoutes.Settings.KnownTypes, done);
+                    {
+                        Native.Document.title = "loading...";
+
+                        //Console.WriteLine("loading: " + doc.Source);
+
+                        doc.Source.DownloadToXML<Qoutes.Document>(Qoutes.Settings.KnownTypes,
+                            newdoc =>
+                            {
+
+                                doc.Document = newdoc;
+                                done(newdoc);
+                            }
+                        );
+                    }
                     else
                         done(doc.Document);
                 };
 
-            PrepareDocument(list.Documents.Random(),
+
+            var current = list.Documents.Random();
+
+            var abort = default(Action);
+            var kbd = new KeyboardEvents();
+
+            var reset = default(Action);
+
+            kbd.left +=
+                ev =>
+                {
+                    kbd.Enabled = false;
+                    ev.PreventDefault();
+
+                    if (abort != null)
+                        abort();
+                    current = list.Documents.Previous(i => i == current);
+                    reset();
+                };
+
+            kbd.right +=
+                ev =>
+                {
+                    kbd.Enabled = false;
+                    ev.PreventDefault();
+
+                    if (abort != null)
+                        abort();
+
+                    current = list.Documents.Next(i => i == current);
+                    reset();
+                };
+
+            Native.Document.onkeydown += kbd;
+
+
+            reset =
+                () =>
+                PrepareDocument(current,
                 doc =>
                 {
                     Native.Document.title = doc.Topic.Trim();
@@ -120,14 +172,40 @@ namespace TextScreenSaver.js
                     var timer_handler = new Action<Timer>(delegate { });
                     var timer_ref = 100.AsTimer(timer_handler);
 
+                    var vectors = new List<IHTMLDiv>();
+
+                    var abort_me = default(Action);
+
+                    abort_me =
+                        delegate
+                        {
+                            abort -= abort_me;
+
+                            Console.WriteLine("aborting...");
+
+                            timer_ref.Stop();
+
+                            vectors.ForEach(v => v.Dispose());
+
+                            abort_me = null;
+                        };
+
+                    abort += abort_me;
+
                     Action<Action> SpawnVector =
                         done =>
                         {
+                            // we have been aborted
+                            if (abort_me == null)
+                                return;
+
                             var z = 0.5d.Random() + 0.5d;
 
                             var v = new IHTMLDiv { innerText = lines.Random() };
 
                             v.style.whiteSpace = IStyle.WhiteSpaceEnum.nowrap;
+
+                            vectors.Add(v);
 
                             Action ApplyZ =
                                 () =>
@@ -274,9 +352,13 @@ namespace TextScreenSaver.js
 
                     SpawnRandom(doc.Count.ToInt32(), 3000, SpawnNextVector);
 
+                    kbd.Enabled = true;
                 }
             );
+
+            reset();
         }
+
 
         static Class1()
         {
@@ -287,4 +369,40 @@ namespace TextScreenSaver.js
 
     }
 
+    [Script]
+    class KeyboardEvents
+    {
+        public bool Enabled { get; set; }
+
+        void Dispatcher(IEvent evx)
+        {
+            if (!Enabled)
+                return;
+
+            if (Table == null)
+                Table = new Dictionary<int, Action<IEvent>>
+                            {
+                                { 39, ev => right(ev) },
+                                { 40, ev => down(ev) },
+                                { 37, ev => left(ev) },
+                                { 38, ev => up(ev) },
+                            };
+
+            if (Table.ContainsKey(evx.KeyCode))
+                Table[evx.KeyCode](evx);
+
+        }
+
+        Dictionary<int, Action<IEvent>> Table;
+
+        public event ScriptCoreLib.Shared.EventHandler<IEvent> left;
+        public event ScriptCoreLib.Shared.EventHandler<IEvent> right;
+        public event ScriptCoreLib.Shared.EventHandler<IEvent> up;
+        public event ScriptCoreLib.Shared.EventHandler<IEvent> down;
+
+        public static implicit operator ScriptCoreLib.Shared.EventHandler<IEvent>(KeyboardEvents e)
+        {
+            return e.Dispatcher;
+        }
+    }
 }

@@ -13,93 +13,6 @@ using ScriptCoreLib.JavaScript;
 namespace NatureBoy.js
 {
 
-    namespace Zak
-    {
-        [Script]
-        public static class Settings
-        {
-            public static object[] Types
-            {
-                get
-                {
-                    return new object[] 
-                    {
-                        new ImageRef(), 
-                        new ItemRef(),
-                        new Point(),
-                        new Document(),
-                        new Rect()
-                    };
-                }
-            }
-        }
-
-
-        [Script, Serializable]
-        public sealed class ItemRef
-        {
-            public string Name;
-            public string Description;
-            public string ImageName;
-
-            public Point Position;
-
-
-        }
-
-        [Script, Serializable]
-        public sealed class ImageRef
-        {
-            public string Name;
-            public string Source;
-
-            public Point Size;
-        }
-
-        [Script, Serializable]
-        public sealed class Point
-        {
-            public string X;
-            public string Y;
-        }
-
-        [Script, Serializable]
-        public sealed class Rect
-        {
-            public Point From;
-            public Point To;
-
-            public Rect()
-            {
-
-            }
-
-            public Rect(int x, int y, int cx, int cy)
-            {
-                From = new Point { X = "" + x, Y = "" + y };
-                To = new Point { X = "" + cx, Y = "" + cy };
-            }
-        }
-
-        [Script, Serializable]
-        public sealed class Document
-        {
-            public ImageRef[] Images;
-
-            public Point ViewPortSize;
-            public string ViewPortZoom;
-
-            public ItemRef[] Items;
-
-            public string BackgroundImageName;
-
-            public Point EntryPoint;
-
-            public Rect[] WalkArea;
-        }
-
-
-    }
 
     partial class Class5
     {
@@ -228,7 +141,7 @@ namespace NatureBoy.js
         // Spawn Support
         static Class5()
         {
-            typeof(Class5).SpawnTo<Zak.Document>(Zak.Settings.Types, (i, e) => new Class5(i, e));
+            typeof(Class5).SpawnTo<Zak.Document>(Zak.Settings.KnownTypes, (i, e) => new Class5(i, e));
         }
     }
     #endregion
@@ -236,19 +149,23 @@ namespace NatureBoy.js
     [Script]
     class ZoomedPoint
     {
+        
         public Func<double> GetX;
         public Func<double> GetY;
         public Func<double> GetZ;
 
-        public double Z { get { return GetZ(); } set { GetY = () => value; } }
+        public double Z { get { return GetZ(); } set { GetZ = () => value; } }
         public double X { get { return GetX(); } set { GetX = () => value; } }
         public double Y { get { return GetY(); } set { GetY = () => value; } }
 
         public double ZoomedX { get { return GetX() * GetZ(); } }
         public double ZoomedY { get { return GetY() * GetZ(); } }
 
-        public string ZoomedXpx { get { return ZoomedX.ToInt32() + "px"; } }
-        public string ZoomedYpx { get { return ZoomedY.ToInt32() + "px"; } }
+        public int ZoomedXint { get { return ZoomedX.ToInt32(); } }
+        public int ZoomedYint { get { return ZoomedY.ToInt32(); } }
+
+        public string ZoomedXpx { get { return ZoomedXint + "px"; } }
+        public string ZoomedYpx { get { return ZoomedYint + "px"; } }
 
 
         public ZoomedPoint ApplyZoomedLocation(IHTMLElement e)
@@ -269,7 +186,7 @@ namespace NatureBoy.js
 
     }
 
-    [Script, ScriptApplicationEntryPoint(IsClickOnce = true)]
+    [Script, ScriptApplicationEntryPoint]
     partial class Class5
     {
         // todo: overlay, inline spawn from space invaders

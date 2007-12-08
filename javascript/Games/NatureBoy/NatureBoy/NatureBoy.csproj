@@ -59,19 +59,25 @@
     <Compile Include="js\Class3.cs" />
     <Compile Include="js\Class4.cs" />
     <Compile Include="js\Class5.cs" />
+    <Compile Include="js\Class6.cs" />
+    <Compile Include="js\Class6.Spawn.cs" />
     <Compile Include="js\Dude.cs" />
     <Compile Include="js\DudeBase.cs" />
     <Compile Include="js\Extensions.cs" />
     <Compile Include="js\Frames.cs" />
     <Compile Include="js\fx\loading.cs" />
+    <Compile Include="js\KeyboardEvents.cs" />
     <Compile Include="js\Scene\Scene.cs" />
+    <Compile Include="js\Zak\Zak.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup.cs" />
+    <Compile Include="web\assets\NatureBoy\Assets.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\todo.txt" />
+    <Content Include="js\Zak\references.txt" />
     <Content Include="web\assets\NatureBoy\alpha\2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -720,6 +726,10 @@
     <Content Include="web\assets\NatureBoy\sprites\0.GIF">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="web\assets\NatureBoy\zak\images\room 001, obj 005 %28296,32%29.png" />
+    <EmbeddedResource Include="web\assets\NatureBoy\zak\images\room 001.png" />
+    <EmbeddedResource Include="web\assets\NatureBoy\zak\images\room 002, obj 002 %280,24%29.png" />
+    <EmbeddedResource Include="web\assets\NatureBoy\zak\images\room 002.png" />
     <Content Include="web\assets\NatureBoy\zak\sprites\clock_left.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

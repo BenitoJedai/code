@@ -15,6 +15,8 @@ namespace TextScreenSaver.js
     [Script]
     static class Extensions
     {
+        
+
         public static int GetOffsetRight(this IHTMLElement e)
         {
             return e.offsetLeft + e.offsetWidth;

@@ -10,7 +10,7 @@ using ScriptCoreLib.Shared;
 
 namespace TextRotator.js
 {
-    [Script]
+    [Script, ScriptApplicationEntryPoint]
     class Class2
     {
         public const string Alias = "Class2";

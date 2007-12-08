@@ -18,6 +18,30 @@ namespace NatureBoy.js
     [Script]
     static class Extensions
     {
+        public static TResult[] ToArray<T, TResult>(this IEnumerable<T> source, Func<T, TResult> selector)
+        {
+            return source.Select(selector).ToArray();
+        }
+
+        public static void SpawnTo<T>(this Type alias, Type[] KnownTypes, Action<T, IHTMLElement> h) where T : class, new()
+        {
+            ScriptCoreLib.JavaScript.Extensions.Extensions.SpawnTo(alias, KnownTypes.ToArray(t => Activator.CreateInstance(t)), h);
+
+        }
+
+        public static string DefaultTo(this string e, string d)
+        {
+            if (e == null)
+                return d;
+
+            return e;
+        }
+
+        public static string DefaultToEmptyString(this string e)
+        {
+            return e.DefaultTo("");
+        }
+
         public static IEnumerable<T> SelectMany<T>(this IEnumerable<IEnumerable<T>> e)
         {
             return e.SelectMany(i => i);

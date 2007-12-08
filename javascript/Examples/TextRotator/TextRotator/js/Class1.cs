@@ -7,6 +7,7 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Query;
 
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -21,7 +22,7 @@ namespace TextRotator.js
 {
 
 
-    [Script]
+    [Script, ScriptApplicationEntryPoint]
     public class Class1
     {
         public const string Alias = "Class1";
@@ -152,7 +153,7 @@ namespace TextRotator.js
 
 
             c.appendChild(span, cursor);
-            c.attachToDocument();
+            c.AttachToDocument();
 
             ChooseLine();
         }
@@ -189,7 +190,7 @@ namespace TextRotator.js
             Dump(left, r.AddColumn(), right);
             Dump(right, r.AddColumn(), left);
 
-            t.attachToDocument();
+            t.AttachToDocument();
         }
 
         private static IHTMLElement Dump(object xs, IHTMLElement to, object diff)

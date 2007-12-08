@@ -65,6 +65,9 @@
     <Content Include="web\assets\TextScreenSaver\cursor.cur">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="web\assets\TextScreenSaver\data\Qoutes5.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="web\assets\TextScreenSaver\data\Qoutes4.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
