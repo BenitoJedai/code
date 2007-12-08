@@ -21,9 +21,14 @@ namespace ScriptCoreLib
     [global::System.AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public sealed class ScriptApplicationEntryPointAttribute : Attribute
     {
+        /// <summary>
+        /// Application will be loaded from a href
+        /// </summary>
         public bool IsClickOnce;
 
         public SerializedDataFormat Format = SerializedDataFormat.json | SerializedDataFormat.xml;
+
+        public bool ShowLoadingMessage;
     }
 
 }

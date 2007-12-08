@@ -11,7 +11,7 @@ using ScriptCoreLib.Shared.Drawing;
 
 namespace NatureBoy.js
 {
-    [Script, ScriptApplicationEntryPoint]
+    [Script, ScriptApplicationEntryPoint(Format=SerializedDataFormat.xml)]
     public partial class Class6
     {
         public readonly IHTMLDiv Control = new IHTMLDiv();
@@ -33,7 +33,19 @@ namespace NatureBoy.js
         // Spawn Support
         static Class6()
         {
-            typeof(Class6).SpawnTo<Zak.WorldInfo>(Zak.Settings.KnownTypes, (i, e) => new Class6(i, e));
+            typeof(Class6).SpawnTo<Zak.WorldInfo>(Zak.Settings.KnownTypes,
+                (i, e) =>
+                {
+                    try
+                    {
+                        new Class6(i, e);
+                    }
+                    catch (Exception exc)
+                    {
+                        "pre".AttachToDocument().innerText = "error: " + exc.Message;
+                    }
+                }
+            );
         }
     }
 

@@ -96,6 +96,8 @@ namespace NatureBoy.js
                     var ClientRect = new IHTMLDiv();
 
                     ClientRect.style.backgroundColor = Data.ClientRectColor;
+                    ClientRect.style.overflow = IStyle.OverflowEnum.hidden;
+                    
                     ClientRect.style.SetLocation(
                         ClientRectPos.ZoomedXint,
                         ClientRectPos.ZoomedYint,
@@ -105,23 +107,53 @@ namespace NatureBoy.js
                     ClientRect.AttachTo(Control);
 
 
-                    var img1 = (IHTMLImage)Images["room 001, obj 005 (296,32)"].cloneNode(false);
-                    var img2 = (IHTMLImage)Images["room 002, obj 002 (0,24)"].cloneNode(false);
-                    var img3 = (IHTMLImage)Images["room 002, obj 002 (0,24)"].cloneNode(false);
 
-                    img1.style.SetLocation(4, 4);
-                    img1.AttachTo(ClientRect);
+                    var div1 = SpawnDiv(Images, false);
 
-                    img2.style.SetLocation(100, 4);
-                    img2.AttachTo(ClientRect);
-                    img2.onfocus += ev => img2.blur();
+                    div1.style.backgroundColor = Color.Yellow;
+                    div1.AttachTo(ClientRect);
+                    div1.style.SetLocation(4, 4, 100, 100);
 
-                    img3.style.SetLocation(200, 4);
-                    img3.AttachTo(ClientRect);
-                    img3.onfocus += ev => ev.PreventDefault();
+                    var div2 = SpawnDiv(Images, true);
+
+                    div2.style.backgroundColor = Color.Gray;
+                    div2.AttachTo(ClientRect);
+                    div2.style.SetLocation(100, 4, 100, 100);
                 };
 
             LoadImages();
+        }
+
+        private static IHTMLDiv SpawnDiv(Dictionary<string, IHTMLImage> Images, bool b)
+        {
+            var div1 = new IHTMLDiv();
+            var div2 = new IHTMLDiv();
+
+
+            var img1 = (IHTMLImage)Images["room 001, obj 005 (296,32)"].cloneNode(false);
+            var img2 = (IHTMLImage)Images["room 002, obj 002 (0,24)"].cloneNode(false);
+            var img3 = (IHTMLImage)Images["room 002, obj 002 (0,24)"].cloneNode(false);
+
+            div2.AttachTo(div1);
+            div2.style.position = IStyle.PositionEnum.relative;
+            div2.style.SetSize(100, 100);
+            div2.style.border = "1px solid red";
+
+            if (b)
+                div2.onfocus += ev => div2.blur();
+
+            img1.style.SetLocation(4, 4);
+            img1.AttachTo(div2);
+
+            img2.style.SetLocation(33, 4);
+            img2.AttachTo(div2);
+            img2.onfocus += ev => img2.blur();
+
+            img3.style.SetLocation(66, 4);
+            img3.AttachTo(div2);
+            img3.onfocus += ev => ev.PreventDefault();
+
+            return div1;
         }
     }
 }
