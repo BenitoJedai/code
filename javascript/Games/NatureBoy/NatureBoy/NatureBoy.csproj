@@ -730,6 +730,9 @@
     <EmbeddedResource Include="web\assets\NatureBoy\zak\images\room 001.png" />
     <EmbeddedResource Include="web\assets\NatureBoy\zak\images\room 002, obj 002 %280,24%29.png" />
     <EmbeddedResource Include="web\assets\NatureBoy\zak\images\room 002.png" />
+    <EmbeddedResource Include="web\assets\NatureBoy\zak\images\room 031.png" />
+    <EmbeddedResource Include="web\assets\NatureBoy\zak\images\room 032.png" />
+    <EmbeddedResource Include="web\assets\NatureBoy\zak\images\room 024.png" />
     <Content Include="web\assets\NatureBoy\zak\sprites\clock_left.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

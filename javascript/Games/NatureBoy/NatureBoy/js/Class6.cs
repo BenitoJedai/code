@@ -27,12 +27,15 @@ namespace NatureBoy.js
                     "room 001, obj 005 (296,32)",
                     "room 001",
                     "room 002, obj 002 (0,24)",
-                    "room 002"
+                    "room 002",
+                    "room 024",
+                    "room 031",
+                    "room 032",
                 },
                  BackgroundColor = Color.FromRGB(0, 0, 0),
                  TextColor = Color.FromRGB(0, 0xff, 0),
                  ControlSize = new Zak.Point(320, 240),
-                 Zoom = 1d.ToString(),
+                 Zoom = 2d.ToString(),
                  ClientRect = new Zak.Rect(0, 12, 320, 128),
                  ClientRectColor = Color.FromRGB(0, 0, 0xff)
              };
@@ -40,6 +43,9 @@ namespace NatureBoy.js
 
         private void Initialize()
         {
+            Native.Document.body.style.padding = "0";
+            Native.Document.body.style.margin = "0";
+
             var Images = new Dictionary<string, IHTMLImage>();
             var ImagesLoaded = default(Action);
             Func<string, IHTMLImage> CloneImage = name => (IHTMLImage)Images[name].cloneNode(false);
@@ -109,22 +115,46 @@ namespace NatureBoy.js
                     ContentLayer.AttachTo(Control);
 
 
-                    var r1 = CloneImage("room 001").AttachTo(ContentLayer);
+                    //var r1 = CloneImage("room 001").AttachTo(ContentLayer);
 
-                    r1.style.SetLocation(0, 0, ClientRectSize.ZoomedXint, ClientRectSize.ZoomedYint);
+                    //r1.style.SetLocation(0, 0, ClientRectSize.ZoomedXint, ClientRectSize.ZoomedYint);
 
-                    var r2 = CloneImage("room 002").AttachTo(ContentLayer);
+                    Func<string, IHTMLImage> CreateRoomImage =
+                        name =>
+                        {
+                            var r2 = CloneImage(name);
+                            
+                            r2.AttachTo(ContentLayer);
 
-                    var r2_Zoom = new ZoomedPoint
-                    {
-                        Z = Zoom,
-                        X = Images["room 002"].width,
-                        Y = Images["room 002"].height
-                    };
+                            var r2_Zoom = new ZoomedPoint
+                            {
+                                Z = Zoom,
+                                X = Images[name].width,
+                                Y = Images[name].height
+                            };
 
-                    r2.Hide();
-                    r2.style.SetLocation(0, 0, r2_Zoom.ZoomedXint, r2_Zoom.ZoomedYint);
+                            r2.Hide();
+                            r2.style.SetLocation(0, 0, r2_Zoom.ZoomedXint, r2_Zoom.ZoomedYint);
 
+                            return r2;
+                        };
+
+                    var KnownRooms = new List<IHTMLImage>();
+
+                    KnownRooms.AddRange(
+                        new [] 
+                        {
+                            CreateRoomImage("room 001"),
+                            CreateRoomImage("room 002"),
+                            CreateRoomImage("room 024"),
+                            CreateRoomImage("room 031"),
+                            CreateRoomImage("room 032"),
+                        }
+                    );
+
+                    var CurrentRoom = KnownRooms.Random();
+
+                    CurrentRoom.Show();
 
                     Action<double> SetClipTo =
                         percentage =>
@@ -192,8 +222,12 @@ namespace NatureBoy.js
                             () => kbd.Enabled = false,
                             () =>
                             {
-                                r1.Hide();
-                                r2.Show();
+                                CurrentRoom.Hide();
+                                CurrentRoom = KnownRooms.Previous(i => CurrentRoom == i);
+                                CurrentRoom.Show();
+
+                                //r1.Hide();
+                                //r2.Show();
 
                                 FadeIn(null, () => kbd.Enabled = true);
                             }
@@ -204,8 +238,9 @@ namespace NatureBoy.js
                             () => kbd.Enabled = false,
                             () =>
                             {
-                                r2.Hide();
-                                r1.Show();
+                                CurrentRoom.Hide();
+                                CurrentRoom = KnownRooms.Next(i => CurrentRoom == i);
+                                CurrentRoom.Show();
 
                                 FadeIn(null, () => kbd.Enabled = true);
                             }
