@@ -9,6 +9,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
 using NatureBoy.js.Zak;
 using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.JavaScript;
 
 namespace NatureBoy.js
 {
@@ -41,6 +42,7 @@ namespace NatureBoy.js
         {
             var Images = new Dictionary<string, IHTMLImage>();
             var ImagesLoaded = default(Action);
+            Func<string, IHTMLImage> CloneImage = name => (IHTMLImage)Images[name].cloneNode(false);
 
             var Zoom = Data.Zoom.ToDouble();
 
@@ -93,21 +95,125 @@ namespace NatureBoy.js
                         Y = Data.ClientRect.Size.Yint
                     };
 
-                    var ClientRect = new IHTMLDiv();
+                    var ContentLayer = new IHTMLDiv();
 
-                    ClientRect.style.backgroundColor = Data.ClientRectColor;
-                    ClientRect.style.overflow = IStyle.OverflowEnum.hidden;
-                    
-                    ClientRect.style.SetLocation(
+                    ContentLayer.style.backgroundColor = Data.ClientRectColor;
+                    ContentLayer.style.overflow = IStyle.OverflowEnum.hidden;
+
+                    ContentLayer.style.SetLocation(
                         ClientRectPos.ZoomedXint,
                         ClientRectPos.ZoomedYint,
                         ClientRectSize.ZoomedXint,
                         ClientRectSize.ZoomedYint
                         );
-                    ClientRect.AttachTo(Control);
+                    ContentLayer.AttachTo(Control);
 
 
+                    var r1 = CloneImage("room 001").AttachTo(ContentLayer);
 
+                    r1.style.SetLocation(0, 0, ClientRectSize.ZoomedXint, ClientRectSize.ZoomedYint);
+
+                    var r2 = CloneImage("room 002").AttachTo(ContentLayer);
+
+                    var r2_Zoom = new ZoomedPoint
+                    {
+                        Z = Zoom,
+                        X = Images["room 002"].width,
+                        Y = Images["room 002"].height
+                    };
+
+                    r2.Hide();
+                    r2.style.SetLocation(0, 0, r2_Zoom.ZoomedXint, r2_Zoom.ZoomedYint);
+
+
+                    Action<double> SetClipTo =
+                        percentage =>
+                        {
+                            var x = (ClientRectSize.ZoomedX * percentage / 2).ToInt32();
+                            var y = (ClientRectSize.ZoomedY * percentage / 2).ToInt32();
+
+                            var clip = new CSSClip
+                            {
+                                Left = x,
+                                Top = y,
+                                Right = (ClientRectSize.ZoomedX - x).ToInt32(),
+                                Bottom = (ClientRectSize.ZoomedY - y).ToInt32()
+                            };
+
+                            Console.WriteLine(percentage + " clip: " + clip);
+
+                            ContentLayer.style.clip = clip;
+
+                        };
+
+                    //ContentLayer.style.clip = "rect(15px auto auto 15px)";
+
+                    //var timer = new ScriptCoreLib.JavaScript.Runtime.Timer(
+                    //    delegate
+                    //    {
+                    //        var p = (Math.Sin(DateTime.Now.Ticks) + 1) / 2;
+
+                    //        Console.WriteLine("p: " + p);
+                    //        SetClipTo(p);
+                    //    }
+                    //    , 0, 200);
+
+                    //var pc = 50;
+                    //var px = 200;
+
+                    //Action<double> pChange = i => { px += (i * pc).ToInt32(); timer.StartInterval(px); };
+
+                    Action<Action, Action> FadeOut =
+                        (Starting, Stopping) =>
+                            new LinearTimeTween
+                            {
+                                Length = 1000,
+                                Starting = Starting,
+                                Stopping = Stopping,
+                                Changed = t => SetClipTo(t),
+                                Percision = 50
+                            }.Start();
+
+                    Action<Action, Action> FadeIn =
+                                  (Starting, Stopping) =>
+                                      new LinearTimeTween
+                                      {
+                                          Length = 1000,
+                                          Starting = Starting,
+                                          Stopping = Stopping,
+                                          Changed = t => SetClipTo(1d - t),
+                                          Percision = 50
+                                      }.Start();
+
+                    var kbd = new KeyboardEvents { Enabled = true };
+
+                    kbd.left += ev =>
+                        FadeOut(
+                            () => kbd.Enabled = false,
+                            () =>
+                            {
+                                r1.Hide();
+                                r2.Show();
+
+                                FadeIn(null, () => kbd.Enabled = true);
+                            }
+                        );
+
+                    kbd.right += ev =>
+                         FadeOut(
+                            () => kbd.Enabled = false,
+                            () =>
+                            {
+                                r2.Hide();
+                                r1.Show();
+
+                                FadeIn(null, () => kbd.Enabled = true);
+                            }
+                        );
+
+                    Native.Document.onkeydown += kbd;
+
+                    /*
                     var div1 = SpawnDiv(Images, false);
 
                     div1.style.backgroundColor = Color.Yellow;
@@ -119,6 +225,9 @@ namespace NatureBoy.js
                     div2.style.backgroundColor = Color.Gray;
                     div2.AttachTo(ClientRect);
                     div2.style.SetLocation(100, 4, 100, 100);
+
+                    */
+
                 };
 
             LoadImages();
@@ -154,6 +263,105 @@ namespace NatureBoy.js
             img3.onfocus += ev => ev.PreventDefault();
 
             return div1;
+        }
+    }
+
+    [Script]
+    class LinearTimeTween
+    {
+        public Action Starting;
+        public Action Stopping;
+
+
+        public long Length;
+        public long Elapsed;
+
+        public long TimeStarted;
+        public long TimeNow;
+
+        public double ElapsedPercentage
+        {
+            get
+            {
+                return Elapsed / Length;
+            }
+        }
+
+        public Action<LinearTimeTween> Changed;
+
+        public int Percision = 100;
+
+        ScriptCoreLib.JavaScript.Runtime.Timer _Timer;
+
+        private const long TicksPerMillisecond = 0x10000;
+
+        public LinearTimeTween Start()
+        {
+            if (_Timer != null)
+                _Timer.Stop();
+
+            TimeStarted = DateTime.Now.Ticks / TicksPerMillisecond;
+
+            if (Starting != null)
+                Starting();
+
+            _Timer = new ScriptCoreLib.JavaScript.Runtime.Timer(
+                t =>
+                {
+                    TimeNow = DateTime.Now.Ticks / TicksPerMillisecond;
+
+                    var x = TimeNow - TimeStarted;
+
+                    Console.WriteLine("x: " + x);
+                    Console.WriteLine("length: " + Length);
+
+                    if (x > Length)
+                    {
+                        t.Stop();
+                        _Timer = null;
+
+                        Elapsed = Length;
+                        Changed(this);
+                        Stopping();
+
+                    }
+                    else
+                    {
+                        Elapsed = x;
+                        Changed(this);
+                    }
+
+                }, 0, Percision
+            );
+
+            return this;
+        }
+
+        public static implicit operator double(LinearTimeTween e)
+        {
+            return e.ElapsedPercentage;
+        }
+    }
+
+    [Script]
+    class CSSClip
+    {
+
+
+        public int Left;
+        public int Top;
+        public int Right;
+        public int Bottom;
+
+        public override string ToString()
+        {
+            // rect (<top> <right> <bottom> <left>) 
+            return "rect(" + Top + "px " + Right + "px " + Bottom + "px " + Left + "px)";
+        }
+
+        public static implicit operator string(CSSClip e)
+        {
+            return e.ToString();
         }
     }
 }
