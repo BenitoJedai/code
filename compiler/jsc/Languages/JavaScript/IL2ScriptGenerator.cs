@@ -170,13 +170,15 @@ namespace jsc
                     OpCodes.Conv_I8,
                     OpCodes.Conv_U8,
                     OpCodes.Conv_R4,
-                    OpCodes.Conv_U4] = new OpCodeHandler(OpCode_conv);
+                    OpCodes.Conv_U4,
+                    OpCodes.Conv_U2,
+                     OpCodes.Conv_U1
+                    ] = new OpCodeHandler(OpCode_conv);
 
             Handlers[
                      OpCodes.Unbox_Any,
 
 
-                     OpCodes.Conv_U1,
 
                      OpCodes.Nop,
                      OpCodes.Constrained] = new OpCodeHandler(OpCode_donothing);

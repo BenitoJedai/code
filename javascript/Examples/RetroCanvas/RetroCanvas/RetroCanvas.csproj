@@ -62,6 +62,7 @@
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="web\assets\RetroCanvas\A103+Remote2.jpg" />
+    <EmbeddedResource Include="web\assets\RetroCanvas\Preview.png" />
     <EmbeddedResource Include="web\assets\RetroCanvas\reddot-0.png" />
     <EmbeddedResource Include="web\assets\RetroCanvas\reddot-1.png" />
     <EmbeddedResource Include="web\assets\RetroCanvas\reddot-3.png" />

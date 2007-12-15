@@ -106,7 +106,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         [Script(DefineAsStatic = true)]
         public char get_Chars(int i)
         {
-            return InternalCharAt(this, i);
+            return (char)GetCharCodeAt((string)(object)this, i);
         }
 
         [Script(DefineAsStatic = true)]
