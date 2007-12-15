@@ -56,7 +56,7 @@ namespace jsc.Languages.PHP
                 {
 
                     #region WriteForEach
-                    Action<__handler> WriteForEach = delegate(__handler f)
+                    Action<Action> WriteForEach = delegate(Action f)
                     {
                         w.WriteIdent();
                         w.WriteLine(string.Format("foreach ($this->{0} as $f)", FieldList.Name));

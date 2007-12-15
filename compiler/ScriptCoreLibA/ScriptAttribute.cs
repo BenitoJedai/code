@@ -446,7 +446,7 @@ namespace ScriptCoreLib
 
         public static bool IsAnonymousType(Type z)
         {
-            if (IsCompilerGenerated(z) /* && z.IsSealed */ && z.IsNotPublic && z.Namespace == null)
+            if (IsCompilerGenerated(z)  && z.IsSealed  && z.IsNotPublic && z.Namespace == null)
             {
                 // while using it we have a solid type!
 

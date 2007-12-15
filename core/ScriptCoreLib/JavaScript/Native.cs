@@ -66,7 +66,7 @@ namespace ScriptCoreLib
             /// <param name="Spawn">delegate with owner element</param>
             public static void Spawn(string id, EventHandler<IHTMLElement> Spawn)
             {
-                Console.Log("spawn on load: " + id);
+                System.Console.WriteLine("spawn on load: " + id);
 
                 if (Native.Window == null)
                     return;
@@ -77,7 +77,7 @@ namespace ScriptCoreLib
                         Native.Document.getElementsByClassName(id).ForEach(
                             delegate(IHTMLElement e)
                             {
-                                Console.Log("spawn: {" + id + "}");
+                                System.Console.WriteLine("spawn: {" + id + "}");
 
                                 Spawn(e);
                             });
@@ -87,7 +87,7 @@ namespace ScriptCoreLib
 
             public static void Spawn(string id, EventHandler<IHTMLElement, string> s)
             {
-                Console.Log("spawn on load: " + id);
+                System.Console.WriteLine("spawn on load: " + id);
 
                 Native.Window.onload +=
                     delegate
@@ -97,7 +97,7 @@ namespace ScriptCoreLib
                         Native.Document.getElementsByClassName(id).ForEach(
                             delegate(IHTMLElement v)
                             {
-                                Console.Log("spawn: {" + id + "}");
+                                System.Console.WriteLine("spawn: {" + id + "}");
 
 
                                 s(v, id);
@@ -131,7 +131,7 @@ namespace ScriptCoreLib
 
             public static void Include(string src)
             {
-                Console.Log("include " + src);
+                System.Console.WriteLine("include " + src);
 
                 var s = new IHTMLScript();
                 s.type = "text/javascript";

@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\util\jsc\bin</StartWorkingDirectory>
-    <StartArguments>ScriptCoreLib.dll -js</StartArguments>
+    <StartWorkingDirectory>Z:\work\jsc\svn\javascript\Examples\AnonymousTypeTest\AnonymousTypeTest\bin\Release</StartWorkingDirectory>
+    <StartArguments>AnonymousTypeTest.dll -js</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

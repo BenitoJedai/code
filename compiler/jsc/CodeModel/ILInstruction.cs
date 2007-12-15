@@ -2486,7 +2486,7 @@ namespace jsc
         {
             get
             {
-                return "type: " + OwnerMethod.DeclaringType.FullName +  " offset: " + this.Offset + "  method:" + OwnerMethod.ToString();
+                return "type: " + OwnerMethod.DeclaringType.FullName +  " offset: " + string.Format("0x{0:x4}", this.Offset) + "  method:" + OwnerMethod.ToString();
             }
         }
     }

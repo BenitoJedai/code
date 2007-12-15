@@ -4,9 +4,11 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared;
 
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using System;
 
 namespace SubSquare.source.js
 {
@@ -38,7 +40,7 @@ namespace SubSquare.source.js
 
             Base.style.backgroundPosition = (-size.Left) + "px " + (-size.Top) + "px";
 
-            timer.Tick += new EventHandler<Timer>(timer_Tick);
+            timer.Tick += timer_Tick;
 
             Base.onmouseover += delegate { if (value > step) timer.StartInterval(40); };
 
@@ -46,7 +48,7 @@ namespace SubSquare.source.js
                 //Base.style.backgroundColor = Color.FromGray(value); 
             };
 
-            Base.attachToDocument();
+            Base.AttachToDocument();
         }
 
         const int step = 5;

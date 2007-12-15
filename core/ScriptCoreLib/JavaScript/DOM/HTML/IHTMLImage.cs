@@ -39,7 +39,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             {
                 string u = "image failed to load: [" + src + "]";
 
-                Console.LogError(u);
+                System.Console.WriteLine(u);
 
                 throw new global::System.Exception(u);
             }

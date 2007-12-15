@@ -2,6 +2,7 @@ using ScriptCoreLib;
 
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Serialized;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -14,21 +15,21 @@ using System.Linq;
 
 namespace HulaGirl.source.js.Controls
 {
-    [Script]
-    public class DemoControl : SpawnControlBase
+    [Script, ScriptApplicationEntryPoint]
+    public class DemoControl //: SpawnControlBase
     {
-        public const string Alias = "fx.DemoControl";
+        //public const string Alias = "fx.DemoControl";
 
         IHTMLDiv Control = new IHTMLDiv();
 
         public IStyle Style { get { return Control.style; } }
 
         public DemoControl(IHTMLElement e)
-            : base(e)
+            //: base(e)
         {
             e.insertNextSibling(Control);
 
-            Control.innerHTML = "hello world (javascript) : " + base.SpawnString;
+            Control.innerHTML = "hello world (javascript) : " /* base.SpawnString*/;
 
             Control.onmouseover += delegate { Style.color = Color.Blue; };
             Control.onmouseout += delegate { Style.color = Color.None; };
@@ -45,30 +46,30 @@ namespace HulaGirl.source.js.Controls
 
             System.Func<int, string> GetFilename = i => "hula_girl_" + ("" + i).PadLeft(2, '0') + ".png";
 
-            
+
             for (int i = 1; i <= 82; i++)
             {
-                Console.WriteLine(("" + i).PadLeft(2, '0'));
+                System.Console.WriteLine(("" + i).PadLeft(2, '0'));
             }
 
 
-            
+
 
 
 
             var img = new IHTMLImage("gfx_hula_girl_100/" + GetFilename(52));
-                
-                img.attachToDocument();
+
+            img.AttachToDocument();
 
             var _width = 120;
             var _zoom = 1.0;
 
-            img.onmousewheel += 
+            img.onmousewheel +=
                 ev =>
-                    {
-                        _zoom += 0.1 * ev.WheelDirection;
-                        img.style.width = (_width * _zoom) + "px";
-                    };
+                {
+                    _zoom += 0.1 * ev.WheelDirection;
+                    img.style.width = (_width * _zoom) + "px";
+                };
 
             var index = 1;
 
@@ -85,14 +86,18 @@ namespace HulaGirl.source.js.Controls
                     img.src = "gfx_hula_girl_100/" + GetFilename(index);
 
                 }, 0, 1000 / 24);
-                
+
 
 
         }
 
-
+        static DemoControl()
+        {
+            typeof(DemoControl).SpawnTo(i => new DemoControl(i));
+        }
 
     }
+
 
 
 }

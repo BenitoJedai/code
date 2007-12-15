@@ -2,6 +2,7 @@ using ScriptCoreLib;
 
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Serialized;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -10,20 +11,21 @@ using ScriptCoreLib.JavaScript.DOM;
 
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
+using System;
 
 namespace SubSquare.source.js.Controls
 {
-    [Script]
-    public class DemoControl : SpawnControlBase
+    [Script, ScriptApplicationEntryPoint]
+    public class DemoControl //: SpawnControlBase
     {
-        public const string Alias = "fx.DemoControl";
+        //public const string Alias = "fx.DemoControl";
 
         IHTMLDiv Control = new IHTMLDiv();
 
         public IStyle Style { get { return Control.style; } }
 
 
-        void CreateDisposableButton(string e, EventHandler a)
+        void CreateDisposableButton(string e, ScriptCoreLib.Shared.EventHandler a)
         {
 
 
@@ -41,7 +43,7 @@ namespace SubSquare.source.js.Controls
         }
 
         public DemoControl(IHTMLElement e)
-            : base(e)
+           // : base(e)
         {
             e.insertNextSibling(Control);
 
@@ -77,6 +79,10 @@ namespace SubSquare.source.js.Controls
 
 
 
+        static DemoControl()
+        {
+            typeof(DemoControl).SpawnTo(i => new DemoControl(i));
+        }
     }
 
 

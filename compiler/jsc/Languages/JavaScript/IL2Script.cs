@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.IO;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -503,10 +504,12 @@ namespace jsc
             {
 
 
-                ILBlock xb = new ILBlock(i);
+                var xb = new ILBlock(i);
+                var a = ScriptAttribute.OfProvider(i);
 
+                if (jsc.Languages.JavaScript.MethodBodyOptimizer.TryOptimize(w, xb))
+                    return;
 
-                ScriptAttribute a = ScriptAttribute.OfProvider(i);
 
                 Script.CompilerBase.DebugBreak(a);
 
@@ -663,9 +666,9 @@ namespace jsc
 
             bool b = false;
 
-            __handler AfterAction = null;
+            Action AfterAction = null;
 
-            __handler BeforeAction = delegate
+            Action BeforeAction = delegate
             {
                 w.WriteCommentLine(owner.FullName);
 
@@ -686,7 +689,7 @@ namespace jsc
             };
 
 
-            __handler AfterOnce =
+            Action AfterOnce =
                 delegate
                 {
                     if (AfterAction == null)
@@ -697,7 +700,7 @@ namespace jsc
                     AfterAction = null;
                 };
 
-            __handler BeforeOnce =
+            Action BeforeOnce =
                 delegate
                 {
                     if (BeforeAction == null)
@@ -1003,11 +1006,16 @@ namespace jsc
 
                             w.WriteBeginScope();
 
-
-                            if (zm.Name == "GetHashCode" && ScriptAttribute.IsAnonymousType(zm.DeclaringType))
+                            
+                            // Although anonymous types are supported by jsc,
+                            // they contain compiler generated methods that are not
+                            // This means we need to filter those methods here.
+                            if (
+                                new [] { "GetHashCode", "Equals" }.Contains(zm.Name)
+                                && ScriptAttribute.IsAnonymousType(zm.DeclaringType))
                             {
                                 w.WriteIdent();
-                                w.WriteLine("throw 'Not implemented';");
+                                w.WriteLine("throw 'Not implemented, " + zm.Name + "';");
                             }
                             else
                             {
@@ -1206,7 +1214,7 @@ namespace jsc
 
             int counter = 0;
 
-            __handler Before =
+            Action Before =
                 delegate
                 {
                     w.WriteIdent();
@@ -1498,7 +1506,9 @@ namespace jsc
             if (attribute.IsCoreLib)
             {
                 // declare file scoped inheritance class builder
-                w.WriteLine(new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("jsc.Languages.JavaScript.$ctor$.js")).ReadToEnd());
+                //w.WriteLine(new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("jsc.Languages.JavaScript.$ctor$.js")).ReadToEnd());
+                w.WriteLine("jsc.Languages.JavaScript.$ctor$.js".GetResourceFileContent());
+
             }
 
             //Type[] test = {
@@ -1516,13 +1526,14 @@ namespace jsc
 
 
 
-
+            /*
             int i0 = Array.IndexOf(types, w.Session.ResolveImplementation(typeof(Delegate)));
             int i1 = Array.IndexOf(types, w.Session.ResolveImplementation(typeof(MulticastDelegate)));
             int i2 = Array.IndexOf(types, w.Session.ResolveImplementation(typeof(EventHandler)));
 
             if (i2 < i0 || i1 < i0)
                 throw new Exception();
+            */
 
             foreach (Type z in types)
             {
@@ -1556,7 +1567,6 @@ namespace jsc
                 {
                     if (ScriptAttribute.IsAnonymousType(z))
                     {
-                        w.WriteIdent();
                         w.WriteCommentLine("Anonymous type");
                     }
                     else
@@ -1569,6 +1579,11 @@ namespace jsc
 
                     DeclareFields(w, z.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Public), z);
                     DeclareMethods(w, z.GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Public));
+
+                    if (ScriptAttribute.IsAnonymousType(z))
+                    {
+                        WriteInstanceConstructor(w, z, z.GetConstructors().Single());
+                    }
 
                     continue;
                 }
@@ -1655,22 +1670,9 @@ namespace jsc
 
                                 ScriptAttribute zsa = ScriptAttribute.Of(zc);
 
-                                Task.Enabled = zsa != null && zsa.IsDebugCode;
+                                //Task.Enabled = zsa != null && zsa.IsDebugCode;
 
-                                w.WriteCommentLine(zc.DeclaringType.FullName + "." + zc.Name);
-
-                                w.Helper.DefineTypeMemberMethodHeader(z, zc);
-
-                                w.WriteBeginScope();
-                                IL2Script.EmitBody(w, zc, true);
-                                w.EndScopeAndTerminate();
-
-                                // alias
-                                w.Helper.DefineTypeInheritanceConstructor(z, zc, z.BaseType);
-
-
-
-
+                                WriteInstanceConstructor(w, z, zc);
 
                             }
 
@@ -1706,6 +1708,20 @@ namespace jsc
             w.Ident--;
 
 
+        }
+
+        private static void WriteInstanceConstructor(IdentWriter w, Type z, ConstructorInfo zc)
+        {
+            w.WriteCommentLine(zc.DeclaringType.FullName + "." + zc.Name);
+
+            w.Helper.DefineTypeMemberMethodHeader(z, zc);
+
+            w.WriteBeginScope();
+            IL2Script.EmitBody(w, zc, true);
+            w.EndScopeAndTerminate();
+
+            // alias
+            w.Helper.DefineTypeInheritanceConstructor(z, zc, z.BaseType);
         }
 
 

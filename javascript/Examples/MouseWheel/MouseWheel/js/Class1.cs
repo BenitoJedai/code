@@ -7,6 +7,7 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Query;
 
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -20,7 +21,7 @@ namespace MouseWheel.js
 {
 
 
-    [Script]
+    [Script, ScriptApplicationEntryPoint]
     public class Class1
     {
         public const string Alias = "Class1";
@@ -88,7 +89,7 @@ namespace MouseWheel.js
 
             t.div.appendChild(info);
 
-            t.div.attachToDocument();
+            t.div.AttachToDocument();
 
             t.div.onmousewheel +=
                 delegate(IEvent e)
@@ -114,12 +115,14 @@ namespace MouseWheel.js
 
         static Class1()
         {
-            //Console.EnableActiveXConsole();
+            typeof(Class1).SpawnTo(i => new Class1(i));
 
-            // spawn this class when document is loaded 
-            Native.Spawn(
-                new Pair<string, EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
-                );
+            ////Console.EnableActiveXConsole();
+
+            //// spawn this class when document is loaded 
+            //Native.Spawn(
+            //    new Pair<string, EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
+            //    );
 
         }
 

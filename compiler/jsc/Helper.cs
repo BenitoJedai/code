@@ -11,7 +11,7 @@ namespace jsc
 
     public delegate void Func();
 
-    public delegate void __handler();
+    //public delegate void __handler();
 
     public struct Variant<T>
     {
@@ -36,7 +36,7 @@ namespace jsc
 
         public class WorkPool
         {
-            Queue<__handler> q = new Queue<__handler>();
+            Queue<Action> q = new Queue<Action>();
             Queue<Thread> t = new Queue<Thread>();
 
 
@@ -44,14 +44,14 @@ namespace jsc
 
             public int MaxThreads = 4;
 
-            public static WorkPool operator +(WorkPool w, __handler h)
+            public static WorkPool operator +(WorkPool w, Action h)
             {
                 w.q.Enqueue(h);
 
                 return w;
             }
 
-            public bool WaitOne(__handler h)
+            public bool WaitOne(Action h)
             {
                 q.Enqueue(h);
 
@@ -93,7 +93,7 @@ namespace jsc
                     {
                         if (q.Count > 0)
                         {
-                            __handler h = q.Dequeue();
+                            Action h = q.Dequeue();
 
                             Helper.Invoke(h);
                         }
@@ -141,7 +141,7 @@ namespace jsc
 
         public class Disposable : IDisposable
         {
-            public event __handler Disposing;
+            public event Action Disposing;
 
             #region IDisposable Members
 
@@ -155,7 +155,7 @@ namespace jsc
 
         public class ConsoleStopper : Disposable
         {
-            public static void Invoke(string u, __handler h)
+            public static void Invoke(string u, Action h)
             {
                 using (new ConsoleStopper(u))
                     Helper.Invoke(h);
@@ -185,7 +185,7 @@ namespace jsc
         }
 
 
-        internal static void Invoke(__handler h)
+        internal static void Invoke(Action h)
         {
             if (h != null) h();
         }

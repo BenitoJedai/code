@@ -9,6 +9,7 @@ using ScriptCoreLib.Shared.Lambda;
 
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.XML;
@@ -17,6 +18,7 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 using IDisposable = global::System.IDisposable;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 
 
@@ -50,14 +52,14 @@ namespace ImageZoomer.js
         /// <summary>
         /// magnifier should be moved to the location given by the event
         /// </summary>
-        public readonly EventHandler<IEvent> UpdateTo;
+        public readonly ScriptCoreLib.Shared.EventHandler<IEvent> UpdateTo;
 
 
         public bool Enabled { get; set; }
 
         public MyMagnifier(IHTMLImage i, string zoom_src, int size, int frames, int framestep)
         {
-            Console.Log("new MyMagnifier");
+            Console.WriteLine("new MyMagnifier");
 
             Enabled = true;
 
@@ -131,7 +133,7 @@ namespace ImageZoomer.js
                     }
                 };
 
-            EventHandler<IEvent> onzoom =
+            ScriptCoreLib.Shared.EventHandler<IEvent> onzoom =
                 delegate(IEvent e)
                 {
                     e.StopPropagation();
@@ -177,7 +179,7 @@ namespace ImageZoomer.js
                 mag1.x.style.SetSize((int)(i.width * zoom), (int)(i.height * zoom));
                 mag1.z.style.Opacity = mag1.opacity;
                 mag1.z.appendChild(mag1.x);
-                mag1.z.attachToDocument();
+                mag1.z.AttachToDocument();
 
                 mag1.z.onmousemove += UpdateTo;
                 mag1.z.onmousewheel += onzoom;
@@ -293,7 +295,7 @@ namespace ImageZoomer.js
         }
     }
 
-    [Script]
+    [Script, ScriptApplicationEntryPoint]
     public class Class1
     {
         public const string Alias = "Class1";
@@ -365,12 +367,7 @@ namespace ImageZoomer.js
 
         static Class1()
         {
-            //Console.EnableActiveXConsole();
-
-            // spawn this class when document is loaded 
-            Native.Spawn(
-                new Pair<string, EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
-                );
+            typeof(Class1).SpawnTo(i => new Class1(i));
 
         }
 

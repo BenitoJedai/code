@@ -7,6 +7,7 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using System;
 
 namespace NumberGuessingGame.source.js
 {
@@ -33,13 +34,13 @@ namespace NumberGuessingGame.source.js
 
             public bool Contains(int v)
             {
-                Console.Log("will search for " + v);
+                Console.WriteLine("will search for " + v);
 
                 for (int i = 0; i < GuessedValues.length; i++)
                 {
                     int x = GuessedValues[i];
 
-                    Console.Log("compare " + x + " to " + v);
+                    Console.WriteLine("compare " + x + " to " + v);
 
                     if (GuessedValues[i] == v)
                         return true;
@@ -96,11 +97,11 @@ namespace NumberGuessingGame.source.js
             {
                 get
                 {
-                    return Convert.ToInteger( new System.Random().NextDouble()  * 0xffff );
+                    return System.Convert.ToInt32( new System.Random().NextDouble()  * 0xffff );
                 }
             }
 
-            public event EventHandler Changed;
+            public event ScriptCoreLib.Shared.EventHandler Changed;
 
             public void Guessed(int i)
             {

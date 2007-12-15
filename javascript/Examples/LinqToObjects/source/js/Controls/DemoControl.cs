@@ -2,6 +2,7 @@ using ScriptCoreLib;
 
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Serialized;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -20,10 +21,10 @@ namespace LinqToObjects.source.js.Controls
     using System;
     
 
-    [Script]
+    [Script, ScriptApplicationEntryPoint]
     public class DemoControl : SpawnControlBase
     {
-        public const string Alias = "fx.DemoControl";
+        //public const string Alias = "fx.DemoControl";
 
         IHTMLDiv Control = new IHTMLDiv();
 
@@ -88,7 +89,10 @@ namespace LinqToObjects.source.js.Controls
         }
 
 
-
+        static DemoControl()
+        {
+            typeof(DemoControl).SpawnTo(i => new DemoControl(i));
+        }
     }
 
 

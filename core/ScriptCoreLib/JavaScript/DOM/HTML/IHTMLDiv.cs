@@ -71,7 +71,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             var p = new Point(Native.Window.Width, Native.Window.Height);
 
-            Console.Log("fullscreen: " + p.X + ", " + p.Y);
+            System.Console.WriteLine("fullscreen: " + p.X + ", " + p.Y);
 
             this.style.SetLocation(0, 0, p.X, p.Y);
         }

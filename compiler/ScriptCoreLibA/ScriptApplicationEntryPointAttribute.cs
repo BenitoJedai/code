@@ -29,6 +29,11 @@ namespace ScriptCoreLib
         public SerializedDataFormat Format = SerializedDataFormat.json | SerializedDataFormat.xml;
 
         public bool ShowLoadingMessage;
+
+        /// <summary>
+        /// Suffix on the filename will be omitted.
+        /// </summary>
+        public SerializedDataFormat DefaultFormat = SerializedDataFormat.xml;
     }
 
 }

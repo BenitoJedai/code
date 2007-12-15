@@ -182,9 +182,14 @@ namespace jsc
 
 
 
+        public Func<bool> Override_WriteSelf;
 
         public void WriteSelf()
         {
+            if (Override_WriteSelf != null && Override_WriteSelf())
+                return;
+
+
             this.Write(GetSpecialLocalChar(0));
             // this.Write("this");
             // this.WriteDecorated(null, null);
@@ -328,7 +333,7 @@ namespace jsc
 
         }
 
-        public void WriteQoute(bool qoute, __handler e)
+        public void WriteQoute(bool qoute, Action e)
         {
             if (qoute)
                 Write("'");

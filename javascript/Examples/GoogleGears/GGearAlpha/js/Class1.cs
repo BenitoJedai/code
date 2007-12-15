@@ -8,6 +8,7 @@ using ScriptCoreLib.Shared.Lambda;
 
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.XML;
@@ -37,11 +38,11 @@ namespace GGearAlpha.js
         public DemoDataEntity Data;
     }
 
-    [Script]
+    [Script, ScriptApplicationEntryPoint]
     public class Class1
     {
-        public const string Alias = "Class1";
-        public const string DefaultData = "Class1Data";
+        //public const string Alias = "Class1";
+        //public const string DefaultData = "Class1Data";
 
         /// <summary>
         /// Creates a new control
@@ -259,12 +260,14 @@ namespace GGearAlpha.js
 
         static Class1()
         {
-            //Console.EnableActiveXConsole();
+            typeof(Class1).SpawnTo(i => new Class1(i));
 
-            // spawn this class when document is loaded 
-            Native.Spawn(
-                new Pair<string, ScriptCoreLib.Shared.EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
-                );
+            ////Console.EnableActiveXConsole();
+
+            //// spawn this class when document is loaded 
+            //Native.Spawn(
+            //    new Pair<string, ScriptCoreLib.Shared.EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
+            //    );
 
         }
 

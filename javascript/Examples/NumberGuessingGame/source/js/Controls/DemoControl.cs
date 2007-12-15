@@ -2,6 +2,7 @@ using ScriptCoreLib;
 
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Serialized;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -13,10 +14,10 @@ using ScriptCoreLib.Shared.Drawing;
 
 namespace NumberGuessingGame.source.js.Controls
 {
-    [Script]
-    public class DemoControl : SpawnControlBase
+    [Script, ScriptApplicationEntryPoint]
+    public class DemoControl //: SpawnControlBase
     {
-        public const string Alias = "fx.DemoControl";
+        //public const string Alias = "fx.DemoControl";
 
         IHTMLDiv Control = new IHTMLDiv();
 
@@ -40,7 +41,7 @@ namespace NumberGuessingGame.source.js.Controls
         }
 
         public DemoControl(IHTMLElement e)
-            : base(e)
+        //    : base(e)
         {
             e.insertNextSibling(Control);
 
@@ -58,7 +59,7 @@ namespace NumberGuessingGame.source.js.Controls
                 {
                     var div = new IHTMLDiv();
 
-                    div.attachToDocument();
+                    div.AttachToDocument();
 
                     new GuessingGame(div);
 
@@ -66,7 +67,10 @@ namespace NumberGuessingGame.source.js.Controls
             );
         }
 
-
+        static DemoControl()
+        {
+            typeof(DemoControl).SpawnTo(i => new DemoControl(i));
+        }
 
     }
 

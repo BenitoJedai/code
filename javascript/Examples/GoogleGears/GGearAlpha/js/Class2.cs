@@ -1,5 +1,6 @@
 ﻿using ScriptCoreLib;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.Controls.Effects;
 using ScriptCoreLib.Shared.Lambda;
@@ -23,7 +24,7 @@ namespace GGearAlpha.js
     using System.Linq;
     using System;
 
-    [Script]
+    [Script, ScriptApplicationEntryPoint]
     class Class2
     {
         public const string Alias = "Class2";
@@ -429,7 +430,7 @@ namespace GGearAlpha.js
             Dump(left, r.AddColumn(), right);
             Dump(right, r.AddColumn(), left);
 
-            t.attachToDocument();
+            t.AttachToDocument();
         }
 
         private static IHTMLElement Dump(object xs, IHTMLElement to, object diff)
@@ -727,7 +728,8 @@ namespace GGearAlpha.js
 
         static Class2()
         {
-            Native.Spawn(Class2.Alias, e => new Class2(e));
+            typeof(Class2).SpawnTo(i => new Class2(i));
+            //Native.Spawn(Class2.Alias, e => new Class2(e));
         }
 
     }

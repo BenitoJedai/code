@@ -7,6 +7,7 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
 
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Net;
 using ScriptCoreLib.JavaScript.Controls.Effects;
 using ScriptCoreLib.JavaScript.Runtime;
@@ -96,11 +97,11 @@ namespace SimpleRollover.js
     }
 
 
-    [Script]
+    [Script, ScriptApplicationEntryPoint]
     public class Class1
     {
-        public const string Alias = "Class1";
-        public const string DefaultData = "Class1Data";
+        //public const string Alias = "Class1";
+        //public const string DefaultData = "Class1Data";
 
 
         /// <summary>
@@ -337,12 +338,13 @@ namespace SimpleRollover.js
             sheet.AddRule(".special1:hover .cold", "display: none;", 1);
 
 
-            var states = new[] { 
-                new XState { 
-                    Show = default(System.Action), 
-                    Hide = default(System.Action), 
-                    Selected = false } 
-            }.Where(p => false);
+            var states = new XState [] {}.AsEnumerable();
+
+            //    new XState { 
+            //        Show = default(System.Action), 
+            //        Hide = default(System.Action), 
+            //        Selected = false } 
+            //}.Where(p => false);
 
 
             ActionParams<string> Spawn =
@@ -451,7 +453,7 @@ namespace SimpleRollover.js
             SpawnCursor();
 
 
-            u.attachToDocument();
+            u.AttachToDocument();
 
             Spawn("assets/Untitled-1_03.png", "assets/Untitled-2_03.png", "assets/cs.htm");
             Spawn("assets/Untitled-1_07.png", "assets/Untitled-2_07.png", "assets/js.htm");
@@ -516,7 +518,7 @@ namespace SimpleRollover.js
                     dual.moon2.div.className = "moon1";
 
 
-                    dual.moon1.div.attachToDocument();
+                    dual.moon1.div.AttachToDocument();
                 }
             );
 
@@ -527,7 +529,7 @@ namespace SimpleRollover.js
 
                     layer.div.style.Opacity = 0.4;
                     layer.div.className = "effect1";
-                    layer.div.attachToDocument();
+                    layer.div.AttachToDocument();
 
                     return layer;
                 }
@@ -540,7 +542,7 @@ namespace SimpleRollover.js
             dualmoon.ForEach(
                 dual =>
                 {
-                    dual.moon2.div.attachToDocument();
+                    dual.moon2.div.AttachToDocument();
                 }
             );
 
@@ -634,12 +636,14 @@ namespace SimpleRollover.js
 
         static Class1()
         {
-            //Console.EnableActiveXConsole();
+            typeof(Class1).SpawnTo(i => new Class1(i));
 
-            // spawn this class when document is loaded 
-            Native.Spawn(
-                new Pair<string, EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
-                );
+            ////Console.EnableActiveXConsole();
+
+            //// spawn this class when document is loaded 
+            //Native.Spawn(
+            //    new Pair<string, EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
+            //    );
 
         }
 

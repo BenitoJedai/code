@@ -61,7 +61,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
                 if (IDate.Now.getTime() - z > Timeout)
                 {
-                    Console.LogError("workpool timeout exceeded");
+                    System.Console.WriteLine("workpool timeout exceeded");
 
                     
 

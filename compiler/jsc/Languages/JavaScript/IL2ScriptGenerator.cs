@@ -513,12 +513,12 @@ namespace jsc
             #region fetch method
             MethodBase m = (MethodBase)i.TargetMethod ?? (MethodBase)i.TargetConstructor;
 
-      
+
             if (m == null)
                 Debugger.Break();
             #endregion
 
-            
+
             if (m.DeclaringType.IsValueType)
             {
                 if (m is ConstructorInfo)
@@ -533,7 +533,7 @@ namespace jsc
 
                     Array.Copy(s, 1, s2, 0, s2.Length);
 
-                    WriteCreateType(w, p, i, s2, 
+                    WriteCreateType(w, p, i, s2,
                         w.Session.ResolveImplementation(m.DeclaringType, m) ?? m
                         );
 
@@ -1025,10 +1025,16 @@ namespace jsc
         {
             MethodBase m = i.TargetConstructor;
 
+            if (ScriptAttribute.IsAnonymousType(m.DeclaringType))
+            {
+                goto TryDefault;
+            }
 
             //if (ScriptAttribute.IsCompilerGenerated(m.DeclaringType))
-            if (ScriptAttribute.OfProvider(m.DeclaringType) == null && w.Session.ResolveImplementation(m.DeclaringType) == null)
+            if (ScriptAttribute.OfProvider(m.DeclaringType) == null
+                && w.Session.ResolveImplementation(m.DeclaringType) == null)
             {
+                w.Write("/* DOMCreateType */");
                 w.Helper.DOMCreateType(m.DeclaringType);
 
                 return;
@@ -1038,11 +1044,11 @@ namespace jsc
             if (OpCode_newobj_override(w, p, i, s))
                 return;
 
-            ScriptAttribute m_type_attribute = ScriptAttribute.Of(m.DeclaringType, true);
+            var m_type_attribute = ScriptAttribute.Of(m.DeclaringType, true);
 
-            if (ScriptAttribute.IsAnonymousType(m.DeclaringType))
-                m_type_attribute = new ScriptAttribute();
+    
 
+            #region missing script attribute
             if (m_type_attribute == null)
             {
                 if (m.DeclaringType.IsArray)
@@ -1081,7 +1087,9 @@ namespace jsc
                 }
                 Debugger.Break();
             }
+            #endregion
 
+        TryDefault:
 
             WriteCreateType(w, p, i, s, m);
 
@@ -1089,7 +1097,10 @@ namespace jsc
 
         private static void WriteCreateType(IdentWriter w, ilbp p, ili i, ilfsi[] s, MethodBase m)
         {
-            ScriptAttribute sa = ScriptAttribute.Of(m.DeclaringType, true);
+            ScriptAttribute sa = 
+                ScriptAttribute.IsAnonymousType(m.DeclaringType) ? 
+                    new ScriptAttribute() :
+                    ScriptAttribute.Of(m.DeclaringType, true);
 
             if (sa == null)
                 Script.CompilerBase.BreakToDebugger("no script attribute for type " + m.DeclaringType.FullName);
@@ -1307,14 +1318,14 @@ namespace jsc
             }
 
 
-            w.Write("/* box[{0}] */ ", t.UnderlyingSystemType);
+           // w.Write("/* box[{0}] */ ", t.UnderlyingSystemType);
 
             OpCodeHandler(w, p, i, s[0]);
         }
 
         static void OpCode_donothing(IdentWriter w, ilbp p, ili i, ilfsi[] s)
         {
-            w.Write("/* {0} */", i.ToString());
+            //w.Write("/* {0} */", i.ToString());
 
 
 
@@ -1462,8 +1473,14 @@ namespace jsc
             w.Write(")");
         }
 
+        //public static Func<IdentWriter, ilbp, ili, ilfsi[], bool> Override_OpCode_ldarg;
+
         static void OpCode_ldarg(IdentWriter w, ilbp p, ili i, ilfsi[] s)
         {
+            //if (Override_OpCode_ldarg != null)
+            //    if (Override_OpCode_ldarg(w, p, i, s))
+            //        return;
+
             if (i.OwnerMethod.IsStatic)
             {
                 w.WriteDecoratedParameterInfo(i.TargetParameter);
@@ -1477,8 +1494,11 @@ namespace jsc
             }
         }
 
+
         static void OpCode_ldloc(IdentWriter w, ilbp p, ili i, ilfsi[] s)
         {
+
+
             if (p.Owner.IsCompound)
             {
                 ilbp sp = p.Owner.SourcePrestatement(p, i);

@@ -166,15 +166,18 @@ namespace jsc.Languages.JavaScript
                         // ...
                     }
 
+                    Func<string, StreamWriter> CreateFile =
+                        suffix => dir.CreateFile(v.Name + (string.IsNullOrEmpty(suffix) ? "" : "." + suffix) + ".htm");
+
 
                     if ((s.Format & SerializedDataFormat.xml) == SerializedDataFormat.xml)
-                        using (var w = dir.CreateFile(v.Name + ".xml.htm"))
+                        using (var w = CreateFile(SerializedDataFormat.xml == s.DefaultFormat ? "" : "xml"))
                         {
                             a.DefineSpawnPoint(w, v.Name, "text/xml", data.SerializeToXML());
                         }
 
                     if ((s.Format & SerializedDataFormat.json) == SerializedDataFormat.json)
-                        using (var w = dir.CreateFile(v.Name + ".json.htm"))
+                        using (var w = CreateFile(SerializedDataFormat.json == s.DefaultFormat ? "" : "json"))
                         {
                             a.DefineSpawnPoint(w, v.Name, "text/json", data == null ? null : data.SerializeToJSON());
                         }

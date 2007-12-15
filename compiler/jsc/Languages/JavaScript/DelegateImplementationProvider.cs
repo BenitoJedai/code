@@ -119,7 +119,7 @@ namespace jsc.Languages.JavaScript.legacy
             w.WriteBeginScope();
 
             #region WriteForEach
-            Action<__handler> WriteForEach = delegate(__handler f)
+            Action<Action> WriteForEach = delegate(Action f)
             {
                 w.WriteIdent();
                 w.WriteLine(string.Format("for (var i = 0; i < this.{0}.length; i++)", FieldList.Name));

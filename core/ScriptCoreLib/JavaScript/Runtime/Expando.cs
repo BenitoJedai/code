@@ -970,7 +970,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
         public static void ExportCallback(string name, IFunction f)
         {
-            Console.Log("ExportCallback @ " + name);
+            System.Console.WriteLine("ExportCallback @ " + name);
 
             Expando.Of(Native.Window).SetMember(name, f);
         }
@@ -996,21 +996,21 @@ namespace ScriptCoreLib.JavaScript.Runtime
         [Script(DefineAsStatic = true)]
         public void ToConsole()
         {
-            Console.WriteLine("functions:");
+            System.Console.WriteLine("functions:");
 
             var max = 20;
 
             foreach (ExpandoMember v in this.GetFunctions())
             {
-                Console.WriteLine(v.Name.PadLeft(max));
+                System.Console.WriteLine(v.Name.PadLeft(max));
 
             }
 
-            Console.WriteLine("fields:");
+            System.Console.WriteLine("fields:");
 
             foreach (ExpandoMember v in this.GetFields())
             {
-                Console.WriteLine(v.Name.PadLeft(max) + " = (" + v.Self.TypeString + ")" + v.Value);
+                System.Console.WriteLine(v.Name.PadLeft(max) + " = (" + v.Self.TypeString + ")" + v.Value);
 
             }
         }

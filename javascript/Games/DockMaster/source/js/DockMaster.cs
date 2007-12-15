@@ -11,7 +11,7 @@ using ScriptCoreLib.Shared.Drawing;
 
 namespace DockMaster.source.js
 {
-    [Script]
+    [Script, ScriptApplicationEntryPoint]
     internal class DockMaster
     {
         public const string Alias = "DockMaster";
@@ -343,6 +343,8 @@ namespace DockMaster.source.js
         static DockMaster()
         {
             Native.Window.onload += delegate { gfx.ImageResources.Default.WaitUntilLoaded(Window_onload); };
+
+
         }
 
         static void Window_onload()

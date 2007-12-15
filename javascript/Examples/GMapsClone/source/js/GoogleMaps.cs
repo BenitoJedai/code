@@ -61,7 +61,7 @@ namespace GMapsClone.source.js
 
                 string src = World + value;
 
-                Console.WriteLine(src + ", level=" + this.ZoomLevel);
+                System.Console.WriteLine(src + ", level=" + this.ZoomLevel);
 
                 UBase.src = src;
 

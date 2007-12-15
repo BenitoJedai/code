@@ -10,6 +10,7 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.Controls.Effects;
 using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.XML;
@@ -51,7 +52,8 @@ namespace HotPolygon.js
 
     [Script]
     public delegate void ActionParams<X, T>(X x, params T[] e);
-    [Script]
+
+    [Script, ScriptApplicationEntryPoint]
     public class Class1
     {
         public const string Alias = "Class1";
@@ -69,8 +71,7 @@ namespace HotPolygon.js
 
             IStyleSheet.Default.AddRule("body", "height: 100%; overflow: hidden; margin: 0; padding: 0; background-color: black; color: white;", 0);
 
-
-            var img = new [] {
+            var img_arr = new [] {
                 "assets/HotPolygon/99851426_7f408a6cc3_o_gray.png",
                 "assets/HotPolygon/up.png",
                 "assets/HotPolygon/up_neg.png",
@@ -81,11 +82,14 @@ namespace HotPolygon.js
                 "assets/HotPolygon/here/here3.png",
                 "assets/HotPolygon/here/here4.png",
                 "assets/HotPolygon/here/here5.png",
-            }.Select(src => new IHTMLImage(src)).ToArray();
+            };
+
+
+            var img = img_arr.Select(src => new IHTMLImage(src)).ToArray();
 
             var loading =  new IHTMLElement(IHTMLElement.HTMLElementEnum.pre);
 
-            loading.attachToDocument();
+            loading.AttachToDocument();
 
             new Timer(
                 t =>
@@ -139,9 +143,9 @@ namespace HotPolygon.js
 
 
 
-            img.attachToDocument();
-            img_up.attachToDocument();
-            img_up_neg.attachToDocument();
+            img.AttachToDocument();
+            img_up.AttachToDocument();
+            img_up_neg.AttachToDocument();
 
 
             var info_size = new XSize
@@ -155,14 +159,14 @@ namespace HotPolygon.js
             info_bg.style.SetLocation(60, 60, info_size.width, info_size.height);
             info_bg.style.Opacity = 0.2;
             info_bg.style.zIndex = 1;
-            info_bg.attachToDocument();
+            info_bg.AttachToDocument();
 
             var info_borders = new IHTMLDiv();
 
             info_borders.style.SetLocation(60 - 4, 60 - 4, info_size.width + 8, info_size.height + 8);
             info_borders.style.Opacity = 0.2;
             info_borders.style.zIndex = 4;
-            info_borders.attachToDocument();
+            info_borders.AttachToDocument();
 
             var info_drag_tween = new TweenDataDouble();
 
@@ -310,7 +314,7 @@ namespace HotPolygon.js
 
             info.style.SetLocation(70, 70, info_size.width - 20, info_size.height - 20);
             info.style.zIndex = 5;
-            info.attachToDocument();
+            info.AttachToDocument();
 
             info_drag.DragMove +=
                 delegate
@@ -444,9 +448,9 @@ namespace HotPolygon.js
             AnimationRandomOn();
 
 
-            img_here.attachToDocument();
+            img_here.AttachToDocument();
 
-            img_down.attachToDocument();
+            img_down.AttachToDocument();
 
             img_up.style.Opacity = 0;
             img_up_neg.style.Opacity = 0;
@@ -529,7 +533,7 @@ namespace HotPolygon.js
             map.appendChild(area1);
             map.appendChild(area2);
 
-            map.attachToDocument();
+            map.AttachToDocument();
 
 
             img_down.style.zIndex = 2;
@@ -573,12 +577,14 @@ namespace HotPolygon.js
 
         static Class1()
         {
-            //Console.EnableActiveXConsole();
+            typeof(Class1).SpawnTo(i => new Class1(i));
 
-            // spawn this class when document is loaded 
-            Native.Spawn(
-                new Pair<string, ScriptCoreLib.Shared.EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
-                );
+            ////Console.EnableActiveXConsole();
+
+            //// spawn this class when document is loaded 
+            //Native.Spawn(
+            //    new Pair<string, ScriptCoreLib.Shared.EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
+            //    );
 
         }
 
