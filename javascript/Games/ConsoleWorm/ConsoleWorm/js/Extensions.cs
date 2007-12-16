@@ -12,6 +12,11 @@ namespace ConsoleWorm.js
     [Script]
     static class Extensions
     {
+        public static int ToInt32(this int e)
+        {
+            return (int)Math.Floor((double)e);
+        }
+
         public static void Times(this int e, Action h)
         {
             for (int i = 0; i < e; i++)

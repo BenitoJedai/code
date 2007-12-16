@@ -21,6 +21,7 @@ namespace ConsoleWorm.js
         public Point Location;
 
         public Func<int> GetZoom;
+        public Func<Point, Point> Wrapper;
 
         public Point Vector = new Point(1, 0);
 
@@ -63,7 +64,7 @@ namespace ConsoleWorm.js
 
         public Worm GrowTo(Point p)
         {
-            var x = this.Location + p;
+            var x = Wrapper(this.Location + p);
 
             Parts.Add(
                 new Part { Location = x, GetZoom = GetZoom }.AttachTo(Canvas)
@@ -99,6 +100,8 @@ namespace ConsoleWorm.js
     [Script]
     class Apple
     {
+        public Func<Point> GetRandomLocation;
+
         public Point Location;
 
         public Func<int> GetZoom;
@@ -110,14 +113,26 @@ namespace ConsoleWorm.js
             Control.style.backgroundColor = Color.Red;
         }
 
+        public Apple MoveToRandomLocation()
+        {
+            Location = GetRandomLocation();
+            MoveToLocation();
+            return this;
+        }
+
         public Apple AttachTo(IHTMLDiv canvas)
+        {
+            MoveToLocation();
+            Control.AttachTo(canvas);
+
+            return this;
+        }
+
+        private void MoveToLocation()
         {
             var zoom = GetZoom();
 
             Control.style.SetLocation(Location.X * zoom, Location.Y * zoom, zoom, zoom);
-            Control.AttachTo(canvas);
-
-            return this;
         }
 
         public void Dispose()
@@ -144,15 +159,21 @@ namespace ConsoleWorm.js
 
             var zoom = 12;
 
-            
-            Func<Point> RandomLocation =
+            Func<int> RoomWidth = () => (Native.Window.Width / zoom).ToInt32();
+            Func<int> RoomHeight = () => (Native.Window.Height / zoom).ToInt32();
+
+            Func<Point> GetRandomLocation =
                 () => new Point(
-                        (Native.Window.Width / zoom).Random(),
-                        (Native.Window.Height / zoom).Random()
+                        RoomWidth().Random(),
+                        RoomWidth().Random()
                     );
 
             Func<Apple> CreateApple =
-                () => new Apple { Location = RandomLocation(), GetZoom = () => zoom };
+                () => new Apple
+                {
+                    GetRandomLocation = GetRandomLocation,
+                    GetZoom = () => zoom
+                }.MoveToRandomLocation();
 
 
             var apples = new List<Apple>
@@ -168,8 +189,15 @@ namespace ConsoleWorm.js
 
             apples.ForEach(a => a.AttachTo(canvas));
 
+            Func<Point, Point> Wrapper =
+                p =>
+                    new Point((p.X + RoomWidth()) % RoomWidth(), (p.Y + RoomHeight()) % RoomHeight());
+
+
+
             var worm = new Worm
             {
+                Wrapper = Wrapper,
                 Location = new Point { X = 4, Y = 8 },
                 GetZoom = () => zoom,
                 Canvas = canvas,
@@ -192,8 +220,7 @@ namespace ConsoleWorm.js
                     {
                         foreach (var v in a)
                         {
-                            v.Location = RandomLocation();
-                            v.AttachTo(canvas);
+                            v.MoveToRandomLocation();
                         }
 
                     }
