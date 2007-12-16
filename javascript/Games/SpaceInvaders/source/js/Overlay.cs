@@ -3,6 +3,7 @@ using ScriptCoreLib;
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 //using ScriptCoreLib.JavaScript.Net;
@@ -111,11 +112,11 @@ namespace SpaceInvaders.source.js
                     if (value)
                     {
                         ControlInBack.style.position = IStyle.PositionEnum.absolute;
-                        ControlInBack.attachToDocument();
+                        ControlInBack.AttachToDocument();
                         ControlInBack.style.SetLocation(0, 0);
 
                         ControlInFront.style.position = IStyle.PositionEnum.absolute;
-                        ControlInFront.attachToDocument();
+                        ControlInFront.AttachToDocument();
                         ControlInFront.style.SetLocation(0, 0);
 
                         ControlInBack.style.backgroundColor = BackgroundColor;

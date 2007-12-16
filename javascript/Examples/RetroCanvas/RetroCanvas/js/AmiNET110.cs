@@ -26,9 +26,10 @@ namespace RetroCanvas.js.AmiNET110
 
         public AmiNET110()
         {
-            typeof(AmiNET110).ToWindowText();
+            typeof(AmiNET110).ToWindowText("Loading...");
 
             var img = new IHTMLImage(Assets.Path + "/Amino-remote.jpg");
+            //var img_bg = new IHTMLImage(Assets.Path + "/Amino-remote-bg.png");
 
             var reddot_array = Extensions.ToArray(0, 1, 3, 6);
 
@@ -43,7 +44,14 @@ namespace RetroCanvas.js.AmiNET110
                     if (reddot.Any(i => !i.image.complete))
                         return;
 
+                    //if (!img_bg.complete)
+                    //    return;
+
                     t1.Stop();
+
+                    typeof(AmiNET110).ToWindowText();
+
+                    //Native.Document.body.style.background = "url(" + img_bg.src + ") repeat-x";
 
                     img.InvokeOnComplete(
                         delegate
@@ -130,6 +138,8 @@ namespace RetroCanvas.js.AmiNET110
                                 new { KeyCode = 8514, Point = new Point(184, 389)}, // yellow
                                 new { KeyCode = 8515, Point = new Point(206, 385)}, // blue
 
+                                new { KeyCode = 8516, Point = new Point(175, 267)}, // menu
+
                                 new { KeyCode = 8502, Point = new Point(144, 403)}, // rewind
                                 new { KeyCode = 8499, Point = new Point(164, 406)}, // play
                                 new { KeyCode = 8504, Point = new Point(188, 414)}, // pause
@@ -151,6 +161,7 @@ namespace RetroCanvas.js.AmiNET110
                                     var _U = _new.ToUpper();
                                     var _L = _new.ToLower();
 
+                                    
                                     for (int i = 0; i < _U.Length; i++)
                                     {
                                         Console.WriteLine(_old + " -> " + _U[i] + " , " + _L[i]);
@@ -203,6 +214,7 @@ namespace RetroCanvas.js.AmiNET110
             typeof(AmiNET110).SpawnTo(
                 i =>
                 {
+                    
                     Func<IHTMLElement, IHTMLElement> WithStyle =
                         e =>
                         {
@@ -216,7 +228,7 @@ namespace RetroCanvas.js.AmiNET110
                         };
 
                     WithStyle((IHTMLElement)WithStyle(Native.Document.body).parentNode);
-
+                    
                     Timer.DoAsync(
                         () => new AmiNET110()
                         );

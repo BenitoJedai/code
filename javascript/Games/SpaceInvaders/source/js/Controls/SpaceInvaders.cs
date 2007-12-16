@@ -653,7 +653,7 @@ namespace SpaceInvaders.source.js.Controls
                     {
                         UpdatePlayer(Player_X_step);
                     }
-                    else if (ev.KeyCode == key_space)
+                    else if (ev.IsSpaceOrEnterKey())
                     {
                         // the animated gifs would stop after escape key
                         ev.PreventDefault();

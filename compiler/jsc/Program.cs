@@ -68,11 +68,13 @@ namespace jsc
                 return;
             }
 
+            /*
             if (options.IsTrace)
             {
                 sinfo.Logging.LogMessage("Trace mode enabled. Attach debugger now.");
                 Debugger.Launch();
             }
+            */
 
             if (options.TargetAssembly == null)
             {
@@ -314,7 +316,7 @@ namespace jsc
 
         static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
-            Environment.FailFast("Aborted.");
+            
         }
 
         private static void DisableRemoteExecution()
@@ -357,7 +359,7 @@ namespace jsc
                 u.Join();
             else if (!u.Join(new TimeSpan(0, 0, 20)))
             {
-                Environment.FailFast("*** operation is taking too long, aborting...");
+                throw new NotSupportedException("*** operation is taking too long, aborting...");
             }
 
 

@@ -1221,7 +1221,6 @@ namespace jsc
             }
             else
             {
-                Debugger.Launch();
                 Debugger.Break();
             }
         }

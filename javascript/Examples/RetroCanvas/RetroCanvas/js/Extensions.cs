@@ -53,9 +53,17 @@ namespace RetroCanvas.js
             return e.Select(f).ToArray();
         }
 
+        public static void ToWindowText(this Type e, string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                Native.Window.document.title = e.Name;
+            else
+                Native.Window.document.title = e.Name + " - " + s;
+        }
+
         public static void ToWindowText(this Type e)
         {
-            Native.Window.document.title = e.Name;
+            ToWindowText(e, null);
         }
 
         public static int Random(this int i)
