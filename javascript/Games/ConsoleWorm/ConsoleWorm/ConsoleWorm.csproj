@@ -54,11 +54,14 @@
     <Compile Include="js\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
+    <Compile Include="web\assets\ConsoleWorm\Assets.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\ConsoleWorm\Preview.png" />
+    <EmbeddedResource Include="web\assets\ConsoleWorm\avatar14683_21.gif" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="web\assets\OrcasScriptApplication\" />

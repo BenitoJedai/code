@@ -6,12 +6,29 @@ using ScriptCoreLib;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.JavaScript.DOM;
 
 namespace ConsoleWorm.js
 {
     [Script]
     static class Extensions
     {
+        public static bool IsKeyCode(this IEvent e, string c)
+        {
+            var r = false;
+
+            foreach (var v in c)
+            {
+                if (v == e.KeyCode)
+                {
+                    r = true;
+                    break;
+                }
+            }
+
+            return r;
+        }
+
         public static int ToInt32(this int e)
         {
             return (int)Math.Floor((double)e);
@@ -52,9 +69,9 @@ namespace ConsoleWorm.js
             return new Random().Next(i);
         }
 
-        public static void AtInterval(this int x, Action<Timer> h)
+        public static Timer AtInterval(this int x, Action<Timer> h)
         {
-            new Timer(t => h(t), x, x);
+            return new Timer(t => h(t), x, x);
         }
 
         public static void ToWindowText(this Type e, string s)

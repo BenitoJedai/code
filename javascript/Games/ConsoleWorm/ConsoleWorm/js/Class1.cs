@@ -31,8 +31,9 @@ namespace ConsoleWorm.js
             public Point Location;
 
             public Func<int> GetZoom;
+            public Func<Point, Point> Wrapper;
 
-            readonly IHTMLDiv Control = new IHTMLDiv();
+            internal protected readonly IHTMLDiv Control = new IHTMLDiv();
 
             public Part()
             {
@@ -41,12 +42,19 @@ namespace ConsoleWorm.js
 
             public Part AttachTo(IHTMLDiv canvas)
             {
-                var zoom = GetZoom();
+                MoveToLocation();
 
-                Control.style.SetLocation(Location.X * zoom, Location.Y * zoom, zoom, zoom);
                 Control.AttachTo(canvas);
 
                 return this;
+            }
+
+            public void MoveToLocation()
+            {
+                var zoom = GetZoom();
+
+                Location = Wrapper(Location);
+                Control.style.SetLocation(Location.X * zoom, Location.Y * zoom, zoom, zoom);
             }
 
             public void Dispose()
@@ -55,11 +63,19 @@ namespace ConsoleWorm.js
             }
         }
 
-        public List<Part> Parts = new List<Part>();
+        public readonly List<Part> Parts = new List<Part>();
 
         public Worm GrowToVector()
         {
             return GrowTo(this.Vector);
+        }
+
+        public Point NextLocation
+        {
+            get
+            {
+                return Wrapper(this.Location + this.Vector);
+            }
         }
 
         public Worm GrowTo(Point p)
@@ -67,7 +83,7 @@ namespace ConsoleWorm.js
             var x = Wrapper(this.Location + p);
 
             Parts.Add(
-                new Part { Location = x, GetZoom = GetZoom }.AttachTo(Canvas)
+                new Part { Location = x, GetZoom = GetZoom, Wrapper = Wrapper }.AttachTo(Canvas)
             );
 
             Location = x;
@@ -77,7 +93,22 @@ namespace ConsoleWorm.js
 
         public IHTMLDiv Canvas { get; set; }
 
+        Color _Color = Color.Green;
 
+        public Color Color
+        {
+            get
+            {
+                return _Color;
+            }
+
+            set
+            {
+                _Color = value;
+
+                this.Parts.ForEach(v => v.Control.style.backgroundColor = value);
+            }
+        }
 
         public Worm Grow()
         {
@@ -108,6 +139,9 @@ namespace ConsoleWorm.js
 
         readonly IHTMLDiv Control = new IHTMLDiv();
 
+        public Func<Point, Point> Wrapper;
+
+
         public Apple()
         {
             Control.style.backgroundColor = Color.Red;
@@ -128,9 +162,11 @@ namespace ConsoleWorm.js
             return this;
         }
 
-        private void MoveToLocation()
+        public void MoveToLocation()
         {
             var zoom = GetZoom();
+
+            Location = Wrapper(Location);
 
             Control.style.SetLocation(Location.X * zoom, Location.Y * zoom, zoom, zoom);
         }
@@ -148,7 +184,9 @@ namespace ConsoleWorm.js
 
         public Class1()
         {
+
             typeof(Class1).ToWindowText();
+
 
             var canvas = new IHTMLDiv();
 
@@ -157,99 +195,246 @@ namespace ConsoleWorm.js
             canvas.AttachToDocument();
             canvas.style.position = IStyle.PositionEnum.relative;
 
-            var zoom = 12;
+            new IHTMLImage(Assets.Path + "/avatar14683_21.gif").InvokeOnComplete(
+                 scull =>
+                 {
 
-            Func<int> RoomWidth = () => (Native.Window.Width / zoom).ToInt32();
-            Func<int> RoomHeight = () => (Native.Window.Height / zoom).ToInt32();
+                     var zoom = 24;
 
-            Func<Point> GetRandomLocation =
-                () => new Point(
-                        RoomWidth().Random(),
-                        RoomWidth().Random()
-                    );
+                     Func<int> RoomWidth = () => (Native.Window.Width / zoom).ToInt32();
+                     Func<int> RoomHeight = () => ((Native.Window.Height /*- scull.height - 16*/) / zoom).ToInt32();
 
-            Func<Apple> CreateApple =
-                () => new Apple
-                {
-                    GetRandomLocation = GetRandomLocation,
-                    GetZoom = () => zoom
-                }.MoveToRandomLocation();
+                     var score = 0;
+                     var status = new IHTMLDiv("0$");
+                     var isdead = false;
+                     var paused = false;
 
+                     Action<int> AddScore = x =>
+                     {
+                         score += x;
 
-            var apples = new List<Apple>
-            {
-                CreateApple(),
-            };
+                         if (isdead)
+                             status.innerText = score + "$ - Game Over - Enter to continue";
+                         else if (paused)
+                             status.innerText = score + "$ - Paused - Zoom: " + zoom;
+                         else
+                             status.innerText = score + "$";
+                     };
 
-            4.Times(() =>
-                apples.Add(
-                    CreateApple()
-                )
-            );
-
-            apples.ForEach(a => a.AttachTo(canvas));
-
-            Func<Point, Point> Wrapper =
-                p =>
-                    new Point((p.X + RoomWidth()) % RoomWidth(), (p.Y + RoomHeight()) % RoomHeight());
+                     status.style.color = Color.Green;
+                     status.style.fontFamily = IStyle.FontFamilyEnum.Consolas;
 
 
-
-            var worm = new Worm
-            {
-                Wrapper = Wrapper,
-                Location = new Point { X = 4, Y = 8 },
-                GetZoom = () => zoom,
-                Canvas = canvas,
-                Vector = new Point(0, 1)
-            }
-            .Grow()
-            .GrowToVector()
-            .GrowToVector();
+                     scull.AttachTo(canvas).style.SetLocation(
+                         8,
+                         Native.Window.Height - scull.height - 8);
 
 
+                     status.AttachTo(canvas).style.SetLocation(
+                         8 + scull.width + 8,
+                         Native.Window.Height - scull.height
+                     );
 
-            100.AtInterval(
-                t =>
-                {
-                    worm.GrowToVector();
 
-                    var a = apples.Where(i => i.Location.IsEqual(worm.Location)).ToArray();
+                     Func<Point> GetRandomLocation =
+                         () => new Point(
+                                 (RoomWidth() - 1).Random(),
+                                 (RoomHeight() - 1).Random()
+                             );
 
-                    if (a.Length > 0)
-                    {
-                        foreach (var v in a)
+                     var game_colors = new
+                     {
+                         worm = new
+                         {
+                             active = Color.FromRGB(0, 0xff, 0),
+                             inactive = Color.FromRGB(0, 0x7F, 0)
+                         }
+
+                     };
+
+                     Func<Point, Point> Wrapper =
+                         p => new Point((p.X + RoomWidth()) % RoomWidth(), (p.Y + RoomHeight()) % RoomHeight());
+
+
+                     Func<Apple> CreateApple =
+                         () => new Apple
+                         {
+                             GetRandomLocation = GetRandomLocation,
+                             GetZoom = () => zoom,
+                             Wrapper = Wrapper
+                         }.MoveToRandomLocation();
+
+
+                     var apples = new List<Apple>
+                     {
+                     };
+
+                     10.Times(() =>
+                         apples.Add(
+                             CreateApple()
+                         )
+                     );
+
+                     apples.ForEach(a => a.AttachTo(canvas));
+
+
+
+
+
+                     var worm = new Worm
+                     {
+                         Wrapper = Wrapper,
+                         Location = new Point { X = 4, Y = 8 },
+                         GetZoom = () => zoom,
+                         Canvas = canvas,
+                         Vector = new Point(0, 1),
+                         Color = game_colors.worm.active
+                     }
+                     .Grow()
+                     .GrowToVector()
+                     .GrowToVector();
+
+
+
+                     100.AtInterval(
+                         t =>
+                         {
+                             if (paused)
+                             {
+                                 // slowdown
+                                 if (t.Counter % 4 == 0)
+                                 {
+                                     if (worm.Color == game_colors.worm.active)
+                                     {
+                                         worm.Color = game_colors.worm.inactive;
+                                         status.style.color = game_colors.worm.inactive;
+                                     }
+                                     else
+                                     {
+                                         worm.Color = game_colors.worm.active;
+                                         status.style.color = game_colors.worm.active;
+                                     }
+
+                                 }
+
+                                 return;
+                             }
+
+                             if (worm.Parts.Any(i => i.Location.IsEqual(worm.NextLocation)))
+                             {
+                                 paused = true;
+                                 isdead = true;
+
+                                 AddScore(0);
+
+                                 return;
+                             }
+
+                             worm.GrowToVector();
+
+                             // did we find an apple?
+                             var a = apples.Where(i => i.Location.IsEqual(worm.Location)).ToArray();
+
+                             if (a.Length > 0)
+                             {
+                                 foreach (var v in a)
+                                 {
+                                     v.MoveToRandomLocation();
+                                 }
+
+                                 AddScore(1);
+                             }
+                             else
+                             {
+                                 worm.Shrink();
+                             }
+                         }
+                     );
+
+                     var map = new[]
                         {
-                            v.MoveToRandomLocation();
-                        }
+                            new { KeyCode = 38, Point = new Point(0, -1)}, // up
+                            new { KeyCode = 37, Point = new Point(-1, 0)}, // left
+                            new { KeyCode = 39, Point = new Point(1, 0)}, // right
+                            new { KeyCode = 40, Point = new Point(0, 1)}, // down
+                        };
 
-                    }
-                    else
-                        worm.Shrink();
-                }
+                     Func<IEvent, bool> IsPauseKey =
+                         ev => ev.IsKeyCode("pP") || ev.KeyCode == 8504;
+
+
+                     Native.Document.onkeyup +=
+                         ev =>
+                         {
+                             if (isdead)
+                                 if (ev.IsReturn)
+                                 {
+
+                                     while (worm.Parts.Count > 2)
+                                         worm.Shrink();
+
+                                     paused = false;
+                                     isdead = false;
+                                     AddScore(-score);
+                                 }
+
+                             if (!paused)
+                             {
+                                 var v = map.SingleOrDefault(i => i.KeyCode == ev.KeyCode);
+
+                                 if (v != null)
+                                 {
+                                     if ((worm.Vector + v.Point).IsZero())
+                                         return;
+
+                                     worm.Vector = v.Point;
+                                 }
+
+                                 if (ev.IsReturn)
+                                 {
+                                     apples.Add(
+                                         CreateApple().AttachTo(canvas)
+                                     );
+                                 }
+                                 else
+                                     if (ev.KeyCode == 33)
+                                     {
+                                         zoom--;
+                                         zoom = zoom.Max(8);
+
+                                         apples.ForEach(a => a.MoveToLocation());
+                                         worm.Parts.ForEach(p => p.MoveToLocation());
+                                     }
+                                     else if (ev.KeyCode == 34)
+                                     {
+                                         zoom++;
+                                         zoom = zoom.Min(64);
+                                         apples.ForEach(a => a.MoveToLocation());
+                                         worm.Parts.ForEach(p => p.MoveToLocation());
+                                     }
+
+
+                             }
+
+                             if (!isdead)
+                                 if (IsPauseKey(ev))
+                                 {
+                                     paused = !paused;
+
+                                     if (!paused)
+                                     {
+                                         worm.Color = game_colors.worm.active;
+                                         status.style.color = game_colors.worm.active;
+                                     }
+
+                                     AddScore(0);
+                                 }
+
+                         };
+
+
+                 }
             );
-
-            var map = new[]
-            {
-                new { KeyCode =38, Point = new Point(0, -1)}, // up
-                new { KeyCode =37, Point = new Point(-1, 0)}, // left
-                new { KeyCode =39, Point = new Point(1, 0)}, // right
-                new { KeyCode =40, Point = new Point(0, 1)}, // down
-            };
-
-            Native.Document.onkeyup +=
-                ev =>
-                {
-                    var v = map.SingleOrDefault(i => i.KeyCode == ev.KeyCode);
-
-                    if (v != null)
-                    {
-                        if ((worm.Vector + v.Point).IsZero())
-                            return;
-
-                        worm.Vector = v.Point;
-                    }
-                };
         }
 
         static Class1()

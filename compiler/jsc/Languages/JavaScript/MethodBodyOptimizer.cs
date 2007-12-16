@@ -39,29 +39,40 @@ namespace jsc.Languages.JavaScript
             if (p.Instruction == OpCodes.Ret)
                 if (p.Instruction.StackBeforeStrict.Length == 1)
                 {
-                    var p_load = p.Instruction.StackBeforeStrict.Single().SingleStackInstruction;
-
-                    if (p_load.IsLoadLocal)
+                    var p_load_statement = p.Instruction.StackBeforeStrict.Single();
+                    if (p_load_statement.StackInstructions.Length == 1)
                     {
-                        var p_store = p.Prev.Instruction;
+                        var p_load = p_load_statement.SingleStackInstruction;
 
-                        if (p_store.IsStoreLocal)
-                            if (p_store.TargetVariable.LocalIndex == p_load.TargetVariable.LocalIndex)
-                                if (p.Prev.Prev == null)
-                                {
-                                    w.WriteIdent();
-                                    w.Write("return ");
+                        if (p_load.IsLoadLocal)
+                        {
+                            var p_store = p.Prev.Instruction;
 
-                                    w.Override_WriteSelf = () => { w.Write("this"); return true; };
+                            if (p_store.IsStoreLocal)
+                                if (p_store.TargetVariable.LocalIndex == p_load.TargetVariable.LocalIndex)
+                                    if (p.Prev.Prev == null)
+                                    {
+                                        var p_value_statement = p_store.StackBeforeStrict.Single();
+                                        if (p_value_statement.StackInstructions.Length == 1)
+                                        {
+                                            w.WriteIdent();
+                                            w.Write("return ");
 
-                                    IL2ScriptGenerator.OpCodeHandler(w, p, p_store.StackBeforeStrict.Single().SingleStackInstruction, null);
+                                            w.Override_WriteSelf = () => { w.Write("this"); return true; };
 
-                                    w.Override_WriteSelf = null;
 
-                                    w.WriteLine(";");
-                                    return true;
 
-                                }
+
+                                            IL2ScriptGenerator.OpCodeHandler(w, p, p_value_statement.SingleStackInstruction, null);
+
+                                            w.Override_WriteSelf = null;
+
+                                            w.WriteLine(";");
+                                            return true;
+                                        }
+
+                                    }
+                        }
                     }
                 }
 
