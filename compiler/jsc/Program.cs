@@ -503,7 +503,7 @@ namespace jsc
             }
             else if (type == ScriptType.JavaScript)
             {
-                IL2Script.DeclareTypes(xw, xw.Session.Types, false, AssamblyS);
+                IL2Script.DeclareTypes(xw, xw.Session.Types, false, AssamblyS, _assambly_loaded);
 
                 _assambly_loaded.WriteEntryPoints(TargetDirectory);
             }

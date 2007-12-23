@@ -233,7 +233,7 @@ namespace ScriptCoreLib.Shared.Lambda
             return e.Randomize().First();
         }
 
-        public static void ForEach<T>(this IEnumerable<T> array, Action<T> action)
+        public static IEnumerable<T> ForEach<T>(this IEnumerable<T> array, Action<T> action)
         {
             if (array == null)
             {
@@ -249,10 +249,11 @@ namespace ScriptCoreLib.Shared.Lambda
                 action(v);
             }
 
+            return array;
         }
 
 
-        public static void ForEachReversed<T>(this IEnumerable<T> array, Action<T> action)
+        public static IEnumerable<T> ForEachReversed<T>(this IEnumerable<T> array, Action<T> action)
         {
             var a = array.ToArray();
 
@@ -262,7 +263,7 @@ namespace ScriptCoreLib.Shared.Lambda
             }
 
 
-
+            return array;
         }
     }
 }

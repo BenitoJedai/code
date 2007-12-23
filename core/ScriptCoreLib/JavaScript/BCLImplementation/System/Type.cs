@@ -10,6 +10,14 @@ using ScriptCoreLib.JavaScript.Runtime;
     [Script(Implements = typeof(global::System.Type))]
     internal class __Type : __MemberInfo
     {
+        public __Assembly Assembly
+        {
+            get
+            {
+                return new __Assembly { };
+            }
+        }
+
         private RuntimeTypeHandle _TypeHandle;
 
         public RuntimeTypeHandle TypeHandle

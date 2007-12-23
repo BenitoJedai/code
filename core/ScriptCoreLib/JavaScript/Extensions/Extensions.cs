@@ -4,6 +4,7 @@ using System.Text;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.XML;
 using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.Extensions
 {
@@ -14,12 +15,14 @@ namespace ScriptCoreLib.JavaScript.Extensions
         /// <summary>
         /// attaches this element to the current document body
         /// </summary>
-        public static IHTMLElement AttachToDocument(this IHTMLElement e)
+        public static T AttachToDocument<T>(this T e)
+            where T : INode
         {
             return e.AttachTo(Native.Document.body);
         }
 
-        public static IHTMLElement AttachTo(this IHTMLElement e, IHTMLElement c)
+        public static T AttachTo<T>(this T e, INode c)
+            where T : INode
         {
             c.appendChild(e);
 

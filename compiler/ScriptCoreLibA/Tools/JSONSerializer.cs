@@ -262,12 +262,12 @@ namespace ScriptCoreLib.Tools
                 next:
                     var xc = GetChar();
 
-                if (xc == '"')
-                    return x;
+                    if (xc == '"')
+                        return x;
 
-                x += (xc == '\\') ? GetEscapedChar() : xc;
+                    x += (xc == '\\') ? GetEscapedChar() : xc;
 
-                goto next;
+                    goto next;
                 };
             #endregion
 
@@ -302,148 +302,148 @@ namespace ScriptCoreLib.Tools
             goto Members;
         NextOrUp:
             c = GetNonSpaceChar();
-    NextOrUpExplicit:
-        switch (c)
-        {
-            case ',':
-                goto Members;
-            case '}':
-            case ']':
-                goto Members_Explicit;
-            default:
+        NextOrUpExplicit:
+            switch (c)
+            {
+                case ',':
+                    goto Members;
+                case '}':
+                case ']':
+                    goto Members_Explicit;
+                default:
+                    throw CreateException();
+            }
+        ArrayMembers:
+            {
+                var xx = p.Peek() as ArrayBuilder;
+
+                ExpectN(xx);
+
+                if (xx.ElementType == typeof(int))
+                {
+                    var xp = GetIntegerVAndNextChar(GetAsciiCharAsByte(c));
+
+                    xx.List.Add(xp.A);
+                    c = SkipSpace(xp.B);
+
+                    goto ArrayNextOrUp;
+                }
+                else if (xx.ElementType.IsClass)
+                {
+                    Expect(c, '{');
+
+                    var value = Activator.CreateInstance(xx.ElementType);
+
+                    xx.List.Add(value);
+                    p.Push(value);
+
+                    goto Members;
+                }
+
+                throw NotImplemented();
+            }
+        // based on type we must read the stream
+        ArrayNextOrUp:
+            switch (c)
+            {
+                case ',':
+                    goto Members;
+                case ']':
+                    goto Members_Explicit;
+                default:
+                    throw CreateException();
+            }
+        Members:
+            c = GetNonSpaceChar();
+        Members_Explicit:
+            switch (c)
+            {
+                case '}':
+                    ExpectB(GetCurrentType().IsClass);
+
+                    p.Pop();
+
+                    if (p.Count == 0)
+                        return;
+
+                    goto NextOrUp;
+                case ']':
+                    var x = p.Peek() as ArrayBuilder;
+
+                    ExpectN(x);
+
+                    p.Pop();
+                    x.Handler();
+
+                    goto NextOrUp;
+            }
+
+            if (GetCurrentType() == typeof(ArrayBuilder))
+                goto ArrayMembers;
+
+            if (c == '"')
+            {
+                var FieldName = GetQuotedString();
+
+                c = GetNonSpaceChar();
+
+                Expect(c, ':');
+
+                c = GetNonSpaceChar();
+
+                // at this point we need to know does this property exist, and what type it is.
+
+                var Field = GetCurrentType().GetField(FieldName);
+
+                ExpectNText(Field, "Field was removed, json is out of date");
+
+                var FieldType = Field.FieldType;
+                var SetFieldValue = Duplicate<object>(x => Field.SetValue(p.Peek(), x));
+                // [], "", {}, 0
+
+                if (FieldType.IsArray)
+                {
+                    Expect(c, '[');
+
+                    p.Push(
+                        new ArrayBuilder(x => SetFieldValue(x), FieldType.GetElementType())
+                    );
+
+                    goto Members;
+                }
+                else if (FieldType == typeof(string))
+                {
+                    if (ScanNull(c)) goto NextOrUp;
+
+                    Expect(c, '"');
+
+                    SetFieldValue(GetQuotedString());
+
+                    goto NextOrUp;
+                }
+                else if (FieldType == typeof(int))
+                {
+                    var x = GetIntegerVAndNextChar((int)AsciiCharToByte(c));
+
+                    SetFieldValue(x.A);
+                    c = x.B;
+
+                    goto NextOrUpExplicit;
+                }
+                else if (FieldType.IsClass)
+                {
+                    if (ScanNull(c)) goto NextOrUp;
+
+                    Expect(c, '{');
+
+
+                    p.Push(SetFieldValue(Activator.CreateInstance(FieldType)));
+
+                    goto Members;
+                }
+
                 throw CreateException();
-        }
-ArrayMembers:
-    {
-        var xx = p.Peek() as ArrayBuilder;
-
-        ExpectN(xx);
-
-        if (xx.ElementType == typeof(int))
-        {
-            var xp = GetIntegerVAndNextChar(GetAsciiCharAsByte(c));
-
-            xx.List.Add(xp.A);
-            c = SkipSpace(xp.B);
-
-            goto ArrayNextOrUp;
-        }
-        else if (xx.ElementType.IsClass)
-        {
-            Expect(c, '{');
-
-            var value = Activator.CreateInstance(xx.ElementType);
-
-            xx.List.Add(value);
-            p.Push(value);
-
-            goto Members;
-        }
-
-        throw NotImplemented();
-    }
-// based on type we must read the stream
-ArrayNextOrUp:
-switch (c)
-{
-    case ',':
-        goto Members;
-    case ']':
-        goto Members_Explicit;
-    default:
-        throw CreateException();
-}
-Members:
-c = GetNonSpaceChar();
-Members_Explicit:
-switch (c)
-{
-    case '}':
-        ExpectB(GetCurrentType().IsClass);
-
-        p.Pop();
-
-        if (p.Count == 0)
-            return;
-
-        goto NextOrUp;
-    case ']':
-        var x = p.Peek() as ArrayBuilder;
-
-        ExpectN(x);
-
-        p.Pop();
-        x.Handler();
-
-        goto NextOrUp;
-}
-
-if (GetCurrentType() == typeof(ArrayBuilder))
-    goto ArrayMembers;
-
-if (c == '"')
-{
-    var FieldName = GetQuotedString();
-
-    c = GetNonSpaceChar();
-
-    Expect(c, ':');
-
-    c = GetNonSpaceChar();
-
-    // at this point we need to know does this property exist, and what type it is.
-
-    var Field = GetCurrentType().GetField(FieldName);
-
-    ExpectNText(Field, "Field was removed, json is out of date");
-
-    var FieldType = Field.FieldType;
-    var SetFieldValue = Duplicate<object>(x => Field.SetValue(p.Peek(), x));
-    // [], "", {}, 0
-
-    if (FieldType.IsArray)
-    {
-        Expect(c, '[');
-
-        p.Push(
-            new ArrayBuilder(x => SetFieldValue(x), FieldType.GetElementType())
-        );
-
-        goto Members;
-    }
-    else if (FieldType == typeof(string))
-    {
-        if (ScanNull(c)) goto NextOrUp;
-
-        Expect(c, '"');
-
-        SetFieldValue(GetQuotedString());
-
-        goto NextOrUp;
-    }
-    else if (FieldType == typeof(int))
-    {
-        var x = GetIntegerVAndNextChar((int)AsciiCharToByte(c));
-
-        SetFieldValue(x.A);
-        c = x.B;
-
-        goto NextOrUpExplicit;
-    }
-    else if (FieldType.IsClass)
-    {
-        if (ScanNull(c)) goto NextOrUp;
-
-        Expect(c, '{');
-
-
-        p.Push(SetFieldValue(Activator.CreateInstance(FieldType)));
-
-        goto Members;
-    }
-
-    throw CreateException();
-}
+            }
 
 
 
@@ -609,13 +609,15 @@ if (c == '"')
 
                 WriteChar('{');
 
-                FieldInfo[] f = x.GetType().GetFields().ToArray();
+                var f = x.GetType().GetFields().ToArray();
+                var fieldindex = -1;
 
                 for (int i = 0; i < f.Length; i++)
                 {
                     var v = f[i];
 
-                    if (i > 0)
+
+                    if (fieldindex++ > 0)
                         WriteChar(',');
 
                     //WriteQuotedString(v.Name);
@@ -624,6 +626,24 @@ if (c == '"')
                     WriteChar(':');
 
                     WriteElement(v.FieldType, () => v.GetValue(x));
+                }
+
+                if (ScriptAttribute.IsAnonymousType(x.GetType()))
+                {
+                    var p = x.GetType().GetProperties().ToArray();
+
+                    foreach (var v in p)
+                    {
+                        if (fieldindex++ > 0)
+                            WriteChar(',');
+
+                        WriteChars(v.Name);
+
+                        WriteChar(':');
+
+                        WriteElement(v.PropertyType, () => v.GetValue(x, null));
+                    }
+
                 }
 
                 WriteChar('}');

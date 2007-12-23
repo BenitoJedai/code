@@ -1006,12 +1006,12 @@ namespace jsc
 
                             w.WriteBeginScope();
 
-                            
+
                             // Although anonymous types are supported by jsc,
                             // they contain compiler generated methods that are not
                             // This means we need to filter those methods here.
                             if (
-                                new [] { "GetHashCode", "Equals" }.Contains(zm.Name)
+                                new[] { "GetHashCode", "Equals" }.Contains(zm.Name)
                                 && ScriptAttribute.IsAnonymousType(zm.DeclaringType))
                             {
                                 w.WriteIdent();
@@ -1468,7 +1468,7 @@ namespace jsc
                     if (b == null)
                         continue;
 
-                    if (b.IsGenericType) 
+                    if (b.IsGenericType)
                         b = b.GetGenericTypeDefinition()
                         ;
 
@@ -1497,7 +1497,7 @@ namespace jsc
             return a.ToArray();
         }
 
-        public static void DeclareTypes(IdentWriter w, Type[] arg_types, bool debug, ScriptAttribute attribute)
+        public static void DeclareTypes(IdentWriter w, Type[] arg_types, bool debug, ScriptAttribute attribute, Assembly assembly)
         {
             Type[] types = SortTypes(w, arg_types);
 
@@ -1510,6 +1510,15 @@ namespace jsc
                 w.WriteLine("jsc.Languages.JavaScript.$ctor$.js".GetResourceFileContent());
 
             }
+
+            w.WriteIdent();
+            w.Write("var ");
+            w.WriteSpecialChar();
+            w.WriteDecoratedGuid(assembly.ManifestModule.ModuleVersionId);
+            w.Helper.WriteAssignment();
+            w.Write(new { FullName = assembly.FullName }.SerializeToJSON());
+            w.WriteLine(";");
+
 
             //Type[] test = {
             //    types[4],
@@ -1702,6 +1711,16 @@ namespace jsc
             }
 
             Console.WriteLine();
+
+            // attach types to assembly
+            w.WriteIdent();
+            w.WriteSpecialChar();
+            w.WriteDecoratedGuid(assembly.ManifestModule.ModuleVersionId);
+            w.Helper.WriteAccessor();
+            w.Write("Types");
+            w.Helper.WriteAssignment();
+            w.Write(new object[] { }.SerializeToJSON());
+            w.WriteLine(";");
 
             DeclareStaticConstructors(w, types, debug);
 
