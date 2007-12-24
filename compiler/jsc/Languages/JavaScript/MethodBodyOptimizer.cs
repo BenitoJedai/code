@@ -6,8 +6,51 @@ using System.Reflection.Emit;
 
 namespace jsc.Languages.JavaScript
 {
-    class MethodBodyOptimizer
+    static class MethodBodyOptimizer
     {
+
+        static Dictionary<OpCode, string> OptimizeAssignment_Operators;
+
+        // http://msdn2.microsoft.com/en-us/library/6a71f45d(VS.80).aspx
+        public static bool OptimizeAssignment(this IdentWriter w, ILBlock.Prestatement p, ILInstruction i)
+        {
+            // optimize: g = g + 1 to g += 1
+
+            if (i.StackBeforeStrict.Length == 1)
+            {
+                var store_value = i.StackBeforeStrict[0];
+                var dict = OptimizeAssignment_Operators ?? (OptimizeAssignment_Operators = new Dictionary<OpCode, string>
+                {
+                    {OpCodes.Add, "+="},
+                    {OpCodes.Sub, "-="},
+                    {OpCodes.Mul, "*="},
+                    {OpCodes.Div, "/="},
+                });
+
+                if (store_value.StackInstructions.Length == 1)
+                {
+                    var store_op = store_value.StackInstructions[0];
+
+                    if (store_op != null)
+                        if (dict.ContainsKey(store_op.OpCode))
+                        {
+                            var source = store_op.StackBeforeStrict[0].SingleStackInstruction;
+
+                            if (source.IsEqualVariable(i.TargetVariable))
+                            {
+                                w.Helper.WriteOptionalSpace();
+                                w.Write(dict[store_op.OpCode]);
+                                w.Helper.WriteOptionalSpace();
+                                IL2ScriptGenerator.OpCodeHandler(w, p, i, store_op.StackBeforeStrict[1]);
+                                return true;
+                            }
+                        }
+                }
+            }
+
+            return false;
+        }
+
         public static bool TryOptimize(IdentWriter w, ILBlock xb)
         {
             /* Try to optimize this:

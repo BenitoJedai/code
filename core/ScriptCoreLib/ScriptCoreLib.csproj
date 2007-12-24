@@ -55,6 +55,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +116,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\ArgumentNullException.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Action.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Activator.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Attribute.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\ObjectModel\Collection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\BindingList.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\Component.cs" />
@@ -139,6 +141,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Int32.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IntPtr.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Math.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\NotImplementedException.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Predicate.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\Assembly.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\AssemblyName.cs" />

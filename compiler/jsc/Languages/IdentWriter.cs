@@ -266,20 +266,29 @@ namespace jsc
 
         }
 
-        public void WriteSafeLiteral(string z)
+        public static string GetSafeLiteral(string z)
         {
+            var w = new StringBuilder(z.Length);
+
             foreach (char x in z)
             {
 
                 if (char.IsLetter(x) || char.IsNumber(x))
                 {
-                    this.Write(x);
+                    w.Append(x);
                 }
                 else
                 {
-                    this.Write("_");
+                    w.Append("_");
                 }
             }
+
+            return w.ToString();
+        }
+
+        public void WriteSafeLiteral(string z)
+        {
+            this.Write(GetSafeLiteral(z));
         }
 
         public void WriteDecoratedLiteralString(string z)
@@ -312,7 +321,12 @@ namespace jsc
         }
 
 
-        public string GetDecoratedGuid(Guid g)
+        //public string GetDecoratedGuid(Guid g)
+        //{
+        //    return IdentWriter.GetDecoratedGuid(g);
+        //}
+
+        public static string GetDecoratedGuid(Guid g)
         {
             using (StringWriter w = new StringWriter())
             {
@@ -523,21 +537,65 @@ namespace jsc
                     x;
         }
 
-        private void WriteGUID64(Type x)
+
+
+        public static string GetGUID64(Guid x)
         {
-            // 
-            MemoryStream m = new MemoryStream(ToGenericDefinition(x).GUID.ToByteArray());
+            MemoryStream m = new MemoryStream(x.ToByteArray());
 
-            if (this.Session.Options.KeepFullNames)
-            {
-                WriteSpecialChar();
-                WriteSafeLiteral(x.FullName);
-                WriteSpecialChar();
-            }
+            var e = m.ToArray();
 
-            WriteSpecialBase64(m.ToArray());
+            // sync to WriteSpecialBase64
+
+            var name64 = Convert.ToBase64String(e).
+                 Replace("+", "_a").
+                 Replace("/", "_b").
+                 Replace("=", "");
+
+            if (!char.IsLetter(name64[0]))
+                name64 = GetSpecialChar(1) + name64;
+
+            return name64;
         }
 
+        public static string GetGUID64(Type x)
+        {
+            return GetGUID64(ToGenericDefinition(x).GUID);
+
+        }
+
+        private void WriteGUID64(Type x)
+        {
+            Write(GetGUID64(x));
+
+            //// 
+            //MemoryStream m = new MemoryStream(ToGenericDefinition(x).GUID.ToByteArray());
+
+            ///*
+            //if (this.Session.Options.KeepFullNames)
+            //{
+            //    WriteSpecialChar();
+            //    WriteSafeLiteral(x.FullName);
+            //    WriteSpecialChar();
+            //}
+            //*/
+
+            //WriteSpecialBase64(m.ToArray());
+        }
+
+
+        private void WriteSpecialBase64(byte[] e)
+        {
+            string name64 = Convert.ToBase64String(e).
+                Replace("+", "_a").
+                Replace("/", "_b").
+                Replace("=", "");
+
+            if (!char.IsLetter(name64[0]))
+                WriteSpecialChar();
+
+            Write(name64);
+        }
 
         private void WriteGUIDAndToken(MemberInfo x)
         {
@@ -573,18 +631,6 @@ namespace jsc
             WriteSpecialBase64(m.ToArray());
         }
 
-        private void WriteSpecialBase64(byte[] e)
-        {
-            string name64 = Convert.ToBase64String(e).
-                Replace("+", "_a").
-                Replace("/", "_b").
-                Replace("=", "");
-
-            if (!char.IsLetter(name64[0]))
-                WriteSpecialChar();
-
-            Write(name64);
-        }
 
 
         private static bool IsSerializeableType(MemberInfo x, bool ndec)

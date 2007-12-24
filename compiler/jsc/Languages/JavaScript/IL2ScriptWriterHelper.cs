@@ -12,6 +12,8 @@ namespace jsc
     using ilfsi = ILFlow.StackItem;
     using System.IO;
 
+    using jsc.Languages.JavaScript;
+    using ScriptCoreLib.Tools;
 
     public class IL2ScriptWriterHelper
     {
@@ -264,8 +266,17 @@ namespace jsc
             w.WriteIdent();
             w.Write("function ");
             w.WriteDecorated(t);
-            w.WriteLine("() { };");
+            w.WriteLine("(){};");
 
+            w.WriteMemberAssignment(IdentWriter.GetGUID64(t), 
+                new 
+                { 
+                    TypeName = IdentWriter.GetSafeLiteral(t.Name),
+                    Assembly = (LiteralString) IdentWriter.GetGUID64(t.Assembly.ManifestModule.ModuleVersionId)
+                }
+            );
+
+            /*
             w.WriteIdent();
             w.WriteDecorated(t);
             w.Helper.WriteAccessor();
@@ -274,7 +285,7 @@ namespace jsc
 
             w.WriteQoute(true, () => w.WriteSafeLiteral(t.Name));
             w.WriteLine(";");
-
+            */
 
             //w.WriteBeginScope();
 
@@ -362,7 +373,7 @@ namespace jsc
         }
 
 
-        
+
 
         public void WriteWrappedConstructor(ConstructorInfo zc)
         {

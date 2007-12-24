@@ -11,6 +11,16 @@ namespace jsc //.Extensions
 {
     static class Extensions
     {
+        public static Dictionary<string, object> GetProperties(this object e)
+        {
+            return (
+                from p in e.GetType().GetProperties()
+                let name = p.Name
+                let value = p.GetValue(e, null)
+                select new { name, value }
+            ).ToDictionary(i => i.name, i => i.value);
+        }
+
         public static string GetResourceFileContent(this string name)
         {
             return new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(name)).ReadToEnd();

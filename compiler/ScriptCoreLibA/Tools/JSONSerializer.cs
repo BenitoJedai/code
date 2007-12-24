@@ -30,6 +30,53 @@ namespace ScriptCoreLib.Tools
     public delegate void Action();
 
 
+    public static class FunctionReturnValueExtension
+    {
+        public static FunctionReturnValue ToFunctionReturnValue<T>(this T e)
+            where T : class
+        {
+            return new FunctionReturnValue(e);
+        }
+    }
+
+
+    public class FunctionReturnValue
+    {
+        readonly object Value;
+
+        public FunctionReturnValue(object e)
+        {
+            Value = e;
+        }
+
+
+        public object GetValue()
+        {
+            return Value;
+        }
+
+    }
+
+    public class LiteralString
+    {
+        readonly string Value;
+
+        public LiteralString(string e)
+        {
+            Value = e;
+        }
+
+        public static implicit operator LiteralString(string e)
+        {
+            return new LiteralString(e);
+        }
+
+        public static implicit operator string(LiteralString e)
+        {
+            return e.Value;
+        }
+    }
+
     public static class JSONSerializer
     {
         class ArrayBuilder
@@ -495,6 +542,7 @@ namespace ScriptCoreLib.Tools
             Action<int> WriteInt32 = null;
             Action<Type, Func<object>> WriteElement = null;
 
+            #region WriteQuotedString
             WriteQuotedString = delegate(string x)
             {
                 if (x == null)
@@ -536,6 +584,7 @@ namespace ScriptCoreLib.Tools
 
                 WriteChar(QouteChar);
             };
+            #endregion
 
             WriteInt32 = delegate(int x)
             {
@@ -545,6 +594,7 @@ namespace ScriptCoreLib.Tools
                 }
             };
 
+            #region WriteArray
             WriteArray = delegate(Array x)
             {
                 if (x == null)
@@ -575,10 +625,26 @@ namespace ScriptCoreLib.Tools
 
                 WriteChar(']');
             };
+            #endregion
+
+            Action<object> WriteAnyElement = v => WriteElement(v.GetType(), () => v);
 
             WriteElement = delegate(Type ft, Func<object> fv)
             {
-                if (ft == typeof(string))
+
+                if (ft == typeof(FunctionReturnValue))
+                {
+                    WriteChars("function (){return ");
+                    
+                    WriteAnyElement(((FunctionReturnValue)fv()).GetValue());
+
+                    WriteChars(";}");
+                }
+                else if (ft == typeof(LiteralString))
+                {
+                    WriteChars((LiteralString)fv());
+                }
+                else if (ft == typeof(string))
                 {
                     WriteQuotedString((string)fv());
                 }
@@ -598,6 +664,7 @@ namespace ScriptCoreLib.Tools
                     throw new NotImplementedException();
             };
 
+            #region WriteObject
             WriteObject = delegate(object x)
             {
                 if (x == null)
@@ -617,7 +684,7 @@ namespace ScriptCoreLib.Tools
                     var v = f[i];
 
 
-                    if (fieldindex++ > 0)
+                    if (fieldindex++ > -1)
                         WriteChar(',');
 
                     //WriteQuotedString(v.Name);
@@ -634,7 +701,7 @@ namespace ScriptCoreLib.Tools
 
                     foreach (var v in p)
                     {
-                        if (fieldindex++ > 0)
+                        if (fieldindex++ > -1)
                             WriteChar(',');
 
                         WriteChars(v.Name);
@@ -648,8 +715,9 @@ namespace ScriptCoreLib.Tools
 
                 WriteChar('}');
             };
+            #endregion
 
-            WriteObject(obj);
+            WriteAnyElement(obj);
         }
     }
 

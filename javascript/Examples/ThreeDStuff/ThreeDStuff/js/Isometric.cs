@@ -12,7 +12,7 @@ using System;
 
 namespace ThreeDStuff.js
 {
-    [Script, ScriptApplicationEntryPoint]
+    [Script, ScriptApplicationEntryPoint, ApplicationDescription(Description = "A grid of isometric tiles.")]
     public class Isometric
     {
 

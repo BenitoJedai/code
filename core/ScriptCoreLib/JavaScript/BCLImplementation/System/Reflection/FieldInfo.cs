@@ -30,6 +30,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
             return (global::System.Reflection.FieldInfo)(object)e;
         }
 
+        public override object[] GetCustomAttributes(bool inherit)
+        {
+            throw new NotImplementedException();
+        }
 
+        public override object[] GetCustomAttributes(Type x, bool inherit)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

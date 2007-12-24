@@ -12,5 +12,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
             get;
         }
 
+
+        public abstract object[] GetCustomAttributes(Type x, bool inherit);
+        public abstract object[] GetCustomAttributes(bool inherit);
     }
 }

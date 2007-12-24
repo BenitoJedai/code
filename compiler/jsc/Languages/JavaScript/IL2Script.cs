@@ -10,12 +10,14 @@ using System.Reflection.Emit;
 using ScriptCoreLib;
 
 using jsc.Script;
+using jsc.Languages.JavaScript;
 
 namespace jsc
 {
     using ilbp = ILBlock.Prestatement;
     using ili = ILInstruction;
     using ilfsi = ILFlow.StackItem;
+    using ScriptCoreLib.Tools;
 
 
 
@@ -1497,6 +1499,8 @@ namespace jsc
             return a.ToArray();
         }
 
+
+
         public static void DeclareTypes(IdentWriter w, Type[] arg_types, bool debug, ScriptAttribute attribute, Assembly assembly)
         {
             Type[] types = SortTypes(w, arg_types);
@@ -1511,38 +1515,23 @@ namespace jsc
 
             }
 
-            w.WriteIdent();
-            w.Write("var ");
-            w.WriteSpecialChar();
-            w.WriteDecoratedGuid(assembly.ManifestModule.ModuleVersionId);
-            w.Helper.WriteAssignment();
-            w.Write(new { FullName = assembly.FullName }.SerializeToJSON());
-            w.WriteLine(";");
 
-
-            //Type[] test = {
-            //    types[4],
-            //    types[0],
-            //    w.Session.ResolveImplementation(typeof(System.EventHandler)),
-            //    types[1],
-            //    w.Session.ResolveImplementation(typeof(System.Delegate)) ,
-            //    types[2],
-            //    w.Session.ResolveImplementation(typeof(System.MulticastDelegate)),
-            //    types[3],
-            //};
-
-            //test = SortTypes(w, test);
+            w.WriteVariableAssignment(
+                assembly.ManifestModule.ModuleVersionId,
+                new
+                {
+                    //FullName = assembly.FullName,
+                    Name = new
+                    {
+                        assembly.GetName().Name,
+                        assembly.GetName().FullName,
+                    }
+                }
+            );
 
 
 
-            /*
-            int i0 = Array.IndexOf(types, w.Session.ResolveImplementation(typeof(Delegate)));
-            int i1 = Array.IndexOf(types, w.Session.ResolveImplementation(typeof(MulticastDelegate)));
-            int i2 = Array.IndexOf(types, w.Session.ResolveImplementation(typeof(EventHandler)));
-
-            if (i2 < i0 || i1 < i0)
-                throw new Exception();
-            */
+            var CompiledTypes = new List<LiteralString>();
 
             foreach (Type z in types)
             {
@@ -1554,7 +1543,7 @@ namespace jsc
 
                 ScriptAttribute sa = ScriptAttribute.Of(z);
 
-
+                #region DelegateImplementationProvider
                 if (z.BaseType == typeof(System.MulticastDelegate))
                 {
                     if (sa != null)
@@ -1563,10 +1552,12 @@ namespace jsc
                         // now we have to write the implementation for it
 
                         jsc.Languages.JavaScript.legacy.DelegateImplementationProvider.Write(w, z);
+
                     }
 
                     continue;
                 }
+                #endregion
 
                 #region compilergenerated
 
@@ -1632,7 +1623,39 @@ namespace jsc
 
 
                         w.Helper.DOMDefineNamedType(z, __inherit_from);
+
+                        // attributes
+                        #region Attributes
+                        var Attributes =
+                            (
+                                from i in z.GetCustomAttributes(false)
+                                let s = ScriptAttribute.OfProvider(i.GetType())
+                                where s != null
+                                select i
+                            ).ToArray();
+
+                        if (Attributes.Length > 0)
+                            w.WriteMemberAssignment(z.GUID,
+                                new
+                                {
+                                    GetAttributes =
+                                        (
+                                            from i in Attributes
+                                            select
+                                                new
+                                                {
+                                                    Type = (LiteralString)IdentWriter.GetGUID64(i.GetType().GUID),
+                                                    Value = i
+                                                }
+                                        ).ToArray().ToFunctionReturnValue()
+                                }
+                            );
+                        #endregion
+
                         w.Helper.DefineAndAssignPrototype(z);
+
+
+                        CompiledTypes.Add(IdentWriter.GetGUID64(z));
 
 
                     }
@@ -1712,15 +1735,18 @@ namespace jsc
 
             Console.WriteLine();
 
-            // attach types to assembly
-            w.WriteIdent();
-            w.WriteSpecialChar();
-            w.WriteDecoratedGuid(assembly.ManifestModule.ModuleVersionId);
-            w.Helper.WriteAccessor();
-            w.Write("Types");
-            w.Helper.WriteAssignment();
-            w.Write(new object[] { }.SerializeToJSON());
-            w.WriteLine(";");
+            w.WriteMemberAssignment(
+                assembly.ManifestModule.ModuleVersionId,
+                new
+                {
+                    Types = CompiledTypes.ToArray(),
+                    References =
+                        ScriptCoreLib.SharedHelper.LoadReferencedAssemblies(assembly, false).Select(i => (LiteralString)IdentWriter.GetGUID64(i.ManifestModule.ModuleVersionId)).ToArray()
+                }
+            );
+
+            w.Helper.WriteOptionalNewline();
+
 
             DeclareStaticConstructors(w, types, debug);
 

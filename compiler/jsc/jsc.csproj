@@ -99,6 +99,7 @@
     <Compile Include="Languages\CompilerBase.Handler.cs" />
     <Compile Include="Languages\C\CCompiler.cs" />
     <Compile Include="Languages\DelegateHint.cs" />
+    <Compile Include="Languages\JavaScript\AnonymousTypeWriter.cs" />
     <Compile Include="Languages\JavaScript\DelegateImplementationProvider.cs" />
     <Compile Include="Languages\JavaScript\EntryPointProvider.cs" />
     <Compile Include="Languages\JavaScript\IL2Script.cs" />

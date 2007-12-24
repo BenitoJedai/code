@@ -5,16 +5,34 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     using Reflection;
-using ScriptCoreLib.JavaScript.Runtime;
+    using ScriptCoreLib.JavaScript.Runtime;
+    using ScriptCoreLib.JavaScript.DOM;
 
     [Script(Implements = typeof(global::System.Type))]
     internal class __Type : __MemberInfo
     {
+        [Script]
+        internal sealed class __AttributeReflection
+        {
+            public IFunction Type;
+            public object Value;
+        }
+
+        [Script]
+        internal sealed class __TypeReflection
+        {
+            public IFunction GetAttributes;
+        }
+
         public __Assembly Assembly
         {
             get
             {
-                return new __Assembly { };
+                return new __Assembly
+                {
+
+                    __Value = (__AssemblyValue)Expando.InternalGetMember(AsExpando().constructor, "Assembly")
+                };
             }
         }
 
@@ -59,18 +77,14 @@ using ScriptCoreLib.JavaScript.Runtime;
                 a.Add(new __FieldInfo { _Name = m.Name });
 
             }
-            
+
 
             return a.ToArray();
         }
 
-        public static Type GetTypeFromHandle(RuntimeTypeHandle handle)
+        public static Type GetTypeFromHandle(RuntimeTypeHandle TypeHandle)
         {
-            __Type t = new __Type();
-
-            t.TypeHandle = handle;
-
-            return t;
+            return new __Type { TypeHandle = TypeHandle };
         }
 
         public static implicit operator Type(__Type e)
@@ -78,20 +92,61 @@ using ScriptCoreLib.JavaScript.Runtime;
             return (Type)(object)e;
         }
 
-        //public bool Equals(Type o)
-        //{
-        //    object a = this.TypeHandle;
-        //    object b = o.TypeHandle;
+        public bool Equals(Type o)
+        {
+            object a = this.TypeHandle.Value;
+            object b = o.TypeHandle.Value;
 
-        //    return a == b;
-        //}
+            return a == b;
+        }
 
         public override string Name
         {
-            get 
+            get
             {
                 return (string)Expando.InternalGetMember(AsExpando().constructor, "TypeName");
             }
+        }
+
+        
+        __TypeReflection Reflection
+        {
+            get
+            {
+                return ((__TypeReflection)(object)AsExpando().constructor);
+            }
+        }
+
+        public override object[] GetCustomAttributes(bool inherit)
+        {
+            return GetCustomAttributes(null, false);
+        }
+
+        
+        public override object[] GetCustomAttributes(Type x, bool inherit)
+        {
+            if (inherit)
+                throw new NotSupportedException();
+
+            if (Reflection.GetAttributes == null)
+                return new object[0];
+
+            var i = new List<object>();
+
+            foreach (var v in (__AttributeReflection[])Reflection.GetAttributes.apply(Reflection))
+            {
+                var c = true;
+
+                if (x != null)
+                    if (!object.ReferenceEquals(v.Type.prototype,x.TypeHandle.Value))
+                        c = false;
+
+                // todo: rebuild to known type
+                if (c)
+                    i.Add(v.Value);
+            }
+
+            return i.ToArray();
         }
     }
 }

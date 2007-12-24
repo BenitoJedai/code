@@ -11,6 +11,7 @@ using System.Reflection.Emit;
 using ScriptCoreLib;
 
 using jsc.Script;
+using jsc.Languages.JavaScript;
 
 namespace jsc
 {
@@ -1048,7 +1049,7 @@ namespace jsc
 
             var m_type_attribute = ScriptAttribute.Of(m.DeclaringType, true);
 
-    
+
 
             #region missing script attribute
             if (m_type_attribute == null)
@@ -1099,8 +1100,8 @@ namespace jsc
 
         private static void WriteCreateType(IdentWriter w, ilbp p, ili i, ilfsi[] s, MethodBase m)
         {
-            ScriptAttribute sa = 
-                ScriptAttribute.IsAnonymousType(m.DeclaringType) ? 
+            ScriptAttribute sa =
+                ScriptAttribute.IsAnonymousType(m.DeclaringType) ?
                     new ScriptAttribute() :
                     ScriptAttribute.Of(m.DeclaringType, true);
 
@@ -1319,7 +1320,7 @@ namespace jsc
             }
 
 
-           // w.Write("/* box[{0}] */ ", t.UnderlyingSystemType);
+            // w.Write("/* box[{0}] */ ", t.UnderlyingSystemType);
 
             OpCodeHandler(w, p, i, s[0]);
         }
@@ -1545,6 +1546,12 @@ namespace jsc
                 return;
             }
 
+            // optimize: g = g + 1 to g += 1
+            if (w.OptimizeAssignment(p, i))
+                return;
+
+            
+
             w.WriteSpace();
             w.Write("=");
             w.WriteSpace();
@@ -1558,7 +1565,7 @@ namespace jsc
                 if (OpCodeEmitStringEnum(w, s[0], i.TargetVariable.LocalType))
                     return;
 
-                OpCodeHandler(w, p, i, s[0]);
+                IL2ScriptGenerator.OpCodeHandler(w, p, i, s[0]);
 
             }
         }
