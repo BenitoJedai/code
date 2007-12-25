@@ -22,8 +22,10 @@ namespace ThreeDStuff.js
     {
         public ThreeDStuff()
         {
-            Func<string, string, IHTMLAnchor> CreateAnchor =
-                (href, text) =>
+            var Menu = new IHTMLDiv().AttachToDocument();
+
+            Func<string, string, Type, IHTMLAnchor> CreateAnchor =
+                (href, text, t) =>
                 {
                     var a = new IHTMLAnchor(href, text);
 
@@ -41,16 +43,26 @@ namespace ThreeDStuff.js
 
                     a.style.textDecoration = "none";
 
+                    a.onclick +=
+                        ev =>
+                        {
+                            ev.PreventDefault();
+
+                            Menu.Dispose();
+
+                            t.CreateInstance();
+                        };
+
                     return a;
                 };
 
             foreach (var i in from t in typeof(ThreeDStuff).Assembly.GetTypes()
                               let d = (ApplicationDescriptionAttribute[])t.GetCustomAttributes(typeof(ApplicationDescriptionAttribute), false)
                               where d.Length > 0
-                              let anchor = CreateAnchor(t.Name + ".htm", t.Name + " - " + d.Random().Description)
+                              let anchor = CreateAnchor(t.Name + ".htm", t.Name + " - " + d.Random().Description, t)
                               select new { anchor })
             {
-                i.anchor.AttachToDocument();
+                i.anchor.AttachTo(Menu);
             }
 
 
@@ -58,7 +70,7 @@ namespace ThreeDStuff.js
 
         static ThreeDStuff()
         {
-            typeof(ThreeDStuff).SpawnTo(i => new ThreeDStuff());
+            typeof(ThreeDStuff).Spawn();
         }
     }
 }

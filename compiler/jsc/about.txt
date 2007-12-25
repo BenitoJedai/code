@@ -63,3 +63,5 @@ version history:
     jsc: disabled packing
 29.06.2007
     full release, source code open.
+25.12.2007
+	js: anonymous types yet again supported, assembly and type reflection

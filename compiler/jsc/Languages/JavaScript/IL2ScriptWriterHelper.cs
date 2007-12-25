@@ -443,6 +443,20 @@ namespace jsc
             w.WriteIdent();
             w.Write("var ");
             w.Helper.WriteWrappedConstructor(zc);
+
+            if (zc.GetParameters().Length == 0)
+            {
+                // this supports the Activator.CreateInstance function
+                // prototype.constructor.ctor = Activator Constructor with no params
+
+                w.Helper.WriteAssignment();
+
+                w.Write(IdentWriter.GetGUID64(z.GUID));
+                w.Helper.WriteAccessor();
+                w.Write("ctor");
+
+            }
+
             w.Helper.WriteAssignment();
             w.Write("$ctor$");
             w.Write("(");

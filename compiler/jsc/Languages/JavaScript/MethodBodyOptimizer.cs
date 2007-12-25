@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection.Emit;
+using System.Reflection;
+using ScriptCoreLib;
 
 namespace jsc.Languages.JavaScript
 {
@@ -121,5 +123,132 @@ namespace jsc.Languages.JavaScript
 
             return false;
         }
+
+
+        public static bool SemiInlineWrapperMethod(this IdentWriter w, MethodInfo zm, ScriptAttribute zsa)
+        {
+            if (!zm.IsStatic)
+                return false;
+
+            if (zsa != null && zsa.DefineAsInstance)
+                return false;
+
+            if (zsa != null && zsa.OptimizedCode != null)
+                return false;
+
+            ILBlock xb = new ILBlock(zm);
+
+            if (xb.Prestatements.PrestatementCommands.Count == 3)
+            {
+                ILBlock.Prestatement _0 = xb.Prestatements.PrestatementCommands[0];
+                ILBlock.Prestatement _1 = xb.Prestatements.PrestatementCommands[1];
+                ILBlock.Prestatement _2 = xb.Prestatements.PrestatementCommands[2];
+
+                if (_0.Instruction.OpCode != OpCodes.Nop)
+                    goto skip;
+
+                if (!_1.Instruction.IsStoreLocal)
+                    goto skip;
+
+                if (_2.Instruction.OpCode != OpCodes.Ret)
+                    goto skip;
+
+                // validate that the local variable is the same
+
+                ILInstruction _3 = _2.Instruction.StackBeforeStrict[0].SingleStackInstruction;
+
+                if (!_3.IsLoadLocal)
+                    goto skip;
+
+                if (_3.TargetVariable.LocalIndex != _1.Instruction.TargetVariable.LocalIndex)
+                    goto skip;
+
+                // now we know that this function returns something
+
+                ILInstruction _4 = _1.Instruction.StackBeforeStrict[0].SingleStackInstruction;
+
+                if (_4.OpCode.FlowControl != FlowControl.Call)
+                    goto skip;
+
+                MethodBase _4_Method = _4.TargetMethod;
+
+                var _4_MethodImplementation = w.Session.ResolveImplementation(_4_Method.DeclaringType, _4_Method);
+
+                if (_4_MethodImplementation != null)
+                    _4_Method = _4_MethodImplementation;
+
+                if (_4_Method == null)
+                    goto skip;
+
+                if (!_4_Method.IsStatic)
+                    goto skip;
+
+
+
+                // now if it has the same argument types and if we pass the same argument values
+                // we can semi-inline it.
+
+
+                ParameterInfo[] tp = _4_Method.GetParameters();
+                ParameterInfo[] mp = zm.GetParameters();
+
+                if (tp.Length != mp.Length)
+                    goto skip;
+
+                for (int j = 0; j < tp.Length; j++)
+                {
+                    if (tp[j].ParameterType != mp[j].ParameterType)
+                        goto skip;
+
+                }
+
+                for (int i = 0; i < tp.Length; i++)
+                {
+                    ParameterInfo v = _4.StackBeforeStrict[i].SingleStackInstruction.TargetParameter;
+
+                    if (v == null)
+                        goto skip;
+
+                    if (v.Position != i)
+                        goto skip;
+                }
+
+                w.WriteIdent();
+                w.Write("var ");
+                w.WriteDecoratedMethodName(zm);
+                w.Write(" = ");
+
+
+                if (_4_Method.DeclaringType.Assembly == zm.DeclaringType.Assembly)
+                {
+                    w.Write("function () { ");
+
+                    if (zm.ReturnType != typeof(void))
+                    {
+                        w.Write("return ");
+                    }
+
+                    w.WriteDecoratedMethodName(_4_Method);
+                    w.Write(".apply(null, arguments);");
+                    w.Write(" }");
+                }
+                else
+                {
+                    w.WriteDecoratedMethodName(_4_Method);
+                }
+
+                w.WriteLine(";");
+
+
+                return true;
+            }
+
+        skip:
+
+            return false;
+
+
+        }
+    
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared.Drawing;
 
@@ -11,6 +12,11 @@ namespace ThreeDStuff.js
     [Script]
     static class Extensions
     {
+        public static object CreateInstance(this Type t)
+        {
+            return Activator.CreateInstance(t);
+        }
+
         public static int Random(this int i)
         {
             return new Random().Next(i);
@@ -103,9 +109,12 @@ namespace ThreeDStuff.js
 
         public static double Sqrt(this double e)
         {
-            var dummy = 0;
-
             return Math.Sqrt(e);
+        }
+
+        public static void Spawn(this Type e)
+        {
+            e.SpawnTo(i => e.CreateInstance());
         }
     }
 }

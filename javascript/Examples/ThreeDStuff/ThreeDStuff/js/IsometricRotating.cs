@@ -231,7 +231,7 @@ namespace ThreeDStuff.js
 
         static IsometricRotating()
         {
-            typeof(IsometricRotating).SpawnTo(i => new IsometricRotating());
+            typeof(IsometricRotating).Spawn();
         }
 
 

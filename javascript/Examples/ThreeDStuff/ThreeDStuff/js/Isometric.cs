@@ -228,7 +228,7 @@ namespace ThreeDStuff.js
 
         static Isometric()
         {
-            typeof(Isometric).SpawnTo(i => new Isometric());
+            typeof(Isometric).Spawn();
         }
 
 
