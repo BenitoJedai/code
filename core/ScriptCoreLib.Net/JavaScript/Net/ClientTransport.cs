@@ -84,7 +84,7 @@ namespace ScriptCoreLib.JavaScript.Net
 
         void ResetCallbackFrame()
         {
-            Console.Log("resetting form callback iframe");
+            System.Console.WriteLine("resetting form callback iframe");
 
             ((IHTMLElement)Form.firstChild).innerHTML = "<iframe name='" + Descriptor.Callback + "'></iframe>";
 
@@ -190,7 +190,7 @@ namespace ScriptCoreLib.JavaScript.Net
             {
                 string err = "header not set";
 
-                Console.LogError(err);
+                System.Console.WriteLine(err);
 
                 if (DemandHeader)
                 {
@@ -203,7 +203,7 @@ namespace ScriptCoreLib.JavaScript.Net
 
             if (IsVerbose)
             {
-                Console.Log(" => [" + Descriptor.Description + "] " + json.Length + " bytes");
+                System.Console.WriteLine(" => [" + Descriptor.Description + "] " + json.Length + " bytes");
             }
 
             Worker.StartInterval();
@@ -213,8 +213,8 @@ namespace ScriptCoreLib.JavaScript.Net
             if (IsVerbose)
             {
              
-                Console.WriteLine("var data = " + json + ";");
-                Console.Log(json.Length + " bytes sent");
+                System.Console.WriteLine("var data = " + json + ";");
+                System.Console.WriteLine(json.Length + " bytes sent");
             }
 
             if (Form == null)
@@ -255,8 +255,8 @@ namespace ScriptCoreLib.JavaScript.Net
 
             if (IsVerbose)
             {
-                Console.Log(" <= [" + this.Descriptor.Description + "] " + TimeElapsed + " ms, " + this.ResponseText.Length + " bytes");
-                Console.Log("json: " + this.ResponseText);
+                System.Console.WriteLine(" <= [" + this.Descriptor.Description + "] " + TimeElapsed + " ms, " + this.ResponseText.Length + " bytes");
+                System.Console.WriteLine("json: " + this.ResponseText);
             }
 
             Descriptor = null;
@@ -301,7 +301,7 @@ namespace ScriptCoreLib.JavaScript.Net
             if (before != null)
                 c.BeforeSend += before;
             else
-                Console.LogError("Send without before send handler");
+                System.Console.WriteLine("Send without before send handler");
 
             c.Send();
         }

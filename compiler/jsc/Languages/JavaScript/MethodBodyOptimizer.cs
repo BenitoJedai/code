@@ -167,7 +167,7 @@ namespace jsc.Languages.JavaScript
 
                 ILInstruction _4 = _1.Instruction.StackBeforeStrict[0].SingleStackInstruction;
 
-                if (_4.OpCode.FlowControl != FlowControl.Call)
+                if (_4.OpCode != OpCodes.Call)
                     goto skip;
 
                 MethodBase _4_Method = _4.TargetMethod;

@@ -126,7 +126,10 @@ namespace jsc
                      OpCodes.Neg,
                      OpCodes.Ceq,
                      OpCodes.Cgt,
-                     OpCodes.Clt] = new OpCodeHandler(OpCode_LogicOperators);
+                     OpCodes.Cgt_Un,
+                     OpCodes.Clt,
+                     OpCodes.Clt_Un
+                     ] = new OpCodeHandler(OpCode_LogicOperators);
 
 
             Handlers[OpCodes.Ldc_I4,
@@ -1464,8 +1467,10 @@ namespace jsc
             if (i == OpCodes.Shl) w.Write("<<");
             if (i == OpCodes.Shr) w.Write(">>");
             if (i == OpCodes.Cgt) w.Write(">");
+            if (i == OpCodes.Cgt_Un) w.Write(">");
             if (i == OpCodes.Ceq) w.Write("==");
             if (i == OpCodes.Clt) w.Write("<");
+            if (i == OpCodes.Clt_Un) w.Write("<");
             if (i == OpCodes.Rem) w.Write("%");
 
             w.WriteSpace();

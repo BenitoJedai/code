@@ -8,19 +8,31 @@ using ScriptCoreLib.Shared.Lambda;
 
 using System.Linq;
 using System;
+using NatureBoy.js;
+using System.Collections.Generic;
 
 
 namespace ThreeDStuff.js
 {
-    [Script, ScriptApplicationEntryPoint, ApplicationDescription(Description = "A grid of isometric tiles.")]
-    public class Isometric
+    //[Script]
+    //public delegate void Action<A, B, C, D, E>(A a, B b, C c, D d, E e);
+
+    [Script, ScriptApplicationEntryPoint, ApplicationDescription(Description = "An isometric world with dudes.")]
+    public class IsometricWithNatureBoy
     {
 
-        public Isometric()
+        public IsometricWithNatureBoy()
         {
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
             Native.Document.body.style.color = Color.White;
             Native.Document.body.style.backgroundColor = Color.Black;
+
+            var info = new IHTMLDiv("This example demostrates how would an isometric javascript game look like in your browser. You can see landscape from <i>Transport Tycoon</i> and the characters are from <i>Wolfenstein 3D</i> and <i>Doom</i>.");
+
+            info.style.SetLocation(4, 4, Native.Window.Width - 8, 0);
+            info.style.height = "auto";
+
+            info.AttachToDocument().style.zIndex = 10000;
 
             Func<Point<double>> GetCenter = () => new Point<double>
             {
@@ -224,21 +236,32 @@ namespace ThreeDStuff.js
                         _y.ToInt32(),
                         bg_size.w, h.ToInt32()
                     );
+
+
+                    if (h > bg_size.h)
+                    {
+                        bg.style.zIndex = (_y + h - bg_size.h / 2).ToInt32();
+                    }
+
                 };
             #endregion
 
             // http://wiki.openttd.org/index.php/Enhanced_GFX_replacement
 
             #region SpawnItems
-            Action<Color, string, double> SpawnItems =
+            Action<Color, Func<string>, double> SpawnItems =
                 (c, src, h) =>
                 {
                     var tiles_query =
                          from point in data
                          where point.color == c
-                         let img = new IHTMLImage(src)
+                         let img = new IHTMLImage(src())
                          let update = (Action)(() => bg_update_WithHeight(point.x, point.y, img, h))
-                         let img2 = img.Aggregate(i => update()).AttachToDocument()
+                         let img2 = img.Aggregate(
+                            i =>
+                            {
+                                update();
+                            }).AttachToDocument()
                          select new { pos = point, img, update };
 
                     var tiles = tiles_query.ToArray().ForEach(i => i.update());
@@ -369,13 +392,22 @@ namespace ThreeDStuff.js
             //#endregion
 
 
-            SpawnItems(TileColor, "assets/ThreeDStuff/0.png", 32);
-            SpawnItems(TileColorRoad1, "assets/ThreeDStuff/r1.png", 32);
-            SpawnItems(TileColorRoad2, "assets/ThreeDStuff/r2.png", 32);
-            SpawnItems(TileColorRoad3, "assets/ThreeDStuff/r3.png", 32);
-            SpawnItems(TileColorHouse1, "assets/ThreeDStuff/h1.png", 52);
-            SpawnItems(TileColorHouse2, "assets/ThreeDStuff/h2.png", 96);
-            SpawnItems(TileColorTree1, "assets/ThreeDStuff/t1.png", 65);
+
+            SpawnItems(TileColor,
+                () =>
+                {
+                    if (0.05.ByChance()) return "assets/ThreeDStuff/1.png";
+                    if (0.09.ByChance()) return "assets/ThreeDStuff/2.png";
+
+                    return "assets/ThreeDStuff/0.png";
+                }, 32);
+
+            SpawnItems(TileColorRoad1, () => "assets/ThreeDStuff/r1.png", 32);
+            SpawnItems(TileColorRoad2, () => "assets/ThreeDStuff/r2.png", 32);
+            SpawnItems(TileColorRoad3, () => "assets/ThreeDStuff/r3.png", 32);
+            SpawnItems(TileColorHouse1, () => "assets/ThreeDStuff/h1.png", 52);
+            SpawnItems(TileColorHouse2, () => "assets/ThreeDStuff/h2.png", 96);
+            SpawnItems(TileColorTree1, () => "assets/ThreeDStuff/t1.png", 65);
 
 
             /*
@@ -417,11 +449,242 @@ namespace ThreeDStuff.js
                 }
             );*/
             //.Until(IsDoneRotatingA);
+
+            // dudes...
+
+
+
+            Func<FrameInfo[], int, int, Dude2> SpawnLookingDude =
+                       (f, x, y) =>
+                       {
+                           var r = new Dude2
+                           {
+                               Frames = f,
+                           };
+
+                           //BindSelectDude(r);
+
+                           r.AnimationInfo.Frames_Stand = f;
+
+                           r.Zoom.DynamicZoomFunc = a => 1;
+                           r.Zoom.StaticZoom = 1;
+
+                           r.SetSize(48, 72);
+                           r.TeleportTo(x, y);
+
+
+                           r.Control.AttachToDocument();
+
+                           r.Direction = Math.PI.Random() * 2;
+
+
+
+                           return r;
+                       };
+
+            var dude = new DudeAnimationInfo
+            {
+                Frames_Stand = Frames.WolfSoldier,
+                Frames_Walk = Frames.WolfSoldier_Walk
+            };
+
+            var imp = new DudeAnimationInfo
+            {
+                Frames_Stand = Frames.DoomImp,
+                Frames_Walk = Frames.DoomImp_Walk
+            };
+
+            var loaded = 0;
+
+            loaded += dude.Frames_Stand.Length + dude.Frames_Walk.Sum(i => i.Length);
+            loaded += imp.Frames_Stand.Length + imp.Frames_Walk.Sum(i => i.Length);
+
+            Action loaded_done = delegate { };
+            Action<IHTMLImage> loadone = img =>
+            {
+                loaded--;
+                //Console.WriteLine("loaded: " + img.src + " images to be loaded: " + loaded);
+
+                if (loaded == 0) loaded_done();
+            };
+
+
+            dude.Frames_Stand.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img)));
+            dude.Frames_Walk.ForEach(j => j.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img))));
+
+            imp.Frames_Stand.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img)));
+            imp.Frames_Walk.ForEach(j => j.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img))));
+
+
+            loaded_done +=
+                delegate
+                {
+                    Func<Point> GetRandomCanvasPosition =
+                        () =>
+                        {
+                            var x = (MapSize.Width - 1).Random() + MapSize.Left + 1;
+                            var y = (MapSize.Height - 1).Random() + MapSize.Top + 1;
+
+
+                            var target = Translate(
+                                x, y
+                            );
+
+                            var c = GetCenter();
+
+                            var p = new Point { X = (target.X + c.X).ToInt32(), Y = (target.Y + c.Y).ToInt32() };
+
+                            return p;
+                        }
+                    ;
+
+                    var Dudes = new List<Dude2>();
+
+                    Func<DudeAnimationInfo, Dude2> CreateDude =
+                        ani =>
+                        {
+                            var w2c = GetRandomCanvasPosition();
+                            var w2 = SpawnLookingDude(ani.Frames_Stand, w2c.X.ToInt32(), w2c.Y.ToInt32());
+                            w2.Zoom.StaticZoom = 0.5;
+                            w2.AnimationInfo.Frames_Walk = ani.Frames_Walk;
+                            w2.TargetLocationDistanceMultiplier = 1;
+
+                            Action<Action> GoSomeWhere =
+                                done =>
+                                {
+                                    w2.DoneWalkingOnce += done;
+                                    w2.WalkTo(GetRandomCanvasPosition());
+                                };
+
+                            Action WaitSomeAndGoSomeWhere = null;
+
+                            WaitSomeAndGoSomeWhere =
+                                () => 5000.Random().AtTimeout(
+                                    t =>
+                                    {
+                                        var CurrentlyWalking = Dudes.Count(i => i.IsWalking);
+
+                                        // dont make them all walk at the same time
+                                        if (CurrentlyWalking > 3)
+                                        {
+                                            WaitSomeAndGoSomeWhere();
+                                            return;
+                                        }
+
+                                        // if we've been selected, then wait for orders
+                                        if (w2.IsSelected)
+                                        {
+                                            WaitSomeAndGoSomeWhere();
+                                            return;
+                                        }
+
+                                        GoSomeWhere(WaitSomeAndGoSomeWhere);
+                                    }
+                                );
+
+                            WaitSomeAndGoSomeWhere();
+
+                            return w2;
+                        };
+
+                    4.Times(() => Dudes.Add(CreateDude(dude)));
+                    4.Times(() => Dudes.Add(CreateDude(imp)));
+                };
+
+            //w2.WalkTo(new Point(r400(), r400()));
         }
 
-        static Isometric()
+        [Script]
+        static class Frames
         {
-            typeof(Isometric).Spawn();
+            const double d8 = 1d / 8;
+
+
+            // http://www.wolf3d.co.uk/enemies.html
+
+            public static FrameInfo[] WolfSoldier
+            {
+                get
+                {
+                    return
+                8.Range(i => 114 + (i + 6) % 8)
+                .Select(i =>
+                    new FrameInfo
+                    {
+                        Source = "assets/NatureBoy/dude5/stand/" + i + ".png",
+                        Weight = d8
+                    }
+                ).ToArray();
+                }
+            }
+
+            // compiler bug: casting wont work from IEnumerable<T[]> to T[]
+
+            public static FrameInfo[][] WolfSoldier_Walk
+            {
+                get
+                {
+                    return
+                4.Range(
+                    j =>
+                        8.Range(i => (122 + j * 8) + (i + 6) % 8)
+                        .Select(i =>
+                            new FrameInfo
+                            {
+                                Source = "assets/NatureBoy/dude5/walk" + (j + 1) + "/" + i + ".png",
+                                Weight = d8
+                            }
+                        ).ToArray()
+                ).ToArray();
+                }
+            }
+
+
+            public static FrameInfo[] DoomImp
+            {
+                get
+                {
+                    return
+
+                           8.Range(i => 244 + (i + 6) % 8)
+                           .Select(i =>
+                               new FrameInfo
+                               {
+                                   Source = "assets/NatureBoy/dude6/" + i + ".png",
+                                   Weight = d8
+                               }
+                           ).ToArray();
+                }
+            }
+
+
+            public static FrameInfo[][] DoomImp_Walk
+            {
+                get
+                {
+                    return 4.Range(
+                        j =>
+                            8.Range(i => (252 + j * 8) + (i + 6) % 8)
+                            .Select(i =>
+                                new FrameInfo
+                                {
+                                    Source = "assets/NatureBoy/dude6/" + i + ".png",
+                                    Weight = d8
+                                }
+                            ).ToArray()
+                    ).ToArray();
+                }
+            }
+
+
+        }
+
+
+
+
+        static IsometricWithNatureBoy()
+        {
+            typeof(IsometricWithNatureBoy).Spawn();
         }
 
 

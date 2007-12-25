@@ -12,6 +12,17 @@ namespace ThreeDStuff.js
     [Script]
     static class Extensions
     {
+        public static IEnumerable<T> Range<T>(this int count, Func<int, T> s)
+        {
+            return count.Range().Select(s);
+        }
+
+
+        public static IEnumerable<int> Range(this int count)
+        {
+            return Enumerable.Range(0, count);
+        }
+
         public static IEnumerable<T> ConcatSingle<T>(this IEnumerable<T> e, T x)
         {
             return e.Concat(new[] { x });
@@ -27,6 +38,18 @@ namespace ThreeDStuff.js
         public static object CreateInstance(this Type t)
         {
             return Activator.CreateInstance(t);
+        }
+
+        public static bool ByChance(this double e)
+        {
+            var v = new System.Random().NextDouble() <= e;
+
+            return v;
+        }
+
+        public static double Random(this double e)
+        {
+            return new System.Random().NextDouble() * e;
         }
 
         public static int Random(this int i)
@@ -49,9 +72,19 @@ namespace ThreeDStuff.js
             return (e / p).ToInt32() * p;
         }
 
+        public static Timer AtTimeout(this int x, Action<Timer> h)
+        {
+            return new Timer(t => h(t), x, 0);
+        }
+
         public static Timer AtInterval(this int x, Action<Timer> h)
         {
             return new Timer(t => h(t), x, x);
+        }
+
+        public static double GetDistance(this Point a, Point b)
+        {
+            return GetDistance(new Point<double> { X = a.X, Y = a.Y }, b.X, b.Y);
         }
 
         public static double GetDistance(this Point<double> a, double _x, double _y)
@@ -60,6 +93,12 @@ namespace ThreeDStuff.js
             var dy = a.Y - _y;
 
             return System.Math.Sqrt(dx * dx + dy * dy);
+        }
+
+        public static double GetRotation(this Point a, double _x, double _y)
+        {
+            return GetRotation(new Point<double> { X = a.X, Y = a.Y }, _x, _y);
+
         }
 
         public static double GetRotation(this Point<double> p, double _x, double _y)
@@ -127,6 +166,17 @@ namespace ThreeDStuff.js
         public static void Spawn(this Type e)
         {
             e.SpawnTo(i => e.CreateInstance());
+        }
+
+        public static Timer Swap<T>(this T[] e, int interval, Action<T> h)
+        {
+            return new ScriptCoreLib.JavaScript.Runtime.Timer(
+                t =>
+                {
+                    h(e[t.Counter % e.Length]);
+
+
+                }, interval.Random(), interval);
         }
     }
 }
