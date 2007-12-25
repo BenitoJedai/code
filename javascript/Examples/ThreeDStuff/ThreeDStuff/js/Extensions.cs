@@ -12,6 +12,11 @@ namespace ThreeDStuff.js
     [Script]
     static class Extensions
     {
+        public static IEnumerable<T> ConcatSingle<T>(this IEnumerable<T> e, T x)
+        {
+            return e.Concat(new[] { x });
+        }
+
         public static void Times(this int e, Action h)
         {
             for (int i = 0; i < e; i++)

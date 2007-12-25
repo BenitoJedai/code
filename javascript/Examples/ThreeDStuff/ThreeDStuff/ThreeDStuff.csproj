@@ -62,6 +62,9 @@
     <Content Include="docs\about.txt" />
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\ThreeDStuff\r2.png" />
+    <EmbeddedResource Include="web\assets\ThreeDStuff\r3.png" />
+    <EmbeddedResource Include="web\assets\ThreeDStuff\r1.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\t1.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\h1.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\h2.png" />
