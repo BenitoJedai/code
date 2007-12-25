@@ -64,7 +64,7 @@ namespace ThreeDStuff.js
 
                         var p = Translate(_x, _y);
 
-          
+
 
                         var _dot = (Zoom * Dot).ToInt32();
 
@@ -105,6 +105,9 @@ namespace ThreeDStuff.js
 
             var TileColor = Color.Gray;
             var TileColor2 = Color.White;
+            var TileColorHouse1 = Color.FromRGB(41, 0, 0);
+            var TileColorHouse2 = Color.FromRGB(42, 0, 0);
+            var TileColorTree1 = Color.FromRGB(51, 0, 0);
 
             var data = new[] {
                 //new { x = 0.0, y = 0.0, color = TileColor },
@@ -130,22 +133,72 @@ namespace ThreeDStuff.js
 
                 //new { x = -1.0, y = 1.0, color = Color.Yellow },
                 new { x = -0.5, y = 0.5, color = Color.Yellow },
+                
 
                 //new { x = -1.0, y = 0.0, color = TileColor },
                 //new { x = -2.0, y = 0.0, color = TileColor },
             };
 
+            Func<double, double, bool> IsDefined =
+                (x, y) => data.Any(
+                    i =>
+                    {
+                        if (i.x != x) return false;
+                        if (i.y != y) return false;
+
+                        return true;
+                    }
+            );
 
 
             data = data.Concat(
                 from x in Enumerable.Range(-8, 16)
                 from y in Enumerable.Range(-8, 16)
-                //let y = 4
                 select new { x = (double)x, y = (double)y, color = TileColor }
                    ).ToArray();
 
- 
 
+            4.Times(
+                     delegate
+                     {
+                         var loc = data.Where(i => i.color == TileColor).Random();
+
+                         data = data.Concat(
+                             new[]
+                            {
+                                new { x = loc.x, y = loc.y, color = TileColorHouse1 },
+                            }
+                         ).ToArray();
+                     }
+             );
+
+            4.Times(
+                     delegate
+                     {
+                         var loc = data.Where(i => i.color == TileColor).Random();
+
+                         data = data.Concat(
+                             new[]
+                            {
+                                new { x = loc.x, y = loc.y, color = TileColorHouse2 },
+                            }
+                         ).ToArray();
+                     }
+             );
+
+            6.Times(
+                    delegate
+                    {
+                        var loc = data.Where(i => i.color == TileColor).Random();
+
+                        data = data.Concat(
+                            new[]
+                            {
+                                new { x = loc.x, y = loc.y, color = TileColorTree1 },
+                            }
+                        ).ToArray();
+                    }
+            );
 
             var bg_size = new
             {
@@ -176,16 +229,75 @@ namespace ThreeDStuff.js
                     );
                 };
 
-            var tiles_query =
-                from point in data
-                where point.color == TileColor
-                let img = new IHTMLImage("assets/ThreeDStuff/0.png").AttachToDocument()
-                let update = (Action)(() => bg_update(point.x, point.y, img))
-                select new { pos = point, img, update };
+            Action<double, double, IHTMLImage, double> bg_update_WithHeight =
+                (x, y, bg, h) =>
+                {
+                    var c = GetCenter();
 
-            var tiles = tiles_query.ToArray().ForEach(i => i.update());
+                    var p = Translate(x, y);
+
+                    c.X += p.X.ToInt32(bg_size.w / 2);
+                    c.Y += p.Y.ToInt32(bg_size.h / 2);
+
+                    var _x = (c.X - bg_size.w / 2);
+                    var _y = (c.Y - bg_size.h / 2 - (h - bg_size.h));
+
+                    bg.style.SetLocation(
+                        _x.ToInt32(),
+                        _y.ToInt32(),
+                        bg_size.w, h.ToInt32()
+                    );
+                };
+
+            // http://wiki.openttd.org/index.php/Enhanced_GFX_replacement
+
+            Action<Color, string, double> SpawnItems =
+                (c, src, h) =>
+                {
+                    var tiles_query =
+                         from point in data
+                         where point.color == c
+                         let img = new IHTMLImage(src).AttachToDocument()
+                         let update = (Action)(() => bg_update_WithHeight(point.x, point.y, img, h))
+                         select new { pos = point, img, update };
+
+                    var tiles = tiles_query.ToArray().ForEach(i => i.update());
+                };
+
+            SpawnItems(TileColor, "assets/ThreeDStuff/0.png", 32);
+            SpawnItems(TileColorHouse1, "assets/ThreeDStuff/h1.png", 52);
+            SpawnItems(TileColorHouse2, "assets/ThreeDStuff/h2.png", 96);
+            SpawnItems(TileColorTree1, "assets/ThreeDStuff/t1.png", 65);
+
+            //var tiles_query =
+            //    from point in data
+            //    where point.color == TileColor
+            //    let img = new IHTMLImage("assets/ThreeDStuff/0.png").AttachToDocument()
+            //    let update = (Action)(() => bg_update(point.x, point.y, img))
+            //    select new { pos = point, img, update };
+
+            //var tiles = tiles_query.ToArray().ForEach(i => i.update());
 
 
+            //var tiles_House1_query =
+            //    from point in data
+            //    where point.color == TileColorHouse1
+            //    let img = new IHTMLImage("assets/ThreeDStuff/h1.png").AttachToDocument()
+            //    let update = (Action)(() => bg_update_WithHeight(point.x, point.y, img, 52))
+            //    select new { pos = point, img, update };
+
+            //var tiles_House1 = tiles_House1_query.ToArray().ForEach(i => i.update());
+
+
+            //var tiles_House2_query =
+            //    from point in data
+            //    where point.color == TileColorHouse2
+            //    let img = new IHTMLImage("assets/ThreeDStuff/h2.png").AttachToDocument()
+            //    let update = (Action)(() => bg_update_WithHeight(point.x, point.y, img, 96))
+            //    select new { pos = point, img, update };
+
+            //var tiles_House2 = tiles_House2_query.ToArray().ForEach(i => i.update());
+            /*
             var points =
                 (
                 from point in data
@@ -202,7 +314,7 @@ namespace ThreeDStuff.js
                     i => i.div.style.backgroundColor = i.point.color
                 )
                 ;
-
+            */
 
             Func<bool> IsDoneRotatingA = () => RotationA.ToDegrees() == 45;
 

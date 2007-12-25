@@ -12,6 +12,13 @@ namespace ThreeDStuff.js
     [Script]
     static class Extensions
     {
+        public static void Times(this int e, Action h)
+        {
+            for (int i = 0; i < e; i++)
+            {
+                h();
+            }
+        }
         public static object CreateInstance(this Type t)
         {
             return Activator.CreateInstance(t);
