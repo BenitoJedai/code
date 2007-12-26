@@ -15,6 +15,7 @@ namespace ThreeDStuff.js
 {
     using NatureBoy;
     using ScriptCoreLib.JavaScript.Controls;
+    using ScriptCoreLib.JavaScript.Runtime;
 
     //[Script]
     //public delegate void Action<A, B, C, D, E>(A a, B b, C c, D d, E e);
@@ -29,17 +30,13 @@ namespace ThreeDStuff.js
             Native.Document.body.style.color = Color.White;
             Native.Document.body.style.backgroundColor = Color.Black;
 
-            var info = new IHTMLDiv("This example demostrates how would an isometric javascript game look like in your browser. You can see landscape from <i>Transport Tycoon</i> and the characters are from <i>Wolfenstein 3D</i> and <i>Doom</i>.");
+            var info_text = "This example demostrates how would an isometric javascript game look like in your browser. You can see landscape from <i>Transport Tycoon</i> and the characters are from <i>Wolfenstein 3D</i> and <i>Doom</i>.";
+
+            var info = new IHTMLDiv("loading...");
 
             info.style.SetLocation(4, 4, Native.Window.Width - 8, 0);
             info.style.height = "auto";
 
-
-            #region create the arena
-
-
-
-            #endregion
 
 
 
@@ -426,348 +423,362 @@ namespace ThreeDStuff.js
             //}
             //#endregion
 
+            info.innerText = "Loading items...";
 
-
-            SpawnItems(TileColor,
-                () =>
-                {
-                    if (0.05.ByChance()) return "assets/ThreeDStuff/1.png";
-                    if (0.09.ByChance()) return "assets/ThreeDStuff/2.png";
-
-                    return "assets/ThreeDStuff/0.png";
-                }, 32);
-
-            SpawnItems(TileColorRoad1, () => "assets/ThreeDStuff/r1.png", 32);
-            SpawnItems(TileColorRoad2, () => "assets/ThreeDStuff/r2.png", 32);
-            SpawnItems(TileColorRoad3, () => "assets/ThreeDStuff/r3.png", 32);
-            SpawnItems(TileColorHouse1, () => "assets/ThreeDStuff/h1.png", 52);
-            SpawnItems(TileColorHouse2, () => "assets/ThreeDStuff/h2.png", 96);
-            SpawnItems(TileColorTree1, () => "assets/ThreeDStuff/t1.png", 65);
-
-
-
-
-            Func<bool> IsDoneRotatingA = () => RotationA.ToDegrees() == 45;
-
-            /*
-            1000.AtInterval(
-                t =>
-                {
-
-                    //Zoom += 0.5;
-                    //RotationA += 10.ToRadians();
-                    // RotationB += 1.ToRadians();
-
-                    points.ForEach(p => p.update());
-
-                    tiles.ForEach(p => p.update());
-
-                    //bg_update();
-
-                }
-            );*/
-            //.Until(IsDoneRotatingA);
-
-            // dudes...
-
-
-
-            Func<FrameInfo[], int, int, Dude2> SpawnLookingDude =
-                       (f, x, y) =>
-                       {
-                           var r = new Dude2
-                           {
-                               Frames = f,
-                           };
-
-                           //BindSelectDude(r);
-
-                           r.AnimationInfo.Frames_Stand = f;
-
-                           r.Zoom.DynamicZoomFunc = a => 1;
-                           r.Zoom.StaticZoom = 1;
-
-                           r.SetSize(48, 72);
-                           r.TeleportTo(x, y);
-
-
-                           r.Control.AttachTo(arena.Layers.Canvas);
-
-                           r.Direction = Math.PI.Random() * 2;
-                           r.HasShadow = false;
-
-
-                           return r;
-                       };
-
-            var dude = new DudeAnimationInfo
-            {
-                Frames_Stand = Frames.WolfSoldier,
-                Frames_Walk = Frames.WolfSoldier_Walk
-            };
-
-            var imp = new DudeAnimationInfo
-            {
-                Frames_Stand = Frames.DoomImp,
-                Frames_Walk = Frames.DoomImp_Walk
-            };
-
-            var veh1 = new DudeAnimationInfo
-            {
-                Frames_Stand = Frames.Vehicle1,
-                Frames_Walk = new[] { Frames.Vehicle1, Frames.Vehicle1 }
-            };
-
-            var loaded = 0;
-
-            loaded += dude.Frames_Stand.Length + dude.Frames_Walk.Sum(i => i.Length);
-            loaded += imp.Frames_Stand.Length + imp.Frames_Walk.Sum(i => i.Length);
-            loaded += veh1.Frames_Stand.Length;
-
-            Action loaded_done = delegate { };
-            Action<IHTMLImage> loadone = img =>
-            {
-                loaded--;
-                //Console.WriteLine("loaded: " + img.src + " images to be loaded: " + loaded);
-
-                if (loaded == 0) loaded_done();
-            };
-
-
-            dude.Frames_Stand.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img)));
-            dude.Frames_Walk.ForEach(j => j.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img))));
-
-            imp.Frames_Stand.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img)));
-            imp.Frames_Walk.ForEach(j => j.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img))));
-
-            veh1.Frames_Stand.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img)));
-
-
-            var Dudes = new List<Dude2>();
-
-
-            loaded_done +=
+            Timer.DoAsync(
                 delegate
                 {
-                    Func<Point> GetRandomCanvasPosition =
+                    SpawnItems(TileColor,
                         () =>
                         {
-                            var x = (MapSize.Width - 1).Random() + MapSize.Left + 1;
-                            var y = (MapSize.Height - 1).Random() + MapSize.Top + 1;
+                            if (0.05.ByChance()) return "assets/ThreeDStuff/1.png";
+                            if (0.09.ByChance()) return "assets/ThreeDStuff/2.png";
+
+                            return "assets/ThreeDStuff/0.png";
+                        }, 32);
+
+                    SpawnItems(TileColorRoad1, () => "assets/ThreeDStuff/r1.png", 32);
+                    SpawnItems(TileColorRoad2, () => "assets/ThreeDStuff/r2.png", 32);
+                    SpawnItems(TileColorRoad3, () => "assets/ThreeDStuff/r3.png", 32);
+                    SpawnItems(TileColorHouse1, () => "assets/ThreeDStuff/h1.png", 52);
+                    SpawnItems(TileColorHouse2, () => "assets/ThreeDStuff/h2.png", 96);
+                    SpawnItems(TileColorTree1, () => "assets/ThreeDStuff/t1.png", 65);
 
 
-                            var target = Translate(
-                                x, y
-                            );
-
-                            var c = GetCenter();
-
-                            var p = new Point { X = (target.X + c.X).ToInt32(), Y = (target.Y + c.Y).ToInt32() };
-
-                            return p;
-                        }
-                    ;
 
 
-                    Func<DudeAnimationInfo, bool, double, Dude2> CreateDude =
-                        (ani, ScoutIfIdle, dudezoom) =>
+
+                    Func<bool> IsDoneRotatingA = () => RotationA.ToDegrees() == 45;
+
+                    /*
+                    1000.AtInterval(
+                        t =>
                         {
-                            var w2c = GetRandomCanvasPosition();
-                            var w2 = SpawnLookingDude(ani.Frames_Stand, w2c.X.ToInt32(), w2c.Y.ToInt32());
-                            w2.Zoom.StaticZoom = dudezoom;
-                            w2.AnimationInfo.Frames_Walk = ani.Frames_Walk;
-                            w2.TargetLocationDistanceMultiplier = 1;
 
-                            Action<Action> GoSomeWhere =
-                                done =>
-                                {
-                                    w2.DoneWalkingOnce += done;
-                                    w2.WalkTo(GetRandomCanvasPosition());
-                                };
+                            //Zoom += 0.5;
+                            //RotationA += 10.ToRadians();
+                            // RotationB += 1.ToRadians();
 
-                            Action WaitSomeAndGoSomeWhere = null;
+                            points.ForEach(p => p.update());
 
-                            WaitSomeAndGoSomeWhere =
-                                () => 5000.Random().AtTimeout(
-                                    t =>
-                                    {
-                                        var CurrentlyWalking = Dudes.Count(i => i.IsWalking);
+                            tiles.ForEach(p => p.update());
 
-                                        if (w2.IsWalking)
-                                        {
-                                            WaitSomeAndGoSomeWhere();
-                                            return;
-                                        }
+                            //bg_update();
 
-                                        // if we've been selected, then wait for orders
-                                        if (w2.IsSelected)
-                                        {
-                                            WaitSomeAndGoSomeWhere();
-                                            return;
-                                        }
+                        }
+                    );*/
+                    //.Until(IsDoneRotatingA);
 
-                                        if (w2.IsHot)
-                                        {
-                                            WaitSomeAndGoSomeWhere();
-                                            return;
-                                        }
-
-                                        // dont make them all walk at the same time
-                                        if (CurrentlyWalking > 3)
-                                        {
-                                            w2.Direction = (Math.PI * 2).Random();
-
-                                            WaitSomeAndGoSomeWhere();
-                                            return;
-                                        }
+                    // dudes...
 
 
-                                        if (ScoutIfIdle)
-                                            GoSomeWhere(WaitSomeAndGoSomeWhere);
-                                        else
-                                            WaitSomeAndGoSomeWhere();
-                                    }
-                                );
 
-                            // make only imps wander on their own
-                            WaitSomeAndGoSomeWhere();
+                    Func<FrameInfo[], int, int, Dude2> SpawnLookingDude =
+                               (f, x, y) =>
+                               {
+                                   var r = new Dude2
+                                   {
+                                       Frames = f,
+                                   };
 
-                            return w2;
-                        };
+                                   //BindSelectDude(r);
 
-                    8.Times(() => Dudes.Add(CreateDude(dude, false, 0.5)));
-                    8.Times(() => Dudes.Add(CreateDude(imp, true, 0.5)));
-                    4.Times(() => Dudes.Add(CreateDude(veh1, true, 1)));
-                };
+                                   r.AnimationInfo.Frames_Stand = f;
+
+                                   r.Zoom.DynamicZoomFunc = a => 1;
+                                   r.Zoom.StaticZoom = 1;
+
+                                   r.SetSize(48, 72);
+                                   r.TeleportTo(x, y);
 
 
-            Point KnownCanvasPosition = new Point();
+                                   r.Control.AttachTo(arena.Layers.Canvas);
 
-            Func<Point<double>> GetMapPosition =
-                delegate
-                {
-                    var canvas = KnownCanvasPosition;
-                    var c = GetCenter();
+                                   r.Direction = Math.PI.Random() * 2;
+                                   //r.HasShadow = false;
 
-                    var offset = new Point<double> { X = canvas.X - c.X, Y = (canvas.Y - c.Y) / RotationB };
 
-                    var d = ZeroPoint.GetDistance(offset) / (bg_size.h * 2d.Sqrt());
-                    var r = ZeroPoint.GetRotation(offset) - RotationA;
+                                   return r;
+                               };
 
-                    var realoffset = new Point<double>
+                    var dude = new DudeAnimationInfo
                     {
-                        X = Math.Cos(r) * d,
-                        Y = Math.Sin(r) * d
+                        Frames_Stand = Frames.WolfSoldier,
+                        Frames_Walk = Frames.WolfSoldier_Walk
                     };
 
-                    //NotifyOfSelection(
-
-                    //    new Point<double> { X = realoffset.X, Y = realoffset.Y }
-
-                    //    );
-
-                    return realoffset;
-                };
-
-            arena.ApplySelection +=
-                (r, ev) =>
-                {
-                    foreach (var v in Dudes)
+                    var imp = new DudeAnimationInfo
                     {
-                        if (ev.shiftKey)
-                            v.IsSelected |= r.Contains(v.CurrentLocation);
-                        else
-                            v.IsSelected = r.Contains(v.CurrentLocation);
-                    }
-                };
+                        Frames_Stand = Frames.DoomImp,
+                        Frames_Walk = Frames.DoomImp_Walk
+                    };
 
 
 
+                    var loaded = 0;
 
-            arena.SelectionClick +=
-                (p, ev) =>
-                {
-                    var selection = Dudes.Where(i => i.IsSelected).ToArray();
+                    loaded += dude.Frames_Stand.Length + dude.Frames_Walk.Sum(i => i.Length);
+                    loaded += imp.Frames_Stand.Length + imp.Frames_Walk.Sum(i => i.Length);
 
-
-                    KnownCanvasPosition = p;
-
-                    var target = GetMapPosition();
-
-                    if (selection.Length == 0)
+                    Action loaded_done = delegate { };
+                    Action<IHTMLImage> loadone = img =>
                     {
-                        // single select?
-                        return;
-                    }
+                        loaded--;
+                        //Console.WriteLine("loaded: " + img.src + " images to be loaded: " + loaded);
+
+                        if (loaded == 0) loaded_done();
+                    };
 
 
-                    if (selection.Length == 1)
-                    {
+                    info.innerText = "Loading images...";
 
-                        var canvas = Translate(target.X, target.Y);
-                        canvas.X += GetCenter().X;
-                        canvas.Y += GetCenter().Y;
+                    dude.Frames_Stand.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img)));
+                    dude.Frames_Walk.ForEach(j => j.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img))));
 
-                        //new
-                        //{
-                        //    target = new { target.X, target.Y },
-                        //    canvas = new { canvas.X, canvas.Y }
-                        //}.ToConsole(); ;
-
-                        selection.ForEach(i => i.WalkTo(
-                            new Point(canvas.X.ToInt32(), canvas.Y.ToInt32())
-                            ));
-                    }
-                    else
-                    {
-                        #region Circle
-
-                        var center = GetCenter();
+                    imp.Frames_Stand.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img)));
+                    imp.Frames_Walk.ForEach(j => j.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img))));
 
 
-                        #region GetRotatedTargetPoint
-                        Func<double, double, Point<double>> GetRotatedTargetPoint =
-                            (direction, distance) =>
-                                new Point<double>
+
+                    var Dudes = new List<Dude2>();
+
+
+                    #region loaded_done
+                    loaded_done +=
+                        delegate
+                        {
+
+                            info.innerText = "Loading images... done";
+
+                            #region GetRandomCanvasPosition
+                            Func<Point> GetRandomCanvasPosition =
+                                () =>
+                                {
+                                    var x = (MapSize.Width - 1).Random() + MapSize.Left + 1;
+                                    var y = (MapSize.Height - 1).Random() + MapSize.Top + 1;
+
+
+                                    var target = Translate(
+                                        x, y
+                                    );
+
+                                    var c = GetCenter();
+
+                                    var p = new Point { X = (target.X + c.X).ToInt32(), Y = (target.Y + c.Y).ToInt32() };
+
+                                    return p;
+                                }
+                            ;
+                            #endregion
+
+
+                            #region CreateDude
+                            Func<DudeAnimationInfo, bool, double, Dude2> CreateDude =
+                                (ani, ScoutIfIdle, dudezoom) =>
+                                {
+                                    var w2c = GetRandomCanvasPosition();
+                                    var w2 = SpawnLookingDude(ani.Frames_Stand, w2c.X.ToInt32(), w2c.Y.ToInt32());
+                                    w2.Zoom.StaticZoom = dudezoom;
+                                    w2.AnimationInfo.Frames_Walk = ani.Frames_Walk;
+                                    w2.TargetLocationDistanceMultiplier = 1;
+
+                                    Action<Action> GoSomeWhere =
+                                        done =>
+                                        {
+                                            w2.DoneWalkingOnce += done;
+                                            w2.WalkTo(GetRandomCanvasPosition());
+                                        };
+
+                                    Action WaitSomeAndGoSomeWhere = null;
+
+                                    WaitSomeAndGoSomeWhere =
+                                        () => 5000.Random().AtTimeout(
+                                            t =>
+                                            {
+                                                var CurrentlyWalking = Dudes.Count(i => i.IsWalking);
+
+                                                if (w2.IsWalking)
+                                                {
+                                                    WaitSomeAndGoSomeWhere();
+                                                    return;
+                                                }
+
+                                                // if we've been selected, then wait for orders
+                                                if (w2.IsSelected)
+                                                {
+                                                    WaitSomeAndGoSomeWhere();
+                                                    return;
+                                                }
+
+                                                if (w2.IsHot)
+                                                {
+                                                    WaitSomeAndGoSomeWhere();
+                                                    return;
+                                                }
+
+                                                // dont make them all walk at the same time
+                                                if (CurrentlyWalking > 3)
+                                                {
+                                                    w2.Direction = (Math.PI * 2).Random();
+
+                                                    WaitSomeAndGoSomeWhere();
+                                                    return;
+                                                }
+
+
+                                                if (ScoutIfIdle)
+                                                    GoSomeWhere(WaitSomeAndGoSomeWhere);
+                                                else
+                                                    WaitSomeAndGoSomeWhere();
+                                            }
+                                        );
+
+                                    // make only imps wander on their own
+                                    WaitSomeAndGoSomeWhere();
+
+                                    return w2;
+                                };
+                            #endregion
+
+                            info.innerHTML = "Creating dudes...";
+
+                            8.Times(() => Dudes.Add(CreateDude(dude, false, 0.5)));
+                            8.Times(() => Dudes.Add(CreateDude(imp, true, 0.5)));
+
+                            info.innerHTML = info_text;
+                        };
+                    #endregion
+
+
+                    Point KnownCanvasPosition = new Point();
+
+                    #region GetMapPosition
+                    Func<Point<double>> GetMapPosition =
+                        delegate
+                        {
+                            var canvas = KnownCanvasPosition;
+                            var c = GetCenter();
+
+                            var offset = new Point<double> { X = canvas.X - c.X, Y = (canvas.Y - c.Y) / RotationB };
+
+                            var d = ZeroPoint.GetDistance(offset) / (bg_size.h * 2d.Sqrt());
+                            var r = ZeroPoint.GetRotation(offset) - RotationA;
+
+                            var realoffset = new Point<double>
                             {
-                                X = target.X + (Math.Cos(direction) * distance),
-                                Y = target.Y + (Math.Sin(direction) * distance),
+                                X = Math.Cos(r) * d,
+                                Y = Math.Sin(r) * d
                             };
-                        #endregion
 
-                        Func<Point<double>, Point> OffsetToCenter =
-                            mcanvas =>
-                                new Point
+                            //NotifyOfSelection(
+
+                            //    new Point<double> { X = realoffset.X, Y = realoffset.Y }
+
+                            //    );
+
+                            return realoffset;
+                        };
+                    #endregion
+
+                    arena.ApplySelection +=
+                        (r, ev) =>
+                        {
+                            foreach (var v in Dudes)
+                            {
+                                if (ev.shiftKey)
+                                    v.IsSelected |= r.Contains(v.CurrentLocation);
+                                else
+                                    v.IsSelected = r.Contains(v.CurrentLocation);
+                            }
+                        };
+
+
+
+
+                    arena.SelectionClick +=
+                        (p, ev) =>
+                        {
+                            var selection = Dudes.Where(i => i.IsSelected).ToArray();
+
+
+                            KnownCanvasPosition = p;
+
+                            var target = GetMapPosition();
+
+                            if (selection.Length == 0)
+                            {
+                                // single select?
+                                return;
+                            }
+
+
+                            if (selection.Length == 1)
+                            {
+
+                                var canvas = Translate(target.X, target.Y);
+                                canvas.X += GetCenter().X;
+                                canvas.Y += GetCenter().Y;
+
+                                //new
+                                //{
+                                //    target = new { target.X, target.Y },
+                                //    canvas = new { canvas.X, canvas.Y }
+                                //}.ToConsole(); ;
+
+                                selection.ForEach(i => i.WalkTo(
+                                    new Point(canvas.X.ToInt32(), canvas.Y.ToInt32())
+                                    ));
+                            }
+                            else
+                            {
+                                #region Circle
+
+                                var center = GetCenter();
+
+
+                                #region GetRotatedTargetPoint
+                                Func<double, double, Point<double>> GetRotatedTargetPoint =
+                                    (direction, distance) =>
+                                        new Point<double>
                                     {
-                                        X = (mcanvas.X + center.X).ToInt32(),
-                                        Y = (mcanvas.Y + center.Y).ToInt32(),
+                                        X = target.X + (Math.Cos(direction) * distance),
+                                        Y = target.Y + (Math.Sin(direction) * distance),
+                                    };
+                                #endregion
+
+                                Func<Point<double>, Point> OffsetToCenter =
+                                    mcanvas =>
+                                        new Point
+                                            {
+                                                X = (mcanvas.X + center.X).ToInt32(),
+                                                Y = (mcanvas.Y + center.Y).ToInt32(),
+                                            };
+
+                                var dest =
+                                    from index in selection.Length.Range()
+                                    let direction = (((double)index / (selection.Length)) * (Math.PI * 2)).ToConsole()
+                                    let distance = 0.5
+                                    let mtarget = GetRotatedTargetPoint(direction, distance)
+                                    let mcanvas = Translate(mtarget.X, mtarget.Y)
+
+                                    select new
+                                    {
+                                        index,
+                                        canvas = OffsetToCenter(mcanvas)
                                     };
 
-                        var dest =
-                            from index in selection.Length.Range()
-                            let direction = (((double)index / (selection.Length)) * (Math.PI * 2)).ToConsole()
-                            let distance = 0.5
-                            let mtarget = GetRotatedTargetPoint(direction, distance)
-                            let mcanvas = Translate(mtarget.X, mtarget.Y)
+                                foreach (var v in dest)
+                                {
+                                    selection[v.index].WalkTo(v.canvas);
+                                }
 
-                            select new
-                            {
-                                index,
-                                canvas = OffsetToCenter(mcanvas)
-                            };
+                                #endregion
 
-                        foreach (var v in dest)
-                        {
-                            selection[v.index].WalkTo(v.canvas);
-                        }
-
-                        #endregion
-
-                    }
-                };
+                            }
+                        };
 
 
-
+                });
 
 
 

@@ -28,9 +28,17 @@ namespace ThreeDStuff.js
 
 
             var Menu = new IHTMLDiv().AttachToDocument();
-            
+
             new IHTMLElement(IHTMLElement.HTMLElementEnum.h1,
                 typeof(ThreeDStuff).Name).AttachTo(Menu);
+
+            new IHTMLImage("assets/ThreeDStuff/Preview.png").AttachTo(Menu).style.Aggregate(
+                s =>
+                {
+                    s.Float = ScriptCoreLib.JavaScript.DOM.IStyle.FloatEnum.right;
+                    s.border = "1px solid red";
+                }
+            );
 
             var List = new IHTMLElement(IHTMLElement.HTMLElementEnum.ol).AttachTo(Menu);
 
@@ -40,7 +48,7 @@ namespace ThreeDStuff.js
                     var a = new IHTMLAnchor(href, "");
 
                     var caption = new IHTMLSpan(t.Name);
-                    caption.style.fontWeight ="bold";
+                    caption.style.fontWeight = "bold";
                     a.appendChild(caption);
                     a.appendChild(new IHTMLBreak());
                     a.appendChild(text);
@@ -49,7 +57,7 @@ namespace ThreeDStuff.js
                     a.onmouseover +=
                         ev =>
                         {
-                            a.style.backgroundColor = Color.FromRGB(0x60, 0,0);
+                            a.style.backgroundColor = Color.FromRGB(0x60, 0, 0);
                             a.style.color = Color.Red;
                         };
                     a.onmouseout +=
