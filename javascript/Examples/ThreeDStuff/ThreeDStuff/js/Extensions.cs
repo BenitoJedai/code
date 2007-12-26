@@ -6,12 +6,20 @@ using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.JavaScript;
 
 namespace ThreeDStuff.js
 {
     [Script]
     static class Extensions
     {
+        /*
+        public static R Aggregate<T, R>(this T e, Func<T, R> f)
+        {
+            return f(e);
+        }
+         */
+
         public static IEnumerable<T> Range<T>(this int count, Func<int, T> s)
         {
             return count.Range().Select(s);
@@ -87,6 +95,16 @@ namespace ThreeDStuff.js
             return GetDistance(new Point<double> { X = a.X, Y = a.Y }, b.X, b.Y);
         }
 
+        public static double GetDistance(this Point<double> a)
+        {
+            return GetDistance(a, 0, 0);
+        }
+
+        public static double GetDistance(this Point<double> a, Point<double> z)
+        {
+            return GetDistance(a, z.X, z.Y);
+        }
+
         public static double GetDistance(this Point<double> a, double _x, double _y)
         {
             var dx = a.X - _x;
@@ -99,6 +117,11 @@ namespace ThreeDStuff.js
         {
             return GetRotation(new Point<double> { X = a.X, Y = a.Y }, _x, _y);
 
+        }
+
+        public static double GetRotation(this Point<double> p, Point<double> z)
+        {
+            return GetRotation(p, z.X, z.Y);
         }
 
         public static double GetRotation(this Point<double> p, double _x, double _y)
@@ -141,6 +164,20 @@ namespace ThreeDStuff.js
         }
 
 
+        public static T ToConsole<T>(this T ex)
+        {
+            ex.ToString().ToConsole();
+
+            return ex;
+        }
+
+        public static string ToConsole(this string ex)
+        {
+            Console.WriteLine(ex);
+
+            return ex;
+        }
+
         public static void ToConsole(this Exception ex)
         {
             Console.WriteLine("error: " + ex.Message);
@@ -165,7 +202,11 @@ namespace ThreeDStuff.js
 
         public static void Spawn(this Type e)
         {
-            e.SpawnTo(i => e.CreateInstance());
+            e.SpawnTo(i =>
+                {
+                    Native.Document.title = e.Assembly.GetName().Name + " - " + e.Name;
+                    e.CreateInstance();
+                });
         }
 
         public static Timer Swap<T>(this T[] e, int interval, Action<T> h)

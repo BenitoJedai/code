@@ -34,6 +34,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Controls.LayeredControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Controls.LayeredControl.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
@@ -51,11 +55,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="js\Assets.cs" />
+    <Compile Include="js\IsometricWithNatureBoyAndInput.cs" />
+    <Compile Include="js\IsometricRotatingWithInput.cs" />
     <Compile Include="js\IsometricWithNatureBoy.cs" />
     <Compile Include="js\IsometricRotating.cs" />
     <Compile Include="js\Isometric.cs" />
     <Compile Include="js\Extensions.cs" />
     <Compile Include="js\NatureBoy\DudeBase.cs" />
+    <Compile Include="js\NatureBoy\Frames.cs" />
     <Compile Include="js\ThreeDStuff.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
@@ -64,6 +71,38 @@
     <Content Include="docs\about.txt" />
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\Vehicle1\308.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\309.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\310.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\311.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\312.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\313.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\314.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\315.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\316.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\317.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\318.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\319.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\320.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\321.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\322.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\323.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\324.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\325.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\326.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\327.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\328.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\329.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\330.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\331.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\332.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\333.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\334.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\335.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\336.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\337.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\338.png" />
+    <EmbeddedResource Include="web\assets\Vehicle1\339.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\Preview.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\1.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\2.png" />

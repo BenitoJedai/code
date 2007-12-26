@@ -14,15 +14,16 @@ using System.Collections.Generic;
 namespace ThreeDStuff.js
 {
     using NatureBoy;
+    using ScriptCoreLib.JavaScript.Controls;
 
     //[Script]
     //public delegate void Action<A, B, C, D, E>(A a, B b, C c, D d, E e);
 
-    [Script, ScriptApplicationEntryPoint, ApplicationDescription(Description = "An isometric world with dudes.")]
-    public class IsometricWithNatureBoy
+    [Script, ScriptApplicationEntryPoint, ApplicationDescription(Description = "An isometric world with dudes whom you can move around.")]
+    public class IsometricWithNatureBoyAndInput
     {
 
-        public IsometricWithNatureBoy()
+        public IsometricWithNatureBoyAndInput()
         {
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
             Native.Document.body.style.color = Color.White;
@@ -33,13 +34,14 @@ namespace ThreeDStuff.js
             info.style.SetLocation(4, 4, Native.Window.Width - 8, 0);
             info.style.height = "auto";
 
-            info.AttachToDocument().style.zIndex = 10000;
 
-            Func<Point<double>> GetCenter = () => new Point<double>
-            {
-                X = Native.Window.Width / 2,
-                Y = Native.Window.Height / 2
-            };
+            #region create the arena
+
+
+
+            #endregion
+
+
 
             var ZeroPoint = new Point<double>();
 
@@ -56,10 +58,10 @@ namespace ThreeDStuff.js
 
             var MapSize = new
             {
-                Left = -8,
-                Width = 16,
-                Top = -8,
-                Height = 16
+                Left = -12,
+                Width = 24,
+                Top = -12,
+                Height = 24
             };
 
 
@@ -69,7 +71,39 @@ namespace ThreeDStuff.js
                 h = (32 * Zoom).ToInt32()
             };
 
+            Func<Point<double>> GetCenter = () => new Point<double>
+            {
+                X = bg_size.w * MapSize.Width / 2 /*Native.Window.Width / 2*/,
+                Y = bg_size.h * MapSize.Height / 2 /*Native.Window.Height / 2*/
+            };
 
+            var arena = new ArenaControl();
+
+            arena.Control.AttachToDocument();
+
+            arena.Layers.Canvas.style.backgroundColor = Color.FromRGB(0, 0, 0);
+
+            // set the map to be somewhere left
+            arena.SetLocation(Rectangle.Of(0, 0, Native.Window.Width, Native.Window.Height));
+
+
+            // set tha map canvas size to be something big
+
+            arena.SetCanvasSize(new Point(
+                ((MapSize.Width + 0) * bg_size.w).ToInt32(),
+                ((MapSize.Height + 1) * bg_size.h).ToInt32()
+                ));
+
+            Native.Window.onresize +=
+                ev =>
+                {
+                    info.style.SetLocation(4, 4, Native.Window.Width - 8, 0);
+                    info.style.height = "auto";
+
+                    arena.SetLocation(Rectangle.Of(0, 0, Native.Window.Width, Native.Window.Height));
+                };
+
+            info.AttachTo(arena.Layers.Info);
 
             #region Translate
             Func<double, double, Point<double>> Translate =
@@ -262,7 +296,7 @@ namespace ThreeDStuff.js
                             i =>
                             {
                                 update();
-                            }).AttachToDocument()
+                            }).AttachTo(arena.Layers.Canvas)
                          select new { pos = point, img, update };
 
                     var tiles = tiles_query.ToArray().ForEach(i => i.update());
@@ -411,24 +445,7 @@ namespace ThreeDStuff.js
             SpawnItems(TileColorTree1, () => "assets/ThreeDStuff/t1.png", 65);
 
 
-            /*
-            var points =
-                (
-                from point in data
-                let div = CreateDiv(point.x, point.y)
-                select new
-                       {
-                           div,
-                           point,
-                           update = (Action)(() => ApplyPosition(point.x, point.y, div))
-                       }
-                )
-                .ToArray()
-                .ForEach(
-                    i => i.div.style.backgroundColor = i.point.color
-                )
-                ;
-            */
+
 
             Func<bool> IsDoneRotatingA = () => RotationA.ToDegrees() == 45;
 
@@ -474,10 +491,10 @@ namespace ThreeDStuff.js
                            r.TeleportTo(x, y);
 
 
-                           r.Control.AttachToDocument();
+                           r.Control.AttachTo(arena.Layers.Canvas);
 
                            r.Direction = Math.PI.Random() * 2;
-
+                           r.HasShadow = false;
 
 
                            return r;
@@ -495,10 +512,17 @@ namespace ThreeDStuff.js
                 Frames_Walk = Frames.DoomImp_Walk
             };
 
+            var veh1 = new DudeAnimationInfo
+            {
+                Frames_Stand = Frames.Vehicle1,
+                Frames_Walk = new[] { Frames.Vehicle1, Frames.Vehicle1 }
+            };
+
             var loaded = 0;
 
             loaded += dude.Frames_Stand.Length + dude.Frames_Walk.Sum(i => i.Length);
             loaded += imp.Frames_Stand.Length + imp.Frames_Walk.Sum(i => i.Length);
+            loaded += veh1.Frames_Stand.Length;
 
             Action loaded_done = delegate { };
             Action<IHTMLImage> loadone = img =>
@@ -515,6 +539,11 @@ namespace ThreeDStuff.js
 
             imp.Frames_Stand.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img)));
             imp.Frames_Walk.ForEach(j => j.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img))));
+
+            veh1.Frames_Stand.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img)));
+
+
+            var Dudes = new List<Dude2>();
 
 
             loaded_done +=
@@ -539,14 +568,13 @@ namespace ThreeDStuff.js
                         }
                     ;
 
-                    var Dudes = new List<Dude2>();
 
-                    Func<DudeAnimationInfo, Dude2> CreateDude =
-                        ani =>
+                    Func<DudeAnimationInfo, bool, double, Dude2> CreateDude =
+                        (ani, ScoutIfIdle, dudezoom) =>
                         {
                             var w2c = GetRandomCanvasPosition();
                             var w2 = SpawnLookingDude(ani.Frames_Stand, w2c.X.ToInt32(), w2c.Y.ToInt32());
-                            w2.Zoom.StaticZoom = 0.5;
+                            w2.Zoom.StaticZoom = dudezoom;
                             w2.AnimationInfo.Frames_Walk = ani.Frames_Walk;
                             w2.TargetLocationDistanceMultiplier = 1;
 
@@ -565,8 +593,7 @@ namespace ThreeDStuff.js
                                     {
                                         var CurrentlyWalking = Dudes.Count(i => i.IsWalking);
 
-                                        // dont make them all walk at the same time
-                                        if (CurrentlyWalking > 3)
+                                        if (w2.IsWalking)
                                         {
                                             WaitSomeAndGoSomeWhere();
                                             return;
@@ -579,25 +606,178 @@ namespace ThreeDStuff.js
                                             return;
                                         }
 
-                                        GoSomeWhere(WaitSomeAndGoSomeWhere);
+                                        if (w2.IsHot)
+                                        {
+                                            WaitSomeAndGoSomeWhere();
+                                            return;
+                                        }
+
+                                        // dont make them all walk at the same time
+                                        if (CurrentlyWalking > 3)
+                                        {
+                                            w2.Direction = (Math.PI * 2).Random();
+
+                                            WaitSomeAndGoSomeWhere();
+                                            return;
+                                        }
+
+
+                                        if (ScoutIfIdle)
+                                            GoSomeWhere(WaitSomeAndGoSomeWhere);
+                                        else
+                                            WaitSomeAndGoSomeWhere();
                                     }
                                 );
 
+                            // make only imps wander on their own
                             WaitSomeAndGoSomeWhere();
 
                             return w2;
                         };
 
-                    4.Times(() => Dudes.Add(CreateDude(dude)));
-                    4.Times(() => Dudes.Add(CreateDude(imp)));
+                    8.Times(() => Dudes.Add(CreateDude(dude, false, 0.5)));
+                    8.Times(() => Dudes.Add(CreateDude(imp, true, 0.5)));
+                    4.Times(() => Dudes.Add(CreateDude(veh1, true, 1)));
                 };
 
-            //w2.WalkTo(new Point(r400(), r400()));
+
+            Point KnownCanvasPosition = new Point();
+
+            Func<Point<double>> GetMapPosition =
+                delegate
+                {
+                    var canvas = KnownCanvasPosition;
+                    var c = GetCenter();
+
+                    var offset = new Point<double> { X = canvas.X - c.X, Y = (canvas.Y - c.Y) / RotationB };
+
+                    var d = ZeroPoint.GetDistance(offset) / (bg_size.h * 2d.Sqrt());
+                    var r = ZeroPoint.GetRotation(offset) - RotationA;
+
+                    var realoffset = new Point<double>
+                    {
+                        X = Math.Cos(r) * d,
+                        Y = Math.Sin(r) * d
+                    };
+
+                    //NotifyOfSelection(
+
+                    //    new Point<double> { X = realoffset.X, Y = realoffset.Y }
+
+                    //    );
+
+                    return realoffset;
+                };
+
+            arena.ApplySelection +=
+                (r, ev) =>
+                {
+                    foreach (var v in Dudes)
+                    {
+                        if (ev.shiftKey)
+                            v.IsSelected |= r.Contains(v.CurrentLocation);
+                        else
+                            v.IsSelected = r.Contains(v.CurrentLocation);
+                    }
+                };
+
+
+
+
+            arena.SelectionClick +=
+                (p, ev) =>
+                {
+                    var selection = Dudes.Where(i => i.IsSelected).ToArray();
+
+
+                    KnownCanvasPosition = p;
+
+                    var target = GetMapPosition();
+
+                    if (selection.Length == 0)
+                    {
+                        // single select?
+                        return;
+                    }
+
+
+                    if (selection.Length == 1)
+                    {
+
+                        var canvas = Translate(target.X, target.Y);
+                        canvas.X += GetCenter().X;
+                        canvas.Y += GetCenter().Y;
+
+                        //new
+                        //{
+                        //    target = new { target.X, target.Y },
+                        //    canvas = new { canvas.X, canvas.Y }
+                        //}.ToConsole(); ;
+
+                        selection.ForEach(i => i.WalkTo(
+                            new Point(canvas.X.ToInt32(), canvas.Y.ToInt32())
+                            ));
+                    }
+                    else
+                    {
+                        #region Circle
+
+                        var center = GetCenter();
+
+
+                        #region GetRotatedTargetPoint
+                        Func<double, double, Point<double>> GetRotatedTargetPoint =
+                            (direction, distance) =>
+                                new Point<double>
+                            {
+                                X = target.X + (Math.Cos(direction) * distance),
+                                Y = target.Y + (Math.Sin(direction) * distance),
+                            };
+                        #endregion
+
+                        Func<Point<double>, Point> OffsetToCenter =
+                            mcanvas =>
+                                new Point
+                                    {
+                                        X = (mcanvas.X + center.X).ToInt32(),
+                                        Y = (mcanvas.Y + center.Y).ToInt32(),
+                                    };
+
+                        var dest =
+                            from index in selection.Length.Range()
+                            let direction = (((double)index / (selection.Length)) * (Math.PI * 2)).ToConsole()
+                            let distance = 0.5
+                            let mtarget = GetRotatedTargetPoint(direction, distance)
+                            let mcanvas = Translate(mtarget.X, mtarget.Y)
+
+                            select new
+                            {
+                                index,
+                                canvas = OffsetToCenter(mcanvas)
+                            };
+
+                        foreach (var v in dest)
+                        {
+                            selection[v.index].WalkTo(v.canvas);
+                        }
+
+                        #endregion
+
+                    }
+                };
+
+
+
+
+
+
         }
 
 
 
-        static IsometricWithNatureBoy()
+
+
+        static IsometricWithNatureBoyAndInput()
         {
             typeof(IsometricWithNatureBoy).Spawn();
         }

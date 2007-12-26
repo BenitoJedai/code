@@ -2,6 +2,7 @@ using ScriptCoreLib.Shared;
 
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript;
 
 using ScriptCoreLib.Shared.Drawing;
@@ -280,51 +281,15 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         }
 
-        /// <summary>
-        /// detaches the node from dom
-        /// </summary>
-        [Script(DefineAsStatic = true)]
-        public void Dispose()
-        {
-            INode n = this.parentNode;
-
-            if (n != null)
-                n.removeChild(this);
-        }
 
 
-
-        /// <summary>
-        /// shows element and sets opacity to 1
-        /// </summary>
-        [Script(DefineAsStatic = true)]
-        public void Show()
-        {
-            this.style.display = IStyle.DisplayEnum.empty;
-            this.style.Opacity = 1;
-        }
 
         public static void Show(bool bVisible, params IHTMLElement[] e)
         {
             foreach (IHTMLElement v in e)
             {
-                v.Show(bVisible);
+                Extensions.Extensions.Show(v, bVisible);
             }
-        }
-
-        [Script(DefineAsStatic = true)]
-        public void Show(bool bVisible)
-        {
-            if (bVisible)
-                Show();
-            else
-                Hide();
-        }
-
-        [Script(DefineAsStatic = true)]
-        public void Hide()
-        {
-            this.style.display = IStyle.DisplayEnum.none;
         }
 
 
@@ -749,24 +714,6 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             oncontextmenu += Native.DisabledEventHandler;
         }
 
-        [Script(DefineAsStatic = true)]
-        public bool ToggleVisible()
-        {
-            IStyle.DisplayEnum v = IStyle.DisplayEnum.empty;
-
-            if (this.style.display == v)
-            {
-                this.Hide();
-
-                return false;
-            }
-            else
-            {
-                this.Show();
-
-                return true;
-            }
-        }
 
 
         void setCapture()

@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 
 [assembly:
+    ScriptResources("assets/Vehicle1"),
     ScriptResources("assets/ThreeDStuff"),
     ScriptResources("assets/NatureBoy/alpha"),
     ScriptResources("assets/NatureBoy/dude5/stand"),

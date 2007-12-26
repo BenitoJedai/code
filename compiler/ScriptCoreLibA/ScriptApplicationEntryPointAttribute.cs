@@ -26,14 +26,13 @@ namespace ScriptCoreLib
         /// </summary>
         public bool IsClickOnce;
 
-        public SerializedDataFormat Format = SerializedDataFormat.json | SerializedDataFormat.xml;
+        public SerializedDataFormat Format = /*SerializedDataFormat.json |*/ SerializedDataFormat.xml;
 
         /// <summary>
         /// Suffix on the filename will be omitted.
         /// </summary>
         public SerializedDataFormat DefaultFormat = SerializedDataFormat.xml;
 
-        public string Description;
     }
 
 }

@@ -11,6 +11,72 @@ namespace ScriptCoreLib.JavaScript.Extensions
     [Script]
     public static class Extensions
     {
+        /// <summary>
+        /// shows element and sets opacity to 1
+        /// </summary>
+        public static T Show<T>(this T e)
+            where T : IHTMLElement
+        {
+            e.style.display = IStyle.DisplayEnum.empty;
+            e.style.Opacity = 1;
+
+            return e;
+        }
+
+ 
+
+        public static T Show<T>(this T e, bool bVisible)
+            where T : IHTMLElement
+        {
+            if (bVisible)
+                return e.Show();
+            else
+                return e.Hide();
+        }
+
+        public static T Hide<T>(this T e)
+            where T : IHTMLElement
+        {
+            e.style.display = IStyle.DisplayEnum.none;
+
+            return e;
+        }
+
+
+        public static bool ToggleVisible<T>(this T e)
+            where T : IHTMLElement
+        {
+            IStyle.DisplayEnum v = IStyle.DisplayEnum.empty;
+
+            if (e.style.display == v)
+            {
+                e.Hide();
+
+                return false;
+            }
+            else
+            {
+                e.Show();
+
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// detaches the node from dom
+        /// </summary>
+        public static T Dispose<T>(this T e)
+            where T : INode
+        {
+            INode n = e.parentNode;
+
+            if (n != null)
+                n.removeChild(e);
+
+            return e;
+        }
+
+        
 
         /// <summary>
         /// attaches this element to the current document body

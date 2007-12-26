@@ -7,7 +7,7 @@ using ScriptCoreLib.Shared.Lambda;
 
 using ThreeDStuff.js;
 
-namespace NatureBoy.js
+namespace ThreeDStuff.js.NatureBoy
 {
     using div = IHTMLDiv;
     using img = IHTMLImage;

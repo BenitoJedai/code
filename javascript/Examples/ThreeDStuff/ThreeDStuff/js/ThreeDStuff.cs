@@ -8,6 +8,7 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.JavaScript;
 
 namespace ThreeDStuff.js
 {
@@ -22,30 +23,50 @@ namespace ThreeDStuff.js
     {
         public ThreeDStuff()
         {
+            Native.Document.body.style.backgroundColor = Color.Black;
+            Native.Document.body.style.color = Color.White;
+
+
             var Menu = new IHTMLDiv().AttachToDocument();
+            
+            new IHTMLElement(IHTMLElement.HTMLElementEnum.h1,
+                typeof(ThreeDStuff).Name).AttachTo(Menu);
+
+            var List = new IHTMLElement(IHTMLElement.HTMLElementEnum.ol).AttachTo(Menu);
 
             Func<string, string, Type, IHTMLAnchor> CreateAnchor =
                 (href, text, t) =>
                 {
-                    var a = new IHTMLAnchor(href, text);
+                    var a = new IHTMLAnchor(href, "");
+
+                    var caption = new IHTMLSpan(t.Name);
+                    caption.style.fontWeight ="bold";
+                    a.appendChild(caption);
+                    a.appendChild(new IHTMLBreak());
+                    a.appendChild(text);
 
                     a.style.display = ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.block;
                     a.onmouseover +=
                         ev =>
                         {
+                            a.style.backgroundColor = Color.FromRGB(0x60, 0,0);
                             a.style.color = Color.Red;
                         };
                     a.onmouseout +=
                         ev =>
                         {
-                            a.style.color = Color.None;
+                            a.style.backgroundColor = "";
+                            a.style.color = Color.White;
                         };
 
                     a.style.textDecoration = "none";
+                    a.style.color = Color.White;
 
                     a.onclick +=
                         ev =>
                         {
+                            Native.Document.body.style.background = "";
+
                             ev.PreventDefault();
 
                             Menu.Dispose();
@@ -56,13 +77,14 @@ namespace ThreeDStuff.js
                     return a;
                 };
 
+
             foreach (var i in from t in typeof(ThreeDStuff).Assembly.GetTypes()
                               let d = (ApplicationDescriptionAttribute[])t.GetCustomAttributes(typeof(ApplicationDescriptionAttribute), false)
                               where d.Length > 0
-                              let anchor = CreateAnchor(t.Name + ".htm", t.Name + " - " + d.Random().Description, t)
+                              let anchor = CreateAnchor(t.Name + ".htm", d.Random().Description, t)
                               select new { anchor })
             {
-                i.anchor.AttachTo(Menu);
+                new IHTMLElement(IHTMLElement.HTMLElementEnum.li, i.anchor).AttachTo(List);
             }
 
 

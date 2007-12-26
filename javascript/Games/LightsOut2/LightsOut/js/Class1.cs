@@ -7,6 +7,7 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
 
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -39,11 +40,9 @@ namespace LightsOut.js
         public double cold;
     }
 
-    [Script]
+    [Script, ScriptApplicationEntryPoint]
     public class Class1
     {
-        public const string Alias = "Class1";
-        public const string DefaultData = "Class1Data";
 
         /// <summary>
         /// Creates a new control
@@ -60,19 +59,19 @@ namespace LightsOut.js
             var usersettings = new __Type1 { x = 5, y = 5, tile = new __Type2 { w = 64, h = 64, cold = 0.8 } };
             var search = Native.Document.location.search;
 
-            //if (search.StartsWith("?"))
-            //{
-            //    var values = from i in search.Substring(1).Split('&')
-            //                 let kvp = i.Split('=')
-            //                 where kvp.Length == 2
-            //                 select new { key = kvp[0], value = kvp[1] };
+            if (search.StartsWith("?"))
+            {
+                var values = from i in search.Substring(1).Split('&')
+                             let kvp = i.Split('=')
+                             where kvp.Length == 2
+                             select new { key = kvp[0], value = kvp[1] };
 
-            //    var _x = values.FirstOrDefault(i => i.key == "x");
-            //    if (_x != null) usersettings.x = int.Parse(_x.value);
+                var _x = values.FirstOrDefault(i => i.key == "x");
+                if (_x != null) usersettings.x = int.Parse(_x.value);
 
-            //    var _y = values.FirstOrDefault(i => i.key == "y");
-            //    if (_y != null) usersettings.y = int.Parse(_y.value);
-            //}
+                var _y = values.FirstOrDefault(i => i.key == "y");
+                if (_y != null) usersettings.y = int.Parse(_y.value);
+            }
 
             var a = new Array2D<IHTMLDiv>(usersettings.x, usersettings.y);
             var m = a.ToBooleanArray();
@@ -298,10 +297,8 @@ namespace LightsOut.js
         {
             //Console.EnableActiveXConsole();
 
-            // spawn this class when document is loaded 
-            Native.Spawn(
-                new Pair<string, ScriptCoreLib.Shared.EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
-                );
+            typeof(Class1).SpawnTo(i => new Class1(i));
+
 
         }
 
