@@ -20,6 +20,7 @@ namespace ThreeDStuff.js
 
         public IsometricRotatingWithInput()
         {
+
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
             Native.Document.body.style.color = Color.White;
             Native.Document.body.style.backgroundColor = Color.Black;
@@ -274,6 +275,7 @@ namespace ThreeDStuff.js
 
         static IsometricRotatingWithInput()
         {
+            
             typeof(IsometricRotatingWithInput).Spawn();
         }
 

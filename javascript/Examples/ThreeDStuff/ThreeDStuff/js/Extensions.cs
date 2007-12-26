@@ -204,9 +204,11 @@ namespace ThreeDStuff.js
         {
             e.SpawnTo(i =>
                 {
-                    Native.Document.title = e.Assembly.GetName().Name + " - " + e.Name;
+                    Native.Document.title = e.Name;
+
                     e.CreateInstance();
-                });
+
+              });
         }
 
         public static Timer Swap<T>(this T[] e, int interval, Action<T> h)

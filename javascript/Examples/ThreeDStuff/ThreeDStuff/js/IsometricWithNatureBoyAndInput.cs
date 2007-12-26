@@ -790,7 +790,7 @@ namespace ThreeDStuff.js
 
         static IsometricWithNatureBoyAndInput()
         {
-            typeof(IsometricWithNatureBoy).Spawn();
+            typeof(IsometricWithNatureBoyAndInput).Spawn();
         }
 
 
