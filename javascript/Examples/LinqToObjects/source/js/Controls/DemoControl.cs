@@ -153,6 +153,71 @@ namespace LinqToObjects.source.js.MyLinq
         }
     }
 
+    [Script]
+    public class OrderedEnumerable<TSource, TKey> : OrderedEnumerable<TSource>
+    {
+        public Func<TSource, TKey> keySelector;
+        public IComparer<TKey> comparer;
+        public bool descending;
+
+        internal OrderedEnumerable()
+        {
+
+        }
+    }
+
+    [Script]
+    public class OrderedEnumerable<TSource> : IEnumerable<TSource>, IOrderedEnumerable<TSource>
+    {
+        // immutable 
+
+        readonly OrderedEnumerable<TSource> prev;
+        readonly OrderedEnumerable<TSource> next;
+
+        IEnumerable<TSource> source;
+
+        #region IOrderedEnumerable<TSource> Members
+
+        public static IOrderedEnumerable<TSource> Create<TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer, bool descending)
+        {
+            return new OrderedEnumerable<TSource, TKey>
+            {
+                keySelector = keySelector,
+                comparer = comparer,
+                descending = descending,
+                source = source
+            };
+        }
+
+        public IOrderedEnumerable<TSource> CreateOrderedEnumerable<TKey>(Func<TSource, TKey> keySelector, IComparer<TKey> comparer, bool descending)
+        {
+            // deep clone current and set as parent
+
+            throw new NotSupportedException();
+        }
+
+        #endregion
+
+        #region IEnumerable<TSource> Members
+
+        public IEnumerator<TSource> GetEnumerator()
+        {
+            // get the lowest level and start sorting
+
+            throw new NotSupportedException();
+        }
+
+        #endregion
+
+        #region IEnumerable Members
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        #endregion
+    }
 
     [Script]
     public static class MyEnumerable
@@ -176,18 +241,25 @@ namespace LinqToObjects.source.js.MyLinq
         #endregion
         #region ok
 
-        public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
+
+        public static IOrderedEnumerable<TSource> OrderByX<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            return OrderByX(source, keySelector, new DefaultComparer<TKey>());
+        }
+
+        public static IOrderedEnumerable<TSource> OrderByY<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            return OrderByY(source, keySelector, new DefaultComparer<TKey>());
+        }
+
+        public static IOrderedEnumerable<TSource> OrderByX<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
         {
             return new ComparerVirtualEnumerable<TSource, TKey>(source, keySelector, comparer, false);
         }
 
-
-
-
-       
-        public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        public static IOrderedEnumerable<TSource> OrderByY<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
         {
-            return OrderBy(source, keySelector, new DefaultComparer<TKey>());
+            return OrderedEnumerable<TSource>.Create<TKey>(source, keySelector, comparer, false);
         }
 
         public static IOrderedEnumerable<TSource> ThenBy<TSource, TKey>(IOrderedEnumerable<TSource> source, Func<TSource, TKey> keySelector)
@@ -279,7 +351,7 @@ namespace LinqToObjects.source.js.Controls
 
                     var sorted_query =
                         MyLinq.MyEnumerable.ThenBy(
-                            MyLinq.MyEnumerable.OrderBy(query, x => x.length)
+                            MyLinq.MyEnumerable.OrderByX(query, x => x.length)
                         , x => x.name);
 
                     foreach (var v in sorted_query)

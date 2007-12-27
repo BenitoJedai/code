@@ -177,7 +177,7 @@
     <Compile Include="JavaScript\DOM\IDOMImplementation.cs" />
     <Compile Include="JavaScript\DOM\XML\IXMLSerializer.cs" />
     <Compile Include="JavaScript\Extensions\Extensions.cs" />
-    <Compile Include="JavaScript\Query\Sequence.cs" />
+    <Compile Include="JavaScript\Query\InternalSequenceImplementation.cs" />
     <Compile Include="JavaScript\Runtime\TimeFilter.cs" />
     <Compile Include="JavaScript\Runtime\TweenData.cs" />
     <Compile Include="JavaScript\Runtime\WorkPool.cs" />
@@ -201,7 +201,7 @@
     <Compile Include="Shared\IAssemblyReferenceToken.cs" />
     <Compile Include="Shared\Helper.cs" />
     <Compile Include="Shared\IAssemblyInfo.cs" />
-    <Compile Include="Shared\Query\Sequence.cs" />
+    <Compile Include="Shared\Query\InternalSequence.cs" />
     <Compile Include="Shared\Query\SZArrayEnumerator.cs" />
     <Compile Include="Shared\Serialized\SimpleEmailTag.cs" />
     <Compile Include="Shared\TextWriter.cs" />

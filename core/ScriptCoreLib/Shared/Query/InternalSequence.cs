@@ -5,6 +5,7 @@ using global::System.Collections;
 using global::System.Collections.Generic;
 
 using IDisposable = global::System.IDisposable;
+using System;
 
 namespace ScriptCoreLib.Shared.Query
 {
@@ -12,7 +13,7 @@ namespace ScriptCoreLib.Shared.Query
     {
         public static IEnumerable<TSource> AsEnumerable<TSource>(IEnumerable<TSource> source)
         {
-            return default(IEnumerable<TSource>);
+            throw new NotImplementedException();
 
         }
     }
