@@ -178,14 +178,14 @@ namespace ConsoleWorm.js
     }
 
     [Script, ScriptApplicationEntryPoint]
-    public class Class1
+    public class ConsoleWorm
     {
         // vNext should be semi 3D - http://www.freeworldgroup.com/games/3dworm/index.html
 
-        public Class1()
+        public ConsoleWorm()
         {
 
-            typeof(Class1).ToWindowText();
+            typeof(ConsoleWorm).ToWindowText();
 
 
             var canvas = new IHTMLDiv();
@@ -437,10 +437,10 @@ namespace ConsoleWorm.js
             );
         }
 
-        static Class1()
+        static ConsoleWorm()
         {
 
-            typeof(Class1).SpawnTo(i =>
+            typeof(ConsoleWorm).SpawnTo(i =>
                 {
 
                     // hide IE scrollbar
@@ -463,7 +463,7 @@ namespace ConsoleWorm.js
 
 
                     Timer.DoAsync(
-                        () => new Class1()
+                        () => new ConsoleWorm()
                     );
                 });
         }

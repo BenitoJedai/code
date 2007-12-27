@@ -19,7 +19,7 @@ namespace ThreeDStuff.js
     }
 
     [Script, ScriptApplicationEntryPoint]
-    class ThreeDStuff
+    public class ThreeDStuff
     {
         public ThreeDStuff()
         {

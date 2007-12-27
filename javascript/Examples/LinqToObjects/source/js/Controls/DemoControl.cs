@@ -55,7 +55,9 @@ namespace LinqToObjects.source.js.Controls
                     foreach (var v in
                            from i in __users
                            where i.ToLower().IndexOf(user_filter) > -1
-                           select "match: " + i.Trim()
+                           let name = i.Trim()
+                           //orderby name
+                           select "match: " + name
                     )
                     {
                         result.appendChild(new IHTMLDiv(v));
