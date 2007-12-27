@@ -78,7 +78,6 @@
     <Compile Include="JavaScript\DOM\IDocument.cs" />
     <Compile Include="JavaScript\DOM\IElement.cs" />
     <Compile Include="JavaScript\DOM\IRegExp.cs" />
-    <Compile Include="JavaScript\Runtime\AsyncArgs.cs" />
     <Compile Include="JavaScript\Runtime\Cookie.cs" />
     <Compile Include="JavaScript\Runtime\Expando.cs" />
     <Compile Include="JavaScript\DOM\IFunction.cs" />
@@ -106,10 +105,7 @@
     <Compile Include="JavaScript\Runtime\Color.cs" />
     <Compile Include="JavaScript\Runtime\Convert.cs" />
     <Compile Include="JavaScript\Runtime\Fader.cs" />
-    <Compile Include="JavaScript\Runtime\Indexer.cs" />
-    <Compile Include="JavaScript\Runtime\List.cs" />
     <Compile Include="Shared\Drawing\Rectangle.cs" />
-    <Compile Include="JavaScript\Runtime\Console.cs" />
     <Compile Include="JavaScript\Runtime\Timer.cs" />
   </ItemGroup>
   <ItemGroup>

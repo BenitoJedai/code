@@ -7,6 +7,7 @@ using global::System.Collections.Generic;
 
 using IDisposable = global::System.IDisposable;
 using System;
+using System.Linq;
 
 namespace ScriptCoreLib.Shared.Query
 {
@@ -17,6 +18,20 @@ namespace ScriptCoreLib.Shared.Query
     [Script(Implements = typeof(global::System.Linq.Enumerable))]
     internal static partial class __Enumerable
     {
+        public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            return new OrderedEnumerable<TSource, TKey>(source, keySelector, null, false);
+        }
+
+        public static IOrderedEnumerable<TSource> ThenBy<TSource, TKey>(IOrderedEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            if (source == null)
+            {
+                throw new NullReferenceException("source");
+            }
+            return source.CreateOrderedEnumerable<TKey>(keySelector, null, false);
+        }
+
         public static bool Any<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> p)
         {
             var r = false;

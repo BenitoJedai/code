@@ -14,15 +14,217 @@ using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Shared.Drawing;
 
 using global::System.Collections.Generic;
+using System;
+using System.Linq;
+
+namespace LinqToObjects.source.js.MyLinq
+{
+    [Script]
+    class DefaultComparer<T> : IComparer<T>
+    {
+        public int Compare(T ka, T kb)
+        {
+            var r = -2;
+
+            if (Expando.Of(ka).IsString)
+                r = Expando.Compare(ka, kb);
+
+            if (Expando.Of(ka).IsNumber)
+                r = Expando.Compare(ka, kb);
+
+            if (Expando.Of(ka).IsBoolean)
+                r = Expando.Compare(ka, kb);
+
+
+            if (r == -2)
+                throw new NotSupportedException();
+
+            return r;
+        }
+    }
+
+    [Script]
+    class VirtualComparer<T> : IComparer<T>
+    {
+        readonly Func<T, T, int> VirtualCompare;
+
+        public VirtualComparer(Func<T, T, int> e)
+        {
+            this.VirtualCompare = e;
+        }
+
+        public int Compare(T ka, T kb)
+        {
+            return VirtualCompare(ka, kb);
+        }
+    }
+
+
+    [Script]
+    public class VirtualEnumerable<TSource> : IEnumerable<TSource>
+    {
+        public Func<IEnumerator<TSource>> VirtualGetEnumerator;
+
+        #region IEnumerable<TSource> Members
+
+        public IEnumerator<TSource> GetEnumerator()
+        {
+            return VirtualGetEnumerator();
+        }
+
+        #endregion
+
+        #region IEnumerable Members
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        #endregion
+
+
+    }
+
+    [Script]
+    public class ComparerVirtualEnumerable<TSource, TKey2> : VirtualEnumerable<TSource>, IOrderedEnumerable<TSource>
+    {
+        // immutable
+
+        IComparer<TSource> NextComparer;
+
+        ComparerVirtualEnumerable()
+        {
+
+        }
+
+        public ComparerVirtualEnumerable(IEnumerable<TSource> source, Func<TSource, TKey2> keySelector, IComparer<TKey2> comparer, bool descending)
+        {
+            // original source
+            // comparer 1
+            // comparer 
+
+            var y = new VirtualComparer<TSource>
+            (
+                (a, b) =>
+                {
+                    var r = comparer.Compare(keySelector(a), keySelector(b));
+
+                    if (r == 0)
+                    {
+                        if (this.NextComparer != null)
+                            r = this.NextComparer.Compare(a, b);
+                    }
+
+                    return r;
+                }
+            );
+
+            this.VirtualGetEnumerator = () => MyLinq.MyEnumerable.Sort(source, y).GetEnumerator();
+        }
+
+        public IOrderedEnumerable<TSource> CreateOrderedEnumerable<TKey>(Func<TSource, TKey> keySelector, IComparer<TKey> comparer, bool descending)
+        {
+
+            var v = new ComparerVirtualEnumerable<TSource, TKey>
+            {
+                // get parent
+                VirtualGetEnumerator = base.VirtualGetEnumerator
+            };
+
+            this.NextComparer =
+                new VirtualComparer<TSource>(
+                   (a, b) =>
+                   {
+                       var r = comparer.Compare(keySelector(a), keySelector(b));
+
+                       if (r == 0)
+                       {
+                           if (v.NextComparer != null)
+                               r = v.NextComparer.Compare(a, b);
+                       }
+
+
+                       return r;
+                   }
+            );
+
+            return v;
+        }
+    }
+
+
+    [Script]
+    public static class MyEnumerable
+    {
+        #region ok
+        static IArray<T> ToIArray<T>(T[] e)
+        {
+            return (IArray<T>)(object)e;
+        }
+
+
+        public static IEnumerable<TSource> Sort<TSource>(IEnumerable<TSource> source, IComparer<TSource> c)
+        {
+            var s = ToIArray(System.Linq.Enumerable.ToArray(source));
+
+
+            s.sort((a, b) => c.Compare(a, b));
+
+            return System.Linq.Enumerable.AsEnumerable(s.ToArray());
+        }
+        #endregion
+        #region ok
+
+        public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
+        {
+            return new ComparerVirtualEnumerable<TSource, TKey>(source, keySelector, comparer, false);
+        }
+
+
+
+
+       
+        public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            return OrderBy(source, keySelector, new DefaultComparer<TKey>());
+        }
+
+        public static IOrderedEnumerable<TSource> ThenBy<TSource, TKey>(IOrderedEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            return ThenBy(source, keySelector, new DefaultComparer<TKey>());
+        }
+
+        public static IOrderedEnumerable<TSource> ThenBy<TSource, TKey>(IOrderedEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
+        {
+            if (source == null)
+            {
+                throw new NullReferenceException("source");
+            }
+
+            return source.CreateOrderedEnumerable(keySelector, comparer, false);
+        }
+        #endregion
+
+
+
+
+
+
+    }
+
+}
 
 namespace LinqToObjects.source.js.Controls
 {
+    using MyLinq;
     using System.Linq;
     using System;
-    
+
+
 
     [Script, ScriptApplicationEntryPoint]
-    public class DemoControl : SpawnControlBase
+    public class DemoControl //: SpawnControlBase
     {
         //public const string Alias = "fx.DemoControl";
 
@@ -30,18 +232,28 @@ namespace LinqToObjects.source.js.Controls
 
         public IStyle Style { get { return Control.style; } }
 
+
+
+
+
+
+
+
         public DemoControl(IHTMLElement e)
-            : base(e)
+        //    : base(e)
         {
             e.insertNextSibling(Control);
 
 
-            var users = new IHTMLTextArea("neo, morpheous, trinity, Agent Smith");
+            var users = new IHTMLTextArea("mike, mac, ken, neo, zen, jay, morpheous, trinity, Agent Smith");
 
             users.rows = 10;
 
-            var filter = new IHTMLInput(HTMLInputTypeEnum.text, "smith");
+            var filter = new IHTMLInput(HTMLInputTypeEnum.text, "");
             var result = new IHTMLDiv();
+            var result2 = new IHTMLDiv();
+
+            result2.style.color = Color.Blue;
 
             Action Update =
                 delegate
@@ -49,18 +261,31 @@ namespace LinqToObjects.source.js.Controls
                     var user_filter = filter.value.Trim().ToLower();
 
                     result.removeChildren();
+                    result2.removeChildren();
 
                     var __users = users.value.Split(',');
 
-                    foreach (var v in
-                           from i in __users
-                           where i.ToLower().IndexOf(user_filter) > -1
-                           let name = i.Trim()
-                           //orderby name
-                           select "match: " + name
-                    )
+                    var query = from i in __users
+                                where i.ToLower().IndexOf(user_filter) > -1
+                                let name = i.Trim()
+                                orderby name.Length, name
+                                select new { length = name.Length, name };
+
+                    foreach (var v in /*OrderBy(*/query/*, i => i.name)*/)
                     {
-                        result.appendChild(new IHTMLDiv(v));
+
+                        result.appendChild(new IHTMLDiv("match: " + v));
+                    }
+
+                    var sorted_query =
+                        MyLinq.MyEnumerable.ThenBy(
+                            MyLinq.MyEnumerable.OrderBy(query, x => x.length)
+                        , x => x.name);
+
+                    foreach (var v in sorted_query)
+                    {
+
+                        result2.appendChild(new IHTMLDiv("match: " + v));
                     }
                 };
 
@@ -83,7 +308,9 @@ namespace LinqToObjects.source.js.Controls
                 br(),
                 new IHTMLLabel("Found matches:", result),
                 br(),
-                result
+                result,
+                br(),
+                result2
             );
 
             Update();
