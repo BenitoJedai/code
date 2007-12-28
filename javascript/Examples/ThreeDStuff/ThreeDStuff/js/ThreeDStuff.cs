@@ -16,6 +16,8 @@ namespace ThreeDStuff.js
     sealed class ApplicationDescriptionAttribute : Attribute
     {
         public string Description;
+
+        public string FlashMovie;
     }
 
     [Script, ScriptApplicationEntryPoint]
@@ -57,8 +59,8 @@ namespace ThreeDStuff.js
                     a.onmouseover +=
                         ev =>
                         {
-                            a.style.backgroundColor = Color.FromRGB(0x60, 0, 0);
-                            a.style.color = Color.Red;
+                            a.style.backgroundColor = Color.Red;
+                            a.style.color = Color.Black;
                         };
                     a.onmouseout +=
                         ev =>
@@ -89,10 +91,23 @@ namespace ThreeDStuff.js
             foreach (var i in from t in typeof(ThreeDStuff).Assembly.GetTypes()
                               let d = (ApplicationDescriptionAttribute[])t.GetCustomAttributes(typeof(ApplicationDescriptionAttribute), false)
                               where d.Length > 0
-                              let anchor = CreateAnchor(t.Name + ".htm", d.Random().Description, t)
-                              select new { anchor })
+                              let attribute = d.Random()
+                              let anchor = CreateAnchor(t.Name + ".htm", attribute.Description, t)
+                              select new { anchor, attribute })
             {
-                new IHTMLElement(IHTMLElement.HTMLElementEnum.li, i.anchor).AttachTo(List);
+                var li = new IHTMLElement(IHTMLElement.HTMLElementEnum.li, i.anchor).AttachTo(List);
+
+                /*
+                <object width="425" height="355">
+                 * <param name="movie" value="http://www.youtube.com/v/kCgCSMpRN40&rel=1"></param>
+                 * <param name="wmode" value="transparent"></param>
+                 * <embed src="http://www.youtube.com/v/kCgCSMpRN40&rel=1" type="application/x-shockwave-flash" wmode="transparent" width="425" height="355"></embed>
+                </object>
+                */
+
+                if (i.attribute.FlashMovie.IsDefined())
+                    new IHTMLAnchor(i.attribute.FlashMovie, "(see video)").AttachTo(li);
+
             }
 
 

@@ -29,6 +29,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         public string src;
         public string autostart;
         public string volume;
+        public string type;
+        public string wmode;
         
 
     }

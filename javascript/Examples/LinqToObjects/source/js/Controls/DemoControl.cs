@@ -19,30 +19,31 @@ using System.Linq;
 
 namespace LinqToObjects.source.js.MyLinq
 {
-    [Script]
-    class DefaultComparer<T> : IComparer<T>
-    {
-        public int Compare(T ka, T kb)
-        {
-            var r = -2;
+    //[Script]
+    //class DefaultComparer<T> : IComparer<T>
+    //{
+    //    public int Compare(T ka, T kb)
+    //    {
+    //        var r = -2;
 
-            if (Expando.Of(ka).IsString)
-                r = Expando.Compare(ka, kb);
+    //        if (Expando.Of(ka).IsString)
+    //            r = Expando.Compare(ka, kb);
 
-            if (Expando.Of(ka).IsNumber)
-                r = Expando.Compare(ka, kb);
+    //        if (Expando.Of(ka).IsNumber)
+    //            r = Expando.Compare(ka, kb);
 
-            if (Expando.Of(ka).IsBoolean)
-                r = Expando.Compare(ka, kb);
+    //        if (Expando.Of(ka).IsBoolean)
+    //            r = Expando.Compare(ka, kb);
 
 
-            if (r == -2)
-                throw new NotSupportedException();
+    //        if (r == -2)
+    //            throw new NotSupportedException();
 
-            return r;
-        }
-    }
+    //        return r;
+    //    }
+    //}
 
+    /*
     [Script]
     class VirtualComparer<T> : IComparer<T>
     {
@@ -152,7 +153,8 @@ namespace LinqToObjects.source.js.MyLinq
             return v;
         }
     }
-
+    */
+    /*
     [Script]
     public class OrderedEnumerable<TSource, TKey> : OrderedEnumerable<TSource>
     {
@@ -164,61 +166,104 @@ namespace LinqToObjects.source.js.MyLinq
         {
 
         }
+
+        public OrderedEnumerable(IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer, bool descending)
+        {
+            this.keySelector = keySelector;
+            this.comparer = comparer;
+            this.descending = descending;
+            this.source = source;
+        }
+
+        protected override OrderedEnumerable<TSource> Clone()
+        {
+            return new OrderedEnumerable<TSource, TKey>
+            {
+                keySelector = this.keySelector,
+                comparer = this.comparer,
+                descending = this.descending,
+                source = this.source
+            };
+        }
+
+        protected override int Compare(TSource a, TSource b)
+        {
+            return comparer.Compare(
+                keySelector(a),
+                keySelector(b)
+            );
+        }
     }
 
     [Script]
-    public class OrderedEnumerable<TSource> : IEnumerable<TSource>, IOrderedEnumerable<TSource>
+    public abstract class OrderedEnumerable<TSource> : IEnumerable<TSource>, IOrderedEnumerable<TSource>
     {
         // immutable 
 
-        readonly OrderedEnumerable<TSource> prev;
-        readonly OrderedEnumerable<TSource> next;
+        protected OrderedEnumerable<TSource> prev;
+        protected OrderedEnumerable<TSource> next;
 
-        IEnumerable<TSource> source;
+        protected IEnumerable<TSource> source;
 
-        #region IOrderedEnumerable<TSource> Members
+        protected abstract OrderedEnumerable<TSource> Clone();
+        protected abstract int Compare(TSource a, TSource b);
 
-        public static IOrderedEnumerable<TSource> Create<TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer, bool descending)
+        public IOrderedEnumerable<TSource> CreateOrderedEnumerable<TKey>(Func<TSource, TKey> keySelector, IComparer<TKey> comparer, bool descending)
         {
-            return new OrderedEnumerable<TSource, TKey>
+            var p = new OrderedEnumerable<TSource, TKey>
             {
                 keySelector = keySelector,
                 comparer = comparer,
                 descending = descending,
-                source = source
+                source = null // only the lowest has the source
             };
-        }
 
-        public IOrderedEnumerable<TSource> CreateOrderedEnumerable<TKey>(Func<TSource, TKey> keySelector, IComparer<TKey> comparer, bool descending)
-        {
+            var x = this.Clone();
+
+            p.prev = x;
+            x.next = p;
+
             // deep clone current and set as parent
-
-            throw new NotSupportedException();
+            return p;
         }
 
-        #endregion
 
-        #region IEnumerable<TSource> Members
 
         public IEnumerator<TSource> GetEnumerator()
         {
-            // get the lowest level and start sorting
+            var p = this;
 
-            throw new NotSupportedException();
+            while (p.prev != null) p = p.prev;
+
+            return MyEnumerable.Sort(p.source,
+                (a, b) =>
+                {
+                    int r = 0;
+                    var x = p;
+
+                    while (x != null)
+                    {
+                        r = x.Compare(a, b);
+
+                        if (r != 0)
+                            break;
+
+                        x = x.next;
+                    }
+
+                    return r;
+                }
+            ).GetEnumerator();
         }
 
-        #endregion
-
-        #region IEnumerable Members
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
 
-        #endregion
     }
-
+    */
     [Script]
     public static class MyEnumerable
     {
@@ -228,7 +273,16 @@ namespace LinqToObjects.source.js.MyLinq
             return (IArray<T>)(object)e;
         }
 
+        public static IEnumerable<TSource> Sort<TSource>(IEnumerable<TSource> source, Func<TSource, TSource, int> c)
+        {
+            var s = ToIArray(System.Linq.Enumerable.ToArray(source));
 
+
+            s.sort((a, b) => c(a, b));
+
+            return System.Linq.Enumerable.AsEnumerable(s.ToArray());
+        }
+        /*
         public static IEnumerable<TSource> Sort<TSource>(IEnumerable<TSource> source, IComparer<TSource> c)
         {
             var s = ToIArray(System.Linq.Enumerable.ToArray(source));
@@ -238,30 +292,30 @@ namespace LinqToObjects.source.js.MyLinq
 
             return System.Linq.Enumerable.AsEnumerable(s.ToArray());
         }
+        */
         #endregion
         #region ok
 
 
-        public static IOrderedEnumerable<TSource> OrderByX<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        //public static IOrderedEnumerable<TSource> OrderByX<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        //{
+        //    return OrderByX(source, keySelector, new DefaultComparer<TKey>());
+        //}
+        /*
+        public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         {
-            return OrderByX(source, keySelector, new DefaultComparer<TKey>());
+            return OrderBy(source, keySelector, new DefaultComparer<TKey>());
         }
 
-        public static IOrderedEnumerable<TSource> OrderByY<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
-        {
-            return OrderByY(source, keySelector, new DefaultComparer<TKey>());
-        }
+        //public static IOrderedEnumerable<TSource> OrderByX<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
+        //{
+        //    return new ComparerVirtualEnumerable<TSource, TKey>(source, keySelector, comparer, false);
+        //}
 
-        public static IOrderedEnumerable<TSource> OrderByX<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
+        public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
         {
-            return new ComparerVirtualEnumerable<TSource, TKey>(source, keySelector, comparer, false);
+            return new OrderedEnumerable<TSource, TKey>(source, keySelector, comparer, false);
         }
-
-        public static IOrderedEnumerable<TSource> OrderByY<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
-        {
-            return OrderedEnumerable<TSource>.Create<TKey>(source, keySelector, comparer, false);
-        }
-
         public static IOrderedEnumerable<TSource> ThenBy<TSource, TKey>(IOrderedEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         {
             return ThenBy(source, keySelector, new DefaultComparer<TKey>());
@@ -276,6 +330,7 @@ namespace LinqToObjects.source.js.MyLinq
 
             return source.CreateOrderedEnumerable(keySelector, comparer, false);
         }
+        */
         #endregion
 
 
@@ -317,7 +372,7 @@ namespace LinqToObjects.source.js.Controls
             e.insertNextSibling(Control);
 
 
-            var users = new IHTMLTextArea("mike, mac, ken, neo, zen, jay, morpheous, trinity, Agent Smith");
+            var users = new IHTMLTextArea("_martin, mike, mac, ken, neo, zen, jay, morpheous, trinity, Agent Smith, _psycho");
 
             users.rows = 10;
 
@@ -340,7 +395,7 @@ namespace LinqToObjects.source.js.Controls
                     var query = from i in __users
                                 where i.ToLower().IndexOf(user_filter) > -1
                                 let name = i.Trim()
-                                orderby name.Length, name
+                                orderby name.StartsWith("_") descending, name.Length descending, name 
                                 select new { length = name.Length, name };
 
                     foreach (var v in /*OrderBy(*/query/*, i => i.name)*/)
@@ -348,17 +403,17 @@ namespace LinqToObjects.source.js.Controls
 
                         result.appendChild(new IHTMLDiv("match: " + v));
                     }
-
+                    /*
                     var sorted_query =
                         MyLinq.MyEnumerable.ThenBy(
-                            MyLinq.MyEnumerable.OrderByX(query, x => x.length)
+                            MyLinq.MyEnumerable.OrderBy(query, x => x.length)
                         , x => x.name);
 
                     foreach (var v in sorted_query)
                     {
 
                         result2.appendChild(new IHTMLDiv("match: " + v));
-                    }
+                    }*/
                 };
 
             users.onchange += delegate { Update(); };

@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="JavaScript\BCLImplementation\System\Action.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Func.cs" />
+    <Compile Include="Shared\Query\Enumerable.OrderBy.cs" />
     <Compile Include="Shared\Query\OrderedEnumerable.cs" />
     <Compile Include="JavaScript\Query\LocalInternalEnumerableImplementation.cs" />
     <Compile Include="Shared\Lambda\Lambda.cs" />

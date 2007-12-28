@@ -10,82 +10,137 @@ using System;
 
 namespace ScriptCoreLib.Shared.Query
 {
-    // todo: if all languages share this functionality
-    // move it to Shared namespace
+
+
 
     [Script]
-    internal abstract class OrderedEnumerable<TElement> : IOrderedEnumerable<TElement>, IEnumerable<TElement>, IEnumerable
+    public class OrderedEnumerable<TSource, TKey> : OrderedEnumerable<TSource>
     {
-        internal IEnumerable<TElement> source;
+        public Func<TSource, TKey> keySelector;
+        public IComparer<TKey> comparer;
+        public bool descending;
 
-        #region IOrderedEnumerable<TElement> Members
-
-        IOrderedEnumerable<TElement> IOrderedEnumerable<TElement>.CreateOrderedEnumerable<TKey>(Func<TElement, TKey> keySelector, IComparer<TKey> comparer, bool descending)
+        internal OrderedEnumerable()
         {
-            return new OrderedEnumerable<TElement, TKey>(this.source, keySelector, comparer, descending) { parent = this };
+
         }
 
- 
-
- 
-
-        #endregion
-
-        #region IEnumerable<TElement> Members
-
-        public IEnumerator<TElement> GetEnumerator()
+        public OrderedEnumerable(IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer, bool descending)
         {
-            
-            return source.GetEnumerator();
-
-            //throw new NotImplementedException();
-        }
-
-        #endregion
-
-        #region IEnumerable Members
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
-        #endregion
-    }
-    
-    [Script]
-    internal class OrderedEnumerable<TElement, TKey> : OrderedEnumerable<TElement>
-    {
-        // Fields
-        internal IComparer<TKey> comparer;
-        internal bool descending;
-        internal Func<TElement, TKey> keySelector;
-        internal OrderedEnumerable<TElement> parent;
-
-
-        internal OrderedEnumerable(IEnumerable<TElement> source, Func<TElement, TKey> keySelector, IComparer<TKey> comparer, bool descending)
-        {
-            if (source == null)
-            {
-                throw new NullReferenceException("source");
-            }
-            if (keySelector == null)
-            {
-                throw new NullReferenceException("keySelector");
-            }
-            base.source = source;
-            this.parent = null;
             this.keySelector = keySelector;
-            //this.comparer = (comparer != null) ? comparer : ((IComparer<TKey>)Comparer<TKey>.Default);
-            this.comparer = comparer;
+
+            if (comparer == null)
+                this.comparer = LocalInternalEnumerable.GetDefaultComparer<TKey>();
+            else
+                this.comparer = comparer;
+
+
             this.descending = descending;
+            this.source = source;
         }
 
- 
+        protected override OrderedEnumerable<TSource> Clone()
+        {
+            return new OrderedEnumerable<TSource, TKey>
+            {
+                keySelector = this.keySelector,
+                comparer = this.comparer,
+                descending = this.descending,
+                source = this.source
+            };
+        }
 
- 
+        protected override int Compare(TSource a, TSource b)
+        {
+            return comparer.Compare(
+                keySelector(a),
+                keySelector(b)
+            );
+        }
+    }
+
+    [Script]
+    public abstract class OrderedEnumerable<TSource> : IEnumerable<TSource>, IOrderedEnumerable<TSource>
+    {
+        // immutable 
+
+        protected OrderedEnumerable<TSource> prev;
+        protected OrderedEnumerable<TSource> next;
+
+        protected IEnumerable<TSource> source;
+
+        protected abstract OrderedEnumerable<TSource> Clone();
+        protected abstract int Compare(TSource a, TSource b);
+
+        public IOrderedEnumerable<TSource> CreateOrderedEnumerable<TKey>(Func<TSource, TKey> keySelector, IComparer<TKey> comparer, bool descending)
+        {
+            var p = new OrderedEnumerable<TSource, TKey>
+            {
+                keySelector = keySelector,
+                comparer = comparer,
+                descending = descending,
+                source = null // only the lowest has the source
+            };
+
+            if (comparer == null)
+                p.comparer = LocalInternalEnumerable.GetDefaultComparer<TKey>();
+            else
+                p.comparer = comparer;
+
+            var _new = (OrderedEnumerable<TSource>)p;
+            var _old = this;
+
+            while (_old != null)
+            {
+                var x = _old.Clone();
+                _new.prev = x;
+                x.next = _new;
 
 
+                // level down
+                _old = _old.prev;
+                _new = _new.prev;
+            }
+
+
+            // deep clone current and set as parent
+            return p;
+        }
+
+
+
+        public IEnumerator<TSource> GetEnumerator()
+        {
+            var p = this;
+
+            while (p.prev != null) p = p.prev;
+
+            return LocalInternalEnumerable.Sort(p.source,
+                (a, b) =>
+                {
+                    int r = 0;
+                    var x = p;
+
+                    while (x != null)
+                    {
+                        r = x.Compare(a, b);
+
+                        if (r != 0)
+                            break;
+
+                        x = x.next;
+                    }
+
+                    return r;
+                }
+            ).GetEnumerator();
+        }
+
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
 
     }
 

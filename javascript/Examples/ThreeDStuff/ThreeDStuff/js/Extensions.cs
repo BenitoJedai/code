@@ -7,18 +7,19 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ThreeDStuff.js
 {
     [Script]
     static class Extensions
     {
-        /*
-        public static R Aggregate<T, R>(this T e, Func<T, R> f)
+
+
+        public static bool IsDefined(this string e)
         {
-            return f(e);
+            return !string.IsNullOrEmpty(e);
         }
-         */
 
         public static IEnumerable<T> Range<T>(this int count, Func<int, T> s)
         {
