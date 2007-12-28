@@ -39,14 +39,9 @@ namespace ScriptCoreLib.JavaScript.Query
     [Script(Implements = typeof(ScriptCoreLib.Shared.Query.LocalInternalEnumerable))]
     internal static partial class LocalInternalEnumerableImplementation
     {
-        static IArray<T> ToIArray<T>(T[] e)
-        {
-            return (IArray<T>)(object)e;
-        }
-
         public static IEnumerable<TSource> Sort<TSource>(IEnumerable<TSource> source, Func<TSource, TSource, int> c)
         {
-            var s = ToIArray(source.ToArray());
+            var s = (IArray<TSource>)(object)(source.ToArray());
 
             s.sort((a, b) => c(a, b));
 
