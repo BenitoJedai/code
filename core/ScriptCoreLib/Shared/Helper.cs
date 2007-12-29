@@ -6,19 +6,6 @@ namespace ScriptCoreLib.Shared
     [Script]
     public static class Helper
     {
-        #if BLOAT
-        public static T[] ForEach<T>(T[] a, EventHandler<T> h)
-        {
-            
-            foreach (T v in a)
-            {
-                Helper.Invoke(h, v);
-            }
-
-            return a;
-        }
-        #endif
-
         /// <summary>
         /// date when library was compiled
         /// </summary>
@@ -127,21 +114,6 @@ namespace ScriptCoreLib.Shared
             return b;
         }
 
-#if BLOAT
-        internal static int Max<TArg>(TArg[] e, int val, EventHandler<ConvertTo<TArg, int>> h)
-        {
-            int u = val;
 
-            foreach (TArg v in e)
-            {
-                var x = ConvertTo<TArg, int>.Convert(v, h);
-
-                if (x > u)
-                    u = x;
-            }
-
-            return u;
-        }
-#endif
     }
 }

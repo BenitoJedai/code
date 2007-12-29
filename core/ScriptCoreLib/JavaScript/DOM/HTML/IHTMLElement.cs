@@ -283,7 +283,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 
-
+        /*
         public static void Show(bool bVisible, params IHTMLElement[] e)
         {
             foreach (IHTMLElement v in e)
@@ -291,7 +291,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 Extensions.Extensions.Show(v, bVisible);
             }
         }
-
+        */
 
 
         [Script(DefineAsStatic = true)]

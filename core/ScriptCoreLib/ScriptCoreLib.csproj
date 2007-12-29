@@ -120,6 +120,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\ListChangedEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\ListChangedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Convert.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Array.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Comparision.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\DateTime.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Boolean.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\ArrayList.cs" />

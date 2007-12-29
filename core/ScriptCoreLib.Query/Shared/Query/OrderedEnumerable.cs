@@ -115,7 +115,9 @@ namespace ScriptCoreLib.Shared.Query
 
             while (p.prev != null) p = p.prev;
 
-            return LocalInternalEnumerable.Sort(p.source,
+            TSource[] array = p.source.ToArray();
+
+            Array.Sort(array,
                 (a, b) =>
                 {
                     int r = 0;
@@ -133,7 +135,9 @@ namespace ScriptCoreLib.Shared.Query
 
                     return r;
                 }
-            ).GetEnumerator();
+            );
+
+            return array.AsEnumerable().GetEnumerator();
         }
 
 

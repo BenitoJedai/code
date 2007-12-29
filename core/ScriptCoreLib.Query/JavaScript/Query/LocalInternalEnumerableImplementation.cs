@@ -39,6 +39,7 @@ namespace ScriptCoreLib.JavaScript.Query
     [Script(Implements = typeof(ScriptCoreLib.Shared.Query.LocalInternalEnumerable))]
     internal static partial class LocalInternalEnumerableImplementation
     {
+        /*
         public static IEnumerable<TSource> Sort<TSource>(IEnumerable<TSource> source, Func<TSource, TSource, int> c)
         {
             var s = (IArray<TSource>)(object)(source.ToArray());
@@ -46,7 +47,7 @@ namespace ScriptCoreLib.JavaScript.Query
             s.sort((a, b) => c(a, b));
 
             return s.ToArray().AsEnumerable();
-        }
+        }*/
 
 
         public static IComparer<TKey> GetDefaultComparer<TKey>()
