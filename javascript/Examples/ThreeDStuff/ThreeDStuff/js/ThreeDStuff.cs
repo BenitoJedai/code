@@ -93,6 +93,7 @@ namespace ThreeDStuff.js
                               where d.Length > 0
                               let attribute = d.Random()
                               let anchor = CreateAnchor(t.Name + ".htm", attribute.Description, t)
+                              orderby t.Name
                               select new { anchor, attribute })
             {
                 var li = new IHTMLElement(IHTMLElement.HTMLElementEnum.li, i.anchor).AttachTo(List);
@@ -105,9 +106,10 @@ namespace ThreeDStuff.js
                 </object>
                 */
 
+                /*
                 if (i.attribute.FlashMovie.IsDefined())
                     new IHTMLAnchor(i.attribute.FlashMovie, "(see video)").AttachTo(li);
-
+                */
             }
 
 
