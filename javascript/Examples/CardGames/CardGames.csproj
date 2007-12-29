@@ -58,8 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyReferenceToken.cs" />
+    <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="source\js\Assets.cs" />
     <Compile Include="source\js\CardGameSoundManager.cs" />
     <Compile Include="source\js\Controls\BlackJack.cs" />
     <Compile Include="source\js\Controls\Solitare.cs" />
@@ -68,252 +69,238 @@
     <Compile Include="source\js\Controls\Spider.cs" />
     <Compile Include="source\js\Extensions.cs" />
     <Compile Include="source\js\Settings.cs" />
-    <Compile Include="source\js\Controls\DemoControl.cs" />
     <Compile Include="source\js\SoundManager.cs" />
     <Compile Include="source\js\StatusPanel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="web\fx\cards\1.png">
+    <EmbeddedResource Include="web\assets\CardGames\cards\1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\10.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\10.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\11.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\11.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\12.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\13.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\13.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\14.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\14.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\15.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\15.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\16.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\17.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\17.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\18.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\18.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\19.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\19.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\2.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\20.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\20.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\21.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\21.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\22.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\22.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\23.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\23.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\24.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\24.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\25.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\25.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\26.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\26.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\27.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\27.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\28.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\28.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\29.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\29.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\3.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\30.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\30.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\31.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\31.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\32.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\33.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\33.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\34.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\34.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\35.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\35.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\36.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\36.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\37.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\37.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\38.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\38.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\39.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\39.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\4.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\4.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\40.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\40.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\41.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\41.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\42.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\42.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\43.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\43.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\44.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\44.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\45.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\45.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\46.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\46.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\47.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\47.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\48.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\49.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\49.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\5.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\5.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\50.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\50.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\51.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\51.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\52.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\52.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\53.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\53.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\54.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\54.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\6.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\6.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\7.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\7.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\8.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\8.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\9.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\9.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\b1fh.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\b1fh.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\b1fv.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\b1fv.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\b1pb.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\b1pb.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\b1pl.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\b1pl.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\b1pr.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\b1pr.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\b1pt.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\b1pt.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\b2fh.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\b2fh.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\b2fv.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\b2fv.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\b2pb.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\b2pb.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\b2pl.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\b2pl.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\b2pr.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\b2pr.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\b2pt.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\b2pt.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\spider.empty.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\spider.empty.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\cards\spider.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\cards\spider.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\felt.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\kingbitm.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\kingleft.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\kingsmil.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\sounds\click.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\sounds\deal.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\sounds\drag.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\sounds\hint.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\sounds\lose.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\fx\sounds\win.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\images\felt.gif">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\images\kingbitm.bmp">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\images\kingleft.bmp">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\images\kingsmil.bmp">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\sounds\click.wav">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\sounds\deal.wav">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\sounds\drag.wav">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\sounds\hint.wav">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\sounds\lose.wav">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\CardGames\sounds\win.wav">
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="tools\publish.bat" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="source\csharp\" />
     <Folder Include="source\shared\" />
+    <Folder Include="tools\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

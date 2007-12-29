@@ -25,11 +25,15 @@ namespace CardGames.source.js.Controls
         {
             get
             {
-                return new IHTMLImage("fx/felt.gif");
+                return new IHTMLImage("assets/CardGames/images/felt.gif");
             }
         }
 
-        CardDeck MyDeck = new CardDeck();
+        CardDeck MyDeck = new CardDeck
+        {
+            GfxPath = "assets/CardGames/cards"
+        };
+
 
         //List<CardStack> TempStacks;
         List<CardStack> GoalStacks;
@@ -44,11 +48,11 @@ namespace CardGames.source.js.Controls
            // : base(spawn)
         {
 
-            Console.Log("--- BlackJack ---");
+            System.Console.WriteLine("--- BlackJack ---");
 
             BackgroundImage.ToDocumentBackground();
 
-            Console.Log("adding card infos... ");
+            System.Console.WriteLine("adding card infos... ");
 
             MyDeck.UnusedCards.Add(CardInfo.FullDeck());
 

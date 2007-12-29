@@ -23,9 +23,8 @@ using System.Linq;
 namespace CardGames.source.js.Controls
 {
     [Script, ScriptApplicationEntryPoint(IsClickOnce=true)]
-    public class Spider //: SpawnControlBase
+    public class Spider 
     {
-        //public const string Alias = "fx.Spider";
 
         #region status
         [Script]
@@ -50,11 +49,16 @@ namespace CardGames.source.js.Controls
         {
             get
             {
-                return new IHTMLImage("fx/felt.gif");
+                return new IHTMLImage("assets/CardGames/images/felt.gif");
             }
         }
 
-        CardDeck MyDeck = new CardDeck();
+        CardDeck MyDeck = new CardDeck
+        {
+            GfxPath = "assets/CardGames/cards"
+        };
+
+
         CardGameSoundManager MySounds = new CardGameSoundManager();
 
         //List<CardStack> TempStacks = new List<CardStack>();
@@ -162,7 +166,7 @@ namespace CardGames.source.js.Controls
         {
             MyStatus.Visible = false;
 
-            ScriptCoreLib.JavaScript.Runtime.Console.Log("--- spider ---");
+            System.Console.WriteLine("--- spider ---");
 
             BackgroundImage.ToDocumentBackground();
 
@@ -206,13 +210,13 @@ namespace CardGames.source.js.Controls
 
                 };
 
-            Console.Log("adding card infos... ");
+            System.Console.WriteLine("adding card infos... ");
 
             MyDeck.UnusedCards.AddRange(CardInfo.By(2, level));
 
             MyDeck.RankConverter = RankConverter;
 
-            Console.Log("creating stacklists... ");
+            System.Console.WriteLine("creating stacklists... ");
 
             DealStacks = MyDeck.CreateStackList();
             PlayStacks = MyDeck.CreateStackList();
@@ -346,7 +350,7 @@ namespace CardGames.source.js.Controls
 
 
 
-            Console.Log("creating playstack... ");
+            System.Console.WriteLine("creating playstack... ");
 
             PlayStacks.Add(
                 new CardStack(new Point(50, top), MyDeck.FetchCards(5)),
@@ -411,14 +415,14 @@ namespace CardGames.source.js.Controls
                                 }
                                 else
                                 {
-                                    Console.LogError("whoops wrong stack click ");
+                                    System.Console.WriteLine("whoops wrong stack click ");
 
                                 }
                             };
                     }
                 };
 
-            Console.Log("creating dealstack... ");
+            System.Console.WriteLine("creating dealstack... ");
 
             var dealpoint = new Point(860, bottom);
 
@@ -461,7 +465,7 @@ namespace CardGames.source.js.Controls
 
             if (gs != null)
             {
-                Console.Log("got good suit...");
+                System.Console.WriteLine("got good suit...");
 
                 MyStatus.Score += 100;
                 MyStatus.Update();
@@ -551,14 +555,14 @@ namespace CardGames.source.js.Controls
 
             if (p.ModifiedRank != (int)SpiderRankEnum.RankKing)
             {
-                Console.Log("first isnt king...");
+                System.Console.WriteLine("first isnt king...");
 
                 return null;
 
             }
             if (z.ModifiedRank != (int)SpiderRankEnum.RankAce)
             {
-                Console.Log("last isnt ace...");
+                System.Console.WriteLine("last isnt ace...");
 
                 return null;
 
@@ -566,7 +570,7 @@ namespace CardGames.source.js.Controls
 
 
 
-            Console.Log("checking for good suit...");
+            System.Console.WriteLine("checking for good suit...");
 
             var r = true;
 
@@ -581,7 +585,7 @@ namespace CardGames.source.js.Controls
 
                     if (u.Info.Suit != c.Info.Suit)
                     {
-                        Console.Log("bad suit...");
+                        System.Console.WriteLine("bad suit...");
 
 
                         arr = null;
@@ -590,7 +594,7 @@ namespace CardGames.source.js.Controls
 
                     if (u.IsParentRankOf(c))
                     {
-                        Console.Log("rank mismatch");
+                        System.Console.WriteLine("rank mismatch");
 
                         arr = null;
                         break;
@@ -640,7 +644,7 @@ namespace CardGames.source.js.Controls
 
             if (DealingStack == null)
             {
-                Console.Log("whoops, no more stacks left, but a click was made?");
+                System.Console.WriteLine("whoops, no more stacks left, but a click was made?");
 
                 return;
             }
@@ -649,7 +653,7 @@ namespace CardGames.source.js.Controls
             //if (PlayStacks.Find((p) => p.Value = p.Target.Cards.Count == 0) != null)
             if (Enumerable.Count(PlayStacks, t => t.Cards.Count == 0) > 1)
             {
-                Console.Log("no move found!");
+                System.Console.WriteLine("no move found!");
 
                 this.MySounds.PlaySoundNoMoveFound();
 
@@ -658,7 +662,7 @@ namespace CardGames.source.js.Controls
 
             MyStatus.Ready = false;
 
-            Console.Log("dealing new row of cards...");
+            System.Console.WriteLine("dealing new row of cards...");
 
             //Console.Log("deal last stack of " + DealingStack.Cards.Count + " to " + PlayStacks.Count + " stacks");
 
@@ -685,7 +689,7 @@ namespace CardGames.source.js.Controls
 
                 }
 
-                Console.Log("reordering cards, and animating...");
+                System.Console.WriteLine("reordering cards, and animating...");
 
                 ToBeAnimated.ForEachReversed((c) => c.BringToFront());
 
@@ -714,7 +718,7 @@ namespace CardGames.source.js.Controls
 
                                         MyStatus.Ready = true;
 
-                                        Console.Log("done...");
+                                        System.Console.WriteLine("done...");
 
                                         Helper.Invoke(done);
                                     }
@@ -735,7 +739,7 @@ namespace CardGames.source.js.Controls
 
         private void TryAutoMove(Card c)
         {
-            Console.Log("finding free move... ");
+            System.Console.WriteLine("finding free move... ");
 
             // try to send to a location / multiple cards?
 
@@ -746,12 +750,12 @@ namespace CardGames.source.js.Controls
             if (!Predicate.Invoke(c, IsDraggableFormPlayStack))
                 return;
 
-            Console.Log("will look for play move... ");
+            System.Console.WriteLine("will look for play move... ");
 
             if (MyDeck.TryToFitToAnyStack(c, PlayStacks, IsFitForPlayStack))
                 return;
 
-            Console.Log("didnt find any...");
+            System.Console.WriteLine("didnt find any...");
 
             MySounds.PlaySoundNoMoveFound();
         }

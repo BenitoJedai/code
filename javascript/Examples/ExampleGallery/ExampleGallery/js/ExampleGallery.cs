@@ -5,6 +5,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
 
@@ -12,20 +13,11 @@ using ScriptCoreLib.Shared.Lambda;
 namespace ExampleGallery.js
 {
     [Script, ScriptApplicationEntryPoint]
-    public class ExampleGallery
+    public partial class ExampleGallery
     {
 
         public ExampleGallery()
         {
-            var Applications = new[]
-            {
-                typeof(ThreeDStuff.js.ThreeDStuff),
-                typeof(ConsoleWorm.js.ConsoleWorm),
-                typeof(ButterFly.source.js.Butterfly),
-                typeof(SpaceInvaders.source.js.Controls.SpaceInvadersGame),
-                typeof(LightsOut.js.LightsOut2FullScreen)
-            };
-
             Native.Document.body.style.Aggregate(
                 style =>
                 {
@@ -51,6 +43,10 @@ namespace ExampleGallery.js
                 new IHTMLAnchor(p.Name).Aggregate(
                     a =>
                     {
+                        a.style.textDecoration = "none";
+                        a.style.color = Color.Red;
+                        a.style.display = IStyle.DisplayEnum.block;
+
                         a.onclick +=
                             ev =>
                             {
@@ -67,7 +63,7 @@ namespace ExampleGallery.js
 
         static ExampleGallery()
         {
-            typeof(ExampleGallery).SpawnTo(i => new ExampleGallery());
+            typeof(ExampleGallery).Spawn();
         }
 
 

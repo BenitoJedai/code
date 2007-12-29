@@ -34,13 +34,33 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\ButterFly\bin\Release\ButterFly.dll</HintPath>
     </Reference>
+    <Reference Include="CardGames, Version=1.0.2919.26685, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\CardGames\bin\Release\CardGames.dll</HintPath>
+    </Reference>
     <Reference Include="ConsoleWorm, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Games\ConsoleWorm\ConsoleWorm\bin\Release\ConsoleWorm.dll</HintPath>
     </Reference>
+    <Reference Include="HulaGirl, Version=1.0.2919.27266, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\HulaGirl\bin\Release\HulaGirl.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageZoomer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ImageZoomer\ImageZoomer\bin\Release\ImageZoomer.dll</HintPath>
+    </Reference>
     <Reference Include="LightsOut, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Games\LightsOut2\LightsOut\bin\Release\LightsOut.dll</HintPath>
+    </Reference>
+    <Reference Include="LinqToObjects, Version=1.0.2919.28618, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\LinqToObjects\bin\Release\LinqToObjects.dll</HintPath>
+    </Reference>
+    <Reference Include="MouseWheel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\MouseWheel\MouseWheel\bin\Release\MouseWheel.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib, Version=3.0.2665.39893, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -64,12 +84,25 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TextEditorDemo, Version=1.0.2919.25130, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\TextEditorDemo\bin\Release\TextEditorDemo.dll</HintPath>
+    </Reference>
+    <Reference Include="TextRotator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\TextRotator\TextRotator\bin\Release\TextRotator.dll</HintPath>
+    </Reference>
+    <Reference Include="TextScreenSaver, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\TextScreenSaver\TextScreenSaver\bin\Release\TextScreenSaver.dll</HintPath>
+    </Reference>
     <Reference Include="ThreeDStuff, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\ThreeDStuff\ThreeDStuff\bin\Release\ThreeDStuff.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="js\ExampleGallery.References.cs" />
     <Compile Include="js\ExampleGallery.cs" />
     <Compile Include="js\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

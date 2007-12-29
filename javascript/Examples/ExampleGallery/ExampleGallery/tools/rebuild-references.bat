@@ -19,27 +19,39 @@ call :build compiler\jsc\jsc.sln
 
 call :build core\ScriptCoreLib\ScriptCoreLib.sln
 call :build core\ScriptCoreLib.Query\ScriptCoreLib.Query.sln
+call :build core\ScriptCoreLib.Cards\ScriptCoreLib.Cards.sln
+call :build core\ScriptCoreLib.Net\ScriptCoreLib.Net.sln
+
 call :build javascript\Controls\LayeredControl\ScriptCoreLib.Controls.LayeredControl.sln
+call :build javascript\Controls\TextEditor\ScriptCoreLib.Controls.TextEditor.sln
 
-call :build templates\OrcasScriptApplication\OrcasScriptApplication.sln
+call :buildfast templates\OrcasScriptApplication\OrcasScriptApplication.sln
 
-call :build javascript\Examples\ButterFly\ButterFly.sln
-call :build javascript\Games\ConsoleWorm\ConsoleWorm.sln
-call :build javascript\Examples\ThreeDStuff\ThreeDStuff.sln
-call :build javascript\Games\SpaceInvaders\SpaceInvaders.sln
-call :build javascript\Games\LightsOut2\LightsOut2.sln
+call :buildfast javascript\Examples\ButterFly\ButterFly.sln
+call :buildfast javascript\Games\ConsoleWorm\ConsoleWorm.sln
+call :buildfast javascript\Examples\ThreeDStuff\ThreeDStuff.sln
+call :buildfast javascript\Games\SpaceInvaders\SpaceInvaders.sln
+call :buildfast javascript\Games\LightsOut2\LightsOut2.sln
+call :buildfast javascript\Examples\TextEditorDemo\TextEditorDemo.sln
+call :buildfast javascript\Examples\CardGames\CardGames.sln
+call :buildfast javascript\Examples\MouseWheel\MouseWheel.sln
+call :buildfast javascript\Examples\ImageZoomer\ImageZoomer.sln
+call :buildfast javascript\Examples\TextRotator\TextRotator.sln
+call :buildfast javascript\Examples\TextScreenSaver\TextScreenSaver.sln
+call :buildfast javascript\Examples\LinqToObjects\LinqToObjects.sln
+
 
 goto :skip
 
-::call :build core\ScriptCoreLib.Cards\ScriptCoreLib.Cards.sln
+
 ::call :build core\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing.sln
 ::call :build core\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing.Vector.sln
-::call :build core\ScriptCoreLib.Net\ScriptCoreLib.Net.sln
+::
 
 ::call :build core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.sln
 
 :: rebuild controls
-::call :build javascript\Controls\TextEditor\ScriptCoreLib.Controls.TextEditor.sln
+
 
 
 
@@ -59,23 +71,23 @@ call :build javascript\Games\GameOfLife\GameOfLife.sln
 call :build javascript\Games\Mahjong\Mahjong.sln
 
 
-call :build javascript\Examples\CardGames\CardGames.sln
+
 call :build javascript\Examples\DragStan\drag.sln
 call :build javascript\Examples\FormsExample\FormsExample.sln
 call :build javascript\Examples\GMapsClone\GMapsClone.sln
 call :build javascript\Examples\GoogleGears\GGearAlpha.sln
 call :build javascript\Examples\HotPolygon\HotPolygon.sln
 call :build javascript\Examples\HulaGirl\HulaGirl.sln
-call :build javascript\Examples\ImageZoomer\ImageZoomer.sln
-call :build javascript\Examples\MouseWheel\MouseWheel.sln
 
-call :build javascript\Examples\NumberGuessingGame\NumberGuessingGame.sln
-call :build javascript\Examples\SimpleBankPage\SimpleBankPage.sln
-call :build javascript\Examples\SimpleFilmstrip\SimpleFilmstrip.sln
-call :build javascript\Examples\SimpleRollover\SimpleRollover.sln
-call :build javascript\Examples\SubSquare\SubSquare.sln
-call :build javascript\Examples\TextRotator\TextRotator.sln
-call :build javascript\Examples\TextEditorDemo\TextEditorDemo.sln
+
+
+call :buildfast javascript\Examples\NumberGuessingGame\NumberGuessingGame.sln
+call :buildfast javascript\Examples\SimpleBankPage\SimpleBankPage.sln
+call :buildfast javascript\Examples\SimpleFilmstrip\SimpleFilmstrip.sln
+call :buildfast javascript\Examples\SimpleRollover\SimpleRollover.sln
+call :buildfast javascript\Examples\SubSquare\SubSquare.sln
+
+
 
 :skip
 
@@ -93,4 +105,9 @@ goto :eof
 :build
 echo - %1
 call %msbuild% %flags% %1
+goto :eof
+
+:buildfast
+echo - %1
+call %msbuild% %flags% /p:PostBuildEvent="" %1
 goto :eof

@@ -22,27 +22,27 @@ namespace CardGames.source.js
 
         public void PlaySoundNoMoveFound()
         {
-            this.Play("fx/sounds/lose.wav");
+            this.Play("assets/CardGames/lose.wav");
         }
 
         public void PlaySoundDeal()
         {
-            this.Play("fx/sounds/deal.wav");
+            this.Play("assets/CardGames/deal.wav");
         }
 
         public void PlaySoundDrag()
         {
-            this.Play("fx/sounds/drag.wav");
+            this.Play("assets/CardGames/drag.wav");
         }
 
         public void PlaySoundDrop()
         {
-            this.Play("fx/sounds/click.wav");
+            this.Play("assets/CardGames/click.wav");
         }
 
         public void PlaySoundWin()
         {
-            this.Play("fx/sounds/win.wav");
+            this.Play("assets/CardGames/win.wav");
         }
 
         #endregion

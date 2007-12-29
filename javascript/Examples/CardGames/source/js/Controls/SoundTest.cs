@@ -39,11 +39,11 @@ namespace CardGames.source.js.Controls
             {
                 TextWriter w = new TextWriter();
 
-                w.WriteLine("button " + ev.MouseButton);
+                w.WriteLine("mousebutton: " + ev.MouseButton);
 
                 Native.Window.alert(w.Text);
 
-                Native.PlaySound("fx/sounds/hint.wav");
+                Native.PlaySound("assets/CardGames/sounds/hint.wav");
 
 
             };

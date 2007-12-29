@@ -30,11 +30,14 @@ namespace CardGames.source.js.Controls
         {
             get
             {
-                return new IHTMLImage("fx/felt.gif");
+                return new IHTMLImage("assets/CardGames/images/felt.gif");
             }
         }
 
-        CardDeck MyDeck = new CardDeck();
+        CardDeck MyDeck = new CardDeck
+            {
+                GfxPath = "assets/CardGames/cards"
+            };
 
         BindingList<CardStack> TempStacks;
         BindingList<CardStack> GoalStacks;
@@ -44,9 +47,9 @@ namespace CardGames.source.js.Controls
         [Script]
         class KingIcon
         {
-            public readonly IHTMLImage Left = new IHTMLImage("fx/kingleft.bmp");
-            public readonly IHTMLImage Rigth = new IHTMLImage("fx/kingbitm.bmp");
-            public readonly IHTMLImage Smile = new IHTMLImage("fx/kingsmil.bmp");
+            public readonly IHTMLImage Left = new IHTMLImage("assets/CardGames/images/kingleft.bmp");
+            public readonly IHTMLImage Rigth = new IHTMLImage("assets/CardGames/images/kingbitm.bmp");
+            public readonly IHTMLImage Smile = new IHTMLImage("assets/CardGames/images/kingsmil.bmp");
 
             public readonly IHTMLDiv Control = new IHTMLDiv();
 
@@ -139,11 +142,11 @@ namespace CardGames.source.js.Controls
         //: base(spawn)
         {
 
-            Console.Log("--- freecell ---");
+            System.Console.WriteLine("--- freecell ---");
 
             BackgroundImage.ToDocumentBackground();
 
-            Console.Log("adding card infos... ");
+            System.Console.WriteLine("adding card infos... ");
 
             MyDeck.UnusedCards.Add(CardInfo.FullDeck());
 
@@ -151,7 +154,7 @@ namespace CardGames.source.js.Controls
 
             foreach (CardInfo v in MyDeck.UnusedCards.ToArray())
             {
-                images.Add(v.ToImage("fx/cards"));
+                images.Add(v.ToImage("assets/CardGames/cards"));
             }
 
             var king = new KingIcon(new Point(500, 100));
@@ -195,7 +198,7 @@ namespace CardGames.source.js.Controls
                     }
                 };
 
-            Console.Log("creating stacklists... ");
+            System.Console.WriteLine("creating stacklists... ");
 
             PlayStacks = MyDeck.CreateStackList();
             TempStacks = MyDeck.CreateStackList();
@@ -350,7 +353,7 @@ namespace CardGames.source.js.Controls
                     }
                 };
 
-            Console.Log("creating tempstack... ");
+            System.Console.WriteLine("creating tempstack... ");
 
             TempStacks.Add(
                 new CardStack(new Point(100, 100)),
@@ -360,7 +363,7 @@ namespace CardGames.source.js.Controls
             );
 
 
-            Console.Log("creating goalstack... ");
+            System.Console.WriteLine("creating goalstack... ");
 
             GoalStacks.Add(
                 new CardStack(new Point(600, 100)),
@@ -369,7 +372,7 @@ namespace CardGames.source.js.Controls
                 new CardStack(new Point(900, 100))
             );
 
-            Console.Log("creating playstack... ");
+            System.Console.WriteLine("creating playstack... ");
 
             PlayStacks.Add(
                 new CardStack(new Point(150, 240), MyDeck.FetchCards(7)),
@@ -382,7 +385,7 @@ namespace CardGames.source.js.Controls
                 new CardStack(new Point(850, 240), MyDeck.FetchCards(6))
                 );
 
-            Console.Log("updating status... ");
+            System.Console.WriteLine("updating status... ");
 
             status.Moves = 0;
             status.CardsLeft = MyDeck.Cards.Count;
@@ -394,7 +397,7 @@ namespace CardGames.source.js.Controls
 
         private void TryAutoMove(Card c)
         {
-            Console.Log("finding free move... ");
+            System.Console.WriteLine("finding free move... ");
 
             // try to send to a location
             if (c.NextCard != null)
@@ -404,12 +407,12 @@ namespace CardGames.source.js.Controls
             if (GoalStacks.Contains(c))
                 return;
 
-            Console.Log("will look for goal move... ");
+            System.Console.WriteLine("will look for goal move... ");
 
             if (MyDeck.TryToFitToAnyStack(c, GoalStacks, IsFitForGoalStack))
                 return;
 
-            Console.Log("will look for play move... ");
+            System.Console.WriteLine("will look for play move... ");
 
             if (MyDeck.TryToFitToAnyStack(c, PlayStacks, IsFitForPlayStack))
                 return;
@@ -417,7 +420,7 @@ namespace CardGames.source.js.Controls
             // still on playground? try temp
             if (PlayStacks.Contains(c))
             {
-                Console.Log("will look for temp move... ");
+                System.Console.WriteLine("will look for temp move... ");
 
                 if (MyDeck.TryToFitToAnyStack(c, TempStacks, IsFitForTempStack))
                     return;

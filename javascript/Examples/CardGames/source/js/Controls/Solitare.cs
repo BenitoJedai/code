@@ -27,11 +27,14 @@ namespace CardGames.source.js.Controls
         {
             get
             {
-                return new IHTMLImage("fx/felt.gif");
+                return new IHTMLImage("assets/CardGames/images/felt.gif");
             }
         }
 
-        CardDeck MyDeck = new CardDeck();
+        CardDeck MyDeck = new CardDeck
+        {
+            GfxPath = "assets/CardGames/cards"
+        };
 
         //List<CardStack> TempStacks;
         BindingList<CardStack> GoalStacks;
@@ -52,11 +55,11 @@ namespace CardGames.source.js.Controls
             //: base(spawn)
         {
 
-            Console.Log("--- solitare ---");
+            System.Console.WriteLine("--- solitare ---");
 
             BackgroundImage.ToDocumentBackground();
 
-            Console.Log("adding card infos... ");
+            System.Console.WriteLine("adding card infos... ");
 
             MyDeck.UnusedCards.Add(CardInfo.FullDeck());
 
@@ -70,7 +73,7 @@ namespace CardGames.source.js.Controls
                     }
                 };
 
-            Console.Log("creating stacklists... ");
+            System.Console.WriteLine("creating stacklists... ");
 
             PlayStacks = MyDeck.CreateStackList();
             //TempStacks = MyDeck.CreateStackList();
@@ -89,10 +92,10 @@ namespace CardGames.source.js.Controls
             };
             #endregion
 
-          
 
 
-            Console.Log("creating goalstack... ");
+
+            System.Console.WriteLine("creating goalstack... ");
 
             GoalStacks.Add(
                 new CardStack(new Point(600, 100)),
@@ -101,7 +104,7 @@ namespace CardGames.source.js.Controls
                 new CardStack(new Point(900, 100))
             );
 
-            Console.Log("creating playstack... ");
+            System.Console.WriteLine("creating playstack... ");
 
             PlayStacks.Add(
                 new CardStack(new Point(150, 240), MyDeck.FetchCards(0)),

@@ -9,7 +9,7 @@ namespace TextScreenSaver.js
 {
 
 
-    [Script, ScriptApplicationEntryPoint(IsClickOnce = true)]
+    [Script/*, ScriptApplicationEntryPoint(IsClickOnce = true)*/]
     public class Class2
     {
         public static readonly Qoutes.DocumentList DefaultData =
@@ -22,7 +22,7 @@ namespace TextScreenSaver.js
                             {
                                 Topic = "Debug2",
                                 Count = "10",
-                                Style = new TextScreenSaver.js.Qoutes.Style
+                                Style = new Qoutes.Style
                                 {
                                     BackgroundColor = "black",
                                     Color = "white",

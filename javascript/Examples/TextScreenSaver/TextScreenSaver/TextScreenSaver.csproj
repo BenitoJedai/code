@@ -54,7 +54,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="js\Class1.cs" />
+    <Compile Include="js\Assets.cs" />
+    <Compile Include="js\TextScreenSaver.cs" />
     <Compile Include="js\Class2.cs" />
     <Compile Include="js\Extensions.cs" />
     <Compile Include="js\Qoutes\Qoutes.cs" />
@@ -62,32 +63,27 @@
     <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="web\assets\TextScreenSaver\cursor.cur">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\TextScreenSaver\data\Qoutes5.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\TextScreenSaver\data\Qoutes4.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\TextScreenSaver\data\Qoutes3.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\TextScreenSaver\data\Qoutes2.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\TextScreenSaver\powered_by_jsc.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\TextScreenSaver\data\Qoutes.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="web\assets\TextScreenSaver\images\cursor.cur">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\TextScreenSaver\data\Qoutes5.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\TextScreenSaver\data\Qoutes4.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\TextScreenSaver\data\Qoutes3.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\TextScreenSaver\data\Qoutes2.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\TextScreenSaver\images\powered_by_jsc.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\TextScreenSaver\data\Qoutes.xml">
+    </EmbeddedResource>
     <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
-    <Content Include="web\assets\TextScreenSaver\Preview.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="web\assets\TextScreenSaver\images\Preview.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
