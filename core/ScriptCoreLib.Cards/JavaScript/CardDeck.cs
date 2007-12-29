@@ -63,7 +63,7 @@ namespace ScriptCoreLib.JavaScript.Cards
 
         public void ToConsole()
         {
-            Console.Log("unused cards: " + UnusedCards.Count);
+            System.Console.WriteLine("unused cards: " + UnusedCards.Count);
         }
 
         public CardStack StackBy(Card point)

@@ -1,6 +1,7 @@
 using ScriptCoreLib;
 
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.Controls.Effects;
 using ScriptCoreLib.JavaScript.Runtime;
@@ -295,11 +296,11 @@ namespace ScriptCoreLib.JavaScript.Cards
 
         public void ToConsole()
         {
-            Console.Log("stack has these cards:");
+            System.Console.WriteLine("stack has these cards:");
 
             foreach (Card v in this.Cards.ToArray())
             {
-                Console.Log(v.Info.Description);
+                System.Console.WriteLine(v.Info.Description);
             }
         }
 

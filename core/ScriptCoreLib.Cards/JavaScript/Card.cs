@@ -1,6 +1,7 @@
 using ScriptCoreLib;
 
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.Controls.Effects;
 using ScriptCoreLib.JavaScript.Runtime;
@@ -396,7 +397,7 @@ namespace ScriptCoreLib.JavaScript.Cards
 
         public void ToConsole()
         {
-            Console.Log(": " + Info.Description);
+            System.Console.WriteLine(": " + Info.Description);
 
         }
 
