@@ -1,5 +1,5 @@
 using ScriptCoreLib.JavaScript;
-using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Runtime;
@@ -12,9 +12,32 @@ namespace ButterFly.source.js
 {
 
 
-    [Script]
+    [Script, ScriptApplicationEntryPoint]
     public class Butterfly
     {
+        IHTMLDiv Control = new IHTMLDiv();
+
+        public Butterfly()
+        {
+            Control.AttachToDocument();
+            Control.appendChild("There is a buttrfly under your mouse. Can you see it? :)");
+
+            Butterfly.Spawn(Control);
+        }
+
+        public Butterfly(IHTMLElement e)
+        {
+
+
+            e.insertNextSibling(Control);
+
+            Control.appendChild("There is a buttrfly under your mouse. Can you see it? :)");
+
+            Butterfly.Spawn(Control);
+
+
+        }
+
         public static void Spawn(IHTMLElement e)
         {
 
@@ -44,7 +67,7 @@ namespace ButterFly.source.js
                     }
                     catch (Exception exc)
                     {
-                        new IHTMLElement(IHTMLElement.HTMLElementEnum.pre, exc.Message).Att
+                        new IHTMLElement(IHTMLElement.HTMLElementEnum.pre, exc.Message).AttachToDocument();
                     }
 
                     e.style.backgroundImage = "url(fx/gfx/buttryfly.gif)";
@@ -66,6 +89,11 @@ namespace ButterFly.source.js
                         };
                 });
 
+        }
+
+        static Butterfly()
+        {
+            typeof(Butterfly).SpawnTo(i => new Butterfly(i));
         }
     }
 }
