@@ -7,7 +7,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using System;
 
 [assembly:
-ScriptResources("fx")
+ScriptResources("assets/DockMaster")
 ]
 
 
@@ -22,18 +22,18 @@ namespace DockMaster.source.js.gfx
             get
             {
                 return new IHTMLImage[] {
-                    "fx/k6is.gif",
-                    "fx/kala.gif",
-                    "fx/kalar.gif",
-                    "fx/kast.gif",
-                    "fx/kraanakabiin.gif",
-                    "fx/kraanax.gif",
-                    "fx/kraanay.gif",
-                    "fx/laev.gif",
-                    "fx/magnet.gif",
-                    "fx/meri.gif",
-                    "fx/sadam.gif",
-                    "fx/taust.jpg"
+                    "assets/DockMaster/k6is.gif",
+                    "assets/DockMaster/kala.gif",
+                    "assets/DockMaster/kalar.gif",
+                    "assets/DockMaster/kast.gif",
+                    "assets/DockMaster/kraanakabiin.gif",
+                    "assets/DockMaster/kraanax.gif",
+                    "assets/DockMaster/kraanay.gif",
+                    "assets/DockMaster/laev.gif",
+                    "assets/DockMaster/magnet.gif",
+                    "assets/DockMaster/meri.gif",
+                    "assets/DockMaster/sadam.gif",
+                    "assets/DockMaster/taust.jpg"
                 };
             }
         }

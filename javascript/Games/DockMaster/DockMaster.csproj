@@ -65,21 +65,24 @@
     <Compile Include="web\Description.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="web\fx\k6is.gif" />
-    <EmbeddedResource Include="web\fx\kala.gif" />
-    <EmbeddedResource Include="web\fx\kalar.gif" />
-    <EmbeddedResource Include="web\fx\kast.gif" />
-    <EmbeddedResource Include="web\fx\kraanakabiin.gif" />
-    <EmbeddedResource Include="web\fx\kraanax.gif" />
-    <EmbeddedResource Include="web\fx\kraanay.gif" />
-    <EmbeddedResource Include="web\fx\laev.gif" />
-    <EmbeddedResource Include="web\fx\magnet.gif" />
-    <EmbeddedResource Include="web\fx\meri.gif" />
-    <EmbeddedResource Include="web\fx\sadam.gif" />
-    <EmbeddedResource Include="web\fx\taust.jpg" />
+    <EmbeddedResource Include="web\assets\DockMaster\k6is.gif" />
+    <EmbeddedResource Include="web\assets\DockMaster\kala.gif" />
+    <EmbeddedResource Include="web\assets\DockMaster\kalar.gif" />
+    <EmbeddedResource Include="web\assets\DockMaster\kast.gif" />
+    <EmbeddedResource Include="web\assets\DockMaster\kraanakabiin.gif" />
+    <EmbeddedResource Include="web\assets\DockMaster\kraanax.gif" />
+    <EmbeddedResource Include="web\assets\DockMaster\kraanay.gif" />
+    <EmbeddedResource Include="web\assets\DockMaster\laev.gif" />
+    <EmbeddedResource Include="web\assets\DockMaster\magnet.gif" />
+    <EmbeddedResource Include="web\assets\DockMaster\meri.gif" />
+    <EmbeddedResource Include="web\assets\DockMaster\sadam.gif" />
+    <EmbeddedResource Include="web\assets\DockMaster\taust.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\publish.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="web\fx\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

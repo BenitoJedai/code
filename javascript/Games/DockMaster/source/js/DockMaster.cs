@@ -19,7 +19,7 @@ namespace DockMaster.source.js
         [Script]
         internal class Kast
         {
-            public IHTMLImage pilt = new IHTMLImage("fx/kast.gif");
+            public IHTMLImage pilt = new IHTMLImage("assets/DockMaster/kast.gif");
 
             public void Attach()
             {
@@ -41,8 +41,8 @@ namespace DockMaster.source.js
         [Script]
         internal class Magnet
         {
-            public IHTMLImage piltm = new IHTMLImage("fx/magnet.gif");
-            public IHTMLImage piltk = new IHTMLImage("fx/k6is.gif");
+            public IHTMLImage piltm = new IHTMLImage("assets/DockMaster/magnet.gif");
+            public IHTMLImage piltk = new IHTMLImage("assets/DockMaster/k6is.gif");
 
             public IHTMLElement k6is = new IHTMLElement();
 
@@ -52,7 +52,7 @@ namespace DockMaster.source.js
             {
                 Native.Document.body.appendChild(k6is, piltm);
 
-                k6is.style.background = "url(fx/k6is.gif) repeat-y";
+                k6is.style.background = "url(assets/DockMaster/k6is.gif) repeat-y";
 
                 MoveTo(x, y);
 
@@ -121,9 +121,9 @@ namespace DockMaster.source.js
         [Script]
         internal class Kraana
         {
-            public IHTMLImage piltx = new IHTMLImage("fx/kraanax.gif");
-            public IHTMLImage pilty = new IHTMLImage("fx/kraanay.gif");
-            public IHTMLImage piltkabiin = new IHTMLImage("fx/kraanakabiin.gif");
+            public IHTMLImage piltx = new IHTMLImage("assets/DockMaster/kraanax.gif");
+            public IHTMLImage pilty = new IHTMLImage("assets/DockMaster/kraanay.gif");
+            public IHTMLImage piltkabiin = new IHTMLImage("assets/DockMaster/kraanakabiin.gif");
 
             public Magnet magnet = new Magnet();
 
@@ -153,7 +153,7 @@ namespace DockMaster.source.js
         {
             Kraana kraana = new Kraana();
 
-            IHTMLImage pilt = new IHTMLImage("fx/sadam.gif");
+            IHTMLImage pilt = new IHTMLImage("assets/DockMaster/sadam.gif");
 
             public void Attach(int x, int y, int bottom)
             {
@@ -173,10 +173,10 @@ namespace DockMaster.source.js
         internal class Meri
         {
 
-            IHTMLImage pilt = new IHTMLImage("fx/meri.gif");
+            IHTMLImage pilt = new IHTMLImage("assets/DockMaster/meri.gif");
 
-            const string srckala ="fx/kala.gif";
-            const string srckalar = "fx/kalar.gif";
+            const string srckala = "assets/DockMaster/kala.gif";
+            const string srckalar = "assets/DockMaster/kalar.gif";
 
             IHTMLImage piltkala = new IHTMLImage(srckala);
 
@@ -232,9 +232,9 @@ namespace DockMaster.source.js
                 Native.Document.onmousemove += new EventHandler<IEvent>(Document_onmousemove);
                 Native.Document.body.appendChild(antilaine, piltkala, laine, vesi);
 
-                laine.style.background = "url(fx/meri.gif) repeat-x";
+                laine.style.background = "url(assets/DockMaster/meri.gif) repeat-x";
                 laine.style.Opacity = 0.8;
-                antilaine.style.background = "url(fx/meri.gif) repeat-x";
+                antilaine.style.background = "url(assets/DockMaster/meri.gif) repeat-x";
                 vesi.style.background = "#1c00c4";
 
                 laine.style.SetLocation(-ViewWidth, y - 5, ViewWidth * 2, 70);
@@ -266,7 +266,7 @@ namespace DockMaster.source.js
         [Script]
         internal class Laev
         {
-            IHTMLImage pilt = new IHTMLImage("fx/laev.gif");
+            IHTMLImage pilt = new IHTMLImage("assets/DockMaster/laev.gif");
 
             Timer t = new Timer();
 
@@ -354,7 +354,7 @@ namespace DockMaster.source.js
         
         void Window_onload()
         {
-            Native.Document.body.style.background = "url(fx/taust.jpg)";
+            Native.Document.body.style.background = "url(assets/DockMaster/taust.jpg)";
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
             Native.Document.oncontextmenu += Native.DisabledEventHandler;
