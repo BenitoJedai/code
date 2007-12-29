@@ -7,6 +7,7 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
 
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.DOM;
@@ -36,17 +37,10 @@ namespace Mahjong.js
 
 
 
-    [Script]
-    public class Class1
+    [Script, ScriptApplicationEntryPoint]
+    public class MahjongGame
     {
-        public const string Alias = "Class1";
-        public const string DefaultData = "Class1Data";
-
-        /// <summary>
-        /// Creates a new control
-        /// </summary>
-        /// <param name="DataElement">The hidden data element</param>
-        public Class1(IHTMLElement DataElement)
+        public MahjongGame()
         {
             Native.Document.body.style.backgroundColor = Color.Gray;
 
@@ -61,7 +55,7 @@ namespace Mahjong.js
                     var a = new VisibleTile(i, s);
 
 
-                    a.Background.attachToDocument();
+                    a.Background.AttachToDocument();
                     a.Background.SetCenteredLocation(x, y);
 
                     a.Background.onclick += delegate
@@ -150,14 +144,9 @@ namespace Mahjong.js
 
 
 
-        static Class1()
+        static MahjongGame()
         {
-            //Console.EnableActiveXConsole();
-
-            // spawn this class when document is loaded 
-            Native.Spawn(
-                new Pair<string, ScriptCoreLib.Shared.EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
-                );
+            typeof(MahjongGame).Spawn();
 
         }
 
