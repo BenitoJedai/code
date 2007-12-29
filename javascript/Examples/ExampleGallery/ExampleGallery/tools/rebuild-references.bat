@@ -60,6 +60,7 @@ call :buildfast javascript\Games\GameOfLife\GameOfLife.sln
 call :buildfast javascript\Examples\VectorExample\VectorExample.sln
 call :buildfast javascript\Examples\FormsExample\FormsExample.sln
 call :buildfast javascript\Examples\FormsExample.VisualBasic\FormsExample.VisualBasic.sln
+call :buildfast javascript\Games\Mahjong\Mahjong.sln
 
 goto :skip
 
@@ -68,7 +69,6 @@ goto :skip
 
 
 call :build javascript\Games\LightsOut\LightsOut.sln
-call :build javascript\Games\Mahjong\Mahjong.sln
 call :build javascript\Examples\DragStan\drag.sln
 
 :skip

@@ -86,6 +86,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\LinqToObjects\bin\Release\LinqToObjects.dll</HintPath>
     </Reference>
+    <Reference Include="Mahjong, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Games\Mahjong\Mahjong\bin\Release\Mahjong.dll</HintPath>
+    </Reference>
     <Reference Include="MonthSchedule, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\MonthSchedule\MonthSchedule\bin\Release\MonthSchedule.dll</HintPath>

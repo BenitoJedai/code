@@ -49,7 +49,8 @@ namespace ExampleGallery.js
                     typeof(GameOfLife.js.GameOfLife),
                     typeof(VectorExample.js.VectorExample),
                     typeof(FormsExample.js.FormsExampleApplication),
-                    typeof(FormsExample.VisualBasic.JavaScript.FormsExampleVBApplication)
+                    typeof(FormsExample.VisualBasic.JavaScript.FormsExampleVBApplication),
+                    typeof(Mahjong.js.MahjongGame)
                 };
             }
         }
