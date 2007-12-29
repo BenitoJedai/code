@@ -2,7 +2,12 @@
 
 
 
-[assembly: ScriptResources(NatureBoy.js.Zak.Assets.Images)]
+[assembly: 
+    ScriptResources(NatureBoy.js.Zak.Assets.Images),
+    ScriptResources("assets/NatureBoy/alpha"),
+    ScriptResources("assets/NatureBoy/back"),
+    ScriptResources("assets/NatureBoy/data/LostInTime"),
+]
 
 namespace NatureBoy.js
 {
