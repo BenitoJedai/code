@@ -26,6 +26,9 @@ namespace ScriptCoreLib
         /// </summary>
         public bool IsClickOnce;
 
+        /// <summary>
+        /// formats in which the data will be serialized and inserted inline into html document
+        /// </summary>
         public SerializedDataFormat Format = /*SerializedDataFormat.json |*/ SerializedDataFormat.xml;
 
         /// <summary>
@@ -33,6 +36,10 @@ namespace ScriptCoreLib
         /// </summary>
         public SerializedDataFormat DefaultFormat = SerializedDataFormat.xml;
 
+        /// <summary>
+        /// script files are loaded dynamically
+        /// </summary>
+        public bool ScriptedLoading;
     }
 
 }
