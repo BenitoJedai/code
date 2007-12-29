@@ -1,6 +1,7 @@
 
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.XML;
@@ -14,7 +15,6 @@ namespace DockMaster.source.js
     [Script, ScriptApplicationEntryPoint]
     internal class DockMaster
     {
-        public const string Alias = "DockMaster";
 
         [Script]
         internal class Kast
@@ -342,12 +342,17 @@ namespace DockMaster.source.js
        
         static DockMaster()
         {
-            Native.Window.onload += delegate { gfx.ImageResources.Default.WaitUntilLoaded(Window_onload); };
+            typeof(DockMaster).Spawn();
 
 
         }
+        public DockMaster()
+        {
+            gfx.ImageResources.Default.WaitUntilLoaded(Window_onload);
+        }
 
-        static void Window_onload()
+        
+        void Window_onload()
         {
             Native.Document.body.style.background = "url(fx/taust.jpg)";
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
