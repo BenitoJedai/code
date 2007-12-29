@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.20404</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C1C31DB6-3CF6-4D12-9729-7D1C24BF0AB5}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -51,9 +51,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="js\Array2D.cs" />
-    <Compile Include="js\Class1.cs" />
+    <Compile Include="js\LightsOut2FullScreen.cs" />
+    <Compile Include="js\LightsOut2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Setup.cs" />
+    <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="web\assets\Assets.cs" />
   </ItemGroup>
   <ItemGroup>

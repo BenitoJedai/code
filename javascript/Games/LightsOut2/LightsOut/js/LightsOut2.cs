@@ -41,14 +41,14 @@ namespace LightsOut.js
     }
 
     [Script, ScriptApplicationEntryPoint]
-    public class Class1
+    public class LightsOut2
     {
 
         /// <summary>
         /// Creates a new control
         /// </summary>
         /// <param name="DataElement">The hidden data element</param>
-        public Class1(IHTMLElement DataElement)
+        public LightsOut2(IHTMLElement DataElement)
         {
 
             // based on http://www.cjcraft.com/Blog/PermaLink,guid,5c35b1f1-dc66-4d85-ac04-22fc97503d4a.aspx
@@ -293,11 +293,11 @@ namespace LightsOut.js
 
 
 
-        static Class1()
+        static LightsOut2()
         {
             //Console.EnableActiveXConsole();
 
-            typeof(Class1).SpawnTo(i => new Class1(i));
+            typeof(LightsOut2).SpawnTo(i => new LightsOut2(i));
 
 
         }

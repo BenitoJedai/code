@@ -8,8 +8,9 @@ using ScriptCoreLib.Shared;
 
 namespace LightsOut
 {
-    static class Setup
+    interface IAssemblyReferenceToken :
+        ScriptCoreLib.Shared.Query.IAssemblyReferenceToken,
+        ScriptCoreLib.Shared.IAssemblyReferenceToken
     {
-        
     }
 }
