@@ -43,6 +43,8 @@ namespace ExampleGallery.js
                     typeof(SimpleRollover.js.SimpleRollover),
                     typeof(SimpleFilmstrip.js.SimpleFilmstrip),
                     typeof(HotPolygon.js.HotPolygon),
+                    typeof(DockMaster.source.js.DockMaster),
+                    typeof(GGearAlpha.js.GoogleGearsAdvanced)
                 };
             }
         }

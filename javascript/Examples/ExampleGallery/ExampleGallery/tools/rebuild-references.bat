@@ -50,6 +50,8 @@ call :buildfast javascript\Examples\SubSquare\SubSquare.sln
 call :buildfast javascript\Examples\SimpleRollover\SimpleRollover.sln
 call :buildfast javascript\Examples\SimpleFilmstrip\SimpleFilmstrip.sln
 call :buildfast javascript\Examples\HotPolygon\HotPolygon.sln
+call :buildfast javascript\Games\DockMaster\DockMaster.sln
+call :buildfast javascript\Examples\GoogleGears\GGearAlpha.sln
 
 goto :skip
 
@@ -74,7 +76,7 @@ goto :skip
 :: rebuild examples
 
 
-call :build javascript\Games\DockMaster\DockMaster.sln
+
 call :build javascript\Games\LightsOut\LightsOut.sln
 
 call :build javascript\Games\GameOfLife\GameOfLife.sln
@@ -85,7 +87,6 @@ call :build javascript\Games\Mahjong\Mahjong.sln
 call :build javascript\Examples\DragStan\drag.sln
 call :build javascript\Examples\FormsExample\FormsExample.sln
 
-call :build javascript\Examples\GoogleGears\GGearAlpha.sln
 
 
 :skip

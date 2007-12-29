@@ -25,12 +25,9 @@ namespace GGearAlpha.js
     using System;
 
     [Script, ScriptApplicationEntryPoint]
-    class Class2
+    public class GoogleGearsAdvanced
     {
-        public const string Alias = "Class2";
-        public const string DefaultData = "Class2Data";
-
-        public Class2(IHTMLElement e)
+        public GoogleGearsAdvanced()
         {
             TestActivator();
 
@@ -726,10 +723,10 @@ namespace GGearAlpha.js
             }
         }
 
-        static Class2()
+        static GoogleGearsAdvanced()
         {
-            typeof(Class2).SpawnTo(i => new Class2(i));
-            //Native.Spawn(Class2.Alias, e => new Class2(e));
+            typeof(GoogleGearsAdvanced).Spawn();
+            
         }
 
     }

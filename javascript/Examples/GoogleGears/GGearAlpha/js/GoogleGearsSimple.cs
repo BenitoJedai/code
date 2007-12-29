@@ -39,7 +39,7 @@ namespace GGearAlpha.js
     }
 
     [Script, ScriptApplicationEntryPoint]
-    public class Class1
+    public class GoogleGearsSimple
     {
         //public const string Alias = "Class1";
         //public const string DefaultData = "Class1Data";
@@ -48,7 +48,7 @@ namespace GGearAlpha.js
         /// Creates a new control
         /// </summary>
         /// <param name="DataElement">The hidden data element</param>
-        public Class1(IHTMLElement DataElement)
+        public GoogleGearsSimple()
         {
             // this ctor creates a new div which has a text and a button element
             // on mouseover over the color text is changed
@@ -57,11 +57,8 @@ namespace GGearAlpha.js
 
             IHTMLDiv Control = new IHTMLDiv();
 
+            Control.AttachToDocument();
 
-            DataElement.insertNextSibling(
-                Control
-
-            );
 
             Func<string, string, IHTMLElement> link = (href, text) => new IHTMLDiv(new IHTMLAnchor(href, text));
 
@@ -258,16 +255,11 @@ namespace GGearAlpha.js
 
 
 
-        static Class1()
+        static GoogleGearsSimple()
         {
-            typeof(Class1).SpawnTo(i => new Class1(i));
+            typeof(GoogleGearsSimple).Spawn();
 
-            ////Console.EnableActiveXConsole();
-
-            //// spawn this class when document is loaded 
-            //Native.Spawn(
-            //    new Pair<string, ScriptCoreLib.Shared.EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
-            //    );
+   
 
         }
 
