@@ -1,6 +1,7 @@
 using ScriptCoreLib;
 
 using ScriptCoreLib.JavaScript.Controls;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript;
 
 //using ScriptCoreLib.JavaScript.Runtime;
@@ -556,6 +557,8 @@ namespace SpaceInvaders.source.js.Controls
 
                 Native.Document.onkeydown += delegate(IEvent ev)
                 {
+                    Console.WriteLine(new { ev.KeyCode }.ToString());
+
                     if (mmenu.Visible)
                     {
                         if (ev.IsReturn)
@@ -643,7 +646,6 @@ namespace SpaceInvaders.source.js.Controls
 
                     int key_right = 39;
                     int key_left = 37;
-                    int key_space = 32;
 
                     if (ev.KeyCode == key_left)
                     {
@@ -669,7 +671,7 @@ namespace SpaceInvaders.source.js.Controls
                     }
                     else
                     {
-                        Console.WriteLine("key: " + ev.KeyCode);
+                        Console.WriteLine(new { UnknownKeyCode = ev.KeyCode }.ToString());
                     }
                 };
 

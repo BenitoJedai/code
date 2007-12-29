@@ -18,7 +18,11 @@ namespace SpaceInvaders.source.js
             if (e.KeyCode == 13)
                 return true;
 
-            return e.KeyCode == 20;
+            if (e.KeyCode == 32)
+                return true;
+
+
+            return false;
         }
 
         public static void Trigger(this Func<bool> condition, Action done, int interval)
