@@ -20,13 +20,13 @@ using System;
 namespace LinqToObjects.source.js.Controls
 {
     [Script, ScriptApplicationEntryPoint]
-    public class DemoControl 
+    public class LinqToObjects 
     {
 
         IHTMLDiv Control = new IHTMLDiv();
 
 
-        public DemoControl(IHTMLElement e)
+        public LinqToObjects(IHTMLElement e)
         {
             e.insertNextSibling(Control);
 
@@ -102,9 +102,9 @@ namespace LinqToObjects.source.js.Controls
         }
 
 
-        static DemoControl()
+        static LinqToObjects()
         {
-            typeof(DemoControl).SpawnTo(i => new DemoControl(i));
+            typeof(LinqToObjects).SpawnTo(i => new LinqToObjects(i));
         }
     }
 
