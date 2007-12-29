@@ -101,6 +101,11 @@ namespace ScriptCoreLib.JavaScript.Extensions
             return new IXMLSerializer<T>(k).Deserialize(e);
         }
 
+        public static void Spawn(this Type alias)
+        {
+            ScriptCoreLib.JavaScript.Native.Spawn(alias.Name, i => Activator.CreateInstance(alias));
+        }
+
 
         public static void SpawnTo(this Type alias, Action<IHTMLElement> h)
         {

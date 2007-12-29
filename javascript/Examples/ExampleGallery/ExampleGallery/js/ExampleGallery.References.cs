@@ -33,6 +33,8 @@ namespace ExampleGallery.js
                     typeof(TextRotator.js.TextRotator2),
                     typeof(TextScreenSaver.js.TextScreenSaver),
                     typeof(LinqToObjects.source.js.Controls.LinqToObjects),
+                    typeof(HulaGirl.source.js.Controls.HulaGirl),
+                    typeof(NumberGuessingGame.source.js.Controls.NumberGuessingGame),
                 };
             }
         }

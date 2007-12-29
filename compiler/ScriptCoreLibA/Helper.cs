@@ -169,7 +169,9 @@ namespace ScriptCoreLib
                     return false;
                 };
 
+            return k;
 
+            /*
             Array.Sort(k,
                 (Assembly x, Assembly y) =>
                 {
@@ -191,6 +193,7 @@ namespace ScriptCoreLib
                 );
 
             return k.Reverse().ToArray();
+             * */
         }
 
         /// <summary>

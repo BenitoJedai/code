@@ -26,9 +26,9 @@ namespace LinqToObjects.source.js.Controls
         IHTMLDiv Control = new IHTMLDiv();
 
 
-        public LinqToObjects(IHTMLElement e)
+        public LinqToObjects()
         {
-            e.insertNextSibling(Control);
+            Control.AttachToDocument();
 
 
             var users = new IHTMLTextArea("_martin, mike, mac, ken, neo, zen, jay, morpheous, trinity, Agent Smith, _psycho");
@@ -104,7 +104,7 @@ namespace LinqToObjects.source.js.Controls
 
         static LinqToObjects()
         {
-            typeof(LinqToObjects).SpawnTo(i => new LinqToObjects(i));
+            typeof(LinqToObjects).SpawnTo(i => new LinqToObjects());
         }
     }
 

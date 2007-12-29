@@ -62,6 +62,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\MouseWheel\MouseWheel\bin\Release\MouseWheel.dll</HintPath>
     </Reference>
+    <Reference Include="NumberGuessingGame, Version=1.0.2919.28942, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\NumberGuessingGame\bin\Release\NumberGuessingGame.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib, Version=3.0.2665.39893, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>

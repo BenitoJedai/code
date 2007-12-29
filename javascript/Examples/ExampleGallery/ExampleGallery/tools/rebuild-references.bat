@@ -39,7 +39,8 @@ call :buildfast javascript\Examples\ImageZoomer\ImageZoomer.sln
 call :buildfast javascript\Examples\TextRotator\TextRotator.sln
 call :buildfast javascript\Examples\TextScreenSaver\TextScreenSaver.sln
 call :buildfast javascript\Examples\LinqToObjects\LinqToObjects.sln
-
+call :buildfast javascript\Examples\NumberGuessingGame\NumberGuessingGame.sln
+call :buildfast javascript\Examples\HulaGirl\HulaGirl.sln
 
 goto :skip
 
@@ -77,11 +78,11 @@ call :build javascript\Examples\FormsExample\FormsExample.sln
 call :build javascript\Examples\GMapsClone\GMapsClone.sln
 call :build javascript\Examples\GoogleGears\GGearAlpha.sln
 call :build javascript\Examples\HotPolygon\HotPolygon.sln
-call :build javascript\Examples\HulaGirl\HulaGirl.sln
 
 
 
-call :buildfast javascript\Examples\NumberGuessingGame\NumberGuessingGame.sln
+
+
 call :buildfast javascript\Examples\SimpleBankPage\SimpleBankPage.sln
 call :buildfast javascript\Examples\SimpleFilmstrip\SimpleFilmstrip.sln
 call :buildfast javascript\Examples\SimpleRollover\SimpleRollover.sln

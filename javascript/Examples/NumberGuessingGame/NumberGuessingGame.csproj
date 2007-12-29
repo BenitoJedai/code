@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.20706</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{80E20BB5-AFC1-4A0D-9432-9E5949BA7100}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -51,16 +51,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="source\csharp\Settings.cs" />
     <Compile Include="source\js\GuessingGame.cs" />
-    <Compile Include="source\js\Settings.cs" />
-    <Compile Include="source\js\Controls\DemoControl.cs" />
+    <Compile Include="source\js\Controls\NumberGuessingGame.cs" />
     <Compile Include="web\Description.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="web\fx\gfx\editorBg.gif" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="source\csharp\" />
     <Folder Include="source\php\" />
     <Folder Include="source\shared\" />
   </ItemGroup>

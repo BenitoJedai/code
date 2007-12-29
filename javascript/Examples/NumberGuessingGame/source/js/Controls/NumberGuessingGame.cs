@@ -15,7 +15,7 @@ using ScriptCoreLib.Shared.Drawing;
 namespace NumberGuessingGame.source.js.Controls
 {
     [Script, ScriptApplicationEntryPoint]
-    public class DemoControl //: SpawnControlBase
+    public class NumberGuessingGame //: SpawnControlBase
     {
         //public const string Alias = "fx.DemoControl";
 
@@ -40,7 +40,7 @@ namespace NumberGuessingGame.source.js.Controls
                 };
         }
 
-        public DemoControl(IHTMLElement e)
+        public NumberGuessingGame(IHTMLElement e)
         //    : base(e)
         {
             e.insertNextSibling(Control);
@@ -67,9 +67,9 @@ namespace NumberGuessingGame.source.js.Controls
             );
         }
 
-        static DemoControl()
+        static NumberGuessingGame()
         {
-            typeof(DemoControl).SpawnTo(i => new DemoControl(i));
+            typeof(NumberGuessingGame).Spawn();
         }
 
     }
