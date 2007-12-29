@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using System.Drawing;
 using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.Extensions;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -97,7 +98,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     HTMLTarget.style.SetLocation(drag.Position.X, drag.Position.Y);
                 };
 
-            HTMLTarget.attachToDocument();
+            HTMLTarget.AttachToDocument();
         }
 
 
@@ -136,7 +137,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         protected override void OnMove(EventArgs e)
         {
-            drag.Position = new Shared.Drawing.Point(this.Location.X, this.Location.Y);
+            // compiler bug: buggy implementation when it comes to handling structs
+
+            var Location = this.Location;
+
+            drag.Position = new Shared.Drawing.Point(Location.X, Location.Y);
 
             base.RaiseMove(e);
         }

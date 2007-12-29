@@ -15,7 +15,7 @@ using global::System.Linq;
 using global::ScriptCoreLib.Shared.Lambda;
 
 
-
+using MonthSchedule.js.Controls;
 
 namespace MonthSchedule.js
 {
@@ -33,17 +33,16 @@ namespace MonthSchedule.js
     using tr = IHTMLTableRow;
     using td = IHTMLTableColumn;
     using input = IHTMLInput;
-    using MonthSchedule.js.Controls;
 
     [Script, ScriptApplicationEntryPoint]
-    public class Class1
+    public class MonthSchedule
     {
 
         /// <summary>
         /// Creates a new control
         /// </summary>
         /// <param name="DataElement">The hidden data element</param>
-        public Class1()
+        public MonthSchedule()
         {
             //Native.Window.alert( "cookie:" + Native.Document.cookie);
 
@@ -359,9 +358,9 @@ namespace MonthSchedule.js
 
 
 
-        static Class1()
+        static MonthSchedule()
         {
-            typeof(Class1).SpawnTo(i => new Class1());
+            typeof(MonthSchedule).SpawnTo(i => new MonthSchedule());
 
 
         }

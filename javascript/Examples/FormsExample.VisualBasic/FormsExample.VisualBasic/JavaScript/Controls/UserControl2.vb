@@ -1,3 +1,5 @@
-﻿<Script()> Public Class UserControl2
+﻿Imports ScriptCoreLib
+
+<Script()> Public Class UserControl2
 
 End Class

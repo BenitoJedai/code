@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.20706</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6AB2F4C5-1415-4442-B834-5FACA1EB4C65}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -55,18 +55,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IAssemblyReferenceToken.cs" />
-    <Compile Include="js\Class1.cs" />
+    <Compile Include="js\VectorExample.cs" />
     <Compile Include="js\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Setup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="web\assets\VectorExample\Preview.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\VectorExample\TILE1436.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="web\assets\VectorExample\Preview.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\VectorExample\TILE1436.png">
+    </EmbeddedResource>
     <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
   </ItemGroup>

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.20404</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{7A9CD689-ED4C-4805-B12A-535F4338AF29}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -58,9 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="js\Class1.cs" />
+    <Compile Include="js\GameOfLife.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Setup.cs" />
+    <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />

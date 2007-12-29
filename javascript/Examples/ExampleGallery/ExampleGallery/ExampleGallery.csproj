@@ -46,6 +46,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Games\DockMaster\bin\Release\DockMaster.dll</HintPath>
     </Reference>
+    <Reference Include="FormsExample, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\FormsExample\FormsExample\bin\Release\FormsExample.dll</HintPath>
+    </Reference>
+    <Reference Include="FormsExample.VisualBasic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\FormsExample.VisualBasic\FormsExample.VisualBasic\bin\Release\FormsExample.VisualBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="GameOfLife, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Games\GameOfLife\GameOfLife\bin\Release\GameOfLife.dll</HintPath>
+    </Reference>
     <Reference Include="GGearAlpha, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\GoogleGears\GGearAlpha\bin\Release\GGearAlpha.dll</HintPath>
@@ -73,6 +85,10 @@
     <Reference Include="LinqToObjects, Version=1.0.2919.28618, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\LinqToObjects\bin\Release\LinqToObjects.dll</HintPath>
+    </Reference>
+    <Reference Include="MonthSchedule, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\MonthSchedule\MonthSchedule\bin\Release\MonthSchedule.dll</HintPath>
     </Reference>
     <Reference Include="MouseWheel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -143,6 +159,10 @@
     <Reference Include="ThreeDStuff, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\ThreeDStuff\ThreeDStuff\bin\Release\ThreeDStuff.dll</HintPath>
+    </Reference>
+    <Reference Include="VectorExample, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\VectorExample\VectorExample\bin\Release\VectorExample.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

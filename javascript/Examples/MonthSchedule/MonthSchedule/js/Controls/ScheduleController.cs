@@ -4,7 +4,12 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.Shared;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace MonthSchedule.js.Controls
 {
@@ -15,10 +20,6 @@ namespace MonthSchedule.js.Controls
     using tr = IHTMLTableRow;
     using td = IHTMLTableColumn;
     using input = IHTMLInput;
-    using ScriptCoreLib.JavaScript.DOM;
-    using ScriptCoreLib.Shared.Drawing;
-    using ScriptCoreLib.Shared;
-    using ScriptCoreLib.JavaScript.Runtime;
 
     [Script]
     public class ScheduleController

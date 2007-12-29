@@ -144,7 +144,7 @@ namespace ScriptCoreLib
                 new LoadDependenciesValue.EqualityComparer()
             ).ToArray().ToDictionary(i => i.Assembly, i => i.Dependencies.Distinct().ToArray());
             var k = r.Keys.ToArray();
-            var z = k.ToDictionary(i => i, i => ScriptAttribute.OfProvider(i));
+            /*var z = k.ToDictionary(i => i, i => ScriptAttribute.OfProvider(i));
 
             Func<Assembly, Assembly, bool> DependsOn =
                 (client, library) =>
@@ -168,7 +168,7 @@ namespace ScriptCoreLib
 
                     return false;
                 };
-
+            */
             return k;
 
             /*

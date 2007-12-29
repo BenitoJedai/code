@@ -56,12 +56,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
-    <Content Include="web\assets\SimpleFilmstrip\filmstrip.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\SimpleFilmstrip\veh_cy.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="web\assets\SimpleFilmstrip\filmstrip.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\SimpleFilmstrip\veh_cy.png">
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -44,7 +44,12 @@ namespace ExampleGallery.js
                     typeof(SimpleFilmstrip.js.SimpleFilmstrip),
                     typeof(HotPolygon.js.HotPolygon),
                     typeof(DockMaster.source.js.DockMaster),
-                    typeof(GGearAlpha.js.GoogleGearsAdvanced)
+                    typeof(GGearAlpha.js.GoogleGearsAdvanced),
+                    typeof(MonthSchedule.js.MonthSchedule),
+                    typeof(GameOfLife.js.GameOfLife),
+                    typeof(VectorExample.js.VectorExample),
+                    typeof(FormsExample.js.FormsExampleApplication),
+                    typeof(FormsExample.VisualBasic.JavaScript.FormsExampleVBApplication)
                 };
             }
         }

@@ -212,7 +212,7 @@ namespace WebApplication_21
 
     }
 
-    [Script]
+    [Script, ScriptApplicationEntryPoint]
     public class WebApplication
     {
         static WebApplication()

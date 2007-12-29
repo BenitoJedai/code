@@ -5,6 +5,7 @@ using ScriptCoreLib;
 
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Controls.Effects;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -15,6 +16,7 @@ using global::System.Linq;
 using global::ScriptCoreLib.Shared.Lambda;
 using System;
 
+[assembly: ScriptResources("assets/VectorExample")]
 
 namespace VectorExample.js
 {
@@ -31,11 +33,9 @@ namespace VectorExample.js
 
 
 
-    [Script]
-    public class Class1
+    [Script, ScriptApplicationEntryPoint]
+    public class VectorExample
     {
-        public const string Alias = "Class1";
-        public const string DefaultData = "Class1Data";
 
 
         // reference:
@@ -54,11 +54,7 @@ namespace VectorExample.js
         // http://draw.labs.autodesk.com/ADDraw/draw.html
         // http://yeonisalive.net/javascript/MindWeb001.php
 
-        /// <summary>
-        /// Creates a new control
-        /// </summary>
-        /// <param name="DataElement">The hidden data element</param>
-        public Class1(IHTMLElement DataElement)
+        public VectorExample()
         {
             Native.Document.body.style.backgroundColor = Color.System.ThreeDFace;
 
@@ -70,7 +66,7 @@ namespace VectorExample.js
                 {
                     var btn = new IHTMLButton(text);
 
-                    btn.attachToDocument();
+                    btn.AttachToDocument();
 
                     Action onclick =
                         delegate
@@ -310,14 +306,9 @@ namespace VectorExample.js
 
 
 
-        static Class1()
+        static VectorExample()
         {
-            //Console.EnableActiveXConsole();
-
-            // spawn this class when document is loaded 
-            Native.Spawn(
-                new Pair<string, ScriptCoreLib.Shared.EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
-                );
+            typeof(VectorExample).Spawn();
 
         }
 

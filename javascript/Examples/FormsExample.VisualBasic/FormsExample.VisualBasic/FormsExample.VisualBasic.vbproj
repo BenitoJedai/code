@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.20404</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{BDCFE58E-3110-4F66-B80C-27BC7408D3DA}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -75,11 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Import Include="ScriptCoreLib" />
-    <Import Include="ScriptCoreLib.Shared" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="JavaScript\Class1.vb" />
+    <Compile Include="JavaScript\FormsExampleVBApplication.vb" />
     <Compile Include="JavaScript\Controls\UserControl1.Designer.vb">
       <DependentUpon>UserControl1.vb</DependentUpon>
     </Compile>

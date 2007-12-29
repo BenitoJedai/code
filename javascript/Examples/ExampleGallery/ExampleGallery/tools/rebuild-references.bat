@@ -21,6 +21,9 @@ call :build core\ScriptCoreLib\ScriptCoreLib.sln
 call :build core\ScriptCoreLib.Query\ScriptCoreLib.Query.sln
 call :build core\ScriptCoreLib.Cards\ScriptCoreLib.Cards.sln
 call :build core\ScriptCoreLib.Net\ScriptCoreLib.Net.sln
+call :build core\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing.sln
+call :build core\ScriptCoreLib.Drawing.Vector\ScriptCoreLib.Drawing.Vector\ScriptCoreLib.Drawing.Vector.sln
+call :build core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.sln
 
 call :build javascript\Controls\LayeredControl\ScriptCoreLib.Controls.LayeredControl.sln
 call :build javascript\Controls\TextEditor\ScriptCoreLib.Controls.TextEditor.sln
@@ -52,50 +55,23 @@ call :buildfast javascript\Examples\SimpleFilmstrip\SimpleFilmstrip.sln
 call :buildfast javascript\Examples\HotPolygon\HotPolygon.sln
 call :buildfast javascript\Games\DockMaster\DockMaster.sln
 call :buildfast javascript\Examples\GoogleGears\GGearAlpha.sln
+call :buildfast javascript\Examples\MonthSchedule\MonthSchedule.sln
+call :buildfast javascript\Games\GameOfLife\GameOfLife.sln
+call :buildfast javascript\Examples\VectorExample\VectorExample.sln
+call :buildfast javascript\Examples\FormsExample\FormsExample.sln
+call :buildfast javascript\Examples\FormsExample.VisualBasic\FormsExample.VisualBasic.sln
 
 goto :skip
 
-
-::call :build core\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing.sln
-::call :build core\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing.Vector.sln
-::
-
-::call :build core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.sln
-
-:: rebuild controls
-
-
-
-
-:: rebuild templates
-
+:: java
 ::call :build templates\AppletTemplate\DemoApplet.sln
 
 
-
-:: rebuild examples
-
-
-
 call :build javascript\Games\LightsOut\LightsOut.sln
-
-call :build javascript\Games\GameOfLife\GameOfLife.sln
 call :build javascript\Games\Mahjong\Mahjong.sln
-
-
-
 call :build javascript\Examples\DragStan\drag.sln
-call :build javascript\Examples\FormsExample\FormsExample.sln
-
-
 
 :skip
-
-
-
-
-::call :build templates\OrcasVisualBasicScriptApplication\OrcasVisualBasicScriptApplication.sln
-::call :build javascript\Examples\FormsExample.VisualBasic\FormsExample.VisualBasic.sln
 
 popd
 endlocal

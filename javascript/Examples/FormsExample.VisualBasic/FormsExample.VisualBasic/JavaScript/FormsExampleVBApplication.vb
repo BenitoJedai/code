@@ -3,7 +3,11 @@ Imports ScriptCoreLib.Shared.Drawing
 Imports ScriptCoreLib.JavaScript.DOM.HTML
 Imports ScriptCoreLib.JavaScript.DOM
 Imports ScriptCoreLib.JavaScript
+Imports ScriptCoreLib.JavaScript.Extensions
 Imports ScriptCoreLib.JavaScript.Windows.Forms
+Imports ScriptCoreLib
+Imports ScriptCoreLib.Shared
+
 
 
 
@@ -44,7 +48,7 @@ Namespace JavaScript
     End Module
 
 
-    <Script()> Public Class Class1
+    <Script(), ScriptApplicationEntryPoint()> Public Class FormsExampleVBApplication
 
         Dim Text As New IHTMLSpan
 
@@ -118,9 +122,9 @@ Namespace JavaScript
             Dim ue = u.GetHTMLTarget
 
 
-            ue.style.SetLocation(400, 400)
+            ue.style.SetLocation(100, 100)
 
-            ue.attachToDocument()
+            ue.AttachToDocument()
 
 
 
@@ -132,19 +136,21 @@ Namespace JavaScript
 
         Shared Sub New()
 
-            Native.Spawn(ControlAlias, AddressOf Spawn)
+            GetType(FormsExampleVBApplication).Spawn()
+
+            'Native.Spawn(ControlAlias, AddressOf Spawn)
 
 
 
         End Sub
 
-        Shared Sub Spawn(ByVal e As IHTMLElement)
-            Dim x As New Class1
+        'Shared Sub Spawn(ByVal e As IHTMLElement)
+        '    Dim x As New Class1
 
-            e.insertPreviousSibling(x.Control)
+        '    e.insertPreviousSibling(x.Control)
 
 
-        End Sub
+        'End Sub
 
 
         Private Sub Control_onclick(ByVal e As ScriptCoreLib.JavaScript.DOM.IEvent) Handles Control.onclick

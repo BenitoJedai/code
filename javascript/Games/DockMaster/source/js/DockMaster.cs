@@ -13,7 +13,7 @@ using ScriptCoreLib.Shared.Drawing;
 namespace DockMaster.source.js
 {
     [Script, ScriptApplicationEntryPoint]
-    internal class DockMaster
+    public class DockMaster
     {
 
         [Script]

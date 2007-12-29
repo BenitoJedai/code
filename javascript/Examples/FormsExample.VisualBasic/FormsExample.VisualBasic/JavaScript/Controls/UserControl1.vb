@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Constants
+Imports ScriptCoreLib
 
 
 <Script()> _

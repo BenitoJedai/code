@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.Extensions;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {

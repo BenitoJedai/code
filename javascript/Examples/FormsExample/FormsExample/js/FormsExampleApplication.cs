@@ -9,6 +9,7 @@ using ScriptCoreLib.Shared.Lambda;
 
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Windows.Forms;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -21,25 +22,19 @@ using global::System.Windows.Forms;
 namespace FormsExample.js
 {
 
-    [Script]
-    public class Class1
+    [Script, ScriptApplicationEntryPoint]
+    public class FormsExampleApplication
     {
-        public const string Alias = "Class1";
-        public const string DefaultData = "Class1Data";
 
         /// <summary>
         /// Creates a new control
         /// </summary>
         /// <param name="DataElement">The hidden data element</param>
-        public Class1(IHTMLElement DataElement)
+        public FormsExampleApplication()
         {
 
 
-            if (DataElement != null)
-            {
-                new IHTMLSpan("hello world").attachToDocument();
-            }
-
+        
 
 
             //SpawnUserControl(new UserControl1(), new Point(400, 200));
@@ -72,7 +67,7 @@ namespace FormsExample.js
 
             //bg.style.SetSize(s.Width, s.Height);
 
-            bg.attachToDocument();
+            bg.AttachToDocument();
             bg.SetCenteredLocation(pos.X, pos.Y);
 
             var ctrls = u.Controls;
@@ -83,14 +78,9 @@ namespace FormsExample.js
         
 
 
-        static Class1()
+        static FormsExampleApplication()
         {
-            //Console.EnableActiveXConsole();
-
-            // spawn this class when document is loaded 
-            Native.Spawn(
-                new Pair<string, EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
-                );
+            typeof(FormsExampleApplication).Spawn();
 
         }
 

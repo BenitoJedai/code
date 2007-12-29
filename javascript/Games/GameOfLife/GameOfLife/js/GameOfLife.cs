@@ -6,6 +6,7 @@ using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
 
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
@@ -72,11 +73,9 @@ namespace GameOfLife.js
         }
     }
 
-    [Script]
-    public class Class1
+    [Script, ScriptApplicationEntryPoint]
+    public class GameOfLife
     {
-        public const string Alias = "Class1";
-        public const string DefaultData = "Class1Data";
 
         [Script]
         class __Type1
@@ -89,7 +88,7 @@ namespace GameOfLife.js
         /// Creates a new control
         /// </summary>
         /// <param name="DataElement">The hidden data element</param>
-        public Class1(IHTMLElement DataElement)
+        public GameOfLife()
         {
 
 
@@ -113,7 +112,7 @@ namespace GameOfLife.js
             vv.SetLocation(new Rectangle { Left = 32, Top = 32, Width = 400, Height = 300 });
             vv.Layers.Canvas.style.backgroundColor = Color.White;
 
-            vv.Control.attachToDocument();
+            vv.Control.AttachToDocument();
 
 
             var buffer = new Array2D<LayeredControl.CanvasRectangle>(cx, cy);
@@ -178,7 +177,7 @@ namespace GameOfLife.js
 
             f.appendChild(btn_reset, chk_enabled, new IHTMLLabel("Activate", chk_enabled));
 
-            f.attachToDocument();
+            f.AttachToDocument();
             f.style.SetLocation(500, 60);
 
             var NextEvolution = default(Action);
@@ -267,15 +266,9 @@ namespace GameOfLife.js
 
 
 
-        static Class1()
+        static GameOfLife()
         {
-            //Console.EnableActiveXConsole();
-
-            // spawn this class when document is loaded 
-            Native.Spawn(
-                new Pair<string, ScriptCoreLib.Shared.EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
-                );
-
+            typeof(GameOfLife).Spawn();
         }
 
 
