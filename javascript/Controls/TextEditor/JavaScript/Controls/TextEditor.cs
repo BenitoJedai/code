@@ -1,6 +1,7 @@
 using ScriptCoreLib;
 
 using ScriptCoreLib.JavaScript.Controls;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Serialized;
@@ -812,7 +813,7 @@ namespace ScriptCoreLib.JavaScript.Controls
                     }
                     catch
                     {
-                        Console.Log("command failed: " + cmd);
+                        System.Console.WriteLine("command failed: " + cmd);
                     }
 
                     Frame.contentWindow.focus();
