@@ -35,6 +35,14 @@ namespace ExampleGallery.js
                     typeof(LinqToObjects.source.js.Controls.LinqToObjects),
                     typeof(HulaGirl.source.js.Controls.HulaGirl),
                     typeof(NumberGuessingGame.source.js.Controls.NumberGuessingGame),
+                    typeof(SimpleBankPage.js.SimpleBankPage),
+                    typeof(GMapsClone.source.js.Controls.GoogleMapsControl),
+                    typeof(OrcasVisualBasicScriptApplication.JavaScript.OrcasVisualBasicScriptApplication),
+                    typeof(OrcasScriptApplication.js.OrcasScriptApplication),
+                    typeof(SubSquare.source.js.Controls.SubSquareControl),
+                    typeof(SimpleRollover.js.SimpleRollover),
+                    typeof(SimpleFilmstrip.js.SimpleFilmstrip),
+                    typeof(HotPolygon.js.HotPolygon),
                 };
             }
         }

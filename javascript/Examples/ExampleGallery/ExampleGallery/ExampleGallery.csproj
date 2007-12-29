@@ -42,6 +42,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Games\ConsoleWorm\ConsoleWorm\bin\Release\ConsoleWorm.dll</HintPath>
     </Reference>
+    <Reference Include="GMapsClone, Version=1.0.2919.29116, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\GMapsClone\bin\Release\GMapsClone.dll</HintPath>
+    </Reference>
+    <Reference Include="HotPolygon, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\HotPolygon\HotPolygon\bin\Release\HotPolygon.dll</HintPath>
+    </Reference>
     <Reference Include="HulaGirl, Version=1.0.2919.27266, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\HulaGirl\bin\Release\HulaGirl.dll</HintPath>
@@ -66,6 +74,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\NumberGuessingGame\bin\Release\NumberGuessingGame.dll</HintPath>
     </Reference>
+    <Reference Include="OrcasScriptApplication, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\templates\OrcasScriptApplication\bin\Release\OrcasScriptApplication.dll</HintPath>
+    </Reference>
+    <Reference Include="OrcasVisualBasicScriptApplication, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\templates\OrcasVisualBasicScriptApplication\bin\Release\OrcasVisualBasicScriptApplication.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib, Version=3.0.2665.39893, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
@@ -78,9 +94,25 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
+    <Reference Include="SimpleBankPage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\SimpleBankPage\SimpleBankPage\bin\Release\SimpleBankPage.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleFilmstrip, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\SimpleFilmstrip\SimpleFilmstrip\bin\Release\SimpleFilmstrip.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleRollover, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\SimpleRollover\SimpleRollover\bin\Release\SimpleRollover.dll</HintPath>
+    </Reference>
     <Reference Include="SpaceInvaders, Version=1.0.2919.22220, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Games\SpaceInvaders\bin\Release\SpaceInvaders.dll</HintPath>
+    </Reference>
+    <Reference Include="SubSquare, Version=1.0.2919.29325, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\SubSquare\bin\Release\SubSquare.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">

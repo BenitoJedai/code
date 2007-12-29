@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.20706</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{3EEB1C8C-A8DB-400C-8CA4-2D4F348191FB}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -54,40 +54,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="js\Class1.cs" />
+    <Compile Include="js\SimpleRollover.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
-    <Content Include="web\assets\js.htm">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\cs.htm">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\Untitled-1_03.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\Untitled-1_07.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\Untitled-2_03.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\Untitled-2_07.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\Untitled-3.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\vista.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\vistax.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="web\assets\SimpleRollover\js.htm">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\SimpleRollover\cs.htm">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\SimpleRollover\Untitled-1_03.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\SimpleRollover\Untitled-1_07.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\SimpleRollover\Untitled-2_03.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\SimpleRollover\Untitled-2_07.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\SimpleRollover\Untitled-3.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\SimpleRollover\vista.jpg">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\SimpleRollover\vistax.jpg">
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

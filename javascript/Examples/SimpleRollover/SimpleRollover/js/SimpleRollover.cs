@@ -20,6 +20,7 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 using Math = System.Math;
 using System.Linq;
 
+[assembly: ScriptResources("assets/SimpleRollover")]
 
 namespace SimpleRollover.js
 {
@@ -98,7 +99,7 @@ namespace SimpleRollover.js
 
 
     [Script, ScriptApplicationEntryPoint]
-    public class Class1
+    public class SimpleRollover
     {
         //public const string Alias = "Class1";
         //public const string DefaultData = "Class1Data";
@@ -108,11 +109,11 @@ namespace SimpleRollover.js
         /// Creates a new control
         /// </summary>
         /// <param name="DataElement">The hidden data element</param>
-        public Class1(IHTMLElement DataElement)
+        public SimpleRollover()
         {
             // wallpapers at http://labnol.blogspot.com/2006/11/download-windows-vista-wallpapers.html
 
-
+            /* broken at the moment
             #region AnimateCharacterColors
             System.Func<string, INode> AnimateCharacterColors =
                 (text) =>
@@ -123,7 +124,7 @@ namespace SimpleRollover.js
 
                     foreach (char c in text)
                     {
-                        var y = "" + c;
+                        var y = "" + string.Fro(c);
                         var x = new IHTMLSpan(y);
 
                         if (y == " ")
@@ -168,7 +169,7 @@ namespace SimpleRollover.js
                     return s;
                 };
             #endregion
-
+            */
             var u = new IHTMLDiv();
 
             //u.style.backgroundColor = Color.Green;
@@ -212,7 +213,9 @@ namespace SimpleRollover.js
 
             var ad = new IHTMLDiv(
                             new IHTMLSpan(
-                                AnimateCharacterColors("this application was written in c# and then translated to javascript by jsc to run in your browser")
+                                /* AnimateCharacterColors( */
+                                "this application was written in c# and then translated to javascript by jsc to run in your browser"
+                                /* ) */
                             ),
                             new IHTMLAnchor("http://zproxy.wordpress.com", "visit blog"),
                             new IHTMLAnchor("http://jsc.sf.net", "get more examples"),
@@ -294,12 +297,12 @@ namespace SimpleRollover.js
 
 
 
-            styles.dark.AddRule("body").style.backgroundImage = "url(assets/vistax.jpg)";
-            styles.dark.AddRule(".effect1").style.backgroundImage = "url(assets/vista.jpg)";
+            styles.dark.AddRule("body").style.backgroundImage = "url(assets/SimpleRollover/vistax.jpg)";
+            styles.dark.AddRule(".effect1").style.backgroundImage = "url(assets/SimpleRollover/vista.jpg)";
             styles.dark.AddRule(".moon1").style.backgroundColor = Color.Yellow;
 
-            styles.light.AddRule("body").style.backgroundImage = "url(assets/vista.jpg)";
-            styles.light.AddRule(".effect1").style.backgroundImage = "url(assets/vistax.jpg)";
+            styles.light.AddRule("body").style.backgroundImage = "url(assets/SimpleRollover/vista.jpg)";
+            styles.light.AddRule(".effect1").style.backgroundImage = "url(assets/SimpleRollover/vistax.jpg)";
             styles.light.AddRule(".moon1").style.backgroundColor = Color.Red;
 
 
@@ -329,7 +332,7 @@ namespace SimpleRollover.js
             );
 
             sheet.AddRule(".special1 img", "border: 0", 0);
-            sheet.AddRule(".special1:hover", "background: url(assets/Untitled-3.png) repeat-x", 1);
+            sheet.AddRule(".special1:hover", "background: url(assets/SimpleRollover/Untitled-3.png) repeat-x", 1);
 
             sheet.AddRule(".special1 .hot").style.display = IStyle.DisplayEnum.none;
             sheet.AddRule(".special1:hover .hot").style.display = IStyle.DisplayEnum.inline;
@@ -455,8 +458,8 @@ namespace SimpleRollover.js
 
             u.AttachToDocument();
 
-            Spawn("assets/Untitled-1_03.png", "assets/Untitled-2_03.png", "assets/cs.htm");
-            Spawn("assets/Untitled-1_07.png", "assets/Untitled-2_07.png", "assets/js.htm");
+            Spawn("assets/SimpleRollover/Untitled-1_03.png", "assets/SimpleRollover/Untitled-2_03.png", "assets/SimpleRollover/cs.htm");
+            Spawn("assets/SimpleRollover/Untitled-1_07.png", "assets/SimpleRollover/Untitled-2_07.png", "assets/SimpleRollover/js.htm");
 
 
         }
@@ -634,16 +637,10 @@ namespace SimpleRollover.js
 
 
 
-        static Class1()
+        static SimpleRollover()
         {
-            typeof(Class1).SpawnTo(i => new Class1(i));
+            typeof(SimpleRollover).Spawn();
 
-            ////Console.EnableActiveXConsole();
-
-            //// spawn this class when document is loaded 
-            //Native.Spawn(
-            //    new Pair<string, EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
-            //    );
 
         }
 

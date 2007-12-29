@@ -4,6 +4,7 @@ using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -14,17 +15,15 @@ namespace SimpleBankPage.js
 {
    
 
-    [Script]
-    public class Class1
+    [Script, ScriptApplicationEntryPoint]
+    public class SimpleBankPage
     {
-        public const string Alias = "Class1";
-        public const string DefaultData = "Class1Data";
 
         /// <summary>
         /// Creates a new control
         /// </summary>
         /// <param name="DataElement">The hidden data element</param>
-        public Class1(IHTMLElement DataElement)
+        public SimpleBankPage()
         {
             // this ctor creates a new div which has a text and a button element
             // on mouseover over the color text is changed
@@ -36,10 +35,7 @@ namespace SimpleBankPage.js
             IHTMLDiv Control = new IHTMLDiv();
 
 
-            DataElement.insertNextSibling(
-                Control
-
-            );
+            Control.AttachToDocument();
 
             Control.appendChild(new IHTMLElement(IHTMLElement.HTMLElementEnum.h1, "This page will ask you to confirm in order to unload the page"));
 
@@ -71,12 +67,10 @@ namespace SimpleBankPage.js
 
         }
 
-        static Class1()
+        static SimpleBankPage()
         {
             // spawn this class when document is loaded 
-            Native.Spawn(
-                new Pair<string, EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
-                );
+            typeof(SimpleBankPage).Spawn();
         }
     }
 }

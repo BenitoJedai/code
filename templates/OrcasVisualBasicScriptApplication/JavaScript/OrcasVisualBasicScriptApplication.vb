@@ -48,7 +48,7 @@ Namespace JavaScript
 
 
 
-    <Script(), ScriptApplicationEntryPoint(IsClickOnce:=True)> Public Class Class1
+    <Script(), ScriptApplicationEntryPoint(IsClickOnce:=True)> Public Class OrcasVisualBasicScriptApplication
 
         Dim Text As New IHTMLSpan
 
@@ -130,8 +130,8 @@ Namespace JavaScript
 
 
 
-        Shared Function Spawn(ByVal i As IHTMLElement) As Class1
-            Spawn = New Class1
+        Shared Function Spawn(ByVal i As IHTMLElement) As OrcasVisualBasicScriptApplication
+            Spawn = New OrcasVisualBasicScriptApplication
 
 
         End Function
@@ -140,7 +140,7 @@ Namespace JavaScript
 
         Shared Sub New()
 
-            GetType(Class1).SpawnTo(AddressOf Spawn)
+            GetType(OrcasVisualBasicScriptApplication).SpawnTo(AddressOf Spawn)
         End Sub
 
 

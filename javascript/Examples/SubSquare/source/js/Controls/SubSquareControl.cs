@@ -16,7 +16,7 @@ using System;
 namespace SubSquare.source.js.Controls
 {
     [Script, ScriptApplicationEntryPoint]
-    public class DemoControl //: SpawnControlBase
+    public class SubSquareControl //: SpawnControlBase
     {
         //public const string Alias = "fx.DemoControl";
 
@@ -42,10 +42,11 @@ namespace SubSquare.source.js.Controls
                 };
         }
 
-        public DemoControl(IHTMLElement e)
+        public SubSquareControl()
            // : base(e)
         {
-            e.insertNextSibling(Control);
+            Control.AttachToDocument();
+
 
             Native.Document.body.style.background = "#6591cd url(fx/gfx/editorBg.gif) repeat-x";
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
@@ -79,9 +80,9 @@ namespace SubSquare.source.js.Controls
 
 
 
-        static DemoControl()
+        static SubSquareControl()
         {
-            typeof(DemoControl).SpawnTo(i => new DemoControl(i));
+            typeof(SubSquareControl).Spawn();
         }
     }
 

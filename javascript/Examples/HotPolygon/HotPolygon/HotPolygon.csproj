@@ -50,52 +50,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="js\Class1.cs" />
+    <Compile Include="js\HotPolygon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
-    <Content Include="web\assets\HotPolygon\3dgarro.cur">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\HotPolygon\99851426_7f408a6cc3_o_gray.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\HotPolygon\cursor01.cur">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\HotPolygon\down.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\HotPolygon\here\here0.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\HotPolygon\here\here1.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\HotPolygon\here\here2.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\HotPolygon\here\here3.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\HotPolygon\here\here4.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\HotPolygon\here\here5.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\HotPolygon\up.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\HotPolygon\up_neg.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\Preview.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="web\assets\HotPolygon\images\3dgarro.cur">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\HotPolygon\images\99851426_7f408a6cc3_o_gray.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\HotPolygon\images\cursor01.cur">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\HotPolygon\images\down.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\HotPolygon\here\here0.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\HotPolygon\here\here1.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\HotPolygon\here\here2.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\HotPolygon\here\here3.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\HotPolygon\here\here4.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\HotPolygon\here\here5.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\HotPolygon\images\up.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\HotPolygon\images\up_neg.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\HotPolygon\images\Preview.png">
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

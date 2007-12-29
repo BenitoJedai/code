@@ -3,6 +3,7 @@ using ScriptCoreLib.Shared;
 
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -10,19 +11,19 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using global::System.Collections.Generic;
 using System;
 
+[assembly: ScriptResources("assets/SimpleFilmstrip")]
+
 namespace SimpleFilmstrip.js
 {
-    [Script]
-    public class Class1
+    [Script,ScriptApplicationEntryPoint]
+    public class SimpleFilmstrip
     {
-        public const string Alias = "Class1";
-        public const string DefaultData = "Class1Data";
 
         /// <summary>
         /// Creates a new control
         /// </summary>
         /// <param name="DataElement">The hidden data element</param>
-        public Class1(IHTMLElement DataElement)
+        public SimpleFilmstrip()
         {
             IHTMLDiv Control = new IHTMLDiv();
 
@@ -42,7 +43,7 @@ namespace SimpleFilmstrip.js
 
             var Restart = default(Action);
 
-            var feed = new IHTMLInput(HTMLInputTypeEnum.text, "assets/veh_cy.png");
+            var feed = new IHTMLInput(HTMLInputTypeEnum.text, "assets/SimpleFilmstrip/veh_cy.png");
             var iwidth = new IHTMLInput(HTMLInputTypeEnum.text, "48");
             var iheight = new IHTMLInput(HTMLInputTypeEnum.text, "48");
             var icount = new IHTMLInput(HTMLInputTypeEnum.text, "32");
@@ -150,19 +151,13 @@ namespace SimpleFilmstrip.js
 
             Control.appendChild(image, fieldset);
 
+            Control.AttachToDocument();
 
-            DataElement.insertNextSibling(
-                Control
-
-            );
         }
 
-        static Class1()
+        static SimpleFilmstrip()
         {
-            // spawn this class when document is loaded 
-            Native.Spawn(
-                new Pair<string, ScriptCoreLib.Shared.EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
-                );
+            typeof(SimpleFilmstrip).Spawn();
         }
     }
 }

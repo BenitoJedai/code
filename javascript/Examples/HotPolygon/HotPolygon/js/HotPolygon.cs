@@ -20,6 +20,11 @@ using global::System.Collections.Generic;
 using System.Linq;
 using System;
 
+[assembly:
+    ScriptResources("assets/HotPolygon/here"),
+    ScriptResources("assets/HotPolygon/images")
+]
+
 namespace HotPolygon.js
 {
     [Script]
@@ -54,16 +59,14 @@ namespace HotPolygon.js
     public delegate void ActionParams<X, T>(X x, params T[] e);
 
     [Script, ScriptApplicationEntryPoint]
-    public class Class1
+    public class HotPolygon
     {
-        public const string Alias = "Class1";
-        public const string DefaultData = "Class1Data";
 
         /// <summary>
         /// Creates a new control
         /// </summary>
         /// <param name="DataElement">The hidden data element</param>
-        public Class1(IHTMLElement DataElement)
+        public HotPolygon()
         {
             IStyleSheet.Default.AddRule("html", "height: 100%; overflow: hidden; margin: 0; padding: 0; ", 0);
             IStyleSheet.Default.AddRule("a", "color: blue; text-decoration: none;", 0);
@@ -72,10 +75,10 @@ namespace HotPolygon.js
             IStyleSheet.Default.AddRule("body", "height: 100%; overflow: hidden; margin: 0; padding: 0; background-color: black; color: white;", 0);
 
             var img_arr = new [] {
-                "assets/HotPolygon/99851426_7f408a6cc3_o_gray.png",
-                "assets/HotPolygon/up.png",
-                "assets/HotPolygon/up_neg.png",
-                "assets/HotPolygon/down.png",
+                "assets/HotPolygon/images/99851426_7f408a6cc3_o_gray.png",
+                "assets/HotPolygon/images/up.png",
+                "assets/HotPolygon/images/up_neg.png",
+                "assets/HotPolygon/images/down.png",
                 "assets/HotPolygon/here/here0.png",
                 "assets/HotPolygon/here/here1.png",
                 "assets/HotPolygon/here/here2.png",
@@ -133,13 +136,13 @@ namespace HotPolygon.js
 
 
 
-            IStyleSheet.Default.AddRule("*", "cursor: url('assets/HotPolygon/cursor01.cur'), auto;", 0);
+            IStyleSheet.Default.AddRule("*", "cursor: url('assets/HotPolygon/images/cursor01.cur'), auto;", 0);
 
-            var img = new IHTMLImage("assets/HotPolygon/99851426_7f408a6cc3_o_gray.png") { className = "fx1" };
+            var img = new IHTMLImage("assets/HotPolygon/images/99851426_7f408a6cc3_o_gray.png") { className = "fx1" };
 
-            var img_up = new IHTMLImage("assets/HotPolygon/up.png") { className = "fx1" };
-            var img_up_neg = new IHTMLImage("assets/HotPolygon/up_neg.png") { className = "fx1" };
-            var img_down = new IHTMLImage("assets/HotPolygon/down.png") { className = "fx1" };
+            var img_up = new IHTMLImage("assets/HotPolygon/images/up.png") { className = "fx1" };
+            var img_up_neg = new IHTMLImage("assets/HotPolygon/images/up_neg.png") { className = "fx1" };
+            var img_down = new IHTMLImage("assets/HotPolygon/images/down.png") { className = "fx1" };
 
 
 
@@ -179,8 +182,8 @@ namespace HotPolygon.js
 
                     if (p.Value)
                     {
-                        info_borders.style.backgroundImage = "url(assets/HotPolygon/up_neg.png)";
-                        info_bg.style.backgroundImage = "url(assets/HotPolygon/up_neg.png)";
+                        info_borders.style.backgroundImage = "url(assets/HotPolygon/images/up_neg.png)";
+                        info_bg.style.backgroundImage = "url(assets/HotPolygon/images/up_neg.png)";
                     }
                     else
                     {
@@ -575,17 +578,9 @@ namespace HotPolygon.js
             }
         }
 
-        static Class1()
+        static HotPolygon()
         {
-            typeof(Class1).SpawnTo(i => new Class1(i));
-
-            ////Console.EnableActiveXConsole();
-
-            //// spawn this class when document is loaded 
-            //Native.Spawn(
-            //    new Pair<string, ScriptCoreLib.Shared.EventHandler<IHTMLElement>>(Alias, e => new Class1(e))
-            //    );
-
+            typeof(HotPolygon).Spawn();
         }
 
 

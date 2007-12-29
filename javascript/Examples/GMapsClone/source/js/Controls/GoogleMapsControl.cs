@@ -15,7 +15,7 @@ using ScriptCoreLib.Shared.Drawing;
 namespace GMapsClone.source.js.Controls
 {
     [Script, ScriptApplicationEntryPoint]
-    public class DemoControl : SpawnControlBase
+    public class GoogleMapsControl 
     {
         // http://www.kmzlinks.com/
 
@@ -45,13 +45,12 @@ namespace GMapsClone.source.js.Controls
                 };
         }
 
-        public DemoControl(IHTMLElement e)
-            : base(e)
+        public GoogleMapsControl()
         {
             Native.Document.body.style.background = "#6591cd url(fx/gfx/editorBg.gif) repeat-x";
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
-            e.insertNextSibling(Control);
+            Control.AttachToDocument();
 
             Control.appendChild(new IHTMLElement(IHTMLElement.HTMLElementEnum.h1, "This project demostrates how you could implement basic tiled map functionality with the help of jsc."));
 
@@ -97,9 +96,9 @@ namespace GMapsClone.source.js.Controls
            
         }
 
-        static DemoControl()
+        static GoogleMapsControl()
         {
-            typeof(DemoControl).SpawnTo(i => new DemoControl(i));
+            typeof(GoogleMapsControl).Spawn();
         }
 
 

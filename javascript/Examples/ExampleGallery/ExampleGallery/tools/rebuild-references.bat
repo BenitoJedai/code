@@ -25,7 +25,10 @@ call :build core\ScriptCoreLib.Net\ScriptCoreLib.Net.sln
 call :build javascript\Controls\LayeredControl\ScriptCoreLib.Controls.LayeredControl.sln
 call :build javascript\Controls\TextEditor\ScriptCoreLib.Controls.TextEditor.sln
 
+:: c# template
 call :buildfast templates\OrcasScriptApplication\OrcasScriptApplication.sln
+:: visual basic template
+call :buildfast templates\OrcasVisualBasicScriptApplication\OrcasVisualBasicScriptApplication.sln
 
 call :buildfast javascript\Examples\ButterFly\ButterFly.sln
 call :buildfast javascript\Games\ConsoleWorm\ConsoleWorm.sln
@@ -41,6 +44,12 @@ call :buildfast javascript\Examples\TextScreenSaver\TextScreenSaver.sln
 call :buildfast javascript\Examples\LinqToObjects\LinqToObjects.sln
 call :buildfast javascript\Examples\NumberGuessingGame\NumberGuessingGame.sln
 call :buildfast javascript\Examples\HulaGirl\HulaGirl.sln
+call :buildfast javascript\Examples\SimpleBankPage\SimpleBankPage.sln
+call :buildfast javascript\Examples\GMapsClone\GMapsClone.sln
+call :buildfast javascript\Examples\SubSquare\SubSquare.sln
+call :buildfast javascript\Examples\SimpleRollover\SimpleRollover.sln
+call :buildfast javascript\Examples\SimpleFilmstrip\SimpleFilmstrip.sln
+call :buildfast javascript\Examples\HotPolygon\HotPolygon.sln
 
 goto :skip
 
@@ -75,26 +84,14 @@ call :build javascript\Games\Mahjong\Mahjong.sln
 
 call :build javascript\Examples\DragStan\drag.sln
 call :build javascript\Examples\FormsExample\FormsExample.sln
-call :build javascript\Examples\GMapsClone\GMapsClone.sln
+
 call :build javascript\Examples\GoogleGears\GGearAlpha.sln
-call :build javascript\Examples\HotPolygon\HotPolygon.sln
-
-
-
-
-
-call :buildfast javascript\Examples\SimpleBankPage\SimpleBankPage.sln
-call :buildfast javascript\Examples\SimpleFilmstrip\SimpleFilmstrip.sln
-call :buildfast javascript\Examples\SimpleRollover\SimpleRollover.sln
-call :buildfast javascript\Examples\SubSquare\SubSquare.sln
-
 
 
 :skip
 
 
 
-:: msbuild does not work with visual basic 9 at the moment...
 
 ::call :build templates\OrcasVisualBasicScriptApplication\OrcasVisualBasicScriptApplication.sln
 ::call :build javascript\Examples\FormsExample.VisualBasic\FormsExample.VisualBasic.sln
