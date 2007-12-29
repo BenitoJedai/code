@@ -22,7 +22,8 @@ namespace ExampleGallery.js
                 typeof(ThreeDStuff.js.ThreeDStuff),
                 typeof(ConsoleWorm.js.ConsoleWorm),
                 typeof(ButterFly.source.js.Butterfly),
-                typeof(SpaceInvaders.source.js.Controls.SpaceInvadersGame)
+                typeof(SpaceInvaders.source.js.Controls.SpaceInvadersGame),
+                typeof(LightsOut.js.LightsOut2FullScreen)
             };
 
             Native.Document.body.style.Aggregate(

@@ -142,7 +142,7 @@ namespace ScriptCoreLib
         {
             var r = LoadDependencies(a, includethis, null).Distinct(
                 new LoadDependenciesValue.EqualityComparer()
-            ).ToArray().ToDictionary(i => i.Assembly, i => i.Dependencies.Distinct());
+            ).ToArray().ToDictionary(i => i.Assembly, i => i.Dependencies.Distinct().ToArray());
             var k = r.Keys.ToArray();
             var z = k.ToDictionary(i => i, i => ScriptAttribute.OfProvider(i));
 
@@ -176,18 +176,21 @@ namespace ScriptCoreLib
                     if (x == y)
                         return 0;
 
-                    if (DependsOn(x, y))
+                    if (DependsOn(y, x))
                         return 1;
 
-                    if (DependsOn(y, x))
+                    if (DependsOn(x, y))
                         return -1;
+
+                    //System.Diagnostics.Debug.WriteLine("not related: " + x.GetName().Name + " , " + y.GetName().Name);
+
 
                     return 0;
                 }
 
                 );
 
-            return k;
+            return k.Reverse().ToArray();
         }
 
         /// <summary>

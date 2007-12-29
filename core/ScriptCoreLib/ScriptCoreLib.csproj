@@ -122,6 +122,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Convert.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Array.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Comparision.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\NotSupportedException.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\DateTime.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Boolean.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\ArrayList.cs" />

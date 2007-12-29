@@ -242,7 +242,7 @@ namespace jsc
         {
             foreach (Assembly v in SharedHelper.LoadReferencedAssemblies(Assembly.LoadFile(options.TargetAssembly.FullName), true))
             {
-                Console.WriteLine("assembly: " + v.CodeBase);
+                Console.WriteLine("assembly: " + v.GetName().Name);
             }
         }
 
