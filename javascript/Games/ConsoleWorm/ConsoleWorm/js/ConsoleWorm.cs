@@ -366,6 +366,7 @@ namespace ConsoleWorm.js
                      Native.Document.onkeyup +=
                          ev =>
                          {
+
                              if (isdead)
                                  if (ev.IsReturn)
                                  {
@@ -384,6 +385,9 @@ namespace ConsoleWorm.js
 
                                  if (v != null)
                                  {
+                                     ev.PreventDefault();
+
+
                                      if ((worm.Vector + v.Point).IsZero())
                                          return;
 
