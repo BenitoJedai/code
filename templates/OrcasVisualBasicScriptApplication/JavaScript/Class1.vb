@@ -1,4 +1,6 @@
 'Imports ScriptCoreLib.Shared.Query
+
+Imports ScriptCoreLib
 Imports ScriptCoreLib.Shared.Lambda
 Imports ScriptCoreLib.Shared.Drawing
 Imports ScriptCoreLib.JavaScript.DOM.HTML
@@ -10,11 +12,10 @@ Imports ScriptCoreLib.JavaScript.Extensions
 
 Imports System.Runtime.CompilerServices
 Imports System.Linq
+Imports ScriptCoreLib.Shared
 
 <Assembly: Script()> 
 <Assembly: ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript")> 
-
-' imports ScriptCoreLib.JavaScript.DOM.HTML
 
 
 Namespace JavaScript
@@ -22,7 +23,6 @@ Namespace JavaScript
 
 
 
-    '<Script()> Public Class Class1
 
     <Script()> Module Stuff
         Function CreateFieldset(ByVal name As String, ByVal ParamArray controls() As INode) As IHTMLElement
@@ -201,11 +201,18 @@ Namespace JavaScript
 
         End Property
 
-        Sub UpdateView() Handles Users1.onchange, Users2.onchange, Users3.onchange, Users1.onkeyup, Users2.onkeyup, Users3.onkeyup
+        Sub UpdateView() Handles _
+            Users1.onchange, Users2.onchange, Users3.onchange, _
+            Users1.onkeyup, Users2.onkeyup, Users3.onkeyup, _
+            Filter.onchange
 
 
 
-            Dim items = From z In Users1.Words().Concat(Users2.Words).Concat(Users3.Words) Where z.ToLower.Contains(FilterValue)
+            Dim items = From z In Users1.Words().Concat(Users2.Words).Concat(Users3.Words) _
+                        Where z.ToLower.Contains(FilterValue) _
+                        Order By z
+
+
 
 
 
