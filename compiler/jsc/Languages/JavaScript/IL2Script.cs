@@ -1615,13 +1615,17 @@ namespace jsc
 
             Console.WriteLine();
 
+            w.WriteCommentLine("Are the references up to date?");
+            w.WriteCommentLine("Are they imported in the dependency sort order?");
             w.WriteMemberAssignment(
                 assembly.ManifestModule.ModuleVersionId,
                 new
                 {
                     Types = CompiledTypes.ToArray(),
                     References =
-                        ScriptCoreLib.SharedHelper.LoadReferencedAssemblies(assembly, false).Select(i => (LiteralString)IdentWriter.GetGUID64(i.ManifestModule.ModuleVersionId)).ToArray()
+                        ScriptCoreLib.SharedHelper.LoadReferencedAssemblies(assembly, false).
+                        Select(i => (LiteralString)IdentWriter.GetGUID64(i.ManifestModule.ModuleVersionId)).
+                        ToArray()
                 }
             );
 

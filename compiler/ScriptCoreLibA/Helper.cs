@@ -75,52 +75,119 @@ namespace ScriptCoreLib
             }
         }
 
-        class DependencyComparer : IComparer<Assembly>
+        class LoadDependenciesValue
         {
-            public int Compare(Assembly x, Assembly y)
+            public Assembly Assembly;
+            public Assembly[] Dependencies = new Assembly [] {};
+
+            public class EqualityComparer : IEqualityComparer<LoadDependenciesValue>
             {
-                if (x.GetReferencedAssemblies().Select(i => i.Name).Contains(y.GetName().Name))
+
+                #region IEqualityComparer<LoadDependenciesValue> Members
+
+                public bool Equals(LoadDependenciesValue x, LoadDependenciesValue y)
                 {
-                    System.Diagnostics.Debug.WriteLine(x.GetName().Name + " depends on " + y.GetName().Name);
-                    return 1;
+                    return x.Assembly == y.Assembly;
                 }
 
-                if (y.GetReferencedAssemblies().Select(i => i.Name).Contains(x.GetName().Name))
+                public int GetHashCode(LoadDependenciesValue obj)
                 {
-                    System.Diagnostics.Debug.WriteLine(y.GetName().Name + " depends on " + x.GetName().Name);
-                    return -1;
+                    return obj.Assembly.GetHashCode();
                 }
 
-                var sx = ScriptAttribute.OfProvider(x);
-                var sy = ScriptAttribute.OfProvider(y);
-
-                if (sx != null && sx.IsCoreLib && sy != null && !sy.IsCoreLib)
-                    return -1;
-
-                if (sx != null && !sx.IsCoreLib && sy != null && sy.IsCoreLib)
-                    return 1;
-
-                return 0;
+                #endregion
             }
+            
         }
+
+        static IEnumerable<LoadDependenciesValue> LoadDependencies(Assembly a, bool includethis, Action<Assembly> h)
+        {
+            var r = new LoadDependenciesValue();
+
+            r.Assembly = a;
+
+            Action<Assembly> Add =
+                n =>
+                {
+                    r.Dependencies = r.Dependencies.Concat(new[] { n }).ToArray();
+
+                    if (h != null)
+                        h(n);
+                };
+
+            
+
+            foreach (AssemblyName z in a.GetReferencedAssemblies())
+            {
+                var x = AppDomain.CurrentDomain.Load(z);
+
+                if (ScriptAttribute.Of(x) == null)
+                    continue;
+
+                Add(x);
+
+                foreach (var v in LoadDependencies(x, true, Add))
+                {
+                    yield return v;    
+                }
+            }
+
+            if (includethis)
+                yield return r;
+        }
+
+        
 
         public static Assembly[] LoadReferencedAssemblies(Assembly a, bool includethis)
         {
-            var u = LoadReferencedAssemblies(a);
+            var r = LoadDependencies(a, includethis, null).Distinct(
+                new LoadDependenciesValue.EqualityComparer()
+            ).ToArray().ToDictionary(i => i.Assembly, i => i.Dependencies.Distinct());
+            var k = r.Keys.ToArray();
+            var z = k.ToDictionary(i => i, i => ScriptAttribute.OfProvider(i));
+
+            Func<Assembly, Assembly, bool> DependsOn =
+                (client, library) =>
+                {
+                    var lib_name = library.GetName().Name;
+
+                    if (r[client].Contains(library))
+                    {
+                        //System.Diagnostics.Debug.WriteLine(client.GetName().Name + " depends on " + lib_name);
+
+                        return true;
+                    }
+
+                    if (!z[client].IsCoreLib && z[library].IsCoreLib)
+                    {
+                        //System.Diagnostics.Debug.WriteLine(client.GetName().Name + " depends on corelib " + lib_name);
+
+                        return true;
+                    }
 
 
+                    return false;
+                };
 
 
-            if (includethis)
-                u = u.Concat(new[] { a });
+            Array.Sort(k,
+                (Assembly x, Assembly y) =>
+                {
+                    if (x == y)
+                        return 0;
 
+                    if (DependsOn(x, y))
+                        return 1;
 
+                    if (DependsOn(y, x))
+                        return -1;
 
-            var x = u.GroupBy(i => i.GetName().FullName).Distinct().Select(i => i.First()).ToArray();
+                    return 0;
+                }
 
-            Array.Sort(x, new DependencyComparer());
+                );
 
-            return x;
+            return k;
         }
 
         /// <summary>

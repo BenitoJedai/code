@@ -65,3 +65,6 @@ version history:
     full release, source code open.
 25.12.2007
 	js: anonymous types yet again supported, assembly and type reflection
+29.12.2007
+	js: added linq orderby, thenby extension methods
+	jsc: fixed reference sorting

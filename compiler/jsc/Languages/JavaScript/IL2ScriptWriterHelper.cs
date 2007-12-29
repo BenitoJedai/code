@@ -268,10 +268,18 @@ namespace jsc
             w.WriteDecorated(t);
             w.WriteLine("(){};");
 
+            var sa = ScriptCoreLib.ScriptAttribute.Of(t);
+
+
             w.WriteMemberAssignment(IdentWriter.GetGUID64(t), 
                 new 
                 { 
-                    TypeName = IdentWriter.GetSafeLiteral(t.Name),
+                    TypeName = IdentWriter.GetSafeLiteral(
+                        // show original typename via reflection
+                        // instead of the type that implements it
+                        // in current language
+                        (sa != null ? sa.Implements ?? t : t).Name
+                    ),
                     Assembly = (LiteralString) IdentWriter.GetGUID64(t.Assembly.ManifestModule.ModuleVersionId)
                 }
             );

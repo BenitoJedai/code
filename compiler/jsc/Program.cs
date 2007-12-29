@@ -232,9 +232,9 @@ namespace jsc
 
                 //}
             }
-            catch
+            catch (Exception excc)
             {
-                Console.WriteLine(" *** FATAL ERROR");
+                Console.WriteLine(" *** FATAL ERROR: " + excc.Message);
             }
         }
 

@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>Z:\work\jsc\svn\javascript\Games\NatureBoy\NatureBoy\bin\Release</StartWorkingDirectory>
-    <StartArguments>NatureBoy.dll -js</StartArguments>
+    <StartWorkingDirectory>Z:\work\jsc\svn\javascript\Examples\ExampleGallery\ExampleGallery\bin\Release</StartWorkingDirectory>
+    <StartArguments>ExampleGallery.dll -ShowReferences</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
