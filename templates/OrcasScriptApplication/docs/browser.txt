@@ -2,6 +2,8 @@
 
 Safari 3.0.3
 Opera 9.24
-Netscape Navigator 9.0.0.1
 FireFox 2.0.0.8
 Internet Explorer 7.0
+
+Netscape Navigator 9.0.0.1
+

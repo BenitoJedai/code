@@ -8,11 +8,10 @@ using ScriptCoreLib.Shared.Lambda;
 
 namespace OrcasScriptApplication.js
 {
-    [Script, ScriptApplicationEntryPoint(IsClickOnce=true)]
-    public class Class1
+    [Script, ScriptApplicationEntryPoint]
+    public class OrcasScriptApplication
     {
-
-        public Class1()
+        public OrcasScriptApplication()
         {
 
             var btn = new IHTMLButton("Hello World!").AttachToDocument();
@@ -37,11 +36,10 @@ namespace OrcasScriptApplication.js
                 };
         }
 
-        static Class1()
+        static OrcasScriptApplication()
         {
-            typeof(Class1).SpawnTo(i => new Class1());
+            typeof(OrcasScriptApplication).SpawnTo(i => new OrcasScriptApplication());
         }
-
 
     }
 
