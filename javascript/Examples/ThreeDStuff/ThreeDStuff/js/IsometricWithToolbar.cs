@@ -760,13 +760,50 @@ namespace ThreeDStuff.js
                         };
 
                     // create a draggable toolbar
-
+                    #region creating the toolbar
                     var toolbar = new IHTMLDiv();
+                    var toolbar_drag = new DragHelper(toolbar);
+                    var toolbar_size = new Point(96, 32);
 
-                    toolbar.style.SetLocation(8, 8, 64, 32);
+                    toolbar_drag.Position = new Point(8, Native.Window.Height - toolbar_size.Y - 8);
+
+                    toolbar.style.SetLocation(toolbar_drag.Position.X, toolbar_drag.Position.Y, toolbar_size.X, toolbar_size.Y);
+
+                    var toolbar_color = JSColor.FromRGB(0, 0x80, 0);
+                    var toolbar_color_light = toolbar_color.ToHLS();
+                    toolbar_color_light.L = ((toolbar_color_light.L + 240) / 2).ToByte();
+
+                    var toolbar_color_shadow = toolbar_color.ToHLS();
+                    toolbar_color_shadow.L = ((toolbar_color.L + 0) / 2).ToByte();
+
                     toolbar.style.backgroundColor = Color.FromRGB(0, 0x80, 0);
 
+                    toolbar.style.borderLeft = "1px solid " + toolbar_color_light;
+                    toolbar.style.borderTop = "1px solid " + toolbar_color_light;
+                    toolbar.style.borderRight = "1px solid " + toolbar_color_shadow;
+                    toolbar.style.borderBottom = "1px solid " + toolbar_color_shadow;
+
+
+                    toolbar_drag.Enabled = true;
+                    
+                    toolbar_drag.DragMove +=
+                        delegate
+                        {
+                            // toolbar must remain visible all times
+                            var pos = toolbar_drag.Position;
+
+                            pos.X = pos.X.Max(0);
+                            pos.Y = pos.Y.Max(0);
+
+                            pos.X = pos.X.Min(Native.Window.Width - toolbar_size.X);
+                            pos.Y = pos.Y.Min(Native.Window.Height - toolbar_size.Y);
+
+                            toolbar.style.SetLocation(pos.X, pos.Y);
+                        };
+
                     toolbar.AttachToDocument();
+                    #endregion
+
                 });
 
 

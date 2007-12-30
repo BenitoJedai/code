@@ -76,6 +76,12 @@ namespace ThreeDStuff.js
             return (int)Math.Round((double)e);
         }
 
+        public static byte ToByte(this int e)
+        {
+            return (byte)(e % 0x100);
+        }
+
+
         public static int ToInt32(this double e, int p)
         {
             return (e / p).ToInt32() * p;
