@@ -85,7 +85,6 @@
     <EmbeddedResource Include="web\assets\ThreeDStuff\Preview.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\1.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\2.png" />
-   
     <EmbeddedResource Include="web\assets\ThreeDStuff\r2.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\r3.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\r1.png" />
@@ -95,8 +94,6 @@
     <EmbeddedResource Include="web\assets\ThreeDStuff\0.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="js\NatureBoy\" />
-    <Folder Include="web\assets\NatureBoy\dude6\" />
     <Folder Include="web\assets\OrcasScriptApplication\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

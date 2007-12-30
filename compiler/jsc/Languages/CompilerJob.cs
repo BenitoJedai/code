@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
@@ -62,7 +63,7 @@ namespace jsc.Languages
             {
                 sinfo.Logging.LogMessage("file not found");
 
-                
+
                 return;
             }
 
@@ -80,16 +81,16 @@ namespace jsc.Languages
             bool _java = false;
 
             foreach (ScriptTypeFilterAttribute var in j.GetTypeFilterListByType(ScriptType.Java))
-	        {
+            {
                 _java = true;
 
                 sinfo.Logging.LogMessage(" * assambly contains '{0}'", var.FilterTypeName);
-	        }
-            
+            }
+
             // compile for language # java
 
             if (_java) CompileJava(j, sinfo);
-            
+
 
         }
 
@@ -126,7 +127,7 @@ namespace jsc.Languages
         {
             foreach (Type v in a.GetTypes())
             {
-                BindingFlags all = BindingFlags.Public  | BindingFlags.Static | BindingFlags.DeclaredOnly;
+                BindingFlags all = BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly;
 
                 MethodInfo[] m = v.GetMethods(all);
 
@@ -180,48 +181,52 @@ namespace jsc.Languages
             #endregion
         }
 
+
         public static void ExtractEmbeddedResources(DirectoryInfo dir, Assembly e)
         {
-            ScriptResourcesAttribute[] a = (ScriptResourcesAttribute[]) e.GetCustomAttributes(typeof(ScriptResourcesAttribute), false);
+            ScriptResourcesAttribute[] a = (ScriptResourcesAttribute[])e.GetCustomAttributes(typeof(ScriptResourcesAttribute), false);
 
             string[] r = e.GetManifestResourceNames();
 
             AssemblyName n = new AssemblyName(e.FullName);
 
-            string p = n.Name + "." + dir.Name;
+            var prefix1 = n.Name + "." + dir.Name;
+
+            Func<AssemblyName, string> GetTopMostNamespace =
+                an =>
+                {
+                    var x = an.Name;
+                    var i = x.IndexOf(".");
+
+                    if (i == -1)
+                        return x;
+
+                    return x.Substring(0, i);
+                };
+
+            var prefix2 = GetTopMostNamespace(n) + "." + dir.Name;
 
             // fixme: empty directory or overlapping directories with files containing "." .
+            // fixme: 
+            // "ScriptCoreLib.web.assets.Controls.NatureBoy.dude6.274.png"
+            // "ScriptCoreLib.Controls.NatureBoy.web"
 
-            foreach (string v in r)
+            var prefixes = new[] { prefix1, prefix2 };
+
+            var query = from v in r
+                        from prefix in prefixes
+                        where v.StartsWith(prefix)
+                        from av in a
+                        let ap = prefix + "." + av.Value.Replace('/', '.')
+                        where v.StartsWith(ap)
+                        let f = v.Substring(ap.Length + 1)
+                        let t = dir.CreateSubdirectory(av.Value.Replace('.', '/'))
+                        let tf = new FileInfo(t.FullName + "/" + f)
+                        select new { v, tf };
+
+            foreach (var p in query)
             {
-                //if (v == n.Name + ".g.resources")
-                //{
-                //    ManifestResourceInfo mri = e.GetManifestResourceInfo(v);
-                    
-                //    e.
-                //}
-                //else 
-                if (v.StartsWith(p))
-                {
-                    foreach (ScriptResourcesAttribute av in a)
-                    {
-                        string ap = p + "." + av.Value.Replace('/', '.');
-
-                        if (v.StartsWith(ap))
-                        {
-                            string f = v.Substring(ap.Length + 1);
-
-                            DirectoryInfo t = dir.CreateSubdirectory(av.Value.Replace('.', '/'));
-
-                            FileInfo tf = new FileInfo(t.FullName + "/" + f);
-
-                            CopyStream(e.GetManifestResourceStream(v), tf.OpenWrite());
-
-                            break;
-                        }
-                    }
-
-                }
+                CopyStream(e.GetManifestResourceStream(p.v), p.tf.OpenWrite());
             }
         }
 

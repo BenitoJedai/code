@@ -20,7 +20,7 @@ namespace jsc.Languages.JavaScript
             get
             {
                 if (_ClickOnceTemplate == null)
-                    _ClickOnceTemplate = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("jsc.Languages.JavaScript.$clickonce$.js")).ReadToEnd()
+                    _ClickOnceTemplate = "jsc.Languages.JavaScript.$clickonce$.js".GetResourceFileContent()
                         .Replace("\r\n", "")
                         .Replace("\t", "")
                         .ReplaceSpace("{", "}", ",", "=");
@@ -96,7 +96,10 @@ namespace jsc.Languages.JavaScript
         {
             // xxx
 
-            foreach (var v in a.GetTypes())
+            foreach (var v in from i in a.GetTypes()
+                              let s = (ScriptAttribute)i.GetCustomAttributes(typeof(ScriptAttribute), false).SingleOrDefault()
+                              where s != null
+                              select i)
             {
                 var s = (ScriptApplicationEntryPointAttribute)v.GetCustomAttributes(typeof(ScriptApplicationEntryPointAttribute), false).SingleOrDefault();
 
@@ -111,9 +114,10 @@ namespace jsc.Languages.JavaScript
 
                     Console.WriteLine("entrypoint: " + v.Name);
 
+                    #region IsClickOnce
                     if (s.IsClickOnce)
                     {
-                        using (var w = dir.CreateFile(v.Name + ".clickonce.htm"))
+                        using (var w = dir.CreateFile(v.Name + ".ClickOnce.htm"))
                         {
                             var done = "/* ctor not found */";
                             var ctor = default(ConstructorInfo);
@@ -165,6 +169,44 @@ namespace jsc.Languages.JavaScript
 
                         // ...
                     }
+                    #endregion
+
+                    #region ScriptedLoading
+                    if (s.ScriptedLoading)
+                    {
+                        using (var w = dir.CreateFile(v.Name + ".ScriptedLoading.htm"))
+                        {
+                            var ctor = default(ConstructorInfo);
+
+                            #region GetConstructorCode
+                            Func<string> GetConstructorCode = () =>
+                                {
+                                    if ((ctor = v.GetConstructor()) != null)
+                                        using (var x = new IdentWriter())
+                                        {
+                                            var h = new IL2ScriptWriterHelper(x);
+
+                                            x.Write("new ");
+                                            h.WriteWrappedConstructor(ctor);
+                                            x.Write("();");
+
+                                            return x.ToString();
+                                        }
+
+                                    return null;
+                                };
+                            #endregion
+
+                            WriteEntryPointHTMLTemplate(
+                               w, () => { },
+                               delegate
+                               {
+                                   
+                               }
+                           );
+                        }
+                    }
+                    #endregion
 
                     Func<string, StreamWriter> CreateFile =
                         suffix => dir.CreateFile(v.Name + (string.IsNullOrEmpty(suffix) ? "" : "." + suffix) + ".htm");
@@ -185,4 +227,6 @@ namespace jsc.Languages.JavaScript
             }
         }
     }
+
+    
 }

@@ -801,6 +801,9 @@ namespace ThreeDStuff.js
                     tile_selector.AttachTo(arena.Layers.Canvas);
                     tile_selector.Hide();
 
+                    Func<Point, Point<double>> GetNearestMapPosition =
+                        p => GetMapPosition(p).Round().BoundTo(MapSize);
+
                     // show tile selection
                     arena.MouseMove +=
                        p =>
@@ -809,7 +812,7 @@ namespace ThreeDStuff.js
                                return;
 
                            // get map coords from canvas coords
-                           var map_coords = GetMapPosition(p).Round().BoundTo(MapSize);
+                           var map_coords = GetNearestMapPosition(p);
                            var canvas_coords = GetCanvasPosition(map_coords);
 
                            
@@ -818,6 +821,15 @@ namespace ThreeDStuff.js
                                (canvas_coords.Y - 16).ToInt32()
                                );
                        };
+
+                    arena.SelectionClick +=
+                        (p, ev) =>
+                        {
+                            var map_coords = GetNearestMapPosition(p);
+
+                            new { map_coords.X, map_coords.Y }.ToConsole();
+
+                        };
 
                     toolbar_btn_demolish.Clicked +=
                         delegate

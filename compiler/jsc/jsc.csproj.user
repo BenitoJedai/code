@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>Z:\work\jsc\svn\javascript\Examples\FormsExample\FormsExample\bin\Release</StartWorkingDirectory>
-    <StartArguments>FormsExample.dll -js</StartArguments>
+    <StartWorkingDirectory>Z:\work\jsc\svn\javascript\Examples\ThreeDStuff\ThreeDStuff\bin\Release</StartWorkingDirectory>
+    <StartArguments>ThreeDStuff.dll -ExtractAssets</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

@@ -135,6 +135,7 @@
     </Content>
     <EmbeddedResource Include="Languages\JavaScript\%24ctor%24.js" />
     <EmbeddedResource Include="Languages\JavaScript\%24clickonce%24.js" />
+    <EmbeddedResource Include="Languages\JavaScript\%24ScriptedLoading%24.js" />
     <Content Include="license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
