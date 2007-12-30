@@ -194,6 +194,25 @@ namespace ThreeDStuff.js.NatureBoy
 
         Timer _WalkingTimer;
 
+        bool _Paused;
+
+        public bool Paused
+        {
+            get
+            {
+                return _Paused;
+            }
+            set
+            {
+                _Paused = value;
+
+                if (_WalkingTimer != null)
+                {
+                    _WalkingTimer.Enabled = !Paused;
+                }
+            }
+        }
+
         public double TargetLocationDistanceMultiplier = 8;
 
         public double CurrentDistanceToTarget

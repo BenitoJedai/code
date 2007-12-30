@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared.Drawing;
@@ -227,6 +228,17 @@ namespace ThreeDStuff.js
 
 
                 }, interval.Random(), interval);
+        }
+
+        public static Color AddLum(this Color e, int v)
+        {
+            var c = JSColor.FromRGB(e.R.ToByte(), e.G.ToByte(), e.B.ToByte()).ToHLS();
+
+            c.L = (c.L + v).Min(240).Max(0).ToByte();
+
+            var x = c.ToRGB();
+
+            return Color.FromRGB(x.R, x.G, x.B);
         }
     }
 }

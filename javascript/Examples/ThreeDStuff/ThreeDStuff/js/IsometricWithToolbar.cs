@@ -20,13 +20,13 @@ namespace ThreeDStuff.js
     //[Script]
     //public delegate void Action<A, B, C, D, E>(A a, B b, C c, D d, E e);
 
-    [Script, ScriptApplicationEntryPoint,
+    [ScriptApplicationEntryPoint,
         ApplicationDescription(
             Description = "Now with toolbar!",
             FlashMovie = "http://www.youtube.com/watch?v=kCgCSMpRN40"
 
         )]
-    public class IsometricWithToolbar
+    public partial class IsometricWithToolbar
     {
 
         public IsometricWithToolbar()
@@ -43,7 +43,7 @@ namespace ThreeDStuff.js
             info.style.height = "auto";
 
 
-
+            var paused = false;
 
             var ZeroPoint = new Point<double>();
 
@@ -60,10 +60,10 @@ namespace ThreeDStuff.js
 
             var MapSize = new
             {
-                Left = -12,
-                Width = 24,
-                Top = -12,
-                Height = 24
+                Left = -6,
+                Width = 12,
+                Top = -6,
+                Height = 12
             };
 
 
@@ -577,6 +577,12 @@ namespace ThreeDStuff.js
                                         () => 5000.Random().AtTimeout(
                                             t =>
                                             {
+                                                if (paused)
+                                                {
+                                                    WaitSomeAndGoSomeWhere();
+                                                    return;
+                                                }
+
                                                 var CurrentlyWalking = Dudes.Count(i => i.IsWalking);
 
                                                 if (w2.IsWalking)
@@ -662,9 +668,13 @@ namespace ThreeDStuff.js
                         };
                     #endregion
 
+                    #region arena.ApplySelection
                     arena.ApplySelection +=
                         (r, ev) =>
                         {
+                            if (paused)
+                                return;
+
                             foreach (var v in Dudes)
                             {
                                 if (ev.shiftKey)
@@ -673,13 +683,18 @@ namespace ThreeDStuff.js
                                     v.IsSelected = r.Contains(v.CurrentLocation);
                             }
                         };
+                    #endregion
 
 
 
 
+                    #region arena.SelectionClick
                     arena.SelectionClick +=
                         (p, ev) =>
                         {
+                            if (paused)
+                                return;
+
                             var selection = Dudes.Where(i => i.IsSelected).ToArray();
 
 
@@ -758,63 +773,86 @@ namespace ThreeDStuff.js
 
                             }
                         };
+                    #endregion
+
+
 
                     // create a draggable toolbar
                     #region creating the toolbar
-                    var toolbar = new IHTMLDiv();
-                    var toolbar_drag = new DragHelper(toolbar);
+
                     var toolbar_size = new Point(96, 32);
+                    var toolbar_pos = new Point(8, Native.Window.Height - toolbar_size.Y - 8);
+                    var toolbar_color = Color.FromRGB(0, 0x80, 0);
 
-                    toolbar_drag.Position = new Point(8, Native.Window.Height - toolbar_size.Y - 8);
+                    var toolbar = CreateToolbar(toolbar_pos, toolbar_size, toolbar_color);
 
-                    toolbar.style.SetLocation(toolbar_drag.Position.X, toolbar_drag.Position.Y, toolbar_size.X, toolbar_size.Y);
-
-                    var toolbar_color = JSColor.FromRGB(0, 0x80, 0);
-                    
-                    SetDialogColor(toolbar, toolbar_color);
-
-
-                    toolbar_drag.Enabled = true;
-                    
-                    toolbar_drag.DragMove +=
+                    Native.Window.onresize +=
                         delegate
                         {
-                            // toolbar must remain visible all times
-                            var pos = toolbar_drag.Position;
-
-                            pos.X = pos.X.Max(0);
-                            pos.Y = pos.Y.Max(0);
-
-                            pos.X = pos.X.Min(Native.Window.Width - toolbar_size.X);
-                            pos.Y = pos.Y.Min(Native.Window.Height - toolbar_size.Y);
-
-                            toolbar.style.SetLocation(pos.X, pos.Y);
+                            toolbar.ApplyPosition();
                         };
 
-                    toolbar.AttachToDocument();
+                    toolbar.Control.AttachToDocument();
 
-                    var toolbar_btn_demolish = new IHTMLDiv();
+                    var toolbar_btn_pause = new ToolbarButton(
+                        toolbar, "assets/ThreeDStuff/btn_pause.png"
+                        );
 
-                    SetDialogColor(toolbar_btn_demolish, toolbar_color);
-
-                    toolbar_btn_demolish.style.background = "url(assets/ThreeDStuff/btn_pause.png) no-repeat";
-
-                    toolbar_btn_demolish.style.SetLocation(2, 8, 22, 22);
-                    toolbar_btn_demolish.onmousedown +=
-                        ev =>
+                    toolbar_btn_pause.Clicked +=
+                        btn =>
                         {
-                            ev.StopPropagation();
-                            SetDialogColor(toolbar_btn_demolish, toolbar_color, false);
+                            paused = btn.IsActivated;
+
+                            Dudes.ForEach(i => i.Paused = paused);
                         };
 
-                    toolbar_btn_demolish.onmouseup +=
-                        ev =>
+                    #region toolbar_btn_demolish
+                    var toolbar_btn_demolish = new ToolbarButton(
+                        toolbar, "assets/ThreeDStuff/btn_demolish.png"
+                    );
+
+                    var tile_selector = new IHTMLImage(64, 32)
                         {
-                            ev.StopPropagation();
-                            SetDialogColor(toolbar_btn_demolish, toolbar_color, true);
+                            src = "assets/THreeDStuff/3.png"
                         };
 
-                    toolbar_btn_demolish.AttachTo(toolbar);
+                    tile_selector.style.SetLocation(4, 4);
+                    tile_selector.AttachTo(arena.Layers.Canvas);
+
+                    // show tile selection
+                    arena.MouseMove +=
+                       p =>
+                       {
+                           if (!toolbar_btn_demolish.IsActivated)
+                               return;
+
+                           // get map coords
+
+                           tile_selector.style.SetLocation(p.X, p.Y);
+                       };
+
+                    toolbar_btn_demolish.Clicked +=
+                        delegate
+                        {
+                            tile_selector.Show(toolbar_btn_demolish.IsActivated);
+                        };
+                    #endregion
+
+
+                    var toolbar_btn_sign = new ToolbarButton(
+                       toolbar, "assets/ThreeDStuff/btn_sign.png"
+                    );
+
+                    var toolbar_btn_trees = new ToolbarButton(
+                       toolbar, "assets/ThreeDStuff/btn_trees.png"
+                    );
+
+                    var toolbar_btn_landinfo = new ToolbarButton(
+                        toolbar, "assets/ThreeDStuff/btn_landinfo.png"
+                    );
+
+
+
 
                     #endregion
 
@@ -824,35 +862,195 @@ namespace ThreeDStuff.js
 
         }
 
-        private static void SetDialogColor(IHTMLDiv toolbar, JSColor toolbar_color)
+        [Script]
+        class Toolbar
+        {
+
+            public IHTMLDiv Control;
+            public DragHelper Drag;
+            public Color Color;
+
+            public Point Size;
+
+            public readonly List<ToolbarButton> Buttons = new List<ToolbarButton>();
+
+            public void Grow()
+            {
+                this.Size.X = (24 * (this.Buttons.Count) + 4);
+
+                this.Control.style.SetSize(Size.X, Size.Y);
+            }
+
+            public void ApplyPosition()
+            {
+                // toolbar must remain visible all times
+                var pos = this.Drag.Position;
+
+                pos.X = pos.X.Max(0);
+                pos.Y = pos.Y.Max(0);
+
+                pos.X = pos.X.Min(Native.Window.Width - (Size.X + 2));
+                pos.Y = pos.Y.Min(Native.Window.Height - (Size.Y + 2));
+
+                this.Control.style.SetLocation(pos.X, pos.Y);
+            }
+        }
+
+        private static Toolbar CreateToolbar(Point toolbar_pos, Point toolbar_size, Color toolbar_color)
+        {
+            var t = new Toolbar
+            {
+                Color = toolbar_color,
+                Size = toolbar_size
+            };
+
+
+            t.Control = new IHTMLDiv();
+            t.Drag = new DragHelper(t.Control);
+            t.Drag.Position = toolbar_pos;
+
+            t.Control.style.SetLocation(t.Drag.Position.X, t.Drag.Position.Y, toolbar_size.X, toolbar_size.Y);
+
+            SetDialogColor(t.Control, toolbar_color);
+            t.Drag.Enabled = true;
+            t.Drag.DragMove += t.ApplyPosition;
+
+            return t;
+        }
+
+        [Script]
+        class ToolbarButton
+        {
+            public IHTMLDiv Control;
+            public int Counter;
+            public bool IsDown;
+
+            public bool IsActivated
+            {
+                get
+                {
+                    return Counter % 2 == 1;
+                }
+            }
+
+            public ToolbarButton AttachTo(Toolbar e)
+            {
+                Control.AttachTo(e.Control);
+
+                return this;
+            }
+
+            public ToolbarButton()
+            {
+
+            }
+
+            public Toolbar Toolbar;
+
+            public event Action<ToolbarButton> Clicked;
+
+            public ToolbarButton(Toolbar t, string img)
+            {
+                this.Toolbar = t;
+                this.Toolbar.Buttons.Add(this);
+
+                var btn = this;
+
+                btn.Control = new IHTMLDiv();
+                btn.IsDown = false;
+                btn.Counter = 0;
+
+                SetDialogColor(btn.Control, t.Color);
+
+                btn.Control.style.background = "url(" + img + ") no-repeat";
+                btn.Control.style.SetLocation(2 + 24 * (this.Toolbar.Buttons.Count - 1), 8, 22, 22);
+
+
+                t.Grow();
+
+                btn.Control.onclick +=
+                    ev =>
+                    {
+                        RaiseClicked();
+                    };
+
+                var onmouseup = default(ScriptCoreLib.Shared.EventHandler<IEvent>);
+
+
+                btn.Control.onmousedown +=
+                    ev =>
+                    {
+                        ev.StopPropagation();
+
+                        btn.IsDown = true;
+                        SetDialogColor(btn.Control, t.Color, false);
+
+                        Native.Document.onmouseup += onmouseup;
+                    };
+
+
+                onmouseup =
+                    ev =>
+                    {
+                        if (btn.IsDown)
+                        {
+                            ev.StopPropagation();
+
+                            btn.IsDown = false;
+                            SetDialogColor(btn.Control, t.Color, true);
+
+                            Native.Document.onmouseup -= onmouseup;
+                        }
+                    };
+
+                this.AttachTo(t);
+
+            }
+
+            private void RaiseClicked()
+            {
+                this.Counter++;
+
+                if (Clicked != null)
+                    Clicked(this);
+            }
+        }
+
+
+        private static void SetDialogColor(IHTMLDiv toolbar, Color toolbar_color)
         {
             SetDialogColor(toolbar, toolbar_color, true);
         }
 
-        private static void SetDialogColor(IHTMLDiv toolbar, JSColor toolbar_color, bool up)
+        private static void SetDialogColor(IHTMLDiv toolbar, Color toolbar_color, bool up)
         {
-            var toolbar_color_light = toolbar_color.ToHLS();
-            toolbar_color_light.L = ((toolbar_color_light.L + 240) / 2).ToByte();
 
-            var toolbar_color_shadow = toolbar_color.ToHLS();
-            toolbar_color_shadow.L = ((toolbar_color.L + 0) / 2).ToByte();
-
-            toolbar.style.backgroundColor = toolbar_color;
 
             if (up)
             {
+                toolbar.style.backgroundColor = toolbar_color;
+
+                var toolbar_color_light = toolbar_color.AddLum(+20);
+                var toolbar_color_shadow = toolbar_color.AddLum(-20);
+
                 toolbar.style.borderLeft = "1px solid " + toolbar_color_light;
                 toolbar.style.borderTop = "1px solid " + toolbar_color_light;
                 toolbar.style.borderRight = "1px solid " + toolbar_color_shadow;
                 toolbar.style.borderBottom = "1px solid " + toolbar_color_shadow;
+                toolbar.style.backgroundPosition = "0px 0px";
             }
             else
             {
-                toolbar.style.borderLeft = "2px solid " + toolbar_color_shadow;
-                toolbar.style.borderTop = "2px solid " + toolbar_color_shadow;
+                toolbar.style.backgroundColor = toolbar_color.AddLum(+15);
+
+                var toolbar_color_light = toolbar_color.AddLum(+20 + 15);
+                var toolbar_color_shadow = toolbar_color.AddLum(-20 + 15);
+
+                toolbar.style.borderLeft = "1px solid " + toolbar_color_shadow;
+                toolbar.style.borderTop = "1px solid " + toolbar_color_shadow;
                 toolbar.style.borderRight = "1px solid " + toolbar_color_light;
                 toolbar.style.borderBottom = "1px solid " + toolbar_color_light;
-
+                toolbar.style.backgroundPosition = "1px 1px";
             }
 
         }

@@ -12,6 +12,10 @@ using ScriptCoreLib.JavaScript;
 
 namespace ThreeDStuff.js
 {
+    [Script]
+    partial class IsometricWithToolbar { }
+
+
     [Script, global::System.AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
     sealed class ApplicationDescriptionAttribute : Attribute
     {

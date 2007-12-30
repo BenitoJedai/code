@@ -1,0 +1,12 @@
+﻿http://www.thesatya.com/trt.html
+
+trivia:
+    *  You may know that pressing z or c will center the map on the cursor (with z zooming in to the maximum). But pressing z/c while the cursor is in the black area outside the map has no effect.
+    * North is straight up: the upper corner, top of the screen.
+    * The sun is always in the east.
+    * The city stadiums are soccer fields... at least in the temperate climate.
+    * The fences along each player's tracks are the same color as the company color.
+    * The outermost strip of squares is not really water; but ships can pass through it. (Being the edge of the TT universe, it may be a black hole...)
+    * The main view is properly called an isometric view.
+    * At oil rigs, there is always an easterly wind, but on refineries, the wind is always from the west.
+    * The south-east side of the oil rig's border looks like water, but it won't invade land squares at sea level.
