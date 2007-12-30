@@ -146,6 +146,8 @@ namespace ScriptCoreLib.Shared.Drawing
     {
         public T X;
         public T Y;
+
+        
     }
 
     [Script, Serializable]

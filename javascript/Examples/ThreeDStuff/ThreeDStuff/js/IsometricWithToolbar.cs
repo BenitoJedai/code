@@ -28,6 +28,13 @@ namespace ThreeDStuff.js
         )]
     public partial class IsometricWithToolbar
     {
+        [Script]
+        class TileElement
+        {
+            public Point<double> Position;
+            public IHTMLImage Image;
+
+        }
 
         public IsometricWithToolbar()
         {
@@ -75,8 +82,8 @@ namespace ThreeDStuff.js
 
             Func<Point<double>> GetCenter = () => new Point<double>
             {
-                X = (bg_size.w + 2) * MapSize.Width / 2 /*Native.Window.Width / 2*/,
-                Y = (bg_size.h + 2) * MapSize.Height / 2 /*Native.Window.Height / 2*/
+                X = bg_size.w * (MapSize.Width + 2) / 2 /*Native.Window.Width / 2*/,
+                Y = bg_size.h * (MapSize.Height + 2) / 2 /*Native.Window.Height / 2*/
             };
 
             var arena = new ArenaControl();
@@ -85,7 +92,7 @@ namespace ThreeDStuff.js
 
             arena.Layers.Canvas.style.backgroundColor = Color.FromRGB(0, 0, 0);
 
-            
+
             arena.SetLocation(Rectangle.Of(0, 0, Native.Window.Width, Native.Window.Height));
 
             arena.SetCanvasSize(new Point(
@@ -104,6 +111,11 @@ namespace ThreeDStuff.js
 
             info.AttachTo(arena.Layers.Info);
 
+            var TileResources = new
+                {
+                    Dirt = new { Source = "assets/ThreeDStuff/4.png", Height = 32 }
+                };
+
             #region Translate
             Func<double, double, Point<double>> Translate =
                 (_x, _y) =>
@@ -118,6 +130,7 @@ namespace ThreeDStuff.js
                 };
             #endregion
 
+            #region GetCanvasPosition
             Func<Point<double>, Point<double>> GetCanvasPosition =
                 map_coords =>
                 {
@@ -130,6 +143,7 @@ namespace ThreeDStuff.js
                     return canvas_coords;
 
                 };
+            #endregion
 
 
             #region ApplyPosition
@@ -241,10 +255,10 @@ namespace ThreeDStuff.js
 
 
             #region bg_update_WithHeight
-            Action<double, double, IHTMLImage, double> bg_update_WithHeight =
-                (x, y, bg, h) =>
+            Action<double, double, IHTMLImage, double> ApplyTileToCanvas =
+                (x, y, bg, height) =>
                 {
-                    h *= Zoom;
+                    height *= Zoom;
 
                     var c = GetCenter();
 
@@ -254,24 +268,29 @@ namespace ThreeDStuff.js
                     c.Y += p.Y.ToInt32(bg_size.h / 2);
 
                     var _x = (c.X - bg_size.w / 2);
-                    var _y = (c.Y - bg_size.h / 2 - (h - bg_size.h));
+                    var _y = (c.Y - bg_size.h / 2 - (height - bg_size.h));
 
                     bg.style.SetLocation(
                         _x.ToInt32(),
                         _y.ToInt32(),
-                        bg_size.w, h.ToInt32()
+                        bg_size.w, height.ToInt32()
                     );
 
 
-                    if (h > bg_size.h)
+                    if (height > bg_size.h)
                     {
-                        bg.style.zIndex = (_y + h - bg_size.h / 2).ToInt32();
+                        bg.style.zIndex = (_y + height - bg_size.h / 2).ToInt32();
                     }
-
+                    else
+                    {
+                        bg.style.zIndex = (_y).ToInt32();
+                    }
                 };
             #endregion
 
             // http://wiki.openttd.org/index.php/Enhanced_GFX_replacement
+
+            var KnownTileElements = new List<TileElement>();
 
             #region SpawnItems
             Action<Color, Func<string>, double> SpawnItems =
@@ -281,15 +300,21 @@ namespace ThreeDStuff.js
                          from point in data
                          where point.color == c
                          let img = new IHTMLImage(src())
-                         let update = (Action)(() => bg_update_WithHeight(point.x, point.y, img, h))
+                         let update = (Action)(() => ApplyTileToCanvas(point.x, point.y, img, h))
                          let img2 = img.Aggregate(
                             i =>
                             {
                                 update();
                             }).AttachTo(arena.Layers.Canvas)
-                         select new { pos = point, img, update };
+                         select
+                            new TileElement
+                            {
+                                Position = new Point<double> { X = point.x, Y = point.y },
+                                Image = img
+                                //, update 
+                            };
 
-                    var tiles = tiles_query.ToArray().ForEach(i => i.update());
+                    KnownTileElements.AddRange(tiles_query.ToArray());//.ForEach(i => i.update());
                 };
             #endregion
 
@@ -465,7 +490,7 @@ namespace ThreeDStuff.js
                                    r.Control.AttachTo(arena.Layers.Canvas);
 
                                    r.Direction = Math.PI.Random() * 2;
-                                   
+
                                    return r;
                                };
                     #endregion
@@ -813,22 +838,69 @@ namespace ThreeDStuff.js
 
                            // get map coords from canvas coords
                            var map_coords = GetNearestMapPosition(p);
-                           var canvas_coords = GetCanvasPosition(map_coords);
 
-                           
+                           ApplyTileToCanvas(map_coords.X, map_coords.Y, tile_selector, 32);
+
+                           //var canvas_coords = GetCanvasPosition(map_coords);
+
+                           /*
                            tile_selector.style.SetLocation(
                                (canvas_coords.X - 32).ToInt32(), 
                                (canvas_coords.Y - 16).ToInt32()
                                );
+                            * */
                        };
+
+                    Func<Point<double>, IEnumerable<TileElement>> GetTileElementsAt =
+                        map_coords =>
+                            from i in KnownTileElements
+                            where i != null
+                            where i.Position.X == map_coords.X && i.Position.Y == map_coords.Y
+                            select i;
+
+                    
+                    #region AddTileElement
+                    Func<Point<double>, string, int, TileElement> AddTileElement =
+                        (map_coords, source, height) =>
+                        {
+                            var n = new TileElement
+                            {
+                                Position = map_coords,
+                                Image = new IHTMLImage(source)
+                            };
+
+                            KnownTileElements.Add(n);
+                            n.Image.AttachTo(arena.Layers.Canvas);
+                            ApplyTileToCanvas(map_coords.X, map_coords.Y, n.Image, height);
+
+                            return n;
+                        };
+                    #endregion
+                    #region ReplaceTileWithDirt
+                    Action<Point<double>> ReplaceTileWithDirt =
+                        map_coords =>
+                        {
+                            foreach (var t in GetTileElementsAt(map_coords))
+                            {
+                                t.Image.Dispose();
+                                KnownTileElements.Remove(t);
+                            }
+
+                            AddTileElement(map_coords, TileResources.Dirt.Source, TileResources.Dirt.Height);
+
+                        };
+                    #endregion
+
 
                     arena.SelectionClick +=
                         (p, ev) =>
                         {
                             var map_coords = GetNearestMapPosition(p);
 
-                            new { map_coords.X, map_coords.Y }.ToConsole();
-
+                            if (toolbar_btn_demolish.IsActivated)
+                            {
+                                ReplaceTileWithDirt(map_coords);
+                            }
                         };
 
                     toolbar_btn_demolish.Clicked +=
@@ -843,9 +915,11 @@ namespace ThreeDStuff.js
                        toolbar, "assets/ThreeDStuff/btn_sign.png"
                     );
 
+                    #region toolbar_btn_trees
                     var toolbar_btn_trees = new ToolbarButton(
                        toolbar, "assets/ThreeDStuff/btn_trees.png"
                     );
+                    #endregion
 
                     var toolbar_btn_landinfo = new ToolbarButton(
                         toolbar, "assets/ThreeDStuff/btn_landinfo.png"

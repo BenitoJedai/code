@@ -75,6 +75,7 @@
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\tycoon.txt" />
+    <EmbeddedResource Include="web\assets\ThreeDStuff\4.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\3.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\btn_disabled.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\btn_landinfo.png" />
