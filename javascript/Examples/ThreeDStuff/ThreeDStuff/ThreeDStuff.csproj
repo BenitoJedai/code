@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="js\Assets.cs" />
+    <Compile Include="js\IsometricWithToolbar.cs" />
     <Compile Include="js\IsometricWithNatureBoyAndInput.cs" />
     <Compile Include="js\IsometricRotatingWithInput.cs" />
     <Compile Include="js\IsometricWithNatureBoy.cs" />
