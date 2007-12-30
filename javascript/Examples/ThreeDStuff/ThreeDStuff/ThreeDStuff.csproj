@@ -72,6 +72,11 @@
     <Content Include="docs\about.txt" />
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\ThreeDStuff\btn_landinfo.png" />
+    <EmbeddedResource Include="web\assets\ThreeDStuff\btn_pause.png" />
+    <EmbeddedResource Include="web\assets\ThreeDStuff\btn_demolish.png" />
+    <EmbeddedResource Include="web\assets\ThreeDStuff\btn_sign.png" />
+    <EmbeddedResource Include="web\assets\ThreeDStuff\btn_trees.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\Preview.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\1.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\2.png" />

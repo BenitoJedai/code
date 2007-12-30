@@ -770,18 +770,8 @@ namespace ThreeDStuff.js
                     toolbar.style.SetLocation(toolbar_drag.Position.X, toolbar_drag.Position.Y, toolbar_size.X, toolbar_size.Y);
 
                     var toolbar_color = JSColor.FromRGB(0, 0x80, 0);
-                    var toolbar_color_light = toolbar_color.ToHLS();
-                    toolbar_color_light.L = ((toolbar_color_light.L + 240) / 2).ToByte();
-
-                    var toolbar_color_shadow = toolbar_color.ToHLS();
-                    toolbar_color_shadow.L = ((toolbar_color.L + 0) / 2).ToByte();
-
-                    toolbar.style.backgroundColor = Color.FromRGB(0, 0x80, 0);
-
-                    toolbar.style.borderLeft = "1px solid " + toolbar_color_light;
-                    toolbar.style.borderTop = "1px solid " + toolbar_color_light;
-                    toolbar.style.borderRight = "1px solid " + toolbar_color_shadow;
-                    toolbar.style.borderBottom = "1px solid " + toolbar_color_shadow;
+                    
+                    SetDialogColor(toolbar, toolbar_color);
 
 
                     toolbar_drag.Enabled = true;
@@ -802,11 +792,68 @@ namespace ThreeDStuff.js
                         };
 
                     toolbar.AttachToDocument();
+
+                    var toolbar_btn_demolish = new IHTMLDiv();
+
+                    SetDialogColor(toolbar_btn_demolish, toolbar_color);
+
+                    toolbar_btn_demolish.style.background = "url(assets/ThreeDStuff/btn_pause.png) no-repeat";
+
+                    toolbar_btn_demolish.style.SetLocation(2, 8, 22, 22);
+                    toolbar_btn_demolish.onmousedown +=
+                        ev =>
+                        {
+                            ev.StopPropagation();
+                            SetDialogColor(toolbar_btn_demolish, toolbar_color, false);
+                        };
+
+                    toolbar_btn_demolish.onmouseup +=
+                        ev =>
+                        {
+                            ev.StopPropagation();
+                            SetDialogColor(toolbar_btn_demolish, toolbar_color, true);
+                        };
+
+                    toolbar_btn_demolish.AttachTo(toolbar);
+
                     #endregion
 
                 });
 
 
+
+        }
+
+        private static void SetDialogColor(IHTMLDiv toolbar, JSColor toolbar_color)
+        {
+            SetDialogColor(toolbar, toolbar_color, true);
+        }
+
+        private static void SetDialogColor(IHTMLDiv toolbar, JSColor toolbar_color, bool up)
+        {
+            var toolbar_color_light = toolbar_color.ToHLS();
+            toolbar_color_light.L = ((toolbar_color_light.L + 240) / 2).ToByte();
+
+            var toolbar_color_shadow = toolbar_color.ToHLS();
+            toolbar_color_shadow.L = ((toolbar_color.L + 0) / 2).ToByte();
+
+            toolbar.style.backgroundColor = toolbar_color;
+
+            if (up)
+            {
+                toolbar.style.borderLeft = "1px solid " + toolbar_color_light;
+                toolbar.style.borderTop = "1px solid " + toolbar_color_light;
+                toolbar.style.borderRight = "1px solid " + toolbar_color_shadow;
+                toolbar.style.borderBottom = "1px solid " + toolbar_color_shadow;
+            }
+            else
+            {
+                toolbar.style.borderLeft = "2px solid " + toolbar_color_shadow;
+                toolbar.style.borderTop = "2px solid " + toolbar_color_shadow;
+                toolbar.style.borderRight = "1px solid " + toolbar_color_light;
+                toolbar.style.borderBottom = "1px solid " + toolbar_color_light;
+
+            }
 
         }
 
