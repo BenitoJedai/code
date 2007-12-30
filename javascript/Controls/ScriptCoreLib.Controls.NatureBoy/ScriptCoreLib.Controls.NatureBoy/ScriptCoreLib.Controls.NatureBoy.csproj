@@ -1,0 +1,163 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{81BF3761-04A3-40AC-A445-38A61315A033}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ScriptCoreLib</RootNamespace>
+    <AssemblyName>ScriptCoreLib.Controls.NatureBoy</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ScriptCoreLib, Version=3.0.2665.39893, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="JavaScript\Controls\NatureBoy\Assets.cs" />
+    <Compile Include="JavaScript\Controls\NatureBoy\DudeBase.cs" />
+    <Compile Include="JavaScript\Controls\NatureBoy\Extensions.cs" />
+    <Compile Include="JavaScript\Controls\NatureBoy\Frames.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IAssemblyReferenceToken.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="docs\about.txt" />
+    <Content Include="docs\browser.txt" />
+    <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\alpha\2.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\alpha\green-ring.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\alpha\yellow-ring-50.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\alpha\yellow-ring.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\114.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\115.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\116.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\117.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\118.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\119.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\120.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\121.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\122.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\123.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\124.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\125.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\126.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\127.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\128.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\129.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\130.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\131.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\132.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\133.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\134.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\135.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\136.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\137.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\138.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\139.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\140.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\141.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\142.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\143.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\144.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\145.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\146.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\147.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\148.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\149.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\150.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\151.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\152.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude5\153.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\244.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\245.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\246.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\247.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\248.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\249.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\250.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\251.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\252.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\253.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\254.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\255.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\256.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\257.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\258.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\259.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\260.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\261.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\262.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\263.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\264.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\265.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\266.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\267.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\268.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\269.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\270.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\271.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\272.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\273.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\274.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\275.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\276.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\277.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\278.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\279.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\280.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\281.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\282.png" />
+    <EmbeddedResource Include="web\assets\Controls\NatureBoy\dude6\283.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="web\assets\OrcasScriptApplication\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin" /y</PostBuildEvent>
+  </PropertyGroup>
+</Project>

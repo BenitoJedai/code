@@ -5,9 +5,9 @@ using System.Text;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.Shared.Lambda;
 
-using ThreeDStuff.js;
 
-namespace ThreeDStuff.js.NatureBoy
+
+namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
 {
     using div = IHTMLDiv;
     using img = IHTMLImage;
@@ -52,13 +52,13 @@ namespace ThreeDStuff.js.NatureBoy
 
         public DudeBase()
         {
-            Shadow = new img("assets/NatureBoy/alpha/2.png");
+            Shadow = new img(Assets.alpha + "/2.png");
             Shadow.style.position = IStyle.PositionEnum.absolute;
 
-            SelectionImage = new img("assets/NatureBoy/alpha/green-ring.png");
+            SelectionImage = new img(Assets.alpha + "/green-ring.png");
             SelectionImage.style.position = IStyle.PositionEnum.absolute;
 
-            HotImage = new img("assets/NatureBoy/alpha/yellow-ring-50.png");
+            HotImage = new img(Assets.alpha + "/yellow-ring-50.png");
             HotImage.style.position = IStyle.PositionEnum.absolute;
 
 

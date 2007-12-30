@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace ThreeDStuff.js
 {
-    using NatureBoy;
+    using ScriptCoreLib.JavaScript.Controls.NatureBoy;
     using ScriptCoreLib.JavaScript.Controls;
     using ScriptCoreLib.JavaScript.Runtime;
 

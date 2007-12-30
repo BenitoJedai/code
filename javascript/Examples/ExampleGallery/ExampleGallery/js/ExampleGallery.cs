@@ -12,7 +12,7 @@ using ScriptCoreLib.Shared.Lambda;
 
 namespace ExampleGallery.js
 {
-    [Script, ScriptApplicationEntryPoint(ScriptedLoading = true)]
+    [Script, ScriptApplicationEntryPoint(ScriptedLoading = true, IsClickOnce = true)]
     public partial class ExampleGallery
     {
 

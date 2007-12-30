@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace ThreeDStuff.js
 {
-    using NatureBoy;
+    using ScriptCoreLib.JavaScript.Controls.NatureBoy;
 
     //[Script]
     //public delegate void Action<A, B, C, D, E>(A a, B b, C c, D d, E e);

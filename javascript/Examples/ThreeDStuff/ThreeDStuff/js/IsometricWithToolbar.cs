@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace ThreeDStuff.js
 {
-    using NatureBoy;
+    using ScriptCoreLib.JavaScript.Controls.NatureBoy;
     using ScriptCoreLib.JavaScript.Controls;
     using ScriptCoreLib.JavaScript.Runtime;
 
@@ -58,7 +58,7 @@ namespace ThreeDStuff.js
             var Zoom = 1;
             var Dot = 4;
 
-            var MapSize = new
+            var MapSize = new Rectangle
             {
                 Left = -6,
                 Width = 12,
@@ -75,8 +75,8 @@ namespace ThreeDStuff.js
 
             Func<Point<double>> GetCenter = () => new Point<double>
             {
-                X = bg_size.w * MapSize.Width / 2 /*Native.Window.Width / 2*/,
-                Y = bg_size.h * MapSize.Height / 2 /*Native.Window.Height / 2*/
+                X = (bg_size.w + 2) * MapSize.Width / 2 /*Native.Window.Width / 2*/,
+                Y = (bg_size.h + 2) * MapSize.Height / 2 /*Native.Window.Height / 2*/
             };
 
             var arena = new ArenaControl();
@@ -85,15 +85,12 @@ namespace ThreeDStuff.js
 
             arena.Layers.Canvas.style.backgroundColor = Color.FromRGB(0, 0, 0);
 
-            // set the map to be somewhere left
+            
             arena.SetLocation(Rectangle.Of(0, 0, Native.Window.Width, Native.Window.Height));
 
-
-            // set tha map canvas size to be something big
-
             arena.SetCanvasSize(new Point(
-                ((MapSize.Width + 0) * bg_size.w).ToInt32(),
-                ((MapSize.Height + 1) * bg_size.h).ToInt32()
+                ((MapSize.Width + 2) * bg_size.w).ToInt32(),
+                ((MapSize.Height + 2) * bg_size.h).ToInt32()
                 ));
 
             Native.Window.onresize +=
@@ -111,8 +108,6 @@ namespace ThreeDStuff.js
             Func<double, double, Point<double>> Translate =
                 (_x, _y) =>
                 {
-                    var _pos = GetCenter();
-
                     var _r = ZeroPoint.GetRotation(_x, _y) + RotationA;
                     var _d = ZeroPoint.GetDistance(_x, _y) * bg_size.h * 2d.Sqrt();
 
@@ -122,6 +117,20 @@ namespace ThreeDStuff.js
                     return new Point<double> { X = _x, Y = _y };
                 };
             #endregion
+
+            Func<Point<double>, Point<double>> GetCanvasPosition =
+                map_coords =>
+                {
+                    var canvas_coords = Translate(map_coords.X, map_coords.Y);
+                    var c = GetCenter();
+
+                    canvas_coords.X += c.X;
+                    canvas_coords.Y += c.Y;
+
+                    return canvas_coords;
+
+                };
+
 
             #region ApplyPosition
             Action<double, double, IHTMLDiv> ApplyPosition =
@@ -162,6 +171,7 @@ namespace ThreeDStuff.js
             #endregion
 
 
+            #region CreateDiv
             Func<double, double, IHTMLDiv> CreateDiv =
                 (_x, _y) =>
                 {
@@ -174,6 +184,7 @@ namespace ThreeDStuff.js
 
                     return _div;
                 };
+            #endregion
 
 
             var TileColor = Color.Gray;
@@ -192,6 +203,7 @@ namespace ThreeDStuff.js
                 new { x = -0.5, y = 0.5, color = Color.Yellow },
             };
 
+            #region IsDefined
             Func<double, double, bool> IsDefined =
                 (x, y) => data.Any(
                     i =>
@@ -202,15 +214,17 @@ namespace ThreeDStuff.js
                         return true;
                     }
             );
+            #endregion
 
 
             data = data.Concat(
-                from x in Enumerable.Range(MapSize.Left, MapSize.Width)
-                from y in Enumerable.Range(MapSize.Top, MapSize.Height)
+                from x in Enumerable.Range(MapSize.Left, MapSize.Width + 1)
+                from y in Enumerable.Range(MapSize.Top, MapSize.Height + 1)
                 select new { x = (double)x, y = (double)y, color = TileColor }
                    ).ToArray();
 
 
+            #region CreateNewItemsRandomly
             Action<int, Color> CreateNewItemsRandomly =
                 (x, c) =>
                     x.Times(
@@ -223,10 +237,7 @@ namespace ThreeDStuff.js
                                  ).ToArray();
                              }
                      );
-
-
-
-
+            #endregion
 
 
             #region bg_update_WithHeight
@@ -432,29 +443,8 @@ namespace ThreeDStuff.js
 
                     Func<bool> IsDoneRotatingA = () => RotationA.ToDegrees() == 45;
 
-                    /*
-                    1000.AtInterval(
-                        t =>
-                        {
 
-                            //Zoom += 0.5;
-                            //RotationA += 10.ToRadians();
-                            // RotationB += 1.ToRadians();
-
-                            points.ForEach(p => p.update());
-
-                            tiles.ForEach(p => p.update());
-
-                            //bg_update();
-
-                        }
-                    );*/
-                    //.Until(IsDoneRotatingA);
-
-                    // dudes...
-
-
-
+                    #region SpawnLookingDude
                     Func<FrameInfo[], int, int, Dude2> SpawnLookingDude =
                                (f, x, y) =>
                                {
@@ -462,8 +452,6 @@ namespace ThreeDStuff.js
                                    {
                                        Frames = f,
                                    };
-
-                                   //BindSelectDude(r);
 
                                    r.AnimationInfo.Frames_Stand = f;
 
@@ -477,11 +465,11 @@ namespace ThreeDStuff.js
                                    r.Control.AttachTo(arena.Layers.Canvas);
 
                                    r.Direction = Math.PI.Random() * 2;
-                                   //r.HasShadow = false;
-
-
+                                   
                                    return r;
                                };
+                    #endregion
+
 
                     var dude = new DudeAnimationInfo
                     {
@@ -638,13 +626,12 @@ namespace ThreeDStuff.js
                     #endregion
 
 
-                    Point KnownCanvasPosition = new Point();
+                    //Point KnownCanvasPosition = new Point();
 
                     #region GetMapPosition
-                    Func<Point<double>> GetMapPosition =
-                        delegate
+                    Func<Point, Point<double>> GetMapPosition =
+                        canvas =>
                         {
-                            var canvas = KnownCanvasPosition;
                             var c = GetCenter();
 
                             var offset = new Point<double> { X = canvas.X - c.X, Y = (canvas.Y - c.Y) / RotationB };
@@ -657,12 +644,6 @@ namespace ThreeDStuff.js
                                 X = Math.Cos(r) * d,
                                 Y = Math.Sin(r) * d
                             };
-
-                            //NotifyOfSelection(
-
-                            //    new Point<double> { X = realoffset.X, Y = realoffset.Y }
-
-                            //    );
 
                             return realoffset;
                         };
@@ -698,9 +679,9 @@ namespace ThreeDStuff.js
                             var selection = Dudes.Where(i => i.IsSelected).ToArray();
 
 
-                            KnownCanvasPosition = p;
+                            //KnownCanvasPosition = p;
 
-                            var target = GetMapPosition();
+                            var target = GetMapPosition(p);
 
                             if (selection.Length == 0)
                             {
@@ -818,6 +799,7 @@ namespace ThreeDStuff.js
 
                     tile_selector.style.SetLocation(4, 4);
                     tile_selector.AttachTo(arena.Layers.Canvas);
+                    tile_selector.Hide();
 
                     // show tile selection
                     arena.MouseMove +=
@@ -826,9 +808,15 @@ namespace ThreeDStuff.js
                            if (!toolbar_btn_demolish.IsActivated)
                                return;
 
-                           // get map coords
+                           // get map coords from canvas coords
+                           var map_coords = GetMapPosition(p).Round().BoundTo(MapSize);
+                           var canvas_coords = GetCanvasPosition(map_coords);
 
-                           tile_selector.style.SetLocation(p.X, p.Y);
+                           
+                           tile_selector.style.SetLocation(
+                               (canvas_coords.X - 32).ToInt32(), 
+                               (canvas_coords.Y - 16).ToInt32()
+                               );
                        };
 
                     toolbar_btn_demolish.Clicked +=

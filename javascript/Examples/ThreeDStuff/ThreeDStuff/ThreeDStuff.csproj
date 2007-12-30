@@ -38,6 +38,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Controls.LayeredControl.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Controls.NatureBoy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Controls.NatureBoy.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
@@ -62,8 +66,6 @@
     <Compile Include="js\IsometricRotating.cs" />
     <Compile Include="js\Isometric.cs" />
     <Compile Include="js\Extensions.cs" />
-    <Compile Include="js\NatureBoy\DudeBase.cs" />
-    <Compile Include="js\NatureBoy\Frames.cs" />
     <Compile Include="js\ThreeDStuff.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
@@ -83,90 +85,7 @@
     <EmbeddedResource Include="web\assets\ThreeDStuff\Preview.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\1.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\2.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\244.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\245.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\246.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\247.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\248.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\249.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\250.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\251.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\252.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\253.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\254.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\255.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\256.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\257.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\258.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\259.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\260.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\261.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\262.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\263.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\264.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\265.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\266.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\267.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\268.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\269.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\270.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\271.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\272.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\273.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\274.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\275.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\276.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\277.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\278.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\279.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\280.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\281.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\282.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude6\283.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\alpha\2.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\alpha\green-ring.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\alpha\yellow-ring-50.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\alpha\yellow-ring.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\stand\114.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\stand\115.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\stand\116.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\stand\117.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\stand\118.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\stand\119.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\stand\120.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\stand\121.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk1\122.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk1\123.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk1\124.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk1\125.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk1\126.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk1\127.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk1\128.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk1\129.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk2\130.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk2\131.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk2\132.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk2\133.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk2\134.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk2\135.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk2\136.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk2\137.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk3\138.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk3\139.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk3\140.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk3\141.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk3\142.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk3\143.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk3\144.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk3\145.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk4\146.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk4\147.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk4\148.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk4\149.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk4\150.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk4\151.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk4\152.png" />
-    <EmbeddedResource Include="web\assets\NatureBoy\dude5\walk4\153.png" />
+   
     <EmbeddedResource Include="web\assets\ThreeDStuff\r2.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\r3.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\r1.png" />
@@ -176,6 +95,8 @@
     <EmbeddedResource Include="web\assets\ThreeDStuff\0.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="js\NatureBoy\" />
+    <Folder Include="web\assets\NatureBoy\dude6\" />
     <Folder Include="web\assets\OrcasScriptApplication\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

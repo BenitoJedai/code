@@ -16,6 +16,21 @@ namespace ThreeDStuff.js
     static class Extensions
     {
 
+        public static Point<double> BoundTo(this Point<double> e, Rectangle r)
+        {
+            e.X = e.X.Max(r.Left).Min(r.Right);
+            e.Y = e.Y.Max(r.Top).Min(r.Bottom);
+
+            return e;
+        }
+
+        public static Point<double> Round(this Point<double> e)
+        {
+            e.X = Math.Round(e.X);
+            e.Y = Math.Round(e.Y);
+
+            return e;
+        }
 
         public static bool IsDefined(this string e)
         {
