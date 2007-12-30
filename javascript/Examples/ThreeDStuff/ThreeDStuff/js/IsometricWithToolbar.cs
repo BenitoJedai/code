@@ -67,10 +67,10 @@ namespace ThreeDStuff.js
 
             var MapSize = new Rectangle
             {
-                Left = -6,
-                Width = 12,
-                Top = -6,
-                Height = 12
+                Left = -12,
+                Width = 24,
+                Top = -12,
+                Height = 24
             };
 
 
@@ -113,7 +113,8 @@ namespace ThreeDStuff.js
 
             var TileResources = new
                 {
-                    Dirt = new { Source = "assets/ThreeDStuff/4.png", Height = 32 }
+                    Dirt = new { Source = "assets/ThreeDStuff/4.png", Height = 32 },
+                    Tree = new { Source = "assets/ThreeDStuff/t1.png", Height = 65 }
                 };
 
             #region Translate
@@ -254,7 +255,7 @@ namespace ThreeDStuff.js
             #endregion
 
 
-            #region bg_update_WithHeight
+            #region ApplyTileToCanvas
             Action<double, double, IHTMLImage, double> ApplyTileToCanvas =
                 (x, y, bg, height) =>
                 {
@@ -674,112 +675,7 @@ namespace ThreeDStuff.js
                         };
                     #endregion
 
-                    #region arena.ApplySelection
-                    arena.ApplySelection +=
-                        (r, ev) =>
-                        {
-                            if (paused)
-                                return;
-
-                            foreach (var v in Dudes)
-                            {
-                                if (ev.shiftKey)
-                                    v.IsSelected |= r.Contains(v.CurrentLocation);
-                                else
-                                    v.IsSelected = r.Contains(v.CurrentLocation);
-                            }
-                        };
-                    #endregion
-
-
-
-
-                    #region arena.SelectionClick
-                    arena.SelectionClick +=
-                        (p, ev) =>
-                        {
-                            if (paused)
-                                return;
-
-                            var selection = Dudes.Where(i => i.IsSelected).ToArray();
-
-
-                            //KnownCanvasPosition = p;
-
-                            var target = GetMapPosition(p);
-
-                            if (selection.Length == 0)
-                            {
-                                // single select?
-                                return;
-                            }
-
-
-                            if (selection.Length == 1)
-                            {
-
-                                var canvas = Translate(target.X, target.Y);
-                                canvas.X += GetCenter().X;
-                                canvas.Y += GetCenter().Y;
-
-                                //new
-                                //{
-                                //    target = new { target.X, target.Y },
-                                //    canvas = new { canvas.X, canvas.Y }
-                                //}.ToConsole(); ;
-
-                                selection.ForEach(i => i.WalkTo(
-                                    new Point(canvas.X.ToInt32(), canvas.Y.ToInt32())
-                                    ));
-                            }
-                            else
-                            {
-                                #region Circle
-
-                                var center = GetCenter();
-
-
-                                #region GetRotatedTargetPoint
-                                Func<double, double, Point<double>> GetRotatedTargetPoint =
-                                    (direction, distance) =>
-                                        new Point<double>
-                                    {
-                                        X = target.X + (Math.Cos(direction) * distance),
-                                        Y = target.Y + (Math.Sin(direction) * distance),
-                                    };
-                                #endregion
-
-                                Func<Point<double>, Point> OffsetToCenter =
-                                    mcanvas =>
-                                        new Point
-                                            {
-                                                X = (mcanvas.X + center.X).ToInt32(),
-                                                Y = (mcanvas.Y + center.Y).ToInt32(),
-                                            };
-
-                                var dest =
-                                    from index in selection.Length.Range()
-                                    let direction = (((double)index / (selection.Length)) * (Math.PI * 2)).ToConsole()
-                                    let distance = 0.5
-                                    let mtarget = GetRotatedTargetPoint(direction, distance)
-                                    let mcanvas = Translate(mtarget.X, mtarget.Y)
-
-                                    select new
-                                    {
-                                        index,
-                                        canvas = OffsetToCenter(mcanvas)
-                                    };
-
-                                foreach (var v in dest)
-                                {
-                                    selection[v.index].WalkTo(v.canvas);
-                                }
-
-                                #endregion
-
-                            }
-                        };
-                    #endregion
+    
 
 
 
@@ -829,27 +725,7 @@ namespace ThreeDStuff.js
                     Func<Point, Point<double>> GetNearestMapPosition =
                         p => GetMapPosition(p).Round().BoundTo(MapSize);
 
-                    // show tile selection
-                    arena.MouseMove +=
-                       p =>
-                       {
-                           if (!toolbar_btn_demolish.IsActivated)
-                               return;
 
-                           // get map coords from canvas coords
-                           var map_coords = GetNearestMapPosition(p);
-
-                           ApplyTileToCanvas(map_coords.X, map_coords.Y, tile_selector, 32);
-
-                           //var canvas_coords = GetCanvasPosition(map_coords);
-
-                           /*
-                           tile_selector.style.SetLocation(
-                               (canvas_coords.X - 32).ToInt32(), 
-                               (canvas_coords.Y - 16).ToInt32()
-                               );
-                            * */
-                       };
 
                     Func<Point<double>, IEnumerable<TileElement>> GetTileElementsAt =
                         map_coords =>
@@ -858,7 +734,7 @@ namespace ThreeDStuff.js
                             where i.Position.X == map_coords.X && i.Position.Y == map_coords.Y
                             select i;
 
-                    
+
                     #region AddTileElement
                     Func<Point<double>, string, int, TileElement> AddTileElement =
                         (map_coords, source, height) =>
@@ -892,43 +768,211 @@ namespace ThreeDStuff.js
                     #endregion
 
 
-                    arena.SelectionClick +=
-                        (p, ev) =>
-                        {
-                            var map_coords = GetNearestMapPosition(p);
 
-                            if (toolbar_btn_demolish.IsActivated)
-                            {
-                                ReplaceTileWithDirt(map_coords);
-                            }
-                        };
 
-                    toolbar_btn_demolish.Clicked +=
-                        delegate
-                        {
-                            tile_selector.Show(toolbar_btn_demolish.IsActivated);
-                        };
+                    var ShowingTileSelector = default(Func<bool>);
+
+
                     #endregion
 
-
+                    /*
                     var toolbar_btn_sign = new ToolbarButton(
                        toolbar, "assets/ThreeDStuff/btn_sign.png"
                     );
-
+                    */
                     #region toolbar_btn_trees
                     var toolbar_btn_trees = new ToolbarButton(
                        toolbar, "assets/ThreeDStuff/btn_trees.png"
                     );
+
+
+
                     #endregion
 
+                    /*
                     var toolbar_btn_landinfo = new ToolbarButton(
                         toolbar, "assets/ThreeDStuff/btn_landinfo.png"
-                    );
+                    );*/
+
+                    ShowingTileSelector =
+                        () =>
+                        {
+                            if (toolbar_btn_demolish.IsActivated)
+                                return true;
+
+                            if (toolbar_btn_trees.IsActivated)
+                                return true;
+
+                            return false;
+                        };
+
+                    // show tile selection
+                    arena.MouseMove +=
+                       p =>
+                       {
+                           if (ShowingTileSelector())
+                           {
+
+                               // get map coords from canvas coords
+                               var map_coords = GetNearestMapPosition(p);
+
+                               ApplyTileToCanvas(map_coords.X, map_coords.Y, tile_selector, 32);
+
+                               // must be on top of new dirt
+                               tile_selector.style.zIndex++;
+                           }
+                       };
+
+                    arena.SelectionClick +=
+                     (p, ev) =>
+                     {
+                         var map_coords = GetNearestMapPosition(p);
+
+                         if (toolbar_btn_demolish.IsActivated)
+                         {
+                             ReplaceTileWithDirt(map_coords);
+                         }
+                         if (toolbar_btn_trees.IsActivated)
+                         {
+                             ReplaceTileWithDirt(map_coords);
+                             AddTileElement(map_coords, TileResources.Tree.Source, TileResources.Tree.Height);
+                         }
+                     };
+
+                    toolbar_btn_demolish.Clicked +=
+                      delegate
+                      {
+                          if (toolbar_btn_trees.IsActivated)
+                              toolbar_btn_trees.Counter++;
 
 
+                          tile_selector.Show(ShowingTileSelector());
+                      };
+
+                    toolbar_btn_trees.Clicked +=
+                        delegate
+                        {
+                            if (toolbar_btn_demolish.IsActivated)
+                                toolbar_btn_demolish.Counter++;
+
+                            tile_selector.Show(ShowingTileSelector());
+                        };
 
 
                     #endregion
+
+
+                    #region arena.SelectionClick
+                    arena.SelectionClick +=
+                        (p, ev) =>
+                        {
+                            if (paused)
+                                return;
+
+                            if (ShowingTileSelector())
+                                return;
+
+                            var selection = Dudes.Where(i => i.IsSelected).ToArray();
+
+
+                            //KnownCanvasPosition = p;
+
+                            var target = GetMapPosition(p).BoundTo(MapSize);
+
+                            if (selection.Length == 0)
+                            {
+                                // single select?
+                                return;
+                            }
+
+
+                            if (selection.Length == 1)
+                            {
+
+                                var canvas = GetCanvasPosition(target);
+
+                                //canvas.X += GetCenter().X;
+                                //canvas.Y += GetCenter().Y;
+
+                                //new
+                                //{
+                                //    target = new { target.X, target.Y },
+                                //    canvas = new { canvas.X, canvas.Y }
+                                //}.ToConsole(); ;
+
+                                selection.ForEach(i => i.WalkTo(
+                                    new Point(canvas.X.ToInt32(), canvas.Y.ToInt32())
+                                    ));
+                            }
+                            else
+                            {
+                                #region Circle
+
+                                var center = GetCenter();
+
+
+                                #region GetRotatedTargetPoint
+                                Func<double, double, Point<double>> GetRotatedTargetPoint =
+                                    (direction, distance) =>
+                                        new Point<double>
+                                        {
+                                            X = target.X + (Math.Cos(direction) * distance),
+                                            Y = target.Y + (Math.Sin(direction) * distance),
+                                        };
+                                #endregion
+
+                                Func<Point<double>, Point> OffsetToCenter =
+                                    mcanvas =>
+                                        new Point
+                                        {
+                                            X = (mcanvas.X + center.X).ToInt32(),
+                                            Y = (mcanvas.Y + center.Y).ToInt32(),
+                                        };
+
+                                var dest =
+                                    from index in selection.Length.Range()
+                                    let direction = (((double)index / (selection.Length)) * (Math.PI * 2)).ToConsole()
+                                    let distance = 0.5
+                                    let mtarget = GetRotatedTargetPoint(direction, distance)
+                                    let mcanvas = Translate(mtarget.X, mtarget.Y)
+
+                                    select new
+                                    {
+                                        index,
+                                        canvas = OffsetToCenter(mcanvas)
+                                    };
+
+                                foreach (var v in dest)
+                                {
+                                    selection[v.index].WalkTo(v.canvas);
+                                }
+
+                                #endregion
+
+                            }
+                        };
+                    #endregion
+
+                    #region arena.ApplySelection
+                    arena.ApplySelection +=
+                        (r, ev) =>
+                        {
+                            if (paused)
+                                return;
+
+                            if (ShowingTileSelector())
+                                return;
+
+                            foreach (var v in Dudes)
+                            {
+                                if (ev.shiftKey)
+                                    v.IsSelected |= r.Contains(v.CurrentLocation);
+                                else
+                                    v.IsSelected = r.Contains(v.CurrentLocation);
+                            }
+                        };
+                    #endregion
+
 
                 });
 
@@ -1081,7 +1125,7 @@ namespace ThreeDStuff.js
 
             }
 
-            private void RaiseClicked()
+            public void RaiseClicked()
             {
                 this.Counter++;
 
