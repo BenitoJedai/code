@@ -194,6 +194,13 @@ namespace ThreeDStuff.js
             return ex;
         }
 
+        public static T ToConsole<T>(this T ex, string format)
+        {
+            string.Format(format, ex.ToString()).ToConsole();
+
+            return ex;
+        }
+
         public static string ToConsole(this string ex)
         {
             Console.WriteLine(ex);

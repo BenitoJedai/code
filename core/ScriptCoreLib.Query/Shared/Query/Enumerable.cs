@@ -20,7 +20,19 @@ namespace ScriptCoreLib.Shared.Query
     {
 
 
+        public static bool Any<TSource>(this IEnumerable<TSource> source)
+        {
+            var r = false;
 
+            foreach (var v in source.AsEnumerable())
+            {
+                r = true;
+
+                break;
+            }
+
+            return r;
+        }
 
         public static bool Any<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> p)
         {
@@ -324,7 +336,7 @@ namespace ScriptCoreLib.Shared.Query
                 if (enumerator.MoveNext())
                     current = enumerator.Current;
 
-                
+
             }
 
             return current;

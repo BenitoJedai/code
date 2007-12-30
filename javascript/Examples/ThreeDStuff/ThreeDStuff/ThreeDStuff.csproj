@@ -75,6 +75,10 @@
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\tycoon.txt" />
+    <EmbeddedResource Include="web\assets\ThreeDStuff\btn_track1.png" />
+    <Content Include="web\assets\ThreeDStuff\mouse.png" />
+    <EmbeddedResource Include="web\assets\ThreeDStuff\5.png" />
+    <EmbeddedResource Include="web\assets\ThreeDStuff\6.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\4.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\3.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\btn_disabled.png" />

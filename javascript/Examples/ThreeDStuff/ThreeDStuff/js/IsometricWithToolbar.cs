@@ -31,8 +31,13 @@ namespace ThreeDStuff.js
         [Script]
         class TileElement
         {
+            public string Source;
+
             public Point<double> Position;
             public IHTMLImage Image;
+
+            public int DirtAge;
+
 
         }
 
@@ -67,10 +72,10 @@ namespace ThreeDStuff.js
 
             var MapSize = new Rectangle
             {
-                Left = -12,
-                Width = 24,
-                Top = -12,
-                Height = 24
+                Left = -3,
+                Width = 6,
+                Top = -3,
+                Height = 6
             };
 
 
@@ -113,7 +118,10 @@ namespace ThreeDStuff.js
 
             var TileResources = new
                 {
+                    Grass = new { Source = "assets/ThreeDStuff/0.png", Height = 32 },
                     Dirt = new { Source = "assets/ThreeDStuff/4.png", Height = 32 },
+                    DirtDirtGrass = new { Source = "assets/ThreeDStuff/5.png", Height = 32 },
+                    DirtGrassGrass = new { Source = "assets/ThreeDStuff/6.png", Height = 32 },
                     Tree = new { Source = "assets/ThreeDStuff/t1.png", Height = 65 }
                 };
 
@@ -311,7 +319,8 @@ namespace ThreeDStuff.js
                             new TileElement
                             {
                                 Position = new Point<double> { X = point.x, Y = point.y },
-                                Image = img
+                                Image = img,
+                                Source = src()
                                 //, update 
                             };
 
@@ -675,7 +684,7 @@ namespace ThreeDStuff.js
                         };
                     #endregion
 
-    
+
 
 
 
@@ -715,10 +724,10 @@ namespace ThreeDStuff.js
 
                     var tile_selector = new IHTMLImage(64, 32)
                         {
-                            src = "assets/THreeDStuff/3.png"
+                            src = "assets/ThreeDStuff/3.png"
                         };
 
-                    tile_selector.style.SetLocation(4, 4);
+                    tile_selector.style.SetLocation(-64, -64);
                     tile_selector.AttachTo(arena.Layers.Canvas);
                     tile_selector.Hide();
 
@@ -742,12 +751,13 @@ namespace ThreeDStuff.js
                             var n = new TileElement
                             {
                                 Position = map_coords,
-                                Image = new IHTMLImage(source)
+                                Image = new IHTMLImage(source),
+                                Source = source
                             };
 
                             KnownTileElements.Add(n);
-                            n.Image.AttachTo(arena.Layers.Canvas);
                             ApplyTileToCanvas(map_coords.X, map_coords.Y, n.Image, height);
+                            n.Image.AttachTo(arena.Layers.Canvas);
 
                             return n;
                         };
@@ -776,6 +786,12 @@ namespace ThreeDStuff.js
                     #endregion
 
                     /*
+                    var toolbar_btn_track1 = new ToolbarButton(
+                       toolbar, "assets/ThreeDStuff/btn_track1.png"
+                    );*/
+
+
+                    /*
                     var toolbar_btn_sign = new ToolbarButton(
                        toolbar, "assets/ThreeDStuff/btn_sign.png"
                     );
@@ -794,17 +810,14 @@ namespace ThreeDStuff.js
                         toolbar, "assets/ThreeDStuff/btn_landinfo.png"
                     );*/
 
+
                     ShowingTileSelector =
-                        () =>
-                        {
-                            if (toolbar_btn_demolish.IsActivated)
-                                return true;
+                        () => new[] { 
+                                toolbar_btn_demolish,
+                                toolbar_btn_trees,
+                                //toolbar_btn_track1
+                            }.Any(i => i.IsActivated);
 
-                            if (toolbar_btn_trees.IsActivated)
-                                return true;
-
-                            return false;
-                        };
 
                     // show tile selection
                     arena.MouseMove +=
@@ -823,6 +836,7 @@ namespace ThreeDStuff.js
                            }
                        };
 
+                    #region arena.SelectionClick
                     arena.SelectionClick +=
                      (p, ev) =>
                      {
@@ -832,18 +846,36 @@ namespace ThreeDStuff.js
                          {
                              ReplaceTileWithDirt(map_coords);
                          }
+
                          if (toolbar_btn_trees.IsActivated)
                          {
-                             ReplaceTileWithDirt(map_coords);
+                             #region add the tree to grass, or demolish and then add the tree
+
+                             if (GetTileElementsAt(map_coords).Any(i => i.Source != TileResources.Grass.Source))
+                                 ReplaceTileWithDirt(map_coords);
+
                              AddTileElement(map_coords, TileResources.Tree.Source, TileResources.Tree.Height);
+
+                             #endregion
+
                          }
                      };
+                    #endregion
 
+                    
+                    //foreach (var v in new [] { 
+                    //    toolbar_btn_demolish,
+                    //    toolbar_btn_track1,
+                    //    toolbar_btn_trees
+                    //})
+                    //{
+                    //    v.
+                    //}
                     toolbar_btn_demolish.Clicked +=
                       delegate
                       {
                           if (toolbar_btn_trees.IsActivated)
-                              toolbar_btn_trees.Counter++;
+                              toolbar_btn_trees.RaiseClicked();
 
 
                           tile_selector.Show(ShowingTileSelector());
@@ -853,10 +885,19 @@ namespace ThreeDStuff.js
                         delegate
                         {
                             if (toolbar_btn_demolish.IsActivated)
-                                toolbar_btn_demolish.Counter++;
+                                toolbar_btn_demolish.RaiseClicked();
 
                             tile_selector.Show(ShowingTileSelector());
                         };
+
+                    //toolbar_btn_trees.Clicked +=
+                    //    delegate
+                    //    {
+                    //        if (toolbar_btn_demolish.IsActivated)
+                    //            toolbar_btn_demolish.RaiseClicked();
+
+                    //        tile_selector.Show(ShowingTileSelector());
+                    //    };
 
 
                     #endregion
@@ -973,7 +1014,42 @@ namespace ThreeDStuff.js
                         };
                     #endregion
 
+                    1000.AtInterval(
+                        t =>
+                        {
+                            if (paused)
+                                return;
 
+                            foreach (var v in KnownTileElements.ToArray())
+                            {
+                                #region make that dirt grow into grass over time
+                                if (v.Source == TileResources.Dirt.Source)
+                                    if (v.DirtAge++ > 3)
+                                    {
+                                        v.Image.Dispose();
+                                        KnownTileElements.Remove(v);
+                                        AddTileElement(v.Position, TileResources.DirtDirtGrass.Source, TileResources.DirtDirtGrass.Height);
+                                    }
+
+                                if (v.Source == TileResources.DirtDirtGrass.Source)
+                                    if (v.DirtAge++ > 3)
+                                    {
+                                        v.Image.Dispose();
+                                        KnownTileElements.Remove(v);
+                                        AddTileElement(v.Position, TileResources.DirtGrassGrass.Source, TileResources.DirtGrassGrass.Height);
+                                    }
+
+                                if (v.Source == TileResources.DirtGrassGrass.Source)
+                                    if (v.DirtAge++ > 3)
+                                    {
+                                        v.Image.Dispose();
+                                        KnownTileElements.Remove(v);
+                                        AddTileElement(v.Position, TileResources.Grass.Source, TileResources.Grass.Height);
+                                    }
+                                #endregion
+                            }
+                        }
+                    );
                 });
 
 
@@ -1128,6 +1204,11 @@ namespace ThreeDStuff.js
             public void RaiseClicked()
             {
                 this.Counter++;
+
+                if (IsActivated)
+                    SetDialogColor(Control, this.Toolbar.Color.AddLum(10));
+                else
+                    SetDialogColor(Control, this.Toolbar.Color);
 
                 if (Clicked != null)
                     Clicked(this);
