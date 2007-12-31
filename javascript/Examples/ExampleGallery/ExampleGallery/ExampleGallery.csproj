@@ -110,6 +110,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\templates\OrcasVisualBasicScriptApplication\bin\Release\OrcasVisualBasicScriptApplication.dll</HintPath>
     </Reference>
+    <Reference Include="RetroCanvas, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\RetroCanvas\RetroCanvas\bin\Release\RetroCanvas.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib, Version=3.0.2665.39893, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>

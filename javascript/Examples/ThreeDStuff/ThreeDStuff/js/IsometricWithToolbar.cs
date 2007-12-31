@@ -48,7 +48,7 @@ namespace ThreeDStuff.js
             Native.Document.body.style.color = Color.White;
             Native.Document.body.style.backgroundColor = Color.Black;
 
-            var info_text = "This example demostrates how would an isometric javascript game look like in your browser. You can see landscape from <i>Transport Tycoon</i> and the characters are from <i>Wolfenstein 3D</i> and <i>Doom</i>.";
+            var info_text = "This example demostrates how would an isometric javascript game look like in your browser. You can see landscape from <i>Transport Tycoon</i> and the characters are from <i>Wolfenstein 3D</i> and <i>Doom</i>. Notice that the <b>game will be paused</b> as you leave this window.";
 
             var info = new IHTMLDiv("loading...");
 
