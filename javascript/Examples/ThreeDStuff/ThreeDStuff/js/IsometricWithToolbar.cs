@@ -39,7 +39,7 @@ namespace ThreeDStuff.js
 
             public int DirtAge;
 
-
+            public int Height;
         }
 
         public IsometricWithToolbar()
@@ -126,6 +126,7 @@ namespace ThreeDStuff.js
                 {
                     Grass = new { Source = "assets/ThreeDStuff/0.png", Height = 32 },
                     Rocks = new { Source = "assets/ThreeDStuff/1.png", Height = 32 },
+                    TileSelector = new { Source = "assets/ThreeDStuff/3.png", Height = 32 },
                     RoughLand = new { Source = "assets/ThreeDStuff/2.png", Height = 32 },
                     Dirt = new { Source = "assets/ThreeDStuff/4.png", Height = 32 },
                     DirtDirtGrass = new { Source = "assets/ThreeDStuff/5.png", Height = 32 },
@@ -133,7 +134,8 @@ namespace ThreeDStuff.js
                     Track1 = new { Source = "assets/ThreeDStuff/r2.png", Height = 32 },
                     Road2 = new { Source = "assets/ThreeDStuff/r1.png", Height = 32 },
                     Road2_Track1 = new { Source = "assets/ThreeDStuff/r3.png", Height = 32 },
-                    Tree = new { Source = "assets/ThreeDStuff/t1.png", Height = 65 }
+                    Tree = new { Source = "assets/ThreeDStuff/t1.png", Height = 65 },
+                    House3 = new { Source = "assets/ThreeDStuff/h3.png", Height = 50 }
                 };
 
             #region Translate
@@ -737,26 +739,36 @@ namespace ThreeDStuff.js
                         toolbar, "assets/ThreeDStuff/btn_demolish.png"
                     );
 
-                    var tile_selector = new IHTMLImage(64, 32)
-                        {
-                            src = "assets/ThreeDStuff/3.png"
-                        };
-
-                    tile_selector.style.SetLocation(-64, -64);
-                    tile_selector.AttachTo(arena.Layers.Canvas);
-                    tile_selector.Hide();
-
+                
                     Func<Point, Point<double>> GetNearestMapPosition =
                         p => GetMapPosition(p).Round().BoundTo(MapSize);
 
+                    #region GetNearestMapRect
+                    Func<Rectangle, Rectangle> GetNearestMapRect =
+                        rect =>
+                        {
+                            var from = GetNearestMapPosition(new Point(rect.Left, rect.Top));
+                            var to = GetNearestMapPosition(new Point(rect.Right, rect.Bottom));
 
+                            return new Rectangle
+                            {
+                                Left = from.X.ToInt32(),
+                                Top = from.Y.ToInt32(),
+                                Right = to.X.ToInt32(),
+                                Bottom = to.Y.ToInt32()
+                            };
+                        };
+                    #endregion
 
+                    #region GetTileElementsAt
                     Func<Point<double>, IEnumerable<TileElement>> GetTileElementsAt =
                         map_coords =>
                             from i in KnownTileElements
                             where i != null
                             where i.Position.X == map_coords.X && i.Position.Y == map_coords.Y
                             select i;
+                    #endregion
+
 
 
                     #region AddTileElement
@@ -767,7 +779,8 @@ namespace ThreeDStuff.js
                             {
                                 Position = map_coords,
                                 Image = new IHTMLImage(source),
-                                Source = source
+                                Source = source,
+                                Height = height
                             };
 
                             KnownTileElements.Add(n);
@@ -780,24 +793,34 @@ namespace ThreeDStuff.js
                         };
                     #endregion
 
+                    #region RemoveAllTilesAt
                     Action<Point<double>> RemoveAllTilesAt =
                         map_coords =>
                         {
-                            foreach (var t in GetTileElementsAt(map_coords))
+                            foreach (var t in GetTileElementsAt(map_coords).ToArray())
                             {
                                 t.Image.Dispose();
-                                KnownTileElements.Remove(t);
+
+                                t.RemoveFrom(KnownTileElements);
+
+                                // timer removes this element from dirt list
+                                t.DirtAge = 100;
                             }
                         };
+                    #endregion
+
 
                     #region ReplaceTileWithDirt
-                    Action<Point<double>> ReplaceTileWithDirt =
+                    Func<Point<double>, TileElement> ReplaceTileWithDirt =
                         map_coords =>
                         {
                             RemoveAllTilesAt(map_coords);
 
-                            AddTileElement(map_coords, TileResources.Dirt.Source, TileResources.Dirt.Height)
-                                .AddTo(KnownDirtTileElements);
+                            var r = AddTileElement(map_coords, TileResources.Dirt.Source, TileResources.Dirt.Height);
+
+                            r.AddTo(KnownDirtTileElements);
+
+                            return r;
 
                         };
                     #endregion
@@ -839,70 +862,153 @@ namespace ThreeDStuff.js
                             toolbar_btn_trees }
                     };
 
-                    System.Diagnostics.Debug.Assert(toolbar_btngroup.Buttons != null);
-                    System.Diagnostics.Debug.Assert(toolbar_btngroup.Buttons.Length > 0);
 
                     #endregion
 
-                    /*
+                    
                     var toolbar_btn_landinfo = new ToolbarButton(
                         toolbar, "assets/ThreeDStuff/btn_landinfo.png"
-                    );*/
+                    );
 
 
 
                     ShowingTileSelector =
                         () => toolbar_btngroup.IsActivated;
 
+                    var MultipleTileSelector = new List<TileElement>();
+
+
+                    #region MultipleTileSelector_Clear
+                    Action MultipleTileSelector_Clear =
+                        delegate
+                        {
+                            // framework bug: while iterating and the collection changes an exception sould be thrown
+                            foreach (var v in MultipleTileSelector.ToArray())
+                            {
+                                if (v.Image != null)
+                                {
+                                    v.Image.Dispose();
+                                    v.Image = null;
+                                }
+
+                                v.RemoveFrom(KnownTileElements);
+                            }
+
+
+                            MultipleTileSelector.Clear();
+                        };
+                    #endregion
+
+                    #region MultipleTileSelector_Add
+                    Action<Point<double>> MultipleTileSelector_Add =
+                         p =>
+                         {
+                             AddTileElement(
+                                 p,
+                                 TileResources.TileSelector.Source,
+                                 TileResources.TileSelector.Height
+                             ).AddTo(MultipleTileSelector);
+                         };
+                    #endregion
+
 
                     // show tile selection
+                    #region arena.MouseMove
                     arena.MouseMove +=
                        p =>
                        {
+                           if (paused)
+                               return;
+
                            if (ShowingTileSelector())
                            {
+                               if (arena.InSelectionMode)
+                                   return;
 
                                // get map coords from canvas coords
                                var map_coords = GetNearestMapPosition(p);
 
-                               ApplyTileToCanvas(map_coords.X, map_coords.Y, tile_selector, 32);
+                               if (MultipleTileSelector.Count == 1)
+                               {
+                                   var n = MultipleTileSelector.SingleOrDefault();
+
+                                   ApplyTileToCanvas(map_coords.X, map_coords.Y, n.Image, n.Height);
+                               }
+                               else
+                               {
+                                   MultipleTileSelector_Clear();
+                                   MultipleTileSelector_Add(map_coords);
+                               }
 
                                // must be on top of new dirt
-                               tile_selector.style.zIndex++;
+                               //SingleTileSelector.style.zIndex++;
                            }
                        };
+                    #endregion
 
-                    #region arena.SelectionClick
-                    arena.SelectionClick +=
-                     (p, ev) =>
-                     {
-                         if (paused)
-                             return;
+                    #region arena.SelectionPointsPreview
+                    arena.SelectionPointsPreview +=
+                        (from, to) =>
+                        {
+                            if (paused)
+                                return;
 
-                         var map_coords = GetNearestMapPosition(p);
+                            if (!ShowingTileSelector())
+                                return;
 
-                         if (toolbar_btn_demolish)
-                         {
-                             ReplaceTileWithDirt(map_coords);
-                         }
+                            //SingleTileSelector.Hide();
 
-                         if (toolbar_btn_trees)
-                         {
-                             #region add the tree to grass, or demolish and then add the tree
-
-                             if (GetTileElementsAt(map_coords).Any(i => i.Source != TileResources.Grass.Source))
-                                 ReplaceTileWithDirt(map_coords);
-
-                             AddTileElement(map_coords, TileResources.Tree.Source, TileResources.Tree.Height);
-
-                             #endregion
-
-                         }
+                            var map_coords = new
+                                {
+                                    from = GetNearestMapPosition(from),
+                                    to = GetNearestMapPosition(to)
+                                };
 
 
-                         #region interesting predicates
-                         var IsGrass =
-                             new[]
+
+
+                            if (toolbar_btn_track1)
+                            {
+                                MultipleTileSelector_Clear();
+
+                                foreach (var x in map_coords.from.X.ToInt32().RangeTo(map_coords.to.X.ToInt32()))
+                                    MultipleTileSelector_Add(new Point<double> { X = x, Y = map_coords.from.Y });
+                            }
+
+
+                            if (toolbar_btn_road2)
+                            {
+                                MultipleTileSelector_Clear();
+
+                                foreach (var y in map_coords.from.Y.ToInt32().RangeTo(map_coords.to.Y.ToInt32()))
+                                    MultipleTileSelector_Add(new Point<double> { X = map_coords.from.X, Y = y });
+                            }
+
+
+                            if (toolbar_btn_demolish || toolbar_btn_trees)
+                            {
+                                MultipleTileSelector_Clear();
+
+                                foreach (var x in map_coords.from.X.ToInt32().RangeTo(map_coords.to.X.ToInt32()))
+                                    foreach (var y in map_coords.from.Y.ToInt32().RangeTo(map_coords.to.Y.ToInt32()))
+                                    {
+                                        MultipleTileSelector_Add(new Point<double> { X = x, Y = y });
+                                    }
+                            }
+                        };
+                    #endregion
+
+
+
+                    #region UseCurrentToolAt
+                    Action<Point<double>> UseCurrentToolAt =
+                        map_coords =>
+                        {
+                            //"UseCurrentToolAt".ToConsole();
+
+                            #region interesting predicates
+                            var IsGrass =
+                                new[]
                                  {
                                      TileResources.Grass.Source,
                                      TileResources.Dirt.Source,
@@ -911,113 +1017,261 @@ namespace ThreeDStuff.js
                                      TileResources.Rocks.Source,
                                      TileResources.RoughLand.Source,
                                  }.ToEqualsAny();
-                         var IsRoad2 = TileResources.Road2.Source.ToEquals();
-                         var IsTrack1 = TileResources.Track1.Source.ToEquals();
-                         var IsTree = TileResources.Tree.Source.ToEquals();
-                         #endregion
+                            var IsRoad2 = TileResources.Road2.Source.ToEquals();
+                            var IsTrack1 = TileResources.Track1.Source.ToEquals();
+                            var IsTree = TileResources.Tree.Source.ToEquals();
+                            var IsTileSelector = TileResources.TileSelector.Source.ToEquals();
+                            #endregion
 
-                         #region toolbar_btn_track1
-                         if (toolbar_btn_track1)
+                            var Subject = GetTileElementsAt(map_coords).ToArray();
+                            var StatsQuery = Subject.Select(i => i.Source);
+
+
+                            if (toolbar_btn_demolish)
+                            {
+                                ReplaceTileWithDirt(map_coords);
+                            }
+
+                            if (toolbar_btn_trees)
+                            {
+                                Func<string, bool> IsOther = s =>
+                                    !(IsGrass(s) || IsTileSelector(s));
+
+                                var Stats = new
+                                {
+                                    //Grass = StatsQuery.Any(IsGrass),
+                                    Other = StatsQuery.Any(IsOther)
+                                };
+
+                                if (!Stats.Other)
+                                {
+                                    AddTileElement(map_coords, TileResources.Tree.Source, TileResources.Tree.Height);
+                                }
+
+
+
+                            }
+
+
+
+                            #region toolbar_btn_track1
+                            if (toolbar_btn_track1)
+                            {
+
+
+
+                                #region Stats
+
+                                Func<string, bool> IsOther = s =>
+                                    !(IsRoad2(s) || IsGrass(s) || IsTree(s) || IsTileSelector(s));
+
+
+
+
+                                var Stats = new
+                                {
+                                    Grass = StatsQuery.Any(IsGrass),
+                                    Road2 = StatsQuery.Any(IsRoad2),
+                                    Other = StatsQuery.Any(IsOther)
+                                };
+                                #endregion
+
+                                if (!Stats.Other)
+                                {
+                                    RemoveAllTilesAt(map_coords);
+
+                                    if (!Stats.Road2)
+                                        AddTileElement(map_coords, TileResources.Track1.Source, TileResources.Track1.Height);
+                                    else
+                                        AddTileElement(map_coords, TileResources.Road2_Track1.Source, TileResources.Road2_Track1.Height);
+                                }
+                                else
+                                {
+                                    // should show that red error dialog now :)
+                                    "Cannot build tracks!".ToConsole();
+                                    foreach (var v in Subject)
+                                    {
+                                        v.Source.ToConsole();
+                                    }
+                                }
+
+                            }
+
+                            #endregion
+
+                            #region toolbar_btn_road2
+                            if (toolbar_btn_road2)
+                            {
+
+
+                                #region Stats
+
+                                Func<string, bool> IsOther = s =>
+                                    !(IsTrack1(s) || IsGrass(s) || IsTree(s) || IsTileSelector(s));
+
+
+
+
+                                var Stats = new
+                                {
+                                    Grass = StatsQuery.Any(IsGrass),
+                                    Track1 = StatsQuery.Any(IsTrack1),
+                                    Other = StatsQuery.Any(IsOther)
+                                };
+                                #endregion
+
+                                if (!Stats.Other)
+                                {
+                                    RemoveAllTilesAt(map_coords);
+
+                                    if (!Stats.Track1)
+                                        AddTileElement(map_coords, TileResources.Road2.Source, TileResources.Road2.Height);
+                                    else
+                                        AddTileElement(map_coords, TileResources.Road2_Track1.Source, TileResources.Road2_Track1.Height);
+                                }
+                                else
+                                {
+                                    // should show that red error dialog now :)
+                                    "Cannot build tracks!".ToConsole();
+
+                                }
+
+                            }
+
+                            #endregion
+                        };
+                    #endregion
+
+                    #region arena.ApplyPointsSelection - using current tool
+                    arena.ApplyPointsSelection +=
+                         (from, to, ev) =>
                          {
+                             if (!ShowingTileSelector())
+                                 return;
 
-                             var Subject = GetTileElementsAt(map_coords).ToArray();
+                             if (paused)
+                                 return;
 
-                             #region Stats
-
-                             Func<string, bool> IsOther = s => 
-                                 !(IsRoad2(s) || IsGrass(s) || IsTree(s));
-                             
-
-                             var StatsQuery = Subject.Select(i => i.Source);
-
-                             var Stats = new
+                             var map_coords = new
                              {
-                                 Grass = StatsQuery.Any(IsGrass),
-                                 Road2 = StatsQuery.Any(IsRoad2),
-                                 Other = StatsQuery.Any(IsOther)
+                                 from = GetNearestMapPosition(from),
+                                 to = GetNearestMapPosition(to)
                              };
+
+                             #region interesting predicates
+                             var IsGrass =
+                                 new[]
+                                 {
+                                     TileResources.Grass.Source,
+                                     TileResources.Dirt.Source,
+                                     TileResources.DirtDirtGrass.Source,
+                                     TileResources.DirtGrassGrass.Source,
+                                     TileResources.Rocks.Source,
+                                     TileResources.RoughLand.Source,
+                                 }.ToEqualsAny();
+                             var IsRoad2 = TileResources.Road2.Source.ToEquals();
+                             var IsTrack1 = TileResources.Track1.Source.ToEquals();
+                             var IsTree = TileResources.Tree.Source.ToEquals();
+                             var IsTileSelector = TileResources.TileSelector.Source.ToEquals();
                              #endregion
 
-                             if (!Stats.Other)
-                             {
-                                 RemoveAllTilesAt(map_coords);
 
-                                 if (!Stats.Road2)
-                                     AddTileElement(map_coords, TileResources.Track1.Source, TileResources.Track1.Height);
-                                 else
-                                     AddTileElement(map_coords, TileResources.Road2_Track1.Source, TileResources.Road2_Track1.Height);
-                             }
-                             else
+
+                             if (toolbar_btn_road2)
                              {
-                                 // should show that red error dialog now :)
-                                 "Cannot build tracks!".ToConsole();
-                                 foreach (var v in Subject)
+                                 MultipleTileSelector_Clear();
+
+                                 foreach (var y in map_coords.from.Y.ToInt32().RangeTo(map_coords.to.Y.ToInt32()))
                                  {
-                                     v.Source.ToConsole();
+                                     UseCurrentToolAt(new Point<double> { X = map_coords.from.X, Y = y });
+
+                                     // lets build some houses 3 to 1
+                                     if (0.5.ByChance())
+                                     {
+                                         //  to the left of the road
+                                         var x = map_coords.from.X + Math.Sign(map_coords.to.Y - map_coords.from.Y);
+                                         var new_map_coords = new Point<double> { X = x, Y = y };
+
+                                         if (IsDefined(x, y))
+                                         {
+                                             var Subject = GetTileElementsAt(new_map_coords).ToArray();
+                                             var StatsQuery = Subject.Select(i => i.Source);
+
+                                             // all but grass
+                                             if (!StatsQuery.Any(i => !IsGrass(i)))
+                                             {
+                                                 // -200 will be a new house
+                                                 var lot = ReplaceTileWithDirt(new_map_coords);
+
+                                                 lot.DirtAge = -205;
+                                             }
+                                         }
+                                     }
                                  }
                              }
 
-                         }
-
-                         #endregion
-
-                         #region toolbar_btn_road2
-                         if (toolbar_btn_road2)
-                         {
-
-                             var Subject = GetTileElementsAt(map_coords).ToArray();
-
-                             #region Stats
-
-                             Func<string, bool> IsOther = s =>
-                                 !(IsTrack1(s) || IsGrass(s) || IsTree(s));
-
-
-                             var StatsQuery = Subject.Select(i => i.Source);
-
-                             var Stats = new
+                             if (toolbar_btn_track1)
                              {
-                                 Grass = StatsQuery.Any(IsGrass),
-                                 Track1 = StatsQuery.Any(IsTrack1),
-                                 Other = StatsQuery.Any(IsOther)
-                             };
-                             #endregion
+                                 MultipleTileSelector_Clear();
 
-                             if (!Stats.Other)
-                             {
-                                 RemoveAllTilesAt(map_coords);
-
-                                 if (!Stats.Track1)
-                                     AddTileElement(map_coords, TileResources.Road2.Source, TileResources.Road2.Height);
-                                 else
-                                     AddTileElement(map_coords, TileResources.Road2_Track1.Source, TileResources.Road2_Track1.Height);
-                             }
-                             else
-                             {
-                                 // should show that red error dialog now :)
-                                 "Cannot build tracks!".ToConsole();
-                                 foreach (var v in Subject)
-                                 {
-                                     v.Source.ToConsole();
-                                 }
+                                 foreach (var x in map_coords.from.X.ToInt32().RangeTo(map_coords.to.X.ToInt32()))
+                                     UseCurrentToolAt(new Point<double> { X = x, Y = map_coords.from.Y });
                              }
 
-                         }
+                             if (toolbar_btn_demolish || toolbar_btn_trees)
+                             {
+                                 MultipleTileSelector_Clear();
 
-                         #endregion
+                                 foreach (var x in map_coords.from.X.ToInt32().RangeTo(map_coords.to.X.ToInt32()))
+                                     foreach (var y in map_coords.from.Y.ToInt32().RangeTo(map_coords.to.Y.ToInt32()))
+                                     {
+                                         UseCurrentToolAt(new Point<double> { X = x, Y = y });
+                                     }
+                             }
+
+
+                             MultipleTileSelector_Clear();
+                             MultipleTileSelector_Add(map_coords.to);
+
+                         };
+                    #endregion
+
+                    #region arena.SelectionClick - using current tool
+                    arena.SelectionClick +=
+                     (p, ev) =>
+                     {
+                         if (paused)
+                             return;
+
+                         if (!ShowingTileSelector())
+                             return;
+
+
+                         var map_coords = GetNearestMapPosition(p);
+
+                         UseCurrentToolAt(map_coords);
+
+
+                         MultipleTileSelector_Clear();
+                         MultipleTileSelector_Add(map_coords);
+
                      };
                     #endregion
 
 
 
 
+                    #region toolbar_btngroup.Clicked - a tool has been selected
                     toolbar_btngroup.Clicked +=
                         btn =>
                         {
-                            tile_selector.Show(ShowingTileSelector());
-
                             arena.ShowSelectionRectangle = !ShowingTileSelector();
+
+                            if (!ShowingTileSelector())
+                                MultipleTileSelector_Clear();
                         };
+                    #endregion
+
 
 
                     #endregion
@@ -1043,6 +1297,7 @@ namespace ThreeDStuff.js
                             if (selection.Length == 0)
                             {
                                 // single select?
+
                                 return;
                             }
 
@@ -1141,46 +1396,80 @@ namespace ThreeDStuff.js
                             if (paused)
                                 return;
 
+                            "got dirt?".ToConsole();
+
                             foreach (var v in KnownDirtTileElements.ToArray())
                             {
+                                new { v.DirtAge, v.Position.X, v.Position.Y }.ToConsole();
+
+                                if (v.DirtAge == 100)
+                                {
+                                    v.RemoveFrom(KnownTileElements);
+
+
+                                }
+
                                 #region make that dirt grow into grass over time
                                 if (v.Source == TileResources.Dirt.Source)
-                                    if (v.DirtAge++ > 3)
+                                {
+                                    if (v.DirtAge == -200)
                                     {
-                                        v.Image.Dispose();
-                                        v.RemoveFrom(KnownTileElements);
+                                        RemoveAllTilesAt(v.Position);
+
+
                                         v.RemoveFrom(KnownDirtTileElements);
-                                        
+
+                                        AddTileElement(v.Position,
+                                            TileResources.House3.Source,
+                                            TileResources.House3.Height
+                                            );
+                                    }
+
+                                    if (v.DirtAge > 3)
+                                    {
+                                        RemoveAllTilesAt(v.Position);
+
+                                        v.RemoveFrom(KnownDirtTileElements);
+
                                         AddTileElement(v.Position, TileResources.DirtDirtGrass.Source, TileResources.DirtDirtGrass.Height)
                                             .AddTo(KnownDirtTileElements);
                                     }
+                                }
 
                                 if (v.Source == TileResources.DirtDirtGrass.Source)
-                                    if (v.DirtAge++ > 3)
+                                    if (v.DirtAge > 3)
                                     {
-                                        v.Image.Dispose();
-                                        v.RemoveFrom(KnownTileElements);
+                                        RemoveAllTilesAt(v.Position);
+
                                         v.RemoveFrom(KnownDirtTileElements);
-                                        
+
                                         AddTileElement(v.Position, TileResources.DirtGrassGrass.Source, TileResources.DirtGrassGrass.Height)
                                             .AddTo(KnownDirtTileElements);
                                     }
 
                                 if (v.Source == TileResources.DirtGrassGrass.Source)
-                                    if (v.DirtAge++ > 3)
+                                    if (v.DirtAge > 3)
                                     {
-                                        v.Image.Dispose();
-                                        v.RemoveFrom(KnownTileElements);
+                                        RemoveAllTilesAt(v.Position);
+
                                         v.RemoveFrom(KnownDirtTileElements);
-                                        
+
                                         AddTileElement(v.Position, TileResources.Grass.Source, TileResources.Grass.Height);
                                     }
                                 #endregion
+
+                                v.DirtAge++;
                             }
                         }
                     );
                     #endregion
 
+                    Native.Window.onblur +=
+                        delegate
+                        {
+                            if (!toolbar_btn_pause.IsActivated)
+                                toolbar_btn_pause.RaiseClicked();
+                        };
                 });
 
 

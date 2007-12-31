@@ -18,7 +18,7 @@ namespace ScriptCoreLib.Shared.Query
     [Script(Implements = typeof(global::System.Linq.Enumerable))]
     internal static partial class __Enumerable
     {
-
+       
 
         public static bool Any<TSource>(this IEnumerable<TSource> source)
         {
@@ -59,6 +59,33 @@ namespace ScriptCoreLib.Shared.Query
                 if (predicate(v))
                 {
                     r = true;
+
+                    break;
+                }
+            }
+
+            return r;
+        }
+
+        public static bool All<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            if (source == null)
+            {
+                throw Error.ArgumentNull("source");
+            }
+
+            if (predicate == null)
+            {
+                throw Error.ArgumentNull("predicate");
+            }
+
+            var r = true;
+
+            foreach (var v in source.AsEnumerable())
+            {
+                if (!predicate(v))
+                {
+                    r = false;
 
                     break;
                 }

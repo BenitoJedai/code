@@ -15,6 +15,24 @@ namespace ThreeDStuff.js
     [Script]
     static class Extensions
     {
+        public static int[] RangeTo(this int from, int to)
+        {
+            if (from == to)
+                return new[] { from };
+
+            if (from > to)
+                return RangeTo(to, from);
+
+            var a = new int[to - from + 1];
+
+            for (int i = from; i <= to; i++)
+            {
+                a[i - from] = i;
+            }
+
+            return a;
+        }
+
         public static T RemoveFrom<T>(this T e, List<T> list)
         {
             list.Remove(e);

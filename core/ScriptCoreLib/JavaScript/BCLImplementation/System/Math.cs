@@ -20,6 +20,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public static double Tan(double d) { return m.tan(d); }
         public static double Cos(double d) { return m.cos(d); }
         public static double Sin(double d) { return m.sin(d); }
+
         public static double Abs(double e) { return m.abs(e); }
         public static double Sqrt(double e) { return m.sqrt(e); }
         public static int Abs(int e) { return (int)m.abs(e); }
@@ -33,5 +34,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public static int Min(int e, int x) { return m.min(e, x); }
         public static double Min(double e, double x) { return m.min(e, x); }
 
+        public static int Sign(double d)
+        {
+            if (d == 0) return 0;
+            if (d < 0) return -1;
+            return 1;
+        }
     }
 }

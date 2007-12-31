@@ -13,6 +13,7 @@ namespace Toolbar.JavaScript
     [Script]
     static class Extensions
     {
+        
         public static byte ToByte(this int e)
         {
             return (byte)(e % 0x100);

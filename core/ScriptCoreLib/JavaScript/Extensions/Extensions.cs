@@ -68,6 +68,9 @@ namespace ScriptCoreLib.JavaScript.Extensions
         public static T Dispose<T>(this T e)
             where T : INode
         {
+            if (e == null)
+                throw new NullReferenceException();
+
             INode n = e.parentNode;
 
             if (n != null)

@@ -107,6 +107,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="tools\rebuild-references.bat" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="web\assets\OrcasScriptApplication\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

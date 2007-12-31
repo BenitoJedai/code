@@ -330,6 +330,17 @@ namespace ScriptCoreLib.JavaScript.Controls
         public bool ShowSelectionRectangle = true;
 
         public event Action<Rectangle> SelectionPreview;
+        public event Action<Point, Point> SelectionPointsPreview;
+
+        bool _InSelectionMode = false;
+
+        public bool InSelectionMode
+        {
+            get
+            {
+                return _InSelectionMode;
+            }
+        }
 
         void InitializeCanvasSelection()
         {
@@ -340,7 +351,7 @@ namespace ScriptCoreLib.JavaScript.Controls
             selection.style.border = "1px solid #ffffff";
             selection.style.overflow = IStyle.OverflowEnum.hidden;
 
-            var selection_enabled = false;
+           
             var selection_start = Point.Zero;
             var selection_end = Point.Zero;
             var selection_rect = new Rectangle();
@@ -386,6 +397,9 @@ namespace ScriptCoreLib.JavaScript.Controls
 
                     if (SelectionPreview != null)
                         SelectionPreview(selection_rect);
+
+                    if (SelectionPointsPreview != null)
+                        SelectionPointsPreview(selection_start, selection_end);
                 };
 
             u.onmousedown +=
@@ -394,7 +408,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 
                     if (e.MouseButton == IEvent.MouseButtonEnum.Left)
                     {
-                        selection_enabled = true;
+                        _InSelectionMode = true;
 
                         if (ShowSelectionRectangle)
                             this.Layers.CanvasInfo.appendChild(selection);
@@ -410,7 +424,7 @@ namespace ScriptCoreLib.JavaScript.Controls
             u.onmousemove +=
                 delegate(IEvent e)
                 {
-                    if (selection_enabled)
+                    if (_InSelectionMode)
                     {
                         selection_end = e.OffsetPosition - this.CurrentCanvasPosition;
 
@@ -421,11 +435,11 @@ namespace ScriptCoreLib.JavaScript.Controls
             u.onmouseup +=
                 delegate(IEvent e)
                 {
-                    if (selection_enabled)
+                    if (_InSelectionMode)
                     {
                         if (e.MouseButton == IEvent.MouseButtonEnum.Left)
                         {
-                            selection_enabled = false;
+                            _InSelectionMode = false;
 
                             if (IsSelectionMinimumSize(selection_rect))
                             {
@@ -446,6 +460,9 @@ namespace ScriptCoreLib.JavaScript.Controls
 
                                 if (ApplySelection != null)
                                     ApplySelection(r, e);
+
+                                if (ApplyPointsSelection != null)
+                                    ApplyPointsSelection(selection_start, selection_end, e);
                             }
 
                             if (ShowSelectionRectangle)
@@ -457,10 +474,12 @@ namespace ScriptCoreLib.JavaScript.Controls
             u.onmouseout +=
                 delegate
                 {
-                    if (selection_enabled)
+                    if (_InSelectionMode)
                     {
-                        selection_enabled = false;
-                        this.Layers.CanvasInfo.removeChild(selection);
+                        _InSelectionMode = false;
+
+                        if (ShowSelectionRectangle)
+                            this.Layers.CanvasInfo.removeChild(selection);
                     }
                 };
         }
@@ -468,6 +487,7 @@ namespace ScriptCoreLib.JavaScript.Controls
         public event EventHandler<Point, IEvent> SelectionClick;
 
         public event EventHandler<Rectangle, IEvent> ApplySelection;
+        public event Action<Point, Point, IEvent> ApplyPointsSelection;
 
         public void DrawTextToInfo(string text, Point p, Color c)
         {
