@@ -10,11 +10,11 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace RetroCanvas.js
 {
-    [Script, ScriptApplicationEntryPoint(IsClickOnce = true)]
-    public class Class1
+    [Script, ScriptApplicationEntryPoint]
+    public class InputDiagnostics
     {
 
-        public Class1()
+        public InputDiagnostics()
         {
 
             var x = new IHTMLDiv();
@@ -61,9 +61,9 @@ namespace RetroCanvas.js
         }
 
 
-        static Class1()
+        static InputDiagnostics()
         {
-            typeof(Class1).SpawnTo(
+            typeof(InputDiagnostics).SpawnTo(
                 i =>
                 {
                     // hide IE scrollbar
@@ -86,7 +86,7 @@ namespace RetroCanvas.js
 
 
                     Timer.DoAsync(
-                        () => new Class1()
+                        () => new InputDiagnostics()
                     );
                 }
             );

@@ -708,18 +708,47 @@ namespace ThreeDStuff.js
                     // create a draggable toolbar
                     #region creating the toolbar
 
+                    var toolbar_color = Color.FromRGB(0, 0x80, 0);
+
+                    var infotoolbar = ToolbarDialog.CreateToolbar(
+                        new Point(64, 64),
+                        new Point(200, 64), toolbar_color
+                        );
+
+                    var infotoolbar_content = new IHTMLDiv().AttachTo(infotoolbar.Control);
+
+                    infotoolbar_content.style.SetLocation(2, 8, infotoolbar.Size.X - 6, infotoolbar.Size.Y - 12);
+                    infotoolbar_content.SetDialogColor(infotoolbar.Color, false);
+                    infotoolbar_content.onmousedown += Native.DisabledEventHandler;
+
+                    Action<IStyle> SetInfoAnchorStyle =
+                        style =>
+                        {
+                            style.display = IStyle.DisplayEnum.block;
+                            style.textDecoration = "none";
+                            style.color = Color.White;
+                            style.textAlign = IStyle.TextAlignEnum.center;
+                        };
+
+                    new IHTMLAnchor("http://zproxy.wordpress.com", "zproxy.wordpress.com").AttachTo(infotoolbar_content).style.Aggregate(SetInfoAnchorStyle);
+                    new IHTMLAnchor("http://jsc.sf.net", "jsc.sf.net").AttachTo(infotoolbar_content).style.Aggregate(SetInfoAnchorStyle);
+
+                    
                     var toolbar_size = new Point(96, 32);
                     var toolbar_pos = new Point(8, Native.Window.Height - toolbar_size.Y - 8);
-                    var toolbar_color = Color.FromRGB(0, 0x80, 0);
+                    
 
                     var toolbar = ToolbarDialog.CreateToolbar(toolbar_pos, toolbar_size, toolbar_color);
 
                     Native.Window.onresize +=
                         delegate
                         {
+                            infotoolbar.ApplyPosition();
                             toolbar.ApplyPosition();
                         };
 
+                    infotoolbar.Control.Hide();
+                    infotoolbar.Control.AttachToDocument();
                     toolbar.Control.AttachToDocument();
 
                     var toolbar_btn_pause = new ToolbarButton(
@@ -802,9 +831,10 @@ namespace ThreeDStuff.js
                                 t.Image.Dispose();
 
                                 t.RemoveFrom(KnownTileElements);
+                                t.RemoveFrom(KnownDirtTileElements);
 
-                                // timer removes this element from dirt list
-                                t.DirtAge = 100;
+                                
+                                
                             }
                         };
                     #endregion
@@ -870,7 +900,11 @@ namespace ThreeDStuff.js
                         toolbar, "assets/ThreeDStuff/btn_landinfo.png"
                     );
 
-
+                    toolbar_btn_landinfo.Clicked +=
+                        btn =>
+                        {
+                            infotoolbar.Control.Show(btn.IsActivated);
+                        };
 
                     ShowingTileSelector =
                         () => toolbar_btngroup.IsActivated;
@@ -1017,6 +1051,7 @@ namespace ThreeDStuff.js
                                      TileResources.Rocks.Source,
                                      TileResources.RoughLand.Source,
                                  }.ToEqualsAny();
+                            var IsGrassStrict = TileResources.Grass.Source.ToEquals();
                             var IsRoad2 = TileResources.Road2.Source.ToEquals();
                             var IsTrack1 = TileResources.Track1.Source.ToEquals();
                             var IsTree = TileResources.Tree.Source.ToEquals();
@@ -1039,13 +1074,21 @@ namespace ThreeDStuff.js
 
                                 var Stats = new
                                 {
-                                    //Grass = StatsQuery.Any(IsGrass),
+                                    GrassStrict = StatsQuery.Any(IsGrassStrict),
                                     Other = StatsQuery.Any(IsOther)
                                 };
 
                                 if (!Stats.Other)
                                 {
+                                    if (!Stats.GrassStrict)
+                                    {
+                                        RemoveAllTilesAt(map_coords);
+                                        AddTileElement(map_coords, TileResources.Grass.Source, TileResources.Grass.Height);
+                                    }
+                                    
                                     AddTileElement(map_coords, TileResources.Tree.Source, TileResources.Tree.Height);
+                                    
+
                                 }
 
 
@@ -1415,7 +1458,6 @@ namespace ThreeDStuff.js
                                     if (v.DirtAge == -200)
                                     {
                                         RemoveAllTilesAt(v.Position);
-
 
                                         v.RemoveFrom(KnownDirtTileElements);
 

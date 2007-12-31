@@ -61,6 +61,7 @@ call :buildfast javascript\Examples\VectorExample\VectorExample.sln
 call :buildfast javascript\Examples\FormsExample\FormsExample.sln
 call :buildfast javascript\Examples\FormsExample.VisualBasic\FormsExample.VisualBasic.sln
 call :buildfast javascript\Games\Mahjong\Mahjong.sln
+call :buildfast javascript\Examples\RetroCanvas\RetroCanvas.sln
 
 goto :skip
 

@@ -12,6 +12,17 @@ using ScriptCoreLib.JavaScript;
 
 namespace ThreeDStuff.js
 {
+
+    [Script]
+    partial class Isometric { }
+    [Script]
+    partial class IsometricRotating { }
+    [Script]
+    partial class IsometricRotatingAndInput { }
+    [Script]
+    partial class IsometricWithNatureBoy { }
+    [Script]
+    partial class IsometricWithNatureBoyAndInput { }
     [Script]
     partial class IsometricWithToolbar { }
 

@@ -50,7 +50,8 @@ namespace ExampleGallery.js
                     typeof(VectorExample.js.VectorExample),
                     typeof(FormsExample.js.FormsExampleApplication),
                     typeof(FormsExample.VisualBasic.JavaScript.FormsExampleVBApplication),
-                    typeof(Mahjong.js.MahjongGame)
+                    typeof(Mahjong.js.MahjongGame),
+                    typeof(RetroCanvas.js.AmiNET110.AmiNET110)
                 };
             }
         }
