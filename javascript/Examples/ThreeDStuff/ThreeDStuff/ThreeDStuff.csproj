@@ -76,6 +76,8 @@
     <Content Include="docs\description.txt" />
     <Content Include="docs\tycoon.txt" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\btn_track1.png" />
+    <EmbeddedResource Include="web\assets\ThreeDStuff\btn_road2.png" />
+    <EmbeddedResource Include="web\assets\ThreeDStuff\h3.png" />
     <Content Include="web\assets\ThreeDStuff\mouse.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\5.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\6.png" />
@@ -97,6 +99,12 @@
     <EmbeddedResource Include="web\assets\ThreeDStuff\h1.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\h2.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Toolbar\Toolbar.csproj">
+      <Project>{DD5A74AC-6212-4C10-B0E5-2745273C2C68}</Project>
+      <Name>Toolbar</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="web\assets\OrcasScriptApplication\" />

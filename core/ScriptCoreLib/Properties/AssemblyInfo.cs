@@ -12,7 +12,7 @@ using ScriptCoreLib;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("neutronic")]
 [assembly: AssemblyProduct("ScriptCoreLib")]
-[assembly: AssemblyCopyright("Copyright © neutronic 2006")]
+[assembly: AssemblyCopyright("Copyright © zporxy.wordpress.com 2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -324,6 +324,13 @@ namespace ScriptCoreLib.JavaScript.Controls
             return _w || _h;
         }
 
+        /// <summary>
+        /// while this property is set to false the selection rectangle wont be shown
+        /// </summary>
+        public bool ShowSelectionRectangle = true;
+
+        public event Action<Rectangle> SelectionPreview;
+
         void InitializeCanvasSelection()
         {
             var u = this.Layers.User;
@@ -366,15 +373,19 @@ namespace ScriptCoreLib.JavaScript.Controls
                     }
 
 
-                    if (IsSelectionMinimumSize(selection_rect))
-                    {
-                        selection.style.display = IStyle.DisplayEnum.none;
-                    }
-                    else
-                    {
-                        selection.style.display = IStyle.DisplayEnum.block;
-                        selection.style.SetLocation(selection_rect);
-                    }
+                    if (ShowSelectionRectangle)
+                        if (IsSelectionMinimumSize(selection_rect))
+                        {
+                            selection.style.display = IStyle.DisplayEnum.none;
+                        }
+                        else
+                        {
+                            selection.style.display = IStyle.DisplayEnum.block;
+                            selection.style.SetLocation(selection_rect);
+                        }
+
+                    if (SelectionPreview != null)
+                        SelectionPreview(selection_rect);
                 };
 
             u.onmousedown +=
@@ -385,7 +396,8 @@ namespace ScriptCoreLib.JavaScript.Controls
                     {
                         selection_enabled = true;
 
-                        this.Layers.CanvasInfo.appendChild(selection);
+                        if (ShowSelectionRectangle)
+                            this.Layers.CanvasInfo.appendChild(selection);
 
                         selection_start = e.OffsetPosition - this.CurrentCanvasPosition;
                         selection_end = selection_start;
@@ -436,8 +448,8 @@ namespace ScriptCoreLib.JavaScript.Controls
                                     ApplySelection(r, e);
                             }
 
-
-                            this.Layers.CanvasInfo.removeChild(selection);
+                            if (ShowSelectionRectangle)
+                                this.Layers.CanvasInfo.removeChild(selection);
                         }
                     }
                 };

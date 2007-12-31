@@ -15,6 +15,67 @@ namespace ThreeDStuff.js
     [Script]
     static class Extensions
     {
+        public static T RemoveFrom<T>(this T e, List<T> list)
+        {
+            list.Remove(e);
+
+            return e;
+        }
+
+        public static T AddTo<T>(this T e, List<T> list)
+        {
+            list.Add(e);
+
+            return e;
+        }
+
+        public static void SetDialogColor(this IHTMLDiv toolbar, Color toolbar_color)
+        {
+            SetDialogColor(toolbar, toolbar_color, true);
+        }
+
+        public static void SetDialogColor(this IHTMLDiv toolbar, Color toolbar_color, bool up)
+        {
+
+
+            if (up)
+            {
+                toolbar.style.backgroundColor = toolbar_color;
+
+                var toolbar_color_light = toolbar_color.AddLum(+20);
+                var toolbar_color_shadow = toolbar_color.AddLum(-20);
+
+                toolbar.style.borderLeft = "1px solid " + toolbar_color_light;
+                toolbar.style.borderTop = "1px solid " + toolbar_color_light;
+                toolbar.style.borderRight = "1px solid " + toolbar_color_shadow;
+                toolbar.style.borderBottom = "1px solid " + toolbar_color_shadow;
+                toolbar.style.backgroundPosition = "0px 0px";
+            }
+            else
+            {
+                toolbar.style.backgroundColor = toolbar_color.AddLum(+15);
+
+                var toolbar_color_light = toolbar_color.AddLum(+20 + 15);
+                var toolbar_color_shadow = toolbar_color.AddLum(-20 + 15);
+
+                toolbar.style.borderLeft = "1px solid " + toolbar_color_shadow;
+                toolbar.style.borderTop = "1px solid " + toolbar_color_shadow;
+                toolbar.style.borderRight = "1px solid " + toolbar_color_light;
+                toolbar.style.borderBottom = "1px solid " + toolbar_color_light;
+                toolbar.style.backgroundPosition = "1px 1px";
+            }
+
+        }
+
+        public static Func<string, bool> ToEqualsAny(this string[] e)
+        {
+            return s => e.Any(i => i == s);
+        }
+
+        public static Func<string, bool> ToEquals(this string e)
+        {
+            return s => s == e;
+        }
 
         public static Point<double> BoundTo(this Point<double> e, Rectangle r)
         {

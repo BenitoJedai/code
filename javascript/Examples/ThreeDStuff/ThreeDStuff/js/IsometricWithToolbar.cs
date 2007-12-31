@@ -10,6 +10,7 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 
+using Toolbar.JavaScript;
 
 namespace ThreeDStuff.js
 {
@@ -72,12 +73,17 @@ namespace ThreeDStuff.js
 
             var MapSize = new Rectangle
             {
-                Left = -3,
-                Width = 6,
-                Top = -3,
-                Height = 6
+                Left = -8,
+                Width = 16,
+                Top = -8,
+                Height = 16
             };
 
+            var MapMargins = new Point
+            {
+                X = 4,
+                Y = 4
+            };
 
             var bg_size = new
             {
@@ -87,8 +93,8 @@ namespace ThreeDStuff.js
 
             Func<Point<double>> GetCenter = () => new Point<double>
             {
-                X = bg_size.w * (MapSize.Width + 2) / 2 /*Native.Window.Width / 2*/,
-                Y = bg_size.h * (MapSize.Height + 2) / 2 /*Native.Window.Height / 2*/
+                X = bg_size.w * (MapSize.Width + MapMargins.X) / 2 /*Native.Window.Width / 2*/,
+                Y = bg_size.h * (MapSize.Height + MapMargins.Y) / 2 /*Native.Window.Height / 2*/
             };
 
             var arena = new ArenaControl();
@@ -101,8 +107,8 @@ namespace ThreeDStuff.js
             arena.SetLocation(Rectangle.Of(0, 0, Native.Window.Width, Native.Window.Height));
 
             arena.SetCanvasSize(new Point(
-                ((MapSize.Width + 2) * bg_size.w).ToInt32(),
-                ((MapSize.Height + 2) * bg_size.h).ToInt32()
+                ((MapSize.Width + +MapMargins.X) * bg_size.w).ToInt32(),
+                ((MapSize.Height + +MapMargins.Y) * bg_size.h).ToInt32()
                 ));
 
             Native.Window.onresize +=
@@ -119,9 +125,14 @@ namespace ThreeDStuff.js
             var TileResources = new
                 {
                     Grass = new { Source = "assets/ThreeDStuff/0.png", Height = 32 },
+                    Rocks = new { Source = "assets/ThreeDStuff/1.png", Height = 32 },
+                    RoughLand = new { Source = "assets/ThreeDStuff/2.png", Height = 32 },
                     Dirt = new { Source = "assets/ThreeDStuff/4.png", Height = 32 },
                     DirtDirtGrass = new { Source = "assets/ThreeDStuff/5.png", Height = 32 },
                     DirtGrassGrass = new { Source = "assets/ThreeDStuff/6.png", Height = 32 },
+                    Track1 = new { Source = "assets/ThreeDStuff/r2.png", Height = 32 },
+                    Road2 = new { Source = "assets/ThreeDStuff/r1.png", Height = 32 },
+                    Road2_Track1 = new { Source = "assets/ThreeDStuff/r3.png", Height = 32 },
                     Tree = new { Source = "assets/ThreeDStuff/t1.png", Height = 65 }
                 };
 
@@ -214,6 +225,7 @@ namespace ThreeDStuff.js
             var TileColor2 = Color.White;
             var TileColorHouse1 = Color.FromRGB(41, 0, 0);
             var TileColorHouse2 = Color.FromRGB(42, 0, 0);
+            var TileColorHouse3 = Color.FromRGB(43, 0, 0);
             var TileColorTree1 = Color.FromRGB(51, 0, 0);
             var TileColorRoad1 = Color.FromRGB(61, 0, 0);
             var TileColorRoad2 = Color.FromRGB(62, 0, 0);
@@ -300,6 +312,7 @@ namespace ThreeDStuff.js
             // http://wiki.openttd.org/index.php/Enhanced_GFX_replacement
 
             var KnownTileElements = new List<TileElement>();
+            var KnownDirtTileElements = new List<TileElement>();
 
             #region SpawnItems
             Action<Color, Func<string>, double> SpawnItems =
@@ -329,8 +342,9 @@ namespace ThreeDStuff.js
             #endregion
 
 
-            CreateNewItemsRandomly(5, TileColorHouse1);
-            CreateNewItemsRandomly(5, TileColorHouse2);
+            CreateNewItemsRandomly(4, TileColorHouse1);
+            CreateNewItemsRandomly(4, TileColorHouse2);
+            CreateNewItemsRandomly(5, TileColorHouse3);
             CreateNewItemsRandomly(17, TileColorTree1);
 
             CreateNewItemsRandomly(2, TileColorRoad1);
@@ -470,6 +484,7 @@ namespace ThreeDStuff.js
                     SpawnItems(TileColorRoad3, () => "assets/ThreeDStuff/r3.png", 32);
                     SpawnItems(TileColorHouse1, () => "assets/ThreeDStuff/h1.png", 52);
                     SpawnItems(TileColorHouse2, () => "assets/ThreeDStuff/h2.png", 96);
+                    SpawnItems(TileColorHouse3, () => "assets/ThreeDStuff/h3.png", 50);
                     SpawnItems(TileColorTree1, () => "assets/ThreeDStuff/t1.png", 65);
 
 
@@ -695,7 +710,7 @@ namespace ThreeDStuff.js
                     var toolbar_pos = new Point(8, Native.Window.Height - toolbar_size.Y - 8);
                     var toolbar_color = Color.FromRGB(0, 0x80, 0);
 
-                    var toolbar = CreateToolbar(toolbar_pos, toolbar_size, toolbar_color);
+                    var toolbar = ToolbarDialog.CreateToolbar(toolbar_pos, toolbar_size, toolbar_color);
 
                     Native.Window.onresize +=
                         delegate
@@ -759,11 +774,13 @@ namespace ThreeDStuff.js
                             ApplyTileToCanvas(map_coords.X, map_coords.Y, n.Image, height);
                             n.Image.AttachTo(arena.Layers.Canvas);
 
+
+
                             return n;
                         };
                     #endregion
-                    #region ReplaceTileWithDirt
-                    Action<Point<double>> ReplaceTileWithDirt =
+
+                    Action<Point<double>> RemoveAllTilesAt =
                         map_coords =>
                         {
                             foreach (var t in GetTileElementsAt(map_coords))
@@ -771,8 +788,16 @@ namespace ThreeDStuff.js
                                 t.Image.Dispose();
                                 KnownTileElements.Remove(t);
                             }
+                        };
 
-                            AddTileElement(map_coords, TileResources.Dirt.Source, TileResources.Dirt.Height);
+                    #region ReplaceTileWithDirt
+                    Action<Point<double>> ReplaceTileWithDirt =
+                        map_coords =>
+                        {
+                            RemoveAllTilesAt(map_coords);
+
+                            AddTileElement(map_coords, TileResources.Dirt.Source, TileResources.Dirt.Height)
+                                .AddTo(KnownDirtTileElements);
 
                         };
                     #endregion
@@ -785,10 +810,14 @@ namespace ThreeDStuff.js
 
                     #endregion
 
-                    /*
+
                     var toolbar_btn_track1 = new ToolbarButton(
                        toolbar, "assets/ThreeDStuff/btn_track1.png"
-                    );*/
+                    );
+
+                    var toolbar_btn_road2 = new ToolbarButton(
+                      toolbar, "assets/ThreeDStuff/btn_road2.png"
+                   );
 
 
                     /*
@@ -801,7 +830,17 @@ namespace ThreeDStuff.js
                        toolbar, "assets/ThreeDStuff/btn_trees.png"
                     );
 
+                    var toolbar_btngroup = new ToolbarButtonGroup
+                    {
+                        Buttons = new[] { 
+                            toolbar_btn_demolish, 
+                            toolbar_btn_track1, 
+                            toolbar_btn_road2, 
+                            toolbar_btn_trees }
+                    };
 
+                    System.Diagnostics.Debug.Assert(toolbar_btngroup.Buttons != null);
+                    System.Diagnostics.Debug.Assert(toolbar_btngroup.Buttons.Length > 0);
 
                     #endregion
 
@@ -811,12 +850,9 @@ namespace ThreeDStuff.js
                     );*/
 
 
+
                     ShowingTileSelector =
-                        () => new[] { 
-                                toolbar_btn_demolish,
-                                toolbar_btn_trees,
-                                //toolbar_btn_track1
-                            }.Any(i => i.IsActivated);
+                        () => toolbar_btngroup.IsActivated;
 
 
                     // show tile selection
@@ -840,14 +876,17 @@ namespace ThreeDStuff.js
                     arena.SelectionClick +=
                      (p, ev) =>
                      {
+                         if (paused)
+                             return;
+
                          var map_coords = GetNearestMapPosition(p);
 
-                         if (toolbar_btn_demolish.IsActivated)
+                         if (toolbar_btn_demolish)
                          {
                              ReplaceTileWithDirt(map_coords);
                          }
 
-                         if (toolbar_btn_trees.IsActivated)
+                         if (toolbar_btn_trees)
                          {
                              #region add the tree to grass, or demolish and then add the tree
 
@@ -859,51 +898,132 @@ namespace ThreeDStuff.js
                              #endregion
 
                          }
+
+
+                         #region interesting predicates
+                         var IsGrass =
+                             new[]
+                                 {
+                                     TileResources.Grass.Source,
+                                     TileResources.Dirt.Source,
+                                     TileResources.DirtDirtGrass.Source,
+                                     TileResources.DirtGrassGrass.Source,
+                                     TileResources.Rocks.Source,
+                                     TileResources.RoughLand.Source,
+                                 }.ToEqualsAny();
+                         var IsRoad2 = TileResources.Road2.Source.ToEquals();
+                         var IsTrack1 = TileResources.Track1.Source.ToEquals();
+                         var IsTree = TileResources.Tree.Source.ToEquals();
+                         #endregion
+
+                         #region toolbar_btn_track1
+                         if (toolbar_btn_track1)
+                         {
+
+                             var Subject = GetTileElementsAt(map_coords).ToArray();
+
+                             #region Stats
+
+                             Func<string, bool> IsOther = s => 
+                                 !(IsRoad2(s) || IsGrass(s) || IsTree(s));
+                             
+
+                             var StatsQuery = Subject.Select(i => i.Source);
+
+                             var Stats = new
+                             {
+                                 Grass = StatsQuery.Any(IsGrass),
+                                 Road2 = StatsQuery.Any(IsRoad2),
+                                 Other = StatsQuery.Any(IsOther)
+                             };
+                             #endregion
+
+                             if (!Stats.Other)
+                             {
+                                 RemoveAllTilesAt(map_coords);
+
+                                 if (!Stats.Road2)
+                                     AddTileElement(map_coords, TileResources.Track1.Source, TileResources.Track1.Height);
+                                 else
+                                     AddTileElement(map_coords, TileResources.Road2_Track1.Source, TileResources.Road2_Track1.Height);
+                             }
+                             else
+                             {
+                                 // should show that red error dialog now :)
+                                 "Cannot build tracks!".ToConsole();
+                                 foreach (var v in Subject)
+                                 {
+                                     v.Source.ToConsole();
+                                 }
+                             }
+
+                         }
+
+                         #endregion
+
+                         #region toolbar_btn_road2
+                         if (toolbar_btn_road2)
+                         {
+
+                             var Subject = GetTileElementsAt(map_coords).ToArray();
+
+                             #region Stats
+
+                             Func<string, bool> IsOther = s =>
+                                 !(IsTrack1(s) || IsGrass(s) || IsTree(s));
+
+
+                             var StatsQuery = Subject.Select(i => i.Source);
+
+                             var Stats = new
+                             {
+                                 Grass = StatsQuery.Any(IsGrass),
+                                 Track1 = StatsQuery.Any(IsTrack1),
+                                 Other = StatsQuery.Any(IsOther)
+                             };
+                             #endregion
+
+                             if (!Stats.Other)
+                             {
+                                 RemoveAllTilesAt(map_coords);
+
+                                 if (!Stats.Track1)
+                                     AddTileElement(map_coords, TileResources.Road2.Source, TileResources.Road2.Height);
+                                 else
+                                     AddTileElement(map_coords, TileResources.Road2_Track1.Source, TileResources.Road2_Track1.Height);
+                             }
+                             else
+                             {
+                                 // should show that red error dialog now :)
+                                 "Cannot build tracks!".ToConsole();
+                                 foreach (var v in Subject)
+                                 {
+                                     v.Source.ToConsole();
+                                 }
+                             }
+
+                         }
+
+                         #endregion
                      };
                     #endregion
 
-                    
-                    //foreach (var v in new [] { 
-                    //    toolbar_btn_demolish,
-                    //    toolbar_btn_track1,
-                    //    toolbar_btn_trees
-                    //})
-                    //{
-                    //    v.
-                    //}
-                    toolbar_btn_demolish.Clicked +=
-                      delegate
-                      {
-                          if (toolbar_btn_trees.IsActivated)
-                              toolbar_btn_trees.RaiseClicked();
 
 
-                          tile_selector.Show(ShowingTileSelector());
-                      };
 
-                    toolbar_btn_trees.Clicked +=
-                        delegate
+                    toolbar_btngroup.Clicked +=
+                        btn =>
                         {
-                            if (toolbar_btn_demolish.IsActivated)
-                                toolbar_btn_demolish.RaiseClicked();
-
                             tile_selector.Show(ShowingTileSelector());
+
+                            arena.ShowSelectionRectangle = !ShowingTileSelector();
                         };
-
-                    //toolbar_btn_trees.Clicked +=
-                    //    delegate
-                    //    {
-                    //        if (toolbar_btn_demolish.IsActivated)
-                    //            toolbar_btn_demolish.RaiseClicked();
-
-                    //        tile_selector.Show(ShowingTileSelector());
-                    //    };
 
 
                     #endregion
 
 
-                    #region arena.SelectionClick
+                    #region arena.SelectionClick - move dudes
                     arena.SelectionClick +=
                         (p, ev) =>
                         {
@@ -1014,245 +1134,63 @@ namespace ThreeDStuff.js
                         };
                     #endregion
 
-                    1000.AtInterval(
+                    #region grass growth
+                    1500.AtInterval(
                         t =>
                         {
                             if (paused)
                                 return;
 
-                            foreach (var v in KnownTileElements.ToArray())
+                            foreach (var v in KnownDirtTileElements.ToArray())
                             {
                                 #region make that dirt grow into grass over time
                                 if (v.Source == TileResources.Dirt.Source)
                                     if (v.DirtAge++ > 3)
                                     {
                                         v.Image.Dispose();
-                                        KnownTileElements.Remove(v);
-                                        AddTileElement(v.Position, TileResources.DirtDirtGrass.Source, TileResources.DirtDirtGrass.Height);
+                                        v.RemoveFrom(KnownTileElements);
+                                        v.RemoveFrom(KnownDirtTileElements);
+                                        
+                                        AddTileElement(v.Position, TileResources.DirtDirtGrass.Source, TileResources.DirtDirtGrass.Height)
+                                            .AddTo(KnownDirtTileElements);
                                     }
 
                                 if (v.Source == TileResources.DirtDirtGrass.Source)
                                     if (v.DirtAge++ > 3)
                                     {
                                         v.Image.Dispose();
-                                        KnownTileElements.Remove(v);
-                                        AddTileElement(v.Position, TileResources.DirtGrassGrass.Source, TileResources.DirtGrassGrass.Height);
+                                        v.RemoveFrom(KnownTileElements);
+                                        v.RemoveFrom(KnownDirtTileElements);
+                                        
+                                        AddTileElement(v.Position, TileResources.DirtGrassGrass.Source, TileResources.DirtGrassGrass.Height)
+                                            .AddTo(KnownDirtTileElements);
                                     }
 
                                 if (v.Source == TileResources.DirtGrassGrass.Source)
                                     if (v.DirtAge++ > 3)
                                     {
                                         v.Image.Dispose();
-                                        KnownTileElements.Remove(v);
+                                        v.RemoveFrom(KnownTileElements);
+                                        v.RemoveFrom(KnownDirtTileElements);
+                                        
                                         AddTileElement(v.Position, TileResources.Grass.Source, TileResources.Grass.Height);
                                     }
                                 #endregion
                             }
                         }
                     );
+                    #endregion
+
                 });
 
 
 
         }
 
-        [Script]
-        class Toolbar
-        {
-
-            public IHTMLDiv Control;
-            public DragHelper Drag;
-            public Color Color;
-
-            public Point Size;
-
-            public readonly List<ToolbarButton> Buttons = new List<ToolbarButton>();
-
-            public void Grow()
-            {
-                this.Size.X = (24 * (this.Buttons.Count) + 4);
-
-                this.Control.style.SetSize(Size.X, Size.Y);
-            }
-
-            public void ApplyPosition()
-            {
-                // toolbar must remain visible all times
-                var pos = this.Drag.Position;
-
-                pos.X = pos.X.Max(0);
-                pos.Y = pos.Y.Max(0);
-
-                pos.X = pos.X.Min(Native.Window.Width - (Size.X + 2));
-                pos.Y = pos.Y.Min(Native.Window.Height - (Size.Y + 2));
-
-                this.Control.style.SetLocation(pos.X, pos.Y);
-            }
-        }
-
-        private static Toolbar CreateToolbar(Point toolbar_pos, Point toolbar_size, Color toolbar_color)
-        {
-            var t = new Toolbar
-            {
-                Color = toolbar_color,
-                Size = toolbar_size
-            };
 
 
-            t.Control = new IHTMLDiv();
-            t.Drag = new DragHelper(t.Control);
-            t.Drag.Position = toolbar_pos;
-
-            t.Control.style.SetLocation(t.Drag.Position.X, t.Drag.Position.Y, toolbar_size.X, toolbar_size.Y);
-
-            SetDialogColor(t.Control, toolbar_color);
-            t.Drag.Enabled = true;
-            t.Drag.DragMove += t.ApplyPosition;
-
-            return t;
-        }
-
-        [Script]
-        class ToolbarButton
-        {
-            public IHTMLDiv Control;
-            public int Counter;
-            public bool IsDown;
-
-            public bool IsActivated
-            {
-                get
-                {
-                    return Counter % 2 == 1;
-                }
-            }
-
-            public ToolbarButton AttachTo(Toolbar e)
-            {
-                Control.AttachTo(e.Control);
-
-                return this;
-            }
-
-            public ToolbarButton()
-            {
-
-            }
-
-            public Toolbar Toolbar;
-
-            public event Action<ToolbarButton> Clicked;
-
-            public ToolbarButton(Toolbar t, string img)
-            {
-                this.Toolbar = t;
-                this.Toolbar.Buttons.Add(this);
-
-                var btn = this;
-
-                btn.Control = new IHTMLDiv();
-                btn.IsDown = false;
-                btn.Counter = 0;
-
-                SetDialogColor(btn.Control, t.Color);
-
-                btn.Control.style.background = "url(" + img + ") no-repeat";
-                btn.Control.style.SetLocation(2 + 24 * (this.Toolbar.Buttons.Count - 1), 8, 22, 22);
 
 
-                t.Grow();
-
-                btn.Control.onclick +=
-                    ev =>
-                    {
-                        RaiseClicked();
-                    };
-
-                var onmouseup = default(ScriptCoreLib.Shared.EventHandler<IEvent>);
-
-
-                btn.Control.onmousedown +=
-                    ev =>
-                    {
-                        ev.StopPropagation();
-
-                        btn.IsDown = true;
-                        SetDialogColor(btn.Control, t.Color, false);
-
-                        Native.Document.onmouseup += onmouseup;
-                    };
-
-
-                onmouseup =
-                    ev =>
-                    {
-                        if (btn.IsDown)
-                        {
-                            ev.StopPropagation();
-
-                            btn.IsDown = false;
-                            SetDialogColor(btn.Control, t.Color, true);
-
-                            Native.Document.onmouseup -= onmouseup;
-                        }
-                    };
-
-                this.AttachTo(t);
-
-            }
-
-            public void RaiseClicked()
-            {
-                this.Counter++;
-
-                if (IsActivated)
-                    SetDialogColor(Control, this.Toolbar.Color.AddLum(10));
-                else
-                    SetDialogColor(Control, this.Toolbar.Color);
-
-                if (Clicked != null)
-                    Clicked(this);
-            }
-        }
-
-
-        private static void SetDialogColor(IHTMLDiv toolbar, Color toolbar_color)
-        {
-            SetDialogColor(toolbar, toolbar_color, true);
-        }
-
-        private static void SetDialogColor(IHTMLDiv toolbar, Color toolbar_color, bool up)
-        {
-
-
-            if (up)
-            {
-                toolbar.style.backgroundColor = toolbar_color;
-
-                var toolbar_color_light = toolbar_color.AddLum(+20);
-                var toolbar_color_shadow = toolbar_color.AddLum(-20);
-
-                toolbar.style.borderLeft = "1px solid " + toolbar_color_light;
-                toolbar.style.borderTop = "1px solid " + toolbar_color_light;
-                toolbar.style.borderRight = "1px solid " + toolbar_color_shadow;
-                toolbar.style.borderBottom = "1px solid " + toolbar_color_shadow;
-                toolbar.style.backgroundPosition = "0px 0px";
-            }
-            else
-            {
-                toolbar.style.backgroundColor = toolbar_color.AddLum(+15);
-
-                var toolbar_color_light = toolbar_color.AddLum(+20 + 15);
-                var toolbar_color_shadow = toolbar_color.AddLum(-20 + 15);
-
-                toolbar.style.borderLeft = "1px solid " + toolbar_color_shadow;
-                toolbar.style.borderTop = "1px solid " + toolbar_color_shadow;
-                toolbar.style.borderRight = "1px solid " + toolbar_color_light;
-                toolbar.style.borderBottom = "1px solid " + toolbar_color_light;
-                toolbar.style.backgroundPosition = "1px 1px";
-            }
-
-        }
 
         static IsometricWithToolbar()
         {

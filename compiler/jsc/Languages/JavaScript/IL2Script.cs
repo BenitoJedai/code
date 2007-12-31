@@ -512,7 +512,11 @@ namespace jsc
                 if (jsc.Languages.JavaScript.MethodBodyOptimizer.TryOptimize(w, xb))
                     return;
 
-
+                /*
+                if ((xb.OwnerMethod.DeclaringType.FullName + "." + xb.OwnerMethod.Name) ==
+                    "ThreeDStuff.js.IsometricWithToolbar+<>c__DisplayClass86+<>c__DisplayClassb0.<.ctor>b__70")
+                    Debugger.Break();
+                */
                 Script.CompilerBase.DebugBreak(a);
 
                 bool _a = DefineLocalVariables(w, i, define_self, false);
@@ -1585,7 +1589,7 @@ namespace jsc
 
                                 WriteInstanceConstructor(w, z, zc);
 
-                          
+
                             }
 
                             w.WriteLine();

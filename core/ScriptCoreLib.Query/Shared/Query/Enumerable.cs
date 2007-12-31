@@ -22,6 +22,12 @@ namespace ScriptCoreLib.Shared.Query
 
         public static bool Any<TSource>(this IEnumerable<TSource> source)
         {
+            if (source == null)
+            {
+                throw Error.ArgumentNull("source");
+            }
+
+
             var r = false;
 
             foreach (var v in source.AsEnumerable())
@@ -34,13 +40,23 @@ namespace ScriptCoreLib.Shared.Query
             return r;
         }
 
-        public static bool Any<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> p)
+        public static bool Any<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
+            if (source == null)
+            {
+                throw Error.ArgumentNull("source");
+            }
+
+            if (predicate == null)
+            {
+                throw Error.ArgumentNull("predicate");
+            }
+
             var r = false;
 
             foreach (var v in source.AsEnumerable())
             {
-                if (p(v))
+                if (predicate(v))
                 {
                     r = true;
 
@@ -53,6 +69,12 @@ namespace ScriptCoreLib.Shared.Query
 
         public static bool Contains<TSource>(this IEnumerable<TSource> source, TSource value)
         {
+            if (source == null)
+            {
+                throw Error.ArgumentNull("source");
+            }
+
+
             var r = false;
 
             foreach (var v in source.AsEnumerable())

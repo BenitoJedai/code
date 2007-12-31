@@ -5,6 +5,7 @@ using System.Text;
 using System.Reflection.Emit;
 using System.Reflection;
 using ScriptCoreLib;
+using System.Diagnostics;
 
 namespace jsc.Languages.JavaScript
 {
@@ -55,6 +56,12 @@ namespace jsc.Languages.JavaScript
 
         public static bool TryOptimize(IdentWriter w, ILBlock xb)
         {
+            /*
+            if ((xb.OwnerMethod.DeclaringType.FullName + "." + xb.OwnerMethod.Name) ==
+                "ThreeDStuff.js.IsometricWithToolbar+<>c__DisplayClass86+<>c__DisplayClassb0.<.ctor>b__70")
+                Debugger.Break();
+            */
+
             /* Try to optimize this:
               // <>f__AnonymousType0`3.get_b
               type$_1w3gkpRFAjefjmufrOWDFQ.get_b = function ()
@@ -93,6 +100,7 @@ namespace jsc.Languages.JavaScript
                         {
                             var p_store = p.Prev.Instruction;
 
+                            if (p_store.Flow.Parents.Count < 2)
                             if (p_store.IsStoreLocal)
                                 if (p_store.TargetVariable.LocalIndex == p_load.TargetVariable.LocalIndex)
                                     if (p.Prev.Prev == null)
@@ -101,6 +109,7 @@ namespace jsc.Languages.JavaScript
                                         if (p_value_statement.StackInstructions.Length == 1)
                                         {
                                             w.WriteIdent();
+                                            //w.Write("/* optimized */");
                                             w.Write("return ");
 
                                             w.Override_WriteSelf = () => { w.Write("this"); return true; };
