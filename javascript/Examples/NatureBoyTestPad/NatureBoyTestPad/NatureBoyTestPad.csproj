@@ -69,6 +69,7 @@
     <Content Include="docs\about.txt" />
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\NatureBoyTestPad\Preview.png" />
     <EmbeddedResource Include="web\assets\NatureBoyTestPad\npc3_bk1.gif" />
     <EmbeddedResource Include="web\assets\NatureBoyTestPad\npc3_bk2.gif" />
     <EmbeddedResource Include="web\assets\NatureBoyTestPad\npc3_fr1.gif" />
