@@ -7,6 +7,8 @@ using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.Controls.NatureBoy;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 
 
 namespace NatureBoyTestPad.js
@@ -31,9 +33,27 @@ namespace NatureBoyTestPad.js
 
             arena.Control.AttachToDocument();
             #endregion
+            #endregion
 
-            #region actor
-            var actor = new Dude2();
+            #region tutorial step 3
+
+            Func<DudeAnimationInfo, Point, Dude2> CreateActor =
+                (_frames, _coords) =>
+                {
+                    var actor = new Dude2();
+
+                    actor.Frames = _frames.Frames_Stand;
+                    actor.AnimationInfo.Frames_Stand = _frames.Frames_Stand;
+                    actor.AnimationInfo.Frames_Walk = _frames.Frames_Walk;
+                    actor.Zoom.DynamicZoomFunc = a => 1;
+                    actor.Zoom.StaticZoom = 1;
+                    actor.SetSize(48, 72);
+                    actor.TeleportTo(_coords.X, _coords.Y);
+                    actor.Direction = Math.PI * 0.5;
+                    actor.Control.AttachTo(arena.Layers.Canvas);
+
+                    return actor;
+                };
 
             var frames = new DudeAnimationInfo
             {
@@ -41,22 +61,31 @@ namespace NatureBoyTestPad.js
                 Frames_Walk = Frames.WolfSoldier_Walk
             };
 
-            actor.Frames = frames.Frames_Stand;
-            actor.AnimationInfo.Frames_Stand = frames.Frames_Stand;
-            actor.AnimationInfo.Frames_Walk = frames.Frames_Walk;
-            actor.Zoom.DynamicZoomFunc = a => 1;
-            actor.Zoom.StaticZoom = 1;
-            actor.SetSize(48, 72);
-            actor.TeleportTo(Native.Window.Width / 2, Native.Window.Height / 2);
-            actor.Direction = Math.PI * 0.5;
-            actor.Control.AttachTo(arena.Layers.Canvas);
-            #endregion
+            var actors = new List<Dude2>
+            {
+                CreateActor(frames, new Point(40, Native.Window.Height /2 )),
+                CreateActor(frames, new Point(200, Native.Window.Height /2))
+            };
+
+            var selection = from i in actors
+                            where i.IsSelected
+                            select i;
+
+            arena.ApplySelection +=
+                (rect, ev) =>
+                {
+                    foreach (var v in actors)
+                        v.IsSelected = rect.Contains(v.CurrentLocation);
+                };
 
             arena.SelectionClick +=
-                (coords, ev) =>
+                (p, ev) =>
                 {
-                    actor.WalkTo(coords);
+                    foreach (var v in selection)
+                        v.WalkTo(p);
                 };
+
+
             #endregion
 
         }
