@@ -445,6 +445,17 @@ namespace NatureBoyTestPad.js
 
             #endregion
 
+
+            #region step 6
+
+            {
+                var n = "NPC";
+
+                arsenal.Add(n, MyFrames.NPC3);
+                combo.Add(n);
+            }
+
+            #endregion
         }
 
 

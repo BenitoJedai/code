@@ -58,6 +58,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="js\Assets.cs" />
+    <Compile Include="js\MyFrames.cs" />
     <Compile Include="js\NatureBoyTestPad.cs" />
     <Compile Include="js\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,6 +69,14 @@
     <Content Include="docs\about.txt" />
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\NatureBoyTestPad\npc3_bk1.gif" />
+    <EmbeddedResource Include="web\assets\NatureBoyTestPad\npc3_bk2.gif" />
+    <EmbeddedResource Include="web\assets\NatureBoyTestPad\npc3_fr1.gif" />
+    <EmbeddedResource Include="web\assets\NatureBoyTestPad\npc3_fr2.gif" />
+    <EmbeddedResource Include="web\assets\NatureBoyTestPad\npc3_lf1.gif" />
+    <EmbeddedResource Include="web\assets\NatureBoyTestPad\npc3_lf2.gif" />
+    <EmbeddedResource Include="web\assets\NatureBoyTestPad\npc3_rt1.gif" />
+    <EmbeddedResource Include="web\assets\NatureBoyTestPad\npc3_rt2.gif" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="web\assets\OrcasScriptApplication\" />
