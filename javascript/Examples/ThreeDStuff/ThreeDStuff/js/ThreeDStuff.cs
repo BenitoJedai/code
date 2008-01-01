@@ -12,7 +12,7 @@ using ScriptCoreLib.JavaScript;
 
 namespace ThreeDStuff.js
 {
-
+    /*
     [Script]
     partial class Isometric { }
     [Script]
@@ -25,6 +25,9 @@ namespace ThreeDStuff.js
     partial class IsometricWithNatureBoyAndInput { }
     [Script]
     partial class IsometricWithToolbar { }
+    */
+    [Script]
+    partial class Tycoon4 { }
 
 
     [Script, global::System.AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]

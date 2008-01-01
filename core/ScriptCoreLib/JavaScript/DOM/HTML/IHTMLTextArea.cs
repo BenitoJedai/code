@@ -20,6 +20,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         public bool readOnly;
         public int rows;
         public int cols;
+        public string wrap;
 
         #region constructors
         public IHTMLTextArea() { }
