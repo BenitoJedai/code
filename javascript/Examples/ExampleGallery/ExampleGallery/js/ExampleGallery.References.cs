@@ -51,7 +51,8 @@ namespace ExampleGallery.js
                     typeof(FormsExample.js.FormsExampleApplication),
                     typeof(FormsExample.VisualBasic.JavaScript.FormsExampleVBApplication),
                     typeof(Mahjong.js.MahjongGame),
-                    typeof(RetroCanvas.js.AmiNET110.AmiNET110)
+                    typeof(RetroCanvas.js.AmiNET110.AmiNET110),
+                    typeof(NatureBoyTestPad.js.NatureBoyTestPad)
                 };
             }
         }

@@ -17,6 +17,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         public bool altKey;
 
         internal readonly int button;
+        internal readonly int which;
 
         public bool IsReturn
         {
@@ -214,28 +215,36 @@ namespace ScriptCoreLib.JavaScript.DOM
             [Script(DefineAsStatic = true)]
             get
             {
-                if (IsMozilla)
+
+                if (Expando.InternalIsMember(this, "which"))
+                {
+
+                    if (which == 3)
+                        return MouseButtonEnum.Right;
+
+                    if (which == 2)
+                        return MouseButtonEnum.Middle;
+
+                    if (which == 1)
+                        return MouseButtonEnum.Left;
+                }
+
+
+                if (Expando.InternalIsMember(this, "button"))
                 {
                     if (button == 2)
                         return MouseButtonEnum.Right;
 
-                    if (button == 1)
-                        return MouseButtonEnum.Middle;
-
-                    if (button == 0)
-                        return MouseButtonEnum.Left;
-                }
-                else
-                {
                     if (button == 4)
                         return MouseButtonEnum.Middle;
 
-                    if (button == 2)
-                        return MouseButtonEnum.Right;
-
                     if (button == 1)
                         return MouseButtonEnum.Left;
                 }
+
+
+ 
+ 
 
 
                 return MouseButtonEnum.Unknown;
@@ -291,10 +300,10 @@ namespace ScriptCoreLib.JavaScript.DOM
         #endregion
 
 
-        internal void initMouseEvent(object type, object canBubble,object cancelable,object view, 
-                     object detail,object screenX,object screenY,object clientX,object clientY, 
-                     object ctrlKey,object altKey,object shiftKey,object metaKey, 
-                     object button,object relatedTarget)
+        internal void initMouseEvent(object type, object canBubble, object cancelable, object view,
+                     object detail, object screenX, object screenY, object clientX, object clientY,
+                     object ctrlKey, object altKey, object shiftKey, object metaKey,
+                     object button, object relatedTarget)
         {
 
         }

@@ -16,6 +16,7 @@ namespace ThreeDStuff.js
     using ScriptCoreLib.JavaScript.Controls.NatureBoy;
     using ScriptCoreLib.JavaScript.Controls;
     using ScriptCoreLib.JavaScript.Runtime;
+    using ScriptCoreLib.JavaScript.Controls.LayeredControl;
 
     //[Script]
     //public delegate void Action<A, B, C, D, E>(A a, B b, C c, D d, E e);

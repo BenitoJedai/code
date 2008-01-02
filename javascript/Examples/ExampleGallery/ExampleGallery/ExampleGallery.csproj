@@ -94,9 +94,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\MonthSchedule\MonthSchedule\bin\Release\MonthSchedule.dll</HintPath>
     </Reference>
+    <Reference Include="MouseButtons, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\MouseButtons\MouseButtons\bin\Release\MouseButtons.dll</HintPath>
+    </Reference>
     <Reference Include="MouseWheel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\MouseWheel\MouseWheel\bin\Release\MouseWheel.dll</HintPath>
+    </Reference>
+    <Reference Include="NatureBoyTestPad, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\NatureBoyTestPad\NatureBoyTestPad\bin\Release\NatureBoyTestPad.dll</HintPath>
     </Reference>
     <Reference Include="NumberGuessingGame, Version=1.0.2919.28942, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

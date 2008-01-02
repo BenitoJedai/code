@@ -18,7 +18,7 @@ using System;
 
 
 
-namespace ScriptCoreLib.JavaScript.Controls
+namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
 {
 
     /// <summary>
@@ -66,8 +66,13 @@ namespace ScriptCoreLib.JavaScript.Controls
             Layers.Canvas.style.backgroundColor = Color.Blue;
 
 
-            Layers.User.style.backgroundColor = Color.Black;
-            Layers.User.style.Opacity = 0.0;
+            //Layers.User.style.backgroundColor = Color.Red;
+            //Layers.User.style.zIndex = 0x1000;
+            //Layers.User.style.Opacity = 0.0;
+
+            // safari not supported: something wrong with zIndex
+            // also check http://unixpapa.com/js/mouse.html
+            Layers.User.style.backgroundImage = "url(" + Assets.Path + "/empty.gif)";
         }
 
         public Point CurrentCanvasPosition = Point.Zero;
@@ -226,7 +231,7 @@ namespace ScriptCoreLib.JavaScript.Controls
             u.onmousedown +=
                 delegate(IEvent e)
                 {
-
+                    
 
                     if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
                     {

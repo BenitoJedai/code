@@ -6,11 +6,14 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.Controls.NatureBoy;
+using ScriptCoreLib.JavaScript.Controls.LayeredControl;
 using ScriptCoreLib.JavaScript.DOM;
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using ScriptCoreLib.JavaScript.Runtime;
+
+
 
 
 namespace NatureBoyTestPad.js
