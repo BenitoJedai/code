@@ -212,6 +212,7 @@ namespace jsc
                 OpCodes.Ldelem_U2,
                 OpCodes.Ldelem_I1,
                 OpCodes.Ldelem_I4,
+                OpCodes.Ldelem_R8,
                 OpCodes.Ldelem
                      ] = new OpCodeHandler(OpCode_ldelem);
 

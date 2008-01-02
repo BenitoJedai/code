@@ -1390,7 +1390,7 @@ namespace ThreeDStuff.js
                                         };
 
                                 var dest =
-                                    from index in selection.Length.Range()
+                                    from index in selection.Length.ToRange()
                                     let direction = (((double)index / (selection.Length)) * (Math.PI * 2)).ToConsole()
                                     let distance = 0.5
                                     let mtarget = GetRotatedTargetPoint(direction, distance)

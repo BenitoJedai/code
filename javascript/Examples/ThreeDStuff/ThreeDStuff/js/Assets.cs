@@ -5,18 +5,16 @@ using System.Text;
 using ScriptCoreLib;
 
 [assembly:
-    ScriptResources("assets/Vehicle1"),
-    ScriptResources("assets/ThreeDStuff"),
-    ScriptResources("assets/NatureBoy/alpha"),
-    ScriptResources("assets/NatureBoy/dude5/stand"),
-    ScriptResources("assets/NatureBoy/dude5/walk1"),
-    ScriptResources("assets/NatureBoy/dude5/walk2"),
-    ScriptResources("assets/NatureBoy/dude5/walk3"),
-    ScriptResources("assets/NatureBoy/dude5/walk4"),
-    ScriptResources("assets/NatureBoy/dude6"),
+    ScriptResources(ThreeDStuff.js.Assets.ThreeDStuff),
+    ScriptResources(ThreeDStuff.js.Assets.Tycoon_Bus),
 ]
 
 namespace ThreeDStuff.js
 {
-
+    [Script]
+    public static class Assets
+    {
+        public const string Tycoon_Bus = "assets/Tycoon_Bus";
+        public const string ThreeDStuff = "assets/ThreeDStuff";
+    }
 }

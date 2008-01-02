@@ -9,12 +9,20 @@ using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.Controls.NatureBoy;
 
 namespace ThreeDStuff.js
 {
     [Script]
     static class Extensions
     {
+        public static Dude2 TeleportTo(this Dude2 e, Point<double> x)
+        {
+            e.TeleportTo(x.X, x.Y);
+
+            return e;
+        }
+
         public static int[] RangeTo(this int from, int to)
         {
             if (from == to)
@@ -118,11 +126,11 @@ namespace ThreeDStuff.js
 
         public static IEnumerable<T> Range<T>(this int count, Func<int, T> s)
         {
-            return count.Range().Select(s);
+            return count.ToRange().Select(s);
         }
 
 
-        public static IEnumerable<int> Range(this int count)
+        public static IEnumerable<int> ToRange(this int count)
         {
             return Enumerable.Range(0, count);
         }
@@ -164,6 +172,16 @@ namespace ThreeDStuff.js
         public static int ToInt32(this int e)
         {
             return (int)Math.Round((double)e);
+        }
+
+        public static Point<double> ToDouble(this Point e)
+        {
+            return new Point<double> { X = e.X, Y = e.Y };
+        }
+
+        public static Point ToInt32(this Point<double> e)
+        {
+            return new Point(e.X.ToInt32(), e.Y.ToInt32());
         }
 
         public static int ToInt32(this double e)

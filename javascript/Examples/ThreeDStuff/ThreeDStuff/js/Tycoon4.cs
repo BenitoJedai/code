@@ -21,6 +21,12 @@ namespace ThreeDStuff.js
 
     //[Script]
     //public delegate void Action<A, B, C, D, E>(A a, B b, C c, D d, E e);
+    public enum IdleBehaviour
+    {
+        None,
+        Look,
+        Scout,
+    }
 
     [ScriptApplicationEntryPoint,
         ApplicationDescription(
@@ -135,7 +141,8 @@ namespace ThreeDStuff.js
                     Road2 = new { Source = "assets/ThreeDStuff/r1.png", Height = 32 },
                     Road2_Track1 = new { Source = "assets/ThreeDStuff/r3.png", Height = 32 },
                     Tree = new { Source = "assets/ThreeDStuff/t1.png", Height = 65 },
-                    House3 = new { Source = "assets/ThreeDStuff/h3.png", Height = 50 }
+                    House3 = new { Source = "assets/ThreeDStuff/h3.png", Height = 50 },
+                    House4 = new { Source = "assets/ThreeDStuff/h4.png", Height = 53 }
                 };
 
             #region Translate
@@ -152,9 +159,10 @@ namespace ThreeDStuff.js
                 };
             #endregion
 
-            #region GetCanvasPosition
-            Func<Point<double>, Point<double>> GetCanvasPosition =
-                map_coords =>
+            #region Translator
+            var Translator = new CoordTranslatorBase
+            {
+                ConvertMapToCanvas = map_coords =>
                 {
                     var canvas_coords = Translate(map_coords.X, map_coords.Y);
                     var c = GetCenter();
@@ -164,8 +172,29 @@ namespace ThreeDStuff.js
 
                     return canvas_coords;
 
-                };
+                },
+                ConvertCanvasToMap = canvas =>
+                {
+                    var c = GetCenter();
+
+                    var offset = new Point<double> { X = canvas.X - c.X, Y = (canvas.Y - c.Y) / RotationB };
+
+                    var d = ZeroPoint.GetDistance(offset) / (bg_size.h * 2d.Sqrt());
+                    var r = ZeroPoint.GetRotation(offset) - RotationA;
+
+                    var realoffset = new Point<double>
+                    {
+                        X = Math.Cos(r) * d,
+                        Y = Math.Sin(r) * d
+                    };
+
+                    return realoffset;
+                }
+            };
             #endregion
+
+
+
 
 
             #region ApplyPosition
@@ -445,27 +474,7 @@ namespace ThreeDStuff.js
             }
             #endregion
 
-            //#region clean road2
-            //{
-            //    var AllRoads2 = data.Where(i => i.color == TileColorRoad2).ToArray();
 
-            //    data = data.Where(
-            //        v =>
-            //        {
-            //            if (v.color == TileColor)
-            //                return true;
-
-            //            if (v.color == TileColorRoad1)
-            //                return true;
-
-            //            if (v.color == TileColorRoad2)
-            //                return true;
-
-            //            return !AllRoads2.Any(i => i.x == v.x && i.y == i.y);
-            //        }
-            //    ).ToArray();
-            //}
-            //#endregion
 
             info.innerText = "Loading items...";
 
@@ -535,6 +544,16 @@ namespace ThreeDStuff.js
                         Frames_Walk = Frames.DoomImp_Walk
                     };
 
+                    var bus = new DudeAnimationInfo
+                    {
+                        Frames_Stand = (
+                            from i in 8.ToRange()
+                            let src = Assets.Tycoon_Bus + "/" + i + ".png"
+                            select new FrameInfo { Source = src, Weight = 1 / 8d }
+                        ).ToArray()
+                    };
+
+                    bus.Frames_Walk = new[] { bus.Frames_Stand };
 
 
                     var loaded = 0;
@@ -563,7 +582,107 @@ namespace ThreeDStuff.js
 
 
                     var Dudes = new List<Dude2>();
+                    var RoadVehicles = new List<Dude2>();
 
+
+                    #region GetRandomCanvasPosition
+                    Func<Point> GetRandomCanvasPosition =
+                        () =>
+                        {
+                            var x = (MapSize.Width - 1).Random() + MapSize.Left + 1;
+                            var y = (MapSize.Height - 1).Random() + MapSize.Top + 1;
+
+
+                            var target = Translate(
+                                x, y
+                            );
+
+                            var c = GetCenter();
+
+                            var p = new Point { X = (target.X + c.X).ToInt32(), Y = (target.Y + c.Y).ToInt32() };
+
+                            return p;
+                        }
+                    ;
+                    #endregion
+
+
+                    #region CreateDude
+                    Func<DudeAnimationInfo, IdleBehaviour, double, Dude2> CreateDude =
+                        (ani, idle, dudezoom) =>
+                        {
+                            var w2c = GetRandomCanvasPosition();
+                            var w2 = SpawnLookingDude(ani.Frames_Stand, w2c.X.ToInt32(), w2c.Y.ToInt32());
+                            w2.Zoom.StaticZoom = dudezoom;
+                            w2.AnimationInfo.Frames_Walk = ani.Frames_Walk;
+                            w2.TargetLocationDistanceMultiplier = 1;
+
+                            Action<Action> GoSomeWhere =
+                                done =>
+                                {
+                                    w2.DoneWalkingOnce += done;
+                                    w2.WalkTo(GetRandomCanvasPosition());
+                                };
+
+                            #region WaitSomeAndGoSomeWhere
+                            Action WaitSomeAndGoSomeWhere = null;
+
+                            WaitSomeAndGoSomeWhere =
+                                () => 5000.Random().AtTimeout(
+                                    t =>
+                                    {
+                                        if (paused)
+                                        {
+                                            WaitSomeAndGoSomeWhere();
+                                            return;
+                                        }
+
+                                        var CurrentlyWalking = Dudes.Count(i => i.IsWalking);
+
+                                        if (w2.IsWalking)
+                                        {
+                                            WaitSomeAndGoSomeWhere();
+                                            return;
+                                        }
+
+                                        // if we've been selected, then wait for orders
+                                        if (w2.IsSelected)
+                                        {
+                                            WaitSomeAndGoSomeWhere();
+                                            return;
+                                        }
+
+                                        if (w2.IsHot)
+                                        {
+                                            WaitSomeAndGoSomeWhere();
+                                            return;
+                                        }
+
+                                        // dont make them all walk at the same time
+                                        if (CurrentlyWalking > 3)
+                                        {
+                                            w2.Direction = (Math.PI * 2).Random();
+
+                                            WaitSomeAndGoSomeWhere();
+                                            return;
+                                        }
+
+
+                                        if (idle == IdleBehaviour.Scout)
+                                            GoSomeWhere(WaitSomeAndGoSomeWhere);
+                                        else
+                                            WaitSomeAndGoSomeWhere();
+                                    }
+                                );
+
+                            // make only imps wander on their own
+                            if (idle != IdleBehaviour.None)
+                                WaitSomeAndGoSomeWhere();
+                            #endregion
+
+                            return w2;
+                        };
+                    #endregion
 
                     #region loaded_done
                     loaded_done +=
@@ -572,136 +691,82 @@ namespace ThreeDStuff.js
 
                             info.innerText = "Loading images... done";
 
-                            #region GetRandomCanvasPosition
-                            Func<Point> GetRandomCanvasPosition =
-                                () =>
-                                {
-                                    var x = (MapSize.Width - 1).Random() + MapSize.Left + 1;
-                                    var y = (MapSize.Height - 1).Random() + MapSize.Top + 1;
-
-
-                                    var target = Translate(
-                                        x, y
-                                    );
-
-                                    var c = GetCenter();
-
-                                    var p = new Point { X = (target.X + c.X).ToInt32(), Y = (target.Y + c.Y).ToInt32() };
-
-                                    return p;
-                                }
-                            ;
-                            #endregion
-
-
-                            #region CreateDude
-                            Func<DudeAnimationInfo, bool, double, Dude2> CreateDude =
-                                (ani, ScoutIfIdle, dudezoom) =>
-                                {
-                                    var w2c = GetRandomCanvasPosition();
-                                    var w2 = SpawnLookingDude(ani.Frames_Stand, w2c.X.ToInt32(), w2c.Y.ToInt32());
-                                    w2.Zoom.StaticZoom = dudezoom;
-                                    w2.AnimationInfo.Frames_Walk = ani.Frames_Walk;
-                                    w2.TargetLocationDistanceMultiplier = 1;
-
-                                    Action<Action> GoSomeWhere =
-                                        done =>
-                                        {
-                                            w2.DoneWalkingOnce += done;
-                                            w2.WalkTo(GetRandomCanvasPosition());
-                                        };
-
-                                    Action WaitSomeAndGoSomeWhere = null;
-
-                                    WaitSomeAndGoSomeWhere =
-                                        () => 5000.Random().AtTimeout(
-                                            t =>
-                                            {
-                                                if (paused)
-                                                {
-                                                    WaitSomeAndGoSomeWhere();
-                                                    return;
-                                                }
-
-                                                var CurrentlyWalking = Dudes.Count(i => i.IsWalking);
-
-                                                if (w2.IsWalking)
-                                                {
-                                                    WaitSomeAndGoSomeWhere();
-                                                    return;
-                                                }
-
-                                                // if we've been selected, then wait for orders
-                                                if (w2.IsSelected)
-                                                {
-                                                    WaitSomeAndGoSomeWhere();
-                                                    return;
-                                                }
-
-                                                if (w2.IsHot)
-                                                {
-                                                    WaitSomeAndGoSomeWhere();
-                                                    return;
-                                                }
-
-                                                // dont make them all walk at the same time
-                                                if (CurrentlyWalking > 3)
-                                                {
-                                                    w2.Direction = (Math.PI * 2).Random();
-
-                                                    WaitSomeAndGoSomeWhere();
-                                                    return;
-                                                }
-
-
-                                                if (ScoutIfIdle)
-                                                    GoSomeWhere(WaitSomeAndGoSomeWhere);
-                                                else
-                                                    WaitSomeAndGoSomeWhere();
-                                            }
-                                        );
-
-                                    // make only imps wander on their own
-                                    WaitSomeAndGoSomeWhere();
-
-                                    return w2;
-                                };
-                            #endregion
 
                             info.innerHTML = "Creating dudes...";
 
-                            8.Times(() => Dudes.Add(CreateDude(dude, false, 0.5)));
-                            8.Times(() => Dudes.Add(CreateDude(imp, true, 0.5)));
+                            8.Times(() => Dudes.Add(CreateDude(dude, IdleBehaviour.Scout, 0.5)));
+                            8.Times(() => Dudes.Add(CreateDude(imp, IdleBehaviour.Look, 0.5)));
+
+
 
                             info.innerHTML = info_text;
                         };
                     #endregion
 
 
-                    //Point KnownCanvasPosition = new Point();
+                    // lets build some busses, for that we need to know where are the roads
+                    #region building busses
+                    {
+                        var KnownRoadTiles =
+                            from i in KnownTileElements
+                            where i.Source == TileResources.Road2.Source
+                            select i;
 
-                    #region GetMapPosition
-                    Func<Point, Point<double>> GetMapPosition =
-                        canvas =>
+                        var RandomizedRoadTiles = KnownRoadTiles.Randomize().ToArray();
+                        var TwoSides = new[] { -1d, 1d };
+
+                        foreach (var side in TwoSides)
                         {
-                            var c = GetCenter();
+                            var SelectedRoadTile = RandomizedRoadTiles[0];
 
-                            var offset = new Point<double> { X = canvas.X - c.X, Y = (canvas.Y - c.Y) / RotationB };
+                            var newbus = CreateDude(bus, IdleBehaviour.None, 1);
 
-                            var d = ZeroPoint.GetDistance(offset) / (bg_size.h * 2d.Sqrt());
-                            var r = ZeroPoint.GetRotation(offset) - RotationA;
+                            newbus.HasShadow = false;
+                            newbus.RawWalkSpeed *= 0.01;
 
-                            var realoffset = new Point<double>
-                            {
-                                X = Math.Cos(r) * d,
-                                Y = Math.Sin(r) * d
-                            };
+                            // we can use map coords with this actor now
+                            newbus.CurrentTranslator = Translator;
 
-                            return realoffset;
-                        };
+                            Func<Point<double>, double, Point<double>> StartMovingFrom =
+                                (StartPosition, CurrentSide) =>
+                                {
+                                    var PosCurrent = new CoordTranslator(Translator)
+                                    {
+                                        OnMap = new Point<double> { X = StartPosition.X + CurrentSide / 4, Y = StartPosition.Y }
+                                    };
+
+                                    var EndPosition = new Point<double> { X = StartPosition.X, Y = StartPosition.Y - 4 * CurrentSide };
+                                         
+                                    var PosTarget = new CoordTranslator(Translator)
+                                    {
+                                        OnMap = new Point<double> { X = EndPosition.X + CurrentSide / 4, Y = EndPosition.Y }
+                                    };
+
+                                    newbus.TeleportTo(PosCurrent.OnMap);
+                                    newbus.WalkTo(PosTarget.OnMap.ToInt32());
+
+                                    return EndPosition;
+                                };
+
+
+                            var _CurrentSide = side;
+                            var _StartPosition = SelectedRoadTile.Position;
+                            var _EndPosition = StartMovingFrom(_StartPosition, _CurrentSide);
+
+                            newbus.DoneWalkingOnce +=
+                                delegate
+                                {
+                                    Console.WriteLine("done walking");
+
+                                    StartMovingFrom(_EndPosition, -_CurrentSide);
+                                };
+
+                            newbus.AddTo(RoadVehicles);
+                        }
+
+
+                    }
                     #endregion
-
-
 
 
 
@@ -733,10 +798,10 @@ namespace ThreeDStuff.js
                     new IHTMLAnchor("http://zproxy.wordpress.com", "zproxy.wordpress.com").AttachTo(infotoolbar_content).style.Aggregate(SetInfoAnchorStyle);
                     new IHTMLAnchor("http://jsc.sf.net", "jsc.sf.net").AttachTo(infotoolbar_content).style.Aggregate(SetInfoAnchorStyle);
 
-                    
+
                     var toolbar_size = new Point(96, 32);
                     var toolbar_pos = new Point(8, Native.Window.Height - toolbar_size.Y - 8);
-                    
+
 
                     var toolbar = ToolbarDialog.CreateToolbar(toolbar_pos, toolbar_size, toolbar_color);
 
@@ -768,9 +833,9 @@ namespace ThreeDStuff.js
                         toolbar, "assets/ThreeDStuff/btn_demolish.png"
                     );
 
-                
+
                     Func<Point, Point<double>> GetNearestMapPosition =
-                        p => GetMapPosition(p).Round().BoundTo(MapSize);
+                        p => Translator.ConvertCanvasToMap(p.ToDouble()).Round().BoundTo(MapSize);
 
                     #region GetNearestMapRect
                     Func<Rectangle, Rectangle> GetNearestMapRect =
@@ -833,8 +898,8 @@ namespace ThreeDStuff.js
                                 t.RemoveFrom(KnownTileElements);
                                 t.RemoveFrom(KnownDirtTileElements);
 
-                                
-                                
+
+
                             }
                         };
                     #endregion
@@ -895,7 +960,7 @@ namespace ThreeDStuff.js
 
                     #endregion
 
-                    
+
                     var toolbar_btn_landinfo = new ToolbarButton(
                         toolbar, "assets/ThreeDStuff/btn_landinfo.png"
                     );
@@ -1085,9 +1150,9 @@ namespace ThreeDStuff.js
                                         RemoveAllTilesAt(map_coords);
                                         AddTileElement(map_coords, TileResources.Grass.Source, TileResources.Grass.Height);
                                     }
-                                    
+
                                     AddTileElement(map_coords, TileResources.Tree.Source, TileResources.Tree.Height);
-                                    
+
 
                                 }
 
@@ -1335,7 +1400,7 @@ namespace ThreeDStuff.js
 
                             //KnownCanvasPosition = p;
 
-                            var target = GetMapPosition(p).BoundTo(MapSize);
+                            var target = Translator.ConvertCanvasToMap(p.ToDouble()).BoundTo(MapSize);
 
                             if (selection.Length == 0)
                             {
@@ -1348,7 +1413,7 @@ namespace ThreeDStuff.js
                             if (selection.Length == 1)
                             {
 
-                                var canvas = GetCanvasPosition(target);
+                                var canvas = Translator.ConvertMapToCanvas(target);
 
                                 //canvas.X += GetCenter().X;
                                 //canvas.Y += GetCenter().Y;
@@ -1389,7 +1454,7 @@ namespace ThreeDStuff.js
                                         };
 
                                 var dest =
-                                    from index in selection.Length.Range()
+                                    from index in selection.Length.ToRange()
                                     let direction = (((double)index / (selection.Length)) * (Math.PI * 2)).ToConsole()
                                     let distance = 0.5
                                     let mtarget = GetRotatedTargetPoint(direction, distance)
@@ -1461,9 +1526,15 @@ namespace ThreeDStuff.js
 
                                         v.RemoveFrom(KnownDirtTileElements);
 
+                                        var NewHouse = new[]
+                                            {
+                                                TileResources.House3,
+                                                TileResources.House4
+                                            }.Random();
+
                                         AddTileElement(v.Position,
-                                            TileResources.House3.Source,
-                                            TileResources.House3.Height
+                                            NewHouse.Source,
+                                            NewHouse.Height
                                             );
                                     }
 

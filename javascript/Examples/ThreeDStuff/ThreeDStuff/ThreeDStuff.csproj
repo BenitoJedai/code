@@ -79,7 +79,16 @@
     <EmbeddedResource Include="web\assets\ThreeDStuff\btn_track1.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\btn_road2.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\h3.png" />
+    <EmbeddedResource Include="web\assets\ThreeDStuff\h4.png" />
     <Content Include="web\assets\ThreeDStuff\mouse.png" />
+    <EmbeddedResource Include="web\assets\Tycoon_Bus\0.png" />
+    <EmbeddedResource Include="web\assets\Tycoon_Bus\1.png" />
+    <EmbeddedResource Include="web\assets\Tycoon_Bus\2.png" />
+    <EmbeddedResource Include="web\assets\Tycoon_Bus\3.png" />
+    <EmbeddedResource Include="web\assets\Tycoon_Bus\4.png" />
+    <EmbeddedResource Include="web\assets\Tycoon_Bus\5.png" />
+    <EmbeddedResource Include="web\assets\Tycoon_Bus\6.png" />
+    <EmbeddedResource Include="web\assets\Tycoon_Bus\7.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\5.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\6.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\4.png" />

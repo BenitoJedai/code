@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JavaScript\Controls\NatureBoy\Assets.cs" />
+    <Compile Include="JavaScript\Controls\NatureBoy\CoordTranslator.cs" />
     <Compile Include="JavaScript\Controls\NatureBoy\DudeBase.cs" />
     <Compile Include="JavaScript\Controls\NatureBoy\Extensions.cs" />
     <Compile Include="JavaScript\Controls\NatureBoy\Frames.cs" />

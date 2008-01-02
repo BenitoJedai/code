@@ -37,6 +37,7 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
                        );
             }
         }
+
         public double X { get; protected set; }
         public double Y { get; protected set; }
 
@@ -47,6 +48,10 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
                 this.Y + System.Math.Sin(a) * z
                 );
         }
+
+
+
+
 
         public abstract void TeleportTo(double x, double y);
 
@@ -545,7 +550,9 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
             var a64 = (this.Zoom.Value * 64).ToInt32();
             var a32 = a64 / 2;
 
-            this.Shadow.style.SetLocation((zx - a64) / 2, zy - a32, a64, a32);
+            if (HasShadow)
+                this.Shadow.style.SetLocation((zx - a64) / 2, zy - a32, a64, a32);
+
             this.HotImage.style.SetLocation((zx - a64) / 2, zy - a32, a64, a32);
             this.SelectionImage.style.SetLocation((zx - a64) / 2, zy - a32, a64, a32);
 
@@ -553,6 +560,9 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
         }
 
         public Func<Point, bool> CanTeleportTo;
+
+
+        public CoordTranslatorBase CurrentTranslator;
 
         public override void TeleportTo(double x, double y)
         {
@@ -572,14 +582,35 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
             var a64 = (this.Zoom.Value * 64).ToInt32();
             var a32 = a64 / 2;
 
-            this.Control.style.SetLocation(
-                System.Convert.ToInt32(x - ZoomedWidth / 2),
-                System.Convert.ToInt32(y - ZoomedHeight + a32 / 2)//,
+            if (CurrentTranslator == null)
+            {
+                // using canvas coords
+
+                this.Control.style.SetLocation(
+                    System.Convert.ToInt32(x - ZoomedWidth / 2),
+                    System.Convert.ToInt32(y - ZoomedHeight + a32 / 2)//,
+                    );
+
+                
+                this.Control.style.zIndex = System.Convert.ToInt32(y);
+            }
+            else
+            {
+                // we have the map coords, but we need to use the canvas coords now
+
+                var coords = this.CurrentTranslator.ConvertMapToCanvas(
+                    new Point<double> { X = this.X, Y = this.Y }
                 );
 
-            this.UpdateSize();
+                this.Control.style.SetLocation(
+                          System.Convert.ToInt32(coords.X - ZoomedWidth / 2),
+                          System.Convert.ToInt32(coords.Y - ZoomedHeight + a32 / 2)//,
+                          );
 
-            this.Control.style.zIndex = System.Convert.ToInt32(y);
+                this.Control.style.zIndex = System.Convert.ToInt32(coords.Y);
+            }
+
+            this.UpdateSize();
         }
 
         public event Action DoneWalkingOnce

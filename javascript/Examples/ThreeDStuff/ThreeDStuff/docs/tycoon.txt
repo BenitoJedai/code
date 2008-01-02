@@ -10,3 +10,12 @@ trivia:
     * The main view is properly called an isometric view.
     * At oil rigs, there is always an easterly wind, but on refineries, the wind is always from the west.
     * The south-east side of the oil rig's border looks like water, but it won't invade land squares at sea level.
+
+grf:
+http://www.ttdpatch.net/grfcodec/
+
+gfx:
+http://openttdcoop.ppcis.org/wiki/index.php/GRF_Table
+http://users.skynet.be/florisjan/ttd/ttrs.html
+http://wiki.ttdpatch.net/tiki-index.php?page=ECSTTRS3Hotels
+http://ttdgraphics.owenrudge.com/
