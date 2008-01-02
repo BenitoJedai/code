@@ -25,16 +25,13 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
         public img SelectionImage;
         public img HotImage;
 
-        public Point TargetLocation;
+        public Point<double> TargetLocation;
 
-        public Point CurrentLocation
+        public Point<double> CurrentLocation
         {
             get
             {
-                return new Point(
-                           System.Convert.ToInt32(this.X),
-                           System.Convert.ToInt32(this.Y)
-                       );
+                return new Point<double> { X  = X, Y = Y };
             }
         }
 
@@ -299,6 +296,7 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
             Direction = Math.PI / 2;
         }
 
+        #region Direction
         double _Direction;
 
         public double Direction
@@ -310,17 +308,33 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
             set
             {
                 _Direction = value;
+            }
+        }
+        #endregion
+
+
+        #region ImageDirection
+        double _ImageDirection;
+
+        public double ImageDirection
+        {
+            get
+            {
+                return _ImageDirection;
+            }
+            set
+            {
+                _ImageDirection = value;
 
                 this.UpdateFrameImage(CurrentFrame);
             }
         }
-
-
+        #endregion
         public FrameInfo CurrentFrame
         {
             get
             {
-                var value = this.Direction;
+                var value = this.ImageDirection;
 
                 if (this.Frames == null)
                     throw new Exception("Frames");
@@ -355,15 +369,28 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
             }
         }
 
-        public void LookAt(Point point)
+        public void LookAt(Point<double> point)
         {
             this.TargetLocation = point;
 
             var a = this.TargetLocation.GetRotation(this.X, this.Y);
 
-            //Console.WriteLine("a = " + a);
-
             this.Direction = a;
+
+            if (CurrentTranslator == null)
+            {
+                this.ImageDirection = a;
+            }
+            else
+            {
+                // map coords
+                var dual = new CoordTranslatorDual(CurrentTranslator);
+
+                dual.From.OnMap = CurrentLocation;
+                dual.To.OnMap = point;
+
+                this.ImageDirection = dual.To.OnCanvas.GetRotation(dual.From.OnCanvas);
+            }
         }
 
 
@@ -379,7 +406,7 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
 
                     try
                     {
-                        this.LookAt(ev.CursorPosition);
+                        this.LookAt(ev.CursorPosition.ToDouble());
                     }
                     catch
                     {
@@ -591,7 +618,7 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
                     System.Convert.ToInt32(y - ZoomedHeight + a32 / 2)//,
                     );
 
-                
+
                 this.Control.style.zIndex = System.Convert.ToInt32(y);
             }
             else
@@ -660,10 +687,10 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
             var x = this.X + System.Math.Cos(a) * z;
             var y = this.Y + System.Math.Sin(a) * z;
 
-            WalkTo(new Point(x.ToInt32(), y.ToInt32()));
+            WalkTo(new Point<double> { X = x, Y = y });
         }
 
-        public void WalkTo(Point point)
+        public void WalkTo(Point<double> point)
         {
             this.TargetLocation = point;
             this.LookAt(this.TargetLocation);

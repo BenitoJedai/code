@@ -61,7 +61,13 @@ namespace Toolbar.JavaScript
             }
         }
 
-
+        public ToolbarButton ActivatedButton
+        {
+            get
+            {
+                return Buttons.SingleOrDefault(i => i.IsActivated);
+            }
+        }
 
 
     }

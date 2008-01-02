@@ -16,6 +16,27 @@ namespace ThreeDStuff.js
     [Script]
     static class Extensions
     {
+        public static Point<double> WithOffset(this Point<double> e, double x, double y)
+        {
+            return new Point<double> { X = e.X + x, Y = e.Y + y };
+        }
+
+        public static Point<double> Abs(this Point<double> e)
+        {
+            return new Point<double> { X = e.X.Abs(), Y = e.Y.Abs() };
+
+        }
+
+        public static Point<double> Wrap(this Point<double> e, int w)
+        {
+            return new Point<double> { X = e.X % w, Y = e.Y % w };
+ 
+        }
+        public static double Abs(this double value)
+        {
+            return Math.Abs(value);
+        }
+
         public static Dude2 TeleportTo(this Dude2 e, Point<double> x)
         {
             e.TeleportTo(x.X, x.Y);
@@ -238,6 +259,8 @@ namespace ThreeDStuff.js
             return GetRotation(new Point<double> { X = a.X, Y = a.Y }, _x, _y);
 
         }
+
+        
 
         public static double GetRotation(this Point<double> p, Point<double> z)
         {

@@ -11,6 +11,12 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
     [Script]
     internal static class Extensions
     {
+
+        public static Point<double> ToDouble(this Point e)
+        {
+            return new Point<double> { X = e.X, Y = e.Y };
+        }
+
         public static IEnumerable<T> Range<T>(this int count, Func<int, T> s)
         {
             return count.Range().Select(s);

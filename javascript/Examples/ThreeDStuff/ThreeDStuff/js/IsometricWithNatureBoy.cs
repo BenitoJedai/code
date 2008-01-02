@@ -555,7 +555,7 @@ namespace ThreeDStuff.js
                                 done =>
                                 {
                                     w2.DoneWalkingOnce += done;
-                                    w2.WalkTo(GetRandomCanvasPosition());
+                                    w2.WalkTo(GetRandomCanvasPosition().ToDouble());
                                 };
 
                             Action WaitSomeAndGoSomeWhere = null;

@@ -15,17 +15,33 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
     }
 
     [Script]
-    public class CoordTranslator : CoordTranslatorBase
+    public class CoordTranslatorDual
+    {
+        public readonly CoordTranslator From;
+        public readonly CoordTranslator To;
+
+        public CoordTranslatorDual(CoordTranslatorBase _TranslatorBase)
+        {
+            From = new CoordTranslator(_TranslatorBase);
+            To = new CoordTranslator(_TranslatorBase);
+        }
+
+        
+    }
+
+    [Script]
+    public class CoordTranslator
     {
         public CoordTranslator()
         {
 
         }
 
-        public CoordTranslator(CoordTranslatorBase e)
+        public CoordTranslatorBase TranslatorBase;
+
+        public CoordTranslator(CoordTranslatorBase _TranslatorBase)
         {
-            this.ConvertCanvasToMap = e.ConvertCanvasToMap;
-            this.ConvertMapToCanvas = e.ConvertMapToCanvas;
+            this.TranslatorBase = _TranslatorBase;   
         }
 
         Point<double> _Map;
@@ -34,7 +50,7 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
             get
             {
                 if (_Map == null)
-                    _Map = ConvertCanvasToMap(_Canvas);
+                    _Map = TranslatorBase.ConvertCanvasToMap(_Canvas);
 
                 return _Map;
             }
@@ -48,7 +64,7 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
             get
             {
                 if (_Canvas == null)
-                    _Canvas = ConvertMapToCanvas(_Map);
+                    _Canvas = TranslatorBase.ConvertMapToCanvas(_Map);
 
                 return _Canvas;
             }

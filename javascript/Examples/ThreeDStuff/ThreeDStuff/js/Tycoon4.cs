@@ -19,13 +19,21 @@ namespace ThreeDStuff.js
     using ScriptCoreLib.JavaScript.Runtime;
     using ScriptCoreLib.JavaScript.Controls.LayeredControl;
 
-    //[Script]
-    //public delegate void Action<A, B, C, D, E>(A a, B b, C c, D d, E e);
     public enum IdleBehaviour
     {
         None,
         Look,
         Scout,
+    }
+
+    public enum TileSelectorMode
+    {
+        Unknown,
+        Single,
+        Horizontal,
+        Vertical,
+        HorizontalOrVertical,
+        Rectangle
     }
 
     [ScriptApplicationEntryPoint,
@@ -140,9 +148,17 @@ namespace ThreeDStuff.js
                     Track1 = new { Source = "assets/ThreeDStuff/r2.png", Height = 32 },
                     Road2 = new { Source = "assets/ThreeDStuff/r1.png", Height = 32 },
                     Road2_Track1 = new { Source = "assets/ThreeDStuff/r3.png", Height = 32 },
+                    Road1 = new { Source = "assets/ThreeDStuff/r4.png", Height = 32 },
+                    Road1_Road2 = new { Source = "assets/ThreeDStuff/r5.png", Height = 32 },
                     Tree = new { Source = "assets/ThreeDStuff/t1.png", Height = 65 },
+                    House1 = new { Source = "assets/ThreeDStuff/h1.png", Height = 52 },
+                    House2 = new { Source = "assets/ThreeDStuff/h2.png", Height = 96 },
                     House3 = new { Source = "assets/ThreeDStuff/h3.png", Height = 50 },
-                    House4 = new { Source = "assets/ThreeDStuff/h4.png", Height = 53 }
+                    House4 = new { Source = "assets/ThreeDStuff/h4.png", Height = 53 },
+                    House5a = new { Source = "assets/ThreeDStuff/h5a.png", Height = 33 },
+                    House5b = new { Source = "assets/ThreeDStuff/h5b.png", Height = 40 },
+                    House5c = new { Source = "assets/ThreeDStuff/h5c.png", Height = 40 },
+                    House5 = new { Source = "assets/ThreeDStuff/h5.png", Height = 40 }
                 };
 
             #region Translate
@@ -621,7 +637,7 @@ namespace ThreeDStuff.js
                                 done =>
                                 {
                                     w2.DoneWalkingOnce += done;
-                                    w2.WalkTo(GetRandomCanvasPosition());
+                                    w2.WalkTo(GetRandomCanvasPosition().ToDouble());
                                 };
 
                             #region WaitSomeAndGoSomeWhere
@@ -713,56 +729,65 @@ namespace ThreeDStuff.js
                             select i;
 
                         var RandomizedRoadTiles = KnownRoadTiles.Randomize().ToArray();
-                        var TwoSides = new[] { -1d, 1d };
 
-                        foreach (var side in TwoSides)
-                        {
-                            var SelectedRoadTile = RandomizedRoadTiles[0];
+                        var SelectedRoadTile = RandomizedRoadTiles[0];
 
-                            var newbus = CreateDude(bus, IdleBehaviour.None, 1);
+                        var newbus = CreateDude(bus, IdleBehaviour.None, 1);
 
-                            newbus.HasShadow = false;
-                            newbus.RawWalkSpeed *= 0.01;
+                        newbus.HasShadow = false;
+                        newbus.RawWalkSpeed *= 0.01;
+                        newbus.TargetLocationDistanceMultiplier = 1;
 
-                            // we can use map coords with this actor now
-                            newbus.CurrentTranslator = Translator;
+                        // we can use map coords with this actor now
+                        newbus.CurrentTranslator = Translator;
 
-                            Func<Point<double>, double, Point<double>> StartMovingFrom =
-                                (StartPosition, CurrentSide) =>
+                        Func<Point<double>, double, Point<double>> StartMovingFrom =
+                            (StartPosition, CurrentSide) =>
+                            {
+                                var X = StartPosition.X + CurrentSide / 4;
+
+                                var PosCurrent = new Point<double> { X = X, Y = StartPosition.Y };
+                                var EndPosition = new Point<double> { X = StartPosition.X, Y = StartPosition.Y - 8 * CurrentSide };
+                                var PosTarget = new Point<double> { X = X, Y = EndPosition.Y };
+
+                                new
                                 {
-                                    var PosCurrent = new CoordTranslator(Translator)
+                                    from = new { PosCurrent.X, PosCurrent.Y },
+                                    to = new { PosTarget.X, PosTarget.Y }
+                                }.ToConsole();
+
+                                newbus.TeleportTo(PosCurrent);
+                                newbus.WalkTo(PosTarget);
+
+                                return EndPosition;
+                            };
+
+
+                        var _CurrentSide = 1;
+                        var _StartPosition = SelectedRoadTile.Position;
+                        var _DoOrder = default(Action);
+
+                        _DoOrder =
+                            delegate
+                            {
+                                var _EndPosition = StartMovingFrom(_StartPosition, _CurrentSide);
+
+
+                                newbus.DoneWalkingOnce +=
+                                    delegate
                                     {
-                                        OnMap = new Point<double> { X = StartPosition.X + CurrentSide / 4, Y = StartPosition.Y }
+                                        Console.WriteLine("done walking: " + newbus.X + "; " + newbus.Y);
+
+                                        _CurrentSide = -_CurrentSide;
+                                        _StartPosition = _EndPosition;
+
+                                        _DoOrder();
                                     };
+                            };
 
-                                    var EndPosition = new Point<double> { X = StartPosition.X, Y = StartPosition.Y - 4 * CurrentSide };
-                                         
-                                    var PosTarget = new CoordTranslator(Translator)
-                                    {
-                                        OnMap = new Point<double> { X = EndPosition.X + CurrentSide / 4, Y = EndPosition.Y }
-                                    };
+                        _DoOrder();
 
-                                    newbus.TeleportTo(PosCurrent.OnMap);
-                                    newbus.WalkTo(PosTarget.OnMap.ToInt32());
-
-                                    return EndPosition;
-                                };
-
-
-                            var _CurrentSide = side;
-                            var _StartPosition = SelectedRoadTile.Position;
-                            var _EndPosition = StartMovingFrom(_StartPosition, _CurrentSide);
-
-                            newbus.DoneWalkingOnce +=
-                                delegate
-                                {
-                                    Console.WriteLine("done walking");
-
-                                    StartMovingFrom(_EndPosition, -_CurrentSide);
-                                };
-
-                            newbus.AddTo(RoadVehicles);
-                        }
+                        newbus.AddTo(RoadVehicles);
 
 
                     }
@@ -920,8 +945,34 @@ namespace ThreeDStuff.js
                         };
                     #endregion
 
+                    Func<Point<double>, TileElement> ReplaceTileWithNewBuilding =
+                        map_coords =>
+                        {
+                            var n = ReplaceTileWithDirt(map_coords);
 
+                            n.DirtAge = -200 - 5.Random();
 
+                            return n;
+                        };
+                            
+                    #region interesting predicates
+                    var IsGrass =
+                        new[]
+                                 {
+                                     TileResources.Grass.Source,
+                                     TileResources.Dirt.Source,
+                                     TileResources.DirtDirtGrass.Source,
+                                     TileResources.DirtGrassGrass.Source,
+                                     TileResources.Rocks.Source,
+                                     TileResources.RoughLand.Source,
+                                 }.ToEqualsAny();
+                    var IsGrassStrict = TileResources.Grass.Source.ToEquals();
+                    var IsRoad1 = TileResources.Road1.Source.ToEquals();
+                    var IsRoad2 = TileResources.Road2.Source.ToEquals();
+                    var IsTrack1 = TileResources.Track1.Source.ToEquals();
+                    var IsTree = TileResources.Tree.Source.ToEquals();
+                    var IsTileSelector = TileResources.TileSelector.Source.ToEquals();
+                    #endregion
 
                     var ShowingTileSelector = default(Func<bool>);
 
@@ -937,29 +988,41 @@ namespace ThreeDStuff.js
                       toolbar, "assets/ThreeDStuff/btn_road2.png"
                    );
 
+                    var toolbar_btn_road1 = new ToolbarButton(
+                     toolbar, "assets/ThreeDStuff/btn_road1.png"
+                    );
+
+                    var toolbar_btn_road1_road2 = new ToolbarButton(
+                     toolbar, "assets/ThreeDStuff/btn_road1_road2.png"
+                    );
+
 
                     /*
                     var toolbar_btn_sign = new ToolbarButton(
                        toolbar, "assets/ThreeDStuff/btn_sign.png"
                     );
                     */
-                    #region toolbar_btn_trees
+
                     var toolbar_btn_trees = new ToolbarButton(
                        toolbar, "assets/ThreeDStuff/btn_trees.png"
                     );
 
-                    var toolbar_btngroup = new ToolbarButtonGroup
+
+
+                    var TileSelectorModes = new Dictionary<ToolbarButton, TileSelectorMode>
                     {
-                        Buttons = new[] { 
-                            toolbar_btn_demolish, 
-                            toolbar_btn_track1, 
-                            toolbar_btn_road2, 
-                            toolbar_btn_trees }
+                        {toolbar_btn_demolish, TileSelectorMode.Rectangle},
+                        {toolbar_btn_track1, TileSelectorMode.Horizontal},
+                        {toolbar_btn_road2, TileSelectorMode.Vertical},
+                        {toolbar_btn_road1, TileSelectorMode.Horizontal},
+                        {toolbar_btn_road1_road2, TileSelectorMode.HorizontalOrVertical},
+                        {toolbar_btn_trees, TileSelectorMode.Rectangle},
                     };
 
-
-                    #endregion
-
+                    var toolbar_btngroup = new ToolbarButtonGroup
+                    {
+                        Buttons = TileSelectorModes.Keys.ToArray()
+                    };
 
                     var toolbar_btn_landinfo = new ToolbarButton(
                         toolbar, "assets/ThreeDStuff/btn_landinfo.png"
@@ -1045,7 +1108,22 @@ namespace ThreeDStuff.js
                        };
                     #endregion
 
-                    #region arena.SelectionPointsPreview
+                    #region GetActivatedTileSelectorMode
+                    Func<TileSelectorMode> GetActivatedTileSelectorMode =
+                        delegate
+                        {
+                            if (toolbar_btngroup.ActivatedButton == null)
+                                return TileSelectorMode.Unknown;
+
+                            if (!TileSelectorModes.ContainsKey(toolbar_btngroup.ActivatedButton))
+                                return TileSelectorMode.Unknown;
+
+                            return TileSelectorModes[toolbar_btngroup.ActivatedButton];
+                        };
+                    #endregion
+
+
+                    #region arena.SelectionPointsPreview - just apply the current TileSelectorMode
                     arena.SelectionPointsPreview +=
                         (from, to) =>
                         {
@@ -1063,10 +1141,25 @@ namespace ThreeDStuff.js
                                     to = GetNearestMapPosition(to)
                                 };
 
+                            #region CurrentMode
+
+                            var CurrentMode = GetActivatedTileSelectorMode();
+
+                            if (CurrentMode == TileSelectorMode.Unknown)
+                                return;
+
+                            if (CurrentMode == TileSelectorMode.HorizontalOrVertical)
+                            {
+                                if ((map_coords.from.X - map_coords.to.X).Abs() > (map_coords.from.Y - map_coords.to.Y).Abs())
+                                    CurrentMode = TileSelectorMode.Horizontal;
+                                else
+                                    CurrentMode = TileSelectorMode.Vertical;
+                            }
+
+                            #endregion
 
 
-
-                            if (toolbar_btn_track1)
+                            if (CurrentMode == TileSelectorMode.Horizontal)
                             {
                                 MultipleTileSelector_Clear();
 
@@ -1075,7 +1168,7 @@ namespace ThreeDStuff.js
                             }
 
 
-                            if (toolbar_btn_road2)
+                            if (CurrentMode == TileSelectorMode.Vertical)
                             {
                                 MultipleTileSelector_Clear();
 
@@ -1084,7 +1177,8 @@ namespace ThreeDStuff.js
                             }
 
 
-                            if (toolbar_btn_demolish || toolbar_btn_trees)
+
+                            if (CurrentMode == TileSelectorMode.Rectangle)
                             {
                                 MultipleTileSelector_Clear();
 
@@ -1100,28 +1194,12 @@ namespace ThreeDStuff.js
 
 
                     #region UseCurrentToolAt
-                    Action<Point<double>> UseCurrentToolAt =
-                        map_coords =>
+                    Action<Point<double>, TileSelectorMode> UseCurrentToolAt =
+                        (map_coords, CurrentMode) =>
                         {
                             //"UseCurrentToolAt".ToConsole();
 
-                            #region interesting predicates
-                            var IsGrass =
-                                new[]
-                                 {
-                                     TileResources.Grass.Source,
-                                     TileResources.Dirt.Source,
-                                     TileResources.DirtDirtGrass.Source,
-                                     TileResources.DirtGrassGrass.Source,
-                                     TileResources.Rocks.Source,
-                                     TileResources.RoughLand.Source,
-                                 }.ToEqualsAny();
-                            var IsGrassStrict = TileResources.Grass.Source.ToEquals();
-                            var IsRoad2 = TileResources.Road2.Source.ToEquals();
-                            var IsTrack1 = TileResources.Track1.Source.ToEquals();
-                            var IsTree = TileResources.Tree.Source.ToEquals();
-                            var IsTileSelector = TileResources.TileSelector.Source.ToEquals();
-                            #endregion
+
 
                             var Subject = GetTileElementsAt(map_coords).ToArray();
                             var StatsQuery = Subject.Select(i => i.Source);
@@ -1132,6 +1210,7 @@ namespace ThreeDStuff.js
                                 ReplaceTileWithDirt(map_coords);
                             }
 
+                            #region toolbar_btn_trees
                             if (toolbar_btn_trees)
                             {
                                 Func<string, bool> IsOther = s =>
@@ -1155,26 +1234,19 @@ namespace ThreeDStuff.js
 
 
                                 }
-
-
-
                             }
+
+                            #endregion
 
 
 
                             #region toolbar_btn_track1
                             if (toolbar_btn_track1)
                             {
-
-
-
                                 #region Stats
 
                                 Func<string, bool> IsOther = s =>
                                     !(IsRoad2(s) || IsGrass(s) || IsTree(s) || IsTileSelector(s));
-
-
-
 
                                 var Stats = new
                                 {
@@ -1207,22 +1279,31 @@ namespace ThreeDStuff.js
 
                             #endregion
 
-                            #region toolbar_btn_road2
-                            if (toolbar_btn_road2)
+                            bool ActiveIsRoad1 = toolbar_btn_road1;
+                            bool ActiveIsRoad2 = toolbar_btn_road2;
+
+                            if (toolbar_btn_road1_road2)
+                            {
+                                ActiveIsRoad1 = CurrentMode == TileSelectorMode.Horizontal;
+                                ActiveIsRoad2 = CurrentMode == TileSelectorMode.Vertical;
+                            }
+
+
+
+                            #region toolbar_btn_road1
+                            if (ActiveIsRoad1)
                             {
 
 
                                 #region Stats
 
                                 Func<string, bool> IsOther = s =>
-                                    !(IsTrack1(s) || IsGrass(s) || IsTree(s) || IsTileSelector(s));
-
-
-
+                                    !(IsRoad2(s) || IsTrack1(s) || IsGrass(s) || IsTree(s) || IsTileSelector(s));
 
                                 var Stats = new
                                 {
                                     Grass = StatsQuery.Any(IsGrass),
+                                    Road2 = StatsQuery.Any(IsRoad2),
                                     Track1 = StatsQuery.Any(IsTrack1),
                                     Other = StatsQuery.Any(IsOther)
                                 };
@@ -1232,7 +1313,54 @@ namespace ThreeDStuff.js
                                 {
                                     RemoveAllTilesAt(map_coords);
 
-                                    if (!Stats.Track1)
+                                    if (!Stats.Road2)
+                                        AddTileElement(map_coords,
+                                            TileResources.Road1.Source,
+                                            TileResources.Road1.Height);
+                                    else
+                                        AddTileElement(map_coords, TileResources.Road1_Road2.Source, TileResources.Road1_Road2.Height);
+                                }
+                                else
+                                {
+                                    // should show that red error dialog now :)
+                                    "Cannot build tracks!".ToConsole();
+
+                                }
+
+                            }
+
+                            #endregion
+
+
+                            #region toolbar_btn_road2
+                            if (ActiveIsRoad2)
+                            {
+
+
+                                #region Stats
+
+                                Func<string, bool> IsOther = s =>
+                                    !(IsRoad1(s) || IsTrack1(s) || IsGrass(s) || IsTree(s) || IsTileSelector(s));
+
+
+
+
+                                var Stats = new
+                                {
+                                    Grass = StatsQuery.Any(IsGrass),
+                                    Road1 = StatsQuery.Any(IsRoad1),
+                                    Track1 = StatsQuery.Any(IsTrack1),
+                                    Other = StatsQuery.Any(IsOther)
+                                };
+                                #endregion
+
+                                if (!Stats.Other)
+                                {
+                                    RemoveAllTilesAt(map_coords);
+
+                                    if (Stats.Road1)
+                                        AddTileElement(map_coords, TileResources.Road1_Road2.Source, TileResources.Road1_Road2.Height);
+                                    else if (!Stats.Track1)
                                         AddTileElement(map_coords, TileResources.Road2.Source, TileResources.Road2.Height);
                                     else
                                         AddTileElement(map_coords, TileResources.Road2_Track1.Source, TileResources.Road2_Track1.Height);
@@ -1266,74 +1394,54 @@ namespace ThreeDStuff.js
                                  to = GetNearestMapPosition(to)
                              };
 
-                             #region interesting predicates
-                             var IsGrass =
-                                 new[]
-                                 {
-                                     TileResources.Grass.Source,
-                                     TileResources.Dirt.Source,
-                                     TileResources.DirtDirtGrass.Source,
-                                     TileResources.DirtGrassGrass.Source,
-                                     TileResources.Rocks.Source,
-                                     TileResources.RoughLand.Source,
-                                 }.ToEqualsAny();
-                             var IsRoad2 = TileResources.Road2.Source.ToEquals();
-                             var IsTrack1 = TileResources.Track1.Source.ToEquals();
-                             var IsTree = TileResources.Tree.Source.ToEquals();
-                             var IsTileSelector = TileResources.TileSelector.Source.ToEquals();
+
+
+                             #region CurrentMode
+
+                             var CurrentMode = GetActivatedTileSelectorMode();
+
+                             if (CurrentMode == TileSelectorMode.Unknown)
+                                 return;
+
+                             if (CurrentMode == TileSelectorMode.HorizontalOrVertical)
+                             {
+                                 if ((map_coords.from.X - map_coords.to.X).Abs() > (map_coords.from.Y - map_coords.to.Y).Abs())
+                                     CurrentMode = TileSelectorMode.Horizontal;
+                                 else
+                                     CurrentMode = TileSelectorMode.Vertical;
+                             }
+
                              #endregion
 
+                             Console.WriteLine("mode: " + CurrentMode);
 
-
-                             if (toolbar_btn_road2)
+                             if (CurrentMode == TileSelectorMode.Vertical)
                              {
                                  MultipleTileSelector_Clear();
 
                                  foreach (var y in map_coords.from.Y.ToInt32().RangeTo(map_coords.to.Y.ToInt32()))
                                  {
-                                     UseCurrentToolAt(new Point<double> { X = map_coords.from.X, Y = y });
+                                     UseCurrentToolAt(new Point<double> { X = map_coords.from.X, Y = y }, CurrentMode);
 
-                                     // lets build some houses 3 to 1
-                                     if (0.5.ByChance())
-                                     {
-                                         //  to the left of the road
-                                         var x = map_coords.from.X + Math.Sign(map_coords.to.Y - map_coords.from.Y);
-                                         var new_map_coords = new Point<double> { X = x, Y = y };
-
-                                         if (IsDefined(x, y))
-                                         {
-                                             var Subject = GetTileElementsAt(new_map_coords).ToArray();
-                                             var StatsQuery = Subject.Select(i => i.Source);
-
-                                             // all but grass
-                                             if (!StatsQuery.Any(i => !IsGrass(i)))
-                                             {
-                                                 // -200 will be a new house
-                                                 var lot = ReplaceTileWithDirt(new_map_coords);
-
-                                                 lot.DirtAge = -205;
-                                             }
-                                         }
-                                     }
                                  }
                              }
 
-                             if (toolbar_btn_track1)
+                             if (CurrentMode == TileSelectorMode.Horizontal)
                              {
                                  MultipleTileSelector_Clear();
 
                                  foreach (var x in map_coords.from.X.ToInt32().RangeTo(map_coords.to.X.ToInt32()))
-                                     UseCurrentToolAt(new Point<double> { X = x, Y = map_coords.from.Y });
+                                     UseCurrentToolAt(new Point<double> { X = x, Y = map_coords.from.Y }, CurrentMode);
                              }
 
-                             if (toolbar_btn_demolish || toolbar_btn_trees)
+                             if (CurrentMode == TileSelectorMode.Rectangle)
                              {
                                  MultipleTileSelector_Clear();
 
                                  foreach (var x in map_coords.from.X.ToInt32().RangeTo(map_coords.to.X.ToInt32()))
                                      foreach (var y in map_coords.from.Y.ToInt32().RangeTo(map_coords.to.Y.ToInt32()))
                                      {
-                                         UseCurrentToolAt(new Point<double> { X = x, Y = y });
+                                         UseCurrentToolAt(new Point<double> { X = x, Y = y }, CurrentMode);
                                      }
                              }
 
@@ -1344,7 +1452,7 @@ namespace ThreeDStuff.js
                          };
                     #endregion
 
-                    #region arena.SelectionClick - using current tool
+                    #region arena.SelectionClick - just use the current tool
                     arena.SelectionClick +=
                      (p, ev) =>
                      {
@@ -1355,9 +1463,28 @@ namespace ThreeDStuff.js
                              return;
 
 
+
                          var map_coords = GetNearestMapPosition(p);
 
-                         UseCurrentToolAt(map_coords);
+                         #region CurrentMode
+                         var CurrentMode = GetActivatedTileSelectorMode();
+
+                         if (CurrentMode == TileSelectorMode.Unknown)
+                             return;
+
+                         if (CurrentMode == TileSelectorMode.HorizontalOrVertical)
+                         {
+                             var map_coords0 = Translator.ConvertCanvasToMap(p.ToDouble()).Wrap(1).Abs();
+
+                             if (map_coords0.X > map_coords0.Y)
+                                 CurrentMode = TileSelectorMode.Horizontal;
+                             else
+                                 CurrentMode = TileSelectorMode.Vertical;
+                         }
+                         #endregion
+
+
+                         UseCurrentToolAt(map_coords, CurrentMode);
 
 
                          MultipleTileSelector_Clear();
@@ -1425,7 +1552,7 @@ namespace ThreeDStuff.js
                                 //}.ToConsole(); ;
 
                                 selection.ForEach(i => i.WalkTo(
-                                    new Point(canvas.X.ToInt32(), canvas.Y.ToInt32())
+                                    canvas
                                     ));
                             }
                             else
@@ -1468,7 +1595,7 @@ namespace ThreeDStuff.js
 
                                 foreach (var v in dest)
                                 {
-                                    selection[v.index].WalkTo(v.canvas);
+                                    selection[v.index].WalkTo(v.canvas.ToDouble());
                                 }
 
                                 #endregion
@@ -1490,9 +1617,9 @@ namespace ThreeDStuff.js
                             foreach (var v in Dudes)
                             {
                                 if (ev.shiftKey)
-                                    v.IsSelected |= r.Contains(v.CurrentLocation);
+                                    v.IsSelected |= r.Contains(v.CurrentLocation.ToInt32());
                                 else
-                                    v.IsSelected = r.Contains(v.CurrentLocation);
+                                    v.IsSelected = r.Contains(v.CurrentLocation.ToInt32());
                             }
                         };
                     #endregion
@@ -1506,6 +1633,60 @@ namespace ThreeDStuff.js
 
                             "got dirt?".ToConsole();
 
+                            #region build city
+                            if (t.Counter % 3 == 0)
+                            {
+                                var TryBuildHereCounter = 0;
+
+                                #region TryBuildHere
+                                Func<Point<double>, bool> TryBuildHere =
+                                    n =>
+                                    {
+                                        if (IsDefined(n.X, n.Y))
+                                            if (GetTileElementsAt(n).All(i => IsGrassStrict(i.Source)))
+                                            {
+                                                ReplaceTileWithNewBuilding(n);
+
+                                                TryBuildHereCounter++;
+
+                                                return true;
+                                            }
+
+                                        return false;
+                                    };
+                                #endregion
+
+
+                                foreach (var v in
+                                            from i in KnownTileElements
+                                            let Road2 = IsRoad2(i.Source)
+                                            let Road1 = IsRoad1(i.Source)
+                                            where Road2 || Road1
+                                            where 0.1.ByChance()
+                                            select new { i, Road1, Road2 }
+                                        )
+                                {
+                                    if (TryBuildHereCounter == 2)
+                                        break;
+
+                                    if (v.Road2)
+                                    {
+                                        TryBuildHere(v.i.Position.Round().WithOffset(-1, 0));
+                                        TryBuildHere(v.i.Position.Round().WithOffset(1, 0));
+                                    }
+
+                                    if (v.Road1)
+                                    {
+                                        TryBuildHere(v.i.Position.Round().WithOffset(0, -1));
+                                        TryBuildHere(v.i.Position.Round().WithOffset(0, 1));
+                                    }
+                                }
+
+
+                            }
+                            #endregion
+
+                            #region KnownDirtTileElements
                             foreach (var v in KnownDirtTileElements.ToArray())
                             {
                                 new { v.DirtAge, v.Position.X, v.Position.Y }.ToConsole();
@@ -1517,6 +1698,41 @@ namespace ThreeDStuff.js
 
                                 }
 
+                                #region House5 building animation
+                                if (v.Source == TileResources.House5a.Source)
+                                    if (v.DirtAge > 3)
+                                    {
+                                        RemoveAllTilesAt(v.Position);
+                                        AddTileElement(v.Position,
+                                            TileResources.House5b.Source,
+                                            TileResources.House5b.Height
+                                            )
+                                            .AddTo(KnownDirtTileElements);
+                                    }
+
+                                if (v.Source == TileResources.House5b.Source)
+                                    if (v.DirtAge > 3)
+                                    {
+                                        RemoveAllTilesAt(v.Position);
+                                        AddTileElement(v.Position,
+                                            TileResources.House5c.Source,
+                                            TileResources.House5c.Height
+                                            )
+                                            .AddTo(KnownDirtTileElements);
+                                    }
+
+                                if (v.Source == TileResources.House5c.Source)
+                                    if (v.DirtAge > 3)
+                                    {
+                                        RemoveAllTilesAt(v.Position);
+                                        AddTileElement(v.Position,
+                                            TileResources.House5.Source,
+                                            TileResources.House5.Height
+                                            );
+
+                                    }
+                                #endregion
+
                                 #region make that dirt grow into grass over time
                                 if (v.Source == TileResources.Dirt.Source)
                                 {
@@ -1524,18 +1740,23 @@ namespace ThreeDStuff.js
                                     {
                                         RemoveAllTilesAt(v.Position);
 
-                                        v.RemoveFrom(KnownDirtTileElements);
 
                                         var NewHouse = new[]
                                             {
+                                                TileResources.House1,
+                                                TileResources.House2,
                                                 TileResources.House3,
-                                                TileResources.House4
+                                                TileResources.House4,
+                                                TileResources.House5a,
+                                                TileResources.House5a
+
                                             }.Random();
 
                                         AddTileElement(v.Position,
                                             NewHouse.Source,
                                             NewHouse.Height
-                                            );
+                                            )
+                                            .AddTo(KnownDirtTileElements);
                                     }
 
                                     if (v.DirtAge > 3)
@@ -1573,6 +1794,8 @@ namespace ThreeDStuff.js
 
                                 v.DirtAge++;
                             }
+                            #endregion
+
                         }
                     );
                     #endregion

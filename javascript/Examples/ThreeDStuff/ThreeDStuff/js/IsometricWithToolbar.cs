@@ -609,7 +609,7 @@ namespace ThreeDStuff.js
                                         done =>
                                         {
                                             w2.DoneWalkingOnce += done;
-                                            w2.WalkTo(GetRandomCanvasPosition());
+                                            w2.WalkTo(GetRandomCanvasPosition().ToDouble());
                                         };
 
                                     Action WaitSomeAndGoSomeWhere = null;
@@ -1361,7 +1361,7 @@ namespace ThreeDStuff.js
                                 //}.ToConsole(); ;
 
                                 selection.ForEach(i => i.WalkTo(
-                                    new Point(canvas.X.ToInt32(), canvas.Y.ToInt32())
+                                    canvas
                                     ));
                             }
                             else
@@ -1404,7 +1404,7 @@ namespace ThreeDStuff.js
 
                                 foreach (var v in dest)
                                 {
-                                    selection[v.index].WalkTo(v.canvas);
+                                    selection[v.index].WalkTo(v.canvas.ToDouble());
                                 }
 
                                 #endregion
@@ -1426,9 +1426,9 @@ namespace ThreeDStuff.js
                             foreach (var v in Dudes)
                             {
                                 if (ev.shiftKey)
-                                    v.IsSelected |= r.Contains(v.CurrentLocation);
+                                    v.IsSelected |= r.Contains(v.CurrentLocation.ToInt32());
                                 else
-                                    v.IsSelected = r.Contains(v.CurrentLocation);
+                                    v.IsSelected = r.Contains(v.CurrentLocation.ToInt32());
                             }
                         };
                     #endregion
