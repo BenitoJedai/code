@@ -100,7 +100,7 @@ namespace NatureBoyTestPad.js
                         return;
 
                     foreach (var v in actors)
-                        v.IsSelected = rect.Contains(v.CurrentLocation);
+                        v.IsSelected = rect.Contains(v.CurrentLocation.ToInt32());
                 };
 
             arena.SelectionClick +=
@@ -110,7 +110,7 @@ namespace NatureBoyTestPad.js
                         return;
 
                     foreach (var v in selection)
-                        v.WalkTo(p);
+                        v.WalkTo(p.ToDouble());
                 };
 
 
