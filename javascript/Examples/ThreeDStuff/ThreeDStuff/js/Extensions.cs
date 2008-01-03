@@ -16,6 +16,52 @@ namespace ThreeDStuff.js
     [Script]
     static class Extensions
     {
+        public static Action ForEachAtInterval<T>(this IEnumerable<T> e, int interval, Action<T> h, Action done)
+        {
+            var x = e.GetEnumerator();
+
+            var t = default(Timer);
+
+            Action dispose = delegate
+            {
+                if (t != null)
+                {
+                    t.Stop();
+                    t = null;
+                }
+
+                if (x != null)
+                {
+                    x.Dispose();
+                    x = null;
+                }
+            };
+
+            t = interval.AtInterval(
+                delegate
+                {
+                    if (x.MoveNext())
+                        h(x.Current);
+                    else
+                    {
+                        dispose();
+                        done();
+                    }
+                }
+            );
+
+            return dispose;
+        }
+
+        public static Point<double> WithArc(this Point<double> e, double d, double r)
+        {
+            var x = Math.Cos(d) * r;
+            var y = Math.Sin(d) * r;
+
+            return WithOffset(e, x, y);
+        }
+
+
         public static Point<double> WithOffset(this Point<double> e, double x, double y)
         {
             return new Point<double> { X = e.X + x, Y = e.Y + y };
@@ -30,7 +76,7 @@ namespace ThreeDStuff.js
         public static Point<double> Wrap(this Point<double> e, int w)
         {
             return new Point<double> { X = e.X % w, Y = e.Y % w };
- 
+
         }
         public static double Abs(this double value)
         {
@@ -260,7 +306,7 @@ namespace ThreeDStuff.js
 
         }
 
-        
+
 
         public static double GetRotation(this Point<double> p, Point<double> z)
         {
@@ -358,7 +404,7 @@ namespace ThreeDStuff.js
 
                     e.CreateInstance();
 
-              });
+                });
         }
 
         public static Timer Swap<T>(this T[] e, int interval, Action<T> h)

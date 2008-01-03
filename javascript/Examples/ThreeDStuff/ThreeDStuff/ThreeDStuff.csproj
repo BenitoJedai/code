@@ -86,6 +86,7 @@
     <EmbeddedResource Include="web\assets\ThreeDStuff\h5b.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\h5c.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\btn_road1_road2.png" />
+    <EmbeddedResource Include="web\assets\ThreeDStuff\btn_city.png" />
     <Content Include="web\assets\ThreeDStuff\mouse.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\r4.png" />
     <EmbeddedResource Include="web\assets\ThreeDStuff\r5.png" />

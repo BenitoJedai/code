@@ -16,7 +16,7 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>Z:\work\jsc\svn\javascript\Examples\ThreeDStuff\ThreeDStuff\bin\Debug</StartWorkingDirectory>
+    <StartWorkingDirectory>Z:\work\jsc\svn\javascript\Examples\ThreeDStuff\ThreeDStuff\bin\Release</StartWorkingDirectory>
     <StartArguments>ThreeDStuff.dll -js</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>

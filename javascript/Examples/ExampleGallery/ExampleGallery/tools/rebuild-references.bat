@@ -64,6 +64,7 @@ call :buildfast javascript\Games\Mahjong\Mahjong.sln
 call :buildfast javascript\Examples\RetroCanvas\RetroCanvas.sln
 call :buildfast javascript\Examples\NatureBoyTestPad\NatureBoyTestPad.sln
 call :buildfast javascript\Examples\MouseButtons\MouseButtons.sln
+call :buildfast javascript\Examples\ClickOnce\ClickOnce.sln
 
 goto :skip
 

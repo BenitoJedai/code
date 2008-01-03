@@ -41,8 +41,8 @@ namespace ClickOnce.js
         public string Location;
     }
 
-    [Script, ScriptApplicationEntryPoint(IsClickOnce = true)]
-    public class Class1
+    [Script, ScriptApplicationEntryPoint(IsClickOnce = true, ScriptedLoading=true)]
+    public class TipRotator
     {
         public static readonly TipDocument DefaultData =
             new TipDocument
@@ -60,7 +60,7 @@ namespace ClickOnce.js
         public readonly TipDocument Data;
 
         
-        public Class1(TipDocument _Data)
+        public TipRotator(TipDocument _Data)
         {
             this.Data = _Data;
 
@@ -107,14 +107,14 @@ namespace ClickOnce.js
         }
 
 
-        static Class1()
+        static TipRotator()
         {
             var KnownTypes = new object[] { 
                     new Tip(), 
                     new TipDocument() 
                 };
 
-            typeof(Class1).SpawnTo<TipDocument>(KnownTypes, i => new Class1(i));
+            typeof(TipRotator).SpawnTo<TipDocument>(KnownTypes, i => new TipRotator(i));
 
 
         }

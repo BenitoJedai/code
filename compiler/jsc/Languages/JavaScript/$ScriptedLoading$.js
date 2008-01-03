@@ -1,49 +1,56 @@
 ﻿((function(h,i){
-    var a=0,
+    var a=-1,
     b='onreadystatechange',
     c=document.getElementsByTagName('HEAD')[0],
     d,
     e,
     f,
-    g=c.childNodes;
+    g=c.childNodes,
+    d,
+    x=document.createElement('H3');
 
+    document.body.appendChild(x);
 
-    next: for(d in h)
+    d = function ()
     {
-        
-        for (f=0;f<g.length;f++)
+        next: while (1)
         {
-            var v = g[f];
-            var w = h[d];
+            a++;
             
-            if (v.nodeName == 'SCRIPT')
-            if (v.src == w || v.src.substr(v.src.length - w.length - 1, w.length + 1) == '/' + w)
+            if (a==h.length)
             {
-                a++;
-                continue next;
+                document.body.removeChild(x);
+                i();
+                return;
             }
-        }
-                    
-        e=document.createElement('SCRIPT');
-        e.src=h[d];
-
-        c.appendChild(e);
-        e[b in e?b:'onload']=
-            function()
-            {
             
-                var f=e.readyState;
-                if(f==null||f=='loaded'||f=='complete')
+            for (f=0;f<g.length;f++)
+            {
+                var v = g[f];
+                var w = h[a];
+                
+                if (v.nodeName == 'SCRIPT')
+                if (v.src == w || v.src.substr(v.src.length - w.length - 1, w.length + 1) == '/' + w)
+                    continue next;
+            }
+                        
+            e=document.createElement('SCRIPT');
+            x.innerHTML='Loading ' + (e.src=h[a])+ ' ' + (a+1)+'/'+(h.length);
+
+            
+            e[b in e?b:'onload']=
+                function()
                 {
-                    a++;
-                    
-                    if(a==h.length) i();
-                }
-            };
-        
-        
-    }
+                
+                    var f=e.readyState;
+                    if(f==null||f=='loaded'||f=='complete')
+                        d();
+                };
+            c.appendChild(e);
+            
+            return;
+        }
+    };
     
-    if(a==h.length) i();
-    
+    d();
 })([$references$],function(){$done$}))

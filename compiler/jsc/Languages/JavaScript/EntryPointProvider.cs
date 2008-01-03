@@ -20,7 +20,7 @@ namespace jsc.Languages.JavaScript
             get
             {
                 if (_ClickOnceTemplate == null)
-                    _ClickOnceTemplate = "jsc.Languages.JavaScript.$clickonce$.js".GetResourceFileContent()
+                    _ClickOnceTemplate = "jsc.Languages.JavaScript.$ClickOnce$.js".GetResourceFileContent()
                         .Replace("\r\n", "")
                         .Replace("\t", "")
                         .ReplaceSpace("{", "}", ",", "=");
@@ -31,7 +31,25 @@ namespace jsc.Languages.JavaScript
         #endregion
 
 
-        static string ClickOnceSpawnLink(this Assembly ass, string BaseURL, string code)
+        #region ScriptedLoadingTemplate
+        static string _ScriptedLoadingTemplate;
+
+        static public string ScriptedLoadingTemplate
+        {
+            get
+            {
+                if (_ScriptedLoadingTemplate == null)
+                    _ScriptedLoadingTemplate = "jsc.Languages.JavaScript.$ScriptedLoading$.js".GetResourceFileContent()
+                        .Replace("\r\n", "")
+                        .Replace("\t", "")
+                        .ReplaceSpace("{", "}", ",", "=");
+
+                return _ScriptedLoadingTemplate;
+            }
+        }
+        #endregion
+
+        static string GetEntrypointScript(this Assembly ass, string BaseURL, string code, string template)
         {
             var w = new StringWriter();
 
@@ -49,7 +67,7 @@ namespace jsc.Languages.JavaScript
 
             //w.Write("],function(){" + code + "}))");
 
-            return ClickOnceTemplate
+            return template
                 .ReplaceSpace("    ", "   ", "  ", " ")
                 .Replace("$references$", w.ToString())
                 .Replace("$done$", code);
@@ -114,6 +132,8 @@ namespace jsc.Languages.JavaScript
 
                     Console.WriteLine("entrypoint: " + v.Name);
 
+
+
                     #region IsClickOnce
                     if (s.IsClickOnce)
                     {
@@ -161,7 +181,7 @@ namespace jsc.Languages.JavaScript
                                 delegate
                                 {
                                     w.Write("<a href=\"javascript:");
-                                    w.Write(a.ClickOnceSpawnLink("", done));
+                                    w.Write(a.GetEntrypointScript("", done, ClickOnceTemplate));
                                     w.Write("\">Click to open <b>" + v.Name + "</b></a>");
                                 }
                             );
@@ -171,55 +191,75 @@ namespace jsc.Languages.JavaScript
                     }
                     #endregion
 
-                    #region ScriptedLoading
                     if (s.ScriptedLoading)
                     {
-                        using (var w = dir.CreateFile(v.Name + ".ScriptedLoading.htm"))
+                        using (var w = dir.CreateFile(v.Name + ".htm"))
                         {
+                            var done = "/* ctor not found */";
                             var ctor = default(ConstructorInfo);
 
-                            #region GetConstructorCode
-                            Func<string> GetConstructorCode = () =>
+                            #region ctor(typeof(DefaultData))
+                            if (data != null && (ctor = v.GetConstructor(field.FieldType)) != null)
+                                using (var x = new IdentWriter())
                                 {
-                                    if ((ctor = v.GetConstructor()) != null)
-                                        using (var x = new IdentWriter())
-                                        {
-                                            var h = new IL2ScriptWriterHelper(x);
+                                    var h = new IL2ScriptWriterHelper(x);
 
-                                            x.Write("new ");
-                                            h.WriteWrappedConstructor(ctor);
-                                            x.Write("();");
+                                    x.Write("new ");
+                                    h.WriteWrappedConstructor(ctor);
+                                    x.Write("(");
 
-                                            return x.ToString();
-                                        }
+                                    x.Write(ScriptCoreLib.Tools.JSONSerializer.Serialize(data, '\''));
+                                    //x.Write("null");
 
-                                    return null;
-                                };
+                                    x.Write(");");
+                                    //done = "alert('" + x.ToString() + "');";
+
+                                    done = x.ToString();
+                                }
+                            #endregion
+                            #region ctor()
+                            else if ((ctor = v.GetConstructor()) != null)
+                                using (var x = new IdentWriter())
+                                {
+                                    var h = new IL2ScriptWriterHelper(x);
+
+                                    x.Write("new ");
+                                    h.WriteWrappedConstructor(ctor);
+                                    x.Write("();");
+
+                                    done = x.ToString();
+                                }
                             #endregion
 
+
                             WriteEntryPointHTMLTemplate(
-                               w, () => { },
-                               delegate
-                               {
-                                   
-                               }
-                           );
+                                w, () => { },
+                                delegate
+                                {
+                                    w.Write("<script>");
+                                    w.Write(a.GetEntrypointScript("", done, ScriptedLoadingTemplate));
+                                    w.Write("</script>");
+                                }
+                            );
                         }
+
+                        // ...
                     }
-                    #endregion
+
+                    // ScriptedLoading uses defalu html file name
 
                     Func<string, StreamWriter> CreateFile =
                         suffix => dir.CreateFile(v.Name + (string.IsNullOrEmpty(suffix) ? "" : "." + suffix) + ".htm");
 
 
                     if ((s.Format & SerializedDataFormat.xml) == SerializedDataFormat.xml)
-                        using (var w = CreateFile(SerializedDataFormat.xml == s.DefaultFormat ? "" : "xml"))
+                        using (var w = CreateFile(!s.ScriptedLoading && SerializedDataFormat.xml == s.DefaultFormat ? "" : "xml"))
                         {
                             a.DefineSpawnPoint(w, v.Name, "text/xml", data.SerializeToXML());
                         }
 
                     if ((s.Format & SerializedDataFormat.json) == SerializedDataFormat.json)
-                        using (var w = CreateFile(SerializedDataFormat.json == s.DefaultFormat ? "" : "json"))
+                        using (var w = CreateFile(!s.ScriptedLoading && SerializedDataFormat.json == s.DefaultFormat ? "" : "json"))
                         {
                             a.DefineSpawnPoint(w, v.Name, "text/json", data == null ? null : data.SerializeToJSON());
                         }
@@ -228,5 +268,5 @@ namespace jsc.Languages.JavaScript
         }
     }
 
-    
+
 }

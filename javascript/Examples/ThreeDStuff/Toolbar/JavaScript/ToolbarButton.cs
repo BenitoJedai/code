@@ -30,6 +30,8 @@ namespace Toolbar.JavaScript
             }
         }
 
+        public string Title { get { return Control.title; } set { Control.title = value; } }
+
         public ToolbarButton AttachTo(ToolbarDialog e)
         {
             Control.AttachTo(e.Control);
