@@ -17,6 +17,7 @@ using System.Linq;
 
 using ScriptCoreLib.Shared.Lambda;
 using System;
+using ScriptCoreLib.JavaScript.Controls.LayeredControl;
 
 //using global::System.Collections.Generic;
 
