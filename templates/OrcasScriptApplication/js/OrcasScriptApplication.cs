@@ -8,7 +8,7 @@ using ScriptCoreLib.Shared.Lambda;
 
 namespace OrcasScriptApplication.js
 {
-    [Script, ScriptApplicationEntryPoint]
+    [Script, ScriptApplicationEntryPoint(ScriptedLoading = true)]
     public class OrcasScriptApplication
     {
         public OrcasScriptApplication()
@@ -22,7 +22,7 @@ namespace OrcasScriptApplication.js
 
             var i = 0;
 
-            btn.onclick += ev => 
+            btn.onclick += ev =>
                 {
                     i++;
 
@@ -34,6 +34,8 @@ namespace OrcasScriptApplication.js
                         0xff.Random()
                     );
                 };
+
+            new IHTMLImage(Assets.Path + "/cal.png").AttachToDocument();
         }
 
         static OrcasScriptApplication()

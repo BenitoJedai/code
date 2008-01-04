@@ -26,6 +26,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 .Replace("{1}", "" + b);
         }
 
+        public static string Format(string format, params object[] b)
+        {
+            // fast solution 
+
+
+            var x = format;
+
+            for (int i = 0; i < b.Length; i++)
+            {
+                x = x.Replace("{" + i + "}", b[i].ToString());
+            }
+
+            return x;
+        }
+
+
         public static bool IsNullOrEmpty(string e)
         {
             if (e == null)
