@@ -38,7 +38,7 @@ namespace ExampleGallery.js
                     typeof(SimpleBankPage.js.SimpleBankPage),
                     typeof(GMapsClone.source.js.Controls.GoogleMapsControl),
                     typeof(OrcasVisualBasicScriptApplication.JavaScript.OrcasVisualBasicScriptApplication),
-                    typeof(OrcasScriptApplication.js.OrcasScriptApplication),
+                    typeof(OrcasScriptApplication.js.MyApplication),
                     typeof(SubSquare.source.js.Controls.SubSquareControl),
                     typeof(SimpleRollover.js.SimpleRollover),
                     typeof(SimpleFilmstrip.js.SimpleFilmstrip),

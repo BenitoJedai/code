@@ -8,6 +8,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.JavaScript.Controls.ImageReflection;
 
 
 namespace ExampleGallery.js
@@ -72,30 +73,19 @@ namespace ExampleGallery.js
 
                     foreach (var v in query)
                     {
-                        var reflection = 15;
-                        var slot = new IHTMLDiv();
+                        var r =
+                         new ReflectionSetup
+                         {
+                             Image = v.image,
+                             Position = new Point(0, 0),
+                             Size = new Point(120, 90),
+                             ReflectionZoom = 0.5,
 
-                        v.image.style.SetLocation(0, 0, 120, 90);
-                        v.image.AttachTo(slot);
+                             Bottom = 2
+                         }.ConvertToImageReflection();
 
-                        slot.style.position = IStyle.PositionEnum.relative;
-                        slot.style.border = "1px solid blue";
-                        slot.style.SetSize(120, 90 + reflection);
-
-                        slot.AttachTo(Menu);
-
-                        for (int y = 0; y < reflection; y++)
-                        {
-                            var r = (IHTMLImage) v.image.cloneNode(true);
-
-                            r.style.SetLocation(0, 90 - y, 120, 90);
-                            r.AttachTo(slot);
-                            r.style.Opacity = (y + 1) / (reflection - 1);
-
-                            // rect (top, right, bottom, left)
-
-                            r.style.clip = "rect(" + y + ", 0, " + ", 0)";
-                        }
+                        r.style.position = IStyle.PositionEnum.relative;
+                        r.AttachToDocument();
                     }
 
 
