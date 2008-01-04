@@ -78,6 +78,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\HulaGirl\bin\Release\HulaGirl.dll</HintPath>
     </Reference>
+    <Reference Include="ImageReflection, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ImageReflection\ImageReflection\bin\Release\ImageReflection.dll</HintPath>
+    </Reference>
     <Reference Include="ImageZoomer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\ImageZoomer\ImageZoomer\bin\Release\ImageZoomer.dll</HintPath>
