@@ -53,7 +53,8 @@ namespace ExampleGallery.js
                     typeof(Mahjong.js.MahjongGame),
                     typeof(RetroCanvas.js.AmiNET110.AmiNET110),
                     typeof(NatureBoyTestPad.js.NatureBoyTestPad),
-                    typeof(ClickOnce.js.TipRotator)
+                    typeof(ClickOnce.js.TipRotator),
+                    typeof(ImageReflection.js.MyImageReflection)
                 };
             }
         }
