@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript;
 
 namespace ExampleGallery.js
 {
@@ -11,6 +14,20 @@ namespace ExampleGallery.js
     [Script]
     static class Extensions
     {
+        public static IHTMLElement[] DisposeElementsByTagName(this string tag)
+        {
+            var a = tag.GetElementsByTagName();
+
+            foreach (var v in a)
+                v.Dispose();
+
+            return a;
+        }
+        public static IHTMLElement[] GetElementsByTagName(this string tag)
+        {
+            return Native.Document.getElementsByTagName(tag);
+        }
+
         public static Timer AtInterval(this int x, Action<Timer> h)
         {
             return new Timer(t => h(t), x, x);

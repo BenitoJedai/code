@@ -198,8 +198,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="js\ExampleGallery.References.cs" />
-    <Compile Include="js\ExampleGallery.cs" />
+    <Compile Include="js\ExampleGalleryWithShadows.cs" />
+    <Compile Include="js\ExampleGalleryAbstract.cs" />
+    <Compile Include="js\ExampleGalleryWithApplications.cs" />
+    <Compile Include="js\ExampleGalleryWithReflections.cs" />
     <Compile Include="js\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
@@ -208,12 +210,13 @@
     <Content Include="docs\about.txt" />
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\ExampleGallery\Preview.png" />
+    <EmbeddedResource Include="web\assets\ExampleGallery\bg.png" />
+    <EmbeddedResource Include="web\assets\ExampleGallery\PreviewSelection.png" />
+    <EmbeddedResource Include="web\assets\ExampleGallery\PreviewShadow.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\rebuild-references.bat" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="web\assets\OrcasScriptApplication\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

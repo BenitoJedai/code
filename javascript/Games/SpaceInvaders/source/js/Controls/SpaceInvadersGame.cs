@@ -24,6 +24,11 @@ namespace SpaceInvaders.source.js.Controls
                     Location = ""
                 };
 
+        public SpaceInvadersGame()
+        {
+            SpaceInvaders.SpawnSpaceInvaders(DefaultData.Location);
+        }
+
         public SpaceInvadersGame(GameSettings Data)
         {
             SpaceInvaders.SpawnSpaceInvaders(Data.Location);

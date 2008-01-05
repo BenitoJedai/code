@@ -12,10 +12,10 @@ using ScriptCoreLib.Shared.Lambda;
 
 namespace ExampleGallery.js
 {
-    public partial class ExampleGallery
+    [Script]
+    public abstract class ExampleGalleryWithApplications : ExampleGalleryAbstract
     {
-
-        static public Type[] Applications
+        public override Type[] Applications
         {
             get
             {
@@ -54,6 +54,8 @@ namespace ExampleGallery.js
                     typeof(NatureBoyTestPad.js.NatureBoyTestPad),
                     typeof(ClickOnce.js.TipRotator),
                     typeof(ImageReflection.js.MyImageReflection),
+                    typeof(ExampleGalleryWithReflections),
+                    typeof(ExampleGalleryWithShadows),
 
                     // vb compiler does not add path hints to the embedded resources which means
                     // jsc cannot extract the preview image... vb commented out for now..
