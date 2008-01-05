@@ -198,6 +198,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="js\ExampleGalleryWithShadowsPlain.cs" />
     <Compile Include="js\ExampleGalleryWithShadows.cs" />
     <Compile Include="js\ExampleGalleryAbstract.cs" />
     <Compile Include="js\ExampleGalleryWithApplications.cs" />
@@ -210,6 +211,7 @@
     <Content Include="docs\about.txt" />
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\ExampleGallery\ExampleGallery.css" />
     <EmbeddedResource Include="web\assets\ExampleGallery\Preview.png" />
     <EmbeddedResource Include="web\assets\ExampleGallery\bg.png" />
     <EmbeddedResource Include="web\assets\ExampleGallery\PreviewSelection.png" />

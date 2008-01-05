@@ -14,6 +14,11 @@ namespace ExampleGallery.js
     [Script]
     static class Extensions
     {
+        public static IHTMLLink ImportStyleSheet(this string path)
+        {
+            return new IHTMLLink("stylesheet", path, "text/css").AttachToDocument();
+        }
+
         public static IHTMLElement[] DisposeElementsByTagName(this string tag)
         {
             var a = tag.GetElementsByTagName();

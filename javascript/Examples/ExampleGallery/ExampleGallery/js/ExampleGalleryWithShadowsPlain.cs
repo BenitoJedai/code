@@ -15,28 +15,22 @@ namespace ExampleGallery.js
 {
 
     [Script, ScriptApplicationEntryPoint(ScriptedLoading = true, Format = SerializedDataFormat.none)]
-    public partial class ExampleGalleryWithShadows : ExampleGalleryWithApplications
+    public partial class ExampleGalleryWithShadowsPlain : ExampleGalleryWithApplications
     {
         // shadow with by http://www.cycloloco.com/shadowmaker/shadowmaker.htm
 
-        public ExampleGalleryWithShadows()
+        public ExampleGalleryWithShadowsPlain()
         {
 
-            var style = "assets/ExampleGallery/ExampleGallery.css".ImportStyleSheet();
-
-            Native.Document.body.style.backgroundImage = "url(assets/ExampleGallery/bg.png)";
-	
             var Menu = new IHTMLDiv().AttachToDocument();
             var Title = typeof(ExampleGalleryWithShadows).Name;
 
             new IHTMLElement(IHTMLElement.HTMLElementEnum.h1,
                 Title).AttachTo(Menu);
 
-            Native.Document.title = Title;
+            new IHTMLDiv("This is a collection of projects developed with jsc. They were coded in c# and translated to javascript with jsc. Click on the pictures to load the applications or on the names to open them in a new window. You might need to press refresh to come back to this index. Enoy! :)").AttachTo(Menu);
 
 
-            new IHTMLImage("assets/ExampleGallery/PreviewSelection.png").InvokeOnComplete(
-                selection =>
             new IHTMLImage("assets/ExampleGallery/PreviewShadow.png").InvokeOnComplete(
                 img =>
                 {
@@ -46,6 +40,7 @@ namespace ExampleGallery.js
                             var div = new IHTMLDiv();
 
                             div.style.SetSize(120, 90);
+                            
 
                             var shadow = (IHTMLImage)img.cloneNode(false);
 
@@ -61,22 +56,24 @@ namespace ExampleGallery.js
 
 
                             div.style.position = IStyle.PositionEnum.relative;
-                            div.style.marginTop = "3em";
+                            div.style.marginTop = "1em";
                             div.style.marginLeft = "1em";
-                            div.style.marginRight = "1em";
+                            div.style.marginRight = "12em";
                             div.style.marginBottom = "1em";
                             div.style.Float = IStyle.FloatEnum.left;
+                            //div.style.clear =  "both";
+
 
                             #region name
                             var name = new IHTMLAnchor(href, type.Name);
 
                             name.style.position = IStyle.PositionEnum.absolute;
                             name.className = "PreviewName";
-                            name.style.color = Color.White;
+                            name.style.color = Color.Black;
                             name.style.textDecoration = "none";
 
                             name.target = "_blank";
-                            name.style.top = "-1.5em";
+                            name.style.left = "130px";
                             name.AttachTo(div);
                             #endregion
 
@@ -85,14 +82,7 @@ namespace ExampleGallery.js
                             a.target = "_blank";
                             a.style.display = IStyle.DisplayEnum.block;
 
-                            var cselection = (IHTMLImage)selection.cloneNode(false);
-                            cselection.style.borderWidth = "0px";
-                            cselection.style.SetLocation(-9, -9);
-                            cselection.style.zIndex = 1;
-                            cselection.className = "PreviewShadow";
-                            cselection.AttachTo(a);
-
-
+               
                             image.style.border = "0px solid black";
                             image.style.zIndex = 2;
                             image.AttachTo(a);
@@ -116,14 +106,12 @@ namespace ExampleGallery.js
                             return div;
                         }
                    );
-                }
-            )
-            );
+                });
         }
 
-        static ExampleGalleryWithShadows()
+        static ExampleGalleryWithShadowsPlain()
         {
-            typeof(ExampleGalleryWithShadows).Spawn();
+            typeof(ExampleGalleryWithShadowsPlain).Spawn();
         }
     }
 }

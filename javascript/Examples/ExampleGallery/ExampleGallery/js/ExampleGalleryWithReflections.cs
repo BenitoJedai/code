@@ -79,6 +79,7 @@ namespace ExampleGallery.js
                             name.style.position = IStyle.PositionEnum.absolute;
                             name.style.textDecoration = "none";
                             name.style.color = Color.White;
+                            name.className = "PreviewName";
 
                             name.target = "_blank";
                             name.style.top = "-1.5em";
