@@ -53,19 +53,22 @@
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="source\js\Butterfly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="source\js\Controls\DemoControl.cs" />
     <Compile Include="web\Description.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="web\fx\gfx\buttryfly.gif">
+    <EmbeddedResource Include="web\assets\ButterFly\buttryfly.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="web\fx\gfx\nocursor.cur" />
+    <EmbeddedResource Include="web\assets\ButterFly\nocursor.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\ButterFly\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="source\shared\" />
+    <Folder Include="web\fx\gfx\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

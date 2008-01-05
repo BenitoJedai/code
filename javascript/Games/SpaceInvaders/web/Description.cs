@@ -6,9 +6,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using System;
 using System.Linq;
 
-[assembly:
-ScriptResources("gfx")
-]
+
 
 namespace SpaceInvaders.source.js.gfx
 {
@@ -51,11 +49,11 @@ namespace SpaceInvaders.source.js.gfx
 
         }
 
-        public readonly Item aenemy = "gfx/aenemy.gif";
-        public readonly Item benemy = "gfx/benemy.gif";
-        public readonly Item cenemy = "gfx/cenemy.gif";
-        public readonly Item biggun = "gfx/biggun.gif";
-        public readonly Item ufo = "gfx/ufo.gif";
+        public readonly Item aenemy = "assets/SpaceInvaders/aenemy.gif";
+        public readonly Item benemy = "assets/SpaceInvaders/benemy.gif";
+        public readonly Item cenemy = "assets/SpaceInvaders/cenemy.gif";
+        public readonly Item biggun = "assets/SpaceInvaders/biggun.gif";
+        public readonly Item ufo = "assets/SpaceInvaders/ufo.gif";
 
         public Item[] Items
         {

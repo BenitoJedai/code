@@ -57,7 +57,7 @@ Namespace JavaScript
         Dim WithEvents ButtonRed As New IHTMLButton("Red")
 
         Dim WithEvents LongTask As New IHTMLButton("long task (3sec)")
-        Dim LongTaskDisplay As IHTMLImage = New IHTMLImage("gfx/loadingBar.gif")
+        Dim LongTaskDisplay As IHTMLImage = New IHTMLImage("assets/OrcasVisualBasicScriptApplication/loadingBar.gif")
 
         Public Const ControlAlias As String = "fx.Class1"
 

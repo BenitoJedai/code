@@ -66,17 +66,17 @@ call :buildfast javascript\Examples\NatureBoyTestPad\NatureBoyTestPad.sln
 call :buildfast javascript\Examples\MouseButtons\MouseButtons.sln
 call :buildfast javascript\Examples\ClickOnce\ClickOnce.sln
 call :buildfast javascript\Examples\ImageReflection\ImageReflection.sln
+call :buildfast javascript\Examples\ColorPicker\ColorPicker.sln
 
-goto :skip
+::call :build javascript\Games\LightsOut\LightsOut.sln
+::call :build javascript\Examples\DragStan\drag.sln
+
 
 :: java
 ::call :build templates\AppletTemplate\DemoApplet.sln
 
 
-call :build javascript\Games\LightsOut\LightsOut.sln
-call :build javascript\Examples\DragStan\drag.sln
 
-:skip
 
 popd
 endlocal

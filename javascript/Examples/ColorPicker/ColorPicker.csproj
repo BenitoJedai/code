@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.20706</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{A41F49DD-CBA8-4725-8384-17A7F288F79C}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -51,30 +51,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="source\csharp\Settings.cs" />
-    <Compile Include="source\js\Settings.cs" />
-    <Compile Include="source\js\Controls\DemoControl.cs" />
+    <Compile Include="source\js\Controls\ColorPicker.cs" />
     <Compile Include="web\Description.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="web\gfx_demo\gradient.gif" />
-    <EmbeddedResource Include="web\gfx_demo\tongue.gif" />
-    <EmbeddedResource Include="web\gfx_demo\WebPage.css" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="docs\readme.txt" />
-    <EmbeddedResource Include="web\colors\all16777216rgb.png" />
-    <EmbeddedResource Include="web\colors\marker.png" />
-    <EmbeddedResource Include="web\colors\mask.png" />
-    <EmbeddedResource Include="web\colors\palette.png" />
-    <EmbeddedResource Include="web\colors\wheel.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="tools\publish.bat" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="source\php\" />
-    <Folder Include="source\shared\" />
+    <EmbeddedResource Include="web\assets\ColorPicker\Preview.png" />
+    <EmbeddedResource Include="web\assets\ColorPicker\all16777216rgb.png" />
+    <EmbeddedResource Include="web\assets\ColorPicker\marker.png" />
+    <EmbeddedResource Include="web\assets\ColorPicker\mask.png" />
+    <EmbeddedResource Include="web\assets\ColorPicker\palette.png" />
+    <EmbeddedResource Include="web\assets\ColorPicker\wheel.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -47,7 +47,7 @@ namespace GMapsClone.source.js.Controls
 
         public GoogleMapsControl()
         {
-            Native.Document.body.style.background = "#6591cd url(fx/gfx/editorBg.gif) repeat-x";
+            Native.Document.body.style.background = "#6591cd url(assets/GMapsClone/editorBg.gif) repeat-x";
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
             Control.AttachToDocument();

@@ -53,13 +53,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="source\js\Controls\SubSquareControl.cs" />
     <Compile Include="source\js\SubSquare.cs" />
-    <Compile Include="web\Description.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="web\fx\gfx\editorBg.gif" />
+    <EmbeddedResource Include="web\assets\SubSquare\editorBg.gif" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="web\fx\gfx\Follow.jpg" />
+    <EmbeddedResource Include="web\assets\SubSquare\Follow.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\SubSquare\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="source\csharp\" />

@@ -65,14 +65,17 @@
     <Compile Include="web\Description.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="web\gfx\aenemy.gif" />
-    <EmbeddedResource Include="web\gfx\benemy.gif" />
-    <EmbeddedResource Include="web\gfx\biggun.gif" />
-    <EmbeddedResource Include="web\gfx\cenemy.gif" />
-    <EmbeddedResource Include="web\gfx\ufo.gif" />
+    <EmbeddedResource Include="web\assets\SpaceInvaders\aenemy.gif" />
+    <EmbeddedResource Include="web\assets\SpaceInvaders\benemy.gif" />
+    <EmbeddedResource Include="web\assets\SpaceInvaders\biggun.gif" />
+    <EmbeddedResource Include="web\assets\SpaceInvaders\cenemy.gif" />
+    <EmbeddedResource Include="web\assets\SpaceInvaders\ufo.gif" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\publish.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\SpaceInvaders\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="source\php\" />

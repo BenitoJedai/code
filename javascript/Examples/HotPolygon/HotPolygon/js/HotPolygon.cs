@@ -280,7 +280,7 @@ namespace HotPolygon.js
 
             info.innerHTML = @"<h1>HotPolygon</h1>";
 
-            var preview = new IHTMLImage("Preview.png");
+            var preview = new IHTMLImage("assets/HotPolygon/Preview.png");
 
             preview.style.Float = IStyle.FloatEnum.right;
             preview.style.margin = "1em";

@@ -53,10 +53,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="source\js\GoogleMaps.cs" />
     <Compile Include="source\js\Controls\GoogleMapsControl.cs" />
-    <Compile Include="web\Description.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="web\fx\gfx\editorBg.gif" />
+    <EmbeddedResource Include="web\assets\GMapsClone\editorBg.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\GMapsClone\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="source\shared\" />

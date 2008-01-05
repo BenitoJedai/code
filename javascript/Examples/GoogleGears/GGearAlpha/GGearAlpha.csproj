@@ -85,7 +85,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="web\assets\GearsDemo1\shadow.png">
     </EmbeddedResource>
-    <EmbeddedResource Include="web\assets\GearsDemo1\Preview.png">
+    <EmbeddedResource Include="web\assets\GGearAlpha\Preview.png">
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

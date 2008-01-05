@@ -48,7 +48,7 @@ namespace SubSquare.source.js.Controls
             Control.AttachToDocument();
 
 
-            Native.Document.body.style.background = "#6591cd url(fx/gfx/editorBg.gif) repeat-x";
+            Native.Document.body.style.background = "#6591cd url(assets/SubSquare/editorBg.gif) repeat-x";
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
             Control.appendChild(new IHTMLElement(IHTMLElement.HTMLElementEnum.h1, 
@@ -60,16 +60,16 @@ namespace SubSquare.source.js.Controls
                 delegate {
 
                     var r = Rectangle.Of(
-                            32,
-                            32,
-                            700,
-                            500
+                            0,
+                            0,
+                            Native.Window.Width,
+                            Native.Window.Height
                         );
 
                     Console.WriteLine("bounds: " + r);
 
                     new SubSquare(
-                        r, "fx/gfx/Follow.jpg"
+                        r, "assets/SubSquare/Follow.jpg"
                     );
 
                 }

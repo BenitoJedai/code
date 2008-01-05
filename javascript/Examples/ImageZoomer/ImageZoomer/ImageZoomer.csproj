@@ -57,6 +57,7 @@
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\ImageZoomer\Preview.png" />
     <EmbeddedResource Include="web\assets\ImageZoomer\belchite.jpg">
     </EmbeddedResource>
     <EmbeddedResource Include="web\assets\ImageZoomer\belchite_bw.jpg">

@@ -18,14 +18,14 @@ using System.Linq;
 //using global::System.Collections.Generic;
 
 [assembly:
-    ScriptResources("assets/mahjong/bamboo"),
-    ScriptResources("assets/mahjong/characters"),
-    ScriptResources("assets/mahjong/dots"),
-    ScriptResources("assets/mahjong/dragons"),
-    ScriptResources("assets/mahjong/flowers"),
-    ScriptResources("assets/mahjong/seasons"),
-    ScriptResources("assets/mahjong/special"),
-    ScriptResources("assets/mahjong/winds"),
+    ScriptResources("assets/Mahjong/bamboo"),
+    ScriptResources("assets/Mahjong/characters"),
+    ScriptResources("assets/Mahjong/dots"),
+    ScriptResources("assets/Mahjong/dragons"),
+    ScriptResources("assets/Mahjong/flowers"),
+    ScriptResources("assets/Mahjong/seasons"),
+    ScriptResources("assets/Mahjong/special"),
+    ScriptResources("assets/Mahjong/winds"),
 
 ]
 
@@ -46,7 +46,7 @@ namespace Mahjong.js
     [Script]
     public abstract class Asset
     {
-        protected string Source = "assets/mahjong";
+        protected string Source = "assets/Mahjong";
 
 
         [Script]

@@ -61,6 +61,7 @@
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\SimpleRollover\Preview.png" />
     <EmbeddedResource Include="web\assets\SimpleRollover\js.htm">
     </EmbeddedResource>
     <EmbeddedResource Include="web\assets\SimpleRollover\cs.htm">

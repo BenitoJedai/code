@@ -57,15 +57,13 @@
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\readme.txt" />
+    <EmbeddedResource Include="web\assets\Mahjong\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mahjong.Assets\Mahjong.Assets.csproj">
       <Project>{37337673-4A19-4F25-B7CC-B1532AB909CE}</Project>
       <Name>Mahjong.Assets</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="web\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

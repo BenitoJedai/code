@@ -63,9 +63,7 @@
     <EmbeddedResource Include="web\assets\LightsOut\background.png" />
     <EmbeddedResource Include="web\assets\LightsOut\vistaLogoOff.png" />
     <EmbeddedResource Include="web\assets\LightsOut\vistaLogoOn.png" />
-    <Content Include="web\preview.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="web\assets\LightsOut\Preview.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

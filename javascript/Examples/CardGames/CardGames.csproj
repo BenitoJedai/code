@@ -299,6 +299,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="web\assets\CardGames\Preview.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="source\shared\" />
     <Folder Include="tools\" />
   </ItemGroup>

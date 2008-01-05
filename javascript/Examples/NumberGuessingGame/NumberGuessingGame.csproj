@@ -56,7 +56,10 @@
     <Compile Include="web\Description.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="web\fx\gfx\editorBg.gif" />
+    <EmbeddedResource Include="web\assets\NumberGuessingGame\editorBg.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\NumberGuessingGame\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="source\csharp\" />

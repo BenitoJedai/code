@@ -57,8 +57,10 @@
     <Compile Include="source\js\Controls\LinqToObjects.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="web\assets\LinqToObjects\Preview.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="source\shared\" />
-    <Folder Include="web\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

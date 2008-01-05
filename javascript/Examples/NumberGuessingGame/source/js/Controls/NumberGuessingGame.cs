@@ -46,7 +46,7 @@ namespace NumberGuessingGame.source.js.Controls
             e.insertNextSibling(Control);
 
 
-            Native.Document.body.style.background = "#6591cd url(fx/gfx/editorBg.gif) repeat-x";
+            Native.Document.body.style.background = "#6591cd url(assets/NumberGuessingGame/editorBg.gif) repeat-x";
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
             Control.appendChild(new IHTMLElement(IHTMLElement.HTMLElementEnum.h1,

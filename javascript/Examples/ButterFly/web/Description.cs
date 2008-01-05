@@ -4,6 +4,6 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 
 [assembly:
-ScriptResources("fx/gfx")
+ScriptResources("assets/ButterFly")
 ]
 

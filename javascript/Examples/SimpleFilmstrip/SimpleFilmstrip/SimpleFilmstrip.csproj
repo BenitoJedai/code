@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
+    <EmbeddedResource Include="web\assets\SimpleFilmstrip\Preview.png" />
     <EmbeddedResource Include="web\assets\SimpleFilmstrip\filmstrip.png">
     </EmbeddedResource>
     <EmbeddedResource Include="web\assets\SimpleFilmstrip\veh_cy.png">

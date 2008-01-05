@@ -21,13 +21,13 @@ namespace ExampleGallery.js
             {
                 return new[]
                 {
-                    typeof(ThreeDStuff.js.ThreeDStuff),
+                    typeof(ThreeDStuff.js.Tycoon4),
                     typeof(ConsoleWorm.js.ConsoleWorm),
                     typeof(ButterFly.source.js.Butterfly),
                     typeof(SpaceInvaders.source.js.Controls.SpaceInvadersGame),
                     typeof(LightsOut.js.LightsOut2FullScreen),
                     typeof(TextEditorDemo.source.js.Controls.TextEditorDemo),
-                    typeof(CardGames.source.js.Controls.FreeCell),
+                    typeof(CardGames.source.js.Controls.Spider),
                     typeof(MouseWheel.js.MouseWheel),
                     typeof(ImageZoomer.js.ImageZoomer),
                     typeof(TextRotator.js.TextRotator2),
@@ -37,8 +37,7 @@ namespace ExampleGallery.js
                     typeof(NumberGuessingGame.source.js.Controls.NumberGuessingGame),
                     typeof(SimpleBankPage.js.SimpleBankPage),
                     typeof(GMapsClone.source.js.Controls.GoogleMapsControl),
-                    typeof(OrcasVisualBasicScriptApplication.JavaScript.OrcasVisualBasicScriptApplication),
-                    typeof(OrcasScriptApplication.js.MyApplication),
+                    typeof(OrcasScriptApplication.js.OrcasScriptApplication),
                     typeof(SubSquare.source.js.Controls.SubSquareControl),
                     typeof(SimpleRollover.js.SimpleRollover),
                     typeof(SimpleFilmstrip.js.SimpleFilmstrip),
@@ -49,12 +48,17 @@ namespace ExampleGallery.js
                     typeof(GameOfLife.js.GameOfLife),
                     typeof(VectorExample.js.VectorExample),
                     typeof(FormsExample.js.FormsExampleApplication),
-                    typeof(FormsExample.VisualBasic.JavaScript.FormsExampleVBApplication),
+                    typeof(ColorPicker.source.js.Controls.ColorPicker),
                     typeof(Mahjong.js.MahjongGame),
                     typeof(RetroCanvas.js.AmiNET110.AmiNET110),
                     typeof(NatureBoyTestPad.js.NatureBoyTestPad),
                     typeof(ClickOnce.js.TipRotator),
-                    typeof(ImageReflection.js.MyImageReflection)
+                    typeof(ImageReflection.js.MyImageReflection),
+
+                    // vb compiler does not add path hints to the embedded resources which means
+                    // jsc cannot extract the preview image... vb commented out for now..
+                    // typeof(OrcasVisualBasicScriptApplication.JavaScript.OrcasVisualBasicScriptApplication),
+                    // typeof(FormsExample.VisualBasic.JavaScript.FormsExampleVBApplication),
                 };
             }
         }

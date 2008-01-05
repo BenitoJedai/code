@@ -8,7 +8,7 @@ using ScriptCoreLib.Shared.Lambda;
 
 namespace OrcasScriptApplication.js
 {
-    [Script, ScriptApplicationEntryPoint(ScriptedLoading = true)]
+    [Script, ScriptApplicationEntryPoint]
     public class OrcasScriptApplication
     {
         public OrcasScriptApplication()
@@ -35,7 +35,10 @@ namespace OrcasScriptApplication.js
                     );
                 };
 
+            new IHTMLBreak().AttachToDocument();
             new IHTMLImage(Assets.Path + "/cal.png").AttachToDocument();
+            new IHTMLBreak().AttachToDocument();
+            new IHTMLImage(Assets.Path + "/Preview.png").AttachToDocument();
         }
 
         static OrcasScriptApplication()

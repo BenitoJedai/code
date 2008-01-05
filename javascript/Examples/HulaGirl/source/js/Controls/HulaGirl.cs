@@ -56,18 +56,21 @@ namespace HulaGirl.source.js.Controls
 
 
 
-            var img = new IHTMLImage("gfx_hula_girl_100/" + GetFilename(52));
+            var img = new IHTMLImage("assets/HulaGirl/Frames/" + GetFilename(52));
 
             img.AttachToDocument();
 
             var _width = 120;
+            var _height = 100;
             var _zoom = 1.0;
 
             img.onmousewheel +=
                 ev =>
                 {
                     _zoom += 0.1 * ev.WheelDirection;
+
                     img.style.width = (_width * _zoom) + "px";
+                    img.style.height = (_height * _zoom) + "px";
                 };
 
             var index = 1;
@@ -82,7 +85,7 @@ namespace HulaGirl.source.js.Controls
                         index = 1;
 
 
-                    img.src = "gfx_hula_girl_100/" + GetFilename(index);
+                    img.src = "assets/HulaGirl/Frames/" + GetFilename(index);
 
                 }, 0, 1000 / 24);
 

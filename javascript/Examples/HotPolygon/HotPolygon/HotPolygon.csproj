@@ -81,7 +81,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="web\assets\HotPolygon\images\up_neg.png">
     </EmbeddedResource>
-    <EmbeddedResource Include="web\assets\HotPolygon\images\Preview.png">
+    <EmbeddedResource Include="web\assets\HotPolygon\Preview.png">
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

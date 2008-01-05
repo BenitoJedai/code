@@ -74,6 +74,10 @@ namespace LinqToObjects.source.js.Controls
             filter.onchange += delegate { Update(); };
             filter.onkeyup += delegate { Update(); };
 
+            filter2.onchange += delegate { Update(); };
+            filter2.onkeyup += delegate { Update(); };
+
+
             Func<IHTMLBreak> br = () => new IHTMLBreak();
 
             Control.appendChild(

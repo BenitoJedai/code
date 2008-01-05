@@ -51,7 +51,7 @@ namespace SubSquare.source.js
             Base.AttachToDocument();
         }
 
-        const int step = 5;
+        const int step = 10;
 
         void timer_Tick(Timer e)
         {
@@ -75,7 +75,7 @@ namespace SubSquare.source.js
 
                     //this.Base.style.backgroundColor = Color.Red;
 
-                    WorkPool p = Fader.FlashAndFadeOut(this.Base, 200);
+                    WorkPool p = Fader.FlashAndFadeOut(this.Base, 15);
 
 
                     p += delegate

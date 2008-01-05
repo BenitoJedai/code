@@ -7,7 +7,8 @@ using ScriptCoreLib;
 [assembly:
     ScriptResources("assets/CardGames/sounds"),
     ScriptResources("assets/CardGames/images"),
-    ScriptResources("assets/CardGames/cards")
+    ScriptResources("assets/CardGames/cards"),
+    ScriptResources("assets/CardGames"),
 ]
 
 namespace CardGames.source.js

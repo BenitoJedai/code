@@ -20,7 +20,8 @@ namespace SpaceInvaders.source.js.Controls
         public static readonly GameSettings DefaultData =
             new GameSettings
                 {
-                    Location = "http://jsc.sourceforge.net/examples/web/SpaceInvaders/"
+                    //Location = "http://jsc.sourceforge.net/examples/web/SpaceInvaders/"
+                    Location = ""
                 };
 
         public SpaceInvadersGame(GameSettings Data)

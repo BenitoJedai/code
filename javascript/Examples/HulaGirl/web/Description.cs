@@ -1,8 +1,8 @@
 using ScriptCoreLib;
 
 
-[assembly: ScriptResources("gfx_demo")]
-[assembly: ScriptResources("gfx_hula_girl_100")]
+//[assembly: ScriptResources("gfx_demo")]
+[assembly: ScriptResources("assets/HulaGirl/Frames")]
 
 namespace HulaGirl.source.shared
 {
@@ -13,7 +13,7 @@ namespace HulaGirl.source.shared
         [Script]
         public static class gfx_demo
         {
-            public const string tongue = "gfx_demo/tongue.gif";
+            public const string tongue = "assets/HulaGirl/tongue.gif";
         }
     }
 }

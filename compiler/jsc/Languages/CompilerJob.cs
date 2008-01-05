@@ -184,7 +184,15 @@ namespace jsc.Languages
 
         public static void ExtractEmbeddedResources(DirectoryInfo dir, Assembly e)
         {
-            ScriptResourcesAttribute[] a = (ScriptResourcesAttribute[])e.GetCustomAttributes(typeof(ScriptResourcesAttribute), false);
+            var DefaultResources = new ScriptResourcesAttribute("assets/" + e.GetName().Name);
+
+            ScriptResourcesAttribute[] a =
+                ((ScriptResourcesAttribute[])e.GetCustomAttributes(typeof(ScriptResourcesAttribute), false))
+                .Concat(
+                new[] { 
+                    // default
+                    DefaultResources
+                }).OrderByDescending(i => i.Value.Length).ToArray();
 
             string[] r = e.GetManifestResourceNames();
 
@@ -216,11 +224,15 @@ namespace jsc.Languages
             var query = from v in r
                         from prefix in prefixes
                         where v.StartsWith(prefix)
-                        from av in a
-                        let ap = prefix + "." + av.Value.Replace('/', '.')
-                        where v.StartsWith(ap)
-                        let f = v.Substring(ap.Length + 1)
-                        let t = dir.CreateSubdirectory(av.Value.Replace('.', '/'))
+                        let z = (
+                                    from av in a
+                                    let ap = prefix + "." + av.Value.Replace('/', '.')
+                                    where v.StartsWith(ap)
+                                    select new { ap, av }
+                                  ).FirstOrDefault()
+                        where z != null
+                        let f = v.Substring(z.ap.Length + 1)
+                        let t = dir.CreateSubdirectory(z.av.Value.Replace('.', '/'))
                         let tf = new FileInfo(t.FullName + "/" + f)
                         select new { v, tf };
 

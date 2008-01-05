@@ -29,7 +29,7 @@ namespace SimpleFilmstrip.js
 
             Control.style.position = IStyle.PositionEnum.absolute;
 
-            Control.style.background = "url(assets/filmstrip.png) no-repeat";
+            Control.style.background = "url(assets/SimpleFilmstrip/filmstrip.png) no-repeat";
             Control.style.height = "600px";
             Control.style.width = "326px";
 
@@ -84,6 +84,8 @@ namespace SimpleFilmstrip.js
 
 
             var fieldset = new IHTMLElement(IHTMLElement.HTMLElementEnum.fieldset);
+
+            fieldset.style.width = "30em";
 
             fieldset.appendChild(new IHTMLElement(IHTMLElement.HTMLElementEnum.legend, "Properties"));
 

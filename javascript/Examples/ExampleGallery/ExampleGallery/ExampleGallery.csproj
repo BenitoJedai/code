@@ -42,6 +42,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\ClickOnce\ClickOnce\bin\Release\ClickOnce.dll</HintPath>
     </Reference>
+    <Reference Include="ColorPicker, Version=1.0.2926.28546, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ColorPicker\bin\Release\ColorPicker.dll</HintPath>
+    </Reference>
     <Reference Include="ConsoleWorm, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Games\ConsoleWorm\ConsoleWorm\bin\Release\ConsoleWorm.dll</HintPath>

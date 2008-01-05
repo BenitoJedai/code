@@ -56,21 +56,21 @@ namespace ButterFly.source.js
             loading.style.SetLocation(64, 64, 200, 64);
 
             e.appendChild(loading);
-            new IHTMLImage("fx/gfx/buttryfly.gif").InvokeOnComplete(
+            new IHTMLImage("assets/ButterFly/buttryfly.gif").InvokeOnComplete(
                 delegate
                 {
                     loading.FadeOut();
 
                     try
                     {
-                        IStyleSheet.Default.AddRule("*", "cursor: url('fx/gfx/nocursor.cur'), auto;", 0);
+                        IStyleSheet.Default.AddRule("*", "cursor: url('assets/ButterFly/nocursor.cur'), auto;", 0);
                     }
                     catch (Exception exc)
                     {
                         new IHTMLElement(IHTMLElement.HTMLElementEnum.pre, exc.Message).AttachToDocument();
                     }
 
-                    e.style.backgroundImage = "url(fx/gfx/buttryfly.gif)";
+                    e.style.backgroundImage = "url(assets/ButterFly/buttryfly.gif)";
                     e.style.backgroundRepeat = "no-repeat";
 
 

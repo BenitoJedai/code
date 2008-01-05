@@ -129,9 +129,8 @@
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
-    <Content Include="web\assets\Preview.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="web\assets\FormsExample\Preview.png">
+    </EmbeddedResource>
     <EmbeddedResource Include="web\assets\WebCalculator\sc.png" />
     <EmbeddedResource Include="web\assets\WebCalculator\sc.ico" />
   </ItemGroup>
