@@ -198,6 +198,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="js\ExampleGalleryPlain.cs" />
     <Compile Include="js\ExampleGalleryWithShadowsPlain.cs" />
     <Compile Include="js\ExampleGalleryWithShadows.cs" />
     <Compile Include="js\ExampleGalleryAbstract.cs" />
