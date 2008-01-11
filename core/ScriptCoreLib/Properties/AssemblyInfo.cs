@@ -40,6 +40,8 @@ using ScriptCoreLib;
     //,ScriptResources("external")
 ]
 
+[assembly: ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript")]
+
 [assembly: ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript")]
 [assembly: ScriptTypeFilter(ScriptType.JavaScript, "*.Shared")]
 

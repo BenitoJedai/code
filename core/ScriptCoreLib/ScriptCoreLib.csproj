@@ -110,6 +110,7 @@
     <Compile Include="JavaScript\Runtime\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\Native.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ArgumentNullException.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Action.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Activator.cs" />
@@ -253,6 +254,9 @@
     <EmbeddedResource Include="web\external\ActiveXConsole.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ActionScript\BCLImplementation\" />
+    <Folder Include="ActionScript\flash\display\" />
+    <Folder Include="ActionScript\mx\core\" />
     <Folder Include="Documents\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

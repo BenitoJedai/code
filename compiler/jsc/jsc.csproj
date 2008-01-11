@@ -93,6 +93,7 @@
     <Compile Include="CommandLineOptions.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="Languages\ActionScript\ActionScriptCompiler.cs" />
     <Compile Include="Languages\CompilerBase.DIA.cs" />
     <Compile Include="Languages\CompilerBase.CompilerConstants.cs" />
     <Compile Include="Languages\CompilerJob.cs" />
@@ -159,7 +160,6 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Languages\ActionScript\" />
     <Folder Include="Profiler\" />
     <Folder Include="tools\" />
   </ItemGroup>
