@@ -94,6 +94,8 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.cs" />
+    <Compile Include="Languages\ActionScript\CompilerJob.cs" />
+    <Compile Include="Languages\ActionScript\ActionScriptCompiler.Implementation.cs" />
     <Compile Include="Languages\CompilerBase.DIA.cs" />
     <Compile Include="Languages\CompilerBase.CompilerConstants.cs" />
     <Compile Include="Languages\CompilerJob.cs" />

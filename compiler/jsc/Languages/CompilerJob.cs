@@ -78,19 +78,22 @@ namespace jsc.Languages
 
             // we support java only at this time
 
-            bool _java = false;
+            ////bool _java = false;
 
-            foreach (ScriptTypeFilterAttribute var in j.GetTypeFilterListByType(ScriptType.Java))
-            {
-                _java = true;
+            ////foreach (ScriptTypeFilterAttribute var in j.GetTypeFilterListByType(ScriptType.Java))
+            ////{
+            ////    _java = true;
 
-                sinfo.Logging.LogMessage(" * assambly contains '{0}'", var.FilterTypeName);
-            }
+            ////    sinfo.Logging.LogMessage(" * assambly contains '{0}'", var.FilterTypeName);
+            ////}
 
             // compile for language # java
 
-            if (_java) CompileJava(j, sinfo);
+            if (j.GetTypeFilterListByType(ScriptType.Java).Any()) 
+                CompileJava(j, sinfo);
 
+            if (j.GetTypeFilterListByType(ScriptType.ActionScript).Any())
+                CompileActionScript(j, sinfo);
 
         }
 

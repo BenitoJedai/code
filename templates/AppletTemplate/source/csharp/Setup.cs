@@ -1,10 +1,9 @@
 using System;
-using System.Query;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Reflection;
-using System.Xml.XLinq;
 
 
 using ScriptCoreLib;
@@ -12,6 +11,7 @@ using ScriptCoreLib;
 
 using PrimaryApplet = DemoApplet.source.java.DemoApplet;
 using PrimaryAppletSettings = DemoApplet.source.java.DemoApplet.Settings;
+using System.Xml.Linq;
 
 
 namespace AppletTemplate.source.csharp
@@ -89,7 +89,7 @@ namespace AppletTemplate.source.csharp
                             }
                         ).ToArray()*/
                     )
-                ).Xml;
+                ).ToString();
         }
 
         #region Applet HTML

@@ -40,7 +40,13 @@ using ScriptCoreLib;
     //,ScriptResources("external")
 ]
 
-[assembly: ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript")]
+[assembly:
+    ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
+
+    // some namespace mangling
+    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript.flash", VirtualNamespaceName = "flash"),
+    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript.mx", VirtualNamespaceName = "mx")
+]
 
 [assembly: ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript")]
 [assembly: ScriptTypeFilter(ScriptType.JavaScript, "*.Shared")]

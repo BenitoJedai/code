@@ -13,8 +13,9 @@ using System.Threading;
 using jsc.CodeModel;
 
 using ScriptCoreLib;
+using jsc.Script;
 
-namespace jsc.Script.Java
+namespace jsc.Languages.Java
 {
     // http://www.javacamp.org/javavscsharp/constructor.html
     // http://www4.ncsu.edu/~kaltofen/courses/Languages/JavaExamples/cpp_vs_java/

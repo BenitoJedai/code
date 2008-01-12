@@ -120,18 +120,17 @@ namespace jsc
                     DoShowReferences(options);
                 }
 
+                #region ExtractAssets
                 if (options.ExtractAssets)
                 {
                     DirectoryInfo TargetDirectory = options.TargetAssembly.Directory.CreateSubdirectory("web");
 
                     foreach (Assembly v in SharedHelper.LoadReferencedAssemblies(Assembly.LoadFile(options.TargetAssembly.FullName), true))
                     {
-
                         Languages.CompilerJob.ExtractEmbeddedResources(TargetDirectory, v);
-
                     }
-
                 }
+                #endregion
 
                 try
                 {
@@ -139,7 +138,7 @@ namespace jsc
 
                     if (options.IsNoThreads)
                     {
-                        sinfo.Logging.LogMessage("Threads will be disabled");
+                        /// sinfo.Logging.LogMessage("Threads will be disabled");
                     }
 
                     #region detection
@@ -189,13 +188,17 @@ namespace jsc
                         foreach (string v in m)
                         {
                             //ConvertAssamblySpawned(v, ScriptType.C, sinfo);
-                            if (options.IsJavascript)
+
+                            if (options.IsJavaScript)
                                 ConvertAssamblySpawned(v, ScriptType.JavaScript, sinfo);
 
                             if (options.IsPHP)
                                 ConvertAssamblySpawned(v, ScriptType.PHP, sinfo);
 
                             if (options.IsJava)
+                                Languages.CompilerJob.Compile(v, sinfo);
+
+                            if (options.IsActionScript)
                                 Languages.CompilerJob.Compile(v, sinfo);
                         }
 
@@ -225,12 +228,6 @@ namespace jsc
 
                 }
 
-                //if (Debugger.IsAttached)
-                //{
-                //    Console.WriteLine("press any key!");
-                //    Console.ReadKey(true);
-
-                //}
             }
             catch (Exception excc)
             {
@@ -597,7 +594,9 @@ namespace jsc
             else if (type == ScriptType.PHP)
                 ScriptFileExtension = Script.PHP.PHPCompiler.FileExtension;
             else if (type == ScriptType.Java)
-                ScriptFileExtension = Script.Java.JavaCompiler.FileExtension;
+                ScriptFileExtension = Languages.Java.JavaCompiler.FileExtension;
+            else if (type == ScriptType.ActionScript)
+                ScriptFileExtension = Languages.ActionScript.ActionScriptCompiler.FileExtension;
             else
                 Script.CompilerBase.BreakToDebugger("language not detected");
 
@@ -615,7 +614,7 @@ namespace jsc
 
 
 
-        public static void WriteJavaFile(string ScriptFileExtension, DirectoryInfo SourceDir, CompilerBase c, Type x)
+        public static void WriteSingleScriptFile(string ScriptFileExtension, DirectoryInfo SourceDir, CompilerBase c, Type x)
         {
 
 

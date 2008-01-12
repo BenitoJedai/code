@@ -110,7 +110,11 @@
     <Compile Include="JavaScript\Runtime\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionScript\Native.cs" />
+    <Compile Include="ActionScript\flash\display\DisplayObject.cs" />
+    <Compile Include="ActionScript\flash\display\DisplayObjectContainer.cs" />
+    <Compile Include="ActionScript\flash\display\InteractiveObject.cs" />
+    <Compile Include="ActionScript\flash\display\Sprite.cs" />
+    <Compile Include="ActionScript\flash\text\TextField.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ArgumentNullException.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Action.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Activator.cs" />
@@ -255,7 +259,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ActionScript\BCLImplementation\" />
-    <Folder Include="ActionScript\flash\display\" />
     <Folder Include="ActionScript\mx\core\" />
     <Folder Include="Documents\" />
   </ItemGroup>

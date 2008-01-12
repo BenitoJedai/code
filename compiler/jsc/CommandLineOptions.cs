@@ -48,7 +48,7 @@ namespace jsc
             Description = "Target assembly filename in the working directory.")]
         public FileInfo TargetAssembly;
 
-        [CommandLineOption(Flag = "nothreads", Description = "Multithreading will be disabled")]
+        // [CommandLineOption(Flag = "nothreads", Description = "Multithreading will be disabled")]
         public bool IsNoThreads = true;
 
         [CommandLineOption(Flag = "q",
@@ -69,7 +69,11 @@ namespace jsc
         public bool IsPHP;
 
         [CommandLineOption(Flag = "js")]
-        public bool IsJavascript;
+        public bool IsJavaScript;
+
+        [CommandLineOption(Flag = "as")]
+        public bool IsActionScript;
+
 
         [CommandLineOption(Flag = "ShowReferences")]
         public bool ShowReferences;

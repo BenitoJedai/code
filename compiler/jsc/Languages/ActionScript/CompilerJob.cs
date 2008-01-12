@@ -14,25 +14,8 @@ namespace jsc.Languages
 
     public partial class CompilerJob
     {
-        public static Type[] JustMyCodeFilter(bool jmc, Type[] e, Assembly assembly)
-        {
-            if (!jmc)
-                return e;
 
-            List<Type> a = new List<Type>(e.Length);
-
-            foreach (Type v in e)
-            {
-                if (v.Assembly == assembly)
-                    a.Add(v);
-            }
-            
-
-
-            return a.ToArray();
-        }
-
-        private static void CompileJava(CompilerJob j, CompileSessionInfo sinfo)
+        private static void CompileActionScript(CompilerJob j, CompileSessionInfo sinfo)
         {
             IdentWriter xw = new IdentWriter();
 
@@ -40,27 +23,28 @@ namespace jsc.Languages
 
             sinfo.Logging.LogMessage("loading types");
 
-            Type[] alltypes = j.LoadTypes(ScriptType.Java);
+            Type[] alltypes = j.LoadTypes(ScriptType.ActionScript);
 
 
-            xw.Session.Types = JustMyCodeFilter(sinfo.Options.JustMyCode, alltypes, j.AssamblyInfo);
+            xw.Session.Types = /*JustMyCodeFilter(sinfo.Options.JustMyCode,*/ alltypes/*, j.AssamblyInfo)*/;
 
             xw.Session.ImplementationTypes.AddRange(alltypes);
 
             sinfo.Logging.LogMessage("found {0} types to be compiled", xw.Session.Types.Length);
 
             DirectoryInfo TargetDirectory = j.AssamblyFile.Directory.CreateSubdirectory("web");
-            DirectoryInfo SourceDir = TargetDirectory.CreateSubdirectory("java");
-            DirectoryInfo SourceCompiledDir = TargetDirectory.CreateSubdirectory("release");
-            DirectoryInfo SourceCompiledHeadersDir = TargetDirectory.CreateSubdirectory("headers");
-            DirectoryInfo SourceNativeDir = TargetDirectory.CreateSubdirectory("native");
+            //DirectoryInfo SourceDir = TargetDirectory.CreateSubdirectory("java");
+            //DirectoryInfo SourceCompiledDir = TargetDirectory.CreateSubdirectory("release");
+            //DirectoryInfo SourceCompiledHeadersDir = TargetDirectory.CreateSubdirectory("headers");
+            //DirectoryInfo SourceNativeDir = TargetDirectory.CreateSubdirectory("native");
             DirectoryInfo SourceBinDir = TargetDirectory.CreateSubdirectory("bin");
             DirectoryInfo SourceVersionDir = TargetDirectory.CreateSubdirectory("version");
 
+            #region SourceVersion
             FileInfo SourceVersion = new FileInfo(
                 SourceVersionDir.FullName + "/" 
                 + j.AssamblyInfo.ManifestModule.Name 
-                + "." + Enum.GetName(typeof(ScriptType), ScriptType.Java) 
+                + "." + Enum.GetName(typeof(ScriptType), ScriptType.ActionScript) 
                 + ".version.txt"
                 );
 
@@ -84,19 +68,20 @@ namespace jsc.Languages
             SVW.WriteLine("SourceVersion.LastWriteTime: " + SourceVersion.LastWriteTime);
 
             SVW.Close();
+            #endregion
 
             Helper.WorkPool n = new Helper.WorkPool();
 
             n.IsThreaded = !Debugger.IsAttached && !sinfo.Options.IsNoThreads;
 
-            using (new Helper.ConsoleStopper("java type compiler"))
+            using (new Helper.ConsoleStopper("actionscript type compiler"))
             {
                 n.ForEach(xw.Session.Types,
                     delegate(Type xx)
                     {
                         if (xx.IsEnum) return;
 
-                        CompilerBase c = new Languages.Java.JavaCompiler(new StringWriter(), xw.Session);
+                        CompilerBase c = new Languages.ActionScript.ActionScriptCompiler(new StringWriter(), xw.Session);
 
                         c.CurrentJob = j;
 
@@ -106,16 +91,12 @@ namespace jsc.Languages
                         {
                             c.ToConsole(xx, sinfo);
 
-
-                            Program.WriteSingleScriptFile(Languages.Java.JavaCompiler.FileExtension, SourceDir, c, xx);
+                            Program.WriteSingleScriptFile(Languages.ActionScript.ActionScriptCompiler.FileExtension, TargetDirectory, c, xx);
                         }
-
-
                     }
                 );
 
-                Languages.CompilerJob.InvokeEntryPoints(TargetDirectory, j.AssamblyInfo);
-
+                // Languages.CompilerJob.InvokeEntryPoints(TargetDirectory, j.AssamblyInfo);
             }
         }
 
