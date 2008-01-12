@@ -72,7 +72,7 @@ namespace jsc.Languages.Java
                 OpCodes.Ldelem_I8,
                 OpCodes.Ldelem
                 ] =
-                delegate(CodeEmitArgs e)
+                e =>
                 {
                     ILFlow.StackItem[] s = e.i.StackBeforeStrict;
 
@@ -87,7 +87,7 @@ namespace jsc.Languages.Java
                 OpCodes.Stelem_I2,
                 OpCodes.Stelem_I4
                 ] =
-                delegate(CodeEmitArgs e)
+                e =>
                 {
                     ILFlow.StackItem[] s = e.i.StackBeforeStrict;
 

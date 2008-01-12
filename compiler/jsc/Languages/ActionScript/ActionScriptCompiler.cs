@@ -683,6 +683,138 @@ namespace jsc.Languages.ActionScript
             CIW[OpCodes.Conv_U1] = e => ConvertTypeAndEmit(e, "byte");
             CIW[OpCodes.Conv_Ovf_I] = e => ConvertTypeAndEmit(e, "int");
             #endregion
+
+            CIW[OpCodes.Ldnull] = e => Write("null");
+
+
+            #region Newarr
+            CIW[OpCodes.Newarr] =
+                e =>
+                {
+
+                    Write("[]");
+
+                    /*
+                      
+                      Write("new ");
+                    #region inline newarr
+                    if (e.p.IsValidInlineArrayInit)
+                    {
+                        WriteDecoratedTypeName(e.i.TargetType);
+                        WriteLine("[]");
+                        Ident++;
+
+                        using (CreateScope(false))
+                        {
+
+                            ILFlow.StackItem[] _stack = e.p.InlineArrayInitElements;
+
+                            for (int si = 0; si < _stack.Length; si++)
+                            {
+
+
+                                if (si > 0)
+                                {
+                                    Write(",");
+                                    WriteLine();
+                                }
+
+                                WriteIdent();
+
+                                if (_stack[si] == null)
+                                {
+                                    if (!e.i.TargetType.IsValueType)
+                                    {
+                                        Write("null");
+                                    }
+                                    else
+                                    {
+                                        if (e.i.TargetType == typeof(int))
+                                            Write("0");
+                                        else if (e.i.TargetType == typeof(sbyte))
+                                            Write("0");
+                                        else
+                                            BreakToDebugger("default for " + e.i.TargetType.FullName + " is unknown");
+                                    }
+                                }
+                                else
+                                {
+                                    Emit(e.p, _stack[si]);
+                                }
+
+                            }
+
+                            WriteLine();
+                        };
+                        Ident--;
+                    }
+                    #endregion
+                    else
+                    {
+                    
+                    
+                        int rank = 0;
+                        Type type = e.i.TargetType;
+
+                        while (type.IsArray)
+                        {
+                            type = type.GetElementType();
+                            rank++;
+                        }
+
+                        WriteDecoratedTypeName(type);
+                        Write("[");
+                        EmitFirstOnStack(e);
+                        Write("]");
+
+                        while (rank-- > 0)
+                        {
+                            Write("[");
+                            Write("]");
+                        }
+                    }*/
+                };
+            #endregion
+
+
+            #region elem_ref
+            CIW[OpCodes.Ldelem_Ref,
+                OpCodes.Ldelem_U1,
+                OpCodes.Ldelem_U2,
+                OpCodes.Ldelem_I1,
+                OpCodes.Ldelem_I4,
+                OpCodes.Ldelem_I8,
+                OpCodes.Ldelem
+                ] =
+                e =>
+                {
+                    ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+
+                    Emit(e.p, s[0]);
+                    Write("[");
+                    Emit(e.p, s[1]);
+                    Write("]");
+                };
+
+            CIW[OpCodes.Stelem_Ref,
+                OpCodes.Stelem_I1,
+                OpCodes.Stelem_I2,
+                OpCodes.Stelem_I4
+                ] =
+                e =>
+                {
+                    ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+
+                    Emit(e.p, s[0]);
+                    Write("[");
+                    Emit(e.p, s[1]);
+                    Write("]");
+                    WriteAssignment();
+
+                    Emit(e.p, s[2]);
+                };
+            #endregion
+
         }
     }
 }

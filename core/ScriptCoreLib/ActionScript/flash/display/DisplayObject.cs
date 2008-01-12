@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.ActionScript.flash.filters;
 
 namespace ScriptCoreLib.ActionScript.flash.display
 {
@@ -9,6 +10,11 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class DisplayObject
     {
+        /// <summary>
+        /// An indexed array that contains each filter object currently associated with the display object.
+        /// </summary>
+        public BitmapFilter[] filters { get; set; }
+
         /// <summary>
         /// Indicates the alpha transparency value of the object specified.
         /// </summary>

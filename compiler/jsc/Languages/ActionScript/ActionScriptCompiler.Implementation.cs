@@ -122,75 +122,82 @@ namespace jsc.Languages.ActionScript
             var offset = 1;
 
             if (m.IsStatic)
-                throw new NotImplementedException();
-
-            if (IsBaseConstructorCall)
             {
-                Write("super");
+                WriteDecoratedTypeName(m.DeclaringType);
+                Write(".");
+                WriteDecoratedMethodName(m, false);
             }
             else
             {
-                Emit(p, s[0]);
-                Write(".");
-
-                #region set
+                if (IsBaseConstructorCall)
                 {
-                    var prefix = "set_";
-                    if (m.Name.StartsWith(prefix))
+                    Write("super");
+                }
+                else
+                {
+                    Emit(p, s[0]);
+                    Write(".");
+
+                    #region set
                     {
-                        var property = m.DeclaringType.GetProperty(m.Name.Substring(prefix.Length));
-
-                        if (property != null)
+                        var prefix = "set_";
+                        if (m.Name.StartsWith(prefix))
                         {
-                            Write(property.Name);
-                            WriteAssignment();
+                            var property = m.DeclaringType.GetProperty(m.Name.Substring(prefix.Length));
 
-                            #region bool
-                            if (property.PropertyType == typeof(bool))
+                            if (property != null)
                             {
-                                if (s[1].StackInstructions.Length == 1)
-                                {
-                                    if (s[1].SingleStackInstruction.TargetInteger == 0)
-                                    {
-                                        Write("false");
-                                        return;
-                                    }
+                                Write(property.Name);
+                                WriteAssignment();
 
-                                    if (s[1].SingleStackInstruction.TargetInteger == 1)
+                                #region bool
+                                if (property.PropertyType == typeof(bool))
+                                {
+                                    if (s[1].StackInstructions.Length == 1)
                                     {
-                                        Write("true");
-                                        return;
+                                        if (s[1].SingleStackInstruction.TargetInteger == 0)
+                                        {
+                                            Write("false");
+                                            return;
+                                        }
+
+                                        if (s[1].SingleStackInstruction.TargetInteger == 1)
+                                        {
+                                            Write("true");
+                                            return;
+                                        }
                                     }
                                 }
+                                #endregion
+
+                                Emit(p, s[1]);
+                                return;
                             }
-                            #endregion
-
-                            Emit(p, s[1]);
-                            return;
                         }
                     }
-                }
-                #endregion
+                    #endregion
 
-                #region get
-                {
-                    var prefix = "get_";
-                    if (m.Name.StartsWith(prefix))
+                    #region get
                     {
-                        var property = m.DeclaringType.GetProperty(m.Name.Substring(prefix.Length));
-
-                        if (property != null)
+                        var prefix = "get_";
+                        if (m.Name.StartsWith(prefix))
                         {
-                            Write(property.Name);
+                            var property = m.DeclaringType.GetProperty(m.Name.Substring(prefix.Length));
 
-                            return;
+                            if (property != null)
+                            {
+                                Write(property.Name);
+
+                                return;
+                            }
                         }
                     }
-                }
-                #endregion
+                    #endregion
 
-                WriteDecoratedMethodName(m, false);
+                    WriteDecoratedMethodName(m, false);
+                }
             }
+
             WriteParameterInfoFromStack(m, p, s, offset);
 
         }
@@ -234,6 +241,9 @@ namespace jsc.Languages.ActionScript
 
         public override string GetDecoratedTypeName(Type z, bool bExternalAllowed)
         {
+            if (z.IsArray)
+                return "Array";
+
             // convert c# type to actionscript typename literal
             var dict = new Dictionary<Type, string>
             {

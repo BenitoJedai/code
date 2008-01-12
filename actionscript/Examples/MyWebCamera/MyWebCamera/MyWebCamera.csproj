@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{03620469-8B95-4847-BCB1-362EBCEE128B}</ProjectGuid>
+    <ProjectGuid>{8FE9677C-A869-4ACA-8D56-7EBFAB165B0C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OrcasFlashApplication</RootNamespace>
-    <AssemblyName>OrcasFlashApplication</AssemblyName>
+    <RootNamespace>MyWebCamera</RootNamespace>
+    <AssemblyName>MyWebCamera</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\Assets.cs" />
-    <Compile Include="ActionScript\OrcasFlashApplication.cs" />
+    <Compile Include="ActionScript\MyWebCamera.cs" />
     <Compile Include="ActionScript\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
@@ -61,10 +61,10 @@
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
-    <Content Include="web\assets\AlphaTest\Preview.png">
+    <Content Include="web\assets\MyWebCamera\Preview.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="web\assets\AlphaTest\rain_1.mp3">
+    <Content Include="web\assets\MyWebCamera\rain_1.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
