@@ -1,1 +1,3 @@
 ﻿http://www.scottgmorgan.com/blog/index.php/2007/12/20/ondragover-ondragout-and-onreleaseoutside-in-as3/
+
+http://www.emanueleferonato.com/2008/01/06/how-to-embed-mochiads-highscores-in-your-game/
