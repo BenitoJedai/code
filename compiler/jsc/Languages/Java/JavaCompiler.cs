@@ -187,9 +187,10 @@ namespace jsc.Languages.Java
                 WriteDecoratedTypeName(e.i.TargetType);
             };
 
-            CIW[OpCodes.Isinst] = delegate(CodeEmitArgs e) {
-                    throw new NotSupportedException("a custom TryCast is not yet implemented");
-                };
+            CIW[OpCodes.Isinst] = delegate(CodeEmitArgs e)
+            {
+                throw new NotSupportedException("a custom TryCast is not yet implemented");
+            };
 
             #endregion
 
@@ -266,18 +267,20 @@ namespace jsc.Languages.Java
                     Write(")");
                 };
 
-            CIW[OpCodes.Conv_I1] = delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "byte"); };
-            CIW[OpCodes.Conv_U2] = delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "char"); };
-            CIW[OpCodes.Conv_I4] = delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "int"); };
-            
-            CIW[OpCodes.Conv_I8] = delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "long"); };
-            CIW[OpCodes.Conv_U8] = delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "long"); };
+            #region conv
+            CIW[OpCodes.Conv_I1] = e => ConvertTypeAndEmit(e, "byte");
+            CIW[OpCodes.Conv_U2] = e => ConvertTypeAndEmit(e, "char");
+            CIW[OpCodes.Conv_I4] = e => ConvertTypeAndEmit(e, "int");
 
-            CIW[OpCodes.Conv_R4] = delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "float"); };
-            CIW[OpCodes.Conv_R8] = delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "double"); };
+            CIW[OpCodes.Conv_I8] = e => ConvertTypeAndEmit(e, "long");
+            CIW[OpCodes.Conv_U8] = e => ConvertTypeAndEmit(e, "long");
 
-            CIW[OpCodes.Conv_U1] = delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "byte"); };
-            CIW[OpCodes.Conv_Ovf_I] = delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "int"); };
+            CIW[OpCodes.Conv_R4] = e => ConvertTypeAndEmit(e, "float");
+            CIW[OpCodes.Conv_R8] = e => ConvertTypeAndEmit(e, "double");
+
+            CIW[OpCodes.Conv_U1] = e => ConvertTypeAndEmit(e, "byte");
+            CIW[OpCodes.Conv_Ovf_I] = e => ConvertTypeAndEmit(e, "int");
+            #endregion
 
             #region Ldlen
             CIW[OpCodes.Ldlen] =
@@ -294,7 +297,7 @@ namespace jsc.Languages.Java
                 e =>
                 {
                     Write("new ");
-                    
+
 
                     #region inline newarr
                     if (e.p.IsValidInlineArrayInit)
@@ -637,18 +640,18 @@ namespace jsc.Languages.Java
                    #endregion
 
                    if (e.p != null)
-                   if (e.p.Owner != null)
-                   if (e.p.Owner.IsCompound)
-                   {
-                       ILBlock.Prestatement sp = e.p.Owner.SourcePrestatement(e.p, e.i);
+                       if (e.p.Owner != null)
+                           if (e.p.Owner.IsCompound)
+                           {
+                               ILBlock.Prestatement sp = e.p.Owner.SourcePrestatement(e.p, e.i);
 
-                       if (sp != null)
-                       {
-                           EmitInstruction(sp, sp.Instruction);
+                               if (sp != null)
+                               {
+                                   EmitInstruction(sp, sp.Instruction);
 
-                           return;
-                       }
-                   }
+                                   return;
+                               }
+                           }
 
                    WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.TargetVariable);
 
@@ -725,7 +728,7 @@ namespace jsc.Languages.Java
             CIW[OpCodes.Xor] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "^"); };
             CIW[OpCodes.Shl] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<<"); };
             CIW[OpCodes.Shr] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">>"); };
-            
+
             CIW[OpCodes.Clt, OpCodes.Clt_Un] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<"); };
             CIW[OpCodes.Cgt, OpCodes.Cgt_Un] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">"); };
 
@@ -840,7 +843,7 @@ namespace jsc.Languages.Java
 
             ScriptAttribute za = ScriptAttribute.Of(z, true);
 
-            
+
 
             #region type summary
             XmlNode u = GetXMLNode(z);
@@ -960,7 +963,7 @@ namespace jsc.Languages.Java
                 t.RemoveAll(
                     delegate(Type x)
                     {
-                        return x.GUID == z.GUID ||  x.GUID == p.GUID;
+                        return x.GUID == z.GUID || x.GUID == p.GUID;
                     }
                 );
 
@@ -977,17 +980,17 @@ namespace jsc.Languages.Java
                     if (p != z)
                     {
 
-                        imports.Add( n + GetDecoratedTypeName(p, false, false, false));
+                        imports.Add(n + GetDecoratedTypeName(p, false, false, false));
                     }
 
-                    imports.Add( GetDecoratedTypeName(p, true, false, false));
+                    imports.Add(GetDecoratedTypeName(p, true, false, false));
 
 
                 }
                 else
                 {
 
-                    imports.Add( n + GetDecoratedTypeName(p, true, false, false));
+                    imports.Add(n + GetDecoratedTypeName(p, true, false, false));
 
 
 
@@ -998,7 +1001,7 @@ namespace jsc.Languages.Java
             }
 
             imports.RemoveAll(
-                delegate (string x)
+                delegate(string x)
                 {
                     return System.Text.RegularExpressions.Regex.IsMatch(x, @"^java.lang.\w*$");
                 }
@@ -1016,10 +1019,10 @@ namespace jsc.Languages.Java
                 //if (var.StartsWith("java.lang"))
                 //    continue;
 
-                
+
 
                 WriteKeywordImport();
-                Write(NamespaceFixup( var ));
+                Write(NamespaceFixup(var));
                 WriteLine(";");
 
             }
@@ -1146,7 +1149,7 @@ namespace jsc.Languages.Java
             // http://msdn2.microsoft.com/en-us/library/system.reflection.methodimplattributes.aspx
             if ((flags & (int)MethodImplAttributes.Synchronized) == (int)MethodImplAttributes.Synchronized)
                 Write("synchronized ");
-            
+
 
             if (m.IsPublic)
                 WriteKeywordPublic();
@@ -1351,7 +1354,7 @@ namespace jsc.Languages.Java
         {
             if (p.Contains("*"))
             {
-                foreach(PropertyInfo v in m.DeclaringType.GetProperties())
+                foreach (PropertyInfo v in m.DeclaringType.GetProperties())
                 {
                     if (v.GetGetMethod() == m || v.GetSetMethod() == m)
                     {
@@ -1416,7 +1419,7 @@ namespace jsc.Languages.Java
             {
                 if (z.Name == "op_Implicit")
                 {
-                    
+
 
                     Type rt = ((MethodInfo)z).ReturnType;
 
@@ -1972,10 +1975,10 @@ namespace jsc.Languages.Java
         /// <param name="favorTargetType"></param>
         private void WriteDecoratedTypeNameOrImplementationTypeName(Type timpv, bool favorPrimitives, bool favorTargetType)
         {
-    //[Script(Implements = typeof(global::System.Boolean),
-    //    ImplementationType=typeof(java.lang.Integer))]
+            //[Script(Implements = typeof(global::System.Boolean),
+            //    ImplementationType=typeof(java.lang.Integer))]
 
-            
+
             Type iType = ResolveImplementation(timpv);
 
             if (iType != null)
@@ -2294,18 +2297,18 @@ namespace jsc.Languages.Java
                 if (i.ReferencedMethod != null)
                 {
                     if (!IsTypeOfOperator(i.ReferencedMethod))
-                    if (i.ReferencedMethod.DeclaringType != typeof (object))
-                    {
-                        MethodBase method = GetMethodImplementation(MySession, i);
-                        ScriptAttribute method_attribute = ScriptAttribute.OfProvider(method);
-
-
-                        if (method.IsConstructor || method.IsStatic || (method_attribute != null && method_attribute.DefineAsStatic))
+                        if (i.ReferencedMethod.DeclaringType != typeof(object))
                         {
-                            imp.Add(method.DeclaringType);
-                            continue;
+                            MethodBase method = GetMethodImplementation(MySession, i);
+                            ScriptAttribute method_attribute = ScriptAttribute.OfProvider(method);
+
+
+                            if (method.IsConstructor || method.IsStatic || (method_attribute != null && method_attribute.DefineAsStatic))
+                            {
+                                imp.Add(method.DeclaringType);
+                                continue;
+                            }
                         }
-                    }
                 }
 
                 if (i == OpCodes.Box)
@@ -2446,5 +2449,14 @@ namespace jsc.Languages.Java
 
         //    return true;
         //}
+
+
+        protected override void WriteTypeOf(ILBlock.Prestatement p, ILInstruction i)
+        {
+            Emit(p, i.StackBeforeStrict[0]);
+
+            Write(".class");
+        }
+
     }
 }

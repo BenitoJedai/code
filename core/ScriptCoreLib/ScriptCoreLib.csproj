@@ -112,6 +112,7 @@
   <ItemGroup>
     <Compile Include="ActionScript\flash\display\DisplayObject.cs" />
     <Compile Include="ActionScript\flash\display\DisplayObjectContainer.cs" />
+    <Compile Include="ActionScript\flash\display\Graphics.cs" />
     <Compile Include="ActionScript\flash\display\InteractiveObject.cs" />
     <Compile Include="ActionScript\flash\display\Sprite.cs" />
     <Compile Include="ActionScript\flash\text\TextField.cs" />
@@ -259,6 +260,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ActionScript\BCLImplementation\" />
+    <Folder Include="ActionScript\Extensions\" />
     <Folder Include="ActionScript\flash\events\" />
     <Folder Include="ActionScript\mx\core\" />
     <Folder Include="Documents\" />

@@ -9,6 +9,9 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class Sprite : DisplayObjectContainer
     {
-
+        /// <summary>
+        /// Specifies the Graphics object that belongs to this sprite where vector drawing commands can occur.
+        /// </summary>
+        public Graphics graphics { get; private set; }
     }
 }

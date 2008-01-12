@@ -29,6 +29,19 @@ namespace ScriptCoreLib.ActionScript.flash.display
         /// </summary>
         public double y { get; set; }
 
+        /// <summary>
+        /// For a display object in a loaded SWF file, the root property is the top-most display object in the portion of the display list's tree structure represented by that SWF file.
+        /// </summary>
         public DisplayObject root { get; private set; }
+
+        /// <summary>
+        /// Indicates the width of the display object, in pixels.
+        /// </summary>
+        public double width { get; set; }
+
+        /// <summary>
+        /// Indicates the height of the display object, in pixels.
+        /// </summary>
+        public double height { get; set; }
     }
 }

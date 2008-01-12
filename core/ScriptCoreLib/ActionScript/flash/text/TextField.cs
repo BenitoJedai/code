@@ -12,8 +12,29 @@ namespace ScriptCoreLib.ActionScript.flash.text
     public class TextField : InteractiveObject
     {
         /// <summary>
+        /// Contains the HTML representation of the text field's contents.
+        /// </summary>
+        public string htmlText { get; set; }
+
+        /// <summary>
         /// A string that is the current text in the text field.
         /// </summary>
-        public string text;
+        public string text { get; set; }
+
+        /// <summary>
+        /// A Boolean value that indicates whether the text field is selectable.
+        /// </summary>
+        public bool selectable { get; set; }
+
+        /// <summary>
+        /// The sharpness of the glyph edges in this text field.
+        /// </summary>
+        public double sharpness { get; set; }
+
+        /// <summary>
+        /// The color of the text in a text field, in hexadecimal format.
+        /// </summary>
+        
+        public uint textColor { get; set; }
     }
 }

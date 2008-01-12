@@ -860,7 +860,7 @@ namespace jsc.Script
                                 if (ix.IsLoadInstruction)
                                     ix.InlineAssigmentValue = null;
                             }
-                            #endregion
+            #endregion
 
                             goto next_variable;
                         }
@@ -911,7 +911,7 @@ namespace jsc.Script
                 #region _IsInlineExceptonVariable_Verbose
                 if (_IsInlineExceptonVariable_Verbose)
                 {
-                    Console.WriteLine(".enter: "  + xb.First.ToString());
+                    Console.WriteLine(".enter: " + xb.First.ToString());
                 }
                 #endregion
 
@@ -1086,6 +1086,11 @@ namespace jsc.Script
             return false;
         }
 
+        protected virtual void WriteTypeOf(ILBlock.Prestatement p, ILInstruction i)
+        {
+            throw new NotImplementedException();
+        }
+
         public void WriteMethodCall(ILBlock.Prestatement p, ILInstruction i, MethodBase m)
         {
             try
@@ -1095,9 +1100,7 @@ namespace jsc.Script
 
                 if (IsTypeOfOperator(m))
                 {
-                    Emit(p, i.StackBeforeStrict[0]);
-
-                    Write(".class");
+                    WriteTypeOf(p, i);
 
                     return;
                 }
@@ -1116,7 +1119,7 @@ namespace jsc.Script
                         if (method == null)
                         {
                             Break(
-@"BCL needs another method, please define it. Cannot call type without script attribute : " + m.DeclaringType + " for " + m + " used at " + i.OwnerMethod.DeclaringType.FullName + "." + i.OwnerMethod.Name + ". If the use of this method is intended, an implementation should be provided with the attribute [Script(Implements=typeof(...)] set.");
+                                @"BCL needs another method, please define it. Cannot call type without script attribute : " + m.DeclaringType + " for " + m + " used at " + i.OwnerMethod.DeclaringType.FullName + "." + i.OwnerMethod.Name + ". If the use of this method is intended, an implementation should be provided with the attribute [Script(Implements=typeof(...)] set.");
                         }
 
 
@@ -1223,7 +1226,7 @@ namespace jsc.Script
             }
             catch (Exception exc)
             {
-                Break("unable to emit " + i.OpCode + " at '" + i.OwnerMethod.DeclaringType.FullName + "." + i.OwnerMethod.Name +    "'#" + string.Format("{0:x4}", i.Offset) + ": " + exc.Message + "\n" + exc.StackTrace);
+                Break("unable to emit " + i.OpCode + " at '" + i.OwnerMethod.DeclaringType.FullName + "." + i.OwnerMethod.Name + "'#" + string.Format("{0:x4}", i.Offset) + ": " + exc.Message + "\n" + exc.StackTrace);
             }
 
         }

@@ -132,6 +132,63 @@ namespace jsc.Languages.ActionScript
             {
                 Emit(p, s[0]);
                 Write(".");
+
+                #region set
+                {
+                    var prefix = "set_";
+                    if (m.Name.StartsWith(prefix))
+                    {
+                        var property = m.DeclaringType.GetProperty(m.Name.Substring(prefix.Length));
+
+                        if (property != null)
+                        {
+                            Write(property.Name);
+                            WriteAssignment();
+
+                            #region bool
+                            if (property.PropertyType == typeof(bool))
+                            {
+                                if (s[1].StackInstructions.Length == 1)
+                                {
+                                    if (s[1].SingleStackInstruction.TargetInteger == 0)
+                                    {
+                                        Write("false");
+                                        return;
+                                    }
+
+                                    if (s[1].SingleStackInstruction.TargetInteger == 1)
+                                    {
+                                        Write("true");
+                                        return;
+                                    }
+                                }
+                            }
+                            #endregion
+
+                            Emit(p, s[1]);
+                            return;
+                        }
+                    }
+                }
+                #endregion
+
+                #region get
+                {
+                    var prefix = "get_";
+                    if (m.Name.StartsWith(prefix))
+                    {
+                        var property = m.DeclaringType.GetProperty(m.Name.Substring(prefix.Length));
+
+                        if (property != null)
+                        {
+                            Write(property.Name);
+
+                            return;
+                        }
+                    }
+                }
+                #endregion
+
                 WriteDecoratedMethodName(m, false);
             }
             WriteParameterInfoFromStack(m, p, s, offset);
@@ -177,6 +234,17 @@ namespace jsc.Languages.ActionScript
 
         public override string GetDecoratedTypeName(Type z, bool bExternalAllowed)
         {
+            // convert c# type to actionscript typename literal
+            var dict = new Dictionary<Type, string>
+            {
+                {typeof(int), "int"},
+                {typeof(uint), "uint"},
+                {typeof(double), "Number"},
+            };
+
+            if (dict.ContainsKey(z))
+                return dict[z];
+
             return z.Name;
         }
 
@@ -184,7 +252,7 @@ namespace jsc.Languages.ActionScript
         {
             // used when writing the source file
 
-            return z.Name;
+            return GetDecoratedTypeName(z, false);
         }
 
         public override void WriteDecoratedMethodName(System.Reflection.MethodBase z, bool q)
@@ -201,8 +269,8 @@ namespace jsc.Languages.ActionScript
 
             Write("var ");
             WriteVariableName(u.DeclaringType, u, v);
-            Write(":*");
-
+            Write(":");
+            WriteDecoratedTypeName(v.LocalType);
             //WriteDecoratedTypeNameOrImplementationTypeName(v.LocalType, true, true);
             WriteLine(";");
         }

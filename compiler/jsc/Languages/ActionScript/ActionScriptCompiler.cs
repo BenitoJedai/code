@@ -295,6 +295,12 @@ namespace jsc.Languages.ActionScript
 
         private void CreateInstructionHandlers()
         {
+            CIW[OpCodes.Callvirt] =
+                e =>
+                {
+                    WriteMethodCall(e.p, e.i, e.i.TargetMethod);
+                };
+
             #region call
             CIW[OpCodes.Call] =
                 e =>
@@ -603,6 +609,79 @@ namespace jsc.Languages.ActionScript
                        MyWriter.Write(n.Value);
                    }
                };
+            #endregion
+
+            #region operators
+            CIW[OpCodes.Xor] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "^"); };
+            CIW[OpCodes.Shl] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<<"); };
+            CIW[OpCodes.Shr] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">>"); };
+
+            CIW[OpCodes.Clt, OpCodes.Clt_Un] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<"); };
+            CIW[OpCodes.Cgt, OpCodes.Cgt_Un] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">"); };
+
+            CIW[OpCodes.Add] =
+                delegate(CodeEmitArgs e)
+                {
+                    if (e.i.IsInlinePrefixOperator(OpCodes.Add))
+                    {
+                        Write("++");
+                        Emit(e.p, e.FirstOnStack);
+                        return;
+                    }
+
+                    WriteInlineOperator(e.p, e.i, "+");
+                };
+
+            CIW[OpCodes.Sub] =
+                delegate(CodeEmitArgs e)
+                {
+                    if (e.i.IsInlinePrefixOperator(OpCodes.Sub))
+                    {
+                        Write("--");
+                        EmitFirstOnStack(e);
+                        return;
+                    }
+
+                    WriteInlineOperator(e.p, e.i, "-");
+                };
+
+            CIW[OpCodes.Or] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "|"); };
+            CIW[OpCodes.And] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "&"); };
+            CIW[OpCodes.Rem] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "%"); };
+            CIW[OpCodes.Mul] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "*"); };
+            CIW[OpCodes.Div] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "/"); };
+            CIW[OpCodes.Bge_S,
+                OpCodes.Bge] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">="); };
+            CIW[OpCodes.Ble_S,
+                OpCodes.Ble] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<="); };
+            CIW[OpCodes.Bne_Un_S,
+                OpCodes.Bne_Un] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "!="); };
+            CIW[OpCodes.Ceq] =
+                delegate(CodeEmitArgs e)
+                {
+                    if (e.i.IsNegativeOperator)
+                    {
+                        Write("!");
+                        Emit(e.p, e.i.StackBeforeStrict[0]);
+                    }
+                    else
+                        WriteInlineOperator(e.p, e.i, "==");
+                };
+            #endregion
+
+            #region conv
+            CIW[OpCodes.Conv_I1] = e => ConvertTypeAndEmit(e, "byte");
+            CIW[OpCodes.Conv_U2] = e => ConvertTypeAndEmit(e, "char");
+            CIW[OpCodes.Conv_I4] = e => ConvertTypeAndEmit(e, "int");
+
+            CIW[OpCodes.Conv_I8] = e => ConvertTypeAndEmit(e, "long");
+            CIW[OpCodes.Conv_U8] = e => ConvertTypeAndEmit(e, "long");
+
+            CIW[OpCodes.Conv_R4] = e => ConvertTypeAndEmit(e, "float");
+            CIW[OpCodes.Conv_R8] = e => ConvertTypeAndEmit(e, "Number");
+
+            CIW[OpCodes.Conv_U1] = e => ConvertTypeAndEmit(e, "byte");
+            CIW[OpCodes.Conv_Ovf_I] = e => ConvertTypeAndEmit(e, "int");
             #endregion
         }
     }

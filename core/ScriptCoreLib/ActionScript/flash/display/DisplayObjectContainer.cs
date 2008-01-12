@@ -7,7 +7,7 @@ namespace ScriptCoreLib.ActionScript.flash.display
 {
     // http://livedocs.adobe.com/flex/2/langref/flash/display/DisplayObjectContainer.html
     [Script(IsNative = true)]
-    public class DisplayObjectContainer
+    public class DisplayObjectContainer : InteractiveObject
     {
         public T addChild<T>(T child)  where T : DisplayObject
         {
