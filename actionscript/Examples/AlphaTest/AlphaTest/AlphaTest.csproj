@@ -61,9 +61,6 @@
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
-    <Content Include="web\assets\AlphaTest\park1a.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="web\assets\AlphaTest\Preview.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -72,10 +69,14 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="tools\build.HelloWorld3.bat" />
+    <None Include="web\AlphaTest\ActionScript\HelloWorld3.as">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="web\AlphaTest\ActionScript\HelloWorld2.as">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="tools\build.bat" />
+    <None Include="tools\build.HelloWorld2.bat" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

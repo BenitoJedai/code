@@ -76,7 +76,7 @@ package AlphaTest.ActionScript
                         rect.y = 50;
                         addChild(rect);
                     
-                    addChild(new PreviewImage());
+                    addChild(new PreviewImage()).rotation = 45;
                 }
         }
 }
