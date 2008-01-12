@@ -1,3 +1,21 @@
 ﻿http://www.scottgmorgan.com/blog/index.php/2007/12/20/ondragover-ondragout-and-onreleaseoutside-in-as3/
 
 http://www.emanueleferonato.com/2008/01/06/how-to-embed-mochiads-highscores-in-your-game/
+
+http://www.stonewashed.net/sfx.html
+
+http://ljudo.com/result.asp
+
+http://simplythebest.net/sounds/MP3/sound_effects_MP3/nature_mp3.html
+
+http://www.actionscript.org/resources/articles/607/1/A-simple-particle-system-using-Actionscript-3/Page1.html
+
+http://www.actionscript.org/resources/articles/717/1/Simple-3D-programming-for-AS20/Page1.html
+
+http://www.bit-101.com/blog/?p=1126
+
+http://www.senocular.com/flash/tutorials/as3withmxmlc/
+http://blog.flashsourcecode.com/?p=24
+http://www.scottgmorgan.com/blog/index.php/2006/07/15/actionscript-30-rain-effect-source-code/
+http://www.scottgmorgan.com/blog/index.php/2006/07/14/make-it-rain-with-the-bitmapdata-class/
+http://moock.org/lectures/groundUpAS3/

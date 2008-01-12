@@ -50,9 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="as\Assets.cs" />
-    <Compile Include="as\AlphaTest.cs" />
-    <Compile Include="as\Extensions.cs" />
+    <Compile Include="ActionScript\Assets.cs" />
+    <Compile Include="ActionScript\AlphaTest.cs" />
+    <Compile Include="ActionScript\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>
@@ -61,10 +61,21 @@
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
-    <EmbeddedResource Include="web\assets\AlphaTest\Preview.png" />
+    <Content Include="web\assets\AlphaTest\park1a.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\assets\AlphaTest\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\assets\AlphaTest\rain_1.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="tools\" />
+    <None Include="web\AlphaTest\ActionScript\HelloWorld2.as">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="tools\build.bat" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
