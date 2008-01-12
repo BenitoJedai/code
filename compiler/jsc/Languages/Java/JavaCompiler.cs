@@ -128,10 +128,9 @@ namespace jsc.Languages.Java
                     Write("))");
                 };
 
-            CIW[
-
-                OpCodes.Unbox_Any] =
-                delegate (CodeEmitArgs e)
+            #region Unbox_Any
+            CIW[OpCodes.Unbox_Any] =
+                e =>
                 {
                     if (e.i.TargetType == typeof(int))
                     {
@@ -172,6 +171,7 @@ namespace jsc.Languages.Java
                     WriteBoxedComment("unbox " + e.i.TargetType.Name);
                     EmitFirstOnStack(e);
                 };
+            #endregion
 
             #region passthru
 
@@ -197,7 +197,7 @@ namespace jsc.Languages.Java
 
             #region fld
             CIW[OpCodes.Ldfld] =
-                delegate(CodeEmitArgs e)
+                e =>
                 {
 
                     Emit(e.p, e.FirstOnStack);
@@ -207,7 +207,7 @@ namespace jsc.Languages.Java
                 };
 
             CIW[OpCodes.Stfld] =
-                delegate(CodeEmitArgs e)
+                e =>
                 {
 
 
@@ -289,8 +289,9 @@ namespace jsc.Languages.Java
                 };
             #endregion
 
+            #region Newarr
             CIW[OpCodes.Newarr] =
-                delegate(CodeEmitArgs e)
+                e =>
                 {
                     Write("new ");
                     
@@ -370,6 +371,7 @@ namespace jsc.Languages.Java
                         }
                     }
                 };
+            #endregion
 
             CIW[OpCodes.Ldnull] =
                 delegate(CodeEmitArgs e)
@@ -405,7 +407,7 @@ namespace jsc.Languages.Java
                 OpCodes.Ldarg_3,
                 OpCodes.Ldarg_S,
                 OpCodes.Ldarg] =
-                delegate(CodeEmitArgs e)
+                e =>
                 {
                     WriteMethodParameterOrSelf(e.i);
                 };
@@ -414,7 +416,7 @@ namespace jsc.Languages.Java
             #region starg
             CIW[OpCodes.Starg_S,
                 OpCodes.Starg] =
-                delegate(CodeEmitArgs e)
+                e =>
                 {
                     WriteMethodParameterOrSelf(e.i);
                     WriteAssignment();
@@ -425,6 +427,7 @@ namespace jsc.Languages.Java
                 };
             #endregion
 
+            #region Stsfld
             CIW[OpCodes.Stsfld] =
                delegate(CodeEmitArgs e)
                {
@@ -461,6 +464,7 @@ namespace jsc.Languages.Java
                        throw exc;
                    }
                };
+            #endregion
 
 
             CIW[OpCodes.Ldsfld] =
@@ -512,6 +516,24 @@ namespace jsc.Languages.Java
                 };
             #endregion
 
+
+
+            #region Ret
+            CIW[OpCodes.Ret] =
+                e =>
+                {
+                    WriteReturn(e.p, e.i);
+                };
+            #endregion
+
+            #region Newobj
+            CIW[OpCodes.Newobj] =
+                e =>
+                {
+                    WriteTypeConstruction(e);
+                };
+            #endregion
+
             #region Stloc
             CIW[OpCodes.Stloc_0,
                 OpCodes.Stloc_1,
@@ -519,11 +541,11 @@ namespace jsc.Languages.Java
                 OpCodes.Stloc_3,
                 OpCodes.Stloc_S,
                 OpCodes.Stloc] =
-                delegate(CodeEmitArgs e)
+                e =>
                 {
                     WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.TargetVariable);
 
-#region ++ --
+                    #region ++ --
                     if (e.FirstOnStack.StackInstructions.Length == 1)
                     {
                         ILInstruction i = e.FirstOnStack.SingleStackInstruction;
@@ -552,7 +574,7 @@ namespace jsc.Languages.Java
                             }
                         }
                     }
-#endregion
+                    #endregion
 
                     WriteAssignment();
 
@@ -590,23 +612,6 @@ namespace jsc.Languages.Java
             #endregion
 
 
-            #region Ret
-            CIW[OpCodes.Ret] =
-                delegate(CodeEmitArgs e)
-                {
-                    WriteReturn(e.p, e.i);
-                };
-            #endregion
-
-            #region Newobj
-            CIW[OpCodes.Newobj] =
-                delegate(CodeEmitArgs e)
-                {
-                    WriteTypeConstruction(e);
-
-                };
-            #endregion
-
             #region Ldloc
             CIW[OpCodes.Ldloc_0,
                 OpCodes.Ldloc_1,
@@ -616,7 +621,7 @@ namespace jsc.Languages.Java
                 OpCodes.Ldloc,
                 OpCodes.Ldloca,
                 OpCodes.Ldloca_S] =
-               delegate(CodeEmitArgs e)
+               e =>
                {
                    #region inline assigment
                    if (e.i.InlineAssigmentValue != null)
@@ -655,7 +660,7 @@ namespace jsc.Languages.Java
 
 
             CIW[OpCodes.Ldstr] =
-                delegate(CodeEmitArgs e)
+                e =>
                 {
                     WriteLiteral(e.i.TargetLiteral);
                 };
@@ -807,37 +812,7 @@ namespace jsc.Languages.Java
 
 
 
-        public bool IsEmptyImplementationType(Type e)
-        {
-            ScriptAttribute a = ScriptAttribute.Of(e);
 
-            if (a == null)
-                return false;
-
-            if (a.Implements == null)
-                return false;
-            MethodInfo[] u = GetAllMethods(e);
-
-            foreach (MethodInfo var in u)
-            {
-                ScriptAttribute s = ScriptAttribute.Of(var);
-
-                if (s != null)
-                {
-                    if (s.ExternalTarget != null)
-                        continue;
-
-                    if (s.StringConcatOperator != null)
-                        continue;
-                }
-
-                return false;
-            }
-
-            return true;
-
-
-        }
 
 
         public override bool CompileType(Type z)
@@ -865,11 +840,13 @@ namespace jsc.Languages.Java
 
             ScriptAttribute za = ScriptAttribute.Of(z, true);
 
+            
+
             #region type summary
             XmlNode u = GetXMLNode(z);
 
             if (u != null)
-                WriteJavaDoc(u["summary"].InnerText);
+                WriteBlockComment(u["summary"].InnerText);
             #endregion
 
 
@@ -1053,40 +1030,7 @@ namespace jsc.Languages.Java
 
 
 
-        private MethodBase GetMethodImplementation(ILInstruction i)
-        {
-            MethodBase method = i.ReferencedMethod;
 
-
-            ScriptAttribute method_type_attribute = ScriptAttribute.OfProvider(method.DeclaringType);
-
-            if (method_type_attribute == null)
-            {
-                MethodBase impl = MySession.ResolveImplementation(method.DeclaringType, method);
-
-                if (impl == null)
-                    Break("implementation not found for type import : " + method.DeclaringType.FullName + " :: " + method);
-
-                method = impl;
-
-            }
-            return method;
-        }
-
-        private void WriteTypeInstanceConstructors(Type z)
-        {
-            ConstructorInfo[] zci = GetAllInstanceConstructors(z);
-
-
-            foreach (ConstructorInfo zc in zci)
-            {
-                WriteMethodSignature(zc, false);
-                WriteMethodBody(zc);
-
-            }
-
-            WriteLine();
-        }
 
 
 
@@ -1174,7 +1118,7 @@ namespace jsc.Languages.Java
                 {
                     string Summary = n["summary"].InnerText.Trim();
 
-                    WriteJavaDoc(Summary);
+                    WriteBlockComment(Summary);
                 }
                 else
                 {
@@ -1320,11 +1264,11 @@ namespace jsc.Languages.Java
             }
             #endregion
 
-            #region instance
 
 
             if ((m.IsStatic || IsDefineAsStatic) || IsBaseCall)
             {
+                #region static
                 //TODO: ???
                 if (IsBaseCall)
                 {
@@ -1356,6 +1300,7 @@ namespace jsc.Languages.Java
                         Write(".");
                     }
                 }
+                #endregion
 
                 offset = !m.IsStatic && (IsDefineAsStatic || IsBaseCall) ? 1 : 0;
             }
@@ -1400,7 +1345,6 @@ namespace jsc.Languages.Java
 
             WriteParameterInfoFromStack(m, p, s, offset);
 
-            #endregion
         }
 
         public void WriteExternalMethod(string p, MethodBase m)
@@ -1751,17 +1695,7 @@ namespace jsc.Languages.Java
 
 
 
-        public override void EmitPrestatement(ILBlock.Prestatement p)
-        {
 
-            if (p.Instruction.IsLoadInstruction)
-                BreakToDebugger("statement cannot be a load instruction (compiler fault?): " + p.Instruction.Location);
-
-
-            WriteIdent();
-            EmitInstruction(p, p.Instruction);
-            WriteLine(";");
-        }
 
         public override void WriteMethodParameterList(MethodBase m)
         {
@@ -1984,7 +1918,7 @@ namespace jsc.Languages.Java
                 Write(GetDecoratedTypeName(z, false));
 
 
-
+            #region extends
             if (z.BaseType != typeof(object) && z.BaseType != null)
             {
 
@@ -2002,6 +1936,7 @@ namespace jsc.Languages.Java
                     Write(GetDecoratedTypeName(z.BaseType, false));
 
             }
+            #endregion
 
             Type[] timp = z.GetInterfaces();
 
@@ -2361,7 +2296,7 @@ namespace jsc.Languages.Java
                     if (!IsTypeOfOperator(i.ReferencedMethod))
                     if (i.ReferencedMethod.DeclaringType != typeof (object))
                     {
-                        MethodBase method = GetMethodImplementation(i);
+                        MethodBase method = GetMethodImplementation(MySession, i);
                         ScriptAttribute method_attribute = ScriptAttribute.OfProvider(method);
 
 

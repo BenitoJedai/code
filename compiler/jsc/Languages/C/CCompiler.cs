@@ -885,7 +885,7 @@ namespace jsc.Languages.C
                 {
                     string Summary = n["summary"].InnerText.Trim();
 
-                    WriteJavaDoc(Summary);
+                    WriteBlockComment(Summary);
                 }
                 else
                 {

@@ -685,7 +685,7 @@ namespace jsc.Script
 
         public override void WriteBoxedComment(string p)
         {
-            Write("/* "+ p + " */");
+            Write("/* " + p + " */");
         }
 
         public virtual bool WillReturnPointerToThisOnConstructorReturn
@@ -696,7 +696,7 @@ namespace jsc.Script
             }
         }
 
-        
+
 
         public void WriteReturn(ILBlock.Prestatement p, ILInstruction i)
         {
@@ -707,11 +707,14 @@ namespace jsc.Script
             WriteKeywordReturn();
 
 
-            if (WillReturnPointerToThisOnConstructorReturn)
+            
                 if (i.OwnerMethod.IsConstructor)
                 {
-                    WriteSpace();
-                    WriteSelf();
+                    if (WillReturnPointerToThisOnConstructorReturn)
+                    {
+                        WriteSpace();
+                        WriteSelf();
+                    }
 
                     return;
                 }
@@ -730,7 +733,7 @@ namespace jsc.Script
             {
                 if (i.TargetFlow.Branch == OpCodes.Ret)
                 {
-                    
+
                     // this is a dirty fix for return branch with a value
                     s = i.Prev.StackBeforeStrict;
 
@@ -747,7 +750,7 @@ namespace jsc.Script
                                 //WriteBoxedComment("inline");
 
                                 WriteSpace();
-                                
+
 
                                 ILBlock.Prestatement _p = left.InlineAssigmentValue;
                                 ILInstruction _i = _p.Instruction;
@@ -759,7 +762,7 @@ namespace jsc.Script
                         }
 
                         //WriteBoxedComment(" br ");
-                        
+
                         WriteSpace();
                         //Emit(p, s[0]);
 
@@ -787,7 +790,7 @@ namespace jsc.Script
             Write(")");
         }
 
-        public void WriteJavaDoc(string Summary)
+        public void WriteBlockComment(string Summary)
         {
             string x = Summary.Trim();
 
@@ -800,9 +803,89 @@ namespace jsc.Script
                 WriteLine(" * " + var.Trim());
 
             }
-  
+
             WriteIdent();
             WriteLine(" */");
+        }
+
+
+        public static MethodBase GetMethodImplementation(AssamblyTypeInfo MySession, ILInstruction i)
+        {
+            MethodBase method = i.ReferencedMethod;
+
+
+            ScriptAttribute method_type_attribute = ScriptAttribute.OfProvider(method.DeclaringType);
+
+            if (method_type_attribute == null)
+            {
+                MethodBase impl = MySession.ResolveImplementation(method.DeclaringType, method);
+
+                if (impl == null)
+                    throw new Exception("implementation not found for type import : " + method.DeclaringType.FullName + " :: " + method);
+
+                method = impl;
+
+            }
+            return method;
+        }
+
+        public bool IsEmptyImplementationType(Type e)
+        {
+            ScriptAttribute a = ScriptAttribute.Of(e);
+
+            if (a == null)
+                return false;
+
+            if (a.Implements == null)
+                return false;
+            MethodInfo[] u = GetAllMethods(e);
+
+            foreach (MethodInfo var in u)
+            {
+                ScriptAttribute s = ScriptAttribute.Of(var);
+
+                if (s != null)
+                {
+                    if (s.ExternalTarget != null)
+                        continue;
+
+                    if (s.StringConcatOperator != null)
+                        continue;
+                }
+
+                return false;
+            }
+
+            return true;
+
+
+        }
+
+
+        protected void WriteTypeInstanceConstructors(Type z)
+        {
+            ConstructorInfo[] zci = GetAllInstanceConstructors(z);
+
+
+            foreach (ConstructorInfo zc in zci)
+            {
+                WriteMethodSignature(zc, false);
+                WriteMethodBody(zc);
+
+            }
+
+            WriteLine();
+        }
+
+        public override void EmitPrestatement(ILBlock.Prestatement p)
+        {
+            if (p.Instruction.IsLoadInstruction)
+                BreakToDebugger("statement cannot be a load instruction (compiler fault?): " + p.Instruction.Location);
+
+
+            WriteIdent();
+            EmitInstruction(p, p.Instruction);
+            WriteLine(";");
         }
     }
 }

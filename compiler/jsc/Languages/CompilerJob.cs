@@ -72,9 +72,15 @@ namespace jsc.Languages
             Assembly.LoadFile(j.AssamblyFile.FullName);
 
 
-            //sinfo.Logging.LogMessage("assambly loaded '{0}'", j.AssamblyInfo.FullName);
+            // we need all the namespace fixups from all assemblies
+            foreach (var reference in ScriptCoreLib.SharedHelper.LoadReferencedAssemblies(j.AssamblyInfo, true))
+            {
+                var n = reference.GetCustomAttributes<ScriptNamespaceRenameAttribute>();
 
-            j.NamespaceRenameList.AddRange(j.GetNamespaceRenameList());
+                // todo: deal with overlapping attributes here
+                j.NamespaceRenameList.AddRange(n);
+            }
+            
 
             // we support java only at this time
 
@@ -119,7 +125,7 @@ namespace jsc.Languages
                 if (_ns.StartsWith(var.NativeNamespaceName))
                 {
                     _ns = var.VirtualNamespaceName + _ns.Substring(var.NativeNamespaceName.Length);
-
+                    break;
                 }
             }
 

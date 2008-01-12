@@ -1,20 +1,19 @@
 package AlphaTest.ActionScript
 {
-        import flash.display.Sprite;
-        import flash.display.Sprite;
-        import flash.text.TextField;
+    import flash.display.Sprite;
+    import flash.text.TextField;
 
-    
-        public class HelloWorld3 extends Sprite
+    public class HelloWorld3 extends Sprite
+    {
+        public function HelloWorld3()
         {
-                
-                public function HelloWorld3()
-                {
-                    var txt:* = new TextField();
-                    
-                    txt.text = "hello world";
-                    
-                    addChild(txt);
-                }
+			super();
+        
+            var txt:* = new TextField();
+            
+            txt.text = "hello world";
+            
+            addChild(txt);
         }
+    }
 }

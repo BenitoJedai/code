@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using System.IO;
+using System.Linq;
 using System.Reflection.Emit;
 
 using jsc.CodeModel;
@@ -219,25 +220,25 @@ namespace jsc
 
                 i = i.Next;
 
-            if (i == null || i.Offset > BodyTrueLast.Offset)
+                if (i == null || i.Offset > BodyTrueLast.Offset)
+                    return null;
+
+            skip:
+
+
+
+                if (i.InlineIfElseConstruct == null)
+                    goto next;
+
+                if (i.InlineIfElseConstruct.IsExternalCoCondition)
+                    goto next;
+
+
+                if (i.InlineIfElseConstruct.BodyTrueLast == BodyTrueLast
+                    || i.InlineIfElseConstruct.BodyFalseLast == BodyTrueLast)
+                    return i.InlineIfElseConstruct;
+
                 return null;
-
-        skip:
-
-
-
-            if (i.InlineIfElseConstruct == null)
-                goto next;
-
-        if (i.InlineIfElseConstruct.IsExternalCoCondition)
-            goto next;
-
-
-        if (i.InlineIfElseConstruct.BodyTrueLast == BodyTrueLast
-            || i.InlineIfElseConstruct.BodyFalseLast == BodyTrueLast)
-            return i.InlineIfElseConstruct;
-
-        return null;
             }
         }
 
@@ -311,22 +312,22 @@ namespace jsc
                 if (this.Join == i)
                     return false;
 
-            if (i.StackAfter.Count == 0)
-            {
-                if (i.InlineIfElseConstruct != null)
+                if (i.StackAfter.Count == 0)
                 {
-                    if (i.InlineIfElseConstruct.Join == this.Join)
-                        goto go_next;
+                    if (i.InlineIfElseConstruct != null)
+                    {
+                        if (i.InlineIfElseConstruct.Join == this.Join)
+                            goto go_next;
 
-                    if (i.InlineIfElseConstruct.Join.Offset > this.Join.Offset)
-                        return true;
+                        if (i.InlineIfElseConstruct.Join.Offset > this.Join.Offset)
+                            return true;
+                    }
                 }
-            }
 
 
-        go_next:
-            i = i.Next;
-        goto next;
+            go_next:
+                i = i.Next;
+                goto next;
 
 
             }
@@ -573,26 +574,26 @@ namespace jsc
                     loop:
                         // skio non-zero
                         while (Index[idx] > 0) idx++;
-                    while (Index[idx] == 0)
-                    {
-                        n.Add(RootBlock.Instructrions[idx]);
-                        idx++;
-                    }
+                        while (Index[idx] == 0)
+                        {
+                            n.Add(RootBlock.Instructrions[idx]);
+                            idx++;
+                        }
 
-                    if (gen > 2)
-                    {
-
-
-                        gen -= 2;
-
-                        goto loop;
-                    }
+                        if (gen > 2)
+                        {
 
 
-                    if (n.Count == 0)
-                        Debugger.Break();
+                            gen -= 2;
 
-                    return n;
+                            goto loop;
+                        }
+
+
+                        if (n.Count == 0)
+                            Debugger.Break();
+
+                        return n;
 
                     }
 
@@ -1662,12 +1663,19 @@ namespace jsc
         }
 
 
+        static OpCode[] TargetMethodFilter =
+            new OpCode[] 
+            {
+            };
 
         public MethodInfo TargetMethod
         {
             get
             {
                 if (this.OpParam.Length != 4)
+                    return null;
+
+                if (TargetMethodFilter.Contains(this.OpCode))
                     return null;
 
                 Type[] ma = (OwnerMethod.IsGenericMethod) ? OwnerMethod.GetGenericArguments() : null;
@@ -1718,6 +1726,8 @@ namespace jsc
                 if (this.OpParam.Length != 4)
                     return null;
 
+                if (TargetMethodFilter.Contains(this.OpCode))
+                    return null;
 
                 Type[] ma = (OwnerMethod.IsGenericMethod) ? OwnerMethod.GetGenericArguments() : null;
 
@@ -2486,7 +2496,7 @@ namespace jsc
         {
             get
             {
-                return "type: " + OwnerMethod.DeclaringType.FullName +  " offset: " + string.Format("0x{0:x4}", this.Offset) + "  method:" + OwnerMethod.ToString();
+                return "type: " + OwnerMethod.DeclaringType.FullName + " offset: " + string.Format("0x{0:x4}", this.Offset) + "  method:" + OwnerMethod.ToString();
             }
         }
     }

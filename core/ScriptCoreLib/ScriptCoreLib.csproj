@@ -259,6 +259,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ActionScript\BCLImplementation\" />
+    <Folder Include="ActionScript\flash\events\" />
     <Folder Include="ActionScript\mx\core\" />
     <Folder Include="Documents\" />
   </ItemGroup>

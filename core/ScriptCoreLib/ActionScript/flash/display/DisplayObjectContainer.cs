@@ -9,9 +9,9 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class DisplayObjectContainer
     {
-        public DisplayObject addChild(DisplayObject child)
+        public T addChild<T>(T child)  where T : DisplayObject
         {
-            return default(DisplayObject);
+            return default(T);
         }
     }
 }

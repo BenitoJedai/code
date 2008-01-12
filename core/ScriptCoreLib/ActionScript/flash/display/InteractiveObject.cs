@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.ActionScript.flash.display
 {
     // http://livedocs.adobe.com/flex/2/langref/flash/display/InteractiveObject.html
-    [Script]
+    [Script(IsNative = true)]
     public class InteractiveObject : DisplayObject
     {
     }

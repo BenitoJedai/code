@@ -61,13 +61,7 @@ namespace jsc.Languages
                 }
             }
 
-            StreamWriter SVW = new StreamWriter(SourceVersion.OpenWrite());
 
-            SVW.WriteLine("ConstantCompilerBuildDate: " + CompilerBase.ConstantCompilerBuildDate);
-            SVW.WriteLine("AssamblyFile.LastWriteTime: " + j.AssamblyFile.LastWriteTime);
-            SVW.WriteLine("SourceVersion.LastWriteTime: " + SourceVersion.LastWriteTime);
-
-            SVW.Close();
             #endregion
 
             Helper.WorkPool n = new Helper.WorkPool();
@@ -97,6 +91,17 @@ namespace jsc.Languages
                 );
 
                 // Languages.CompilerJob.InvokeEntryPoints(TargetDirectory, j.AssamblyInfo);
+            }
+
+            if (!Debugger.IsAttached)
+            {
+                StreamWriter SVW = new StreamWriter(SourceVersion.OpenWrite());
+
+                SVW.WriteLine("ConstantCompilerBuildDate: " + CompilerBase.ConstantCompilerBuildDate);
+                SVW.WriteLine("AssamblyFile.LastWriteTime: " + j.AssamblyFile.LastWriteTime);
+                SVW.WriteLine("SourceVersion.LastWriteTime: " + SourceVersion.LastWriteTime);
+
+                SVW.Close();
             }
         }
 

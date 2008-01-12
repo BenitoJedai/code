@@ -145,8 +145,11 @@ namespace jsc
             return (b != null && b.IsStatic == src_method.IsStatic) ? b : null;
 
         }
+
+
         public MethodBase ResolveImplementation(Type src_type, MethodBase src_method)
         {
+            // todo: cache results
 
             Type impl_type = ResolveImplementation(
                src_type

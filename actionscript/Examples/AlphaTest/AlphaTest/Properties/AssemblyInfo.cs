@@ -40,5 +40,5 @@ using ScriptCoreLib;
 
 [assembly:
     Script,
-    ScriptTypeFilter(ScriptType.ActionScript, "*.as")
+    ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript")
 ]

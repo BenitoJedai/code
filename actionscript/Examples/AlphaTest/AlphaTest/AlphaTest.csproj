@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.HelloWorld3.bat" />
+    <None Include="tools\build.AlphaTest.bat" />
     <None Include="web\AlphaTest\ActionScript\HelloWorld3.as">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -87,6 +88,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetFileName)  -as</PostBuildEvent>
+    <PostBuildEvent>::c:\util\jsc\bin\jsc.exe $(TargetFileName)  -as</PostBuildEvent>
   </PropertyGroup>
 </Project>
