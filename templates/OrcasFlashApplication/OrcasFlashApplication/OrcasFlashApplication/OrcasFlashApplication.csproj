@@ -61,12 +61,10 @@
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
-    <Content Include="web\assets\AlphaTest\Preview.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\AlphaTest\rain_1.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="web\assets\AlphaTest\Preview.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\AlphaTest\rain_1.mp3">
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
@@ -82,6 +80,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>::c:\util\jsc\bin\jsc.exe $(TargetFileName)  -as</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
