@@ -21,7 +21,7 @@ namespace jsc.Languages
 
             xw.Session = new AssamblyTypeInfo();
 
-            sinfo.Logging.LogMessage("loading types");
+            //sinfo.Logging.LogMessage("loading types");
 
             Type[] alltypes = j.LoadTypes(ScriptType.ActionScript);
 

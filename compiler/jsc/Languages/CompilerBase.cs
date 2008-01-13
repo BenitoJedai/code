@@ -1262,7 +1262,7 @@ namespace jsc.Script
 
         public virtual string GetDecoratedMethodParameter(ParameterInfo p)
         {
-            throw new NotSupportedException();
+            return p.Name;
         }
 
         public virtual void WriteDecoratedMethodParameter(ParameterInfo p)

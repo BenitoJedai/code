@@ -877,6 +877,77 @@ namespace jsc.Script
             WriteLine();
         }
 
+        public override void WriteTypeInstanceMethods(Type z, ScriptAttribute za)
+        {
+            MethodInfo[] mx = GetAllInstanceMethods(z);
+            MethodInfo[] mxb = GetAllInstanceMethods(z.BaseType);
+
+            int idx = 0;
+
+            foreach (MethodInfo m in mx)
+            {
+
+
+                ScriptAttribute ma = ScriptAttribute.Of(m);
+
+                bool dStatic = ma != null && ma.DefineAsStatic;
+
+                if (dStatic)
+                {
+                    continue;
+                }
+
+                if (ma != null && (ma.IsNative || ma.ExternalTarget != null))
+                    continue;
+
+                if (ma == null && !m.IsStatic && (za.HasNoPrototype))
+                    continue;
+
+
+                // if overmaps another method in base class and it isnt virtual
+                // issue warning
+
+                if (mxb != null)
+                {
+                    ParameterInfo[] m_params = m.GetParameters();
+
+                    foreach (MethodBase var in mxb)
+                    {
+                        if (var.Name == m.Name)
+                        {
+                            // signatures must match
+
+                            ParameterInfo[] var_params = var.GetParameters();
+
+
+                            if (!var.IsVirtual && !var.IsAbstract && ParameterInfoArrayEquals(m_params, var_params))
+                            {
+                                Break("method overlapps " + m.DeclaringType.FullName + " - " + m.ToString() + " :: " + var.DeclaringType.FullName + " - " + var.ToString());
+                            }
+
+                        }
+                    }
+                }
+
+
+
+                if (idx++ > 0)
+                    WriteLine();
+
+
+                WriteXmlDoc(m);
+                WriteMethodSignature(m, dStatic);
+
+                if (ScriptIsPInvoke(m))
+                {
+                }
+                else if (!m.IsAbstract)
+                    WriteMethodBody(m);
+
+
+            }
+        }
+
         public override void EmitPrestatement(ILBlock.Prestatement p)
         {
             if (p.Instruction.IsLoadInstruction)
@@ -887,5 +958,8 @@ namespace jsc.Script
             EmitInstruction(p, p.Instruction);
             WriteLine(";");
         }
+
+
+        
     }
 }

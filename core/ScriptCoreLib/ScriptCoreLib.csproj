@@ -118,8 +118,12 @@
     <Compile Include="ActionScript\flash\display\Sprite.cs" />
     <Compile Include="ActionScript\flash\events\EventDispatcher.cs" />
     <Compile Include="ActionScript\flash\filters\BitmapFilter.cs" />
+    <Compile Include="ActionScript\flash\filters\BlurFilter.cs" />
     <Compile Include="ActionScript\flash\filters\DropShadowFilter.cs" />
     <Compile Include="ActionScript\flash\media\Camera.cs" />
+    <Compile Include="ActionScript\flash\media\SoundTransform.cs" />
+    <Compile Include="ActionScript\flash\media\Sound.cs" />
+    <Compile Include="ActionScript\flash\media\SoundChannel.cs" />
     <Compile Include="ActionScript\flash\media\Video.cs" />
     <Compile Include="ActionScript\flash\net\URLRequest.cs" />
     <Compile Include="ActionScript\flash\text\TextField.cs" />

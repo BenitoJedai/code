@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>Z:\work\jsc\svn\actionscript\Examples\MyWebCamera\MyWebCamera\bin\Debug</StartWorkingDirectory>
-    <StartArguments>MyWebCamera.dll -as</StartArguments>
+    <StartWorkingDirectory>Z:\work\jsc\svn\actionscript\Examples\MySoundDemo\MySoundDemo\bin\Debug</StartWorkingDirectory>
+    <StartArguments>MySoundDemo.dll -as</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

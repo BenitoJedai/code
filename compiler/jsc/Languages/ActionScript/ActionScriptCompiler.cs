@@ -169,6 +169,7 @@ namespace jsc.Languages.ActionScript
                 if (p == typeof(void)) continue;
                 if (p == typeof(string)) continue;
                 if (p == typeof(int)) continue;
+                if (p == typeof(uint)) continue;
                 if (p == typeof(short)) continue;
                 if (p == typeof(long)) continue;
                 if (p == typeof(float)) continue;
@@ -473,7 +474,7 @@ namespace jsc.Languages.ActionScript
 
                     Emit(e.p, e.FirstOnStack);
                     Write(".");
-                    Write(e.i.TargetField.Name);
+                    WriteSafeLiteral(e.i.TargetField.Name);
 
                 };
 
@@ -486,7 +487,7 @@ namespace jsc.Languages.ActionScript
 
                     Emit(e.p, s[0]);
                     Write(".");
-                    Write(e.i.TargetField.Name);
+                    WriteSafeLiteral(e.i.TargetField.Name);
                     WriteAssignment();
 
                     #region  assign boolean literal
@@ -692,66 +693,60 @@ namespace jsc.Languages.ActionScript
                 e =>
                 {
 
-                    Write("[]");
-
-                    /*
-                      
-                      Write("new ");
                     #region inline newarr
                     if (e.p.IsValidInlineArrayInit)
                     {
-                        WriteDecoratedTypeName(e.i.TargetType);
-                        WriteLine("[]");
+                        WriteLine("[");
                         Ident++;
 
-                        using (CreateScope(false))
+                        ILFlow.StackItem[] _stack = e.p.InlineArrayInitElements;
+
+                        for (int si = 0; si < _stack.Length; si++)
                         {
 
-                            ILFlow.StackItem[] _stack = e.p.InlineArrayInitElements;
 
-                            for (int si = 0; si < _stack.Length; si++)
+                            if (si > 0)
                             {
+                                Write(",");
+                                WriteLine();
+                            }
 
+                            WriteIdent();
 
-                                if (si > 0)
+                            if (_stack[si] == null)
+                            {
+                                if (!e.i.TargetType.IsValueType)
                                 {
-                                    Write(",");
-                                    WriteLine();
-                                }
-
-                                WriteIdent();
-
-                                if (_stack[si] == null)
-                                {
-                                    if (!e.i.TargetType.IsValueType)
-                                    {
-                                        Write("null");
-                                    }
-                                    else
-                                    {
-                                        if (e.i.TargetType == typeof(int))
-                                            Write("0");
-                                        else if (e.i.TargetType == typeof(sbyte))
-                                            Write("0");
-                                        else
-                                            BreakToDebugger("default for " + e.i.TargetType.FullName + " is unknown");
-                                    }
+                                    Write("null");
                                 }
                                 else
                                 {
-                                    Emit(e.p, _stack[si]);
+                                    if (e.i.TargetType == typeof(int))
+                                        Write("0");
+                                    else if (e.i.TargetType == typeof(sbyte))
+                                        Write("0");
+                                    else
+                                        BreakToDebugger("default for " + e.i.TargetType.FullName + " is unknown");
                                 }
-
+                            }
+                            else
+                            {
+                                Emit(e.p, _stack[si]);
                             }
 
-                            WriteLine();
-                        };
+                        }
+
+                        WriteLine();
+
                         Ident--;
+                        WriteIdent();
+                        Write("]");
                     }
                     #endregion
                     else
                     {
-                    
+                        Write("[]");
+                        /*
                     
                         int rank = 0;
                         Type type = e.i.TargetType;
@@ -772,7 +767,8 @@ namespace jsc.Languages.ActionScript
                             Write("[");
                             Write("]");
                         }
-                    }*/
+                         * */
+                    }
                 };
             #endregion
 
@@ -815,6 +811,69 @@ namespace jsc.Languages.ActionScript
                 };
             #endregion
 
+        }
+
+
+        public override void WriteMethodParameterList(MethodBase m)
+        {
+            ParameterInfo[] mp = m.GetParameters();
+
+            ScriptAttribute ma = ScriptAttribute.Of(m);
+
+
+            bool bStatic = (ma != null && ma.DefineAsStatic);
+
+            if (bStatic)
+            {
+                if (m.IsStatic)
+                {
+                    Break("method is already static, but is marked to be declared out of band : " + m.DeclaringType.FullName + "." + m.Name);
+                }
+
+
+                DebugBreak(ma);
+
+
+                ScriptAttribute sa = ScriptAttribute.Of(m.DeclaringType, false);
+
+                if (sa.Implements == null)
+                {
+                    WriteDecoratedTypeName(m.DeclaringType);
+
+                }
+                else
+                {
+                    WriteDecoratedTypeName(sa.Implements);
+                }
+
+                // this parameter is on the argument list
+
+                WriteSpace();
+                WriteSelf();
+            }
+
+            for (int mpi = 0; mpi < mp.Length; mpi++)
+            {
+                if (mpi > 0 || bStatic)
+                {
+                    Write(",");
+                    WriteSpace();
+                }
+
+                ParameterInfo p = mp[mpi];
+
+                ScriptAttribute za = ScriptAttribute.Of(m.DeclaringType, true);
+
+                Write(p.Name);
+                Write(":");
+
+                if (za.Implements == null || m.DeclaringType.GUID != p.ParameterType.GUID)
+                    WriteDecoratedTypeName(p.ParameterType);
+                else
+                    WriteDecoratedTypeName(za.Implements);
+
+
+            }
         }
     }
 }

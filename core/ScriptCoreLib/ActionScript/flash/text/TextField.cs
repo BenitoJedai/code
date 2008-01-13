@@ -34,7 +34,17 @@ namespace ScriptCoreLib.ActionScript.flash.text
         /// <summary>
         /// The color of the text in a text field, in hexadecimal format.
         /// </summary>
-        
         public uint textColor { get; set; }
+
+
+        /// <summary>
+        /// Specifies whether the text field has a background fill.
+        /// </summary>
+        public bool background { get; set; }
+
+        /// <summary>
+        /// The color of the text field background.
+        /// </summary>
+        public uint backgroundColor { get; set; }
     }
 }

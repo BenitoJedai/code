@@ -10,6 +10,21 @@ namespace jsc.Languages.ActionScript
 {
     partial class ActionScriptCompiler
     {
+        // lets use for instead of while where we can
+        public override bool SupportsForStatements
+        {
+            get { return true; }
+        }
+
+        public override bool SupportsInlineAssigments
+        {
+            get { return true; }
+        }
+
+        public override bool SupportsInlineArrayInit
+        {
+            get { return true; }
+        }
 
 
         public override ScriptCoreLib.ScriptType GetScriptType()
@@ -45,8 +60,18 @@ namespace jsc.Languages.ActionScript
 
                 using (CreateScope())
                 {
+                    WriteTypeFields(z, za);
+                    WriteLine();
+
                     WriteTypeInstanceConstructors(z);
                     WriteLine();
+
+                    WriteTypeInstanceMethods(z, za);
+                    WriteLine();
+
+                    WriteTypeStaticMethods(z, za);
+                    WriteLine();
+
                 }
             }
 
@@ -56,7 +81,19 @@ namespace jsc.Languages.ActionScript
         public override void WriteTypeSignature(Type z, ScriptCoreLib.ScriptAttribute za)
         {
             WriteIdent();
-            Write("public class ");
+
+
+            if (z.IsNotPublic)
+                Write("private ");
+
+            if (z.IsPublic)
+                Write("public ");
+
+            if (z.IsSealed)
+                Write("final ");
+
+
+            Write("class ");
             Write(z.Name);
 
             #region extends
@@ -81,35 +118,167 @@ namespace jsc.Languages.ActionScript
             WriteLine();
         }
 
-        public override void WriteTypeFields(Type z, ScriptCoreLib.ScriptAttribute za)
+        public override void WriteTypeFields(Type z, ScriptAttribute za)
         {
-            throw new NotImplementedException();
+            FieldInfo[] zf = GetAllFields(z);
+
+            foreach (FieldInfo zfn in zf)
+            {
+                // external class cannot have static variables inside a type
+                // should be defined outside as global static instead
+                if (za.HasNoPrototype && !zfn.IsStatic)
+                    continue;
+
+                if (zfn.IsLiteral)
+                    continue;
+
+                WriteIdent();
+                WriteTypeFieldModifier(zfn);
+
+                Write("var ");
+                WriteSafeLiteral(zfn.Name);
+                Write(":");
+                WriteDecoratedTypeName(zfn.FieldType);
+                //WriteDecoratedTypeNameOrImplementationTypeName(zfn.FieldType, true, true);
+                //WriteSpace();
+
+                //WriteVariableType(zfn.FieldType, true);
+
+                /*
+                if (zfn.IsStatic && zfn.IsInitOnly)
+                {
+                    ConstructorInfo[] ci = z.GetConstructors(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Public);
+
+                    if (ci.Length == 1)
+                    {
+                        ILBlock cctor = new ILBlock(ci[0]);
+                        ILBlock.Prestatement assign = cctor.GetStaticFieldFinalAssignment(zfn);
+
+                        if (assign != null)
+                        {
+                            WriteAssignment();
+
+                            EmitFirstOnStack(assign);
+                        }
+                    }
+                }
+                */
+
+                WriteLine(";");
+            }
         }
 
-        public override void WriteTypeFieldModifier(System.Reflection.FieldInfo zfn)
+
+        public override void WriteTypeFieldModifier(FieldInfo zfn)
         {
-            throw new NotImplementedException();
+            if (zfn.IsPublic)
+                Write("public ");
+            else
+            {
+                if (zfn.IsFamily)
+                    Write("protected ");
+                else
+                    Write("private ");
+            }
+            /*
+            if (zfn.IsInitOnly)
+                WriteKeywordFinal();
+            */
+            if (zfn.IsStatic)
+                Write("static ");
+
+            /*
+            if (zfn.IsNotSerialized)
+                Write("transient ");
+             * */
         }
 
-        public override void WriteTypeInstanceMethods(Type z, ScriptCoreLib.ScriptAttribute za)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public override void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic)
         {
             WriteIdent();
-            Write("public function ");
+
+            if (m.IsPublic)
+                Write("public ");
+
+            if (m.IsPrivate)
+                Write("private ");
+
+            if (m.IsStatic)
+                Write("static ");
+
+
+            Write("function ");
 
             if (m.IsConstructor)
                 Write(GetDecoratedTypeName(m.DeclaringType, false));
             else
-                throw new NotImplementedException();
+            {
+                var prop = new PropertyDetector(m);
+
+                if (prop.SetProperty != null)
+                {
+                    Write("set ");
+                    Write(prop.SetProperty.Name);
+                }
+                else if (prop.GetProperty != null)
+                {
+                    Write("get ");
+                    Write(prop.GetProperty.Name);
+                }
+                else
+                {
+                    Write(m.Name);
+                }
+            }
 
             Write("(");
+            WriteMethodParameterList(m);
             Write(")");
 
+            var mi = m as MethodInfo;
+
+            if (mi != null)
+            {
+                Write(":");
+                WriteDecoratedTypeName(mi.ReturnType);
+            }
+
             WriteLine();
+        }
+
+        class PropertyDetector
+        {
+            public PropertyInfo SetProperty;
+            public PropertyInfo GetProperty;
+
+            public PropertyDetector(MethodBase m)
+            {
+                if (m.IsConstructor)
+                    return;
+
+                #region set
+                {
+                    var prefix = "set_";
+                    if (m.Name.StartsWith(prefix))
+                    {
+                        SetProperty = m.DeclaringType.GetProperty(m.Name.Substring(prefix.Length));
+                    }
+                }
+                #endregion
+
+                #region set
+                {
+                    var prefix = "get_";
+                    if (m.Name.StartsWith(prefix))
+                    {
+                        GetProperty = m.DeclaringType.GetProperty(m.Name.Substring(prefix.Length));
+                    }
+                }
+                #endregion
+
+            }
         }
 
         public override void WriteMethodCallVerified(ILBlock.Prestatement p, ILInstruction i, System.Reflection.MethodBase m)
@@ -126,6 +295,8 @@ namespace jsc.Languages.ActionScript
                 WriteDecoratedTypeName(m.DeclaringType);
                 Write(".");
                 WriteDecoratedMethodName(m, false);
+
+                offset = 0;
             }
             else
             {
@@ -138,59 +309,47 @@ namespace jsc.Languages.ActionScript
                     Emit(p, s[0]);
                     Write(".");
 
+                    var prop = new PropertyDetector(m);
+
                     #region set
+                    if (prop.SetProperty != null)
                     {
-                        var prefix = "set_";
-                        if (m.Name.StartsWith(prefix))
+
+                        Write(prop.SetProperty.Name);
+                        WriteAssignment();
+
+                        #region bool
+                        if (prop.SetProperty.PropertyType == typeof(bool))
                         {
-                            var property = m.DeclaringType.GetProperty(m.Name.Substring(prefix.Length));
-
-                            if (property != null)
+                            if (s[1].StackInstructions.Length == 1)
                             {
-                                Write(property.Name);
-                                WriteAssignment();
-
-                                #region bool
-                                if (property.PropertyType == typeof(bool))
+                                if (s[1].SingleStackInstruction.TargetInteger == 0)
                                 {
-                                    if (s[1].StackInstructions.Length == 1)
-                                    {
-                                        if (s[1].SingleStackInstruction.TargetInteger == 0)
-                                        {
-                                            Write("false");
-                                            return;
-                                        }
-
-                                        if (s[1].SingleStackInstruction.TargetInteger == 1)
-                                        {
-                                            Write("true");
-                                            return;
-                                        }
-                                    }
+                                    Write("false");
+                                    return;
                                 }
-                                #endregion
 
-                                Emit(p, s[1]);
-                                return;
+                                if (s[1].SingleStackInstruction.TargetInteger == 1)
+                                {
+                                    Write("true");
+                                    return;
+                                }
                             }
                         }
+                        #endregion
+
+                        Emit(p, s[1]);
+                        return;
                     }
                     #endregion
 
                     #region get
+                    if (prop.GetProperty != null)
                     {
-                        var prefix = "get_";
-                        if (m.Name.StartsWith(prefix))
-                        {
-                            var property = m.DeclaringType.GetProperty(m.Name.Substring(prefix.Length));
 
-                            if (property != null)
-                            {
-                                Write(property.Name);
+                        Write(prop.GetProperty.Name);
 
-                                return;
-                            }
-                        }
+                        return;
                     }
                     #endregion
 
@@ -202,10 +361,6 @@ namespace jsc.Languages.ActionScript
 
         }
 
-        public override void WriteMethodParameterList(System.Reflection.MethodBase m)
-        {
-            throw new NotImplementedException();
-        }
 
         public override void WriteSelf()
         {
@@ -250,6 +405,7 @@ namespace jsc.Languages.ActionScript
                 {typeof(int), "int"},
                 {typeof(uint), "uint"},
                 {typeof(double), "Number"},
+                {typeof(void), "void"},
             };
 
             if (dict.ContainsKey(z))
