@@ -110,11 +110,15 @@
     <Compile Include="JavaScript\Runtime\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\Class.cs" />
+    <Compile Include="ActionScript\EmbedAttribute.cs" />
+    <Compile Include="ActionScript\flash\display\Bitmap.cs" />
     <Compile Include="ActionScript\flash\display\DisplayObject.cs" />
     <Compile Include="ActionScript\flash\display\DisplayObjectContainer.cs" />
     <Compile Include="ActionScript\flash\display\Graphics.cs" />
     <Compile Include="ActionScript\flash\display\InteractiveObject.cs" />
     <Compile Include="ActionScript\flash\display\Loader.cs" />
+    <Compile Include="ActionScript\flash\display\MovieClip.cs" />
     <Compile Include="ActionScript\flash\display\Sprite.cs" />
     <Compile Include="ActionScript\flash\events\EventDispatcher.cs" />
     <Compile Include="ActionScript\flash\filters\BitmapFilter.cs" />
@@ -127,6 +131,14 @@
     <Compile Include="ActionScript\flash\media\Video.cs" />
     <Compile Include="ActionScript\flash\net\URLRequest.cs" />
     <Compile Include="ActionScript\flash\text\TextField.cs" />
+    <Compile Include="ActionScript\fl\transitions\Transition.cs" />
+    <Compile Include="ActionScript\fl\transitions\TransitionManager.cs" />
+    <Compile Include="ActionScript\mx\core\BitmapAsset.cs" />
+    <Compile Include="ActionScript\mx\core\FlexBitmap.cs" />
+    <Compile Include="ActionScript\mx\core\IFlexAsset.cs" />
+    <Compile Include="ActionScript\mx\core\IFlexDisplayObject.cs" />
+    <Compile Include="ActionScript\mx\core\SoundAsset.cs" />
+    <Compile Include="ActionScript\mx\effects\Tween.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ArgumentNullException.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Action.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Activator.cs" />
@@ -272,7 +284,7 @@
   <ItemGroup>
     <Folder Include="ActionScript\BCLImplementation\" />
     <Folder Include="ActionScript\Extensions\" />
-    <Folder Include="ActionScript\mx\core\" />
+    <Folder Include="ActionScript\mx\effects\effectClasses\" />
     <Folder Include="Documents\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

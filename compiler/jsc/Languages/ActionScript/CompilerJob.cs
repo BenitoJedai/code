@@ -37,8 +37,14 @@ namespace jsc.Languages
             //DirectoryInfo SourceCompiledDir = TargetDirectory.CreateSubdirectory("release");
             //DirectoryInfo SourceCompiledHeadersDir = TargetDirectory.CreateSubdirectory("headers");
             //DirectoryInfo SourceNativeDir = TargetDirectory.CreateSubdirectory("native");
-            DirectoryInfo SourceBinDir = TargetDirectory.CreateSubdirectory("bin");
+            //DirectoryInfo SourceBinDir = TargetDirectory.CreateSubdirectory("bin");
             DirectoryInfo SourceVersionDir = TargetDirectory.CreateSubdirectory("version");
+
+
+            foreach (Assembly v in SharedHelper.LoadReferencedAssemblies(Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName), true))
+            {
+                Languages.CompilerJob.ExtractEmbeddedResources(TargetDirectory, v);
+            }
 
             #region SourceVersion
             FileInfo SourceVersion = new FileInfo(

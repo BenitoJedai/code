@@ -420,7 +420,7 @@ namespace jsc.Script.PHP
             CIW[OpCodes.Ldstr] =
                 delegate(CodeEmitArgs e)
                 {
-                    WriteLiteral(e.i.TargetLiteral);
+                    WriteQuotedLiteral(e.i.TargetLiteral);
                 };
 
             CIW[OpCodes.Newarr] =

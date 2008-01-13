@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\Assets.cs" />
+    <Compile Include="ActionScript\MySoundDemo2.cs" />
     <Compile Include="ActionScript\MySoundDemo.cs" />
     <Compile Include="ActionScript\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,12 +62,10 @@
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
-    <Content Include="web\assets\MySoundDemo\Preview.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\assets\MySoundDemo\world.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="web\assets\MySoundDemo\Preview.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\MySoundDemo\world.mp3">
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />

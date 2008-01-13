@@ -11,10 +11,16 @@ namespace jsc //.Extensions
 {
     static class Extensions
     {
+        public static T[] GetCustomAttributes<T>(this MemberInfo e)
+            where T : System.Attribute
+        {
+            return (T[])Attribute.GetCustomAttributes(e, typeof(T), false);
+        }
+
         public static T[] GetCustomAttributes<T>(this Assembly e)
             where T : System.Attribute
         {
-            return  (T[])Attribute.GetCustomAttributes(e, typeof(T), false);
+            return (T[])Attribute.GetCustomAttributes(e, typeof(T), false);
         }
 
         public static Dictionary<string, object> GetProperties(this object e)

@@ -330,14 +330,14 @@ namespace jsc.Script
                         {
                             if (ma.ExternalTarget != null)
                             {
-                                this.WriteLiteral(ma.ExternalTarget);
+                                this.WriteQuotedLiteral(ma.ExternalTarget);
 
                                 return true;
 
                             }
                         }
 
-                        this.WriteLiteral(Enum.GetName(type, v.Value));
+                        this.WriteQuotedLiteral(Enum.GetName(type, v.Value));
 
 
                         return true;
@@ -639,7 +639,7 @@ namespace jsc.Script
             Write(")");
         }
 
-        public void WriteLiteral(string e)
+        public void WriteQuotedLiteral(string e)
         {
 
             WriteQuote();
@@ -785,9 +785,9 @@ namespace jsc.Script
 
         public void ConvertTypeAndEmit(CodeEmitArgs e, string x)
         {
-            Write("((" + x + ")");
+            Write("((" + x + ")(");
             EmitFirstOnStack(e);
-            Write(")");
+            Write("))");
         }
 
         public void WriteBlockComment(string Summary)

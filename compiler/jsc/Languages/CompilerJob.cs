@@ -101,6 +101,7 @@ namespace jsc.Languages
             if (j.GetTypeFilterListByType(ScriptType.ActionScript).Any())
                 CompileActionScript(j, sinfo);
 
+
         }
 
 
@@ -125,6 +126,10 @@ namespace jsc.Languages
                 if (_ns.StartsWith(var.NativeNamespaceName))
                 {
                     _ns = var.VirtualNamespaceName + _ns.Substring(var.NativeNamespaceName.Length);
+
+                    if (_ns.StartsWith("."))
+                        _ns = _ns.Substring(1);
+
                     break;
                 }
             }

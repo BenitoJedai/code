@@ -256,7 +256,7 @@ namespace jsc.Languages.C
             CIW[OpCodes.Ldstr] =
                 delegate(CodeEmitArgs e)
                 {
-                    WriteLiteral(e.i.TargetLiteral);
+                    WriteQuotedLiteral(e.i.TargetLiteral);
                 };
             #endregion
 

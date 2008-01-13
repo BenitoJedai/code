@@ -665,7 +665,7 @@ namespace jsc.Languages.Java
             CIW[OpCodes.Ldstr] =
                 e =>
                 {
-                    WriteLiteral(e.i.TargetLiteral);
+                    WriteQuotedLiteral(e.i.TargetLiteral);
                 };
 
 
@@ -1871,6 +1871,7 @@ namespace jsc.Languages.Java
             }
             #endregion
 
+            #region implements
             Type[] timp = z.GetInterfaces();
 
             if (timp.Length > 0)
@@ -1889,6 +1890,7 @@ namespace jsc.Languages.Java
                     WriteDecoratedTypeNameOrImplementationTypeName(timpv);
                 }
             }
+            #endregion
 
             WriteLine();
         }

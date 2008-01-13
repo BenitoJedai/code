@@ -518,7 +518,7 @@ namespace jsc.Languages.ActionScript
             CIW[OpCodes.Ldstr] =
                 e =>
                 {
-                    WriteLiteral(e.i.TargetLiteral);
+                    WriteQuotedLiteral(e.i.TargetLiteral);
                 };
 
 
@@ -811,6 +811,58 @@ namespace jsc.Languages.ActionScript
                 };
             #endregion
 
+            CIW[OpCodes.Castclass] = e => ConvertTypeAndEmit(e, GetDecoratedTypeName(e.i.TargetType, true));
+
+
+            #region Stsfld
+            CIW[OpCodes.Stsfld] =
+               e =>
+               {
+                   try
+                   {
+                       bool _b_skip_classname = false;
+
+                       if (e.Method.IsStatic && e.Method.MemberType == MemberTypes.Constructor)
+                       {
+                           if (e.i.TargetField.IsInitOnly)
+                           {
+                               // javac workaround
+
+                               _b_skip_classname = true;
+                           }
+                       }
+
+                       if (!_b_skip_classname)
+                       {
+                           WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
+                           Write(".");
+                       }
+
+                       Write(e.i.TargetField.Name);
+                       WriteAssignment();
+
+                       if (EmitEnumAsStringSafe(e))
+                           return;
+
+                       Emit(e.p, e.FirstOnStack);
+                   }
+                   catch (Exception exc)
+                   {
+                       throw exc;
+                   }
+               };
+            #endregion
+
+
+            CIW[OpCodes.Ldsfld] =
+                e =>
+                {
+                    ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+
+                    WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
+                    Write(".");
+                    Write(e.i.TargetField.Name);
+                };
         }
 
 

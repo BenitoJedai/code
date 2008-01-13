@@ -83,11 +83,11 @@ namespace jsc.Languages.ActionScript
             WriteIdent();
 
 
-            if (z.IsNotPublic)
-                Write("private ");
 
             if (z.IsPublic)
                 Write("public ");
+            else
+                Write("internal ");
 
             if (z.IsSealed)
                 Write("final ");
@@ -115,6 +115,28 @@ namespace jsc.Languages.ActionScript
             }
             #endregion
 
+            #region implements
+            Type[] timp = z.GetInterfaces();
+
+            if (timp.Length > 0)
+            {
+                Write(" implements ");
+
+                int i = 0;
+
+                DebugBreak(za);
+
+                foreach (Type timpv in timp)
+                {
+                    if (i++ > 0)
+                        Write(", ");
+
+                    WriteDecoratedTypeName(timpv);
+                    //WriteDecoratedTypeNameOrImplementationTypeName(timpv);
+                }
+            }
+            #endregion
+
             WriteLine();
         }
 
@@ -131,6 +153,45 @@ namespace jsc.Languages.ActionScript
 
                 if (zfn.IsLiteral)
                     continue;
+
+                // write the attributes for current field
+                foreach (var v in from i in zfn.GetCustomAttributes(false)
+                                  let type = i.GetType()
+                                  let meta = ScriptAttribute.Of(type)
+                                  where meta != null
+                                  let name = type.Name.Substring(0, type.Name.Length - "Attribute".Length)
+                                  let fields = type.GetFields()
+                                  select new { name, type, i, meta, fields })
+                {
+                    WriteIdent();
+                    Write("[");
+                    WriteSafeLiteral(v.name);
+                    Write("(");
+
+                    v.fields.Aggregate("",
+                        (seed, f) =>
+                        {
+                            Write(seed);
+
+                            Write(f.Name);
+                            WriteAssignment();
+
+                            if (f.FieldType == typeof(string))
+                            {
+                                WriteQuotedLiteral((string)f.GetValue(v.i));
+                            }
+                            else
+                                throw new NotImplementedException();
+
+                            return ", ";
+                        }
+                    );
+
+
+                    Write(")");
+                    Write("]");
+                    WriteLine();
+                }
 
                 WriteIdent();
                 WriteTypeFieldModifier(zfn);
@@ -294,27 +355,14 @@ namespace jsc.Languages.ActionScript
             {
                 WriteDecoratedTypeName(m.DeclaringType);
                 Write(".");
-                WriteDecoratedMethodName(m, false);
 
-                offset = 0;
-            }
-            else
-            {
-                if (IsBaseConstructorCall)
-                {
-                    Write("super");
-                }
-                else
-                {
-                    Emit(p, s[0]);
-                    Write(".");
 
+                #region prop
+                {
                     var prop = new PropertyDetector(m);
 
-                    #region set
                     if (prop.SetProperty != null)
                     {
-
                         Write(prop.SetProperty.Name);
                         WriteAssignment();
 
@@ -341,15 +389,69 @@ namespace jsc.Languages.ActionScript
                         Emit(p, s[1]);
                         return;
                     }
-                    #endregion
 
-                    #region get
                     if (prop.GetProperty != null)
                     {
-
                         Write(prop.GetProperty.Name);
-
                         return;
+                    }
+                }
+                #endregion
+
+                WriteDecoratedMethodName(m, false);
+
+                offset = 0;
+            }
+            else
+            {
+                if (IsBaseConstructorCall)
+                {
+                    Write("super");
+                }
+                else
+                {
+                    Emit(p, s[0]);
+                    Write(".");
+
+
+                    #region prop
+                    {
+                        var prop = new PropertyDetector(m);
+
+                        if (prop.SetProperty != null)
+                        {
+                            Write(prop.SetProperty.Name);
+                            WriteAssignment();
+
+                            #region bool
+                            if (prop.SetProperty.PropertyType == typeof(bool))
+                            {
+                                if (s[1].StackInstructions.Length == 1)
+                                {
+                                    if (s[1].SingleStackInstruction.TargetInteger == 0)
+                                    {
+                                        Write("false");
+                                        return;
+                                    }
+
+                                    if (s[1].SingleStackInstruction.TargetInteger == 1)
+                                    {
+                                        Write("true");
+                                        return;
+                                    }
+                                }
+                            }
+                            #endregion
+
+                            Emit(p, s[1]);
+                            return;
+                        }
+
+                        if (prop.GetProperty != null)
+                        {
+                            Write(prop.GetProperty.Name);
+                            return;
+                        }
                     }
                     #endregion
 
@@ -358,7 +460,6 @@ namespace jsc.Languages.ActionScript
             }
 
             WriteParameterInfoFromStack(m, p, s, offset);
-
         }
 
 
@@ -420,6 +521,7 @@ namespace jsc.Languages.ActionScript
 
             return GetDecoratedTypeName(z, false);
         }
+
 
         public override void WriteDecoratedMethodName(System.Reflection.MethodBase z, bool q)
         {

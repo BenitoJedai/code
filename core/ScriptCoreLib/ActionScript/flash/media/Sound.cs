@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.ActionScript.flash.net;
+using ScriptCoreLib.ActionScript.flash.events;
 
 namespace ScriptCoreLib.ActionScript.flash.media
 {
     [Script(IsNative = true)]
-    public class Sound
+    public class Sound : EventDispatcher
     {
         public Sound()
         {

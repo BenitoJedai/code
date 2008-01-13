@@ -70,3 +70,5 @@ version history:
 	jsc: fixed reference sorting
 11.01.2008
 	jsc: starting actionscript 3 support development
+13.01.2008
+	actionscript: added support for properties

@@ -44,8 +44,7 @@ using ScriptCoreLib;
     ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
 
     // some namespace mangling
-    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript.flash", VirtualNamespaceName = "flash"),
-    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript.mx", VirtualNamespaceName = "mx")
+    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
 ]
 
 [assembly: ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript")]
