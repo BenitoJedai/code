@@ -26,6 +26,10 @@ namespace jsc.Languages.ActionScript
             get { return true; }
         }
 
+        public override bool SupportsInlineThisReference
+        {
+            get { return true; }
+        }
 
         public override ScriptCoreLib.ScriptType GetScriptType()
         {
@@ -60,17 +64,24 @@ namespace jsc.Languages.ActionScript
 
                 using (CreateScope())
                 {
-                    WriteTypeFields(z, za);
-                    WriteLine();
+                    if (z.IsDelegate())
+                    {
 
-                    WriteTypeInstanceConstructors(z);
-                    WriteLine();
+                    }
+                    else
+                    {
+                        WriteTypeFields(z, za);
+                        WriteLine();
 
-                    WriteTypeInstanceMethods(z, za);
-                    WriteLine();
+                        WriteTypeInstanceConstructors(z);
+                        WriteLine();
 
-                    WriteTypeStaticMethods(z, za);
-                    WriteLine();
+                        WriteTypeInstanceMethods(z, za);
+                        WriteLine();
+
+                        WriteTypeStaticMethods(z, za);
+                        WriteLine();
+                    }
 
                 }
             }
@@ -82,12 +93,19 @@ namespace jsc.Languages.ActionScript
         {
             WriteIdent();
 
+            if (za.Implements != null)
+            {
+                // private for developers but public for the runtime
 
-
-            if (z.IsPublic)
                 Write("public ");
+            }
             else
-                Write("internal ");
+            {
+                if (z.IsPublic)
+                    Write("public ");
+                else
+                    Write("internal ");
+            }
 
             if (z.IsSealed)
                 Write("final ");
@@ -96,21 +114,25 @@ namespace jsc.Languages.ActionScript
             Write("class ");
             Write(z.Name);
 
+            var BaseTypeImplementation = MySession.ResolveImplementation(z.BaseType) ?? z.BaseType;
+
             #region extends
-            if (z.BaseType != typeof(object) && z.BaseType != null)
+            if (BaseTypeImplementation != typeof(object) && BaseTypeImplementation != null)
             {
                 Write(" extends ");
 
-                ScriptAttribute ba = ScriptAttribute.Of(z.BaseType, true);
+
+
+                ScriptAttribute ba = ScriptAttribute.Of(BaseTypeImplementation, true);
 
                 if (ba == null)
                     throw new NotSupportedException("extending object has no attribute");
 
 
                 if (ba.Implements == null)
-                    WriteDecoratedTypeName(z.BaseType);
+                    WriteDecoratedTypeName(BaseTypeImplementation);
                 else
-                    Write(GetDecoratedTypeName(z.BaseType, false));
+                    Write(GetDecoratedTypeName(BaseTypeImplementation, false));
 
             }
             #endregion
@@ -199,7 +221,12 @@ namespace jsc.Languages.ActionScript
                 Write("var ");
                 WriteSafeLiteral(zfn.Name);
                 Write(":");
-                WriteDecoratedTypeName(zfn.FieldType);
+                
+                if (zfn.FieldType.IsGenericParameter)
+                    Write("*");
+                else
+                    WriteDecoratedTypeName(zfn.FieldType);
+
                 //WriteDecoratedTypeNameOrImplementationTypeName(zfn.FieldType, true, true);
                 //WriteSpace();
 
@@ -258,15 +285,19 @@ namespace jsc.Languages.ActionScript
 
         public override void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic)
         {
+            var TypeScriptAttribute = m.DeclaringType.ToScriptAttribute();
+
+            var IsNativeTarget = TypeScriptAttribute != null && TypeScriptAttribute.IsNative;
+
             WriteIdent();
 
             if (m.IsPublic)
                 Write("public ");
-
-            if (m.IsPrivate)
+            else
                 Write("private ");
 
-            if (m.IsStatic)
+
+            if (m.IsStatic || dStatic)
                 Write("static ");
 
 
@@ -278,19 +309,23 @@ namespace jsc.Languages.ActionScript
             {
                 var prop = new PropertyDetector(m);
 
-                if (prop.SetProperty != null)
+                if (!dStatic && prop.SetProperty != null)
                 {
                     Write("set ");
                     Write(prop.SetProperty.Name);
                 }
-                else if (prop.GetProperty != null)
+                else if (!dStatic && prop.GetProperty != null)
                 {
                     Write("get ");
                     Write(prop.GetProperty.Name);
                 }
-                else
+                else if (IsNativeTarget)
                 {
                     Write(m.Name);
+                }
+                else
+                {
+                    WriteDecoratedMethodName(m, false);
                 }
             }
 
@@ -298,6 +333,7 @@ namespace jsc.Languages.ActionScript
             WriteMethodParameterList(m);
             Write(")");
 
+            #region ReturnType
             var mi = m as MethodInfo;
 
             if (mi != null)
@@ -305,6 +341,8 @@ namespace jsc.Languages.ActionScript
                 Write(":");
                 WriteDecoratedTypeName(mi.ReturnType);
             }
+            #endregion
+
 
             WriteLine();
         }
@@ -345,48 +383,72 @@ namespace jsc.Languages.ActionScript
         public override void WriteMethodCallVerified(ILBlock.Prestatement p, ILInstruction i, System.Reflection.MethodBase m)
         {
             // remove the base call for now
+            var TypeScriptAttribute = m.DeclaringType.ToScriptAttribute();
+            var MethodScriptAttribute = m.ToScriptAttribute();
+            var IsDefineAsStatic = MethodScriptAttribute != null && MethodScriptAttribute.DefineAsStatic;
+
+            Action WriteMethodName =
+                delegate
+                {
+                    if (TypeScriptAttribute.IsNative)
+                        Write(m.Name);
+                    else
+                        WriteDecoratedMethodName(m, false);
+                };
 
             var IsBaseConstructorCall = i.IsBaseConstructorCall(m);
 
             var s = i.StackBeforeStrict;
             var offset = 1;
 
-            if (m.IsStatic)
+            #region WritePropertyAssignment
+            Action<PropertyDetector> WritePropertyAssignment =
+                prop =>
+                {
+                    WriteAssignment();
+
+                    #region bool
+                    if (prop.SetProperty.PropertyType == typeof(bool))
+                    {
+                        if (s[1].StackInstructions.Length == 1)
+                        {
+                            if (s[1].SingleStackInstruction.TargetInteger == 0)
+                            {
+                                Write("false");
+                                return;
+                            }
+
+                            if (s[1].SingleStackInstruction.TargetInteger == 1)
+                            {
+                                Write("true");
+                                return;
+                            }
+                        }
+                    }
+                    #endregion
+
+                    Emit(p, s[1]);
+                };
+            #endregion
+
+
+
+
+            if (m.IsStatic || IsDefineAsStatic)
             {
                 WriteDecoratedTypeName(m.DeclaringType);
                 Write(".");
 
-
                 #region prop
+                if (!IsDefineAsStatic)
                 {
                     var prop = new PropertyDetector(m);
 
                     if (prop.SetProperty != null)
                     {
                         Write(prop.SetProperty.Name);
-                        WriteAssignment();
+                        WritePropertyAssignment(prop);
 
-                        #region bool
-                        if (prop.SetProperty.PropertyType == typeof(bool))
-                        {
-                            if (s[1].StackInstructions.Length == 1)
-                            {
-                                if (s[1].SingleStackInstruction.TargetInteger == 0)
-                                {
-                                    Write("false");
-                                    return;
-                                }
-
-                                if (s[1].SingleStackInstruction.TargetInteger == 1)
-                                {
-                                    Write("true");
-                                    return;
-                                }
-                            }
-                        }
-                        #endregion
-
-                        Emit(p, s[1]);
                         return;
                     }
 
@@ -398,9 +460,12 @@ namespace jsc.Languages.ActionScript
                 }
                 #endregion
 
-                WriteDecoratedMethodName(m, false);
+                WriteMethodName();
 
-                offset = 0;
+                if (IsDefineAsStatic)
+                    offset = 1;
+                else
+                    offset = 0;
             }
             else
             {
@@ -421,29 +486,7 @@ namespace jsc.Languages.ActionScript
                         if (prop.SetProperty != null)
                         {
                             Write(prop.SetProperty.Name);
-                            WriteAssignment();
-
-                            #region bool
-                            if (prop.SetProperty.PropertyType == typeof(bool))
-                            {
-                                if (s[1].StackInstructions.Length == 1)
-                                {
-                                    if (s[1].SingleStackInstruction.TargetInteger == 0)
-                                    {
-                                        Write("false");
-                                        return;
-                                    }
-
-                                    if (s[1].SingleStackInstruction.TargetInteger == 1)
-                                    {
-                                        Write("true");
-                                        return;
-                                    }
-                                }
-                            }
-                            #endregion
-
-                            Emit(p, s[1]);
+                            WritePropertyAssignment(prop);
                             return;
                         }
 
@@ -455,7 +498,7 @@ namespace jsc.Languages.ActionScript
                     }
                     #endregion
 
-                    WriteDecoratedMethodName(m, false);
+                    WriteMethodName();
                 }
             }
 
@@ -465,7 +508,7 @@ namespace jsc.Languages.ActionScript
 
         public override void WriteSelf()
         {
-            Write("this");
+            Write("_this");
         }
 
 
@@ -477,12 +520,12 @@ namespace jsc.Languages.ActionScript
 
         public override System.Reflection.MethodBase ResolveImplementationMethod(Type t, System.Reflection.MethodBase m)
         {
-            throw new NotImplementedException();
+            return MySession.ResolveImplementation(t, m);
         }
 
         public override System.Reflection.MethodBase ResolveImplementationMethod(Type t, System.Reflection.MethodBase m, string alias)
         {
-            throw new NotImplementedException();
+            return MySession.ResolveMethod(m, t, alias);
         }
 
         public override void WriteTypeConstructionVerified()
@@ -495,22 +538,25 @@ namespace jsc.Languages.ActionScript
             throw new NotImplementedException();
         }
 
+        Dictionary<Type, string> NativeTypes =
+            new Dictionary<Type, string>
+            {
+                {typeof(int), "int"},
+                {typeof(uint), "uint"},
+                {typeof(double), "Number"},
+                {typeof(void), "void"},
+                {typeof(string), "String"},
+            };
+
         public override string GetDecoratedTypeName(Type z, bool bExternalAllowed)
         {
             if (z.IsArray)
                 return "Array";
 
             // convert c# type to actionscript typename literal
-            var dict = new Dictionary<Type, string>
-            {
-                {typeof(int), "int"},
-                {typeof(uint), "uint"},
-                {typeof(double), "Number"},
-                {typeof(void), "void"},
-            };
 
-            if (dict.ContainsKey(z))
-                return dict[z];
+            if (NativeTypes.ContainsKey(z))
+                return NativeTypes[z];
 
             return z.Name;
         }
@@ -528,7 +574,14 @@ namespace jsc.Languages.ActionScript
             if (q)
                 throw new NotImplementedException();
 
-            Write(z.Name);
+            if (z.Name == "ToString" && z.GetParameters().Length == 0)
+            {
+                Write("toString");
+                return;
+            }
+
+            // todo: should use base62 encoding here
+            Write(z.Name + "_" + z.MetadataToken);
         }
 
         public override void WriteLocalVariableDefinition(LocalVariableInfo v, MethodBase u)
@@ -538,9 +591,39 @@ namespace jsc.Languages.ActionScript
             Write("var ");
             WriteVariableName(u.DeclaringType, u, v);
             Write(":");
-            WriteDecoratedTypeName(v.LocalType);
-            //WriteDecoratedTypeNameOrImplementationTypeName(v.LocalType, true, true);
+            //WriteDecoratedTypeName(v.LocalType);
+            WriteDecoratedTypeNameOrImplementationTypeName(v.LocalType/*, true, true*/);
             WriteLine(";");
+        }
+
+        private void WriteDecoratedTypeNameOrImplementationTypeName(Type timpv/*, bool favorPrimitives, bool favorTargetType*/)
+        {
+            //[Script(Implements = typeof(global::System.Boolean),
+            //    ImplementationType=typeof(java.lang.Integer))]
+
+            if (NativeTypes.ContainsKey(timpv))
+            {
+                // write native
+                Write(NativeTypes[timpv]);
+                return;
+            }
+
+            Type iType = MySession.ResolveImplementation(timpv);
+
+            if (iType != null)
+            {
+                /*
+                if (favorTargetType)
+                {
+                    if (ScriptAttribute.OfProvider(iType).ImplementationType != null)
+                        iType = null;
+                }*/
+            }
+
+            if (iType == null)
+                Write(GetDecoratedTypeName(timpv, true/*, favorPrimitives, true*/));
+            else
+                Write(GetDecoratedTypeName(iType, true));
         }
     }
 }

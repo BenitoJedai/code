@@ -5,13 +5,20 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.flash.display
 {
-    // http://livedocs.adobe.com/flex/2/langref/flash/display/DisplayObjectContainer.html
+    // http://livedocs.adobe.com/flex/201/langref/flash/display/DisplayObjectContainer.html
     [Script(IsNative = true)]
     public class DisplayObjectContainer : InteractiveObject
     {
-        public T addChild<T>(T child)  where T : DisplayObject
+        
+
+        /// <summary>
+        /// Adds a child DisplayObject instance to this DisplayObjectContainer instance.
+        /// </summary>
+        /// <param name="child"></param>
+        /// <returns></returns>
+        public DisplayObject addChild(DisplayObject child)
         {
-            return default(T);
+            return default(DisplayObject);
         }
     }
 }

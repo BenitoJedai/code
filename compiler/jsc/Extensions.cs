@@ -6,11 +6,32 @@ using System.Reflection;
 using System.IO;
 using System.Xml.Serialization;
 using System.Xml;
+using ScriptCoreLib;
 
 namespace jsc //.Extensions
 {
     static class Extensions
     {
+        public static ScriptAttribute ToScriptAttribute(this ICustomAttributeProvider p)
+        {
+            return ScriptAttribute.OfProvider(p);
+        }
+
+        public static bool IsDelegate(this Type z)
+        {
+            return z.BaseType == typeof(MulticastDelegate);
+        }
+
+        public static bool IsOverloaded(this MethodBase m)
+        {
+            if (m is MethodInfo)
+            {
+                return m.DeclaringType.GetMethods().Count(i => i.Name == m.Name) > 1;
+            }
+
+            return false;
+        }
+
         public static T[] GetCustomAttributes<T>(this MemberInfo e)
             where T : System.Attribute
         {

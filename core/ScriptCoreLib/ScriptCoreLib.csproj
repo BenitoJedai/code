@@ -110,8 +110,17 @@
     <Compile Include="JavaScript\Runtime\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\BCLImplementation\System\Action.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\MulticastDelegate.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Delegate.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Object.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\String.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Text\StringBuilder.cs" />
     <Compile Include="ActionScript\Class.cs" />
     <Compile Include="ActionScript\EmbedAttribute.cs" />
+    <Compile Include="ActionScript\Extensions\CommonExtensions.cs" />
+    <Compile Include="ActionScript\Extensions\flash\display\DisplayObject.cs" />
+    <Compile Include="ActionScript\Extensions\flash\text\TextField.cs" />
     <Compile Include="ActionScript\flash\display\Bitmap.cs" />
     <Compile Include="ActionScript\flash\display\DisplayObject.cs" />
     <Compile Include="ActionScript\flash\display\DisplayObjectContainer.cs" />
@@ -120,6 +129,9 @@
     <Compile Include="ActionScript\flash\display\Loader.cs" />
     <Compile Include="ActionScript\flash\display\MovieClip.cs" />
     <Compile Include="ActionScript\flash\display\Sprite.cs" />
+    <Compile Include="ActionScript\flash\display\Stage.cs" />
+    <Compile Include="ActionScript\flash\display\StageDisplayState.cs" />
+    <Compile Include="ActionScript\flash\events\Event.cs" />
     <Compile Include="ActionScript\flash\events\EventDispatcher.cs" />
     <Compile Include="ActionScript\flash\filters\BitmapFilter.cs" />
     <Compile Include="ActionScript\flash\filters\BlurFilter.cs" />
@@ -133,6 +145,8 @@
     <Compile Include="ActionScript\flash\text\TextField.cs" />
     <Compile Include="ActionScript\fl\transitions\Transition.cs" />
     <Compile Include="ActionScript\fl\transitions\TransitionManager.cs" />
+    <Compile Include="ActionScript\Function.cs" />
+    <Compile Include="ActionScript\mx\controls\Alert.cs" />
     <Compile Include="ActionScript\mx\core\BitmapAsset.cs" />
     <Compile Include="ActionScript\mx\core\FlexBitmap.cs" />
     <Compile Include="ActionScript\mx\core\IFlexAsset.cs" />
@@ -282,8 +296,6 @@
     <EmbeddedResource Include="web\external\ActiveXConsole.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ActionScript\BCLImplementation\" />
-    <Folder Include="ActionScript\Extensions\" />
     <Folder Include="ActionScript\mx\effects\effectClasses\" />
     <Folder Include="Documents\" />
   </ItemGroup>

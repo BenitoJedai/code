@@ -104,7 +104,8 @@ namespace jsc.Languages.ActionScript
             foreach (Type tinterface in tinterfaces)
                 imp.Add(tinterface);
 
-
+            if (t.BaseType == typeof(MulticastDelegate))
+                return imp_types;
 
             /*
             Type bp = t.BaseType;
@@ -671,17 +672,19 @@ namespace jsc.Languages.ActionScript
             #endregion
 
             #region conv
-            CIW[OpCodes.Conv_I1] = e => ConvertTypeAndEmit(e, "byte");
-            CIW[OpCodes.Conv_U2] = e => ConvertTypeAndEmit(e, "char");
+
+            // not supported
+            // CIW[OpCodes.Conv_I1] = e => ConvertTypeAndEmit(e, "byte");
+            // CIW[OpCodes.Conv_U2] = e => ConvertTypeAndEmit(e, "char");
             CIW[OpCodes.Conv_I4] = e => ConvertTypeAndEmit(e, "int");
 
-            CIW[OpCodes.Conv_I8] = e => ConvertTypeAndEmit(e, "long");
-            CIW[OpCodes.Conv_U8] = e => ConvertTypeAndEmit(e, "long");
+            // CIW[OpCodes.Conv_I8] = e => ConvertTypeAndEmit(e, "long");
+            // CIW[OpCodes.Conv_U8] = e => ConvertTypeAndEmit(e, "long");
 
             CIW[OpCodes.Conv_R4] = e => ConvertTypeAndEmit(e, "float");
             CIW[OpCodes.Conv_R8] = e => ConvertTypeAndEmit(e, "Number");
 
-            CIW[OpCodes.Conv_U1] = e => ConvertTypeAndEmit(e, "byte");
+            // CIW[OpCodes.Conv_U1] = e => ConvertTypeAndEmit(e, "byte");
             CIW[OpCodes.Conv_Ovf_I] = e => ConvertTypeAndEmit(e, "int");
             #endregion
 
@@ -863,6 +866,22 @@ namespace jsc.Languages.ActionScript
                     Write(".");
                     Write(e.i.TargetField.Name);
                 };
+
+
+            CIW[OpCodes.Dup] = e => EmitFirstOnStack(e);
+
+            CIW[OpCodes.Box] =
+                e =>
+                {
+                    Write("new ");
+                    Write(GetDecoratedTypeName(e.i.TargetType, true));
+                    Write("(");
+
+                    EmitFirstOnStack(e);
+
+                    Write(")");
+                };
+
         }
 
 
@@ -870,7 +889,7 @@ namespace jsc.Languages.ActionScript
         {
             ParameterInfo[] mp = m.GetParameters();
 
-            ScriptAttribute ma = ScriptAttribute.Of(m);
+            var ma = m.ToScriptAttribute();
 
 
             bool bStatic = (ma != null && ma.DefineAsStatic);
@@ -885,8 +904,11 @@ namespace jsc.Languages.ActionScript
 
                 DebugBreak(ma);
 
+                // cannot use 'this' on arguments as it is a keyword
+                WriteSelf();
+                Write(":");
 
-                ScriptAttribute sa = ScriptAttribute.Of(m.DeclaringType, false);
+                var sa = ScriptAttribute.Of(m.DeclaringType, false);
 
                 if (sa.Implements == null)
                 {
@@ -897,11 +919,6 @@ namespace jsc.Languages.ActionScript
                 {
                     WriteDecoratedTypeName(sa.Implements);
                 }
-
-                // this parameter is on the argument list
-
-                WriteSpace();
-                WriteSelf();
             }
 
             for (int mpi = 0; mpi < mp.Length; mpi++)

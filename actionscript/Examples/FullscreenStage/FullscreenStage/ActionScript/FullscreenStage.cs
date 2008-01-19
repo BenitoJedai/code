@@ -8,6 +8,12 @@ using System.Text;
 
 namespace FullscreenStage.ActionScript
 {
+    [Script]
+    class GenericType<T>
+    {
+        public T Value;
+    }
+
     /// <summary>
     /// testing...
     /// </summary>
@@ -79,11 +85,15 @@ namespace FullscreenStage.ActionScript
                     }
                 );
 
+            
 
             var w = new StringBuilder();
 
-            w.AppendLine("hello world 1");
-            w.AppendLine("hello world 2");
+            var g_int = new GenericType<int> { Value = 7 };
+            var g_string = new GenericType<string> { Value = "hey" };
+
+            w.AppendLine("hello world 1" + g_int.Value);
+            w.AppendLine("hello world 2" + g_string.Value);
 
             Write(w.ToString());
             Write(">>> " + w);

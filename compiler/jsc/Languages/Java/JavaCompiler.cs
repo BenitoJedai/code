@@ -804,7 +804,7 @@ namespace jsc.Languages.Java
 
         public override MethodBase ResolveImplementationMethod(Type t, MethodBase m)
         {
-            return MySession.ResolveImplementation(t, m); ;
+            return MySession.ResolveImplementation(t, m);
         }
 
         public override MethodBase ResolveImplementationMethod(Type t, MethodBase m, string alias)

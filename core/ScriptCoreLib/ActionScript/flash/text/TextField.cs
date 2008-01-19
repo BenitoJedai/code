@@ -4,13 +4,18 @@ using System.Linq;
 using System.Text;
 
 using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.events;
 
 namespace ScriptCoreLib.ActionScript.flash.text
 {
-    // http://livedocs.adobe.com/flex/2/langref/flash/text/TextField.html
+    // http://livedocs.adobe.com/flex/201/langref/flash/text/TextField.html
     [Script(IsNative = true)]
     public class TextField : InteractiveObject
     {
+        [Script(NotImplementedHere = true)]
+        public event Action<Event> change;
+
+
         /// <summary>
         /// Contains the HTML representation of the text field's contents.
         /// </summary>
@@ -46,5 +51,10 @@ namespace ScriptCoreLib.ActionScript.flash.text
         /// The color of the text field background.
         /// </summary>
         public uint backgroundColor { get; set; }
+
+        /// <summary>
+        /// Indicates whether the text field is a multiline text field.
+        /// </summary>
+        public bool multiline { get; set; }
     }
 }

@@ -2,14 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.filters;
+using ScriptCoreLib.ActionScript.flash.events;
 
 namespace ScriptCoreLib.ActionScript.flash.display
 {
-    // http://livedocs.adobe.com/flex/2/langref/flash/display/DisplayObject.html
+    // http://livedocs.adobe.com/flex/201/langref/flash/display/DisplayObject.html
     [Script(IsNative = true)]
-    public class DisplayObject
+    public class DisplayObject : EventDispatcher
     {
+        // todo: implement
+
+        [Script(NotImplementedHere = true)]
+        public event Action<Event> added;
+
+        /*
+        public event Action<Event> addedToStage;
+        public event Action<Event> removed;
+        public event Action<Event> removedFromStage;
+        public event Action<Event> render;
+        */
+
         /// <summary>
         /// An indexed array that contains each filter object currently associated with the display object.
         /// </summary>
@@ -49,5 +64,8 @@ namespace ScriptCoreLib.ActionScript.flash.display
         /// Indicates the height of the display object, in pixels.
         /// </summary>
         public double height { get; set; }
+
+        //The Stage of the display object.
+        public Stage stage { get; private set; }
     }
 }

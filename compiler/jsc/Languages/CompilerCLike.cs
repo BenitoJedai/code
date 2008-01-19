@@ -785,7 +785,7 @@ namespace jsc.Script
 
         public void ConvertTypeAndEmit(CodeEmitArgs e, string x)
         {
-            Write("((" + x + ")(");
+            Write("(" + x + "(");
             EmitFirstOnStack(e);
             Write("))");
         }
