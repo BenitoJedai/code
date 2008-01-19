@@ -112,9 +112,11 @@ namespace jsc.Languages.ActionScript
 
 
             Write("class ");
-            Write(z.Name);
+            WriteSafeLiteral(z.Name);
 
-            var BaseTypeImplementation = MySession.ResolveImplementation(z.BaseType) ?? z.BaseType;
+            var BaseTypeImplementation = 
+                z.BaseType == typeof(object) ? z.BaseType :
+                MySession.ResolveImplementation(z.BaseType) ?? z.BaseType;
 
             #region extends
             if (BaseTypeImplementation != typeof(object) && BaseTypeImplementation != null)
@@ -221,11 +223,7 @@ namespace jsc.Languages.ActionScript
                 Write("var ");
                 WriteSafeLiteral(zfn.Name);
                 Write(":");
-                
-                if (zfn.FieldType.IsGenericParameter)
-                    Write("*");
-                else
-                    WriteDecoratedTypeName(zfn.FieldType);
+                WriteGenericOrDecoratedTypeName(zfn.FieldType);
 
                 //WriteDecoratedTypeNameOrImplementationTypeName(zfn.FieldType, true, true);
                 //WriteSpace();
@@ -254,6 +252,14 @@ namespace jsc.Languages.ActionScript
 
                 WriteLine(";");
             }
+        }
+
+        private void WriteGenericOrDecoratedTypeName(Type TargetType)
+        {
+            if (TargetType.IsGenericParameter)
+                Write("*");
+            else
+                WriteDecoratedTypeName(TargetType);
         }
 
 
@@ -558,7 +564,8 @@ namespace jsc.Languages.ActionScript
             if (NativeTypes.ContainsKey(z))
                 return NativeTypes[z];
 
-            return z.Name;
+
+            return GetSafeLiteral(z.Name);
         }
 
         public override string GetDecoratedTypeNameWithinNestedName(Type z)
@@ -572,16 +579,26 @@ namespace jsc.Languages.ActionScript
         public override void WriteDecoratedMethodName(System.Reflection.MethodBase z, bool q)
         {
             if (q)
-                throw new NotImplementedException();
+                WriteQuote();
 
-            if (z.Name == "ToString" && z.GetParameters().Length == 0)
+            try
             {
-                Write("toString");
-                return;
-            }
+                // tostring is a special method
+                if (z.Name == "ToString" && z.GetParameters().Length == 0)
+                {
+                    Write("toString");
+                    return;
+                }
 
-            // todo: should use base62 encoding here
-            Write(z.Name + "_" + z.MetadataToken);
+                // todo: should use base62 encoding here
+                Write(z.Name + "_" + z.MetadataToken);
+
+            }
+            finally
+            {
+                if (q)
+                    WriteQuote();
+            }
         }
 
         public override void WriteLocalVariableDefinition(LocalVariableInfo v, MethodBase u)
@@ -621,9 +638,9 @@ namespace jsc.Languages.ActionScript
             }
 
             if (iType == null)
-                Write(GetDecoratedTypeName(timpv, true/*, favorPrimitives, true*/));
+                WriteSafeLiteral(GetDecoratedTypeName(timpv, true/*, favorPrimitives, true*/));
             else
-                Write(GetDecoratedTypeName(iType, true));
+                WriteSafeLiteral(GetDecoratedTypeName(iType, true));
         }
     }
 }

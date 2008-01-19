@@ -1507,20 +1507,29 @@ namespace jsc.Script
         }
 
 
-        public void WriteSafeLiteral(string z)
+        public string GetSafeLiteral(string z)
         {
+            var w = new StringWriter();
+
             foreach (char x in z)
             {
 
                 if (char.IsLetter(x) || char.IsNumber(x))
                 {
-                    this.Write(x);
+                    w.Write(x);
                 }
                 else
                 {
-                    this.Write("_");
+                    w.Write("_");
                 }
             }
+
+            return w.ToString();
+        }
+
+        public void WriteSafeLiteral(string z)
+        {
+            this.Write(GetSafeLiteral(z));
         }
 
         protected XmlNode GetXMLNode(Type e)

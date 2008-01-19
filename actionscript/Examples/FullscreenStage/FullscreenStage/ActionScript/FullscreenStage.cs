@@ -4,6 +4,7 @@ using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.mx.controls;
 using System.Text;
+using System;
 
 
 namespace FullscreenStage.ActionScript
@@ -91,6 +92,8 @@ namespace FullscreenStage.ActionScript
 
             var g_int = new GenericType<int> { Value = 7 };
             var g_string = new GenericType<string> { Value = "hey" };
+
+            Action<string> Append = Write;
 
             w.AppendLine("hello world 1" + g_int.Value);
             w.AppendLine("hello world 2" + g_string.Value);

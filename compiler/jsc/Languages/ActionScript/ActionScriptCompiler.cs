@@ -96,8 +96,8 @@ namespace jsc.Languages.ActionScript
         {
 
 
-            List<Type> imp_types = new List<Type>();
-            List<Type> imp = new List<Type>();
+           
+            var imp = new List<Type>();
 
             Type[] tinterfaces = t.GetInterfaces();
 
@@ -139,6 +139,8 @@ namespace jsc.Languages.ActionScript
                 GetImportTypesFromMethod(t, imp, v);
             }
 
+            var imp_types = new List<Type>();
+
             while (imp.Count > 0)
             {
                 Type p = imp[0];
@@ -146,7 +148,8 @@ namespace jsc.Languages.ActionScript
                 imp.RemoveAll(
                     delegate(Type w)
                     {
-
+                        if (w.IsGenericParameter)
+                            return true;
 
                         if (w.IsArray && p.IsArray)
                         {
@@ -882,6 +885,13 @@ namespace jsc.Languages.ActionScript
                     Write(")");
                 };
 
+            #region Ldftn
+            CIW[OpCodes.Ldftn] =
+                delegate(CodeEmitArgs e)
+                {
+                    WriteDecoratedMethodName(e.i.TargetMethod, true);
+                };
+            #endregion
         }
 
 
