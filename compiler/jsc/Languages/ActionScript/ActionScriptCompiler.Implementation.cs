@@ -66,7 +66,7 @@ namespace jsc.Languages.ActionScript
                 {
                     if (z.IsDelegate())
                     {
-
+                        this.WriteDelegate(z, za);
                     }
                     else
                     {
@@ -144,7 +144,7 @@ namespace jsc.Languages.ActionScript
 
             if (timp.Length > 0)
             {
-                Write(" implements ");
+                
 
                 int i = 0;
 
@@ -152,8 +152,14 @@ namespace jsc.Languages.ActionScript
 
                 foreach (Type timpv in timp)
                 {
+                    // ignore interfaces which are not visible to scripting
+                    if (timpv.ToScriptAttribute() == null)
+                        continue;
+
                     if (i++ > 0)
                         Write(", ");
+                    else
+                        Write(" implements ");
 
                     WriteDecoratedTypeName(timpv);
                     //WriteDecoratedTypeNameOrImplementationTypeName(timpv);
@@ -223,7 +229,8 @@ namespace jsc.Languages.ActionScript
                 Write("var ");
                 WriteSafeLiteral(zfn.Name);
                 Write(":");
-                WriteGenericOrDecoratedTypeName(zfn.FieldType);
+                //WriteGenericOrDecoratedTypeName(zfn.FieldType);
+                WriteDecoratedTypeNameOrImplementationTypeName(zfn.FieldType, true, true);
 
                 //WriteDecoratedTypeNameOrImplementationTypeName(zfn.FieldType, true, true);
                 //WriteSpace();
@@ -254,13 +261,7 @@ namespace jsc.Languages.ActionScript
             }
         }
 
-        private void WriteGenericOrDecoratedTypeName(Type TargetType)
-        {
-            if (TargetType.IsGenericParameter)
-                Write("*");
-            else
-                WriteDecoratedTypeName(TargetType);
-        }
+
 
 
         public override void WriteTypeFieldModifier(FieldInfo zfn)
@@ -331,6 +332,7 @@ namespace jsc.Languages.ActionScript
                 }
                 else
                 {
+                    
                     WriteDecoratedMethodName(m, false);
                 }
             }
@@ -536,7 +538,7 @@ namespace jsc.Languages.ActionScript
 
         public override void WriteTypeConstructionVerified()
         {
-            throw new NotImplementedException();
+            Write("{}");
         }
 
         public override bool EmitTryBlock(ILBlock.Prestatement p)
@@ -552,6 +554,7 @@ namespace jsc.Languages.ActionScript
                 {typeof(double), "Number"},
                 {typeof(void), "void"},
                 {typeof(string), "String"},
+                {typeof(object), "Object"},
             };
 
         public override string GetDecoratedTypeName(Type z, bool bExternalAllowed)
@@ -608,13 +611,19 @@ namespace jsc.Languages.ActionScript
             Write("var ");
             WriteVariableName(u.DeclaringType, u, v);
             Write(":");
-            //WriteDecoratedTypeName(v.LocalType);
-            WriteDecoratedTypeNameOrImplementationTypeName(v.LocalType/*, true, true*/);
+            WriteDecoratedTypeNameOrImplementationTypeName(v.LocalType, true, true);
             WriteLine(";");
         }
 
-        private void WriteDecoratedTypeNameOrImplementationTypeName(Type timpv/*, bool favorPrimitives, bool favorTargetType*/)
+        
+        private void WriteDecoratedTypeNameOrImplementationTypeName(Type timpv, bool favorPrimitives, bool favorTargetType)
         {
+            if (timpv.IsGenericParameter)
+            {
+                Write("*");
+                return;
+            }
+
             //[Script(Implements = typeof(global::System.Boolean),
             //    ImplementationType=typeof(java.lang.Integer))]
 
@@ -625,20 +634,33 @@ namespace jsc.Languages.ActionScript
                 return;
             }
 
+            
+            
             Type iType = MySession.ResolveImplementation(timpv);
 
             if (iType != null)
             {
-                /*
                 if (favorTargetType)
                 {
                     if (ScriptAttribute.OfProvider(iType).ImplementationType != null)
                         iType = null;
-                }*/
+                }
             }
 
+
+
+
+
             if (iType == null)
-                WriteSafeLiteral(GetDecoratedTypeName(timpv, true/*, favorPrimitives, true*/));
+            {
+                var s = timpv.ToScriptAttribute();
+
+                // favorPrimitives
+                if (s!= null && s.ImplementationType != null)
+                    WriteSafeLiteral(GetDecoratedTypeName(s.ImplementationType, true/*, favorPrimitives, true*/));
+                else
+                    WriteSafeLiteral(GetDecoratedTypeName(timpv, true/*, favorPrimitives, true*/));
+            }
             else
                 WriteSafeLiteral(GetDecoratedTypeName(iType, true));
         }

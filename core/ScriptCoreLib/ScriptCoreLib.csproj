@@ -110,7 +110,9 @@
     <Compile Include="JavaScript\Runtime\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\Array.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Action.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\IntPtr32.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\MulticastDelegate.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Delegate.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Object.cs" />
@@ -143,6 +145,7 @@
     <Compile Include="ActionScript\flash\media\Video.cs" />
     <Compile Include="ActionScript\flash\net\URLRequest.cs" />
     <Compile Include="ActionScript\flash\text\TextField.cs" />
+    <Compile Include="ActionScript\flash\ui\ContextMenu.cs" />
     <Compile Include="ActionScript\fl\transitions\Transition.cs" />
     <Compile Include="ActionScript\fl\transitions\TransitionManager.cs" />
     <Compile Include="ActionScript\Function.cs" />
@@ -153,6 +156,7 @@
     <Compile Include="ActionScript\mx\core\IFlexDisplayObject.cs" />
     <Compile Include="ActionScript\mx\core\SoundAsset.cs" />
     <Compile Include="ActionScript\mx\effects\Tween.cs" />
+    <Compile Include="ActionScript\String.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ArgumentNullException.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Action.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Activator.cs" />

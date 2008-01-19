@@ -74,6 +74,12 @@ namespace jsc.Languages.ActionScript
                         }
                 }
 
+                if (i == OpCodes.Ldtoken)
+                {
+                    imp.Add(typeof(IntPtr));
+                    continue;
+                }
+
                 if (i == OpCodes.Box)
                 {
                     imp.Add(i.TargetType);
@@ -96,7 +102,7 @@ namespace jsc.Languages.ActionScript
         {
 
 
-           
+
             var imp = new List<Type>();
 
             Type[] tinterfaces = t.GetInterfaces();
@@ -105,7 +111,7 @@ namespace jsc.Languages.ActionScript
                 imp.Add(tinterface);
 
             if (t.BaseType == typeof(MulticastDelegate))
-                return imp_types;
+                return new List<Type>();
 
             /*
             Type bp = t.BaseType;
@@ -141,25 +147,27 @@ namespace jsc.Languages.ActionScript
 
             var imp_types = new List<Type>();
 
+            imp.RemoveAll(i => i.IsGenericParameter);
+
+
             while (imp.Count > 0)
             {
                 Type p = imp[0];
-
+                
+                // remove duplicates
                 imp.RemoveAll(
-                    delegate(Type w)
-                    {
-                        if (w.IsGenericParameter)
-                            return true;
+                     delegate(Type w)
+                     {
 
-                        if (w.IsArray && p.IsArray)
-                        {
-                            return w.GetElementType().GUID == p.GetElementType().GUID;
-                        }
 
-                        return w.GUID == p.GUID;
-                    }
-                );
+                         if (w.IsArray && p.IsArray)
+                         {
+                             return w.GetElementType().GUID == p.GetElementType().GUID;
+                         }
 
+                         return w.GUID == p.GUID;
+                     }
+                 );
 
                 // todo fix additional types handling
 
@@ -183,10 +191,12 @@ namespace jsc.Languages.ActionScript
                 if (p == typeof(bool)) continue;
                 if (p == typeof(char)) continue;
 
-                ScriptAttribute a = ScriptAttribute.Of(p, true);
+                // is a BCL type
+                var a = p.ToScriptAttribute();
 
                 if (a == null)
                 {
+                    // and has an implementation type
                     Type p_impl = MySession.ResolveImplementation(p);
 
                     if (p_impl == null)
@@ -204,7 +214,7 @@ namespace jsc.Languages.ActionScript
                     }
 
                     p = p_impl;
-                    a = ScriptAttribute.Of(p, true);
+                   // a = ScriptAttribute.Of(p, true);
                 }
 
 
@@ -224,10 +234,12 @@ namespace jsc.Languages.ActionScript
             List<Type> t = GetImportTypes(z);
             List<string> imports = new List<string>();
 
+            /*
             t.RemoveAll(delegate(Type x)
             {
                 return IsEmptyImplementationType(x);
             });
+            */
 
             while (t.Count > 0)
             {
@@ -889,6 +901,7 @@ namespace jsc.Languages.ActionScript
             CIW[OpCodes.Ldftn] =
                 delegate(CodeEmitArgs e)
                 {
+
                     WriteDecoratedMethodName(e.i.TargetMethod, true);
                 };
             #endregion
@@ -917,18 +930,19 @@ namespace jsc.Languages.ActionScript
                 // cannot use 'this' on arguments as it is a keyword
                 WriteSelf();
                 Write(":");
+                WriteDecoratedTypeNameOrImplementationTypeName(m.DeclaringType, true, true);
 
-                var sa = ScriptAttribute.Of(m.DeclaringType, false);
+                //var sa = ScriptAttribute.Of(m.DeclaringType, false);
 
-                if (sa.Implements == null)
-                {
-                    WriteDecoratedTypeName(m.DeclaringType);
+                //if (sa.Implements == null)
+                //{
+                //    WriteDecoratedTypeName(m.DeclaringType);
 
-                }
-                else
-                {
-                    WriteDecoratedTypeName(sa.Implements);
-                }
+                //}
+                //else
+                //{
+                //    WriteDecoratedTypeName(sa.Implements);
+                //}
             }
 
             for (int mpi = 0; mpi < mp.Length; mpi++)
@@ -945,12 +959,13 @@ namespace jsc.Languages.ActionScript
 
                 Write(p.Name);
                 Write(":");
-
+                WriteDecoratedTypeNameOrImplementationTypeName(p.ParameterType, true, true);
+                /*
                 if (za.Implements == null || m.DeclaringType.GUID != p.ParameterType.GUID)
                     WriteDecoratedTypeName(p.ParameterType);
                 else
                     WriteDecoratedTypeName(za.Implements);
-
+                */
 
             }
         }

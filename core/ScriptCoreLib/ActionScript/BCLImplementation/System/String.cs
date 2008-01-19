@@ -5,7 +5,10 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
-    [Script(Implements = typeof(global::System.String))]
+    [Script(
+        Implements = typeof(global::System.String),
+        ImplementationType = typeof(global::ScriptCoreLib.ActionScript.String)
+        )]
     internal class __String
     {
         #region Concat

@@ -5,6 +5,7 @@ using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.mx.controls;
 using System.Text;
 using System;
+using ScriptCoreLib.ActionScript.flash.ui;
 
 
 namespace FullscreenStage.ActionScript
@@ -95,16 +96,22 @@ namespace FullscreenStage.ActionScript
 
             Action<string> Append = Write;
 
-            w.AppendLine("hello world 1" + g_int.Value);
-            w.AppendLine("hello world 2" + g_string.Value);
+            w.AppendLine("hello world 1: " + g_int.Value);
+            w.AppendLine("hello world 2: " + g_string.Value);
 
             Write(w.ToString());
-            Write(">>> " + w);
+            Append(">>> " + w);
             
             var tag = "length: ";
             var val = tag + tag.Length;
 
             WriteLine(val);
+
+            var mnu = new ContextMenu();
+
+            mnu.hideBuiltInItems();
+
+            this.contextMenu = mnu;
         }
     }
 

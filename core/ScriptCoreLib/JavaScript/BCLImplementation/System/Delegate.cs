@@ -11,6 +11,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     {
         [ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.Target)]
         public object Target;
+
         [ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.Method)]
         public global::System.IntPtr Method;
 
