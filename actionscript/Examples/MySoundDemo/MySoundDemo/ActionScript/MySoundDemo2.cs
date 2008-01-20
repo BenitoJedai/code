@@ -6,11 +6,12 @@ using ScriptCoreLib.ActionScript.flash.media;
 using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.mx.core;
+using ScriptCoreLib.ActionScript.flash.utils;
 
 
 namespace MySoundDemo.ActionScript
 {
-    
+
     /// <summary>
     /// testing...
     /// </summary>
@@ -48,15 +49,39 @@ namespace MySoundDemo.ActionScript
             Color = 0x00ffff00;
             Filter = new DropShadowFilter();
 
-            
+
             Assets.world.play(0, 999);
 
             var preview = Assets.Preview;
 
             preview.x = 100;
             preview.y = 100;
+            var front = new TextField
+                {
+                    text = "powered by jsc",
+                    x = 20,
+                    y = 40,
+                    selectable = false,
+                    textColor = 0xffffff,
+                };
+
+            front.mouseOver += ev => front.textColor = 0x00ff0000;
+
+            front.mouseOut += ev => front.textColor = 0xffffff;
+
+            var timer = new Timer(10, 0);
+
+
             preview.rotation = 45;
 
+
+            timer.timer +=
+                ev =>
+                {
+                    preview.rotation++;
+                };
+
+            timer.start();
 
             preview.filters = new[] { new BlurFilter() };
             addChild(preview);
@@ -90,14 +115,7 @@ namespace MySoundDemo.ActionScript
                 );
 
             addChild(
-                new TextField
-                {
-                    text = "powered by jsc",
-                    x = 20,
-                    y = 40,
-                    selectable = false,
-                    textColor = 0xffffff,
-                }
+           front
             );
         }
     }
