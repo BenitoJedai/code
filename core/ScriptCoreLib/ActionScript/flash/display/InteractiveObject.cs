@@ -17,6 +17,12 @@ namespace ScriptCoreLib.ActionScript.flash.display
         [method: Script(NotImplementedHere = true)]
         public event Action<MouseEvent> mouseWheel;
 
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MouseEvent> mouseOver;
+
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MouseEvent> mouseOut;
+
 
         /// <summary>
         /// Specifies the context menu associated with this object. 

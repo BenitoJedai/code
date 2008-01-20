@@ -36,5 +36,30 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.display
             _this.removeEventListener(MouseEvent.MOUSE_WHEEL, value.ToFunction(), false);
         }
         #endregion
+
+
+        #region mouseOver
+        public static void add_mouseOver(InteractiveObject _this, Action<MouseEvent> value)
+        {
+            _this.addEventListener(MouseEvent.MOUSE_OVER, value.ToFunction(), false, 0, false);
+        }
+
+        public static void remove_mouseOver(InteractiveObject _this, Action<MouseEvent> value)
+        {
+            _this.removeEventListener(MouseEvent.MOUSE_OVER, value.ToFunction(), false);
+        }
+        #endregion
+
+        #region mouseOut
+        public static void add_mouseOut(InteractiveObject _this, Action<MouseEvent> value)
+        {
+            _this.addEventListener(MouseEvent.MOUSE_OUT, value.ToFunction(), false, 0, false);
+        }
+
+        public static void remove_mouseOut(InteractiveObject _this, Action<MouseEvent> value)
+        {
+            _this.removeEventListener(MouseEvent.MOUSE_OUT, value.ToFunction(), false);
+        }
+        #endregion
     }
 }
