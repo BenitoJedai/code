@@ -6,6 +6,7 @@ using System.Text;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.flash.events;
+using System.Runtime.CompilerServices;
 
 namespace ScriptCoreLib.ActionScript.flash.display
 {
@@ -15,7 +16,7 @@ namespace ScriptCoreLib.ActionScript.flash.display
     {
         // todo: implement
 
-        [Script(NotImplementedHere = true)]
+        [method: Script(NotImplementedHere = true)]
         public event Action<Event> added;
 
         /*

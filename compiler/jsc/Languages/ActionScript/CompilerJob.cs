@@ -32,7 +32,7 @@ namespace jsc.Languages
 
             sinfo.Logging.LogMessage("found {0} types to be compiled", xw.Session.Types.Length);
 
-            DirectoryInfo TargetDirectory = j.AssamblyFile.Directory.CreateSubdirectory("web");
+            DirectoryInfo TargetDirectory = sinfo.Options.TargetAssembly.Directory.CreateSubdirectory("web");
             //DirectoryInfo SourceDir = TargetDirectory.CreateSubdirectory("java");
             //DirectoryInfo SourceCompiledDir = TargetDirectory.CreateSubdirectory("release");
             //DirectoryInfo SourceCompiledHeadersDir = TargetDirectory.CreateSubdirectory("headers");

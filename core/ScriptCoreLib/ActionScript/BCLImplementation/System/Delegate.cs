@@ -20,5 +20,41 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             _Method = p;
         }
 
+
+        Function _FunctionPointer;
+
+        public Function FunctionPointer
+        {
+            get
+            {
+                if (_FunctionPointer == null)
+                {
+                    var method = ToIntPtr(_Method);
+
+                    if (method.FunctionToken != null)
+                    {
+                        _FunctionPointer = method.FunctionToken;
+                    }
+                    else
+                    {
+                        _FunctionPointer = GetFunctionPointer(_Target, method.StringToken);
+                    }
+                }
+
+                return _FunctionPointer;
+            }
+        }
+
+        [Script(OptimizedCode = "return o;")]
+        private static __IntPtr ToIntPtr(IntPtr o)
+        {
+            return default(__IntPtr);
+        }
+
+        [Script(OptimizedCode = "return o[n];")]
+        private static Function GetFunctionPointer(object o, string n)
+        {
+            return default(Function);
+        }
     }
 }

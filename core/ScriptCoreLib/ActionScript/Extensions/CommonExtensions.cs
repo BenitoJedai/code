@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.BCLImplementation.System;
 
 namespace ScriptCoreLib.ActionScript.Extensions
 {
@@ -11,7 +12,7 @@ namespace ScriptCoreLib.ActionScript.Extensions
     {
         public static Function ToFunction(this Delegate e)
         {
-            return null;
+            return ((__Delegate)(object)e).FunctionPointer;
         }
 
         public static Stage SetFullscreen(this Stage s, bool value)

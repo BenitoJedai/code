@@ -11,7 +11,7 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.text
     // if a type implements a type that is set to be native, then only implementation
     // which is marked with NotImplementedHere applies
 
-    [Script(Implements = typeof(DisplayObject))]
+    [Script(Implements = typeof(TextField))]
     public static class __TextField
     {
         #region change

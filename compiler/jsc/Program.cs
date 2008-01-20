@@ -98,6 +98,12 @@ namespace jsc
                 //AppDomain.CurrentDomain.AppendPrivatePath( options.TargetAssembly.DirectoryName );
 
 
+                //AppDomain.CurrentDomain.AssemblyLoad +=
+                //    (object sender, AssemblyLoadEventArgs args) =>
+                //    {
+                //        Console.WriteLine("AssemblyLoad: " + args.LoadedAssembly.Location);
+                //    };
+
                 AppDomain.CurrentDomain.AssemblyResolve += delegate(object sender, ResolveEventArgs args)
                 {
 
@@ -105,6 +111,8 @@ namespace jsc
 
 
                     string file = options.TargetAssembly.DirectoryName + @"\" + name + ".dll";
+
+                    //Console.WriteLine("looking for :" + file);
 
                     Assembly x = File.Exists(file) ? Assembly.LoadFile(file) : null;
 
@@ -114,12 +122,12 @@ namespace jsc
 
                 Console.WriteLine("Current Path: " + Environment.CurrentDirectory);
                 //sinfo.Logging.LogMessage("Current Search Path: " + searchpath);
-
+                
                 if (options.ShowReferences)
                 {
                     DoShowReferences(options);
                 }
-
+                
                 #region ExtractAssets
                 if (options.ExtractAssets)
                 {
@@ -237,7 +245,9 @@ namespace jsc
 
         private static void DoShowReferences(CommandLineOptions options)
         {
-            foreach (Assembly v in SharedHelper.LoadReferencedAssemblies(Assembly.LoadFile(options.TargetAssembly.FullName), true))
+            foreach (Assembly v in 
+                SharedHelper.LoadReferencedAssemblies(
+                    Assembly.LoadFile(options.TargetAssembly.FullName), true))
             {
                 Console.WriteLine("assembly: " + v.GetName().Name);
             }

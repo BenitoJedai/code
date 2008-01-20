@@ -112,17 +112,20 @@ namespace jsc.Script
 
                             DiaSession.findSymbolByToken((uint)m.MetadataToken, SymTagEnum.SymTagFunction, out methodsymbol);
 
-                            string _name = ResolveVariableNameByBlock(var, methodsymbol);
-
-
-                            // variables with the same name?
-
-                            if (_name != null)
+                            if (methodsymbol != null)
                             {
-                                _name = _name.Replace("<", "_");
-                                _name = _name.Replace(">", "_");
+                                string _name = ResolveVariableNameByBlock(var, methodsymbol);
 
-                                return _name;
+
+                                // variables with the same name?
+
+                                if (_name != null)
+                                {
+                                    _name = _name.Replace("<", "_");
+                                    _name = _name.Replace(">", "_");
+
+                                    return _name;
+                                }
                             }
                             // + var.LocalIndex;  
                         }

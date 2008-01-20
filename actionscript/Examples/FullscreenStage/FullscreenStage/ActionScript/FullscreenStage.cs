@@ -22,7 +22,7 @@ namespace FullscreenStage.ActionScript
     [Script, ScriptApplicationEntryPoint]
     public class FullscreenStage : Sprite
     {
-        
+
         TextField Output;
 
         void WriteLine(string e)
@@ -42,24 +42,30 @@ namespace FullscreenStage.ActionScript
 
         public FullscreenStage()
         {
-            
+
             // debug player http://www.adobe.com/support/flashplayer/downloads.html
 
             // http://blog.fatal-exception.co.uk/?p=7
 
             stage.SetFullscreen(true);
-     
 
-            this.graphics.beginFill(0x0, 1);
-            this.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
-            this.graphics.endFill();
 
-            for (var j = 0.0; j < 1; j += 0.1)
-            {
-                this.graphics.beginFill(0xff0000, j);
-                this.graphics.drawCircle(40, 40, 40 * (1.0 - j));
-                this.graphics.endFill();
-            }
+            graphics.beginFill(0x0, 1);
+            graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
+            graphics.endFill();
+
+
+            Action<double, double> DrawCircle =
+                (x, y) =>
+                {
+                    for (var j = 0.0; j < 1; j += 0.1)
+                    {
+                        graphics.beginFill(0xff0000, j);
+                        graphics.drawCircle(x, y, 40 * (1.0 - j));
+                        graphics.endFill();
+                    }
+                };
+
 
 
             var step = 100;
@@ -78,43 +84,40 @@ namespace FullscreenStage.ActionScript
             }
 
 
-            Output = (TextField)
-                addChild(
+            Output =
                     new TextField
                     {
-                        
+
                         x = 20,
                         y = 40,
-                        selectable = false,
+                        selectable = true,
                         sharpness = -400,
                         textColor = 0xffffff,
-                        multiline = true
-                    }
-                );
+                        multiline = true,
 
-            
+                    }
+                ;
+
+
 
             var w = new StringBuilder();
 
             var g_int = new GenericType<int> { Value = 7 };
             var g_string = new GenericType<string> { Value = "hey" };
 
-            //string prefix = ";;; ";
+            string prefix = "> ";
 
-            //Action<string> Append = e => Write(prefix + e);
+            Action<string> Append = e => WriteLine(prefix + e);
 
 
-            Action<string> Append = e => Write(">>> " + e);
-
-            Action<string> MyTest = Test;
 
             w.AppendLine("hello world 1: " + g_int.Value);
             w.AppendLine("hello world 2: " + g_string.Value);
 
-            
+
             Write(w.ToString());
             Append(w.ToString());
-            
+
             var tag = "length: ";
             var val = tag + tag.Length;
 
@@ -125,6 +128,30 @@ namespace FullscreenStage.ActionScript
             mnu.hideBuiltInItems();
 
             this.contextMenu = mnu;
+
+            this.added +=
+                ev =>
+                {
+                    Append("child added!");
+                };
+
+            click +=
+                 ev =>
+                 {
+                     DrawCircle(ev.stageX, ev.stageY);
+
+                     Append("circle: " + ev.stageX);
+
+                     ev.updateAfterEvent();
+                 };
+
+            mouseWheel +=
+                ev =>
+                {
+                    Output.text = "delta: " + ev.delta;
+                };
+
+            addChild(Output);
         }
     }
 

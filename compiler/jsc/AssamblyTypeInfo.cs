@@ -146,27 +146,22 @@ namespace jsc
 
         }
 
-
         public MethodBase ResolveImplementation(Type src_type, MethodBase src_method)
+        {
+            return ResolveImplementation(src_type, src_method, ResolveImplementationDirectMode.ResolveBCLImplementation);
+        }
+
+        public MethodBase ResolveImplementation(Type src_type, MethodBase src_method, ResolveImplementationDirectMode Mode)
         {
             // todo: cache results
 
             Type impl_type = ResolveImplementation(
-               src_type
+               src_type, Mode
                 );
 
             if (impl_type == null)
                 return null;
-
-
-
-            //Type[] pt = ParameterArrayToTypeArray(
-
-
-            //    src_method.GetParameters(), src_type, impl_type);
-
-
-            
+          
 
             MethodBase b = null;
 
@@ -189,7 +184,7 @@ namespace jsc
             }
 
 
-
+            #region IsConstructor
             if (src_method.IsConstructor)
             {
                // b = timpl.GetConstructor(t);
@@ -240,6 +235,7 @@ namespace jsc
                 skip:;
                 }
             }
+            #endregion
             else
             {
                 string MethodName = ((MethodInfo)src_method).Name;
@@ -255,7 +251,15 @@ namespace jsc
                     ParameterInfo[] vp = v.GetParameters();
 
                     if (vp.Length != t.Length)
-                        continue;
+                        if (Mode == ResolveImplementationDirectMode.ResolveNativeImplementationExtension && 
+                            t.Length + 1 == vp.Length && 
+                            v.IsStatic && !src_method.IsStatic && 
+                            vp[0].ParameterType == src_method.DeclaringType)
+                        {
+                            vp = vp.Skip(1).ToArray();
+                        }
+                        else
+                            continue;
 
                     Type[] vpt = new Type[vp.Length];
 
@@ -304,8 +308,13 @@ namespace jsc
 
             }
 
+            if (b == null)
+                return null;
 
-            return (b != null && b.IsStatic == src_method.IsStatic) ? b : null;
+            if (Mode == ResolveImplementationDirectMode.ResolveNativeImplementationExtension)
+                return b;
+
+            return b.IsStatic == src_method.IsStatic ? b : null;
 
         }
 
@@ -387,24 +396,40 @@ namespace jsc
 
         public Type ResolveImplementation(Type e)
         {
-            if (e == null)
-                return null;
-
-            if (ResolveImplementationDict.ContainsKey(e))
-                return ResolveImplementationDict[e];
-
-            return ResolveImplementationDict[e] = ResolveImplementationDirect(e);
+            return ResolveImplementation(e, ResolveImplementationDirectMode.ResolveBCLImplementation);
         }
 
-        Type ResolveImplementationDirect(Type e)
+        public Type ResolveImplementation(Type e, ResolveImplementationDirectMode Mode)
         {
             if (e == null)
                 return null;
 
-            
 
-            if (ScriptAttribute.OfProvider(e) != null)
+            if (Mode == ResolveImplementationDirectMode.ResolveBCLImplementation)
+            {
+                if (ResolveImplementationDict.ContainsKey(e))
+                    return ResolveImplementationDict[e];
+
+                return ResolveImplementationDict[e] = ResolveImplementationDirect(e, Mode);
+            }
+            else
+                return ResolveImplementationDirect(e, Mode);
+        }
+
+        public enum ResolveImplementationDirectMode
+        {
+            ResolveBCLImplementation,
+            ResolveNativeImplementationExtension
+        }
+
+        Type ResolveImplementationDirect(Type e, ResolveImplementationDirectMode Mode)
+        {
+            if (e == null)
                 return null;
+
+            if (Mode == ResolveImplementationDirectMode.ResolveBCLImplementation)
+                if (e.ToScriptAttribute() != null)
+                    return null;
 
 
             Type eg = (e.IsGenericType ? e.GetGenericTypeDefinition() : e);

@@ -823,7 +823,7 @@ namespace jsc.Script
                 MethodBase impl = MySession.ResolveImplementation(method.DeclaringType, method);
 
                 if (impl == null)
-                    throw new Exception("implementation not found for type import : " + method.DeclaringType.FullName + " :: " + method);
+                    throw new NotSupportedException("implementation not found for type import : " + method.DeclaringType.FullName + " :: " + method);
 
                 method = impl;
 

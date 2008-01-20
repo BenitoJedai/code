@@ -112,7 +112,7 @@ namespace jsc.Languages.ActionScript
 
 
             Write("class ");
-            WriteSafeLiteral(z.Name);
+            WriteDecoratedTypeName(z);
 
             var BaseTypeImplementation =
                 z.BaseType == typeof(object) ? z.BaseType :
@@ -304,7 +304,10 @@ namespace jsc.Languages.ActionScript
                 if (m.IsFamily)
                     Write("protected ");
                 else
-                    Write("private ");
+                {
+                    // cannot use private as it blocks off delegates
+                    Write("internal ");
+                }
 
 
             if (m.IsStatic || dStatic)
@@ -394,20 +397,34 @@ namespace jsc.Languages.ActionScript
         public override void WriteMethodCallVerified(ILBlock.Prestatement p, ILInstruction i, System.Reflection.MethodBase m)
         {
             // remove the base call for now
-            var TypeScriptAttribute = m.DeclaringType.ToScriptAttribute();
-            var MethodScriptAttribute = m.ToScriptAttribute();
+
+            var TargetMethod = m;
+            var MethodScriptAttribute = TargetMethod.ToScriptAttribute();
+
+            if (MethodScriptAttribute != null && MethodScriptAttribute.NotImplementedHere)
+            {
+                TargetMethod = MySession.ResolveImplementation(m.DeclaringType, TargetMethod, AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveNativeImplementationExtension);
+                MethodScriptAttribute = TargetMethod.ToScriptAttribute();
+            }
+
+            var TypeScriptAttribute = TargetMethod.DeclaringType.ToScriptAttribute();
+            
+            
+
+
+
             var IsDefineAsStatic = MethodScriptAttribute != null && MethodScriptAttribute.DefineAsStatic;
 
             Action WriteMethodName =
                 delegate
                 {
                     if (TypeScriptAttribute.IsNative)
-                        Write(m.Name);
+                        Write(TargetMethod.Name);
                     else
-                        WriteDecoratedMethodName(m, false);
+                        WriteDecoratedMethodName(TargetMethod, false);
                 };
 
-            var IsBaseConstructorCall = i.IsBaseConstructorCall(m);
+            var IsBaseConstructorCall = i.IsBaseConstructorCall(TargetMethod);
 
             var s = i.StackBeforeStrict;
             var offset = 1;
@@ -443,17 +460,15 @@ namespace jsc.Languages.ActionScript
             #endregion
 
 
-
-
-            if (m.IsStatic || IsDefineAsStatic)
+            if (TargetMethod.IsStatic || IsDefineAsStatic)
             {
-                WriteDecoratedTypeName(m.DeclaringType);
+                WriteDecoratedTypeName(TargetMethod.DeclaringType);
                 Write(".");
 
                 #region prop
                 if (!IsDefineAsStatic)
                 {
-                    var prop = new PropertyDetector(m);
+                    var prop = new PropertyDetector(TargetMethod);
 
                     if (prop.SetProperty != null)
                     {
@@ -492,7 +507,7 @@ namespace jsc.Languages.ActionScript
 
                     #region prop
                     {
-                        var prop = new PropertyDetector(m);
+                        var prop = new PropertyDetector(TargetMethod);
 
                         if (prop.SetProperty != null)
                         {
@@ -513,7 +528,7 @@ namespace jsc.Languages.ActionScript
                 }
             }
 
-            WriteParameterInfoFromStack(m, p, s, offset);
+            WriteParameterInfoFromStack(TargetMethod, p, s, offset);
         }
 
 
@@ -560,18 +575,38 @@ namespace jsc.Languages.ActionScript
                 {typeof(object), "Object"},
             };
 
-        public override string GetDecoratedTypeName(Type z, bool bExternalAllowed)
+        public override string GetDecoratedTypeName(Type x, bool bExternalAllowed)
         {
-            if (z.IsArray)
-                return "Array";
+            Func<Type, string> GetShortName =
+                z =>
+                {
+                    if (z.IsArray)
+                        return "Array";
 
-            // convert c# type to actionscript typename literal
+                    // convert c# type to actionscript typename literal
 
-            if (NativeTypes.ContainsKey(z))
-                return NativeTypes[z];
+                    if (NativeTypes.ContainsKey(z))
+                        return NativeTypes[z];
 
 
-            return GetSafeLiteral(z.Name);
+                    return GetSafeLiteral(z.Name);
+                };
+
+            var p = x;
+            var s = "";
+
+            do
+            {
+                if (string.IsNullOrEmpty(s))
+                    s = GetShortName(p);
+                else
+                    s = GetShortName(p) + "_" + s;
+
+                p = p.DeclaringType;
+            }
+            while (p != null);
+
+            return s;
         }
 
         public override string GetDecoratedTypeNameWithinNestedName(Type z)

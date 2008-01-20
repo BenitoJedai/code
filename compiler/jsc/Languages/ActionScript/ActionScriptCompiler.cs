@@ -58,21 +58,42 @@ namespace jsc.Languages.ActionScript
             foreach (var i in b.Instructrions)
             {
 
-                //}
+                if (i == OpCodes.Ldftn)
+                {
+                    imp.Add(typeof(IntPtr));
+                }
 
+                if (i == OpCodes.Box)
+                {
+                    imp.Add(i.TargetType);
+                }
 
-                //foreach (ILInstruction i in b.Instructrions)
-                //{
+                if (i.TargetMethod != null)
+                {
+                    var attr = i.TargetMethod.ToScriptAttribute();
+
+                    if (attr != null && attr.NotImplementedHere)
+                    {
+                        var impl = MySession.ResolveImplementation(i.TargetMethod.DeclaringType, i.TargetMethod, AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveNativeImplementationExtension);
+
+                        if (impl != null)
+                            imp.Add(impl.DeclaringType);
+                    }
+                }
 
                 if (i.ReferencedMethod != null)
                 {
                     if (!IsTypeOfOperator(i.ReferencedMethod))
                         if (i.ReferencedMethod.DeclaringType != typeof(object))
                         {
+                            if (ScriptAttribute.IsCompilerGenerated(i.ReferencedMethod.DeclaringType))
+                            {
+                                imp.Add(i.ReferencedMethod.DeclaringType);
+                                continue;
+                            }
+
                             MethodBase method = GetMethodImplementation(MySession, i);
-                            ScriptAttribute method_attribute = ScriptAttribute.OfProvider(method);
-
-
+                            var method_attribute = method.ToScriptAttribute();
                             if (method.IsConstructor || method.IsStatic || (method_attribute != null && method_attribute.DefineAsStatic))
                             {
                                 imp.Add(method.DeclaringType);
@@ -81,17 +102,7 @@ namespace jsc.Languages.ActionScript
                         }
                 }
 
-                if (i == OpCodes.Ldftn)
-                {
-                    imp.Add(typeof(IntPtr));
-                    continue;
-                }
 
-                if (i == OpCodes.Box)
-                {
-                    imp.Add(i.TargetType);
-                    continue;
-                }
 
                 if (i.TargetField != null)
                 {
@@ -205,21 +216,20 @@ namespace jsc.Languages.ActionScript
 
                 if (a == null)
                 {
+                    if (ScriptAttribute.IsCompilerGenerated(p))
+                    {
+                        imp_types.Add(p);
+
+                        continue;
+                    }
+
                     // and has an implementation type
-                    Type p_impl = MySession.ResolveImplementation(p);
+                    var p_impl = MySession.ResolveImplementation(p);
 
                     if (p_impl == null)
                     {
-                        if (ScriptAttribute.IsCompilerGenerated(p))
-                        {
-                            // pass thru..
 
-                            continue;
-                        }
-                        else
-                        {
-                            Break("class import: no implementation for " + p.FullName + " at " + t.FullName);
-                        }
+                        Break("class import: no implementation for " + p.FullName + " at " + t.FullName);
                     }
 
                     p = p_impl;
@@ -955,7 +965,7 @@ namespace jsc.Languages.ActionScript
                     }
 
 
-                    
+
                 };
             #endregion
         }
