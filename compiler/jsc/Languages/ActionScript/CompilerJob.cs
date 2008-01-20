@@ -81,6 +81,9 @@ namespace jsc.Languages
                     {
                         if (xx.IsEnum) return;
 
+                        if (xx.Assembly != j.AssamblyInfo)
+                            return;
+
                         CompilerBase c = new Languages.ActionScript.ActionScriptCompiler(new StringWriter(), xw.Session);
 
                         c.CurrentJob = j;

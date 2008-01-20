@@ -54,8 +54,15 @@ namespace jsc.Languages.ActionScript
 
             ILBlock b = new ILBlock(v);
 
-            foreach (ILInstruction i in b.Instructrions)
+            //for (var i = b.First; i != null; i = i.Next)
+                foreach (var i in b.Instructrions)
             {
+
+            //}
+
+
+            //foreach (ILInstruction i in b.Instructrions)
+            //{
 
                 if (i.ReferencedMethod != null)
                 {
@@ -74,7 +81,7 @@ namespace jsc.Languages.ActionScript
                         }
                 }
 
-                if (i == OpCodes.Ldtoken)
+                if (i == OpCodes.Ldftn)
                 {
                     imp.Add(typeof(IntPtr));
                     continue;
@@ -153,7 +160,7 @@ namespace jsc.Languages.ActionScript
             while (imp.Count > 0)
             {
                 Type p = imp[0];
-                
+
                 // remove duplicates
                 imp.RemoveAll(
                      delegate(Type w)
@@ -214,7 +221,7 @@ namespace jsc.Languages.ActionScript
                     }
 
                     p = p_impl;
-                   // a = ScriptAttribute.Of(p, true);
+                    // a = ScriptAttribute.Of(p, true);
                 }
 
 
@@ -901,8 +908,25 @@ namespace jsc.Languages.ActionScript
             CIW[OpCodes.Ldftn] =
                 delegate(CodeEmitArgs e)
                 {
+                    // we must load it as IntPtr
+                    var _IntPtr = MySession.ResolveImplementation(typeof(IntPtr));
+                    var _op = (
+                        from i in _IntPtr.GetMethods()
+                        where i.Name == "op_Explicit" && i.ReturnType == _IntPtr && i.IsStatic
+                        let p = i.GetParameters()
+                        where p.Length == 1 && p.Single().ParameterType == typeof(string)
+                        select i
+                    ).SingleOrDefault();
 
+                    if (_op == null)
+                        throw new NotImplementedException();
+
+                    WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false);
+                    Write(".");
+                    WriteDecoratedMethodName(_op, false);
+                    Write("(");
                     WriteDecoratedMethodName(e.i.TargetMethod, true);
+                    Write(")");
                 };
             #endregion
         }

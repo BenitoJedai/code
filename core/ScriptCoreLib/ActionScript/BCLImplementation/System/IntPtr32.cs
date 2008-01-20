@@ -9,5 +9,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     internal class __IntPtr
     {
         public string Token;
+
+        public static explicit operator __IntPtr(string _Token)
+        {
+            return new __IntPtr { Token = _Token };
+        }
     }
 }
