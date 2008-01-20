@@ -12,6 +12,19 @@ namespace jsc //.Extensions
 {
     static class Extensions
     {
+        public static MethodInfo[] GetExplicitOperators(this Type e, Type ParameterType, Type ReturnType)
+        {
+            return (
+                        from i in e.GetMethods()
+                        where i.Name == "op_Explicit" && i.IsStatic && 
+                            (ReturnType == null ? true : i.ReturnType == ReturnType)
+                        let p = i.GetParameters()
+                        where p.Length == 1 &&
+                            (ParameterType == null ? true : p.Single().ParameterType == ParameterType)
+                        select i
+                    ).ToArray();
+        }
+
         public static ScriptAttribute ToScriptAttribute(this ICustomAttributeProvider p)
         {
             return ScriptAttribute.OfProvider(p);

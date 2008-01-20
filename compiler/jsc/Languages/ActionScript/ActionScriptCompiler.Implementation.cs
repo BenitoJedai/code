@@ -114,7 +114,7 @@ namespace jsc.Languages.ActionScript
             Write("class ");
             WriteSafeLiteral(z.Name);
 
-            var BaseTypeImplementation = 
+            var BaseTypeImplementation =
                 z.BaseType == typeof(object) ? z.BaseType :
                 MySession.ResolveImplementation(z.BaseType) ?? z.BaseType;
 
@@ -144,7 +144,7 @@ namespace jsc.Languages.ActionScript
 
             if (timp.Length > 0)
             {
-                
+
 
                 int i = 0;
 
@@ -301,7 +301,10 @@ namespace jsc.Languages.ActionScript
             if (m.IsPublic)
                 Write("public ");
             else
-                Write("private ");
+                if (m.IsFamily)
+                    Write("protected ");
+                else
+                    Write("private ");
 
 
             if (m.IsStatic || dStatic)
@@ -332,7 +335,7 @@ namespace jsc.Languages.ActionScript
                 }
                 else
                 {
-                    
+
                     WriteDecoratedMethodName(m, false);
                 }
             }
@@ -594,7 +597,7 @@ namespace jsc.Languages.ActionScript
                 }
 
                 // todo: should use base62 encoding here
-                Write(z.Name + "_" + z.MetadataToken);
+                WriteSafeLiteral(z.Name + "_" + z.MetadataToken);
 
             }
             finally
@@ -615,8 +618,8 @@ namespace jsc.Languages.ActionScript
             WriteLine(";");
         }
 
-        
-        private void WriteDecoratedTypeNameOrImplementationTypeName(Type timpv, bool favorPrimitives, bool favorTargetType)
+
+        public void WriteDecoratedTypeNameOrImplementationTypeName(Type timpv, bool favorPrimitives, bool favorTargetType)
         {
             if (timpv.IsGenericParameter)
             {
@@ -634,8 +637,8 @@ namespace jsc.Languages.ActionScript
                 return;
             }
 
-            
-            
+
+
             Type iType = MySession.ResolveImplementation(timpv);
 
             if (iType != null)
@@ -656,7 +659,7 @@ namespace jsc.Languages.ActionScript
                 var s = timpv.ToScriptAttribute();
 
                 // favorPrimitives
-                if (s!= null && s.ImplementationType != null)
+                if (s != null && s.ImplementationType != null)
                     WriteSafeLiteral(GetDecoratedTypeName(s.ImplementationType, true/*, favorPrimitives, true*/));
                 else
                     WriteSafeLiteral(GetDecoratedTypeName(timpv, true/*, favorPrimitives, true*/));

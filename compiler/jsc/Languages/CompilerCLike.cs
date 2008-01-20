@@ -500,34 +500,36 @@ namespace jsc.Script
                         //if (p.Instruction.IsDebugCode)
                         //    Debugger.Break();
 
-                        if (SupportsInlineAssigments)
-                        {
-                            #region redundant !! removal
-                            expression = expression.SingleStackInstruction.InlineAssigmentValue.Instruction.StackBeforeStrict[0];
+                        if (SupportsInlineAssigments && expression.StackInstructions.Length == 1 &&
+                            expression.SingleStackInstruction.InlineAssigmentValue != null)
 
-                            if (expression.IsSingle)
                             {
-                                if (expression.SingleStackInstruction.IsNegativeOperator)
+                                #region redundant !! removal
+                                expression = expression.SingleStackInstruction.InlineAssigmentValue.Instruction.StackBeforeStrict[0];
+
+                                if (expression.IsSingle)
                                 {
-                                    Emit(p, expression.SingleStackInstruction.StackBeforeStrict[0]);
+                                    if (expression.SingleStackInstruction.IsNegativeOperator)
+                                    {
+                                        Emit(p, expression.SingleStackInstruction.StackBeforeStrict[0]);
 
-                                    goto skipx;
+                                        goto skipx;
+                                    }
                                 }
+                                #endregion
+
+
+                                Write("!");
+                                Emit(p, expression);
+
+                            skipx:
+                                ;
                             }
-                            #endregion
-
-
-                            Write("!");
-                            Emit(p, expression);
-
-                        skipx:
-                            ;
-                        }
-                        else
-                        {
-                            Write("!");
-                            Emit(p, expression);
-                        }
+                            else
+                            {
+                                Write("!");
+                                Emit(p, expression);
+                            }
                     }
                     else
                     {
@@ -707,17 +709,17 @@ namespace jsc.Script
             WriteKeywordReturn();
 
 
-            
-                if (i.OwnerMethod.IsConstructor)
-                {
-                    if (WillReturnPointerToThisOnConstructorReturn)
-                    {
-                        WriteSpace();
-                        WriteSelf();
-                    }
 
-                    return;
+            if (i.OwnerMethod.IsConstructor)
+            {
+                if (WillReturnPointerToThisOnConstructorReturn)
+                {
+                    WriteSpace();
+                    WriteSelf();
                 }
+
+                return;
+            }
 
             if (((MethodInfo)i.OwnerMethod).ReturnType == typeof(void))
                 return;
@@ -960,6 +962,6 @@ namespace jsc.Script
         }
 
 
-        
+
     }
 }

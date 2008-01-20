@@ -242,7 +242,7 @@ namespace jsc.Script
         /// <param name="localVariableInfo"></param>
         public void WriteVariableName(Type type, MethodBase method, LocalVariableInfo var)
         {
-            Write( DIACache.GetVariableName(type, method, var, this) );
+            WriteSafeLiteral( DIACache.GetVariableName(type, method, var, this) );
 
            
         }

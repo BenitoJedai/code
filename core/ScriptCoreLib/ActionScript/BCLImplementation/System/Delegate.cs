@@ -9,15 +9,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     internal class __Delegate
     {
         [ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.Target)]
-        public object Target;
+        public object _Target;
 
         [ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.Method)]
-        public global::System.IntPtr Method;
+        public global::System.IntPtr _Method;
 
         public __Delegate(object e, global::System.IntPtr p)
         {
-            Target = e;
-            Method = p;
+            _Target = e;
+            _Method = p;
         }
 
     }

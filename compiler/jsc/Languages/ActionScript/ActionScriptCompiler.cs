@@ -55,14 +55,14 @@ namespace jsc.Languages.ActionScript
             ILBlock b = new ILBlock(v);
 
             //for (var i = b.First; i != null; i = i.Next)
-                foreach (var i in b.Instructrions)
+            foreach (var i in b.Instructrions)
             {
 
-            //}
+                //}
 
 
-            //foreach (ILInstruction i in b.Instructrions)
-            //{
+                //foreach (ILInstruction i in b.Instructrions)
+                //{
 
                 if (i.ReferencedMethod != null)
                 {
@@ -118,7 +118,9 @@ namespace jsc.Languages.ActionScript
                 imp.Add(tinterface);
 
             if (t.BaseType == typeof(MulticastDelegate))
-                return new List<Type>();
+                return new List<Type> { 
+                    
+                    MySession.ResolveImplementation(typeof(IntPtr)) };
 
             /*
             Type bp = t.BaseType;
@@ -910,26 +912,54 @@ namespace jsc.Languages.ActionScript
                 {
                     // we must load it as IntPtr
                     var _IntPtr = MySession.ResolveImplementation(typeof(IntPtr));
-                    var _op = (
-                        from i in _IntPtr.GetMethods()
-                        where i.Name == "op_Explicit" && i.ReturnType == _IntPtr && i.IsStatic
-                        let p = i.GetParameters()
-                        where p.Length == 1 && p.Single().ParameterType == typeof(string)
-                        select i
-                    ).SingleOrDefault();
+                    var _Operators = _IntPtr.GetExplicitOperators(null, _IntPtr);
 
-                    if (_op == null)
-                        throw new NotImplementedException();
+                    var _IntPtr_string = _Operators.Single(i => i.GetParameters().Single().ParameterType == typeof(string));
+                    var _IntPtr_Function = _Operators.Single(i => i.GetParameters().Single().ParameterType != typeof(string));
 
-                    WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false);
-                    Write(".");
-                    WriteDecoratedMethodName(_op, false);
-                    Write("(");
-                    WriteDecoratedMethodName(e.i.TargetMethod, true);
-                    Write(")");
+                    var _Method = e.i.TargetMethod;
+                    if (_Method.IsStatic)
+                    {
+                        WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false);
+                        Write(".");
+                        WriteDecoratedMethodName(_IntPtr_Function, false);
+                        Write("(");
+                        WriteDecoratedTypeNameOrImplementationTypeName(_Method.DeclaringType, false, false);
+                        Write(".");
+                        WriteDecoratedMethodName(e.i.TargetMethod, false);
+                        Write(")");
+                    }
+                    else
+                    {
+                        if (_Method.DeclaringType == e.Method.DeclaringType)
+                        {
+                            WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false);
+                            Write(".");
+                            WriteDecoratedMethodName(_IntPtr_Function, false);
+                            Write("(");
+                            /*
+                            WriteDecoratedTypeNameOrImplementationTypeName(_Method.DeclaringType, false, false);
+                            Write(".");*/
+                            WriteDecoratedMethodName(e.i.TargetMethod, false);
+                            Write(")");
+                        }
+                        else
+                        {
+                            WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false);
+                            Write(".");
+                            WriteDecoratedMethodName(_IntPtr_string, false);
+                            Write("(");
+                            WriteDecoratedMethodName(_Method, true);
+                            Write(")");
+                        }
+                    }
+
+
+                    
                 };
             #endregion
         }
+
 
 
         public override void WriteMethodParameterList(MethodBase m)

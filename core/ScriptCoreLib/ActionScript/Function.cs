@@ -9,5 +9,18 @@ namespace ScriptCoreLib.ActionScript
     [Script(IsNative = true)]
     public class Function
     {
+
+        /// <summary>
+        /// Specifies the value of thisObject to be used within any function that ActionScript calls.
+        /// </summary>
+        /// <param name="thisObject"></param>
+        /// <param name="argArray"></param>
+        /// <returns></returns>
+        public object apply(object thisObject, Array argArray)
+        {
+            return default(object);
+        }
+
+
     }
 }

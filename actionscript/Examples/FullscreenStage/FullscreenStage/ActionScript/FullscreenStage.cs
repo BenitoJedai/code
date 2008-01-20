@@ -34,7 +34,12 @@ namespace FullscreenStage.ActionScript
         {
             Output.text += e;
         }
-        
+
+        static void Test(string e)
+        {
+
+        }
+
         public FullscreenStage()
         {
             
@@ -94,13 +99,21 @@ namespace FullscreenStage.ActionScript
             var g_int = new GenericType<int> { Value = 7 };
             var g_string = new GenericType<string> { Value = "hey" };
 
-            Action<string> Append = Write;
+            //string prefix = ";;; ";
+
+            //Action<string> Append = e => Write(prefix + e);
+
+
+            Action<string> Append = e => Write(">>> " + e);
+
+            Action<string> MyTest = Test;
 
             w.AppendLine("hello world 1: " + g_int.Value);
             w.AppendLine("hello world 2: " + g_string.Value);
 
+            
             Write(w.ToString());
-            Append(">>> " + w);
+            Append(w.ToString());
             
             var tag = "length: ";
             var val = tag + tag.Length;
