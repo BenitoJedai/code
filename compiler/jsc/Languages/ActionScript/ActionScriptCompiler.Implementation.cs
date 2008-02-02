@@ -91,6 +91,9 @@ namespace jsc.Languages.ActionScript
 
         public override void WriteTypeSignature(Type z, ScriptCoreLib.ScriptAttribute za)
         {
+            DebugBreak(za);
+
+
             WriteIdent();
 
             if (za.Implements != null)
@@ -292,8 +295,9 @@ namespace jsc.Languages.ActionScript
 
         public override void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic)
         {
+            
             var TypeScriptAttribute = m.DeclaringType.ToScriptAttribute();
-
+                
             var IsNativeTarget = TypeScriptAttribute != null && TypeScriptAttribute.IsNative;
 
             WriteIdent();
@@ -353,7 +357,8 @@ namespace jsc.Languages.ActionScript
             if (mi != null)
             {
                 Write(":");
-                WriteDecoratedTypeName(mi.ReturnType);
+                WriteDecoratedTypeNameOrImplementationTypeName(mi.ReturnType, true, true);
+                
             }
             #endregion
 

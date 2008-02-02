@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.flash.filters
 {
-    // http://livedocs.adobe.com/flex/2/langref/flash/filters/BitmapFilter.html
+    // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/filters/BitmapFilter.html
     [Script(IsNative = true)]
     public class BitmapFilter
     {

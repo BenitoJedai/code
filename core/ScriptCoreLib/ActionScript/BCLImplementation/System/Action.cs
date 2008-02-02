@@ -5,8 +5,11 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
+    [Script(Implements = typeof(global::System.Action))]
+    internal delegate void __Action();
+
     [Script(Implements = typeof(global::System.Action<>))]
-    internal delegate void __Action<T>(T t);
+    internal delegate void __Action<A>(A a);
 
     [Script(Implements = typeof(global::System.Action<,>))]
     internal delegate void __Action<A, B>(A a, B b);

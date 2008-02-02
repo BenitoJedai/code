@@ -11,6 +11,7 @@ namespace ScriptCoreLib.ActionScript.flash.events
     {
         public static readonly string CLICK = "click";
         public static readonly string MOUSE_WHEEL = "mouseWheel";
+        public static readonly string MOUSE_MOVE = "mouseMove";
         public static readonly string MOUSE_OVER = "mouseOver";
         public static readonly string MOUSE_OUT = "mouseOut";
 

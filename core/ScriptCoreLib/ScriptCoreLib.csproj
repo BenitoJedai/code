@@ -125,6 +125,7 @@
     <Compile Include="ActionScript\Extensions\flash\display\InteractiveObject.cs" />
     <Compile Include="ActionScript\Extensions\flash\events\EventDispatcher.cs" />
     <Compile Include="ActionScript\Extensions\flash\text\TextField.cs" />
+    <Compile Include="ActionScript\Extensions\flash\ui\ContextMenuItem.cs" />
     <Compile Include="ActionScript\Extensions\flash\util\Timer.cs" />
     <Compile Include="ActionScript\flash\display\Bitmap.cs" />
     <Compile Include="ActionScript\flash\display\DisplayObject.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="ActionScript\flash\display\Sprite.cs" />
     <Compile Include="ActionScript\flash\display\Stage.cs" />
     <Compile Include="ActionScript\flash\display\StageDisplayState.cs" />
+    <Compile Include="ActionScript\flash\events\ContextMenuEvent.cs" />
     <Compile Include="ActionScript\flash\events\Event.cs" />
     <Compile Include="ActionScript\flash\events\EventDispatcher.cs" />
     <Compile Include="ActionScript\flash\events\MouseEvent.cs" />
@@ -143,6 +145,7 @@
     <Compile Include="ActionScript\flash\filters\BitmapFilter.cs" />
     <Compile Include="ActionScript\flash\filters\BlurFilter.cs" />
     <Compile Include="ActionScript\flash\filters\DropShadowFilter.cs" />
+    <Compile Include="ActionScript\flash\filters\GlowFilter.cs" />
     <Compile Include="ActionScript\flash\media\Camera.cs" />
     <Compile Include="ActionScript\flash\media\SoundTransform.cs" />
     <Compile Include="ActionScript\flash\media\Sound.cs" />
@@ -151,6 +154,7 @@
     <Compile Include="ActionScript\flash\net\URLRequest.cs" />
     <Compile Include="ActionScript\flash\text\TextField.cs" />
     <Compile Include="ActionScript\flash\ui\ContextMenu.cs" />
+    <Compile Include="ActionScript\flash\ui\ContextMenuItem.cs" />
     <Compile Include="ActionScript\flash\utils\Timer.cs" />
     <Compile Include="ActionScript\fl\transitions\Transition.cs" />
     <Compile Include="ActionScript\fl\transitions\TransitionManager.cs" />

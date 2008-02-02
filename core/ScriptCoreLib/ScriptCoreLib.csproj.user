@@ -6,4 +6,8 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <StartWorkingDirectory>Z:\work\jsc\svn\core\ScriptCoreLib\bin\Debug</StartWorkingDirectory>
+    <StartArguments>ScriptCoreLib.dll -as</StartArguments>
+  </PropertyGroup>
 </Project>

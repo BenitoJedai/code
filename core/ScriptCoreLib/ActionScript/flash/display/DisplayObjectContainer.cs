@@ -9,7 +9,7 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class DisplayObjectContainer : InteractiveObject
     {
-        
+
 
         /// <summary>
         /// Adds a child DisplayObject instance to this DisplayObjectContainer instance.
@@ -20,5 +20,17 @@ namespace ScriptCoreLib.ActionScript.flash.display
         {
             return default(DisplayObject);
         }
+
+
+        /// <summary>
+        /// Removes the specified child DisplayObject instance from the child list of the DisplayObjectContainer instance.
+        /// </summary>
+        /// <param name="child"></param>
+        /// <returns></returns>
+        public DisplayObject removeChild(DisplayObject child)
+        {
+            return default(DisplayObject);
+        }
+
     }
 }

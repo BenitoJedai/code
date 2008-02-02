@@ -65,7 +65,19 @@ namespace jsc.Languages.ActionScript
 
                 if (i == OpCodes.Box)
                 {
-                    imp.Add(i.TargetType);
+
+                    if (i.TargetType.IsGenericParameter)
+                    {
+                        // http://msdn2.microsoft.com/en-us/library/system.type.getgenericparameterconstraints(VS.80).aspx
+                        var c = i.TargetType.GetGenericParameterConstraints().SingleOrDefault();
+
+                        if (c != null)
+                            imp.Add(c);
+                    }
+                    else
+                    {
+                        imp.Add(i.TargetType);
+                    }
                 }
 
                 if (i.TargetMethod != null)
@@ -584,6 +596,20 @@ namespace jsc.Languages.ActionScript
                 };
             #endregion
 
+            CIW[
+                OpCodes.Br_S,
+                OpCodes.Br] =
+                delegate(CodeEmitArgs e)
+                {
+                    // adjusted for inline assigment
+
+                    if (e.i.TargetFlow.Branch == OpCodes.Ret)
+                    {
+                        WriteReturn(e.p, e.i);
+                    }
+                    else throw new NotSupportedException("invalid br opcode");
+                };
+
             #region Ret
             CIW[OpCodes.Ret] =
                 e =>
@@ -907,8 +933,29 @@ namespace jsc.Languages.ActionScript
             CIW[OpCodes.Box] =
                 e =>
                 {
+                    // how do we box a generic type?
+
+                    var t = e.i.TargetType;
+
+                    if (t.IsGenericParameter)
+                    {
+                        // http://msdn2.microsoft.com/en-us/library/system.type.getgenericparameterconstraints(VS.80).aspx
+                        var c = t.GetGenericParameterConstraints().SingleOrDefault();
+
+                        if (c == null)
+                        {
+                            EmitFirstOnStack(e);
+                            return;
+                        }
+                        else
+                        {
+                            ConvertTypeAndEmit(e, c);
+                            return;
+                        }
+                    }
+
                     Write("new ");
-                    Write(GetDecoratedTypeName(e.i.TargetType, true));
+                    Write(GetDecoratedTypeName(t, true));
                     Write("(");
 
                     EmitFirstOnStack(e);
@@ -1038,5 +1085,24 @@ namespace jsc.Languages.ActionScript
 
             }
         }
+
+        public void ConvertTypeAndEmit(CodeEmitArgs e, Type x)
+        {
+            Write("(");
+            WriteDecoratedTypeNameOrImplementationTypeName(x, true, true);
+            Write("(");
+            EmitFirstOnStack(e);
+            Write(")");
+            Write(")");
+        }
+
+        public override void ConvertTypeAndEmit(CodeEmitArgs e, string x)
+        {
+            Write("(" + x + "(");
+            EmitFirstOnStack(e);
+            Write("))");
+        }
     }
+
+    
 }

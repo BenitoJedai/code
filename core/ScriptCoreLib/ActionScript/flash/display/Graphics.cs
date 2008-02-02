@@ -18,6 +18,9 @@ namespace ScriptCoreLib.ActionScript.flash.display
         {
         }
 
+        public void beginFill([Hex] uint color)
+        {
+        }
 
         /// <summary>
         /// Draws a circle.

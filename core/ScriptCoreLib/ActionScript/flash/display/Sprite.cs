@@ -6,7 +6,7 @@ using ScriptCoreLib.ActionScript.flash.events;
 
 namespace ScriptCoreLib.ActionScript.flash.display
 {
-    // http://livedocs.adobe.com/flex/201/langref/flash/display/Sprite.html
+    // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/display/Sprite.html
     [Script(IsNative = true)]
     public class Sprite : DisplayObjectContainer
     {

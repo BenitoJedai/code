@@ -785,9 +785,10 @@ namespace jsc.Script
             Write("__exc");
         }
 
-        public void ConvertTypeAndEmit(CodeEmitArgs e, string x)
+      
+        public virtual void ConvertTypeAndEmit(CodeEmitArgs e, string x)
         {
-            Write("(" + x + "(");
+            Write("((" + x + ")(");
             EmitFirstOnStack(e);
             Write("))");
         }

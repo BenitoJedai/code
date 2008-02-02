@@ -6,6 +6,7 @@ pushd ..\bin\debug\web
 call :build MySoundDemo/ActionScript MySoundDemo
 call :build MySoundDemo/ActionScript MySoundDemo2
 
+
 popd
 endlocal
 goto :eof

@@ -66,7 +66,15 @@ namespace ScriptCoreLib.ActionScript.flash.display
         /// </summary>
         public double height { get; set; }
 
-        //The Stage of the display object.
+        /// <summary>
+        /// The Stage of the display object.
+        /// </summary>
         public Stage stage { get; private set; }
+
+
+        /// <summary>
+        /// Indicates the DisplayObjectContainer object that contains this display object.
+        /// </summary>
+        public DisplayObjectContainer parent { get; private set; }
     }
 }

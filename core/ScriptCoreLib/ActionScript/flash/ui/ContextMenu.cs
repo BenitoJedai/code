@@ -10,6 +10,12 @@ namespace ScriptCoreLib.ActionScript.flash.ui
     [Script(IsNative = true)]
     public class ContextMenu : EventDispatcher
     {
+        /// <summary>
+        /// An array of ContextMenuItem objects.
+        /// </summary>
+        public Array customItems { get; set; }
+
+
 
         /// <summary>
         /// Hides all built-in menu items (except Settings) in the specified ContextMenu object.

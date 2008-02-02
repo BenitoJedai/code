@@ -7,12 +7,15 @@ using ScriptCoreLib.ActionScript.flash.events;
 
 namespace ScriptCoreLib.ActionScript.flash.display
 {
-    // http://livedocs.adobe.com/flex/2/langref/flash/display/InteractiveObject.html
+    // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/display/InteractiveObject.html
     [Script(IsNative = true)]
     public class InteractiveObject : DisplayObject
     {
         [method: Script(NotImplementedHere = true)]
         public event Action<MouseEvent> click;
+
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MouseEvent> mouseMove;
 
         [method: Script(NotImplementedHere = true)]
         public event Action<MouseEvent> mouseWheel;
@@ -23,10 +26,24 @@ namespace ScriptCoreLib.ActionScript.flash.display
         [method: Script(NotImplementedHere = true)]
         public event Action<MouseEvent> mouseOut;
 
+        /// <summary>
+        /// Specifies whether this object receives mouse messages.
+        /// </summary>
+        public bool mouseEnabled { get; set; }
 
         /// <summary>
         /// Specifies the context menu associated with this object. 
         /// </summary>
         public ContextMenu contextMenu { get; set; }
+
+
+        /// <summary>
+        /// Specifies the button mode of this sprite.
+        /// </summary>
+        public bool buttonMode { get; set; }
+
+
+
+
     }
 }
