@@ -14,16 +14,18 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.text
     [Script(Implements = typeof(TextField))]
     public static class __TextField
     {
+
         #region change
-        public static void add_change(TextField _this, Action<Event> value)
+        public static void add_change(TextField that, Action<Event> value)
         {
-            _this.addEventListener(Event.CHANGE, value.ToFunction(), false, 0, false);
+            CommonExtensions.CombineDelegate(that, value, Event.CHANGE);
         }
 
-        public static void remove_change(TextField _this, Action<Event> value)
+        public static void remove_change(TextField that, Action<Event> value)
         {
-            _this.removeEventListener(Event.CHANGE, value.ToFunction(), false);
+            CommonExtensions.RemoveDelegate(that, value, Event.CHANGE);
         }
         #endregion
+
     }
 }

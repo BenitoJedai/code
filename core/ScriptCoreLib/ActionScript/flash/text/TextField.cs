@@ -12,8 +12,14 @@ namespace ScriptCoreLib.ActionScript.flash.text
     [Script(IsNative = true)]
     public class TextField : InteractiveObject
     {
-        [Script(NotImplementedHere = true)]
+        [method: Script(NotImplementedHere = true)]
         public event Action<Event> change;
+
+        /// <summary>
+        /// Controls automatic sizing and alignment of text fields.
+        /// </summary>
+        public string autoSize { get; set; }
+
 
 
         /// <summary>
@@ -41,6 +47,11 @@ namespace ScriptCoreLib.ActionScript.flash.text
         /// </summary>
         public uint textColor { get; set; }
 
+        /// <summary>
+        /// Specifies whether the text field has a border.
+        /// </summary>
+        public bool border { get; set; }
+
 
         /// <summary>
         /// Specifies whether the text field has a background fill.
@@ -56,5 +67,18 @@ namespace ScriptCoreLib.ActionScript.flash.text
         /// Indicates whether the text field is a multiline text field.
         /// </summary>
         public bool multiline { get; set; }
+
+
+        /// <summary>
+        /// The type of the text field.
+        /// </summary>
+        public string type { get; set; }
+
+        /// <summary>
+        /// A Boolean value that indicates whether the text field has word wrap.
+        /// </summary>
+        public bool wordWrap { get; set; }
+
+
     }
 }
