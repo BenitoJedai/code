@@ -9,5 +9,11 @@ namespace ScriptCoreLib.ActionScript.flash.media
     [Script(IsNative = true)]
     public class SoundChannel
     {
+        /// <summary>
+        /// Stops the sound playing in the channel.
+        /// </summary>
+        public void stop()
+        {
+        }
     }
 }

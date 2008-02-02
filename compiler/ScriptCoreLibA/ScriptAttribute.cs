@@ -145,6 +145,12 @@ namespace ScriptCoreLib
 
     }
 
+    [global::System.AttributeUsage(AttributeTargets.Parameter, Inherited = false, AllowMultiple = false)]
+    public sealed class ScriptParameterByRefAttribute : Attribute
+    {
+
+    }
+
     [global::System.AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method | AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public sealed class ScriptParameterByValAttribute : Attribute
     {

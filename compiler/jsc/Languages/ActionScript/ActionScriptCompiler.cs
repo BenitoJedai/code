@@ -1021,7 +1021,12 @@ namespace jsc.Languages.ActionScript
 
                 ScriptAttribute za = ScriptAttribute.Of(m.DeclaringType, true);
 
-                Write(p.Name);
+                // nameless params...
+                if (string.IsNullOrEmpty(p.Name))
+                    Write("_" + mpi);
+                else
+                    Write(p.Name);
+
                 Write(":");
                 WriteDecoratedTypeNameOrImplementationTypeName(p.ParameterType, true, true);
                 /*

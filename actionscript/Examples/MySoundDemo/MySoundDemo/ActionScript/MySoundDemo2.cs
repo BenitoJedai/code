@@ -50,7 +50,7 @@ namespace MySoundDemo.ActionScript
             Filter = new DropShadowFilter();
 
 
-            Assets.world.play(0, 999);
+            
 
             var preview = Assets.Preview;
 
@@ -81,7 +81,7 @@ namespace MySoundDemo.ActionScript
                     preview.rotation++;
                 };
 
-            timer.start();
+           // timer.start();
 
             preview.filters = new[] { new BlurFilter() };
             addChild(preview);
@@ -117,6 +117,29 @@ namespace MySoundDemo.ActionScript
             addChild(
            front
             );
+
+
+            var snd = Assets.world;
+            var channel = default(SoundChannel);
+
+            stage.activate +=
+                delegate
+                {
+                    channel = snd.play(0, 999);
+                    timer.start();
+                };
+
+            stage.deactivate +=
+                delegate
+                {
+                    if (channel != null)
+                    {
+                        channel.stop();
+                        channel = null;
+                    }
+
+                    timer.stop();
+                };
         }
     }
 

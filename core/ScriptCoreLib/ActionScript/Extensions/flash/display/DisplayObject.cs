@@ -14,15 +14,19 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.display
     internal static class __DisplayObject
     {
         #region added
-        public static void add_added(DisplayObject _this, Action<Event> value)
+        public static void add_added(DisplayObject that, Action<Event> value)
         {
-            _this.addEventListener(Event.ADDED, value.ToFunction(), false, 0, false);
+            that.CombineDelegate(value, Event.ADDED);
         }
 
-        public static void remove_added(DisplayObject _this, Action<Event> value)
+        public static void remove_added(DisplayObject that, Action<Event> value)
         {
-            _this.removeEventListener(Event.ADDED, value.ToFunction(), false);
+            that.RemoveDelegate(value, Event.ADDED);
         }
         #endregion
+
+        
+        
+
     }
 }

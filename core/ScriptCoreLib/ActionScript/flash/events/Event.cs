@@ -10,7 +10,8 @@ namespace ScriptCoreLib.ActionScript.flash.events
     public class Event
     {
         public static readonly string ADDED = "added";
-
+        public static readonly string ACTIVATE = "activate";
+        public static readonly string DEACTIVATE = "deactivate";
         public static readonly string CHANGE = "change";
     }
 }

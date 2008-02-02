@@ -7,6 +7,7 @@ using ScriptCoreLib.ActionScript.flash.events;
 
 namespace ScriptCoreLib.ActionScript.flash.media
 {
+    // http://livedocs.adobe.com/flex/201/langref/flash/media/Sound.html
     [Script(IsNative = true)]
     public class Sound : EventDispatcher
     {

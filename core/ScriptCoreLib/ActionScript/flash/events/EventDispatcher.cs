@@ -25,5 +25,18 @@ namespace ScriptCoreLib.ActionScript.flash.events
         {
 
         }
+
+        [method: Script(NotImplementedHere = true)]
+        public event Action<Event> activate;
+
+        [method: Script(NotImplementedHere = true)]
+        public event Action<Event> deactivate;
+
+
+
+
+
+
     }
+
 }

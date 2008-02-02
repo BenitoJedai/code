@@ -123,6 +123,7 @@
     <Compile Include="ActionScript\Extensions\CommonExtensions.cs" />
     <Compile Include="ActionScript\Extensions\flash\display\DisplayObject.cs" />
     <Compile Include="ActionScript\Extensions\flash\display\InteractiveObject.cs" />
+    <Compile Include="ActionScript\Extensions\flash\events\EventDispatcher.cs" />
     <Compile Include="ActionScript\Extensions\flash\text\TextField.cs" />
     <Compile Include="ActionScript\Extensions\flash\util\Timer.cs" />
     <Compile Include="ActionScript\flash\display\Bitmap.cs" />
