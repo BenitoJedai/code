@@ -16,12 +16,12 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.display
         #region added
         public static void add_added(DisplayObject that, Action<Event> value)
         {
-            that.CombineDelegate(value, Event.ADDED);
+            CommonExtensions.CombineDelegate(that, value, Event.ADDED);
         }
 
         public static void remove_added(DisplayObject that, Action<Event> value)
         {
-            that.RemoveDelegate(value, Event.ADDED);
+            CommonExtensions.RemoveDelegate(that, value, Event.ADDED);
         }
         #endregion
 

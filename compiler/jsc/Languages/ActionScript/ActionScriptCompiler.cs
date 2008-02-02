@@ -673,6 +673,17 @@ namespace jsc.Languages.ActionScript
                };
             #endregion
 
+            #region Ldlen
+            CIW[OpCodes.Ldlen] =
+                e =>
+                {
+                    EmitFirstOnStack(e);
+
+                    Write(".length");
+                };
+            #endregion
+
+
             #region operators
             CIW[OpCodes.Xor] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "^"); };
             CIW[OpCodes.Shl] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<<"); };

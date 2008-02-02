@@ -26,6 +26,20 @@ namespace ScriptCoreLib.ActionScript.flash.display
         [method: Script(NotImplementedHere = true)]
         public event Action<MouseEvent> mouseOut;
 
+
+        [method: Script(NotImplementedHere = true)]
+        public event Action<KeyboardEvent> keyDown;
+
+        [method: Script(NotImplementedHere = true)]
+        public event Action<KeyboardEvent> keyUp;
+
+
+        [method: Script(NotImplementedHere = true)]
+        public event Action<FocusEvent> focusIn;
+
+        [method: Script(NotImplementedHere = true)]
+        public event Action<FocusEvent> focusOut;
+
         /// <summary>
         /// Specifies whether this object receives mouse messages.
         /// </summary>

@@ -83,5 +83,61 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.display
         #endregion
 
 
+        #region keyDown
+        public static void add_keyDown(InteractiveObject that, Action<KeyboardEvent> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, KeyboardEvent.KEY_DOWN);
+        }
+
+        public static void remove_keyDown(InteractiveObject that, Action<KeyboardEvent> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, KeyboardEvent.KEY_DOWN);
+        }
+        #endregion
+
+
+        #region keyUp
+        public static void add_keyUp(InteractiveObject that, Action<KeyboardEvent> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, KeyboardEvent.KEY_UP);
+        }
+
+        public static void remove_keyUp(InteractiveObject that, Action<KeyboardEvent> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, KeyboardEvent.KEY_UP);
+        }
+        #endregion
+
+
+
+        #region focusIn
+        public static void add_focusIn(InteractiveObject that, Action<FocusEvent> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, FocusEvent.FOCUS_IN);
+        }
+
+        public static void remove_focusIn(InteractiveObject that, Action<FocusEvent> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, FocusEvent.FOCUS_IN);
+        }
+        #endregion
+
+
+        #region focusOut
+        public static void add_focusOut(InteractiveObject that, Action<FocusEvent> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, FocusEvent.FOCUS_OUT);
+        }
+
+        public static void remove_focusOut(InteractiveObject that, Action<FocusEvent> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, FocusEvent.FOCUS_OUT);
+        }
+        #endregion
+
+
+
+
+
     }
 }

@@ -15,12 +15,12 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.util
         #region timer
         public static void add_timer(Timer that, Action<TimerEvent> value)
         {
-            that.CombineDelegate(value, TimerEvent.TIMER);
+            CommonExtensions.CombineDelegate(that, value, TimerEvent.TIMER);
         }
 
         public static void remove_timer(Timer that, Action<TimerEvent> value)
         {
-            that.RemoveDelegate(value, TimerEvent.TIMER);
+            CommonExtensions.RemoveDelegate(that, value, TimerEvent.TIMER);
         }
         #endregion
 

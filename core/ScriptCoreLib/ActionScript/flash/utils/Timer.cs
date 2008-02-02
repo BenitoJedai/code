@@ -23,6 +23,11 @@ namespace ScriptCoreLib.ActionScript.flash.utils
 
         }
 
+        public Timer(double delay)
+        {
+
+        }
+
         /// <summary>
         /// Starts the timer, if it is not already running.
         /// </summary>
@@ -37,6 +42,11 @@ namespace ScriptCoreLib.ActionScript.flash.utils
         public void stop()
         {
         }
+
+        /// <summary>
+        /// The total number of times the timer has fired since it started at zero.
+        /// </summary>
+        public int currentCount { get; private set; }
 
     }
 }

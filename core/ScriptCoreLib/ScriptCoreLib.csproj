@@ -138,12 +138,15 @@
     <Compile Include="ActionScript\flash\display\Stage.cs" />
     <Compile Include="ActionScript\flash\display\StageDisplayState.cs" />
     <Compile Include="ActionScript\flash\events\ContextMenuEvent.cs" />
+    <Compile Include="ActionScript\flash\events\FocusEvent.cs" />
+    <Compile Include="ActionScript\flash\events\KeyboardEvent.cs" />
     <Compile Include="ActionScript\flash\events\Event.cs" />
     <Compile Include="ActionScript\flash\events\EventDispatcher.cs" />
     <Compile Include="ActionScript\flash\events\MouseEvent.cs" />
     <Compile Include="ActionScript\flash\events\TimerEvent.cs" />
     <Compile Include="ActionScript\flash\filters\BitmapFilter.cs" />
     <Compile Include="ActionScript\flash\filters\BlurFilter.cs" />
+    <Compile Include="ActionScript\flash\filters\BevelFilter.cs" />
     <Compile Include="ActionScript\flash\filters\DropShadowFilter.cs" />
     <Compile Include="ActionScript\flash\filters\GlowFilter.cs" />
     <Compile Include="ActionScript\flash\media\Camera.cs" />

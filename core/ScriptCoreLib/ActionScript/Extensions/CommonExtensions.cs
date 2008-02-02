@@ -11,13 +11,13 @@ namespace ScriptCoreLib.ActionScript.Extensions
     [Script]
     public static class CommonExtensions
     {
-        public static void CombineDelegate<T>(this EventDispatcher _this, Action<T> value, string name)
+        public static void CombineDelegate<T>(EventDispatcher _this, Action<T> value, string name)
             where T : Event
         {
             _this.addEventListener(name, value.ToFunction(), false, 0, false);
         }
 
-        public static void RemoveDelegate<T>(this EventDispatcher _this, Action<T> value, string name)
+        public static void RemoveDelegate<T>(EventDispatcher _this, Action<T> value, string name)
             where T : Event
         {
             _this.removeEventListener(name, value.ToFunction(), false);

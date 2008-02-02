@@ -26,5 +26,12 @@ namespace ScriptCoreLib.ActionScript.flash.display
         /// </summary>
         public string displayState { get; set; }
 
+        /// <summary>
+        /// The interactive object with keyboard focus; or null if focus is not set or if the focused object belongs to a security sandbox to which the calling object does not have access.
+        /// </summary>
+        public InteractiveObject focus { get; set; }
+
+        	
+
     }
 }
