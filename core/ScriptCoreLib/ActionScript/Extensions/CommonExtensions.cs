@@ -46,5 +46,13 @@ namespace ScriptCoreLib.ActionScript.Extensions
 
             return e;
         }
+
+        public static T[] AttachTo<T>(this T[] e, DisplayObjectContainer c) where T : DisplayObject
+        {
+            foreach (var i in e)
+                i.AttachTo(c);
+
+            return e;
+        }
     }
 }

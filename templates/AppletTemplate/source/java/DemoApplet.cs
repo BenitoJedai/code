@@ -13,6 +13,8 @@ namespace DemoApplet.source.java
     {
         public override void init()
         {
+            var x = new System.Exception("hello world");
+
             this.InitializeComponents();
 
             base.resize(Settings.DefaultWidth, Settings.DefaultHeight);

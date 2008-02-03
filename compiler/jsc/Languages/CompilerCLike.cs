@@ -126,6 +126,7 @@ namespace jsc.Script
             }
             else
             {
+                
 
                 Write("new");
                 WriteSpace();

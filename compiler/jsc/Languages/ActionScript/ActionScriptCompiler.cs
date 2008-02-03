@@ -209,6 +209,9 @@ namespace jsc.Languages.ActionScript
 
                 }
 
+                if (p.IsGenericParameter)
+                    continue;
+
                 if (p == typeof(object)) continue;
                 if (p == typeof(void)) continue;
                 if (p == typeof(string)) continue;
@@ -241,7 +244,7 @@ namespace jsc.Languages.ActionScript
                     if (p_impl == null)
                     {
 
-                        Break("class import: no implementation for " + p.FullName + " at " + t.FullName);
+                        Break("class import: no implementation for " + p.GUID + "; "  + p.FullName + " at " + t.FullName);
                     }
 
                     p = p_impl;
@@ -912,7 +915,8 @@ namespace jsc.Languages.ActionScript
                            Write(".");
                        }
 
-                       Write(e.i.TargetField.Name);
+                       WriteSafeLiteral(e.i.TargetField.Name);
+                       //Write(e.i.TargetField.Name);
                        WriteAssignment();
 
                        if (EmitEnumAsStringSafe(e))
@@ -935,7 +939,7 @@ namespace jsc.Languages.ActionScript
 
                     WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
                     Write(".");
-                    Write(e.i.TargetField.Name);
+                    WriteSafeLiteral(e.i.TargetField.Name);
                 };
 
 

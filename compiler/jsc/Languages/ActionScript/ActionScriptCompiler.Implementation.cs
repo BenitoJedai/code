@@ -73,11 +73,20 @@ namespace jsc.Languages.ActionScript
                         WriteTypeFields(z, za);
                         WriteLine();
 
-                        WriteTypeInstanceConstructors(z);
-                        WriteLine();
 
+                        if (za.ImplementationType == null)
+                        {
+                            // there is another type that needs to be created
+
+                            WriteTypeInstanceConstructors(z);
+                            WriteLine();
+                        }
+                        
+
+                        
                         WriteTypeInstanceMethods(z, za);
                         WriteLine();
+                    
 
                         WriteTypeStaticMethods(z, za);
                         WriteLine();
@@ -408,6 +417,10 @@ namespace jsc.Languages.ActionScript
 
             if (MethodScriptAttribute != null && MethodScriptAttribute.NotImplementedHere)
             {
+                // a native type has a method that is defined by scriptcorelib
+                // the implementation must be in some other type that is not native
+                // we need to find that type
+
                 TargetMethod = MySession.ResolveImplementation(m.DeclaringType, TargetMethod, AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveNativeImplementationExtension);
                 MethodScriptAttribute = TargetMethod.ToScriptAttribute();
             }
