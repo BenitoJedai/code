@@ -72,3 +72,5 @@ version history:
 	jsc: starting actionscript 3 support development
 13.01.2008
 	actionscript: added support for properties
+03.02.2008
+	actionscript: added try/catch support

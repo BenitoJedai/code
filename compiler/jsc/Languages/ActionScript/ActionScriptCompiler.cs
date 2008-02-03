@@ -257,7 +257,15 @@ namespace jsc.Languages.ActionScript
 
             }
 
+            imp_types.AddRange(
+                from i in imp_types.ToArray()
+                let ia = i.ToScriptAttribute()
+                where ia != null
+                where ia.ImplementationType != null
+                select ia.ImplementationType
+            );
 
+            
             return imp_types;
         }
 
@@ -1028,6 +1036,17 @@ namespace jsc.Languages.ActionScript
 
 
 
+                };
+            #endregion
+
+            #region Throw
+            CIW[OpCodes.Throw] =
+                e =>
+                {
+                    Write("throw");
+                    WriteSpace();
+
+                    EmitFirstOnStack(e);
                 };
             #endregion
         }

@@ -126,11 +126,17 @@ namespace jsc.Script
             }
             else
             {
-                
-
+  
                 Write("new");
                 WriteSpace();
-                WriteDecoratedTypeName(m.DeclaringType);
+
+                if (mza != null && mza.ImplementationType != null)
+                {
+                    WriteDecoratedTypeName(mza.ImplementationType);
+                }
+                else
+                    WriteDecoratedTypeName(m.DeclaringType);
+                
                 WriteParameterInfoFromStack(m, e.p, e.i.StackBeforeStrict, 0);
             }
         }

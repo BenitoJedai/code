@@ -19,8 +19,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
         public string Message
         {
-            [Script(ExternalTarget = "message")]
-            get { return default(string); }
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var e = (global::ScriptCoreLib.ActionScript.Error)(object)this;
+
+                return e.message;
+            }
         }
     }
 }

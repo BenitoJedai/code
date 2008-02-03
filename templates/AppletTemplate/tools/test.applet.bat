@@ -22,7 +22,7 @@ if not exist %AppletWebPage% (
 )
 
 
-call "%TargetPath%" "%AppletWebPage%"
+call %TargetPath% "%AppletWebPage%"
 
 
 popd

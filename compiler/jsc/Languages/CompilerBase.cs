@@ -1158,6 +1158,7 @@ namespace jsc.Script
 
         public abstract void WriteTypeConstructionVerified();
 
+        
         public void WriteTypeConstruction(CodeEmitArgs e)
         {
             MethodBase m = null;
@@ -1186,6 +1187,9 @@ namespace jsc.Script
 
             if (!ScriptAttribute.IsCompilerGenerated(t) && mza == null && m != null)
             {
+                // .net object called -> there is an implementation type. there can also be a native type 
+                // for direct mapping
+
                 MethodBase m_impl = ResolveImplementationMethod(t, m);
 
                 if (m_impl == null)

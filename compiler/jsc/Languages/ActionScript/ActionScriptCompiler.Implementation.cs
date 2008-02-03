@@ -5,6 +5,8 @@ using System.Text;
 using ScriptCoreLib;
 using System.Xml;
 using System.Reflection;
+using System.Diagnostics;
+using System.Reflection.Emit;
 
 namespace jsc.Languages.ActionScript
 {
@@ -27,6 +29,11 @@ namespace jsc.Languages.ActionScript
         }
 
         public override bool SupportsInlineThisReference
+        {
+            get { return true; }
+        }
+
+        public override bool SupportsInlineExceptionVariable
         {
             get { return true; }
         }
@@ -80,13 +87,10 @@ namespace jsc.Languages.ActionScript
 
                             WriteTypeInstanceConstructors(z);
                             WriteLine();
-                        }
-                        
 
-                        
-                        WriteTypeInstanceMethods(z, za);
-                        WriteLine();
-                    
+                            WriteTypeInstanceMethods(z, za);
+                            WriteLine();
+                        }
 
                         WriteTypeStaticMethods(z, za);
                         WriteLine();
@@ -304,9 +308,9 @@ namespace jsc.Languages.ActionScript
 
         public override void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic)
         {
-            
+
             var TypeScriptAttribute = m.DeclaringType.ToScriptAttribute();
-                
+
             var IsNativeTarget = TypeScriptAttribute != null && TypeScriptAttribute.IsNative;
 
             WriteIdent();
@@ -367,7 +371,7 @@ namespace jsc.Languages.ActionScript
             {
                 Write(":");
                 WriteDecoratedTypeNameOrImplementationTypeName(mi.ReturnType, true, true);
-                
+
             }
             #endregion
 
@@ -410,6 +414,8 @@ namespace jsc.Languages.ActionScript
 
         public override void WriteMethodCallVerified(ILBlock.Prestatement p, ILInstruction i, System.Reflection.MethodBase m)
         {
+    
+
             // remove the base call for now
 
             var TargetMethod = m;
@@ -426,8 +432,8 @@ namespace jsc.Languages.ActionScript
             }
 
             var TypeScriptAttribute = TargetMethod.DeclaringType.ToScriptAttribute();
-            
-            
+
+
 
 
 
@@ -579,7 +585,84 @@ namespace jsc.Languages.ActionScript
 
         public override bool EmitTryBlock(ILBlock.Prestatement p)
         {
-            throw new NotImplementedException();
+            if (p.Block.IsTryBlock)
+            {
+
+                WriteIdent();
+                WriteLine("try");
+
+
+                ILBlock.PrestatementBlock b = p.Block.Prestatements;
+
+                bool _pop = false;
+                bool _leave = b.Last == OpCodes.Leave_S && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First;
+
+                EmitScope(b.ExtractBlock(_pop ? b.First.Next : b.First, _leave ? b.Last.Prev : b.Last));
+
+
+            }
+            else if (p.Block.IsHandlerBlock)
+            {
+
+
+                WriteIdent();
+
+
+
+                ILBlock.PrestatementBlock b = p.Block.Prestatements;
+
+                bool _pop = b.First == OpCodes.Pop && (p.Block.Clause.Flags == ExceptionHandlingClauseOptions.Clause);
+                bool _leave =
+                    b.Last == OpCodes.Endfinally
+                ||
+                    (b.Last == OpCodes.Leave_S && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First);
+
+                b = b.ExtractBlock(_pop ? b.First.Next : b.First, _leave ? b.Last.Prev : b.Last);
+
+                b.RemoveNopOpcodes();
+
+                if (p.Block.Clause.Flags == ExceptionHandlingClauseOptions.Clause)
+                {
+                    Write("catch (");
+
+                    if (p.Block.Clause.CatchType == typeof(object))
+                    {
+                        WriteExceptionVar();
+                        Write(":*");
+                    }
+                    else
+                    {
+                        ILBlock.Prestatement set_exc = p.Block.Prestatements.PrestatementCommands[0];
+                        WriteVariableName(p.Block.OwnerMethod.DeclaringType, p.Block.OwnerMethod, set_exc.Instruction.TargetVariable);
+                        Write(":");
+                        WriteDecoratedTypeNameOrImplementationTypeName(p.Block.Clause.CatchType, true, true);
+
+
+                        // remove the set command
+                        b.PrestatementCommands.RemoveAt(0);
+
+                    }
+
+
+                    WriteLine(")");
+
+                    EmitScope(b);
+                }
+                else
+                {
+                    WriteLine("finally");
+                    EmitScope(b);
+                }
+
+                // additional space
+                WriteLine();
+            }
+            else
+            {
+                return false;
+            }
+
+            return true;
         }
 
         Dictionary<Type, string> NativeTypes =
@@ -674,6 +757,7 @@ namespace jsc.Languages.ActionScript
 
         public void WriteDecoratedTypeNameOrImplementationTypeName(Type timpv, bool favorPrimitives, bool favorTargetType)
         {
+
             if (timpv.IsGenericParameter)
             {
                 Write("*");
@@ -698,8 +782,10 @@ namespace jsc.Languages.ActionScript
             {
                 if (favorTargetType)
                 {
-                    if (ScriptAttribute.OfProvider(iType).ImplementationType != null)
-                        iType = null;
+                    var s = iType.ToScriptAttribute();
+
+                    if (s.ImplementationType != null)
+                        iType = s.ImplementationType;
                 }
             }
 

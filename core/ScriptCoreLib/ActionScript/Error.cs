@@ -18,6 +18,12 @@ namespace ScriptCoreLib.ActionScript
         {
 
         }
+        
+        /// <summary>
+        /// Contains the message associated with the Error object.
+        /// </summary>
+        public string message { get; set; }
+
 
     }
 }
