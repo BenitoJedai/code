@@ -244,7 +244,7 @@ namespace jsc.Languages.ActionScript
                     if (p_impl == null)
                     {
 
-                        Break("class import: no implementation for " + p.GUID + "; "  + p.FullName + " at " + t.FullName);
+                        Break("class import: no implementation for " + p.ToString() + " at " + t.FullName);
                     }
 
                     p = p_impl;

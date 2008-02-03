@@ -126,58 +126,69 @@ namespace jsc.Languages.ActionScript
             if (z.IsSealed)
                 Write("final ");
 
+            if (z.IsInterface)
+                Write("interface ");
+            else
+                Write("class ");
 
-            Write("class ");
             WriteDecoratedTypeName(z);
 
-            var BaseTypeImplementation =
-                z.BaseType == typeof(object) ? z.BaseType :
-                MySession.ResolveImplementation(z.BaseType) ?? z.BaseType;
-
-            #region extends
-            if (BaseTypeImplementation != typeof(object) && BaseTypeImplementation != null)
+            if (z.IsClass)
             {
-                Write(" extends ");
+                var BaseTypeImplementation =
+                    z.BaseType == typeof(object) ? z.BaseType :
+                    MySession.ResolveImplementation(z.BaseType) ?? z.BaseType;
+
+                #region extends
+                if (BaseTypeImplementation != typeof(object) && BaseTypeImplementation != null)
+                {
+                    Write(" extends ");
 
 
 
-                ScriptAttribute ba = ScriptAttribute.Of(BaseTypeImplementation, true);
+                    ScriptAttribute ba = ScriptAttribute.Of(BaseTypeImplementation, true);
 
-                if (ba == null)
-                    throw new NotSupportedException("extending object has no attribute");
+                    if (ba == null)
+                        throw new NotSupportedException("extending object has no attribute");
 
 
-                if (ba.Implements == null)
-                    WriteDecoratedTypeName(BaseTypeImplementation);
-                else
-                    Write(GetDecoratedTypeName(BaseTypeImplementation, false));
+                    if (ba.Implements == null)
+                        WriteDecoratedTypeName(BaseTypeImplementation);
+                    else
+                        Write(GetDecoratedTypeName(BaseTypeImplementation, false));
 
+                }
+                #endregion
             }
-            #endregion
 
             #region implements
-            Type[] timp = z.GetInterfaces();
+            var timp = z.GetInterfaces();
 
             if (timp.Length > 0)
             {
-
-
                 int i = 0;
 
                 DebugBreak(za);
 
-                foreach (Type timpv in timp)
+                foreach (var v in timp)
                 {
+                    var timpv = v;
+
                     // ignore interfaces which are not visible to scripting
                     if (timpv.ToScriptAttribute() == null)
-                        continue;
+                    {
+                        timpv = MySession.ResolveImplementation(timpv);
+
+                        if (timpv == null)
+                            continue;
+                    }
 
                     if (i++ > 0)
                         Write(", ");
                     else
                         Write(" implements ");
 
-                    WriteDecoratedTypeName(timpv);
+                    WriteDecoratedTypeNameOrImplementationTypeName(timpv, false, true);
                     //WriteDecoratedTypeNameOrImplementationTypeName(timpv);
                 }
             }
@@ -414,7 +425,7 @@ namespace jsc.Languages.ActionScript
 
         public override void WriteMethodCallVerified(ILBlock.Prestatement p, ILInstruction i, System.Reflection.MethodBase m)
         {
-    
+
 
             // remove the base call for now
 

@@ -42,6 +42,7 @@ using ScriptCoreLib;
 
 [assembly:
     ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
+    ScriptTypeFilter(ScriptType.ActionScript, "*.Shared.Query"),
 
     // some namespace mangling
     ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),

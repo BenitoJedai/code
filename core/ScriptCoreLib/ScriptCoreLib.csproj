@@ -112,7 +112,12 @@
   <ItemGroup>
     <Compile Include="ActionScript\Array.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Action.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEnumerator.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\IEnumerator.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEnumerable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Exception.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\IEnumerable.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\IDisposable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IntPtr32.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\MulticastDelegate.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Delegate.cs" />
