@@ -11,37 +11,100 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         )]
     internal class __String
     {
+        [Script(StringConcatOperator = "+")]
+        public static string Concat(object a, object b, object c)
+        {
+            return default(string);
+        }
+
         #region Concat
-        [Script(OptimizedCode = "return a+b;")]
+        [Script(StringConcatOperator = "+")]
         public static string Concat(object a, object b)
         {
             return default(string);
         }
 
 
-        [Script(OptimizedCode = "return a+b;")]
+        [Script(StringConcatOperator = "+")]
         public static string Concat(string a, string b)
         {
             return default(string);
         }
+
+        [Script(StringConcatOperator = "+")]
+        public static string Concat(string a, string b, string c)
+        {
+            return default(string);
+        }
+
         #endregion
 
-        #region Length
+
         public int Length
         {
-            [Script(DefineAsStatic = true)]
+            [Script(ExternalTarget = "length")]
             get
             {
-                return InternalLength(this);
+                return default(int);
             }
         }
 
-        [Script(OptimizedCode = "return e.length;")]
-        static internal int InternalLength(__String e)
+
+        [Script(ExternalTarget = "toUpperCase")]
+        public string ToUpper()
+        {
+            return default(string);
+        }
+
+        [Script(ExternalTarget = "toLowerCase")]
+        public string ToLower()
+        {
+            return default(string);
+        }
+
+
+        [Script(ExternalTarget = "indexOf")]
+        public int IndexOf(string str)
         {
             return default(int);
         }
-        #endregion
 
+        [Script(ExternalTarget = "lastIndexOf")]
+        public int LastIndexOf(string str)
+        {
+            return default(int);
+        }
+
+        [Script(ExternalTarget = "substring")]
+        public string Substring(int start)
+        {
+            return default(string);
+        }
+
+
+        [Script(ExternalTarget = "substring")]
+        public string Substring(int start, int length)
+        {
+            return default(string);
+        }
+
+        static RegExp TrimExpCache;
+
+        static public RegExp TrimExp
+        {
+            get
+            {
+                if (TrimExpCache == null)
+                    TrimExpCache = new RegExp(@"^\s*|\s*$", "g");
+
+                return TrimExpCache;
+            }
+        }
+
+        [Script(DefineAsStatic = true)]
+        public string Trim()
+        {
+            return ((ActionScript.String)(object)this).replace(TrimExpCache, "");
+        }
     }
 }

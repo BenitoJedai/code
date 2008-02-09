@@ -9,5 +9,9 @@ namespace ScriptCoreLib.ActionScript
     [Script(IsNative=true)]
     public class String
     {
+        public string replace(RegExp Trim, string p)
+        {
+            return default(string);
+        }
     }
 }

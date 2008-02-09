@@ -4,6 +4,7 @@ using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.Extensions;
 using System;
 using ScriptCoreLib.ActionScript.flash.filters;
+using ScriptCoreLib.ActionScript;
 
 
 namespace FlashLinqToObjects.ActionScript
@@ -62,24 +63,48 @@ namespace FlashLinqToObjects.ActionScript
                 height = 20
             };
 
-            
+            var result = new TextField
+            {
+                text = "a",
+                x = margin,
+                y = margin + users.height + margin + filter.height + margin + filter2.height + margin,
+                height = 20,
+                multiline = true,
+                selectable = true
+            };
+
 
             Action Update =
                 delegate
                 {
+                    //var user_filter = filter.text/*.Trim()*/.ToLower();
+
+                    //var __users = users.value.Split(',');
+
+                    
+                    /*
+                    foreach (var v in __users)
+                    {
+                        result.text += "result: " + v + "\n";
+                    }*/
+
+                    
                     try
                     {
-                        throw new Exception("changed");
+                        // todo: make trim work
+
+                        result.text =  
+                            ((ScriptCoreLib.ActionScript.String)(object)(users.text)).replace(
+                            new RegExp(filter.text, "g"), "") + "\n--\n" + users.text.Trim(); 
+
+                        
+
                     }
                     catch (Exception e)
                     {
-                        filter2.text = "catch: " + e.Message;
+                        filter2.text = "error: " + e.Message;
                     }
-                    finally
-                    {
-                        filter.text = "finally";
-
-                    }
+                    
                 };
 
             ApplyStyle(users);
@@ -90,7 +115,7 @@ namespace FlashLinqToObjects.ActionScript
             filter.change += delegate { Update(); };
             filter2.change += delegate { Update(); };
 
-            new[] { users, filter, filter2 }.AttachTo(this);
+            new[] { users, filter, filter2, result }.AttachTo(this);
 
 
 

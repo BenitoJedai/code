@@ -449,6 +449,7 @@ namespace jsc.Languages.ActionScript
 
 
             var IsDefineAsStatic = MethodScriptAttribute != null && MethodScriptAttribute.DefineAsStatic;
+            var HasMethodExternalTarget = MethodScriptAttribute != null && MethodScriptAttribute.ExternalTarget != null;
 
             Action WriteMethodName =
                 delegate
@@ -456,7 +457,11 @@ namespace jsc.Languages.ActionScript
                     if (TypeScriptAttribute.IsNative)
                         Write(TargetMethod.Name);
                     else
-                        WriteDecoratedMethodName(TargetMethod, false);
+                        if (HasMethodExternalTarget)
+                            Write(MethodScriptAttribute.ExternalTarget);
+                        else
+                            WriteDecoratedMethodName(TargetMethod, false);
+                            
                 };
 
             var IsBaseConstructorCall = i.IsBaseConstructorCall(TargetMethod);
@@ -507,7 +512,8 @@ namespace jsc.Languages.ActionScript
 
                     if (prop.SetProperty != null)
                     {
-                        Write(prop.SetProperty.Name);
+                        
+                        Write(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.SetProperty.Name);
                         WritePropertyAssignment(prop);
 
                         return;
@@ -515,7 +521,7 @@ namespace jsc.Languages.ActionScript
 
                     if (prop.GetProperty != null)
                     {
-                        Write(prop.GetProperty.Name);
+                        Write(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.GetProperty.Name);
                         return;
                     }
                 }
@@ -541,19 +547,20 @@ namespace jsc.Languages.ActionScript
 
 
                     #region prop
+
                     {
                         var prop = new PropertyDetector(TargetMethod);
 
                         if (prop.SetProperty != null)
                         {
-                            Write(prop.SetProperty.Name);
+                            Write(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.SetProperty.Name);
                             WritePropertyAssignment(prop);
                             return;
                         }
 
                         if (prop.GetProperty != null)
                         {
-                            Write(prop.GetProperty.Name);
+                            Write(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.GetProperty.Name);
                             return;
                         }
                     }
