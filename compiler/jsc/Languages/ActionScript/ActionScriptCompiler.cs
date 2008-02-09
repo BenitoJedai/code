@@ -212,6 +212,9 @@ namespace jsc.Languages.ActionScript
                 if (p.IsGenericParameter)
                     continue;
 
+                if (p.IsEnum)
+                    continue;
+
                 if (p == typeof(object)) continue;
                 if (p == typeof(void)) continue;
                 if (p == typeof(string)) continue;
@@ -757,13 +760,14 @@ namespace jsc.Languages.ActionScript
 
             // not supported
             // CIW[OpCodes.Conv_I1] = e => ConvertTypeAndEmit(e, "byte");
-            // CIW[OpCodes.Conv_U2] = e => ConvertTypeAndEmit(e, "char");
+
+            CIW[OpCodes.Conv_U2] = e => ConvertTypeAndEmit(e, "int"); // char == int
             CIW[OpCodes.Conv_I4] = e => ConvertTypeAndEmit(e, "int");
 
             // CIW[OpCodes.Conv_I8] = e => ConvertTypeAndEmit(e, "long");
             // CIW[OpCodes.Conv_U8] = e => ConvertTypeAndEmit(e, "long");
 
-            CIW[OpCodes.Conv_R4] = e => ConvertTypeAndEmit(e, "float");
+            CIW[OpCodes.Conv_R4] = e => ConvertTypeAndEmit(e, "Number");
             CIW[OpCodes.Conv_R8] = e => ConvertTypeAndEmit(e, "Number");
 
             // CIW[OpCodes.Conv_U1] = e => ConvertTypeAndEmit(e, "byte");
@@ -896,7 +900,7 @@ namespace jsc.Languages.ActionScript
                 };
             #endregion
 
-            CIW[OpCodes.Castclass] = e => ConvertTypeAndEmit(e, GetDecoratedTypeName(e.i.TargetType, true));
+            CIW[OpCodes.Castclass] = e => ConvertTypeAndEmit(e, e.i.TargetType);
 
 
             #region Stsfld
@@ -1122,6 +1126,16 @@ namespace jsc.Languages.ActionScript
 
         public void ConvertTypeAndEmit(CodeEmitArgs e, Type x)
         {
+            var r = e.i.StackBeforeStrict.Single().SingleStackInstruction.ReferencedType;
+            var ra = r.ToScriptAttribute();
+
+            if (r == x || (ra != null && ra.IsArray))
+            {
+                EmitFirstOnStack(e);
+                return;
+            }
+
+
             Write("(");
             WriteDecoratedTypeNameOrImplementationTypeName(x, true, true);
             Write("(");

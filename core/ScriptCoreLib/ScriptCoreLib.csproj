@@ -115,6 +115,8 @@
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEnumerator.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\IEnumerator.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEnumerable.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\NotSupportedException.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\NotImplementedException.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Exception.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\IEnumerable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IDisposable.cs" />

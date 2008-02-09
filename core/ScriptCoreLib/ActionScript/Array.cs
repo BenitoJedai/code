@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.ActionScript
 {
     // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/Array.html
-    [Script(IsNative=true)]
+    [Script(IsNative=true, IsArray = true)]
     public class Array
     {
         /// <summary>

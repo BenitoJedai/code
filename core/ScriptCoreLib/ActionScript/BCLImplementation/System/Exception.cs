@@ -25,5 +25,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
                 return default(string);
             }
         }
+
+
+        protected string Name { [Script(ExternalTarget = "name")] get; [Script(ExternalTarget = "name")]  set; }
     }
 }

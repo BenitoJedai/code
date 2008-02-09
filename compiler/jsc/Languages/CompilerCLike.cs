@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -709,6 +710,8 @@ namespace jsc.Script
 
         public void WriteReturn(ILBlock.Prestatement p, ILInstruction i)
         {
+            DebugBreak(i.OwnerMethod.ToScriptAttribute());
+
             ILFlow.StackItem[] s = i.StackBeforeStrict;
 
             //WriteBoxedComment("return");
@@ -731,11 +734,41 @@ namespace jsc.Script
             if (((MethodInfo)i.OwnerMethod).ReturnType == typeof(void))
                 return;
 
+            Action<ILInstruction> WriteReturnValue =
+                left =>
+                {
+                    if (SupportsInlineAssigments)
+                    {
+                        if (left.InlineAssigmentValue != null)
+                        {
+                            //WriteBoxedComment("inline");
+
+                            WriteSpace();
+
+
+                            ILBlock.Prestatement _p = left.InlineAssigmentValue;
+                            ILInstruction _i = _p.Instruction;
+
+                            if (_i.IsStoreInstruction)
+                                WriteReturnParameter(_p, _i.StackBeforeStrict.Single().SingleStackInstruction);
+                            else
+                                WriteReturnParameter(_p, _i);
+
+                            return;
+                        }
+                    }
+
+                    //WriteBoxedComment(" br ");
+
+                    WriteSpace();
+                    //Emit(p, s[0]);
+
+                    WriteReturnParameter(p, left);
+                };
+
             if (s.Length == 1)
             {
-                //WriteBoxedComment("ret");
-                WriteSpace();
-                WriteReturnParameter(p, s[0].SingleStackInstruction);
+                WriteReturnValue(s[0].SingleStackInstruction);
 
             }
             else
@@ -748,34 +781,7 @@ namespace jsc.Script
 
                     if (s.Length == 1)
                     {
-                        ILInstruction left = s[0].SingleStackInstruction;
-
-                        //WriteBoxedComment("br");
-
-                        if (SupportsInlineAssigments)
-                        {
-                            if (left.InlineAssigmentValue != null)
-                            {
-                                //WriteBoxedComment("inline");
-
-                                WriteSpace();
-
-
-                                ILBlock.Prestatement _p = left.InlineAssigmentValue;
-                                ILInstruction _i = _p.Instruction;
-
-                                WriteReturnParameter(_p, _i);
-
-                                return;
-                            }
-                        }
-
-                        //WriteBoxedComment(" br ");
-
-                        WriteSpace();
-                        //Emit(p, s[0]);
-
-                        WriteReturnParameter(p, s[0].SingleStackInstruction);
+                        WriteReturnValue(s[0].SingleStackInstruction);
                     }
                 }
             }
@@ -784,6 +790,23 @@ namespace jsc.Script
 
         public virtual void WriteReturnParameter(ILBlock.Prestatement _p, ILInstruction _i)
         {
+            var m = _i.OwnerMethod as MethodInfo;
+
+            if (m != null && m.ReturnType == typeof(bool))
+            {
+                if (_i.OpCode == OpCodes.Ldc_I4_0)
+                {
+                    WriteKeywordFalse();
+                    return;
+                }
+
+                if (_i.OpCode == OpCodes.Ldc_I4_1)
+                {
+                    WriteKeywordTrue();
+                    return;
+                }
+            }
+
             EmitInstruction(_p, _i);
         }
 

@@ -37,6 +37,18 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             return default(string);
         }
 
+        [Script(StringConcatOperator = "+")]
+        public static string Concat(string a, string b, string c, string d)
+        {
+            return default(string);
+        }
+
+        [Script(OptimizedCode = "return e.join('');")]
+        public static string Concat(string[] e)
+        {
+            return default(string);
+        }
+
         #endregion
 
 
@@ -88,6 +100,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             return default(string);
         }
 
+        #region Trim
         static RegExp TrimExpCache;
 
         static public RegExp TrimExp
@@ -104,7 +117,94 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         [Script(DefineAsStatic = true)]
         public string Trim()
         {
-            return ((ActionScript.String)(object)this).replace(TrimExpCache, "");
+            return ((ActionScript.String)(object)this).replace(TrimExp, "");
         }
+        #endregion
+
+
+        [Script(DefineAsStatic = true)]
+        public char get_Chars(int i)
+        {
+            return (char)GetCharCodeAt((string)(object)this, i);
+        }
+
+        [Script(OptimizedCode = "return e.charCodeAt(o);")]
+        public static int GetCharCodeAt(string e, int o)
+        {
+            return default(int);
+        }
+
+        [Script(OptimizedCode = "return String.fromCharCode(i);")]
+        public static string FromCharCode(int i)
+        {
+            return default(string);
+        }
+
+        public static bool IsNullOrEmpty(string e)
+        {
+            if (e == null)
+                return true;
+
+            if (e == "")
+                return true;
+
+            return false;
+        }
+
+        [Script(DefineAsStatic = true)]
+        public string[] Split(string[] e, StringSplitOptions o)
+        {
+            if (e.Length != 1)
+                throw new NotImplementedException("");
+
+
+            var x = ((ActionScript.String)(object)this).split(e[0]);
+
+            if (o == StringSplitOptions.None)
+                return x;
+
+            var a = new Array();
+
+            foreach (var v in x)
+            {
+                if (!string.IsNullOrEmpty(v))
+                    a.push(v);
+            }
+
+
+            return (string[])(object)a;
+        }
+        /*
+        [Script(IsDebugCode = true)]
+        static string[] C(Array a)
+        {
+            return (string[])(object)a;
+        }
+        */
+        #region equal
+        [Script(OptimizedCode = "return a == b")]
+        public static bool operator ==(__String a, __String b)
+        {
+            return default(bool);
+        }
+
+        [Script(OptimizedCode = "return a != b")]
+        public static bool operator !=(__String a, __String b)
+        {
+            return default(bool);
+        }
+
+        [Script(DefineAsStatic = true)]
+        public override bool Equals(object obj)
+        {
+            return this == (__String)obj;
+        }
+
+        [Script(DefineAsStatic = true)]
+        public override int GetHashCode()
+        {
+            throw new NotSupportedException("");
+        }
+        #endregion
     }
 }

@@ -91,6 +91,11 @@ namespace jsc.Languages.ActionScript
                             WriteTypeInstanceMethods(z, za);
                             WriteLine();
                         }
+                        else
+                        {
+                            WriteIdent();
+                            WriteCommentLine("this class is just extending another class via static members");
+                        }
 
                         WriteTypeStaticMethods(z, za);
                         WriteLine();
@@ -151,8 +156,11 @@ namespace jsc.Languages.ActionScript
                     if (ba == null)
                         throw new NotSupportedException("extending object has no attribute");
 
-
-                    if (ba.Implements == null)
+                    if (ba.ImplementationType != null)
+                    {
+                        WriteDecoratedTypeName(ba.ImplementationType);
+                    }
+                    else if (ba.Implements == null)
                         WriteDecoratedTypeName(BaseTypeImplementation);
                     else
                         Write(GetDecoratedTypeName(BaseTypeImplementation, false));
@@ -205,12 +213,13 @@ namespace jsc.Languages.ActionScript
             {
                 // external class cannot have static variables inside a type
                 // should be defined outside as global static instead
-                if (za.HasNoPrototype && !zfn.IsStatic)
+                if ((za.HasNoPrototype || za.ImplementationType != null) && !zfn.IsStatic)
                     continue;
 
                 if (zfn.IsLiteral)
                     continue;
 
+                
                 // write the attributes for current field
                 foreach (var v in from i in zfn.GetCustomAttributes(false)
                                   let type = i.GetType()
@@ -400,12 +409,14 @@ namespace jsc.Languages.ActionScript
                 if (m.IsConstructor)
                     return;
 
+                var any = BindingFlags.Static | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
+
                 #region set
                 {
                     var prefix = "set_";
                     if (m.Name.StartsWith(prefix))
                     {
-                        SetProperty = m.DeclaringType.GetProperty(m.Name.Substring(prefix.Length));
+                        SetProperty = m.DeclaringType.GetProperty(m.Name.Substring(prefix.Length), any);
                     }
                 }
                 #endregion
@@ -415,7 +426,7 @@ namespace jsc.Languages.ActionScript
                     var prefix = "get_";
                     if (m.Name.StartsWith(prefix))
                     {
-                        GetProperty = m.DeclaringType.GetProperty(m.Name.Substring(prefix.Length));
+                        GetProperty = m.DeclaringType.GetProperty(m.Name.Substring(prefix.Length), any);
                     }
                 }
                 #endregion
@@ -454,7 +465,7 @@ namespace jsc.Languages.ActionScript
             Action WriteMethodName =
                 delegate
                 {
-                    if (TypeScriptAttribute.IsNative)
+                    if (TypeScriptAttribute != null && TypeScriptAttribute.IsNative)
                         Write(TargetMethod.Name);
                     else
                         if (HasMethodExternalTarget)
@@ -687,7 +698,8 @@ namespace jsc.Languages.ActionScript
             new Dictionary<Type, string>
             {
                 {typeof(int), "int"},
-                {typeof(uint), "uint"},
+                {typeof(char), "int"}, // char = int
+                {typeof(uint), "int"}, // uint = int
                 {typeof(double), "Number"},
                 {typeof(void), "void"},
                 {typeof(string), "String"},
@@ -696,6 +708,9 @@ namespace jsc.Languages.ActionScript
 
         public override string GetDecoratedTypeName(Type x, bool bExternalAllowed)
         {
+            if (x.IsEnum)
+                return "int";
+
             Func<Type, string> GetShortName =
                 z =>
                 {
@@ -793,8 +808,7 @@ namespace jsc.Languages.ActionScript
             }
 
 
-
-            Type iType = MySession.ResolveImplementation(timpv);
+            var iType = MySession.ResolveImplementation(timpv);
 
             if (iType != null)
             {

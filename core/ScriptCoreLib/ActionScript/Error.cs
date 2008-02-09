@@ -24,6 +24,10 @@ namespace ScriptCoreLib.ActionScript
         /// </summary>
         public string message { get; set; }
 
+        /// <summary>
+        /// Contains the name of the Error object. By default, the value of this property is "Error".
+        /// </summary>
+        public string name { get; set; }
 
     }
 }

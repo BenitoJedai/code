@@ -65,7 +65,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public static string FromCharCode(int i)
         {
             return default(string);
-
         }
 
 

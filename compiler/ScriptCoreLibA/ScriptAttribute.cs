@@ -145,11 +145,7 @@ namespace ScriptCoreLib
 
     }
 
-    [global::System.AttributeUsage(AttributeTargets.Parameter, Inherited = false, AllowMultiple = false)]
-    public sealed class ScriptParameterByRefAttribute : Attribute
-    {
-
-    }
+    
 
     [global::System.AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method | AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public sealed class ScriptParameterByValAttribute : Attribute
@@ -353,6 +349,10 @@ namespace ScriptCoreLib
 
         public bool IsCoreLib;
 
+        /// <summary>
+        /// supports the ldlen opcode
+        /// </summary>
+        public bool IsArray;
 
 
 

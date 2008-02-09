@@ -65,12 +65,11 @@ namespace FlashLinqToObjects.ActionScript
 
             var result = new TextField
             {
-                text = "a",
+                text = "",
                 x = margin,
                 y = margin + users.height + margin + filter.height + margin + filter2.height + margin,
-                height = 20,
-                multiline = true,
-                selectable = true
+                height = 100,
+                autoSize = TextFieldAutoSize.LEFT
             };
 
 
@@ -79,37 +78,37 @@ namespace FlashLinqToObjects.ActionScript
                 {
                     //var user_filter = filter.text/*.Trim()*/.ToLower();
 
-                    //var __users = users.value.Split(',');
-
                     
-                    /*
-                    foreach (var v in __users)
-                    {
-                        result.text += "result: " + v + "\n";
-                    }*/
+                    var __users = users.text.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 
-                    
+
+
+
+
                     try
                     {
-                        // todo: make trim work
+                        result.text = "";
 
-                        result.text =  
-                            ((ScriptCoreLib.ActionScript.String)(object)(users.text)).replace(
-                            new RegExp(filter.text, "g"), "") + "\n--\n" + users.text.Trim(); 
 
-                        
+
+                        foreach (var v in __users)
+                        {
+                            result.text += "result: " + v.Trim() + "\n";
+                        }
+
 
                     }
                     catch (Exception e)
                     {
-                        filter2.text = "error: " + e.Message;
+                        result.text = "error: " + e.Message;
                     }
-                    
+
                 };
 
             ApplyStyle(users);
             ApplyStyle(filter);
             ApplyStyle(filter2);
+            ApplyStyle(result);
 
             users.change += delegate { Update(); };
             filter.change += delegate { Update(); };
@@ -117,7 +116,7 @@ namespace FlashLinqToObjects.ActionScript
 
             new[] { users, filter, filter2, result }.AttachTo(this);
 
-
+            Update();
 
         }
     }
