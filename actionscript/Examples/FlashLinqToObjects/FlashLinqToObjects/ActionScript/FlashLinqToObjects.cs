@@ -76,24 +76,27 @@ namespace FlashLinqToObjects.ActionScript
             Action Update =
                 delegate
                 {
-                    //var user_filter = filter.text/*.Trim()*/.ToLower();
-
-                    
-                    var __users = users.text.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-
-
-
-
-
                     try
                     {
+                        var user_filter = filter.text.Trim().ToLower();
+                        var user_filter2 = filter2.text.Trim().ToLower();
+
+                        var __users = users.text.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+
+
+
                         result.text = "";
 
 
 
                         foreach (var v in __users)
                         {
-                            result.text += "result: " + v.Trim() + "\n";
+                            var x = v.Trim().ToLower();
+
+                            if (x.IndexOf(user_filter) > -1)
+                            {
+                                result.text += "result: " + v.Trim() + "\n";
+                            }
                         }
 
 
@@ -108,7 +111,7 @@ namespace FlashLinqToObjects.ActionScript
             ApplyStyle(users);
             ApplyStyle(filter);
             ApplyStyle(filter2);
-            ApplyStyle(result);
+            //ApplyStyle(result);
 
             users.change += delegate { Update(); };
             filter.change += delegate { Update(); };
