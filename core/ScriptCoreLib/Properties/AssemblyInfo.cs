@@ -46,6 +46,7 @@ using ScriptCoreLib;
 
     // some namespace mangling
     ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
+    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = ""),
 ]
 
 [assembly: ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript")]

@@ -30,11 +30,11 @@ namespace FlashLinqToObjects.ActionScript
                     f.type = TextFieldType.INPUT;
 
                     f.focusIn += delegate { f.backgroundColor = 0xffffff; };
-                    f.focusOut += delegate { f.backgroundColor = 0xa0a0a0; };
+                    f.focusOut += delegate { f.backgroundColor = 0xc0c0c0; };
 
                     f.backgroundColor = 0xa0a0a0;
 
-                    f.width = 120;
+                    f.width = 160;
                 };
             #endregion
 
@@ -55,19 +55,12 @@ namespace FlashLinqToObjects.ActionScript
                 height = 20,
             };
 
-            var filter2 = new TextField
-            {
-                text = "a",
-                x = margin,
-                y = margin + users.height + margin + filter.height + margin,
-                height = 20
-            };
 
             var result = new TextField
             {
                 text = "",
                 x = margin,
-                y = margin + users.height + margin + filter.height + margin + filter2.height + margin,
+                y = margin + users.height + margin + filter.height + margin ,
                 height = 100,
                 autoSize = TextFieldAutoSize.LEFT
             };
@@ -79,16 +72,10 @@ namespace FlashLinqToObjects.ActionScript
                     try
                     {
                         var user_filter = filter.text.Trim().ToLower();
-                        var user_filter2 = filter2.text.Trim().ToLower();
 
                         var __users = users.text.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 
-
-
-
                         result.text = "";
-
-
 
                         foreach (var v in from i in __users
                                           where i.Trim().ToLower().Contains(user_filter)
@@ -108,14 +95,11 @@ namespace FlashLinqToObjects.ActionScript
 
             ApplyStyle(users);
             ApplyStyle(filter);
-            ApplyStyle(filter2);
-            //ApplyStyle(result);
 
             users.change += delegate { Update(); };
             filter.change += delegate { Update(); };
-            filter2.change += delegate { Update(); };
 
-            new[] { users, filter, filter2, result }.AttachTo(this);
+            new[] { users, filter, result }.AttachTo(this);
 
             Update();
 

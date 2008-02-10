@@ -205,6 +205,11 @@ namespace jsc.Script
             Write(")");
         }
 
+        public virtual void WriteArrayToCustomArrayEnumeratorCast(Type Enumerable, Type ElementType, ILBlock.Prestatement p, ILFlow.StackItem s)
+        {
+            Write("/* autocast " + Enumerable.Name + " */");
+            Emit(p, s);
+        }
 
         public override void WriteParameters(ILBlock.Prestatement p, MethodBase _method, ILFlow.StackItem[] s, int offset, ParameterInfo[] pi, bool pWritten, string op)
         {
@@ -281,14 +286,21 @@ namespace jsc.Script
                             #region SupportsCustomArrayEnumerator
                             if (SupportsCustomArrayEnumerator)
                             {
+                                
                                 var SingleStackInstruction = s[si].SingleStackInstruction;
                                 if (SingleStackInstruction != null)
                                 {
                                     var ReferencedType = SingleStackInstruction.ReferencedType;
                                     if (ReferencedType != null && ReferencedType.IsArray)
                                     {
-                                        
-                                        Write("/*autocast " + parameter.ParameterType.FullName + " */");
+                                        var ElementType = ReferencedType.GetElementType();
+                                        var Enumerable = typeof(IEnumerable<>).MakeGenericType(ElementType);
+
+                                        if (Enumerable.GUID == parameter.ParameterType.GUID)
+                                        {
+                                            WriteArrayToCustomArrayEnumeratorCast(Enumerable, ElementType, p, s[si]);
+                                            continue;
+                                        }
                                     }
                                 }
                             }

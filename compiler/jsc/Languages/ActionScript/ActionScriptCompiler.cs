@@ -180,12 +180,16 @@ namespace jsc.Languages.ActionScript
             var imp_types = new List<Type>();
 
             imp.RemoveAll(i => i.IsGenericParameter);
+            
+            // todo: import only if used in code...
+            imp.Add(GetArrayEnumeratorType());
 
 
             while (imp.Count > 0)
             {
                 Type p = imp[0];
 
+                
                 // remove duplicates
                 imp.RemoveAll(
                      delegate(Type w)
@@ -268,7 +272,7 @@ namespace jsc.Languages.ActionScript
                 select ia.ImplementationType
             );
 
-            
+
             return imp_types;
         }
 
@@ -1150,7 +1154,37 @@ namespace jsc.Languages.ActionScript
             EmitFirstOnStack(e);
             Write("))");
         }
+
+        Type CachedArrayEnumeratorType;
+
+        public Type GetArrayEnumeratorType()
+        {
+            return CachedArrayEnumeratorType ?? (CachedArrayEnumeratorType = (from i in MySession.ImplementationTypes
+                                                                      let a = i.ToScriptAttribute()
+                                                                      where a != null
+                                                                      where a.IsArrayEnumerator
+                                                                      select i).SingleOrDefault());
+        }
+
+        public override void WriteArrayToCustomArrayEnumeratorCast(Type Enumerable, Type ElementType, ILBlock.Prestatement p, ILFlow.StackItem s)
+        {
+            var x = GetArrayEnumeratorType();
+            if (x == null)
+                throw new Exception("SZArrayEnumerator is missing");
+
+            var ArrayToEnumerator = x.GetImplicitOperators(null, null).Single();
+
+            WriteDecoratedTypeNameOrImplementationTypeName(x, false, false);
+            Write(".");
+            WriteDecoratedMethodName(ArrayToEnumerator, false);
+            Write("(");
+
+            Emit(p, s);
+
+            Write(")");
+
+        }
     }
 
-    
+
 }
