@@ -60,7 +60,7 @@ namespace FlashLinqToObjects.ActionScript
             {
                 text = "",
                 x = margin,
-                y = margin + users.height + margin + filter.height + margin ,
+                y = margin + users.height + margin + filter.height + margin,
                 height = 100,
                 autoSize = TextFieldAutoSize.LEFT
             };
@@ -99,7 +99,30 @@ namespace FlashLinqToObjects.ActionScript
             users.change += delegate { Update(); };
             filter.change += delegate { Update(); };
 
-            new[] { users, filter, result }.AttachTo(this);
+            Func<TextField, string, TextField> ToLabel =
+                (e, text) =>
+                {
+                    var r =
+                         new TextField
+                        {
+                            text = text,
+                            x = e.x + e.width + margin,
+                            y = e.y,
+                            autoSize = TextFieldAutoSize.LEFT,
+                            selectable = false
+                        };
+
+                    r.click +=
+                        ev => stage.focus = e;
+
+                    return r;
+                };
+
+            new[] { users, filter, result,
+                ToLabel(users, "Enter a list of names separated by commas"),
+                ToLabel(filter,  "Enter a partial name to be found from the list above."),
+                
+            }.AttachTo(this);
 
             Update();
 
