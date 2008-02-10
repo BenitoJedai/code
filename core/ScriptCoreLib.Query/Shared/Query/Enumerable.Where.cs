@@ -20,6 +20,7 @@ namespace ScriptCoreLib.Shared.Query
         //    return Where( (SZArrayEnumerator<T>)source, predicate);
         //}
 
+        [Script(IsDebugCode=true)]
         public static IEnumerable<T> Where<T>(this IEnumerable<T> source, global::System.Func<T, bool> predicate)
         {
             if (predicate == null) throw new ArgumentNullException("predicate");

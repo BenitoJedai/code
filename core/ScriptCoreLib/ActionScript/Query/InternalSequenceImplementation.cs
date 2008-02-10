@@ -17,8 +17,10 @@ namespace ScriptCoreLib.ActionScript.Query
 
         public static IEnumerable<TSource> AsEnumerable<TSource>(IEnumerable<TSource> source)
         {
-            if (source == null)
-                return null;
+            return source;
+
+            //if (source == null)
+            //    return null;
 
             // fixme: works only as array to IEnumerable
 
@@ -38,8 +40,16 @@ namespace ScriptCoreLib.ActionScript.Query
                 else return source;
             }*/
 
-            return (ScriptCoreLib.Shared.Query.SZArrayEnumerator<TSource>)(TSource[])source;
+            //return (ScriptCoreLib.Shared.Query.SZArrayEnumerator<TSource>) ToArray(source);
         }
+
+
+
+        //[Script(OptimizedCode = "return o;")]
+        //private static TSource[] ToArray<TSource>(IEnumerable<TSource> o)
+        //{
+        //    return default(TSource[]);
+        //}
     }
 
 

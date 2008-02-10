@@ -354,7 +354,10 @@ namespace ScriptCoreLib
         /// </summary>
         public bool IsArray;
 
-
+        /// <summary>
+        /// referenced type is the enumerator for the native array
+        /// </summary>
+        public bool IsArrayEnumerator;
 
         /// <summary>
         /// param 0 is target

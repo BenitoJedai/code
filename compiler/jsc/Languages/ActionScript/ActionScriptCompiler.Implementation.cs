@@ -689,7 +689,7 @@ namespace jsc.Languages.ActionScript
 
 
                     #region prop
-
+                    if (!TargetMethod.DeclaringType.IsInterface)
                     {
                         var prop = new PropertyDetector(TargetMethod);
 

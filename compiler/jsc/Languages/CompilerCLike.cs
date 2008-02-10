@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 
 using ScriptCoreLib;
+using System.Collections;
 
 
 namespace jsc.Script
@@ -207,6 +208,8 @@ namespace jsc.Script
 
         public override void WriteParameters(ILBlock.Prestatement p, MethodBase _method, ILFlow.StackItem[] s, int offset, ParameterInfo[] pi, bool pWritten, string op)
         {
+            
+
             if (s != null)
             {
                 for (int si = offset; si < s.Length; si++)
@@ -281,7 +284,9 @@ namespace jsc.Script
                             if (IsTypeCastRequired(parameter.ParameterType, s[si]))
                                 //AlwaysDoTypeCastOnParameters)
                                 MethodCallParameterTypeCast(parameter);
-                            //}
+
+
+                            
 
                             Emit(p, s[si]);
                         }
