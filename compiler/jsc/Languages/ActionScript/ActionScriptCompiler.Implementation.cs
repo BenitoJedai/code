@@ -38,6 +38,13 @@ namespace jsc.Languages.ActionScript
             get { return true; }
         }
 
+
+        public override bool SupportsCustomArrayEnumerator
+        {
+            get { return true; }
+        }
+
+
         public override ScriptCoreLib.ScriptType GetScriptType()
         {
             return ScriptCoreLib.ScriptType.ActionScript;

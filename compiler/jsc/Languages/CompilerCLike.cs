@@ -128,7 +128,7 @@ namespace jsc.Script
             }
             else
             {
-  
+
                 Write("new");
                 WriteSpace();
 
@@ -138,7 +138,7 @@ namespace jsc.Script
                 }
                 else
                     WriteDecoratedTypeName(m.DeclaringType);
-                
+
                 WriteParameterInfoFromStack(m, e.p, e.i.StackBeforeStrict, 0);
             }
         }
@@ -208,7 +208,7 @@ namespace jsc.Script
 
         public override void WriteParameters(ILBlock.Prestatement p, MethodBase _method, ILFlow.StackItem[] s, int offset, ParameterInfo[] pi, bool pWritten, string op)
         {
-            
+
 
             if (s != null)
             {
@@ -278,6 +278,22 @@ namespace jsc.Script
                             }
                             #endregion
 
+                            #region SupportsCustomArrayEnumerator
+                            if (SupportsCustomArrayEnumerator)
+                            {
+                                var SingleStackInstruction = s[si].SingleStackInstruction;
+                                if (SingleStackInstruction != null)
+                                {
+                                    var ReferencedType = SingleStackInstruction.ReferencedType;
+                                    if (ReferencedType != null && ReferencedType.IsArray)
+                                    {
+                                        
+                                        Write("/*autocast " + parameter.ParameterType.FullName + " */");
+                                    }
+                                }
+                            }
+                            #endregion
+
 
                             // todo: only if types donot comply
 
@@ -286,7 +302,7 @@ namespace jsc.Script
                                 MethodCallParameterTypeCast(parameter);
 
 
-                            
+
 
                             Emit(p, s[si]);
                         }
@@ -515,34 +531,33 @@ namespace jsc.Script
 
                         if (SupportsInlineAssigments && expression.StackInstructions.Length == 1 &&
                             expression.SingleStackInstruction.InlineAssigmentValue != null)
+                        {
+                            #region redundant !! removal
+                            expression = expression.SingleStackInstruction.InlineAssigmentValue.Instruction.StackBeforeStrict[0];
 
+                            if (expression.IsSingle)
                             {
-                                #region redundant !! removal
-                                expression = expression.SingleStackInstruction.InlineAssigmentValue.Instruction.StackBeforeStrict[0];
-
-                                if (expression.IsSingle)
+                                if (expression.SingleStackInstruction.IsNegativeOperator)
                                 {
-                                    if (expression.SingleStackInstruction.IsNegativeOperator)
-                                    {
-                                        Emit(p, expression.SingleStackInstruction.StackBeforeStrict[0]);
+                                    Emit(p, expression.SingleStackInstruction.StackBeforeStrict[0]);
 
-                                        goto skipx;
-                                    }
+                                    goto skipx;
                                 }
-                                #endregion
-
-
-                                Write("!");
-                                Emit(p, expression);
-
-                            skipx:
-                                ;
                             }
-                            else
-                            {
-                                Write("!");
-                                Emit(p, expression);
-                            }
+                            #endregion
+
+
+                            Write("!");
+                            Emit(p, expression);
+
+                        skipx:
+                            ;
+                        }
+                        else
+                        {
+                            Write("!");
+                            Emit(p, expression);
+                        }
                     }
                     else
                     {
@@ -820,7 +835,7 @@ namespace jsc.Script
             Write("__exc");
         }
 
-      
+
         public virtual void ConvertTypeAndEmit(CodeEmitArgs e, string x)
         {
             Write("((" + x + ")(");

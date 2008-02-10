@@ -568,6 +568,14 @@ namespace jsc.Script
             }
         }
 
+        public virtual bool SupportsCustomArrayEnumerator
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         public virtual bool SupportsForStatements
         {
             get
