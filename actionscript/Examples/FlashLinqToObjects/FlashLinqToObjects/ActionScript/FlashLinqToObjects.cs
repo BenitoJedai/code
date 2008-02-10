@@ -4,7 +4,7 @@ using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.Extensions;
 using System;
 using ScriptCoreLib.ActionScript.flash.filters;
-using ScriptCoreLib.ActionScript;
+using System.Linq;
 
 
 namespace FlashLinqToObjects.ActionScript
@@ -51,7 +51,7 @@ namespace FlashLinqToObjects.ActionScript
             {
                 text = "or",
                 x = margin,
-                y = margin + 100 + margin,
+                y = margin + users.height + margin,
                 height = 20,
             };
 
@@ -59,7 +59,7 @@ namespace FlashLinqToObjects.ActionScript
             {
                 text = "a",
                 x = margin,
-                y = margin + 100 + margin + 20 + margin,
+                y = margin + users.height + margin + filter.height + margin,
                 height = 20
             };
 
@@ -85,18 +85,16 @@ namespace FlashLinqToObjects.ActionScript
 
 
 
+
                         result.text = "";
 
 
 
-                        foreach (var v in __users)
+                        foreach (var v in from i in __users
+                                          where i.Trim().ToLower().Contains(user_filter)
+                                          select i.Trim())
                         {
-                            var x = v.Trim().ToLower();
-
-                            if (x.IndexOf(user_filter) > -1)
-                            {
-                                result.text += "result: " + v.Trim() + "\n";
-                            }
+                            result.text += "result: " + v + "\n";
                         }
 
 

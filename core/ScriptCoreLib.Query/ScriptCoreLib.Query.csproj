@@ -51,8 +51,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JavaScript\BCLImplementation\System\Action.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Func.cs" />
+    <Compile Include="ActionScript\Query\Enumerable.cs" />
+    <Compile Include="ActionScript\Query\Enumerable.Select.cs" />
+    <Compile Include="ActionScript\Query\Enumerable.Where.cs" />
+    <Compile Include="ActionScript\Query\DefinedErrors.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Func.cs" />
+    <Compile Include="Shared\Query\Enumerable.Methods.cs" />
     <Compile Include="Shared\Query\Enumerable.OrderBy.cs" />
     <Compile Include="Shared\Query\OrderedEnumerable.cs" />
     <Compile Include="JavaScript\Query\LocalInternalEnumerableImplementation.cs" />

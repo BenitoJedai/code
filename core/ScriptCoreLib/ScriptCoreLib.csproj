@@ -115,6 +115,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEnumerator.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\IEnumerator.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEnumerable.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\ArgumentNullException.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\NotSupportedException.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\NotImplementedException.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Exception.cs" />
@@ -180,6 +181,7 @@
     <Compile Include="ActionScript\mx\core\IFlexDisplayObject.cs" />
     <Compile Include="ActionScript\mx\core\SoundAsset.cs" />
     <Compile Include="ActionScript\mx\effects\Tween.cs" />
+    <Compile Include="ActionScript\Query\InternalSequenceImplementation.cs" />
     <Compile Include="ActionScript\RegExp.cs" />
     <Compile Include="ActionScript\String.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ArgumentNullException.cs" />

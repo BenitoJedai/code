@@ -1646,7 +1646,8 @@ namespace jsc
                 }
                 else
                 {
-                    if (this == OpCodes.Ldarg_0) Debugger.Break();
+                    if (this == OpCodes.Ldarg_0) return null;
+                        // Debugger.Break();
 
 
                     if (this == OpCodes.Ldarg_1) return p[0];

@@ -39,7 +39,7 @@ namespace ScriptCoreLib.ActionScript.Extensions
             return s;
         }
 
-        //[Script(IsDebugCode = true)]
+        
         public static T AttachTo<T>(this T e, DisplayObjectContainer c) where T : DisplayObject
         {
             c.addChild(e);

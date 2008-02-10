@@ -1300,7 +1300,7 @@ namespace jsc.Script
                 WriteDecoratedMethodParameter(i.TargetParameter);
         }
 
-        private void WriteThisReference()
+        protected void WriteThisReference()
         {
             Write("this");
         }

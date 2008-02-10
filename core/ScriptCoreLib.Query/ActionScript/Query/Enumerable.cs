@@ -9,7 +9,7 @@ using IDisposable = global::System.IDisposable;
 using System;
 using System.Linq;
 
-namespace ScriptCoreLib.Shared.Query
+namespace ScriptCoreLib.ActionScript.Query
 {
 
     [Script(Implements = typeof(global::System.Linq.Enumerable))]

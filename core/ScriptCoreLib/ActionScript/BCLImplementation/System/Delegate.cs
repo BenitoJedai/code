@@ -44,13 +44,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
                 return _FunctionPointer;
             }
         }
-
+        
         [Script(OptimizedCode = "return o;")]
-        private static __IntPtr ToIntPtr(IntPtr o)
+        private static __IntPtr ToIntPtr(global::System.IntPtr o)
         {
             return default(__IntPtr);
         }
-
+        
         [Script(OptimizedCode = "return o[n];")]
         private static Function GetFunctionPointer(object o, string n)
         {

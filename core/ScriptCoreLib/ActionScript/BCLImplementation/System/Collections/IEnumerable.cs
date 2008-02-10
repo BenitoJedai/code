@@ -8,5 +8,6 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections
     [Script(Implements = typeof(global::System.Collections.IEnumerable))]
     public interface __IEnumerable
     {
+        __IEnumerator GetEnumerator();
     }
 }

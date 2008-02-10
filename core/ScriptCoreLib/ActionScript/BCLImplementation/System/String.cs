@@ -174,13 +174,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
             return (string[])(object)a;
         }
-        /*
-        [Script(IsDebugCode = true)]
-        static string[] C(Array a)
+
+        [Script(DefineAsStatic = true)]
+        public bool Contains(string a)
         {
-            return (string[])(object)a;
+            return IndexOf(a) > -1;
         }
-        */
+
         #region equal
         [Script(OptimizedCode = "return a == b")]
         public static bool operator ==(__String a, __String b)

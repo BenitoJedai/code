@@ -8,5 +8,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections
     [Script(Implements = typeof(global::System.Collections.IEnumerator))]
     public interface __IEnumerator
     {
+        object Current { get; }
+
+        bool MoveNext();
+
+        void Reset();
     }
 }

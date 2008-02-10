@@ -99,12 +99,97 @@ namespace jsc.Languages.ActionScript
 
                         WriteTypeStaticMethods(z, za);
                         WriteLine();
+
+                        if (!z.IsInterface)
+                        {
+                            WriteInterfaceMappingMethods(z);
+                        }
                     }
 
                 }
             }
 
             return true;
+        }
+
+        public MethodBase ResolveMethod(MethodBase m)
+        {
+            return
+                (m.DeclaringType.ToScriptAttribute() == null
+                            ? ResolveImplementationMethod(m.DeclaringType, m)
+                            : m);
+        }
+        private void WriteInterfaceMappingMethods(Type z)
+        {
+ 
+
+            foreach (var v in from i in z.GetInterfaces()
+                              let mapping = z.GetInterfaceMap(i)
+                              from j in Enumerable.Range(0, mapping.InterfaceMethods.Length)
+                              let imethod = ResolveMethod(mapping.InterfaceMethods[j])
+                              let tmethod = ResolveMethod(mapping.TargetMethods[j])
+                              let imethodinfo = imethod as MethodInfo
+                              let ret = imethodinfo == null ? false : imethodinfo.ReturnType != typeof(void)
+                              select new { i, j, mapping, imethod, iparams = imethod.GetParameters(), ret, tmethod })
+            {
+                WriteIdent();
+                WriteCommentLine("implements " + v.imethod.ToString() + " via " + v.i.FullName);
+
+                #region interface mapping
+                WriteMethodSignature(v.imethod, false, WriteMethodSignatureMode.Implementing);
+
+                using (CreateScope())
+                {
+                    WriteIdent();
+
+                    if (v.ret)
+                    {
+                        WriteKeywordReturn();
+                        WriteSpace();
+                    }
+
+                    WriteThisReference();
+                    Write(".");
+
+                    #region prop
+                    {
+                        var prop = new PropertyDetector(v.tmethod);
+
+                        if (prop.SetProperty != null)
+                        {
+                            Write(prop.SetProperty.Name);
+                            WriteAssignment();
+                            WriteSafeLiteral(v.iparams.Single().Name);
+                        }
+                        else if (prop.GetProperty != null)
+                        {
+                            Write(prop.GetProperty.Name);
+                        }
+                        else
+                        {
+                            WriteDecoratedMethodName(v.tmethod, false);
+                            Write("(");
+                            for (int i = 0; i < v.iparams.Length; i++)
+                            {
+                                if (i > 0)
+                                {
+                                    Write(",");
+                                    WriteSpace();
+                                }
+                                WriteSafeLiteral(v.iparams[i].Name);
+                            }
+                            Write(")");
+                        }
+                    }
+                    #endregion
+
+                    Write(";");
+                    WriteLine();
+                }
+
+                #endregion
+
+            }
         }
 
         public override void WriteTypeSignature(Type z, ScriptCoreLib.ScriptAttribute za)
@@ -194,7 +279,15 @@ namespace jsc.Languages.ActionScript
                     if (i++ > 0)
                         Write(", ");
                     else
-                        Write(" implements ");
+                    {
+                        // http://livedocs.adobe.com/specs/actionscript/3/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Parts&file=as3_specification189.html
+                        // http://livedocs.adobe.com/specs/actionscript/3/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Parts&file=as3_specification100.html#wp127562
+
+                        if (z.IsInterface)
+                            Write(" extends ");
+                        else
+                            Write(" implements ");
+                    }
 
                     WriteDecoratedTypeNameOrImplementationTypeName(timpv, false, true);
                     //WriteDecoratedTypeNameOrImplementationTypeName(timpv);
@@ -219,7 +312,7 @@ namespace jsc.Languages.ActionScript
                 if (zfn.IsLiteral)
                     continue;
 
-                
+
                 // write the attributes for current field
                 foreach (var v in from i in zfn.GetCustomAttributes(false)
                                   let type = i.GetType()
@@ -328,24 +421,45 @@ namespace jsc.Languages.ActionScript
 
         public override void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic)
         {
+            WriteMethodSignature(m, dStatic, WriteMethodSignatureMode.Delcaring);
+        }
 
-            var TypeScriptAttribute = m.DeclaringType.ToScriptAttribute();
+        protected enum WriteMethodSignatureMode
+        {
+            Delcaring,
+            Implementing
+        }
+
+        protected void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic, WriteMethodSignatureMode mode)
+        {
+
+            var DeclaringType = m.DeclaringType;
+            var TypeScriptAttribute = DeclaringType.ToScriptAttribute();
 
             var IsNativeTarget = TypeScriptAttribute != null && TypeScriptAttribute.IsNative;
 
             WriteIdent();
 
-            if (m.IsPublic)
-                Write("public ");
-            else
-                if (m.IsFamily)
-                    Write("protected ");
-                else
+            if (DeclaringType.IsInterface)
+            {
+                if (mode == WriteMethodSignatureMode.Implementing)
                 {
-                    // cannot use private as it blocks off delegates
-                    Write("internal ");
+                    Write("public ");
                 }
-
+            }
+            else
+            {
+                if (m.IsPublic)
+                    Write("public ");
+                else
+                    if (m.IsFamily)
+                        Write("protected ");
+                    else
+                    {
+                        // cannot use private as it blocks off delegates
+                        Write("internal ");
+                    }
+            }
 
             if (m.IsStatic || dStatic)
                 Write("static ");
@@ -359,12 +473,16 @@ namespace jsc.Languages.ActionScript
             {
                 var prop = new PropertyDetector(m);
 
-                if (!dStatic && prop.SetProperty != null)
+                // Compiler error. Getters/setters are not allowed in interfaces.
+                // http://livedocs.adobe.com/flash/9.0/main/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Parts&file=00000830.html
+                // -> implementing classes need to wrap this
+
+                if (!DeclaringType.IsInterface && !dStatic && prop.SetProperty != null)
                 {
                     Write("set ");
                     Write(prop.SetProperty.Name);
                 }
-                else if (!dStatic && prop.GetProperty != null)
+                else if (!DeclaringType.IsInterface && !dStatic && prop.GetProperty != null)
                 {
                     Write("get ");
                     Write(prop.GetProperty.Name);
@@ -395,6 +513,9 @@ namespace jsc.Languages.ActionScript
             }
             #endregion
 
+            if (mode == WriteMethodSignatureMode.Delcaring)
+                if (DeclaringType.IsInterface)
+                    Write(";");
 
             WriteLine();
         }
@@ -452,6 +573,11 @@ namespace jsc.Languages.ActionScript
                 TargetMethod = MySession.ResolveImplementation(m.DeclaringType, TargetMethod, AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveNativeImplementationExtension);
                 MethodScriptAttribute = TargetMethod.ToScriptAttribute();
             }
+            else
+            {
+                TargetMethod = ResolveMethod(m);
+                MethodScriptAttribute = TargetMethod.ToScriptAttribute();
+            }
 
             var TypeScriptAttribute = TargetMethod.DeclaringType.ToScriptAttribute();
 
@@ -472,13 +598,21 @@ namespace jsc.Languages.ActionScript
                             Write(MethodScriptAttribute.ExternalTarget);
                         else
                             WriteDecoratedMethodName(TargetMethod, false);
-                            
+
                 };
 
             var IsBaseConstructorCall = i.IsBaseConstructorCall(TargetMethod);
 
             var s = i.StackBeforeStrict;
             var offset = 1;
+
+            if (TargetMethod.IsStatic || IsDefineAsStatic)
+            {
+                if (IsDefineAsStatic)
+                    offset = 1;
+                else
+                    offset = 0;
+            }
 
             #region WritePropertyAssignment
             Action<PropertyDetector> WritePropertyAssignment =
@@ -523,7 +657,7 @@ namespace jsc.Languages.ActionScript
 
                     if (prop.SetProperty != null)
                     {
-                        
+
                         Write(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.SetProperty.Name);
                         WritePropertyAssignment(prop);
 
@@ -540,10 +674,7 @@ namespace jsc.Languages.ActionScript
 
                 WriteMethodName();
 
-                if (IsDefineAsStatic)
-                    offset = 1;
-                else
-                    offset = 0;
+
             }
             else
             {

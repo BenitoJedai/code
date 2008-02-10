@@ -7,22 +7,22 @@ using ScriptCoreLib;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ScriptCoreLib.Query")]
+[assembly: AssemblyTitle("FlashInterfaceTest")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("neutronic")]
-[assembly: AssemblyProduct("ScriptCoreLib.Query")]
-[assembly: AssemblyCopyright("Copyright ? neutronic 2008")]
+[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyProduct("FlashInterfaceTest")]
+[assembly: AssemblyCopyright("Copyright © Microsoft 2007")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
-// to COM componenets.  If you need to access a type in this assembly from 
+// to COM components.  If you need to access a type in this assembly from 
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0cae4ddb-abd5-4c2a-96c0-918ed1d736e4")]
+[assembly: Guid("91a9e2f5-2152-4ebf-8b11-d814dfb83a78")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -31,15 +31,14 @@ using ScriptCoreLib;
 //      Build Number
 //      Revision
 //
-// You can specify all the values or you can default the Revision and Build Numbers 
+// You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("3.5.*")]
-[assembly: AssemblyFileVersion("3.5.*")]
+// [assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
+
 
 [assembly:
     Script,
-    ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
-    ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),
-    ScriptTypeFilter(ScriptType.JavaScript, "*.Shared")
+    ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript")
 ]
-
