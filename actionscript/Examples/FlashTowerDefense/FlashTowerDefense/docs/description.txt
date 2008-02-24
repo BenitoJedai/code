@@ -1,0 +1,13 @@
+﻿FlashApplication. Crosscompiled from c# to actionscript.
+
+This is a towerdefense game.
+
+Steps used to create this game:
+
+01: New project
+02: Rename some project files to reflect project name
+03: Add mouse tracking text field
+04: Update batch files to build current project
+05: Build project via build.bat
+06: Save the project
+07: Commit to svn
