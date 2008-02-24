@@ -14,6 +14,8 @@ namespace ScriptCoreLib.ActionScript.flash.events
         public static readonly string MOUSE_MOVE = "mouseMove";
         public static readonly string MOUSE_OVER = "mouseOver";
         public static readonly string MOUSE_OUT = "mouseOut";
+        public static readonly string MOUSE_DOWN = "mouseDown";
+        public static readonly string MOUSE_UP = "mouseUp";
 
         /// <summary>
         /// The horizontal coordinate at which the event occurred in global Stage coordinates.

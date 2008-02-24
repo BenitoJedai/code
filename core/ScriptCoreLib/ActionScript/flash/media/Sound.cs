@@ -50,5 +50,7 @@ namespace ScriptCoreLib.ActionScript.flash.media
         }
         #endregion
 
+
+        public double length { get; private set; }
     }
 }

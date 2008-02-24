@@ -4,10 +4,16 @@ This is a towerdefense game.
 
 Steps used to create this game:
 
-01: New project
-02: Rename some project files to reflect project name
-03: Add mouse tracking text field
-04: Update batch files to build current project
-05: Build project via build.bat
-06: Save the project
-07: Commit to svn
+24.02.2008:
+	01: New project
+	02: Rename some project files to reflect project name
+	03: Add mouse tracking text field
+	04: Update batch files to build current project
+	05: Build project via build.bat
+	06: Save the project
+	07: Commit to svn
+	08: Add default turret image 
+	09: Add sound from http://www.findsounds.com/ISAPI/search.dll?keywords=machine+gun
+	10: Update ScriptCoreLib to include mousedown/up events
+	11: Add random grass, bumps and background music
+	12: Commit to svn, end of day

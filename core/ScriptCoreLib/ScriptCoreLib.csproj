@@ -116,6 +116,8 @@
     <Compile Include="ActionScript\BCLImplementation\System\Collections\IEnumerator.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEnumerable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ArgumentNullException.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Random.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Math.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\NotSupportedException.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\NotImplementedException.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Exception.cs" />
@@ -174,6 +176,7 @@
     <Compile Include="ActionScript\fl\transitions\Transition.cs" />
     <Compile Include="ActionScript\fl\transitions\TransitionManager.cs" />
     <Compile Include="ActionScript\Function.cs" />
+    <Compile Include="ActionScript\Math.cs" />
     <Compile Include="ActionScript\mx\controls\Alert.cs" />
     <Compile Include="ActionScript\mx\core\BitmapAsset.cs" />
     <Compile Include="ActionScript\mx\core\FlexBitmap.cs" />

@@ -15,6 +15,13 @@ namespace ScriptCoreLib.ActionScript.flash.display
         public event Action<MouseEvent> click;
 
         [method: Script(NotImplementedHere = true)]
+        public event Action<MouseEvent> mouseDown;
+
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MouseEvent> mouseUp;
+
+
+        [method: Script(NotImplementedHere = true)]
         public event Action<MouseEvent> mouseMove;
 
         [method: Script(NotImplementedHere = true)]

@@ -69,6 +69,33 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.display
         #endregion
 
 
+        #region mouseDown
+        public static void add_mouseDown(InteractiveObject that, Action<MouseEvent> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, MouseEvent.MOUSE_DOWN);
+        }
+
+        public static void remove_mouseDown(InteractiveObject that, Action<MouseEvent> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, MouseEvent.MOUSE_DOWN);
+        }
+        #endregion
+
+
+        #region mouseUp
+        public static void add_mouseUp(InteractiveObject that, Action<MouseEvent> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, MouseEvent.MOUSE_UP);
+        }
+
+        public static void remove_mouseUp(InteractiveObject that, Action<MouseEvent> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, MouseEvent.MOUSE_UP);
+        }
+        #endregion
+
+
+
 
         #region mouseMove
         public static void add_mouseMove(InteractiveObject that, Action<MouseEvent> value)
