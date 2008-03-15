@@ -14,7 +14,7 @@ namespace MineSweeper.js
     public class RedNumberDisplay
     {
         public RedNumberDisplay()
-            : this(10, 0123456789)
+            : this(10, 0123456789, Assets.Default)
         {
 
         }
@@ -31,8 +31,11 @@ namespace MineSweeper.js
 
         IHTMLDiv[] DigitControls;
 
-        public RedNumberDisplay(int Digits, int value)
+        readonly Assets MyAssets;
+
+        public RedNumberDisplay(int Digits, int value, Assets MyAssets)
         {
+            this.MyAssets = MyAssets;
             this.Digits = Digits;
 
             this.Control.style.SetSize(Width, Height);
@@ -45,7 +48,7 @@ namespace MineSweeper.js
                     var d = new IHTMLDiv();
 
                     d.style.SetLocation(i * DigitX, 0, DigitX, DigitY);
-                    d.style.SetBackground(Assets.red_numbers[0]);
+                    d.style.SetBackground(MyAssets.red_numbers[0]);
 
                     d.AttachTo(this.Control);
 
@@ -74,7 +77,7 @@ namespace MineSweeper.js
 
         private void ChangeDigit(int DigitIndex, int DigitValue)
         {
-            DigitControls[DigitIndex].style.SetBackground(Assets.red_numbers[DigitValue]);
+            DigitControls[DigitIndex].style.SetBackground(MyAssets.red_numbers[DigitValue]);
         }
 
         static RedNumberDisplay()

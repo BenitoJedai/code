@@ -12,6 +12,36 @@ namespace MineSweeper.js
     [Script]
     static class Extensions
     {
+        public static double ToDouble(this string e, double DefaultValue)
+        {
+            var i = DefaultValue;
+
+            try
+            {
+                i = double.Parse(e);
+            }
+            catch
+            {
+            }
+
+            return i;
+        }
+
+        public static int ToInt32(this string e, int DefaultValue)
+        {
+            var i = DefaultValue;
+
+            try
+            {
+                i = int.Parse(e);
+            }
+            catch
+            {
+            }
+
+            return i;
+        }
+
         public static int GetDigit(this int value, int offset)
         {
             var x0 = Math.Pow(10, offset + 0);

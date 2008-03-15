@@ -22,7 +22,7 @@ namespace MineSweeper.js
 
         public readonly IHTMLDiv Control = new IHTMLDiv();
 
-        public MineSweeperControl() : this(24, 16, 0.2)
+        public MineSweeperControl() : this(24, 16, 0.2, Assets.Default)
         {
             
         }
@@ -40,7 +40,7 @@ namespace MineSweeper.js
         public double Mines { get; private set; }
         public int MinesTotal { get { return (Buttons.Count * Mines).ToInt32(); } }
 
-        public bool Alive { get; private set; }
+        public bool Alive { get; set; }
 
         public event Action MinesFoundChanged;
 
@@ -48,14 +48,23 @@ namespace MineSweeper.js
         {
             get
             {
-                return Buttons.Count(i => i.Source == Assets.flag);
+                return Buttons.Count(i => i.Source == Assets.Default.flag);
             }
         }
 
-        public MineSweeperControl(int ButtonsX, int ButtonsY, double Mines)
+        public event Action AllMinesFound;
+
+        readonly Assets MyAssets;
+
+        public MineSweeperControl(int ButtonsX, int ButtonsY, double Mines, Assets MyAssets)
         {
+            this.MyAssets = MyAssets;
             this.Alive = true;
             this.Mines = Mines;
+            
+            if (this.Mines > 0.8)
+                this.Mines = 0.8;
+
             this.ButtonsX = ButtonsX;
             this.ButtonsY = ButtonsY;
 
@@ -88,8 +97,8 @@ namespace MineSweeper.js
                                     
                         };
 
-                    btn.Source = Assets.button;
-                    btn.MouseDownSource = Assets.empty;
+                    btn.Source = MyAssets.button;
+                    btn.MouseDownSource = MyAssets.empty;
 
                     btn.Control.AttachTo(Control);
                     btn.MoveTo(x, y);
@@ -106,13 +115,19 @@ namespace MineSweeper.js
 
                     var NearbyFlags =
                                from i in NearbyButtons
-                               where i.Source == Assets.flag
+                               where i.Source == MyAssets.flag
                                select i;
 
                     var NearbyNonFlags =
                                from i in NearbyButtons
-                               where i.Source != Assets.flag
+                               where i.Source != MyAssets.flag
                                select i;
+
+                    var IdleButtons =
+                        from i in Buttons
+                        where i.Source != MyAssets.flag
+                        where !MyAssets.numbers.Contains(i.Source)
+                        select i;
 
                     Action Resolve =
                         delegate
@@ -127,27 +142,33 @@ namespace MineSweeper.js
                     btn.ContextClick +=
                         delegate
                         {
-          
 
-                            if (Assets.numbers.Contains(btn.Source))
+
+                            if (MyAssets.numbers.Contains(btn.Source))
                             {
                                 if (NearbyMines.Count() == NearbyFlags.Count())
+                                {
                                     Resolve();
+
+                                    CheckIdle(IdleButtons);
+                                }
 
                                 return;
                             }
 
-                            if (btn.Source == Assets.button)
-                                btn.Source = Assets.flag;
+                            if (btn.Source == MyAssets.button)
+                                btn.Source = MyAssets.flag;
                             else
-                                if (btn.Source == Assets.flag)
-                                    btn.Source = Assets.question;
+                                if (btn.Source == MyAssets.flag)
+                                    btn.Source = MyAssets.question;
                                 else
-                                    if (btn.Source == Assets.question)
-                                        btn.Source = Assets.button;
+                                    if (btn.Source == MyAssets.question)
+                                        btn.Source = MyAssets.button;
 
                             if (MinesFoundChanged != null)
                                 MinesFoundChanged();
+
+                            CheckIdle(IdleButtons);
                         };
 
                     btn.Click +=
@@ -161,10 +182,10 @@ namespace MineSweeper.js
 
                                 foreach (var v in from i in Buttons
                                                   where !i.IsMined
-                                                  where i.Source == Assets.flag
+                                                  where i.Source == MyAssets.flag
                                                   select i)
                                 {
-                                    v.Source = Assets.notmine;
+                                    v.Source = MyAssets.notmine;
                                 }
 
                                 foreach (var v in from i in Buttons
@@ -172,16 +193,12 @@ namespace MineSweeper.js
                                                   where i != btn
                                                   select i)
                                 {
-                                    v.Source = Assets.mine;
+                                    v.Source = MyAssets.mine;
                                 }
 
-                                btn.Source = Assets.mine_found;
+                                btn.Source = MyAssets.mine_found;
 
-                                foreach (var v in Buttons)
-                                {
-                                    v.Enabled = false;
-                                    v.ContextEnabled = false;
-                                }
+                                DisableButtons();
 
                                 Alive = false;
 
@@ -194,15 +211,39 @@ namespace MineSweeper.js
 
                                 var MineCount = NearbyMines.Count();
 
-                                btn.Source = Assets.numbers[MineCount];
+                                btn.Source = MyAssets.numbers[MineCount];
 
                                 if (MineCount == 0)
+                                {
                                     Resolve();
+
+                                    CheckIdle(IdleButtons);
+                              
+                                }
+
                             }
                         };
                 }
 
             AttachMinesToButtons();
+        }
+
+        private void CheckIdle(IEnumerable<MineButton> IdleButtons)
+        {
+            Console.WriteLine("idle: " + IdleButtons.Count());
+
+            if (!IdleButtons.Any())
+                if (AllMinesFound != null)
+                    AllMinesFound();
+        }
+
+        public void DisableButtons()
+        {
+            foreach (var v in Buttons)
+            {
+                v.Enabled = false;
+                v.ContextEnabled = false;
+            }
         }
 
         private void AttachMinesToButtons()
@@ -268,7 +309,7 @@ namespace MineSweeper.js
                 v.IsMined = false;
                 v.Enabled = true;
                 v.ContextEnabled = true;
-                v.Source = Assets.button;
+                v.Source = MyAssets.button;
             }
 
             AttachMinesToButtons();

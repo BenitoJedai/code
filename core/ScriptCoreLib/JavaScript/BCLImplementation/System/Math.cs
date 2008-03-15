@@ -40,5 +40,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             if (d < 0) return -1;
             return 1;
         }
+
+        public static double Pow(double e, double x)
+        {
+            return m.pow(e, x);
+        }
     }
 }
