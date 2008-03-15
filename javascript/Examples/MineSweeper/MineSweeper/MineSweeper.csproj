@@ -1,0 +1,107 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.20706</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4D4C742C-164A-413A-8140-795D7EEB03B7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MineSweeper</RootNamespace>
+    <AssemblyName>MineSweeper</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ScriptCoreLib, Version=3.0.2665.39893, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="js\Assets.cs" />
+    <Compile Include="js\Button.cs" />
+    <Compile Include="js\MineSweeperControl.cs" />
+    <Compile Include="js\Extensions.cs" />
+    <Compile Include="js\MineSweeperPanel.cs" />
+    <Compile Include="js\RedNumberDisplay.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IAssemblyReferenceToken.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="docs\about.txt" />
+    <Content Include="docs\browser.txt" />
+    <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\MineSweeper\red_0.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\red_1.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\red_2.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\red_3.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\red_4.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\red_5.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\red_6.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\red_7.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\red_8.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\red_9.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\face_ok_down.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\face_dead.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\face_ok.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\face_scared.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\empty.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\question.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\1.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\2.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\3.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\4.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\5.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\6.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\7.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\8.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\button.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\flag.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\mine.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\mine_found.PNG" />
+    <EmbeddedResource Include="web\assets\MineSweeper\notmine.PNG" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetFileName)  -js</PostBuildEvent>
+  </PropertyGroup>
+</Project>

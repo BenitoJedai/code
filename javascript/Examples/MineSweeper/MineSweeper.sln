@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C# Express 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper", "MineSweeper\MineSweeper.csproj", "{4D4C742C-164A-413A-8140-795D7EEB03B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetSingleDigit", "GetSingleDigit\GetSingleDigit.csproj", "{CC4A215A-7B6F-4571-89B0-BB33ABD93668}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4D4C742C-164A-413A-8140-795D7EEB03B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D4C742C-164A-413A-8140-795D7EEB03B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D4C742C-164A-413A-8140-795D7EEB03B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D4C742C-164A-413A-8140-795D7EEB03B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC4A215A-7B6F-4571-89B0-BB33ABD93668}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC4A215A-7B6F-4571-89B0-BB33ABD93668}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC4A215A-7B6F-4571-89B0-BB33ABD93668}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC4A215A-7B6F-4571-89B0-BB33ABD93668}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
