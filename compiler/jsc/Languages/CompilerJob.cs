@@ -121,6 +121,9 @@ namespace jsc.Languages
 
         internal string NamespaceFixup(string _ns)
         {
+            if (string.IsNullOrEmpty(_ns))
+                return "";
+
             foreach (ScriptNamespaceRenameAttribute var in this.NamespaceRenameList)
             {
                 if (_ns.StartsWith(var.NativeNamespaceName))

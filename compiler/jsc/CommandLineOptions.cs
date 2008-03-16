@@ -16,9 +16,9 @@ namespace jsc
             public void LogMessage(string e, params object[] args)
             {
                 //if (TaskLogging == null)
-                    Console.WriteLine(e, args);
+                Console.WriteLine(e, args);
                 //else
-                    //TaskLogging.LogMessage(Microsoft.Build.Framework.MessageImportance.High, e, args);
+                //TaskLogging.LogMessage(Microsoft.Build.Framework.MessageImportance.High, e, args);
             }
         }
 
@@ -74,14 +74,17 @@ namespace jsc
         [CommandLineOption(Flag = "as")]
         public bool IsActionScript;
 
+        [CommandLineOption(Flag = "trim", Description = "Unused types will be ommited")]
+        public bool Trim;
+
 
         [CommandLineOption(Flag = "ShowReferences")]
         public bool ShowReferences;
-        
+
         [CommandLineOption(Flag = "ExtractAssets")]
         public bool ExtractAssets;
 
-        [CommandLineOption(Flag = "KeepFullNames", Description="Emits namespace and member name")]
+        [CommandLineOption(Flag = "KeepFullNames", Description = "Emits namespace and member name")]
         public bool KeepFullNames;
 
 
@@ -100,12 +103,12 @@ namespace jsc
             Description = "Version info will be ignored, assembly will be forced build")]
         public bool DisableVersionCheck;
 
-        [CommandLineOption(Flag = "enableremote", Description="Program will continue to run on a remote location like network share")]
+        [CommandLineOption(Flag = "enableremote", Description = "Program will continue to run on a remote location like network share")]
         public bool EnableRemoteExecution;
 
         [CommandLineOption(
-            Flag="jmc",
-            Description="Will not emit source code of the referenced assemblies if flag is set"
+            Flag = "jmc",
+            Description = "Will not emit source code of the referenced assemblies if flag is set"
             )]
         public bool JustMyCode;
     }

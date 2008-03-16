@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Collections;
@@ -36,7 +37,7 @@ namespace jsc
             //for Microsoft (R) Windows (R) 2005 Framework version 2.0.50727
             //Copyright (C) Microsoft Corporation 2001-2005. All rights reserved.
 
-            
+
             Console.WriteLine(((AssemblyDescriptionAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false)[0]).Description);
             Console.WriteLine(((AssemblyCompanyAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false)[0]).Company);
             Console.WriteLine(((AssemblyCopyrightAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false)[0]).Copyright);
@@ -122,12 +123,12 @@ namespace jsc
 
                 Console.WriteLine("Current Path: " + Environment.CurrentDirectory);
                 //sinfo.Logging.LogMessage("Current Search Path: " + searchpath);
-                
+
                 if (options.ShowReferences)
                 {
                     DoShowReferences(options);
                 }
-                
+
                 #region ExtractAssets
                 if (options.ExtractAssets)
                 {
@@ -184,8 +185,15 @@ namespace jsc
                     {
                         Languages.CompilerJob.Compile(options.TargetAssembly.FullName, sinfo);
                     }
+                    else if (options.Trim)
+                    {
+                        if (options.IsJavaScript)
+                            ConvertAssamblySpawned(options.TargetAssembly.FullName, ScriptType.JavaScript, sinfo);
+
+                    }
                     else
                     {
+
                         string[] m = SharedHelper.ModulesOf(
                                  Assembly.LoadFile(
                                      options.TargetAssembly.FullName
@@ -245,7 +253,7 @@ namespace jsc
 
         private static void DoShowReferences(CommandLineOptions options)
         {
-            foreach (Assembly v in 
+            foreach (Assembly v in
                 SharedHelper.LoadReferencedAssemblies(
                     Assembly.LoadFile(options.TargetAssembly.FullName), true))
             {
@@ -323,7 +331,7 @@ namespace jsc
 
         static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
-            
+
         }
 
         private static void DisableRemoteExecution()
@@ -371,6 +379,54 @@ namespace jsc
 
 
         }
+
+        //static void TrimTypes(IEnumerable<Type> AllTypes, IList<Type> UsedTypes, IEnumerable<Type> TypesInQuestion)
+        //{
+        //    var Next = new List<Type>();
+
+        //    Next.AddRange(TypesInQuestion);
+
+        //    Action<Type> Add =
+        //        t =>
+        //        {
+
+        //            if (UsedTypes.Contains(t))
+        //                return;
+
+        //            if (!AllTypes.Contains(t))
+        //            {
+        //                var impl = 
+        //            }
+
+        //            Next.Add(t);
+        //        };
+
+        //    while (Next.Any())
+        //    {
+        //        var NextArray = Next.ToArray();
+        //        Next.Clear();
+
+        //        foreach (var v in NextArray)
+        //        {
+        //            if (!AllTypes.Contains(v))
+        //                continue;
+
+        //            if (UsedTypes.Contains(v))
+        //                continue;
+
+        //            UsedTypes.Add(v);
+
+        //            // base
+        //            Next.Add(v.BaseType);
+
+        //            // fields
+        //            foreach (var i in v.GetFields())
+        //            {
+        //                Add(i.FieldType);
+        //            }
+        //        }
+        //    }
+        //}
 
         static void ConvertAssamblySpawned(string target_assambly, ScriptType type, CompileSessionInfo sinfo)
         {
@@ -446,24 +502,59 @@ namespace jsc
 
             xw.Session = new AssamblyTypeInfo();
             xw.Session.Options = sinfo.Options;
-            xw.Session.Types = ScriptAttribute.FindTypes(_assambly_loaded, type);
 
-            if (xw.Session.Types.Length == 0)
+            if (sinfo.Options.Trim)
             {
-                Console.WriteLine("zero types found to compile, skipping");
+                //var AllTypesToBeCompiled = new List<Type>();
 
-                return;
+                //foreach (var item in SharedHelper.LoadReferencedAssemblies(_assambly_loaded, true))
+                //{
+                //    AllTypesToBeCompiled.AddRange(ScriptAttribute.FindTypes(item, type));
+                //}
+
+                //// now we need the entrypoints to start trimming
+
+                //var KnownEntryPoints =
+                //              from i in AllTypesToBeCompiled
+                //              where null != (ScriptApplicationEntryPointAttribute)i.GetCustomAttributes(typeof(ScriptApplicationEntryPointAttribute), false).SingleOrDefault()
+                //              select i;
+
+                //var KnownEntryPointsArray = KnownEntryPoints.ToArray();
+
+                //var TypesToBeCompiled = new List<Type>();
+
+                //TrimTypes(AllTypesToBeCompiled, TypesToBeCompiled, KnownEntryPointsArray);
+
+                //xw.Session.Types = TypesToBeCompiled.ToArray();
+
+                //xw.Session.ImplementationTypes.AddRange(xw.Session.Types);
+
+                throw new NotImplementedException();
             }
+            else
+            {
+                #region loading types
+                xw.Session.Types = ScriptAttribute.FindTypes(_assambly_loaded, type);
+
+                if (xw.Session.Types.Length == 0)
+                {
+                    Console.WriteLine("zero types found to compile, skipping");
+
+                    return;
+                }
+
+                xw.Session.ImplementationTypes.AddRange(xw.Session.Types);
+
+                LoadReferencedAssamblies(type, ta, xw, _assambly_loaded);
+                #endregion
+            }
+
 
             FileInfo _target_file = new FileInfo(TargetDirectory.FullName + "/" + TargetFileName);
 
             // the dll
             FileInfo TargetAssamblyFile = new FileInfo(target_assambly);
 
-
-            xw.Session.ImplementationTypes.AddRange(xw.Session.Types);
-
-            LoadReferencedAssamblies(type, ta, xw, _assambly_loaded);
 
             Console.WriteLine("will compile " + xw.Session.Types.Length + " types");
 
@@ -633,7 +724,7 @@ namespace jsc
             string _ns = c.NamespaceFixup(x.Namespace);
 
 
-            if (_ns != null)
+            if (!string.IsNullOrEmpty(_ns))
             {
                 string[] n = _ns.Split('.');
 

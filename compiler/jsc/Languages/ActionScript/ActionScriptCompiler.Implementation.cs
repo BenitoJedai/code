@@ -67,6 +67,9 @@ namespace jsc.Languages.ActionScript
 
                 var za = ScriptAttribute.Of(z, true);
 
+                if (ScriptAttribute.IsAnonymousType(z))
+                    za = new ScriptAttribute();
+
                 #region type summary
                 var u = GetXMLNode(z);
 
@@ -87,21 +90,43 @@ namespace jsc.Languages.ActionScript
                         WriteTypeFields(z, za);
                         WriteLine();
 
-
-                        if (za.ImplementationType == null)
+                        if (ScriptAttribute.IsAnonymousType(z))
                         {
-                            // there is another type that needs to be created
-
                             WriteTypeInstanceConstructors(z);
                             WriteLine();
 
-                            WriteTypeInstanceMethods(z, za);
-                            WriteLine();
+                            foreach (var p in z.GetProperties())
+                            {
+                                var GetMethod = p.GetGetMethod();
+
+                                WriteMethodSignature(GetMethod, false);
+                                WriteMethodBody(GetMethod);
+
+                            }
+
+
+                            var ToString = z.GetMethod("ToString");
+
+                            WriteMethodSignature(ToString, false);
+                            WriteMethodBody(ToString);
                         }
                         else
                         {
-                            WriteIdent();
-                            WriteCommentLine("this class is just extending another class via static members");
+                            if (za.ImplementationType == null)
+                            {
+                                // there is another type that needs to be created
+
+                                WriteTypeInstanceConstructors(z);
+                                WriteLine();
+
+                                WriteTypeInstanceMethods(z, za);
+                                WriteLine();
+                            }
+                            else
+                            {
+                                WriteIdent();
+                                WriteCommentLine("this class is just extending another class via static members");
+                            }
                         }
 
                         WriteTypeStaticMethods(z, za);
@@ -206,7 +231,7 @@ namespace jsc.Languages.ActionScript
 
             WriteIdent();
 
-            if (za.Implements != null)
+            if (ScriptAttribute.IsAnonymousType(z) || (za != null && za.Implements != null))
             {
                 // private for developers but public for the runtime
 
@@ -487,12 +512,12 @@ namespace jsc.Languages.ActionScript
                 if (!DeclaringType.IsInterface && !dStatic && prop.SetProperty != null)
                 {
                     Write("set ");
-                    Write(prop.SetProperty.Name);
+                    WriteSafeLiteral(prop.SetProperty.Name);
                 }
                 else if (!DeclaringType.IsInterface && !dStatic && prop.GetProperty != null)
                 {
                     Write("get ");
-                    Write(prop.GetProperty.Name);
+                    WriteSafeLiteral(prop.GetProperty.Name);
                 }
                 else if (IsNativeTarget)
                 {
@@ -571,19 +596,26 @@ namespace jsc.Languages.ActionScript
             var TargetMethod = m;
             var MethodScriptAttribute = TargetMethod.ToScriptAttribute();
 
-            if (MethodScriptAttribute != null && MethodScriptAttribute.NotImplementedHere)
+            if (ScriptAttribute.IsAnonymousType(TargetMethod.DeclaringType))
             {
-                // a native type has a method that is defined by scriptcorelib
-                // the implementation must be in some other type that is not native
-                // we need to find that type
-
-                TargetMethod = MySession.ResolveImplementation(m.DeclaringType, TargetMethod, AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveNativeImplementationExtension);
-                MethodScriptAttribute = TargetMethod.ToScriptAttribute();
+                // nop
             }
             else
             {
-                TargetMethod = ResolveMethod(m);
-                MethodScriptAttribute = TargetMethod.ToScriptAttribute();
+                if (MethodScriptAttribute != null && MethodScriptAttribute.NotImplementedHere)
+                {
+                    // a native type has a method that is defined by scriptcorelib
+                    // the implementation must be in some other type that is not native
+                    // we need to find that type
+
+                    TargetMethod = MySession.ResolveImplementation(m.DeclaringType, TargetMethod, AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveNativeImplementationExtension);
+                    MethodScriptAttribute = TargetMethod.ToScriptAttribute();
+                }
+                else
+                {
+                    TargetMethod = ResolveMethod(m);
+                    MethodScriptAttribute = TargetMethod.ToScriptAttribute();
+                }
             }
 
             var TypeScriptAttribute = TargetMethod.DeclaringType.ToScriptAttribute();
@@ -665,7 +697,7 @@ namespace jsc.Languages.ActionScript
                     if (prop.SetProperty != null)
                     {
 
-                        Write(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.SetProperty.Name);
+                        WriteSafeLiteral(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.SetProperty.Name);
                         WritePropertyAssignment(prop);
 
                         return;
@@ -673,7 +705,7 @@ namespace jsc.Languages.ActionScript
 
                     if (prop.GetProperty != null)
                     {
-                        Write(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.GetProperty.Name);
+                        WriteSafeLiteral(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.GetProperty.Name);
                         return;
                     }
                 }
@@ -702,14 +734,14 @@ namespace jsc.Languages.ActionScript
 
                         if (prop.SetProperty != null)
                         {
-                            Write(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.SetProperty.Name);
+                            WriteSafeLiteral(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.SetProperty.Name);
                             WritePropertyAssignment(prop);
                             return;
                         }
 
                         if (prop.GetProperty != null)
                         {
-                            Write(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.GetProperty.Name);
+                            WriteSafeLiteral(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.GetProperty.Name);
                             return;
                         }
                     }

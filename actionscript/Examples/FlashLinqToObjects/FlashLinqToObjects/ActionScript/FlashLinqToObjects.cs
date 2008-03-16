@@ -38,6 +38,7 @@ namespace FlashLinqToObjects.ActionScript
                 };
             #endregion
 
+         
             var users = new TextField
             {
                 text = "_martin, mike, mac, ken, neo, zen, jay, morpheous, trinity, Agent Smith, _psycho",
@@ -55,12 +56,20 @@ namespace FlashLinqToObjects.ActionScript
                 height = 20,
             };
 
+            var filter2 = new TextField
+            {
+                text = "a",
+                x = margin,
+                y = margin + users.height + margin + filter.height + margin,
+                height = 20,
+            };
+
 
             var result = new TextField
             {
                 text = "",
                 x = margin,
-                y = margin + users.height + margin + filter.height + margin,
+                y = margin + users.height + margin + filter.height + margin + filter2.height + margin,
                 height = 100,
                 autoSize = TextFieldAutoSize.LEFT
             };
@@ -72,18 +81,34 @@ namespace FlashLinqToObjects.ActionScript
                     try
                     {
                         var user_filter = filter.text.Trim().ToLower();
+                        var user_filter2 = filter2.text.Trim().ToLower();
 
                         var __users = users.text.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 
                         result.text = "";
 
-                        foreach (var v in from i in __users
-                                          where i.Trim().ToLower().Contains(user_filter)
-                                          select i.Trim())
+                        var query = from i in __users
+                                    where i.ToLower().Contains(user_filter)
+                                    let name = i.Trim()
+                                    let isspecial = i.ToLower().Contains(user_filter2)
+                                    select new { isspecial, length = name.Length, name };
+
+
+
+                        foreach (var v in from i in query
+                                          where i.isspecial
+                                          select i)
                         {
-                            result.text += "result: " + v + "\n";
+                                result.text += "result: *** " + v.name + "\n";
                         }
 
+
+                        foreach (var v in from i in query
+                                          where !i.isspecial
+                                          select i)
+                        {
+                            result.text += "result: " + v.name + "\n";
+                        }
 
                     }
                     catch (Exception e)
@@ -95,9 +120,11 @@ namespace FlashLinqToObjects.ActionScript
 
             ApplyStyle(users);
             ApplyStyle(filter);
+            ApplyStyle(filter2);
 
             users.change += delegate { Update(); };
             filter.change += delegate { Update(); };
+            filter2.change += delegate { Update(); };
 
             Func<TextField, string, TextField> ToLabel =
                 (e, text) =>
@@ -118,9 +145,10 @@ namespace FlashLinqToObjects.ActionScript
                     return r;
                 };
 
-            new[] { users, filter, result,
+            new[] { users, filter, filter2, result,
                 ToLabel(users, "Enter a list of names separated by commas"),
                 ToLabel(filter,  "Enter a partial name to be found from the list above."),
+                ToLabel(filter2,  "Enter a partial name to make the entry special"),
                 
             }.AttachTo(this);
 

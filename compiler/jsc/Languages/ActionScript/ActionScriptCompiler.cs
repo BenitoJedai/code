@@ -167,9 +167,14 @@ namespace jsc.Languages.ActionScript
                 GetImportTypesFromMethod(t, imp, v);
             }
 
-
             foreach (MethodInfo mi in this.GetAllMethods(t))
             {
+                if (ScriptAttribute.IsAnonymousType(t))
+                {
+                    if (mi.Name == "GetHashCode") continue;
+                    if (mi.Name == "Equals") continue;
+                }
+
                 imp.Add(mi.ReturnParameter.ParameterType);
 
                 MethodBase v = mi;
@@ -180,7 +185,7 @@ namespace jsc.Languages.ActionScript
             var imp_types = new List<Type>();
 
             imp.RemoveAll(i => i.IsGenericParameter);
-            
+
             // todo: import only if used in code...
             imp.Add(GetArrayEnumeratorType());
 
@@ -189,7 +194,7 @@ namespace jsc.Languages.ActionScript
             {
                 Type p = imp[0];
 
-                
+
                 // remove duplicates
                 imp.RemoveAll(
                      delegate(Type w)
@@ -1114,7 +1119,7 @@ namespace jsc.Languages.ActionScript
                 if (string.IsNullOrEmpty(p.Name))
                     Write("_" + mpi);
                 else
-                    Write(p.Name);
+                    WriteDecoratedMethodParameter(p);
 
                 Write(":");
                 WriteDecoratedTypeNameOrImplementationTypeName(p.ParameterType, true, true);
@@ -1160,10 +1165,10 @@ namespace jsc.Languages.ActionScript
         public Type GetArrayEnumeratorType()
         {
             return CachedArrayEnumeratorType ?? (CachedArrayEnumeratorType = (from i in MySession.ImplementationTypes
-                                                                      let a = i.ToScriptAttribute()
-                                                                      where a != null
-                                                                      where a.IsArrayEnumerator
-                                                                      select i).SingleOrDefault());
+                                                                              let a = i.ToScriptAttribute()
+                                                                              where a != null
+                                                                              where a.IsArrayEnumerator
+                                                                              select i).SingleOrDefault());
         }
 
         public override void WriteArrayToCustomArrayEnumeratorCast(Type Enumerable, Type ElementType, ILBlock.Prestatement p, ILFlow.StackItem s)
@@ -1183,6 +1188,11 @@ namespace jsc.Languages.ActionScript
 
             Write(")");
 
+        }
+
+        public override string GetDecoratedMethodParameter(ParameterInfo p)
+        {
+            return GetSafeLiteral(p.Name);
         }
     }
 

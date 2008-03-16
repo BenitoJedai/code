@@ -853,35 +853,6 @@ namespace jsc.Script
             //IList<LocalVariableInfo> u = xb.OwnerMethod.GetMethodBody().LocalVariables;
 
 
-#if false
-            foreach (LocalVariableInfo var in u)
-            {
-                foreach (ILInstruction i in xb.Instructrions)
-                {
-                    if (i.IsLoadInstruction)
-                    {
-                        if (i.InlineAssigmentValue == null)
-                        {
-            #region clean
-                            foreach (ILInstruction ix in xb.Instructrions)
-                            {
-                                if (ix.IsLoadInstruction)
-                                    ix.InlineAssigmentValue = null;
-                            }
-            #endregion
-
-                            goto next_variable;
-                        }
-                    }
-                }
-
-
-            next_variable:
-                ;
-
-            }
-#endif
-
         }
 
 
@@ -1120,7 +1091,7 @@ namespace jsc.Script
                         // 
                     }
 
-                    if (ScriptAttribute.Of(m.DeclaringType, true) == null)
+                    if (!ScriptAttribute.IsAnonymousType(t) && ScriptAttribute.Of(m.DeclaringType, true) == null)
                     {
                         method = ResolveImplementationMethod(t, m);
 
