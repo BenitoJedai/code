@@ -79,12 +79,12 @@ namespace MineSweeper.js
             new IHTMLElement(IHTMLElement.HTMLElementEnum.h3, "Strategies and tips").AttachTo(Control);
 
             AddParagraph("If you are uncertain about a square, ctrl-click it twice to mark it with a question mark (?). Later, you can either mark the square as a mine or remove the markings by ctrl-clicking the square again once or twice. ");
-            AddParagraph("If you have marked all the mines around a numbered square, you can uncover the remaining squares around it by clicking the numbered square with the left and right mouse buttons simultaneously. If not all mines surrounding the numbered square have been marked, the remaining covered or unmarked squares will appear to be depressed (or flash) when the numbered square is ctrl-clicked. ");
+            AddParagraph("If you have marked all the mines around a numbered square, you can uncover the remaining squares around it by ctrl-clicking the numbered square. If not all mines surrounding the numbered square have been marked, the remaining covered or unmarked squares will appear to be depressed (or flash) when the numbered square is ctrl-clicked. ");
             AddParagraph("Look for common patterns in numbers, which often indicate a corresponding pattern of mines. For example, the pattern 2-3-2 at the edge of a group of uncovered squares indicates a row of three mines next to the three numbers. ");
 
             new IHTMLElement(IHTMLElement.HTMLElementEnum.h3, "About").AttachTo(Control);
 
-            AddParagraph("").innerHTML = "This is a javascript version of <a href='http://en.wikipedia.org/wiki/Minesweeper_(computer_game)'>the Minesweeper game</a> <a href='http://jsc.sourceforge.net/'>powered by jsc</a>.";
+            AddParagraph("").innerHTML = "This is a javascript version of <a href='http://en.wikipedia.org/wiki/Minesweeper_(computer_game)'>the Minesweeper game</a> compiled from a c# project <a href='http://jsc.sourceforge.net/'>by jsc</a>. You can <a href='http://jsc.svn.sourceforge.net/viewvc/jsc/javascript/Examples/MineSweeper/MineSweeper/js/'>view the source</a> at the svn. You can set parameters for the game via xml like in <a href='MineSweeperGame.htm'>this example</a>.";
 
             var Preview = new IHTMLImage(Assets.Default.Preview).AttachTo(Control);
 
