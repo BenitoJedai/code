@@ -54,6 +54,7 @@
     <Compile Include="js\Button.cs" />
     <Compile Include="js\MineSweeperControl.cs" />
     <Compile Include="js\Extensions.cs" />
+    <Compile Include="js\MineSweeperDemoPage.cs" />
     <Compile Include="js\MineSweeperGame.cs" />
     <Compile Include="js\MineSweeperPanel.cs" />
     <Compile Include="js\RedNumberDisplay.cs" />
@@ -64,6 +65,8 @@
     <Content Include="docs\about.txt" />
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\MineSweeper\Preview.png" />
+    <EmbeddedResource Include="web\assets\MineSweeper\g_6591cd.gif" />
     <EmbeddedResource Include="web\assets\MineSweeper\face_cool.PNG" />
     <EmbeddedResource Include="web\assets\MineSweeper\red_0.PNG" />
     <EmbeddedResource Include="web\assets\MineSweeper\red_1.PNG" />

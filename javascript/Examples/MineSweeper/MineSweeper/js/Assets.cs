@@ -36,6 +36,8 @@ namespace MineSweeper.js
             }
         }
 
+        public string Preview { get { return Path + "/Preview.png"; } }
+        public string g_6591cd { get { return Path + "/g_6591cd.gif"; } }
         public string face_cool { get { return Path + "/face_cool.PNG"; } }
         public string face_ok { get { return Path + "/face_ok.PNG"; } }
         public string face_ok_down { get { return Path + "/face_ok_down.PNG"; } }

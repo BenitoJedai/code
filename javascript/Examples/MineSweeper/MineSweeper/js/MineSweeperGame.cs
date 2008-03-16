@@ -50,6 +50,7 @@ namespace MineSweeper.js
                 Mines = this.Data.Mines.ToDouble(0.2)
             };
 
+
             Panel = new MineSweeperPanel(
                 Settings.X,
                 Settings.Y,
@@ -57,7 +58,10 @@ namespace MineSweeper.js
                 new Assets(this.Data.AssetsPath)
             );
 
-            _Owner.replaceWith(Panel.Control);
+            if (_Owner == null)
+                Panel.Control.AttachToDocument();
+            else
+                _Owner.replaceWith(Panel.Control);
         }
     }
 }
