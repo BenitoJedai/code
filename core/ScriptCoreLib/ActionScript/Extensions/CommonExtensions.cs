@@ -5,12 +5,30 @@ using System.Text;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.BCLImplementation.System;
 using ScriptCoreLib.ActionScript.flash.events;
+using ScriptCoreLib.ActionScript.flash.system;
+using ScriptCoreLib.ActionScript.mx.core;
 
 namespace ScriptCoreLib.ActionScript.Extensions
 {
     [Script]
     public static class CommonExtensions
     {
+        [Script(OptimizedCode = "return new c();")]
+        public static object CreateType(this Class c)
+        {
+            return default(object);
+        }
+
+        public static SoundAsset ToSoundAsset(this Class c)
+        {
+            return (SoundAsset)c.CreateType();
+        }
+
+        public static BitmapAsset ToBitmapAsset(this Class c)
+        {
+            return (BitmapAsset)c.CreateType();
+        }
+
         public static void CombineDelegate<T>(EventDispatcher _this, Action<T> value, string name)
             where T : Event
         {
