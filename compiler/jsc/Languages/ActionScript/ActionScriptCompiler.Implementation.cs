@@ -77,6 +77,7 @@ namespace jsc.Languages.ActionScript
                     WriteBlockComment(u["summary"].InnerText);
                 #endregion
 
+                WriteCustomAttributes(z);
                 WriteTypeSignature(z, za);
 
                 using (CreateScope())
@@ -153,7 +154,7 @@ namespace jsc.Languages.ActionScript
         }
         private void WriteInterfaceMappingMethods(Type z)
         {
- 
+
 
             foreach (var v in from i in z.GetInterfaces()
                               let mapping = z.GetInterfaceMap(i)
@@ -346,43 +347,7 @@ namespace jsc.Languages.ActionScript
 
 
                 // write the attributes for current field
-                foreach (var v in from i in zfn.GetCustomAttributes(false)
-                                  let type = i.GetType()
-                                  let meta = ScriptAttribute.Of(type)
-                                  where meta != null
-                                  let name = type.Name.Substring(0, type.Name.Length - "Attribute".Length)
-                                  let fields = type.GetFields()
-                                  select new { name, type, i, meta, fields })
-                {
-                    WriteIdent();
-                    Write("[");
-                    WriteSafeLiteral(v.name);
-                    Write("(");
-
-                    v.fields.Aggregate("",
-                        (seed, f) =>
-                        {
-                            Write(seed);
-
-                            Write(f.Name);
-                            WriteAssignment();
-
-                            if (f.FieldType == typeof(string))
-                            {
-                                WriteQuotedLiteral((string)f.GetValue(v.i));
-                            }
-                            else
-                                throw new NotImplementedException();
-
-                            return ", ";
-                        }
-                    );
-
-
-                    Write(")");
-                    Write("]");
-                    WriteLine();
-                }
+                WriteCustomAttributes(zfn);
 
                 WriteIdent();
                 WriteTypeFieldModifier(zfn);
@@ -419,6 +384,58 @@ namespace jsc.Languages.ActionScript
                 */
 
                 WriteLine(";");
+            }
+        }
+
+        private void WriteCustomAttributes(ICustomAttributeProvider zfn)
+        {
+            foreach (var v in from i in zfn.GetCustomAttributes(false)
+                              let type = i.GetType()
+                              let meta = ScriptAttribute.Of(type)
+                              where meta != null
+                              let name = type.Name.Substring(0, type.Name.Length - "Attribute".Length)
+                              let fields = type.GetFields()
+                              select new { name, type, i, meta, fields })
+            {
+                WriteIdent();
+                Write("[");
+                WriteSafeLiteral(v.name);
+                Write("(");
+
+                v.fields.Aggregate("",
+                    (seed, f) =>
+                    {
+                        Write(seed);
+
+                        Write(f.Name);
+                        WriteAssignment();
+
+                        if (f.FieldType == typeof(string))
+                        {
+                            WriteQuotedLiteral((string)f.GetValue(v.i));
+                        }
+                        else if (f.FieldType == typeof(int))
+                        {
+                            var value = (int)f.GetValue(v.i);
+
+                            var HexA = f.GetCustomAttributes(typeof(HexAttribute), false).Cast<HexAttribute>().SingleOrDefault();
+
+                            if (HexA != null)
+                                Write(string.Format("0x{0:x8}", value));
+                            else
+                                Write((value).ToString());
+                        }
+                        else
+                            throw new NotImplementedException();
+
+                        return ", ";
+                    }
+                );
+
+
+                Write(")");
+                Write("]");
+                WriteLine();
             }
         }
 
