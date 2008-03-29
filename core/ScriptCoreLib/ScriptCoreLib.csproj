@@ -130,6 +130,8 @@
     <Compile Include="ActionScript\BCLImplementation\System\String.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Text\StringBuilder.cs" />
     <Compile Include="ActionScript\Class.cs" />
+    <Compile Include="ActionScript\flash\external\ExternalInterface.cs" />
+    <Compile Include="ActionScript\flash\system\Security.cs" />
     <Compile Include="ActionScript\SWFAttribute.cs" />
     <Compile Include="ActionScript\EmbedAttribute.cs" />
     <Compile Include="ActionScript\Error.cs" />
