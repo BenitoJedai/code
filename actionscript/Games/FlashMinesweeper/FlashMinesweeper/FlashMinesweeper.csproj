@@ -61,6 +61,8 @@
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
+    <EmbeddedResource Include="web\assets\FlashMinesweeper\tick.mp3" />
+    <EmbeddedResource Include="web\assets\FlashMinesweeper\reveal.mp3" />
     <EmbeddedResource Include="web\assets\FlashMinesweeper\flag.mp3" />
     <EmbeddedResource Include="web\assets\FlashMinesweeper\explosion.mp3" />
     <EmbeddedResource Include="web\assets\FlashMinesweeper\1.png" />

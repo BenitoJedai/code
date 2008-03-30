@@ -7,6 +7,7 @@ using ScriptCoreLib.ActionScript.mx.core;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using ScriptCoreLib.ActionScript.flash.utils;
 
 
 
@@ -83,7 +84,17 @@ namespace FlashMinesweeper.ActionScript
 
             [Embed(source = Path + "/flag.mp3")]
             static public readonly Class snd_flag;
+
+
+            [Embed(source = Path + "/reveal.mp3")]
+            static public readonly Class snd_reveal;
+
+            [Embed(source = Path + "/tick.mp3")]
+            static public readonly Class snd_tick;
         }
+
+        public readonly SoundAsset snd_reveal = Assets.snd_reveal.ToSoundAsset();
+        public readonly SoundAsset snd_tick = Assets.snd_tick.ToSoundAsset();
 
         [Script]
         public class MineButton : Sprite
@@ -91,6 +102,7 @@ namespace FlashMinesweeper.ActionScript
             public const int Width = 16;
             public const int Height = 16;
 
+            public readonly SoundAsset snd_reveal = Assets.snd_reveal.ToSoundAsset();
             private readonly SoundAsset snd_flag = Assets.snd_flag.ToSoundAsset();
             private readonly SoundAsset snd_click = Assets.click.ToSoundAsset();
             private readonly SoundAsset snd_explosion = Assets.explosion.ToSoundAsset();
@@ -98,9 +110,9 @@ namespace FlashMinesweeper.ActionScript
             private readonly BitmapAsset img_flag = Assets.flag.ToBitmapAsset();
             private readonly BitmapAsset img_button = Assets.button.ToBitmapAsset();
             private readonly BitmapAsset img_empty = Assets.empty.ToBitmapAsset();
-            private readonly BitmapAsset img_mine = Assets.mine.ToBitmapAsset();
+            public readonly BitmapAsset img_mine = Assets.mine.ToBitmapAsset();
             private readonly BitmapAsset img_notmine = Assets.notmine.ToBitmapAsset();
-            private readonly BitmapAsset img_mine_found = Assets.mine_found.ToBitmapAsset();
+            public readonly BitmapAsset img_mine_found = Assets.mine_found.ToBitmapAsset();
 
             private readonly BitmapAsset[] img_numbers =
                 new[]
@@ -167,8 +179,6 @@ namespace FlashMinesweeper.ActionScript
                         }
                         else
                         {
-                            snd_click.play();
-
                             if (this.IsMined)
                             {
                                 this.img = img_mine_found;
@@ -182,7 +192,12 @@ namespace FlashMinesweeper.ActionScript
                             }
                             else
                             {
-                                Reveal();
+
+
+                                if (Reveal())
+                                    snd_reveal.play();
+                                else
+                                    snd_click.play();
                             }
 
                             this.Enabled = false;
@@ -192,7 +207,7 @@ namespace FlashMinesweeper.ActionScript
                 Update();
             }
 
-            private void Update()
+            public void Update()
             {
                 if (IsFlag)
                     this.img = img_flag;
@@ -230,10 +245,10 @@ namespace FlashMinesweeper.ActionScript
                 }
             }
 
-            private void Reveal()
+            private bool Reveal()
             {
                 if (!Enabled)
-                    return;
+                    return false;
 
                 var NearbyMines = from z in Others
                                   where IsNearTo(z)
@@ -251,7 +266,11 @@ namespace FlashMinesweeper.ActionScript
                     {
                         v.Reveal();
                     }
+
+                    return true;
                 }
+
+                return false;
             }
 
 
@@ -338,13 +357,99 @@ namespace FlashMinesweeper.ActionScript
                     );
                 }
 
+            Action<int, Action> Delay =
+                (time, h) =>
+                {
+                    var t = new Timer(time, 1);
+
+                    t.timer +=
+                        delegate
+                        {
+                            h();
+                        };
+
+                    t.start();
+                };
+
+            Action<int, Action[]> DelayArray =
+                (time, h) =>
+                {
+                    var i = 0;
+
+                    var Next = default(Action);
+
+
+                    Next = delegate
+                    {
+                        if (i < h.Length)
+                            Delay(time,
+                                delegate
+                                {
+                                    h[i]();
+                                    i++;
+                                    Next();
+                                }
+                            );
+                    };
+
+                    Next();
+                };
+
+            Action Reset =
+                delegate
+                {
+                    foreach (var v in a)
+                    {
+                        v.IsFlag = false;
+                        v.Enabled = true;
+                        v.IsMined = new Random().NextDouble() < (10 / a.Count);
+                        v.Update();
+                    }
+
+                    snd_reveal.play();
+                };
+
             foreach (var v in a)
             {
+                var z = v;
+
                 v.IsMined = new Random().NextDouble() < (10 / a.Count);
+                v.OnBang +=
+                    delegate
+                    {
+                        Delay(
+                            3000,
+                            delegate
+                            {
+                                DelayArray(1000,
+                                    new Action[] {
+                                    delegate
+                                    {
+                                        snd_tick.play();
+                                        z.img = z.img_mine;
+                                    },
+                                    delegate
+                                    {
+                                        snd_tick.play();
+                                        z.img = z.img_mine_found;
+
+                                    },
+                                    delegate
+                                    {
+
+                                        Reset();
+                                    }
+                                });
+                            }
+                        );
+
+
+                    };
 
                 addChild(v);
             }
 
+            Reset();
         }
     }
 
