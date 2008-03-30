@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\BCLImplementation\System\Func.cs" />
+    <Compile Include="ActionScript\Query\Enumerable.Methods.cs" />
     <Compile Include="ActionScript\Query\Enumerable.cs" />
     <Compile Include="ActionScript\Query\Enumerable.Select.cs" />
     <Compile Include="ActionScript\Query\Enumerable.Where.cs" />

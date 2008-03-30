@@ -11,6 +11,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     ]
     public class __NotImplementedException : __Exception
     {
+        /*
+        public __NotImplementedException() : this("")
+        {
+
+        }
+        */
         public __NotImplementedException(string message) : base(message)
         {
             Name = "NotImplementedException";

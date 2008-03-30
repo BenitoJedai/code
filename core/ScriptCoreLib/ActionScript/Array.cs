@@ -24,5 +24,27 @@ namespace ScriptCoreLib.ActionScript
             return default(uint);
         }
 
+        /// <summary>
+        /// Adds elements to and removes elements from an array.
+        /// </summary>
+        /// <param name="startIndex"></param>
+        /// <param name="deleteCount"></param>
+        /// <param name="value"></param>
+        /// <returns>An array containing the elements that were removed from the original array.</returns>
+        public Array splice(int startIndex, int deleteCount, object value)
+        {
+            return default(Array);
+        }
+
+        /// <summary>
+        /// Adds elements to and removes elements from an array.
+        /// </summary>
+        /// <param name="startIndex"></param>
+        /// <param name="deleteCount"></param>
+        /// <returns>An array containing the elements that were removed from the original array.</returns>
+        public Array splice(int startIndex, int deleteCount)
+        {
+            return default(Array);
+        }
     }
 }

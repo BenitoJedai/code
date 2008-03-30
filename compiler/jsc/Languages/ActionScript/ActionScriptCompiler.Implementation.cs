@@ -160,13 +160,14 @@ namespace jsc.Languages.ActionScript
                               let mapping = z.GetInterfaceMap(i)
                               from j in Enumerable.Range(0, mapping.InterfaceMethods.Length)
                               let imethod = ResolveMethod(mapping.InterfaceMethods[j])
+                              where imethod != null
                               let tmethod = ResolveMethod(mapping.TargetMethods[j])
                               let imethodinfo = imethod as MethodInfo
                               let ret = imethodinfo == null ? false : imethodinfo.ReturnType != typeof(void)
                               select new { i, j, mapping, imethod, iparams = imethod.GetParameters(), ret, tmethod })
             {
                 WriteIdent();
-                WriteCommentLine("implements " + v.imethod.ToString() + " via " + v.i.FullName);
+                WriteCommentLine("implements " + v.imethod.ToString() + " via " + (v.i.FullName ?? v.i.Name));
 
                 #region interface mapping
                 WriteMethodSignature(v.imethod, false, WriteMethodSignatureMode.Implementing);
@@ -188,13 +189,15 @@ namespace jsc.Languages.ActionScript
                     {
                         var prop = new PropertyDetector(v.tmethod);
 
-                        if (prop.SetProperty != null)
+                        if (v.iparams.Length == 1 && prop.SetProperty != null
+                             && prop.SetProperty.GetSetMethod().GetParameters().Length == 1)
                         {
                             Write(prop.SetProperty.Name);
                             WriteAssignment();
                             WriteSafeLiteral(v.iparams.Single().Name);
                         }
-                        else if (prop.GetProperty != null)
+                        else if (prop.GetProperty != null
+                              && prop.GetProperty.GetGetMethod().GetParameters().Length == 0)
                         {
                             Write(prop.GetProperty.Name);
                         }
@@ -498,7 +501,8 @@ namespace jsc.Languages.ActionScript
             }
             else
             {
-                if (m.IsPublic)
+                // as3: A constructor can only be declared public.
+                if (m.IsPublic || m.IsConstructor)
                     Write("public ");
                 else
                     if (m.IsFamily)
@@ -522,16 +526,23 @@ namespace jsc.Languages.ActionScript
             {
                 var prop = new PropertyDetector(m);
 
+                // actionscript 3 does not support indexers
                 // Compiler error. Getters/setters are not allowed in interfaces.
                 // http://livedocs.adobe.com/flash/9.0/main/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Parts&file=00000830.html
                 // -> implementing classes need to wrap this
 
-                if (!DeclaringType.IsInterface && !dStatic && prop.SetProperty != null)
+                if (!DeclaringType.IsInterface && 
+                    !dStatic && 
+                    prop.SetProperty != null && 
+                    prop.SetProperty.GetSetMethod().GetParameters().Length == 1)
                 {
                     Write("set ");
                     WriteSafeLiteral(prop.SetProperty.Name);
                 }
-                else if (!DeclaringType.IsInterface && !dStatic && prop.GetProperty != null)
+                else if (!DeclaringType.IsInterface && 
+                    !dStatic && 
+                    prop.GetProperty != null &&
+                    prop.GetProperty.GetGetMethod().GetParameters().Length == 0)
                 {
                     Write("get ");
                     WriteSafeLiteral(prop.GetProperty.Name);
@@ -711,7 +722,7 @@ namespace jsc.Languages.ActionScript
                 {
                     var prop = new PropertyDetector(TargetMethod);
 
-                    if (prop.SetProperty != null)
+                    if (prop.SetProperty != null && prop.GetProperty.GetGetMethod().GetParameters().Length == 1)
                     {
 
                         WriteSafeLiteral(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.SetProperty.Name);
@@ -720,7 +731,7 @@ namespace jsc.Languages.ActionScript
                         return;
                     }
 
-                    if (prop.GetProperty != null)
+                    if (prop.GetProperty != null && prop.GetProperty.GetGetMethod().GetParameters().Length == 0)
                     {
                         WriteSafeLiteral(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.GetProperty.Name);
                         return;
@@ -749,14 +760,25 @@ namespace jsc.Languages.ActionScript
                     {
                         var prop = new PropertyDetector(TargetMethod);
 
-                        if (prop.SetProperty != null)
+                        if (prop.SetProperty != null && 
+                            (HasMethodExternalTarget || 
+                                (prop.SetProperty.GetSetMethod() != null && 
+                                 prop.SetProperty.GetSetMethod().GetParameters().Length == 1
+                                )
+                            ))
                         {
                             WriteSafeLiteral(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.SetProperty.Name);
                             WritePropertyAssignment(prop);
                             return;
                         }
 
-                        if (prop.GetProperty != null)
+                        if (prop.GetProperty != null && 
+                             (HasMethodExternalTarget || 
+                                (prop.GetProperty.GetGetMethod() != null && 
+                                 prop.GetProperty.GetGetMethod().GetParameters().Length == 0
+                                )
+                            ))
+                            
                         {
                             WriteSafeLiteral(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.GetProperty.Name);
                             return;

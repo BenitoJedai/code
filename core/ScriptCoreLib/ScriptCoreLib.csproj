@@ -112,7 +112,10 @@
   <ItemGroup>
     <Compile Include="ActionScript\Array.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Action.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\ICollection.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEnumerator.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IList.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\List.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\IEnumerator.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEnumerable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ArgumentNullException.cs" />

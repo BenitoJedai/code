@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.ActionScript.flash.display;
 
 namespace ScriptCoreLib.ActionScript.flash.events
 {
@@ -31,7 +32,28 @@ namespace ScriptCoreLib.ActionScript.flash.events
         /// Indicates how many lines should be scrolled for each unit the user rotates the mouse wheel.
         /// </summary>
         public int delta { get; private set; }
+
+        /// <summary>
+        /// Indicates whether the Shift key is active (true) or inactive (false).
+        /// </summary>
+        public bool shiftKey { get; set; }
+        	
+
+        /// <summary>
+        /// Indicates whether the Control key is active (true) or inactive (false).
+        /// </summary>
+        public bool ctrlKey { get; set; }
+
+        /// <summary>
+        /// Indicates whether the Alt key is active (true) or inactive (false).
+        /// </summary>
+        public bool altKey { get; set; }
+
         
+        /// <summary>
+        /// A reference to a display list object that is related to the event. For example, when a mouseOut event occurs, relatedObject represents the display list object to which the pointing device now points. This property applies only to the mouseOut and mouseOver events.
+        /// </summary>
+        public InteractiveObject relatedObject { get; set; }
 
 
         /// <summary>

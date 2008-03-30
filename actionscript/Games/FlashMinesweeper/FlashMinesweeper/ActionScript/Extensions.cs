@@ -4,11 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace FlashMinesweeper.ActionScript
+namespace FlashMinesweeper.ActionScript.Extensions
 {
-    //[Script]
-    static class Extensions
-    {
 
-    }
 }

@@ -17,5 +17,38 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         {
             list.push(this);
         }
+
+
+
+        protected override __Delegate CombineImpl(__Delegate d)
+        {
+            list.push(d);
+
+            return this;
+        }
+
+        protected override __Delegate RemoveImpl(__Delegate d)
+        {
+            var j = -1;
+            var a = ((__Delegate[])(object)list);
+
+            
+            for (int i = 0; i < a.Length; i++)
+            {
+                if (a[i] == d)
+                {
+                    j = i;
+                    break;
+                }
+            }
+
+            if (j > -1)
+                list.splice(j, 1);
+
+            if (list.length == 0)
+                return null;
+
+            return this;
+        }
     }
 }

@@ -56,5 +56,46 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         {
             return default(Function);
         }
+
+
+
+
+
+        public static __Delegate Combine(__Delegate a, __Delegate b)
+        {
+            if (a == null)
+            {
+                return b;
+            }
+            if (b == null)
+            {
+                return a;
+            }
+
+            return a.CombineImpl(b);
+        }
+
+        protected virtual __Delegate CombineImpl(__Delegate d)
+        {
+            throw new global::System.Exception("use MulticastDelegate instead");
+        }
+
+        public static __Delegate Remove(__Delegate source, __Delegate value)
+        {
+            if (source == null)
+            {
+                return null;
+            }
+            if (value == null)
+            {
+                return source;
+            }
+            return source.RemoveImpl(value);
+        }
+
+        protected virtual __Delegate RemoveImpl(__Delegate d)
+        {
+            throw new global::System.Exception("use MulticastDelegate instead");
+        }
     }
 }

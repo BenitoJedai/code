@@ -104,6 +104,12 @@ namespace jsc.Languages.ActionScript
                                 continue;
                             }
 
+                            if (i.ReferencedMethod.DeclaringType.IsInterface)
+                            {
+                                imp.Add(MySession.ResolveImplementation(i.ReferencedMethod.DeclaringType));
+                                continue;
+                            }
+
                             MethodBase method = GetMethodImplementation(MySession, i);
                             var method_attribute = method.ToScriptAttribute();
                             if (method.IsConstructor || method.IsStatic || (method_attribute != null && method_attribute.DefineAsStatic))
@@ -255,6 +261,11 @@ namespace jsc.Languages.ActionScript
 
                     if (p_impl == null)
                     {
+                        //if (p.IsInterface)
+                        //{
+                        //    // silently skip this interface
+                        //    continue;
+                        //}
 
                         Break("class import: no implementation for " + p.ToString() + " at " + t.FullName);
                     }
@@ -953,7 +964,16 @@ namespace jsc.Languages.ActionScript
             #endregion
 
 
-            CIW[OpCodes.Ldsfld] =
+            CIW[OpCodes.Constrained] =
+                e =>
+                {
+                    if (e.i.StackBeforeStrict.Length == 0)
+                        return;
+
+                     EmitFirstOnStack(e);
+                };
+
+            CIW[OpCodes.Ldsfld] = 
                 e =>
                 {
                     ILFlow.StackItem[] s = e.i.StackBeforeStrict;
