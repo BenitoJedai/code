@@ -100,14 +100,14 @@ namespace FlashMinesweeper.ActionScript
             [Embed(source = Path + "/tick.mp3")]
             static public readonly Class snd_tick;
 
-            [Embed(source = Path + "/applause.mp3")]
-            static public readonly Class snd_applause;
+            //[Embed(source = Path + "/applause.mp3")]
+            //static public readonly Class snd_applause;
 
             [Embed(source = Path + "/buzzer.mp3")]
             static public readonly Class snd_buzzer;
         }
 
-        public readonly SoundAsset snd_applause = Assets.snd_applause.ToSoundAsset();
+        //public readonly SoundAsset snd_applause = Assets.snd_applause.ToSoundAsset();
         public readonly SoundAsset snd_reveal = Assets.snd_reveal.ToSoundAsset();
         public readonly SoundAsset snd_tick = Assets.snd_tick.ToSoundAsset();
 
@@ -249,7 +249,7 @@ namespace FlashMinesweeper.ActionScript
                 if (Others.Any(p => p.HasInvalidStateForCompletion))
                     return;
 
-               
+
 
                 if (OnComplete != null)
                     OnComplete();
@@ -465,9 +465,23 @@ namespace FlashMinesweeper.ActionScript
                         foreach (var i in a)
                             i.Enabled = false;
 
-                        snd_applause.play();
+                        DelayArray(1000,
+                                  new Action[] {
+                                    delegate
+                                    {
+                                        snd_tick.play();
+                                        
+                                    },
+                                    delegate
+                                    {
+                                        snd_tick.play();
+                                    },
+                                    delegate
+                                    {
 
-                        Delay(4000, Reset);
+                                        Reset();
+                                    }
+                                });
                     };
 
                 v.OnBang +=

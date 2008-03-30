@@ -14,6 +14,82 @@ namespace ScriptCoreLib.ActionScript.Query
 
     internal static partial class __Enumerable
     {
+
+        public static bool Any<TSource>(this IEnumerable<TSource> source)
+        {
+            if (source == null)
+            {
+                throw DefinedErrors.ArgumentNull("source");
+            }
+
+
+            var r = false;
+
+            foreach (var v in source.AsEnumerable())
+            {
+                r = true;
+
+                break;
+            }
+
+            return r;
+        }
+
+        public static bool Any<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            if (source == null)
+            {
+                throw DefinedErrors.ArgumentNull("source");
+            }
+
+            if (predicate == null)
+            {
+                throw DefinedErrors.ArgumentNull("predicate");
+            }
+
+            var r = false;
+
+            foreach (var v in source.AsEnumerable())
+            {
+                if (predicate(v))
+                {
+                    r = true;
+
+                    break;
+                }
+            }
+
+            return r;
+        }
+
+        public static bool All<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            if (source == null)
+            {
+                throw DefinedErrors.ArgumentNull("source");
+            }
+
+            if (predicate == null)
+            {
+                throw DefinedErrors.ArgumentNull("predicate");
+            }
+
+            var r = true;
+
+            foreach (var v in source.AsEnumerable())
+            {
+                if (!predicate(v))
+                {
+                    r = false;
+
+                    break;
+                }
+            }
+
+            return r;
+        }
+
+
         public static IEnumerable<TSource> AsEnumerable<TSource>(this IEnumerable<TSource> source)
         {
             return Query.InternalSequenceImplementation.AsEnumerable(source);
