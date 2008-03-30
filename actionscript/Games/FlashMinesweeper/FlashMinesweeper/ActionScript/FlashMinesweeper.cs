@@ -26,6 +26,14 @@ namespace FlashMinesweeper.ActionScript
         // todo:
         // http://www.kirupa.com/forum/showthread.php?t=261577
         // http://groups.google.com/group/youtube-api-basics/browse_thread/thread/89ff378fc44985f0/6b63c2e46159640f?lnk=gst&q=flash+loadClip&rnum=1
+        // snd:
+        // http://www.a1sounddownload.com/freesoundsamples.htm
+        // http://simplythebest.net/sounds/index.html
+        // http://www.pacdv.com/sounds/interface_sounds.html
+
+
+        public const int FieldXCount = 10;
+        public const int FieldYCount = 10;
 
         [Script]
         static public class Assets
@@ -91,8 +99,15 @@ namespace FlashMinesweeper.ActionScript
 
             [Embed(source = Path + "/tick.mp3")]
             static public readonly Class snd_tick;
+
+            [Embed(source = Path + "/applause.mp3")]
+            static public readonly Class snd_applause;
+
+            [Embed(source = Path + "/buzzer.mp3")]
+            static public readonly Class snd_buzzer;
         }
 
+        public readonly SoundAsset snd_applause = Assets.snd_applause.ToSoundAsset();
         public readonly SoundAsset snd_reveal = Assets.snd_reveal.ToSoundAsset();
         public readonly SoundAsset snd_tick = Assets.snd_tick.ToSoundAsset();
 
@@ -102,6 +117,7 @@ namespace FlashMinesweeper.ActionScript
             public const int Width = 16;
             public const int Height = 16;
 
+            public readonly SoundAsset snd_buzzer = Assets.snd_buzzer.ToSoundAsset();
             public readonly SoundAsset snd_reveal = Assets.snd_reveal.ToSoundAsset();
             private readonly SoundAsset snd_flag = Assets.snd_flag.ToSoundAsset();
             private readonly SoundAsset snd_click = Assets.click.ToSoundAsset();
@@ -133,7 +149,7 @@ namespace FlashMinesweeper.ActionScript
             public bool IsFlag { get; set; }
 
             public event Action OnBang;
-
+            public event Action OnComplete;
 
             public List<MineButton> Others;
 
@@ -141,8 +157,6 @@ namespace FlashMinesweeper.ActionScript
             {
                 this.Enabled = true;
 
-                // http://simplythebest.net/sounds/index.html
-                // http://www.pacdv.com/sounds/interface_sounds.html
 
                 this.mouseDown +=
                     delegate
@@ -179,6 +193,12 @@ namespace FlashMinesweeper.ActionScript
                         }
                         else
                         {
+                            if (IsFlag)
+                            {
+                                snd_buzzer.play();
+                                return;
+                            }
+
                             if (this.IsMined)
                             {
                                 this.img = img_mine_found;
@@ -192,8 +212,6 @@ namespace FlashMinesweeper.ActionScript
                             }
                             else
                             {
-
-
                                 if (Reveal())
                                     snd_reveal.play();
                                 else
@@ -201,10 +219,40 @@ namespace FlashMinesweeper.ActionScript
                             }
 
                             this.Enabled = false;
+
+
                         }
+
+                        CheckComplete();
                     };
 
                 Update();
+            }
+
+            public bool HasInvalidStateForCompletion
+            {
+                get
+                {
+                    if (IsMined && !IsFlag)
+                        return true;
+
+                    if (!IsMined && IsFlag)
+                        return true;
+
+
+                    return false;
+                }
+            }
+
+            private void CheckComplete()
+            {
+                if (Others.Any(p => p.HasInvalidStateForCompletion))
+                    return;
+
+               
+
+                if (OnComplete != null)
+                    OnComplete();
             }
 
             public void Update()
@@ -334,9 +382,6 @@ namespace FlashMinesweeper.ActionScript
             }
         }
 
-        public const int FieldXCount = 12;
-        public const int FieldYCount = 12;
-
         public FlashMinesweeper()
         {
             var a = new List<MineButton>();
@@ -405,8 +450,8 @@ namespace FlashMinesweeper.ActionScript
                         v.IsMined = new Random().NextDouble() < (10 / a.Count);
                         v.Update();
                     }
-
                     snd_reveal.play();
+
                 };
 
             foreach (var v in a)
@@ -414,6 +459,17 @@ namespace FlashMinesweeper.ActionScript
                 var z = v;
 
                 v.IsMined = new Random().NextDouble() < (10 / a.Count);
+                v.OnComplete +=
+                    delegate
+                    {
+                        foreach (var i in a)
+                            i.Enabled = false;
+
+                        snd_applause.play();
+
+                        Delay(4000, Reset);
+                    };
+
                 v.OnBang +=
                     delegate
                     {
