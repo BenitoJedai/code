@@ -25,9 +25,9 @@ namespace ScriptCoreLib.Tools
 
     public delegate void ActionParams<A0, T>(A0 a0, params T[] e);
     public delegate void ActionParams<T>(params T[] e);
-    public delegate void Action<T>(T e);
-    public delegate void Action<A, B>(A a, B b);
-    public delegate void Action();
+    //public delegate void Action<T>(T e);
+    //public delegate void Action<A, B>(A a, B b);
+    //public delegate void Action();
 
 
     public static class FunctionReturnValueExtension

@@ -85,6 +85,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeModel\TypeInfo.cs" />
@@ -97,6 +100,7 @@
     <Compile Include="Languages\ActionScript\CompilerJob.cs" />
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.Implementation.cs" />
     <Compile Include="Languages\ActionScript\DelegateImplementationProvider.cs" />
+    <Compile Include="Languages\ActionScript\EntryPointProvider.cs" />
     <Compile Include="Languages\CompilerBase.DIA.cs" />
     <Compile Include="Languages\CompilerBase.CompilerConstants.cs" />
     <Compile Include="Languages\CompilerJob.cs" />

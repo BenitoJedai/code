@@ -7,6 +7,7 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Xml;
 using ScriptCoreLib;
+using System.Xml.Linq;
 
 namespace jsc //.Extensions
 {
@@ -68,6 +69,24 @@ namespace jsc //.Extensions
             where T : System.Attribute
         {
             return (T[])Attribute.GetCustomAttributes(e, typeof(T), false);
+        }
+
+        public static IEnumerable<XAttribute> GetPropertiesAsXAttributes(this object e)
+        {
+            return from p in e.GetProperties(
+                    BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
+                   where p.Value != null
+                   select new XAttribute(p.Key, p.Value);
+        }
+
+        public static Dictionary<string, object> GetProperties(this object e, BindingFlags f)
+        {
+            return (
+                from p in e.GetType().GetProperties(f)
+                let name = p.Name
+                let value = p.GetValue(e, null)
+                select new { name, value }
+            ).ToDictionary(i => i.name, i => i.value);
         }
 
         public static Dictionary<string, object> GetProperties(this object e)
