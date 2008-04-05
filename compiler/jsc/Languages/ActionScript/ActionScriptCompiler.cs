@@ -57,6 +57,11 @@ namespace jsc.Languages.ActionScript
             //for (var i = b.First; i != null; i = i.Next)
             foreach (var i in b.Instructrions)
             {
+                if (i == OpCodes.Ldtoken)
+                {
+
+                    continue;
+                }
 
                 if (i == OpCodes.Ldftn)
                 {
@@ -98,6 +103,9 @@ namespace jsc.Languages.ActionScript
                     if (!IsTypeOfOperator(i.ReferencedMethod))
                         if (i.ReferencedMethod.DeclaringType != typeof(object))
                         {
+                            if (i.ReferencedMethod.DeclaringType == typeof(System.Runtime.CompilerServices.RuntimeHelpers))
+                                continue;
+
                             if (ScriptAttribute.IsCompilerGenerated(i.ReferencedMethod.DeclaringType))
                             {
                                 imp.Add(i.ReferencedMethod.DeclaringType);
@@ -190,6 +198,7 @@ namespace jsc.Languages.ActionScript
 
             var imp_types = new List<Type>();
 
+            imp.RemoveAll(i => i == null);
             imp.RemoveAll(i => i.IsGenericParameter);
 
             // todo: import only if used in code...
@@ -388,6 +397,16 @@ namespace jsc.Languages.ActionScript
                 e =>
                 {
                     MethodBase m = e.i.ReferencedMethod;
+
+                    /*
+                    if (m.DeclaringType == typeof(System.Runtime.CompilerServices.RuntimeHelpers))
+                    {
+                        if (m.Name == "InitializeArray")
+                        {
+
+                        }
+                    }
+                    */
 
                     MethodBase mi = MySession.ResolveImplementation(m.DeclaringType, m);
 
@@ -781,7 +800,7 @@ namespace jsc.Languages.ActionScript
             // not supported
             // CIW[OpCodes.Conv_I1] = e => ConvertTypeAndEmit(e, "byte");
 
-            CIW[OpCodes.Conv_U2] = e => ConvertTypeAndEmit(e, "int"); // char == int
+            CIW[OpCodes.Conv_U2] = e => ConvertTypeAndEmit(e, "uint"); // char == int
             CIW[OpCodes.Conv_I4] = e => ConvertTypeAndEmit(e, "int");
 
             // CIW[OpCodes.Conv_I8] = e => ConvertTypeAndEmit(e, "long");
@@ -854,29 +873,25 @@ namespace jsc.Languages.ActionScript
                     #endregion
                     else
                     {
-                        Write("[]");
-                        /*
-                    
-                        int rank = 0;
-                        Type type = e.i.TargetType;
 
-                        while (type.IsArray)
+                        if (e.i.NextInstruction == OpCodes.Dup &&
+                            e.i.NextInstruction.NextInstruction == OpCodes.Ldtoken &&
+                            e.i.NextInstruction.NextInstruction.NextInstruction == OpCodes.Call)
                         {
-                            type = type.GetElementType();
-                            rank++;
-                        }
+                            
+                            var Length = (int)e.i.StackBeforeStrict.First().SingleStackInstruction.TargetInteger;
+                            var NewArray = Array.CreateInstance(typeof(int), Length);
 
-                        WriteDecoratedTypeName(type);
-                        Write("[");
-                        EmitFirstOnStack(e);
-                        Write("]");
+                        
+                            //Write("[ /* ? */ ]");
 
-                        while (rank-- > 0)
-                        {
-                            Write("[");
-                            Write("]");
+                            // todo: implement
+
+                            throw new NotImplementedException();
                         }
-                         * */
+                        else
+                            Write("[]");
+                        
                     }
                 };
             #endregion
@@ -886,7 +901,9 @@ namespace jsc.Languages.ActionScript
             CIW[OpCodes.Ldelem_Ref,
                 OpCodes.Ldelem_U1,
                 OpCodes.Ldelem_U2,
+                OpCodes.Ldelem_U4,
                 OpCodes.Ldelem_I1,
+                OpCodes.Ldelem_I2,
                 OpCodes.Ldelem_I4,
                 OpCodes.Ldelem_I8,
                 OpCodes.Ldelem

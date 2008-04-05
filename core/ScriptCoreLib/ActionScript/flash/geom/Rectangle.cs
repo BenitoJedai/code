@@ -11,6 +11,15 @@ namespace ScriptCoreLib.ActionScript.flash.geom
     [Script(IsNative=true)]
     public class Rectangle
     {
+        public Rectangle()
+        {
+
+        }
+        	
+        public Rectangle(double x, double y, double width, double height)
+        {
+
+        }
         /// <summary>
         /// The sum of the y and height properties.
         /// </summary>

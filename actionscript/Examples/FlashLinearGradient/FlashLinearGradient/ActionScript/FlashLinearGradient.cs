@@ -41,12 +41,14 @@ namespace FlashLinearGradient.ActionScript
 
             // Draw a box and fill it with the LinearGradient.
             g.moveTo(0, 0);
-            fill.begin(g, new Rectangle { width = DefaultWidth, height = DefaultHeight });
-            g.lineTo(DefaultWidth, 0);
-            g.lineTo(DefaultWidth, DefaultHeight);
-            g.lineTo(0, DefaultHeight);
-            g.lineTo(0, 0);
-            fill.end(g);
+
+            using (fill.Fill(g, new Rectangle { width = DefaultWidth, height = DefaultHeight }))
+            {
+                g.lineTo(DefaultWidth, 0);
+                g.lineTo(DefaultWidth, DefaultHeight);
+                g.lineTo(0, DefaultHeight);
+                g.lineTo(0, 0);
+            }
 
             
         }

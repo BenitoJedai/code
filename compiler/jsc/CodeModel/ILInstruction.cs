@@ -1667,6 +1667,7 @@ namespace jsc
         static OpCode[] TargetMethodFilter =
             new OpCode[] 
             {
+
             };
 
         public MethodInfo TargetMethod

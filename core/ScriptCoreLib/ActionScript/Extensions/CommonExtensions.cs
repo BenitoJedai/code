@@ -7,12 +7,38 @@ using ScriptCoreLib.ActionScript.BCLImplementation.System;
 using ScriptCoreLib.ActionScript.flash.events;
 using ScriptCoreLib.ActionScript.flash.system;
 using ScriptCoreLib.ActionScript.mx.core;
+using ScriptCoreLib.ActionScript.mx.graphics;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace ScriptCoreLib.ActionScript.Extensions
 {
     [Script]
     public static class CommonExtensions
     {
+        [Script]
+        class IFill_Dispose : IDisposable
+        {
+            public IFill e;
+            public Graphics target;
+
+            public void  Dispose()
+            {
+ 	            e.end(target);
+            }
+
+        }
+
+        public static IDisposable Fill(this IFill e, Graphics target, Rectangle r)
+        {
+            e.begin(target, r);
+
+            return new IFill_Dispose 
+            {
+                e = e,
+                target = target
+            };
+        }
+
         [Script(OptimizedCode = "return new c();")]
         public static object CreateType(this Class c)
         {

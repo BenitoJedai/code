@@ -7,14 +7,22 @@ using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace ScriptCoreLib.ActionScript.mx.graphics
 {
-    // http://livedocs.adobe.com/flex/3/langref/mx/graphics/LinearGradient.html
-    [Script(IsNative = true)]
-    public class LinearGradient : GradientBase, IFill
+    /// <summary>
+    /// http://livedocs.adobe.com/flex/3/langref/mx/graphics/RadialGradient.html
+    /// </summary>
+    [Script(IsNative=true)]
+    public class RadialGradient : GradientBase, IFill
     {
         /// <summary>
         /// Controls the transition direction.
         /// </summary>
         public double angle { get; set; }
+
+        /// <summary>
+        /// Sets the location of the start of the radial fill.
+        /// </summary>
+        public double focalPointRatio { get; set; }
+
 
         /// <summary>
         /// Starts the fill.
@@ -29,7 +37,6 @@ namespace ScriptCoreLib.ActionScript.mx.graphics
         public void end(Graphics target)
         {
         }
-
 
     }
 }

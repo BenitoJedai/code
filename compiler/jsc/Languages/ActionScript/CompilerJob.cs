@@ -60,10 +60,10 @@ namespace jsc.Languages
                 {
                     Console.WriteLine("this version is already built: " + SourceVersion.Name);
 
-                    if (!Debugger.IsAttached)
-                    {
+                    //if (!Debugger.IsAttached)
+                    //{
                         return;
-                    }
+                    //}
                 }
             }
 

@@ -12,6 +12,16 @@ namespace ScriptCoreLib.ActionScript.mx.graphics
     [Script(IsNative = true)]
     public class GradientEntry : EventDispatcher
     {
+        public GradientEntry()
+        {
+
+        }
+
+        public GradientEntry(uint color, double ratio, double alpha)
+        {
+
+        }
+
         /// <summary>
         /// The transparency of a gradient fill.
         /// </summary>

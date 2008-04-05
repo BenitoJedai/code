@@ -139,7 +139,9 @@
     <Compile Include="ActionScript\flash\system\Security.cs" />
     <Compile Include="ActionScript\mx\graphics\GradientBase.cs" />
     <Compile Include="ActionScript\mx\graphics\GradientEntry.cs" />
+    <Compile Include="ActionScript\mx\graphics\IFill.cs" />
     <Compile Include="ActionScript\mx\graphics\LinearGradient.cs" />
+    <Compile Include="ActionScript\mx\graphics\RadialGradient.cs" />
     <Compile Include="ActionScript\SWFAttribute.cs" />
     <Compile Include="ActionScript\EmbedAttribute.cs" />
     <Compile Include="ActionScript\Error.cs" />
