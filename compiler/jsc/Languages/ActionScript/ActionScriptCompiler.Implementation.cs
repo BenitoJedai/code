@@ -417,6 +417,17 @@ namespace jsc.Languages.ActionScript
                         {
                             WriteQuotedLiteral((string)f.GetValue(v.i));
                         }
+                        else if (f.FieldType == typeof(uint))
+                        {
+                            var value = (uint)f.GetValue(v.i);
+
+                            var HexA = f.GetCustomAttributes(typeof(HexAttribute), false).Cast<HexAttribute>().SingleOrDefault();
+
+                            if (HexA != null)
+                                Write(string.Format("0x{0:x8}", value));
+                            else
+                                Write((value).ToString());
+                        }
                         else if (f.FieldType == typeof(int))
                         {
                             var value = (int)f.GetValue(v.i);

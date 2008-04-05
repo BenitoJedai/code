@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.flash.display
 {
-    // http://livedocs.adobe.com/flex/2/langref/flash/display/Graphics.html
+    // http://livedocs.adobe.com/flex/3/langref/flash/display/Graphics.html
     [Script(IsNative = true)]
     public sealed class Graphics
     {
@@ -49,6 +49,31 @@ namespace ScriptCoreLib.ActionScript.flash.display
         /// Applies a fill to the lines and curves that were added since the last call to the beginFill(), beginGradientFill(), or beginBitmapFill() method.
         /// </summary>
         public void endFill()
+        {
+        }
+
+
+
+
+        /// <summary>
+        /// Specifies a line style that Flash uses for subsequent calls to other Graphics methods (such as lineTo() or drawCircle()) for the object.
+        /// </summary>
+        public void lineStyle(double thickness, uint color, double alpha)
+        {
+
+        }
+
+        /// <summary>
+        /// Draws a line using the current line style from the current drawing position to (x, y); the current drawing position is then set to (x, y).
+        /// </summary>
+        public void lineTo(double x, double y)
+        {
+        }
+
+        /// <summary>
+        /// Moves the current drawing position to (x, y).
+        /// </summary>
+        public void moveTo(double x, double y)
         {
         }
 

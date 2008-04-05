@@ -10,7 +10,7 @@ namespace ScriptCoreLib.ActionScript
     public sealed class SWFAttribute : Attribute
     {
         [Hex]
-        public int backgroundColor = 0xcccccc;
+        public uint backgroundColor = 0xcccccc;
 
         public int frameRate = 30;
         public int width = 320;
