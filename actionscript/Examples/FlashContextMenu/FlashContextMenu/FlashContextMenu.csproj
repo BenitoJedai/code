@@ -80,7 +80,8 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>pushd ..\..\tools\
+call build.bat $(ProjectName)
+popd</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -157,6 +157,9 @@ namespace jsc.Languages.ActionScript
         {
             var cctor = z.GetConstructor(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic, null, System.Type.EmptyTypes, null);
 
+            if (cctor == null)
+                return null;
+
             WriteXmlDoc(cctor);
             WriteMethodSignature(z, cctor, false);
             WriteMethodBody(cctor, MethodBodyFilter);
