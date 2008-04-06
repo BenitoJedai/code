@@ -24,7 +24,7 @@ namespace SpaceInvaders.source.js.Controls
     [Script]
     public class SpaceInvaders : SpawnControlBase
     {
-        public const string Alias = "SpaceInvaders";
+        //public const string Alias = "SpaceInvaders";
 
         // http://www.digitalinsane.com/archives/2007/01/21/space_invaders/
 

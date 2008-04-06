@@ -137,6 +137,8 @@
     <Compile Include="ActionScript\flash\geom\Point.cs" />
     <Compile Include="ActionScript\flash\geom\Rectangle.cs" />
     <Compile Include="ActionScript\flash\system\Security.cs" />
+    <Compile Include="ActionScript\flash\text\StyleSheet.cs" />
+    <Compile Include="ActionScript\flash\text\TextFormat.cs" />
     <Compile Include="ActionScript\mx\graphics\GradientBase.cs" />
     <Compile Include="ActionScript\mx\graphics\GradientEntry.cs" />
     <Compile Include="ActionScript\mx\graphics\IFill.cs" />

@@ -569,7 +569,8 @@ namespace jsc.Languages.ActionScript
             #endregion
 
             #region fld
-            CIW[OpCodes.Ldfld] =
+            CIW[OpCodes.Ldfld,
+                OpCodes.Ldflda] =
                 e =>
                 {
 

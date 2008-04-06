@@ -8,10 +8,16 @@ using ScriptCoreLib.ActionScript.flash.events;
 
 namespace ScriptCoreLib.ActionScript.flash.text
 {
-    // http://livedocs.adobe.com/flex/201/langref/flash/text/TextField.html
+    // http://livedocs.adobe.com/flex/3/langref/flash/text/TextField.html
     [Script(IsNative = true)]
     public class TextField : InteractiveObject
     {
+        /// <summary>
+        /// Specifies the format applied to newly inserted text, such as text inserted with the replaceSelectedText() method or text entered by a user.
+        /// </summary>
+        public TextFormat defaultTextFormat { get; set; }
+        
+
         [method: Script(NotImplementedHere = true)]
         public event Action<Event> change;
 
