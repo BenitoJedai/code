@@ -74,7 +74,7 @@ pluginspage="http://www.macromedia.com/go/getflashplayer">
                 using (var w = dir.CreateFile(v._Type.Name + ".htm"))
                 {
                     w.Write(
-                        FlashTag(v._Type.Name + ".swf", 320, 200)
+                        FlashTag(v._Type.Name + ".swf", v._ScriptApplicationEntryPoint.Width, v._ScriptApplicationEntryPoint.Height)
                     );
                 }
 

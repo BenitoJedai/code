@@ -59,14 +59,12 @@
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
+    <EmbeddedResource Include="web\assets\FlashRadialGradient\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
     <None Include="tools\jsc.bat" />
     <None Include="tools\mxmlc.bat" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="web\assets\RadialGradient\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

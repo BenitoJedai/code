@@ -16,7 +16,11 @@ namespace FlashMinesweeper.ActionScript
     /// <summary>
     /// testing...
     /// </summary>
-    [Script, ScriptApplicationEntryPoint]
+    [Script]
+    [ScriptApplicationEntryPoint(
+        Width = FlashMinesweeper.DefaultControlWidth,
+        Height = FlashMinesweeper.DefaultControlHeight
+        )]
     [GoogleGadget(
             author_email = "zproxy@hot.ee",
             author_link = "http://zproxy.wordpress.com",
@@ -400,6 +404,8 @@ namespace FlashMinesweeper.ActionScript
 
         public FlashMinesweeper()
         {
+
+
             var a = new List<MineButton>();
 
             for (int x = 0; x < FieldXCount; x++)

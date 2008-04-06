@@ -13,7 +13,8 @@ namespace FlashRadialGradient.ActionScript
     /// <summary>
     /// testing...
     /// </summary>
-    [Script, ScriptApplicationEntryPoint]
+    [Script]
+    [ScriptApplicationEntryPoint(Width = FlashRadialGradient.Width, Height = FlashRadialGradient.Height)]
     [SWF(width = FlashRadialGradient.Width, height = FlashRadialGradient.Height)]
     public class FlashRadialGradient : Sprite
     {
@@ -50,7 +51,7 @@ namespace FlashRadialGradient.ActionScript
                     }
                 );
 
-            
+
             this.mouseMove +=
                 ev =>
                 {
@@ -67,7 +68,7 @@ namespace FlashRadialGradient.ActionScript
                     redraw();
                 };
 
-		    var timer = new Timer(1000 / 24, 0);
+            var timer = new Timer(1000 / 24, 0);
 
             timer.timer +=
                 delegate
@@ -76,8 +77,8 @@ namespace FlashRadialGradient.ActionScript
 
                     redraw();
                 };
-				
-			timer.start();
+
+            timer.start();
 
             redraw();
         }

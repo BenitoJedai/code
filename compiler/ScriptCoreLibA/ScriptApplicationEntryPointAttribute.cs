@@ -40,6 +40,9 @@ namespace ScriptCoreLib
         /// script files are loaded dynamically
         /// </summary>
         public bool ScriptedLoading;
+
+        public int Width;
+        public int Height;
     }
 
 }
