@@ -9,6 +9,11 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class DisplayObjectContainer : InteractiveObject
     {
+        /// <summary>
+        /// Determines whether or not the children of the object are mouse enabled.
+        /// </summary>
+        public bool mouseChildren { get; set; }
+        
 
 
         /// <summary>

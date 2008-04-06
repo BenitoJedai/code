@@ -7,6 +7,7 @@ using System.Reflection;
 using ScriptCoreLib;
 using System.Reflection.Emit;
 using jsc.Script;
+using System.Runtime.InteropServices;
 
 namespace jsc.Languages.ActionScript
 {
@@ -398,15 +399,15 @@ namespace jsc.Languages.ActionScript
                 {
                     MethodBase m = e.i.ReferencedMethod;
 
-                    /*
+                    
                     if (m.DeclaringType == typeof(System.Runtime.CompilerServices.RuntimeHelpers))
                     {
                         if (m.Name == "InitializeArray")
                         {
-
+                            throw new SkipThisPrestatementException();
                         }
                     }
-                    */
+                    
 
                     MethodBase mi = MySession.ResolveImplementation(m.DeclaringType, m);
 
@@ -878,20 +879,37 @@ namespace jsc.Languages.ActionScript
                             e.i.NextInstruction.NextInstruction == OpCodes.Ldtoken &&
                             e.i.NextInstruction.NextInstruction.NextInstruction == OpCodes.Call)
                         {
-                            
                             var Length = (int)e.i.StackBeforeStrict.First().SingleStackInstruction.TargetInteger;
-                            var NewArray = Array.CreateInstance(typeof(int), Length);
+                            var Type = e.i.TargetType;
 
-                        
+                            if (Type == typeof(int))
+                            {
+                                var Values = StructAsInt32Array(e.i.NextInstruction.NextInstruction.TargetField.GetValue(null));
+
+                                Write("[");
+                                for (int i = 0; i < Values.Length; i++)
+                                {
+                                    if (i > 0)
+                                        Write(", ");
+
+                                    Write(Values[i].ToString());
+                                }
+                                Write("]");
+                            }
+                            else
+                                throw new NotImplementedException();
+
+
+
                             //Write("[ /* ? */ ]");
 
                             // todo: implement
 
-                            throw new NotImplementedException();
+
                         }
                         else
                             Write("[]");
-                        
+
                     }
                 };
             #endregion
@@ -987,10 +1005,10 @@ namespace jsc.Languages.ActionScript
                     if (e.i.StackBeforeStrict.Length == 0)
                         return;
 
-                     EmitFirstOnStack(e);
+                    EmitFirstOnStack(e);
                 };
 
-            CIW[OpCodes.Ldsfld] = 
+            CIW[OpCodes.Ldsfld] =
                 e =>
                 {
                     ILFlow.StackItem[] s = e.i.StackBeforeStrict;
@@ -1230,6 +1248,37 @@ namespace jsc.Languages.ActionScript
         public override string GetDecoratedMethodParameter(ParameterInfo p)
         {
             return GetSafeLiteral(p.Name);
+        }
+
+
+
+       
+
+        public static int[] StructAsInt32Array(object data)
+        {
+            // http://www.vsj.co.uk/articles/display.asp?id=501
+
+            var size = Marshal.SizeOf(data);
+            var buf = Marshal.AllocHGlobal(size);
+
+
+            Marshal.StructureToPtr(data, buf, false);
+
+            var a = new int[size / sizeof(int)];
+
+            unsafe
+            {
+                int* p = (int*)buf;
+                for (int i = 0; i < a.Length; i++)
+                {
+                    a[i] = *p;
+                    p++;
+                }
+            }
+
+            Marshal.FreeHGlobal(buf);
+
+            return a;
         }
     }
 

@@ -286,7 +286,7 @@ namespace jsc.Script
                             #region SupportsCustomArrayEnumerator
                             if (SupportsCustomArrayEnumerator)
                             {
-                                
+
                                 var SingleStackInstruction = s[si].SingleStackInstruction;
                                 if (SingleStackInstruction != null)
                                 {
@@ -752,7 +752,7 @@ namespace jsc.Script
 
 
 
-            if (i.OwnerMethod.IsConstructor)
+            if (i.OwnerMethod is ConstructorInfo)
             {
                 if (WillReturnPointerToThisOnConstructorReturn)
                 {
@@ -762,7 +762,7 @@ namespace jsc.Script
 
                 return;
             }
-
+            
             if (((MethodInfo)i.OwnerMethod).ReturnType == typeof(void))
                 return;
 
@@ -886,7 +886,7 @@ namespace jsc.Script
                 MethodBase impl = MySession.ResolveImplementation(method.DeclaringType, method);
 
                 if (impl == null)
-                    throw new NotSupportedException("implementation not found for type import : " + 
+                    throw new NotSupportedException("implementation not found for type import : " +
                         (method.DeclaringType.FullName
                         ?? method.DeclaringType.Name) + " :: " + method);
 
@@ -1022,8 +1022,20 @@ namespace jsc.Script
 
 
             WriteIdent();
-            EmitInstruction(p, p.Instruction);
-            WriteLine(";");
+
+            try
+            {
+                EmitInstruction(p, p.Instruction);
+                WriteLine(";");
+            }
+            catch (SkipThisPrestatementException exc)
+            {
+                WriteLine();
+            }
+            catch
+            {
+                throw;
+            }
         }
 
 

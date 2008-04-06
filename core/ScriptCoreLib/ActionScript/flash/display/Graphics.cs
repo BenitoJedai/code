@@ -9,6 +9,15 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public sealed class Graphics
     {
+
+        /// <summary>
+        /// Clears the graphics that were drawn to this Graphics object, and resets fill and line style settings.
+        /// </summary>
+        public void clear()
+        {
+        }
+
+
         /// <summary>
         /// Specifies a simple one-color fill that Flash Player uses for subsequent calls to other Graphics methods (such as lineTo() or drawCircle()) for the object.
         /// </summary>

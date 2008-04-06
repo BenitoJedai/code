@@ -1198,14 +1198,20 @@ namespace jsc.Script
                 Break("Opcode not implemented: " + i.OpCode.Name + " at " + i.OwnerMethod.DeclaringType.FullName + "." + i.OwnerMethod.Name);
             }
 
-            CodeEmitArgs a = new CodeEmitArgs(this);
+            var a = new CodeEmitArgs(this)
+            {
+                i = i,
+                p = p
+            };
 
-            a.i = i;
-            a.p = p;
 
             try
             {
                 CIW[i](a);
+            }
+            catch (SkipThisPrestatementException)
+            {
+                throw;
             }
             catch (Exception exc)
             {

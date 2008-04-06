@@ -76,3 +76,5 @@ version history:
 	actionscript: added try/catch support
 29.03.2008
 	actionscript: added attribute support for types: [SWF]
+06.04.2008:
+	actionscript: added InitializeArray support

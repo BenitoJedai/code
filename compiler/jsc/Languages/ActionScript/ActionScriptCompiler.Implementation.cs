@@ -80,6 +80,8 @@ namespace jsc.Languages.ActionScript
                 WriteCustomAttributes(z);
                 WriteTypeSignature(z, za);
 
+                var cctor = default(Action);
+
                 using (CreateScope())
                 {
                     if (z.IsDelegate())
@@ -133,6 +135,9 @@ namespace jsc.Languages.ActionScript
                         WriteTypeStaticMethods(z, za);
                         WriteLine();
 
+                        cctor = WriteTypeStaticConstructor(z, za);
+                        WriteLine();
+
                         if (!z.IsInterface)
                         {
                             WriteInterfaceMappingMethods(z);
@@ -140,9 +145,32 @@ namespace jsc.Languages.ActionScript
                     }
 
                 }
+
+                if (cctor != null)
+                    cctor();
             }
 
             return true;
+        }
+
+        private Action WriteTypeStaticConstructor(Type z, ScriptAttribute za)
+        {
+            var cctor = z.GetConstructor(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic, null, System.Type.EmptyTypes, null);
+
+            WriteXmlDoc(cctor);
+            WriteMethodSignature(z, cctor, false);
+            WriteMethodBody(cctor, MethodBodyFilter);
+            WriteLine();
+
+            return delegate
+            {
+                WriteIdent();
+                WriteDecoratedTypeName(z);
+                Write(".");
+                WriteDecoratedMethodName(cctor, false);
+                Write("();");
+                WriteLine();
+            };
         }
 
         public MethodBase ResolveMethod(MethodBase m)
@@ -572,6 +600,14 @@ namespace jsc.Languages.ActionScript
             Write("(");
             WriteMethodParameterList(m);
             Write(")");
+
+            var cctor = m as ConstructorInfo;
+            if (cctor != null && cctor.IsStatic)
+            {
+                Write(":");
+                WriteDecoratedTypeName(typeof(void));
+            }
+
 
             #region ReturnType
             var mi = m as MethodInfo;
