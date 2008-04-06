@@ -20,11 +20,21 @@ namespace FlashSpaceInvaders.ActionScript
         [Embed(source = Path + "/aenemy_2.png")]
         static public readonly Class aenemy_2;
 
+
         [Embed(source = Path + "/benemy_1.png")]
         static public readonly Class benemy_1;
 
         [Embed(source = Path + "/benemy_2.png")]
         static public readonly Class benemy_2;
 
+
+        [Embed(source = Path + "/cenemy_1.png")]
+        static public readonly Class cenemy_1;
+
+        [Embed(source = Path + "/cenemy_2.png")]
+        static public readonly Class cenemy_2;
+
+        [Embed(source = Path + "/biggun_1.png")]
+        static public readonly Class biggun_1;
     }
 }

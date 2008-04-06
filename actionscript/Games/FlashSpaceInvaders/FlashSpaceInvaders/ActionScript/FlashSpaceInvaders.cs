@@ -57,13 +57,41 @@ namespace FlashSpaceInvaders.ActionScript
                     , 500);
             #endregion
 
+            #region Spawn_C
+            Func<int, int, Sprite> Spawn_C =
+                (x, y) =>
+                    new Sprite { x = x, y = y }.AttachTo(menu).AnimateAt(
+                        new BitmapAsset[]
+                        {
+                            Assets.cenemy_1.ToBitmapAsset(),
+                            Assets.cenemy_2.ToBitmapAsset()
+                        }
+                    , 500);
+            #endregion
+
+            #region Spawn_BigGun
+            Func<int, int, Sprite> Spawn_BigGun =
+                (x, y) =>
+                    new Sprite { x = x, y = y }.AttachTo(menu).AnimateAt(
+                        new BitmapAsset[]
+                        {
+                            Assets.biggun_1.ToBitmapAsset(),
+                        }
+                    , 500);
+            #endregion
+
+
             Spawn_A(60, 180);
             Spawn_A(DefaultWidth - 60, 180);
             
             Spawn_B(100, 120);
             Spawn_B(DefaultWidth - 100, 120);
 
-      
+            Spawn_A(120, 200);
+            Spawn_B(120, 240);
+            Spawn_C(120, 280);
+
+            Spawn_BigGun(300, 300);
 
             new TextField
             {

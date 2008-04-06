@@ -15,23 +15,38 @@ namespace FlashSpaceInvaders.ActionScript
         {
             var i = 0;
 
-            c.addChild(e[i]);
-
-            var t = new Timer(interval);
-
-            t.timer +=
+            Action update =
                 delegate
                 {
-                    c.removeChild(e[i]);
-                    
-                    i = (i + 1) % e.Length;
-
-                    c.addChild(e[i]);
                     e[i].x = -e[i].width / 2;
                     e[i].y = -e[i].height / 2;
                 };
 
-            t.start();
+            update();
+
+            c.addChild(e[i]);
+
+            if (e.Length > 1)
+            {
+                var t = new Timer(interval);
+
+
+                t.timer +=
+                    delegate
+                    {
+                        c.removeChild(e[i]);
+
+                        i = (i + 1) % e.Length;
+
+                        update();
+
+                        c.addChild(e[i]);
+
+
+                    };
+
+                t.start();
+            }
 
             return c;
         }
