@@ -27,6 +27,8 @@ namespace FlashSpaceInvaders.ActionScript
                     i = (i + 1) % e.Length;
 
                     c.addChild(e[i]);
+                    e[i].x = -e[i].width / 2;
+                    e[i].y = -e[i].height / 2;
                 };
 
             t.start();

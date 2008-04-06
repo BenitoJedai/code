@@ -387,6 +387,14 @@ namespace jsc.Languages.ActionScript
 
         private void CreateInstructionHandlers()
         {
+            CIW[OpCodes.Neg] =
+                delegate(CodeEmitArgs e)
+                {
+                    Write("(-(");
+                    EmitFirstOnStack(e);
+                    Write("))");
+                };
+
             CIW[OpCodes.Callvirt] =
                 e =>
                 {
