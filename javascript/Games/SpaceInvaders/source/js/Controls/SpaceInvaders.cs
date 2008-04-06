@@ -20,7 +20,7 @@ namespace SpaceInvaders.source.js.Controls
 {
     using fbool = Func<bool>;
 
-  
+
     [Script]
     public class SpaceInvaders : SpawnControlBase
     {
@@ -1217,6 +1217,11 @@ namespace SpaceInvaders.source.js.Controls
             }
         }
 
+
+        static SpaceInvaders()
+        {
+            typeof(SpaceInvaders).SpawnTo(i => new SpaceInvaders(i));
+        }
     }
 
 

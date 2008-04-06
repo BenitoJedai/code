@@ -56,11 +56,9 @@
   <ItemGroup>
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="source\csharp\Settings.cs" />
     <Compile Include="source\js\Controls\SpaceInvadersGame.cs" />
     <Compile Include="source\js\Extensions.cs" />
     <Compile Include="source\js\Overlay.cs" />
-    <Compile Include="source\js\Settings.cs" />
     <Compile Include="source\js\Controls\SpaceInvaders.cs" />
     <Compile Include="web\Description.cs" />
   </ItemGroup>
@@ -78,7 +76,6 @@
     <EmbeddedResource Include="web\assets\SpaceInvaders\Preview.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="source\php\" />
     <Folder Include="source\shared\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
