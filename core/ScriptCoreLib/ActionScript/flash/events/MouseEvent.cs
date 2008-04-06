@@ -10,6 +10,8 @@ namespace ScriptCoreLib.ActionScript.flash.events
     [Script(IsNative = true)]
     public class MouseEvent : Event
     {
+
+        public static readonly string DOUBLE_CLICK = "doubleClick";
         public static readonly string CLICK = "click";
         public static readonly string MOUSE_WHEEL = "mouseWheel";
         public static readonly string MOUSE_MOVE = "mouseMove";

@@ -28,6 +28,9 @@ namespace FlashSpaceInvaders.ActionScript
         }
 
 
+        public const int KeyLeft = 37;
+        public const int KeyRight = 39;
+
         public FlashSpaceInvaders()
         {
 
@@ -91,7 +94,24 @@ namespace FlashSpaceInvaders.ActionScript
             Spawn_B(120, 240);
             Spawn_C(120, 280);
 
-            Spawn_BigGun(300, 300);
+            var Player = Spawn_BigGun(300, 360);
+
+            stage.doubleClickEnabled = true;
+            stage.dblClick +=
+                ev =>
+                {
+                    stage.SetFullscreen(true);
+                };
+
+            stage.keyDown +=
+                ev =>
+                {
+                    if (ev.keyCode == KeyLeft)
+                        Player.x -= 4;
+
+                    if (ev.keyCode == KeyRight)
+                        Player.x += 4;
+                };
 
             new TextField
             {

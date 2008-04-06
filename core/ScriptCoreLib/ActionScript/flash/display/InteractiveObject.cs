@@ -11,6 +11,12 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class InteractiveObject : DisplayObject
     {
+        /// <summary>
+        /// Dispatched when a user presses and releases the main button of a pointing device twice in rapid succession over the same InteractiveObject when that object's doubleClickEnabled flag is set to true.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MouseEvent> dblClick;
+
         [method: Script(NotImplementedHere = true)]
         public event Action<MouseEvent> click;
 
@@ -48,21 +54,34 @@ namespace ScriptCoreLib.ActionScript.flash.display
         public event Action<FocusEvent> focusOut;
 
         /// <summary>
+        /// Specifies the context menu associated with this object.
+        /// </summary>
+        public ContextMenu contextMenu { get; set; }
+
+        /// <summary>
+        /// Specifies whether the object receives doubleClick events.
+        /// </summary>
+        public Boolean doubleClickEnabled { get; set; }
+
+        /// <summary>
+        /// Specifies whether this object displays a focus rectangle.
+        /// </summary>
+        public object focusRect { get; set; }
+
+        /// <summary>
         /// Specifies whether this object receives mouse messages.
         /// </summary>
         public bool mouseEnabled { get; set; }
 
         /// <summary>
-        /// Specifies the context menu associated with this object. 
+        /// Specifies whether this object is in the tab order.
         /// </summary>
-        public ContextMenu contextMenu { get; set; }
-
+        public bool tabEnabled { get; set; }
 
         /// <summary>
-        /// Specifies the button mode of this sprite.
+        /// Specifies the tab ordering of objects in a SWF file.
         /// </summary>
-        public bool buttonMode { get; set; }
-
+        public int tabIndex { get; set; }
 
 
 

@@ -14,6 +14,19 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.display
     public static class __InteractiveObject
     {
 
+        #region dblClick
+        public static void add_dblClick(InteractiveObject that, Action<MouseEvent> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, MouseEvent.DOUBLE_CLICK);
+        }
+
+        public static void remove_dblClick(InteractiveObject that, Action<MouseEvent> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, MouseEvent.DOUBLE_CLICK);
+        }
+        #endregion
+
+
         #region click
         public static void add_click(InteractiveObject that, Action<MouseEvent> value)
         {
