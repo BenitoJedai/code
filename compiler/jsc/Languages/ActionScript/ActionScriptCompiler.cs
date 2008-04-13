@@ -64,9 +64,16 @@ namespace jsc.Languages.ActionScript
                     continue;
                 }
 
+                if (i == OpCodes.Ldvirtftn)
+                {
+                    imp.Add(typeof(IntPtr));
+                    continue;
+                }
+
                 if (i == OpCodes.Ldftn)
                 {
                     imp.Add(typeof(IntPtr));
+                    continue;
                 }
 
                 if (i == OpCodes.Box)
@@ -1064,7 +1071,8 @@ namespace jsc.Languages.ActionScript
                 };
 
             #region Ldftn
-            CIW[OpCodes.Ldftn] =
+            CIW[OpCodes.Ldftn,
+                OpCodes.Ldvirtftn] =
                 delegate(CodeEmitArgs e)
                 {
                     // we must load it as IntPtr

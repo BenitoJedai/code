@@ -221,14 +221,14 @@ namespace jsc.Languages.ActionScript
                         var prop = new PropertyDetector(v.tmethod);
 
                         if (v.iparams.Length == 1 && prop.SetProperty != null
-                             && prop.SetProperty.GetSetMethod().GetParameters().Length == 1)
+                             && prop.SetProperty.GetSetMethod(true).GetParameters().Length == 1)
                         {
                             Write(prop.SetProperty.Name);
                             WriteAssignment();
                             WriteSafeLiteral(v.iparams.Single().Name);
                         }
                         else if (prop.GetProperty != null
-                              && prop.GetProperty.GetGetMethod().GetParameters().Length == 0)
+                              && prop.GetProperty.GetGetMethod(true).GetParameters().Length == 0)
                         {
                             Write(prop.GetProperty.Name);
                         }
@@ -576,7 +576,7 @@ namespace jsc.Languages.ActionScript
                 if (!DeclaringType.IsInterface && 
                     !dStatic && 
                     prop.SetProperty != null && 
-                    prop.SetProperty.GetSetMethod().GetParameters().Length == 1)
+                    prop.SetProperty.GetSetMethod(true).GetParameters().Length == 1)
                 {
                     Write("set ");
                     WriteSafeLiteral(prop.SetProperty.Name);
@@ -584,7 +584,7 @@ namespace jsc.Languages.ActionScript
                 else if (!DeclaringType.IsInterface && 
                     !dStatic && 
                     prop.GetProperty != null &&
-                    prop.GetProperty.GetGetMethod().GetParameters().Length == 0)
+                    prop.GetProperty.GetGetMethod(true).GetParameters().Length == 0)
                 {
                     Write("get ");
                     WriteSafeLiteral(prop.GetProperty.Name);
@@ -634,7 +634,7 @@ namespace jsc.Languages.ActionScript
         {
             public PropertyInfo SetProperty;
             public PropertyInfo GetProperty;
-
+            
             public PropertyDetector(MethodBase m)
             {
                 if (m.IsConstructor)
@@ -812,8 +812,8 @@ namespace jsc.Languages.ActionScript
 
                         if (prop.SetProperty != null && 
                             (HasMethodExternalTarget || 
-                                (prop.SetProperty.GetSetMethod() != null && 
-                                 prop.SetProperty.GetSetMethod().GetParameters().Length == 1
+                                (prop.SetProperty.GetSetMethod(true) != null &&
+                                 prop.SetProperty.GetSetMethod(true).GetParameters().Length == 1
                                 )
                             ))
                         {
@@ -823,9 +823,9 @@ namespace jsc.Languages.ActionScript
                         }
 
                         if (prop.GetProperty != null && 
-                             (HasMethodExternalTarget || 
-                                (prop.GetProperty.GetGetMethod() != null && 
-                                 prop.GetProperty.GetGetMethod().GetParameters().Length == 0
+                             (HasMethodExternalTarget ||
+                                (prop.GetProperty.GetGetMethod(true) != null &&
+                                 prop.GetProperty.GetGetMethod(true).GetParameters().Length == 0
                                 )
                             ))
                             
