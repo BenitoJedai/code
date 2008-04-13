@@ -4,7 +4,7 @@ Imports ScriptCoreLib.ActionScript.flash.events
 Imports ScriptCoreLib.ActionScript.flash.utils
 
 
-<Script()> Public Class OrcasVisualBasicFlashApplication
+<Script(), ScriptApplicationEntryPoint(width:=400, height:=300)> Public Class OrcasVisualBasicFlashApplication
     Inherits Sprite
 
     Dim WithEvents Greetings As TextField
@@ -19,6 +19,7 @@ Imports ScriptCoreLib.ActionScript.flash.utils
         Me.Greetings = New TextField() With { _
             .text = "hello world from visual basic", _
             .width = 300}.AttachTo(Me)
+
 
 
 
@@ -54,4 +55,6 @@ Imports ScriptCoreLib.ActionScript.flash.utils
         s.rotation += 1
 
     End Sub
+
+ 
 End Class
