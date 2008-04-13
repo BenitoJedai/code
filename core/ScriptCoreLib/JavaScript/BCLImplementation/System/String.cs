@@ -220,6 +220,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         [Script(DefineAsStatic = true)]
         public __String Trim()
         {
+            if (this == null)
+                return default(__String);
+
             return IRegExp.Trim.replace(this, "");
         }
 

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.ActionScript.flash.text;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace ScriptCoreLib.ActionScript.flash.display
 {
@@ -9,17 +11,16 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class Stage : DisplayObjectContainer
     {
+        #region Properties
         /// <summary>
-        /// The current height, in pixels, of the Stage.
+        /// A value from the StageAlign class that specifies the alignment of the stage in Flash Player or the browser.
         /// </summary>
-        public int stageHeight { get; set;}
-
+        public string align { get; set; }
 
         /// <summary>
-        /// Specifies the current width, in pixels, of the Stage.
+        /// [write-only]
         /// </summary>
-        public int stageWidth { get; set;}
-
+        public bool cacheAsBitmap { get; set; }
 
         /// <summary>
         /// A value from the StageDisplayState class that specifies which display state to use.
@@ -31,7 +32,94 @@ namespace ScriptCoreLib.ActionScript.flash.display
         /// </summary>
         public InteractiveObject focus { get; set; }
 
-        	
+        /// <summary>
+        /// Gets and sets the frame rate of the stage.
+        /// </summary>
+        public double frameRate { get; set; }
+
+        /// <summary>
+        /// [read-only] Returns the height of the monitor that will be used when going to full screen size, if that state is entered immediately.
+        /// </summary>
+        public uint fullScreenHeight { get; private set; }
+
+        /// <summary>
+        /// Sets Flash Player to scale a specific region of the stage to full-screen mode.
+        /// </summary>
+        public Rectangle fullScreenSourceRect { get; set; }
+
+        /// <summary>
+        /// [read-only] Returns the width of the monitor that will be used when going to full screen size, if that state is entered immediately.
+        /// </summary>
+        public uint fullScreenWidth { get; private set; }
+
+        /// <summary>
+        /// Indicates the height of the display object, in pixels.
+        /// </summary>
+        public double height { get; set; }
+
+        /// <summary>
+        /// Determines whether or not the children of the object are mouse enabled.
+        /// </summary>
+        public bool mouseChildren { get; set; }
+
+
+        /// <summary>
+        /// [read-only] Returns the number of children of this object.
+        /// </summary>
+        public int numChildren { get; private set; }
+
+        /// <summary>
+        /// A value from the StageQuality class that specifies which rendering quality is used.
+        /// </summary>
+        public string quality { get; set; }
+
+        /// <summary>
+        /// A value from the StageScaleMode class that specifies which scale mode to use.
+        /// </summary>
+        public string scaleMode { get; set; }
+
+        /// <summary>
+        /// Specifies whether to show or hide the default items in the Flash Player context menu.
+        /// </summary>
+        public bool showDefaultContextMenu { get; set; }
+
+        /// <summary>
+        /// Specifies whether or not objects display a glowing border when they have focus.
+        /// </summary>
+        public bool stageFocusRect { get; set; }
+
+        /// <summary>
+        /// The current height, in pixels, of the Stage.
+        /// </summary>
+        public int stageHeight { get; set; }
+
+        /// <summary>
+        /// Specifies the current width, in pixels, of the Stage.
+        /// </summary>
+        public int stageWidth { get; set; }
+
+        /// <summary>
+        /// Determines whether the children of the object are tab enabled.
+        /// </summary>
+        public bool tabChildren { get; set; }
+
+        /// <summary>
+        /// [write-only]
+        /// </summary>
+        public bool tabEnabled { get; set; }
+
+        /// <summary>
+        /// [read-only] Returns a TextSnapshot object for this DisplayObjectContainer instance.
+        /// </summary>
+        public TextSnapshot textSnapshot { get; private set; }
+
+        /// <summary>
+        /// Indicates the width of the display object, in pixels.
+        /// </summary>
+        public double width { get; set; }
+
+        #endregion
+
 
     }
 }

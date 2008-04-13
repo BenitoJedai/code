@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.ActionScript.flash.text;
 
 namespace ScriptCoreLib.ActionScript.flash.display
 {
@@ -9,11 +10,29 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class DisplayObjectContainer : InteractiveObject
     {
+        #region Properties
         /// <summary>
         /// Determines whether or not the children of the object are mouse enabled.
         /// </summary>
         public bool mouseChildren { get; set; }
-        
+
+        /// <summary>
+        /// [read-only] Returns the number of children of this object.
+        /// </summary>
+        public int numChildren { get; private set; }
+
+        /// <summary>
+        /// Determines whether the children of the object are tab enabled.
+        /// </summary>
+        public bool tabChildren { get; set; }
+
+        /// <summary>
+        /// [read-only] Returns a TextSnapshot object for this DisplayObjectContainer instance.
+        /// </summary>
+        public TextSnapshot textSnapshot { get; private set; }
+
+        #endregion
+
 
 
         /// <summary>

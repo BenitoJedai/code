@@ -133,12 +133,16 @@
     <Compile Include="ActionScript\BCLImplementation\System\String.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Text\StringBuilder.cs" />
     <Compile Include="ActionScript\Class.cs" />
+    <Compile Include="ActionScript\flash\accessibility\AccessibilityProperties.cs" />
+    <Compile Include="ActionScript\flash\display\LoaderInfo.cs" />
     <Compile Include="ActionScript\flash\external\ExternalInterface.cs" />
     <Compile Include="ActionScript\flash\geom\Point.cs" />
     <Compile Include="ActionScript\flash\geom\Rectangle.cs" />
+    <Compile Include="ActionScript\flash\geom\Transform.cs" />
     <Compile Include="ActionScript\flash\system\Security.cs" />
     <Compile Include="ActionScript\flash\text\StyleSheet.cs" />
     <Compile Include="ActionScript\flash\text\TextFormat.cs" />
+    <Compile Include="ActionScript\flash\text\TextSnapshot.cs" />
     <Compile Include="ActionScript\mx\graphics\GradientBase.cs" />
     <Compile Include="ActionScript\mx\graphics\GradientEntry.cs" />
     <Compile Include="ActionScript\mx\graphics\IFill.cs" />

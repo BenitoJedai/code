@@ -107,7 +107,9 @@
     <None Include="tools\build.bat" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="docs\" />
+    <Content Include="docs\Description.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="web\assets\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

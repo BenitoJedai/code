@@ -1,11 +1,16 @@
 ﻿Imports ScriptCoreLib.ActionScript.flash.display
 Imports ScriptCoreLib.ActionScript.flash.text
+Imports ScriptCoreLib.ActionScript.flash.events
+Imports ScriptCoreLib.ActionScript.flash.utils
 
 
 <Script()> Public Class OrcasVisualBasicFlashApplication
     Inherits Sprite
 
     Dim WithEvents Greetings As TextField
+    Dim WithEvents RotatingTimer As New Timer(1000 / 24, 0)
+
+    Dim s As New Sprite
 
     Public Sub New()
 
@@ -18,9 +23,19 @@ Imports ScriptCoreLib.ActionScript.flash.text
 
 
 
+        s.AttachTo(Me)
+
+        With s
+            .x = 100
+            .y = 100
+        End With
+
+        s.graphics.lineStyle(4, &HFF00, 1)
+        s.graphics.drawRect(0, 0, 64, 32)
 
 
 
+        RotatingTimer.start()
 
 
 
@@ -33,5 +48,10 @@ Imports ScriptCoreLib.ActionScript.flash.text
 
     Private Sub Greetings_mouseOver(ByVal obj As ScriptCoreLib.ActionScript.flash.events.MouseEvent) Handles Greetings.mouseOver
         Greetings.textColor = &HFF00
+    End Sub
+
+    Private Sub RotatingTimer_timer(ByVal obj As ScriptCoreLib.ActionScript.flash.events.TimerEvent) Handles RotatingTimer.timer
+        s.rotation += 1
+
     End Sub
 End Class

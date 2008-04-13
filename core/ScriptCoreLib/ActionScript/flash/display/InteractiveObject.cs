@@ -8,6 +8,7 @@ using ScriptCoreLib.ActionScript.flash.events;
 namespace ScriptCoreLib.ActionScript.flash.display
 {
     // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/display/InteractiveObject.html
+    // http://livedocs.adobe.com/flex/3/langref/flash/display/InteractiveObject.html#contextMenu
     [Script(IsNative = true)]
     public class InteractiveObject : DisplayObject
     {
@@ -53,6 +54,8 @@ namespace ScriptCoreLib.ActionScript.flash.display
         [method: Script(NotImplementedHere = true)]
         public event Action<FocusEvent> focusOut;
 
+
+        #region Properties
         /// <summary>
         /// Specifies the context menu associated with this object.
         /// </summary>
@@ -61,7 +64,7 @@ namespace ScriptCoreLib.ActionScript.flash.display
         /// <summary>
         /// Specifies whether the object receives doubleClick events.
         /// </summary>
-        public Boolean doubleClickEnabled { get; set; }
+        public bool doubleClickEnabled { get; set; }
 
         /// <summary>
         /// Specifies whether this object displays a focus rectangle.
@@ -82,6 +85,9 @@ namespace ScriptCoreLib.ActionScript.flash.display
         /// Specifies the tab ordering of objects in a SWF file.
         /// </summary>
         public int tabIndex { get; set; }
+
+        #endregion
+
 
 
 
