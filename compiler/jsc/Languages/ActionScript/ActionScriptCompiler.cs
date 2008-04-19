@@ -842,7 +842,7 @@ namespace jsc.Languages.ActionScript
                 {
 
                     #region inline newarr
-                    if (e.p.IsValidInlineArrayInit)
+                    if (e.p != null && e.p.IsValidInlineArrayInit)
                     {
                         WriteLine("[");
                         Ident++;
@@ -1140,6 +1140,11 @@ namespace jsc.Languages.ActionScript
 
         public override void WriteMethodParameterList(MethodBase m)
         {
+            WriteMethodParameterList(m, null);
+        }
+
+        public void WriteMethodParameterList(MethodBase m, ILFlow.StackItem[] DefaultValues)
+        {
             ParameterInfo[] mp = m.GetParameters();
 
             var ma = m.ToScriptAttribute();
@@ -1196,7 +1201,11 @@ namespace jsc.Languages.ActionScript
                 Write(":");
                 WriteDecoratedTypeNameOrImplementationTypeName(p.ParameterType, true, true, IsFullyQualifiedNamesRequired(m.DeclaringType, p.ParameterType));
 
-    
+                if (DefaultValues != null && mpi < DefaultValues.Length)
+                {
+                    WriteAssignment();
+                    EmitInstruction(null, DefaultValues[mpi].SingleStackInstruction);
+                }
                 /*
                 if (za.Implements == null || m.DeclaringType.GUID != p.ParameterType.GUID)
                     WriteDecoratedTypeName(p.ParameterType);
@@ -1317,10 +1326,50 @@ namespace jsc.Languages.ActionScript
                 // visual basic can have optional parameters on its own, its c# that needs some help
                 // as3 does not support method overloading but does support default parameters
                 // we need to figure out which ctor is real and which are just sattelites
+
+                var query =
+                    from c in zci
+                    let b = new ILBlock(c).Prestatements.PrestatementCommands.Where(p => !p.Instruction.IsAnyOpCodeOf(OpCodes.Ret, OpCodes.Nop)).ToArray()
+                    where (b.Length == 1 && b[0].Instruction == OpCodes.Call)
+                    let i = b[0].Instruction
+                    let t = i.TargetConstructor
+                    where t != null && zci.Contains(t)
+                    // skip the ldarg0/this op
+                    select new { ctor = c, target = t, args = i.StackBeforeStrict.Skip(1).ToArray() };
+
+                var cache = query.ToArray();
+                var targets = zci.Except(cache.Select(i => i.ctor)).ToArray();
+
+
+                if (targets.Length != 1)
+                    throw new NotSupportedException("Unable to transform overloaded constructors to a single constructor via optional parameters for " + z.FullName);
+                    
+                var target = targets.Single();
+
+
+                // step 1
+                var ctor = cache.Single(i => i.target == target);
+                var args = ctor.args;
+
+                while (true)
+                {
+                    ctor = cache.SingleOrDefault(i => i.target == ctor.ctor);
+
+                    if (ctor == null)
+                        break;
+
+                    args = args.Select((s, i) => s.SingleStackInstruction.TargetParameter == null ? s : ctor.args[i]).ToArray();
+                } 
+               
+                // now we should have one ctor and others that point to them
+
+                WriteMethodSignature(target, false, WriteMethodSignatureMode.Delcaring, args);
+                WriteMethodBody(target);
+
             }
             else
             {
-                foreach (ConstructorInfo zc in zci)
+                foreach (var zc in zci)
                 {
                     WriteMethodSignature(zc, false);
                     WriteMethodBody(zc);

@@ -14,6 +14,16 @@ namespace ScriptCoreLib.ActionScript.Query
 
     internal static partial class __Enumerable
     {
+        public static U Aggregate<T, U>(this IEnumerable<T> source,
+                         U seed, global::System.Func<U, T, U> func)
+        {
+            U result = seed;
+
+            foreach (T element in source.AsEnumerable())
+                result = func(result, element);
+
+            return result;
+        }
 
         public static bool Any<TSource>(this IEnumerable<TSource> source)
         {

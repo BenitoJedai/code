@@ -5,6 +5,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 using System;
 using ScriptCoreLib.ActionScript.flash.filters;
 using System.Linq;
+using System.Collections.Generic;
 
 
 namespace FlashLinqToObjects.ActionScript
@@ -38,10 +39,35 @@ namespace FlashLinqToObjects.ActionScript
                 };
             #endregion
 
+            var DefaultUsers = new List<string>
+            {
+                "_martin",
+                "mike",
+                "mac",
+                "ken",
+                "neo",
+                "zen",
+                "jay",
+                "morpheus",
+                "trinity",
+                "Agent Smith",
+                "_psycho"
+            };
          
             var users = new TextField
             {
-                text = "_martin, mike, mac, ken, neo, zen, jay, morpheous, trinity, Agent Smith, _psycho",
+                text = DefaultUsers.Aggregate(
+                    new { i = 0, text = "" }, 
+                    (seed, value) => 
+                    {
+                        if (seed.i == 0)
+                            return new { i = 1, text = value };
+                        
+                        return new { i = seed.i + 1, text = seed.text + ", " + value };
+                    }
+                ).text,
+                    
+
                 wordWrap = true,
                 multiline = true,
                 x = margin,

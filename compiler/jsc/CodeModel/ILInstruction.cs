@@ -1844,6 +1844,7 @@ namespace jsc
             return false;
         }
 
+  
         public bool IsLoadLocal
         {
             get

@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>Z:\work\jsc\svn\templates\OrcasVisualBasicFlashApplication\OrcasVisualBasicFlashApplication\bin\Release</StartWorkingDirectory>
-    <StartArguments>OrcasVisualBasicFlashApplication.dll -as</StartArguments>
+    <StartWorkingDirectory>Z:\work\jsc\svn\actionscript\Examples\AlphaTest\AlphaTest\bin\Debug</StartWorkingDirectory>
+    <StartArguments>AlphaTest.dll -as</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

@@ -82,4 +82,5 @@ version history:
 	actionscript: added static constructor support
 19.04.2008
 	actionscript: added multiname reference support
+	actionscript: added support to transform overloaded constructors to a single constructor via optional parameters
 	

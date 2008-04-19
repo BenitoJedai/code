@@ -12,6 +12,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     ]
     public class __Exception
     {
+        public __Exception() : this("")
+        {
+
+        }
+
         public __Exception(string message)
         {
 

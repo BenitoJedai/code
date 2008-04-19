@@ -526,6 +526,11 @@ namespace jsc.Languages.ActionScript
 
         protected void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic, WriteMethodSignatureMode mode)
         {
+            WriteMethodSignature(m, dStatic, mode, null);
+        }
+
+        protected void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic, WriteMethodSignatureMode mode, ILFlow.StackItem[] DefaultValues)
+        {
 
             var DeclaringType = m.DeclaringType;
             var TypeScriptAttribute = DeclaringType.ToScriptAttribute();
@@ -601,7 +606,7 @@ namespace jsc.Languages.ActionScript
             }
 
             Write("(");
-            WriteMethodParameterList(m);
+            WriteMethodParameterList(m, DefaultValues);
             Write(")");
 
             var cctor = m as ConstructorInfo;
@@ -1093,13 +1098,15 @@ namespace jsc.Languages.ActionScript
             Action<Type> WriteTypeName =
                 t =>
                 {
-                   if (UseFullyQualifiedName && !string.IsNullOrEmpty(t.Namespace))
-                   {
-                       Write(NamespaceFixup(t.Namespace));
-                       Write(".");
-                   }
-                    
-                   WriteSafeLiteral(GetDecoratedTypeName(t, true));
+                    var ns = NamespaceFixup(t.Namespace);
+
+                    if (UseFullyQualifiedName && !string.IsNullOrEmpty(ns))
+                    {
+                        Write(ns);
+                        Write(".");
+                    }
+
+                    WriteSafeLiteral(GetDecoratedTypeName(t, true));
                 };
 
             if (iType == null)
@@ -1110,7 +1117,7 @@ namespace jsc.Languages.ActionScript
                     WriteTypeName(s.ImplementationType);
                 else
                     WriteTypeName(timpv);
-                    
+
             }
             else
             {

@@ -12,14 +12,33 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
     {
         public Array _items = new Array();
 
-        public __List()
+        public __List() : this(null)
         {
 
         }
 
+        public __List(IEnumerable<T> collection)
+        {
+            // cannot have this check as the default ctor will pass null anyway
+            //if (collection == null)
+            //    throw new global::System.Exception("collection is null");
+
+            if (collection != null)
+                this.AddRange(collection);
+        }
+
+
         public void Add(T item)
         {
             _items.push(item);
+        }
+
+        public void AddRange(IEnumerable<T> collection)
+        {
+            foreach (T v in collection)
+            {
+                this.Add(v);
+            }
         }
 
         public void Clear()

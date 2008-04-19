@@ -59,7 +59,17 @@ namespace AlphaTest.ActionScript
         [Script]
         public class MyClass : n1.MyClass, IDisposable
         {
+            public MyClass() : this("DefaultValue2")
+            {
 
+            }
+
+            public MyClass(string value2)
+                : base("DefaultKey2", value2)
+            { 
+            }
+
+           
             #region IDisposable Members
 
             public void Dispose()
@@ -79,13 +89,13 @@ namespace AlphaTest.ActionScript
     {
         public AlphaTest()
         {
-            var c1 = new n1.MyClass
+            var c1 = new n1.MyClass ("key1")
             {
                 "hey",
                 "ho"
             };
 
-            var c2 = new n2.MyClass
+            var c2 = new n2.MyClass 
             {
                 "hey",
                 "ho"
