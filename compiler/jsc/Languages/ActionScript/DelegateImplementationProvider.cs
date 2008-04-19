@@ -55,7 +55,7 @@ namespace jsc.Languages.ActionScript
                 w.WriteIdent();
                 w.Write("var target");
                 w.Write(":");
-                w.WriteDecoratedTypeNameOrImplementationTypeName(typeof(object), false, false);
+                w.WriteDecoratedTypeNameOrImplementationTypeName(typeof(object), false, false, w.IsFullyQualifiedNamesRequired(z, typeof(object)));
                 w.Write(";");
                 w.WriteLine();
                 #endregion
@@ -64,7 +64,7 @@ namespace jsc.Languages.ActionScript
                 w.WriteIdent();
                 w.Write("var method");
                 w.Write(":");
-                w.WriteDecoratedTypeNameOrImplementationTypeName(IntPtr, false, false);
+                w.WriteDecoratedTypeNameOrImplementationTypeName(IntPtr, false, false, w.IsFullyQualifiedNamesRequired(z, IntPtr));
                 w.Write(";");
                 w.WriteLine();
                 #endregion
@@ -74,7 +74,7 @@ namespace jsc.Languages.ActionScript
                 w.WriteIdent();
                 w.Write("var field");
                 w.Write(":");
-                w.WriteDecoratedTypeNameOrImplementationTypeName(typeof(string), false, false);
+                w.WriteDecoratedTypeNameOrImplementationTypeName(typeof(string), false, false, w.IsFullyQualifiedNamesRequired(z, typeof(string)));
                 w.Write(";");
                 w.WriteLine();
                 #endregion
@@ -85,7 +85,7 @@ namespace jsc.Languages.ActionScript
 
                     w.Write("var val");
                     w.Write(":");
-                    w.WriteDecoratedTypeNameOrImplementationTypeName(Invoke.ReturnType, false, false);
+                    w.WriteDecoratedTypeNameOrImplementationTypeName(Invoke.ReturnType, false, false, w.IsFullyQualifiedNamesRequired(z, Invoke.ReturnType));
                     w.Write(";");
 
                     w.WriteLine();
@@ -97,7 +97,7 @@ namespace jsc.Languages.ActionScript
                 w.Write("for each(");
                 w.Write("var ptr");
                 w.Write(":");
-                w.WriteDecoratedTypeNameOrImplementationTypeName(z, false, false);
+                w.WriteDecoratedTypeNameOrImplementationTypeName(z, false, false, w.IsFullyQualifiedNamesRequired(z, z));
                 w.Write(" in ");
                 w.Write(FieldList.Name);
                 w.Write(")");
@@ -133,7 +133,7 @@ namespace jsc.Languages.ActionScript
                     w.WriteIdent();
                     w.Write("field");
                     w.WriteAssignment();
-                    w.WriteDecoratedTypeNameOrImplementationTypeName(IntPtr, false, false);
+                    w.WriteDecoratedTypeNameOrImplementationTypeName(IntPtr, false, false, w.IsFullyQualifiedNamesRequired(z, IntPtr));
                     w.Write(".");
                     w.WriteDecoratedMethodName(_IntPtr_string, false);
                     w.Write("(");
@@ -156,7 +156,7 @@ namespace jsc.Languages.ActionScript
 
                     
                     #region IntPtr -> Function
-                    w.WriteDecoratedTypeNameOrImplementationTypeName(IntPtr, false, false);
+                    w.WriteDecoratedTypeNameOrImplementationTypeName(IntPtr, false, false, w.IsFullyQualifiedNamesRequired(z, IntPtr));
                     w.Write(".");
                     w.WriteDecoratedMethodName(_IntPtr_Function, false);
                     w.Write("(");

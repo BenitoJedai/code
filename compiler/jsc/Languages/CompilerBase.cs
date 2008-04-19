@@ -284,11 +284,15 @@ namespace jsc.Script
 
         #region write
 
+        public virtual void WriteDecoratedTypeName(Type context, Type subject)
+        {
+            MyWriter.Write(GetDecoratedTypeName(subject, true));
+        }
+
 
         public virtual void WriteDecoratedTypeName(Type z)
         {
             MyWriter.Write(GetDecoratedTypeName(z, true));
-
         }
 
         public void WriteDecoratedFieldVerified(FieldInfo z)

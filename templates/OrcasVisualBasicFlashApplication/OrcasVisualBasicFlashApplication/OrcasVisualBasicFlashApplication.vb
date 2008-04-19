@@ -12,7 +12,27 @@ Imports ScriptCoreLib.ActionScript.flash.utils
 
     Dim s As New Sprite
 
+    <Script()> Class Zen
+        Public Sub New(Optional ByVal message As String = Nothing)
+
+        End Sub
+
+        Sub Add(Optional ByVal source As IEnumerable(Of Zen) = Nothing)
+
+        End Sub
+
+    End Class
+
+
     Public Sub New()
+        ' http://oakleafblog.blogspot.com/2007/06/will-visual-basic-90-have-collection.html
+        Dim z As New Zen
+        Dim c As Zen() = {New Zen, New Zen("xxx")}
+
+        z.Add()
+        z.Add(c)
+
+
 
         ' http://msdn2.microsoft.com/en-us/library/bb385125.aspx
 
@@ -56,5 +76,5 @@ Imports ScriptCoreLib.ActionScript.flash.utils
 
     End Sub
 
- 
+
 End Class

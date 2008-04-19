@@ -76,8 +76,10 @@ version history:
 	actionscript: added try/catch support
 29.03.2008
 	actionscript: added attribute support for types: [SWF]
-06.04.2008:
+06.04.2008
 	actionscript: added google gadget templating
 	actionscript: added InitializeArray support
 	actionscript: added static constructor support
+19.04.2008
+	actionscript: added multiname reference support
 	

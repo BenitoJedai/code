@@ -107,7 +107,7 @@ namespace ScriptCoreLib
 
         public GoogleGadgetAttribute()
         {
-            this.height = 200;
+            this.height = 240;
             this.width = 320;
             this.scaling = true;
             this.scrolling = false;

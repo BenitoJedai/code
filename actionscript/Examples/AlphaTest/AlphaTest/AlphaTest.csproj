@@ -88,6 +88,9 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>::c:\util\jsc\bin\jsc.exe $(TargetFileName)  -as</PostBuildEvent>
+    <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetFileName)  -as
+pushd ..\..\tools
+build.AlphaTest.bat
+popd</PostBuildEvent>
   </PropertyGroup>
 </Project>

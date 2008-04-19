@@ -185,9 +185,9 @@ namespace jsc.Languages.ActionScript
         }
         private void WriteInterfaceMappingMethods(Type z)
         {
+            // current interface exclusion implementation might not work well with abstract classes 
 
-
-            foreach (var v in from i in z.GetInterfaces()
+            foreach (var v in from i in z.GetInterfaces().Except(z.BaseType == null ? null : z.BaseType.GetInterfaces())
                               let mapping = z.GetInterfaceMap(i)
                               from j in Enumerable.Range(0, mapping.InterfaceMethods.Length)
                               let imethod = ResolveMethod(mapping.InterfaceMethods[j])
@@ -274,10 +274,10 @@ namespace jsc.Languages.ActionScript
             }
             else
             {
-                if (z.IsPublic)
-                    Write("public ");
-                else
-                    Write("internal ");
+                // as3 cannot have assembly private types
+
+                Write("public ");
+
             }
 
             if (z.IsSealed)
@@ -310,12 +310,12 @@ namespace jsc.Languages.ActionScript
 
                     if (ba.ImplementationType != null)
                     {
-                        WriteDecoratedTypeName(ba.ImplementationType);
+                        WriteDecoratedTypeNameOrImplementationTypeName(ba.ImplementationType, false, false, IsFullyQualifiedNamesRequired(z, ba.ImplementationType));
                     }
-                    else if (ba.Implements == null)
-                        WriteDecoratedTypeName(BaseTypeImplementation);
-                    else
-                        Write(GetDecoratedTypeName(BaseTypeImplementation, false));
+                    else// if (ba.Implements == null)
+                        WriteDecoratedTypeNameOrImplementationTypeName(BaseTypeImplementation, false, false, IsFullyQualifiedNamesRequired(z, BaseTypeImplementation));
+                    //else
+                    //    Write(GetDecoratedTypeName(BaseTypeImplementation, false));
 
                 }
                 #endregion
@@ -356,7 +356,7 @@ namespace jsc.Languages.ActionScript
                             Write(" implements ");
                     }
 
-                    WriteDecoratedTypeNameOrImplementationTypeName(timpv, false, true);
+                    WriteDecoratedTypeNameOrImplementationTypeName(timpv, false, true, IsFullyQualifiedNamesRequired(z, timpv));
                     //WriteDecoratedTypeNameOrImplementationTypeName(timpv);
                 }
             }
@@ -390,7 +390,7 @@ namespace jsc.Languages.ActionScript
                 WriteSafeLiteral(zfn.Name);
                 Write(":");
                 //WriteGenericOrDecoratedTypeName(zfn.FieldType);
-                WriteDecoratedTypeNameOrImplementationTypeName(zfn.FieldType, true, true);
+                WriteDecoratedTypeNameOrImplementationTypeName(zfn.FieldType, true, true, IsFullyQualifiedNamesRequired(z, zfn.FieldType));
 
                 //WriteDecoratedTypeNameOrImplementationTypeName(zfn.FieldType, true, true);
                 //WriteSpace();
@@ -573,16 +573,16 @@ namespace jsc.Languages.ActionScript
                 // http://livedocs.adobe.com/flash/9.0/main/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Parts&file=00000830.html
                 // -> implementing classes need to wrap this
 
-                if (!DeclaringType.IsInterface && 
-                    !dStatic && 
-                    prop.SetProperty != null && 
+                if (!DeclaringType.IsInterface &&
+                    !dStatic &&
+                    prop.SetProperty != null &&
                     prop.SetProperty.GetSetMethod(true).GetParameters().Length == 1)
                 {
                     Write("set ");
                     WriteSafeLiteral(prop.SetProperty.Name);
                 }
-                else if (!DeclaringType.IsInterface && 
-                    !dStatic && 
+                else if (!DeclaringType.IsInterface &&
+                    !dStatic &&
                     prop.GetProperty != null &&
                     prop.GetProperty.GetGetMethod(true).GetParameters().Length == 0)
                 {
@@ -618,7 +618,7 @@ namespace jsc.Languages.ActionScript
             if (mi != null)
             {
                 Write(":");
-                WriteDecoratedTypeNameOrImplementationTypeName(mi.ReturnType, true, true);
+                WriteDecoratedTypeNameOrImplementationTypeName(mi.ReturnType, true, true, IsFullyQualifiedNamesRequired(DeclaringType, mi.ReflectedType));
 
             }
             #endregion
@@ -634,7 +634,7 @@ namespace jsc.Languages.ActionScript
         {
             public PropertyInfo SetProperty;
             public PropertyInfo GetProperty;
-            
+
             public PropertyDetector(MethodBase m)
             {
                 if (m.IsConstructor)
@@ -810,8 +810,8 @@ namespace jsc.Languages.ActionScript
                     {
                         var prop = new PropertyDetector(TargetMethod);
 
-                        if (prop.SetProperty != null && 
-                            (HasMethodExternalTarget || 
+                        if (prop.SetProperty != null &&
+                            (HasMethodExternalTarget ||
                                 (prop.SetProperty.GetSetMethod(true) != null &&
                                  prop.SetProperty.GetSetMethod(true).GetParameters().Length == 1
                                 )
@@ -822,13 +822,12 @@ namespace jsc.Languages.ActionScript
                             return;
                         }
 
-                        if (prop.GetProperty != null && 
+                        if (prop.GetProperty != null &&
                              (HasMethodExternalTarget ||
                                 (prop.GetProperty.GetGetMethod(true) != null &&
                                  prop.GetProperty.GetGetMethod(true).GetParameters().Length == 0
                                 )
                             ))
-                            
                         {
                             WriteSafeLiteral(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.GetProperty.Name);
                             return;
@@ -923,7 +922,7 @@ namespace jsc.Languages.ActionScript
                         ILBlock.Prestatement set_exc = p.Block.Prestatements.PrestatementCommands[0];
                         WriteVariableName(p.Block.OwnerMethod.DeclaringType, p.Block.OwnerMethod, set_exc.Instruction.TargetVariable);
                         Write(":");
-                        WriteDecoratedTypeNameOrImplementationTypeName(p.Block.Clause.CatchType, true, true);
+                        WriteDecoratedTypeNameOrImplementationTypeName(p.Block.Clause.CatchType, true, true, IsFullyQualifiedNamesRequired(p.Block.OwnerMethod.DeclaringType, p.Block.Clause.CatchType));
 
 
                         // remove the set command
@@ -1042,12 +1041,21 @@ namespace jsc.Languages.ActionScript
             Write("var ");
             WriteVariableName(u.DeclaringType, u, v);
             Write(":");
-            WriteDecoratedTypeNameOrImplementationTypeName(v.LocalType, true, true);
+
+            WriteDecoratedTypeNameOrImplementationTypeName(v.LocalType, true, true, IsFullyQualifiedNamesRequired(u.DeclaringType, v.LocalType));
             WriteLine(";");
         }
 
 
-        public void WriteDecoratedTypeNameOrImplementationTypeName(Type timpv, bool favorPrimitives, bool favorTargetType)
+        public bool IsFullyQualifiedNamesRequired(Type context, Type subject)
+        {
+            if (context != subject && context.Name == subject.Name)
+                return true;
+
+            return GetImportTypes(context).Count(i => i.Name == subject.Name) > 1;
+        }
+
+        public void WriteDecoratedTypeNameOrImplementationTypeName(Type timpv, bool favorPrimitives, bool favorTargetType, bool UseFullyQualifiedName)
         {
 
             if (timpv.IsGenericParameter)
@@ -1082,20 +1090,32 @@ namespace jsc.Languages.ActionScript
 
 
 
-
+            Action<Type> WriteTypeName =
+                t =>
+                {
+                   if (UseFullyQualifiedName && !string.IsNullOrEmpty(t.Namespace))
+                   {
+                       Write(NamespaceFixup(t.Namespace));
+                       Write(".");
+                   }
+                    
+                   WriteSafeLiteral(GetDecoratedTypeName(t, true));
+                };
 
             if (iType == null)
             {
                 var s = timpv.ToScriptAttribute();
 
-                // favorPrimitives
                 if (s != null && s.ImplementationType != null)
-                    WriteSafeLiteral(GetDecoratedTypeName(s.ImplementationType, true/*, favorPrimitives, true*/));
+                    WriteTypeName(s.ImplementationType);
                 else
-                    WriteSafeLiteral(GetDecoratedTypeName(timpv, true/*, favorPrimitives, true*/));
+                    WriteTypeName(timpv);
+                    
             }
             else
-                WriteSafeLiteral(GetDecoratedTypeName(iType, true));
+            {
+                WriteTypeName(iType);
+            }
         }
     }
 }

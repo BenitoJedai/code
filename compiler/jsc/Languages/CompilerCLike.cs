@@ -134,10 +134,10 @@ namespace jsc.Script
 
                 if (mza != null && mza.ImplementationType != null)
                 {
-                    WriteDecoratedTypeName(mza.ImplementationType);
+                    WriteDecoratedTypeName(e.Method.DeclaringType,  mza.ImplementationType);
                 }
                 else
-                    WriteDecoratedTypeName(m.DeclaringType);
+                    WriteDecoratedTypeName(e.Method.DeclaringType, m.DeclaringType);
 
                 WriteParameterInfoFromStack(m, e.p, e.i.StackBeforeStrict, 0);
             }
@@ -336,6 +336,11 @@ namespace jsc.Script
         public void WriteKeywordFalse()
         {
             Write("false");
+        }
+
+        public void WriteKeywordNull()
+        {
+            Write("null");
         }
 
         public bool EmitEnumAsStringSafe(CodeEmitArgs e)
@@ -929,7 +934,7 @@ namespace jsc.Script
         }
 
 
-        protected void WriteTypeInstanceConstructors(Type z)
+        protected virtual void WriteTypeInstanceConstructors(Type z)
         {
             ConstructorInfo[] zci = GetAllInstanceConstructors(z);
 

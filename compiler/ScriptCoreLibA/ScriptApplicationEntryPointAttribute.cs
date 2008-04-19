@@ -41,8 +41,14 @@ namespace ScriptCoreLib
         /// </summary>
         public bool ScriptedLoading;
 
-        public int Width;
-        public int Height;
+        public int Width { get; set; }
+        public int Height { get; set; }
+
+        public ScriptApplicationEntryPointAttribute()
+        {
+            Width = 320;
+            Height = 240;
+        }
     }
 
 }

@@ -149,10 +149,13 @@ namespace jsc.Languages.ActionScript
             }
         }
 
+        private readonly Dictionary<Type, IEnumerable<Type>> GetImportTypes_Cache =
+            new Dictionary<Type, IEnumerable<Type>>();
 
-        private List<Type> GetImportTypes(Type t)
+        private IEnumerable<Type> GetImportTypes(Type t)
         {
-
+            if (GetImportTypes_Cache.ContainsKey(t))
+                return GetImportTypes_Cache[t];
 
 
             var imp = new List<Type>();
@@ -306,14 +309,14 @@ namespace jsc.Languages.ActionScript
             );
 
 
-            return imp_types;
+            return GetImportTypes_Cache[t] = imp_types;
         }
 
         public void WriteImportTypes(Type z)
         {
             // all field types, return types, parameter types, variable types, statics
 
-            List<Type> t = GetImportTypes(z);
+            List<Type> t = GetImportTypes(z).ToList();
             List<string> imports = new List<string>();
 
             /*
@@ -414,7 +417,7 @@ namespace jsc.Languages.ActionScript
                 {
                     MethodBase m = e.i.ReferencedMethod;
 
-                    
+
                     if (m.DeclaringType == typeof(System.Runtime.CompilerServices.RuntimeHelpers))
                     {
                         if (m.Name == "InitializeArray")
@@ -422,7 +425,7 @@ namespace jsc.Languages.ActionScript
                             throw new SkipThisPrestatementException();
                         }
                     }
-                    
+
 
                     MethodBase mi = MySession.ResolveImplementation(m.DeclaringType, m);
 
@@ -1085,11 +1088,11 @@ namespace jsc.Languages.ActionScript
                     var _Method = e.i.TargetMethod;
                     if (_Method.IsStatic)
                     {
-                        WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false);
+                        WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _IntPtr));
                         Write(".");
                         WriteDecoratedMethodName(_IntPtr_Function, false);
                         Write("(");
-                        WriteDecoratedTypeNameOrImplementationTypeName(_Method.DeclaringType, false, false);
+                        WriteDecoratedTypeNameOrImplementationTypeName(_Method.DeclaringType, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _Method.DeclaringType));
                         Write(".");
                         WriteDecoratedMethodName(e.i.TargetMethod, false);
                         Write(")");
@@ -1098,19 +1101,16 @@ namespace jsc.Languages.ActionScript
                     {
                         if (_Method.DeclaringType == e.Method.DeclaringType)
                         {
-                            WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false);
+                            WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _IntPtr));
                             Write(".");
                             WriteDecoratedMethodName(_IntPtr_Function, false);
                             Write("(");
-                            /*
-                            WriteDecoratedTypeNameOrImplementationTypeName(_Method.DeclaringType, false, false);
-                            Write(".");*/
                             WriteDecoratedMethodName(e.i.TargetMethod, false);
                             Write(")");
                         }
                         else
                         {
-                            WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false);
+                            WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _IntPtr));
                             Write(".");
                             WriteDecoratedMethodName(_IntPtr_string, false);
                             Write("(");
@@ -1160,7 +1160,7 @@ namespace jsc.Languages.ActionScript
                 // cannot use 'this' on arguments as it is a keyword
                 WriteSelf();
                 Write(":");
-                WriteDecoratedTypeNameOrImplementationTypeName(m.DeclaringType, true, true);
+                WriteDecoratedTypeNameOrImplementationTypeName(m.DeclaringType, true, true, IsFullyQualifiedNamesRequired(m.DeclaringType, m.DeclaringType));
 
                 //var sa = ScriptAttribute.Of(m.DeclaringType, false);
 
@@ -1194,7 +1194,9 @@ namespace jsc.Languages.ActionScript
                     WriteDecoratedMethodParameter(p);
 
                 Write(":");
-                WriteDecoratedTypeNameOrImplementationTypeName(p.ParameterType, true, true);
+                WriteDecoratedTypeNameOrImplementationTypeName(p.ParameterType, true, true, IsFullyQualifiedNamesRequired(m.DeclaringType, p.ParameterType));
+
+    
                 /*
                 if (za.Implements == null || m.DeclaringType.GUID != p.ParameterType.GUID)
                     WriteDecoratedTypeName(p.ParameterType);
@@ -1218,7 +1220,7 @@ namespace jsc.Languages.ActionScript
 
 
             Write("(");
-            WriteDecoratedTypeNameOrImplementationTypeName(x, true, true);
+            WriteDecoratedTypeNameOrImplementationTypeName(x, true, true, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, x));
             Write("(");
             EmitFirstOnStack(e);
             Write(")");
@@ -1251,7 +1253,7 @@ namespace jsc.Languages.ActionScript
 
             var ArrayToEnumerator = x.GetImplicitOperators(null, null).Single();
 
-            WriteDecoratedTypeNameOrImplementationTypeName(x, false, false);
+            WriteDecoratedTypeNameOrImplementationTypeName(x, false, false, IsFullyQualifiedNamesRequired(p.DeclaringMethod.DeclaringType, x));
             Write(".");
             WriteDecoratedMethodName(ArrayToEnumerator, false);
             Write("(");
@@ -1269,7 +1271,7 @@ namespace jsc.Languages.ActionScript
 
 
 
-       
+
 
         public static int[] StructAsInt32Array(object data)
         {
@@ -1296,6 +1298,37 @@ namespace jsc.Languages.ActionScript
             Marshal.FreeHGlobal(buf);
 
             return a;
+        }
+
+        public override void WriteDecoratedTypeName(Type context, Type subject)
+        {
+            // used by OpCodes.Newobj
+
+            WriteDecoratedTypeNameOrImplementationTypeName(subject, false, false, IsFullyQualifiedNamesRequired(context, subject));
+
+        }
+
+        protected override void WriteTypeInstanceConstructors(Type z)
+        {
+            var zci = GetAllInstanceConstructors(z);
+
+            if (zci.Length > 1)
+            {
+                // visual basic can have optional parameters on its own, its c# that needs some help
+                // as3 does not support method overloading but does support default parameters
+                // we need to figure out which ctor is real and which are just sattelites
+            }
+            else
+            {
+                foreach (ConstructorInfo zc in zci)
+                {
+                    WriteMethodSignature(zc, false);
+                    WriteMethodBody(zc);
+
+                }
+            }
+
+            WriteLine();
         }
     }
 

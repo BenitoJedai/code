@@ -603,6 +603,13 @@ namespace jsc
 
         public class Prestatement
         {
+            public MethodBase DeclaringMethod
+            {
+                get
+                {
+                    return Owner.OwnerBlock.OwnerMethod;
+                }
+            }
 
 
             public ILInstruction Instruction;

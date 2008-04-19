@@ -13,6 +13,11 @@ namespace jsc //.Extensions
 {
     static class Extensions
     {
+        public static bool ContainsFlags(this int e, int f)
+        {
+            return (e & f) == f;
+        }
+
         public static MethodInfo[] GetImplicitOperators(this Type e, Type ParameterType, Type ReturnType)
         {
             return (
@@ -57,6 +62,12 @@ namespace jsc //.Extensions
             }
 
             return false;
+        }
+
+        public static T[] GetCustomAttributes<T>(this ICustomAttributeProvider e)
+            where T : System.Attribute
+        {
+            return (T[])e.GetCustomAttributes(typeof(T), false);
         }
 
         public static T[] GetCustomAttributes<T>(this MemberInfo e)
