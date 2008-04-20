@@ -83,4 +83,5 @@ version history:
 19.04.2008
 	actionscript: added multiname reference support
 	actionscript: added support to transform overloaded constructors to a single constructor via optional parameters
-	
+20.04.2008
+	actionscript: added OpCodes.Leave	

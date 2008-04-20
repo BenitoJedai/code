@@ -18,5 +18,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         {
             return Math.random();
         }
+
+        public virtual int Next(int maxValue)
+        {
+            return Convert.ToInt32(NextDouble() * maxValue);
+        }
     }
 }

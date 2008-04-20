@@ -183,19 +183,29 @@ namespace jsc.Languages.ActionScript
                             ? ResolveImplementationMethod(m.DeclaringType, m)
                             : m);
         }
+
+        public MethodBase ResolveMethod(Type t, MethodBase m)
+        {
+            return
+                (m.DeclaringType.ToScriptAttribute() == null
+                            ? ResolveImplementationMethod(t, m)
+                            : m);
+        }
+
         private void WriteInterfaceMappingMethods(Type z)
         {
             // current interface exclusion implementation might not work well with abstract classes 
 
             foreach (var v in from i in z.GetInterfaces().Except(z.BaseType == null ? null : z.BaseType.GetInterfaces())
+                              let i_typedef = i.IsGenericType ? i.GetGenericTypeDefinition() : i
                               let mapping = z.GetInterfaceMap(i)
                               from j in Enumerable.Range(0, mapping.InterfaceMethods.Length)
-                              let imethod = ResolveMethod(mapping.InterfaceMethods[j])
+                              let imethod = ResolveMethod(i_typedef, mapping.InterfaceMethods[j])
                               where imethod != null
                               let tmethod = ResolveMethod(mapping.TargetMethods[j])
                               let imethodinfo = imethod as MethodInfo
                               let ret = imethodinfo == null ? false : imethodinfo.ReturnType != typeof(void)
-                              select new { i, j, mapping, imethod, iparams = imethod.GetParameters(), ret, tmethod })
+                              select new { i, j, mapping, imethod, iparams = imethod.GetParameters(), ret, tmethod, i_typedef })
             {
                 WriteIdent();
                 WriteCommentLine("implements " + v.imethod.ToString() + " via " + (v.i.FullName ?? v.i.Name));
@@ -962,7 +972,10 @@ namespace jsc.Languages.ActionScript
             {
                 {typeof(int), "int"},
                 {typeof(char), "int"}, // char = int
-                {typeof(uint), "int"}, // uint = int
+                {typeof(uint), "uint"},
+                {typeof(bool), "Boolean"},
+                {typeof(long), "Number"},
+                {typeof(ulong), "Number"},
                 {typeof(double), "Number"},
                 {typeof(void), "void"},
                 {typeof(string), "String"},
@@ -1028,8 +1041,14 @@ namespace jsc.Languages.ActionScript
                     return;
                 }
 
+
                 // todo: should use base62 encoding here
-                WriteSafeLiteral(z.Name + "_" + z.MetadataToken);
+
+                var s = z.DeclaringType.ToScriptAttribute();
+                if (s != null && s.IsNative)
+                    WriteSafeLiteral(z.Name);
+                else
+                    WriteSafeLiteral(z.Name + "_" + z.MetadataToken);
 
             }
             finally

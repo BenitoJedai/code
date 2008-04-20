@@ -13,4 +13,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
     [Script(Implements = typeof(global::System.Action<,>))]
     internal delegate void __Action<A, B>(A a, B b);
+
+    [Script(Implements = typeof(global::System.Action<,,>))]
+    internal delegate void __Action<A, B, C>(A a, B b, C c);
 }

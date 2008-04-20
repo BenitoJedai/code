@@ -11,6 +11,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     ]
     public class __ArgumentNullException : __Exception
     {
+        public __ArgumentNullException() : this("")
+        {
+        }
+
         public __ArgumentNullException(string message)
             : base(message)
         {

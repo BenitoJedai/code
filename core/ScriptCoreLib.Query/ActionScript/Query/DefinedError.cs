@@ -12,7 +12,7 @@ namespace ScriptCoreLib.ActionScript.Query
 {
 
     [Script]
-    internal static class DefinedErrors
+    internal static class DefinedError
     {
         internal static Exception ArgumentOutOfRange(string paramName)
         {

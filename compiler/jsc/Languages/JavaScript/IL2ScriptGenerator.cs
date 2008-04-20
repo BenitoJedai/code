@@ -1018,6 +1018,7 @@ namespace jsc
 
             w.WriteDecorated(i.OwnerMethod, i.Prev.TargetVariable);
 
+            
             w.WriteSpace();
             w.Write("=");
             w.WriteSpace();

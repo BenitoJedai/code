@@ -119,6 +119,8 @@
     <Compile Include="ActionScript\BCLImplementation\System\Collections\IEnumerator.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEnumerable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ArgumentNullException.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Convert.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\ICloneable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Random.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Math.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\NotSupportedException.cs" />

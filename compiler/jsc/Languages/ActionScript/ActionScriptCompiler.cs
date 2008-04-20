@@ -48,102 +48,107 @@ namespace jsc.Languages.ActionScript
             if (v.IsAbstract)
                 return;
 
-            foreach (LocalVariableInfo l in v.GetMethodBody().LocalVariables)
+            var body = v.GetMethodBody();
+
+            if (body != null)
             {
-                imp.Add(l.LocalType);
-            }
-
-            ILBlock b = new ILBlock(v);
-
-            //for (var i = b.First; i != null; i = i.Next)
-            foreach (var i in b.Instructrions)
-            {
-                if (i == OpCodes.Ldtoken)
+                foreach (LocalVariableInfo l in body.LocalVariables)
                 {
-
-                    continue;
+                    imp.Add(l.LocalType);
                 }
 
-                if (i == OpCodes.Ldvirtftn)
-                {
-                    imp.Add(typeof(IntPtr));
-                    continue;
-                }
+                ILBlock b = new ILBlock(v);
 
-                if (i == OpCodes.Ldftn)
+                //for (var i = b.First; i != null; i = i.Next)
+                foreach (var i in b.Instructrions)
                 {
-                    imp.Add(typeof(IntPtr));
-                    continue;
-                }
-
-                if (i == OpCodes.Box)
-                {
-
-                    if (i.TargetType.IsGenericParameter)
+                    if (i == OpCodes.Ldtoken)
                     {
-                        // http://msdn2.microsoft.com/en-us/library/system.type.getgenericparameterconstraints(VS.80).aspx
-                        var c = i.TargetType.GetGenericParameterConstraints().SingleOrDefault();
 
-                        if (c != null)
-                            imp.Add(c);
-                    }
-                    else
-                    {
-                        imp.Add(i.TargetType);
-                    }
-                }
-
-                if (i.TargetMethod != null)
-                {
-                    var attr = i.TargetMethod.ToScriptAttribute();
-
-                    if (attr != null && attr.NotImplementedHere)
-                    {
-                        var impl = MySession.ResolveImplementation(i.TargetMethod.DeclaringType, i.TargetMethod, AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveNativeImplementationExtension);
-
-                        if (impl != null)
-                            imp.Add(impl.DeclaringType);
-                    }
-                }
-
-                if (i.ReferencedMethod != null)
-                {
-                    if (!IsTypeOfOperator(i.ReferencedMethod))
-                        if (i.ReferencedMethod.DeclaringType != typeof(object))
-                        {
-                            if (i.ReferencedMethod.DeclaringType == typeof(System.Runtime.CompilerServices.RuntimeHelpers))
-                                continue;
-
-                            if (ScriptAttribute.IsCompilerGenerated(i.ReferencedMethod.DeclaringType))
-                            {
-                                imp.Add(i.ReferencedMethod.DeclaringType);
-                                continue;
-                            }
-
-                            if (i.ReferencedMethod.DeclaringType.IsInterface)
-                            {
-                                imp.Add(MySession.ResolveImplementation(i.ReferencedMethod.DeclaringType));
-                                continue;
-                            }
-
-                            MethodBase method = GetMethodImplementation(MySession, i);
-                            var method_attribute = method.ToScriptAttribute();
-                            if (method.IsConstructor || method.IsStatic || (method_attribute != null && method_attribute.DefineAsStatic))
-                            {
-                                imp.Add(method.DeclaringType);
-                                continue;
-                            }
-                        }
-                }
-
-
-
-                if (i.TargetField != null)
-                {
-                    if (i.TargetField.IsStatic)
-                    {
-                        imp.Add(i.TargetField.DeclaringType);
                         continue;
+                    }
+
+                    if (i == OpCodes.Ldvirtftn)
+                    {
+                        imp.Add(typeof(IntPtr));
+                        continue;
+                    }
+
+                    if (i == OpCodes.Ldftn)
+                    {
+                        imp.Add(typeof(IntPtr));
+                        continue;
+                    }
+
+                    if (i == OpCodes.Box)
+                    {
+
+                        if (i.TargetType.IsGenericParameter)
+                        {
+                            // http://msdn2.microsoft.com/en-us/library/system.type.getgenericparameterconstraints(VS.80).aspx
+                            var c = i.TargetType.GetGenericParameterConstraints().SingleOrDefault();
+
+                            if (c != null)
+                                imp.Add(c);
+                        }
+                        else
+                        {
+                            imp.Add(i.TargetType);
+                        }
+                    }
+
+                    if (i.TargetMethod != null)
+                    {
+                        var attr = i.TargetMethod.ToScriptAttribute();
+
+                        if (attr != null && attr.NotImplementedHere)
+                        {
+                            var impl = MySession.ResolveImplementation(i.TargetMethod.DeclaringType, i.TargetMethod, AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveNativeImplementationExtension);
+
+                            if (impl != null)
+                                imp.Add(impl.DeclaringType);
+                        }
+                    }
+
+                    if (i.ReferencedMethod != null)
+                    {
+                        if (!IsTypeOfOperator(i.ReferencedMethod))
+                            if (i.ReferencedMethod.DeclaringType != typeof(object))
+                            {
+                                if (i.ReferencedMethod.DeclaringType == typeof(System.Runtime.CompilerServices.RuntimeHelpers))
+                                    continue;
+
+                                if (ScriptAttribute.IsCompilerGenerated(i.ReferencedMethod.DeclaringType))
+                                {
+                                    imp.Add(i.ReferencedMethod.DeclaringType);
+                                    continue;
+                                }
+
+                                if (i.ReferencedMethod.DeclaringType.IsInterface)
+                                {
+                                    imp.Add(MySession.ResolveImplementation(i.ReferencedMethod.DeclaringType));
+                                    continue;
+                                }
+
+                                MethodBase method = GetMethodImplementation(MySession, i);
+                                var method_attribute = method.ToScriptAttribute();
+                                if (method.IsConstructor || method.IsStatic || (method_attribute != null && method_attribute.DefineAsStatic))
+                                {
+                                    imp.Add(method.DeclaringType);
+                                    continue;
+                                }
+                            }
+                    }
+
+
+
+                    if (i.TargetField != null)
+                    {
+                        if (i.TargetField.IsStatic)
+                        {
+                            imp.Add(i.TargetField.DeclaringType);
+                            continue;
+                        }
                     }
                 }
             }
@@ -160,15 +165,31 @@ namespace jsc.Languages.ActionScript
 
             var imp = new List<Type>();
 
-            Type[] tinterfaces = t.GetInterfaces();
+
+
+            if (t.BaseType != null && t.BaseType != typeof(object))
+                imp.Add(MySession.ResolveImplementation(t.BaseType));
+
+            
+            if (t.BaseType == typeof(MulticastDelegate))
+            {
+                imp.Add(MySession.ResolveImplementation(typeof(IntPtr)));
+
+                var _Invoke = t.GetMethod("Invoke");
+
+                if (_Invoke.ReturnParameter.ParameterType != typeof(void))
+                    imp.Add(MySession.ResolveImplementation(_Invoke.ReturnParameter.ParameterType));
+
+                GetImportTypesFromMethod(t, imp, _Invoke);
+
+                goto removesome;
+            }
+
+            var tinterfaces = t.GetInterfaces();
 
             foreach (Type tinterface in tinterfaces)
                 imp.Add(tinterface);
 
-            if (t.BaseType == typeof(MulticastDelegate))
-                return new List<Type> { 
-                    
-                    MySession.ResolveImplementation(typeof(IntPtr)) };
 
             /*
             Type bp = t.BaseType;
@@ -207,8 +228,11 @@ namespace jsc.Languages.ActionScript
                 GetImportTypesFromMethod(t, imp, v);
             }
 
+            removesome:
+
             var imp_types = new List<Type>();
 
+            imp.RemoveAll(i => i == typeof(void));
             imp.RemoveAll(i => i == null);
             imp.RemoveAll(i => i.IsGenericParameter);
 
@@ -683,6 +707,32 @@ namespace jsc.Languages.ActionScript
                     else throw new NotSupportedException("invalid br opcode");
                 };
 
+            CIW[OpCodes.Leave,
+                OpCodes.Leave_S] =
+                e =>
+                {
+                    var b = e.i.Flow.OwnerBlock;
+
+                    if (b.Clause == null)
+                        b = b.Parent;
+
+
+                    if (b.Clause.Flags == ExceptionHandlingClauseOptions.Clause ||
+                        b.Clause.Flags == ExceptionHandlingClauseOptions.Finally
+                        )
+                    {
+                        var tx = e.i.IndirectReturnPrestatement;
+                        if (tx != null)
+                        {
+                            EmitPrestatement(tx);
+                            return;
+                        }
+
+                    }
+
+                    throw new NotSupportedException("current OpCodes.Leave cannot be understood");
+                };
+
             #region Ret
             CIW[OpCodes.Ret] =
                 e =>
@@ -823,11 +873,13 @@ namespace jsc.Languages.ActionScript
             CIW[OpCodes.Conv_U2] = e => ConvertTypeAndEmit(e, "uint"); // char == int
             CIW[OpCodes.Conv_I4] = e => ConvertTypeAndEmit(e, "int");
 
+
             // CIW[OpCodes.Conv_I8] = e => ConvertTypeAndEmit(e, "long");
             // CIW[OpCodes.Conv_U8] = e => ConvertTypeAndEmit(e, "long");
 
             CIW[OpCodes.Conv_R4] = e => ConvertTypeAndEmit(e, "Number");
             CIW[OpCodes.Conv_R8] = e => ConvertTypeAndEmit(e, "Number");
+            CIW[OpCodes.Conv_I8] = e => ConvertTypeAndEmit(e, "Number");
 
             // CIW[OpCodes.Conv_U1] = e => ConvertTypeAndEmit(e, "byte");
             CIW[OpCodes.Conv_Ovf_I] = e => ConvertTypeAndEmit(e, "int");
@@ -958,7 +1010,9 @@ namespace jsc.Languages.ActionScript
             CIW[OpCodes.Stelem_Ref,
                 OpCodes.Stelem_I1,
                 OpCodes.Stelem_I2,
-                OpCodes.Stelem_I4
+                OpCodes.Stelem_I4,
+                OpCodes.Stelem_I8,
+                OpCodes.Stelem
                 ] =
                 e =>
                 {
@@ -1124,6 +1178,14 @@ namespace jsc.Languages.ActionScript
                 };
             #endregion
 
+            CIW[OpCodes.Initobj] =
+                e =>
+                {
+                    WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.Prev.TargetVariable);
+                    WriteAssignment();
+                    Write("void(0)");
+                };
+
             #region Throw
             CIW[OpCodes.Throw] =
                 e =>
@@ -1133,6 +1195,32 @@ namespace jsc.Languages.ActionScript
 
                     EmitFirstOnStack(e);
                 };
+
+            CIW[OpCodes.Rethrow] =
+                e =>
+                {
+                    // http://livedocs.adobe.com/flex/3/html/help.html?content=11_Handling_errors_08.html
+
+                    Write("throw");
+                    WriteSpace();
+
+                    var b = e.i.Flow.OwnerBlock;
+
+                    if (b.Clause == null)
+                        b = b.Parent;
+
+                    if (b.Clause.CatchType == typeof(object))
+                    {
+                        WriteExceptionVar();
+                    }
+                    else
+                    {
+                        var set_exc = b.Prestatements.PrestatementCommands[0];
+                        WriteVariableName(b.OwnerMethod.DeclaringType, b.OwnerMethod, set_exc.Instruction.TargetVariable);
+                    }
+
+                };
+
             #endregion
         }
 
@@ -1343,7 +1431,7 @@ namespace jsc.Languages.ActionScript
 
                 if (targets.Length != 1)
                     throw new NotSupportedException("Unable to transform overloaded constructors to a single constructor via optional parameters for " + z.FullName);
-                    
+
                 var target = targets.Single();
 
 
@@ -1359,8 +1447,8 @@ namespace jsc.Languages.ActionScript
                         break;
 
                     args = args.Select((s, i) => s.SingleStackInstruction.TargetParameter == null ? s : ctor.args[i]).ToArray();
-                } 
-               
+                }
+
                 // now we should have one ctor and others that point to them
 
                 WriteMethodSignature(target, false, WriteMethodSignatureMode.Delcaring, args);

@@ -12,6 +12,8 @@ using System.Linq;
 namespace ScriptCoreLib.ActionScript.Query
 {
 
+    using Error = DefinedError;
+
     internal static partial class __Enumerable
     {
         public static U Aggregate<T, U>(this IEnumerable<T> source,
@@ -29,7 +31,7 @@ namespace ScriptCoreLib.ActionScript.Query
         {
             if (source == null)
             {
-                throw DefinedErrors.ArgumentNull("source");
+                throw DefinedError.ArgumentNull("source");
             }
 
 
@@ -49,12 +51,12 @@ namespace ScriptCoreLib.ActionScript.Query
         {
             if (source == null)
             {
-                throw DefinedErrors.ArgumentNull("source");
+                throw DefinedError.ArgumentNull("source");
             }
 
             if (predicate == null)
             {
-                throw DefinedErrors.ArgumentNull("predicate");
+                throw DefinedError.ArgumentNull("predicate");
             }
 
             var r = false;
@@ -76,12 +78,12 @@ namespace ScriptCoreLib.ActionScript.Query
         {
             if (source == null)
             {
-                throw DefinedErrors.ArgumentNull("source");
+                throw DefinedError.ArgumentNull("source");
             }
 
             if (predicate == null)
             {
-                throw DefinedErrors.ArgumentNull("predicate");
+                throw DefinedError.ArgumentNull("predicate");
             }
 
             var r = true;
@@ -115,10 +117,77 @@ namespace ScriptCoreLib.ActionScript.Query
             return c;
         }
 
+
+        public static TSource[] ToArray<TSource>(this IEnumerable<TSource> source)
+        {
+            return source.ToList().ToArray();
+        }
+
+        public static List<TSource> ToList<TSource>(this IEnumerable<TSource> source)
+        {
+            if (source == null)
+            {
+                throw DefinedError.ArgumentNull("source");
+            }
+            return new List<TSource>(source);
+        }
+
+
+        public static TSource Last<TSource>(this IEnumerable<TSource> source)
+        {
+            if (source == null)
+            {
+                throw Error.ArgumentNull("source");
+            }
+
+            TSource current;
+
+            using (IEnumerator<TSource> enumerator = source.AsEnumerable().GetEnumerator())
+            {
+                if (enumerator.MoveNext())
+                {
+                    current = enumerator.Current;
+
+                    while (enumerator.MoveNext())
+                    {
+                        current = enumerator.Current;
+                    }
+
+                }
+                else
+                    throw Error.NoElements();
+            }
+
+            return current;
+        }
+
+
+
+        public static TSource First<TSource>(this IEnumerable<TSource> source)
+        {
+            if (source == null)
+            {
+                throw Error.ArgumentNull("source");
+            }
+
+            TSource current;
+
+
+            using (IEnumerator<TSource> enumerator = source.AsEnumerable().GetEnumerator())
+            {
+                if (enumerator.MoveNext())
+                {
+                    current = enumerator.Current;
+                }
+                else
+                    throw Error.NoElements();
+
+            }
+
+            return current;
+
+        }
+
     }
-
-
-
-
 
 }

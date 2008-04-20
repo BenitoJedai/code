@@ -11,6 +11,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     ]
     public class __NotSupportedException : __Exception
     {
+        public __NotSupportedException()
+            : this("")
+        {
+        }
+
         public __NotSupportedException(string message)
             : base(message)
         {

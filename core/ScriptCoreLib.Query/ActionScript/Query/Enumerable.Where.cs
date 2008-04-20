@@ -96,7 +96,7 @@ namespace ScriptCoreLib.ActionScript.Query
 
             public void Reset()
             {
-                throw DefinedErrors.NotImplemented();
+                throw DefinedError.NotImplemented();
             }
 
 
