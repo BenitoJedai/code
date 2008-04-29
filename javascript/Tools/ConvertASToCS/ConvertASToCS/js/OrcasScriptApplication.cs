@@ -6,6 +6,7 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
 using System.Text;
 using System;
+using System.Linq;
 using System.Collections.Specialized;
 using System.Collections.Generic;
 using ScriptCoreLib.JavaScript.Runtime;
@@ -31,9 +32,442 @@ namespace ConvertASToCS.js
             AddEvents();
             AddConstants();
             AddProperties();
-
+            AddMethods();
         }
 
+        private void AddMethods()
+        {
+            var h = new IHTMLElement(IHTMLElement.HTMLElementEnum.h3).AttachToDocument();
+            var htext = new IHTMLSpan("Methods (click to show/hide)").AttachTo(h);
+            var content = new IHTMLDiv().AttachToDocument();
+            content.Hide();
+
+            var update = default(Action);
+
+            var a = new IHTMLTextArea().AttachTo(content);
+            IHTMLButton.Create(
+                "Example code",
+                delegate
+                {
+                    a.value =
+@"XML(value:Object)
+Creates a new XML object.
+	
+addNamespace(ns:Object):XML
+Adds a namespace to the set of in-scope namespaces for the XML object.
+	
+appendChild(child:Object):XML
+Appends the given child to the end of the XML object's properties.
+	
+attribute(attributeName:*):XMLList
+Returns the XML value of the attribute that has the name matching the attributeName parameter.
+	
+attributes():XMLList
+Returns a list of attribute values for the given XML object.
+	
+child(propertyName:Object):XMLList
+Lists the children of an XML object.
+	
+childIndex():int
+Identifies the zero-indexed position of this XML object within the context of its parent.
+	
+children():XMLList
+Lists the children of the XML object in the sequence in which they appear.
+	
+comments():XMLList
+Lists the properties of the XML object that contain XML comments.
+	
+contains(value:XML):Boolean
+Compares the XML object against the given value parameter.
+	
+copy():XML
+Returns a copy of the given XML object.
+	
+defaultSettings():Object
+[static] Returns an object with the following properties set to the default values: ignoreComments, ignoreProcessingInstructions, ignoreWhitespace, prettyIndent, and prettyPrinting.
+	
+descendants(name:Object = *):XMLList
+Returns all descendants (children, grandchildren, great-grandchildren, and so on) of the XML object that have the given name parameter.
+	
+elements(name:Object = *):XMLList
+Lists the elements of an XML object.
+	
+hasComplexContent():Boolean
+Checks to see whether the XML object contains complex content.
+	
+hasOwnProperty(p:String):Boolean
+Checks to see whether the object has the property specified by the p parameter.
+	
+hasSimpleContent():Boolean
+Checks to see whether the XML object contains simple content.
+	
+inScopeNamespaces():Array
+Lists the namespaces for the XML object, based on the object's parent.
+	
+insertChildAfter(child1:Object, child2:Object):*
+Inserts the given child2 parameter after the child1 parameter in this XML object and returns the resulting object.
+	
+insertChildBefore(child1:Object, child2:Object):*
+Inserts the given child2 parameter before the child1 parameter in this XML object and returns the resulting object.
+	
+length():int
+For XML objects, this method always returns the integer 1.
+	
+localName():Object
+Gives the local name portion of the qualified name of the XML object.
+	
+name():Object
+Gives the qualified name for the XML object.
+	
+namespace(prefix:String = null):*
+If no parameter is provided, gives the namespace associated with the qualified name of this XML object.
+	
+namespaceDeclarations():Array
+Lists namespace declarations associated with the XML object in the context of its parent.
+	
+nodeKind():String
+Specifies the type of node: text, comment, processing-instruction, attribute, or element.
+	
+normalize():XML
+For the XML object and all descendant XML objects, merges adjacent text nodes and eliminates empty text nodes.
+	
+parent():*
+Returns the parent of the XML object.
+	
+prependChild(value:Object):XML
+Inserts a copy of the provided child object into the XML element before any existing XML properties for that element.
+	
+processingInstructions(name:String = ""*""):XMLList
+If a name parameter is provided, lists all the children of the XML object that contain processing instructions with that name.
+	
+propertyIsEnumerable(p:String):Boolean
+Checks whether the property p is in the set of properties that can be iterated in a for..in statement applied to the XML object.
+	
+removeNamespace(ns:Namespace):XML
+Removes the given namespace for this object and all descendants.
+	
+replace(propertyName:Object, value:XML):XML
+Replaces the properties specified by the propertyName parameter with the given value parameter.
+	
+setChildren(value:Object):XML
+Replaces the child properties of the XML object with the specified set of XML properties, provided in the value parameter.
+	
+setLocalName(name:String):void
+Changes the local name of the XML object to the given name parameter.
+	
+setName(name:String):void
+Sets the name of the XML object to the given qualified name or attribute name.
+	
+setNamespace(ns:Namespace):void
+Sets the namespace associated with the XML object.
+	
+setSettings(... rest):void
+[static] Sets values for the following XML properties: ignoreComments, ignoreProcessingInstructions, ignoreWhitespace, prettyIndent, and prettyPrinting.
+	
+settings():Object
+[static] Retrieves the following properties: ignoreComments, ignoreProcessingInstructions, ignoreWhitespace, prettyIndent, and prettyPrinting.
+	
+text():XMLList
+Returns an XMLList object of all XML properties of the XML object that represent XML text nodes.
+	
+toString():String
+Returns a string representation of the XML object.
+	
+toXMLString():String
+Returns a string representation of the XML object.
+	
+valueOf():XML
+Returns the XML object.
+";
+
+                    update();
+                }
+            ).AttachTo(content);
+
+
+
+            var b = new IHTMLTextArea().AttachTo(content);
+
+            htext.onclick +=
+                delegate
+                {
+                    content.ToggleVisible();
+                };
+
+            a.style.display = ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.block;
+            a.style.width = "100%";
+            a.style.height = "20em";
+
+
+            b.style.display = ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.block;
+            b.style.width = "100%";
+            b.style.height = "20em";
+
+            b.readOnly = true;
+
+
+
+            Action update_output =
+                delegate
+                {
+                    var w = new StringBuilder();
+                    var w2 = new StringBuilder();
+
+                    var lines = a.Lines.ToArray();
+
+                    w.AppendLine("#region Methods");
+                    w2.AppendLine("#region Constructors");
+
+                    for (int i = 0; i < lines.Length; i += 3)
+                    {
+                        if ((i + 1) < lines.Length)
+                        {
+                            var StaticKeyword = "[static]";
+
+                            var Summary = lines[i + 1].Trim();
+                            var MethodSig = lines[i].Trim();
+
+
+                            if (!MethodSig.Contains("AIR-only"))
+                            {
+                                var q0 = MethodSig.Split(')');
+                                var q1 = q0[0].Split('(');
+
+                                var MethodName = FixVariableName(q1[0].Trim());
+                                var MethodParameters = new MethodParametersInfo(q1[1].Trim());
+
+                                var MethodReturnType = "";
+
+                                if (q0[1].StartsWith(":"))
+                                    MethodReturnType = FixTypeName(q0[1].Substring(1).Trim());
+
+
+
+                                var IsConstructor = string.IsNullOrEmpty(MethodReturnType);
+
+                                foreach (var v in MethodParameters.Variations)
+                                {
+                                    if (IsConstructor)
+                                    {
+                                        w2.AppendLine("/// <summary>");
+                                        w2.AppendLine("/// " + Summary);
+                                        w2.AppendLine("/// </summary>");
+
+                                        w2.AppendLine("public " + MethodName + "(" + v + ")");
+                                        w2.AppendLine("{");
+                                        w2.AppendLine("}");
+                                        w2.AppendLine();
+                                    }
+                                    else
+                                    {
+                                        if (v.Parameters.Length == 0 && MethodName == "toString")
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            w.AppendLine("/// <summary>");
+                                            w.AppendLine("/// " + Summary);
+                                            w.AppendLine("/// </summary>");
+
+                                            var StaticModifier = Summary.Contains(StaticKeyword) ? "static " : "";
+
+                                            w.AppendLine("public " + StaticModifier + MethodReturnType + " " + MethodName + "(" + v + ")");
+                                            w.AppendLine("{");
+
+                                            if (MethodReturnType != "void")
+                                                w.AppendLine("  return default(" + MethodReturnType + ");");
+
+                                            w.AppendLine("}");
+                                            w.AppendLine();
+                                        }
+                                    }
+                                }
+
+
+
+
+                            }
+
+
+                        }
+                    }
+
+                    w.AppendLine("#endregion");
+                    w2.AppendLine("#endregion");
+
+
+                    w.AppendLine();
+                    w.Append(w2.ToString());
+
+                    b.value = w.ToString();
+                };
+
+            update =
+                delegate
+                {
+                    try
+                    {
+
+                        update_output(
+
+                        );
+                    }
+                    catch (Exception ex)
+                    {
+                        b.value = "error: " + ex.Message;
+                    }
+                };
+
+
+            a.onchange +=
+                delegate
+                {
+                    update();
+                };
+        }
+
+        [Script]
+        public class MethodParametersInfo
+        {
+
+            [Script]
+            public class ParamInfo
+            {
+                public string Name;
+                public string TypeName;
+                public string DefaultValue;
+
+                // http://bartdesmet.net/blogs/bart/archive/2006/09/28/4473.aspx
+                // http://www.sephiroth.it/weblog/archives/2006/06/actionscript_3_rest_parameter.php
+                public bool IsRestParameter;
+
+                public bool HasDefaultValue
+                {
+                    get { return !string.IsNullOrEmpty(DefaultValue); }
+                }
+            }
+
+            public readonly ParamInfo[] Parameters;
+
+            public MethodParametersInfo(IEnumerable<ParamInfo> e)
+            {
+                Parameters = e.ToArray();
+            }
+
+            public MethodParametersInfo(string e)
+            {
+
+                Parameters = e.Split(',').Select(i => i.Trim()).Where(i => !string.IsNullOrEmpty(i)).Select(
+                    text =>
+                    {
+                        if (text.StartsWith("..."))
+                        {
+                            return new ParamInfo
+                            {
+                                IsRestParameter = true,
+                                Name = text.Substring(3).Trim(),
+                                TypeName = "object"
+                            };
+                        }
+
+                        var q = text.Split('=');
+                        var z = q[0].Split(':');
+
+                        if (q.Length == 1)
+                            return new ParamInfo
+                            {
+                                Name = z[0].Trim(),
+                                TypeName = FixTypeName(z[1].Trim())
+                            };
+
+                        return new ParamInfo
+                        {
+                            Name = z[0].Trim(),
+                            TypeName = FixTypeName(z[1].Trim()),
+                            DefaultValue = q[1].Trim()
+                        };
+                    }
+                ).ToArray();
+            }
+
+            public MethodParametersInfo DropLastParameter()
+            {
+                if (this.Parameters.Length == 0)
+                    return null;
+
+                var p = new ParamInfo[this.Parameters.Length - 1];
+
+                for (int i = 0; i < p.Length; i++)
+                {
+                    p[i] = this.Parameters[i];
+                }
+
+                return new MethodParametersInfo(p);
+            }
+
+            public IEnumerable<MethodParametersInfo> Variations
+            {
+                get
+                {
+                    if (Parameters.Length == 0)
+                        return new[] { this }.AsEnumerable();
+
+                    var v = new[]
+                    {
+                        new MethodParametersInfo
+                        (
+                            from p in Parameters
+                            select new ParamInfo
+                            {
+                               IsRestParameter = p.IsRestParameter,
+                               Name = p.Name,
+                               TypeName = p.TypeName,
+                               DefaultValue = null
+                            }
+                         )
+                    }.AsEnumerable();
+
+                    if (this.Parameters.Last().HasDefaultValue)
+                    {
+                        // solid this and all below
+
+                        v = v.Concat(DropLastParameter().Variations);
+                    }
+
+                    return v;
+
+                }
+            }
+
+            public override string ToString()
+            {
+                if (Parameters.Length == 0)
+                    return "";
+
+                var w = new StringBuilder();
+
+                for (int i = 0; i < Parameters.Length; i++)
+                {
+                    var p = Parameters[i];
+
+                    if (i > 0)
+                        w.Append(", ");
+
+
+                    if (p.IsRestParameter)
+                        w.Append("/* params */ " + p.TypeName + " " + p.Name);
+                    else if (string.IsNullOrEmpty(p.DefaultValue))
+                        w.Append(p.TypeName + " " + FixVariableName(p.Name));
+                    else
+                        w.Append(p.TypeName + " " + FixVariableName(p.Name) + " = " + p.DefaultValue);
+                }
+
+
+
+                return w.ToString();
+            }
+        }
 
         private void AddEvents()
         {
@@ -212,7 +646,7 @@ render
                                 PChange.Add(
                                     (_Event, _Old, _New) =>
                                     {
-                                       // Console.WriteLine(EventName + " detected a change from " + _Event);
+                                        // Console.WriteLine(EventName + " detected a change from " + _Event);
 
                                         if (EventType.value == _Old)
                                         {
@@ -575,15 +1009,33 @@ render
                 };
         }
 
+        private static string FixVariableName(string Name)
+        {
+            var list = new List<string>
+            {
+                "namespace",
+                "event",
+                "for",
+                "as",
+                "in",
+                "out"
+            };
+
+            if (list.Contains(Name))
+                return "@" + Name;
+
+            return Name;
+        }
+
         private static string FixTypeName(string TypeName)
         {
             var dict = new Dictionary<string, string>
                                 {
+                                    {"*", "object"},
                                     {"Object", "object"},
                                     {"Number", "double"},
                                     {"String", "string"},
                                     {"Boolean", "bool"},
-
                                 };
 
             if (dict.ContainsKey(TypeName))

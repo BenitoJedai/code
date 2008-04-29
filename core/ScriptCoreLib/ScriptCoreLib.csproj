@@ -153,6 +153,7 @@
     <Compile Include="ActionScript\mx\graphics\IFill.cs" />
     <Compile Include="ActionScript\mx\graphics\LinearGradient.cs" />
     <Compile Include="ActionScript\mx\graphics\RadialGradient.cs" />
+    <Compile Include="ActionScript\Namespace.cs" />
     <Compile Include="ActionScript\SWFAttribute.cs" />
     <Compile Include="ActionScript\EmbedAttribute.cs" />
     <Compile Include="ActionScript\Error.cs" />
@@ -212,6 +213,7 @@
     <Compile Include="ActionScript\RegExp.cs" />
     <Compile Include="ActionScript\String.cs" />
     <Compile Include="ActionScript\XML.cs" />
+    <Compile Include="ActionScript\XMLList.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ArgumentNullException.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Action.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Activator.cs" />
