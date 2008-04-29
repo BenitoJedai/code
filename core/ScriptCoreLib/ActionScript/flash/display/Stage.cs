@@ -8,7 +8,7 @@ using ScriptCoreLib.ActionScript.flash.events;
 
 namespace ScriptCoreLib.ActionScript.flash.display
 {
-    // http://livedocs.adobe.com/flex/201/langref/flash/display/Stage.html#propertySummary
+    // http://livedocs.adobe.com/flex/3/langref/flash/display/Stage.html#propertySummary
     [Script(IsNative = true)]
     public class Stage : DisplayObjectContainer
     {

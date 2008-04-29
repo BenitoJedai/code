@@ -12,6 +12,8 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.util
     internal static class __Timer
     {
 
+
+        #region Implementation for methods marked with [Script(NotImplementedHere = true)]
         #region timer
         public static void add_timer(Timer that, Action<TimerEvent> value)
         {
@@ -23,6 +25,23 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.util
             CommonExtensions.RemoveDelegate(that, value, TimerEvent.TIMER);
         }
         #endregion
+
+        #region timerComplete
+        public static void add_timerComplete(Timer that, Action<TimerEvent> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, TimerEvent.TIMER_COMPLETE);
+        }
+
+        public static void remove_timerComplete(Timer that, Action<TimerEvent> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, TimerEvent.TIMER_COMPLETE);
+        }
+        #endregion
+
+        #endregion
+
+
+
 
     }
 }

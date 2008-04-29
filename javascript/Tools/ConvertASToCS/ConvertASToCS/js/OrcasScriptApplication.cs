@@ -42,6 +42,14 @@ namespace ConvertASToCS.js
             var content = new IHTMLDiv().AttachToDocument();
             content.Hide();
 
+            var IsInterface = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox);
+
+
+
+            new IHTMLDiv(
+                new IHTMLLabel("is an interface: ", IsInterface), IsInterface
+            ).AttachTo(content);
+
             var update = default(Action);
 
             var a = new IHTMLTextArea().AttachTo(content);
@@ -50,134 +58,8 @@ namespace ConvertASToCS.js
                 delegate
                 {
                     a.value =
-@"XML(value:Object)
-Creates a new XML object.
-	
-addNamespace(ns:Object):XML
-Adds a namespace to the set of in-scope namespaces for the XML object.
-	
-appendChild(child:Object):XML
-Appends the given child to the end of the XML object's properties.
-	
-attribute(attributeName:*):XMLList
-Returns the XML value of the attribute that has the name matching the attributeName parameter.
-	
-attributes():XMLList
-Returns a list of attribute values for the given XML object.
-	
-child(propertyName:Object):XMLList
-Lists the children of an XML object.
-	
-childIndex():int
-Identifies the zero-indexed position of this XML object within the context of its parent.
-	
-children():XMLList
-Lists the children of the XML object in the sequence in which they appear.
-	
-comments():XMLList
-Lists the properties of the XML object that contain XML comments.
-	
-contains(value:XML):Boolean
-Compares the XML object against the given value parameter.
-	
-copy():XML
-Returns a copy of the given XML object.
-	
-defaultSettings():Object
-[static] Returns an object with the following properties set to the default values: ignoreComments, ignoreProcessingInstructions, ignoreWhitespace, prettyIndent, and prettyPrinting.
-	
-descendants(name:Object = *):XMLList
-Returns all descendants (children, grandchildren, great-grandchildren, and so on) of the XML object that have the given name parameter.
-	
-elements(name:Object = *):XMLList
-Lists the elements of an XML object.
-	
-hasComplexContent():Boolean
-Checks to see whether the XML object contains complex content.
-	
-hasOwnProperty(p:String):Boolean
-Checks to see whether the object has the property specified by the p parameter.
-	
-hasSimpleContent():Boolean
-Checks to see whether the XML object contains simple content.
-	
-inScopeNamespaces():Array
-Lists the namespaces for the XML object, based on the object's parent.
-	
-insertChildAfter(child1:Object, child2:Object):*
-Inserts the given child2 parameter after the child1 parameter in this XML object and returns the resulting object.
-	
-insertChildBefore(child1:Object, child2:Object):*
-Inserts the given child2 parameter before the child1 parameter in this XML object and returns the resulting object.
-	
-length():int
-For XML objects, this method always returns the integer 1.
-	
-localName():Object
-Gives the local name portion of the qualified name of the XML object.
-	
-name():Object
-Gives the qualified name for the XML object.
-	
-namespace(prefix:String = null):*
-If no parameter is provided, gives the namespace associated with the qualified name of this XML object.
-	
-namespaceDeclarations():Array
-Lists namespace declarations associated with the XML object in the context of its parent.
-	
-nodeKind():String
-Specifies the type of node: text, comment, processing-instruction, attribute, or element.
-	
-normalize():XML
-For the XML object and all descendant XML objects, merges adjacent text nodes and eliminates empty text nodes.
-	
-parent():*
-Returns the parent of the XML object.
-	
-prependChild(value:Object):XML
-Inserts a copy of the provided child object into the XML element before any existing XML properties for that element.
-	
-processingInstructions(name:String = ""*""):XMLList
-If a name parameter is provided, lists all the children of the XML object that contain processing instructions with that name.
-	
-propertyIsEnumerable(p:String):Boolean
-Checks whether the property p is in the set of properties that can be iterated in a for..in statement applied to the XML object.
-	
-removeNamespace(ns:Namespace):XML
-Removes the given namespace for this object and all descendants.
-	
-replace(propertyName:Object, value:XML):XML
-Replaces the properties specified by the propertyName parameter with the given value parameter.
-	
-setChildren(value:Object):XML
-Replaces the child properties of the XML object with the specified set of XML properties, provided in the value parameter.
-	
-setLocalName(name:String):void
-Changes the local name of the XML object to the given name parameter.
-	
-setName(name:String):void
-Sets the name of the XML object to the given qualified name or attribute name.
-	
-setNamespace(ns:Namespace):void
-Sets the namespace associated with the XML object.
-	
-setSettings(... rest):void
-[static] Sets values for the following XML properties: ignoreComments, ignoreProcessingInstructions, ignoreWhitespace, prettyIndent, and prettyPrinting.
-	
-settings():Object
-[static] Retrieves the following properties: ignoreComments, ignoreProcessingInstructions, ignoreWhitespace, prettyIndent, and prettyPrinting.
-	
-text():XMLList
-Returns an XMLList object of all XML properties of the XML object that represent XML text nodes.
-	
-toString():String
-Returns a string representation of the XML object.
-	
-toXMLString():String
-Returns a string representation of the XML object.
-	
-valueOf():XML
-Returns the XML object.
+@"addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void
+Registers an event listener object with an EventDispatcher object so that the listener receives notification of an event.
 ";
 
                     update();
@@ -272,14 +154,23 @@ Returns the XML object.
 
                                             var StaticModifier = Summary.Contains(StaticKeyword) ? "static " : "";
 
-                                            w.AppendLine("public " + StaticModifier + MethodReturnType + " " + MethodName + "(" + v + ")");
-                                            w.AppendLine("{");
+                                            if (IsInterface.@checked)
+                                            {
+                                                w.AppendLine(MethodReturnType + " " + MethodName + "(" + v + ");");
 
-                                            if (MethodReturnType != "void")
-                                                w.AppendLine("  return default(" + MethodReturnType + ");");
+                                            }
+                                            else
+                                            {
+                                                w.AppendLine("public " + StaticModifier + MethodReturnType + " " + MethodName + "(" + v + ")");
+                                                w.AppendLine("{");
 
-                                            w.AppendLine("}");
+                                                if (MethodReturnType != "void")
+                                                    w.AppendLine("  return default(" + MethodReturnType + ");");
+
+                                                w.AppendLine("}");
+                                            }
                                             w.AppendLine();
+
                                         }
                                     }
                                 }
@@ -296,9 +187,11 @@ Returns the XML object.
                     w.AppendLine("#endregion");
                     w2.AppendLine("#endregion");
 
-
-                    w.AppendLine();
-                    w.Append(w2.ToString());
+                    if (!IsInterface.@checked)
+                    {
+                        w.AppendLine();
+                        w.Append(w2.ToString());
+                    }
 
                     b.value = w.ToString();
                 };
@@ -319,6 +212,7 @@ Returns the XML object.
                     }
                 };
 
+            IsInterface.onchange += delegate { update(); };
 
             a.onchange +=
                 delegate
@@ -396,11 +290,11 @@ Returns the XML object.
                 if (this.Parameters.Length == 0)
                     return null;
 
-                var p = new ParamInfo[this.Parameters.Length - 1];
+                var p = new List<ParamInfo>();
 
-                for (int i = 0; i < p.Length; i++)
+                for (int i = 0; i < this.Parameters.Length - 1; i++)
                 {
-                    p[i] = this.Parameters[i];
+                    p.Add(this.Parameters[i]);
                 }
 
                 return new MethodParametersInfo(p);
@@ -411,24 +305,30 @@ Returns the XML object.
                 get
                 {
                     if (Parameters.Length == 0)
-                        return new[] { this }.AsEnumerable();
-
-                    var v = new[]
                     {
+                        return new[] { this }.AsEnumerable();
+                    }
+
+
+                    var v = new[] { 
+                    
                         new MethodParametersInfo
                         (
                             from p in Parameters
                             select new ParamInfo
                             {
-                               IsRestParameter = p.IsRestParameter,
-                               Name = p.Name,
-                               TypeName = p.TypeName,
-                               DefaultValue = null
+                                IsRestParameter = p.IsRestParameter,
+                                Name = p.Name,
+                                TypeName = p.TypeName,
+                                DefaultValue = null
                             }
                          )
-                    }.AsEnumerable();
 
-                    if (this.Parameters.Last().HasDefaultValue)
+                     }.AsEnumerable();
+
+                    var last = this.Parameters.Last();
+
+                    if (last.HasDefaultValue || last.IsRestParameter)
                     {
                         // solid this and all below
 
@@ -543,6 +443,8 @@ render
 
                     w.AppendLine("#region Events");
 
+                    w2.AppendLine("#region Implementation for methods marked with [Script(NotImplementedHere = true)]");
+
                     var DeclaringTypeName = DeclaringType.value;
 
                     for (int i = 0; i < lines.Length; i += 2)
@@ -595,6 +497,7 @@ render
                     }
 
                     w.AppendLine("#endregion");
+                    w2.AppendLine("#endregion");
 
                     w.AppendLine();
 
@@ -1015,11 +918,22 @@ render
             {
                 "namespace",
                 "event",
+                "static",
+                "public",
+                "private",
+                "internal",
+                "class",
+                "interface",
+                "get",
+                "set",
+                "object",
                 "for",
                 "as",
                 "in",
                 "out"
             };
+
+            
 
             if (list.Contains(Name))
                 return "@" + Name;

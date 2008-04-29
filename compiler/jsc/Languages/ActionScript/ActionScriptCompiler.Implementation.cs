@@ -449,17 +449,29 @@ namespace jsc.Languages.ActionScript
                 v.fields.Aggregate("",
                     (seed, f) =>
                     {
-                        Write(seed);
-
-                        Write(f.Name);
-                        WriteAssignment();
-
                         if (f.FieldType == typeof(string))
                         {
-                            WriteQuotedLiteral((string)f.GetValue(v.i));
+                            var value = (string)f.GetValue(v.i);
+
+                            if (value == null)
+                                return "";
+
+                            Write(seed);
+
+                            Write(f.Name);
+                            WriteAssignment();
+
+                            WriteQuotedLiteral(value);
+
+                            
                         }
                         else if (f.FieldType == typeof(uint))
                         {
+                            Write(seed);
+
+                            Write(f.Name);
+                            WriteAssignment();
+
                             var value = (uint)f.GetValue(v.i);
 
                             var HexA = f.GetCustomAttributes(typeof(HexAttribute), false).Cast<HexAttribute>().SingleOrDefault();
@@ -471,6 +483,11 @@ namespace jsc.Languages.ActionScript
                         }
                         else if (f.FieldType == typeof(int))
                         {
+                            Write(seed);
+
+                            Write(f.Name);
+                            WriteAssignment();
+
                             var value = (int)f.GetValue(v.i);
 
                             var HexA = f.GetCustomAttributes(typeof(HexAttribute), false).Cast<HexAttribute>().SingleOrDefault();

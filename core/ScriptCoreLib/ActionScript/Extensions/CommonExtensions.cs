@@ -21,9 +21,9 @@ namespace ScriptCoreLib.ActionScript.Extensions
             public IFill e;
             public Graphics target;
 
-            public void  Dispose()
+            public void Dispose()
             {
- 	            e.end(target);
+                e.end(target);
             }
 
         }
@@ -32,7 +32,7 @@ namespace ScriptCoreLib.ActionScript.Extensions
         {
             e.begin(target, r);
 
-            return new IFill_Dispose 
+            return new IFill_Dispose
             {
                 e = e,
                 target = target
@@ -43,6 +43,23 @@ namespace ScriptCoreLib.ActionScript.Extensions
         public static object CreateType(this Class c)
         {
             return default(object);
+        }
+
+        public static XML ToXMLAsset(this Class c)
+        {
+            return new XML(c.ToStringAsset());
+        }
+
+        public static string ToStringAsset(this Class c)
+        {
+            var a = c.ToByteArrayAsset();
+
+            return a.readUTFBytes(a.length);
+        }
+
+        public static ByteArrayAsset ToByteArrayAsset(this Class c)
+        {
+            return (ByteArrayAsset)c.CreateType();
         }
 
         public static SoundAsset ToSoundAsset(this Class c)
@@ -83,7 +100,7 @@ namespace ScriptCoreLib.ActionScript.Extensions
             return s;
         }
 
-        
+
         public static T AttachTo<T>(this T e, DisplayObjectContainer c) where T : DisplayObject
         {
             c.addChild(e);

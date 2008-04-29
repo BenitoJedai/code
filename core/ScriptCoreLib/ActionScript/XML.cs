@@ -383,13 +383,7 @@ namespace ScriptCoreLib.ActionScript
             return default(XMLList);
         }
 
-        /// <summary>
-        /// Returns a string representation of the XML object.
-        /// </summary>
-        public string toString()
-        {
-            return default(string);
-        }
+
 
         /// <summary>
         /// Returns a string representation of the XML object.

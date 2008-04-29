@@ -8,9 +8,9 @@ using ScriptCoreLib;
 
 namespace OrcasFlashApplication.ActionScript
 {
-    //[Script]
+    [Script]
     internal static class Assets
     {
-        //public const string Path = "assets/OrcasFlashApplication";
+        public const string Path = "assets/OrcasFlashApplication";
     }
 }

@@ -8,6 +8,7 @@ namespace ScriptCoreLib.ActionScript.flash.filters
     [Script(IsNative = true)]
     public class GlowFilter : BitmapFilter
     {
+        #region Properties
         /// <summary>
         /// The alpha transparency value for the color.
         /// </summary>
@@ -48,9 +49,85 @@ namespace ScriptCoreLib.ActionScript.flash.filters
         /// </summary>
         public double strength { get; set; }
 
+        #endregion
+
+
+        #region Methods
+        /// <summary>
+        /// Returns a copy of this filter object.
+        /// </summary>
+        public BitmapFilter clone()
+        {
+            return default(BitmapFilter);
+        }
+
+        #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Initializes a new GlowFilter instance with the specified parameters.
+        /// </summary>
+        public GlowFilter(uint color, double alpha, double blurX, double blurY, double strength, int quality, bool inner, bool knockout)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new GlowFilter instance with the specified parameters.
+        /// </summary>
+        public GlowFilter(uint color, double alpha, double blurX, double blurY, double strength, int quality, bool inner)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new GlowFilter instance with the specified parameters.
+        /// </summary>
+        public GlowFilter(uint color, double alpha, double blurX, double blurY, double strength, int quality)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new GlowFilter instance with the specified parameters.
+        /// </summary>
+        public GlowFilter(uint color, double alpha, double blurX, double blurY, double strength)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new GlowFilter instance with the specified parameters.
+        /// </summary>
+        public GlowFilter(uint color, double alpha, double blurX, double blurY)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new GlowFilter instance with the specified parameters.
+        /// </summary>
+        public GlowFilter(uint color, double alpha, double blurX)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new GlowFilter instance with the specified parameters.
+        /// </summary>
+        public GlowFilter(uint color, double alpha)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new GlowFilter instance with the specified parameters.
+        /// </summary>
+        public GlowFilter(uint color)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new GlowFilter instance with the specified parameters.
+        /// </summary>
         public GlowFilter()
         {
-
         }
+
+        #endregion
+
     }
 }

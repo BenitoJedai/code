@@ -6,7 +6,7 @@ using ScriptCoreLib;
 
 namespace OrcasFlashApplication.ActionScript
 {
-    //[Script]
+    [Script]
     static class Extensions
     {
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.ActionScript.flash.events;
 using ScriptCoreLib.ActionScript.flash.media;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace ScriptCoreLib.ActionScript.flash.display
 {
@@ -41,6 +42,47 @@ namespace ScriptCoreLib.ActionScript.flash.display
         /// A Boolean value that indicates whether the pointing hand (hand cursor) appears when the mouse rolls over a sprite in which the buttonMode property is set to true.
         /// </summary>
         public bool useHandCursor { get; set; }
+
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Lets the user drag the specified sprite.
+        /// </summary>
+        public void startDrag(bool lockCenter, Rectangle bounds)
+        {
+        }
+
+        /// <summary>
+        /// Lets the user drag the specified sprite.
+        /// </summary>
+        public void startDrag(bool lockCenter)
+        {
+        }
+
+        /// <summary>
+        /// Lets the user drag the specified sprite.
+        /// </summary>
+        public void startDrag()
+        {
+        }
+
+        /// <summary>
+        /// Ends the startDrag() method.
+        /// </summary>
+        public void stopDrag()
+        {
+        }
+
+        #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Creates a new Sprite instance.
+        /// </summary>
+        public Sprite()
+        {
+        }
 
         #endregion
 

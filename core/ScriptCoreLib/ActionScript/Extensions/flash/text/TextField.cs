@@ -27,5 +27,43 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.text
         }
         #endregion
 
+        #region link
+        public static void add_link(TextField that, Action<TextEvent> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, TextEvent.LINK);
+        }
+
+        public static void remove_link(TextField that, Action<TextEvent> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, TextEvent.LINK);
+        }
+        #endregion
+
+        #region scroll
+        public static void add_scroll(TextField that, Action<Event> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, Event.SCROLL);
+        }
+
+        public static void remove_scroll(TextField that, Action<Event> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, Event.SCROLL);
+        }
+        #endregion
+
+        #region textInput
+        public static void add_textInput(TextField that, Action<TextEvent> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, TextEvent.TEXT_INPUT);
+        }
+
+        public static void remove_textInput(TextField that, Action<TextEvent> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, TextEvent.TEXT_INPUT);
+        }
+        #endregion
+
+
+
     }
 }

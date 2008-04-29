@@ -20,8 +20,6 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class DisplayObject : EventDispatcher
     {
-        // todo: implement
-
         #region Events
         /// <summary>
         /// Dispatched when a display object is added to the display list.
@@ -60,11 +58,6 @@ namespace ScriptCoreLib.ActionScript.flash.display
         public event Action<Event> render;
 
         #endregion
-
-      
-
-
-
 
         #region Properties
         /// <summary>
@@ -192,6 +185,68 @@ namespace ScriptCoreLib.ActionScript.flash.display
         /// </summary>
         public double y { get; set; }
 
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Returns a rectangle that defines the area of the display object relative to the coordinate system of the targetCoordinateSpace object.
+        /// </summary>
+        public Rectangle getBounds(DisplayObject targetCoordinateSpace)
+        {
+            return default(Rectangle);
+        }
+
+        /// <summary>
+        /// Returns a rectangle that defines the boundary of the display object, based on the coordinate system defined by the targetCoordinateSpace parameter, excluding any strokes on shapes.
+        /// </summary>
+        public Rectangle getRect(DisplayObject targetCoordinateSpace)
+        {
+            return default(Rectangle);
+        }
+
+        /// <summary>
+        /// Converts the point object from the Stage (global) coordinates to the display object's (local) coordinates.
+        /// </summary>
+        public Point globalToLocal(Point point)
+        {
+            return default(Point);
+        }
+
+        /// <summary>
+        /// Evaluates the display object to see if it overlaps or intersects with the obj display object.
+        /// </summary>
+        public bool hitTestObject(DisplayObject obj)
+        {
+            return default(bool);
+        }
+
+        /// <summary>
+        /// Evaluates the display object to see if it overlaps or intersects with the point specified by the x and y parameters.
+        /// </summary>
+        public bool hitTestPoint(double x, double y, bool shapeFlag)
+        {
+            return default(bool);
+        }
+
+        /// <summary>
+        /// Evaluates the display object to see if it overlaps or intersects with the point specified by the x and y parameters.
+        /// </summary>
+        public bool hitTestPoint(double x, double y)
+        {
+            return default(bool);
+        }
+
+        /// <summary>
+        /// Converts the point object from the display object's (local) coordinates to the Stage (global) coordinates.
+        /// </summary>
+        public Point localToGlobal(Point point)
+        {
+            return default(Point);
+        }
+
+        #endregion
+
+        #region Constructors
         #endregion
 
     }

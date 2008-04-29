@@ -18,6 +18,18 @@ namespace ScriptCoreLib.ActionScript
         /// </summary>
         public string source;
 
+        public EmbedAttribute()
+        {
+
+        }
+
+        public EmbedAttribute(string source)
+        {
+            this.source = source;
+
+            if (source.EndsWith(".xml"))
+                mimeType = "application/octet-stream";
+        }
         /// <summary>
         /// Specifies the mime type of the asset.
         /// Supported values: 

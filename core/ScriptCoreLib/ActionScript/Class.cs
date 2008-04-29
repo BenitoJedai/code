@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript
 {
-    // http://livedocs.adobe.com/flex/2/langref/Class.html
+    // http://livedocs.adobe.com/flex/3/langref/Class.html
     [Script(IsNative = true)]
     public class Class
     {
