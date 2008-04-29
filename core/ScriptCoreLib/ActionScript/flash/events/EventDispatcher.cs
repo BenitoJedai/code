@@ -26,11 +26,22 @@ namespace ScriptCoreLib.ActionScript.flash.events
 
         }
 
+        #region Events
+        /// <summary>
+        /// Dispatched when Flash Player or an AIR application gains operating system focus and becomes active.
+        /// </summary>
         [method: Script(NotImplementedHere = true)]
         public event Action<Event> activate;
 
+        /// <summary>
+        /// Dispatched when Flash Player or an AIR application loses operating system focus and is becoming inactive.
+        /// </summary>
         [method: Script(NotImplementedHere = true)]
         public event Action<Event> deactivate;
+
+        #endregion
+
+    
 
 
 

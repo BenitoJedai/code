@@ -13,20 +13,57 @@ using ScriptCoreLib.ActionScript.flash.accessibility;
 namespace ScriptCoreLib.ActionScript.flash.display
 {
     // http://livedocs.adobe.com/flex/3/langref/flash/display/DisplayObject.html
+    // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/display/DisplayObject.html
+    /// <summary>
+    /// The DisplayObject class is the base class for all objects that can be placed on the display list. The display list manages all objects displayed in Flash Player or Adobe AIR. Use the DisplayObjectContainer class to arrange the display objects in the display list. DisplayObjectContainer objects can have child display objects, while other display objects, such as Shape and TextField objects, are "leaf" nodes that have only parents and siblings, no children.
+    /// </summary>
     [Script(IsNative = true)]
     public class DisplayObject : EventDispatcher
     {
         // todo: implement
 
+        #region Events
+        /// <summary>
+        /// Dispatched when a display object is added to the display list.
+        /// </summary>
         [method: Script(NotImplementedHere = true)]
         public event Action<Event> added;
 
-        /*
+        /// <summary>
+        /// Dispatched when a display object is added to the on stage display list, either directly or through the addition of a sub tree in which the display object is contained.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
         public event Action<Event> addedToStage;
+
+        /// <summary>
+        /// Dispatched when the playhead is entering a new frame.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<Event> enterFrame;
+
+        /// <summary>
+        /// Dispatched when a display object is about to be removed from the display list.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
         public event Action<Event> removed;
+
+        /// <summary>
+        /// Dispatched when a display object is about to be removed from the display list, either directly or through the removal of a sub tree in which the display object is contained.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
         public event Action<Event> removedFromStage;
+
+        /// <summary>
+        /// Dispatched when the display list is about to be updated and rendered.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
         public event Action<Event> render;
-        */
+
+        #endregion
+
+      
+
+
 
 
         #region Properties

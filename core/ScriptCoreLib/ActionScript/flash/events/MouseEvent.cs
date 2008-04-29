@@ -11,51 +11,115 @@ namespace ScriptCoreLib.ActionScript.flash.events
     public class MouseEvent : Event
     {
 
-        public static readonly string DOUBLE_CLICK = "doubleClick";
+
+
+        #region Constants
+        /// <summary>
+        /// [static] Defines the value of the type property of a click event object.
+        /// </summary>
         public static readonly string CLICK = "click";
-        public static readonly string MOUSE_WHEEL = "mouseWheel";
-        public static readonly string MOUSE_MOVE = "mouseMove";
-        public static readonly string MOUSE_OVER = "mouseOver";
-        public static readonly string MOUSE_OUT = "mouseOut";
+
+        /// <summary>
+        /// [static] Defines the value of the type property of a doubleClick event object.
+        /// </summary>
+        public static readonly string DOUBLE_CLICK = "doubleClick";
+
+        /// <summary>
+        /// [static] Defines the value of the type property of a mouseDown event object.
+        /// </summary>
         public static readonly string MOUSE_DOWN = "mouseDown";
+
+        /// <summary>
+        /// [static] Defines the value of the type property of a mouseMove event object.
+        /// </summary>
+        public static readonly string MOUSE_MOVE = "mouseMove";
+
+        /// <summary>
+        /// [static] Defines the value of the type property of a mouseOut event object.
+        /// </summary>
+        public static readonly string MOUSE_OUT = "mouseOut";
+
+        /// <summary>
+        /// [static] Defines the value of the type property of a mouseOver event object.
+        /// </summary>
+        public static readonly string MOUSE_OVER = "mouseOver";
+
+        /// <summary>
+        /// [static] Defines the value of the type property of a mouseUp event object.
+        /// </summary>
         public static readonly string MOUSE_UP = "mouseUp";
 
         /// <summary>
-        /// The horizontal coordinate at which the event occurred in global Stage coordinates.
+        /// [static] Defines the value of the type property of a mouseWheel event object.
         /// </summary>
-        public double stageX { get; private set; }
+        public static readonly string MOUSE_WHEEL = "mouseWheel";
 
         /// <summary>
-        /// The vertical coordinate at which the event occurred in global Stage coordinates.
+        /// [static] Defines the value of the type property of a rollOut event object.
         /// </summary>
-        public double stageY { get; private set; }
+        public static readonly string ROLL_OUT = "rollOut";
 
         /// <summary>
-        /// Indicates how many lines should be scrolled for each unit the user rotates the mouse wheel.
+        /// [static] Defines the value of the type property of a rollOver event object.
         /// </summary>
-        public int delta { get; private set; }
+        public static readonly string ROLL_OVER = "rollOver";
 
-        /// <summary>
-        /// Indicates whether the Shift key is active (true) or inactive (false).
-        /// </summary>
-        public bool shiftKey { get; set; }
-        	
+        #endregion
 
-        /// <summary>
-        /// Indicates whether the Control key is active (true) or inactive (false).
-        /// </summary>
-        public bool ctrlKey { get; set; }
 
+        #region Properties
         /// <summary>
         /// Indicates whether the Alt key is active (true) or inactive (false).
         /// </summary>
         public bool altKey { get; set; }
 
-        
         /// <summary>
-        /// A reference to a display list object that is related to the event. For example, when a mouseOut event occurs, relatedObject represents the display list object to which the pointing device now points. This property applies only to the mouseOut and mouseOver events.
+        /// Indicates whether the primary mouse button is pressed (true) or not (false).
+        /// </summary>
+        public bool buttonDown { get; set; }
+
+        /// <summary>
+        /// On Windows, indicates whether the Ctrl key is active (true) or inactive (false).
+        /// </summary>
+        public bool ctrlKey { get; set; }
+
+        /// <summary>
+        /// Indicates how many lines should be scrolled for each unit the user rotates the mouse wheel.
+        /// </summary>
+        public int delta { get; set; }
+
+        /// <summary>
+        /// The horizontal coordinate at which the event occurred relative to the containing sprite.
+        /// </summary>
+        public double localX { get; set; }
+
+        /// <summary>
+        /// The vertical coordinate at which the event occurred relative to the containing sprite.
+        /// </summary>
+        public double localY { get; set; }
+
+        /// <summary>
+        /// A reference to a display list object that is related to the event.
         /// </summary>
         public InteractiveObject relatedObject { get; set; }
+
+        /// <summary>
+        /// Indicates whether the Shift key is active (true) or inactive (false).
+        /// </summary>
+        public bool shiftKey { get; set; }
+
+        /// <summary>
+        /// [read-only] The horizontal coordinate at which the event occurred in global Stage coordinates.
+        /// </summary>
+        public double stageX { get; private set; }
+
+        /// <summary>
+        /// [read-only] The vertical coordinate at which the event occurred in global Stage coordinates.
+        /// </summary>
+        public double stageY { get; private set; }
+
+        #endregion
+
 
 
         /// <summary>

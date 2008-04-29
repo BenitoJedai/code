@@ -62,6 +62,12 @@ namespace jsc.Languages.ActionScript
                 //for (var i = b.First; i != null; i = i.Next)
                 foreach (var i in b.Instructrions)
                 {
+                    if (i == OpCodes.Castclass)
+                    {
+                        imp.Add(MySession.ResolveImplementation(i.ReferencedType));
+                        continue;
+                    }
+
                     if (i == OpCodes.Ldtoken)
                     {
 

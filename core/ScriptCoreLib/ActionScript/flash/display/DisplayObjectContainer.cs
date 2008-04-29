@@ -34,7 +34,6 @@ namespace ScriptCoreLib.ActionScript.flash.display
         #endregion
 
 
-
         /// <summary>
         /// Adds a child DisplayObject instance to this DisplayObjectContainer instance.
         /// </summary>

@@ -83,6 +83,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\Query\LocalInternalEnumerable.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ActionScript\BCLImplementation\Query\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin"</PostBuildEvent>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.flash.events;
 
 namespace ScriptCoreLib.ActionScript.flash.display
 {
@@ -119,6 +120,29 @@ namespace ScriptCoreLib.ActionScript.flash.display
         public double width { get; set; }
 
         #endregion
+
+        #region Events
+        /// <summary>
+        /// Dispatched when the Stage object enters, or leaves, full-screen mode.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<FullScreenEvent> fullScreen;
+
+        /// <summary>
+        /// Dispatched by the Stage object when the mouse pointer moves out of the stage area.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<Event> mouseLeave;
+
+        /// <summary>
+        /// Dispatched when the scaleMode property of the Stage object is set to StageScaleMode.NO_SCALE and the SWF file is resized.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<Event> resize;
+
+        #endregion
+
+       
 
 
     }

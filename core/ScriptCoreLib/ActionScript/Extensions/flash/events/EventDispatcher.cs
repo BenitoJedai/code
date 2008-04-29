@@ -12,27 +12,28 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.events
         #region activate
         public static void add_activate(EventDispatcher that, Action<Event> value)
         {
-            ScriptCoreLib.ActionScript.Extensions.CommonExtensions.CombineDelegate(that, value, Event.ACTIVATE);
+            CommonExtensions.CombineDelegate(that, value, Event.ACTIVATE);
         }
 
         public static void remove_activate(EventDispatcher that, Action<Event> value)
         {
-            ScriptCoreLib.ActionScript.Extensions.CommonExtensions.RemoveDelegate(that, value, Event.ACTIVATE);
+            CommonExtensions.RemoveDelegate(that, value, Event.ACTIVATE);
         }
         #endregion
-
 
         #region deactivate
         public static void add_deactivate(EventDispatcher that, Action<Event> value)
         {
-            ScriptCoreLib.ActionScript.Extensions.CommonExtensions.CombineDelegate(that, value, Event.DEACTIVATE);
+            CommonExtensions.CombineDelegate(that, value, Event.DEACTIVATE);
         }
 
         public static void remove_deactivate(EventDispatcher that, Action<Event> value)
         {
-            ScriptCoreLib.ActionScript.Extensions.CommonExtensions.RemoveDelegate(that, value, Event.DEACTIVATE);
+            CommonExtensions.RemoveDelegate(that, value, Event.DEACTIVATE);
         }
         #endregion
+
+
 
 
     }

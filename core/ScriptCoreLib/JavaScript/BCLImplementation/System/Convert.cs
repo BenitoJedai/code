@@ -11,5 +11,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             return (int)global::System.Math.Floor(value);
         }
+
+        public static string ToString(char value)
+        {
+            return __String.FromCharCode(value);
+        }
     }
 }

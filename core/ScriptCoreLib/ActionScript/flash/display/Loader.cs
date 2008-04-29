@@ -10,6 +10,20 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class Loader : DisplayObjectContainer
     {
+        #region Properties
+        /// <summary>
+        /// [read-only] Contains the root display object of the SWF file or image (JPG, PNG, or GIF) file that was loaded by using the load() or loadBytes() methods.
+        /// </summary>
+        public DisplayObject content { get; private set; }
+
+        /// <summary>
+        /// [read-only] Returns a LoaderInfo object corresponding to the object being loaded.
+        /// </summary>
+        public LoaderInfo contentLoaderInfo { get; private set; }
+
+        #endregion
+
+
         /// <summary>
         /// Loads a SWF, JPEG, progressive JPEG, unanimated GIF, or PNG file into an object that is a child of this Loader object.
         /// </summary>

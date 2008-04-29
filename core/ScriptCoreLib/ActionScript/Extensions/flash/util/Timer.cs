@@ -9,7 +9,7 @@ using ScriptCoreLib.ActionScript.flash.events;
 namespace ScriptCoreLib.ActionScript.Extensions.flash.util
 {
     [Script(Implements = typeof(Timer))]
-    public static class __Timer
+    internal static class __Timer
     {
 
         #region timer
