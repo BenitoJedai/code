@@ -31,6 +31,16 @@ namespace FlashSpaceInvaders.ActionScript
         public const int KeyLeft = 37;
         public const int KeyRight = 39;
 
+        [Embed("/assets/FlashSpaceInvaders/Fixedsys500c.ttf", fontName = "Fixedsys500c")]
+        // You do not use this variable directly. It exists so that 
+        // the compiler will link in the font.
+        static Class Asset_Fixedsys500c;
+
+        static FlashSpaceInvaders()
+        {
+            Font.registerFont(Asset_Fixedsys500c);
+        }
+        
         public FlashSpaceInvaders()
         {
 
@@ -44,7 +54,7 @@ namespace FlashSpaceInvaders.ActionScript
                         {
                             Assets.aenemy_1.ToBitmapAsset(),
                             Assets.aenemy_2.ToBitmapAsset()
-                        }    
+                        }
                     , 500);
             #endregion
 
@@ -86,7 +96,7 @@ namespace FlashSpaceInvaders.ActionScript
 
             Spawn_A(60, 180);
             Spawn_A(DefaultWidth - 60, 180);
-            
+
             Spawn_B(100, 120);
             Spawn_B(DefaultWidth - 100, 120);
 
@@ -113,6 +123,9 @@ namespace FlashSpaceInvaders.ActionScript
                         Player.x += 4;
                 };
 
+            
+            // http://blog.paoloiulita.it/2008/03/11/as3-embedding-font-with-code-only/
+            // http://fixedsys.moviecorner.de/?p=download&l=1
             new TextField
             {
 
@@ -120,9 +133,10 @@ namespace FlashSpaceInvaders.ActionScript
                 width = DefaultWidth,
                 autoSize = TextFieldAutoSize.CENTER,
                 textColor = Colors.White,
+                embedFonts = true,
                 defaultTextFormat = new TextFormat
                 {
-                    font = "Courier New",
+                    font = "Fixedsys500c",
                     size = 48,
                 },
                 selectable = false,
@@ -136,9 +150,10 @@ namespace FlashSpaceInvaders.ActionScript
                 width = DefaultWidth,
                 autoSize = TextFieldAutoSize.CENTER,
                 textColor = Colors.Green,
+                embedFonts = true,
                 defaultTextFormat = new TextFormat
                 {
-                    font = "Courier New",
+                    font = "Fixedsys500c",
                     size = 48,
                 },
                 selectable = false,

@@ -13,6 +13,11 @@ namespace jsc //.Extensions
 {
     static class Extensions
     {
+        public static ConstructorInfo GetStaticConstructor(this Type t)
+        {
+            return t.GetConstructor(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic, null, System.Type.EmptyTypes, null);
+        }
+
         public static bool ContainsFlags(this int e, int f)
         {
             return (e & f) == f;

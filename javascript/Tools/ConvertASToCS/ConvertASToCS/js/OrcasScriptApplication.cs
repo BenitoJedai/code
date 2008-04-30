@@ -801,7 +801,10 @@ render
                                 if (handler != null)
                                     handler(ConstantName);
 
-                                w.AppendLine("public static readonly " + ConstantType + " " + ConstantName + " = " + ConstantValue + ";");
+                                if (string.IsNullOrEmpty(ConstantValue))
+                                    w.AppendLine("public static readonly " + ConstantType + " " + ConstantName + ";");
+                                else
+                                    w.AppendLine("public static readonly " + ConstantType + " " + ConstantName + " = " + ConstantValue + ";");
 
                                 w.AppendLine();
 
@@ -934,19 +937,22 @@ render
                                         ).AttachTo(c);
                                     */
 
+                                    var StaticModifier = Summary.Contains("[static]") ? "static " : "";
+
                                     if (IsField.@checked)
                                     {
-                                        var ReadonlyModifier = Summary.StartsWith(ReadOnly) ? "readonly " : "";
+                                        var ReadonlyModifier = Summary.Contains(ReadOnly) ? "readonly " : "";
+                                        
                                         var DefaultValueExpression = string.IsNullOrEmpty(DefaultValue) ? "" : " = " + DefaultValue;
 
-                                        w.AppendLine("public " + ReadonlyModifier + TypeName + " " + FieldName + DefaultValueExpression + ";");
+                                        w.AppendLine("public " + StaticModifier + ReadonlyModifier + TypeName + " " + FieldName + DefaultValueExpression + ";");
                                     }
                                     else
                                     {
-                                        if (Summary.StartsWith(ReadOnly))
-                                            w.AppendLine("public " + TypeName + " " + FieldName + " { get; private set; }");
+                                        if (Summary.Contains(ReadOnly))
+                                            w.AppendLine("public " + StaticModifier + TypeName + " " + FieldName + " { get; private set; }");
                                         else
-                                            w.AppendLine("public " + TypeName + " " + FieldName + " { get; set; }");
+                                            w.AppendLine("public " + StaticModifier + TypeName + " " + FieldName + " { get; set; }");
                                     }
 
                                     w.AppendLine();

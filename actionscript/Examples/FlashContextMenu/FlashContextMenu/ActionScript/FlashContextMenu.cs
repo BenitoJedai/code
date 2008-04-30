@@ -3,6 +3,7 @@ using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.flash.ui;
 using System;
+using System.Linq;
 using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.Extensions;
 
@@ -20,11 +21,25 @@ namespace FlashContextMenu.ActionScript
 
             ctx.hideBuiltInItems();
 
-            var a = new ContextMenuItem("zproxy.zapto.org");
+            var dict = new
+            {
+                blog = "zproxy.zapto.org",
+                project = "jsc.sourceforge.net"
+            };
+
+            var a = new ContextMenuItem(dict.blog);
+
+            a.menuItemSelect +=
+                e =>
+                {
+                    if (a.caption == dict.blog)
+                        a.caption = dict.project;
+                    else
+                        a.caption = dict.blog;
+                };
 
 
-
-            ctx.customItems.push(a);
+            ctx.customItems = ctx.customItems.Concat( new [] {a}).ToArray();
 
             this.contextMenu = ctx;
 

@@ -155,7 +155,7 @@ namespace jsc.Languages.ActionScript
 
         private Action WriteTypeStaticConstructor(Type z, ScriptAttribute za)
         {
-            var cctor = z.GetConstructor(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic, null, System.Type.EmptyTypes, null);
+            var cctor = z.GetStaticConstructor();
 
             if (cctor == null)
                 return null;
@@ -454,7 +454,7 @@ namespace jsc.Languages.ActionScript
                             var value = (string)f.GetValue(v.i);
 
                             if (value == null)
-                                return "";
+                                return seed;
 
                             Write(seed);
 
@@ -684,7 +684,7 @@ namespace jsc.Languages.ActionScript
                 }
                 #endregion
 
-                #region set
+                #region get
                 {
                     var prefix = "get_";
                     if (m.Name.StartsWith(prefix))
@@ -802,9 +802,12 @@ namespace jsc.Languages.ActionScript
                 #region prop
                 if (!IsDefineAsStatic)
                 {
+                 
+
                     var prop = new PropertyDetector(TargetMethod);
 
-                    if (prop.SetProperty != null && prop.GetProperty.GetGetMethod().GetParameters().Length == 1)
+
+                    if (prop.SetProperty != null && prop.SetProperty.GetSetMethod(true).GetParameters().Length == 1)
                     {
 
                         WriteSafeLiteral(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.SetProperty.Name);
@@ -813,7 +816,7 @@ namespace jsc.Languages.ActionScript
                         return;
                     }
 
-                    if (prop.GetProperty != null && prop.GetProperty.GetGetMethod().GetParameters().Length == 0)
+                    if (prop.GetProperty != null && prop.GetProperty.GetGetMethod(true).GetParameters().Length == 0)
                     {
                         WriteSafeLiteral(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.GetProperty.Name);
                         return;

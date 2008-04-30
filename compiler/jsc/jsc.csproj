@@ -176,6 +176,6 @@
     <PostBuildEvent>copy "$(TargetDir)*.exe" "c:\util\jsc\bin" /y
 copy "$(TargetDir)*.pdb" "c:\util\jsc\bin" /y
 copy "$(TargetDir)*.dll" "c:\util\jsc\bin" /y
-copy "$(TargetDir)*.txt" "c:\util\jsc\bin" /y</PostBuildEvent>
+::copy "$(TargetDir)*.txt" "c:\util\jsc\bin" /y</PostBuildEvent>
   </PropertyGroup>
 </Project>

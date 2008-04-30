@@ -61,6 +61,22 @@
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\man2-horns_1.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\man2-horns_2.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\man2-horns_3.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\man2-horns_4.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\man2-horns_5.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\man2-horns_6.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\man2-horns_7.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\man2-horns_8.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\man2-horns_9.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\sheep-blood.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\sheep-corpse.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\sheep-walk_1.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\sheep-walk_2.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\sheep-walk_3.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\sheep-walk_4.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\sheep.mp3" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\bump2.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\world.mp3" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\grass1.png" />
@@ -69,8 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
-    <None Include="tools\jsc.bat" />
-    <None Include="tools\mxmlc.bat" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -81,7 +95,8 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>pushd ..\..\tools\
+call build.bat $(ProjectName)
+popd</PostBuildEvent>
   </PropertyGroup>
 </Project>

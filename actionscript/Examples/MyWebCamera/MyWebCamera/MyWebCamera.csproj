@@ -61,6 +61,7 @@
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
+    <EmbeddedResource Include="web\assets\MyWebCamera\buzzer.mp3" />
     <Content Include="web\assets\MyWebCamera\Preview.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -70,8 +71,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
-    <None Include="tools\jsc.bat" />
-    <None Include="tools\mxmlc.bat" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -82,6 +81,8 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>::c:\util\jsc\bin\jsc.exe $(TargetFileName)  -as</PostBuildEvent>
+    <PostBuildEvent>pushd ..\..\tools\
+call build.bat $(ProjectName)
+popd</PostBuildEvent>
   </PropertyGroup>
 </Project>
