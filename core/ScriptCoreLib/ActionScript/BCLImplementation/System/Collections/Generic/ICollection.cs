@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(global::System.Collections.Generic.ICollection<>))]
-    public interface __ICollection<T> 
+    internal interface __ICollection<T> 
     {
         int Count { get; }
         

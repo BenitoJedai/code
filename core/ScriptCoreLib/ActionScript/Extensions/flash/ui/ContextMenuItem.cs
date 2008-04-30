@@ -11,6 +11,8 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.ui
     public static class __ContextMenuItem
     {
 
+
+        #region Implementation for methods marked with [Script(NotImplementedHere = true)]
         #region menuItemSelect
         public static void add_menuItemSelect(ContextMenuItem that, Action<ContextMenuEvent> value)
         {
@@ -22,6 +24,9 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.ui
             CommonExtensions.RemoveDelegate(that, value, ContextMenuEvent.MENU_ITEM_SELECT);
         }
         #endregion
+
+        #endregion
+
 
 
     }

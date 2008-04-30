@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections.Specialized;
 
 namespace ScriptCoreLib.ActionScript
 {
@@ -27,8 +28,15 @@ namespace ScriptCoreLib.ActionScript
         {
             this.source = source;
 
-            if (source.EndsWith(".xml"))
-                mimeType = "application/octet-stream";
+            foreach (var p in
+                new Dictionary<string, string>
+                {
+                    {".xml", "application/octet-stream"},
+                    {".ttf", "application/x-font"}
+                })
+                if (source.EndsWith(p.Key))
+                    mimeType = p.Value;
+
         }
         /// <summary>
         /// Specifies the mime type of the asset.
@@ -55,6 +63,8 @@ namespace ScriptCoreLib.ActionScript
         public string fontStyle;
         public string fontFamily;
         public string unicodeRange;
+        public string advancedAntiAliasing;
+
 
         // image
 

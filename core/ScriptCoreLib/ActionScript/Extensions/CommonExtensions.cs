@@ -62,6 +62,11 @@ namespace ScriptCoreLib.ActionScript.Extensions
             return (ByteArrayAsset)c.CreateType();
         }
 
+        public static FontAsset ToFontAsset(this Class c)
+        {
+            return (FontAsset)c.CreateType();
+        }
+
         public static SoundAsset ToSoundAsset(this Class c)
         {
             return (SoundAsset)c.CreateType();

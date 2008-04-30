@@ -10,7 +10,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         ImplementationType = typeof(global::ScriptCoreLib.ActionScript.Error)
         )
     ]
-    public class __Exception
+    internal class __Exception
     {
         public __Exception() : this("")
         {

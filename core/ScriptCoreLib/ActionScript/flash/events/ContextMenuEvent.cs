@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.ActionScript.flash.display;
 
 namespace ScriptCoreLib.ActionScript.flash.events
 {
@@ -19,6 +20,19 @@ namespace ScriptCoreLib.ActionScript.flash.events
         /// </summary>
         public static readonly string MENU_SELECT = "menuSelect";
 
+
+        #region Properties
+        /// <summary>
+        /// The display list object to which the menu is attached.
+        /// </summary>
+        public InteractiveObject contextMenuOwner { get; set; }
+
+        /// <summary>
+        /// The display list object on which the user right-clicked to display the context menu.
+        /// </summary>
+        public InteractiveObject mouseTarget { get; set; }
+
+        #endregion
 
     }
 }

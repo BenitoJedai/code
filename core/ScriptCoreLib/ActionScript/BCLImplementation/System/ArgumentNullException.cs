@@ -9,7 +9,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         Implements = typeof(global::System.ArgumentNullException)
         )
     ]
-    public class __ArgumentNullException : __Exception
+    internal class __ArgumentNullException : __Exception
     {
         public __ArgumentNullException() : this("")
         {

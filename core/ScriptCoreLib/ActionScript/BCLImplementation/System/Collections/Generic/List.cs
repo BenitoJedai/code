@@ -8,7 +8,7 @@ using ScriptCoreLib.ActionScript.BCLImplementation.Query;
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(global::System.Collections.Generic.List<>))]
-    public class __List<T> : IList<T>, ICollection<T>
+    internal class __List<T> : IList<T>, ICollection<T>
     {
         public Array _items = new Array();
 

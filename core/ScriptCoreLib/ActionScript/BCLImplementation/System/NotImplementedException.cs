@@ -9,7 +9,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         Implements = typeof(global::System.NotImplementedException)
         )
     ]
-    public class __NotImplementedException : __Exception
+    internal class __NotImplementedException : __Exception
     {
         
         public __NotImplementedException() : this("")

@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections
 {
     [Script(Implements = typeof(global::System.Collections.IEnumerable))]
-    public interface __IEnumerable
+    internal interface __IEnumerable
     {
         __IEnumerator GetEnumerator();
     }
