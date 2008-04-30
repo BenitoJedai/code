@@ -23,6 +23,10 @@ namespace ConvertASToCS.js
         {
             Native.Document.title = "ConvertASToCS";
 
+            Native.Document.body.style.backgroundImage = "url(assets/ConvertASToCS/flash_logo.png)";
+            Native.Document.body.style.backgroundPosition = "right top";
+            Native.Document.body.style.backgroundRepeat = "no-repeat";
+
             var cookie = new Cookie("DeclaringType").BindTo(DeclaringType);
 
             new IHTMLDiv(
@@ -43,11 +47,13 @@ namespace ConvertASToCS.js
             content.Hide();
 
             var IsInterface = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox);
-
-
-
             new IHTMLDiv(
                 new IHTMLLabel("is an interface: ", IsInterface), IsInterface
+            ).AttachTo(content);
+
+            var DelegatesParams = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox);
+            new IHTMLDiv(
+                new IHTMLLabel("delegates parameters to base constructor: ", DelegatesParams), DelegatesParams
             ).AttachTo(content);
 
             var update = default(Action);
@@ -135,7 +141,11 @@ Registers an event listener object with an EventDispatcher object so that the li
                                         w2.AppendLine("/// " + Summary);
                                         w2.AppendLine("/// </summary>");
 
-                                        w2.AppendLine("public " + MethodName + "(" + v + ")");
+                                        if (DelegatesParams.@checked)
+                                            w2.AppendLine("public " + MethodName + "(" + v + ") : base(" + v.NamesToString() + ")");
+                                        else
+                                            w2.AppendLine("public " + MethodName + "(" + v + ")");
+
                                         w2.AppendLine("{");
                                         w2.AppendLine("}");
                                         w2.AppendLine();
@@ -213,6 +223,7 @@ Registers an event listener object with an EventDispatcher object so that the li
                 };
 
             IsInterface.onchange += delegate { update(); };
+            DelegatesParams.onchange += delegate { update(); };
 
             a.onchange +=
                 delegate
@@ -366,6 +377,22 @@ Registers an event listener object with an EventDispatcher object so that the li
 
 
                 return w.ToString();
+            }
+
+            public string NamesToString()
+            {
+                return Parameters.Aggregate("",
+                    (v, i) =>
+                    {
+                        if (!string.IsNullOrEmpty(v))
+                            v += ", ";
+
+                        v += i.Name;
+
+                        return v;
+                    }
+                );
+
             }
         }
 
@@ -822,14 +849,22 @@ render
 
             var h = new IHTMLElement(IHTMLElement.HTMLElementEnum.h3).AttachToDocument();
             var htext = new IHTMLSpan("Properties (click to show/hide)").AttachTo(h);
-            var a = new IHTMLTextArea().AttachToDocument();
-            var b = new IHTMLTextArea().AttachToDocument();
+            var content = new IHTMLDiv().AttachToDocument();
+            content.Hide();
 
+            var IsField = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox);
+            new IHTMLDiv(
+                new IHTMLLabel("as fields instead of properties: ", IsField), IsField
+            ).AttachTo(content);
+
+            var a = new IHTMLTextArea().AttachTo(content);
+            var b = new IHTMLTextArea().AttachTo(content);
+
+     
             htext.onclick +=
                 delegate
                 {
-                    a.ToggleVisible();
-                    b.ToggleVisible();
+                    content.ToggleVisible();
                 };
 
             a.style.display = ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.block;
@@ -843,11 +878,10 @@ render
 
             b.readOnly = true;
 
-            a.Hide();
-            b.Hide();
+      
 
 
-            a.onchange +=
+            Action update =
                 delegate
                 {
                     try
@@ -857,7 +891,10 @@ render
                         var w = new StringBuilder();
                         var lines = a.Lines.ToArray();
 
-                        w.AppendLine("#region Properties");
+                        if (IsField.@checked)
+                            w.AppendLine("#region Fields");
+                        else
+                            w.AppendLine("#region Properties");
 
                         for (int i = 0; i < lines.Length; i += 2)
                         {
@@ -874,11 +911,17 @@ render
                                     w.AppendLine("/// </summary>");
 
 
-                                    var x = lines[i].Split(':');
+                                    var x0 = lines[i].Split(':');
+                                    var x1 = x0[1].Trim().Split('=');
 
-                                    var TypeName = FixTypeName(x[1].Trim());
+                                    var DefaultValue = "";
 
-                                    var FieldName = x[0].Trim();
+                                    if (x1.Length == 2)
+                                        DefaultValue = x1[1].Trim();
+
+                                    var TypeName = FixTypeName(x1[0].Trim());
+
+                                    var FieldName = x0[0].Trim();
 
                                     /*
                                     var Image = (IHTMLImage)img.cloneNode(false);
@@ -891,10 +934,20 @@ render
                                         ).AttachTo(c);
                                     */
 
-                                    if (Summary.StartsWith(ReadOnly))
-                                        w.AppendLine("public " + TypeName + " " + FieldName + " { get; private set; }");
+                                    if (IsField.@checked)
+                                    {
+                                        var ReadonlyModifier = Summary.StartsWith(ReadOnly) ? "readonly " : "";
+                                        var DefaultValueExpression = string.IsNullOrEmpty(DefaultValue) ? "" : " = " + DefaultValue;
+
+                                        w.AppendLine("public " + ReadonlyModifier + TypeName + " " + FieldName + DefaultValueExpression + ";");
+                                    }
                                     else
-                                        w.AppendLine("public " + TypeName + " " + FieldName + " { get; set; }");
+                                    {
+                                        if (Summary.StartsWith(ReadOnly))
+                                            w.AppendLine("public " + TypeName + " " + FieldName + " { get; private set; }");
+                                        else
+                                            w.AppendLine("public " + TypeName + " " + FieldName + " { get; set; }");
+                                    }
 
                                     w.AppendLine();
                                 }
@@ -910,6 +963,9 @@ render
                         b.value = "error: " + ex.Message;
                     }
                 };
+
+            a.onchange += delegate { update(); };
+            IsField.onchange += delegate { update(); };
         }
 
         private static string FixVariableName(string Name)
@@ -933,7 +989,7 @@ render
                 "out"
             };
 
-            
+
 
             if (list.Contains(Name))
                 return "@" + Name;
