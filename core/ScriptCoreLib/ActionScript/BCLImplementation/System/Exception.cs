@@ -33,5 +33,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
 
         protected string Name { [Script(ExternalTarget = "name")] get; [Script(ExternalTarget = "name")]  set; }
+
+        public virtual string StackTrace
+        {
+            get
+            {
+                return ((Error)(object)this).getStackTrace();
+            }
+        }
     }
 }

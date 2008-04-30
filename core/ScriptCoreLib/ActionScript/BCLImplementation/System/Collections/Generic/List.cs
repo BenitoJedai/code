@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
-using ScriptCoreLib.ActionScript.Query;
+using ScriptCoreLib.ActionScript.BCLImplementation.Query;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic
 {
@@ -43,7 +43,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
 
         public void Clear()
         {
-            _items.splice(0, Count);
+            _items.splice(0, (uint)Count);
         }
 
         public int Count

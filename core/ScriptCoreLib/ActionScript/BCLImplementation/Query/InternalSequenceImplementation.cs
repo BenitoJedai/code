@@ -9,7 +9,7 @@ using global::System.Collections.Generic;
 
 using IDisposable = global::System.IDisposable;
 
-namespace ScriptCoreLib.ActionScript.Query
+namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
 {
     [Script(Implements = typeof(ScriptCoreLib.Shared.Query.InternalSequence))]
     internal static class InternalSequenceImplementation

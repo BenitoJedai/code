@@ -8,7 +8,7 @@ using IDisposable = global::System.IDisposable;
 
 using System;
 
-namespace ScriptCoreLib.ActionScript.Query
+namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
 {
 
     internal static partial class __Enumerable
@@ -87,7 +87,7 @@ namespace ScriptCoreLib.ActionScript.Query
 
             IEnumerator IEnumerable.GetEnumerator()
             {
-                return ((System.Collections.Generic.IEnumerable<TResult>)this).GetEnumerator();
+                return ((IEnumerable<TResult>)this).GetEnumerator();
             }
 
 
@@ -195,7 +195,7 @@ namespace ScriptCoreLib.ActionScript.Query
                 }
                 catch
                 {
-                    ((System.IDisposable)this).Dispose();
+                    ((IDisposable)this).Dispose();
 
                     throw;
                 }

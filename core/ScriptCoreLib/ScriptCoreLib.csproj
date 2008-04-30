@@ -136,11 +136,17 @@
     <Compile Include="ActionScript\BCLImplementation\System\Text\StringBuilder.cs" />
     <Compile Include="ActionScript\Class.cs" />
     <Compile Include="ActionScript\Extensions\flash\display\Stage.cs" />
+    <Compile Include="ActionScript\Extensions\flash\net\URLLoader.cs" />
     <Compile Include="ActionScript\flash\accessibility\AccessibilityProperties.cs" />
     <Compile Include="ActionScript\flash\display\BitmapData.cs" />
     <Compile Include="ActionScript\flash\display\IBitmapDrawable.cs" />
     <Compile Include="ActionScript\flash\display\LoaderInfo.cs" />
     <Compile Include="ActionScript\flash\events\ActivityEvent.cs" />
+    <Compile Include="ActionScript\flash\events\ErrorEvent.cs" />
+    <Compile Include="ActionScript\flash\events\HTTPStatusEvent.cs" />
+    <Compile Include="ActionScript\flash\events\IOErrorEvent.cs" />
+    <Compile Include="ActionScript\flash\events\ProgressEvent.cs" />
+    <Compile Include="ActionScript\flash\events\SecurityErrorEvent.cs" />
     <Compile Include="ActionScript\flash\events\TextEvent.cs" />
     <Compile Include="ActionScript\flash\events\FullScreenEvent.cs" />
     <Compile Include="ActionScript\flash\events\IEventDispatcher.cs" />
@@ -150,6 +156,7 @@
     <Compile Include="ActionScript\flash\geom\Point.cs" />
     <Compile Include="ActionScript\flash\geom\Rectangle.cs" />
     <Compile Include="ActionScript\flash\geom\Transform.cs" />
+    <Compile Include="ActionScript\flash\net\URLLoader.cs" />
     <Compile Include="ActionScript\flash\system\LoaderContext.cs" />
     <Compile Include="ActionScript\flash\system\Security.cs" />
     <Compile Include="ActionScript\flash\text\StyleSheet.cs" />
@@ -219,7 +226,7 @@
     <Compile Include="ActionScript\mx\core\IFlexDisplayObject.cs" />
     <Compile Include="ActionScript\mx\core\SoundAsset.cs" />
     <Compile Include="ActionScript\mx\effects\Tween.cs" />
-    <Compile Include="ActionScript\Query\InternalSequenceImplementation.cs" />
+    <Compile Include="ActionScript\BCLImplementation\Query\InternalSequenceImplementation.cs" />
     <Compile Include="ActionScript\RegExp.cs" />
     <Compile Include="ActionScript\String.cs" />
     <Compile Include="ActionScript\XML.cs" />

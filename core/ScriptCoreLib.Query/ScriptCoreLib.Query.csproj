@@ -53,12 +53,12 @@
   <ItemGroup>
     <Compile Include="ActionScript\BCLImplementation\System\Func.cs" />
     <Compile Include="ActionScript\Lambda\LambdaExtensions.cs" />
-    <Compile Include="ActionScript\Query\Enumerable.Methods.cs" />
-    <Compile Include="ActionScript\Query\Enumerable.cs" />
-    <Compile Include="ActionScript\Query\Enumerable.Select.cs" />
-    <Compile Include="ActionScript\Query\Enumerable.SelectMany.cs" />
-    <Compile Include="ActionScript\Query\Enumerable.Where.cs" />
-    <Compile Include="ActionScript\Query\DefinedError.cs" />
+    <Compile Include="ActionScript\BCLImplementation\Query\Enumerable.Methods.cs" />
+    <Compile Include="ActionScript\BCLImplementation\Query\Enumerable.cs" />
+    <Compile Include="ActionScript\BCLImplementation\Query\Enumerable.Select.cs" />
+    <Compile Include="ActionScript\BCLImplementation\Query\Enumerable.SelectMany.cs" />
+    <Compile Include="ActionScript\BCLImplementation\Query\Enumerable.Where.cs" />
+    <Compile Include="ActionScript\BCLImplementation\Query\DefinedError.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Func.cs" />
     <Compile Include="Shared\Query\Enumerable.Methods.cs" />
     <Compile Include="Shared\Query\Enumerable.OrderBy.cs" />
@@ -70,8 +70,8 @@
     <Compile Include="Shared\Query\Enumerable.Sum.cs" />
     <Compile Include="Shared\Query\IAssemblyReferenceToken.cs" />
     <Compile Include="Shared\Query\Enumerable.ToDictionary.cs" />
-    <Compile Include="ActionScript\Query\Enumerable.Range.MoveNext.cs" />
-    <Compile Include="ActionScript\Query\Enumerable.Range.cs" />
+    <Compile Include="ActionScript\BCLImplementation\Query\Enumerable.Range.MoveNext.cs" />
+    <Compile Include="ActionScript\BCLImplementation\Query\Enumerable.Range.cs" />
     <Compile Include="Shared\Query\Enumerable.NotImplementedHere.cs" />
     <Compile Include="Shared\Query\IdentityFunction.cs" />
     <Compile Include="Shared\Query\Enumerable.SelectMany.cs" />
@@ -82,9 +82,6 @@
     <Compile Include="Shared\Query\Enumerable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\Query\LocalInternalEnumerable.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ActionScript\BCLImplementation\Query\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

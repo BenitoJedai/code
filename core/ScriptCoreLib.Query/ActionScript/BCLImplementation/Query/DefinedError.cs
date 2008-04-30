@@ -8,7 +8,7 @@ using IDisposable = global::System.IDisposable;
 
 using System;
 
-namespace ScriptCoreLib.ActionScript.Query
+namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
 {
 
     [Script]

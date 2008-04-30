@@ -9,10 +9,11 @@ using IDisposable = global::System.IDisposable;
 using System;
 using System.Linq;
 
-namespace ScriptCoreLib.ActionScript.Query
+namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
 {
 
     using Error = DefinedError;
+    
 
     internal static partial class __Enumerable
     {
@@ -104,7 +105,7 @@ namespace ScriptCoreLib.ActionScript.Query
 
         public static IEnumerable<TSource> AsEnumerable<TSource>(this IEnumerable<TSource> source)
         {
-            return Query.InternalSequenceImplementation.AsEnumerable(source);
+            return InternalSequenceImplementation.AsEnumerable(source);
         }
 
 
