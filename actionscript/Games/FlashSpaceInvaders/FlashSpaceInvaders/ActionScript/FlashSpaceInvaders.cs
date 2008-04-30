@@ -13,7 +13,7 @@ namespace FlashSpaceInvaders.ActionScript
     /// testing...
     /// </summary>
     [Script, ScriptApplicationEntryPoint]
-    [SWF(backgroundColor = FlashSpaceInvaders.Colors.Black, width = FlashSpaceInvaders.DefaultWidth, height = FlashSpaceInvaders.DefaultHeight)]
+    [SWF(backgroundColor = Colors.Black, width = DefaultWidth, height = DefaultHeight)]
     public class FlashSpaceInvaders : Sprite
     {
         public const int DefaultWidth = 480;
@@ -97,7 +97,7 @@ namespace FlashSpaceInvaders.ActionScript
             var Player = Spawn_BigGun(300, 360);
 
             stage.doubleClickEnabled = true;
-            stage.dblClick +=
+            stage.doubleClick +=
                 ev =>
                 {
                     stage.SetFullscreen(true);

@@ -138,19 +138,20 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="about.txt">
+    <Content Include="docs\about.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Languages\JavaScript\%24ctor%24.js" />
     <EmbeddedResource Include="Languages\JavaScript\%24ScriptedLoading%24.js" />
     <EmbeddedResource Include="Languages\JavaScript\%24ClickOnce%24.js" />
     <EmbeddedResource Include="Languages\JavaScript\%24ClickOnce.Parallel%24.js" />
-    <Content Include="license.txt">
+    <Content Include="docs\license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="readme.txt">
+    <Content Include="docs\readme.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="docs\todo.txt" />
     <Content Include="Resx\App.ico" />
   </ItemGroup>
   <ItemGroup>
