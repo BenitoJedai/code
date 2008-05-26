@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript
 {
+    // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/XMLList.html
     [Script(IsNative = true)]
     public sealed class XMLList
     {

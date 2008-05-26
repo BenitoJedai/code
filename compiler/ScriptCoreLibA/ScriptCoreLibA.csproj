@@ -62,6 +62,7 @@
     <Compile Include="LanguageProviders\Providers.cs" />
     <Compile Include="ScriptApplicationEntryPointAttribute.cs" />
     <Compile Include="ScriptAttribute.cs" />
+    <Compile Include="ScriptImportsTypeAttribute.cs" />
     <Compile Include="ScriptLanguageProvider.cs" />
     <Compile Include="Tools\JSONSerializer.cs" />
   </ItemGroup>

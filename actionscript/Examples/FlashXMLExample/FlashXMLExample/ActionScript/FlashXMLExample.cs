@@ -48,7 +48,7 @@ namespace FlashXMLExample.ActionScript
                 };
 
 
-    
+
             loader.ioError +=
                 e =>
                 {
@@ -60,9 +60,9 @@ namespace FlashXMLExample.ActionScript
                         width = 400,
                         textColor = 0xff0000
 
-                    }.AttachTo(this);                    
+                    }.AttachTo(this);
                 };
-            
+
             try
             {
                 loader.load(new URLRequest(Path_MySettings));
@@ -71,17 +71,69 @@ namespace FlashXMLExample.ActionScript
             {
                 new TextField
                 {
-                     //correct encoding without BOM
+                    //correct encoding without BOM
                     text = exc.Message,
                     y = 100,
                     width = 400,
                     textColor = 0xff0000
 
-                }.AttachTo(this);   
+                }.AttachTo(this);
             }
- 
 
+            RuntimeTypeReflection();
+        }
+
+        private void RuntimeTypeReflection()
+        {
+            // http://nwebb.co.uk/blog/?p=186
+            // http://livedocs.adobe.com/flex/2/langref/flash/utils/package.html#describeType()
+            // http://onrails.org/articles/2007/02/24/flex-introspection-api-describetype-value-xml
+            // http://paranoicnotes.wordpress.com/2007/09/19/flashutilsdescribetype-loosely-coupled-components/
+
+            Action<string> Write = null;
+            Action<string> WriteLine = i => Write(i + "\n");
+
+            Action<Type> Do =
+                t =>
+                {
+                    WriteLine("type: " + t.FullName);
+
+                };
+
+            
+            var z = new TextField
+            {
+                // correct encoding without BOM
+                text = "",
+                x = 100,
+                autoSize = TextFieldAutoSize.LEFT
+
+            }.AttachTo(this);
+
+            Write = z.appendText;
+
+            Do(typeof(Serialized.MyDataClass));
+            Do(typeof(Serialized2.MyDataClass));
         }
     }
 
+    namespace Serialized
+    {
+        [Script]
+        sealed class MyDataClass
+        {
+            public string Text;
+            public int Value;
+        }
+    }
+
+    namespace Serialized2
+    {
+        [Script]
+        sealed class MyDataClass
+        {
+            public string Text;
+            public int Value;
+        }
+    }
 }

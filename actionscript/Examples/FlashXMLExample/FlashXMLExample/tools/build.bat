@@ -1,9 +1,15 @@
 :mxmlc
 @echo off
 
+
+
 :: Dll name
 @call :jsc %1
 
+if '%ERRORLEVEL%' == '-1' (
+    echo jsc failed.
+    goto :eof
+)
 :: Namespace name, type name
 @call :mxmlc %1/ActionScript %1
 

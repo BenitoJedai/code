@@ -70,8 +70,17 @@ namespace jsc.Languages.ActionScript
                         continue;
                     }
 
+                    if (i == OpCodes.Call && i.ReferencedMethod != null)
+                    {
+                        imp.Add(MySession.ResolveImplementation(i.ReferencedMethod.DeclaringType) ?? i.ReferencedMethod.DeclaringType);
+
+                        continue;
+                    }
+
                     if (i == OpCodes.Ldtoken)
                     {
+                        imp.Add(MySession.ResolveImplementation(typeof(RuntimeTypeHandle)));
+                        imp.Add(MySession.ResolveImplementation(i.TargetType) ?? i.TargetType);
 
                         continue;
                     }
@@ -350,8 +359,12 @@ namespace jsc.Languages.ActionScript
         {
             // all field types, return types, parameter types, variable types, statics
 
-            List<Type> t = GetImportTypes(z).ToList();
-            List<string> imports = new List<string>();
+            var t = GetImportTypes(z).ToList();
+            var imports = new List<string>();
+
+            imports.AddRange(
+                z.GetCustomAttributes<ScriptImportsTypeAttribute>().Select(i => i.Name)
+            );
 
             /*
             t.RemoveAll(delegate(Type x)
@@ -1110,7 +1123,9 @@ namespace jsc.Languages.ActionScript
                 };
 
 
-            CIW[OpCodes.Dup] = e => EmitFirstOnStack(e);
+            CIW[OpCodes.Unbox_Any,
+                OpCodes.Nop,
+                OpCodes.Dup] = e => EmitFirstOnStack(e);
 
             CIW[OpCodes.Box] =
                 e =>
@@ -1136,13 +1151,36 @@ namespace jsc.Languages.ActionScript
                         }
                     }
 
+           
+
                     Write("new ");
-                    Write(GetDecoratedTypeName(t, true));
+                    WriteDecoratedTypeNameOrImplementationTypeName(t, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, t));
                     Write("(");
 
                     EmitFirstOnStack(e);
 
                     Write(")");
+                };
+
+            CIW[OpCodes.Ldtoken] =
+                e =>
+                {
+                    var _RuntimeTypeHandle = MySession.ResolveImplementation(typeof(RuntimeTypeHandle));
+                    var _IntPtr = MySession.ResolveImplementation(typeof(IntPtr));
+                    var _RuntimeTypeHandle_From_Class = _RuntimeTypeHandle.GetExplicitOperators(null, _RuntimeTypeHandle).Single(i => i.ReturnType == _RuntimeTypeHandle);
+
+                    var _TargetType = MySession.ResolveImplementation(e.i.TargetType) ?? e.i.TargetType;
+
+                    #region _RuntimeTypeHandle_From_Class
+                    WriteDecoratedTypeNameOrImplementationTypeName(_RuntimeTypeHandle, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _RuntimeTypeHandle));
+                    Write(".");
+                    WriteDecoratedMethodName(_RuntimeTypeHandle_From_Class, false);
+                    Write("(");
+
+                    WriteDecoratedTypeNameOrImplementationTypeName(_TargetType, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _TargetType));
+
+                    Write(")");
+                    #endregion
                 };
 
             #region Ldftn
@@ -1324,9 +1362,26 @@ namespace jsc.Languages.ActionScript
 
         public void ConvertTypeAndEmit(CodeEmitArgs e, Type x)
         {
-            var r = e.i.StackBeforeStrict.Single().SingleStackInstruction.ReferencedType;
+            
+            var s = e.i.StackBeforeStrict.Single().SingleStackInstruction;
+
+            if (s.OpCode == OpCodes.Box)
+            {
+                var BoxParam = s.StackBeforeStrict.Single();
+                var BoxParamType = BoxParam.SingleStackInstruction.ReferencedType;
+
+                if ((MySession.ResolveImplementation(BoxParamType) ?? BoxParamType) == x)
+                {
+                    Emit(e.p, BoxParam);
+                    
+                    return;
+                }
+            }
+
+            var r = s.ReferencedType;
             var ra = r.ToScriptAttribute();
 
+            
             if (r == x || (ra != null && ra.IsArray))
             {
                 EmitFirstOnStack(e);

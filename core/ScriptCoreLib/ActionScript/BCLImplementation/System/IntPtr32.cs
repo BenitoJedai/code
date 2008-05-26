@@ -10,6 +10,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     {
         public string StringToken;
         public Function FunctionToken;
+        public Class ClassToken;
+
+     
 
         public static explicit operator __IntPtr(string _Token)
         {
@@ -30,5 +33,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         {
             return _ptr.FunctionToken;
         }
+
+
+
+
+  
     }
 }

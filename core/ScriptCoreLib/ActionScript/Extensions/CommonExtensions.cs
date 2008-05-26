@@ -45,6 +45,14 @@ namespace ScriptCoreLib.ActionScript.Extensions
             return default(object);
         }
 
+        public static Class ToClassToken(this IntPtr e)
+        {
+            var x = e;
+            var z = (__IntPtr)(object)x;
+
+            return z.ClassToken;
+        }
+
         public static XML ToXMLAsset(this Class c)
         {
             return new XML(c.ToStringAsset());
