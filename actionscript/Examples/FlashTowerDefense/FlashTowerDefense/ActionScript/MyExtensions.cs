@@ -7,6 +7,7 @@ using ScriptCoreLib.ActionScript.mx.core;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.utils;
+using ScriptCoreLib.ActionScript.flash.media;
 
 namespace FlashTowerDefense.ActionScript
 {
@@ -26,7 +27,7 @@ namespace FlashTowerDefense.ActionScript
             return e;
         }
 
-        public static Action ToAction(this SoundAsset c)
+        public static Action ToAction(this Sound c)
         {
             return delegate { c.play(); };
         }

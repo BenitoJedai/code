@@ -13,6 +13,7 @@ using System.Xml;
 using ScriptCoreLib;
 
 using Dia2Lib;
+using System.Runtime.InteropServices;
 
 namespace jsc.Script
 {
@@ -62,10 +63,19 @@ namespace jsc.Script
 
                     if (File.Exists(pdbPath))
                     {
-                        this.DiaSource = new Dia2Lib.DiaSource();
-                        this.DiaSource.loadDataFromPdb(this.pdbPath);
+                        try
+                        {
+                            this.DiaSource = new Dia2Lib.DiaSource();
+                            this.DiaSource.loadDataFromPdb(this.pdbPath);
 
-                        this.DiaSource.openSession(out this.DiaSession);
+                            this.DiaSource.openSession(out this.DiaSession);
+                        }
+                        catch (COMException exc)
+                        {
+                            this.DiaSource = null;
+
+                            Console.WriteLine("DIA API not found for {0}", pdbPath);
+                        }
 
                     }
                     else

@@ -61,6 +61,9 @@
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\screams1a.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\man2-horns_dead_1.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\man2-horns_dead_2.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\man2-horns_1.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\man2-horns_2.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\man2-horns_3.png" />

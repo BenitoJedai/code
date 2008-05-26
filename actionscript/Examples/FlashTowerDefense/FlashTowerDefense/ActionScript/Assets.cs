@@ -85,5 +85,15 @@ namespace FlashTowerDefense.ActionScript
         [Embed(source = Path + "/man2-horns_9.png")]
         public static Class man2_horns9;
 
+
+        [Embed(source = Path + "/man2-horns_dead_1.png")]
+        public static Class man2_horns_dead1;
+
+        [Embed(source = Path + "/man2-horns_dead_2.png")]
+        public static Class man2_horns_dead2;
+
+        [Embed(source = Path + "/screams1a.mp3")]
+        public static Class snd_man2;
+
     }
 }

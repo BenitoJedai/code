@@ -41,7 +41,7 @@ namespace FlashTowerDefense.ActionScript
                 height = 20,
                 mouseEnabled = false,
 
-                filters = new[] { new GlowFilter(0xffffff) }
+                filters = new[] { new DropShadowFilter() }
             };
 
             t.AttachTo(this);
@@ -217,7 +217,7 @@ namespace FlashTowerDefense.ActionScript
             }
         }
         public Sheep()
-            : base(frames)
+            : base(frames, Assets.sheep_corpse.ToBitmapAsset(), Assets.sheep_blood.ToBitmapAsset(), Assets.snd_sheep.ToSoundAsset())
         {
 
         }
@@ -245,7 +245,7 @@ namespace FlashTowerDefense.ActionScript
             }
         }
         public Warrior()
-            : base(frames)
+            : base(frames, Assets.man2_horns_dead1.ToBitmapAsset(), Assets.man2_horns_dead2.ToBitmapAsset(), Assets.snd_man2.ToSoundAsset())
         {
 
         }
@@ -271,15 +271,13 @@ namespace FlashTowerDefense.ActionScript
                 Die();
         }
 
-    
 
-        public Actor(Bitmap[] frames)
+
+        public Actor(Bitmap[] frames, Bitmap corpse, Bitmap blood, Sound death)
         {
-            MakeSound = Assets.snd_sheep.ToSoundAsset().ToAction();
+            MakeSound = death.ToAction();
 
-       
-            var corpse = Assets.sheep_corpse.ToBitmapAsset();
-            var blood = Assets.sheep_blood.ToBitmapAsset();
+
 
             Die = delegate
             {
