@@ -1,11 +1,8 @@
 java applet via jsc.
 ======================================================
-26.03.2007
+03.06.2008
 
 
-
-This template will use Linq May 2006 compiler. 
-It should be compliant with the Orcas build as only small changes to the project file would be requierd.
 
 We assume that jsc.exe is located at
 C:\util\jsc\bin\jsc.exe 

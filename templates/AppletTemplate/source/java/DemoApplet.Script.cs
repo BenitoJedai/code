@@ -9,6 +9,7 @@ namespace DemoApplet.source.java
 {
     partial class DemoApplet
     {
+        /*
         //[Script(IsDebugCode = true)]
         static void Test()
         {
@@ -27,6 +28,7 @@ namespace DemoApplet.source.java
                 throw;
             }
         }
+        */
 
         public static object EvaluateJavaScript(Applet that, string js)
         {
