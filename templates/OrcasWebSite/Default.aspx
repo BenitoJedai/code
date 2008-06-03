@@ -12,6 +12,7 @@
     <title>Untitled Page</title>
 </head>
 <body>
+    The page starts here.
     <uc1:ClientScriptReflector ID="ClientScriptReflector1" runat="server" />
 
     <div>
@@ -21,7 +22,7 @@
         <hr />
         <uc3:AnimatedLabel ID="AnimatedLabel1" runat="server" />
     </div>
-    
+    The page ends here.
     <form id="form1" runat="server">
     <div>ASP.NET form is here</div>
     

@@ -37,32 +37,7 @@ namespace JavaScript
         }
     }
 
-    /*
-     * using anonymous types again instead
-    [Script]
-    class __Type1
-    {
-        public string src;
-
-        public override string ToString()
-        {
-            return src;
-        }
-    }
-
-    [Script]
-    class __Type2
-    {
-        public int status;
-        public string headers;
-
-        public override string ToString()
-        {
-            return status + " " + headers;
-        }
-    }
-    */
-
+   
     [Script]
     public class ClientScriptReflector
     {
