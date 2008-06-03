@@ -1583,6 +1583,8 @@ namespace jsc.Languages.Java
 
                 if (p.Block.Clause.Flags == ExceptionHandlingClauseOptions.Clause)
                 {
+                    DebugBreak(p.DeclaringMethod.ToScriptAttribute());
+
                     Write("catch (");
 
                     if (p.Block.Clause.CatchType == typeof(object))
@@ -1593,7 +1595,14 @@ namespace jsc.Languages.Java
                     }
                     else
                     {
-                        Write(GetDecoratedTypeName(p.Block.Clause.CatchType, true));
+                        var ExceptionType = MySession.ResolveImplementation(p.Block.Clause.CatchType) ?? p.Block.Clause.CatchType;
+                        var ExceptionTypeAttribute = ExceptionType.ToScriptAttribute();
+
+                        if (ExceptionTypeAttribute != null && ExceptionTypeAttribute.ImplementationType != null)
+                            Write(GetDecoratedTypeName(ExceptionTypeAttribute.ImplementationType, true));
+                        else
+                            Write(GetDecoratedTypeName(ExceptionType, true));
+
                         WriteSpace();
 
                         ILBlock.Prestatement set_exc = p.Block.Prestatements.PrestatementCommands[0];

@@ -12,7 +12,20 @@ namespace DemoApplet.source.java
         //[Script(IsDebugCode = true)]
         static void Test()
         {
-            throw new global::csharp.RuntimeException();
+            throw new global::csharp.ThrowableException();
+        }
+
+        //[Script(IsDebugCode = true)]
+        static void Test2()
+        {
+            try
+            {
+                Test();
+            }
+            catch (csharp.ThrowableException e)
+            {
+                throw;
+            }
         }
 
         public static object EvaluateJavaScript(Applet that, string js)

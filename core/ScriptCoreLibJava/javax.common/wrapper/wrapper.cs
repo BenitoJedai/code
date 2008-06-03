@@ -510,15 +510,10 @@ namespace javax.common.wrapper
         // ExternalTarget = "java.lang.OutOfMemoryError",
         Implements = typeof(global::System.OutOfMemoryException),
        ImplementationType = typeof(java.lang.OutOfMemoryError))]
-    public class OutOfMemoryExceptionImpl
+    public class OutOfMemoryExceptionImpl : ExceptionImpl
     {
         public OutOfMemoryExceptionImpl() { }
         public OutOfMemoryExceptionImpl(string e) { }
-        public string Message
-        {
-            [Script(ExternalTarget = "getMessage")]
-            get { return default(string); }
-        }
     }
 
 
@@ -527,15 +522,10 @@ namespace javax.common.wrapper
         // ExternalTarget = "java.lang.IndexOutOfBoundsException",
       Implements = typeof(global::System.IndexOutOfRangeException),
       ImplementationType = typeof(java.lang.IndexOutOfBoundsException))]
-    public class IndexOutOfRangeExceptionImpl
+    public class IndexOutOfRangeExceptionImpl : ExceptionImpl
     {
         public IndexOutOfRangeExceptionImpl() { }
         public IndexOutOfRangeExceptionImpl(string e) { }
-        public string Message
-        {
-            [Script(ExternalTarget = "getMessage")]
-            get { return default(string); }
-        }
     }
 
     [Script(
@@ -543,15 +533,10 @@ namespace javax.common.wrapper
         // ExternalTarget = "java.lang.NullPointerException",
         Implements = typeof(global::System.NullReferenceException),
       ImplementationType = typeof(java.lang.NullPointerException))]
-    public class NullReferenceExceptionImpl
+    public class NullReferenceExceptionImpl : ExceptionImpl
     {
         public NullReferenceExceptionImpl() { }
         public NullReferenceExceptionImpl(string e) { }
-        public string Message
-        {
-            [Script(ExternalTarget = "getMessage")]
-            get { return default(string); }
-        }
     }
 }
 
