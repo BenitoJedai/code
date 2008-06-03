@@ -9,6 +9,12 @@ namespace DemoApplet.source.java
 {
     partial class DemoApplet
     {
+        //[Script(IsDebugCode = true)]
+        static void Test()
+        {
+            throw new global::csharp.RuntimeException();
+        }
+
         public static object EvaluateJavaScript(Applet that, string js)
         {
             object r = null;
@@ -29,11 +35,11 @@ namespace DemoApplet.source.java
                     if (m.getName() == "eval") eval = m;
                 }
 
-                var getWindow_Arguments = new object [] { that };
+                var getWindow_Arguments = new object[] { that };
 
                 var jsWindow = getWindow.invoke(c, getWindow_Arguments);
 
-                var eval_Arguments = new object [] { js }; 
+                var eval_Arguments = new object[] { js };
 
                 r = eval.invoke(jsWindow, eval_Arguments);
 

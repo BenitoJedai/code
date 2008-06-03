@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>Z:\work\jsc\svn\actionscript\Examples\FlashXMLExample\FlashXMLExample\bin\Debug</StartWorkingDirectory>
-    <StartArguments>FlashXMLExample.dll -as</StartArguments>
+    <StartWorkingDirectory>X:\jsc.svn\templates\AppletTemplate\bin\Debug</StartWorkingDirectory>
+    <StartArguments>DemoApplet.dll -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -29,7 +29,7 @@
     <StartArguments>HTShop.dll -PHP</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug with Doc|AnyCPU' ">
-    <StartWorkingDirectory>c:\util\jsc\bin\</StartWorkingDirectory>
-    <StartArguments>ScriptCoreLib.dll -js</StartArguments>
+    <StartWorkingDirectory>X:\jsc.svn\templates\AppletTemplate\bin\Debug</StartWorkingDirectory>
+    <StartArguments>DemoApplet.dll -java</StartArguments>
   </PropertyGroup>
 </Project>

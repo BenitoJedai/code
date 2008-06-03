@@ -193,9 +193,9 @@ namespace jni
                     Console.WriteLine("jni: extern " + lib + "+" + fname + " at " + this.PointerToHexString() );
 
             }
-            catch (UnsatisfiedLinkError u)
+            catch (csharp.UnsatisfiedLinkError u)
             {
-                throw new RuntimeException(u.Message);
+                throw new csharp.RuntimeException(u.Message);
             }
         }
 
@@ -255,7 +255,7 @@ namespace jni
         public static void ReportNonZero(string methodname, int p)
         {
             if (p != 0)
-                throw new RuntimeException("function '" + methodname + "' returned 0x" + Convert.ToHexString(p, 4) + " (" + p + ")");
+                throw new csharp.RuntimeException("function '" + methodname + "' returned 0x" + Convert.ToHexString(p, 4) + " (" + p + ")");
 
         }
     }

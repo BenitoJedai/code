@@ -490,8 +490,11 @@ namespace jsc.Script
 
             foreach (MethodInfo m in mx)
             {
+                var ma = m.ToScriptAttribute();
 
-                ScriptAttribute ma = ScriptAttribute.Of(m);
+                DebugBreak(ma);
+                
+
 
 
                 //DebugBreak(ma);
@@ -1166,7 +1169,9 @@ namespace jsc.Script
 
             // now why did we want to create implementation objects instead of the real things??
 
-            ScriptAttribute mza = ScriptAttribute.Of(t);
+            var mza = t.ToScriptAttribute();
+
+            DebugBreak(e.Method.ToScriptAttribute());
 
             if (!ScriptAttribute.IsCompilerGenerated(t) && mza == null && m != null)
             {

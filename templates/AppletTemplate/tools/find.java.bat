@@ -16,6 +16,10 @@ if exist %ReturnValue% goto :eof
 set ReturnValue="D:\Program Files\Java\jdk1.5.0_14\bin\%1"
 if exist %ReturnValue% goto :eof
 
+set ReturnValue="C:\Program Files\Java\jdk1.6.0_06\bin\%1"
+if exist %ReturnValue% goto :eof
+
+
 set ReturnValue=
 
 

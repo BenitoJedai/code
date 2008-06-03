@@ -102,10 +102,10 @@ namespace javax.common.wrapper
     }
 
     [Script(Implements = typeof(global::System.Object),
-        ImplementationType=typeof(object))]
+        ImplementationType = typeof(object))]
     public class ObjectImpl
     {
-        [Script(ExternalTarget="toString")]
+        [Script(ExternalTarget = "toString")]
         public new string ToString()
         {
             return default(string);
@@ -145,7 +145,7 @@ namespace javax.common.wrapper
 
     [Script(Implements = typeof(global::System.Int32)
         // native type cast conflict: ,ExternalTarget="java.lang.Integer"
-        , ImplementationType=typeof(java.lang.Integer)
+        , ImplementationType = typeof(java.lang.Integer)
         )]
     public class Int32Impl
     {
@@ -170,7 +170,7 @@ namespace javax.common.wrapper
     #endregion
 
     [Script(Implements = typeof(global::System.Boolean),
-        ImplementationType=typeof(java.lang.Boolean))]
+        ImplementationType = typeof(java.lang.Boolean))]
     public class BooleanImpl
     {
         [Script(ExternalTarget = "parseBoolean")]
@@ -200,10 +200,10 @@ namespace javax.common.wrapper
         public string PadLeft(int totalWidth, char paddingChar)
         {
             string u = (string)(object)this;
-            string p =  Convert.ToString(paddingChar);
+            string p = Convert.ToString(paddingChar);
 
             while (u.Length < totalWidth)
-                u = p + u; 
+                u = p + u;
 
             return u;
         }
@@ -220,7 +220,7 @@ namespace javax.common.wrapper
         {
             java.lang.String s = (java.lang.String)(object)this;
 
-            
+
 
             return s.substring(start, start + len);
         }
@@ -229,7 +229,7 @@ namespace javax.common.wrapper
 
         [Script(ExternalTarget = "replace")]
 #else
-        [Script(DefineAsStatic=true)]
+        [Script(DefineAsStatic = true)]
 #endif
         public string Replace(string a, string b)
         {
@@ -242,7 +242,7 @@ namespace javax.common.wrapper
             return default(string);
         }
 
-        [Script(DefineAsStatic=true)]
+        [Script(DefineAsStatic = true)]
         public bool Contains(string a)
         {
             return IndexOf(a) > -1;
@@ -255,7 +255,7 @@ namespace javax.common.wrapper
             return default(int);
         }
 
-        
+
         [Script(ExternalTarget = "indexOf")]
         public int IndexOf(string str, int pos)
         {
@@ -329,13 +329,13 @@ namespace javax.common.wrapper
             return default(string);
         }
 
-        [Script(ExternalTarget = "equals", DefineAsInstance=true)]
+        [Script(ExternalTarget = "equals", DefineAsInstance = true)]
         public static bool operator ==(StringImplementation a, StringImplementation b)
         {
             return default(bool);
         }
 
-  
+
         public static bool operator !=(StringImplementation a, StringImplementation b)
         {
             return !(a == b);
@@ -343,7 +343,7 @@ namespace javax.common.wrapper
 
         public int Length
         {
-            [Script(ExternalTarget="length")]
+            [Script(ExternalTarget = "length")]
             get
             {
                 return default(int);
@@ -369,7 +369,7 @@ namespace javax.common.wrapper
             if (a == null)
             {
 
-                    return null;
+                return null;
             }
 
 
@@ -401,7 +401,7 @@ namespace javax.common.wrapper
         }
 
         [Script(
-            StringConcatOperator="+"
+            StringConcatOperator = "+"
             )]
         public static string Concat(string a, string b)
         {
@@ -409,7 +409,7 @@ namespace javax.common.wrapper
         }
 
         [Script(
-            StringConcatOperator="+"
+            StringConcatOperator = "+"
             )]
         public static string Concat(string a, string b, string c)
         {
@@ -433,7 +433,7 @@ namespace javax.common.wrapper
 
     [Script(
        HasNoPrototype = true,
-       ExternalTarget = "java.io.IOException",
+        // ExternalTarget = "java.io.IOException",
        Implements = typeof(global::System.IO.IOException),
        ImplementationType = typeof(java.io.IOException))]
     public class IOExceptionImpl : ExceptionImpl
@@ -454,9 +454,10 @@ namespace javax.common.wrapper
 
     [Script(
        HasNoPrototype = true,
-       ExternalTarget = "java.lang.RuntimeException",
+        // Use 'ImplementationType' instead of 'ExternalTarget'
+        // ExternalTarget = "java.lang.RuntimeException",
        Implements = typeof(csharp.RuntimeException),
-       ImplementationType=typeof(object))]
+       ImplementationType = typeof(java.lang.RuntimeException))]
     public class RuntimeExceptionImpl : ExceptionImpl
     {
         public RuntimeExceptionImpl() { }
@@ -466,7 +467,7 @@ namespace javax.common.wrapper
 
     [Script(
        HasNoPrototype = true,
-       ExternalTarget = "java.lang.Throwable",
+        // ExternalTarget = "java.lang.Throwable",
       Implements = typeof(csharp.ThrowableException),
       ImplementationType = typeof(java.lang.Throwable))]
     public class ThrowableExceptionImpl : ExceptionImpl
@@ -478,9 +479,9 @@ namespace javax.common.wrapper
 
     [Script(
        HasNoPrototype = true,
-       ExternalTarget = "java.lang.UnsatisfiedLinkError",
+        // ExternalTarget = "java.lang.UnsatisfiedLinkError",
        Implements = typeof(csharp.UnsatisfiedLinkError),
-       ImplementationType=typeof(object))]
+       ImplementationType = typeof(java.lang.UnsatisfiedLinkError))]
     public class UnsatisfiedLinkErrorImpl : ExceptionImpl
     {
         public UnsatisfiedLinkErrorImpl() { }
@@ -490,7 +491,7 @@ namespace javax.common.wrapper
 
     [Script(
        HasNoPrototype = true,
-       ExternalTarget = "java.lang.Exception",
+        // ExternalTarget = "java.lang.Exception",
       Implements = typeof(global::System.Exception),
       ImplementationType = typeof(java.lang.Exception))]
     public class ExceptionImpl
@@ -506,9 +507,9 @@ namespace javax.common.wrapper
 
     [Script(
         HasNoPrototype = true,
-        ExternalTarget = "java.lang.OutOfMemoryError",
+        // ExternalTarget = "java.lang.OutOfMemoryError",
         Implements = typeof(global::System.OutOfMemoryException),
-       ImplementationType=typeof(object))]
+       ImplementationType = typeof(java.lang.OutOfMemoryError))]
     public class OutOfMemoryExceptionImpl
     {
         public OutOfMemoryExceptionImpl() { }
@@ -523,9 +524,9 @@ namespace javax.common.wrapper
 
     [Script(
         HasNoPrototype = true,
-       ExternalTarget = "java.lang.IndexOutOfBoundsException",
+        // ExternalTarget = "java.lang.IndexOutOfBoundsException",
       Implements = typeof(global::System.IndexOutOfRangeException),
-      ImplementationType = typeof(object))]
+      ImplementationType = typeof(java.lang.IndexOutOfBoundsException))]
     public class IndexOutOfRangeExceptionImpl
     {
         public IndexOutOfRangeExceptionImpl() { }
@@ -539,9 +540,9 @@ namespace javax.common.wrapper
 
     [Script(
     HasNoPrototype = true,
-   ExternalTarget = "java.lang.NullPointerException",
-  Implements = typeof(global::System.NullReferenceException),
-      ImplementationType = typeof(object))]
+        // ExternalTarget = "java.lang.NullPointerException",
+        Implements = typeof(global::System.NullReferenceException),
+      ImplementationType = typeof(java.lang.NullPointerException))]
     public class NullReferenceExceptionImpl
     {
         public NullReferenceExceptionImpl() { }
