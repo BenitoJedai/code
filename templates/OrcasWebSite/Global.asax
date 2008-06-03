@@ -4,6 +4,7 @@
 
     void Application_Start(object sender, EventArgs e) 
     {
+        
         jsc.server.DualTextWriter.StreamToDiagnostics();
         // Code that runs on application startup
 

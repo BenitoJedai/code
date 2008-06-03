@@ -37,6 +37,8 @@ namespace JavaScript
         }
     }
 
+    /*
+     * using anonymous types again instead
     [Script]
     class __Type1
     {
@@ -59,6 +61,7 @@ namespace JavaScript
             return status + " " + headers;
         }
     }
+    */
 
     [Script]
     public class ClientScriptReflector
@@ -115,7 +118,7 @@ namespace JavaScript
                                
                                 foreach (var vx in from i in Native.Document.getElementsByTagName("script")
                                                    where !string.IsNullOrEmpty(((IHTMLScript)i).src)
-                                                   select new __Type1 { src = ((IHTMLScript)i).src })
+                                                   select new { src = ((IHTMLScript)i).src })
                                 {
                                     var script_size = new IHTMLElement(IHTMLElement.HTMLElementEnum.pre, "reading the file size");
 
@@ -132,7 +135,7 @@ namespace JavaScript
                                     new IXMLHttpRequest(HTTPMethodEnum.HEAD, vx.src,
                                         (r) =>
                                             {
-                                                var data = new __Type2 { status = (int)r.status, headers = r.getAllResponseHeaders() };
+                                                var data = new { status = (int)r.status, headers = r.getAllResponseHeaders() };
 
 
                                                 script_size.innerText = data.ToString();
