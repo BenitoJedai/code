@@ -140,6 +140,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Type.cs" />
     <Compile Include="ActionScript\Class.cs" />
     <Compile Include="ActionScript\Date.cs" />
+    <Compile Include="ActionScript\Extensions\flash\display\LoaderInfo.cs" />
     <Compile Include="ActionScript\Extensions\flash\display\Stage.cs" />
     <Compile Include="ActionScript\Extensions\flash\media\Camera.cs" />
     <Compile Include="ActionScript\Extensions\flash\media\Microphone.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="ActionScript\flash\media\Microphone.cs" />
     <Compile Include="ActionScript\flash\net\NetStream.cs" />
     <Compile Include="ActionScript\flash\net\Responder.cs" />
+    <Compile Include="ActionScript\flash\system\ApplicationDomain.cs" />
     <Compile Include="ActionScript\flash\ui\Keyboard.cs" />
     <Compile Include="ActionScript\flash\ui\KeyLocation.cs" />
     <Compile Include="ActionScript\flash\accessibility\AccessibilityProperties.cs" />

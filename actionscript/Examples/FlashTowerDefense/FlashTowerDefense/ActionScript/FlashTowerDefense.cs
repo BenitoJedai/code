@@ -25,13 +25,14 @@ namespace FlashTowerDefense.ActionScript
     [SWF(width = Width, height = Height, backgroundColor = ColorWhite)]
     public sealed class FlashTowerDefense : Sprite
     {
-        const int Width = 640;
-        const int Height = 480;
+        public const int Width = 640;
+        public const int Height = 480;
 
-        const uint ColorWhite = 0xffffff;
-        const uint ColorBlue = 0x0000ff;
-        const uint ColorBlueDark = 0x000080;
-        const uint ColorBlueLight = 0x9090ff;
+        public const uint ColorBlack = 0x000000;
+        public const uint ColorWhite = 0xffffff;
+        public const uint ColorBlue = 0x0000ff;
+        public const uint ColorBlueDark = 0x000080;
+        public const uint ColorBlueLight = 0x9090ff;
 
         const int OffscreenMargin = 32;
 
@@ -267,17 +268,19 @@ namespace FlashTowerDefense.ActionScript
                 autoSize = TextFieldAutoSize.LEFT,
                 htmlText = "<a href='http://jsc.sf.net'>powered by <b>jsc</b></a>",
                 selectable = false,
-                //filters = new[] { new DropShadowFilter() },
-                textColor = ColorBlue
+                filters = new[] { new BlurFilter() },
+                textColor = ColorBlack
             }.AttachTo(this);
 
             powered_by_jsc.y = Height - powered_by_jsc.height - 32;
             powered_by_jsc.mouseOver +=
                 delegate
                 {
-                    warzone.alpha = 0.8;
+                    //warzone.alpha = 0.8;
                     warzone.filters = new[] { new BlurFilter() };
-                    powered_by_jsc.htmlText = "<u><a href='http://jsc.sf.net'>powered by <b>jsc</b></a></u>";
+                    //powered_by_jsc.htmlText = "<u><a href='http://jsc.sf.net'>powered by <b>jsc</b></a></u>";
+                    powered_by_jsc.textColor = ColorBlue;
+                    powered_by_jsc.filters = null;
 
                     aim.visible = false;
                 };
@@ -285,9 +288,10 @@ namespace FlashTowerDefense.ActionScript
             powered_by_jsc.mouseOut +=
                 delegate
                 {
-                    powered_by_jsc.htmlText = "<a href='http://jsc.sf.net'>powered by <b>jsc</b></a>";
-
-                    warzone.alpha = 1;
+                    //powered_by_jsc.htmlText = "<a href='http://jsc.sf.net'>powered by <b>jsc</b></a>";
+                    powered_by_jsc.filters = new[] { new BlurFilter() };
+                    powered_by_jsc.textColor = ColorBlack;
+                    //warzone.alpha = 1;
                     warzone.filters = null;
                     
                     aim.visible = true;
