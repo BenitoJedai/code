@@ -1,1 +1,0 @@
-Demostrates the use of jsc:javascript with silverlight
