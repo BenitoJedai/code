@@ -22,13 +22,15 @@ namespace FlashTowerDefense.ActionScript
     /// testing...
     /// </summary>
     [Script, ScriptApplicationEntryPoint(Width = Width, Height = Height)]
-    [SWF(width = Width, height = Height, backgroundColor = 0xffffff)]
+    [SWF(width = Width, height = Height, backgroundColor = WhiteColor)]
     public sealed class FlashTowerDefense : Sprite
     {
         const int Width = 640;
         const int Height = 480;
 
+        const uint WhiteColor = 0xffffff;
 
+        const int OffscreenMargin = 100;
 
         public bool Gunfire = false;
 
@@ -186,21 +188,33 @@ namespace FlashTowerDefense.ActionScript
                 {
                     var s = new Sheep
                     {
-                        x = -100,
+                        x = -OffscreenMargin,
                         y = Height.Random(),
                         speed = 0.5 + 2.Random()
                     }.AttachTo(this).AddTo(list);
 
-                    s.CorpseAndBloodGone += () => list.Remove(s);
+                    Action<Actor> AttachRules =
+                        a =>
+                        {
+                            a.CorpseAndBloodGone += () => list.Remove(a);
+                            a.Moved +=
+                                delegate
+                                {
+                                    if (a.x > (Width + OffscreenMargin))
+                                        list.Remove(a);
+                                };
+                        };
+
+                    AttachRules(s);
 
                     var w = new Warrior
                     {
-                        x = -100,
+                        x = -OffscreenMargin,
                         y = Height.Random(),
                         speed = 1 + 2.Random()
                     }.AttachTo(this).AddTo(list);
 
-                    w.CorpseAndBloodGone += () => list.Remove(w);
+                    AttachRules(w);
                 }
             );
 
@@ -293,6 +307,8 @@ namespace FlashTowerDefense.ActionScript
 
         public event Action CorpseAndBloodGone;
 
+        public event Action Moved;
+
         public double health = 100;
         public double speed = 0.5;
 
@@ -366,6 +382,9 @@ namespace FlashTowerDefense.ActionScript
                              v.x = -v.width / 2;
                              v.y = -v.height / 2;
                              v.AttachTo(this);
+
+                             if (this.Moved != null)
+                                 this.Moved();
                          }
                          else
                              v.Dipsose();
