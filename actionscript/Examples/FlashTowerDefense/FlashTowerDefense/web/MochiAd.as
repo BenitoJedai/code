@@ -1,9 +1,9 @@
 ﻿/*
-    MochiAds.com ActionScript 3 code, version 2.3
+    MochiAds.com ActionScript 3 code, version 2.4
 
     Flash movies should be published for Flash 9 or later.
 
-    Copyright (C) 2006-2007 Mochi Media, Inc. All rights reserved.
+    Copyright (C) 2006-2008 Mochi Media, Inc. All rights reserved.
 */
 
 package {
@@ -13,6 +13,7 @@ package {
     import flash.display.Loader;
     import flash.events.Event;
     import flash.events.IOErrorEvent;
+    import flash.events.ProgressEvent;
     import flash.net.URLRequest;
     import flash.net.URLRequestMethod;
     import flash.net.URLVariables;
@@ -23,7 +24,7 @@ package {
     public class MochiAd {
 
         public static function getVersion():String {
-            return "2.3";
+            return "2.4";
         }
 
         public static function doOnEnterFrame(mc:MovieClip):void {
@@ -76,6 +77,9 @@ package {
 
                     outline is the outline color of the preloader
                     bar as a number (default: 0xD58B3C)
+                    
+                    no_progress_bar disables the ad's preload/progress bar when set to true
+                    (default: false)
 
                     fadeout_time is the number of milliseconds to
                     fade out the ad upon completion (default: 250).
@@ -90,14 +94,26 @@ package {
 
                     ad_failed is called if an ad can not be displayed,
                     this is usually due to the user having ad blocking
-                    software installde. If it is called, then it is
-                    called before ad_finished.
+                    software installed or issues with retrieving the ad
+                    over the network. If it is called, then it is called 
+                    before ad_finished.
                     (default: function ():void { }).
 
                     ad_loaded is called just before an ad is displayed
                     with the width and height of the ad. If it is called,
                     it is called after ad_started.
                     (default: function(width:Number, height:Number):void { }).
+                    
+                    ad_skipped is called if the ad was skipped, this is 
+                    usually due to frequency capping, or developer initiated
+                    domain filtering.  If it is called, then it is called 
+                    before ad_finished.
+                    (default: function():void { }).
+                    
+                    ad_progress is called with the progress of the ad.  The
+                    progress is the percent (represented from 0 to 100) of the 
+                    ad show time or loading time for the host swf, whichever is more.
+                    (default: function(percent:Number):void { }).                   
             */
             var DEFAULTS:Object = {
                 ad_timeout: 3000,
@@ -107,6 +123,7 @@ package {
                 color: 0xFF8A00,
                 background: 0xFFFFC9,
                 outline: 0xD58B3C,
+                no_progress_bar: false,
                 ad_started: function ():void {
                     if (this.clip is MovieClip) {
                         this.clip.stop();
@@ -121,18 +138,17 @@ package {
                         throw new Error("MochiAd.showPreGameAd requires a clip that is a MovieClip or is an instance of a class that extends MovieClip.  If your clip is a Sprite, then you must provide custom ad_started and ad_finished handlers.");
                     }                    
                 },
-                ad_loaded: function (width:Number, height:Number):void {
-                },
-                ad_failed: function ():void {
-                    trace("[MochiAd] Couldn't load an ad, make sure your game's local security sandbox is configured for Access Network Only and that you are not using ad blocking software");
-                }
+                ad_loaded: function (width:Number, height:Number):void { },
+                ad_failed: function ():void { trace("[MochiAd] Couldn't load an ad, make sure your game's local security sandbox is configured for Access Network Only and that you are not using ad blocking software"); },
+                ad_skipped: function ():void { },
+                ad_progress: function (percent:Number):void { }
             };
 
             options = MochiAd._parseOptions(options, DEFAULTS);
             
             if ("5cc6f7dfb67f2f08341c831480f7c2a7".length == 0) {
                 options.ad_started();
-                options.ad_finished();
+                setTimeout(options.ad_finished, 100);
                 return;
             }
 
@@ -142,7 +158,9 @@ package {
             delete options.ad_timeout;
             var fadeout_time:Number = options.fadeout_time;
             delete options.fadeout_time;
-
+            
+      
+            /* Load targeting under clip._mochiad */
             if (!MochiAd.load(options)) {
                 options.ad_failed();
                 options.ad_finished();
@@ -150,7 +168,7 @@ package {
             }
 
             options.ad_started();
-
+            
             var mc:MovieClip = clip._mochiad;
             mc["onUnload"] = function ():void {
                 MochiAd._cleanup(mc);
@@ -159,10 +177,8 @@ package {
                 };
                 setTimeout(fn, 100);
             }
-            
 
             /* Center the clip */
-            
             var wh:Array = MochiAd._getRes(options, clip);
             
             var w:Number = wh[0];
@@ -175,8 +191,13 @@ package {
             chk.y = h * -0.5;
 
             var bar:MovieClip = createEmptyMovieClip(chk, "_mochiad_bar", 4);
-            bar.x = 10;
-            bar.y = h - 20;
+            if (options.no_progress_bar) {
+                bar.visible = false;
+                delete options.no_progress_bar;
+            } else {
+                bar.x = 10;
+                bar.y = h - 20;
+            }
 
             var bar_color:Number = options.color;
             delete options.color;
@@ -195,7 +216,7 @@ package {
             backing.lineTo(0, 10);
             backing.lineTo(0, 0);
             backing.endFill();
-            
+
             var inside_mc:MovieClip = createEmptyMovieClip(bar, "_inside", 2);
             var inside:Object = inside_mc.graphics;
             inside.beginFill(bar_color);
@@ -237,10 +258,11 @@ package {
 
             var complete:Boolean = false;
             var unloaded:Boolean = false;
-
+            
             var f:Function = function(ev:Event):void {
                 ev.target.removeEventListener(ev.type, arguments.callee);
                 complete = true;
+                
                 if (unloaded) {
                     MochiAd.unload(clip);
                 }
@@ -261,7 +283,7 @@ package {
             }
 
             mc.adLoaded = options.ad_loaded;
-
+            mc.adSkipped = options.ad_skipped;
             mc.adjustProgress = function (msec:Number):void {
                 var _chk:Object = mc._mochiad_wait;
                 _chk.server_control = true;
@@ -269,7 +291,26 @@ package {
                 _chk.started = getTimer();
                 _chk.ad_msec = msec;
             };
+            mc.rpc = function (callbackID:Number, arg:Object):void {
+                MochiAd.rpc(clip, callbackID, arg);
+            };
+            // Only used for container RPC method call testing
+            mc.rpcTestFn = function(s:String):Object {
+                trace('[MOCHIAD rpcTestFn] ' + s);
+                return s;
+            };
+            
+            /* Container will call so we know Container LC */
+            mc.regContLC = function (lc_name:String):void {
+                mc._containerLCName = lc_name;
+            };
 
+            /* Container will call so we can start sending host loading progress */
+            var sendHostProgress:Boolean = false;
+            mc.sendHostLoadProgress = function (lc_name:String):void {
+                sendHostProgress = true;
+            };
+                        
             chk["onEnterFrame"] = function ():void {
                 if (!this.parent || !this.parent.parent) {
                     delete this["onEnterFrame"];
@@ -292,24 +333,32 @@ package {
                 pcnt = Math.max(this.last_pcnt, pcnt);
                 this.last_pcnt = pcnt;
                 _inside.scaleX = pcnt * 0.01;
-            
+                
+                options.ad_progress(pcnt);
+                
+                /* Send to our targetting SWF percent of host loaded.  
+                   This is so we can notify the AD SWF when we're loaded.
+                */ 
+                if (sendHostProgress) {
+                    clip._mochiad.lc.send(clip._mochiad._containerLCName, 'notify', {id: 'hostLoadPcnt', pcnt: clip_pcnt});
+                    if (clip_pcnt == 100) 
+                        sendHostProgress = false;
+                }
+                     
                 if (!chk.showing) {
-                    var total:Number = ad_clip.loaderInfo.bytesTotal;
-                    if (total > 0 || typeof(total) == "undefined") {
+                    var total:Number = this.parent._mochiad_ctr.contentLoaderInfo.bytesTotal;
+                    if (total > 0) {
+                        // ad is now showing
                         chk.showing = true;
                         chk.started = getTimer();
-                    } else if (elapsed > chk.ad_timeout) {
+                        MochiAd.adShowing(clip);
+                    } else if (elapsed > chk.ad_timeout && clip_pcnt == 100) {
+                        // ad failed to show - ad_timeout and game is loaded
                         options.ad_failed();
                         finished = true;
                     }
                 }
 
-                /* Handler on IOErrorEvent.IO_ERROR sets this */
-                if (this.parent._mochiad_ctr_failed) {
-                    options.ad_failed();
-                    finished = true;
-                }
-                
                 if (elapsed > chk.ad_msec) {
                     finished = true;
                 }
@@ -325,6 +374,145 @@ package {
             };
             doOnEnterFrame(chk);
         }
+        
+        
+        public static function showClickAwayAd(options:Object):void {
+            /*
+                This function will load a MochiAd in the upper left position on the clip.
+                This ad will remain there until unload() is called.
+
+                options:
+                    An object with keys and values to pass to the server.
+                    These options will be passed to MochiAd.load, but the
+                    following options are unique to showClickAwayAd.
+
+                    clip is a MovieClip reference to place the ad in.
+
+                    ad_started is the function to call when the ad
+                    has started (may not get called if network down)
+                    (default: function ():void { this.clip.stop() }).
+
+                    ad_finished is the function to call when the ad
+                    has finished or could not load
+                    (default: function ():void { this.clip.play() }).
+
+                    ad_failed is called if an ad can not be displayed,
+                    this is usually due to the user having ad blocking
+                    software installed or issues with retrieving the ad
+                    over the network. If it is called, then it is called 
+                    before ad_finished.
+                    (default: function ():void { }).
+
+                    ad_loaded is called just before an ad is displayed
+                    with the width and height of the ad. If it is called,
+                    it is called after ad_started.
+                    (default: function(width:Number, height:Number):void { }).
+                    
+                    ad_skipped is called if the ad was skipped, this is 
+                    usually due to frequency capping, or developer initiated
+                    domain filtering.  If it is called, then it is called 
+                    before ad_finished.
+                    (default: function():void { })
+            */
+            var DEFAULTS:Object = {
+                ad_timeout: 2000,
+                regpt: "o",
+                method: "showClickAwayAd",
+                res: "300x250",
+                no_bg: true,
+                ad_started: function ():void { },
+                ad_finished: function ():void { },
+                ad_loaded: function (width:Number, height:Number):void { },
+                ad_failed: function ():void { trace("[MochiAd] Couldn't load an ad, make sure your game's local security sandbox is configured for Access Network Only and that you are not using ad blocking software"); },
+                ad_skipped: function ():void { }
+
+            };
+            options = MochiAd._parseOptions(options, DEFAULTS);
+
+            var clip:Object = options.clip;
+            var ad_timeout:Number = options.ad_timeout;
+            delete options.ad_timeout;
+
+            /* Load targeting under clip._mochiad */
+            if (!MochiAd.load(options)) {
+                options.ad_failed();
+                options.ad_finished();
+                return;
+            }
+
+            options.ad_started();
+        
+            var mc:MovieClip = clip._mochiad;
+            mc["onUnload"] = function ():void {
+                MochiAd._cleanup(mc);
+                options.ad_finished();
+            }
+
+            /* Peg the 300x250 ad to the upper left of the MC */
+            var wh:Array = MochiAd._getRes(options, clip);
+            
+            var w:Number = wh[0];
+            var h:Number = wh[1];
+            mc.x = w * 0.5;
+            mc.y = h * 0.5;
+        
+            var chk:MovieClip = createEmptyMovieClip(mc, "_mochiad_wait", 3);
+            chk.ad_timeout = ad_timeout;
+            chk.started = getTimer();
+            chk.showing = false;
+            
+            mc.unloadAd = function ():void {
+                MochiAd.unload(clip);
+            }
+            
+            mc.adLoaded = options.ad_loaded;
+            mc.adSkipped = options.ad_skipped;
+            mc.rpc = function (callbackID:Number, arg:Object):void {
+                MochiAd.rpc(clip, callbackID, arg);
+            };
+            
+            /* Container will call so we register LC name */
+            var sendHostProgress:Boolean = false;
+            mc.regContLC = function (lc_name:String):void {
+                mc._containerLCName = lc_name;
+            }
+
+            chk["onEnterFrame"] = function ():void {
+                if (!this.parent) {
+                    delete this.onEnterFrame;
+                    return;
+                }
+                var ad_clip:Object = this.parent._mochiad_ctr;
+                var elapsed:Number = getTimer() - this.started;
+                var finished:Boolean = false;
+
+                if (!chk.showing) {
+                    var total:Number = this.parent._mochiad_ctr.contentLoaderInfo.bytesTotal;
+                    if (total > 0) {
+                        // ad is now showing
+                        chk.showing = true;
+                        finished = true;
+                        chk.started = getTimer();
+                    } else if (elapsed > chk.ad_timeout) {
+                        // ad failed to show - ad_timeout and game is loaded
+                        options.ad_failed();
+                        finished = true;
+                    }
+                }
+
+                /* Poll to see if we're not being displayed anymore */
+                if (this.root == null) {
+                    finished = true;
+                }
+
+                /* Ad is showing, remove this function */
+                if (finished) {
+                    delete this.onEnterFrame;
+                }
+            };
+            doOnEnterFrame(chk);
+        }
+        
     
         public static function showInterLevelAd(options:Object):void {
             /*
@@ -352,14 +540,21 @@ package {
 
                     ad_failed is called if an ad can not be displayed,
                     this is usually due to the user having ad blocking
-                    software installde. If it is called, then it is
-                    called before ad_finished.
+                    software installed or issues with retrieving the ad
+                    over the network. If it is called, then it is called 
+                    before ad_finished.
                     (default: function ():void { }).
 
                     ad_loaded is called just before an ad is displayed
                     with the width and height of the ad. If it is called,
                     it is called after ad_started.
                     (default: function(width:Number, height:Number):void { }).
+                    
+                    ad_skipped is called if the ad was skipped, this is 
+                    usually due to frequency capping, or developer initiated
+                    domain filtering.  If it is called, then it is called 
+                    before ad_finished.
+                    (default: function():void { })
             */
             var DEFAULTS:Object = {
                 ad_timeout: 2000,
@@ -384,6 +579,8 @@ package {
                 },
                 ad_failed: function ():void {
                     trace("[MochiAd] Couldn't load an ad, make sure your game's local security sandbox is configured for Access Network Only and that you are not using ad blocking software");
+                },
+                ad_skipped: function ():void {
                 }
 
             };
@@ -396,6 +593,7 @@ package {
             var fadeout_time:Number = options.fadeout_time;
             delete options.fadeout_time;
 
+            /* Load targeting under clip._mochiad */
             if (!MochiAd.load(options)) {
                 options.ad_failed();
                 options.ad_finished();
@@ -445,13 +643,16 @@ package {
             }
             
             mc.adLoaded = options.ad_loaded;
-
+            mc.adSkipped = options.ad_skipped;
             mc.adjustProgress = function (msec:Number):void {
                 var _chk:Object = mc._mochiad_wait;
                 _chk.server_control = true;
                 _chk.showing = true;
                 _chk.started = getTimer();
                 _chk.ad_msec = msec - 250;
+            };
+            mc.rpc = function (callbackID:Number, arg:Object):void {
+                MochiAd.rpc(clip, callbackID, arg);
             };
 
             chk["onEnterFrame"] = function ():void {
@@ -463,23 +664,21 @@ package {
                 var ad_clip:Object = this.parent._mochiad_ctr;
                 var elapsed:Number = getTimer() - this.started;
                 var finished:Boolean = false;
+
                 if (!chk.showing) {
-                    var total:Number = ad_clip.loaderInfo.bytesTotal;
-                    if (total > 0 || typeof(total) == "undefined") {
+                    var total:Number = this.parent._mochiad_ctr.contentLoaderInfo.bytesTotal;
+                    if (total > 0) {
+                        // ad is now showing
                         chk.showing = true;
                         chk.started = getTimer();
+                        MochiAd.adShowing(clip);
                     } else if (elapsed > chk.ad_timeout) {
+                        // ad failed to show - ad_timeout
                         options.ad_failed();
                         finished = true;
                     }
                 }
 
-                /* Handler on IOErrorEvent.IO_ERROR sets this */
-                if (this.parent._mochiad_ctr_failed) {
-                    options.ad_failed();
-                    finished = true;
-                }
-                
                 if (elapsed > chk.ad_msec) {
                     finished = true;
                 }
@@ -493,8 +692,6 @@ package {
                 }
             };
             doOnEnterFrame(chk);
-
-
         }
 
         public static function showPreloaderAd(options:Object):void {
@@ -517,184 +714,6 @@ package {
             flash.system.Security.allowInsecureDomain(hostname);
             return hostname;
         }
-        
-        public static function _loadCommunicator(options:Object):MovieClip {
-            var DEFAULTS:Object = {
-                com_server: "http://x.mochiads.com/com/1/",
-                method: "loadCommunicator",
-                depth: 10337,
-                id: "_UNKNOWN_"
-            };
-            options = MochiAd._parseOptions(options, DEFAULTS);
-            options.swfv = 9;
-            options.mav = MochiAd.getVersion();
-
-            var clip:Object = options.clip;
-            var clipname:String = '_mochiad_com_' + options.id;
-
-            if (!MochiAd._isNetworkAvailable()) {
-                return null;
-            }
-
-            if (clip[clipname]) {
-                return clip[clipname];
-            }
-
-            var server:String = options.com_server + options.id;
-            MochiAd._allowDomains(server);
-            delete options.id;
-            delete options.com_server;
-
-            var depth:Number = options.depth;
-            delete options.depth;
-            var mc:MovieClip = createEmptyMovieClip(clip, clipname, depth);
-            var lv:URLVariables = new URLVariables();
-            for (var k:String in options) {
-                lv[k] = options[k];
-            }
-
-            var lc:LocalConnection = new LocalConnection();
-            lc.client = mc;
-            var name:String = [
-                "", Math.floor((new Date()).getTime()), Math.floor(Math.random() * 999999)
-            ].join("_");
-            lc.allowDomain("*", "localhost");
-            lc.allowInsecureDomain("*", "localhost");
-            lc.connect(name);
-            mc.name = name;
-            mc.lc = lc;
-            lv.lc = name;
-            mc._id = 0;
-            mc._queue = [];
-            mc.rpcResult = function (cb:Object):void {
-                cb = parseInt(cb.toString());
-                var cblst:Array = mc._callbacks[cb];
-                if (typeof(cblst) == 'undefined') {
-                    return;
-                }
-                delete mc._callbacks[cb];
-                var args:Array = [];
-                for (var i:Number = 2; i < cblst.length; i++) {
-                    args.push(cblst[i]);
-                }
-                for (i = 1; i < arguments.length; i++) {
-                    args.push(arguments[i]);
-                }
-                var method:Object = cblst[1];
-                var obj:Object = cblst[0];
-                if (obj && typeof(method) == 'string') {
-                    method = obj[method];
-                }
-                if (typeof(method) == 'function') {
-                    method.apply(obj, args);
-                }
-            }
-            mc._didConnect = function (endpoint:String):void {
-                mc._endpoint = endpoint;
-                var q:Array = mc._queue;
-                delete mc._queue;
-                var ds:Function = mc.doSend;
-                for (var i:Number = 0; i < q.length; i++) {
-                    var item:Array = q[i];
-                    ds.apply(this, item);
-                }
-            }
-            mc.doSend = function (args:Array, cbobj:Object, cbfn:Object):void {
-                if (mc._endpoint == null) {
-                    var qargs:Array = [];
-                    for (var i:Number = 0; i < arguments.length; i++) {
-                        qargs.push(arguments[i]);
-                    }
-                    mc._queue.push(qargs);
-                    return;
-                }
-                mc._id += 1;
-                var id:Number = mc._id;
-                mc._callbacks[id] = [cbobj, cbfn || cbobj];
-                var slc:LocalConnection = new LocalConnection();
-                slc.send(mc._endpoint, 'rpc', id, args);
-            }
-            mc._callbacks = {};
-            mc._callbacks[0] = [mc, '_didConnect'];
-
-            lv.st = getTimer();
-            var req:URLRequest = new URLRequest(server + ".swf");
-            req.contentType = "application/x-www-form-urlencoded";
-            req.method = URLRequestMethod.POST;
-            req.data = lv;
-            var loader:Loader = new Loader();
-            loader.load(req);
-            mc.addChild(loader);
-            mc._mochiad_com = loader;
-
-            return mc;
-
-        }
-
-        public static function fetchHighScores(options:Object, callbackObj:Object, callbackMethod:Object=null):Boolean {
-            /*
-                Fetch the high scores from MochiAds. Returns false if a connection
-                to MochiAds can not be established due to the security sandbox.
-
-                options:
-                    An object with keys and and values to pass to the
-                    server.
-
-                    clip is a MovieClip reference to place the (invisible)
-                    communicator in.
-
-                    id should be the unique identifier for this MochiAd.
-
-                callback(scores):
-
-                    scores is an array of at most 50 high scores, highest score
-                    first, with a millisecond epoch timestamp (for the Date
-                    constructor).  [[name, score, timestamp], ...]
-            */
-            var lc:MovieClip = MochiAd._loadCommunicator({clip: options.clip, id: options.id});
-            if (!lc) {
-                return false;
-            }
-            lc.doSend(['fetchHighScores', options], callbackObj, callbackMethod);
-            return true;
-        }
-
-
-        public static function sendHighScore(options:Object, callbackObj:Object, callbackMethod:Object=null):Boolean {
-            /*
-                Send a high score to MochiAds. Returns false if a connection
-                to MochiAds can not be established due to the security sandbox.
-
-                options:
-                    An object with keys and and values to pass to the
-                    server.
-
-                    clip is a MovieClip reference to place the (invisible)
-                    communicator in.
-
-                    id should be the unique identifier for this MochiAd.
-
-                    name is the name to be associated with the high score, e.g.
-                    "Player Name"
-
-                    score is the value of the high score, e.g. 100000.
-
-                callback(scores, index):
-
-                    scores is an array of at most 50 high scores, highest score
-                    first, with a millisecond epoch timestamp (for the Date
-                    constructor).  [[name, score, timestamp], ...]
-
-                    index is the array index of the submitted high score in
-                    scores, or -1 if the submitted score did not rank top 50.
-            */
-            var lc:MovieClip = MochiAd._loadCommunicator({clip: options.clip, id: options.id});
-            if (!lc) {
-                return false;
-            }
-            lc.doSend(['sendHighScore', options], callbackObj, callbackMethod);
-            return true;
-        }        
 
         public static function load(options:Object):MovieClip {
             /*
@@ -766,7 +785,9 @@ package {
             delete lv.server;
             var hostname:String = _allowDomains(server);
 
+            /* Set up LocalConnection recieve between here and targetting swf */
             var lc:LocalConnection = new LocalConnection();
+            /* Make callbacks operate on targetting swf container */
             lc.client = mc;
             var name:String = [
                 "", Math.floor((new Date()).getTime()), Math.floor(Math.random() * 999999)
@@ -775,32 +796,28 @@ package {
             lc.allowInsecureDomain("*", "localhost");
             lc.connect(name);
             mc.lc = lc;
+            mc.lcName = name;
+            /* register our LocalConnection name with targetting swf */
             lv.lc = name;
             
             lv.st = getTimer();
             var loader:Loader = new Loader();
-            
-            var f:Function = function (ev:Object):void {
-                ev.target.removeEventListener(ev.type, arguments.callee);
-                mc._mochiad_ctr_failed = true;
-            }
-            loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, f);
 
             var g:Function = function(ev:Object):void {
                 ev.target.removeEventListener(ev.type, arguments.callee);
                 MochiAd.unload(clip);
             }
             loader.contentLoaderInfo.addEventListener(Event.UNLOAD, g);
-            
+
             var req:URLRequest = new URLRequest(server + ".swf");
             req.contentType = "application/x-www-form-urlencoded";
             req.method = URLRequestMethod.POST;
             req.data = lv;
             loader.load(req);
             mc.addChild(loader);
+            /* load targetting swf */
             mc._mochiad_ctr = loader;
-            
-        
+                
             return mc;
         }
 
@@ -810,13 +827,22 @@ package {
             
                     clip:
                         a MovieClip reference (e.g. this.stage)
-            */
+            */            
             if (clip.clip && clip.clip._mochiad) {
                 clip = clip.clip;
             }
+            
+            if (clip.origFrameRate != undefined) {
+                clip.stage.frameRate = clip.origFrameRate;
+            }
+            
             if (!clip._mochiad) {
                 return false;
+            }  
+            if (clip._mochiad._containerLCName != undefined) {
+                    clip._mochiad.lc.send( clip._mochiad._containerLCName, 'notify', {id: 'unload'} );
             }
+            
             if (clip._mochiad.onUnload) {
                 clip._mochiad.onUnload();
             }
@@ -899,6 +925,77 @@ package {
             }
             return optcopy;
         }
+        
+        public static function rpc(clip:Object, callbackID:Number, arg:Object):void {
+            switch (arg.id) {
+                case 'setValue':
+                    MochiAd.setValue(clip, arg.objectName, arg.value);
+                    break;
+                case 'getValue':
+                    var val:Object = MochiAd.getValue(clip, arg.objectName);
+                    clip._mochiad.lc.send(clip._mochiad._containerLCName, 'rpcResult', callbackID, val);
+                    break;
+                case 'runMethod':
+                    var ret:Object = MochiAd.runMethod(clip, arg.method, arg.args);
+                    clip._mochiad.lc.send(clip._mochiad._containerLCName, 'rpcResult', callbackID, ret);
+                    break;
+                default:
+                    trace('[mochiads rpc] unknown rpc id: ' + arg.id);
+            }
+        }
+        
+        public static function setValue(base:Object, objectName:String, value:Object):void {
+            var nameArray:Array = objectName.split(".");
+            
+            // drill down through the base object until we get the parent class of object to modify
+            for (var i:Number = 0; i < nameArray.length - 1; i++) {
+                if (base[nameArray[i]] == undefined || base[nameArray[i]] == null) {
+                    return;
+                }
+                base = base[nameArray[i]];
+            }
+            
+            base[nameArray[i]] = value;
+        }
+        
+        public static function getValue(base:Object, objectName:String):Object {
+            var nameArray:Array = objectName.split(".");
+                        
+            // drill down through the base object until we get the parent class of object to modify
+            for (var i:Number = 0; i < nameArray.length - 1; i++) {
+                if (base[nameArray[i]] == undefined || base[nameArray[i]] == null) {
+                    return undefined;
+                }
+                base = base[nameArray[i]];
+            }
+            
+            // return the object requested
+            return base[nameArray[i]];
+        }
+        
+        public static function runMethod(base:Object, methodName:String, argsArray:Array):Object {
+            var nameArray:Array = methodName.split(".");
+                        
+            // drill down through the base object until we get the parent class of method to run
+            for (var i:Number = 0; i < nameArray.length - 1; i++) {
+                if (base[nameArray[i]] == undefined || base[nameArray[i]] == null) {
+                    return undefined;
+                }
+                base = base[nameArray[i]];
+            }
 
+            // run method
+            if (typeof(base[nameArray[i]]) == 'function') {
+                return base[nameArray[i]].apply(base, argsArray);
+            } else {
+                return undefined;
+            }
+        }
+        
+        public static function adShowing(mc:Object):void {
+            // set stage framerate to 30fps for the ad undo this later in the unload
+            mc.origFrameRate = mc.stage.frameRate;
+            mc.stage.frameRate = 30;
+        }
     }
 }

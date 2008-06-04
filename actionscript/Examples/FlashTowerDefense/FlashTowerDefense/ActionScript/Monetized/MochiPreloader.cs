@@ -65,6 +65,8 @@ namespace FlashTowerDefense.ActionScript.Monetized
         public bool _mochiad_loaded;
         public object _mochiad;
         public object clip;
+        public double origFrameRate;
+
         #endregion
 
         public MochiPreloader()

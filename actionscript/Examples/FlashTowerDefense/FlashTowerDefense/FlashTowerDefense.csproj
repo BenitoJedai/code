@@ -63,6 +63,7 @@
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\Preview.jpg" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\footsteps.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\screams1a.mp3" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\man2-horns_dead_1.png" />
@@ -92,9 +93,6 @@
   <ItemGroup>
     <None Include="tools\build.bat" />
     <None Include="web\MochiAd.as">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="web\Preloader.as">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
