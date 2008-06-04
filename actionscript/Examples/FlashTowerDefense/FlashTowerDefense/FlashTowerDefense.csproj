@@ -52,6 +52,8 @@
   <ItemGroup>
     <Compile Include="ActionScript\Assets.cs" />
     <Compile Include="ActionScript\FlashTowerDefense.cs" />
+    <Compile Include="ActionScript\Monetized\NewgroundPreloader.cs" />
+    <Compile Include="ActionScript\Monetized\NewgroundsAPI.cs" />
     <Compile Include="ActionScript\Monetized\MochiAd.cs" />
     <Compile Include="ActionScript\Monetized\MochiPreloader.cs" />
     <Compile Include="ActionScript\MyExtensions.cs" />
@@ -92,6 +94,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
+    <None Include="web\NewgroundsAPI.as">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="web\MochiAd.as">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

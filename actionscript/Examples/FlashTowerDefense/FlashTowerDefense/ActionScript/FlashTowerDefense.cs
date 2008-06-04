@@ -491,6 +491,9 @@ namespace FlashTowerDefense.ActionScript
 
         private void CreateFootsteps()
         {
+            if (this.parent == null)
+                return;
+
             var n = Assets.footsteps.ToBitmapAsset();
 
             n.x = x - n.width / 2;
