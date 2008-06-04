@@ -158,11 +158,20 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
             }
         }
 
+        private T[] ArrayReferenceCloned
+        {
+            get
+            {
+                return (T[])(object)this._items.slice();
+            }
+        }
+
+
         public T[] ToArray()
         {
             // testme: should return a new array
 
-            return new __List<T>(ArrayReference).ArrayReference;
+            return ArrayReferenceCloned;
         }
 
 

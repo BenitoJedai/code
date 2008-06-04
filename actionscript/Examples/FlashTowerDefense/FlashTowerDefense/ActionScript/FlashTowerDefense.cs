@@ -266,14 +266,19 @@ namespace FlashTowerDefense.ActionScript
                     size = 24
                 },
                 autoSize = TextFieldAutoSize.LEFT,
-                htmlText = "<a href='http://jsc.sf.net'>powered by <b>jsc</b></a>",
+                
+                // how to make a link
+                // http://www.actionscript.com/Article/tabid/54/ArticleID/actionscript-quick-tips-and-gotchas/Default.aspx
+                htmlText = "<a href='http://jsc.sf.net' target='_blank'>powered by <b>jsc</b></a>",
                 selectable = false,
                 filters = new[] { new BlurFilter() },
                 textColor = ColorBlack
             }.AttachTo(this);
 
             powered_by_jsc.y = Height - powered_by_jsc.height - 32;
+            
             powered_by_jsc.mouseOver +=
+
                 delegate
                 {
                     //warzone.alpha = 0.8;
