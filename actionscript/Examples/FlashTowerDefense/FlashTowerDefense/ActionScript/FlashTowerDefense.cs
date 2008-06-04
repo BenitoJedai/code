@@ -23,7 +23,7 @@ namespace FlashTowerDefense.ActionScript
     /// </summary>
     [Script, ScriptApplicationEntryPoint(Width = Width, Height = Height)]
     [SWF(width = Width, height = Height, backgroundColor = ColorWhite)]
-    public sealed class FlashTowerDefense : Sprite
+    public class FlashTowerDefense : Sprite
     {
         public const int Width = 640;
         public const int Height = 480;
