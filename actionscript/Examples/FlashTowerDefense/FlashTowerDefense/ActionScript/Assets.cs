@@ -14,6 +14,10 @@ namespace FlashTowerDefense.ActionScript
     {
         public const string Path = "/assets/FlashTowerDefense";
 
+        [Embed(source = Path + "/footsteps.png")]
+        public static Class footsteps;
+
+
         [Embed(source = Path + "/turret1-default.png")]
         public static Class turret1_default;
 

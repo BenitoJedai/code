@@ -27,6 +27,13 @@ namespace FlashTowerDefense.ActionScript
             return e;
         }
 
+        public static T RemoveFrom<T>(this T e, List<T> a)
+        {
+            a.Remove(e);
+
+            return e;
+        }
+
         public static Action ToAction(this Sound c)
         {
             return delegate { c.play(); };

@@ -22,15 +22,18 @@ namespace FlashTowerDefense.ActionScript
     /// testing...
     /// </summary>
     [Script, ScriptApplicationEntryPoint(Width = Width, Height = Height)]
-    [SWF(width = Width, height = Height, backgroundColor = WhiteColor)]
+    [SWF(width = Width, height = Height, backgroundColor = ColorWhite)]
     public sealed class FlashTowerDefense : Sprite
     {
         const int Width = 640;
         const int Height = 480;
 
-        const uint WhiteColor = 0xffffff;
+        const uint ColorWhite = 0xffffff;
+        const uint ColorBlue = 0x0000ff;
+        const uint ColorBlueDark = 0x000080;
+        const uint ColorBlueLight = 0x9090ff;
 
-        const int OffscreenMargin = 100;
+        const int OffscreenMargin = 32;
 
         public bool Gunfire = false;
 
@@ -39,10 +42,22 @@ namespace FlashTowerDefense.ActionScript
 
             var bg = new Sprite { x = 0, y = 0 };
 
-            bg.graphics.beginFill(0xffffff);
-            bg.graphics.drawRect(0, 0, Width, Height);
+            //bg.graphics.beginFill(0xffffff);
+            //bg.graphics.beginFill(0x808080);
+            //bg.graphics.drawRect(0, 0, Width / 2, Height);
 
-            bg.AttachTo(this);
+            
+
+            var warzone = new Sprite { x = 0, y = 0 };
+
+            warzone.graphics.beginFill(ColorWhite);
+            warzone.graphics.drawRect(-OffscreenMargin, -OffscreenMargin, Width + 2 * OffscreenMargin, Height + 2 * OffscreenMargin);
+
+
+            Func<DisplayObjectContainer> GetWarzone = () => warzone;
+
+            bg.AttachTo(GetWarzone());
+            warzone.AttachTo(this);
 
             var t = new TextField
             {
@@ -74,7 +89,7 @@ namespace FlashTowerDefense.ActionScript
             turret.x = (Width - turret.width) * 0.7;
             turret.y = (Height - turret.height) / 2;
 
-            turret.AttachTo(this);
+            turret.AttachTo(GetWarzone());
 
             var channel1 = default(SoundChannel);
 
@@ -123,7 +138,7 @@ namespace FlashTowerDefense.ActionScript
             aim.graphics.lineTo(0, 8);
 
             aim.filters = new[] { new DropShadowFilter() };
-            aim.AttachTo(this);
+            aim.AttachTo(GetWarzone());
 
             this.mouseDown +=
                 e =>
@@ -186,13 +201,7 @@ namespace FlashTowerDefense.ActionScript
             (1500).AtInterval(
                 delegate
                 {
-                    var s = new Sheep
-                    {
-                        x = -OffscreenMargin,
-                        y = Height.Random(),
-                        speed = 0.5 + 2.Random()
-                    }.AttachTo(this).AddTo(list);
-
+               
                     Action<Actor> AttachRules =
                         a =>
                         {
@@ -201,20 +210,33 @@ namespace FlashTowerDefense.ActionScript
                                 delegate
                                 {
                                     if (a.x > (Width + OffscreenMargin))
-                                        list.Remove(a);
+                                        a.RemoveFrom(list).Dipsose();
                                 };
+
+                            a.AttachTo(GetWarzone()).AddTo(list);
                         };
 
-                    AttachRules(s);
-
-                    var w = new Warrior
+                    // new actors if we got less 10 
+                    if (list.Where(i => i.IsAlive).Count() < 10)
                     {
-                        x = -OffscreenMargin,
-                        y = Height.Random(),
-                        speed = 1 + 2.Random()
-                    }.AttachTo(this).AddTo(list);
+                        AttachRules(
+                            new Sheep
+                            {
+                                x = -OffscreenMargin,
+                                y = Height.Random(),
+                                speed = 0.5 + 2.Random()
+                            }
+                        );
 
-                    AttachRules(w);
+                        AttachRules(
+                            new Warrior
+                            {
+                                x = -OffscreenMargin,
+                                y = Height.Random(),
+                                speed = 1 + 2.Random()
+                            }
+                        );
+                    }
                 }
             );
 
@@ -231,6 +253,45 @@ namespace FlashTowerDefense.ActionScript
                         s.x += s.speed;
                 }
             );
+
+            // lets create a hyperlink
+            var powered_by_jsc = new TextField
+            {
+
+                x = 32,
+                
+                defaultTextFormat = new TextFormat
+                {
+                    size = 24
+                },
+                autoSize = TextFieldAutoSize.LEFT,
+                htmlText = "<a href='http://jsc.sf.net'>powered by <b>jsc</b></a>",
+                selectable = false,
+                //filters = new[] { new DropShadowFilter() },
+                textColor = ColorBlue
+            }.AttachTo(this);
+
+            powered_by_jsc.y = Height - powered_by_jsc.height - 32;
+            powered_by_jsc.mouseOver +=
+                delegate
+                {
+                    warzone.alpha = 0.8;
+                    warzone.filters = new[] { new BlurFilter() };
+                    powered_by_jsc.htmlText = "<u><a href='http://jsc.sf.net'>powered by <b>jsc</b></a></u>";
+
+                    aim.visible = false;
+                };
+
+            powered_by_jsc.mouseOut +=
+                delegate
+                {
+                    powered_by_jsc.htmlText = "<a href='http://jsc.sf.net'>powered by <b>jsc</b></a>";
+
+                    warzone.alpha = 1;
+                    warzone.filters = null;
+                    
+                    aim.visible = true;
+                };
         }
 
         //[Script(IsDebugCode = true)]
@@ -320,11 +381,12 @@ namespace FlashTowerDefense.ActionScript
                 Die();
         }
 
-
+        readonly List<Bitmap> Footsteps = new List<Bitmap>();
 
         public Actor(Bitmap[] frames, Bitmap corpse, Bitmap blood, Sound death)
         {
             MakeSound = death.ToAction();
+
 
 
 
@@ -364,6 +426,12 @@ namespace FlashTowerDefense.ActionScript
                 );
             };
 
+            //this.Moved +=
+            //    delegate
+            //    {
+
+
+
             (1000 / 15).AtInterval(
                  t =>
                  {
@@ -385,12 +453,54 @@ namespace FlashTowerDefense.ActionScript
 
                              if (this.Moved != null)
                                  this.Moved();
+
+                             UpdateFootsteps();
                          }
                          else
                              v.Dipsose();
                      }
                  }
              );
+        }
+
+        private void UpdateFootsteps()
+        {
+            if (Footsteps.Count == 0)
+            {
+                CreateFootsteps();
+            }
+            else
+            {
+                var o = Footsteps.Last();
+
+                if ((o.x + o.width) < x)
+                {
+                    CreateFootsteps();
+                }
+            }
+        }
+
+        private void CreateFootsteps()
+        {
+            var n = Assets.footsteps.ToBitmapAsset();
+
+            n.x = x - n.width / 2;
+            n.y = y - n.height / 2;
+
+            n.AttachTo(this.parent).AddTo(Footsteps);
+
+            (500).AtInterval(
+                t =>
+                {
+                    n.alpha -= 0.1;
+
+                    if (n.alpha < 0.1)
+                    {
+                        n.RemoveFrom(Footsteps).Dipsose();
+                        t.stop();
+                    }
+                }
+            );
         }
 
 
