@@ -12,7 +12,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
     {
         public Array _items = new Array();
 
-        public __List() : this(null)
+        public __List()
+            : this(null)
         {
 
         }
@@ -51,11 +52,28 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
             get { return (int)_items.length; }
         }
 
+        [Script(OptimizedCode = "return a === b;")]
+        static private bool ReferenceEquals<A, B>(A a, B b)
+        {
+            return false;
+        }
+
         #region IList<T> Members
 
         public int IndexOf(T item)
         {
-            throw new NotImplementedException("");
+            var j = -1;
+
+            for (int i = 0; i < Count; i++)
+            {
+                if (ReferenceEquals(this[i], item))
+                {
+                    j = i;
+                    break;
+                }
+            }
+
+            return j;            
         }
 
         public void Insert(int index, T item)
@@ -65,18 +83,18 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
 
         public void RemoveAt(int index)
         {
-            throw new NotImplementedException("");
+            _items.splice(index, 1);
         }
 
         public T this[int index]
         {
             get
             {
-                throw new NotImplementedException("");
+                return ArrayReference[index];
             }
             set
             {
-                throw new NotImplementedException("");
+                ArrayReference[index] = value;
             }
         }
 
@@ -102,7 +120,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException("");
+            var i = IndexOf(item);
+
+            if (i < 0)
+                return false;
+
+            RemoveAt(i);
+
+            return true;
         }
 
         #endregion
@@ -125,9 +150,19 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
 
         #endregion
 
+        private T[] ArrayReference
+        {
+            get
+            {
+                return (T[])(object)this._items;
+            }
+        }
+
         public T[] ToArray()
         {
-            return (T[])(object)this._items;
+            // testme: should return a new array
+
+            return new __List<T>(ArrayReference).ArrayReference;
         }
 
 

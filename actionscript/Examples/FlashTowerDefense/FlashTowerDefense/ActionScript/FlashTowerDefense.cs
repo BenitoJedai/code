@@ -12,6 +12,7 @@ using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.Lambda;
 using System.Collections.Generic;
 using ScriptCoreLib.ActionScript.flash.ui;
+using ScriptCoreLib.ActionScript;
 
 
 namespace FlashTowerDefense.ActionScript
@@ -20,16 +21,24 @@ namespace FlashTowerDefense.ActionScript
     /// <summary>
     /// testing...
     /// </summary>
-    [Script, ScriptApplicationEntryPoint]
-    public class FlashTowerDefense : Sprite
+    [Script, ScriptApplicationEntryPoint(Width = Width, Height = Height)]
+    [SWF(width = Width, height = Height, backgroundColor = 0xffffff)]
+    public sealed class FlashTowerDefense : Sprite
     {
+        const int Width = 640;
+        const int Height = 480;
+
+
+
+        public bool Gunfire = false;
+
         public FlashTowerDefense()
         {
 
             var bg = new Sprite { x = 0, y = 0 };
 
             bg.graphics.beginFill(0xffffff);
-            bg.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
+            bg.graphics.drawRect(0, 0, Width, Height);
 
             bg.AttachTo(this);
 
@@ -47,10 +56,10 @@ namespace FlashTowerDefense.ActionScript
             t.AttachTo(this);
 
             Action<double, Action> Times =
-                (m, h) => (stage.stageWidth * stage.stageHeight * m).Times(h);
+                (m, h) => (Width * Height * m).Times(h);
 
             Action<double, Func<BitmapAsset>> AddDoodads =
-                (m, GetImage) => Times(m, () => GetImage().AttachTo(bg).SetCenteredPosition(stage.stageWidth.Random(), stage.stageHeight.Random()));
+                (m, GetImage) => Times(m, () => GetImage().AttachTo(bg).SetCenteredPosition(Width.Random(), Height.Random()));
 
             AddDoodads(0.0001, () => Assets.grass1.ToBitmapAsset());
             AddDoodads(0.00005, () => Assets.bump2.ToBitmapAsset());
@@ -60,8 +69,8 @@ namespace FlashTowerDefense.ActionScript
 
             var turret = Assets.turret1_default.ToBitmapAsset();
 
-            turret.x = (stage.stageWidth - turret.width) * 0.7;
-            turret.y = (stage.stageHeight - turret.height) / 2;
+            turret.x = (Width - turret.width) * 0.7;
+            turret.y = (Height - turret.height) / 2;
 
             turret.AttachTo(this);
 
@@ -69,7 +78,7 @@ namespace FlashTowerDefense.ActionScript
 
             var f = new[] { new GlowFilter() };
 
-            var Gunfire = false;
+
 
 
             var list = new List<Actor>();
@@ -86,7 +95,8 @@ namespace FlashTowerDefense.ActionScript
                             x = e.stageX.Round(),
                             y = e.stageY.Round(),
                             bullets = bullets,
-                            score = list.Where(i => !i.IsAlive).Count()
+                            score = list.Where(i => !i.IsAlive).Count(),
+                            actors = list.Count
                         }.ToString();
 
                     foreach (var s in
@@ -117,6 +127,9 @@ namespace FlashTowerDefense.ActionScript
                 e =>
                 {
 
+                    if (channel1 != null)
+                        channel1.stop();
+
                     channel1 = Assets.gunfire.ToSoundAsset().play(0, 999);
 
                     turret.filters = f;
@@ -140,18 +153,9 @@ namespace FlashTowerDefense.ActionScript
                         );
 
                 };
+            HoldFireOnMouseUp();
 
-            this.mouseUp +=
-                e =>
-                {
-                    Gunfire = false;
-                };
 
-            stage.mouseLeave +=
-                  e =>
-                  {
-                      Gunfire = false;
-                  };
 
             this.mouseMove +=
                 e =>
@@ -161,26 +165,42 @@ namespace FlashTowerDefense.ActionScript
                     CurrentTarget = e;
                 };
 
-            stage.scaleMode = StageScaleMode.NO_BORDER;
+
+            if (stage == null)
+            {
+
+                this.addedToStage +=
+                    delegate
+                    {
+                        stage.scaleMode = StageScaleMode.NO_BORDER;
+                    };
+            }
+            else
+                stage.scaleMode = StageScaleMode.NO_BORDER;
+
             Mouse.hide();
 
 
             (1500).AtInterval(
                 delegate
                 {
-                    new Sheep
+                    var s = new Sheep
                     {
                         x = -100,
-                        y = stage.stageHeight.Random(),
+                        y = Height.Random(),
                         speed = 0.5 + 2.Random()
                     }.AttachTo(this).AddTo(list);
 
-                    new Warrior
+                    s.CorpseAndBloodGone += () => list.Remove(s);
+
+                    var w = new Warrior
                     {
                         x = -100,
-                        y = stage.stageHeight.Random(),
+                        y = Height.Random(),
                         speed = 1 + 2.Random()
                     }.AttachTo(this).AddTo(list);
+
+                    w.CorpseAndBloodGone += () => list.Remove(w);
                 }
             );
 
@@ -197,6 +217,17 @@ namespace FlashTowerDefense.ActionScript
                         s.x += s.speed;
                 }
             );
+        }
+
+        //[Script(IsDebugCode = true)]
+        private void HoldFireOnMouseUp()
+        {
+
+            this.mouseUp +=
+                e =>
+                {
+                    Gunfire = false;
+                };
         }
     }
 
@@ -260,6 +291,8 @@ namespace FlashTowerDefense.ActionScript
         public readonly Action MakeSound;
         public readonly Action Die;
 
+        public event Action CorpseAndBloodGone;
+
         public double health = 100;
         public double speed = 0.5;
 
@@ -305,6 +338,10 @@ namespace FlashTowerDefense.ActionScript
                            delegate
                            {
                                blood.Dipsose();
+
+                               if (CorpseAndBloodGone != null)
+                                   CorpseAndBloodGone();
+
                            }
                        );
                     }

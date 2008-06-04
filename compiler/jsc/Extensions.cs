@@ -54,6 +54,11 @@ namespace jsc //.Extensions
             return ScriptAttribute.OfProvider(p);
         }
 
+        public static ScriptAttribute ToScriptAttributeOrDefault(this ICustomAttributeProvider p)
+        {
+            return ScriptAttribute.OfProvider(p) ?? new ScriptAttribute();
+        }
+
         public static bool IsDelegate(this Type z)
         {
             return z.BaseType == typeof(MulticastDelegate);

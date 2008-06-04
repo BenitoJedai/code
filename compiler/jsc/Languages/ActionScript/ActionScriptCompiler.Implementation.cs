@@ -516,6 +516,12 @@ namespace jsc.Languages.ActionScript
 
         public override void WriteTypeFieldModifier(FieldInfo zfn)
         {
+            // If the field is not public and also not used then we can ditch the public keywword
+            // until then we always need public because the field is used by other generated types
+
+            Write("public ");
+
+            /*
             if (zfn.IsPublic)
                 Write("public ");
             else
@@ -524,7 +530,7 @@ namespace jsc.Languages.ActionScript
                     Write("protected ");
                 else
                     Write("private ");
-            }
+            }*/
             /*
             if (zfn.IsInitOnly)
                 WriteKeywordFinal();

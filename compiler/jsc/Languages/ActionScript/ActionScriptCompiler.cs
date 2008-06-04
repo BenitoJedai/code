@@ -64,6 +64,9 @@ namespace jsc.Languages.ActionScript
                 //for (var i = b.First; i != null; i = i.Next)
                 foreach (var i in b.Instructrions)
                 {
+                    if (i == OpCodes.Nop)
+                        continue;
+
                     if (i == OpCodes.Castclass)
                     {
                         imp.Add(MySession.ResolveImplementation(i.ReferencedType));
@@ -72,7 +75,14 @@ namespace jsc.Languages.ActionScript
 
                     if (i == OpCodes.Call && i.ReferencedMethod != null)
                     {
-                        imp.Add(MySession.ResolveImplementation(i.ReferencedMethod.DeclaringType) ?? i.ReferencedMethod.DeclaringType);
+                        // jsc:actionscript allows to define new methods on native types
+                        // but the implementations must reside in a non-native static class
+                        // this is how the add event (+=) and remove event (-=) is made possible
+
+                        if (i.ReferencedMethod.ToScriptAttributeOrDefault().NotImplementedHere)
+                            imp.Add(MySession.ResolveImplementation(i.ReferencedMethod.DeclaringType, AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveNativeImplementationExtension) ?? i.ReferencedMethod.DeclaringType);
+                        else
+                            imp.Add(MySession.ResolveImplementation(i.ReferencedMethod.DeclaringType) ?? i.ReferencedMethod.DeclaringType);
 
                         continue;
                     }
