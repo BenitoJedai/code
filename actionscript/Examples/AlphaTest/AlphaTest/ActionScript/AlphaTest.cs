@@ -76,6 +76,10 @@ namespace AlphaTest.ActionScript
                     this.Add(e);
             }
 
+            public void Add(string key, n1.MyClass child)
+            {
+            }
+
             #region IDisposable Members
 
             public void Dispose()
@@ -104,7 +108,9 @@ namespace AlphaTest.ActionScript
             var c2 = new n2.MyClass 
             {
                 "hey",
-                "ho"
+                "ho",
+
+                { "c1", c1 }
             };
 
 
