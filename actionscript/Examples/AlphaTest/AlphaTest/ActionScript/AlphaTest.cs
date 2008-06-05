@@ -12,20 +12,23 @@ namespace AlphaTest.ActionScript
         [Script]
         public class MyClass : IEnumerable<string>
         {
-            public MyClass(): this("DefaultKey")
+            public MyClass()
+                : this("DefaultKey")
             {
-
+                // defines default .ctor values and must be empty
             }
 
-            public MyClass(string key) : this(key, "DefaultValue")
+            public MyClass(string key)
+                : this(key, "DefaultValue")
             {
-
+                // defines default .ctor values and must be empty
             }
 
             public MyClass(string key, string value)
             {
 
             }
+
 
 
             public void Add(string v)
@@ -59,22 +62,34 @@ namespace AlphaTest.ActionScript
         [Script]
         public class MyClass : n1.MyClass, IDisposable
         {
-            public MyClass() : this("DefaultValue2")
+            public MyClass()
+                : this("DefaultValue2")
             {
-
+                // defines default .ctor values and must be empty
             }
 
             public MyClass(string value2)
-                : base("DefaultKey2", value2)
-            { 
+                : this("DefaultKey2",
+                    // null
+                    new string[] { }
+                )
+            {
+                // defines default .ctor values and must be empty
             }
 
-           
+            public MyClass(string value2, params string[] values)
+                : base("DefaultKey2")
+            {
+                if (values != null)
+                    foreach (var e in values)
+                        this.Add(e);
+            }
+
             #region IDisposable Members
 
             public void Dispose()
             {
-                
+
             }
 
             #endregion
@@ -89,7 +104,7 @@ namespace AlphaTest.ActionScript
     {
         public AlphaTest()
         {
-            var c1 = new n1.MyClass ("key1")
+            var c1 = new n1.MyClass("key1")
             {
                 "hey",
                 "ho"

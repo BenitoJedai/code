@@ -1358,7 +1358,14 @@ namespace jsc.Languages.ActionScript
                 if (DefaultValues != null && mpi < DefaultValues.Length)
                 {
                     WriteAssignment();
-                    EmitInstruction(null, DefaultValues[mpi].SingleStackInstruction);
+
+                    // if the value aint literal we cannot use it with
+                    // the curent actionscript compiler
+
+                    if (DefaultValues[mpi].SingleStackInstruction.IsLiteral)
+                        EmitInstruction(null, DefaultValues[mpi].SingleStackInstruction);
+                    else
+                        WriteKeywordNull();
                 }
                 /*
                 if (za.Implements == null || m.DeclaringType.GUID != p.ParameterType.GUID)
@@ -1497,6 +1504,10 @@ namespace jsc.Languages.ActionScript
                 // visual basic can have optional parameters on its own, its c# that needs some help
                 // as3 does not support method overloading but does support default parameters
                 // we need to figure out which ctor is real and which are just sattelites
+
+                // default values should be extended to allow instance values
+                // a workaround could be:
+                // if (param == null) { param = UIComponent; } 
 
                 var query =
                     from c in zci

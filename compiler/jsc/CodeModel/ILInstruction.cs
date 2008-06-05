@@ -2502,6 +2502,14 @@ namespace jsc
                 return "type: " + OwnerMethod.DeclaringType.FullName + " offset: " + string.Format("0x{0:x4}", this.Offset) + "  method:" + OwnerMethod.ToString();
             }
         }
+
+        public bool IsLiteral
+        {
+            get
+            {
+                return false;
+            }
+        }
     }
 
 }
