@@ -1,1 +1,1 @@
-﻿FlashApplication. Crosscompiled from c# to actionscript.
+﻿FlashApplication. Crosscompiled from C# to ActionScript.
