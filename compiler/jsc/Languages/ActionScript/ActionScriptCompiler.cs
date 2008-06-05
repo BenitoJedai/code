@@ -1161,7 +1161,7 @@ namespace jsc.Languages.ActionScript
                         }
                     }
 
-           
+
 
                     Write("new ");
                     WriteDecoratedTypeNameOrImplementationTypeName(t, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, t));
@@ -1294,10 +1294,10 @@ namespace jsc.Languages.ActionScript
 
         public override void WriteMethodParameterList(MethodBase m)
         {
-            WriteMethodParameterList(m, null);
+            WriteMethodParameterList(m, null, null);
         }
 
-        public void WriteMethodParameterList(MethodBase m, ILFlow.StackItem[] DefaultValues)
+        public void WriteMethodParameterList(MethodBase m, ILFlow.StackItem[] DefaultValues, Action<Action> AddDefaultVariableInitializer)
         {
             ParameterInfo[] mp = m.GetParameters();
 
@@ -1346,11 +1346,10 @@ namespace jsc.Languages.ActionScript
 
                 ScriptAttribute za = ScriptAttribute.Of(m.DeclaringType, true);
 
-                // nameless params...
-                if (string.IsNullOrEmpty(p.Name))
-                    Write("_" + mpi);
-                else
-                    WriteDecoratedMethodParameter(p);
+                var ParamIndex = mpi;
+
+                // Nameless params is used by delegates and these parameters are not used
+                WriteMethodParameter(ParamIndex, p);
 
                 Write(":");
                 WriteDecoratedTypeNameOrImplementationTypeName(p.ParameterType, true, true, IsFullyQualifiedNamesRequired(m.DeclaringType, p.ParameterType));
@@ -1362,10 +1361,31 @@ namespace jsc.Languages.ActionScript
                     // if the value aint literal we cannot use it with
                     // the curent actionscript compiler
 
-                    if (DefaultValues[mpi].SingleStackInstruction.IsLiteral)
-                        EmitInstruction(null, DefaultValues[mpi].SingleStackInstruction);
+                    var DefaultValue = DefaultValues[mpi].SingleStackInstruction;
+
+                    if (DefaultValue.IsLiteral)
+                        EmitInstruction(null, DefaultValue);
                     else
+                    {
                         WriteKeywordNull();
+
+                        if (AddDefaultVariableInitializer == null)
+                            throw new NullReferenceException("AddDefaultVariableInitializer");
+
+                        AddDefaultVariableInitializer(
+                            delegate
+                            {
+                                WriteIdent();
+                                Write("if (");
+                                WriteMethodParameter(ParamIndex, p);
+                                Write(" == null) ");
+                                WriteMethodParameter(ParamIndex, p);
+                                WriteAssignment();
+                                EmitInstruction(null, DefaultValue);
+                                WriteLine(";");
+                            }
+                        );
+                    }
                 }
                 /*
                 if (za.Implements == null || m.DeclaringType.GUID != p.ParameterType.GUID)
@@ -1377,9 +1397,22 @@ namespace jsc.Languages.ActionScript
             }
         }
 
+        /// <summary>
+        /// Some parameters can be nameless which are used by delegates and these parameters are not used
+        /// </summary>
+        /// <param name="mpi"></param>
+        /// <param name="p"></param>
+        private void WriteMethodParameter(int mpi, ParameterInfo p)
+        {
+            if (string.IsNullOrEmpty(p.Name))
+                Write("_" + mpi);
+            else
+                WriteDecoratedMethodParameter(p);
+        }
+
         public void ConvertTypeAndEmit(CodeEmitArgs e, Type x)
         {
-            
+
             var s = e.i.StackBeforeStrict.Single().SingleStackInstruction;
 
             if (s.OpCode == OpCodes.Box)
@@ -1390,7 +1423,7 @@ namespace jsc.Languages.ActionScript
                 if ((MySession.ResolveImplementation(BoxParamType) ?? BoxParamType) == x)
                 {
                     Emit(e.p, BoxParam);
-                    
+
                     return;
                 }
             }
@@ -1398,7 +1431,7 @@ namespace jsc.Languages.ActionScript
             var r = s.ReferencedType;
             var ra = r.ToScriptAttribute();
 
-            
+
             if (r == x || (ra != null && ra.IsArray))
             {
                 EmitFirstOnStack(e);
@@ -1545,8 +1578,11 @@ namespace jsc.Languages.ActionScript
 
                 // now we should have one ctor and others that point to them
 
-                WriteMethodSignature(target, false, WriteMethodSignatureMode.Delcaring, args);
-                WriteMethodBody(target);
+                Action CustomVariableInitialization = delegate { };
+
+                WriteMethodSignature(target, false, WriteMethodSignatureMode.Delcaring, args, i => CustomVariableInitialization += i);
+                WriteMethodBody(target, this.MethodBodyFilter, CustomVariableInitialization);
+
 
             }
             else

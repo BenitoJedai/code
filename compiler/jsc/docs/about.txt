@@ -1,11 +1,11 @@
 [jsc compiler]
 
 compiles MSIL into 
+- actionscript
 - javascript
 - php 
 - java
 - ansi c
-- (actionscript?)
 - (vb6?)
 - (c#?)
 
@@ -89,3 +89,5 @@ version history:
 	actionscript: fixed type import detection
 26.05.2008
 	actionscript: added ScriptImportsTypeAttribute
+05.06.2008
+	actionscript: fixed handling default values while collapsing multiple constructors

@@ -68,21 +68,12 @@ namespace AlphaTest.ActionScript
                 // defines default .ctor values and must be empty
             }
 
-            public MyClass(string value2)
-                : this("DefaultKey2",
-                    // null
-                    new string[] { }
-                )
-            {
-                // defines default .ctor values and must be empty
-            }
 
             public MyClass(string value2, params string[] values)
                 : base("DefaultKey2")
             {
-                if (values != null)
-                    foreach (var e in values)
-                        this.Add(e);
+                foreach (var e in values)
+                    this.Add(e);
             }
 
             #region IDisposable Members

@@ -559,10 +559,10 @@ namespace jsc.Languages.ActionScript
 
         protected void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic, WriteMethodSignatureMode mode)
         {
-            WriteMethodSignature(m, dStatic, mode, null);
+            WriteMethodSignature(m, dStatic, mode, null, null);
         }
 
-        protected void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic, WriteMethodSignatureMode mode, ILFlow.StackItem[] DefaultValues)
+        protected void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic, WriteMethodSignatureMode mode, ILFlow.StackItem[] DefaultValues, Action<Action> AddDefaultVariableInitializer)
         {
 
             var DeclaringType = m.DeclaringType;
@@ -639,7 +639,7 @@ namespace jsc.Languages.ActionScript
             }
 
             Write("(");
-            WriteMethodParameterList(m, DefaultValues);
+            WriteMethodParameterList(m, DefaultValues, AddDefaultVariableInitializer);
             Write(")");
 
             var cctor = m as ConstructorInfo;

@@ -2020,6 +2020,26 @@ namespace jsc
             }
         }
 
+        public float? TargetFloat
+        {
+            get
+            {
+                if (this == OpCodes.Ldc_R4) return this.OpParamAsFloat;
+
+                return null;
+            }
+        }
+
+        public double? TargetDouble
+        {
+            get
+            {
+                if (this == OpCodes.Ldc_R8) return this.OpParamAsDouble;
+
+                return null;
+            }
+        }
+
         public FieldInfo TargetField
         {
             get
@@ -2507,9 +2527,28 @@ namespace jsc
         {
             get
             {
+                if (this.TargetInteger != null ||
+                    this.TargetLong != null ||
+                    this.TargetFloat != null ||
+                    this.TargetDouble != null)
+                    return true;
+
+                if (IsAnyOpCodeOf(OpCodes.Ldstr, OpCodes.Ldnull))
+                    return true;
+
+                if (IsAnyOpCodeOf(OpCodes.Newarr))
+                    return false;
+
+                // unknown situation
+
+                if (Debugger.IsAttached)
+                    Debugger.Break();
+
                 return false;
             }
         }
+
+
     }
 
 }

@@ -751,6 +751,11 @@ namespace jsc.Script
 
         public void WriteMethodBody(MethodBase m, Predicate<ILBlock.Prestatement> predicate)
         {
+            WriteMethodBody(m, predicate, null);
+        }
+
+        public void WriteMethodBody(MethodBase m, Predicate<ILBlock.Prestatement> predicate, Action CustomVariableInitialization)
+        {
             using (CreateScope())
             {
 
@@ -803,6 +808,8 @@ namespace jsc.Script
 
                         WriteMethodLocalVariables(xb);
 
+                        if (CustomVariableInitialization != null)
+                            CustomVariableInitialization();
 
                         DebugBreak(a);
 
