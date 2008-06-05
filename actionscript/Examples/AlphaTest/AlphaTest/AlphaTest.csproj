@@ -69,6 +69,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="tools\build.bat" />
     <None Include="tools\build.HelloWorld3.bat" />
     <None Include="tools\build.AlphaTest.bat" />
     <None Include="web\AlphaTest\ActionScript\HelloWorld3.as">
@@ -88,9 +89,8 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetFileName)  -as
-pushd ..\..\tools
-build.AlphaTest.bat
+    <PostBuildEvent>pushd ..\..\tools\
+call build.bat $(ProjectName)
 popd</PostBuildEvent>
   </PropertyGroup>
 </Project>
