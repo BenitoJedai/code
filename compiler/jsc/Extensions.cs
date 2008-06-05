@@ -13,6 +13,32 @@ namespace jsc //.Extensions
 {
     static class Extensions
     {
+        public static MethodInfo[] GetInstanceMethods(this Type z)
+        {
+            if (z == null)
+                return null;
+
+            return z.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
+        }
+
+        public static bool IsVirtualMethod(this MethodInfo v)
+        {
+            if (v.IsVirtual && v.IsHideBySig)
+                if ((v.Attributes & MethodAttributes.VtableLayoutMask) == 0)
+                    return true;
+
+            return false;
+        }
+
+        public static IEnumerable<MethodInfo> GetVirtualMethods(this Type t)
+        {
+            foreach (var v in t.GetInstanceMethods())
+            {
+                if (v.IsVirtualMethod())
+                    yield return v;
+            }
+        }
+
         public static ConstructorInfo GetStaticConstructor(this Type t)
         {
             return t.GetConstructor(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic, null, System.Type.EmptyTypes, null);
@@ -40,7 +66,7 @@ namespace jsc //.Extensions
         {
             return (
                         from i in e.GetMethods()
-                        where i.Name == "op_Explicit" && i.IsStatic && 
+                        where i.Name == "op_Explicit" && i.IsStatic &&
                             (ReturnType == null ? true : i.ReturnType == ReturnType)
                         let p = i.GetParameters()
                         where p.Length == 1 &&

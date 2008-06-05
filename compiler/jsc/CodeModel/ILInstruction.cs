@@ -2435,6 +2435,8 @@ namespace jsc
             return m.DeclaringType == this.TargetConstructor.DeclaringType;
         }
 
+    
+
         public bool IsOpCodeOf(params OpCode[] e)
         {
             return Helper.InArray(this.OpCode, e);

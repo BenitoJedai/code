@@ -284,6 +284,7 @@ namespace jsc.Script
 
         #region write
 
+
         public virtual void WriteDecoratedTypeName(Type context, Type subject)
         {
             MyWriter.Write(GetDecoratedTypeName(subject, true));

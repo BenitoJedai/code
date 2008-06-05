@@ -91,3 +91,4 @@ version history:
 	actionscript: added ScriptImportsTypeAttribute
 05.06.2008
 	actionscript: fixed handling default values while collapsing multiple constructors
+	actionscript: fixed static call type name clash

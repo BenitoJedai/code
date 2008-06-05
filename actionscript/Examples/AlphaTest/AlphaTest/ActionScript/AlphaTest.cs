@@ -29,7 +29,10 @@ namespace AlphaTest.ActionScript
 
             }
 
-
+            public virtual string Zune()
+            {
+                return "Original";
+            }
 
             public void Add(string v)
             {
@@ -76,6 +79,9 @@ namespace AlphaTest.ActionScript
                     this.Add(e);
             }
 
+            public string Name { get; set; }
+
+
             public void Add(string key, n1.MyClass child)
             {
             }
@@ -88,6 +94,23 @@ namespace AlphaTest.ActionScript
             }
 
             #endregion
+
+            public override string Zune()
+            {
+                return "Updated and " + base.Zune();
+            }
+
+            public static string VirtualOverride(n1.MyClass a, n2.MyClass b)
+            {
+                return
+                    new 
+                    {
+                        original = a.Zune(),
+                        updated_original = b.Zune() ,
+                        original2 = ((n1.MyClass)b).Zune()
+                    }.ToString();
+
+            }
         }
     }
 
@@ -97,6 +120,7 @@ namespace AlphaTest.ActionScript
     [Script, ScriptApplicationEntryPoint]
     public class AlphaTest : Sprite
     {
+
         public AlphaTest()
         {
             var c1 = new n1.MyClass("key1")
@@ -107,13 +131,21 @@ namespace AlphaTest.ActionScript
 
             var c2 = new n2.MyClass 
             {
+                
                 "hey",
                 "ho",
 
-                { "c1", c1 }
+                { "c1", c1 },
+                
             };
 
 
+            var c3 = new n2.MyClass
+            {
+                Name = "c3"
+            };
+
+            throw new Exception(n2.MyClass.VirtualOverride(c1, c2));
 
             for (var j = 0.0; j < 1; j += 0.1)
             {

@@ -142,6 +142,8 @@ namespace jsc.Languages.ActionScript
                         {
                             WriteInterfaceMappingMethods(z);
                         }
+
+                        WriteVirtualMethodOverrides(z);
                     }
 
                 }
@@ -151,6 +153,82 @@ namespace jsc.Languages.ActionScript
             }
 
             return true;
+        }
+
+        private void WriteVirtualMethodOverrides(Type z)
+        {
+            // override: http://blogs.adobe.com/kiwi/2006/05/as3_language_101_for_cc_coders_1.html
+
+
+            foreach (var tmethod in z.GetVirtualMethods())
+            {
+                var sa = tmethod.DeclaringType.ToScriptAttribute();
+
+                if (sa == null)
+                    continue;
+
+                var iparams = tmethod.GetParameters();
+                var vm = z.BaseType.GetMethod(tmethod.Name, tmethod.GetParameters().Select(p => p.ParameterType).ToArray());
+
+                WriteIdent();
+                WriteCommentLine("override a virtual member");
+
+                WriteMethodSignature(vm, false, WriteMethodSignatureMode.Overriding);
+
+                using (CreateScope())
+                {
+                    WriteIdent();
+
+                    if (vm.ReturnType != typeof(void))
+                    {
+                        WriteKeywordReturn();
+                        WriteSpace();
+                    }
+
+                    WriteThisReference();
+                    Write(".");
+
+                    // tmethod =
+                    #region prop
+                    {
+                        var prop = new PropertyDetector(tmethod);
+
+                        if (iparams.Length == 1 && prop.SetProperty != null
+                             && prop.SetProperty.GetSetMethod(true).GetParameters().Length == 1)
+                        {
+                            Write(prop.SetProperty.Name);
+                            WriteAssignment();
+                            WriteSafeLiteral(iparams.Single().Name);
+                        }
+                        else if (prop.GetProperty != null
+                              && prop.GetProperty.GetGetMethod(true).GetParameters().Length == 0)
+                        {
+                            Write(prop.GetProperty.Name);
+                        }
+                        else
+                        {
+                            WriteDecoratedMethodName(tmethod, false);
+                            Write("(");
+                            for (int i = 0; i < iparams.Length; i++)
+                            {
+                                if (i > 0)
+                                {
+                                    Write(",");
+                                    WriteSpace();
+                                }
+                                WriteSafeLiteral(iparams[i].Name);
+                            }
+                            Write(")");
+                        }
+                    }
+                    #endregion
+
+                    Write(";");
+                    WriteLine();
+                }
+
+            }
+
         }
 
         private Action WriteTypeStaticConstructor(Type z, ScriptAttribute za)
@@ -463,7 +541,7 @@ namespace jsc.Languages.ActionScript
 
                             WriteQuotedLiteral(value);
 
-                            
+
                         }
                         else if (f.FieldType == typeof(uint))
                         {
@@ -554,7 +632,8 @@ namespace jsc.Languages.ActionScript
         protected enum WriteMethodSignatureMode
         {
             Delcaring,
-            Implementing
+            Implementing,
+            Overriding
         }
 
         protected void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic, WriteMethodSignatureMode mode)
@@ -592,6 +671,11 @@ namespace jsc.Languages.ActionScript
                         // cannot use private as it blocks off delegates
                         Write("internal ");
                     }
+            }
+
+            if (mode == WriteMethodSignatureMode.Overriding)
+            {
+                Write("override ");
             }
 
             if (m.IsStatic || dStatic)
@@ -802,13 +886,13 @@ namespace jsc.Languages.ActionScript
 
             if (TargetMethod.IsStatic || IsDefineAsStatic)
             {
-                WriteDecoratedTypeName(TargetMethod.DeclaringType);
+                WriteDecoratedTypeName(i.OwnerMethod.DeclaringType, TargetMethod.DeclaringType);
                 Write(".");
 
                 #region prop
                 if (!IsDefineAsStatic)
                 {
-                 
+
 
                     var prop = new PropertyDetector(TargetMethod);
 
@@ -842,7 +926,15 @@ namespace jsc.Languages.ActionScript
                 }
                 else
                 {
-                    Emit(p, s[0]);
+                    if (!i.OwnerMethod.IsStatic && i.OwnerMethod.DeclaringType.IsSubclassOf(TargetMethod.DeclaringType) && s[0].SingleStackInstruction.OpCode == OpCodes.Ldarg_0)
+                    {
+                        Write("super");
+                    }
+                    else
+                    {
+                        Emit(p, s[0]);
+                    }
+
                     Write(".");
 
 
