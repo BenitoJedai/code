@@ -237,23 +237,6 @@ namespace FlashTowerDefense.ActionScript
                                    }
                                );
 
-                            AttachRules(
-                               new Sheep
-                               {
-                                   x = boss.x + 48,
-                                   y = boss.y + 24,
-                                   speed = boss.speed
-                               }
-                         );
-
-                            AttachRules(
-                                  new Sheep
-                                  {
-                                      x = boss.x + 48,
-                                      y = boss.y - 24,
-                                      speed = boss.speed
-                                  }
-                            );
 
                             var Minions = new List<Actor>();
 
@@ -269,16 +252,24 @@ namespace FlashTowerDefense.ActionScript
                             boss.CorpseGone +=
                                 delegate
                                 {
-                                   
-                                    AttachRules(
+
+                                    boss = AttachRules(
                                         new BossWarrior
                                         {
                                             x = boss.x,
                                             y = boss.y,
                                             speed = boss.speed / 2,
-                                            filters = boss.filters
+                                            filters = boss.filters,
+                                            IsBleeding = true
                                         }
                                     );
+
+                                    // if the respawned boss dies remove the glow
+                                    boss.Die +=
+                                        delegate
+                                        {
+                                            boss.filters = null;
+                                        };
                                 };
 
                             AttachRules(
@@ -550,6 +541,8 @@ namespace FlashTowerDefense.ActionScript
         public double health = 100;
         public double speed = 0.5;
 
+        public bool IsBleeding;
+
         public void AddDamage(double e)
         {
             health -= e;
@@ -670,6 +663,9 @@ namespace FlashTowerDefense.ActionScript
 
             n.x = x - n.width / 2;
             n.y = y - n.height / 2;
+
+            if (IsBleeding)
+                n.filters = new[] { new GlowFilter(0xff0000) };
 
             n.AttachTo(this.parent).AddTo(Footsteps);
 
