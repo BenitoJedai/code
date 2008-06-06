@@ -99,5 +99,25 @@ namespace FlashTowerDefense.ActionScript
         [Embed(source = Path + "/screams1a.mp3")]
         public static Class snd_man2;
 
+        // gunfire animation
+
+
+
+        [Embed(Path + "/turret1-gunfire-180-1.png")]
+        static Class img_turret1_gunfire_180_1;
+
+        [Embed(Path + "/turret1-gunfire-180-2.png")]
+        static Class img_turret1_gunfire_180_2;
+
+        [Embed(Path + "/turret1-gunfire-180-2.png")]
+        static Class img_turret1_gunfire_180_3;
+
+        public static Class[] img_turret1_gunfire_180 = new[] {
+            img_turret1_gunfire_180_1,
+            img_turret1_gunfire_180_2,
+            img_turret1_gunfire_180_3
+        };
+        
+       
     }
 }

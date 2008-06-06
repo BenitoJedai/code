@@ -182,7 +182,9 @@ namespace jsc.Script
 
             Write("(");
 
-            ScriptAttribute a = ScriptAttribute.Of(m);
+            var a = m.ToScriptAttribute();
+
+            
 
             bool pWritten = false;
 

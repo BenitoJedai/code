@@ -161,7 +161,7 @@ namespace jsc
 
             if (impl_type == null)
                 return null;
-          
+
 
             MethodBase b = null;
 
@@ -187,14 +187,14 @@ namespace jsc
             #region IsConstructor
             if (src_method.IsConstructor)
             {
-               // b = timpl.GetConstructor(t);
+                // b = timpl.GetConstructor(t);
 
                 foreach (ConstructorInfo v in timpl.GetConstructors(
                     BindingFlags.NonPublic | BindingFlags.Public |
                     BindingFlags.Instance //| BindingFlags.Static 
                     ))
                 {
-                     ParameterInfo[] vp = v.GetParameters();
+                    ParameterInfo[] vp = v.GetParameters();
 
                     if (vp.Length != t.Length)
                         continue;
@@ -213,6 +213,7 @@ namespace jsc
 
 
                     }
+
 
                     for (int i = 0; i < vp.Length; i++)
                     {
@@ -225,14 +226,14 @@ namespace jsc
                             if (src_type.GUID == t[i].GUID)
                                 continue;
 
-                        
+
                         goto skip;
 
                     }
 
                     b = v;
                     break;
-                skip:;
+                skip: ;
                 }
             }
             #endregion
@@ -242,7 +243,7 @@ namespace jsc
 
                 foreach (MethodInfo v in timpl.GetMethods(
                     BindingFlags.NonPublic | BindingFlags.Public |
-                    BindingFlags.Instance | BindingFlags.Static 
+                    BindingFlags.Instance | BindingFlags.Static
                     ))
                 {
                     if (v.Name != MethodName)
@@ -251,9 +252,9 @@ namespace jsc
                     ParameterInfo[] vp = v.GetParameters();
 
                     if (vp.Length != t.Length)
-                        if (Mode == ResolveImplementationDirectMode.ResolveNativeImplementationExtension && 
-                            t.Length + 1 == vp.Length && 
-                            v.IsStatic && !src_method.IsStatic && 
+                        if (Mode == ResolveImplementationDirectMode.ResolveNativeImplementationExtension &&
+                            t.Length + 1 == vp.Length &&
+                            v.IsStatic && !src_method.IsStatic &&
                             vp[0].ParameterType == src_method.DeclaringType)
                         {
                             vp = vp.Skip(1).ToArray();
@@ -263,18 +264,23 @@ namespace jsc
 
                     Type[] vpt = new Type[vp.Length];
 
+
+
+                    Func<Type, Type> ToGTD =
+                        i =>
+                            (i.IsGenericType && !i.IsGenericTypeDefinition)
+                            ? i.GetGenericTypeDefinition() : i;
+
                     for (int i = 0; i < vp.Length; i++)
                     {
-                        Type v2 = vp[i].ParameterType;
-
-                        if (v2.IsGenericType && !v2.IsGenericTypeDefinition)
-                            v2 = v2.GetGenericTypeDefinition();
-
-
-                        vpt[i] = v2;
+                        vpt[i] = ToGTD(vp[i].ParameterType);
 
 
                     }
+
+
+
+
 
                     for (int i = 0; i < vp.Length; i++)
                     {
@@ -294,17 +300,32 @@ namespace jsc
                             if (src_type.GUID == t_i.GUID)
                                 continue;
 
-                        
+
                         goto skip;
 
                     }
 
+                    Func<Type, bool> IsGenericParameter =
+                        i => i.IsGenericParameter || i.IsArray && i.GetElementType().IsGenericParameter;
+
+
+                    var SourceMethodReturnType = ToGTD(((MethodInfo)src_method).ReturnType);
+                    var CurrentMethodReturnType = ToGTD(v.ReturnType);
+
+                    if (!(IsGenericParameter(SourceMethodReturnType) && IsGenericParameter(CurrentMethodReturnType)))
+                        if (!(IsGenericParameter(SourceMethodReturnType) ^ IsGenericParameter(CurrentMethodReturnType)))
+                            if (SourceMethodReturnType != CurrentMethodReturnType)
+                                if (ResolveImplementation(SourceMethodReturnType, ResolveImplementationDirectMode.ResolveBCLImplementation) != CurrentMethodReturnType)
+                                    if (ResolveImplementation(CurrentMethodReturnType, ResolveImplementationDirectMode.ResolveBCLImplementation) != SourceMethodReturnType)
+                                        goto skip;
+
+
                     b = v;
                     break;
-                skip:;
+                skip: ;
                 }
 
-               
+
 
             }
 

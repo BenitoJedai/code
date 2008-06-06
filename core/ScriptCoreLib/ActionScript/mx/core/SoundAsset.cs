@@ -10,5 +10,6 @@ namespace ScriptCoreLib.ActionScript.mx.core
     [Script(IsNative = true)]
     public class SoundAsset : Sound, IFlexAsset
     {
+
     }
 }

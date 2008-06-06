@@ -9,5 +9,6 @@ namespace ScriptCoreLib.ActionScript.mx.core
     [Script(IsNative = true)]
     public class BitmapAsset : FlexBitmap, IFlexAsset
     {
+
     }
 }

@@ -13,12 +13,24 @@ namespace jsc //.Extensions
 {
     static class Extensions
     {
+        public static bool IsNativeTypeExtension(this Type z)
+        {
+            var za = z.ToScriptAttribute();
+
+            return za != null && za.Implements != null && za.Implements.ToScriptAttributeOrDefault().IsNative;
+        }
+
         public static MethodInfo[] GetInstanceMethods(this Type z)
         {
             if (z == null)
                 return null;
 
             return z.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
+        }
+
+        public static bool IsToString(this MethodInfo e)
+        {
+            return e.Name == "ToString" && e.GetParameters().Length == 0;
         }
 
         public static bool IsVirtualMethod(this MethodInfo v)

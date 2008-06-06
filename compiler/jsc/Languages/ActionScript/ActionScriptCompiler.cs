@@ -29,7 +29,7 @@ namespace jsc.Languages.ActionScript
         {
             if (v == null)
                 return;
-
+            
             var vs = v.ToScriptAttribute();
 
 
@@ -197,6 +197,8 @@ namespace jsc.Languages.ActionScript
             if (t.BaseType != null && t.BaseType != typeof(object))
                 imp.Add(MySession.ResolveImplementation(t.BaseType));
 
+            if (t == typeof(object))
+                return new Type[]{};
 
             if (t.BaseType == typeof(MulticastDelegate))
             {
@@ -493,10 +495,11 @@ namespace jsc.Languages.ActionScript
                         return;
                     }
 
-                    if (m.Name == "op_Implicit")
+                    if (m.Name == "op_Implicit" && !m.ToScriptAttributeOrDefault().NotImplementedHere)
                     {
+                        // native types cannot have operators defined unless they are using the NotImplementedHere flag
                         ScriptAttribute sa = ScriptAttribute.Of(m.DeclaringType, false);
-
+                        
                         if (sa != null && sa.IsNative)
                         {
                             // that implicit call is only for to help c# conversions
@@ -1334,6 +1337,8 @@ namespace jsc.Languages.ActionScript
                 //}
             }
 
+            DebugBreak(ma);
+
             for (int mpi = 0; mpi < mp.Length; mpi++)
             {
                 if (mpi > 0 || bStatic)
@@ -1346,13 +1351,20 @@ namespace jsc.Languages.ActionScript
 
                 ScriptAttribute za = ScriptAttribute.Of(m.DeclaringType, true);
 
+                
                 var ParamIndex = mpi;
 
                 // Nameless params is used by delegates and these parameters are not used
                 WriteMethodParameter(ParamIndex, p);
 
+                var ParameterType = p.ParameterType;
+
+                // A NativeExtension class should never define a variable to its type rather the native type
+                if (ParameterType == m.DeclaringType && m.DeclaringType.IsNativeTypeExtension())
+                    ParameterType = za.Implements;
+
                 Write(":");
-                WriteDecoratedTypeNameOrImplementationTypeName(p.ParameterType, true, true, IsFullyQualifiedNamesRequired(m.DeclaringType, p.ParameterType));
+                WriteDecoratedTypeNameOrImplementationTypeName(ParameterType, true, true, IsFullyQualifiedNamesRequired(m.DeclaringType, ParameterType));
 
                 if (DefaultValues != null && mpi < DefaultValues.Length)
                 {

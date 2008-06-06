@@ -64,7 +64,11 @@
     <Content Include="docs\about.txt" />
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
+    <Content Include="docs\feedback\2008.06.06.txt" />
     <Content Include="docs\help.txt" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\turret1-gunfire-180-1.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\turret1-gunfire-180-2.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\turret1-gunfire-180-3.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\Preview.jpg" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\footsteps.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\screams1a.mp3" />

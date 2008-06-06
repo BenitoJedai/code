@@ -145,6 +145,7 @@
     <Compile Include="ActionScript\Extensions\flash\media\Camera.cs" />
     <Compile Include="ActionScript\Extensions\flash\media\Microphone.cs" />
     <Compile Include="ActionScript\Extensions\flash\net\NetConnection.cs" />
+    <Compile Include="ActionScript\Extensions\Class.cs" />
     <Compile Include="ActionScript\flash\display\Shape.cs" />
     <Compile Include="ActionScript\flash\display\StageScaleMode.cs" />
     <Compile Include="ActionScript\flash\net\NetConnection.cs" />
@@ -404,6 +405,7 @@
     <Content Include="ActionScript\todo.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ActionScript\Extensions\mx\core\" />
     <Folder Include="ActionScript\mx\effects\effectClasses\" />
     <Folder Include="Documents\" />
   </ItemGroup>

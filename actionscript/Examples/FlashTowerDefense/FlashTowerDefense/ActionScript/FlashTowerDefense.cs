@@ -47,7 +47,7 @@ namespace FlashTowerDefense.ActionScript
             //bg.graphics.beginFill(0x808080);
             //bg.graphics.drawRect(0, 0, Width / 2, Height);
 
-            
+
 
             var warzone = new Sprite { x = 0, y = 0 };
 
@@ -202,7 +202,7 @@ namespace FlashTowerDefense.ActionScript
             (1500).AtInterval(
                 delegate
                 {
-               
+
                     Action<Actor> AttachRules =
                         a =>
                         {
@@ -260,13 +260,13 @@ namespace FlashTowerDefense.ActionScript
             {
 
                 x = 32,
-                
+
                 defaultTextFormat = new TextFormat
                 {
                     size = 24
                 },
                 autoSize = TextFieldAutoSize.LEFT,
-                
+
                 // how to make a link
                 // http://www.actionscript.com/Article/tabid/54/ArticleID/actionscript-quick-tips-and-gotchas/Default.aspx
                 htmlText = "<a href='http://jsc.sf.net' target='_blank'>powered by <b>jsc</b></a>",
@@ -276,7 +276,7 @@ namespace FlashTowerDefense.ActionScript
             }.AttachTo(this);
 
             powered_by_jsc.y = Height - powered_by_jsc.height - 32;
-            
+
             powered_by_jsc.mouseOver +=
 
                 delegate
@@ -298,7 +298,7 @@ namespace FlashTowerDefense.ActionScript
                     powered_by_jsc.textColor = ColorBlack;
                     //warzone.alpha = 1;
                     warzone.filters = null;
-                    
+
                     aim.visible = true;
                 };
         }
@@ -322,17 +322,18 @@ namespace FlashTowerDefense.ActionScript
         {
             get
             {
-                return new[]
+                return new BitmapAsset[]
                 {
-                    Assets.sheep1.ToBitmapAsset(),
-                    Assets.sheep2.ToBitmapAsset(),
-                    Assets.sheep3.ToBitmapAsset(),
-                    Assets.sheep4.ToBitmapAsset()
+                    Assets.sheep1,
+                    Assets.sheep2,
+                    Assets.sheep3,
+                    Assets.sheep4
                 };
             }
         }
+
         public Sheep()
-            : base(frames, Assets.sheep_corpse.ToBitmapAsset(), Assets.sheep_blood.ToBitmapAsset(), Assets.snd_sheep.ToSoundAsset())
+            : base(frames, Assets.sheep_corpse, Assets.sheep_blood, Assets.snd_sheep)
         {
 
         }
@@ -345,23 +346,38 @@ namespace FlashTowerDefense.ActionScript
         {
             get
             {
-                return new[]
+                return new Bitmap[]
                 {
-                    Assets.man2_horns1.ToBitmapAsset(),
-                    Assets.man2_horns2.ToBitmapAsset(),
-                    Assets.man2_horns3.ToBitmapAsset(),
-                    Assets.man2_horns4.ToBitmapAsset(),
-                    Assets.man2_horns5.ToBitmapAsset(),
-                    Assets.man2_horns6.ToBitmapAsset(),
-                    Assets.man2_horns7.ToBitmapAsset(),
-                    Assets.man2_horns8.ToBitmapAsset(),
-                    Assets.man2_horns9.ToBitmapAsset(),
+                    Assets.man2_horns1,
+                    Assets.man2_horns2,
+                    Assets.man2_horns3,
+                    Assets.man2_horns4,
+                    Assets.man2_horns5,
+                    Assets.man2_horns6,
+                    Assets.man2_horns7,
+                    Assets.man2_horns8,
+                    Assets.man2_horns9,
                 };
             }
         }
         public Warrior()
-            : base(frames, Assets.man2_horns_dead1.ToBitmapAsset(), Assets.man2_horns_dead2.ToBitmapAsset(), Assets.snd_man2.ToSoundAsset())
+            : base(frames, Assets.man2_horns_dead1, Assets.man2_horns_dead2, Assets.snd_man2)
         {
+
+        }
+    }
+
+    [Script]
+    class Animation : Sprite
+    {
+        readonly BitmapAsset StillFrame;
+        readonly BitmapAsset[] AnimatedFrames;
+
+        public Animation(Class StillFrame, params Class[] AnimatedFrames)
+        {
+            this.StillFrame = StillFrame;
+            this.AnimatedFrames = AnimatedFrames.Select(i => (BitmapAsset)i).ToArray();
+
 
         }
     }

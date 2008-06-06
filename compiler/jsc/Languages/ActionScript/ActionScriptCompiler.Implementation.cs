@@ -162,13 +162,29 @@ namespace jsc.Languages.ActionScript
 
             foreach (var tmethod in z.GetVirtualMethods())
             {
+                if (tmethod.IsToString())
+                    continue;
+
                 var sa = tmethod.DeclaringType.ToScriptAttribute();
 
                 if (sa == null)
                     continue;
 
                 var iparams = tmethod.GetParameters();
-                var vm = z.BaseType.GetMethod(tmethod.Name, tmethod.GetParameters().Select(p => p.ParameterType).ToArray());
+                var iparamstypes = tmethod.GetParameters().Select(p => p.ParameterType).ToArray();
+
+                var vm = z.BaseType.GetMethod(
+                    tmethod.Name,
+                    BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public,
+                    null,
+                    iparamstypes,
+                    null
+                );
+
+                if (vm == null)
+                {
+                    throw new NotImplementedException("cannot find override for " + tmethod.ToString());
+                }
 
                 WriteIdent();
                 WriteCommentLine("override a virtual member");
@@ -922,6 +938,8 @@ namespace jsc.Languages.ActionScript
             {
                 if (IsBaseConstructorCall)
                 {
+                    DebugBreak(p.DeclaringMethod.ToScriptAttribute());
+
                     Write("super");
                 }
                 else
