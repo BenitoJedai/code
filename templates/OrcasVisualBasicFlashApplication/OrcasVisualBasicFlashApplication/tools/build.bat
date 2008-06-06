@@ -1,25 +1,45 @@
+:mxmlc
 @echo off
 
-setlocal
-pushd ..\bin\release
 
 
 :: Dll name
-call c:\util\jsc\bin\jsc.exe %1.dll  -as
+@call :jsc %1
 
-pushd web
-
+if '%ERRORLEVEL%' == '-1' (
+    echo jsc failed.
+    goto :eof
+)
 :: Namespace name, type name
-call :mxmlc %1/ActionScript %1
-
-popd
-popd
-endlocal
+@call :mxmlc %1/ActionScript %1
 
 goto :eof
 
-:mxmlc 
+:jsc
+pushd ..\bin\debug
+
+call c:\util\jsc\bin\jsc.exe %1.dll  -as
+
+
+popd
+goto :eof
+
+:mxmlc
+@echo off
+pushd ..\bin\debug\web
+
+
+
+call :build %1 %2
+
+
+popd
+goto :eof
+
+:build
 echo - %2
 :: http://www.adobe.com/products/flex/sdk/
-call C:\util\flex2\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
+:: -compiler.verbose-stacktraces 
+:: call C:\util\flex2\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
+call C:\util\flex\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 goto :eof

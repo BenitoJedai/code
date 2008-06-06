@@ -108,8 +108,9 @@
     <Content Include="docs\about.txt" />
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
-    <EmbeddedResource Include="web\assets\OrcasVisualBasicScriptApplication\loadingBar.gif">
-    </EmbeddedResource>
+    <Content Include="web\assets\OrcasVisualBasicScriptApplication\loadingBar.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
