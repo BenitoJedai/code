@@ -1,0 +1,20 @@
+﻿A this time the game has already been published for feedback on the following sites:
+
+http://nonoba.com/zproxy/flashtowerdefense1
+http://www.newgrounds.com/portal/view/442655
+http://www.gamebalance.com/play_game.php?gname=FlashTowerDefense1
+
+Let's gather the requested missing features.
+
+see the bullets
+- make a colorer line from the turret to the mouse
+
+make sure everything appears on screen
+- add some trees on top and on bottom plus make the actors appear in between
+
+a challenge, a goal, the point 
+upgrade in between levels
+
+health 
+time
+
