@@ -118,6 +118,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
             return c;
         }
 
+        public static int Count<T>(this IEnumerable<T> e, Func<T, bool> w)
+        {
+            return e.Where(w).Count();
+        }
 
         public static TSource[] ToArray<TSource>(this IEnumerable<TSource> source)
         {

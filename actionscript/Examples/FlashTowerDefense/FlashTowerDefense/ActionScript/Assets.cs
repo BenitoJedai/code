@@ -110,7 +110,7 @@ namespace FlashTowerDefense.ActionScript
         [Embed(Path + "/turret1-gunfire-180-2.png")]
         static Class img_turret1_gunfire_180_2;
 
-        [Embed(Path + "/turret1-gunfire-180-2.png")]
+        [Embed(Path + "/turret1-gunfire-180-3.png")]
         static Class img_turret1_gunfire_180_3;
 
         public static Class[] img_turret1_gunfire_180_frames = new[] {
@@ -118,7 +118,28 @@ namespace FlashTowerDefense.ActionScript
             img_turret1_gunfire_180_2,
             img_turret1_gunfire_180_3
         };
-        
-       
+
+        // boss hello
+
+        [Embed(Path + "/ghoullaugh.mp3")]
+        public static Class snd_ghoullaugh;
+
+        // cactus
+
+        [Embed(Path + "/img_cactus_1.png")]
+        static Class img_cactus_1;
+
+        [Embed(Path + "/img_cactus_2.png")]
+        static Class img_cactus_2;
+
+        [Embed(Path + "/img_cactus_3.png")]
+        static Class img_cactus_3;
+
+        public static Class[] img_cactus = new[] {
+            img_cactus_1,
+            img_cactus_2,
+            img_cactus_3
+        };
+
     }
 }

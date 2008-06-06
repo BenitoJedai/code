@@ -20,10 +20,18 @@ namespace FlashTowerDefense.ActionScript
             return new Random().NextDouble() < e;
         }
 
+        public static T MoveTo<T>(this T e, double x, double y) where T : DisplayObject
+        {
+            e.x = x;
+            e.y = y;
+
+            return e;
+        }
+
         public static T MoveToCenter<T>(this T e) where T : DisplayObject
         {
-            e.x = e.width / 2;
-            e.y = e.height / 2;
+            e.x = -e.width / 2;
+            e.y = -e.height / 2;
 
             return e;
         }
@@ -104,6 +112,12 @@ namespace FlashTowerDefense.ActionScript
             e.y = y - e.height / 2;
 
             return e;
+        }
+
+     
+        public static double Random(this double e)
+        {
+            return new Random().NextDouble() * e;
         }
 
         public static double Random(this int e)

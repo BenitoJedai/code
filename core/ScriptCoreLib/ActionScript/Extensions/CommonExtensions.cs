@@ -77,11 +77,15 @@ namespace ScriptCoreLib.ActionScript.Extensions
 
         public static SoundAsset ToSoundAsset(this Class c)
         {
+            if (c == null) return null;
+
             return (SoundAsset)c.CreateType();
         }
 
         public static BitmapAsset ToBitmapAsset(this Class c)
         {
+            if (c == null) return null;
+
             return (BitmapAsset)c.CreateType();
         }
 

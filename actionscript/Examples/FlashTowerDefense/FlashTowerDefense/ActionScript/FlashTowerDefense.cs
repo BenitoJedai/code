@@ -28,6 +28,7 @@ namespace FlashTowerDefense.ActionScript
         public const int Width = 640;
         public const int Height = 480;
 
+        public const uint ColorRed = 0xff0000;
         public const uint ColorBlack = 0x000000;
         public const uint ColorWhite = 0xffffff;
         public const uint ColorBlue = 0x0000ff;
@@ -60,18 +61,77 @@ namespace FlashTowerDefense.ActionScript
             bg.AttachTo(GetWarzone());
             warzone.AttachTo(this);
 
-            var t = new TextField
+            #region create aim
+            var aim = new Shape();
+
+            aim.graphics.lineStyle(4, 0, 1);
+
+            aim.graphics.moveTo(-8, 0);
+            aim.graphics.lineTo(8, 0);
+
+            aim.graphics.moveTo(0, -8);
+            aim.graphics.lineTo(0, 8);
+
+            aim.filters = new[] { new DropShadowFilter() };
+            aim.AttachTo(GetWarzone());
+            #endregion
+
+
+            #region BlurWarzoneOnHover
+            Action<TextField, bool> BlurWarzoneOnHover =
+                (txt, HideAim) =>
+                {
+
+                    txt.mouseOver +=
+
+                        delegate
+                        {
+                            //warzone.alpha = 0.8;
+                            warzone.filters = new[] { new BlurFilter() };
+                            //powered_by_jsc.htmlText = "<u><a href='http://jsc.sf.net'>powered by <b>jsc</b></a></u>";
+                            txt.textColor = ColorBlue;
+                            txt.filters = null;
+
+                            if (HideAim)
+                                aim.visible = false;
+                        };
+
+                    txt.mouseOut +=
+                        delegate
+                        {
+                            //powered_by_jsc.htmlText = "<a href='http://jsc.sf.net'>powered by <b>jsc</b></a>";
+                            txt.filters = new[] { new BlurFilter() };
+                            txt.textColor = ColorBlack;
+                            //warzone.alpha = 1;
+                            warzone.filters = null;
+
+                            if (HideAim)
+                                aim.visible = true;
+                        };
+                };
+            #endregion
+
+
+            var ScoreBoard = new TextField
             {
                 x = 4,
                 y = 4,
                 width = 300,
                 height = 20,
-                mouseEnabled = false,
+                selectable = false,
+                defaultTextFormat = new TextFormat
+                {
+                    size = 24
+                },
+                autoSize = TextFieldAutoSize.LEFT,
+                filters = new[] { new BlurFilter() }
 
-                filters = new[] { new DropShadowFilter() }
             };
 
-            t.AttachTo(this);
+
+            BlurWarzoneOnHover(ScoreBoard, false);
+
+
 
             Action<double, Action> Times =
                 (m, h) => (Width * Height * m).Times(h);
@@ -84,11 +144,30 @@ namespace FlashTowerDefense.ActionScript
 
             var music = Assets.world.ToSoundAsset().play(0, 999);
 
+            Func<Animation> AddCactus = () =>
+                new Animation(null, Assets.img_cactus)
+                {
+                    FrameRate = 1000 / 7,
+                    AnimationEnabled = true
+                };
 
+
+
+
+            Action<double> AddCactusAt = y =>
+                {
+                    var x = Width.Random();
+
+                    AddCactus().AttachTo(GetWarzone()).MoveTo(
+                        x, y + Math.Cos(x + y) * Height * 0.03);
+                };
+
+            (3 + 3.Random()).Times(AddCactusAt.FixParam(Height * 0.06));
+            (3 + 3.Random()).Times(AddCactusAt.FixParam(Height * 0.94));
 
             turret = new Animation(Assets.img_turret1_gunfire_180, Assets.img_turret1_gunfire_180_frames);
 
-            turret.x = (Width - turret.width) * 0.7;
+            turret.x = (Width - turret.width) * 0.9;
             turret.y = (Height - turret.height) / 2;
 
             turret.AttachTo(GetWarzone());
@@ -102,21 +181,29 @@ namespace FlashTowerDefense.ActionScript
 
             var list = new List<Actor>();
             var bullets = 0;
+            var runaways = 0;
+            var score = 0;
+
+            Action UpdateScoreBoard =
+                delegate
+                {
+                    ScoreBoard.text =
+                        new
+                        {
+                            bullets,
+                            runaways,
+                            gore = (100 * (double)list.Count(i => !i.IsAlive) / (double)list.Count()).Round() + "%",
+                            score,
+                        }.ToString();
+                };
 
             Action<MouseEvent> DoGunFire =
                 e =>
                 {
                     bullets--;
 
-                    t.text =
-                        new
-                        {
-                            x = e.stageX.Round(),
-                            y = e.stageY.Round(),
-                            bullets = bullets,
-                            score = list.Where(i => !i.IsAlive).Count(),
-                            actors = list.Count
-                        }.ToString();
+                    UpdateScoreBoard();
+
 
                     foreach (var s in
                    from ss in list
@@ -129,18 +216,6 @@ namespace FlashTowerDefense.ActionScript
             var CurrentTarget = default(MouseEvent);
             var CurrentTargetTimer = default(Timer);
 
-            var aim = new Shape();
-
-            aim.graphics.lineStyle(4, 0, 1);
-
-            aim.graphics.moveTo(-8, 0);
-            aim.graphics.lineTo(8, 0);
-
-            aim.graphics.moveTo(0, -8);
-            aim.graphics.lineTo(0, 8);
-
-            aim.filters = new[] { new DropShadowFilter() };
-            aim.AttachTo(GetWarzone());
 
             this.mouseDown +=
                 e =>
@@ -203,6 +278,10 @@ namespace FlashTowerDefense.ActionScript
             Mouse.hide();
 
 
+            Func<double> GetEntryPointY = () => (Height * 0.8).Random() + Height * 0.1;
+
+
+
             (1500).AtInterval(
                 delegate
                 {
@@ -210,29 +289,49 @@ namespace FlashTowerDefense.ActionScript
                     Func<Actor, Actor> AttachRules =
                         a =>
                         {
+                            if (a == null)
+                                throw new Exception("AttachRules");
+
                             a.CorpseAndBloodGone += () => list.Remove(a);
                             a.Moved +=
                                 delegate
                                 {
                                     if (a.x > (Width + OffscreenMargin))
+                                    {
                                         a.RemoveFrom(list).Orphanize();
-                                };
 
+                                        runaways++;
+
+                                        ScoreBoard.textColor = ColorRed;
+                                        UpdateScoreBoard();
+
+                                        a.IsAlive = false;
+                                        // this one was able to run away
+                                    }
+                                };
+                            a.Die +=
+                                delegate
+                                {
+                                    score += a.ScoreValue;
+                                    UpdateScoreBoard();
+                                };
                             a.AttachTo(GetWarzone()).AddTo(list);
+                            a.PlayHelloSound();
 
                             return a;
                         };
 
                     // new actors if we got less 10 
-                    if (list.Where(i => i.IsAlive).Count() < 10)
+                    if (list.Where(i => i.IsAlive).Count() < 8)
                     {
-                        if (0.1.ByChance())
+                        if (0.2.ByChance())
                         {
+                            #region create boss
                             var boss = AttachRules(
                                    new BossWarrior
                                    {
                                        x = -OffscreenMargin,
-                                       y = Height.Random(),
+                                       y = GetEntryPointY(),
                                        speed = 1 + 2.Random(),
                                    }
                                );
@@ -248,12 +347,64 @@ namespace FlashTowerDefense.ActionScript
 
                                 };
 
+                            #region create minnions
+                            Func<double, Actor> CreateMinionWarriorByArc =
+                                             arc =>
+                                               new Warrior
+                                               {
+                                                   x = boss.x + Math.Cos(arc) * 96,
+                                                   y = boss.y + Math.Sin(arc) * 96 / 2,
+                                                   speed = boss.speed
+                                               };
+
+                            Func<double, Actor> CreateMinionByArc =
+                                arc =>
+                                  new Sheep
+                                  {
+                                      x = boss.x + Math.Cos(arc) * 64,
+                                      y = boss.y + Math.Sin(arc) * 64 / 2,
+                                      speed = boss.speed
+                                  };
+
+
+                            if (0.3.ByChance())
+                            {
+                                // boss with 2 minions
+                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0.15)).AddTo(Minions);
+                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0.85)).AddTo(Minions);
+                            }
+                            else if (0.3.ByChance())
+                            {
+                                // boss with 3 minions
+                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0.20)).AddTo(Minions);
+                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0)).AddTo(Minions);
+                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0.80)).AddTo(Minions);
+                            }
+                            else if (0.3.ByChance())
+                            {
+                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0.15)).AddTo(Minions);
+                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0.25)).AddTo(Minions);
+                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0.85)).AddTo(Minions);
+                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0.75)).AddTo(Minions);
+                            }
+                            else
+                            {
+                                AttachRules(CreateMinionWarriorByArc((Math.PI * 2) * 0.3)).AddTo(Minions);
+                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0.15)).AddTo(Minions);
+                                AttachRules(CreateMinionWarriorByArc((Math.PI * 2) * 0.0)).AddTo(Minions);
+                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0.85)).AddTo(Minions);
+                                AttachRules(CreateMinionWarriorByArc((Math.PI * 2) * 0.7)).AddTo(Minions);
+                            }
+
+                            #endregion
+
                             // respawn the boss
                             boss.CorpseGone +=
                                 delegate
                                 {
 
-                                    boss = AttachRules(
+
+                                    var newboss = AttachRules(
                                         new BossWarrior
                                         {
                                             x = boss.x,
@@ -264,31 +415,20 @@ namespace FlashTowerDefense.ActionScript
                                         }
                                     );
 
+                                    // remove the glow from the old boss cuz we respawned
+                                    boss.filters = null;
+
+
+
                                     // if the respawned boss dies remove the glow
-                                    boss.Die +=
+                                    newboss.Die +=
                                         delegate
                                         {
-                                            boss.filters = null;
+                                            newboss.filters = null;
                                         };
                                 };
+                            #endregion
 
-                            AttachRules(
-                                  new Sheep
-                                  {
-                                      x = boss.x + 48,
-                                      y = boss.y + 24,
-                                      speed = boss.speed
-                                  }
-                            ).AddTo(Minions);
-
-                            AttachRules(
-                                  new Sheep
-                                  {
-                                      x = boss.x + 48,
-                                      y = boss.y - 24,
-                                      speed = boss.speed
-                                  }
-                            ).AddTo(Minions);
                         }
                         else
                         {
@@ -298,7 +438,7 @@ namespace FlashTowerDefense.ActionScript
                                     new Warrior
                                     {
                                         x = -OffscreenMargin,
-                                        y = Height.Random(),
+                                        y = GetEntryPointY(),
                                         speed = 1 + 2.Random()
                                     }
                                 );
@@ -309,13 +449,14 @@ namespace FlashTowerDefense.ActionScript
                                     new Sheep
                                     {
                                         x = -OffscreenMargin,
-                                        y = Height.Random(),
+                                        y = GetEntryPointY(),
                                         speed = 0.5 + 2.Random()
                                     }
                                 );
                             }
                         }
 
+                        UpdateScoreBoard();
                     }
                 }
             );
@@ -354,32 +495,11 @@ namespace FlashTowerDefense.ActionScript
                 textColor = ColorBlack
             }.AttachTo(this);
 
+            ScoreBoard.AttachTo(this);
+
             powered_by_jsc.y = Height - powered_by_jsc.height - 32;
 
-            powered_by_jsc.mouseOver +=
-
-                delegate
-                {
-                    //warzone.alpha = 0.8;
-                    warzone.filters = new[] { new BlurFilter() };
-                    //powered_by_jsc.htmlText = "<u><a href='http://jsc.sf.net'>powered by <b>jsc</b></a></u>";
-                    powered_by_jsc.textColor = ColorBlue;
-                    powered_by_jsc.filters = null;
-
-                    aim.visible = false;
-                };
-
-            powered_by_jsc.mouseOut +=
-                delegate
-                {
-                    //powered_by_jsc.htmlText = "<a href='http://jsc.sf.net'>powered by <b>jsc</b></a>";
-                    powered_by_jsc.filters = new[] { new BlurFilter() };
-                    powered_by_jsc.textColor = ColorBlack;
-                    //warzone.alpha = 1;
-                    warzone.filters = null;
-
-                    aim.visible = true;
-                };
+            BlurWarzoneOnHover(powered_by_jsc, true);
         }
 
         //[Script(IsDebugCode = true)]
@@ -421,11 +541,16 @@ namespace FlashTowerDefense.ActionScript
     [Script]
     class BossWarrior : Warrior
     {
+
         public BossWarrior()
         {
+            ScoreValue = 4;
+
             filters = new[] { new GlowFilter((uint)new Random().Next()) };
 
+            PlayHelloSound = () => Assets.snd_ghoullaugh.ToSoundAsset().play();
         }
+
     }
 
     [Script]
@@ -464,6 +589,8 @@ namespace FlashTowerDefense.ActionScript
 
         Timer _Timer;
 
+        public int FrameRate = (1000 / 15);
+
         public bool AnimationEnabled
         {
             get
@@ -483,7 +610,7 @@ namespace FlashTowerDefense.ActionScript
 
                 if (value)
                 {
-                    _Timer = (1000 / 15).AtInterval(
+                    _Timer = FrameRate.AtInterval(
                         delegate
                         {
                             Clear();
@@ -492,21 +619,26 @@ namespace FlashTowerDefense.ActionScript
                         }
                     );
 
-                    ShowCurrentFrame();
                 }
-                else
-                    StillFrame.AttachTo(this).MoveToCenter();
+
+                ShowCurrentFrame();
+
             }
         }
 
         private void ShowCurrentFrame()
         {
-            AnimatedFrames[_Timer.currentCount % AnimatedFrames.Length].AttachTo(this).MoveToCenter();
+            if (AnimationEnabled)
+                AnimatedFrames[_Timer.currentCount % AnimatedFrames.Length].AttachTo(this).MoveToCenter();
+            else
+                if (this.StillFrame != null)
+                    this.StillFrame.AttachTo(this).MoveToCenter();
         }
 
         void Clear()
         {
-            StillFrame.Orphanize();
+            if (this.StillFrame != null)
+                this.StillFrame.Orphanize();
 
             foreach (var v in AnimatedFrames)
             {
@@ -518,9 +650,10 @@ namespace FlashTowerDefense.ActionScript
         public Animation(Class StillFrame, params Class[] AnimatedFrames)
         {
             this.StillFrame = StillFrame;
+
             this.AnimatedFrames = AnimatedFrames.Select(i => (BitmapAsset)i).ToArray();
 
-            this.StillFrame.AttachTo(this).MoveToCenter();
+            ShowCurrentFrame();
         }
     }
 
@@ -528,6 +661,8 @@ namespace FlashTowerDefense.ActionScript
     [Script]
     class Actor : Sprite
     {
+        public int ScoreValue = 1;
+
         public bool IsAlive = true;
 
         public event Action MakeSound;
@@ -542,6 +677,9 @@ namespace FlashTowerDefense.ActionScript
         public double speed = 0.5;
 
         public bool IsBleeding;
+
+        public Action PlayHelloSound = delegate { };
+
 
         public void AddDamage(double e)
         {
