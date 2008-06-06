@@ -69,6 +69,8 @@ namespace FlashTowerDefense.ActionScript.Monetized
 
         #endregion
 
+        public string _mochiads_game_id = "408b0484d7f64aad";
+
         public MochiPreloader()
         {
             loaderInfo.ioError +=
@@ -80,7 +82,7 @@ namespace FlashTowerDefense.ActionScript.Monetized
             new Options
             {
                 clip = this,
-                id = "408b0484d7f64aad",
+                id = _mochiads_game_id,
                 res = "640x480",
                 ad_finished =
                     delegate

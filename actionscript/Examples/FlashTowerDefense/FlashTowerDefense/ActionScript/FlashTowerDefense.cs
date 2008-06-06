@@ -114,19 +114,20 @@ namespace FlashTowerDefense.ActionScript
 
             var ScoreBoard = new TextField
             {
-                x = 4,
-                y = 4,
-                width = 300,
-                height = 20,
-                selectable = false,
+                x = 24,
+                y = 24,
+                
                 defaultTextFormat = new TextFormat
                 {
                     size = 24
                 },
                 autoSize = TextFieldAutoSize.LEFT,
-                filters = new[] { new BlurFilter() }
-
+                filters = new[] { new BlurFilter() },
+                text = "Defend yourself by shooting those mad sheep.",
+                selectable = false,
             };
+
+            ScoreBoard.AttachTo(this);
 
 
             BlurWarzoneOnHover(ScoreBoard, false);
