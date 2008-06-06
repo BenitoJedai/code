@@ -66,6 +66,7 @@
     <Content Include="docs\description.txt" />
     <Content Include="docs\feedback\2008.06.06.txt" />
     <Content Include="docs\help.txt" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\turret1-gunfire-180.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\turret1-gunfire-180-1.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\turret1-gunfire-180-2.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\turret1-gunfire-180-3.png" />

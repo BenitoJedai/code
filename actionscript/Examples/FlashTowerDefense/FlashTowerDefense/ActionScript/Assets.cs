@@ -101,7 +101,8 @@ namespace FlashTowerDefense.ActionScript
 
         // gunfire animation
 
-
+        [Embed(Path + "/turret1-gunfire-180.png")]
+        public static Class img_turret1_gunfire_180;
 
         [Embed(Path + "/turret1-gunfire-180-1.png")]
         static Class img_turret1_gunfire_180_1;
@@ -112,7 +113,7 @@ namespace FlashTowerDefense.ActionScript
         [Embed(Path + "/turret1-gunfire-180-2.png")]
         static Class img_turret1_gunfire_180_3;
 
-        public static Class[] img_turret1_gunfire_180 = new[] {
+        public static Class[] img_turret1_gunfire_180_frames = new[] {
             img_turret1_gunfire_180_1,
             img_turret1_gunfire_180_2,
             img_turret1_gunfire_180_3

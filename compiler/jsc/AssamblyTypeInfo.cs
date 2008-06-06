@@ -312,12 +312,11 @@ namespace jsc
                     var SourceMethodReturnType = ToGTD(((MethodInfo)src_method).ReturnType);
                     var CurrentMethodReturnType = ToGTD(v.ReturnType);
 
-                    if (!(IsGenericParameter(SourceMethodReturnType) && IsGenericParameter(CurrentMethodReturnType)))
-                        if (!(IsGenericParameter(SourceMethodReturnType) ^ IsGenericParameter(CurrentMethodReturnType)))
-                            if (SourceMethodReturnType != CurrentMethodReturnType)
-                                if (ResolveImplementation(SourceMethodReturnType, ResolveImplementationDirectMode.ResolveBCLImplementation) != CurrentMethodReturnType)
-                                    if (ResolveImplementation(CurrentMethodReturnType, ResolveImplementationDirectMode.ResolveBCLImplementation) != SourceMethodReturnType)
-                                        goto skip;
+                    if (!(IsGenericParameter(SourceMethodReturnType) || IsGenericParameter(CurrentMethodReturnType)))
+                        if (SourceMethodReturnType != CurrentMethodReturnType)
+                            if (ResolveImplementation(SourceMethodReturnType, ResolveImplementationDirectMode.ResolveBCLImplementation) != CurrentMethodReturnType)
+                                if (ResolveImplementation(CurrentMethodReturnType, ResolveImplementationDirectMode.ResolveBCLImplementation) != SourceMethodReturnType)
+                                    goto skip;
 
 
                     b = v;

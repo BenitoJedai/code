@@ -15,6 +15,19 @@ namespace FlashTowerDefense.ActionScript
     [Script]
     static class MyExtensions
     {
+        public static bool ByChance(this double e)
+        {
+            return new Random().NextDouble() < e;
+        }
+
+        public static T MoveToCenter<T>(this T e) where T : DisplayObject
+        {
+            e.x = e.width / 2;
+            e.y = e.height / 2;
+
+            return e;
+        }
+
         public static int ToInt32(this double e)
         {
             return Convert.ToInt32(e);
@@ -62,7 +75,7 @@ namespace FlashTowerDefense.ActionScript
             return t;
         }
 
-        public static void Dipsose(this DisplayObject e)
+        public static void Orphanize(this DisplayObject e)
         {
             if (e.parent != null)
                 e.parent.removeChild(e);

@@ -708,6 +708,8 @@ namespace jsc.Languages.ActionScript
                 OpCodes.Ldarg_2,
                 OpCodes.Ldarg_3,
                 OpCodes.Ldarg_S,
+                OpCodes.Ldarga,
+                OpCodes.Ldarga_S,
                 OpCodes.Ldarg] =
                 e =>
                 {

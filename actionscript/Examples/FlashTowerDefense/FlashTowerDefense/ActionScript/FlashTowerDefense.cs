@@ -36,7 +36,7 @@ namespace FlashTowerDefense.ActionScript
 
         const int OffscreenMargin = 32;
 
-        public bool Gunfire = false;
+        Animation turret;
 
         public FlashTowerDefense()
         {
@@ -85,7 +85,8 @@ namespace FlashTowerDefense.ActionScript
             var music = Assets.world.ToSoundAsset().play(0, 999);
 
 
-            var turret = Assets.turret1_default.ToBitmapAsset();
+
+            turret = new Animation(Assets.img_turret1_gunfire_180, Assets.img_turret1_gunfire_180_frames);
 
             turret.x = (Width - turret.width) * 0.7;
             turret.y = (Height - turret.height) / 2;
@@ -151,14 +152,17 @@ namespace FlashTowerDefense.ActionScript
                     channel1 = Assets.gunfire.ToSoundAsset().play(0, 999);
 
                     turret.filters = f;
-                    Gunfire = true;
+
+                    turret.AnimationEnabled = true;
+
+
 
                     CurrentTarget = e;
                     CurrentTargetTimer =
                         (1000 / 10).AtInterval(
                             delegate
                             {
-                                if (!Gunfire)
+                                if (!turret.AnimationEnabled)
                                 {
                                     CurrentTargetTimer.stop();
                                     channel1.stop();
@@ -203,7 +207,7 @@ namespace FlashTowerDefense.ActionScript
                 delegate
                 {
 
-                    Action<Actor> AttachRules =
+                    Func<Actor, Actor> AttachRules =
                         a =>
                         {
                             a.CorpseAndBloodGone += () => list.Remove(a);
@@ -211,32 +215,116 @@ namespace FlashTowerDefense.ActionScript
                                 delegate
                                 {
                                     if (a.x > (Width + OffscreenMargin))
-                                        a.RemoveFrom(list).Dipsose();
+                                        a.RemoveFrom(list).Orphanize();
                                 };
 
                             a.AttachTo(GetWarzone()).AddTo(list);
+
+                            return a;
                         };
 
                     // new actors if we got less 10 
                     if (list.Where(i => i.IsAlive).Count() < 10)
                     {
-                        AttachRules(
-                            new Sheep
-                            {
-                                x = -OffscreenMargin,
-                                y = Height.Random(),
-                                speed = 0.5 + 2.Random()
-                            }
-                        );
+                        if (0.1.ByChance())
+                        {
+                            var boss = AttachRules(
+                                   new BossWarrior
+                                   {
+                                       x = -OffscreenMargin,
+                                       y = Height.Random(),
+                                       speed = 1 + 2.Random(),
+                                   }
+                               );
 
-                        AttachRules(
-                            new Warrior
+                            AttachRules(
+                               new Sheep
+                               {
+                                   x = boss.x + 48,
+                                   y = boss.y + 24,
+                                   speed = boss.speed
+                               }
+                         );
+
+                            AttachRules(
+                                  new Sheep
+                                  {
+                                      x = boss.x + 48,
+                                      y = boss.y - 24,
+                                      speed = boss.speed
+                                  }
+                            );
+
+                            var Minions = new List<Actor>();
+
+                            boss.Die +=
+                                delegate
+                                {
+                                    // make the minions slower when boss dies
+                                    Minions.ForEach(i => i.speed /= 2);
+
+                                };
+
+                            // respawn the boss
+                            boss.CorpseGone +=
+                                delegate
+                                {
+                                   
+                                    AttachRules(
+                                        new BossWarrior
+                                        {
+                                            x = boss.x,
+                                            y = boss.y,
+                                            speed = boss.speed / 2,
+                                            filters = boss.filters
+                                        }
+                                    );
+                                };
+
+                            AttachRules(
+                                  new Sheep
+                                  {
+                                      x = boss.x + 48,
+                                      y = boss.y + 24,
+                                      speed = boss.speed
+                                  }
+                            ).AddTo(Minions);
+
+                            AttachRules(
+                                  new Sheep
+                                  {
+                                      x = boss.x + 48,
+                                      y = boss.y - 24,
+                                      speed = boss.speed
+                                  }
+                            ).AddTo(Minions);
+                        }
+                        else
+                        {
+                            if (0.3.ByChance())
                             {
-                                x = -OffscreenMargin,
-                                y = Height.Random(),
-                                speed = 1 + 2.Random()
+                                AttachRules(
+                                    new Warrior
+                                    {
+                                        x = -OffscreenMargin,
+                                        y = Height.Random(),
+                                        speed = 1 + 2.Random()
+                                    }
+                                );
                             }
-                        );
+                            else
+                            {
+                                AttachRules(
+                                    new Sheep
+                                    {
+                                        x = -OffscreenMargin,
+                                        y = Height.Random(),
+                                        speed = 0.5 + 2.Random()
+                                    }
+                                );
+                            }
+                        }
+
                     }
                 }
             );
@@ -310,7 +398,7 @@ namespace FlashTowerDefense.ActionScript
             this.mouseUp +=
                 e =>
                 {
-                    Gunfire = false;
+                    turret.AnimationEnabled = false;
                 };
         }
     }
@@ -335,6 +423,16 @@ namespace FlashTowerDefense.ActionScript
         public Sheep()
             : base(frames, Assets.sheep_corpse, Assets.sheep_blood, Assets.snd_sheep)
         {
+
+        }
+    }
+
+    [Script]
+    class BossWarrior : Warrior
+    {
+        public BossWarrior()
+        {
+            filters = new[] { new GlowFilter((uint)new Random().Next()) };
 
         }
     }
@@ -373,12 +471,65 @@ namespace FlashTowerDefense.ActionScript
         readonly BitmapAsset StillFrame;
         readonly BitmapAsset[] AnimatedFrames;
 
+        Timer _Timer;
+
+        public bool AnimationEnabled
+        {
+            get
+            {
+                return _Timer != null;
+            }
+
+            set
+            {
+                if (_Timer != null)
+                {
+                    _Timer.stop();
+                    _Timer = null;
+                }
+
+                Clear();
+
+                if (value)
+                {
+                    _Timer = (1000 / 15).AtInterval(
+                        delegate
+                        {
+                            Clear();
+
+                            ShowCurrentFrame();
+                        }
+                    );
+
+                    ShowCurrentFrame();
+                }
+                else
+                    StillFrame.AttachTo(this).MoveToCenter();
+            }
+        }
+
+        private void ShowCurrentFrame()
+        {
+            AnimatedFrames[_Timer.currentCount % AnimatedFrames.Length].AttachTo(this).MoveToCenter();
+        }
+
+        void Clear()
+        {
+            StillFrame.Orphanize();
+
+            foreach (var v in AnimatedFrames)
+            {
+                v.Orphanize();
+            }
+        }
+
+
         public Animation(Class StillFrame, params Class[] AnimatedFrames)
         {
             this.StillFrame = StillFrame;
             this.AnimatedFrames = AnimatedFrames.Select(i => (BitmapAsset)i).ToArray();
 
-
+            this.StillFrame.AttachTo(this).MoveToCenter();
         }
     }
 
@@ -388,9 +539,10 @@ namespace FlashTowerDefense.ActionScript
     {
         public bool IsAlive = true;
 
-        public readonly Action MakeSound;
-        public readonly Action Die;
+        public event Action MakeSound;
+        public event Action Die;
 
+        public event Action CorpseGone;
         public event Action CorpseAndBloodGone;
 
         public event Action Moved;
@@ -421,7 +573,7 @@ namespace FlashTowerDefense.ActionScript
                 MakeSound();
 
                 foreach (var v in frames)
-                    v.Dipsose();
+                    v.Orphanize();
 
                 corpse.x = -corpse.width / 2;
                 corpse.y = -corpse.height / 2;
@@ -430,7 +582,8 @@ namespace FlashTowerDefense.ActionScript
                 (10000 + 10000.Random().ToInt32()).AtDelay(
                     delegate
                     {
-                        corpse.Dipsose();
+                        corpse.Orphanize();
+
 
                         blood.x = -blood.width / 2;
                         blood.y = -blood.height / 2;
@@ -440,13 +593,16 @@ namespace FlashTowerDefense.ActionScript
                         (20000 + 10000.Random().ToInt32()).AtDelay(
                            delegate
                            {
-                               blood.Dipsose();
+                               blood.Orphanize();
 
                                if (CorpseAndBloodGone != null)
                                    CorpseAndBloodGone();
 
                            }
                        );
+
+                        if (CorpseGone != null)
+                            CorpseGone();
                     }
                 );
             };
@@ -482,7 +638,7 @@ namespace FlashTowerDefense.ActionScript
                              UpdateFootsteps();
                          }
                          else
-                             v.Dipsose();
+                             v.Orphanize();
                      }
                  }
              );
@@ -524,7 +680,7 @@ namespace FlashTowerDefense.ActionScript
 
                     if (n.alpha < 0.1)
                     {
-                        n.RemoveFrom(Footsteps).Dipsose();
+                        n.RemoveFrom(Footsteps).Orphanize();
                         t.stop();
                     }
                 }

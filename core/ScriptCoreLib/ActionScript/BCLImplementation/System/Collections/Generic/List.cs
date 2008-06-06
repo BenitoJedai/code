@@ -28,6 +28,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
                 this.AddRange(collection);
         }
 
+        public void ForEach(Action<T> action)
+        {
+            foreach (var e in this)
+            {
+                action(e);
+            }
+        }
 
         public void Add(T item)
         {
