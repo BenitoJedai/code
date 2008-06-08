@@ -69,6 +69,7 @@
     <Content Include="docs\description.txt" />
     <Content Include="docs\feedback\2008.06.06.txt" />
     <Content Include="docs\help.txt" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\bird2.mp3" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\click.mp3" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\birds.mp3" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\img_cactus_1.png" />

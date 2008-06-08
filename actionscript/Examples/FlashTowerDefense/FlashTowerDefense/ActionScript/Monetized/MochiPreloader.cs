@@ -87,7 +87,7 @@ namespace FlashTowerDefense.ActionScript.Monetized
                 ad_finished =
                     delegate
                     {
-                        new FlashTowerDefense().AttachTo(stage);
+                        new Menu().AttachTo(stage);
                     }
 
             }.showPreGameAd();

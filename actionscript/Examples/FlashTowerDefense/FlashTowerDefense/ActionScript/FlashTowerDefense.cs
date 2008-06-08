@@ -535,6 +535,20 @@ namespace FlashTowerDefense.ActionScript
             ScoreBoard.AttachTo(this);
 
             BlurWarzoneOnHover(powered_by_jsc, true);
+
+            40000.AtInterval(
+                delegate
+                {
+                    30.Random().ToInt32().AtDelay(
+                        delegate
+                        {
+                            Assets.snd_bird2.ToSoundAsset().play();
+                        }
+                    );
+                }
+            );
+            
+
         }
 
         //[Script(IsDebugCode = true)]

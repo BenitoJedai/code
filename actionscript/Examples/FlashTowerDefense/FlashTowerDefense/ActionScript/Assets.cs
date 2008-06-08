@@ -39,6 +39,8 @@ namespace FlashTowerDefense.ActionScript
         [Embed(source = Path + "/birds.mp3")]
         public static Class snd_birds;
 
+        [Embed(source = Path + "/bird2.mp3")]
+        public static Class snd_bird2;
 
         [Embed(source = Path + "/click.mp3")]
         public static Class snd_click;
