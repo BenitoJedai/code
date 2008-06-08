@@ -13,6 +13,7 @@ using ScriptCoreLib.ActionScript.Lambda;
 using System.Collections.Generic;
 using ScriptCoreLib.ActionScript.flash.ui;
 using ScriptCoreLib.ActionScript;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 
 namespace FlashTowerDefense.ActionScript
@@ -39,6 +40,15 @@ namespace FlashTowerDefense.ActionScript
 
         Animation turret;
 
+        public readonly Func<DisplayObjectContainer> GetWarzone;
+        public readonly Action<TextField, bool> BlurWarzoneOnHover;
+
+        public bool CanFire = true;
+
+        public readonly Shape Aim;
+
+        public readonly SoundChannel music;
+
         public FlashTowerDefense()
         {
 
@@ -55,58 +65,76 @@ namespace FlashTowerDefense.ActionScript
             warzone.graphics.beginFill(ColorWhite);
             warzone.graphics.drawRect(-OffscreenMargin, -OffscreenMargin, Width + 2 * OffscreenMargin, Height + 2 * OffscreenMargin);
 
+            warzone.mouseChildren = false;
 
-            Func<DisplayObjectContainer> GetWarzone = () => warzone;
+
+            GetWarzone = () => warzone;
 
             bg.AttachTo(GetWarzone());
             warzone.AttachTo(this);
 
             #region create aim
-            var aim = new Shape();
+            this.Aim = new Shape();
 
-            aim.graphics.lineStyle(4, 0, 1);
+            Aim.graphics.lineStyle(4, 0, 1);
 
-            aim.graphics.moveTo(-8, 0);
-            aim.graphics.lineTo(8, 0);
+            Aim.graphics.moveTo(-8, 0);
+            Aim.graphics.lineTo(8, 0);
 
-            aim.graphics.moveTo(0, -8);
-            aim.graphics.lineTo(0, 8);
+            Aim.graphics.moveTo(0, -8);
+            Aim.graphics.lineTo(0, 8);
 
-            aim.filters = new[] { new DropShadowFilter() };
-            aim.AttachTo(GetWarzone());
+            Aim.filters = new[] { new DropShadowFilter() };
+            Aim.AttachTo(GetWarzone());
             #endregion
 
 
             #region BlurWarzoneOnHover
-            Action<TextField, bool> BlurWarzoneOnHover =
+            this.BlurWarzoneOnHover =
                 (txt, HideAim) =>
                 {
+                    
 
                     txt.mouseOver +=
 
                         delegate
                         {
                             //warzone.alpha = 0.8;
-                            warzone.filters = new[] { new BlurFilter() };
+
+                            
+
                             //powered_by_jsc.htmlText = "<u><a href='http://jsc.sf.net'>powered by <b>jsc</b></a></u>";
+
                             txt.textColor = ColorBlue;
                             txt.filters = null;
 
-                            if (HideAim)
-                                aim.visible = false;
+                            if (CanFire)
+                            {
+                                warzone.filters = new[] { new BlurFilter() };
+
+                                if (HideAim)
+                                    Aim.visible = false;
+                            }
                         };
 
                     txt.mouseOut +=
                         delegate
                         {
-                            //powered_by_jsc.htmlText = "<a href='http://jsc.sf.net'>powered by <b>jsc</b></a>";
                             txt.filters = new[] { new BlurFilter() };
                             txt.textColor = ColorBlack;
-                            //warzone.alpha = 1;
-                            warzone.filters = null;
 
-                            if (HideAim)
-                                aim.visible = true;
+                            if (CanFire)
+                            {
+                                //powered_by_jsc.htmlText = "<a href='http://jsc.sf.net'>powered by <b>jsc</b></a>";
+                        
+                                //warzone.alpha = 1;
+
+                                warzone.filters = null;
+                                
+
+                                if (HideAim)
+                                    Aim.visible = true;
+                            }
                         };
                 };
             #endregion
@@ -143,7 +171,7 @@ namespace FlashTowerDefense.ActionScript
             AddDoodads(0.0001, () => Assets.grass1.ToBitmapAsset());
             AddDoodads(0.00005, () => Assets.bump2.ToBitmapAsset());
 
-            var music = Assets.world.ToSoundAsset().play(0, 999);
+            this.music = Assets.snd_world.ToSoundAsset().play(0, 999, new SoundTransform(0.5));
 
             Func<Animation> AddCactus = () =>
                 new Animation(null, Assets.img_cactus)
@@ -188,6 +216,8 @@ namespace FlashTowerDefense.ActionScript
             Action UpdateScoreBoard =
                 delegate
                 {
+                    if (!CanFire) return;
+
                     ScoreBoard.text =
                         new
                         {
@@ -209,7 +239,7 @@ namespace FlashTowerDefense.ActionScript
                     foreach (var s in
                    from ss in list
                    where ss.IsAlive
-                   where ss.hitTestPoint(e.stageX, e.stageY)
+                   where new Point { x = ss.x - e.stageX, y = ss.y - e.stageY}.length < 32
                    select ss)
                         s.AddDamage(8 + 12.Random());
                 };
@@ -221,6 +251,7 @@ namespace FlashTowerDefense.ActionScript
             this.mouseDown +=
                 e =>
                 {
+                    if (!CanFire) return;
 
                     if (channel1 != null)
                         channel1.stop();
@@ -258,8 +289,8 @@ namespace FlashTowerDefense.ActionScript
             this.mouseMove +=
                 e =>
                 {
-                    aim.x = e.stageX;
-                    aim.y = e.stageY;
+                    Aim.x = e.stageX;
+                    Aim.y = e.stageY;
                     CurrentTarget = e;
                 };
 
@@ -301,10 +332,13 @@ namespace FlashTowerDefense.ActionScript
                                     {
                                         a.RemoveFrom(list).Orphanize();
 
-                                        runaways++;
+                                        if (CanFire)
+                                        {
+                                            runaways++;
 
-                                        ScoreBoard.textColor = ColorRed;
-                                        UpdateScoreBoard();
+                                            ScoreBoard.textColor = ColorRed;
+                                            UpdateScoreBoard();
+                                        }
 
                                         a.IsAlive = false;
                                         // this one was able to run away
@@ -466,7 +500,7 @@ namespace FlashTowerDefense.ActionScript
             (1000 / 24).AtInterval(
                 delegate
                 {
-                    aim.rotation += 1;
+                    Aim.rotation += 1;
 
                     foreach (var s in
                            from ss in list
@@ -496,9 +530,9 @@ namespace FlashTowerDefense.ActionScript
                 textColor = ColorBlack
             }.AttachTo(this);
 
-            ScoreBoard.AttachTo(this);
-
             powered_by_jsc.y = Height - powered_by_jsc.height - 32;
+
+            ScoreBoard.AttachTo(this);
 
             BlurWarzoneOnHover(powered_by_jsc, true);
         }
@@ -513,11 +547,20 @@ namespace FlashTowerDefense.ActionScript
                     turret.AnimationEnabled = false;
                 };
         }
+
+        public Actor[] KnownActors =
+            new Actor []
+            {
+                new Sheep(),
+                new Warrior(),
+                new BossWarrior()
+            };
     }
 
     [Script]
     class Sheep : Actor
     {
+
         static Bitmap[] frames
         {
             get
@@ -535,7 +578,7 @@ namespace FlashTowerDefense.ActionScript
         public Sheep()
             : base(frames, Assets.sheep_corpse, Assets.sheep_blood, Assets.snd_sheep)
         {
-
+            ActorName = "Sheep";
         }
     }
 
@@ -545,7 +588,9 @@ namespace FlashTowerDefense.ActionScript
 
         public BossWarrior()
         {
+            ActorName = "BossWarrior";
             ScoreValue = 4;
+            Description = "Respawns once";
 
             filters = new[] { new GlowFilter((uint)new Random().Next()) };
 
@@ -578,251 +623,11 @@ namespace FlashTowerDefense.ActionScript
         public Warrior()
             : base(frames, Assets.man2_horns_dead1, Assets.man2_horns_dead2, Assets.snd_man2)
         {
-
-        }
-    }
-
-    [Script]
-    class Animation : Sprite
-    {
-        readonly BitmapAsset StillFrame;
-        readonly BitmapAsset[] AnimatedFrames;
-
-        Timer _Timer;
-
-        public int FrameRate = (1000 / 15);
-
-        public bool AnimationEnabled
-        {
-            get
-            {
-                return _Timer != null;
-            }
-
-            set
-            {
-                if (_Timer != null)
-                {
-                    _Timer.stop();
-                    _Timer = null;
-                }
-
-                Clear();
-
-                if (value)
-                {
-                    _Timer = FrameRate.AtInterval(
-                        delegate
-                        {
-                            Clear();
-
-                            ShowCurrentFrame();
-                        }
-                    );
-
-                }
-
-                ShowCurrentFrame();
-
-            }
-        }
-
-        private void ShowCurrentFrame()
-        {
-            if (AnimationEnabled)
-                AnimatedFrames[_Timer.currentCount % AnimatedFrames.Length].AttachTo(this).MoveToCenter();
-            else
-                if (this.StillFrame != null)
-                    this.StillFrame.AttachTo(this).MoveToCenter();
-        }
-
-        void Clear()
-        {
-            if (this.StillFrame != null)
-                this.StillFrame.Orphanize();
-
-            foreach (var v in AnimatedFrames)
-            {
-                v.Orphanize();
-            }
-        }
-
-
-        public Animation(Class StillFrame, params Class[] AnimatedFrames)
-        {
-            this.StillFrame = StillFrame;
-
-            this.AnimatedFrames = AnimatedFrames.Select(i => (BitmapAsset)i).ToArray();
-
-            ShowCurrentFrame();
+            ActorName = "Warrior";
         }
     }
 
 
-    [Script]
-    class Actor : Sprite
-    {
-        public int ScoreValue = 1;
 
-        public bool IsAlive = true;
-
-        public event Action MakeSound;
-        public event Action Die;
-
-        public event Action CorpseGone;
-        public event Action CorpseAndBloodGone;
-
-        public event Action Moved;
-
-        public double health = 100;
-        public double speed = 0.5;
-
-        public bool IsBleeding;
-
-        public Action PlayHelloSound = delegate { };
-
-
-        public void AddDamage(double e)
-        {
-            health -= e;
-
-            if (health < 0)
-                Die();
-        }
-
-        readonly List<Bitmap> Footsteps = new List<Bitmap>();
-
-        public Actor(Bitmap[] frames, Bitmap corpse, Bitmap blood, Sound death)
-        {
-            MakeSound = death.ToAction();
-
-
-
-
-            Die = delegate
-            {
-                IsAlive = false;
-                MakeSound();
-
-                foreach (var v in frames)
-                    v.Orphanize();
-
-                corpse.x = -corpse.width / 2;
-                corpse.y = -corpse.height / 2;
-                corpse.AttachTo(this);
-
-                (10000 + 10000.Random().ToInt32()).AtDelay(
-                    delegate
-                    {
-                        corpse.Orphanize();
-
-
-                        blood.x = -blood.width / 2;
-                        blood.y = -blood.height / 2;
-                        blood.AttachTo(this);
-
-
-                        (20000 + 10000.Random().ToInt32()).AtDelay(
-                           delegate
-                           {
-                               blood.Orphanize();
-
-                               if (CorpseAndBloodGone != null)
-                                   CorpseAndBloodGone();
-
-                           }
-                       );
-
-                        if (CorpseGone != null)
-                            CorpseGone();
-                    }
-                );
-            };
-
-            //this.Moved +=
-            //    delegate
-            //    {
-
-
-
-            (1000 / 15).AtInterval(
-                 t =>
-                 {
-                     if (!IsAlive)
-                     {
-                         t.stop();
-                         return;
-                     }
-
-                     for (int i = 0; i < frames.Length; i++)
-                     {
-                         var v = frames[i];
-
-                         if (t.currentCount % frames.Length == i)
-                         {
-                             v.x = -v.width / 2;
-                             v.y = -v.height / 2;
-                             v.AttachTo(this);
-
-                             if (this.Moved != null)
-                                 this.Moved();
-
-                             UpdateFootsteps();
-                         }
-                         else
-                             v.Orphanize();
-                     }
-                 }
-             );
-        }
-
-        private void UpdateFootsteps()
-        {
-            if (Footsteps.Count == 0)
-            {
-                CreateFootsteps();
-            }
-            else
-            {
-                var o = Footsteps.Last();
-
-                if ((o.x + o.width) < x)
-                {
-                    CreateFootsteps();
-                }
-            }
-        }
-
-        private void CreateFootsteps()
-        {
-            if (this.parent == null)
-                return;
-
-            var n = Assets.footsteps.ToBitmapAsset();
-
-            n.x = x - n.width / 2;
-            n.y = y - n.height / 2;
-
-            if (IsBleeding)
-                n.filters = new[] { new GlowFilter(0xff0000) };
-
-            n.AttachTo(this.parent).AddTo(Footsteps);
-
-            (500).AtInterval(
-                t =>
-                {
-                    n.alpha -= 0.1;
-
-                    if (n.alpha < 0.1)
-                    {
-                        n.RemoveFrom(Footsteps).Orphanize();
-                        t.stop();
-                    }
-                }
-            );
-        }
-
-
-    }
-
+ 
 }

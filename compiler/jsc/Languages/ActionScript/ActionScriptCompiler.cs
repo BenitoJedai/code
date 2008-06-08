@@ -474,6 +474,8 @@ namespace jsc.Languages.ActionScript
             CIW[OpCodes.Call] =
                 e =>
                 {
+                    DebugBreak(e.i.OwnerMethod.ToScriptAttribute());
+
                     MethodBase m = e.i.ReferencedMethod;
 
 
@@ -1539,6 +1541,12 @@ namespace jsc.Languages.ActionScript
             // used by OpCodes.Newobj
 
             WriteDecoratedTypeNameOrImplementationTypeName(subject, false, false, IsFullyQualifiedNamesRequired(context, subject));
+
+        }
+
+        public  void WriteDecoratedTypeName(Type context, Type subject, bool IgnoreImplementationType)
+        {
+            WriteDecoratedTypeNameOrImplementationTypeName(subject, false, false, IsFullyQualifiedNamesRequired(context, subject), IgnoreImplementationType);
 
         }
 

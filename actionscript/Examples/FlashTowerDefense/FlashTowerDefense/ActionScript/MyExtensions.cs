@@ -8,6 +8,7 @@ using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.flash.media;
+using ScriptCoreLib.ActionScript.flash.filters;
 
 namespace FlashTowerDefense.ActionScript
 {
@@ -15,6 +16,8 @@ namespace FlashTowerDefense.ActionScript
     [Script]
     static class MyExtensions
     {
+       
+
         public static bool ByChance(this double e)
         {
             return new Random().NextDouble() < e;
@@ -28,10 +31,22 @@ namespace FlashTowerDefense.ActionScript
             return e;
         }
 
+        // todo: how do these methods differ in IL ?
+        /*
         public static T MoveToCenter<T>(this T e) where T : DisplayObject
         {
             e.x = -e.width / 2;
             e.y = -e.height / 2;
+
+            return e;
+        }
+        */
+        public static T MoveToCenter<T>(this T e) where T : DisplayObject
+        {
+            DisplayObject i = e;
+
+            i.x = -i.width / 2;
+            i.y = -i.height / 2;
 
             return e;
         }
@@ -114,7 +129,7 @@ namespace FlashTowerDefense.ActionScript
             return e;
         }
 
-     
+
         public static double Random(this double e)
         {
             return new Random().NextDouble() * e;

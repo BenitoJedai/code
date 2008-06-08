@@ -94,3 +94,5 @@ version history:
 	actionscript: fixed static call type name clash
 06.06.2008
 	actionscript: fixed op_Implicit optimization
+08.06.2008:
+	actionscript: fixed __String static call glitch

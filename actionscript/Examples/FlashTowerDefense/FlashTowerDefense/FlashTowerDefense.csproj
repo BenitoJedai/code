@@ -50,8 +50,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\Actor.cs" />
+    <Compile Include="ActionScript\Animation.cs" />
     <Compile Include="ActionScript\Assets.cs" />
     <Compile Include="ActionScript\FlashTowerDefense.cs" />
+    <Compile Include="ActionScript\Menu.cs" />
     <Compile Include="ActionScript\Monetized\NewgroundPreloader.cs" />
     <Compile Include="ActionScript\Monetized\NewgroundsAPI.cs" />
     <Compile Include="ActionScript\Monetized\MochiAd.cs" />
@@ -66,6 +69,8 @@
     <Content Include="docs\description.txt" />
     <Content Include="docs\feedback\2008.06.06.txt" />
     <Content Include="docs\help.txt" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\click.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense\birds.mp3" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\img_cactus_1.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\img_cactus_2.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense\img_cactus_3.png" />

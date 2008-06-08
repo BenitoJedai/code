@@ -34,8 +34,14 @@ namespace FlashTowerDefense.ActionScript
         public static Class gunfire;
 
         [Embed(source = Path + "/world.mp3")]
-        public static Class world;
+        public static Class snd_world;
 
+        [Embed(source = Path + "/birds.mp3")]
+        public static Class snd_birds;
+
+
+        [Embed(source = Path + "/click.mp3")]
+        public static Class snd_click;
 
         // sheep
         [Embed(source = Path + "/sheep-walk_1.png")]

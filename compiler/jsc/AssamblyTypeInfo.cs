@@ -281,6 +281,10 @@ namespace jsc
 
 
 
+                    Func<Type, bool> IsGenericParameter =
+                        i => i.IsGenericParameter || i.IsArray && i.GetElementType().IsGenericParameter;
+
+
 
                     for (int i = 0; i < vp.Length; i++)
                     {
@@ -288,6 +292,12 @@ namespace jsc
 
                         var vpt_i = vpt[i];
                         var t_i = t[i];
+
+                        if (IsGenericParameter(vpt_i) && IsGenericParameter(t_i))
+                            continue;
+
+                        if (vpt_i.IsArray && t_i.IsArray && vpt_i.GetElementType() != t_i.GetElementType())
+                            goto skip;
 
                         // extension method Enumerable.Contains
                         if (vpt_i.IsGenericParameter && !t_i.IsGenericParameter)
@@ -304,10 +314,6 @@ namespace jsc
                         goto skip;
 
                     }
-
-                    Func<Type, bool> IsGenericParameter =
-                        i => i.IsGenericParameter || i.IsArray && i.GetElementType().IsGenericParameter;
-
 
                     var SourceMethodReturnType = ToGTD(((MethodInfo)src_method).ReturnType);
                     var CurrentMethodReturnType = ToGTD(v.ReturnType);

@@ -17,6 +17,30 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
 
     internal static partial class __Enumerable
     {
+        public static bool Contains<TSource>(this IEnumerable<TSource> source, TSource value)
+        {
+            if (source == null)
+            {
+                throw Error.ArgumentNull("source");
+            }
+
+
+            var r = false;
+
+            foreach (var v in source.AsEnumerable())
+            {
+                if (object.ReferenceEquals(v, value))
+                {
+                    r = true;
+
+                    break;
+                }
+            }
+
+            return r;
+        }
+
+
         public static U Aggregate<T, U>(this IEnumerable<T> source,
                          U seed, global::System.Func<U, T, U> func)
         {

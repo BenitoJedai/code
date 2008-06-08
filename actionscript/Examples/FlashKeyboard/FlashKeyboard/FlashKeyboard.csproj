@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\Assets.cs" />
+    <Compile Include="ActionScript\FlashKeyboard1.cs" />
     <Compile Include="ActionScript\FlashKeyboard.cs" />
     <Compile Include="ActionScript\MyExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,6 +62,9 @@
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
+    <EmbeddedResource Include="web\assets\FlashKeyboard\alt.png" />
+    <EmbeddedResource Include="web\assets\FlashKeyboard\default.png" />
+    <EmbeddedResource Include="web\assets\FlashKeyboard\shift.png" />
     <EmbeddedResource Include="web\assets\FlashKeyboard\sheep.mp3" />
     <EmbeddedResource Include="web\assets\FlashKeyboard\sheep-walk_1.png" />
     <EmbeddedResource Include="web\assets\FlashKeyboard\sheep-walk_2.png" />
@@ -73,8 +77,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
-    <None Include="tools\jsc.bat" />
-    <None Include="tools\mxmlc.bat" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -85,7 +87,8 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>pushd ..\..\tools\
+call build.bat $(ProjectName)
+popd</PostBuildEvent>
   </PropertyGroup>
 </Project>

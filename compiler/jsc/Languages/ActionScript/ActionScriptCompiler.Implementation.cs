@@ -170,6 +170,9 @@ namespace jsc.Languages.ActionScript
                 if (sa == null)
                     continue;
 
+                if (tmethod.ToScriptAttributeOrDefault().DefineAsStatic)
+                    continue;
+
                 var iparams = tmethod.GetParameters();
                 var iparamstypes = tmethod.GetParameters().Select(p => p.ParameterType).ToArray();
 
@@ -288,6 +291,8 @@ namespace jsc.Languages.ActionScript
 
         private void WriteInterfaceMappingMethods(Type z)
         {
+            DebugBreak(z.ToScriptAttribute());
+
             // current interface exclusion implementation might not work well with abstract classes 
 
             foreach (var v in from i in z.GetInterfaces().Except(z.BaseType == null ? null : z.BaseType.GetInterfaces())
@@ -902,7 +907,7 @@ namespace jsc.Languages.ActionScript
 
             if (TargetMethod.IsStatic || IsDefineAsStatic)
             {
-                WriteDecoratedTypeName(i.OwnerMethod.DeclaringType, TargetMethod.DeclaringType);
+                WriteDecoratedTypeName(i.OwnerMethod.DeclaringType, TargetMethod.DeclaringType, true);
                 Write(".");
 
                 #region prop
@@ -1217,6 +1222,11 @@ namespace jsc.Languages.ActionScript
 
         public void WriteDecoratedTypeNameOrImplementationTypeName(Type timpv, bool favorPrimitives, bool favorTargetType, bool UseFullyQualifiedName)
         {
+            WriteDecoratedTypeNameOrImplementationTypeName(timpv, favorPrimitives, favorTargetType, UseFullyQualifiedName, false);
+        }
+
+        public void WriteDecoratedTypeNameOrImplementationTypeName(Type timpv, bool favorPrimitives, bool favorTargetType, bool UseFullyQualifiedName, bool IgnoreImplementationType)
+        {
 
             if (timpv.IsGenericParameter)
             {
@@ -1268,7 +1278,7 @@ namespace jsc.Languages.ActionScript
             {
                 var s = timpv.ToScriptAttribute();
 
-                if (s != null && s.ImplementationType != null)
+                if (!IgnoreImplementationType && s != null && s.ImplementationType != null)
                     WriteTypeName(s.ImplementationType);
                 else
                     WriteTypeName(timpv);

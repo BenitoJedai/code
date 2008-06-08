@@ -49,6 +49,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             return default(string);
         }
 
+        [Script(OptimizedCode = "return e.join('');")]
+        public static string Concat(object[] e)
+        {
+            return default(string);
+        }
+
         #endregion
 
 

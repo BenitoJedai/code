@@ -7,7 +7,7 @@ using ScriptCoreLib.ActionScript.BCLImplementation.Query;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic
 {
-    [Script(Implements = typeof(global::System.Collections.Generic.List<>))]
+    [Script(Implements = typeof(global::System.Collections.Generic.List<>), IsDebugCode = true)]
     internal class __List<T> : IList<T>, ICollection<T>
     {
         public Array _items = new Array();
@@ -80,7 +80,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
                 }
             }
 
-            return j;            
+            return j;
         }
 
         public void Insert(int index, T item)
