@@ -9,6 +9,8 @@ using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.flash.media;
 using ScriptCoreLib.ActionScript.flash.filters;
+using ScriptCoreLib.ActionScript.Lambda;
+using ScriptCoreLib.ActionScript.flash.text;
 
 namespace FlashTowerDefense.ActionScript
 {
@@ -16,6 +18,19 @@ namespace FlashTowerDefense.ActionScript
     [Script]
     static class MyExtensions
     {
+        public static void OnHoverUseColor(this TextField e, uint c)
+        {
+            var n = e.textColor;
+
+            e.mouseOver += i => e.textColor = c;
+            e.mouseOut += i => e.textColor = n;
+        }
+
+        public static Action<IEnumerable<T>> ToForEach<T>(this Action<T> e)
+        {
+            return i => i.ForEach(e);
+
+        }
 
         public static void InvokeRandom(this Action[] e)
         {
@@ -77,6 +92,23 @@ namespace FlashTowerDefense.ActionScript
         public static Action ToAction(this Sound c)
         {
             return delegate { c.play(); };
+        }
+
+        public static void InvokeAtDelays(this Action e, params int[] d)
+        {
+            foreach (var i in d)
+                i.AtDelayDo(e);
+        }
+
+        public static Timer AtDelayDo(this int e, Action a)
+        {
+            var t = new Timer(e, 1);
+
+            t.timer += delegate { a(); };
+
+            t.start();
+
+            return t;
         }
 
         public static Timer AtDelay(this int e, Action<Timer> a)

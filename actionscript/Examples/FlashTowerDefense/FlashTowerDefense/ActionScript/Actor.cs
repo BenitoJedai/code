@@ -46,6 +46,9 @@ namespace FlashTowerDefense.ActionScript
 
         readonly List<Bitmap> Footsteps = new List<Bitmap>();
 
+        public bool IsCorpseAndBloodGone;
+        public bool IsCorpseGone;
+
         public Actor(Bitmap[] frames, Bitmap corpse, Bitmap blood, Sound death)
         {
             this.mouseEnabled = false;
@@ -82,12 +85,16 @@ namespace FlashTowerDefense.ActionScript
                            delegate
                            {
                                blood.Orphanize();
+                               
+                               IsCorpseAndBloodGone = true;
 
                                if (CorpseAndBloodGone != null)
                                    CorpseAndBloodGone();
 
                            }
                        );
+
+                        IsCorpseGone = true;
 
                         if (CorpseGone != null)
                             CorpseGone();
@@ -100,7 +107,7 @@ namespace FlashTowerDefense.ActionScript
             //    {
 
 
-            
+
             (1000 / 15).AtInterval(
                  t =>
                  {
@@ -119,7 +126,7 @@ namespace FlashTowerDefense.ActionScript
                              v.x = -v.width / 2;
                              v.y = -v.height / 2;
                              v.AttachTo(this);
-                             
+
                              if (this.Moved != null)
                                  this.Moved();
 

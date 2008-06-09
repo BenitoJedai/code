@@ -49,6 +49,8 @@ namespace FlashTowerDefense.ActionScript
 
         public readonly SoundChannel music;
 
+        Func<double> GetRandomHitDamage = () => (8 + 12.Random()) * 1.5;
+
         public FlashTowerDefense()
         {
 
@@ -241,7 +243,7 @@ namespace FlashTowerDefense.ActionScript
                    where ss.IsAlive
                    where new Point { x = ss.x - e.stageX, y = ss.y - e.stageY }.length < 32
                    select ss)
-                        s.AddDamage(8 + 12.Random());
+                        s.AddDamage(GetRandomHitDamage());
                 };
 
             var CurrentTarget = default(MouseEvent);
@@ -540,26 +542,68 @@ namespace FlashTowerDefense.ActionScript
                         i =>
                             new Sheep
                             {
-                                x = boss.x + Math.Abs(i) * -16,
-                                y = boss.y + i * 48,
+                                x = boss.x + Math.Abs(i) * -24,
+                                y = boss.y + i * 32,
                                 speed = boss.speed
                             };
 
-                    //4.Random().Aggregate(
-                    //    i =>
-                    //    {
-                    AttachRules(CreateMinionByIndex(-1)).AddTo(Minnions);
-                    AttachRules(CreateMinionByIndex(1)).AddTo(Minnions);
-                    
-                    AttachRules(CreateMinionByIndex(-2)).AddTo(Minnions);
-                    AttachRules(CreateMinionByIndex(2)).AddTo(Minnions);
+                    Enumerable.Range(1, (2.Random() + 1).ToInt32()).ForEach(
+                        i =>
+                        {
+                            AttachRules(CreateMinionByIndex(-i)).AddTo(Minnions);
+                            AttachRules(CreateMinionByIndex(i)).AddTo(Minnions);
+                        }
+                    );
 
-                    //    }
-                    //);
 
                     // make the minions slower when boss dies
                     boss.Die += () => Minnions.ForEach(ReduceSpeedToHalf);
 
+
+                    // respawn the boss
+                    boss.CorpseGone +=
+                        delegate
+                        {
+
+
+                            var newboss = AttachRules(
+                                new BossSheep
+                                {
+                                    x = boss.x,
+                                    y = boss.y,
+                                    speed = boss.speed / 2,
+                                    filters = boss.filters,
+                                    IsBleeding = true
+                                }
+                            );
+
+                            // remove the glow from the old boss cuz we respawned
+                            boss.filters = null;
+
+                            Action<Sheep> AddMinnion = i => AttachRules(i).AddTo(Minnions);
+
+                            AddMinnion.ToForEach()(
+                                from i in Minnions
+                                where i.IsCorpseGone
+                                where !i.IsCorpseAndBloodGone
+                                select new Sheep
+                                {
+                                    x = i.x,
+                                    y = i.y,
+                                    speed = newboss.speed,
+                                    IsBleeding = true
+                                }
+                            );
+
+                      
+
+                            // if the respawned boss dies remove the glow
+                            newboss.Die +=
+                                delegate
+                                {
+                                    newboss.filters = null;
+                                };
+                        };
                 }
             }
             else
@@ -620,7 +664,7 @@ namespace FlashTowerDefense.ActionScript
             ActorName = "BossSheep";
             ScoreValue = 8;
             Description = "Respawns with minnions";
-            PlayHelloSound += () => Assets.snd_sheep.ToSoundAsset().play();
+            //PlayHelloSound += () => Assets.snd_sheep.ToSoundAsset().play();
 
 
             filters = new[] { new GlowFilter((uint)new Random().Next()) };

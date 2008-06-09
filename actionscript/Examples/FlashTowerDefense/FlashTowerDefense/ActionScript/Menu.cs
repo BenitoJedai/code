@@ -31,7 +31,7 @@ namespace FlashTowerDefense.ActionScript
             var InfoMenu = new Sprite
             {
                 x = 120,
-                y = 160
+                y = 120
             }.AttachTo(this);
 
             var y = 0d;
@@ -64,16 +64,39 @@ namespace FlashTowerDefense.ActionScript
             PlayButton.x = Width - PlayButton.width - 32;
             PlayButton.y = Height - PlayButton.height - 32;
 
+            PlayButton.OnHoverUseColor(ColorRed);
+
 
             PlayButton.click +=
                 delegate
                 {
                     menumusic.stop();
-                    InfoMenu.Orphanize();
+
+                    InfoMenu.mouseEnabled = false;
+                    InfoMenu.mouseChildren = false;
+
+                    (1000 / 64).AtInterval(
+                        t =>
+                        {
+                            if (InfoMenu.alpha < 0.1)
+                            {
+                                t.stop();
+                                InfoMenu.Orphanize();
+                            }
+                            else
+                            {
+                                InfoMenu.alpha -= 0.21;
+                            }
+                        }
+                    );
+                    
 
                     GetWarzone().filters = null;
 
-                    Assets.snd_click.ToSoundAsset().play();
+                    Action PlaySound = () => Assets.snd_click.ToSoundAsset().play();
+
+                    PlaySound.InvokeAtDelays(0, 500, 800);
+
 
                     CanFire = true;
                     PlayButton.Orphanize();
@@ -109,7 +132,7 @@ namespace FlashTowerDefense.ActionScript
                     //h.graphics.drawRect(48, -32, 180, 64);
                 };
 
-            Draw(ColorWhite);
+            Draw(ColorBlueLight);
 
             h.click +=
                 delegate
@@ -130,8 +153,8 @@ namespace FlashTowerDefense.ActionScript
             h.mouseChildren = false;
 
             //h.filters = new[] { new GlowFilter(0x808080) };
-            h.mouseOver += e => Draw(ColorBlueLight);
-            h.mouseOut += e => Draw(ColorWhite);
+            h.mouseOver += e => Draw(ColorBlue);
+            h.mouseOut += e => Draw(ColorBlueLight);
 
             var t = new TextField
             {
