@@ -16,7 +16,11 @@ namespace FlashTowerDefense.ActionScript
     [Script]
     static class MyExtensions
     {
-       
+
+        public static void InvokeRandom(this Action[] e)
+        {
+            e[e.Length.Random().ToInt32()]();
+        }
 
         public static bool ByChance(this double e)
         {
@@ -86,6 +90,22 @@ namespace FlashTowerDefense.ActionScript
             return t;
         }
 
+
+        public static Timer AtIntervalOnRandom(this int e, Action<Timer> a)
+        {
+            return e.AtInterval(
+                t =>
+                {
+                    e.Random().ToInt32().AtDelay(
+                        i =>
+                        {
+                            if (t.running)
+                                a(t);
+                        }
+                    );
+                }
+            );
+        }
 
         public static Timer AtInterval(this int e, Action<Timer> a)
         {

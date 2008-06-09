@@ -32,7 +32,7 @@ namespace FlashTowerDefense.ActionScript
 
         public bool IsBleeding;
 
-        public Action PlayHelloSound = delegate { };
+        public Action PlayHelloSound;
         public Action PlayDeathSound;
 
 

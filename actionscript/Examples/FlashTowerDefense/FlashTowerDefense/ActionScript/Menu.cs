@@ -57,7 +57,7 @@ namespace FlashTowerDefense.ActionScript
                 htmlText = "Play!",
                 selectable = false,
                 textColor = ColorBlue,
-                filters = new [] { new GlowFilter(ColorBlueLight) }
+                filters = new[] { new GlowFilter(ColorBlueLight) }
 
             }.AttachTo(this);
 
@@ -89,7 +89,7 @@ namespace FlashTowerDefense.ActionScript
         {
             v.CanMakeFootsteps = false;
 
-            
+
             var h = new Sprite();
 
             Action<uint> Draw =
@@ -114,10 +114,17 @@ namespace FlashTowerDefense.ActionScript
             h.click +=
                 delegate
                 {
+
                     if (0.5.ByChance())
-                        v.PlayHelloSound();
+                    {
+                        if (v.PlayHelloSound != null)
+                            v.PlayHelloSound();
+                    }
                     else
-                        v.PlayDeathSound();
+                    {
+                        if (v.PlayDeathSound != null)
+                            v.PlayDeathSound();
+                    }
                 };
 
             h.mouseChildren = false;
@@ -131,7 +138,7 @@ namespace FlashTowerDefense.ActionScript
                 x = 64,
                 text = v.ActorName + "\n" + v.ScoreValue + " points\n" + v.Description,
                 autoSize = TextFieldAutoSize.LEFT,
-                
+
             }.AttachTo(h);
 
             t.y -= t.height / 2;

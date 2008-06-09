@@ -93,7 +93,7 @@ namespace FlashTowerDefense.ActionScript
             this.BlurWarzoneOnHover =
                 (txt, HideAim) =>
                 {
-                    
+
 
                     txt.mouseOver +=
 
@@ -101,7 +101,7 @@ namespace FlashTowerDefense.ActionScript
                         {
                             //warzone.alpha = 0.8;
 
-                            
+
 
                             //powered_by_jsc.htmlText = "<u><a href='http://jsc.sf.net'>powered by <b>jsc</b></a></u>";
 
@@ -126,11 +126,11 @@ namespace FlashTowerDefense.ActionScript
                             if (CanFire)
                             {
                                 //powered_by_jsc.htmlText = "<a href='http://jsc.sf.net'>powered by <b>jsc</b></a>";
-                        
+
                                 //warzone.alpha = 1;
 
                                 warzone.filters = null;
-                                
+
 
                                 if (HideAim)
                                     Aim.visible = true;
@@ -144,7 +144,7 @@ namespace FlashTowerDefense.ActionScript
             {
                 x = 24,
                 y = 24,
-                
+
                 defaultTextFormat = new TextFormat
                 {
                     size = 24
@@ -239,7 +239,7 @@ namespace FlashTowerDefense.ActionScript
                     foreach (var s in
                    from ss in list
                    where ss.IsAlive
-                   where new Point { x = ss.x - e.stageX, y = ss.y - e.stageY}.length < 32
+                   where new Point { x = ss.x - e.stageX, y = ss.y - e.stageY }.length < 32
                    select ss)
                         s.AddDamage(8 + 12.Random());
                 };
@@ -318,6 +318,7 @@ namespace FlashTowerDefense.ActionScript
                 delegate
                 {
 
+                    #region AttachRules
                     Func<Actor, Actor> AttachRules =
                         a =>
                         {
@@ -351,148 +352,17 @@ namespace FlashTowerDefense.ActionScript
                                     UpdateScoreBoard();
                                 };
                             a.AttachTo(GetWarzone()).AddTo(list);
-                            a.PlayHelloSound();
+
+                            if (a.PlayHelloSound != null)
+                                a.PlayHelloSound();
 
                             return a;
                         };
+                    #endregion
 
                     // new actors if we got less 10 
                     if (list.Where(i => i.IsAlive).Count() < 8)
-                    {
-                        if (0.2.ByChance())
-                        {
-                            #region create boss
-                            var boss = AttachRules(
-                                   new BossWarrior
-                                   {
-                                       x = -OffscreenMargin,
-                                       y = GetEntryPointY(),
-                                       speed = 1 + 2.Random(),
-                                   }
-                               );
-
-
-                            var Minions = new List<Actor>();
-
-                            boss.Die +=
-                                delegate
-                                {
-                                    // make the minions slower when boss dies
-                                    Minions.ForEach(i => i.speed /= 2);
-
-                                };
-
-                            #region create minnions
-                            Func<double, Actor> CreateMinionWarriorByArc =
-                                             arc =>
-                                               new Warrior
-                                               {
-                                                   x = boss.x + Math.Cos(arc) * 96,
-                                                   y = boss.y + Math.Sin(arc) * 96 / 2,
-                                                   speed = boss.speed
-                                               };
-
-                            Func<double, Actor> CreateMinionByArc =
-                                arc =>
-                                  new Sheep
-                                  {
-                                      x = boss.x + Math.Cos(arc) * 64,
-                                      y = boss.y + Math.Sin(arc) * 64 / 2,
-                                      speed = boss.speed
-                                  };
-
-
-                            if (0.3.ByChance())
-                            {
-                                // boss with 2 minions
-                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0.15)).AddTo(Minions);
-                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0.85)).AddTo(Minions);
-                            }
-                            else if (0.3.ByChance())
-                            {
-                                // boss with 3 minions
-                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0.20)).AddTo(Minions);
-                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0)).AddTo(Minions);
-                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0.80)).AddTo(Minions);
-                            }
-                            else if (0.3.ByChance())
-                            {
-                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0.15)).AddTo(Minions);
-                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0.25)).AddTo(Minions);
-                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0.85)).AddTo(Minions);
-                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0.75)).AddTo(Minions);
-                            }
-                            else
-                            {
-                                AttachRules(CreateMinionWarriorByArc((Math.PI * 2) * 0.3)).AddTo(Minions);
-                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0.15)).AddTo(Minions);
-                                AttachRules(CreateMinionWarriorByArc((Math.PI * 2) * 0.0)).AddTo(Minions);
-                                AttachRules(CreateMinionByArc((Math.PI * 2) * 0.85)).AddTo(Minions);
-                                AttachRules(CreateMinionWarriorByArc((Math.PI * 2) * 0.7)).AddTo(Minions);
-                            }
-
-                            #endregion
-
-                            // respawn the boss
-                            boss.CorpseGone +=
-                                delegate
-                                {
-
-
-                                    var newboss = AttachRules(
-                                        new BossWarrior
-                                        {
-                                            x = boss.x,
-                                            y = boss.y,
-                                            speed = boss.speed / 2,
-                                            filters = boss.filters,
-                                            IsBleeding = true
-                                        }
-                                    );
-
-                                    // remove the glow from the old boss cuz we respawned
-                                    boss.filters = null;
-
-
-
-                                    // if the respawned boss dies remove the glow
-                                    newboss.Die +=
-                                        delegate
-                                        {
-                                            newboss.filters = null;
-                                        };
-                                };
-                            #endregion
-
-                        }
-                        else
-                        {
-                            if (0.3.ByChance())
-                            {
-                                AttachRules(
-                                    new Warrior
-                                    {
-                                        x = -OffscreenMargin,
-                                        y = GetEntryPointY(),
-                                        speed = 1 + 2.Random()
-                                    }
-                                );
-                            }
-                            else
-                            {
-                                AttachRules(
-                                    new Sheep
-                                    {
-                                        x = -OffscreenMargin,
-                                        y = GetEntryPointY(),
-                                        speed = 0.5 + 2.Random()
-                                    }
-                                );
-                            }
-                        }
-
-                        UpdateScoreBoard();
-                    }
+                        AddNewActorsToMap(UpdateScoreBoard, GetEntryPointY, AttachRules);
                 }
             );
 
@@ -536,19 +406,189 @@ namespace FlashTowerDefense.ActionScript
 
             BlurWarzoneOnHover(powered_by_jsc, true);
 
-            40000.AtInterval(
+            40000.AtIntervalOnRandom(
                 delegate
                 {
-                    30.Random().ToInt32().AtDelay(
+                    Assets.snd_bird2.ToSoundAsset().play();
+                }
+            );
+
+
+        }
+
+        private static void AddNewActorsToMap(Action UpdateScoreBoard, Func<double> GetEntryPointY, Func<Actor, Actor> AttachRules)
+        {
+            Action<Actor> ReduceSpeedToHalf = i => i.speed /= 2;
+
+            if (0.3.ByChance())
+            {
+                var Minnions = new List<Actor>();
+
+                if (0.5.ByChance())
+                {
+
+                    #region create boss
+                    var boss = AttachRules(
+                           new BossWarrior
+                           {
+                               x = -OffscreenMargin,
+                               y = GetEntryPointY(),
+                               speed = 1 + 2.Random(),
+                           }
+                       );
+
+
+
+                    // make the minions slower when boss dies
+                    boss.Die += () => Minnions.ForEach(ReduceSpeedToHalf);
+
+                    #region create minnions
+                    Func<double, Actor> CreateMinionWarriorByArc =
+                                     arc =>
+                                       new Warrior
+                                       {
+                                           x = boss.x + Math.Cos(arc) * 96,
+                                           y = boss.y + Math.Sin(arc) * 96 / 2,
+                                           speed = boss.speed
+                                       };
+
+                    Func<double, Actor> CreateMinionByArc =
+                        arc =>
+                          new Sheep
+                          {
+                              x = boss.x + Math.Cos(arc) * 64,
+                              y = boss.y + Math.Sin(arc) * 64 / 2,
+                              speed = boss.speed
+                          };
+
+
+                    if (0.3.ByChance())
+                    {
+                        // boss with 2 minions
+                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0.15)).AddTo(Minnions);
+                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0.85)).AddTo(Minnions);
+                    }
+                    else if (0.3.ByChance())
+                    {
+                        // boss with 3 minions
+                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0.20)).AddTo(Minnions);
+                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0)).AddTo(Minnions);
+                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0.80)).AddTo(Minnions);
+                    }
+                    else if (0.3.ByChance())
+                    {
+                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0.15)).AddTo(Minnions);
+                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0.25)).AddTo(Minnions);
+                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0.85)).AddTo(Minnions);
+                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0.75)).AddTo(Minnions);
+                    }
+                    else
+                    {
+                        AttachRules(CreateMinionWarriorByArc((Math.PI * 2) * 0.3)).AddTo(Minnions);
+                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0.15)).AddTo(Minnions);
+                        AttachRules(CreateMinionWarriorByArc((Math.PI * 2) * 0.0)).AddTo(Minnions);
+                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0.85)).AddTo(Minnions);
+                        AttachRules(CreateMinionWarriorByArc((Math.PI * 2) * 0.7)).AddTo(Minnions);
+                    }
+
+                    #endregion
+
+                    // respawn the boss
+                    boss.CorpseGone +=
                         delegate
                         {
-                            Assets.snd_bird2.ToSoundAsset().play();
+
+
+                            var newboss = AttachRules(
+                                new BossWarrior
+                                {
+                                    x = boss.x,
+                                    y = boss.y,
+                                    speed = boss.speed / 2,
+                                    filters = boss.filters,
+                                    IsBleeding = true
+                                }
+                            );
+
+                            // remove the glow from the old boss cuz we respawned
+                            boss.filters = null;
+
+
+
+                            // if the respawned boss dies remove the glow
+                            newboss.Die +=
+                                delegate
+                                {
+                                    newboss.filters = null;
+                                };
+                        };
+                    #endregion
+
+                }
+                else
+                {
+                    var boss = AttachRules(
+                         new BossSheep
+                         {
+                             x = -OffscreenMargin,
+                             y = GetEntryPointY(),
+                             speed = 0.5 + 2.Random()
+                         }
+                    );
+
+                    Func<double, Actor> CreateMinionByIndex =
+                        i =>
+                            new Sheep
+                            {
+                                x = boss.x + Math.Abs(i) * -16,
+                                y = boss.y + i * 48,
+                                speed = boss.speed
+                            };
+
+                    //4.Random().Aggregate(
+                    //    i =>
+                    //    {
+                    AttachRules(CreateMinionByIndex(-1)).AddTo(Minnions);
+                    AttachRules(CreateMinionByIndex(1)).AddTo(Minnions);
+                    
+                    AttachRules(CreateMinionByIndex(-2)).AddTo(Minnions);
+                    AttachRules(CreateMinionByIndex(2)).AddTo(Minnions);
+
+                    //    }
+                    //);
+
+                    // make the minions slower when boss dies
+                    boss.Die += () => Minnions.ForEach(ReduceSpeedToHalf);
+
+                }
+            }
+            else
+            {
+                if (0.3.ByChance())
+                {
+                    AttachRules(
+                        new Warrior
+                        {
+                            x = -OffscreenMargin,
+                            y = GetEntryPointY(),
+                            speed = 1 + 2.Random()
                         }
                     );
                 }
-            );
-            
+                else
+                {
+                    AttachRules(
+                        new Sheep
+                        {
+                            x = -OffscreenMargin,
+                            y = GetEntryPointY(),
+                            speed = 0.5 + 2.Random()
+                        }
+                    );
+                }
+            }
 
+            UpdateScoreBoard();
         }
 
         //[Script(IsDebugCode = true)]
@@ -563,18 +603,33 @@ namespace FlashTowerDefense.ActionScript
         }
 
         public Actor[] KnownActors =
-            new Actor []
+            new Actor[]
             {
                 new Sheep(),
                 new Warrior(),
-                new BossWarrior()
+                new BossWarrior(),
+                new BossSheep()
             };
+    }
+
+    [Script]
+    class BossSheep : Sheep
+    {
+        public BossSheep()
+        {
+            ActorName = "BossSheep";
+            ScoreValue = 8;
+            Description = "Respawns with minnions";
+            PlayHelloSound += () => Assets.snd_sheep.ToSoundAsset().play();
+
+
+            filters = new[] { new GlowFilter((uint)new Random().Next()) };
+        }
     }
 
     [Script]
     class Sheep : Actor
     {
-
         static Bitmap[] frames
         {
             get
@@ -643,5 +698,5 @@ namespace FlashTowerDefense.ActionScript
 
 
 
- 
+
 }
