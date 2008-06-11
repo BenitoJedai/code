@@ -209,8 +209,8 @@ Registers an event listener object with an EventDispatcher object so that the li
             update =
                 delegate
                 {
-                    update_output();
-                    /*
+                    
+                    
                     try
                     {
 
@@ -219,7 +219,7 @@ Registers an event listener object with an EventDispatcher object so that the li
                     catch (Exception ex)
                     {
                         b.value = "error: " + ex.Message;
-                    }*/
+                    }
                 };
 
             IsInterface.onchange += delegate { update(); };
@@ -403,6 +403,8 @@ Registers an event listener object with an EventDispatcher object so that the li
             var content = new IHTMLDiv().AttachToDocument();
             content.Hide();
 
+            var IsCamelCaseNames = "Use CamelCase on event names ".ToCheckBox().AttachToWithLabel(content);
+
             var update = default(Action);
 
             var a = new IHTMLTextArea().AttachTo(content);
@@ -481,6 +483,12 @@ render
                             var Summary = lines[i + 1].Trim();
                             var EventName = lines[i].Trim();
 
+                            if (EventName.IndexOf(":") > -1)
+                                EventName = EventName.Substring(0, EventName.IndexOf(":")).Trim();
+
+                            if (EventName.ContainsAny("(", "#"))
+                                throw new Exception("Invalid Event Name");
+
                             if (!EventName.Contains("AIR-only"))
                             {
                                 //var ReadOnly = "[read-only]";
@@ -498,21 +506,27 @@ render
                                 var EventType = dict.EventType[EventName];
                                 var EventCodeName = dict.EventCodeName[EventName];
 
+                                var FriendlyEventName = EventName;
+                                if (IsCamelCaseNames.@checked)
+                                    FriendlyEventName = FriendlyEventName.ToCamelCase();
+
+                                if (FriendlyEventName == "")
+                                    throw new Exception("Friendly name is empty.");
 
                                 w.AppendLine("[method: Script(NotImplementedHere = true)]");
-                                w.AppendLine("public event Action<" + EventType + "> " + EventName + ";");
+                                w.AppendLine("public event Action<" + EventType + "> " + FriendlyEventName + ";");
 
                                 w.AppendLine();
 
 
 
-                                w2.AppendLine("#region " + EventName);
-                                w2.AppendLine("public static void add_" + EventName + "(" + DeclaringTypeName + " that, Action<" + EventType + "> value)");
+                                w2.AppendLine("#region " + FriendlyEventName);
+                                w2.AppendLine("public static void add_" + FriendlyEventName + "(" + DeclaringTypeName + " that, Action<" + EventType + "> value)");
                                 w2.AppendLine("{");
                                 w2.AppendLine(" CommonExtensions.CombineDelegate(that, value, " + EventType + "." + EventCodeName + ");");
                                 w2.AppendLine("}");
                                 w2.AppendLine();
-                                w2.AppendLine("public static void remove_" + EventName + "(" + DeclaringTypeName + " that, Action<" + EventType + "> value)");
+                                w2.AppendLine("public static void remove_" + FriendlyEventName + "(" + DeclaringTypeName + " that, Action<" + EventType + "> value)");
                                 w2.AppendLine("{");
                                 w2.AppendLine(" CommonExtensions.RemoveDelegate(that, value, " + EventType + "." + EventCodeName + ");");
                                 w2.AppendLine("}");
@@ -633,11 +647,8 @@ render
                    update_output(null);
                };
 
-            a.onchange +=
-                delegate
-                {
-                    update();
-                };
+            IsCamelCaseNames.onchange += delegate { update(); };
+            a.onchange += delegate { update(); };
         }
 
 
@@ -648,11 +659,8 @@ render
             var content = new IHTMLDiv().AttachToDocument();
             content.Hide();
 
-            var IsEnum = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox);
-            new IHTMLDiv(
-                new IHTMLLabel("Declare constants as enums ", IsEnum), IsEnum
-            ).AttachTo(content);
-
+            var IsEnum = "Declare constants as enums ".ToCheckBox().AttachToWithLabel(content);
+            
 
             var update = default(Action);
 
@@ -793,6 +801,10 @@ render
 
                             var ConstantName = x[0].Trim();
 
+                            if (ConstantName.Contains("("))
+                                throw new Exception("Invalid Constant Name");
+
+
                             var y = x[1].Trim().Split('=');
 
                             var ConstantType = FixTypeName(y[0].Trim());
@@ -874,6 +886,7 @@ render
 
             DeclaringType.onchange += delegate { update(); };
             IsEnum.onchange += delegate { update(); };
+
 
             a.onchange += delegate { update(); };
         }

@@ -12,13 +12,7 @@ namespace ScriptCoreLib.ActionScript.com.google.maps
     [Script(IsNative = true)]
     public class Map : Sprite, IMap
     {
-        #region Events
-        /// <summary>
-        /// This event is fired when map setup is complete and isLoaded() would return true.
-        /// </summary>
-        [method: Script(NotImplementedHere = true)]
-        public event Action<MapEvent> MapReady;
-        #endregion
+
 
         #region Properties
         /// <summary>
@@ -475,5 +469,129 @@ namespace ScriptCoreLib.ActionScript.com.google.maps
 
         #endregion
 
+        #region Events
+        /// <summary>
+        /// [static] This event is fired on the map when a control is added to the map.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapEvent> ControlAdded;
+
+        /// <summary>
+        /// [static] This event is fired on the map when a control is removed from the map.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapEvent> ControlRemoved;
+
+        /// <summary>
+        /// [static] This event is fired when the copyright that should be displayed on the map is updated.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapEvent> CopyrightsUpdated;
+
+        /// <summary>
+        /// [static] This event is fired when the info window closes.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapEvent> InfowindowClosed;
+
+        /// <summary>
+        /// [static] This event is fired before the info window closes.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapEvent> InfowindowClosing;
+
+        /// <summary>
+        /// [static] This event is fired when the info window opens.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapEvent> InfowindowOpened;
+
+        /// <summary>
+        /// [static] This event is fired when map setup is complete and isLoaded() would return true.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapEvent> MapReady;
+
+        /// <summary>
+        /// [static] This event is fired when a new MapType has been added to the map.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapEvent> MaptypeAdded;
+
+        /// <summary>
+        /// [static] This event is fired when another map type is selected.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapEvent> MaptypeChanged;
+
+        /// <summary>
+        /// [static] This event is fired when a MapType has been removed from the map.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapEvent> MaptypeRemoved;
+
+        /// <summary>
+        /// [static] This event is fired when the size of the map has changed.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapEvent> SizeChanged;
+
+        /// <summary>
+        /// [static] This event is fired when an overlay's visibility has changed (from visible to hidden or vice-versa).
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapEvent> VisibilityChanged;
+
+        #endregion
+
+        #region Events
+        /// <summary>
+        /// [static] This event is fired when the change of the map view ends.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapMoveEvent> MoveEnd;
+
+        /// <summary>
+        /// [static] This event is fired when the map view starts changing.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapMoveEvent> MoveStart;
+
+        /// <summary>
+        /// [static] This event is fired repeatedly while the map view is changing.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapMoveEvent> MoveStep;
+
+        #endregion
+
+
+        #region Events
+        /// <summary>
+        /// [static] This event is fired when zooming of the map ends.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapZoomEvent> ZoomEnd;
+
+        /// <summary>
+        /// [static] This event is fired when the available zoom range for the map changes.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapZoomEvent> ZoomRangeChanged;
+
+        /// <summary>
+        /// [static] This event is fired when zooming of the map starts.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapZoomEvent> ZoomStart;
+
+        /// <summary>
+        /// [static] This event is fired repeatedly while the map is zooming.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapZoomEvent> ZoomStep;
+
+        #endregion
+      
     }
 }

@@ -42,8 +42,26 @@ namespace FlashGoogleMapsExample.ActionScript
                 delegate
                 {
                     this.setCenter(new LatLng(40.736072, -73.992062), 14, MapType.HYBRID_MAP_TYPE);
+
+                    var status = new TextField
+                    {
+                        x = 64,
+                        y = 164,
+                        autoSize = TextFieldAutoSize.LEFT,
+                        background = true,
+                        mouseEnabled = false,
+                        backgroundColor = ColorBlack,
+                        textColor = ColorWhite,
+                        filters = new [] { new GlowFilter(ColorBlack) }
+                    }.AttachTo(this);
+
+                    this.MoveEnd += e =>
+                        {
+                            status.text = "latLng: " + e.latLng.ToString();
+                        };
                 };
 
+            
             addControl(new ZoomControl());
             addControl(new PositionControl());
             addControl(new MapTypeControl());
@@ -58,7 +76,7 @@ namespace FlashGoogleMapsExample.ActionScript
             var powered_by_jsc = new TextField
             {
 
-                x = 64,
+                x = 72,
                 y = 32,
 
                 defaultTextFormat = new TextFormat
