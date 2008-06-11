@@ -10,7 +10,7 @@ namespace ScriptCoreLib.ActionScript.com.google.maps
 {
     // http://code.google.com/apis/maps/documentation/flash/reference.html#Map
     [Script(IsNative = true)]
-    public class Map : Sprite
+    public class Map : Sprite, IMap
     {
         #region Events
         /// <summary>

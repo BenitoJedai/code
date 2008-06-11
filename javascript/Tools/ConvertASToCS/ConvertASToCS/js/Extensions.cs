@@ -57,6 +57,34 @@ namespace ConvertASToCS.js
             return Convert.ToString(e).ToLower();
         }
 
+        public static string ToCamelCase(this string e)
+        {
+            var v = "";
+
+            if (e.Length > 0)
+            {
+                v += e[0].ToUpper();
+
+                if (e.Length > 1)
+                {
+                    for (int i = 1; i < e.Length; i++)
+                    {
+                        if (e[i] != '_')
+                        {
+                            if (e[i - 1] == '_')
+                                v += e[i].ToUpper();
+                            else
+
+                                v += e[i].ToLower();
+                        }
+                    }
+                }
+            }
+
+
+            return v;
+        }
+
         public static string ToCamelCaseUpper(this string e)
         {
             var v = "";

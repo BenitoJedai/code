@@ -50,6 +50,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\com\google\maps\controls\ControlBase.cs" />
+    <Compile Include="ActionScript\com\google\maps\controls\ControlPosition.cs" />
+    <Compile Include="ActionScript\com\google\maps\controls\MapTypeControlOptions.cs" />
+    <Compile Include="ActionScript\com\google\maps\controls\MapTypeControl.cs" />
+    <Compile Include="ActionScript\com\google\maps\controls\PositionControlOptions.cs" />
+    <Compile Include="ActionScript\com\google\maps\controls\ZoomControl.cs" />
+    <Compile Include="ActionScript\com\google\maps\controls\PositionControl.cs" />
+    <Compile Include="ActionScript\com\google\maps\controls\ZoomControlOptions.cs" />
+    <Compile Include="ActionScript\com\google\maps\interfaces\IMap.cs" />
+    <Compile Include="ActionScript\com\google\maps\interfaces\IWrappable.cs" />
     <Compile Include="ActionScript\com\google\maps\MapType.cs" />
     <Compile Include="ActionScript\com\google\maps\MapEvent.cs" />
     <Compile Include="ActionScript\com\google\maps\InfoWindowOptions.cs" />
@@ -62,6 +72,8 @@
     <Compile Include="ActionScript\com\google\maps\interfaces\IControl.cs" />
     <Compile Include="ActionScript\com\google\maps\Map.cs" />
     <Compile Include="ActionScript\com\google\maps\MapTypeOptions.cs" />
+    <Compile Include="ActionScript\com\google\maps\styles\ButtonFaceStyle.cs" />
+    <Compile Include="ActionScript\com\google\maps\styles\ButtonStyle.cs" />
     <Compile Include="ActionScript\Extensions\com\google\maps\Map.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />

@@ -648,7 +648,14 @@ render
             var content = new IHTMLDiv().AttachToDocument();
             content.Hide();
 
+            var IsEnum = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox);
+            new IHTMLDiv(
+                new IHTMLLabel("Declare constants as enums ", IsEnum), IsEnum
+            ).AttachTo(content);
+
+
             var update = default(Action);
+
 
             var a = new IHTMLTextArea().AttachTo(content);
             IHTMLButton.Create(
@@ -767,7 +774,13 @@ render
 
                     var lines = a.Lines.ToArray();
 
-                    w.AppendLine("#region Constants");
+                    if (IsEnum.@checked)
+                    {
+                        w.AppendLine("public enum " + DeclaringType.value);
+                        w.AppendLine("{");
+                    }
+                    else
+                        w.AppendLine("#region Constants");
 
                     for (int i = 0; i < lines.Length; i += 2)
                     {
@@ -801,10 +814,25 @@ render
                                 if (handler != null)
                                     handler(ConstantName);
 
-                                if (string.IsNullOrEmpty(ConstantValue))
-                                    w.AppendLine("public static readonly " + ConstantType + " " + ConstantName + ";");
+                                if (IsEnum.@checked)
+                                {
+                                    var Prefix = DeclaringType.value.ToLower() + "_";
+
+                                    if (ConstantName.ToLower().StartsWith(Prefix))
+                                        ConstantName = ConstantName.Substring(Prefix.Length).ToLower().ToCamelCase();
+
+                                    if (string.IsNullOrEmpty(ConstantValue))
+                                        w.AppendLine(ConstantName + ",");
+                                    else
+                                        w.AppendLine(ConstantName + " = " + ConstantValue + ",");
+                                }
                                 else
-                                    w.AppendLine("public static readonly " + ConstantType + " " + ConstantName + " = " + ConstantValue + ";");
+                                {
+                                    if (string.IsNullOrEmpty(ConstantValue))
+                                        w.AppendLine("public static readonly " + ConstantType + " " + ConstantName + ";");
+                                    else
+                                        w.AppendLine("public static readonly " + ConstantType + " " + ConstantName + " = " + ConstantValue + ";");
+                                }
 
                                 w.AppendLine();
 
@@ -815,7 +843,12 @@ render
                         }
                     }
 
-                    w.AppendLine("#endregion");
+                    if (IsEnum.@checked)
+                    {
+                        w.AppendLine("}");
+                    }
+                    else
+                        w.AppendLine("#endregion");
 
 
 
@@ -839,16 +872,15 @@ render
                     }
                 };
 
+            DeclaringType.onchange += delegate { update(); };
+            IsEnum.onchange += delegate { update(); };
 
-            a.onchange +=
-                delegate
-                {
-                    update();
-                };
+            a.onchange += delegate { update(); };
         }
 
         private void AddProperties()
         {
+            //  todo: interface properties
 
             var h = new IHTMLElement(IHTMLElement.HTMLElementEnum.h3).AttachToDocument();
             var htext = new IHTMLSpan("Properties (click to show/hide)").AttachTo(h);
@@ -863,7 +895,7 @@ render
             var a = new IHTMLTextArea().AttachTo(content);
             var b = new IHTMLTextArea().AttachTo(content);
 
-     
+
             htext.onclick +=
                 delegate
                 {
@@ -881,7 +913,7 @@ render
 
             b.readOnly = true;
 
-      
+
 
 
             Action update =
@@ -942,7 +974,7 @@ render
                                     if (IsField.@checked)
                                     {
                                         var ReadonlyModifier = Summary.Contains(ReadOnly) ? "readonly " : "";
-                                        
+
                                         var DefaultValueExpression = string.IsNullOrEmpty(DefaultValue) ? "" : " = " + DefaultValue;
 
                                         w.AppendLine("public " + StaticModifier + ReadonlyModifier + TypeName + " " + FieldName + DefaultValueExpression + ";");
@@ -979,6 +1011,7 @@ render
             var list = new List<string>
             {
                 "namespace",
+                "params",
                 "event",
                 "static",
                 "public",
