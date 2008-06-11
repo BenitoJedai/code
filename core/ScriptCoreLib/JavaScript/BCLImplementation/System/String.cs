@@ -132,6 +132,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         #region concat
         [Script(OptimizedCode = "return a0.join('');")]
+        public static string Concat(string[] a0)
+        {
+            return default(string);
+        }
+
+        [Script(OptimizedCode = "return a0.join('');")]
         public static string Concat(object[] a0)
         {
             return default(string);

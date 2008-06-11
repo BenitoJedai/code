@@ -209,17 +209,17 @@ Registers an event listener object with an EventDispatcher object so that the li
             update =
                 delegate
                 {
+                    update_output();
+                    /*
                     try
                     {
 
-                        update_output(
-
-                        );
+                        update_output();
                     }
                     catch (Exception ex)
                     {
                         b.value = "error: " + ex.Message;
-                    }
+                    }*/
                 };
 
             IsInterface.onchange += delegate { update(); };

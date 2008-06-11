@@ -1,0 +1,5 @@
+﻿This assembly is derived from:
+
+http://code.google.com/apis/maps/documentation/flash/reference.html
+
+This assembly only defines native types witchin 'map_flex_1_4.swc'.
