@@ -33,16 +33,32 @@ namespace ConvertASToCS.js
                 new IHTMLLabel("DeclaringType: ", DeclaringType), DeclaringType
                 ).AttachToDocument();
 
-            AddEvents();
-            AddConstants();
-            AddProperties();
-            AddMethods();
+            a = new IHTMLTextArea().AttachToDocument();
+            a.style.backgroundColor = Color.Transparent;
+
+
+            Func<string, IHTMLAnchor> CreateButton =
+                text =>
+                {
+                    var htext = new IHTMLAnchor("#", text).AttachToDocument();
+
+                    htext.onclick += e => e.PreventDefault();
+                    htext.style.margin = "1em";
+
+                    return htext;
+                };
+
+
+            AddEvents(CreateButton("Events"));
+            AddConstants(CreateButton("Constants"));
+            AddProperties(CreateButton("Properties"));
+            AddMethods(CreateButton("Methods"));
         }
 
-        private void AddMethods()
+        readonly IHTMLTextArea a;
+
+        private void AddMethods(IHTMLElement htext)
         {
-            var h = new IHTMLElement(IHTMLElement.HTMLElementEnum.h3).AttachToDocument();
-            var htext = new IHTMLSpan("Methods (click to show/hide)").AttachTo(h);
             var content = new IHTMLDiv().AttachToDocument();
             content.Hide();
 
@@ -58,7 +74,8 @@ namespace ConvertASToCS.js
 
             var update = default(Action);
 
-            var a = new IHTMLTextArea().AttachTo(content);
+            // var a = new IHTMLTextArea().AttachTo(content);
+
             IHTMLButton.Create(
                 "Example code",
                 delegate
@@ -209,15 +226,17 @@ Registers an event listener object with an EventDispatcher object so that the li
             update =
                 delegate
                 {
-                    
-                    
+
+
                     try
                     {
 
                         update_output();
+                        htext.style.color = Color.Blue;
                     }
                     catch (Exception ex)
                     {
+                        htext.style.color = Color.Red;
                         b.value = "error: " + ex.Message;
                     }
                 };
@@ -396,18 +415,22 @@ Registers an event listener object with an EventDispatcher object so that the li
             }
         }
 
-        private void AddEvents()
+        private void AddEvents(IHTMLElement htext)
         {
-            var h = new IHTMLElement(IHTMLElement.HTMLElementEnum.h3).AttachToDocument();
-            var htext = new IHTMLSpan("Events (click to show/hide)").AttachTo(h);
             var content = new IHTMLDiv().AttachToDocument();
             content.Hide();
 
             var IsCamelCaseNames = "Use CamelCase on event names ".ToCheckBox().AttachToWithLabel(content);
 
+            IHTMLInput NamePrefix = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.text);
+
+            new IHTMLDiv(
+                new IHTMLLabel("Event name prefix: ", NamePrefix), NamePrefix
+                ).AttachTo(content);
+
             var update = default(Action);
 
-            var a = new IHTMLTextArea().AttachTo(content);
+            // var a = new IHTMLTextArea().AttachTo(content);
             IHTMLButton.Create(
                 "Example code",
                 delegate
@@ -507,8 +530,12 @@ render
                                 var EventCodeName = dict.EventCodeName[EventName];
 
                                 var FriendlyEventName = EventName;
+
                                 if (IsCamelCaseNames.@checked)
                                     FriendlyEventName = FriendlyEventName.ToCamelCase();
+
+                                if (!string.IsNullOrEmpty(NamePrefix.value))
+                                    FriendlyEventName = NamePrefix.value + FriendlyEventName;
 
                                 if (FriendlyEventName == "")
                                     throw new Exception("Friendly name is empty.");
@@ -633,9 +660,12 @@ render
                                 row.AddColumn(EventCodeName);
                             }
                         );
+
+                        htext.style.color = Color.Blue;
                     }
                     catch (Exception ex)
                     {
+                        htext.style.color = Color.Red;
                         b.value = "error: " + ex.Message;
                     }
                 };
@@ -647,25 +677,24 @@ render
                    update_output(null);
                };
 
+            NamePrefix.onchange += delegate { update(); };
             IsCamelCaseNames.onchange += delegate { update(); };
             a.onchange += delegate { update(); };
         }
 
 
-        private void AddConstants()
+        private void AddConstants(IHTMLElement htext)
         {
-            var h = new IHTMLElement(IHTMLElement.HTMLElementEnum.h3).AttachToDocument();
-            var htext = new IHTMLSpan("Constants (click to show/hide)").AttachTo(h);
             var content = new IHTMLDiv().AttachToDocument();
             content.Hide();
 
             var IsEnum = "Declare constants as enums ".ToCheckBox().AttachToWithLabel(content);
-            
+
 
             var update = default(Action);
 
 
-            var a = new IHTMLTextArea().AttachTo(content);
+            // var a = new IHTMLTextArea().AttachTo(content);
             IHTMLButton.Create(
                 "Example code",
                 delegate
@@ -877,9 +906,11 @@ render
                         update_output(
                             null
                         );
+                        htext.style.color = Color.Blue;
                     }
                     catch (Exception ex)
                     {
+                        htext.style.color = Color.Red;
                         b.value = "error: " + ex.Message;
                     }
                 };
@@ -891,12 +922,10 @@ render
             a.onchange += delegate { update(); };
         }
 
-        private void AddProperties()
+        private void AddProperties(IHTMLElement htext)
         {
             //  todo: interface properties
 
-            var h = new IHTMLElement(IHTMLElement.HTMLElementEnum.h3).AttachToDocument();
-            var htext = new IHTMLSpan("Properties (click to show/hide)").AttachTo(h);
             var content = new IHTMLDiv().AttachToDocument();
             content.Hide();
 
@@ -905,7 +934,7 @@ render
                 new IHTMLLabel("as fields instead of properties: ", IsField), IsField
             ).AttachTo(content);
 
-            var a = new IHTMLTextArea().AttachTo(content);
+            // var a = new IHTMLTextArea().AttachTo(content);
             var b = new IHTMLTextArea().AttachTo(content);
 
 
@@ -1008,9 +1037,11 @@ render
                         w.AppendLine("#endregion");
 
                         b.value = w.ToString();
+                        htext.style.color = Color.Blue;
                     }
                     catch (Exception ex)
                     {
+                        htext.style.color = Color.Red;
                         b.value = "error: " + ex.Message;
                     }
                 };

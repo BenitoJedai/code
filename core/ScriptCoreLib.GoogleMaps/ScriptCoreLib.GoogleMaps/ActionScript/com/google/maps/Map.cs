@@ -549,21 +549,23 @@ namespace ScriptCoreLib.ActionScript.com.google.maps
         /// [static] This event is fired when the change of the map view ends.
         /// </summary>
         [method: Script(NotImplementedHere = true)]
-        public event Action<MapMoveEvent> MoveEnd;
+        public event Action<MapMoveEvent> MapMoveEnd;
 
         /// <summary>
         /// [static] This event is fired when the map view starts changing.
         /// </summary>
         [method: Script(NotImplementedHere = true)]
-        public event Action<MapMoveEvent> MoveStart;
+        public event Action<MapMoveEvent> MapMoveStart;
 
         /// <summary>
         /// [static] This event is fired repeatedly while the map view is changing.
         /// </summary>
         [method: Script(NotImplementedHere = true)]
-        public event Action<MapMoveEvent> MoveStep;
+        public event Action<MapMoveEvent> MapMoveStep;
 
         #endregion
+
+
 
 
         #region Events
@@ -571,27 +573,96 @@ namespace ScriptCoreLib.ActionScript.com.google.maps
         /// [static] This event is fired when zooming of the map ends.
         /// </summary>
         [method: Script(NotImplementedHere = true)]
-        public event Action<MapZoomEvent> ZoomEnd;
+        public event Action<MapZoomEvent> MapZoomEnd;
 
         /// <summary>
         /// [static] This event is fired when the available zoom range for the map changes.
         /// </summary>
         [method: Script(NotImplementedHere = true)]
-        public event Action<MapZoomEvent> ZoomRangeChanged;
+        public event Action<MapZoomEvent> MapZoomRangeChanged;
 
         /// <summary>
         /// [static] This event is fired when zooming of the map starts.
         /// </summary>
         [method: Script(NotImplementedHere = true)]
-        public event Action<MapZoomEvent> ZoomStart;
+        public event Action<MapZoomEvent> MapZoomStart;
 
         /// <summary>
         /// [static] This event is fired repeatedly while the map is zooming.
         /// </summary>
         [method: Script(NotImplementedHere = true)]
-        public event Action<MapZoomEvent> ZoomStep;
+        public event Action<MapZoomEvent> MapZoomStep;
 
         #endregion
-      
+
+        
+
+
+
+        #region Events
+        /// <summary>
+        /// [static] This event is fired when the map is clicked with the mouse.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapMouseEvent> MapClick;
+
+        /// <summary>
+        /// [static] This event is fired when a double click is done on the map.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapMouseEvent> MapDoubleClick;
+
+        /// <summary>
+        /// [static] This event is fired when the user stops dragging the map.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapMouseEvent> MapDragEnd;
+
+        /// <summary>
+        /// [static] This event is fired when the user starts dragging the map.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapMouseEvent> MapDragStart;
+
+        /// <summary>
+        /// [static] This event is fired repeatedly while the user drags the map.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapMouseEvent> MapDragStep;
+
+        /// <summary>
+        /// [static] This event is fired when the user presses the mouse button over the map.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapMouseEvent> MapMouseDown;
+
+        /// <summary>
+        /// [static] This event is fired when the mouse moves over the map.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapMouseEvent> MapMouseMove;
+
+        /// <summary>
+        /// [static] This event is fired when the user releases the mouse button over the map.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapMouseEvent> MapMouseUp;
+
+        /// <summary>
+        /// [static] This event is fired when the user rolls the mouse off the map.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapMouseEvent> MapRollOut;
+
+        /// <summary>
+        /// [static] This event is fired when the user rolls the mouse over the map.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action<MapMouseEvent> MapRollOver;
+
+        #endregion
+
+       
+
     }
 }

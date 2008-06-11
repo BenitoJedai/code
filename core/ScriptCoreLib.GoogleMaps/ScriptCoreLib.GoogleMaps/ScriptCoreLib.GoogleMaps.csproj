@@ -60,6 +60,7 @@
     <Compile Include="ActionScript\com\google\maps\controls\ZoomControlOptions.cs" />
     <Compile Include="ActionScript\com\google\maps\interfaces\IMap.cs" />
     <Compile Include="ActionScript\com\google\maps\interfaces\IWrappable.cs" />
+    <Compile Include="ActionScript\com\google\maps\MapMouseEvent.cs" />
     <Compile Include="ActionScript\com\google\maps\MapMoveEvent.cs" />
     <Compile Include="ActionScript\com\google\maps\MapType.cs" />
     <Compile Include="ActionScript\com\google\maps\MapEvent.cs" />

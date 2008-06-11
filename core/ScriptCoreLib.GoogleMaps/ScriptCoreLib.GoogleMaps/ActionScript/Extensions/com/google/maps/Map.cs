@@ -158,37 +158,37 @@ namespace ScriptCoreLib.ActionScript.Extensions.com.google.maps
 
 
         #region Implementation for methods marked with [Script(NotImplementedHere = true)]
-        #region MoveEnd
-        public static void add_MoveEnd(Map that, Action<MapMoveEvent> value)
+        #region MapMoveEnd
+        public static void add_MapMoveEnd(Map that, Action<MapMoveEvent> value)
         {
             CommonExtensions.CombineDelegate(that, value, MapMoveEvent.MOVE_END);
         }
 
-        public static void remove_MoveEnd(Map that, Action<MapMoveEvent> value)
+        public static void remove_MapMoveEnd(Map that, Action<MapMoveEvent> value)
         {
             CommonExtensions.RemoveDelegate(that, value, MapMoveEvent.MOVE_END);
         }
         #endregion
 
-        #region MoveStart
-        public static void add_MoveStart(Map that, Action<MapMoveEvent> value)
+        #region MapMoveStart
+        public static void add_MapMoveStart(Map that, Action<MapMoveEvent> value)
         {
             CommonExtensions.CombineDelegate(that, value, MapMoveEvent.MOVE_START);
         }
 
-        public static void remove_MoveStart(Map that, Action<MapMoveEvent> value)
+        public static void remove_MapMoveStart(Map that, Action<MapMoveEvent> value)
         {
             CommonExtensions.RemoveDelegate(that, value, MapMoveEvent.MOVE_START);
         }
         #endregion
 
-        #region MoveStep
-        public static void add_MoveStep(Map that, Action<MapMoveEvent> value)
+        #region MapMoveStep
+        public static void add_MapMoveStep(Map that, Action<MapMoveEvent> value)
         {
             CommonExtensions.CombineDelegate(that, value, MapMoveEvent.MOVE_STEP);
         }
 
-        public static void remove_MoveStep(Map that, Action<MapMoveEvent> value)
+        public static void remove_MapMoveStep(Map that, Action<MapMoveEvent> value)
         {
             CommonExtensions.RemoveDelegate(that, value, MapMoveEvent.MOVE_STEP);
         }
@@ -198,55 +198,180 @@ namespace ScriptCoreLib.ActionScript.Extensions.com.google.maps
 
 
         #region Implementation for methods marked with [Script(NotImplementedHere = true)]
-        #region ZoomEnd
-        public static void add_ZoomEnd(Map that, Action<MapZoomEvent> value)
+        #region MapZoomEnd
+        public static void add_MapZoomEnd(Map that, Action<MapZoomEvent> value)
         {
             CommonExtensions.CombineDelegate(that, value, MapZoomEvent.ZOOM_END);
         }
 
-        public static void remove_ZoomEnd(Map that, Action<MapZoomEvent> value)
+        public static void remove_MapZoomEnd(Map that, Action<MapZoomEvent> value)
         {
             CommonExtensions.RemoveDelegate(that, value, MapZoomEvent.ZOOM_END);
         }
         #endregion
 
-        #region ZoomRangeChanged
-        public static void add_ZoomRangeChanged(Map that, Action<MapZoomEvent> value)
+        #region MapZoomRangeChanged
+        public static void add_MapZoomRangeChanged(Map that, Action<MapZoomEvent> value)
         {
             CommonExtensions.CombineDelegate(that, value, MapZoomEvent.ZOOM_RANGE_CHANGED);
         }
 
-        public static void remove_ZoomRangeChanged(Map that, Action<MapZoomEvent> value)
+        public static void remove_MapZoomRangeChanged(Map that, Action<MapZoomEvent> value)
         {
             CommonExtensions.RemoveDelegate(that, value, MapZoomEvent.ZOOM_RANGE_CHANGED);
         }
         #endregion
 
-        #region ZoomStart
-        public static void add_ZoomStart(Map that, Action<MapZoomEvent> value)
+        #region MapZoomStart
+        public static void add_MapZoomStart(Map that, Action<MapZoomEvent> value)
         {
             CommonExtensions.CombineDelegate(that, value, MapZoomEvent.ZOOM_START);
         }
 
-        public static void remove_ZoomStart(Map that, Action<MapZoomEvent> value)
+        public static void remove_MapZoomStart(Map that, Action<MapZoomEvent> value)
         {
             CommonExtensions.RemoveDelegate(that, value, MapZoomEvent.ZOOM_START);
         }
         #endregion
 
-        #region ZoomStep
-        public static void add_ZoomStep(Map that, Action<MapZoomEvent> value)
+        #region MapZoomStep
+        public static void add_MapZoomStep(Map that, Action<MapZoomEvent> value)
         {
             CommonExtensions.CombineDelegate(that, value, MapZoomEvent.ZOOM_STEP);
         }
 
-        public static void remove_ZoomStep(Map that, Action<MapZoomEvent> value)
+        public static void remove_MapZoomStep(Map that, Action<MapZoomEvent> value)
         {
             CommonExtensions.RemoveDelegate(that, value, MapZoomEvent.ZOOM_STEP);
         }
         #endregion
 
         #endregion
+
+
+        #region Implementation for methods marked with [Script(NotImplementedHere = true)]
+        #region MapClick
+        public static void add_MapClick(Map that, Action<MapMouseEvent> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, MapMouseEvent.CLICK);
+        }
+
+        public static void remove_MapClick(Map that, Action<MapMouseEvent> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, MapMouseEvent.CLICK);
+        }
+        #endregion
+
+        #region MapDoubleClick
+        public static void add_MapDoubleClick(Map that, Action<MapMouseEvent> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, MapMouseEvent.DOUBLE_CLICK);
+        }
+
+        public static void remove_MapDoubleClick(Map that, Action<MapMouseEvent> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, MapMouseEvent.DOUBLE_CLICK);
+        }
+        #endregion
+
+        #region MapDragEnd
+        public static void add_MapDragEnd(Map that, Action<MapMouseEvent> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, MapMouseEvent.DRAG_END);
+        }
+
+        public static void remove_MapDragEnd(Map that, Action<MapMouseEvent> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, MapMouseEvent.DRAG_END);
+        }
+        #endregion
+
+        #region MapDragStart
+        public static void add_MapDragStart(Map that, Action<MapMouseEvent> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, MapMouseEvent.DRAG_START);
+        }
+
+        public static void remove_MapDragStart(Map that, Action<MapMouseEvent> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, MapMouseEvent.DRAG_START);
+        }
+        #endregion
+
+        #region MapDragStep
+        public static void add_MapDragStep(Map that, Action<MapMouseEvent> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, MapMouseEvent.DRAG_STEP);
+        }
+
+        public static void remove_MapDragStep(Map that, Action<MapMouseEvent> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, MapMouseEvent.DRAG_STEP);
+        }
+        #endregion
+
+        #region MapMouseDown
+        public static void add_MapMouseDown(Map that, Action<MapMouseEvent> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, MapMouseEvent.MOUSE_DOWN);
+        }
+
+        public static void remove_MapMouseDown(Map that, Action<MapMouseEvent> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, MapMouseEvent.MOUSE_DOWN);
+        }
+        #endregion
+
+        #region MapMouseMove
+        public static void add_MapMouseMove(Map that, Action<MapMouseEvent> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, MapMouseEvent.MOUSE_MOVE);
+        }
+
+        public static void remove_MapMouseMove(Map that, Action<MapMouseEvent> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, MapMouseEvent.MOUSE_MOVE);
+        }
+        #endregion
+
+        #region MapMouseUp
+        public static void add_MapMouseUp(Map that, Action<MapMouseEvent> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, MapMouseEvent.MOUSE_UP);
+        }
+
+        public static void remove_MapMouseUp(Map that, Action<MapMouseEvent> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, MapMouseEvent.MOUSE_UP);
+        }
+        #endregion
+
+        #region MapRollOut
+        public static void add_MapRollOut(Map that, Action<MapMouseEvent> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, MapMouseEvent.ROLL_OUT);
+        }
+
+        public static void remove_MapRollOut(Map that, Action<MapMouseEvent> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, MapMouseEvent.ROLL_OUT);
+        }
+        #endregion
+
+        #region MapRollOver
+        public static void add_MapRollOver(Map that, Action<MapMouseEvent> value)
+        {
+            CommonExtensions.CombineDelegate(that, value, MapMouseEvent.ROLL_OVER);
+        }
+
+        public static void remove_MapRollOver(Map that, Action<MapMouseEvent> value)
+        {
+            CommonExtensions.RemoveDelegate(that, value, MapMouseEvent.ROLL_OVER);
+        }
+        #endregion
+
+        #endregion
+
 
     }
 }
