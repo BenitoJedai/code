@@ -66,10 +66,7 @@
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
     <Content Include="docs\SourceAnalysis.txt" />
-    <EmbeddedResource Include="web\assets\OrcasFlashApplication\Preview.png">
-    </EmbeddedResource>
-    <EmbeddedResource Include="web\assets\OrcasFlashApplication\rain_1.mp3">
-    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\FlashGoogleMapsExample\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />

@@ -55,7 +55,7 @@ namespace FlashGoogleMapsExample.ActionScript
                         filters = new [] { new GlowFilter(ColorBlack) }
                     }.AttachTo(this);
 
-                    this.MapMoveEnd += e =>
+                    this.MapMoveStep += e =>
                         {
                             status.text = "move: " + e.latLng.ToString();
                         };

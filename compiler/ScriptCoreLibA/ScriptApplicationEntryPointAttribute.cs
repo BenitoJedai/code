@@ -44,10 +44,13 @@ namespace ScriptCoreLib
         public int Width { get; set; }
         public int Height { get; set; }
 
+        public const int DefaultWidth = 500;
+        public const int DefaultHeight = 380;
+
         public ScriptApplicationEntryPointAttribute()
         {
-            Width = 320;
-            Height = 240;
+            Width = DefaultWidth;
+            Height = DefaultHeight;
         }
     }
 
