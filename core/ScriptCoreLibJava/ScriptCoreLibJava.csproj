@@ -7,7 +7,7 @@
     <ProjectGuid>{5F295F12-F93F-4347-B417-AA89990652A3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScriptCoreLib</RootNamespace>
+    <RootNamespace>ScriptCoreLibJava</RootNamespace>
     <AssemblyName>ScriptCoreLibJava</AssemblyName>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <StartupObject>
@@ -15,7 +15,7 @@
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
   </PropertyGroup>
@@ -58,6 +58,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BCLImplementation\System\IDisposable.cs" />
+    <Compile Include="BCLImplementation\System\String.cs" />
     <Compile Include="javax.common\runtime\WrappedBigDecimal.cs" />
     <Compile Include="javax.common\runtime\Helper.cs" />
     <Compile Include="javax.common\runtime\Expando.cs" />

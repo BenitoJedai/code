@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>X:\jsc.svn\javascript\Tools\ConvertASToCS\ConvertASToCS\bin\Debug</StartWorkingDirectory>
-    <StartArguments>ConvertASToCS.dll -js</StartArguments>
+    <StartWorkingDirectory>X:\jsc.svn\templates\OrcasJavaConsoleApplication\OrcasJavaConsoleApplication\bin\Debug</StartWorkingDirectory>
+    <StartArguments>OrcasJavaConsoleApplication.dll -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

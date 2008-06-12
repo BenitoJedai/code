@@ -37,3 +37,10 @@ using ScriptCoreLib;
 
 [assembly: ScriptTypeFilter(ScriptType.Java, "*")]
 [assembly: Script(IsCoreLib=true)]
+
+[assembly:
+    ScriptNamespaceRename(
+        NativeNamespaceName = "ScriptCoreLibJava.BCLImplementation",
+        VirtualNamespaceName = "javax.common.wrapper.BCLImplementation"
+    )
+]

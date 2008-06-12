@@ -826,6 +826,9 @@ namespace jsc.Languages.Java
             if (IsEmptyImplementationType(z))
                 return false;
 
+            if (ScriptAttribute.IsAnonymousType(z))
+                return false;
+
             //WriteMachineGeneratedWarning();
 
             if (z.Namespace != null)
@@ -1037,7 +1040,7 @@ namespace jsc.Languages.Java
 
 
 
-        
+
 
 
         public override void WriteXmlDoc(MethodBase m)
@@ -1833,7 +1836,7 @@ namespace jsc.Languages.Java
 
 
 
-            if (z.IsPublic || z.IsNestedPublic)
+            if (za.Implements != null || z.IsPublic || z.IsNestedPublic)
                 WriteKeywordPublic();
             //else
             //    WriteKeywordPrivate();

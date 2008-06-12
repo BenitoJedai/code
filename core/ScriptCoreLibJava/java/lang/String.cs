@@ -5,7 +5,7 @@ using java.util;
 namespace java.lang
 {
     /// <summary>
-    /// http://java.sun.com/j2se/1.3/docs/api/java/lang/String.html
+    /// http://java.sun.com/j2se/1.4.2/docs/api/java/lang/String.html
     /// </summary>
     [Script(IsNative = true)]
     public class String
