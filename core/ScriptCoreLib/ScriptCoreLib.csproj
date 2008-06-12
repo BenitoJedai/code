@@ -275,6 +275,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Array.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Comparision.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Diagnostics\Debug.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Environment.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\NotSupportedException.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\DateTime.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Boolean.cs" />

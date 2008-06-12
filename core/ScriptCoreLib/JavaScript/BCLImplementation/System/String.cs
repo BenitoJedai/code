@@ -7,9 +7,25 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     using ScriptCoreLib.JavaScript.Runtime;
     using ScriptCoreLib.JavaScript.DOM;
 
-    [Script(Implements = typeof(global::System.String))]
+    [Script(Implements = typeof(global::System.String), InternalConstructor = true)]
     internal class __String
     {
+        public __String(char c, int count)
+        {
+        }
+
+        public static string InternalConstructor(char c, int count)
+        {
+            var w = new StringBuilder();
+
+            for (int i = 0; i < count; i++)
+            {
+                w.Append(FromCharCode(c));
+            }
+
+            return w.ToString();
+        }
+
         public static string Format(string format, object a)
         {
             // fast solution 
@@ -89,13 +105,29 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return default(int);
         }
 
+        [Script(OptimizedCode = "return e.lastIndexOf(c);")]
+        static internal int InternalLastIndexOf(__String e, object c)
+        {
+            return default(int);
+        }
+
         [Script(OptimizedCode = "return e.indexOf(c);")]
         static internal int InternalIndexOf(__String e, object c)
         {
             return default(int);
         }
 
+        [Script(OptimizedCode = "return e.indexOf(c, pos);")]
+        static internal int InternalIndexOf(__String e, object c, int pos)
+        {
+            return default(int);
+        }
 
+        [Script(DefineAsStatic = true)]
+        public int LastIndexOf(string c)
+        {
+            return InternalLastIndexOf(this, c);
+        }
 
         [Script(DefineAsStatic = true)]
         public int IndexOf(char c)
@@ -107,6 +139,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public int IndexOf(string c)
         {
             return InternalIndexOf(this, c);
+        }
+
+        [Script(DefineAsStatic = true)]
+        public int IndexOf(string c, int pos)
+        {
+            return InternalIndexOf(this, c, pos);
         }
 
         public int Length

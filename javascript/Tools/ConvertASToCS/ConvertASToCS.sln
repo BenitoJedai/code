@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express 2008
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConvertASToCS", "ConvertASToCS\ConvertASToCS.csproj", "{794287FC-14AF-4A4A-A895-464F09682CAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConvertASToCS.Any", "ConvertASToCS.Any\ConvertASToCS.Any.csproj", "{EE7DE4C7-9941-4B2A-A23D-15E641292835}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConvertASToCS.Any.Test", "ConvertASToCS.Any.Test\ConvertASToCS.Any.Test.csproj", "{431C3CB7-47E5-45D8-A367-F2C82E0FDC36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +17,14 @@ Global
 		{794287FC-14AF-4A4A-A895-464F09682CAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{794287FC-14AF-4A4A-A895-464F09682CAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{794287FC-14AF-4A4A-A895-464F09682CAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE7DE4C7-9941-4B2A-A23D-15E641292835}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE7DE4C7-9941-4B2A-A23D-15E641292835}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE7DE4C7-9941-4B2A-A23D-15E641292835}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE7DE4C7-9941-4B2A-A23D-15E641292835}.Release|Any CPU.Build.0 = Release|Any CPU
+		{431C3CB7-47E5-45D8-A367-F2C82E0FDC36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{431C3CB7-47E5-45D8-A367-F2C82E0FDC36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{431C3CB7-47E5-45D8-A367-F2C82E0FDC36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{431C3CB7-47E5-45D8-A367-F2C82E0FDC36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -11,6 +11,7 @@ using System.Collections.Specialized;
 using System.Collections.Generic;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
+using ConvertASToCS.js.Any;
 
 
 namespace ConvertASToCS.js
@@ -30,6 +31,7 @@ namespace ConvertASToCS.js
 
             var cookie = new Cookie("DeclaringType").BindTo(DeclaringType);
 
+            #region Title
             var MyTitleText = new IHTMLDiv("This tool allows you to copy various parts of flash doc html file in and generate C# headers.");
             MyTitleText.style.paddingTop = "12px";
             MyTitleText.style.paddingLeft = "15px";
@@ -42,16 +44,20 @@ namespace ConvertASToCS.js
             MyTitle.style.height = "44px";
             MyTitle.AttachToDocument();
 
+            var MyTitleMiddleTextFloat = new IHTMLDiv();
+
+            MyTitleMiddleTextFloat.style.paddingTop = "3px";
+            MyTitleMiddleTextFloat.style.Float = IStyle.FloatEnum.right;
 
             var MyTitleMiddleText = new IHTMLDiv(new IHTMLLabel("DeclaringType: ", DeclaringType), DeclaringType);
             MyTitleMiddleText.style.paddingTop = "3px";
             MyTitleMiddleText.style.paddingLeft = "15px";
             MyTitleMiddleText.style.fontFamily = IStyle.FontFamilyEnum.Tahoma;
             MyTitleMiddleText.style.fontSize = "20px";
-            
 
 
-            var MyTitleMiddle = new IHTMLDiv(MyTitleMiddleText);
+
+            var MyTitleMiddle = new IHTMLDiv(MyTitleMiddleTextFloat, MyTitleMiddleText);
             MyTitleMiddle.style.background = "url(" + Assets.Path + "titleTableMiddle.jpg) repeat-x";
             MyTitleMiddle.style.height = "31px";
             MyTitleMiddle.AttachToDocument();
@@ -60,6 +66,8 @@ namespace ConvertASToCS.js
             MyTitleShadow.style.background = "url(" + Assets.Path + "titleTableBottom.jpg) repeat-x";
             MyTitleShadow.style.height = "5px";
             MyTitleShadow.AttachToDocument();
+            #endregion
+
 
 
             DocumentBody = new IHTMLDiv().AttachToDocument();
@@ -71,6 +79,7 @@ namespace ConvertASToCS.js
 
             a = new IHTMLTextArea().AttachTo(DocumentBody);
             a.style.backgroundColor = Color.Transparent;
+            a.style.border = "1px solid gray";
 
 
             Func<IHTMLImage, string, IHTMLAnchor> CreateButton =
@@ -78,7 +87,7 @@ namespace ConvertASToCS.js
                 {
                     img.style.border = "0px";
 
-                    var htext = new IHTMLAnchor("#", img, new IHTMLSpan(text)).AttachTo(DocumentBody);
+                    var htext = new IHTMLAnchor("#", img, new IHTMLSpan(text)).AttachTo(MyTitleMiddleTextFloat);
 
                     htext.onclick += e => e.PreventDefault();
                     htext.style.margin = "1em";
@@ -91,11 +100,211 @@ namespace ConvertASToCS.js
             AddConstants(CreateButton((Assets.Path + "ak590dyt.pubproperty(en-US,VS.80).gif"), "Constants"));
             AddProperties(CreateButton((Assets.Path + "ak590dyt.pubproperty(en-US,VS.80).gif"), "Properties"));
             AddMethods(CreateButton((Assets.Path + "deshae98.pubmethod(en-us,VS.90).gif"), "Methods"));
+            AddAny(CreateButton((Assets.Path + "deshae98.pubmethod(en-us,VS.90).gif"), "Any"));
         }
+
+
 
         readonly IHTMLDiv DocumentBody;
 
         readonly IHTMLTextArea a;
+
+        private void AddAny(IHTMLAnchor htext)
+        {
+            var content = new IHTMLDiv().AttachTo(DocumentBody);
+            content.Hide();
+
+            htext.onclick +=
+              delegate
+              {
+                  content.ToggleVisible();
+              };
+
+            var LastUpdate = new IHTMLDiv("Not updated yet").AttachTo(content);
+
+            var pre = new IHTMLElement(IHTMLElement.HTMLElementEnum.pre).AttachTo(content);
+
+            Action update =
+                delegate
+                {
+                    LastUpdate.innerText = "Last update: " + DateTime.Now;
+
+                    pre.removeChildren();
+
+                    RenderAnyTo(new Any.ReflectionProvider(a.value), pre);
+
+
+                };
+
+
+            a.onchange += delegate { update(); };
+        }
+
+        [Script]
+        internal class Disposable : IDisposable
+        {
+            Action _e;
+
+            public Disposable(Action e)
+            {
+                _e = e;
+            }
+
+            #region IDisposable Members
+
+            public void Dispose()
+            {
+                _e();
+            }
+
+            #endregion
+        }
+
+        private static void RenderAnyTo(ReflectionProvider r, IHTMLElement pre)
+        {
+            Func<Color, Action<string>> ToColorWrite =
+                color =>
+                        text =>
+                        {
+                            var s = new IHTMLSpan { innerText = text };
+
+                            s.style.color = color;
+                            s.AttachTo(pre);
+                        };
+
+            Action<string> Write = text => pre.appendChild(new ITextNode(text));
+            Action WriteLine = () => Write("\n");
+            Action WriteSpace = () => Write(" ");
+
+            Action<string> WriteBlue = ToColorWrite(Color.Blue);
+            Action<string> WriteBlack = ToColorWrite(Color.Black);
+            Action<string> WriteGray = ToColorWrite(Color.FromRGB(0x80, 0x80, 0x80));
+            Action<string> WriteCyan = ToColorWrite(Color.FromRGB(0, 0x80, 0x80));
+            Action<string> WriteGreen = ToColorWrite(Color.FromRGB(0, 0x80, 0));
+
+            int Indent = 1;
+
+            Action WriteIdent = () => Write(new string(' ', 4 * Indent));
+
+            Func<string, IDisposable> Region =
+                text =>
+                {
+                    WriteIdent();
+                    WriteGray("#region");
+                    WriteSpace();
+                    WriteGray(text);
+                    WriteLine();
+
+                    return new Disposable(
+                        delegate
+                        {
+                            WriteIdent();
+                            WriteGray("#endregion");
+                            WriteLine();
+                        }
+                    );
+                };
+
+
+            Func<IDisposable> CodeBlock =
+                delegate
+                {
+                    WriteIdent();
+                    Write("{");
+                    WriteLine();
+
+                    Indent++;
+
+                    return new Disposable(
+                        delegate
+                        {
+                            Indent--;
+
+                            WriteIdent();
+                            Write("}");
+                            WriteLine();
+                        }
+                    );
+                };
+
+            Action<string> WriteSummary =
+                text =>
+                {
+                    WriteIdent();
+                    WriteGray("/// <summary>");
+                    WriteLine();
+
+                    WriteIdent();
+                    WriteGray("/// ");
+                    WriteGreen(text);
+                    WriteLine();
+
+                    WriteIdent();
+                    WriteGray("/// </summary>");
+                    WriteLine();
+                };
+
+            WriteIdent();
+            WriteBlue("namespace");
+            WriteSpace();
+            Write(r.PackageName);
+            WriteLine();
+
+            using (CodeBlock())
+            {
+                WriteIdent();
+                Write("[");
+                WriteCyan("Script");
+                Write("(");
+                Write("IsNative = ");
+                WriteBlue("true");
+                Write(")");
+                Write("]");
+                WriteLine();
+
+                WriteIdent();
+
+                WriteBlue("public");
+                WriteSpace();
+
+                if (r.IsSealed)
+                {
+                    WriteBlue("sealed");
+                    WriteSpace();
+                }
+
+
+                WriteBlue("class");
+                WriteSpace();
+                Write(r.TypeName);
+                WriteLine();
+
+                using (CodeBlock())
+                {
+                    using (Region("Properties"))
+                    {
+                        foreach (var p in r.Properties)
+                        {
+                            WriteSummary(p.Summary);
+
+                            WriteIdent();
+
+                            WriteBlue("public");
+                            WriteSpace();
+
+                            Write(p.PropertyType);
+                            WriteSpace();
+                            Write(p.PropertyName);
+                            Write(";");
+                            WriteLine();
+
+                            WriteLine();
+                        }
+                    }
+                }
+            }
+
+        }
 
         private void AddMethods(IHTMLElement htext)
         {
