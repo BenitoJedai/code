@@ -1515,6 +1515,9 @@ namespace jsc.Script
 
         public string GetSafeLiteral(string z)
         {
+            if (z == null)
+                return null;
+
             var w = new StringWriter();
 
             foreach (char x in z)

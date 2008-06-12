@@ -58,8 +58,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BCLImplementation\System\Console.cs" />
     <Compile Include="BCLImplementation\System\IDisposable.cs" />
+    <Compile Include="BCLImplementation\System\Math.cs" />
     <Compile Include="BCLImplementation\System\String.cs" />
+    <Compile Include="BCLImplementation\System\Threading\Thread.cs" />
+    <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="javax.common\runtime\WrappedBigDecimal.cs" />
     <Compile Include="javax.common\runtime\Helper.cs" />
     <Compile Include="javax.common\runtime\Expando.cs" />
@@ -88,6 +92,7 @@
     <Compile Include="java\awt\event\KeyListener.cs" />
     <Compile Include="java\awt\Graphics.cs" />
     <Compile Include="java\awt\Panel.cs" />
+    <Compile Include="java\awt\Toolkit.cs" />
     <Compile Include="java\io\BufferedReader.cs" />
     <Compile Include="java\io\ByteArrayOutputStream.cs" />
     <Compile Include="java\io\PrintWriter.cs" />

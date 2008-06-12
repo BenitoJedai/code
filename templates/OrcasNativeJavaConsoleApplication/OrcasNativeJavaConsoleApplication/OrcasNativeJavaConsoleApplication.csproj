@@ -4,17 +4,17 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1EC6ECE8-E7F9-4E24-8051-B28F08548723}</ProjectGuid>
+    <ProjectGuid>{947DAB80-4F44-4AB0-BF79-BF55D2BDF841}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScriptCoreLibJava.jni</RootNamespace>
-    <AssemblyName>ScriptCoreLibJava.jni</AssemblyName>
+    <RootNamespace>OrcasNativeJavaConsoleApplication</RootNamespace>
+    <AssemblyName>OrcasNativeJavaConsoleApplication</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
     <OldToolsVersion>2.0</OldToolsVersion>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,7 +24,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\ScriptCoreLibJava.jni.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,34 +40,54 @@
     </Reference>
     <Reference Include="ScriptCoreLibJava, Version=1.2006.222.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibJava.jni, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibJava.jni.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="jni\jnistb10.cs" />
+    <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="source\csharp\Setup.cs" />
+    <Compile Include="source\java\Program.cs" />
+    <Compile Include="source\java\Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
-    <EmbeddedResource Include="web\bin\lib_jnistb10.dll">
-    </EmbeddedResource>
+    <Content Include="docs\description.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="web\java\" />
-    <Folder Include="web\release\" />
+    <None Include="tools\build.bat" />
+    <None Include="tools\compile.java.bat" />
+    <None Include="tools\find.java.bat" />
+    <None Include="tools\create.jar.bat" />
+    <None Include="tools\run.jar.bat" />
+    <None Include="web\release\META-INF\MANIFEST.MF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="web\assets\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetPath) c:\util\jsc\bin</PostBuildEvent>
+    <PostBuildEvent>C:\util\jsc\bin\jsc.exe "$(TargetFileName)" -java
+pushd ..\..\tools\
+call build.bat $(ProjectName)
+popd
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

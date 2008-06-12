@@ -114,9 +114,16 @@ namespace jsc.Script
 
                 public string GetVariableName(MethodBase m, LocalVariableInfo var)
                 {
+                    // nameless exceptions cause null LocalVariableInfo
+
+                    if (var == null)
+                        return null;
+
                     try
                     {
-                        if (DiaSession != null)
+                        
+
+                        if (DiaSession != null )
                         {
                             IDiaSymbol methodsymbol = null;
 
@@ -255,7 +262,7 @@ namespace jsc.Script
         /// <param name="localVariableInfo"></param>
         public void WriteVariableName(Type type, MethodBase method, LocalVariableInfo var)
         {
-            WriteSafeLiteral( DIACache.GetVariableName(type, method, var, this) );
+            WriteSafeLiteral( DIACache.GetVariableName(type, method, var, this) ?? "_" );
 
            
         }

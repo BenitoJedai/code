@@ -190,7 +190,7 @@ namespace jni
                 peer = find(lib, fname);
 
                 if (jni.CFunc.IsVerbose)
-                    Console.WriteLine("jni: extern " + lib + "+" + fname + " at " + this.PointerToHexString() );
+                    global::System.Console.WriteLine("jni: extern " + lib + "+" + fname + " at " + this.PointerToHexString() );
 
             }
             catch (csharp.UnsatisfiedLinkError u)
@@ -296,7 +296,7 @@ namespace jni
             {
                 if (IsVerbose)
                 {
-                    Console.WriteLine("memc: " + Size + " bytes + " + m.Size + " bytes at  0x" + Convert.ToHexString(m.Pointer, 8));
+                    global::System.Console.WriteLine("memc: " + Size + " bytes + " + m.Size + " bytes at  0x" + Convert.ToHexString(m.Pointer, 8));
                 }
 
                 list.add(m);
@@ -313,7 +313,7 @@ namespace jni
             public void Collect()
             {
                 if (IsVerbose)
-                    Console.WriteLine("memc: " + Size + " bytes");
+                    global::System.Console.WriteLine("memc: " + Size + " bytes");
 
                 while (list.size() > 0)
                 {
@@ -327,7 +327,7 @@ namespace jni
 
                 }
                 if (IsVerbose)
-                    Console.WriteLine("memc: " + Size + " bytes");
+                    global::System.Console.WriteLine("memc: " + Size + " bytes");
 
             }
 

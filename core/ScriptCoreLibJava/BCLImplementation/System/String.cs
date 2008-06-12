@@ -8,7 +8,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
     [Script(
         Implements = typeof(global::System.String),
-        ImplementationType = typeof(java.lang.String))]
+        ImplementationType = typeof(global::java.lang.String))]
     internal class __String
     {
         [Script(ExternalTarget = "charAt")]
@@ -45,7 +45,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         [Script(DefineAsStatic = true)]
         public string Substring(int start, int len)
         {
-            java.lang.String s = (java.lang.String)(object)this;
+            global::java.lang.String s = (global::java.lang.String)(object)this;
 
 
 
@@ -180,7 +180,20 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public static string Concat(params object[] e)
         {
-            java.lang.StringBuffer b = new java.lang.StringBuffer();
+            var b = new global::java.lang.StringBuffer();
+
+            foreach (object v in e)
+            {
+                b.append(v);
+            }
+
+            return b.ToString();
+        }
+
+
+        public static string Concat(params string[] e)
+        {
+            var b = new global::java.lang.StringBuffer();
 
             foreach (object v in e)
             {

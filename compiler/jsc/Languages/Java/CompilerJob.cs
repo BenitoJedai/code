@@ -57,6 +57,12 @@ namespace jsc.Languages
             DirectoryInfo SourceBinDir = TargetDirectory.CreateSubdirectory("bin");
             DirectoryInfo SourceVersionDir = TargetDirectory.CreateSubdirectory("version");
 
+            // assets
+            foreach (Assembly v in SharedHelper.LoadReferencedAssemblies(Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName), true))
+            {
+                Languages.CompilerJob.ExtractEmbeddedResources(TargetDirectory, v);
+            }
+
             FileInfo SourceVersion = new FileInfo(
                 SourceVersionDir.FullName + "/" 
                 + j.AssamblyInfo.ManifestModule.Name 

@@ -47,7 +47,7 @@ namespace javax.common.runtime
 
         public void ToConsole(string of)
         {
-            Console.WriteLine(of + " " + ElapsedMilliseconds + "ms");
+            System.Console.WriteLine(of + " " + ElapsedMilliseconds + "ms");
         }
 
 

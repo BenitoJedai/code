@@ -80,13 +80,13 @@ namespace javax.common.runtime
                     {
 
                         if (formatx == 0)
-                            Console.Write(prefix);
+                            System.Console.Write(prefix);
                         else
-                            Console.Write(" ", prefix.Length);
+                            Write(" ", prefix.Length);
 
                         if (show_offset)
                         {
-                            Console.Write("0x" + Convert.ToHexString(pi, 4) + " : ");
+                            System.Console.Write("0x" + Convert.ToHexString(pi, 4) + " : ");
                         }
                     }
 
@@ -106,7 +106,7 @@ namespace javax.common.runtime
                         Text += ".";
 
 
-                    Console.Write(Convert.ToHexString(p & 0xFF) + " ");
+                    System.Console.Write(Convert.ToHexString(p & 0xFF) + " ");
 
                     pi++;
                     formatx++;
@@ -115,7 +115,7 @@ namespace javax.common.runtime
                     {
 
 
-                        Console.WriteLine(" | " + Text);
+                        System.Console.WriteLine(" | " + Text);
 
                         Text = "";
                     }
@@ -124,14 +124,14 @@ namespace javax.common.runtime
                 if (Text != "")
                 {
                     while (formatx++ % bytes_shown != 0)
-                        Console.Write("   ");
+                        System.Console.Write("   ");
 
-                    Console.WriteLine(" | " + Text);
+                    System.Console.WriteLine(" | " + Text);
                 }
             }
             catch
             {
-                Console.WriteLine("hexdump failed");
+                System.Console.WriteLine("hexdump failed");
             }
         }
 
@@ -139,7 +139,7 @@ namespace javax.common.runtime
         {
             for (int i = 0; i < count; i++)
             {
-                Console.Write(e);
+                System.Console.Write(e);
             }
         }
 
@@ -157,10 +157,7 @@ namespace javax.common.runtime
 
         }
 
-        public static void WriteLine(string e)
-        {
-            InternalWriteLine(e);
-        }
+
 
         public static sbyte[] ReadAllBytes()
         {
@@ -192,34 +189,8 @@ namespace javax.common.runtime
             return Convert.ToString(b);
         }
 
-        public static string ReadLine()
-        {
-            try
-            {
-                InputStreamReader r0 = new InputStreamReader(JavaSystem.@in);
 
-                BufferedReader r1 = new BufferedReader(r0);
 
-                
-                return r1.readLine();
-            }
-            catch(System.Exception exc)
-            {
-                Console.WriteThrowable(exc);
-
-                return null;
-            }
-        }
-
-        public static void Write(string p)
-        {
-            JavaSystem.@out.print(p);
-        }
-
-        public static void WriteLine()
-        {
-            WriteLine("");
-        }
 
 
 
@@ -254,7 +225,7 @@ namespace javax.common.runtime
 
                 stream.close();
 
-                Console.WriteLine("dump of [" + file + "]");
+                System.Console.WriteLine("dump of [" + file + "]");
                 Console.WriteHexDump(bytes);
             }
             catch (Exception exc)

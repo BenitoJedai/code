@@ -1611,8 +1611,9 @@ namespace jsc.Languages.Java
                         ILBlock.Prestatement set_exc = p.Block.Prestatements.PrestatementCommands[0];
                         WriteVariableName(p.Block.OwnerMethod.DeclaringType, p.Block.OwnerMethod, set_exc.Instruction.TargetVariable);
 
-                        // remove the set command
-                        b.PrestatementCommands.RemoveAt(0);
+                        // remove the set command if there is one
+                        if (set_exc.Instruction.TargetVariable != null)
+                            b.PrestatementCommands.RemoveAt(0);
 
                     }
 

@@ -269,6 +269,7 @@ namespace jsc
 
                 foreach (string vname in v.GetManifestResourceNames())
                 {
+
                     if (vname.EndsWith(".resources"))
                         try
                         {

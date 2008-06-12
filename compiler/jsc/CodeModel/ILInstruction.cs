@@ -1680,6 +1680,10 @@ namespace jsc
                 if (TargetMethodFilter.Contains(this.OpCode))
                     return null;
 
+                // 0a ctor
+                if ((OpParamAsInt32 & 0xff000000) != 0x0a000000 && ((OpParamAsInt32 & 0xff000000) != 0x06000000))
+                    return null;
+
                 Type[] ma = (OwnerMethod.IsGenericMethod) ? OwnerMethod.GetGenericArguments() : null;
 
 
@@ -1688,7 +1692,7 @@ namespace jsc
                 {
 
                     // OwnerMethod.Module.Assembly.ModuleResolve += new ModuleResolveEventHandler(Assembly_ModuleResolve);
-
+                    
                     MethodBase x = OwnerMethod.Module.ResolveMethod(OpParamAsInt32,
                         OwnerMethod.DeclaringType.GetGenericArguments(),
                         ma);
@@ -1731,6 +1735,10 @@ namespace jsc
                 if (TargetMethodFilter.Contains(this.OpCode))
                     return null;
 
+                // 0a
+                if ((OpParamAsInt32 & 0xff000000) != 0x0a000000 && ((OpParamAsInt32 & 0xff000000) != 0x06000000))
+                    return null;
+
                 Type[] ma = (OwnerMethod.IsGenericMethod) ? OwnerMethod.GetGenericArguments() : null;
 
                 try
@@ -1743,6 +1751,10 @@ namespace jsc
                         return null;
                 }
 
+                catch (ArgumentOutOfRangeException e)
+                {
+                    return null;
+                }
                 catch (ArgumentException e)
                 {
                     // not a method nor a ctor
@@ -2051,7 +2063,8 @@ namespace jsc
 
                 Type[] ma = (OwnerMethod.IsGenericMethod) ? OwnerMethod.GetGenericArguments() : null;
 
-
+                if ((OpParamAsInt32 & 0xff000000) != 0x04000000)
+                    return null;
 
                 try
                 {
