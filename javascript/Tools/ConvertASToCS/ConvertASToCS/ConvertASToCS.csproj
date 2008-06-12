@@ -60,9 +60,13 @@
     <Content Include="docs\about.txt" />
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\ConvertASToCS\titleTableMiddle.jpg" />
+    <EmbeddedResource Include="web\assets\ConvertASToCS\titleTableBottom.jpg" />
+    <EmbeddedResource Include="web\assets\ConvertASToCS\titleTableTop.jpg" />
+    <EmbeddedResource Include="web\assets\ConvertASToCS\ak590dyt.pubevent%28en-US,VS.80%29.gif" />
+    <EmbeddedResource Include="web\assets\ConvertASToCS\ak590dyt.pubproperty%28en-US,VS.80%29.gif" />
+    <EmbeddedResource Include="web\assets\ConvertASToCS\deshae98.pubmethod%28en-us,VS.90%29.gif" />
     <EmbeddedResource Include="web\assets\ConvertASToCS\flash_logo.png" />
-    <EmbeddedResource Include="web\assets\OrcasScriptApplication\Preview.png" />
-    <EmbeddedResource Include="web\assets\OrcasScriptApplication\cal.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Collections.Specialized;
 using System.Collections.Generic;
 using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.DOM;
 
 
 namespace ConvertASToCS.js
@@ -23,24 +24,61 @@ namespace ConvertASToCS.js
         {
             Native.Document.title = "ConvertASToCS";
 
-            Native.Document.body.style.backgroundImage = "url(assets/ConvertASToCS/flash_logo.png)";
-            Native.Document.body.style.backgroundPosition = "right top";
-            Native.Document.body.style.backgroundRepeat = "no-repeat";
+            Native.Document.body.style.padding = "0";
+            Native.Document.body.style.margin = "0";
+
 
             var cookie = new Cookie("DeclaringType").BindTo(DeclaringType);
 
-            new IHTMLDiv(
-                new IHTMLLabel("DeclaringType: ", DeclaringType), DeclaringType
-                ).AttachToDocument();
+            var MyTitleText = new IHTMLDiv("This tool allows you to copy various parts of flash doc html file in and generate C# headers.");
+            MyTitleText.style.paddingTop = "12px";
+            MyTitleText.style.paddingLeft = "15px";
+            MyTitleText.style.fontFamily = IStyle.FontFamilyEnum.Tahoma;
+            MyTitleText.style.fontSize = "13px";
 
-            a = new IHTMLTextArea().AttachToDocument();
+
+            var MyTitle = new IHTMLDiv(MyTitleText);
+            MyTitle.style.background = "url(" + Assets.Path + "titleTableTop.jpg) repeat-x";
+            MyTitle.style.height = "44px";
+            MyTitle.AttachToDocument();
+
+
+            var MyTitleMiddleText = new IHTMLDiv(new IHTMLLabel("DeclaringType: ", DeclaringType), DeclaringType);
+            MyTitleMiddleText.style.paddingTop = "3px";
+            MyTitleMiddleText.style.paddingLeft = "15px";
+            MyTitleMiddleText.style.fontFamily = IStyle.FontFamilyEnum.Tahoma;
+            MyTitleMiddleText.style.fontSize = "20px";
+            
+
+
+            var MyTitleMiddle = new IHTMLDiv(MyTitleMiddleText);
+            MyTitleMiddle.style.background = "url(" + Assets.Path + "titleTableMiddle.jpg) repeat-x";
+            MyTitleMiddle.style.height = "31px";
+            MyTitleMiddle.AttachToDocument();
+
+            var MyTitleShadow = new IHTMLDiv("");
+            MyTitleShadow.style.background = "url(" + Assets.Path + "titleTableBottom.jpg) repeat-x";
+            MyTitleShadow.style.height = "5px";
+            MyTitleShadow.AttachToDocument();
+
+
+            DocumentBody = new IHTMLDiv().AttachToDocument();
+            DocumentBody.style.padding = "1em";
+            DocumentBody.style.backgroundImage = "url(assets/ConvertASToCS/flash_logo.png)";
+            DocumentBody.style.backgroundPosition = "right top";
+            DocumentBody.style.backgroundRepeat = "no-repeat";
+
+
+            a = new IHTMLTextArea().AttachTo(DocumentBody);
             a.style.backgroundColor = Color.Transparent;
 
 
-            Func<string, IHTMLAnchor> CreateButton =
-                text =>
+            Func<IHTMLImage, string, IHTMLAnchor> CreateButton =
+                (img, text) =>
                 {
-                    var htext = new IHTMLAnchor("#", text).AttachToDocument();
+                    img.style.border = "0px";
+
+                    var htext = new IHTMLAnchor("#", img, new IHTMLSpan(text)).AttachTo(DocumentBody);
 
                     htext.onclick += e => e.PreventDefault();
                     htext.style.margin = "1em";
@@ -49,17 +87,19 @@ namespace ConvertASToCS.js
                 };
 
 
-            AddEvents(CreateButton("Events"));
-            AddConstants(CreateButton("Constants"));
-            AddProperties(CreateButton("Properties"));
-            AddMethods(CreateButton("Methods"));
+            AddEvents(CreateButton((Assets.Path + "ak590dyt.pubevent(en-US,VS.80).gif"), "Events"));
+            AddConstants(CreateButton((Assets.Path + "ak590dyt.pubproperty(en-US,VS.80).gif"), "Constants"));
+            AddProperties(CreateButton((Assets.Path + "ak590dyt.pubproperty(en-US,VS.80).gif"), "Properties"));
+            AddMethods(CreateButton((Assets.Path + "deshae98.pubmethod(en-us,VS.90).gif"), "Methods"));
         }
+
+        readonly IHTMLDiv DocumentBody;
 
         readonly IHTMLTextArea a;
 
         private void AddMethods(IHTMLElement htext)
         {
-            var content = new IHTMLDiv().AttachToDocument();
+            var content = new IHTMLDiv().AttachTo(DocumentBody);
             content.Hide();
 
             var IsInterface = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox);
@@ -417,7 +457,7 @@ Registers an event listener object with an EventDispatcher object so that the li
 
         private void AddEvents(IHTMLElement htext)
         {
-            var content = new IHTMLDiv().AttachToDocument();
+            var content = new IHTMLDiv().AttachTo(DocumentBody);
             content.Hide();
 
             var IsCamelCaseNames = "Use CamelCase on event names ".ToCheckBox().AttachToWithLabel(content);
@@ -685,7 +725,7 @@ render
 
         private void AddConstants(IHTMLElement htext)
         {
-            var content = new IHTMLDiv().AttachToDocument();
+            var content = new IHTMLDiv().AttachTo(DocumentBody);
             content.Hide();
 
             var IsEnum = "Declare constants as enums ".ToCheckBox().AttachToWithLabel(content);
@@ -926,7 +966,7 @@ render
         {
             //  todo: interface properties
 
-            var content = new IHTMLDiv().AttachToDocument();
+            var content = new IHTMLDiv().AttachTo(DocumentBody);
             content.Hide();
 
             var IsField = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox);
