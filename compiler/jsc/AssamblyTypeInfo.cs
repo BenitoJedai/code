@@ -271,6 +271,17 @@ namespace jsc
                             (i.IsGenericType && !i.IsGenericTypeDefinition)
                             ? i.GetGenericTypeDefinition() : i;
 
+                            
+
+                    Func<Type, Type> ToElementIfAny =
+                        z =>
+                        {
+                            if (z.IsArray)
+                                return z.GetElementType();
+
+                            return z;
+                        };
+                    
                     for (int i = 0; i < vp.Length; i++)
                     {
                         vpt[i] = ToGTD(vp[i].ParameterType);
@@ -315,8 +326,8 @@ namespace jsc
 
                     }
 
-                    var SourceMethodReturnType = ToGTD(((MethodInfo)src_method).ReturnType);
-                    var CurrentMethodReturnType = ToGTD(v.ReturnType);
+                    var SourceMethodReturnType = ToElementIfAny(ToGTD(((MethodInfo)src_method).ReturnType));
+                    var CurrentMethodReturnType = ToElementIfAny(ToGTD(v.ReturnType));
 
                     if (!(IsGenericParameter(SourceMethodReturnType) || IsGenericParameter(CurrentMethodReturnType)))
                         if (SourceMethodReturnType != CurrentMethodReturnType)

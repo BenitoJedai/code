@@ -1681,9 +1681,11 @@ namespace jsc
                     return null;
 
                 // 0a ctor
-                if ((OpParamAsInt32 & 0xff000000) != 0x0a000000 && ((OpParamAsInt32 & 0xff000000) != 0x06000000))
+                if ((OpParamAsInt32 & 0xff000000) != 0x0a000000 && 
+                    ((OpParamAsInt32 & 0xff000000) != 0x06000000) &&
+                    ((OpParamAsInt32 & 0xff000000) != 0x2b000000))
                     return null;
-
+                
                 Type[] ma = (OwnerMethod.IsGenericMethod) ? OwnerMethod.GetGenericArguments() : null;
 
 
@@ -1736,7 +1738,9 @@ namespace jsc
                     return null;
 
                 // 0a
-                if ((OpParamAsInt32 & 0xff000000) != 0x0a000000 && ((OpParamAsInt32 & 0xff000000) != 0x06000000))
+                if ((OpParamAsInt32 & 0xff000000) != 0x0a000000 &&
+                        ((OpParamAsInt32 & 0xff000000) != 0x06000000) &&
+                        ((OpParamAsInt32 & 0xff000000) != 0x2b000000))
                     return null;
 
                 Type[] ma = (OwnerMethod.IsGenericMethod) ? OwnerMethod.GetGenericArguments() : null;
@@ -2063,8 +2067,10 @@ namespace jsc
 
                 Type[] ma = (OwnerMethod.IsGenericMethod) ? OwnerMethod.GetGenericArguments() : null;
 
-                if ((OpParamAsInt32 & 0xff000000) != 0x04000000)
-                    return null;
+            
+               // if ((OpParamAsInt32 & 0xff000000) != 0x0a000000 &&
+               //((OpParamAsInt32 & 0xff000000) != 0x04000000))
+               //     return null;
 
                 try
                 {

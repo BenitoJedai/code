@@ -10,8 +10,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
     [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>))]
     internal class __Dictionary<TKey, TValue> : IDictionary<TKey, TValue>, IEnumerable
     {
-        readonly global::System.Collections.Generic.List<TKey> _keys = new global::System.Collections.Generic.List<TKey>();
-        readonly global::System.Collections.Generic.List<TValue> _values = new global::System.Collections.Generic.List<TValue>();
 
         //Expando list = new Expando();
 
@@ -45,18 +43,25 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
             return _keys.Contains(key);
         }
 
-        public ICollection<TKey> Keys
+        [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.KeyCollection))]
+        public class KeyCollection : List<TKey>
+        {
+        }
+
+        readonly KeyCollection _keys = new KeyCollection();
+
+        public KeyCollection Keys
         {
             get
             {
+                return _keys;
+            }
+        }
 
-                // global::System.Collections.Generic.List<TKey> a = new  global::System.Collections.Generic.List<TKey>();
-
-                //foreach (var v in list.GetMemberNames())
-                //{
-                //    a.Add((TKey)v);
-                //} 
-
+        ICollection<TKey> IDictionary<TKey, TValue>.Keys
+        {
+            get
+            {
                 return _keys;
             }
         }
@@ -79,7 +84,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
             throw new global::System.Exception("The method or operation is not implemented.");
         }
 
-        public ICollection<TValue> Values
+        [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.ValueCollection))]
+        public class ValueCollection : List<TValue>
+        {
+        }
+
+        readonly ValueCollection _values = new ValueCollection();
+
+
+        public ValueCollection Values
+        {
+            get
+            {
+                return this.Values;
+            }
+        }
+
+        ICollection<TValue> IDictionary<TKey, TValue>.Values
         {
             get
             {

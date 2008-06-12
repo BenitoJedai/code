@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>X:\jsc.svn\templates\OrcasNativeJavaConsoleApplication\OrcasNativeJavaConsoleApplication\bin\Debug</StartWorkingDirectory>
-    <StartArguments>OrcasNativeJavaConsoleApplication.dll -java</StartArguments>
+    <StartWorkingDirectory>X:\jsc.svn\javascript\Examples\ThreeDStuff\ThreeDStuff\bin\Debug</StartWorkingDirectory>
+    <StartArguments>ThreeDStuff.dll -js</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
