@@ -99,6 +99,22 @@ namespace ConvertASToCS.js.Any
         public string Subject;
 
         public int Index;
+
+        public string BeforeSubject
+        {
+            get
+            {
+                return Source.Substring(0, Index);
+            }   
+        }
+
+        public string AfterSubject
+        {
+            get
+            {
+                return Source.Substring(Index + Subject.Length);
+            }
+        }
     }
 
     [Script]
@@ -206,7 +222,292 @@ namespace ConvertASToCS.js.Any
             }
         }
 
+        [Script]
+        public class MethodParametersInfo
+        {
+
+            [Script]
+            public class ParamInfo
+            {
+                public string Name;
+                public string TypeName;
+                public string DefaultValue;
+
+                // http://bartdesmet.net/blogs/bart/archive/2006/09/28/4473.aspx
+                // http://www.sephiroth.it/weblog/archives/2006/06/actionscript_3_rest_parameter.php
+                public bool IsRestParameter;
+
+                public bool HasDefaultValue
+                {
+                    get { return !string.IsNullOrEmpty(DefaultValue); }
+                }
+            }
+
+            public readonly ParamInfo[] Parameters;
+
+            public MethodParametersInfo(IEnumerable<ParamInfo> e)
+            {
+                Parameters = e.ToArray();
+            }
+
+            public MethodParametersInfo(string e)
+            {
+
+                Parameters = e.Split(',').Select(i => i.Trim()).Where(i => !string.IsNullOrEmpty(i)).Select(
+                    text =>
+                    {
+                        if (text.StartsWith("..."))
+                        {
+                            return new ParamInfo
+                            {
+                                IsRestParameter = true,
+                                Name = text.Substring(3).Trim(),
+                                TypeName = "object"
+                            };
+                        }
+
+                        var q = text.Split('=');
+                        var z = q[0].Split(':');
+
+                        if (q.Length == 1)
+                            return new ParamInfo
+                            {
+                                Name = z[0].Trim(),
+                                TypeName = z[1].Trim()
+                            };
+
+                        return new ParamInfo
+                        {
+                            Name = z[0].Trim(),
+                            TypeName = z[1].Trim(),
+                            DefaultValue = q[1].Trim()
+                        };
+                    }
+                ).ToArray();
+            }
+
+            public MethodParametersInfo DropLastParameter()
+            {
+                if (this.Parameters.Length == 0)
+                    return null;
+
+                var p = new List<ParamInfo>();
+
+                for (int i = 0; i < this.Parameters.Length - 1; i++)
+                {
+                    p.Add(this.Parameters[i]);
+                }
+
+                return new MethodParametersInfo(p);
+            }
+
+            public IEnumerable<MethodParametersInfo> Variations
+            {
+                get
+                {
+                    if (Parameters.Length == 0)
+                    {
+                        return new[] { this }.AsEnumerable();
+                    }
+
+
+                    var v = new[] { 
+                    
+                        new MethodParametersInfo
+                        (
+                            from p in Parameters
+                            select new ParamInfo
+                            {
+                                IsRestParameter = p.IsRestParameter,
+                                Name = p.Name,
+                                TypeName = p.TypeName,
+                                DefaultValue = null
+                            }
+                         )
+
+                     }.AsEnumerable();
+
+                    var last = this.Parameters.Last();
+
+                    if (last.HasDefaultValue || last.IsRestParameter)
+                    {
+                        // solid this and all below
+
+                        v = v.Concat(DropLastParameter().Variations);
+                    }
+
+                    return v;
+
+                }
+            }
+
+            public override string ToString()
+            {
+                if (Parameters.Length == 0)
+                    return "";
+
+                var w = new StringBuilder();
+
+                for (int i = 0; i < Parameters.Length; i++)
+                {
+                    var p = Parameters[i];
+
+                    if (i > 0)
+                        w.Append(", ");
+
+
+                    if (p.IsRestParameter)
+                        w.Append("/* params */ " + p.TypeName + " " + p.Name);
+                    else if (string.IsNullOrEmpty(p.DefaultValue))
+                        w.Append(p.TypeName + " " + p.Name);
+                    else
+                        w.Append(p.TypeName + " " + p.Name + " = " + p.DefaultValue);
+                }
+
+
+
+                return w.ToString();
+            }
+
+            public string NamesToString()
+            {
+                return Parameters.Aggregate("",
+                    (v, i) =>
+                    {
+                        if (!string.IsNullOrEmpty(v))
+                            v += ", ";
+
+                        v += i.Name;
+
+                        return v;
+                    }
+                );
+
+            }
+        }
+
+        [Script]
+        public class MethodInfo
+        {
+
+            public string Flags;
+            public string Signature;
+            public string Summary;
+            public string DefinedBy;
+
+            public const string KeywordInherited ="Inherited";
+
+            public bool IsInherited
+            {
+                get
+                {
+                    return Flags == KeywordInherited;
+                }
+            }
+
+            public bool IsStatic
+            {
+                get
+                {
+                    return Summary.Contains("[static]");
+                }
+            }
+
+            //    Inherited	
+            //addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void
+            //Registers an event listener object with an EventDispatcher object so that the listener receives notification of an event.
+            //    EventDispatcher            
+
+            public MethodParametersInfo ParametersInfo { get; private set; }
+
+            public string Name { get; private set; }
+            public string ReturnType { get; private set; }
+
+            public bool ReturnTypeVoid
+            {
+                get { return ReturnType == "void"; }
+            }
+
+            public bool IsConstructor { get; private set; }
+            public bool IsMethod { get { return !IsConstructor; } }
+
+            internal static Tuple<MethodInfo, IndexInfo> ScanNext(IndexInfo LastIndex)
+            {
+                // scan properties
+                var Flags = LastIndex.GetNextTrimmedLine();
+
+                if (Flags.Text != KeywordInherited)
+                    if (!string.IsNullOrEmpty(Flags.Text))
+                        return null;
+
+                var Signature = Flags.GetNextTrimmedLine();
+
+                if (!Signature.Text.Contains(")"))
+                    return null;
+
+                if (!Signature.Text.Contains("("))
+                    return null;
+
+                var Summary = Signature.GetNextTrimmedLine();
+
+                var DefinedBy = Summary.GetNextTrimmedLine();
+
+                // get params
+                var a = Signature.Text.IndexInfoOf("(");
+                var b = a.IndexInfoOf(")");
+                var p = a.SubString(b);
+                var r = b.IndexInfoOf(":");
+
+                var IsConstructor = true;
+                var ReturnType = "";
+
+                if (r.Index != -1)
+                {
+                    IsConstructor = false;
+                    ReturnType = r.AfterSubject;
+                }
+
+                var n = new MethodInfo
+                {
+                    Flags = Flags.Text,
+                    Signature = Signature.Text,
+                    Summary = Summary.Text,
+                    DefinedBy = DefinedBy.Text,
+                    ParametersInfo = new MethodParametersInfo(p),
+                    Name = a.BeforeSubject,
+                    IsConstructor = IsConstructor,
+                    ReturnType = ReturnType
+                };
+
+                // do last minute checks here
+
+
+                return new Tuple<MethodInfo, IndexInfo>
+                {
+                    TValue = n,
+                    FValue = DefinedBy
+                };
+            }
+        }
+
         public readonly List<PropertyInfo> Properties = new List<PropertyInfo>();
+        public readonly List<MethodInfo> Functions = new List<MethodInfo>();
+
+        public IEnumerable<MethodInfo> GetInstanceConstructors()
+        {
+            return from i in Functions
+                   where !i.IsInherited
+                   where i.IsConstructor
+                   select i;
+        }
+
+        public IEnumerable<MethodInfo> GetInstanceMethods()
+        {
+            return from i in Functions
+                   where !i.IsInherited
+                   where i.IsMethod
+                   select i;
+        }
 
         public ReflectionProvider(string text)
         {
@@ -227,7 +528,8 @@ namespace ConvertASToCS.js.Any
             var MethodHeader = ClassEOL.IndexInfoOf(" \tMethod\tDefined by");
             var ConstantHeader = ClassEOL.IndexInfoOf(" \tConstant\tDefined by");
 
-            PropertyHeader.ScanToList(Properties, f => PropertyInfo.ScanNext(f));
+            PropertyHeader.ScanToList(Properties, PropertyInfo.ScanNext);
+            MethodHeader.ScanToList(Functions, MethodInfo.ScanNext);
 
 
 

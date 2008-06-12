@@ -112,7 +112,8 @@ namespace ConvertASToCS.js
         private void AddAny(IHTMLAnchor htext)
         {
             var content = new IHTMLDiv().AttachTo(DocumentBody);
-            content.Hide();
+
+            // content.Hide();
 
             htext.onclick +=
               delegate
@@ -162,25 +163,34 @@ namespace ConvertASToCS.js
 
         private static void RenderAnyTo(ReflectionProvider r, IHTMLElement pre)
         {
+            Func<bool> DelegatesParams = () => false;
+            Func<bool> IsInterface = () => false;
+            Func<bool> IsField = () => false;
+
+            IHTMLElement Target = pre;
+
             Func<Color, Action<string>> ToColorWrite =
                 color =>
-                        text =>
-                        {
-                            var s = new IHTMLSpan { innerText = text };
+                    text =>
+                    {
+                        var s = new IHTMLSpan { innerText = text };
 
-                            s.style.color = color;
-                            s.AttachTo(pre);
-                        };
+                        s.style.color = color;
+                        s.AttachTo(Target);
+                    };
 
-            Action<string> Write = text => pre.appendChild(new ITextNode(text));
+            Func<string, IHTMLSpan> Write = text => new IHTMLSpan(text).AttachTo(Target);
+
             Action WriteLine = () => Write("\n");
             Action WriteSpace = () => Write(" ");
 
+            #region Write<Color>
             Action<string> WriteBlue = ToColorWrite(Color.Blue);
             Action<string> WriteBlack = ToColorWrite(Color.Black);
             Action<string> WriteGray = ToColorWrite(Color.FromRGB(0x80, 0x80, 0x80));
             Action<string> WriteCyan = ToColorWrite(Color.FromRGB(0, 0x80, 0x80));
             Action<string> WriteGreen = ToColorWrite(Color.FromRGB(0, 0x80, 0));
+            #endregion
 
             int Indent = 1;
 
@@ -190,17 +200,33 @@ namespace ConvertASToCS.js
                 text =>
                 {
                     WriteIdent();
-                    WriteGray("#region");
+                    WriteBlue("#region");
                     WriteSpace();
-                    WriteGray(text);
+                    var Collapsible = Write(text);
                     WriteLine();
+
+                    var PreviousTarget = Target;
+                    var CurrentTarget = new IHTMLDiv().AttachTo(PreviousTarget); ;
+
+                    Collapsible.style.cursor = IStyle.CursorEnum.pointer;
+                    Collapsible.onclick +=
+                        delegate
+                        {
+                            CurrentTarget.ToggleVisible();
+                        };
+
+                    Target = CurrentTarget;
 
                     return new Disposable(
                         delegate
                         {
+
+
                             WriteIdent();
-                            WriteGray("#endregion");
+                            WriteBlue("#endregion");
                             WriteLine();
+
+                            Target = PreviousTarget;
                         }
                     );
                 };
@@ -244,6 +270,25 @@ namespace ConvertASToCS.js
                     WriteLine();
                 };
 
+            Action<string> WriteTypeName =
+                text =>
+                {
+                    var z = FixTypeName(text.Trim());
+
+                    if (CSharpKeywords.Contains(z))
+                        WriteBlue(z);
+                    else
+                        WriteCyan(z);
+                };
+
+            Action<string, string> WriteVariableDefinition =
+                (TypeName, VariableName) =>
+                {
+                    WriteTypeName(TypeName);
+                    WriteSpace();
+                    Write(FixVariableName(VariableName));
+                };
+
             WriteIdent();
             WriteBlue("namespace");
             WriteSpace();
@@ -276,13 +321,12 @@ namespace ConvertASToCS.js
 
                 WriteBlue("class");
                 WriteSpace();
-                Write(r.TypeName);
+                WriteCyan(r.TypeName);
                 WriteLine();
 
                 using (CodeBlock())
                 {
                     using (Region("Properties"))
-                    {
                         foreach (var p in r.Properties)
                         {
                             WriteSummary(p.Summary);
@@ -292,15 +336,158 @@ namespace ConvertASToCS.js
                             WriteBlue("public");
                             WriteSpace();
 
-                            Write(p.PropertyType);
-                            WriteSpace();
-                            Write(p.PropertyName);
-                            Write(";");
-                            WriteLine();
+                            WriteVariableDefinition(p.PropertyType, p.PropertyName);
+
+                            if (IsField())
+                                Write(";");
+                            else
+                            {
+                                WriteSpace();
+                                Write("{");
+                                WriteSpace();
+                                WriteBlue("get");
+                                Write(";");
+                                WriteSpace();
+
+                                if (p.IsReadOnly)
+                                {
+                                    WriteBlue("private");
+                                    WriteSpace();
+                                }
+
+                                WriteBlue("set");
+                                Write(";");
+                                WriteSpace();
+                                Write("}");
+
+                            }
+
 
                             WriteLine();
+                            WriteLine();
                         }
-                    }
+
+                    #region Constructors
+                    using (Region("Constructors"))
+                        foreach (var p in r.GetInstanceConstructors())
+                            foreach (var v in p.ParametersInfo.Variations)
+                            {
+                                WriteSummary(p.Summary);
+
+                                WriteIdent();
+
+                                WriteBlue("public");
+                                WriteSpace();
+
+                                Write(p.Name);
+                                Write("(");
+
+                                for (int k = 0; k < v.Parameters.Length; k++)
+                                {
+                                    if (k > 0)
+                                    {
+                                        Write(",");
+                                        WriteSpace();
+                                    }
+
+                                    WriteVariableDefinition(v.Parameters[k].TypeName, v.Parameters[k].Name);
+                                }
+
+                                Write(")");
+
+                                if (DelegatesParams())
+                                {
+                                    WriteSpace();
+                                    Write(":");
+                                    WriteSpace();
+                                    WriteBlue("base");
+                                    Write("(" + v.NamesToString() + ")");
+                                }
+
+
+                                WriteLine();
+
+
+                                using (CodeBlock()) { }
+
+                                WriteLine();
+                            }
+                    #endregion
+
+                    #region Methods
+                    using (Region("Methods"))
+                        foreach (var p in r.GetInstanceMethods())
+                            foreach (var v in p.ParametersInfo.Variations)
+                            {
+                                WriteSummary(p.Summary);
+
+                                WriteIdent();
+
+                                if (IsInterface())
+                                {
+
+                                }
+                                else
+                                {
+                                    WriteBlue("public");
+                                    WriteSpace();
+
+                                    if (p.IsStatic)
+                                    {
+                                        WriteBlue("static");
+                                        WriteSpace();
+                                    }
+                                }
+
+
+                                WriteVariableDefinition(p.ReturnType, p.Name);
+
+                                Write("(");
+
+                                for (int k = 0; k < v.Parameters.Length; k++)
+                                {
+                                    if (k > 0)
+                                    {
+                                        Write(",");
+                                        WriteSpace();
+                                    }
+
+                                    WriteVariableDefinition(v.Parameters[k].TypeName, v.Parameters[k].Name);
+                                }
+
+                                Write(")");
+
+                                if (IsInterface())
+                                {
+                                    Write(";");
+                                    WriteLine();
+                                }
+                                else
+                                {
+
+                                    WriteLine();
+
+                                    using (CodeBlock())
+                                    {
+                                        if (!p.ReturnTypeVoid)
+                                        {
+                                            WriteIdent();
+                                            WriteBlue("return");
+                                            WriteSpace();
+                                            WriteBlue("default");
+                                            Write("(");
+                                            WriteTypeName(p.ReturnType);
+                                            Write(")");
+                                            Write(";");
+                                            WriteLine();
+                                        }
+                                    }
+                                }
+
+                                WriteLine();
+                            }
+                    #endregion
+
                 }
             }
 
@@ -1299,9 +1486,7 @@ render
             IsField.onchange += delegate { update(); };
         }
 
-        private static string FixVariableName(string Name)
-        {
-            var list = new List<string>
+        static readonly List<string> CSharpKeywords = new List<string>
             {
                 "namespace",
                 "params",
@@ -1318,12 +1503,22 @@ render
                 "for",
                 "as",
                 "in",
-                "out"
+                "out",
+                "object",
+                "double",
+                "string",
+                "bool",
+                "int",
+                "uint",
             };
 
+        private static string FixVariableName(string Name)
+        {
 
 
-            if (list.Contains(Name))
+
+
+            if (CSharpKeywords.Contains(Name))
                 return "@" + Name;
 
             return Name;
