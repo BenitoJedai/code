@@ -8,7 +8,7 @@ using ScriptCoreLib.ActionScript.BCLImplementation.Query;
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(global::System.Collections.Generic.List<>))]
-    internal class __List<T> : IList<T>, ICollection<T>
+    internal class __List<T> : IList<T>, ICollection<T>, IEnumerable<T>, IList, ICollection, IEnumerable
     {
         public Array _items = new Array();
 
@@ -112,7 +112,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException("");
+            return this._items.indexOf(item) != -1;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
@@ -240,6 +240,91 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
             return this.GetEnumerator();
+        }
+
+        #endregion
+
+        #region IList Members
+
+        int IList.Add(object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IList.Clear()
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IList.Contains(object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        int IList.IndexOf(object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IList.Insert(int index, object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IList.IsFixedSize
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        bool IList.IsReadOnly
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        void IList.Remove(object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IList.RemoveAt(int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        object IList.this[int index]
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion
+
+        #region ICollection Members
+
+        void ICollection.CopyTo(global::System.Array array, int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        int ICollection.Count
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        bool ICollection.IsSynchronized
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        object ICollection.SyncRoot
+        {
+            get { throw new NotImplementedException(); }
         }
 
         #endregion
