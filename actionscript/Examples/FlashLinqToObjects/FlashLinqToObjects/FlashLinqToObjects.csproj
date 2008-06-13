@@ -76,9 +76,8 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetFileName)  -as
-pushd ..\..\tools
-build.bat
+    <PostBuildEvent>pushd ..\..\tools\
+call build.bat $(ProjectName)
 popd</PostBuildEvent>
   </PropertyGroup>
 </Project>
