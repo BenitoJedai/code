@@ -41,13 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\FlashNonobaExample\Shared\SharedClass1.cs">
+    <Compile Include="..\FlashNonobaExample.Shared\Shared\SharedClass1.cs">
       <Link>Shared\SharedClass1.cs</Link>
     </Compile>
     <Compile Include="Game.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScriptCoreLib\ScriptAttribute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

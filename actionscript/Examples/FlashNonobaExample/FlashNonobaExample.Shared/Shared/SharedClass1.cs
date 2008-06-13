@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 
-using ScriptCoreLib;
 
 namespace FlashNonobaExample.Shared
 {
-    [Script]
-    public class SharedClass1
+    public partial class SharedClass1
     {
+        // members defined over here can be used on client and on server
+        // x
+
         public string Hello;
     }
 }
