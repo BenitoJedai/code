@@ -1,6 +1,7 @@
 ﻿using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.text;
+using System.Collections.Generic;
 
 namespace OrcasFlashApplication.ActionScript
 {
@@ -15,6 +16,11 @@ namespace OrcasFlashApplication.ActionScript
         /// </summary>
         public OrcasFlashApplication()
         {
+            var dict = new Dictionary<string, string>
+            {
+                {"hello", "world2"}
+            };
+
             for (var j = 0.0; j < 1; j += 0.1)
             {
                 this.graphics.beginFill(0xff0000, j);

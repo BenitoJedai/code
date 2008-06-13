@@ -142,5 +142,38 @@ namespace ScriptCoreLib.ActionScript.flash.events
 
         #endregion
 
+        #region Properties
+        /// <summary>
+        /// [read-only] Indicates whether an event is a bubbling event.
+        /// </summary>
+        public bool bubbles { get; private set; }
+
+        /// <summary>
+        /// [read-only] Indicates whether the behavior associated with the event can be prevented.
+        /// </summary>
+        public bool cancelable { get; private set; }
+
+        /// <summary>
+        /// [read-only] The object that is actively processing the Event object with an event listener.
+        /// </summary>
+        public object currentTarget { get; private set; }
+
+        /// <summary>
+        /// [read-only] The current phase in the event flow.
+        /// </summary>
+        public uint eventPhase { get; private set; }
+
+        /// <summary>
+        /// [read-only] The event target.
+        /// </summary>
+        public object target { get; private set; }
+
+        /// <summary>
+        /// [read-only] The type of event.
+        /// </summary>
+        public string type { get; private set; }
+
+        #endregion
+
     }
 }

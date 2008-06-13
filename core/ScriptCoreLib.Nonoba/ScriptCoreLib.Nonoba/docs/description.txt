@@ -1,0 +1,3 @@
+﻿This is a wrapper assembly for the Nonoba Multiplayer API.
+
+http://nonoba.com/developers/multiplayerapi/overview

@@ -112,13 +112,20 @@
   <ItemGroup>
     <Compile Include="ActionScript\Array.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Action.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Array.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\Dictionary.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\ICollection.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IDictionary.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEnumerator.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEqualityComparer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IList.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\List.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\KeyValuePair.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\ICollection.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\List.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\IEnumerator.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEnumerable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ArgumentNullException.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\IList.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Convert.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ICloneable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Random.cs" />
@@ -142,6 +149,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\WeakReference.cs" />
     <Compile Include="ActionScript\Class.cs" />
     <Compile Include="ActionScript\Date.cs" />
+    <Compile Include="ActionScript\Extensions\DynamicContainer.cs" />
     <Compile Include="ActionScript\Extensions\flash\display\LoaderInfo.cs" />
     <Compile Include="ActionScript\Extensions\flash\display\Stage.cs" />
     <Compile Include="ActionScript\Extensions\flash\media\Camera.cs" />

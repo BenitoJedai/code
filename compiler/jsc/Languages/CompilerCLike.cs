@@ -1009,6 +1009,12 @@ namespace jsc.Script
                     WriteLine();
 
 
+                if (m.ToScriptAttributeOrDefault().IsDebugCode)
+                {
+                    WriteIdent();
+                    WriteCommentLine("[Script(IsDebugCode = true)]");
+                }
+                 
                 WriteXmlDoc(m);
                 WriteMethodSignature(m, dStatic);
 

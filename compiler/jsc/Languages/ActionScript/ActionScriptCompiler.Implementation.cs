@@ -77,6 +77,11 @@ namespace jsc.Languages.ActionScript
                     WriteBlockComment(u["summary"].InnerText);
                 #endregion
 
+                if (za.IsDebugCode)
+                {
+                    WriteIdent();
+                    WriteCommentLine("[Script(IsDebugCode = true)]");
+                }
                 WriteCustomAttributes(z);
                 WriteTypeSignature(z, za);
 
@@ -295,73 +300,131 @@ namespace jsc.Languages.ActionScript
 
             // current interface exclusion implementation might not work well with abstract classes 
 
-            foreach (var v in from i in z.GetInterfaces().Except(z.BaseType == null ? null : z.BaseType.GetInterfaces())
+            Action<MethodInfo, MethodInfo> WriteInterfaceMapping =
+                (_InterfaceMethod, _TargetMethod) =>
+                {
+                    WriteMethodSignature(_InterfaceMethod, false, WriteMethodSignatureMode.Implementing);
+
+                    using (CreateScope())
+                    {
+                        WriteIdent();
+
+                        if (_InterfaceMethod.ReturnType != typeof(void))
+                        {
+                            WriteKeywordReturn();
+                            WriteSpace();
+                        }
+
+                        WriteThisReference();
+                        Write(".");
+
+                        #region prop
+                        {
+                            var prop = new PropertyDetector(_TargetMethod);
+
+                            if (_InterfaceMethod.GetParameters().Length == 1 && prop.SetProperty != null
+                                 && prop.SetProperty.GetSetMethod(true).GetParameters().Length == 1)
+                            {
+                                Write(prop.SetProperty.Name);
+                                WriteAssignment();
+                                WriteSafeLiteral(_InterfaceMethod.GetParameters().Single().Name);
+                            }
+                            else if (prop.GetProperty != null
+                                  && prop.GetProperty.GetGetMethod(true).GetParameters().Length == 0)
+                            {
+                                Write(prop.GetProperty.Name);
+                            }
+                            else
+                            {
+                                WriteDecoratedMethodName(_TargetMethod, false);
+                                Write("(");
+                                for (int i = 0; i < _InterfaceMethod.GetParameters().Length; i++)
+                                {
+                                    if (i > 0)
+                                    {
+                                        Write(",");
+                                        WriteSpace();
+                                    }
+                                    WriteSafeLiteral(_InterfaceMethod.GetParameters()[i].Name);
+                                }
+                                Write(")");
+                            }
+                        }
+                        #endregion
+
+                        Write(";");
+                        WriteLine();
+                    }
+                };
+
+            //if (z.ToScriptAttributeOrDefault().IsDebugCode)
+            //{
+                WriteIdent();
+                WriteCommentLine(DateTime.Now.ToString());
+
+                foreach (var i in z.GetInterfaces())
+                {
+                    WriteIdent();
+                    WriteCommentLine("interface " + i.Namespace + "::" + i.Name);
+
+                    var mapping = z.GetInterfaceMap(i);
+
+                    WriteIdent();
+                    WriteCommentLine(" mappings:");
+
+                    for (int j = 0; j < mapping.InterfaceMethods.Length; j++)
+                    {
+                        var InterfaceMethod = mapping.InterfaceMethods[j];
+                        var InterfaceMethodImplementation = ResolveMethod(InterfaceMethod);
+
+                        var TargetMethod = mapping.TargetMethods[j];
+
+                        if (TargetMethod.DeclaringType == z)
+                        {
+                            WriteIdent();
+
+                            if (InterfaceMethodImplementation == null)
+                                WriteCommentLine(" " +
+                                    InterfaceMethod.DeclaringType.Name + "." + InterfaceMethod.Name +
+                                    " -> " +
+                                    TargetMethod.DeclaringType.Name + "." + TargetMethod.Name);
+                            else
+                            {
+                                WriteCommentLine(" " +
+                                    InterfaceMethod.DeclaringType.Name + "." + InterfaceMethod.Name + " = " +
+                                    InterfaceMethodImplementation.DeclaringType.Name + "." + InterfaceMethodImplementation.Name +
+                                    " -> " +
+                                    TargetMethod.DeclaringType.Name + "." + TargetMethod.Name);
+
+
+                                WriteInterfaceMapping(InterfaceMethod, TargetMethod);
+                            }
+                        }
+                    }
+
+                    WriteLine();
+                }
+
+                WriteLine();
+            //}
+
+
+            foreach (var v in from i in z.GetInterfaces() /*.Except(z.BaseType == null ? null : z.BaseType.GetInterfaces())*/
                               let i_typedef = i.IsGenericType ? i.GetGenericTypeDefinition() : i
                               let mapping = z.GetInterfaceMap(i)
                               from j in Enumerable.Range(0, mapping.InterfaceMethods.Length)
                               let imethod = ResolveMethod(i_typedef, mapping.InterfaceMethods[j])
                               where imethod != null
-                              let tmethod = ResolveMethod(mapping.TargetMethods[j])
+                              let tmethod = ResolveMethod(mapping.TargetMethods[j]) ?? mapping.TargetMethods[j]
                               let imethodinfo = imethod as MethodInfo
                               let ret = imethodinfo == null ? false : imethodinfo.ReturnType != typeof(void)
                               select new { i, j, mapping, imethod, iparams = imethod.GetParameters(), ret, tmethod, i_typedef })
             {
                 WriteIdent();
-                WriteCommentLine("implements " + v.imethod.ToString() + " via " + (v.i.FullName ?? v.i.Name));
+                WriteCommentLine("old implements " + v.imethod.ToString() + " via " + (v.i.FullName ?? v.i.Name));
 
                 #region interface mapping
-                WriteMethodSignature(v.imethod, false, WriteMethodSignatureMode.Implementing);
 
-                using (CreateScope())
-                {
-                    WriteIdent();
-
-                    if (v.ret)
-                    {
-                        WriteKeywordReturn();
-                        WriteSpace();
-                    }
-
-                    WriteThisReference();
-                    Write(".");
-
-                    #region prop
-                    {
-                        var prop = new PropertyDetector(v.tmethod);
-
-                        if (v.iparams.Length == 1 && prop.SetProperty != null
-                             && prop.SetProperty.GetSetMethod(true).GetParameters().Length == 1)
-                        {
-                            Write(prop.SetProperty.Name);
-                            WriteAssignment();
-                            WriteSafeLiteral(v.iparams.Single().Name);
-                        }
-                        else if (prop.GetProperty != null
-                              && prop.GetProperty.GetGetMethod(true).GetParameters().Length == 0)
-                        {
-                            Write(prop.GetProperty.Name);
-                        }
-                        else
-                        {
-                            WriteDecoratedMethodName(v.tmethod, false);
-                            Write("(");
-                            for (int i = 0; i < v.iparams.Length; i++)
-                            {
-                                if (i > 0)
-                                {
-                                    Write(",");
-                                    WriteSpace();
-                                }
-                                WriteSafeLiteral(v.iparams[i].Name);
-                            }
-                            Write(")");
-                        }
-                    }
-                    #endregion
-
-                    Write(";");
-                    WriteLine();
-                }
 
                 #endregion
 
@@ -668,6 +731,8 @@ namespace jsc.Languages.ActionScript
             var DeclaringType = m.DeclaringType;
             var TypeScriptAttribute = DeclaringType.ToScriptAttribute();
 
+            DebugBreak(m.ToScriptAttributeOrDefault());
+
             var IsNativeTarget = TypeScriptAttribute != null && TypeScriptAttribute.IsNative;
 
             WriteIdent();
@@ -761,7 +826,7 @@ namespace jsc.Languages.ActionScript
             if (mi != null)
             {
                 Write(":");
-                WriteDecoratedTypeNameOrImplementationTypeName(mi.ReturnType, true, true, IsFullyQualifiedNamesRequired(DeclaringType, mi.ReflectedType));
+                WriteDecoratedTypeNameOrImplementationTypeName(mi.ReturnType, true, true, IsFullyQualifiedNamesRequired(DeclaringType, mi.ReflectedType), true);
 
             }
             #endregion
@@ -1244,6 +1309,8 @@ namespace jsc.Languages.ActionScript
                 Write("*");
                 return;
             }
+
+
 
             //[Script(Implements = typeof(global::System.Boolean),
             //    ImplementationType=typeof(java.lang.Integer))]

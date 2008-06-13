@@ -29,7 +29,7 @@ namespace jsc.Languages.ActionScript
         {
             if (v == null)
                 return;
-            
+
             var vs = v.ToScriptAttribute();
 
 
@@ -44,7 +44,14 @@ namespace jsc.Languages.ActionScript
 
             foreach (ParameterInfo p in v.GetParameters())
             {
-                imp.Add(p.ParameterType);
+                if (p.ParameterType.IsByRef)
+                {
+                    // fixme: add byref support
+                }
+                else
+                {
+                    imp.Add(p.ParameterType);
+                }
             }
 
             if (v.IsAbstract)
@@ -198,7 +205,7 @@ namespace jsc.Languages.ActionScript
                 imp.Add(MySession.ResolveImplementation(t.BaseType));
 
             if (t == typeof(object))
-                return new Type[]{};
+                return new Type[] { };
 
             if (t.BaseType == typeof(MulticastDelegate))
             {
@@ -308,7 +315,7 @@ namespace jsc.Languages.ActionScript
                 if (p == typeof(object)) continue;
                 if (p == typeof(void)) continue;
                 if (p == typeof(string)) continue;
-                
+
                 if (p == typeof(int)) continue;
                 if (p == typeof(uint)) continue;
 
@@ -321,12 +328,12 @@ namespace jsc.Languages.ActionScript
                 if (p == typeof(double)) continue;
                 if (p == typeof(float)) continue;
                 if (p == typeof(decimal)) continue;
-                
+
                 if (p == typeof(byte)) continue;
                 if (p == typeof(sbyte)) continue;
 
                 if (p == typeof(bool)) continue;
-                
+
                 if (p == typeof(char)) continue;
 
                 // is a BCL type
@@ -380,6 +387,8 @@ namespace jsc.Languages.ActionScript
         public void WriteImportTypes(Type z)
         {
             // all field types, return types, parameter types, variable types, statics
+
+            DebugBreak(z.ToScriptAttributeOrDefault());
 
             var t = GetImportTypes(z).ToList();
             var imports = new List<string>();
@@ -511,7 +520,7 @@ namespace jsc.Languages.ActionScript
                     {
                         // native types cannot have operators defined unless they are using the NotImplementedHere flag
                         ScriptAttribute sa = ScriptAttribute.Of(m.DeclaringType, false);
-                        
+
                         if (sa != null && sa.IsNative)
                         {
                             // that implicit call is only for to help c# conversions
@@ -1336,19 +1345,17 @@ namespace jsc.Languages.ActionScript
                 // cannot use 'this' on arguments as it is a keyword
                 WriteSelf();
                 Write(":");
-                WriteDecoratedTypeNameOrImplementationTypeName(m.DeclaringType, true, true, IsFullyQualifiedNamesRequired(m.DeclaringType, m.DeclaringType));
 
-                //var sa = ScriptAttribute.Of(m.DeclaringType, false);
+                if (m.DeclaringType.ToScriptAttributeOrDefault().Implements == typeof(object))
+                {
+                    Write(NativeTypes[typeof(object)]);
+                }
+                else
+                {
+                    WriteDecoratedTypeNameOrImplementationTypeName(m.DeclaringType, true, true, IsFullyQualifiedNamesRequired(m.DeclaringType, m.DeclaringType));
+                }
 
-                //if (sa.Implements == null)
-                //{
-                //    WriteDecoratedTypeName(m.DeclaringType);
-
-                //}
-                //else
-                //{
-                //    WriteDecoratedTypeName(sa.Implements);
-                //}
+          
             }
 
             DebugBreak(ma);
@@ -1365,7 +1372,7 @@ namespace jsc.Languages.ActionScript
 
                 ScriptAttribute za = ScriptAttribute.Of(m.DeclaringType, true);
 
-                
+
                 var ParamIndex = mpi;
 
                 // Nameless params is used by delegates and these parameters are not used
@@ -1378,7 +1385,13 @@ namespace jsc.Languages.ActionScript
                     ParameterType = za.Implements;
 
                 Write(":");
-                WriteDecoratedTypeNameOrImplementationTypeName(ParameterType, true, true, IsFullyQualifiedNamesRequired(m.DeclaringType, ParameterType));
+
+                // fixme: byref supported?
+
+                if (ParameterType.IsByRef)
+                    Write("*");
+                else
+                    WriteDecoratedTypeNameOrImplementationTypeName(ParameterType, true, true, IsFullyQualifiedNamesRequired(m.DeclaringType, ParameterType));
 
                 if (DefaultValues != null && mpi < DefaultValues.Length)
                 {
@@ -1554,7 +1567,7 @@ namespace jsc.Languages.ActionScript
 
         }
 
-        public  void WriteDecoratedTypeName(Type context, Type subject, bool IgnoreImplementationType)
+        public void WriteDecoratedTypeName(Type context, Type subject, bool IgnoreImplementationType)
         {
             WriteDecoratedTypeNameOrImplementationTypeName(subject, false, false, IsFullyQualifiedNamesRequired(context, subject), IgnoreImplementationType);
 

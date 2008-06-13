@@ -14,6 +14,16 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     {
         RuntimeTypeHandle _TypeHandle;
 
+        public static Type GetTypeFromValue(object x)
+        {
+            var e = new __Type
+            {
+                _TypeDescription = describeType(x)
+            };
+
+            return (Type)(object)e;
+        }
+
         public static Type GetTypeFromHandle(RuntimeTypeHandle TypeHandle)
         {
             var e = new __Type
@@ -38,7 +48,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         }
         
         [Script(OptimizedCode = "return flash.utils.describeType(e);")]
-        static XML describeType(object e)
+        internal static XML describeType(object e)
         {
             return default(XML);
         }

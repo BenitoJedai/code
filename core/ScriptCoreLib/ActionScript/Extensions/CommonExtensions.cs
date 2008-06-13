@@ -90,13 +90,13 @@ namespace ScriptCoreLib.ActionScript.Extensions
         }
 
         public static void CombineDelegate<T>(EventDispatcher _this, Action<T> value, string name)
-            where T : Event
+            // where T : Event
         {
             _this.addEventListener(name, value.ToFunction(), false, 0, false);
         }
 
         public static void RemoveDelegate<T>(EventDispatcher _this, Action<T> value, string name)
-            where T : Event
+            // where T : Event
         {
             _this.removeEventListener(name, value.ToFunction(), false);
         }

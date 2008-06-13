@@ -203,7 +203,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
             return new __Enumerator(this);
         }
 
-        [Script(ImplementationType = typeof(global::System.Collections.Generic.Dictionary<,>.Enumerator))]
+        [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.Enumerator))]
         public class __Enumerator : IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IEnumerator
         {
             IEnumerator<KeyValuePair<TKey, TValue>> list;

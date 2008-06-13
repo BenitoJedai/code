@@ -18,5 +18,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         {
             return default(string);
         }
+
+        [Script(DefineAsStatic = true)]
+        new public Type GetType()
+        {
+            return __Type.GetTypeFromValue(this);
+        }
     }
 }
