@@ -1,0 +1,33 @@
+<VSTemplate Version="2.0.0" Type="ProjectGroup"
+    xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+    <TemplateData>
+        <Name>FlashNonobaExample</Name>
+        <Description>Nonoba Multiplayer FlashApplication</Description>
+        <Icon>__TemplateIcon.ico</Icon>
+        <ProjectType>CSharp</ProjectType>
+        <PromptForSaveOnCreation>false</PromptForSaveOnCreation>
+        <CreateNewFolder>false</CreateNewFolder>
+    </TemplateData>
+    <TemplateContent>
+        <ProjectCollection>
+            <SolutionFolder Name="Server">
+                <ProjectTemplateLink ProjectName="FlashNonobaExample.ServerTest">
+                    Server\FlashNonobaExample.ServerTest\MyTemplate.vstemplate
+                </ProjectTemplateLink>                            
+                <ProjectTemplateLink ProjectName="FlashNonobaExample.Server">
+                    Server\FlashNonobaExample.Server\MyTemplate.vstemplate
+                </ProjectTemplateLink>
+                
+            </SolutionFolder>
+            <SolutionFolder Name="Client">
+                <ProjectTemplateLink ProjectName="FlashNonobaExample">
+                    Client\FlashNonobaExample\MyTemplate.vstemplate
+                </ProjectTemplateLink>
+                <ProjectTemplateLink ProjectName="FlashNonobaExample.Shared">
+                    Client\FlashNonobaExample.Shared\MyTemplate.vstemplate
+                </ProjectTemplateLink>                
+            </SolutionFolder>
+        
+        </ProjectCollection>
+    </TemplateContent>
+</VSTemplate>
