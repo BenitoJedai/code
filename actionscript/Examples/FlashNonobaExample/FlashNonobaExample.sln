@@ -13,6 +13,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{6BF479
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashNonobaExample.Shared", "FlashNonobaExample.Shared\FlashNonobaExample.Shared.csproj", "{16969E26-6189-4014-87CA-7BE7D3E403FD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nonoba .NET Libraries", "Nonoba .NET Libraries", "{D08D80DC-9409-413E-B38D-615B6BE857F0}"
+	ProjectSection(SolutionItems) = preProject
+		Nonoba .NET Libraries\Development Server.exe = Nonoba .NET Libraries\Development Server.exe
+		Nonoba .NET Libraries\Nonoba.GameLibrary.dll = Nonoba .NET Libraries\Nonoba.GameLibrary.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
