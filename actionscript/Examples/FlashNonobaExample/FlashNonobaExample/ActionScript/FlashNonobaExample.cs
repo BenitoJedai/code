@@ -8,6 +8,8 @@ using System;
 
 namespace FlashNonobaExample.ActionScript
 {
+
+
     /// <summary>
     /// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
     /// </summary>
@@ -21,19 +23,17 @@ namespace FlashNonobaExample.ActionScript
         {
             var c = NonobaAPI.MakeMultiplayer(stage);
 
-          
             var p = new TextField
             {
                 border = true,
+                width = 200,
+                height = 200
             }.AttachTo(this);
 
-
             c.Message +=
-                u =>
+                e =>
                 {
-
-
-                    p.text = "message2: " + u.message.Type + " " + u.message.length;
+                    p.text += "message2: " + e.message.Type + " " + e.message.length + "\n";
                 };
 
 

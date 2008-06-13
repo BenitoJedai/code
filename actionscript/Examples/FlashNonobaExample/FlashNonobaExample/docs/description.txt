@@ -1,1 +1,3 @@
 ﻿FlashApplication. Crosscompiled from C# to ActionScript.
+
+An example project for http://nonoba.com/developers/multiplayerapi/overview
