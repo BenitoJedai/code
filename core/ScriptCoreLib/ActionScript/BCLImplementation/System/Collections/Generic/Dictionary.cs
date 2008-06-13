@@ -91,6 +91,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
             )]
         public class __ValueCollection : List<TValue>
         {
+            [Script(IsDebugCode = true)]
+            public __ValueCollection()
+            {
+
+            }
         }
 
         readonly __ValueCollection _values = new __ValueCollection();

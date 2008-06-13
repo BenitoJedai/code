@@ -1170,6 +1170,9 @@ namespace jsc.Languages.Java
 
             if (m.IsConstructor)
             {
+                // fixme: update the BCL resolving issue
+                // the super ctor call gets lost otherwise
+
                 if (i.IsBaseConstructorCall(m))
                 {
 

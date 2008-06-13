@@ -2446,6 +2446,15 @@ namespace jsc
             return Self.BaseType == Base;
         }
 
+        public bool IsBaseConstructorCall(MethodBase m, Func<MethodBase, MethodBase> ResolveMethod)
+        {
+            if (TargetConstructor == null)
+                return false;
+
+            return m.DeclaringType == (ResolveMethod(this.TargetConstructor) ?? this.TargetConstructor).DeclaringType;
+        }
+
+
         public bool IsBaseConstructorCall(MethodBase m)
         {
             if (TargetConstructor == null)

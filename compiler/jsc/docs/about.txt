@@ -96,3 +96,5 @@ version history:
 	actionscript: fixed op_Implicit optimization
 08.06.2008:
 	actionscript: fixed __String static call glitch
+13.06.2008
+	actionscript: fixed box opcode
