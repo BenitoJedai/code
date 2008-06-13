@@ -357,55 +357,78 @@ namespace jsc.Languages.ActionScript
                     }
                 };
 
-            //if (z.ToScriptAttributeOrDefault().IsDebugCode)
-            //{
+            if (z.ToScriptAttributeOrDefault().IsDebugCode)
+            {
+
+            }
+
+            WriteIdent();
+            WriteCommentLine(DateTime.Now.ToString());
+
+            foreach (var i in z.GetInterfaces())
+            {
                 WriteIdent();
-                WriteCommentLine(DateTime.Now.ToString());
+                WriteCommentLine("interface " + i.Namespace + "::" + i.Name);
 
-                foreach (var i in z.GetInterfaces())
+                var mapping = z.GetInterfaceMap(i);
+
+                WriteIdent();
+                WriteCommentLine(" mappings:");
+
+                Action WriteInterfaceMappingDelayed = delegate { };
+
+                for (int j = 0; j < mapping.InterfaceMethods.Length; j++)
                 {
-                    WriteIdent();
-                    WriteCommentLine("interface " + i.Namespace + "::" + i.Name);
+                    var InterfaceMethod = mapping.InterfaceMethods[j];
+                    var InterfaceMethodDeclaringType = 
+                        mapping.InterfaceType.IsGenericType ? 
+                        mapping.InterfaceType.GetGenericTypeDefinition() :
+                        mapping.InterfaceType
+                        ;
 
-                    var mapping = z.GetInterfaceMap(i);
+                    var InterfaceMethodImplementation = (MethodInfo)ResolveMethod(InterfaceMethodDeclaringType, InterfaceMethod);
 
-                    WriteIdent();
-                    WriteCommentLine(" mappings:");
+                    var TargetMethod = mapping.TargetMethods[j];
 
-                    for (int j = 0; j < mapping.InterfaceMethods.Length; j++)
+                    if (TargetMethod.DeclaringType == z)
                     {
-                        var InterfaceMethod = mapping.InterfaceMethods[j];
-                        var InterfaceMethodImplementation = ResolveMethod(InterfaceMethod);
+                        WriteIdent();
 
-                        var TargetMethod = mapping.TargetMethods[j];
-
-                        if (TargetMethod.DeclaringType == z)
+                        if (InterfaceMethodImplementation == null)
                         {
-                            WriteIdent();
+                            BreakToDebugger("Interface Mapping Error: " +
+                                InterfaceMethod.DeclaringType.Name + "." + InterfaceMethod.Name +
+                                " -> " +
+                                TargetMethod.DeclaringType.Name + "." + TargetMethod.Name);
+                        }
+                        else
+                        {
+                            WriteCommentLine(" " +
+                                InterfaceMethod.DeclaringType.Name + "." + InterfaceMethod.Name + " = " +
+                                InterfaceMethodImplementation.DeclaringType.Name + "." + InterfaceMethodImplementation.Name +
+                                " -> this." + TargetMethod.Name);
 
-                            if (InterfaceMethodImplementation == null)
-                                WriteCommentLine(" " +
-                                    InterfaceMethod.DeclaringType.Name + "." + InterfaceMethod.Name +
-                                    " -> " +
-                                    TargetMethod.DeclaringType.Name + "." + TargetMethod.Name);
-                            else
-                            {
-                                WriteCommentLine(" " +
-                                    InterfaceMethod.DeclaringType.Name + "." + InterfaceMethod.Name + " = " +
-                                    InterfaceMethodImplementation.DeclaringType.Name + "." + InterfaceMethodImplementation.Name +
-                                    " -> " +
-                                    TargetMethod.DeclaringType.Name + "." + TargetMethod.Name);
+                            WriteInterfaceMappingDelayed +=
+                                delegate
+                                {
+                                    WriteIdent();
 
+                                    WriteCommentLine(" " +
+                                        InterfaceMethodImplementation.DeclaringType.Name + "." + InterfaceMethodImplementation.Name + "_" + InterfaceMethodImplementation.MetadataToken
+                                        );
 
-                                WriteInterfaceMapping(InterfaceMethod, TargetMethod);
-                            }
+                                    WriteInterfaceMapping(InterfaceMethodImplementation, TargetMethod);
+                                };
                         }
                     }
-
-                    WriteLine();
                 }
 
+                WriteInterfaceMappingDelayed();
+
                 WriteLine();
+            }
+
+            WriteLine();
             //}
 
 
@@ -1243,6 +1266,7 @@ namespace jsc.Languages.ActionScript
             return GetDecoratedTypeName(z, false);
         }
 
+        
 
         public override void WriteDecoratedMethodName(System.Reflection.MethodBase z, bool q)
         {

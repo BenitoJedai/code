@@ -41,7 +41,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
         }
 
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.KeyCollection)
-            , IsDebugCode = true)]
+            //, IsDebugCode = true
+            )]
         public class __KeyCollection : List<TKey>
         {
         }
@@ -84,7 +85,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
         }
 
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.ValueCollection)
-            , IsDebugCode = true)]
+            //, IsDebugCode = true
+            )]
         public class __ValueCollection : List<TValue>
         {
         }
@@ -203,22 +205,25 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
             return new __Enumerator(this);
         }
 
-        [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.Enumerator),
-            IsDebugCode = true)]
+        [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.Enumerator)
+            //,IsDebugCode = true
+            )]
         public class __Enumerator : IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IEnumerator
         {
             IEnumerator<KeyValuePair<TKey, TValue>> list;
 
             public __Enumerator(__Dictionary<TKey, TValue> e)
             {
-                global::System.Collections.Generic.List<KeyValuePair<TKey, TValue>> a = new global::System.Collections.Generic.List<KeyValuePair<TKey, TValue>>();
+                var a = new global::System.Collections.Generic.List<KeyValuePair<TKey, TValue>>();
 
                 foreach (var v in e.Keys)
                 {
                     a.Add(new KeyValuePair<TKey, TValue>(v, e[v]));
                 }
 
-                this.list = a.GetEnumerator();
+                var List_GetEnumerator = a.GetEnumerator();
+
+                this.list = List_GetEnumerator;
             }
 
             public KeyValuePair<TKey, TValue> Current { get { return list.Current; } }

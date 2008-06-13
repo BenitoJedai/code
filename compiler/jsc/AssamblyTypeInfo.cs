@@ -307,8 +307,22 @@ namespace jsc
                         if (IsGenericParameter(vpt_i) && IsGenericParameter(t_i))
                             continue;
 
-                        if (vpt_i.IsArray && t_i.IsArray && vpt_i.GetElementType() != t_i.GetElementType())
-                            goto skip;
+                        if (vpt_i.IsArray && t_i.IsArray)
+                        {
+                            var vpt_ie = vpt_i.GetElementType();
+                            var t_ie = t_i.GetElementType();
+
+                            if (IsGenericParameter(vpt_ie) && !IsGenericParameter(t_ie))
+                            {
+                                continue;
+                            }
+
+                            if (vpt_ie != t_ie)
+                            {
+                                goto skip;
+                            }
+                        }
+
 
                         // extension method Enumerable.Contains
                         if (vpt_i.IsGenericParameter && !t_i.IsGenericParameter)

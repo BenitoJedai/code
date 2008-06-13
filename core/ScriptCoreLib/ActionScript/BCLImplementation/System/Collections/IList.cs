@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System
+namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections
 {
     [Script(Implements = typeof(IList))]
     public interface __IList : ICollection, IEnumerable

@@ -61,6 +61,6 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections
         //   System.ArgumentException:
         //     The type of the source System.Collections.ICollection cannot be cast automatically
         //     to the type of the destination array.
-        void CopyTo(Array array, int index);
+        void CopyTo(global::System.Array array, int index);
     }
 }
