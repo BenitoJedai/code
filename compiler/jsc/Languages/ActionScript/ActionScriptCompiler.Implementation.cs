@@ -357,10 +357,7 @@ namespace jsc.Languages.ActionScript
                     }
                 };
 
-            if (z.ToScriptAttributeOrDefault().IsDebugCode)
-            {
-
-            }
+        
 
             WriteIdent();
             WriteCommentLine(DateTime.Now.ToString());

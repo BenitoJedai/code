@@ -6,7 +6,9 @@ using System.Collections;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic
 {
-    [Script(Implements = typeof(Dictionary<,>), IsDebugCode = true)]
+    [Script(Implements = typeof(Dictionary<,>)
+        //, IsDebugCode = true
+        )]
     internal class __Dictionary<TKey, TValue> : IDictionary<TKey, TValue>, IEnumerable
     {
         public __Dictionary()
