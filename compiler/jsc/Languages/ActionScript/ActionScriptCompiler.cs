@@ -1187,7 +1187,14 @@ namespace jsc.Languages.ActionScript
                         }
                     }
 
+                    if (e.FirstOnStack.SingleStackInstruction.ReferencedType == t)
+                    {
+                        // see: Dictionary<,>.Enumerator
 
+                        EmitFirstOnStack(e);
+
+                        return;
+                    }
 
                     Write("new ");
                     WriteDecoratedTypeNameOrImplementationTypeName(t, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, t));

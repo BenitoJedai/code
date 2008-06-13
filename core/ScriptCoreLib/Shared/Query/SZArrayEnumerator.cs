@@ -10,7 +10,9 @@ namespace ScriptCoreLib.Shared.Query
 {
 
 
-    [Script(IsArrayEnumerator = true, IsDebugCode = true)]
+    [Script(IsArrayEnumerator = true
+        //, IsDebugCode = true
+        )]
     public class SZArrayEnumerator<T> :
         IEnumerable<T>, IEnumerator<T>,
         IEnumerable, IEnumerator, IDisposable

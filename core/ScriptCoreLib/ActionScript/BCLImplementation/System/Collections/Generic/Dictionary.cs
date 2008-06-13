@@ -223,9 +223,16 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
                     a.Add(new KeyValuePair<TKey, TValue>(v, e[v]));
                 }
 
-                var List_GetEnumerator = a.GetEnumerator();
 
+                this.list = a.GetEnumerator();
+
+            }
+
+            [Script(IsDebugCode = true)]
+            private void SetList(List<KeyValuePair<TKey, TValue>>.Enumerator List_GetEnumerator)
+            {
                 this.list = List_GetEnumerator;
+
             }
 
             public KeyValuePair<TKey, TValue> Current { get { return list.Current; } }

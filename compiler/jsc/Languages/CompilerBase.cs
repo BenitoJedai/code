@@ -762,8 +762,9 @@ namespace jsc.Script
 
                 try
                 {
-                    ScriptAttribute a = ScriptAttribute.Of(m);
+                    var a = m.ToScriptAttribute();
 
+                    
                     if (a != null && a.OptimizedCode != null)
                     {
                         // we are lucky, as the inline code was provided;
