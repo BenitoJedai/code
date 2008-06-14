@@ -76,21 +76,8 @@ namespace FlashTowerDefense.ActionScript
                     InfoMenu.mouseEnabled = false;
                     InfoMenu.mouseChildren = false;
 
-                    (1000 / 64).AtInterval(
-                        t =>
-                        {
-                            if (InfoMenu.alpha < 0.1)
-                            {
-                                t.stop();
-                                InfoMenu.Orphanize();
-                            }
-                            else
-                            {
-                                InfoMenu.alpha -= 0.21;
-                            }
-                        }
-                    );
-                    
+                    InfoMenu.FadeOutAndOrphanize(1000 / 64, 0.21);
+
 
                     GetWarzone().filters = null;
 

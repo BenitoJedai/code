@@ -372,18 +372,70 @@ namespace FlashTowerDefense.ActionScript
                 };
             #endregion
 
+            Action<string> ShowMessage =
+                MessageText =>
+                {
+                    var p = new TextField
+                    {
+                        textColor = ColorWhite,
+                        background = true,
+                        backgroundColor = ColorBlack,
+                        filters = new[] { new GlowFilter(ColorBlack) },
+                        autoSize = TextFieldAutoSize.LEFT,
+                        text = MessageText,
+                    };
+
+                    var y = Height - p.height * 2;
+
+                    p.AttachTo(this).MoveTo((Width - p.width) / 2, Height);
+
+                    (1000 / 24).AtInterval(
+                        t =>
+                        {
+                            p.y -= 4;
+
+                            if (p.y < y)
+                                t.stop();
+                        }
+                    );
+
+
+                    9000.AtDelayDo(
+                        () => p.FadeOutAndOrphanize(1000 / 24, 0.21)
+                    );
+                };
+
+            ShowMessage("Level " + CurrentLevel);
+
+            var InterlevelMusic = default(SoundChannel);
+
             (1500).AtInterval(
                 t =>
                 {
                     if (WaveEndCountdown < 0)
                     {
+                        if (InterlevelMusic == null)
+                            InterlevelMusic = Assets.snd_birds.ToSoundAsset().play(0, 999);
+
                         // wait for all actors get off stage
                         if (list.Where(i => i.IsAlive).Any())
                             return;
 
+                        // show "level END"
+                        ShowMessage("Level " + CurrentLevel + " Done!");
                         t.stop();
 
-                        9000.AtDelayDo(t.start);
+
+
+                        9000.AtDelayDo(
+                            delegate
+                            {
+                                // show "level START"
+                                ShowMessage("Level " + CurrentLevel);
+                                t.start();
+                                InterlevelMusic.stop();
+                            }
+                        );
 
                         // maybe higher levels will have more enemies?
                         WaveEndCountdown = 30;

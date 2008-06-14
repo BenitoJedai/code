@@ -18,6 +18,24 @@ namespace FlashTowerDefense.ActionScript
     [Script]
     static class MyExtensions
     {
+        public static void FadeOutAndOrphanize(this DisplayObject e, int fps, double step)
+        {
+            fps.AtInterval(
+               t =>
+               {
+                   if (e.alpha < 0.1)
+                   {
+                       t.stop();
+                       e.Orphanize();
+                   }
+                   else
+                   {
+                       e.alpha -= step;
+                   }
+               }
+           );
+        }
+
         public static void OnHoverUseColor(this TextField e, uint c)
         {
             var n = e.textColor;
