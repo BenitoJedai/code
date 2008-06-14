@@ -421,8 +421,13 @@ namespace FlashTowerDefense.ActionScript
                         if (list.Where(i => i.IsAlive).Any())
                             return;
 
+                        
                         // show "level END"
-                        ShowMessage("Level " + CurrentLevel + " Done!");
+                        if (WaveEndCountdown < 0)
+                            ShowMessage("Level " + CurrentLevel + " Done! Bonus: " + -WaveEndCountdown);
+                        else
+                            ShowMessage("Level " + CurrentLevel + " Done!");
+
                         t.stop();
 
 
@@ -433,7 +438,8 @@ namespace FlashTowerDefense.ActionScript
                                 // show "level START"
                                 ShowMessage("Level " + CurrentLevel);
                                 t.start();
-                                InterlevelMusic.stop();
+
+                                10000.AtDelayDoOnRandom(InterlevelMusic.stop);
                             }
                         );
 

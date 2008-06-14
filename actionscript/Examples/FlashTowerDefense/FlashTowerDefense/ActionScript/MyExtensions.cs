@@ -118,6 +118,11 @@ namespace FlashTowerDefense.ActionScript
                 i.AtDelayDo(e);
         }
 
+        public static Timer AtDelayDoOnRandom(this int e, Action a)
+        {
+            return e.Random().ToInt32().AtDelayDo(a);
+        }
+
         public static Timer AtDelayDo(this int e, Action a)
         {
             var t = new Timer(e, 1);
