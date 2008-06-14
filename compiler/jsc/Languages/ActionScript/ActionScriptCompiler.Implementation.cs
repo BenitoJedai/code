@@ -1309,9 +1309,14 @@ namespace jsc.Languages.ActionScript
         }
 
 
+ 
         public bool IsFullyQualifiedNamesRequired(Type context, Type subject)
         {
             if (context != subject && context.Name == subject.Name)
+                return true;
+
+            // there is a field with the same name as the type we would be importing
+            if (context.GetField(subject.Name) != null)
                 return true;
 
             return GetImportTypes(context).Count(i => i.Name == subject.Name) > 1;
