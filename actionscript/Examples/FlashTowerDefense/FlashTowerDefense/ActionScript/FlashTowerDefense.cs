@@ -216,6 +216,13 @@ namespace FlashTowerDefense.ActionScript
             var runaways = 0;
             var score = 0;
 
+         // Between levels the player upgrades, collects items, etc...
+            var CurrentLevel = 1;
+
+            // If this gets negative, we end this level and pause... maybe send a big boss, too?
+            var WaveEndCountdown = 30;
+
+
             Action UpdateScoreBoard =
                 delegate
                 {
@@ -228,6 +235,7 @@ namespace FlashTowerDefense.ActionScript
                             runaways,
                             gore = (100 * (double)list.Count(i => !i.IsAlive) / (double)list.Count()).Round() + "%",
                             score,
+                            level = CurrentLevel
                         }.ToString();
                 };
 
@@ -316,56 +324,76 @@ namespace FlashTowerDefense.ActionScript
             Func<double> GetEntryPointY = () => (Height * 0.8).Random() + Height * 0.1;
 
 
+   
+            #region AttachRules
+            Func<Actor, Actor> AttachRules =
+                a =>
+                {
+                    if (a == null)
+                        throw new Exception("AttachRules");
+
+                    a.CorpseAndBloodGone += () => list.Remove(a);
+                    a.Moved +=
+                        delegate
+                        {
+                            if (a.x > (Width + OffscreenMargin))
+                            {
+                                a.RemoveFrom(list).Orphanize();
+
+                                if (CanFire)
+                                {
+                                    WaveEndCountdown--;
+                                    runaways++;
+
+                                    ScoreBoard.textColor = ColorRed;
+                                    UpdateScoreBoard();
+                                }
+
+                                a.IsAlive = false;
+                                // this one was able to run away
+                            }
+                        };
+
+                    a.Die +=
+                        delegate
+                        {
+                            WaveEndCountdown--;
+
+                            score += a.ScoreValue;
+                            UpdateScoreBoard();
+                        };
+
+                    a.AttachTo(GetWarzone()).AddTo(list);
+
+                    if (a.PlayHelloSound != null)
+                        a.PlayHelloSound();
+
+                    return a;
+                };
+            #endregion
 
             (1500).AtInterval(
-                delegate
+                t =>
                 {
+                    if (WaveEndCountdown < 0)
+                    {
+                        t.stop();
 
-                    #region AttachRules
-                    Func<Actor, Actor> AttachRules =
-                        a =>
-                        {
-                            if (a == null)
-                                throw new Exception("AttachRules");
+                        9000.AtDelay(t);
 
-                            a.CorpseAndBloodGone += () => list.Remove(a);
-                            a.Moved +=
-                                delegate
-                                {
-                                    if (a.x > (Width + OffscreenMargin))
-                                    {
-                                        a.RemoveFrom(list).Orphanize();
+                        WaveEndCountdown = 30;
+                        CurrentLevel++;
 
-                                        if (CanFire)
-                                        {
-                                            runaways++;
-
-                                            ScoreBoard.textColor = ColorRed;
-                                            UpdateScoreBoard();
-                                        }
-
-                                        a.IsAlive = false;
-                                        // this one was able to run away
-                                    }
-                                };
-                            a.Die +=
-                                delegate
-                                {
-                                    score += a.ScoreValue;
-                                    UpdateScoreBoard();
-                                };
-                            a.AttachTo(GetWarzone()).AddTo(list);
-
-                            if (a.PlayHelloSound != null)
-                                a.PlayHelloSound();
-
-                            return a;
-                        };
-                    #endregion
+                        return;
+                    }
+                    
 
                     // new actors if we got less 10 
                     if (list.Where(i => i.IsAlive).Count() < 8)
+                    {
+
                         AddNewActorsToMap(UpdateScoreBoard, GetEntryPointY, AttachRules);
+                    }
                 }
             );
 
@@ -596,7 +624,7 @@ namespace FlashTowerDefense.ActionScript
                                 }
                             );
 
-                      
+
 
                             // if the respawned boss dies remove the glow
                             newboss.Die +=
@@ -648,7 +676,7 @@ namespace FlashTowerDefense.ActionScript
         }
 
         public readonly Settings Settings = new Settings();
-      
+
     }
 
 
@@ -657,7 +685,7 @@ namespace FlashTowerDefense.ActionScript
 
 
 
-   
+
 
 
 

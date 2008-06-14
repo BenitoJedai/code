@@ -111,6 +111,12 @@ namespace FlashTowerDefense.ActionScript
             return t;
         }
 
+        public static Timer Pause(this Timer e, int delay)
+        {
+
+            return e;
+        }
+
         public static Timer AtDelay(this int e, Action<Timer> a)
         {
             var t = new Timer(e, 1);
