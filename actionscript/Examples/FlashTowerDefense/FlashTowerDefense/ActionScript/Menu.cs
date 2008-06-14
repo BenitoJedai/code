@@ -9,6 +9,7 @@ using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.flash.ui;
+using FlashTowerDefense.ActionScript.Actors;
 
 namespace FlashTowerDefense.ActionScript
 {
@@ -39,7 +40,7 @@ namespace FlashTowerDefense.ActionScript
             this.contextMenu = new ContextMenu();
             this.contextMenu.hideBuiltInItems();
 
-            foreach (var v in KnownActors)
+            foreach (var v in this.Settings.KnownActors)
             {
                 AddInfo(InfoMenu, y, v);
 

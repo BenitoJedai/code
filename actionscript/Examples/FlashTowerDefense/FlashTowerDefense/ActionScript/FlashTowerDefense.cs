@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using ScriptCoreLib.ActionScript.flash.ui;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.flash.geom;
+using FlashTowerDefense.ActionScript.Actors;
 
 
 namespace FlashTowerDefense.ActionScript
@@ -24,7 +25,7 @@ namespace FlashTowerDefense.ActionScript
     /// </summary>
     [Script, ScriptApplicationEntryPoint(Width = Width, Height = Height)]
     [SWF(width = Width, height = Height, backgroundColor = ColorWhite)]
-    public class FlashTowerDefense : Sprite
+    public partial class FlashTowerDefense : Sprite
     {
         public const int Width = 640;
         public const int Height = 480;
@@ -646,99 +647,17 @@ namespace FlashTowerDefense.ActionScript
                 };
         }
 
-        public Actor[] KnownActors =
-            new Actor[]
-            {
-                new Sheep(),
-                new Warrior(),
-                new BossWarrior(),
-                new BossSheep()
-            };
+        public readonly Settings Settings = new Settings();
+      
     }
 
-    [Script]
-    class BossSheep : Sheep
-    {
-        public BossSheep()
-        {
-            ActorName = "BossSheep";
-            ScoreValue = 8;
-            Description = "Respawns with minnions";
-            //PlayHelloSound += () => Assets.snd_sheep.ToSoundAsset().play();
 
 
-            filters = new[] { new GlowFilter((uint)new Random().Next()) };
-        }
-    }
 
-    [Script]
-    class Sheep : Actor
-    {
-        static Bitmap[] frames
-        {
-            get
-            {
-                return new BitmapAsset[]
-                {
-                    Assets.sheep1,
-                    Assets.sheep2,
-                    Assets.sheep3,
-                    Assets.sheep4
-                };
-            }
-        }
 
-        public Sheep()
-            : base(frames, Assets.sheep_corpse, Assets.sheep_blood, Assets.snd_sheep)
-        {
-            ActorName = "Sheep";
-        }
-    }
 
-    [Script]
-    class BossWarrior : Warrior
-    {
 
-        public BossWarrior()
-        {
-            ActorName = "BossWarrior";
-            ScoreValue = 4;
-            Description = "Respawns once";
-
-            filters = new[] { new GlowFilter((uint)new Random().Next()) };
-
-            PlayHelloSound = () => Assets.snd_ghoullaugh.ToSoundAsset().play();
-        }
-
-    }
-
-    [Script]
-    class Warrior : Actor
-    {
-        static Bitmap[] frames
-        {
-            get
-            {
-                return new Bitmap[]
-                {
-                    Assets.man2_horns1,
-                    Assets.man2_horns2,
-                    Assets.man2_horns3,
-                    Assets.man2_horns4,
-                    Assets.man2_horns5,
-                    Assets.man2_horns6,
-                    Assets.man2_horns7,
-                    Assets.man2_horns8,
-                    Assets.man2_horns9,
-                };
-            }
-        }
-        public Warrior()
-            : base(frames, Assets.man2_horns_dead1, Assets.man2_horns_dead2, Assets.snd_man2)
-        {
-            ActorName = "Warrior";
-        }
-    }
+   
 
 
 

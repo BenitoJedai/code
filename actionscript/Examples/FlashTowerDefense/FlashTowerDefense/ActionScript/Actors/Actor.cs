@@ -8,12 +8,13 @@ using ScriptCoreLib.ActionScript.flash.media;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.filters;
 
-namespace FlashTowerDefense.ActionScript
+namespace FlashTowerDefense.ActionScript.Actors
 {
     [Script]
     public class Actor : Sprite
     {
         public string Description;
+
         public string ActorName;
 
         public int ScoreValue = 1;
