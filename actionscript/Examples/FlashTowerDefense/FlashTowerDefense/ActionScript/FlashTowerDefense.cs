@@ -150,7 +150,7 @@ namespace FlashTowerDefense.ActionScript
 
                 defaultTextFormat = new TextFormat
                 {
-                    size = 24
+                    size = 12
                 },
                 autoSize = TextFieldAutoSize.LEFT,
                 filters = new[] { new BlurFilter() },
@@ -216,7 +216,7 @@ namespace FlashTowerDefense.ActionScript
             var runaways = 0;
             var score = 0;
 
-         // Between levels the player upgrades, collects items, etc...
+            // Between levels the player upgrades, collects items, etc...
             var CurrentLevel = 1;
 
             // If this gets negative, we end this level and pause... maybe send a big boss, too?
@@ -324,7 +324,7 @@ namespace FlashTowerDefense.ActionScript
             Func<double> GetEntryPointY = () => (Height * 0.8).Random() + Height * 0.1;
 
 
-   
+
             #region AttachRules
             Func<Actor, Actor> AttachRules =
                 a =>
@@ -377,16 +377,22 @@ namespace FlashTowerDefense.ActionScript
                 {
                     if (WaveEndCountdown < 0)
                     {
+                        // wait for all actors get off stage
+                        if (list.Where(i => i.IsAlive).Any())
+                            return;
+
                         t.stop();
 
-                        9000.AtDelay(t);
+                        9000.AtDelayDo(t.start);
 
+                        // maybe higher levels will have more enemies?
                         WaveEndCountdown = 30;
                         CurrentLevel++;
+                        UpdateScoreBoard();
 
                         return;
                     }
-                    
+
 
                     // new actors if we got less 10 
                     if (list.Where(i => i.IsAlive).Count() < 8)

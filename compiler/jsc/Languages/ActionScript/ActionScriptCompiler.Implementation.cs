@@ -429,26 +429,8 @@ namespace jsc.Languages.ActionScript
             //}
 
 
-            foreach (var v in from i in z.GetInterfaces() /*.Except(z.BaseType == null ? null : z.BaseType.GetInterfaces())*/
-                              let i_typedef = i.IsGenericType ? i.GetGenericTypeDefinition() : i
-                              let mapping = z.GetInterfaceMap(i)
-                              from j in Enumerable.Range(0, mapping.InterfaceMethods.Length)
-                              let imethod = ResolveMethod(i_typedef, mapping.InterfaceMethods[j])
-                              where imethod != null
-                              let tmethod = ResolveMethod(mapping.TargetMethods[j]) ?? mapping.TargetMethods[j]
-                              let imethodinfo = imethod as MethodInfo
-                              let ret = imethodinfo == null ? false : imethodinfo.ReturnType != typeof(void)
-                              select new { i, j, mapping, imethod, iparams = imethod.GetParameters(), ret, tmethod, i_typedef })
-            {
-                WriteIdent();
-                WriteCommentLine("old implements " + v.imethod.ToString() + " via " + (v.i.FullName ?? v.i.Name));
-
-                #region interface mapping
 
 
-                #endregion
-
-            }
         }
 
         public override void WriteTypeSignature(Type z, ScriptCoreLib.ScriptAttribute za)
