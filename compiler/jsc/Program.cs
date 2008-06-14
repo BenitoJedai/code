@@ -143,7 +143,7 @@ namespace jsc
 
                 try
                 {
-                    ExtractResourcesStreams(options);
+                    // ExtractResourcesStreams(options);
 
                     if (options.IsNoThreads)
                     {
@@ -261,74 +261,74 @@ namespace jsc
             }
         }
 
-        private static void ExtractResourcesStreams(CommandLineOptions options)
-        {
-            foreach (Assembly v in SharedHelper.LoadReferencedAssemblies(Assembly.LoadFile(options.TargetAssembly.FullName), true))
-            {
-                Console.WriteLine("assembly: " + v.CodeBase);
+        //private static void ExtractResourcesStreams(CommandLineOptions options)
+        //{
+        //    foreach (Assembly v in SharedHelper.LoadReferencedAssemblies(Assembly.LoadFile(options.TargetAssembly.FullName), true))
+        //    {
+        //        Console.WriteLine("assembly: " + v.CodeBase);
 
-                foreach (string vname in v.GetManifestResourceNames())
-                {
+        //        foreach (string vname in v.GetManifestResourceNames())
+        //        {
 
-                    if (vname.EndsWith(".resources"))
-                        try
-                        {
+        //            if (vname.EndsWith(".resources"))
+        //                try
+        //                {
 
-                            // http://blogs.clearscreen.com/kartones/archive/2007/03/24/6240.aspx
+        //                    // http://blogs.clearscreen.com/kartones/archive/2007/03/24/6240.aspx
 
-                            ResourceSet rs = new ResourceSet(v.GetManifestResourceStream(vname));
+        //                    ResourceSet rs = new ResourceSet(v.GetManifestResourceStream(vname));
 
-                            foreach (DictionaryEntry vx in rs)
-                            {
-                                if (vx.Value is System.Drawing.Bitmap)
-                                {
-                                    using (Bitmap img = (System.Drawing.Bitmap)vx.Value)
-                                    {
+        //                    foreach (DictionaryEntry vx in rs)
+        //                    {
+        //                        if (vx.Value is System.Drawing.Bitmap)
+        //                        {
+        //                            using (Bitmap img = (System.Drawing.Bitmap)vx.Value)
+        //                            {
 
-                                        DirectoryInfo dir = options.TargetAssembly.Directory;
-                                        DirectoryInfo assets = dir.
-                                            CreateSubdirectory("web").
-                                            CreateSubdirectory("assets").
-                                            CreateSubdirectory(options.TargetAssembly.Name).
-                                            CreateSubdirectory(vname);
-
-
-                                        string target = null;
-
-                                        if (img.RawFormat.Guid.Equals(ImageFormat.Gif.Guid))
-                                            target = assets.FullName + "/" + vx.Key.ToString() + ".gif";
-                                        else if (img.RawFormat.Guid.Equals(ImageFormat.Png.Guid))
-                                            target = assets.FullName + "/" + vx.Key.ToString() + ".png";
-                                        else if (img.RawFormat.Guid.Equals(ImageFormat.Jpeg.Guid))
-                                            target = assets.FullName + "/" + vx.Key.ToString() + ".jpg";
-
-                                        if (target != null)
-                                        {
-                                            img.Save(target);
+        //                                DirectoryInfo dir = options.TargetAssembly.Directory;
+        //                                DirectoryInfo assets = dir.
+        //                                    CreateSubdirectory("web").
+        //                                    CreateSubdirectory("assets").
+        //                                    CreateSubdirectory(options.TargetAssembly.Name).
+        //                                    CreateSubdirectory(vname);
 
 
-                                            Console.WriteLine("res: " + target);
-                                        }
+        //                                string target = null;
 
-                                    }
-                                    // web/assets/FormsExample.Properties.Resources.resources/cal.png
-                                }
+        //                                if (img.RawFormat.Guid.Equals(ImageFormat.Gif.Guid))
+        //                                    target = assets.FullName + "/" + vx.Key.ToString() + ".gif";
+        //                                else if (img.RawFormat.Guid.Equals(ImageFormat.Png.Guid))
+        //                                    target = assets.FullName + "/" + vx.Key.ToString() + ".png";
+        //                                else if (img.RawFormat.Guid.Equals(ImageFormat.Jpeg.Guid))
+        //                                    target = assets.FullName + "/" + vx.Key.ToString() + ".jpg";
 
-                            }
-                        }
-                        catch
-                        {
-
-                        }
-
+        //                                if (target != null)
+        //                                {
+        //                                    img.Save(target);
 
 
-                }
+        //                                    Console.WriteLine("res: " + target);
+        //                                }
 
-            }
+        //                            }
+        //                            // web/assets/FormsExample.Properties.Resources.resources/cal.png
+        //                        }
+
+        //                    }
+        //                }
+        //                catch
+        //                {
+
+        //                }
 
 
-        }
+
+        //        }
+
+        //    }
+
+
+        //}
 
         static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
@@ -381,53 +381,7 @@ namespace jsc
 
         }
 
-        //static void TrimTypes(IEnumerable<Type> AllTypes, IList<Type> UsedTypes, IEnumerable<Type> TypesInQuestion)
-        //{
-        //    var Next = new List<Type>();
-
-        //    Next.AddRange(TypesInQuestion);
-
-        //    Action<Type> Add =
-        //        t =>
-        //        {
-
-        //            if (UsedTypes.Contains(t))
-        //                return;
-
-        //            if (!AllTypes.Contains(t))
-        //            {
-        //                var impl = 
-        //            }
-
-        //            Next.Add(t);
-        //        };
-
-        //    while (Next.Any())
-        //    {
-        //        var NextArray = Next.ToArray();
-        //        Next.Clear();
-
-        //        foreach (var v in NextArray)
-        //        {
-        //            if (!AllTypes.Contains(v))
-        //                continue;
-
-        //            if (UsedTypes.Contains(v))
-        //                continue;
-
-        //            UsedTypes.Add(v);
-
-        //            // base
-        //            Next.Add(v.BaseType);
-
-        //            // fields
-        //            foreach (var i in v.GetFields())
-        //            {
-        //                Add(i.FieldType);
-        //            }
-        //        }
-        //    }
-        //}
+        
 
         static void ConvertAssamblySpawned(string target_assambly, ScriptType type, CompileSessionInfo sinfo)
         {

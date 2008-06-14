@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\util\jsc\bin</StartWorkingDirectory>
-    <StartArguments>ScriptcoreLib.dll -as</StartArguments>
+    <StartWorkingDirectory>Z:\work\jsc\svn\actionscript\Examples\FlashTowerDefense\FlashTowerDefense\bin\Debug</StartWorkingDirectory>
+    <StartArguments>FlashTowerDefense.dll -as</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

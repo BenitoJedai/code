@@ -18,9 +18,9 @@ namespace FlashTowerDefense.ActionScript
     [Script]
     static class MyExtensions
     {
-        public static void FadeOutAndOrphanize(this DisplayObject e, int fps, double step)
+        public static void FadeOutAndOrphanize(this DisplayObject e, int timeout, double step)
         {
-            fps.AtInterval(
+            timeout.AtInterval(
                t =>
                {
                    if (e.alpha < 0.1)

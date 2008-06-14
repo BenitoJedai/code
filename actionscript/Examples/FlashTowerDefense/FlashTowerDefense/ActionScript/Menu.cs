@@ -10,6 +10,7 @@ using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.flash.ui;
 using FlashTowerDefense.ActionScript.Actors;
+using FlashTowerDefense.ActionScript.Assets;
 
 namespace FlashTowerDefense.ActionScript
 {
@@ -21,7 +22,7 @@ namespace FlashTowerDefense.ActionScript
         {
             CanFire = false;
 
-            var menumusic = Assets.snd_birds.ToSoundAsset().play(0, 999);
+            var menumusic = Sounds.snd_birds.ToSoundAsset().play(0, 999);
 
             Mouse.show();
 
@@ -81,7 +82,7 @@ namespace FlashTowerDefense.ActionScript
 
                     GetWarzone().filters = null;
 
-                    Action PlaySound = () => Assets.snd_click.ToSoundAsset().play();
+                    Action PlaySound = () => Sounds.snd_click.ToSoundAsset().play();
 
                     PlaySound.InvokeAtDelays(0, 500, 800);
 

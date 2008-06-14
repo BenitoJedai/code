@@ -6,6 +6,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.mx.core;
+using FlashTowerDefense.ActionScript.Assets;
 
 namespace FlashTowerDefense.ActionScript.Actors
 {
@@ -18,16 +19,16 @@ namespace FlashTowerDefense.ActionScript.Actors
             {
                 return new BitmapAsset[]
                 {
-                    Assets.sheep1,
-                    Assets.sheep2,
-                    Assets.sheep3,
-                    Assets.sheep4
+                    Images.sheep1,
+                    Images.sheep2,
+                    Images.sheep3,
+                    Images.sheep4
                 };
             }
         }
 
         public Sheep()
-            : base(frames, Assets.sheep_corpse, Assets.sheep_blood, Assets.snd_sheep)
+            : base(frames, Images.sheep_corpse, Images.sheep_blood, Sounds.snd_sheep)
         {
             ActorName = "Sheep";
         }

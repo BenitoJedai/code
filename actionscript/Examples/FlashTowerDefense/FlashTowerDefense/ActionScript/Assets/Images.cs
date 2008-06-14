@@ -5,14 +5,14 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 
-[assembly: ScriptResources(FlashTowerDefense.ActionScript.Assets.Path)]
+[assembly: ScriptResources(FlashTowerDefense.ActionScript.Assets.Images.Path)]
 
-namespace FlashTowerDefense.ActionScript
+namespace FlashTowerDefense.ActionScript.Assets
 {
     [Script]
-    internal static class Assets
+    internal static class Images
     {
-        public const string Path = "/assets/FlashTowerDefense";
+        public const string Path = "/assets/FlashTowerDefense.Images";
 
         [Embed(source = Path + "/footsteps.png")]
         public static Class footsteps;
@@ -30,20 +30,6 @@ namespace FlashTowerDefense.ActionScript
         public static Class bump2;
 
 
-        [Embed(source = Path + "/FNCL.mp3")]
-        public static Class gunfire;
-
-        [Embed(source = Path + "/world.mp3")]
-        public static Class snd_world;
-
-        [Embed(source = Path + "/birds.mp3")]
-        public static Class snd_birds;
-
-        [Embed(source = Path + "/bird2.mp3")]
-        public static Class snd_bird2;
-
-        [Embed(source = Path + "/click.mp3")]
-        public static Class snd_click;
 
         // sheep
         [Embed(source = Path + "/sheep-walk_1.png")]
@@ -65,8 +51,6 @@ namespace FlashTowerDefense.ActionScript
         [Embed(source = Path + "/sheep-blood.png")]
         public static Class sheep_blood;
 
-        [Embed(source = Path + "/sheep.mp3")]
-        public static Class snd_sheep;
 
         // man
 
@@ -104,8 +88,6 @@ namespace FlashTowerDefense.ActionScript
         [Embed(source = Path + "/man2-horns_dead_2.png")]
         public static Class man2_horns_dead2;
 
-        [Embed(source = Path + "/screams1a.mp3")]
-        public static Class snd_man2;
 
         // gunfire animation
 
@@ -129,8 +111,6 @@ namespace FlashTowerDefense.ActionScript
 
         // boss hello
 
-        [Embed(Path + "/ghoullaugh.mp3")]
-        public static Class snd_ghoullaugh;
 
         // cactus
 

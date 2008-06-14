@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.filters;
+using FlashTowerDefense.ActionScript.Assets;
 
 namespace FlashTowerDefense.ActionScript.Actors
 {
@@ -19,7 +20,7 @@ namespace FlashTowerDefense.ActionScript.Actors
 
             filters = new[] { new GlowFilter((uint)new Random().Next()) };
 
-            PlayHelloSound = () => Assets.snd_ghoullaugh.ToSoundAsset().play();
+            PlayHelloSound = () => Sounds.snd_ghoullaugh.ToSoundAsset().play();
         }
 
     }

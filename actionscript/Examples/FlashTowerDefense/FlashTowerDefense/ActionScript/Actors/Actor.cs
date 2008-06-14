@@ -167,7 +167,7 @@ namespace FlashTowerDefense.ActionScript.Actors
             if (!CanMakeFootsteps)
                 return;
 
-            var n = Assets.footsteps.ToBitmapAsset();
+            var n = Assets.Images.footsteps.ToBitmapAsset();
 
             n.x = x - n.width / 2;
             n.y = y - n.height / 2;
@@ -177,6 +177,7 @@ namespace FlashTowerDefense.ActionScript.Actors
 
             n.AttachTo(this.parent).AddTo(Footsteps);
 
+            
             (500).AtInterval(
                 t =>
                 {

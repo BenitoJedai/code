@@ -236,6 +236,24 @@ namespace jsc.Languages
             // "ScriptCoreLib.web.assets.Controls.NatureBoy.dude6.274.png"
             // "ScriptCoreLib.Controls.NatureBoy.web"
 
+            Func<string, string, string> EnsureStartsWith =
+                (_prefix, _subject) =>
+                {
+                    if (_subject.StartsWith(_prefix))
+                        return _subject;
+
+                    return _prefix + _subject;
+                };
+
+            Func<string, string, string> EnsureNotStartsWith =
+               (_prefix, _subject) =>
+               {
+                   if (_subject.StartsWith(_prefix))
+                       return _subject.Substring(_prefix.Length);
+
+                   return _subject;
+               };
+
             var prefixes = new[] { prefix1, prefix2 };
 
             var query = from v in r
@@ -243,13 +261,13 @@ namespace jsc.Languages
                         where v.StartsWith(prefix)
                         let z = (
                                     from av in a
-                                    let ap = prefix + "." + av.Value.Replace('/', '.')
+                                    let ap = prefix + EnsureStartsWith(".", av.Value.Replace('/', '.'))
                                     where v.StartsWith(ap)
                                     select new { ap, av }
                                   ).FirstOrDefault()
                         where z != null
                         let f = v.Substring(z.ap.Length + 1)
-                        let t = dir.CreateSubdirectory(z.av.Value.Replace('.', '/'))
+                        let t = dir.CreateSubdirectory(EnsureNotStartsWith("/", z.av.Value))
                         let tf = new FileInfo(t.FullName + "/" + f)
                         select new { v, tf };
 

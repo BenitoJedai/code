@@ -15,6 +15,7 @@ using ScriptCoreLib.ActionScript.flash.ui;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.flash.geom;
 using FlashTowerDefense.ActionScript.Actors;
+using FlashTowerDefense.ActionScript.Assets;
 
 
 namespace FlashTowerDefense.ActionScript
@@ -171,13 +172,13 @@ namespace FlashTowerDefense.ActionScript
             Action<double, Func<BitmapAsset>> AddDoodads =
                 (m, GetImage) => Times(m, () => GetImage().AttachTo(bg).SetCenteredPosition(Width.Random(), Height.Random()));
 
-            AddDoodads(0.0001, () => Assets.grass1.ToBitmapAsset());
-            AddDoodads(0.00005, () => Assets.bump2.ToBitmapAsset());
+            AddDoodads(0.0001, () => Images.grass1.ToBitmapAsset());
+            AddDoodads(0.00005, () => Images.bump2.ToBitmapAsset());
 
-            this.music = Assets.snd_world.ToSoundAsset().play(0, 999, new SoundTransform(0.5));
+            this.music = Sounds.snd_world.ToSoundAsset().play(0, 999, new SoundTransform(0.3));
 
             Func<Animation> AddCactus = () =>
-                new Animation(null, Assets.img_cactus)
+                new Animation(null, Images.img_cactus)
                 {
                     FrameRate = 1000 / 7,
                     AnimationEnabled = true
@@ -197,7 +198,7 @@ namespace FlashTowerDefense.ActionScript
             (3 + 3.Random()).Times(AddCactusAt.FixParam(Height * 0.06));
             (3 + 3.Random()).Times(AddCactusAt.FixParam(Height * 0.94));
 
-            turret = new Animation(Assets.img_turret1_gunfire_180, Assets.img_turret1_gunfire_180_frames);
+            turret = new Animation(Images.img_turret1_gunfire_180, Images.img_turret1_gunfire_180_frames);
 
             turret.x = (Width - turret.width) * 0.9;
             turret.y = (Height - turret.height) / 2;
@@ -267,7 +268,7 @@ namespace FlashTowerDefense.ActionScript
                     if (channel1 != null)
                         channel1.stop();
 
-                    channel1 = Assets.gunfire.ToSoundAsset().play(0, 999);
+                    channel1 = Sounds.gunfire.ToSoundAsset().play(0, 999);
 
                     turret.filters = f;
 
@@ -383,12 +384,16 @@ namespace FlashTowerDefense.ActionScript
                         filters = new[] { new GlowFilter(ColorBlack) },
                         autoSize = TextFieldAutoSize.LEFT,
                         text = MessageText,
+                        mouseEnabled = false
                     };
 
-                    var y = Height - p.height * 2;
+                    var y = Height - p.height - 32;
 
                     p.AttachTo(this).MoveTo((Width - p.width) / 2, Height);
 
+                    Sounds.snd_message.ToSoundAsset().play();
+
+                    
                     (1000 / 24).AtInterval(
                         t =>
                         {
@@ -405,7 +410,7 @@ namespace FlashTowerDefense.ActionScript
                     );
                 };
 
-            ShowMessage("Level " + CurrentLevel);
+            ShowMessage("Day " + CurrentLevel);
 
             var InterlevelMusic = default(SoundChannel);
 
@@ -415,18 +420,15 @@ namespace FlashTowerDefense.ActionScript
                     if (WaveEndCountdown < 0)
                     {
                         if (InterlevelMusic == null)
-                            InterlevelMusic = Assets.snd_birds.ToSoundAsset().play(0, 999);
+                            InterlevelMusic = Sounds.snd_birds.ToSoundAsset().play(0, 999);
 
                         // wait for all actors get off stage
                         if (list.Where(i => i.IsAlive).Any())
                             return;
 
-                        
+
                         // show "level END"
-                        if (WaveEndCountdown < 0)
-                            ShowMessage("Level " + CurrentLevel + " Done! Bonus: " + -WaveEndCountdown);
-                        else
-                            ShowMessage("Level " + CurrentLevel + " Done!");
+                        ShowMessage("Day " + CurrentLevel + " Done!");
 
                         t.stop();
 
@@ -504,7 +506,7 @@ namespace FlashTowerDefense.ActionScript
             40000.AtIntervalOnRandom(
                 delegate
                 {
-                    Assets.snd_bird2.ToSoundAsset().play();
+                    Sounds.snd_bird2.ToSoundAsset().play();
                 }
             );
 
