@@ -140,7 +140,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         //     if d equals System.Double.NaN, -π/2 rounded to double precision (-1.5707963267949)
         //     if d equals System.Double.NegativeInfinity, or π/2 rounded to double precision
         //     (1.5707963267949) if d equals System.Double.PositiveInfinity.
-        public static double Atan(double d) { throw new NotImplementedException(); }
+        public static double Atan(double d) { return Math.atan(d); }
         //
         // Summary:
         //     Returns the angle whose tangent is the quotient of two specified numbers.
@@ -160,7 +160,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         //     points on the boundaries of the quadrants, the return value is the following:If
         //     x is 0 and y is not negative, θ = 0.If x is 0 and y is negative, θ = π.If
         //     x is positive and y is 0, θ = π/2.If x is negative and y is 0, θ = -π/2.
-        public static double Atan2(double y, double x) { throw new NotImplementedException(); }
+        public static double Atan2(double y, double x) { return Math.atan2(y, x); }
         //
         // Summary:
         //     Produces the full product of two 32-bit numbers.

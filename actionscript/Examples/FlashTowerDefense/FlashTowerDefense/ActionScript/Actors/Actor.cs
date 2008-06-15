@@ -41,7 +41,7 @@ namespace FlashTowerDefense.ActionScript.Actors
         {
             health -= e;
 
-            if (health < 0)
+            if (health <= 0)
                 Die();
         }
 

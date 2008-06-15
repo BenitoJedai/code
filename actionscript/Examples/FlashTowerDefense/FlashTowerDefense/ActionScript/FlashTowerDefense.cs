@@ -28,8 +28,8 @@ namespace FlashTowerDefense.ActionScript
     [SWF(width = Width, height = Height, backgroundColor = ColorWhite)]
     public partial class FlashTowerDefense : Sprite
     {
-        public const int Width = 640;
-        public const int Height = 480;
+        public const int Width = 800;
+        public const int Height = 600;
 
         public const uint ColorRed = 0xff0000;
         public const uint ColorBlack = 0x000000;
@@ -252,7 +252,7 @@ namespace FlashTowerDefense.ActionScript
                  });
             EgoAimMoveTimer.stop();
 
-    
+
             #endregion
 
             var PrebuiltTurretSound = default(SoundChannel);
@@ -370,7 +370,7 @@ namespace FlashTowerDefense.ActionScript
 
                     Aim.x = CurrentTarget.stageX;
                     Aim.y = CurrentTarget.stageY;
-                    
+
                 };
 
 
@@ -553,7 +553,25 @@ namespace FlashTowerDefense.ActionScript
                                 }
                                 else if (e.keyCode == Keyboard.CONTROL)
                                 {
+                                    if (EgoIsOnTheField())
+                                    {
+                                        foreach (var DeadManWalking in list)
+                                        {
+                                            var Offset = new Point { y = DeadManWalking.y - Ego.y, x = DeadManWalking.x - Ego.x };
+                                            var Arc = Offset.GetRotation();
+                                            var Distance = Offset.length;
+                                            var LessThan = Arc < (EgoAimDirection + 0.3);
+                                            var MoreThan = Arc > (EgoAimDirection - 0.3);
+                                            var Hit = LessThan && MoreThan;
+                                            var Max = 200;
 
+                                            if (Distance < Max)
+                                                if (Hit)
+                                                    DeadManWalking.AddDamage(DeadManWalking.health);
+                                            
+                                        }
+                                    }
+                            
 
                                 }
                             }
@@ -584,7 +602,9 @@ namespace FlashTowerDefense.ActionScript
                               }
                               else if (e.keyCode == Keyboard.CONTROL)
                               {
-                                  ShowMessage("Got no weapone! Cannot see one either!");
+                                  Sounds.shotgun2.ToSoundAsset().play();
+
+                                  //ShowMessage("Got no weapone! Cannot see one either!");
                               }
                           }
 
@@ -607,7 +627,7 @@ namespace FlashTowerDefense.ActionScript
                                           Mouse.hide();
                                           Aim.x = CurrentTarget.stageX;
                                           Aim.y = CurrentTarget.stageY;
-                                          Sounds.snd_man2.ToSoundAsset().play();
+                                          Sounds.door_open.ToSoundAsset().play();
                                       }
                                       else
                                       {
@@ -621,7 +641,7 @@ namespace FlashTowerDefense.ActionScript
                               }
                               else
                               {
-                                  Sounds.snd_man2.ToSoundAsset().play();
+                                  Sounds.door_open.ToSoundAsset().play();
                                   ShowMessage("Machinegun unmanned!");
                                   PrebuiltTurret.alpha = 0.5;
                                   Mouse.show();
@@ -667,11 +687,14 @@ namespace FlashTowerDefense.ActionScript
             ShowMessage("Press 'Enter' to exit the machinegun");
             //ShowMessage("Day " + CurrentLevel);
 
-           
+
 
             (1500).AtInterval(
                 t =>
                 {
+                   
+
+
                     if (WaveEndCountdown < 0)
                     {
                         if (InterlevelMusic == null)
@@ -728,6 +751,24 @@ namespace FlashTowerDefense.ActionScript
             (1000 / 24).AtInterval(
                 delegate
                 {
+                    //if (EgoIsOnTheField())
+                    //{
+                    //    foreach (var DeadManWalking in list)
+                    //    {
+                    //        var Offset = new Point { y = DeadManWalking.y - Ego.y, x = DeadManWalking.x - Ego.x };
+                    //        var Arc = Offset.GetRotation();
+                    //        var Distance = Offset.length;
+                    //        var LessThan = Arc < (EgoAimDirection + 0.3);
+                    //        var MoreThan = Arc > (EgoAimDirection - 0.3);
+                    //        var Hit = LessThan && MoreThan;
+
+                    //        if (Hit)
+                    //            DeadManWalking.filters = new[] { new GlowFilter() };
+                    //        else
+                    //            DeadManWalking.filters = null;
+                    //    }
+                    //}
+
                     Aim.rotation += 1;
 
                     foreach (var s in

@@ -11,6 +11,7 @@ using ScriptCoreLib.ActionScript.flash.media;
 using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.Lambda;
 using ScriptCoreLib.ActionScript.flash.text;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace FlashTowerDefense.ActionScript
 {
@@ -18,6 +19,28 @@ namespace FlashTowerDefense.ActionScript
     [Script]
     static class MyExtensions
     {
+        public static double GetRotation(this Point p)
+        {
+            var x = p.x;
+            var y = p.y;
+
+            if (x == 0)
+                if (y < 0)
+                    return System.Math.PI / 2;
+                else
+                    return (System.Math.PI / 2) * 3;
+
+            var a = System.Math.Atan(y / x);
+
+            if (x < 0)
+                a += System.Math.PI;
+            else if (y < 0)
+                a += System.Math.PI * 2;
+
+
+            return a;
+        }
+
         public static void FadeOutAndOrphanize(this DisplayObject e, int timeout, double step)
         {
             timeout.AtInterval(
