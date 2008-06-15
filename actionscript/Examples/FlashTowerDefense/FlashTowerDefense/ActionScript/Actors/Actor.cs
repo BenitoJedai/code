@@ -50,6 +50,8 @@ namespace FlashTowerDefense.ActionScript.Actors
         public bool IsCorpseAndBloodGone;
         public bool IsCorpseGone;
 
+        public bool RunAnimation = true;
+
         public Actor(Bitmap[] frames, Bitmap corpse, Bitmap blood, Sound death)
         {
             this.mouseEnabled = false;
@@ -118,14 +120,17 @@ namespace FlashTowerDefense.ActionScript.Actors
                          return;
                      }
 
+
+                     if (!RunAnimation)
+                         return;
+
                      for (int i = 0; i < frames.Length; i++)
                      {
                          var v = frames[i];
 
                          if (t.currentCount % frames.Length == i)
                          {
-                             v.x = -v.width / 2;
-                             v.y = -v.height / 2;
+                             v.MoveToCenter();
                              v.AttachTo(this);
 
                              if (this.Moved != null)

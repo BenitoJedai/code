@@ -40,7 +40,8 @@ namespace FlashTowerDefense.ActionScript
 
         const int OffscreenMargin = 32;
 
-        Animation turret;
+        Animation PrebuiltTurret;
+        Timer PrebuiltTurretBlinkTimer;
 
         public readonly Func<DisplayObjectContainer> GetWarzone;
         public readonly Action<TextField, bool> BlurWarzoneOnHover;
@@ -145,6 +146,7 @@ namespace FlashTowerDefense.ActionScript
             #endregion
 
 
+            #region ScoreBoard
             var ScoreBoard = new TextField
             {
                 x = 24,
@@ -155,15 +157,16 @@ namespace FlashTowerDefense.ActionScript
                     size = 12
                 },
                 autoSize = TextFieldAutoSize.LEFT,
-                filters = new[] { new BlurFilter() },
                 text = "Defend yourself by shooting those mad sheep.",
+                filters = new[] { new BlurFilter() },
                 selectable = false,
             };
 
             ScoreBoard.AttachTo(this);
 
 
-            BlurWarzoneOnHover(ScoreBoard, false);
+            BlurWarzoneOnHover(ScoreBoard, true);
+            #endregion
 
 
 
@@ -208,14 +211,51 @@ namespace FlashTowerDefense.ActionScript
             (3 + 3.Random()).Times(AddCactusAt.FixParam(Height * 0.06));
             (3 + 3.Random()).Times(AddCactusAt.FixParam(Height * 0.94));
 
-            turret = new Animation(Images.img_turret1_gunfire_180, Images.img_turret1_gunfire_180_frames);
+            PrebuiltTurret = new Animation(Images.img_turret1_gunfire_180, Images.img_turret1_gunfire_180_frames);
 
-            turret.x = (Width - turret.width) * 0.9;
-            turret.y = (Height - turret.height) / 2;
+            PrebuiltTurret.x = (Width - PrebuiltTurret.width) * 0.9;
+            PrebuiltTurret.y = (Height - PrebuiltTurret.height) / 2;
 
-            turret.AttachTo(GetWarzone());
+            PrebuiltTurret.AttachTo(GetWarzone());
 
-            var channel1 = default(SoundChannel);
+            #region Ego
+            var Ego = new Warrior();
+            Func<bool> EgoIsOnTheField = () => Ego.parent != null;
+            Func<bool> EgoCanManTurret = () => true; // look up if there is somebody else in it
+            Func<bool> EgoIsCloseToTurret = () => new Point { x = Ego.x - PrebuiltTurret.x, y = Ego.y - PrebuiltTurret.y }.length < 32;
+
+            var EgoAimDirection = 3.14; // look down
+            var EgoAimDistance = 48;
+            var EgoAimMoveSpeed = 0.1;
+            var EgoMoveSpeed = 3;
+
+            Action UpdateEgoAim =
+                delegate
+                {
+                    Aim.MoveTo(Ego.x + Math.Cos(EgoAimDirection) * EgoAimDistance, Ego.y + Math.Sin(EgoAimDirection) * EgoAimDistance);
+                };
+
+            var EgoMoveUpTimer = (1000 / 30).AtInterval(
+                delegate
+                {
+                    Ego.MoveToArc(EgoAimDirection, EgoMoveSpeed);
+                    UpdateEgoAim();
+                });
+
+            EgoMoveUpTimer.stop();
+
+            var EgoAimMoveTimer = (1000 / 30).AtInterval(
+                 delegate
+                 {
+                     EgoAimDirection += EgoAimMoveSpeed * EgoMoveSpeed;
+                     UpdateEgoAim();
+                 });
+            EgoAimMoveTimer.stop();
+
+    
+            #endregion
+
+            var PrebuiltTurretSound = default(SoundChannel);
 
             var f = new[] { new GlowFilter() };
 
@@ -233,6 +273,8 @@ namespace FlashTowerDefense.ActionScript
             // If this gets negative, we end this level and pause... maybe send a big boss, too?
             var WaveEndCountdown = 30;
 
+            var InterlevelMusic = default(SoundChannel);
+            var InterlevelTimeout = 12000;
 
             Action UpdateScoreBoard =
                 delegate
@@ -275,14 +317,18 @@ namespace FlashTowerDefense.ActionScript
                 {
                     if (!CanFire) return;
 
-                    if (channel1 != null)
-                        channel1.stop();
+                    // the turret cannot fire without a man behind it
+                    if (EgoIsOnTheField())
+                        return;
 
-                    channel1 = Sounds.gunfire.ToSoundAsset().play(0, 999);
+                    if (PrebuiltTurretSound != null)
+                        PrebuiltTurretSound.stop();
 
-                    turret.filters = f;
+                    PrebuiltTurretSound = Sounds.gunfire.ToSoundAsset().play(0, 999);
 
-                    turret.AnimationEnabled = true;
+                    PrebuiltTurret.filters = f;
+
+                    PrebuiltTurret.AnimationEnabled = true;
 
 
 
@@ -291,11 +337,11 @@ namespace FlashTowerDefense.ActionScript
                         (1000 / 10).AtInterval(
                             delegate
                             {
-                                if (!turret.AnimationEnabled)
+                                if (!PrebuiltTurret.AnimationEnabled)
                                 {
                                     CurrentTargetTimer.stop();
-                                    channel1.stop();
-                                    turret.filters = null;
+                                    PrebuiltTurretSound.stop();
+                                    PrebuiltTurret.filters = null;
                                     return;
                                 }
 
@@ -308,32 +354,27 @@ namespace FlashTowerDefense.ActionScript
             GetWarzone().mouseUp +=
                  e =>
                  {
-                     turret.AnimationEnabled = false;
+                     PrebuiltTurret.AnimationEnabled = false;
                  };
 
 
             GetWarzone().mouseMove +=
                 e =>
                 {
-                    Aim.x = e.stageX;
-                    Aim.y = e.stageY;
                     CurrentTarget = e;
+
+                    if (EgoIsOnTheField())
+                    {
+                        return;
+                    }
+
+                    Aim.x = CurrentTarget.stageX;
+                    Aim.y = CurrentTarget.stageY;
+                    
                 };
 
 
-            if (stage == null)
-            {
 
-                this.addedToStage +=
-                    delegate
-                    {
-                        stage.scaleMode = StageScaleMode.NO_BORDER;
-                    };
-            }
-            else
-                stage.scaleMode = StageScaleMode.NO_BORDER;
-
-            Mouse.hide();
 
 
             Func<double> GetEntryPointY = () => (Height * 0.8).Random() + Height * 0.1;
@@ -387,13 +428,14 @@ namespace FlashTowerDefense.ActionScript
                 };
             #endregion
 
+            #region Messages
             var ActiveMessages = new List<TextField>();
             var ShowMessageNow = default(Action<string, Action>);
 
-            ShowMessageNow = 
+            ShowMessageNow =
                 (MessageText, Done) =>
                 {
-              
+
                     var p = new TextField
                     {
                         textColor = ColorWhite,
@@ -413,7 +455,7 @@ namespace FlashTowerDefense.ActionScript
 
                     var MessagesToBeMoved = (from TheMessage in ActiveMessages select new { TheMessage, y = TheMessage.y - TheMessage.height }).ToArray();
 
-                    
+
 
                     (1000 / 24).AtInterval(
                         t =>
@@ -430,7 +472,7 @@ namespace FlashTowerDefense.ActionScript
                             if (p.y < y)
                             {
                                 t.stop();
-                      
+
                                 if (Done != null)
                                     Done();
 
@@ -472,15 +514,156 @@ namespace FlashTowerDefense.ActionScript
 
                     NextQueuedMessages();
                 };
-            
-            //ShowMessageNow("Aim at the enemy unit and hold down the mouse!",
-            //    () => ShowMessageNow("Day " + CurrentLevel, null)
-            //);
+            #endregion
+
+
+
+            Action StageIsReady =
+                delegate
+                {
+                    stage.scaleMode = StageScaleMode.NO_BORDER;
+
+                    #region keyboard
+                    stage.keyDown +=
+                        e =>
+                        {
+                            if (EgoIsOnTheField())
+                            {
+                                if (e.keyCode == Keyboard.LEFT)
+                                {
+                                    EgoAimMoveSpeed = -0.1;
+                                    EgoAimMoveTimer.start();
+                                }
+                                else if (e.keyCode == Keyboard.RIGHT)
+                                {
+                                    EgoAimMoveSpeed = 0.1;
+                                    EgoAimMoveTimer.start();
+                                }
+                                else if (e.keyCode == Keyboard.UP)
+                                {
+                                    Ego.RunAnimation = true;
+                                    EgoMoveSpeed = 2;
+                                    EgoMoveUpTimer.start();
+                                }
+                                else if (e.keyCode == Keyboard.DOWN)
+                                {
+                                    Ego.RunAnimation = true;
+                                    EgoMoveSpeed = -1;
+                                    EgoMoveUpTimer.start();
+                                }
+                                else if (e.keyCode == Keyboard.CONTROL)
+                                {
+
+
+                                }
+                            }
+                        };
+
+                    stage.keyUp +=
+                      e =>
+                      {
+                          if (EgoIsOnTheField())
+                          {
+                              if (e.keyCode == Keyboard.LEFT)
+                              {
+                                  EgoAimMoveTimer.stop();
+                              }
+                              else if (e.keyCode == Keyboard.RIGHT)
+                              {
+                                  EgoAimMoveTimer.stop();
+                              }
+                              else if (e.keyCode == Keyboard.UP)
+                              {
+                                  Ego.RunAnimation = false;
+                                  EgoMoveUpTimer.stop();
+                              }
+                              else if (e.keyCode == Keyboard.DOWN)
+                              {
+                                  Ego.RunAnimation = false;
+                                  EgoMoveUpTimer.stop();
+                              }
+                              else if (e.keyCode == Keyboard.CONTROL)
+                              {
+                                  ShowMessage("Got no weapone! Cannot see one either!");
+                              }
+                          }
+
+                          if (e.keyCode == Keyboard.ENTER)
+                          {
+                              if (EgoIsOnTheField())
+                              {
+                                  if (EgoIsCloseToTurret())
+                                  {
+                                      if (EgoCanManTurret())
+                                      {
+                                          Ego.Orphanize();
+                                          Ego.RunAnimation = false;
+                                          EgoMoveUpTimer.stop();
+                                          EgoAimMoveTimer.stop();
+                                          PrebuiltTurretBlinkTimer.stop();
+
+                                          ShowMessage("Machinegun manned!");
+                                          Mouse.hide();
+                                          Aim.x = CurrentTarget.stageX;
+                                          Aim.y = CurrentTarget.stageY;
+                                      }
+                                      else
+                                      {
+                                          ShowMessage("Cannot man the machinegun!");
+                                      }
+                                  }
+                                  else
+                                  {
+                                      ShowMessage("The machinegun is too far! Get closer!");
+                                  }
+                              }
+                              else
+                              {
+                                  ShowMessage("Machinegun unmanned!");
+                                  PrebuiltTurret.alpha = 0.5;
+                                  Mouse.show();
+                                  PrebuiltTurretBlinkTimer = 500.AtInterval(t => PrebuiltTurret.alpha = ((t.currentCount % 2) + 1) / 2);
+
+                                  Ego.RunAnimation = false;
+                                  Ego.CanMakeFootsteps = false;
+
+                                  Ego.MoveTo(PrebuiltTurret.x + 48, PrebuiltTurret.y).AttachTo(GetWarzone());
+
+                                  UpdateEgoAim();
+                              }
+                          }
+                          else
+                          {
+                              ShowMessage(new { e.charCode, e.keyCode, e.keyLocation }.ToString());
+                          }
+                      };
+                    #endregion
+
+                };
+
+            #region readiness
+            if (stage == null)
+            {
+                this.addedToStage +=
+                    delegate
+                    {
+                        StageIsReady();
+                    };
+            }
+            else
+            {
+                StageIsReady();
+            }
+            #endregion
+
+            Mouse.hide();
+
+
 
             ShowMessage("Aim at the enemy unit and hold down the mouse!");
             ShowMessage("Day " + CurrentLevel);
 
-            var InterlevelMusic = default(SoundChannel);
+           
 
             (1500).AtInterval(
                 t =>
@@ -506,7 +689,7 @@ namespace FlashTowerDefense.ActionScript
 
 
 
-                        9000.AtDelayDo(
+                        InterlevelTimeout.AtDelayDo(
                             delegate
                             {
                                 // show "level START"
@@ -840,8 +1023,21 @@ namespace FlashTowerDefense.ActionScript
             }
             else
             {
-                if (0.3.ByChance())
+                if (0.1.ByChance())
                 {
+                    AttachRules(
+                      new NuclearWarrior
+                      {
+                          x = -OffscreenMargin,
+                          y = GetEntryPointY(),
+                          speed = 1 + 2.Random()
+                      }
+                  );
+                }
+                else if (0.3.ByChance())
+                {
+
+
                     AttachRules(
                         new Warrior
                         {
@@ -850,6 +1046,8 @@ namespace FlashTowerDefense.ActionScript
                             speed = 1 + 2.Random()
                         }
                     );
+
+
                 }
                 else
                 {
@@ -867,12 +1065,7 @@ namespace FlashTowerDefense.ActionScript
             UpdateScoreBoard();
         }
 
-        //[Script(IsDebugCode = true)]
-        private void HoldFireOnMouseUp()
-        {
 
-
-        }
 
         public readonly Settings Settings = new Settings();
 

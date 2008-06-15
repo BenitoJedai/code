@@ -10,7 +10,7 @@ using FlashTowerDefense.ActionScript.Assets;
 namespace FlashTowerDefense.ActionScript.Actors
 {
     [Script]
-    class Warrior : Actor
+    public class Warrior : Actor
     {
         static Bitmap[] frames
         {

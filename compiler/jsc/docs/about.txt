@@ -100,3 +100,5 @@ version history:
 	actionscript: fixed box opcode
 14.06.2008
 	actionscript: fixed fullname usage
+15.06.2008
+	actionscript: added Conv_U4 opcode

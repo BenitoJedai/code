@@ -935,20 +935,29 @@ namespace jsc.Languages.ActionScript
 
             // not supported
             // CIW[OpCodes.Conv_I1] = e => ConvertTypeAndEmit(e, "byte");
+            {
+                Func<string, CodeInstructionHandler> f = t => e => ConvertTypeAndEmit(e, t);
 
-            CIW[OpCodes.Conv_U2] = e => ConvertTypeAndEmit(e, "uint"); // char == int
-            CIW[OpCodes.Conv_I4] = e => ConvertTypeAndEmit(e, "int");
+                CIW[OpCodes.Conv_U1] = f("uint"); // char == int
+                CIW[OpCodes.Conv_U2] = f("uint"); // char == int
+                CIW[OpCodes.Conv_U4] = f("uint"); // char == int
+
+                CIW[OpCodes.Conv_I1] = f("int");
+                CIW[OpCodes.Conv_I2] = f("int");
+                CIW[OpCodes.Conv_I4] = f("int");
 
 
-            // CIW[OpCodes.Conv_I8] = e => ConvertTypeAndEmit(e, "long");
-            // CIW[OpCodes.Conv_U8] = e => ConvertTypeAndEmit(e, "long");
+                // CIW[OpCodes.Conv_I8] = e => ConvertTypeAndEmit(e, "long");
+                // CIW[OpCodes.Conv_U8] = e => ConvertTypeAndEmit(e, "long");
 
-            CIW[OpCodes.Conv_R4] = e => ConvertTypeAndEmit(e, "Number");
-            CIW[OpCodes.Conv_R8] = e => ConvertTypeAndEmit(e, "Number");
-            CIW[OpCodes.Conv_I8] = e => ConvertTypeAndEmit(e, "Number");
+                CIW[OpCodes.Conv_R4] = f("Number");
+                CIW[OpCodes.Conv_R8] = f("Number");
+                CIW[OpCodes.Conv_I8] = f("Number");
+                CIW[OpCodes.Conv_U8] = f("Number");
 
-            // CIW[OpCodes.Conv_U1] = e => ConvertTypeAndEmit(e, "byte");
-            CIW[OpCodes.Conv_Ovf_I] = e => ConvertTypeAndEmit(e, "int");
+                
+                CIW[OpCodes.Conv_Ovf_I] = f("int");
+            }
             #endregion
 
             CIW[OpCodes.Ldnull] = e => Write("null");

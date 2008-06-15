@@ -14,6 +14,7 @@ namespace FlashTowerDefense.ActionScript.Actors
             {
                 new Sheep(),
                 new Warrior(),
+                new NuclearWarrior(),
                 new BossWarrior(),
                 new BossSheep()
             };
