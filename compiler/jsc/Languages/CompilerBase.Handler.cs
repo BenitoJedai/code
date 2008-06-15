@@ -12,8 +12,9 @@ using System.Xml;
 
 using ScriptCoreLib;
 
+/*
 using Dia2Lib;
-
+*/
 namespace jsc.Script
 {
 

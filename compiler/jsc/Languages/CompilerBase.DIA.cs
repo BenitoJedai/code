@@ -12,7 +12,10 @@ using System.Xml;
 
 using ScriptCoreLib;
 
+#if WITH_DIA
 using Dia2Lib;
+#endif
+
 using System.Runtime.InteropServices;
 
 namespace jsc.Script
@@ -20,9 +23,10 @@ namespace jsc.Script
 
     public abstract partial class CompilerBase
     {
-     
+
         public static class DIACache
         {
+
             class Session
             {
 
@@ -43,15 +47,17 @@ namespace jsc.Script
 
                 public string pdbPath = null;
 
+#if WITH_DIA
                 public DiaSource DiaSource = null;
                 public IDiaSession DiaSession = null;
+#endif
 
 
                 public Session(Assembly a, CompilerBase z)
                 {
                     if (z.CurrentJob != null)
                     {
-                        pdbPath = z.CurrentJob.AssamblyFile.DirectoryName+ "\\" + new FileInfo(a.Location).Name;
+                        pdbPath = z.CurrentJob.AssamblyFile.DirectoryName + "\\" + new FileInfo(a.Location).Name;
                         pdbPath = pdbPath.Substring(0, pdbPath.Length - 4) + ".pdb";
 
 
@@ -60,7 +66,7 @@ namespace jsc.Script
                         pdbPath = a.Location.Substring(0, a.Location.Length - 4) + ".pdb";
 
 
-
+#if WITH_DIA
                     if (File.Exists(pdbPath))
                     {
                         try
@@ -80,8 +86,11 @@ namespace jsc.Script
                     }
                     else
                         Console.WriteLine("pdb not found {0}", pdbPath);
+#endif
+
                 }
-                
+
+#if WITH_DIA
                 private static bool NextSymbol(IDiaEnumSymbols es, out IDiaSymbol sym)
                 {
                     sym = null;
@@ -111,6 +120,7 @@ namespace jsc.Script
 
                     return a.ToArray();
                 }
+#endif
 
                 public string GetVariableName(MethodBase m, LocalVariableInfo var)
                 {
@@ -119,6 +129,7 @@ namespace jsc.Script
                     if (var == null)
                         return null;
 
+#if WITH_DIA
                     try
                     {
                         
@@ -153,12 +164,14 @@ namespace jsc.Script
                     {
                         throw new Exception("pdb version mismatch");
                     }
+#endif
 
 
                     return GuessName(var);
-                    
+
                 }
 
+#if WITH_DIA
                 private static string ResolveVariableNameByBlock(LocalVariableInfo var, IDiaSymbol s)
                 {
 
@@ -198,11 +211,12 @@ namespace jsc.Script
                     }
                     return _name;
                 }
+#endif
 
                 private static string GuessName(LocalVariableInfo var)
                 {
                     Type xt = var.LocalType;
-                    
+
                     while (xt.IsArray)
                         xt = xt.GetElementType();
 
@@ -241,14 +255,17 @@ namespace jsc.Script
 
             public static string GetVariableName(Type t, MethodBase m, LocalVariableInfo var, CompilerBase z)
             {
-                
+                string _name = null;
+
+
                 if (!dict.ContainsKey(t.Assembly))
                 {
                     dict[t.Assembly] = new Session(t.Assembly, z);
                 }
 
 
-                string _name = dict[t.Assembly].GetVariableName(m, var);
+                _name = dict[t.Assembly].GetVariableName(m, var);
+
 
                 return _name;
             }
@@ -262,13 +279,13 @@ namespace jsc.Script
         /// <param name="localVariableInfo"></param>
         public void WriteVariableName(Type type, MethodBase method, LocalVariableInfo var)
         {
-            WriteSafeLiteral( DIACache.GetVariableName(type, method, var, this) ?? "_" );
+            WriteSafeLiteral(DIACache.GetVariableName(type, method, var, this) ?? "_");
 
-           
+
         }
 
 
- 
+
 
 
 
