@@ -9,14 +9,18 @@ namespace FlashTowerDefense.ActionScript.Actors
     [Script]
     public class Settings
     {
-        public readonly Actor[] KnownActors =
-            new Actor[]
-            {
-                new Sheep(),
-                new Warrior(),
-                new NuclearWarrior(),
-                new BossWarrior(),
-                new BossSheep()
-            };
+        public Settings()
+        {
+            KnownActors =
+                new Actor[]
+                {
+                    new Sheep(),
+                    new Warrior(),
+                    new NuclearWarrior(),
+                    new BossWarrior(),
+                    new BossSheep()
+                };
+        }
+        public readonly Actor[] KnownActors;
     }
 }

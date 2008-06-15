@@ -162,7 +162,7 @@ namespace FlashTowerDefense.ActionScript
                 selectable = false,
             };
 
-            ScoreBoard.AttachTo(this);
+            //ScoreBoard.AttachTo(this);
 
 
             BlurWarzoneOnHover(ScoreBoard, true);
@@ -555,7 +555,7 @@ namespace FlashTowerDefense.ActionScript
                                 {
                                     if (EgoIsOnTheField())
                                     {
-                                        foreach (var DeadManWalking in list)
+                                        foreach (var DeadManWalking in list.ToArray())
                                         {
                                             if (DeadManWalking.IsAlive)
                                             {
@@ -600,6 +600,9 @@ namespace FlashTowerDefense.ActionScript
                     stage.keyUp +=
                       e =>
                       {
+                          if (!CanFire)
+                              return;
+
                           if (EgoIsOnTheField())
                           {
                               if (e.keyCode == Keyboard.LEFT)

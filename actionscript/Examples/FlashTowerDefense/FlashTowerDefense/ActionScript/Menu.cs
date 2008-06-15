@@ -84,7 +84,9 @@ namespace FlashTowerDefense.ActionScript
 
                     Action PlaySound = () => Sounds.snd_click.ToSoundAsset().play();
 
-                    PlaySound.InvokeAtDelays(0, 500, 800);
+                    PlaySound();
+
+                    //PlaySound.InvokeAtDelays(0, 500, 800);
 
 
                     CanFire = true;
