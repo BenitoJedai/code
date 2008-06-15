@@ -120,6 +120,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEqualityComparer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IList.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\KeyValuePair.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\Queue.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\ICollection.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\List.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\IEnumerator.cs" />

@@ -8,7 +8,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     [Script(Implements = typeof(object))]
     internal class __Object
     {
-        [Script(OptimizedCode = "return a == b;")]
+        [Script(OptimizedCode = "return a === b;")]
         public static bool ReferenceEquals(object a, object b)
         {
             return default(bool);

@@ -59,11 +59,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
             get { return (int)_items.length; }
         }
 
-        [Script(OptimizedCode = "return a === b;")]
-        static private bool ReferenceEquals<A, B>(A a, B b)
-        {
-            return false;
-        }
+
 
         #region IList<T> Members
 
@@ -73,7 +69,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
 
             for (int i = 0; i < Count; i++)
             {
-                if (ReferenceEquals(this[i], item))
+                if (Object.ReferenceEquals(this[i], item))
                 {
                     j = i;
                     break;

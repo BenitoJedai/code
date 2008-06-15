@@ -388,23 +388,12 @@ namespace FlashTowerDefense.ActionScript
             #endregion
 
             var ActiveMessages = new List<TextField>();
-
-            //var ShowMessageQueue = new List<string>();
-            //var ShowMessageBusy = true;
-
             var ShowMessageNow = default(Action<string, Action>);
 
             ShowMessageNow = 
                 (MessageText, Done) =>
                 {
-                    //if (ShowMessageBusy)
-                    //{
-                    //    ShowMessageQueue.Add(MessageText);
-                    //    return;
-                    //}
-
-                    //ShowMessageBusy = true;
-
+              
                     var p = new TextField
                     {
                         textColor = ColorWhite,
@@ -441,15 +430,7 @@ namespace FlashTowerDefense.ActionScript
                             if (p.y < y)
                             {
                                 t.stop();
-                                //ShowMessageBusy = false;
-
-                                //if (ShowMessageQueue.Count > 0)
-                                //{
-                                //    var Next = ShowMessageQueue.First();
-                                //    ShowMessageQueue.Remove(Next);
-                                //    ShowMessage(Next);
-                                //}
-
+                      
                                 if (Done != null)
                                     Done();
 
@@ -461,13 +442,43 @@ namespace FlashTowerDefense.ActionScript
                     );
                 };
 
-            
 
+            var QueuedMessages = new Queue<string>();
+
+            Action<string> ShowMessage =
+                Text =>
+                {
+                    if (QueuedMessages.Count > 0)
+                    {
+                        QueuedMessages.Enqueue(Text);
+                        return;
+                    }
+
+                    // not busy
+                    QueuedMessages.Enqueue(Text);
+
+                    var NextQueuedMessages = default(Action);
+
+                    NextQueuedMessages =
+                        () => ShowMessageNow(QueuedMessages.Peek(),
+                            delegate
+                            {
+                                QueuedMessages.Dequeue();
+
+                                if (QueuedMessages.Count > 0)
+                                    NextQueuedMessages();
+                            }
+                        );
+
+                    NextQueuedMessages();
+                };
             
-            ShowMessageNow("Aim at the enemy unit and hold down the mouse!",
-                () => ShowMessageNow("Day " + CurrentLevel, null)
-            );
-            
+            //ShowMessageNow("Aim at the enemy unit and hold down the mouse!",
+            //    () => ShowMessageNow("Day " + CurrentLevel, null)
+            //);
+
+            ShowMessage("Aim at the enemy unit and hold down the mouse!");
+            ShowMessage("Day " + CurrentLevel);
 
             var InterlevelMusic = default(SoundChannel);
 
@@ -477,7 +488,11 @@ namespace FlashTowerDefense.ActionScript
                     if (WaveEndCountdown < 0)
                     {
                         if (InterlevelMusic == null)
+                        {
                             InterlevelMusic = Sounds.snd_birds.ToSoundAsset().play(0, 999);
+                            ShowMessage("Day " + CurrentLevel + " is ending...");
+
+                        }
 
                         // wait for all actors get off stage
                         if (list.Where(i => i.IsAlive).Any())
@@ -485,7 +500,7 @@ namespace FlashTowerDefense.ActionScript
 
 
                         // show "level END"
-                        ShowMessageNow("Day " + CurrentLevel + " Survived!", null);
+                        ShowMessage("Day " + CurrentLevel + " Survived!");
 
                         t.stop();
 
@@ -495,10 +510,12 @@ namespace FlashTowerDefense.ActionScript
                             delegate
                             {
                                 // show "level START"
-                                ShowMessageNow("Day " + CurrentLevel, null);
+                                ShowMessage("Day " + CurrentLevel);
                                 t.start();
 
-                                10000.AtDelayDoOnRandom(InterlevelMusic.stop);
+                                var InterlevelMusicStopping = InterlevelMusic;
+                                InterlevelMusic = null;
+                                10000.AtDelayDoOnRandom(InterlevelMusicStopping.stop);
                             }
                         );
 
@@ -534,7 +551,7 @@ namespace FlashTowerDefense.ActionScript
                 }
             );
 
-            // lets create a hyperlink
+            #region powered_by_jsc
             var powered_by_jsc = new TextField
             {
 
@@ -555,6 +572,7 @@ namespace FlashTowerDefense.ActionScript
             }.AttachTo(this);
 
             powered_by_jsc.y = Height - powered_by_jsc.height - 32;
+            #endregion
 
             ScoreBoard.AttachTo(this);
 
@@ -602,12 +620,13 @@ namespace FlashTowerDefense.ActionScript
                     {
                         MusicOn.Orphanize();
                         MusicOff.AttachTo(MusicButton);
-
+                        ShowMessage("Music silenced");
                         IngameMusic.soundTransform = new SoundTransform(0);
                     }
                     else
                     {
                         IngameMusic.soundTransform = new SoundTransform(IngameMusicVolume);
+                        ShowMessage("Music activated");
 
                         MusicOff.Orphanize();
                         MusicOn.AttachTo(MusicButton);
@@ -628,6 +647,7 @@ namespace FlashTowerDefense.ActionScript
 
             OnMouseDownDisableMouseOnTarget(GetWarzone(), MusicButton);
             OnMouseDownDisableMouseOnTarget(GetWarzone(), ScoreBoard);
+            OnMouseDownDisableMouseOnTarget(GetWarzone(), powered_by_jsc);
         }
 
         private static void AddNewActorsToMap(Action UpdateScoreBoard, Func<double> GetEntryPointY, Func<Actor, Actor> AttachRules)
