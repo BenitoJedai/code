@@ -83,7 +83,7 @@ namespace FlashTowerDefense.ActionScript.Monetized
             {
                 clip = this,
                 id = _mochiads_game_id,
-                res = "640x480",
+                res = FlashTowerDefense.Width + "x" + FlashTowerDefense.Height,
                 ad_finished =
                     delegate
                     {
