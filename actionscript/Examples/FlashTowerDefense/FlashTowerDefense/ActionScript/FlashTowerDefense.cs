@@ -387,9 +387,24 @@ namespace FlashTowerDefense.ActionScript
                 };
             #endregion
 
-            Action<string> ShowMessage =
-                MessageText =>
+            var ActiveMessages = new List<TextField>();
+
+            //var ShowMessageQueue = new List<string>();
+            //var ShowMessageBusy = true;
+
+            var ShowMessageNow = default(Action<string, Action>);
+
+            ShowMessageNow = 
+                (MessageText, Done) =>
                 {
+                    //if (ShowMessageBusy)
+                    //{
+                    //    ShowMessageQueue.Add(MessageText);
+                    //    return;
+                    //}
+
+                    //ShowMessageBusy = true;
+
                     var p = new TextField
                     {
                         textColor = ColorWhite,
@@ -403,28 +418,56 @@ namespace FlashTowerDefense.ActionScript
 
                     var y = Height - p.height - 32;
 
-                    p.AttachTo(this).MoveTo((Width - p.width) / 2, Height);
+                    p.AddTo(ActiveMessages).AttachTo(this).MoveTo((Width - p.width) / 2, Height);
 
                     Sounds.snd_message.ToSoundAsset().play();
 
+                    var MessagesToBeMoved = (from TheMessage in ActiveMessages select new { TheMessage, y = TheMessage.y - TheMessage.height }).ToArray();
+
+                    
 
                     (1000 / 24).AtInterval(
                         t =>
                         {
+                            foreach (var i in MessagesToBeMoved)
+                            {
+                                if (i.TheMessage.y > i.y)
+                                    i.TheMessage.y -= 4;
+
+                            }
+
                             p.y -= 4;
 
                             if (p.y < y)
+                            {
                                 t.stop();
+                                //ShowMessageBusy = false;
+
+                                //if (ShowMessageQueue.Count > 0)
+                                //{
+                                //    var Next = ShowMessageQueue.First();
+                                //    ShowMessageQueue.Remove(Next);
+                                //    ShowMessage(Next);
+                                //}
+
+                                if (Done != null)
+                                    Done();
+
+                                9000.AtDelayDo(
+                                    () => p.RemoveFrom(ActiveMessages).FadeOutAndOrphanize(1000 / 24, 0.21)
+                                );
+                            }
                         }
-                    );
-
-
-                    9000.AtDelayDo(
-                        () => p.FadeOutAndOrphanize(1000 / 24, 0.21)
                     );
                 };
 
-            ShowMessage("Day " + CurrentLevel);
+            
+
+            
+            ShowMessageNow("Aim at the enemy unit and hold down the mouse!",
+                () => ShowMessageNow("Day " + CurrentLevel, null)
+            );
+            
 
             var InterlevelMusic = default(SoundChannel);
 
@@ -442,7 +485,7 @@ namespace FlashTowerDefense.ActionScript
 
 
                         // show "level END"
-                        ShowMessage("Day " + CurrentLevel + " Survived!");
+                        ShowMessageNow("Day " + CurrentLevel + " Survived!", null);
 
                         t.stop();
 
@@ -452,7 +495,7 @@ namespace FlashTowerDefense.ActionScript
                             delegate
                             {
                                 // show "level START"
-                                ShowMessage("Day " + CurrentLevel);
+                                ShowMessageNow("Day " + CurrentLevel, null);
                                 t.start();
 
                                 10000.AtDelayDoOnRandom(InterlevelMusic.stop);
@@ -528,8 +571,8 @@ namespace FlashTowerDefense.ActionScript
             #region music on off
             var MusicButton = new Sprite
             {
-                x = Width - 64,
-                y = 64,
+                x = Width - 32,
+                y = 32,
                 filters = new[] { new GlowFilter(ColorBlueLight) },
 
             };
