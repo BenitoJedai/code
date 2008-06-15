@@ -39,6 +39,9 @@ namespace FlashTowerDefense.ActionScript.Actors
 
         public void AddDamage(double e)
         {
+            if (!IsAlive)
+                return;
+
             health -= e;
 
             if (health <= 0)

@@ -557,17 +557,37 @@ namespace FlashTowerDefense.ActionScript
                                     {
                                         foreach (var DeadManWalking in list)
                                         {
-                                            var Offset = new Point { y = DeadManWalking.y - Ego.y, x = DeadManWalking.x - Ego.x };
-                                            var Arc = Offset.GetRotation();
-                                            var Distance = Offset.length;
-                                            var LessThan = Arc < (EgoAimDirection + 0.3);
-                                            var MoreThan = Arc > (EgoAimDirection - 0.3);
-                                            var Hit = LessThan && MoreThan;
-                                            var Max = 200;
+                                            if (DeadManWalking.IsAlive)
+                                            {
+                                                var Offset = new Point { y = DeadManWalking.y - Ego.y, x = DeadManWalking.x - Ego.x };
+                                                var Arc = Offset.GetRotation();
+                                                var Distance = Offset.length;
+                                                var LessThan = Arc < (EgoAimDirection + 0.3);
+                                                var MoreThan = Arc > (EgoAimDirection - 0.3);
+                                                var Hit = LessThan && MoreThan;
+                                                var Max = 200;
 
-                                            if (Distance < Max)
-                                                if (Hit)
-                                                    DeadManWalking.AddDamage(DeadManWalking.health);
+                                                if (Distance < Max)
+                                                    if (Hit)
+                                                    {
+                                                        var Damage = 60.Random() + 40;
+                                                        var DamageMovement = 2 * Damage / 100;
+
+                                                        DeadManWalking.AddDamage(Damage);
+
+                                                        var Target = DeadManWalking;
+
+                                                        var t = new Timer(1000 / 24, 10);
+
+                                                        t.timer +=
+                                                            delegate
+                                                            {
+                                                                Target.MoveToArc(Arc, DamageMovement);
+                                                            };
+
+                                                        t.start();
+                                                    }
+                                            }
                                             
                                         }
                                     }
