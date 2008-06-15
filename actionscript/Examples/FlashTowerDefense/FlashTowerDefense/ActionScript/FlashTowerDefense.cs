@@ -601,11 +601,13 @@ namespace FlashTowerDefense.ActionScript
                                           EgoMoveUpTimer.stop();
                                           EgoAimMoveTimer.stop();
                                           PrebuiltTurretBlinkTimer.stop();
+                                          PrebuiltTurret.alpha = 1;
 
                                           ShowMessage("Machinegun manned!");
                                           Mouse.hide();
                                           Aim.x = CurrentTarget.stageX;
                                           Aim.y = CurrentTarget.stageY;
+                                          Sounds.snd_man2.ToSoundAsset().play();
                                       }
                                       else
                                       {
@@ -619,6 +621,7 @@ namespace FlashTowerDefense.ActionScript
                               }
                               else
                               {
+                                  Sounds.snd_man2.ToSoundAsset().play();
                                   ShowMessage("Machinegun unmanned!");
                                   PrebuiltTurret.alpha = 0.5;
                                   Mouse.show();
@@ -632,10 +635,10 @@ namespace FlashTowerDefense.ActionScript
                                   UpdateEgoAim();
                               }
                           }
-                          else
-                          {
-                              ShowMessage(new { e.charCode, e.keyCode, e.keyLocation }.ToString());
-                          }
+                          //else
+                          //{
+                          //    ShowMessage(new { e.charCode, e.keyCode, e.keyLocation }.ToString());
+                          //}
                       };
                     #endregion
 
@@ -661,7 +664,8 @@ namespace FlashTowerDefense.ActionScript
 
 
             ShowMessage("Aim at the enemy unit and hold down the mouse!");
-            ShowMessage("Day " + CurrentLevel);
+            ShowMessage("Press 'Enter' to exit the machinegun");
+            //ShowMessage("Day " + CurrentLevel);
 
            
 
