@@ -154,6 +154,7 @@
     <Compile Include="ActionScript\Extensions\flash\display\Stage.cs" />
     <Compile Include="ActionScript\Extensions\flash\media\Camera.cs" />
     <Compile Include="ActionScript\Extensions\flash\media\Microphone.cs" />
+    <Compile Include="ActionScript\Extensions\flash\media\SoundChannel.cs" />
     <Compile Include="ActionScript\Extensions\flash\net\NetConnection.cs" />
     <Compile Include="ActionScript\Extensions\Class.cs" />
     <Compile Include="ActionScript\flash\display\Shape.cs" />

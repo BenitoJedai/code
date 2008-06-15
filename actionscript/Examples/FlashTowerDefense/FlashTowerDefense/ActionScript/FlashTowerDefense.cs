@@ -49,7 +49,8 @@ namespace FlashTowerDefense.ActionScript
 
         public readonly Shape Aim;
 
-        public readonly SoundChannel music;
+        public SoundChannel IngameMusic;
+        public double IngameMusicVolume = 0.3;
 
         Func<double> GetRandomHitDamage = () => (8 + 12.Random()) * 1.5;
 
@@ -175,7 +176,16 @@ namespace FlashTowerDefense.ActionScript
             AddDoodads(0.0001, () => Images.grass1.ToBitmapAsset());
             AddDoodads(0.00005, () => Images.bump2.ToBitmapAsset());
 
-            this.music = Sounds.snd_world.ToSoundAsset().play(0, 999, new SoundTransform(0.3));
+            Action StartIngameMusic =
+                delegate
+                {
+                    if (this.IngameMusic != null)
+                        this.IngameMusic.stop();
+
+                    this.IngameMusic = Sounds.snd_world.ToSoundAsset().play(0, 999, new SoundTransform(IngameMusicVolume));
+                };
+
+            StartIngameMusic();
 
             Func<Animation> AddCactus = () =>
                 new Animation(null, Images.img_cactus)
@@ -260,7 +270,7 @@ namespace FlashTowerDefense.ActionScript
             var CurrentTargetTimer = default(Timer);
 
 
-            this.mouseDown +=
+            GetWarzone().mouseDown +=
                 e =>
                 {
                     if (!CanFire) return;
@@ -294,11 +304,15 @@ namespace FlashTowerDefense.ActionScript
                         );
 
                 };
-            HoldFireOnMouseUp();
+
+            GetWarzone().mouseUp +=
+                 e =>
+                 {
+                     turret.AnimationEnabled = false;
+                 };
 
 
-
-            this.mouseMove +=
+            GetWarzone().mouseMove +=
                 e =>
                 {
                     Aim.x = e.stageX;
@@ -393,7 +407,7 @@ namespace FlashTowerDefense.ActionScript
 
                     Sounds.snd_message.ToSoundAsset().play();
 
-                    
+
                     (1000 / 24).AtInterval(
                         t =>
                         {
@@ -428,7 +442,7 @@ namespace FlashTowerDefense.ActionScript
 
 
                         // show "level END"
-                        ShowMessage("Day " + CurrentLevel + " Done!");
+                        ShowMessage("Day " + CurrentLevel + " Survived!");
 
                         t.stop();
 
@@ -438,7 +452,7 @@ namespace FlashTowerDefense.ActionScript
                             delegate
                             {
                                 // show "level START"
-                                ShowMessage("Level " + CurrentLevel);
+                                ShowMessage("Day " + CurrentLevel);
                                 t.start();
 
                                 10000.AtDelayDoOnRandom(InterlevelMusic.stop);
@@ -511,6 +525,66 @@ namespace FlashTowerDefense.ActionScript
             );
 
 
+            #region music on off
+            var MusicButton = new Sprite
+            {
+                x = Width - 64,
+                y = 64,
+                filters = new[] { new GlowFilter(ColorBlueLight) },
+
+            };
+
+            var MusicOn = Images.music_on.ToBitmapAsset().MoveToCenter();
+            var MusicOff = Images.music_off.ToBitmapAsset().MoveToCenter();
+
+            MusicButton.mouseOver +=
+                delegate
+                {
+                    Mouse.show();
+                    Aim.visible = false;
+                };
+
+            MusicButton.mouseOut +=
+              delegate
+              {
+                  Mouse.hide();
+                  Aim.visible = true;
+              };
+
+            MusicButton.click +=
+                delegate
+                {
+
+                    if (MusicOn.parent == MusicButton)
+                    {
+                        MusicOn.Orphanize();
+                        MusicOff.AttachTo(MusicButton);
+
+                        IngameMusic.soundTransform = new SoundTransform(0);
+                    }
+                    else
+                    {
+                        IngameMusic.soundTransform = new SoundTransform(IngameMusicVolume);
+
+                        MusicOff.Orphanize();
+                        MusicOn.AttachTo(MusicButton);
+                    }
+                };
+
+            MusicOn.AttachTo(MusicButton);
+
+            MusicButton.AttachTo(this);
+            #endregion
+
+            Action<InteractiveObject, InteractiveObject> OnMouseDownDisableMouseOnTarget =
+                (subject, target) =>
+                {
+                    subject.mouseDown += delegate { target.mouseEnabled = false; };
+                    subject.mouseUp += delegate { target.mouseEnabled = true; };
+                };
+
+            OnMouseDownDisableMouseOnTarget(GetWarzone(), MusicButton);
+            OnMouseDownDisableMouseOnTarget(GetWarzone(), ScoreBoard);
         }
 
         private static void AddNewActorsToMap(Action UpdateScoreBoard, Func<double> GetEntryPointY, Func<Actor, Actor> AttachRules)
@@ -734,11 +808,7 @@ namespace FlashTowerDefense.ActionScript
         private void HoldFireOnMouseUp()
         {
 
-            this.mouseUp +=
-                e =>
-                {
-                    turret.AnimationEnabled = false;
-                };
+
         }
 
         public readonly Settings Settings = new Settings();
