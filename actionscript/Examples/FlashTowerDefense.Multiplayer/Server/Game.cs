@@ -13,6 +13,8 @@ namespace FlashTowerDefense.Server
     /// </summary>
     public class Game : NonobaGame<Player>
     {
+
+
         /// <summary>
         /// Game started is called *once* when an instance
         /// of your game is started. It's a good place to initialize
@@ -37,9 +39,56 @@ namespace FlashTowerDefense.Server
             // every 100th millisecond (10 times a second).
             // AddTimer(new TimerCallback(tick), 30000);
 
-            AddTimer(
-                delegate
+            AddTimer(CheckIfAllReady
+                //delegate
+                //{
+
+                    //var a = new List<object>();
+                //var r = new Random();
+
+                    //for (int i = 0; i < 32; i++)
+                //{
+                //    a.Add(r.Next(100));
+                //}
+                //var z = a.ToArray();
+
+                    //Broadcast(SharedClass1.Messages.ServerRandomNumbers, z);
+                //}
+            , 5000);
+        }
+
+        List<Player> PlayersWithActiveWarzone;
+
+        private void CheckIfAllReady()
+        {
+            try
+            {
+                if (PlayersWithActiveWarzone == null)
                 {
+                    if (Users.Length > 1)
+                    {
+                        var Ready = new List<Player>();
+
+                        foreach (var z in Users)
+                        {
+                            if (z.GameEventStatus == Player.GameEventStatusEnum.Ready)
+                                Ready.Add(z);
+                        }
+
+                        if (Ready.Count == Users.Length)
+                        {
+                            foreach (var z in Ready)
+                                z.GameEventStatus = Player.GameEventStatusEnum.Pending;
+
+                            // multiple users are ready
+                            PlayersWithActiveWarzone = Ready;
+                        }
+                    }
+                }
+                else
+                {
+                    var Cancelled = new List<Player>();
+
                     var a = new List<object>();
                     var r = new Random();
 
@@ -49,9 +98,28 @@ namespace FlashTowerDefense.Server
                     }
                     var z = a.ToArray();
 
-                    Broadcast(SharedClass1.Messages.ServerRandomNumbers, z);
+                    foreach (var i in PlayersWithActiveWarzone)
+                    {
+                        if (i.GameEventStatus == Player.GameEventStatusEnum.Pending)
+                        {
+                            Send(i, SharedClass1.Messages.ServerRandomNumbers, z);
+                        }
+                        else if (i.GameEventStatus == Player.GameEventStatusEnum.Cancelled)
+                        {
+                            Cancelled.Add(i);
+                        }
+                    }
+
+                    if (Cancelled.Count == PlayersWithActiveWarzone.Count)
+                    {
+                        // end of day for those guys
+                    }
                 }
-            , 1500);
+            }
+            catch
+            {
+
+            }
         }
 
         /// <summary>Timer callback scheduled to be called 10 times a second in the AddTimer() call in GameStarted()</summary>
@@ -82,9 +150,13 @@ namespace FlashTowerDefense.Server
             else if (e == SharedClass1.Messages.WalkTo)
                 Broadcast(SharedClass1.Messages.UserWalkTo, player.UserId, m.GetInt(0), m.GetInt(1));
             else if (e == SharedClass1.Messages.ToUserJoinedReply)
-                Send(m.GetInt(0), SharedClass1.Messages.UserJoinedReply, player.UserId, player.UserId);
+                Send(m.GetInt(0), SharedClass1.Messages.UserJoinedReply, player.Username, player.UserId);
             else if (e == SharedClass1.Messages.FiredShotgun)
                 Broadcast(SharedClass1.Messages.UserFiredShotgun, player.UserId);
+            else if (e == SharedClass1.Messages.ReadyForServerRandomNumbers)
+                player.GameEventStatus = Player.GameEventStatusEnum.Ready;
+            else if (e == SharedClass1.Messages.CancelServerRandomNumbers)
+                player.GameEventStatus = Player.GameEventStatusEnum.Cancelled;
         }
 
         /// <summary>When a user enters this game instance</summary>
@@ -94,7 +166,7 @@ namespace FlashTowerDefense.Server
 
             Broadcast(SharedClass1.Messages.UserJoined, player.Username, player.UserId);
 
-           
+
             //Send(player, SharedClass1.Messages.ServerRandomNumbers, z);
             // we need to resync the players now
         }

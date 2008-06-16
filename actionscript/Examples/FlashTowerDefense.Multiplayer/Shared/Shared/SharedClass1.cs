@@ -44,6 +44,9 @@ namespace FlashTowerDefense.Shared
 
             ServerMessage,
             ServerRandomNumbers,
+
+            ReadyForServerRandomNumbers,
+            CancelServerRandomNumbers,
         }
 
 

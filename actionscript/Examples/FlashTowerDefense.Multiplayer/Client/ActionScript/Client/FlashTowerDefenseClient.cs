@@ -33,7 +33,7 @@ namespace FlashTowerDefense.ActionScript.Client
         /// </summary>
         public FlashTowerDefenseClient()
         {
-            var c = NonobaAPI.MakeMultiplayer(stage, "titanium");
+            var c = NonobaAPI.MakeMultiplayer(stage, "192.168.3.20");
 
             c.Init +=
                 delegate
@@ -96,6 +96,18 @@ namespace FlashTowerDefense.ActionScript.Client
                         {
                             c.SendMessage(SharedClass1.Messages.FiredShotgun);
                         };
+
+                    m.GameInterlevelBegin +=
+                     delegate
+                     {
+                         c.SendMessage(SharedClass1.Messages.CancelServerRandomNumbers);
+                     };
+
+                    m.GameInterlevelEnd +=
+                      delegate
+                      {
+                          c.SendMessage(SharedClass1.Messages.ReadyForServerRandomNumbers);
+                      };
 
                     var Players = new List<Warrior>();
 
@@ -242,7 +254,9 @@ namespace FlashTowerDefense.ActionScript.Client
                                         MyExtensions.ByChance_RandomNumbers.Enqueue(e.message.GetInt(i) / 100.0);
                                     }
 
-                                    m.GameEvent();
+                                    // active warzone
+                                    if (m.InterlevelMusic == null)
+                                        m.GameEvent();
                                 }
                             }
                             catch
@@ -252,9 +266,9 @@ namespace FlashTowerDefense.ActionScript.Client
                         };
                     #endregion
 
-                  
-
                     SendTeleportTo();
+
+                    c.SendMessage(SharedClass1.Messages.ReadyForServerRandomNumbers);
                 };
 
 

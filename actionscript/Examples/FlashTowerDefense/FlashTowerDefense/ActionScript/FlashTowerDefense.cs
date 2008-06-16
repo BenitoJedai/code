@@ -397,9 +397,9 @@ namespace FlashTowerDefense.ActionScript
             var CurrentLevel = 1;
 
             // If this gets negative, we end this level and pause... maybe send a big boss, too?
-            var WaveEndCountdown = 30;
+            var WaveEndCountdown = 15;
 
-            var InterlevelMusic = default(SoundChannel);
+            
             var InterlevelTimeout = 12000;
 
             Action UpdateScoreBoard =
@@ -776,15 +776,10 @@ namespace FlashTowerDefense.ActionScript
             GameEvent =
                 delegate
                 {
-                    // new actors if we got less 10 
-                    if (InterlevelMusic != null)
-                        return;
 
-                    if (list.Where(i => i.IsAlive).Count() < 8)
-                    {
 
-                        AddNewActorsToMap(UpdateScoreBoard, GetEntryPointY, AttachRules);
-                    }
+                    AddNewActorsToMap(UpdateScoreBoard, GetEntryPointY, AttachRules);
+
                 };
 
 
@@ -798,6 +793,8 @@ namespace FlashTowerDefense.ActionScript
                             InterlevelMusic = Sounds.snd_birds.ToSoundAsset().play(0, 999);
                             ShowMessage("Day " + CurrentLevel + " is ending...");
 
+                            if (GameInterlevelBegin != null)
+                                GameInterlevelBegin();
                         }
 
                         // wait for all actors get off stage
@@ -810,11 +807,15 @@ namespace FlashTowerDefense.ActionScript
 
                         t.stop();
 
-
+                    
 
                         InterlevelTimeout.AtDelayDo(
                             delegate
                             {
+                                if (GameInterlevelEnd != null)
+                                    GameInterlevelEnd();
+
+
                                 // show "level START"
                                 ShowMessage("Day " + CurrentLevel);
                                 t.start();
@@ -826,7 +827,7 @@ namespace FlashTowerDefense.ActionScript
                         );
 
                         // maybe higher levels will have more enemies?
-                        WaveEndCountdown = 30;
+                        WaveEndCountdown = 15;
                         CurrentLevel++;
                         UpdateScoreBoard();
 
@@ -835,7 +836,17 @@ namespace FlashTowerDefense.ActionScript
 
 
                     if (CanAutoSpawnEnemies)
-                        GameEvent();
+                    {
+                        // new actors if we got less 10 
+                        if (InterlevelMusic != null)
+                            return;
+
+                        if (list.Where(i => i.IsAlive).Count() < 8)
+                        {
+
+                            GameEvent();
+                        }
+                    }
                 }
             );
 
@@ -988,7 +999,7 @@ namespace FlashTowerDefense.ActionScript
                            {
                                x = -OffscreenMargin,
                                y = GetEntryPointY(),
-                               speed = 1 + 2.Random(),
+                               speed = 1 + 2.0.FixedRandom(),
                            }
                        );
 
@@ -1087,7 +1098,7 @@ namespace FlashTowerDefense.ActionScript
                          {
                              x = -OffscreenMargin,
                              y = GetEntryPointY(),
-                             speed = 0.5 + 2.Random()
+                             speed = 0.5 + 2.0.FixedRandom()
                          }
                     );
 
@@ -1100,7 +1111,7 @@ namespace FlashTowerDefense.ActionScript
                                 speed = boss.speed
                             };
 
-                    Enumerable.Range(1, (2.Random() + 1).ToInt32()).ForEach(
+                    Enumerable.Range(1, (2.0.FixedRandom() + 1).ToInt32()).ForEach(
                         i =>
                         {
                             AttachRules(CreateMinionByIndex(-i)).AddTo(Minnions);
@@ -1168,7 +1179,7 @@ namespace FlashTowerDefense.ActionScript
                       {
                           x = -OffscreenMargin,
                           y = GetEntryPointY(),
-                          speed = 1 + 2.Random()
+                          speed = 1 + 2.0.FixedRandom()
                       }
                   );
                 }
@@ -1181,7 +1192,7 @@ namespace FlashTowerDefense.ActionScript
                         {
                             x = -OffscreenMargin,
                             y = GetEntryPointY(),
-                            speed = 1 + 2.Random()
+                            speed = 1 + 2.0.FixedRandom()
                         }
                     );
 
@@ -1194,7 +1205,7 @@ namespace FlashTowerDefense.ActionScript
                         {
                             x = -OffscreenMargin,
                             y = GetEntryPointY(),
-                            speed = 0.5 + 2.Random()
+                            speed = 0.5 + 2.0.FixedRandom()
                         }
                     );
 
@@ -1229,6 +1240,11 @@ namespace FlashTowerDefense.ActionScript
 
         public readonly Action GameEvent;
 
+
+        public event Action GameInterlevelBegin;
+        public event Action GameInterlevelEnd;
+
+        public SoundChannel InterlevelMusic;
     }
 
 

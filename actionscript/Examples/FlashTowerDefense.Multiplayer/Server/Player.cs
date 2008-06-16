@@ -8,5 +8,16 @@ namespace FlashTowerDefense.Server
 {
     public class Player : NonobaGameUser
     {
+        public enum GameEventStatusEnum
+        {
+            Unknown,
+            Ready,
+            Cancelled,
+            Pending
+        }
+
+        public GameEventStatusEnum GameEventStatus;
+
+        
     }
 }
