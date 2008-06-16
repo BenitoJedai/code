@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using ScriptCoreLib;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 
-namespace FlashTowerDefense.ActionScript.Monetized
+using FlashTowerDefense.ActionScript;
+
+namespace FlashTowerDefense.ActionScript.Client.Monetized
 {
-    [Script, ScriptApplicationEntryPoint(Width = FlashTowerDefense.Width, Height = FlashTowerDefense.Height)]
-    [SWF(width = FlashTowerDefense.Width, height = FlashTowerDefense.Height, backgroundColor = FlashTowerDefense.ColorWhite)]
+    [Script, ScriptApplicationEntryPoint(Width = FlashTowerDefenseClient.Width, Height = FlashTowerDefenseClient.Height)]
+    [SWF(width = FlashTowerDefenseClient.Width, height = FlashTowerDefenseClient.Height, backgroundColor = FlashTowerDefense.ColorWhite)]
     class MochiPreloader : Sprite
     {
         #region mochiad internals
@@ -69,7 +71,8 @@ namespace FlashTowerDefense.ActionScript.Monetized
 
         #endregion
 
-        public string _mochiads_game_id = "408b0484d7f64aad";
+        public string _mochiads_game_id = "5b0c6187126f195a";
+
         public MochiPreloader()
         {
             loaderInfo.ioError +=
@@ -82,11 +85,13 @@ namespace FlashTowerDefense.ActionScript.Monetized
             {
                 clip = this,
                 id = _mochiads_game_id,
-                res = FlashTowerDefense.Width + "x" + FlashTowerDefense.Height,
+                res = FlashTowerDefenseClient.Width + "x" + FlashTowerDefenseClient.Height,
                 ad_finished =
                     delegate
                     {
-                        new Menu().AttachTo(stage);
+                        stage.addChild(
+                            new FlashTowerDefenseClient()
+                            );
                     }
 
             }.showPreGameAd();

@@ -13,6 +13,8 @@ if '%ERRORLEVEL%' == '-1' (
 :: Namespace name, type name
 @call :mxmlc %1/ActionScript %1
 
+
+
 goto :eof
 
 :jsc
@@ -33,6 +35,7 @@ pushd ..\bin\debug\web
 ::call :build %1 %2
 call :build "FlashTowerDefense/ActionScript/Client" FlashTowerDefenseClient
 
+call :build "FlashTowerDefense/ActionScript/Client/Monetized" MochiPreloader
 
 popd
 goto :eof

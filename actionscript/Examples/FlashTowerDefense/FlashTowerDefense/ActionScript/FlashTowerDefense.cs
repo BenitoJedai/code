@@ -356,6 +356,8 @@ namespace FlashTowerDefense.ActionScript
 
                         ShowMessage("+1 " + PowerUps.Random());
 
+                        if (NetworkTakeCrate != null)
+                            NetworkTakeCrate(BoxToTake.NetworkId);
                     }
                 });
 
@@ -519,7 +521,6 @@ namespace FlashTowerDefense.ActionScript
 
                     Aim.x = CurrentTarget.stageX;
                     Aim.y = CurrentTarget.stageY;
-
                 };
 
 
@@ -560,6 +561,15 @@ namespace FlashTowerDefense.ActionScript
                             }
                         };
 
+                    if (0.3.ByChance())
+                    {
+                        a.Crate = new Animation(Images.box).AddTo(Boxes);
+                        a.NetworkId = int.MaxValue.FixedRandom();
+                    }
+                    
+
+                    
+
                     a.Die +=
                         delegate
                         {
@@ -569,9 +579,9 @@ namespace FlashTowerDefense.ActionScript
                             UpdateScoreBoard();
 
 
-                            if (0.3.ByChance())
+                            if (a.Crate != null)
                             {
-                                new Animation(Images.box).AddTo(Boxes).MoveTo(a.x, a.y).AttachTo(GetWarzone());
+                                a.Crate.MoveTo(a.x, a.y).AttachTo(GetWarzone());
                             }
                         };
 
@@ -633,6 +643,9 @@ namespace FlashTowerDefense.ActionScript
                       {
                           if (!CanFire)
                               return;
+
+                          //if (e.keyCode == Keyboard.M)
+                          //    ToggleMusic();
 
                           if (EgoIsOnTheField())
                           {
@@ -1264,6 +1277,7 @@ namespace FlashTowerDefense.ActionScript
         public SoundChannel InterlevelMusic;
 
         public event Action<int, int, int> NetworkAddDamageFromDirection;
+        public event Action<int> NetworkTakeCrate;
 
 
         public readonly List<Actor> list;

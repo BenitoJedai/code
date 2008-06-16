@@ -33,7 +33,21 @@ namespace FlashTowerDefense.ActionScript.Client
         /// </summary>
         public FlashTowerDefenseClient()
         {
-            var c = NonobaAPI.MakeMultiplayer(stage, "192.168.3.20");
+            if (stage == null)
+                this.addedToStage +=
+                    delegate
+                    {
+                        Initialize();
+                    };
+            else
+                Initialize();
+        }
+
+        private void Initialize()
+        {
+            var c = NonobaAPI.MakeMultiplayer(stage
+                //, "192.168.3.20"
+                );
 
             c.Init +=
                 delegate
@@ -119,6 +133,15 @@ namespace FlashTowerDefense.ActionScript.Client
                             );
                         };
 
+                    m.NetworkTakeCrate +=
+                     (Id) =>
+                     {
+                         c.SendMessage(SharedClass1.Messages.TakeBox,
+                             Id
+                         );
+                     };
+
+
                     var Players = new List<Warrior>();
 
                     #region message
@@ -127,9 +150,30 @@ namespace FlashTowerDefense.ActionScript.Client
                         {
                             //try
                             //{
-                                var type = (SharedClass1.Messages)int.Parse(e.message.Type);
+                            var type = (SharedClass1.Messages)int.Parse(e.message.Type);
 
-                                if (type == SharedClass1.Messages.UserJoined)
+                            if (type == SharedClass1.Messages.UserJoined)
+                            {
+                                var n = new Warrior
+                                {
+                                    CanMakeFootsteps = false,
+                                    RunAnimation = false,
+                                    NetworkName = e.message.GetString(0),
+                                    NetworkId = e.message.GetInt(1),
+                                    x = 100 + 100.Random(),
+                                    y = 100 + 100.Random()
+                                }.AddTo(Players).AttachTo(m.GetWarzone());
+
+                                m.ShowMessage("Player joined: " + n.NetworkName);
+
+                                c.SendMessage(SharedClass1.Messages.ToUserJoinedReply, n.NetworkId);
+                                SendTeleportTo();
+                            }
+                            else if (type == SharedClass1.Messages.UserJoinedReply)
+                            {
+                                var id = e.message.GetInt(1);
+
+                                if (!Players.Any(n => n.NetworkId == id))
                                 {
                                     var n = new Warrior
                                     {
@@ -141,153 +185,152 @@ namespace FlashTowerDefense.ActionScript.Client
                                         y = 100 + 100.Random()
                                     }.AddTo(Players).AttachTo(m.GetWarzone());
 
-                                    m.ShowMessage("Player joined: " + n.NetworkName);
-
-                                    c.SendMessage(SharedClass1.Messages.ToUserJoinedReply, n.NetworkId);
-                                    SendTeleportTo();
+                                    m.ShowMessage("Player is here: " + n.NetworkName);
                                 }
-                                else if (type == SharedClass1.Messages.UserJoinedReply)
+                            }
+                            else if (type == SharedClass1.Messages.UserLeft)
+                            {
+                                var id = e.message.GetInt(1);
+
+                                m.ShowMessage("Player left: " + e.message.GetString(0));
+
+                                foreach (var v in Players.Where(i => i.NetworkId == id))
                                 {
-                                    var id = e.message.GetInt(1);
-
-                                    if (!Players.Any(n => n.NetworkId == id))
-                                    {
-                                        var n = new Warrior
-                                        {
-                                            CanMakeFootsteps = false,
-                                            RunAnimation = false,
-                                            NetworkName = e.message.GetString(0),
-                                            NetworkId = e.message.GetInt(1),
-                                            x = 100 + 100.Random(),
-                                            y = 100 + 100.Random()
-                                        }.AddTo(Players).AttachTo(m.GetWarzone());
-
-                                        m.ShowMessage("Player is here: " + n.NetworkName);
-                                    }
+                                    v.RemoveFrom(Players).AddDamage(v.health);
                                 }
-                                else if (type == SharedClass1.Messages.UserLeft)
+                            }
+                            else if (type == SharedClass1.Messages.UserEnterMachineGun)
+                            {
+                                var id = e.message.GetInt(0);
+
+                                foreach (var v in Players.Where(i => i.NetworkId == id))
                                 {
-                                    var id = e.message.GetInt(1);
-
-                                    m.ShowMessage("Player left: " + e.message.GetString(0));
-
-                                    foreach (var v in Players.Where(i => i.NetworkId == id))
-                                    {
-                                        v.RemoveFrom(Players).AddDamage(v.health);
-                                    }
+                                    v.Orphanize();
                                 }
-                                else if (type == SharedClass1.Messages.UserEnterMachineGun)
+
+                                m.PrebuiltTurretBlinkTimer.stop();
+                                m.PrebuiltTurret.alpha = 1;
+                                m.PrebuiltTurretInUse = true;
+                            }
+                            else if (type == SharedClass1.Messages.UserExitMachineGun)
+                            {
+
+
+                                if (m.EgoIsOnTheField())
                                 {
-                                    var id = e.message.GetInt(0);
+                                    m.PrebuiltTurretBlinkTimer.start();
+                                    m.PrebuiltTurretInUse = false;
+                                }
+                            }
+                            else if (type == SharedClass1.Messages.UserStartMachineGun)
+                            {
+                                if (m.EgoIsOnTheField())
+                                {
+                                    m.PrebuiltTurret.AnimationEnabled = true;
 
-                                    foreach (var v in Players.Where(i => i.NetworkId == id))
-                                    {
-                                        v.Orphanize();
-                                    }
-
-                                    m.PrebuiltTurretBlinkTimer.stop();
-                                    m.PrebuiltTurret.alpha = 1;
+                                    // late info? :)
                                     m.PrebuiltTurretInUse = true;
                                 }
-                                else if (type == SharedClass1.Messages.UserExitMachineGun)
+                            }
+                            else if (type == SharedClass1.Messages.UserStopMachineGun)
+                            {
+                                if (m.EgoIsOnTheField())
+                                    m.PrebuiltTurret.AnimationEnabled = false;
+                            }
+                            else if (type == SharedClass1.Messages.UserTeleportTo)
+                            {
+                                var id = e.message.GetInt(0);
+
+                                foreach (var v in Players.Where(i => i.NetworkId == id))
                                 {
+                                    m.ShowMessage(v.NetworkName + " has been teleported");
+
+                                    v.MoveTo(
+                                        e.message.GetInt(1),
+                                        e.message.GetInt(2)
+                                    ).AttachTo(m.GetWarzone());
+                                }
+
+                            }
+                            else if (type == SharedClass1.Messages.UserWalkTo)
+                            {
+
+                                var id = e.message.GetInt(0);
+
+                                foreach (var v in Players.Where(i => i.NetworkId == id))
+                                {
+                                    v.WalkTo(
+                                         e.message.GetInt(1),
+                                        e.message.GetInt(2)
+                                    );
+
+                                }
+
+                            }
+                            else if (type == SharedClass1.Messages.UserFiredShotgun)
+                            {
+                                Sounds.shotgun2.ToSoundAsset().play();
+                            }
+                            else if (type == SharedClass1.Messages.ServerMessage)
+                            {
+                                m.ShowMessage("Server: " + e.message.GetString(0));
+                            }
+                            else if (type == SharedClass1.Messages.ServerRandomNumbers)
+                            {
+                                if (MyExtensions.ByChance_RandomNumbers == null)
+                                    MyExtensions.ByChance_RandomNumbers = new Queue<double>();
+                                else
+                                    MyExtensions.ByChance_RandomNumbers.Clear();
+
+                                for (int i = 0; i < e.message.length; i++)
+                                {
+                                    MyExtensions.ByChance_RandomNumbers.Enqueue(e.message.GetInt(i) / 100.0);
+                                }
+
+                                // active warzone
+                                if (m.InterlevelMusic == null)
+                                    m.GameEvent();
+                            }
+                            else if (type == SharedClass1.Messages.UserAddDamageFromDirection)
+                            {
+                                var uid = e.message.GetInt(0);
+                                var id = e.message.GetInt(1);
+                                var damage = e.message.GetInt(2);
+                                var arc = (Math.PI * 2) * e.message.GetInt(3) / 360;
 
 
-                                    if (m.EgoIsOnTheField())
+                                int cc = 0;
+                                foreach (var v in m.list)
+                                {
+                                    if (v.NetworkId == id)
                                     {
-                                        m.PrebuiltTurretBlinkTimer.start();
-                                        m.PrebuiltTurretInUse = false;
+                                        cc++;
+
+                                        v.AddDamageFromDirection(damage, arc);
                                     }
                                 }
-                                else if (type == SharedClass1.Messages.UserStartMachineGun)
-                                {
-                                    if (m.EgoIsOnTheField())
-                                    {
-                                        m.PrebuiltTurret.AnimationEnabled = true;
+                                //m.ShowMessage("damage: " + id + " by " + damage + " : " + cc);
+                            }
+                            else if (type == SharedClass1.Messages.UserTakeBox)
+                            {
+                                var uid = e.message.GetInt(0);
+                                var id = e.message.GetInt(1);
 
-                                        // late info? :)
-                                        m.PrebuiltTurretInUse = true;
+
+                                int cc = 0;
+                                foreach (var v in m.Boxes)
+                                {
+                                    if (v.NetworkId == id)
+                                    {
+                                        cc++;
+
+                                        v.RemoveFrom(m.Boxes).Orphanize();
+
+                                        Sounds.sound20.ToSoundAsset().play();
                                     }
                                 }
-                                else if (type == SharedClass1.Messages.UserStopMachineGun)
-                                {
-                                    if (m.EgoIsOnTheField())
-                                        m.PrebuiltTurret.AnimationEnabled = false;
-                                }
-                                else if (type == SharedClass1.Messages.UserTeleportTo)
-                                {
-                                    var id = e.message.GetInt(0);
-
-                                    foreach (var v in Players.Where(i => i.NetworkId == id))
-                                    {
-                                        m.ShowMessage(v.NetworkName + " has been teleported");
-
-                                        v.MoveTo(
-                                            e.message.GetInt(1),
-                                            e.message.GetInt(2)
-                                        ).AttachTo(m.GetWarzone());
-                                    }
-
-                                }
-                                else if (type == SharedClass1.Messages.UserWalkTo)
-                                {
-
-                                    var id = e.message.GetInt(0);
-
-                                    foreach (var v in Players.Where(i => i.NetworkId == id))
-                                    {
-                                        v.WalkTo(
-                                             e.message.GetInt(1),
-                                            e.message.GetInt(2)
-                                        );
-
-                                    }
-
-                                }
-                                else if (type == SharedClass1.Messages.UserFiredShotgun)
-                                {
-                                    Sounds.shotgun2.ToSoundAsset().play();
-                                }
-                                else if (type == SharedClass1.Messages.ServerMessage)
-                                {
-                                    m.ShowMessage("Server: " + e.message.GetString(0));
-                                }
-                                else if (type == SharedClass1.Messages.ServerRandomNumbers)
-                                {
-                                    if (MyExtensions.ByChance_RandomNumbers == null)
-                                        MyExtensions.ByChance_RandomNumbers = new Queue<double>();
-                                    else
-                                        MyExtensions.ByChance_RandomNumbers.Clear();
-
-                                    for (int i = 0; i < e.message.length; i++)
-                                    {
-                                        MyExtensions.ByChance_RandomNumbers.Enqueue(e.message.GetInt(i) / 100.0);
-                                    }
-
-                                    // active warzone
-                                    if (m.InterlevelMusic == null)
-                                        m.GameEvent();
-                                }
-                                else if (type == SharedClass1.Messages.UserAddDamageFromDirection)
-                                {
-                                    var uid = e.message.GetInt(0);
-                                    var id = e.message.GetInt(1);
-                                    var damage = e.message.GetInt(2);
-                                    var arc = (Math.PI * 2) * e.message.GetInt(3) / 360;
-
-
-                                    int cc = 0;
-                                    foreach (var v in m.list)
-                                    {
-                                        if (v.NetworkId == id)
-                                        {
-                                            cc++;
-
-                                            v.AddDamageFromDirection(damage, arc);
-                                        }
-                                    }
-                                    //m.ShowMessage("damage: " + id + " by " + damage + " : " + cc);
-                                }
+                                //m.ShowMessage("damage: " + id + " by " + damage + " : " + cc);
+                            }
                             //}
                             //catch
                             //{
@@ -300,9 +343,6 @@ namespace FlashTowerDefense.ActionScript.Client
 
                     c.SendMessage(SharedClass1.Messages.ReadyForServerRandomNumbers);
                 };
-
-
-
 
         }
     }

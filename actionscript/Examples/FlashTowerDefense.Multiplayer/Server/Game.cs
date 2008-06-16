@@ -143,7 +143,7 @@ namespace FlashTowerDefense.Server
                 player.GameEventStatus = Player.GameEventStatusEnum.Ready;
             else if (e == SharedClass1.Messages.CancelServerRandomNumbers)
                 player.GameEventStatus = Player.GameEventStatusEnum.Cancelled;
-            if (e == SharedClass1.Messages.AddDamageFromDirection)
+            else if (e == SharedClass1.Messages.AddDamageFromDirection)
             {
                 foreach (var v in Users)
                 {
@@ -151,6 +151,15 @@ namespace FlashTowerDefense.Server
                         Send(v, SharedClass1.Messages.UserAddDamageFromDirection, player.UserId, m.GetInt(0), m.GetInt(1), m.GetInt(2));
                 }
                 
+            }
+            else if (e == SharedClass1.Messages.TakeBox)
+            {
+                foreach (var v in Users)
+                {
+                    if (v.UserId != player.UserId)
+                        Send(v, SharedClass1.Messages.UserTakeBox, player.UserId, m.GetInt(0));
+                }
+
             }
         }
 

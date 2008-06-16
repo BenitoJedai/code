@@ -236,6 +236,8 @@ namespace FlashTowerDefense.ActionScript.Actors
 
         Timer _TargetTimer;
 
+        public Animation Crate;
+
         public void WalkTo(double _x, double _y)
         {
             _TargetX = _x;

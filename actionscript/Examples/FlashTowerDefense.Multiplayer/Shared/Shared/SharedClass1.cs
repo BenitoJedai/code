@@ -51,6 +51,8 @@ namespace FlashTowerDefense.Shared
             AddDamageFromDirection,
             UserAddDamageFromDirection,
 
+            TakeBox,
+            UserTakeBox
         }
 
 

@@ -5,7 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 
 [Script(IsNative = true)]
-class MochiAd
+public class MochiAd
 {
     public static string getVersion()
     {

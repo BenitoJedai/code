@@ -83,6 +83,7 @@ namespace FlashTowerDefense.ActionScript
             }
         }
 
+        public int NetworkId;
 
         public Animation(Class StillFrame, params Class[] AnimatedFrames)
         {
