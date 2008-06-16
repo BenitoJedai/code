@@ -35,5 +35,7 @@ namespace FlashTowerDefense.ActionScript.Actors
         {
             ActorName = "Warrior";
         }
+
+
     }
 }

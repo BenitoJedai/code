@@ -10,7 +10,7 @@ using ScriptCoreLib.ActionScript;
 namespace FlashTowerDefense.ActionScript.Assets
 {
     [Script]
-    internal static class Sounds
+    public static class Sounds
     {
         public const string Path = "/assets/FlashTowerDefense.Sounds";
 

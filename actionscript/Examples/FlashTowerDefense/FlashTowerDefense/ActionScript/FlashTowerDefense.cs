@@ -311,7 +311,7 @@ namespace FlashTowerDefense.ActionScript
 
             #region Ego
             Ego = new Warrior();
-            
+
             EgoIsOnTheField = () => Ego.parent != null;
             Func<bool> EgoCanManTurret = () => !PrebuiltTurretInUse; // look up if there is somebody else in it
             Func<bool> EgoIsCloseToTurret = () => new Point { x = Ego.x - PrebuiltTurret.x, y = Ego.y - PrebuiltTurret.y }.length < 32;
@@ -328,7 +328,7 @@ namespace FlashTowerDefense.ActionScript
                 };
 
 
-            EgoMovedSlowTimer = new Timer(500, 1);
+            EgoMovedSlowTimer = new Timer(300, 1);
 
             var EgoMoveUpTimer = (1000 / 30).AtInterval(
                 delegate
@@ -380,7 +380,7 @@ namespace FlashTowerDefense.ActionScript
 
             var PrebuiltTurretSound = default(SoundChannel);
 
-            
+
 
 
 
@@ -440,7 +440,7 @@ namespace FlashTowerDefense.ActionScript
             PrebuiltTurret.AnimationEnabledChanged +=
                 delegate
                 {
-                  
+
                     if (PrebuiltTurret.AnimationEnabled)
                     {
                         if (PrebuiltTurretSound == null)
@@ -468,7 +468,7 @@ namespace FlashTowerDefense.ActionScript
                     if (EgoIsOnTheField())
                         return;
 
-                    
+
                     PrebuiltTurret.AnimationEnabled = true;
 
                     CurrentTarget = e;
@@ -479,7 +479,7 @@ namespace FlashTowerDefense.ActionScript
                                 if (!PrebuiltTurret.AnimationEnabled)
                                 {
                                     CurrentTargetTimer.stop();
- 
+
                                     return;
                                 }
 
@@ -644,10 +644,12 @@ namespace FlashTowerDefense.ActionScript
                               }
                               else if (e.keyCode == Keyboard.CONTROL)
                               {
-
                                   if (EgoIsOnTheField())
                                   {
                                       Sounds.shotgun2.ToSoundAsset().play();
+
+                                      if (EgoFiredShotgun != null)
+                                          EgoFiredShotgun();
 
                                       BulletsFired_Shotgun++;
 
@@ -700,8 +702,13 @@ namespace FlashTowerDefense.ActionScript
 
                                           ShowMessage("Machinegun manned!");
                                           Mouse.hide();
-                                          Aim.x = CurrentTarget.stageX;
-                                          Aim.y = CurrentTarget.stageY;
+
+                                          if (CurrentTarget != null)
+                                          {
+                                              Aim.x = CurrentTarget.stageX;
+                                              Aim.y = CurrentTarget.stageY;
+                                          }
+
                                           Sounds.door_open.ToSoundAsset().play();
 
                                           if (EgoEnteredMachineGun != null)
@@ -1209,6 +1216,9 @@ namespace FlashTowerDefense.ActionScript
         public readonly Warrior Ego;
         public readonly Action UpdateEgoAim;
         public readonly Timer EgoMovedSlowTimer;
+
+        public event Action EgoFiredShotgun;
+
     }
 
 

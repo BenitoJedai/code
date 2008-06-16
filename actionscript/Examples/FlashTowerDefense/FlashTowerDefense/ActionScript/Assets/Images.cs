@@ -10,7 +10,7 @@ using ScriptCoreLib.ActionScript;
 namespace FlashTowerDefense.ActionScript.Assets
 {
     [Script]
-    internal static class Images
+    public static class Images
     {
         public const string Path = "/assets/FlashTowerDefense.Images";
 

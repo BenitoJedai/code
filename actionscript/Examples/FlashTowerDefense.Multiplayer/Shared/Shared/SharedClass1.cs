@@ -29,6 +29,8 @@ namespace FlashTowerDefense.Shared
             UserStopMachineGun,
 
             UserTeleportTo,
+            UserWalkTo,
+            UserFiredShotgun,
 
             EnterMachineGun,
             ExitMachineGun,
@@ -37,6 +39,8 @@ namespace FlashTowerDefense.Shared
             StopMachineGun,
 
             TeleportTo,
+            WalkTo,
+            FiredShotgun,
         }
 
 

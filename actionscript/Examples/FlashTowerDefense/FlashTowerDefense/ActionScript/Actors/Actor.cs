@@ -8,6 +8,7 @@ using ScriptCoreLib.ActionScript.flash.media;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.flash.utils;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace FlashTowerDefense.ActionScript.Actors
 {
@@ -146,13 +147,11 @@ namespace FlashTowerDefense.ActionScript.Actors
                          return;
                      }
 
-
                      if (!RunAnimation)
                          return;
 
-                     var Counter = t.currentCount;
 
-                     ShowFrame(Counter);
+                     ShowFrame(t.currentCount);
                  }
              );
 
@@ -232,6 +231,41 @@ namespace FlashTowerDefense.ActionScript.Actors
             );
         }
 
+        double _TargetX;
+        double _TargetY;
+
+        Timer _TargetTimer;
+
+        public void WalkTo(double _x, double _y)
+        {
+            _TargetX = _x;
+            _TargetY = _y;
+
+            var EgoMoveSpeed = 3;
+
+            if (_TargetTimer == null)
+                _TargetTimer =
+                    (1000 / 30).AtInterval(
+                        delegate
+                        {
+                            var p = new Point { x = _TargetX - this.x, y = _TargetY - this.y };
+
+                            if (p.length < (EgoMoveSpeed * 4))
+                            {
+                                RunAnimation = false;
+
+                                _TargetTimer.stop();
+                                
+                                return;
+                            }
+
+                            this.MoveToArc(p.GetRotation(), EgoMoveSpeed);
+                        }
+                    );
+
+            RunAnimation = true;
+            _TargetTimer.start();
+        }
 
     }
 

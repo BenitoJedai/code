@@ -65,9 +65,12 @@ namespace FlashTowerDefense.Server
                 Broadcast(SharedClass1.Messages.UserStopMachineGun, player.Username);
             else if (e == SharedClass1.Messages.TeleportTo)
                 Broadcast(SharedClass1.Messages.UserTeleportTo, player.UserId, m.GetInt(0), m.GetInt(1));
+            else if (e == SharedClass1.Messages.WalkTo)
+                Broadcast(SharedClass1.Messages.UserWalkTo, player.UserId, m.GetInt(0), m.GetInt(1));
             else if (e == SharedClass1.Messages.ToUserJoinedReply)
                 Send(m.GetInt(0), SharedClass1.Messages.UserJoinedReply, player.UserId, player.UserId);
-
+            else if (e == SharedClass1.Messages.FiredShotgun)
+                Broadcast(SharedClass1.Messages.UserFiredShotgun, player.UserId);
         }
 
         /// <summary>When a user enters this game instance</summary>

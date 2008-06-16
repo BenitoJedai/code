@@ -12,6 +12,7 @@ using FlashTowerDefense.ActionScript;
 using FlashTowerDefense.Shared;
 using FlashTowerDefense.ActionScript.Actors;
 using System.Collections.Generic;
+using FlashTowerDefense.ActionScript.Assets;
 
 namespace FlashTowerDefense.ActionScript.Client
 {
@@ -73,7 +74,7 @@ namespace FlashTowerDefense.ActionScript.Client
                     m.EgoMovedSlowTimer.timer +=
                         delegate
                         {
-                            SendTeleportTo();
+                            c.SendMessage(SharedClass1.Messages.WalkTo, Convert.ToInt32(m.Ego.x), Convert.ToInt32(m.Ego.y));
                         };
 
                     m.PrebuiltTurret.AnimationEnabledChanged +=
@@ -86,6 +87,12 @@ namespace FlashTowerDefense.ActionScript.Client
                                 else
                                     c.SendMessage(SharedClass1.Messages.StopMachineGun);
                             }
+                        };
+
+                    m.EgoFiredShotgun +=
+                        delegate
+                        {
+                            c.SendMessage(SharedClass1.Messages.FiredShotgun);
                         };
 
                     var Players = new List<Warrior>();
@@ -102,6 +109,7 @@ namespace FlashTowerDefense.ActionScript.Client
                                 {
                                     var n = new Warrior
                                     {
+                                        CanMakeFootsteps = false,
                                         RunAnimation = false,
                                         NetworkName = e.message.GetString(0),
                                         NetworkId = e.message.GetInt(1),
@@ -122,6 +130,7 @@ namespace FlashTowerDefense.ActionScript.Client
                                     {
                                         var n = new Warrior
                                         {
+                                            CanMakeFootsteps = false,
                                             RunAnimation = false,
                                             NetworkName = e.message.GetString(0),
                                             NetworkId = e.message.GetInt(1),
@@ -183,7 +192,6 @@ namespace FlashTowerDefense.ActionScript.Client
                                 }
                                 else if (type == SharedClass1.Messages.UserTeleportTo)
                                 {
-
                                     var id = e.message.GetInt(0);
 
                                     foreach (var v in Players.Where(i => i.NetworkId == id))
@@ -197,7 +205,25 @@ namespace FlashTowerDefense.ActionScript.Client
                                     }
 
                                 }
+                                else if (type == SharedClass1.Messages.UserWalkTo)
+                                {
 
+                                    var id = e.message.GetInt(0);
+
+                                    foreach (var v in Players.Where(i => i.NetworkId == id))
+                                    {
+                                        v.WalkTo(
+                                             e.message.GetInt(1),
+                                            e.message.GetInt(2)
+                                        );
+
+                                    }
+
+                                }
+                                else if (type == SharedClass1.Messages.UserFiredShotgun)
+                                {
+                                    Sounds.shotgun2.ToSoundAsset().play();
+                                }
                             }
                             catch
                             {
