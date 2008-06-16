@@ -16,7 +16,7 @@ namespace FlashTowerDefense.ActionScript
 {
     [Script, ScriptApplicationEntryPoint(Width = Width, Height = Height)]
     [SWF(width = Width, height = Height, backgroundColor = ColorWhite)]
-    class Menu : FlashTowerDefense
+    public class Menu : FlashTowerDefense
     {
         public Menu()
         {

@@ -1,5 +1,8 @@
 @echo off
 
+echo Skipped
+goto :eof
+
 :: Dll name
 @call :jsc %1
 
