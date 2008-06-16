@@ -41,12 +41,19 @@ namespace FlashTowerDefense.ActionScript.Client
                     c.Message +=
                         e =>
                         {
-                            var type = (SharedClass1.Messages)int.Parse(e.message.Type);
+                            try
+                            {
+                                var type = (SharedClass1.Messages)int.Parse(e.message.Type);
 
-                            if (type == SharedClass1.Messages.UserJoined)
-                                m.ShowMessage("Player joined: " + e.message.GetString(0));
-                            else if (type == SharedClass1.Messages.UserLeft)
-                                m.ShowMessage("Player left: " + e.message.GetString(0));
+                                if (type == SharedClass1.Messages.UserJoined)
+                                    m.ShowMessage("Player joined: " + e.message.GetString(0));
+                                else if (type == SharedClass1.Messages.UserLeft)
+                                    m.ShowMessage("Player left: " + e.message.GetString(0));
+                            }
+                            catch
+                            {
+                                m.ShowMessage("bad message: " + e.message.Type);
+                            }
                         };
 
 

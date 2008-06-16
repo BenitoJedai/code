@@ -827,6 +827,8 @@ namespace jsc.Languages.ActionScript
 
             if (mi != null)
             {
+                DebugBreak(mi.ToScriptAttributeOrDefault());
+
                 Write(":");
                 WriteDecoratedTypeNameOrImplementationTypeName(mi.ReturnType, true, true, IsFullyQualifiedNamesRequired(DeclaringType, mi.ReflectedType), true);
 

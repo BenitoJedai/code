@@ -47,26 +47,26 @@ namespace FlashTowerDefense.Server
             Console.WriteLine("Use Console.WriteLine() for easy debugging");
 
             RefreshDebugView(); // update the visual debugging view
-            Broadcast("tick");
+            //Broadcast("tick");
         }
 
         /// <summary>This message is called whenever a player sends a message into the game.</summary>
         public override void GotMessage(Player player, Message m)
         {
-            // here we're sending "hi" back to any user sending in "hello"
-            switch (m.Type)
-            {
-                case "hello":
-                    player.Send("hi");
-                    break;
+            //// here we're sending "hi" back to any user sending in "hello"
+            //switch (m.Type)
+            //{
+            //    case "hello":
+            //        player.Send("hi");
+            //        break;
 
-            }
+            //}
         }
 
         /// <summary>When a user enters this game instance</summary>
         public override void UserJoined(Player player)
         {
-            player.Send("welcometogame", Users.Length); // send a message with the amount users in the game
+            //player.Send("welcometogame", Users.Length); // send a message with the amount users in the game
             
             Broadcast(SharedClass1.Messages.UserJoined, player.Username);
         }

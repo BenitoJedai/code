@@ -10,14 +10,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     {
         // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/package.html#parseInt()
         [Script(OptimizedCode = "return parseInt(e);")]
-        static public __Int32 Parse(string e)
+        static public int Parse(string e)
         {
-            return default(__Int32);
+            return default(int);
         }
 
 
 
 
-  
+
     }
 }

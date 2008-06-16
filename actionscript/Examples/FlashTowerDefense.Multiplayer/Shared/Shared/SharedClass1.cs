@@ -14,6 +14,7 @@ namespace FlashTowerDefense.Shared
 
         public enum Messages
         {
+            None = 100,
             UserJoined,
             UserLeft
         }
