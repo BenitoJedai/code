@@ -14,13 +14,13 @@ namespace ScriptCoreLib.ActionScript.Nonoba.api
         /// 
         /// </summary>
         [method: Script(NotImplementedHere = true)]
-        public event Action<ConnectionEvent> Disconnect;
+        public event Action<object> Disconnect;
 
         /// <summary>
         /// 
         /// </summary>
         [method: Script(NotImplementedHere = true)]
-        public event Action<ConnectionEvent> Init;
+        public event Action<object> Init;
 
         #endregion
 

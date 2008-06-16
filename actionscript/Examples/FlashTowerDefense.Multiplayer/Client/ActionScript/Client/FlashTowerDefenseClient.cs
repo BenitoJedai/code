@@ -7,6 +7,7 @@ using ScriptCoreLib.ActionScript;
 using System;
 
 using FlashTowerDefense.ActionScript;
+using FlashTowerDefense.Shared;
 
 namespace FlashTowerDefense.ActionScript.Client
 {
@@ -28,31 +29,32 @@ namespace FlashTowerDefense.ActionScript.Client
         public FlashTowerDefenseClient()
         {
             var c = NonobaAPI.MakeMultiplayer(stage);
-
-            var p = new TextField
-            {
-                border = true,
-                width = 200,
-                height = 200
-            }.AttachTo(this);
-
-            c.Message +=
-                e =>
-                {
-                    p.text += "message2: " + e.message.Type + " " + e.message.length + "\n";
-                };
-
+          
             c.Init +=
                 delegate
                 {
                     var m = new Menu();
 
                     m.AttachTo(this);
+                    m.ShowMessage("Running in multiplayer mode!");
+
+                    c.Message +=
+                        e =>
+                        {
+                            var type = (SharedClass1.Messages)int.Parse(e.message.Type);
+
+                            if (type == SharedClass1.Messages.UserJoined)
+                                m.ShowMessage("Player joined: " + e.message.GetString(0));
+                            else if (type == SharedClass1.Messages.UserLeft)
+                                m.ShowMessage("Player left: " + e.message.GetString(0));
+                        };
+
+
                 };
 
             c.Send("hello, powered by jsc");
 
-           
+
 
         }
     }

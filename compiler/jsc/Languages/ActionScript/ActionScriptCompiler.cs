@@ -287,7 +287,8 @@ namespace jsc.Languages.ActionScript
                 imp.RemoveAll(
                      delegate(Type w)
                      {
-
+                         if (w == null)
+                             return true;
 
                          if (w.IsArray && p.IsArray)
                          {

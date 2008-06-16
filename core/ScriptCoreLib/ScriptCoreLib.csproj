@@ -112,42 +112,113 @@
   <ItemGroup>
     <Compile Include="ActionScript\Array.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Action.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Array.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\Dictionary.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\ICollection.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IDictionary.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEnumerator.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEqualityComparer.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IList.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\KeyValuePair.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\Queue.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\ICollection.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\List.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\IEnumerator.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEnumerable.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\ArgumentNullException.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\IList.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Convert.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\ArgumentNullException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Array.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\Dictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\ICollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEnumerable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEnumerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEqualityComparer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\KeyValuePair.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\List.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\Queue.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\ICollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\IEnumerable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\IEnumerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\IList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Convert.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Int32.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Delegate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Exception.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ActionScript\BCLImplementation\System\ICloneable.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Random.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Math.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\NotSupportedException.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\NotImplementedException.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Exception.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\IEnumerable.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\IDisposable.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\IntPtr32.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\MulticastDelegate.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Delegate.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Object.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Reflection\FieldInfo.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Reflection\MemberInfo.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\RuntimeTypeHandle.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\String.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Text\StringBuilder.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Threading\Monitor.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Type.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\WeakReference.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\IDisposable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\IntPtr.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Math.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\MulticastDelegate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\NotImplementedException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\NotSupportedException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Object.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Random.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Reflection\FieldInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Reflection\MemberInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\RuntimeTypeHandle.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\String.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Text\StringBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Threading\Monitor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Type.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\WeakReference.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ActionScript\Class.cs" />
     <Compile Include="ActionScript\Date.cs" />
     <Compile Include="ActionScript\Extensions\DynamicContainer.cs" />

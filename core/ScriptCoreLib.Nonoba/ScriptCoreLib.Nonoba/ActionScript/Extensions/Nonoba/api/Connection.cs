@@ -12,24 +12,24 @@ namespace ScriptCoreLib.ActionScript.Extensions.Nonoba.api
     {
         #region Implementation for methods marked with [Script(NotImplementedHere = true)]
         #region Disconnect
-        public static void add_Disconnect(Connection that, Action<ConnectionEvent> value)
+        public static void add_Disconnect(Connection that, Action<object> value)
         {
             CommonExtensions.CombineDelegate(that, value, ConnectionEvent.DISCONNECT);
         }
 
-        public static void remove_Disconnect(Connection that, Action<ConnectionEvent> value)
+        public static void remove_Disconnect(Connection that, Action<object> value)
         {
             CommonExtensions.RemoveDelegate(that, value, ConnectionEvent.DISCONNECT);
         }
         #endregion
 
         #region Init
-        public static void add_Init(Connection that, Action<ConnectionEvent> value)
+        public static void add_Init(Connection that, Action<object> value)
         {
             CommonExtensions.CombineDelegate(that, value, ConnectionEvent.INIT);
         }
 
-        public static void remove_Init(Connection that, Action<ConnectionEvent> value)
+        public static void remove_Init(Connection that, Action<object> value)
         {
             CommonExtensions.RemoveDelegate(that, value, ConnectionEvent.INIT);
         }

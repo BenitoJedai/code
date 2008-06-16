@@ -11,5 +11,13 @@ namespace FlashTowerDefense.Shared
         // x
 
         public string Hello;
+
+        public enum Messages
+        {
+            UserJoined,
+            UserLeft
+        }
+
+
     }
 }

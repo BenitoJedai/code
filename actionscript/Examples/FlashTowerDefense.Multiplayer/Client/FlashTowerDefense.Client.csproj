@@ -75,6 +75,10 @@
       <Project>{B939002B-9922-4999-B943-6C0DF657D25B}</Project>
       <Name>FlashTowerDefense</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Shared\FlashTowerDefense.Shared.csproj">
+      <Project>{16969E26-6189-4014-87CA-7BE7D3E403FD}</Project>
+      <Name>FlashTowerDefense.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

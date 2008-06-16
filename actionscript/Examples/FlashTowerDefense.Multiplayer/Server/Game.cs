@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Nonoba.GameLibrary;
 using System.Drawing;
+using FlashTowerDefense.Shared;
 
 namespace FlashTowerDefense.Server
 {
@@ -66,15 +67,20 @@ namespace FlashTowerDefense.Server
         public override void UserJoined(Player player)
         {
             player.Send("welcometogame", Users.Length); // send a message with the amount users in the game
-
-            Broadcast("UserJoined", player.Username);
+            
+            Broadcast(SharedClass1.Messages.UserJoined, player.Username);
         }
 
         /// <summary>When a user leaves the game instance</summary>
         public override void UserLeft(Player player)
         {
+            Broadcast(SharedClass1.Messages.UserLeft, player.Username);
         }
 
+        public void Broadcast(Shared.SharedClass1.Messages type, params object[] e)
+        {
+            Broadcast(((int)type).ToString(), e);
+        }
         /// <summary>
         /// This method can be used to generate a visual debugging image, that
         /// will be displayed in the Development Server. 

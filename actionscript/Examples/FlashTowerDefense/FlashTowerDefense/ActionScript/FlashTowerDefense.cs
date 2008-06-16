@@ -277,7 +277,7 @@ namespace FlashTowerDefense.ActionScript
 
             var QueuedMessages = new Queue<string>();
 
-            Action<string> ShowMessage =
+            this.ShowMessage =
                 Text =>
                 {
                     if (QueuedMessages.Count > 0)
@@ -1169,6 +1169,7 @@ namespace FlashTowerDefense.ActionScript
 
         public readonly Settings Settings = new Settings();
 
+        public readonly Action<string> ShowMessage;
     }
 
 

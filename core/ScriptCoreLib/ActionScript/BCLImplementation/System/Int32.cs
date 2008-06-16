@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ScriptCoreLib.ActionScript.BCLImplementation.System
+{
+    [Script(Implements = typeof(global::System.Int32))]
+    internal class __Int32
+    {
+        // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/package.html#parseInt()
+        [Script(OptimizedCode = "return parseInt(e);")]
+        static public __Int32 Parse(string e)
+        {
+            return default(__Int32);
+        }
+
+
+
+
+  
+    }
+}
