@@ -7,6 +7,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.media;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.filters;
+using ScriptCoreLib.ActionScript.flash.utils;
 
 namespace FlashTowerDefense.ActionScript.Actors
 {
@@ -36,6 +37,22 @@ namespace FlashTowerDefense.ActionScript.Actors
         public Action PlayHelloSound;
         public Action PlayDeathSound;
 
+
+        public void AddDamageFromDirection(double Damage, double Arc)
+        {
+            AddDamage(Damage);
+
+            var DamageMovement = 2 * Damage / 100;
+            var t = new Timer(1000 / 24, 10);
+
+            t.timer +=
+                delegate
+                {
+                    this.MoveToArc(Arc, DamageMovement);
+                };
+
+            t.start();
+        }
 
         public void AddDamage(double e)
         {
@@ -91,7 +108,7 @@ namespace FlashTowerDefense.ActionScript.Actors
                            delegate
                            {
                                blood.Orphanize();
-                               
+
                                IsCorpseAndBloodGone = true;
 
                                if (CorpseAndBloodGone != null)
@@ -185,7 +202,7 @@ namespace FlashTowerDefense.ActionScript.Actors
 
             n.AttachTo(this.parent).AddTo(Footsteps);
 
-            
+
             (500).AtInterval(
                 t =>
                 {

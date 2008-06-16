@@ -218,6 +218,96 @@ namespace FlashTowerDefense.ActionScript
 
             PrebuiltTurret.AttachTo(GetWarzone());
 
+            #region Messages
+            var ActiveMessages = new List<TextField>();
+            var ShowMessageNow = default(Action<string, Action>);
+
+            ShowMessageNow =
+                (MessageText, Done) =>
+                {
+
+                    var p = new TextField
+                    {
+                        textColor = ColorWhite,
+                        background = true,
+                        backgroundColor = ColorBlack,
+                        filters = new[] { new GlowFilter(ColorBlack) },
+                        autoSize = TextFieldAutoSize.LEFT,
+                        text = MessageText,
+                        mouseEnabled = false
+                    };
+
+                    var y = Height - p.height - 32;
+
+                    p.AddTo(ActiveMessages).AttachTo(this).MoveTo((Width - p.width) / 2, Height);
+
+                    Sounds.snd_message.ToSoundAsset().play();
+
+                    var MessagesToBeMoved = (from TheMessage in ActiveMessages select new { TheMessage, y = TheMessage.y - TheMessage.height }).ToArray();
+
+
+
+                    (1000 / 24).AtInterval(
+                        t =>
+                        {
+                            foreach (var i in MessagesToBeMoved)
+                            {
+                                if (i.TheMessage.y > i.y)
+                                    i.TheMessage.y -= 4;
+
+                            }
+
+                            p.y -= 4;
+
+                            if (p.y < y)
+                            {
+                                t.stop();
+
+                                if (Done != null)
+                                    Done();
+
+                                9000.AtDelayDo(
+                                    () => p.RemoveFrom(ActiveMessages).FadeOutAndOrphanize(1000 / 24, 0.21)
+                                );
+                            }
+                        }
+                    );
+                };
+
+
+            var QueuedMessages = new Queue<string>();
+
+            Action<string> ShowMessage =
+                Text =>
+                {
+                    if (QueuedMessages.Count > 0)
+                    {
+                        QueuedMessages.Enqueue(Text);
+                        return;
+                    }
+
+                    // not busy
+                    QueuedMessages.Enqueue(Text);
+
+                    var NextQueuedMessages = default(Action);
+
+                    NextQueuedMessages =
+                        () => ShowMessageNow(QueuedMessages.Peek(),
+                            delegate
+                            {
+                                QueuedMessages.Dequeue();
+
+                                if (QueuedMessages.Count > 0)
+                                    NextQueuedMessages();
+                            }
+                        );
+
+                    NextQueuedMessages();
+                };
+            #endregion
+
+
+
             #region Ego
             var Ego = new Warrior();
             Func<bool> EgoIsOnTheField = () => Ego.parent != null;
@@ -240,6 +330,26 @@ namespace FlashTowerDefense.ActionScript
                 {
                     Ego.MoveToArc(EgoAimDirection, EgoMoveSpeed);
                     UpdateEgoAim();
+
+                    // we moved now let's check for boxes
+                    foreach (var BoxToTake in
+                                     from ss in Boxes
+                                     where new Point { x = Ego.x - ss.x, y = Ego.y - ss.y }.length < 32
+                                     select ss)
+                    {
+                        BoxToTake.RemoveFrom(Boxes).Orphanize();
+
+                        Sounds.sound20.ToSoundAsset().play();
+
+
+                        // add stuff, so the player doesn't get bored:D
+                        // maybe implment them too? see Diablo.
+                        var PowerUps = new[] { "Defense", "Mana", "Dexerity", "Experience", "Stamina", "Strength", "Life", "Replenish Life" };
+
+
+                        ShowMessage("+1 " + PowerUps.Random());
+
+                    }
                 });
 
             EgoMoveUpTimer.stop();
@@ -248,6 +358,12 @@ namespace FlashTowerDefense.ActionScript
                  delegate
                  {
                      EgoAimDirection += EgoAimMoveSpeed * EgoMoveSpeed;
+
+                     if (EgoAimDirection < 0)
+                         EgoAimDirection += Math.PI * 4;
+
+                     EgoAimDirection %= Math.PI * 2;
+
                      UpdateEgoAim();
                  });
             EgoAimMoveTimer.stop();
@@ -263,7 +379,10 @@ namespace FlashTowerDefense.ActionScript
 
 
             var list = new List<Actor>();
-            var bullets = 0;
+
+            var BulletsFired_MachineGun = 0;
+            var BulletsFired_Shotgun = 0;
+
             var runaways = 0;
             var score = 0;
 
@@ -284,7 +403,7 @@ namespace FlashTowerDefense.ActionScript
                     ScoreBoard.text =
                         new
                         {
-                            bullets,
+                            bullets = BulletsFired_MachineGun,
                             runaways,
                             gore = (100 * (double)list.Count(i => !i.IsAlive) / (double)list.Count()).Round() + "%",
                             score,
@@ -295,7 +414,7 @@ namespace FlashTowerDefense.ActionScript
             Action<MouseEvent> DoGunFire =
                 e =>
                 {
-                    bullets--;
+                    BulletsFired_MachineGun--;
 
                     UpdateScoreBoard();
 
@@ -305,7 +424,7 @@ namespace FlashTowerDefense.ActionScript
                    where ss.IsAlive
                    where new Point { x = ss.x - e.stageX, y = ss.y - e.stageY }.length < 32
                    select ss)
-                        s.AddDamage(GetRandomHitDamage());
+                        s.AddDamageFromDirection(GetRandomHitDamage(), new Point { x = s.x - PrebuiltTurret.x, y = s.y - PrebuiltTurret.y }.GetRotation());
                 };
 
             var CurrentTarget = default(MouseEvent);
@@ -417,6 +536,12 @@ namespace FlashTowerDefense.ActionScript
 
                             score += a.ScoreValue;
                             UpdateScoreBoard();
+
+
+                            if (0.3.ByChance())
+                            {
+                                new Animation(Images.box).AddTo(Boxes).MoveTo(a.x, a.y).AttachTo(GetWarzone());
+                            }
                         };
 
                     a.AttachTo(GetWarzone()).AddTo(list);
@@ -425,94 +550,6 @@ namespace FlashTowerDefense.ActionScript
                         a.PlayHelloSound();
 
                     return a;
-                };
-            #endregion
-
-            #region Messages
-            var ActiveMessages = new List<TextField>();
-            var ShowMessageNow = default(Action<string, Action>);
-
-            ShowMessageNow =
-                (MessageText, Done) =>
-                {
-
-                    var p = new TextField
-                    {
-                        textColor = ColorWhite,
-                        background = true,
-                        backgroundColor = ColorBlack,
-                        filters = new[] { new GlowFilter(ColorBlack) },
-                        autoSize = TextFieldAutoSize.LEFT,
-                        text = MessageText,
-                        mouseEnabled = false
-                    };
-
-                    var y = Height - p.height - 32;
-
-                    p.AddTo(ActiveMessages).AttachTo(this).MoveTo((Width - p.width) / 2, Height);
-
-                    Sounds.snd_message.ToSoundAsset().play();
-
-                    var MessagesToBeMoved = (from TheMessage in ActiveMessages select new { TheMessage, y = TheMessage.y - TheMessage.height }).ToArray();
-
-
-
-                    (1000 / 24).AtInterval(
-                        t =>
-                        {
-                            foreach (var i in MessagesToBeMoved)
-                            {
-                                if (i.TheMessage.y > i.y)
-                                    i.TheMessage.y -= 4;
-
-                            }
-
-                            p.y -= 4;
-
-                            if (p.y < y)
-                            {
-                                t.stop();
-
-                                if (Done != null)
-                                    Done();
-
-                                9000.AtDelayDo(
-                                    () => p.RemoveFrom(ActiveMessages).FadeOutAndOrphanize(1000 / 24, 0.21)
-                                );
-                            }
-                        }
-                    );
-                };
-
-
-            var QueuedMessages = new Queue<string>();
-
-            Action<string> ShowMessage =
-                Text =>
-                {
-                    if (QueuedMessages.Count > 0)
-                    {
-                        QueuedMessages.Enqueue(Text);
-                        return;
-                    }
-
-                    // not busy
-                    QueuedMessages.Enqueue(Text);
-
-                    var NextQueuedMessages = default(Action);
-
-                    NextQueuedMessages =
-                        () => ShowMessageNow(QueuedMessages.Peek(),
-                            delegate
-                            {
-                                QueuedMessages.Dequeue();
-
-                                if (QueuedMessages.Count > 0)
-                                    NextQueuedMessages();
-                            }
-                        );
-
-                    NextQueuedMessages();
                 };
             #endregion
 
@@ -553,8 +590,8 @@ namespace FlashTowerDefense.ActionScript
                                 }
                                 else if (e.keyCode == Keyboard.CONTROL)
                                 {
-                                    
-                            
+
+
 
                                 }
                             }
@@ -588,10 +625,13 @@ namespace FlashTowerDefense.ActionScript
                               }
                               else if (e.keyCode == Keyboard.CONTROL)
                               {
-                                  Sounds.shotgun2.ToSoundAsset().play();
 
                                   if (EgoIsOnTheField())
                                   {
+                                      Sounds.shotgun2.ToSoundAsset().play();
+
+                                      BulletsFired_Shotgun++;
+
                                       foreach (var DeadManWalking in list.ToArray())
                                       {
                                           if (DeadManWalking.IsAlive)
@@ -609,21 +649,11 @@ namespace FlashTowerDefense.ActionScript
                                                   if (Hit)
                                                   {
                                                       var Damage = 60.Random() + 40;
-                                                      var DamageMovement = 2 * Damage / 100;
 
-                                                      DeadManWalking.AddDamage(Damage);
 
-                                                      var Target = DeadManWalking;
+                                                      DeadManWalking.AddDamageFromDirection(Damage, Arc);
 
-                                                      var t = new Timer(1000 / 24, 10);
 
-                                                      t.timer +=
-                                                          delegate
-                                                          {
-                                                              Target.MoveToArc(Arc, DamageMovement);
-                                                          };
-
-                                                      t.start();
                                                   }
                                           }
 
@@ -716,7 +746,7 @@ namespace FlashTowerDefense.ActionScript
             (1500).AtInterval(
                 t =>
                 {
-                   
+
 
 
                     if (WaveEndCountdown < 0)
