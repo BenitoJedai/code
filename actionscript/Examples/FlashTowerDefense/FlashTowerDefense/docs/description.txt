@@ -36,6 +36,8 @@ You are in the command of a machine gun tower and you are raided by mad sheep an
     * Content Rating: Everyone
 
 Instructions: Aim at the enemy unit and hold down the mouse until the unit is terminated by gunfire.
+When outside, use arrow keys and control key to shoot.
+Press 'enter' to enter or exit the machinegun.
 
 
 04.06.2008

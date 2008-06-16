@@ -29,7 +29,7 @@ namespace FlashTowerDefense.ActionScript
     public partial class FlashTowerDefense : Sprite
     {
         public const int Width = 600;
-        public const int Height = 400;
+        public const int Height = 480;
 
         public const uint ColorRed = 0xff0000;
         public const uint ColorBlack = 0x000000;
@@ -599,7 +599,8 @@ namespace FlashTowerDefense.ActionScript
             Action StageIsReady =
                 delegate
                 {
-                    stage.scaleMode = StageScaleMode.NO_BORDER;
+                    
+                    //stage.scaleMode = StageScaleMode.NO_BORDER;
 
                     #region keyboard
                     stage.keyDown +=

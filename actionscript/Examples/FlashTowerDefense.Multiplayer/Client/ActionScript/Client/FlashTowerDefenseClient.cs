@@ -25,7 +25,7 @@ namespace FlashTowerDefense.ActionScript.Client
     [SWF(width = Width, height = Height)]
     public class FlashTowerDefenseClient : Sprite
     {
-        public const int Width = FlashTowerDefense.Width + 200;
+        public const int Width = FlashTowerDefense.Width + 240;
         public const int Height = FlashTowerDefense.Height;
 
         /// <summary>
