@@ -17,7 +17,7 @@ namespace FlashTowerDefense.ActionScript
 {
 
     [Script]
-    static class MyExtensions
+    public static class MyExtensions
     {
         public static double GetRotation(this Point p)
         {

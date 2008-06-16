@@ -21,6 +21,8 @@ namespace FlashTowerDefense.ActionScript
 
         public int FrameRate = (1000 / 15);
 
+        public event Action AnimationEnabledChanged;
+
         public bool AnimationEnabled
         {
             get
@@ -53,6 +55,8 @@ namespace FlashTowerDefense.ActionScript
 
                 ShowCurrentFrame();
 
+                if (AnimationEnabledChanged != null)
+                    AnimationEnabledChanged();
             }
         }
 

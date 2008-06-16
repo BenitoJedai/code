@@ -37,7 +37,7 @@ namespace FlashTowerDefense.Server
             // every 100th millisecond (10 times a second).
             // AddTimer(new TimerCallback(tick), 30000);
 
-          
+
         }
 
         /// <summary>Timer callback scheduled to be called 10 times a second in the AddTimer() call in GameStarted()</summary>
@@ -56,32 +56,41 @@ namespace FlashTowerDefense.Server
             var e = (SharedClass1.Messages)int.Parse(m.Type);
 
             if (e == SharedClass1.Messages.EnterMachineGun)
-                Broadcast(SharedClass1.Messages.UserEnterMachineGun, player.Username);
+                Broadcast(SharedClass1.Messages.UserEnterMachineGun, player.UserId);
             else if (e == SharedClass1.Messages.ExitMachineGun)
-                Broadcast(SharedClass1.Messages.UserExitMachineGun, player.Username);
+                Broadcast(SharedClass1.Messages.UserExitMachineGun, player.UserId);
+            else if (e == SharedClass1.Messages.StartMachineGun)
+                Broadcast(SharedClass1.Messages.UserStartMachineGun, player.Username);
+            else if (e == SharedClass1.Messages.StopMachineGun)
+                Broadcast(SharedClass1.Messages.UserStopMachineGun, player.Username);
+            else if (e == SharedClass1.Messages.TeleportTo)
+                Broadcast(SharedClass1.Messages.UserTeleportTo, player.UserId, m.GetInt(0), m.GetInt(1));
+            else if (e == SharedClass1.Messages.ToUserJoinedReply)
+                Send(m.GetInt(0), SharedClass1.Messages.UserJoinedReply, player.UserId, player.UserId);
 
-            //// here we're sending "hi" back to any user sending in "hello"
-            //switch (m.Type)
-            //{
-            //    case "hello":
-            //        player.Send("hi");
-            //        break;
-
-            //}
         }
 
         /// <summary>When a user enters this game instance</summary>
         public override void UserJoined(Player player)
         {
             //player.Send("welcometogame", Users.Length); // send a message with the amount users in the game
-            
-            Broadcast(SharedClass1.Messages.UserJoined, player.Username);
+
+            Broadcast(SharedClass1.Messages.UserJoined, player.Username, player.UserId);
         }
 
         /// <summary>When a user leaves the game instance</summary>
         public override void UserLeft(Player player)
         {
-            Broadcast(SharedClass1.Messages.UserLeft, player.Username);
+            Broadcast(SharedClass1.Messages.UserLeft, player.Username, player.UserId);
+        }
+
+        public void Send(int id, Shared.SharedClass1.Messages type, params object[] e)
+        {
+            foreach (var v in Users)
+            {
+                if (v.UserId == id)
+                    v.Send(((int)type).ToString(), e);
+            }
         }
 
         public void Broadcast(Shared.SharedClass1.Messages type, params object[] e)

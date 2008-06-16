@@ -14,6 +14,9 @@ namespace FlashTowerDefense.ActionScript.Actors
     [Script]
     public class Actor : Sprite
     {
+        public string NetworkName;
+        public int NetworkId;
+
         public string Description;
 
         public string ActorName;
@@ -72,8 +75,11 @@ namespace FlashTowerDefense.ActionScript.Actors
 
         public bool RunAnimation = true;
 
+        Bitmap[] _frames;
+
         public Actor(Bitmap[] frames, Bitmap corpse, Bitmap blood, Sound death)
         {
+            this._frames = frames;
             this.mouseEnabled = false;
 
             PlayDeathSound = death.ToAction();
@@ -144,25 +150,34 @@ namespace FlashTowerDefense.ActionScript.Actors
                      if (!RunAnimation)
                          return;
 
-                     for (int i = 0; i < frames.Length; i++)
-                     {
-                         var v = frames[i];
+                     var Counter = t.currentCount;
 
-                         if (t.currentCount % frames.Length == i)
-                         {
-                             v.MoveToCenter();
-                             v.AttachTo(this);
-
-                             if (this.Moved != null)
-                                 this.Moved();
-
-                             UpdateFootsteps();
-                         }
-                         else
-                             v.Orphanize();
-                     }
+                     ShowFrame(Counter);
                  }
              );
+
+            ShowFrame(0);
+        }
+
+        private void ShowFrame(int Counter)
+        {
+            for (int i = 0; i < _frames.Length; i++)
+            {
+                var v = _frames[i];
+
+                if (Counter % _frames.Length == i)
+                {
+                    v.MoveToCenter();
+                    v.AttachTo(this);
+
+                    if (this.Moved != null)
+                        this.Moved();
+
+                    UpdateFootsteps();
+                }
+                else
+                    v.Orphanize();
+            }
         }
 
         private void UpdateFootsteps()

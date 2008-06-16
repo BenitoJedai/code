@@ -15,15 +15,28 @@ namespace FlashTowerDefense.Shared
         public enum Messages
         {
             None = 100,
+            
             UserJoined,
+            ToUserJoinedReply,  // client->server
+            UserJoinedReply,    // server->client
+
             UserLeft,
 
             UserEnterMachineGun,
             UserExitMachineGun,
 
-            EnterMachineGun,
-            ExitMachineGun
+            UserStartMachineGun,
+            UserStopMachineGun,
 
+            UserTeleportTo,
+
+            EnterMachineGun,
+            ExitMachineGun,
+
+            StartMachineGun,
+            StopMachineGun,
+
+            TeleportTo,
         }
 
 

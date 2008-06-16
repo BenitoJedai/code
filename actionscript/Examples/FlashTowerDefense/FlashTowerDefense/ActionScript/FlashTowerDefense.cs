@@ -40,8 +40,9 @@ namespace FlashTowerDefense.ActionScript
 
         const int OffscreenMargin = 32;
 
-        Animation PrebuiltTurret;
-        Timer PrebuiltTurretBlinkTimer;
+        public Animation PrebuiltTurret;
+
+        public Timer PrebuiltTurretBlinkTimer;
 
         public readonly Func<DisplayObjectContainer> GetWarzone;
         public readonly Action<TextField, bool> BlurWarzoneOnHover;
@@ -309,9 +310,10 @@ namespace FlashTowerDefense.ActionScript
 
 
             #region Ego
-            var Ego = new Warrior();
-            Func<bool> EgoIsOnTheField = () => Ego.parent != null;
-            Func<bool> EgoCanManTurret = () => true; // look up if there is somebody else in it
+            Ego = new Warrior();
+            
+            EgoIsOnTheField = () => Ego.parent != null;
+            Func<bool> EgoCanManTurret = () => !PrebuiltTurretInUse; // look up if there is somebody else in it
             Func<bool> EgoIsCloseToTurret = () => new Point { x = Ego.x - PrebuiltTurret.x, y = Ego.y - PrebuiltTurret.y }.length < 32;
 
             var EgoAimDirection = 3.14; // look down
@@ -319,17 +321,22 @@ namespace FlashTowerDefense.ActionScript
             var EgoAimMoveSpeed = 0.1;
             var EgoMoveSpeed = 3;
 
-            Action UpdateEgoAim =
+            UpdateEgoAim =
                 delegate
                 {
                     Aim.MoveTo(Ego.x + Math.Cos(EgoAimDirection) * EgoAimDistance, Ego.y + Math.Sin(EgoAimDirection) * EgoAimDistance);
                 };
+
+
+            EgoMovedSlowTimer = new Timer(500, 1);
 
             var EgoMoveUpTimer = (1000 / 30).AtInterval(
                 delegate
                 {
                     Ego.MoveToArc(EgoAimDirection, EgoMoveSpeed);
                     UpdateEgoAim();
+
+                    EgoMovedSlowTimer.start();
 
                     // we moved now let's check for boxes
                     foreach (var BoxToTake in
@@ -373,7 +380,7 @@ namespace FlashTowerDefense.ActionScript
 
             var PrebuiltTurretSound = default(SoundChannel);
 
-            var f = new[] { new GlowFilter() };
+            
 
 
 
@@ -430,6 +437,27 @@ namespace FlashTowerDefense.ActionScript
             var CurrentTarget = default(MouseEvent);
             var CurrentTargetTimer = default(Timer);
 
+            PrebuiltTurret.AnimationEnabledChanged +=
+                delegate
+                {
+                  
+                    if (PrebuiltTurret.AnimationEnabled)
+                    {
+                        if (PrebuiltTurretSound == null)
+                            PrebuiltTurretSound = Sounds.gunfire.ToSoundAsset().play(0, 999);
+
+                        PrebuiltTurret.filters = new[] { new GlowFilter() };
+                    }
+                    else
+                    {
+                        if (PrebuiltTurretSound != null)
+                            PrebuiltTurretSound.stop();
+
+                        PrebuiltTurretSound = null;
+                        PrebuiltTurret.filters = null;
+                    }
+
+                };
 
             GetWarzone().mouseDown +=
                 e =>
@@ -440,16 +468,8 @@ namespace FlashTowerDefense.ActionScript
                     if (EgoIsOnTheField())
                         return;
 
-                    if (PrebuiltTurretSound != null)
-                        PrebuiltTurretSound.stop();
-
-                    PrebuiltTurretSound = Sounds.gunfire.ToSoundAsset().play(0, 999);
-
-                    PrebuiltTurret.filters = f;
-
+                    
                     PrebuiltTurret.AnimationEnabled = true;
-
-
 
                     CurrentTarget = e;
                     CurrentTargetTimer =
@@ -459,8 +479,7 @@ namespace FlashTowerDefense.ActionScript
                                 if (!PrebuiltTurret.AnimationEnabled)
                                 {
                                     CurrentTargetTimer.stop();
-                                    PrebuiltTurretSound.stop();
-                                    PrebuiltTurret.filters = null;
+ 
                                     return;
                                 }
 
@@ -704,14 +723,9 @@ namespace FlashTowerDefense.ActionScript
                                   ShowMessage("Machinegun unmanned!");
                                   PrebuiltTurret.alpha = 0.5;
                                   Mouse.show();
-                                  PrebuiltTurretBlinkTimer = 500.AtInterval(t => PrebuiltTurret.alpha = ((t.currentCount % 2) + 1) / 2);
+                                  PrebuiltTurretBlinkTimer.start();
 
-                                  Ego.RunAnimation = false;
-                                  Ego.CanMakeFootsteps = false;
-
-                                  Ego.MoveTo(PrebuiltTurret.x + 48, PrebuiltTurret.y).AttachTo(GetWarzone());
-
-                                  UpdateEgoAim();
+                                  TeleportEgoNearTurret();
 
                                   if (EgoExitedMachineGun != null)
                                       EgoExitedMachineGun();
@@ -725,6 +739,9 @@ namespace FlashTowerDefense.ActionScript
                     #endregion
 
                 };
+
+            PrebuiltTurretBlinkTimer = 500.AtInterval(t => PrebuiltTurret.alpha = ((t.currentCount % 2) + 1) / 2);
+            PrebuiltTurretBlinkTimer.stop();
 
             #region readiness
             if (stage == null)
@@ -884,10 +901,9 @@ namespace FlashTowerDefense.ActionScript
                   Aim.visible = true;
               };
 
-            MusicButton.click +=
+            ToggleMusic =
                 delegate
                 {
-
                     if (MusicOn.parent == MusicButton)
                     {
                         MusicOn.Orphanize();
@@ -905,6 +921,12 @@ namespace FlashTowerDefense.ActionScript
                     }
                 };
 
+            MusicButton.click +=
+                delegate
+                {
+                    ToggleMusic();
+                };
+
             MusicOn.AttachTo(MusicButton);
 
             MusicButton.AttachTo(this);
@@ -920,6 +942,18 @@ namespace FlashTowerDefense.ActionScript
             OnMouseDownDisableMouseOnTarget(GetWarzone(), MusicButton);
             OnMouseDownDisableMouseOnTarget(GetWarzone(), ScoreBoard);
             OnMouseDownDisableMouseOnTarget(GetWarzone(), powered_by_jsc);
+        }
+
+        public void TeleportEgoNearTurret()
+        {
+            Ego.RunAnimation = false;
+            Ego.CanMakeFootsteps = false;
+
+            var Outside = new Point { x = PrebuiltTurret.x, y = PrebuiltTurret.y }.MoveToArc((Math.PI * 2).Random(), 64);
+
+            Ego.MoveTo(Outside.x, Outside.y).AttachTo(GetWarzone());
+
+            UpdateEgoAim();
         }
 
         private void AddNewActorsToMap(Action UpdateScoreBoard, Func<double> GetEntryPointY, Func<Actor, Actor> AttachRules)
@@ -1165,6 +1199,16 @@ namespace FlashTowerDefense.ActionScript
         public event Action EgoExitedMachineGun;
 
         public bool CanAutoSpawnEnemies = true;
+
+        public readonly Action ToggleMusic;
+
+        public readonly Func<bool> EgoIsOnTheField;
+
+        public bool PrebuiltTurretInUse;
+
+        public readonly Warrior Ego;
+        public readonly Action UpdateEgoAim;
+        public readonly Timer EgoMovedSlowTimer;
     }
 
 
