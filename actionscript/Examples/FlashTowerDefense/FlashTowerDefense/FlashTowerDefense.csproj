@@ -75,6 +75,7 @@
     <Content Include="docs\description.txt" />
     <Content Include="docs\feedback\2008.06.06.txt" />
     <Content Include="docs\help.txt" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\box.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\sound20.mp3" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\shotgun2.mp3" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\door-open.mp3" />

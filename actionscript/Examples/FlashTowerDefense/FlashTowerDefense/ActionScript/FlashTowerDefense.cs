@@ -553,44 +553,7 @@ namespace FlashTowerDefense.ActionScript
                                 }
                                 else if (e.keyCode == Keyboard.CONTROL)
                                 {
-                                    if (EgoIsOnTheField())
-                                    {
-                                        foreach (var DeadManWalking in list.ToArray())
-                                        {
-                                            if (DeadManWalking.IsAlive)
-                                            {
-                                                var Offset = new Point { y = DeadManWalking.y - Ego.y, x = DeadManWalking.x - Ego.x };
-                                                var Arc = Offset.GetRotation();
-                                                var Distance = Offset.length;
-                                                var LessThan = Arc < (EgoAimDirection + 0.3);
-                                                var MoreThan = Arc > (EgoAimDirection - 0.3);
-                                                var Hit = LessThan && MoreThan;
-                                                var Max = 200;
-
-                                                if (Distance < Max)
-                                                    if (Hit)
-                                                    {
-                                                        var Damage = 60.Random() + 40;
-                                                        var DamageMovement = 2 * Damage / 100;
-
-                                                        DeadManWalking.AddDamage(Damage);
-
-                                                        var Target = DeadManWalking;
-
-                                                        var t = new Timer(1000 / 24, 10);
-
-                                                        t.timer +=
-                                                            delegate
-                                                            {
-                                                                Target.MoveToArc(Arc, DamageMovement);
-                                                            };
-
-                                                        t.start();
-                                                    }
-                                            }
-                                            
-                                        }
-                                    }
+                                    
                             
 
                                 }
@@ -627,7 +590,45 @@ namespace FlashTowerDefense.ActionScript
                               {
                                   Sounds.shotgun2.ToSoundAsset().play();
 
-                                  //ShowMessage("Got no weapone! Cannot see one either!");
+                                  if (EgoIsOnTheField())
+                                  {
+                                      foreach (var DeadManWalking in list.ToArray())
+                                      {
+                                          if (DeadManWalking.IsAlive)
+                                          {
+                                              var Location = new Point { x = Ego.x, y = Ego.y }.MoveToArc(EgoAimDirection, -16);
+                                              var Offset = new Point { y = DeadManWalking.y - Location.y, x = DeadManWalking.x - Location.x };
+                                              var Arc = Offset.GetRotation();
+                                              var Distance = Offset.length;
+                                              var LessThan = Arc < ((EgoAimDirection % (Math.PI * 2)) + 0.4);
+                                              var MoreThan = Arc > ((EgoAimDirection % (Math.PI * 2)) - 0.4);
+                                              var Hit = LessThan && MoreThan;
+                                              var Max = 180;
+
+                                              if (Distance < Max)
+                                                  if (Hit)
+                                                  {
+                                                      var Damage = 60.Random() + 40;
+                                                      var DamageMovement = 2 * Damage / 100;
+
+                                                      DeadManWalking.AddDamage(Damage);
+
+                                                      var Target = DeadManWalking;
+
+                                                      var t = new Timer(1000 / 24, 10);
+
+                                                      t.timer +=
+                                                          delegate
+                                                          {
+                                                              Target.MoveToArc(Arc, DamageMovement);
+                                                          };
+
+                                                      t.start();
+                                                  }
+                                          }
+
+                                      }
+                                  }
                               }
                           }
 
@@ -901,7 +902,7 @@ namespace FlashTowerDefense.ActionScript
             OnMouseDownDisableMouseOnTarget(GetWarzone(), powered_by_jsc);
         }
 
-        private static void AddNewActorsToMap(Action UpdateScoreBoard, Func<double> GetEntryPointY, Func<Actor, Actor> AttachRules)
+        private void AddNewActorsToMap(Action UpdateScoreBoard, Func<double> GetEntryPointY, Func<Actor, Actor> AttachRules)
         {
             Action<Actor> ReduceSpeedToHalf = i => i.speed /= 2;
 
@@ -1127,13 +1128,14 @@ namespace FlashTowerDefense.ActionScript
                             speed = 0.5 + 2.Random()
                         }
                     );
+
                 }
             }
 
             UpdateScoreBoard();
         }
 
-
+        public readonly List<Animation> Boxes = new List<Animation>();
 
         public readonly Settings Settings = new Settings();
 

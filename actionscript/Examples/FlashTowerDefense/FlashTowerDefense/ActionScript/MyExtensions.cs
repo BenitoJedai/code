@@ -83,6 +83,13 @@ namespace FlashTowerDefense.ActionScript
             return new Random().NextDouble() < e;
         }
 
+        public static Point MoveToArc(this Point n, double arc, double distance)
+        {
+            n.x += Math.Cos(arc) * distance;
+            n.y += Math.Sin(arc) * distance;
+
+            return n;
+        }
 
         public static T MoveToArc<T>(this T e, double arc, double distance) where T : DisplayObject
         {

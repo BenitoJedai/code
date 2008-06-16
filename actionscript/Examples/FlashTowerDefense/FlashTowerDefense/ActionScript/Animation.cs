@@ -12,7 +12,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 namespace FlashTowerDefense.ActionScript
 {
     [Script]
-    class Animation : Sprite
+    public class Animation : Sprite
     {
         readonly BitmapAsset StillFrame;
         readonly BitmapAsset[] AnimatedFrames;
@@ -70,9 +70,12 @@ namespace FlashTowerDefense.ActionScript
             if (this.StillFrame != null)
                 this.StillFrame.Orphanize();
 
-            foreach (var v in AnimatedFrames)
+            if (AnimatedFrames != null)
             {
-                v.Orphanize();
+                foreach (var v in AnimatedFrames)
+                {
+                    v.Orphanize();
+                }
             }
         }
 
@@ -81,7 +84,10 @@ namespace FlashTowerDefense.ActionScript
         {
             this.StillFrame = StillFrame;
 
-            this.AnimatedFrames = AnimatedFrames.Select(i => (BitmapAsset)i).ToArray();
+            if (AnimatedFrames.Length > 0)
+                this.AnimatedFrames = AnimatedFrames.Select(i => (BitmapAsset)i).ToArray();
+            else
+                AnimationEnabled = false;
 
             ShowCurrentFrame();
         }
