@@ -53,6 +53,13 @@ namespace FlashTowerDefense.Server
         /// <summary>This message is called whenever a player sends a message into the game.</summary>
         public override void GotMessage(Player player, Message m)
         {
+            var e = (SharedClass1.Messages)int.Parse(m.Type);
+
+            if (e == SharedClass1.Messages.EnterMachineGun)
+                Broadcast(SharedClass1.Messages.UserEnterMachineGun, player.Username);
+            else if (e == SharedClass1.Messages.ExitMachineGun)
+                Broadcast(SharedClass1.Messages.UserExitMachineGun, player.Username);
+
             //// here we're sending "hi" back to any user sending in "hello"
             //switch (m.Type)
             //{

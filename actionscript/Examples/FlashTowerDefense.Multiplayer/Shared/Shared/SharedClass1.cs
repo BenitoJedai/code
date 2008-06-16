@@ -16,7 +16,14 @@ namespace FlashTowerDefense.Shared
         {
             None = 100,
             UserJoined,
-            UserLeft
+            UserLeft,
+
+            UserEnterMachineGun,
+            UserExitMachineGun,
+
+            EnterMachineGun,
+            ExitMachineGun
+
         }
 
 

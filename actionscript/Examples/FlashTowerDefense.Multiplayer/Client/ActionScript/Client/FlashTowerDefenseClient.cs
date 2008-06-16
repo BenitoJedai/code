@@ -20,8 +20,8 @@ namespace FlashTowerDefense.ActionScript.Client
     [SWF(width = Width, height = Height)]
     public class FlashTowerDefenseClient : Sprite
     {
-        public const int Width = 1000;
-        public const int Height = 600;
+        public const int Width = FlashTowerDefense.Width  + 200;
+        public const int Height = FlashTowerDefense.Height;
 
         /// <summary>
         /// Default constructor
@@ -35,8 +35,18 @@ namespace FlashTowerDefense.ActionScript.Client
                 {
                     var m = new Menu();
 
+                    // we need synced enemies
+                    m.CanAutoSpawnEnemies = false;
+
                     m.AttachTo(this);
                     m.ShowMessage("Running in multiplayer mode!");
+
+                    m.EgoEnteredMachineGun +=
+                        () => c.SendMessage(SharedClass1.Messages.EnterMachineGun);
+
+                    m.EgoExitedMachineGun +=
+                        () => c.SendMessage(SharedClass1.Messages.ExitMachineGun);
+
 
                     c.Message +=
                         e =>
@@ -49,6 +59,10 @@ namespace FlashTowerDefense.ActionScript.Client
                                     m.ShowMessage("Player joined: " + e.message.GetString(0));
                                 else if (type == SharedClass1.Messages.UserLeft)
                                     m.ShowMessage("Player left: " + e.message.GetString(0));
+                                else if (type == SharedClass1.Messages.UserEnterMachineGun)
+                                    m.ShowMessage("Player entered machinegun: " + e.message.GetString(0));
+                                else if (type == SharedClass1.Messages.UserExitMachineGun)
+                                    m.ShowMessage("Player exited machinegun: " + e.message.GetString(0));
                             }
                             catch
                             {
@@ -56,10 +70,8 @@ namespace FlashTowerDefense.ActionScript.Client
                             }
                         };
 
-
                 };
 
-            c.Send("hello, powered by jsc");
 
 
 

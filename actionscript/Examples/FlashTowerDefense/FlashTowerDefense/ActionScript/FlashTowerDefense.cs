@@ -28,8 +28,8 @@ namespace FlashTowerDefense.ActionScript
     [SWF(width = Width, height = Height, backgroundColor = ColorWhite)]
     public partial class FlashTowerDefense : Sprite
     {
-        public const int Width = 800;
-        public const int Height = 600;
+        public const int Width = 600;
+        public const int Height = 400;
 
         public const uint ColorRed = 0xff0000;
         public const uint ColorBlack = 0x000000;
@@ -670,6 +670,8 @@ namespace FlashTowerDefense.ActionScript
                                   {
                                       if (EgoCanManTurret())
                                       {
+
+
                                           Ego.Orphanize();
                                           Ego.RunAnimation = false;
                                           EgoMoveUpTimer.stop();
@@ -682,6 +684,9 @@ namespace FlashTowerDefense.ActionScript
                                           Aim.x = CurrentTarget.stageX;
                                           Aim.y = CurrentTarget.stageY;
                                           Sounds.door_open.ToSoundAsset().play();
+
+                                          if (EgoEnteredMachineGun != null)
+                                              EgoEnteredMachineGun();
                                       }
                                       else
                                       {
@@ -707,6 +712,9 @@ namespace FlashTowerDefense.ActionScript
                                   Ego.MoveTo(PrebuiltTurret.x + 48, PrebuiltTurret.y).AttachTo(GetWarzone());
 
                                   UpdateEgoAim();
+
+                                  if (EgoExitedMachineGun != null)
+                                      EgoExitedMachineGun();
                               }
                           }
                           //else
@@ -746,9 +754,6 @@ namespace FlashTowerDefense.ActionScript
             (1500).AtInterval(
                 t =>
                 {
-
-
-
                     if (WaveEndCountdown < 0)
                     {
                         if (InterlevelMusic == null)
@@ -793,11 +798,12 @@ namespace FlashTowerDefense.ActionScript
 
 
                     // new actors if we got less 10 
-                    if (list.Where(i => i.IsAlive).Count() < 8)
-                    {
+                    if (CanAutoSpawnEnemies)
+                        if (list.Where(i => i.IsAlive).Count() < 8)
+                        {
 
-                        AddNewActorsToMap(UpdateScoreBoard, GetEntryPointY, AttachRules);
-                    }
+                            AddNewActorsToMap(UpdateScoreBoard, GetEntryPointY, AttachRules);
+                        }
                 }
             );
 
@@ -805,23 +811,7 @@ namespace FlashTowerDefense.ActionScript
             (1000 / 24).AtInterval(
                 delegate
                 {
-                    //if (EgoIsOnTheField())
-                    //{
-                    //    foreach (var DeadManWalking in list)
-                    //    {
-                    //        var Offset = new Point { y = DeadManWalking.y - Ego.y, x = DeadManWalking.x - Ego.x };
-                    //        var Arc = Offset.GetRotation();
-                    //        var Distance = Offset.length;
-                    //        var LessThan = Arc < (EgoAimDirection + 0.3);
-                    //        var MoreThan = Arc > (EgoAimDirection - 0.3);
-                    //        var Hit = LessThan && MoreThan;
 
-                    //        if (Hit)
-                    //            DeadManWalking.filters = new[] { new GlowFilter() };
-                    //        else
-                    //            DeadManWalking.filters = null;
-                    //    }
-                    //}
 
                     Aim.rotation += 1;
 
@@ -1170,6 +1160,11 @@ namespace FlashTowerDefense.ActionScript
         public readonly Settings Settings = new Settings();
 
         public readonly Action<string> ShowMessage;
+
+        public event Action EgoEnteredMachineGun;
+        public event Action EgoExitedMachineGun;
+
+        public bool CanAutoSpawnEnemies = true;
     }
 
 
