@@ -47,6 +47,10 @@ namespace FlashTowerDefense.Shared
 
             ReadyForServerRandomNumbers,
             CancelServerRandomNumbers,
+
+            AddDamageFromDirection,
+            UserAddDamageFromDirection,
+
         }
 
 

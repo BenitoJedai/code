@@ -250,7 +250,7 @@ namespace FlashTowerDefense.ActionScript.Actors
                         {
                             var p = new Point { x = _TargetX - this.x, y = _TargetY - this.y };
 
-                            if (p.length < (EgoMoveSpeed * 4))
+                            if (p.length <= (EgoMoveSpeed * 2))
                             {
                                 RunAnimation = false;
 

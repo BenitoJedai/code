@@ -385,7 +385,7 @@ namespace FlashTowerDefense.ActionScript
 
 
 
-            var list = new List<Actor>();
+            list = new List<Actor>();
 
             var BulletsFired_MachineGun = 0;
             var BulletsFired_Shotgun = 0;
@@ -399,7 +399,7 @@ namespace FlashTowerDefense.ActionScript
             // If this gets negative, we end this level and pause... maybe send a big boss, too?
             var WaveEndCountdown = 15;
 
-            
+
             var InterlevelTimeout = 12000;
 
             Action UpdateScoreBoard =
@@ -431,7 +431,18 @@ namespace FlashTowerDefense.ActionScript
                    where ss.IsAlive
                    where new Point { x = ss.x - e.stageX, y = ss.y - e.stageY }.length < 32
                    select ss)
-                        s.AddDamageFromDirection(GetRandomHitDamage(), new Point { x = s.x - PrebuiltTurret.x, y = s.y - PrebuiltTurret.y }.GetRotation());
+                    {
+
+                        var Damage = 30;
+                        var Arc = new Point { x = s.x - PrebuiltTurret.x, y = s.y - PrebuiltTurret.y }.GetRotation();
+
+                        s.AddDamageFromDirection(Damage, Arc);
+
+                        if (NetworkAddDamageFromDirection != null)
+                            NetworkAddDamageFromDirection(s.NetworkId, Damage,
+                                (360 * Arc / (Math.PI * 2)).ToInt32()
+                                );
+                    }
                 };
 
             var CurrentTarget = default(MouseEvent);
@@ -526,6 +537,7 @@ namespace FlashTowerDefense.ActionScript
                     if (a == null)
                         throw new Exception("AttachRules");
 
+                    a.NetworkId = int.MaxValue.FixedRandom();
                     a.CorpseAndBloodGone += () => list.Remove(a);
                     a.Moved +=
                         delegate
@@ -669,12 +681,17 @@ namespace FlashTowerDefense.ActionScript
                                               if (Distance < Max)
                                                   if (Hit)
                                                   {
-                                                      var Damage = 60.Random() + 40;
+                                                      var Damage = 30;
 
 
                                                       DeadManWalking.AddDamageFromDirection(Damage, Arc);
 
-
+                                                      if (NetworkAddDamageFromDirection != null)
+                                                          NetworkAddDamageFromDirection(
+                                                              DeadManWalking.NetworkId,
+                                                              Damage,
+                                                              (360 * Arc / (Math.PI * 2)).ToInt32()
+                                                          );
                                                   }
                                           }
 
@@ -807,7 +824,7 @@ namespace FlashTowerDefense.ActionScript
 
                         t.stop();
 
-                    
+
 
                         InterlevelTimeout.AtDelayDo(
                             delegate
@@ -1245,6 +1262,11 @@ namespace FlashTowerDefense.ActionScript
         public event Action GameInterlevelEnd;
 
         public SoundChannel InterlevelMusic;
+
+        public event Action<int, int, int> NetworkAddDamageFromDirection;
+
+
+        public readonly List<Actor> list;
     }
 
 

@@ -49,7 +49,7 @@ namespace FlashTowerDefense.ActionScript.Client
                     m.AttachTo(this);
                     m.ShowMessage("Running in multiplayer mode!");
 
-                   
+
 
                     c.Disconnect +=
                         delegate
@@ -109,14 +109,24 @@ namespace FlashTowerDefense.ActionScript.Client
                           c.SendMessage(SharedClass1.Messages.ReadyForServerRandomNumbers);
                       };
 
+                    m.NetworkAddDamageFromDirection +=
+                        (Id, Damage, Arc) =>
+                        {
+                            c.SendMessage(SharedClass1.Messages.AddDamageFromDirection,
+                                Id,
+                                Damage,
+                                Arc
+                            );
+                        };
+
                     var Players = new List<Warrior>();
 
                     #region message
                     c.Message +=
                         e =>
                         {
-                            try
-                            {
+                            //try
+                            //{
                                 var type = (SharedClass1.Messages)int.Parse(e.message.Type);
 
                                 if (type == SharedClass1.Messages.UserJoined)
@@ -258,11 +268,31 @@ namespace FlashTowerDefense.ActionScript.Client
                                     if (m.InterlevelMusic == null)
                                         m.GameEvent();
                                 }
-                            }
-                            catch
-                            {
-                                m.ShowMessage("bad message: " + e.message.Type);
-                            }
+                                else if (type == SharedClass1.Messages.UserAddDamageFromDirection)
+                                {
+                                    var uid = e.message.GetInt(0);
+                                    var id = e.message.GetInt(1);
+                                    var damage = e.message.GetInt(2);
+                                    var arc = (Math.PI * 2) * e.message.GetInt(3) / 360;
+
+
+                                    int cc = 0;
+                                    foreach (var v in m.list)
+                                    {
+                                        if (v.NetworkId == id)
+                                        {
+                                            cc++;
+
+                                            v.AddDamageFromDirection(damage, arc);
+                                        }
+                                    }
+                                    //m.ShowMessage("damage: " + id + " by " + damage + " : " + cc);
+                                }
+                            //}
+                            //catch
+                            //{
+                            //    m.ShowMessage("bad message: " + e.message.Type);
+                            //}
                         };
                     #endregion
 

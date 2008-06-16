@@ -39,22 +39,7 @@ namespace FlashTowerDefense.Server
             // every 100th millisecond (10 times a second).
             // AddTimer(new TimerCallback(tick), 30000);
 
-            AddTimer(CheckIfAllReady
-                //delegate
-                //{
-
-                    //var a = new List<object>();
-                //var r = new Random();
-
-                    //for (int i = 0; i < 32; i++)
-                //{
-                //    a.Add(r.Next(100));
-                //}
-                //var z = a.ToArray();
-
-                    //Broadcast(SharedClass1.Messages.ServerRandomNumbers, z);
-                //}
-            , 5000);
+            AddTimer(CheckIfAllReady, 5000);
         }
 
         List<Player> PlayersWithActiveWarzone;
@@ -113,6 +98,7 @@ namespace FlashTowerDefense.Server
                     if (Cancelled.Count == PlayersWithActiveWarzone.Count)
                     {
                         // end of day for those guys
+                        PlayersWithActiveWarzone = null;
                     }
                 }
             }
@@ -157,6 +143,15 @@ namespace FlashTowerDefense.Server
                 player.GameEventStatus = Player.GameEventStatusEnum.Ready;
             else if (e == SharedClass1.Messages.CancelServerRandomNumbers)
                 player.GameEventStatus = Player.GameEventStatusEnum.Cancelled;
+            if (e == SharedClass1.Messages.AddDamageFromDirection)
+            {
+                foreach (var v in Users)
+                {
+                    if (v.UserId != player.UserId)
+                        Send(v, SharedClass1.Messages.UserAddDamageFromDirection, player.UserId, m.GetInt(0), m.GetInt(1), m.GetInt(2));
+                }
+                
+            }
         }
 
         /// <summary>When a user enters this game instance</summary>

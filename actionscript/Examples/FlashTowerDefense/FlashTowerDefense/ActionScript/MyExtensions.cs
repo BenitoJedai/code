@@ -78,6 +78,11 @@ namespace FlashTowerDefense.ActionScript
             e[e.Length.Random().ToInt32()]();
         }
 
+        public static int FixedRandom(this int e)
+        {
+            return Convert.ToInt32(((double)e).FixedRandom());
+        }
+
         public static double FixedRandom(this double e)
         {
             if (ByChance_RandomNumbers == null)
