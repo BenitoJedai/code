@@ -43,5 +43,6 @@ echo - %2
 :: -compiler.verbose-stacktraces 
 :: call C:\util\flex2\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 ::call C:\util\flex\bin\mxmlc.exe -debug -warnings=false -keep-as3-metadata -incremental=true -output=%2.swf -sp=. %1/%2.as
-call C:\util\flex\bin\mxmlc.exe -use-network -debug -compiler.verbose-stacktraces -warnings=false -keep-as3-metadata -incremental=true -output=%2.swf -sp=. %1/%2.as
+::call C:\util\flex\bin\mxmlc.exe -use-network -debug -compiler.verbose-stacktraces -warnings=false -keep-as3-metadata -incremental=true -output=%2.swf -sp=. %1/%2.as
+call C:\util\flex\bin\mxmlc.exe -use-network -warnings=false -incremental=true -output=%2.swf -sp=. %1/%2.as
 goto :eof

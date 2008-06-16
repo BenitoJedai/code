@@ -27,28 +27,42 @@ namespace FlashTowerDefense.Server
             // In this case, we're sending out a onetime "delayedhello"
             // message 10000 milliseconds (10 seconds) after the 
             // game is started
-            ScheduleCallback(delegate
-            {
-                Broadcast("delayedhello");
-            }, 10000);
+            //ScheduleCallback(delegate
+            //{
+            //    Broadcast("delayedhello");
+            //}, 10000);
 
             // You can setup timers to issue regular callbacks
             // in this case, the tick() method will be called
             // every 100th millisecond (10 times a second).
             // AddTimer(new TimerCallback(tick), 30000);
 
+            AddTimer(
+                delegate
+                {
+                    var a = new List<object>();
+                    var r = new Random();
 
+                    for (int i = 0; i < 32; i++)
+                    {
+                        a.Add(r.Next(100));
+                    }
+                    var z = a.ToArray();
+
+                    Broadcast(SharedClass1.Messages.ServerRandomNumbers, z);
+                }
+            , 1500);
         }
 
         /// <summary>Timer callback scheduled to be called 10 times a second in the AddTimer() call in GameStarted()</summary>
-        private void tick()
-        {
+        //private void tick()
+        //{
 
-            Console.WriteLine("Use Console.WriteLine() for easy debugging");
+        //    Console.WriteLine("Use Console.WriteLine() for easy debugging");
 
-            RefreshDebugView(); // update the visual debugging view
-            //Broadcast("tick");
-        }
+        //    RefreshDebugView(); // update the visual debugging view
+        //    //Broadcast("tick");
+        //}
 
         /// <summary>This message is called whenever a player sends a message into the game.</summary>
         public override void GotMessage(Player player, Message m)
@@ -79,6 +93,10 @@ namespace FlashTowerDefense.Server
             //player.Send("welcometogame", Users.Length); // send a message with the amount users in the game
 
             Broadcast(SharedClass1.Messages.UserJoined, player.Username, player.UserId);
+
+           
+            //Send(player, SharedClass1.Messages.ServerRandomNumbers, z);
+            // we need to resync the players now
         }
 
         /// <summary>When a user leaves the game instance</summary>
@@ -87,12 +105,17 @@ namespace FlashTowerDefense.Server
             Broadcast(SharedClass1.Messages.UserLeft, player.Username, player.UserId);
         }
 
+        public void Send(Player v, Shared.SharedClass1.Messages type, params object[] e)
+        {
+            v.Send(((int)type).ToString(), e);
+        }
+
         public void Send(int id, Shared.SharedClass1.Messages type, params object[] e)
         {
             foreach (var v in Users)
             {
                 if (v.UserId == id)
-                    v.Send(((int)type).ToString(), e);
+                    Send(v, type, e);
             }
         }
 
@@ -100,21 +123,21 @@ namespace FlashTowerDefense.Server
         {
             Broadcast(((int)type).ToString(), e);
         }
-        /// <summary>
-        /// This method can be used to generate a visual debugging image, that
-        /// will be displayed in the Development Server. 
-        /// Call RefreshDebugView() to update image.
-        /// </summary>
-        public override Image GenerateDebugImage()
-        {
-            // example code creating a 100x100 image and drawing the string "hello world" on it.
-            Bitmap image = new Bitmap(100, 100);
-            using (Graphics g = Graphics.FromImage(image))
-            {
-                g.FillRectangle(Brushes.DarkGray, 0, 0, 100, 100);
-                g.DrawString("Hello World", new Font("verdana", 10F), Brushes.Black, 0, 0);
-            }
-            return image;
-        }
+        ///// <summary>
+        ///// This method can be used to generate a visual debugging image, that
+        ///// will be displayed in the Development Server. 
+        ///// Call RefreshDebugView() to update image.
+        ///// </summary>
+        //public override Image GenerateDebugImage()
+        //{
+        //    // example code creating a 100x100 image and drawing the string "hello world" on it.
+        //    Bitmap image = new Bitmap(100, 100);
+        //    using (Graphics g = Graphics.FromImage(image))
+        //    {
+        //        g.FillRectangle(Brushes.DarkGray, 0, 0, 100, 100);
+        //        g.DrawString("Hello World", new Font("verdana", 10F), Brushes.Black, 0, 0);
+        //    }
+        //    return image;
+        //}
     }
 }

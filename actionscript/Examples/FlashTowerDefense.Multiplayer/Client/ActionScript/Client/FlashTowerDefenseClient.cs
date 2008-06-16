@@ -33,7 +33,7 @@ namespace FlashTowerDefense.ActionScript.Client
         /// </summary>
         public FlashTowerDefenseClient()
         {
-            var c = NonobaAPI.MakeMultiplayer(stage);
+            var c = NonobaAPI.MakeMultiplayer(stage, "titanium");
 
             c.Init +=
                 delegate
@@ -48,6 +48,8 @@ namespace FlashTowerDefense.ActionScript.Client
 
                     m.AttachTo(this);
                     m.ShowMessage("Running in multiplayer mode!");
+
+                   
 
                     c.Disconnect +=
                         delegate
@@ -224,6 +226,24 @@ namespace FlashTowerDefense.ActionScript.Client
                                 {
                                     Sounds.shotgun2.ToSoundAsset().play();
                                 }
+                                else if (type == SharedClass1.Messages.ServerMessage)
+                                {
+                                    m.ShowMessage("Server: " + e.message.GetString(0));
+                                }
+                                else if (type == SharedClass1.Messages.ServerRandomNumbers)
+                                {
+                                    if (MyExtensions.ByChance_RandomNumbers == null)
+                                        MyExtensions.ByChance_RandomNumbers = new Queue<double>();
+                                    else
+                                        MyExtensions.ByChance_RandomNumbers.Clear();
+
+                                    for (int i = 0; i < e.message.length; i++)
+                                    {
+                                        MyExtensions.ByChance_RandomNumbers.Enqueue(e.message.GetInt(i) / 100.0);
+                                    }
+
+                                    m.GameEvent();
+                                }
                             }
                             catch
                             {
@@ -231,6 +251,8 @@ namespace FlashTowerDefense.ActionScript.Client
                             }
                         };
                     #endregion
+
+                  
 
                     SendTeleportTo();
                 };

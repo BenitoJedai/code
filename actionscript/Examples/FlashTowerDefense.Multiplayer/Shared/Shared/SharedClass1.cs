@@ -41,6 +41,9 @@ namespace FlashTowerDefense.Shared
             TeleportTo,
             WalkTo,
             FiredShotgun,
+
+            ServerMessage,
+            ServerRandomNumbers,
         }
 
 

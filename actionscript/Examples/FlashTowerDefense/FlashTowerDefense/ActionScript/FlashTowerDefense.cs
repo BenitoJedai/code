@@ -515,7 +515,7 @@ namespace FlashTowerDefense.ActionScript
 
 
 
-            Func<double> GetEntryPointY = () => (Height * 0.8).Random() + Height * 0.1;
+            Func<double> GetEntryPointY = () => (Height * 0.8).FixedRandom() + Height * 0.1;
 
 
 
@@ -773,6 +773,19 @@ namespace FlashTowerDefense.ActionScript
             ShowMessage("Press 'Enter' to exit the machinegun");
             //ShowMessage("Day " + CurrentLevel);
 
+            GameEvent =
+                delegate
+                {
+                    // new actors if we got less 10 
+                    if (InterlevelMusic != null)
+                        return;
+
+                    if (list.Where(i => i.IsAlive).Count() < 8)
+                    {
+
+                        AddNewActorsToMap(UpdateScoreBoard, GetEntryPointY, AttachRules);
+                    }
+                };
 
 
             (1500).AtInterval(
@@ -821,13 +834,8 @@ namespace FlashTowerDefense.ActionScript
                     }
 
 
-                    // new actors if we got less 10 
                     if (CanAutoSpawnEnemies)
-                        if (list.Where(i => i.IsAlive).Count() < 8)
-                        {
-
-                            AddNewActorsToMap(UpdateScoreBoard, GetEntryPointY, AttachRules);
-                        }
+                        GameEvent();
                 }
             );
 
@@ -1218,6 +1226,8 @@ namespace FlashTowerDefense.ActionScript
         public readonly Timer EgoMovedSlowTimer;
 
         public event Action EgoFiredShotgun;
+
+        public readonly Action GameEvent;
 
     }
 

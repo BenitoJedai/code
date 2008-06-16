@@ -78,9 +78,34 @@ namespace FlashTowerDefense.ActionScript
             e[e.Length.Random().ToInt32()]();
         }
 
+        public static double FixedRandom(this double e)
+        {
+            if (ByChance_RandomNumbers == null)
+                return new Random().NextDouble() * e;
+
+            if (ByChance_RandomNumbers.Count == 0)
+                throw new Exception("Need more random numbers!");
+
+            var z = ByChance_RandomNumbers.Dequeue();
+            ByChance_RandomNumbers.Enqueue(z);
+
+            return z * e;
+        }
+
+        public static Queue<double> ByChance_RandomNumbers;
+
         public static bool ByChance(this double e)
         {
-            return new Random().NextDouble() < e;
+            if (ByChance_RandomNumbers == null)
+                return new Random().NextDouble() < e;
+
+            if (ByChance_RandomNumbers.Count == 0)
+                throw new Exception("Need more random numbers!");
+
+            var z = ByChance_RandomNumbers.Dequeue();
+            ByChance_RandomNumbers.Enqueue(z);
+
+            return z < e;
         }
 
         public static Point MoveToArc(this Point n, double arc, double distance)
