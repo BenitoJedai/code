@@ -28,7 +28,7 @@ namespace FlashTowerDefense.ActionScript
     [SWF(width = Width, height = Height, backgroundColor = ColorWhite)]
     public partial class FlashTowerDefense : Sprite
     {
-        public const int Width = 600;
+        public const int Width = 560;
         public const int Height = 480;
 
         public const uint ColorRed = 0xff0000;
