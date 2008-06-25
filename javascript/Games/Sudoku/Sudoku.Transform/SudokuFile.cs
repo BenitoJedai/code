@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace Sudoku.Transform
 {
@@ -214,17 +215,42 @@ namespace Sudoku.Transform
         [Script]
         public class SymbolMappings
         {
-            public readonly int[] Value = Enumerable.Range(1, 9).ToArray();
-            public readonly int[] X = Enumerable.Range(1, 9).ToArray();
-            public readonly int[] Y = Enumerable.Range(1, 9).ToArray();
+            public int[] Value = Enumerable.Range(1, 9).ToArray();
+            public int[] X = Enumerable.Range(1, 9).ToArray();
+            public int[] Y = Enumerable.Range(1, 9).ToArray();
 
             public bool Rotated;
 
+            public void Randomize()
+            {
+                Randomize(() => new Random().NextDouble());
+            }
+
+            public void Randomize(Func<double> random)
+            {
+                Rotated = random() < 0.5;
+
+                Value = Value.Randomize().ToArray();
+
+                X = RandomizeByBlock(random, X);
+                Y = RandomizeByBlock(random, Y);
+            }
+
+            static int[] RandomizeByBlock(Func<double> random, int[] e)
+            {
+                return new[]
+                    {
+                        new [] { e[0], e[1], e[2] }.Randomize(),
+                        new [] { e[3], e[4], e[5] }.Randomize(),
+                        new [] { e[6], e[7], e[8] }.Randomize(),
+                    }.Randomize().SelectMany(i => i).ToArray();
+            }
         }
 
         public SymbolMappings Mappings = new SymbolMappings();
 
         public readonly string Description;
+
 
         public SudokuFile(string data)
         {
