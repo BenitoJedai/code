@@ -33,12 +33,13 @@ call :build javascript\Controls\LayeredControl\ScriptCoreLib.Controls.LayeredCon
 
 :: rebuild templates
 call :build templates\OrcasScriptApplication\OrcasScriptApplication.sln
-call :build templates\AppletTemplate\DemoApplet.sln
 call :build templates\OrcasFlashApplication\OrcasFlashApplication\OrcasFlashApplication.sln
-call :build templates\OrcasWebApplication\OrcasWebApplication.sln
-call :build templates\OrcasVisualBasicFlashApplication\OrcasVisualBasicFlashApplication.sln
-call :build templates\OrcasVisualBasicScriptApplication\OrcasVisualBasicScriptApplication.sln
-call :build templates\OrcasWebSite\OrcasWebSite.sln
+
+:: call :build templates\AppletTemplate\DemoApplet.sln
+:: call :build templates\OrcasWebApplication\OrcasWebApplication.sln
+:: call :build templates\OrcasVisualBasicFlashApplication\OrcasVisualBasicFlashApplication.sln
+:: call :build templates\OrcasVisualBasicScriptApplication\OrcasVisualBasicScriptApplication.sln
+:: call :build templates\OrcasWebSite\OrcasWebSite.sln
 
 
 

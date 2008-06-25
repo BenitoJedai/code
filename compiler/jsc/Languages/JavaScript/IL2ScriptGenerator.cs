@@ -443,7 +443,10 @@ namespace jsc
                     MethodBase x = w.Session.ResolveImplementationTrace(m.DeclaringType, m);
 
                     if (x == null)
+                    {
                         Task.Error("No implementation found for this native method, please implement [{0}]", sw.ToString());
+                        Task.Warning("Did you reference ScriptCoreLib via IAssemblyReferenceToken?", sw.ToString());
+                    }
                     else
                         Task.Error("method was found, but too late: [{0}]", x.Name);
 

@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Editor", "Sudoku.Edi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Transform", "Sudoku.Transform\Sudoku.Transform.csproj", "{F18CE9CA-B71D-43D7-AF50-2DC2D3A6859A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Console", "Sudoku.Console\Sudoku.Console.csproj", "{0709058A-5B0B-403B-AC21-6F319023193D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{F18CE9CA-B71D-43D7-AF50-2DC2D3A6859A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F18CE9CA-B71D-43D7-AF50-2DC2D3A6859A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F18CE9CA-B71D-43D7-AF50-2DC2D3A6859A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0709058A-5B0B-403B-AC21-6F319023193D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0709058A-5B0B-403B-AC21-6F319023193D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0709058A-5B0B-403B-AC21-6F319023193D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0709058A-5B0B-403B-AC21-6F319023193D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

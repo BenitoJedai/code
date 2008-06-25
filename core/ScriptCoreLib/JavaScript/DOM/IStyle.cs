@@ -277,10 +277,19 @@ namespace ScriptCoreLib.JavaScript.DOM
         #region border
         public string border;
         public string borderStyle;
+
         public string borderRight;
+        public string borderRightColor;
+
         public string borderLeft;
+        public string borderLeftColor;
+
         public string borderTop;
+        public string borderTopColor;
+
         public string borderBottom;
+        public string borderBottomColor;
+
         public string borderWidth;
         public string borderColor;
         #endregion

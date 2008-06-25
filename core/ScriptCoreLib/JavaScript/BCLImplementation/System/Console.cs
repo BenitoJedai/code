@@ -191,6 +191,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             __BrowserConsole.WriteLine(e);
         }
 
+        public static void WriteLine()
+        {
+            __BrowserConsole.WriteLine();
+        }
+
         public static void WriteLine(string e, object x)
         {
             __BrowserConsole.WriteLine(string.Format(e, x));
@@ -199,6 +204,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public static void Write(string e)
         {
             __BrowserConsole.Write(e);
+        }
+
+        public static void Write(object e)
+        {
+            __BrowserConsole.Write(e.ToString());
         }
     }
 }
