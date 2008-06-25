@@ -58,10 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
-    <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
-    <Content Include="docs\help.txt" />
-    <Content Include="docs\SourceAnalysis.txt" />
     <EmbeddedResource Include="web\assets\Sudoku.Game\Level1.txt" />
   </ItemGroup>
   <ItemGroup>

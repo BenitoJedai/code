@@ -4,6 +4,7 @@ using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.Extensions;
 using System.Collections.Generic;
 using Sudoku.Transform;
+using ScriptCoreLib.ActionScript.flash.filters;
 
 namespace Sudoku.ActionScript
 {
@@ -22,15 +23,36 @@ namespace Sudoku.ActionScript
 
             t.Mappings.Randomize();
 
+            const int padding = 2;
+            const int w = 28;
+            const int h = 28;
+
             for (int y = 1; y < 10; y++)
                 for (int x = 1; x < 10; x++)
                 {
-                    new TextField
+                    var s = new Sprite();
+
+
+                    var text = new TextField
                     {
                         text = t[x, y].ToString(),
-                        x = 28 * x,
-                        y = 28 * y
-                    }.AttachTo(this);
+                        mouseEnabled = false
+                    }.AttachTo(s);
+
+                    text.autoSize = TextFieldAutoSize.LEFT;
+                    text.x = -text.width / 2;
+                    text.y = -text.height / 2;
+
+                    s.graphics.lineStyle(3, 0xff5300, 1);
+                    s.graphics.drawRect(-w / 2, -h / 2, w, h);
+                    
+                    // s.filters = new[] { new BevelFilter() };
+
+                    s.x = (w + padding) * x;
+                    s.y = (h + padding) * y;
+
+                    s.AttachTo(this);
+
                 }
         }
     }
