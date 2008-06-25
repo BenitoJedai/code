@@ -178,7 +178,7 @@ namespace jsc
                     if (s.Length == 1)
                         return s[0];
                     else
-                        throw new Exception("multiple stack entries instead of one");
+                        throw new NotSupportedException("multiple stack entries instead of one");
                 }
             }
 

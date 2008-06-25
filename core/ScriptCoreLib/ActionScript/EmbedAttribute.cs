@@ -31,6 +31,7 @@ namespace ScriptCoreLib.ActionScript
             foreach (var p in
                 new Dictionary<string, string>
                 {
+                    {".txt", "application/octet-stream"},
                     {".xml", "application/octet-stream"},
                     {".ttf", "application/x-font"}
                 })

@@ -11,6 +11,20 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         )]
     internal class __String
     {
+        public static string Concat(object arg0)
+        {
+            if (arg0 == null)
+            {
+                return "";
+            }
+            return arg0.ToString();
+        }
+
+ 
+
+ 
+
+
         [Script(StringConcatOperator = "+")]
         public static string Concat(object a, object b, object c)
         {
@@ -87,20 +101,26 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             return default(int);
         }
 
+        [Script(ExternalTarget = "indexOf")]
+        public int IndexOf(string str, int start)
+        {
+            return default(int);
+        }
+
         [Script(ExternalTarget = "lastIndexOf")]
         public int LastIndexOf(string str)
         {
             return default(int);
         }
 
-        [Script(ExternalTarget = "substring")]
+        [Script(ExternalTarget = "substr")]
         public string Substring(int start)
         {
             return default(string);
         }
 
 
-        [Script(ExternalTarget = "substring")]
+        [Script(ExternalTarget = "substr")]
         public string Substring(int start, int length)
         {
             return default(string);

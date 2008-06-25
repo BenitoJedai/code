@@ -6,7 +6,7 @@ using System;
 namespace ScriptCoreLib.Shared.Lambda
 {
     [Script]
-    public static partial class Lambda
+    public static partial class LambdaExtensions
     {
         public static T Previous<T>(this IEnumerable<T> source, Func<T, bool> predicate)
         {
@@ -154,6 +154,11 @@ namespace ScriptCoreLib.Shared.Lambda
         {
             return (ix, iy) => f(ix + x, iy + y);
         }
+
+        public static Func<int, int, T> WithOffset<T>(this Func<int, int, T> f, int x, int y)
+        {
+            return (ix, iy) => f(ix + x, iy + y);
+        }
     }
 
     [Script]
@@ -164,7 +169,7 @@ namespace ScriptCoreLib.Shared.Lambda
 
 
 
-    partial class Lambda
+    partial class LambdaExtensions
     {
         public static global::System.Func<A, T> Y<A, T>(this YFunc<A, T> le)
         {
@@ -189,7 +194,7 @@ namespace ScriptCoreLib.Shared.Lambda
 
 
 
-    partial class Lambda
+    partial class LambdaExtensions
     {
         public static Action<A> Y<A>(this YAction<A> le)
         {
@@ -202,7 +207,7 @@ namespace ScriptCoreLib.Shared.Lambda
         }
     }
 
-    partial class Lambda
+    partial class LambdaExtensions
     {
         public static TSeed Aggregate<TSeed>(this TSeed e, Action<TSeed> a)
         {

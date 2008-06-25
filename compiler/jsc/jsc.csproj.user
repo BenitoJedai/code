@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>X:\c#\jsc\svn\javascript\Games\Sudoku\Sudoku.Editor\bin\Debug\</StartWorkingDirectory>
-    <StartArguments>Sudoku.Editor.dll  -js</StartArguments>
+    <StartWorkingDirectory>X:\c#\jsc\svn\actionscript\Games\Sudoku\Sudoku.Game\bin\Debug</StartWorkingDirectory>
+    <StartArguments>Sudoku.Transform.dll  -as</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

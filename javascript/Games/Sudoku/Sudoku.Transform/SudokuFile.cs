@@ -268,6 +268,10 @@ namespace Sudoku.Transform
 
 
             var ValueStart = data.IndexInfoOf(Environment.NewLine + Environment.NewLine);
+
+            if (ValueStart.Index == -1)
+                throw new Exception("Cannot find the first double spacer");
+
             var HiddenStart = ValueStart.IndexInfoOf(Environment.NewLine + Environment.NewLine);
 
             Description = ValueStart.BeforeSubject;
@@ -278,6 +282,9 @@ namespace Sudoku.Transform
                 {
                     var t = p.ReadTrimmedLine();
                     p = t;
+
+                    if (t.Text.Length != 9)
+                        throw new Exception("Exactly 9 chars expected instead of: " + t.Text);
 
                     for (int x = 1; x < 10; x++)
                         this[x, y].Value = int.Parse(t.Text.Substring(x - 1, 1));
@@ -290,6 +297,9 @@ namespace Sudoku.Transform
                 {
                     var t = p.ReadTrimmedLine();
                     p = t;
+
+                    if (t.Text.Length != 9)
+                        throw new Exception("Exactly 9 chars expected instead of: " + t.Text);
 
                     for (int x = 1; x < 10; x++)
                         this[x, y].Hidden = 0 == int.Parse(t.Text.Substring(x - 1, 1));

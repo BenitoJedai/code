@@ -53,7 +53,6 @@
   <ItemGroup>
     <Compile Include="ActionScript\BCLImplementation\Query\Enumerable.Concat.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Func.cs" />
-    <Compile Include="ActionScript\Lambda\LambdaExtensions.cs" />
     <Compile Include="ActionScript\BCLImplementation\Query\Enumerable.Methods.cs" />
     <Compile Include="ActionScript\BCLImplementation\Query\Enumerable.cs" />
     <Compile Include="ActionScript\BCLImplementation\Query\Enumerable.Select.cs" />

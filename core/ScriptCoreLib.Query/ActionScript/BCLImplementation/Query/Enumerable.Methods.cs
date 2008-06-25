@@ -17,6 +17,66 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
 
     internal static partial class __Enumerable
     {
+        public static TSource Single<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            return source.Where(predicate).Single();
+        }
+
+        public static TSource Single<TSource>(this IEnumerable<TSource> source)
+        {
+            if (source == null)
+            {
+                throw Error.ArgumentNull("source");
+            }
+
+            TSource current;
+
+            using (IEnumerator<TSource> enumerator = source.AsEnumerable().GetEnumerator())
+            {
+                if (!enumerator.MoveNext())
+                {
+                    throw Error.NoElements();
+                }
+                current = enumerator.Current;
+
+                if (enumerator.MoveNext())
+                {
+                    throw Error.MoreThanOneElement();
+
+
+                }
+            }
+
+            return current;
+        }
+
+
+        public static TSource SingleOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            return source.Where(predicate).SingleOrDefault();
+        }
+
+        public static TSource SingleOrDefault<TSource>(this IEnumerable<TSource> source)
+        {
+            if (source == null)
+            {
+                throw Error.ArgumentNull("source");
+            }
+
+            var current = default(TSource);
+
+            using (IEnumerator<TSource> enumerator = source.AsEnumerable().GetEnumerator())
+            {
+                if (enumerator.MoveNext())
+                    current = enumerator.Current;
+
+
+            }
+
+            return current;
+        }
+
+
         public static bool Contains<TSource>(this IEnumerable<TSource> source, TSource value)
         {
             if (source == null)

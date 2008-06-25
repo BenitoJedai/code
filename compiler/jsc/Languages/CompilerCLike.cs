@@ -789,7 +789,12 @@ namespace jsc.Script
                             ILInstruction _i = _p.Instruction;
 
                             if (_i.IsStoreInstruction)
-                                WriteReturnParameter(_p, _i.StackBeforeStrict.Single().SingleStackInstruction);
+                            {
+                                if (_i.StackBeforeStrict.Single().StackInstructions.Length == 1)
+                                    WriteReturnParameter(_p, _i.StackBeforeStrict.Single().SingleStackInstruction);
+                                else
+                                    WriteReturnParameter(p, left);
+                            }
                             else
                                 WriteReturnParameter(_p, _i);
 

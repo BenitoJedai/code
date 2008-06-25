@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{ABD50D75-B4B3-417B-A2C6-D0C3DE2948C2}</ProjectGuid>
+    <ProjectGuid>{30E1D036-31C6-414F-8C2D-8B2A5C81C4E2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Sudoku</RootNamespace>
-    <AssemblyName>Sudoku.Editor</AssemblyName>
+    <AssemblyName>Sudoku.Game</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -34,10 +34,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Net.dll</HintPath>
-    </Reference>
     <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
@@ -54,20 +50,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Editor\Assets.cs" />
-    <Compile Include="Editor\ThemedViewer.cs" />
-    <Compile Include="Editor\MyExtensions.cs" />
-    <Compile Include="Editor\Viewer.cs" />
+    <Compile Include="ActionScript\Assets.cs" />
+    <Compile Include="ActionScript\OrcasFlashApplication.cs" />
+    <Compile Include="ActionScript\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
+    <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
-    <EmbeddedResource Include="web\assets\Sudoku.Editor\Level1.txt" />
+    <Content Include="docs\help.txt" />
+    <Content Include="docs\SourceAnalysis.txt" />
+    <EmbeddedResource Include="web\assets\Sudoku.Game\Level1.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sudoku.Transform\Sudoku.Transform.csproj">
+    <None Include="tools\build.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\javascript\Games\Sudoku\Sudoku.Transform\Sudoku.Transform.csproj">
       <Project>{F18CE9CA-B71D-43D7-AF50-2DC2D3A6859A}</Project>
       <Name>Sudoku.Transform</Name>
     </ProjectReference>
@@ -81,6 +82,8 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetFileName)  -js</PostBuildEvent>
+    <PostBuildEvent>pushd ..\..\tools\
+call build.bat $(ProjectName)
+popd</PostBuildEvent>
   </PropertyGroup>
 </Project>
