@@ -69,6 +69,7 @@
     <Compile Include="ActionScript\Monetized\MochiPreloader.cs" />
     <Compile Include="ActionScript\MyExtensions.cs" />
     <Compile Include="ActionScript\KeyboardButton.cs" />
+    <Compile Include="ActionScript\WeaponInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>

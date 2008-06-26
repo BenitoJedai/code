@@ -387,7 +387,7 @@ namespace FlashTowerDefense.ActionScript
 
 
 
-            list = new List<Actor>();
+            BadGuys = new List<Actor>();
 
             var BulletsFired_MachineGun = 0;
             var BulletsFired_Shotgun = 0;
@@ -414,7 +414,7 @@ namespace FlashTowerDefense.ActionScript
                         {
                             bullets = BulletsFired_MachineGun,
                             runaways,
-                            gore = (100 * (double)list.Count(i => !i.IsAlive) / (double)list.Count()).Round() + "%",
+                            gore = (100 * (double)BadGuys.Count(i => !i.IsAlive) / (double)BadGuys.Count()).Round() + "%",
                             score,
                             level = CurrentLevel
                         }.ToString();
@@ -427,24 +427,12 @@ namespace FlashTowerDefense.ActionScript
 
                     UpdateScoreBoard();
 
+                    var DamagePointOfOrigin = new Point { x = PrebuiltTurret.x, y = PrebuiltTurret.y };
+                    var DamageDirection = new Point { x = e.stageX - PrebuiltTurret.x, y = e.stageY - PrebuiltTurret.y }.GetRotation();
 
-                    foreach (var s in
-                   from ss in list
-                   where ss.IsAlive
-                   where new Point { x = ss.x - e.stageX, y = ss.y - e.stageY }.length < 32
-                   select ss)
-                    {
+                    DoSomeDamage(DamagePointOfOrigin, DamageDirection, WeaponInfo.Machinegun);
 
-                        var Damage = 30;
-                        var Arc = new Point { x = s.x - PrebuiltTurret.x, y = s.y - PrebuiltTurret.y }.GetRotation();
 
-                        s.AddDamageFromDirection(Damage, Arc);
-
-                        if (NetworkAddDamageFromDirection != null)
-                            NetworkAddDamageFromDirection(s.NetworkId, Damage,
-                                (360 * Arc / (Math.PI * 2)).ToInt32()
-                                );
-                    }
                 };
 
             var CurrentTarget = default(MouseEvent);
@@ -516,8 +504,11 @@ namespace FlashTowerDefense.ActionScript
 
                     if (EgoIsOnTheField())
                     {
+                        Mouse.show();
                         return;
                     }
+
+                    Mouse.hide();
 
                     Aim.x = CurrentTarget.stageX;
                     Aim.y = CurrentTarget.stageY;
@@ -539,13 +530,13 @@ namespace FlashTowerDefense.ActionScript
                         throw new Exception("AttachRules");
 
                     a.NetworkId = int.MaxValue.FixedRandom();
-                    a.CorpseAndBloodGone += () => list.Remove(a);
+                    a.CorpseAndBloodGone += () => BadGuys.Remove(a);
                     a.Moved +=
                         delegate
                         {
                             if (a.x > (Width + OffscreenMargin))
                             {
-                                a.RemoveFrom(list).Orphanize();
+                                a.RemoveFrom(BadGuys).Orphanize();
 
                                 if (CanFire)
                                 {
@@ -566,9 +557,9 @@ namespace FlashTowerDefense.ActionScript
                         a.Crate = new Animation(Images.box).AddTo(Boxes);
                         a.NetworkId = int.MaxValue.FixedRandom();
                     }
-                    
 
-                    
+
+
 
                     a.Die +=
                         delegate
@@ -585,7 +576,7 @@ namespace FlashTowerDefense.ActionScript
                             }
                         };
 
-                    a.AttachTo(GetWarzone()).AddTo(list);
+                    a.AttachTo(GetWarzone()).AddTo(BadGuys);
 
                     if (a.PlayHelloSound != null)
                         a.PlayHelloSound();
@@ -599,7 +590,7 @@ namespace FlashTowerDefense.ActionScript
             Action StageIsReady =
                 delegate
                 {
-                    
+
                     //stage.scaleMode = StageScaleMode.NO_BORDER;
 
                     // multiplay ?
@@ -668,128 +659,96 @@ namespace FlashTowerDefense.ActionScript
                             }
                     };
 
+                    var KeyMusic = new KeyboardButton(stage)
+                    {
+                        Buttons = new[] { Keyboard.M },
+                        Up = () => ToggleMusic()
+                    };
 
-                    #region keyboard
-            
+                    var KeyControl = new KeyboardButton(stage)
+                    {
+                        Buttons = new[] { Keyboard.CONTROL },
+                        Filter = EgoIsOnTheField,
+                        Up =
+                            delegate
+                            {
+                                Sounds.shotgun2.ToSoundAsset().play();
 
-                    stage.keyUp +=
-                      e =>
-                      {
-                          if (!CanFire)
-                              return;
+                                if (EgoFiredShotgun != null)
+                                    EgoFiredShotgun();
 
-                          //if (e.keyCode == Keyboard.M)
-                          //    ToggleMusic();
+                                BulletsFired_Shotgun++;
 
-                          if (EgoIsOnTheField())
-                          {
-                              if (e.keyCode == Keyboard.CONTROL)
-                              {
-                                  if (EgoIsOnTheField())
-                                  {
-                                      Sounds.shotgun2.ToSoundAsset().play();
+                                var DamagePointOfOrigin = new Point { x = Ego.x, y = Ego.y };
+                                var DamageDirection = EgoAimDirection;
 
-                                      if (EgoFiredShotgun != null)
-                                          EgoFiredShotgun();
-
-                                      BulletsFired_Shotgun++;
-
-                                      foreach (var DeadManWalking in list.ToArray())
-                                      {
-                                          if (DeadManWalking.IsAlive)
-                                          {
-                                              var Location = new Point { x = Ego.x, y = Ego.y }.MoveToArc(EgoAimDirection, -16);
-                                              var Offset = new Point { y = DeadManWalking.y - Location.y, x = DeadManWalking.x - Location.x };
-                                              var Arc = Offset.GetRotation();
-                                              var Distance = Offset.length;
-                                              var LessThan = Arc < ((EgoAimDirection % (Math.PI * 2)) + 0.4);
-                                              var MoreThan = Arc > ((EgoAimDirection % (Math.PI * 2)) - 0.4);
-                                              var Hit = LessThan && MoreThan;
-                                              var Max = 180;
-
-                                              if (Distance < Max)
-                                                  if (Hit)
-                                                  {
-                                                      var Damage = 30;
+                                DoSomeDamage(DamagePointOfOrigin, DamageDirection, WeaponInfo.Shotgun);
+                            }
+                    };
 
 
-                                                      DeadManWalking.AddDamageFromDirection(Damage, Arc);
-
-                                                      if (NetworkAddDamageFromDirection != null)
-                                                          NetworkAddDamageFromDirection(
-                                                              DeadManWalking.NetworkId,
-                                                              Damage,
-                                                              (360 * Arc / (Math.PI * 2)).ToInt32()
-                                                          );
-                                                  }
-                                          }
-
-                                      }
-                                  }
-                              }
-                          }
-
-                          if (e.keyCode == Keyboard.ENTER)
-                          {
-                              if (EgoIsOnTheField())
-                              {
-                                  if (EgoIsCloseToTurret())
-                                  {
-                                      if (EgoCanManTurret())
-                                      {
+                    var KeyEnter = new KeyboardButton(stage)
+                    {
+                        Buttons = new[] { Keyboard.ENTER, Keyboard.F },
+                        Up =
+                            delegate
+                            {
+                                if (EgoIsOnTheField())
+                                {
+                                    if (EgoIsCloseToTurret())
+                                    {
+                                        if (EgoCanManTurret())
+                                        {
 
 
-                                          Ego.Orphanize();
-                                          Ego.RunAnimation = false;
-                                          EgoMoveUpTimer.stop();
-                                          EgoAimMoveTimer.stop();
-                                          PrebuiltTurretBlinkTimer.stop();
-                                          PrebuiltTurret.alpha = 1;
+                                            Ego.Orphanize();
+                                            Ego.RunAnimation = false;
+                                            EgoMoveUpTimer.stop();
+                                            EgoAimMoveTimer.stop();
+                                            PrebuiltTurretBlinkTimer.stop();
+                                            PrebuiltTurret.alpha = 1;
 
-                                          ShowMessage("Machinegun manned!");
-                                          Mouse.hide();
+                                            ShowMessage("Machinegun manned!");
+                                            Mouse.hide();
 
-                                          if (CurrentTarget != null)
-                                          {
-                                              Aim.x = CurrentTarget.stageX;
-                                              Aim.y = CurrentTarget.stageY;
-                                          }
+                                            if (CurrentTarget != null)
+                                            {
+                                                Aim.x = CurrentTarget.stageX;
+                                                Aim.y = CurrentTarget.stageY;
+                                            }
 
-                                          Sounds.door_open.ToSoundAsset().play();
+                                            Sounds.door_open.ToSoundAsset().play();
 
-                                          if (EgoEnteredMachineGun != null)
-                                              EgoEnteredMachineGun();
-                                      }
-                                      else
-                                      {
-                                          ShowMessage("Cannot man the machinegun!");
-                                      }
-                                  }
-                                  else
-                                  {
-                                      ShowMessage("The machinegun is too far! Get closer!");
-                                  }
-                              }
-                              else
-                              {
-                                  Sounds.door_open.ToSoundAsset().play();
-                                  ShowMessage("Machinegun unmanned!");
-                                  PrebuiltTurret.alpha = 0.5;
-                                  Mouse.show();
-                                  PrebuiltTurretBlinkTimer.start();
+                                            if (EgoEnteredMachineGun != null)
+                                                EgoEnteredMachineGun();
+                                        }
+                                        else
+                                        {
+                                            ShowMessage("Cannot man the machinegun!");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        ShowMessage("The machinegun is too far! Get closer!");
+                                    }
+                                }
+                                else
+                                {
+                                    Sounds.door_open.ToSoundAsset().play();
+                                    ShowMessage("Machinegun unmanned!");
+                                    PrebuiltTurret.alpha = 0.5;
+                                    Mouse.show();
+                                    PrebuiltTurretBlinkTimer.start();
 
-                                  TeleportEgoNearTurret();
+                                    TeleportEgoNearTurret();
 
-                                  if (EgoExitedMachineGun != null)
-                                      EgoExitedMachineGun();
-                              }
-                          }
-                          //else
-                          //{
-                          //    ShowMessage(new { e.charCode, e.keyCode, e.keyLocation }.ToString());
-                          //}
-                      };
-                    #endregion
+                                    if (EgoExitedMachineGun != null)
+                                        EgoExitedMachineGun();
+                                }
+                            }
+                    };
+
+         
 
                 };
 
@@ -844,7 +803,7 @@ namespace FlashTowerDefense.ActionScript
                         }
 
                         // wait for all actors get off stage
-                        if (list.Where(i => i.IsAlive).Any())
+                        if (BadGuys.Where(i => i.IsAlive).Any())
                             return;
 
 
@@ -887,7 +846,7 @@ namespace FlashTowerDefense.ActionScript
                         if (InterlevelMusic != null)
                             return;
 
-                        if (list.Where(i => i.IsAlive).Count() < 8)
+                        if (BadGuys.Where(i => i.IsAlive).Count() < 8)
                         {
 
                             GameEvent();
@@ -905,7 +864,7 @@ namespace FlashTowerDefense.ActionScript
                     Aim.rotation += 1;
 
                     foreach (var s in
-                           from ss in list
+                           from ss in BadGuys
                            where ss.IsAlive
                            select ss)
                         s.x += s.speed;
@@ -1016,6 +975,66 @@ namespace FlashTowerDefense.ActionScript
             OnMouseDownDisableMouseOnTarget(GetWarzone(), powered_by_jsc);
         }
 
+        private void DoSomeDamage(Point DamagePointOfOrigin, double DamageDirection, WeaponInfo Weapon)
+        {
+            Weapon.VisibleBulletLines.Random().Times(
+                delegate
+                {
+                    var VisibleBullet = new Shape().AttachTo(GetWarzone());
+
+                    var RandomGray = (0x60 + 0x60.Random()).ToInt32();
+
+                    VisibleBullet.graphics.lineStyle(1, RandomGray.ToGrayColor(), 1);
+
+                    var BulletDirection = DamageDirection + (2.0.Random() - 1.0) * (Weapon.ArcRange * 0.75);
+
+                    // -32empty-from-to-empty
+
+                    var BulletDropFromRange = 32 + (Weapon.Range / 2 - 32).Random();
+                    var BulletDropFrom = DamagePointOfOrigin.MoveToArc(BulletDirection, BulletDropFromRange);
+
+                    VisibleBullet.graphics.moveTo(BulletDropFrom.x, BulletDropFrom.y);
+
+                    var BulletDropTo = DamagePointOfOrigin.MoveToArc(BulletDirection, BulletDropFromRange + (Weapon.Range.Random() / 2));
+
+                    VisibleBullet.graphics.lineTo(BulletDropTo.x, BulletDropTo.y);
+
+                    50.AtDelayDo(() => VisibleBullet.Orphanize());
+                }
+            );
+
+
+            foreach (var DeadManWalking in BadGuys.ToArray())
+            {
+                if (DeadManWalking.IsAlive)
+                {
+                    var Location = new Point { x = DamagePointOfOrigin.x, y = DamagePointOfOrigin.y }.MoveToArc(DamageDirection, -16);
+                    var Offset = new Point { y = DeadManWalking.y - Location.y, x = DeadManWalking.x - Location.x };
+                    var Arc = Offset.GetRotation();
+                    var Distance = Offset.length;
+                    var LessThan = Arc < ((DamageDirection % (Math.PI * 2)) + Weapon.ArcRange);
+                    var MoreThan = Arc > ((DamageDirection % (Math.PI * 2)) - Weapon.ArcRange);
+                    var Hit = LessThan && MoreThan;
+
+                    if (Distance < Weapon.Range)
+                        if (Hit)
+                        {
+                            // calculate damage variation here based on hit approximity
+
+                            DeadManWalking.AddDamageFromDirection(Weapon.Damage, Arc);
+
+                            if (NetworkAddDamageFromDirection != null)
+                                NetworkAddDamageFromDirection(
+                                    DeadManWalking.NetworkId,
+                                    Weapon.Damage,
+                                    Arc.RadiansToDegrees()
+                                );
+                        }
+                }
+
+            }
+        }
+
         public void TeleportEgoNearTurret()
         {
             Ego.RunAnimation = false;
@@ -1064,7 +1083,7 @@ namespace FlashTowerDefense.ActionScript
         public event Action<int> NetworkTakeCrate;
 
 
-        public readonly List<Actor> list;
+        public readonly List<Actor> BadGuys;
     }
 
 

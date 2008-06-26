@@ -19,6 +19,17 @@ namespace FlashTowerDefense.ActionScript
     [Script]
     public static class MyExtensions
     {
+        public static uint ToGrayColor(this int gray)
+        {
+            var x = (uint)gray & 0xff;
+
+            return (x << 0) + (x << 8) + (x << 16);
+        }
+        public static int RadiansToDegrees(this double Arc)
+        {
+            return (360 * Arc / (Math.PI * 2)).ToInt32();
+        }
+
         public static double GetRotation(this Point p)
         {
             var x = p.x;
@@ -115,10 +126,11 @@ namespace FlashTowerDefense.ActionScript
 
         public static Point MoveToArc(this Point n, double arc, double distance)
         {
-            n.x += Math.Cos(arc) * distance;
-            n.y += Math.Sin(arc) * distance;
-
-            return n;
+            return new Point
+            {
+                x = n.x + Math.Cos(arc) * distance,
+                y = n.y + Math.Sin(arc) * distance
+            };
         }
 
         public static T MoveToArc<T>(this T e, double arc, double distance) where T : DisplayObject
