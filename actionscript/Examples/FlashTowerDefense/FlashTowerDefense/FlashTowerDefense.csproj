@@ -60,6 +60,7 @@
     <Compile Include="ActionScript\Animation.cs" />
     <Compile Include="ActionScript\Assets\Images.cs" />
     <Compile Include="ActionScript\Assets\Sounds.cs" />
+    <Compile Include="ActionScript\FlashTowerDefense.AddNewActorsToMap.cs" />
     <Compile Include="ActionScript\FlashTowerDefense.cs" />
     <Compile Include="ActionScript\Menu.cs" />
     <Compile Include="ActionScript\Monetized\NewgroundPreloader.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="ActionScript\Monetized\MochiAd.cs" />
     <Compile Include="ActionScript\Monetized\MochiPreloader.cs" />
     <Compile Include="ActionScript\MyExtensions.cs" />
+    <Compile Include="ActionScript\KeyboardButton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>

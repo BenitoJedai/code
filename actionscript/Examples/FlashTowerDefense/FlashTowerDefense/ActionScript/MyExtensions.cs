@@ -9,7 +9,7 @@ using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.flash.media;
 using ScriptCoreLib.ActionScript.flash.filters;
-using ScriptCoreLib.ActionScript.Lambda;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.flash.geom;
 

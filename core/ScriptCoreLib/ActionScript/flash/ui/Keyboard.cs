@@ -6,47 +6,36 @@ using System.Text;
 namespace ScriptCoreLib.ActionScript.flash.ui
 {
     // http://livedocs.adobe.com/flex/3/langref/flash/ui/Keyboard.html
-    [Script(IsNative=true)]
-    public static class Keyboard
+
+    [Script(IsNative = true)]
+    public sealed class Keyboard
     {
-        #region Properties
-        /// <summary>
-        /// [static] [read-only] Specifies whether the Caps Lock key is activated (true) or not (false).
-        /// </summary>
-        public static bool capsLock { get; private set; }
-
-        /// <summary>
-        /// [static] [read-only] Specifies whether the Num Lock key is activated (true) or not (false).
-        /// </summary>
-        public static bool numLock { get; private set; }
-
-        #endregion
-
         #region Constants
+
         /// <summary>
         /// [static] Constant associated with the key code value for the A key (65).
         /// </summary>
-        public static readonly uint A = 65;
+        public const uint A = 65;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the Alternate (Option) key (18).
         /// </summary>
-        public static readonly uint ALTERNATE = 18;
+        public const uint ALTERNATE = 18;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the B key (66).
         /// </summary>
-        public static readonly uint B = 66;
+        public const uint B = 66;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the ` key (192).
         /// </summary>
-        public static readonly uint BACKQUOTE = 192;
+        public const uint BACKQUOTE = 192;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the \ key (220).
         /// </summary>
-        public static readonly uint BACKSLASH = 220;
+        public const uint BACKSLASH = 220;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the Backspace key (8).
@@ -56,7 +45,7 @@ namespace ScriptCoreLib.ActionScript.flash.ui
         /// <summary>
         /// [static] Constant associated with the key code value for the C key (67).
         /// </summary>
-        public static readonly uint C = 67;
+        public const uint C = 67;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the Caps Lock key (20).
@@ -66,17 +55,16 @@ namespace ScriptCoreLib.ActionScript.flash.ui
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly Array CharCodeStrings;
-
+        // CharCodeStrings constant was ommited due to no given value
         /// <summary>
         /// [static] Constant associated with the key code value for the , key (188).
         /// </summary>
-        public static readonly uint COMMA = 188;
+        public const uint COMMA = 188;
 
         /// <summary>
         /// [static] Constant associated with the Mac command key (15).
         /// </summary>
-        public static readonly uint COMMAND = 15;
+        public const uint COMMAND = 15;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the Control key (17).
@@ -86,7 +74,7 @@ namespace ScriptCoreLib.ActionScript.flash.ui
         /// <summary>
         /// [static] Constant associated with the key code value for the D key (68).
         /// </summary>
-        public static readonly uint D = 68;
+        public const uint D = 68;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the Delete key (46).
@@ -101,7 +89,7 @@ namespace ScriptCoreLib.ActionScript.flash.ui
         /// <summary>
         /// [static] Constant associated with the key code value for the E key (69).
         /// </summary>
-        public static readonly uint E = 69;
+        public const uint E = 69;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the End key (35).
@@ -116,7 +104,7 @@ namespace ScriptCoreLib.ActionScript.flash.ui
         /// <summary>
         /// [static] Constant associated with the key code value for the = key (187).
         /// </summary>
-        public static readonly uint EQUAL = 187;
+        public const uint EQUAL = 187;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the Escape key (27).
@@ -126,7 +114,7 @@ namespace ScriptCoreLib.ActionScript.flash.ui
         /// <summary>
         /// [static] Constant associated with the key code value for the F key (70).
         /// </summary>
-        public static readonly uint F = 70;
+        public const uint F = 70;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the F1 key (112).
@@ -206,12 +194,12 @@ namespace ScriptCoreLib.ActionScript.flash.ui
         /// <summary>
         /// [static] Constant associated with the key code value for the G key (71).
         /// </summary>
-        public static readonly uint G = 71;
+        public const uint G = 71;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the H key (72).
         /// </summary>
-        public static readonly uint H = 72;
+        public const uint H = 72;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the Home key (36).
@@ -221,7 +209,7 @@ namespace ScriptCoreLib.ActionScript.flash.ui
         /// <summary>
         /// [static] Constant associated with the key code value for the I key (73).
         /// </summary>
-        public static readonly uint I = 73;
+        public const uint I = 73;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the Insert key (45).
@@ -231,377 +219,377 @@ namespace ScriptCoreLib.ActionScript.flash.ui
         /// <summary>
         /// [static] Constant associated with the key code value for the J key (74).
         /// </summary>
-        public static readonly uint J = 74;
+        public const uint J = 74;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the K key (75).
         /// </summary>
-        public static readonly uint K = 75;
+        public const uint K = 75;
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_BEGIN = "Begin";
+        public const string KEYNAME_BEGIN = "Begin";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_BREAK = "Break";
+        public const string KEYNAME_BREAK = "Break";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_CLEARDISPLAY = "ClrDsp";
+        public const string KEYNAME_CLEARDISPLAY = "ClrDsp";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_CLEARLINE = "ClrLn";
+        public const string KEYNAME_CLEARLINE = "ClrLn";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_DELETE = "Delete";
+        public const string KEYNAME_DELETE = "Delete";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_DELETECHAR = "DelChr";
+        public const string KEYNAME_DELETECHAR = "DelChr";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_DELETELINE = "DelLn";
+        public const string KEYNAME_DELETELINE = "DelLn";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_DOWNARROW = "Down";
+        public const string KEYNAME_DOWNARROW = "Down";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_END = "End";
+        public const string KEYNAME_END = "End";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_EXECUTE = "Exec";
+        public const string KEYNAME_EXECUTE = "Exec";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F1 = "F1";
+        public const string KEYNAME_F1 = "F1";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F10 = "F10";
+        public const string KEYNAME_F10 = "F10";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F11 = "F11";
+        public const string KEYNAME_F11 = "F11";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F12 = "F12";
+        public const string KEYNAME_F12 = "F12";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F13 = "F13";
+        public const string KEYNAME_F13 = "F13";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F14 = "F14";
+        public const string KEYNAME_F14 = "F14";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F15 = "F15";
+        public const string KEYNAME_F15 = "F15";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F16 = "F16";
+        public const string KEYNAME_F16 = "F16";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F17 = "F17";
+        public const string KEYNAME_F17 = "F17";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F18 = "F18";
+        public const string KEYNAME_F18 = "F18";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F19 = "F19";
+        public const string KEYNAME_F19 = "F19";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F2 = "F2";
+        public const string KEYNAME_F2 = "F2";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F20 = "F20";
+        public const string KEYNAME_F20 = "F20";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F21 = "F21";
+        public const string KEYNAME_F21 = "F21";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F22 = "F22";
+        public const string KEYNAME_F22 = "F22";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F23 = "F23";
+        public const string KEYNAME_F23 = "F23";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F24 = "F24";
+        public const string KEYNAME_F24 = "F24";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F25 = "F25";
+        public const string KEYNAME_F25 = "F25";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F26 = "F26";
+        public const string KEYNAME_F26 = "F26";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F27 = "F27";
+        public const string KEYNAME_F27 = "F27";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F28 = "F28";
+        public const string KEYNAME_F28 = "F28";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F29 = "F29";
+        public const string KEYNAME_F29 = "F29";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F3 = "F3";
+        public const string KEYNAME_F3 = "F3";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F30 = "F30";
+        public const string KEYNAME_F30 = "F30";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F31 = "F31";
+        public const string KEYNAME_F31 = "F31";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F32 = "F32";
+        public const string KEYNAME_F32 = "F32";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F33 = "F33";
+        public const string KEYNAME_F33 = "F33";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F34 = "F34";
+        public const string KEYNAME_F34 = "F34";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F35 = "F35";
+        public const string KEYNAME_F35 = "F35";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F4 = "F4";
+        public const string KEYNAME_F4 = "F4";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F5 = "F5";
+        public const string KEYNAME_F5 = "F5";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F6 = "F6";
+        public const string KEYNAME_F6 = "F6";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F7 = "F7";
+        public const string KEYNAME_F7 = "F7";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F8 = "F8";
+        public const string KEYNAME_F8 = "F8";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_F9 = "F9";
+        public const string KEYNAME_F9 = "F9";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_FIND = "Find";
+        public const string KEYNAME_FIND = "Find";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_HELP = "Help";
+        public const string KEYNAME_HELP = "Help";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_HOME = "Home";
+        public const string KEYNAME_HOME = "Home";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_INSERT = "Insert";
+        public const string KEYNAME_INSERT = "Insert";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_INSERTCHAR = "InsChr";
+        public const string KEYNAME_INSERTCHAR = "InsChr";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_INSERTLINE = "InsLn";
+        public const string KEYNAME_INSERTLINE = "InsLn";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_LEFTARROW = "Left";
+        public const string KEYNAME_LEFTARROW = "Left";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_MENU = "Menu";
+        public const string KEYNAME_MENU = "Menu";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_MODESWITCH = "ModeSw";
+        public const string KEYNAME_MODESWITCH = "ModeSw";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_NEXT = "Next";
+        public const string KEYNAME_NEXT = "Next";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_PAGEDOWN = "PgDn";
+        public const string KEYNAME_PAGEDOWN = "PgDn";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_PAGEUP = "PgUp";
+        public const string KEYNAME_PAGEUP = "PgUp";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_PAUSE = "Pause";
+        public const string KEYNAME_PAUSE = "Pause";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_PREV = "Prev";
+        public const string KEYNAME_PREV = "Prev";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_PRINT = "Print";
+        public const string KEYNAME_PRINT = "Print";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_PRINTSCREEN = "PrntScrn";
+        public const string KEYNAME_PRINTSCREEN = "PrntScrn";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_REDO = "Redo";
+        public const string KEYNAME_REDO = "Redo";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_RESET = "Reset";
+        public const string KEYNAME_RESET = "Reset";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_RIGHTARROW = "Right";
+        public const string KEYNAME_RIGHTARROW = "Right";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_SCROLLLOCK = "ScrlLck";
+        public const string KEYNAME_SCROLLLOCK = "ScrlLck";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_SELECT = "Select";
+        public const string KEYNAME_SELECT = "Select";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_STOP = "Stop";
+        public const string KEYNAME_STOP = "Stop";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_SYSREQ = "SysReq";
+        public const string KEYNAME_SYSREQ = "SysReq";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_SYSTEM = "Sys";
+        public const string KEYNAME_SYSTEM = "Sys";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_UNDO = "Undo";
+        public const string KEYNAME_UNDO = "Undo";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_UPARROW = "Up";
+        public const string KEYNAME_UPARROW = "Up";
 
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string KEYNAME_USER = "User";
+        public const string KEYNAME_USER = "User";
 
         /// <summary>
         /// [static] Constant associated with the key code value for the L key (76).
         /// </summary>
-        public static readonly uint L = 76;
+        public const uint L = 76;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the Left Arrow key (37).
@@ -611,77 +599,77 @@ namespace ScriptCoreLib.ActionScript.flash.ui
         /// <summary>
         /// [static] Constant associated with the key code value for the [ key (219).
         /// </summary>
-        public static readonly uint LEFTBRACKET = 219;
+        public const uint LEFTBRACKET = 219;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the M key (77).
         /// </summary>
-        public static readonly uint M = 77;
+        public const uint M = 77;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the - key (189).
         /// </summary>
-        public static readonly uint MINUS = 189;
+        public const uint MINUS = 189;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the N key (78).
         /// </summary>
-        public static readonly uint N = 78;
+        public const uint N = 78;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the 0 key (48).
         /// </summary>
-        public static readonly uint NUMBER_0 = 48;
+        public const uint NUMBER_0 = 48;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the 1 key (49).
         /// </summary>
-        public static readonly uint NUMBER_1 = 49;
+        public const uint NUMBER_1 = 49;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the 2 key (50).
         /// </summary>
-        public static readonly uint NUMBER_2 = 50;
+        public const uint NUMBER_2 = 50;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the 3 key (51).
         /// </summary>
-        public static readonly uint NUMBER_3 = 51;
+        public const uint NUMBER_3 = 51;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the 4 key (52).
         /// </summary>
-        public static readonly uint NUMBER_4 = 52;
+        public const uint NUMBER_4 = 52;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the 5 key (53).
         /// </summary>
-        public static readonly uint NUMBER_5 = 53;
+        public const uint NUMBER_5 = 53;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the 6 key (54).
         /// </summary>
-        public static readonly uint NUMBER_6 = 54;
+        public const uint NUMBER_6 = 54;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the 7 key (55).
         /// </summary>
-        public static readonly uint NUMBER_7 = 55;
+        public const uint NUMBER_7 = 55;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the 8 key (56).
         /// </summary>
-        public static readonly uint NUMBER_8 = 56;
+        public const uint NUMBER_8 = 56;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the 9 key (57).
         /// </summary>
-        public static readonly uint NUMBER_9 = 57;
+        public const uint NUMBER_9 = 57;
 
         /// <summary>
         /// [static] Constant associated with the pseudo-key code for the the number pad (21).
         /// </summary>
-        public static readonly uint NUMPAD = 21;
+        public const uint NUMPAD = 21;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the number 0 key on the number pad (96).
@@ -766,12 +754,12 @@ namespace ScriptCoreLib.ActionScript.flash.ui
         /// <summary>
         /// [static] Constant associated with the key code value for the O key (79).
         /// </summary>
-        public static readonly uint O = 79;
+        public const uint O = 79;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the P key (80).
         /// </summary>
-        public static readonly uint P = 80;
+        public const uint P = 80;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the Page Down key (34).
@@ -786,22 +774,22 @@ namespace ScriptCoreLib.ActionScript.flash.ui
         /// <summary>
         /// [static] Constant associated with the key code value for the .
         /// </summary>
-        public static readonly uint PERIOD = 190;
+        public const uint PERIOD = 190;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the Q key (81).
         /// </summary>
-        public static readonly uint Q = 81;
+        public const uint Q = 81;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the ' key (222).
         /// </summary>
-        public static readonly uint QUOTE = 222;
+        public const uint QUOTE = 222;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the R key (82).
         /// </summary>
-        public static readonly uint R = 82;
+        public const uint R = 82;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the Right Arrow key (39).
@@ -811,17 +799,17 @@ namespace ScriptCoreLib.ActionScript.flash.ui
         /// <summary>
         /// [static] Constant associated with the key code value for the ] key (221).
         /// </summary>
-        public static readonly uint RIGHTBRACKET = 221;
+        public const uint RIGHTBRACKET = 221;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the S key (83).
         /// </summary>
-        public static readonly uint S = 83;
+        public const uint S = 83;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the ; key (186).
         /// </summary>
-        public static readonly uint SEMICOLON = 186;
+        public const uint SEMICOLON = 186;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the Shift key (16).
@@ -831,7 +819,7 @@ namespace ScriptCoreLib.ActionScript.flash.ui
         /// <summary>
         /// [static] Constant associated with the key code value for the / key (191).
         /// </summary>
-        public static readonly uint SLASH = 191;
+        public const uint SLASH = 191;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the Spacebar (32).
@@ -841,367 +829,295 @@ namespace ScriptCoreLib.ActionScript.flash.ui
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_BEGIN = "?";
-
+        // STRING_BEGIN constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_BREAK = "?";
-
+        // STRING_BREAK constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_CLEARDISPLAY = "?";
-
+        // STRING_CLEARDISPLAY constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_CLEARLINE = "?";
-
+        // STRING_CLEARLINE constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_DELETE = "?";
-
+        // STRING_DELETE constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_DELETECHAR = "?";
-
+        // STRING_DELETECHAR constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_DELETELINE = "?";
-
+        // STRING_DELETELINE constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_DOWNARROW = "?";
-
+        // STRING_DOWNARROW constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_END = "?";
-
+        // STRING_END constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_EXECUTE = "?";
-
+        // STRING_EXECUTE constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F1 = "?";
-
+        // STRING_F1 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F10 = "?";
-
+        // STRING_F10 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F11 = "?";
-
+        // STRING_F11 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F12 = "?";
-
+        // STRING_F12 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F13 = "?";
-
+        // STRING_F13 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F14 = "?";
-
+        // STRING_F14 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F15 = "?";
-
+        // STRING_F15 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F16 = "?";
-
+        // STRING_F16 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F17 = "?";
-
+        // STRING_F17 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F18 = "?";
-
+        // STRING_F18 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F19 = "?";
-
+        // STRING_F19 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F2 = "?";
-
+        // STRING_F2 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F20 = "?";
-
+        // STRING_F20 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F21 = "?";
-
+        // STRING_F21 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F22 = "?";
-
+        // STRING_F22 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F23 = "?";
-
+        // STRING_F23 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F24 = "?";
-
+        // STRING_F24 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F25 = "?";
-
+        // STRING_F25 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F26 = "?";
-
+        // STRING_F26 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F27 = "?";
-
+        // STRING_F27 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F28 = "?";
-
+        // STRING_F28 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F29 = "?";
-
+        // STRING_F29 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F3 = "?";
-
+        // STRING_F3 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F30 = "?";
-
+        // STRING_F30 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F31 = "?";
-
+        // STRING_F31 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F32 = "?";
-
+        // STRING_F32 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F33 = "?";
-
+        // STRING_F33 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F34 = "?";
-
+        // STRING_F34 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F35 = "?";
-
+        // STRING_F35 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F4 = "?";
-
+        // STRING_F4 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F5 = "?";
-
+        // STRING_F5 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F6 = "?";
-
+        // STRING_F6 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F7 = "?";
-
+        // STRING_F7 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F8 = "?";
-
+        // STRING_F8 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_F9 = "?";
-
+        // STRING_F9 constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_FIND = "?";
-
+        // STRING_FIND constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_HELP = "?";
-
+        // STRING_HELP constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_HOME = "?";
-
+        // STRING_HOME constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_INSERT = "?";
-
+        // STRING_INSERT constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_INSERTCHAR = "?";
-
+        // STRING_INSERTCHAR constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_INSERTLINE = "?";
-
+        // STRING_INSERTLINE constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_LEFTARROW = "?";
-
+        // STRING_LEFTARROW constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_MENU = "?";
-
+        // STRING_MENU constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_MODESWITCH = "?";
-
+        // STRING_MODESWITCH constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_NEXT = "?";
-
+        // STRING_NEXT constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_PAGEDOWN = "?";
-
+        // STRING_PAGEDOWN constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_PAGEUP = "?";
-
+        // STRING_PAGEUP constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_PAUSE = "?";
-
+        // STRING_PAUSE constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_PREV = "?";
-
+        // STRING_PREV constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_PRINT = "?";
-
+        // STRING_PRINT constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_PRINTSCREEN = "?";
-
+        // STRING_PRINTSCREEN constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_REDO = "?";
-
+        // STRING_REDO constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_RESET = "?";
-
+        // STRING_RESET constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_RIGHTARROW = "?";
-
+        // STRING_RIGHTARROW constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_SCROLLLOCK = "?";
-
+        // STRING_SCROLLLOCK constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_SELECT = "?";
-
+        // STRING_SELECT constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_STOP = "?";
-
+        // STRING_STOP constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_SYSREQ = "?";
-
+        // STRING_SYSREQ constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_SYSTEM = "?";
-
+        // STRING_SYSTEM constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_UNDO = "?";
-
+        // STRING_UNDO constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_UPARROW = "?";
-
+        // STRING_UPARROW constant was ommited due to no string given value
         /// <summary>
         /// [static]
         /// </summary>
-        public static readonly string STRING_USER = "?";
-
+        // STRING_USER constant was ommited due to no string given value
         /// <summary>
         /// [static] Constant associated with the key code value for the T key (84).
         /// </summary>
-        public static readonly uint T = 84;
+        public const uint T = 84;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the Tab key (9).
@@ -1211,7 +1127,7 @@ namespace ScriptCoreLib.ActionScript.flash.ui
         /// <summary>
         /// [static] Constant associated with the key code value for the U key (85).
         /// </summary>
-        public static readonly uint U = 85;
+        public const uint U = 85;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the Up Arrow key (38).
@@ -1221,29 +1137,60 @@ namespace ScriptCoreLib.ActionScript.flash.ui
         /// <summary>
         /// [static] Constant associated with the key code value for the V key (86).
         /// </summary>
-        public static readonly uint V = 86;
+        public const uint V = 86;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the W key (87).
         /// </summary>
-        public static readonly uint W = 87;
+        public const uint W = 87;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the X key (88).
         /// </summary>
-        public static readonly uint X = 88;
+        public const uint X = 88;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the Y key (89).
         /// </summary>
-        public static readonly uint Y = 89;
+        public const uint Y = 89;
 
         /// <summary>
         /// [static] Constant associated with the key code value for the Z key (90).
         /// </summary>
-        public static readonly uint Z = 90;
+        public const uint Z = 90;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// [static] [read-only] Specifies whether the Caps Lock key is activated (true) or not (false).
+        /// </summary>
+        public static bool capsLock { get; private set; }
+
+        /// <summary>
+        /// [static] [read-only] Specifies whether the Num Lock key is activated (true) or not (false).
+        /// </summary>
+        public static bool numLock { get; private set; }
+
+        #endregion
+
+        #region Constructors
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// [static] Specifies whether the last key pressed is accessible by other SWF files.
+        /// </summary>
+        public static bool isAccessible()
+        {
+            return default(bool);
+        }
 
         #endregion
 
     }
+
 }

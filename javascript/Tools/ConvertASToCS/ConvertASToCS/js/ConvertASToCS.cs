@@ -181,7 +181,7 @@ namespace ConvertASToCS.js
 
             Func<string, IHTMLSpan> Write = text => new IHTMLSpan(text).AttachTo(Target);
 
-            Action WriteLine = () => Write("\n");
+            Action WriteLine = () => Write("\r\n");
             Action WriteSpace = () => Write(" ");
 
             #region Write<Color>
@@ -206,7 +206,7 @@ namespace ConvertASToCS.js
                     WriteLine();
 
                     var PreviousTarget = Target;
-                    var CurrentTarget = new IHTMLDiv().AttachTo(PreviousTarget); ;
+                    var CurrentTarget = new IHTMLElement(IHTMLElement.HTMLElementEnum.pre).AttachTo(PreviousTarget); ;
 
                     Collapsible.style.cursor = IStyle.CursorEnum.pointer;
                     Collapsible.onclick +=
@@ -326,15 +326,84 @@ namespace ConvertASToCS.js
 
                 using (CodeBlock())
                 {
+                    #region Properties
+                    using (Region("Constants"))
+                        foreach (var p in r.Constants)
+                        {
+                            
+                            WriteSummary(p.Summary);
+
+                            WriteIdent();
+
+                            if (string.IsNullOrEmpty(p.Value) && p.IsAirOnly)
+                            {
+                                WriteGreen("// " + p.Name + " constant was ommited due to no given value");
+                                WriteLine();
+                                continue;
+                            }
+
+                            if (p.Value == "\"?\"")
+                            {
+                                WriteGreen("// " + p.Name + " constant was ommited due to no string given value");
+                                WriteLine();
+                                continue;
+                            }
+
+
+                            WriteBlue("public");
+                            WriteSpace();
+
+                            if (p.IsAirOnly)
+                            {
+                                WriteBlue("const");
+                                WriteSpace();
+                            }
+                            else
+                            {
+                                WriteBlue("static");
+                                WriteSpace();
+                                WriteBlue("readonly");
+                                WriteSpace();
+                            }
+
+                            WriteVariableDefinition(p.Type, p.Name);
+
+                            if (!string.IsNullOrEmpty(p.Value))
+                            {
+                                WriteSpace();
+                                Write("=");
+                                WriteSpace();
+                                Write(p.Value);
+                            }
+
+                            Write(";");
+
+                            WriteLine();
+                            WriteLine();
+                        }
+                    #endregion
+
+
+                    #region Properties
                     using (Region("Properties"))
                         foreach (var p in r.Properties)
                         {
+                            if (p.IsInherited)
+                                continue;
+
                             WriteSummary(p.Summary);
 
                             WriteIdent();
 
                             WriteBlue("public");
                             WriteSpace();
+
+                            if (p.IsStatic)
+                            {
+                                WriteBlue("static");
+                                WriteSpace();
+                            }
+
 
                             WriteVariableDefinition(p.PropertyType, p.PropertyName);
 
@@ -366,6 +435,7 @@ namespace ConvertASToCS.js
                             WriteLine();
                             WriteLine();
                         }
+                    #endregion
 
                     #region Constructors
                     using (Region("Constructors"))

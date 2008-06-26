@@ -105,7 +105,7 @@ namespace ConvertASToCS.js.Any
             get
             {
                 return Source.Substring(0, Index);
-            }   
+            }
         }
 
         public string AfterSubject
@@ -162,6 +162,16 @@ namespace ConvertASToCS.js.Any
             public string Summary;
             public string DefinedBy;
 
+            public const string KeywordInherited = "Inherited";
+            public const string KeywordReadOnly = "[read-only]";
+            public const string KeywordStatic = "[static]";
+
+            public bool IsStatic
+            {
+                get { return Summary.Contains(KeywordStatic); }
+            }
+
+
             public string PropertyType
             {
                 get
@@ -174,7 +184,10 @@ namespace ConvertASToCS.js.Any
             {
                 get
                 {
-                    return Signature.Substring(0, Signature.IndexOf(":")).Trim();
+                    var right = Signature.IndexOf(":");
+                    var left = Signature.IndexOf("\t");
+
+                    return Signature.Substring(left + 1, right).Trim();
                 }
             }
 
@@ -182,7 +195,15 @@ namespace ConvertASToCS.js.Any
             {
                 get
                 {
-                    return Summary.Contains("[read-only]");
+                    return Summary.Contains(KeywordReadOnly);
+                }
+            }
+
+            public bool IsInherited
+            {
+                get
+                {
+                    return Signature.Contains(KeywordInherited);
                 }
             }
 
@@ -395,22 +416,17 @@ namespace ConvertASToCS.js.Any
             public string Summary;
             public string DefinedBy;
 
-            public const string KeywordInherited ="Inherited";
+            public const string KeywordInherited = "Inherited";
+            public const string KeywordStatic = "[static]";
 
             public bool IsInherited
             {
-                get
-                {
-                    return Flags == KeywordInherited;
-                }
+                get { return Flags == KeywordInherited; }
             }
 
             public bool IsStatic
             {
-                get
-                {
-                    return Summary.Contains("[static]");
-                }
+                get { return Summary.Contains(KeywordStatic); }
             }
 
             //    Inherited	
@@ -490,8 +506,81 @@ namespace ConvertASToCS.js.Any
             }
         }
 
+        [Script]
+        public class ConstantInfo
+        {
+            public string Signature;
+            public string Summary;
+            public string DefinedBy;
+
+            public bool IsAirOnly;
+
+            public const string KeywordAirOnly = "AIR-only";
+
+            public string Type;
+            public string Name;
+            public string Value;
+
+
+            internal static Tuple<ConstantInfo, IndexInfo> ScanNext(IndexInfo LastIndex)
+            {
+                var Signature = LastIndex.GetNextTrimmedLine();
+
+                if (!Signature.Text.Contains(":"))
+                    return null;
+
+                var a = Signature.Text.IndexInfoOf(":");
+                
+
+                var IsAirOnly = false;
+
+                var Name = a.BeforeSubject.Trim();
+                if (Name.StartsWith(KeywordAirOnly))
+                {
+                    Name = Name.Substring(KeywordAirOnly.Length + 1).Trim();
+                    IsAirOnly = true;
+                }
+
+                var b = a.IndexInfoOf("=");
+
+                var Type = "";
+                var Value = "";
+
+                if (b.Index == -1)
+                    Type = a.AfterSubject.Trim();
+                else
+                {
+                    Type = a.SubString(b).Trim();
+                    Value = b.AfterSubject.Trim();
+                }
+
+
+                var Summary = Signature.GetNextTrimmedLine();
+
+                var DefinedBy = Summary.GetNextTrimmedLine();
+
+                var n = new ConstantInfo
+                {
+                    Signature = Signature.Text,
+                    Summary = Summary.Text,
+                    DefinedBy = DefinedBy.Text,
+                    IsAirOnly = IsAirOnly,
+                    Type = Type,
+                    Name = Name,
+                    Value = Value
+                };
+
+                return new Tuple<ConstantInfo, IndexInfo>
+                {
+                    TValue = n,
+                    FValue = DefinedBy
+                };
+            }
+        }
+
         public readonly List<PropertyInfo> Properties = new List<PropertyInfo>();
         public readonly List<MethodInfo> Functions = new List<MethodInfo>();
+        public readonly List<ConstantInfo> Constants = new List<ConstantInfo>();
 
         public IEnumerable<MethodInfo> GetInstanceConstructors()
         {
@@ -525,11 +614,20 @@ namespace ConvertASToCS.js.Any
 
 
             var PropertyHeader = ClassEOL.IndexInfoOf(" \tProperty\tDefined by");
+            if (PropertyHeader.Index == -1)
+                PropertyHeader = ClassEOL.IndexInfoOf(" \tProperty\tDefined By");
+
             var MethodHeader = ClassEOL.IndexInfoOf(" \tMethod\tDefined by");
+            if (MethodHeader.Index == -1)
+                MethodHeader = ClassEOL.IndexInfoOf(" \tMethod\tDefined By");
+
             var ConstantHeader = ClassEOL.IndexInfoOf(" \tConstant\tDefined by");
+            if (ConstantHeader.Index == -1)
+                ConstantHeader = ClassEOL.IndexInfoOf(" \tConstant\tDefined By");
 
             PropertyHeader.ScanToList(Properties, PropertyInfo.ScanNext);
             MethodHeader.ScanToList(Functions, MethodInfo.ScanNext);
+            ConstantHeader.ScanToList(Constants, ConstantInfo.ScanNext);
 
 
 

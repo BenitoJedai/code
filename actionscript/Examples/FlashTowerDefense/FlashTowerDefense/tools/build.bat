@@ -1,7 +1,7 @@
 @echo off
 
-echo Skipped
-goto :eof
+:: goto :skipped
+
 
 :: Dll name
 @call :jsc %1
@@ -37,10 +37,10 @@ pushd ..\bin\debug\web
 call :build %1 %2
 
 :: build custom
-call :build %1 Menu
+::call :build %1 Menu
 
-call :build "%1/Monetized" MochiPreloader
-call :build "%1/Monetized" NewgroundsPreloader
+::call :build "%1/Monetized" MochiPreloader
+::call :build "%1/Monetized" NewgroundsPreloader
 
 popd
 goto :eof
@@ -57,4 +57,8 @@ call C:\util\flex\bin\mxmlc.exe -warnings=false   -incremental=true -output=%2.s
 ::call C:\util\flex\bin\mxmlc.exe -warnings=false  -compiler.verbose-stacktraces  -keep-as3-metadata -incremental=true -output=%2.swf -sp=. %1/%2.as
 ::call C:\util\flex\bin\mxmlc.exe  -compiler.verbose-stacktraces  -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 ::call C:\util\flex\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
+goto :eof
+
+:skipped
+echo Skipped
 goto :eof

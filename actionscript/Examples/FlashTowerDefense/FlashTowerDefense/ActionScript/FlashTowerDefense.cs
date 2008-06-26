@@ -9,7 +9,7 @@ using System.Linq;
 using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.mx.core;
 using ScriptCoreLib.ActionScript.flash.utils;
-using ScriptCoreLib.ActionScript.Lambda;
+using ScriptCoreLib.Shared.Lambda;
 using System.Collections.Generic;
 using ScriptCoreLib.ActionScript.flash.ui;
 using ScriptCoreLib.ActionScript;
@@ -319,7 +319,7 @@ namespace FlashTowerDefense.ActionScript
             var EgoAimDirection = 3.14; // look down
             var EgoAimDistance = 48;
             var EgoAimMoveSpeed = 0.1;
-            var EgoMoveSpeed = 3;
+            var EgoMoveSpeed = 3.0;
 
             UpdateEgoAim =
                 delegate
@@ -602,42 +602,75 @@ namespace FlashTowerDefense.ActionScript
                     
                     //stage.scaleMode = StageScaleMode.NO_BORDER;
 
-                    #region keyboard
-                    stage.keyDown +=
-                        e =>
-                        {
-                            if (EgoIsOnTheField())
+                    // multiplay ?
+
+                    var KeyLeft = new KeyboardButton(stage)
+                    {
+                        Buttons = new[] { Keyboard.LEFT, Keyboard.A },
+                        Filter = EgoIsOnTheField,
+                        Down =
+                            delegate
                             {
-                                if (e.keyCode == Keyboard.LEFT)
-                                {
-                                    EgoAimMoveSpeed = -0.1;
-                                    EgoAimMoveTimer.start();
-                                }
-                                else if (e.keyCode == Keyboard.RIGHT)
-                                {
-                                    EgoAimMoveSpeed = 0.1;
-                                    EgoAimMoveTimer.start();
-                                }
-                                else if (e.keyCode == Keyboard.UP)
-                                {
-                                    Ego.RunAnimation = true;
-                                    EgoMoveSpeed = 2;
-                                    EgoMoveUpTimer.start();
-                                }
-                                else if (e.keyCode == Keyboard.DOWN)
-                                {
-                                    Ego.RunAnimation = true;
-                                    EgoMoveSpeed = -1;
-                                    EgoMoveUpTimer.start();
-                                }
-                                else if (e.keyCode == Keyboard.CONTROL)
-                                {
+                                EgoAimMoveSpeed = -0.1;
+                                EgoAimMoveTimer.start();
+                            },
+                        Up = EgoAimMoveTimer.stop,
+                    };
 
+                    var KeyRight = new KeyboardButton(stage)
+                    {
+                        Buttons = new[] { Keyboard.RIGHT, Keyboard.D },
+                        Filter = EgoIsOnTheField,
+                        Down =
+                            delegate
+                            {
+                                EgoAimMoveSpeed = +0.1;
+                                EgoAimMoveTimer.start();
+                            },
+                        Up = EgoAimMoveTimer.stop,
+                    };
 
-
-                                }
+                    var KeyUp = new KeyboardButton(stage)
+                    {
+                        Buttons = new[] { Keyboard.UP, Keyboard.W },
+                        Filter = EgoIsOnTheField,
+                        Down =
+                            delegate
+                            {
+                                Ego.RunAnimation = true;
+                                EgoMoveSpeed = 2.5;
+                                EgoMoveUpTimer.start();
+                            },
+                        Up =
+                            delegate
+                            {
+                                EgoMoveUpTimer.stop();
+                                Ego.RunAnimation = false;
                             }
-                        };
+                    };
+
+                    var KeyDown = new KeyboardButton(stage)
+                    {
+                        Buttons = new[] { Keyboard.DOWN, Keyboard.S },
+                        Filter = EgoIsOnTheField,
+                        Down =
+                            delegate
+                            {
+                                Ego.RunAnimation = true;
+                                EgoMoveSpeed = -1.5;
+                                EgoMoveUpTimer.start();
+                            },
+                        Up =
+                            delegate
+                            {
+                                EgoMoveUpTimer.stop();
+                                Ego.RunAnimation = false;
+                            }
+                    };
+
+
+                    #region keyboard
+            
 
                     stage.keyUp +=
                       e =>
@@ -650,25 +683,7 @@ namespace FlashTowerDefense.ActionScript
 
                           if (EgoIsOnTheField())
                           {
-                              if (e.keyCode == Keyboard.LEFT)
-                              {
-                                  EgoAimMoveTimer.stop();
-                              }
-                              else if (e.keyCode == Keyboard.RIGHT)
-                              {
-                                  EgoAimMoveTimer.stop();
-                              }
-                              else if (e.keyCode == Keyboard.UP)
-                              {
-                                  Ego.RunAnimation = false;
-                                  EgoMoveUpTimer.stop();
-                              }
-                              else if (e.keyCode == Keyboard.DOWN)
-                              {
-                                  Ego.RunAnimation = false;
-                                  EgoMoveUpTimer.stop();
-                              }
-                              else if (e.keyCode == Keyboard.CONTROL)
+                              if (e.keyCode == Keyboard.CONTROL)
                               {
                                   if (EgoIsOnTheField())
                                   {
@@ -1013,238 +1028,6 @@ namespace FlashTowerDefense.ActionScript
             UpdateEgoAim();
         }
 
-        private void AddNewActorsToMap(Action UpdateScoreBoard, Func<double> GetEntryPointY, Func<Actor, Actor> AttachRules)
-        {
-            Action<Actor> ReduceSpeedToHalf = i => i.speed /= 2;
-
-            if (0.3.ByChance())
-            {
-                var Minnions = new List<Actor>();
-
-                if (0.5.ByChance())
-                {
-
-                    #region create boss
-                    var boss = AttachRules(
-                           new BossWarrior
-                           {
-                               x = -OffscreenMargin,
-                               y = GetEntryPointY(),
-                               speed = 1 + 2.0.FixedRandom(),
-                           }
-                       );
-
-
-
-                    // make the minions slower when boss dies
-                    boss.Die += () => Minnions.ForEach(ReduceSpeedToHalf);
-
-                    #region create minnions
-                    Func<double, Actor> CreateMinionWarriorByArc =
-                                     arc =>
-                                       new Warrior
-                                       {
-                                           x = boss.x + Math.Cos(arc) * 96,
-                                           y = boss.y + Math.Sin(arc) * 96 / 2,
-                                           speed = boss.speed
-                                       };
-
-                    Func<double, Actor> CreateMinionByArc =
-                        arc =>
-                          new Sheep
-                          {
-                              x = boss.x + Math.Cos(arc) * 64,
-                              y = boss.y + Math.Sin(arc) * 64 / 2,
-                              speed = boss.speed
-                          };
-
-
-                    if (0.3.ByChance())
-                    {
-                        // boss with 2 minions
-                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0.15)).AddTo(Minnions);
-                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0.85)).AddTo(Minnions);
-                    }
-                    else if (0.3.ByChance())
-                    {
-                        // boss with 3 minions
-                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0.20)).AddTo(Minnions);
-                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0)).AddTo(Minnions);
-                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0.80)).AddTo(Minnions);
-                    }
-                    else if (0.3.ByChance())
-                    {
-                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0.15)).AddTo(Minnions);
-                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0.25)).AddTo(Minnions);
-                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0.85)).AddTo(Minnions);
-                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0.75)).AddTo(Minnions);
-                    }
-                    else
-                    {
-                        AttachRules(CreateMinionWarriorByArc((Math.PI * 2) * 0.3)).AddTo(Minnions);
-                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0.15)).AddTo(Minnions);
-                        AttachRules(CreateMinionWarriorByArc((Math.PI * 2) * 0.0)).AddTo(Minnions);
-                        AttachRules(CreateMinionByArc((Math.PI * 2) * 0.85)).AddTo(Minnions);
-                        AttachRules(CreateMinionWarriorByArc((Math.PI * 2) * 0.7)).AddTo(Minnions);
-                    }
-
-                    #endregion
-
-                    // respawn the boss
-                    boss.CorpseGone +=
-                        delegate
-                        {
-
-
-                            var newboss = AttachRules(
-                                new BossWarrior
-                                {
-                                    x = boss.x,
-                                    y = boss.y,
-                                    speed = boss.speed / 2,
-                                    filters = boss.filters,
-                                    IsBleeding = true
-                                }
-                            );
-
-                            // remove the glow from the old boss cuz we respawned
-                            boss.filters = null;
-
-
-
-                            // if the respawned boss dies remove the glow
-                            newboss.Die +=
-                                delegate
-                                {
-                                    newboss.filters = null;
-                                };
-                        };
-                    #endregion
-
-                }
-                else
-                {
-                    var boss = AttachRules(
-                         new BossSheep
-                         {
-                             x = -OffscreenMargin,
-                             y = GetEntryPointY(),
-                             speed = 0.5 + 2.0.FixedRandom()
-                         }
-                    );
-
-                    Func<double, Actor> CreateMinionByIndex =
-                        i =>
-                            new Sheep
-                            {
-                                x = boss.x + Math.Abs(i) * -24,
-                                y = boss.y + i * 32,
-                                speed = boss.speed
-                            };
-
-                    Enumerable.Range(1, (2.0.FixedRandom() + 1).ToInt32()).ForEach(
-                        i =>
-                        {
-                            AttachRules(CreateMinionByIndex(-i)).AddTo(Minnions);
-                            AttachRules(CreateMinionByIndex(i)).AddTo(Minnions);
-                        }
-                    );
-
-
-                    // make the minions slower when boss dies
-                    boss.Die += () => Minnions.ForEach(ReduceSpeedToHalf);
-
-
-                    // respawn the boss
-                    boss.CorpseGone +=
-                        delegate
-                        {
-
-
-                            var newboss = AttachRules(
-                                new BossSheep
-                                {
-                                    x = boss.x,
-                                    y = boss.y,
-                                    speed = boss.speed / 2,
-                                    filters = boss.filters,
-                                    IsBleeding = true
-                                }
-                            );
-
-                            // remove the glow from the old boss cuz we respawned
-                            boss.filters = null;
-
-                            Action<Sheep> AddMinnion = i => AttachRules(i).AddTo(Minnions);
-
-                            AddMinnion.ToForEach()(
-                                from i in Minnions
-                                where i.IsCorpseGone
-                                where !i.IsCorpseAndBloodGone
-                                select new Sheep
-                                {
-                                    x = i.x,
-                                    y = i.y,
-                                    speed = newboss.speed,
-                                    IsBleeding = true
-                                }
-                            );
-
-
-
-                            // if the respawned boss dies remove the glow
-                            newboss.Die +=
-                                delegate
-                                {
-                                    newboss.filters = null;
-                                };
-                        };
-                }
-            }
-            else
-            {
-                if (0.1.ByChance())
-                {
-                    AttachRules(
-                      new NuclearWarrior
-                      {
-                          x = -OffscreenMargin,
-                          y = GetEntryPointY(),
-                          speed = 1 + 2.0.FixedRandom()
-                      }
-                  );
-                }
-                else if (0.3.ByChance())
-                {
-
-
-                    AttachRules(
-                        new Warrior
-                        {
-                            x = -OffscreenMargin,
-                            y = GetEntryPointY(),
-                            speed = 1 + 2.0.FixedRandom()
-                        }
-                    );
-
-
-                }
-                else
-                {
-                    AttachRules(
-                        new Sheep
-                        {
-                            x = -OffscreenMargin,
-                            y = GetEntryPointY(),
-                            speed = 0.5 + 2.0.FixedRandom()
-                        }
-                    );
-
-                }
-            }
-
-            UpdateScoreBoard();
-        }
 
         public readonly List<Animation> Boxes = new List<Animation>();
 
