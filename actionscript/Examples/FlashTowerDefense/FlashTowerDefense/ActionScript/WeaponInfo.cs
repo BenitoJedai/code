@@ -13,6 +13,9 @@ namespace FlashTowerDefense.ActionScript
         public double ArcRange;
 
         public int Damage;
+        public int NetworkId;
+
+        public int VisibleBulletLines;
 
         public readonly static WeaponInfo Shotgun =
             new WeaponInfo
@@ -20,7 +23,9 @@ namespace FlashTowerDefense.ActionScript
                 Range = 200,
                 ArcRange = 0.4,
                 Damage = 30,
-                VisibleBulletLines = 5
+                VisibleBulletLines = 5,
+
+                NetworkId = 1,
             };
 
 
@@ -31,8 +36,16 @@ namespace FlashTowerDefense.ActionScript
                 ArcRange = 0.1,
                 Damage = 40,
                 VisibleBulletLines = 2,
+
+                NetworkId = 2,
             };
 
-        public int VisibleBulletLines;
+        public static WeaponInfo[] PredefinedWeapones =
+            new[]
+            {
+                Shotgun,
+                Machinegun
+            };
+
     }
 }

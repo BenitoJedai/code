@@ -895,7 +895,8 @@ namespace jsc.Script
 
 
         #region IsInlineExceptonVariable
-        RecursionGuard _IsInlineExceptonVariable = new RecursionGuard(16);
+        // in large methods the recursion is higher
+        RecursionGuard _IsInlineExceptonVariable = new RecursionGuard(32);
         bool _IsInlineExceptonVariable_Verbose = false;
 
 

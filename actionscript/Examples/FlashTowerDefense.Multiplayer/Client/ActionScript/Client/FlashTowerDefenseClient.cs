@@ -13,6 +13,7 @@ using FlashTowerDefense.Shared;
 using FlashTowerDefense.ActionScript.Actors;
 using System.Collections.Generic;
 using FlashTowerDefense.ActionScript.Assets;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace FlashTowerDefense.ActionScript.Client
 {
@@ -141,6 +142,11 @@ namespace FlashTowerDefense.ActionScript.Client
                          );
                      };
 
+                    m.NetworkShowBulletsFlying +=
+                        (X, Y, Degrees, WeaponId) =>
+                             c.SendMessage(SharedClass1.Messages.ShowBulletsFlying,
+                                X, Y, Degrees, WeaponId
+                             );
 
                     var Players = new List<Warrior>();
 
@@ -296,11 +302,11 @@ namespace FlashTowerDefense.ActionScript.Client
                                 var uid = e.message.GetInt(0);
                                 var id = e.message.GetInt(1);
                                 var damage = e.message.GetInt(2);
-                                var arc = (Math.PI * 2) * e.message.GetInt(3) / 360;
+                                var arc = e.message.GetInt(3).DegreesToRadians();
 
 
                                 int cc = 0;
-                                foreach (var v in m.list)
+                                foreach (var v in m.BadGuys)
                                 {
                                     if (v.NetworkId == id)
                                     {
@@ -330,6 +336,23 @@ namespace FlashTowerDefense.ActionScript.Client
                                     }
                                 }
                                 //m.ShowMessage("damage: " + id + " by " + damage + " : " + cc);
+                            }
+                            else if (type == SharedClass1.Messages.UserShowBulletsFlying)
+                            {
+                                var Weapon = WeaponInfo.PredefinedWeapones.SingleOrDefault(i => i.NetworkId == e.message.GetInt(3));
+
+                                m.ShowBulletsFlying(
+                                    new Point
+                                    {
+                                        x = e.message.GetInt(0),
+                                        y = e.message.GetInt(1),
+                                    },
+                                        e.message.GetInt(2).DegreesToRadians(),
+                                        Weapon
+                                );
+
+
+
                             }
                             //}
                             //catch

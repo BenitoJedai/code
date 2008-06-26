@@ -44,13 +44,15 @@ namespace FlashTowerDefense.Server
 
         List<Player> PlayersWithActiveWarzone;
 
+        public readonly int MinimumPlayersToActivateWarzone = 1;
+
         private void CheckIfAllReady()
         {
             try
             {
                 if (PlayersWithActiveWarzone == null)
                 {
-                    if (Users.Length > 1)
+                    if (Users.Length >= MinimumPlayersToActivateWarzone)
                     {
                         var Ready = new List<Player>();
 
@@ -144,23 +146,11 @@ namespace FlashTowerDefense.Server
             else if (e == SharedClass1.Messages.CancelServerRandomNumbers)
                 player.GameEventStatus = Player.GameEventStatusEnum.Cancelled;
             else if (e == SharedClass1.Messages.AddDamageFromDirection)
-            {
-                foreach (var v in Users)
-                {
-                    if (v.UserId != player.UserId)
-                        Send(v, SharedClass1.Messages.UserAddDamageFromDirection, player.UserId, m.GetInt(0), m.GetInt(1), m.GetInt(2));
-                }
-                
-            }
+                SendOthers(player.UserId, SharedClass1.Messages.UserAddDamageFromDirection, player.UserId, m.GetInt(0), m.GetInt(1), m.GetInt(2));
             else if (e == SharedClass1.Messages.TakeBox)
-            {
-                foreach (var v in Users)
-                {
-                    if (v.UserId != player.UserId)
-                        Send(v, SharedClass1.Messages.UserTakeBox, player.UserId, m.GetInt(0));
-                }
-
-            }
+                SendOthers(player.UserId, SharedClass1.Messages.UserTakeBox, player.UserId, m.GetInt(0));
+            else if (e == SharedClass1.Messages.ShowBulletsFlying)
+                SendOthers(player.UserId, SharedClass1.Messages.UserShowBulletsFlying, m.GetInt(0), m.GetInt(1), m.GetInt(2), m.GetInt(3));
         }
 
         /// <summary>When a user enters this game instance</summary>
@@ -194,6 +184,17 @@ namespace FlashTowerDefense.Server
                     Send(v, type, e);
             }
         }
+
+
+        public void SendOthers(int id, Shared.SharedClass1.Messages type, params object[] e)
+        {
+            foreach (var v in Users)
+            {
+                if (v.UserId != id)
+                    Send(v, type, e);
+            }
+        }
+
 
         public void Broadcast(Shared.SharedClass1.Messages type, params object[] e)
         {

@@ -977,32 +977,16 @@ namespace FlashTowerDefense.ActionScript
 
         private void DoSomeDamage(Point DamagePointOfOrigin, double DamageDirection, WeaponInfo Weapon)
         {
-            Weapon.VisibleBulletLines.Random().Times(
-                delegate
-                {
-                    var VisibleBullet = new Shape().AttachTo(GetWarzone());
 
-                    var RandomGray = (0x60 + 0x60.Random()).ToInt32();
+            ShowBulletsFlying(DamagePointOfOrigin, DamageDirection, Weapon);
 
-                    VisibleBullet.graphics.lineStyle(1, RandomGray.ToGrayColor(), 1);
-
-                    var BulletDirection = DamageDirection + (2.0.Random() - 1.0) * (Weapon.ArcRange * 0.75);
-
-                    // -32empty-from-to-empty
-
-                    var BulletDropFromRange = 32 + (Weapon.Range / 2 - 32).Random();
-                    var BulletDropFrom = DamagePointOfOrigin.MoveToArc(BulletDirection, BulletDropFromRange);
-
-                    VisibleBullet.graphics.moveTo(BulletDropFrom.x, BulletDropFrom.y);
-
-                    var BulletDropTo = DamagePointOfOrigin.MoveToArc(BulletDirection, BulletDropFromRange + (Weapon.Range.Random() / 2));
-
-                    VisibleBullet.graphics.lineTo(BulletDropTo.x, BulletDropTo.y);
-
-                    50.AtDelayDo(() => VisibleBullet.Orphanize());
-                }
-            );
-
+            if (NetworkShowBulletsFlying != null)
+                NetworkShowBulletsFlying(
+                    DamagePointOfOrigin.x.ToInt32(),
+                    DamagePointOfOrigin.y.ToInt32(),
+                    DamageDirection.RadiansToDegrees(),
+                    Weapon.NetworkId
+                    );
 
             foreach (var DeadManWalking in BadGuys.ToArray())
             {
@@ -1033,6 +1017,36 @@ namespace FlashTowerDefense.ActionScript
                 }
 
             }
+        }
+
+        public void ShowBulletsFlying(Point DamagePointOfOrigin, double DamageDirection, WeaponInfo Weapon)
+        {
+            if (Weapon == null)
+                return;
+
+            Weapon.VisibleBulletLines.Random().Times(
+                delegate
+                {
+                    var VisibleBullet = new Shape().AttachTo(GetWarzone());
+
+                    var RandomGray = (0x60 + 0x60.Random()).ToInt32();
+
+                    VisibleBullet.graphics.lineStyle(1, RandomGray.ToGrayColor(), 1);
+
+
+                    var BulletDirection = DamageDirection + (2.0.Random() - 1.0) * (Weapon.ArcRange * 0.75);
+                    var BulletDropFromRange = 32 + (Weapon.Range / 2 - 32).Random();
+                    var BulletDropFrom = DamagePointOfOrigin.MoveToArc(BulletDirection, BulletDropFromRange);
+
+                    VisibleBullet.graphics.moveTo(BulletDropFrom.x, BulletDropFrom.y);
+
+                    var BulletDropTo = DamagePointOfOrigin.MoveToArc(BulletDirection, BulletDropFromRange + (Weapon.Range.Random() / 2));
+
+                    VisibleBullet.graphics.lineTo(BulletDropTo.x, BulletDropTo.y);
+
+                    50.AtDelayDo(() => VisibleBullet.Orphanize());
+                }
+            );
         }
 
         public void TeleportEgoNearTurret()
@@ -1079,6 +1093,7 @@ namespace FlashTowerDefense.ActionScript
 
         public SoundChannel InterlevelMusic;
 
+        public event Action<int /* x */, int /* y */, int /* arc */, int /* weapon */> NetworkShowBulletsFlying;
         public event Action<int, int, int> NetworkAddDamageFromDirection;
         public event Action<int> NetworkTakeCrate;
 

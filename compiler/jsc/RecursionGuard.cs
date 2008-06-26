@@ -23,7 +23,7 @@ namespace jsc
 
         RecursionGuard _parent;
 
-        [DebuggerNonUserCode, DebuggerHidden]
+        //[DebuggerNonUserCode, DebuggerHidden]
         private RecursionGuard(RecursionGuard parent)
         {
             if (parent._locked && parent._stack >= parent._depth)
