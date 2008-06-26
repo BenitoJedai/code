@@ -13,11 +13,12 @@ namespace FlashTowerDefense.Server
             Unknown,
             Ready,
             Cancelled,
-            Pending
+            Pending,
+            Lagging
         }
 
         internal GameEventStatusEnum GameEventStatus = GameEventStatusEnum.Unknown;
 
-        
+        public DateTime LastMessage = DateTime.MinValue;
     }
 }

@@ -4,6 +4,7 @@ using System.Text;
 using Nonoba.GameLibrary;
 using System.Drawing;
 using FlashTowerDefense.Shared;
+using System.Runtime.CompilerServices;
 
 namespace FlashTowerDefense.Server
 {
@@ -46,6 +47,7 @@ namespace FlashTowerDefense.Server
 
         public readonly int MinimumPlayersToActivateWarzone = 1;
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         private void CheckIfAllReady()
         {
             try
@@ -55,22 +57,31 @@ namespace FlashTowerDefense.Server
                     if (Users.Length >= MinimumPlayersToActivateWarzone)
                     {
                         var Ready = new List<Player>();
+                        var NextReadyCount = 0;
 
                         foreach (var z in Users)
                         {
                             if (z.GameEventStatus == Player.GameEventStatusEnum.Ready)
                                 Ready.Add(z);
+
+                            if (z.GameEventStatus == Player.GameEventStatusEnum.Lagging)
+                                continue;
+
+                            NextReadyCount++;
                         }
 
-                        if (Ready.Count == Users.Length)
+                        if (NextReadyCount > 0)
                         {
-                            foreach (var z in Ready)
-                                z.GameEventStatus = Player.GameEventStatusEnum.Pending;
+                            if (Ready.Count == NextReadyCount)
+                            {
+                                foreach (var z in Ready)
+                                    z.GameEventStatus = Player.GameEventStatusEnum.Pending;
 
-                            // multiple users are ready
-                            PlayersWithActiveWarzone = Ready;
+                                // multiple users are ready
+                                PlayersWithActiveWarzone = Ready;
 
-                            SetState(NonobaGameState.OpenGameInProgress);
+                                SetState(NonobaGameState.OpenGameInProgress);
+                            }
                         }
                     }
                 }
@@ -78,17 +89,22 @@ namespace FlashTowerDefense.Server
                 {
                     var Cancelled = new List<Player>();
 
-                    var a = new List<object>();
-                    var r = new Random();
+                    var z = GenerateRandomNumbers();
 
-                    for (int i = 0; i < 32; i++)
+                    foreach (var i in PlayersWithActiveWarzone.ToArray())
                     {
-                        a.Add(r.Next(100));
+                        if (i.LastMessage.AddSeconds(5) < DateTime.Now)
+                        {
+                            i.GameEventStatus = Player.GameEventStatusEnum.Lagging;
+                            PlayersWithActiveWarzone.Remove(i);
+                            continue;
+                        }
                     }
-                    var z = a.ToArray();
 
                     foreach (var i in PlayersWithActiveWarzone)
                     {
+                     
+
                         if (i.GameEventStatus == Player.GameEventStatusEnum.Pending)
                         {
                             Send(i, SharedClass1.Messages.ServerRandomNumbers, z);
@@ -107,10 +123,23 @@ namespace FlashTowerDefense.Server
                     }
                 }
             }
-            catch
+            catch (Exception exc)
             {
-
+                this.LogError(exc, "CheckIfAllReady failed");
             }
+        }
+
+        private object[] GenerateRandomNumbers()
+        {
+            var a = new List<object>();
+            var r = new Random();
+
+            for (int i = 0; i < 32; i++)
+            {
+                a.Add(r.Next(100));
+            }
+            var z = a.ToArray();
+            return z;
         }
 
         /// <summary>Timer callback scheduled to be called 10 times a second in the AddTimer() call in GameStarted()</summary>
@@ -126,6 +155,8 @@ namespace FlashTowerDefense.Server
         /// <summary>This message is called whenever a player sends a message into the game.</summary>
         public override void GotMessage(Player player, Message m)
         {
+            player.LastMessage = DateTime.Now;
+
             var e = (SharedClass1.Messages)int.Parse(m.Type);
 
             if (e == SharedClass1.Messages.EnterMachineGun)
@@ -156,6 +187,8 @@ namespace FlashTowerDefense.Server
                 SendOthers(player.UserId, SharedClass1.Messages.UserShowBulletsFlying, m.GetInt(0), m.GetInt(1), m.GetInt(2), m.GetInt(3));
         }
 
+   
+
         /// <summary>When a user enters this game instance</summary>
         public override void UserJoined(Player player)
         {
@@ -181,6 +214,9 @@ namespace FlashTowerDefense.Server
         /// <summary>When a user leaves the game instance</summary>
         public override void UserLeft(Player player)
         {
+            if (PlayersWithActiveWarzone != null)
+                PlayersWithActiveWarzone.Remove(player);
+
             Broadcast(SharedClass1.Messages.UserLeft, player.Username, player.UserId);
         }
 

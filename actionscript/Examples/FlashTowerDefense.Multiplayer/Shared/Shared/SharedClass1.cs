@@ -16,6 +16,9 @@ namespace FlashTowerDefense.Shared
         {
             None = 100,
             
+            Ping,
+            Pong,
+
             UserJoined,
             ToUserJoinedReply,  // client->server
             UserJoinedReply,    // server->client
@@ -51,6 +54,7 @@ namespace FlashTowerDefense.Shared
             AddDamageFromDirection,
             UserAddDamageFromDirection,
 
+            
             // for others
             TakeBox,
             UserTakeBox,

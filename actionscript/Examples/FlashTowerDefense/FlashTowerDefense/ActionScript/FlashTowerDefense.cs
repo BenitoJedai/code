@@ -500,6 +500,9 @@ namespace FlashTowerDefense.ActionScript
             GetWarzone().mouseMove +=
                 e =>
                 {
+                    if (!CanFire)
+                        return;
+
                     CurrentTarget = e;
 
                     if (EgoIsOnTheField())
@@ -508,6 +511,7 @@ namespace FlashTowerDefense.ActionScript
                         return;
                     }
 
+                    
                     Mouse.hide();
 
                     Aim.x = CurrentTarget.stageX;
@@ -775,7 +779,7 @@ namespace FlashTowerDefense.ActionScript
             }
             #endregion
 
-            Mouse.hide();
+            //Mouse.hide();
 
 
 

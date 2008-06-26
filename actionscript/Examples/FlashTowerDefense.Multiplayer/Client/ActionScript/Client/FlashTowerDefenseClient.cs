@@ -162,7 +162,9 @@ namespace FlashTowerDefense.ActionScript.Client
                             );
                         };
 
-                    
+                    500.AtInterval(
+                        t => c.SendMessage(SharedClass1.Messages.Ping)
+                    );
 
                     #region message
                     c.Message +=

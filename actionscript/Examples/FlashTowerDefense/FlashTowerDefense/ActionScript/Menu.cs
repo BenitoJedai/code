@@ -68,6 +68,7 @@ namespace FlashTowerDefense.ActionScript
 
             PlayButton.OnHoverUseColor(ColorRed);
 
+            
 
             PlayButton.click +=
                 delegate

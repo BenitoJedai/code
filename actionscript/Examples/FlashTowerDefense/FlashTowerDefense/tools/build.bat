@@ -1,6 +1,6 @@
 @echo off
 
-goto :skipped
+::goto :skipped
 
 
 :: Dll name
