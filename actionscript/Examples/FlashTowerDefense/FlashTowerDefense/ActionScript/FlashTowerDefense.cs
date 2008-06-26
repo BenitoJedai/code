@@ -1024,12 +1024,12 @@ namespace FlashTowerDefense.ActionScript
             if (Weapon == null)
                 return;
 
-            Weapon.VisibleBulletLines.Random().Times(
+            (1 + (Weapon.VisibleBulletLines - 1.Random())).Times(
                 delegate
                 {
                     var VisibleBullet = new Shape().AttachTo(GetWarzone());
 
-                    var RandomGray = (0x60 + 0x60.Random()).ToInt32();
+                    var RandomGray = (0x40 + 0x80.Random()).ToInt32();
 
                     VisibleBullet.graphics.lineStyle(1, RandomGray.ToGrayColor(), 1);
 

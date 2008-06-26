@@ -69,6 +69,8 @@ namespace FlashTowerDefense.Server
 
                             // multiple users are ready
                             PlayersWithActiveWarzone = Ready;
+
+                            SetState(NonobaGameState.OpenGameInProgress);
                         }
                     }
                 }
@@ -101,6 +103,7 @@ namespace FlashTowerDefense.Server
                     {
                         // end of day for those guys
                         PlayersWithActiveWarzone = null;
+                        SetState(NonobaGameState.WaitingForPlayers);
                     }
                 }
             }
@@ -160,8 +163,18 @@ namespace FlashTowerDefense.Server
 
             Broadcast(SharedClass1.Messages.UserJoined, player.Username, player.UserId);
 
+            ScheduleCallback(
+                delegate
+                {
+                    if (this.PlayersWithActiveWarzone == null)
+                        Send(player, SharedClass1.Messages.ServerMessage, "Game will start shortly!");
+                    else
+                        Send(player, SharedClass1.Messages.ServerMessage, "Wait for the next day!");
+                },
+                50
+            );
 
-            //Send(player, SharedClass1.Messages.ServerRandomNumbers, z);
+
             // we need to resync the players now
         }
 

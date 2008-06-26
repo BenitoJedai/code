@@ -53,6 +53,8 @@ namespace FlashTowerDefense.ActionScript.Client
             c.Init +=
                 delegate
                 {
+                    var Players = new List<Warrior>();
+
                     var m = new FlashTowerDefense();
 
                     // we need synced enemies
@@ -70,6 +72,11 @@ namespace FlashTowerDefense.ActionScript.Client
                         delegate
                         {
                             m.ShowMessage("Disconnected!");
+
+                            foreach (var v in Players.ToArray())
+                            {
+                                v.RemoveFrom(Players).AddDamage(v.health);
+                            }
                         };
 
                     m.EgoEnteredMachineGun +=
@@ -144,11 +151,18 @@ namespace FlashTowerDefense.ActionScript.Client
 
                     m.NetworkShowBulletsFlying +=
                         (X, Y, Degrees, WeaponId) =>
-                             c.SendMessage(SharedClass1.Messages.ShowBulletsFlying,
-                                X, Y, Degrees, WeaponId
-                             );
+                        {
+                            // fixme: compiler bug: 
+                            // 1: delegate to an extension method
+                            // 2: this block is not surrounded by parentheses
+                            // - need to look at the il to figure it out
 
-                    var Players = new List<Warrior>();
+                            c.SendMessage(SharedClass1.Messages.ShowBulletsFlying,
+                               X, Y, Degrees, WeaponId
+                            );
+                        };
+
+                    
 
                     #region message
                     c.Message +=

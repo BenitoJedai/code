@@ -16,7 +16,7 @@ namespace FlashTowerDefense.Server
             Pending
         }
 
-        public GameEventStatusEnum GameEventStatus;
+        internal GameEventStatusEnum GameEventStatus = GameEventStatusEnum.Unknown;
 
         
     }
