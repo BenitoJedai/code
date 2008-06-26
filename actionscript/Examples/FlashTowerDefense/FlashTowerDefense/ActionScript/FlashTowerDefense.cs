@@ -530,7 +530,15 @@ namespace FlashTowerDefense.ActionScript
                         throw new Exception("AttachRules");
 
                     if (a.NetworkId == 0)
+                    {
                         a.NetworkId = int.MaxValue.FixedRandom();
+
+                        if (0.3.ByChance())
+                        {
+                            a.Crate = new Animation(Images.box).AddTo(Boxes);
+                            a.Crate.NetworkId = int.MaxValue.FixedRandom();
+                        }
+                    }
 
                     a.CorpseAndBloodGone += () => BadGuys.Remove(a);
                     a.Moved +=
@@ -554,11 +562,6 @@ namespace FlashTowerDefense.ActionScript
                             }
                         };
 
-                    if (0.3.ByChance())
-                    {
-                        a.Crate = new Animation(Images.box).AddTo(Boxes);
-                        a.NetworkId = int.MaxValue.FixedRandom();
-                    }
 
 
 
@@ -750,7 +753,7 @@ namespace FlashTowerDefense.ActionScript
                             }
                     };
 
-         
+
 
                 };
 
