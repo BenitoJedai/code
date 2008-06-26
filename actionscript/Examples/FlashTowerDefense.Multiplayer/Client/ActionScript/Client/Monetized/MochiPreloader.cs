@@ -72,7 +72,7 @@ namespace FlashTowerDefense.ActionScript.Client.Monetized
         #endregion
 
         public string _mochiads_game_id = "5b0c6187126f195a";
-
+           
         public MochiPreloader()
         {
             loaderInfo.ioError +=
@@ -89,8 +89,10 @@ namespace FlashTowerDefense.ActionScript.Client.Monetized
                 ad_finished =
                     delegate
                     {
+                        var c = new FlashTowerDefenseClient();
+
                         stage.addChild(
-                            new FlashTowerDefenseClient()
+                            c
                             );
                     }
 

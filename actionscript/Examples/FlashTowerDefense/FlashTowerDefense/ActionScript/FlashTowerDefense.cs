@@ -663,6 +663,7 @@ namespace FlashTowerDefense.ActionScript
                         Up =
                             delegate
                             {
+                                EgoMoveSpeed = 1;
                                 EgoMoveUpTimer.stop();
                                 Ego.RunAnimation = false;
                             }
@@ -674,6 +675,8 @@ namespace FlashTowerDefense.ActionScript
                         Up = () => ToggleMusic()
                     };
 
+                    var ShotgunReloading = false;
+
                     var KeyControl = new KeyboardButton(stage)
                     {
                         Buttons = new[] { Keyboard.CONTROL },
@@ -681,6 +684,13 @@ namespace FlashTowerDefense.ActionScript
                         Up =
                             delegate
                             {
+                                if (ShotgunReloading)
+                                    return;
+
+                                ShotgunReloading = true;
+
+                                500.AtDelayDo(() => ShotgunReloading = false);
+
                                 Sounds.shotgun2.ToSoundAsset().play();
 
                                 if (EgoFiredShotgun != null)
@@ -1005,8 +1015,8 @@ namespace FlashTowerDefense.ActionScript
                     var Offset = new Point { y = DeadManWalking.y - Location.y, x = DeadManWalking.x - Location.x };
                     var Arc = Offset.GetRotation();
                     var Distance = Offset.length;
-                    var LessThan = Arc < ((DamageDirection % (Math.PI * 2)) + Weapon.ArcRange);
-                    var MoreThan = Arc > ((DamageDirection % (Math.PI * 2)) - Weapon.ArcRange);
+                    var LessThan = Arc < (((DamageDirection + Weapon.ArcRange) % (Math.PI * 2)));
+                    var MoreThan = Arc > (((DamageDirection - Weapon.ArcRange) % (Math.PI * 2)));
                     var Hit = LessThan && MoreThan;
 
                     if (Distance < Weapon.Range)

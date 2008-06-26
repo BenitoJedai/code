@@ -42,6 +42,10 @@ namespace ScriptCoreLib.ActionScript.Nonoba.api
             return default(int);
         }
 
+        public double GetNumber(int index)
+        {
+            return default(double);
+        }
 
         [Script(NotImplementedHere = true)]
         public static Message CloneFrom(object e)

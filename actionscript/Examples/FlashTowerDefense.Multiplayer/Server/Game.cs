@@ -40,7 +40,7 @@ namespace FlashTowerDefense.Server
             // every 100th millisecond (10 times a second).
             // AddTimer(new TimerCallback(tick), 30000);
 
-            AddTimer(CheckIfAllReady, 5000);
+            AddTimer(CheckIfAllReady, 3000);
         }
 
         List<Player> PlayersWithActiveWarzone;
@@ -74,6 +74,8 @@ namespace FlashTowerDefense.Server
                         {
                             if (Ready.Count == NextReadyCount)
                             {
+                                //Broadcast(SharedClass1.Messages.ServerMessage, "New wave!");
+
                                 foreach (var z in Ready)
                                     z.GameEventStatus = Player.GameEventStatusEnum.Pending;
 
@@ -82,11 +84,18 @@ namespace FlashTowerDefense.Server
 
                                 SetState(NonobaGameState.OpenGameInProgress);
                             }
+                            else
+                            {
+                                
+                                //Broadcast(SharedClass1.Messages.ServerMessage, "All not ready!");
+                            }
                         }
                     }
                 }
                 else
                 {
+                    //Broadcast(SharedClass1.Messages.ServerMessage, "The wave is still active!");
+
                     var Cancelled = new List<Player>();
 
                     var z = GenerateRandomNumbers();
@@ -134,9 +143,9 @@ namespace FlashTowerDefense.Server
             var a = new List<object>();
             var r = new Random();
 
-            for (int i = 0; i < 32; i++)
+            for (int i = 0; i < 100; i++)
             {
-                a.Add(r.Next(100));
+                a.Add(r.NextDouble());
             }
             var z = a.ToArray();
             return z;

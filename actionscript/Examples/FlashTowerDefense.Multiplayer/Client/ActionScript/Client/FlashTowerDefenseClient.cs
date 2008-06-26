@@ -44,6 +44,8 @@ namespace FlashTowerDefense.ActionScript.Client
                 Initialize();
         }
 
+        public Action<string> ShowMessage = delegate { };
+
         private void Initialize()
         {
             var c = NonobaAPI.MakeMultiplayer(stage
@@ -306,7 +308,7 @@ namespace FlashTowerDefense.ActionScript.Client
 
                                 for (int i = 0; i < e.message.length; i++)
                                 {
-                                    MyExtensions.ByChance_RandomNumbers.Enqueue(e.message.GetInt(i) / 100.0);
+                                    MyExtensions.ByChance_RandomNumbers.Enqueue(e.message.GetNumber(i));
                                 }
 
                                 // active warzone
