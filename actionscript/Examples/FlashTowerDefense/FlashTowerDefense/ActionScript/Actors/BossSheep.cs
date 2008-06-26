@@ -14,7 +14,7 @@ namespace FlashTowerDefense.ActionScript.Actors
         {
             ActorName = "BossSheep";
             ScoreValue = 8;
-            Description = "Respawns with minnions";
+            Description = "Respawns";
             //PlayHelloSound += () => Assets.snd_sheep.ToSoundAsset().play();
 
 

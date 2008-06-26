@@ -529,7 +529,9 @@ namespace FlashTowerDefense.ActionScript
                     if (a == null)
                         throw new Exception("AttachRules");
 
-                    a.NetworkId = int.MaxValue.FixedRandom();
+                    if (a.NetworkId == 0)
+                        a.NetworkId = int.MaxValue.FixedRandom();
+
                     a.CorpseAndBloodGone += () => BadGuys.Remove(a);
                     a.Moved +=
                         delegate

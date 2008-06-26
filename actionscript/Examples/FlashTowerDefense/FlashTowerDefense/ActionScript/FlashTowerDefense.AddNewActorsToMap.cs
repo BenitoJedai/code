@@ -119,7 +119,8 @@ namespace FlashTowerDefense.ActionScript
                                     y = boss.y,
                                     speed = boss.speed / 2,
                                     filters = boss.filters,
-                                    IsBleeding = true
+                                    IsBleeding = true,
+                                    NetworkId = boss.NetworkId + 4
                                 }
                             );
 
@@ -184,12 +185,15 @@ namespace FlashTowerDefense.ActionScript
                                     y = boss.y,
                                     speed = boss.speed / 2,
                                     filters = boss.filters,
-                                    IsBleeding = true
+                                    IsBleeding = true,
+                                    NetworkId = boss.NetworkId + 4
                                 }
                             );
 
                             // remove the glow from the old boss cuz we respawned
                             boss.filters = null;
+
+                            // ?? fixme: sync/race condition in multiplayer at the moment
 
                             Action<Sheep> AddMinnion = i => AttachRules(i).AddTo(Minnions);
 
@@ -202,7 +206,8 @@ namespace FlashTowerDefense.ActionScript
                                     x = i.x,
                                     y = i.y,
                                     speed = newboss.speed,
-                                    IsBleeding = true
+                                    IsBleeding = true,
+                                    NetworkId = i.NetworkId + 4
                                 }
                             );
 

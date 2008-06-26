@@ -47,7 +47,7 @@ namespace FlashTowerDefense.ActionScript.Client
         private void Initialize()
         {
             var c = NonobaAPI.MakeMultiplayer(stage
-                //, "192.168.3.20"
+                , "192.168.3.102"
                 );
 
             c.Init +=

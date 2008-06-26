@@ -100,7 +100,7 @@ namespace FlashTowerDefense.ActionScript.Actors
                 corpse.y = -corpse.height / 2;
                 corpse.AttachTo(this);
 
-                (10000 + 10000.Random().ToInt32()).AtDelay(
+                (10000 + 10000.FixedRandom()).AtDelay(
                     delegate
                     {
                         corpse.Orphanize();
@@ -111,7 +111,7 @@ namespace FlashTowerDefense.ActionScript.Actors
                         blood.AttachTo(this);
 
 
-                        (20000 + 10000.Random().ToInt32()).AtDelay(
+                        ((20000 + 10000.FixedRandom())).AtDelay(
                            delegate
                            {
                                blood.Orphanize();
@@ -254,7 +254,13 @@ namespace FlashTowerDefense.ActionScript.Actors
 
                             if (p.length <= (EgoMoveSpeed * 2))
                             {
-                                RunAnimation = false;
+                                100.AtDelayDo(
+                                    delegate
+                                    {
+                                        if (!_TargetTimer.running)
+                                            RunAnimation = false;
+                                    }
+                                );
 
                                 _TargetTimer.stop();
                                 
