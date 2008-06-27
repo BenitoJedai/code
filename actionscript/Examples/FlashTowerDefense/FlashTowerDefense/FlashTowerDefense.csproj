@@ -54,6 +54,7 @@
     <Compile Include="ActionScript\Actors\BossSheep.cs" />
     <Compile Include="ActionScript\Actors\BossWarrior.cs" />
     <Compile Include="ActionScript\Actors\NuclearWarrior.cs" />
+    <Compile Include="ActionScript\Actors\PlayerWarrior.cs" />
     <Compile Include="ActionScript\Actors\Settings.cs" />
     <Compile Include="ActionScript\Actors\Warrior.cs" />
     <Compile Include="ActionScript\Actors\Sheep.cs" />

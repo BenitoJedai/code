@@ -13,5 +13,17 @@ namespace FlashTowerDefense.Shared
         // without one :)
 
         // also members defined over here cannot be used by the server code
+
+        [Script]
+        partial interface IMessages
+        {
+
+        }
+
+        [Script]
+        partial class RemoteMessages
+        {
+
+        }
     }
 }

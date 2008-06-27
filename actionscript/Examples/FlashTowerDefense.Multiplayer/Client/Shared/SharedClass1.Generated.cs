@@ -1,31 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Runtime.CompilerServices;
 
+#if !NoAttributes
+using ScriptCoreLib;
+#endif
 
 namespace FlashTowerDefense.Shared
 {
+
+
     public partial class SharedClass1
     {
-        // members defined over here can be used on client and on server
-        // x
 
-        public string Hello;
-
-        /// <summary>
-        /// this interface is to be used in a generator
-        /// </summary>
-        partial interface IMessages
-        {
-            void TeleportTo(int x, int y);
-            void WalkTo(int x, int y);
-        }
 
         #region generated from IMessages
+#if !NoAttributes
+        [Script]
+#endif
+        [CompilerGenerated]
         public enum Messages
         {
             None = 100,
-            
+
             Ping,
             Pong,
 
@@ -64,7 +62,7 @@ namespace FlashTowerDefense.Shared
             AddDamageFromDirection,
             UserAddDamageFromDirection,
 
-            
+
             // for others
             TakeBox,
             UserTakeBox,
@@ -74,31 +72,64 @@ namespace FlashTowerDefense.Shared
             UserShowBulletsFlying,
         }
 
-        
+#if !NoAttributes
+        [Script]
+#endif
+        [CompilerGenerated]
         public partial class RemoteEvents
         {
-            public event Action<int, int> TeleportTo;
 
+            #region TeleportTo
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed class TeleportToArguments
+            {
+                public int x;
+                public int y;
+            }
 
+            public event Action<TeleportToArguments> TeleportTo;
+            #endregion
+
+            //public event Action<int, int, int> UserTeleportTo;
         }
 
-        public partial class RemoteMessages : IMessages
+
+#if !NoAttributes
+        [Script]
+#endif
+        [CompilerGenerated]
+        public class RemoteMessages : IMessages
         {
 
-            #region IMessages Members
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed class SendArguments
+            {
+                public Messages i;
+                public object[] args;
+            }
+
+
+            public Action<SendArguments> Send;
+
 
             public void TeleportTo(int x, int y)
             {
-                throw new NotImplementedException();
+                Send(new SendArguments { i = Messages.TeleportTo, args = new object[] { x, y } });
             }
 
-            public void WalkTo(int x, int y)
+            public void UserTeleportTo(int user, int x, int y)
             {
-                throw new NotImplementedException();
+                Send(new SendArguments { i = Messages.UserTeleportTo, args = new object[] { user, x, y } });
             }
 
-            #endregion
         }
+
 
         #endregion
 

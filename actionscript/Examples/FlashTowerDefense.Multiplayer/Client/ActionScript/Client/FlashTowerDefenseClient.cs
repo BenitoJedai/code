@@ -13,7 +13,9 @@ using FlashTowerDefense.Shared;
 using FlashTowerDefense.ActionScript.Actors;
 using System.Collections.Generic;
 using FlashTowerDefense.ActionScript.Assets;
+
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace FlashTowerDefense.ActionScript.Client
 {
@@ -55,7 +57,7 @@ namespace FlashTowerDefense.ActionScript.Client
             c.Init +=
                 delegate
                 {
-                    var Players = new List<Warrior>();
+                    var Players = new List<PlayerWarrior>();
 
                     var m = new FlashTowerDefense();
 
@@ -84,11 +86,23 @@ namespace FlashTowerDefense.ActionScript.Client
                     m.EgoEnteredMachineGun +=
                         () => c.SendMessage(SharedClass1.Messages.EnterMachineGun);
 
-                    Action SendTeleportTo =
-                        delegate
-                        {
-                            c.SendMessage(SharedClass1.Messages.TeleportTo, Convert.ToInt32(m.Ego.x), Convert.ToInt32(m.Ego.y));
-                        };
+
+                    // compiler bug: extension method as instance method, the first param is lost
+
+                    //Func<SharedClass1.Messages, ParamsAction<object>> f = (SharedClass1.Messages j) => j.FixParam((SharedClass1.Messages i, object[] args) => c.SendMessage(i, args));
+
+                    var NetworkMessages = new SharedClass1.RemoteMessages();
+
+                    NetworkMessages.Send = e => c.SendMessage(e.i, e.args);
+
+                    var NetworkEvents = new SharedClass1.RemoteEvents();
+
+
+           
+
+                    // with data
+                    Action SendTeleportTo = () => NetworkMessages.TeleportTo(m.Ego.x.ToInt32(), m.Ego.y.ToInt32());
+                        
 
                     m.EgoExitedMachineGun +=
                         delegate
@@ -178,7 +192,7 @@ namespace FlashTowerDefense.ActionScript.Client
 
                             if (type == SharedClass1.Messages.UserJoined)
                             {
-                                var n = new Warrior
+                                var n = new PlayerWarrior
                                 {
                                     CanMakeFootsteps = false,
                                     RunAnimation = false,
@@ -199,7 +213,7 @@ namespace FlashTowerDefense.ActionScript.Client
 
                                 if (!Players.Any(n => n.NetworkId == id))
                                 {
-                                    var n = new Warrior
+                                    var n = new PlayerWarrior
                                     {
                                         CanMakeFootsteps = false,
                                         RunAnimation = false,

@@ -60,6 +60,9 @@
     <Compile Include="ActionScript\Client\Monetized\MochiPreloader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
+    <Compile Include="Shared\SharedClass1.Attributes.cs" />
+    <Compile Include="Shared\SharedClass1.Generated.cs" />
+    <Compile Include="Shared\SharedClass1.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\description.txt" />
@@ -75,10 +78,6 @@
     <ProjectReference Include="..\..\FlashTowerDefense\FlashTowerDefense\FlashTowerDefense.csproj">
       <Project>{B939002B-9922-4999-B943-6C0DF657D25B}</Project>
       <Name>FlashTowerDefense</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Shared\FlashTowerDefense.Shared.csproj">
-      <Project>{16969E26-6189-4014-87CA-7BE7D3E403FD}</Project>
-      <Name>FlashTowerDefense.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

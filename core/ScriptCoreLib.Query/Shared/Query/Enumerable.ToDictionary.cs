@@ -5,6 +5,7 @@ using global::System.Collections;
 using global::System.Collections.Generic;
 
 using IDisposable = global::System.IDisposable;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace ScriptCoreLib.Shared.Query
 {

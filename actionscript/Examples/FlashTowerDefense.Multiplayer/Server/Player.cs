@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using Nonoba.GameLibrary;
+using FlashTowerDefense.Shared;
 
 namespace FlashTowerDefense.Server
 {
@@ -20,5 +21,11 @@ namespace FlashTowerDefense.Server
         internal GameEventStatusEnum GameEventStatus = GameEventStatusEnum.Unknown;
 
         public DateTime LastMessage = DateTime.MinValue;
+
+        internal SharedClass1.RemoteEvents NetworkEvents;
+        internal SharedClass1.RemoteMessages NetworkMessages;
+
+
+        
     }
 }

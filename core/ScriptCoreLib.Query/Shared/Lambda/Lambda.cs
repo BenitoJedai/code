@@ -92,6 +92,16 @@ namespace ScriptCoreLib.Shared.Lambda
             return done;
         }
 
+        public static ParamsAction<B> FixParam<A, B>(this ParamsAction<A, B> f, A a)
+        {
+            return b => f(a, b);
+        }
+
+        public static ParamsAction<B> FixParam<A, B>(this  A a, ParamsAction<A, B> f)
+        {
+            return FixParam(f, a);
+        }
+
         public static Action FixParam<A>(this global::System.Action<A> f, A a)
         {
             return () => f(a);
@@ -184,6 +194,11 @@ namespace ScriptCoreLib.Shared.Lambda
 
     }
 
+    [Script]
+    public delegate void ParamsAction<A, B>(A a, params B[] b);
+
+    [Script]
+    public delegate void ParamsAction<A>(params A[] a);
 
 
     [Script]

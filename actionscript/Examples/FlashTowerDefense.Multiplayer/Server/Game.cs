@@ -40,7 +40,8 @@ namespace FlashTowerDefense.Server
             // every 100th millisecond (10 times a second).
             // AddTimer(new TimerCallback(tick), 30000);
 
-            AddTimer(CheckIfAllReady, 3000);
+            AddTimer(CheckIfAllReady, 2000);
+            AddTimer(SendNextWave, 5000);
         }
 
         List<Player> PlayersWithActiveWarzone;
@@ -50,92 +51,92 @@ namespace FlashTowerDefense.Server
         [MethodImpl(MethodImplOptions.Synchronized)]
         private void CheckIfAllReady()
         {
-            try
+            if (PlayersWithActiveWarzone != null)
+                return;
+
+            if (Users.Length < MinimumPlayersToActivateWarzone)
+                return;
+
+            var Ready = new List<Player>();
+            var NextReadyCount = 0;
+
+            foreach (var z in Users)
             {
-                if (PlayersWithActiveWarzone == null)
+                if (z.GameEventStatus == Player.GameEventStatusEnum.Ready)
+                    Ready.Add(z);
+
+                if (z.GameEventStatus == Player.GameEventStatusEnum.Lagging)
+                    continue;
+
+                NextReadyCount++;
+            }
+
+            if (NextReadyCount > 0)
+            {
+                if (Ready.Count == NextReadyCount)
                 {
-                    if (Users.Length >= MinimumPlayersToActivateWarzone)
-                    {
-                        var Ready = new List<Player>();
-                        var NextReadyCount = 0;
+                    //Broadcast(SharedClass1.Messages.ServerMessage, "New wave!");
 
-                        foreach (var z in Users)
-                        {
-                            if (z.GameEventStatus == Player.GameEventStatusEnum.Ready)
-                                Ready.Add(z);
+                    foreach (var z in Ready)
+                        z.GameEventStatus = Player.GameEventStatusEnum.Pending;
 
-                            if (z.GameEventStatus == Player.GameEventStatusEnum.Lagging)
-                                continue;
+                    // multiple users are ready
+                    PlayersWithActiveWarzone = Ready;
 
-                            NextReadyCount++;
-                        }
-
-                        if (NextReadyCount > 0)
-                        {
-                            if (Ready.Count == NextReadyCount)
-                            {
-                                //Broadcast(SharedClass1.Messages.ServerMessage, "New wave!");
-
-                                foreach (var z in Ready)
-                                    z.GameEventStatus = Player.GameEventStatusEnum.Pending;
-
-                                // multiple users are ready
-                                PlayersWithActiveWarzone = Ready;
-
-                                SetState(NonobaGameState.OpenGameInProgress);
-                            }
-                            else
-                            {
-                                
-                                //Broadcast(SharedClass1.Messages.ServerMessage, "All not ready!");
-                            }
-                        }
-                    }
+                    SetState(NonobaGameState.OpenGameInProgress);
                 }
                 else
                 {
-                    //Broadcast(SharedClass1.Messages.ServerMessage, "The wave is still active!");
 
-                    var Cancelled = new List<Player>();
-
-                    var z = GenerateRandomNumbers();
-
-                    foreach (var i in PlayersWithActiveWarzone.ToArray())
-                    {
-                        if (i.LastMessage.AddSeconds(5) < DateTime.Now)
-                        {
-                            i.GameEventStatus = Player.GameEventStatusEnum.Lagging;
-                            PlayersWithActiveWarzone.Remove(i);
-                            continue;
-                        }
-                    }
-
-                    foreach (var i in PlayersWithActiveWarzone)
-                    {
-                     
-
-                        if (i.GameEventStatus == Player.GameEventStatusEnum.Pending)
-                        {
-                            Send(i, SharedClass1.Messages.ServerRandomNumbers, z);
-                        }
-                        else if (i.GameEventStatus == Player.GameEventStatusEnum.Cancelled)
-                        {
-                            Cancelled.Add(i);
-                        }
-                    }
-
-                    if (Cancelled.Count == PlayersWithActiveWarzone.Count)
-                    {
-                        // end of day for those guys
-                        PlayersWithActiveWarzone = null;
-                        SetState(NonobaGameState.WaitingForPlayers);
-                    }
+                    //Broadcast(SharedClass1.Messages.ServerMessage, "All not ready!");
                 }
             }
-            catch (Exception exc)
+
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        private void SendNextWave()
+        {
+            if (PlayersWithActiveWarzone == null)
+                return;
+
+            //Broadcast(SharedClass1.Messages.ServerMessage, "The wave is still active!");
+
+            var Cancelled = new List<Player>();
+
+            var z = GenerateRandomNumbers();
+
+            foreach (var i in PlayersWithActiveWarzone.ToArray())
             {
-                this.LogError(exc, "CheckIfAllReady failed");
+                if (i.LastMessage.AddSeconds(5) < DateTime.Now)
+                {
+                    i.GameEventStatus = Player.GameEventStatusEnum.Lagging;
+                    PlayersWithActiveWarzone.Remove(i);
+                    continue;
+                }
             }
+
+            foreach (var i in PlayersWithActiveWarzone)
+            {
+
+
+                if (i.GameEventStatus == Player.GameEventStatusEnum.Pending)
+                {
+                    Send(i, SharedClass1.Messages.ServerRandomNumbers, z);
+                }
+                else if (i.GameEventStatus == Player.GameEventStatusEnum.Cancelled)
+                {
+                    Cancelled.Add(i);
+                }
+            }
+
+            if (Cancelled.Count == PlayersWithActiveWarzone.Count)
+            {
+                // end of day for those guys
+                PlayersWithActiveWarzone = null;
+                SetState(NonobaGameState.WaitingForPlayers);
+            }
+
         }
 
         private object[] GenerateRandomNumbers()
@@ -164,6 +165,12 @@ namespace FlashTowerDefense.Server
         /// <summary>This message is called whenever a player sends a message into the game.</summary>
         public override void GotMessage(Player player, Message m)
         {
+            var NetworkMessages_ToOthers = 
+                new SharedClass1.RemoteMessages 
+                { 
+                    Send = q => this.SendOthers(player.UserId, q.i, q.args)
+                };
+
             player.LastMessage = DateTime.Now;
 
             var e = (SharedClass1.Messages)int.Parse(m.Type);
@@ -176,8 +183,11 @@ namespace FlashTowerDefense.Server
                 Broadcast(SharedClass1.Messages.UserStartMachineGun, player.Username);
             else if (e == SharedClass1.Messages.StopMachineGun)
                 Broadcast(SharedClass1.Messages.UserStopMachineGun, player.Username);
+
             else if (e == SharedClass1.Messages.TeleportTo)
-                Broadcast(SharedClass1.Messages.UserTeleportTo, player.UserId, m.GetInt(0), m.GetInt(1));
+                NetworkMessages_ToOthers.UserTeleportTo(player.UserId, m.GetInt(0), m.GetInt(1));
+
+                // Broadcast(SharedClass1.Messages.UserTeleportTo, player.UserId, m.GetInt(0), m.GetInt(1));
             else if (e == SharedClass1.Messages.WalkTo)
                 Broadcast(SharedClass1.Messages.UserWalkTo, player.UserId, m.GetInt(0), m.GetInt(1));
             else if (e == SharedClass1.Messages.ToUserJoinedReply)
@@ -196,11 +206,16 @@ namespace FlashTowerDefense.Server
                 SendOthers(player.UserId, SharedClass1.Messages.UserShowBulletsFlying, m.GetInt(0), m.GetInt(1), m.GetInt(2), m.GetInt(3));
         }
 
-   
+
 
         /// <summary>When a user enters this game instance</summary>
         public override void UserJoined(Player player)
         {
+            player.NetworkEvents = new SharedClass1.RemoteEvents();
+            player.NetworkMessages = new SharedClass1.RemoteMessages();
+            player.NetworkMessages.Send = e => this.Send(player, e.i, e.args);
+            
+
             //player.Send("welcometogame", Users.Length); // send a message with the amount users in the game
 
             Broadcast(SharedClass1.Messages.UserJoined, player.Username, player.UserId);

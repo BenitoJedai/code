@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTowerDefense.Server", 
 		{CA433158-64B5-4EB9-B283-22130063DBF4} = {CA433158-64B5-4EB9-B283-22130063DBF4}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTowerDefense.Shared", "Shared\FlashTowerDefense.Shared.csproj", "{16969E26-6189-4014-87CA-7BE7D3E403FD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTowerDefense.Client", "Client\FlashTowerDefense.Client.csproj", "{CA433158-64B5-4EB9-B283-22130063DBF4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTowerDefense", "..\FlashTowerDefense\FlashTowerDefense\FlashTowerDefense.csproj", "{B939002B-9922-4999-B943-6C0DF657D25B}"
@@ -31,10 +29,6 @@ Global
 		{79329531-C72A-4868-A10F-5B61FE18B268}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79329531-C72A-4868-A10F-5B61FE18B268}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79329531-C72A-4868-A10F-5B61FE18B268}.Release|Any CPU.Build.0 = Release|Any CPU
-		{16969E26-6189-4014-87CA-7BE7D3E403FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{16969E26-6189-4014-87CA-7BE7D3E403FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{16969E26-6189-4014-87CA-7BE7D3E403FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{16969E26-6189-4014-87CA-7BE7D3E403FD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CA433158-64B5-4EB9-B283-22130063DBF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CA433158-64B5-4EB9-B283-22130063DBF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA433158-64B5-4EB9-B283-22130063DBF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
