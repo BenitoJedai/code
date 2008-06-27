@@ -798,41 +798,49 @@ namespace ConvertASToCS.js
 
                                     Write("e => ");
 
-                                    Write(v.Name);
-
-                                    using (Parentheses())
+                                    using (InlineCodeBlock())
                                     {
-                                        WriteBlue("new");
-                                        WriteSpace();
-                                        WriteCyan(v.Name + "Arguments");
-                                        WriteSpace();
+                                   
+                                        Write(v.Name);
 
-                                        using (InlineCodeBlock())
+                                        using (Parentheses())
                                         {
-                                            for (int k = 0; k < v.ParametersInfo.Parameters.Length; k++)
+                                            WriteBlue("new");
+                                            WriteSpace();
+                                            WriteCyan(v.Name + "Arguments");
+                                            WriteSpace();
+
+                                            using (InlineCodeBlock())
                                             {
-                                                if (k > 0)
+                                                for (int k = 0; k < v.ParametersInfo.Parameters.Length; k++)
                                                 {
-                                                    Write(",");
-                                                    WriteSpace();
+                                                    if (k > 0)
+                                                    {
+                                                        Write(",");
+                                                        WriteSpace();
+                                                    }
+
+                                                    var p = v.ParametersInfo.Parameters[k];
+
+                                                    Write(p.Name);
+                                                    WriteAssignment();
+                                                    Write("e");
+                                                    Write(".");
+
+
+
+                                                    Write(KnownConverters[p.TypeName]);
+
+                                                    using (Parentheses())
+                                                        Write("" + k);
+
                                                 }
-
-                                                var p = v.ParametersInfo.Parameters[k];
-
-                                                Write(p.Name);
-                                                WriteAssignment();
-                                                Write("e");
-                                                Write(".");
-
-
-
-                                                Write(KnownConverters[p.TypeName]);
-
-                                                using (Parentheses())
-                                                    Write("" + k);
-
                                             }
+
+                                            
                                         }
+
+                                        Write(";");
                                     }
                                 }
 

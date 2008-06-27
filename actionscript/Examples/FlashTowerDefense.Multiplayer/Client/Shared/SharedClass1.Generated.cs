@@ -14,6 +14,8 @@ namespace FlashTowerDefense.Shared
     public partial class SharedClass1
     {
 
+
+
         #region RemoteMessages
 
 #if !NoAttributes
@@ -213,20 +215,14 @@ namespace FlashTowerDefense.Shared
             {
                 DispatchTable = new Dictionary<Messages, Action<DispatchHelper>>
                     {
-                        { Messages.TeleportTo, e => TeleportTo(new TeleportToArguments { x = e.GetInt32(0), y = e.GetInt32(1) }) },
-                        { Messages.UserTeleportTo, 
-                            e =>
-                            {
-                                UserTeleportTo(new UserTeleportToArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) });
-                            }
-
-                            },
-                        { Messages.CancelServerRandomNumbers, e => CancelServerRandomNumbers(new CancelServerRandomNumbersArguments {  }) },
-                        { Messages.ReadyForServerRandomNumbers, e => ReadyForServerRandomNumbers(new ReadyForServerRandomNumbersArguments {  }) },
-                        { Messages.TakeBox, e => TakeBox(new TakeBoxArguments { box = e.GetInt32(0) }) },
-                        { Messages.UserTakeBox, e => UserTakeBox(new UserTakeBoxArguments { user = e.GetInt32(0), box = e.GetInt32(1) }) },
-                        { Messages.FiredShotgun, e => FiredShotgun(new FiredShotgunArguments {  }) },
-                        { Messages.UserFiredShotgun, e => UserFiredShotgun(new UserFiredShotgunArguments { user = e.GetInt32(0) }) },
+                        { Messages.TeleportTo, e => {  TeleportTo(new TeleportToArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
+                        { Messages.UserTeleportTo, e => {  UserTeleportTo(new UserTeleportToArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
+                        { Messages.CancelServerRandomNumbers, e => {  CancelServerRandomNumbers(new CancelServerRandomNumbersArguments {  }); } },
+                        { Messages.ReadyForServerRandomNumbers, e => {  ReadyForServerRandomNumbers(new ReadyForServerRandomNumbersArguments {  }); } },
+                        { Messages.TakeBox, e => {  TakeBox(new TakeBoxArguments { box = e.GetInt32(0) }); } },
+                        { Messages.UserTakeBox, e => {  UserTakeBox(new UserTakeBoxArguments { user = e.GetInt32(0), box = e.GetInt32(1) }); } },
+                        { Messages.FiredShotgun, e => {  FiredShotgun(new FiredShotgunArguments {  }); } },
+                        { Messages.UserFiredShotgun, e => {  UserFiredShotgun(new UserFiredShotgunArguments { user = e.GetInt32(0) }); } },
                     }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
