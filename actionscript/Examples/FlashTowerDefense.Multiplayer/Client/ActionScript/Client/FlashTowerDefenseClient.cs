@@ -138,13 +138,17 @@ namespace FlashTowerDefense.ActionScript.Client
                     m.GameInterlevelBegin +=
                      delegate
                      {
-                         c.SendMessage(SharedClass1.Messages.CancelServerRandomNumbers);
+                         NetworkMessages.CancelServerRandomNumbers();
+
+                         //c.SendMessage(SharedClass1.Messages.CancelServerRandomNumbers);
                      };
 
                     m.GameInterlevelEnd +=
                       delegate
                       {
-                          c.SendMessage(SharedClass1.Messages.ReadyForServerRandomNumbers);
+                          NetworkMessages.ReadyForServerRandomNumbers();
+
+                          //c.SendMessage(SharedClass1.Messages.ReadyForServerRandomNumbers);
                       };
 
                     m.NetworkAddDamageFromDirection +=
@@ -158,12 +162,13 @@ namespace FlashTowerDefense.ActionScript.Client
                         };
 
                     m.NetworkTakeCrate +=
-                     (Id) =>
-                     {
-                         c.SendMessage(SharedClass1.Messages.TakeBox,
-                             Id
-                         );
-                     };
+                     Id => NetworkMessages.TakeBox(Id);
+                     //{
+                     //    NetworkMessages.TakeBox
+                     //    c.SendMessage(SharedClass1.Messages.TakeBox,
+                     //        Id
+                     //    );
+                     //};
 
                     m.NetworkShowBulletsFlying +=
                         (X, Y, Degrees, WeaponId) =>

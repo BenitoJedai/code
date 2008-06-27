@@ -25,12 +25,20 @@ namespace FlashTowerDefense.Shared
         {
             // this will generate lots of overkill boilerplate code :)
 
-            // client -> server 
+            // client -> server  -> others
             void TeleportTo(int x, int y);
             // server -> others
             void UserTeleportTo(int user, int x, int y);
 
 
+            // client -> server
+            void CancelServerRandomNumbers();
+            void ReadyForServerRandomNumbers();
+
+            // client -> server  -> others
+            void TakeBox(int box);
+            // server -> others
+            void UserTakeBox(int user, int box);
             // ...
         }
 
