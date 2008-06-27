@@ -29,6 +29,9 @@ namespace FlashTowerDefense.Shared
             void TeleportTo(int x, int y);
             // server -> others
             void UserTeleportTo(int user, int x, int y);
+
+
+            // ...
         }
 
 

@@ -97,7 +97,7 @@ namespace FlashTowerDefense.ActionScript.Client
 
                     var NetworkEvents = new SharedClass1.RemoteEvents();
 
-
+                    
            
 
                     // with data

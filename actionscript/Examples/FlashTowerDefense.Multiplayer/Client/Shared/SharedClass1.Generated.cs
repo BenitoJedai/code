@@ -15,7 +15,6 @@ namespace FlashTowerDefense.Shared
     {
 
 
-        #region generated from IMessages
 #if !NoAttributes
         [Script]
 #endif
@@ -72,37 +71,16 @@ namespace FlashTowerDefense.Shared
             UserShowBulletsFlying,
         }
 
-#if !NoAttributes
-        [Script]
-#endif
-        [CompilerGenerated]
-        public partial class RemoteEvents
-        {
-
-            #region TeleportTo
-#if !NoAttributes
-            [Script]
-#endif
-            [CompilerGenerated]
-            public sealed class TeleportToArguments
-            {
-                public int x;
-                public int y;
-            }
-
-            public event Action<TeleportToArguments> TeleportTo;
-            #endregion
-
-            //public event Action<int, int, int> UserTeleportTo;
-        }
-
+        #region RemoteMessages
 
 #if !NoAttributes
         [Script]
 #endif
         [CompilerGenerated]
-        public class RemoteMessages : IMessages
+        public sealed class RemoteMessages : IMessages
         {
+            public Action<SendArguments> Send;
+            #region SendArguments
 
 #if !NoAttributes
             [Script]
@@ -113,25 +91,88 @@ namespace FlashTowerDefense.Shared
                 public Messages i;
                 public object[] args;
             }
-
-
-            public Action<SendArguments> Send;
-
+            #endregion
 
             public void TeleportTo(int x, int y)
-            {
-                Send(new SendArguments { i = Messages.TeleportTo, args = new object[] { x, y } });
-            }
-
-            public void UserTeleportTo(int user, int x, int y)
-            {
-                Send(new SendArguments { i = Messages.UserTeleportTo, args = new object[] { user, x, y } });
-            }
-
+        {
+            Send(new SendArguments { i = Messages.TeleportTo, args = new object[] { x, y } })
         }
-
-
+            public void UserTeleportTo(int user, int x, int y)
+        {
+            Send(new SendArguments { i = Messages.UserTeleportTo, args = new object[] { user, x, y } })
+        }
+        }
         #endregion
 
+
+        #region RemoteEvents
+
+#if !NoAttributes
+        [Script]
+#endif
+        [CompilerGenerated]
+        public sealed class RemoteEvents
+        {
+            private readonly Dictionary<Messages, Action<DispatchHelper>> DispatchTable;
+            #region DispatchHelper
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed class DispatchHelper
+            {
+                public Converter<uint, int> GetInt32;
+                public Converter<uint, double> GetDouble;
+                public Converter<uint, string> GetString;
+            }
+            #endregion
+
+            public bool Dispatch(Messages e, DispatchHelper h)
+            {
+                if (!DispatchTable.ContainsKey(e)) return false;
+                DispatchTable[e](h);
+                return true;
+            }
+            #region TeleportToArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed class TeleportToArguments
+            {
+                public int x;
+                public int y;
+            }
+            #endregion
+
+            public event Action<TeleportToArguments> TeleportTo;
+            #region UserTeleportToArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed class UserTeleportToArguments
+            {
+                public int user;
+                public int x;
+                public int y;
+            }
+            #endregion
+
+            public event Action<UserTeleportToArguments> UserTeleportTo;
+            public RemoteEvents()
+            {
+                DispatchTable = new Dictionary<Messages, Action<DispatchHelper>>
+                {
+                    { Messages.TeleportTo, e => TeleportTo(new TeleportToArguments { x = e.GetInt32(0), y = e.GetInt32(1) }) },
+                    { Messages.UserTeleportTo, e => UserTeleportTo(new UserTeleportToArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }) },
+                }
+                ;
+            }
+        }
+        #endregion
     }
 }

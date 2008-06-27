@@ -58,6 +58,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IAssemblyReferenceToken.cs" />
+    <Compile Include="js\Any\Extensions.cs" />
+    <Compile Include="js\Any\IndexInfo.cs" />
+    <Compile Include="js\Any\ProxyProvider.cs" />
     <Compile Include="js\Any\ReflectionProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

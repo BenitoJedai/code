@@ -175,6 +175,16 @@ namespace FlashTowerDefense.Server
 
             var e = (SharedClass1.Messages)int.Parse(m.Type);
 
+            if (player.NetworkEvents.Dispatch(e,
+                    new SharedClass1.RemoteEvents.DispatchHelper
+                    {
+                        GetInt32 = m.GetInt,
+                        GetDouble = m.GetDouble,
+                        GetString = m.GetString
+                    }
+                ))
+                return;
+
             if (e == SharedClass1.Messages.EnterMachineGun)
                 Broadcast(SharedClass1.Messages.UserEnterMachineGun, player.UserId);
             else if (e == SharedClass1.Messages.ExitMachineGun)
@@ -211,10 +221,19 @@ namespace FlashTowerDefense.Server
         /// <summary>When a user enters this game instance</summary>
         public override void UserJoined(Player player)
         {
-            player.NetworkEvents = new SharedClass1.RemoteEvents();
+            var NetworkMessages_ToOthers =
+                 new SharedClass1.RemoteMessages
+                 {
+                     Send = q => this.SendOthers(player.UserId, q.i, q.args)
+                 };
+
             player.NetworkMessages = new SharedClass1.RemoteMessages();
             player.NetworkMessages.Send = e => this.Send(player, e.i, e.args);
             
+
+            player.NetworkEvents = new SharedClass1.RemoteEvents();
+            player.NetworkEvents.TeleportTo += e => NetworkMessages_ToOthers.UserTeleportTo(player.UserId, e.x, e.y);
+
 
             //player.Send("welcometogame", Users.Length); // send a message with the amount users in the game
 
@@ -289,5 +308,7 @@ namespace FlashTowerDefense.Server
         //    }
         //    return image;
         //}
+
+        
     }
 }

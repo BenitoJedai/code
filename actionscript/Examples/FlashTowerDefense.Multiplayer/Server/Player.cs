@@ -26,6 +26,9 @@ namespace FlashTowerDefense.Server
         internal SharedClass1.RemoteMessages NetworkMessages;
 
 
-        
+        public override Dictionary<string, string> GetDebugValues()
+        {
+            return new Dictionary<string, string> { };
+        }
     }
 }

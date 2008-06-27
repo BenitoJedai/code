@@ -164,6 +164,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Convert.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Converter.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Environment.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Int32.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Delegate.cs">

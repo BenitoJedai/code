@@ -828,5 +828,19 @@ namespace ConvertASToCS.Any.Test.Properties {
                 this["TestInput"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("            // client -> server \r\n            void TeleportTo(int x, int y);\r\n   " +
+            "         // server -> others\r\n            void UserTeleportTo(int user, int x, i" +
+            "nt y);")]
+        public string TestProxyInput {
+            get {
+                return ((string)(this["TestProxyInput"]));
+            }
+            set {
+                this["TestProxyInput"] = value;
+            }
+        }
     }
 }
