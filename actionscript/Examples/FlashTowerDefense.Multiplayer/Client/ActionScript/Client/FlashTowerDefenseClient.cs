@@ -97,12 +97,56 @@ namespace FlashTowerDefense.ActionScript.Client
 
                     var NetworkEvents = new SharedClass1.RemoteEvents();
 
-                    
-           
+                    #region Events
+                    NetworkEvents.UserFiredShotgun += e => Sounds.shotgun2.ToSoundAsset().play();
+
+                    NetworkEvents.UserTakeBox +=
+                        e =>
+                        {
+                            foreach (var v in m.Boxes)
+                            {
+                                if (v.NetworkId == e.box)
+                                {
+                                    v.RemoveFrom(m.Boxes).Orphanize();
+
+                                    Sounds.sound20.ToSoundAsset().play();
+                                }
+                            }
+                        };
+
+                    NetworkEvents.UserTeleportTo +=
+                        e =>
+                        {
+                            if (e == null)
+                                throw new ArgumentNullException("e");
+
+                            if (Players == null)
+                                throw new ArgumentNullException("Players");
+
+                            foreach (var v in Players.Where(i =>
+                                {
+                                    if (i == null)
+                                        throw new ArgumentNullException("i");
+
+                                    if (e == null)
+                                        throw new ArgumentNullException("e");
+                          
+
+                                    return i.NetworkId == e.user; }))
+                            {
+                                m.ShowMessage(v.NetworkName + " has been teleported");
+
+                                v.MoveTo(
+                                    e.x,
+                                    e.y
+                                ).AttachTo(m.GetWarzone());
+                            }
+                        };
+                    #endregion
 
                     // with data
                     Action SendTeleportTo = () => NetworkMessages.TeleportTo(m.Ego.x.ToInt32(), m.Ego.y.ToInt32());
-                        
+
 
                     m.EgoExitedMachineGun +=
                         delegate
@@ -129,27 +173,9 @@ namespace FlashTowerDefense.ActionScript.Client
                             }
                         };
 
-                    m.EgoFiredShotgun +=
-                        delegate
-                        {
-                            c.SendMessage(SharedClass1.Messages.FiredShotgun);
-                        };
-
-                    m.GameInterlevelBegin +=
-                     delegate
-                     {
-                         NetworkMessages.CancelServerRandomNumbers();
-
-                         //c.SendMessage(SharedClass1.Messages.CancelServerRandomNumbers);
-                     };
-
-                    m.GameInterlevelEnd +=
-                      delegate
-                      {
-                          NetworkMessages.ReadyForServerRandomNumbers();
-
-                          //c.SendMessage(SharedClass1.Messages.ReadyForServerRandomNumbers);
-                      };
+                    m.EgoFiredShotgun += () => NetworkMessages.FiredShotgun();
+                    m.GameInterlevelBegin += () => NetworkMessages.CancelServerRandomNumbers();
+                    m.GameInterlevelEnd += () => NetworkMessages.ReadyForServerRandomNumbers();
 
                     m.NetworkAddDamageFromDirection +=
                         (Id, Damage, Arc) =>
@@ -161,15 +187,7 @@ namespace FlashTowerDefense.ActionScript.Client
                             );
                         };
 
-                    m.NetworkTakeCrate +=
-                     Id => NetworkMessages.TakeBox(Id);
-                     //{
-                     //    NetworkMessages.TakeBox
-                     //    c.SendMessage(SharedClass1.Messages.TakeBox,
-                     //        Id
-                     //    );
-                     //};
-
+                    m.NetworkTakeCrate += Id => NetworkMessages.TakeBox(Id);
                     m.NetworkShowBulletsFlying +=
                         (X, Y, Degrees, WeaponId) =>
                         {
@@ -187,13 +205,52 @@ namespace FlashTowerDefense.ActionScript.Client
                         t => c.SendMessage(SharedClass1.Messages.Ping)
                     );
 
+                    Func<Message, bool> Dispatch =
+                        e =>
+                        {
+                            var type = (SharedClass1.Messages)int.Parse(e.Type);
+
+                            if (NetworkEvents.Dispatch(type,
+                                  new SharedClass1.RemoteEvents.DispatchHelper
+                                  {
+                                      GetInt32 = e.GetInt,
+                                      GetDouble = e.GetNumber,
+                                      GetString = e.GetString
+                                  }
+                              ))
+                                return true;
+
+                            return false;
+                        };
+
                     #region message
                     c.Message +=
                         e =>
                         {
                             //try
                             //{
+
+                            var Dispatched = false;
+
+                            try
+                            {
+                                Dispatched = Dispatch(e.message);
+                            }
+                            catch (Exception ex)
+                            {
+                                System.Console.WriteLine("error at dispatch " + e.message.Type);
+
+                                throw ex;
+                            }
+
+                            if (Dispatched)
+                                return;
+
+                            System.Console.WriteLine("not on dispatch: " + e.message.Type);
+
                             var type = (SharedClass1.Messages)int.Parse(e.message.Type);
+
+
 
                             if (type == SharedClass1.Messages.UserJoined)
                             {
@@ -280,21 +337,21 @@ namespace FlashTowerDefense.ActionScript.Client
                                 if (m.EgoIsOnTheField())
                                     m.PrebuiltTurret.AnimationEnabled = false;
                             }
-                            else if (type == SharedClass1.Messages.UserTeleportTo)
-                            {
-                                var id = e.message.GetInt(0);
+                            //else if (type == SharedClass1.Messages.UserTeleportTo)
+                            //{
+                            //    var id = e.message.GetInt(0);
 
-                                foreach (var v in Players.Where(i => i.NetworkId == id))
-                                {
-                                    m.ShowMessage(v.NetworkName + " has been teleported");
+                            //    foreach (var v in Players.Where(i => i.NetworkId == id))
+                            //    {
+                            //        m.ShowMessage(v.NetworkName + " has been teleported");
 
-                                    v.MoveTo(
-                                        e.message.GetInt(1),
-                                        e.message.GetInt(2)
-                                    ).AttachTo(m.GetWarzone());
-                                }
+                            //        v.MoveTo(
+                            //            e.message.GetInt(1),
+                            //            e.message.GetInt(2)
+                            //        ).AttachTo(m.GetWarzone());
+                            //    }
 
-                            }
+                            //}
                             else if (type == SharedClass1.Messages.UserWalkTo)
                             {
 
@@ -310,10 +367,10 @@ namespace FlashTowerDefense.ActionScript.Client
                                 }
 
                             }
-                            else if (type == SharedClass1.Messages.UserFiredShotgun)
-                            {
-                                Sounds.shotgun2.ToSoundAsset().play();
-                            }
+                            //else if (type == SharedClass1.Messages.UserFiredShotgun)
+                            //{
+                            //    Sounds.shotgun2.ToSoundAsset().play();
+                            //}
                             else if (type == SharedClass1.Messages.ServerMessage)
                             {
                                 m.ShowMessage("Server: " + e.message.GetString(0));
@@ -325,7 +382,7 @@ namespace FlashTowerDefense.ActionScript.Client
                                 else
                                     MyExtensions.ByChance_RandomNumbers.Clear();
 
-                                for (int i = 0; i < e.message.length; i++)
+                                for (uint i = 0; i < e.message.length; i++)
                                 {
                                     MyExtensions.ByChance_RandomNumbers.Enqueue(e.message.GetNumber(i));
                                 }
@@ -354,26 +411,26 @@ namespace FlashTowerDefense.ActionScript.Client
                                 }
                                 //m.ShowMessage("damage: " + id + " by " + damage + " : " + cc);
                             }
-                            else if (type == SharedClass1.Messages.UserTakeBox)
-                            {
-                                var uid = e.message.GetInt(0);
-                                var id = e.message.GetInt(1);
+                            //else if (type == SharedClass1.Messages.UserTakeBox)
+                            //{
+                            //    var uid = e.message.GetInt(0);
+                            //    var id = e.message.GetInt(1);
 
 
-                                int cc = 0;
-                                foreach (var v in m.Boxes)
-                                {
-                                    if (v.NetworkId == id)
-                                    {
-                                        cc++;
+                            //    int cc = 0;
+                            //    foreach (var v in m.Boxes)
+                            //    {
+                            //        if (v.NetworkId == id)
+                            //        {
+                            //            cc++;
 
-                                        v.RemoveFrom(m.Boxes).Orphanize();
+                            //            v.RemoveFrom(m.Boxes).Orphanize();
 
-                                        Sounds.sound20.ToSoundAsset().play();
-                                    }
-                                }
-                                //m.ShowMessage("damage: " + id + " by " + damage + " : " + cc);
-                            }
+                            //            Sounds.sound20.ToSoundAsset().play();
+                            //        }
+                            //    }
+                            //    //m.ShowMessage("damage: " + id + " by " + damage + " : " + cc);
+                            //}
                             else if (type == SharedClass1.Messages.UserShowBulletsFlying)
                             {
                                 var Weapon = WeaponInfo.PredefinedWeapones.SingleOrDefault(i => i.NetworkId == e.message.GetInt(3));

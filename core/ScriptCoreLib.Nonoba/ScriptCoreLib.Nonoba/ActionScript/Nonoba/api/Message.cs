@@ -32,17 +32,17 @@ namespace ScriptCoreLib.ActionScript.Nonoba.api
         {
         }
 
-        public string GetString(int index)
+        public string GetString(uint index)
         {
             return default(string);
         }
 
-        public int GetInt(int index)
+        public int GetInt(uint index)
         {
             return default(int);
         }
 
-        public double GetNumber(int index)
+        public double GetNumber(uint index)
         {
             return default(double);
         }

@@ -14,67 +14,10 @@ namespace FlashTowerDefense.Shared
     public partial class SharedClass1
     {
 
-
-#if !NoAttributes
-        [Script]
-#endif
-        [CompilerGenerated]
-        public enum Messages
-        {
-            None = 100,
-
-            Ping,
-            Pong,
-
-            UserJoined,
-            ToUserJoinedReply,  // client->server
-            UserJoinedReply,    // server->client
-
-            UserLeft,
-
-            UserEnterMachineGun,
-            UserExitMachineGun,
-
-            UserStartMachineGun,
-            UserStopMachineGun,
-
-            UserTeleportTo,
-            UserWalkTo,
-            UserFiredShotgun,
-
-            EnterMachineGun,
-            ExitMachineGun,
-
-            StartMachineGun,
-            StopMachineGun,
-
-            TeleportTo,
-            WalkTo,
-            FiredShotgun,
-
-            ServerMessage,
-            ServerRandomNumbers,
-
-            ReadyForServerRandomNumbers,
-            CancelServerRandomNumbers,
-
-            AddDamageFromDirection,
-            UserAddDamageFromDirection,
-
-
-            // for others
-            TakeBox,
-            UserTakeBox,
-
-
-            ShowBulletsFlying,
-            UserShowBulletsFlying,
-        }
-
         #region RemoteMessages
 
 #if !NoAttributes
-        [Script]
+    [Script]
 #endif
         [CompilerGenerated]
         public sealed class RemoteMessages : IMessages
@@ -83,7 +26,7 @@ namespace FlashTowerDefense.Shared
             #region SendArguments
 
 #if !NoAttributes
-            [Script]
+        [Script]
 #endif
             [CompilerGenerated]
             public sealed class SendArguments
@@ -117,6 +60,14 @@ namespace FlashTowerDefense.Shared
             {
                 Send(new SendArguments { i = Messages.UserTakeBox, args = new object[] { user, box } });
             }
+            public void FiredShotgun()
+            {
+                Send(new SendArguments { i = Messages.FiredShotgun, args = new object[] { } });
+            }
+            public void UserFiredShotgun(int user)
+            {
+                Send(new SendArguments { i = Messages.UserFiredShotgun, args = new object[] { user } });
+            }
         }
         #endregion
 
@@ -124,16 +75,17 @@ namespace FlashTowerDefense.Shared
         #region RemoteEvents
 
 #if !NoAttributes
-        [Script]
+    [Script]
 #endif
         [CompilerGenerated]
         public sealed class RemoteEvents
         {
             private readonly Dictionary<Messages, Action<DispatchHelper>> DispatchTable;
+            private readonly Dictionary<Messages, Converter<object, Delegate>> DispatchTableDelegates;
             #region DispatchHelper
 
 #if !NoAttributes
-            [Script]
+        [Script]
 #endif
             [CompilerGenerated]
             public sealed class DispatchHelper
@@ -146,6 +98,8 @@ namespace FlashTowerDefense.Shared
 
             public bool Dispatch(Messages e, DispatchHelper h)
             {
+                if (!DispatchTableDelegates.ContainsKey(e)) return false;
+                if (DispatchTableDelegates[e](null) == null) return false;
                 if (!DispatchTable.ContainsKey(e)) return false;
                 DispatchTable[e](h);
                 return true;
@@ -153,7 +107,7 @@ namespace FlashTowerDefense.Shared
             #region TeleportToArguments
 
 #if !NoAttributes
-            [Script]
+        [Script]
 #endif
             [CompilerGenerated]
             public sealed class TeleportToArguments
@@ -167,7 +121,7 @@ namespace FlashTowerDefense.Shared
             #region UserTeleportToArguments
 
 #if !NoAttributes
-            [Script]
+        [Script]
 #endif
             [CompilerGenerated]
             public sealed class UserTeleportToArguments
@@ -182,7 +136,7 @@ namespace FlashTowerDefense.Shared
             #region CancelServerRandomNumbersArguments
 
 #if !NoAttributes
-            [Script]
+        [Script]
 #endif
             [CompilerGenerated]
             public sealed class CancelServerRandomNumbersArguments
@@ -194,7 +148,7 @@ namespace FlashTowerDefense.Shared
             #region ReadyForServerRandomNumbersArguments
 
 #if !NoAttributes
-            [Script]
+        [Script]
 #endif
             [CompilerGenerated]
             public sealed class ReadyForServerRandomNumbersArguments
@@ -206,7 +160,7 @@ namespace FlashTowerDefense.Shared
             #region TakeBoxArguments
 
 #if !NoAttributes
-            [Script]
+        [Script]
 #endif
             [CompilerGenerated]
             public sealed class TakeBoxArguments
@@ -219,7 +173,7 @@ namespace FlashTowerDefense.Shared
             #region UserTakeBoxArguments
 
 #if !NoAttributes
-            [Script]
+        [Script]
 #endif
             [CompilerGenerated]
             public sealed class UserTakeBoxArguments
@@ -230,17 +184,62 @@ namespace FlashTowerDefense.Shared
             #endregion
 
             public event Action<UserTakeBoxArguments> UserTakeBox;
+            #region FiredShotgunArguments
+
+#if !NoAttributes
+        [Script]
+#endif
+            [CompilerGenerated]
+            public sealed class FiredShotgunArguments
+            {
+            }
+            #endregion
+
+            public event Action<FiredShotgunArguments> FiredShotgun;
+            #region UserFiredShotgunArguments
+
+#if !NoAttributes
+        [Script]
+#endif
+            [CompilerGenerated]
+            public sealed class UserFiredShotgunArguments
+            {
+                public int user;
+            }
+            #endregion
+
+            public event Action<UserFiredShotgunArguments> UserFiredShotgun;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<DispatchHelper>>
-            {
-                { Messages.TeleportTo, e => TeleportTo(new TeleportToArguments { x = e.GetInt32(0), y = e.GetInt32(1) }) },
-                { Messages.UserTeleportTo, e => UserTeleportTo(new UserTeleportToArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }) },
-                { Messages.CancelServerRandomNumbers, e => CancelServerRandomNumbers(new CancelServerRandomNumbersArguments {  }) },
-                { Messages.ReadyForServerRandomNumbers, e => ReadyForServerRandomNumbers(new ReadyForServerRandomNumbersArguments {  }) },
-                { Messages.TakeBox, e => TakeBox(new TakeBoxArguments { box = e.GetInt32(0) }) },
-                { Messages.UserTakeBox, e => UserTakeBox(new UserTakeBoxArguments { user = e.GetInt32(0), box = e.GetInt32(1) }) },
-            }
+                    {
+                        { Messages.TeleportTo, e => TeleportTo(new TeleportToArguments { x = e.GetInt32(0), y = e.GetInt32(1) }) },
+                        { Messages.UserTeleportTo, 
+                            e =>
+                            {
+                                UserTeleportTo(new UserTeleportToArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) });
+                            }
+
+                            },
+                        { Messages.CancelServerRandomNumbers, e => CancelServerRandomNumbers(new CancelServerRandomNumbersArguments {  }) },
+                        { Messages.ReadyForServerRandomNumbers, e => ReadyForServerRandomNumbers(new ReadyForServerRandomNumbersArguments {  }) },
+                        { Messages.TakeBox, e => TakeBox(new TakeBoxArguments { box = e.GetInt32(0) }) },
+                        { Messages.UserTakeBox, e => UserTakeBox(new UserTakeBoxArguments { user = e.GetInt32(0), box = e.GetInt32(1) }) },
+                        { Messages.FiredShotgun, e => FiredShotgun(new FiredShotgunArguments {  }) },
+                        { Messages.UserFiredShotgun, e => UserFiredShotgun(new UserFiredShotgunArguments { user = e.GetInt32(0) }) },
+                    }
+                ;
+                DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
+                    {
+                        { Messages.TeleportTo, e => TeleportTo },
+                        { Messages.UserTeleportTo, e => UserTeleportTo },
+                        { Messages.CancelServerRandomNumbers, e => CancelServerRandomNumbers },
+                        { Messages.ReadyForServerRandomNumbers, e => ReadyForServerRandomNumbers },
+                        { Messages.TakeBox, e => TakeBox },
+                        { Messages.UserTakeBox, e => UserTakeBox },
+                        { Messages.FiredShotgun, e => FiredShotgun },
+                        { Messages.UserFiredShotgun, e => UserFiredShotgun },
+                    }
                 ;
             }
         }

@@ -234,6 +234,9 @@ namespace FlashTowerDefense.Server
             player.NetworkEvents = new SharedClass1.RemoteEvents();
             player.NetworkEvents.TeleportTo += e => NetworkMessages_ToOthers.UserTeleportTo(player.UserId, e.x, e.y);
             player.NetworkEvents.TakeBox += e => NetworkMessages_ToOthers.UserTakeBox(player.UserId, e.box);
+            player.NetworkEvents.FiredShotgun += e => NetworkMessages_ToOthers.UserFiredShotgun(player.UserId);
+
+
             player.NetworkEvents.ReadyForServerRandomNumbers += e => player.GameEventStatus = Player.GameEventStatusEnum.Ready;
             player.NetworkEvents.CancelServerRandomNumbers += e => player.GameEventStatus = Player.GameEventStatusEnum.Cancelled;
 

@@ -2,6 +2,7 @@
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.text;
 using System.Collections.Generic;
+using System;
 
 namespace OrcasFlashApplication.ActionScript
 {
@@ -11,11 +12,33 @@ namespace OrcasFlashApplication.ActionScript
     [Script, ScriptApplicationEntryPoint]
     public class OrcasFlashApplication : Sprite
     {
+        [Script]
+        public class Data
+        {
+            public string Text;
+        }
+
+        static Func<Data> Test1(Func<string> GetText, Func<Data, Data> Handler)
+        {
+            return () => Handler(new Data { Text = GetText() });
+        }
+
+        static Func<Data> Test2(Func<string> GetText, Func<Data, Data> Handler)
+        {
+            return () => { return Handler(new Data { Text = GetText() }); };
+        }
+
         /// <summary>
         /// Default constructor
         /// </summary>
         public OrcasFlashApplication()
         {
+            if (Test1(() => "", i => i) == null)
+                System.Console.WriteLine("Compiler Error 1");
+
+            if (Test2(() => "", i => i) == null)
+                System.Console.WriteLine("Compiler Error 2");
+
             var dict = new Dictionary<string, string>
             {
                 {"hello", "world2"}

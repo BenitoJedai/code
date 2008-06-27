@@ -351,7 +351,7 @@ namespace ConvertASToCS.js
                     );
                 };
 
-            Func<IDisposable> IdentLine =
+            Func<IDisposable> IndentLine =
                  () =>
                  {
                      WriteIdent();
@@ -442,7 +442,7 @@ namespace ConvertASToCS.js
                    {
                        foreach (var f in i.Fields)
                        {
-                           using (IdentLine())
+                           using (IndentLine())
                            {
                                if (f.IsPrivate)
                                {
@@ -583,7 +583,7 @@ namespace ConvertASToCS.js
                     //}
 
                     using (CodeBlock())
-                    using (IdentLine())
+                    using (IndentLine())
                     {
                         WriteBlack("Send");
                         using (Parentheses())
@@ -638,6 +638,9 @@ namespace ConvertASToCS.js
 
             WriteLine();
 
+            var RemoteEvents_DispatchTable = new FieldInfo { FieldName = "DispatchTable", TypeName = "Dictionary<" + MessagesEnumName + ", Action<DispatchHelper>>", IsPrivate = true, IsReadOnly = true };
+            var RemoteEvents_DispatchTableDelegates = new FieldInfo { FieldName = "DispatchTableDelegates", TypeName = "Dictionary<" + MessagesEnumName + ", Converter<object, Delegate>>", IsPrivate = true, IsReadOnly = true };
+
             #region RemoteEvents
             using (DefineType(
                     new TypeInfo
@@ -646,7 +649,8 @@ namespace ConvertASToCS.js
                         Name = "RemoteEvents",
                         Fields = new[]
                             {
-                                new FieldInfo { FieldName = "DispatchTable", TypeName = "Dictionary<" + MessagesEnumName + ", Action<DispatchHelper>>", IsPrivate = true, IsReadOnly = true },
+                                RemoteEvents_DispatchTable,
+                                RemoteEvents_DispatchTableDelegates
                             }
                     }
                 ))
@@ -687,7 +691,7 @@ namespace ConvertASToCS.js
                 //}
 
                 #region Dispatch
-                using (IdentLine())
+                using (IndentLine())
                 {
                     WriteBlue("public");
                     WriteSpace();
@@ -709,9 +713,11 @@ namespace ConvertASToCS.js
 
                 using (CodeBlock())
                 {
-                    using (IdentLine()) Write("if (!DispatchTable.ContainsKey(e)) return false;");
-                    using (IdentLine()) Write("DispatchTable[e](h);");
-                    using (IdentLine()) Write("return true;");
+                    using (IndentLine()) Write("if (!DispatchTableDelegates.ContainsKey(e)) return false;");
+                    using (IndentLine()) Write("if (DispatchTableDelegates[e](null) == null) return false;");
+                    using (IndentLine()) Write("if (!DispatchTable.ContainsKey(e)) return false;");
+                    using (IndentLine()) Write("DispatchTable[e](h);");
+                    using (IndentLine()) Write("return true;");
                 }
                 #endregion
 
@@ -734,7 +740,7 @@ namespace ConvertASToCS.js
 
                     // public event Action<TeleportToArguments> TeleportTo;
 
-                    using (IdentLine())
+                    using (IndentLine())
                     {
                         WriteBlue("public");
                         WriteSpace();
@@ -749,7 +755,7 @@ namespace ConvertASToCS.js
 
 
                 #region ctor
-                using (IdentLine())
+                using (IndentLine())
                 {
                     WriteBlue("public");
                     WriteSpace();
@@ -762,7 +768,8 @@ namespace ConvertASToCS.js
                 }
                 using (CodeBlock())
                 {
-                    using (IdentLine())
+                    #region DispatchTable
+                    using (IndentLine())
                     {
                         Write("DispatchTable");
                         WriteAssignment();
@@ -770,11 +777,14 @@ namespace ConvertASToCS.js
                         WriteSpace();
                         WriteCyan("Dictionary<" + MessagesEnumName + ", Action<DispatchHelper>>");
                     }
+
+                    Indent += 2;
+
                     using (CodeBlock())
                     {
                         foreach (var v in r.MethodDefinitions)
                         {
-                            using (IdentLine())
+                            using (IndentLine())
                             {
                                 using (InlineCodeBlock())
                                 {
@@ -832,8 +842,54 @@ namespace ConvertASToCS.js
                         }
                     }
 
-                    using (IdentLine())
+                    Indent -= 2;
+
+                    using (IndentLine())
                         Write(";");
+
+                    #endregion
+
+                    #region DispatchTableDelegates
+                    using (IndentLine())
+                    {
+                        Write("DispatchTableDelegates");
+                        WriteAssignment();
+                        WriteBlue("new");
+                        WriteSpace();
+                        WriteCyan(RemoteEvents_DispatchTableDelegates.TypeName);
+                    }
+                    Indent += 2;
+                    using (CodeBlock())
+                    {
+                        foreach (var v in r.MethodDefinitions)
+                        {
+                            using (IndentLine())
+                            {
+                                using (InlineCodeBlock())
+                                {
+                                    WriteCyan(MessagesEnumName);
+                                    Write(".");
+                                    Write(v.Name);
+
+                                    Write(",");
+                                    WriteSpace();
+
+                                    Write("e => ");
+
+                                    Write(v.Name);
+                                }
+
+                                Write(",");
+                            }
+
+                        }
+                    }
+                    Indent -= 2;
+                    using (IndentLine())
+                        Write(";");
+
+                    #endregion
+
                 }
                 #endregion
 
