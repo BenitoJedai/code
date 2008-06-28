@@ -596,7 +596,22 @@ namespace jsc.Languages.ActionScript
 
                         }
                         else
-                            Write("[]");
+                        {
+
+                            // Write("[]");
+                            // this fix is for javascript too
+
+                            if (e.FirstOnStack.SingleStackInstruction == OpCodes.Ldc_I4_0)
+                            {
+                                Write("[]");
+                            }
+                            else
+                            {
+                                Write("new Array(");
+                                EmitFirstOnStack(e);
+                                Write(")");
+                            }
+                        }
 
                     }
                 };

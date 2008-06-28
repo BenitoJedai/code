@@ -718,7 +718,7 @@ namespace FlashTowerDefense.ActionScript
                                     {
                                         if (EgoCanManTurret())
                                         {
-
+                                            
 
                                             Ego.Orphanize();
                                             Ego.RunAnimation = false;
@@ -755,11 +755,15 @@ namespace FlashTowerDefense.ActionScript
                                 {
                                     Sounds.door_open.ToSoundAsset().play();
                                     ShowMessage("Machinegun unmanned!");
+
+                                    TeleportEgoNearTurret();
+                                    PrebuiltTurret.AnimationEnabled = false;
+
                                     PrebuiltTurret.alpha = 0.5;
                                     Mouse.show();
                                     PrebuiltTurretBlinkTimer.start();
 
-                                    TeleportEgoNearTurret();
+                                    
 
                                     if (EgoExitedMachineGun != null)
                                         EgoExitedMachineGun();
