@@ -30,8 +30,8 @@ namespace FlashTowerDefense.Shared
             ReadyForServerRandomNumbers,
             TakeBox,
             UserTakeBox,
-            FiredShotgun,
-            UserFiredShotgun,
+            FiredWeapon,
+            UserFiredWeapon,
             ServerRandomNumbers,
             ServerMessage,
             UserEnterMachineGun,
@@ -110,13 +110,13 @@ namespace FlashTowerDefense.Shared
             {
                 Send(new SendArguments { i = Messages.UserTakeBox, args = new object[] { user, box } });
             }
-            public void FiredShotgun()
+            public void FiredWeapon(int weapon)
             {
-                Send(new SendArguments { i = Messages.FiredShotgun, args = new object[] { } });
+                Send(new SendArguments { i = Messages.FiredWeapon, args = new object[] { weapon } });
             }
-            public void UserFiredShotgun(int user)
+            public void UserFiredWeapon(int user, int weapon)
             {
-                Send(new SendArguments { i = Messages.UserFiredShotgun, args = new object[] { user } });
+                Send(new SendArguments { i = Messages.UserFiredWeapon, args = new object[] { user, weapon } });
             }
             public void ServerRandomNumbers(double[] e)
             {
@@ -172,13 +172,13 @@ namespace FlashTowerDefense.Shared
             {
                 Send(new SendArguments { i = Messages.UserAddDamageFromDirection, args = new object[] { user, target, damage, arc } });
             }
-            public void ShowBulletsFlying(int x, int y, int arc, int weapon)
+            public void ShowBulletsFlying(int x, int y, int arc, int weaponType)
             {
-                Send(new SendArguments { i = Messages.ShowBulletsFlying, args = new object[] { x, y, arc, weapon } });
+                Send(new SendArguments { i = Messages.ShowBulletsFlying, args = new object[] { x, y, arc, weaponType } });
             }
-            public void UserShowBulletsFlying(int user, int x, int y, int arc, int weapon)
+            public void UserShowBulletsFlying(int user, int x, int y, int arc, int weaponType)
             {
-                Send(new SendArguments { i = Messages.UserShowBulletsFlying, args = new object[] { user, x, y, arc, weapon } });
+                Send(new SendArguments { i = Messages.UserShowBulletsFlying, args = new object[] { user, x, y, arc, weaponType } });
             }
             public void ServerPlayerHello(int user, string name)
             {
@@ -349,31 +349,33 @@ namespace FlashTowerDefense.Shared
             #endregion
 
             public event Action<UserTakeBoxArguments> UserTakeBox;
-            #region FiredShotgunArguments
+            #region FiredWeaponArguments
 
 #if !NoAttributes
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class FiredShotgunArguments
+            public sealed partial class FiredWeaponArguments
             {
+                public int weapon;
             }
             #endregion
 
-            public event Action<FiredShotgunArguments> FiredShotgun;
-            #region UserFiredShotgunArguments
+            public event Action<FiredWeaponArguments> FiredWeapon;
+            #region UserFiredWeaponArguments
 
 #if !NoAttributes
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class UserFiredShotgunArguments
+            public sealed partial class UserFiredWeaponArguments
             {
                 public int user;
+                public int weapon;
             }
             #endregion
 
-            public event Action<UserFiredShotgunArguments> UserFiredShotgun;
+            public event Action<UserFiredWeaponArguments> UserFiredWeapon;
             #region ServerRandomNumbersArguments
 
 #if !NoAttributes
@@ -554,7 +556,7 @@ namespace FlashTowerDefense.Shared
                 public int x;
                 public int y;
                 public int arc;
-                public int weapon;
+                public int weaponType;
             }
             #endregion
 
@@ -571,7 +573,7 @@ namespace FlashTowerDefense.Shared
                 public int x;
                 public int y;
                 public int arc;
-                public int weapon;
+                public int weaponType;
             }
             #endregion
 
@@ -658,8 +660,8 @@ namespace FlashTowerDefense.Shared
                         { Messages.ReadyForServerRandomNumbers, e => { ReadyForServerRandomNumbers(new ReadyForServerRandomNumbersArguments {  }); } },
                         { Messages.TakeBox, e => { TakeBox(new TakeBoxArguments { box = e.GetInt32(0) }); } },
                         { Messages.UserTakeBox, e => { UserTakeBox(new UserTakeBoxArguments { user = e.GetInt32(0), box = e.GetInt32(1) }); } },
-                        { Messages.FiredShotgun, e => { FiredShotgun(new FiredShotgunArguments {  }); } },
-                        { Messages.UserFiredShotgun, e => { UserFiredShotgun(new UserFiredShotgunArguments { user = e.GetInt32(0) }); } },
+                        { Messages.FiredWeapon, e => { FiredWeapon(new FiredWeaponArguments { weapon = e.GetInt32(0) }); } },
+                        { Messages.UserFiredWeapon, e => { UserFiredWeapon(new UserFiredWeaponArguments { user = e.GetInt32(0), weapon = e.GetInt32(1) }); } },
                         { Messages.ServerRandomNumbers, e => { ServerRandomNumbers(new ServerRandomNumbersArguments { e = e.GetDoubleArray(0) }); } },
                         { Messages.ServerMessage, e => { ServerMessage(new ServerMessageArguments { text = e.GetString(0) }); } },
                         { Messages.UserEnterMachineGun, e => { UserEnterMachineGun(new UserEnterMachineGunArguments { user = e.GetInt32(0) }); } },
@@ -673,8 +675,8 @@ namespace FlashTowerDefense.Shared
                         { Messages.Ping, e => { Ping(new PingArguments {  }); } },
                         { Messages.AddDamageFromDirection, e => { AddDamageFromDirection(new AddDamageFromDirectionArguments { target = e.GetInt32(0), damage = e.GetInt32(1), arc = e.GetInt32(2) }); } },
                         { Messages.UserAddDamageFromDirection, e => { UserAddDamageFromDirection(new UserAddDamageFromDirectionArguments { user = e.GetInt32(0), target = e.GetInt32(1), damage = e.GetInt32(2), arc = e.GetInt32(3) }); } },
-                        { Messages.ShowBulletsFlying, e => { ShowBulletsFlying(new ShowBulletsFlyingArguments { x = e.GetInt32(0), y = e.GetInt32(1), arc = e.GetInt32(2), weapon = e.GetInt32(3) }); } },
-                        { Messages.UserShowBulletsFlying, e => { UserShowBulletsFlying(new UserShowBulletsFlyingArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2), arc = e.GetInt32(3), weapon = e.GetInt32(4) }); } },
+                        { Messages.ShowBulletsFlying, e => { ShowBulletsFlying(new ShowBulletsFlyingArguments { x = e.GetInt32(0), y = e.GetInt32(1), arc = e.GetInt32(2), weaponType = e.GetInt32(3) }); } },
+                        { Messages.UserShowBulletsFlying, e => { UserShowBulletsFlying(new UserShowBulletsFlyingArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2), arc = e.GetInt32(3), weaponType = e.GetInt32(4) }); } },
                         { Messages.ServerPlayerHello, e => { ServerPlayerHello(new ServerPlayerHelloArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                         { Messages.ServerPlayerJoined, e => { ServerPlayerJoined(new ServerPlayerJoinedArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                         { Messages.ServerPlayerLeft, e => { ServerPlayerLeft(new ServerPlayerLeftArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
@@ -692,8 +694,8 @@ namespace FlashTowerDefense.Shared
                         { Messages.ReadyForServerRandomNumbers, e => ReadyForServerRandomNumbers },
                         { Messages.TakeBox, e => TakeBox },
                         { Messages.UserTakeBox, e => UserTakeBox },
-                        { Messages.FiredShotgun, e => FiredShotgun },
-                        { Messages.UserFiredShotgun, e => UserFiredShotgun },
+                        { Messages.FiredWeapon, e => FiredWeapon },
+                        { Messages.UserFiredWeapon, e => UserFiredWeapon },
                         { Messages.ServerRandomNumbers, e => ServerRandomNumbers },
                         { Messages.ServerMessage, e => ServerMessage },
                         { Messages.UserEnterMachineGun, e => UserEnterMachineGun },

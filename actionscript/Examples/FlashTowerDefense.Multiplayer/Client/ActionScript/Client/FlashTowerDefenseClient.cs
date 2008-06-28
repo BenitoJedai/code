@@ -196,7 +196,7 @@ namespace FlashTowerDefense.ActionScript.Client
                             }
                         };
 
-                    Map.EgoFiredShotgun += () => NetworkMessages.FiredShotgun();
+                    Map.EgoFiredWeapon += w => NetworkMessages.FiredWeapon(w.Type.NetworkId);
                     Map.GameInterlevelBegin += () => NetworkMessages.CancelServerRandomNumbers();
                     Map.GameInterlevelEnd += () => NetworkMessages.ReadyForServerRandomNumbers();
 

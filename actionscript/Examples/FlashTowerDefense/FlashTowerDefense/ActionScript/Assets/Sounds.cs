@@ -22,6 +22,9 @@ namespace FlashTowerDefense.ActionScript.Assets
         public static Class colt45;
 
 
+        [Embed(source = Path + "/sound35.mp3")]
+        public static Class OutOfAmmo;
+
         [Embed(source = Path + "/sound20.mp3")]
         public static Class sound20;
 

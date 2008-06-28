@@ -8,6 +8,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.ActionScript.flash.text;
 
 namespace FlashTowerDefense.ActionScript
 {
@@ -83,7 +84,34 @@ namespace FlashTowerDefense.ActionScript
             }
         }
 
-        public int NetworkId;
+        //TextField _NetworkIdLabel;
+
+        int _NetworkId;
+        public int NetworkId
+        {
+            get
+            {
+                return _NetworkId;
+            }
+            set
+            {
+                _NetworkId = value;
+
+                //if (_NetworkIdLabel == null)
+                //{
+                //    _NetworkIdLabel = new TextField
+                //    {
+                //        autoSize = TextFieldAutoSize.LEFT,
+                //        mouseEnabled = false,
+                //        text = "" + _NetworkId
+                //    }.AttachTo(this);
+                //}
+                //else
+                //{
+                //    _NetworkIdLabel.text = "" + _NetworkId;
+                //}
+            }
+        }
 
         public Animation(Class StillFrame, params Class[] AnimatedFrames)
         {

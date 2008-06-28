@@ -385,9 +385,6 @@ namespace FlashTowerDefense.ActionScript
 
 
                             ShowMessage("+1 " + PowerUps.Random());
-
-                            if (NetworkTakeCrate != null)
-                                NetworkTakeCrate(BoxToTake.NetworkId);
                         }
                         else
                         {
@@ -416,6 +413,9 @@ namespace FlashTowerDefense.ActionScript
 
 
                         }
+
+                        if (NetworkTakeCrate != null)
+                            NetworkTakeCrate(BoxToTake.NetworkId);
                     }
                 });
 
@@ -477,10 +477,8 @@ namespace FlashTowerDefense.ActionScript
                 e =>
                 {
                     if (Ego.CurrentWeapon.Ammo <= 0)
-                    {
-                        PrebuiltTurret.AnimationEnabled = false;
                         return;
-                    }
+              
 
                     Ego.CurrentWeapon.Ammo--;
 
@@ -491,7 +489,12 @@ namespace FlashTowerDefense.ActionScript
 
                     DoSomeDamage(DamagePointOfOrigin, DamageDirection, WeaponInfo.Machinegun);
 
-
+                    if (Ego.CurrentWeapon.Ammo <= 0)
+                    {
+                        Sounds.OutOfAmmo.ToSoundAsset().play();
+                        PrebuiltTurret.AnimationEnabled = false;
+                        return;
+                    }
                 };
 
             var CurrentTarget = default(MouseEvent);
@@ -530,6 +533,7 @@ namespace FlashTowerDefense.ActionScript
 
                     if (Ego.CurrentWeapon.Ammo <= 0)
                     {
+                        Sounds.OutOfAmmo.ToSoundAsset().play();
                         return;
                     }
 
@@ -771,7 +775,7 @@ namespace FlashTowerDefense.ActionScript
                         Up = () => ToggleMusic()
                     };
 
-                    var ShotgunReloading = false;
+                    var EgoIsReloadingHisWeapon = false;
 
 
                     var KeyControl = new KeyboardButton(stage)
@@ -781,24 +785,25 @@ namespace FlashTowerDefense.ActionScript
                         Up =
                             delegate
                             {
-                                if (ShotgunReloading)
+                                if (EgoIsReloadingHisWeapon)
                                     return;
 
                                 if (Ego.CurrentWeapon.Ammo <= 0)
                                 {
+                                    Sounds.OutOfAmmo.ToSoundAsset().play();
                                     // need ammo
                                     return;
                                 }
 
-                                ShotgunReloading = true;
+                                EgoIsReloadingHisWeapon = true;
 
-                                500.AtDelayDo(() => ShotgunReloading = false);
+                                500.AtDelayDo(() => EgoIsReloadingHisWeapon = false);
 
 
                                 Ego.CurrentWeapon.Type.SoundFire.ToSoundAsset().play();
 
-                                if (EgoFiredShotgun != null)
-                                    EgoFiredShotgun();
+                                if (EgoFiredWeapon != null)
+                                    EgoFiredWeapon(Ego.CurrentWeapon);
 
 
                                 Ego.CurrentWeapon.Ammo--;
@@ -863,7 +868,6 @@ namespace FlashTowerDefense.ActionScript
                                 {
                                     Sounds.door_open.ToSoundAsset().play();
 
-                                    Ego.CurrentWeapon = Ego.Weapons.FirstOrDefault(i => i.SelectMode == Weapon.SelectModeEnum.Outside);
 
                                     ShowMessage("Machinegun unmanned!");
 
@@ -1217,6 +1221,9 @@ namespace FlashTowerDefense.ActionScript
 
         public void TeleportEgoNearTurret()
         {
+            Ego.CurrentWeapon = Ego.Weapons.FirstOrDefault(i => i.SelectMode == Weapon.SelectModeEnum.Outside);
+
+
             Ego.RunAnimation = false;
             Ego.CanMakeFootsteps = false;
 
@@ -1249,7 +1256,7 @@ namespace FlashTowerDefense.ActionScript
         public readonly Action UpdateEgoAim;
         public readonly Timer EgoMovedSlowTimer;
 
-        public event Action EgoFiredShotgun;
+        public event Action<Weapon> EgoFiredWeapon;
 
         public readonly Action GameEvent;
 

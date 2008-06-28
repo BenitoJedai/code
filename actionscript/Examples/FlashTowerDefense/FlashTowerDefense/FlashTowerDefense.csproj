@@ -83,6 +83,7 @@
     <Content Include="docs\feedback\2008.06.06.txt" />
     <Content Include="docs\feedback\2008.06.25.txt" />
     <Content Include="docs\help.txt" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\sound35.mp3" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\avatars_ammo.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\avatars_colt45.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\colt45.mp3" />

@@ -33,7 +33,11 @@ namespace FlashTowerDefense.ActionScript.Client
             // NetworkEvents // NetworkEvents // NetworkEvents // NetworkEvents // NetworkEvents 
             // NetworkEvents // NetworkEvents // NetworkEvents // NetworkEvents // NetworkEvents 
 
-            NetworkEvents.UserFiredShotgun += e => Sounds.shotgun2.ToSoundAsset().play();
+            NetworkEvents.UserFiredWeapon +=
+                e =>
+                    WeaponInfo.PredefinedWeaponTypes.Single(i => i.NetworkId == e.weapon).SoundFire.ToSoundAsset().play();
+
+            
 
             NetworkEvents.UserTakeBox +=
                 e =>
@@ -156,7 +160,7 @@ namespace FlashTowerDefense.ActionScript.Client
             NetworkEvents.UserShowBulletsFlying +=
                 e =>
                 {
-                    var Weapon = WeaponInfo.PredefinedWeapones.SingleOrDefault(i => i.NetworkId == e.weapon);
+                    var Weapon = WeaponInfo.PredefinedWeaponTypes.SingleOrDefault(i => i.NetworkId == e.weaponType);
 
                     Map.ShowBulletsFlying(
                         new Point

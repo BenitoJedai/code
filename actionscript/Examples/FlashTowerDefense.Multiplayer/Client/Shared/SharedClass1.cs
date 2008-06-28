@@ -47,8 +47,8 @@ namespace FlashTowerDefense.Shared
             // server -> others
             void UserTakeBox(int user, int box);
 
-            void FiredShotgun();
-            void UserFiredShotgun(int user);
+            void FiredWeapon(int weapon);
+            void UserFiredWeapon(int user, int weapon);
 
             void ServerRandomNumbers(double[] e);
             void ServerMessage(string text);
@@ -69,8 +69,8 @@ namespace FlashTowerDefense.Shared
             void AddDamageFromDirection(int target, int damage, int arc);
             void UserAddDamageFromDirection(int user, int target, int damage, int arc);
 
-            void ShowBulletsFlying(int x, int y, int arc, int weapon);
-            void UserShowBulletsFlying(int user, int x, int y, int arc, int weapon);
+            void ShowBulletsFlying(int x, int y, int arc, int weaponType);
+            void UserShowBulletsFlying(int user, int x, int y, int arc, int weaponType);
 
             // ...
 

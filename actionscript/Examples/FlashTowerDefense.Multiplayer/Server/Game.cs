@@ -218,7 +218,7 @@ namespace FlashTowerDefense.Server
             player.NetworkEvents.StartMachineGun += e => ToOthers.UserStartMachineGun(player.UserId);
             player.NetworkEvents.StopMachineGun += e => ToOthers.UserStopMachineGun(player.UserId);
 
-            player.NetworkEvents.ShowBulletsFlying += e => ToOthers.UserShowBulletsFlying(player.UserId, e.x, e.y, e.arc, e.weapon);
+            player.NetworkEvents.ShowBulletsFlying += e => ToOthers.UserShowBulletsFlying(player.UserId, e.x, e.y, e.arc, e.weaponType);
             player.NetworkEvents.AddDamageFromDirection += e => ToOthers.UserAddDamageFromDirection(player.UserId, e.target, e.damage, e.arc);
             //player.NetworkEvents.AddDamageFromDirection += e => Console.WriteLine(player.Username + " damaged " + e.target);
 
@@ -227,7 +227,7 @@ namespace FlashTowerDefense.Server
             player.NetworkEvents.WalkTo += e => ToOthers.UserWalkTo(player.UserId, e.x, e.y);
 
             player.NetworkEvents.TakeBox += e => ToOthers.UserTakeBox(player.UserId, e.box);
-            player.NetworkEvents.FiredShotgun += e => ToOthers.UserFiredShotgun(player.UserId);
+            player.NetworkEvents.FiredWeapon += e => ToOthers.UserFiredWeapon(player.UserId, e.weapon);
 
             player.NetworkEvents.PlayerAdvertise += e => ToOthers.ServerPlayerAdvertise(player.UserId, player.Username, e.ego);
 
