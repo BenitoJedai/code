@@ -252,6 +252,17 @@ namespace FlashTowerDefense.ActionScript
             );
         }
 
+        public static Timer AtIntervalDo(this int e, Action a)
+        {
+            var t = new Timer(e);
+
+            t.timer += delegate { a(); };
+
+            t.start();
+
+            return t;
+        }
+
         public static Timer AtInterval(this int e, Action<Timer> a)
         {
             var t = new Timer(e);

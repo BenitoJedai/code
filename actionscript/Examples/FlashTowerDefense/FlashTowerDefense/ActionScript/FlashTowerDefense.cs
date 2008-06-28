@@ -511,7 +511,7 @@ namespace FlashTowerDefense.ActionScript
                         return;
                     }
 
-                    
+
                     Mouse.hide();
 
                     Aim.x = CurrentTarget.stageX;
@@ -718,7 +718,7 @@ namespace FlashTowerDefense.ActionScript
                                     {
                                         if (EgoCanManTurret())
                                         {
-                                            
+
 
                                             Ego.Orphanize();
                                             Ego.RunAnimation = false;
@@ -763,7 +763,7 @@ namespace FlashTowerDefense.ActionScript
                                     Mouse.show();
                                     PrebuiltTurretBlinkTimer.start();
 
-                                    
+
 
                                     if (EgoExitedMachineGun != null)
                                         EgoExitedMachineGun();
@@ -1011,9 +1011,23 @@ namespace FlashTowerDefense.ActionScript
                     Weapon.NetworkId
                     );
 
-            foreach (var DeadManWalking in BadGuys.ToArray())
+            var AllMortals = this.AllMortals.ToArray();
+
+            //Console.WriteLine("mortals in warzone: " + AllMortals.Length);
+
+            foreach (var DeadManWalking in AllMortals)
             {
-                if (DeadManWalking.IsAlive)
+                var DamageThisDude = true;
+
+                // why bother shooting itself?
+                if (DeadManWalking == Ego)
+                    if (!Weapon.CanHurtEgo)
+                        DamageThisDude = false;
+
+                if (!DeadManWalking.IsAlive)
+                    DamageThisDude = false;
+
+                if (DamageThisDude)
                 {
                     var Location = new Point { x = DamagePointOfOrigin.x, y = DamagePointOfOrigin.y }.MoveToArc(DamageDirection, -16);
                     var Offset = new Point { y = DeadManWalking.y - Location.y, x = DeadManWalking.x - Location.x };
@@ -1122,6 +1136,24 @@ namespace FlashTowerDefense.ActionScript
 
 
         public readonly List<Actor> BadGuys;
+        public readonly List<Func<IEnumerable<Actor>>> GoodGuys = new List<Func<IEnumerable<Actor>>>();
+
+        public IEnumerable<Actor> AllMortals
+        {
+            get
+            {
+                var a = new List<Actor>();
+
+                a.AddRange(BadGuys);
+                a.Add(Ego);
+
+                foreach (var v in GoodGuys)
+                    a.AddRange(v());
+
+                return a;
+            }
+        }
+
     }
 
 

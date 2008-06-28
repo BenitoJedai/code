@@ -9,6 +9,8 @@ namespace FlashTowerDefense.ActionScript
     [Script]
     public class WeaponInfo
     {
+        public bool CanHurtEgo = false;
+
         public double Range;
         public double ArcRange;
 

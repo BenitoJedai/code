@@ -16,9 +16,15 @@ namespace FlashTowerDefense.Shared
         
         partial class RemoteEvents
         {
+            public void EmptyHandler<T>(T Arguments)
+            {
+            }
+
             partial class DispatchHelper
             {
-                public DispatchHelper(Converter<object, int> GetLength)
+                public Converter<object, int> GetLength;
+
+                public DispatchHelper()
                 {
                     this.GetDoubleArray =
                         delegate

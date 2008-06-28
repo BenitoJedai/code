@@ -62,71 +62,24 @@ namespace FlashTowerDefense.Shared
             void StopMachineGun();
             // ...
 
+            void Ping();
+
+            void AddDamageFromDirection(int target, int damage, int arc);
+            void UserAddDamageFromDirection(int user, int target, int damage, int arc);
+
+            void ShowBulletsFlying(int x, int y, int arc, int weapon);
+            void UserShowBulletsFlying(int user, int x, int y, int arc, int weapon);
+
+            // ...
+
+            void ServerPlayerHello(int user, string name);
+            void ServerPlayerJoined(int user, string name);
+            void ServerPlayerLeft(int user, string name);
+
+            void PlayerAdvertise(int ego);
+            void ServerPlayerAdvertise(int user, string name, int ego);
+
+            // ...
         }
-
-#if !NoAttributes
-        [Script]
-#endif
-        [CompilerGenerated]
-        public enum Messages
-        {
-            None = 100,
-
-            TeleportTo,
-            UserTeleportTo,
-
-            FiredShotgun,
-            UserFiredShotgun,
-
-            // for others
-            TakeBox,
-            UserTakeBox,
-
-
-            Ping = 200,
-            Pong,
-
-            UserJoined,
-            ToUserJoinedReply,  // client->server
-            UserJoinedReply,    // server->client
-
-            UserLeft,
-
-            UserEnterMachineGun,
-            UserExitMachineGun,
-
-            UserStartMachineGun,
-            UserStopMachineGun,
-
-            WalkTo,
-            UserWalkTo,
-
-
-            EnterMachineGun,
-            ExitMachineGun,
-
-            StartMachineGun,
-            StopMachineGun,
-
-
-
-            
-
-            ServerMessage,
-            ServerRandomNumbers,
-
-            ReadyForServerRandomNumbers,
-            CancelServerRandomNumbers,
-
-            AddDamageFromDirection,
-            UserAddDamageFromDirection,
-
-
-
-
-            ShowBulletsFlying,
-            UserShowBulletsFlying,
-        }
-
     }
 }

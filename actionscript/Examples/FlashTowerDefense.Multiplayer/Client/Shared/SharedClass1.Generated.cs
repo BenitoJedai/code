@@ -13,6 +13,49 @@ namespace FlashTowerDefense.Shared
 
     public partial class SharedClass1
     {
+        #region Messages
+
+#if !NoAttributes
+        [Script]
+#endif
+        [CompilerGenerated]
+        public enum Messages
+        {
+            None = 100,
+            TeleportTo,
+            UserTeleportTo,
+            WalkTo,
+            UserWalkTo,
+            CancelServerRandomNumbers,
+            ReadyForServerRandomNumbers,
+            TakeBox,
+            UserTakeBox,
+            FiredShotgun,
+            UserFiredShotgun,
+            ServerRandomNumbers,
+            ServerMessage,
+            UserEnterMachineGun,
+            UserExitMachineGun,
+            UserStartMachineGun,
+            UserStopMachineGun,
+            EnterMachineGun,
+            ExitMachineGun,
+            StartMachineGun,
+            StopMachineGun,
+            Ping,
+            AddDamageFromDirection,
+            UserAddDamageFromDirection,
+            ShowBulletsFlying,
+            UserShowBulletsFlying,
+            ServerPlayerHello,
+            ServerPlayerJoined,
+            ServerPlayerLeft,
+            PlayerAdvertise,
+            ServerPlayerAdvertise,
+        }
+        #endregion
+
+
         #region RemoteMessages
 
 #if !NoAttributes
@@ -116,6 +159,46 @@ namespace FlashTowerDefense.Shared
             public void StopMachineGun()
             {
                 Send(new SendArguments { i = Messages.StopMachineGun, args = new object[] { } });
+            }
+            public void Ping()
+            {
+                Send(new SendArguments { i = Messages.Ping, args = new object[] { } });
+            }
+            public void AddDamageFromDirection(int target, int damage, int arc)
+            {
+                Send(new SendArguments { i = Messages.AddDamageFromDirection, args = new object[] { target, damage, arc } });
+            }
+            public void UserAddDamageFromDirection(int user, int target, int damage, int arc)
+            {
+                Send(new SendArguments { i = Messages.UserAddDamageFromDirection, args = new object[] { user, target, damage, arc } });
+            }
+            public void ShowBulletsFlying(int x, int y, int arc, int weapon)
+            {
+                Send(new SendArguments { i = Messages.ShowBulletsFlying, args = new object[] { x, y, arc, weapon } });
+            }
+            public void UserShowBulletsFlying(int user, int x, int y, int arc, int weapon)
+            {
+                Send(new SendArguments { i = Messages.UserShowBulletsFlying, args = new object[] { user, x, y, arc, weapon } });
+            }
+            public void ServerPlayerHello(int user, string name)
+            {
+                Send(new SendArguments { i = Messages.ServerPlayerHello, args = new object[] { user, name } });
+            }
+            public void ServerPlayerJoined(int user, string name)
+            {
+                Send(new SendArguments { i = Messages.ServerPlayerJoined, args = new object[] { user, name } });
+            }
+            public void ServerPlayerLeft(int user, string name)
+            {
+                Send(new SendArguments { i = Messages.ServerPlayerLeft, args = new object[] { user, name } });
+            }
+            public void PlayerAdvertise(int ego)
+            {
+                Send(new SendArguments { i = Messages.PlayerAdvertise, args = new object[] { ego } });
+            }
+            public void ServerPlayerAdvertise(int user, string name, int ego)
+            {
+                Send(new SendArguments { i = Messages.ServerPlayerAdvertise, args = new object[] { user, name, ego } });
             }
         }
         #endregion
@@ -417,6 +500,152 @@ namespace FlashTowerDefense.Shared
             #endregion
 
             public event Action<StopMachineGunArguments> StopMachineGun;
+            #region PingArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class PingArguments
+            {
+            }
+            #endregion
+
+            public event Action<PingArguments> Ping;
+            #region AddDamageFromDirectionArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class AddDamageFromDirectionArguments
+            {
+                public int target;
+                public int damage;
+                public int arc;
+            }
+            #endregion
+
+            public event Action<AddDamageFromDirectionArguments> AddDamageFromDirection;
+            #region UserAddDamageFromDirectionArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class UserAddDamageFromDirectionArguments
+            {
+                public int user;
+                public int target;
+                public int damage;
+                public int arc;
+            }
+            #endregion
+
+            public event Action<UserAddDamageFromDirectionArguments> UserAddDamageFromDirection;
+            #region ShowBulletsFlyingArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class ShowBulletsFlyingArguments
+            {
+                public int x;
+                public int y;
+                public int arc;
+                public int weapon;
+            }
+            #endregion
+
+            public event Action<ShowBulletsFlyingArguments> ShowBulletsFlying;
+            #region UserShowBulletsFlyingArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class UserShowBulletsFlyingArguments
+            {
+                public int user;
+                public int x;
+                public int y;
+                public int arc;
+                public int weapon;
+            }
+            #endregion
+
+            public event Action<UserShowBulletsFlyingArguments> UserShowBulletsFlying;
+            #region ServerPlayerHelloArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class ServerPlayerHelloArguments
+            {
+                public int user;
+                public string name;
+            }
+            #endregion
+
+            public event Action<ServerPlayerHelloArguments> ServerPlayerHello;
+            #region ServerPlayerJoinedArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class ServerPlayerJoinedArguments
+            {
+                public int user;
+                public string name;
+            }
+            #endregion
+
+            public event Action<ServerPlayerJoinedArguments> ServerPlayerJoined;
+            #region ServerPlayerLeftArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class ServerPlayerLeftArguments
+            {
+                public int user;
+                public string name;
+            }
+            #endregion
+
+            public event Action<ServerPlayerLeftArguments> ServerPlayerLeft;
+            #region PlayerAdvertiseArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class PlayerAdvertiseArguments
+            {
+                public int ego;
+            }
+            #endregion
+
+            public event Action<PlayerAdvertiseArguments> PlayerAdvertise;
+            #region ServerPlayerAdvertiseArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class ServerPlayerAdvertiseArguments
+            {
+                public int user;
+                public string name;
+                public int ego;
+            }
+            #endregion
+
+            public event Action<ServerPlayerAdvertiseArguments> ServerPlayerAdvertise;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<DispatchHelper>>
@@ -441,6 +670,16 @@ namespace FlashTowerDefense.Shared
                         { Messages.ExitMachineGun, e => { ExitMachineGun(new ExitMachineGunArguments {  }); } },
                         { Messages.StartMachineGun, e => { StartMachineGun(new StartMachineGunArguments {  }); } },
                         { Messages.StopMachineGun, e => { StopMachineGun(new StopMachineGunArguments {  }); } },
+                        { Messages.Ping, e => { Ping(new PingArguments {  }); } },
+                        { Messages.AddDamageFromDirection, e => { AddDamageFromDirection(new AddDamageFromDirectionArguments { target = e.GetInt32(0), damage = e.GetInt32(1), arc = e.GetInt32(2) }); } },
+                        { Messages.UserAddDamageFromDirection, e => { UserAddDamageFromDirection(new UserAddDamageFromDirectionArguments { user = e.GetInt32(0), target = e.GetInt32(1), damage = e.GetInt32(2), arc = e.GetInt32(3) }); } },
+                        { Messages.ShowBulletsFlying, e => { ShowBulletsFlying(new ShowBulletsFlyingArguments { x = e.GetInt32(0), y = e.GetInt32(1), arc = e.GetInt32(2), weapon = e.GetInt32(3) }); } },
+                        { Messages.UserShowBulletsFlying, e => { UserShowBulletsFlying(new UserShowBulletsFlyingArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2), arc = e.GetInt32(3), weapon = e.GetInt32(4) }); } },
+                        { Messages.ServerPlayerHello, e => { ServerPlayerHello(new ServerPlayerHelloArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
+                        { Messages.ServerPlayerJoined, e => { ServerPlayerJoined(new ServerPlayerJoinedArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
+                        { Messages.ServerPlayerLeft, e => { ServerPlayerLeft(new ServerPlayerLeftArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
+                        { Messages.PlayerAdvertise, e => { PlayerAdvertise(new PlayerAdvertiseArguments { ego = e.GetInt32(0) }); } },
+                        { Messages.ServerPlayerAdvertise, e => { ServerPlayerAdvertise(new ServerPlayerAdvertiseArguments { user = e.GetInt32(0), name = e.GetString(1), ego = e.GetInt32(2) }); } },
                     }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -465,10 +704,21 @@ namespace FlashTowerDefense.Shared
                         { Messages.ExitMachineGun, e => ExitMachineGun },
                         { Messages.StartMachineGun, e => StartMachineGun },
                         { Messages.StopMachineGun, e => StopMachineGun },
+                        { Messages.Ping, e => Ping },
+                        { Messages.AddDamageFromDirection, e => AddDamageFromDirection },
+                        { Messages.UserAddDamageFromDirection, e => UserAddDamageFromDirection },
+                        { Messages.ShowBulletsFlying, e => ShowBulletsFlying },
+                        { Messages.UserShowBulletsFlying, e => UserShowBulletsFlying },
+                        { Messages.ServerPlayerHello, e => ServerPlayerHello },
+                        { Messages.ServerPlayerJoined, e => ServerPlayerJoined },
+                        { Messages.ServerPlayerLeft, e => ServerPlayerLeft },
+                        { Messages.PlayerAdvertise, e => PlayerAdvertise },
+                        { Messages.ServerPlayerAdvertise, e => ServerPlayerAdvertise },
                     }
                 ;
             }
         }
         #endregion
+
     }
 }

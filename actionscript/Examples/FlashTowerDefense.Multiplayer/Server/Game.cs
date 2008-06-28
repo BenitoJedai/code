@@ -178,8 +178,9 @@ namespace FlashTowerDefense.Server
             var e = (SharedClass1.Messages)int.Parse(m.Type);
 
             if (player.NetworkEvents.Dispatch(e,
-                    new SharedClass1.RemoteEvents.DispatchHelper(i => (int) m.Count)
+                    new SharedClass1.RemoteEvents.DispatchHelper
                     {
+                        GetLength = i => (int) m.Count,
                         GetInt32 = m.GetInt,
                         GetDouble = m.GetDouble,
                         GetString = m.GetString
@@ -187,35 +188,7 @@ namespace FlashTowerDefense.Server
                 ))
                 return;
 
-            if (e == SharedClass1.Messages.EnterMachineGun)
-                Broadcast(SharedClass1.Messages.UserEnterMachineGun, player.UserId);
-            else if (e == SharedClass1.Messages.ExitMachineGun)
-                Broadcast(SharedClass1.Messages.UserExitMachineGun, player.UserId);
-            else if (e == SharedClass1.Messages.StartMachineGun)
-                Broadcast(SharedClass1.Messages.UserStartMachineGun, player.Username);
-            else if (e == SharedClass1.Messages.StopMachineGun)
-                Broadcast(SharedClass1.Messages.UserStopMachineGun, player.Username);
-
-            //else if (e == SharedClass1.Messages.TeleportTo)
-            //    NetworkMessages_ToOthers.UserTeleportTo(player.UserId, m.GetInt(0), m.GetInt(1));
-
-                // Broadcast(SharedClass1.Messages.UserTeleportTo, player.UserId, m.GetInt(0), m.GetInt(1));
-            else if (e == SharedClass1.Messages.WalkTo)
-                Broadcast(SharedClass1.Messages.UserWalkTo, player.UserId, m.GetInt(0), m.GetInt(1));
-            else if (e == SharedClass1.Messages.ToUserJoinedReply)
-                Send(m.GetInt(0), SharedClass1.Messages.UserJoinedReply, player.Username, player.UserId);
-            else if (e == SharedClass1.Messages.FiredShotgun)
-                Broadcast(SharedClass1.Messages.UserFiredShotgun, player.UserId);
-            //else if (e == SharedClass1.Messages.ReadyForServerRandomNumbers)
-            //    player.GameEventStatus = Player.GameEventStatusEnum.Ready;
-            //else if (e == SharedClass1.Messages.CancelServerRandomNumbers)
-            //    player.GameEventStatus = Player.GameEventStatusEnum.Cancelled;
-            else if (e == SharedClass1.Messages.AddDamageFromDirection)
-                SendOthers(player.UserId, SharedClass1.Messages.UserAddDamageFromDirection, player.UserId, m.GetInt(0), m.GetInt(1), m.GetInt(2));
-            //else if (e == SharedClass1.Messages.TakeBox)
-            //    SendOthers(player.UserId, SharedClass1.Messages.UserTakeBox, player.UserId, m.GetInt(0));
-            else if (e == SharedClass1.Messages.ShowBulletsFlying)
-                SendOthers(player.UserId, SharedClass1.Messages.UserShowBulletsFlying, m.GetInt(0), m.GetInt(1), m.GetInt(2), m.GetInt(3));
+            Console.WriteLine("Not on dispatch: " + m.Type);
         }
 
 
@@ -223,7 +196,7 @@ namespace FlashTowerDefense.Server
         /// <summary>When a user enters this game instance</summary>
         public override void UserJoined(Player player)
         {
-            var NetworkMessages_ToOthers =
+            var ToOthers =
                  new SharedClass1.RemoteMessages
                  {
                      Send = q => this.SendOthers(player.UserId, q.i, q.args)
@@ -236,17 +209,24 @@ namespace FlashTowerDefense.Server
             player.NetworkEvents = new SharedClass1.RemoteEvents();
 
 
+            player.NetworkEvents.Ping += player.NetworkEvents.EmptyHandler;
+            player.NetworkEvents.EnterMachineGun += e => ToOthers.UserEnterMachineGun(player.UserId);
+            player.NetworkEvents.ExitMachineGun += e => ToOthers.UserExitMachineGun(player.UserId);
+            player.NetworkEvents.StartMachineGun += e => ToOthers.UserStartMachineGun(player.UserId);
+            player.NetworkEvents.StopMachineGun += e => ToOthers.UserStopMachineGun(player.UserId);
 
-            player.NetworkEvents.EnterMachineGun += e => NetworkMessages_ToOthers.UserEnterMachineGun(player.UserId);
-            player.NetworkEvents.ExitMachineGun += e => NetworkMessages_ToOthers.UserExitMachineGun(player.UserId);
-            player.NetworkEvents.StartMachineGun += e => NetworkMessages_ToOthers.UserStartMachineGun(player.UserId);
-            player.NetworkEvents.StopMachineGun += e => NetworkMessages_ToOthers.UserStopMachineGun(player.UserId);
+            player.NetworkEvents.ShowBulletsFlying += e => ToOthers.UserShowBulletsFlying(player.UserId, e.x, e.y, e.arc, e.weapon);
+            player.NetworkEvents.AddDamageFromDirection += e => ToOthers.UserAddDamageFromDirection(player.UserId, e.target, e.damage, e.arc);
+            player.NetworkEvents.AddDamageFromDirection += e => Console.WriteLine(player.Username + " damaged " + e.target);
 
-            player.NetworkEvents.TeleportTo += e => NetworkMessages_ToOthers.UserTeleportTo(player.UserId, e.x, e.y);
-            player.NetworkEvents.WalkTo += e => NetworkMessages_ToOthers.UserWalkTo(player.UserId, e.x, e.y);
 
-            player.NetworkEvents.TakeBox += e => NetworkMessages_ToOthers.UserTakeBox(player.UserId, e.box);
-            player.NetworkEvents.FiredShotgun += e => NetworkMessages_ToOthers.UserFiredShotgun(player.UserId);
+            player.NetworkEvents.TeleportTo += e => ToOthers.UserTeleportTo(player.UserId, e.x, e.y);
+            player.NetworkEvents.WalkTo += e => ToOthers.UserWalkTo(player.UserId, e.x, e.y);
+
+            player.NetworkEvents.TakeBox += e => ToOthers.UserTakeBox(player.UserId, e.box);
+            player.NetworkEvents.FiredShotgun += e => ToOthers.UserFiredShotgun(player.UserId);
+
+            player.NetworkEvents.PlayerAdvertise += e => ToOthers.ServerPlayerAdvertise(player.UserId, player.Username, e.ego);
 
 
             player.NetworkEvents.ReadyForServerRandomNumbers += e => player.GameEventStatus = Player.GameEventStatusEnum.Ready;
@@ -255,17 +235,25 @@ namespace FlashTowerDefense.Server
 
             //player.Send("welcometogame", Users.Length); // send a message with the amount users in the game
 
-            Broadcast(SharedClass1.Messages.UserJoined, player.Username, player.UserId);
+            player.NetworkMessages.ServerPlayerHello(player.UserId, player.Username);
 
+            ToOthers.ServerPlayerJoined(
+               player.UserId, player.Username
+            );
+            
+            
             ScheduleCallback(
                 delegate
                 {
+                
+
+
                     if (this.PlayersWithActiveWarzone == null)
-                        Send(player, SharedClass1.Messages.ServerMessage, "Game will start shortly!");
+                        player.NetworkMessages.ServerMessage("Game will start shortly!");
                     else
-                        Send(player, SharedClass1.Messages.ServerMessage, "Wait for the next day!");
+                        player.NetworkMessages.ServerMessage("Wait for the next day!");
                 },
-                50
+                25
             );
 
 
@@ -278,7 +266,13 @@ namespace FlashTowerDefense.Server
             if (PlayersWithActiveWarzone != null)
                 PlayersWithActiveWarzone.Remove(player);
 
-            Broadcast(SharedClass1.Messages.UserLeft, player.Username, player.UserId);
+            var ToOthers =
+                new SharedClass1.RemoteMessages
+                {
+                    Send = q => this.SendOthers(player.UserId, q.i, q.args)
+                };
+
+            ToOthers.ServerPlayerLeft(player.UserId, player.Username);
         }
 
         public void Send(Player v, Shared.SharedClass1.Messages type, params object[] e)

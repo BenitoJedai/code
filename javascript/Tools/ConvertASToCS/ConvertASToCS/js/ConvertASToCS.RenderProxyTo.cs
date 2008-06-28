@@ -333,7 +333,7 @@ namespace ConvertASToCS.js
                 WriteAttributeLine("CompilerGenerated");
 
                 WriteIdent();
-                WriteBlue("internal");
+                WriteBlue("public");
                 WriteSpace();
                 WriteBlue("enum");
                 WriteSpace();
