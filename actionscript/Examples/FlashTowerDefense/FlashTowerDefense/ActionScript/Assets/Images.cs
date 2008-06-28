@@ -14,6 +14,12 @@ namespace FlashTowerDefense.ActionScript.Assets
     {
         public const string Path = "/assets/FlashTowerDefense.Images";
 
+        [Embed(source = Path + "/avatars_ammo.png")]
+        public static Class avatars_ammo;
+
+        [Embed(source = Path + "/avatars_colt45.png")]
+        public static Class avatars_colt45;
+
         [Embed(source = Path + "/avatars_m249.png")]
         public static Class avatars_m249;
 

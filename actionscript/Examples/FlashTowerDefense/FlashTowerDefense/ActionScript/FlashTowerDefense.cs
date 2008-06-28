@@ -308,10 +308,35 @@ namespace FlashTowerDefense.ActionScript
                 };
             #endregion
 
-            var WeaponAvatar = new Sprite
+            var WeaponBar = new Sprite
             {
-                filters = new[] { new GlowFilter(ColorGreen) }
-            }.MoveTo(Width - 96, Height - 32).AttachTo(this);
+                mouseEnabled = false,
+                mouseChildren = false,
+            }.MoveTo(Width - 96, Height - 64).AttachTo(this);
+
+            var AmmoAvatar = new Sprite().MoveTo(38, 24).AttachTo(WeaponBar);
+
+            Images.avatars_ammo.ToBitmapAsset().MoveToCenter().AttachTo(AmmoAvatar);
+
+            var AmmoText = new TextField
+            {
+                defaultTextFormat = new TextFormat
+                {
+                    bold = true,
+                    size = 20,
+                    font = "_sans"
+                },
+                text = "200000",
+                filters = new[] { new GlowFilter(ColorBlack, 0.5) },
+                autoSize = TextFieldAutoSize.RIGHT,
+                x = 0,
+                width = 0
+            }.AttachTo(AmmoAvatar);
+
+
+
+
+            var WeaponAvatar = new Sprite().AttachTo(WeaponBar);
 
             #region Ego
             Ego = new PlayerWarrior();
@@ -352,16 +377,45 @@ namespace FlashTowerDefense.ActionScript
 
                         Sounds.sound20.ToSoundAsset().play();
 
+                        if (BoxToTake.WeaponInside == null)
+                        {
+                            // add stuff, so the player doesn't get bored:D
+                            // maybe implment them too? see Diablo.
+                            var PowerUps = new[] { "Defense", "Mana", "Dexerity", "Experience", "Stamina", "Strength", "Life", "Replenish Life" };
 
-                        // add stuff, so the player doesn't get bored:D
-                        // maybe implment them too? see Diablo.
-                        var PowerUps = new[] { "Defense", "Mana", "Dexerity", "Experience", "Stamina", "Strength", "Life", "Replenish Life" };
+
+                            ShowMessage("+1 " + PowerUps.Random());
+
+                            if (NetworkTakeCrate != null)
+                                NetworkTakeCrate(BoxToTake.NetworkId);
+                        }
+                        else
+                        {
+                            var WeaponToAddAmmoTo = Ego.Weapons.FirstOrDefault(i => i.NetworkId == BoxToTake.WeaponInside.NetworkId);
+
+                            if (WeaponToAddAmmoTo == null)
+                            {
+                                Ego.Weapons.Add(BoxToTake.WeaponInside);
+
+                                if (Ego.CurrentWeapon.SelectMode == BoxToTake.WeaponInside.SelectMode)
+                                    Ego.CurrentWeapon = BoxToTake.WeaponInside;
+
+                                ShowMessage("You found " + BoxToTake.WeaponInside.Name);
+                            }
+                            else
+                            {
+                                ShowMessage("Got ammo for " + BoxToTake.WeaponInside.Name);
 
 
-                        ShowMessage("+1 " + PowerUps.Random());
+                                WeaponToAddAmmoTo.Ammo += BoxToTake.WeaponInside.Ammo;
 
-                        if (NetworkTakeCrate != null)
-                            NetworkTakeCrate(BoxToTake.NetworkId);
+                                if (Ego.CurrentWeapon.SelectMode == WeaponToAddAmmoTo.SelectMode)
+                                    Ego.CurrentWeapon = WeaponToAddAmmoTo;
+
+                            }
+
+
+                        }
                     }
                 });
 
@@ -392,30 +446,17 @@ namespace FlashTowerDefense.ActionScript
                         WeaponAvatar.getChildAt(0).Orphanize();
 
                     Ego.CurrentWeapon.Type.Avatar.MoveToCenter().AttachTo(WeaponAvatar);
-                    WeaponAvatar.filters = new[] { new GlowFilter(Ego.CurrentWeapon.Color) };
+                    WeaponBar.filters = new[] { new GlowFilter(Ego.CurrentWeapon.Color) };
                 };
 
+            Ego.CurrentWeaponAmmoChanged += () => AmmoText.text = "" + Ego.CurrentWeapon.Ammo;
             Ego.CurrentWeapon = Ego.Weapons.FirstOrDefault(i => i.SelectMode == Weapon.SelectModeEnum.Turret);
+
 
             var PrebuiltTurretSound = default(SoundChannel);
 
-
-
-
-
-
-            BadGuys = new List<Actor>();
-
-            var BulletsFired_MachineGun = 0;
-            var BulletsFired_Shotgun = 0;
-
             var runaways = 0;
             var score = 0;
-
-
-
-
-
 
             Action UpdateScoreBoard =
                 delegate
@@ -425,7 +466,6 @@ namespace FlashTowerDefense.ActionScript
                     ScoreBoard.text =
                         new
                         {
-                            bullets = BulletsFired_MachineGun,
                             runaways,
                             gore = (100 * (double)BadGuys.Count(i => !i.IsAlive) / (double)BadGuys.Count()).Round() + "%",
                             score,
@@ -433,12 +473,18 @@ namespace FlashTowerDefense.ActionScript
                         }.ToString();
                 };
 
-            Action<MouseEvent> DoGunFire =
+            Action<MouseEvent> DoMachineGunFire =
                 e =>
                 {
-                    BulletsFired_MachineGun--;
+                    if (Ego.CurrentWeapon.Ammo <= 0)
+                    {
+                        PrebuiltTurret.AnimationEnabled = false;
+                        return;
+                    }
 
-                    UpdateScoreBoard();
+                    Ego.CurrentWeapon.Ammo--;
+
+
 
                     var DamagePointOfOrigin = new Point { x = PrebuiltTurret.x, y = PrebuiltTurret.y };
                     var DamageDirection = new Point { x = e.stageX - PrebuiltTurret.x, y = e.stageY - PrebuiltTurret.y }.GetRotation();
@@ -482,6 +528,11 @@ namespace FlashTowerDefense.ActionScript
                     if (EgoIsOnTheField())
                         return;
 
+                    if (Ego.CurrentWeapon.Ammo <= 0)
+                    {
+                        return;
+                    }
+
 
                     PrebuiltTurret.AnimationEnabled = true;
 
@@ -497,7 +548,7 @@ namespace FlashTowerDefense.ActionScript
                                     return;
                                 }
 
-                                DoGunFire(CurrentTarget);
+                                DoMachineGunFire(CurrentTarget);
                             }
                         );
 
@@ -550,10 +601,20 @@ namespace FlashTowerDefense.ActionScript
                     {
                         a.NetworkId = int.MaxValue.FixedRandom();
 
-                        if (0.3.ByChance())
+                        if (0.5.ByChance())
                         {
-                            a.Crate = new Animation(Images.box).AddTo(Boxes);
-                            a.Crate.NetworkId = int.MaxValue.FixedRandom();
+                            a.Crate = new Crate
+                                {
+                                    NetworkId = int.MaxValue.FixedRandom()
+                                }.AddTo(Boxes);
+
+                            if (0.7.ByChance())
+                            {
+                                // add random weapon, note that this is
+                                // not a fixed random, so each player
+                                // gets different weapon
+                                a.Crate.WeaponInside = Weapon.PredefinedWeapons.Random().Clone();
+                            }
                         }
                     }
 
@@ -685,11 +746,12 @@ namespace FlashTowerDefense.ActionScript
                     var KeyWeaponNext = new KeyboardButton(stage)
                     {
                         Buttons = new[] { Keyboard.X },
-                        Up = 
-                        delegate
-                        {
-                            Ego.CurrentWeapon = Ego.OtherWeaponsLikeCurrent.Next(i => i == Ego.CurrentWeapon);
-                        }
+                        Up =
+                            delegate
+                            {
+                                Ego.CurrentWeapon = Ego.OtherWeaponsLikeCurrent.Next(i => i == Ego.CurrentWeapon);
+                                Sounds.SelectWeapon.ToSoundAsset().play();
+                            }
                     };
 
                     var KeyWeaponPrevious = new KeyboardButton(stage)
@@ -699,6 +761,7 @@ namespace FlashTowerDefense.ActionScript
                             delegate
                             {
                                 Ego.CurrentWeapon = Ego.OtherWeaponsLikeCurrent.Previous(i => i == Ego.CurrentWeapon);
+                                Sounds.SelectWeapon.ToSoundAsset().play();
                             }
                     };
 
@@ -710,7 +773,6 @@ namespace FlashTowerDefense.ActionScript
 
                     var ShotgunReloading = false;
 
-                    var ShotgunSoundCache = Sounds.shotgun2.ToSoundAsset();
 
                     var KeyControl = new KeyboardButton(stage)
                     {
@@ -722,22 +784,30 @@ namespace FlashTowerDefense.ActionScript
                                 if (ShotgunReloading)
                                     return;
 
+                                if (Ego.CurrentWeapon.Ammo <= 0)
+                                {
+                                    // need ammo
+                                    return;
+                                }
+
                                 ShotgunReloading = true;
 
                                 500.AtDelayDo(() => ShotgunReloading = false);
 
 
-                                ShotgunSoundCache.play();
+                                Ego.CurrentWeapon.Type.SoundFire.ToSoundAsset().play();
 
                                 if (EgoFiredShotgun != null)
                                     EgoFiredShotgun();
 
-                                BulletsFired_Shotgun++;
+
+                                Ego.CurrentWeapon.Ammo--;
+
 
                                 var DamagePointOfOrigin = new Point { x = Ego.x, y = Ego.y };
                                 var DamageDirection = EgoAimDirection;
 
-                                DoSomeDamage(DamagePointOfOrigin, DamageDirection, WeaponInfo.Shotgun);
+                                DoSomeDamage(DamagePointOfOrigin, DamageDirection, Ego.CurrentWeapon.Type);
                             }
                     };
 
@@ -794,7 +864,7 @@ namespace FlashTowerDefense.ActionScript
                                     Sounds.door_open.ToSoundAsset().play();
 
                                     Ego.CurrentWeapon = Ego.Weapons.FirstOrDefault(i => i.SelectMode == Weapon.SelectModeEnum.Outside);
-                                    
+
                                     ShowMessage("Machinegun unmanned!");
 
                                     TeleportEgoNearTurret();
@@ -1084,12 +1154,16 @@ namespace FlashTowerDefense.ActionScript
 
                 if (DamageThisDude)
                 {
-                    var Location = new Point { x = DamagePointOfOrigin.x, y = DamagePointOfOrigin.y }.MoveToArc(DamageDirection, -16);
+                    var Location = new Point { x = DamagePointOfOrigin.x, y = DamagePointOfOrigin.y }.MoveToArc(DamageDirection, -32);
                     var Offset = new Point { y = DeadManWalking.y - Location.y, x = DeadManWalking.x - Location.x };
                     var Arc = Offset.GetRotation();
                     var Distance = Offset.length;
-                    var LessThan = Arc < (((DamageDirection + Weapon.ArcRange) % (Math.PI * 2)));
-                    var MoreThan = Arc > (((DamageDirection - Weapon.ArcRange) % (Math.PI * 2)));
+
+                    Func<double, double> Warp = i => i % (Math.PI * 2);
+
+                    var LessThan = Arc < (Warp(DamageDirection) + Weapon.ArcRange);
+                    var MoreThan = Arc > (Warp(DamageDirection) - Weapon.ArcRange);
+
                     var Hit = LessThan && MoreThan;
 
                     if (Distance < Weapon.Range)
@@ -1116,7 +1190,7 @@ namespace FlashTowerDefense.ActionScript
             if (Weapon == null)
                 return;
 
-            (1 + (Weapon.VisibleBulletLines - 1.Random())).Times(
+            (1 + ((Weapon.VisibleBulletLines - 1).Random())).Times(
                 delegate
                 {
                     var VisibleBullet = new Shape().AttachTo(GetWarzone());
@@ -1154,7 +1228,7 @@ namespace FlashTowerDefense.ActionScript
         }
 
 
-        public readonly List<Animation> Boxes = new List<Animation>();
+        public readonly List<Crate> Boxes = new List<Crate>();
 
         public readonly Settings Settings = new Settings();
 
@@ -1200,7 +1274,7 @@ namespace FlashTowerDefense.ActionScript
         public const int InterlevelTimeoutDefault = 8000;
         public int InterlevelTimeout = InterlevelTimeoutDefault;
 
-        public readonly List<Actor> BadGuys;
+        public readonly List<Actor> BadGuys = new List<Actor>();
         public readonly List<Func<IEnumerable<Actor>>> GoodGuys = new List<Func<IEnumerable<Actor>>>();
 
         public IEnumerable<Actor> AllMortals

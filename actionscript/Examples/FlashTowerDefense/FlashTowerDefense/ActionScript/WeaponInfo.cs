@@ -6,6 +6,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.ActionScript.mx.core;
 using FlashTowerDefense.ActionScript.Assets;
+using ScriptCoreLib.ActionScript;
 
 namespace FlashTowerDefense.ActionScript
 {
@@ -24,6 +25,8 @@ namespace FlashTowerDefense.ActionScript
 
         public BitmapAsset Avatar;
 
+        public Class SoundFire;
+
         public readonly static WeaponInfo Shotgun =
             new WeaponInfo
             {
@@ -31,10 +34,9 @@ namespace FlashTowerDefense.ActionScript
                 ArcRange = 0.4,
                 Damage = 30,
                 VisibleBulletLines = 6,
-
+                SoundFire = Sounds.shotgun2,
                 Avatar = Images.avatars_shotgun,
 
-                NetworkId = 1,
             };
 
         public readonly static WeaponInfo Shotgun2 =
@@ -44,10 +46,9 @@ namespace FlashTowerDefense.ActionScript
             ArcRange = 0.2,
             Damage = 60,
             VisibleBulletLines = 3,
-
+            SoundFire = Sounds.shotgun2,
             Avatar = Images.avatars_shotgun2,
 
-            NetworkId = 2,
         };
 
 
@@ -61,14 +62,26 @@ namespace FlashTowerDefense.ActionScript
 
                 Avatar = Images.avatars_m249,
 
-                NetworkId = 3,
             };
 
-        public static WeaponInfo[] PredefinedWeapones =
+        public readonly static WeaponInfo Colt45 =
+             new WeaponInfo
+             {
+                 Range = 200,
+                 ArcRange = 0.1,
+                 Damage = 100,
+                 VisibleBulletLines = 1,
+                 SoundFire = Sounds.colt45,
+                 Avatar = Images.avatars_colt45,
+
+             };
+
+        public static WeaponInfo[] PredefinedWeaponTypes =
             new[]
             {
                 Shotgun,
                 Shotgun2,
+                Colt45,
                 Machinegun
 
             }.ForEach((w, i) => w.NetworkId = i).ToArray();

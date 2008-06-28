@@ -61,6 +61,7 @@
     <Compile Include="ActionScript\Animation.cs" />
     <Compile Include="ActionScript\Assets\Images.cs" />
     <Compile Include="ActionScript\Assets\Sounds.cs" />
+    <Compile Include="ActionScript\Crate.cs" />
     <Compile Include="ActionScript\FlashTowerDefense.AddNewActorsToMap.cs" />
     <Compile Include="ActionScript\FlashTowerDefense.cs" />
     <Compile Include="ActionScript\Menu.cs" />
@@ -82,6 +83,10 @@
     <Content Include="docs\feedback\2008.06.06.txt" />
     <Content Include="docs\feedback\2008.06.25.txt" />
     <Content Include="docs\help.txt" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\avatars_ammo.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\avatars_colt45.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\colt45.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\SelectWeapon.mp3" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\avatars_m249.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\avatars_shotgun.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\avatars_shotgun2.png" />
@@ -131,7 +136,11 @@
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\turret1-default.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="docs\art\avatars\ammo.psd" />
+    <None Include="docs\art\avatars\colt45.psd" />
+    <None Include="docs\art\avatars\m249.psd" />
     <None Include="docs\art\avatars\shotgun.psd" />
+    <None Include="docs\art\avatars\shotgun2.psd" />
     <None Include="tools\build.bat" />
     <None Include="web\NewgroundsAPI.as">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

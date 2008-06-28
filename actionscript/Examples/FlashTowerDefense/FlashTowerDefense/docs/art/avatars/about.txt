@@ -4,6 +4,7 @@ The avatars should be 96x32 png's.
 
 any:
 http://images.google.ee/images?client=firefox-a&rls=org.mozilla:en-US:official&channel=s&hl=et&q=shotgun&lr=&um=1&ie=UTF-8&sa=N&tab=wi
+http://www.dreadgazebo.com/gunporn/index.php?s=handguns
 
 shotgun:
 http://images.google.ee/imgres?imgurl=http://www.airsoftatlanta.com/images/new_shotgun_1a_jpg.jpg&imgrefurl=http://www.airsoftatlanta.com/Reviews/utg870.htm&h=301&w=822&sz=23&hl=et&start=1&um=1&tbnid=hCpGXuTSjUqq7M:&tbnh=53&tbnw=144&prev=/images%3Fq%3Dshotgun%26um%3D1%26hl%3Det%26lr%3D%26client%3Dfirefox-a%26channel%3Ds%26rls%3Dorg.mozilla:en-US:official%26sa%3DN

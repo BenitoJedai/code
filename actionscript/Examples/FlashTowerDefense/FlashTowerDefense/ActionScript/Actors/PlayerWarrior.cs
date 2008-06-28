@@ -15,7 +15,7 @@ namespace FlashTowerDefense.ActionScript.Actors
         {
             this.health = MaxHealth;
 
-            
+
         }
 
         public IEnumerable<Weapon> OtherWeaponsLikeCurrent
@@ -28,30 +28,23 @@ namespace FlashTowerDefense.ActionScript.Actors
 
         public readonly List<Weapon> Weapons = new List<Weapon>
             {
-                new Weapon
-                {
-                    Ammo = 200,
-                    Type = WeaponInfo.Machinegun,
-                    SelectMode = Weapon.SelectModeEnum.Turret
-                },
-                new Weapon
-                {
-                    Ammo = 100,
-                    Type = WeaponInfo.Shotgun,
-                    SelectMode = Weapon.SelectModeEnum.Outside
-                },
-                new Weapon
-                {
-                    Ammo = 100,
-                    Type = WeaponInfo.Shotgun2,
-                    SelectMode = Weapon.SelectModeEnum.Outside
-                }
+                Weapon.TurretMachinegun.Clone(),
+                Weapon.Shotgun.Clone(),
+                Weapon.Colt45.Clone()
             };
 
+        #region CurrentWeapon
+        public event Action CurrentWeaponAmmoChanged;
 
         public event Action CurrentWeaponChanged;
 
         Weapon _CurrentWeapon;
+
+        void RaiseCurrentWeaponAmmoChanged()
+        {
+            if (CurrentWeaponAmmoChanged != null)
+                CurrentWeaponAmmoChanged();
+        }
 
         public Weapon CurrentWeapon
         {
@@ -64,9 +57,28 @@ namespace FlashTowerDefense.ActionScript.Actors
                 if (value == _CurrentWeapon)
                     return;
 
+                if (_CurrentWeapon != null)
+                {
+                    _CurrentWeapon.AmmoChanged -= RaiseCurrentWeaponAmmoChanged;
+
+                    if (!Weapons.Any(i => i.NetworkId == value.NetworkId))
+                        Weapons.Add(value); 
+                }
+
                 _CurrentWeapon = value;
-                CurrentWeaponChanged();
+
+                
+
+                if (CurrentWeaponChanged != null)
+                    CurrentWeaponChanged();
+
+                if (_CurrentWeapon != null)
+                    _CurrentWeapon.AmmoChanged += RaiseCurrentWeaponAmmoChanged;
+
+                RaiseCurrentWeaponAmmoChanged();
             }
         }
+        #endregion
+
     }
 }
