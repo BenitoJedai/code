@@ -9,10 +9,12 @@ namespace FlashTowerDefense.ActionScript.Actors
     [Script]
     public class PlayerWarrior : Warrior
     {
+        public const int AutoResurrectDelay = 6000;
+
 
         public PlayerWarrior()
         {
-            this.MaxHealth = 5000;
+            this.MaxHealth = 1000;
             this.Health = MaxHealth;
 
             this.Weapons = new List<Weapon>

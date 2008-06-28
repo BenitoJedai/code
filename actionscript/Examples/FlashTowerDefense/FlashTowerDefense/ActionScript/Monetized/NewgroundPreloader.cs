@@ -10,8 +10,8 @@ using ScriptCoreLib.ActionScript.Extensions;
 
 namespace FlashTowerDefense.ActionScript.Monetized
 {
-    [Script, ScriptApplicationEntryPoint(Width = FlashTowerDefense.Width, Height = FlashTowerDefense.Height)]
-    [SWF(width = FlashTowerDefense.Width, height = FlashTowerDefense.Height, backgroundColor = FlashTowerDefense.ColorWhite)]
+    [Script, ScriptApplicationEntryPoint(Width = FlashTowerDefense.DefaultWidth, Height = FlashTowerDefense.DefaultHeight)]
+    [SWF(width = FlashTowerDefense.DefaultWidth, height = FlashTowerDefense.DefaultHeight, backgroundColor = FlashTowerDefense.ColorWhite)]
     class NewgroundsPreloader : MochiPreloader
     {
 

@@ -14,8 +14,8 @@ using FlashTowerDefense.ActionScript.Assets;
 
 namespace FlashTowerDefense.ActionScript
 {
-    [Script, ScriptApplicationEntryPoint(Width = Width, Height = Height)]
-    [SWF(width = Width, height = Height, backgroundColor = ColorWhite)]
+    [Script, ScriptApplicationEntryPoint(Width = DefaultWidth, Height = DefaultHeight)]
+    [SWF(width = DefaultWidth, height = DefaultHeight, backgroundColor = ColorWhite)]
     public class Menu : FlashTowerDefense
     {
         public Menu()
@@ -63,8 +63,8 @@ namespace FlashTowerDefense.ActionScript
 
             }.AttachTo(this);
 
-            PlayButton.x = Width - PlayButton.width - 32;
-            PlayButton.y = Height - PlayButton.height - 32;
+            PlayButton.x = DefaultWidth - PlayButton.width - 32;
+            PlayButton.y = DefaultHeight - PlayButton.height - 32;
 
             PlayButton.OnHoverUseColor(ColorRed);
 

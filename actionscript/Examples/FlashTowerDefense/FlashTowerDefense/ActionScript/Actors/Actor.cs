@@ -72,7 +72,13 @@ namespace FlashTowerDefense.ActionScript.Actors
             }
             set
             {
+                if (_health == value)
+                    return;
+
                 _health = value;
+
+                if (_health > MaxHealth)
+                    _health = MaxHealth;
 
                 if (HealthChanged != null)
                     HealthChanged();
@@ -127,9 +133,31 @@ namespace FlashTowerDefense.ActionScript.Actors
 
         Bitmap[] _frames;
 
+        public void Revive()
+        {
+            IsAlive = true;
+            IsCorpseAndBloodGone = false;
+            IsCorpseGone = false;
+
+            Health = MaxHealth / 2;
+
+            _corpse.Orphanize();
+            _blood.Orphanize();
+
+            ShowFrame(0);
+
+            RunAnimationTimer.start();
+        }
+
+        Bitmap _corpse;
+        Bitmap _blood;
+
         public Actor(Bitmap[] frames, Bitmap corpse, Bitmap blood, Sound death)
         {
             this._frames = frames;
+            this._corpse = corpse;
+            this._blood = blood;
+
             this.mouseEnabled = false;
 
             PlayDeathSound = death.ToAction();
@@ -152,6 +180,9 @@ namespace FlashTowerDefense.ActionScript.Actors
                 (10000 + 10000.FixedRandom()).AtDelay(
                     delegate
                     {
+                        if (IsAlive)
+                            return;
+
                         corpse.Orphanize();
 
 
@@ -163,6 +194,9 @@ namespace FlashTowerDefense.ActionScript.Actors
                         ((20000 + 10000.FixedRandom())).AtDelay(
                            delegate
                            {
+                               if (IsAlive)
+                                   return;
+
                                blood.Orphanize();
 
                                IsCorpseAndBloodGone = true;
@@ -187,7 +221,7 @@ namespace FlashTowerDefense.ActionScript.Actors
 
 
 
-            (1000 / 15).AtInterval(
+            RunAnimationTimer = (1000 / 15).AtInterval(
                  t =>
                  {
                      if (!IsAlive)
@@ -206,6 +240,8 @@ namespace FlashTowerDefense.ActionScript.Actors
 
             ShowFrame(0);
         }
+
+        public readonly Timer RunAnimationTimer;
 
         private void ShowFrame(int Counter)
         {

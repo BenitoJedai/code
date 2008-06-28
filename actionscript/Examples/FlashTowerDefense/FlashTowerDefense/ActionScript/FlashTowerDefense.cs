@@ -24,12 +24,12 @@ namespace FlashTowerDefense.ActionScript
     /// <summary>
     /// testing...
     /// </summary>
-    [Script, ScriptApplicationEntryPoint(Width = Width, Height = Height)]
-    [SWF(width = Width, height = Height, backgroundColor = ColorWhite)]
+    [Script, ScriptApplicationEntryPoint(Width = DefaultWidth, Height = DefaultHeight)]
+    [SWF(width = DefaultWidth, height = DefaultHeight, backgroundColor = ColorWhite)]
     public partial class FlashTowerDefense : Sprite
     {
-        public const int Width = 560;
-        public const int Height = 480;
+        public const int DefaultWidth = 560;
+        public const int DefaultHeight = 480;
 
         public const uint ColorGreen = 0x00ff00;
         public const uint ColorRed = 0xff0000;
@@ -71,7 +71,7 @@ namespace FlashTowerDefense.ActionScript
             var warzone = new Sprite { x = 0, y = 0 };
 
             warzone.graphics.beginFill(ColorWhite);
-            warzone.graphics.drawRect(-OffscreenMargin, -OffscreenMargin, Width + 2 * OffscreenMargin, Height + 2 * OffscreenMargin);
+            warzone.graphics.drawRect(-OffscreenMargin, -OffscreenMargin, DefaultWidth + 2 * OffscreenMargin, DefaultHeight + 2 * OffscreenMargin);
 
             warzone.mouseChildren = false;
 
@@ -173,10 +173,10 @@ namespace FlashTowerDefense.ActionScript
 
 
             Action<double, Action> Times =
-                (m, h) => (Width * Height * m).Times(h);
+                (m, h) => (DefaultWidth * DefaultHeight * m).Times(h);
 
             Action<double, Func<BitmapAsset>> AddDoodads =
-                (m, GetImage) => Times(m, () => GetImage().AttachTo(bg).SetCenteredPosition(Width.Random(), Height.Random()));
+                (m, GetImage) => Times(m, () => GetImage().AttachTo(bg).SetCenteredPosition(DefaultWidth.Random(), DefaultHeight.Random()));
 
             AddDoodads(0.0001, () => Images.grass1.ToBitmapAsset());
             AddDoodads(0.00005, () => Images.bump2.ToBitmapAsset());
@@ -204,19 +204,19 @@ namespace FlashTowerDefense.ActionScript
 
             Action<double> AddCactusAt = y =>
                 {
-                    var x = Width.Random();
+                    var x = DefaultWidth.Random();
 
                     AddCactus().AttachTo(GetWarzone()).MoveTo(
-                        x, y + Math.Cos(x + y) * Height * 0.03);
+                        x, y + Math.Cos(x + y) * DefaultHeight * 0.03);
                 };
 
-            (3 + 3.Random()).Times(AddCactusAt.FixParam(Height * 0.06));
-            (3 + 3.Random()).Times(AddCactusAt.FixParam(Height * 0.94));
+            (3 + 3.Random()).Times(AddCactusAt.FixParam(DefaultHeight * 0.06));
+            (3 + 3.Random()).Times(AddCactusAt.FixParam(DefaultHeight * 0.94));
 
             PrebuiltTurret = new Animation(Images.img_turret1_gunfire_180, Images.img_turret1_gunfire_180_frames);
 
-            PrebuiltTurret.x = (Width - PrebuiltTurret.width) * 0.9;
-            PrebuiltTurret.y = (Height - PrebuiltTurret.height) / 2;
+            PrebuiltTurret.x = (DefaultWidth - PrebuiltTurret.width) * 0.9;
+            PrebuiltTurret.y = (DefaultHeight - PrebuiltTurret.height) / 2;
 
             PrebuiltTurret.AttachTo(GetWarzone());
 
@@ -239,9 +239,9 @@ namespace FlashTowerDefense.ActionScript
                         mouseEnabled = false
                     };
 
-                    var y = Height - p.height - 32;
+                    var y = DefaultHeight - p.height - 32;
 
-                    p.AddTo(ActiveMessages).AttachTo(this).MoveTo((Width - p.width) / 2, Height);
+                    p.AddTo(ActiveMessages).AttachTo(this).MoveTo((DefaultWidth - p.width) / 2, DefaultHeight);
 
                     Sounds.snd_message.ToSoundAsset().play();
 
@@ -312,7 +312,7 @@ namespace FlashTowerDefense.ActionScript
             {
                 mouseEnabled = false,
                 mouseChildren = false,
-            }.MoveTo(Width - 96, Height - 64).AttachTo(this);
+            }.MoveTo(DefaultWidth - 96, DefaultHeight - 64).AttachTo(this);
 
 
 
@@ -373,6 +373,9 @@ namespace FlashTowerDefense.ActionScript
                 delegate
                 {
                     Ego.MoveToArc(EgoAimDirection, EgoMoveSpeed);
+                    Ego.x = Ego.x.Max(0).Min(DefaultWidth);
+                    Ego.y = Ego.y.Max(0).Min(DefaultHeight);
+
                     UpdateEgoAim();
 
                     EgoMovedSlowTimer.start();
@@ -467,6 +470,8 @@ namespace FlashTowerDefense.ActionScript
                 {
                     ShowMessage("Meeeediiic!");
                     ShowMessage("You died a painful death");
+
+                    PlayerWarrior.AutoResurrectDelay.AtIntervalDo(Ego.Revive);
                 };
 
             #region HealthBar
@@ -483,9 +488,25 @@ namespace FlashTowerDefense.ActionScript
                 Images.avatars_heart.ToBitmapAsset().MoveToArc(340.DegreesToRadians(), 90).AttachTo(HealthBar),
             };
 
+            var EgoHeartBeat = default(SoundChannel);
+
             Ego.HealthChanged +=
                 delegate
                 {
+                    if (EgoHeartBeat == null)
+                    {
+                        var Alphas = new[] { 0.5, 1 };
+
+                      
+                        EgoHeartBeat = Sounds.heartbeat3.ToSoundAsset().play();
+                        EgoHeartBeat.soundComplete +=
+                            e =>
+                            {
+                                EgoHeartBeat = null;
+                            };
+                    }
+
+
                     var z = (Ego.Health / Ego.MaxHealth) * Hearts.Length;
                     var f = Math.Floor(z).ToInt32();
                     var a = z % 1;
@@ -497,7 +518,7 @@ namespace FlashTowerDefense.ActionScript
 
                     Hearts[f].alpha = a;
 
-                    for (int i = f + 1; i < Hearts.Length - 1; i++)
+                    for (int i = f + 1; i < Hearts.Length; i++)
                     {
                         Hearts[i].alpha = 0;
                     }
@@ -645,7 +666,7 @@ namespace FlashTowerDefense.ActionScript
 
 
 
-            Func<double> GetEntryPointY = () => (Height * 0.8).FixedRandom() + Height * 0.1;
+            Func<double> GetEntryPointY = () => (DefaultHeight * 0.8).FixedRandom() + DefaultHeight * 0.1;
 
 
 
@@ -681,8 +702,10 @@ namespace FlashTowerDefense.ActionScript
                     a.Moved +=
                         delegate
                         {
-                            if (a.x > (Width + OffscreenMargin))
+                            if (a.x > (DefaultWidth + OffscreenMargin))
                             {
+                                a.Crate = null;
+
                                 a.RemoveFrom(BadGuys).Orphanize();
 
                                 if (CanFire)
@@ -1100,7 +1123,7 @@ namespace FlashTowerDefense.ActionScript
                 textColor = ColorBlack
             }.AttachTo(this);
 
-            powered_by_jsc.y = Height - powered_by_jsc.height - 32;
+            powered_by_jsc.y = DefaultHeight - powered_by_jsc.height - 32;
 
             // make it fade/show in time
             200.AtInterval(t => powered_by_jsc.alpha = (Math.Sin(t.currentCount * 0.05) + 1) * 0.5);
@@ -1122,7 +1145,7 @@ namespace FlashTowerDefense.ActionScript
             #region music on off
             var MusicButton = new Sprite
             {
-                x = Width - 32,
+                x = DefaultWidth - 32,
                 y = 32,
                 filters = new[] { new GlowFilter(ColorBlueLight) },
 

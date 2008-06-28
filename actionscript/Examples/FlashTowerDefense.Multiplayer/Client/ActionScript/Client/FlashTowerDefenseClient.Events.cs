@@ -153,6 +153,7 @@ namespace FlashTowerDefense.ActionScript.Client
                 {
                     foreach (var v in Map.AllMortals.Where(i => i.NetworkId == e.target))
                     {
+                        
                         v.AddDamageFromDirection(e.damage, e.arc.DegreesToRadians());
                     }
                 };
@@ -194,18 +195,11 @@ namespace FlashTowerDefense.ActionScript.Client
                     Map.WaveEndCountdown = 0;
                     Map.InterlevelTimeout = 500;
                     Map.ReportDays();
-                   
 
+                    var name = e.name;
+                    var id = e.user;
 
-                    var n = new PlayerWarrior
-                    {
-                        CanMakeFootsteps = false,
-                        RunAnimation = false,
-                        NetworkName = e.name,
-                        NetworkId = e.user,
-                        x = 100 + 100.Random(),
-                        y = 100 + 100.Random()
-                    }.AddTo(Players).AttachTo(Map.GetWarzone());
+                    var n = AddNewPlayer(name, id);
 
                     Map.ShowMessage("Player joined: " + n.NetworkName + " #" + n.NetworkId);
 
@@ -220,15 +214,10 @@ namespace FlashTowerDefense.ActionScript.Client
                     
                     if (!Players.Any(n => n.NetworkId == e.user))
                     {
-                        var n = new PlayerWarrior
-                        {
-                            CanMakeFootsteps = false,
-                            RunAnimation = false,
-                            NetworkName = e.name,
-                            NetworkId = e.user,
-                            x = 100 + 100.Random(),
-                            y = 100 + 100.Random()
-                        }.AddTo(Players).AttachTo(Map.GetWarzone());
+                        var name = e.name;
+                        var id = e.user;
+
+                        var n = AddNewPlayer(name, id);
 
                         Map.ShowMessage("Player is here: " + n.NetworkName + " #" + n.NetworkId);
                     }
@@ -246,6 +235,32 @@ namespace FlashTowerDefense.ActionScript.Client
                 };
             #endregion
             return NetworkEvents;
+        }
+
+        private PlayerWarrior AddNewPlayer(string name, int id)
+        {
+            var n = new PlayerWarrior
+            {
+                CanMakeFootsteps = false,
+                RunAnimation = false,
+                NetworkName = name,
+                NetworkId = id,
+                x = 100 + 100.Random(),
+                y = 100 + 100.Random()
+            }.AddTo(Players).AttachTo(Map.GetWarzone());
+
+            n.Die +=
+                delegate
+                {
+                    if (Players.Contains(n))
+                    {
+                        Map.ShowMessage("One of us has died!");
+
+                        PlayerWarrior.AutoResurrectDelay.AtIntervalDo(n.Revive);
+                    }
+                };
+
+            return n;
         }
 
         public int EgoId;

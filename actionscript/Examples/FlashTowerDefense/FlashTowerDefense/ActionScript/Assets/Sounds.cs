@@ -14,6 +14,9 @@ namespace FlashTowerDefense.ActionScript.Assets
     {
         public const string Path = "/assets/FlashTowerDefense.Sounds";
 
+        [Embed(source = Path + "/heartbeat3.mp3")]
+        public static Class heartbeat3;
+        
         [Embed(source = Path + "/SelectWeapon.mp3")]
         public static Class SelectWeapon;
 

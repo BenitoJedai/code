@@ -28,8 +28,8 @@ namespace FlashTowerDefense.ActionScript.Client
     [SWF(width = Width, height = Height)]
     public partial class FlashTowerDefenseClient : Sprite
     {
-        public const int Width = FlashTowerDefense.Width + 240;
-        public const int Height = FlashTowerDefense.Height;
+        public const int Width = FlashTowerDefense.DefaultWidth + 240;
+        public const int Height = FlashTowerDefense.DefaultHeight;
 
         /// <summary>
         /// Default constructor
@@ -210,7 +210,8 @@ namespace FlashTowerDefense.ActionScript.Client
 
                     NetworkMessages.PlayerAdvertise(Map.Ego.NetworkId);
                     BroadcastTeleportTo();
-                    NetworkMessages.ReadyForServerRandomNumbers();
+
+                    300.AtDelayDo(NetworkMessages.ReadyForServerRandomNumbers);
                 };
 
         }
