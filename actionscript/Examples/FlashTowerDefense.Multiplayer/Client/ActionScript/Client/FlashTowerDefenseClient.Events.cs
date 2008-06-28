@@ -241,7 +241,7 @@ namespace FlashTowerDefense.ActionScript.Client
 
                     foreach (var v in Players.Where(i => i.NetworkId == e.user))
                     {
-                        v.RemoveFrom(Players).AddDamage(v.health);
+                        v.RemoveFrom(Players).AddDamage(v.Health);
                     }
                 };
             #endregion

@@ -85,9 +85,9 @@ namespace FlashTowerDefense.ActionScript
         public static Weapon TurretMachinegun =
             new Weapon
                 {
-                    MaxAmmo = 200,
+                    MaxAmmo = 400,
 
-                    Ammo = 50,
+                    Ammo = 100,
                     Type = WeaponInfo.Machinegun,
                     SelectMode = Weapon.SelectModeEnum.Turret,
                     Name = "Turret Machinegun"
@@ -96,9 +96,9 @@ namespace FlashTowerDefense.ActionScript
         public static Weapon Shotgun =
                 new Weapon
                 {
-                    MaxAmmo = 14,
+                    MaxAmmo = 30,
 
-                    Ammo = 7,
+                    Ammo = 12,
                     Type = WeaponInfo.Shotgun,
                     SelectMode = Weapon.SelectModeEnum.Outside,
                     Name = "Shotgun"
@@ -107,8 +107,8 @@ namespace FlashTowerDefense.ActionScript
         public static Weapon Shotgun2 =
            new Weapon
            {
-               MaxAmmo = 14,
-               Ammo = 7,
+               MaxAmmo = 35,
+               Ammo = 14,
                Type = WeaponInfo.Shotgun2,
                SelectMode = Weapon.SelectModeEnum.Outside,
                Name = "Long Shotgun"
@@ -117,8 +117,8 @@ namespace FlashTowerDefense.ActionScript
         public static Weapon Colt45 =
                 new Weapon
                 {
-                    MaxAmmo = 15,
-                    Ammo = 6,
+                    MaxAmmo = 30,
+                    Ammo = 12,
                     Type = WeaponInfo.Colt45,
                     SelectMode = Weapon.SelectModeEnum.Outside,
                     Name = "Colt45"

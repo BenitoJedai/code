@@ -308,11 +308,19 @@ namespace FlashTowerDefense.ActionScript
                 };
             #endregion
 
-            var WeaponBar = new Sprite
+            var StatusBar = new Sprite
             {
                 mouseEnabled = false,
                 mouseChildren = false,
             }.MoveTo(Width - 96, Height - 64).AttachTo(this);
+
+
+
+            #region  WeaponBar
+            var WeaponBar = new Sprite
+            {
+            }.AttachTo(StatusBar);
+
 
             var AmmoAvatar = new Sprite().MoveTo(38, 24).AttachTo(WeaponBar);
 
@@ -337,6 +345,8 @@ namespace FlashTowerDefense.ActionScript
 
 
             var WeaponAvatar = new Sprite().AttachTo(WeaponBar);
+            #endregion
+
 
             #region Ego
             Ego = new PlayerWarrior();
@@ -452,6 +462,51 @@ namespace FlashTowerDefense.ActionScript
             Ego.CurrentWeaponAmmoChanged += () => AmmoText.text = "" + Ego.CurrentWeapon.Ammo;
             Ego.CurrentWeapon = Ego.Weapons.FirstOrDefault(i => i.SelectMode == Weapon.SelectModeEnum.Turret);
 
+            Ego.Die +=
+                () =>
+                {
+                    ShowMessage("Meeeediiic!");
+                    ShowMessage("You died a painful death");
+                };
+
+            #region HealthBar
+            var HealthBar = new Sprite
+            {
+                filters = new[] { new GlowFilter(ColorRed) }
+            }.MoveTo(-20, 0).AttachTo(StatusBar);
+
+            var Hearts = new[] 
+            {
+                Images.avatars_heart.ToBitmapAsset().MoveToArc(20.DegreesToRadians(), 90).AttachTo(HealthBar),
+                Images.avatars_heart.ToBitmapAsset().MoveToArc(7.DegreesToRadians(), 90).AttachTo(HealthBar),
+                Images.avatars_heart.ToBitmapAsset().MoveToArc(353.DegreesToRadians(), 90).AttachTo(HealthBar),
+                Images.avatars_heart.ToBitmapAsset().MoveToArc(340.DegreesToRadians(), 90).AttachTo(HealthBar),
+            };
+
+            Ego.HealthChanged +=
+                delegate
+                {
+                    var z = (Ego.Health / Ego.MaxHealth) * Hearts.Length;
+                    var f = Math.Floor(z).ToInt32();
+                    var a = z % 1;
+
+                    for (int i = 0; i < f; i++)
+                    {
+                        Hearts[i].alpha = 1;
+                    }
+
+                    Hearts[f].alpha = a;
+
+                    for (int i = f + 1; i < Hearts.Length - 1; i++)
+                    {
+                        Hearts[i].alpha = 0;
+                    }
+
+
+                    //ShowMessage("h: " + f + " " + a);
+                };
+
+            #endregion
 
             var PrebuiltTurretSound = default(SoundChannel);
 
@@ -478,7 +533,7 @@ namespace FlashTowerDefense.ActionScript
                 {
                     if (Ego.CurrentWeapon.Ammo <= 0)
                         return;
-              
+
 
                     Ego.CurrentWeapon.Ammo--;
 
@@ -715,6 +770,9 @@ namespace FlashTowerDefense.ActionScript
                         Down =
                             delegate
                             {
+                                if (!Ego.IsAlive)
+                                    return;
+
                                 Ego.RunAnimation = true;
                                 EgoMoveSpeed = 2.5;
                                 EgoMoveUpTimer.start();
@@ -734,6 +792,9 @@ namespace FlashTowerDefense.ActionScript
                         Down =
                             delegate
                             {
+                                if (!Ego.IsAlive)
+                                    return;
+
                                 Ego.RunAnimation = true;
                                 EgoMoveSpeed = -1.5;
                                 EgoMoveUpTimer.start();

@@ -60,7 +60,29 @@ namespace FlashTowerDefense.ActionScript.Actors
 
         public event Action Moved;
 
-        public double health = 100;
+        public int MaxHealth = 100;
+
+        double _health = 100;
+
+        public double Health
+        {
+            get
+            {
+                return _health;
+            }
+            set
+            {
+                _health = value;
+
+                if (HealthChanged != null)
+                    HealthChanged();
+
+            }
+        }
+
+        public event Action HealthChanged;
+
+
         public double speed = 0.5;
 
         public bool IsBleeding;
@@ -90,9 +112,9 @@ namespace FlashTowerDefense.ActionScript.Actors
             if (!IsAlive)
                 return;
 
-            health -= e;
+            Health -= e;
 
-            if (health <= 0)
+            if (Health <= 0)
                 Die();
         }
 

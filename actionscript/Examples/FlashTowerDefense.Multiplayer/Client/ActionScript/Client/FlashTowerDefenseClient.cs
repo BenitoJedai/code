@@ -123,7 +123,7 @@ namespace FlashTowerDefense.ActionScript.Client
 
                      foreach (var v in Players.ToArray())
                      {
-                         v.RemoveFrom(Players).AddDamage(v.health);
+                         v.RemoveFrom(Players).AddDamage(v.Health);
                      }
                  };
 

@@ -9,12 +9,18 @@ namespace FlashTowerDefense.ActionScript.Actors
     [Script]
     public class PlayerWarrior : Warrior
     {
-        public int MaxHealth = 10000;
 
         public PlayerWarrior()
         {
-            this.health = MaxHealth;
+            this.MaxHealth = 5000;
+            this.Health = MaxHealth;
 
+            this.Weapons = new List<Weapon>
+            {
+                Weapon.TurretMachinegun.Clone(),
+                Weapon.Shotgun.Clone(),
+                Weapon.Colt45.Clone()
+            };
 
         }
 
@@ -26,12 +32,8 @@ namespace FlashTowerDefense.ActionScript.Actors
             }
         }
 
-        public readonly List<Weapon> Weapons = new List<Weapon>
-            {
-                Weapon.TurretMachinegun.Clone(),
-                Weapon.Shotgun.Clone(),
-                Weapon.Colt45.Clone()
-            };
+        public readonly List<Weapon> Weapons;
+
 
         #region CurrentWeapon
         public event Action CurrentWeaponAmmoChanged;

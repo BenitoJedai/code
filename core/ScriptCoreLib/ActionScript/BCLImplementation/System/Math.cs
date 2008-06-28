@@ -306,7 +306,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         //     The largest integer less than or equal to d. If d is equal to System.Double.NaN,
         //     System.Double.NegativeInfinity, or System.Double.PositiveInfinity, that value
         //     is returned.
-        public static double Floor(double d) { throw new NotImplementedException(); }
+        public static double Floor(double d) { return Math.floor(d); }
         //
         // Summary:
         //     Returns the remainder resulting from the division of a specified number by

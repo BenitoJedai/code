@@ -83,6 +83,7 @@
     <Content Include="docs\feedback\2008.06.06.txt" />
     <Content Include="docs\feedback\2008.06.25.txt" />
     <Content Include="docs\help.txt" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\avatars_heart.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\sound35.mp3" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\avatars_ammo.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\avatars_colt45.png" />
@@ -139,6 +140,7 @@
   <ItemGroup>
     <None Include="docs\art\avatars\ammo.psd" />
     <None Include="docs\art\avatars\colt45.psd" />
+    <None Include="docs\art\avatars\heart.psd" />
     <None Include="docs\art\avatars\m249.psd" />
     <None Include="docs\art\avatars\shotgun.psd" />
     <None Include="docs\art\avatars\shotgun2.psd" />
