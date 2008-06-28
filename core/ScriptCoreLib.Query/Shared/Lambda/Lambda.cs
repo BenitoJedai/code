@@ -253,6 +253,27 @@ namespace ScriptCoreLib.Shared.Lambda
             return e.Randomize().First();
         }
 
+        public static IEnumerable<T> ForEach<T>(this IEnumerable<T> array, Action<T, int> action)
+        {
+            if (array == null)
+            {
+                throw new System.ArgumentNullException("array");
+            }
+            if (action == null)
+            {
+                throw new System.ArgumentNullException("action");
+            }
+
+            var i = 0;
+            foreach (var v in array.AsEnumerable())
+            {
+                action(v, i);
+                i++;
+            }
+
+            return array;
+        }
+
         public static IEnumerable<T> ForEach<T>(this IEnumerable<T> array, Action<T> action)
         {
             if (array == null)

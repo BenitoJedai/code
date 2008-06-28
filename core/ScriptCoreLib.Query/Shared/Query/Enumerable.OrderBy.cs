@@ -49,7 +49,7 @@ namespace ScriptCoreLib.Shared.Query
         {
             if (source == null)
             {
-                throw Error.ArgumentNull("source");
+                throw DefinedError.ArgumentNull("source");
             }
             return source.CreateOrderedEnumerable<TKey>(keySelector, comparer, false);
         }
@@ -58,7 +58,7 @@ namespace ScriptCoreLib.Shared.Query
         {
             if (source == null)
             {
-                throw Error.ArgumentNull("source");
+                throw DefinedError.ArgumentNull("source");
             }
             return source.CreateOrderedEnumerable<TKey>(keySelector, null, true);
         }
@@ -68,7 +68,7 @@ namespace ScriptCoreLib.Shared.Query
         {
             if (source == null)
             {
-                throw Error.ArgumentNull("source");
+                throw DefinedError.ArgumentNull("source");
             }
             return source.CreateOrderedEnumerable<TKey>(keySelector, comparer, true);
         }

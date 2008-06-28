@@ -31,6 +31,7 @@ namespace FlashTowerDefense.ActionScript
         public const int Width = 560;
         public const int Height = 480;
 
+        public const uint ColorGreen = 0x00ff00;
         public const uint ColorRed = 0xff0000;
         public const uint ColorBlack = 0x000000;
         public const uint ColorWhite = 0xffffff;
@@ -307,7 +308,10 @@ namespace FlashTowerDefense.ActionScript
                 };
             #endregion
 
-
+            var WeaponAvatar = new Sprite
+            {
+                filters = new[] { new GlowFilter(ColorGreen) }
+            }.MoveTo(Width - 96, Height - 32).AttachTo(this);
 
             #region Ego
             Ego = new PlayerWarrior();
@@ -380,6 +384,19 @@ namespace FlashTowerDefense.ActionScript
 
             #endregion
 
+
+            Ego.CurrentWeaponChanged +=
+                delegate
+                {
+                    if (WeaponAvatar.numChildren > 0)
+                        WeaponAvatar.getChildAt(0).Orphanize();
+
+                    Ego.CurrentWeapon.Type.Avatar.MoveToCenter().AttachTo(WeaponAvatar);
+                    WeaponAvatar.filters = new[] { new GlowFilter(Ego.CurrentWeapon.Color) };
+                };
+
+            Ego.CurrentWeapon = Ego.Weapons.FirstOrDefault(i => i.SelectMode == Weapon.SelectModeEnum.Turret);
+
             var PrebuiltTurretSound = default(SoundChannel);
 
 
@@ -395,10 +412,10 @@ namespace FlashTowerDefense.ActionScript
             var runaways = 0;
             var score = 0;
 
-     
 
 
-            
+
+
 
             Action UpdateScoreBoard =
                 delegate
@@ -665,6 +682,26 @@ namespace FlashTowerDefense.ActionScript
                             }
                     };
 
+                    var KeyWeaponNext = new KeyboardButton(stage)
+                    {
+                        Buttons = new[] { Keyboard.X },
+                        Up = 
+                        delegate
+                        {
+                            Ego.CurrentWeapon = Ego.OtherWeaponsLikeCurrent.Next(i => i == Ego.CurrentWeapon);
+                        }
+                    };
+
+                    var KeyWeaponPrevious = new KeyboardButton(stage)
+                    {
+                        Buttons = new[] { Keyboard.Z },
+                        Up =
+                            delegate
+                            {
+                                Ego.CurrentWeapon = Ego.OtherWeaponsLikeCurrent.Previous(i => i == Ego.CurrentWeapon);
+                            }
+                    };
+
                     var KeyMusic = new KeyboardButton(stage)
                     {
                         Buttons = new[] { Keyboard.M },
@@ -689,7 +726,7 @@ namespace FlashTowerDefense.ActionScript
 
                                 500.AtDelayDo(() => ShotgunReloading = false);
 
-                                
+
                                 ShotgunSoundCache.play();
 
                                 if (EgoFiredShotgun != null)
@@ -726,6 +763,8 @@ namespace FlashTowerDefense.ActionScript
                                             PrebuiltTurretBlinkTimer.stop();
                                             PrebuiltTurret.alpha = 1;
 
+                                            Ego.CurrentWeapon = Ego.Weapons.FirstOrDefault(i => i.SelectMode == Weapon.SelectModeEnum.Turret);
+
                                             ShowMessage("Machinegun manned!");
                                             Mouse.hide();
 
@@ -753,6 +792,9 @@ namespace FlashTowerDefense.ActionScript
                                 else
                                 {
                                     Sounds.door_open.ToSoundAsset().play();
+
+                                    Ego.CurrentWeapon = Ego.Weapons.FirstOrDefault(i => i.SelectMode == Weapon.SelectModeEnum.Outside);
+                                    
                                     ShowMessage("Machinegun unmanned!");
 
                                     TeleportEgoNearTurret();
@@ -864,7 +906,7 @@ namespace FlashTowerDefense.ActionScript
                             }
                         );
 
-                        
+
                         UpdateScoreBoard();
 
                         return;

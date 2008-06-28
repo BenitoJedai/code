@@ -31,15 +31,15 @@ namespace ScriptCoreLib.Shared.Query
         {
             if (source == null)
             {
-                throw Error.ArgumentNull("source");
+                throw DefinedError.ArgumentNull("source");
             }
             if (keySelector == null)
             {
-                throw Error.ArgumentNull("keySelector");
+                throw DefinedError.ArgumentNull("keySelector");
             }
             if (elementSelector == null)
             {
-                throw Error.ArgumentNull("elementSelector");
+                throw DefinedError.ArgumentNull("elementSelector");
             }
             Dictionary<TKey, TElement> dictionary = new Dictionary<TKey, TElement>(comparer);
             foreach (TSource local in source.AsEnumerable())

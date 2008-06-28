@@ -16,11 +16,11 @@ namespace ScriptCoreLib.Shared.Query
         {
             if (first == null)
             {
-                throw Error.ArgumentNull("first");
+                throw DefinedError.ArgumentNull("first");
             }
             if (second == null)
             {
-                throw Error.ArgumentNull("second");
+                throw DefinedError.ArgumentNull("second");
             }
             return ConcatIterator<TSource>(first, second);
         }

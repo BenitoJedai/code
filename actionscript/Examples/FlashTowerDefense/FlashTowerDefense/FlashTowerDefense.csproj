@@ -70,16 +70,21 @@
     <Compile Include="ActionScript\Monetized\MochiPreloader.cs" />
     <Compile Include="ActionScript\MyExtensions.cs" />
     <Compile Include="ActionScript\KeyboardButton.cs" />
+    <Compile Include="ActionScript\Weapon.cs" />
     <Compile Include="ActionScript\WeaponInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
+    <Content Include="docs\art\avatars\about.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\feedback\2008.06.06.txt" />
     <Content Include="docs\feedback\2008.06.25.txt" />
     <Content Include="docs\help.txt" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\avatars_m249.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\avatars_shotgun.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\avatars_shotgun2.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\box.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\sound20.mp3" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\shotgun2.mp3" />
@@ -126,6 +131,7 @@
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\turret1-default.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="docs\art\avatars\shotgun.psd" />
     <None Include="tools\build.bat" />
     <None Include="web\NewgroundsAPI.as">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

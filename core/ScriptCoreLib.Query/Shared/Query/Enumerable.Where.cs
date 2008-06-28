@@ -97,7 +97,7 @@ namespace ScriptCoreLib.Shared.Query
 
             public void Reset()
             {
-                throw Error.NotImplemented();
+                throw DefinedError.NotImplemented();
             }
 
 

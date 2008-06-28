@@ -10,9 +10,20 @@ using ScriptCoreLib.ActionScript;
 namespace FlashTowerDefense.ActionScript.Assets
 {
     [Script]
-    public static class Images
+    public static partial class Images
     {
         public const string Path = "/assets/FlashTowerDefense.Images";
+
+        [Embed(source = Path + "/avatars_m249.png")]
+        public static Class avatars_m249;
+
+        [Embed(source = Path + "/avatars_shotgun.png")]
+        public static Class avatars_shotgun;
+
+        [Embed(source = Path + "/avatars_shotgun2.png")]
+        public static Class avatars_shotgun2;
+
+        
 
         [Embed(source = Path + "/box.png")]
         public static Class box;

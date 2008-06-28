@@ -18,15 +18,15 @@ namespace ScriptCoreLib.Shared.Query
         {
             if (source == null)
             {
-                throw Error.ArgumentNull("source");
+                throw DefinedError.ArgumentNull("source");
             }
             if (collectionSelector == null)
             {
-                throw Error.ArgumentNull("collectionSelector");
+                throw DefinedError.ArgumentNull("collectionSelector");
             }
             if (resultSelector == null)
             {
-                throw Error.ArgumentNull("resultSelector");
+                throw DefinedError.ArgumentNull("resultSelector");
             }
 
             return SelectManyIterator<TSource, TCollection, TResult>(source, collectionSelector, resultSelector);
@@ -213,11 +213,11 @@ namespace ScriptCoreLib.Shared.Query
         {
             if (source == null)
             {
-                throw Error.ArgumentNull("source");
+                throw DefinedError.ArgumentNull("source");
             }
             if (selector == null)
             {
-                throw Error.ArgumentNull("selector");
+                throw DefinedError.ArgumentNull("selector");
             }
             return SelectManyIterator<TSource, TResult>(source, selector);
         }

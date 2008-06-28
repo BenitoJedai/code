@@ -277,6 +277,34 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
 
         }
 
+
+        public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, global::System.Func<TSource, bool> predicate)
+        {
+            if (source == null)
+            {
+                throw DefinedError.ArgumentNull("source");
+            }
+            if (predicate == null)
+            {
+                throw DefinedError.ArgumentNull("predicate");
+            }
+
+            var value = default(TSource);
+
+            foreach (TSource local in source.AsEnumerable())
+            {
+                if (predicate(local))
+                {
+                    value = local;
+
+                    break;
+                }
+            }
+
+            return value;
+        }
+
+
     }
 
 }

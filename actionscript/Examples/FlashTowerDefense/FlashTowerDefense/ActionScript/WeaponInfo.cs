@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.ActionScript.mx.core;
+using FlashTowerDefense.ActionScript.Assets;
 
 namespace FlashTowerDefense.ActionScript
 {
@@ -19,16 +22,33 @@ namespace FlashTowerDefense.ActionScript
 
         public int VisibleBulletLines;
 
+        public BitmapAsset Avatar;
+
         public readonly static WeaponInfo Shotgun =
             new WeaponInfo
             {
                 Range = 200,
                 ArcRange = 0.4,
                 Damage = 30,
-                VisibleBulletLines = 5,
+                VisibleBulletLines = 6,
+
+                Avatar = Images.avatars_shotgun,
 
                 NetworkId = 1,
             };
+
+        public readonly static WeaponInfo Shotgun2 =
+        new WeaponInfo
+        {
+            Range = 300,
+            ArcRange = 0.2,
+            Damage = 60,
+            VisibleBulletLines = 3,
+
+            Avatar = Images.avatars_shotgun2,
+
+            NetworkId = 2,
+        };
 
 
         public readonly static WeaponInfo Machinegun =
@@ -39,15 +59,21 @@ namespace FlashTowerDefense.ActionScript
                 Damage = 40,
                 VisibleBulletLines = 2,
 
-                NetworkId = 2,
+                Avatar = Images.avatars_m249,
+
+                NetworkId = 3,
             };
 
         public static WeaponInfo[] PredefinedWeapones =
             new[]
             {
                 Shotgun,
+                Shotgun2,
                 Machinegun
-            };
+
+            }.ForEach((w, i) => w.NetworkId = i).ToArray();
+
+        
 
     }
 }

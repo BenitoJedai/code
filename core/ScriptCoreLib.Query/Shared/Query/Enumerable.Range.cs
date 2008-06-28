@@ -25,7 +25,7 @@ namespace ScriptCoreLib.Shared.Query
                 return RangeIterator(start, count);
             }
 
-            throw Error.ArgumentOutOfRange("count");
+            throw DefinedError.ArgumentOutOfRange("count");
         }
 
 
@@ -127,7 +127,7 @@ namespace ScriptCoreLib.Shared.Query
 
             public void Reset()
             {
-                throw Error.NotImplemented();
+                throw DefinedError.NotImplemented();
             }
 
             #endregion

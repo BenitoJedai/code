@@ -12,7 +12,7 @@ namespace ScriptCoreLib.Shared.Query
 {
 
     [Script]
-    internal static class Error
+    internal static class DefinedError
     {
         internal static Exception ArgumentOutOfRange(string paramName)
         {

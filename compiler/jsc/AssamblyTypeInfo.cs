@@ -241,14 +241,11 @@ namespace jsc
             {
                 string MethodName = ((MethodInfo)src_method).Name;
 
-                foreach (MethodInfo v in timpl.GetMethods(
-                    BindingFlags.NonPublic | BindingFlags.Public |
-                    BindingFlags.Instance | BindingFlags.Static
-                    ))
-                {
-                    if (v.Name != MethodName)
-                        continue;
+                var AllMethods = timpl.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
 
+
+                foreach (MethodInfo v in AllMethods.Where(n => n.Name == MethodName))
+                {
                     ParameterInfo[] vp = v.GetParameters();
 
                     if (vp.Length != t.Length)
