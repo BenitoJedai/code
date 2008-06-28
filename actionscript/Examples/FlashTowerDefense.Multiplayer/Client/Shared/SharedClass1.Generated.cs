@@ -13,25 +13,22 @@ namespace FlashTowerDefense.Shared
 
     public partial class SharedClass1
     {
-
-
-
         #region RemoteMessages
 
 #if !NoAttributes
-    [Script]
+        [Script]
 #endif
         [CompilerGenerated]
-        public sealed class RemoteMessages : IMessages
+        public sealed partial class RemoteMessages : IMessages
         {
             public Action<SendArguments> Send;
             #region SendArguments
 
 #if !NoAttributes
-        [Script]
+            [Script]
 #endif
             [CompilerGenerated]
-            public sealed class SendArguments
+            public sealed partial class SendArguments
             {
                 public Messages i;
                 public object[] args;
@@ -45,6 +42,14 @@ namespace FlashTowerDefense.Shared
             public void UserTeleportTo(int user, int x, int y)
             {
                 Send(new SendArguments { i = Messages.UserTeleportTo, args = new object[] { user, x, y } });
+            }
+            public void WalkTo(int x, int y)
+            {
+                Send(new SendArguments { i = Messages.WalkTo, args = new object[] { x, y } });
+            }
+            public void UserWalkTo(int user, int x, int y)
+            {
+                Send(new SendArguments { i = Messages.UserWalkTo, args = new object[] { user, x, y } });
             }
             public void CancelServerRandomNumbers()
             {
@@ -70,6 +75,12 @@ namespace FlashTowerDefense.Shared
             {
                 Send(new SendArguments { i = Messages.UserFiredShotgun, args = new object[] { user } });
             }
+            public void ServerRandomNumbers(double[] e)
+            {
+                var args = new object[e.Length];
+                Array.Copy(e, args, e.Length);
+                Send(new SendArguments { i = Messages.ServerRandomNumbers, args = args });
+            }
         }
         #endregion
 
@@ -77,24 +88,28 @@ namespace FlashTowerDefense.Shared
         #region RemoteEvents
 
 #if !NoAttributes
-    [Script]
+        [Script]
 #endif
         [CompilerGenerated]
-        public sealed class RemoteEvents
+        public sealed partial class RemoteEvents
         {
             private readonly Dictionary<Messages, Action<DispatchHelper>> DispatchTable;
             private readonly Dictionary<Messages, Converter<object, Delegate>> DispatchTableDelegates;
             #region DispatchHelper
 
 #if !NoAttributes
-        [Script]
+            [Script]
 #endif
             [CompilerGenerated]
-            public sealed class DispatchHelper
+            public partial class DispatchHelper
             {
                 public Converter<uint, int> GetInt32;
                 public Converter<uint, double> GetDouble;
                 public Converter<uint, string> GetString;
+                public Converter<uint, int[]> GetInt32Array;
+                public Converter<uint, double[]> GetDoubleArray;
+                public Converter<uint, string[]> GetStringArray;
+                public Converter<uint, object[]> GetArray;
             }
             #endregion
 
@@ -109,10 +124,10 @@ namespace FlashTowerDefense.Shared
             #region TeleportToArguments
 
 #if !NoAttributes
-        [Script]
+            [Script]
 #endif
             [CompilerGenerated]
-            public sealed class TeleportToArguments
+            public sealed partial class TeleportToArguments
             {
                 public int x;
                 public int y;
@@ -123,10 +138,10 @@ namespace FlashTowerDefense.Shared
             #region UserTeleportToArguments
 
 #if !NoAttributes
-        [Script]
+            [Script]
 #endif
             [CompilerGenerated]
-            public sealed class UserTeleportToArguments
+            public sealed partial class UserTeleportToArguments
             {
                 public int user;
                 public int x;
@@ -135,13 +150,42 @@ namespace FlashTowerDefense.Shared
             #endregion
 
             public event Action<UserTeleportToArguments> UserTeleportTo;
+            #region WalkToArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class WalkToArguments
+            {
+                public int x;
+                public int y;
+            }
+            #endregion
+
+            public event Action<WalkToArguments> WalkTo;
+            #region UserWalkToArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class UserWalkToArguments
+            {
+                public int user;
+                public int x;
+                public int y;
+            }
+            #endregion
+
+            public event Action<UserWalkToArguments> UserWalkTo;
             #region CancelServerRandomNumbersArguments
 
 #if !NoAttributes
-        [Script]
+            [Script]
 #endif
             [CompilerGenerated]
-            public sealed class CancelServerRandomNumbersArguments
+            public sealed partial class CancelServerRandomNumbersArguments
             {
             }
             #endregion
@@ -150,10 +194,10 @@ namespace FlashTowerDefense.Shared
             #region ReadyForServerRandomNumbersArguments
 
 #if !NoAttributes
-        [Script]
+            [Script]
 #endif
             [CompilerGenerated]
-            public sealed class ReadyForServerRandomNumbersArguments
+            public sealed partial class ReadyForServerRandomNumbersArguments
             {
             }
             #endregion
@@ -162,10 +206,10 @@ namespace FlashTowerDefense.Shared
             #region TakeBoxArguments
 
 #if !NoAttributes
-        [Script]
+            [Script]
 #endif
             [CompilerGenerated]
-            public sealed class TakeBoxArguments
+            public sealed partial class TakeBoxArguments
             {
                 public int box;
             }
@@ -175,10 +219,10 @@ namespace FlashTowerDefense.Shared
             #region UserTakeBoxArguments
 
 #if !NoAttributes
-        [Script]
+            [Script]
 #endif
             [CompilerGenerated]
-            public sealed class UserTakeBoxArguments
+            public sealed partial class UserTakeBoxArguments
             {
                 public int user;
                 public int box;
@@ -189,10 +233,10 @@ namespace FlashTowerDefense.Shared
             #region FiredShotgunArguments
 
 #if !NoAttributes
-        [Script]
+            [Script]
 #endif
             [CompilerGenerated]
-            public sealed class FiredShotgunArguments
+            public sealed partial class FiredShotgunArguments
             {
             }
             #endregion
@@ -201,40 +245,59 @@ namespace FlashTowerDefense.Shared
             #region UserFiredShotgunArguments
 
 #if !NoAttributes
-        [Script]
+            [Script]
 #endif
             [CompilerGenerated]
-            public sealed class UserFiredShotgunArguments
+            public sealed partial class UserFiredShotgunArguments
             {
                 public int user;
             }
             #endregion
 
             public event Action<UserFiredShotgunArguments> UserFiredShotgun;
+            #region ServerRandomNumbersArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class ServerRandomNumbersArguments
+            {
+                public double[] e;
+            }
+            #endregion
+
+            public event Action<ServerRandomNumbersArguments> ServerRandomNumbers;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<DispatchHelper>>
                     {
-                        { Messages.TeleportTo, e => {  TeleportTo(new TeleportToArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
-                        { Messages.UserTeleportTo, e => {  UserTeleportTo(new UserTeleportToArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
-                        { Messages.CancelServerRandomNumbers, e => {  CancelServerRandomNumbers(new CancelServerRandomNumbersArguments {  }); } },
-                        { Messages.ReadyForServerRandomNumbers, e => {  ReadyForServerRandomNumbers(new ReadyForServerRandomNumbersArguments {  }); } },
-                        { Messages.TakeBox, e => {  TakeBox(new TakeBoxArguments { box = e.GetInt32(0) }); } },
-                        { Messages.UserTakeBox, e => {  UserTakeBox(new UserTakeBoxArguments { user = e.GetInt32(0), box = e.GetInt32(1) }); } },
-                        { Messages.FiredShotgun, e => {  FiredShotgun(new FiredShotgunArguments {  }); } },
-                        { Messages.UserFiredShotgun, e => {  UserFiredShotgun(new UserFiredShotgunArguments { user = e.GetInt32(0) }); } },
+                        { Messages.TeleportTo, e => { TeleportTo(new TeleportToArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
+                        { Messages.UserTeleportTo, e => { UserTeleportTo(new UserTeleportToArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
+                        { Messages.WalkTo, e => { WalkTo(new WalkToArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
+                        { Messages.UserWalkTo, e => { UserWalkTo(new UserWalkToArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
+                        { Messages.CancelServerRandomNumbers, e => { CancelServerRandomNumbers(new CancelServerRandomNumbersArguments {  }); } },
+                        { Messages.ReadyForServerRandomNumbers, e => { ReadyForServerRandomNumbers(new ReadyForServerRandomNumbersArguments {  }); } },
+                        { Messages.TakeBox, e => { TakeBox(new TakeBoxArguments { box = e.GetInt32(0) }); } },
+                        { Messages.UserTakeBox, e => { UserTakeBox(new UserTakeBoxArguments { user = e.GetInt32(0), box = e.GetInt32(1) }); } },
+                        { Messages.FiredShotgun, e => { FiredShotgun(new FiredShotgunArguments {  }); } },
+                        { Messages.UserFiredShotgun, e => { UserFiredShotgun(new UserFiredShotgunArguments { user = e.GetInt32(0) }); } },
+                        { Messages.ServerRandomNumbers, e => { ServerRandomNumbers(new ServerRandomNumbersArguments { e = e.GetDoubleArray(0) }); } },
                     }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
                     {
                         { Messages.TeleportTo, e => TeleportTo },
                         { Messages.UserTeleportTo, e => UserTeleportTo },
+                        { Messages.WalkTo, e => WalkTo },
+                        { Messages.UserWalkTo, e => UserWalkTo },
                         { Messages.CancelServerRandomNumbers, e => CancelServerRandomNumbers },
                         { Messages.ReadyForServerRandomNumbers, e => ReadyForServerRandomNumbers },
                         { Messages.TakeBox, e => TakeBox },
                         { Messages.UserTakeBox, e => UserTakeBox },
                         { Messages.FiredShotgun, e => FiredShotgun },
                         { Messages.UserFiredShotgun, e => UserFiredShotgun },
+                        { Messages.ServerRandomNumbers, e => ServerRandomNumbers },
                     }
                 ;
             }

@@ -60,7 +60,7 @@
     <Compile Include="ActionScript\Client\Monetized\MochiPreloader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
-    <Compile Include="Shared\Copy of SharedClass1.Generated.cs" />
+    <Compile Include="Shared\SharedClass1.DispatchHelper.cs" />
     <Compile Include="Shared\SharedClass1.Attributes.cs" />
     <Compile Include="Shared\SharedClass1.Generated.cs" />
     <Compile Include="Shared\SharedClass1.cs" />

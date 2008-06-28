@@ -10,8 +10,8 @@ namespace ConvertASToCS.Any.Test
     {
         static void Main(string[] args)
         {
-            new ProxyProvider(Properties.Settings.Default.TestProxyInput);
-            var p = new ReflectionProvider(Properties.Settings.Default.TestInput);
+            var p = new ProxyProvider(Properties.Settings.Default.TestProxyInput);
+           // var p = new ReflectionProvider(Properties.Settings.Default.TestInput);
 
 
         }

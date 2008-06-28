@@ -98,6 +98,10 @@ namespace FlashTowerDefense.ActionScript.Client
                     var NetworkEvents = new SharedClass1.RemoteEvents();
 
                     #region Events
+                    // NetworkEvents // NetworkEvents // NetworkEvents // NetworkEvents // NetworkEvents 
+                    // NetworkEvents // NetworkEvents // NetworkEvents // NetworkEvents // NetworkEvents 
+                    // NetworkEvents // NetworkEvents // NetworkEvents // NetworkEvents // NetworkEvents 
+
                     NetworkEvents.UserFiredShotgun += e => Sounds.shotgun2.ToSoundAsset().play();
 
                     NetworkEvents.UserTakeBox +=
@@ -117,22 +121,7 @@ namespace FlashTowerDefense.ActionScript.Client
                     NetworkEvents.UserTeleportTo +=
                         e =>
                         {
-                            if (e == null)
-                                throw new ArgumentNullException("e");
-
-                            if (Players == null)
-                                throw new ArgumentNullException("Players");
-
-                            foreach (var v in Players.Where(i =>
-                                {
-                                    if (i == null)
-                                        throw new ArgumentNullException("i");
-
-                                    if (e == null)
-                                        throw new ArgumentNullException("e");
-                          
-
-                                    return i.NetworkId == e.user; }))
+                            foreach (var v in Players.Where(i => i.NetworkId == e.user))
                             {
                                 m.ShowMessage(v.NetworkName + " has been teleported");
 
@@ -141,6 +130,26 @@ namespace FlashTowerDefense.ActionScript.Client
                                     e.y
                                 ).AttachTo(m.GetWarzone());
                             }
+                        };
+
+                    NetworkEvents.ServerRandomNumbers +=
+                        e =>
+                        {
+                            
+                            if (MyExtensions.ByChance_RandomNumbers == null)
+                                MyExtensions.ByChance_RandomNumbers = new Queue<double>();
+                            else
+                                MyExtensions.ByChance_RandomNumbers.Clear();
+
+
+                            foreach (var i in e.e)
+                            {
+                                MyExtensions.ByChance_RandomNumbers.Enqueue(i);
+                            }
+
+                            // active warzone
+                            if (m.InterlevelMusic == null)
+                                m.GameEvent();
                         };
                     #endregion
 
@@ -211,11 +220,11 @@ namespace FlashTowerDefense.ActionScript.Client
                             var type = (SharedClass1.Messages)int.Parse(e.Type);
 
                             if (NetworkEvents.Dispatch(type,
-                                  new SharedClass1.RemoteEvents.DispatchHelper
+                                  new SharedClass1.RemoteEvents.DispatchHelper(i => e.length)
                                   {
                                       GetInt32 = e.GetInt,
                                       GetDouble = e.GetNumber,
-                                      GetString = e.GetString
+                                      GetString = e.GetString,
                                   }
                               ))
                                 return true;
@@ -337,21 +346,6 @@ namespace FlashTowerDefense.ActionScript.Client
                                 if (m.EgoIsOnTheField())
                                     m.PrebuiltTurret.AnimationEnabled = false;
                             }
-                            //else if (type == SharedClass1.Messages.UserTeleportTo)
-                            //{
-                            //    var id = e.message.GetInt(0);
-
-                            //    foreach (var v in Players.Where(i => i.NetworkId == id))
-                            //    {
-                            //        m.ShowMessage(v.NetworkName + " has been teleported");
-
-                            //        v.MoveTo(
-                            //            e.message.GetInt(1),
-                            //            e.message.GetInt(2)
-                            //        ).AttachTo(m.GetWarzone());
-                            //    }
-
-                            //}
                             else if (type == SharedClass1.Messages.UserWalkTo)
                             {
 
@@ -367,10 +361,6 @@ namespace FlashTowerDefense.ActionScript.Client
                                 }
 
                             }
-                            //else if (type == SharedClass1.Messages.UserFiredShotgun)
-                            //{
-                            //    Sounds.shotgun2.ToSoundAsset().play();
-                            //}
                             else if (type == SharedClass1.Messages.ServerMessage)
                             {
                                 m.ShowMessage("Server: " + e.message.GetString(0));

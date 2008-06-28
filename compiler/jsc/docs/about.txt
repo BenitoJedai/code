@@ -102,3 +102,5 @@ version history:
 	actionscript: fixed fullname usage
 15.06.2008
 	actionscript: added Conv_U4 opcode
+28.06.2008
+	actionscript: added Ldelem_R8, Conv_U opcode

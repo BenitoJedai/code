@@ -122,7 +122,8 @@ namespace FlashTowerDefense.Server
 
                 if (i.GameEventStatus == Player.GameEventStatusEnum.Pending)
                 {
-                    Send(i, SharedClass1.Messages.ServerRandomNumbers, z);
+                    i.NetworkMessages.ServerRandomNumbers(z);
+                    //Send(i, SharedClass1.Messages.ServerRandomNumbers, z);
                 }
                 else if (i.GameEventStatus == Player.GameEventStatusEnum.Cancelled)
                 {
@@ -137,11 +138,12 @@ namespace FlashTowerDefense.Server
                 SetState(NonobaGameState.WaitingForPlayers);
             }
 
+            
         }
 
-        private object[] GenerateRandomNumbers()
+        private double[] GenerateRandomNumbers()
         {
-            var a = new List<object>();
+            var a = new List<double>();
             var r = new Random();
 
             for (int i = 0; i < 100; i++)
@@ -176,7 +178,7 @@ namespace FlashTowerDefense.Server
             var e = (SharedClass1.Messages)int.Parse(m.Type);
 
             if (player.NetworkEvents.Dispatch(e,
-                    new SharedClass1.RemoteEvents.DispatchHelper
+                    new SharedClass1.RemoteEvents.DispatchHelper(i => (int) m.Count)
                     {
                         GetInt32 = m.GetInt,
                         GetDouble = m.GetDouble,
@@ -271,6 +273,7 @@ namespace FlashTowerDefense.Server
 
         public void Send(Player v, Shared.SharedClass1.Messages type, params object[] e)
         {
+            
             v.Send(((int)type).ToString(), e);
         }
 

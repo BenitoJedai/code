@@ -99,6 +99,7 @@
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.cs" />
     <Compile Include="Languages\ActionScript\CompilerJob.cs" />
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.Implementation.cs" />
+    <Compile Include="Languages\ActionScript\ActionScriptCompiler.CreateInstructionHandlers.cs" />
     <Compile Include="Languages\ActionScript\DelegateImplementationProvider.cs" />
     <Compile Include="Languages\ActionScript\EntryPointProvider.cs" />
     <Compile Include="Languages\CompilerBase.DIA.cs" />

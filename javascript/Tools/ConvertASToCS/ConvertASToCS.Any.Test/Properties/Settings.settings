@@ -1527,7 +1527,10 @@ Add Comment
     </Setting>
     <Setting Name="TestProxyInput" Type="System.String" Scope="User">
       <Value Profile="(Default)">            // client -&gt; server 
-            void TeleportTo(int x, int y);
+  // ...
+
+            void ServerRandomNumbers(double[] e);
+
             // server -&gt; others
             void UserTeleportTo(int user, int x, int y);</Value>
     </Setting>

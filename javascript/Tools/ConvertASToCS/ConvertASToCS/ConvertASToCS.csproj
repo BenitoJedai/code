@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="js\Assets.cs" />
     <Compile Include="js\ConvertASToCS.cs" />
+    <Compile Include="js\ConvertASToCS.RenderProxyTo.cs" />
     <Compile Include="js\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />

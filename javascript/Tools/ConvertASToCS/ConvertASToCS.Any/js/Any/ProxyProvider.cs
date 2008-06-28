@@ -12,13 +12,42 @@ namespace ConvertASToCS.js.Any
         [Script]
         public class MethodParametersInfo
         {
+            public ParamInfo SingleArrayParameter
+            {
+                get
+                {
+                    return this.Parameters.SingleOrDefault(i => i.IsArray);
+                }
+            }
+
+            
             [Script]
             public class ParamInfo
             {
                 public string Name;
                 public string TypeName;
 
-       
+
+                public string ElementTypeName
+                {
+                    get
+                    {
+                        if (IsArray)
+                        {
+                            return TypeName.Substring(0, TypeName.Length - 2);
+                        }
+
+                        return "";
+                    }
+                }
+
+                public bool IsArray
+                {
+                    get
+                    {
+                        return TypeName.EndsWith("[]");
+                    }
+                }
             }
 
             public readonly ParamInfo[] Parameters;
@@ -49,6 +78,7 @@ namespace ConvertASToCS.js.Any
             public string Name;
 
             public MethodParametersInfo ParametersInfo { get; private set; }
+
 
 
             static public MethodDefinition Parse(string z)

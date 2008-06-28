@@ -18,26 +18,15 @@ namespace OrcasFlashApplication.ActionScript
             public string Text;
         }
 
-        static Func<Data> Test1(Func<string> GetText, Func<Data, Data> Handler)
-        {
-            return () => Handler(new Data { Text = GetText() });
-        }
-
-        static Func<Data> Test2(Func<string> GetText, Func<Data, Data> Handler)
-        {
-            return () => { return Handler(new Data { Text = GetText() }); };
-        }
 
         /// <summary>
         /// Default constructor
         /// </summary>
         public OrcasFlashApplication()
         {
-            if (Test1(() => "", i => i) == null)
-                System.Console.WriteLine("Compiler Error 1");
+          
+    
 
-            if (Test2(() => "", i => i) == null)
-                System.Console.WriteLine("Compiler Error 2");
 
             var dict = new Dictionary<string, string>
             {

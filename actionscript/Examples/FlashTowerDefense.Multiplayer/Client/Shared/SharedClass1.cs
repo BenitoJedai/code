@@ -30,6 +30,11 @@ namespace FlashTowerDefense.Shared
             // server -> others
             void UserTeleportTo(int user, int x, int y);
 
+            // client -> server  -> others
+            void WalkTo(int x, int y);
+            // server -> others
+            void UserWalkTo(int user, int x, int y);
+
 
             // client -> server
             void CancelServerRandomNumbers();
@@ -42,9 +47,12 @@ namespace FlashTowerDefense.Shared
 
             void FiredShotgun();
             void UserFiredShotgun(int user);
-            // ...
-        }
 
+            void ServerRandomNumbers(double[] e);
+
+            // ...
+
+        }
 
 #if !NoAttributes
         [Script]
@@ -59,6 +67,10 @@ namespace FlashTowerDefense.Shared
 
             FiredShotgun,
             UserFiredShotgun,
+
+            // for others
+            TakeBox,
+            UserTakeBox,
 
 
             Ping = 200,
@@ -76,7 +88,7 @@ namespace FlashTowerDefense.Shared
             UserStartMachineGun,
             UserStopMachineGun,
 
-
+            WalkTo,
             UserWalkTo,
 
 
@@ -88,7 +100,7 @@ namespace FlashTowerDefense.Shared
 
 
 
-            WalkTo,
+            
 
             ServerMessage,
             ServerRandomNumbers,
@@ -100,9 +112,6 @@ namespace FlashTowerDefense.Shared
             UserAddDamageFromDirection,
 
 
-            // for others
-            TakeBox,
-            UserTakeBox,
 
 
             ShowBulletsFlying,

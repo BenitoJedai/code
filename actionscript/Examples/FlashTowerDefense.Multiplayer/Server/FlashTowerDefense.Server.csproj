@@ -44,6 +44,9 @@
     <Compile Include="..\Client\Shared\SharedClass1.cs">
       <Link>Shared\SharedClass1.cs</Link>
     </Compile>
+    <Compile Include="..\Client\Shared\SharedClass1.DispatchHelper.cs">
+      <Link>Shared\SharedClass1.DispatchHelper.cs</Link>
+    </Compile>
     <Compile Include="..\Client\Shared\SharedClass1.Generated.cs">
       <Link>Shared\SharedClass1.Generated.cs</Link>
     </Compile>

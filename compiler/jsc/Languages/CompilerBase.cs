@@ -27,7 +27,7 @@ namespace jsc.Script
                 foreach (OpCode c in i)
                 {
                     if (this[c] != null)
-                        throw new Exception("cannot overwrite opcode handler");
+                        throw new Exception("cannot overwrite opcode handler: " + c.Name);
 
                     this[c] = value;
                 }
