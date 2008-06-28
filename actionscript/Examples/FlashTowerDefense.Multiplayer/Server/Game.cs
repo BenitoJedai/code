@@ -202,8 +202,11 @@ namespace FlashTowerDefense.Server
                      Send = q => this.SendOthers(player.UserId, q.i, q.args)
                  };
 
-            player.NetworkMessages = new SharedClass1.RemoteMessages();
-            player.NetworkMessages.Send = e => this.Send(player, e.i, e.args);
+            player.NetworkMessages = 
+                new SharedClass1.RemoteMessages
+                {
+                    Send = e => this.Send(player, e.i, e.args)
+                };
             
 
             player.NetworkEvents = new SharedClass1.RemoteEvents();
@@ -217,7 +220,7 @@ namespace FlashTowerDefense.Server
 
             player.NetworkEvents.ShowBulletsFlying += e => ToOthers.UserShowBulletsFlying(player.UserId, e.x, e.y, e.arc, e.weapon);
             player.NetworkEvents.AddDamageFromDirection += e => ToOthers.UserAddDamageFromDirection(player.UserId, e.target, e.damage, e.arc);
-            player.NetworkEvents.AddDamageFromDirection += e => Console.WriteLine(player.Username + " damaged " + e.target);
+            //player.NetworkEvents.AddDamageFromDirection += e => Console.WriteLine(player.Username + " damaged " + e.target);
 
 
             player.NetworkEvents.TeleportTo += e => ToOthers.UserTeleportTo(player.UserId, e.x, e.y);
@@ -241,6 +244,7 @@ namespace FlashTowerDefense.Server
                player.UserId, player.Username
             );
             
+            // reset waves
             
             ScheduleCallback(
                 delegate

@@ -310,7 +310,7 @@ namespace FlashTowerDefense.ActionScript
 
 
             #region Ego
-            Ego = new Warrior();
+            Ego = new PlayerWarrior();
 
             EgoIsOnTheField = () => Ego.parent != null;
             Func<bool> EgoCanManTurret = () => !PrebuiltTurretInUse; // look up if there is somebody else in it
@@ -328,7 +328,7 @@ namespace FlashTowerDefense.ActionScript
                 };
 
 
-            EgoMovedSlowTimer = new Timer(300, 1);
+            EgoMovedSlowTimer = new Timer(200, 1);
 
             var EgoMoveUpTimer = (1000 / 30).AtInterval(
                 delegate
@@ -395,14 +395,10 @@ namespace FlashTowerDefense.ActionScript
             var runaways = 0;
             var score = 0;
 
-            // Between levels the player upgrades, collects items, etc...
-            var CurrentLevel = 1;
-
-            // If this gets negative, we end this level and pause... maybe send a big boss, too?
-            var WaveEndCountdown = 15;
+     
 
 
-            var InterlevelTimeout = 12000;
+            
 
             Action UpdateScoreBoard =
                 delegate
@@ -677,6 +673,8 @@ namespace FlashTowerDefense.ActionScript
 
                     var ShotgunReloading = false;
 
+                    var ShotgunSoundCache = Sounds.shotgun2.ToSoundAsset();
+
                     var KeyControl = new KeyboardButton(stage)
                     {
                         Buttons = new[] { Keyboard.CONTROL },
@@ -691,7 +689,8 @@ namespace FlashTowerDefense.ActionScript
 
                                 500.AtDelayDo(() => ShotgunReloading = false);
 
-                                Sounds.shotgun2.ToSoundAsset().play();
+                                
+                                ShotgunSoundCache.play();
 
                                 if (EgoFiredShotgun != null)
                                     EgoFiredShotgun();
@@ -804,15 +803,19 @@ namespace FlashTowerDefense.ActionScript
             GameEvent =
                 delegate
                 {
-
+                    // do not add if the day is over...
+                    if (WaveEndCountdown <= 0)
+                        return;
 
                     AddNewActorsToMap(UpdateScoreBoard, GetEntryPointY, AttachRules);
 
                 };
 
 
-            (1500).AtInterval(
-                t =>
+            var ReportDaysTimer = default(Timer);
+
+            ReportDays =
+                delegate
                 {
                     if (WaveEndCountdown < 0)
                     {
@@ -825,15 +828,18 @@ namespace FlashTowerDefense.ActionScript
                                 GameInterlevelBegin();
                         }
 
-                        // wait for all actors get off stage
-                        if (BadGuys.Where(i => i.IsAlive).Any())
-                            return;
+                        if (WaveEndsWhenAllBadGuysAreDead)
+                        {
+                            // wait for all actors get off stage
+                            if (BadGuys.Where(i => i.IsAlive).Any())
+                                return;
+                        }
 
 
                         // show "level END"
                         ShowMessage("Day " + CurrentLevel + " Survived!");
 
-                        t.stop();
+                        ReportDaysTimer.stop();
 
 
 
@@ -844,19 +850,21 @@ namespace FlashTowerDefense.ActionScript
                                     GameInterlevelEnd();
 
 
+                                // maybe higher levels will have more enemies?
+                                WaveEndCountdown = 15;
+                                CurrentLevel++;
+
                                 // show "level START"
                                 ShowMessage("Day " + CurrentLevel);
-                                t.start();
+                                ReportDaysTimer.start();
 
                                 var InterlevelMusicStopping = InterlevelMusic;
                                 InterlevelMusic = null;
-                                10000.AtDelayDoOnRandom(InterlevelMusicStopping.stop);
+                                2000.AtDelayDoOnRandom(InterlevelMusicStopping.stop);
                             }
                         );
 
-                        // maybe higher levels will have more enemies?
-                        WaveEndCountdown = 15;
-                        CurrentLevel++;
+                        
                         UpdateScoreBoard();
 
                         return;
@@ -875,11 +883,12 @@ namespace FlashTowerDefense.ActionScript
                             GameEvent();
                         }
                     }
-                }
-            );
+                };
+
+            ReportDaysTimer = 1500.AtIntervalDo(ReportDays);
 
 
-            (1000 / 24).AtInterval(
+            (1000 / 15).AtInterval(
                 delegate
                 {
 
@@ -915,6 +924,10 @@ namespace FlashTowerDefense.ActionScript
             }.AttachTo(this);
 
             powered_by_jsc.y = Height - powered_by_jsc.height - 32;
+
+            // make it fade/show in time
+            200.AtInterval(t => powered_by_jsc.alpha = (Math.Sin(t.currentCount * 0.05) + 1) * 0.5);
+
             #endregion
 
             ScoreBoard.AttachTo(this);
@@ -1116,7 +1129,7 @@ namespace FlashTowerDefense.ActionScript
 
         public bool PrebuiltTurretInUse;
 
-        public readonly Warrior Ego;
+        public readonly PlayerWarrior Ego;
         public readonly Action UpdateEgoAim;
         public readonly Timer EgoMovedSlowTimer;
 
@@ -1134,6 +1147,16 @@ namespace FlashTowerDefense.ActionScript
         public event Action<int, int, int> NetworkAddDamageFromDirection;
         public event Action<int> NetworkTakeCrate;
 
+
+        // Between levels the player upgrades, collects items, etc...
+        public int CurrentLevel = 1;
+
+        // If this gets negative, we end this level and pause... maybe send a big boss, too?
+        public int WaveEndCountdown = 15;
+        public bool WaveEndsWhenAllBadGuysAreDead = true;
+
+        public const int InterlevelTimeoutDefault = 8000;
+        public int InterlevelTimeout = InterlevelTimeoutDefault;
 
         public readonly List<Actor> BadGuys;
         public readonly List<Func<IEnumerable<Actor>>> GoodGuys = new List<Func<IEnumerable<Actor>>>();
@@ -1154,6 +1177,7 @@ namespace FlashTowerDefense.ActionScript
             }
         }
 
+        public Action ReportDays;
     }
 
 

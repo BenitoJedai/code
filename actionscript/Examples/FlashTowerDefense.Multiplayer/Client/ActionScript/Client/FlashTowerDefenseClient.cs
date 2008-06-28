@@ -119,6 +119,7 @@ namespace FlashTowerDefense.ActionScript.Client
                  delegate
                  {
                      Map.ShowMessage("Disconnected!");
+                     Map.CanAutoSpawnEnemies = true;
 
                      foreach (var v in Players.ToArray())
                      {

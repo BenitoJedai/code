@@ -195,21 +195,21 @@ namespace FlashTowerDefense.ActionScript
 
                             // ?? fixme: sync/race condition in multiplayer at the moment
 
-                            Action<Sheep> AddMinnion = i => AttachRules(i).AddTo(Minnions);
+                            //Action<Sheep> AddMinnion = i => AttachRules(i).AddTo(Minnions);
 
-                            AddMinnion.ToForEach()(
-                                from i in Minnions
-                                where i.IsCorpseGone
-                                where !i.IsCorpseAndBloodGone
-                                select new Sheep
-                                {
-                                    x = i.x,
-                                    y = i.y,
-                                    speed = newboss.speed,
-                                    IsBleeding = true,
-                                    NetworkId = i.NetworkId + 4
-                                }
-                            );
+                            //AddMinnion.ToForEach()(
+                            //    from i in Minnions
+                            //    where i.IsCorpseGone
+                            //    where !i.IsCorpseAndBloodGone
+                            //    select new Sheep
+                            //    {
+                            //        x = i.x,
+                            //        y = i.y,
+                            //        speed = newboss.speed,
+                            //        IsBleeding = true,
+                            //        NetworkId = i.NetworkId + 4
+                            //    }
+                            //);
 
 
 

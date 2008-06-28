@@ -88,7 +88,11 @@ namespace FlashTowerDefense.ActionScript.Client
 
                     // active warzone
                     if (Map.InterlevelMusic == null)
+                    {
+                        Map.InterlevelTimeout = FlashTowerDefense.InterlevelTimeoutDefault;
+                        Map.WaveEndsWhenAllBadGuysAreDead = true;
                         Map.GameEvent();
+                    }
                 };
 
             NetworkEvents.UserEnterMachineGun +=
@@ -136,7 +140,8 @@ namespace FlashTowerDefense.ActionScript.Client
             NetworkEvents.ServerMessage +=
                 e =>
                 {
-                    Map.ShowMessage("Server: " + e.text);
+                    if (Map != null)
+                        Map.ShowMessage("Server: " + e.text);
                 };
 
             NetworkEvents.UserAddDamageFromDirection +=
@@ -144,7 +149,7 @@ namespace FlashTowerDefense.ActionScript.Client
                 {
                     foreach (var v in Map.AllMortals.Where(i => i.NetworkId == e.target))
                     {
-                        v.AddDamageFromDirection(e.damage, e.arc);
+                        v.AddDamageFromDirection(e.damage, e.arc.DegreesToRadians());
                     }
                 };
 
@@ -180,6 +185,14 @@ namespace FlashTowerDefense.ActionScript.Client
             NetworkEvents.ServerPlayerJoined +=
                 e =>
                 {
+                    // when a player joins end this day sooner
+                    Map.WaveEndsWhenAllBadGuysAreDead = false;
+                    Map.WaveEndCountdown = 0;
+                    Map.InterlevelTimeout = 500;
+                    Map.ReportDays();
+                   
+
+
                     var n = new PlayerWarrior
                     {
                         CanMakeFootsteps = false,

@@ -9,9 +9,13 @@ namespace FlashTowerDefense.ActionScript.Actors
     [Script]
     public class PlayerWarrior : Warrior
     {
+        public int MaxHealth = 10000;
+
         public PlayerWarrior()
         {
-            this.health = 10000;
+            this.health = MaxHealth;
         }
+
+        public WeaponInfo CurrentWeaponType = WeaponInfo.Shotgun;
     }
 }

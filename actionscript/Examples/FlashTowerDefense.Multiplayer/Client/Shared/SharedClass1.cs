@@ -40,6 +40,8 @@ namespace FlashTowerDefense.Shared
             void CancelServerRandomNumbers();
             void ReadyForServerRandomNumbers();
 
+            
+
             // client -> server  -> others
             void TakeBox(int box);
             // server -> others

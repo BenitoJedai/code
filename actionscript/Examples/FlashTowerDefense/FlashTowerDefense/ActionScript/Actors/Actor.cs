@@ -9,6 +9,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.flash.text;
 
 namespace FlashTowerDefense.ActionScript.Actors
 {
@@ -16,8 +17,34 @@ namespace FlashTowerDefense.ActionScript.Actors
     public class Actor : Sprite
     {
         public string NetworkName;
-        public int NetworkId;
 
+        int _NetworkId;
+        public int NetworkId
+        {
+            get
+            {
+                return _NetworkId;
+            }
+            set
+            {
+                _NetworkId = value;
+
+                //if (_NetworkIdLabel == null)
+                //{
+                //    _NetworkIdLabel = new TextField { 
+                //        autoSize = TextFieldAutoSize.LEFT,
+                //        mouseEnabled = false,
+                //        text = "" + _NetworkId }.AttachTo(this);
+                //}
+                //else
+                //{
+                //    _NetworkIdLabel.text = "" + _NetworkId;
+                //}
+            }
+        }
+
+        TextField _NetworkIdLabel;
+        
         public string Description;
 
         public string ActorName;
