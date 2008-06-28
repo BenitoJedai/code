@@ -234,7 +234,17 @@ namespace FlashTowerDefense.Server
             
 
             player.NetworkEvents = new SharedClass1.RemoteEvents();
+
+
+
+            player.NetworkEvents.EnterMachineGun += e => NetworkMessages_ToOthers.UserEnterMachineGun(player.UserId);
+            player.NetworkEvents.ExitMachineGun += e => NetworkMessages_ToOthers.UserExitMachineGun(player.UserId);
+            player.NetworkEvents.StartMachineGun += e => NetworkMessages_ToOthers.UserStartMachineGun(player.UserId);
+            player.NetworkEvents.StopMachineGun += e => NetworkMessages_ToOthers.UserStopMachineGun(player.UserId);
+
             player.NetworkEvents.TeleportTo += e => NetworkMessages_ToOthers.UserTeleportTo(player.UserId, e.x, e.y);
+            player.NetworkEvents.WalkTo += e => NetworkMessages_ToOthers.UserWalkTo(player.UserId, e.x, e.y);
+
             player.NetworkEvents.TakeBox += e => NetworkMessages_ToOthers.UserTakeBox(player.UserId, e.box);
             player.NetworkEvents.FiredShotgun += e => NetworkMessages_ToOthers.UserFiredShotgun(player.UserId);
 

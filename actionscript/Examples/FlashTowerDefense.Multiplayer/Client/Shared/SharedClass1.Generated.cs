@@ -81,6 +81,42 @@ namespace FlashTowerDefense.Shared
                 Array.Copy(e, args, e.Length);
                 Send(new SendArguments { i = Messages.ServerRandomNumbers, args = args });
             }
+            public void ServerMessage(string text)
+            {
+                Send(new SendArguments { i = Messages.ServerMessage, args = new object[] { text } });
+            }
+            public void UserEnterMachineGun(int user)
+            {
+                Send(new SendArguments { i = Messages.UserEnterMachineGun, args = new object[] { user } });
+            }
+            public void UserExitMachineGun(int user)
+            {
+                Send(new SendArguments { i = Messages.UserExitMachineGun, args = new object[] { user } });
+            }
+            public void UserStartMachineGun(int user)
+            {
+                Send(new SendArguments { i = Messages.UserStartMachineGun, args = new object[] { user } });
+            }
+            public void UserStopMachineGun(int user)
+            {
+                Send(new SendArguments { i = Messages.UserStopMachineGun, args = new object[] { user } });
+            }
+            public void EnterMachineGun()
+            {
+                Send(new SendArguments { i = Messages.EnterMachineGun, args = new object[] { } });
+            }
+            public void ExitMachineGun()
+            {
+                Send(new SendArguments { i = Messages.ExitMachineGun, args = new object[] { } });
+            }
+            public void StartMachineGun()
+            {
+                Send(new SendArguments { i = Messages.StartMachineGun, args = new object[] { } });
+            }
+            public void StopMachineGun()
+            {
+                Send(new SendArguments { i = Messages.StopMachineGun, args = new object[] { } });
+            }
         }
         #endregion
 
@@ -268,6 +304,119 @@ namespace FlashTowerDefense.Shared
             #endregion
 
             public event Action<ServerRandomNumbersArguments> ServerRandomNumbers;
+            #region ServerMessageArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class ServerMessageArguments
+            {
+                public string text;
+            }
+            #endregion
+
+            public event Action<ServerMessageArguments> ServerMessage;
+            #region UserEnterMachineGunArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class UserEnterMachineGunArguments
+            {
+                public int user;
+            }
+            #endregion
+
+            public event Action<UserEnterMachineGunArguments> UserEnterMachineGun;
+            #region UserExitMachineGunArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class UserExitMachineGunArguments
+            {
+                public int user;
+            }
+            #endregion
+
+            public event Action<UserExitMachineGunArguments> UserExitMachineGun;
+            #region UserStartMachineGunArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class UserStartMachineGunArguments
+            {
+                public int user;
+            }
+            #endregion
+
+            public event Action<UserStartMachineGunArguments> UserStartMachineGun;
+            #region UserStopMachineGunArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class UserStopMachineGunArguments
+            {
+                public int user;
+            }
+            #endregion
+
+            public event Action<UserStopMachineGunArguments> UserStopMachineGun;
+            #region EnterMachineGunArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class EnterMachineGunArguments
+            {
+            }
+            #endregion
+
+            public event Action<EnterMachineGunArguments> EnterMachineGun;
+            #region ExitMachineGunArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class ExitMachineGunArguments
+            {
+            }
+            #endregion
+
+            public event Action<ExitMachineGunArguments> ExitMachineGun;
+            #region StartMachineGunArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class StartMachineGunArguments
+            {
+            }
+            #endregion
+
+            public event Action<StartMachineGunArguments> StartMachineGun;
+            #region StopMachineGunArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class StopMachineGunArguments
+            {
+            }
+            #endregion
+
+            public event Action<StopMachineGunArguments> StopMachineGun;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<DispatchHelper>>
@@ -283,6 +432,15 @@ namespace FlashTowerDefense.Shared
                         { Messages.FiredShotgun, e => { FiredShotgun(new FiredShotgunArguments {  }); } },
                         { Messages.UserFiredShotgun, e => { UserFiredShotgun(new UserFiredShotgunArguments { user = e.GetInt32(0) }); } },
                         { Messages.ServerRandomNumbers, e => { ServerRandomNumbers(new ServerRandomNumbersArguments { e = e.GetDoubleArray(0) }); } },
+                        { Messages.ServerMessage, e => { ServerMessage(new ServerMessageArguments { text = e.GetString(0) }); } },
+                        { Messages.UserEnterMachineGun, e => { UserEnterMachineGun(new UserEnterMachineGunArguments { user = e.GetInt32(0) }); } },
+                        { Messages.UserExitMachineGun, e => { UserExitMachineGun(new UserExitMachineGunArguments { user = e.GetInt32(0) }); } },
+                        { Messages.UserStartMachineGun, e => { UserStartMachineGun(new UserStartMachineGunArguments { user = e.GetInt32(0) }); } },
+                        { Messages.UserStopMachineGun, e => { UserStopMachineGun(new UserStopMachineGunArguments { user = e.GetInt32(0) }); } },
+                        { Messages.EnterMachineGun, e => { EnterMachineGun(new EnterMachineGunArguments {  }); } },
+                        { Messages.ExitMachineGun, e => { ExitMachineGun(new ExitMachineGunArguments {  }); } },
+                        { Messages.StartMachineGun, e => { StartMachineGun(new StartMachineGunArguments {  }); } },
+                        { Messages.StopMachineGun, e => { StopMachineGun(new StopMachineGunArguments {  }); } },
                     }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -298,6 +456,15 @@ namespace FlashTowerDefense.Shared
                         { Messages.FiredShotgun, e => FiredShotgun },
                         { Messages.UserFiredShotgun, e => UserFiredShotgun },
                         { Messages.ServerRandomNumbers, e => ServerRandomNumbers },
+                        { Messages.ServerMessage, e => ServerMessage },
+                        { Messages.UserEnterMachineGun, e => UserEnterMachineGun },
+                        { Messages.UserExitMachineGun, e => UserExitMachineGun },
+                        { Messages.UserStartMachineGun, e => UserStartMachineGun },
+                        { Messages.UserStopMachineGun, e => UserStopMachineGun },
+                        { Messages.EnterMachineGun, e => EnterMachineGun },
+                        { Messages.ExitMachineGun, e => ExitMachineGun },
+                        { Messages.StartMachineGun, e => StartMachineGun },
+                        { Messages.StopMachineGun, e => StopMachineGun },
                     }
                 ;
             }

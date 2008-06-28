@@ -24,7 +24,6 @@ namespace FlashTowerDefense.Shared
                         delegate
                         {
                             var a = new double[GetLength(null)];
-
                             
                             for (uint i = 0; i < a.Length; i++)
                                 a[i] = this.GetDouble(i);

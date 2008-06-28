@@ -49,7 +49,17 @@ namespace FlashTowerDefense.Shared
             void UserFiredShotgun(int user);
 
             void ServerRandomNumbers(double[] e);
+            void ServerMessage(string text);
 
+            void UserEnterMachineGun(int user);
+            void UserExitMachineGun(int user);
+            void UserStartMachineGun(int user);
+            void UserStopMachineGun(int user);
+
+            void EnterMachineGun();
+            void ExitMachineGun();
+            void StartMachineGun();
+            void StopMachineGun();
             // ...
 
         }
