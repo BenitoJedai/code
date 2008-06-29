@@ -73,8 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
-    <None Include="tools\jsc.bat" />
-    <None Include="tools\mxmlc.bat" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -3,7 +3,7 @@ using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
-using ScriptCoreLib.ActionScript.Lambda;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.ActionScript.flash.utils;
 using System;
 using ScriptCoreLib.ActionScript.flash.events;
