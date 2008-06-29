@@ -149,6 +149,8 @@ namespace FlashTowerDefense.ActionScript.Client
 
                     // we need synced enemies
                     Map.CanAutoSpawnEnemies = false;
+                    Map.ReportDaysTimer.stop();
+
                     // silence music for testing
                     Map.ToggleMusic();
                     Map.TeleportEgoNearTurret();

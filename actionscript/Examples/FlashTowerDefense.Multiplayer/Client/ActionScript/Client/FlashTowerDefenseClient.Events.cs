@@ -93,8 +93,9 @@ namespace FlashTowerDefense.ActionScript.Client
                     // active warzone
                     if (Map.InterlevelMusic == null)
                     {
-                        Map.InterlevelTimeout = FlashTowerDefense.InterlevelTimeoutDefault;
-                        Map.WaveEndsWhenAllBadGuysAreDead = true;
+                        //Map.InterlevelTimeout = FlashTowerDefense.InterlevelTimeoutDefault;
+                        //Map.WaveEndsWhenAllBadGuysAreDead = true;
+                        //Map.WaveEndCountdown = 15;
                         Map.GameEvent();
                     }
                 };
@@ -191,10 +192,10 @@ namespace FlashTowerDefense.ActionScript.Client
                 e =>
                 {
                     // when a player joins end this day sooner
-                    Map.WaveEndsWhenAllBadGuysAreDead = false;
-                    Map.WaveEndCountdown = 0;
-                    Map.InterlevelTimeout = 500;
-                    Map.ReportDays();
+                    //Map.WaveEndsWhenAllBadGuysAreDead = false;
+                    //Map.WaveEndCountdown = 0;
+                    //Map.InterlevelTimeout = 500;
+                    //Map.ReportDays();
 
                     var name = e.name;
                     var id = e.user;

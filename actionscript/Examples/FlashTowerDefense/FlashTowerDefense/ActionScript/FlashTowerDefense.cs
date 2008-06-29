@@ -1022,15 +1022,15 @@ namespace FlashTowerDefense.ActionScript
                 delegate
                 {
                     // do not add if the day is over...
-                    if (WaveEndCountdown <= 0)
-                        return;
+                    //if (WaveEndCountdown <= 0)
+                    //    return;
 
                     AddNewActorsToMap(UpdateScoreBoard, GetEntryPointY, AttachRules);
 
                 };
 
 
-            var ReportDaysTimer = default(Timer);
+            
 
             ReportDays =
                 delegate
@@ -1404,6 +1404,8 @@ namespace FlashTowerDefense.ActionScript
         }
 
         public Action ReportDays;
+
+        public Timer ReportDaysTimer;
     }
 
 

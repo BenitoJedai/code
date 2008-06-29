@@ -51,92 +51,94 @@ namespace FlashTowerDefense.Server
         [MethodImpl(MethodImplOptions.Synchronized)]
         private void CheckIfAllReady()
         {
-            if (PlayersWithActiveWarzone != null)
-                return;
+            //if (PlayersWithActiveWarzone != null)
+            //    return;
 
-            if (Users.Length < MinimumPlayersToActivateWarzone)
-                return;
+            //if (Users.Length < MinimumPlayersToActivateWarzone)
+            //    return;
 
-            var Ready = new List<Player>();
-            var NextReadyCount = 0;
+            //var Ready = new List<Player>();
+            //var NextReadyCount = 0;
 
-            foreach (var z in Users)
-            {
-                if (z.GameEventStatus == Player.GameEventStatusEnum.Ready)
-                    Ready.Add(z);
+            //foreach (var z in Users)
+            //{
+            //    if (z.GameEventStatus == Player.GameEventStatusEnum.Ready)
+            //        Ready.Add(z);
 
-                if (z.GameEventStatus == Player.GameEventStatusEnum.Lagging)
-                    continue;
+            //    if (z.GameEventStatus == Player.GameEventStatusEnum.Lagging)
+            //        continue;
 
-                NextReadyCount++;
-            }
+            //    NextReadyCount++;
+            //}
 
-            if (NextReadyCount > 0)
-            {
-                if (Ready.Count == NextReadyCount)
-                {
-                    //Broadcast(SharedClass1.Messages.ServerMessage, "New wave!");
+            //if (NextReadyCount > 0)
+            //{
+            //    if (Ready.Count == NextReadyCount)
+            //    {
+            //        //Broadcast(SharedClass1.Messages.ServerMessage, "New wave!");
 
-                    foreach (var z in Ready)
-                        z.GameEventStatus = Player.GameEventStatusEnum.Pending;
+            //        foreach (var z in Ready)
+            //            z.GameEventStatus = Player.GameEventStatusEnum.Pending;
 
-                    // multiple users are ready
-                    PlayersWithActiveWarzone = Ready;
+            //        // multiple users are ready
+            //        PlayersWithActiveWarzone = Ready;
 
-                    SetState(NonobaGameState.OpenGameInProgress);
-                }
-                else
-                {
+            //        SetState(NonobaGameState.OpenGameInProgress);
+            //    }
+            //    else
+            //    {
 
-                    //Broadcast(SharedClass1.Messages.ServerMessage, "All not ready!");
-                }
-            }
+            //        //Broadcast(SharedClass1.Messages.ServerMessage, "All not ready!");
+            //    }
+            //}
 
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         private void SendNextWave()
         {
-            if (PlayersWithActiveWarzone == null)
-                return;
+            //if (PlayersWithActiveWarzone == null)
+            //    return;
 
-            //Broadcast(SharedClass1.Messages.ServerMessage, "The wave is still active!");
+            ////Broadcast(SharedClass1.Messages.ServerMessage, "The wave is still active!");
 
-            var Cancelled = new List<Player>();
+            //var Cancelled = new List<Player>();
 
             var z = GenerateRandomNumbers();
 
-            foreach (var i in PlayersWithActiveWarzone.ToArray())
+            //foreach (var i in Users.ToArray())
+            //{
+            //    if (i.LastMessage.AddSeconds(5) < DateTime.Now)
+            //    {
+            //        i.GameEventStatus = Player.GameEventStatusEnum.Lagging;
+            //        PlayersWithActiveWarzone.Remove(i);
+            //        continue;
+            //    }
+            //}
+
+            Console.WriteLine("Next Wave");
+
+            foreach (var i in Users)
             {
-                if (i.LastMessage.AddSeconds(5) < DateTime.Now)
-                {
-                    i.GameEventStatus = Player.GameEventStatusEnum.Lagging;
-                    PlayersWithActiveWarzone.Remove(i);
-                    continue;
-                }
-            }
-
-            foreach (var i in PlayersWithActiveWarzone)
-            {
 
 
-                if (i.GameEventStatus == Player.GameEventStatusEnum.Pending)
-                {
+                //if (i.GameEventStatus == Player.GameEventStatusEnum.Pending)
+                //{
                     i.NetworkMessages.ServerRandomNumbers(z);
                     //Send(i, SharedClass1.Messages.ServerRandomNumbers, z);
-                }
-                else if (i.GameEventStatus == Player.GameEventStatusEnum.Cancelled)
-                {
-                    Cancelled.Add(i);
-                }
+                //}
+                //else if (i.GameEventStatus == Player.GameEventStatusEnum.Cancelled)
+                //{
+                //    Cancelled.Add(i);
+                //}
             }
 
-            if (Cancelled.Count == PlayersWithActiveWarzone.Count)
-            {
-                // end of day for those guys
-                PlayersWithActiveWarzone = null;
-                SetState(NonobaGameState.WaitingForPlayers);
-            }
+            //if (Cancelled.Count == PlayersWithActiveWarzone.Count)
+            //{
+            //    // end of day for those guys
+            //    PlayersWithActiveWarzone = null;
+            //    SetState(NonobaGameState.WaitingForPlayers);
+            //}
 
             
         }
