@@ -16,6 +16,7 @@ using FlashTowerDefense.ActionScript.Assets;
 
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.ActionScript.flash.filters;
 
 namespace FlashTowerDefense.ActionScript.Client
 {
@@ -259,7 +260,8 @@ namespace FlashTowerDefense.ActionScript.Client
                 NetworkName = name,
                 NetworkId = id,
                 x = 100 + 100.Random(),
-                y = 100 + 100.Random()
+                y = 100 + 100.Random(),
+                filters = new [] { new GlowFilter(0x8080ff) }
             }.AddTo(Players).AttachTo(Map.GetWarzone());
 
             n.Die +=

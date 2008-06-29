@@ -347,6 +347,8 @@ namespace FlashTowerDefense.ActionScript
             var WeaponAvatar = new Sprite().AttachTo(WeaponBar);
             #endregion
 
+            var CurrentTarget = default(MouseEvent);
+            var CurrentTargetTimer = default(Timer);
 
             #region Ego
             Ego = new PlayerWarrior();
@@ -359,6 +361,7 @@ namespace FlashTowerDefense.ActionScript
             var EgoAimDistance = 48;
             var EgoAimMoveSpeed = 0.1;
             var EgoMoveSpeed = 3.0;
+            var EgoMoveToMouseTarget = false;
 
             UpdateEgoAim =
                 delegate
@@ -372,7 +375,21 @@ namespace FlashTowerDefense.ActionScript
             var EgoMoveUpTimer = (1000 / 30).AtInterval(
                 delegate
                 {
-                    Ego.MoveToArc(EgoAimDirection, EgoMoveSpeed);
+                    if (EgoMoveToMouseTarget)
+                    {
+                        var p = new Point { x = CurrentTarget.stageX - Ego.x, y = CurrentTarget.stageY - Ego.y };
+
+                        if (p.length <= EgoMoveSpeed)
+                        {
+                            // run one the pointer
+                            return;
+                        }
+
+                        Ego.MoveToArc(p.GetRotation(), EgoMoveSpeed);    
+                    }
+                    else
+                        Ego.MoveToArc(EgoAimDirection, EgoMoveSpeed);
+
                     Ego.x = Ego.x.Max(0).Min(DefaultWidth);
                     Ego.y = Ego.y.Max(0).Min(DefaultHeight);
 
@@ -455,6 +472,8 @@ namespace FlashTowerDefense.ActionScript
             Ego.CurrentWeaponChanged +=
                 delegate
                 {
+                    Sounds.SelectWeapon.ToSoundAsset().play();
+
                     if (WeaponAvatar.numChildren > 0)
                         WeaponAvatar.getChildAt(0).Orphanize();
 
@@ -591,8 +610,7 @@ namespace FlashTowerDefense.ActionScript
                     }
                 };
 
-            var CurrentTarget = default(MouseEvent);
-            var CurrentTargetTimer = default(Timer);
+
 
             PrebuiltTurret.AnimationEnabledChanged +=
                 delegate
@@ -768,7 +786,136 @@ namespace FlashTowerDefense.ActionScript
                 };
             #endregion
 
+            Action EgoTakeNextWeapon = () => Ego.CurrentWeapon = Ego.OtherWeaponsLikeCurrent.Next(i => i == Ego.CurrentWeapon);
+            Action EgoTakePreviousWeapon = () => Ego.CurrentWeapon = Ego.OtherWeaponsLikeCurrent.Next(i => i == Ego.CurrentWeapon);
 
+
+            var EgoIsReloadingHisWeapon = false;
+
+
+            Action EgoDoFireWeapon =
+                delegate
+                {
+                    if (EgoIsReloadingHisWeapon)
+                        return;
+
+                    if (Ego.CurrentWeapon.Ammo <= 0)
+                    {
+                        Sounds.OutOfAmmo.ToSoundAsset().play();
+                        // need ammo
+                        return;
+                    }
+
+                    EgoIsReloadingHisWeapon = true;
+
+                    500.AtDelayDo(() => EgoIsReloadingHisWeapon = false);
+
+
+                    Ego.CurrentWeapon.Type.SoundFire.ToSoundAsset().play();
+
+                    if (EgoFiredWeapon != null)
+                        EgoFiredWeapon(Ego.CurrentWeapon);
+
+
+                    Ego.CurrentWeapon.Ammo--;
+
+
+                    var DamagePointOfOrigin = new Point { x = Ego.x, y = Ego.y };
+                    var DamageDirection = EgoAimDirection;
+
+                    DoSomeDamage(DamagePointOfOrigin, DamageDirection, Ego.CurrentWeapon.Type);
+                };
+
+            GetWarzone().mouseWheel +=
+                e =>
+                {
+                    if (e.delta > 0)
+                        EgoTakeNextWeapon();
+                    else
+                        EgoTakePreviousWeapon();
+                };
+
+            var EgoMoveToMouseTargetAntiDoubleClick = default(Timer);
+
+            GetWarzone().mouseDown +=
+                e =>
+                {
+                    if (!EgoIsOnTheField())
+                        return;
+
+                    var p = new Point { x = e.stageX - Ego.x, y = e.stageY - Ego.y };
+
+                    EgoAimDirection = p.GetRotation();
+
+                    CurrentTarget = e;
+
+                    UpdateEgoAim();
+
+                    EgoMoveToMouseTarget = true;
+
+                    EgoMoveToMouseTargetAntiDoubleClick =
+                        200.AtDelayDo(
+                        delegate
+                        {
+                            if (!EgoMoveToMouseTarget)
+                                return;
+
+                            Ego.RunAnimation = true;
+                            EgoMoveSpeed = 2.5;
+                            EgoMoveUpTimer.start();
+                        }
+                    );
+                };
+
+
+            GetWarzone().mouseMove +=
+                e =>
+                {
+                    if (!EgoMoveToMouseTarget)
+                        return;
+
+                    if (!EgoIsOnTheField())
+                        return;
+
+                    var p = new Point { x = e.stageX - Ego.x, y = e.stageY - Ego.y };
+
+                    EgoAimDirection = p.GetRotation();
+
+                    CurrentTarget = e;
+
+                    UpdateEgoAim();
+                };
+
+            GetWarzone().mouseUp +=
+                e =>
+                {
+                    if (!EgoMoveToMouseTarget)
+                        return;
+
+                    if (EgoMoveToMouseTargetAntiDoubleClick != null)
+                    {
+                        EgoMoveToMouseTargetAntiDoubleClick.stop();
+                        EgoMoveToMouseTargetAntiDoubleClick = null;
+                    }
+
+                    EgoMoveUpTimer.stop();
+                    Ego.RunAnimation = false;
+                    EgoMoveToMouseTarget = false;
+                };
+
+            GetWarzone().doubleClickEnabled = true;
+            GetWarzone().doubleClick +=
+              e =>
+              {
+                  if (!EgoIsOnTheField())
+                      return;
+
+                  EgoAimDirection = new Point { x = e.stageX - Ego.x, y = e.stageY - Ego.y }.GetRotation();
+
+                  UpdateEgoAim();
+
+                  EgoDoFireWeapon();
+              };
 
             Action StageIsReady =
                 delegate
@@ -851,24 +998,14 @@ namespace FlashTowerDefense.ActionScript
 
                     var KeyWeaponNext = new KeyboardButton(stage)
                     {
-                        Buttons = new[] { Keyboard.X },
-                        Up =
-                            delegate
-                            {
-                                Ego.CurrentWeapon = Ego.OtherWeaponsLikeCurrent.Next(i => i == Ego.CurrentWeapon);
-                                Sounds.SelectWeapon.ToSoundAsset().play();
-                            }
+                        Buttons = new[] { Keyboard.X, Keyboard.PAGE_UP },
+                        Up = EgoTakeNextWeapon,
                     };
 
                     var KeyWeaponPrevious = new KeyboardButton(stage)
                     {
-                        Buttons = new[] { Keyboard.Z },
-                        Up =
-                            delegate
-                            {
-                                Ego.CurrentWeapon = Ego.OtherWeaponsLikeCurrent.Previous(i => i == Ego.CurrentWeapon);
-                                Sounds.SelectWeapon.ToSoundAsset().play();
-                            }
+                        Buttons = new[] { Keyboard.Z, Keyboard.PAGE_DOWN },
+                        Up = EgoTakePreviousWeapon
                     };
 
                     var KeyMusic = new KeyboardButton(stage)
@@ -877,45 +1014,12 @@ namespace FlashTowerDefense.ActionScript
                         Up = () => ToggleMusic()
                     };
 
-                    var EgoIsReloadingHisWeapon = false;
-
 
                     var KeyControl = new KeyboardButton(stage)
                     {
                         Buttons = new[] { Keyboard.CONTROL },
                         Filter = EgoIsOnTheField,
-                        Up =
-                            delegate
-                            {
-                                if (EgoIsReloadingHisWeapon)
-                                    return;
-
-                                if (Ego.CurrentWeapon.Ammo <= 0)
-                                {
-                                    Sounds.OutOfAmmo.ToSoundAsset().play();
-                                    // need ammo
-                                    return;
-                                }
-
-                                EgoIsReloadingHisWeapon = true;
-
-                                500.AtDelayDo(() => EgoIsReloadingHisWeapon = false);
-
-
-                                Ego.CurrentWeapon.Type.SoundFire.ToSoundAsset().play();
-
-                                if (EgoFiredWeapon != null)
-                                    EgoFiredWeapon(Ego.CurrentWeapon);
-
-
-                                Ego.CurrentWeapon.Ammo--;
-
-
-                                var DamagePointOfOrigin = new Point { x = Ego.x, y = Ego.y };
-                                var DamageDirection = EgoAimDirection;
-
-                                DoSomeDamage(DamagePointOfOrigin, DamageDirection, Ego.CurrentWeapon.Type);
-                            }
+                        Up = EgoDoFireWeapon
                     };
 
 
