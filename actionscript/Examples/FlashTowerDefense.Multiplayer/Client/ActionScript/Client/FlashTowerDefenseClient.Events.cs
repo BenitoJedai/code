@@ -233,6 +233,18 @@ namespace FlashTowerDefense.ActionScript.Client
                         v.RemoveFrom(Players).AddDamage(v.Health);
                     }
                 };
+
+            NetworkEvents.UserPlayerResurrect +=
+                e =>
+                {
+                    var p = Players.Single(n => n.NetworkId == e.user);
+
+                    p.Revive();
+
+                    Map.ShowMessage(p.NetworkName + " is born again");
+
+                };
+
             #endregion
             return NetworkEvents;
         }
@@ -255,8 +267,6 @@ namespace FlashTowerDefense.ActionScript.Client
                     if (Players.Contains(n))
                     {
                         Map.ShowMessage("One of us has died!");
-
-                        PlayerWarrior.AutoResurrectDelay.AtIntervalDo(n.Revive);
                     }
                 };
 

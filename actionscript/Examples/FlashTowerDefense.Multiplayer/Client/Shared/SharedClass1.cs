@@ -79,6 +79,10 @@ namespace FlashTowerDefense.Shared
             void ServerPlayerLeft(int user, string name);
 
             void PlayerAdvertise(int ego);
+
+            void PlayerResurrect();
+            void UserPlayerResurrect(int user);
+
             void ServerPlayerAdvertise(int user, string name, int ego);
 
             // ...

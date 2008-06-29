@@ -51,6 +51,8 @@ namespace FlashTowerDefense.Shared
             ServerPlayerJoined,
             ServerPlayerLeft,
             PlayerAdvertise,
+            PlayerResurrect,
+            UserPlayerResurrect,
             ServerPlayerAdvertise,
         }
         #endregion
@@ -195,6 +197,14 @@ namespace FlashTowerDefense.Shared
             public void PlayerAdvertise(int ego)
             {
                 Send(new SendArguments { i = Messages.PlayerAdvertise, args = new object[] { ego } });
+            }
+            public void PlayerResurrect()
+            {
+                Send(new SendArguments { i = Messages.PlayerResurrect, args = new object[] { } });
+            }
+            public void UserPlayerResurrect(int user)
+            {
+                Send(new SendArguments { i = Messages.UserPlayerResurrect, args = new object[] { user } });
             }
             public void ServerPlayerAdvertise(int user, string name, int ego)
             {
@@ -633,6 +643,31 @@ namespace FlashTowerDefense.Shared
             #endregion
 
             public event Action<PlayerAdvertiseArguments> PlayerAdvertise;
+            #region PlayerResurrectArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class PlayerResurrectArguments
+            {
+            }
+            #endregion
+
+            public event Action<PlayerResurrectArguments> PlayerResurrect;
+            #region UserPlayerResurrectArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class UserPlayerResurrectArguments
+            {
+                public int user;
+            }
+            #endregion
+
+            public event Action<UserPlayerResurrectArguments> UserPlayerResurrect;
             #region ServerPlayerAdvertiseArguments
 
 #if !NoAttributes
@@ -681,6 +716,8 @@ namespace FlashTowerDefense.Shared
                         { Messages.ServerPlayerJoined, e => { ServerPlayerJoined(new ServerPlayerJoinedArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                         { Messages.ServerPlayerLeft, e => { ServerPlayerLeft(new ServerPlayerLeftArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                         { Messages.PlayerAdvertise, e => { PlayerAdvertise(new PlayerAdvertiseArguments { ego = e.GetInt32(0) }); } },
+                        { Messages.PlayerResurrect, e => { PlayerResurrect(new PlayerResurrectArguments {  }); } },
+                        { Messages.UserPlayerResurrect, e => { UserPlayerResurrect(new UserPlayerResurrectArguments { user = e.GetInt32(0) }); } },
                         { Messages.ServerPlayerAdvertise, e => { ServerPlayerAdvertise(new ServerPlayerAdvertiseArguments { user = e.GetInt32(0), name = e.GetString(1), ego = e.GetInt32(2) }); } },
                     }
                 ;
@@ -715,6 +752,8 @@ namespace FlashTowerDefense.Shared
                         { Messages.ServerPlayerJoined, e => ServerPlayerJoined },
                         { Messages.ServerPlayerLeft, e => ServerPlayerLeft },
                         { Messages.PlayerAdvertise, e => PlayerAdvertise },
+                        { Messages.PlayerResurrect, e => PlayerResurrect },
+                        { Messages.UserPlayerResurrect, e => UserPlayerResurrect },
                         { Messages.ServerPlayerAdvertise, e => ServerPlayerAdvertise },
                     }
                 ;

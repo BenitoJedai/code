@@ -471,7 +471,15 @@ namespace FlashTowerDefense.ActionScript
                     ShowMessage("Meeeediiic!");
                     ShowMessage("You died a painful death");
 
-                    PlayerWarrior.AutoResurrectDelay.AtIntervalDo(Ego.Revive);
+                    PlayerWarrior.AutoResurrectDelay.AtDelayDo(
+                        delegate
+                        {
+                            Ego.Revive();
+
+                            if (EgoResurrect != null)
+                                EgoResurrect();
+                        }
+                    );
                 };
 
             #region HealthBar
@@ -495,9 +503,6 @@ namespace FlashTowerDefense.ActionScript
                 {
                     if (EgoHeartBeat == null)
                     {
-                        var Alphas = new[] { 0.5, 1 };
-
-                      
                         EgoHeartBeat = Sounds.heartbeat3.ToSoundAsset().play();
                         EgoHeartBeat.soundComplete +=
                             e =>
@@ -506,23 +511,36 @@ namespace FlashTowerDefense.ActionScript
                             };
                     }
 
-
-                    var z = (Ego.Health / Ego.MaxHealth) * Hearts.Length;
-                    var f = Math.Floor(z).ToInt32();
-                    var a = z % 1;
-
-                    for (int i = 0; i < f; i++)
+                    if (Ego.Health > 0)
                     {
-                        Hearts[i].alpha = 1;
+
+                        var z = (Ego.Health / Ego.MaxHealth) * Hearts.Length;
+                        var f = Math.Floor(z).ToInt32();
+                        var a = z % 1;
+
+                        for (int i = 0; i < f; i++)
+                        {
+                            Hearts[i].alpha = 1;
+                        }
+
+                        if (f < Hearts.Length)
+                        {
+                            Hearts[f].alpha = a;
+
+                            for (int i = f + 1; i < Hearts.Length; i++)
+                            {
+                                Hearts[i].alpha = 0;
+                            }
+
+                        }
                     }
-
-                    Hearts[f].alpha = a;
-
-                    for (int i = f + 1; i < Hearts.Length; i++)
+                    else
                     {
-                        Hearts[i].alpha = 0;
+                        for (int i = 0; i < Hearts.Length; i++)
+                        {
+                            Hearts[i].alpha = 0;
+                        }
                     }
-
 
                     //ShowMessage("h: " + f + " " + a);
                 };
@@ -1341,6 +1359,7 @@ namespace FlashTowerDefense.ActionScript
         public readonly Timer EgoMovedSlowTimer;
 
         public event Action<Weapon> EgoFiredWeapon;
+        public event Action EgoResurrect;
 
         public readonly Action GameEvent;
 

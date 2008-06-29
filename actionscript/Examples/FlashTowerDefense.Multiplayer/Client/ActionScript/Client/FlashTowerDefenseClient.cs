@@ -197,6 +197,8 @@ namespace FlashTowerDefense.ActionScript.Client
                         };
 
                     Map.EgoFiredWeapon += w => NetworkMessages.FiredWeapon(w.Type.NetworkId);
+                    Map.EgoResurrect += NetworkMessages.PlayerResurrect;
+
                     Map.GameInterlevelBegin += () => NetworkMessages.CancelServerRandomNumbers();
                     Map.GameInterlevelEnd += () => NetworkMessages.ReadyForServerRandomNumbers();
 
@@ -204,6 +206,7 @@ namespace FlashTowerDefense.ActionScript.Client
 
                     Map.NetworkTakeCrate += Id => NetworkMessages.TakeBox(Id);
                     Map.NetworkShowBulletsFlying += NetworkMessages.ShowBulletsFlying;
+                    
 
                     500.AtIntervalDo(NetworkMessages.Ping);
 

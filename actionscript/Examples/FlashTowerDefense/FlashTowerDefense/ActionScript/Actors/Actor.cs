@@ -29,18 +29,22 @@ namespace FlashTowerDefense.ActionScript.Actors
             {
                 _NetworkId = value;
 
-                //if (_NetworkIdLabel == null)
-                //{
-                //    _NetworkIdLabel = new TextField { 
-                //        autoSize = TextFieldAutoSize.LEFT,
-                //        mouseEnabled = false,
-                //        text = "" + _NetworkId }.AttachTo(this);
-                //}
-                //else
-                //{
-                //    _NetworkIdLabel.text = "" + _NetworkId;
-                //}
+                UpdateLabel();
             }
+        }
+
+        private void UpdateLabel()
+        {
+            //if (_NetworkIdLabel == null)
+            //{
+            //    _NetworkIdLabel = new TextField
+            //    {
+            //        autoSize = TextFieldAutoSize.LEFT,
+            //        mouseEnabled = false,
+            //    }.AttachTo(this);
+            //}
+
+            //_NetworkIdLabel.text = "" + _NetworkId + " / " + Health;
         }
 
         TextField _NetworkIdLabel;
@@ -52,6 +56,8 @@ namespace FlashTowerDefense.ActionScript.Actors
         public int ScoreValue = 1;
 
         public bool IsAlive = true;
+
+        Action Kill;
 
         public event Action Die;
 
@@ -83,6 +89,7 @@ namespace FlashTowerDefense.ActionScript.Actors
                 if (HealthChanged != null)
                     HealthChanged();
 
+                UpdateLabel();
             }
         }
 
@@ -121,7 +128,7 @@ namespace FlashTowerDefense.ActionScript.Actors
             Health -= e;
 
             if (Health <= 0)
-                Die();
+                Kill();
         }
 
         readonly List<Bitmap> Footsteps = new List<Bitmap>();
@@ -135,11 +142,16 @@ namespace FlashTowerDefense.ActionScript.Actors
 
         public void Revive()
         {
+            Health = MaxHealth / 2;
+
+            if (IsAlive)
+                return;
+
             IsAlive = true;
             IsCorpseAndBloodGone = false;
             IsCorpseGone = false;
 
-            Health = MaxHealth / 2;
+            
 
             _corpse.Orphanize();
             _blood.Orphanize();
@@ -165,8 +177,9 @@ namespace FlashTowerDefense.ActionScript.Actors
 
 
 
-            Die = delegate
+            Kill = delegate
             {
+
                 IsAlive = false;
                 PlayDeathSound();
 
@@ -213,6 +226,10 @@ namespace FlashTowerDefense.ActionScript.Actors
                             CorpseGone();
                     }
                 );
+
+
+                if (Die != null)
+                    Die();
             };
 
             //this.Moved +=
@@ -239,6 +256,8 @@ namespace FlashTowerDefense.ActionScript.Actors
              );
 
             ShowFrame(0);
+
+       
         }
 
         public readonly Timer RunAnimationTimer;
