@@ -8,6 +8,16 @@ namespace ScriptCoreLib.Shared.Lambda
     [Script]
     public static partial class LambdaExtensions
     {
+        public static Func<bool> And(this Func<bool> a, Func<bool> b)
+        {
+            return () => a() && b();
+        }
+
+        public static Func<bool> Or(this Func<bool> a, Func<bool> b)
+        {
+            return () => a() || b();
+        }
+
         public static T Previous<T>(this IEnumerable<T> source, Func<T, bool> predicate)
         {
             var prev = source.Last();

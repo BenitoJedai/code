@@ -149,6 +149,11 @@ namespace FlashTowerDefense.ActionScript
             return e;
         }
 
+        public static T MoveTo<T>(this T e, DisplayObject i) where T : DisplayObject
+        {
+            return e.MoveTo(i.x, i.y);
+        }
+
         public static T MoveTo<T>(this T e, double x, double y) where T : DisplayObject
         {
             e.x = x;
@@ -182,7 +187,7 @@ namespace FlashTowerDefense.ActionScript
             return Convert.ToInt32(e);
         }
 
-        public static T AddTo<T>(this T e, List<T> a)
+        public static U AddTo<U, T>(this U e, List<T> a) where U : T
         {
             a.Add(e);
 
@@ -210,6 +215,26 @@ namespace FlashTowerDefense.ActionScript
         public static Timer AtDelayDoOnRandom(this int e, Action a)
         {
             return e.Random().ToInt32().AtDelayDo(a);
+        }
+
+        public static Timer AtDelayDo(this int e, params Action[] a)
+        {
+            int i = 0;
+
+            return e.AtInterval(
+                t =>
+                {
+                    if (i < a.Length)
+                    {
+                        a[i]();
+                        i++;
+                    }
+                    else
+                    {
+                        t.stop();
+                    }
+                }
+            );
         }
 
         public static Timer AtDelayDo(this int e, Action a)

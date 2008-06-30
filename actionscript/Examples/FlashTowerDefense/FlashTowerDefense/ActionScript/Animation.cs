@@ -49,6 +49,12 @@ namespace FlashTowerDefense.ActionScript
                             Clear();
 
                             ShowCurrentFrame();
+
+                            if (_Timer.currentCount % AnimatedFrames.Length == 0)
+                            {
+                                if (LastFrame != null)
+                                    LastFrame();
+                            }
                         }
                     );
 
@@ -60,6 +66,8 @@ namespace FlashTowerDefense.ActionScript
                     AnimationEnabledChanged();
             }
         }
+
+        public event Action LastFrame;
 
         private void ShowCurrentFrame()
         {
@@ -118,7 +126,10 @@ namespace FlashTowerDefense.ActionScript
             this.StillFrame = StillFrame;
 
             if (AnimatedFrames.Length > 0)
+            {
                 this.AnimatedFrames = AnimatedFrames.Select(i => (BitmapAsset)i).ToArray();
+                
+            }
             else
                 AnimationEnabled = false;
 

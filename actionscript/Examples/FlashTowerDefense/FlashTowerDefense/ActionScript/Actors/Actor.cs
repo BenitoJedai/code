@@ -81,6 +81,8 @@ namespace FlashTowerDefense.ActionScript.Actors
                 if (_health == value)
                     return;
 
+                var old = _health;
+
                 _health = value;
 
                 if (_health > MaxHealth)
@@ -89,11 +91,24 @@ namespace FlashTowerDefense.ActionScript.Actors
                 if (HealthChanged != null)
                     HealthChanged();
 
+                if (old > value)
+                {
+                    if (HealthChangedToWorse != null)
+                        HealthChangedToWorse();
+                }
+                else
+                {
+                    if (HealthChangedToBetter != null)
+                        HealthChangedToBetter();
+                }
+
                 UpdateLabel();
             }
         }
 
         public event Action HealthChanged;
+        public event Action HealthChangedToWorse;
+        public event Action HealthChangedToBetter;
 
 
         public double speed = 0.5;
@@ -119,6 +134,7 @@ namespace FlashTowerDefense.ActionScript.Actors
 
             t.start();
         }
+
 
         public void AddDamage(double e)
         {
@@ -186,46 +202,50 @@ namespace FlashTowerDefense.ActionScript.Actors
                 foreach (var v in frames)
                     v.Orphanize();
 
-                corpse.x = -corpse.width / 2;
-                corpse.y = -corpse.height / 2;
-                corpse.AttachTo(this);
+                #region corpse
+                if (corpse != null)
+                {
+                    corpse.MoveToCenter().AttachTo(this);
 
-                (10000 + 10000.FixedRandom()).AtDelay(
-                    delegate
-                    {
-                        if (IsAlive)
-                            return;
+                    (10000 + 10000.FixedRandom()).AtDelay(
+                        delegate
+                        {
+                            if (IsAlive)
+                                return;
 
-                        corpse.Orphanize();
-
-
-                        blood.x = -blood.width / 2;
-                        blood.y = -blood.height / 2;
-                        blood.AttachTo(this);
+                            corpse.Orphanize();
 
 
-                        ((20000 + 10000.FixedRandom())).AtDelay(
-                           delegate
-                           {
-                               if (IsAlive)
-                                   return;
+                            blood.x = -blood.width / 2;
+                            blood.y = -blood.height / 2;
+                            blood.AttachTo(this);
 
-                               blood.Orphanize();
 
-                               IsCorpseAndBloodGone = true;
+                            ((20000 + 10000.FixedRandom())).AtDelay(
+                               delegate
+                               {
+                                   if (IsAlive)
+                                       return;
 
-                               if (CorpseAndBloodGone != null)
-                                   CorpseAndBloodGone();
+                                   blood.Orphanize();
 
-                           }
-                       );
+                                   IsCorpseAndBloodGone = true;
 
-                        IsCorpseGone = true;
+                                   if (CorpseAndBloodGone != null)
+                                       CorpseAndBloodGone();
 
-                        if (CorpseGone != null)
-                            CorpseGone();
-                    }
-                );
+                               }
+                           );
+
+                            IsCorpseGone = true;
+
+                            if (CorpseGone != null)
+                                CorpseGone();
+                        }
+                    );
+                }
+                #endregion
+
 
 
                 if (Die != null)

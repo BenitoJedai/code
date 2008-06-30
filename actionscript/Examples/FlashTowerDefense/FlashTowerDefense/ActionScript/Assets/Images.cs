@@ -14,27 +14,16 @@ namespace FlashTowerDefense.ActionScript.Assets
     {
         public const string Path = "/assets/FlashTowerDefense.Images";
 
+        [Embed(source = Path + "/hole_2.png")]
+        public static Class hole_2;
 
-        [Embed(source = Path + "/avatars_heart.png")]
-        public static Class avatars_heart;
+        [Embed(source = Path + "/hole_1.png")]
+        public static Class hole_1;
 
 
-        [Embed(source = Path + "/avatars_ammo.png")]
-        public static Class avatars_ammo;
+        [Embed(source = Path + "/barrel.png")]
+        public static Class barrel;
 
-        [Embed(source = Path + "/avatars_colt45.png")]
-        public static Class avatars_colt45;
-
-        [Embed(source = Path + "/avatars_m249.png")]
-        public static Class avatars_m249;
-
-        [Embed(source = Path + "/avatars_shotgun.png")]
-        public static Class avatars_shotgun;
-
-        [Embed(source = Path + "/avatars_shotgun2.png")]
-        public static Class avatars_shotgun2;
-
-        
 
         [Embed(source = Path + "/box.png")]
         public static Class box;

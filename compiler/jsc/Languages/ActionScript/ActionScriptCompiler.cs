@@ -635,13 +635,20 @@ namespace jsc.Languages.ActionScript
                 return;
             }
 
-
-            Write("(");
-            WriteDecoratedTypeNameOrImplementationTypeName(x, true, true, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, x));
-            Write("(");
-            EmitFirstOnStack(e);
-            Write(")");
-            Write(")");
+            // prevent compiler being funny: a.Add_100664081((*(e)));
+            if (x.IsGenericParameter)
+            {
+                EmitFirstOnStack(e);
+            }
+            else
+            {
+                Write("(");
+                WriteDecoratedTypeNameOrImplementationTypeName(x, true, true, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, x));
+                Write("(");
+                EmitFirstOnStack(e);
+                Write(")");
+                Write(")");
+            }
         }
 
         public override void ConvertTypeAndEmit(CodeEmitArgs e, string x)

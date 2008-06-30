@@ -26,5 +26,17 @@ namespace ScriptCoreLib.ActionScript.flash.geom
         /// </summary>
         public double y { get; set; }
 
+
+        [Script(NotImplementedHere = true)]
+        public static Point operator -(Point a, Point b)
+        {
+            return default(Point);
+        }
+
+        [Script(NotImplementedHere = true)]
+        public static Point operator +(Point a, Point b)
+        {
+            return default(Point);
+        }
     }
 }

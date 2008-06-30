@@ -11,6 +11,9 @@ http://images.google.ee/imgres?imgurl=http://www.airsoftatlanta.com/images/new_s
 http://www.airsoftatlanta.com/
 
 
+barrel:
+http://www.vogelzang.com/barrel_stoves.htm
+http://en.wikipedia.org/wiki/Explosive_material
 
 adobe help:
 http://library.creativecow.net/articles/ahearn_luke/creating_clouds.php

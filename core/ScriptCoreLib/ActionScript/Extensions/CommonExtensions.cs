@@ -15,6 +15,11 @@ namespace ScriptCoreLib.ActionScript.Extensions
     [Script]
     public static class CommonExtensions
     {
+        public static Point ToPoint(this DisplayObject e)
+        {
+            return new Point { x = e.x, y = e.y };
+        }
+
         [Script]
         class IFill_Dispose : IDisposable
         {

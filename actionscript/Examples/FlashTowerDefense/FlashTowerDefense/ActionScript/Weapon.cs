@@ -30,7 +30,8 @@ namespace FlashTowerDefense.ActionScript
                 Type = Type,
                 MaxAmmo = MaxAmmo,
                 _Ammo = _Ammo,
-                SelectMode = SelectMode
+                SelectMode = SelectMode,
+                Usage = Usage
             };
         }
 
@@ -70,18 +71,45 @@ namespace FlashTowerDefense.ActionScript
 
         public SelectModeEnum SelectMode;
 
+        public const uint ColorForTurretWeapons = 0xf36d21;
+        public const uint ColorForOutsideWeapons = 0x00ff00;
+        public const uint ColorForDeployableWeapons = 0x66ffff;
+
+        public enum UsageEnum
+        {
+            FireBullets,
+            DeployBarrel
+        }
+
+        public UsageEnum Usage = UsageEnum.FireBullets;
+
         public uint Color
         {
             get
             {
+               
                 if (SelectMode == SelectModeEnum.Turret)
-                    return 0xf36d21;
+                    return ColorForTurretWeapons;
 
-                return 0x00ff00;
+                if (Usage == UsageEnum.FireBullets)
+                    return ColorForOutsideWeapons;
+
+                return ColorForDeployableWeapons;
             }
         }
 
-        
+
+        public static Weapon ExplosivesBarrel =
+            new Weapon
+            {
+                MaxAmmo = 40,
+                Ammo = 20,
+                Type = WeaponInfo.ExplosivesBarrel,
+                SelectMode = Weapon.SelectModeEnum.Outside,
+                Name = "ExplosivesBarrel",
+                Usage = UsageEnum.DeployBarrel
+            };
+
         public static Weapon TurretMachinegun =
             new Weapon
                 {
@@ -90,7 +118,7 @@ namespace FlashTowerDefense.ActionScript
                     Ammo = 100,
                     Type = WeaponInfo.Machinegun,
                     SelectMode = Weapon.SelectModeEnum.Turret,
-                    Name = "Turret Machinegun"
+                    Name = "Turret Machinegun",
                 };
 
         public static Weapon Shotgun =
@@ -128,12 +156,13 @@ namespace FlashTowerDefense.ActionScript
         public static Weapon[] PredefinedWeapons =
              new[]
             {
+                ExplosivesBarrel,
                 Shotgun,
                 Shotgun2,
                 Colt45,
                 TurretMachinegun
             }.ForEach((w, i) => w.NetworkId = i).ToArray();
 
-        
+
     }
 }

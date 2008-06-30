@@ -21,11 +21,25 @@ namespace FlashTowerDefense.ActionScript
         public int Damage;
         public int NetworkId;
 
+        
         public int VisibleBulletLines;
 
         public BitmapAsset Avatar;
 
         public Class SoundFire;
+
+        public readonly static WeaponInfo ExplosivesBarrel =
+            new WeaponInfo
+            {
+                Range = 120,
+                Damage = 300,
+                
+                VisibleBulletLines = 0,
+
+                SoundFire = Sounds.snd_man2,
+                Avatar = Images.Avatars.avatars_barrel,
+
+            };
 
         public readonly static WeaponInfo Shotgun =
             new WeaponInfo
@@ -35,7 +49,7 @@ namespace FlashTowerDefense.ActionScript
                 Damage = 30,
                 VisibleBulletLines = 6,
                 SoundFire = Sounds.shotgun2,
-                Avatar = Images.avatars_shotgun,
+                Avatar = Images.Avatars.avatars_shotgun,
 
             };
 
@@ -47,7 +61,7 @@ namespace FlashTowerDefense.ActionScript
             Damage = 60,
             VisibleBulletLines = 3,
             SoundFire = Sounds.shotgun2,
-            Avatar = Images.avatars_shotgun2,
+            Avatar = Images.Avatars.avatars_shotgun2,
 
         };
 
@@ -60,7 +74,7 @@ namespace FlashTowerDefense.ActionScript
                 Damage = 40,
                 VisibleBulletLines = 2,
 
-                Avatar = Images.avatars_m249,
+                Avatar = Images.Avatars.avatars_m249,
 
             };
 
@@ -72,13 +86,14 @@ namespace FlashTowerDefense.ActionScript
                  Damage = 100,
                  VisibleBulletLines = 1,
                  SoundFire = Sounds.colt45,
-                 Avatar = Images.avatars_colt45,
+                 Avatar = Images.Avatars.avatars_colt45,
 
              };
 
         public static WeaponInfo[] PredefinedWeaponTypes =
             new[]
             {
+                ExplosivesBarrel,
                 Shotgun,
                 Shotgun2,
                 Colt45,

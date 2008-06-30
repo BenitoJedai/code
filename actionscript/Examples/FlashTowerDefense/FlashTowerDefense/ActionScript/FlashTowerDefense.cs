@@ -324,7 +324,7 @@ namespace FlashTowerDefense.ActionScript
 
             var AmmoAvatar = new Sprite().MoveTo(38, 24).AttachTo(WeaponBar);
 
-            Images.avatars_ammo.ToBitmapAsset().MoveToCenter().AttachTo(AmmoAvatar);
+            Images.Avatars.avatars_ammo.ToBitmapAsset().MoveToCenter().AttachTo(AmmoAvatar);
 
             var AmmoText = new TextField
             {
@@ -351,13 +351,17 @@ namespace FlashTowerDefense.ActionScript
             var CurrentTargetTimer = default(Timer);
 
             #region Ego
-            Ego = new PlayerWarrior();
+            Ego = new PlayerWarrior
+                {
+                    filters = new[] { new GlowFilter(ColorGreen) }
+                };
 
             EgoIsOnTheField = () => Ego.parent != null;
+            EgoIsAlive = () => Ego.IsAlive;
+
             Func<bool> EgoCanManTurret = () => !PrebuiltTurretInUse; // look up if there is somebody else in it
             Func<bool> EgoIsCloseToTurret = () => new Point { x = Ego.x - PrebuiltTurret.x, y = Ego.y - PrebuiltTurret.y }.length < 32;
 
-            var EgoAimDirection = 3.14; // look down
             var EgoAimDistance = 48;
             var EgoAimMoveSpeed = 0.1;
             var EgoMoveSpeed = 3.0;
@@ -385,7 +389,7 @@ namespace FlashTowerDefense.ActionScript
                             return;
                         }
 
-                        Ego.MoveToArc(p.GetRotation(), EgoMoveSpeed);    
+                        Ego.MoveToArc(p.GetRotation(), EgoMoveSpeed);
                     }
                     else
                         Ego.MoveToArc(EgoAimDirection, EgoMoveSpeed);
@@ -509,10 +513,10 @@ namespace FlashTowerDefense.ActionScript
 
             var Hearts = new[] 
             {
-                Images.avatars_heart.ToBitmapAsset().MoveToArc(20.DegreesToRadians(), 90).AttachTo(HealthBar),
-                Images.avatars_heart.ToBitmapAsset().MoveToArc(7.DegreesToRadians(), 90).AttachTo(HealthBar),
-                Images.avatars_heart.ToBitmapAsset().MoveToArc(353.DegreesToRadians(), 90).AttachTo(HealthBar),
-                Images.avatars_heart.ToBitmapAsset().MoveToArc(340.DegreesToRadians(), 90).AttachTo(HealthBar),
+                Images.Avatars.avatars_heart.ToBitmapAsset().MoveToArc(20.DegreesToRadians(), 90).AttachTo(HealthBar),
+                Images.Avatars.avatars_heart.ToBitmapAsset().MoveToArc(7.DegreesToRadians(), 90).AttachTo(HealthBar),
+                Images.Avatars.avatars_heart.ToBitmapAsset().MoveToArc(353.DegreesToRadians(), 90).AttachTo(HealthBar),
+                Images.Avatars.avatars_heart.ToBitmapAsset().MoveToArc(340.DegreesToRadians(), 90).AttachTo(HealthBar),
             };
 
             var EgoHeartBeat = default(SoundChannel);
@@ -787,44 +791,12 @@ namespace FlashTowerDefense.ActionScript
             #endregion
 
             Action EgoTakeNextWeapon = () => Ego.CurrentWeapon = Ego.OtherWeaponsLikeCurrent.Next(i => i == Ego.CurrentWeapon);
-            Action EgoTakePreviousWeapon = () => Ego.CurrentWeapon = Ego.OtherWeaponsLikeCurrent.Next(i => i == Ego.CurrentWeapon);
+            Action EgoTakePreviousWeapon = () => Ego.CurrentWeapon = Ego.OtherWeaponsLikeCurrent.Previous(i => i == Ego.CurrentWeapon);
 
 
-            var EgoIsReloadingHisWeapon = false;
 
 
-            Action EgoDoFireWeapon =
-                delegate
-                {
-                    if (EgoIsReloadingHisWeapon)
-                        return;
 
-                    if (Ego.CurrentWeapon.Ammo <= 0)
-                    {
-                        Sounds.OutOfAmmo.ToSoundAsset().play();
-                        // need ammo
-                        return;
-                    }
-
-                    EgoIsReloadingHisWeapon = true;
-
-                    500.AtDelayDo(() => EgoIsReloadingHisWeapon = false);
-
-
-                    Ego.CurrentWeapon.Type.SoundFire.ToSoundAsset().play();
-
-                    if (EgoFiredWeapon != null)
-                        EgoFiredWeapon(Ego.CurrentWeapon);
-
-
-                    Ego.CurrentWeapon.Ammo--;
-
-
-                    var DamagePointOfOrigin = new Point { x = Ego.x, y = Ego.y };
-                    var DamageDirection = EgoAimDirection;
-
-                    DoSomeDamage(DamagePointOfOrigin, DamageDirection, Ego.CurrentWeapon.Type);
-                };
 
             GetWarzone().mouseWheel +=
                 e =>
@@ -841,6 +813,9 @@ namespace FlashTowerDefense.ActionScript
                 e =>
                 {
                     if (!EgoIsOnTheField())
+                        return;
+
+                    if (!EgoIsAlive())
                         return;
 
                     var p = new Point { x = e.stageX - Ego.x, y = e.stageY - Ego.y };
@@ -877,6 +852,9 @@ namespace FlashTowerDefense.ActionScript
                     if (!EgoIsOnTheField())
                         return;
 
+                    if (!EgoIsAlive())
+                        return;
+
                     var p = new Point { x = e.stageX - Ego.x, y = e.stageY - Ego.y };
 
                     EgoAimDirection = p.GetRotation();
@@ -890,6 +868,9 @@ namespace FlashTowerDefense.ActionScript
                 e =>
                 {
                     if (!EgoMoveToMouseTarget)
+                        return;
+
+                    if (!EgoIsAlive())
                         return;
 
                     if (EgoMoveToMouseTargetAntiDoubleClick != null)
@@ -910,6 +891,9 @@ namespace FlashTowerDefense.ActionScript
                   if (!EgoIsOnTheField())
                       return;
 
+                  if (!EgoIsAlive())
+                      return;
+
                   EgoAimDirection = new Point { x = e.stageX - Ego.x, y = e.stageY - Ego.y }.GetRotation();
 
                   UpdateEgoAim();
@@ -928,7 +912,7 @@ namespace FlashTowerDefense.ActionScript
                     var KeyLeft = new KeyboardButton(stage)
                     {
                         Buttons = new[] { Keyboard.LEFT, Keyboard.A },
-                        Filter = EgoIsOnTheField,
+                        Filter = EgoIsOnTheField.And(EgoIsAlive),
                         Down =
                             delegate
                             {
@@ -941,7 +925,7 @@ namespace FlashTowerDefense.ActionScript
                     var KeyRight = new KeyboardButton(stage)
                     {
                         Buttons = new[] { Keyboard.RIGHT, Keyboard.D },
-                        Filter = EgoIsOnTheField,
+                        Filter = EgoIsOnTheField.And(EgoIsAlive),
                         Down =
                             delegate
                             {
@@ -954,7 +938,7 @@ namespace FlashTowerDefense.ActionScript
                     var KeyUp = new KeyboardButton(stage)
                     {
                         Buttons = new[] { Keyboard.UP, Keyboard.W },
-                        Filter = EgoIsOnTheField,
+                        Filter = EgoIsOnTheField.And(EgoIsAlive),
                         Down =
                             delegate
                             {
@@ -976,7 +960,7 @@ namespace FlashTowerDefense.ActionScript
                     var KeyDown = new KeyboardButton(stage)
                     {
                         Buttons = new[] { Keyboard.DOWN, Keyboard.S },
-                        Filter = EgoIsOnTheField,
+                        Filter = EgoIsOnTheField.And(EgoIsAlive),
                         Down =
                             delegate
                             {
@@ -1018,7 +1002,7 @@ namespace FlashTowerDefense.ActionScript
                     var KeyControl = new KeyboardButton(stage)
                     {
                         Buttons = new[] { Keyboard.CONTROL },
-                        Filter = EgoIsOnTheField,
+                        Filter = EgoIsOnTheField.And(EgoIsAlive),
                         Up = EgoDoFireWeapon
                     };
 
@@ -1026,6 +1010,7 @@ namespace FlashTowerDefense.ActionScript
                     var KeyEnter = new KeyboardButton(stage)
                     {
                         Buttons = new[] { Keyboard.ENTER, Keyboard.F },
+                        Filter = EgoIsAlive,
                         Up =
                             delegate
                             {
@@ -1134,7 +1119,7 @@ namespace FlashTowerDefense.ActionScript
                 };
 
 
-            
+
 
             ReportDays =
                 delegate
@@ -1455,6 +1440,7 @@ namespace FlashTowerDefense.ActionScript
         public readonly Action ToggleMusic;
 
         public readonly Func<bool> EgoIsOnTheField;
+        public readonly Func<bool> EgoIsAlive;
 
         public bool PrebuiltTurretInUse;
 
@@ -1489,6 +1475,7 @@ namespace FlashTowerDefense.ActionScript
         public int InterlevelTimeout = InterlevelTimeoutDefault;
 
         public readonly List<Actor> BadGuys = new List<Actor>();
+        public readonly List<Actor> Barrels = new List<Actor>();
         public readonly List<Func<IEnumerable<Actor>>> GoodGuys = new List<Func<IEnumerable<Actor>>>();
 
         public IEnumerable<Actor> AllMortals
@@ -1498,6 +1485,7 @@ namespace FlashTowerDefense.ActionScript
                 var a = new List<Actor>();
 
                 a.AddRange(BadGuys);
+                a.AddRange(Barrels);
                 a.Add(Ego);
 
                 foreach (var v in GoodGuys)
@@ -1510,6 +1498,132 @@ namespace FlashTowerDefense.ActionScript
         public Action ReportDays;
 
         public Timer ReportDaysTimer;
+
+        double EgoAimDirection = 3.14; // look down
+
+        bool EgoIsReloadingHisWeapon = false;
+
+        public void EgoDoFireWeapon()
+        {
+            if (EgoIsReloadingHisWeapon)
+                return;
+
+            if (Ego.CurrentWeapon.Ammo <= 0)
+            {
+                Sounds.OutOfAmmo.ToSoundAsset().play();
+                // need ammo
+                return;
+            }
+
+            EgoIsReloadingHisWeapon = true;
+
+            500.AtDelayDo(() => EgoIsReloadingHisWeapon = false);
+
+            Ego.CurrentWeapon.Type.SoundFire.ToSoundAsset().play();
+
+            if (EgoFiredWeapon != null)
+                EgoFiredWeapon(Ego.CurrentWeapon);
+
+
+            Ego.CurrentWeapon.Ammo--;
+
+
+            if (Ego.CurrentWeapon.Usage == Weapon.UsageEnum.FireBullets)
+            {
+                //ShowMessage("Bang!");
+
+                var DamagePointOfOrigin = new Point { x = Ego.x, y = Ego.y };
+                var DamageDirection = EgoAimDirection;
+
+                DoSomeDamage(DamagePointOfOrigin, DamageDirection, Ego.CurrentWeapon.Type);
+            }
+            else
+            {
+                //ShowMessage("Deploy!");
+
+                if (Ego.CurrentWeapon.Usage == Weapon.UsageEnum.DeployBarrel)
+                {
+                    //  ShowMessage("Barrel deployed");
+
+                    var barrel = new ExplosiveBarrel
+                        {
+                            ExplosiveMaterialType = Ego.CurrentWeapon.Type
+                        };
+
+                    barrel.HealthChangedToWorse +=
+                        delegate
+                        {
+                            if (!barrel.IsAlive)
+                                return;
+
+                            barrel.filters = new[] { new GlowFilter(ColorRed, 0.3) };
+
+                            500.AtDelayDo(
+                                delegate
+                                {
+                                    if (!barrel.IsAlive)
+                                        return;
+
+                                    barrel.AddDamage(barrel.Health);
+                                    // notify network?
+                                }
+                            );
+                        };
+
+                    barrel.MoveTo(Ego).AttachTo(GetWarzone()).AddTo(Barrels);
+
+                    barrel.Die +=
+                        delegate
+                        {
+                            barrel.RemoveFrom(Barrels).Orphanize();
+
+                            var hole = new Animation(Images.hole_1).MoveTo(barrel).AttachTo(GetWarzone());
+
+                            (10000 + 10000.Random().ToInt32()).AtDelayDo(
+                                 delegate
+                                 {
+                                     hole.Orphanize();
+
+                                     hole = new Animation(Images.hole_2).MoveTo(barrel).AttachTo(GetWarzone());
+                                 },
+                                 delegate
+                                 {
+                                     hole.Orphanize();
+                                 }
+                            );
+
+                            // damage objects around the barrel
+
+                            var Range = barrel.ExplosiveMaterialType.Range;
+
+                            foreach (var v in from i in AllMortals
+                                              let p = i.ToPoint() - barrel.ToPoint()
+                                              where p.length < Range
+                                              select new { i, p })
+                            {
+                                var Damage = barrel.ExplosiveMaterialType.Damage * ((Range - v.p.length) / Range);
+
+                                v.i.AddDamageFromDirection(Damage, v.p.GetRotation());
+                            }
+                         
+                            var a = new Animation(null, Images.Explosions.ani6);
+
+                            a.LastFrame +=
+                                delegate
+                                {
+                                    a.AnimationEnabled = false;
+                                    a.Orphanize();
+                                };
+
+                            
+                            a.MoveTo(barrel).AttachTo(GetWarzone());
+                            a.AnimationEnabled = true;
+                        };
+                }
+                else
+                    ShowMessage("Unknown weapon usage");
+            }
+        }
     }
 
 
