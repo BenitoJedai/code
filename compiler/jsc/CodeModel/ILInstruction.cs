@@ -1647,7 +1647,7 @@ namespace jsc
                 else
                 {
                     if (this == OpCodes.Ldarg_0) return null;
-                        // Debugger.Break();
+                    // Debugger.Break();
 
 
                     if (this == OpCodes.Ldarg_1) return p[0];
@@ -1681,11 +1681,11 @@ namespace jsc
                     return null;
 
                 // 0a ctor
-                if ((OpParamAsInt32 & 0xff000000) != 0x0a000000 && 
+                if ((OpParamAsInt32 & 0xff000000) != 0x0a000000 &&
                     ((OpParamAsInt32 & 0xff000000) != 0x06000000) &&
                     ((OpParamAsInt32 & 0xff000000) != 0x2b000000))
                     return null;
-                
+
                 Type[] ma = (OwnerMethod.IsGenericMethod) ? OwnerMethod.GetGenericArguments() : null;
 
 
@@ -1694,7 +1694,7 @@ namespace jsc
                 {
 
                     // OwnerMethod.Module.Assembly.ModuleResolve += new ModuleResolveEventHandler(Assembly_ModuleResolve);
-                    
+
                     MethodBase x = OwnerMethod.Module.ResolveMethod(OpParamAsInt32,
                         OwnerMethod.DeclaringType.GetGenericArguments(),
                         ma);
@@ -1840,7 +1840,7 @@ namespace jsc
                     }
                     catch
                     {
-                        Debugger.Break();
+                        //Debugger.Break();
 
                         return null;
                     }
@@ -1860,7 +1860,7 @@ namespace jsc
             return false;
         }
 
-  
+
         public bool IsLoadLocal
         {
             get
@@ -1957,6 +1957,16 @@ namespace jsc
             }
         }
 
+        public Type GetNewArrayElementType()
+        {
+            if (OpCode == OpCodes.Newarr)
+                return TargetType;
+
+            if (OpCode == OpCodes.Dup)
+                return StackBeforeStrict.Single().SingleStackInstruction.GetNewArrayElementType();
+
+            return null;
+        }
         /// <summary>
         /// returns ctor, parameter,  var, field, method type
         /// </summary>
@@ -1964,6 +1974,10 @@ namespace jsc
         {
             get
             {
+                if (OpCode == OpCodes.Dup)
+                {
+                    return this.StackBeforeStrict.Single().SingleStackInstruction.ReferencedType;
+                }
 
                 Type cexc = null;
 
@@ -1984,6 +1998,11 @@ namespace jsc
                     cexc = this.TargetField.FieldType;
 
                 }
+                //else if (this.TargetType != null)
+                //{
+                //    cexc = this.TargetType;
+
+                //}
                 else if (this.TargetMethod != null)
                 {
                     cexc = this.TargetMethod.ReturnParameter.ParameterType;
@@ -2067,10 +2086,10 @@ namespace jsc
 
                 Type[] ma = (OwnerMethod.IsGenericMethod) ? OwnerMethod.GetGenericArguments() : null;
 
-            
-               // if ((OpParamAsInt32 & 0xff000000) != 0x0a000000 &&
-               //((OpParamAsInt32 & 0xff000000) != 0x04000000))
-               //     return null;
+
+                // if ((OpParamAsInt32 & 0xff000000) != 0x0a000000 &&
+                //((OpParamAsInt32 & 0xff000000) != 0x04000000))
+                //     return null;
 
                 try
                 {
@@ -2463,7 +2482,7 @@ namespace jsc
             return m.DeclaringType == this.TargetConstructor.DeclaringType;
         }
 
-    
+
 
         public bool IsOpCodeOf(params OpCode[] e)
         {

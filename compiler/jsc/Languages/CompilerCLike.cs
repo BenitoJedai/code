@@ -288,23 +288,50 @@ namespace jsc.Script
                             #region SupportsCustomArrayEnumerator
                             if (SupportsCustomArrayEnumerator)
                             {
+                                var ParameterGeneric = parameter.ParameterType.IsGenericType ? parameter.ParameterType.GetGenericTypeDefinition() : null;
+                                var SupportsIEnumerable = ParameterGeneric != null && (ParameterGeneric == typeof(IEnumerable<>) || ParameterGeneric.IsSubclassOf(typeof(IEnumerable<>)));
 
-                                var SingleStackInstruction = s[si].SingleStackInstruction;
-                                if (SingleStackInstruction != null)
+                                if (!parameter.ParameterType.IsArray && SupportsIEnumerable)
                                 {
-                                    var ReferencedType = SingleStackInstruction.ReferencedType;
-                                    if (ReferencedType != null && ReferencedType.IsArray)
-                                    {
-                                        var ElementType = ReferencedType.GetElementType();
-                                        var Enumerable = typeof(IEnumerable<>).MakeGenericType(ElementType);
 
-                                        if (Enumerable.GUID == parameter.ParameterType.GUID)
+                                    #region Cast To IEnumerable
+
+                                    var SingleStackInstruction = s[si].SingleStackInstruction;
+                                    if (SingleStackInstruction != null)
+                                    {
+                                        var ElementType = SingleStackInstruction.GetNewArrayElementType();
+
+
+                                        if (ElementType == null)
                                         {
-                                            WriteArrayToCustomArrayEnumeratorCast(Enumerable, ElementType, p, s[si]);
-                                            continue;
+                                            var ReferencedType = SingleStackInstruction.ReferencedType;
+                                            if ((ReferencedType != null && ReferencedType.IsArray))
+                                            {
+                                                ElementType = ReferencedType.GetElementType();
+                                            }
                                         }
+                                        else
+                                        {
+                                            // this is a new array
+                                        }
+
+                                        if (ElementType != null)
+                                        {
+                                            var Enumerable = typeof(IEnumerable<>).MakeGenericType(ElementType);
+
+                                            if (Enumerable.GUID == parameter.ParameterType.GUID)
+                                            {
+                                                WriteArrayToCustomArrayEnumeratorCast(Enumerable, ElementType, p, s[si]);
+                                                continue;
+                                            }
+                                        }
+
+
                                     }
+                                    #endregion
+
                                 }
+
                             }
                             #endregion
 

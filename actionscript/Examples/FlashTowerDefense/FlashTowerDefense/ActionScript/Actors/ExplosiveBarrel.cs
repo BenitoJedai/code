@@ -22,7 +22,7 @@ namespace FlashTowerDefense.ActionScript.Actors
             }
         }
 
-        public WeaponInfo ExplosiveMaterialType;
+        public Weapon ExplosiveMaterialType;
 
         public ExplosiveBarrel()
             : base(frames, null, null, Sounds.explosion)

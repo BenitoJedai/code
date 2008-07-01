@@ -487,10 +487,6 @@ namespace jsc.Languages.ActionScript
                 CIW[OpCodes.Conv_I2] = f("int");
                 CIW[OpCodes.Conv_I4] = f("int");
 
-
-                // CIW[OpCodes.Conv_I8] = e => ConvertTypeAndEmit(e, "long");
-                // CIW[OpCodes.Conv_U8] = e => ConvertTypeAndEmit(e, "long");
-
                 CIW[OpCodes.Conv_R4] = f("Number");
                 CIW[OpCodes.Conv_R8] = f("Number");
                 CIW[OpCodes.Conv_I8] = f("Number");
@@ -570,6 +566,8 @@ namespace jsc.Languages.ActionScript
                             var Length = (int)e.i.StackBeforeStrict.First().SingleStackInstruction.TargetInteger;
                             var Type = e.i.TargetType;
 
+                            // Conversion To IEnumrable
+
                             if (Type == typeof(int))
                             {
                                 var Values = StructAsInt32Array(e.i.NextInstruction.NextInstruction.TargetField.GetValue(null));
@@ -584,8 +582,23 @@ namespace jsc.Languages.ActionScript
                                 }
                                 Write("]");
                             }
+                            else if (Type == typeof(uint))
+                            {
+                                var Values = StructAsUInt32Array(e.i.NextInstruction.NextInstruction.TargetField.GetValue(null));
+
+                                Write("[");
+                                for (int i = 0; i < Values.Length; i++)
+                                {
+                                    if (i > 0)
+                                        Write(", ");
+
+                                    Write(Values[i].ToString());
+                                }
+                                Write("]");
+                            }
                             else
                                 throw new NotImplementedException();
+
 
 
 
@@ -710,6 +723,7 @@ namespace jsc.Languages.ActionScript
                 e =>
                 {
                     if (e.i.StackBeforeStrict.Length == 0)
+                        // throw skip statement instead?
                         return;
 
                     EmitFirstOnStack(e);

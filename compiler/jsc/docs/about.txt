@@ -105,3 +105,6 @@ version history:
 28.06.2008
 	actionscript: added Ldelem_R8, Conv_U opcode
 	actionscript: fixed newarr opcode
+01.06.2008
+	actionscript: added uint array init support
+	actionscript: fixed array to IEnumrable auto cast for Opcodes.newarr

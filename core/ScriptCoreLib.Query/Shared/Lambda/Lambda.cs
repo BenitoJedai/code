@@ -8,6 +8,25 @@ namespace ScriptCoreLib.Shared.Lambda
     [Script]
     public static partial class LambdaExtensions
     {
+        public static T AtOrDefault<T>(this IEnumerable<T> a, int i, T value)
+        {
+            var j = 0;
+            var r = value;
+
+            foreach (var v in a)
+            {
+                if (j == i)
+                {
+                    r = v;
+                    break;
+                }
+
+                j++;
+            }
+
+            return r;
+        }
+
         public static Func<bool> And(this Func<bool> a, Func<bool> b)
         {
             return () => a() && b();

@@ -208,6 +208,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\RuntimeTypeHandle.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Runtime\CompilerServices\RuntimeHelpers.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\String.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -228,7 +229,7 @@
     <Compile Include="ActionScript\Extensions\DynamicContainer.cs" />
     <Compile Include="ActionScript\Extensions\flash\display\LoaderInfo.cs" />
     <Compile Include="ActionScript\Extensions\flash\display\Stage.cs" />
-    <Compile Include="ActionScript\Extensions\flash\geom\Class.cs" />
+    <Compile Include="ActionScript\Extensions\flash\geom\Point.cs" />
     <Compile Include="ActionScript\Extensions\flash\media\Camera.cs" />
     <Compile Include="ActionScript\Extensions\flash\media\Microphone.cs" />
     <Compile Include="ActionScript\Extensions\flash\media\SoundChannel.cs" />

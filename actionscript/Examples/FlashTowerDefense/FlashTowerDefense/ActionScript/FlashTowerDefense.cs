@@ -424,12 +424,23 @@ namespace FlashTowerDefense.ActionScript
                         {
                             var WeaponToAddAmmoTo = Ego.Weapons.FirstOrDefault(i => i.NetworkId == BoxToTake.WeaponInside.NetworkId);
 
+                            Action<Weapon> ChangeWeaponIfNeeded =
+                                w =>
+                                {
+                                    if (Ego.CurrentWeapon.SelectMode != w.SelectMode)
+                                        return;
+
+                                    if (Ego.CurrentWeapon.Ammo > 0)
+                                        return;
+
+                                    Ego.CurrentWeapon = w;
+                                };
+
                             if (WeaponToAddAmmoTo == null)
                             {
                                 Ego.Weapons.Add(BoxToTake.WeaponInside);
 
-                                if (Ego.CurrentWeapon.SelectMode == BoxToTake.WeaponInside.SelectMode)
-                                    Ego.CurrentWeapon = BoxToTake.WeaponInside;
+                                ChangeWeaponIfNeeded(BoxToTake.WeaponInside);
 
                                 ShowMessage("You found " + BoxToTake.WeaponInside.Name);
                             }
@@ -440,8 +451,7 @@ namespace FlashTowerDefense.ActionScript
 
                                 WeaponToAddAmmoTo.Ammo += BoxToTake.WeaponInside.Ammo;
 
-                                if (Ego.CurrentWeapon.SelectMode == WeaponToAddAmmoTo.SelectMode)
-                                    Ego.CurrentWeapon = WeaponToAddAmmoTo;
+                                ChangeWeaponIfNeeded(WeaponToAddAmmoTo);
 
                             }
 
@@ -908,6 +918,56 @@ namespace FlashTowerDefense.ActionScript
                     //stage.scaleMode = StageScaleMode.NO_BORDER;
 
                     // multiplay ?
+
+                    
+                    var WeaponShortcutButtons = new[]
+                    {
+                        Keyboard.NUMBER_1,
+                        Keyboard.NUMBER_2,
+                        Keyboard.NUMBER_3,
+                        Keyboard.NUMBER_4,
+                        Keyboard.NUMBER_5,
+                        Keyboard.NUMBER_6,
+                        Keyboard.NUMBER_7,
+                        Keyboard.NUMBER_8,
+                        Keyboard.NUMBER_9,
+                        Keyboard.NUMBER_0,
+                    }.Select(
+                        (Button, Index) =>
+                            new KeyboardButton(stage)
+                            {
+                                Buttons = new[] { Button },
+                                Filter = EgoIsAlive,
+                                Up = () => Ego.CurrentWeapon = Ego.OtherWeaponsLikeCurrent.AtOrDefault(Index, Ego.CurrentWeapon)
+                            }
+                    ).ToArray();
+
+                    var KeySpace = new KeyboardButton(stage)
+                     {
+                         Buttons = new[] { Keyboard.SPACE },
+                         Filter = EgoIsOnTheField.And(EgoIsAlive),
+                         Up =
+                             delegate
+                             {
+                                 // car brakes, open door, take item
+
+                                 foreach (var BarrelToTake in this.Barrels.Where(i => (i.ToPoint() - Ego.ToPoint()).length < 32))
+                                 {
+
+                                     var w = Ego.Weapons.SingleOrDefault(i => i.NetworkId == BarrelToTake.ExplosiveMaterialType.NetworkId);
+
+                                     if (w != null)
+                                     {
+                                         BarrelToTake.RemoveFrom(Barrels).Orphanize();
+
+                                         w.Ammo += BarrelToTake.ExplosiveMaterialType.Ammo;
+
+                                         Sounds.sound20.ToSoundAsset().play();
+                                     }
+                                 }
+                             }
+                     };
+
 
                     var KeyLeft = new KeyboardButton(stage)
                     {
@@ -1475,7 +1535,7 @@ namespace FlashTowerDefense.ActionScript
         public int InterlevelTimeout = InterlevelTimeoutDefault;
 
         public readonly List<Actor> BadGuys = new List<Actor>();
-        public readonly List<Actor> Barrels = new List<Actor>();
+        public readonly List<ExplosiveBarrel> Barrels = new List<ExplosiveBarrel>();
         public readonly List<Func<IEnumerable<Actor>>> GoodGuys = new List<Func<IEnumerable<Actor>>>();
 
         public IEnumerable<Actor> AllMortals
@@ -1485,7 +1545,12 @@ namespace FlashTowerDefense.ActionScript
                 var a = new List<Actor>();
 
                 a.AddRange(BadGuys);
-                a.AddRange(Barrels);
+
+                foreach (var v in Barrels)
+                {
+                    a.Add(v);
+                }
+
                 a.Add(Ego);
 
                 foreach (var v in GoodGuys)
@@ -1547,8 +1612,11 @@ namespace FlashTowerDefense.ActionScript
 
                     var barrel = new ExplosiveBarrel
                         {
-                            ExplosiveMaterialType = Ego.CurrentWeapon.Type
+                            ExplosiveMaterialType = Ego.CurrentWeapon.Clone(),
+                            
                         };
+
+                    barrel.ExplosiveMaterialType.Ammo = 1;
 
                     barrel.HealthChangedToWorse +=
                         delegate
@@ -1594,18 +1662,18 @@ namespace FlashTowerDefense.ActionScript
 
                             // damage objects around the barrel
 
-                            var Range = barrel.ExplosiveMaterialType.Range;
+                            var Range = barrel.ExplosiveMaterialType.Type.Range;
 
                             foreach (var v in from i in AllMortals
                                               let p = i.ToPoint() - barrel.ToPoint()
                                               where p.length < Range
                                               select new { i, p })
                             {
-                                var Damage = barrel.ExplosiveMaterialType.Damage * ((Range - v.p.length) / Range);
+                                var Damage = barrel.ExplosiveMaterialType.Type.Damage * ((Range - v.p.length) / Range);
 
                                 v.i.AddDamageFromDirection(Damage, v.p.GetRotation());
                             }
-                         
+
                             var a = new Animation(null, Images.Explosions.ani6);
 
                             a.LastFrame +=
@@ -1615,7 +1683,7 @@ namespace FlashTowerDefense.ActionScript
                                     a.Orphanize();
                                 };
 
-                            
+
                             a.MoveTo(barrel).AttachTo(GetWarzone());
                             a.AnimationEnabled = true;
                         };
