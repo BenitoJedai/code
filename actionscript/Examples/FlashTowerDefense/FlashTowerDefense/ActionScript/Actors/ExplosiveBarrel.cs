@@ -25,11 +25,12 @@ namespace FlashTowerDefense.ActionScript.Actors
         public Weapon ExplosiveMaterialType;
 
         public ExplosiveBarrel()
-            : base(frames, null, null, Sounds.explosion)
+            : base(frames, null, null, null)
         {
-
+            
             CanMakeFootsteps = false;
-            Health = 50;
+            MaxHealth = 300;
+            Health = 300;
 
             ActorName = "ExplosiveBarrel";
 

@@ -11,7 +11,7 @@ using FlashTowerDefense.ActionScript.Assets;
 namespace FlashTowerDefense.ActionScript.Actors
 {
     [Script]
-    class Sheep : Actor
+    public class Sheep : Actor
     {
         static Bitmap[] frames
         {

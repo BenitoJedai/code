@@ -22,9 +22,9 @@ namespace FlashTowerDefense.ActionScript.Client
 {
 
 
-    partial class FlashTowerDefenseClient 
+    partial class FlashTowerDefenseClient
     {
- 
+
         private SharedClass1.RemoteEvents InitializeEvents()
         {
             var NetworkEvents = new SharedClass1.RemoteEvents();
@@ -38,7 +38,27 @@ namespace FlashTowerDefense.ActionScript.Client
                 e =>
                     WeaponInfo.PredefinedWeaponTypes.Single(i => i.NetworkId == e.weapon).SoundFire.ToSoundAsset().play();
 
-            
+            NetworkEvents.UserDeployExplosiveBarrel +=
+                e =>
+                {
+                    Map.CreateExplosiveBarrel(
+                        Weapon.PredefinedWeapons.Single(i => i.NetworkId == e.weapon),
+                        new Point { x = e.x, y = e.y },
+                        e.barrel,
+                        FlashTowerDefense.NetworkMode.Remote
+                        );
+                };
+
+            NetworkEvents.UserUndeployExplosiveBarrel +=
+                e =>
+                {
+                    foreach (var v in Map.Barrels.Where(i => i.NetworkId == e.barrel))
+                    {
+                        v.RemoveFrom(Map.Barrels).Orphanize();
+                    }
+
+
+                };
 
             NetworkEvents.UserTakeBox +=
                 e =>
@@ -155,8 +175,17 @@ namespace FlashTowerDefense.ActionScript.Client
                 {
                     foreach (var v in Map.AllMortals.Where(i => i.NetworkId == e.target))
                     {
-                        
+
                         v.AddDamageFromDirection(e.damage, e.arc.DegreesToRadians());
+                    }
+                };
+
+            NetworkEvents.UserAddDamage +=
+                e =>
+                {
+                    foreach (var v in Map.AllMortals.Where(i => i.NetworkId == e.target))
+                    {
+                        v.AddDamage(e.damage);
                     }
                 };
 
@@ -206,14 +235,14 @@ namespace FlashTowerDefense.ActionScript.Client
                     Map.ShowMessage("Player joined: " + n.NetworkName + " #" + n.NetworkId);
 
                     this.NetworkMessages.PlayerAdvertise(Map.Ego.NetworkId);
-                    
+
                     BroadcastTeleportTo();
                 };
 
             NetworkEvents.ServerPlayerAdvertise +=
                 e =>
                 {
-                    
+
                     if (!Players.Any(n => n.NetworkId == e.user))
                     {
                         var name = e.name;
@@ -261,7 +290,7 @@ namespace FlashTowerDefense.ActionScript.Client
                 NetworkId = id,
                 x = 100 + 100.Random(),
                 y = 100 + 100.Random(),
-                filters = new [] { new GlowFilter(0x8080ff) }
+                filters = new[] { new GlowFilter(0x8080ff) }
             }.AddTo(Players).AttachTo(Map.GetWarzone());
 
             n.Die +=

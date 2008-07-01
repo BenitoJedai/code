@@ -33,7 +33,7 @@ pushd ..\bin\debug\web
 
 
 ::call :build %1 %2
-call :build "FlashTowerDefense/ActionScript/Client" FlashTowerDefenseClient
+::call :build "FlashTowerDefense/ActionScript/Client" FlashTowerDefenseClient
 
 call :build "FlashTowerDefense/ActionScript/Client/Monetized" MochiPreloader
 

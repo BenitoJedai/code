@@ -149,6 +149,12 @@ namespace FlashTowerDefense.ActionScript
             return e;
         }
 
+
+        public static T MoveTo<T>(this T e, Point i) where T : DisplayObject
+        {
+            return e.MoveTo(i.x, i.y);
+        }
+
         public static T MoveTo<T>(this T e, DisplayObject i) where T : DisplayObject
         {
             return e.MoveTo(i.x, i.y);
@@ -203,6 +209,9 @@ namespace FlashTowerDefense.ActionScript
 
         public static Action ToAction(this Sound c)
         {
+            if (c == null)
+                return delegate { };
+
             return delegate { c.play(); };
         }
 

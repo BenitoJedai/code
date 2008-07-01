@@ -85,5 +85,44 @@ namespace FlashTowerDefense.ActionScript.Actors
         }
         #endregion
 
+        public event Action<Weapon> FoundNewWeapon;
+        public event Action<Weapon> FoundMoreAmmo;
+
+        public void AddWeapon(Weapon weapon)
+        {
+            var WeaponToAddAmmoTo = this.Weapons.FirstOrDefault(i => i.NetworkId == weapon.NetworkId);
+
+            Action<Weapon> ChangeWeaponIfNeeded =
+                w =>
+                {
+                    if (this.CurrentWeapon.SelectMode != w.SelectMode)
+                        return;
+
+                    if (this.CurrentWeapon.Ammo > 0)
+                        return;
+
+                    this.CurrentWeapon = w;
+                };
+
+            if (WeaponToAddAmmoTo == null)
+            {
+                this.Weapons.Add(weapon);
+
+                ChangeWeaponIfNeeded(weapon);
+
+                if (FoundNewWeapon != null)
+                    FoundNewWeapon(weapon);
+            }
+            else
+            {
+                WeaponToAddAmmoTo.Ammo += weapon.Ammo;
+
+                ChangeWeaponIfNeeded(WeaponToAddAmmoTo);
+
+                if (FoundMoreAmmo != null)
+                    FoundMoreAmmo(weapon);
+
+            }
+        }
     }
 }

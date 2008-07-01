@@ -376,6 +376,13 @@ namespace FlashTowerDefense.ActionScript
 
             EgoMovedSlowTimer = new Timer(200, 1);
 
+            Ego.FoundNewWeapon +=
+                weapon => ShowMessage("You found " + weapon.Name);
+
+            Ego.FoundMoreAmmo +=
+                weapon => ShowMessage("Got ammo for " + weapon.Name);
+
+
             var EgoMoveUpTimer = (1000 / 30).AtInterval(
                 delegate
                 {
@@ -415,47 +422,30 @@ namespace FlashTowerDefense.ActionScript
                         {
                             // add stuff, so the player doesn't get bored:D
                             // maybe implment them too? see Diablo.
-                            var PowerUps = new[] { "Defense", "Mana", "Dexerity", "Experience", "Stamina", "Strength", "Life", "Replenish Life" };
+                            var PowerUps = new[] { 
+                                // gta
+                                "Double Damage", 
+                                "Fast Reload", 
+                                "Respect",
+                                "Armour",
+
+                                // diablo
+                                "Defense", 
+                                "Mana", 
+                                "Dexerity", 
+                                "Experience", 
+                                "Stamina", 
+                                "Strength", 
+                                "Life", 
+                                "Replenish Life" 
+                            };
 
 
                             ShowMessage("+1 " + PowerUps.Random());
                         }
                         else
                         {
-                            var WeaponToAddAmmoTo = Ego.Weapons.FirstOrDefault(i => i.NetworkId == BoxToTake.WeaponInside.NetworkId);
-
-                            Action<Weapon> ChangeWeaponIfNeeded =
-                                w =>
-                                {
-                                    if (Ego.CurrentWeapon.SelectMode != w.SelectMode)
-                                        return;
-
-                                    if (Ego.CurrentWeapon.Ammo > 0)
-                                        return;
-
-                                    Ego.CurrentWeapon = w;
-                                };
-
-                            if (WeaponToAddAmmoTo == null)
-                            {
-                                Ego.Weapons.Add(BoxToTake.WeaponInside);
-
-                                ChangeWeaponIfNeeded(BoxToTake.WeaponInside);
-
-                                ShowMessage("You found " + BoxToTake.WeaponInside.Name);
-                            }
-                            else
-                            {
-                                ShowMessage("Got ammo for " + BoxToTake.WeaponInside.Name);
-
-
-                                WeaponToAddAmmoTo.Ammo += BoxToTake.WeaponInside.Ammo;
-
-                                ChangeWeaponIfNeeded(WeaponToAddAmmoTo);
-
-                            }
-
-
+                            Ego.AddWeapon(BoxToTake.WeaponInside);
                         }
 
                         if (NetworkTakeCrate != null)
@@ -919,7 +909,7 @@ namespace FlashTowerDefense.ActionScript
 
                     // multiplay ?
 
-                    
+
                     var WeaponShortcutButtons = new[]
                     {
                         Keyboard.NUMBER_1,
@@ -951,19 +941,17 @@ namespace FlashTowerDefense.ActionScript
                              {
                                  // car brakes, open door, take item
 
+                                 // Add Ammo
+
                                  foreach (var BarrelToTake in this.Barrels.Where(i => (i.ToPoint() - Ego.ToPoint()).length < 32))
                                  {
+                                     Sounds.sound20.ToSoundAsset().play();
+                                     Ego.AddWeapon(BarrelToTake.ExplosiveMaterialType);
+                                     BarrelToTake.RemoveFrom(Barrels).Orphanize();
 
-                                     var w = Ego.Weapons.SingleOrDefault(i => i.NetworkId == BarrelToTake.ExplosiveMaterialType.NetworkId);
+                                     if (NetworkUndeployExplosiveBarrel != null)
+                                         NetworkUndeployExplosiveBarrel(BarrelToTake.NetworkId);
 
-                                     if (w != null)
-                                     {
-                                         BarrelToTake.RemoveFrom(Barrels).Orphanize();
-
-                                         w.Ammo += BarrelToTake.ExplosiveMaterialType.Ammo;
-
-                                         Sounds.sound20.ToSoundAsset().play();
-                                     }
                                  }
                              }
                      };
@@ -1521,6 +1509,7 @@ namespace FlashTowerDefense.ActionScript
 
         public event Action<int /* x */, int /* y */, int /* arc */, int /* weapon */> NetworkShowBulletsFlying;
         public event Action<int, int, int> NetworkAddDamageFromDirection;
+        public event Action<int, int> NetworkAddDamage;
         public event Action<int> NetworkTakeCrate;
 
 
@@ -1609,89 +1598,154 @@ namespace FlashTowerDefense.ActionScript
                 if (Ego.CurrentWeapon.Usage == Weapon.UsageEnum.DeployBarrel)
                 {
                     //  ShowMessage("Barrel deployed");
+                    var Target = Ego.ToPoint();
 
-                    var barrel = new ExplosiveBarrel
-                        {
-                            ExplosiveMaterialType = Ego.CurrentWeapon.Clone(),
-                            
-                        };
+                    var BarrelId = int.MaxValue.Random().ToInt32();
 
-                    barrel.ExplosiveMaterialType.Ammo = 1;
+                    if (NetworkDeployExplosiveBarrel != null)
+                        NetworkDeployExplosiveBarrel(Ego.CurrentWeapon.NetworkId, BarrelId, Target.x.ToInt32(), Target.y.ToInt32());
 
-                    barrel.HealthChangedToWorse +=
-                        delegate
-                        {
-                            if (!barrel.IsAlive)
-                                return;
-
-                            barrel.filters = new[] { new GlowFilter(ColorRed, 0.3) };
-
-                            500.AtDelayDo(
-                                delegate
-                                {
-                                    if (!barrel.IsAlive)
-                                        return;
-
-                                    barrel.AddDamage(barrel.Health);
-                                    // notify network?
-                                }
-                            );
-                        };
-
-                    barrel.MoveTo(Ego).AttachTo(GetWarzone()).AddTo(Barrels);
-
-                    barrel.Die +=
-                        delegate
-                        {
-                            barrel.RemoveFrom(Barrels).Orphanize();
-
-                            var hole = new Animation(Images.hole_1).MoveTo(barrel).AttachTo(GetWarzone());
-
-                            (10000 + 10000.Random().ToInt32()).AtDelayDo(
-                                 delegate
-                                 {
-                                     hole.Orphanize();
-
-                                     hole = new Animation(Images.hole_2).MoveTo(barrel).AttachTo(GetWarzone());
-                                 },
-                                 delegate
-                                 {
-                                     hole.Orphanize();
-                                 }
-                            );
-
-                            // damage objects around the barrel
-
-                            var Range = barrel.ExplosiveMaterialType.Type.Range;
-
-                            foreach (var v in from i in AllMortals
-                                              let p = i.ToPoint() - barrel.ToPoint()
-                                              where p.length < Range
-                                              select new { i, p })
-                            {
-                                var Damage = barrel.ExplosiveMaterialType.Type.Damage * ((Range - v.p.length) / Range);
-
-                                v.i.AddDamageFromDirection(Damage, v.p.GetRotation());
-                            }
-
-                            var a = new Animation(null, Images.Explosions.ani6);
-
-                            a.LastFrame +=
-                                delegate
-                                {
-                                    a.AnimationEnabled = false;
-                                    a.Orphanize();
-                                };
-
-
-                            a.MoveTo(barrel).AttachTo(GetWarzone());
-                            a.AnimationEnabled = true;
-                        };
+                    CreateExplosiveBarrel(Ego.CurrentWeapon, Target, BarrelId, NetworkMode.Local);
                 }
                 else
                     ShowMessage("Unknown weapon usage");
             }
         }
+
+        public event Action<int, int, int, int> NetworkDeployExplosiveBarrel;
+        public event Action<int> NetworkUndeployExplosiveBarrel;
+
+        public enum NetworkMode
+        {
+            /// <summary>
+            /// emits damage to nearby objects
+            /// </summary>
+            Local,
+
+            /// <summary>
+            /// does not calculate any damage
+            /// </summary>
+            Remote
+        }
+
+        public void CreateExplosiveBarrel(Weapon weapon, Point Target, int BarrelId, NetworkMode Mode)
+        {
+            // fixme: Weapon Weapon - cannot have this.
+
+
+            var barrel = new ExplosiveBarrel
+            {
+                ExplosiveMaterialType = weapon.Clone(),
+                NetworkId = BarrelId
+            };
+
+            barrel.ExplosiveMaterialType.Ammo = 1;
+
+            var DamageTaken = false;
+
+            barrel.HealthChangedToWorse +=
+                delegate
+                {
+                    if (!barrel.IsAlive)
+                        return;
+
+                    if (DamageTaken)
+                        return;
+
+                    barrel.filters = new[] { new GlowFilter(ColorRed, 0.3) };
+
+                    DamageTaken = true;
+
+                    if (Mode == NetworkMode.Local)
+                        500.AtDelayDo(
+                            delegate
+                            {
+                                if (!barrel.IsAlive)
+                                    return;
+
+                                var Damage = barrel.Health.ToInt32() + 1;
+
+                                if (this.NetworkAddDamage != null)
+                                    this.NetworkAddDamage(barrel.NetworkId, Damage);
+
+                                barrel.AddDamage(Damage);
+
+                                // notify network?
+                            }
+                        );
+                };
+
+
+            barrel.Die +=
+                delegate
+                {
+                    barrel.RemoveFrom(Barrels).Orphanize();
+
+                    #region hole
+                    var hole = new Animation(Images.hole_1).MoveTo(barrel).AttachTo(GetWarzone());
+
+                    (10000 + 10000.Random().ToInt32()).AtDelayDo(
+                         delegate
+                         {
+                             hole.Orphanize();
+
+                             hole = new Animation(Images.hole_2).MoveTo(barrel).AttachTo(GetWarzone());
+                         },
+                         delegate
+                         {
+                             hole.Orphanize();
+                         }
+                    );
+                    #endregion
+
+                    // damage objects around the barrel
+
+                    var ExplosiveWeapon = barrel.ExplosiveMaterialType;
+
+                    CreateExplosion(ExplosiveWeapon.Type, barrel.ToPoint(), Mode);
+                };
+
+            barrel.MoveTo(Target).AttachTo(GetWarzone()).AddTo(Barrels);
+
+        }
+
+        public void CreateExplosion(WeaponInfo ExplosiveWeaponType, Point Target, NetworkMode Mode)
+        {
+            Sounds.explosion.ToSoundAsset().play();
+
+            if (Mode == NetworkMode.Local)
+            {
+                var Range = ExplosiveWeaponType.Range;
+
+                foreach (var v in from i in AllMortals
+                                  let p = i.ToPoint() - Target
+                                  where p.length < Range
+                                  select new { i, p })
+                {
+                    var Damage = (ExplosiveWeaponType.Damage * ((Range - v.p.length) / Range)).ToInt32();
+
+                    if (NetworkAddDamageFromDirection != null)
+                        NetworkAddDamageFromDirection(v.i.NetworkId, Damage, v.p.GetRotation().RadiansToDegrees());
+
+                    v.i.AddDamageFromDirection(Damage, v.p.GetRotation());
+                }
+            }
+
+            var a = new Animation(null, Images.Explosions.ani6);
+
+            a.LastFrame +=
+                delegate
+                {
+                    a.AnimationEnabled = false;
+                    a.Orphanize();
+                };
+
+
+            a.MoveTo(Target).AttachTo(GetWarzone());
+            a.AnimationEnabled = true;
+        }
+
+
     }
 
 

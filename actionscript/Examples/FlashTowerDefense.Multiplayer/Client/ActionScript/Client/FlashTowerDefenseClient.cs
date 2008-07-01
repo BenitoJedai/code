@@ -205,10 +205,14 @@ namespace FlashTowerDefense.ActionScript.Client
                     Map.GameInterlevelEnd += () => NetworkMessages.ReadyForServerRandomNumbers();
 
                     Map.NetworkAddDamageFromDirection += NetworkMessages.AddDamageFromDirection;
+                    Map.NetworkAddDamage += NetworkMessages.AddDamage;
 
                     Map.NetworkTakeCrate += Id => NetworkMessages.TakeBox(Id);
                     Map.NetworkShowBulletsFlying += NetworkMessages.ShowBulletsFlying;
-                    
+
+                    Map.NetworkDeployExplosiveBarrel += NetworkMessages.DeployExplosiveBarrel;
+                    Map.NetworkUndeployExplosiveBarrel += NetworkMessages.UndeployExplosiveBarrel;
+
 
                     500.AtIntervalDo(NetworkMessages.Ping);
 

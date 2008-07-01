@@ -8,11 +8,11 @@ using ScriptCoreLib.ActionScript.flash.filters;
 namespace FlashTowerDefense.ActionScript.Actors
 {
     [Script]
-    public class NuclearWarrior : Warrior
+    public class NuclearSheep : Sheep
     {
-        public NuclearWarrior()
+        public NuclearSheep()
         {
-            ActorName = "NuclearWarrior";
+            ActorName = "NuclearSheep";
             ScoreValue = 3;
 
             MaxHealth = 200;

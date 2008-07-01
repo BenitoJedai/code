@@ -43,6 +43,8 @@ namespace FlashTowerDefense.Shared
             StartMachineGun,
             StopMachineGun,
             Ping,
+            AddDamage,
+            UserAddDamage,
             AddDamageFromDirection,
             UserAddDamageFromDirection,
             ShowBulletsFlying,
@@ -54,6 +56,10 @@ namespace FlashTowerDefense.Shared
             PlayerResurrect,
             UserPlayerResurrect,
             ServerPlayerAdvertise,
+            UndeployExplosiveBarrel,
+            UserUndeployExplosiveBarrel,
+            DeployExplosiveBarrel,
+            UserDeployExplosiveBarrel,
         }
         #endregion
 
@@ -166,6 +172,14 @@ namespace FlashTowerDefense.Shared
             {
                 Send(new SendArguments { i = Messages.Ping, args = new object[] { } });
             }
+            public void AddDamage(int target, int damage)
+            {
+                Send(new SendArguments { i = Messages.AddDamage, args = new object[] { target, damage } });
+            }
+            public void UserAddDamage(int user, int target, int damage)
+            {
+                Send(new SendArguments { i = Messages.UserAddDamage, args = new object[] { user, target, damage } });
+            }
             public void AddDamageFromDirection(int target, int damage, int arc)
             {
                 Send(new SendArguments { i = Messages.AddDamageFromDirection, args = new object[] { target, damage, arc } });
@@ -209,6 +223,22 @@ namespace FlashTowerDefense.Shared
             public void ServerPlayerAdvertise(int user, string name, int ego)
             {
                 Send(new SendArguments { i = Messages.ServerPlayerAdvertise, args = new object[] { user, name, ego } });
+            }
+            public void UndeployExplosiveBarrel(int barrel)
+            {
+                Send(new SendArguments { i = Messages.UndeployExplosiveBarrel, args = new object[] { barrel } });
+            }
+            public void UserUndeployExplosiveBarrel(int user, int barrel)
+            {
+                Send(new SendArguments { i = Messages.UserUndeployExplosiveBarrel, args = new object[] { user, barrel } });
+            }
+            public void DeployExplosiveBarrel(int weapon, int barrel, int x, int y)
+            {
+                Send(new SendArguments { i = Messages.DeployExplosiveBarrel, args = new object[] { weapon, barrel, x, y } });
+            }
+            public void UserDeployExplosiveBarrel(int user, int weapon, int barrel, int x, int y)
+            {
+                Send(new SendArguments { i = Messages.UserDeployExplosiveBarrel, args = new object[] { user, weapon, barrel, x, y } });
             }
         }
         #endregion
@@ -524,6 +554,35 @@ namespace FlashTowerDefense.Shared
             #endregion
 
             public event Action<PingArguments> Ping;
+            #region AddDamageArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class AddDamageArguments
+            {
+                public int target;
+                public int damage;
+            }
+            #endregion
+
+            public event Action<AddDamageArguments> AddDamage;
+            #region UserAddDamageArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class UserAddDamageArguments
+            {
+                public int user;
+                public int target;
+                public int damage;
+            }
+            #endregion
+
+            public event Action<UserAddDamageArguments> UserAddDamage;
             #region AddDamageFromDirectionArguments
 
 #if !NoAttributes
@@ -683,6 +742,66 @@ namespace FlashTowerDefense.Shared
             #endregion
 
             public event Action<ServerPlayerAdvertiseArguments> ServerPlayerAdvertise;
+            #region UndeployExplosiveBarrelArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class UndeployExplosiveBarrelArguments
+            {
+                public int barrel;
+            }
+            #endregion
+
+            public event Action<UndeployExplosiveBarrelArguments> UndeployExplosiveBarrel;
+            #region UserUndeployExplosiveBarrelArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class UserUndeployExplosiveBarrelArguments
+            {
+                public int user;
+                public int barrel;
+            }
+            #endregion
+
+            public event Action<UserUndeployExplosiveBarrelArguments> UserUndeployExplosiveBarrel;
+            #region DeployExplosiveBarrelArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class DeployExplosiveBarrelArguments
+            {
+                public int weapon;
+                public int barrel;
+                public int x;
+                public int y;
+            }
+            #endregion
+
+            public event Action<DeployExplosiveBarrelArguments> DeployExplosiveBarrel;
+            #region UserDeployExplosiveBarrelArguments
+
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class UserDeployExplosiveBarrelArguments
+            {
+                public int user;
+                public int weapon;
+                public int barrel;
+                public int x;
+                public int y;
+            }
+            #endregion
+
+            public event Action<UserDeployExplosiveBarrelArguments> UserDeployExplosiveBarrel;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<DispatchHelper>>
@@ -708,6 +827,8 @@ namespace FlashTowerDefense.Shared
                         { Messages.StartMachineGun, e => { StartMachineGun(new StartMachineGunArguments {  }); } },
                         { Messages.StopMachineGun, e => { StopMachineGun(new StopMachineGunArguments {  }); } },
                         { Messages.Ping, e => { Ping(new PingArguments {  }); } },
+                        { Messages.AddDamage, e => { AddDamage(new AddDamageArguments { target = e.GetInt32(0), damage = e.GetInt32(1) }); } },
+                        { Messages.UserAddDamage, e => { UserAddDamage(new UserAddDamageArguments { user = e.GetInt32(0), target = e.GetInt32(1), damage = e.GetInt32(2) }); } },
                         { Messages.AddDamageFromDirection, e => { AddDamageFromDirection(new AddDamageFromDirectionArguments { target = e.GetInt32(0), damage = e.GetInt32(1), arc = e.GetInt32(2) }); } },
                         { Messages.UserAddDamageFromDirection, e => { UserAddDamageFromDirection(new UserAddDamageFromDirectionArguments { user = e.GetInt32(0), target = e.GetInt32(1), damage = e.GetInt32(2), arc = e.GetInt32(3) }); } },
                         { Messages.ShowBulletsFlying, e => { ShowBulletsFlying(new ShowBulletsFlyingArguments { x = e.GetInt32(0), y = e.GetInt32(1), arc = e.GetInt32(2), weaponType = e.GetInt32(3) }); } },
@@ -719,6 +840,10 @@ namespace FlashTowerDefense.Shared
                         { Messages.PlayerResurrect, e => { PlayerResurrect(new PlayerResurrectArguments {  }); } },
                         { Messages.UserPlayerResurrect, e => { UserPlayerResurrect(new UserPlayerResurrectArguments { user = e.GetInt32(0) }); } },
                         { Messages.ServerPlayerAdvertise, e => { ServerPlayerAdvertise(new ServerPlayerAdvertiseArguments { user = e.GetInt32(0), name = e.GetString(1), ego = e.GetInt32(2) }); } },
+                        { Messages.UndeployExplosiveBarrel, e => { UndeployExplosiveBarrel(new UndeployExplosiveBarrelArguments { barrel = e.GetInt32(0) }); } },
+                        { Messages.UserUndeployExplosiveBarrel, e => { UserUndeployExplosiveBarrel(new UserUndeployExplosiveBarrelArguments { user = e.GetInt32(0), barrel = e.GetInt32(1) }); } },
+                        { Messages.DeployExplosiveBarrel, e => { DeployExplosiveBarrel(new DeployExplosiveBarrelArguments { weapon = e.GetInt32(0), barrel = e.GetInt32(1), x = e.GetInt32(2), y = e.GetInt32(3) }); } },
+                        { Messages.UserDeployExplosiveBarrel, e => { UserDeployExplosiveBarrel(new UserDeployExplosiveBarrelArguments { user = e.GetInt32(0), weapon = e.GetInt32(1), barrel = e.GetInt32(2), x = e.GetInt32(3), y = e.GetInt32(4) }); } },
                     }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -744,6 +869,8 @@ namespace FlashTowerDefense.Shared
                         { Messages.StartMachineGun, e => StartMachineGun },
                         { Messages.StopMachineGun, e => StopMachineGun },
                         { Messages.Ping, e => Ping },
+                        { Messages.AddDamage, e => AddDamage },
+                        { Messages.UserAddDamage, e => UserAddDamage },
                         { Messages.AddDamageFromDirection, e => AddDamageFromDirection },
                         { Messages.UserAddDamageFromDirection, e => UserAddDamageFromDirection },
                         { Messages.ShowBulletsFlying, e => ShowBulletsFlying },
@@ -755,6 +882,10 @@ namespace FlashTowerDefense.Shared
                         { Messages.PlayerResurrect, e => PlayerResurrect },
                         { Messages.UserPlayerResurrect, e => UserPlayerResurrect },
                         { Messages.ServerPlayerAdvertise, e => ServerPlayerAdvertise },
+                        { Messages.UndeployExplosiveBarrel, e => UndeployExplosiveBarrel },
+                        { Messages.UserUndeployExplosiveBarrel, e => UserUndeployExplosiveBarrel },
+                        { Messages.DeployExplosiveBarrel, e => DeployExplosiveBarrel },
+                        { Messages.UserDeployExplosiveBarrel, e => UserDeployExplosiveBarrel },
                     }
                 ;
             }

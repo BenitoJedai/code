@@ -66,6 +66,10 @@ namespace FlashTowerDefense.Shared
 
             void Ping();
 
+            void AddDamage(int target, int damage);
+            void UserAddDamage(int user, int target, int damage);
+
+
             void AddDamageFromDirection(int target, int damage, int arc);
             void UserAddDamageFromDirection(int user, int target, int damage, int arc);
 
@@ -85,6 +89,12 @@ namespace FlashTowerDefense.Shared
 
             void ServerPlayerAdvertise(int user, string name, int ego);
 
+            void UndeployExplosiveBarrel(int barrel);
+            void UserUndeployExplosiveBarrel(int user, int barrel);
+
+
+            void DeployExplosiveBarrel(int weapon, int barrel, int x, int y);
+            void UserDeployExplosiveBarrel(int user, int weapon, int barrel, int x, int y);
             // ...
         }
     }

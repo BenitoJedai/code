@@ -53,6 +53,7 @@
     <Compile Include="ActionScript\Actors\Actor.cs" />
     <Compile Include="ActionScript\Actors\BossSheep.cs" />
     <Compile Include="ActionScript\Actors\BossWarrior.cs" />
+    <Compile Include="ActionScript\Actors\NuclearSheep.cs" />
     <Compile Include="ActionScript\Actors\ExplosiveBarrel.cs" />
     <Compile Include="ActionScript\Actors\NuclearWarrior.cs" />
     <Compile Include="ActionScript\Actors\PlayerWarrior.cs" />

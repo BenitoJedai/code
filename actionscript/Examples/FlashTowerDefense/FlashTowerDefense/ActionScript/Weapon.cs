@@ -102,8 +102,8 @@ namespace FlashTowerDefense.ActionScript
         public static Weapon ExplosivesBarrel =
             new Weapon
             {
-                MaxAmmo = 40,
-                Ammo = 20,
+                MaxAmmo = 20,
+                Ammo = 7,
                 Type = WeaponInfo.ExplosivesBarrel,
                 SelectMode = Weapon.SelectModeEnum.Outside,
                 Name = "ExplosivesBarrel",

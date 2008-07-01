@@ -226,16 +226,38 @@ namespace FlashTowerDefense.ActionScript
             {
                 if (0.1.ByChance())
                 {
-                    AttachRules(
+                    var n = AttachRules(
                       new NuclearWarrior
                       {
                           x = -OffscreenMargin,
                           y = GetEntryPointY(),
                           speed = 1 + 2.0.FixedRandom()
                       }
-                  );
+                    );
+
+
+                    n.Die +=
+                        () => CreateExplosion(WeaponInfo.ExplosivesBarrel, n.ToPoint(), NetworkMode.Remote);
                 }
-                else if (0.3.ByChance())
+                
+                
+                if (0.1.ByChance())
+                {
+                    var n = AttachRules(
+                      new NuclearSheep
+                      {
+                          x = -OffscreenMargin,
+                          y = GetEntryPointY(),
+                          speed = 1 + 2.0.FixedRandom()
+                      }
+                    );
+
+
+                    n.Die +=
+                        () => CreateExplosion(WeaponInfo.ExplosivesBarrel, n.ToPoint(), NetworkMode.Remote);
+                }
+
+                if (0.3.ByChance())
                 {
 
 
