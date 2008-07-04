@@ -269,6 +269,16 @@ namespace FlashTowerDefense.Shared
                 DispatchTable[e](h);
                 return true;
             }
+            #region WithUserArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class WithUserArguments
+            {
+                public int user;
+            }
+            #endregion
             #region TeleportToArguments
 #if !NoAttributes
             [Script]
@@ -281,7 +291,7 @@ namespace FlashTowerDefense.Shared
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ x = ").Append(this.x).Append(", y = ").Append(this.y)(" }").ToString();
+                    return new StringBuilder().Append("{ x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
                 }
             }
             #endregion
@@ -291,15 +301,14 @@ namespace FlashTowerDefense.Shared
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class UserTeleportToArguments
+            public sealed partial class UserTeleportToArguments : WithUserArguments
             {
-                public int user;
                 public int x;
                 public int y;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", x = ").Append(this.x).Append(", y = ").Append(this.y)(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
                 }
             }
             #endregion
@@ -316,7 +325,7 @@ namespace FlashTowerDefense.Shared
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ x = ").Append(this.x).Append(", y = ").Append(this.y)(" }").ToString();
+                    return new StringBuilder().Append("{ x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
                 }
             }
             #endregion
@@ -326,15 +335,14 @@ namespace FlashTowerDefense.Shared
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class UserWalkToArguments
+            public sealed partial class UserWalkToArguments : WithUserArguments
             {
-                public int user;
                 public int x;
                 public int y;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", x = ").Append(this.x).Append(", y = ").Append(this.y)(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
                 }
             }
             #endregion
@@ -380,7 +388,7 @@ namespace FlashTowerDefense.Shared
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ box = ").Append(this.box)(" }").ToString();
+                    return new StringBuilder().Append("{ box = ").Append(this.box).Append(" }").ToString();
                 }
             }
             #endregion
@@ -390,14 +398,13 @@ namespace FlashTowerDefense.Shared
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class UserTakeBoxArguments
+            public sealed partial class UserTakeBoxArguments : WithUserArguments
             {
-                public int user;
                 public int box;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", box = ").Append(this.box)(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", box = ").Append(this.box).Append(" }").ToString();
                 }
             }
             #endregion
@@ -413,7 +420,7 @@ namespace FlashTowerDefense.Shared
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ weapon = ").Append(this.weapon)(" }").ToString();
+                    return new StringBuilder().Append("{ weapon = ").Append(this.weapon).Append(" }").ToString();
                 }
             }
             #endregion
@@ -423,14 +430,13 @@ namespace FlashTowerDefense.Shared
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class UserFiredWeaponArguments
+            public sealed partial class UserFiredWeaponArguments : WithUserArguments
             {
-                public int user;
                 public int weapon;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", weapon = ").Append(this.weapon)(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", weapon = ").Append(this.weapon).Append(" }").ToString();
                 }
             }
             #endregion
@@ -446,7 +452,7 @@ namespace FlashTowerDefense.Shared
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ e = ").Append(this.e)(" }").ToString();
+                    return new StringBuilder().Append("{ e = ").Append(this.e).Append(" }").ToString();
                 }
             }
             #endregion
@@ -462,7 +468,7 @@ namespace FlashTowerDefense.Shared
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ text = ").Append(this.text)(" }").ToString();
+                    return new StringBuilder().Append("{ text = ").Append(this.text).Append(" }").ToString();
                 }
             }
             #endregion
@@ -472,13 +478,12 @@ namespace FlashTowerDefense.Shared
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class UserEnterMachineGunArguments
+            public sealed partial class UserEnterMachineGunArguments : WithUserArguments
             {
-                public int user;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user)(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(" }").ToString();
                 }
             }
             #endregion
@@ -488,13 +493,12 @@ namespace FlashTowerDefense.Shared
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class UserExitMachineGunArguments
+            public sealed partial class UserExitMachineGunArguments : WithUserArguments
             {
-                public int user;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user)(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(" }").ToString();
                 }
             }
             #endregion
@@ -504,13 +508,12 @@ namespace FlashTowerDefense.Shared
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class UserStartMachineGunArguments
+            public sealed partial class UserStartMachineGunArguments : WithUserArguments
             {
-                public int user;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user)(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(" }").ToString();
                 }
             }
             #endregion
@@ -520,13 +523,12 @@ namespace FlashTowerDefense.Shared
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class UserStopMachineGunArguments
+            public sealed partial class UserStopMachineGunArguments : WithUserArguments
             {
-                public int user;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user)(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(" }").ToString();
                 }
             }
             #endregion
@@ -618,7 +620,7 @@ namespace FlashTowerDefense.Shared
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ target = ").Append(this.target).Append(", damage = ").Append(this.damage)(" }").ToString();
+                    return new StringBuilder().Append("{ target = ").Append(this.target).Append(", damage = ").Append(this.damage).Append(" }").ToString();
                 }
             }
             #endregion
@@ -628,15 +630,14 @@ namespace FlashTowerDefense.Shared
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class UserAddDamageArguments
+            public sealed partial class UserAddDamageArguments : WithUserArguments
             {
-                public int user;
                 public int target;
                 public int damage;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", target = ").Append(this.target).Append(", damage = ").Append(this.damage)(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", target = ").Append(this.target).Append(", damage = ").Append(this.damage).Append(" }").ToString();
                 }
             }
             #endregion
@@ -654,7 +655,7 @@ namespace FlashTowerDefense.Shared
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ target = ").Append(this.target).Append(", damage = ").Append(this.damage).Append(", arc = ").Append(this.arc)(" }").ToString();
+                    return new StringBuilder().Append("{ target = ").Append(this.target).Append(", damage = ").Append(this.damage).Append(", arc = ").Append(this.arc).Append(" }").ToString();
                 }
             }
             #endregion
@@ -664,16 +665,15 @@ namespace FlashTowerDefense.Shared
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class UserAddDamageFromDirectionArguments
+            public sealed partial class UserAddDamageFromDirectionArguments : WithUserArguments
             {
-                public int user;
                 public int target;
                 public int damage;
                 public int arc;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", target = ").Append(this.target).Append(", damage = ").Append(this.damage).Append(", arc = ").Append(this.arc)(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", target = ").Append(this.target).Append(", damage = ").Append(this.damage).Append(", arc = ").Append(this.arc).Append(" }").ToString();
                 }
             }
             #endregion
@@ -692,7 +692,7 @@ namespace FlashTowerDefense.Shared
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ x = ").Append(this.x).Append(", y = ").Append(this.y).Append(", arc = ").Append(this.arc).Append(", weaponType = ").Append(this.weaponType)(" }").ToString();
+                    return new StringBuilder().Append("{ x = ").Append(this.x).Append(", y = ").Append(this.y).Append(", arc = ").Append(this.arc).Append(", weaponType = ").Append(this.weaponType).Append(" }").ToString();
                 }
             }
             #endregion
@@ -702,9 +702,8 @@ namespace FlashTowerDefense.Shared
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class UserShowBulletsFlyingArguments
+            public sealed partial class UserShowBulletsFlyingArguments : WithUserArguments
             {
-                public int user;
                 public int x;
                 public int y;
                 public int arc;
@@ -712,7 +711,7 @@ namespace FlashTowerDefense.Shared
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", x = ").Append(this.x).Append(", y = ").Append(this.y).Append(", arc = ").Append(this.arc).Append(", weaponType = ").Append(this.weaponType)(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", x = ").Append(this.x).Append(", y = ").Append(this.y).Append(", arc = ").Append(this.arc).Append(", weaponType = ").Append(this.weaponType).Append(" }").ToString();
                 }
             }
             #endregion
@@ -729,7 +728,7 @@ namespace FlashTowerDefense.Shared
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name)(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name).Append(" }").ToString();
                 }
             }
             #endregion
@@ -746,7 +745,7 @@ namespace FlashTowerDefense.Shared
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name)(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name).Append(" }").ToString();
                 }
             }
             #endregion
@@ -763,7 +762,7 @@ namespace FlashTowerDefense.Shared
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name)(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name).Append(" }").ToString();
                 }
             }
             #endregion
@@ -779,7 +778,7 @@ namespace FlashTowerDefense.Shared
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ ego = ").Append(this.ego)(" }").ToString();
+                    return new StringBuilder().Append("{ ego = ").Append(this.ego).Append(" }").ToString();
                 }
             }
             #endregion
@@ -804,13 +803,12 @@ namespace FlashTowerDefense.Shared
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class UserPlayerResurrectArguments
+            public sealed partial class UserPlayerResurrectArguments : WithUserArguments
             {
-                public int user;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user)(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(" }").ToString();
                 }
             }
             #endregion
@@ -828,7 +826,7 @@ namespace FlashTowerDefense.Shared
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name).Append(", ego = ").Append(this.ego)(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name).Append(", ego = ").Append(this.ego).Append(" }").ToString();
                 }
             }
             #endregion
@@ -844,7 +842,7 @@ namespace FlashTowerDefense.Shared
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ barrel = ").Append(this.barrel)(" }").ToString();
+                    return new StringBuilder().Append("{ barrel = ").Append(this.barrel).Append(" }").ToString();
                 }
             }
             #endregion
@@ -854,14 +852,13 @@ namespace FlashTowerDefense.Shared
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class UserUndeployExplosiveBarrelArguments
+            public sealed partial class UserUndeployExplosiveBarrelArguments : WithUserArguments
             {
-                public int user;
                 public int barrel;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", barrel = ").Append(this.barrel)(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", barrel = ").Append(this.barrel).Append(" }").ToString();
                 }
             }
             #endregion
@@ -880,7 +877,7 @@ namespace FlashTowerDefense.Shared
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ weapon = ").Append(this.weapon).Append(", barrel = ").Append(this.barrel).Append(", x = ").Append(this.x).Append(", y = ").Append(this.y)(" }").ToString();
+                    return new StringBuilder().Append("{ weapon = ").Append(this.weapon).Append(", barrel = ").Append(this.barrel).Append(", x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
                 }
             }
             #endregion
@@ -890,9 +887,8 @@ namespace FlashTowerDefense.Shared
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class UserDeployExplosiveBarrelArguments
+            public sealed partial class UserDeployExplosiveBarrelArguments : WithUserArguments
             {
-                public int user;
                 public int weapon;
                 public int barrel;
                 public int x;
@@ -900,7 +896,7 @@ namespace FlashTowerDefense.Shared
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", weapon = ").Append(this.weapon).Append(", barrel = ").Append(this.barrel).Append(", x = ").Append(this.x).Append(", y = ").Append(this.y)(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", weapon = ").Append(this.weapon).Append(", barrel = ").Append(this.barrel).Append(", x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
                 }
             }
             #endregion
@@ -997,4 +993,4 @@ namespace FlashTowerDefense.Shared
     }
     #endregion
 }
-// 4.07.2008 10:57:32
+// 4.07.2008 11:20:26

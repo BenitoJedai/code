@@ -201,6 +201,12 @@ namespace ScriptCoreLib.Shared.Lambda
                 };
         }
 
+
+        public static global::System.Func<A, bool> AsNegative<A>(this global::System.Func<A, bool> f)
+        {
+            return i => !f(i);
+        }
+
         public static Action<A> AsAction<A, T>(this global::System.Func<A, T> f)
         {
             return (a) => f(a);

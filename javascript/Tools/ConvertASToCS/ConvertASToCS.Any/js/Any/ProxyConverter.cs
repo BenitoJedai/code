@@ -706,19 +706,68 @@ namespace ConvertASToCS.js.Any
                     }
                     #endregion
 
+
+                    #region WithUserArguments
+                    // client -> server -> other clients
+                    // DoMyProcedure(...)
+                    // UserDoMyProcedure(..., int user, ...)
+
+                    var WithUserArguments_user = new FieldInfo { FieldName = "user", TypeName = "int" };
+
+                    var WithUserArguments =
+                        new TypeInfo
+                             {
+                                 IsSealed = true,
+                                 Name = "WithUserArguments",
+                                 Fields = new[]
+                                 {
+                                     WithUserArguments_user
+                                 }.ToArray()
+                             };
+
+
+                    using (DefineType(WithUserArguments))
+                    {
+                    }
+                    #endregion
+
                     #region events
                     foreach (var v in r.MethodDefinitions)
                     {
+                        var SelectedArguments = default(TypeInfo);
+
+                        Func<ProxyProvider.MethodParametersInfo.ParamInfo, bool> IsUserParameter =
+                            i => i.Name == WithUserArguments_user.FieldName && i.TypeName == WithUserArguments_user.TypeName;
+
+                        var IsNotUserParameter = IsUserParameter.AsNegative();
+
+
+                        if (v.Name.StartsWith("User") && v.ParametersInfo.Parameters.Any(IsUserParameter))
+                        {
+                            SelectedArguments = new TypeInfo
+                            {
+                                IsSealed = true,
+                                Name = v.Name + "Arguments",
+                                BaseTypeName = WithUserArguments.Name,
+                                Fields = v.ParametersInfo.Parameters.Where(IsNotUserParameter).Select(i =>
+                                    new FieldInfo { FieldName = i.Name, TypeName = i.TypeName }
+                                ).ToArray()
+                            };
+                        }
+                        else
+                        {
+                            SelectedArguments = new TypeInfo
+                            {
+                                IsSealed = true,
+                                Name = v.Name + "Arguments",
+                                Fields = v.ParametersInfo.Parameters.Select(i =>
+                                    new FieldInfo { FieldName = i.Name, TypeName = i.TypeName }
+                                ).ToArray()
+                            };
+                        }
+
                         #region ~Arguments
-                        using (DefineType(
-                             new TypeInfo
-                             {
-                                 IsSealed = true,
-                                 Name = v.Name + "Arguments",
-                                 Fields = v.ParametersInfo.Parameters.Select(i =>
-                                     new FieldInfo { FieldName = i.Name, TypeName = i.TypeName }).ToArray()
-                             }
-                                ))
+                        using (DefineType(SelectedArguments))
                         {
                             // ToString
 
@@ -783,6 +832,9 @@ namespace ConvertASToCS.js.Any
 
                                     if (IsLast)
                                     {
+                                        Write(".");
+                                        Write("Append");
+
                                         using (Parenthesis())
                                         using (Quotes())
                                         {
