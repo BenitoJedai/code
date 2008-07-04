@@ -245,6 +245,8 @@ namespace FlashTowerDefense.Shared
         {
             private readonly Dictionary<Messages, Action<DispatchHelper>> DispatchTable;
             private readonly Dictionary<Messages, Converter<object, Delegate>> DispatchTableDelegates;
+            [AccessedThroughProperty("Router")]
+            private WithUserArgumentsRouter _Router;
             #region DispatchHelper
 #if !NoAttributes
             [Script]
@@ -274,9 +276,77 @@ namespace FlashTowerDefense.Shared
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class WithUserArguments
+            public abstract partial class WithUserArguments
             {
                 public int user;
+            }
+            #endregion
+            #region WithUserArgumentsRouter
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class WithUserArgumentsRouter : WithUserArguments
+            {
+                public RemoteMessages Target;
+                #region Routing
+                public void UserTeleportTo(TeleportToArguments e)
+                {
+                    return Target.UserTeleportTo(this.user, e.x, e.y);
+                }
+                public void UserWalkTo(WalkToArguments e)
+                {
+                    return Target.UserWalkTo(this.user, e.x, e.y);
+                }
+                public void UserTakeBox(TakeBoxArguments e)
+                {
+                    return Target.UserTakeBox(this.user, e.box);
+                }
+                public void UserFiredWeapon(FiredWeaponArguments e)
+                {
+                    return Target.UserFiredWeapon(this.user, e.weapon);
+                }
+                public void UserEnterMachineGun(EnterMachineGunArguments e)
+                {
+                    return Target.UserEnterMachineGun(this.user);
+                }
+                public void UserExitMachineGun(ExitMachineGunArguments e)
+                {
+                    return Target.UserExitMachineGun(this.user);
+                }
+                public void UserStartMachineGun(StartMachineGunArguments e)
+                {
+                    return Target.UserStartMachineGun(this.user);
+                }
+                public void UserStopMachineGun(StopMachineGunArguments e)
+                {
+                    return Target.UserStopMachineGun(this.user);
+                }
+                public void UserAddDamage(AddDamageArguments e)
+                {
+                    return Target.UserAddDamage(this.user, e.target, e.damage);
+                }
+                public void UserAddDamageFromDirection(AddDamageFromDirectionArguments e)
+                {
+                    return Target.UserAddDamageFromDirection(this.user, e.target, e.damage, e.arc);
+                }
+                public void UserShowBulletsFlying(ShowBulletsFlyingArguments e)
+                {
+                    return Target.UserShowBulletsFlying(this.user, e.x, e.y, e.arc, e.weaponType);
+                }
+                public void UserPlayerResurrect(PlayerResurrectArguments e)
+                {
+                    return Target.UserPlayerResurrect(this.user);
+                }
+                public void UserUndeployExplosiveBarrel(UndeployExplosiveBarrelArguments e)
+                {
+                    return Target.UserUndeployExplosiveBarrel(this.user, e.barrel);
+                }
+                public void UserDeployExplosiveBarrel(DeployExplosiveBarrelArguments e)
+                {
+                    return Target.UserDeployExplosiveBarrel(this.user, e.weapon, e.barrel, e.x, e.y);
+                }
+                #endregion
             }
             #endregion
             #region TeleportToArguments
@@ -988,9 +1058,57 @@ namespace FlashTowerDefense.Shared
                         }
                 ;
             }
+            public WithUserArgumentsRouter Router
+            {
+                [DebuggerNonUserCode]
+                get
+                {
+                    return this._Router;
+                }
+                [DebuggerNonUserCode]
+                [MethodImpl(MethodImplOptionsRouter.Synchronized)]
+                set
+                {
+                    if(_Router != null)
+                    {
+                        this.TeleportTo -= _Router.UserTeleportTo;
+                        this.WalkTo -= _Router.UserWalkTo;
+                        this.TakeBox -= _Router.UserTakeBox;
+                        this.FiredWeapon -= _Router.UserFiredWeapon;
+                        this.EnterMachineGun -= _Router.UserEnterMachineGun;
+                        this.ExitMachineGun -= _Router.UserExitMachineGun;
+                        this.StartMachineGun -= _Router.UserStartMachineGun;
+                        this.StopMachineGun -= _Router.UserStopMachineGun;
+                        this.AddDamage -= _Router.UserAddDamage;
+                        this.AddDamageFromDirection -= _Router.UserAddDamageFromDirection;
+                        this.ShowBulletsFlying -= _Router.UserShowBulletsFlying;
+                        this.PlayerResurrect -= _Router.UserPlayerResurrect;
+                        this.UndeployExplosiveBarrel -= _Router.UserUndeployExplosiveBarrel;
+                        this.DeployExplosiveBarrel -= _Router.UserDeployExplosiveBarrel;
+                    }
+                    _Router = value;
+                    if(_Router != null)
+                    {
+                        this.TeleportTo += _Router.UserTeleportTo;
+                        this.WalkTo += _Router.UserWalkTo;
+                        this.TakeBox += _Router.UserTakeBox;
+                        this.FiredWeapon += _Router.UserFiredWeapon;
+                        this.EnterMachineGun += _Router.UserEnterMachineGun;
+                        this.ExitMachineGun += _Router.UserExitMachineGun;
+                        this.StartMachineGun += _Router.UserStartMachineGun;
+                        this.StopMachineGun += _Router.UserStopMachineGun;
+                        this.AddDamage += _Router.UserAddDamage;
+                        this.AddDamageFromDirection += _Router.UserAddDamageFromDirection;
+                        this.ShowBulletsFlying += _Router.UserShowBulletsFlying;
+                        this.PlayerResurrect += _Router.UserPlayerResurrect;
+                        this.UndeployExplosiveBarrel += _Router.UserUndeployExplosiveBarrel;
+                        this.DeployExplosiveBarrel += _Router.UserDeployExplosiveBarrel;
+                    }
+                }
+            }
         }
         #endregion
     }
     #endregion
 }
-// 4.07.2008 11:20:26
+// 4.07.2008 12:44:29

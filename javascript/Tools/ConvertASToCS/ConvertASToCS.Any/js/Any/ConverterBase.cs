@@ -19,6 +19,13 @@ namespace ConvertASToCS.js.Any
             public string FieldName;
 
             public string TypeName;
+
+            public string AccessedThroughProperty;
+
+            
+
+ 
+
         }
 
   
@@ -33,6 +40,7 @@ namespace ConvertASToCS.js.Any
             public string BaseTypeName;
 
             public bool IsSealed;
+            public bool IsAbstract;
 
             public FieldInfo[] Fields;
 

@@ -149,14 +149,31 @@ namespace ConvertASToCS.js.Any
                     Write(FixVariableName(VariableName));
                 };
 
+
+            #region IndentLine
+            Func<IDisposable> IndentLine =
+                 () =>
+                 {
+                     WriteIdent();
+
+                     return new Disposable(
+                         delegate
+                         {
+                             WriteLine();
+                         }
+                     );
+                 };
+            #endregion
+
             Action<string> WriteAttributeLine =
                 Name =>
                 {
-                    WriteIdent();
-                    Write("[");
-                    WriteCyan(Name);
-                    Write("]");
-                    WriteLine();
+                    using (IndentLine())
+                    {
+                        Write("[");
+                        WriteCyan(Name);
+                        Write("]");
+                    }
                 };
 
             #region Conditional
@@ -177,20 +194,18 @@ namespace ConvertASToCS.js.Any
                 };
             #endregion
 
-            #region IndentLine
-            Func<IDisposable> IndentLine =
-                 () =>
-                 {
-                     WriteIdent();
 
-                     return new Disposable(
-                         delegate
-                         {
-                             WriteLine();
-                         }
-                     );
+            #region WriteCommentLine
+            Action<string> WriteCommentLine =
+                 text =>
+                 {
+                     using (IndentLine())
+                     {
+                         WriteGreen("// " + text);
+                     }
                  };
             #endregion
+
 
             #region InlineCodeBlock
             Func<IDisposable> InlineCodeBlock =
@@ -303,6 +318,12 @@ namespace ConvertASToCS.js.Any
                        WriteBlue("sealed");
                    }
 
+                   if (i.IsAbstract)
+                   {
+                       WriteSpace();
+                       WriteBlue("abstract");
+                   }
+
                    WriteSpace();
                    WriteBlue("partial");
 
@@ -327,6 +348,21 @@ namespace ConvertASToCS.js.Any
                    {
                        foreach (var f in i.Fields)
                        {
+                           if (!string.IsNullOrEmpty(f.AccessedThroughProperty))
+                           {
+                               using (IndentLine())
+                               {
+                                   Write("[");
+                                   WriteCyan("AccessedThroughProperty");
+
+                                   using (Parenthesis())
+                                   using (Quotes())
+                                       Write(f.AccessedThroughProperty);
+
+                                   Write("]");
+                               }
+                           }
+
                            using (IndentLine())
                            {
                                if (f.IsPrivate)
@@ -620,6 +656,45 @@ namespace ConvertASToCS.js.Any
                 var RemoteEvents_DispatchTable = new FieldInfo { FieldName = "DispatchTable", TypeName = "Dictionary<" + MessagesEnumName + ", Action<DispatchHelper>>", IsPrivate = true, IsReadOnly = true };
                 var RemoteEvents_DispatchTableDelegates = new FieldInfo { FieldName = "DispatchTableDelegates", TypeName = "Dictionary<" + MessagesEnumName + ", Converter<object, Delegate>>", IsPrivate = true, IsReadOnly = true };
 
+                // client -> server -> other clients
+                // DoMyProcedure(...)
+                // UserDoMyProcedure(..., int user, ...)
+                var WithUserArguments_user = new FieldInfo { FieldName = "user", TypeName = "int" };
+                var WithUserArguments =
+                    new TypeInfo
+                    {
+                        IsSealed = false,
+                        IsAbstract = true,
+                        Name = "WithUserArguments",
+                        Fields = new[]
+                                 {
+                                     WithUserArguments_user
+                                 }.ToArray()
+                    };
+
+                var WithUserArgumentsRouter_RemoteMessages = new FieldInfo { FieldName = "Target", TypeName = "RemoteMessages" };
+                var WithUserArgumentsRouter =
+                    new TypeInfo
+                    {
+                        IsSealed = true,
+                        Name = "WithUserArgumentsRouter",
+                        BaseTypeName = WithUserArguments.Name,
+                        Fields = new[]
+                                     {
+                                         WithUserArgumentsRouter_RemoteMessages
+                                     }.ToArray()
+                    };
+
+
+                var RemoteEvents_Router = new FieldInfo
+                {
+                    FieldName = "_Router",
+                    TypeName = WithUserArgumentsRouter.Name,
+                    IsPrivate = true,
+                    AccessedThroughProperty = "Router"
+                };
+
+
                 #region RemoteEvents
                 using (DefineType(
                         new TypeInfo
@@ -629,7 +704,8 @@ namespace ConvertASToCS.js.Any
                             Fields = new[]
                             {
                                 RemoteEvents_DispatchTable,
-                                RemoteEvents_DispatchTableDelegates
+                                RemoteEvents_DispatchTableDelegates,
+                                RemoteEvents_Router
                             }
                         }
                     ))
@@ -708,41 +784,108 @@ namespace ConvertASToCS.js.Any
 
 
                     #region WithUserArguments
-                    // client -> server -> other clients
-                    // DoMyProcedure(...)
-                    // UserDoMyProcedure(..., int user, ...)
 
-                    var WithUserArguments_user = new FieldInfo { FieldName = "user", TypeName = "int" };
-
-                    var WithUserArguments =
-                        new TypeInfo
-                             {
-                                 IsSealed = true,
-                                 Name = "WithUserArguments",
-                                 Fields = new[]
-                                 {
-                                     WithUserArguments_user
-                                 }.ToArray()
-                             };
 
 
                     using (DefineType(WithUserArguments))
                     {
                     }
+
                     #endregion
+
+                    Func<ProxyProvider.MethodParametersInfo.ParamInfo, bool> IsUserParameter =
+                           i => i.Name == WithUserArguments_user.FieldName && i.TypeName == WithUserArguments_user.TypeName;
+
+                    var IsNotUserParameter = IsUserParameter.AsNegative();
+
+                    Func<ProxyProvider.MethodDefinition, bool> IsUserArguments =
+                        v => v.Name.StartsWith("User") && v.ParametersInfo.Parameters.Any(IsUserParameter);
+
+
+
+
+
+                    #region WithUserArgumentsRouter
+
+
+
+                    using (DefineType(WithUserArgumentsRouter))
+                    {
+                        using (Region("Routing"))
+                        {
+                            foreach (var v in r.MethodDefinitions.Where(IsUserArguments))
+                            {
+                                //public void UserTeleportTo(TeleportToArguments e)
+                                //{
+                                //    Target.UserTeleportTo(this.user, e.x, e.y);
+                                //}
+
+                                using (IndentLine())
+                                {
+                                    WriteBlue("public");
+                                    WriteSpace();
+
+                                    WriteBlue("void");
+                                    WriteSpace();
+
+                                    Write(v.Name);
+
+                                    using (Parenthesis())
+                                    {
+                                        // remove User prefix
+                                        WriteVariableDefinition(v.Name.Substring(4) + "Arguments", "e");
+                                    }
+                                }
+
+                                using (CodeBlock())
+                                using (IndentLine())
+                                {
+                                    WriteBlue("return");
+                                    WriteSpace();
+
+                                    Write(WithUserArgumentsRouter_RemoteMessages.FieldName);
+                                    Write(".");
+                                    Write(v.Name);
+
+                                    using (Parenthesis())
+                                    {
+                                        for (int i = 0; i < v.ParametersInfo.Parameters.Length; i++)
+                                        {
+                                            if (i > 0)
+                                                Write(", ");
+
+                                            var p = v.ParametersInfo.Parameters[i];
+
+                                            if (p.Name == WithUserArguments_user.FieldName)
+                                            {
+                                                WriteBlue("this");
+                                            }
+                                            else
+                                            {
+                                                Write("e");
+                                            }
+                                            Write(".");
+                                            Write(p.Name);
+                                        }
+                                    }
+
+                                    Write(";");
+                                }
+
+                                //WriteCommentLine(v.Name);
+                            }
+                        }
+
+                    }
+                    #endregion
+
 
                     #region events
                     foreach (var v in r.MethodDefinitions)
                     {
                         var SelectedArguments = default(TypeInfo);
 
-                        Func<ProxyProvider.MethodParametersInfo.ParamInfo, bool> IsUserParameter =
-                            i => i.Name == WithUserArguments_user.FieldName && i.TypeName == WithUserArguments_user.TypeName;
-
-                        var IsNotUserParameter = IsUserParameter.AsNegative();
-
-
-                        if (v.Name.StartsWith("User") && v.ParametersInfo.Parameters.Any(IsUserParameter))
+                        if (IsUserArguments(v))
                         {
                             SelectedArguments = new TypeInfo
                             {
@@ -816,7 +959,7 @@ namespace ConvertASToCS.js.Any
                                             Write(", ");
 
                                         Write(p.Name);
-                                        
+
                                         WriteAssignment();
                                     }
 
@@ -1038,6 +1181,160 @@ namespace ConvertASToCS.js.Any
                     #endregion
 
 
+                    #region Router { get; set; }
+                    using (IndentLine())
+                    {
+                        WriteBlue("public");
+                        WriteSpace();
+                        WriteVariableDefinition(
+                            RemoteEvents_Router.TypeName,
+                            RemoteEvents_Router.AccessedThroughProperty
+                        );
+                    }
+
+
+
+                    using (CodeBlock())
+                    {
+                        #region get
+                        WriteAttributeLine("DebuggerNonUserCode");
+
+                        using (IndentLine())
+                            WriteBlue("get");
+
+                        using (CodeBlock())
+                        using (IndentLine())
+                        {
+                            WriteBlue("return");
+                            WriteSpace();
+                            WriteBlue("this");
+                            Write(".");
+                            Write(RemoteEvents_Router.FieldName);
+                            Write(";");
+                        }
+                        #endregion
+
+                        WriteAttributeLine("DebuggerNonUserCode");
+
+                        using (IndentLine())
+                        {
+                            Write("[");
+                            WriteCyan("MethodImpl");
+
+                            using (Parenthesis())
+                            {
+                                WriteCyan("MethodImplOptions");
+                                Write(RemoteEvents_Router.AccessedThroughProperty);
+                                Write(".");
+                                Write("Synchronized");
+                            }
+
+                            Write("]");
+                        }
+
+                        using (IndentLine())
+                            WriteBlue("set");
+
+                        using (CodeBlock())
+                        {
+                            // do like the vb does
+
+                            
+
+                            #region remove
+                            using (IndentLine())
+                            {
+                                WriteBlue("if");
+                                using (Parenthesis())
+                                {
+                                    Write(RemoteEvents_Router.FieldName);
+                                    WriteSpace();
+                                    Write("!=");
+                                    WriteSpace();
+                                    WriteBlue("null");
+                                }
+                            }
+                            using (CodeBlock())
+                            {
+                                //_X.C -= action;
+                                //_X.B -= action2;
+                                //_X.A -= action3;
+
+                                foreach (var v in r.MethodDefinitions.Where(IsUserArguments))
+                                {
+                                    using (IndentLine())
+                                    {
+                                        WriteBlue("this");
+                                        Write(".");
+                                        Write(v.Name.Substring(4));
+                                        WriteSpace();
+                                        Write("-=");
+                                        WriteSpace();
+
+                                        Write(RemoteEvents_Router.FieldName);
+                                        Write(".");
+                                        Write(v.Name);
+                                        Write(";");
+                                    }
+
+                                }
+                            }
+                            #endregion
+
+                            using (IndentLine())
+                            {
+                                Write(RemoteEvents_Router.FieldName);
+                                WriteAssignment();
+                                WriteBlue("value");
+                                Write(";");
+                            }
+
+                            #region add
+                            using (IndentLine())
+                            {
+                                WriteBlue("if");
+                                using (Parenthesis())
+                                {
+                                    Write(RemoteEvents_Router.FieldName);
+                                    WriteSpace();
+                                    Write("!=");
+                                    WriteSpace();
+                                    WriteBlue("null");
+                                }
+                            }
+                            using (CodeBlock())
+                            {
+                                //_X.C += action;
+                                //_X.B += action2;
+                                //_X.A += action3;
+
+                                foreach (var v in r.MethodDefinitions.Where(IsUserArguments))
+                                {
+                                    using (IndentLine())
+                                    {
+                                        WriteBlue("this");
+                                        Write(".");
+                                        Write(v.Name.Substring(4));
+                                        WriteSpace();
+                                        Write("+=");
+                                        WriteSpace();
+
+                                        Write(RemoteEvents_Router.FieldName);
+                                        Write(".");
+                                        Write(v.Name);
+                                        Write(";");
+                                    }
+
+                                }
+                            }
+                            #endregion
+
+                            // -=
+
+                            // +=
+                        }
+                    }
+                    #endregion
                 }
                 #endregion
             }
