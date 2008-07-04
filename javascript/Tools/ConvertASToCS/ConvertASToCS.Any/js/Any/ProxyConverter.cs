@@ -211,7 +211,7 @@ namespace ConvertASToCS.js.Any
 
 
             #region Parentheses
-            Func<IDisposable> Parentheses =
+            Func<IDisposable> Parenthesis =
                  () =>
                  {
                      Write("(");
@@ -221,6 +221,22 @@ namespace ConvertASToCS.js.Any
                          delegate
                          {
                              Write(")");
+                         }
+                     );
+                 };
+            #endregion
+
+            #region Parentheses
+            Func<IDisposable> Quotes =
+                 () =>
+                 {
+                     Write("\"");
+
+
+                     return new Disposable(
+                         delegate
+                         {
+                             Write("\"");
                          }
                      );
                  };
@@ -371,6 +387,7 @@ namespace ConvertASToCS.js.Any
                     "System",
                     "System.Collections.Generic",
                     "System.Text",
+                    "System.Diagnostics",
                     "System.Runtime.CompilerServices"
                 );
 
@@ -466,7 +483,7 @@ namespace ConvertASToCS.js.Any
                         WriteSpace();
                         Write(v.Name);
 
-                        using (Parentheses())
+                        using (Parenthesis())
                             for (int k = 0; k < v.ParametersInfo.Parameters.Length; k++)
                             {
                                 if (k > 0)
@@ -513,7 +530,7 @@ namespace ConvertASToCS.js.Any
                                 {
                                     WriteStaticMethodName("Array", "Copy");
 
-                                    using (Parentheses())
+                                    using (Parenthesis())
                                     {
                                         Write(SingleArray.Name);
 
@@ -535,7 +552,7 @@ namespace ConvertASToCS.js.Any
                             using (IndentLine())
                             {
                                 WriteBlack("Send");
-                                using (Parentheses())
+                                using (Parenthesis())
                                 {
                                     WriteBlue("new");
                                     WriteSpace();
@@ -669,7 +686,7 @@ namespace ConvertASToCS.js.Any
 
                         Write("Dispatch");
 
-                        using (Parentheses())
+                        using (Parenthesis())
                         {
                             WriteVariableDefinition(MessagesEnumName, "e");
                             Write(",");
@@ -703,6 +720,105 @@ namespace ConvertASToCS.js.Any
                              }
                                 ))
                         {
+                            // ToString
+
+                            WriteAttributeLine("DebuggerHidden");
+
+                            using (IndentLine())
+                            {
+                                WriteBlue("public");
+                                WriteSpace();
+                                WriteBlue("override");
+                                WriteSpace();
+                                WriteBlue("string");
+                                WriteSpace();
+                                Write("ToString");
+                                Write("()");
+                            }
+
+                            using (CodeBlock())
+                            using (IndentLine())
+                            {
+
+
+                                WriteBlue("return");
+                                WriteSpace();
+                                WriteBlue("new");
+                                WriteSpace();
+                                WriteCyan("StringBuilder");
+                                Write("()");
+
+                                for (int i = 0; i < v.ParametersInfo.Parameters.Length; i++)
+                                {
+                                    var IsFirst = i == 0;
+                                    var IsLast = i == v.ParametersInfo.Parameters.Length - 1;
+
+                                    var p = v.ParametersInfo.Parameters[i];
+
+                                    Write(".");
+                                    Write("Append");
+
+                                    using (Parenthesis())
+                                    using (Quotes())
+                                    {
+                                        if (IsFirst)
+                                            Write("{ ");
+                                        else
+                                            Write(", ");
+
+                                        Write(p.Name);
+                                        
+                                        WriteAssignment();
+                                    }
+
+                                    Write(".");
+                                    Write("Append");
+
+                                    using (Parenthesis())
+                                    {
+                                        WriteBlue("this");
+                                        Write(".");
+                                        Write(p.Name);
+                                    }
+
+                                    if (IsLast)
+                                    {
+                                        using (Parenthesis())
+                                        using (Quotes())
+                                        {
+                                            Write(" }");
+                                        }
+
+                                    }
+                                }
+
+                                Write(".");
+                                Write("ToString");
+                                Write("()");
+                                Write(";");
+
+                            }
+
+                            //[DebuggerHidden]
+                            //public override string ToString()
+                            //{
+                            //    StringBuilder builder = new StringBuilder();
+                            //    builder.Append("{ bullets = ");
+                            //    builder.Append(this.<bullets>i__Field);
+                            //    builder.Append(", runaways = ");
+                            //    builder.Append(this.<runaways>i__Field);
+                            //    builder.Append(", gore = ");
+                            //    builder.Append(this.<gore>i__Field);
+                            //    builder.Append(", score = ");
+                            //    builder.Append(this.<score>i__Field);
+                            //    builder.Append(" }");
+                            //    return builder.ToString();
+                            //}
+
+
+
+
+
                         }
                         #endregion
 
@@ -730,7 +846,7 @@ namespace ConvertASToCS.js.Any
 
                         Write("RemoteEvents");
 
-                        using (Parentheses())
+                        using (Parenthesis())
                         {
                         }
                     }
@@ -771,7 +887,7 @@ namespace ConvertASToCS.js.Any
 
                                             Write(v.Name);
 
-                                            using (Parentheses())
+                                            using (Parenthesis())
                                             {
                                                 WriteBlue("new");
                                                 WriteSpace();
@@ -799,7 +915,7 @@ namespace ConvertASToCS.js.Any
 
                                                         Write(KnownConverters[p.TypeName]);
 
-                                                        using (Parentheses())
+                                                        using (Parenthesis())
                                                             Write("" + k);
 
                                                     }
