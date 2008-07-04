@@ -38,7 +38,7 @@ namespace ConvertASToCS.js.Any
     }
 
     [Script]
-    internal class Tuple<T, F>
+    public class Tuple<T, F>
     {
         public T TValue;
         public F FValue;

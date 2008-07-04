@@ -7,7 +7,7 @@ using ScriptCoreLib;
 namespace ConvertASToCS.js.Any
 {
     [Script]
-    static class Extensions
+    public static class Extensions
     {
         public static IndexInfo IndexInfoOf(this IndexInfo e, string s)
         {

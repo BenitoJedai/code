@@ -1,4 +1,3 @@
-:mxmlc
 @echo off
 
 

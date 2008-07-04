@@ -126,14 +126,14 @@ namespace ConvertASToCS.js.Any
                 {
                     var z = p.SubString(t).Trim();
 
-                    Console.WriteLine("try parse " + z);
+                    //Console.WriteLine("try parse " + z);
 
                     var n = MethodDefinition.Parse(z);
 
                     if (n != null)
                     {
                         MethodDefinitions.Add(n);
-                        Console.WriteLine("ok: " + z);
+                        //Console.WriteLine("ok: " + z);
                     }
 
                     

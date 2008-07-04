@@ -1,20 +1,16 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Runtime.CompilerServices;
-
 #if !NoAttributes
 using ScriptCoreLib;
 #endif
-
 namespace FlashTowerDefense.Shared
 {
-
-
+    #region SharedClass1
     public partial class SharedClass1
     {
         #region Messages
-
 #if !NoAttributes
         [Script]
 #endif
@@ -63,9 +59,7 @@ namespace FlashTowerDefense.Shared
         }
         #endregion
 
-
         #region RemoteMessages
-
 #if !NoAttributes
         [Script]
 #endif
@@ -74,7 +68,6 @@ namespace FlashTowerDefense.Shared
         {
             public Action<SendArguments> Send;
             #region SendArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -85,7 +78,6 @@ namespace FlashTowerDefense.Shared
                 public object[] args;
             }
             #endregion
-
             public void TeleportTo(int x, int y)
             {
                 Send(new SendArguments { i = Messages.TeleportTo, args = new object[] { x, y } });
@@ -104,11 +96,11 @@ namespace FlashTowerDefense.Shared
             }
             public void CancelServerRandomNumbers()
             {
-                Send(new SendArguments { i = Messages.CancelServerRandomNumbers, args = new object[] { } });
+                Send(new SendArguments { i = Messages.CancelServerRandomNumbers, args = new object[] {  } });
             }
             public void ReadyForServerRandomNumbers()
             {
-                Send(new SendArguments { i = Messages.ReadyForServerRandomNumbers, args = new object[] { } });
+                Send(new SendArguments { i = Messages.ReadyForServerRandomNumbers, args = new object[] {  } });
             }
             public void TakeBox(int box)
             {
@@ -154,23 +146,23 @@ namespace FlashTowerDefense.Shared
             }
             public void EnterMachineGun()
             {
-                Send(new SendArguments { i = Messages.EnterMachineGun, args = new object[] { } });
+                Send(new SendArguments { i = Messages.EnterMachineGun, args = new object[] {  } });
             }
             public void ExitMachineGun()
             {
-                Send(new SendArguments { i = Messages.ExitMachineGun, args = new object[] { } });
+                Send(new SendArguments { i = Messages.ExitMachineGun, args = new object[] {  } });
             }
             public void StartMachineGun()
             {
-                Send(new SendArguments { i = Messages.StartMachineGun, args = new object[] { } });
+                Send(new SendArguments { i = Messages.StartMachineGun, args = new object[] {  } });
             }
             public void StopMachineGun()
             {
-                Send(new SendArguments { i = Messages.StopMachineGun, args = new object[] { } });
+                Send(new SendArguments { i = Messages.StopMachineGun, args = new object[] {  } });
             }
             public void Ping()
             {
-                Send(new SendArguments { i = Messages.Ping, args = new object[] { } });
+                Send(new SendArguments { i = Messages.Ping, args = new object[] {  } });
             }
             public void AddDamage(int target, int damage)
             {
@@ -214,7 +206,7 @@ namespace FlashTowerDefense.Shared
             }
             public void PlayerResurrect()
             {
-                Send(new SendArguments { i = Messages.PlayerResurrect, args = new object[] { } });
+                Send(new SendArguments { i = Messages.PlayerResurrect, args = new object[] {  } });
             }
             public void UserPlayerResurrect(int user)
             {
@@ -243,9 +235,7 @@ namespace FlashTowerDefense.Shared
         }
         #endregion
 
-
         #region RemoteEvents
-
 #if !NoAttributes
         [Script]
 #endif
@@ -255,7 +245,6 @@ namespace FlashTowerDefense.Shared
             private readonly Dictionary<Messages, Action<DispatchHelper>> DispatchTable;
             private readonly Dictionary<Messages, Converter<object, Delegate>> DispatchTableDelegates;
             #region DispatchHelper
-
 #if !NoAttributes
             [Script]
 #endif
@@ -271,7 +260,6 @@ namespace FlashTowerDefense.Shared
                 public Converter<uint, object[]> GetArray;
             }
             #endregion
-
             public bool Dispatch(Messages e, DispatchHelper h)
             {
                 if (!DispatchTableDelegates.ContainsKey(e)) return false;
@@ -281,7 +269,6 @@ namespace FlashTowerDefense.Shared
                 return true;
             }
             #region TeleportToArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -292,10 +279,8 @@ namespace FlashTowerDefense.Shared
                 public int y;
             }
             #endregion
-
             public event Action<TeleportToArguments> TeleportTo;
             #region UserTeleportToArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -307,10 +292,8 @@ namespace FlashTowerDefense.Shared
                 public int y;
             }
             #endregion
-
             public event Action<UserTeleportToArguments> UserTeleportTo;
             #region WalkToArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -321,10 +304,8 @@ namespace FlashTowerDefense.Shared
                 public int y;
             }
             #endregion
-
             public event Action<WalkToArguments> WalkTo;
             #region UserWalkToArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -336,10 +317,8 @@ namespace FlashTowerDefense.Shared
                 public int y;
             }
             #endregion
-
             public event Action<UserWalkToArguments> UserWalkTo;
             #region CancelServerRandomNumbersArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -348,10 +327,8 @@ namespace FlashTowerDefense.Shared
             {
             }
             #endregion
-
             public event Action<CancelServerRandomNumbersArguments> CancelServerRandomNumbers;
             #region ReadyForServerRandomNumbersArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -360,10 +337,8 @@ namespace FlashTowerDefense.Shared
             {
             }
             #endregion
-
             public event Action<ReadyForServerRandomNumbersArguments> ReadyForServerRandomNumbers;
             #region TakeBoxArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -373,10 +348,8 @@ namespace FlashTowerDefense.Shared
                 public int box;
             }
             #endregion
-
             public event Action<TakeBoxArguments> TakeBox;
             #region UserTakeBoxArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -387,10 +360,8 @@ namespace FlashTowerDefense.Shared
                 public int box;
             }
             #endregion
-
             public event Action<UserTakeBoxArguments> UserTakeBox;
             #region FiredWeaponArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -400,10 +371,8 @@ namespace FlashTowerDefense.Shared
                 public int weapon;
             }
             #endregion
-
             public event Action<FiredWeaponArguments> FiredWeapon;
             #region UserFiredWeaponArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -414,10 +383,8 @@ namespace FlashTowerDefense.Shared
                 public int weapon;
             }
             #endregion
-
             public event Action<UserFiredWeaponArguments> UserFiredWeapon;
             #region ServerRandomNumbersArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -427,10 +394,8 @@ namespace FlashTowerDefense.Shared
                 public double[] e;
             }
             #endregion
-
             public event Action<ServerRandomNumbersArguments> ServerRandomNumbers;
             #region ServerMessageArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -440,10 +405,8 @@ namespace FlashTowerDefense.Shared
                 public string text;
             }
             #endregion
-
             public event Action<ServerMessageArguments> ServerMessage;
             #region UserEnterMachineGunArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -453,10 +416,8 @@ namespace FlashTowerDefense.Shared
                 public int user;
             }
             #endregion
-
             public event Action<UserEnterMachineGunArguments> UserEnterMachineGun;
             #region UserExitMachineGunArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -466,10 +427,8 @@ namespace FlashTowerDefense.Shared
                 public int user;
             }
             #endregion
-
             public event Action<UserExitMachineGunArguments> UserExitMachineGun;
             #region UserStartMachineGunArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -479,10 +438,8 @@ namespace FlashTowerDefense.Shared
                 public int user;
             }
             #endregion
-
             public event Action<UserStartMachineGunArguments> UserStartMachineGun;
             #region UserStopMachineGunArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -492,10 +449,8 @@ namespace FlashTowerDefense.Shared
                 public int user;
             }
             #endregion
-
             public event Action<UserStopMachineGunArguments> UserStopMachineGun;
             #region EnterMachineGunArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -504,10 +459,8 @@ namespace FlashTowerDefense.Shared
             {
             }
             #endregion
-
             public event Action<EnterMachineGunArguments> EnterMachineGun;
             #region ExitMachineGunArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -516,10 +469,8 @@ namespace FlashTowerDefense.Shared
             {
             }
             #endregion
-
             public event Action<ExitMachineGunArguments> ExitMachineGun;
             #region StartMachineGunArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -528,10 +479,8 @@ namespace FlashTowerDefense.Shared
             {
             }
             #endregion
-
             public event Action<StartMachineGunArguments> StartMachineGun;
             #region StopMachineGunArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -540,10 +489,8 @@ namespace FlashTowerDefense.Shared
             {
             }
             #endregion
-
             public event Action<StopMachineGunArguments> StopMachineGun;
             #region PingArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -552,10 +499,8 @@ namespace FlashTowerDefense.Shared
             {
             }
             #endregion
-
             public event Action<PingArguments> Ping;
             #region AddDamageArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -566,10 +511,8 @@ namespace FlashTowerDefense.Shared
                 public int damage;
             }
             #endregion
-
             public event Action<AddDamageArguments> AddDamage;
             #region UserAddDamageArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -581,10 +524,8 @@ namespace FlashTowerDefense.Shared
                 public int damage;
             }
             #endregion
-
             public event Action<UserAddDamageArguments> UserAddDamage;
             #region AddDamageFromDirectionArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -596,10 +537,8 @@ namespace FlashTowerDefense.Shared
                 public int arc;
             }
             #endregion
-
             public event Action<AddDamageFromDirectionArguments> AddDamageFromDirection;
             #region UserAddDamageFromDirectionArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -612,10 +551,8 @@ namespace FlashTowerDefense.Shared
                 public int arc;
             }
             #endregion
-
             public event Action<UserAddDamageFromDirectionArguments> UserAddDamageFromDirection;
             #region ShowBulletsFlyingArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -628,10 +565,8 @@ namespace FlashTowerDefense.Shared
                 public int weaponType;
             }
             #endregion
-
             public event Action<ShowBulletsFlyingArguments> ShowBulletsFlying;
             #region UserShowBulletsFlyingArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -645,10 +580,8 @@ namespace FlashTowerDefense.Shared
                 public int weaponType;
             }
             #endregion
-
             public event Action<UserShowBulletsFlyingArguments> UserShowBulletsFlying;
             #region ServerPlayerHelloArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -659,10 +592,8 @@ namespace FlashTowerDefense.Shared
                 public string name;
             }
             #endregion
-
             public event Action<ServerPlayerHelloArguments> ServerPlayerHello;
             #region ServerPlayerJoinedArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -673,10 +604,8 @@ namespace FlashTowerDefense.Shared
                 public string name;
             }
             #endregion
-
             public event Action<ServerPlayerJoinedArguments> ServerPlayerJoined;
             #region ServerPlayerLeftArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -687,10 +616,8 @@ namespace FlashTowerDefense.Shared
                 public string name;
             }
             #endregion
-
             public event Action<ServerPlayerLeftArguments> ServerPlayerLeft;
             #region PlayerAdvertiseArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -700,10 +627,8 @@ namespace FlashTowerDefense.Shared
                 public int ego;
             }
             #endregion
-
             public event Action<PlayerAdvertiseArguments> PlayerAdvertise;
             #region PlayerResurrectArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -712,10 +637,8 @@ namespace FlashTowerDefense.Shared
             {
             }
             #endregion
-
             public event Action<PlayerResurrectArguments> PlayerResurrect;
             #region UserPlayerResurrectArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -725,10 +648,8 @@ namespace FlashTowerDefense.Shared
                 public int user;
             }
             #endregion
-
             public event Action<UserPlayerResurrectArguments> UserPlayerResurrect;
             #region ServerPlayerAdvertiseArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -740,10 +661,8 @@ namespace FlashTowerDefense.Shared
                 public int ego;
             }
             #endregion
-
             public event Action<ServerPlayerAdvertiseArguments> ServerPlayerAdvertise;
             #region UndeployExplosiveBarrelArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -753,10 +672,8 @@ namespace FlashTowerDefense.Shared
                 public int barrel;
             }
             #endregion
-
             public event Action<UndeployExplosiveBarrelArguments> UndeployExplosiveBarrel;
             #region UserUndeployExplosiveBarrelArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -767,10 +684,8 @@ namespace FlashTowerDefense.Shared
                 public int barrel;
             }
             #endregion
-
             public event Action<UserUndeployExplosiveBarrelArguments> UserUndeployExplosiveBarrel;
             #region DeployExplosiveBarrelArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -783,10 +698,8 @@ namespace FlashTowerDefense.Shared
                 public int y;
             }
             #endregion
-
             public event Action<DeployExplosiveBarrelArguments> DeployExplosiveBarrel;
             #region UserDeployExplosiveBarrelArguments
-
 #if !NoAttributes
             [Script]
 #endif
@@ -800,97 +713,97 @@ namespace FlashTowerDefense.Shared
                 public int y;
             }
             #endregion
-
             public event Action<UserDeployExplosiveBarrelArguments> UserDeployExplosiveBarrel;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<DispatchHelper>>
-                    {
-                        { Messages.TeleportTo, e => { TeleportTo(new TeleportToArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
-                        { Messages.UserTeleportTo, e => { UserTeleportTo(new UserTeleportToArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
-                        { Messages.WalkTo, e => { WalkTo(new WalkToArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
-                        { Messages.UserWalkTo, e => { UserWalkTo(new UserWalkToArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
-                        { Messages.CancelServerRandomNumbers, e => { CancelServerRandomNumbers(new CancelServerRandomNumbersArguments {  }); } },
-                        { Messages.ReadyForServerRandomNumbers, e => { ReadyForServerRandomNumbers(new ReadyForServerRandomNumbersArguments {  }); } },
-                        { Messages.TakeBox, e => { TakeBox(new TakeBoxArguments { box = e.GetInt32(0) }); } },
-                        { Messages.UserTakeBox, e => { UserTakeBox(new UserTakeBoxArguments { user = e.GetInt32(0), box = e.GetInt32(1) }); } },
-                        { Messages.FiredWeapon, e => { FiredWeapon(new FiredWeaponArguments { weapon = e.GetInt32(0) }); } },
-                        { Messages.UserFiredWeapon, e => { UserFiredWeapon(new UserFiredWeaponArguments { user = e.GetInt32(0), weapon = e.GetInt32(1) }); } },
-                        { Messages.ServerRandomNumbers, e => { ServerRandomNumbers(new ServerRandomNumbersArguments { e = e.GetDoubleArray(0) }); } },
-                        { Messages.ServerMessage, e => { ServerMessage(new ServerMessageArguments { text = e.GetString(0) }); } },
-                        { Messages.UserEnterMachineGun, e => { UserEnterMachineGun(new UserEnterMachineGunArguments { user = e.GetInt32(0) }); } },
-                        { Messages.UserExitMachineGun, e => { UserExitMachineGun(new UserExitMachineGunArguments { user = e.GetInt32(0) }); } },
-                        { Messages.UserStartMachineGun, e => { UserStartMachineGun(new UserStartMachineGunArguments { user = e.GetInt32(0) }); } },
-                        { Messages.UserStopMachineGun, e => { UserStopMachineGun(new UserStopMachineGunArguments { user = e.GetInt32(0) }); } },
-                        { Messages.EnterMachineGun, e => { EnterMachineGun(new EnterMachineGunArguments {  }); } },
-                        { Messages.ExitMachineGun, e => { ExitMachineGun(new ExitMachineGunArguments {  }); } },
-                        { Messages.StartMachineGun, e => { StartMachineGun(new StartMachineGunArguments {  }); } },
-                        { Messages.StopMachineGun, e => { StopMachineGun(new StopMachineGunArguments {  }); } },
-                        { Messages.Ping, e => { Ping(new PingArguments {  }); } },
-                        { Messages.AddDamage, e => { AddDamage(new AddDamageArguments { target = e.GetInt32(0), damage = e.GetInt32(1) }); } },
-                        { Messages.UserAddDamage, e => { UserAddDamage(new UserAddDamageArguments { user = e.GetInt32(0), target = e.GetInt32(1), damage = e.GetInt32(2) }); } },
-                        { Messages.AddDamageFromDirection, e => { AddDamageFromDirection(new AddDamageFromDirectionArguments { target = e.GetInt32(0), damage = e.GetInt32(1), arc = e.GetInt32(2) }); } },
-                        { Messages.UserAddDamageFromDirection, e => { UserAddDamageFromDirection(new UserAddDamageFromDirectionArguments { user = e.GetInt32(0), target = e.GetInt32(1), damage = e.GetInt32(2), arc = e.GetInt32(3) }); } },
-                        { Messages.ShowBulletsFlying, e => { ShowBulletsFlying(new ShowBulletsFlyingArguments { x = e.GetInt32(0), y = e.GetInt32(1), arc = e.GetInt32(2), weaponType = e.GetInt32(3) }); } },
-                        { Messages.UserShowBulletsFlying, e => { UserShowBulletsFlying(new UserShowBulletsFlyingArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2), arc = e.GetInt32(3), weaponType = e.GetInt32(4) }); } },
-                        { Messages.ServerPlayerHello, e => { ServerPlayerHello(new ServerPlayerHelloArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
-                        { Messages.ServerPlayerJoined, e => { ServerPlayerJoined(new ServerPlayerJoinedArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
-                        { Messages.ServerPlayerLeft, e => { ServerPlayerLeft(new ServerPlayerLeftArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
-                        { Messages.PlayerAdvertise, e => { PlayerAdvertise(new PlayerAdvertiseArguments { ego = e.GetInt32(0) }); } },
-                        { Messages.PlayerResurrect, e => { PlayerResurrect(new PlayerResurrectArguments {  }); } },
-                        { Messages.UserPlayerResurrect, e => { UserPlayerResurrect(new UserPlayerResurrectArguments { user = e.GetInt32(0) }); } },
-                        { Messages.ServerPlayerAdvertise, e => { ServerPlayerAdvertise(new ServerPlayerAdvertiseArguments { user = e.GetInt32(0), name = e.GetString(1), ego = e.GetInt32(2) }); } },
-                        { Messages.UndeployExplosiveBarrel, e => { UndeployExplosiveBarrel(new UndeployExplosiveBarrelArguments { barrel = e.GetInt32(0) }); } },
-                        { Messages.UserUndeployExplosiveBarrel, e => { UserUndeployExplosiveBarrel(new UserUndeployExplosiveBarrelArguments { user = e.GetInt32(0), barrel = e.GetInt32(1) }); } },
-                        { Messages.DeployExplosiveBarrel, e => { DeployExplosiveBarrel(new DeployExplosiveBarrelArguments { weapon = e.GetInt32(0), barrel = e.GetInt32(1), x = e.GetInt32(2), y = e.GetInt32(3) }); } },
-                        { Messages.UserDeployExplosiveBarrel, e => { UserDeployExplosiveBarrel(new UserDeployExplosiveBarrelArguments { user = e.GetInt32(0), weapon = e.GetInt32(1), barrel = e.GetInt32(2), x = e.GetInt32(3), y = e.GetInt32(4) }); } },
-                    }
+                        {
+                            { Messages.TeleportTo, e => { TeleportTo(new TeleportToArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
+                            { Messages.UserTeleportTo, e => { UserTeleportTo(new UserTeleportToArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
+                            { Messages.WalkTo, e => { WalkTo(new WalkToArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
+                            { Messages.UserWalkTo, e => { UserWalkTo(new UserWalkToArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
+                            { Messages.CancelServerRandomNumbers, e => { CancelServerRandomNumbers(new CancelServerRandomNumbersArguments {  }); } },
+                            { Messages.ReadyForServerRandomNumbers, e => { ReadyForServerRandomNumbers(new ReadyForServerRandomNumbersArguments {  }); } },
+                            { Messages.TakeBox, e => { TakeBox(new TakeBoxArguments { box = e.GetInt32(0) }); } },
+                            { Messages.UserTakeBox, e => { UserTakeBox(new UserTakeBoxArguments { user = e.GetInt32(0), box = e.GetInt32(1) }); } },
+                            { Messages.FiredWeapon, e => { FiredWeapon(new FiredWeaponArguments { weapon = e.GetInt32(0) }); } },
+                            { Messages.UserFiredWeapon, e => { UserFiredWeapon(new UserFiredWeaponArguments { user = e.GetInt32(0), weapon = e.GetInt32(1) }); } },
+                            { Messages.ServerRandomNumbers, e => { ServerRandomNumbers(new ServerRandomNumbersArguments { e = e.GetDoubleArray(0) }); } },
+                            { Messages.ServerMessage, e => { ServerMessage(new ServerMessageArguments { text = e.GetString(0) }); } },
+                            { Messages.UserEnterMachineGun, e => { UserEnterMachineGun(new UserEnterMachineGunArguments { user = e.GetInt32(0) }); } },
+                            { Messages.UserExitMachineGun, e => { UserExitMachineGun(new UserExitMachineGunArguments { user = e.GetInt32(0) }); } },
+                            { Messages.UserStartMachineGun, e => { UserStartMachineGun(new UserStartMachineGunArguments { user = e.GetInt32(0) }); } },
+                            { Messages.UserStopMachineGun, e => { UserStopMachineGun(new UserStopMachineGunArguments { user = e.GetInt32(0) }); } },
+                            { Messages.EnterMachineGun, e => { EnterMachineGun(new EnterMachineGunArguments {  }); } },
+                            { Messages.ExitMachineGun, e => { ExitMachineGun(new ExitMachineGunArguments {  }); } },
+                            { Messages.StartMachineGun, e => { StartMachineGun(new StartMachineGunArguments {  }); } },
+                            { Messages.StopMachineGun, e => { StopMachineGun(new StopMachineGunArguments {  }); } },
+                            { Messages.Ping, e => { Ping(new PingArguments {  }); } },
+                            { Messages.AddDamage, e => { AddDamage(new AddDamageArguments { target = e.GetInt32(0), damage = e.GetInt32(1) }); } },
+                            { Messages.UserAddDamage, e => { UserAddDamage(new UserAddDamageArguments { user = e.GetInt32(0), target = e.GetInt32(1), damage = e.GetInt32(2) }); } },
+                            { Messages.AddDamageFromDirection, e => { AddDamageFromDirection(new AddDamageFromDirectionArguments { target = e.GetInt32(0), damage = e.GetInt32(1), arc = e.GetInt32(2) }); } },
+                            { Messages.UserAddDamageFromDirection, e => { UserAddDamageFromDirection(new UserAddDamageFromDirectionArguments { user = e.GetInt32(0), target = e.GetInt32(1), damage = e.GetInt32(2), arc = e.GetInt32(3) }); } },
+                            { Messages.ShowBulletsFlying, e => { ShowBulletsFlying(new ShowBulletsFlyingArguments { x = e.GetInt32(0), y = e.GetInt32(1), arc = e.GetInt32(2), weaponType = e.GetInt32(3) }); } },
+                            { Messages.UserShowBulletsFlying, e => { UserShowBulletsFlying(new UserShowBulletsFlyingArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2), arc = e.GetInt32(3), weaponType = e.GetInt32(4) }); } },
+                            { Messages.ServerPlayerHello, e => { ServerPlayerHello(new ServerPlayerHelloArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
+                            { Messages.ServerPlayerJoined, e => { ServerPlayerJoined(new ServerPlayerJoinedArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
+                            { Messages.ServerPlayerLeft, e => { ServerPlayerLeft(new ServerPlayerLeftArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
+                            { Messages.PlayerAdvertise, e => { PlayerAdvertise(new PlayerAdvertiseArguments { ego = e.GetInt32(0) }); } },
+                            { Messages.PlayerResurrect, e => { PlayerResurrect(new PlayerResurrectArguments {  }); } },
+                            { Messages.UserPlayerResurrect, e => { UserPlayerResurrect(new UserPlayerResurrectArguments { user = e.GetInt32(0) }); } },
+                            { Messages.ServerPlayerAdvertise, e => { ServerPlayerAdvertise(new ServerPlayerAdvertiseArguments { user = e.GetInt32(0), name = e.GetString(1), ego = e.GetInt32(2) }); } },
+                            { Messages.UndeployExplosiveBarrel, e => { UndeployExplosiveBarrel(new UndeployExplosiveBarrelArguments { barrel = e.GetInt32(0) }); } },
+                            { Messages.UserUndeployExplosiveBarrel, e => { UserUndeployExplosiveBarrel(new UserUndeployExplosiveBarrelArguments { user = e.GetInt32(0), barrel = e.GetInt32(1) }); } },
+                            { Messages.DeployExplosiveBarrel, e => { DeployExplosiveBarrel(new DeployExplosiveBarrelArguments { weapon = e.GetInt32(0), barrel = e.GetInt32(1), x = e.GetInt32(2), y = e.GetInt32(3) }); } },
+                            { Messages.UserDeployExplosiveBarrel, e => { UserDeployExplosiveBarrel(new UserDeployExplosiveBarrelArguments { user = e.GetInt32(0), weapon = e.GetInt32(1), barrel = e.GetInt32(2), x = e.GetInt32(3), y = e.GetInt32(4) }); } },
+                        }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
-                    {
-                        { Messages.TeleportTo, e => TeleportTo },
-                        { Messages.UserTeleportTo, e => UserTeleportTo },
-                        { Messages.WalkTo, e => WalkTo },
-                        { Messages.UserWalkTo, e => UserWalkTo },
-                        { Messages.CancelServerRandomNumbers, e => CancelServerRandomNumbers },
-                        { Messages.ReadyForServerRandomNumbers, e => ReadyForServerRandomNumbers },
-                        { Messages.TakeBox, e => TakeBox },
-                        { Messages.UserTakeBox, e => UserTakeBox },
-                        { Messages.FiredWeapon, e => FiredWeapon },
-                        { Messages.UserFiredWeapon, e => UserFiredWeapon },
-                        { Messages.ServerRandomNumbers, e => ServerRandomNumbers },
-                        { Messages.ServerMessage, e => ServerMessage },
-                        { Messages.UserEnterMachineGun, e => UserEnterMachineGun },
-                        { Messages.UserExitMachineGun, e => UserExitMachineGun },
-                        { Messages.UserStartMachineGun, e => UserStartMachineGun },
-                        { Messages.UserStopMachineGun, e => UserStopMachineGun },
-                        { Messages.EnterMachineGun, e => EnterMachineGun },
-                        { Messages.ExitMachineGun, e => ExitMachineGun },
-                        { Messages.StartMachineGun, e => StartMachineGun },
-                        { Messages.StopMachineGun, e => StopMachineGun },
-                        { Messages.Ping, e => Ping },
-                        { Messages.AddDamage, e => AddDamage },
-                        { Messages.UserAddDamage, e => UserAddDamage },
-                        { Messages.AddDamageFromDirection, e => AddDamageFromDirection },
-                        { Messages.UserAddDamageFromDirection, e => UserAddDamageFromDirection },
-                        { Messages.ShowBulletsFlying, e => ShowBulletsFlying },
-                        { Messages.UserShowBulletsFlying, e => UserShowBulletsFlying },
-                        { Messages.ServerPlayerHello, e => ServerPlayerHello },
-                        { Messages.ServerPlayerJoined, e => ServerPlayerJoined },
-                        { Messages.ServerPlayerLeft, e => ServerPlayerLeft },
-                        { Messages.PlayerAdvertise, e => PlayerAdvertise },
-                        { Messages.PlayerResurrect, e => PlayerResurrect },
-                        { Messages.UserPlayerResurrect, e => UserPlayerResurrect },
-                        { Messages.ServerPlayerAdvertise, e => ServerPlayerAdvertise },
-                        { Messages.UndeployExplosiveBarrel, e => UndeployExplosiveBarrel },
-                        { Messages.UserUndeployExplosiveBarrel, e => UserUndeployExplosiveBarrel },
-                        { Messages.DeployExplosiveBarrel, e => DeployExplosiveBarrel },
-                        { Messages.UserDeployExplosiveBarrel, e => UserDeployExplosiveBarrel },
-                    }
+                        {
+                            { Messages.TeleportTo, e => TeleportTo },
+                            { Messages.UserTeleportTo, e => UserTeleportTo },
+                            { Messages.WalkTo, e => WalkTo },
+                            { Messages.UserWalkTo, e => UserWalkTo },
+                            { Messages.CancelServerRandomNumbers, e => CancelServerRandomNumbers },
+                            { Messages.ReadyForServerRandomNumbers, e => ReadyForServerRandomNumbers },
+                            { Messages.TakeBox, e => TakeBox },
+                            { Messages.UserTakeBox, e => UserTakeBox },
+                            { Messages.FiredWeapon, e => FiredWeapon },
+                            { Messages.UserFiredWeapon, e => UserFiredWeapon },
+                            { Messages.ServerRandomNumbers, e => ServerRandomNumbers },
+                            { Messages.ServerMessage, e => ServerMessage },
+                            { Messages.UserEnterMachineGun, e => UserEnterMachineGun },
+                            { Messages.UserExitMachineGun, e => UserExitMachineGun },
+                            { Messages.UserStartMachineGun, e => UserStartMachineGun },
+                            { Messages.UserStopMachineGun, e => UserStopMachineGun },
+                            { Messages.EnterMachineGun, e => EnterMachineGun },
+                            { Messages.ExitMachineGun, e => ExitMachineGun },
+                            { Messages.StartMachineGun, e => StartMachineGun },
+                            { Messages.StopMachineGun, e => StopMachineGun },
+                            { Messages.Ping, e => Ping },
+                            { Messages.AddDamage, e => AddDamage },
+                            { Messages.UserAddDamage, e => UserAddDamage },
+                            { Messages.AddDamageFromDirection, e => AddDamageFromDirection },
+                            { Messages.UserAddDamageFromDirection, e => UserAddDamageFromDirection },
+                            { Messages.ShowBulletsFlying, e => ShowBulletsFlying },
+                            { Messages.UserShowBulletsFlying, e => UserShowBulletsFlying },
+                            { Messages.ServerPlayerHello, e => ServerPlayerHello },
+                            { Messages.ServerPlayerJoined, e => ServerPlayerJoined },
+                            { Messages.ServerPlayerLeft, e => ServerPlayerLeft },
+                            { Messages.PlayerAdvertise, e => PlayerAdvertise },
+                            { Messages.PlayerResurrect, e => PlayerResurrect },
+                            { Messages.UserPlayerResurrect, e => UserPlayerResurrect },
+                            { Messages.ServerPlayerAdvertise, e => ServerPlayerAdvertise },
+                            { Messages.UndeployExplosiveBarrel, e => UndeployExplosiveBarrel },
+                            { Messages.UserUndeployExplosiveBarrel, e => UserUndeployExplosiveBarrel },
+                            { Messages.DeployExplosiveBarrel, e => DeployExplosiveBarrel },
+                            { Messages.UserDeployExplosiveBarrel, e => UserDeployExplosiveBarrel },
+                        }
                 ;
             }
         }
         #endregion
-
     }
+    #endregion
 }
+// 4.07.2008 10:29:31

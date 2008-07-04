@@ -131,6 +131,11 @@ namespace ScriptCoreLib.Shared.Lambda
             return FixParam(f, a);
         }
 
+        public static Action FixParam<A>(this A a, Action<A> f)
+        {
+            return FixParam(f, a);
+        }
+
         public static Action FixParam<A>(this global::System.Action<A> f, A a)
         {
             return () => f(a);
@@ -183,6 +188,18 @@ namespace ScriptCoreLib.Shared.Lambda
         }
 
         #endregion
+
+        public static ParamsAction<A> AsParamsAction<A>(this global::System.Action<A> f)
+        {
+            return 
+                a =>
+                {
+                    foreach (var i in a)
+                    {
+                        f(i);
+                    }
+                };
+        }
 
         public static Action<A> AsAction<A, T>(this global::System.Func<A, T> f)
         {

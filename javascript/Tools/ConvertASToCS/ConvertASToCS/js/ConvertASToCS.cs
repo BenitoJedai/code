@@ -17,7 +17,7 @@ using ConvertASToCS.js.Any;
 namespace ConvertASToCS.js
 {
     [Script, ScriptApplicationEntryPoint]
-    public partial class ConvertASToCS
+    public partial class ConvertASToCS : ConverterBase
     {
         IHTMLInput DeclaringType = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.text);
 
@@ -178,49 +178,9 @@ namespace ConvertASToCS.js
             a.onchange += delegate { update(); };
         }
 
-        [Script]
-        internal class Disposable : IDisposable
-        {
-            Action _e;
-
-            public Disposable(Action e)
-            {
-                _e = e;
-            }
-
-            #region IDisposable Members
-
-            public void Dispose()
-            {
-                _e();
-            }
-
-            #endregion
-        }
 
 
-        [Script]
-        public class FieldInfo
-        {
-            public bool IsPrivate;
-            public bool IsReadOnly;
 
-            public string FieldName;
-
-            public string TypeName;
-        }
-
-        [Script]
-        public class TypeInfo
-        {
-            public string Name;
-
-            public string BaseTypeName;
-
-            public bool IsSealed;
-
-            public FieldInfo[] Fields;
-        }
 
         private static void RenderAnyTo(ReflectionProvider r, IHTMLElement pre)
         {
@@ -1617,60 +1577,7 @@ render
             IsField.onchange += delegate { update(); };
         }
 
-        static readonly List<string> CSharpKeywords = new List<string>
-            {
-                "namespace",
-                "params",
-                "event",
-                "static",
-                "public",
-                "private",
-                "internal",
-                "class",
-                "interface",
-                "get",
-                "set",
-                "object",
-                "for",
-                "as",
-                "in",
-                "out",
-                "object",
-                "double",
-                "string",
-                "bool",
-                "int",
-                "uint",
-            };
 
-        private static string FixVariableName(string Name)
-        {
-
-
-
-
-            if (CSharpKeywords.Contains(Name))
-                return "@" + Name;
-
-            return Name;
-        }
-
-        private static string FixTypeName(string TypeName)
-        {
-            var dict = new Dictionary<string, string>
-                                {
-                                    {"*", "object"},
-                                    {"Object", "object"},
-                                    {"Number", "double"},
-                                    {"String", "string"},
-                                    {"Boolean", "bool"},
-                                };
-
-            if (dict.ContainsKey(TypeName))
-                TypeName = dict[TypeName];
-
-            return TypeName;
-        }
 
         static ConvertASToCS()
         {
@@ -1678,5 +1585,8 @@ render
         }
 
     }
+
+
+
 
 }
