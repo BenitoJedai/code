@@ -576,8 +576,15 @@ namespace ConvertASToCS.js.Any
                 var IMessages = new TypeInfo
                 {
                     IsInterface = true,
-                    
+
                     Name = "IMessages"
+                };
+
+                var IEvents = new TypeInfo
+                {
+                    IsInterface = true,
+
+                    Name = "IEvents"
                 };
 
                 // client -> server -> other clients
@@ -624,7 +631,7 @@ namespace ConvertASToCS.js.Any
                     {
                         IsSealed = true,
                         Name = "RemoteEvents",
-                        BaseTypeNames = new[] { IPairedEvents.WithoutUser.Name, IPairedEvents.WithUser.Name },
+                        BaseTypeNames = new[] { IEvents.Name, IPairedEvents.WithoutUser.Name, IPairedEvents.WithUser.Name },
                         Fields = new[]
                                 {
                                     RemoteEvents_DispatchTable,
@@ -633,9 +640,39 @@ namespace ConvertASToCS.js.Any
                                 }
                     };
 
+                var RemoteMessages =
+                     new TypeInfo
+                        {
+                            IsSealed = true,
+                            Name = "RemoteMessages",
+                            BaseTypeNames = new[] { IMessages.Name, IPairedMessages.WithoutUser.Name, IPairedMessages.WithUser.Name },
+                            Fields = new[]
+                        {
+                            new FieldInfo { FieldName = "Send", TypeName = "Action<SendArguments>" }
+                        }
+                        };
+
                 using (DefineType(IMessages))
                 {
                 }
+
+                using (DefineType(IEvents))
+                {
+                    foreach (var v in r.MethodDefinitions)
+                    {
+                        using (IndentLine())
+                        {
+                            WriteBlue("event");
+                            WriteSpace();
+                            WriteCyan("Action<" + RemoteEvents.Name + "." + v.Name + "Arguments>");
+                            WriteSpace();
+                            Write(v.Name);
+                            Write(";");
+                        }
+                    }
+                }
+
+
 
                 #region IPairedEvents
 
@@ -743,18 +780,7 @@ namespace ConvertASToCS.js.Any
                 WriteLine();
 
                 #region RemoteMessages
-                using (DefineType(
-                        new TypeInfo
-                        {
-                            IsSealed = true,
-                            Name = "RemoteMessages",
-                            BaseTypeNames = new[] { IMessages.Name, IPairedMessages.WithoutUser.Name, IPairedMessages.WithUser.Name },
-                            Fields = new[]
-                        {
-                            new FieldInfo { FieldName = "Send", TypeName = "Action<SendArguments>" }
-                        }
-                        }
-                    ))
+                using (DefineType(RemoteMessages))
                 {
 
                     #region SendArguments
@@ -779,7 +805,7 @@ namespace ConvertASToCS.js.Any
                     {
                         //public void TeleportTo(int x, int y)
 
-                        
+
                         using (IndentLine())
                         {
 
@@ -789,20 +815,22 @@ namespace ConvertASToCS.js.Any
                             WriteBlue("void");
                             WriteSpace();
 
-                           
+
                             Write(v.Name);
 
                             using (Parenthesis())
-                                for (int k = 0; k < v.ParametersInfo.Parameters.Length; k++)
-                                {
-                                    if (k > 0)
-                                    {
-                                        Write(",");
-                                        WriteSpace();
-                                    }
+                                v.ParametersInfo.Parameters.ForEach(
+                                 (p, k) =>
+                                 {
+                                     if (k > 0)
+                                     {
+                                         Write(",");
+                                         WriteSpace();
+                                     }
 
-                                    WriteVariableDefinition(v.ParametersInfo.Parameters[k].TypeName, v.ParametersInfo.Parameters[k].Name);
-                                }
+                                     WriteVariableDefinition(p.TypeName, p.Name);
+                                 }
+                               );
 
                         }
 
@@ -936,9 +964,7 @@ namespace ConvertASToCS.js.Any
 
 
                 #region RemoteEvents
-                using (DefineType(
-                       RemoteEvents
-                    ))
+                using (DefineType(RemoteEvents))
                 {
                     var KnownConverters = new Dictionary<string, string>
                     {
@@ -1307,34 +1333,36 @@ namespace ConvertASToCS.js.Any
                                             {
                                                 WriteBlue("new");
                                                 WriteSpace();
+
                                                 WriteCyan(v.Name + "Arguments");
                                                 WriteSpace();
 
                                                 using (InlineCodeBlock())
                                                 {
-                                                    for (int k = 0; k < v.ParametersInfo.Parameters.Length; k++)
-                                                    {
-                                                        if (k > 0)
+                                                    v.ParametersInfo.Parameters.ForEach(
+                                                        (p, k) =>
                                                         {
-                                                            Write(",");
-                                                            WriteSpace();
+                                                            if (k > 0)
+                                                            {
+                                                                Write(",");
+                                                                WriteSpace();
+                                                            }
+
+
+                                                            Write(p.Name);
+                                                            WriteAssignment();
+                                                            Write("e");
+                                                            Write(".");
+
+
+
+                                                            Write(KnownConverters[p.TypeName]);
+
+                                                            using (Parenthesis())
+                                                                Write("" + k);
+
                                                         }
-
-                                                        var p = v.ParametersInfo.Parameters[k];
-
-                                                        Write(p.Name);
-                                                        WriteAssignment();
-                                                        Write("e");
-                                                        Write(".");
-
-
-
-                                                        Write(KnownConverters[p.TypeName]);
-
-                                                        using (Parenthesis())
-                                                            Write("" + k);
-
-                                                    }
+                                                     );
                                                 }
 
 
@@ -1556,6 +1584,173 @@ namespace ConvertASToCS.js.Any
                     }
                     #endregion
                 }
+                #endregion
+
+
+                #region bridge
+
+                using (DefineType(
+                    new TypeInfo
+                    {
+                        Name = "Bridge",
+                        BaseTypeNames = RemoteEvents.BaseTypeNames.Concat(RemoteMessages.BaseTypeNames).ToArray()
+                    }))
+                {
+                    foreach (var v in r.MethodDefinitions)
+                    {
+                        using (IndentLine())
+                        {
+                            WriteBlue("public");
+                            WriteSpace();
+                            WriteBlue("event");
+                            WriteSpace();
+                            WriteVariableDefinition("Action<" + RemoteEvents.Name + "." + v.Name + "Arguments" + ">", v.Name);
+                            Write(";");
+                        }
+
+
+                        Action<TypeInfo, Action> WriteExplicitImplementation =
+                            (DeclaringType, Code) =>
+                            {
+                                using (IndentLine())
+                                {
+
+                                    WriteBlue("void");
+                                    WriteSpace();
+
+                                    WriteCyan(DeclaringType.Name);
+                                    Write(".");
+                                    Write(v.Name);
+
+                                    using (Parenthesis())
+                                        v.ParametersInfo.Parameters.ForEach(
+                                         (p, k) =>
+                                         {
+                                             if (k > 0)
+                                             {
+                                                 Write(",");
+                                                 WriteSpace();
+                                             }
+
+                                             WriteVariableDefinition(p.TypeName, p.Name);
+                                         }
+                                       );
+
+
+                                }
+                                using (CodeBlock())
+                                {
+                                    Code();
+                                }
+                            };
+
+                        WriteExplicitImplementation(IMessages,
+                            delegate
+                            {
+                                using (IndentLine())
+                                {
+                                    WriteBlue("if");
+
+                                    using (Parenthesis())
+                                    {
+                                        Write(v.Name);
+                                        WriteSpace();
+                                        Write("==");
+                                        WriteSpace();
+                                        WriteBlue("null");
+                                    }
+
+                                    WriteSpace();
+                                    WriteBlue("return");
+                                    Write(";");
+                                }
+                                using (IndentLine())
+                                {
+                                    Write(v.Name);
+
+                                    using (Parenthesis())
+                                    {
+                                        WriteBlue("new");
+                                        WriteSpace();
+                                        WriteCyan(RemoteEvents.Name);
+                                        Write(".");
+                                        WriteCyan(v.Name + "Arguments");
+                                        WriteSpace();
+
+                                        using (InlineCodeBlock())
+                                        {
+                                            v.ParametersInfo.Parameters.ForEach(
+                                                (p, k) =>
+                                                {
+                                                    if (k > 0)
+                                                    {
+                                                        Write(",");
+                                                        WriteSpace();
+                                                    }
+
+
+                                                    Write(p.Name);
+                                                    WriteAssignment();
+                                                    Write(p.Name);
+
+
+                                                }
+                                            );
+
+                                        }
+
+                                    }
+
+                                    Write(";");
+
+                                }
+                            }
+                        );
+
+                        #region RedirectToIMessages
+                        Action RedirectToIMessages =
+                            delegate
+                            {
+                                using (IndentLine())
+                                {
+                                    using (Parenthesis())
+                                    {
+                                        using (Parenthesis())
+                                            WriteCyan(IMessages.Name);
+                                        WriteBlue("this");
+                                    }
+                                    Write(".");
+                                    Write(v.Name);
+                                    using (Parenthesis())
+                                        v.ParametersInfo.Parameters.ForEach(
+                                         (p, k) =>
+                                         {
+                                             if (k > 0)
+                                             {
+                                                 Write(",");
+                                                 WriteSpace();
+                                             }
+
+                                             Write(p.Name);
+                                         }
+                                       );
+
+                                    Write(";");
+                                }
+
+                            };
+                        #endregion
+
+                        if (MessagesToOthersArray.Any(i => i.MessageWithUser.Name == v.Name))
+                            WriteExplicitImplementation(IPairedMessages.WithUser, RedirectToIMessages);
+
+                        if (MessagesToOthersArray.Any(i => i.MessageWithoutUser.Name == v.Name))
+                            WriteExplicitImplementation(IPairedMessages.WithoutUser, RedirectToIMessages);
+
+                        WriteLine();
+                    }
+                }
+
                 #endregion
             }
 

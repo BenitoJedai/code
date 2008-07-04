@@ -69,6 +69,53 @@ namespace FlashTowerDefense.Shared
         {
         }
         #endregion
+        #region IEvents
+#if !NoAttributes
+        [Script]
+#endif
+        [CompilerGenerated]
+        public partial interface IEvents
+        {
+            event Action<RemoteEvents.TeleportToArguments> TeleportTo;
+            event Action<RemoteEvents.UserTeleportToArguments> UserTeleportTo;
+            event Action<RemoteEvents.WalkToArguments> WalkTo;
+            event Action<RemoteEvents.UserWalkToArguments> UserWalkTo;
+            event Action<RemoteEvents.CancelServerRandomNumbersArguments> CancelServerRandomNumbers;
+            event Action<RemoteEvents.ReadyForServerRandomNumbersArguments> ReadyForServerRandomNumbers;
+            event Action<RemoteEvents.TakeBoxArguments> TakeBox;
+            event Action<RemoteEvents.UserTakeBoxArguments> UserTakeBox;
+            event Action<RemoteEvents.FiredWeaponArguments> FiredWeapon;
+            event Action<RemoteEvents.UserFiredWeaponArguments> UserFiredWeapon;
+            event Action<RemoteEvents.ServerRandomNumbersArguments> ServerRandomNumbers;
+            event Action<RemoteEvents.ServerMessageArguments> ServerMessage;
+            event Action<RemoteEvents.UserEnterMachineGunArguments> UserEnterMachineGun;
+            event Action<RemoteEvents.UserExitMachineGunArguments> UserExitMachineGun;
+            event Action<RemoteEvents.UserStartMachineGunArguments> UserStartMachineGun;
+            event Action<RemoteEvents.UserStopMachineGunArguments> UserStopMachineGun;
+            event Action<RemoteEvents.EnterMachineGunArguments> EnterMachineGun;
+            event Action<RemoteEvents.ExitMachineGunArguments> ExitMachineGun;
+            event Action<RemoteEvents.StartMachineGunArguments> StartMachineGun;
+            event Action<RemoteEvents.StopMachineGunArguments> StopMachineGun;
+            event Action<RemoteEvents.PingArguments> Ping;
+            event Action<RemoteEvents.AddDamageArguments> AddDamage;
+            event Action<RemoteEvents.UserAddDamageArguments> UserAddDamage;
+            event Action<RemoteEvents.AddDamageFromDirectionArguments> AddDamageFromDirection;
+            event Action<RemoteEvents.UserAddDamageFromDirectionArguments> UserAddDamageFromDirection;
+            event Action<RemoteEvents.ShowBulletsFlyingArguments> ShowBulletsFlying;
+            event Action<RemoteEvents.UserShowBulletsFlyingArguments> UserShowBulletsFlying;
+            event Action<RemoteEvents.ServerPlayerHelloArguments> ServerPlayerHello;
+            event Action<RemoteEvents.ServerPlayerJoinedArguments> ServerPlayerJoined;
+            event Action<RemoteEvents.ServerPlayerLeftArguments> ServerPlayerLeft;
+            event Action<RemoteEvents.PlayerAdvertiseArguments> PlayerAdvertise;
+            event Action<RemoteEvents.PlayerResurrectArguments> PlayerResurrect;
+            event Action<RemoteEvents.UserPlayerResurrectArguments> UserPlayerResurrect;
+            event Action<RemoteEvents.ServerPlayerAdvertiseArguments> ServerPlayerAdvertise;
+            event Action<RemoteEvents.UndeployExplosiveBarrelArguments> UndeployExplosiveBarrel;
+            event Action<RemoteEvents.UserUndeployExplosiveBarrelArguments> UserUndeployExplosiveBarrel;
+            event Action<RemoteEvents.DeployExplosiveBarrelArguments> DeployExplosiveBarrel;
+            event Action<RemoteEvents.UserDeployExplosiveBarrelArguments> UserDeployExplosiveBarrel;
+        }
+        #endregion
         #region IPairedEventsWithoutUser
 #if !NoAttributes
         [Script]
@@ -343,7 +390,7 @@ namespace FlashTowerDefense.Shared
         [Script]
 #endif
         [CompilerGenerated]
-        public sealed partial class RemoteEvents : IPairedEventsWithoutUser, IPairedEventsWithUser
+        public sealed partial class RemoteEvents : IEvents, IPairedEventsWithoutUser, IPairedEventsWithUser
         {
             private readonly Dictionary<Messages, Action<DispatchHelper>> DispatchTable;
             private readonly Dictionary<Messages, Converter<object, Delegate>> DispatchTableDelegates;
@@ -1210,7 +1257,394 @@ namespace FlashTowerDefense.Shared
             }
         }
         #endregion
+        #region Bridge
+#if !NoAttributes
+        [Script]
+#endif
+        [CompilerGenerated]
+        public partial class Bridge : IEvents, IPairedEventsWithoutUser, IPairedEventsWithUser, IMessages, IPairedMessagesWithoutUser, IPairedMessagesWithUser
+        {
+            public event Action<RemoteEvents.TeleportToArguments> TeleportTo;
+            void IMessages.TeleportTo(int x, int y)
+            {
+                if(TeleportTo == null) return;
+                TeleportTo(new RemoteEvents.TeleportToArguments { x = x, y = y });
+            }
+            void IPairedMessagesWithoutUser.TeleportTo(int x, int y)
+            {
+                ((IMessages)(this)).TeleportTo(x, y);
+            }
+
+            public event Action<RemoteEvents.UserTeleportToArguments> UserTeleportTo;
+            void IMessages.UserTeleportTo(int user, int x, int y)
+            {
+                if(UserTeleportTo == null) return;
+                UserTeleportTo(new RemoteEvents.UserTeleportToArguments { user = user, x = x, y = y });
+            }
+            void IPairedMessagesWithUser.UserTeleportTo(int user, int x, int y)
+            {
+                ((IMessages)(this)).UserTeleportTo(user, x, y);
+            }
+
+            public event Action<RemoteEvents.WalkToArguments> WalkTo;
+            void IMessages.WalkTo(int x, int y)
+            {
+                if(WalkTo == null) return;
+                WalkTo(new RemoteEvents.WalkToArguments { x = x, y = y });
+            }
+            void IPairedMessagesWithoutUser.WalkTo(int x, int y)
+            {
+                ((IMessages)(this)).WalkTo(x, y);
+            }
+
+            public event Action<RemoteEvents.UserWalkToArguments> UserWalkTo;
+            void IMessages.UserWalkTo(int user, int x, int y)
+            {
+                if(UserWalkTo == null) return;
+                UserWalkTo(new RemoteEvents.UserWalkToArguments { user = user, x = x, y = y });
+            }
+            void IPairedMessagesWithUser.UserWalkTo(int user, int x, int y)
+            {
+                ((IMessages)(this)).UserWalkTo(user, x, y);
+            }
+
+            public event Action<RemoteEvents.CancelServerRandomNumbersArguments> CancelServerRandomNumbers;
+            void IMessages.CancelServerRandomNumbers()
+            {
+                if(CancelServerRandomNumbers == null) return;
+                CancelServerRandomNumbers(new RemoteEvents.CancelServerRandomNumbersArguments {  });
+            }
+
+            public event Action<RemoteEvents.ReadyForServerRandomNumbersArguments> ReadyForServerRandomNumbers;
+            void IMessages.ReadyForServerRandomNumbers()
+            {
+                if(ReadyForServerRandomNumbers == null) return;
+                ReadyForServerRandomNumbers(new RemoteEvents.ReadyForServerRandomNumbersArguments {  });
+            }
+
+            public event Action<RemoteEvents.TakeBoxArguments> TakeBox;
+            void IMessages.TakeBox(int box)
+            {
+                if(TakeBox == null) return;
+                TakeBox(new RemoteEvents.TakeBoxArguments { box = box });
+            }
+            void IPairedMessagesWithoutUser.TakeBox(int box)
+            {
+                ((IMessages)(this)).TakeBox(box);
+            }
+
+            public event Action<RemoteEvents.UserTakeBoxArguments> UserTakeBox;
+            void IMessages.UserTakeBox(int user, int box)
+            {
+                if(UserTakeBox == null) return;
+                UserTakeBox(new RemoteEvents.UserTakeBoxArguments { user = user, box = box });
+            }
+            void IPairedMessagesWithUser.UserTakeBox(int user, int box)
+            {
+                ((IMessages)(this)).UserTakeBox(user, box);
+            }
+
+            public event Action<RemoteEvents.FiredWeaponArguments> FiredWeapon;
+            void IMessages.FiredWeapon(int weapon)
+            {
+                if(FiredWeapon == null) return;
+                FiredWeapon(new RemoteEvents.FiredWeaponArguments { weapon = weapon });
+            }
+            void IPairedMessagesWithoutUser.FiredWeapon(int weapon)
+            {
+                ((IMessages)(this)).FiredWeapon(weapon);
+            }
+
+            public event Action<RemoteEvents.UserFiredWeaponArguments> UserFiredWeapon;
+            void IMessages.UserFiredWeapon(int user, int weapon)
+            {
+                if(UserFiredWeapon == null) return;
+                UserFiredWeapon(new RemoteEvents.UserFiredWeaponArguments { user = user, weapon = weapon });
+            }
+            void IPairedMessagesWithUser.UserFiredWeapon(int user, int weapon)
+            {
+                ((IMessages)(this)).UserFiredWeapon(user, weapon);
+            }
+
+            public event Action<RemoteEvents.ServerRandomNumbersArguments> ServerRandomNumbers;
+            void IMessages.ServerRandomNumbers(double[] e)
+            {
+                if(ServerRandomNumbers == null) return;
+                ServerRandomNumbers(new RemoteEvents.ServerRandomNumbersArguments { e = e });
+            }
+
+            public event Action<RemoteEvents.ServerMessageArguments> ServerMessage;
+            void IMessages.ServerMessage(string text)
+            {
+                if(ServerMessage == null) return;
+                ServerMessage(new RemoteEvents.ServerMessageArguments { text = text });
+            }
+
+            public event Action<RemoteEvents.UserEnterMachineGunArguments> UserEnterMachineGun;
+            void IMessages.UserEnterMachineGun(int user)
+            {
+                if(UserEnterMachineGun == null) return;
+                UserEnterMachineGun(new RemoteEvents.UserEnterMachineGunArguments { user = user });
+            }
+            void IPairedMessagesWithUser.UserEnterMachineGun(int user)
+            {
+                ((IMessages)(this)).UserEnterMachineGun(user);
+            }
+
+            public event Action<RemoteEvents.UserExitMachineGunArguments> UserExitMachineGun;
+            void IMessages.UserExitMachineGun(int user)
+            {
+                if(UserExitMachineGun == null) return;
+                UserExitMachineGun(new RemoteEvents.UserExitMachineGunArguments { user = user });
+            }
+            void IPairedMessagesWithUser.UserExitMachineGun(int user)
+            {
+                ((IMessages)(this)).UserExitMachineGun(user);
+            }
+
+            public event Action<RemoteEvents.UserStartMachineGunArguments> UserStartMachineGun;
+            void IMessages.UserStartMachineGun(int user)
+            {
+                if(UserStartMachineGun == null) return;
+                UserStartMachineGun(new RemoteEvents.UserStartMachineGunArguments { user = user });
+            }
+            void IPairedMessagesWithUser.UserStartMachineGun(int user)
+            {
+                ((IMessages)(this)).UserStartMachineGun(user);
+            }
+
+            public event Action<RemoteEvents.UserStopMachineGunArguments> UserStopMachineGun;
+            void IMessages.UserStopMachineGun(int user)
+            {
+                if(UserStopMachineGun == null) return;
+                UserStopMachineGun(new RemoteEvents.UserStopMachineGunArguments { user = user });
+            }
+            void IPairedMessagesWithUser.UserStopMachineGun(int user)
+            {
+                ((IMessages)(this)).UserStopMachineGun(user);
+            }
+
+            public event Action<RemoteEvents.EnterMachineGunArguments> EnterMachineGun;
+            void IMessages.EnterMachineGun()
+            {
+                if(EnterMachineGun == null) return;
+                EnterMachineGun(new RemoteEvents.EnterMachineGunArguments {  });
+            }
+            void IPairedMessagesWithoutUser.EnterMachineGun()
+            {
+                ((IMessages)(this)).EnterMachineGun();
+            }
+
+            public event Action<RemoteEvents.ExitMachineGunArguments> ExitMachineGun;
+            void IMessages.ExitMachineGun()
+            {
+                if(ExitMachineGun == null) return;
+                ExitMachineGun(new RemoteEvents.ExitMachineGunArguments {  });
+            }
+            void IPairedMessagesWithoutUser.ExitMachineGun()
+            {
+                ((IMessages)(this)).ExitMachineGun();
+            }
+
+            public event Action<RemoteEvents.StartMachineGunArguments> StartMachineGun;
+            void IMessages.StartMachineGun()
+            {
+                if(StartMachineGun == null) return;
+                StartMachineGun(new RemoteEvents.StartMachineGunArguments {  });
+            }
+            void IPairedMessagesWithoutUser.StartMachineGun()
+            {
+                ((IMessages)(this)).StartMachineGun();
+            }
+
+            public event Action<RemoteEvents.StopMachineGunArguments> StopMachineGun;
+            void IMessages.StopMachineGun()
+            {
+                if(StopMachineGun == null) return;
+                StopMachineGun(new RemoteEvents.StopMachineGunArguments {  });
+            }
+            void IPairedMessagesWithoutUser.StopMachineGun()
+            {
+                ((IMessages)(this)).StopMachineGun();
+            }
+
+            public event Action<RemoteEvents.PingArguments> Ping;
+            void IMessages.Ping()
+            {
+                if(Ping == null) return;
+                Ping(new RemoteEvents.PingArguments {  });
+            }
+
+            public event Action<RemoteEvents.AddDamageArguments> AddDamage;
+            void IMessages.AddDamage(int target, int damage)
+            {
+                if(AddDamage == null) return;
+                AddDamage(new RemoteEvents.AddDamageArguments { target = target, damage = damage });
+            }
+            void IPairedMessagesWithoutUser.AddDamage(int target, int damage)
+            {
+                ((IMessages)(this)).AddDamage(target, damage);
+            }
+
+            public event Action<RemoteEvents.UserAddDamageArguments> UserAddDamage;
+            void IMessages.UserAddDamage(int user, int target, int damage)
+            {
+                if(UserAddDamage == null) return;
+                UserAddDamage(new RemoteEvents.UserAddDamageArguments { user = user, target = target, damage = damage });
+            }
+            void IPairedMessagesWithUser.UserAddDamage(int user, int target, int damage)
+            {
+                ((IMessages)(this)).UserAddDamage(user, target, damage);
+            }
+
+            public event Action<RemoteEvents.AddDamageFromDirectionArguments> AddDamageFromDirection;
+            void IMessages.AddDamageFromDirection(int target, int damage, int arc)
+            {
+                if(AddDamageFromDirection == null) return;
+                AddDamageFromDirection(new RemoteEvents.AddDamageFromDirectionArguments { target = target, damage = damage, arc = arc });
+            }
+            void IPairedMessagesWithoutUser.AddDamageFromDirection(int target, int damage, int arc)
+            {
+                ((IMessages)(this)).AddDamageFromDirection(target, damage, arc);
+            }
+
+            public event Action<RemoteEvents.UserAddDamageFromDirectionArguments> UserAddDamageFromDirection;
+            void IMessages.UserAddDamageFromDirection(int user, int target, int damage, int arc)
+            {
+                if(UserAddDamageFromDirection == null) return;
+                UserAddDamageFromDirection(new RemoteEvents.UserAddDamageFromDirectionArguments { user = user, target = target, damage = damage, arc = arc });
+            }
+            void IPairedMessagesWithUser.UserAddDamageFromDirection(int user, int target, int damage, int arc)
+            {
+                ((IMessages)(this)).UserAddDamageFromDirection(user, target, damage, arc);
+            }
+
+            public event Action<RemoteEvents.ShowBulletsFlyingArguments> ShowBulletsFlying;
+            void IMessages.ShowBulletsFlying(int x, int y, int arc, int weaponType)
+            {
+                if(ShowBulletsFlying == null) return;
+                ShowBulletsFlying(new RemoteEvents.ShowBulletsFlyingArguments { x = x, y = y, arc = arc, weaponType = weaponType });
+            }
+            void IPairedMessagesWithoutUser.ShowBulletsFlying(int x, int y, int arc, int weaponType)
+            {
+                ((IMessages)(this)).ShowBulletsFlying(x, y, arc, weaponType);
+            }
+
+            public event Action<RemoteEvents.UserShowBulletsFlyingArguments> UserShowBulletsFlying;
+            void IMessages.UserShowBulletsFlying(int user, int x, int y, int arc, int weaponType)
+            {
+                if(UserShowBulletsFlying == null) return;
+                UserShowBulletsFlying(new RemoteEvents.UserShowBulletsFlyingArguments { user = user, x = x, y = y, arc = arc, weaponType = weaponType });
+            }
+            void IPairedMessagesWithUser.UserShowBulletsFlying(int user, int x, int y, int arc, int weaponType)
+            {
+                ((IMessages)(this)).UserShowBulletsFlying(user, x, y, arc, weaponType);
+            }
+
+            public event Action<RemoteEvents.ServerPlayerHelloArguments> ServerPlayerHello;
+            void IMessages.ServerPlayerHello(int user, string name)
+            {
+                if(ServerPlayerHello == null) return;
+                ServerPlayerHello(new RemoteEvents.ServerPlayerHelloArguments { user = user, name = name });
+            }
+
+            public event Action<RemoteEvents.ServerPlayerJoinedArguments> ServerPlayerJoined;
+            void IMessages.ServerPlayerJoined(int user, string name)
+            {
+                if(ServerPlayerJoined == null) return;
+                ServerPlayerJoined(new RemoteEvents.ServerPlayerJoinedArguments { user = user, name = name });
+            }
+
+            public event Action<RemoteEvents.ServerPlayerLeftArguments> ServerPlayerLeft;
+            void IMessages.ServerPlayerLeft(int user, string name)
+            {
+                if(ServerPlayerLeft == null) return;
+                ServerPlayerLeft(new RemoteEvents.ServerPlayerLeftArguments { user = user, name = name });
+            }
+
+            public event Action<RemoteEvents.PlayerAdvertiseArguments> PlayerAdvertise;
+            void IMessages.PlayerAdvertise(int ego)
+            {
+                if(PlayerAdvertise == null) return;
+                PlayerAdvertise(new RemoteEvents.PlayerAdvertiseArguments { ego = ego });
+            }
+
+            public event Action<RemoteEvents.PlayerResurrectArguments> PlayerResurrect;
+            void IMessages.PlayerResurrect()
+            {
+                if(PlayerResurrect == null) return;
+                PlayerResurrect(new RemoteEvents.PlayerResurrectArguments {  });
+            }
+            void IPairedMessagesWithoutUser.PlayerResurrect()
+            {
+                ((IMessages)(this)).PlayerResurrect();
+            }
+
+            public event Action<RemoteEvents.UserPlayerResurrectArguments> UserPlayerResurrect;
+            void IMessages.UserPlayerResurrect(int user)
+            {
+                if(UserPlayerResurrect == null) return;
+                UserPlayerResurrect(new RemoteEvents.UserPlayerResurrectArguments { user = user });
+            }
+            void IPairedMessagesWithUser.UserPlayerResurrect(int user)
+            {
+                ((IMessages)(this)).UserPlayerResurrect(user);
+            }
+
+            public event Action<RemoteEvents.ServerPlayerAdvertiseArguments> ServerPlayerAdvertise;
+            void IMessages.ServerPlayerAdvertise(int user, string name, int ego)
+            {
+                if(ServerPlayerAdvertise == null) return;
+                ServerPlayerAdvertise(new RemoteEvents.ServerPlayerAdvertiseArguments { user = user, name = name, ego = ego });
+            }
+
+            public event Action<RemoteEvents.UndeployExplosiveBarrelArguments> UndeployExplosiveBarrel;
+            void IMessages.UndeployExplosiveBarrel(int barrel)
+            {
+                if(UndeployExplosiveBarrel == null) return;
+                UndeployExplosiveBarrel(new RemoteEvents.UndeployExplosiveBarrelArguments { barrel = barrel });
+            }
+            void IPairedMessagesWithoutUser.UndeployExplosiveBarrel(int barrel)
+            {
+                ((IMessages)(this)).UndeployExplosiveBarrel(barrel);
+            }
+
+            public event Action<RemoteEvents.UserUndeployExplosiveBarrelArguments> UserUndeployExplosiveBarrel;
+            void IMessages.UserUndeployExplosiveBarrel(int user, int barrel)
+            {
+                if(UserUndeployExplosiveBarrel == null) return;
+                UserUndeployExplosiveBarrel(new RemoteEvents.UserUndeployExplosiveBarrelArguments { user = user, barrel = barrel });
+            }
+            void IPairedMessagesWithUser.UserUndeployExplosiveBarrel(int user, int barrel)
+            {
+                ((IMessages)(this)).UserUndeployExplosiveBarrel(user, barrel);
+            }
+
+            public event Action<RemoteEvents.DeployExplosiveBarrelArguments> DeployExplosiveBarrel;
+            void IMessages.DeployExplosiveBarrel(int weapon, int barrel, int x, int y)
+            {
+                if(DeployExplosiveBarrel == null) return;
+                DeployExplosiveBarrel(new RemoteEvents.DeployExplosiveBarrelArguments { weapon = weapon, barrel = barrel, x = x, y = y });
+            }
+            void IPairedMessagesWithoutUser.DeployExplosiveBarrel(int weapon, int barrel, int x, int y)
+            {
+                ((IMessages)(this)).DeployExplosiveBarrel(weapon, barrel, x, y);
+            }
+
+            public event Action<RemoteEvents.UserDeployExplosiveBarrelArguments> UserDeployExplosiveBarrel;
+            void IMessages.UserDeployExplosiveBarrel(int user, int weapon, int barrel, int x, int y)
+            {
+                if(UserDeployExplosiveBarrel == null) return;
+                UserDeployExplosiveBarrel(new RemoteEvents.UserDeployExplosiveBarrelArguments { user = user, weapon = weapon, barrel = barrel, x = x, y = y });
+            }
+            void IPairedMessagesWithUser.UserDeployExplosiveBarrel(int user, int weapon, int barrel, int x, int y)
+            {
+                ((IMessages)(this)).UserDeployExplosiveBarrel(user, weapon, barrel, x, y);
+            }
+
+        }
+        #endregion
     }
     #endregion
 }
-// 4.07.2008 15:59:32
+// 4.07.2008 16:41:39
