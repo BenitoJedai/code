@@ -302,13 +302,13 @@ namespace jsc.Languages.ActionScript
 
             // current interface exclusion implementation might not work well with abstract classes 
 
-            Action<MethodInfo, MethodInfo> WriteInterfaceMapping =
-                (_InterfaceMethod, _TargetMethod) =>
+            Action<MethodInfo, MethodInfo, MethodInfo> WriteInterfaceMapping =
+                (_InterfaceMethod, _ParamSignature, _TargetMethod) =>
                 {
                     if (_InterfaceMethod.Name == "set_Target")
                         DebugBreak();
 
-                    WriteMethodSignature(_InterfaceMethod, false, WriteMethodSignatureMode.Implementing);
+                    WriteMethodSignature(_InterfaceMethod, false, WriteMethodSignatureMode.Implementing, null, null, _ParamSignature);
 
                     using (CreateScope())
                     {
@@ -388,7 +388,15 @@ namespace jsc.Languages.ActionScript
                         mapping.InterfaceType
                         ;
 
-                    var InterfaceMethodImplementation = (MethodInfo)MySession.ResolveImplementation(InterfaceMethodDeclaringType, InterfaceMethod, AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveMethodOnly ) ?? InterfaceMethod;
+                    var InterfaceMethodImplementation = (MethodInfo)MySession.ResolveImplementation(InterfaceMethodDeclaringType, InterfaceMethod, 
+                        //AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveMethodOnly
+                        AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveBCLImplementation
+                        ) ?? InterfaceMethod;
+
+                    var InterfaceMethodImplementationSignature = (MethodInfo)MySession.ResolveImplementation(InterfaceMethodDeclaringType, InterfaceMethod,
+                        AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveMethodOnly
+                        //AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveBCLImplementation
+                        ) ?? InterfaceMethod;
 
                     var TargetMethod = mapping.TargetMethods[j];
 
@@ -419,7 +427,7 @@ namespace jsc.Languages.ActionScript
                                         InterfaceMethodImplementation.DeclaringType.Name + "." + InterfaceMethodImplementation.Name + "_" + InterfaceMethodImplementation.MetadataToken
                                         );
 
-                                    WriteInterfaceMapping(InterfaceMethodImplementation, TargetMethod);
+                                    WriteInterfaceMapping(InterfaceMethodImplementation, InterfaceMethodImplementationSignature, TargetMethod);
                                 };
                         }
                     }
@@ -729,10 +737,10 @@ namespace jsc.Languages.ActionScript
 
         protected void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic, WriteMethodSignatureMode mode)
         {
-            WriteMethodSignature(m, dStatic, mode, null, null);
+            WriteMethodSignature(m, dStatic, mode, null, null, m);
         }
 
-        protected void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic, WriteMethodSignatureMode mode, ILFlow.StackItem[] DefaultValues, Action<Action> AddDefaultVariableInitializer)
+        protected void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic, WriteMethodSignatureMode mode, ILFlow.StackItem[] DefaultValues, Action<Action> AddDefaultVariableInitializer, System.Reflection.MethodBase _ParamSignature)
         {
 
             var DeclaringType = m.DeclaringType;
@@ -816,7 +824,7 @@ namespace jsc.Languages.ActionScript
             }
 
             Write("(");
-            WriteMethodParameterList(m, DefaultValues, AddDefaultVariableInitializer);
+            WriteMethodParameterList(_ParamSignature ?? m, DefaultValues, AddDefaultVariableInitializer);
             Write(")");
 
             var cctor = m as ConstructorInfo;
@@ -828,7 +836,7 @@ namespace jsc.Languages.ActionScript
 
 
             #region ReturnType
-            var mi = m as MethodInfo;
+            var mi = (_ParamSignature ?? m) as MethodInfo;
 
             if (mi != null)
             {

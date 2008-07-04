@@ -59,7 +59,7 @@ namespace FlashTowerDefense.ActionScript.Client
 
             var c = NonobaAPI.MakeMultiplayer(stage
                 //, "192.168.3.102"
-                    , "192.168.1.119"
+                    //, "192.168.1.119"
                 );
 
             NetworkEvents = InitializeEvents();
@@ -119,6 +119,9 @@ namespace FlashTowerDefense.ActionScript.Client
             c.Disconnect +=
                  delegate
                  {
+                     if (Map == null)
+                         throw new Exception("Cannot connect to server at the moment");
+
                      Map.ShowMessage("Disconnected!");
                      Map.CanAutoSpawnEnemies = true;
 

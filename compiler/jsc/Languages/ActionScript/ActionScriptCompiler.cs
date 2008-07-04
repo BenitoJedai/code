@@ -820,7 +820,7 @@ namespace jsc.Languages.ActionScript
 
                 Action CustomVariableInitialization = delegate { };
 
-                WriteMethodSignature(target, false, WriteMethodSignatureMode.Delcaring, args, i => CustomVariableInitialization += i);
+                WriteMethodSignature(target, false, WriteMethodSignatureMode.Delcaring, args, i => CustomVariableInitialization += i, null);
                 WriteMethodBody(target, this.MethodBodyFilter, CustomVariableInitialization);
 
 
