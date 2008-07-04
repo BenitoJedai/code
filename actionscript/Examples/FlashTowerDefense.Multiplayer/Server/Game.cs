@@ -209,37 +209,47 @@ namespace FlashTowerDefense.Server
                 {
                     Send = e => this.Send(player, e.i, e.args)
                 };
-            
 
-            player.NetworkEvents = new SharedClass1.RemoteEvents();
+
+            player.NetworkEvents = new SharedClass1.RemoteEvents
+            {
+                Router = new SharedClass1.RemoteEvents.WithUserArgumentsRouter
+                {
+                    user = player.UserId,
+                    Target = player.NetworkMessages
+                }
+            };
 
 
             player.NetworkEvents.Ping += player.NetworkEvents.EmptyHandler;
-            player.NetworkEvents.EnterMachineGun += e => ToOthers.UserEnterMachineGun(player.UserId);
-            player.NetworkEvents.ExitMachineGun += e => ToOthers.UserExitMachineGun(player.UserId);
-            player.NetworkEvents.StartMachineGun += e => ToOthers.UserStartMachineGun(player.UserId);
-            player.NetworkEvents.StopMachineGun += e => ToOthers.UserStopMachineGun(player.UserId);
 
-            player.NetworkEvents.ShowBulletsFlying += e => ToOthers.UserShowBulletsFlying(player.UserId, e.x, e.y, e.arc, e.weaponType);
-            player.NetworkEvents.AddDamageFromDirection += e => ToOthers.UserAddDamageFromDirection(player.UserId, e.target, e.damage, e.arc);
-            player.NetworkEvents.AddDamage += e => ToOthers.UserAddDamage(player.UserId, e.target, e.damage);
+            //player.NetworkEvents.EnterMachineGun += e => ToOthers.UserEnterMachineGun(player.UserId);
+            //player.NetworkEvents.ExitMachineGun += e => ToOthers.UserExitMachineGun(player.UserId);
+            //player.NetworkEvents.StartMachineGun += e => ToOthers.UserStartMachineGun(player.UserId);
+            //player.NetworkEvents.StopMachineGun += e => ToOthers.UserStopMachineGun(player.UserId);
 
-            //player.NetworkEvents.AddDamageFromDirection += e => Console.WriteLine(player.Username + " damaged " + e.target + " by " + e.damage);
+            //player.NetworkEvents.ShowBulletsFlying += e => ToOthers.UserShowBulletsFlying(player.UserId, e.x, e.y, e.arc, e.weaponType);
+            //player.NetworkEvents.AddDamageFromDirection += e => ToOthers.UserAddDamageFromDirection(player.UserId, e.target, e.damage, e.arc);
+            //player.NetworkEvents.AddDamage += e => ToOthers.UserAddDamage(player.UserId, e.target, e.damage);
+
+            ////player.NetworkEvents.AddDamageFromDirection += e => Console.WriteLine(player.Username + " damaged " + e.target + " by " + e.damage);
 
 
-            player.NetworkEvents.TeleportTo += e => ToOthers.UserTeleportTo(player.UserId, e.x, e.y);
-            player.NetworkEvents.WalkTo += e => ToOthers.UserWalkTo(player.UserId, e.x, e.y);
+            //player.NetworkEvents.TeleportTo += e => ToOthers.UserTeleportTo(player.UserId, e.x, e.y);
+            //player.NetworkEvents.WalkTo += e => ToOthers.UserWalkTo(player.UserId, e.x, e.y);
 
-            player.NetworkEvents.TakeBox += e => ToOthers.UserTakeBox(player.UserId, e.box);
-            player.NetworkEvents.FiredWeapon += e => ToOthers.UserFiredWeapon(player.UserId, e.weapon);
-            player.NetworkEvents.DeployExplosiveBarrel += e => ToOthers.UserDeployExplosiveBarrel(player.UserId, e.weapon, e.barrel, e.x, e.y);
-            //player.NetworkEvents.DeployExplosiveBarrel += e => Console.WriteLine(player.Username + " deploy: " + e.barrel);
-            player.NetworkEvents.UndeployExplosiveBarrel += e => ToOthers.UserUndeployExplosiveBarrel(player.UserId, e.barrel);
+            //player.NetworkEvents.TakeBox += e => ToOthers.UserTakeBox(player.UserId, e.box);
+            //player.NetworkEvents.FiredWeapon += e => ToOthers.UserFiredWeapon(player.UserId, e.weapon);
+            //player.NetworkEvents.DeployExplosiveBarrel += e => ToOthers.UserDeployExplosiveBarrel(player.UserId, e.weapon, e.barrel, e.x, e.y);
+            ////player.NetworkEvents.DeployExplosiveBarrel += e => Console.WriteLine(player.Username + " deploy: " + e.barrel);
+            //player.NetworkEvents.UndeployExplosiveBarrel += e => ToOthers.UserUndeployExplosiveBarrel(player.UserId, e.barrel);
+            //player.NetworkEvents.PlayerResurrect += e => ToOthers.UserPlayerResurrect(player.UserId);
+
             //player.NetworkEvents.UndeployExplosiveBarrel += e => Console.WriteLine(player.Username + " undeploy: " + e.barrel);
 
 
             player.NetworkEvents.PlayerAdvertise += e => ToOthers.ServerPlayerAdvertise(player.UserId, player.Username, e.ego);
-            player.NetworkEvents.PlayerResurrect += e => ToOthers.UserPlayerResurrect(player.UserId);
+            
             //player.NetworkEvents.PlayerResurrect += e => Console.WriteLine("resurrect: " + player.Username);
 
 

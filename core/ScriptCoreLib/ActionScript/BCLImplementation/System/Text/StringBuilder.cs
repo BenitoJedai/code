@@ -15,6 +15,34 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Text
 
         string _Value = "";
 
+        public __StringBuilder Append(bool e)
+        {
+            _Value += e;
+
+            return this;
+        }
+
+        public __StringBuilder Append(double e)
+        {
+            _Value += e;
+
+            return this;
+        }
+
+        public __StringBuilder Append(uint e)
+        {
+            _Value += e;
+
+            return this;
+        }
+
+        public __StringBuilder Append(int e)
+        {
+            _Value += e;
+
+            return this;
+        }
+
         public __StringBuilder Append(string e)
         {
             _Value += e;

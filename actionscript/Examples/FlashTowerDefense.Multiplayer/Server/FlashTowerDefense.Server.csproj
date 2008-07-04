@@ -41,13 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Client\Shared\SharedClass1.cs">
+    <Compile Include="..\Shared\Shared\SharedClass1.Attributes.cs">
+      <Link>Shared\SharedClass1.Attributes.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Shared\SharedClass1.cs">
       <Link>Shared\SharedClass1.cs</Link>
     </Compile>
-    <Compile Include="..\Client\Shared\SharedClass1.DispatchHelper.cs">
+    <Compile Include="..\Shared\Shared\SharedClass1.DispatchHelper.cs">
       <Link>Shared\SharedClass1.DispatchHelper.cs</Link>
     </Compile>
-    <Compile Include="..\Client\Shared\SharedClass1.Generated.cs">
+    <Compile Include="..\Shared\Shared\SharedClass1.Generated.cs">
       <Link>Shared\SharedClass1.Generated.cs</Link>
     </Compile>
     <Compile Include="Game.cs" />

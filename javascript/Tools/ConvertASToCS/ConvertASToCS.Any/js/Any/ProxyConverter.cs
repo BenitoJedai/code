@@ -840,8 +840,8 @@ namespace ConvertASToCS.js.Any
                                 using (CodeBlock())
                                 using (IndentLine())
                                 {
-                                    WriteBlue("return");
-                                    WriteSpace();
+                                    //WriteBlue("return");
+                                    //WriteSpace();
 
                                     Write(WithUserArgumentsRouter_RemoteMessages.FieldName);
                                     Write(".");
@@ -1224,7 +1224,6 @@ namespace ConvertASToCS.js.Any
                             using (Parenthesis())
                             {
                                 WriteCyan("MethodImplOptions");
-                                Write(RemoteEvents_Router.AccessedThroughProperty);
                                 Write(".");
                                 Write("Synchronized");
                             }

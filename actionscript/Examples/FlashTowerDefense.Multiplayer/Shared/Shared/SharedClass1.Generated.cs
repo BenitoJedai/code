@@ -292,59 +292,59 @@ namespace FlashTowerDefense.Shared
                 #region Routing
                 public void UserTeleportTo(TeleportToArguments e)
                 {
-                    return Target.UserTeleportTo(this.user, e.x, e.y);
+                    Target.UserTeleportTo(this.user, e.x, e.y);
                 }
                 public void UserWalkTo(WalkToArguments e)
                 {
-                    return Target.UserWalkTo(this.user, e.x, e.y);
+                    Target.UserWalkTo(this.user, e.x, e.y);
                 }
                 public void UserTakeBox(TakeBoxArguments e)
                 {
-                    return Target.UserTakeBox(this.user, e.box);
+                    Target.UserTakeBox(this.user, e.box);
                 }
                 public void UserFiredWeapon(FiredWeaponArguments e)
                 {
-                    return Target.UserFiredWeapon(this.user, e.weapon);
+                    Target.UserFiredWeapon(this.user, e.weapon);
                 }
                 public void UserEnterMachineGun(EnterMachineGunArguments e)
                 {
-                    return Target.UserEnterMachineGun(this.user);
+                    Target.UserEnterMachineGun(this.user);
                 }
                 public void UserExitMachineGun(ExitMachineGunArguments e)
                 {
-                    return Target.UserExitMachineGun(this.user);
+                    Target.UserExitMachineGun(this.user);
                 }
                 public void UserStartMachineGun(StartMachineGunArguments e)
                 {
-                    return Target.UserStartMachineGun(this.user);
+                    Target.UserStartMachineGun(this.user);
                 }
                 public void UserStopMachineGun(StopMachineGunArguments e)
                 {
-                    return Target.UserStopMachineGun(this.user);
+                    Target.UserStopMachineGun(this.user);
                 }
                 public void UserAddDamage(AddDamageArguments e)
                 {
-                    return Target.UserAddDamage(this.user, e.target, e.damage);
+                    Target.UserAddDamage(this.user, e.target, e.damage);
                 }
                 public void UserAddDamageFromDirection(AddDamageFromDirectionArguments e)
                 {
-                    return Target.UserAddDamageFromDirection(this.user, e.target, e.damage, e.arc);
+                    Target.UserAddDamageFromDirection(this.user, e.target, e.damage, e.arc);
                 }
                 public void UserShowBulletsFlying(ShowBulletsFlyingArguments e)
                 {
-                    return Target.UserShowBulletsFlying(this.user, e.x, e.y, e.arc, e.weaponType);
+                    Target.UserShowBulletsFlying(this.user, e.x, e.y, e.arc, e.weaponType);
                 }
                 public void UserPlayerResurrect(PlayerResurrectArguments e)
                 {
-                    return Target.UserPlayerResurrect(this.user);
+                    Target.UserPlayerResurrect(this.user);
                 }
                 public void UserUndeployExplosiveBarrel(UndeployExplosiveBarrelArguments e)
                 {
-                    return Target.UserUndeployExplosiveBarrel(this.user, e.barrel);
+                    Target.UserUndeployExplosiveBarrel(this.user, e.barrel);
                 }
                 public void UserDeployExplosiveBarrel(DeployExplosiveBarrelArguments e)
                 {
-                    return Target.UserDeployExplosiveBarrel(this.user, e.weapon, e.barrel, e.x, e.y);
+                    Target.UserDeployExplosiveBarrel(this.user, e.weapon, e.barrel, e.x, e.y);
                 }
                 #endregion
             }
@@ -1066,7 +1066,7 @@ namespace FlashTowerDefense.Shared
                     return this._Router;
                 }
                 [DebuggerNonUserCode]
-                [MethodImpl(MethodImplOptionsRouter.Synchronized)]
+                [MethodImpl(MethodImplOptions.Synchronized)]
                 set
                 {
                     if(_Router != null)
@@ -1111,4 +1111,4 @@ namespace FlashTowerDefense.Shared
     }
     #endregion
 }
-// 4.07.2008 12:44:29
+// 4.07.2008 13:08:59

@@ -1,29 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Runtime.CompilerServices;
+
+#if !NoAttributes
 using ScriptCoreLib;
+#endif
 
 namespace FlashTowerDefense.Shared
 {
+
+#if !NoAttributes
     [Script]
-    public partial class SharedClass1
+#endif
+    partial class SharedClass1
     {
-        // as the server does not like the attributes the other part 
-        // of this class is shared as source to the server side
-        // without one :)
-
-        // also members defined over here cannot be used by the server code
-
+       
+#if !NoAttributes
         [Script]
-        partial interface IMessages
+#endif
+        partial  interface IMessages
         {
-
+ 
         }
 
-        [Script]
-        partial class RemoteMessages
-        {
 
-        }
     }
 }
