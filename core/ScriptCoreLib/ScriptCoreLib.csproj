@@ -165,7 +165,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ActionScript\BCLImplementation\System\Converter.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Copy of ArgumentNullException.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\NullReferenceException.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\DateTime.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Environment.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Int32.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Delegate.cs">

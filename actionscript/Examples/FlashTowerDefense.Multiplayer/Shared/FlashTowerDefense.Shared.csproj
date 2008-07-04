@@ -8,7 +8,7 @@
     <ProjectGuid>{16969E26-6189-4014-87CA-7BE7D3E403FD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FlashTowerDefense.Shared</RootNamespace>
+    <RootNamespace>FlashTowerDefense</RootNamespace>
     <AssemblyName>FlashTowerDefense.Shared</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -35,6 +35,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Query, Version=3.5.3107.21164, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
@@ -49,6 +53,15 @@
   <ItemGroup>
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\IRemoteEvents.cs" />
+    <Compile Include="Shared\Game.cs" />
+    <Compile Include="Shared\IDispatchHelper.cs" />
+    <Compile Include="Shared\Generic\ServerGameBase.cs" />
+    <Compile Include="Shared\Generic\ServerPlayerBase.cs" />
+    <Compile Include="Shared\IRemoteMessages.cs" />
+    <Compile Include="Shared\ISendArguments.cs" />
+    <Compile Include="Shared\IWithUserArgumentsRouter.cs" />
+    <Compile Include="Shared\Player.cs" />
     <Compile Include="Shared\SharedClass1.cs" />
     <Compile Include="Shared\SharedClass1.DispatchHelper.cs" />
     <Compile Include="Shared\SharedClass1.Generated.cs" />

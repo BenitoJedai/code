@@ -214,18 +214,21 @@ namespace FlashTowerDefense.Shared
         [Script]
 #endif
         [CompilerGenerated]
-        public sealed partial class RemoteMessages : IMessages, IPairedMessagesWithoutUser, IPairedMessagesWithUser
+        public sealed partial class RemoteMessages : IRemoteMessages<RemoteMessages.SendArguments>, IMessages, IPairedMessagesWithoutUser, IPairedMessagesWithUser
         {
-            public Action<SendArguments> Send;
+            public Action<SendArguments> Send { get; set; }
+
             #region SendArguments
 #if !NoAttributes
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class SendArguments
+            public sealed partial class SendArguments : ISendArguments
             {
-                public Messages i;
-                public object[] args;
+                int ISendArguments.i { get { return (int)i; } }
+
+                public Messages i { get; set; }
+                public object[] args { get; set; }
             }
             #endregion
             public void TeleportTo(int x, int y)
@@ -403,15 +406,16 @@ namespace FlashTowerDefense.Shared
             [CompilerGenerated]
             public partial class DispatchHelper
             {
-                public Converter<uint, int> GetInt32;
-                public Converter<uint, double> GetDouble;
-                public Converter<uint, string> GetString;
-                public Converter<uint, int[]> GetInt32Array;
-                public Converter<uint, double[]> GetDoubleArray;
-                public Converter<uint, string[]> GetStringArray;
-                public Converter<uint, object[]> GetArray;
+                public Converter<uint, int> GetInt32 { get; set; }
+                public Converter<uint, double> GetDouble { get; set; }
+                public Converter<uint, string> GetString { get; set; }
+                public Converter<uint, int[]> GetInt32Array { get; set; }
+                public Converter<uint, double[]> GetDoubleArray { get; set; }
+                public Converter<uint, string[]> GetStringArray { get; set; }
+                public Converter<uint, object[]> GetArray { get; set; }
             }
             #endregion
+            
             public bool Dispatch(Messages e, DispatchHelper h)
             {
                 if (!DispatchTableDelegates.ContainsKey(e)) return false;
@@ -435,9 +439,12 @@ namespace FlashTowerDefense.Shared
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class WithUserArgumentsRouter : WithUserArguments
+            public sealed partial class WithUserArgumentsRouter : WithUserArguments, IWithUserArgumentsRouter<RemoteMessages>
             {
-                public IPairedMessagesWithUser Target;
+                int IWithUserArgumentsRouter<RemoteMessages>.user { set { this.user = value; } }
+                RemoteMessages IWithUserArgumentsRouter<RemoteMessages>.Target { set { this.Target = value; } }
+
+                public RemoteMessages Target;
                 #region Routing
                 public void UserTeleportTo(TeleportToArguments e)
                 {
@@ -1272,7 +1279,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithoutUser.TeleportTo(int x, int y)
             {
-                ((IMessages)(this)).TeleportTo(x, y);
+                ((IMessages)this).TeleportTo(x, y);
             }
 
             public event Action<RemoteEvents.UserTeleportToArguments> UserTeleportTo;
@@ -1283,7 +1290,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithUser.UserTeleportTo(int user, int x, int y)
             {
-                ((IMessages)(this)).UserTeleportTo(user, x, y);
+                ((IMessages)this).UserTeleportTo(user, x, y);
             }
 
             public event Action<RemoteEvents.WalkToArguments> WalkTo;
@@ -1294,7 +1301,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithoutUser.WalkTo(int x, int y)
             {
-                ((IMessages)(this)).WalkTo(x, y);
+                ((IMessages)this).WalkTo(x, y);
             }
 
             public event Action<RemoteEvents.UserWalkToArguments> UserWalkTo;
@@ -1305,7 +1312,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithUser.UserWalkTo(int user, int x, int y)
             {
-                ((IMessages)(this)).UserWalkTo(user, x, y);
+                ((IMessages)this).UserWalkTo(user, x, y);
             }
 
             public event Action<RemoteEvents.CancelServerRandomNumbersArguments> CancelServerRandomNumbers;
@@ -1330,7 +1337,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithoutUser.TakeBox(int box)
             {
-                ((IMessages)(this)).TakeBox(box);
+                ((IMessages)this).TakeBox(box);
             }
 
             public event Action<RemoteEvents.UserTakeBoxArguments> UserTakeBox;
@@ -1341,7 +1348,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithUser.UserTakeBox(int user, int box)
             {
-                ((IMessages)(this)).UserTakeBox(user, box);
+                ((IMessages)this).UserTakeBox(user, box);
             }
 
             public event Action<RemoteEvents.FiredWeaponArguments> FiredWeapon;
@@ -1352,7 +1359,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithoutUser.FiredWeapon(int weapon)
             {
-                ((IMessages)(this)).FiredWeapon(weapon);
+                ((IMessages)this).FiredWeapon(weapon);
             }
 
             public event Action<RemoteEvents.UserFiredWeaponArguments> UserFiredWeapon;
@@ -1363,7 +1370,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithUser.UserFiredWeapon(int user, int weapon)
             {
-                ((IMessages)(this)).UserFiredWeapon(user, weapon);
+                ((IMessages)this).UserFiredWeapon(user, weapon);
             }
 
             public event Action<RemoteEvents.ServerRandomNumbersArguments> ServerRandomNumbers;
@@ -1388,7 +1395,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithUser.UserEnterMachineGun(int user)
             {
-                ((IMessages)(this)).UserEnterMachineGun(user);
+                ((IMessages)this).UserEnterMachineGun(user);
             }
 
             public event Action<RemoteEvents.UserExitMachineGunArguments> UserExitMachineGun;
@@ -1399,7 +1406,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithUser.UserExitMachineGun(int user)
             {
-                ((IMessages)(this)).UserExitMachineGun(user);
+                ((IMessages)this).UserExitMachineGun(user);
             }
 
             public event Action<RemoteEvents.UserStartMachineGunArguments> UserStartMachineGun;
@@ -1410,7 +1417,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithUser.UserStartMachineGun(int user)
             {
-                ((IMessages)(this)).UserStartMachineGun(user);
+                ((IMessages)this).UserStartMachineGun(user);
             }
 
             public event Action<RemoteEvents.UserStopMachineGunArguments> UserStopMachineGun;
@@ -1421,7 +1428,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithUser.UserStopMachineGun(int user)
             {
-                ((IMessages)(this)).UserStopMachineGun(user);
+                ((IMessages)this).UserStopMachineGun(user);
             }
 
             public event Action<RemoteEvents.EnterMachineGunArguments> EnterMachineGun;
@@ -1432,7 +1439,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithoutUser.EnterMachineGun()
             {
-                ((IMessages)(this)).EnterMachineGun();
+                ((IMessages)this).EnterMachineGun();
             }
 
             public event Action<RemoteEvents.ExitMachineGunArguments> ExitMachineGun;
@@ -1443,7 +1450,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithoutUser.ExitMachineGun()
             {
-                ((IMessages)(this)).ExitMachineGun();
+                ((IMessages)this).ExitMachineGun();
             }
 
             public event Action<RemoteEvents.StartMachineGunArguments> StartMachineGun;
@@ -1454,7 +1461,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithoutUser.StartMachineGun()
             {
-                ((IMessages)(this)).StartMachineGun();
+                ((IMessages)this).StartMachineGun();
             }
 
             public event Action<RemoteEvents.StopMachineGunArguments> StopMachineGun;
@@ -1465,7 +1472,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithoutUser.StopMachineGun()
             {
-                ((IMessages)(this)).StopMachineGun();
+                ((IMessages)this).StopMachineGun();
             }
 
             public event Action<RemoteEvents.PingArguments> Ping;
@@ -1483,7 +1490,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithoutUser.AddDamage(int target, int damage)
             {
-                ((IMessages)(this)).AddDamage(target, damage);
+                ((IMessages)this).AddDamage(target, damage);
             }
 
             public event Action<RemoteEvents.UserAddDamageArguments> UserAddDamage;
@@ -1494,7 +1501,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithUser.UserAddDamage(int user, int target, int damage)
             {
-                ((IMessages)(this)).UserAddDamage(user, target, damage);
+                ((IMessages)this).UserAddDamage(user, target, damage);
             }
 
             public event Action<RemoteEvents.AddDamageFromDirectionArguments> AddDamageFromDirection;
@@ -1505,7 +1512,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithoutUser.AddDamageFromDirection(int target, int damage, int arc)
             {
-                ((IMessages)(this)).AddDamageFromDirection(target, damage, arc);
+                ((IMessages)this).AddDamageFromDirection(target, damage, arc);
             }
 
             public event Action<RemoteEvents.UserAddDamageFromDirectionArguments> UserAddDamageFromDirection;
@@ -1516,7 +1523,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithUser.UserAddDamageFromDirection(int user, int target, int damage, int arc)
             {
-                ((IMessages)(this)).UserAddDamageFromDirection(user, target, damage, arc);
+                ((IMessages)this).UserAddDamageFromDirection(user, target, damage, arc);
             }
 
             public event Action<RemoteEvents.ShowBulletsFlyingArguments> ShowBulletsFlying;
@@ -1527,7 +1534,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithoutUser.ShowBulletsFlying(int x, int y, int arc, int weaponType)
             {
-                ((IMessages)(this)).ShowBulletsFlying(x, y, arc, weaponType);
+                ((IMessages)this).ShowBulletsFlying(x, y, arc, weaponType);
             }
 
             public event Action<RemoteEvents.UserShowBulletsFlyingArguments> UserShowBulletsFlying;
@@ -1538,7 +1545,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithUser.UserShowBulletsFlying(int user, int x, int y, int arc, int weaponType)
             {
-                ((IMessages)(this)).UserShowBulletsFlying(user, x, y, arc, weaponType);
+                ((IMessages)this).UserShowBulletsFlying(user, x, y, arc, weaponType);
             }
 
             public event Action<RemoteEvents.ServerPlayerHelloArguments> ServerPlayerHello;
@@ -1577,7 +1584,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithoutUser.PlayerResurrect()
             {
-                ((IMessages)(this)).PlayerResurrect();
+                ((IMessages)this).PlayerResurrect();
             }
 
             public event Action<RemoteEvents.UserPlayerResurrectArguments> UserPlayerResurrect;
@@ -1588,7 +1595,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithUser.UserPlayerResurrect(int user)
             {
-                ((IMessages)(this)).UserPlayerResurrect(user);
+                ((IMessages)this).UserPlayerResurrect(user);
             }
 
             public event Action<RemoteEvents.ServerPlayerAdvertiseArguments> ServerPlayerAdvertise;
@@ -1606,7 +1613,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithoutUser.UndeployExplosiveBarrel(int barrel)
             {
-                ((IMessages)(this)).UndeployExplosiveBarrel(barrel);
+                ((IMessages)this).UndeployExplosiveBarrel(barrel);
             }
 
             public event Action<RemoteEvents.UserUndeployExplosiveBarrelArguments> UserUndeployExplosiveBarrel;
@@ -1617,7 +1624,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithUser.UserUndeployExplosiveBarrel(int user, int barrel)
             {
-                ((IMessages)(this)).UserUndeployExplosiveBarrel(user, barrel);
+                ((IMessages)this).UserUndeployExplosiveBarrel(user, barrel);
             }
 
             public event Action<RemoteEvents.DeployExplosiveBarrelArguments> DeployExplosiveBarrel;
@@ -1628,7 +1635,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithoutUser.DeployExplosiveBarrel(int weapon, int barrel, int x, int y)
             {
-                ((IMessages)(this)).DeployExplosiveBarrel(weapon, barrel, x, y);
+                ((IMessages)this).DeployExplosiveBarrel(weapon, barrel, x, y);
             }
 
             public event Action<RemoteEvents.UserDeployExplosiveBarrelArguments> UserDeployExplosiveBarrel;
@@ -1639,7 +1646,7 @@ namespace FlashTowerDefense.Shared
             }
             void IPairedMessagesWithUser.UserDeployExplosiveBarrel(int user, int weapon, int barrel, int x, int y)
             {
-                ((IMessages)(this)).UserDeployExplosiveBarrel(user, weapon, barrel, x, y);
+                ((IMessages)this).UserDeployExplosiveBarrel(user, weapon, barrel, x, y);
             }
 
         }
@@ -1647,4 +1654,4 @@ namespace FlashTowerDefense.Shared
     }
     #endregion
 }
-// 4.07.2008 16:41:39
+// 4.07.2008 17:42:38

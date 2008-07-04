@@ -8,12 +8,26 @@ using System.Runtime.CompilerServices;
 
 namespace FlashTowerDefense.Server
 {
+    class Game : Generic.VirtualServerGameBase<
+        SharedClass1.RemoteMessages.SendArguments,
+        SharedClass1.RemoteEvents.WithUserArgumentsRouter,
+        SharedClass1.RemoteEvents.DispatchHelper,
+        SharedClass1.RemoteEvents,
+        SharedClass1.RemoteMessages,
+        Shared.Game,
+        Shared.Player,
+        Game,
+        Player>
+    {
+
+    }
+#if XXX
     /// <summary>
     /// Each instance of this class represents one game.
-    /// 
     /// </summary>
     public class Game : NonobaGame<Player>
     {
+        public Shared.Game Virtual;
 
 
         /// <summary>
@@ -23,158 +37,35 @@ namespace FlashTowerDefense.Server
         /// </summary>
         public override void GameStarted()
         {
+            Virtual = new FlashTowerDefense.Shared.Game
+            {
+                AtDelay = (h, i) => this.ScheduleCallback(() => h(), i).Stop,
+                AtInterval = (h, i) => this.AddTimer(() => h(), i).Stop,
+            };
+
             // You can explicitly setup how many users are allowed in your game.
             MaxUsers = 8;
 
-            // You can schedule a onetime callback for later. 
-            // In this case, we're sending out a onetime "delayedhello"
-            // message 10000 milliseconds (10 seconds) after the 
-            // game is started
-            //ScheduleCallback(delegate
-            //{
-            //    Broadcast("delayedhello");
-            //}, 10000);
-
-            // You can setup timers to issue regular callbacks
-            // in this case, the tick() method will be called
-            // every 100th millisecond (10 times a second).
-            // AddTimer(new TimerCallback(tick), 30000);
-
-            AddTimer(CheckIfAllReady, 2000);
-            AddTimer(SendNextWave, 5000);
+            Virtual.GameStarted();
         }
 
-        List<Player> PlayersWithActiveWarzone;
 
-        public readonly int MinimumPlayersToActivateWarzone = 1;
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        private void CheckIfAllReady()
+        public override void GameClosed()
         {
-            //if (PlayersWithActiveWarzone != null)
-            //    return;
-
-            //if (Users.Length < MinimumPlayersToActivateWarzone)
-            //    return;
-
-            //var Ready = new List<Player>();
-            //var NextReadyCount = 0;
-
-            //foreach (var z in Users)
-            //{
-            //    if (z.GameEventStatus == Player.GameEventStatusEnum.Ready)
-            //        Ready.Add(z);
-
-            //    if (z.GameEventStatus == Player.GameEventStatusEnum.Lagging)
-            //        continue;
-
-            //    NextReadyCount++;
-            //}
-
-            //if (NextReadyCount > 0)
-            //{
-            //    if (Ready.Count == NextReadyCount)
-            //    {
-            //        //Broadcast(SharedClass1.Messages.ServerMessage, "New wave!");
-
-            //        foreach (var z in Ready)
-            //            z.GameEventStatus = Player.GameEventStatusEnum.Pending;
-
-            //        // multiple users are ready
-            //        PlayersWithActiveWarzone = Ready;
-
-            //        SetState(NonobaGameState.OpenGameInProgress);
-            //    }
-            //    else
-            //    {
-
-            //        //Broadcast(SharedClass1.Messages.ServerMessage, "All not ready!");
-            //    }
-            //}
-
+            Virtual.GameClosed();
+            Virtual = null;
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        private void SendNextWave()
-        {
-            //if (PlayersWithActiveWarzone == null)
-            //    return;
-
-            ////Broadcast(SharedClass1.Messages.ServerMessage, "The wave is still active!");
-
-            //var Cancelled = new List<Player>();
-
-            var z = GenerateRandomNumbers();
-
-            //foreach (var i in Users.ToArray())
-            //{
-            //    if (i.LastMessage.AddSeconds(5) < DateTime.Now)
-            //    {
-            //        i.GameEventStatus = Player.GameEventStatusEnum.Lagging;
-            //        PlayersWithActiveWarzone.Remove(i);
-            //        continue;
-            //    }
-            //}
-
-            Console.WriteLine("Next Wave");
-
-            foreach (var i in Users)
-            {
-
-
-                //if (i.GameEventStatus == Player.GameEventStatusEnum.Pending)
-                //{
-                    i.NetworkMessages.ServerRandomNumbers(z);
-                    //Send(i, SharedClass1.Messages.ServerRandomNumbers, z);
-                //}
-                //else if (i.GameEventStatus == Player.GameEventStatusEnum.Cancelled)
-                //{
-                //    Cancelled.Add(i);
-                //}
-            }
-
-            //if (Cancelled.Count == PlayersWithActiveWarzone.Count)
-            //{
-            //    // end of day for those guys
-            //    PlayersWithActiveWarzone = null;
-            //    SetState(NonobaGameState.WaitingForPlayers);
-            //}
-
-            
-        }
-
-        private double[] GenerateRandomNumbers()
-        {
-            var a = new List<double>();
-            var r = new Random();
-
-            for (int i = 0; i < 100; i++)
-            {
-                a.Add(r.NextDouble());
-            }
-            var z = a.ToArray();
-            return z;
-        }
-
-      
         /// <summary>This message is called whenever a player sends a message into the game.</summary>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void GotMessage(Player player, Message m)
         {
-            var NetworkMessages_ToOthers = 
-                new SharedClass1.RemoteMessages 
-                { 
-                    Send = q => this.SendOthers(player.UserId, q.i, q.args)
-                };
-
-            player.LastMessage = DateTime.Now;
-
             var e = (SharedClass1.Messages)int.Parse(m.Type);
 
-            if (player.NetworkEvents.Dispatch(e,
+            if (player.Virtual.FromPlayer.Dispatch(e,
                     new SharedClass1.RemoteEvents.DispatchHelper
                     {
-                        GetLength = i => (int) m.Count,
+                        GetLength = i => (int)m.Count,
                         GetInt32 = m.GetInt,
                         GetDouble = m.GetDouble,
                         GetString = m.GetString
@@ -190,52 +81,46 @@ namespace FlashTowerDefense.Server
         /// <summary>When a user enters this game instance</summary>
         public override void UserJoined(Player player)
         {
-            var ToOthers =
-                 new SharedClass1.RemoteMessages
-                 {
-                     Send = q => this.SendOthers(player.UserId, q.i, q.args)
-                 };
-
-            player.NetworkMessages = 
-                new SharedClass1.RemoteMessages
-                {
-                    Send = e => this.Send(player, e.i, e.args)
-                };
-
-
-            player.NetworkEvents = new SharedClass1.RemoteEvents
+            player.Virtual = new FlashTowerDefense.Shared.Player
             {
-                Router = new SharedClass1.RemoteEvents.WithUserArgumentsRouter
-                {
-                    user = player.UserId,
-                    Target = ToOthers
-                }
+                ToOthers =
+                    new SharedClass1.RemoteMessages
+                    {
+                        Send = q => this.SendOthers(player.UserId, q.i, q.args)
+                    },
+                ToPlayer =
+                    new SharedClass1.RemoteMessages
+                    {
+                        Send = e => this.Send(player, e.i, e.args)
+                    },
+                FromPlayer =
+                    new SharedClass1.RemoteEvents
+                    {
+                        Router = new SharedClass1.RemoteEvents.WithUserArgumentsRouter
+                        {
+                            user = player.UserId,
+                        }
+                    },
+                UserId = player.UserId,
+                Username = player.Username
             };
 
+            player.Virtual.FromPlayer.Router.Target = player.Virtual.ToOthers;
 
-            player.NetworkEvents.Ping += player.NetworkEvents.EmptyHandler;
-            player.NetworkEvents.PlayerAdvertise += e => ToOthers.ServerPlayerAdvertise(player.UserId, player.Username, e.ego);
-            player.NetworkEvents.ReadyForServerRandomNumbers += e => player.GameEventStatus = Player.GameEventStatusEnum.Ready;
-            player.NetworkEvents.CancelServerRandomNumbers += e => player.GameEventStatus = Player.GameEventStatusEnum.Cancelled;
+            Virtual.Users.Add(player.Virtual);
 
-            player.NetworkMessages.ServerPlayerHello(player.UserId, player.Username);
+            Virtual.UserJoined(player.Virtual);
 
-            ToOthers.ServerPlayerJoined(
-               player.UserId, player.Username
-            );
-            
+
+
+
+
             // reset waves
-            
+
             ScheduleCallback(
                 delegate
                 {
-                
-
-
-                    if (this.PlayersWithActiveWarzone == null)
-                        player.NetworkMessages.ServerMessage("Game will start shortly!");
-                    else
-                        player.NetworkMessages.ServerMessage("Wait for the next day!");
+                    player.Virtual.ToPlayer.ServerMessage("Game will start shortly!");
                 },
                 25
             );
@@ -247,25 +132,22 @@ namespace FlashTowerDefense.Server
         /// <summary>When a user leaves the game instance</summary>
         public override void UserLeft(Player player)
         {
-            if (PlayersWithActiveWarzone != null)
-                PlayersWithActiveWarzone.Remove(player);
+            this.Virtual.Users.Remove(player.Virtual);
+            this.Virtual.UserLeft(player.Virtual);
+            player.Virtual = null;
 
-            var ToOthers =
-                new SharedClass1.RemoteMessages
-                {
-                    Send = q => this.SendOthers(player.UserId, q.i, q.args)
-                };
 
-            ToOthers.ServerPlayerLeft(player.UserId, player.Username);
+
         }
 
-        public void Send(Player v, Shared.SharedClass1.Messages type, params object[] e)
+        #region Send
+        private void Send(Player v, Shared.SharedClass1.Messages type, params object[] e)
         {
-            
+
             v.Send(((int)type).ToString(), e);
         }
 
-        public void Send(int id, Shared.SharedClass1.Messages type, params object[] e)
+        private void Send(int id, Shared.SharedClass1.Messages type, params object[] e)
         {
             foreach (var v in Users)
             {
@@ -274,8 +156,7 @@ namespace FlashTowerDefense.Server
             }
         }
 
-
-        public void SendOthers(int id, Shared.SharedClass1.Messages type, params object[] e)
+        private void SendOthers(int id, Shared.SharedClass1.Messages type, params object[] e)
         {
             foreach (var v in Users)
             {
@@ -285,11 +166,13 @@ namespace FlashTowerDefense.Server
         }
 
 
-        public void Broadcast(Shared.SharedClass1.Messages type, params object[] e)
+        private void Broadcast(Shared.SharedClass1.Messages type, params object[] e)
         {
             Broadcast(((int)type).ToString(), e);
         }
-      
-        
+
+        #endregion
+
     }
+#endif
 }

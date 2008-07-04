@@ -12,7 +12,7 @@ namespace FlashTowerDefense.Shared
     /// type mappings but no real type usage.
     /// </summary>
     public interface IAssemblyReferenceToken :
-        //ScriptCoreLib.Shared.Query.IAssemblyReferenceToken,
+        ScriptCoreLib.Shared.Query.IAssemblyReferenceToken,
         ScriptCoreLib.Shared.IAssemblyReferenceToken
         //ScriptCoreLib.Nonoba.IAssemblyReferenceToken
     {

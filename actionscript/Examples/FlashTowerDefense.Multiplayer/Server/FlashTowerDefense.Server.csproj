@@ -41,6 +41,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Shared\Shared\Game.cs">
+      <Link>Shared\Game.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Shared\Generic\ServerGameBase.cs">
+      <Link>Shared\Generic\ServerGameBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Shared\Generic\ServerPlayerBase.cs">
+      <Link>Shared\Generic\ServerPlayerBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Shared\IDispatchHelper.cs">
+      <Link>Shared\IDispatchHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Shared\IRemoteEvents.cs">
+      <Link>Shared\IRemoteEvents.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Shared\IRemoteMessages.cs">
+      <Link>Shared\IRemoteMessages.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Shared\ISendArguments.cs">
+      <Link>Shared\ISendArguments.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Shared\IWithUserArgumentsRouter.cs">
+      <Link>Shared\IWithUserArgumentsRouter.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Shared\Player.cs">
+      <Link>Shared\Player.cs</Link>
+    </Compile>
     <Compile Include="..\Shared\Shared\SharedClass1.cs">
       <Link>Shared\SharedClass1.cs</Link>
     </Compile>
@@ -51,8 +78,11 @@
       <Link>Shared\SharedClass1.Generated.cs</Link>
     </Compile>
     <Compile Include="Game.cs" />
+    <Compile Include="Generic\VirtualServerGameBase.cs" />
+    <Compile Include="Generic\VirtualServerPlayerBase.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScriptCoreLib\ScriptAttribute.cs" />
     <Compile Include="System\Action.cs" />
     <Compile Include="System\Func.cs" />
   </ItemGroup>
