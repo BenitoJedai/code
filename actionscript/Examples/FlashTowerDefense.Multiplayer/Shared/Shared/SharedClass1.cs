@@ -3,13 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.CompilerServices;
 
-#if !NoAttributes
-using ScriptCoreLib;
-#endif
 
 namespace FlashTowerDefense.Shared
 {
-
 
     public partial class SharedClass1
     {
@@ -18,11 +14,16 @@ namespace FlashTowerDefense.Shared
 
         public string Hello;
 
+        // A pattern like this gets special treatment:
+        // void User...(int user, ...)
+
+
         /// <summary>
         /// this interface is to be used in a generator
         /// </summary>
         public partial interface IMessages
         {
+      
             // this will generate lots of overkill boilerplate code :)
 
             // client -> server  -> others

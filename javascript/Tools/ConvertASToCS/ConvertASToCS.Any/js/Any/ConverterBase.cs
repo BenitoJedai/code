@@ -38,13 +38,17 @@ namespace ConvertASToCS.js.Any
             public string Name;
 
             public string BaseTypeName;
+            public string[] BaseTypeNames;
 
             public bool IsSealed;
             public bool IsAbstract;
+            public bool IsInterface;
 
             public FieldInfo[] Fields;
 
             public bool NoAttributes;
+
+            
         }
 
         public static readonly List<string> CSharpKeywords = new List<string>

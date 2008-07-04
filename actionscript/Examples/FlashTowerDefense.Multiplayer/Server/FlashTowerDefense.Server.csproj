@@ -41,9 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Shared\Shared\SharedClass1.Attributes.cs">
-      <Link>Shared\SharedClass1.Attributes.cs</Link>
-    </Compile>
     <Compile Include="..\Shared\Shared\SharedClass1.cs">
       <Link>Shared\SharedClass1.cs</Link>
     </Compile>

@@ -60,12 +60,114 @@ namespace FlashTowerDefense.Shared
         }
         #endregion
 
+        #region IMessages
+#if !NoAttributes
+        [Script]
+#endif
+        [CompilerGenerated]
+        public partial interface IMessages
+        {
+        }
+        #endregion
+        #region IPairedEventsWithoutUser
+#if !NoAttributes
+        [Script]
+#endif
+        [CompilerGenerated]
+        public partial interface IPairedEventsWithoutUser
+        {
+            event Action<RemoteEvents.TeleportToArguments> TeleportTo;
+            event Action<RemoteEvents.WalkToArguments> WalkTo;
+            event Action<RemoteEvents.TakeBoxArguments> TakeBox;
+            event Action<RemoteEvents.FiredWeaponArguments> FiredWeapon;
+            event Action<RemoteEvents.EnterMachineGunArguments> EnterMachineGun;
+            event Action<RemoteEvents.ExitMachineGunArguments> ExitMachineGun;
+            event Action<RemoteEvents.StartMachineGunArguments> StartMachineGun;
+            event Action<RemoteEvents.StopMachineGunArguments> StopMachineGun;
+            event Action<RemoteEvents.AddDamageArguments> AddDamage;
+            event Action<RemoteEvents.AddDamageFromDirectionArguments> AddDamageFromDirection;
+            event Action<RemoteEvents.ShowBulletsFlyingArguments> ShowBulletsFlying;
+            event Action<RemoteEvents.PlayerResurrectArguments> PlayerResurrect;
+            event Action<RemoteEvents.UndeployExplosiveBarrelArguments> UndeployExplosiveBarrel;
+            event Action<RemoteEvents.DeployExplosiveBarrelArguments> DeployExplosiveBarrel;
+        }
+        #endregion
+        #region IPairedEventsWithUser
+#if !NoAttributes
+        [Script]
+#endif
+        [CompilerGenerated]
+        public partial interface IPairedEventsWithUser
+        {
+            event Action<RemoteEvents.UserTeleportToArguments> UserTeleportTo;
+            event Action<RemoteEvents.UserWalkToArguments> UserWalkTo;
+            event Action<RemoteEvents.UserTakeBoxArguments> UserTakeBox;
+            event Action<RemoteEvents.UserFiredWeaponArguments> UserFiredWeapon;
+            event Action<RemoteEvents.UserEnterMachineGunArguments> UserEnterMachineGun;
+            event Action<RemoteEvents.UserExitMachineGunArguments> UserExitMachineGun;
+            event Action<RemoteEvents.UserStartMachineGunArguments> UserStartMachineGun;
+            event Action<RemoteEvents.UserStopMachineGunArguments> UserStopMachineGun;
+            event Action<RemoteEvents.UserAddDamageArguments> UserAddDamage;
+            event Action<RemoteEvents.UserAddDamageFromDirectionArguments> UserAddDamageFromDirection;
+            event Action<RemoteEvents.UserShowBulletsFlyingArguments> UserShowBulletsFlying;
+            event Action<RemoteEvents.UserPlayerResurrectArguments> UserPlayerResurrect;
+            event Action<RemoteEvents.UserUndeployExplosiveBarrelArguments> UserUndeployExplosiveBarrel;
+            event Action<RemoteEvents.UserDeployExplosiveBarrelArguments> UserDeployExplosiveBarrel;
+        }
+        #endregion
+        #region IPairedMessagesWithUser
+#if !NoAttributes
+        [Script]
+#endif
+        [CompilerGenerated]
+        public partial interface IPairedMessagesWithUser
+        {
+            void UserTeleportTo(int user, int x, int y);
+            void UserWalkTo(int user, int x, int y);
+            void UserTakeBox(int user, int box);
+            void UserFiredWeapon(int user, int weapon);
+            void UserEnterMachineGun(int user);
+            void UserExitMachineGun(int user);
+            void UserStartMachineGun(int user);
+            void UserStopMachineGun(int user);
+            void UserAddDamage(int user, int target, int damage);
+            void UserAddDamageFromDirection(int user, int target, int damage, int arc);
+            void UserShowBulletsFlying(int user, int x, int y, int arc, int weaponType);
+            void UserPlayerResurrect(int user);
+            void UserUndeployExplosiveBarrel(int user, int barrel);
+            void UserDeployExplosiveBarrel(int user, int weapon, int barrel, int x, int y);
+        }
+        #endregion
+        #region IPairedMessagesWithoutUser
+#if !NoAttributes
+        [Script]
+#endif
+        [CompilerGenerated]
+        public partial interface IPairedMessagesWithoutUser
+        {
+            void TeleportTo(int x, int y);
+            void WalkTo(int x, int y);
+            void TakeBox(int box);
+            void FiredWeapon(int weapon);
+            void EnterMachineGun();
+            void ExitMachineGun();
+            void StartMachineGun();
+            void StopMachineGun();
+            void AddDamage(int target, int damage);
+            void AddDamageFromDirection(int target, int damage, int arc);
+            void ShowBulletsFlying(int x, int y, int arc, int weaponType);
+            void PlayerResurrect();
+            void UndeployExplosiveBarrel(int barrel);
+            void DeployExplosiveBarrel(int weapon, int barrel, int x, int y);
+        }
+        #endregion
+
         #region RemoteMessages
 #if !NoAttributes
         [Script]
 #endif
         [CompilerGenerated]
-        public sealed partial class RemoteMessages : IMessages
+        public sealed partial class RemoteMessages : IMessages, IPairedMessagesWithoutUser, IPairedMessagesWithUser
         {
             public Action<SendArguments> Send;
             #region SendArguments
@@ -241,7 +343,7 @@ namespace FlashTowerDefense.Shared
         [Script]
 #endif
         [CompilerGenerated]
-        public sealed partial class RemoteEvents
+        public sealed partial class RemoteEvents : IPairedEventsWithoutUser, IPairedEventsWithUser
         {
             private readonly Dictionary<Messages, Action<DispatchHelper>> DispatchTable;
             private readonly Dictionary<Messages, Converter<object, Delegate>> DispatchTableDelegates;
@@ -288,7 +390,7 @@ namespace FlashTowerDefense.Shared
             [CompilerGenerated]
             public sealed partial class WithUserArgumentsRouter : WithUserArguments
             {
-                public RemoteMessages Target;
+                public IPairedMessagesWithUser Target;
                 #region Routing
                 public void UserTeleportTo(TeleportToArguments e)
                 {
@@ -1111,4 +1213,4 @@ namespace FlashTowerDefense.Shared
     }
     #endregion
 }
-// 4.07.2008 14:08:17
+// 4.07.2008 15:59:32

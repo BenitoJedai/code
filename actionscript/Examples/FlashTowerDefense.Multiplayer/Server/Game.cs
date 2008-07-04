@@ -156,18 +156,8 @@ namespace FlashTowerDefense.Server
             return z;
         }
 
-        /// <summary>Timer callback scheduled to be called 10 times a second in the AddTimer() call in GameStarted()</summary>
-        //private void tick()
-        //{
-
-        //    Console.WriteLine("Use Console.WriteLine() for easy debugging");
-
-        //    RefreshDebugView(); // update the visual debugging view
-        //    //Broadcast("tick");
-        //}
-
+      
         /// <summary>This message is called whenever a player sends a message into the game.</summary>
-        /// 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void GotMessage(Player player, Message m)
         {
@@ -299,23 +289,7 @@ namespace FlashTowerDefense.Server
         {
             Broadcast(((int)type).ToString(), e);
         }
-        ///// <summary>
-        ///// This method can be used to generate a visual debugging image, that
-        ///// will be displayed in the Development Server. 
-        ///// Call RefreshDebugView() to update image.
-        ///// </summary>
-        //public override Image GenerateDebugImage()
-        //{
-        //    // example code creating a 100x100 image and drawing the string "hello world" on it.
-        //    Bitmap image = new Bitmap(100, 100);
-        //    using (Graphics g = Graphics.FromImage(image))
-        //    {
-        //        g.FillRectangle(Brushes.DarkGray, 0, 0, 100, 100);
-        //        g.DrawString("Hello World", new Font("verdana", 10F), Brushes.Black, 0, 0);
-        //    }
-        //    return image;
-        //}
-
+      
         
     }
 }

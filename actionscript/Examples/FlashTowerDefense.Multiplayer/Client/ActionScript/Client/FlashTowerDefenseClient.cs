@@ -164,27 +164,29 @@ namespace FlashTowerDefense.ActionScript.Client
 
                     //Func<SharedClass1.Messages, ParamsAction<object>> f = (SharedClass1.Messages j) => j.FixParam((SharedClass1.Messages i, object[] args) => c.SendMessage(i, args));
 
-              
+
+                    var ToOthers = (SharedClass1.IPairedMessagesWithoutUser) NetworkMessages;
+
 
                     
 
                     // with data
-                    BroadcastTeleportTo = () => NetworkMessages.TeleportTo(Map.Ego.x.ToInt32(), Map.Ego.y.ToInt32());
+                    BroadcastTeleportTo = () => ToOthers.TeleportTo(Map.Ego.x.ToInt32(), Map.Ego.y.ToInt32());
 
                     Map.EgoEnteredMachineGun +=
-                        () => NetworkMessages.EnterMachineGun();
+                        () => ToOthers.EnterMachineGun();
 
                     Map.EgoExitedMachineGun +=
                         delegate
                         {
-                            NetworkMessages.ExitMachineGun();
+                            ToOthers.ExitMachineGun();
                             BroadcastTeleportTo();
                         };
 
                     Map.EgoMovedSlowTimer.timer +=
                         delegate
                         {
-                            NetworkMessages.WalkTo(Map.Ego.x.ToInt32(), Map.Ego.y.ToInt32());
+                            ToOthers.WalkTo(Map.Ego.x.ToInt32(), Map.Ego.y.ToInt32());
                         };
 
                     Map.PrebuiltTurret.AnimationEnabledChanged +=
@@ -193,32 +195,33 @@ namespace FlashTowerDefense.ActionScript.Client
                             if (!Map.EgoIsOnTheField())
                             {
                                 if (Map.PrebuiltTurret.AnimationEnabled)
-                                    NetworkMessages.StartMachineGun();
+                                    ToOthers.StartMachineGun();
                                 else
-                                    NetworkMessages.StopMachineGun();
+                                    ToOthers.StopMachineGun();
                             }
                         };
 
-                    Map.EgoFiredWeapon += w => NetworkMessages.FiredWeapon(w.Type.NetworkId);
-                    Map.EgoResurrect += NetworkMessages.PlayerResurrect;
+                    Map.EgoFiredWeapon += w => ToOthers.FiredWeapon(w.Type.NetworkId);
+                    Map.EgoResurrect += ToOthers.PlayerResurrect;
 
                     Map.GameInterlevelBegin += () => NetworkMessages.CancelServerRandomNumbers();
                     Map.GameInterlevelEnd += () => NetworkMessages.ReadyForServerRandomNumbers();
 
-                    Map.NetworkAddDamageFromDirection += NetworkMessages.AddDamageFromDirection;
-                    Map.NetworkAddDamage += NetworkMessages.AddDamage;
+                    Map.NetworkAddDamageFromDirection += ToOthers.AddDamageFromDirection;
+                    Map.NetworkAddDamage += ToOthers.AddDamage;
 
-                    Map.NetworkTakeCrate += Id => NetworkMessages.TakeBox(Id);
-                    Map.NetworkShowBulletsFlying += NetworkMessages.ShowBulletsFlying;
+                    Map.NetworkTakeCrate += Id => ToOthers.TakeBox(Id);
+                    Map.NetworkShowBulletsFlying += ToOthers.ShowBulletsFlying;
 
-                    Map.NetworkDeployExplosiveBarrel += NetworkMessages.DeployExplosiveBarrel;
-                    Map.NetworkUndeployExplosiveBarrel += NetworkMessages.UndeployExplosiveBarrel;
+                    Map.NetworkDeployExplosiveBarrel += ToOthers.DeployExplosiveBarrel;
+                    Map.NetworkUndeployExplosiveBarrel += ToOthers.UndeployExplosiveBarrel;
 
 
                     500.AtIntervalDo(NetworkMessages.Ping);
 
 
                     NetworkMessages.PlayerAdvertise(Map.Ego.NetworkId);
+
                     BroadcastTeleportTo();
 
                     300.AtDelayDo(NetworkMessages.ReadyForServerRandomNumbers);

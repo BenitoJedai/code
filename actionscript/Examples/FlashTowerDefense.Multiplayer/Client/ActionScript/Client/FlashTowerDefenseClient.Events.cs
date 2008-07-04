@@ -29,16 +29,18 @@ namespace FlashTowerDefense.ActionScript.Client
         {
             var NetworkEvents = new SharedClass1.RemoteEvents();
 
+            var FromUser = (SharedClass1.IPairedEventsWithUser)NetworkEvents;
+
             #region Events
             // NetworkEvents // NetworkEvents // NetworkEvents // NetworkEvents // NetworkEvents 
             // NetworkEvents // NetworkEvents // NetworkEvents // NetworkEvents // NetworkEvents 
             // NetworkEvents // NetworkEvents // NetworkEvents // NetworkEvents // NetworkEvents 
 
-            NetworkEvents.UserFiredWeapon +=
+            FromUser.UserFiredWeapon +=
                 e =>
                     WeaponInfo.PredefinedWeaponTypes.Single(i => i.NetworkId == e.weapon).SoundFire.ToSoundAsset().play();
 
-            NetworkEvents.UserDeployExplosiveBarrel +=
+            FromUser.UserDeployExplosiveBarrel +=
                 e =>
                 {
                     Map.CreateExplosiveBarrel(
@@ -49,7 +51,7 @@ namespace FlashTowerDefense.ActionScript.Client
                         );
                 };
 
-            NetworkEvents.UserUndeployExplosiveBarrel +=
+            FromUser.UserUndeployExplosiveBarrel +=
                 e =>
                 {
                     foreach (var v in Map.Barrels.Where(i => i.NetworkId == e.barrel))
@@ -60,7 +62,7 @@ namespace FlashTowerDefense.ActionScript.Client
 
                 };
 
-            NetworkEvents.UserTakeBox +=
+            FromUser.UserTakeBox +=
                 e =>
                 {
                     foreach (var v in Map.Boxes.Where(i => i.NetworkId == e.box))
@@ -69,7 +71,7 @@ namespace FlashTowerDefense.ActionScript.Client
                     Sounds.sound20.ToSoundAsset().play();
                 };
 
-            NetworkEvents.UserWalkTo +=
+            FromUser.UserWalkTo +=
                 e =>
                 {
                     foreach (var v in Players.Where(i => i.NetworkId == e.user))
@@ -82,7 +84,7 @@ namespace FlashTowerDefense.ActionScript.Client
 
                 };
 
-            NetworkEvents.UserTeleportTo +=
+            FromUser.UserTeleportTo +=
                 e =>
                 {
                     foreach (var v in Players.Where(i => i.NetworkId == e.user))
@@ -121,7 +123,7 @@ namespace FlashTowerDefense.ActionScript.Client
                     }
                 };
 
-            NetworkEvents.UserEnterMachineGun +=
+            FromUser.UserEnterMachineGun +=
                 e =>
                 {
                     foreach (var v in Players.Where(i => i.NetworkId == e.user))
@@ -134,7 +136,7 @@ namespace FlashTowerDefense.ActionScript.Client
                     Map.PrebuiltTurretInUse = true;
                 };
 
-            NetworkEvents.UserExitMachineGun +=
+            FromUser.UserExitMachineGun +=
                 e =>
                 {
                     if (Map.EgoIsOnTheField())
@@ -144,7 +146,7 @@ namespace FlashTowerDefense.ActionScript.Client
                     }
                 };
 
-            NetworkEvents.UserStartMachineGun +=
+            FromUser.UserStartMachineGun +=
                 e =>
                 {
                     if (Map.EgoIsOnTheField())
@@ -156,21 +158,15 @@ namespace FlashTowerDefense.ActionScript.Client
                     }
                 };
 
-            NetworkEvents.UserStopMachineGun +=
+            FromUser.UserStopMachineGun +=
                 e =>
                 {
                     if (Map.EgoIsOnTheField())
                         Map.PrebuiltTurret.AnimationEnabled = false;
                 };
 
-            NetworkEvents.ServerMessage +=
-                e =>
-                {
-                    if (Map != null)
-                        Map.ShowMessage("Server: " + e.text);
-                };
-
-            NetworkEvents.UserAddDamageFromDirection +=
+         
+            FromUser.UserAddDamageFromDirection +=
                 e =>
                 {
                     foreach (var v in Map.AllMortals.Where(i => i.NetworkId == e.target))
@@ -180,7 +176,7 @@ namespace FlashTowerDefense.ActionScript.Client
                     }
                 };
 
-            NetworkEvents.UserAddDamage +=
+            FromUser.UserAddDamage +=
                 e =>
                 {
                     foreach (var v in Map.AllMortals.Where(i => i.NetworkId == e.target))
@@ -189,7 +185,7 @@ namespace FlashTowerDefense.ActionScript.Client
                     }
                 };
 
-            NetworkEvents.UserShowBulletsFlying +=
+            FromUser.UserShowBulletsFlying +=
                 e =>
                 {
                     var Weapon = WeaponInfo.PredefinedWeaponTypes.SingleOrDefault(i => i.NetworkId == e.weaponType);
@@ -205,6 +201,25 @@ namespace FlashTowerDefense.ActionScript.Client
                     );
 
                 };
+
+            FromUser.UserPlayerResurrect +=
+                           e =>
+                           {
+                               var p = Players.Single(n => n.NetworkId == e.user);
+
+                               p.Revive();
+
+                               Map.ShowMessage(p.NetworkName + " is born again");
+
+                           };
+
+            NetworkEvents.ServerMessage +=
+                 e =>
+                 {
+                     if (Map != null)
+                         Map.ShowMessage("Server: " + e.text);
+                 };
+
 
             NetworkEvents.ServerPlayerHello +=
                 e =>
@@ -265,16 +280,7 @@ namespace FlashTowerDefense.ActionScript.Client
                     }
                 };
 
-            NetworkEvents.UserPlayerResurrect +=
-                e =>
-                {
-                    var p = Players.Single(n => n.NetworkId == e.user);
-
-                    p.Revive();
-
-                    Map.ShowMessage(p.NetworkName + " is born again");
-
-                };
+           
 
             #endregion
             return NetworkEvents;

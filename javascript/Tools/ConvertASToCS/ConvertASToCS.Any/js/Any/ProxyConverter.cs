@@ -311,34 +311,66 @@ namespace ConvertASToCS.js.Any
 
                    WriteIdent();
                    WriteBlue("public");
+                   WriteSpace();
 
                    if (i.IsSealed)
                    {
-                       WriteSpace();
                        WriteBlue("sealed");
+                       WriteSpace();
                    }
 
                    if (i.IsAbstract)
                    {
-                       WriteSpace();
                        WriteBlue("abstract");
+                       WriteSpace();
+                   }
+
+                   WriteBlue("partial");
+                   WriteSpace();
+
+                   if (i.IsInterface)
+                   {
+                       WriteBlue("interface");
+                   }
+                   else
+                   {
+                       WriteBlue("class");
+
                    }
 
                    WriteSpace();
-                   WriteBlue("partial");
 
-                   WriteSpace();
-                   WriteBlue("class");
-                   WriteSpace();
+
                    WriteCyan(i.Name);
 
-                   if (!string.IsNullOrEmpty(i.BaseTypeName))
+                   #region base types
+                   var BaseTypeNames = new string[] { }.AsEnumerable();
+
+                   if (i.BaseTypeName != null)
+                       BaseTypeNames = BaseTypeNames.Concat(new[] { i.BaseTypeName });
+
+                   if (i.BaseTypeNames != null)
+                       BaseTypeNames = BaseTypeNames.Concat(i.BaseTypeNames);
+
+                   var BaseTypeNamesArray = BaseTypeNames.Where(j => !string.IsNullOrEmpty(j)).ToArray();
+
+                   for (int ii = 0; ii < BaseTypeNamesArray.Length; ii++)
                    {
+                       if (ii == 0)
+                       {
+                           WriteSpace();
+                           Write(":");
+                       }
+                       else
+                       {
+                           Write(",");
+                       }
+
                        WriteSpace();
-                       Write(":");
-                       WriteSpace();
-                       WriteCyan(i.BaseTypeName);
+                       WriteCyan(BaseTypeNamesArray[ii]);
                    }
+                   #endregion
+
 
                    WriteLine();
 
@@ -473,6 +505,242 @@ namespace ConvertASToCS.js.Any
 
                 WriteLine();
 
+                var WithUserArguments_user = new FieldInfo { FieldName = "user", TypeName = "int" };
+
+
+
+
+                Func<ProxyProvider.MethodParametersInfo.ParamInfo, bool> IsUserParameter =
+                    i => i.Name == WithUserArguments_user.FieldName && i.TypeName == WithUserArguments_user.TypeName;
+
+                var IsNotUserParameter = IsUserParameter.AsNegative();
+
+                Func<ProxyProvider.MethodDefinition, bool> IsUserArguments =
+                    v => v.Name.StartsWith("User") && v.ParametersInfo.Parameters.Any(IsUserParameter);
+
+
+
+
+                //public partial interface IEventsFromUserToOthers
+                //{
+                //    event Action<RemoteEvents.TeleportToArguments> TeleportTo;
+                //}
+
+                //public partial interface IMessagesFromUserToOthers
+                //{
+                //    void UserTeleportTo(int user, int x, int y);
+                //}
+
+                var MessagesToOthers = from MessageWithoutUser in r.MethodDefinitions
+                                       where !MessageWithoutUser.Name.StartsWith("User")
+                                       let MessageWithUserFilter = r.MethodDefinitions.Where(j => j.Name == "User" + MessageWithoutUser.Name)
+                                       let MessageWithUser = MessageWithUserFilter.FirstOrDefault(IsUserArguments)
+                                       where MessageWithUser != null
+                                       select new
+                                       {
+                                           MessageWithoutUser,
+                                           MessageWithUser
+                                       };
+
+                var MessagesToOthersArray = MessagesToOthers.ToArray();
+
+
+                var IPairedEvents = new
+                {
+                    WithoutUser = new TypeInfo
+                    {
+                        IsInterface = true,
+                        Name = "IPairedEventsWithoutUser",
+                    },
+                    WithUser = new TypeInfo
+                    {
+                        IsInterface = true,
+                        Name = "IPairedEventsWithUser",
+                    }
+                };
+
+                var IPairedMessages = new
+                {
+                    WithoutUser = new TypeInfo
+                   {
+                       IsInterface = true,
+                       Name = "IPairedMessagesWithoutUser"
+                   },
+                    WithUser = new TypeInfo
+                    {
+                        IsInterface = true,
+                        Name = "IPairedMessagesWithUser"
+                    }
+                };
+
+                var IMessages = new TypeInfo
+                {
+                    IsInterface = true,
+                    
+                    Name = "IMessages"
+                };
+
+                // client -> server -> other clients
+                // DoMyProcedure(...)
+                // UserDoMyProcedure(..., int user, ...)
+                var WithUserArguments =
+                    new TypeInfo
+                    {
+                        IsSealed = false,
+                        IsAbstract = true,
+                        Name = "WithUserArguments",
+                        Fields = new[]
+                                 {
+                                     WithUserArguments_user
+                                 }.ToArray()
+                    };
+
+                var WithUserArgumentsRouter_Target = new FieldInfo { FieldName = "Target", TypeName = IPairedMessages.WithUser.Name };
+                var WithUserArgumentsRouter =
+                    new TypeInfo
+                    {
+                        IsSealed = true,
+                        Name = "WithUserArgumentsRouter",
+                        BaseTypeName = WithUserArguments.Name,
+                        Fields = new[]
+                                     {
+                                         WithUserArgumentsRouter_Target
+                                     }.ToArray()
+                    };
+
+
+                var RemoteEvents_DispatchTable = new FieldInfo { FieldName = "DispatchTable", TypeName = "Dictionary<" + MessagesEnumName + ", Action<DispatchHelper>>", IsPrivate = true, IsReadOnly = true };
+                var RemoteEvents_DispatchTableDelegates = new FieldInfo { FieldName = "DispatchTableDelegates", TypeName = "Dictionary<" + MessagesEnumName + ", Converter<object, Delegate>>", IsPrivate = true, IsReadOnly = true };
+                var RemoteEvents_Router = new FieldInfo
+                {
+                    FieldName = "_Router",
+                    TypeName = WithUserArgumentsRouter.Name,
+                    IsPrivate = true,
+                    AccessedThroughProperty = "Router"
+                };
+
+                var RemoteEvents =
+                    new TypeInfo
+                    {
+                        IsSealed = true,
+                        Name = "RemoteEvents",
+                        BaseTypeNames = new[] { IPairedEvents.WithoutUser.Name, IPairedEvents.WithUser.Name },
+                        Fields = new[]
+                                {
+                                    RemoteEvents_DispatchTable,
+                                    RemoteEvents_DispatchTableDelegates,
+                                    RemoteEvents_Router
+                                }
+                    };
+
+                using (DefineType(IMessages))
+                {
+                }
+
+                #region IPairedEvents
+
+                using (DefineType(IPairedEvents.WithoutUser))
+                {
+                    foreach (var v in MessagesToOthersArray)
+                    {
+                        using (IndentLine())
+                        {
+                            WriteBlue("event");
+                            WriteSpace();
+                            WriteCyan("Action<" + RemoteEvents.Name + "." + v.MessageWithoutUser.Name + "Arguments>");
+                            WriteSpace();
+                            Write(v.MessageWithoutUser.Name);
+                            Write(";");
+                        }
+                    }
+                }
+
+                using (DefineType(IPairedEvents.WithUser))
+                {
+                    foreach (var v in MessagesToOthersArray)
+                    {
+                        using (IndentLine())
+                        {
+                            WriteBlue("event");
+                            WriteSpace();
+                            WriteCyan("Action<" + RemoteEvents.Name + "." + v.MessageWithUser.Name + "Arguments>");
+                            WriteSpace();
+                            Write(v.MessageWithUser.Name);
+                            Write(";");
+                        }
+                    }
+                }
+
+                #endregion
+
+                #region IPairedMessages
+
+
+                using (DefineType(IPairedMessages.WithUser))
+                {
+                    foreach (var v in MessagesToOthersArray)
+                    {
+                        using (IndentLine())
+                        {
+                            WriteBlue("void");
+                            WriteSpace();
+                            WriteCyan(v.MessageWithUser.Name);
+
+                            using (Parenthesis())
+                            {
+                                v.MessageWithUser.ParametersInfo.Parameters.ForEach(
+                                    (vv, i) =>
+                                    {
+                                        if (i > 0)
+                                        {
+                                            Write(",");
+                                            WriteSpace();
+                                        }
+
+                                        WriteVariableDefinition(vv.TypeName, vv.Name);
+                                    }
+                                );
+                            }
+
+                            Write(";");
+                        }
+                    }
+                }
+
+                using (DefineType(IPairedMessages.WithoutUser))
+                {
+                    foreach (var v in MessagesToOthersArray)
+                    {
+                        using (IndentLine())
+                        {
+                            WriteBlue("void");
+                            WriteSpace();
+                            WriteCyan(v.MessageWithoutUser.Name);
+
+                            using (Parenthesis())
+                            {
+                                v.MessageWithoutUser.ParametersInfo.Parameters.ForEach(
+                                    (vv, i) =>
+                                    {
+                                        if (i > 0)
+                                        {
+                                            Write(",");
+                                            WriteSpace();
+                                        }
+
+                                        WriteVariableDefinition(vv.TypeName, vv.Name);
+                                    }
+                                );
+                            }
+
+                            Write(";");
+                        }
+                    }
+                }
+
+                #endregion
+
+                WriteLine();
 
                 #region RemoteMessages
                 using (DefineType(
@@ -480,7 +748,7 @@ namespace ConvertASToCS.js.Any
                         {
                             IsSealed = true,
                             Name = "RemoteMessages",
-                            BaseTypeName = "IMessages",
+                            BaseTypeNames = new[] { IMessages.Name, IPairedMessages.WithoutUser.Name, IPairedMessages.WithUser.Name },
                             Fields = new[]
                         {
                             new FieldInfo { FieldName = "Send", TypeName = "Action<SendArguments>" }
@@ -511,27 +779,32 @@ namespace ConvertASToCS.js.Any
                     {
                         //public void TeleportTo(int x, int y)
 
+                        
+                        using (IndentLine())
+                        {
 
-                        WriteIdent();
-                        WriteBlue("public");
-                        WriteSpace();
-                        WriteBlue("void");
-                        WriteSpace();
-                        Write(v.Name);
+                            WriteBlue("public");
+                            WriteSpace();
 
-                        using (Parenthesis())
-                            for (int k = 0; k < v.ParametersInfo.Parameters.Length; k++)
-                            {
-                                if (k > 0)
+                            WriteBlue("void");
+                            WriteSpace();
+
+                           
+                            Write(v.Name);
+
+                            using (Parenthesis())
+                                for (int k = 0; k < v.ParametersInfo.Parameters.Length; k++)
                                 {
-                                    Write(",");
-                                    WriteSpace();
+                                    if (k > 0)
+                                    {
+                                        Write(",");
+                                        WriteSpace();
+                                    }
+
+                                    WriteVariableDefinition(v.ParametersInfo.Parameters[k].TypeName, v.ParametersInfo.Parameters[k].Name);
                                 }
 
-                                WriteVariableDefinition(v.ParametersInfo.Parameters[k].TypeName, v.ParametersInfo.Parameters[k].Name);
-                            }
-
-                        WriteLine();
+                        }
 
                         //{
                         //    Send(new SendArguments { i = Messages.TeleportTo, args = new object[] { x, y } });
@@ -653,61 +926,18 @@ namespace ConvertASToCS.js.Any
 
                 WriteLine();
 
-                var RemoteEvents_DispatchTable = new FieldInfo { FieldName = "DispatchTable", TypeName = "Dictionary<" + MessagesEnumName + ", Action<DispatchHelper>>", IsPrivate = true, IsReadOnly = true };
-                var RemoteEvents_DispatchTableDelegates = new FieldInfo { FieldName = "DispatchTableDelegates", TypeName = "Dictionary<" + MessagesEnumName + ", Converter<object, Delegate>>", IsPrivate = true, IsReadOnly = true };
-
-                // client -> server -> other clients
-                // DoMyProcedure(...)
-                // UserDoMyProcedure(..., int user, ...)
-                var WithUserArguments_user = new FieldInfo { FieldName = "user", TypeName = "int" };
-                var WithUserArguments =
-                    new TypeInfo
-                    {
-                        IsSealed = false,
-                        IsAbstract = true,
-                        Name = "WithUserArguments",
-                        Fields = new[]
-                                 {
-                                     WithUserArguments_user
-                                 }.ToArray()
-                    };
-
-                var WithUserArgumentsRouter_RemoteMessages = new FieldInfo { FieldName = "Target", TypeName = "RemoteMessages" };
-                var WithUserArgumentsRouter =
-                    new TypeInfo
-                    {
-                        IsSealed = true,
-                        Name = "WithUserArgumentsRouter",
-                        BaseTypeName = WithUserArguments.Name,
-                        Fields = new[]
-                                     {
-                                         WithUserArgumentsRouter_RemoteMessages
-                                     }.ToArray()
-                    };
 
 
-                var RemoteEvents_Router = new FieldInfo
-                {
-                    FieldName = "_Router",
-                    TypeName = WithUserArgumentsRouter.Name,
-                    IsPrivate = true,
-                    AccessedThroughProperty = "Router"
-                };
+
+
+
+
+
 
 
                 #region RemoteEvents
                 using (DefineType(
-                        new TypeInfo
-                        {
-                            IsSealed = true,
-                            Name = "RemoteEvents",
-                            Fields = new[]
-                            {
-                                RemoteEvents_DispatchTable,
-                                RemoteEvents_DispatchTableDelegates,
-                                RemoteEvents_Router
-                            }
-                        }
+                       RemoteEvents
                     ))
                 {
                     var KnownConverters = new Dictionary<string, string>
@@ -793,15 +1023,6 @@ namespace ConvertASToCS.js.Any
 
                     #endregion
 
-                    Func<ProxyProvider.MethodParametersInfo.ParamInfo, bool> IsUserParameter =
-                           i => i.Name == WithUserArguments_user.FieldName && i.TypeName == WithUserArguments_user.TypeName;
-
-                    var IsNotUserParameter = IsUserParameter.AsNegative();
-
-                    Func<ProxyProvider.MethodDefinition, bool> IsUserArguments =
-                        v => v.Name.StartsWith("User") && v.ParametersInfo.Parameters.Any(IsUserParameter);
-
-
 
 
 
@@ -843,7 +1064,7 @@ namespace ConvertASToCS.js.Any
                                     //WriteBlue("return");
                                     //WriteSpace();
 
-                                    Write(WithUserArgumentsRouter_RemoteMessages.FieldName);
+                                    Write(WithUserArgumentsRouter_Target.FieldName);
                                     Write(".");
                                     Write(v.Name);
 
@@ -1238,7 +1459,7 @@ namespace ConvertASToCS.js.Any
                         {
                             // do like the vb does
 
-                            
+
 
                             #region remove
                             using (IndentLine())
