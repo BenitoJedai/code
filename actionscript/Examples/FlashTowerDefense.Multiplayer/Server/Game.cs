@@ -19,7 +19,17 @@ namespace FlashTowerDefense.Server
         Game,
         Player>
     {
+        public Game()
+        {
+            this.CreateTDispatchHelper = () => new SharedClass1.RemoteEvents.DispatchHelper();
+            this.CreateTRemoteEvents = () => new SharedClass1.RemoteEvents();
+            this.CreateTRemoteMessages = () => new SharedClass1.RemoteMessages();
+            this.CreateTVirtualGame = () => new Shared.Game();
+            this.CreateTVirtualPlayer = () => new Shared.Player();
+            this.CreateTWithUserArgumentsRouter = () => new SharedClass1.RemoteEvents.WithUserArgumentsRouter();
+            
 
+        }
     }
 #if XXX
     /// <summary>
