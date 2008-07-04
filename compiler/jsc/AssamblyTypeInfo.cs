@@ -155,7 +155,11 @@ namespace jsc
         {
             // todo: cache results
 
-            Type impl_type = ResolveImplementation(
+            Type impl_type =
+
+                Mode == ResolveImplementationDirectMode.ResolveMethodOnly ?
+                src_type :
+                ResolveImplementation(
                src_type, Mode
                 );
 
@@ -268,7 +272,7 @@ namespace jsc
                             (i.IsGenericType && !i.IsGenericTypeDefinition)
                             ? i.GetGenericTypeDefinition() : i;
 
-                            
+
 
                     Func<Type, Type> ToElementIfAny =
                         z =>
@@ -278,7 +282,7 @@ namespace jsc
 
                             return z;
                         };
-                    
+
                     for (int i = 0; i < vp.Length; i++)
                     {
                         vpt[i] = ToGTD(vp[i].ParameterType);
@@ -467,7 +471,8 @@ namespace jsc
         public enum ResolveImplementationDirectMode
         {
             ResolveBCLImplementation,
-            ResolveNativeImplementationExtension
+            ResolveNativeImplementationExtension,
+            ResolveMethodOnly
         }
 
         Type ResolveImplementationDirect(Type e, ResolveImplementationDirectMode Mode)

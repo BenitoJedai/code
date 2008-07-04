@@ -288,8 +288,10 @@ namespace jsc.Languages.ActionScript
 
         public MethodBase ResolveMethod(Type t, MethodBase m)
         {
+            var s = m.DeclaringType.ToScriptAttributeOrDefault();
+
             return
-                (m.DeclaringType.ToScriptAttribute() == null
+                (s == null
                             ? ResolveImplementationMethod(t, m)
                             : m);
         }
@@ -303,6 +305,9 @@ namespace jsc.Languages.ActionScript
             Action<MethodInfo, MethodInfo> WriteInterfaceMapping =
                 (_InterfaceMethod, _TargetMethod) =>
                 {
+                    if (_InterfaceMethod.Name == "set_Target")
+                        DebugBreak();
+
                     WriteMethodSignature(_InterfaceMethod, false, WriteMethodSignatureMode.Implementing);
 
                     using (CreateScope())
@@ -383,7 +388,7 @@ namespace jsc.Languages.ActionScript
                         mapping.InterfaceType
                         ;
 
-                    var InterfaceMethodImplementation = (MethodInfo)ResolveMethod(InterfaceMethodDeclaringType, InterfaceMethod);
+                    var InterfaceMethodImplementation = (MethodInfo)MySession.ResolveImplementation(InterfaceMethodDeclaringType, InterfaceMethod, AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveMethodOnly ) ?? InterfaceMethod;
 
                     var TargetMethod = mapping.TargetMethods[j];
 
