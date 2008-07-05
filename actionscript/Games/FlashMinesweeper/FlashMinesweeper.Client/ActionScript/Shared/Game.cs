@@ -18,29 +18,35 @@ namespace FlashMinesweeper.ActionScript.Shared
         {
             Console.WriteLine("UserJoined " + player.Username);
 
-            //player.FromPlayer.Ping += e => player.LastMessage = DateTime.Now;
-            //player.FromPlayer.PlayerAdvertise += e => player.ToOthers.ServerPlayerAdvertise(player.UserId, player.Username, e.ego);
-            //player.FromPlayer.ReadyForServerRandomNumbers += e => player.GameEventStatus = Player.GameEventStatusEnum.Ready;
-            //player.FromPlayer.CancelServerRandomNumbers += e => player.GameEventStatus = Player.GameEventStatusEnum.Cancelled;
 
+            var x = default(Player);
+
+            foreach (var v in Users)
+            {
+                if (v.UserId != player.UserId)
+                {
+                    x = v;
+                    break;
+                }
+            }
+           
+            
             player.ToPlayer.ServerPlayerHello(player.UserId, player.Username);
 
             player.ToOthers.ServerPlayerJoined(
                player.UserId, player.Username
             );
 
-            //AtDelay(
-            //    delegate
-            //    {
-            //        player.ToPlayer.ServerMessage("Game will start shortly!");
-            //    },
-            //    25
-            //);
+            if (x != null)
+            {
+                x.ToPlayer.ServerSendMap();
+            }
 
         }
 
         public override void UserLeft(Player player)
         {
+
             player.ToOthers.ServerPlayerLeft(player.UserId, player.Username);
         }
 

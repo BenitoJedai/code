@@ -40,6 +40,12 @@ namespace FlashMinesweeper.ActionScript.Shared
 
             void MouseOut(int color);
             void UserMouseOut(int user, int color);
+
+
+            void ServerSendMap();
+
+            void SendMap(int[] buttons);
+            void UserSendMap(int user, int[] buttons);
         }
     }
 }

@@ -163,6 +163,9 @@ namespace FlashMinesweeper.ActionScript
 
             public void Update()
             {
+                if (!Enabled)
+                    return;
+
                 if (IsFlag)
                     this.img = img_flag;
                 else
@@ -199,7 +202,20 @@ namespace FlashMinesweeper.ActionScript
                 }
             }
 
-            private bool Reveal()
+            public void RevealLocal()
+            {
+                var NearbyMines = from z in Others
+                                  where IsNearTo(z)
+                                  where z.IsMined
+                                  select z;
+
+                var NearbyMinesCount = NearbyMines.Count();
+
+                this.img = img_numbers[NearbyMinesCount];
+                this.Enabled = false;
+            }
+
+            public bool Reveal()
             {
                 if (!Enabled)
                     return false;
@@ -291,6 +307,9 @@ namespace FlashMinesweeper.ActionScript
         //public MineField(int FieldXCount, int FieldYCount) : this(FieldXCount, FieldYCount, 0.3)
         //{
         //}
+
+        public readonly MineButton[] Buttons;
+
         public MineField(int FieldXCount, int FieldYCount, double percentage)
         {
 
@@ -312,6 +331,8 @@ namespace FlashMinesweeper.ActionScript
                         }
                     );
                 }
+
+            Buttons = a.ToArray();
 
             Action<int, Action> Delay =
                 (time, h) =>

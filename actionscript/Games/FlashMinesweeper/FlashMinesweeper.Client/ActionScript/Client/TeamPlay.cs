@@ -71,8 +71,8 @@ namespace FlashMinesweeper.ActionScript.Client
 
         }
 
-        SharedClass1.IEvents NetworkEvents;
-        SharedClass1.IMessages NetworkMessages;
+        SharedClass1.IEvents Events;
+        SharedClass1.IMessages Messages;
 
         public static void SendMessage(Connection c, SharedClass1.Messages m, params object[] e)
         {
@@ -102,8 +102,8 @@ namespace FlashMinesweeper.ActionScript.Client
 
 
 
-            NetworkEvents = MyEvents;
-            NetworkMessages = MyMessages;
+            Events = MyEvents;
+            Messages = MyMessages;
 
             this.InitializeEvents();
 
@@ -133,6 +133,9 @@ namespace FlashMinesweeper.ActionScript.Client
             c.Message +=
                 e =>
                 {
+                    InitializeMap();
+
+
                     var Dispatched = false;
 
                     try
@@ -170,14 +173,11 @@ namespace FlashMinesweeper.ActionScript.Client
 
         private void InitializeEvents()
         {
-            // events before init
-            NetworkEvents.ServerPlayerHello +=
-                e => InitializeMap();
 
             var MyIdentity = default(SharedClass1.RemoteEvents.ServerPlayerHelloArguments);
 
             // events after init
-            NetworkEvents.ServerPlayerHello +=
+            Events.ServerPlayerHello +=
                 e =>
                 {
                     MyIdentity = e;
@@ -185,22 +185,22 @@ namespace FlashMinesweeper.ActionScript.Client
                     ShowMessage("Howdy, " + e.name);
                 };
 
-            NetworkEvents.ServerPlayerJoined +=
+            Events.ServerPlayerJoined +=
               e =>
               {
                   ShowMessage("Player joined - " + e.name);
 
 
-                  NetworkMessages.PlayerAdvertise(e.name);
+                  Messages.PlayerAdvertise(e.name);
               };
 
-            NetworkEvents.ServerPlayerLeft +=
+            Events.ServerPlayerLeft +=
               e =>
               {
                   ShowMessage("Player left - " + e.name);
               };
 
-            NetworkEvents.UserPlayerAdvertise +=
+            Events.UserPlayerAdvertise +=
                 e =>
                 {
                     ShowMessage("Player already here - " + e.name);
@@ -209,7 +209,7 @@ namespace FlashMinesweeper.ActionScript.Client
             var Cursors = new Dictionary<int, Shape>();
 
 
-            NetworkEvents.UserMouseMove +=
+            Events.UserMouseMove +=
                 e =>
                 {
                     var s = default(Shape);
@@ -239,7 +239,7 @@ namespace FlashMinesweeper.ActionScript.Client
                     s.AttachTo(this).MoveTo(e.x, e.y);
                 };
 
-            NetworkEvents.UserMouseOut +=
+            Events.UserMouseOut +=
                 e =>
                 {
                     if (Cursors.ContainsKey(e.color))
@@ -248,6 +248,53 @@ namespace FlashMinesweeper.ActionScript.Client
                     }
                 };
 
+            Events.ServerSendMap +=
+                e =>
+                {
+                    var a = new int[FieldXCount * FieldYCount];
+
+                    for (int i = 0; i < Field.Buttons.Length; i++)
+                    {
+                        var v = Field.Buttons[i];
+
+                        var x = 0;
+
+                        var f = new BitField();
+
+                        f[1] = v.IsMined;
+                        f[2] = v.IsFlag;
+                        f[3] = v.Enabled;
+
+                        a[i] = f.Value;
+                    }
+
+                    Messages.SendMap(a);
+                };
+
+            Events.UserSendMap +=
+                e =>
+                {
+                    for (int i = 0; i < Field.Buttons.Length; i++)
+                    {
+                        var v = Field.Buttons[i];
+
+                        var x = new BitField { Value = e.buttons[i] };
+
+
+                        v.IsMined = x[1];
+                        v.IsFlag = x[2];
+                        v.Enabled = x[3];
+
+                    }
+
+                    foreach (var v in Field.Buttons)
+                    {
+                        if (v.Enabled)
+                            v.Update();
+                        else
+                            v.RevealLocal();
+                    }
+                };
         }
 
         #region InitializeMap
@@ -367,17 +414,39 @@ namespace FlashMinesweeper.ActionScript.Client
                 e =>
                 {
 
-                    NetworkMessages.MouseMove(e.stageX.ToInt32(), e.stageY.ToInt32(), MyColor);
+                    Messages.MouseMove(e.stageX.ToInt32(), e.stageY.ToInt32(), MyColor);
                 };
 
             Field.mouseOut +=
                 e =>
                 {
-                    NetworkMessages.MouseOut(MyColor);
+                    if (e.relatedObject == Field)
+                        Messages.MouseOut(MyColor);
                 };
         }
 
         #endregion
 
+    }
+
+    [Script]
+    class BitField
+    {
+        public int Value;
+
+        public bool this[int index]
+        {
+            get
+            {
+                return ((Value >> index) & 1) == 1;
+            }
+            set
+            {
+                Value |= 1 << index;
+
+                if (!value)
+                    Value ^= 1 << index;
+            }
+        }
     }
 }

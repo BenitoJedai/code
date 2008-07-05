@@ -28,6 +28,9 @@ namespace FlashMinesweeper.ActionScript.Shared
             UserMouseMove,
             MouseOut,
             UserMouseOut,
+            ServerSendMap,
+            SendMap,
+            UserSendMap,
         }
         #endregion
 
@@ -56,6 +59,9 @@ namespace FlashMinesweeper.ActionScript.Shared
             event Action<RemoteEvents.UserMouseMoveArguments> UserMouseMove;
             event Action<RemoteEvents.MouseOutArguments> MouseOut;
             event Action<RemoteEvents.UserMouseOutArguments> UserMouseOut;
+            event Action<RemoteEvents.ServerSendMapArguments> ServerSendMap;
+            event Action<RemoteEvents.SendMapArguments> SendMap;
+            event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
         }
         #endregion
         #region IPairedEventsWithoutUser
@@ -68,6 +74,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             event Action<RemoteEvents.PlayerAdvertiseArguments> PlayerAdvertise;
             event Action<RemoteEvents.MouseMoveArguments> MouseMove;
             event Action<RemoteEvents.MouseOutArguments> MouseOut;
+            event Action<RemoteEvents.SendMapArguments> SendMap;
         }
         #endregion
         #region IPairedEventsWithUser
@@ -80,6 +87,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             event Action<RemoteEvents.UserPlayerAdvertiseArguments> UserPlayerAdvertise;
             event Action<RemoteEvents.UserMouseMoveArguments> UserMouseMove;
             event Action<RemoteEvents.UserMouseOutArguments> UserMouseOut;
+            event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
         }
         #endregion
         #region IPairedMessagesWithUser
@@ -92,6 +100,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             void UserPlayerAdvertise(int user, string name);
             void UserMouseMove(int user, int x, int y, int color);
             void UserMouseOut(int user, int color);
+            void UserSendMap(int user, int[] buttons);
         }
         #endregion
         #region IPairedMessagesWithoutUser
@@ -104,6 +113,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             void PlayerAdvertise(string name);
             void MouseMove(int x, int y, int color);
             void MouseOut(int color);
+            void SendMap(int[] buttons);
         }
         #endregion
 
@@ -161,6 +171,22 @@ namespace FlashMinesweeper.ActionScript.Shared
             public void UserMouseOut(int user, int color)
             {
                 Send(new SendArguments { i = Messages.UserMouseOut, args = new object[] { user, color } });
+            }
+            public void ServerSendMap()
+            {
+                Send(new SendArguments { i = Messages.ServerSendMap, args = new object[] {  } });
+            }
+            public void SendMap(int[] buttons)
+            {
+                var args = new object[buttons.Length];
+                Array.Copy(buttons, args, buttons.Length);
+                Send(new SendArguments { i = Messages.SendMap, args = args });
+            }
+            public void UserSendMap(int user, int[] buttons)
+            {
+                var args = new object[buttons.Length];
+                Array.Copy(buttons, args, buttons.Length);
+                Send(new SendArguments { i = Messages.UserSendMap, args = args });
             }
         }
         #endregion
@@ -230,6 +256,10 @@ namespace FlashMinesweeper.ActionScript.Shared
                 public void UserMouseOut(MouseOutArguments e)
                 {
                     Target.UserMouseOut(this.user, e.color);
+                }
+                public void UserSendMap(SendMapArguments e)
+                {
+                    Target.UserSendMap(this.user, e.buttons);
                 }
                 #endregion
             }
@@ -385,6 +415,53 @@ namespace FlashMinesweeper.ActionScript.Shared
             }
             #endregion
             public event Action<UserMouseOutArguments> UserMouseOut;
+            #region ServerSendMapArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class ServerSendMapArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().ToString();
+                }
+            }
+            #endregion
+            public event Action<ServerSendMapArguments> ServerSendMap;
+            #region SendMapArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class SendMapArguments
+            {
+                public int[] buttons;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ buttons = ").Append(this.buttons).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<SendMapArguments> SendMap;
+            #region UserSendMapArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class UserSendMapArguments : WithUserArguments
+            {
+                public int[] buttons;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", buttons = ").Append(this.buttons).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserSendMapArguments> UserSendMap;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -398,6 +475,9 @@ namespace FlashMinesweeper.ActionScript.Shared
                             { Messages.UserMouseMove, e => { UserMouseMove(new UserMouseMoveArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2), color = e.GetInt32(3) }); } },
                             { Messages.MouseOut, e => { MouseOut(new MouseOutArguments { color = e.GetInt32(0) }); } },
                             { Messages.UserMouseOut, e => { UserMouseOut(new UserMouseOutArguments { user = e.GetInt32(0), color = e.GetInt32(1) }); } },
+                            { Messages.ServerSendMap, e => { ServerSendMap(new ServerSendMapArguments {  }); } },
+                            { Messages.SendMap, e => { SendMap(new SendMapArguments { buttons = e.GetInt32Array(0) }); } },
+                            { Messages.UserSendMap, e => { UserSendMap(new UserSendMapArguments { user = e.GetInt32(0), buttons = e.GetInt32Array(1) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -411,6 +491,9 @@ namespace FlashMinesweeper.ActionScript.Shared
                             { Messages.UserMouseMove, e => UserMouseMove },
                             { Messages.MouseOut, e => MouseOut },
                             { Messages.UserMouseOut, e => UserMouseOut },
+                            { Messages.ServerSendMap, e => ServerSendMap },
+                            { Messages.SendMap, e => SendMap },
+                            { Messages.UserSendMap, e => UserSendMap },
                         }
                 ;
             }
@@ -430,6 +513,7 @@ namespace FlashMinesweeper.ActionScript.Shared
                         this.PlayerAdvertise -= _Router.UserPlayerAdvertise;
                         this.MouseMove -= _Router.UserMouseMove;
                         this.MouseOut -= _Router.UserMouseOut;
+                        this.SendMap -= _Router.UserSendMap;
                     }
                     _Router = value;
                     if(_Router != null)
@@ -437,6 +521,7 @@ namespace FlashMinesweeper.ActionScript.Shared
                         this.PlayerAdvertise += _Router.UserPlayerAdvertise;
                         this.MouseMove += _Router.UserMouseMove;
                         this.MouseOut += _Router.UserMouseOut;
+                        this.SendMap += _Router.UserSendMap;
                     }
                 }
             }
@@ -536,9 +621,38 @@ namespace FlashMinesweeper.ActionScript.Shared
                 ((IMessages)this).UserMouseOut(user, color);
             }
 
+            public event Action<RemoteEvents.ServerSendMapArguments> ServerSendMap;
+            void IMessages.ServerSendMap()
+            {
+                if(ServerSendMap == null) return;
+                ServerSendMap(new RemoteEvents.ServerSendMapArguments {  });
+            }
+
+            public event Action<RemoteEvents.SendMapArguments> SendMap;
+            void IMessages.SendMap(int[] buttons)
+            {
+                if(SendMap == null) return;
+                SendMap(new RemoteEvents.SendMapArguments { buttons = buttons });
+            }
+            void IPairedMessagesWithoutUser.SendMap(int[] buttons)
+            {
+                ((IMessages)this).SendMap(buttons);
+            }
+
+            public event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
+            void IMessages.UserSendMap(int user, int[] buttons)
+            {
+                if(UserSendMap == null) return;
+                UserSendMap(new RemoteEvents.UserSendMapArguments { user = user, buttons = buttons });
+            }
+            void IPairedMessagesWithUser.UserSendMap(int user, int[] buttons)
+            {
+                ((IMessages)this).UserSendMap(user, buttons);
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 6.07.2008 0:47:29
+// 6.07.2008 1:27:28
