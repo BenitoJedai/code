@@ -214,21 +214,18 @@ namespace FlashTowerDefense.Shared
         [Script]
 #endif
         [CompilerGenerated]
-        public sealed partial class RemoteMessages : IRemoteMessages<RemoteMessages.SendArguments>, IMessages, IPairedMessagesWithoutUser, IPairedMessagesWithUser
+        public sealed partial class RemoteMessages : IMessages, IPairedMessagesWithoutUser, IPairedMessagesWithUser
         {
-            public Action<SendArguments> Send { get; set; }
-
+            public Action<SendArguments> Send;
             #region SendArguments
 #if !NoAttributes
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class SendArguments : ISendArguments
+            public sealed partial class SendArguments
             {
-                int ISendArguments.i { get { return (int)i; } }
-
-                public Messages i { get; set; }
-                public object[] args { get; set; }
+                public Messages i;
+                public object[] args;
             }
             #endregion
             public void TeleportTo(int x, int y)
@@ -406,16 +403,15 @@ namespace FlashTowerDefense.Shared
             [CompilerGenerated]
             public partial class DispatchHelper
             {
-                public Converter<uint, int> GetInt32 { get; set; }
-                public Converter<uint, double> GetDouble { get; set; }
-                public Converter<uint, string> GetString { get; set; }
-                public Converter<uint, int[]> GetInt32Array { get; set; }
-                public Converter<uint, double[]> GetDoubleArray { get; set; }
-                public Converter<uint, string[]> GetStringArray { get; set; }
-                public Converter<uint, object[]> GetArray { get; set; }
+                public Converter<uint, int> GetInt32;
+                public Converter<uint, double> GetDouble;
+                public Converter<uint, string> GetString;
+                public Converter<uint, int[]> GetInt32Array;
+                public Converter<uint, double[]> GetDoubleArray;
+                public Converter<uint, string[]> GetStringArray;
+                public Converter<uint, object[]> GetArray;
             }
             #endregion
-            
             public bool Dispatch(Messages e, DispatchHelper h)
             {
                 if (!DispatchTableDelegates.ContainsKey(e)) return false;
@@ -439,12 +435,9 @@ namespace FlashTowerDefense.Shared
             [Script]
 #endif
             [CompilerGenerated]
-            public sealed partial class WithUserArgumentsRouter : WithUserArguments, IWithUserArgumentsRouter<RemoteMessages>
+            public sealed partial class WithUserArgumentsRouter : WithUserArguments
             {
-                int IWithUserArgumentsRouter<RemoteMessages>.user { set { this.user = value; } }
-                RemoteMessages IWithUserArgumentsRouter<RemoteMessages>.Target { set { this.Target = value; } }
-
-                public RemoteMessages Target;
+                public IPairedMessagesWithUser Target;
                 #region Routing
                 public void UserTeleportTo(TeleportToArguments e)
                 {
@@ -1654,4 +1647,4 @@ namespace FlashTowerDefense.Shared
     }
     #endregion
 }
-// 4.07.2008 17:42:38
+// 5.07.2008 19:49:51

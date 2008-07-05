@@ -46,13 +46,8 @@ namespace FlashTowerDefense.ActionScript.Client
                 Initialize();
         }
 
-        public Action<string> ShowMessage = delegate { };
-
-        List<PlayerWarrior> Players;
-        FlashTowerDefense Map;
-        Action BroadcastTeleportTo;
-        SharedClass1.RemoteMessages NetworkMessages;
-        SharedClass1.RemoteEvents NetworkEvents;
+      
+     
 
         private void Initialize()
         {
@@ -62,22 +57,29 @@ namespace FlashTowerDefense.ActionScript.Client
                     //, "192.168.1.119"
                 );
 
-            NetworkEvents = InitializeEvents();
 
-            NetworkMessages = new SharedClass1.RemoteMessages
+            var MyEvents = new SharedClass1.RemoteEvents();
+            var MyMessages = new SharedClass1.RemoteMessages
             {
                 Send = e => c.SendMessage(e.i, e.args)
             };
 
-          
 
+
+            var MyImplementation = new Implementation
+            {
+                NetworkEvents = MyEvents,
+                NetworkMessages = MyMessages
+            };
+
+            MyImplementation.InitializeEvents();
 
             Func<Message, bool> Dispatch =
                 e =>
                 {
                     var type = (SharedClass1.Messages)int.Parse(e.Type);
 
-                    if (NetworkEvents.Dispatch(type,
+                    if (MyEvents.Dispatch(type,
                           new SharedClass1.RemoteEvents.DispatchHelper
                           {
                               GetLength = i => e.length,
@@ -119,15 +121,15 @@ namespace FlashTowerDefense.ActionScript.Client
             c.Disconnect +=
                  delegate
                  {
-                     if (Map == null)
+                     if (MyImplementation.Map == null)
                          throw new Exception("Cannot connect to server at the moment");
 
-                     Map.ShowMessage("Disconnected!");
-                     Map.CanAutoSpawnEnemies = true;
+                     MyImplementation.Map.ShowMessage("Disconnected!");
+                     MyImplementation.Map.CanAutoSpawnEnemies = true;
 
-                     foreach (var v in Players.ToArray())
+                     foreach (var v in MyImplementation.Players.ToArray())
                      {
-                         v.RemoveFrom(Players).AddDamage(v.Health);
+                         v.RemoveFrom(MyImplementation.Players).AddDamage(v.Health);
                      }
                  };
 
@@ -136,101 +138,13 @@ namespace FlashTowerDefense.ActionScript.Client
             c.Init +=
                 delegate
                 {
-                    Map = new FlashTowerDefense();
-                    Map.Ego.NetworkId = this.EgoId;
-
-                    Players = new List<PlayerWarrior>();
-
-
-                    Map.GoodGuys.Add(
-                        delegate
-                        {
-                            return Players.Select(i => (Actor)i);
-                        });
-
-
-
-
-                    // we need synced enemies
-                    Map.CanAutoSpawnEnemies = false;
-                    Map.ReportDaysTimer.stop();
-
-                    // silence music for testing
-                    Map.ToggleMusic();
-                    Map.TeleportEgoNearTurret();
-
-                    Map.AttachTo(this);
-                    Map.ShowMessage("Running in multiplayer mode!");
-
-
-                    // compiler bug: extension method as instance method, the first param is lost
-
-                    //Func<SharedClass1.Messages, ParamsAction<object>> f = (SharedClass1.Messages j) => j.FixParam((SharedClass1.Messages i, object[] args) => c.SendMessage(i, args));
-
-
-                    var ToOthers = (SharedClass1.IPairedMessagesWithoutUser) NetworkMessages;
-
-
-                    
-
-                    // with data
-                    BroadcastTeleportTo = () => ToOthers.TeleportTo(Map.Ego.x.ToInt32(), Map.Ego.y.ToInt32());
-
-                    Map.EgoEnteredMachineGun +=
-                        () => ToOthers.EnterMachineGun();
-
-                    Map.EgoExitedMachineGun +=
-                        delegate
-                        {
-                            ToOthers.ExitMachineGun();
-                            BroadcastTeleportTo();
-                        };
-
-                    Map.EgoMovedSlowTimer.timer +=
-                        delegate
-                        {
-                            ToOthers.WalkTo(Map.Ego.x.ToInt32(), Map.Ego.y.ToInt32());
-                        };
-
-                    Map.PrebuiltTurret.AnimationEnabledChanged +=
-                        delegate
-                        {
-                            if (!Map.EgoIsOnTheField())
-                            {
-                                if (Map.PrebuiltTurret.AnimationEnabled)
-                                    ToOthers.StartMachineGun();
-                                else
-                                    ToOthers.StopMachineGun();
-                            }
-                        };
-
-                    Map.EgoFiredWeapon += w => ToOthers.FiredWeapon(w.Type.NetworkId);
-                    Map.EgoResurrect += ToOthers.PlayerResurrect;
-
-                    Map.GameInterlevelBegin += () => NetworkMessages.CancelServerRandomNumbers();
-                    Map.GameInterlevelEnd += () => NetworkMessages.ReadyForServerRandomNumbers();
-
-                    Map.NetworkAddDamageFromDirection += ToOthers.AddDamageFromDirection;
-                    Map.NetworkAddDamage += ToOthers.AddDamage;
-
-                    Map.NetworkTakeCrate += Id => ToOthers.TakeBox(Id);
-                    Map.NetworkShowBulletsFlying += ToOthers.ShowBulletsFlying;
-
-                    Map.NetworkDeployExplosiveBarrel += ToOthers.DeployExplosiveBarrel;
-                    Map.NetworkUndeployExplosiveBarrel += ToOthers.UndeployExplosiveBarrel;
-
-
-                    500.AtIntervalDo(NetworkMessages.Ping);
-
-
-                    NetworkMessages.PlayerAdvertise(Map.Ego.NetworkId);
-
-                    BroadcastTeleportTo();
-
-                    300.AtDelayDo(NetworkMessages.ReadyForServerRandomNumbers);
+                    MyImplementation.Map = new FlashTowerDefense();
+                    MyImplementation.InitializeMap();
+                    MyImplementation.Map.AttachTo(this);
                 };
 
         }
 
+  
     }
 }

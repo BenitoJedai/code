@@ -7,6 +7,7 @@ using FlashTowerDefense.ActionScript;
 using ScriptCoreLib.ActionScript;
 using System;
 using FlashTowerDefense.Shared;
+using FlashTowerDefense.ActionScript.Client;
 
 namespace FlashTowerDefense.ActionScript.SplitScreen
 {
@@ -50,16 +51,6 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
                 };
             #endregion
 
-            var left = CreateView();
-            left.MovementArrows.Enabled = false;
-
-            var right = CreateView();
-            right.MovementWASD.Enabled = false;
-
-            right.ToggleMusic();
-
-            left.MoveTo(Padding, Padding).AttachTo(this);
-            right.MoveTo(Padding * 2 + FlashTowerDefense.DefaultWidth, Padding).AttachTo(this);
 
             // now we need a bridge and a server
 
@@ -89,10 +80,50 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
                 FromPlayer = right_to_server,
                 ToPlayer = server_to_right,
                 ToOthers = server_to_left,
-                UserId = 0,
+                UserId = 1,
                 Username = "Righty"
             };
 
+            var left = CreateView();
+            left.MovementArrows.Enabled = false;
+            //left.ToggleMusic();
+
+            var left_client = new FlashTowerDefenseClient.Implementation
+            {
+                Map = left,
+                NetworkEvents = server_to_left,
+                NetworkMessages = left_to_server,
+            };
+
+            left_client.InitializeEvents();
+            left_client.InitializeMap();
+
+            left.MoveTo(Padding, Padding).AttachTo(this);
+
+            var right = CreateView();
+            right.MovementWASD.Enabled = false;
+            //right.ToggleMusic();
+
+            var right_client = new FlashTowerDefenseClient.Implementation
+            {
+                Map = right,
+                NetworkEvents = server_to_right,
+                NetworkMessages = right_to_server,
+            };
+
+            right_client.InitializeEvents();
+            right_client.InitializeMap();
+
+            right.MoveTo(Padding * 2 + FlashTowerDefense.DefaultWidth, Padding).AttachTo(this);
+
+            server_to_left.ServerPlayerHello += e => Console.WriteLine(e.ToString());
+            server_to_right.ServerPlayerHello += e => Console.WriteLine(e.ToString());
+
+            server.GameStarted();
+            server.Users.Add(player_left);
+            server.UserJoined(player_left);
+            server.Users.Add(player_right);
+            server.UserJoined(player_right);
 
         }
     }

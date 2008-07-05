@@ -6,12 +6,12 @@ using ScriptCoreLib;
 #endif
 namespace FlashTowerDefense.Shared
 {
-#if !NoAttributes
-    [Script]
-#endif
-    public interface IWithUserArgumentsRouter<TRemoteMessages>
-    {
-        int user { set; }
-        TRemoteMessages Target { set; }
-    }
+//#if !NoAttributes
+//    [Script]
+//#endif
+//    public interface IWithUserArgumentsRouter<TRemoteMessages>
+//    {
+//        int user { set; }
+//        TRemoteMessages Target { set; }
+//    }
 }

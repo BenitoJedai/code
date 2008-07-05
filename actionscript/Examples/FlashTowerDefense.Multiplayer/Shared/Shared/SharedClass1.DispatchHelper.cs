@@ -14,15 +14,15 @@ namespace FlashTowerDefense.Shared
     public partial class SharedClass1
     {
         
-        partial class RemoteEvents : IRemoteEvents<RemoteEvents.WithUserArgumentsRouter>
+        partial class RemoteEvents : /*IRemoteEvents<RemoteEvents.WithUserArgumentsRouter>,*/ IEventsDispatch
         {
             public void EmptyHandler<T>(T Arguments)
             {
             }
 
-            public bool Dispatch(int e, IDispatchHelper h)
+            bool IEventsDispatch.DispatchInt32(int e, IDispatchHelper h)
             {
-                return Dispatch(e, h);
+                return Dispatch((Messages)e, h);
             }
 
             partial class DispatchHelper : IDispatchHelper

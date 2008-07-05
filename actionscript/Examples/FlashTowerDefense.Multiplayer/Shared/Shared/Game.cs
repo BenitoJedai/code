@@ -16,6 +16,8 @@ namespace FlashTowerDefense.Shared
 
         public override void UserJoined(Player player)
         {
+            Console.WriteLine("UserJoined " + player.Username);
+
             player.FromPlayer.Ping += e => player.LastMessage = DateTime.Now;
             player.FromPlayer.PlayerAdvertise += e => player.ToOthers.ServerPlayerAdvertise(player.UserId, player.Username, e.ego);
             player.FromPlayer.ReadyForServerRandomNumbers += e => player.GameEventStatus = Player.GameEventStatusEnum.Ready;

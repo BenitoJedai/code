@@ -14,6 +14,9 @@ namespace FlashTowerDefense.Shared.Generic
 
         public RemoteEvents FromPlayer;
 
+
+        public IEventsDispatch FromPlayerDispatch;
+
         public RemoteMessages ToPlayer;
         public RemoteMessages ToOthers;
 

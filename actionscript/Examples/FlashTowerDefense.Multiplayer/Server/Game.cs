@@ -94,9 +94,10 @@ namespace FlashTowerDefense.Server
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void GotMessage(Player player, Message m)
         {
-            var e = (SharedClass1.Messages)int.Parse(m.Type);
+            var e = /*(SharedClass1.Messages)*/int.Parse(m.Type);
 
-            if (player.Virtual.FromPlayer.Dispatch(e,
+
+            if (player.Virtual.FromPlayerDispatch.DispatchInt32(e,
                     new SharedClass1.RemoteEvents.DispatchHelper
                     {
                         GetLength = i => (int)m.Count,
@@ -115,6 +116,15 @@ namespace FlashTowerDefense.Server
         /// <summary>When a user enters this game instance</summary>
         public override void UserJoined(Player player)
         {
+            var FromPlayer =
+                new SharedClass1.RemoteEvents
+                {
+                    Router = new SharedClass1.RemoteEvents.WithUserArgumentsRouter
+                    {
+                        user = player.UserId,
+                    }
+                };
+
             player.Virtual = new FlashTowerDefense.Shared.Player
             {
                 ToOthers =
@@ -127,40 +137,19 @@ namespace FlashTowerDefense.Server
                     {
                         Send = e => this.Send(player, e.i, e.args)
                     },
-                FromPlayer =
-                    new SharedClass1.RemoteEvents
-                    {
-                        Router = new SharedClass1.RemoteEvents.WithUserArgumentsRouter
-                        {
-                            user = player.UserId,
-                        }
-                    },
+                FromPlayer = FromPlayer,
+                FromPlayerDispatch = FromPlayer,
                 UserId = player.UserId,
                 Username = player.Username
             };
 
-            player.Virtual.FromPlayer.Router.Target = player.Virtual.ToOthers;
+            FromPlayer.Router.Target = player.Virtual.ToOthers;
 
             Virtual.Users.Add(player.Virtual);
 
             Virtual.UserJoined(player.Virtual);
 
 
-
-
-
-            // reset waves
-
-            ScheduleCallback(
-                delegate
-                {
-                    player.Virtual.ToPlayer.ServerMessage("Game will start shortly!");
-                },
-                25
-            );
-
-
-            // we need to resync the players now
         }
 
         /// <summary>When a user leaves the game instance</summary>

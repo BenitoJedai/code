@@ -57,7 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\Client\Assets.cs" />
-    <Compile Include="ActionScript\Client\FlashTowerDefenseClient.Events.cs" />
+    <Compile Include="ActionScript\Client\FlashTowerDefenseClient.Implementation.cs" />
     <Compile Include="ActionScript\Client\FlashTowerDefenseClient.cs" />
     <Compile Include="ActionScript\Client\Extensions.cs" />
     <Compile Include="ActionScript\Client\Monetized\MochiPreloader.cs" />
