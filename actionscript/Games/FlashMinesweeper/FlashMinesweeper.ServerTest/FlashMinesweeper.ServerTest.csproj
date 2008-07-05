@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7E7B7F47-7E5F-4244-9499-EC9391ED0B50}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{60A9B28D-48FB-4657-9538-6473356C6DD3}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FlashMinesweeper.Server</RootNamespace>
-    <AssemblyName>FlashMinesweeper.Server</AssemblyName>
+    <RootNamespace>FlashMinesweeper.ServerTest</RootNamespace>
+    <AssemblyName>FlashMinesweeper.ServerTest</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NoAttributes</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -31,7 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Nonoba.GameLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Development Server, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\FlashMinesweeper.Server\Library\Development Server.exe</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -46,43 +49,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\FlashMinesweeper.Client\ActionScript\Shared\Game.cs">
-      <Link>Shared\Game.cs</Link>
-    </Compile>
-    <Compile Include="..\FlashMinesweeper.Client\ActionScript\Shared\Generic\ServerGameBase.cs">
-      <Link>Shared\Generic\ServerGameBase.cs</Link>
-    </Compile>
-    <Compile Include="..\FlashMinesweeper.Client\ActionScript\Shared\Generic\ServerPlayerBase.cs">
-      <Link>Shared\Generic\ServerPlayerBase.cs</Link>
-    </Compile>
-    <Compile Include="..\FlashMinesweeper.Client\ActionScript\Shared\IDispatchHelper.cs">
-      <Link>Shared\IDispatchHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\FlashMinesweeper.Client\ActionScript\Shared\IEventsDispatch.cs">
-      <Link>Shared\IEventsDispatch.cs</Link>
-    </Compile>
-    <Compile Include="..\FlashMinesweeper.Client\ActionScript\Shared\Player.cs">
-      <Link>Shared\Player.cs</Link>
-    </Compile>
-    <Compile Include="..\FlashMinesweeper.Client\ActionScript\Shared\SharedClass1.cs">
-      <Link>Shared\SharedClass1.cs</Link>
-    </Compile>
-    <Compile Include="..\FlashMinesweeper.Client\ActionScript\Shared\SharedClass1.DispatchHelper.cs">
-      <Link>Shared\SharedClass1.DispatchHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\FlashMinesweeper.Client\ActionScript\Shared\SharedClass1.Generated.cs">
-      <Link>Shared\SharedClass1.Generated.cs</Link>
-    </Compile>
-    <Compile Include="Game.cs" />
-    <Compile Include="Generic\VirtualServerPlayerBase.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="System\Action.cs" />
-    <Compile Include="System\Func.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Library\Development Server.exe" />
-    <Content Include="Library\Nonoba.GameLibrary.dll" />
+    <ProjectReference Include="..\FlashMinesweeper.Server\FlashMinesweeper.Server.csproj">
+      <Project>{7E7B7F47-7E5F-4244-9499-EC9391ED0B50}</Project>
+      <Name>FlashMinesweeper.Server</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

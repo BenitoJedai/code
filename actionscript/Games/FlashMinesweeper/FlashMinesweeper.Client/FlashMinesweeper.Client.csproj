@@ -51,6 +51,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\Client\TeamPlay.cs" />
+    <Compile Include="ActionScript\Shared\Game.cs" />
+    <Compile Include="ActionScript\Shared\Generic\ServerGameBase.cs" />
+    <Compile Include="ActionScript\Shared\Generic\ServerPlayerBase.cs" />
+    <Compile Include="ActionScript\Shared\IDispatchHelper.cs" />
+    <Compile Include="ActionScript\Shared\IEventsDispatch.cs" />
+    <Compile Include="ActionScript\Shared\Player.cs" />
+    <Compile Include="ActionScript\Shared\SharedClass1.cs" />
+    <Compile Include="ActionScript\Shared\SharedClass1.DispatchHelper.cs" />
+    <Compile Include="ActionScript\Shared\SharedClass1.Generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>
@@ -64,15 +73,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
+    <None Include="tools\update.bat" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlashMinesweeper\FlashMinesweeper.csproj">
       <Project>{7804DA8C-BAF6-49BB-84B0-60FB4F512372}</Project>
       <Name>FlashMinesweeper</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ActionScript\Shared\Generic\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
