@@ -10,12 +10,14 @@ using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.flash.filters;
 using FlashMinesweeper.ActionScript.Client.Assets;
+using ScriptCoreLib.ActionScript.Nonoba.api;
+using FlashMinesweeper.ActionScript.Shared;
 
 namespace FlashMinesweeper.ActionScript.Client
 {
     [Script]
     [SWF(backgroundColor = 0xc0c0c0,
-        width = DefaultControlWidth,
+        width = DefaultControlWidth + NonobaChatWidth,
         height = DefaultControlHeight
         )]
     public class TeamPlay : Sprite
@@ -31,6 +33,7 @@ namespace FlashMinesweeper.ActionScript.Client
          * TeamPlay means you get one field to play at the same time.
          * 
          * After we get join, left messages to work, we need to add cursors.
+         * The map also needs to be synced.
         */
 
         private const int FieldXCount = 22;
@@ -39,6 +42,7 @@ namespace FlashMinesweeper.ActionScript.Client
         public const int DefaultControlWidth = FieldXCount * FlashMinesweeper.MineButton.Width;
         public const int DefaultControlHeight = FieldYCount * FlashMinesweeper.MineButton.Height;
 
+        public const int NonobaChatWidth = 200;
 
         public const uint ColorGreen = 0x00ff00;
         public const uint ColorRed = 0xff0000;
@@ -48,17 +52,162 @@ namespace FlashMinesweeper.ActionScript.Client
         public const uint ColorBlueDark = 0x000080;
         public const uint ColorBlueLight = 0x9090ff;
 
-        public readonly Action<string> ShowMessage;
+        public Action<string> ShowMessage;
 
-        public readonly MineField Field;
+        public MineField Field;
 
         public TeamPlay()
         {
+
+            if (stage == null)
+                this.addedToStage +=
+                    delegate
+                    {
+                        Initialize();
+                    };
+            else
+                Initialize();
+
+
+        }
+
+        SharedClass1.IEvents NetworkEvents;
+        SharedClass1.IMessages NetworkMessages;
+
+        public static void SendMessage(Connection c, SharedClass1.Messages m, params object[] e)
+        {
+            var i = new Message(((int)m).ToString());
+
+            foreach (var z in e)
+            {
+                i.Add(z);
+            }
+
+            c.Send(i);
+        }
+
+        private void Initialize()
+        {
+            var c = NonobaAPI.MakeMultiplayer(stage
+                //, "192.168.3.102"
+                //, "192.168.1.119"
+                );
+
+
+            var MyEvents = new SharedClass1.RemoteEvents();
+            var MyMessages = new SharedClass1.RemoteMessages
+            {
+                Send = e => SendMessage(c, e.i, e.args)
+            };
+
+     
+
+            NetworkEvents = MyEvents;
+            NetworkMessages = MyMessages;
+
+            this.InitializeEvents();
+
+            #region Dispatch
+            Func<Message, bool> Dispatch =
+               e =>
+               {
+                   var type = (SharedClass1.Messages)int.Parse(e.Type);
+
+                   if (MyEvents.Dispatch(type,
+                         new SharedClass1.RemoteEvents.DispatchHelper
+                         {
+                             GetLength = i => e.length,
+                             GetInt32 = e.GetInt,
+                             GetDouble = e.GetNumber,
+                             GetString = e.GetString,
+                         }
+                     ))
+                       return true;
+
+                   return false;
+               };
+            #endregion
+
+
+            #region message
+            c.Message +=
+                e =>
+                {
+                    var Dispatched = false;
+
+                    try
+                    {
+                        Dispatched = Dispatch(e.message);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Console.WriteLine("error at dispatch " + e.message.Type);
+
+                        throw ex;
+                    }
+
+                    if (Dispatched)
+                        return;
+
+                    System.Console.WriteLine("not on dispatch: " + e.message.Type);
+
+                };
+            #endregion
+
+            c.Disconnect +=
+                 delegate
+                 {
+                 };
+
+            c.Init +=
+                delegate
+                {
+                    InitializeMap();
+                };
+
+
+        }
+
+        private void InitializeEvents()
+        {
+            // events before init
+            NetworkEvents.ServerPlayerHello += 
+                e => InitializeMap();
+
+            // events after init
+            NetworkEvents.ServerPlayerHello +=
+                e =>
+                {
+                    ShowMessage("Howdy, " + e);
+                };
+
+            NetworkEvents.ServerPlayerJoined +=
+              e =>
+              {
+                  ShowMessage("Player joined - " + e);
+              };
+
+            NetworkEvents.ServerPlayerLeft +=
+              e =>
+              {
+                  ShowMessage("Player left - " + e);
+              };
+        }
+
+        bool InitializeMapDone;
+
+        private void InitializeMap()
+        {
+            if (InitializeMapDone)
+                return;
+
+            InitializeMapDone = true;
+
             stage.scaleMode = StageScaleMode.NO_SCALE;
 
             Field = new MineField(FieldXCount, FieldYCount, 0.15);
 
-            
+
             #region Messages
             var ActiveMessages = new List<TextField>();
             var ShowMessageNow = default(Action<string, Action>);
@@ -153,7 +302,6 @@ namespace FlashMinesweeper.ActionScript.Client
                 () => ShowMessage("Booom!");
 
             Field.AttachTo(this);
-
         }
     }
 }

@@ -11,6 +11,8 @@ namespace FlashMinesweeper.ActionScript.Client
     [Script]
     public static class MyExtensions
     {
+
+
         public static void FadeOutAndOrphanize(this DisplayObject e, int timeout, double step)
         {
             timeout.AtInterval(
