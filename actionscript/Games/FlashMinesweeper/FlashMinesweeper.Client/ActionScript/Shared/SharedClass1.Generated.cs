@@ -31,6 +31,10 @@ namespace FlashMinesweeper.ActionScript.Shared
             ServerSendMap,
             SendMap,
             UserSendMap,
+            SetFlag,
+            UserSetFlag,
+            Reveal,
+            UserReveal,
         }
         #endregion
 
@@ -62,6 +66,10 @@ namespace FlashMinesweeper.ActionScript.Shared
             event Action<RemoteEvents.ServerSendMapArguments> ServerSendMap;
             event Action<RemoteEvents.SendMapArguments> SendMap;
             event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
+            event Action<RemoteEvents.SetFlagArguments> SetFlag;
+            event Action<RemoteEvents.UserSetFlagArguments> UserSetFlag;
+            event Action<RemoteEvents.RevealArguments> Reveal;
+            event Action<RemoteEvents.UserRevealArguments> UserReveal;
         }
         #endregion
         #region IPairedEventsWithoutUser
@@ -75,6 +83,8 @@ namespace FlashMinesweeper.ActionScript.Shared
             event Action<RemoteEvents.MouseMoveArguments> MouseMove;
             event Action<RemoteEvents.MouseOutArguments> MouseOut;
             event Action<RemoteEvents.SendMapArguments> SendMap;
+            event Action<RemoteEvents.SetFlagArguments> SetFlag;
+            event Action<RemoteEvents.RevealArguments> Reveal;
         }
         #endregion
         #region IPairedEventsWithUser
@@ -88,6 +98,8 @@ namespace FlashMinesweeper.ActionScript.Shared
             event Action<RemoteEvents.UserMouseMoveArguments> UserMouseMove;
             event Action<RemoteEvents.UserMouseOutArguments> UserMouseOut;
             event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
+            event Action<RemoteEvents.UserSetFlagArguments> UserSetFlag;
+            event Action<RemoteEvents.UserRevealArguments> UserReveal;
         }
         #endregion
         #region IPairedMessagesWithUser
@@ -101,6 +113,8 @@ namespace FlashMinesweeper.ActionScript.Shared
             void UserMouseMove(int user, int x, int y, int color);
             void UserMouseOut(int user, int color);
             void UserSendMap(int user, int[] buttons);
+            void UserSetFlag(int user, int button, int value);
+            void UserReveal(int user, int button);
         }
         #endregion
         #region IPairedMessagesWithoutUser
@@ -114,6 +128,8 @@ namespace FlashMinesweeper.ActionScript.Shared
             void MouseMove(int x, int y, int color);
             void MouseOut(int color);
             void SendMap(int[] buttons);
+            void SetFlag(int button, int value);
+            void Reveal(int button);
         }
         #endregion
 
@@ -188,6 +204,22 @@ namespace FlashMinesweeper.ActionScript.Shared
                 Array.Copy(buttons, args, buttons.Length);
                 Send(new SendArguments { i = Messages.UserSendMap, args = args });
             }
+            public void SetFlag(int button, int value)
+            {
+                Send(new SendArguments { i = Messages.SetFlag, args = new object[] { button, value } });
+            }
+            public void UserSetFlag(int user, int button, int value)
+            {
+                Send(new SendArguments { i = Messages.UserSetFlag, args = new object[] { user, button, value } });
+            }
+            public void Reveal(int button)
+            {
+                Send(new SendArguments { i = Messages.Reveal, args = new object[] { button } });
+            }
+            public void UserReveal(int user, int button)
+            {
+                Send(new SendArguments { i = Messages.UserReveal, args = new object[] { user, button } });
+            }
         }
         #endregion
 
@@ -260,6 +292,14 @@ namespace FlashMinesweeper.ActionScript.Shared
                 public void UserSendMap(SendMapArguments e)
                 {
                     Target.UserSendMap(this.user, e.buttons);
+                }
+                public void UserSetFlag(SetFlagArguments e)
+                {
+                    Target.UserSetFlag(this.user, e.button, e.value);
+                }
+                public void UserReveal(RevealArguments e)
+                {
+                    Target.UserReveal(this.user, e.button);
                 }
                 #endregion
             }
@@ -462,6 +502,72 @@ namespace FlashMinesweeper.ActionScript.Shared
             }
             #endregion
             public event Action<UserSendMapArguments> UserSendMap;
+            #region SetFlagArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class SetFlagArguments
+            {
+                public int button;
+                public int value;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ button = ").Append(this.button).Append(", value = ").Append(this.value).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<SetFlagArguments> SetFlag;
+            #region UserSetFlagArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class UserSetFlagArguments : WithUserArguments
+            {
+                public int button;
+                public int value;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", button = ").Append(this.button).Append(", value = ").Append(this.value).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserSetFlagArguments> UserSetFlag;
+            #region RevealArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class RevealArguments
+            {
+                public int button;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ button = ").Append(this.button).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<RevealArguments> Reveal;
+            #region UserRevealArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class UserRevealArguments : WithUserArguments
+            {
+                public int button;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", button = ").Append(this.button).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserRevealArguments> UserReveal;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -478,6 +584,10 @@ namespace FlashMinesweeper.ActionScript.Shared
                             { Messages.ServerSendMap, e => { ServerSendMap(new ServerSendMapArguments {  }); } },
                             { Messages.SendMap, e => { SendMap(new SendMapArguments { buttons = e.GetInt32Array(0) }); } },
                             { Messages.UserSendMap, e => { UserSendMap(new UserSendMapArguments { user = e.GetInt32(0), buttons = e.GetInt32Array(1) }); } },
+                            { Messages.SetFlag, e => { SetFlag(new SetFlagArguments { button = e.GetInt32(0), value = e.GetInt32(1) }); } },
+                            { Messages.UserSetFlag, e => { UserSetFlag(new UserSetFlagArguments { user = e.GetInt32(0), button = e.GetInt32(1), value = e.GetInt32(2) }); } },
+                            { Messages.Reveal, e => { Reveal(new RevealArguments { button = e.GetInt32(0) }); } },
+                            { Messages.UserReveal, e => { UserReveal(new UserRevealArguments { user = e.GetInt32(0), button = e.GetInt32(1) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -494,6 +604,10 @@ namespace FlashMinesweeper.ActionScript.Shared
                             { Messages.ServerSendMap, e => ServerSendMap },
                             { Messages.SendMap, e => SendMap },
                             { Messages.UserSendMap, e => UserSendMap },
+                            { Messages.SetFlag, e => SetFlag },
+                            { Messages.UserSetFlag, e => UserSetFlag },
+                            { Messages.Reveal, e => Reveal },
+                            { Messages.UserReveal, e => UserReveal },
                         }
                 ;
             }
@@ -514,6 +628,8 @@ namespace FlashMinesweeper.ActionScript.Shared
                         this.MouseMove -= _Router.UserMouseMove;
                         this.MouseOut -= _Router.UserMouseOut;
                         this.SendMap -= _Router.UserSendMap;
+                        this.SetFlag -= _Router.UserSetFlag;
+                        this.Reveal -= _Router.UserReveal;
                     }
                     _Router = value;
                     if(_Router != null)
@@ -522,6 +638,8 @@ namespace FlashMinesweeper.ActionScript.Shared
                         this.MouseMove += _Router.UserMouseMove;
                         this.MouseOut += _Router.UserMouseOut;
                         this.SendMap += _Router.UserSendMap;
+                        this.SetFlag += _Router.UserSetFlag;
+                        this.Reveal += _Router.UserReveal;
                     }
                 }
             }
@@ -650,9 +768,53 @@ namespace FlashMinesweeper.ActionScript.Shared
                 ((IMessages)this).UserSendMap(user, buttons);
             }
 
+            public event Action<RemoteEvents.SetFlagArguments> SetFlag;
+            void IMessages.SetFlag(int button, int value)
+            {
+                if(SetFlag == null) return;
+                SetFlag(new RemoteEvents.SetFlagArguments { button = button, value = value });
+            }
+            void IPairedMessagesWithoutUser.SetFlag(int button, int value)
+            {
+                ((IMessages)this).SetFlag(button, value);
+            }
+
+            public event Action<RemoteEvents.UserSetFlagArguments> UserSetFlag;
+            void IMessages.UserSetFlag(int user, int button, int value)
+            {
+                if(UserSetFlag == null) return;
+                UserSetFlag(new RemoteEvents.UserSetFlagArguments { user = user, button = button, value = value });
+            }
+            void IPairedMessagesWithUser.UserSetFlag(int user, int button, int value)
+            {
+                ((IMessages)this).UserSetFlag(user, button, value);
+            }
+
+            public event Action<RemoteEvents.RevealArguments> Reveal;
+            void IMessages.Reveal(int button)
+            {
+                if(Reveal == null) return;
+                Reveal(new RemoteEvents.RevealArguments { button = button });
+            }
+            void IPairedMessagesWithoutUser.Reveal(int button)
+            {
+                ((IMessages)this).Reveal(button);
+            }
+
+            public event Action<RemoteEvents.UserRevealArguments> UserReveal;
+            void IMessages.UserReveal(int user, int button)
+            {
+                if(UserReveal == null) return;
+                UserReveal(new RemoteEvents.UserRevealArguments { user = user, button = button });
+            }
+            void IPairedMessagesWithUser.UserReveal(int user, int button)
+            {
+                ((IMessages)this).UserReveal(user, button);
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 6.07.2008 1:27:28
+// 6.07.2008 1:58:27

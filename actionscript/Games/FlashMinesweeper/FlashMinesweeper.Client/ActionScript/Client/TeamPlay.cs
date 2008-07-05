@@ -257,8 +257,6 @@ namespace FlashMinesweeper.ActionScript.Client
                     {
                         var v = Field.Buttons[i];
 
-                        var x = 0;
-
                         var f = new BitField();
 
                         f[1] = v.IsMined;
@@ -294,6 +292,20 @@ namespace FlashMinesweeper.ActionScript.Client
                         else
                             v.RevealLocal();
                     }
+                };
+
+            Events.UserSetFlag +=
+                e =>
+                {
+                    Field.Buttons[e.button].IsFlag = e.value == 1;
+                    Field.Buttons[e.button].Update();
+                    Field.Buttons[e.button].snd_flag.play();
+                };
+
+            Events.UserReveal +=
+                e =>
+                {
+                    Field.Buttons[e.button].RevealOrExplode();
                 };
         }
 
@@ -404,6 +416,18 @@ namespace FlashMinesweeper.ActionScript.Client
 
             Field.OnBang +=
                 () => ShowMessage("Booom!");
+
+            Field.IsFlagChanged +=
+                (button, value) =>
+                {
+                    Messages.SetFlag(button, value.ToInt32());
+                };
+
+            Field.OnReveal +=
+                (button) =>
+                {
+                    Messages.Reveal(button);
+                };
 
             Field.AttachTo(this);
 

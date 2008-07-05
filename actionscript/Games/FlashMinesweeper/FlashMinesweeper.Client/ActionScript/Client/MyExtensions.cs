@@ -17,6 +17,14 @@ namespace FlashMinesweeper.ActionScript.Client
         }
 
 
+        public static int ToInt32(this bool e)
+        {
+            if (e)
+                return 1;
+
+            return 0;
+        }
+
         public static int ToInt32(this double e)
         {
             return Convert.ToInt32(e);

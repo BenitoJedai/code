@@ -25,7 +25,7 @@ namespace FlashMinesweeper.ActionScript
 
             public readonly SoundAsset snd_buzzer = Assets.snd_buzzer.ToSoundAsset();
             public readonly SoundAsset snd_reveal = Assets.snd_reveal.ToSoundAsset();
-            private readonly SoundAsset snd_flag = Assets.snd_flag.ToSoundAsset();
+            public readonly SoundAsset snd_flag = Assets.snd_flag.ToSoundAsset();
             private readonly SoundAsset snd_click = Assets.click.ToSoundAsset();
             private readonly SoundAsset snd_explosion = Assets.explosion.ToSoundAsset();
 
@@ -58,6 +58,9 @@ namespace FlashMinesweeper.ActionScript
             public event Action OnComplete;
 
             public List<MineButton> Others;
+
+            public event Action IsFlagChanged;
+            public event Action OnReveal;
 
             public MineButton()
             {
@@ -95,6 +98,9 @@ namespace FlashMinesweeper.ActionScript
 
                             this.IsFlag = !this.IsFlag;
 
+                            if (IsFlagChanged != null)
+                                IsFlagChanged();
+
                             Update();
                         }
                         else
@@ -105,26 +111,11 @@ namespace FlashMinesweeper.ActionScript
                                 return;
                             }
 
-                            if (this.IsMined)
-                            {
-                                this.img = img_mine_found;
+                            if (OnReveal != null)
+                                OnReveal();
 
-                                snd_explosion.play();
 
-                                RevealHiddenMines();
-
-                                if (OnBang != null)
-                                    OnBang();
-                            }
-                            else
-                            {
-                                if (Reveal())
-                                    snd_reveal.play();
-                                else
-                                    snd_click.play();
-                            }
-
-                            this.Enabled = false;
+                            RevealOrExplode();
 
 
                         }
@@ -133,6 +124,30 @@ namespace FlashMinesweeper.ActionScript
                     };
 
                 Update();
+            }
+
+            public void RevealOrExplode()
+            {
+                if (this.IsMined)
+                {
+                    this.img = img_mine_found;
+
+                    snd_explosion.play();
+
+                    RevealHiddenMines();
+
+                    if (OnBang != null)
+                        OnBang();
+                }
+                else
+                {
+                    if (Reveal())
+                        snd_reveal.play();
+                    else
+                        snd_click.play();
+                }
+
+                this.Enabled = false;
             }
 
             public bool HasInvalidStateForCompletion
@@ -310,16 +325,21 @@ namespace FlashMinesweeper.ActionScript
 
         public readonly MineButton[] Buttons;
 
+        public event Action<int, bool> IsFlagChanged;
+        public event Action<int> OnReveal;
+
         public MineField(int FieldXCount, int FieldYCount, double percentage)
         {
 
 
             var a = new List<MineButton>();
 
+            var k = 0;
+
             for (int x = 0; x < FieldXCount; x++)
                 for (int y = 0; y < FieldYCount; y++)
                 {
-                    a.Add(
+                    var n =
                         new MineButton
                         {
                             x = x * MineButton.Width,
@@ -328,8 +348,31 @@ namespace FlashMinesweeper.ActionScript
                             FieldX = x,
                             FieldY = y,
                             Others = a
-                        }
+
+                        };
+
+                    var j = k;
+
+                    n.IsFlagChanged +=
+                        delegate
+                        {
+                            if (IsFlagChanged != null)
+                                IsFlagChanged(j, n.IsFlag);
+                        };
+
+                    n.OnReveal +=
+                     delegate
+                     {
+                         if (OnReveal != null)
+                             OnReveal(j);
+                     };
+
+
+                    a.Add(
+                        n
                     );
+
+                    k++;
                 }
 
             Buttons = a.ToArray();
