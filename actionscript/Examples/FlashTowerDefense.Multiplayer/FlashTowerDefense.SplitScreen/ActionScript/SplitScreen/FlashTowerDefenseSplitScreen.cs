@@ -136,13 +136,6 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
             };
 
             left_client.InitializeEvents();
-            left_client.InitializeMap();
-
-            left.MoveTo(Padding, Padding).AttachTo(this);
-
-            var right = CreateView();
-            right.MovementWASD.Enabled = false;
-            //right.ToggleMusic();
 
             var right_client = new FlashTowerDefenseClient.Implementation
             {
@@ -151,7 +144,18 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
                 NetworkMessages = right_to_server,
             };
 
+
             right_client.InitializeEvents();
+
+            left_client.InitializeMap();
+
+            left.MoveTo(Padding, Padding).AttachTo(this);
+
+            var right = CreateView();
+            right.MovementWASD.Enabled = false;
+            //right.ToggleMusic();
+
+   
             right_client.InitializeMap();
 
             right.MoveTo(Padding * 2 + FlashTowerDefense.DefaultWidth, Padding).AttachTo(this);
