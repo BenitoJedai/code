@@ -10,6 +10,8 @@ namespace FlashTowerDefense.ActionScript
     [Script]
     public class KeyboardButton
     {
+        public KeyboardButtonGroupInfo[] Groups { get; set; }
+
         public Action Up;
         public Action Down;
 
@@ -30,14 +32,25 @@ namespace FlashTowerDefense.ActionScript
                     if (this.Down == null)
                         return;
 
-                    if (this.Buttons == null)
-                        return;
+                    if (Groups == null)
+                    {
+                        if (this.Buttons == null)
+                            return;
 
-                    if (this.Buttons.Contains(e.keyCode))
-                        if (this.Filter == null || this.Filter())
-                        {
-                            this.Down();
-                        }
+                        if (!this.Buttons.Contains(e.keyCode))
+                            return;
+                    }
+                    else
+                    {
+                        if (!Groups.Where(i => i.Group.Enabled).Any(i => i.Buttons.Contains(e.keyCode)))
+                            return;
+
+                    }
+
+                    if (this.Filter == null || this.Filter())
+                    {
+                        this.Down();
+                    }
                 };
 
             s.keyUp +=
@@ -46,14 +59,25 @@ namespace FlashTowerDefense.ActionScript
                       if (this.Up == null)
                           return;
 
-                      if (this.Buttons == null)
-                          return;
+                      if (Groups == null)
+                      {
+                          if (this.Buttons == null)
+                              return;
 
-                      if (this.Buttons.Contains(e.keyCode))
-                          if (this.Filter == null || this.Filter())
-                          {
-                              this.Up();
-                          }
+                          if (!this.Buttons.Contains(e.keyCode))
+                              return;
+                      }
+                      else
+                      {
+                          if (!Groups.Where(i => i.Group.Enabled).Any(i => i.Buttons.Contains(e.keyCode)))
+                              return;
+
+                      }
+
+                      if (this.Filter == null || this.Filter())
+                      {
+                          this.Up();
+                      }
                   };
         }
     }

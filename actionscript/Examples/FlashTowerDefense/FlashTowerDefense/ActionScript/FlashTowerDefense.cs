@@ -347,7 +347,7 @@ namespace FlashTowerDefense.ActionScript
             var WeaponAvatar = new Sprite().AttachTo(WeaponBar);
             #endregion
 
-            var CurrentTarget = default(MouseEvent);
+            var CurrentTarget = default(Point);
             var CurrentTargetTimer = default(Timer);
 
             #region Ego
@@ -388,7 +388,7 @@ namespace FlashTowerDefense.ActionScript
                 {
                     if (EgoMoveToMouseTarget)
                     {
-                        var p = new Point { x = CurrentTarget.stageX - Ego.x, y = CurrentTarget.stageY - Ego.y };
+                        var p = new Point { x = CurrentTarget.x - Ego.x, y = CurrentTarget.y - Ego.y };
 
                         if (p.length <= EgoMoveSpeed)
                         {
@@ -590,7 +590,7 @@ namespace FlashTowerDefense.ActionScript
                         }.ToString();
                 };
 
-            Action<MouseEvent> DoMachineGunFire =
+            Action<Point> DoMachineGunFire =
                 e =>
                 {
                     if (Ego.CurrentWeapon.Ammo <= 0)
@@ -602,7 +602,7 @@ namespace FlashTowerDefense.ActionScript
 
 
                     var DamagePointOfOrigin = new Point { x = PrebuiltTurret.x, y = PrebuiltTurret.y };
-                    var DamageDirection = new Point { x = e.stageX - PrebuiltTurret.x, y = e.stageY - PrebuiltTurret.y }.GetRotation();
+                    var DamageDirection = new Point { x = e.x - PrebuiltTurret.x, y = e.y - PrebuiltTurret.y }.GetRotation();
 
                     DoSomeDamage(DamagePointOfOrigin, DamageDirection, WeaponInfo.Machinegun);
 
@@ -656,7 +656,15 @@ namespace FlashTowerDefense.ActionScript
 
                     PrebuiltTurret.AnimationEnabled = true;
 
-                    CurrentTarget = e;
+                    var p = new Point
+                    {
+                        x = e.stageX,
+                        y = e.stageY,
+                    };
+
+                    CurrentTarget = this.globalToLocal(p);
+
+
                     CurrentTargetTimer =
                         (1000 / 10).AtInterval(
                             delegate
@@ -687,7 +695,14 @@ namespace FlashTowerDefense.ActionScript
                     if (!CanFire)
                         return;
 
-                    CurrentTarget = e;
+                    var p = new Point
+                    {
+                        x = e.stageX,
+                        y = e.stageY,
+                    };
+
+                    CurrentTarget = this.globalToLocal(p);
+
 
                     if (EgoIsOnTheField())
                     {
@@ -698,8 +713,8 @@ namespace FlashTowerDefense.ActionScript
 
                     Mouse.hide();
 
-                    Aim.x = CurrentTarget.stageX;
-                    Aim.y = CurrentTarget.stageY;
+                    Aim.x = CurrentTarget.x;
+                    Aim.y = CurrentTarget.y;
                 };
 
 
@@ -818,11 +833,19 @@ namespace FlashTowerDefense.ActionScript
                     if (!EgoIsAlive())
                         return;
 
-                    var p = new Point { x = e.stageX - Ego.x, y = e.stageY - Ego.y };
+                    var pp = new Point
+                    {
+                        x = e.stageX,
+                        y = e.stageY,
+                    };
+
+                    CurrentTarget = this.globalToLocal(pp);
+
+                    var p = new Point { x = CurrentTarget.x - Ego.x, y = CurrentTarget.y - Ego.y };
 
                     EgoAimDirection = p.GetRotation();
 
-                    CurrentTarget = e;
+
 
                     UpdateEgoAim();
 
@@ -855,11 +878,19 @@ namespace FlashTowerDefense.ActionScript
                     if (!EgoIsAlive())
                         return;
 
-                    var p = new Point { x = e.stageX - Ego.x, y = e.stageY - Ego.y };
+                    var pp = new Point
+                    {
+                        x = e.stageX,
+                        y = e.stageY,
+                    };
+
+                    CurrentTarget = this.globalToLocal(pp);
+
+                    var p = new Point { x = CurrentTarget.x - Ego.x, y = CurrentTarget.y - Ego.y };
+
 
                     EgoAimDirection = p.GetRotation();
 
-                    CurrentTarget = e;
 
                     UpdateEgoAim();
                 };
@@ -894,7 +925,16 @@ namespace FlashTowerDefense.ActionScript
                   if (!EgoIsAlive())
                       return;
 
-                  EgoAimDirection = new Point { x = e.stageX - Ego.x, y = e.stageY - Ego.y }.GetRotation();
+                  var pp = new Point
+                  {
+                      x = e.stageX,
+                      y = e.stageY,
+                  };
+
+                  CurrentTarget = this.globalToLocal(pp);
+
+
+                  EgoAimDirection = new Point { x = CurrentTarget.x - Ego.x, y = CurrentTarget.y - Ego.y }.GetRotation();
 
                   UpdateEgoAim();
 
@@ -959,7 +999,11 @@ namespace FlashTowerDefense.ActionScript
 
                     var KeyLeft = new KeyboardButton(stage)
                     {
-                        Buttons = new[] { Keyboard.LEFT, Keyboard.A },
+                        Groups = new []
+                        {
+                            MovementWASD[Keyboard.A],
+                            MovementArrows[Keyboard.LEFT],
+                        },
                         Filter = EgoIsOnTheField.And(EgoIsAlive),
                         Down =
                             delegate
@@ -972,7 +1016,11 @@ namespace FlashTowerDefense.ActionScript
 
                     var KeyRight = new KeyboardButton(stage)
                     {
-                        Buttons = new[] { Keyboard.RIGHT, Keyboard.D },
+                        Groups = new[]
+                        {
+                            MovementWASD[Keyboard.D],
+                            MovementArrows[Keyboard.RIGHT],
+                        },
                         Filter = EgoIsOnTheField.And(EgoIsAlive),
                         Down =
                             delegate
@@ -1084,8 +1132,8 @@ namespace FlashTowerDefense.ActionScript
 
                                             if (CurrentTarget != null)
                                             {
-                                                Aim.x = CurrentTarget.stageX;
-                                                Aim.y = CurrentTarget.stageY;
+                                                Aim.x = CurrentTarget.x;
+                                                Aim.y = CurrentTarget.y;
                                             }
 
                                             Sounds.door_open.ToSoundAsset().play();
@@ -1614,6 +1662,9 @@ namespace FlashTowerDefense.ActionScript
 
         public event Action<int, int, int, int> NetworkDeployExplosiveBarrel;
         public event Action<int> NetworkUndeployExplosiveBarrel;
+
+        public readonly KeyboardButtonGroup MovementWASD = new KeyboardButtonGroup();
+        public readonly KeyboardButtonGroup MovementArrows = new KeyboardButtonGroup();
 
         public enum NetworkMode
         {

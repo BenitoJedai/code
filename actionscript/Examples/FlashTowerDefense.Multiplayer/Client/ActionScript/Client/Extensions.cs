@@ -5,7 +5,6 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.Nonoba.api;
 using FlashTowerDefense.Shared;
-
 namespace FlashTowerDefense.ActionScript.Client
 {
     /// <summary>

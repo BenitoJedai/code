@@ -68,6 +68,7 @@
     <Compile Include="ActionScript\Crate.cs" />
     <Compile Include="ActionScript\FlashTowerDefense.AddNewActorsToMap.cs" />
     <Compile Include="ActionScript\FlashTowerDefense.cs" />
+    <Compile Include="ActionScript\KeyboardButtonGroup.cs" />
     <Compile Include="ActionScript\Menu.cs" />
     <Compile Include="ActionScript\Monetized\NewgroundPreloader.cs" />
     <Compile Include="ActionScript\Monetized\NewgroundsAPI.cs" />
