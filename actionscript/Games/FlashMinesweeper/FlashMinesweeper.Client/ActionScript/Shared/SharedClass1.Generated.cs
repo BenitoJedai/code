@@ -23,6 +23,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             ServerPlayerJoined,
             ServerPlayerLeft,
             PlayerAdvertise,
+            UserPlayerAdvertise,
         }
         #endregion
 
@@ -46,6 +47,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             event Action<RemoteEvents.ServerPlayerJoinedArguments> ServerPlayerJoined;
             event Action<RemoteEvents.ServerPlayerLeftArguments> ServerPlayerLeft;
             event Action<RemoteEvents.PlayerAdvertiseArguments> PlayerAdvertise;
+            event Action<RemoteEvents.UserPlayerAdvertiseArguments> UserPlayerAdvertise;
         }
         #endregion
         #region IPairedEventsWithoutUser
@@ -55,6 +57,7 @@ namespace FlashMinesweeper.ActionScript.Shared
         [CompilerGenerated]
         public partial interface IPairedEventsWithoutUser
         {
+            event Action<RemoteEvents.PlayerAdvertiseArguments> PlayerAdvertise;
         }
         #endregion
         #region IPairedEventsWithUser
@@ -64,6 +67,7 @@ namespace FlashMinesweeper.ActionScript.Shared
         [CompilerGenerated]
         public partial interface IPairedEventsWithUser
         {
+            event Action<RemoteEvents.UserPlayerAdvertiseArguments> UserPlayerAdvertise;
         }
         #endregion
         #region IPairedMessagesWithUser
@@ -73,6 +77,7 @@ namespace FlashMinesweeper.ActionScript.Shared
         [CompilerGenerated]
         public partial interface IPairedMessagesWithUser
         {
+            void UserPlayerAdvertise(int user, string name);
         }
         #endregion
         #region IPairedMessagesWithoutUser
@@ -82,6 +87,7 @@ namespace FlashMinesweeper.ActionScript.Shared
         [CompilerGenerated]
         public partial interface IPairedMessagesWithoutUser
         {
+            void PlayerAdvertise(string name);
         }
         #endregion
 
@@ -116,9 +122,13 @@ namespace FlashMinesweeper.ActionScript.Shared
             {
                 Send(new SendArguments { i = Messages.ServerPlayerLeft, args = new object[] { user, name } });
             }
-            public void PlayerAdvertise(int ego)
+            public void PlayerAdvertise(string name)
             {
-                Send(new SendArguments { i = Messages.PlayerAdvertise, args = new object[] { ego } });
+                Send(new SendArguments { i = Messages.PlayerAdvertise, args = new object[] { name } });
+            }
+            public void UserPlayerAdvertise(int user, string name)
+            {
+                Send(new SendArguments { i = Messages.UserPlayerAdvertise, args = new object[] { user, name } });
             }
         }
         #endregion
@@ -177,6 +187,10 @@ namespace FlashMinesweeper.ActionScript.Shared
             {
                 public IMessages Target;
                 #region Routing
+                public void UserPlayerAdvertise(PlayerAdvertiseArguments e)
+                {
+                    Target.UserPlayerAdvertise(this.user, e.name);
+                }
                 #endregion
             }
             #endregion
@@ -238,15 +252,31 @@ namespace FlashMinesweeper.ActionScript.Shared
             [CompilerGenerated]
             public sealed partial class PlayerAdvertiseArguments
             {
-                public int ego;
+                public string name;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ ego = ").Append(this.ego).Append(" }").ToString();
+                    return new StringBuilder().Append("{ name = ").Append(this.name).Append(" }").ToString();
                 }
             }
             #endregion
             public event Action<PlayerAdvertiseArguments> PlayerAdvertise;
+            #region UserPlayerAdvertiseArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class UserPlayerAdvertiseArguments : WithUserArguments
+            {
+                public string name;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserPlayerAdvertiseArguments> UserPlayerAdvertise;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -254,7 +284,8 @@ namespace FlashMinesweeper.ActionScript.Shared
                             { Messages.ServerPlayerHello, e => { ServerPlayerHello(new ServerPlayerHelloArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                             { Messages.ServerPlayerJoined, e => { ServerPlayerJoined(new ServerPlayerJoinedArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                             { Messages.ServerPlayerLeft, e => { ServerPlayerLeft(new ServerPlayerLeftArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
-                            { Messages.PlayerAdvertise, e => { PlayerAdvertise(new PlayerAdvertiseArguments { ego = e.GetInt32(0) }); } },
+                            { Messages.PlayerAdvertise, e => { PlayerAdvertise(new PlayerAdvertiseArguments { name = e.GetString(0) }); } },
+                            { Messages.UserPlayerAdvertise, e => { UserPlayerAdvertise(new UserPlayerAdvertiseArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -263,6 +294,7 @@ namespace FlashMinesweeper.ActionScript.Shared
                             { Messages.ServerPlayerJoined, e => ServerPlayerJoined },
                             { Messages.ServerPlayerLeft, e => ServerPlayerLeft },
                             { Messages.PlayerAdvertise, e => PlayerAdvertise },
+                            { Messages.UserPlayerAdvertise, e => UserPlayerAdvertise },
                         }
                 ;
             }
@@ -279,10 +311,12 @@ namespace FlashMinesweeper.ActionScript.Shared
                 {
                     if(_Router != null)
                     {
+                        this.PlayerAdvertise -= _Router.UserPlayerAdvertise;
                     }
                     _Router = value;
                     if(_Router != null)
                     {
+                        this.PlayerAdvertise += _Router.UserPlayerAdvertise;
                     }
                 }
             }
@@ -317,10 +351,25 @@ namespace FlashMinesweeper.ActionScript.Shared
             }
 
             public event Action<RemoteEvents.PlayerAdvertiseArguments> PlayerAdvertise;
-            void IMessages.PlayerAdvertise(int ego)
+            void IMessages.PlayerAdvertise(string name)
             {
                 if(PlayerAdvertise == null) return;
-                PlayerAdvertise(new RemoteEvents.PlayerAdvertiseArguments { ego = ego });
+                PlayerAdvertise(new RemoteEvents.PlayerAdvertiseArguments { name = name });
+            }
+            void IPairedMessagesWithoutUser.PlayerAdvertise(string name)
+            {
+                ((IMessages)this).PlayerAdvertise(name);
+            }
+
+            public event Action<RemoteEvents.UserPlayerAdvertiseArguments> UserPlayerAdvertise;
+            void IMessages.UserPlayerAdvertise(int user, string name)
+            {
+                if(UserPlayerAdvertise == null) return;
+                UserPlayerAdvertise(new RemoteEvents.UserPlayerAdvertiseArguments { user = user, name = name });
+            }
+            void IPairedMessagesWithUser.UserPlayerAdvertise(int user, string name)
+            {
+                ((IMessages)this).UserPlayerAdvertise(user, name);
             }
 
         }
@@ -328,4 +377,4 @@ namespace FlashMinesweeper.ActionScript.Shared
     }
     #endregion
 }
-// 5.07.2008 23:47:23
+// 6.07.2008 0:29:57

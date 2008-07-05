@@ -30,7 +30,8 @@ namespace FlashMinesweeper.ActionScript.Shared
             void ServerPlayerJoined(int user, string name);
             void ServerPlayerLeft(int user, string name);
 
-            void PlayerAdvertise(int ego);
+            void PlayerAdvertise(string name);
+            void UserPlayerAdvertise(int user, string name);
 
         }
     }

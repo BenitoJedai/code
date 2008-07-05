@@ -100,7 +100,7 @@ namespace FlashMinesweeper.ActionScript.Client
                 Send = e => SendMessage(c, e.i, e.args)
             };
 
-     
+
 
             NetworkEvents = MyEvents;
             NetworkMessages = MyMessages;
@@ -171,29 +171,43 @@ namespace FlashMinesweeper.ActionScript.Client
         private void InitializeEvents()
         {
             // events before init
-            NetworkEvents.ServerPlayerHello += 
+            NetworkEvents.ServerPlayerHello +=
                 e => InitializeMap();
+
+            var MyIdentity = default(SharedClass1.RemoteEvents.ServerPlayerHelloArguments);
 
             // events after init
             NetworkEvents.ServerPlayerHello +=
                 e =>
                 {
-                    ShowMessage("Howdy, " + e);
+                    MyIdentity = e;
+
+                    ShowMessage("Howdy, " + e.name);
                 };
 
             NetworkEvents.ServerPlayerJoined +=
               e =>
               {
-                  ShowMessage("Player joined - " + e);
+                  ShowMessage("Player joined - " + e.name);
+
+
+                  NetworkMessages.PlayerAdvertise(e.name);
               };
 
             NetworkEvents.ServerPlayerLeft +=
               e =>
               {
-                  ShowMessage("Player left - " + e);
+                  ShowMessage("Player left - " + e.name);
               };
+
+            NetworkEvents.UserPlayerAdvertise +=
+                e =>
+                {
+                    ShowMessage("Player already here - " + e.name);
+                };
         }
 
+        #region InitializeMap
         bool InitializeMapDone;
 
         private void InitializeMap()
@@ -303,5 +317,8 @@ namespace FlashMinesweeper.ActionScript.Client
 
             Field.AttachTo(this);
         }
+
+        #endregion
+
     }
 }
