@@ -73,6 +73,10 @@
       <Project>{B939002B-9922-4999-B943-6C0DF657D25B}</Project>
       <Name>FlashTowerDefense</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Client\FlashTowerDefense.Client.csproj">
+      <Project>{CA433158-64B5-4EB9-B283-22130063DBF4}</Project>
+      <Name>FlashTowerDefense.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Shared\FlashTowerDefense.Shared.csproj">
       <Project>{16969E26-6189-4014-87CA-7BE7D3E403FD}</Project>
       <Name>FlashTowerDefense.Shared</Name>

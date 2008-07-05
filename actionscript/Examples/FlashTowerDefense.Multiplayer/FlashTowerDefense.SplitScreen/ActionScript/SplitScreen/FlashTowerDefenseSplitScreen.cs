@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using FlashTowerDefense.ActionScript;
 using ScriptCoreLib.ActionScript;
 using System;
+using FlashTowerDefense.Shared;
 
 namespace FlashTowerDefense.ActionScript.SplitScreen
 {
@@ -60,7 +61,39 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
             left.MoveTo(Padding, Padding).AttachTo(this);
             right.MoveTo(Padding * 2 + FlashTowerDefense.DefaultWidth, Padding).AttachTo(this);
 
-            //left_container.MoveTo(Padding, Padding).AttachTo(this);
+            // now we need a bridge and a server
+
+            var server = new Game
+            {
+                AtInterval = (a, i) => i.AtIntervalDo(a).stop,
+                AtDelay = (a, i) => i.AtDelayDo(a).stop,
+            };
+
+            var left_to_server = new global::FlashTowerDefense.Shared.SharedClass1.Bridge();
+            var server_to_left = new global::FlashTowerDefense.Shared.SharedClass1.Bridge();
+
+            var right_to_server = new global::FlashTowerDefense.Shared.SharedClass1.Bridge();
+            var server_to_right = new global::FlashTowerDefense.Shared.SharedClass1.Bridge();
+
+            var player_left = new Player
+            {
+                FromPlayer = left_to_server,
+                ToPlayer = server_to_left,
+                ToOthers = server_to_right,
+                UserId = 0,
+                Username = "Lefty"
+            };
+
+            var player_right = new Player
+            {
+                FromPlayer = right_to_server,
+                ToPlayer = server_to_right,
+                ToOthers = server_to_left,
+                UserId = 0,
+                Username = "Righty"
+            };
+
+
         }
     }
 }

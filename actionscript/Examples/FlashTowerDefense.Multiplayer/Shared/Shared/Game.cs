@@ -11,7 +11,7 @@ namespace FlashTowerDefense.Shared
 #if !NoAttributes
         [Script]
 #endif
-    public class Game : Generic.ServerGameBase<SharedClass1.RemoteEvents, SharedClass1.RemoteMessages, Player>
+    public class Game : Generic.ServerGameBase<SharedClass1.IEvents, SharedClass1.IMessages, Player>
     {
 
         public override void UserJoined(Player player)

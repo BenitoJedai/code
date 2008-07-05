@@ -1,5 +1,7 @@
 @echo off
 
+goto :skipped
+
 
 
 :: Dll name
@@ -48,4 +50,7 @@ echo - %2
 ::call C:\util\flex\bin\mxmlc.exe -use-network -debug -compiler.verbose-stacktraces -warnings=false -keep-as3-metadata -incremental=true -output=%2.swf -sp=. %1/%2.as
 :: call C:\util\flex\bin\mxmlc.exe -optimize -use-network -warnings=false -incremental=true -output=%2.swf -sp=. %1/%2.as
 call C:\util\flex\bin\mxmlc.exe -debug -use-network -warnings=false -incremental=true -output=%2.swf -sp=. %1/%2.as
+goto :eof
+:skipped
+echo Skipped
 goto :eof

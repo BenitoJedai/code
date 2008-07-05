@@ -181,6 +181,19 @@ namespace jsc.Languages.ActionScript
                 var iparams = tmethod.GetParameters();
                 var iparamstypes = tmethod.GetParameters().Select(p => p.ParameterType).ToArray();
 
+                var InterfaceMethodDeclaringType =
+                    z.BaseType.IsGenericType ?
+                    z.BaseType.GetGenericTypeDefinition() :
+                    z.BaseType
+                    ;
+
+                //var InterfaceMethodImplementation = (MethodInfo)MySession.ResolveImplementation(InterfaceMethodDeclaringType, InterfaceMethod,
+                //    //AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveMethodOnly
+                //    AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveBCLImplementation
+                //    ) ?? InterfaceMethod;
+
+           
+
                 var vm = z.BaseType.GetMethod(
                     tmethod.Name,
                     BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public,
@@ -188,6 +201,11 @@ namespace jsc.Languages.ActionScript
                     iparamstypes,
                     null
                 );
+
+                var InterfaceMethodImplementationSignature = (MethodInfo)MySession.ResolveImplementation(InterfaceMethodDeclaringType, vm,
+                    AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveMethodOnly
+                    //AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveBCLImplementation
+                    ) ?? vm;
 
                 if (vm == null)
                 {
@@ -197,7 +215,7 @@ namespace jsc.Languages.ActionScript
                 WriteIdent();
                 WriteCommentLine("override a virtual member");
 
-                WriteMethodSignature(vm, false, WriteMethodSignatureMode.Overriding);
+                WriteMethodSignature(InterfaceMethodImplementationSignature, false, WriteMethodSignatureMode.Overriding);
 
                 using (CreateScope())
                 {
