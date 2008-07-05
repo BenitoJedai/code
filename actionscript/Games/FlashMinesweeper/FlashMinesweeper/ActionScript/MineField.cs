@@ -400,6 +400,9 @@ namespace FlashMinesweeper.ActionScript
                 v.OnBang +=
                     delegate
                     {
+                        if (OnBang != null)
+                            OnBang();
+
                         Delay(
                             3000,
                             delegate
@@ -434,5 +437,7 @@ namespace FlashMinesweeper.ActionScript
 
             Reset();
         }
+
+        public event Action OnBang;
     }
 }

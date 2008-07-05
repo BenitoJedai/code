@@ -50,6 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\Client\Assets\Sounds.cs" />
+    <Compile Include="ActionScript\Client\MyExtensions.cs" />
     <Compile Include="ActionScript\Client\TeamPlay.cs" />
     <Compile Include="ActionScript\Shared\Game.cs" />
     <Compile Include="ActionScript\Shared\Generic\ServerGameBase.cs" />
@@ -66,10 +68,7 @@
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
-    <EmbeddedResource Include="web\assets\OrcasFlashApplication\Preview.png">
-    </EmbeddedResource>
-    <EmbeddedResource Include="web\assets\OrcasFlashApplication\rain_1.mp3">
-    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\FlashMinesweeper.Client.Sounds\scroll12.mp3" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
