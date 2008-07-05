@@ -13,7 +13,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
 {
 
     using Error = DefinedError;
-    
+
 
     internal static partial class __Enumerable
     {
@@ -277,6 +277,25 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
 
         }
 
+        public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source)
+        {
+            if (source == null)
+            {
+                throw DefinedError.ArgumentNull("source");
+            }
+
+
+            var value = default(TSource);
+
+            foreach (TSource local in source.AsEnumerable())
+            {
+                value = local;
+
+                break;
+            }
+
+            return value;
+        }
 
         public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, global::System.Func<TSource, bool> predicate)
         {

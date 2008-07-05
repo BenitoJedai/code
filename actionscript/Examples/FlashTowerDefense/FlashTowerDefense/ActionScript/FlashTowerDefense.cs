@@ -481,7 +481,7 @@ namespace FlashTowerDefense.ActionScript
                     if (WeaponAvatar.numChildren > 0)
                         WeaponAvatar.getChildAt(0).Orphanize();
 
-                    Ego.CurrentWeapon.Type.Avatar.MoveToCenter().AttachTo(WeaponAvatar);
+                    Ego.CurrentWeapon.Type.Avatar.ToBitmapAsset().MoveToCenter().AttachTo(WeaponAvatar);
                     WeaponBar.filters = new[] { new GlowFilter(Ego.CurrentWeapon.Color) };
                 };
 
@@ -1033,7 +1033,11 @@ namespace FlashTowerDefense.ActionScript
 
                     var KeyUp = new KeyboardButton(stage)
                     {
-                        Buttons = new[] { Keyboard.UP, Keyboard.W },
+                        Groups = new[]
+                        {
+                            MovementWASD[Keyboard.W],
+                            MovementArrows[Keyboard.UP],
+                        },
                         Filter = EgoIsOnTheField.And(EgoIsAlive),
                         Down =
                             delegate
@@ -1055,7 +1059,11 @@ namespace FlashTowerDefense.ActionScript
 
                     var KeyDown = new KeyboardButton(stage)
                     {
-                        Buttons = new[] { Keyboard.DOWN, Keyboard.S },
+                        Groups = new[]
+                        {
+                            MovementWASD[Keyboard.S],
+                            MovementArrows[Keyboard.DOWN],
+                        },
                         Filter = EgoIsOnTheField.And(EgoIsAlive),
                         Down =
                             delegate
@@ -1078,15 +1086,36 @@ namespace FlashTowerDefense.ActionScript
 
                     var KeyWeaponNext = new KeyboardButton(stage)
                     {
-                        Buttons = new[] { Keyboard.X, Keyboard.PAGE_UP },
+                        Groups = new[]
+                        {
+                            MovementWASD[Keyboard.X],
+                            MovementArrows[Keyboard.PAGE_UP],
+                        },
+
                         Up = EgoTakeNextWeapon,
                     };
 
                     var KeyWeaponPrevious = new KeyboardButton(stage)
                     {
-                        Buttons = new[] { Keyboard.Z, Keyboard.PAGE_DOWN },
+                        Groups = new[]
+                        {
+                            MovementWASD[Keyboard.Z],
+                            MovementArrows[Keyboard.PAGE_DOWN],
+                        },
                         Up = EgoTakePreviousWeapon
                     };
+
+                    var KeyControl = new KeyboardButton(stage)
+                    {
+                        Groups = new[]
+                        {
+                            MovementWASD[ new KeyboardKeyInfo { Button = Keyboard.CONTROL, Location = KeyLocation.LEFT } ],
+                            MovementArrows[ new KeyboardKeyInfo { Button = Keyboard.CONTROL, Location = KeyLocation.RIGHT  } ],
+                        },
+                        Filter = EgoIsOnTheField.And(EgoIsAlive),
+                        Up = EgoDoFireWeapon
+                    };
+
 
                     var KeyMusic = new KeyboardButton(stage)
                     {
@@ -1095,17 +1124,15 @@ namespace FlashTowerDefense.ActionScript
                     };
 
 
-                    var KeyControl = new KeyboardButton(stage)
-                    {
-                        Buttons = new[] { Keyboard.CONTROL },
-                        Filter = EgoIsOnTheField.And(EgoIsAlive),
-                        Up = EgoDoFireWeapon
-                    };
-
+            
 
                     var KeyEnter = new KeyboardButton(stage)
                     {
-                        Buttons = new[] { Keyboard.ENTER, Keyboard.F },
+                        Groups = new[]
+                        {
+                            MovementWASD[Keyboard.F],
+                            MovementArrows[Keyboard.ENTER],
+                        },
                         Filter = EgoIsAlive,
                         Up =
                             delegate
@@ -1663,8 +1690,8 @@ namespace FlashTowerDefense.ActionScript
         public event Action<int, int, int, int> NetworkDeployExplosiveBarrel;
         public event Action<int> NetworkUndeployExplosiveBarrel;
 
-        public readonly KeyboardButtonGroup MovementWASD = new KeyboardButtonGroup();
-        public readonly KeyboardButtonGroup MovementArrows = new KeyboardButtonGroup();
+        public readonly KeyboardButtonGroup MovementWASD = new KeyboardButtonGroup { Name = "WASD" };
+        public readonly KeyboardButtonGroup MovementArrows = new KeyboardButtonGroup { Name = "Arrows" };
 
         public enum NetworkMode
         {

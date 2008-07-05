@@ -3,13 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using ScriptCoreLib.ActionScript.flash.ui;
 
 namespace FlashTowerDefense.ActionScript
 {
     [Script]
+    public class KeyboardKeyInfo
+    {
+        public uint Button;
+
+        // fixme: nullable uint?
+        public uint Location = 0xff;
+
+        public bool FilterLocation(uint location)
+        {
+            return (this.Location == 0xff) || this.Location == location;
+        }
+
+        public static implicit operator KeyboardKeyInfo(uint button)
+        {
+            return new KeyboardKeyInfo { Button = button };
+        }
+    }
+
+    [Script]
     public class KeyboardButtonGroupInfo
     {
-        public uint[] Buttons;
+        public KeyboardKeyInfo[] Buttons;
 
         public KeyboardButtonGroup Group;
 
@@ -18,15 +38,15 @@ namespace FlashTowerDefense.ActionScript
     [Script]
     public class KeyboardButtonGroup
     {
-
-        public bool Enabled { get; set; }
+        public string Name;
+        public bool Enabled;
 
         public KeyboardButtonGroup()
         {
             this.Enabled = true;
         }
 
-        public KeyboardButtonGroupInfo this[uint button]
+        public KeyboardButtonGroupInfo this[KeyboardKeyInfo button]
         {
             get
             {

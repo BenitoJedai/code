@@ -53,7 +53,7 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
             left.MovementArrows.Enabled = false;
 
             var right = CreateView();
-            left.MovementWASD.Enabled = false;
+            right.MovementWASD.Enabled = false;
 
             right.ToggleMusic();
 

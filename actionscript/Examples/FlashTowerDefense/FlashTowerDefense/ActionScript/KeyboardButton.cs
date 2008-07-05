@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.ui;
 
 namespace FlashTowerDefense.ActionScript
 {
@@ -23,6 +24,39 @@ namespace FlashTowerDefense.ActionScript
         public uint[] Buttons;
 
 
+        bool CheckButton(uint button, uint location)
+        {
+            
+            if (Groups == null)
+            {
+                if (this.Buttons == null)
+                    return false;
+
+                if (!this.Buttons.Contains(button))
+                    return false;
+
+                if (this.Filter != null && !this.Filter())
+                    return false;
+
+                return true;
+            }
+            else
+            {
+                var g = Groups.Where(i => i.Group.Enabled && i.Buttons.Any(p => p.Button == button && p.FilterLocation(location))).FirstOrDefault();
+                    
+                if (g != null)
+                {
+                    if (this.Filter != null && !this.Filter())
+                        return false;
+
+                    //Console.WriteLine("keyCode " + button + " ok for " + g.Group.Name);
+                    return true;
+                }
+
+
+                return false;
+            }
+        }
 
         public KeyboardButton(Stage s)
         {
@@ -32,22 +66,7 @@ namespace FlashTowerDefense.ActionScript
                     if (this.Down == null)
                         return;
 
-                    if (Groups == null)
-                    {
-                        if (this.Buttons == null)
-                            return;
-
-                        if (!this.Buttons.Contains(e.keyCode))
-                            return;
-                    }
-                    else
-                    {
-                        if (!Groups.Where(i => i.Group.Enabled).Any(i => i.Buttons.Contains(e.keyCode)))
-                            return;
-
-                    }
-
-                    if (this.Filter == null || this.Filter())
+                    if (CheckButton(e.keyCode, e.keyLocation))
                     {
                         this.Down();
                     }
@@ -59,22 +78,7 @@ namespace FlashTowerDefense.ActionScript
                       if (this.Up == null)
                           return;
 
-                      if (Groups == null)
-                      {
-                          if (this.Buttons == null)
-                              return;
-
-                          if (!this.Buttons.Contains(e.keyCode))
-                              return;
-                      }
-                      else
-                      {
-                          if (!Groups.Where(i => i.Group.Enabled).Any(i => i.Buttons.Contains(e.keyCode)))
-                              return;
-
-                      }
-
-                      if (this.Filter == null || this.Filter())
+                      if (CheckButton(e.keyCode, e.keyLocation))
                       {
                           this.Up();
                       }

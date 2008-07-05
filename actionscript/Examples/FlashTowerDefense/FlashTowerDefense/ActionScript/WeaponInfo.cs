@@ -24,7 +24,7 @@ namespace FlashTowerDefense.ActionScript
         
         public int VisibleBulletLines;
 
-        public BitmapAsset Avatar;
+        public Class Avatar;
 
         public Class SoundFire;
 
