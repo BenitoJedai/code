@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C# Express 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTowerDefense.SplitScreen", "FlashTowerDefense.SplitScreen.csproj", "{48213FAD-B475-43EB-B1A2-823CE73DD45A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTowerDefense.Shared", "..\Shared\FlashTowerDefense.Shared.csproj", "{16969E26-6189-4014-87CA-7BE7D3E403FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{48213FAD-B475-43EB-B1A2-823CE73DD45A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48213FAD-B475-43EB-B1A2-823CE73DD45A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48213FAD-B475-43EB-B1A2-823CE73DD45A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16969E26-6189-4014-87CA-7BE7D3E403FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16969E26-6189-4014-87CA-7BE7D3E403FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16969E26-6189-4014-87CA-7BE7D3E403FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16969E26-6189-4014-87CA-7BE7D3E403FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

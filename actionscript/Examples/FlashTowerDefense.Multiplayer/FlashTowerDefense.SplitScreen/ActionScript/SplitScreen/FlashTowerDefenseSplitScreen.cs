@@ -75,6 +75,35 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
                 Username = "Lefty"
             };
 
+       
+            Action<SharedClass1.IEvents, SharedClass1.RemoteEvents.WithUserArgumentsRouter> AttachRouter =
+                (from, _Router) =>
+                {
+                    from.TeleportTo += _Router.UserTeleportTo;
+                    from.WalkTo += _Router.UserWalkTo;
+                    from.TakeBox += _Router.UserTakeBox;
+                    from.FiredWeapon += _Router.UserFiredWeapon;
+                    from.EnterMachineGun += _Router.UserEnterMachineGun;
+                    from.ExitMachineGun += _Router.UserExitMachineGun;
+                    from.StartMachineGun += _Router.UserStartMachineGun;
+                    from.StopMachineGun += _Router.UserStopMachineGun;
+                    from.AddDamage += _Router.UserAddDamage;
+                    from.AddDamageFromDirection += _Router.UserAddDamageFromDirection;
+                    from.ShowBulletsFlying += _Router.UserShowBulletsFlying;
+                    from.PlayerResurrect += _Router.UserPlayerResurrect;
+                    from.UndeployExplosiveBarrel += _Router.UserUndeployExplosiveBarrel;
+                    from.DeployExplosiveBarrel += _Router.UserDeployExplosiveBarrel;
+                };
+
+            AttachRouter(
+                left_to_server,
+                new SharedClass1.RemoteEvents.WithUserArgumentsRouter
+                {
+                    user = player_left.UserId,
+                    Target = player_left.ToOthers
+                }
+            );
+
             var player_right = new Player
             {
                 FromPlayer = right_to_server,
@@ -83,6 +112,15 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
                 UserId = 1,
                 Username = "Righty"
             };
+
+            AttachRouter(
+                  right_to_server,
+                  new SharedClass1.RemoteEvents.WithUserArgumentsRouter
+                  {
+                      user = player_right.UserId,
+                      Target = player_right.ToOthers
+                  }
+              );
 
             var left = CreateView();
             left.MovementArrows.Enabled = false;
@@ -93,6 +131,8 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
                 Map = left,
                 NetworkEvents = server_to_left,
                 NetworkMessages = left_to_server,
+                
+                
             };
 
             left_client.InitializeEvents();
@@ -119,11 +159,26 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
             server_to_left.ServerPlayerHello += e => Console.WriteLine(e.ToString());
             server_to_right.ServerPlayerHello += e => Console.WriteLine(e.ToString());
 
+            right_to_server.WalkTo += e => Console.WriteLine("server sees this: " + e.ToString());
+            server_to_left.WalkTo += e => Console.WriteLine("left sees this: " + e.ToString());
+
             server.GameStarted();
-            server.Users.Add(player_left);
-            server.UserJoined(player_left);
-            server.Users.Add(player_right);
-            server.UserJoined(player_right);
+
+            100.AtDelayDo(
+                delegate
+                {
+                    server.Users.Add(player_left);
+                    server.UserJoined(player_left);
+                }
+            );
+
+            300.AtDelayDo(
+                delegate
+                {
+                    server.Users.Add(player_right);
+                    server.UserJoined(player_right);
+                }
+            );
 
         }
     }
