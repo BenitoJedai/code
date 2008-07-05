@@ -22,8 +22,8 @@ namespace ConvertASToCS.js.Any
 
             public string AccessedThroughProperty;
 
-            
 
+            public bool IsProperty;
  
 
         }

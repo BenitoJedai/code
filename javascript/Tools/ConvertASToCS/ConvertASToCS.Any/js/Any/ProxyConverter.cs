@@ -415,7 +415,24 @@ namespace ConvertASToCS.js.Any
                                }
 
                                WriteVariableDefinition(f.TypeName, f.FieldName);
-                               Write(";");
+
+                               if (f.IsProperty)
+                               {
+                                   WriteSpace();
+                                   using (InlineCodeBlock())
+                                   {
+                                       WriteBlue("get");
+                                       Write(";");
+                                       WriteSpace();
+
+                                       WriteBlue("set");
+                                       Write(";");
+                                   }
+                               }
+                               else
+                               {
+                                   Write(";");
+                               }
                            }
 
                        }
@@ -602,7 +619,7 @@ namespace ConvertASToCS.js.Any
                                  }.ToArray()
                     };
 
-                var WithUserArgumentsRouter_Target = new FieldInfo { FieldName = "Target", TypeName = IPairedMessages.WithUser.Name };
+                var WithUserArgumentsRouter_Target = new FieldInfo { FieldName = "Target", TypeName = IMessages.Name };
                 var WithUserArgumentsRouter =
                     new TypeInfo
                     {
@@ -616,7 +633,7 @@ namespace ConvertASToCS.js.Any
                     };
 
 
-                var RemoteEvents_DispatchTable = new FieldInfo { FieldName = "DispatchTable", TypeName = "Dictionary<" + MessagesEnumName + ", Action<DispatchHelper>>", IsPrivate = true, IsReadOnly = true };
+                var RemoteEvents_DispatchTable = new FieldInfo { FieldName = "DispatchTable", TypeName = "Dictionary<" + MessagesEnumName + ", Action<IDispatchHelper>>", IsPrivate = true, IsReadOnly = true };
                 var RemoteEvents_DispatchTableDelegates = new FieldInfo { FieldName = "DispatchTableDelegates", TypeName = "Dictionary<" + MessagesEnumName + ", Converter<object, Delegate>>", IsPrivate = true, IsReadOnly = true };
                 var RemoteEvents_Router = new FieldInfo
                 {
@@ -989,7 +1006,7 @@ namespace ConvertASToCS.js.Any
                                 Name = "DispatchHelper",
                                 Fields =
                                     KnownConverters.AsEnumerable().Select(
-                                        i => new FieldInfo { FieldName = i.Value, TypeName = "Converter<uint, " + i.Key + ">" }
+                                        i => new FieldInfo { FieldName = i.Value, TypeName = "Converter<uint, " + i.Key + ">", IsProperty = true }
                                     ).ToArray()
                             }
                         ))
@@ -1023,7 +1040,7 @@ namespace ConvertASToCS.js.Any
                             WriteVariableDefinition(MessagesEnumName, "e");
                             Write(",");
                             WriteSpace();
-                            WriteVariableDefinition("DispatchHelper", "h");
+                            WriteVariableDefinition("IDispatchHelper", "h");
 
                         }
                     }
@@ -1301,7 +1318,7 @@ namespace ConvertASToCS.js.Any
                             WriteAssignment();
                             WriteBlue("new");
                             WriteSpace();
-                            WriteCyan("Dictionary<" + MessagesEnumName + ", Action<DispatchHelper>>");
+                            WriteCyan("Dictionary<" + MessagesEnumName + ", Action<IDispatchHelper>>");
                         }
 
                         Indent += 2;

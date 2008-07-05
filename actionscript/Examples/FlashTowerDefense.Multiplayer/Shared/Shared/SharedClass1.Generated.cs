@@ -392,7 +392,7 @@ namespace FlashTowerDefense.Shared
         [CompilerGenerated]
         public sealed partial class RemoteEvents : IEvents, IPairedEventsWithoutUser, IPairedEventsWithUser
         {
-            private readonly Dictionary<Messages, Action<DispatchHelper>> DispatchTable;
+            private readonly Dictionary<Messages, Action<IDispatchHelper>> DispatchTable;
             private readonly Dictionary<Messages, Converter<object, Delegate>> DispatchTableDelegates;
             [AccessedThroughProperty("Router")]
             private WithUserArgumentsRouter _Router;
@@ -403,16 +403,16 @@ namespace FlashTowerDefense.Shared
             [CompilerGenerated]
             public partial class DispatchHelper
             {
-                public Converter<uint, int> GetInt32;
-                public Converter<uint, double> GetDouble;
-                public Converter<uint, string> GetString;
-                public Converter<uint, int[]> GetInt32Array;
-                public Converter<uint, double[]> GetDoubleArray;
-                public Converter<uint, string[]> GetStringArray;
-                public Converter<uint, object[]> GetArray;
+                public Converter<uint, int> GetInt32 { get; set; }
+                public Converter<uint, double> GetDouble { get; set; }
+                public Converter<uint, string> GetString { get; set; }
+                public Converter<uint, int[]> GetInt32Array { get; set; }
+                public Converter<uint, double[]> GetDoubleArray { get; set; }
+                public Converter<uint, string[]> GetStringArray { get; set; }
+                public Converter<uint, object[]> GetArray { get; set; }
             }
             #endregion
-            public bool Dispatch(Messages e, DispatchHelper h)
+            public bool Dispatch(Messages e, IDispatchHelper h)
             {
                 if (!DispatchTableDelegates.ContainsKey(e)) return false;
                 if (DispatchTableDelegates[e](null) == null) return false;
@@ -437,7 +437,7 @@ namespace FlashTowerDefense.Shared
             [CompilerGenerated]
             public sealed partial class WithUserArgumentsRouter : WithUserArguments
             {
-                public IPairedMessagesWithUser Target;
+                public IMessages Target;
                 #region Routing
                 public void UserTeleportTo(TeleportToArguments e)
                 {
@@ -1122,7 +1122,7 @@ namespace FlashTowerDefense.Shared
             public event Action<UserDeployExplosiveBarrelArguments> UserDeployExplosiveBarrel;
             public RemoteEvents()
             {
-                DispatchTable = new Dictionary<Messages, Action<DispatchHelper>>
+                DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
                         {
                             { Messages.TeleportTo, e => { TeleportTo(new TeleportToArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
                             { Messages.UserTeleportTo, e => { UserTeleportTo(new UserTeleportToArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
@@ -1647,4 +1647,4 @@ namespace FlashTowerDefense.Shared
     }
     #endregion
 }
-// 5.07.2008 19:49:51
+// 5.07.2008 20:01:44

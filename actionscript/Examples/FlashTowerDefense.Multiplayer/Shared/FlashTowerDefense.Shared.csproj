@@ -53,14 +53,11 @@
   <ItemGroup>
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shared\IRemoteEvents.cs" />
+    <Compile Include="Shared\IEventsDispatch.cs" />
     <Compile Include="Shared\Game.cs" />
     <Compile Include="Shared\IDispatchHelper.cs" />
     <Compile Include="Shared\Generic\ServerGameBase.cs" />
     <Compile Include="Shared\Generic\ServerPlayerBase.cs" />
-    <Compile Include="Shared\IRemoteMessages.cs" />
-    <Compile Include="Shared\ISendArguments.cs" />
-    <Compile Include="Shared\IWithUserArgumentsRouter.cs" />
     <Compile Include="Shared\Player.cs" />
     <Compile Include="Shared\SharedClass1.cs" />
     <Compile Include="Shared\SharedClass1.DispatchHelper.cs" />

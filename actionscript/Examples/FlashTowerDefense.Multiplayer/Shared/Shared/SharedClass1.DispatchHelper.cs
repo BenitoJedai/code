@@ -14,7 +14,7 @@ namespace FlashTowerDefense.Shared
     public partial class SharedClass1
     {
         
-        partial class RemoteEvents : /*IRemoteEvents<RemoteEvents.WithUserArgumentsRouter>,*/ IEventsDispatch
+        partial class RemoteEvents : IEventsDispatch
         {
             public void EmptyHandler<T>(T Arguments)
             {

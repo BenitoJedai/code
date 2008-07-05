@@ -53,17 +53,8 @@
     <Compile Include="..\Shared\Shared\IDispatchHelper.cs">
       <Link>Shared\IDispatchHelper.cs</Link>
     </Compile>
-    <Compile Include="..\Shared\Shared\IRemoteEvents.cs">
-      <Link>Shared\IRemoteEvents.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Shared\IRemoteMessages.cs">
-      <Link>Shared\IRemoteMessages.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Shared\ISendArguments.cs">
-      <Link>Shared\ISendArguments.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Shared\IWithUserArgumentsRouter.cs">
-      <Link>Shared\IWithUserArgumentsRouter.cs</Link>
+    <Compile Include="..\Shared\Shared\IEventsDispatch.cs">
+      <Link>Shared\IEventsDispatch.cs</Link>
     </Compile>
     <Compile Include="..\Shared\Shared\Player.cs">
       <Link>Shared\Player.cs</Link>
