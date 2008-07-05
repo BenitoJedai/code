@@ -12,6 +12,8 @@ if '%ERRORLEVEL%' == '-1' (
 )
 :: Namespace name, type name
 @call :mxmlc FlashTowerDefense/ActionScript/SplitScreen FlashTowerDefenseSplitScreen
+@call :mxmlc FlashTowerDefense/ActionScript/SplitScreen/Monetized MochiPreloader
+
 ::@call :mxmlc %1/ActionScript %1
 
 goto :eof

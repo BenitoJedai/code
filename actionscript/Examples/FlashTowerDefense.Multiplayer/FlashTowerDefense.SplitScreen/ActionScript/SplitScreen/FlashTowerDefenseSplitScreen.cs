@@ -15,7 +15,7 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
     /// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
     /// </summary>
     [Script, ScriptApplicationEntryPoint]
-    [SWF(width = DefaultWidth, height = DefaultHeight, backgroundColor = 0x00101010)]
+    [SWF(width = DefaultWidth, height = DefaultHeight, backgroundColor = 0)]
     public class FlashTowerDefenseSplitScreen : Sprite
     {
         public const int Padding = 2;
@@ -27,10 +27,19 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
         /// </summary>
         public FlashTowerDefenseSplitScreen()
         {
-            graphics.beginFill(0);
-            graphics.drawRect(0, 0, DefaultWidth, DefaultHeight);
-            graphics.endFill();
+            if (stage == null)
+                this.addedToStage +=
+                    delegate
+                    {
+                        Initialize();
+                    };
+            else
+                Initialize();
 
+        }
+
+        private void Initialize()
+        {
 
             #region CreateView
             Func<FlashTowerDefense> CreateView =
@@ -75,7 +84,7 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
                 Username = "Lefty"
             };
 
-       
+
             Action<SharedClass1.IEvents, SharedClass1.RemoteEvents.WithUserArgumentsRouter> AttachRouter =
                 (from, _Router) =>
                 {
@@ -131,12 +140,18 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
                 Map = left,
                 NetworkEvents = server_to_left,
                 NetworkMessages = left_to_server,
-                
-                
+
+
             };
 
             left_client.InitializeEvents();
+            left_client.InitializeMap();
 
+            left.MoveTo(Padding, Padding).AttachTo(this);
+
+
+            var right = CreateView();
+            right.MovementWASD.Enabled = false;
             var right_client = new FlashTowerDefenseClient.Implementation
             {
                 Map = right,
@@ -146,25 +161,15 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
 
 
             right_client.InitializeEvents();
-
-            left_client.InitializeMap();
-
-            left.MoveTo(Padding, Padding).AttachTo(this);
-
-            var right = CreateView();
-            right.MovementWASD.Enabled = false;
-            //right.ToggleMusic();
-
-   
             right_client.InitializeMap();
 
             right.MoveTo(Padding * 2 + FlashTowerDefense.DefaultWidth, Padding).AttachTo(this);
 
-            server_to_left.ServerPlayerHello += e => Console.WriteLine(e.ToString());
-            server_to_right.ServerPlayerHello += e => Console.WriteLine(e.ToString());
+            //server_to_left.ServerPlayerHello += e => Console.WriteLine(e.ToString());
+            //server_to_right.ServerPlayerHello += e => Console.WriteLine(e.ToString());
 
-            right_to_server.WalkTo += e => Console.WriteLine("server sees this: " + e.ToString());
-            server_to_left.WalkTo += e => Console.WriteLine("left sees this: " + e.ToString());
+            //right_to_server.WalkTo += e => Console.WriteLine("server sees this: " + e.ToString());
+            //server_to_left.WalkTo += e => Console.WriteLine("left sees this: " + e.ToString());
 
             server.GameStarted();
 
@@ -183,7 +188,6 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
                     server.UserJoined(player_right);
                 }
             );
-
         }
     }
 }

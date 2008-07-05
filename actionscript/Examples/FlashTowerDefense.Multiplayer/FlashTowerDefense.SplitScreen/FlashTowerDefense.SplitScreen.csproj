@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\SplitScreen\FlashTowerDefenseSplitScreen.cs" />
+    <Compile Include="ActionScript\SplitScreen\Monetized\MochiPreloader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>

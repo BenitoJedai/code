@@ -28,7 +28,11 @@ namespace FlashTowerDefense.ActionScript
     [SWF(width = DefaultWidth, height = DefaultHeight, backgroundColor = ColorWhite)]
     public partial class FlashTowerDefense : Sprite
     {
-        public const int DefaultWidth = 560;
+        // 850 is max
+        // for splitscreen
+        public const int DefaultWidth = 420;
+
+        //public const int DefaultWidth = 560;
         public const int DefaultHeight = 480;
 
         public const uint ColorGreen = 0x00ff00;
