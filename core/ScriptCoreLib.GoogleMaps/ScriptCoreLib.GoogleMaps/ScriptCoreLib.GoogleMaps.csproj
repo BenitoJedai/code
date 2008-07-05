@@ -82,10 +82,10 @@
     <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="web\assets\ScriptCoreLib.GoogleMaps\map_flex_1_4.swc" />
+    <Content Include="Documents\about.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Documents\about.txt" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.GoogleMaps\map_flex_1_4.swc" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
