@@ -33,6 +33,13 @@ namespace FlashMinesweeper.ActionScript.Shared
             void PlayerAdvertise(string name);
             void UserPlayerAdvertise(int user, string name);
 
+
+            void MouseMove(int x, int y, int color);
+            void UserMouseMove(int user, int x, int y, int color);
+
+
+            void MouseOut(int color);
+            void UserMouseOut(int user, int color);
         }
     }
 }

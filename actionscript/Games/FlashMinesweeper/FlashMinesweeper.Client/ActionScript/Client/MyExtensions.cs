@@ -11,6 +11,16 @@ namespace FlashMinesweeper.ActionScript.Client
     [Script]
     public static class MyExtensions
     {
+        public static double Random(this int e)
+        {
+            return (Math.Round(new Random().NextDouble() * e));
+        }
+
+
+        public static int ToInt32(this double e)
+        {
+            return Convert.ToInt32(e);
+        }
 
 
         public static void FadeOutAndOrphanize(this DisplayObject e, int timeout, double step)

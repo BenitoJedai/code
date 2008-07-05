@@ -205,6 +205,49 @@ namespace FlashMinesweeper.ActionScript.Client
                 {
                     ShowMessage("Player already here - " + e.name);
                 };
+
+            var Cursors = new Dictionary<int, Shape>();
+
+
+            NetworkEvents.UserMouseMove +=
+                e =>
+                {
+                    var s = default(Shape);
+
+                    if (Cursors.ContainsKey(e.color))
+                        s = Cursors[e.color];
+                    else
+                    {
+                        s = new Shape
+                            {
+                                filters = new[] { new DropShadowFilter() }
+                            };
+
+
+                        var g = s.graphics;
+
+                        g.beginFill((uint)e.color);
+                        g.moveTo(0, 0);
+                        g.lineTo(14, 14);
+                        g.lineTo(0, 20);
+                        g.lineTo(0, 0);
+                        g.endFill();
+
+                        Cursors[e.color] = s;
+                    };
+
+                    s.AttachTo(this).MoveTo(e.x, e.y);
+                };
+
+            NetworkEvents.UserMouseOut +=
+                e =>
+                {
+                    if (Cursors.ContainsKey(e.color))
+                    {
+                        Cursors[e.color].Orphanize();
+                    }
+                };
+
         }
 
         #region InitializeMap
@@ -316,6 +359,22 @@ namespace FlashMinesweeper.ActionScript.Client
                 () => ShowMessage("Booom!");
 
             Field.AttachTo(this);
+
+
+            var MyColor = 0xffffff.Random().ToInt32();
+
+            Field.mouseMove +=
+                e =>
+                {
+
+                    NetworkMessages.MouseMove(e.stageX.ToInt32(), e.stageY.ToInt32(), MyColor);
+                };
+
+            Field.mouseOut +=
+                e =>
+                {
+                    NetworkMessages.MouseOut(MyColor);
+                };
         }
 
         #endregion
