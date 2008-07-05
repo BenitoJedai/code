@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C# Express 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashMinesweeper", "FlashMinesweeper\FlashMinesweeper.csproj", "{7804DA8C-BAF6-49BB-84B0-60FB4F512372}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashMinesweeper.Client", "FlashMinesweeper.Client\FlashMinesweeper.Client.csproj", "{A7BE6DA3-9CCD-4658-A0FE-40C11B63EB01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashMinesweeper.Server", "FlashMinesweeper.Server\FlashMinesweeper.Server.csproj", "{7E7B7F47-7E5F-4244-9499-EC9391ED0B50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +17,14 @@ Global
 		{7804DA8C-BAF6-49BB-84B0-60FB4F512372}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7804DA8C-BAF6-49BB-84B0-60FB4F512372}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7804DA8C-BAF6-49BB-84B0-60FB4F512372}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7BE6DA3-9CCD-4658-A0FE-40C11B63EB01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7BE6DA3-9CCD-4658-A0FE-40C11B63EB01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7BE6DA3-9CCD-4658-A0FE-40C11B63EB01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7BE6DA3-9CCD-4658-A0FE-40C11B63EB01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E7B7F47-7E5F-4244-9499-EC9391ED0B50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E7B7F47-7E5F-4244-9499-EC9391ED0B50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E7B7F47-7E5F-4244-9499-EC9391ED0B50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E7B7F47-7E5F-4244-9499-EC9391ED0B50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

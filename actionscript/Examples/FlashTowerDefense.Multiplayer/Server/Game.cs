@@ -8,53 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace FlashTowerDefense.Server
 {
-    //class Game : Generic.VirtualServerGameBase<
-    //    SharedClass1.RemoteMessages.SendArguments,
-    //    SharedClass1.RemoteEvents.WithUserArgumentsRouter,
-    //    SharedClass1.RemoteEvents.DispatchHelper,
-    //    SharedClass1.RemoteEvents,
-    //    SharedClass1.RemoteMessages,
-    //    Shared.Game,
-    //    Shared.Player,
-    //    Game,
-    //    Player>
-    //{
-
-    //    public override SharedClass1.RemoteEvents.DispatchHelper CreateTDispatchHelper()
-    //    {
-    //        return new SharedClass1.RemoteEvents.DispatchHelper();
-    //    }
-
-    //    public override SharedClass1.RemoteEvents CreateTRemoteEvents()
-    //    {
-    //        return new SharedClass1.RemoteEvents();
-    //    }
-
-    //    public override SharedClass1.RemoteMessages CreateTRemoteMessages()
-    //    {
-    //        return new SharedClass1.RemoteMessages();
-    //    }
-
-    //    public override Shared.Game CreateTVirtualGame()
-    //    {
-    //        return new Shared.Game();
-    //    }
-
-    //    public override Shared.Player CreateTVirtualPlayer()
-    //    {
-    //        return new Shared.Player();
-    //    }
-
-    //    public override SharedClass1.RemoteEvents.WithUserArgumentsRouter CreateTWithUserArgumentsRouter()
-    //    {
-    //        return new SharedClass1.RemoteEvents.WithUserArgumentsRouter();
-    //    }
-    //    public Game()
-    //    {
-            
-
-    //    }
-    //}
+    
 
     /// <summary>
     /// Each instance of this class represents one game.

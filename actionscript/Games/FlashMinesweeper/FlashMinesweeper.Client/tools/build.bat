@@ -1,13 +1,7 @@
 :mxmlc
 @echo off
 
-:: skip
-goto :eof
 
-if '%1' == '' (
-    echo usage: build.bat target.dll
-    goto :eof
-)
 
 :: Dll name
 @call :jsc %1
@@ -36,7 +30,7 @@ pushd ..\bin\debug\web
 
 
 
-call :build %1 %2
+call :build FlashMinesweeper/ActionScript/Client TeamPlay
 
 
 popd

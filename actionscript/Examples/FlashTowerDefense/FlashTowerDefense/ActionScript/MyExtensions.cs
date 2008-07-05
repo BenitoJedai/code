@@ -150,23 +150,7 @@ namespace FlashTowerDefense.ActionScript
         }
 
 
-        public static T MoveTo<T>(this T e, Point i) where T : DisplayObject
-        {
-            return e.MoveTo(i.x, i.y);
-        }
-
-        public static T MoveTo<T>(this T e, DisplayObject i) where T : DisplayObject
-        {
-            return e.MoveTo(i.x, i.y);
-        }
-
-        public static T MoveTo<T>(this T e, double x, double y) where T : DisplayObject
-        {
-            e.x = x;
-            e.y = y;
-
-            return e;
-        }
+       
 
         // todo: how do these methods differ in IL ?
         /*
@@ -193,19 +177,6 @@ namespace FlashTowerDefense.ActionScript
             return Convert.ToInt32(e);
         }
 
-        public static U AddTo<U, T>(this U e, List<T> a) where U : T
-        {
-            a.Add(e);
-
-            return e;
-        }
-
-        public static T RemoveFrom<T>(this T e, List<T> a)
-        {
-            a.Remove(e);
-
-            return e;
-        }
 
         public static Action ToAction(this Sound c)
         {

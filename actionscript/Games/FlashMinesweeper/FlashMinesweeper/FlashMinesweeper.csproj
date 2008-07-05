@@ -53,12 +53,12 @@
     <Compile Include="ActionScript\Assets.cs" />
     <Compile Include="ActionScript\FlashMinesweeper.cs" />
     <Compile Include="ActionScript\Extensions.cs" />
+    <Compile Include="ActionScript\MineField.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
-    <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
     <EmbeddedResource Include="web\assets\FlashMinesweeper\buzzer.mp3" />
@@ -103,8 +103,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
-    <None Include="tools\jsc.bat" />
-    <None Include="tools\mxmlc.bat" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -116,7 +114,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>pushd ..\..\tools\
-call build.bat
+call build.bat $(ProjectName)
 popd</PostBuildEvent>
   </PropertyGroup>
 </Project>
