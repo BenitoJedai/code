@@ -126,7 +126,7 @@ namespace FlashTowerDefense.ActionScript.Actors
 
         public void AddDamageFromDirection(double Damage, double Arc, bool LocalPlayer)
         {
-            AddDamage(Damage);
+            AddDamage(Damage, LocalPlayer);
 
             var DamageMovement = 2 * Damage / 100;
             var t = new Timer(1000 / 24, 10);

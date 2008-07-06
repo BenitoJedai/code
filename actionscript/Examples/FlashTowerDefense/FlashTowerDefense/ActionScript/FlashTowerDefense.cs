@@ -737,11 +737,18 @@ namespace FlashTowerDefense.ActionScript
                     if (a == null)
                         throw new Exception("AttachRules");
 
+                    var an = a;
+
+                    //Console.WriteLine("attached KilledByLocalPlayer");
+
+
                     a.KilledByLocalPlayer +=
                         delegate
                         {
+                            //Console.WriteLine("KilledByLocalPlayer: " + an.ScoreValue);
+
                             if (NetworkAddKillScore != null)
-                                NetworkAddKillScore(a.ScoreValue);
+                                NetworkAddKillScore(an.ScoreValue);
                         };
 
                     if (a.NetworkId == 0)
