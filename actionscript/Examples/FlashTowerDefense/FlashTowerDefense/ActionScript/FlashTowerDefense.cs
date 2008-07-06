@@ -30,9 +30,10 @@ namespace FlashTowerDefense.ActionScript
     {
         // 850 is max
         // for splitscreen
-        public const int DefaultWidth = 420;
+        //public const int DefaultWidth = 420;
 
-        //public const int DefaultWidth = 560;
+        public const int DefaultWidth = 560;
+
         public const int DefaultHeight = 480;
 
         public const uint ColorGreen = 0x00ff00;
@@ -735,6 +736,13 @@ namespace FlashTowerDefense.ActionScript
                 {
                     if (a == null)
                         throw new Exception("AttachRules");
+
+                    a.KilledByLocalPlayer +=
+                        delegate
+                        {
+                            if (NetworkAddKillScore != null)
+                                NetworkAddKillScore(a.ScoreValue);
+                        };
 
                     if (a.NetworkId == 0)
                     {
@@ -1493,7 +1501,7 @@ namespace FlashTowerDefense.ActionScript
                         {
                             // calculate damage variation here based on hit approximity
 
-                            DeadManWalking.AddDamageFromDirection(Weapon.Damage, Arc);
+                            DeadManWalking.AddDamageFromDirection(Weapon.Damage, Arc, true);
 
                             if (NetworkAddDamageFromDirection != null)
                                 NetworkAddDamageFromDirection(
@@ -1693,6 +1701,7 @@ namespace FlashTowerDefense.ActionScript
 
         public event Action<int, int, int, int> NetworkDeployExplosiveBarrel;
         public event Action<int> NetworkUndeployExplosiveBarrel;
+        public event Action<int> NetworkAddKillScore;
 
         public readonly KeyboardButtonGroup MovementWASD = new KeyboardButtonGroup { Name = "WASD" };
         public readonly KeyboardButtonGroup MovementArrows = new KeyboardButtonGroup { Name = "Arrows" };

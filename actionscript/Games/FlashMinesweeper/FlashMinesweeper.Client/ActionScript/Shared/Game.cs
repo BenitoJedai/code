@@ -30,7 +30,7 @@ namespace FlashMinesweeper.ActionScript.Shared
                 }
             }
 
-            player.FromPlayer.AddScore += e => player.AddScore("Score", e.score);
+            player.FromPlayer.AddScore += e => player.AddScore("score", e.score);
 
 
             player.ToPlayer.ServerPlayerHello(player.UserId, player.Username);

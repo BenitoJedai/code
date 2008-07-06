@@ -124,6 +124,7 @@ namespace FlashTowerDefense.ActionScript.Client
                 Map.NetworkDeployExplosiveBarrel += ToOthers.DeployExplosiveBarrel;
                 Map.NetworkUndeployExplosiveBarrel += ToOthers.UndeployExplosiveBarrel;
 
+                Map.NetworkAddKillScore += NetworkMessages.AddKillScore;
 
                 500.AtIntervalDo(NetworkMessages.Ping);
 

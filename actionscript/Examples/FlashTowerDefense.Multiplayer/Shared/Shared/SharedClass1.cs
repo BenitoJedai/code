@@ -96,6 +96,8 @@ namespace FlashTowerDefense.Shared
 
             void DeployExplosiveBarrel(int weapon, int barrel, int x, int y);
             void UserDeployExplosiveBarrel(int user, int weapon, int barrel, int x, int y);
+
+            void AddKillScore(int killscore);
             // ...
         }
     }

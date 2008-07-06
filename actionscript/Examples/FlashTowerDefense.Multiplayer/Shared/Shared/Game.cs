@@ -23,6 +23,8 @@ namespace FlashTowerDefense.Shared
             player.FromPlayer.ReadyForServerRandomNumbers += e => player.GameEventStatus = Player.GameEventStatusEnum.Ready;
             player.FromPlayer.CancelServerRandomNumbers += e => player.GameEventStatus = Player.GameEventStatusEnum.Cancelled;
 
+            player.FromPlayer.AddKillScore += e => player.AddScore("killscore", e.killscore);
+
             player.ToPlayer.ServerPlayerHello(player.UserId, player.Username);
 
             player.ToOthers.ServerPlayerJoined(

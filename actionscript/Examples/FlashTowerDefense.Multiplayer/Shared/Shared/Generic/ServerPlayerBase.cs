@@ -20,6 +20,7 @@ namespace FlashTowerDefense.Shared.Generic
         public RemoteMessages ToPlayer;
         public RemoteMessages ToOthers;
 
+        public Action<string, int> AddScore;
 
         public int UserId;
         public string Username;

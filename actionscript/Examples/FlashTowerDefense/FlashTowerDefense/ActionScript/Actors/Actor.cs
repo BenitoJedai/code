@@ -121,6 +121,11 @@ namespace FlashTowerDefense.ActionScript.Actors
 
         public void AddDamageFromDirection(double Damage, double Arc)
         {
+            AddDamageFromDirection(Damage, Arc, false);
+        }
+
+        public void AddDamageFromDirection(double Damage, double Arc, bool LocalPlayer)
+        {
             AddDamage(Damage);
 
             var DamageMovement = 2 * Damage / 100;
@@ -138,13 +143,26 @@ namespace FlashTowerDefense.ActionScript.Actors
 
         public void AddDamage(double e)
         {
+            AddDamage(e, false);
+        }
+
+        public event Action KilledByLocalPlayer;
+
+        public void AddDamage(double e, bool LocalPlayer)
+        {
             if (!IsAlive)
                 return;
 
             Health -= e;
 
             if (Health <= 0)
+            {
                 Kill();
+
+                if (LocalPlayer)
+                    if (KilledByLocalPlayer != null)
+                        KilledByLocalPlayer();
+            }
         }
 
         readonly List<Bitmap> Footsteps = new List<Bitmap>();

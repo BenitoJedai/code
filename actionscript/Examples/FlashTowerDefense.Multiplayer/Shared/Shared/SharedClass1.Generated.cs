@@ -57,6 +57,7 @@ namespace FlashTowerDefense.Shared
             UserUndeployExplosiveBarrel,
             DeployExplosiveBarrel,
             UserDeployExplosiveBarrel,
+            AddKillScore,
         }
         #endregion
 
@@ -114,6 +115,7 @@ namespace FlashTowerDefense.Shared
             event Action<RemoteEvents.UserUndeployExplosiveBarrelArguments> UserUndeployExplosiveBarrel;
             event Action<RemoteEvents.DeployExplosiveBarrelArguments> DeployExplosiveBarrel;
             event Action<RemoteEvents.UserDeployExplosiveBarrelArguments> UserDeployExplosiveBarrel;
+            event Action<RemoteEvents.AddKillScoreArguments> AddKillScore;
         }
         #endregion
         #region IPairedEventsWithoutUser
@@ -381,6 +383,10 @@ namespace FlashTowerDefense.Shared
             public void UserDeployExplosiveBarrel(int user, int weapon, int barrel, int x, int y)
             {
                 Send(new SendArguments { i = Messages.UserDeployExplosiveBarrel, args = new object[] { user, weapon, barrel, x, y } });
+            }
+            public void AddKillScore(int killscore)
+            {
+                Send(new SendArguments { i = Messages.AddKillScore, args = new object[] { killscore } });
             }
         }
         #endregion
@@ -1120,6 +1126,22 @@ namespace FlashTowerDefense.Shared
             }
             #endregion
             public event Action<UserDeployExplosiveBarrelArguments> UserDeployExplosiveBarrel;
+            #region AddKillScoreArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class AddKillScoreArguments
+            {
+                public int killscore;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ killscore = ").Append(this.killscore).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<AddKillScoreArguments> AddKillScore;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -1162,6 +1184,7 @@ namespace FlashTowerDefense.Shared
                             { Messages.UserUndeployExplosiveBarrel, e => { UserUndeployExplosiveBarrel(new UserUndeployExplosiveBarrelArguments { user = e.GetInt32(0), barrel = e.GetInt32(1) }); } },
                             { Messages.DeployExplosiveBarrel, e => { DeployExplosiveBarrel(new DeployExplosiveBarrelArguments { weapon = e.GetInt32(0), barrel = e.GetInt32(1), x = e.GetInt32(2), y = e.GetInt32(3) }); } },
                             { Messages.UserDeployExplosiveBarrel, e => { UserDeployExplosiveBarrel(new UserDeployExplosiveBarrelArguments { user = e.GetInt32(0), weapon = e.GetInt32(1), barrel = e.GetInt32(2), x = e.GetInt32(3), y = e.GetInt32(4) }); } },
+                            { Messages.AddKillScore, e => { AddKillScore(new AddKillScoreArguments { killscore = e.GetInt32(0) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -1204,6 +1227,7 @@ namespace FlashTowerDefense.Shared
                             { Messages.UserUndeployExplosiveBarrel, e => UserUndeployExplosiveBarrel },
                             { Messages.DeployExplosiveBarrel, e => DeployExplosiveBarrel },
                             { Messages.UserDeployExplosiveBarrel, e => UserDeployExplosiveBarrel },
+                            { Messages.AddKillScore, e => AddKillScore },
                         }
                 ;
             }
@@ -1642,9 +1666,16 @@ namespace FlashTowerDefense.Shared
                 ((IMessages)this).UserDeployExplosiveBarrel(user, weapon, barrel, x, y);
             }
 
+            public event Action<RemoteEvents.AddKillScoreArguments> AddKillScore;
+            void IMessages.AddKillScore(int killscore)
+            {
+                if(AddKillScore == null) return;
+                AddKillScore(new RemoteEvents.AddKillScoreArguments { killscore = killscore });
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 5.07.2008 20:01:44
+// 6.07.2008 3:43:52

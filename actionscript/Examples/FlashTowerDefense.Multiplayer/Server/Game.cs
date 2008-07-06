@@ -94,7 +94,8 @@ namespace FlashTowerDefense.Server
                 FromPlayer = FromPlayer,
                 FromPlayerDispatch = FromPlayer,
                 UserId = player.UserId,
-                Username = player.Username
+                Username = player.Username,
+                AddScore = player.SubmitRankingDelta
             };
 
             FromPlayer.Router.Target = player.Virtual.ToOthers;
