@@ -251,22 +251,7 @@ namespace FlashMinesweeper.ActionScript.Client
             Events.ServerSendMap +=
                 e =>
                 {
-                    var a = new int[FieldXCount * FieldYCount];
-
-                    for (int i = 0; i < Field.Buttons.Length; i++)
-                    {
-                        var v = Field.Buttons[i];
-
-                        var f = new BitField();
-
-                        f[1] = v.IsMined;
-                        f[2] = v.IsFlag;
-                        f[3] = v.Enabled;
-
-                        a[i] = f.Value;
-                    }
-
-                    Messages.SendMap(a);
+                    SendMap();
                 };
 
             Events.UserSendMap +=
@@ -300,13 +285,35 @@ namespace FlashMinesweeper.ActionScript.Client
                     Field.Buttons[e.button].IsFlag = e.value == 1;
                     Field.Buttons[e.button].Update();
                     Field.Buttons[e.button].snd_flag.play();
+                    Field.Buttons[e.button].CheckComplete();
                 };
 
             Events.UserReveal +=
                 e =>
                 {
                     Field.Buttons[e.button].RevealOrExplode();
+                    Field.Buttons[e.button].CheckComplete();
                 };
+        }
+
+        private void SendMap()
+        {
+            var a = new int[FieldXCount * FieldYCount];
+
+            for (int i = 0; i < Field.Buttons.Length; i++)
+            {
+                var v = Field.Buttons[i];
+
+                var f = new BitField();
+
+                f[1] = v.IsMined;
+                f[2] = v.IsFlag;
+                f[3] = v.Enabled;
+
+                a[i] = f.Value;
+            }
+
+            Messages.SendMap(a);
         }
 
         #region InitializeMap
@@ -415,7 +422,22 @@ namespace FlashMinesweeper.ActionScript.Client
             ShowMessage("Ctrl-click for flag!");
 
             Field.OnBang +=
-                () => ShowMessage("Booom!");
+                LocalPlayer =>
+                {
+                    if (LocalPlayer)
+                        ShowMessage("Booom! -20");
+                    else
+                        ShowMessage("Boom! -10");
+                };
+
+            Field.OnComplete +=
+                   LocalPlayer =>
+                   {
+                       if (LocalPlayer)
+                           ShowMessage("Yay! +150");
+                       else
+                           ShowMessage("Yay! +100");
+                   };
 
             Field.IsFlagChanged +=
                 (button, value) =>
@@ -427,6 +449,13 @@ namespace FlashMinesweeper.ActionScript.Client
                 (button) =>
                 {
                     Messages.Reveal(button);
+                };
+
+            Field.GameResetByLocalPlayer +=
+                delegate
+                {
+                    SendMap();
+                    ShowMessage("Try not to blow up, okay?");
                 };
 
             Field.AttachTo(this);

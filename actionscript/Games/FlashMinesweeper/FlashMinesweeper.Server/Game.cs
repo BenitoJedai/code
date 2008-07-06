@@ -77,7 +77,7 @@ namespace FlashMinesweeper.Server
                         user = player.UserId,
                     }
                 };
-
+            
             player.Virtual = new FlashMinesweeper.ActionScript.Shared.Player
             {
                 ToOthers =
@@ -93,7 +93,8 @@ namespace FlashMinesweeper.Server
                 FromPlayer = FromPlayer,
                 FromPlayerDispatch = FromPlayer,
                 UserId = player.UserId,
-                Username = player.Username
+                Username = player.Username,
+                AddScore = player.SubmitRankingDelta
             };
 
             FromPlayer.Router.Target = player.Virtual.ToOthers;

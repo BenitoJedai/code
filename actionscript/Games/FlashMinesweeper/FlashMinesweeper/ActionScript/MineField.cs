@@ -54,8 +54,7 @@ namespace FlashMinesweeper.ActionScript
             public bool IsMined { get; set; }
             public bool IsFlag { get; set; }
 
-            public event Action OnBang;
-            public event Action OnComplete;
+            public event Action<bool> OnComplete;
 
             public List<MineButton> Others;
 
@@ -115,18 +114,26 @@ namespace FlashMinesweeper.ActionScript
                                 OnReveal();
 
 
-                            RevealOrExplode();
+                            RevealOrExplode(true);
 
 
                         }
 
-                        CheckComplete();
+                        CheckComplete(true);
                     };
 
                 Update();
             }
 
             public void RevealOrExplode()
+            {
+                RevealOrExplode(false);
+            }
+
+            public event Action<bool> OnBang;
+
+
+            public void RevealOrExplode(bool LocalPlayer)
             {
                 if (this.IsMined)
                 {
@@ -137,7 +144,8 @@ namespace FlashMinesweeper.ActionScript
                     RevealHiddenMines();
 
                     if (OnBang != null)
-                        OnBang();
+                        OnBang(LocalPlayer);
+
                 }
                 else
                 {
@@ -165,7 +173,12 @@ namespace FlashMinesweeper.ActionScript
                 }
             }
 
-            private void CheckComplete()
+            public void CheckComplete()
+            {
+                CheckComplete(false);
+            }
+
+            private void CheckComplete(bool LocalPlayer)
             {
                 if (Others.Any(p => p.HasInvalidStateForCompletion))
                     return;
@@ -173,7 +186,7 @@ namespace FlashMinesweeper.ActionScript
 
 
                 if (OnComplete != null)
-                    OnComplete();
+                    OnComplete(LocalPlayer);
             }
 
             public void Update()
@@ -302,6 +315,10 @@ namespace FlashMinesweeper.ActionScript
 
             public Bitmap img
             {
+                get
+                {
+                    return _img;
+                }
                 set
                 {
                     if (_img != null)
@@ -415,7 +432,7 @@ namespace FlashMinesweeper.ActionScript
                     Next();
                 };
 
-            Func<bool> RandomIsMined = () => new Random().NextDouble() <  percentage;
+            Func<bool> RandomIsMined = () => new Random().NextDouble() < percentage;
 
             Action Reset =
                 delegate
@@ -435,12 +452,14 @@ namespace FlashMinesweeper.ActionScript
             {
                 var z = v;
 
-                v.IsMined = RandomIsMined();
                 v.OnComplete +=
-                    delegate
+                    LocalPlayer =>
                     {
                         foreach (var i in a)
                             i.Enabled = false;
+
+                        if (OnComplete != null)
+                            OnComplete(LocalPlayer);
 
                         DelayArray(1000,
                                   new Action[] {
@@ -456,16 +475,22 @@ namespace FlashMinesweeper.ActionScript
                                     delegate
                                     {
 
-                                        Reset();
+                                         if (LocalPlayer)
+                                        {
+                                            Reset();
+
+                                            if (GameResetByLocalPlayer != null)
+                                                GameResetByLocalPlayer();
+                                        }
                                     }
                                 });
                     };
 
                 v.OnBang +=
-                    delegate
+                    LocalPlayer =>
                     {
                         if (OnBang != null)
-                            OnBang();
+                            OnBang(LocalPlayer);
 
                         Delay(
                             3000,
@@ -481,13 +506,20 @@ namespace FlashMinesweeper.ActionScript
                                     delegate
                                     {
                                         snd_tick.play();
-                                        z.img = z.img_mine_found;
+
+                                        if (z.img == z.img_mine)
+                                            z.img = z.img_mine_found;
 
                                     },
                                     delegate
                                     {
+                                        if (LocalPlayer)
+                                        {
+                                            Reset();
 
-                                        Reset();
+                                            if (GameResetByLocalPlayer != null)
+                                                GameResetByLocalPlayer();
+                                        }
                                     }
                                 });
                             }
@@ -502,6 +534,9 @@ namespace FlashMinesweeper.ActionScript
             Reset();
         }
 
-        public event Action OnBang;
+        public event Action<bool> OnBang;
+        public event Action<bool> OnComplete;
+
+        public event Action GameResetByLocalPlayer;
     }
 }

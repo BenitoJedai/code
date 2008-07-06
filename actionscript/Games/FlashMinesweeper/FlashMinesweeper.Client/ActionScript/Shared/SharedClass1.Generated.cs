@@ -35,6 +35,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             UserSetFlag,
             Reveal,
             UserReveal,
+            AddScore,
         }
         #endregion
 
@@ -70,6 +71,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             event Action<RemoteEvents.UserSetFlagArguments> UserSetFlag;
             event Action<RemoteEvents.RevealArguments> Reveal;
             event Action<RemoteEvents.UserRevealArguments> UserReveal;
+            event Action<RemoteEvents.AddScoreArguments> AddScore;
         }
         #endregion
         #region IPairedEventsWithoutUser
@@ -219,6 +221,10 @@ namespace FlashMinesweeper.ActionScript.Shared
             public void UserReveal(int user, int button)
             {
                 Send(new SendArguments { i = Messages.UserReveal, args = new object[] { user, button } });
+            }
+            public void AddScore(int score)
+            {
+                Send(new SendArguments { i = Messages.AddScore, args = new object[] { score } });
             }
         }
         #endregion
@@ -568,6 +574,22 @@ namespace FlashMinesweeper.ActionScript.Shared
             }
             #endregion
             public event Action<UserRevealArguments> UserReveal;
+            #region AddScoreArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class AddScoreArguments
+            {
+                public int score;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ score = ").Append(this.score).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<AddScoreArguments> AddScore;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -588,6 +610,7 @@ namespace FlashMinesweeper.ActionScript.Shared
                             { Messages.UserSetFlag, e => { UserSetFlag(new UserSetFlagArguments { user = e.GetInt32(0), button = e.GetInt32(1), value = e.GetInt32(2) }); } },
                             { Messages.Reveal, e => { Reveal(new RevealArguments { button = e.GetInt32(0) }); } },
                             { Messages.UserReveal, e => { UserReveal(new UserRevealArguments { user = e.GetInt32(0), button = e.GetInt32(1) }); } },
+                            { Messages.AddScore, e => { AddScore(new AddScoreArguments { score = e.GetInt32(0) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -608,6 +631,7 @@ namespace FlashMinesweeper.ActionScript.Shared
                             { Messages.UserSetFlag, e => UserSetFlag },
                             { Messages.Reveal, e => Reveal },
                             { Messages.UserReveal, e => UserReveal },
+                            { Messages.AddScore, e => AddScore },
                         }
                 ;
             }
@@ -812,9 +836,16 @@ namespace FlashMinesweeper.ActionScript.Shared
                 ((IMessages)this).UserReveal(user, button);
             }
 
+            public event Action<RemoteEvents.AddScoreArguments> AddScore;
+            void IMessages.AddScore(int score)
+            {
+                if(AddScore == null) return;
+                AddScore(new RemoteEvents.AddScoreArguments { score = score });
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 6.07.2008 1:58:27
+// 6.07.2008 2:41:00

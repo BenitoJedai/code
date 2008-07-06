@@ -1,1 +1,7 @@
 ﻿FlashApplication. Crosscompiled from C# to ActionScript.
+
+Description:
+A multiplayer remake of the classic minesweeper game. Multiple players share the same field.
+
+How to play:
+Ctrl, alt or shift click to toggle a flag. Left click to reveal.

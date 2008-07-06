@@ -21,6 +21,7 @@ namespace FlashMinesweeper.ActionScript.Shared.Generic
         public virtual void GameStarted() { }
         public virtual void GameClosed() { }
 
+
         public Func<Action, int, Action> AtInterval;
         public Func<Action, int, Action> AtDelay;
     }

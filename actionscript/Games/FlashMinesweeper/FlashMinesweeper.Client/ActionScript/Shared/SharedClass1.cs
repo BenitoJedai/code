@@ -53,6 +53,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             void Reveal(int button);
             void UserReveal(int user, int button);
 
+            void AddScore(int score);
         }
     }
 }

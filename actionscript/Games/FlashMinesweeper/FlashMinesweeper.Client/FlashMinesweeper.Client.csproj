@@ -55,6 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\Client\Assets\Sounds.cs" />
+    <Compile Include="ActionScript\Client\Monetized\MochiAd.cs" />
+    <Compile Include="ActionScript\Client\Monetized\MochiPreloader.cs" />
     <Compile Include="ActionScript\Client\MyExtensions.cs" />
     <Compile Include="ActionScript\Client\TeamPlay.cs" />
     <Compile Include="ActionScript\Shared\Game.cs" />
@@ -77,6 +79,9 @@
   <ItemGroup>
     <None Include="tools\build.bat" />
     <None Include="tools\update.bat" />
+    <None Include="web\MochiAd.as">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlashMinesweeper\FlashMinesweeper.csproj">

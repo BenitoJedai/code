@@ -9,7 +9,7 @@ namespace FlashMinesweeper.ActionScript.Shared
 {
 
 #if !NoAttributes
-        [Script]
+    [Script]
 #endif
     public class Game : Generic.ServerGameBase<SharedClass1.IEvents, SharedClass1.IMessages, Player>
     {
@@ -29,8 +29,10 @@ namespace FlashMinesweeper.ActionScript.Shared
                     break;
                 }
             }
-           
-            
+
+            player.FromPlayer.AddScore += e => player.AddScore("Score", e.score);
+
+
             player.ToPlayer.ServerPlayerHello(player.UserId, player.Username);
 
             player.ToOthers.ServerPlayerJoined(
@@ -52,35 +54,7 @@ namespace FlashMinesweeper.ActionScript.Shared
 
         public override void GameStarted()
         {
-            //AtInterval(SendNextWave, 5000);
         }
 
-        //[MethodImpl(MethodImplOptions.Synchronized)]
-        //private void SendNextWave()
-        //{
-        //    var z = GenerateRandomNumbers();
-
-
-        //    Console.WriteLine("Next Wave");
-
-        //    foreach (var i in Users)
-        //    {
-        //        i.ToPlayer.ServerRandomNumbers(z);
-        //    }
-
-        //}
-
-        //private double[] GenerateRandomNumbers()
-        //{
-        //    var a = new List<double>();
-        //    var r = new Random();
-
-        //    for (int i = 0; i < 100; i++)
-        //    {
-        //        a.Add(r.NextDouble());
-        //    }
-        //    var z = a.ToArray();
-        //    return z;
-        //}
     }
 }

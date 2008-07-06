@@ -31,6 +31,7 @@ pushd ..\bin\debug\web
 
 
 call :build FlashMinesweeper/ActionScript/Client TeamPlay
+call :build FlashMinesweeper/ActionScript/Client/Monetized MochiPreloader
 
 
 popd
