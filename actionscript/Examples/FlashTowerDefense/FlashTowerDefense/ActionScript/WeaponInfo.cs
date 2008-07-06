@@ -28,6 +28,30 @@ namespace FlashTowerDefense.ActionScript
 
         public Class SoundFire;
 
+        public readonly static WeaponInfo Dagger =
+             new WeaponInfo
+             {
+                 Range = 72,
+                 ArcRange = 45.DegreesToRadians(),
+                 Damage = 50,
+                 VisibleBulletLines = 0,
+                 SoundFire = Sounds.sword2,
+                 Avatar = Images.Avatars.avatars_dagger,
+
+             };
+
+        public readonly static WeaponInfo MedivalAxe =
+            new WeaponInfo
+            {
+                Range = 72,
+                ArcRange = 45.DegreesToRadians(),
+                Damage = 110,
+                VisibleBulletLines = 0,
+                SoundFire = Sounds.sword,
+                Avatar = Images.Avatars.avatars_medivalaxe,
+
+            };
+
         public readonly static WeaponInfo ExplosivesBarrel =
             new WeaponInfo
             {
@@ -93,6 +117,7 @@ namespace FlashTowerDefense.ActionScript
         public static WeaponInfo[] PredefinedWeaponTypes =
             new[]
             {
+                MedivalAxe,
                 ExplosivesBarrel,
                 Shotgun,
                 Shotgun2,

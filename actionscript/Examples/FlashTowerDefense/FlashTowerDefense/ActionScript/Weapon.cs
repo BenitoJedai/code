@@ -99,6 +99,29 @@ namespace FlashTowerDefense.ActionScript
         }
 
 
+        public static Weapon Dagger =
+            new Weapon
+            {
+                MaxAmmo = 200,
+                Ammo = 20,
+                Type = WeaponInfo.Dagger,
+                SelectMode = Weapon.SelectModeEnum.Outside,
+                Name = "Dagger",
+                Usage = UsageEnum.FireBullets
+            };
+
+        public static Weapon MedivalAxe =
+            new Weapon
+            {
+                MaxAmmo = 400,
+                Ammo = 40,
+                Type = WeaponInfo.MedivalAxe,
+                SelectMode = Weapon.SelectModeEnum.Outside,
+                Name = "MedivalAxe",
+                Usage = UsageEnum.FireBullets
+            };
+
+
         public static Weapon ExplosivesBarrel =
             new Weapon
             {
@@ -156,11 +179,16 @@ namespace FlashTowerDefense.ActionScript
         public static Weapon[] PredefinedWeapons =
              new[]
             {
+
                 ExplosivesBarrel,
                 Shotgun,
                 Shotgun2,
                 Colt45,
-                TurretMachinegun
+                TurretMachinegun,
+                MedivalAxe,
+                Dagger
+
+
             }.ForEach((w, i) => w.NetworkId = i).ToArray();
 
 

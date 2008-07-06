@@ -19,10 +19,13 @@ namespace FlashTowerDefense.ActionScript.Actors
 
             this.Weapons = new List<Weapon>
             {
+         
                 Weapon.TurretMachinegun.Clone(),
                 Weapon.Shotgun.Clone(),
                 Weapon.Colt45.Clone(),
                 Weapon.ExplosivesBarrel.Clone(),
+                       Weapon.Dagger.Clone(),
+                Weapon.MedivalAxe.Clone(),
             };
 
         }
@@ -67,12 +70,12 @@ namespace FlashTowerDefense.ActionScript.Actors
                     _CurrentWeapon.AmmoChanged -= RaiseCurrentWeaponAmmoChanged;
 
                     if (!Weapons.Any(i => i.NetworkId == value.NetworkId))
-                        Weapons.Add(value); 
+                        Weapons.Add(value);
                 }
 
                 _CurrentWeapon = value;
 
-                
+
 
                 if (CurrentWeaponChanged != null)
                     CurrentWeaponChanged();

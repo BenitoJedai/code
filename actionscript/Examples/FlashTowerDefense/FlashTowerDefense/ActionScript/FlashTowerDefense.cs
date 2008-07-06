@@ -112,11 +112,8 @@ namespace FlashTowerDefense.ActionScript
 
                         delegate
                         {
-                            //warzone.alpha = 0.8;
-
-
-
-                            //powered_by_jsc.htmlText = "<u><a href='http://jsc.sf.net'>powered by <b>jsc</b></a></u>";
+                            if (!txt.mouseEnabled)
+                                return;
 
                             txt.textColor = ColorBlue;
                             txt.filters = null;
@@ -133,17 +130,13 @@ namespace FlashTowerDefense.ActionScript
                     txt.mouseOut +=
                         delegate
                         {
+                          
                             txt.filters = new[] { new BlurFilter() };
                             txt.textColor = ColorBlack;
 
                             if (CanFire)
                             {
-                                //powered_by_jsc.htmlText = "<a href='http://jsc.sf.net'>powered by <b>jsc</b></a>";
-
-                                //warzone.alpha = 1;
-
                                 warzone.filters = null;
-
 
                                 if (HideAim)
                                     Aim.visible = true;
@@ -1018,7 +1011,7 @@ namespace FlashTowerDefense.ActionScript
 
                     var KeyLeft = new KeyboardButton(stage)
                     {
-                        Groups = new []
+                        Groups = new[]
                         {
                             MovementWASD[Keyboard.A],
                             MovementArrows[Keyboard.LEFT],
@@ -1143,7 +1136,7 @@ namespace FlashTowerDefense.ActionScript
                     };
 
 
-            
+
 
                     var KeyEnter = new KeyboardButton(stage)
                     {
@@ -1352,36 +1345,43 @@ namespace FlashTowerDefense.ActionScript
                 }
             );
 
-            #region powered_by_jsc
-            var powered_by_jsc = new TextField
-            {
+            //#region powered_by_jsc
+            //var powered_by_jsc = new TextField
+            //{
 
-                x = 32,
+            //    x = 32,
 
-                defaultTextFormat = new TextFormat
-                {
-                    size = 24
-                },
-                autoSize = TextFieldAutoSize.LEFT,
+            //    defaultTextFormat = new TextFormat
+            //    {
+            //        size = 24
+            //    },
+            //    autoSize = TextFieldAutoSize.LEFT,
 
-                // how to make a link
-                // http://www.actionscript.com/Article/tabid/54/ArticleID/actionscript-quick-tips-and-gotchas/Default.aspx
-                htmlText = "<a href='http://jsc.sf.net' target='_blank'>powered by <b>jsc</b></a>",
-                selectable = false,
-                filters = new[] { new BlurFilter() },
-                textColor = ColorBlack
-            }.AttachTo(this);
+            //    // how to make a link
+            //    // http://www.actionscript.com/Article/tabid/54/ArticleID/actionscript-quick-tips-and-gotchas/Default.aspx
+            //    htmlText = "<a href='http://jsc.sf.net' target='_blank'>powered by <b>jsc</b></a>",
+            //    selectable = false,
+            //    filters = new[] { new BlurFilter() },
+            //    textColor = ColorBlack
+            //}.AttachTo(this);
 
-            powered_by_jsc.y = DefaultHeight - powered_by_jsc.height - 32;
+            //powered_by_jsc.y = DefaultHeight - powered_by_jsc.height - 32;
 
-            // make it fade/show in time
-            200.AtInterval(t => powered_by_jsc.alpha = (Math.Sin(t.currentCount * 0.05) + 1) * 0.5);
+            //// make it fade/show in time
+            //200.AtInterval(t => 
+            //    {
+            //        var a = (Math.Sin(t.currentCount * 0.05) + 1) * 0.5;
 
-            #endregion
+            //        powered_by_jsc.alpha = a;
+            //        powered_by_jsc.mouseEnabled = a > 0.8;
+            //    }
+            //);
+
+            //#endregion
 
             ScoreBoard.AttachTo(this);
 
-            BlurWarzoneOnHover(powered_by_jsc, true);
+            //BlurWarzoneOnHover(powered_by_jsc, true);
 
             40000.AtIntervalOnRandom(
                 delegate
@@ -1457,7 +1457,7 @@ namespace FlashTowerDefense.ActionScript
 
             OnMouseDownDisableMouseOnTarget(GetWarzone(), MusicButton);
             OnMouseDownDisableMouseOnTarget(GetWarzone(), ScoreBoard);
-            OnMouseDownDisableMouseOnTarget(GetWarzone(), powered_by_jsc);
+            //OnMouseDownDisableMouseOnTarget(GetWarzone(), powered_by_jsc);
         }
 
         private void DoSomeDamage(Point DamagePointOfOrigin, double DamageDirection, WeaponInfo Weapon)
@@ -1527,29 +1527,30 @@ namespace FlashTowerDefense.ActionScript
             if (Weapon == null)
                 return;
 
-            (1 + ((Weapon.VisibleBulletLines - 1).Random())).Times(
-                delegate
-                {
-                    var VisibleBullet = new Shape().AttachTo(GetWarzone());
+            if (Weapon.VisibleBulletLines > 0)
+                (1 + ((Weapon.VisibleBulletLines - 1).Random())).Times(
+                    delegate
+                    {
+                        var VisibleBullet = new Shape().AttachTo(GetWarzone());
 
-                    var RandomGray = (0x40 + 0x80.Random()).ToInt32();
+                        var RandomGray = (0x40 + 0x80.Random()).ToInt32();
 
-                    VisibleBullet.graphics.lineStyle(1, RandomGray.ToGrayColor(), 1);
+                        VisibleBullet.graphics.lineStyle(1, RandomGray.ToGrayColor(), 1);
 
 
-                    var BulletDirection = DamageDirection + (2.0.Random() - 1.0) * (Weapon.ArcRange * 0.75);
-                    var BulletDropFromRange = 32 + (Weapon.Range / 2 - 32).Random();
-                    var BulletDropFrom = DamagePointOfOrigin.MoveToArc(BulletDirection, BulletDropFromRange);
+                        var BulletDirection = DamageDirection + (2.0.Random() - 1.0) * (Weapon.ArcRange * 0.75);
+                        var BulletDropFromRange = 32 + (Weapon.Range / 2 - 32).Random();
+                        var BulletDropFrom = DamagePointOfOrigin.MoveToArc(BulletDirection, BulletDropFromRange);
 
-                    VisibleBullet.graphics.moveTo(BulletDropFrom.x, BulletDropFrom.y);
+                        VisibleBullet.graphics.moveTo(BulletDropFrom.x, BulletDropFrom.y);
 
-                    var BulletDropTo = DamagePointOfOrigin.MoveToArc(BulletDirection, BulletDropFromRange + (Weapon.Range.Random() / 2));
+                        var BulletDropTo = DamagePointOfOrigin.MoveToArc(BulletDirection, BulletDropFromRange + (Weapon.Range.Random() / 2));
 
-                    VisibleBullet.graphics.lineTo(BulletDropTo.x, BulletDropTo.y);
+                        VisibleBullet.graphics.lineTo(BulletDropTo.x, BulletDropTo.y);
 
-                    50.AtDelayDo(() => VisibleBullet.Orphanize());
-                }
-            );
+                        50.AtDelayDo(() => VisibleBullet.Orphanize());
+                    }
+                );
         }
 
         public void TeleportEgoNearTurret()

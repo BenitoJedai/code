@@ -89,6 +89,10 @@
     <Content Include="docs\feedback\2008.06.06.txt" />
     <Content Include="docs\feedback\2008.06.25.txt" />
     <Content Include="docs\help.txt" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\sword2.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Avatars\avatars_dagger.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\sword.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Avatars\avatars_medivalaxe.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Explosions\ani6_01.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Explosions\ani6_02.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Explosions\ani6_03.png" />
@@ -169,8 +173,10 @@
     <None Include="docs\art\avatars\ammo.psd" />
     <None Include="docs\art\avatars\barrel.psd" />
     <None Include="docs\art\avatars\colt45.psd" />
+    <None Include="docs\art\avatars\dagger.psd" />
     <None Include="docs\art\avatars\heart.psd" />
     <None Include="docs\art\avatars\m249.psd" />
+    <None Include="docs\art\avatars\medivalaxe.psd" />
     <None Include="docs\art\avatars\shotgun.psd" />
     <None Include="docs\art\avatars\shotgun2.psd" />
     <None Include="docs\art\explosions\ani6.psd" />
