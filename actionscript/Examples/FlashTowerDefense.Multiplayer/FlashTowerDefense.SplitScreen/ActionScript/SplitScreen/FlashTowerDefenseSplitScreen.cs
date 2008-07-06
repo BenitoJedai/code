@@ -22,8 +22,9 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
 
 
         public const int Padding = 2;
-        public const int DefaultWidth = ReallyNarrowWidth * 2 + 3 * Padding;
-        public const int DefaultHeight = FlashTowerDefense.DefaultHeight + 2 * Padding;
+
+        public const int DefaultWidth = ReallyNarrowWidth * 2 + Padding;
+        public const int DefaultHeight = FlashTowerDefense.DefaultHeight;
 
         /// <summary>
         /// Default constructor
@@ -45,7 +46,7 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
         {
 
             #region CreateView
-            Func<FlashTowerDefense> CreateView =
+            Func<FlashTowerDefenseSized> CreateView =
                 delegate
                 {
 
@@ -53,7 +54,7 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
 
                     var v_mask = new Shape();
                     v_mask.graphics.beginFill(0xffffff);
-                    v_mask.graphics.drawRect(0, 0, FlashTowerDefense.DefaultWidth, FlashTowerDefense.DefaultHeight);
+                    v_mask.graphics.drawRect(0, 0, ReallyNarrowWidth, FlashTowerDefense.DefaultHeight);
                     v_mask.graphics.endFill();
 
                     v.mask = v_mask;
@@ -84,7 +85,8 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
                 ToPlayer = server_to_left,
                 ToOthers = server_to_right,
                 UserId = 0,
-                Username = "Lefty"
+                Username = "Lefty",
+                AddScore = delegate { }
             };
 
 
@@ -122,7 +124,8 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
                 ToPlayer = server_to_right,
                 ToOthers = server_to_left,
                 UserId = 1,
-                Username = "Righty"
+                Username = "Righty",
+                AddScore = delegate { }
             };
 
             AttachRouter(
@@ -150,7 +153,7 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
             left_client.InitializeEvents();
             left_client.InitializeMap();
 
-            left.MoveTo(Padding, Padding).AttachTo(this);
+            left.MoveTo(0, 0).AttachTo(this);
 
 
             var right = CreateView();
@@ -166,7 +169,7 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
             right_client.InitializeEvents();
             right_client.InitializeMap();
 
-            right.MoveTo(Padding * 2 + FlashTowerDefense.DefaultWidth, Padding).AttachTo(this);
+            right.MoveTo(Padding + ReallyNarrowWidth, 0).AttachTo(this);
 
             //server_to_left.ServerPlayerHello += e => Console.WriteLine(e.ToString());
             //server_to_right.ServerPlayerHello += e => Console.WriteLine(e.ToString());

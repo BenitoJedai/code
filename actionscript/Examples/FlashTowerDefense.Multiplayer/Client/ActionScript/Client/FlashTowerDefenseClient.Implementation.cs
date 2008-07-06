@@ -34,7 +34,7 @@ namespace FlashTowerDefense.ActionScript.Client
 
             Action BroadcastTeleportTo;
 
-            public FlashTowerDefense Map;
+            public FlashTowerDefenseSized Map;
 
             public SharedClass1.IMessages NetworkMessages;
             public SharedClass1.IEvents NetworkEvents;
