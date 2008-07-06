@@ -53,6 +53,8 @@
     <Compile Include="ActionScript\Actors\Actor.cs" />
     <Compile Include="ActionScript\Actors\BossSheep.cs" />
     <Compile Include="ActionScript\Actors\BossWarrior.cs" />
+    <Compile Include="ActionScript\Actors\NuclearPig.cs" />
+    <Compile Include="ActionScript\Actors\Pig.cs" />
     <Compile Include="ActionScript\Actors\NuclearSheep.cs" />
     <Compile Include="ActionScript\Actors\ExplosiveBarrel.cs" />
     <Compile Include="ActionScript\Actors\NuclearWarrior.cs" />
@@ -89,6 +91,13 @@
     <Content Include="docs\feedback\2008.06.06.txt" />
     <Content Include="docs\feedback\2008.06.25.txt" />
     <Content Include="docs\help.txt" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\pig.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\pig_1.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\pig_2.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\pig_3.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\pig_4.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\pig_blood.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\pig_corpse.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\sword2.mp3" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Avatars\avatars_dagger.png" />
     <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\sword.mp3" />

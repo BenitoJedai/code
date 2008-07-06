@@ -12,6 +12,8 @@ namespace FlashTowerDefense.ActionScript.Assets
     [Script]
     public static class Sounds
     {
+        // http://media-convert.com/
+
         public const string Path = "/assets/FlashTowerDefense.Sounds";
 
         [Embed(source = Path + "/sword2.mp3")]
@@ -71,6 +73,9 @@ namespace FlashTowerDefense.ActionScript.Assets
 
         [Embed(source = Path + "/sheep.mp3")]
         public static Class snd_sheep;
+
+        [Embed(source = Path + "/pig.mp3")]
+        public static Class snd_pig;
 
         [Embed(source = Path + "/screams1a.mp3")]
         public static Class snd_man2;

@@ -25,9 +25,9 @@ namespace FlashTowerDefense.ActionScript
     /// testing...
     /// </summary>
 
-    partial class FlashTowerDefense 
+    partial class FlashTowerDefense
     {
-       
+
 
         private void AddNewActorsToMap(Action UpdateScoreBoard, Func<double> GetEntryPointY, Func<Actor, Actor> AttachRules)
         {
@@ -239,12 +239,28 @@ namespace FlashTowerDefense.ActionScript
                     n.Die +=
                         () => CreateExplosion(WeaponInfo.ExplosivesBarrel, n.ToPoint(), NetworkMode.Remote);
                 }
-                
-                
+
+
                 if (0.1.ByChance())
                 {
                     var n = AttachRules(
                       new NuclearSheep
+                      {
+                          x = -OffscreenMargin,
+                          y = GetEntryPointY(),
+                          speed = 1 + 2.0.FixedRandom()
+                      }
+                    );
+
+
+                    n.Die +=
+                        () => CreateExplosion(WeaponInfo.ExplosivesBarrel, n.ToPoint(), NetworkMode.Remote);
+                }
+
+                if (0.1.ByChance())
+                {
+                    var n = AttachRules(
+                      new NuclearPig
                       {
                           x = -OffscreenMargin,
                           y = GetEntryPointY(),
@@ -272,7 +288,7 @@ namespace FlashTowerDefense.ActionScript
 
 
                 }
-                else
+                else if (0.5.ByChance())
                 {
                     AttachRules(
                         new Sheep
@@ -283,6 +299,17 @@ namespace FlashTowerDefense.ActionScript
                         }
                     );
 
+                }
+                else
+                {
+                    AttachRules(
+                         new Pig
+                         {
+                             x = -OffscreenMargin,
+                             y = GetEntryPointY(),
+                             speed = 0.5 + 2.0.FixedRandom()
+                         }
+                     );
                 }
             }
 

@@ -51,8 +51,30 @@ namespace FlashTowerDefense.ActionScript.Assets
         public static Class bump2;
 
 
+        #region pig
+        [Embed(source = Path + "/pig_1.png")]
+        public static Class pig1;
 
-        // sheep
+        [Embed(source = Path + "/pig_2.png")]
+        public static Class pig2;
+
+        [Embed(source = Path + "/pig_3.png")]
+        public static Class pig3;
+
+        [Embed(source = Path + "/pig_4.png")]
+        public static Class pig4;
+
+
+        [Embed(source = Path + "/pig_corpse.png")]
+        public static Class pig_corpse;
+
+        [Embed(source = Path + "/pig_blood.png")]
+        public static Class pig_blood;
+        #endregion
+
+
+
+        #region sheep
         [Embed(source = Path + "/sheep-walk_1.png")]
         public static Class sheep1;
 
@@ -71,6 +93,7 @@ namespace FlashTowerDefense.ActionScript.Assets
 
         [Embed(source = Path + "/sheep-blood.png")]
         public static Class sheep_blood;
+        #endregion
 
 
         // man
