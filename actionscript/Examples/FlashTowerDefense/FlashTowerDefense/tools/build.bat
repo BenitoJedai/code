@@ -39,7 +39,7 @@ call :build %1 %2
 :: build custom
 ::call :build %1 Menu
 
-::call :build "%1/Monetized" MochiPreloader
+call :build "%1/Monetized" MochiPreloader
 ::call :build "%1/Monetized" NewgroundsPreloader
 
 popd

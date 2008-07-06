@@ -67,6 +67,7 @@
     <Compile Include="ActionScript\Assets\Images.Avatars.cs" />
     <Compile Include="ActionScript\Assets\Images.cs" />
     <Compile Include="ActionScript\Assets\Sounds.cs" />
+    <Compile Include="ActionScript\FlashTowerDefenseSized.cs" />
     <Compile Include="ActionScript\Crate.cs" />
     <Compile Include="ActionScript\FlashTowerDefense.AddNewActorsToMap.cs" />
     <Compile Include="ActionScript\FlashTowerDefense.cs" />

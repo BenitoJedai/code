@@ -25,7 +25,7 @@ namespace FlashTowerDefense.ActionScript
     /// testing...
     /// </summary>
 
-    partial class FlashTowerDefense
+    partial class FlashTowerDefenseSized
     {
 
 

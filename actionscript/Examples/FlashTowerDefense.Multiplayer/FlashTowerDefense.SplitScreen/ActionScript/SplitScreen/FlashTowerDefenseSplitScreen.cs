@@ -18,8 +18,11 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
     [SWF(width = DefaultWidth, height = DefaultHeight, backgroundColor = 0)]
     public class FlashTowerDefenseSplitScreen : Sprite
     {
+        public const int ReallyNarrowWidth = 420;
+
+
         public const int Padding = 2;
-        public const int DefaultWidth = FlashTowerDefense.DefaultWidth * 2 + 3 * Padding;
+        public const int DefaultWidth = ReallyNarrowWidth * 2 + 3 * Padding;
         public const int DefaultHeight = FlashTowerDefense.DefaultHeight + 2 * Padding;
 
         /// <summary>
@@ -46,7 +49,7 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
                 delegate
                 {
 
-                    var v = new FlashTowerDefense();
+                    var v = new FlashTowerDefenseSized(ReallyNarrowWidth, FlashTowerDefense.DefaultHeight);
 
                     var v_mask = new Shape();
                     v_mask.graphics.beginFill(0xffffff);
