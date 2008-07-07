@@ -52,6 +52,20 @@ namespace FlashTowerDefense.ActionScript
 
             };
 
+
+        public readonly static WeaponInfo BrickWall =
+            new WeaponInfo
+            {
+                Range = 32,
+                Damage = 0,
+
+                VisibleBulletLines = 0,
+
+                SoundFire = Sounds.snd_man2,
+                Avatar = Images.Avatars.avatars_bricks,
+
+            };
+
         public readonly static WeaponInfo ExplosivesBarrel =
             new WeaponInfo
             {
@@ -119,6 +133,7 @@ namespace FlashTowerDefense.ActionScript
             {
                 MedivalAxe,
                 ExplosivesBarrel,
+                BrickWall,
                 Shotgun,
                 Shotgun2,
                 Colt45,

@@ -133,6 +133,19 @@ namespace FlashTowerDefense.ActionScript
                 Usage = UsageEnum.DeployBarrel
             };
 
+
+        public static Weapon BrickWall =
+            new Weapon
+            {
+                MaxAmmo = 20,
+                Ammo = 7,
+                Type = WeaponInfo.BrickWall,
+                SelectMode = Weapon.SelectModeEnum.Outside,
+                Name = "BrickWall",
+                Usage = UsageEnum.DeployBarrel
+            };
+
+
         public static Weapon TurretMachinegun =
             new Weapon
                 {
@@ -181,6 +194,7 @@ namespace FlashTowerDefense.ActionScript
             {
 
                 ExplosivesBarrel,
+                BrickWall,
                 Shotgun,
                 Shotgun2,
                 Colt45,

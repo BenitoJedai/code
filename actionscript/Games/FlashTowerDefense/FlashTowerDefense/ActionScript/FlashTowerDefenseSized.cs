@@ -31,7 +31,7 @@ namespace FlashTowerDefense.ActionScript
         // for splitscreen
         //public const int DefaultWidth = 420;
 
-   
+
         public const uint ColorGreen = 0x00ff00;
         public const uint ColorRed = 0xff0000;
         public const uint ColorBlack = 0x000000;
@@ -126,7 +126,7 @@ namespace FlashTowerDefense.ActionScript
                     txt.mouseOut +=
                         delegate
                         {
-                          
+
                             txt.filters = new[] { new BlurFilter() };
                             txt.textColor = ColorBlack;
 
@@ -1689,14 +1689,26 @@ namespace FlashTowerDefense.ActionScript
                 if (Ego.CurrentWeapon.Usage == Weapon.UsageEnum.DeployBarrel)
                 {
                     //  ShowMessage("Barrel deployed");
-                    var Target = Ego.ToPoint();
 
-                    var BarrelId = int.MaxValue.Random().ToInt32();
+                    if (Ego.CurrentWeapon.NetworkId == Weapon.BrickWall.NetworkId)
+                    {
+                        new BrickWall().MoveTo(Ego).AttachTo(GetWarzone());
 
-                    if (NetworkDeployExplosiveBarrel != null)
-                        NetworkDeployExplosiveBarrel(Ego.CurrentWeapon.NetworkId, BarrelId, Target.x.ToInt32(), Target.y.ToInt32());
+                    }
+                    else if (Ego.CurrentWeapon.NetworkId == Weapon.ExplosivesBarrel.NetworkId)
+                    {
+                        var Target = Ego.ToPoint();
 
-                    CreateExplosiveBarrel(Ego.CurrentWeapon, Target, BarrelId, NetworkMode.Local);
+                        var BarrelId = int.MaxValue.Random().ToInt32();
+
+                        if (NetworkDeployExplosiveBarrel != null)
+                            NetworkDeployExplosiveBarrel(Ego.CurrentWeapon.NetworkId, BarrelId, Target.x.ToInt32(), Target.y.ToInt32());
+
+                        CreateExplosiveBarrel(Ego.CurrentWeapon, Target, BarrelId, NetworkMode.Local);
+                    }
+                    else
+                        ShowMessage("Unknown deploy weapon");
+
                 }
                 else
                     ShowMessage("Unknown weapon usage");
@@ -1738,6 +1750,7 @@ namespace FlashTowerDefense.ActionScript
 
             var DamageTaken = false;
 
+            #region HealthChangedToWorse
             barrel.HealthChangedToWorse +=
                 delegate
                 {
@@ -1769,6 +1782,8 @@ namespace FlashTowerDefense.ActionScript
                             }
                         );
                 };
+            #endregion
+
 
 
             barrel.Die +=

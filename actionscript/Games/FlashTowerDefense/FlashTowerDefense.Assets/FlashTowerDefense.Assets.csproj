@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FlashTowerDefense</RootNamespace>
+    <AssemblyName>FlashTowerDefense.Assets</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ScriptCoreLib, Version=3.0.3110.21189, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Images.Avatars.cs" />
+    <Compile Include="Assets\Images.cs" />
+    <Compile Include="Assets\Images.Explosions.cs" />
+    <Compile Include="Assets\Sounds.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\barrel.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\box.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\bump2.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\footsteps.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\grass1.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\hole_1.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\hole_2.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\img_cactus_1.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\img_cactus_2.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\img_cactus_3.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\man2-horns_1.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\man2-horns_2.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\man2-horns_3.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\man2-horns_4.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\man2-horns_5.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\man2-horns_6.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\man2-horns_7.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\man2-horns_8.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\man2-horns_9.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\man2-horns_dead_1.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\man2-horns_dead_2.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\music_off.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\music_on.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\pig_1.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\pig_2.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\pig_3.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\pig_4.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\pig_blood.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\pig_corpse.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\Preview.jpg" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\sheep-blood.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\sheep-corpse.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\sheep-walk_1.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\sheep-walk_2.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\sheep-walk_3.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\sheep-walk_4.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\turret1-default.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\turret1-gunfire-180-1.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\turret1-gunfire-180-2.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\turret1-gunfire-180-3.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\turret1-gunfire-180.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Avatars\avatars_ammo.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Avatars\avatars_barrel.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Avatars\avatars_colt45.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Avatars\avatars_dagger.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Avatars\avatars_heart.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Avatars\avatars_m249.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Avatars\avatars_medivalaxe.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Avatars\avatars_shotgun.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Avatars\avatars_shotgun2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Explosions\ani6_01.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Explosions\ani6_02.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Explosions\ani6_03.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Explosions\ani6_04.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Explosions\ani6_05.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Explosions\ani6_06.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Explosions\ani6_07.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Explosions\ani6_08.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Explosions\ani6_09.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Explosions\ani6_10.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Explosions\ani6_11.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Explosions\ani6_12.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Explosions\ani6_13.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Explosions\ani6_14.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Explosions\ani6_15.png" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Explosions\ani6_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\bird2.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\birds.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\click.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\colt45.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\door-open.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\explosion.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\FNCL.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\ghoullaugh.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\heartbeat3.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\pig.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\screams1a.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\scroll12.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\SelectWeapon.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\sheep.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\shotgun2.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\sound20.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\sound35.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\sword.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\sword2.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Sounds\world.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images\bricks.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\FlashTowerDefense.Images.Avatars\avatars_bricks.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

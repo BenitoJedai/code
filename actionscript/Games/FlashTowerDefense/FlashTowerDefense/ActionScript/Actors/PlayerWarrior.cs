@@ -21,11 +21,15 @@ namespace FlashTowerDefense.ActionScript.Actors
             {
          
                 Weapon.TurretMachinegun.Clone(),
-                Weapon.Shotgun.Clone(),
-                Weapon.Colt45.Clone(),
+
+                //Weapon.Shotgun.Clone(),
+                //Weapon.Colt45.Clone(),
+                
                 Weapon.ExplosivesBarrel.Clone(),
-                       Weapon.Dagger.Clone(),
-                Weapon.MedivalAxe.Clone(),
+                Weapon.BrickWall.Clone(),
+
+                Weapon.Dagger.Clone(),
+                //Weapon.MedivalAxe.Clone(),
             };
 
         }

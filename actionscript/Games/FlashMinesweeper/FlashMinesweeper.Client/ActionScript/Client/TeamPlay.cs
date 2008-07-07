@@ -221,7 +221,8 @@ namespace FlashMinesweeper.ActionScript.Client
                     {
                         s = new ShapeWithMovement
                             {
-                                filters = new[] { new DropShadowFilter() }
+                                filters = new[] { new DropShadowFilter() },
+                                alpha = 0.5
                             };
 
 
@@ -380,6 +381,14 @@ namespace FlashMinesweeper.ActionScript.Client
                                 if (Done != null)
                                     Done();
 
+                                500.AtDelayDo(
+                                    delegate
+                                    {
+                                        p.alpha = 0.5;
+
+                                        
+                                    }
+                                );
                                 9000.AtDelayDo(
                                     () => p.RemoveFrom(ActiveMessages).FadeOutAndOrphanize(1000 / 24, 0.21)
                                 );

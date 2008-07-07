@@ -11,7 +11,8 @@ using ScriptCoreLib.ActionScript.MochiLibrary;
 
 namespace FlashTowerDefense.ActionScript.Monetized
 {
-    [Script, ScriptApplicationEntryPoint(Width = FlashTowerDefense.DefaultWidth, Height = FlashTowerDefense.DefaultHeight)]
+    [Script]
+    [ScriptApplicationEntryPoint(Width = FlashTowerDefense.DefaultWidth, Height = FlashTowerDefense.DefaultHeight)]
     [SWF(width = FlashTowerDefense.DefaultWidth, height = FlashTowerDefense.DefaultHeight, backgroundColor = FlashTowerDefense.ColorWhite)]
     class MochiPreloader : MochiAdPreloaderBase
     {

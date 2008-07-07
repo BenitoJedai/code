@@ -21,6 +21,11 @@ namespace FlashTowerDefense.ActionScript.Assets
         public static Class hole_1;
 
 
+        [Embed(source = Path + "/bricks.png")]
+        public static Class bricks;
+
+
+
         [Embed(source = Path + "/barrel.png")]
         public static Class barrel;
 
