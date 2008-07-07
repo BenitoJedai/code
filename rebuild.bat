@@ -36,21 +36,24 @@ call :build javascript\Tools\ConvertASToCS\CreateNetworkProxy\CreateNetworkProxy
 :: rebuild controls
 call :build javascript\Controls\TextEditor\ScriptCoreLib.Controls.TextEditor.sln
 call :build javascript\Controls\LayeredControl\ScriptCoreLib.Controls.LayeredControl.sln
+call :build javascript\Controls\ScriptCoreLib.Controls.NatureBoy\ScriptCoreLib.Controls.NatureBoy.sln
 
 
 :: rebuild templates
 call :build templates\OrcasScriptApplication\OrcasScriptApplication.sln
 call :build templates\OrcasFlashApplication\OrcasFlashApplication\OrcasFlashApplication.sln
 
-:: call :build templates\AppletTemplate\DemoApplet.sln
-:: call :build templates\OrcasWebApplication\OrcasWebApplication.sln
-:: call :build templates\OrcasVisualBasicFlashApplication\OrcasVisualBasicFlashApplication.sln
-:: call :build templates\OrcasVisualBasicScriptApplication\OrcasVisualBasicScriptApplication.sln
-:: call :build templates\OrcasWebSite\OrcasWebSite.sln
+call :build templates\AppletTemplate\DemoApplet.sln
+call :build templates\OrcasWebApplication\OrcasWebApplication.sln
+call :build templates\OrcasVisualBasicFlashApplication\OrcasVisualBasicFlashApplication.sln
+call :build templates\OrcasVisualBasicScriptApplication\OrcasVisualBasicScriptApplication.sln
+call :build templates\OrcasWebSite\OrcasWebSite.sln
 
 
 
 :: rebuild examples
+:: call :build javascript\Examples\ButterFly\ButterFly.sln
+
 :: call :build javascript\Games\SpaceInvaders\SpaceInvaders.sln
 :: call :build javascript\Games\DockMaster\DockMaster.sln
 :: call :build javascript\Games\LightsOut\LightsOut.sln
@@ -80,9 +83,6 @@ call :build templates\OrcasFlashApplication\OrcasFlashApplication\OrcasFlashAppl
 
 
 
-:: msbuild does not work with visual basic 9 at the moment...
-
-::call :build templates\OrcasVisualBasicScriptApplication\OrcasVisualBasicScriptApplication.sln
 ::call :build javascript\Examples\FormsExample.VisualBasic\FormsExample.VisualBasic.sln
 
 
