@@ -424,32 +424,36 @@ namespace jsc.Languages.ActionScript
 
 
 
-                ScriptAttribute a = ScriptAttribute.Of(p, false);
+                var a = ScriptAttribute.Of(p, false);
 
-                string n = (p.Namespace == null) ? "" : p.Namespace + ".";
+                var n = NamespaceFixup(p.Namespace) ?? "";
 
-
-
-                if (a != null && a.Implements != null && a.ExternalTarget != null)
+                if (n != "")
                 {
-                    if (p != z)
+                    n += ".";
+
+                    if (a != null && a.Implements != null && a.ExternalTarget != null)
+                    {
+                        if (p != z)
+                        {
+
+                            imports.Add(n + GetDecoratedTypeName(p, false));
+                        }
+
+                        imports.Add(GetDecoratedTypeName(p, true));
+
+
+                    }
+                    else
                     {
 
-                        imports.Add(n + GetDecoratedTypeName(p, false));
+                        imports.Add(n + GetDecoratedTypeName(p, true));
+
+
+
                     }
-
-                    imports.Add(GetDecoratedTypeName(p, true));
-
-
                 }
-                else
-                {
-
-                    imports.Add(n + GetDecoratedTypeName(p, true));
-
-
-
-                }
+                // else top Level - no need to import
 
 
 
@@ -468,7 +472,7 @@ namespace jsc.Languages.ActionScript
                 WriteIdent();
 
                 Write("import ");
-                Write(NamespaceFixup(var));
+                Write(/*NamespaceFixup(*/var/*)*/);
                 WriteLine(";");
 
             }

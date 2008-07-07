@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>X:\c#\jsc\svn\actionscript\Examples\FlashTowerDefense.Multiplayer\FlashTowerDefense.SplitScreen\bin\Debug</StartWorkingDirectory>
-    <StartArguments>FlashTowerDefense.SplitScreen.dll -as</StartArguments>
+    <StartWorkingDirectory>C:\util\jsc\bin</StartWorkingDirectory>
+    <StartArguments>ScriptCoreLib.Mochi.dll -as</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

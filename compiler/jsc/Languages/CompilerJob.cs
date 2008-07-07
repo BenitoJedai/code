@@ -124,11 +124,11 @@ namespace jsc.Languages
             if (string.IsNullOrEmpty(_ns))
                 return "";
 
-            foreach (ScriptNamespaceRenameAttribute var in this.NamespaceRenameList)
+            foreach (var v in this.NamespaceRenameList.OrderByDescending(i => i.NativeNamespaceName.Length))
             {
-                if (_ns.StartsWith(var.NativeNamespaceName))
+                if (_ns.StartsWith(v.NativeNamespaceName))
                 {
-                    _ns = var.VirtualNamespaceName + _ns.Substring(var.NativeNamespaceName.Length);
+                    _ns = v.VirtualNamespaceName + _ns.Substring(v.NativeNamespaceName.Length);
 
                     if (_ns.StartsWith("."))
                         _ns = _ns.Substring(1);
@@ -266,8 +266,9 @@ namespace jsc.Languages
                                     select new { ap, av }
                                   ).FirstOrDefault()
                         where z != null
-                        let f = v.Substring(z.ap.Length + 1)
-                        let t = dir.CreateSubdirectory(EnsureNotStartsWith("/", z.av.Value))
+                        let NewSubDir = EnsureNotStartsWith("/", z.av.Value)
+                        let t = string.IsNullOrEmpty(NewSubDir) ? dir : dir.CreateSubdirectory(NewSubDir)
+                        let f = string.IsNullOrEmpty(NewSubDir) ? v.Substring(z.ap.Length) : v.Substring(z.ap.Length + 1)
                         let tf = new FileInfo(t.FullName + "/" + f)
                         select new { v, tf };
 

@@ -108,3 +108,5 @@ version history:
 01.06.2008
 	actionscript: added uint array init support
 	actionscript: fixed array to IEnumrable auto cast for Opcodes.newarr
+07.07.2008
+	actionscript: fixed namespace fixup, external resources

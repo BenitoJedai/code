@@ -34,6 +34,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Mochi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Mochi.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
@@ -75,7 +79,6 @@
     <Compile Include="ActionScript\Menu.cs" />
     <Compile Include="ActionScript\Monetized\NewgroundPreloader.cs" />
     <Compile Include="ActionScript\Monetized\NewgroundsAPI.cs" />
-    <Compile Include="ActionScript\Monetized\MochiAd.cs" />
     <Compile Include="ActionScript\Monetized\MochiPreloader.cs" />
     <Compile Include="ActionScript\MyExtensions.cs" />
     <Compile Include="ActionScript\KeyboardButton.cs" />
@@ -192,9 +195,6 @@
     <None Include="docs\art\explosions\ani6.psd" />
     <None Include="tools\build.bat" />
     <None Include="web\NewgroundsAPI.as">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="web\MochiAd.as">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -1,7 +1,5 @@
 @echo off
 
-::goto :skipped
-
 
 :: Dll name
 @call :jsc %1
