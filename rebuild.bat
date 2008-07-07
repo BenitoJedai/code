@@ -24,6 +24,7 @@ call :build core\ScriptCoreLib.Query\ScriptCoreLib.Query.sln
 call :build core\ScriptCoreLib.Cards\ScriptCoreLib.Cards.sln
 call :build core\ScriptCoreLib.Net\ScriptCoreLib.Net.sln
 call :build core\ScriptCoreLib.Nonoba\ScriptCoreLib.Nonoba.sln
+call :build core\ScriptCoreLib.Mochi\ScriptCoreLib.Mochi.sln
 call :build core\ScriptCoreLib.GoogleMaps\ScriptCoreLib.GoogleMaps.sln
 call :build core\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing.sln
 call :build core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.sln
