@@ -800,46 +800,57 @@ namespace jsc.Script
             if (((MethodInfo)i.OwnerMethod).ReturnType == typeof(void))
                 return;
 
-            Action<ILInstruction> WriteReturnValue =
-                left =>
+            Action<ILFlow.StackItem> WriteReturnValue =
+                left_s =>
                 {
-                    if (SupportsInlineAssigments)
+                    if (left_s.StackInstructions.Length > 1)
                     {
-                        if (left.InlineAssigmentValue != null)
-                        {
-                            //WriteBoxedComment("inline");
+                        WriteSpace();
 
-                            WriteSpace();
-
-
-                            ILBlock.Prestatement _p = left.InlineAssigmentValue;
-                            ILInstruction _i = _p.Instruction;
-
-                            if (_i.IsStoreInstruction)
-                            {
-                                if (_i.StackBeforeStrict.Single().StackInstructions.Length == 1)
-                                    WriteReturnParameter(_p, _i.StackBeforeStrict.Single().SingleStackInstruction);
-                                else
-                                    WriteReturnParameter(p, left);
-                            }
-                            else
-                                WriteReturnParameter(_p, _i);
-
-                            return;
-                        }
+                        Emit(p, left_s);
                     }
+                    else
+                    {
+                        var left = left_s.SingleStackInstruction;
 
-                    //WriteBoxedComment(" br ");
+                        if (SupportsInlineAssigments)
+                        {
+                            if (left.InlineAssigmentValue != null)
+                            {
+                                //WriteBoxedComment("inline");
 
-                    WriteSpace();
-                    //Emit(p, s[0]);
+                                WriteSpace();
 
-                    WriteReturnParameter(p, left);
+
+                                ILBlock.Prestatement _p = left.InlineAssigmentValue;
+                                ILInstruction _i = _p.Instruction;
+
+                                if (_i.IsStoreInstruction)
+                                {
+                                    if (_i.StackBeforeStrict.Single().StackInstructions.Length == 1)
+                                        WriteReturnParameter(_p, _i.StackBeforeStrict.Single().SingleStackInstruction);
+                                    else
+                                        WriteReturnParameter(p, left);
+                                }
+                                else
+                                    WriteReturnParameter(_p, _i);
+
+                                return;
+                            }
+                        }
+
+                        //WriteBoxedComment(" br ");
+
+                        WriteSpace();
+                        //Emit(p, s[0]);
+
+                        WriteReturnParameter(p, left);
+                    }
                 };
 
             if (s.Length == 1)
             {
-                WriteReturnValue(s[0].SingleStackInstruction);
+                WriteReturnValue(s[0]);
 
             }
             else
@@ -852,7 +863,7 @@ namespace jsc.Script
 
                     if (s.Length == 1)
                     {
-                        WriteReturnValue(s[0].SingleStackInstruction);
+                        WriteReturnValue(s[0]);
                     }
                 }
             }

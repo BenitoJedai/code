@@ -66,6 +66,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             }
         }
 
+        public bool Equals(__Type e)
+        {
+            return e.TypeDescription == e.TypeDescription;
+        }
 
     }
 }

@@ -110,3 +110,4 @@ version history:
 	actionscript: fixed array to IEnumrable auto cast for Opcodes.newarr
 07.07.2008
 	actionscript: fixed namespace fixup, external resources
+	jsc: fixed OpCodes.ret

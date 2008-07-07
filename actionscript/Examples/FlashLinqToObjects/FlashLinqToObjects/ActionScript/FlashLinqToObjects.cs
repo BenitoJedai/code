@@ -20,6 +20,8 @@ namespace FlashLinqToObjects.ActionScript
         {
             // this is a port from js:LinqToObjects
 
+            CompilerSelfTest();
+
             var margin = 8;
 
             #region ApplyStyle
@@ -181,6 +183,59 @@ namespace FlashLinqToObjects.ActionScript
 
             Update();
 
+        }
+
+        private void CompilerSelfTest()
+        {
+            var a = typeof(bool);
+            var b = typeof(bool);
+
+            if (!a.Equals(b))
+                throw new Exception("fault 1");
+
+
+            if (IsGreaterThan(typeof(int), 6, 8))
+                throw new Exception("fault 2");
+
+            if (!IsGreaterThan(typeof(int), 10, 8))
+                throw new Exception("fault 3");
+
+            if (!IsGreaterThan(typeof(string), "z", "a"))
+                throw new Exception("fault 4");
+        }
+
+        private int Compare(Type t, object a, object b)
+        {
+            if (IsGreaterThan(t, a, b))
+                return 1;
+
+            if (IsGreaterThan(t, b, a))
+                return -1;
+
+            return 0;
+        }
+
+        private bool IsGreaterThan(Type t, object a, object b)
+        {
+            if (t == typeof(int))
+            {
+                return (int)a > (int)b;
+            }
+
+            if (t == typeof(string))
+            {
+                return ((string)a).CompareTo((string)b) > 0;
+            }
+
+            if (t == typeof(bool))
+            {
+                var _a = (bool)a;
+                var _b = (bool)b;
+
+                return _a && !_b;
+            }
+
+            throw new Exception("fault 1");
         }
     }
 

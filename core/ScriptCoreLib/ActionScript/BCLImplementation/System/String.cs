@@ -20,9 +20,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             return arg0.ToString();
         }
 
- 
 
- 
+        [Script(ExternalTarget = "localeCompare")]
+        public int CompareTo(string strB)
+        {
+            return default(int);
+        }
 
 
         [Script(StringConcatOperator = "+")]
