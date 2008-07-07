@@ -28,6 +28,7 @@ namespace FlashMinesweeper.Server
             {
                 AtDelay = (h, i) => this.ScheduleCallback(() => h(), i).Stop,
                 AtInterval = (h, i) => this.AddTimer(() => h(), i).Stop,
+                
             };
 
             // You can explicitly setup how many users are allowed in your game.

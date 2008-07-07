@@ -132,6 +132,7 @@ namespace FlashMinesweeper.ActionScript
 
             public event Action<bool> OnBang;
 
+            public event Action<bool> OneStepClosedToTheEnd;
 
             public void RevealOrExplode(bool LocalPlayer)
             {
@@ -153,6 +154,9 @@ namespace FlashMinesweeper.ActionScript
                         snd_reveal.play();
                     else
                         snd_click.play();
+
+                    if (OneStepClosedToTheEnd != null)
+                        OneStepClosedToTheEnd(LocalPlayer);
                 }
 
                 this.Enabled = false;
@@ -344,7 +348,8 @@ namespace FlashMinesweeper.ActionScript
 
         public event Action<int, bool> IsFlagChanged;
         public event Action<int> OnReveal;
-
+        public event Action<bool> OneStepClosedToTheEnd;
+        
         public MineField(int FieldXCount, int FieldYCount, double percentage)
         {
 
@@ -383,6 +388,15 @@ namespace FlashMinesweeper.ActionScript
                          if (OnReveal != null)
                              OnReveal(j);
                      };
+
+
+                    n.OneStepClosedToTheEnd +=
+                        LocalPlayer =>
+                        {
+                            if (this.OneStepClosedToTheEnd != null)
+                                this.OneStepClosedToTheEnd(LocalPlayer);
+                        };
+
 
 
                     a.Add(

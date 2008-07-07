@@ -12,6 +12,7 @@ using ScriptCoreLib.ActionScript.flash.filters;
 using FlashMinesweeper.ActionScript.Client.Assets;
 using ScriptCoreLib.ActionScript.Nonoba.api;
 using FlashMinesweeper.ActionScript.Shared;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace FlashMinesweeper.ActionScript.Client
 {
@@ -206,19 +207,19 @@ namespace FlashMinesweeper.ActionScript.Client
                     ShowMessage("Player already here - " + e.name);
                 };
 
-            var Cursors = new Dictionary<int, Shape>();
+            var Cursors = new Dictionary<int, ShapeWithMovement>();
 
 
             Events.UserMouseMove +=
                 e =>
                 {
-                    var s = default(Shape);
+                    var s = default(ShapeWithMovement);
 
                     if (Cursors.ContainsKey(e.color))
                         s = Cursors[e.color];
                     else
                     {
-                        s = new Shape
+                        s = new ShapeWithMovement
                             {
                                 filters = new[] { new DropShadowFilter() }
                             };
@@ -421,22 +422,39 @@ namespace FlashMinesweeper.ActionScript.Client
 
             ShowMessage("Ctrl-click for flag!");
 
+            Action<int> AddScore =
+                e =>
+                {
+                    if (e > 0)
+                    {
+                        if (e < 5)
+                            ShowMessage("+" + e);
+                        else
+                            ShowMessage("Yay! +" + e);
+                    }
+                    else
+                        ShowMessage("Booom! -" + e);
+
+                    Messages.AddScore(e);
+
+                };
+
             Field.OnBang +=
                 LocalPlayer =>
                 {
                     if (LocalPlayer)
-                        ShowMessage("Booom! -20");
+                        AddScore(-8);
                     else
-                        ShowMessage("Boom! -10");
+                        AddScore(-4);
                 };
 
             Field.OnComplete +=
                    LocalPlayer =>
                    {
                        if (LocalPlayer)
-                           ShowMessage("Yay! +150");
+                           AddScore(150);
                        else
-                           ShowMessage("Yay! +100");
+                           AddScore(100);
                    };
 
             Field.IsFlagChanged +=
@@ -458,6 +476,13 @@ namespace FlashMinesweeper.ActionScript.Client
                     ShowMessage("Try not to blow up, okay?");
                 };
 
+            Field.OneStepClosedToTheEnd +=
+                LocalPlayer =>
+                {
+                    if (LocalPlayer)
+                        AddScore(1);
+
+                };
             Field.AttachTo(this);
 
 
@@ -500,6 +525,44 @@ namespace FlashMinesweeper.ActionScript.Client
                 if (!value)
                     Value ^= 1 << index;
             }
+        }
+    }
+
+    [Script]
+    class ShapeWithMovement : Shape
+    {
+        Point MoveToTarget = new Point();
+ 
+        public ShapeWithMovement MoveTo(double x, double y)
+        {
+            MoveToTarget = new Point { x = x, y = y };
+
+
+            return this;
+        }
+
+        public ShapeWithMovement()
+        {
+            (1000 / 30).AtInterval(
+                t =>
+                {
+                    var c = this.ToPoint();
+
+                    var x = MoveToTarget - c;
+
+                    if (x.length < 2)
+                    {
+                    }
+                    else if (x.length < 4)
+                    {
+                        this.MoveToArc(x.GetRotation(), x.length / 2);
+                    }
+                    else
+                    {
+                        this.MoveToArc(x.GetRotation(), x.length / 4);
+                    }
+                }
+            );
         }
     }
 }

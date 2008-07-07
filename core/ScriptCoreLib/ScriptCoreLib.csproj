@@ -237,6 +237,7 @@
     <Compile Include="ActionScript\Extensions\flash\net\NetConnection.cs" />
     <Compile Include="ActionScript\Extensions\Class.cs" />
     <Compile Include="ActionScript\flash\display\Shape.cs" />
+    <Compile Include="ActionScript\flash\display\StageAlign.cs" />
     <Compile Include="ActionScript\flash\display\StageScaleMode.cs" />
     <Compile Include="ActionScript\flash\net\NetConnection.cs" />
     <Compile Include="ActionScript\Extensions\flash\net\NetStream.cs" />

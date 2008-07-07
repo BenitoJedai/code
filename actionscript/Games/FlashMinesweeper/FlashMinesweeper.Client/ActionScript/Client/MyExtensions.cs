@@ -5,12 +5,45 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace FlashMinesweeper.ActionScript.Client
 {
     [Script]
     public static class MyExtensions
     {
+        public static double GetRotation(this Point p)
+        {
+            var x = p.x;
+            var y = p.y;
+
+            if (x == 0)
+                if (y < 0)
+                    return System.Math.PI / 2;
+                else
+                    return (System.Math.PI / 2) * 3;
+
+            var a = System.Math.Atan(y / x);
+
+            if (x < 0)
+                a += System.Math.PI;
+            else if (y < 0)
+                a += System.Math.PI * 2;
+
+
+            return a;
+        }
+
+        public static T MoveToArc<T>(this T e, double arc, double distance) where T : DisplayObject
+        {
+            DisplayObject n = e;
+
+            n.x += Math.Cos(arc) * distance;
+            n.y += Math.Sin(arc) * distance;
+
+            return e;
+        }
+
         public static double Random(this int e)
         {
             return (Math.Round(new Random().NextDouble() * e));

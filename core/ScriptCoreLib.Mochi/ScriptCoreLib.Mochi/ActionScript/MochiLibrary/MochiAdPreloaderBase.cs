@@ -25,6 +25,8 @@ namespace ScriptCoreLib.ActionScript.MochiLibrary
 
         public MochiAdPreloaderBase()
         {
+            stage.align = StageAlign.TOP_LEFT;
+
             loaderInfo.ioError +=
                  delegate
                  {
