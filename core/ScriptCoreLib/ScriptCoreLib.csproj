@@ -124,6 +124,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\ICollection.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IComparer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IDictionary.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -151,6 +152,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Collections\ICollection.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\IComparer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\IEnumerable.cs">
       <SubType>Code</SubType>
     </Compile>
