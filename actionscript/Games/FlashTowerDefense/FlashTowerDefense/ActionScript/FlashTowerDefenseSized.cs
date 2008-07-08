@@ -377,15 +377,15 @@ namespace FlashTowerDefense.ActionScript
                 weapon => ShowMessage("Got ammo for " + weapon.Name);
 
 
-            
+
             Action Reorder =
                 delegate
                 {
 
-                    GetWarzone().Children().OrderBy(i => i == Aim).ThenBy(i => (double)i.y).ToArray().
+                    GetWarzone().Children().OrderBy(i => (double)i.y).
                        ForEach(
                         (k, i) =>
-                            this.setChildIndex(k, i)
+                            k.parent.setChildIndex(k, i)
                     );
                 };
 
@@ -1714,28 +1714,26 @@ namespace FlashTowerDefense.ActionScript
             {
                 //ShowMessage("Deploy!");
 
-                if (Ego.CurrentWeapon.Usage == Weapon.UsageEnum.DeployBarrel)
+                if (Ego.CurrentWeapon.Usage == Weapon.UsageEnum.DeployBrickWall)
+                {
+                    GetWarzone().addChildAt(
+                        new BrickWall().MoveTo(Ego),
+                        GetWarzone().getChildIndex(Ego) - 1);
+                }
+                else if (Ego.CurrentWeapon.Usage == Weapon.UsageEnum.DeployBarrel)
                 {
                     //  ShowMessage("Barrel deployed");
 
-                    if (Ego.CurrentWeapon.NetworkId == Weapon.BrickWall.NetworkId)
-                    {
-                        new BrickWall().MoveTo(Ego).AttachTo(GetWarzone());
 
-                    }
-                    else if (Ego.CurrentWeapon.NetworkId == Weapon.ExplosivesBarrel.NetworkId)
-                    {
-                        var Target = Ego.ToPoint();
+                    var Target = Ego.ToPoint();
 
-                        var BarrelId = int.MaxValue.Random().ToInt32();
+                    var BarrelId = int.MaxValue.Random().ToInt32();
 
-                        if (NetworkDeployExplosiveBarrel != null)
-                            NetworkDeployExplosiveBarrel(Ego.CurrentWeapon.NetworkId, BarrelId, Target.x.ToInt32(), Target.y.ToInt32());
+                    if (NetworkDeployExplosiveBarrel != null)
+                        NetworkDeployExplosiveBarrel(Ego.CurrentWeapon.NetworkId, BarrelId, Target.x.ToInt32(), Target.y.ToInt32());
 
-                        CreateExplosiveBarrel(Ego.CurrentWeapon, Target, BarrelId, NetworkMode.Local);
-                    }
-                    else
-                        ShowMessage("Unknown deploy weapon");
+                    CreateExplosiveBarrel(Ego.CurrentWeapon, Target, BarrelId, NetworkMode.Local);
+
 
                 }
                 else

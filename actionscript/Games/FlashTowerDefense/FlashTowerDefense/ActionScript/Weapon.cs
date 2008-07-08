@@ -78,7 +78,8 @@ namespace FlashTowerDefense.ActionScript
         public enum UsageEnum
         {
             FireBullets,
-            DeployBarrel
+            DeployBarrel,
+            DeployBrickWall
         }
 
         public UsageEnum Usage = UsageEnum.FireBullets;
@@ -142,7 +143,7 @@ namespace FlashTowerDefense.ActionScript
                 Type = WeaponInfo.BrickWall,
                 SelectMode = Weapon.SelectModeEnum.Outside,
                 Name = "BrickWall",
-                Usage = UsageEnum.DeployBarrel
+                Usage = UsageEnum.DeployBrickWall
             };
 
 
