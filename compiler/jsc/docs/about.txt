@@ -111,3 +111,5 @@ version history:
 07.07.2008
 	actionscript: fixed namespace fixup, external resources
 	jsc: fixed OpCodes.ret
+08.07.2008
+	actionscript: added as operator support

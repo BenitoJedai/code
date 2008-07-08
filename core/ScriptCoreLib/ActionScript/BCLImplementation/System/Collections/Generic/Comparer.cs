@@ -5,10 +5,10 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic
 {
-    [Script(Implements = typeof(global::System.Collections.Generic.IComparer<>))]
-    internal interface __IComparer<T>
+    [Script(Implements = typeof(global::System.Collections.Generic.Comparer<>))]
+    internal abstract class __Comparer<T> : __IComparer<T>
     {
-        int Compare(T x, T y);
+        public abstract int Compare(T x, T y);
 
     }
 }

@@ -766,9 +766,9 @@ namespace jsc.Languages.ActionScript
 
         }
 
-        public void WriteDecoratedTypeName(Type context, Type subject, bool IgnoreImplementationType)
+        public void WriteDecoratedTypeName(Type context, Type subject, WriteDecoratedTypeNameOrImplementationTypeNameMode Mode)
         {
-            WriteDecoratedTypeNameOrImplementationTypeName(subject, false, false, IsFullyQualifiedNamesRequired(context, subject), IgnoreImplementationType);
+            WriteDecoratedTypeNameOrImplementationTypeName(subject, false, false, IsFullyQualifiedNamesRequired(context, subject), Mode );
 
         }
 

@@ -192,7 +192,7 @@ namespace jsc.Languages.ActionScript
                 //    AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveBCLImplementation
                 //    ) ?? InterfaceMethod;
 
-           
+
 
                 var vm = z.BaseType.GetMethod(
                     tmethod.Name,
@@ -380,7 +380,7 @@ namespace jsc.Languages.ActionScript
                     }
                 };
 
-        
+
 
             WriteIdent();
             WriteCommentLine(DateTime.Now.ToString());
@@ -400,13 +400,13 @@ namespace jsc.Languages.ActionScript
                 for (int j = 0; j < mapping.InterfaceMethods.Length; j++)
                 {
                     var InterfaceMethod = mapping.InterfaceMethods[j];
-                    var InterfaceMethodDeclaringType = 
-                        mapping.InterfaceType.IsGenericType ? 
+                    var InterfaceMethodDeclaringType =
+                        mapping.InterfaceType.IsGenericType ?
                         mapping.InterfaceType.GetGenericTypeDefinition() :
                         mapping.InterfaceType
                         ;
 
-                    var InterfaceMethodImplementation = (MethodInfo)MySession.ResolveImplementation(InterfaceMethodDeclaringType, InterfaceMethod, 
+                    var InterfaceMethodImplementation = (MethodInfo)MySession.ResolveImplementation(InterfaceMethodDeclaringType, InterfaceMethod,
                         //AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveMethodOnly
                         AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveBCLImplementation
                         ) ?? InterfaceMethod;
@@ -861,7 +861,7 @@ namespace jsc.Languages.ActionScript
                 DebugBreak(mi.ToScriptAttributeOrDefault());
 
                 Write(":");
-                WriteDecoratedTypeNameOrImplementationTypeName(mi.ReturnType, true, true, IsFullyQualifiedNamesRequired(DeclaringType, mi.ReflectedType), true);
+                WriteDecoratedTypeNameOrImplementationTypeName(mi.ReturnType, true, true, IsFullyQualifiedNamesRequired(DeclaringType, mi.ReflectedType), WriteDecoratedTypeNameOrImplementationTypeNameMode.IgnoreImplementationType);
 
             }
             #endregion
@@ -1007,7 +1007,7 @@ namespace jsc.Languages.ActionScript
 
             if (TargetMethod.IsStatic || IsDefineAsStatic)
             {
-                WriteDecoratedTypeName(i.OwnerMethod.DeclaringType, TargetMethod.DeclaringType, true);
+                WriteDecoratedTypeName(i.OwnerMethod.DeclaringType, TargetMethod.DeclaringType, WriteDecoratedTypeNameOrImplementationTypeNameMode.IgnoreImplementationType);
                 Write(".");
 
                 #region prop
@@ -1124,6 +1124,19 @@ namespace jsc.Languages.ActionScript
         public override void WriteTypeConstructionVerified()
         {
             Write("{}");
+        }
+
+        public override void WriteInstanceOfOperator(ILInstruction value, Type type)
+        {
+            EmitInstruction(null, value);
+
+            // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/compilerWarnings.html
+            //  	3556	The instanceof operator is deprecated, use the is operator instead.
+            WriteSpace();
+            Write("is");
+            WriteSpace();
+
+            WriteDecoratedTypeName(type);
         }
 
         public override bool EmitTryBlock(ILBlock.Prestatement p)
@@ -1278,7 +1291,7 @@ namespace jsc.Languages.ActionScript
             return GetDecoratedTypeName(z, false);
         }
 
-        
+
 
         public override void WriteDecoratedMethodName(System.Reflection.MethodBase z, bool q)
         {
@@ -1324,7 +1337,7 @@ namespace jsc.Languages.ActionScript
         }
 
 
- 
+
         public bool IsFullyQualifiedNamesRequired(Type context, Type subject)
         {
             if (context != subject && context.Name == subject.Name)
@@ -1339,10 +1352,16 @@ namespace jsc.Languages.ActionScript
 
         public void WriteDecoratedTypeNameOrImplementationTypeName(Type timpv, bool favorPrimitives, bool favorTargetType, bool UseFullyQualifiedName)
         {
-            WriteDecoratedTypeNameOrImplementationTypeName(timpv, favorPrimitives, favorTargetType, UseFullyQualifiedName, false);
+            WriteDecoratedTypeNameOrImplementationTypeName(timpv, favorPrimitives, favorTargetType, UseFullyQualifiedName, WriteDecoratedTypeNameOrImplementationTypeNameMode.Default);
         }
 
-        public void WriteDecoratedTypeNameOrImplementationTypeName(Type timpv, bool favorPrimitives, bool favorTargetType, bool UseFullyQualifiedName, bool IgnoreImplementationType)
+        public enum WriteDecoratedTypeNameOrImplementationTypeNameMode
+        {
+            Default,
+            IgnoreImplementationType
+        }
+
+        public void WriteDecoratedTypeNameOrImplementationTypeName(Type timpv, bool favorPrimitives, bool favorTargetType, bool UseFullyQualifiedName, WriteDecoratedTypeNameOrImplementationTypeNameMode Mode)
         {
 
             if (timpv.IsGenericParameter)
@@ -1397,7 +1416,7 @@ namespace jsc.Languages.ActionScript
             {
                 var s = timpv.ToScriptAttribute();
 
-                if (!IgnoreImplementationType && s != null && s.ImplementationType != null)
+                if (!(Mode == WriteDecoratedTypeNameOrImplementationTypeNameMode.IgnoreImplementationType) && s != null && s.ImplementationType != null)
                     WriteTypeName(s.ImplementationType);
                 else
                     WriteTypeName(timpv);

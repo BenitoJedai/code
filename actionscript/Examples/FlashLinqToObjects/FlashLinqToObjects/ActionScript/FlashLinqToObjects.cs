@@ -185,8 +185,56 @@ namespace FlashLinqToObjects.ActionScript
 
         }
 
+
+        private void IsTypeTest()
+        {
+            object a = 6;
+
+            if (a is int)
+                return;
+
+            throw new Exception("fault IsTypeTest");
+            
+        }
+
+        [Script]
+        class I
+        {
+        }
+        [Script]
+        class A : I
+        {
+        }
+
+
+
+        private void CompilerSelfTest1(I e)
+        {
+            var a = e as A;
+
+            if (a == null)
+                throw new Exception("fault CompilerSelfTest1");
+        }
+
+        private void CompilerSelfTest2(I e)
+        {
+            var a = e is A;
+
+            if (a)
+                return;
+
+            throw new Exception("fault CompilerSelfTest2");
+        }
+
+
         private void CompilerSelfTest()
         {
+            CompilerSelfTest1(new A());
+            CompilerSelfTest2(new A());
+
+            
+            IsTypeTest();
+
             var a = typeof(bool);
             var b = typeof(bool);
 
@@ -217,17 +265,17 @@ namespace FlashLinqToObjects.ActionScript
 
         private bool IsGreaterThan(Type t, object a, object b)
         {
-            if (t == typeof(int))
+            if (t.Equals(typeof(int)))
             {
                 return (int)a > (int)b;
             }
 
-            if (t == typeof(string))
+            if (t.Equals(typeof(string)))
             {
                 return ((string)a).CompareTo((string)b) > 0;
             }
 
-            if (t == typeof(bool))
+            if (t.Equals(typeof(bool)))
             {
                 var _a = (bool)a;
                 var _b = (bool)b;
@@ -235,7 +283,7 @@ namespace FlashLinqToObjects.ActionScript
                 return _a && !_b;
             }
 
-            throw new Exception("fault 1");
+            throw new Exception("IsGreaterThan unknown type: " + t.FullName);
         }
     }
 

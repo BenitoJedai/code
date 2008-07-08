@@ -492,7 +492,7 @@ namespace jsc.Languages.ActionScript
                 CIW[OpCodes.Conv_I8] = f("Number");
                 CIW[OpCodes.Conv_U8] = f("Number");
 
-                
+
                 CIW[OpCodes.Conv_Ovf_I] = f("int");
             }
             #endregion
@@ -740,6 +740,33 @@ namespace jsc.Languages.ActionScript
                 };
 
 
+            CIW[OpCodes.Isinst] =
+                e =>
+                {
+                    //Write("/* is or as */");
+
+                    // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/operators.html#as
+                    // http://crawlmsdn.microsoft.com/en-us/library/cscsdfbt.aspx
+                    // expression as type
+                    // expression is type ? (type)expression : (type)null
+
+                    if (e.i.StackBeforeStrict.Length == 1)
+                    {
+                        EmitFirstOnStack(e);
+
+                        WriteSpace();
+                        Write("as");
+                        WriteSpace();
+
+                        WriteDecoratedTypeNameOrImplementationTypeName(
+                            e.i.TargetType, false, false,
+                            IsFullyQualifiedNamesRequired(e.Method.DeclaringType, e.i.TargetType)
+                        );
+                    }
+                    else
+                        throw new NotSupportedException();
+                };
+
             CIW[OpCodes.Unbox_Any,
                 OpCodes.Nop,
                 OpCodes.Dup] = e => EmitFirstOnStack(e);
@@ -801,7 +828,14 @@ namespace jsc.Languages.ActionScript
                     WriteDecoratedMethodName(_RuntimeTypeHandle_From_Class, false);
                     Write("(");
 
-                    WriteDecoratedTypeNameOrImplementationTypeName(_TargetType, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _TargetType));
+                    if (_TargetType.IsGenericParameter)
+                    {
+                        throw new NotSupportedException("typeof(T) not supported yet.");
+                    }
+
+                    WriteDecoratedTypeNameOrImplementationTypeName(
+                        _TargetType, false, false,
+                        IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _TargetType));
 
                     Write(")");
                     #endregion

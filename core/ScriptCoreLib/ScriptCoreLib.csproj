@@ -118,6 +118,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Array.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\Comparer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\Dictionary.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -284,6 +285,7 @@
     <Compile Include="ActionScript\flash\ui\ContextMenuBuiltInItems.cs" />
     <Compile Include="ActionScript\flash\ui\Mouse.cs" />
     <Compile Include="ActionScript\flash\utils\ByteArray.cs" />
+    <Compile Include="ActionScript\int.cs" />
     <Compile Include="ActionScript\mx\core\ByteArrayAsset.cs" />
     <Compile Include="ActionScript\mx\core\FontAsset.cs" />
     <Compile Include="ActionScript\mx\graphics\GradientBase.cs" />
