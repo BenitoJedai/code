@@ -13,6 +13,11 @@ namespace jsc //.Extensions
 {
     static class Extensions
     {
+        public static MethodBase GetMethod(this Type t, MethodBase m)
+        {
+            return t.GetMethod(m.Name, m.GetParameters().Select(p => p.ParameterType).ToArray());
+        }
+
         public static bool IsNativeTypeExtension(this Type z)
         {
             var za = z.ToScriptAttribute();

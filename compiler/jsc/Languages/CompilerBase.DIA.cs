@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 using System.IO;
+using System.Linq;
 using System.Diagnostics;
 using System.Runtime;
 using System.Reflection.Emit;
@@ -111,12 +112,12 @@ namespace jsc.Script
                     parent.findChildren(tag, null, 0, out ss);
 
 
-                        IDiaSymbol symbol = null;
+                    IDiaSymbol symbol = null;
 
-                        while (NextSymbol(ss, out symbol))
-                        {
-                            a.Add(symbol);
-                        }
+                    while (NextSymbol(ss, out symbol))
+                    {
+                        a.Add(symbol);
+                    }
 
                     return a.ToArray();
                 }
@@ -132,9 +133,9 @@ namespace jsc.Script
 #if WITH_DIA
                     try
                     {
-                        
 
-                        if (DiaSession != null )
+
+                        if (DiaSession != null)
                         {
                             IDiaSymbol methodsymbol = null;
 
@@ -277,12 +278,35 @@ namespace jsc.Script
         /// <param name="type"></param>
         /// <param name="method"></param>
         /// <param name="localVariableInfo"></param>
-        public void WriteVariableName(Type type, MethodBase method, LocalVariableInfo var)
+        public void WriteVariableName(Type type, MethodBase method, LocalVariableInfo TargetVariable)
         {
-            WriteSafeLiteral(DIACache.GetVariableName(type, method, var, this) ?? "_");
+            FResolve Resolve = (t, m, v) => DIACache.GetVariableName(t, m, v, this) ?? "_";
+            FResolve ResolveCached =
+                (t, m, v) =>
+                {
+                    var x = WriteVariableNameCache;
+
+                    if (!x.ContainsKey(m.MetadataToken))
+                    {
+                        var a = m.GetMethodBody().LocalVariables.Select(vx => Resolve(t, m, vx)).ToArray(); ;
+
+                        x[m.MetadataToken] = a.Select((b, i) => b + (a.Count(k => k == b) > 1 ? "" + i : "")).ToArray();
+                    }
 
 
+                    return x[m.MetadataToken][v.LocalIndex];
+                };
+
+            WriteSafeLiteral(ResolveCached(type, method, TargetVariable));
         }
+
+        public delegate string FResolve(Type t, MethodBase m, LocalVariableInfo v);
+
+        // if we change assemblies will the caching give us the wrong results?
+        Dictionary<int, string[]> WriteVariableNameCache = new Dictionary<int, string[]>();
+
+
+
 
 
 

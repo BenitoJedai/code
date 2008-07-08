@@ -17,7 +17,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <StartWorkingDirectory>C:\util\jsc\bin</StartWorkingDirectory>
-    <StartArguments>ScriptCoreLib.Query.dll -as</StartArguments>
+    <StartArguments>ScriptCoreLib.dll -as</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

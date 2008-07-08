@@ -20,7 +20,6 @@ namespace FlashLinqToObjects.ActionScript
         {
             // this is a port from js:LinqToObjects
 
-            CompilerSelfTest();
 
             var margin = 8;
 
@@ -55,21 +54,21 @@ namespace FlashLinqToObjects.ActionScript
                 "Agent Smith",
                 "_psycho"
             };
-         
-            
+
+
             var users = new TextField
             {
                 text = DefaultUsers.Aggregate(
-                    new { i = 0, text = "" }, 
-                    (seed, value) => 
+                    new { i = 0, text = "" },
+                    (seed, value) =>
                     {
                         if (seed.i == 0)
                             return new { i = 1, text = value };
-                        
+
                         return new { i = seed.i + 1, text = seed.text + ", " + value };
                     }
                 ).text,
-                    
+
 
                 wordWrap = true,
                 multiline = true,
@@ -120,23 +119,25 @@ namespace FlashLinqToObjects.ActionScript
                                     where i.ToLower().Contains(user_filter)
                                     let name = i.Trim()
                                     let isspecial = i.ToLower().Contains(user_filter2)
+                                    orderby isspecial
                                     select new { isspecial, length = name.Length, name };
 
 
 
-                        foreach (var v in from i in query
-                                          where i.isspecial
-                                          select i)
+                        //foreach (var v in from i in query
+                        //                  where i.isspecial
+                        //                  select i)
+                        //{
+                        //    result.text += "result: *** " + v.name + "\n";
+                        //}
+
+
+                        foreach (var v in query)
                         {
+                            if (v.isspecial)
                                 result.text += "result: *** " + v.name + "\n";
-                        }
-
-
-                        foreach (var v in from i in query
-                                          where !i.isspecial
-                                          select i)
-                        {
-                            result.text += "result: " + v.name + "\n";
+                            else
+                                result.text += "result: " + v.name + "\n";
                         }
 
                     }
@@ -186,105 +187,6 @@ namespace FlashLinqToObjects.ActionScript
         }
 
 
-        private void IsTypeTest()
-        {
-            object a = 6;
-
-            if (a is int)
-                return;
-
-            throw new Exception("fault IsTypeTest");
-            
-        }
-
-        [Script]
-        class I
-        {
-        }
-        [Script]
-        class A : I
-        {
-        }
-
-
-
-        private void CompilerSelfTest1(I e)
-        {
-            var a = e as A;
-
-            if (a == null)
-                throw new Exception("fault CompilerSelfTest1");
-        }
-
-        private void CompilerSelfTest2(I e)
-        {
-            var a = e is A;
-
-            if (a)
-                return;
-
-            throw new Exception("fault CompilerSelfTest2");
-        }
-
-
-        private void CompilerSelfTest()
-        {
-            CompilerSelfTest1(new A());
-            CompilerSelfTest2(new A());
-
-            
-            IsTypeTest();
-
-            var a = typeof(bool);
-            var b = typeof(bool);
-
-            if (!a.Equals(b))
-                throw new Exception("fault 1");
-
-
-            if (IsGreaterThan(typeof(int), 6, 8))
-                throw new Exception("fault 2");
-
-            if (!IsGreaterThan(typeof(int), 10, 8))
-                throw new Exception("fault 3");
-
-            if (!IsGreaterThan(typeof(string), "z", "a"))
-                throw new Exception("fault 4");
-        }
-
-        private int Compare(Type t, object a, object b)
-        {
-            if (IsGreaterThan(t, a, b))
-                return 1;
-
-            if (IsGreaterThan(t, b, a))
-                return -1;
-
-            return 0;
-        }
-
-        private bool IsGreaterThan(Type t, object a, object b)
-        {
-            if (t.Equals(typeof(int)))
-            {
-                return (int)a > (int)b;
-            }
-
-            if (t.Equals(typeof(string)))
-            {
-                return ((string)a).CompareTo((string)b) > 0;
-            }
-
-            if (t.Equals(typeof(bool)))
-            {
-                var _a = (bool)a;
-                var _b = (bool)b;
-
-                return _a && !_b;
-            }
-
-            throw new Exception("IsGreaterThan unknown type: " + t.FullName);
-        }
     }
 
 }

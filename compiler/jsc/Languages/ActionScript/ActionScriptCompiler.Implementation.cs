@@ -173,6 +173,8 @@ namespace jsc.Languages.ActionScript
                 if (tmethod.IsToString())
                     continue;
 
+
+
                 var sa = tmethod.DeclaringType.ToScriptAttribute();
 
                 if (sa == null)
@@ -180,6 +182,8 @@ namespace jsc.Languages.ActionScript
 
                 if (tmethod.ToScriptAttributeOrDefault().DefineAsStatic)
                     continue;
+
+                DebugBreak(tmethod.ToScriptAttributeOrDefault());
 
                 var iparams = tmethod.GetParameters();
                 var iparamstypes = tmethod.GetParameters().Select(p => p.ParameterType).ToArray();
@@ -204,6 +208,7 @@ namespace jsc.Languages.ActionScript
                     iparamstypes,
                     null
                 );
+
 
                 var InterfaceMethodImplementationSignature = (MethodInfo)MySession.ResolveImplementation(InterfaceMethodDeclaringType, vm,
                     AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveMethodOnly
@@ -326,10 +331,15 @@ namespace jsc.Languages.ActionScript
             Action<MethodInfo, MethodInfo, MethodInfo> WriteInterfaceMapping =
                 (_InterfaceMethod, _ParamSignature, _TargetMethod) =>
                 {
-                    if (_InterfaceMethod.Name == "set_Target")
-                        DebugBreak();
+                    DebugBreak(_TargetMethod.ToScriptAttributeOrDefault());
 
-                    WriteMethodSignature(_InterfaceMethod, false, WriteMethodSignatureMode.Implementing, null, null, _ParamSignature);
+                    var BaseMethod = z.BaseType.GetMethod(_InterfaceMethod);
+
+                    WriteMethodSignature(_InterfaceMethod, false,
+                        (BaseMethod != null && BaseMethod.IsAbstract) ?
+                        WriteMethodSignatureMode.OverridingImplementing :
+                        WriteMethodSignatureMode.Implementing
+                        , null, null, _ParamSignature);
 
                     using (CreateScope())
                     {
@@ -420,6 +430,8 @@ namespace jsc.Languages.ActionScript
                         ) ?? InterfaceMethod;
 
                     var TargetMethod = mapping.TargetMethods[j];
+
+
 
                     if (TargetMethod.DeclaringType == z)
                     {
@@ -753,7 +765,8 @@ namespace jsc.Languages.ActionScript
         {
             Delcaring,
             Implementing,
-            Overriding
+            Overriding,
+            OverridingImplementing,
         }
 
         protected void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic, WriteMethodSignatureMode mode)
@@ -797,6 +810,11 @@ namespace jsc.Languages.ActionScript
 
             if (mode == WriteMethodSignatureMode.Overriding)
             {
+                Write("override ");
+            }
+            else if (mode == WriteMethodSignatureMode.OverridingImplementing)
+            {
+                Write("public ");
                 Write("override ");
             }
 

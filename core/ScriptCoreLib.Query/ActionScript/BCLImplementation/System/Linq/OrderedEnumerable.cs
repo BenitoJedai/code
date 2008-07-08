@@ -39,7 +39,6 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
             this.source = source;
         }
 
-        [Script(IsDebugCode = true)]
         internal override __OrderedEnumerable<TSource> Clone()
         {
             return new __OrderedEnumerable<TSource, TKey>

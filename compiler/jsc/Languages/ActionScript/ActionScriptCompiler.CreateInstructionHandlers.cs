@@ -677,6 +677,11 @@ namespace jsc.Languages.ActionScript
 
             CIW[OpCodes.Castclass] = e => ConvertTypeAndEmit(e, e.i.TargetType);
 
+            // When applied to the boxed form of a value type, the unbox.any instruction extracts the value contained within obj (of type O), and is therefore equivalent to unbox followed by ldobj.
+            // When applied to a reference type, the unbox.any instruction has the same effect as castclass  typeTok.
+            // Is the same for actionscript...
+            CIW[OpCodes.Unbox_Any] = e => ConvertTypeAndEmit(e, e.i.TargetType);
+
 
             #region Stsfld
             CIW[OpCodes.Stsfld] =
@@ -767,7 +772,7 @@ namespace jsc.Languages.ActionScript
                         throw new NotSupportedException();
                 };
 
-            CIW[OpCodes.Unbox_Any,
+            CIW[
                 OpCodes.Nop,
                 OpCodes.Dup] = e => EmitFirstOnStack(e);
 

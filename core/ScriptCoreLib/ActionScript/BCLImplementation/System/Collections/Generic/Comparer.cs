@@ -9,12 +9,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
     [Script(Implements = typeof(global::System.Collections.Generic.Comparer<>))]
     internal abstract class __Comparer<T> : __IComparer<T>, __IComparer
     {
+
         public abstract int Compare(T x, T y);
 
         int __IComparer.Compare(object x, object y)
         {
             // fallback to nongenerics
-            return __Comparer.Default.Compare(x, y);            
+            return __Comparer.Default.Compare(x, y);
         }
 
         static __Comparer<T> defaultComparer;
@@ -25,18 +26,19 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
                 __Comparer<T> e = defaultComparer;
                 if (e == null)
                 {
-                    e = new __GenericComparer<T>();
+                    e = new __GenericComparer();
                     defaultComparer = e;
                 }
                 return e;
             }
         }
 
-       
+
 
         [Script]
-        class __GenericComparer<T> : __Comparer<T>
+        class __GenericComparer : __Comparer<T>
         {
+            [Script(IsDebugCode = true)]
             public override int Compare(T x, T y)
             {
                 // fallback to nongenerics
