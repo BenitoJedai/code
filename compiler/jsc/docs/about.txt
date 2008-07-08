@@ -113,3 +113,4 @@ version history:
 	jsc: fixed OpCodes.ret
 08.07.2008
 	actionscript: added as operator support
+	actionsctipy: fixed opCodes.castclass to support Array To IEnumerable<T> conversion
