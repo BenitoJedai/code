@@ -6,6 +6,7 @@ using System;
 using ScriptCoreLib.ActionScript.flash.filters;
 using System.Linq;
 using System.Collections.Generic;
+using ScriptCoreLib.ActionScript;
 
 
 namespace FlashLinqToObjects.ActionScript
@@ -14,6 +15,7 @@ namespace FlashLinqToObjects.ActionScript
     /// testing...
     /// </summary>
     [Script, ScriptApplicationEntryPoint]
+    [SWF(backgroundColor = 0xffffff)]
     public class FlashLinqToObjects : Sprite
     {
         public FlashLinqToObjects()
@@ -95,11 +97,13 @@ namespace FlashLinqToObjects.ActionScript
 
             var result = new TextField
             {
-                text = "",
                 x = margin,
                 y = margin + users.height + margin + filter.height + margin + filter2.height + margin,
                 height = 100,
-                autoSize = TextFieldAutoSize.LEFT
+                autoSize = TextFieldAutoSize.LEFT,
+                multiline = true,
+                htmlText = "",
+                condenseWhite = true,
             };
 
 
@@ -111,33 +115,28 @@ namespace FlashLinqToObjects.ActionScript
                         var user_filter = filter.text.Trim().ToLower();
                         var user_filter2 = filter2.text.Trim().ToLower();
 
-                        var __users = users.text.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                        //var __users = users.text.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                        var __users = users.text.Split(',');
 
-                        result.text = "";
+                        result.htmlText = "";
 
                         var query = from i in __users
                                     where i.ToLower().Contains(user_filter)
                                     let name = i.Trim()
                                     let isspecial = i.ToLower().Contains(user_filter2)
-                                    orderby isspecial
+                                    orderby isspecial ascending, name.Length descending, name
                                     select new { isspecial, length = name.Length, name };
 
 
 
-                        //foreach (var v in from i in query
-                        //                  where i.isspecial
-                        //                  select i)
-                        //{
-                        //    result.text += "result: *** " + v.name + "\n";
-                        //}
 
 
                         foreach (var v in query)
                         {
                             if (v.isspecial)
-                                result.text += "result: *** " + v.name + "\n";
+                                result.htmlText += "<font color='#0000ff'>result: " + v.ToString() + "</font><br />";
                             else
-                                result.text += "result: " + v.name + "\n";
+                                result.htmlText += "result: " + v.ToString() + "<br />";
                         }
 
                     }

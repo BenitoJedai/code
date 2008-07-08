@@ -58,7 +58,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             return TypeDescription.ToString();
         }
 
-        public string FullName
+        internal string InternalFullName
         {
             get
             {
@@ -66,10 +66,20 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             }
         }
 
+        public string FullName
+        {
+            get
+            {
+                // fixme: should return .net styled names
+                return InternalFullName;
+            }
+        }
+
         public bool Equals(__Type e)
         {
-            //return this.TypeDescription.attribute("name").ToString() == e.TypeDescription.attribute("name").ToString();
-            return e.TypeDescription == this.TypeDescription;
+            return this.InternalFullName == e.InternalFullName;
+
+            //return e.TypeDescription == this.TypeDescription;
         }
 
     }

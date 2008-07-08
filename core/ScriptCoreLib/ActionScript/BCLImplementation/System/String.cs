@@ -7,10 +7,44 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
     [Script(
         Implements = typeof(global::System.String),
-        ImplementationType = typeof(global::ScriptCoreLib.ActionScript.String)
+        ImplementationType = typeof(global::ScriptCoreLib.ActionScript.String),
+        InternalConstructor = true
         )]
     internal class __String
     {
+        public __String(char[] c)
+        {
+        }
+
+        public static string InternalConstructor(char[] c)
+        {
+            var w = new StringBuilder();
+
+            for (int i = 0; i < c.Length; i++)
+            {
+                w.Append(FromCharCode(c[i]));
+            }
+
+            return w.ToString();
+        }
+
+        public __String(char c, int count)
+        {
+        }
+
+        public static string InternalConstructor(char c, int count)
+        {
+            var w = new StringBuilder();
+            var s = FromCharCode(c);
+
+            for (int i = 0; i < count; i++)
+            {
+                w.Append(s);
+            }
+
+            return w.ToString();
+        }
+
         public static string Concat(object arg0)
         {
             if (arg0 == null)
@@ -178,6 +212,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
                 return true;
 
             return false;
+        }
+
+        [Script(DefineAsStatic = true)]
+        public string[] Split(params char[] c)
+        {
+            var z = new string(c);
+
+            return Split(new[] { z }, StringSplitOptions.None);
         }
 
         [Script(DefineAsStatic = true)]
