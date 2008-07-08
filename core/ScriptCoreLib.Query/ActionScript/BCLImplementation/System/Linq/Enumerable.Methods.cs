@@ -9,10 +9,10 @@ using IDisposable = global::System.IDisposable;
 using System;
 using System.Linq;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
+namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
 {
 
-    using Error = DefinedError;
+    using Error = __DefinedError;
 
 
     internal static partial class __Enumerable
@@ -116,7 +116,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
         {
             if (source == null)
             {
-                throw DefinedError.ArgumentNull("source");
+                throw __DefinedError.ArgumentNull("source");
             }
 
 
@@ -136,12 +136,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
         {
             if (source == null)
             {
-                throw DefinedError.ArgumentNull("source");
+                throw __DefinedError.ArgumentNull("source");
             }
 
             if (predicate == null)
             {
-                throw DefinedError.ArgumentNull("predicate");
+                throw __DefinedError.ArgumentNull("predicate");
             }
 
             var r = false;
@@ -163,12 +163,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
         {
             if (source == null)
             {
-                throw DefinedError.ArgumentNull("source");
+                throw __DefinedError.ArgumentNull("source");
             }
 
             if (predicate == null)
             {
-                throw DefinedError.ArgumentNull("predicate");
+                throw __DefinedError.ArgumentNull("predicate");
             }
 
             var r = true;
@@ -189,7 +189,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
 
         public static IEnumerable<TSource> AsEnumerable<TSource>(this IEnumerable<TSource> source)
         {
-            return InternalSequenceImplementation.AsEnumerable(source);
+            //return InternalSequenceImplementation.AsEnumerable(source);
+            
+            // wrap native types/collections
+
+            return source;
         }
 
 
@@ -216,7 +220,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
         {
             if (source == null)
             {
-                throw DefinedError.ArgumentNull("source");
+                throw __DefinedError.ArgumentNull("source");
             }
             return new List<TSource>(source);
         }
@@ -281,7 +285,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
         {
             if (source == null)
             {
-                throw DefinedError.ArgumentNull("source");
+                throw __DefinedError.ArgumentNull("source");
             }
 
 
@@ -301,11 +305,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
         {
             if (source == null)
             {
-                throw DefinedError.ArgumentNull("source");
+                throw __DefinedError.ArgumentNull("source");
             }
             if (predicate == null)
             {
-                throw DefinedError.ArgumentNull("predicate");
+                throw __DefinedError.ArgumentNull("predicate");
             }
 
             var value = default(TSource);

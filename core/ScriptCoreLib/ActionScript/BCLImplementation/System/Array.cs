@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.ActionScript.Extensions;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
@@ -22,6 +23,18 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             {
                 InternalCopyElement(sourceArray, destinationArray, i);
             }
+        }
+
+        public static void Sort<T>(T[] array, IComparer<T> comparer)
+        {
+            Sort(array, comparer.Compare);
+        }
+
+        public static void Sort<T>(T[] array, Comparison<T> comparison)
+        {
+            var a = array as global::ScriptCoreLib.ActionScript.Array;
+
+            a.sort(comparison.ToFunction());
         }
     }
 }

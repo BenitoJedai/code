@@ -7,7 +7,7 @@ using global::System.Collections.Generic;
 using IDisposable = global::System.IDisposable;
 using System;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
+namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
 {
 
     internal  static partial class __Enumerable
@@ -16,11 +16,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
         {
             if (first == null)
             {
-                throw DefinedError.ArgumentNull("first");
+                throw __DefinedError.ArgumentNull("first");
             }
             if (second == null)
             {
-                throw DefinedError.ArgumentNull("second");
+                throw __DefinedError.ArgumentNull("second");
             }
             return ConcatIterator<TSource>(first, second);
         }

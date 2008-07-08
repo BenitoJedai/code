@@ -841,6 +841,12 @@ namespace jsc.Languages.ActionScript
 
             WriteLine();
         }
+
+        public override void WriteAbstractMethodBody(MethodBase m)
+        {
+            WriteIdent();
+            WriteLine("{ throw new Error(\"Abstract method not implemented\"); }");
+        }
     }
 
 

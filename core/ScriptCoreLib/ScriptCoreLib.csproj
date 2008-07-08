@@ -118,6 +118,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Array.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Comparer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\Comparer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\Dictionary.cs">
       <SubType>Code</SubType>
@@ -163,11 +164,17 @@
     <Compile Include="ActionScript\BCLImplementation\System\Collections\IList.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Comparison.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Console.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Convert.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ActionScript\BCLImplementation\System\Converter.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\ArgumentException.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Boolean.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Double.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\UInt32.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\IComparable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\NullReferenceException.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\DateTime.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Environment.cs" />
@@ -228,7 +235,10 @@
     <Compile Include="ActionScript\BCLImplementation\System\WeakReference.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ActionScript\Boolean.cs" />
     <Compile Include="ActionScript\Class.cs" />
+    <Compile Include="ActionScript\Number.cs" />
+    <Compile Include="ActionScript\uint.cs" />
     <Compile Include="ActionScript\Date.cs" />
     <Compile Include="ActionScript\Extensions\DynamicContainer.cs" />
     <Compile Include="ActionScript\Extensions\flash\display\LoaderInfo.cs" />

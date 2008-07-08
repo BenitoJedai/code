@@ -8,11 +8,11 @@ using IDisposable = global::System.IDisposable;
 
 using System;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
+namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
 {
 
     [Script]
-    internal static class DefinedError
+    internal static class __DefinedError
     {
         internal static Exception ArgumentOutOfRange(string paramName)
         {

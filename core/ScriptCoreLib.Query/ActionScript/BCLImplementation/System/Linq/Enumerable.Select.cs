@@ -7,7 +7,7 @@ using global::System.Collections.Generic;
 using IDisposable = global::System.IDisposable;
 using System;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
+namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
 {
 
     internal static partial class __Enumerable

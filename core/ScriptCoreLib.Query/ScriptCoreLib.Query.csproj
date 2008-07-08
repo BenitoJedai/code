@@ -51,14 +51,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionScript\BCLImplementation\Query\Enumerable.Concat.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Concat.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.OrderBy.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Linq\OrderedEnumerable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Func.cs" />
-    <Compile Include="ActionScript\BCLImplementation\Query\Enumerable.Methods.cs" />
-    <Compile Include="ActionScript\BCLImplementation\Query\Enumerable.cs" />
-    <Compile Include="ActionScript\BCLImplementation\Query\Enumerable.Select.cs" />
-    <Compile Include="ActionScript\BCLImplementation\Query\Enumerable.SelectMany.cs" />
-    <Compile Include="ActionScript\BCLImplementation\Query\Enumerable.Where.cs" />
-    <Compile Include="ActionScript\BCLImplementation\Query\DefinedError.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Methods.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Select.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.SelectMany.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Where.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Linq\DefinedError.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Linq\IOrderedEnumerable.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Func.cs" />
     <Compile Include="Shared\Query\Enumerable.Methods.cs" />
     <Compile Include="Shared\Query\Enumerable.OrderBy.cs" />
@@ -70,8 +73,8 @@
     <Compile Include="Shared\Query\Enumerable.Sum.cs" />
     <Compile Include="Shared\Query\IAssemblyReferenceToken.cs" />
     <Compile Include="Shared\Query\Enumerable.ToDictionary.cs" />
-    <Compile Include="ActionScript\BCLImplementation\Query\Enumerable.Range.MoveNext.cs" />
-    <Compile Include="ActionScript\BCLImplementation\Query\Enumerable.Range.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Range.MoveNext.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Range.cs" />
     <Compile Include="Shared\Query\Enumerable.NotImplementedHere.cs" />
     <Compile Include="Shared\Lambda\IdentityFunction.cs" />
     <Compile Include="Shared\Query\Enumerable.SelectMany.cs" />

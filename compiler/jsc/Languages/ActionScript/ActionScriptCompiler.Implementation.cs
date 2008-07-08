@@ -38,7 +38,10 @@ namespace jsc.Languages.ActionScript
             get { return true; }
         }
 
-
+        public override bool SupportsAbstractMethods
+        {
+            get { return false; }
+        }
         public override bool SupportsCustomArrayEnumerator
         {
             get { return true; }

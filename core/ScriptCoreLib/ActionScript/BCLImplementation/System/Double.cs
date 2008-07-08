@@ -6,21 +6,21 @@ using System.Text;
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
     [Script(
-        Implements = typeof(global::System.Int32),
-        ImplementationType = typeof(global::ScriptCoreLib.ActionScript.@int))]
-    internal class __Int32
+        Implements = typeof(global::System.Double),
+        ImplementationType = typeof(global::ScriptCoreLib.ActionScript.Number))]
+    internal class __Double
     {
         // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/package.html#parseInt()
-        [Script(OptimizedCode = "return parseInt(e);")]
-        static public int Parse(string e)
+        [Script(OptimizedCode = "return parseFloat(e);")]
+        static public double Parse(string e)
         {
-            return default(int);
+            return default(double);
         }
 
         [Script(DefineAsStatic = true)]
-        public int CompareTo(int value)
+        public int CompareTo(double value)
         {
-            var v = (int)(object)this;
+            var v = (double)(object)this;
 
             if (v < value)
             {
@@ -43,13 +43,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             {
                 return 1;
             }
-            if (!(value is int))
+            if (!(value is double))
             {
-                throw new ArgumentException("MustBeInt32");
+                throw new ArgumentException("MustBeDouble");
             }
 
 
-            return CompareTo((int)value);
+            return CompareTo((double)value);
         }
 
 

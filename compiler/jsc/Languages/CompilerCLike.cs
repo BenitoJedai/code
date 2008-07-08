@@ -147,6 +147,14 @@ namespace jsc.Script
         {
         }
 
+        public virtual bool SupportsAbstractMethods
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         public virtual bool AlwaysDefineAsStatic
         {
             get
@@ -1064,11 +1072,32 @@ namespace jsc.Script
                 if (ScriptIsPInvoke(m))
                 {
                 }
-                else if (!m.IsAbstract)
-                    WriteMethodBody(m);
+                else
+                {
+                    if (!m.IsAbstract)
+                    {
+                        WriteMethodBody(m);
+                    }
+                    else if (!z.IsInterface && !SupportsAbstractMethods)
+                    {
+                        WriteAbstractMethodBody(m);
+                    }
+
+                    //else if (!SupportsAbstractMethods && z.IsClass && z.IsAbstract)
+                    //{
+                    //    WriteScopeBegin();
+                    //    WriteScopeEnd(false);
+
+                    //}
+                }
 
 
             }
+        }
+
+        public virtual void WriteAbstractMethodBody(MethodBase m)
+        {
+            throw new NotSupportedException();
         }
 
         public override void EmitPrestatement(ILBlock.Prestatement p)

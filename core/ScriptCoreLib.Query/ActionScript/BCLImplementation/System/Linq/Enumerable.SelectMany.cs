@@ -8,7 +8,7 @@ using IDisposable = global::System.IDisposable;
 
 using System;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
+namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
 {
 
     internal static partial class __Enumerable
@@ -18,15 +18,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
         {
             if (source == null)
             {
-                throw DefinedError.ArgumentNull("source");
+                throw __DefinedError.ArgumentNull("source");
             }
             if (collectionSelector == null)
             {
-                throw DefinedError.ArgumentNull("collectionSelector");
+                throw __DefinedError.ArgumentNull("collectionSelector");
             }
             if (resultSelector == null)
             {
-                throw DefinedError.ArgumentNull("resultSelector");
+                throw __DefinedError.ArgumentNull("resultSelector");
             }
 
             return SelectManyIterator<TSource, TCollection, TResult>(source, collectionSelector, resultSelector);
@@ -213,11 +213,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.Query
         {
             if (source == null)
             {
-                throw DefinedError.ArgumentNull("source");
+                throw __DefinedError.ArgumentNull("source");
             }
             if (selector == null)
             {
-                throw DefinedError.ArgumentNull("selector");
+                throw __DefinedError.ArgumentNull("selector");
             }
             return SelectManyIterator<TSource, TResult>(source, selector);
         }
