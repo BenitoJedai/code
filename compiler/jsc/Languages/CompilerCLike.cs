@@ -134,7 +134,7 @@ namespace jsc.Script
 
                 if (mza != null && mza.ImplementationType != null)
                 {
-                    WriteDecoratedTypeName(e.Method.DeclaringType,  mza.ImplementationType);
+                    WriteDecoratedTypeName(e.Method.DeclaringType, mza.ImplementationType);
                 }
                 else
                     WriteDecoratedTypeName(e.Method.DeclaringType, m.DeclaringType);
@@ -192,7 +192,7 @@ namespace jsc.Script
 
             var a = m.ToScriptAttribute();
 
-            
+
 
             bool pWritten = false;
 
@@ -223,7 +223,7 @@ namespace jsc.Script
 
         public override void WriteParameters(ILBlock.Prestatement p, MethodBase _method, ILFlow.StackItem[] s, int offset, ParameterInfo[] pi, bool pWritten, string op)
         {
-
+            DebugBreak(p.Instruction.OwnerMethod.ToScriptAttributeOrDefault());
 
             if (s != null)
             {
@@ -296,50 +296,12 @@ namespace jsc.Script
                             #region SupportsCustomArrayEnumerator
                             if (SupportsCustomArrayEnumerator)
                             {
-                                var ParameterGeneric = parameter.ParameterType.IsGenericType ? parameter.ParameterType.GetGenericTypeDefinition() : null;
-                                var SupportsIEnumerable = ParameterGeneric != null && (ParameterGeneric == typeof(IEnumerable<>) || ParameterGeneric.IsSubclassOf(typeof(IEnumerable<>)));
+                                var CurrentStack = s[si];
 
-                                if (!parameter.ParameterType.IsArray && SupportsIEnumerable)
-                                {
+                                var DidCastToEnumerator = AutoCastToEnumerator(p, parameter.ParameterType, CurrentStack);
 
-                                    #region Cast To IEnumerable
-
-                                    var SingleStackInstruction = s[si].SingleStackInstruction;
-                                    if (SingleStackInstruction != null)
-                                    {
-                                        var ElementType = SingleStackInstruction.GetNewArrayElementType();
-
-
-                                        if (ElementType == null)
-                                        {
-                                            var ReferencedType = SingleStackInstruction.ReferencedType;
-                                            if ((ReferencedType != null && ReferencedType.IsArray))
-                                            {
-                                                ElementType = ReferencedType.GetElementType();
-                                            }
-                                        }
-                                        else
-                                        {
-                                            // this is a new array
-                                        }
-
-                                        if (ElementType != null)
-                                        {
-                                            var Enumerable = typeof(IEnumerable<>).MakeGenericType(ElementType);
-
-                                            if (Enumerable.GUID == parameter.ParameterType.GUID)
-                                            {
-                                                WriteArrayToCustomArrayEnumeratorCast(Enumerable, ElementType, p, s[si]);
-                                                continue;
-                                            }
-                                        }
-
-
-                                    }
-                                    #endregion
-
-                                }
-
+                                if (DidCastToEnumerator)
+                                    continue;
                             }
                             #endregion
 
@@ -358,6 +320,56 @@ namespace jsc.Script
                     }
                 }
             }
+        }
+
+        public bool AutoCastToEnumerator(ILBlock.Prestatement p, Type ParameterType, ILFlow.StackItem CurrentStack)
+        {
+            var SingleStackInstruction = CurrentStack.SingleStackInstruction;
+            var ParameterGeneric = ParameterType.IsGenericType ? ParameterType.GetGenericTypeDefinition() : null;
+            var SupportsIEnumerable = ParameterGeneric != null && (ParameterGeneric == typeof(IEnumerable<>) || ParameterGeneric.IsSubclassOf(typeof(IEnumerable<>)));
+            var DidCastToEnumerator = false;
+
+            if (!ParameterType.IsArray && SupportsIEnumerable)
+            {
+
+                #region Cast To IEnumerable
+
+
+                if (SingleStackInstruction != null)
+                {
+                    var ElementType = SingleStackInstruction.GetNewArrayElementType();
+
+
+                    if (ElementType == null)
+                    {
+                        var ReferencedType = SingleStackInstruction.ReferencedType;
+                        if ((ReferencedType != null && ReferencedType.IsArray))
+                        {
+                            ElementType = ReferencedType.GetElementType();
+                        }
+                    }
+                    else
+                    {
+                        // this is a new array
+                    }
+
+                    if (ElementType != null)
+                    {
+                        var Enumerable = typeof(IEnumerable<>).MakeGenericType(ElementType);
+
+                        if (Enumerable.GUID == ParameterType.GUID)
+                        {
+                            WriteArrayToCustomArrayEnumeratorCast(Enumerable, ElementType, p, CurrentStack);
+                            DidCastToEnumerator = true;
+                        }
+                    }
+
+
+                }
+                #endregion
+
+            }
+            return DidCastToEnumerator;
         }
 
         protected virtual void WriteTypeCast(Type type)
@@ -804,7 +816,7 @@ namespace jsc.Script
 
                 return;
             }
-            
+
             if (((MethodInfo)i.OwnerMethod).ReturnType == typeof(void))
                 return;
 
@@ -1065,7 +1077,7 @@ namespace jsc.Script
                     WriteIdent();
                     WriteCommentLine("[Script(IsDebugCode = true)]");
                 }
-                 
+
                 WriteXmlDoc(m);
                 WriteMethodSignature(m, dStatic);
 

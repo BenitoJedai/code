@@ -18,12 +18,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
 
         public static IEnumerable<S> Select<T, S>(this IEnumerable<T> source, global::System.Func<T, int, S> selector)
         {
-            return SelectIterator<T, S>(ScriptCoreLib.Shared.Query.InternalSequence.AsEnumerable(source), selector);
+            return SelectIterator<T, S>(source, selector);
         }
 
         public static IEnumerable<S> Select<T, S>(this IEnumerable<T> source, global::System.Func<T, S> selector)
         {
-            return SelectIterator<T, S>(ScriptCoreLib.Shared.Query.InternalSequence.AsEnumerable(source), selector);
+            return SelectIterator<T, S>(source, selector);
         }
 
         #region yield return e.Select(f);

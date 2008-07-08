@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
-using ScriptCoreLib.ActionScript.BCLImplementation.Query;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic
 {
@@ -185,8 +184,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
 
             internal __Enumerator(__List<T> list)
             {
-                value = InternalSequenceImplementation.AsEnumerable(list.ToArray()).GetEnumerator();
+                //value = InternalSequenceImplementation.AsEnumerable(list.ToArray()).GetEnumerator();
 
+
+                value = ((IEnumerable<T>)list.ToArray()).GetEnumerator();
 
             }
 

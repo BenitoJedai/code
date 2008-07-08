@@ -359,7 +359,6 @@
     <Compile Include="ActionScript\mx\core\IFlexDisplayObject.cs" />
     <Compile Include="ActionScript\mx\core\SoundAsset.cs" />
     <Compile Include="ActionScript\mx\effects\Tween.cs" />
-    <Compile Include="ActionScript\BCLImplementation\Query\InternalSequenceImplementation.cs" />
     <Compile Include="ActionScript\RegExp.cs" />
     <Compile Include="ActionScript\String.cs" />
     <Compile Include="ActionScript\XML.cs" />

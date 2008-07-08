@@ -189,8 +189,6 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
 
         public static IEnumerable<TSource> AsEnumerable<TSource>(this IEnumerable<TSource> source)
         {
-            //return InternalSequenceImplementation.AsEnumerable(source);
-            
             // wrap native types/collections
 
             return source;
@@ -311,6 +309,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
             {
                 throw __DefinedError.ArgumentNull("predicate");
             }
+
+          
 
             var value = default(TSource);
 

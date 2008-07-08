@@ -480,7 +480,8 @@ namespace FlashTowerDefense.ActionScript
                 };
 
             Ego.CurrentWeaponAmmoChanged += () => AmmoText.text = "" + Ego.CurrentWeapon.Ammo;
-            Ego.CurrentWeapon = Ego.Weapons.FirstOrDefault(i => i.SelectMode == Weapon.SelectModeEnum.Turret);
+
+            SetDefaultWeapon();
 
             Ego.Die +=
                 () =>
@@ -1454,6 +1455,11 @@ namespace FlashTowerDefense.ActionScript
             OnMouseDownDisableMouseOnTarget(GetWarzone(), MusicButton);
             OnMouseDownDisableMouseOnTarget(GetWarzone(), ScoreBoard);
             //OnMouseDownDisableMouseOnTarget(GetWarzone(), powered_by_jsc);
+        }
+
+        private void SetDefaultWeapon()
+        {
+            Ego.CurrentWeapon = Ego.Weapons.FirstOrDefault(i => i.SelectMode == Weapon.SelectModeEnum.Turret);
         }
 
         private void DoSomeDamage(Point DamagePointOfOrigin, double DamageDirection, WeaponInfo Weapon)

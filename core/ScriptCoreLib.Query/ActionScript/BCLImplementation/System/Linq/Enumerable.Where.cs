@@ -25,7 +25,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
             if (predicate == null) throw new ArgumentNullException("predicate");
             if (source == null) throw new ArgumentNullException("source");
 
-            return WhereIterator<T>(ScriptCoreLib.Shared.Query.InternalSequence.AsEnumerable(source), predicate);
+            return WhereIterator<T>(source, predicate);
         }
 
         [Script]
