@@ -16,6 +16,43 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections
 
         public static readonly __Comparer Default;
 
+
+        static Type DoubleType = typeof(Double);
+        static Type Int32Type = typeof(int);
+        static Type UInt32Type = typeof(uint);
+        static Type StringType = typeof(string);
+        static Type BooleanType = typeof(bool);
+
+
+        public static bool IsNumber(object x)
+        {
+            if (x is double)
+                return true;
+
+            if (x is int)
+                return true;
+
+            if (x is uint)
+                return true;
+
+            return false;
+        }
+
+        public static bool IsNumber(object x, object y)
+        {
+            if (x is double)
+            {
+                return IsNumber(y);
+            }
+
+            if (y is double)
+            {
+                return IsNumber(x);
+            }
+
+            return false;
+        }
+
         public static bool IsType(Type t, object a, object b)
         {
             if (!a.GetType().Equals(t))
@@ -45,23 +82,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections
             }
 
             #region native datatypes, not defined bt BCL
-            if (IsType(typeof(int), a, b))
-            {
-                var x = (int)a;
-                var y = (int)b;
 
-                return x.CompareTo(y);
-            }
 
-            if (IsType(typeof(uint), a, b))
-            {
-                var x = (uint)a;
-                var y = (uint)b;
 
-                return x.CompareTo(y);
-            }
-
-            if (IsType(typeof(double), a, b))
+            if (IsNumber(a, b))
             {
                 var x = (double)a;
                 var y = (double)b;
@@ -69,21 +93,42 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections
                 return x.CompareTo(y);
             }
 
-            if (IsType(typeof(bool), a, b))
-            {
-                var x = (bool)a;
-                var y = (bool)b;
+            if (a is uint)
+                if (b is uint)
+                {
+                    var x = (uint)a;
+                    var y = (uint)b;
 
-                return x.CompareTo(y);
-            }
+                    return x.CompareTo(y);
+                }
 
-            if (IsType(typeof(string), a, b))
-            {
-                var x = (string)a;
-                var y = (string)b;
+            if (a is int)
+                if (b is int)
+                {
+                    var x = (int)a;
+                    var y = (int)b;
 
-                return x.CompareTo(y);
-            }
+                    return x.CompareTo(y);
+                }
+
+
+            if (a is bool)
+                if (b is bool)
+                {
+                    var x = (bool)a;
+                    var y = (bool)b;
+
+                    return x.CompareTo(y);
+                }
+
+            if (a is string)
+                if (b is string)
+                {
+                    var x = (string)a;
+                    var y = (string)b;
+
+                    return x.CompareTo(y);
+                }
             #endregion
 
 

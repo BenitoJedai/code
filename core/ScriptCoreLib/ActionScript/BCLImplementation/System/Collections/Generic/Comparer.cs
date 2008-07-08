@@ -38,7 +38,6 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
         [Script]
         class __GenericComparer : __Comparer<T>
         {
-            [Script(IsDebugCode = true)]
             public override int Compare(T x, T y)
             {
                 // fallback to nongenerics

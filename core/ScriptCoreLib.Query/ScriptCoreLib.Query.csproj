@@ -62,6 +62,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Where.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\DefinedError.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\IOrderedEnumerable.cs" />
+    <Compile Include="ActionScript\Extensions\QueryExtensions.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Func.cs" />
     <Compile Include="Shared\Query\Enumerable.Methods.cs" />
     <Compile Include="Shared\Query\Enumerable.OrderBy.cs" />

@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.mx.core;
 using ScriptCoreLib.ActionScript;
+using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.flash.media;
@@ -19,6 +20,37 @@ namespace FlashTowerDefense.ActionScript
     [Script]
     public static class MyExtensions
     {
+        public static Action ThrottleTo(this Action a, int ms)
+        {
+            var f = false;
+            var r = default(Action);
+            var t = ms.AtDelayDo(
+                 delegate
+                 {
+                     if (f)
+                     {
+                         f = false;
+                         r();
+                     }
+                 }
+             );
+
+            r = delegate
+            {
+                if (!t.running)
+                {
+                    t.start();
+                    a();
+                }
+                else
+                {
+                    f = true;
+                }
+            };
+
+            return r;
+        }
+
         public static uint ToGrayColor(this int gray)
         {
             var x = (uint)gray & 0xff;
@@ -279,12 +311,7 @@ namespace FlashTowerDefense.ActionScript
             return t;
         }
 
-        public static void Orphanize(this DisplayObject e)
-        {
-            if (e.parent != null)
-                e.parent.removeChild(e);
-
-        }
+  
 
         [Script(OptimizedCode = "return new c();")]
         public static object CreateType(this Class c)

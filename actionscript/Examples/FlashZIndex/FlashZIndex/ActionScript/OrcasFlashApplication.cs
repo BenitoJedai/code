@@ -38,21 +38,17 @@ namespace FlashZIndex.ActionScript
             Action Reorder =
                 delegate
                 {
-                    var a = new DisplayObject[this.numChildren];
-
-                    for (int i = 0; i < a.Length; i++)
-                    {
-                        a[i] = this.getChildAt(i);
-                    }
-
-
-                    a.OrderBy(i => i.y).ForEach(
+                    
+                    this.Children().OrderBy(i => (double)i.y).ToArray().
+                       ForEach(
                         (k, i) =>
                             this.setChildIndex(k, i)
                     );
                 };
 
-            c.doubleClick +=
+            Action ReorderThrottle = Reorder.ThrottleTo(500);
+
+            c.click +=
                 q =>
                 {
                     var s = new Sprite
@@ -91,7 +87,16 @@ namespace FlashZIndex.ActionScript
                             Reorder();
                         };
 
+                    s.mouseWheel +=
+                        e =>
+                        {
+                            s.scaleX += 0.5 * Math.Sign(e.delta);
+                            s.scaleY += 0.5 * Math.Sign(e.delta);
+                        };
+
                     s.MoveTo(q.stageX, q.stageY).AttachTo(this);
+
+                    Reorder();
                 };
 
         }

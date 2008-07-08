@@ -944,7 +944,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         // Exceptions:
         //   System.ArithmeticException:
         //     value is equal to System.Double.NaN.
-        public static int Sign(double value) { throw new NotImplementedException(); }
+        public static int Sign(double value)
+        {
+            if (value < 0)
+                return -1;
+            if (value > 0)
+                return 1;
+            return 0;
+        }
         //
         // Summary:
         //     Returns a value indicating the sign of a single-precision floating-point
@@ -973,7 +980,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         // Returns:
         //     A number indicating the sign of value.Number Description -1 value is less
         //     than zero. 0 value is equal to zero. 1 value is greater than zero.
-        public static int Sign(int value) { throw new NotImplementedException(); }
+        public static int Sign(int value)
+        {
+            if (value < 0)
+                return -1;
+            if (value > 0)
+                return 1;
+            return 0;
+        }
         //
         // Summary:
         //     Returns a value indicating the sign of a 64-bit signed integer.

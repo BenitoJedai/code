@@ -377,6 +377,20 @@ namespace FlashTowerDefense.ActionScript
                 weapon => ShowMessage("Got ammo for " + weapon.Name);
 
 
+            
+            Action Reorder =
+                delegate
+                {
+
+                    GetWarzone().Children().OrderBy(i => i == Aim).ThenBy(i => (double)i.y).ToArray().
+                       ForEach(
+                        (k, i) =>
+                            this.setChildIndex(k, i)
+                    );
+                };
+
+            Action ReorderThrottle = Reorder.ThrottleTo(1000);
+
             var EgoMoveUpTimer = (1000 / 30).AtInterval(
                 delegate
                 {
@@ -397,6 +411,7 @@ namespace FlashTowerDefense.ActionScript
 
                     Ego.x = Ego.x.Max(0).Min(DefaultWidth);
                     Ego.y = Ego.y.Max(0).Min(DefaultHeight);
+                    ReorderThrottle();
 
                     UpdateEgoAim();
 
@@ -864,6 +879,13 @@ namespace FlashTowerDefense.ActionScript
                         200.AtDelayDo(
                         delegate
                         {
+                            if (!EgoIsAlive())
+                            {
+                                Ego.RunAnimation = false;
+                                EgoMoveUpTimer.stop();
+                                return;
+                            }
+
                             if (!EgoMoveToMouseTarget)
                                 return;
 

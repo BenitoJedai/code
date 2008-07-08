@@ -12,9 +12,19 @@ using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace ScriptCoreLib.ActionScript.Extensions
 {
+
+
     [Script]
     public static class CommonExtensions
     {
+
+        public static void Orphanize(this DisplayObject e)
+        {
+            if (e.parent != null)
+                e.parent.removeChild(e);
+
+        }
+
 
         public static U AddTo<U, T>(this U e, List<T> a) where U : T
         {
