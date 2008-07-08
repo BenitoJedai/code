@@ -356,7 +356,7 @@ namespace FlashTowerDefense.ActionScript.Actors
             if (IsBleeding)
                 n.filters = new[] { new GlowFilter(0xff0000) };
 
-            n.AttachTo(this.parent).AddTo(Footsteps);
+            n.AttachToBefore(this).AddTo(Footsteps);
 
 
             (500).AtInterval(

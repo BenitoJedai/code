@@ -1716,9 +1716,7 @@ namespace FlashTowerDefense.ActionScript
 
                 if (Ego.CurrentWeapon.Usage == Weapon.UsageEnum.DeployBrickWall)
                 {
-                    GetWarzone().addChildAt(
-                        new BrickWall().MoveTo(Ego),
-                        GetWarzone().getChildIndex(Ego) - 1);
+                    new BrickWall().MoveTo(Ego).AttachToBefore(Ego);
                 }
                 else if (Ego.CurrentWeapon.Usage == Weapon.UsageEnum.DeployBarrel)
                 {
@@ -1841,7 +1839,7 @@ namespace FlashTowerDefense.ActionScript
                     CreateExplosion(ExplosiveWeapon.Type, barrel.ToPoint(), Mode);
                 };
 
-            barrel.MoveTo(Target).AttachTo(GetWarzone()).AddTo(Barrels);
+            barrel.MoveTo(Target).AttachToBefore(Ego).AddTo(Barrels);
 
         }
 

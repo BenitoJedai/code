@@ -165,6 +165,14 @@ namespace ScriptCoreLib.ActionScript.Extensions
             return s;
         }
 
+        public static T AttachToBefore<T>(this T e, DisplayObject x) where T : DisplayObject
+        {
+            var c = x.parent;
+
+            c.addChildAt(e, c.getChildIndex(x) - 1);
+
+            return e;
+        }
 
         public static T AttachTo<T>(this T e, DisplayObjectContainer c) where T : DisplayObject
         {
