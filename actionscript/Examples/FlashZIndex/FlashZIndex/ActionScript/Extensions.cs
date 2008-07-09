@@ -6,6 +6,7 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace FlashZIndex.ActionScript
 {
@@ -15,6 +16,30 @@ namespace FlashZIndex.ActionScript
     [Script]
     internal static class MyExtensions
     {
+        public static double Random(this double e)
+        {
+            return new Random().NextDouble() * e;
+        }
+
+        public static double Random(this double e, double from, double to)
+        {
+            return (from * e) + ((to - from) * e).Random();
+        }
+
+        public static Action<T, int> ForEach<T>(this Action<T, int> e, IEnumerable<T> s)
+        {
+            LambdaExtensions.ForEach(s, e);
+            return e;
+        }
+
+
+        // http://community.bartdesmet.net/blogs/bart/archive/2008/07/05/1-to-3-ruby-style-internal-iterators-in-c.aspx
+        public static Action<Action<int>> To(this int from, int to)
+        {
+            return a => { for (int i = from; i <= to; i++) a(i); };
+        }
+
+         
 
         public static Timer AtDelayDo(this int e, Action a)
         {

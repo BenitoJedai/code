@@ -76,7 +76,13 @@ namespace jsc.Languages.ActionScript
 
                     if (i == OpCodes.Castclass)
                     {
-                        imp.Add(MySession.ResolveImplementation(i.ReferencedType));
+                        imp.Add(MySession.ResolveImplementation(i.ReferencedType) ?? i.ReferencedType);
+                        continue;
+                    }
+
+                    if (i == OpCodes.Isinst)
+                    {
+                        imp.Add(MySession.ResolveImplementation(i.TargetType) ?? i.TargetType);
                         continue;
                     }
 
@@ -521,7 +527,7 @@ namespace jsc.Languages.ActionScript
                     WriteDecoratedTypeNameOrImplementationTypeName(m.DeclaringType, true, true, IsFullyQualifiedNamesRequired(m.DeclaringType, m.DeclaringType));
                 }
 
-          
+
             }
 
             DebugBreak(ma);
@@ -768,7 +774,7 @@ namespace jsc.Languages.ActionScript
 
         public void WriteDecoratedTypeName(Type context, Type subject, WriteDecoratedTypeNameOrImplementationTypeNameMode Mode)
         {
-            WriteDecoratedTypeNameOrImplementationTypeName(subject, false, false, IsFullyQualifiedNamesRequired(context, subject), Mode );
+            WriteDecoratedTypeNameOrImplementationTypeName(subject, false, false, IsFullyQualifiedNamesRequired(context, subject), Mode);
 
         }
 

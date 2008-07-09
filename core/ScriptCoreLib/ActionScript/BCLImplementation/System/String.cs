@@ -45,6 +45,19 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             return w.ToString();
         }
 
+
+        [Script(DefineAsStatic = true, OptimizedCode = "return e.split(f).join(t);")]
+        internal string InternalReplace(object e, object f, object t)
+        {
+            return default(string);
+        }
+
+        [Script(DefineAsStatic = true)]
+        public string Replace(string a0, string a1)
+        {
+            return InternalReplace(this, a0, a1);
+        }
+
         public static string Concat(object arg0)
         {
             if (arg0 == null)
