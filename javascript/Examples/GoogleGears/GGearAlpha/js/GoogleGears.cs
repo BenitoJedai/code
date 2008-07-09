@@ -152,6 +152,7 @@ namespace GGearAlpha.js
         }
     }
 
+    // http://code.google.com/apis/gears/api_factory.html
     [Script(InternalConstructor = true)]
     public class GoogleGearsFactory
     {
