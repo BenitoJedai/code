@@ -33,5 +33,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
                 throw new NotImplementedException();
             }
         }
+
+        public __XElement()
+            : this(null)
+        {
+        }
+
+        public __XElement(XName name)
+        {
+            // implement
+        }
     }
 }

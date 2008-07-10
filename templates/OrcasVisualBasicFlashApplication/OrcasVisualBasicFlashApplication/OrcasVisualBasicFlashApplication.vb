@@ -24,7 +24,14 @@ Public Class OrcasVisualBasicFlashApplication
 
         Public WithEvents RotatingTimer As New Timer(1000 / 24, 0)
 
+        'Sub XMLTest()
+        '    Dim u = <list><key>a</key><value>b</value></list>
+
+        'End Sub
+
         Sub New(Optional ByVal zoom As Double = 1)
+
+
 
             Dim size = DefaultWidth / 8 * zoom
 
