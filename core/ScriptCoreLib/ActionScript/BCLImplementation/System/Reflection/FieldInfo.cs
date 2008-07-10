@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.ActionScript.Extensions;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Reflection
 {
@@ -12,6 +13,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Reflection
         // <variable name="Value" type="int"/>
 
         public override string Name
+        {
+            get { return InternalName; }
+        }
+
+
+
+        internal string InternalName
         {
             get { return _FieldDescription.attribute("name").ToString(); }
         }
@@ -33,5 +41,16 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Reflection
         {
             return _FieldDescription.toXMLString();
         }
+
+        public void SetValue(object obj, object value)
+        {
+            DynamicContainer.SetValue(obj, InternalName, value);
+        }
+
+        public object GetValue(object obj)
+        {
+            return DynamicContainer.GetValue(obj, InternalName);
+        }
+
     }
 }

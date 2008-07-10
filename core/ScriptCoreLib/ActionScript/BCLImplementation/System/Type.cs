@@ -13,7 +13,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Type))]
     internal class __Type : __MemberInfo
     {
-        
+
         RuntimeTypeHandle _TypeHandle;
 
         public static Type GetType(string x)
@@ -59,6 +59,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         //  </factory>
         //</type>
 
+        //<type name="FlashXMLExample.ActionScript.Serialized::MyDataClass" base="FlashXMLExample.ActionScript::MyDataClassCommon" isDynamic="false" isFinal="true" isStatic="false">
+        //  <extendsClass type="FlashXMLExample.ActionScript::MyDataClassCommon"/>
+        //  <extendsClass type="Object"/>
+        //  <variable name="Value" type="int"/>
+        //  <variable name="Data" type="FlashXMLExample.ActionScript.Serialized2::MyDataClass"/>
+        //  <variable name="Text" type="String"/>
+        //</type>
+
         XML TypeDescription
         {
             get
@@ -99,15 +107,32 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
         public __FieldInfo[] GetFields()
         {
-            var f = this.TypeDescription.child("factory")[0].child("variable");
-            var r = new __FieldInfo[f.length()];
+            // fixme: at this time also inherited and private fields are show
 
-            for (int i = 0; i < r.Length; i++)
+            var x = this.TypeDescription;
+
+            var a = new List<__FieldInfo>();
+
+            var v = x.child("variable");
+            for (int i = 0; i < v.length(); i++)
             {
-                r[i] = new __FieldInfo { _FieldDescription = f[i] };
+                a.Add(new __FieldInfo { _FieldDescription = v[i] });
             }
 
-            return r;
+            var f = x.child("factory");
+
+            // e.GetType() has no <factory />
+            if (f.length() == 1)
+            {
+                x = this.TypeDescription;
+                v = x.child("variable");
+                for (int i = 0; i < v.length(); i++)
+                {
+                    a.Add(new __FieldInfo { _FieldDescription = v[i] });
+                }
+            }
+
+            return a.ToArray();
         }
 
         public override string Name

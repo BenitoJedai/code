@@ -93,21 +93,32 @@ namespace FlashXMLExample.ActionScript
             Action<string> Write = null;
             Action<string> WriteLine = i => Write(i + "\n");
 
-            Action<Type> Do =
-                t =>
+            Action<MyDataClassCommon> Do =
+                g =>
                 {
+
+                    var t = g.GetType();
+
+                    //WriteLine("type: " + t.ToString());
+
                     WriteLine("name: " + t.Name);
+
 
 
                     foreach (var f in t.GetFields())
                     {
+                        if (f.FieldType.Equals(typeof(string)))
+                        {
+                            f.SetValue(g, "hello world");
+                        }
+
                         WriteLine("field: " + f.Name + " as "  + f.FieldType.Name);
 
                     }
 
-                    WriteLine("type: " + t.ToString());
+                    
+                    WriteLine(" ~ = " + g.Text);
                     WriteLine("");
-
                 };
 
             
@@ -122,8 +133,8 @@ namespace FlashXMLExample.ActionScript
 
             Write = z.appendText;
 
-            Do(typeof(Serialized.MyDataClass));
-            Do(typeof(Serialized2.MyDataClass));
+            Do(new Serialized.MyDataClass());
+            Do(new Serialized2.MyDataClass());
         }
     }
 
@@ -149,7 +160,6 @@ namespace FlashXMLExample.ActionScript
         [Script]
         sealed class MyDataClass : MyDataClassCommon
         {
-            public string Text;
             public int Value;
             public Serialized.MyDataClass Data;
         }
