@@ -206,5 +206,13 @@ namespace ScriptCoreLib.ActionScript
 
         #endregion
 
+
+        public  XML this[int i]
+        {
+            get
+            {
+                return default(XML);
+            }
+        }
     }
 }

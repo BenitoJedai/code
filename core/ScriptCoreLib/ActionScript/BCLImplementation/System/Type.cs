@@ -9,12 +9,24 @@ using System.Reflection;
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
     [ScriptImportsType("flash.utils.describeType")]
+    [ScriptImportsType("flash.utils.getDefinitionByName")]
     [Script(Implements = typeof(global::System.Type))]
     internal class __Type : __MemberInfo
     {
+        
         RuntimeTypeHandle _TypeHandle;
 
-        public static Type GetTypeFromValue(object x)
+        public static Type GetType(string x)
+        {
+            var e = new __Type
+            {
+                _TypeDescription = describeType(getDefinitionByName(x))
+            };
+
+            return (Type)(object)e;
+        }
+
+        internal static Type GetTypeFromValue(object x)
         {
             var e = new __Type
             {
@@ -46,11 +58,19 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
                 return _TypeDescription;
             }
         }
-        
+
+        // http://livedocs.adobe.com/flex/2/langref/flash/utils/package.html#describeType()
         [Script(OptimizedCode = "return flash.utils.describeType(e);")]
         internal static XML describeType(object e)
         {
             return default(XML);
+        }
+
+        // http://livedocs.adobe.com/flex/2/langref/flash/utils/package.html#getDefinitionByName()
+        [Script(OptimizedCode = "return flash.utils.getDefinitionByName(e);")]
+        internal static object getDefinitionByName(string e)
+        {
+            return default(object);
         }
 
         public override string ToString()
@@ -66,14 +86,30 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             }
         }
 
+        public __FieldInfo[] GetFields()
+        {
+            var f = this.TypeDescription.child("factory")[0].child("variable");
+            var r = new __FieldInfo[f.length()];
+
+            for (int i = 0; i < r.Length; i++)
+            {
+                r[i] = new __FieldInfo { _FieldDescription = f[i] };
+            }
+
+            return r;
+        }
+
         public override string Name
         {
             get
             {
-                // fixme: should return .net styled names
                 var v = InternalFullName;
                 var z = "::";
                 var i = v.IndexOf(z);
+
+                if (i < 0)
+                    return v; // Top Level Name
+
 
                 return v.Substring(i + z.Length);
             }

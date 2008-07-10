@@ -97,6 +97,14 @@ namespace FlashXMLExample.ActionScript
                 t =>
                 {
                     WriteLine("name: " + t.Name);
+
+
+                    foreach (var f in t.GetFields())
+                    {
+                        WriteLine("field: " + f.Name + " as "  + f.FieldType.Name);
+
+                    }
+
                     WriteLine("type: " + t.ToString());
                     WriteLine("");
 
@@ -126,6 +134,7 @@ namespace FlashXMLExample.ActionScript
         {
             public string Text;
             public int Value;
+            public Serialized2.MyDataClass Data;
         }
     }
 
@@ -136,6 +145,7 @@ namespace FlashXMLExample.ActionScript
         {
             public string Text;
             public int Value;
+            public Serialized.MyDataClass Data;
         }
     }
 }

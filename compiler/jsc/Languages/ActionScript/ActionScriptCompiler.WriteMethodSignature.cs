@@ -178,7 +178,8 @@ namespace jsc.Languages.ActionScript
                 DebugBreak(mi.ToScriptAttributeOrDefault());
 
                 Write(":");
-                WriteDecoratedTypeNameOrImplementationTypeName(mi.ReturnType, true, true, IsFullyQualifiedNamesRequired(DeclaringType, mi.ReflectedType), WriteDecoratedTypeNameOrImplementationTypeNameMode.IgnoreImplementationType);
+                WriteDecoratedTypeNameOrImplementationTypeName(mi.ReturnType, true, true, 
+                    IsFullyQualifiedNamesRequired(DeclaringType, mi.ReflectedType), WriteDecoratedTypeNameOrImplementationTypeNameMode.IgnoreImplementationType);
 
             }
             #endregion

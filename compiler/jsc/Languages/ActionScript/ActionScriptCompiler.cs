@@ -764,19 +764,6 @@ namespace jsc.Languages.ActionScript
             return a;
         }
 
-        public override void WriteDecoratedTypeName(Type context, Type subject)
-        {
-            // used by OpCodes.Newobj
-
-            WriteDecoratedTypeNameOrImplementationTypeName(subject, false, false, IsFullyQualifiedNamesRequired(context, subject));
-
-        }
-
-        public void WriteDecoratedTypeName(Type context, Type subject, WriteDecoratedTypeNameOrImplementationTypeNameMode Mode)
-        {
-            WriteDecoratedTypeNameOrImplementationTypeName(subject, false, false, IsFullyQualifiedNamesRequired(context, subject), Mode);
-
-        }
 
         protected override void WriteTypeInstanceConstructors(Type z)
         {
