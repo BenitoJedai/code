@@ -100,6 +100,9 @@
     <Compile Include="Languages\ActionScript\CompilerJob.cs" />
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.Implementation.cs" />
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.CreateInstructionHandlers.cs" />
+    <Compile Include="Languages\ActionScript\ActionScriptCompiler.WriteMethodSignature.cs" />
+    <Compile Include="Languages\ActionScript\ActionScriptCompiler.Keywords.cs" />
+    <Compile Include="Languages\ActionScript\ActionScriptCompiler.WriteVirtualMethodOverrides.cs" />
     <Compile Include="Languages\ActionScript\DelegateImplementationProvider.cs" />
     <Compile Include="Languages\ActionScript\EntryPointProvider.cs" />
     <Compile Include="Languages\CompilerBase.DIA.cs" />

@@ -96,7 +96,9 @@ namespace FlashXMLExample.ActionScript
             Action<Type> Do =
                 t =>
                 {
-                    WriteLine("type: " + t.FullName);
+                    WriteLine("name: " + t.Name);
+                    WriteLine("type: " + t.ToString());
+                    WriteLine("");
 
                 };
 

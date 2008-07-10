@@ -66,6 +66,19 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             }
         }
 
+        public override string Name
+        {
+            get
+            {
+                // fixme: should return .net styled names
+                var v = InternalFullName;
+                var z = "::";
+                var i = v.IndexOf(z);
+
+                return v.Substring(i + z.Length);
+            }
+        }
+
         public string FullName
         {
             get
