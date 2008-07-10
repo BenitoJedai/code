@@ -5,6 +5,7 @@ using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.net;
 using System;
+using System.Xml.Linq;
 
 
 namespace FlashXMLExample.ActionScript
@@ -26,11 +27,13 @@ namespace FlashXMLExample.ActionScript
 
         public FlashXMLExample()
         {
+            var x = XDocument.Parse(Asset_MySettings.ToStringAsset());
+
             new TextField
             {
                 // correct encoding without BOM
                 //width = stage.width,
-                text = Asset_MySettings.ToXMLAsset().toXMLString()
+                text = x.Root.Name + " = " + x.Root.ToString()
             }.AttachTo(this);
 
             var loader = new URLLoader();
@@ -46,6 +49,7 @@ namespace FlashXMLExample.ActionScript
                         y = 200
                     }.AttachTo(this);
                 };
+
 
 
 
@@ -112,16 +116,16 @@ namespace FlashXMLExample.ActionScript
                             f.SetValue(g, "hello world");
                         }
 
-                        WriteLine("field: " + f.Name + " as "  + f.FieldType.Name);
+                        WriteLine("field: " + f.Name + " as " + f.FieldType.Name);
 
                     }
 
-                    
+
                     WriteLine(" ~ = " + g.Text);
                     WriteLine("");
                 };
 
-            
+
             var z = new TextField
             {
                 // correct encoding without BOM
@@ -149,7 +153,7 @@ namespace FlashXMLExample.ActionScript
         [Script]
         sealed class MyDataClass : MyDataClassCommon
         {
-           
+
             public int Value;
             public Serialized2.MyDataClass Data;
         }

@@ -241,6 +241,7 @@
     <Compile Include="ActionScript\flash\utils\IDataInput.cs" />
     <Compile Include="ActionScript\flash\utils\IExternalizable.cs" />
     <Compile Include="ActionScript\Number.cs" />
+    <Compile Include="ActionScript\QName.cs" />
     <Compile Include="ActionScript\uint.cs" />
     <Compile Include="ActionScript\Date.cs" />
     <Compile Include="ActionScript\Extensions\DynamicContainer.cs" />
