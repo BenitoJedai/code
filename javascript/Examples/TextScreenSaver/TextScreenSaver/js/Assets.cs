@@ -5,8 +5,8 @@ using System.Text;
 using ScriptCoreLib;
 
 [assembly:
-ScriptResources("assets/TextScreenSaver/data"),
-ScriptResources("assets/TextScreenSaver/images"),
+    ScriptResources("assets/TextScreenSaver/data"),
+    ScriptResources("assets/TextScreenSaver/images"),
 ]
 namespace TextScreenSaver.js
 {

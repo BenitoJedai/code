@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio Codename Orcas
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextRotator", "TextRotator\TextRotator.csproj", "{3AB19D64-EBE6-4538-9AC5-2364CF514531}"
 EndProject
 Global

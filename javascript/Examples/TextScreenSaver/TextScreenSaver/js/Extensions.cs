@@ -7,6 +7,7 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 using ScriptCoreLib.JavaScript.Net;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared.Lambda;
 
@@ -15,7 +16,8 @@ namespace TextScreenSaver.js
     [Script]
     static class Extensions
     {
-        
+
+
 
         public static int GetOffsetRight(this IHTMLElement e)
         {
@@ -90,38 +92,9 @@ namespace TextScreenSaver.js
             MoveToCenter();
         }
 
-        public static T Deserialize<T>(this IXMLDocument e, object[] k)
-            where T : class, new()
-        {
-            return new IXMLSerializer<T>(k).Deserialize(e);
-        }
 
 
 
-        public static void SpawnTo<T>(this Type alias, object[] KnownTypes, Action<T> h)
-            where T : class, new()
-        {
-            ScriptCoreLib.JavaScript.Native.Spawn(alias.Name,
-                i =>
-                {
-                    var tag = (IHTMLScript)i;
-                    var text = i.text;
-
-                    if (tag.type == "text/xml")
-                    {
-                        var doc = IXMLDocument.Parse(text);
-
-                        h(doc.Deserialize<T>(KnownTypes));
-                    }
-                    else if (tag.type == "text/json")
-                    {
-                        // reflection info will be lost here?
-
-                        h((T)(object)Expando.FromJSON(text));
-                    }
-                }
-            );
-        }
 
         public static string ToConsole(this string e)
         {

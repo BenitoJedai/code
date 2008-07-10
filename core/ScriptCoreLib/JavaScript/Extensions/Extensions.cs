@@ -101,6 +101,9 @@ namespace ScriptCoreLib.JavaScript.Extensions
         public static T Deserialize<T>(this IXMLDocument e, object[] k)
                     where T : class, new()
         {
+            if (k == null)
+                throw new Exception("Deserialize: k is null");
+
             return new IXMLSerializer<T>(k).Deserialize(e);
         }
 
@@ -115,11 +118,8 @@ namespace ScriptCoreLib.JavaScript.Extensions
             ScriptCoreLib.JavaScript.Native.Spawn(alias.Name, i => h(i));
         }
 
-        // compiler bug:
-        // Error	4	No implementation found for this native method, please implement [System.Action`2.Invoke(, ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement)]	
-
         public static void SpawnTo<T>(this Type alias, object[] KnownTypes, Action<T> h)
-            where T : class, new()
+             where T : class, new()
         {
             SpawnTo<T>(alias, KnownTypes, (t, i) => h(t));
         }
@@ -127,6 +127,9 @@ namespace ScriptCoreLib.JavaScript.Extensions
         public static void SpawnTo<T>(this Type alias, object[] KnownTypes, Action<T, IHTMLElement> h)
             where T : class, new()
         {
+            if (KnownTypes == null)
+                throw new Exception("GetKnownTypes is null");
+
             ScriptCoreLib.JavaScript.Native.Spawn(alias.Name,
                 i =>
                 {

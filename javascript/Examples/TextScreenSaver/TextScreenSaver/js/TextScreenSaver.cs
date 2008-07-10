@@ -54,7 +54,8 @@ namespace TextScreenSaver.js
                     new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes2.xml" },
                     new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes3.xml" },
                     new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes4.xml" },
-                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes5.xml" }
+                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes5.xml" },
+                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes6.xml" },
                 }
             };
 

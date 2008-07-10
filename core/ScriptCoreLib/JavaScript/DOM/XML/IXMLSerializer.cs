@@ -20,6 +20,9 @@ namespace ScriptCoreLib.JavaScript.DOM.XML
 
         public IXMLSerializer(params object[] k)
         {
+            if (k == null)
+                throw new Exception("IXMLSerializer: k is null");
+
             foreach (object x in k)
             {
                 Expando o = Expando.Of(x);

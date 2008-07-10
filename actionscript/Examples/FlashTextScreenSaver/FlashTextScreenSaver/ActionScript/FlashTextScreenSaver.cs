@@ -7,6 +7,8 @@ using System;
 using ScriptCoreLib.ActionScript.flash.utils;
 using System.Collections.Generic;
 
+using FlashTextScreenSaver.ActionScript.Qoutes.Extensions;
+
 namespace FlashTextScreenSaver.ActionScript
 {
     /// <summary>
@@ -163,7 +165,7 @@ namespace FlashTextScreenSaver.ActionScript
                     var lines = doc.Lines();
 
                     var timer_handler = new Action<Timer>(delegate { });
-                    var timer_ref = 100.AsInterval(timer_handler);
+                    var timer_ref = 100.AtInterval(timer_handler);
 
                     var vectors = new List<TextField>();
 
@@ -176,7 +178,7 @@ namespace FlashTextScreenSaver.ActionScript
 
                             Console.WriteLine("aborting...");
 
-                            timer_ref.Stop();
+                            timer_ref.stop();
 
                             vectors.ForEach(v => v.Orphanize());
 
@@ -238,7 +240,7 @@ namespace FlashTextScreenSaver.ActionScript
                                 delegate
                                 {
                                     timer_handler -= handler;
-                                    v.FadeOut();
+                                    v.FadeOutAndOrphanize();
 
                                     done();
                                 };
@@ -277,7 +279,7 @@ namespace FlashTextScreenSaver.ActionScript
                             v.mouseWheel +=
                                 ev =>
                                 {
-                                    z = (z + 0.02 * ev.WheelDirection).Max(0.5).Min(1.0);
+                                    z = (z + 0.02 * ev.WheelDirection()).Max(0.5).Min(1.0);
 
                                     ApplyZ();
                                 };
@@ -334,8 +336,8 @@ namespace FlashTextScreenSaver.ActionScript
                     SpawnRandom =
                         (counter, max, h) =>
                         {
-                            max.Random().Delayed(
-                                () =>
+                            max.Random().ToInt32().AtDelay(
+                                delegate
                                 {
                                     h();
 

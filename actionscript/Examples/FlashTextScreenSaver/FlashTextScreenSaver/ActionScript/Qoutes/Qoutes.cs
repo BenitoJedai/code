@@ -10,7 +10,7 @@ namespace FlashTextScreenSaver.ActionScript.Qoutes
     namespace Extensions
     {
         [Script]
-        public static class Qoutes
+        public static class QoutesExtensions
         {
             /// <summary>
             /// Returns the content line by line.

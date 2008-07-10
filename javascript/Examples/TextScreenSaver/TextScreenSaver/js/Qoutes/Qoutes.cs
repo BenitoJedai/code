@@ -19,7 +19,7 @@ namespace TextScreenSaver.js.Qoutes
             /// <returns></returns>
             public static string[] Lines(this Document e)
             {
-                return e.Content.Split("\n", StringSplitOptions.RemoveEmptyEntries).Select(t => t.Trim()).ToArray();
+                return e.Content.Split("\n", StringSplitOptions.RemoveEmptyEntries).Select(t => t.Trim()).Where(t => t != "").ToArray();
             }
 
             public static Style ApplyTo(this Style e, IStyle s)
@@ -69,13 +69,32 @@ namespace TextScreenSaver.js.Qoutes
     [Script]
     public static class Settings
     {
-        public static object[] KnownTypes = new object[]
+
+        static object[] KnownTypesCache;
+
+        public static object[] KnownTypes
         {
-            new Qoutes.DocumentList(),
-            new Qoutes.DocumentRef(),
-            new Qoutes.Document(),
-            new Qoutes.Style(),
-        };
+            get
+            {
+                // cannot use static auto init fields because
+                // the static constructors might be executed in the wrong order for us
+                // jsc could try to order cctor calls by dependency in the future
+
+                if (KnownTypesCache == null)
+                    KnownTypesCache = new object[]
+                {
+                    new Qoutes.DocumentList(),
+                    new Qoutes.DocumentRef(),
+                    new Qoutes.Document(),
+                    new Qoutes.Style(),
+                };
+
+                return KnownTypesCache;
+
+            }
+        }
+
+
 
     }
 }

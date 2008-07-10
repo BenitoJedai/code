@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 
 namespace TextScreenSaver.js
 {
