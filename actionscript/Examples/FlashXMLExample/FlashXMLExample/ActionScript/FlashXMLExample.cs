@@ -127,12 +127,18 @@ namespace FlashXMLExample.ActionScript
         }
     }
 
+    [Script]
+    abstract class MyDataClassCommon
+    {
+        public string Text;
+    }
+
     namespace Serialized
     {
         [Script]
-        sealed class MyDataClass
+        sealed class MyDataClass : MyDataClassCommon
         {
-            public string Text;
+           
             public int Value;
             public Serialized2.MyDataClass Data;
         }
@@ -141,7 +147,7 @@ namespace FlashXMLExample.ActionScript
     namespace Serialized2
     {
         [Script]
-        sealed class MyDataClass
+        sealed class MyDataClass : MyDataClassCommon
         {
             public string Text;
             public int Value;

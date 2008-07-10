@@ -47,6 +47,17 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         }
 
         XML _TypeDescription;
+        //<type name="FlashXMLExample.ActionScript.Serialized::MyDataClass" base="Class" isDynamic="true" isFinal="true" isStatic="true">
+        //  <extendsClass type="Class"/>
+        //  <extendsClass type="Object"/>
+        //  <accessor name="prototype" access="readonly" type="*" declaredBy="Class"/>
+        //  <factory type="FlashXMLExample.ActionScript.Serialized::MyDataClass">
+        //    <extendsClass type="Object"/>
+        //    <variable name="Value" type="int"/>
+        //    <variable name="Text" type="String"/>
+        //    <variable name="Data" type="FlashXMLExample.ActionScript.Serialized2::MyDataClass"/>
+        //  </factory>
+        //</type>
 
         XML TypeDescription
         {
