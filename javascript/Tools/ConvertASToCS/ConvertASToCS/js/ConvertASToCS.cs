@@ -185,7 +185,7 @@ namespace ConvertASToCS.js
         private static void RenderAnyTo(ReflectionProvider r, IHTMLElement pre)
         {
             Func<bool> DelegatesParams = () => false;
-            Func<bool> IsInterface = () => false;
+            Func<bool> IsInterface = () => r.IsInterface;
             Func<bool> IsField = () => false;
 
             IHTMLElement Target = pre;
@@ -339,8 +339,14 @@ namespace ConvertASToCS.js
                     WriteSpace();
                 }
 
-
-                WriteBlue("class");
+                if (r.IsInterface)
+                {
+                    WriteBlue("interface");
+                }
+                else
+                {
+                    WriteBlue("class");
+                }
                 WriteSpace();
                 WriteCyan(r.TypeName);
                 WriteLine();
@@ -348,60 +354,61 @@ namespace ConvertASToCS.js
                 using (CodeBlock())
                 {
                     #region Constants
-                    using (Region("Constants"))
-                        foreach (var p in r.Constants)
-                        {
-
-                            WriteSummary(p.Summary);
-
-                            WriteIdent();
-
-                            if (string.IsNullOrEmpty(p.Value) && p.IsAirOnly)
+                    if (r.Constants.Count > 0)
+                        using (Region("Constants"))
+                            foreach (var p in r.Constants)
                             {
-                                WriteGreen("// " + p.Name + " constant was ommited due to no given value");
+
+                                WriteSummary(p.Summary);
+
+                                WriteIdent();
+
+                                if (string.IsNullOrEmpty(p.Value) && p.IsAirOnly)
+                                {
+                                    WriteGreen("// " + p.Name + " constant was ommited due to no given value");
+                                    WriteLine();
+                                    continue;
+                                }
+
+                                if (p.Value == "\"?\"")
+                                {
+                                    WriteGreen("// " + p.Name + " constant was ommited due to no string given value");
+                                    WriteLine();
+                                    continue;
+                                }
+
+
+                                WriteBlue("public");
+                                WriteSpace();
+
+                                if (p.IsAirOnly)
+                                {
+                                    WriteBlue("const");
+                                    WriteSpace();
+                                }
+                                else
+                                {
+                                    WriteBlue("static");
+                                    WriteSpace();
+                                    WriteBlue("readonly");
+                                    WriteSpace();
+                                }
+
+                                WriteVariableDefinition(p.Type, p.Name);
+
+                                if (!string.IsNullOrEmpty(p.Value))
+                                {
+                                    WriteSpace();
+                                    Write("=");
+                                    WriteSpace();
+                                    Write(p.Value);
+                                }
+
+                                Write(";");
+
                                 WriteLine();
-                                continue;
-                            }
-
-                            if (p.Value == "\"?\"")
-                            {
-                                WriteGreen("// " + p.Name + " constant was ommited due to no string given value");
                                 WriteLine();
-                                continue;
                             }
-
-
-                            WriteBlue("public");
-                            WriteSpace();
-
-                            if (p.IsAirOnly)
-                            {
-                                WriteBlue("const");
-                                WriteSpace();
-                            }
-                            else
-                            {
-                                WriteBlue("static");
-                                WriteSpace();
-                                WriteBlue("readonly");
-                                WriteSpace();
-                            }
-
-                            WriteVariableDefinition(p.Type, p.Name);
-
-                            if (!string.IsNullOrEmpty(p.Value))
-                            {
-                                WriteSpace();
-                                Write("=");
-                                WriteSpace();
-                                Write(p.Value);
-                            }
-
-                            Write(";");
-
-                            WriteLine();
-                            WriteLine();
-                        }
                     #endregion
 
 
@@ -416,15 +423,20 @@ namespace ConvertASToCS.js
 
                             WriteIdent();
 
-                            WriteBlue("public");
-                            WriteSpace();
-
-                            if (p.IsStatic)
+                            if (IsInterface())
                             {
-                                WriteBlue("static");
-                                WriteSpace();
                             }
+                            else
+                            {
+                                WriteBlue("public");
+                                WriteSpace();
 
+                                if (p.IsStatic)
+                                {
+                                    WriteBlue("static");
+                                    WriteSpace();
+                                }
+                            }
 
                             WriteVariableDefinition(p.PropertyType, p.PropertyName);
 
@@ -439,17 +451,34 @@ namespace ConvertASToCS.js
                                 Write(";");
                                 WriteSpace();
 
-                                if (p.IsReadOnly)
+
+                                if (IsInterface())
                                 {
-                                    WriteBlue("private");
-                                    WriteSpace();
+                                    if (p.IsReadOnly)
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        WriteBlue("set");
+                                        Write(";");
+                                    }
+                                }
+                                else
+                                {
+                                    if (p.IsReadOnly)
+                                    {
+
+                                        WriteBlue("private");
+                                    }
+
+                                    WriteBlue("set");
+                                    Write(";");
+                                  
                                 }
 
-                                WriteBlue("set");
-                                Write(";");
                                 WriteSpace();
                                 Write("}");
-
                             }
 
 
@@ -459,50 +488,51 @@ namespace ConvertASToCS.js
                     #endregion
 
                     #region Constructors
-                    using (Region("Constructors"))
-                        foreach (var p in r.GetInstanceConstructors())
-                            foreach (var v in p.ParametersInfo.Variations)
-                            {
-                                WriteSummary(p.Summary);
-
-                                WriteIdent();
-
-                                WriteBlue("public");
-                                WriteSpace();
-
-                                Write(p.Name);
-                                Write("(");
-
-                                for (int k = 0; k < v.Parameters.Length; k++)
+                    if (r.GetInstanceConstructors().Count() > 0)
+                        using (Region("Constructors"))
+                            foreach (var p in r.GetInstanceConstructors())
+                                foreach (var v in p.ParametersInfo.Variations)
                                 {
-                                    if (k > 0)
+                                    WriteSummary(p.Summary);
+
+                                    WriteIdent();
+
+                                    WriteBlue("public");
+                                    WriteSpace();
+
+                                    Write(p.Name);
+                                    Write("(");
+
+                                    for (int k = 0; k < v.Parameters.Length; k++)
                                     {
-                                        Write(",");
-                                        WriteSpace();
+                                        if (k > 0)
+                                        {
+                                            Write(",");
+                                            WriteSpace();
+                                        }
+
+                                        WriteVariableDefinition(v.Parameters[k].TypeName, v.Parameters[k].Name);
                                     }
 
-                                    WriteVariableDefinition(v.Parameters[k].TypeName, v.Parameters[k].Name);
+                                    Write(")");
+
+                                    if (DelegatesParams())
+                                    {
+                                        WriteSpace();
+                                        Write(":");
+                                        WriteSpace();
+                                        WriteBlue("base");
+                                        Write("(" + v.NamesToString() + ")");
+                                    }
+
+
+                                    WriteLine();
+
+
+                                    using (CodeBlock()) { }
+
+                                    WriteLine();
                                 }
-
-                                Write(")");
-
-                                if (DelegatesParams())
-                                {
-                                    WriteSpace();
-                                    Write(":");
-                                    WriteSpace();
-                                    WriteBlue("base");
-                                    Write("(" + v.NamesToString() + ")");
-                                }
-
-
-                                WriteLine();
-
-
-                                using (CodeBlock()) { }
-
-                                WriteLine();
-                            }
                     #endregion
 
                     #region Methods

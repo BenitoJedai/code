@@ -513,44 +513,27 @@ namespace ConvertASToCS.js.Any
             var ClassEOL = ClassIndex.IndexInfoOf("\n");
             ClassSignature = ClassIndex.SubString(ClassEOL).Trim();
 
+            var PropertyHeader = ClassEOL.IndexInfoOf("Property\tDefined by");
+            if (PropertyHeader.Index == -1)
+                PropertyHeader = ClassEOL.IndexInfoOf("Property\tDefined By");
 
-       
-   
-            if (IsInterface)
-            {
-                var PropertyHeader = ClassEOL.IndexInfoOf(" \tProperty\tDefined by");
-                if (PropertyHeader.Index == -1)
-                    PropertyHeader = ClassEOL.IndexInfoOf(" \tProperty\tDefined By");
+            var MethodHeader = ClassEOL.IndexInfoOf("Method\tDefined by");
+            if (MethodHeader.Index == -1)
+                MethodHeader = ClassEOL.IndexInfoOf("Method\tDefined By");
 
-                var MethodHeader = ClassEOL.IndexInfoOf(" \tMethod\tDefined by");
-                if (MethodHeader.Index == -1)
-                    MethodHeader = ClassEOL.IndexInfoOf(" \tMethod\tDefined By");
-
-
-                MethodHeader.ScanToList(Functions, MethodInfo.ScanNextInterfaceMember);
-                PropertyHeader.ScanToList(Properties, PropertyInfo.ScanNextInterfaceMember);
-            }
-            else
-            {
-                var PropertyHeader = ClassEOL.IndexInfoOf(" \tProperty\tDefined by");
-                if (PropertyHeader.Index == -1)
-                    PropertyHeader = ClassEOL.IndexInfoOf(" \tProperty\tDefined By");
-
-                var MethodHeader = ClassEOL.IndexInfoOf(" \tMethod\tDefined by");
-                if (MethodHeader.Index == -1)
-                    MethodHeader = ClassEOL.IndexInfoOf(" \tMethod\tDefined By");
-
-
+            if (MethodHeader.Index == -1)
                 MethodHeader.ScanToList(Functions, MethodInfo.ScanNext);
+
+            if (PropertyHeader.Index == -1)
                 PropertyHeader.ScanToList(Properties, PropertyInfo.ScanNext);
 
-                var ConstantHeader = ClassEOL.IndexInfoOf(" \tConstant\tDefined by");
-                if (ConstantHeader.Index == -1)
-                    ConstantHeader = ClassEOL.IndexInfoOf(" \tConstant\tDefined By");
 
+            var ConstantHeader = ClassEOL.IndexInfoOf("Constant\tDefined by");
+            if (ConstantHeader.Index == -1)
+                ConstantHeader = ClassEOL.IndexInfoOf("Constant\tDefined By");
+
+            if (ConstantHeader.Index == -1)
                 ConstantHeader.ScanToList(Constants, ConstantInfo.ScanNext);
-
-            }
 
 
 
