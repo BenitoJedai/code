@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express 2008
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightsOut", "LightsOut\LightsOut.csproj", "{463841D8-DAEE-4B5B-B7A3-EE259D40F011}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightsOut.Client", "LightsOut.Client\LightsOut.Client.csproj", "{505368EF-6B98-4238-BFDF-0C48CB5AE041}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +15,10 @@ Global
 		{463841D8-DAEE-4B5B-B7A3-EE259D40F011}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{463841D8-DAEE-4B5B-B7A3-EE259D40F011}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{463841D8-DAEE-4B5B-B7A3-EE259D40F011}.Release|Any CPU.Build.0 = Release|Any CPU
+		{505368EF-6B98-4238-BFDF-0C48CB5AE041}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{505368EF-6B98-4238-BFDF-0C48CB5AE041}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{505368EF-6B98-4238-BFDF-0C48CB5AE041}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{505368EF-6B98-4238-BFDF-0C48CB5AE041}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
