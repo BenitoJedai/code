@@ -16,6 +16,12 @@ namespace LightsOut.ActionScript
 
         const string Path = "/assets/LightsOut";
 
+        [Embed(source = Path + "/reveal.mp3")]
+        static public readonly Class snd_reveal;
+
+        [Embed(source = Path + "/tick.mp3")]
+        static public readonly Class snd_tick;
+
         [Embed(source = Path + "/background.png")]
         public static Class background;
 

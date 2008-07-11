@@ -10,6 +10,26 @@ namespace LightsOut.ActionScript
     [Script]
     static class MyExtensions
     {
+        public static double Random(this int e)
+        {
+            return (Math.Round(new Random().NextDouble() * e));
+        }
+
+
+        public static int ToInt32(this bool e)
+        {
+            if (e)
+                return 1;
+
+            return 0;
+        }
+
+        public static int ToInt32(this double e)
+        {
+            return Convert.ToInt32(e);
+        }
+
+
         public static void Times(this int e, Action h)
         {
             for (int i = 0; i < e; i++)

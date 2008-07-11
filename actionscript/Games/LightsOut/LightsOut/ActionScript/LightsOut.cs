@@ -8,6 +8,7 @@ using ScriptCoreLib.ActionScript.flash.events;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.ActionScript.mx.core;
 
 
 namespace LightsOut.ActionScript
@@ -48,9 +49,12 @@ namespace LightsOut.ActionScript
 
         public void Reset()
         {
+            this.mouseChildren = true; 
+            snd_reveal.play();
+
             Values.ForEach(i => i.Value = false);
 
-            4.Times(() => UserClicks.Random()());
+            (3.Random() + 4).ToInt32().Times(() => UserClicks.Random()());
         }
 
         Array2D<Action> UserClicks;
@@ -59,12 +63,89 @@ namespace LightsOut.ActionScript
 
         public event Action<int, int> NetworkClick;
 
+
+        public readonly SoundAsset snd_reveal = Assets.snd_reveal.ToSoundAsset();
+        public readonly SoundAsset snd_tick = Assets.snd_tick.ToSoundAsset();
+
+
         public void CheckForCompleteness(bool LocalPlayer)
         {
             if (Values.Any(i => i.Value))
                 return;
 
-            Reset();
+
+
+            Action<int, Action> Delay =
+                (time, h) =>
+                {
+                    var t = new Timer(time, 1);
+
+                    t.timer +=
+                        delegate
+                        {
+                            h();
+                        };
+
+                    t.start();
+                };
+
+            Action<int, Action[]> DelayArray =
+                (time, h) =>
+                {
+                    var i = 0;
+
+                    var Next = default(Action);
+
+
+                    Next = delegate
+                    {
+                        if (i < h.Length)
+                            Delay(time,
+                                delegate
+                                {
+                                    h[i]();
+                                    i++;
+                                    Next();
+                                }
+                            );
+                    };
+
+                    Next();
+                };
+
+            this.mouseChildren = false;
+
+            DelayArray(1000,
+                          new Action[] {
+                delegate
+                {
+                    snd_tick.play();
+                    Values.ForEach(i => i.Value = true);
+                },
+                delegate
+                {
+                    snd_tick.play();
+                    Values.ForEach(i => i.Value = false);
+                },
+                delegate
+                {
+                    if (LocalPlayer)
+                    {
+                        Reset();
+                    }
+
+                    // if (LocalPlayer)
+                    //{
+                    //    Reset();
+
+                    //    if (GameResetByLocalPlayer != null)
+                    //        GameResetByLocalPlayer();
+                    //}
+
+                    //if (GameReset != null)
+                    //    GameReset();
+                }
+            });
         }
 
         private void CreateField(int w, int h)

@@ -62,6 +62,8 @@
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
+    <EmbeddedResource Include="web\assets\LightsOut\reveal.mp3" />
+    <EmbeddedResource Include="web\assets\LightsOut\tick.mp3" />
     <EmbeddedResource Include="web\assets\LightsOut\click.mp3" />
     <EmbeddedResource Include="web\assets\LightsOut\vistaLogoOff.png" />
     <EmbeddedResource Include="web\assets\LightsOut\vistaLogoOn.png" />
