@@ -15,10 +15,7 @@ namespace jsc.Languages.CSharp2
     {
         public static string FileExtension = "cs";
 
-        public override ScriptType GetScriptType()
-        {
-            throw new NotImplementedException();
-        }
+        
 
 
 

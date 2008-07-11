@@ -106,12 +106,15 @@
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.WriteMethodCallVerified.cs" />
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.WriteDecoratedTypeName.cs" />
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.CompileType.cs" />
+    <Compile Include="Languages\ActionScript\ActionScriptCompiler.WriteImportTypes.cs" />
     <Compile Include="Languages\ActionScript\DelegateImplementationProvider.cs" />
     <Compile Include="Languages\ActionScript\EntryPointProvider.cs" />
     <Compile Include="Languages\CompilerBase.DIA.cs" />
     <Compile Include="Languages\CompilerBase.CompilerConstants.cs" />
     <Compile Include="Languages\CompilerJob.cs" />
     <Compile Include="Languages\CompilerBase.Handler.cs" />
+    <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteImportTypes.cs" />
+    <Compile Include="Languages\CSharp2\CSharp2Compiler.Keywords.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.override.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.CompileType.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.ctor.cs" />

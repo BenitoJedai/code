@@ -147,6 +147,17 @@ namespace jsc.Script
         {
         }
 
+        /// <summary>
+        /// if there is no implementation class, just use the one referenced if set to true
+        /// </summary>
+        public virtual bool SupportsBCLTypesAreNative
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         public virtual bool SupportsAbstractMethods
         {
             get
@@ -944,7 +955,7 @@ namespace jsc.Script
         }
 
 
-        public static MethodBase GetMethodImplementation(AssamblyTypeInfo MySession, ILInstruction i)
+        public MethodBase GetMethodImplementation(AssamblyTypeInfo MySession, ILInstruction i)
         {
             MethodBase method = i.ReferencedMethod;
 
@@ -955,12 +966,25 @@ namespace jsc.Script
             {
                 MethodBase impl = MySession.ResolveImplementation(method.DeclaringType, method);
 
-                if (impl == null)
-                    throw new NotSupportedException("implementation not found for type import : " +
-                        (method.DeclaringType.FullName
-                        ?? method.DeclaringType.Name) + " :: " + method);
 
-                method = impl;
+                if (impl == null)
+                {
+                    if (SupportsBCLTypesAreNative)
+                    {
+                        // ok
+                    }
+                    else
+                    {
+                        throw new NotSupportedException("implementation not found for type import : " +
+                            (method.DeclaringType.FullName
+                            ?? method.DeclaringType.Name) + " :: " + method);
+
+                    }
+                }
+                else
+                {
+                    method = impl;
+                }
 
             }
             return method;
