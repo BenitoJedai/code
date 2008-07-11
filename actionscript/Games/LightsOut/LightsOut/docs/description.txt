@@ -1,8 +1,24 @@
 ﻿FlashApplication. Crosscompiled from c# to actionscript.
 
 Steps to create a Nonoba Multiplayer game out if this game:
-1. Add new LightsOut.Client project to the solution
-2. Reference it with this game
-3. Change project default namespace
-4. Add Client folder and TeamPlay.cs
-5. Update build.bat for TeamPlay
+01. Add new LightsOut.Client project to the solution
+02. Reference it with this game
+03. Change project default namespace
+04. Add Client folder and TeamPlay.cs
+05. Update build.bat for TeamPlay
+06. Add reference to ScriptCoreLib.Nonoba and ScriptCoreLib.Mochi
+07. Add SharedClass1
+08. Add update.bat
+09. Run update and include SharedClass1.Generated.cs
+10. Define some basic network messages
+11. Add predefined file: Generic/ServerGameBase.cs
+12. Add predefined file: Generic/ServerPlayerBase.cs
+13. Add predefined file: Player.cs
+14. Add predefined file: Game.cs
+15. Add predefined file: IDispatchHelper.cs
+16. Add predefined file: IEventsDispatch.cs
+17. Update namespaces
+18. Add extension methods
+19. Add sound assets
+20. Compile LightsOut.Client
+21. Disable LightsOut build.bat (goto :skipped)
