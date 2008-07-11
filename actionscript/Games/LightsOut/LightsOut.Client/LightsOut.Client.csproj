@@ -82,6 +82,7 @@
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
     <Content Include="docs\SourceAnalysis.txt" />
+    <EmbeddedResource Include="web\assets\LightsOut.Client\GameThumbnail.png" />
     <EmbeddedResource Include="web\assets\LightsOut.Client.Sounds\scroll12.mp3" />
   </ItemGroup>
   <ItemGroup>

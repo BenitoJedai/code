@@ -1,5 +1,12 @@
 ﻿FlashApplication. Crosscompiled from c# to actionscript.
 
+Game Description:
+A remake of a classic electronic puzzle game.
+Pressing one of the lights will toggle it and the four lights adjacent to it on and off. 
+
+Game Instructions:
+Try to turn off all the lights by clicking on them.
+
 Steps to create a Nonoba Multiplayer game out if this game:
 01. Add new LightsOut.Client project to the solution
 02. Reference it with this game
@@ -40,7 +47,7 @@ Steps to create a Nonoba Multiplayer game out if this game:
 37. Add game state syncing on join
 38. Add build event to copy swf and dll for Nonoba
 39. Add coplayer mouse
-40. Create a preview image
+40. Create a preview image 100x100
 41. Setup MochiAds entry
 42. Add MochiPreloader.cs
 43. Update game_id
