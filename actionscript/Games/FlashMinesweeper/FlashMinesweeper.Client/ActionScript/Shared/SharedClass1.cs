@@ -54,6 +54,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             void UserReveal(int user, int button);
 
             void AddScore(int score);
+            void AwardAchievementFirstMinefieldComplete();
         }
     }
 }

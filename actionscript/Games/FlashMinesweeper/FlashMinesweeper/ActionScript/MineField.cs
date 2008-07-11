@@ -349,7 +349,7 @@ namespace FlashMinesweeper.ActionScript
         public event Action<int, bool> IsFlagChanged;
         public event Action<int> OnReveal;
         public event Action<bool> OneStepClosedToTheEnd;
-        
+
         public MineField(int FieldXCount, int FieldYCount, double percentage)
         {
 
@@ -496,6 +496,9 @@ namespace FlashMinesweeper.ActionScript
                                             if (GameResetByLocalPlayer != null)
                                                 GameResetByLocalPlayer();
                                         }
+
+                                        if (GameReset != null)
+                                            GameReset();
                                     }
                                 });
                     };
@@ -534,6 +537,9 @@ namespace FlashMinesweeper.ActionScript
                                             if (GameResetByLocalPlayer != null)
                                                 GameResetByLocalPlayer();
                                         }
+
+                                        if (GameReset != null)
+                                            GameReset();
                                     }
                                 });
                             }
@@ -552,5 +558,6 @@ namespace FlashMinesweeper.ActionScript
         public event Action<bool> OnComplete;
 
         public event Action GameResetByLocalPlayer;
+        public event Action GameReset;
     }
 }

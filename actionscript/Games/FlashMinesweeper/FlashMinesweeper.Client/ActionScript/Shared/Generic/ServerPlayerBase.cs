@@ -22,6 +22,9 @@ namespace FlashMinesweeper.ActionScript.Shared.Generic
 
         public Action<string, int> AddScore;
 
+        // http://nonoba.com/developers/documentation/multiplayerapi/classnonobagameuserserverside#server.nonobagameuser.awardachievement
+        public Func<string, uint> AwardAchievement;
+
         public int UserId;
         public string Username;
     }

@@ -386,7 +386,7 @@ namespace FlashMinesweeper.ActionScript.Client
                                     {
                                         p.alpha = 0.5;
 
-                                        
+
                                     }
                                 );
                                 9000.AtDelayDo(
@@ -457,13 +457,32 @@ namespace FlashMinesweeper.ActionScript.Client
                         AddScore(-4);
                 };
 
+            var LocalPlayerFieldsOpened = 0;
+
             Field.OnComplete +=
                    LocalPlayer =>
                    {
                        if (LocalPlayer)
-                           AddScore(150);
+                       {
+                           if (LocalPlayerFieldsOpened < 10)
+                           {
+                               AddScore(100);
+                           }
+                           else
+                           {
+                               AddScore(150);
+                               Messages.AwardAchievementFirstMinefieldComplete();
+                           }
+
+                       }
                        else
-                           AddScore(100);
+                       {
+                           // give only half of points if a coplayer was not active
+                           if (LocalPlayerFieldsOpened < 10)
+                               AddScore(50);
+                           else
+                               AddScore(100);
+                       }
                    };
 
             Field.IsFlagChanged +=
@@ -478,6 +497,12 @@ namespace FlashMinesweeper.ActionScript.Client
                     Messages.Reveal(button);
                 };
 
+            Field.GameReset +=
+                delegate
+                {
+                    LocalPlayerFieldsOpened = 0;
+                };
+
             Field.GameResetByLocalPlayer +=
                 delegate
                 {
@@ -489,9 +514,16 @@ namespace FlashMinesweeper.ActionScript.Client
                 LocalPlayer =>
                 {
                     if (LocalPlayer)
-                        AddScore(1);
+                    {
+                        LocalPlayerFieldsOpened++;
 
+                        if (LocalPlayerFieldsOpened < 10)
+                            AddScore(1);
+                        else
+                            AddScore(2);
+                    }
                 };
+
             Field.AttachTo(this);
 
 
@@ -541,7 +573,7 @@ namespace FlashMinesweeper.ActionScript.Client
     class ShapeWithMovement : Shape
     {
         Point MoveToTarget = new Point();
- 
+
         public ShapeWithMovement MoveTo(double x, double y)
         {
             MoveToTarget = new Point { x = x, y = y };

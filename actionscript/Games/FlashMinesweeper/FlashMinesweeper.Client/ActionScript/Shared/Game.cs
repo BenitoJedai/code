@@ -31,7 +31,8 @@ namespace FlashMinesweeper.ActionScript.Shared
             }
 
             player.FromPlayer.AddScore += e => player.AddScore("score", e.score);
-
+            player.FromPlayer.AwardAchievementFirstMinefieldComplete +=
+                e => player.AwardAchievement("firstminefielddone");
 
             player.ToPlayer.ServerPlayerHello(player.UserId, player.Username);
 

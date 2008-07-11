@@ -95,7 +95,9 @@ namespace FlashMinesweeper.Server
                 FromPlayerDispatch = FromPlayer,
                 UserId = player.UserId,
                 Username = player.Username,
-                AddScore = player.SubmitRankingDelta
+
+                AddScore = player.SubmitRankingDelta,
+                AwardAchievement = player.AwardAchievement,
             };
 
             FromPlayer.Router.Target = player.Virtual.ToOthers;

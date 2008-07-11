@@ -36,6 +36,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             Reveal,
             UserReveal,
             AddScore,
+            AwardAchievementFirstMinefieldComplete,
         }
         #endregion
 
@@ -72,6 +73,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             event Action<RemoteEvents.RevealArguments> Reveal;
             event Action<RemoteEvents.UserRevealArguments> UserReveal;
             event Action<RemoteEvents.AddScoreArguments> AddScore;
+            event Action<RemoteEvents.AwardAchievementFirstMinefieldCompleteArguments> AwardAchievementFirstMinefieldComplete;
         }
         #endregion
         #region IPairedEventsWithoutUser
@@ -225,6 +227,10 @@ namespace FlashMinesweeper.ActionScript.Shared
             public void AddScore(int score)
             {
                 Send(new SendArguments { i = Messages.AddScore, args = new object[] { score } });
+            }
+            public void AwardAchievementFirstMinefieldComplete()
+            {
+                Send(new SendArguments { i = Messages.AwardAchievementFirstMinefieldComplete, args = new object[] {  } });
             }
         }
         #endregion
@@ -590,6 +596,21 @@ namespace FlashMinesweeper.ActionScript.Shared
             }
             #endregion
             public event Action<AddScoreArguments> AddScore;
+            #region AwardAchievementFirstMinefieldCompleteArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class AwardAchievementFirstMinefieldCompleteArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().ToString();
+                }
+            }
+            #endregion
+            public event Action<AwardAchievementFirstMinefieldCompleteArguments> AwardAchievementFirstMinefieldComplete;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -611,6 +632,7 @@ namespace FlashMinesweeper.ActionScript.Shared
                             { Messages.Reveal, e => { Reveal(new RevealArguments { button = e.GetInt32(0) }); } },
                             { Messages.UserReveal, e => { UserReveal(new UserRevealArguments { user = e.GetInt32(0), button = e.GetInt32(1) }); } },
                             { Messages.AddScore, e => { AddScore(new AddScoreArguments { score = e.GetInt32(0) }); } },
+                            { Messages.AwardAchievementFirstMinefieldComplete, e => { AwardAchievementFirstMinefieldComplete(new AwardAchievementFirstMinefieldCompleteArguments {  }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -632,6 +654,7 @@ namespace FlashMinesweeper.ActionScript.Shared
                             { Messages.Reveal, e => Reveal },
                             { Messages.UserReveal, e => UserReveal },
                             { Messages.AddScore, e => AddScore },
+                            { Messages.AwardAchievementFirstMinefieldComplete, e => AwardAchievementFirstMinefieldComplete },
                         }
                 ;
             }
@@ -843,9 +866,16 @@ namespace FlashMinesweeper.ActionScript.Shared
                 AddScore(new RemoteEvents.AddScoreArguments { score = score });
             }
 
+            public event Action<RemoteEvents.AwardAchievementFirstMinefieldCompleteArguments> AwardAchievementFirstMinefieldComplete;
+            void IMessages.AwardAchievementFirstMinefieldComplete()
+            {
+                if(AwardAchievementFirstMinefieldComplete == null) return;
+                AwardAchievementFirstMinefieldComplete(new RemoteEvents.AwardAchievementFirstMinefieldCompleteArguments {  });
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 6.07.2008 2:41:00
+// 11.07.2008 10:20:05
