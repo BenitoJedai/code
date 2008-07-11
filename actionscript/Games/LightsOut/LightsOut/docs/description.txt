@@ -22,3 +22,18 @@ Steps to create a Nonoba Multiplayer game out if this game:
 19. Add sound assets
 20. Compile LightsOut.Client
 21. Disable LightsOut build.bat (goto :skipped)
+22. Add new LightsOut.Server project to the solution
+23. Add predefined file: Player.cs
+24. Add predefined file: Game.cs
+25. Update namespaces
+26. Add Library files
+27. Add reference to Nonoba.GameLibrary.dll
+28. Create folder System and add files
+29. Create folder Generic and add files
+30. Create folder Shared and add files as links from LightsOut.Client
+31. Create folder Shared/Generic and add files as links from LightsOut.Client
+32. Add conditional flag "NoAttributes"
+33. Add new LightsOut.ServerTest project to the solution
+34. Set LightsOut.ServerTest as startup project
+35. Add references
+36. Compile and test

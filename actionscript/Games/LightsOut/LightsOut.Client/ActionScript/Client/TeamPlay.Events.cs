@@ -10,7 +10,7 @@ using ScriptCoreLib.ActionScript.Nonoba.api;
 
 namespace LightsOut.ActionScript.Client
 {
-     partial class TeamPlay 
+    partial class TeamPlay
     {
 
         private void InitializeEvents()
