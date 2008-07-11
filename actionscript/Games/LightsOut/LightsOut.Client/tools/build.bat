@@ -32,6 +32,7 @@ pushd ..\bin\debug\web
 
 ::call :build %1 %2
 call :build LightsOut/ActionScript/Client TeamPlay
+call :build LightsOut/ActionScript/Client/Monetized MochiPreloader
 
 
 popd

@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LightsOut.ActionScript.Client.Assets;
+using LightsOut.ActionScript.Shared;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
+using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
-using LightsOut.ActionScript.Shared;
+using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.Nonoba.api;
 
 namespace LightsOut.ActionScript.Client
@@ -57,6 +60,48 @@ namespace LightsOut.ActionScript.Client
                 {
                     SyncMap(e.data);
                 };
+
+            Events.UserClick +=
+                e =>
+                {
+                    Map.UserClicksWithSound[e.x, e.y]();
+                    Map.CheckForCompleteness(false);
+                };
+
+            var Cursors = new Dictionary<int, ShapeWithMovement>();
+
+
+            Events.UserMouseMove +=
+                e =>
+                {
+                    var s = default(ShapeWithMovement);
+
+                    if (Cursors.ContainsKey(e.color))
+                        s = Cursors[e.color];
+                    else
+                    {
+                        s = new ShapeWithMovement
+                        {
+                            filters = new[] { new DropShadowFilter() },
+                            alpha = 0.5
+                        };
+
+
+                        var g = s.graphics;
+
+                        g.beginFill((uint)e.color);
+                        g.moveTo(0, 0);
+                        g.lineTo(14, 14);
+                        g.lineTo(0, 20);
+                        g.lineTo(0, 0);
+                        g.endFill();
+
+                        Cursors[e.color] = s;
+                    };
+
+                    s.AttachTo(this).MoveTo(e.x, e.y);
+                };
+
         }
 
         private void SyncMap(int[] p)
@@ -68,6 +113,9 @@ namespace LightsOut.ActionScript.Client
                 {
                     Map.Values[x, y].Value = data[x][y];
                 }
+
+            Map.mouseChildren = true;
+
         }
 
         private void SendMap()

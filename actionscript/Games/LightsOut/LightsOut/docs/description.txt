@@ -37,4 +37,14 @@ Steps to create a Nonoba Multiplayer game out if this game:
 34. Set LightsOut.ServerTest as startup project
 35. Add references
 36. Compile and test
-37. Add game state syncing
+37. Add game state syncing on join
+38. Add build event to copy swf and dll for Nonoba
+39. Add coplayer mouse
+40. Create a preview image
+41. Setup MochiAds entry
+42. Add MochiPreloader.cs
+43. Update game_id
+44. Update build.bat
+45. Compile and run MochiPreloader swf once
+46. Start filling out Mochi Game profile
+47. Setup Nonoba game account

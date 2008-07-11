@@ -33,8 +33,25 @@ namespace LightsOut.ActionScript.Client
 
             Map = new LightsOut();
 
+            Map.NetworkClick += Messages.Click;
+
+            Map.GameResetByLocalPlayer +=
+                delegate
+                {
+                    SendMap();
+                };
 
 
+            var MyColor = 0xffffff.Random().ToInt32();
+
+            Map.mouseMove +=
+                e =>
+                {
+
+                    Messages.MouseMove(e.stageX.ToInt32(), e.stageY.ToInt32(), MyColor);
+                };
+
+            
             Map.AttachTo(this);
         }
 

@@ -155,6 +155,7 @@ namespace LightsOut.ActionScript.Client
     {
         Point MoveToTarget = new Point();
 
+
         public ShapeWithMovement MoveTo(double x, double y)
         {
             MoveToTarget = new Point { x = x, y = y };

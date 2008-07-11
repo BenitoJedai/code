@@ -23,6 +23,13 @@ namespace LightsOut.ActionScript.Shared
 
             void SendMap(int[] data);
             void UserSendMap(int user, int[] data);
+
+            void Click(int x, int y);
+            void UserClick(int user, int x, int y);
+
+            void MouseMove(int x, int y, int color);
+            void UserMouseMove(int user, int x, int y, int color);
+
         }
     }
 }

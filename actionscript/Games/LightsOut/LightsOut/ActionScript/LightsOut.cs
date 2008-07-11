@@ -24,8 +24,8 @@ namespace LightsOut.ActionScript
         public const int ControlHeight = FieldY * FieldSize + FieldSize / 2;
 
         // background is not big enough
-        const int FieldX = 5;
-        const int FieldY = 5;
+        const int FieldX = 6;
+        const int FieldY = 6;
 
         const int FieldSize = 64;
 
@@ -49,15 +49,16 @@ namespace LightsOut.ActionScript
 
         public void Reset()
         {
-            this.mouseChildren = true; 
+            this.mouseChildren = true;
             snd_reveal.play();
 
             Values.ForEach(i => i.Value = false);
 
-            (3.Random() + 4).ToInt32().Times(() => UserClicks.Random()());
+            (6.Random() + 5).ToInt32().Times(() => UserClicks.Random()());
         }
 
-        Array2D<Action> UserClicks;
+        public Array2D<Action> UserClicks;
+        public Array2D<Action> UserClicksWithSound;
 
         public Array2D<Property<bool>> Values;
 
@@ -132,25 +133,24 @@ namespace LightsOut.ActionScript
                     if (LocalPlayer)
                     {
                         Reset();
+
+                        if (GameResetByLocalPlayer != null)
+                            GameResetByLocalPlayer();
                     }
 
-                    // if (LocalPlayer)
-                    //{
-                    //    Reset();
-
-                    //    if (GameResetByLocalPlayer != null)
-                    //        GameResetByLocalPlayer();
-                    //}
-
-                    //if (GameReset != null)
-                    //    GameReset();
+                    if (GameReset != null)
+                        GameReset();
                 }
             });
         }
 
+        public event Action GameResetByLocalPlayer;
+        public event Action GameReset;
+
         private void CreateField(int w, int h)
         {
             UserClicks = new Array2D<Action>(w, h);
+            UserClicksWithSound = new Array2D<Action>(w, h);
             Values = new Array2D<Property<bool>>(w, h);
 
             var a = new Array2D<Action>(w, h);
@@ -193,7 +193,7 @@ namespace LightsOut.ActionScript
                                 new Property<bool>
                                 {
                                     GetValue = () => btn.@on.visible,
-                                    SetValue = 
+                                    SetValue =
                                         value =>
                                         {
                                             btn.@on.visible = value;
@@ -228,14 +228,20 @@ namespace LightsOut.ActionScript
 
                             UserClicks[btn.x, btn.y] = UserClick;
 
-
-                            btn.sprite.click +=
+                            Action UserClickWithSound =
                                 delegate
                                 {
                                     UserClick();
 
-                                    
                                     btn.click.play();
+                                };
+
+                            UserClicksWithSound[btn.x, btn.y] = UserClickWithSound;
+
+                            btn.sprite.click +=
+                                delegate
+                                {
+                                    UserClickWithSound();
 
                                     if (NetworkClick != null)
                                         NetworkClick(btn.x, btn.y);
@@ -268,7 +274,23 @@ namespace LightsOut.ActionScript
 
                     v.b.x = v.a.x + v.a.width;
                 }
-            ); //.Aggregate(stop => this.click += e => stop());
+            );
+
+            new
+            {
+                a = Assets.background.ToBitmapAsset().MoveTo(0, 360).AttachTo(this),
+                b = Assets.background.ToBitmapAsset().MoveTo(0, 360).AttachTo(this)
+            }.TimerLoop(1000 / 24,
+                            v =>
+                            {
+                                v.a.x -= 1;
+
+                                if (v.a.x < -v.a.width)
+                                    v.a.x = 0;
+
+                                v.b.x = v.a.x + v.a.width;
+                            }
+                        );
         }
     }
 

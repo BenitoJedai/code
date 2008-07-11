@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\Client\Assets\Sounds.cs" />
+    <Compile Include="ActionScript\Client\Monetized\MochiPreloader.cs" />
     <Compile Include="ActionScript\Client\TeamPlay.Map.cs" />
     <Compile Include="ActionScript\Client\TeamPlay.Events.cs" />
     <Compile Include="ActionScript\Client\MyExtensions.cs" />
@@ -104,6 +105,8 @@
   <PropertyGroup>
     <PostBuildEvent>pushd ..\..\tools\
 call build.bat $(ProjectName)
-popd</PostBuildEvent>
+popd
+copy "$(TargetDir)web\*.swf" "$(SolutionDir)bin\"
+copy "$(TargetDir)web\*.htm" "$(SolutionDir)bin\"</PostBuildEvent>
   </PropertyGroup>
 </Project>

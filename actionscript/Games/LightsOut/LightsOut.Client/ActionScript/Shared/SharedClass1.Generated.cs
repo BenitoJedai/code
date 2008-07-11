@@ -27,6 +27,10 @@ namespace LightsOut.ActionScript.Shared
             ServerSendMap,
             SendMap,
             UserSendMap,
+            Click,
+            UserClick,
+            MouseMove,
+            UserMouseMove,
         }
         #endregion
 
@@ -54,6 +58,10 @@ namespace LightsOut.ActionScript.Shared
             event Action<RemoteEvents.ServerSendMapArguments> ServerSendMap;
             event Action<RemoteEvents.SendMapArguments> SendMap;
             event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
+            event Action<RemoteEvents.ClickArguments> Click;
+            event Action<RemoteEvents.UserClickArguments> UserClick;
+            event Action<RemoteEvents.MouseMoveArguments> MouseMove;
+            event Action<RemoteEvents.UserMouseMoveArguments> UserMouseMove;
         }
         #endregion
         #region IPairedEventsWithoutUser
@@ -65,6 +73,8 @@ namespace LightsOut.ActionScript.Shared
         {
             event Action<RemoteEvents.PlayerAdvertiseArguments> PlayerAdvertise;
             event Action<RemoteEvents.SendMapArguments> SendMap;
+            event Action<RemoteEvents.ClickArguments> Click;
+            event Action<RemoteEvents.MouseMoveArguments> MouseMove;
         }
         #endregion
         #region IPairedEventsWithUser
@@ -76,6 +86,8 @@ namespace LightsOut.ActionScript.Shared
         {
             event Action<RemoteEvents.UserPlayerAdvertiseArguments> UserPlayerAdvertise;
             event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
+            event Action<RemoteEvents.UserClickArguments> UserClick;
+            event Action<RemoteEvents.UserMouseMoveArguments> UserMouseMove;
         }
         #endregion
         #region IPairedMessagesWithUser
@@ -87,6 +99,8 @@ namespace LightsOut.ActionScript.Shared
         {
             void UserPlayerAdvertise(int user, string name);
             void UserSendMap(int user, int[] data);
+            void UserClick(int user, int x, int y);
+            void UserMouseMove(int user, int x, int y, int color);
         }
         #endregion
         #region IPairedMessagesWithoutUser
@@ -98,6 +112,8 @@ namespace LightsOut.ActionScript.Shared
         {
             void PlayerAdvertise(string name);
             void SendMap(int[] data);
+            void Click(int x, int y);
+            void MouseMove(int x, int y, int color);
         }
         #endregion
 
@@ -155,6 +171,22 @@ namespace LightsOut.ActionScript.Shared
                 var args = new object[data.Length];
                 Array.Copy(data, args, data.Length);
                 Send(new SendArguments { i = Messages.UserSendMap, args = args });
+            }
+            public void Click(int x, int y)
+            {
+                Send(new SendArguments { i = Messages.Click, args = new object[] { x, y } });
+            }
+            public void UserClick(int user, int x, int y)
+            {
+                Send(new SendArguments { i = Messages.UserClick, args = new object[] { user, x, y } });
+            }
+            public void MouseMove(int x, int y, int color)
+            {
+                Send(new SendArguments { i = Messages.MouseMove, args = new object[] { x, y, color } });
+            }
+            public void UserMouseMove(int user, int x, int y, int color)
+            {
+                Send(new SendArguments { i = Messages.UserMouseMove, args = new object[] { user, x, y, color } });
             }
         }
         #endregion
@@ -220,6 +252,14 @@ namespace LightsOut.ActionScript.Shared
                 public void UserSendMap(SendMapArguments e)
                 {
                     Target.UserSendMap(this.user, e.data);
+                }
+                public void UserClick(ClickArguments e)
+                {
+                    Target.UserClick(this.user, e.x, e.y);
+                }
+                public void UserMouseMove(MouseMoveArguments e)
+                {
+                    Target.UserMouseMove(this.user, e.x, e.y, e.color);
                 }
                 #endregion
             }
@@ -354,6 +394,76 @@ namespace LightsOut.ActionScript.Shared
             }
             #endregion
             public event Action<UserSendMapArguments> UserSendMap;
+            #region ClickArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class ClickArguments
+            {
+                public int x;
+                public int y;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<ClickArguments> Click;
+            #region UserClickArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class UserClickArguments : WithUserArguments
+            {
+                public int x;
+                public int y;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserClickArguments> UserClick;
+            #region MouseMoveArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class MouseMoveArguments
+            {
+                public int x;
+                public int y;
+                public int color;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ x = ").Append(this.x).Append(", y = ").Append(this.y).Append(", color = ").Append(this.color).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<MouseMoveArguments> MouseMove;
+            #region UserMouseMoveArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class UserMouseMoveArguments : WithUserArguments
+            {
+                public int x;
+                public int y;
+                public int color;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", x = ").Append(this.x).Append(", y = ").Append(this.y).Append(", color = ").Append(this.color).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserMouseMoveArguments> UserMouseMove;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -366,6 +476,10 @@ namespace LightsOut.ActionScript.Shared
                             { Messages.ServerSendMap, e => { ServerSendMap(new ServerSendMapArguments {  }); } },
                             { Messages.SendMap, e => { SendMap(new SendMapArguments { data = e.GetInt32Array(0) }); } },
                             { Messages.UserSendMap, e => { UserSendMap(new UserSendMapArguments { user = e.GetInt32(0), data = e.GetInt32Array(1) }); } },
+                            { Messages.Click, e => { Click(new ClickArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
+                            { Messages.UserClick, e => { UserClick(new UserClickArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
+                            { Messages.MouseMove, e => { MouseMove(new MouseMoveArguments { x = e.GetInt32(0), y = e.GetInt32(1), color = e.GetInt32(2) }); } },
+                            { Messages.UserMouseMove, e => { UserMouseMove(new UserMouseMoveArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2), color = e.GetInt32(3) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -378,6 +492,10 @@ namespace LightsOut.ActionScript.Shared
                             { Messages.ServerSendMap, e => ServerSendMap },
                             { Messages.SendMap, e => SendMap },
                             { Messages.UserSendMap, e => UserSendMap },
+                            { Messages.Click, e => Click },
+                            { Messages.UserClick, e => UserClick },
+                            { Messages.MouseMove, e => MouseMove },
+                            { Messages.UserMouseMove, e => UserMouseMove },
                         }
                 ;
             }
@@ -396,12 +514,16 @@ namespace LightsOut.ActionScript.Shared
                     {
                         this.PlayerAdvertise -= _Router.UserPlayerAdvertise;
                         this.SendMap -= _Router.UserSendMap;
+                        this.Click -= _Router.UserClick;
+                        this.MouseMove -= _Router.UserMouseMove;
                     }
                     _Router = value;
                     if(_Router != null)
                     {
                         this.PlayerAdvertise += _Router.UserPlayerAdvertise;
                         this.SendMap += _Router.UserSendMap;
+                        this.Click += _Router.UserClick;
+                        this.MouseMove += _Router.UserMouseMove;
                     }
                 }
             }
@@ -486,9 +608,53 @@ namespace LightsOut.ActionScript.Shared
                 ((IMessages)this).UserSendMap(user, data);
             }
 
+            public event Action<RemoteEvents.ClickArguments> Click;
+            void IMessages.Click(int x, int y)
+            {
+                if(Click == null) return;
+                Click(new RemoteEvents.ClickArguments { x = x, y = y });
+            }
+            void IPairedMessagesWithoutUser.Click(int x, int y)
+            {
+                ((IMessages)this).Click(x, y);
+            }
+
+            public event Action<RemoteEvents.UserClickArguments> UserClick;
+            void IMessages.UserClick(int user, int x, int y)
+            {
+                if(UserClick == null) return;
+                UserClick(new RemoteEvents.UserClickArguments { user = user, x = x, y = y });
+            }
+            void IPairedMessagesWithUser.UserClick(int user, int x, int y)
+            {
+                ((IMessages)this).UserClick(user, x, y);
+            }
+
+            public event Action<RemoteEvents.MouseMoveArguments> MouseMove;
+            void IMessages.MouseMove(int x, int y, int color)
+            {
+                if(MouseMove == null) return;
+                MouseMove(new RemoteEvents.MouseMoveArguments { x = x, y = y, color = color });
+            }
+            void IPairedMessagesWithoutUser.MouseMove(int x, int y, int color)
+            {
+                ((IMessages)this).MouseMove(x, y, color);
+            }
+
+            public event Action<RemoteEvents.UserMouseMoveArguments> UserMouseMove;
+            void IMessages.UserMouseMove(int user, int x, int y, int color)
+            {
+                if(UserMouseMove == null) return;
+                UserMouseMove(new RemoteEvents.UserMouseMoveArguments { user = user, x = x, y = y, color = color });
+            }
+            void IPairedMessagesWithUser.UserMouseMove(int user, int x, int y, int color)
+            {
+                ((IMessages)this).UserMouseMove(user, x, y, color);
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 11.07.2008 14:11:25
+// 11.07.2008 14:49:53
