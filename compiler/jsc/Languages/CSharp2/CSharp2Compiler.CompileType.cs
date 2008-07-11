@@ -19,7 +19,7 @@ namespace jsc.Languages.CSharp2
 
         public override bool CompileType(Type z)
         {
-            WriteLine("// cs2");
+            WriteLine("// cs2 " + DateTime.Now);
 
             WriteImportTypes(z);
 
@@ -29,6 +29,14 @@ namespace jsc.Languages.CSharp2
                     // using
 
                     WriteIdent();
+
+                    if (z.IsPublic)
+                        WriteKeywordSpace(Keywords._public);
+
+                    if (z.IsAbstract)
+                        WriteKeywordSpace(Keywords._abstract);
+
+                    WriteKeywordSpace(Keywords._partial);
                     WriteKeywordSpace(Keywords._class);
                     WriteDecoratedTypeName(z);
                     WriteLine();

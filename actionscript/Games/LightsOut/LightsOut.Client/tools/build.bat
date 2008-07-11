@@ -10,6 +10,15 @@ if '%ERRORLEVEL%' == '-1' (
     echo jsc failed.
     goto :eof
 )
+
+:: csc
+pushd ..\bin\debug\web
+
+call "C:\WINDOWS\Microsoft.NET\Framework\v3.5\csc.exe" /out:LightsOut.Server.dll /t:library  "LightsOut\Server\Game.cs" /r:..\Nonoba.GameLibrary.dll
+
+popd
+::goto :eof
+
 :: Namespace name, type name
 @call :mxmlc %1/ActionScript %1
 

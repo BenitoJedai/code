@@ -26,6 +26,8 @@ namespace jsc.Languages.CSharp2
             _namespace,
             _using,
             _class,
+            _partial,
+            _abstract,
 
 
 

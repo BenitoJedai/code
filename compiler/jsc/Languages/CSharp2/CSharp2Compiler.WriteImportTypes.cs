@@ -21,16 +21,7 @@ namespace jsc.Languages.CSharp2
             var t = GetImportTypes(z).ToList();
             var imports = new List<string>();
 
-            imports.AddRange(
-                z.GetCustomAttributes<ScriptImportsTypeAttribute>().Select(i => i.Name)
-            );
-
-            /*
-            t.RemoveAll(delegate(Type x)
-            {
-                return IsEmptyImplementationType(x);
-            });
-            */
+    
 
             while (t.Count > 0)
             {
@@ -53,28 +44,7 @@ namespace jsc.Languages.CSharp2
 
                 if (n != "")
                 {
-                    n += ".";
-
-                    if (a != null && a.Implements != null && a.ExternalTarget != null)
-                    {
-                        if (p != z)
-                        {
-
-                            imports.Add(n + GetDecoratedTypeName(p, false));
-                        }
-
-                        imports.Add(GetDecoratedTypeName(p, true));
-
-
-                    }
-                    else
-                    {
-
-                        imports.Add(n + GetDecoratedTypeName(p, true));
-
-
-
-                    }
+                    imports.Add(n);
                 }
                 // else top Level - no need to import
 
@@ -83,13 +53,8 @@ namespace jsc.Languages.CSharp2
             }
 
 
-            imports.Sort(
-               delegate(string x, string y)
-               {
-                   return x.CompareTo(y);
-               });
 
-            foreach (var v in imports)
+            foreach (var v in imports.OrderBy(k => k).Distinct())
             {
                 WriteIdent();
                 WriteKeywordSpace(Keywords._using);

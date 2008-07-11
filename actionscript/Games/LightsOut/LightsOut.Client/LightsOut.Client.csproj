@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Nonoba.GameLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\LightsOut.Server\Library\Nonoba.GameLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib, Version=3.0.2665.39893, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
@@ -76,6 +80,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Server\Game.cs" />
+    <Compile Include="Server\Generic\VirtualServerPlayerBase.cs" />
+    <Compile Include="Server\Player.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
@@ -98,9 +104,6 @@
       <Project>{463841D8-DAEE-4B5B-B7A3-EE259D40F011}</Project>
       <Name>LightsOut</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Server\Generic\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
