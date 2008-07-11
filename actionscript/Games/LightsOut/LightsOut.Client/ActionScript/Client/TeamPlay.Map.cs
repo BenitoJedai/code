@@ -63,14 +63,23 @@ namespace LightsOut.ActionScript.Client
                     {
                         LevelCompleteCount++;
 
-                        if (LevelCompleteCount == 3)
+                        if (LevelCompleteCount < 3)
+                            ShowMessage((3 - LevelCompleteCount) + " more games to the next award");
+                        else if (LevelCompleteCount == 3)
+                        {
+                            ShowMessage("Congrats! You have completed three games!");
                             Messages.AwardCompletedThree();
-
-                        if (LevelCompleteCount == 10)
+                        }
+                        else if (LevelCompleteCount < 10)
+                            ShowMessage((10 - LevelCompleteCount) + " more games to the next award");
+                        else if (LevelCompleteCount == 10)
+                        {
+                            ShowMessage("Congrats! You have completed ten games!");
                             Messages.AwardCompletedTen();
+                        }
 
 
-                        AddScore(Map.Level);
+                        AddScore(Map.Level * LevelCompleteCount);
                     }
                     else
                         AddScore(2);
