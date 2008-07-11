@@ -24,6 +24,9 @@ namespace LightsOut.ActionScript.Shared
             ServerPlayerLeft,
             PlayerAdvertise,
             UserPlayerAdvertise,
+            ServerSendMap,
+            SendMap,
+            UserSendMap,
         }
         #endregion
 
@@ -48,6 +51,9 @@ namespace LightsOut.ActionScript.Shared
             event Action<RemoteEvents.ServerPlayerLeftArguments> ServerPlayerLeft;
             event Action<RemoteEvents.PlayerAdvertiseArguments> PlayerAdvertise;
             event Action<RemoteEvents.UserPlayerAdvertiseArguments> UserPlayerAdvertise;
+            event Action<RemoteEvents.ServerSendMapArguments> ServerSendMap;
+            event Action<RemoteEvents.SendMapArguments> SendMap;
+            event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
         }
         #endregion
         #region IPairedEventsWithoutUser
@@ -58,6 +64,7 @@ namespace LightsOut.ActionScript.Shared
         public partial interface IPairedEventsWithoutUser
         {
             event Action<RemoteEvents.PlayerAdvertiseArguments> PlayerAdvertise;
+            event Action<RemoteEvents.SendMapArguments> SendMap;
         }
         #endregion
         #region IPairedEventsWithUser
@@ -68,6 +75,7 @@ namespace LightsOut.ActionScript.Shared
         public partial interface IPairedEventsWithUser
         {
             event Action<RemoteEvents.UserPlayerAdvertiseArguments> UserPlayerAdvertise;
+            event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
         }
         #endregion
         #region IPairedMessagesWithUser
@@ -78,6 +86,7 @@ namespace LightsOut.ActionScript.Shared
         public partial interface IPairedMessagesWithUser
         {
             void UserPlayerAdvertise(int user, string name);
+            void UserSendMap(int user, int[] data);
         }
         #endregion
         #region IPairedMessagesWithoutUser
@@ -88,6 +97,7 @@ namespace LightsOut.ActionScript.Shared
         public partial interface IPairedMessagesWithoutUser
         {
             void PlayerAdvertise(string name);
+            void SendMap(int[] data);
         }
         #endregion
 
@@ -129,6 +139,22 @@ namespace LightsOut.ActionScript.Shared
             public void UserPlayerAdvertise(int user, string name)
             {
                 Send(new SendArguments { i = Messages.UserPlayerAdvertise, args = new object[] { user, name } });
+            }
+            public void ServerSendMap()
+            {
+                Send(new SendArguments { i = Messages.ServerSendMap, args = new object[] {  } });
+            }
+            public void SendMap(int[] data)
+            {
+                var args = new object[data.Length];
+                Array.Copy(data, args, data.Length);
+                Send(new SendArguments { i = Messages.SendMap, args = args });
+            }
+            public void UserSendMap(int user, int[] data)
+            {
+                var args = new object[data.Length];
+                Array.Copy(data, args, data.Length);
+                Send(new SendArguments { i = Messages.UserSendMap, args = args });
             }
         }
         #endregion
@@ -190,6 +216,10 @@ namespace LightsOut.ActionScript.Shared
                 public void UserPlayerAdvertise(PlayerAdvertiseArguments e)
                 {
                     Target.UserPlayerAdvertise(this.user, e.name);
+                }
+                public void UserSendMap(SendMapArguments e)
+                {
+                    Target.UserSendMap(this.user, e.data);
                 }
                 #endregion
             }
@@ -277,6 +307,53 @@ namespace LightsOut.ActionScript.Shared
             }
             #endregion
             public event Action<UserPlayerAdvertiseArguments> UserPlayerAdvertise;
+            #region ServerSendMapArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class ServerSendMapArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().ToString();
+                }
+            }
+            #endregion
+            public event Action<ServerSendMapArguments> ServerSendMap;
+            #region SendMapArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class SendMapArguments
+            {
+                public int[] data;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ data = ").Append(this.data).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<SendMapArguments> SendMap;
+            #region UserSendMapArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class UserSendMapArguments : WithUserArguments
+            {
+                public int[] data;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", data = ").Append(this.data).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserSendMapArguments> UserSendMap;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -286,6 +363,9 @@ namespace LightsOut.ActionScript.Shared
                             { Messages.ServerPlayerLeft, e => { ServerPlayerLeft(new ServerPlayerLeftArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                             { Messages.PlayerAdvertise, e => { PlayerAdvertise(new PlayerAdvertiseArguments { name = e.GetString(0) }); } },
                             { Messages.UserPlayerAdvertise, e => { UserPlayerAdvertise(new UserPlayerAdvertiseArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
+                            { Messages.ServerSendMap, e => { ServerSendMap(new ServerSendMapArguments {  }); } },
+                            { Messages.SendMap, e => { SendMap(new SendMapArguments { data = e.GetInt32Array(0) }); } },
+                            { Messages.UserSendMap, e => { UserSendMap(new UserSendMapArguments { user = e.GetInt32(0), data = e.GetInt32Array(1) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -295,6 +375,9 @@ namespace LightsOut.ActionScript.Shared
                             { Messages.ServerPlayerLeft, e => ServerPlayerLeft },
                             { Messages.PlayerAdvertise, e => PlayerAdvertise },
                             { Messages.UserPlayerAdvertise, e => UserPlayerAdvertise },
+                            { Messages.ServerSendMap, e => ServerSendMap },
+                            { Messages.SendMap, e => SendMap },
+                            { Messages.UserSendMap, e => UserSendMap },
                         }
                 ;
             }
@@ -312,11 +395,13 @@ namespace LightsOut.ActionScript.Shared
                     if(_Router != null)
                     {
                         this.PlayerAdvertise -= _Router.UserPlayerAdvertise;
+                        this.SendMap -= _Router.UserSendMap;
                     }
                     _Router = value;
                     if(_Router != null)
                     {
                         this.PlayerAdvertise += _Router.UserPlayerAdvertise;
+                        this.SendMap += _Router.UserSendMap;
                     }
                 }
             }
@@ -372,9 +457,38 @@ namespace LightsOut.ActionScript.Shared
                 ((IMessages)this).UserPlayerAdvertise(user, name);
             }
 
+            public event Action<RemoteEvents.ServerSendMapArguments> ServerSendMap;
+            void IMessages.ServerSendMap()
+            {
+                if(ServerSendMap == null) return;
+                ServerSendMap(new RemoteEvents.ServerSendMapArguments {  });
+            }
+
+            public event Action<RemoteEvents.SendMapArguments> SendMap;
+            void IMessages.SendMap(int[] data)
+            {
+                if(SendMap == null) return;
+                SendMap(new RemoteEvents.SendMapArguments { data = data });
+            }
+            void IPairedMessagesWithoutUser.SendMap(int[] data)
+            {
+                ((IMessages)this).SendMap(data);
+            }
+
+            public event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
+            void IMessages.UserSendMap(int user, int[] data)
+            {
+                if(UserSendMap == null) return;
+                UserSendMap(new RemoteEvents.UserSendMapArguments { user = user, data = data });
+            }
+            void IPairedMessagesWithUser.UserSendMap(int user, int[] data)
+            {
+                ((IMessages)this).UserSendMap(user, data);
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 11.07.2008 13:21:11
+// 11.07.2008 14:11:25

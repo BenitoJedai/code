@@ -19,16 +19,7 @@ namespace LightsOut.ActionScript.Shared
             Console.WriteLine("UserJoined " + player.Username);
 
 
-            //var x = default(Player);
-
-            //foreach (var v in Users)
-            //{
-            //    if (v.UserId != player.UserId)
-            //    {
-            //        x = v;
-            //        break;
-            //    }
-            //}
+       
 
             //player.FromPlayer.AddScore += e => player.AddScore("score", e.score);
             //player.FromPlayer.AwardAchievementFirstMinefieldComplete +=
@@ -40,10 +31,12 @@ namespace LightsOut.ActionScript.Shared
                player.UserId, player.Username
             );
 
-            //if (x != null)
-            //{
-            //    x.ToPlayer.ServerSendMap();
-            //}
+            var x = AnyOtherUser(player);
+
+            if (x != null)
+            {
+                x.ToPlayer.ServerSendMap();
+            }
 
         }
 

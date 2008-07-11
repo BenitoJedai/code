@@ -17,6 +17,12 @@ namespace LightsOut.ActionScript.Shared
 
             void PlayerAdvertise(string name);
             void UserPlayerAdvertise(int user, string name);
+
+
+            void ServerSendMap();
+
+            void SendMap(int[] data);
+            void UserSendMap(int user, int[] data);
         }
     }
 }

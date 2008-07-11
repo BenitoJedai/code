@@ -17,7 +17,6 @@ namespace LightsOut.ActionScript.Client
         {
             var MyIdentity = default(SharedClass1.RemoteEvents.ServerPlayerHelloArguments);
 
-            // events after init
             Events.ServerPlayerHello +=
                 e =>
                 {
@@ -46,6 +45,54 @@ namespace LightsOut.ActionScript.Client
                 {
                     ShowMessage("Player already here - " + e.name);
                 };
+
+            Events.ServerSendMap +=
+                e =>
+                {
+                    SendMap();
+                };
+
+            Events.UserSendMap +=
+                e =>
+                {
+                    SyncMap(e.data);
+                };
+        }
+
+        private void SyncMap(int[] p)
+        {
+            var data = p.Select(i => new BitField { Value = i }).ToArray();
+
+            for (int x = 0; x < Map.Values.XLength; x++)
+                for (int y = 0; y < Map.Values.YLength; y++)
+                {
+                    Map.Values[x, y].Value = data[x][y];
+                }
+        }
+
+        private void SendMap()
+        {
+            var m = Map.Values;
+
+            var data = new BitField[m.XLength];
+
+            for (int x = 0; x < m.XLength; x++)
+            {
+                var f = new BitField();
+                data[x] = f;
+
+                for (int y = 0; y < m.YLength; y++)
+                {
+                    var v = m[x, y];
+
+                    if (v == null)
+                        throw new Exception("map item missing: " + new { x, y, m.Length, m.XLength, m.YLength });
+
+                    f[y] = v.Value;
+                }
+            }
+
+            Messages.SendMap(data.Select(i => i.Value).ToArray());
         }
 
 

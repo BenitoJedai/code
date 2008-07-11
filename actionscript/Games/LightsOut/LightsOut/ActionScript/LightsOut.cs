@@ -59,7 +59,7 @@ namespace LightsOut.ActionScript
 
         Array2D<Action> UserClicks;
 
-        Array2D<Property<bool>> Values;
+        public Array2D<Property<bool>> Values;
 
         public event Action<int, int> NetworkClick;
 

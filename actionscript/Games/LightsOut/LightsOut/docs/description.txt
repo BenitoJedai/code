@@ -37,3 +37,4 @@ Steps to create a Nonoba Multiplayer game out if this game:
 34. Set LightsOut.ServerTest as startup project
 35. Add references
 36. Compile and test
+37. Add game state syncing
