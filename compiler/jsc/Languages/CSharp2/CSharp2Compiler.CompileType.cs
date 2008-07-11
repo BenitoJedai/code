@@ -39,6 +39,15 @@ namespace jsc.Languages.CSharp2
                     WriteKeywordSpace(Keywords._partial);
                     WriteKeywordSpace(Keywords._class);
                     WriteDecoratedTypeName(z);
+
+                    if (z.BaseType != null && z.BaseType != typeof(object))
+                    {
+                        WriteSpace();
+                        Write(":");
+                        WriteSpace();
+                        WriteDecoratedTypeName(z.BaseType);
+                    }
+
                     WriteLine();
 
                     using (CreateScope())
