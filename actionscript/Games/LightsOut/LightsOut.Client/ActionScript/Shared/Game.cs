@@ -21,7 +21,8 @@ namespace LightsOut.ActionScript.Shared
 
        
 
-            //player.FromPlayer.AddScore += e => player.AddScore("score", e.score);
+            player.FromPlayer.AddScore += e => player.AddScore("score", e.score);
+
             //player.FromPlayer.AwardAchievementFirstMinefieldComplete +=
             //    e => player.AwardAchievement("firstminefielddone");
 

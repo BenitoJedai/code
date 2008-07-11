@@ -30,6 +30,8 @@ namespace LightsOut.ActionScript.Shared
             void MouseMove(int x, int y, int color);
             void UserMouseMove(int user, int x, int y, int color);
 
+
+            void AddScore(int score);
         }
     }
 }

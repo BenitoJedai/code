@@ -42,6 +42,32 @@ namespace LightsOut.ActionScript.Client
                 };
 
 
+            Action<int> AddScore =
+                e =>
+                {
+                    if (e > 0)
+                    {
+                        if (e < 5)
+                            ShowMessage("+" + e);
+                        else
+                            ShowMessage("Yay! +" + e);
+                    }
+                    else
+                        ShowMessage("Booom! -" + e);
+
+                    Messages.AddScore(e);
+
+                };
+
+            Map.LevelComplete +=
+                IsLocalPlayer =>
+                {
+                    if (IsLocalPlayer)
+                        AddScore(Map.Level * 2);
+                    else
+                        AddScore(Map.Level);
+                };
+
             var MyColor = 0xffffff.Random().ToInt32();
 
             Map.mouseMove +=
@@ -51,6 +77,7 @@ namespace LightsOut.ActionScript.Client
                     Messages.MouseMove(e.stageX.ToInt32(), e.stageY.ToInt32(), MyColor);
                 };
 
+            
             
             Map.AttachTo(this);
         }

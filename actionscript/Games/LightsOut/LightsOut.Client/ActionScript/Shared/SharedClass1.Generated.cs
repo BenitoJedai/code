@@ -31,6 +31,7 @@ namespace LightsOut.ActionScript.Shared
             UserClick,
             MouseMove,
             UserMouseMove,
+            AddScore,
         }
         #endregion
 
@@ -62,6 +63,7 @@ namespace LightsOut.ActionScript.Shared
             event Action<RemoteEvents.UserClickArguments> UserClick;
             event Action<RemoteEvents.MouseMoveArguments> MouseMove;
             event Action<RemoteEvents.UserMouseMoveArguments> UserMouseMove;
+            event Action<RemoteEvents.AddScoreArguments> AddScore;
         }
         #endregion
         #region IPairedEventsWithoutUser
@@ -187,6 +189,10 @@ namespace LightsOut.ActionScript.Shared
             public void UserMouseMove(int user, int x, int y, int color)
             {
                 Send(new SendArguments { i = Messages.UserMouseMove, args = new object[] { user, x, y, color } });
+            }
+            public void AddScore(int score)
+            {
+                Send(new SendArguments { i = Messages.AddScore, args = new object[] { score } });
             }
         }
         #endregion
@@ -464,6 +470,22 @@ namespace LightsOut.ActionScript.Shared
             }
             #endregion
             public event Action<UserMouseMoveArguments> UserMouseMove;
+            #region AddScoreArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class AddScoreArguments
+            {
+                public int score;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ score = ").Append(this.score).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<AddScoreArguments> AddScore;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -480,6 +502,7 @@ namespace LightsOut.ActionScript.Shared
                             { Messages.UserClick, e => { UserClick(new UserClickArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
                             { Messages.MouseMove, e => { MouseMove(new MouseMoveArguments { x = e.GetInt32(0), y = e.GetInt32(1), color = e.GetInt32(2) }); } },
                             { Messages.UserMouseMove, e => { UserMouseMove(new UserMouseMoveArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2), color = e.GetInt32(3) }); } },
+                            { Messages.AddScore, e => { AddScore(new AddScoreArguments { score = e.GetInt32(0) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -496,6 +519,7 @@ namespace LightsOut.ActionScript.Shared
                             { Messages.UserClick, e => UserClick },
                             { Messages.MouseMove, e => MouseMove },
                             { Messages.UserMouseMove, e => UserMouseMove },
+                            { Messages.AddScore, e => AddScore },
                         }
                 ;
             }
@@ -652,9 +676,16 @@ namespace LightsOut.ActionScript.Shared
                 ((IMessages)this).UserMouseMove(user, x, y, color);
             }
 
+            public event Action<RemoteEvents.AddScoreArguments> AddScore;
+            void IMessages.AddScore(int score)
+            {
+                if(AddScore == null) return;
+                AddScore(new RemoteEvents.AddScoreArguments { score = score });
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 11.07.2008 14:49:53
+// 11.07.2008 15:31:58

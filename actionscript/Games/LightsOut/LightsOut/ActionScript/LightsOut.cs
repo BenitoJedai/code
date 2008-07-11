@@ -47,6 +47,8 @@ namespace LightsOut.ActionScript
             Reset();
         }
 
+        public int Level;
+
         public void Reset()
         {
             this.mouseChildren = true;
@@ -54,7 +56,8 @@ namespace LightsOut.ActionScript
 
             Values.ForEach(i => i.Value = false);
 
-            (6.Random() + 5).ToInt32().Times(() => UserClicks.Random()());
+            Level = (6.Random() + 5).ToInt32();
+            Level.Times(() => UserClicks.Random()());
         }
 
         public Array2D<Action> UserClicks;
@@ -68,13 +71,15 @@ namespace LightsOut.ActionScript
         public readonly SoundAsset snd_reveal = Assets.snd_reveal.ToSoundAsset();
         public readonly SoundAsset snd_tick = Assets.snd_tick.ToSoundAsset();
 
+        public Action<bool> LevelComplete;
 
         public void CheckForCompleteness(bool LocalPlayer)
         {
             if (Values.Any(i => i.Value))
                 return;
 
-
+            if (LevelComplete != null)
+                LevelComplete(LocalPlayer);
 
             Action<int, Action> Delay =
                 (time, h) =>
