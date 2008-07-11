@@ -216,6 +216,9 @@ namespace jsc
 
                             if (options.IsActionScript)
                                 Languages.CompilerJob.Compile(v, sinfo);
+
+                            if (options.IsCSharp2)
+                                Languages.CompilerJob.Compile(v, sinfo);
                         }
 
                         //ScriptType t = ScriptType.Unknown;

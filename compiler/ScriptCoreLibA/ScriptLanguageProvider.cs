@@ -6,14 +6,14 @@ using ScriptCoreLib.LanguageProviders;
 
 
 
-[assembly:
-  ScriptLanguageProvider(typeof(PHP5Provider), "*.source.php", "*.source.shared"),
-  ScriptLanguageProvider(typeof(PHP4Provider), "*.source.php", "*.source.shared"),
-  ScriptLanguageProvider(typeof(ActionScript2Provider), "*.source.as", "*.source.shared"),
-  ScriptLanguageProvider(typeof(ActionScript3Provider), "*.source.as", "*.source.shared"),
-  ScriptLanguageProvider(typeof(Java4Provider), "java"),
-  ScriptLanguageProvider(typeof(object), "java")
-]
+//[assembly:
+//  ScriptLanguageProvider(typeof(PHP5Provider), "*.source.php", "*.source.shared"),
+//  ScriptLanguageProvider(typeof(PHP4Provider), "*.source.php", "*.source.shared"),
+//  ScriptLanguageProvider(typeof(ActionScript2Provider), "*.source.as", "*.source.shared"),
+//  ScriptLanguageProvider(typeof(ActionScript3Provider), "*.source.as", "*.source.shared"),
+//  ScriptLanguageProvider(typeof(Java4Provider), "java"),
+//  ScriptLanguageProvider(typeof(object), "java")
+//]
 
 
 

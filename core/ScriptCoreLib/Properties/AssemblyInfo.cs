@@ -55,6 +55,12 @@ using ScriptCoreLib;
 [assembly: ScriptTypeFilter(ScriptType.PHP, "*.PHP")]
 [assembly: ScriptTypeFilter(ScriptType.PHP, "*.Shared")]
 
+[assembly: 
+    ScriptTypeFilter(ScriptType.CSharp2, "*.CSharp2"),
+    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.CSharp2.BCLImplementation", VirtualNamespaceName = ""),
+]
+
+
 [assembly: InternalsVisibleTo("ScriptCoreLib.Query")]
 [assembly: InternalsVisibleTo("ScriptCoreLib.Windows.Forms")]
 [assembly: InternalsVisibleTo("ScriptCoreLib.Drawing.Vector")]

@@ -29,7 +29,8 @@ namespace ScriptCoreLib
         C,
         Batch,
         VisualBasic,
-        ActionScript
+        ActionScript,
+        CSharp2,
     }
 
 

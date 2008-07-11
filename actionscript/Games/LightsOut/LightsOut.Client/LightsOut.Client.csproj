@@ -75,6 +75,7 @@
     <Compile Include="ActionScript\Shared\SharedClass1.Generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
+    <Compile Include="Server\Game.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
@@ -97,6 +98,9 @@
       <Project>{463841D8-DAEE-4B5B-B7A3-EE259D40F011}</Project>
       <Name>LightsOut</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Server\Generic\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

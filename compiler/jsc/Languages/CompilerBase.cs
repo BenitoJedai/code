@@ -1321,7 +1321,7 @@ namespace jsc.Script
 
         public virtual string GetDecoratedTypeNameWithinNestedName(Type z)
         {
-            return "";
+            return z.Name;
         }
 
 

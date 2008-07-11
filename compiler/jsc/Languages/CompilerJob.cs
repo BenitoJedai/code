@@ -101,6 +101,8 @@ namespace jsc.Languages
             if (j.GetTypeFilterListByType(ScriptType.ActionScript).Any())
                 CompileActionScript(j, sinfo);
 
+            if (j.GetTypeFilterListByType(ScriptType.CSharp2).Any())
+                CompileCSharp2(j, sinfo);
 
         }
 

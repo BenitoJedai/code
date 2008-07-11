@@ -74,6 +74,10 @@ namespace jsc
         [CommandLineOption(Flag = "as")]
         public bool IsActionScript;
 
+        [CommandLineOption(Flag = "cs2")]
+        public bool IsCSharp2;
+
+
         [CommandLineOption(Flag = "trim", Description = "Unused types will be ommited")]
         public bool Trim;
 

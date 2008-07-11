@@ -516,6 +516,7 @@
   <ItemGroup>
     <Folder Include="ActionScript\Extensions\mx\core\" />
     <Folder Include="ActionScript\mx\effects\effectClasses\" />
+    <Folder Include="CSharp2\BCLImplementation\System\" />
     <Folder Include="Documents\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

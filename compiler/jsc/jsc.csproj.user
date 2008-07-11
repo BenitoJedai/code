@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>c:\util\jsc\bin</StartWorkingDirectory>
-    <StartArguments>ScriptCoreLib.dll -as</StartArguments>
+    <StartWorkingDirectory>X:\c#\jsc\svn\actionscript\Games\LightsOut\LightsOut.Client\bin\Debug</StartWorkingDirectory>
+    <StartArguments>LightsOut.Client.dll -cs2</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
