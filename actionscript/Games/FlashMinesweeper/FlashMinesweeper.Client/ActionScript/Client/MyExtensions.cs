@@ -12,6 +12,18 @@ namespace FlashMinesweeper.ActionScript.Client
     [Script]
     public static class MyExtensions
     {
+        public static void InvokeWhenStageIsReady(this DisplayObject o, Action a)
+        {
+            if (o.stage == null)
+                o.addedToStage +=
+                    delegate
+                    {
+                        a();
+                    };
+            else
+                a();
+        }
+
         public static double GetRotation(this Point p)
         {
             var x = p.x;
@@ -112,5 +124,66 @@ namespace FlashMinesweeper.ActionScript.Client
             return t;
         }
 
+    }
+
+
+
+    [Script]
+    class BitField
+    {
+        public int Value;
+
+        public bool this[int index]
+        {
+            get
+            {
+                return ((Value >> index) & 1) == 1;
+            }
+            set
+            {
+                Value |= 1 << index;
+
+                if (!value)
+                    Value ^= 1 << index;
+            }
+        }
+    }
+
+    [Script]
+    class ShapeWithMovement : Shape
+    {
+        Point MoveToTarget = new Point();
+
+        public ShapeWithMovement MoveTo(double x, double y)
+        {
+            MoveToTarget = new Point { x = x, y = y };
+
+
+            return this;
+        }
+
+        public ShapeWithMovement()
+        {
+            (1000 / 30).AtInterval(
+                t =>
+                {
+                    var c = this.ToPoint();
+
+                    var x = MoveToTarget - c;
+
+                    if (x.length < 2)
+                    {
+                    }
+                    else if (x.length < 4)
+                    {
+                        this.MoveToArc(x.GetRotation(), x.length / 2);
+                    }
+                    else
+                    {
+                        this.MoveToArc(x.GetRotation(), x.length / 4);
+                    }
+                }
+            );
+        }
     }
 }
