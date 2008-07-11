@@ -1,13 +1,13 @@
-﻿using ScriptCoreLib;
-using ScriptCoreLib.ActionScript.flash.display;
-using ScriptCoreLib.ActionScript.flash.text;
+﻿using System;
+using System.Linq;
+using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
-using ScriptCoreLib.Shared.Lambda;
-using ScriptCoreLib.ActionScript.flash.utils;
-using System;
+using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.events;
-using System.Linq;
+using ScriptCoreLib.ActionScript.flash.text;
+using ScriptCoreLib.ActionScript.flash.utils;
+using ScriptCoreLib.Shared.Lambda;
 
 
 namespace LightsOut.ActionScript
@@ -22,24 +22,7 @@ namespace LightsOut.ActionScript
         public const int ControlWidth = FieldX * FieldSize + FieldSize / 2;
         public const int ControlHeight = FieldY * FieldSize + FieldSize / 2;
 
-        [Script]
-        public static class Assets
-        {
-            const string Path = "/assets/LightsOut";
-
-            [Embed(source = Path + "/background.png")]
-            public static Class background;
-
-            [Embed(source = Path + "/vistaLogoOn.png")]
-            public static Class vistaLogoOn;
-
-            [Embed(source = Path + "/vistaLogoOff.png")]
-            public static Class vistaLogoOff;
-
-            [Embed(source = Path + "/click.mp3")]
-            public static Class click;
-        }
-
+        // background is not big enough
         const int FieldX = 5;
         const int FieldY = 5;
 
@@ -47,6 +30,8 @@ namespace LightsOut.ActionScript
 
         public LightsOut()
         {
+            // http://en.wikipedia.org/wiki/Lights_Out_(game)
+
             AnimateBackground();
 
             // http://www.flashkit.com/soundfx/Interfaces/
@@ -54,15 +39,43 @@ namespace LightsOut.ActionScript
             CreateField(FieldX, FieldY);
 
 
+            // randomize
 
 
+
+            Reset();
         }
 
-        private Array2D<Action> CreateField(int w, int h)
+        public void Reset()
         {
+            Values.ForEach(i => i.Value = false);
+
+            4.Times(() => UserClicks.Random()());
+        }
+
+        Array2D<Action> UserClicks;
+
+        Array2D<Property<bool>> Values;
+
+        public event Action<int, int> NetworkClick;
+
+        public void CheckForCompleteness(bool LocalPlayer)
+        {
+            if (Values.Any(i => i.Value))
+                return;
+
+            Reset();
+        }
+
+        private void CreateField(int w, int h)
+        {
+            UserClicks = new Array2D<Action>(w, h);
+            Values = new Array2D<Property<bool>>(w, h);
+
             var a = new Array2D<Action>(w, h);
 
-            var r =  new Random();
+
+            var r = new Random();
 
             for (int x = 0; x < w; x++)
                 for (int y = 0; y < h; y++)
@@ -95,26 +108,34 @@ namespace LightsOut.ActionScript
                                     btn.@off.visible = !btn.@off.visible;
                                 };
 
-                            if (r.NextDouble() < 0.5)
-                                a[btn.x, btn.y]();
+                            Values[btn.x, btn.y] =
+                                new Property<bool>
+                                {
+                                    GetValue = () => btn.@on.visible,
+                                    SetValue = 
+                                        value =>
+                                        {
+                                            btn.@on.visible = value;
+                                            btn.@off.visible = !value;
+                                        }
+                                };
 
                             Func<int, int, bool> ToggleDirect =
                                 (ix, iy) =>
                                 {
-                                      var n = a[ix, iy];
+                                    var n = a[ix, iy];
 
-                                      if (n == null)
-                                          return false;
+                                    if (n == null)
+                                        return false;
 
-                                      n();
+                                    n();
 
-                                      return true;
+                                    return true;
                                 };
 
                             var f = ToggleDirect.WithOffset(btn.x, btn.y);
 
-                            
-                            btn.sprite.click +=
+                            Action UserClick =
                                 delegate
                                 {
                                     f(0, 0);
@@ -122,10 +143,23 @@ namespace LightsOut.ActionScript
                                     f(-1, 0);
                                     f(0, 1);
                                     f(0, -1);
+                                };
+
+                            UserClicks[btn.x, btn.y] = UserClick;
+
+
+                            btn.sprite.click +=
+                                delegate
+                                {
+                                    UserClick();
 
                                     
-
                                     btn.click.play();
+
+                                    if (NetworkClick != null)
+                                        NetworkClick(btn.x, btn.y);
+
+                                    CheckForCompleteness(true);
                                 };
 
 
@@ -135,7 +169,6 @@ namespace LightsOut.ActionScript
                         }
                     );
 
-            return a;
         }
 
         private void AnimateBackground()
@@ -158,4 +191,22 @@ namespace LightsOut.ActionScript
         }
     }
 
+    [Script]
+    public class Property<T>
+    {
+        public Func<T> GetValue;
+        public Action<T> SetValue;
+
+        public T Value
+        {
+            get
+            {
+                return GetValue();
+            }
+            set
+            {
+                SetValue(value);
+            }
+        }
+    }
 }

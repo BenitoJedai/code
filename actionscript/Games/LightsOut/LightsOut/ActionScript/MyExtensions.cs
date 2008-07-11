@@ -10,6 +10,14 @@ namespace LightsOut.ActionScript
     [Script]
     static class MyExtensions
     {
+        public static void Times(this int e, Action h)
+        {
+            for (int i = 0; i < e; i++)
+            {
+                h();
+            }
+        }
+
         public static IEnumerable<T> Do<T>(this IEnumerable<T> s)
         {
             foreach (var v in s);
