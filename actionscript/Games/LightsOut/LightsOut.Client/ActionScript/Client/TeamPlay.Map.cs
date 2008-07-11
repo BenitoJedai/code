@@ -35,29 +35,24 @@ namespace LightsOut.ActionScript.Client
 
             Map.NetworkClick += Messages.Click;
 
+            Map.NetworkClick +=
+                delegate
+                {
+                    DecreaseClickCountdown(true);
+                };
+
+
+
             Map.GameResetByLocalPlayer +=
                 delegate
                 {
+                    ResetClickCountdown(Map.Level);
+
                     SendMap();
                 };
 
 
-            Action<int> AddScore =
-                e =>
-                {
-                    if (e > 0)
-                    {
-                        if (e < 3)
-                            ShowMessage("+" + e);
-                        else
-                            ShowMessage("Yay! +" + e);
-                    }
-                    else
-                        ShowMessage("Booom! -" + e);
 
-                    Messages.AddScore(e);
-
-                };
 
             var LevelCompleteCount = 0;
 
@@ -90,10 +85,27 @@ namespace LightsOut.ActionScript.Client
                     Messages.MouseMove(e.stageX.ToInt32(), e.stageY.ToInt32(), MyColor);
                 };
 
-            
-            
+
+
             Map.AttachTo(this);
+
+            ResetClickCountdown(Map.Level);
         }
 
+        public void AddScore(int e)
+        {
+            if (e > 0)
+            {
+                if (e < 3)
+                    ShowMessage("+" + e);
+                else
+                    ShowMessage("Yay! +" + e);
+            }
+            else
+                ShowMessage("Booom! -" + e);
+
+            Messages.AddScore(e);
+
+        }
     }
 }

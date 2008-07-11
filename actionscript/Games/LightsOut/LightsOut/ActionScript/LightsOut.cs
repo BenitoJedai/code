@@ -81,6 +81,14 @@ namespace LightsOut.ActionScript
             if (LevelComplete != null)
                 LevelComplete(LocalPlayer);
 
+            TakeNextMap(LocalPlayer);
+        }
+
+        public void TakeNextMap(bool LocalPlayer)
+        {
+            this.mouseChildren = false;
+
+
             Action<int, Action> Delay =
                 (time, h) =>
                 {
@@ -119,7 +127,6 @@ namespace LightsOut.ActionScript
                     Next();
                 };
 
-            this.mouseChildren = false;
 
             DelayArray(1000,
                           new Action[] {
@@ -297,6 +304,7 @@ namespace LightsOut.ActionScript
                             }
                         );
         }
+
     }
 
     [Script]

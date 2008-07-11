@@ -64,6 +64,8 @@ namespace LightsOut.ActionScript.Client
             Events.UserClick +=
                 e =>
                 {
+                    DecreaseClickCountdown(false);
+
                     Map.UserClicksWithSound[e.x, e.y]();
                     Map.CheckForCompleteness(false);
                 };
@@ -111,11 +113,40 @@ namespace LightsOut.ActionScript.Client
             for (int x = 0; x < Map.Values.XLength; x++)
                 for (int y = 0; y < Map.Values.YLength; y++)
                 {
-                    Map.Values[x, y].Value = data[x][y];
+                    Map.Values[x, y].Value = data[x + 1][y];
                 }
 
+            Map.Level = data[0].Value;
             Map.mouseChildren = true;
 
+            ResetClickCountdown(Map.Level);
+        }
+
+        public int ClickCountdown = 0;
+
+        public void DecreaseClickCountdown(bool IsLocalPlayer)
+        {
+            ClickCountdown--;
+
+            if (ClickCountdown <= 0)
+            {
+                AddScore(-2);
+                Map.TakeNextMap(IsLocalPlayer);
+            }
+            else
+            {
+                if (ClickCountdown == 1)
+                    ShowMessage(ClickCountdown + " click left");
+                if (ClickCountdown % 3 == 0)
+                    ShowMessage(ClickCountdown + " clicks left");
+            }
+        }
+
+        public void ResetClickCountdown(int level)
+        {
+            ClickCountdown = level * 2;
+
+            ShowMessage("You can make a total of " + ClickCountdown + " clicks");
         }
 
         private void SendMap()
@@ -140,7 +171,9 @@ namespace LightsOut.ActionScript.Client
                 }
             }
 
-            Messages.SendMap(data.Select(i => i.Value).ToArray());
+            var PreData = new[] { Map.Level };
+
+            Messages.SendMap(PreData.Concat(data.Select(i => i.Value)).ToArray());
         }
 
 
