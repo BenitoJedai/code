@@ -1,1 +1,4 @@
 ﻿FlashApplication. Crosscompiled from c# to actionscript.
+
+Steps to create a Nonoba Multiplayer game out if this game:
+1. 
