@@ -47,6 +47,9 @@ namespace FlashMinesweeper.ActionScript.Shared
             void SendMap(int[] buttons);
             void UserSendMap(int user, int[] buttons);
 
+            void SendMapLater();
+            void UserSendMapLater(int user);
+
             void SetFlag(int button, int value);
             void UserSetFlag(int user, int button, int value);
 

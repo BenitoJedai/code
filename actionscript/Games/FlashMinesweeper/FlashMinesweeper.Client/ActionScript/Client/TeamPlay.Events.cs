@@ -120,9 +120,24 @@ namespace FlashMinesweeper.ActionScript.Client
                     }
                 };
 
+            Events.UserSendMapLater +=
+                e =>
+                {
+                    ServerSendMapEnabled = false;
+                    Field.mouseChildren = false;
+                };
+
             Events.ServerSendMap +=
                 e =>
                 {
+                    // do not always respond
+                    if (!ServerSendMapEnabled)
+                    {
+                        Messages.SendMapLater();
+
+                        return;
+                    }
+
                     SendMap();
                 };
 
@@ -130,6 +145,8 @@ namespace FlashMinesweeper.ActionScript.Client
                 e =>
                 {
                     StopCrudeMapReset();
+
+                    Field.mouseChildren = true;
 
                     for (int i = 0; i < Field.Buttons.Length; i++)
                     {
@@ -188,8 +205,11 @@ namespace FlashMinesweeper.ActionScript.Client
                 CrudeMapReset.stop();
                 CrudeMapReset = null;
             }
+
+            ServerSendMapEnabled = true;
         }
 
+        public bool ServerSendMapEnabled = true;
 
     }
 

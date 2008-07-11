@@ -18,7 +18,7 @@ using ScriptCoreLib.ActionScript.flash.utils;
 namespace FlashMinesweeper.ActionScript.Client
 {
 
-    partial class TeamPlay 
+    partial class TeamPlay
     {
 
         #region InitializeMap
@@ -154,6 +154,8 @@ namespace FlashMinesweeper.ActionScript.Client
             Field.OnBang +=
                 LocalPlayer =>
                 {
+                    ServerSendMapEnabled = false;
+
                     if (LocalPlayer)
                         AddScore(-8);
                     else
@@ -163,30 +165,32 @@ namespace FlashMinesweeper.ActionScript.Client
             var LocalPlayerFieldsOpened = 0;
 
             Field.OnComplete +=
-                   LocalPlayer =>
-                   {
-                       if (LocalPlayer)
-                       {
-                           if (LocalPlayerFieldsOpened < 10)
-                           {
-                               AddScore(100);
-                           }
-                           else
-                           {
-                               AddScore(150);
-                               Messages.AwardAchievementFirstMinefieldComplete();
-                           }
+               LocalPlayer =>
+               {
+                   ServerSendMapEnabled = false;
 
+                   if (LocalPlayer)
+                   {
+                       if (LocalPlayerFieldsOpened < 10)
+                       {
+                           AddScore(100);
                        }
                        else
                        {
-                           // give only half of points if a coplayer was not active
-                           if (LocalPlayerFieldsOpened < 10)
-                               AddScore(50);
-                           else
-                               AddScore(100);
+                           AddScore(150);
+                           Messages.AwardAchievementFirstMinefieldComplete();
                        }
-                   };
+
+                   }
+                   else
+                   {
+                       // give only half of points if a coplayer was not active
+                       if (LocalPlayerFieldsOpened < 10)
+                           AddScore(50);
+                       else
+                           AddScore(100);
+                   }
+               };
 
             Field.IsFlagChanged +=
                 (button, value) =>
@@ -215,7 +219,10 @@ namespace FlashMinesweeper.ActionScript.Client
                                 Field.Reset();
 
                                 SendMap();
-                                CrudeMapReset = null;
+
+                                
+
+                                StopCrudeMapReset();
                             }
                         );
                     }
@@ -226,6 +233,7 @@ namespace FlashMinesweeper.ActionScript.Client
                 {
                     SendMap();
                     ShowMessage("Try not to blow up, okay?");
+                    StopCrudeMapReset();
                 };
 
             Field.OneStepClosedToTheEnd +=
