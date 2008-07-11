@@ -34,12 +34,20 @@ namespace LightsOut.ActionScript.Client
                   ShowMessage("Player joined - " + e.name);
 
 
-                  Messages.PlayerAdvertise(e.name);
+                  Messages.PlayerAdvertise(MyIdentity.name);
               };
+
+            var Cursors = new Dictionary<int, ShapeWithMovement>();
 
             Events.ServerPlayerLeft +=
               e =>
               {
+                  if (Cursors.ContainsKey(e.user))
+                  {
+                      Cursors[e.user].Orphanize();
+                      Cursors.Remove(e.user);
+                  }
+
                   ShowMessage("Player left - " + e.name);
               };
 
@@ -70,7 +78,6 @@ namespace LightsOut.ActionScript.Client
                     Map.CheckForCompleteness(false);
                 };
 
-            var Cursors = new Dictionary<int, ShapeWithMovement>();
 
 
             Events.UserMouseMove +=
@@ -78,8 +85,8 @@ namespace LightsOut.ActionScript.Client
                 {
                     var s = default(ShapeWithMovement);
 
-                    if (Cursors.ContainsKey(e.color))
-                        s = Cursors[e.color];
+                    if (Cursors.ContainsKey(e.user))
+                        s = Cursors[e.user];
                     else
                     {
                         s = new ShapeWithMovement
@@ -98,7 +105,7 @@ namespace LightsOut.ActionScript.Client
                         g.lineTo(0, 0);
                         g.endFill();
 
-                        Cursors[e.color] = s;
+                        Cursors[e.user] = s;
                     };
 
                     s.AttachTo(this).MoveTo(e.x, e.y);

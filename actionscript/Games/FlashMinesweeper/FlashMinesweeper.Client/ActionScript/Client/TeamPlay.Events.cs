@@ -17,9 +17,9 @@ using ScriptCoreLib.ActionScript.flash.geom;
 namespace FlashMinesweeper.ActionScript.Client
 {
 
-    partial class TeamPlay 
+    partial class TeamPlay
     {
-       
+
         private void InitializeEvents()
         {
 
@@ -34,9 +34,13 @@ namespace FlashMinesweeper.ActionScript.Client
                     ShowMessage("Howdy, " + e.name);
                 };
 
+            var CoPlayerNames = new Dictionary<int, string>();
+
             Events.ServerPlayerJoined +=
               e =>
               {
+                  CoPlayerNames[e.user] = e.name;
+
                   ShowMessage("Player joined - " + e.name);
 
 
@@ -49,6 +53,11 @@ namespace FlashMinesweeper.ActionScript.Client
             Events.ServerPlayerLeft +=
               e =>
               {
+                  if (CoPlayerNames.ContainsKey(e.user))
+                  {
+                      CoPlayerNames.Remove(e.user);
+                  }
+
                   if (Cursors.ContainsKey(e.user))
                   {
                       Cursors[e.user].Orphanize();
@@ -61,10 +70,15 @@ namespace FlashMinesweeper.ActionScript.Client
             Events.UserPlayerAdvertise +=
                 e =>
                 {
+                    if (CoPlayerNames.ContainsKey(e.user))
+                        return;
+
+                    CoPlayerNames[e.user] = e.name;
+
                     ShowMessage("Player already here - " + e.name);
                 };
 
-        
+
 
             Events.UserMouseMove +=
                 e =>
@@ -115,12 +129,7 @@ namespace FlashMinesweeper.ActionScript.Client
             Events.UserSendMap +=
                 e =>
                 {
-                    // we got the map
-                    if (CrudeMapReset != null)
-                    {
-                        CrudeMapReset.stop();
-                        CrudeMapReset = null;
-                    }
+                    StopCrudeMapReset();
 
                     for (int i = 0; i < Field.Buttons.Length; i++)
                     {
@@ -147,6 +156,8 @@ namespace FlashMinesweeper.ActionScript.Client
             Events.UserSetFlag +=
                 e =>
                 {
+                    StopCrudeMapReset();
+
                     Field.Buttons[e.button].IsFlag = e.value == 1;
                     Field.Buttons[e.button].Update();
                     Field.Buttons[e.button].snd_flag.play();
@@ -156,9 +167,27 @@ namespace FlashMinesweeper.ActionScript.Client
             Events.UserReveal +=
                 e =>
                 {
-                    Field.Buttons[e.button].RevealOrExplode();
+                    StopCrudeMapReset();
+
+                    Field.Buttons[e.button].RevealOrExplode(false,
+                        delegate
+                        {
+                            ShowMessage(CoPlayerNames[e.user] + " found a mine");
+                        }
+                    );
+
                     Field.Buttons[e.button].CheckComplete();
                 };
+        }
+
+        private void StopCrudeMapReset()
+        {
+            // we got the map
+            if (CrudeMapReset != null)
+            {
+                CrudeMapReset.stop();
+                CrudeMapReset = null;
+            }
         }
 
 

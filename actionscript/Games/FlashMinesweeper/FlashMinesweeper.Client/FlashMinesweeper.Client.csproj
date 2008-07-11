@@ -102,6 +102,9 @@
   <PropertyGroup>
     <PostBuildEvent>pushd ..\..\tools\
 call build.bat $(ProjectName)
-popd</PostBuildEvent>
+popd
+
+copy "$(TargetDir)web\*.swf" "$(SolutionDir)bin\"
+copy "$(TargetDir)web\*.htm" "$(SolutionDir)bin\"</PostBuildEvent>
   </PropertyGroup>
 </Project>

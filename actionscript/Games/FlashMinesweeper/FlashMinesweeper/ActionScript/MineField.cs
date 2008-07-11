@@ -114,7 +114,7 @@ namespace FlashMinesweeper.ActionScript
                                 OnReveal();
 
 
-                            RevealOrExplode(true);
+                            RevealOrExplode(true, null);
 
 
                         }
@@ -125,16 +125,13 @@ namespace FlashMinesweeper.ActionScript
                 Update();
             }
 
-            public void RevealOrExplode()
-            {
-                RevealOrExplode(false);
-            }
+    
 
             public event Action<bool> OnBang;
 
             public event Action<bool> OneStepClosedToTheEnd;
 
-            public void RevealOrExplode(bool LocalPlayer)
+            public void RevealOrExplode(bool LocalPlayer, Action OnBangDirect)
             {
                 if (this.IsMined)
                 {
@@ -147,6 +144,8 @@ namespace FlashMinesweeper.ActionScript
                     if (OnBang != null)
                         OnBang(LocalPlayer);
 
+                    if (OnBangDirect != null)
+                        OnBangDirect();
                 }
                 else
                 {
@@ -350,9 +349,11 @@ namespace FlashMinesweeper.ActionScript
         public event Action<int> OnReveal;
         public event Action<bool> OneStepClosedToTheEnd;
 
+        readonly double percentage;
+
         public MineField(int FieldXCount, int FieldYCount, double percentage)
         {
-
+            this.percentage = percentage;
 
             var a = new List<MineButton>();
 
@@ -446,21 +447,7 @@ namespace FlashMinesweeper.ActionScript
                     Next();
                 };
 
-            Func<bool> RandomIsMined = () => new Random().NextDouble() < percentage;
 
-            Action Reset =
-                delegate
-                {
-                    foreach (var v in a)
-                    {
-                        v.IsFlag = false;
-                        v.Enabled = true;
-                        v.IsMined = RandomIsMined();
-                        v.Update();
-                    }
-                    snd_reveal.play();
-
-                };
 
             foreach (var v in a)
             {
@@ -559,5 +546,26 @@ namespace FlashMinesweeper.ActionScript
 
         public event Action GameResetByLocalPlayer;
         public event Action<bool> GameReset;
+
+
+
+
+        bool RandomIsMined()
+        {
+            return new Random().NextDouble() < percentage;
+        }
+
+        public void Reset()
+        {
+            foreach (var v in Buttons)
+            {
+                v.IsFlag = false;
+                v.Enabled = true;
+                v.IsMined = RandomIsMined();
+                v.Update();
+            }
+            snd_reveal.play();
+
+        }
     }
 }

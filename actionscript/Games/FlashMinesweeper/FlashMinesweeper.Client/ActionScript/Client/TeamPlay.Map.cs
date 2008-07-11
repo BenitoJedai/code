@@ -208,10 +208,12 @@ namespace FlashMinesweeper.ActionScript.Client
                     if (!IsLocalPlayer)
                     {
                         // start a timer to generate a map on our own
-                        CrudeMapReset = (5000 + 8000.Random()).ToInt32().AtDelayDo(
+                        CrudeMapReset = (4000 + 4000.Random()).ToInt32().AtDelayDo(
                             delegate
                             {
                                 ShowMessage("Resetting map!");
+                                Field.Reset();
+
                                 SendMap();
                                 CrudeMapReset = null;
                             }

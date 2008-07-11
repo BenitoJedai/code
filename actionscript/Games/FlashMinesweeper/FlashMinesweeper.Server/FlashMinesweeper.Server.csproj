@@ -92,4 +92,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)bin\"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
