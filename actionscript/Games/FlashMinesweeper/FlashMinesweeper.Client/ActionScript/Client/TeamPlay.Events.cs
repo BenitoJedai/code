@@ -115,6 +115,13 @@ namespace FlashMinesweeper.ActionScript.Client
             Events.UserSendMap +=
                 e =>
                 {
+                    // we got the map
+                    if (CrudeMapReset != null)
+                    {
+                        CrudeMapReset.stop();
+                        CrudeMapReset = null;
+                    }
+
                     for (int i = 0; i < Field.Buttons.Length; i++)
                     {
                         var v = Field.Buttons[i];

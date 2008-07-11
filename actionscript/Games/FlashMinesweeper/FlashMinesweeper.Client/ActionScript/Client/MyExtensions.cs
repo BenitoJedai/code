@@ -6,6 +6,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.Extensions;
 
 namespace FlashMinesweeper.ActionScript.Client
 {

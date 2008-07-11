@@ -13,6 +13,7 @@ using FlashMinesweeper.ActionScript.Client.Assets;
 using ScriptCoreLib.ActionScript.Nonoba.api;
 using FlashMinesweeper.ActionScript.Shared;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.flash.utils;
 
 namespace FlashMinesweeper.ActionScript.Client
 {
@@ -200,11 +201,22 @@ namespace FlashMinesweeper.ActionScript.Client
                 };
 
             Field.GameReset +=
-                delegate
+                IsLocalPlayer =>
                 {
                     LocalPlayerFieldsOpened = 0;
 
-                    // start a timer to generate a map on our own
+                    if (!IsLocalPlayer)
+                    {
+                        // start a timer to generate a map on our own
+                        CrudeMapReset = (5000 + 8000.Random()).ToInt32().AtDelayDo(
+                            delegate
+                            {
+                                ShowMessage("Resetting map!");
+                                SendMap();
+                                CrudeMapReset = null;
+                            }
+                        );
+                    }
                 };
 
             Field.GameResetByLocalPlayer +=
@@ -250,7 +262,7 @@ namespace FlashMinesweeper.ActionScript.Client
 
         #endregion
 
-
+        public Timer CrudeMapReset;
     }
 
 }

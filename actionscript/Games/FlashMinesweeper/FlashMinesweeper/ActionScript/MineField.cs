@@ -498,7 +498,7 @@ namespace FlashMinesweeper.ActionScript
                                         }
 
                                         if (GameReset != null)
-                                            GameReset();
+                                            GameReset(LocalPlayer);
                                     }
                                 });
                     };
@@ -539,7 +539,7 @@ namespace FlashMinesweeper.ActionScript
                                         }
 
                                         if (GameReset != null)
-                                            GameReset();
+                                            GameReset(LocalPlayer);
                                     }
                                 });
                             }
@@ -558,6 +558,6 @@ namespace FlashMinesweeper.ActionScript
         public event Action<bool> OnComplete;
 
         public event Action GameResetByLocalPlayer;
-        public event Action GameReset;
+        public event Action<bool> GameReset;
     }
 }
