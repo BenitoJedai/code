@@ -62,3 +62,4 @@ Steps to create a Nonoba Multiplayer game out if this game:
 49. Download Nonoba version and upload it to Mochi for distribution
 50. Create a ranking for games played.
 51. Add network message for it.
+52. Add achievements.

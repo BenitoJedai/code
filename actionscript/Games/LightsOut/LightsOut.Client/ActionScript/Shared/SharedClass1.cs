@@ -32,6 +32,9 @@ namespace LightsOut.ActionScript.Shared
 
 
             void AddScore(int score);
+
+            void AwardCompletedThree();
+            void AwardCompletedTen();
         }
     }
 }

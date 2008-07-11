@@ -82,12 +82,15 @@
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
     <Content Include="docs\SourceAnalysis.txt" />
+    <Content Include="web\assets\LightsOut.Client\completedten.png" />
+    <Content Include="web\assets\LightsOut.Client\completedthree.png" />
     <EmbeddedResource Include="web\assets\LightsOut.Client\GameThumbnail.png" />
     <EmbeddedResource Include="web\assets\LightsOut.Client.Sounds\scroll12.mp3" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
     <None Include="tools\update.bat" />
+    <None Include="web\assets\LightsOut.Client\completedthree.pdn" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LightsOut\LightsOut.csproj">

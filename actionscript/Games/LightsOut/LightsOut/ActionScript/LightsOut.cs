@@ -56,7 +56,7 @@ namespace LightsOut.ActionScript
 
             Values.ForEach(i => i.Value = false);
 
-            Level = (6.Random() + 5).ToInt32();
+            Level = (4.Random() + 4).ToInt32();
             Level.Times(() => UserClicks.Random()());
         }
 

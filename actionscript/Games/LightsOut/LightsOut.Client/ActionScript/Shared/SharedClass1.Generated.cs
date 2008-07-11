@@ -32,6 +32,8 @@ namespace LightsOut.ActionScript.Shared
             MouseMove,
             UserMouseMove,
             AddScore,
+            AwardCompletedThree,
+            AwardCompletedTen,
         }
         #endregion
 
@@ -64,6 +66,8 @@ namespace LightsOut.ActionScript.Shared
             event Action<RemoteEvents.MouseMoveArguments> MouseMove;
             event Action<RemoteEvents.UserMouseMoveArguments> UserMouseMove;
             event Action<RemoteEvents.AddScoreArguments> AddScore;
+            event Action<RemoteEvents.AwardCompletedThreeArguments> AwardCompletedThree;
+            event Action<RemoteEvents.AwardCompletedTenArguments> AwardCompletedTen;
         }
         #endregion
         #region IPairedEventsWithoutUser
@@ -193,6 +197,14 @@ namespace LightsOut.ActionScript.Shared
             public void AddScore(int score)
             {
                 Send(new SendArguments { i = Messages.AddScore, args = new object[] { score } });
+            }
+            public void AwardCompletedThree()
+            {
+                Send(new SendArguments { i = Messages.AwardCompletedThree, args = new object[] {  } });
+            }
+            public void AwardCompletedTen()
+            {
+                Send(new SendArguments { i = Messages.AwardCompletedTen, args = new object[] {  } });
             }
         }
         #endregion
@@ -486,6 +498,36 @@ namespace LightsOut.ActionScript.Shared
             }
             #endregion
             public event Action<AddScoreArguments> AddScore;
+            #region AwardCompletedThreeArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class AwardCompletedThreeArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().ToString();
+                }
+            }
+            #endregion
+            public event Action<AwardCompletedThreeArguments> AwardCompletedThree;
+            #region AwardCompletedTenArguments
+#if !NoAttributes
+            [Script]
+#endif
+            [CompilerGenerated]
+            public sealed partial class AwardCompletedTenArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().ToString();
+                }
+            }
+            #endregion
+            public event Action<AwardCompletedTenArguments> AwardCompletedTen;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -503,6 +545,8 @@ namespace LightsOut.ActionScript.Shared
                             { Messages.MouseMove, e => { MouseMove(new MouseMoveArguments { x = e.GetInt32(0), y = e.GetInt32(1), color = e.GetInt32(2) }); } },
                             { Messages.UserMouseMove, e => { UserMouseMove(new UserMouseMoveArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2), color = e.GetInt32(3) }); } },
                             { Messages.AddScore, e => { AddScore(new AddScoreArguments { score = e.GetInt32(0) }); } },
+                            { Messages.AwardCompletedThree, e => { AwardCompletedThree(new AwardCompletedThreeArguments {  }); } },
+                            { Messages.AwardCompletedTen, e => { AwardCompletedTen(new AwardCompletedTenArguments {  }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -520,6 +564,8 @@ namespace LightsOut.ActionScript.Shared
                             { Messages.MouseMove, e => MouseMove },
                             { Messages.UserMouseMove, e => UserMouseMove },
                             { Messages.AddScore, e => AddScore },
+                            { Messages.AwardCompletedThree, e => AwardCompletedThree },
+                            { Messages.AwardCompletedTen, e => AwardCompletedTen },
                         }
                 ;
             }
@@ -683,9 +729,23 @@ namespace LightsOut.ActionScript.Shared
                 AddScore(new RemoteEvents.AddScoreArguments { score = score });
             }
 
+            public event Action<RemoteEvents.AwardCompletedThreeArguments> AwardCompletedThree;
+            void IMessages.AwardCompletedThree()
+            {
+                if(AwardCompletedThree == null) return;
+                AwardCompletedThree(new RemoteEvents.AwardCompletedThreeArguments {  });
+            }
+
+            public event Action<RemoteEvents.AwardCompletedTenArguments> AwardCompletedTen;
+            void IMessages.AwardCompletedTen()
+            {
+                if(AwardCompletedTen == null) return;
+                AwardCompletedTen(new RemoteEvents.AwardCompletedTenArguments {  });
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 11.07.2008 15:31:58
+// 11.07.2008 15:57:59

@@ -47,7 +47,7 @@ namespace LightsOut.ActionScript.Client
                 {
                     if (e > 0)
                     {
-                        if (e < 5)
+                        if (e < 3)
                             ShowMessage("+" + e);
                         else
                             ShowMessage("Yay! +" + e);
@@ -59,13 +59,26 @@ namespace LightsOut.ActionScript.Client
 
                 };
 
+            var LevelCompleteCount = 0;
+
             Map.LevelComplete +=
                 IsLocalPlayer =>
                 {
                     if (IsLocalPlayer)
-                        AddScore(Map.Level * 2);
-                    else
+                    {
+                        LevelCompleteCount++;
+
+                        if (LevelCompleteCount == 3)
+                            Messages.AwardCompletedThree();
+
+                        if (LevelCompleteCount == 10)
+                            Messages.AwardCompletedTen();
+
+
                         AddScore(Map.Level);
+                    }
+                    else
+                        AddScore(2);
                 };
 
             var MyColor = 0xffffff.Random().ToInt32();
