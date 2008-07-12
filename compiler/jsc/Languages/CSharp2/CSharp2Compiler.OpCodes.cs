@@ -15,6 +15,32 @@ namespace jsc.Languages.CSharp2
     {
         private void CreateInstructionHandlers()
         {
+            CIW[OpCodes.Castclass] =
+                 e =>
+                 {
+                     //if (AutoCastToEnumerator(e.p, e.i.TargetType, e.FirstOnStack))
+                     //    return;
+
+                     ConvertTypeAndEmit(e, e.i.TargetType);
+                 };
+
+            CIW[OpCodes.Ldnull] = e => WriteKeyword(Keywords._null);
+
+
+            CIW[
+                OpCodes.Br_S,
+                OpCodes.Br] =
+                delegate(CodeEmitArgs e)
+                {
+                    // adjusted for inline assigment
+
+                    if (e.i.TargetFlow.Branch == OpCodes.Ret)
+                    {
+                        WriteReturn(e.p, e.i);
+                    }
+                    else throw new NotSupportedException("invalid br opcode");
+                };
+
             CIW[OpCodes.Throw] =
                 e =>
                 {

@@ -93,6 +93,9 @@ namespace jsc.Languages.CSharp2
 
         public override MethodInfo[] GetAllInstanceMethods(Type z)
         {
+            if (z == null)
+                return null;
+
             return Enumerable.ToArray(
                 from m in base.GetAllInstanceMethods(z)
                 let p = new PropertyDetector(m)

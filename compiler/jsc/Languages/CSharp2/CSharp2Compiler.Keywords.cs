@@ -14,6 +14,7 @@ namespace jsc.Languages.CSharp2
     {
         public enum Keywords
         {
+            _null,
             _public,
             _private,
             _override,

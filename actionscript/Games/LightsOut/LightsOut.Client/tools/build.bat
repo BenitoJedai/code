@@ -4,7 +4,7 @@
 
 
 :: Dll name
-:: @call :jsc %1
+@call :jsc %1 -as
 
 if '%ERRORLEVEL%' == '-1' (
     echo jsc failed.
