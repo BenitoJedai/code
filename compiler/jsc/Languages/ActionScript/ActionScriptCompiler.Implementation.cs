@@ -531,40 +531,7 @@ namespace jsc.Languages.ActionScript
 
 
 
-        class PropertyDetector
-        {
-            public PropertyInfo SetProperty;
-            public PropertyInfo GetProperty;
 
-            public PropertyDetector(MethodBase m)
-            {
-                if (m.IsConstructor)
-                    return;
-
-                var any = BindingFlags.Static | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
-
-                #region set
-                {
-                    var prefix = "set_";
-                    if (m.Name.StartsWith(prefix))
-                    {
-                        SetProperty = m.DeclaringType.GetProperty(m.Name.Substring(prefix.Length), any);
-                    }
-                }
-                #endregion
-
-                #region get
-                {
-                    var prefix = "get_";
-                    if (m.Name.StartsWith(prefix))
-                    {
-                        GetProperty = m.DeclaringType.GetProperty(m.Name.Substring(prefix.Length), any);
-                    }
-                }
-                #endregion
-
-            }
-        }
 
       
 
@@ -690,31 +657,7 @@ namespace jsc.Languages.ActionScript
             return true;
         }
 
-        Dictionary<Type, string> NativeTypes =
-            new Dictionary<Type, string>
-            {
-                {typeof(byte), "int"},
-                {typeof(sbyte), "int"},
-                {typeof(short), "int"},
-
-                {typeof(int), "int"},
-                {typeof(char), "int"}, // char = int
-                {typeof(uint), "uint"},
-                {typeof(ushort), "uint"},
-
-                {typeof(bool), "Boolean"},
-
-                {typeof(long), "Number"},
-                {typeof(ulong), "Number"},
-
-                {typeof(double), "Number"},
-                {typeof(decimal), "Number"},
-                {typeof(float), "Number"},
-
-                {typeof(void), "void"},
-                {typeof(string), "String"},
-                {typeof(object), "Object"},
-            };
+   
 
         public override string GetDecoratedTypeName(Type x, bool bExternalAllowed)
         {

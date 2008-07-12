@@ -4,7 +4,7 @@
 
 
 :: Dll name
-@call :jsc %1
+:: @call :jsc %1
 
 if '%ERRORLEVEL%' == '-1' (
     echo jsc failed.
@@ -14,10 +14,11 @@ if '%ERRORLEVEL%' == '-1' (
 :: csc
 pushd ..\bin\debug\web
 
-call "C:\WINDOWS\Microsoft.NET\Framework\v3.5\csc.exe" /out:LightsOut.Server.dll /t:library  "LightsOut\Server\Game.cs" /r:..\Nonoba.GameLibrary.dll
+:: http://msdn.microsoft.com/en-us/library/ms379563(VS.80).aspx
+::call "C:\WINDOWS\Microsoft.NET\Framework\v3.5\csc.exe"/out:LightsOut.Server.dll /t:library  /recurse:*.cs  /lib:.. /r:Nonoba.GameLibrary.dll
 
 popd
-::goto :eof
+goto :eof
 
 :: Namespace name, type name
 @call :mxmlc %1/ActionScript %1

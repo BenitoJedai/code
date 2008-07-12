@@ -135,36 +135,28 @@ namespace jsc.Script
                 if (mza != null && mza.ImplementationType != null)
                 {
                     WriteDecoratedTypeName(e.Method.DeclaringType, mza.ImplementationType);
+                    WriteGenericTypeParameters(e.Method.DeclaringType, mza.ImplementationType);
                 }
                 else
+                {
                     WriteDecoratedTypeName(e.Method.DeclaringType, m.DeclaringType);
+                    WriteGenericTypeParameters(e.Method.DeclaringType, m.DeclaringType);
+                }
 
+                
                 WriteParameterInfoFromStack(m, e.p, e.i.StackBeforeStrict, 0);
             }
+        }
+
+        public virtual void WriteGenericTypeParameters(Type context, Type subject)
+        {
         }
 
         public virtual void MethodCallParameterTypeCast(ParameterInfo p)
         {
         }
 
-        /// <summary>
-        /// if there is no implementation class, just use the one referenced if set to true
-        /// </summary>
-        public virtual bool SupportsBCLTypesAreNative
-        {
-            get
-            {
-                return false;
-            }
-        }
 
-        public virtual bool SupportsAbstractMethods
-        {
-            get
-            {
-                return true;
-            }
-        }
 
         public virtual bool AlwaysDefineAsStatic
         {

@@ -28,7 +28,11 @@ namespace jsc.Languages.CSharp2
             _class,
             _partial,
             _abstract,
-
+            _sealed,
+            _throw,
+            _new,
+            _var,
+            _default,
 
 
         }

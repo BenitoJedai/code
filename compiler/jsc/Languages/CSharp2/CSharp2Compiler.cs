@@ -34,40 +34,16 @@ namespace jsc.Languages.CSharp2
             throw new NotImplementedException();
         }
 
-        public override void WriteMethodSignature(MethodBase m, bool dStatic)
-        {
-            throw new NotImplementedException();
-        }
 
-        public override void WriteMethodCallVerified(ILBlock.Prestatement p, ILInstruction i, MethodBase m)
-        {
-            throw new NotImplementedException();
-        }
 
-        public override void WriteMethodParameterList(MethodBase m)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void WriteSelf()
-        {
-            throw new NotImplementedException();
-        }
+     
+     
 
         public override Type[] GetActiveTypes()
         {
             throw new NotImplementedException();
         }
 
-        public override MethodBase ResolveImplementationMethod(Type t, MethodBase m)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override MethodBase ResolveImplementationMethod(Type t, MethodBase m, string alias)
-        {
-            throw new NotImplementedException();
-        }
 
         public override void WriteTypeConstructionVerified()
         {
@@ -77,6 +53,37 @@ namespace jsc.Languages.CSharp2
         public override bool EmitTryBlock(ILBlock.Prestatement p)
         {
             throw new NotImplementedException();
+        }
+
+
+        public MethodBase ResolveMethod(MethodBase m)
+        {
+            return
+                (m.DeclaringType.ToScriptAttribute() == null
+                            ? ResolveImplementationMethod(m.DeclaringType, m)
+                            : m);
+        }
+
+        public MethodBase ResolveMethod(Type t, MethodBase m)
+        {
+            var s = m.DeclaringType.ToScriptAttributeOrDefault();
+
+            return
+                (s == null
+                            ? ResolveImplementationMethod(t, m)
+                            : m);
+        }
+
+        public bool IsFullyQualifiedNamesRequired(Type context, Type subject)
+        {
+            if (context != subject && context.Name == subject.Name)
+                return true;
+
+            // there is a field with the same name as the type we would be importing
+            if (context.GetField(subject.Name) != null)
+                return true;
+
+            return GetImportTypes(context).Count(i => i.Name == subject.Name) > 1;
         }
     }
 

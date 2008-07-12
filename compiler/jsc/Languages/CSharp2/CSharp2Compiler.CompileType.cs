@@ -30,6 +30,9 @@ namespace jsc.Languages.CSharp2
 
                     WriteIdent();
 
+                    if (z.IsSealed)
+                        WriteKeywordSpace(Keywords._sealed);
+
                     if (z.IsPublic)
                         WriteKeywordSpace(Keywords._public);
 
@@ -38,21 +41,25 @@ namespace jsc.Languages.CSharp2
 
                     WriteKeywordSpace(Keywords._partial);
                     WriteKeywordSpace(Keywords._class);
-                    WriteDecoratedTypeName(z);
+
+                    WriteGenericTypeName(z, z);
 
                     if (z.BaseType != null && z.BaseType != typeof(object))
                     {
                         WriteSpace();
                         Write(":");
                         WriteSpace();
-                        WriteDecoratedTypeName(z.BaseType);
+                        WriteGenericTypeName(z, z.BaseType);
                     }
 
                     WriteLine();
 
                     using (CreateScope())
                     {
+                        WriteTypeInstanceMethods(z, z.ToScriptAttributeOrDefault());
+                        WriteLine();
 
+                        WriteTypeProperties(z);
                     }
                 }
             );
@@ -60,7 +67,74 @@ namespace jsc.Languages.CSharp2
             return true;
         }
 
+        private void WriteTypeProperties(Type z)
+        {
+            foreach (var p in z.GetProperties(
+                BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public
+                ))
+            {
+                WriteIdent();
 
+                MethodBase Get =  p.CanRead ? p.GetGetMethod(true) : null;
+                MethodBase Set =  p.CanWrite ? p.GetSetMethod(true) : null;
+
+                if (Get != null && Get.IsStatic || Set != null && Set.IsStatic)
+                    WriteKeywordSpace(Keywords._static);
+
+                if (Get != null && Get.IsPublic || Set != null && Set.IsPublic)
+                    WriteKeywordSpace(Keywords._public);
+
+                
+                WriteQualifiedTypeName(z, p.PropertyType);
+                WriteSpace();
+
+                WriteSafeLiteral(p.Name);
+                WriteLine();
+
+                using (CreateScope())
+                {
+                    if (Get != null)
+                    {
+                        WriteMethodSignature(Get, false);
+                        WriteMethodBody(Get);
+                    }
+
+                    if (Set != null)
+                    {
+                        WriteMethodSignature(Set, false);
+                        WriteMethodBody(Set);
+                    }
+                }
+            }
+        }
+
+        private void WriteGenericTypeName(Type context, Type subject)
+        {
+            WriteQualifiedTypeName(context, subject);
+            WriteGenericTypeParameters(context, subject);
+        }
+
+
+        public override void WriteGenericTypeParameters(Type context, Type subject)
+        {
+            if (!subject.IsGenericType)
+                return;
+
+            var p = subject.GetGenericArguments();
+
+            Write("<");
+
+            for (int i = 0; i < p.Length; i++)
+            {
+                if (i > 0)
+                    Write(", ");
+
+                WriteGenericTypeName(context, p[i]);
+            }
+
+
+            Write(">");
+        }
 
         void WriteNamespace(string ns, Action e)
         {

@@ -494,7 +494,7 @@ namespace jsc.Script
                 var ma = m.ToScriptAttribute();
 
                 DebugBreak(ma);
-                
+
 
 
 
@@ -755,6 +755,8 @@ namespace jsc.Script
             WriteMethodBody(m, predicate, null);
         }
 
+  
+
         public void WriteMethodBody(MethodBase m, Predicate<ILBlock.Prestatement> predicate, Action CustomVariableInitialization)
         {
             using (CreateScope())
@@ -764,7 +766,7 @@ namespace jsc.Script
                 {
                     var a = m.ToScriptAttribute();
 
-                    
+
                     if (a != null && a.OptimizedCode != null)
                     {
                         // we are lucky, as the inline code was provided;
@@ -890,7 +892,7 @@ namespace jsc.Script
 
         public virtual void WriteLocalVariableDefinition(LocalVariableInfo v, MethodBase u)
         {
-
+            WriteComment("undefined variable: " + v.LocalIndex);
         }
 
 
@@ -1016,7 +1018,8 @@ namespace jsc.Script
 
                     foreach (ILInstruction var in xb.Instructrions)
                     {
-                        if (var.IsStoreLocal && var.IsEqualVariable(v))
+                        if (var.IsStoreLocal )
+                            if (var.IsEqualVariable(v))
                         {
 
                             if (!var.IsInlineAssigmentInstruction)
@@ -1114,8 +1117,15 @@ namespace jsc.Script
 
                         if (method == null)
                         {
-                            Break(
-                                @"BCL needs another method, please define it. Cannot call type without script attribute : " + m.DeclaringType + " for " + m + " used at " + i.OwnerMethod.DeclaringType.FullName + "." + i.OwnerMethod.Name + ". If the use of this method is intended, an implementation should be provided with the attribute [Script(Implements=typeof(...)] set.");
+                            if (SupportsBCLTypesAreNative)
+                            {
+                                method = m;
+                            }
+                            else
+                            {
+                                Break(
+                                    @"BCL needs another method, please define it. Cannot call type without script attribute : " + m.DeclaringType + " for " + m + " used at " + i.OwnerMethod.DeclaringType.FullName + "." + i.OwnerMethod.Name + ". If the use of this method is intended, an implementation should be provided with the attribute [Script(Implements=typeof(...)] set.");
+                            }
                         }
 
 
@@ -1154,7 +1164,7 @@ namespace jsc.Script
 
         public abstract void WriteTypeConstructionVerified();
 
-        
+
         public void WriteTypeConstruction(CodeEmitArgs e)
         {
             MethodBase m = null;
@@ -1192,14 +1202,21 @@ namespace jsc.Script
 
                 if (m_impl == null)
                 {
-                    // php had it optional?
+                    if (SupportsBCLTypesAreNative)
+                    {
+                        WriteTypeConstructionVerified(e, t, m, mza);
+                    }
+                    else
+                    {
+                        Break("(corelib referenced?) implementation for " + t.FullName + " not found - " + m.ToString());
+                    }
 
-                    Break("(corelib referenced?) implementation for " + t.FullName + " not found - " + m.ToString());
 
-                    //Break("cannot construct type " + t.FullName);
                 }
-
-                WriteTypeConstructionVerified(e, m_impl.DeclaringType, m_impl, ScriptAttribute.Of(m_impl.DeclaringType, true));
+                else
+                {
+                    WriteTypeConstructionVerified(e, m_impl.DeclaringType, m_impl, ScriptAttribute.Of(m_impl.DeclaringType, true));
+                }
             }
             else
             {
@@ -1353,7 +1370,7 @@ namespace jsc.Script
             return z.GetFields(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
         }
 
-        public MethodInfo[] GetAllInstanceMethods(Type z)
+        public virtual MethodInfo[] GetAllInstanceMethods(Type z)
         {
             if (z == null)
                 return null;
@@ -1591,5 +1608,25 @@ namespace jsc.Script
         }
 
 
+
+
+        /// <summary>
+        /// if there is no implementation class, just use the one referenced if set to true
+        /// </summary>
+        public virtual bool SupportsBCLTypesAreNative
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        public virtual bool SupportsAbstractMethods
+        {
+            get
+            {
+                return true;
+            }
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace jsc.Languages.CSharp2
         {
             MySession = xs;
 
-            // CreateInstructionHandlers();
+            CreateInstructionHandlers();
         }
     }
 
