@@ -12,6 +12,7 @@ namespace LightsOut.ActionScript.Shared
 #if !NoAttributes
     [Script]
 #endif
+    [CompilerGenerated]
     public partial class SharedClass1
     {
         #region Messages
@@ -751,4 +752,4 @@ namespace LightsOut.ActionScript.Shared
     }
     #endregion
 }
-// 11.07.2008 15:57:59
+// 14.07.2008 15:45:36

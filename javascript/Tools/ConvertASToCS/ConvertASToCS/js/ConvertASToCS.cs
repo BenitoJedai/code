@@ -217,6 +217,8 @@ namespace ConvertASToCS.js
 
             Action WriteIdent = () => Write(new string(' ', 4 * Indent));
 
+
+            #region Region
             Func<string, IDisposable> Region =
                 text =>
                 {
@@ -251,6 +253,7 @@ namespace ConvertASToCS.js
                         }
                     );
                 };
+            #endregion
 
 
             Func<IDisposable> CodeBlock =

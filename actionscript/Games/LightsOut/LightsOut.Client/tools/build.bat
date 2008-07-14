@@ -4,7 +4,8 @@
 ::goto :eof
 
 :: Dll name
-::@call :jsc %1 -as
+
+@call :jsc %1
 
 if '%ERRORLEVEL%' == '-1' (
     echo jsc failed.
@@ -18,17 +19,16 @@ pushd ..\bin\debug\web
 call "C:\WINDOWS\Microsoft.NET\Framework\v3.5\csc.exe" /out:LightsOut.Server.dll /t:library  /recurse:*.cs  /lib:.. /r:Nonoba.GameLibrary.dll
 
 popd
-goto :eof
 
 :: Namespace name, type name
-@call :mxmlc %1/ActionScript %1
+@call :mxmlc
 
 goto :eof
 
 :jsc
 pushd ..\bin\debug
 
-call c:\util\jsc\bin\jsc.exe %1.dll  -as
+call c:\util\jsc\bin\jsc.exe %1.dll -cs2 -as
 
 
 popd

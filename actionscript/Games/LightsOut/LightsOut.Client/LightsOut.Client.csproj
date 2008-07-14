@@ -74,7 +74,9 @@
     <Compile Include="ActionScript\Shared\IDispatchHelper.cs" />
     <Compile Include="ActionScript\Shared\IEventsDispatch.cs" />
     <Compile Include="ActionScript\Shared\Player.cs" />
-    <Compile Include="ActionScript\Shared\SharedClass1.cs" />
+    <Compile Include="ActionScript\Shared\SharedClass1.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ActionScript\Shared\SharedClass1.DispatchHelper.cs" />
     <Compile Include="ActionScript\Shared\SharedClass1.Generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

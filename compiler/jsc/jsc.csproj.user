@@ -17,7 +17,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <StartWorkingDirectory>X:\jsc.svn\actionscript\Games\LightsOut\LightsOut.Client\bin\Debug</StartWorkingDirectory>
-    <StartArguments>LightsOut.Client.dll -cs2</StartArguments>
+    <StartArguments>LightsOut.Client.dll -cs2 -as</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

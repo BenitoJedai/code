@@ -82,7 +82,7 @@ namespace CreateNetworkProxy
                     {
                         Namespace = NamespaceName,
                         Name = TypeName,
-                        NoAttributes = true
+                        // NoAttributes = true
                     }
                 );
 
