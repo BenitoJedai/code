@@ -9,14 +9,25 @@ using LightsOut.ActionScript.Shared;
 namespace LightsOut.Server
 {
     [Script]
-    public class Game : NonobaGame<Player>
+    public class NonobaGameUser<TVirtualPlayer> : NonobaGameUser
     {
-        public LightsOut.ActionScript.Shared.Game Virtual;
+        public TVirtualPlayer Virtual { get; set; }
+
+        public override Dictionary<string, string> GetDebugValues()
+        {
+            return new Dictionary<string, string> { };
+        }
+    }
+
+    [Script]
+    public class NonobaGame : NonobaGame<NonobaGameUser<MyPlayer>>
+    {
+        public LightsOut.ActionScript.Shared.MyGame Virtual;
 
 
         public override void GameStarted()
         {
-            Virtual = new LightsOut.ActionScript.Shared.Game
+            Virtual = new LightsOut.ActionScript.Shared.MyGame
             {
                 AtDelay = (h, i) => this.ScheduleCallback(() => h(), i).Stop,
                 AtInterval = (h, i) => this.AddTimer(() => h(), i).Stop,
@@ -36,12 +47,13 @@ namespace LightsOut.Server
         }
 
 
-        public override void GotMessage(Player user, Message message)
+        public override void GotMessage(NonobaGameUser<MyPlayer> user, Message message)
         {
             var e = /*(SharedClass1.Messages)*/int.Parse(message.Type);
 
+            var p = user.Virtual;
 
-            if (user.Virtual.FromPlayerDispatch.DispatchInt32(e,
+            if (p.FromPlayerDispatch.DispatchInt32(e,
                     new SharedClass1.RemoteEvents.DispatchHelper
                     {
                         GetLength = i => (int)message.Count,
@@ -55,7 +67,7 @@ namespace LightsOut.Server
             Console.WriteLine("Not on dispatch: " + message.Type);
         }
 
-        public override void UserJoined(Player user)
+        public override void UserJoined(NonobaGameUser<MyPlayer> user)
         {
             var FromPlayer =
                   new SharedClass1.RemoteEvents
@@ -66,7 +78,7 @@ namespace LightsOut.Server
                       }
                   };
 
-            user.Virtual = new LightsOut.ActionScript.Shared.Player
+            user.Virtual = new LightsOut.ActionScript.Shared.MyPlayer
             {
                 ToOthers =
                     new SharedClass1.RemoteMessages
@@ -95,7 +107,7 @@ namespace LightsOut.Server
 
         }
 
-        public override void UserLeft(Player user)
+        public override void UserLeft(NonobaGameUser<MyPlayer> user)
         {
             this.Virtual.Users.Remove(user.Virtual);
             this.Virtual.UserLeft(user.Virtual);
@@ -104,7 +116,7 @@ namespace LightsOut.Server
         }
 
         #region Send
-        private void Send(Player v, LightsOut.ActionScript.Shared.SharedClass1.Messages type, params object[] e)
+        private void Send(NonobaGameUser<MyPlayer> v, LightsOut.ActionScript.Shared.SharedClass1.Messages type, params object[] e)
         {
 
             v.Send(((int)type).ToString(), e);

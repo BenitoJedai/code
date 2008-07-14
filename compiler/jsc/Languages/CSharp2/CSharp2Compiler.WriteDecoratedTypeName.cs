@@ -177,7 +177,7 @@ namespace jsc.Languages.CSharp2
 
                 Write(GetShortName(p));
 
-                if (p.IsGenericType)
+                if (p.IsGenericType && GenericArguments != null)
                 {
                     var a = new Queue<Type>(p.GetGenericTypeDefinition().GetGenericArguments());
                     var b = new Queue<Type>();
@@ -239,6 +239,14 @@ namespace jsc.Languages.CSharp2
 
         private void WriteGenericTypeName(Type context, Type subject)
         {
+            if (subject.IsArray)
+            {
+                WriteGenericTypeName(context, subject.GetElementType());
+                Write("[]");
+
+                return;
+            }
+
             var ToBeWritten = default(Dual<Queue<Type>>);
 
             if (subject.IsGenericType)

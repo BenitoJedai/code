@@ -9,10 +9,10 @@ using ScriptCoreLib.Shared.Nonoba.Generic;
 namespace LightsOut.ActionScript.Shared
 {
     [Script]
-    public class Game : ServerGameBase<SharedClass1.IEvents, SharedClass1.IMessages, Player>
+    public class MyGame : ServerGameBase<SharedClass1.IEvents, SharedClass1.IMessages, MyPlayer>
     {
 
-        public override void UserJoined(Player player)
+        public override void UserJoined(MyPlayer player)
         {
             Console.WriteLine("UserJoined " + player.Username);
 
@@ -39,7 +39,7 @@ namespace LightsOut.ActionScript.Shared
 
         }
 
-        public override void UserLeft(Player player)
+        public override void UserLeft(MyPlayer player)
         {
 
             player.ToOthers.ServerPlayerLeft(player.UserId, player.Username);

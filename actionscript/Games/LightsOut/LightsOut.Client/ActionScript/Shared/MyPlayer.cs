@@ -10,7 +10,7 @@ namespace LightsOut.ActionScript.Shared
 {
 
     [Script]
-    public class Player : ServerPlayerBase<SharedClass1.IEvents, SharedClass1.IMessages>
+    public class MyPlayer : ServerPlayerBase<SharedClass1.IEvents, SharedClass1.IMessages>
     {
         
     }
