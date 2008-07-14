@@ -18,40 +18,9 @@ namespace jsc.Languages.CSharp2
             return ScriptType.CSharp2;
         }
 
-        public override void WriteDecoratedMethodName(MethodBase z, bool q)
-        {
-            if (q)
-                throw new NotSupportedException();
+ 
 
-            Write(z.Name);
-        }
-
-        public override string GetDecoratedTypeName(Type z, bool bExternalAllowed)
-        {
-            var p = z;
-            var s = GetDecoratedTypeNameWithinNestedName(p);
-
-            while (p.DeclaringType != null)
-            {
-                p = p.DeclaringType;
-                s = GetDecoratedTypeNameWithinNestedName(p) + "." + s;
-            }
-
-            return s;
-        }
-
-        public override string GetDecoratedTypeNameWithinNestedName(Type z)
-        {
-            if (z.IsGenericType)
-            {
-                var g = z.Name.IndexOf('`');
-
-                if (g >= 0)
-                    return GetSafeLiteral(z.Name.Substring(0, g));
-            }
-
-            return GetSafeLiteral(z.Name);
-        }
+      
 
         public override bool SupportsBCLTypesAreNative
         {

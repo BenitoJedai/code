@@ -60,12 +60,17 @@ namespace jsc.Languages.CSharp2
 
 
 
-            Action<Type> WriteTypeName =
+            var WriteTypeName = default(Action<Type>);
+            
+            WriteTypeName =
                 t =>
                 {
-                    // array of type has the same namespace the element type has, but in our case we need
-                    // Top Level.Array
-                    if (!t.IsArray)
+                    if (t.IsArray)
+                    {
+                        WriteTypeName(t.GetElementType());
+                        Write("[]");
+                    }
+                    else
                     {
                         var ns = NamespaceFixup(t.Namespace);
 
@@ -75,8 +80,9 @@ namespace jsc.Languages.CSharp2
                             Write(".");
                         }
 
+                        //WriteSafeLiteral(GetDecoratedTypeName(t, true));
+                        Write(GetDecoratedTypeName(t, true));
                     }
-                    WriteSafeLiteral(GetDecoratedTypeName(t, true));
                 };
 
             if (iType == null)
@@ -109,6 +115,46 @@ namespace jsc.Languages.CSharp2
         {
             WriteDecoratedTypeNameOrImplementationTypeName(subject, false, false, IsFullyQualifiedNamesRequired(context, subject), Mode);
 
+        }
+
+        public override void WriteDecoratedMethodName(MethodBase z, bool q)
+        {
+            if (q)
+                throw new NotSupportedException();
+
+            WriteSafeLiteral(z.Name);
+        }
+
+        public override string GetDecoratedTypeName(Type z, bool bExternalAllowed)
+        {
+            var p = z;
+            var s = GetShortName(p);
+
+            while (p.DeclaringType != null)
+            {
+                p = p.DeclaringType;
+                s = GetShortName(p) + "." + s;
+            }
+
+            return s;
+        }
+
+        public override string GetDecoratedTypeNameWithinNestedName(Type z)
+        {
+            return GetDecoratedTypeName(z, false);
+        }
+
+        private string GetShortName(Type z)
+        {
+            if (z.IsGenericType)
+            {
+                var g = z.Name.IndexOf('`');
+
+                if (g >= 0)
+                    return GetSafeLiteral(z.Name.Substring(0, g));
+            }
+
+            return GetSafeLiteral(z.Name);
         }
     }
 }

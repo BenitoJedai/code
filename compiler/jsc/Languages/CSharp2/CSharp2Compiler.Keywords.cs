@@ -14,12 +14,14 @@ namespace jsc.Languages.CSharp2
     {
         public enum Keywords
         {
+            _as,
             _null,
             _public,
             _private,
             _override,
             _protected,
             _internal,
+            _interface,
             _get,
             _set,
             _static,

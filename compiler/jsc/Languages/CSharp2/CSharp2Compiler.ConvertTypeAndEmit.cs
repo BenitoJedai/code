@@ -49,19 +49,20 @@ namespace jsc.Languages.CSharp2
             else
             {
                 Write("(");
-                WriteDecoratedTypeNameOrImplementationTypeName(x, true, true, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, x));
                 Write("(");
-                EmitFirstOnStack(e);
+                WriteGenericTypeName(e.Method.DeclaringType, x);
                 Write(")");
+                EmitFirstOnStack(e);
                 Write(")");
             }
         }
 
         public override void ConvertTypeAndEmit(CodeEmitArgs e, string x)
         {
-            Write("(" + x + "(");
+            Write("(");
+            Write("(" + x + ")");
             EmitFirstOnStack(e);
-            Write("))");
+            Write(")");
         }
 
     }

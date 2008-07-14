@@ -43,11 +43,11 @@ namespace jsc.Languages.CSharp2
             WriteIdent();
 
             var prop = new PropertyDetector(m);
-            var IsSet = !DeclaringType.IsInterface &&
+            var IsSet = //!DeclaringType.IsInterface &&
                     !dStatic &&
                     prop.SetProperty != null &&
                     prop.SetProperty.GetSetMethod(true).GetParameters().Length == 1;
-            var IsGet = !DeclaringType.IsInterface &&
+            var IsGet = //!DeclaringType.IsInterface &&
                     !dStatic &&
                     prop.GetProperty != null &&
                     prop.GetProperty.GetGetMethod(true).GetParameters().Length == 0;
@@ -99,30 +99,33 @@ namespace jsc.Languages.CSharp2
 
                     var z = m.DeclaringType;
 
-                    var vm = z.BaseType.GetMethod(
-                        m.Name,
-                        BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public,
-                        null,
-                        m.GetParameters().Select(i => i.ParameterType).ToArray(),
-                        null
-                    );
-
-                    if (vm != null)
+                    if (z.BaseType != null)
                     {
-                        var InterfaceMethodDeclaringType =
-                             z.BaseType.IsGenericType ?
-                             z.BaseType.GetGenericTypeDefinition() :
-                             z.BaseType
-                             ;
+                        var vm = z.BaseType.GetMethod(
+                            m.Name,
+                            BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public,
+                            null,
+                            m.GetParameters().Select(i => i.ParameterType).ToArray(),
+                            null
+                        );
+
+                        if (vm != null)
+                        {
+                            var InterfaceMethodDeclaringType =
+                                 z.BaseType.IsGenericType ?
+                                 z.BaseType.GetGenericTypeDefinition() :
+                                 z.BaseType
+                                 ;
 
 
-                        var InterfaceMethodImplementationSignature =
-                            (MethodInfo)MySession.ResolveImplementation(InterfaceMethodDeclaringType, vm,
-                            AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveMethodOnly
-                            //AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveBCLImplementation
-                            ) ?? vm;
+                            var InterfaceMethodImplementationSignature =
+                                (MethodInfo)MySession.ResolveImplementation(InterfaceMethodDeclaringType, vm,
+                                AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveMethodOnly
+                                //AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveBCLImplementation
+                                ) ?? vm;
 
-                        WriteKeywordSpace(Keywords._override);
+                            WriteKeywordSpace(Keywords._override);
+                        }
                     }
                 }
             }
@@ -131,12 +134,7 @@ namespace jsc.Languages.CSharp2
                 WriteKeywordSpace(Keywords._static);
 
 
-            //var cctor = m as ConstructorInfo;
-            //if (cctor != null && cctor.IsStatic)
-            //{
-            //    Write(":");
-            //    WriteDecoratedTypeName(typeof(void));
-            //}
+    
 
             if (IsSet || IsGet)
             {
@@ -167,15 +165,13 @@ namespace jsc.Languages.CSharp2
             {
                 if (IsSet)
                 {
-                    WriteKeywordSpace(Keywords._set);
-                    // WriteSafeLiteral(prop.SetProperty.Name);
+                    WriteKeyword(Keywords._set);
 
                     MethodHasParameterList = false;
                 }
                 else if (IsGet)
                 {
-                    WriteKeywordSpace(Keywords._get);
-                    //WriteSafeLiteral(prop.GetProperty.Name);
+                    WriteKeyword(Keywords._get);
 
                     MethodHasParameterList = false;
                 }
@@ -195,6 +191,10 @@ namespace jsc.Languages.CSharp2
                 Write("(");
                 WriteMethodParameterList(_ParamSignature ?? m, DefaultValues, AddDefaultVariableInitializer);
                 Write(")");
+            }
+            else
+            {
+                
             }
 
 

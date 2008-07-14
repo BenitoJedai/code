@@ -206,19 +206,19 @@ namespace jsc.Languages.CSharp2
             {
                 Func<string, CodeInstructionHandler> f = t => e => ConvertTypeAndEmit(e, t);
 
-                CIW[OpCodes.Conv_U] = f("uint"); // char == int
-                CIW[OpCodes.Conv_U1] = f("uint"); // char == int
-                CIW[OpCodes.Conv_U2] = f("uint"); // char == int
-                CIW[OpCodes.Conv_U4] = f("uint"); // char == int
+                CIW[OpCodes.Conv_U] = f("uint"); 
+                CIW[OpCodes.Conv_U1] = f("byte"); 
+                CIW[OpCodes.Conv_U2] = f("ushort"); 
+                CIW[OpCodes.Conv_U4] = f("uint"); 
 
-                CIW[OpCodes.Conv_I1] = f("int");
-                CIW[OpCodes.Conv_I2] = f("int");
+                CIW[OpCodes.Conv_I1] = f("sbyte");
+                CIW[OpCodes.Conv_I2] = f("short");
                 CIW[OpCodes.Conv_I4] = f("int");
 
-                CIW[OpCodes.Conv_R4] = f("Number");
-                CIW[OpCodes.Conv_R8] = f("Number");
-                CIW[OpCodes.Conv_I8] = f("Number");
-                CIW[OpCodes.Conv_U8] = f("Number");
+                CIW[OpCodes.Conv_R4] = f("float");
+                CIW[OpCodes.Conv_R8] = f("double");
+                CIW[OpCodes.Conv_I8] = f("long");
+                CIW[OpCodes.Conv_U8] = f("ulong");
 
 
                 CIW[OpCodes.Conv_Ovf_I] = f("int");
@@ -551,6 +551,7 @@ namespace jsc.Languages.CSharp2
                     WriteQuotedLiteral(e.i.TargetLiteral);
                 };
 
+            #region OpCodes.Box
             CIW[OpCodes.Box] =
              e =>
              {
@@ -585,13 +586,15 @@ namespace jsc.Languages.CSharp2
                  }
 
                  Write("new ");
-                 WriteDecoratedTypeNameOrImplementationTypeName(t, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, t));
+                 WriteGenericTypeName(e.Method.DeclaringType, t);
                  Write("(");
 
                  EmitFirstOnStack(e);
 
                  Write(")");
              };
+            #endregion
+
 
             CIW[OpCodes.Isinst] =
                e =>
@@ -608,7 +611,7 @@ namespace jsc.Languages.CSharp2
                        EmitFirstOnStack(e);
 
                        WriteSpace();
-                       Write("as");
+                       WriteKeyword(Keywords._as);
                        WriteSpace();
 
                        WriteDecoratedTypeNameOrImplementationTypeName(

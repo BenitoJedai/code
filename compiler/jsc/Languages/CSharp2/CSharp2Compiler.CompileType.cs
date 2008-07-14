@@ -23,7 +23,7 @@ namespace jsc.Languages.CSharp2
 
             WriteImportTypes(z);
 
-            WriteNamespace(NamespaceFixup(z.Namespace),
+            WriteNamespaceAndDeclaringTypes(NamespaceFixup(z.Namespace), z,
                 delegate
                 {
                     // using
@@ -33,16 +33,28 @@ namespace jsc.Languages.CSharp2
                     if (z.IsSealed)
                         WriteKeywordSpace(Keywords._sealed);
 
-                    if (z.IsPublic)
+                    if (z.IsPublic || z.IsNestedPublic)
                         WriteKeywordSpace(Keywords._public);
 
-                    if (z.IsAbstract)
-                        WriteKeywordSpace(Keywords._abstract);
+
+
+
+                    if (!z.IsInterface)
+                        if (z.IsAbstract)
+                            WriteKeywordSpace(Keywords._abstract);
 
                     WriteKeywordSpace(Keywords._partial);
-                    WriteKeywordSpace(Keywords._class);
 
-                    WriteGenericTypeName(z, z);
+                    if (z.IsInterface)
+                        WriteKeywordSpace(Keywords._interface);
+                    else
+                        WriteKeywordSpace(Keywords._class);
+
+
+                    Write(GetShortName(z));
+                    WriteGenericTypeParameters(z, z);
+
+                    //WriteGenericTypeName(z, z);
 
                     if (z.BaseType != null && z.BaseType != typeof(object))
                     {
@@ -63,7 +75,7 @@ namespace jsc.Languages.CSharp2
                     }
                 }
             );
-            
+
             return true;
         }
 
@@ -75,8 +87,8 @@ namespace jsc.Languages.CSharp2
             {
                 WriteIdent();
 
-                MethodBase Get =  p.CanRead ? p.GetGetMethod(true) : null;
-                MethodBase Set =  p.CanWrite ? p.GetSetMethod(true) : null;
+                MethodBase Get = p.CanRead ? p.GetGetMethod(true) : null;
+                MethodBase Set = p.CanWrite ? p.GetSetMethod(true) : null;
 
                 if (Get != null && Get.IsStatic || Set != null && Set.IsStatic)
                     WriteKeywordSpace(Keywords._static);
@@ -84,7 +96,7 @@ namespace jsc.Languages.CSharp2
                 if (Get != null && Get.IsPublic || Set != null && Set.IsPublic)
                     WriteKeywordSpace(Keywords._public);
 
-                
+
                 WriteQualifiedTypeName(z, p.PropertyType);
                 WriteSpace();
 
@@ -140,7 +152,36 @@ namespace jsc.Languages.CSharp2
             Write(">");
         }
 
-        void WriteNamespace(string ns, Action e)
+        void WriteDeclaringTypes(Type z, Action e)
+        {
+            if (z.DeclaringType == null)
+            {
+                e();
+                return;
+            }
+
+            WriteIdent();
+            WriteKeywordSpace(Keywords._partial);
+
+            var p = z.DeclaringType;
+
+            if (p.IsInterface)
+                WriteKeywordSpace(Keywords._interface);
+            else
+                WriteKeywordSpace(Keywords._class);
+
+            Write(GetShortName(p));
+            WriteGenericTypeParameters(p, p);
+
+            WriteLine();
+
+            using (CreateScope())
+            {
+                WriteDeclaringTypes(p, e);
+            }
+        }
+
+        void WriteNamespaceAndDeclaringTypes(string ns, Type z, Action e)
         {
             if (string.IsNullOrEmpty(ns))
             {
@@ -150,11 +191,14 @@ namespace jsc.Languages.CSharp2
 
             WriteIdent();
             WriteKeywordSpace(Keywords._namespace);
+
             Write(ns);
             WriteLine();
 
             using (CreateScope())
-                e();
+            {
+                WriteDeclaringTypes(z, e);
+            }
         }
     }
 
