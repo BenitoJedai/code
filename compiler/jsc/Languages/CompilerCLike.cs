@@ -838,9 +838,13 @@ namespace jsc.Script
             if (((MethodInfo)i.OwnerMethod).ReturnType == typeof(void))
                 return;
 
+            
             Action<ILFlow.StackItem> WriteReturnValue =
                 left_s =>
                 {
+              
+
+
                     if (left_s.StackInstructions.Length > 1)
                     {
                         WriteSpace();
@@ -866,9 +870,9 @@ namespace jsc.Script
                                 if (_i.IsStoreInstruction)
                                 {
                                     if (_i.StackBeforeStrict.Single().StackInstructions.Length == 1)
-                                        WriteReturnParameter(_p, _i.StackBeforeStrict.Single().SingleStackInstruction);
+                                        WriteReturnParameter(_p, _i.StackBeforeStrict.Single().SingleStackInstruction, _i.StackBeforeStrict.Single());
                                     else
-                                        WriteReturnParameter(p, left);
+                                        WriteReturnParameter(p, left, left_s);
                                 }
                                 else
                                     WriteReturnParameter(_p, _i);
@@ -882,12 +886,13 @@ namespace jsc.Script
                         WriteSpace();
                         //Emit(p, s[0]);
 
-                        WriteReturnParameter(p, left);
+                        WriteReturnParameter(p, left, left_s);
                     }
                 };
 
             if (s.Length == 1)
             {
+
                 WriteReturnValue(s[0]);
 
             }
@@ -908,8 +913,22 @@ namespace jsc.Script
 
         }
 
+        public void WriteReturnParameter(ILBlock.Prestatement p, ILInstruction i, ILFlow.StackItem s)
+        {
+            if (IsTypeCastRequired(((MethodInfo)p.DeclaringMethod).ReturnType, s))
+            {
+                MethodCallParameterTypeCast(
+                    p.DeclaringMethod.DeclaringType,
+                    ((MethodInfo)p.DeclaringMethod).ReturnType
+                );
+            }
+
+            WriteReturnParameter(p, i);
+        }
+
         public virtual void WriteReturnParameter(ILBlock.Prestatement _p, ILInstruction _i)
         {
+            
             var m = _i.OwnerMethod as MethodInfo;
 
             if (m != null && m.ReturnType == typeof(bool))
@@ -927,6 +946,7 @@ namespace jsc.Script
                 }
             }
 
+      
             EmitInstruction(_p, _i);
         }
 
@@ -1045,6 +1065,11 @@ namespace jsc.Script
             WriteLine();
         }
 
+        public virtual bool WriteTypeInstanceMethodsFilter(MethodInfo m)
+        {
+            return false;
+        }
+
         public override void WriteTypeInstanceMethods(Type z, ScriptAttribute za)
         {
             MethodInfo[] mx = GetAllInstanceMethods(z);
@@ -1071,7 +1096,7 @@ namespace jsc.Script
                 if (ma == null && !m.IsStatic && (za.HasNoPrototype))
                     continue;
 
-                if (EventDetector.IsEvent(m))
+                if (WriteTypeInstanceMethodsFilter(m))
                     continue;
 
                 // if overmaps another method in base class and it isnt virtual

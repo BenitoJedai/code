@@ -478,7 +478,8 @@ namespace jsc.Languages.CSharp2
                     }
                     #endregion
 
-
+                    if (IsTypeCastRequired(e.i.TargetVariable.LocalType, e.FirstOnStack))
+                        MethodCallParameterTypeCast(e.Method.DeclaringType, e.i.TargetVariable.LocalType);
 
                     EmitFirstOnStack(e);
                 };

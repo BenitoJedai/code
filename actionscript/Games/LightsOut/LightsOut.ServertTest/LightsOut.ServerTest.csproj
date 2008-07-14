@@ -33,11 +33,16 @@
   <ItemGroup>
     <Reference Include="Development Server, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\LightsOut.Server\Library\Development Server.exe</HintPath>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\LightsOut.Client\Library\Development Server.exe</HintPath>
+    </Reference>
+    <Reference Include="LightsOut.Server, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\LightsOut.Client\bin\Debug\web\LightsOut.Server.dll</HintPath>
     </Reference>
     <Reference Include="Nonoba.GameLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\LightsOut.Server\Library\Nonoba.GameLibrary.dll</HintPath>
+      <HintPath>..\LightsOut.Client\Library\Nonoba.GameLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -47,12 +52,6 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LightsOut.Server\LightsOut.Server.csproj">
-      <Project>{C7AEEF29-9E21-4AFC-8081-8489126CB685}</Project>
-      <Name>LightsOut.Server</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

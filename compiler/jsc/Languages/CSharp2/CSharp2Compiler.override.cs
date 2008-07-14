@@ -22,15 +22,15 @@ namespace jsc.Languages.CSharp2
         public override string GetTypeNameForFilename(Type z)
         {
 
-            return z.DeclaringTypesToStack(true).Aggregate("", 
-                (v, p) => 
+            return z.DeclaringTypesToStack(true).Aggregate("",
+                (v, p) =>
                 {
                     if (!string.IsNullOrEmpty(v))
                         v += ".";
 
                     return v + GetSafeLiteral(p.Name);
                 }
-            );;
+            ); ;
         }
 
         public override bool SupportsInlineThisReference
@@ -122,6 +122,22 @@ namespace jsc.Languages.CSharp2
                     return true;
             }
 
+            if (e.Equals(typeof(int)))
+            {
+                if (s.SingleStackInstruction.TargetMethod != null &&
+                    !s.SingleStackInstruction.TargetMethod.ReturnParameter.Equals(e))
+                    return true;
+
+                if (s.SingleStackInstruction.TargetField != null)
+                    return !s.SingleStackInstruction.TargetField.FieldType.Equals(e);
+
+                if (s.SingleStackInstruction.TargetParameter != null)
+                    return !s.SingleStackInstruction.TargetParameter.ParameterType.Equals(e);
+
+                if (s.SingleStackInstruction.TargetVariable != null)
+                    return !s.SingleStackInstruction.TargetVariable.LocalType.Equals(e);
+            }
+
             if (e.Equals(typeof(uint)))
             {
                 // signed to unsigned
@@ -162,7 +178,13 @@ namespace jsc.Languages.CSharp2
                      return false;
                  };
             }
-        }     
+        }
+
+        public override bool WriteTypeInstanceMethodsFilter(MethodInfo m)
+        {
+            return EventDetector.IsEvent(m);
+        }
+
 
     }
 
