@@ -21,7 +21,16 @@ namespace jsc.Languages.CSharp2
 
         public override string GetTypeNameForFilename(Type z)
         {
-            return GetSafeLiteral(z.Name);
+
+            return z.DeclaringTypesToStack(true).Aggregate("", 
+                (v, p) => 
+                {
+                    if (!string.IsNullOrEmpty(v))
+                        v += ".";
+
+                    return v + GetSafeLiteral(p.Name);
+                }
+            );;
         }
 
         public override bool SupportsInlineThisReference

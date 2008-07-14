@@ -112,7 +112,7 @@ namespace jsc.Languages.CSharp2
                 {
                     var vm = z.BaseType.GetMethod(
                         m.Name,
-                        BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public,
+                        BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public,
                         null,
                         m.GetParameters().Select(i => i.ParameterType).ToArray(),
                         null

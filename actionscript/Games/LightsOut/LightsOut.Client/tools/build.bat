@@ -15,7 +15,7 @@ if '%ERRORLEVEL%' == '-1' (
 pushd ..\bin\debug\web
 
 :: http://msdn.microsoft.com/en-us/library/ms379563(VS.80).aspx
-::call "C:\WINDOWS\Microsoft.NET\Framework\v3.5\csc.exe"/out:LightsOut.Server.dll /t:library  /recurse:*.cs  /lib:.. /r:Nonoba.GameLibrary.dll
+call "C:\WINDOWS\Microsoft.NET\Framework\v3.5\csc.exe" /out:LightsOut.Server.dll /t:library  /recurse:*.cs  /lib:.. /r:Nonoba.GameLibrary.dll
 
 popd
 goto :eof
