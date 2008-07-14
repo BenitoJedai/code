@@ -284,6 +284,12 @@ namespace jsc.Script
             FResolve ResolveCached =
                 (t, m, v) =>
                 {
+                    if (WriteVariableNameCacheAssembly != m.DeclaringType.Assembly)
+                    {
+                        WriteVariableNameCache.Clear();
+                        WriteVariableNameCacheAssembly = m.DeclaringType.Assembly;
+                    }
+
                     var x = WriteVariableNameCache;
 
                     if (!x.ContainsKey(m.MetadataToken))
@@ -293,8 +299,10 @@ namespace jsc.Script
                         x[m.MetadataToken] = a.Select((b, i) => b + (a.Count(k => k == b) > 1 ? "" + i : "")).ToArray();
                     }
 
+                    var y = x[m.MetadataToken];
 
-                    return x[m.MetadataToken][v.LocalIndex];
+                    
+                    return y[v.LocalIndex];
                 };
 
             WriteSafeLiteral(ResolveCached(type, method, TargetVariable));
@@ -305,6 +313,7 @@ namespace jsc.Script
         // if we change assemblies will the caching give us the wrong results?
         Dictionary<int, string[]> WriteVariableNameCache = new Dictionary<int, string[]>();
 
+        Assembly WriteVariableNameCacheAssembly;
 
 
 

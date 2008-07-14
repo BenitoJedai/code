@@ -34,6 +34,8 @@ namespace FlashMinesweeper.ActionScript.Client
 
             stage.scaleMode = StageScaleMode.NO_SCALE;
 
+            var MapContainer = new Sprite().AttachTo(this);
+
             Field = new MineField(FieldXCount, FieldYCount, 0.15);
 
 
@@ -142,7 +144,7 @@ namespace FlashMinesweeper.ActionScript.Client
                     {
                         if (e < 5)
                         {
-                         //   ShowMessage("+" + e);
+                            //   ShowMessage("+" + e);
                         }
                         else
                             ShowMessage("Yay! +" + e);
@@ -157,7 +159,7 @@ namespace FlashMinesweeper.ActionScript.Client
             var DisallowClicks = default(Timer);
             var DisallowClicksMultiplierMin = 2;
             var DisallowClicksMultiplier = DisallowClicksMultiplierMin;
-            
+
 
             Field.OnBang +=
                 LocalPlayer =>
@@ -168,7 +170,7 @@ namespace FlashMinesweeper.ActionScript.Client
                     {
                         DisallowClicksMultiplier++;
 
-                        
+
                         if (this.CoPlayerNames.Count > 0)
                         {
                             var timeout = (DisallowClicksMultiplier * 2 * (this.CoPlayerNames.Count + 1));
@@ -299,7 +301,7 @@ namespace FlashMinesweeper.ActionScript.Client
                     }
                 };
 
-            Field.AttachTo(this);
+            Field.AttachTo(MapContainer);
 
 
             var MyColor = 0xffffff.Random().ToInt32();
@@ -311,12 +313,73 @@ namespace FlashMinesweeper.ActionScript.Client
                     Messages.MouseMove(e.stageX.ToInt32(), e.stageY.ToInt32(), MyColor);
                 };
 
-            //Field.mouseOut +=
-            //    e =>
+
+            //// menu for private game
+
+            //MapContainer.filters = new[] { new BlurFilter() };
+            //MapContainer.mouseChildren = false;
+
+            //var LobbyMeny = new Sprite().AttachTo(this);
+
+            //// http://snipplr.com/view/7050/as3-creating-a-gradient-rectangle/
+
+
+            //var colors = new uint[2];
+            //colors[0] = 1;
+            //colors[1] = 0xffffff;
+
+            //var alphas = new double[2];
+
+            //alphas[0] = 0.5;
+            //alphas[1] = 0.2;
+
+            //var ratios = new int[2];
+
+            //alphas[0] = 1;
+            //alphas[1] = 255;
+
+
+            //LobbyMeny.graphics.beginGradientFill("linear", colors, alphas, ratios);
+            //LobbyMeny.graphics.drawRect(0, 0, stage.width, 200);
+
+
+            //var Password = new TextField
+            //{
+            //    defaultTextFormat = new TextFormat
             //    {
-            //        if (e.relatedObject == Field)
-            //            Messages.MouseOut(MyColor);
-            //    };
+            //        size = 24
+            //    },
+            //    text = "For private game\nenter your password:",
+            //    filters = new[] { new GlowFilter(0xffffff) },
+            //    autoSize = TextFieldAutoSize.LEFT,
+            //    selectable = false,
+            //}.MoveTo(8, 8).AttachTo(this);
+
+            //var PasswordInput = new TextField
+            //{
+            //    defaultTextFormat = new TextFormat
+            //    {
+            //        size = 24
+            //    },
+
+            //    autoSize = TextFieldAutoSize.LEFT,
+            //    // predefined passwords
+            //    // http://www.modernlifeisrubbish.co.uk/article/top-10-most-common-passwords
+            //    text = new[] { "thomas", "arsenal", "monkey", "charlie", "letmein", "123" }.Random(),
+            //    type = TextFieldType.INPUT,
+            //    background = true,
+            //    backgroundColor = 0xffffff,
+            //    border = true,
+            //    borderColor = 0x909090,
+            //};
+
+            //var h = PasswordInput.height;
+
+            //PasswordInput.autoSize = TextFieldAutoSize.NONE;
+            //PasswordInput.width = Password.width;
+            //PasswordInput.height = h;
+            //PasswordInput.MoveTo(Password.x, Password.y + 8 + Password.height).AttachTo(LobbyMeny);
+
         }
 
         #endregion

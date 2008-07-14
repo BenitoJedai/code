@@ -303,8 +303,8 @@ namespace ConvertASToCS.js.Any
 
                    if (!i.NoAttributes)
                    {
-                       using (Conditional("!NoAttributes"))
-                           WriteAttributeLine("Script");
+                       //using (Conditional("!NoAttributes"))
+                       WriteAttributeLine("Script");
 
                        WriteAttributeLine("CompilerGenerated");
                    }
@@ -473,10 +473,10 @@ namespace ConvertASToCS.js.Any
                     "System.Collections.Generic",
                     "System.Text",
                     "System.Diagnostics",
-                    "System.Runtime.CompilerServices"
+                    "System.Runtime.CompilerServices",
+                    "ScriptCoreLib.Shared.Nonoba"
                 );
 
-                using (Conditional("!NoAttributes"))
                     UsingNamespace("ScriptCoreLib");
             }
 
@@ -487,7 +487,7 @@ namespace ConvertASToCS.js.Any
                 #region Messages
                 using (Region(MessagesEnumName))
                 {
-                    using (Conditional("!NoAttributes"))
+                    //using (Conditional("!NoAttributes"))
                         WriteAttributeLine("Script");
 
                     WriteAttributeLine("CompilerGenerated");

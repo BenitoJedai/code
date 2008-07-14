@@ -58,6 +58,10 @@ namespace FlashMinesweeper.ActionScript.Shared
 
             void AddScore(int score);
             void AwardAchievementFirstMinefieldComplete();
+
+            void SendPassword(string password);
+            void ServerPasswordStatus(int status);
+            
         }
     }
 }

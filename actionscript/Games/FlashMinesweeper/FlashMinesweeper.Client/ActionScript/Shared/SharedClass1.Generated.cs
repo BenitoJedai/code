@@ -3,23 +3,17 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-#if !NoAttributes
-using ScriptCoreLib;
 using ScriptCoreLib.Shared.Nonoba;
-#endif
+using ScriptCoreLib;
 namespace FlashMinesweeper.ActionScript.Shared
 {
     #region SharedClass1
-#if !NoAttributes
     [Script]
-#endif
     [CompilerGenerated]
     public partial class SharedClass1
     {
         #region Messages
-#if !NoAttributes
         [Script]
-#endif
         [CompilerGenerated]
         public enum Messages
         {
@@ -44,22 +38,20 @@ namespace FlashMinesweeper.ActionScript.Shared
             UserReveal,
             AddScore,
             AwardAchievementFirstMinefieldComplete,
+            SendPassword,
+            ServerPasswordStatus,
         }
         #endregion
 
         #region IMessages
-#if !NoAttributes
         [Script]
-#endif
         [CompilerGenerated]
         public partial interface IMessages
         {
         }
         #endregion
         #region IEvents
-#if !NoAttributes
         [Script]
-#endif
         [CompilerGenerated]
         public partial interface IEvents
         {
@@ -83,12 +75,12 @@ namespace FlashMinesweeper.ActionScript.Shared
             event Action<RemoteEvents.UserRevealArguments> UserReveal;
             event Action<RemoteEvents.AddScoreArguments> AddScore;
             event Action<RemoteEvents.AwardAchievementFirstMinefieldCompleteArguments> AwardAchievementFirstMinefieldComplete;
+            event Action<RemoteEvents.SendPasswordArguments> SendPassword;
+            event Action<RemoteEvents.ServerPasswordStatusArguments> ServerPasswordStatus;
         }
         #endregion
         #region IPairedEventsWithoutUser
-#if !NoAttributes
         [Script]
-#endif
         [CompilerGenerated]
         public partial interface IPairedEventsWithoutUser
         {
@@ -102,9 +94,7 @@ namespace FlashMinesweeper.ActionScript.Shared
         }
         #endregion
         #region IPairedEventsWithUser
-#if !NoAttributes
         [Script]
-#endif
         [CompilerGenerated]
         public partial interface IPairedEventsWithUser
         {
@@ -118,9 +108,7 @@ namespace FlashMinesweeper.ActionScript.Shared
         }
         #endregion
         #region IPairedMessagesWithUser
-#if !NoAttributes
         [Script]
-#endif
         [CompilerGenerated]
         public partial interface IPairedMessagesWithUser
         {
@@ -134,9 +122,7 @@ namespace FlashMinesweeper.ActionScript.Shared
         }
         #endregion
         #region IPairedMessagesWithoutUser
-#if !NoAttributes
         [Script]
-#endif
         [CompilerGenerated]
         public partial interface IPairedMessagesWithoutUser
         {
@@ -151,17 +137,13 @@ namespace FlashMinesweeper.ActionScript.Shared
         #endregion
 
         #region RemoteMessages
-#if !NoAttributes
         [Script]
-#endif
         [CompilerGenerated]
         public sealed partial class RemoteMessages : IMessages, IPairedMessagesWithoutUser, IPairedMessagesWithUser
         {
             public Action<SendArguments> Send;
             #region SendArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class SendArguments
             {
@@ -253,13 +235,19 @@ namespace FlashMinesweeper.ActionScript.Shared
             {
                 Send(new SendArguments { i = Messages.AwardAchievementFirstMinefieldComplete, args = new object[] {  } });
             }
+            public void SendPassword(string password)
+            {
+                Send(new SendArguments { i = Messages.SendPassword, args = new object[] { password } });
+            }
+            public void ServerPasswordStatus(int status)
+            {
+                Send(new SendArguments { i = Messages.ServerPasswordStatus, args = new object[] { status } });
+            }
         }
         #endregion
 
         #region RemoteEvents
-#if !NoAttributes
         [Script]
-#endif
         [CompilerGenerated]
         public sealed partial class RemoteEvents : IEvents, IPairedEventsWithoutUser, IPairedEventsWithUser
         {
@@ -268,9 +256,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             [AccessedThroughProperty("Router")]
             private WithUserArgumentsRouter _Router;
             #region DispatchHelper
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public partial class DispatchHelper
             {
@@ -292,9 +278,7 @@ namespace FlashMinesweeper.ActionScript.Shared
                 return true;
             }
             #region WithUserArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public abstract partial class WithUserArguments
             {
@@ -302,9 +286,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             }
             #endregion
             #region WithUserArgumentsRouter
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class WithUserArgumentsRouter : WithUserArguments
             {
@@ -342,9 +324,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             }
             #endregion
             #region ServerPlayerHelloArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class ServerPlayerHelloArguments
             {
@@ -359,9 +339,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             #endregion
             public event Action<ServerPlayerHelloArguments> ServerPlayerHello;
             #region ServerPlayerJoinedArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class ServerPlayerJoinedArguments
             {
@@ -376,9 +354,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             #endregion
             public event Action<ServerPlayerJoinedArguments> ServerPlayerJoined;
             #region ServerPlayerLeftArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class ServerPlayerLeftArguments
             {
@@ -393,9 +369,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             #endregion
             public event Action<ServerPlayerLeftArguments> ServerPlayerLeft;
             #region PlayerAdvertiseArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class PlayerAdvertiseArguments
             {
@@ -409,9 +383,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             #endregion
             public event Action<PlayerAdvertiseArguments> PlayerAdvertise;
             #region UserPlayerAdvertiseArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class UserPlayerAdvertiseArguments : WithUserArguments
             {
@@ -425,9 +397,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             #endregion
             public event Action<UserPlayerAdvertiseArguments> UserPlayerAdvertise;
             #region MouseMoveArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class MouseMoveArguments
             {
@@ -443,9 +413,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             #endregion
             public event Action<MouseMoveArguments> MouseMove;
             #region UserMouseMoveArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class UserMouseMoveArguments : WithUserArguments
             {
@@ -461,9 +429,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             #endregion
             public event Action<UserMouseMoveArguments> UserMouseMove;
             #region MouseOutArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class MouseOutArguments
             {
@@ -477,9 +443,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             #endregion
             public event Action<MouseOutArguments> MouseOut;
             #region UserMouseOutArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class UserMouseOutArguments : WithUserArguments
             {
@@ -493,9 +457,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             #endregion
             public event Action<UserMouseOutArguments> UserMouseOut;
             #region ServerSendMapArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class ServerSendMapArguments
             {
@@ -508,9 +470,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             #endregion
             public event Action<ServerSendMapArguments> ServerSendMap;
             #region SendMapArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class SendMapArguments
             {
@@ -524,9 +484,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             #endregion
             public event Action<SendMapArguments> SendMap;
             #region UserSendMapArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class UserSendMapArguments : WithUserArguments
             {
@@ -540,9 +498,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             #endregion
             public event Action<UserSendMapArguments> UserSendMap;
             #region SendMapLaterArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class SendMapLaterArguments
             {
@@ -555,9 +511,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             #endregion
             public event Action<SendMapLaterArguments> SendMapLater;
             #region UserSendMapLaterArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class UserSendMapLaterArguments : WithUserArguments
             {
@@ -570,9 +524,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             #endregion
             public event Action<UserSendMapLaterArguments> UserSendMapLater;
             #region SetFlagArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class SetFlagArguments
             {
@@ -587,9 +539,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             #endregion
             public event Action<SetFlagArguments> SetFlag;
             #region UserSetFlagArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class UserSetFlagArguments : WithUserArguments
             {
@@ -604,9 +554,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             #endregion
             public event Action<UserSetFlagArguments> UserSetFlag;
             #region RevealArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class RevealArguments
             {
@@ -620,9 +568,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             #endregion
             public event Action<RevealArguments> Reveal;
             #region UserRevealArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class UserRevealArguments : WithUserArguments
             {
@@ -636,9 +582,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             #endregion
             public event Action<UserRevealArguments> UserReveal;
             #region AddScoreArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class AddScoreArguments
             {
@@ -652,9 +596,7 @@ namespace FlashMinesweeper.ActionScript.Shared
             #endregion
             public event Action<AddScoreArguments> AddScore;
             #region AwardAchievementFirstMinefieldCompleteArguments
-#if !NoAttributes
             [Script]
-#endif
             [CompilerGenerated]
             public sealed partial class AwardAchievementFirstMinefieldCompleteArguments
             {
@@ -666,6 +608,34 @@ namespace FlashMinesweeper.ActionScript.Shared
             }
             #endregion
             public event Action<AwardAchievementFirstMinefieldCompleteArguments> AwardAchievementFirstMinefieldComplete;
+            #region SendPasswordArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class SendPasswordArguments
+            {
+                public string password;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ password = ").Append(this.password).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<SendPasswordArguments> SendPassword;
+            #region ServerPasswordStatusArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class ServerPasswordStatusArguments
+            {
+                public int status;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ status = ").Append(this.status).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<ServerPasswordStatusArguments> ServerPasswordStatus;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -690,6 +660,8 @@ namespace FlashMinesweeper.ActionScript.Shared
                             { Messages.UserReveal, e => { UserReveal(new UserRevealArguments { user = e.GetInt32(0), button = e.GetInt32(1) }); } },
                             { Messages.AddScore, e => { AddScore(new AddScoreArguments { score = e.GetInt32(0) }); } },
                             { Messages.AwardAchievementFirstMinefieldComplete, e => { AwardAchievementFirstMinefieldComplete(new AwardAchievementFirstMinefieldCompleteArguments {  }); } },
+                            { Messages.SendPassword, e => { SendPassword(new SendPasswordArguments { password = e.GetString(0) }); } },
+                            { Messages.ServerPasswordStatus, e => { ServerPasswordStatus(new ServerPasswordStatusArguments { status = e.GetInt32(0) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -714,6 +686,8 @@ namespace FlashMinesweeper.ActionScript.Shared
                             { Messages.UserReveal, e => UserReveal },
                             { Messages.AddScore, e => AddScore },
                             { Messages.AwardAchievementFirstMinefieldComplete, e => AwardAchievementFirstMinefieldComplete },
+                            { Messages.SendPassword, e => SendPassword },
+                            { Messages.ServerPasswordStatus, e => ServerPasswordStatus },
                         }
                 ;
             }
@@ -754,9 +728,7 @@ namespace FlashMinesweeper.ActionScript.Shared
         }
         #endregion
         #region Bridge
-#if !NoAttributes
         [Script]
-#endif
         [CompilerGenerated]
         public partial class Bridge : IEvents, IPairedEventsWithoutUser, IPairedEventsWithUser, IMessages, IPairedMessagesWithoutUser, IPairedMessagesWithUser
         {
@@ -956,9 +928,23 @@ namespace FlashMinesweeper.ActionScript.Shared
                 AwardAchievementFirstMinefieldComplete(new RemoteEvents.AwardAchievementFirstMinefieldCompleteArguments {  });
             }
 
+            public event Action<RemoteEvents.SendPasswordArguments> SendPassword;
+            void IMessages.SendPassword(string password)
+            {
+                if(SendPassword == null) return;
+                SendPassword(new RemoteEvents.SendPasswordArguments { password = password });
+            }
+
+            public event Action<RemoteEvents.ServerPasswordStatusArguments> ServerPasswordStatus;
+            void IMessages.ServerPasswordStatus(int status)
+            {
+                if(ServerPasswordStatus == null) return;
+                ServerPasswordStatus(new RemoteEvents.ServerPasswordStatusArguments { status = status });
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 14.07.2008 18:04:15
+// 14.07.2008 19:57:01

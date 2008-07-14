@@ -1612,7 +1612,11 @@ namespace jsc.Languages.Java
                         WriteSpace();
 
                         ILBlock.Prestatement set_exc = p.Block.Prestatements.PrestatementCommands[0];
-                        WriteVariableName(p.Block.OwnerMethod.DeclaringType, p.Block.OwnerMethod, set_exc.Instruction.TargetVariable);
+
+                        if (set_exc.Instruction.TargetVariable == null)
+                            Write("__ExceptionValue");
+                        else
+                            WriteVariableName(p.Block.OwnerMethod.DeclaringType, p.Block.OwnerMethod, set_exc.Instruction.TargetVariable);
 
                         // remove the set command if there is one
                         if (set_exc.Instruction.TargetVariable != null)

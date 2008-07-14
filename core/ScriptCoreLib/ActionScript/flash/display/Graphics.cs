@@ -9,6 +9,9 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public sealed class Graphics
     {
+        public void beginGradientFill(string type, uint[] colors, double[] alphas, int[] ratios)
+        {
+        }
 
         /// <summary>
         /// Clears the graphics that were drawn to this Graphics object, and resets fill and line style settings.
