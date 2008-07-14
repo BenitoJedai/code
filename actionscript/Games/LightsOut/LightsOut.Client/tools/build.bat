@@ -26,6 +26,7 @@ goto :eof
 pushd ..\bin\debug
 
 call c:\util\jsc\bin\jsc.exe %1.dll -cs2 -as
+::call c:\util\jsc\bin\jsc.exe %1.dll -as
 
 
 popd

@@ -46,7 +46,7 @@ using ScriptCoreLib;
 
     // some namespace mangling
     ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
-    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = ""),
+    // ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = ""),
 ]
 
 [assembly: ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript")]
@@ -57,7 +57,7 @@ using ScriptCoreLib;
 
 [assembly: 
     ScriptTypeFilter(ScriptType.CSharp2, "*.CSharp2"),
-    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.CSharp2.BCLImplementation", VirtualNamespaceName = ""),
+    //ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.CSharp2.BCLImplementation", VirtualNamespaceName = ""),
 ]
 
 

@@ -632,7 +632,7 @@ namespace jsc.Script
                                 
                                 Emit(p, expression);
                                 WriteSpace();
-                                Write("!=");
+                                Write("==");
                                 WriteSpace();
                                 WriteKeywordNull();
                             }

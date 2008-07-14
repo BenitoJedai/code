@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Runtime.CompilerServices;
-#if !NoAttributes
+
 using ScriptCoreLib;
-#endif
+using ScriptCoreLib.Shared.Nonoba.Generic;
+
 namespace LightsOut.ActionScript.Shared
 {
-
-#if !NoAttributes
     [Script]
-#endif
-    public class Game : Generic.ServerGameBase<SharedClass1.IEvents, SharedClass1.IMessages, Player>
+    public class Game : ServerGameBase<SharedClass1.IEvents, SharedClass1.IMessages, Player>
     {
 
         public override void UserJoined(Player player)

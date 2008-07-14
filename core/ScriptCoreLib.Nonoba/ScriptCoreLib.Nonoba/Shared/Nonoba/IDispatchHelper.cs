@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-#if !NoAttributes
 using ScriptCoreLib;
-#endif
-namespace LightsOut.ActionScript.Shared
+
+namespace ScriptCoreLib.Shared.Nonoba
 {
-#if !NoAttributes
     [Script]
-#endif
     public interface IDispatchHelper
     {
         Converter<uint, int> GetInt32 { get; set; }

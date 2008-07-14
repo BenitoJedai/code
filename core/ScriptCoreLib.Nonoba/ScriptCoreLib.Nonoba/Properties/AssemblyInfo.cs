@@ -40,8 +40,13 @@ using ScriptCoreLib;
 [assembly:
     Script,
     ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
+    ScriptTypeFilter(ScriptType.ActionScript, "*.Shared"),
+
+    ScriptTypeFilter(ScriptType.CSharp2, "*.Shared"),
+    ScriptTypeFilter(ScriptType.CSharp2, "*.CSharp2"),
 
     // some namespace mangling
     ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
+
     ScriptResources("Nonoba/api")
 ]

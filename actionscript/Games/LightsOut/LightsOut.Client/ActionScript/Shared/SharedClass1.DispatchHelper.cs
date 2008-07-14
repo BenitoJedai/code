@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.CompilerServices;
 
-#if !NoAttributes
 using ScriptCoreLib;
-#endif
+using ScriptCoreLib.Shared.Nonoba.Generic;
+using ScriptCoreLib.Shared.Nonoba;
+
 
 namespace LightsOut.ActionScript.Shared
 {

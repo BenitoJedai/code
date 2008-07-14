@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 #if !NoAttributes
 using ScriptCoreLib;
+using ScriptCoreLib.Shared.Nonoba;
 #endif
 namespace LightsOut.ActionScript.Shared
 {
@@ -243,7 +244,12 @@ namespace LightsOut.ActionScript.Shared
             public bool Dispatch(Messages e, IDispatchHelper h)
             {
                 if (!DispatchTableDelegates.ContainsKey(e)) return false;
-                if (DispatchTableDelegates[e](null) == null) return false;
+                var hx = DispatchTableDelegates[e];
+
+                if (hx == null)
+                    throw new Exception("Dispatch handler null for " + e);
+
+                if (hx(null) == null) return false;
                 if (!DispatchTable.ContainsKey(e)) return false;
                 DispatchTable[e](h);
                 return true;

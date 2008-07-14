@@ -69,10 +69,6 @@
     <Compile Include="ActionScript\Client\MyExtensions.cs" />
     <Compile Include="ActionScript\Client\TeamPlay.cs" />
     <Compile Include="ActionScript\Shared\Game.cs" />
-    <Compile Include="ActionScript\Shared\Generic\ServerGameBase.cs" />
-    <Compile Include="ActionScript\Shared\Generic\ServerPlayerBase.cs" />
-    <Compile Include="ActionScript\Shared\IDispatchHelper.cs" />
-    <Compile Include="ActionScript\Shared\IEventsDispatch.cs" />
     <Compile Include="ActionScript\Shared\Player.cs" />
     <Compile Include="ActionScript\Shared\SharedClass1.cs">
       <SubType>Code</SubType>

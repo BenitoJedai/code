@@ -44,7 +44,7 @@ using ScriptCoreLib;
 
     // some namespace mangling
     ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
-    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = ""),
+    //ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = ""),
 
     ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript.MochiLibrary.Score", VirtualNamespaceName = "mochi"),
     ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript.MochiLibrary.Ad", VirtualNamespaceName = ""),

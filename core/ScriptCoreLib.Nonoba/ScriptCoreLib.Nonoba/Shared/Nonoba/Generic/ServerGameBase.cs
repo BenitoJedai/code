@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-#if !NoAttributes
 using ScriptCoreLib;
-#endif
-namespace LightsOut.ActionScript.Shared.Generic
+
+namespace ScriptCoreLib.Shared.Nonoba.Generic
 {
 
-#if !NoAttributes
     [Script]
-#endif
     public abstract class ServerGameBase<RemoteEvents, RemoteMessages, Player>
             where Player : ServerPlayerBase<RemoteEvents, RemoteMessages>
     {
