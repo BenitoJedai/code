@@ -14,6 +14,29 @@ namespace jsc //.Extensions
 {
     static class Extensions
     {
+        public static T PopOrDefault<T>(this Stack<T> e)
+        {
+            if (e.Count > 0)
+                return e.Pop();
+
+            return default(T);
+        }
+
+        public static Stack<Type> DeclaringTypesToStack(this Type e)
+        {
+            var s = new Stack<Type>();
+
+            var p = e;
+
+            while (p.DeclaringType != null)
+            {
+                p = p.DeclaringType;
+
+                s.Push(p);
+            }
+
+            return s;
+        }
 
         public static uint[] StructAsUInt32Array(this object data)
         {

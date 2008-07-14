@@ -75,21 +75,22 @@ namespace jsc.Languages.CSharp2
 
                 var ParamIndex = mpi;
 
-             
+
                 var ParameterType = p.ParameterType;
 
                 // A NativeExtension class should never define a variable to its type rather the native type
                 if (ParameterType == m.DeclaringType && m.DeclaringType.IsNativeTypeExtension())
                     ParameterType = za.Implements;
 
-                
+
 
                 // fixme: byref supported?
 
-                if (ParameterType.IsByRef)
-                    Write("*");
-                else
-                    WriteDecoratedTypeNameOrImplementationTypeName(ParameterType, true, true, IsFullyQualifiedNamesRequired(m.DeclaringType, ParameterType));
+                //if (ParameterType.IsByRef)
+                //    Write("*");
+                //else
+
+                WriteGenericTypeName(m.DeclaringType, ParameterType);
 
                 WriteSpace();
 

@@ -183,6 +183,7 @@ namespace jsc.Languages.CSharp2
                 {
 
                     WriteDecoratedMethodName(m, false);
+                    WriteGenericTypeParameters(m.DeclaringType, m);
                 }
             }
 

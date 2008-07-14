@@ -67,7 +67,13 @@ namespace jsc.Languages.CSharp2
                 {
                     if (t.IsArray)
                     {
-                        WriteTypeName(t.GetElementType());
+                        WriteDecoratedTypeNameOrImplementationTypeName(
+                            t.GetElementType(),
+                            favorPrimitives,
+                            favorTargetType,
+                            UseFullyQualifiedName
+                            );
+                        
                         Write("[]");
                     }
                     else

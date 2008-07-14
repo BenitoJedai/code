@@ -79,7 +79,11 @@ namespace jsc.Languages
                 n.ForEach(xw.Session.Types,
                     delegate(Type xx)
                     {
-                        if (xx.IsEnum) return;
+                        // this language supports enums
+                        if (xx.IsEnum)
+                        {
+                         //   return;
+                        }
 
                         if (xx.Assembly != j.AssamblyInfo)
                             return;

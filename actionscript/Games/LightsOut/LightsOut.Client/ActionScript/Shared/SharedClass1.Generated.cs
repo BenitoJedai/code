@@ -9,6 +9,9 @@ using ScriptCoreLib;
 namespace LightsOut.ActionScript.Shared
 {
     #region SharedClass1
+#if !NoAttributes
+    [Script]
+#endif
     public partial class SharedClass1
     {
         #region Messages

@@ -22,6 +22,7 @@ namespace jsc.Languages.CSharp2
             _protected,
             _internal,
             _interface,
+            _enum,
             _get,
             _set,
             _static,

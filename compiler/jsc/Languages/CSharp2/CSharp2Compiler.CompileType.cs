@@ -30,8 +30,10 @@ namespace jsc.Languages.CSharp2
 
                     WriteIdent();
 
-                    if (z.IsSealed)
-                        WriteKeywordSpace(Keywords._sealed);
+                    if (!z.IsEnum)
+                        if (z.IsSealed)
+                            WriteKeywordSpace(Keywords._sealed);
+
 
                     if (z.IsPublic || z.IsNestedPublic)
                         WriteKeywordSpace(Keywords._public);
@@ -43,9 +45,12 @@ namespace jsc.Languages.CSharp2
                         if (z.IsAbstract)
                             WriteKeywordSpace(Keywords._abstract);
 
-                    WriteKeywordSpace(Keywords._partial);
+                    if (z.GetNestedTypes(BindingFlags.Public | BindingFlags.NonPublic).Any())
+                        WriteKeywordSpace(Keywords._partial);
 
-                    if (z.IsInterface)
+                    if (z.IsEnum)
+                        WriteKeywordSpace(Keywords._enum);
+                    else if (z.IsInterface)
                         WriteKeywordSpace(Keywords._interface);
                     else
                         WriteKeywordSpace(Keywords._class);
@@ -56,12 +61,23 @@ namespace jsc.Languages.CSharp2
 
                     //WriteGenericTypeName(z, z);
 
+
+
                     if (z.BaseType != null && z.BaseType != typeof(object))
                     {
-                        WriteSpace();
-                        Write(":");
-                        WriteSpace();
-                        WriteGenericTypeName(z, z.BaseType);
+                        if (z.IsEnum)
+                        {
+                            //Error	7	Type byte, sbyte, short, ushort, int, uint, long, or ulong expected	X:\jsc.svn\actionscript\Games\LightsOut\LightsOut.Client\bin\Debug\web\LightsOut\ActionScript\Shared\SharedClass1.Messages.cs	7	39	gp
+
+                        }
+                        else
+                        {
+
+                            WriteSpace();
+                            Write(":");
+                            WriteSpace();
+                            WriteGenericTypeName(z, z.BaseType);
+                        }
                     }
 
                     WriteLine();
@@ -93,11 +109,12 @@ namespace jsc.Languages.CSharp2
                 if (Get != null && Get.IsStatic || Set != null && Set.IsStatic)
                     WriteKeywordSpace(Keywords._static);
 
-                if (Get != null && Get.IsPublic || Set != null && Set.IsPublic)
-                    WriteKeywordSpace(Keywords._public);
+                if (!z.IsInterface)
+                    if (Get != null && Get.IsPublic || Set != null && Set.IsPublic)
+                        WriteKeywordSpace(Keywords._public);
 
 
-                WriteQualifiedTypeName(z, p.PropertyType);
+                WriteGenericTypeName(z, p.PropertyType);
                 WriteSpace();
 
                 WriteSafeLiteral(p.Name);
@@ -131,6 +148,27 @@ namespace jsc.Languages.CSharp2
         }
 
 
+        public void WriteGenericTypeParameters(Type context, MethodBase subject)
+        {
+            if (!subject.IsGenericMethod)
+                return;
+
+            var p = subject.GetGenericArguments();
+
+            Write("<");
+
+            for (int i = 0; i < p.Length; i++)
+            {
+                if (i > 0)
+                    Write(", ");
+
+                WriteGenericTypeName(context, p[i]);
+            }
+
+
+            Write(">");
+        }
+
         public override void WriteGenericTypeParameters(Type context, Type subject)
         {
             if (!subject.IsGenericType)
@@ -152,9 +190,11 @@ namespace jsc.Languages.CSharp2
             Write(">");
         }
 
-        void WriteDeclaringTypes(Type z, Action e)
+        void WriteDeclaringTypes(Stack<Type> s, Action e)
         {
-            if (z.DeclaringType == null)
+            var p = s.PopOrDefault();
+
+            if (p == null)
             {
                 e();
                 return;
@@ -162,8 +202,6 @@ namespace jsc.Languages.CSharp2
 
             WriteIdent();
             WriteKeywordSpace(Keywords._partial);
-
-            var p = z.DeclaringType;
 
             if (p.IsInterface)
                 WriteKeywordSpace(Keywords._interface);
@@ -177,7 +215,7 @@ namespace jsc.Languages.CSharp2
 
             using (CreateScope())
             {
-                WriteDeclaringTypes(p, e);
+                WriteDeclaringTypes(s, e);
             }
         }
 
@@ -197,7 +235,7 @@ namespace jsc.Languages.CSharp2
 
             using (CreateScope())
             {
-                WriteDeclaringTypes(z, e);
+                WriteDeclaringTypes(z.DeclaringTypesToStack(), e);
             }
         }
     }
