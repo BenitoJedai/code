@@ -148,7 +148,7 @@ namespace jsc.Script
 
 
 
-        public virtual void MethodCallParameterTypeCast(ParameterInfo p)
+        public virtual void MethodCallParameterTypeCast(Type context, ParameterInfo p)
         {
         }
 
@@ -178,10 +178,7 @@ namespace jsc.Script
             }
         }
 
-        protected virtual bool IsTypeCastRequired(Type e, ILFlow.StackItem s)
-        {
-            return AlwaysDoTypeCastOnParameters;
-        }
+      
 
         public void WriteParameterInfoFromStack(MethodBase m, ILBlock.Prestatement p, ILFlow.StackItem[] s, int offset)
         {
@@ -218,6 +215,11 @@ namespace jsc.Script
         {
             Write("/* autocast " + Enumerable.Name + " */");
             Emit(p, s);
+        }
+
+        protected virtual bool IsTypeCastRequired(Type e, ILFlow.StackItem s)
+        {
+            return AlwaysDoTypeCastOnParameters;
         }
 
         public override void WriteParameters(ILBlock.Prestatement p, MethodBase _method, ILFlow.StackItem[] s, int offset, ParameterInfo[] pi, bool pWritten, string op)
@@ -286,7 +288,7 @@ namespace jsc.Script
                                     }
                                     else
                                     {
-                                        MethodCallParameterTypeCast(parameter);
+                                        MethodCallParameterTypeCast(p.DeclaringMethod.DeclaringType, parameter);
                                     }
                                 }
                             }
@@ -308,8 +310,7 @@ namespace jsc.Script
                             // todo: only if types donot comply
 
                             if (IsTypeCastRequired(parameter.ParameterType, s[si]))
-                                //AlwaysDoTypeCastOnParameters)
-                                MethodCallParameterTypeCast(parameter);
+                                MethodCallParameterTypeCast(p.DeclaringMethod.DeclaringType, parameter);
 
 
 

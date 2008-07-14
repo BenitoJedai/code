@@ -1310,7 +1310,7 @@ namespace jsc.Languages.Java
             }
         }
 
-        public override void MethodCallParameterTypeCast(ParameterInfo p)
+        public override void MethodCallParameterTypeCast(Type context, ParameterInfo p)
         {
             Write("(");
             WriteDecoratedTypeName(p.ParameterType);

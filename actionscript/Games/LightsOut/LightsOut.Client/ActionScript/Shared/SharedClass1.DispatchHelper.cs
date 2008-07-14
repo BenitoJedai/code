@@ -36,8 +36,8 @@ namespace LightsOut.ActionScript.Shared
                         {
                             var a = new double[GetLength(null)];
                             
-                            for (uint i = 0; i < a.Length; i++)
-                                a[i] = this.GetDouble(i);
+                            for (int i = 0; i < a.Length; i++)
+                                a[i] = this.GetDouble((uint)i);
 
                             return a;
                         };
@@ -47,8 +47,8 @@ namespace LightsOut.ActionScript.Shared
                           {
                               var a = new int[GetLength(null)];
 
-                              for (uint i = 0; i < a.Length; i++)
-                                  a[i] = this.GetInt32(i);
+                              for (int i = 0; i < a.Length; i++)
+                                  a[i] = this.GetInt32((uint)i);
 
                               return a;
                           };
@@ -58,8 +58,8 @@ namespace LightsOut.ActionScript.Shared
                           {
                               var a = new string[GetLength(null)];
 
-                              for (uint i = 0; i < a.Length; i++)
-                                  a[i] = this.GetString(i);
+                              for (int i = 0; i < a.Length; i++)
+                                  a[i] = this.GetString((uint)i);
 
                               return a;
                           };

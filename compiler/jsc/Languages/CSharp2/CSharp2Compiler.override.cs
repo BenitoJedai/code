@@ -92,6 +92,30 @@ namespace jsc.Languages.CSharp2
                 select m
             );
         }
+
+        protected override bool IsTypeCastRequired(System.Type e, jsc.ILFlow.StackItem s)
+        {
+            if (e.IsEnum)
+            {
+                // int to enum
+                if (s.SingleStackInstruction.TargetParameter != null && s.SingleStackInstruction.TargetParameter.ParameterType.Equals(typeof(int)))
+                    return true;
+            }
+
+            if (e.Equals(typeof(uint)))
+            {
+                // signed to unsigned
+                if (s.SingleStackInstruction.TargetInteger != null)
+                    return true;
+
+                if (s.SingleStackInstruction.TargetVariable != null && s.SingleStackInstruction.TargetVariable.LocalType.Equals(typeof(int)))
+                    return true;
+            }
+
+            return base.IsTypeCastRequired(e, s);
+        }
+
+    
     }
 
 

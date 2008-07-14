@@ -182,8 +182,7 @@ namespace jsc.Languages.CSharp2
 
 
                     #region prop
-                    if (!TargetMethod.DeclaringType.IsInterface)
-                    {
+                 
                         var prop = new PropertyDetector(TargetMethod);
 
                         if (prop.SetProperty != null &&
@@ -208,7 +207,6 @@ namespace jsc.Languages.CSharp2
                             WriteSafeLiteral(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.GetProperty.Name);
                             return;
                         }
-                    }
                     #endregion
 
                     WriteMethodName();
