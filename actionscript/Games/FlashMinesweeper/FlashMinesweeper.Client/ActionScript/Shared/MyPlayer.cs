@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-#if !NoAttributes
 using ScriptCoreLib;
-#endif
+using ScriptCoreLib.Shared.Nonoba.Generic;
 namespace FlashMinesweeper.ActionScript.Shared
 {
-
-#if !NoAttributes
     [Script]
-#endif
-    public interface IEventsDispatch
+    public class MyPlayer : ServerPlayerBase<SharedClass1.IEvents, SharedClass1.IMessages>
     {
-        bool DispatchInt32(int e, IDispatchHelper h);
+        
     }
 }

@@ -2,34 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Runtime.CompilerServices;
-#if !NoAttributes
 using ScriptCoreLib;
-#endif
+using ScriptCoreLib.Shared.Nonoba.Generic;
 namespace FlashMinesweeper.ActionScript.Shared
 {
 
-#if !NoAttributes
     [Script]
-#endif
-    public class Game : Generic.ServerGameBase<SharedClass1.IEvents, SharedClass1.IMessages, Player>
+    public class MyGame : ServerGameBase<SharedClass1.IEvents, SharedClass1.IMessages, MyPlayer>
     {
-        Player AnyOtherUser(Player p)
-        {
-            var x = default(Player);
 
-            foreach (var v in Users)
-            {
-                if (v.UserId != player.UserId)
-                {
-                    x = v;
-                    break;
-                }
-            }
 
-            return x;
-        }
-
-        public override void UserJoined(Player player)
+        public override void UserJoined(MyPlayer player)
         {
             Console.WriteLine("UserJoined " + player.Username);
 
@@ -53,7 +36,7 @@ namespace FlashMinesweeper.ActionScript.Shared
 
         }
 
-        public override void UserLeft(Player player)
+        public override void UserLeft(MyPlayer player)
         {
 
             player.ToOthers.ServerPlayerLeft(player.UserId, player.Username);

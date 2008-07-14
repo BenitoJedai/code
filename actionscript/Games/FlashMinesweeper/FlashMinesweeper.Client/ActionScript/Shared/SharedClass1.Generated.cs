@@ -5,10 +5,15 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 #if !NoAttributes
 using ScriptCoreLib;
+using ScriptCoreLib.Shared.Nonoba;
 #endif
 namespace FlashMinesweeper.ActionScript.Shared
 {
     #region SharedClass1
+#if !NoAttributes
+    [Script]
+#endif
+    [CompilerGenerated]
     public partial class SharedClass1
     {
         #region Messages
@@ -956,4 +961,4 @@ namespace FlashMinesweeper.ActionScript.Shared
     }
     #endregion
 }
-// 11.07.2008 23:05:11
+// 14.07.2008 18:04:15

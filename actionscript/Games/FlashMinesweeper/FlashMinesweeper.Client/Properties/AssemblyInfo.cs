@@ -39,4 +39,8 @@ using ScriptCoreLib;
 
 [assembly:
     Script,
-    ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript")]
+    ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
+
+    ScriptTypeFilter(ScriptType.CSharp2, "*.ActionScript.Shared"),
+    ScriptTypeFilter(ScriptType.CSharp2, "*.Server")
+]

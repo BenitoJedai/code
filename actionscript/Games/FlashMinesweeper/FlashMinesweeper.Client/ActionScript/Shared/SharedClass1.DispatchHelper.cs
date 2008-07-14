@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.CompilerServices;
 
-#if !NoAttributes
 using ScriptCoreLib;
-#endif
+using ScriptCoreLib.Shared.Nonoba;
 
 namespace FlashMinesweeper.ActionScript.Shared
 {
@@ -13,7 +12,7 @@ namespace FlashMinesweeper.ActionScript.Shared
 
     public partial class SharedClass1
     {
-        
+
         partial class RemoteEvents : IEventsDispatch
         {
             public void EmptyHandler<T>(T Arguments)
@@ -35,9 +34,9 @@ namespace FlashMinesweeper.ActionScript.Shared
                         delegate
                         {
                             var a = new double[GetLength(null)];
-                            
-                            for (uint i = 0; i < a.Length; i++)
-                                a[i] = this.GetDouble(i);
+
+                            for (var i = 0; i < a.Length; i++)
+                                a[i] = this.GetDouble((uint)i);
 
                             return a;
                         };
@@ -47,8 +46,8 @@ namespace FlashMinesweeper.ActionScript.Shared
                           {
                               var a = new int[GetLength(null)];
 
-                              for (uint i = 0; i < a.Length; i++)
-                                  a[i] = this.GetInt32(i);
+                              for (var i = 0; i < a.Length; i++)
+                                  a[i] = this.GetInt32((uint)i);
 
                               return a;
                           };
@@ -58,8 +57,8 @@ namespace FlashMinesweeper.ActionScript.Shared
                           {
                               var a = new string[GetLength(null)];
 
-                              for (uint i = 0; i < a.Length; i++)
-                                  a[i] = this.GetString(i);
+                              for (var i = 0; i < a.Length; i++)
+                                  a[i] = this.GetString((uint)i);
 
                               return a;
                           };

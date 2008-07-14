@@ -31,9 +31,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Development Server, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Development Server, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\FlashMinesweeper.Server\Library\Development Server.exe</HintPath>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\FlashMinesweeper.Client\Library\Development Server.exe</HintPath>
+    </Reference>
+    <Reference Include="FlashMinesweeper.Client.NonobaServer, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\FlashMinesweeper.Client\bin\Debug\web\FlashMinesweeper.Client.NonobaServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Nonoba.GameLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\FlashMinesweeper.Client\Library\Nonoba.GameLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -52,12 +61,6 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FlashMinesweeper.Server\FlashMinesweeper.Server.csproj">
-      <Project>{7E7B7F47-7E5F-4244-9499-EC9391ED0B50}</Project>
-      <Name>FlashMinesweeper.Server</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
