@@ -9,6 +9,7 @@ using System.Reflection.Emit;
 
 using ScriptCoreLib;
 using System.Collections;
+using jsc.Languages;
 
 
 namespace jsc.Script
@@ -148,7 +149,7 @@ namespace jsc.Script
 
 
 
-        public virtual void MethodCallParameterTypeCast(Type context, ParameterInfo p)
+        public virtual void MethodCallParameterTypeCast(Type context, Type p)
         {
         }
 
@@ -288,7 +289,7 @@ namespace jsc.Script
                                     }
                                     else
                                     {
-                                        MethodCallParameterTypeCast(p.DeclaringMethod.DeclaringType, parameter);
+                                        MethodCallParameterTypeCast(p.DeclaringMethod.DeclaringType, parameter.ParameterType);
                                     }
                                 }
                             }
@@ -310,7 +311,7 @@ namespace jsc.Script
                             // todo: only if types donot comply
 
                             if (IsTypeCastRequired(parameter.ParameterType, s[si]))
-                                MethodCallParameterTypeCast(p.DeclaringMethod.DeclaringType, parameter);
+                                MethodCallParameterTypeCast(p.DeclaringMethod.DeclaringType, parameter.ParameterType);
 
 
 
@@ -1053,6 +1054,8 @@ namespace jsc.Script
                 if (ma == null && !m.IsStatic && (za.HasNoPrototype))
                     continue;
 
+                if (EventDetector.IsEvent(m))
+                    continue;
 
                 // if overmaps another method in base class and it isnt virtual
                 // issue warning

@@ -47,6 +47,9 @@ namespace jsc.Languages.CSharp2
                 if (zfn.IsLiteral)
                     continue;
 
+                if (EventDetector.IsEvent(zfn))
+                    continue;
+
 
                 // write the attributes for current field
                 // WriteCustomAttributes(zfn);

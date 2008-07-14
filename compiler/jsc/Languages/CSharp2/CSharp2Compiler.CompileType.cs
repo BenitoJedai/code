@@ -145,6 +145,8 @@ namespace jsc.Languages.CSharp2
                             }
                             else
                             {
+                                WriteTypeEvents(z);
+
                                 WriteTypeInstanceMethods(z, z.ToScriptAttributeOrDefault());
                                 WriteLine();
 
@@ -160,6 +162,35 @@ namespace jsc.Languages.CSharp2
             );
 
             return true;
+        }
+
+        private void WriteTypeEvents(Type z)
+        {
+            foreach (var p in z.GetEvents(
+                BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public
+                ))
+            {
+                MethodBase AddMethod = p.GetAddMethod(true);
+                MethodBase RemoveMethod =  p.GetRemoveMethod(true) ;
+
+                WriteIdent();
+
+                if (AddMethod != null && AddMethod.IsStatic || RemoveMethod != null && RemoveMethod.IsStatic)
+                    WriteKeywordSpace(Keywords._static);
+
+                if (!z.IsInterface)
+                    if (AddMethod != null && AddMethod.IsPublic || RemoveMethod != null && RemoveMethod.IsPublic)
+                        WriteKeywordSpace(Keywords._public);
+
+
+                WriteKeywordSpace(Keywords._event);
+
+                WriteGenericTypeName(z, p.EventHandlerType);
+                WriteSpace();
+
+                WriteSafeLiteral(p.Name);
+                WriteLine(";");
+            }
         }
 
         private void WriteTypeProperties(Type z)

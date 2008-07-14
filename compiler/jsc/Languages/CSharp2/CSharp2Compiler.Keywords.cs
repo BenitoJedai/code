@@ -16,6 +16,7 @@ namespace jsc.Languages.CSharp2
         {
             _as,
             _base,
+            _event,
             _virtual,
             _null,
             _public,

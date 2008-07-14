@@ -65,10 +65,10 @@ namespace jsc.Languages.CSharp2
             Write(")");
         }
 
-        public override void MethodCallParameterTypeCast(Type context, ParameterInfo p)
+        public override void MethodCallParameterTypeCast(Type context, Type p)
         {
             Write("(");
-            WriteGenericTypeName(context, p.ParameterType);
+            WriteGenericTypeName(context, p);
             Write(")");
         }
     }

@@ -100,6 +100,9 @@ namespace jsc.Languages.CSharp2
                 // int to enum
                 if (s.SingleStackInstruction.TargetParameter != null && s.SingleStackInstruction.TargetParameter.ParameterType.Equals(typeof(int)))
                     return true;
+
+                if (s.SingleStackInstruction.TargetInteger != null)
+                    return true;
             }
 
             if (e.Equals(typeof(uint)))

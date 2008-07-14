@@ -112,7 +112,7 @@ namespace jsc.Languages.CSharp2
             if (TargetMethod.IsStatic || IsDefineAsStatic)
             {
                 WriteGenericTypeName(i.OwnerMethod.DeclaringType, TargetMethod.DeclaringType);
-                    
+
                 Write(".");
 
                 #region prop
@@ -164,7 +164,7 @@ namespace jsc.Languages.CSharp2
                     }
 
                     if (TargetMethod.Name == "get_Item"
-                     //   && TargetMethod.DeclaringType.ToScriptAttributeOrDefault().IsNative
+                        //   && TargetMethod.DeclaringType.ToScriptAttributeOrDefault().IsNative
                         && TargetMethod.GetParameters().Length == 1)
                     {
                         // call with and indexer... possibly an array or xml list
@@ -177,36 +177,70 @@ namespace jsc.Languages.CSharp2
                         return;
                     }
 
+                    if (TargetMethod.Name == "Invoke" && TargetMethod.DeclaringType.IsDelegate())
+                    {
+                        WriteParameterInfoFromStack(TargetMethod, p, s, offset);
+                        return;
+                    }
+
 
                     Write(".");
 
 
                     #region prop
-                 
-                        var prop = new PropertyDetector(TargetMethod);
 
-                        if (prop.SetProperty != null &&
-                            (HasMethodExternalTarget ||
-                                (prop.SetProperty.GetSetMethod(true) != null &&
-                                 prop.SetProperty.GetSetMethod(true).GetParameters().Length == 1
-                                )
-                            ))
-                        {
-                            WriteSafeLiteral(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.SetProperty.Name);
-                            WritePropertyAssignment(prop);
-                            return;
-                        }
+                    var prop = new PropertyDetector(TargetMethod);
 
-                        if (prop.GetProperty != null &&
-                             (HasMethodExternalTarget ||
-                                (prop.GetProperty.GetGetMethod(true) != null &&
-                                 prop.GetProperty.GetGetMethod(true).GetParameters().Length == 0
-                                )
-                            ))
-                        {
-                            WriteSafeLiteral(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.GetProperty.Name);
-                            return;
-                        }
+                    if (prop.SetProperty != null &&
+                        (HasMethodExternalTarget ||
+                            (prop.SetProperty.GetSetMethod(true) != null &&
+                             prop.SetProperty.GetSetMethod(true).GetParameters().Length == 1
+                            )
+                        ))
+                    {
+                        WriteSafeLiteral(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.SetProperty.Name);
+                        WritePropertyAssignment(prop);
+                        return;
+                    }
+
+                    if (prop.GetProperty != null &&
+                         (HasMethodExternalTarget ||
+                            (prop.GetProperty.GetGetMethod(true) != null &&
+                             prop.GetProperty.GetGetMethod(true).GetParameters().Length == 0
+                            )
+                        ))
+                    {
+                        WriteSafeLiteral(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.GetProperty.Name);
+                        return;
+                    }
+                    #endregion
+
+                    #region eventinfo
+                    var eventinfo = new EventDetector(TargetMethod);
+
+                    if (eventinfo.AddEvent != null)
+                    {
+                        Write(eventinfo.AddEvent.Name);
+                        WriteSpace();
+                        Write("+=");
+                        WriteSpace();
+
+                        Emit(p, s[1]);
+
+                        return;
+                    }
+
+                    if (eventinfo.RemoveEvent != null)
+                    {
+                        Write(eventinfo.AddEvent.Name);
+                        WriteSpace();
+                        Write("-=");
+                        WriteSpace();
+
+                        Emit(p, s[1]);
+
+                        return;
+                    }
                     #endregion
 
                     WriteMethodName();

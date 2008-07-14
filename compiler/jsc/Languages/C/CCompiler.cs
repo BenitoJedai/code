@@ -1020,10 +1020,10 @@ namespace jsc.Languages.C
             WriteParameterInfoFromStack(m, p, i.StackBeforeStrict, offset);
         }
 
-        public override void MethodCallParameterTypeCast(Type context, ParameterInfo p)
+        public override void MethodCallParameterTypeCast(Type context, Type p)
         {
             Write("(");
-            Write(GetDecoratedTypeName(p.ParameterType, true, true));
+            Write(GetDecoratedTypeName(p, true, true));
             Write(")");
         }
 

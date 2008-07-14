@@ -508,6 +508,7 @@ namespace jsc.Languages.CSharp2
                   ILFlow.StackItem[] s = e.i.StackBeforeStrict;
 
                   Emit(e.p, s[0]);
+
                   Write(".");
                   WriteSafeLiteral(e.i.TargetField.Name);
                   WriteAssignment();
@@ -529,6 +530,9 @@ namespace jsc.Languages.CSharp2
                       }
                   }
                   #endregion
+
+                  if (IsTypeCastRequired(e.i.TargetField.FieldType, s[1]))
+                    MethodCallParameterTypeCast(e.Method.DeclaringType, e.i.TargetField.FieldType);
 
                   Emit(e.p, s[1]);
               };
