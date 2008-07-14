@@ -19,7 +19,10 @@ namespace jsc.Languages.CSharp2
         }
 
 
-
+        public override string GetTypeNameForFilename(Type z)
+        {
+            return GetSafeLiteral(z.Name);
+        }
 
         public override bool SupportsAbstractMethods
         {
@@ -71,7 +74,7 @@ namespace jsc.Languages.CSharp2
             WriteAssignment();
             WriteKeyword(Keywords._default);
             Write("(");
-            WriteQualifiedTypeName(u.DeclaringType, v.LocalType);
+            WriteGenericTypeName(u.DeclaringType, v.LocalType);
             Write(")");
 
             WriteLine(";");

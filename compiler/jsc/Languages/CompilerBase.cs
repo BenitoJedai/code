@@ -1336,6 +1336,11 @@ namespace jsc.Script
             return w.ToString();
         }
 
+        public virtual string GetTypeNameForFilename(Type z)
+        {
+            return GetDecoratedTypeNameWithinNestedName(z);
+        }
+
         public virtual string GetDecoratedTypeNameWithinNestedName(Type z)
         {
             return z.Name;

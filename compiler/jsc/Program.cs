@@ -693,12 +693,13 @@ namespace jsc
             string content = c.MyWriter.ToString();
 
 
-            StreamWriter sw = new StreamWriter(new FileStream(p.FullName + "/" + c.GetDecoratedTypeNameWithinNestedName(x) + "." + ScriptFileExtension, FileMode.Create));
+            StreamWriter sw = new StreamWriter(new FileStream(p.FullName + "/" + c.GetTypeNameForFilename(x) + "." + ScriptFileExtension, FileMode.Create));
 
             sw.Write(content);
             sw.Flush();
 
             sw.Close();
+            
         }
 
         private static bool IsAssamblyUptodate(FileInfo f0, FileInfo f1)

@@ -30,17 +30,19 @@ namespace jsc.Languages.CSharp2
 
                     WriteIdent();
 
-                    if (!z.IsEnum)
+
+
+                    if (!z.IsEnum && !z.IsDelegate())
                         if (z.IsSealed)
                             WriteKeywordSpace(Keywords._sealed);
 
 
-                    if (z.IsPublic || z.IsNestedPublic)
+                    var ImplementsOrDefault = z.ToScriptAttributeOrDefault().Implements ?? z;
+
+
+                    if (ImplementsOrDefault.IsPublic || ImplementsOrDefault.IsNestedPublic)
                         WriteKeywordSpace(Keywords._public);
-
-
-
-
+                    
                     if (!z.IsInterface)
                         if (z.IsAbstract)
                             WriteKeywordSpace(Keywords._abstract);
@@ -48,7 +50,9 @@ namespace jsc.Languages.CSharp2
                     if (z.GetNestedTypes(BindingFlags.Public | BindingFlags.NonPublic).Any())
                         WriteKeywordSpace(Keywords._partial);
 
-                    if (z.IsEnum)
+                    if (z.IsDelegate())
+                        WriteKeywordSpace(Keywords._delegate);
+                    else if (z.IsEnum)
                         WriteKeywordSpace(Keywords._enum);
                     else if (z.IsInterface)
                         WriteKeywordSpace(Keywords._interface);
@@ -56,46 +60,69 @@ namespace jsc.Languages.CSharp2
                         WriteKeywordSpace(Keywords._class);
 
 
-                    Write(GetShortName(z));
-                    WriteGenericTypeParameters(z, z);
-
-
-
-                    if (z.BaseType != null && z.BaseType != typeof(object))
+                   
+                    if (z.IsDelegate())
                     {
-                        if (z.IsEnum)
-                        {
-                            //Error	7	Type byte, sbyte, short, ushort, int, uint, long, or ulong expected	X:\jsc.svn\actionscript\Games\LightsOut\LightsOut.Client\bin\Debug\web\LightsOut\ActionScript\Shared\SharedClass1.Messages.cs	7	39	gp
+                        var Invoke = z.GetMethod("Invoke");
 
-                        }
-                        else
-                        {
+                        if (Invoke == null)
+                            throw new NotSupportedException(z.Name);
 
-                            WriteSpace();
-                            Write(":");
-                            WriteSpace();
-                            WriteGenericTypeName(z, z.BaseType);
-                        }
+                        WriteGenericTypeName(z, Invoke.ReturnType);
+                        WriteSpace();
+
+                        Write(GetShortName(z));
+                        WriteGenericTypeParameters(z, z);
+
+                        Write("(");
+
+                        WriteMethodParameterList(Invoke);
+
+                        Write(")");
+
+                        WriteLine(";");
                     }
-
-                    WriteLine();
-
-                    using (CreateScope())
+                    else
                     {
-                        if (z.IsEnum)
+                        Write(GetShortName(z));
+                        WriteGenericTypeParameters(z, z);
+
+                        if (z.BaseType != null && z.BaseType != typeof(object))
                         {
-                            WriteEnumFields(z, z.ToScriptAttributeOrDefault());
+                            if (z.IsEnum)
+                            {
+                                //Error	7	Type byte, sbyte, short, ushort, int, uint, long, or ulong expected	X:\jsc.svn\actionscript\Games\LightsOut\LightsOut.Client\bin\Debug\web\LightsOut\ActionScript\Shared\SharedClass1.Messages.cs	7	39	gp
+
+                            }
+                            else
+                            {
+
+                                WriteSpace();
+                                Write(":");
+                                WriteSpace();
+                                WriteGenericTypeName(z, z.BaseType);
+                            }
                         }
-                        else
+
+                        WriteLine();
+
+                        using (CreateScope())
                         {
-                            WriteTypeInstanceMethods(z, z.ToScriptAttributeOrDefault());
-                            WriteLine();
+                            if (z.IsEnum)
+                            {
+                                WriteEnumFields(z, z.ToScriptAttributeOrDefault());
+                            }
+                            else
+                            {
+                                WriteTypeInstanceMethods(z, z.ToScriptAttributeOrDefault());
+                                WriteLine();
 
-                            WriteTypeProperties(z);
-                            WriteLine();
+                                WriteTypeProperties(z);
+                                WriteLine();
 
 
-                            WriteTypeFields(z, z.ToScriptAttributeOrDefault());
+                                WriteTypeFields(z, z.ToScriptAttributeOrDefault());
+                            }
                         }
                     }
                 }

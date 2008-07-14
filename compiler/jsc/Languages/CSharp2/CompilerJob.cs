@@ -85,6 +85,11 @@ namespace jsc.Languages
                          //   return;
                         }
 
+                        if (xx.IsDelegate())
+                        {
+                            //   return;
+                        }
+
                         if (xx.Assembly != j.AssamblyInfo)
                             return;
 

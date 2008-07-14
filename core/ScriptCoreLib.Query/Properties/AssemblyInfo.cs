@@ -41,6 +41,7 @@ using ScriptCoreLib;
     ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
     ScriptTypeFilter(ScriptType.ActionScript, "*.Shared.Lambda"),
     ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),
-    ScriptTypeFilter(ScriptType.JavaScript, "*.Shared")
+    ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
+    ScriptTypeFilter(ScriptType.CSharp2, "*.CSharp2")
 ]
 

@@ -367,6 +367,7 @@
     <Compile Include="ActionScript\String.cs" />
     <Compile Include="ActionScript\XML.cs" />
     <Compile Include="ActionScript\XMLList.cs" />
+    <Compile Include="CSharp2\BCLImplementation\System\Action.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ArgumentNullException.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Action.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Activator.cs" />
@@ -516,7 +517,6 @@
   <ItemGroup>
     <Folder Include="ActionScript\Extensions\mx\core\" />
     <Folder Include="ActionScript\mx\effects\effectClasses\" />
-    <Folder Include="CSharp2\BCLImplementation\System\" />
     <Folder Include="Documents\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

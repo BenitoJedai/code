@@ -15,6 +15,7 @@ namespace jsc.Languages.CSharp2
         public enum Keywords
         {
             _as,
+            _base,
             _virtual,
             _null,
             _public,
@@ -24,6 +25,7 @@ namespace jsc.Languages.CSharp2
             _internal,
             _interface,
             _enum,
+            _delegate,
             _get,
             _set,
             _static,

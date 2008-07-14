@@ -111,7 +111,7 @@ namespace jsc.Languages.CSharp2
 
             if (TargetMethod.IsStatic || IsDefineAsStatic)
             {
-                WriteDecoratedTypeName(i.OwnerMethod.DeclaringType);
+                WriteDecoratedTypeName(TargetMethod.DeclaringType);
                     //, TargetMethod.DeclaringType WriteDecoratedTypeNameOrImplementationTypeNameMode.IgnoreImplementationType);
                 Write(".");
 
@@ -150,13 +150,13 @@ namespace jsc.Languages.CSharp2
                 {
                     DebugBreak(p.DeclaringMethod.ToScriptAttribute());
 
-                    Write("super");
+                    WriteKeyword(Keywords._base);
                 }
                 else
                 {
                     if (!i.OwnerMethod.IsStatic && i.OwnerMethod.DeclaringType.IsSubclassOf(TargetMethod.DeclaringType) && s[0].SingleStackInstruction.OpCode == OpCodes.Ldarg_0)
                     {
-                        Write("super");
+                        WriteKeyword(Keywords._base);
                     }
                     else
                     {
