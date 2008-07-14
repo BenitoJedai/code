@@ -8,11 +8,69 @@ using System.Xml.Serialization;
 using System.Xml;
 using ScriptCoreLib;
 using System.Xml.Linq;
+using System.Runtime.InteropServices;
 
 namespace jsc //.Extensions
 {
     static class Extensions
     {
+
+        public static uint[] StructAsUInt32Array(this object data)
+        {
+            // http://www.vsj.co.uk/articles/display.asp?id=501
+
+            var size = Marshal.SizeOf(data);
+            var buf = Marshal.AllocHGlobal(size);
+
+
+            Marshal.StructureToPtr(data, buf, false);
+
+            var a = new uint[size / sizeof(int)];
+
+            unsafe
+            {
+                var p = (uint*)buf;
+                for (int i = 0; i < a.Length; i++)
+                {
+                    a[i] = *p;
+                    p++;
+                }
+            }
+
+            Marshal.FreeHGlobal(buf);
+
+            return a;
+        }
+
+        public static int[] StructAsInt32Array(this object data)
+        {
+            // http://www.vsj.co.uk/articles/display.asp?id=501
+
+            var size = Marshal.SizeOf(data);
+            var buf = Marshal.AllocHGlobal(size);
+
+
+            Marshal.StructureToPtr(data, buf, false);
+
+            var a = new int[size / sizeof(int)];
+
+            unsafe
+            {
+                int* p = (int*)buf;
+                for (int i = 0; i < a.Length; i++)
+                {
+                    a[i] = *p;
+                    p++;
+                }
+            }
+
+            Marshal.FreeHGlobal(buf);
+
+            return a;
+        }
+
+
+
         public static MethodBase GetMethod(this Type t, MethodBase m)
         {
             return t.GetMethod(m.Name, m.GetParameters().Select(p => p.ParameterType).ToArray());

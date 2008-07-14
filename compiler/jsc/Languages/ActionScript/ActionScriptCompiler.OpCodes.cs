@@ -570,7 +570,7 @@ namespace jsc.Languages.ActionScript
 
                             if (Type == typeof(int))
                             {
-                                var Values = StructAsInt32Array(e.i.NextInstruction.NextInstruction.TargetField.GetValue(null));
+                                var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsInt32Array();
 
                                 Write("[");
                                 for (int i = 0; i < Values.Length; i++)
@@ -584,7 +584,7 @@ namespace jsc.Languages.ActionScript
                             }
                             else if (Type == typeof(uint))
                             {
-                                var Values = StructAsUInt32Array(e.i.NextInstruction.NextInstruction.TargetField.GetValue(null));
+                                var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsUInt32Array();
 
                                 Write("[");
                                 for (int i = 0; i < Values.Length; i++)

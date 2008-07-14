@@ -212,6 +212,7 @@ namespace jsc.Languages.CSharp2
                 IsFullyQualifiedNamesRequired(context, subject), WriteDecoratedTypeNameOrImplementationTypeNameMode.IgnoreImplementationType);
         }
 
+     
 
     }
 }

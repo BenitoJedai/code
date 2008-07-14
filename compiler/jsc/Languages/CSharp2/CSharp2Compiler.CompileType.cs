@@ -96,13 +96,17 @@ namespace jsc.Languages.CSharp2
                     if (Get != null)
                     {
                         WriteMethodSignature(Get, false);
-                        WriteMethodBody(Get);
+
+                        if (!Get.IsAbstract)
+                            WriteMethodBody(Get);
                     }
 
                     if (Set != null)
                     {
                         WriteMethodSignature(Set, false);
-                        WriteMethodBody(Set);
+
+                        if (!Set.IsAbstract)
+                            WriteMethodBody(Set);
                     }
                 }
             }

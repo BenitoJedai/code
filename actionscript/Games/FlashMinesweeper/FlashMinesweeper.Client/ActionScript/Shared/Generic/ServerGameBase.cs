@@ -24,5 +24,22 @@ namespace FlashMinesweeper.ActionScript.Shared.Generic
 
         public Func<Action, int, Action> AtInterval;
         public Func<Action, int, Action> AtDelay;
+
+
+        public Player AnyOtherUser(Player p)
+        {
+            var x = default(Player);
+
+            foreach (var v in Users)
+            {
+                if (v.UserId != player.UserId)
+                {
+                    x = v;
+                    break;
+                }
+            }
+
+            return x;
+        }
     }
 }

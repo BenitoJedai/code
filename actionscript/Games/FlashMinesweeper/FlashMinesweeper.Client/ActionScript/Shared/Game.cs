@@ -13,12 +13,8 @@ namespace FlashMinesweeper.ActionScript.Shared
 #endif
     public class Game : Generic.ServerGameBase<SharedClass1.IEvents, SharedClass1.IMessages, Player>
     {
-
-        public override void UserJoined(Player player)
+        Player AnyOtherUser(Player p)
         {
-            Console.WriteLine("UserJoined " + player.Username);
-
-
             var x = default(Player);
 
             foreach (var v in Users)
@@ -29,6 +25,16 @@ namespace FlashMinesweeper.ActionScript.Shared
                     break;
                 }
             }
+
+            return x;
+        }
+
+        public override void UserJoined(Player player)
+        {
+            Console.WriteLine("UserJoined " + player.Username);
+
+
+            var x = AnyOtherUser(player);
 
             player.FromPlayer.AddScore += e => player.AddScore("score", e.score);
             player.FromPlayer.AwardAchievementFirstMinefieldComplete +=

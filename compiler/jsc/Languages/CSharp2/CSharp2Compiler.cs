@@ -50,11 +50,7 @@ namespace jsc.Languages.CSharp2
             throw new NotImplementedException();
         }
 
-        public override bool EmitTryBlock(ILBlock.Prestatement p)
-        {
-            throw new NotImplementedException();
-        }
-
+  
 
         public MethodBase ResolveMethod(MethodBase m)
         {

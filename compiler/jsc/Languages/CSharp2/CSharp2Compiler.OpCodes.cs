@@ -15,6 +15,294 @@ namespace jsc.Languages.CSharp2
     {
         private void CreateInstructionHandlers()
         {
+            #region Newarr
+            CIW[OpCodes.Newarr] =
+                e =>
+                {
+                    // fixme: new array with size
+
+                    #region inline newarr
+                    if (e.p != null && e.p.IsValidInlineArrayInit)
+                    {
+                        WriteLine("[");
+                        Ident++;
+
+                        ILFlow.StackItem[] _stack = e.p.InlineArrayInitElements;
+
+                        for (int si = 0; si < _stack.Length; si++)
+                        {
+
+
+                            if (si > 0)
+                            {
+                                Write(",");
+                                WriteLine();
+                            }
+
+                            WriteIdent();
+
+                            if (_stack[si] == null)
+                            {
+                                if (!e.i.TargetType.IsValueType)
+                                {
+                                    Write("null");
+                                }
+                                else
+                                {
+                                    if (e.i.TargetType == typeof(int))
+                                        Write("0");
+                                    else if (e.i.TargetType == typeof(sbyte))
+                                        Write("0");
+                                    else
+                                        BreakToDebugger("default for " + e.i.TargetType.FullName + " is unknown");
+                                }
+                            }
+                            else
+                            {
+                                Emit(e.p, _stack[si]);
+                            }
+
+                        }
+
+                        WriteLine();
+
+                        Ident--;
+                        WriteIdent();
+                        Write("]");
+                    }
+                    #endregion
+                    else
+                    {
+
+                        if (e.i.NextInstruction == OpCodes.Dup &&
+                            e.i.NextInstruction.NextInstruction == OpCodes.Ldtoken &&
+                            e.i.NextInstruction.NextInstruction.NextInstruction == OpCodes.Call)
+                        {
+                            var Length = (int)e.i.StackBeforeStrict.First().SingleStackInstruction.TargetInteger;
+                            var Type = e.i.TargetType;
+
+                            // Conversion To IEnumrable
+
+                            if (Type == typeof(int))
+                            {
+                                var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsInt32Array();
+
+                                Write("[");
+                                for (int i = 0; i < Values.Length; i++)
+                                {
+                                    if (i > 0)
+                                        Write(", ");
+
+                                    Write(Values[i].ToString());
+                                }
+                                Write("]");
+                            }
+                            else if (Type == typeof(uint))
+                            {
+                                var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsUInt32Array();
+
+                                Write("[");
+                                for (int i = 0; i < Values.Length; i++)
+                                {
+                                    if (i > 0)
+                                        Write(", ");
+
+                                    Write(Values[i].ToString());
+                                }
+                                Write("]");
+                            }
+                            else
+                                throw new NotImplementedException();
+
+
+
+
+                            //Write("[ /* ? */ ]");
+
+                            // todo: implement
+
+
+                        }
+                        else
+                        {
+
+                            // Write("[]");
+                            // this fix is for javascript too
+
+                            if (e.FirstOnStack.SingleStackInstruction == OpCodes.Ldc_I4_0)
+                            {
+                                Write("[]");
+                            }
+                            else
+                            {
+                                Write("new Array(");
+                                EmitFirstOnStack(e);
+                                Write(")");
+                            }
+                        }
+
+                    }
+                };
+            #endregion
+
+
+            #region Ldftn
+            CIW[OpCodes.Ldftn,
+                OpCodes.Ldvirtftn] =
+                delegate(CodeEmitArgs e)
+                {
+                    Write("_method_");
+
+                    // we must load it as IntPtr
+                    //var _IntPtr = MySession.ResolveImplementation(typeof(IntPtr));
+                    //var _Operators = _IntPtr.GetExplicitOperators(null, _IntPtr);
+
+                    //var _IntPtr_string = _Operators.Single(i => i.GetParameters().Single().ParameterType == typeof(string));
+                    //var _IntPtr_Function = _Operators.Single(i => i.GetParameters().Single().ParameterType != typeof(string));
+
+                    //var _Method = e.i.TargetMethod;
+                    //if (_Method.IsStatic)
+                    //{
+                    //    WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _IntPtr));
+                    //    Write(".");
+                    //    WriteDecoratedMethodName(_IntPtr_Function, false);
+                    //    Write("(");
+                    //    WriteDecoratedTypeNameOrImplementationTypeName(_Method.DeclaringType, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _Method.DeclaringType));
+                    //    Write(".");
+                    //    WriteDecoratedMethodName(e.i.TargetMethod, false);
+                    //    Write(")");
+                    //}
+                    //else
+                    //{
+                    //    if (_Method.DeclaringType == e.Method.DeclaringType)
+                    //    {
+                    //        WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _IntPtr));
+                    //        Write(".");
+                    //        WriteDecoratedMethodName(_IntPtr_Function, false);
+                    //        Write("(");
+                    //        WriteDecoratedMethodName(e.i.TargetMethod, false);
+                    //        Write(")");
+                    //    }
+                    //    else
+                    //    {
+                    //        WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _IntPtr));
+                    //        Write(".");
+                    //        WriteDecoratedMethodName(_IntPtr_string, false);
+                    //        Write("(");
+                    //        WriteDecoratedMethodName(_Method, true);
+                    //        Write(")");
+                    //    }
+                    //}
+
+
+
+                };
+            #endregion
+
+            #region conv
+
+            // not supported
+            // CIW[OpCodes.Conv_I1] = e => ConvertTypeAndEmit(e, "byte");
+            {
+                Func<string, CodeInstructionHandler> f = t => e => ConvertTypeAndEmit(e, t);
+
+                CIW[OpCodes.Conv_U] = f("uint"); // char == int
+                CIW[OpCodes.Conv_U1] = f("uint"); // char == int
+                CIW[OpCodes.Conv_U2] = f("uint"); // char == int
+                CIW[OpCodes.Conv_U4] = f("uint"); // char == int
+
+                CIW[OpCodes.Conv_I1] = f("int");
+                CIW[OpCodes.Conv_I2] = f("int");
+                CIW[OpCodes.Conv_I4] = f("int");
+
+                CIW[OpCodes.Conv_R4] = f("Number");
+                CIW[OpCodes.Conv_R8] = f("Number");
+                CIW[OpCodes.Conv_I8] = f("Number");
+                CIW[OpCodes.Conv_U8] = f("Number");
+
+
+                CIW[OpCodes.Conv_Ovf_I] = f("int");
+            }
+            #endregion
+
+            #region elem_ref
+            CIW[OpCodes.Ldelem_Ref,
+                OpCodes.Ldelem_U1,
+                OpCodes.Ldelem_U2,
+                OpCodes.Ldelem_U4,
+                OpCodes.Ldelem_I1,
+                OpCodes.Ldelem_I2,
+                OpCodes.Ldelem_I4,
+                OpCodes.Ldelem_I8,
+                OpCodes.Ldelem_R8,
+                OpCodes.Ldelem
+                ] =
+                e =>
+                {
+                    ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+
+                    Emit(e.p, s[0]);
+                    Write("[");
+                    Emit(e.p, s[1]);
+                    Write("]");
+                };
+
+            CIW[OpCodes.Stelem_Ref,
+                OpCodes.Stelem_I1,
+                OpCodes.Stelem_I2,
+                OpCodes.Stelem_I4,
+                OpCodes.Stelem_I8,
+                OpCodes.Stelem_R8,
+                OpCodes.Stelem
+                ] =
+                e =>
+                {
+                    ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+
+                    Emit(e.p, s[0]);
+                    Write("[");
+                    Emit(e.p, s[1]);
+                    Write("]");
+                    WriteAssignment();
+
+                    Emit(e.p, s[2]);
+                };
+            #endregion
+
+
+            #region Ldlen
+            CIW[OpCodes.Ldlen] =
+                e =>
+                {
+                    EmitFirstOnStack(e);
+
+                    Write(".Length");
+                };
+            #endregion
+
+
+            CIW[OpCodes.Initobj] =
+                e =>
+                {
+                    WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.Prev.TargetVariable);
+                    WriteAssignment();
+
+                    WriteKeyword(Keywords._default);
+                    Write("(");
+                    WriteGenericTypeName(e.i.OwnerMethod.DeclaringType, e.i.Prev.TargetVariable.LocalType);
+                    Write(")");
+                };
+
+            CIW[OpCodes.Constrained] =
+                e =>
+                {
+                    if (e.i.StackBeforeStrict.Length == 0)
+                        // throw skip statement instead?
+                        return;
+
+                    EmitFirstOnStack(e);
+                };
+
             CIW[OpCodes.Castclass] =
                  e =>
                  {
@@ -64,7 +352,7 @@ namespace jsc.Languages.CSharp2
                 OpCodes.Stloc] =
                 e =>
                 {
-                    
+
 
                     WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.TargetVariable);
 

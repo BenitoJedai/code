@@ -69,60 +69,6 @@ namespace jsc.Languages.ActionScript
 
 
 
-        public static uint[] StructAsUInt32Array(object data)
-        {
-            // http://www.vsj.co.uk/articles/display.asp?id=501
-
-            var size = Marshal.SizeOf(data);
-            var buf = Marshal.AllocHGlobal(size);
-
-
-            Marshal.StructureToPtr(data, buf, false);
-
-            var a = new uint[size / sizeof(int)];
-
-            unsafe
-            {
-                var p = (uint*)buf;
-                for (int i = 0; i < a.Length; i++)
-                {
-                    a[i] = *p;
-                    p++;
-                }
-            }
-
-            Marshal.FreeHGlobal(buf);
-
-            return a;
-        }
-
-        public static int[] StructAsInt32Array(object data)
-        {
-            // http://www.vsj.co.uk/articles/display.asp?id=501
-
-            var size = Marshal.SizeOf(data);
-            var buf = Marshal.AllocHGlobal(size);
-
-
-            Marshal.StructureToPtr(data, buf, false);
-
-            var a = new int[size / sizeof(int)];
-
-            unsafe
-            {
-                int* p = (int*)buf;
-                for (int i = 0; i < a.Length; i++)
-                {
-                    a[i] = *p;
-                    p++;
-                }
-            }
-
-            Marshal.FreeHGlobal(buf);
-
-            return a;
-        }
-
 
         protected override void WriteTypeInstanceConstructors(Type z)
         {

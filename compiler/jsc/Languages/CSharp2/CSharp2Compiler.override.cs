@@ -28,19 +28,29 @@ namespace jsc.Languages.CSharp2
 
         public override string GetDecoratedTypeName(Type z, bool bExternalAllowed)
         {
-            if (z.IsGenericType)
-            {
-                var g = z.Name.IndexOf('`');
+            var p = z;
+            var s = GetDecoratedTypeNameWithinNestedName(p);
 
-                return GetSafeLiteral(z.Name.Substring(0, g));
+            while (p.DeclaringType != null)
+            {
+                p = p.DeclaringType;
+                s = GetDecoratedTypeNameWithinNestedName(p) + "." + s;
             }
 
-            return GetSafeLiteral(z.Name);
+            return s;
         }
 
         public override string GetDecoratedTypeNameWithinNestedName(Type z)
         {
-            return GetDecoratedTypeName(z, false);
+            if (z.IsGenericType)
+            {
+                var g = z.Name.IndexOf('`');
+
+                if (g >= 0)
+                    return GetSafeLiteral(z.Name.Substring(0, g));
+            }
+
+            return GetSafeLiteral(z.Name);
         }
 
         public override bool SupportsBCLTypesAreNative

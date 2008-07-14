@@ -80,7 +80,7 @@ namespace jsc.Languages
                 // todo: deal with overlapping attributes here
                 j.NamespaceRenameList.AddRange(n);
             }
-            
+
 
             // we support java only at this time
 
@@ -95,14 +95,17 @@ namespace jsc.Languages
 
             // compile for language # java
 
-            if (j.GetTypeFilterListByType(ScriptType.Java).Any()) 
-                CompileJava(j, sinfo);
+            if (sinfo.Options.IsJava || sinfo.Options.IsAllModulesAllLanguages)
+                if (j.GetTypeFilterListByType(ScriptType.Java).Any())
+                    CompileJava(j, sinfo);
 
-            if (j.GetTypeFilterListByType(ScriptType.ActionScript).Any())
-                CompileActionScript(j, sinfo);
+            if (sinfo.Options.IsActionScript || sinfo.Options.IsAllModulesAllLanguages)
+                if (j.GetTypeFilterListByType(ScriptType.ActionScript).Any())
+                    CompileActionScript(j, sinfo);
 
-            if (j.GetTypeFilterListByType(ScriptType.CSharp2).Any())
-                CompileCSharp2(j, sinfo);
+            if (sinfo.Options.IsCSharp2 || sinfo.Options.IsAllModulesAllLanguages)
+                if (j.GetTypeFilterListByType(ScriptType.CSharp2).Any())
+                    CompileCSharp2(j, sinfo);
 
         }
 
