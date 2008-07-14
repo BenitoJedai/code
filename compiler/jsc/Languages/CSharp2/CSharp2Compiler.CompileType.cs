@@ -90,6 +90,8 @@ namespace jsc.Languages.CSharp2
                         Write(GetShortName(z));
                         WriteGenericTypeParameters(z, z);
 
+                        var BaseTypeWritten = false;
+
                         if (z.BaseType != null && z.BaseType != typeof(object))
                         {
                             if (z.IsEnum)
@@ -104,11 +106,35 @@ namespace jsc.Languages.CSharp2
                                 Write(":");
                                 WriteSpace();
                                 WriteGenericTypeName(z, z.BaseType);
+                                BaseTypeWritten = true;
                             }
+                        }
+
+                        if (!z.IsEnum)
+                        {
+                            z.GetInterfaces().Aggregate(
+                                BaseTypeWritten ? 1 : 0,
+                                (index, i) =>
+                                {
+                                    if (index > 0)
+                                        Write(", ");
+                                    else
+                                    {
+                                        WriteSpace();
+                                        Write(":");
+                                        WriteSpace();
+                                    }
+
+                                    WriteGenericTypeName(z, i);
+
+                                    return index + 1;
+                                }
+                            );
                         }
 
                         WriteLine();
 
+                        #region where
                         Ident++;
                         foreach (var v in z.GetGenericArguments())
                         {
@@ -122,7 +148,9 @@ namespace jsc.Languages.CSharp2
 
                                 WriteGenericTypeName(z, v);
 
+                                WriteSpace();
                                 Write(":");
+                                WriteSpace();
 
                                 for (int i = 0; i < ParameterConstraints.Length; i++)
                                 {
@@ -136,6 +164,8 @@ namespace jsc.Languages.CSharp2
                             }
                         }
                         Ident--;
+                        #endregion
+
 
                         using (CreateScope())
                         {
@@ -145,14 +175,21 @@ namespace jsc.Languages.CSharp2
                             }
                             else
                             {
+                                WriteTypeInstanceConstructors(z);
+
+                                WriteLine();
+
                                 WriteTypeEvents(z);
 
+                                WriteLine();
+
                                 WriteTypeInstanceMethods(z, z.ToScriptAttributeOrDefault());
+                                
                                 WriteLine();
 
                                 WriteTypeProperties(z);
-                                WriteLine();
 
+                                WriteLine();
 
                                 WriteTypeFields(z, z.ToScriptAttributeOrDefault());
                             }

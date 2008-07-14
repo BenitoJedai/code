@@ -65,6 +65,17 @@ namespace jsc.Languages.CSharp2
             Write(")");
         }
 
+        public void ConvertTypeAndEmit(Type context, Type subject, jsc.ILBlock.Prestatement p, jsc.ILFlow.StackItem s)
+        {
+            Write("(");
+            Write("(");
+            WriteGenericTypeName(context, subject);
+            Write(")");
+            Emit(p, s);
+            Write(")");
+        }
+
+
         public override void MethodCallParameterTypeCast(Type context, Type p)
         {
             Write("(");

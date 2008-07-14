@@ -622,8 +622,25 @@ namespace jsc.Script
                         }
                         else
                         {
-                            Write("!");
-                            Emit(p, expression);
+
+                            // expression.SingleStackInstruction.TargetVariable.LocalType.IsClass
+
+                            if (expression.IsSingle &&
+                                expression.SingleStackInstruction.TargetVariable != null &&
+                                expression.SingleStackInstruction.TargetVariable.LocalType.IsClass)
+                            {
+                                
+                                Emit(p, expression);
+                                WriteSpace();
+                                Write("!=");
+                                WriteSpace();
+                                WriteKeywordNull();
+                            }
+                            else
+                            {
+                                Write("!");
+                                Emit(p, expression);
+                            }
                         }
                     }
                     else

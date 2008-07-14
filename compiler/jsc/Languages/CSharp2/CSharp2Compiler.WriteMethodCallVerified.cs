@@ -7,6 +7,7 @@ using System.Xml;
 using System.Reflection;
 using System.Diagnostics;
 using System.Reflection.Emit;
+using jsc.Script;
 
 namespace jsc.Languages.CSharp2
 {
@@ -154,13 +155,25 @@ namespace jsc.Languages.CSharp2
                 }
                 else
                 {
+                    
                     if (!i.OwnerMethod.IsStatic && i.OwnerMethod.DeclaringType.IsSubclassOf(TargetMethod.DeclaringType) && s[0].SingleStackInstruction.OpCode == OpCodes.Ldarg_0)
                     {
                         WriteKeyword(Keywords._base);
                     }
                     else
                     {
-                        Emit(p, s[0]);
+                        if (s[0].SingleStackInstruction.OpCode == OpCodes.Ldarg_0 &&
+                            !TargetMethod.DeclaringType.Equals(i.OwnerMethod.DeclaringType))
+                        {
+                            ConvertTypeAndEmit(
+                                i.OwnerMethod.DeclaringType,
+                                TargetMethod.DeclaringType,
+                                p, s[0]);
+                                
+
+                        }
+                        else
+                            Emit(p, s[0]);
                     }
 
                     if (TargetMethod.Name == "get_Item"

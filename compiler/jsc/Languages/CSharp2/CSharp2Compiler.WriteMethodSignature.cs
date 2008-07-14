@@ -52,7 +52,17 @@ namespace jsc.Languages.CSharp2
                     prop.GetProperty != null &&
                     prop.GetProperty.GetGetMethod(true).GetParameters().Length == 0;
 
-            if (IsSet || IsGet)
+            var IsExcplicitInterfaceImplementation =
+                m.IsPrivate &&
+                      Enumerable.Any(
+                          from i in m.DeclaringType.GetInterfaces()
+                          let map = m.DeclaringType.GetInterfaceMap(i)
+                          from t in map.TargetMethods
+                          where t == m
+                          select new { map, t, i }
+                      );
+
+            if (IsSet || IsGet || IsExcplicitInterfaceImplementation)
             {
                 // only if its less visible than property's modifier
             }
@@ -74,7 +84,10 @@ namespace jsc.Languages.CSharp2
                             WriteKeywordSpace(Keywords._protected);
                         else
                         {
-                            WriteKeywordSpace(Keywords._internal);
+                            if (m.IsPrivate)
+                                WriteKeywordSpace(Keywords._private);
+                            else
+                                WriteKeywordSpace(Keywords._internal);
                         }
                 }
             }
@@ -129,14 +142,20 @@ namespace jsc.Languages.CSharp2
             }
 
             // virtual?
+          
 
-            if (!m.DeclaringType.IsInterface && !m.DeclaringType.IsSealed)
-                if (!IsSet && !IsGet)
-                    if (m.IsVirtual && !IsOverride)
-                        WriteKeywordSpace(Keywords._virtual);
+            if (!IsExcplicitInterfaceImplementation)
+                if (!m.DeclaringType.IsInterface && !m.DeclaringType.IsSealed)
+                    if (!IsSet && !IsGet)
+                        if (m.IsVirtual && !IsOverride)
+                            WriteKeywordSpace(Keywords._virtual);
 
             if (m.IsStatic || dStatic)
                 WriteKeywordSpace(Keywords._static);
+
+            //if (m.IsFinal)
+            //    WriteKeywordSpace(Keywords._sealed);
+
 
 
 
@@ -165,7 +184,7 @@ namespace jsc.Languages.CSharp2
             var MethodHasParameterList = true;
 
             if (m.IsConstructor)
-                Write(GetDecoratedTypeName(m.DeclaringType, false));
+                Write(GetShortName(m.DeclaringType));
             else
             {
                 if (IsSet)
@@ -186,8 +205,11 @@ namespace jsc.Languages.CSharp2
                 }
                 else
                 {
+                    if (IsExcplicitInterfaceImplementation)
+                        Write(m.Name);
+                    else
+                        WriteDecoratedMethodName(m, false);
 
-                    WriteDecoratedMethodName(m, false);
                     WriteGenericTypeParameters(m.DeclaringType, m);
                 }
             }
@@ -215,7 +237,7 @@ namespace jsc.Languages.CSharp2
         private void WriteQualifiedTypeName(Type context, Dual<Queue<Type>> GenericArguments, Type subject)
         {
             WriteDecoratedTypeNameOrImplementationTypeName(subject, true, true,
-                IsFullyQualifiedNamesRequired(context, subject), 
+                IsFullyQualifiedNamesRequired(context, subject),
                 WriteDecoratedTypeNameOrImplementationTypeNameMode.IgnoreImplementationType,
                 context,
                 GenericArguments

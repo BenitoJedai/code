@@ -1536,6 +1536,10 @@ namespace jsc.Script
 
         }
 
+        public virtual bool IsSafeLiteralChar(char x)
+        {
+            return char.IsLetter(x) || char.IsNumber(x);
+        }
 
         public string GetSafeLiteral(string z)
         {
@@ -1547,7 +1551,7 @@ namespace jsc.Script
             foreach (char x in z)
             {
 
-                if (char.IsLetter(x) || char.IsNumber(x))
+                if (IsSafeLiteralChar(x))
                 {
                     w.Write(x);
                 }

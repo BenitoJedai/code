@@ -24,6 +24,14 @@ namespace jsc.Languages.CSharp2
             return GetSafeLiteral(z.Name);
         }
 
+        public override bool SupportsInlineThisReference
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         public override bool SupportsAbstractMethods
         {
             get
@@ -118,7 +126,35 @@ namespace jsc.Languages.CSharp2
             return base.IsTypeCastRequired(e, s);
         }
 
-    
+
+        public override Predicate<ILBlock.Prestatement> MethodBodyFilter
+        {
+            get
+            {
+                return
+                 delegate(ILBlock.Prestatement p)
+                 {
+                     // note that instance constructor returns pointer to instance
+
+                     #region remove redundant returns
+                     if (p.Instruction != null)
+                         if (p.Instruction == OpCodes.Ret)
+                             if (p.Instruction.Next == null)
+                                 if (p.Instruction.StackBeforeStrict.Length == 0)
+                                 {
+                                     return true;
+                                 }
+                     #endregion
+
+                     // base calls should be part of signature
+                     if (p.IsBaseConstructorCall())
+                         return true;
+
+                     return false;
+                 };
+            }
+        }     
+
     }
 
 
