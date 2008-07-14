@@ -58,6 +58,8 @@ namespace FlashMinesweeper.ActionScript
 
             public List<MineButton> Others;
 
+            public MineField Field;
+
             public event Action IsFlagChanged;
             public event Action OnReveal;
 
@@ -90,6 +92,11 @@ namespace FlashMinesweeper.ActionScript
                         if (!Enabled)
                             return;
 
+                        if (this.Field.DisallowClicks)
+                        {
+                            snd_buzzer.play();
+                            return;
+                        }
 
                         if (e.altKey || e.ctrlKey || e.shiftKey)
                         {
@@ -339,9 +346,8 @@ namespace FlashMinesweeper.ActionScript
             }
         }
 
-        //public MineField(int FieldXCount, int FieldYCount) : this(FieldXCount, FieldYCount, 0.3)
-        //{
-        //}
+        public bool DisallowClicks;
+      
 
         public readonly MineButton[] Buttons;
 
@@ -370,7 +376,8 @@ namespace FlashMinesweeper.ActionScript
 
                             FieldX = x,
                             FieldY = y,
-                            Others = a
+                            Others = a,
+                            Field = this
 
                         };
 

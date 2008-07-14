@@ -19,7 +19,7 @@ namespace FlashMinesweeper.ActionScript.Client
 
     partial class TeamPlay
     {
-
+        readonly Dictionary<int, string> CoPlayerNames = new Dictionary<int, string>();
         private void InitializeEvents()
         {
 
@@ -34,7 +34,6 @@ namespace FlashMinesweeper.ActionScript.Client
                     ShowMessage("Howdy, " + e.name);
                 };
 
-            var CoPlayerNames = new Dictionary<int, string>();
 
             Events.ServerPlayerJoined +=
               e =>

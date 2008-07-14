@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ScriptCoreLib.ActionScript.flash.display;
+using FlashMinesweeper.ActionScript;
+using FlashMinesweeper.ActionScript.Client.Assets;
+using FlashMinesweeper.ActionScript.Shared;
+using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
-using FlashMinesweeper.ActionScript;
-using ScriptCoreLib;
-using ScriptCoreLib.ActionScript.flash.text;
+using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.filters;
-using FlashMinesweeper.ActionScript.Client.Assets;
-using ScriptCoreLib.ActionScript.Nonoba.api;
-using FlashMinesweeper.ActionScript.Shared;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.flash.utils;
+using ScriptCoreLib.ActionScript.Nonoba.api;
 
 namespace FlashMinesweeper.ActionScript.Client
 {
@@ -140,7 +141,9 @@ namespace FlashMinesweeper.ActionScript.Client
                     if (e > 0)
                     {
                         if (e < 5)
-                            ShowMessage("+" + e);
+                        {
+                         //   ShowMessage("+" + e);
+                        }
                         else
                             ShowMessage("Yay! +" + e);
                     }
@@ -151,13 +154,46 @@ namespace FlashMinesweeper.ActionScript.Client
 
                 };
 
+            var DisallowClicks = default(Timer);
+            var DisallowClicksMultiplierMin = 2;
+            var DisallowClicksMultiplier = DisallowClicksMultiplierMin;
+            
+
             Field.OnBang +=
                 LocalPlayer =>
                 {
                     ServerSendMapEnabled = false;
 
                     if (LocalPlayer)
+                    {
+                        DisallowClicksMultiplier++;
+
+                        
+                        if (this.CoPlayerNames.Count > 0)
+                        {
+                            var timeout = (DisallowClicksMultiplier * 2 * (this.CoPlayerNames.Count + 1));
+
+                            Field.DisallowClicks = true;
+
+                            if (DisallowClicks != null && DisallowClicks.running)
+                            {
+                                DisallowClicks.stop();
+                            }
+
+                            DisallowClicks = (timeout * 1000).AtDelayDo(
+                                () =>
+                                {
+                                    Field.DisallowClicks = false;
+
+                                    ShowMessage("Your penalty multiplier is now " + DisallowClicksMultiplier);
+                                }
+                            );
+
+                            ShowMessage("You must wait " + timeout + " seconds to resume!");
+                        }
+
                         AddScore(-8);
+                    }
                     else
                         AddScore(-4);
                 };
@@ -167,6 +203,8 @@ namespace FlashMinesweeper.ActionScript.Client
             Field.OnComplete +=
                LocalPlayer =>
                {
+                   DisallowClicksMultiplier = DisallowClicksMultiplierMin;
+
                    ServerSendMapEnabled = false;
 
                    if (LocalPlayer)
@@ -220,7 +258,7 @@ namespace FlashMinesweeper.ActionScript.Client
 
                                 SendMap();
 
-                                
+
 
                                 StopCrudeMapReset();
                             }
@@ -242,6 +280,17 @@ namespace FlashMinesweeper.ActionScript.Client
                     if (LocalPlayer)
                     {
                         LocalPlayerFieldsOpened++;
+
+                        // every 8 clicks gets your penalty down by one
+                        if (LocalPlayerFieldsOpened % 8 == 0)
+                        {
+                            if (DisallowClicksMultiplier > DisallowClicksMultiplierMin)
+                            {
+                                DisallowClicksMultiplier = (DisallowClicksMultiplier - 1).Max(DisallowClicksMultiplierMin);
+
+                                ShowMessage("Your penalty multiplier is " + DisallowClicksMultiplier);
+                            }
+                        }
 
                         if (LocalPlayerFieldsOpened < 10)
                             AddScore(1);
