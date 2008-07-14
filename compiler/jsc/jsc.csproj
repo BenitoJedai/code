@@ -111,12 +111,14 @@
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.NativeTypes.cs" />
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.WriteMethodParameterList.cs" />
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.EmitTryBlock.cs" />
+    <Compile Include="Languages\ActionScript\ActionScriptCompiler.WriteTypeFields.cs" />
     <Compile Include="Languages\ActionScript\DelegateImplementationProvider.cs" />
     <Compile Include="Languages\ActionScript\EntryPointProvider.cs" />
     <Compile Include="Languages\CompilerBase.DIA.cs" />
     <Compile Include="Languages\CompilerBase.CompilerConstants.cs" />
     <Compile Include="Languages\CompilerJob.cs" />
     <Compile Include="Languages\CompilerBase.Handler.cs" />
+    <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteTypeFields.cs" />
     <Compile Include="Languages\CSharp2\Csharp2Compiler.EmitTryBlock.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteMethodParameterList.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.NativeTypes.cs" />

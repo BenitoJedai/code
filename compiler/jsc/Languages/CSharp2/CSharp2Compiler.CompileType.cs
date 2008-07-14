@@ -82,10 +82,21 @@ namespace jsc.Languages.CSharp2
 
                     using (CreateScope())
                     {
-                        WriteTypeInstanceMethods(z, z.ToScriptAttributeOrDefault());
-                        WriteLine();
+                        if (z.IsEnum)
+                        {
+                            WriteEnumFields(z, z.ToScriptAttributeOrDefault());
+                        }
+                        else
+                        {
+                            WriteTypeInstanceMethods(z, z.ToScriptAttributeOrDefault());
+                            WriteLine();
 
-                        WriteTypeProperties(z);
+                            WriteTypeProperties(z);
+                            WriteLine();
+
+
+                            WriteTypeFields(z, z.ToScriptAttributeOrDefault());
+                        }
                     }
                 }
             );

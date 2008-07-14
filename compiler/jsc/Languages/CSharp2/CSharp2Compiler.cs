@@ -24,16 +24,9 @@ namespace jsc.Languages.CSharp2
             throw new NotImplementedException();
         }
 
-        public override void WriteTypeFields(Type z, ScriptAttribute za)
-        {
-            throw new NotImplementedException();
-        }
+     
 
-        public override void WriteTypeFieldModifier(FieldInfo zfn)
-        {
-            throw new NotImplementedException();
-        }
-
+  
 
 
      
