@@ -14,6 +14,11 @@ namespace jsc //.Extensions
 {
     static class Extensions
     {
+        public static bool IsAnonymousType(this Type z)
+        {
+            return ScriptCoreLib.ScriptAttribute.IsAnonymousType(z);
+        }
+
         public static T PopOrDefault<T>(this Stack<T> e)
         {
             if (e.Count > 0)
@@ -24,9 +29,17 @@ namespace jsc //.Extensions
 
         public static Stack<Type> DeclaringTypesToStack(this Type e)
         {
+            return e.DeclaringTypesToStack(false);
+        }
+
+        public static Stack<Type> DeclaringTypesToStack(this Type e, bool IncludeThis)
+        {
             var s = new Stack<Type>();
 
             var p = e;
+
+            if (IncludeThis)
+                s.Push(p);
 
             while (p.DeclaringType != null)
             {

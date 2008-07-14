@@ -183,7 +183,7 @@ namespace jsc.Languages.CSharp2
                 OpCodes.Ldvirtftn] =
                 delegate(CodeEmitArgs e)
                 {
-                    Write("_method_");
+                    WriteDecoratedMethodName(e.i.TargetMethod, false);
 
                     // we must load it as IntPtr
                     //var _IntPtr = MySession.ResolveImplementation(typeof(IntPtr));
@@ -372,7 +372,37 @@ namespace jsc.Languages.CSharp2
             CIW[OpCodes.Newobj] =
                   e =>
                   {
-                      WriteTypeConstruction(e);
+                      if (e.i.TargetConstructor.DeclaringType.IsDelegate())
+                      {
+                          WriteKeywordSpace(Keywords._new);
+                          
+                          var method = e.i.StackBeforeStrict[1];
+                          var target = method.SingleStackInstruction.TargetMethod.DeclaringType;
+
+
+                          WriteGenericTypeName(e.Method.DeclaringType, e.i.TargetConstructor.DeclaringType);
+
+                          Write("(");
+
+                          if (method.SingleStackInstruction.TargetMethod.IsStatic)
+                          {
+                              WriteGenericTypeName(e.Method.DeclaringType, target);
+                              Write(".");
+                              Emit(e.p, method);
+                          }
+                          else
+                          {
+                              Emit(e.p, e.i.StackBeforeStrict[0]);
+                              Write(".");
+                              Emit(e.p, method);
+                          }
+
+                          Write(")");
+                      }
+                      else
+                      {
+                          WriteTypeConstruction(e);
+                      }
                   };
 
             #region Stloc
@@ -460,8 +490,13 @@ namespace jsc.Languages.CSharp2
                {
 
                    Emit(e.p, e.FirstOnStack);
+
+             
                    Write(".");
+
+                   
                    WriteSafeLiteral(e.i.TargetField.Name);
+
 
                };
 
@@ -646,10 +681,9 @@ namespace jsc.Languages.CSharp2
                        WriteKeyword(Keywords._as);
                        WriteSpace();
 
-                       WriteDecoratedTypeNameOrImplementationTypeName(
-                           e.i.TargetType, false, false,
-                           IsFullyQualifiedNamesRequired(e.Method.DeclaringType, e.i.TargetType)
-                       );
+                       WriteGenericTypeName(e.Method.DeclaringType, e.i.TargetType);
+
+                       
                    }
                    else
                        throw new NotSupportedException();

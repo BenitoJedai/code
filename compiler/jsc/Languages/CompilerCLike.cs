@@ -135,12 +135,10 @@ namespace jsc.Script
                 if (mza != null && mza.ImplementationType != null)
                 {
                     WriteDecoratedTypeName(e.Method.DeclaringType, mza.ImplementationType);
-                    WriteGenericTypeParameters(e.Method.DeclaringType, mza.ImplementationType);
                 }
                 else
                 {
                     WriteDecoratedTypeName(e.Method.DeclaringType, m.DeclaringType);
-                    WriteGenericTypeParameters(e.Method.DeclaringType, m.DeclaringType);
                 }
 
                 
@@ -148,9 +146,7 @@ namespace jsc.Script
             }
         }
 
-        public virtual void WriteGenericTypeParameters(Type context, Type subject)
-        {
-        }
+
 
         public virtual void MethodCallParameterTypeCast(ParameterInfo p)
         {

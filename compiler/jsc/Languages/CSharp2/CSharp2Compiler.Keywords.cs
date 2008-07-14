@@ -26,6 +26,7 @@ namespace jsc.Languages.CSharp2
             _interface,
             _enum,
             _delegate,
+            _where,
             _get,
             _set,
             _static,

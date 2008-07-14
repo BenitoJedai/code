@@ -212,10 +212,14 @@ namespace jsc.Languages.CSharp2
             WriteLine();
         }
 
-        private void WriteQualifiedTypeName(Type context, Type subject)
+        private void WriteQualifiedTypeName(Type context, Dual<Queue<Type>> GenericArguments, Type subject)
         {
             WriteDecoratedTypeNameOrImplementationTypeName(subject, true, true,
-                IsFullyQualifiedNamesRequired(context, subject), WriteDecoratedTypeNameOrImplementationTypeNameMode.IgnoreImplementationType);
+                IsFullyQualifiedNamesRequired(context, subject), 
+                WriteDecoratedTypeNameOrImplementationTypeNameMode.IgnoreImplementationType,
+                context,
+                GenericArguments
+            );
         }
 
 

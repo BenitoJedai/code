@@ -111,8 +111,8 @@ namespace jsc.Languages.CSharp2
 
             if (TargetMethod.IsStatic || IsDefineAsStatic)
             {
-                WriteDecoratedTypeName(TargetMethod.DeclaringType);
-                    //, TargetMethod.DeclaringType WriteDecoratedTypeNameOrImplementationTypeNameMode.IgnoreImplementationType);
+                WriteGenericTypeName(i.OwnerMethod.DeclaringType, TargetMethod.DeclaringType);
+                    
                 Write(".");
 
                 #region prop
@@ -164,7 +164,7 @@ namespace jsc.Languages.CSharp2
                     }
 
                     if (TargetMethod.Name == "get_Item"
-                        && TargetMethod.DeclaringType.ToScriptAttributeOrDefault().IsNative
+                     //   && TargetMethod.DeclaringType.ToScriptAttributeOrDefault().IsNative
                         && TargetMethod.GetParameters().Length == 1)
                     {
                         // call with and indexer... possibly an array or xml list

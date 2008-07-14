@@ -19,6 +19,9 @@ namespace jsc.Languages.CSharp2
 
         public override bool CompileType(Type z)
         {
+            if (z.IsAnonymousType())
+                return false;
+
             WriteLine("// cs2 " + DateTime.Now);
 
             WriteImportTypes(z);
@@ -42,7 +45,7 @@ namespace jsc.Languages.CSharp2
 
                     if (ImplementsOrDefault.IsPublic || ImplementsOrDefault.IsNestedPublic)
                         WriteKeywordSpace(Keywords._public);
-                    
+
                     if (!z.IsInterface)
                         if (z.IsAbstract)
                             WriteKeywordSpace(Keywords._abstract);
@@ -60,7 +63,7 @@ namespace jsc.Languages.CSharp2
                         WriteKeywordSpace(Keywords._class);
 
 
-                   
+
                     if (z.IsDelegate())
                     {
                         var Invoke = z.GetMethod("Invoke");
@@ -105,6 +108,34 @@ namespace jsc.Languages.CSharp2
                         }
 
                         WriteLine();
+
+                        Ident++;
+                        foreach (var v in z.GetGenericArguments())
+                        {
+                            var ParameterConstraints = v.GetGenericParameterConstraints();
+
+                            if (ParameterConstraints.Length > 0)
+                            {
+                                WriteIdent();
+
+                                WriteKeywordSpace(Keywords._where);
+
+                                WriteGenericTypeName(z, v);
+
+                                Write(":");
+
+                                for (int i = 0; i < ParameterConstraints.Length; i++)
+                                {
+                                    if (i > 0)
+                                        Write(", ");
+
+                                    WriteGenericTypeName(z, ParameterConstraints[i]);
+                                }
+
+                                WriteLine();
+                            }
+                        }
+                        Ident--;
 
                         using (CreateScope())
                         {
@@ -177,54 +208,6 @@ namespace jsc.Languages.CSharp2
             }
         }
 
-        private void WriteGenericTypeName(Type context, Type subject)
-        {
-            WriteQualifiedTypeName(context, subject);
-            WriteGenericTypeParameters(context, subject);
-        }
-
-
-        public void WriteGenericTypeParameters(Type context, MethodBase subject)
-        {
-            if (!subject.IsGenericMethod)
-                return;
-
-            var p = subject.GetGenericArguments();
-
-            Write("<");
-
-            for (int i = 0; i < p.Length; i++)
-            {
-                if (i > 0)
-                    Write(", ");
-
-                WriteGenericTypeName(context, p[i]);
-            }
-
-
-            Write(">");
-        }
-
-        public override void WriteGenericTypeParameters(Type context, Type subject)
-        {
-            if (!subject.IsGenericType)
-                return;
-
-            var p = subject.GetGenericArguments();
-
-            Write("<");
-
-            for (int i = 0; i < p.Length; i++)
-            {
-                if (i > 0)
-                    Write(", ");
-
-                WriteGenericTypeName(context, p[i]);
-            }
-
-
-            Write(">");
-        }
 
         void WriteDeclaringTypes(Stack<Type> s, Action e)
         {

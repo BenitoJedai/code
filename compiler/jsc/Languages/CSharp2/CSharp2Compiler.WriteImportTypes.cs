@@ -130,11 +130,11 @@ namespace jsc.Languages.CSharp2
 
             foreach (MethodInfo mi in this.GetAllMethods(t))
             {
-                if (ScriptAttribute.IsAnonymousType(t))
-                {
-                    if (mi.Name == "GetHashCode") continue;
-                    if (mi.Name == "Equals") continue;
-                }
+                //if (ScriptAttribute.IsAnonymousType(t))
+                //{
+                //    if (mi.Name == "GetHashCode") continue;
+                //    if (mi.Name == "Equals") continue;
+                //}
 
                 imp.Add(mi.ReturnParameter.ParameterType);
 
