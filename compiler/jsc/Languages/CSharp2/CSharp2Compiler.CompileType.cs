@@ -59,8 +59,6 @@ namespace jsc.Languages.CSharp2
                     Write(GetShortName(z));
                     WriteGenericTypeParameters(z, z);
 
-                    //WriteGenericTypeName(z, z);
-
 
 
                     if (z.BaseType != null && z.BaseType != typeof(object))

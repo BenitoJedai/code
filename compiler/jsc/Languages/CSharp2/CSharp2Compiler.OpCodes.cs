@@ -19,56 +19,81 @@ namespace jsc.Languages.CSharp2
             CIW[OpCodes.Newarr] =
                 e =>
                 {
-                    // fixme: new array with size
+                    Action<Action> CreateArray =
+                        a =>
+                        {
+                            WriteKeywordSpace(Keywords._new);
+                            WriteGenericTypeName(e.i.OwnerMethod.DeclaringType, e.i.TargetType);
+                            Write("[]");
+                            WriteSpace();
+
+                            if (a == null)
+                            {
+                                Write("{");
+                                Write("}");
+                            }
+                            else
+                            {
+                                WriteLine("{");
+
+                                a();
+
+                                WriteIdent();
+                                Write("}");
+                            }
+                        };
+
 
                     #region inline newarr
                     if (e.p != null && e.p.IsValidInlineArrayInit)
                     {
-                        WriteLine("[");
-                        Ident++;
-
-                        ILFlow.StackItem[] _stack = e.p.InlineArrayInitElements;
-
-                        for (int si = 0; si < _stack.Length; si++)
-                        {
-
-
-                            if (si > 0)
+                        CreateArray(
+                            delegate
                             {
-                                Write(",");
-                                WriteLine();
-                            }
+                                Ident++;
 
-                            WriteIdent();
+                                ILFlow.StackItem[] _stack = e.p.InlineArrayInitElements;
 
-                            if (_stack[si] == null)
-                            {
-                                if (!e.i.TargetType.IsValueType)
+                                for (int si = 0; si < _stack.Length; si++)
                                 {
-                                    Write("null");
-                                }
-                                else
-                                {
-                                    if (e.i.TargetType == typeof(int))
-                                        Write("0");
-                                    else if (e.i.TargetType == typeof(sbyte))
-                                        Write("0");
+
+
+                                    if (si > 0)
+                                    {
+                                        Write(",");
+                                        WriteLine();
+                                    }
+
+                                    WriteIdent();
+
+                                    if (_stack[si] == null)
+                                    {
+                                        if (!e.i.TargetType.IsValueType)
+                                        {
+                                            Write("null");
+                                        }
+                                        else
+                                        {
+                                            if (e.i.TargetType == typeof(int))
+                                                Write("0");
+                                            else if (e.i.TargetType == typeof(sbyte))
+                                                Write("0");
+                                            else
+                                                BreakToDebugger("default for " + e.i.TargetType.FullName + " is unknown");
+                                        }
+                                    }
                                     else
-                                        BreakToDebugger("default for " + e.i.TargetType.FullName + " is unknown");
+                                    {
+                                        Emit(e.p, _stack[si]);
+                                    }
+
                                 }
+
+                                WriteLine();
+
+                                Ident--;
                             }
-                            else
-                            {
-                                Emit(e.p, _stack[si]);
-                            }
-
-                        }
-
-                        WriteLine();
-
-                        Ident--;
-                        WriteIdent();
-                        Write("]");
+                        );
                     }
                     #endregion
                     else
@@ -83,38 +108,42 @@ namespace jsc.Languages.CSharp2
 
                             // Conversion To IEnumrable
 
-                            if (Type == typeof(int))
-                            {
-                                var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsInt32Array();
+                            CreateArray(
+                                   delegate
+                                   {
 
-                                Write("[");
-                                for (int i = 0; i < Values.Length; i++)
-                                {
-                                    if (i > 0)
-                                        Write(", ");
-
-                                    Write(Values[i].ToString());
-                                }
-                                Write("]");
-                            }
-                            else if (Type == typeof(uint))
-                            {
-                                var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsUInt32Array();
-
-                                Write("[");
-                                for (int i = 0; i < Values.Length; i++)
-                                {
-                                    if (i > 0)
-                                        Write(", ");
-
-                                    Write(Values[i].ToString());
-                                }
-                                Write("]");
-                            }
-                            else
-                                throw new NotImplementedException();
+                                       if (Type == typeof(int))
+                                       {
+                                           var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsInt32Array();
 
 
+                                           for (int i = 0; i < Values.Length; i++)
+                                           {
+                                               if (i > 0)
+                                                   Write(", ");
+
+                                               Write(Values[i].ToString());
+                                           }
+
+                                       }
+                                       else if (Type == typeof(uint))
+                                       {
+                                           var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsUInt32Array();
+
+
+                                           for (int i = 0; i < Values.Length; i++)
+                                           {
+                                               if (i > 0)
+                                                   Write(", ");
+
+                                               Write(Values[i].ToString());
+                                           }
+
+                                       }
+                                       else
+                                           throw new NotImplementedException();
+                                   }
+                           );
 
 
                             //Write("[ /* ? */ ]");
@@ -131,13 +160,16 @@ namespace jsc.Languages.CSharp2
 
                             if (e.FirstOnStack.SingleStackInstruction == OpCodes.Ldc_I4_0)
                             {
-                                Write("[]");
+                                CreateArray(null);
                             }
                             else
                             {
-                                Write("new Array(");
+                                WriteKeywordSpace(Keywords._new);
+                                WriteGenericTypeName(e.i.OwnerMethod.DeclaringType, e.i.TargetType);
+                                Write("[");
                                 EmitFirstOnStack(e);
-                                Write(")");
+                                Write("]");
+
                             }
                         }
 
@@ -206,10 +238,10 @@ namespace jsc.Languages.CSharp2
             {
                 Func<string, CodeInstructionHandler> f = t => e => ConvertTypeAndEmit(e, t);
 
-                CIW[OpCodes.Conv_U] = f("uint"); 
-                CIW[OpCodes.Conv_U1] = f("byte"); 
-                CIW[OpCodes.Conv_U2] = f("ushort"); 
-                CIW[OpCodes.Conv_U4] = f("uint"); 
+                CIW[OpCodes.Conv_U] = f("uint");
+                CIW[OpCodes.Conv_U1] = f("byte");
+                CIW[OpCodes.Conv_U2] = f("ushort");
+                CIW[OpCodes.Conv_U4] = f("uint");
 
                 CIW[OpCodes.Conv_I1] = f("sbyte");
                 CIW[OpCodes.Conv_I2] = f("short");

@@ -80,7 +80,7 @@ namespace jsc.Languages.CSharp2
             }
 
 
-
+            var IsOverride = false;
 
             if (mode == WriteMethodSignatureMode.Overriding)
             {
@@ -93,48 +93,53 @@ namespace jsc.Languages.CSharp2
             }
             else
             {
-                // if we are a property and we are overriding... then write here
-                if (IsGet || IsSet)
+                var z = m.DeclaringType;
+
+                if (z.BaseType != null)
                 {
+                    var vm = z.BaseType.GetMethod(
+                        m.Name,
+                        BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public,
+                        null,
+                        m.GetParameters().Select(i => i.ParameterType).ToArray(),
+                        null
+                    );
 
-                    var z = m.DeclaringType;
-
-                    if (z.BaseType != null)
+                    if (vm != null)
                     {
-                        var vm = z.BaseType.GetMethod(
-                            m.Name,
-                            BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public,
-                            null,
-                            m.GetParameters().Select(i => i.ParameterType).ToArray(),
-                            null
-                        );
-
-                        if (vm != null)
-                        {
-                            var InterfaceMethodDeclaringType =
-                                 z.BaseType.IsGenericType ?
-                                 z.BaseType.GetGenericTypeDefinition() :
-                                 z.BaseType
-                                 ;
+                        var InterfaceMethodDeclaringType =
+                             z.BaseType.IsGenericType ?
+                             z.BaseType.GetGenericTypeDefinition() :
+                             z.BaseType
+                             ;
 
 
-                            var InterfaceMethodImplementationSignature =
-                                (MethodInfo)MySession.ResolveImplementation(InterfaceMethodDeclaringType, vm,
-                                AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveMethodOnly
-                                //AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveBCLImplementation
-                                ) ?? vm;
+                        var InterfaceMethodImplementationSignature =
+                            (MethodInfo)MySession.ResolveImplementation(InterfaceMethodDeclaringType, vm,
+                            AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveMethodOnly
+                            //AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveBCLImplementation
+                            ) ?? vm;
 
-                            WriteKeywordSpace(Keywords._override);
-                        }
+                        IsOverride = true;
+                        WriteKeywordSpace(Keywords._override);
                     }
                 }
+
+
             }
+
+            // virtual?
+
+            if (!m.DeclaringType.IsInterface && !m.DeclaringType.IsSealed)
+                if (!IsSet && !IsGet)
+                    if (m.IsVirtual && !IsOverride)
+                        WriteKeywordSpace(Keywords._virtual);
 
             if (m.IsStatic || dStatic)
                 WriteKeywordSpace(Keywords._static);
 
 
-    
+
 
             if (IsSet || IsGet)
             {
@@ -195,7 +200,7 @@ namespace jsc.Languages.CSharp2
             }
             else
             {
-                
+
             }
 
 
@@ -213,7 +218,7 @@ namespace jsc.Languages.CSharp2
                 IsFullyQualifiedNamesRequired(context, subject), WriteDecoratedTypeNameOrImplementationTypeNameMode.IgnoreImplementationType);
         }
 
-     
+
 
     }
 }

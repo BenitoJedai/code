@@ -18,9 +18,16 @@ namespace jsc.Languages.CSharp2
             return ScriptType.CSharp2;
         }
 
- 
 
-      
+
+
+        public override bool SupportsAbstractMethods
+        {
+            get
+            {
+                return true;
+            }
+        }
 
         public override bool SupportsBCLTypesAreNative
         {
