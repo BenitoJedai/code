@@ -143,6 +143,9 @@ namespace FlashMinesweeper.ActionScript.Client
             Events.UserSendMap +=
                 e =>
                 {
+                    RemotePlayerMustSendNewMap = false;
+
+                    ShowMessage("Got new map:)");
                     StopCrudeMapReset();
 
                     Field.mouseChildren = true;
@@ -210,6 +213,7 @@ namespace FlashMinesweeper.ActionScript.Client
 
         public bool ServerSendMapEnabled = true;
 
+        public bool RemotePlayerMustSendNewMap = false;
     }
 
 }

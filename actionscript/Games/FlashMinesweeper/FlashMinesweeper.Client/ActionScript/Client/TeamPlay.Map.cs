@@ -161,7 +161,9 @@ namespace FlashMinesweeper.ActionScript.Client
             var DisallowClicksMultiplierMin = 2;
             var DisallowClicksMultiplier = DisallowClicksMultiplierMin;
 
+            
 
+            #region OnBang
             Field.OnBang +=
                 LocalPlayer =>
                 {
@@ -198,11 +200,18 @@ namespace FlashMinesweeper.ActionScript.Client
                         AddScore(-8);
                     }
                     else
+                    {
+                        RemotePlayerMustSendNewMap = true;
+
                         AddScore(-4);
+                    }
                 };
+            #endregion
+
 
             var LocalPlayerFieldsOpened = 0;
 
+            #region OnComplete
             Field.OnComplete +=
                LocalPlayer =>
                {
@@ -232,6 +241,8 @@ namespace FlashMinesweeper.ActionScript.Client
                            AddScore(100);
                    }
                };
+            #endregion
+
 
             Field.IsFlagChanged +=
                 (button, value) =>
@@ -252,21 +263,26 @@ namespace FlashMinesweeper.ActionScript.Client
 
                     if (!IsLocalPlayer)
                     {
-                        ShowMessage("> Resetting map soon!");
-                        // start a timer to generate a map on our own
-                        CrudeMapReset = (4000 + 40.Random() * 100).ToInt32().AtDelayDo(
-                            delegate
-                            {
-                                ShowMessage("Resetting map!");
-                                Field.Reset();
+                        if (RemotePlayerMustSendNewMap)
+                        {
+                            ShowMessage("Map will come soon!");
+                            // start a timer to generate a map on our own
+                            CrudeMapReset = (4000 + 40.Random() * 100).ToInt32().AtDelayDo(
+                                delegate
+                                {
+                                    RemotePlayerMustSendNewMap = false;
 
-                                SendMap();
+                                    ShowMessage("Resetting map!");
+                                    Field.Reset();
+
+                                    SendMap();
 
 
 
-                                StopCrudeMapReset();
-                            }
-                        );
+                                    StopCrudeMapReset();
+                                }
+                            );
+                        }
                     }
                 };
 
