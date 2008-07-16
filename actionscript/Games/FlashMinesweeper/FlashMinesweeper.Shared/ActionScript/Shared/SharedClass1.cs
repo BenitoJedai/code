@@ -61,7 +61,11 @@ namespace FlashMinesweeper.ActionScript.Shared
 
             void SendPassword(string password);
             void ServerPasswordStatus(int status);
-            
+
+
+            void LockGame();
+            void UnlockGame();
+
         }
     }
 }

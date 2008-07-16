@@ -14,6 +14,26 @@ namespace jsc //.Extensions
 {
     static class Extensions
     {
+        public static Action<T> And<T>(this Action<T> a, Action<T> b)
+        {
+            return i =>
+                {
+                    a(i);
+                    b(i);
+                };
+        }
+
+        public static Action<T> NonNullArgument<T>(this Action<T> e) where T : class
+        {
+            return i =>
+                {
+                    if (i == default(T))
+                        return;
+
+                    e(i);
+                };
+        }
+
         public static bool IsAnonymousType(this Type z)
         {
             return ScriptCoreLib.ScriptAttribute.IsAnonymousType(z);

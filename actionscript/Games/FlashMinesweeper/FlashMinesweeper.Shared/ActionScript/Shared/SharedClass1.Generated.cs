@@ -40,6 +40,8 @@ namespace FlashMinesweeper.ActionScript.Shared
             AwardAchievementFirstMinefieldComplete,
             SendPassword,
             ServerPasswordStatus,
+            LockGame,
+            UnlockGame,
         }
         #endregion
 
@@ -77,6 +79,8 @@ namespace FlashMinesweeper.ActionScript.Shared
             event Action<RemoteEvents.AwardAchievementFirstMinefieldCompleteArguments> AwardAchievementFirstMinefieldComplete;
             event Action<RemoteEvents.SendPasswordArguments> SendPassword;
             event Action<RemoteEvents.ServerPasswordStatusArguments> ServerPasswordStatus;
+            event Action<RemoteEvents.LockGameArguments> LockGame;
+            event Action<RemoteEvents.UnlockGameArguments> UnlockGame;
         }
         #endregion
         #region IPairedEventsWithoutUser
@@ -242,6 +246,14 @@ namespace FlashMinesweeper.ActionScript.Shared
             public void ServerPasswordStatus(int status)
             {
                 Send(new SendArguments { i = Messages.ServerPasswordStatus, args = new object[] { status } });
+            }
+            public void LockGame()
+            {
+                Send(new SendArguments { i = Messages.LockGame, args = new object[] {  } });
+            }
+            public void UnlockGame()
+            {
+                Send(new SendArguments { i = Messages.UnlockGame, args = new object[] {  } });
             }
         }
         #endregion
@@ -636,6 +648,32 @@ namespace FlashMinesweeper.ActionScript.Shared
             }
             #endregion
             public event Action<ServerPasswordStatusArguments> ServerPasswordStatus;
+            #region LockGameArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class LockGameArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().ToString();
+                }
+            }
+            #endregion
+            public event Action<LockGameArguments> LockGame;
+            #region UnlockGameArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UnlockGameArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().ToString();
+                }
+            }
+            #endregion
+            public event Action<UnlockGameArguments> UnlockGame;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -662,6 +700,8 @@ namespace FlashMinesweeper.ActionScript.Shared
                             { Messages.AwardAchievementFirstMinefieldComplete, e => { AwardAchievementFirstMinefieldComplete(new AwardAchievementFirstMinefieldCompleteArguments {  }); } },
                             { Messages.SendPassword, e => { SendPassword(new SendPasswordArguments { password = e.GetString(0) }); } },
                             { Messages.ServerPasswordStatus, e => { ServerPasswordStatus(new ServerPasswordStatusArguments { status = e.GetInt32(0) }); } },
+                            { Messages.LockGame, e => { LockGame(new LockGameArguments {  }); } },
+                            { Messages.UnlockGame, e => { UnlockGame(new UnlockGameArguments {  }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -688,6 +728,8 @@ namespace FlashMinesweeper.ActionScript.Shared
                             { Messages.AwardAchievementFirstMinefieldComplete, e => AwardAchievementFirstMinefieldComplete },
                             { Messages.SendPassword, e => SendPassword },
                             { Messages.ServerPasswordStatus, e => ServerPasswordStatus },
+                            { Messages.LockGame, e => LockGame },
+                            { Messages.UnlockGame, e => UnlockGame },
                         }
                 ;
             }
@@ -942,9 +984,23 @@ namespace FlashMinesweeper.ActionScript.Shared
                 ServerPasswordStatus(new RemoteEvents.ServerPasswordStatusArguments { status = status });
             }
 
+            public event Action<RemoteEvents.LockGameArguments> LockGame;
+            void IMessages.LockGame()
+            {
+                if(LockGame == null) return;
+                LockGame(new RemoteEvents.LockGameArguments {  });
+            }
+
+            public event Action<RemoteEvents.UnlockGameArguments> UnlockGame;
+            void IMessages.UnlockGame()
+            {
+                if(UnlockGame == null) return;
+                UnlockGame(new RemoteEvents.UnlockGameArguments {  });
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 14.07.2008 19:57:01
+// 16.07.2008 10:32:37

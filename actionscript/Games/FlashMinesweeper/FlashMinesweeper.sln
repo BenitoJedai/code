@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashMinesweeper.Client", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashMinesweeper.ServerTest", "FlashMinesweeper.ServerTest\FlashMinesweeper.ServerTest.csproj", "{60A9B28D-48FB-4657-9538-6473356C6DD3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashMinesweeper.Shared", "FlashMinesweeper.Shared\FlashMinesweeper.Shared.csproj", "{F8130C9E-9CA8-4C33-99AE-D580DE3553D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{60A9B28D-48FB-4657-9538-6473356C6DD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60A9B28D-48FB-4657-9538-6473356C6DD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60A9B28D-48FB-4657-9538-6473356C6DD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8130C9E-9CA8-4C33-99AE-D580DE3553D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8130C9E-9CA8-4C33-99AE-D580DE3553D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8130C9E-9CA8-4C33-99AE-D580DE3553D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8130C9E-9CA8-4C33-99AE-D580DE3553D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

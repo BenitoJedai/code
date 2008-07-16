@@ -76,10 +76,28 @@ namespace jsc.Languages.CSharp2
 
             var imp = new List<Type>();
 
+            #region AddGenericType
+            var AddGenericType = default(Action<Type>);
 
+            Action<Type[]> AddGenericTypes = e => Array.ForEach(e, AddGenericType);
+
+            AddGenericType =
+                gt =>
+                {
+                    if (gt.IsGenericType)
+                    {
+                        AddGenericTypes(gt.GetGenericArguments());
+                    }
+
+                    imp.Add(gt);
+                };
+
+            AddGenericType = AddGenericType.And(imp.Add).NonNullArgument();
+
+            #endregion
 
             if (t.BaseType != null && t.BaseType != typeof(object))
-                imp.Add(MySession.ResolveImplementation(t.BaseType));
+                AddGenericType(MySession.ResolveImplementation(t.BaseType));
 
             if (t == typeof(object))
                 return new Type[] { };
@@ -93,39 +111,31 @@ namespace jsc.Languages.CSharp2
                 if (_Invoke.ReturnParameter.ParameterType != typeof(void))
                     imp.Add(MySession.ResolveImplementation(_Invoke.ReturnParameter.ParameterType));
 
-                GetImportTypesFromMethod(t, imp, _Invoke);
+                GetImportTypesFromMethod(t,  _Invoke, AddGenericType);
 
                 goto removesome;
             }
 
             var tinterfaces = t.GetInterfaces();
 
-            foreach (Type tinterface in tinterfaces)
-                imp.Add(tinterface);
+            foreach (var tinterface in tinterfaces)
+                AddGenericType(tinterface);
 
 
-            /*
-            Type bp = t.BaseType;
+             
 
-            while (bp != typeof(object) &&
-                    bp != null)
+            foreach (var v in this.GetAllFields(t))
             {
-                imp.Add(bp);
-                bp = bp.BaseType;
-            }
-            */
-            foreach (FieldInfo v in this.GetAllFields(t))
-            {
-                imp.Add(v.FieldType);
+                AddGenericType(v.FieldType);
             }
 
-            GetImportTypesFromMethod(t, imp, t.GetStaticConstructor());
+            GetImportTypesFromMethod(t, t.GetStaticConstructor(), AddGenericType);
 
             foreach (MethodBase v in GetAllInstanceConstructors(t))
             {
 
 
-                GetImportTypesFromMethod(t, imp, v);
+                GetImportTypesFromMethod(t, v, AddGenericType);
             }
 
             foreach (MethodInfo mi in this.GetAllMethods(t))
@@ -136,11 +146,11 @@ namespace jsc.Languages.CSharp2
                 //    if (mi.Name == "Equals") continue;
                 //}
 
-                imp.Add(mi.ReturnParameter.ParameterType);
+                AddGenericType(mi.ReturnParameter.ParameterType);
 
                 MethodBase v = mi;
 
-                GetImportTypesFromMethod(t, imp, v);
+                GetImportTypesFromMethod(t, v, AddGenericType);
             }
 
         removesome:
@@ -187,8 +197,7 @@ namespace jsc.Languages.CSharp2
                 if (p.IsGenericParameter)
                     continue;
 
-                if (p.IsEnum)
-                    continue;
+           
 
                 if (p == typeof(object)) continue;
                 if (p == typeof(void)) continue;
@@ -257,7 +266,7 @@ namespace jsc.Languages.CSharp2
             return GetImportTypes_Cache[t] = imp_types;
         }
 
-        private void GetImportTypesFromMethod(Type t, List<Type> imp, MethodBase v)
+        private void GetImportTypesFromMethod(Type t, MethodBase v, Action<Type> AddGenericType)
         {
             if (v == null)
                 return;
@@ -268,7 +277,7 @@ namespace jsc.Languages.CSharp2
             // DebugBreak(vs);
 
             if (vs != null && vs.DefineAsStatic)
-                imp.Add(t);
+                AddGenericType(t);
 
             DebugBreak(vs);
 
@@ -282,7 +291,7 @@ namespace jsc.Languages.CSharp2
                 }
                 else
                 {
-                    imp.Add(p.ParameterType);
+                    AddGenericType(p.ParameterType);
                 }
             }
 
@@ -295,7 +304,7 @@ namespace jsc.Languages.CSharp2
             {
                 foreach (LocalVariableInfo l in body.LocalVariables)
                 {
-                    imp.Add(l.LocalType);
+                    AddGenericType(l.LocalType);
                 }
 
                 ILBlock b = new ILBlock(v);
@@ -308,13 +317,13 @@ namespace jsc.Languages.CSharp2
 
                     if (i == OpCodes.Castclass)
                     {
-                        imp.Add(MySession.ResolveImplementation(i.ReferencedType) ?? i.ReferencedType);
+                        AddGenericType(MySession.ResolveImplementation(i.ReferencedType) ?? i.ReferencedType);
                         continue;
                     }
 
                     if (i == OpCodes.Isinst)
                     {
-                        imp.Add(MySession.ResolveImplementation(i.TargetType) ?? i.TargetType);
+                        AddGenericType(MySession.ResolveImplementation(i.TargetType) ?? i.TargetType);
                         continue;
                     }
 
@@ -325,34 +334,34 @@ namespace jsc.Languages.CSharp2
                         // this is how the add event (+=) and remove event (-=) is made possible
 
                         if (i.ReferencedMethod.ToScriptAttributeOrDefault().NotImplementedHere)
-                            imp.Add(MySession.ResolveImplementation(i.ReferencedMethod.DeclaringType, AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveNativeImplementationExtension) ?? i.ReferencedMethod.DeclaringType);
+                            AddGenericType(MySession.ResolveImplementation(i.ReferencedMethod.DeclaringType, AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveNativeImplementationExtension) ?? i.ReferencedMethod.DeclaringType);
                         else
-                            imp.Add(MySession.ResolveImplementation(i.ReferencedMethod.DeclaringType) ?? i.ReferencedMethod.DeclaringType);
+                            AddGenericType(MySession.ResolveImplementation(i.ReferencedMethod.DeclaringType) ?? i.ReferencedMethod.DeclaringType);
 
                         continue;
                     }
 
                     if (i == OpCodes.Ldtoken)
                     {
-                        imp.Add(MySession.ResolveImplementation(typeof(RuntimeTypeHandle)));
+                        AddGenericType(MySession.ResolveImplementation(typeof(RuntimeTypeHandle)));
 
                         // A RuntimeHandle can be a fieldref/fielddef, a methodref/methoddef, or a typeref/typedef.
                         var RuntimeTypeHandle_Type = i.TargetType;
 
-                        imp.Add(MySession.ResolveImplementation(RuntimeTypeHandle_Type) ?? RuntimeTypeHandle_Type);
+                        AddGenericType(MySession.ResolveImplementation(RuntimeTypeHandle_Type) ?? RuntimeTypeHandle_Type);
 
                         continue;
                     }
 
                     if (i == OpCodes.Ldvirtftn)
                     {
-                        imp.Add(typeof(IntPtr));
+                        AddGenericType(typeof(IntPtr));
                         continue;
                     }
 
                     if (i == OpCodes.Ldftn)
                     {
-                        imp.Add(typeof(IntPtr));
+                        AddGenericType(typeof(IntPtr));
                         continue;
                     }
 
@@ -365,11 +374,11 @@ namespace jsc.Languages.CSharp2
                             var c = i.TargetType.GetGenericParameterConstraints().SingleOrDefault();
 
                             if (c != null)
-                                imp.Add(c);
+                                AddGenericType(c);
                         }
                         else
                         {
-                            imp.Add(i.TargetType);
+                            AddGenericType(i.TargetType);
                         }
                     }
 
@@ -382,7 +391,7 @@ namespace jsc.Languages.CSharp2
                             var impl = MySession.ResolveImplementation(i.TargetMethod.DeclaringType, i.TargetMethod, AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveNativeImplementationExtension);
 
                             if (impl != null)
-                                imp.Add(impl.DeclaringType);
+                                AddGenericType(impl.DeclaringType);
                         }
                     }
 
@@ -396,13 +405,13 @@ namespace jsc.Languages.CSharp2
 
                                 if (ScriptAttribute.IsCompilerGenerated(i.ReferencedMethod.DeclaringType))
                                 {
-                                    imp.Add(i.ReferencedMethod.DeclaringType);
+                                    AddGenericType(i.ReferencedMethod.DeclaringType);
                                     continue;
                                 }
 
                                 if (i.ReferencedMethod.DeclaringType.IsInterface)
                                 {
-                                    imp.Add(MySession.ResolveImplementation(i.ReferencedMethod.DeclaringType));
+                                    AddGenericType(MySession.ResolveImplementation(i.ReferencedMethod.DeclaringType));
                                     continue;
                                 }
 
@@ -410,7 +419,7 @@ namespace jsc.Languages.CSharp2
                                 var method_attribute = method.ToScriptAttribute();
                                 if (method.IsConstructor || method.IsStatic || (method_attribute != null && method_attribute.DefineAsStatic))
                                 {
-                                    imp.Add(method.DeclaringType);
+                                    AddGenericType(method.DeclaringType);
                                     continue;
                                 }
                             }
@@ -422,7 +431,7 @@ namespace jsc.Languages.CSharp2
                     {
                         if (i.TargetField.IsStatic)
                         {
-                            imp.Add(i.TargetField.DeclaringType);
+                            AddGenericType(i.TargetField.DeclaringType);
                             continue;
                         }
                     }

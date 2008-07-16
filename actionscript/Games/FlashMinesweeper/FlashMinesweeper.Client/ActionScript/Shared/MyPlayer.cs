@@ -8,6 +8,7 @@ namespace FlashMinesweeper.ActionScript.Shared
     [Script]
     public class MyPlayer : ServerPlayerBase<SharedClass1.IEvents, SharedClass1.IMessages>
     {
-        
+        // the player on the serverside
+        // really does not do anything 
     }
 }

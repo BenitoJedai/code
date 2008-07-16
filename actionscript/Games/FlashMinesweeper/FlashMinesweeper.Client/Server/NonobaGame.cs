@@ -34,6 +34,20 @@ namespace FlashMinesweeper.Server
 
             };
 
+            var StateMap = new Dictionary<MyGame.GameStateEnum, NonobaGameState>
+            {
+                { MyGame.GameStateEnum.ClosedGameInProgress, NonobaGameState.ClosedGameInProgress },
+                { MyGame.GameStateEnum.OpenGameInProgress, NonobaGameState.OpenGameInProgress },
+                { MyGame.GameStateEnum.WaitingForPlayers, NonobaGameState.WaitingForPlayers },
+            };
+
+            Virtual.GameStateChanged +=
+                delegate
+                {
+                    this.SetState(StateMap[Virtual.GameState]);
+                };
+
+
             // You can explicitly setup how many users are allowed in your game.
             MaxUsers = 8;
 

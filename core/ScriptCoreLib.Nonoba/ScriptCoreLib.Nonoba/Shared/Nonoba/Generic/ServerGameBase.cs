@@ -22,6 +22,34 @@ namespace ScriptCoreLib.Shared.Nonoba.Generic
         public Func<Action, int, Action> AtInterval;
         public Func<Action, int, Action> AtDelay;
 
+        #region GameState
+        public GameStateEnum _GameState;
+
+        public event Action GameStateChanged;
+
+        public GameStateEnum GameState
+        {
+            get
+            {
+                return _GameState;
+            }
+            set
+            {
+                _GameState = value;
+
+                if (GameStateChanged != null)
+                    GameStateChanged();
+            }
+        }
+        #endregion
+
+        public enum GameStateEnum
+        {
+            WaitingForPlayers = 0,
+            OpenGameInProgress = 1,
+            ClosedGameInProgress = 2,
+        }
+
         public Player AnyOtherUser(Player p)
         {
             var x = default(Player);

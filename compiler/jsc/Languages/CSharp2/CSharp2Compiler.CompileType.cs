@@ -88,7 +88,9 @@ namespace jsc.Languages.CSharp2
                     else
                     {
                         Write(GetShortName(z));
-                        WriteGenericTypeParameters(z, z);
+
+                        if (!z.IsEnum)
+                            WriteGenericTypeParameters(z, z);
 
                         var BaseTypeWritten = false;
 
@@ -134,37 +136,8 @@ namespace jsc.Languages.CSharp2
 
                         WriteLine();
 
-                        #region where
-                        Ident++;
-                        foreach (var v in z.GetGenericArguments())
-                        {
-                            var ParameterConstraints = v.GetGenericParameterConstraints();
-
-                            if (ParameterConstraints.Length > 0)
-                            {
-                                WriteIdent();
-
-                                WriteKeywordSpace(Keywords._where);
-
-                                WriteGenericTypeName(z, v);
-
-                                WriteSpace();
-                                Write(":");
-                                WriteSpace();
-
-                                for (int i = 0; i < ParameterConstraints.Length; i++)
-                                {
-                                    if (i > 0)
-                                        Write(", ");
-
-                                    WriteGenericTypeName(z, ParameterConstraints[i]);
-                                }
-
-                                WriteLine();
-                            }
-                        }
-                        Ident--;
-                        #endregion
+                        if (!z.IsEnum)
+                            WriteGenericParameterConstraints(z);
 
 
                         using (CreateScope())
@@ -199,6 +172,41 @@ namespace jsc.Languages.CSharp2
             );
 
             return true;
+        }
+
+        private void WriteGenericParameterConstraints(Type z)
+        {
+            #region where
+            Ident++;
+            foreach (var v in z.GetGenericArguments())
+            {
+                var ParameterConstraints = v.GetGenericParameterConstraints();
+
+                if (ParameterConstraints.Length > 0)
+                {
+                    WriteIdent();
+
+                    WriteKeywordSpace(Keywords._where);
+
+                    WriteGenericTypeName(z, v);
+
+                    WriteSpace();
+                    Write(":");
+                    WriteSpace();
+
+                    for (int i = 0; i < ParameterConstraints.Length; i++)
+                    {
+                        if (i > 0)
+                            Write(", ");
+
+                        WriteGenericTypeName(z, ParameterConstraints[i]);
+                    }
+
+                    WriteLine();
+                }
+            }
+            Ident--;
+            #endregion
         }
 
         private void WriteTypeEvents(Type z)
