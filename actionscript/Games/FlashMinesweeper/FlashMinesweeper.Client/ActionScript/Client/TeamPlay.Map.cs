@@ -21,6 +21,7 @@ namespace FlashMinesweeper.ActionScript.Client
 
     partial class TeamPlay
     {
+        readonly BooleanProperty GameIsLocked = false; 
 
         #region InitializeMap
         bool InitializeMapDone;
@@ -173,7 +174,7 @@ namespace FlashMinesweeper.ActionScript.Client
 
                         if (this.CoPlayerNames.Count > 0)
                         {
-                            var timeout = (DisallowClicksMultiplier * 2 * (this.CoPlayerNames.Count + 1));
+                            var DisallowClicksTimeout = (DisallowClicksMultiplier * 2 * (this.CoPlayerNames.Count + 1));
 
                             Field.DisallowClicks = true;
 
@@ -182,7 +183,7 @@ namespace FlashMinesweeper.ActionScript.Client
                                 DisallowClicks.stop();
                             }
 
-                            DisallowClicks = (timeout * 1000).AtDelayDo(
+                            DisallowClicks = (DisallowClicksTimeout * 1000).AtDelayDo(
                                 () =>
                                 {
                                     Field.DisallowClicks = false;
@@ -191,7 +192,7 @@ namespace FlashMinesweeper.ActionScript.Client
                                 }
                             );
 
-                            ShowMessage("You must wait " + timeout + " seconds to resume!");
+                            ShowMessage("You must wait " + DisallowClicksTimeout + " seconds to resume!");
                         }
 
                         AddScore(-8);
@@ -251,8 +252,9 @@ namespace FlashMinesweeper.ActionScript.Client
 
                     if (!IsLocalPlayer)
                     {
+                        ShowMessage("> Resetting map soon!");
                         // start a timer to generate a map on our own
-                        CrudeMapReset = (4000 + 4000.Random()).ToInt32().AtDelayDo(
+                        CrudeMapReset = (4000 + 40.Random() * 100).ToInt32().AtDelayDo(
                             delegate
                             {
                                 ShowMessage("Resetting map!");
@@ -279,6 +281,7 @@ namespace FlashMinesweeper.ActionScript.Client
             Field.OneStepClosedToTheEnd +=
                 LocalPlayer =>
                 {
+                  
                     if (LocalPlayer)
                     {
                         LocalPlayerFieldsOpened++;
@@ -298,6 +301,26 @@ namespace FlashMinesweeper.ActionScript.Client
                             AddScore(1);
                         else
                             AddScore(2);
+
+                  
+                       
+                    }
+
+                    if (!GameIsLocked)
+                    {
+                        var BadState = Field.Buttons.Count(i => i.HasInvalidStateForCompletion);
+                        var IsMined = Field.Buttons.Count(i => i.IsMined);
+                        var HiddenMinesPercentage = (BadState / (double)IsMined).Min(1);
+
+                        if (HiddenMinesPercentage < 0.5)
+                        {
+                            GameIsLocked.Value = true;
+
+                            if (LocalPlayer)
+                                Messages.LockGame();
+
+                            ShowMessage("You are half way through! Game is locked until next map.");
+                        }
                     }
                 };
 

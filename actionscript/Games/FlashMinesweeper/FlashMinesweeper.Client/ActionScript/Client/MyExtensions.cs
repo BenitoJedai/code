@@ -187,4 +187,49 @@ namespace FlashMinesweeper.ActionScript.Client
             );
         }
     }
+
+    [Script]
+    public class Property<T>
+    {
+        public event Action ValueChanged;
+
+        T _Value;
+
+        public T Value { get { return _Value; } set { _Value = value; if (ValueChanged != null) ValueChanged(); } }
+    }
+
+    [Script]
+    public class BooleanProperty : Property<bool>
+    {
+        public event Action ValueChangedToTrue;
+        public event Action ValueChangedToFalse;
+
+        public BooleanProperty()
+        {
+            this.ValueChanged +=
+                delegate
+                {
+                    if (this.Value)
+                    {
+                        if (ValueChangedToTrue != null)
+                            ValueChangedToTrue();
+                    }
+                    else
+                    {
+                        if (ValueChangedToFalse != null)
+                            ValueChangedToFalse();
+                    }
+                };
+        }
+
+        public static implicit operator bool(BooleanProperty e)
+        {
+            return e.Value;
+        }
+
+        public static implicit operator BooleanProperty(bool e)
+        {
+            return new BooleanProperty { Value = e };
+        }
+    }
 }

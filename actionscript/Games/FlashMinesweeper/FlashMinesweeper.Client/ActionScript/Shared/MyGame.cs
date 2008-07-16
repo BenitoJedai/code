@@ -19,6 +19,9 @@ namespace FlashMinesweeper.ActionScript.Shared
 
             var x = AnyOtherUser(player);
 
+            player.FromPlayer.LockGame += e => this.GameState = MyGame.GameStateEnum.ClosedGameInProgress;
+            player.FromPlayer.UnlockGame += e => this.GameState = MyGame.GameStateEnum.OpenGameInProgress;
+
             player.FromPlayer.AddScore += e => player.AddScore("score", e.score);
             player.FromPlayer.AwardAchievementFirstMinefieldComplete +=
                 e => player.AwardAchievement("firstminefielddone");

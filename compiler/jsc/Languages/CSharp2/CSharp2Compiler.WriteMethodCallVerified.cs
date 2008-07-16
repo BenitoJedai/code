@@ -105,6 +105,9 @@ namespace jsc.Languages.CSharp2
                     }
                     #endregion
 
+                    if (IsTypeCastRequired(prop.PropertyType, s[1]))
+                        MethodCallParameterTypeCast(i.OwnerMethod.DeclaringType, prop.PropertyType);
+
                     Emit(p, s[1]);
                 };
             #endregion

@@ -114,6 +114,9 @@ namespace jsc.Languages.CSharp2
         {
             if (e.IsEnum)
             {
+                //if (s.SingleStackInstruction.TargetParameter != null && s.SingleStackInstruction.TargetParameter.ParameterType.Equals(e))
+                //    return true;
+
                 // int to enum
                 if (s.SingleStackInstruction.TargetParameter != null && s.SingleStackInstruction.TargetParameter.ParameterType.Equals(typeof(int)))
                     return true;

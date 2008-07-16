@@ -116,3 +116,6 @@ version history:
 	actionsctipt: fixed opCodes.castclass to support Array To IEnumerable<T> conversion
 10.07.2008
 	actionscript: fixed property override for abstract base classes
+16.07.2008
+	cs2: fixed Enum support
+	cs2: fixed generic argument type detection

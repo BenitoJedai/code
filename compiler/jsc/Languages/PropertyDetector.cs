@@ -11,6 +11,20 @@ namespace jsc.Languages
         public PropertyInfo SetProperty;
         public PropertyInfo GetProperty;
 
+        public Type PropertyType
+        {
+            get
+            {
+                if (SetProperty != null)
+                    return SetProperty.PropertyType;
+
+                if (GetProperty != null)
+                    return GetProperty.PropertyType;
+
+                return null;
+            }
+        }
+
         public PropertyDetector(MethodBase m)
         {
             if (m.IsConstructor)

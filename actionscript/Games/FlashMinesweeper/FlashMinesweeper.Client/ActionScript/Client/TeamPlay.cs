@@ -182,6 +182,9 @@ namespace FlashMinesweeper.ActionScript.Client
                 a[i] = f.Value;
             }
 
+            GameIsLocked.Value = false;
+
+            Messages.UnlockGame();
             Messages.SendMap(a);
         }
 
