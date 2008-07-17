@@ -10,7 +10,7 @@ using java.awt;
 namespace RayCaster1.source.java
 {
     [Script]
-    public class RayCaster1Base : Applet, Runnable
+    public partial class RayCaster1Base : Applet, Runnable
     {
         // this is Java's stuff 
         protected Thread fThread;
@@ -18,12 +18,14 @@ namespace RayCaster1.source.java
         // size of tile (wall height)
         public static readonly int TILE_SIZE = 64;
         public static readonly int WALL_HEIGHT = 64;
-        public static readonly int PROJECTIONPLANEWIDTH = 400;
-        public static readonly int PROJECTIONPLANEHEIGHT = 300;
+        public static readonly int PROJECTIONPLANEWIDTH = RayCaster1.Settings.DefaultWidth - 100;
+        public static readonly int PROJECTIONPLANEHEIGHT = RayCaster1.Settings.DefaultHeight;
         public static readonly int ANGLE60 = PROJECTIONPLANEWIDTH;
         public static readonly int ANGLE30 = (ANGLE60 / 2);
         public static readonly int ANGLE15 = (ANGLE30 / 2);
+        public static readonly int ANGLE45 = ANGLE15 * 3;
         public static readonly int ANGLE90 = (ANGLE30 * 3);
+        
         public static readonly int ANGLE180 = (ANGLE90 * 2);
         public static readonly int ANGLE270 = (ANGLE90 * 3);
         public static readonly int ANGLE360 = (ANGLE60 * 6);
@@ -35,11 +37,7 @@ namespace RayCaster1.source.java
         protected Image fOffscreenImage;
         protected Graphics fOffscreenGraphics;
 
-        // movement flag
-        protected bool fKeyUp = false;
-        protected bool fKeyDown = false;
-        protected bool fKeyLeft = false;
-        protected bool fKeyRight = false;
+
 
         // trigonometric tables
         protected double[] fSinTable;
@@ -66,14 +64,21 @@ namespace RayCaster1.source.java
         protected int fPlayerMapX, fPlayerMapY, fMinimapWidth;
 
 
-        // 2 dimensional map
-        protected sbyte[] fMap;
-        protected static readonly sbyte W = 1;                                // wall
-        protected static readonly sbyte O = 0;                                // opening
-        protected static readonly int MAP_WIDTH = 12;
+        /// <summary>
+        /// wall
+        /// </summary>
+        protected static readonly sbyte W = 1;
+
+        /// <summary>
+        /// opening
+        /// </summary>
+        protected static readonly sbyte O = 0;
+
+        protected static readonly int MAP_WIDTH = 14;
         protected static readonly int MAP_HEIGHT = 12;
 
-
+        // 2 dimensional map
+        Array2DSByte myMap;
 
 
         //*******************************************************************//
@@ -156,23 +161,23 @@ namespace RayCaster1.source.java
                 fFishTable[i + ANGLE30] = (double)(1.0F / Math.Cos(radian));
             }
 
-            // CERATE A SIMPLE MAP
-            sbyte[] map = //new 
-            {
-                    W,W,W,W,W,W,W,W,W,W,W,W,
-                    W,O,O,O,O,O,O,O,O,O,O,W,
-                    W,O,O,O,O,O,O,O,O,O,O,W,
-                    W,O,O,O,O,O,O,O,W,O,O,W,
-                    W,O,O,W,O,W,O,O,W,O,O,W,
-                    W,O,O,W,O,W,W,O,W,O,O,W,
-                    W,O,O,W,O,O,W,O,W,O,O,W,
-                    W,O,O,O,W,O,W,O,W,O,O,W,
-                    W,O,O,O,W,O,W,O,W,O,O,W,
-                    W,O,O,O,W,W,W,O,W,O,O,W,
-                    W,O,O,O,O,O,O,O,O,O,O,W,
-                    W,W,W,W,W,W,W,W,W,W,W,W
-            };
-            fMap = map;
+
+
+            myMap = new Array2DSByte(MAP_WIDTH, MAP_HEIGHT,
+                W, W, W, W, W, W, W, W, W, W, W, W, W, W,
+                W, O, O, O, O, O, O, O, O, O, W, O, O, W,
+                W, O, O, O, O, O, O, O, O, O, W, O, O, W,
+                W, O, O, O, O, O, O, O, W, O, W, W, O, W,
+                W, O, O, W, O, W, O, O, W, O, O, O, O, W,
+                W, O, O, W, O, W, W, O, W, O, W, W, O, W,
+                W, O, O, W, O, O, W, O, W, O, W, W, O, W,
+                W, O, O, O, W, O, W, O, W, O, W, O, O, W,
+                W, O, O, O, W, O, W, O, W, O, W, O, O, W,
+                W, O, O, O, W, W, W, O, W, O, W, W, O, W,
+                W, O, O, O, O, O, O, O, O, O, O, O, O, W,
+                W, W, W, W, W, W, W, W, W, W, W, W, W, W
+            );
+
         }
 
 
@@ -200,74 +205,22 @@ namespace RayCaster1.source.java
             if (!fThread.isAlive())
                 return;
 
-            fThread.stop();
             fThread = null;
-        }
 
-        //*******************************************************************//
-        //* Running thread
-        //*******************************************************************//
-        public void run()
-        {
-            requestFocus();
-            // create offscreen buffer
-            fOffscreenImage = createImage(getSize().width, getSize().height);
-            fOffscreenGraphics = fOffscreenImage.getGraphics();
-
-            while (true)
+            try
             {
-                // rotate left
-                if (fKeyLeft)
-                {
-                    if ((fPlayerArc -= ANGLE10) < ANGLE0)
-                        fPlayerArc += ANGLE360;
-                }
-                // rotate right
-                else if (fKeyRight)
-                {
-                    if ((fPlayerArc += ANGLE10) >= ANGLE360)
-                        fPlayerArc -= ANGLE360;
-                }
-
-                //  _____     _
-                // |\ arc     |
-                // |  \       y
-                // |    \     |
-                //            -
-                // |--x--|  
-                //
-                //  sin(arc)=y/diagonal
-                //  cos(arc)=x/diagonal   where diagonal=speed
-                double playerXDir = fCosTable[fPlayerArc];
-                double playerYDir = fSinTable[fPlayerArc];
-
-                // move forward
-                if (fKeyUp)
-                {
-                    fPlayerX += (int)(playerXDir * fPlayerSpeed);
-                    fPlayerY += (int)(playerYDir * fPlayerSpeed);
-                }
-                // move backward
-                else if (fKeyDown)
-                {
-                    fPlayerX -= (int)(playerXDir * fPlayerSpeed);
-                    fPlayerY -= (int)(playerYDir * fPlayerSpeed);
-                }
-
-                render();
-                try
-                {
-                    Thread.sleep(50);
-                }
-                catch (System.Exception sleepProblem)
-                {
-                    showStatus("Sleep problem");
-                }
+                fThread.join();
             }
+            catch
+            {
+
+            }
+
+            // fThread.stop();
+            
         }
 
 
- 
 
         //*******************************************************************//
         //* Convert arc to radian
@@ -316,45 +269,6 @@ namespace RayCaster1.source.java
             }
         }
 
-        public RayCaster1Base()
-        {
-        }
-
-        readonly int[] KeysUP = new[] { Event.UP, 'i', 'I', 'w', 'W' };
-        readonly int[] KeysDOWN = new[] { Event.DOWN, 'k', 'K', 's', 'S' };
-        readonly int[] KeysLEFT = new[] { Event.LEFT, 'j', 'J', 'a', 'A' };
-        readonly int[] KeysRIGHT = new[] { Event.RIGHT, 'l', 'L', 'd', 'D' };
-
-        //*******************************************************************//
-        //* Detect keypress
-        //*******************************************************************//
-        public override bool keyDown(Event evt, int key)
-        {
-            var v = true;
-
-            if (KeysUP.Contains(key)) fKeyUp = v;
-            if (KeysDOWN.Contains(key)) fKeyDown = v;
-            if (KeysLEFT.Contains(key)) fKeyLeft = v;
-            if (KeysRIGHT.Contains(key)) fKeyRight = v;
-
-            return true;
-        }
-
-        //*******************************************************************//
-        //* Detect key release
-        //*******************************************************************//
-        public override bool keyUp(Event evt, int key)
-        {
-            var v = false;
-
-            if (KeysUP.Contains(key)) fKeyUp = v;
-            if (KeysDOWN.Contains(key)) fKeyDown = v;
-            if (KeysLEFT.Contains(key)) fKeyLeft = v;
-            if (KeysRIGHT.Contains(key)) fKeyRight = v;
-
-            return true;
-        }
-
 
 
         //*******************************************************************//
@@ -362,12 +276,12 @@ namespace RayCaster1.source.java
         //*******************************************************************//
         public void drawOverheadMap()
         {
-            fMinimapWidth = 5;
+            fMinimapWidth = 8;
             for (int u = 0; u < MAP_WIDTH; u++)
             {
                 for (int v = 0; v < MAP_HEIGHT; v++)
                 {
-                    if (fMap[v * MAP_WIDTH + u] == W)
+                    if (myMap[u, v] == W)
                     {
                         fOffscreenGraphics.setColor(new Color(0x00ff00));
                     }
@@ -417,6 +331,13 @@ namespace RayCaster1.source.java
         {
             drawBackground();
             drawOverheadMap();
+
+            //if (CurrentMapTile == W)
+            //{
+            //    // render nothing inside wall
+            //    BlitToScreen();
+            //    return;
+            //}
 
             int verticalGrid;        // horizotal or vertical coordinate of intersection
             int horizontalGrid;      // theoritically, this will be multiple of TILE_SIZE
@@ -496,6 +417,7 @@ namespace RayCaster1.source.java
                 {
                     distToNextXIntersection = fXStepTable[castArc];
 
+                    #region loop1
                     var loop1 = true;
                     while (loop1)
                     {
@@ -503,12 +425,7 @@ namespace RayCaster1.source.java
                         // in the picture, yGridIndex will be 1
                         yGridIndex = (horizontalGrid / TILE_SIZE);
 
-                        if (
-                            new RectInt32
-                            {
-                                Width = MAP_WIDTH,
-                                Height = MAP_HEIGHT
-                            }.IsOutSide(
+                        if (myMap.ToRectInt32().IsOutSide(
                                 new PointInt32
                                 {
                                     X = xGridIndex,
@@ -523,7 +440,7 @@ namespace RayCaster1.source.java
                             distToHorizontalGridBeingHit = float.MaxValue;
                             loop1 = false;
                         }
-                        else if ((fMap[yGridIndex * MAP_WIDTH + xGridIndex]) != O)
+                        else if ((myMap[xGridIndex, yGridIndex]) != O)
                         {
                             distToHorizontalGridBeingHit = (xIntersection - fPlayerX) * fICosTable[castArc];
                             loop1 = false;
@@ -535,6 +452,8 @@ namespace RayCaster1.source.java
                             horizontalGrid += distToNextHorizontalGrid;
                         }
                     }
+                    #endregion
+
                 }
 
 
@@ -568,6 +487,7 @@ namespace RayCaster1.source.java
                 else
                 {
                     distToNextYIntersection = fYStepTable[castArc];
+                    #region loop2
                     var loop2 = true;
                     while (loop2)
                     {
@@ -575,12 +495,7 @@ namespace RayCaster1.source.java
                         xGridIndex = (verticalGrid / TILE_SIZE);
                         yGridIndex = (int)(yIntersection / TILE_SIZE);
 
-                        if (
-                             new RectInt32
-                             {
-                                 Width = MAP_WIDTH,
-                                 Height = MAP_HEIGHT
-                             }.IsOutSide(
+                        if (myMap.ToRectInt32().IsOutSide(
                                 new PointInt32
                                 {
                                     X = xGridIndex,
@@ -596,7 +511,7 @@ namespace RayCaster1.source.java
                             distToVerticalGridBeingHit = float.MaxValue;
                             loop2 = false;
                         }
-                        else if ((fMap[yGridIndex * MAP_WIDTH + xGridIndex]) != O)
+                        else if ((myMap[xGridIndex, yGridIndex]) != O)
                         {
                             distToVerticalGridBeingHit = (yIntersection - fPlayerY) * fISinTable[castArc];
                             loop2 = false;
@@ -607,6 +522,8 @@ namespace RayCaster1.source.java
                             verticalGrid += distToNextVerticalGrid;
                         }
                     }
+                    #endregion
+
                 }
 
                 // DRAW THE WALL SLICE
@@ -654,6 +571,11 @@ namespace RayCaster1.source.java
             }
 
             // blit to screen
+            BlitToScreen();
+        }
+
+        private void BlitToScreen()
+        {
             paint(this.getGraphics());
         }
 

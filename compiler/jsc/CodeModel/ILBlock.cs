@@ -1050,6 +1050,14 @@ namespace jsc
                 }
             }
 
+            public bool IsConstructorCall()
+            {
+                if (Instruction == null)
+                    return false;
+
+                return Instruction.IsConstructorCall();
+            }
+
             public bool IsBaseConstructorCall()
             {
                 if (Instruction == null)

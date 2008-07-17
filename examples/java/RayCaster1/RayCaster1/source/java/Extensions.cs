@@ -11,6 +11,16 @@ namespace RayCaster1.source.java
     {
         public int X;
         public int Y;
+
+        public override string ToString()
+        {
+            return "{ X = " + X + ", Y = " + Y + " }";
+        }
+
+        public PointInt32 Clone()
+        {
+            return new PointInt32 { X = this.X, Y = this.Y };
+        }
     }
 
     [Script]
@@ -57,6 +67,28 @@ namespace RayCaster1.source.java
     [Script]
     public static class Extensions
     {
+        public static RectInt32 ToRectInt32(this Array2DSByte e)
+        {
+            return new RectInt32 { Width = e.XLength, Height = e.YLength };
+        }
+
+        public static int Max(this int i, int e)
+        {
+            if (e > i)
+                return e;
+
+            return i;
+        }
+
+        public static int Min(this int i, int e)
+        {
+            if (e < i)
+                return e;
+
+            return i;
+        }
+
+
         public static bool IsExact(this int i, int min, int max)
         {
             if (i == min)
@@ -97,5 +129,11 @@ namespace RayCaster1.source.java
 
             return r;
         }
+    }
+
+    [Script]
+    public class Int32ByRef
+    {
+        public int Value;
     }
 }

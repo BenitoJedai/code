@@ -9,7 +9,7 @@ using javax.common.runtime;
 namespace RayCaster1.source.java
 {
     [Script]
-    public partial class RayCaster1 : Rayc
+    public partial class RayCaster1 : RayCaster1Base
     {
         //public override void init()
         //{

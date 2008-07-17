@@ -2454,6 +2454,17 @@ namespace jsc
 
         }
 
+        public bool IsConstructorCall()
+        {
+            if (TargetConstructor == null)
+                return false;
+
+            Type Self = OwnerMethod.DeclaringType;
+            Type Base = TargetConstructor.DeclaringType;
+
+            return Self.BaseType == Base || Self == TargetConstructor.DeclaringType;
+        }
+
         public bool IsBaseConstructorCall()
         {
             if (TargetConstructor == null)

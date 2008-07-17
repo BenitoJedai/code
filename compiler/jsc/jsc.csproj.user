@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>X:\jsc.svn\actionscript\Games\FlashMinesweeper\FlashMinesweeper.Client\bin\Debug</StartWorkingDirectory>
-    <StartArguments>FlashMinesweeper.Client.dll -cs2</StartArguments>
+    <StartWorkingDirectory>X:\jsc.svn\examples\java\RayCaster1\RayCaster1\bin\Debug</StartWorkingDirectory>
+    <StartArguments>RayCaster1.dll -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

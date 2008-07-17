@@ -12,8 +12,8 @@ namespace RayCaster1.source.java
             public const string Alias = "RayCaster1";
             public const string AliasNamespace = "ExampleCompany.DemoAppletProject";
 
-            public const int DefaultWidth = 500;
-            public const int DefaultHeight = 300;
+            public const int DefaultWidth = 800;
+            public const int DefaultHeight = 500;
         }
     }
 }

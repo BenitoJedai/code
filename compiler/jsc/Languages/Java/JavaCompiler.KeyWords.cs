@@ -22,6 +22,8 @@ namespace jsc.Languages.Java
     {
         public enum Keywords
         {
+            _this,
+            _super,
             _as,
             _base,
             _event,

@@ -755,7 +755,7 @@ namespace jsc.Script
             WriteMethodBody(m, predicate, null);
         }
 
-  
+
 
         public void WriteMethodBody(MethodBase m, Predicate<ILBlock.Prestatement> predicate, Action CustomVariableInitialization)
         {
@@ -799,10 +799,11 @@ namespace jsc.Script
 
                         // base construcor call must be first...
 
+
                         EmitPrestatementBlock(xb.Prestatements,
                             delegate(ILBlock.Prestatement p)
                             {
-                                if (!p.IsBaseConstructorCall())
+                                if (!p.IsConstructorCall())
                                     return true;
 
                                 return predicate != null && predicate(p);
@@ -823,7 +824,7 @@ namespace jsc.Script
                             {
 
 
-                                if (p.IsBaseConstructorCall())
+                                if (p.IsConstructorCall())
                                     return true;
 
                                 return predicate != null && predicate(p);
@@ -1018,13 +1019,13 @@ namespace jsc.Script
 
                     foreach (ILInstruction var in xb.Instructrions)
                     {
-                        if (var.IsStoreLocal )
+                        if (var.IsStoreLocal)
                             if (var.IsEqualVariable(v))
-                        {
+                            {
 
-                            if (!var.IsInlineAssigmentInstruction)
-                                goto define;
-                        }
+                                if (!var.IsInlineAssigmentInstruction)
+                                    goto define;
+                            }
                     }
 
                     continue;
@@ -1636,6 +1637,16 @@ namespace jsc.Script
             {
                 return true;
             }
+        }
+
+        public virtual void WriteMethodBodyBefore(MethodBase m)
+        {
+
+        }
+
+        public virtual void WriteMethodBodyAfter(MethodBase m)
+        {
+
         }
     }
 }

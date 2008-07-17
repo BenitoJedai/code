@@ -55,20 +55,19 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="source\csharp\Setup.cs" />
+    <Compile Include="source\java\Array2DInt32.cs" />
+    <Compile Include="source\java\Array2DSByte.cs" />
+    <Compile Include="source\java\RayCaster1Base.Movement.cs" />
     <Compile Include="source\java\Extensions.cs" />
     <Compile Include="source\java\RayCaster1.Script.cs" />
     <Compile Include="source\java\RayCaster1.Program.cs" />
     <Compile Include="source\java\RayCaster1.Settings.cs" />
     <Compile Include="source\java\RayCaster1.cs" />
-    <Compile Include="source\java\Rayc.cs" />
     <Compile Include="source\java\RayCaster1Base.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
-    <Content Include="web\java\ExampleCompany\DemoAppletProject\Rayc.java">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
@@ -78,9 +77,14 @@
     <None Include="tools\run.jar.bat" />
     <None Include="tools\test.applet.bat" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="web\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>C:\util\jsc\bin\jsc.exe "$(TargetFileName)" -java
+    <PostBuildEvent>pushd ..\..\tools\
+call build.bat $(ProjectName)
+popd
 </PostBuildEvent>
   </PropertyGroup>
 </Project>
