@@ -70,6 +70,18 @@ namespace RayCaster2.ActionScript
     [Script]
     public static class MyExtensions
     {
+        public static string ToDebugString(this double[] e)
+        {
+            var v = "length: " + e.Length + "\n";
+
+            for (int i = 0; i < e.Length; i++)
+            {
+                v += i + " = " + e[i] + "\n";
+            }
+
+            return v;
+        }
+
         public static void drawLine(this Graphics g, int x, int y, int cx, int cy)
         {
             g.moveTo(x, y);

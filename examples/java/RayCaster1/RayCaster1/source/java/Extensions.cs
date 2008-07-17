@@ -68,6 +68,18 @@ namespace RayCaster1.source.java
     [Script]
     public static class Extensions
     {
+        public static string ToDebugString(this double[] e)
+        {
+            var v = "length: " + e.Length + "\n";
+
+            for (int i = 0; i < e.Length; i++)
+            {
+                v += i + " = " + e[i] + "\n";
+            }
+
+            return v;
+        }
+
         public static RectInt32 ToRectInt32(this Array2DSByte e)
         {
             return new RectInt32 { Width = e.XLength, Height = e.YLength };
