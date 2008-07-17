@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="ActionScript\Array2DSByte.cs" />
     <Compile Include="ActionScript\Assets.cs" />
+    <Compile Include="ActionScript\RayCaster2.render.cs" />
     <Compile Include="ActionScript\RayCaster2.CreateMap.cs" />
     <Compile Include="ActionScript\RayCaster2.ClipPlayer.cs" />
     <Compile Include="ActionScript\RayCaster2.Movement.cs" />

@@ -286,14 +286,21 @@ namespace RayCaster2.ActionScript
                 //fOffscreenGraphics.drawLine(castColumn, topOfWall, castColumn, bottomOfWall);
                 fOffscreenGraphics.lineStyle(0, 0, 0);
                 fOffscreenGraphics.drawRect(castColumn, topOfWall, 5, projectedWallHeight);
-
+                Console.WriteLine("x: " + castColumn + " y: " + topOfWall + " h" + projectedWallHeight);
+                // y = 79;
+                // h = 639;
+                    
                 // TRACE THE NEXT RAY
                 castArc += 5;
                 if (castArc >= ANGLE360)
                     castArc -= ANGLE360;
             }
 
+
             // blit to screen
+
+            // freeze
+            fThread.stop();
         }
 
 

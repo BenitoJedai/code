@@ -286,6 +286,8 @@ namespace RayCaster1.source.java
                 //fOffscreenGraphics.drawLine(castColumn, topOfWall, castColumn, bottomOfWall);
                 fOffscreenGraphics.fillRect(castColumn, topOfWall, 5, projectedWallHeight);
 
+                Console.WriteLine("x: " + castColumn + " y: " + topOfWall + " h" + projectedWallHeight);
+
                 // TRACE THE NEXT RAY
                 castArc += 5;
                 if (castArc >= ANGLE360)
@@ -294,6 +296,9 @@ namespace RayCaster1.source.java
 
             // blit to screen
             BlitToScreen();
+
+            // freeze
+            fThread.stop();
         }
 
 
