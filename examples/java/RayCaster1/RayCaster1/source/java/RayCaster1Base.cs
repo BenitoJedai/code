@@ -58,7 +58,7 @@ namespace RayCaster1.source.java
         protected int fPlayerArc = ANGLE0;
         protected int fPlayerDistanceToTheProjectionPlane = 277;
         protected int fPlayerHeight = 32;
-        protected int fPlayerSpeed = 16;
+        protected int fPlayerSpeed = 8;
         protected int fProjectionPlaneYCenter = PROJECTIONPLANEHEIGHT / 2;
         // the following variables are used to keep the player coordinate in the overhead map
         protected int fPlayerMapX, fPlayerMapY, fMinimapWidth;
