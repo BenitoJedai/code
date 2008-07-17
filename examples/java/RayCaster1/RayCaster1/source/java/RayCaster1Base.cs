@@ -15,11 +15,11 @@ namespace RayCaster1.source.java
         // this is Java's stuff 
         protected Thread fThread;
 
-        // size of tile (wall height)
-        public static readonly int TILE_SIZE = 64;
-        public static readonly int WALL_HEIGHT = 64;
+
         public static readonly int PROJECTIONPLANEWIDTH = RayCaster1.Settings.DefaultWidth - 100;
         public static readonly int PROJECTIONPLANEHEIGHT = RayCaster1.Settings.DefaultHeight;
+
+        
         public static readonly int ANGLE60 = PROJECTIONPLANEWIDTH;
         public static readonly int ANGLE30 = (ANGLE60 / 2);
         public static readonly int ANGLE15 = (ANGLE30 / 2);
@@ -52,9 +52,7 @@ namespace RayCaster1.source.java
 
 
 
-        // player's attributes
-        protected int fPlayerX = 100;
-        protected int fPlayerY = 160;
+
         protected int fPlayerArc = ANGLE0;
         protected int fPlayerDistanceToTheProjectionPlane = 277;
         protected int fPlayerHeight = 32;
@@ -64,21 +62,6 @@ namespace RayCaster1.source.java
         protected int fPlayerMapX, fPlayerMapY, fMinimapWidth;
 
 
-        /// <summary>
-        /// wall
-        /// </summary>
-        protected static readonly sbyte W = 1;
-
-        /// <summary>
-        /// opening
-        /// </summary>
-        protected static readonly sbyte O = 0;
-
-        protected static readonly int MAP_WIDTH = 14;
-        protected static readonly int MAP_HEIGHT = 12;
-
-        // 2 dimensional map
-        Array2DSByte myMap;
 
 
         //*******************************************************************//
@@ -162,23 +145,10 @@ namespace RayCaster1.source.java
             }
 
 
-
-            myMap = new Array2DSByte(MAP_WIDTH, MAP_HEIGHT,
-                W, W, W, W, W, W, W, W, W, W, W, W, W, W,
-                W, O, O, O, O, O, O, O, O, O, W, O, O, W,
-                W, O, O, O, O, O, O, O, O, O, W, O, O, W,
-                W, O, O, O, O, O, O, O, W, O, W, W, O, W,
-                W, O, O, W, O, W, O, O, W, O, O, O, O, W,
-                W, O, O, W, O, W, W, O, W, O, W, W, O, W,
-                W, O, O, W, O, O, W, O, W, O, W, W, O, W,
-                W, O, O, O, W, O, W, O, W, O, W, O, O, W,
-                W, O, O, O, W, O, W, O, W, O, W, O, O, W,
-                W, O, O, O, W, W, W, O, W, O, W, W, O, W,
-                W, O, O, O, O, O, O, O, O, O, O, O, O, W,
-                W, W, W, W, W, W, W, W, W, W, W, W, W, W
-            );
+            CreateMap();
 
         }
+
 
 
 
@@ -276,7 +246,7 @@ namespace RayCaster1.source.java
         //*******************************************************************//
         public void drawOverheadMap()
         {
-            fMinimapWidth = 8;
+            fMinimapWidth = 5;
             for (int u = 0; u < MAP_WIDTH; u++)
             {
                 for (int v = 0; v < MAP_HEIGHT; v++)
@@ -355,6 +325,9 @@ namespace RayCaster1.source.java
 
             double distToVerticalGridBeingHit = 0;      // the distance of the x and y ray intersections from
             double distToHorizontalGridBeingHit = 0;      // the viewpoint
+
+            sbyte VerticalGridBeingHit = 0;
+            sbyte HorizontalGridBeingHit = 0;
 
             int castArc, castColumn;
 
@@ -443,6 +416,7 @@ namespace RayCaster1.source.java
                         else if ((myMap[xGridIndex, yGridIndex]) != O)
                         {
                             distToHorizontalGridBeingHit = (xIntersection - fPlayerX) * fICosTable[castArc];
+                            HorizontalGridBeingHit = myMap[xGridIndex, yGridIndex];
                             loop1 = false;
                         }
                         // else, the ray is not blocked, extend to the next block
@@ -514,6 +488,7 @@ namespace RayCaster1.source.java
                         else if ((myMap[xGridIndex, yGridIndex]) != O)
                         {
                             distToVerticalGridBeingHit = (yIntersection - fPlayerY) * fISinTable[castArc];
+                            VerticalGridBeingHit = myMap[xGridIndex, yGridIndex];
                             loop2 = false;
                         }
                         else
@@ -540,7 +515,6 @@ namespace RayCaster1.source.java
                     // it just draws the ray on the overhead map to illustrate the raycasting process
                     drawRayOnOverheadMap(xIntersection, horizontalGrid);
                     dist = distToHorizontalGridBeingHit;
-                    fOffscreenGraphics.setColor(new Color(0xa0a0a0));
                 }
                 // else, we use xray instead (meaning the vertical wall is closer than
                 //   the horizontal wall)
@@ -550,17 +524,46 @@ namespace RayCaster1.source.java
                     // it just draws the ray on the overhead map to illustrate the raycasting process
                     drawRayOnOverheadMap(verticalGrid, yIntersection);
                     dist = distToVerticalGridBeingHit;
-                    fOffscreenGraphics.setColor(new Color(0x707070));
                 }
 
                 // correct distance (compensate for the fishbown effect)
                 dist /= fFishTable[castColumn];
                 // projected_wall_height/wall_height = fPlayerDistToProjectionPlane/dist;
-                int projectedWallHeight = (int)(WALL_HEIGHT * (float)fPlayerDistanceToTheProjectionPlane / dist);
+                var projectedWallHeightPercentage = (double)fPlayerDistanceToTheProjectionPlane / dist;
+
+                int projectedWallHeight = (int)(WALL_HEIGHT * projectedWallHeightPercentage);
                 bottomOfWall = fProjectionPlaneYCenter + (int)(projectedWallHeight * 0.5F);
                 topOfWall = PROJECTIONPLANEHEIGHT - bottomOfWall;
                 if (bottomOfWall >= PROJECTIONPLANEHEIGHT)
                     bottomOfWall = PROJECTIONPLANEHEIGHT - 1;
+
+                if (distToHorizontalGridBeingHit < distToVerticalGridBeingHit)
+                {
+                    if (HorizontalGridBeingHit == M)
+                    {
+                        fOffscreenGraphics.setColor(new Color(0x800000));
+                    }
+                    else
+                    {
+                        GrayColor g = 0xa0 * projectedWallHeightPercentage.Min(1);
+
+                        fOffscreenGraphics.setColor(g);
+                    }
+                }
+                else
+                {
+                    if (VerticalGridBeingHit == M)
+                    {
+                        fOffscreenGraphics.setColor(new Color(0xA00000));
+                    }
+                    else
+                    {
+                        GrayColor g = 0x70 * projectedWallHeightPercentage.Min(1);
+
+                        fOffscreenGraphics.setColor(g);
+                    }
+                }
+
                 //fOffscreenGraphics.drawLine(castColumn, topOfWall, castColumn, bottomOfWall);
                 fOffscreenGraphics.fillRect(castColumn, topOfWall, 5, projectedWallHeight);
 

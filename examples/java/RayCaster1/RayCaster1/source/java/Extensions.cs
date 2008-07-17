@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using java.awt;
 
 namespace RayCaster1.source.java
 {
@@ -88,6 +89,13 @@ namespace RayCaster1.source.java
             return i;
         }
 
+        public static double Min(this double i, double e)
+        {
+            if (e < i)
+                return e;
+
+            return i;
+        }
 
         public static bool IsExact(this int i, int min, int max)
         {
@@ -136,4 +144,75 @@ namespace RayCaster1.source.java
     {
         public int Value;
     }
+
+
+    [Script]
+    public class KeyboardButton
+    {
+        public int[] Buttons;
+
+        public bool IsPressed;
+
+        public static implicit operator bool(KeyboardButton b)
+        {
+            return b.IsPressed;
+        }
+
+        public static implicit operator KeyboardButton(int[] b)
+        {
+            return new KeyboardButton { Buttons = b };
+        }
+
+        public bool ProcessKeyDown(int key)
+        {
+            if (Buttons.Contains(key))
+            {
+                this.IsPressed = true;
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool ProcessKeyUp(int key)
+        {
+            if (Buttons.Contains(key))
+            {
+                this.IsPressed = false;
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    [Script]
+    class GrayColor
+    {
+        public int GrayValue;
+
+        public static implicit operator GrayColor(int e)
+        {
+            return new GrayColor { GrayValue = e };
+        }
+
+        public static implicit operator GrayColor(double e)
+        {
+            return (int)e;
+        }
+
+        public int Color
+        {
+            get
+            {
+                return GrayValue + (GrayValue << 8) + (GrayValue << 16);
+            }
+        }
+
+        public static implicit operator Color(GrayColor c)
+        {
+            return new Color(c.Color);
+        }
+    }
+
 }

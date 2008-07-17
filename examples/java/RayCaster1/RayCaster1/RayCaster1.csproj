@@ -57,6 +57,8 @@
     <Compile Include="source\csharp\Setup.cs" />
     <Compile Include="source\java\Array2DInt32.cs" />
     <Compile Include="source\java\Array2DSByte.cs" />
+    <Compile Include="source\java\RayCaster1Base.CreateMap.cs" />
+    <Compile Include="source\java\RayCaster1Base.ClipPlayer.cs" />
     <Compile Include="source\java\RayCaster1Base.Movement.cs" />
     <Compile Include="source\java\Extensions.cs" />
     <Compile Include="source\java\RayCaster1.Script.cs" />
