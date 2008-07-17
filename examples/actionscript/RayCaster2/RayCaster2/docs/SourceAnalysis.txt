@@ -1,0 +1,37 @@
+﻿This project template has been checked with Microsoft Source Analysis Tool.
+
+Get it here: http://code.msdn.microsoft.com/sourceanalysis
+
+2008.05.06	There seems to be a critical bug which damages Visual Studio 2008 functionality.
+			read more: http://code.msdn.microsoft.com/sourceanalysis/WorkItem/View.aspx?WorkItemId=9
+
+To revert just uninstall the tool.
+			
+To reset the IDE:
+
+Step 1. Open the C# project that is exhibiting the problem in VS.
+Step 2. Clean the solotion (dont know if this is needed but cant hurt).
+Step 3. Close all files in VS.
+Step 4. Close all instance of VS.
+Step 5. Open the Visual Studio command prompt (found under All Programs -> VisualStudio 2008 -> Visual Studio Tools.
+Step 6. From the command prompt execute this command: devenv.exe /resetsettings. - wait until it is done (can take minutes). Close all VS instances.
+
+
+
+At this time the following rules are disgarded:
+
+SA1200: All using directives must be placed inside of the namespace.
+SA1633: The file has no header, the header Xml is invalid, or the header is not located at the top of the file.
+
+
+------ Source Analysis started ------
+
+Pass 1: Assets.cs...
+Pass 1: Extensions.cs...
+Pass 1: RayCaster2.cs...
+Pass 1: IAssemblyReferenceToken.cs...
+Pass 1: AssemblyInfo.cs...
+
+---------------------- Done ----------------------
+
+Violation Count: 0

@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>X:\jsc.svn\examples\java\RayCaster1\RayCaster1\bin\Debug</StartWorkingDirectory>
-    <StartArguments>RayCaster1.dll -java</StartArguments>
+    <StartWorkingDirectory>X:\jsc.svn\examples\actionscript\RayCaster2\RayCaster2\bin\Debug</StartWorkingDirectory>
+    <StartArguments>RayCaster2.dll -as</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

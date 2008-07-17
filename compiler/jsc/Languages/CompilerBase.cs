@@ -1154,7 +1154,9 @@ namespace jsc.Script
             }
             catch (Exception exc)
             {
-                Break("failure at " + m.DeclaringType.FullName + "." + m.Name + " : " + exc.Message + "\n" + exc.StackTrace);
+                Console.WriteLine(exc.ToString());
+
+                Break("failure at " + m.DeclaringType.FullName + "." + m.Name + " : " + exc.Message);
             }
         }
 

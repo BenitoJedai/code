@@ -15,5 +15,16 @@ namespace ScriptCoreLib.ActionScript
         public int frameRate = 30;
         public int width = ScriptApplicationEntryPointAttribute.DefaultWidth;
         public int height = ScriptApplicationEntryPointAttribute.DefaultHeight;
+
+        public SWFAttribute()
+        {
+
+        }
+
+
+        public SWFAttribute(int width, int height)
+        {
+
+        }
     }
 }

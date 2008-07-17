@@ -456,9 +456,9 @@ namespace jsc.Languages.ActionScript
                 CIW[OpCodes.Clt, OpCodes.Clt_Un] = f("<");
                 CIW[OpCodes.Cgt, OpCodes.Cgt_Un] = f(">");
 
-
-                CIW[OpCodes.Or] = f("|");
-                CIW[OpCodes.And] = f("&");
+                // bitwise or logigal
+                CIW[OpCodes.Or] = f("||");
+                CIW[OpCodes.And] = f("&&");
                 CIW[OpCodes.Rem] = f("%");
                 CIW[OpCodes.Mul] = f("*");
                 CIW[OpCodes.Div, OpCodes.Div_Un] = f("/");

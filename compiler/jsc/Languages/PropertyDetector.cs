@@ -37,7 +37,15 @@ namespace jsc.Languages
                 var prefix = "set_";
                 if (m.Name.StartsWith(prefix))
                 {
-                    SetProperty = m.DeclaringType.GetProperty(m.Name.Substring(prefix.Length), any);
+                    try
+                    {
+
+                        SetProperty = m.DeclaringType.GetProperty(m.Name.Substring(prefix.Length), any);
+                    }
+                    catch (AmbiguousMatchException)
+                    {
+
+                    }
                 }
             }
             #endregion
@@ -47,7 +55,14 @@ namespace jsc.Languages
                 var prefix = "get_";
                 if (m.Name.StartsWith(prefix))
                 {
-                    GetProperty = m.DeclaringType.GetProperty(m.Name.Substring(prefix.Length), any);
+                    try
+                    {
+                        GetProperty = m.DeclaringType.GetProperty(m.Name.Substring(prefix.Length), any);
+                    }
+                    catch (AmbiguousMatchException)
+                    {
+
+                    }
                 }
             }
             #endregion

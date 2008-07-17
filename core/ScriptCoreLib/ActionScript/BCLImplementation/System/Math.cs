@@ -1075,7 +1075,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         // Returns:
         //     The tangent of a. If a is equal to System.Double.NaN, System.Double.NegativeInfinity,
         //     or System.Double.PositiveInfinity, this method returns System.Double.NaN.
-        public static double Tan(double a) { throw new NotImplementedException(); }
+        public static double Tan(double a) { return global::ScriptCoreLib.ActionScript.Math.tan(a); }
         //
         // Summary:
         //     Returns the hyperbolic tangent of the specified angle.
