@@ -1,9 +1,11 @@
 using ScriptCoreLib;
+using java.awt.image;
 
 namespace java.awt
 {
+    // http://java.sun.com/j2se/1.4.2/docs/api/java/awt/Component.html
     [Script(IsNative = true)]
-    public class Component
+    public class Component : ImageObserver
     {
         public bool Enabled
         {
@@ -33,7 +35,26 @@ namespace java.awt
         }
 
 
+        public Image createImage(int width, int height)
+        {
+            return default(Image);
+        }
 
+        public void requestFocus()
+        {
+
+        }
+
+        public Graphics getGraphics()
+        {
+            return default(Graphics);
+
+        }
+
+        public Dimension getSize()
+        {
+            return default(Dimension);
+        }
 
         public void setName(string e)
         {
@@ -114,6 +135,16 @@ namespace java.awt
         {
         }
 
+        public virtual bool keyDown(Event evt, int key)
+        {
+            return default(bool);
+        }
+
+        public virtual bool keyUp(Event evt, int key)
+        {
+            return default(bool);
+
+        }
 
     }
 }

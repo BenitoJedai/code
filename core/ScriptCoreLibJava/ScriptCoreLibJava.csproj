@@ -59,6 +59,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BCLImplementation\System\Console.cs" />
+    <Compile Include="BCLImplementation\System\NotImplementedException.cs" />
+    <Compile Include="BCLImplementation\System\Exception.cs" />
     <Compile Include="BCLImplementation\System\IDisposable.cs" />
     <Compile Include="BCLImplementation\System\Math.cs" />
     <Compile Include="BCLImplementation\System\String.cs" />
@@ -79,6 +81,10 @@
     <Compile Include="java\awt\AWTEvent.cs" />
     <Compile Include="java\awt\Color.cs" />
     <Compile Include="java\awt\Checkbox.cs" />
+    <Compile Include="java\awt\Dimension.cs" />
+    <Compile Include="java\awt\Event.cs" />
+    <Compile Include="java\awt\Image.cs" />
+    <Compile Include="java\awt\image\ImageObserver.cs" />
     <Compile Include="java\awt\Rectangle.cs" />
     <Compile Include="java\awt\Font.cs" />
     <Compile Include="java\awt\TextField.cs" />

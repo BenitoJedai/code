@@ -5,6 +5,7 @@ using java.net;
 
 namespace java.applet
 {
+    // http://java.sun.com/j2se/1.4.2/docs/api/java/applet/Applet.html
     [Script(IsNative = true)]
     public class Applet : Panel
     {

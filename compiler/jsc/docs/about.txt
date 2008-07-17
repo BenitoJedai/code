@@ -119,3 +119,4 @@ version history:
 16.07.2008
 	cs2: fixed Enum support
 	cs2: fixed generic argument type detection
+	java: added InitializeArray support

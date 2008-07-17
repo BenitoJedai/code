@@ -3,7 +3,7 @@ using ScriptCoreLib;
 namespace java.lang
 {
     [Script(IsNative = true)]
-    public class Math
+    internal class Math
     {
         #region methods
         /// <summary>

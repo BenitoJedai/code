@@ -10,12 +10,17 @@ namespace ScriptCoreLibJava.BCLImplementation.System
     {
         public static double Sin(double a)
         {
-            return java.lang.Math.sin(a);
+            return global::java.lang.Math.sin(a);
         }
 
         public static double Cos(double a)
         {
-            return java.lang.Math.cos(a);
+            return global::java.lang.Math.cos(a);
+        }
+
+        public static double Tan(double a)
+        {
+            return global::java.lang.Math.tan(a);
         }
     }
 }

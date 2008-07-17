@@ -152,6 +152,10 @@
     <Compile Include="Languages\JavaScript\IL2ScriptGenerator.cs" />
     <Compile Include="Languages\JavaScript\MethodBodyOptimizer.cs" />
     <Compile Include="Languages\Java\CompilerJob.cs" />
+    <Compile Include="Languages\Java\JavaCompiler.FindThrownExceptions.cs" />
+    <Compile Include="Languages\Java\JavaCompiler.WriteImportTypes.cs" />
+    <Compile Include="Languages\Java\JavaCompiler.KeyWords.cs" />
+    <Compile Include="Languages\Java\JavaCompiler.OpCodes.cs" />
     <Compile Include="Languages\PHP\DelegateImplementationProvider.cs" />
     <Compile Include="Languages\PropertyDetector.cs" />
     <Compile Include="Program.cs" />

@@ -9,5 +9,10 @@ namespace java.awt
         {
 
         }
+
+        public Color(int r, int g, int b)
+        {
+
+        }
     }
 }

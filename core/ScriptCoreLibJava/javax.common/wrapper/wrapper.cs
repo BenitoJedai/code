@@ -3,6 +3,7 @@ using ScriptCoreLib;
 using javax.common.runtime;
 using java.util;
 using java.lang;
+using ScriptCoreLibJava.BCLImplementation.System;
 
 namespace csharp
 {
@@ -182,7 +183,7 @@ namespace javax.common.wrapper
         // ExternalTarget = "java.io.IOException",
        Implements = typeof(global::System.IO.IOException),
        ImplementationType = typeof(java.io.IOException))]
-    public class IOExceptionImpl : ExceptionImpl
+    internal class IOExceptionImpl : __Exception
     {
         public IOExceptionImpl()
         {
@@ -198,25 +199,14 @@ namespace javax.common.wrapper
 
 
 
-    [Script(
-       HasNoPrototype = true,
-        // Use 'ImplementationType' instead of 'ExternalTarget'
-        // ExternalTarget = "java.lang.RuntimeException",
-       Implements = typeof(csharp.RuntimeException),
-       ImplementationType = typeof(java.lang.RuntimeException))]
-    public class RuntimeExceptionImpl : ExceptionImpl
-    {
-        public RuntimeExceptionImpl() { }
-        public RuntimeExceptionImpl(string e) { }
 
-    }
 
     [Script(
        HasNoPrototype = true,
         // ExternalTarget = "java.lang.Throwable",
       Implements = typeof(csharp.ThrowableException),
       ImplementationType = typeof(java.lang.Throwable))]
-    public class ThrowableExceptionImpl : ExceptionImpl
+    internal class ThrowableExceptionImpl : __Exception
     {
         public ThrowableExceptionImpl() { }
         public ThrowableExceptionImpl(string e) { }
@@ -228,35 +218,20 @@ namespace javax.common.wrapper
         // ExternalTarget = "java.lang.UnsatisfiedLinkError",
        Implements = typeof(csharp.UnsatisfiedLinkError),
        ImplementationType = typeof(java.lang.UnsatisfiedLinkError))]
-    public class UnsatisfiedLinkErrorImpl : ExceptionImpl
+    internal class UnsatisfiedLinkErrorImpl : __Exception
     {
         public UnsatisfiedLinkErrorImpl() { }
         public UnsatisfiedLinkErrorImpl(string e) { }
 
     }
 
-    [Script(
-       HasNoPrototype = true,
-        // ExternalTarget = "java.lang.Exception",
-      Implements = typeof(global::System.Exception),
-      ImplementationType = typeof(java.lang.Exception))]
-    public class ExceptionImpl
-    {
-        public ExceptionImpl() { }
-        public ExceptionImpl(string e) { }
-        public string Message
-        {
-            [Script(ExternalTarget = "getMessage")]
-            get { return default(string); }
-        }
-    }
 
     [Script(
         HasNoPrototype = true,
         // ExternalTarget = "java.lang.OutOfMemoryError",
         Implements = typeof(global::System.OutOfMemoryException),
        ImplementationType = typeof(java.lang.OutOfMemoryError))]
-    public class OutOfMemoryExceptionImpl : ExceptionImpl
+    internal class OutOfMemoryExceptionImpl : __Exception
     {
         public OutOfMemoryExceptionImpl() { }
         public OutOfMemoryExceptionImpl(string e) { }
@@ -268,7 +243,7 @@ namespace javax.common.wrapper
         // ExternalTarget = "java.lang.IndexOutOfBoundsException",
       Implements = typeof(global::System.IndexOutOfRangeException),
       ImplementationType = typeof(java.lang.IndexOutOfBoundsException))]
-    public class IndexOutOfRangeExceptionImpl : ExceptionImpl
+    internal class IndexOutOfRangeExceptionImpl : __Exception
     {
         public IndexOutOfRangeExceptionImpl() { }
         public IndexOutOfRangeExceptionImpl(string e) { }
@@ -279,7 +254,7 @@ namespace javax.common.wrapper
         // ExternalTarget = "java.lang.NullPointerException",
         Implements = typeof(global::System.NullReferenceException),
       ImplementationType = typeof(java.lang.NullPointerException))]
-    public class NullReferenceExceptionImpl : ExceptionImpl
+    internal class NullReferenceExceptionImpl : __Exception
     {
         public NullReferenceExceptionImpl() { }
         public NullReferenceExceptionImpl(string e) { }
