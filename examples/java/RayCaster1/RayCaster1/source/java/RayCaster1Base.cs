@@ -251,7 +251,7 @@ namespace RayCaster1.source.java
             {
                 for (int v = 0; v < MAP_HEIGHT; v++)
                 {
-                    if (myMap[u, v] == W)
+                    if (myMap[u, v] != O)
                     {
                         fOffscreenGraphics.setColor(new Color(0x00ff00));
                     }
@@ -539,9 +539,9 @@ namespace RayCaster1.source.java
 
                 if (distToHorizontalGridBeingHit < distToVerticalGridBeingHit)
                 {
-                    if (HorizontalGridBeingHit == M)
+                    if (HorizontalGridBeingHit != W)
                     {
-                        fOffscreenGraphics.setColor(new Color(0x800000));
+                        fOffscreenGraphics.setColor(GetWallColor(HorizontalGridBeingHit, true));
                     }
                     else
                     {
@@ -552,9 +552,9 @@ namespace RayCaster1.source.java
                 }
                 else
                 {
-                    if (VerticalGridBeingHit == M)
+                    if (VerticalGridBeingHit != W)
                     {
-                        fOffscreenGraphics.setColor(new Color(0xA00000));
+                        fOffscreenGraphics.setColor(GetWallColor(VerticalGridBeingHit, false));
                     }
                     else
                     {
