@@ -144,6 +144,9 @@ namespace jsc.Languages.CSharp2
             if (q)
                 throw new NotSupportedException();
 
+            if (GetKeywords().Contains(z.Name))
+                Write("@");
+
             WriteSafeLiteral(z.Name);
         }
 

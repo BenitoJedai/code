@@ -1,13 +1,8 @@
 ﻿using ScriptCoreLib;
-using ScriptCoreLib.ActionScript.flash.display;
-using ScriptCoreLib.ActionScript.flash.text;
 using System.Collections.Generic;
-using ScriptCoreLib.ActionScript;
-using ScriptCoreLib.ActionScript.flash.filters;
 using System;
-using ScriptCoreLib.ActionScript.flash.events;
-using ScriptCoreLib.ActionScript.flash.net;
-using ScriptCoreLib.ActionScript.flash.ui;
+using System.Windows.Forms;
+using System.Drawing;
 
 
 
@@ -16,22 +11,21 @@ namespace RayCaster4.ActionScript
 {
 
 
-    [ScriptImportsType("flash.utils.getTimer")]
+    //[ScriptImportsType("flash.utils.getTimer")]
     [Script]
-    public class RayCaster4base : Sprite
+    public class RayCaster4base //: Sprite
     {
         // http://livedocs.adobe.com/flex/2/langref/flash/utils/package.html#getTimer()
-        [Script(OptimizedCode = "return flash.utils.getTimer();")]
         internal static int getTimer()
         {
-            return default(int);
+            return (int)DateTime.Now.Ticks;
         }
 
-        protected TextField txtMain;
-        protected TextFormat tfNormal;
-        protected Loader bitmapLoader;
-        protected BitmapData image;
-        protected Sprite imageCont;
+        public Label txtMain;
+        //protected TextFormat tfNormal;
+        //protected Loader bitmapLoader;
+        //protected BitmapData image;
+        //protected Sprite imageCont;
         protected string[] textureFiles;
         protected int textureLoadNum;
         protected uint[][][] textures;
@@ -50,9 +44,9 @@ namespace RayCaster4.ActionScript
         protected double rotSpeed;
         protected int texWidth;
         protected int texHeight;
-        protected BitmapData screen;
-        protected Bitmap screenImage;
-        protected Sprite[] sprites; // ?
+        public Bitmap screen;
+        //protected Bitmap screenImage;
+        //protected Sprite[] sprites; // ?
         protected double[] ZBuffer;
         protected int time;
         protected int counter;
@@ -98,72 +92,67 @@ namespace RayCaster4.ActionScript
 
         public RayCaster4base()
         {
-            stage.keyDown +=
-                e =>
-                {
-                    var key = e.keyCode;
+            //stage.keyDown +=
+            //    e =>
+            //    {
+            //        var key = e.keyCode;
 
-                    fKeyUp.ProcessKeyDown(key);
-                    fKeyDown.ProcessKeyDown(key);
-                    fKeyLeft.ProcessKeyDown(key);
-                    fKeyRight.ProcessKeyDown(key);
-                };
+            //        fKeyUp.ProcessKeyDown(key);
+            //        fKeyDown.ProcessKeyDown(key);
+            //        fKeyLeft.ProcessKeyDown(key);
+            //        fKeyRight.ProcessKeyDown(key);
+            //    };
 
-            stage.keyUp +=
-                e =>
-                {
-                    var key = e.keyCode;
+            //stage.keyUp +=
+            //    e =>
+            //    {
+            //        var key = e.keyCode;
 
-                    fKeyUp.ProcessKeyUp(key);
-                    fKeyDown.ProcessKeyUp(key);
-                    fKeyLeft.ProcessKeyUp(key);
-                    fKeyRight.ProcessKeyUp(key);
-                };
+            //        fKeyUp.ProcessKeyUp(key);
+            //        fKeyDown.ProcessKeyUp(key);
+            //        fKeyLeft.ProcessKeyUp(key);
+            //        fKeyRight.ProcessKeyUp(key);
+            //    };
 
-            textures = new uint[0][][];
             textureFiles = new[] { "wall.jpg", "tech2.jpg", "roof.jpg" };
+
+            textures = new uint[textureFiles.Length][][];
             textureLoadNum = 0;
-            bitmapLoader = new Loader();
-            bitmapLoader.load(new URLRequest("flashsrc/textures/" + textureFiles[textureLoadNum]));
+            //bitmapLoader = new Loader();
+            //bitmapLoader.load(new URLRequest("flashsrc/textures/" + textureFiles[textureLoadNum]));
 
-            bitmapLoader.contentLoaderInfo.complete += onBitmapLoaded;
+            onBitmapLoaded(Image.FromFile("wall.jpg"));
+            onBitmapLoaded(Image.FromFile("tech2.jpg"));
+            onBitmapLoaded(Image.FromFile("roof.jpg"));
 
+           
         }
 
-        private void onBitmapLoaded(Event e)
+        private void onBitmapLoaded(Image bd)
         {
-            var bd = (Bitmap)(bitmapLoader.getChildAt(0));
-            var bdata = bd.bitmapData;
+            //var bd = (Bitmap)(bitmapLoader.getChildAt(0));
+            var bdata = new Bitmap(bd);
 
-            textures[textureLoadNum] = new uint[0][];
+            textures[textureLoadNum] = new uint[256][];
             for (var j = 0; j < 256; j++)
             {
-                textures[textureLoadNum][j] = new uint[0];
+                textures[textureLoadNum][j] = new uint[256];
                 for (var k = 0; k < 256; k++)
                 {
-                    textures[textureLoadNum][j][k] = bdata.getPixel(j, k);
+                    textures[textureLoadNum][j][k] = bdata.GetPixel(j, k).ToArgb().ToUInt32() & 0xffffff;
                 }
             }
 
-            if (textureLoadNum < textureFiles.Length - 1)
-            {
-                textureLoadNum++;
-                bitmapLoader.unload();
-                bitmapLoader.load(new URLRequest("flashsrc/textures/" + textureFiles[textureLoadNum]));
-            }
-            else
-            {
-                prepare();
-            }
+            textureLoadNum++;
 
         }
 
         [Script(NoDecoration = true)]
         protected uint RGBToInt(int[] rgb)
         {
-            var r = (uint)(rgb[0]) << 16;
-            var g = (uint)(rgb[1]) << 8;
-            var b = (uint)(rgb[2]);
+            var r = ((rgb[0]) << 16).ToUInt32();
+            var g = ((rgb[1]) << 8).ToUInt32();
+            var b = ((rgb[2])).ToUInt32();
             return r | g | b;
         }
 
@@ -177,28 +166,28 @@ namespace RayCaster4.ActionScript
         }
 
         // movement flag
-        protected KeyboardButton fKeyUp = new uint[] { Keyboard.UP, 'i', 'I', 'w', 'W' };
-        protected KeyboardButton fKeyDown = new uint[] { Keyboard.DOWN, 'k', 'K', 's', 'S' };
-        protected KeyboardButton fKeyLeft = new uint[] { Keyboard.LEFT, 'j', 'J', 'a', 'A' };
-        protected KeyboardButton fKeyRight = new uint[] { Keyboard.RIGHT, 'l', 'L', 'd', 'D' };
+        public KeyboardButton fKeyUp = new int[] { (int)Keys.Up, 'i', 'I', 'w', 'W' };
+        public KeyboardButton fKeyDown = new int[] { (int)Keys.Down, 'k', 'K', 's', 'S' };
+        public KeyboardButton fKeyLeft = new int[] { (int)Keys.Left, 'j', 'J', 'a', 'A' };
+        public KeyboardButton fKeyRight = new int[] { (int)Keys.Right, 'l', 'L', 'd', 'D' };
 
 
 
         [Script(NoDecoration = true)]
-        protected void prepare()
+        public void prepare()
         {
-            stage.align = StageAlign.TOP_LEFT;
+            //stage.align = StageAlign.TOP_LEFT;
             //stage.quality 	= StageQuality.LOW;
 
-            txtMain = new TextField();
-            tfNormal = new TextFormat();
-            tfNormal.font = "Verdana";
-            tfNormal.align = TextFormatAlign.LEFT;
-            tfNormal.size = 10;
-            tfNormal.color = 0xffffff;
-            txtMain.defaultTextFormat = tfNormal;
-            txtMain.autoSize = "left";
-            txtMain.appendText("0");
+            //txtMain = new TextField();
+            //tfNormal = new TextFormat();
+            //tfNormal.font = "Verdana";
+            //tfNormal.align = TextFormatAlign.LEFT;
+            //tfNormal.size = 10;
+            //tfNormal.color = 0xffffff;
+            //txtMain.defaultTextFormat = tfNormal;
+            //txtMain.autoSize = "left";
+            //txtMain.appendText("0");
 
             moveSpeed = 0.2;
             rotSpeed = 0.12;
@@ -222,19 +211,20 @@ namespace RayCaster4.ActionScript
             time = getTimer();
             counter = 0;
 
-            ZBuffer = new double[0];
+            ZBuffer = new double[320];
 
-            screen = new BitmapData(w, h, false, 0x0);
-            screenImage = new Bitmap();
-            screenImage.bitmapData = screen;
+            screen = new Bitmap(w, h);
+            //screenImage = new Image();
+            //screenImage.bitmapData = screen;
 
-            addChild(screenImage);
-            addChild(txtMain);
+            //addChild(screenImage);
+            //addChild(txtMain);
 
-            this.enterFrame += render;
+            //this.enterFrame += render;
 
             //addEventListener(Event.ENTER_FRAME, render);
 
+            render(null);
         }
 
         static bool render_DebugTrace_Assign_Active = true;
@@ -248,7 +238,7 @@ namespace RayCaster4.ActionScript
         #endif
 
         [Script(NoDecoration = true)]
-        private new void render(Event e)
+        public new void render(object e)
         {
             /* 			try {
                             screen.dispose();
@@ -258,9 +248,9 @@ namespace RayCaster4.ActionScript
                             trace("err");
                         } */
 
-            screen.floodFill(0, 0, 0x0);
-            screen.@lock();
-
+            //screen.floodFill(0, 0, 0x0);
+            //var screenData = screen.@lock();
+            
             int x;
             int y;
             DoMovement();
@@ -270,8 +260,7 @@ namespace RayCaster4.ActionScript
             {
 
                 //calculate ray position and direction
-                var cameraX = 2.0 * (double)x / (double)w - 1.0; //x-coordinate in camera space
-
+                double cameraX = 2.0 * (double)x / (double)w - 1.0; //x-coordinate in camera space
                 double rayPosX = posX;
                 double rayPosY = posY;
                 double rayDirX = dirX + planeX * cameraX;
@@ -343,11 +332,11 @@ namespace RayCaster4.ActionScript
                 double perpWallDist;
                 if (side == 0)
                 {
-                    perpWallDist = Math.Abs((mapX - rayPosX + (1 - stepX) / 2) / rayDirX);
+                    perpWallDist = Math.Abs((mapX - rayPosX + (1 - stepX) / 2.0) / rayDirX);
                 }
                 else
                 {
-                    perpWallDist = Math.Abs((mapY - rayPosY + (1 - stepY) / 2) / rayDirY);
+                    perpWallDist = Math.Abs((mapY - rayPosY + (1 - stepY) / 2.0) / rayDirY);
                 }
 
                 //Calculate height of line to draw on screen
@@ -395,6 +384,9 @@ namespace RayCaster4.ActionScript
                     var color = textures[texNum][(texX).Floor()][(texY).Floor()];
 
                     if (side == 1) color = (color >> 1) & 0x7F7F7F;
+
+                    //color = 0xff0000;
+
                     screen.setPixel(x, y, color);
 
                     y++;
@@ -454,7 +446,7 @@ namespace RayCaster4.ActionScript
                 while (y < h)
                 {
 
-                    currentDist = h / (2 * y - h); //you could make a small lookup table for this instead
+                    currentDist = (double)h / ((double)2 * (double)y - (double)h); //you could make a small lookup table for this instead
                     //currentDist = floorVals[int(y-80)];
 
                     weight = (currentDist - distPlayer) / (distWall - distPlayer);
@@ -469,6 +461,8 @@ namespace RayCaster4.ActionScript
                     {
                         var color = textures[1][floorTexX][floorTexY];
 
+                        //color = 0xff;
+
                         screen.setPixel(x, y, color); //floor
                     }
                     catch
@@ -480,13 +474,15 @@ namespace RayCaster4.ActionScript
                     {
                         var color = textures[2][floorTexX][floorTexY];
 
+                        //color = 0xff00;
+                        //color = 0xff0000;
+
                         screen.setPixel(x, h - y - 1, color); //ceiling (symmetrical!)
                     }
                     catch
                     {
                         //trace("err");
                     }
-
 
                     y++;
                 }
@@ -502,14 +498,13 @@ namespace RayCaster4.ActionScript
 
             if (getTimer() - 1000 >= time)
             {
-                txtMain.text = counter.ToString();
+                txtMain.Text = counter.ToString();
                 counter = 0;
                 time = getTimer();
             }
 
             //screenImage.bitmapData = screen;
-            screen.unlock();
-
+            //screen.UnlockBits(screenData);
 
         }
 
@@ -559,7 +554,6 @@ namespace RayCaster4.ActionScript
     /// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
     /// </summary>
     [Script, ScriptApplicationEntryPoint]
-    [SWF(width = 800, height = 420)]
     public class RayCaster4 : RayCaster4base
     {
         // http://www.digital-ist-besser.de/
@@ -568,8 +562,8 @@ namespace RayCaster4.ActionScript
         public RayCaster4()
         {
 
-            this.scaleX = 2;
-            this.scaleY = 2;
+            //this.scaleX = 2;
+            //this.scaleY = 2;
             //s.filters = new[] { new BlurFilter() };
 
         }

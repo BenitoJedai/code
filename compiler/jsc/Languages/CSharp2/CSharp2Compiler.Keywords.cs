@@ -14,6 +14,7 @@ namespace jsc.Languages.CSharp2
     {
         public enum Keywords
         {
+            _lock,
             _as,
             _base,
             _event,
@@ -50,6 +51,11 @@ namespace jsc.Languages.CSharp2
         public void WriteKeyword(Keywords kw)
         {
             this.Write(kw.ToString().Substring(1));
+        }
+
+        public IEnumerable<string> GetKeywords()
+        {
+            return Enum.GetNames(typeof(Keywords)).Select(i => i.Substring(1));
         }
 
         public void WriteKeywordSpace(Keywords kw)

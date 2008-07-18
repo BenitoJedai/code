@@ -33,9 +33,12 @@ namespace jsc.Languages.CSharp2
 
                     WriteIdent();
 
+                    var IsStatic = z.IsSealed && z.IsAbstract;
 
+                    if (IsStatic)
+                        WriteKeywordSpace(Keywords._static);
 
-                    if (!z.IsEnum && !z.IsDelegate())
+                    if (!z.IsEnum && !z.IsDelegate() && !IsStatic)
                         if (z.IsSealed)
                             WriteKeywordSpace(Keywords._sealed);
 
@@ -46,7 +49,7 @@ namespace jsc.Languages.CSharp2
                     if (ImplementsOrDefault.IsPublic || ImplementsOrDefault.IsNestedPublic)
                         WriteKeywordSpace(Keywords._public);
 
-                    if (!z.IsInterface)
+                    if (!z.IsInterface && !IsStatic)
                         if (z.IsAbstract)
                             WriteKeywordSpace(Keywords._abstract);
 
@@ -114,7 +117,7 @@ namespace jsc.Languages.CSharp2
 
                         if (!z.IsEnum)
                         {
-                            z.GetInterfaces().Aggregate(
+                            z.GetInterfaces().Where(i => i.IsPublic).Aggregate(
                                 BaseTypeWritten ? 1 : 0,
                                 (index, i) =>
                                 {
@@ -149,6 +152,7 @@ namespace jsc.Languages.CSharp2
                             else
                             {
                                 WriteTypeInstanceConstructors(z);
+                                WriteTypeStaticConstructor(z, z.ToScriptAttributeOrDefault());
 
                                 WriteLine();
 
@@ -157,6 +161,8 @@ namespace jsc.Languages.CSharp2
                                 WriteLine();
 
                                 WriteTypeInstanceMethods(z, z.ToScriptAttributeOrDefault());
+
+                                WriteTypeStaticMethods(z, z.ToScriptAttributeOrDefault());
                                 
                                 WriteLine();
 

@@ -120,6 +120,7 @@
     <Compile Include="Languages\CompilerJob.cs" />
     <Compile Include="Languages\CompilerBase.Handler.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteTypeInstanceConstructors.cs" />
+    <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteTypeStaticConstructor.cs" />
     <Compile Include="Languages\EventDetector.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteTypeFields.cs" />
     <Compile Include="Languages\CSharp2\Csharp2Compiler.EmitTryBlock.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="Languages\JavaScript\IL2ScriptGenerator.cs" />
     <Compile Include="Languages\JavaScript\MethodBodyOptimizer.cs" />
     <Compile Include="Languages\Java\CompilerJob.cs" />
+    <Compile Include="Languages\Java\JavaCompiler.WriteTypeStaticConstructor.cs" />
     <Compile Include="Languages\Java\JavaCompiler.WriteMethodCallVerified.cs" />
     <Compile Include="Languages\Java\JavaCompiler.overrride.cs" />
     <Compile Include="Languages\Java\JavaCompiler.CompileType.cs" />

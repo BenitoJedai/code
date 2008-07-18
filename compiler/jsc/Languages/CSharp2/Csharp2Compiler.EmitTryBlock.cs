@@ -52,15 +52,15 @@ namespace jsc.Languages.CSharp2
 
                 if (p.Block.Clause.Flags == ExceptionHandlingClauseOptions.Clause)
                 {
-                    Write("catch (");
+                    Write("catch");
 
                     if (p.Block.Clause.CatchType == typeof(object))
                     {
-                        WriteExceptionVar();
-                        Write(":*");
+                        WriteLine();
                     }
                     else
                     {
+                        Write(" (");
                         ILBlock.Prestatement set_exc = p.Block.Prestatements.PrestatementCommands[0];
                         WriteVariableName(p.Block.OwnerMethod.DeclaringType, p.Block.OwnerMethod, set_exc.Instruction.TargetVariable);
                         Write(":");
@@ -69,11 +69,11 @@ namespace jsc.Languages.CSharp2
 
                         // remove the set command
                         b.PrestatementCommands.RemoveAt(0);
-
+                        WriteLine(")");
                     }
 
 
-                    WriteLine(")");
+                    
 
                     EmitScope(b);
                 }

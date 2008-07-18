@@ -15,6 +15,48 @@ namespace jsc.Languages.CSharp2
     {
         private void CreateInstructionHandlers()
         {
+            Action<CodeEmitArgs> WriteCall_DebugTrace_Assign_Load =
+                 e =>
+                 {
+                     #region WriteCall_DebugTrace_Assign_Active
+                     if (WriteCall_DebugTrace_Assign_Active)
+                     {
+                         var ok = false;
+
+                         Action<Type> check = t => ok |= (t != null && t.IsValueType);
+
+                         check(e.i.TargetField == null ? null : e.i.TargetField.FieldType);
+                         check(e.i.TargetVariable == null ? null : e.i.TargetVariable.LocalType);
+                         check(e.i.TargetParameter == null ? null : e.i.TargetParameter.ParameterType);
+
+                         if (ok)
+                         {
+                             Write(" [ \" + ");
+                             WriteCall_DebugTrace_Assign_Active = false;
+
+                             CIW[e.OpCode](e);
+
+                             WriteCall_DebugTrace_Assign_Active = true;
+                             Write(" + \" ] ");
+                         }
+                     }
+                     #endregion
+                 };
+
+            #region starg
+            CIW[OpCodes.Starg_S,
+                OpCodes.Starg] =
+                e =>
+                {
+                    WriteMethodParameterOrSelf(e.i);
+                    WriteAssignment();
+                    if (EmitEnumAsStringSafe(e))
+                        return;
+
+                    Emit(e.p, e.FirstOnStack);
+                };
+            #endregion
+
             #region Newarr
             CIW[OpCodes.Newarr] =
                 e =>
@@ -164,11 +206,30 @@ namespace jsc.Languages.CSharp2
                             }
                             else
                             {
+                                int rank = 0;
+                                Type type = e.i.TargetType;
+
+                                while (type.IsArray)
+                                {
+                                    type = type.GetElementType();
+                                    rank++;
+                                }
+
                                 WriteKeywordSpace(Keywords._new);
-                                WriteGenericTypeName(e.i.OwnerMethod.DeclaringType, e.i.TargetType);
+
+                                WriteGenericTypeName(e.i.OwnerMethod.DeclaringType, type);
+
                                 Write("[");
                                 EmitFirstOnStack(e);
                                 Write("]");
+
+                                while (rank-- > 0)
+                                {
+                                    Write("[");
+                                    Write("]");
+                                }
+
+                             
 
                             }
                         }
@@ -489,6 +550,7 @@ namespace jsc.Languages.CSharp2
                OpCodes.Ldflda] =
                e =>
                {
+                   WriteCall_DebugTrace_Assign_Load(e);
 
                    Emit(e.p, e.FirstOnStack);
 
@@ -549,6 +611,8 @@ namespace jsc.Languages.CSharp2
                 OpCodes.Ldarg] =
                 e =>
                 {
+                    WriteCall_DebugTrace_Assign_Load(e);
+
                     WriteMethodParameterOrSelf(e.i);
                 };
             #endregion
@@ -572,6 +636,8 @@ namespace jsc.Languages.CSharp2
                 OpCodes.Ldloca_S] =
                e =>
                {
+                   WriteCall_DebugTrace_Assign_Load(e);
+
                    #region inline assigment
                    if (e.i.InlineAssigmentValue != null)
                    {
@@ -826,6 +892,14 @@ namespace jsc.Languages.CSharp2
                     WriteInlineOperator(e.p, e.i, "-");
                 };
 
+            CIW[OpCodes.Neg] =
+             delegate(CodeEmitArgs e)
+             {
+                 Write("(-(");
+                 EmitFirstOnStack(e);
+                 Write("))");
+             };
+
             CIW[OpCodes.Ceq, OpCodes.Beq, OpCodes.Beq_S] =
                 delegate(CodeEmitArgs e)
                 {
@@ -843,7 +917,7 @@ namespace jsc.Languages.CSharp2
 
                 CIW[OpCodes.Xor] = f("^");
                 CIW[OpCodes.Shl] = f("<<");
-                CIW[OpCodes.Shr] = f(">>");
+                CIW[OpCodes.Shr, OpCodes.Shr_Un] = f(">>");
 
                 CIW[OpCodes.Clt, OpCodes.Clt_Un] = f("<");
                 CIW[OpCodes.Cgt, OpCodes.Cgt_Un] = f(">");
@@ -863,6 +937,72 @@ namespace jsc.Languages.CSharp2
             }
             #endregion
 
+            #region Stsfld
+            CIW[OpCodes.Stsfld] =
+               e =>
+               {
+                   try
+                   {
+                       bool _b_skip_classname = false;
+
+                       if (e.Method.IsStatic && e.Method.MemberType == MemberTypes.Constructor)
+                       {
+                           if (e.i.TargetField.IsInitOnly)
+                           {
+                               // javac workaround
+
+                               _b_skip_classname = true;
+                           }
+                       }
+
+                       if (!_b_skip_classname)
+                       {
+                           WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
+                           Write(".");
+                       }
+
+                       WriteSafeLiteral(e.i.TargetField.Name);
+                       //Write(e.i.TargetField.Name);
+                       WriteAssignment();
+
+                       #region  assign boolean literal
+                       if (e.i.TargetField.FieldType == typeof(bool))
+                       {
+                           if (e.i.StackBeforeStrict[0].StackInstructions.Length == 1)
+                           {
+                               if (e.i.StackBeforeStrict[0].SingleStackInstruction.TargetInteger != null)
+                               {
+                                   if (e.i.StackBeforeStrict[0].SingleStackInstruction.TargetInteger == 0)
+                                       Write("false");
+                                   else
+                                       Write("true");
+
+                                   return;
+                               }
+                           }
+                       }
+                       #endregion
+
+                       if (EmitEnumAsStringSafe(e))
+                           return;
+
+                       Emit(e.p, e.FirstOnStack);
+                   }
+                   catch (Exception exc)
+                   {
+                       throw exc;
+                   }
+               };
+            #endregion
+            CIW[OpCodes.Ldsfld] =
+              e =>
+              {
+                  ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+
+                  WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
+                  Write(".");
+                  WriteSafeLiteral(e.i.TargetField.Name);
+              };
         }
     }
 }
