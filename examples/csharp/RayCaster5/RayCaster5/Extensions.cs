@@ -15,6 +15,11 @@ namespace RayCaster4.ActionScript
     [Script]
     internal static class Extensions
     {
+        public static void DrawLine(this Graphics g, Pen p, double x, double y, double cx, double cy)
+        {
+            g.DrawLine(p, (float)x, (float)y, (float)cx, (float)cy);
+        }
+
         [Script(OptimizedCode = "return (uint)i;")]
         public static uint ToUInt32(this int i)
         {
