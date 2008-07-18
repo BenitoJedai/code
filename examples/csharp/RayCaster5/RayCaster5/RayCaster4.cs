@@ -95,28 +95,7 @@ namespace RayCaster4.ActionScript
 
         public RayCaster4base()
         {
-            //stage.keyDown +=
-            //    e =>
-            //    {
-            //        var key = e.keyCode;
-
-            //        fKeyUp.ProcessKeyDown(key);
-            //        fKeyDown.ProcessKeyDown(key);
-            //        fKeyLeft.ProcessKeyDown(key);
-            //        fKeyRight.ProcessKeyDown(key);
-            //    };
-
-            //stage.keyUp +=
-            //    e =>
-            //    {
-            //        var key = e.keyCode;
-
-            //        fKeyUp.ProcessKeyUp(key);
-            //        fKeyDown.ProcessKeyUp(key);
-            //        fKeyLeft.ProcessKeyUp(key);
-            //        fKeyRight.ProcessKeyUp(key);
-            //    };
-
+    
             textureFiles = new[] { "wall.jpg", "tech2.jpg", "roof.jpg" };
 
             textures = new uint[textureFiles.Length][][];
@@ -124,9 +103,9 @@ namespace RayCaster4.ActionScript
             //bitmapLoader = new Loader();
             //bitmapLoader.load(new URLRequest("flashsrc/textures/" + textureFiles[textureLoadNum]));
 
-            onBitmapLoaded(Image.FromFile("wall.jpg"));
-            onBitmapLoaded(Image.FromFile("tech2.jpg"));
-            onBitmapLoaded(Image.FromFile("roof.jpg"));
+            onBitmapLoaded(Image.FromFile("wall.png"));
+            onBitmapLoaded(Image.FromFile("floor.png"));
+            onBitmapLoaded(Image.FromFile("roof.png"));
 
            
         }
@@ -136,11 +115,11 @@ namespace RayCaster4.ActionScript
             //var bd = (Bitmap)(bitmapLoader.getChildAt(0));
             var bdata = new Bitmap(bd);
 
-            textures[textureLoadNum] = new uint[256][];
-            for (var j = 0; j < 256; j++)
+            textures[textureLoadNum] = new uint[64][];
+            for (var j = 0; j < 64; j++)
             {
-                textures[textureLoadNum][j] = new uint[256];
-                for (var k = 0; k < 256; k++)
+                textures[textureLoadNum][j] = new uint[64];
+                for (var k = 0; k < 64; k++)
                 {
                     textures[textureLoadNum][j][k] = bdata.GetPixel(j, k).ToArgb().ToUInt32() & 0xffffff;
                 }
@@ -194,8 +173,8 @@ namespace RayCaster4.ActionScript
 
             moveSpeed = 0.2;
             rotSpeed = 0.12;
-            texWidth = 256;
-            texHeight = 256;
+            texWidth = 64;
+            texHeight = 64;
             posX = 22;
             posY = 11.5;
             dirX = -1;
