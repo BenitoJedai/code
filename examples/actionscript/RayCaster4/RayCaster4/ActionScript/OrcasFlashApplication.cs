@@ -27,6 +27,7 @@ namespace RayCaster4.ActionScript
     public class RayCaster4 : Sprite
     {
         // http://www.digital-ist-besser.de/
+        // http://www.fredheintz.com/sitefred/main.html
 
         public RayCaster4()
         {
