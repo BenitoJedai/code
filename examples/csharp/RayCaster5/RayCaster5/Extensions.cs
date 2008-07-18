@@ -9,15 +9,75 @@ using System.Runtime.InteropServices;
 
 namespace RayCaster4.ActionScript
 {
+    public class PointDouble
+    {
+        public double X;
+        public double Y;
+    }
+
     /// <summary>
     /// This class defines the extension methods for this project
     /// </summary>
     [Script]
     internal static class Extensions
     {
+
+        public static double DegreesToRadians(this int Degrees)
+        {
+            return (Math.PI * 2) * Degrees / 360;
+        }
+
+        public static int RadiansToDegrees(this double Arc)
+        {
+            return (360 * Arc / (Math.PI * 2)).ToInt32();
+        }
+
+        public static int ToInt32(this double e)
+        {
+            return Convert.ToInt32(e);
+        }
+
+        public static double GetDistance(this PointDouble p)
+        {
+            return Math.Sqrt(p.X * p.X + p.Y * p.Y);
+        }
+
+        public static double GetRotation(this PointDouble p)
+        {
+            var x = p.X;
+            var y = p.Y;
+
+            if (x == 0)
+                if (y < 0)
+                    return System.Math.PI / 2;
+                else
+                    return (System.Math.PI / 2) * 3;
+
+            var a = System.Math.Atan(y / x);
+
+            if (x < 0)
+                a += System.Math.PI;
+            else if (y < 0)
+                a += System.Math.PI * 2;
+
+
+            return a;
+        }
+
+        public static double Min(this double e, double x)
+        {
+            return Math.Min(e, x);
+        }
+
         public static double Min(this double e)
         {
             return Math.Min(e, 1);
+        }
+
+        public static void DrawImage(this Graphics g, Image i, double x, double y, double cx, double cy)
+        {
+            g.DrawImage(
+               i, (float)x, (float)y, (float)cx, (float)cy);
         }
 
         public static void DrawLine(this Graphics g, Pen p, double x, double y, double cx, double cy)
