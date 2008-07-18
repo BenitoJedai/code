@@ -63,7 +63,7 @@ namespace RayCaster4.ActionScript
     
             
 
-            textures = new uint[4][][];
+            textures = new uint[5][][];
             textureLoadNum = 0;
             //bitmapLoader = new Loader();
             //bitmapLoader.load(new URLRequest("flashsrc/textures/" + textureFiles[textureLoadNum]));
@@ -72,6 +72,7 @@ namespace RayCaster4.ActionScript
             onBitmapLoaded(Image.FromFile("floor.png"));
             onBitmapLoaded(Image.FromFile("roof.png"));
             onBitmapLoaded(Image.FromFile("bwall.png"));
+            onBitmapLoaded(Image.FromFile("116.png"));
 
            
         }
@@ -87,7 +88,7 @@ namespace RayCaster4.ActionScript
                 textures[textureLoadNum][j] = new uint[64];
                 for (var k = 0; k < 64; k++)
                 {
-                    textures[textureLoadNum][j][k] = bdata.GetPixel(j, k).ToArgb().ToUInt32() & 0xffffff;
+                    textures[textureLoadNum][j][k] = bdata.GetPixel(j, k).ToArgb().ToUInt32();
                 }
             }
 

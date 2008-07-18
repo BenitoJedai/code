@@ -26,16 +26,9 @@ namespace RayCaster4.ActionScript
 #endif
 
         [Script(NoDecoration = true)]
-        public new void render(object e)
+        public void render(object e)
         {
-            /* 			try {
-                            screen.dispose();
-                            screen = new BitmapData( w, h, false, 0x0 );
-                            screen.lock();
-                        } catch(e:Error) {
-                            trace("err");
-                        } */
-
+ 
             //screen.floodFill(0, 0, 0x0);
             var screenData = screen.@lock();
 
@@ -139,7 +132,7 @@ namespace RayCaster4.ActionScript
                 var texNum = worldMap[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
 
                 //if (texNum != 3)
-                    texNum = 3;
+                texNum = 3;
 
                 //texNum = 0;
 
@@ -173,11 +166,27 @@ namespace RayCaster4.ActionScript
                     var d = y * 256 - hT + lhT;  //256 and 128 factors to avoid floats
                     var texY = Math.Abs(((d * texHeight) / lineHeight) / 256);
 
-                    
+
                     var color = textures[texNum][texX][texY];
 
-                    if (side == 1) color = (color >> 1) & 0x7F7F7F;
+                    //var xxx = perpWallDist;
+                    #region apply fog
+                    var color_r = (color >> 16) & 0xff;
+                    var color_g = (color >> 8) & 0xff;
+                    var color_b = color & 0xff;
 
+                    var fog = 1 - (perpWallDist / 10).Min();
+
+                    if (side == 0)
+                        fog = (fog * 2).Min();
+
+                    color_r = (uint)(color_r * fog);
+                    color_g = (uint)(color_g * fog);
+                    color_b = (uint)(color_b * fog);
+
+
+                    color = (color_r << 16) + (color_g << 8) + color_b;
+                    #endregion
                     //color = 0xff0000;
 
                     screen.setPixel(x, y, color);
@@ -252,11 +261,27 @@ namespace RayCaster4.ActionScript
                     floorTexX = Math.Abs((currentFloorX * texWidth).Floor() % texWidth);
                     floorTexY = Math.Abs((currentFloorY * texHeight).Floor() % texHeight);
 
+                    #region floor
                     try
                     {
                         var color = textures[1][floorTexX][floorTexY];
 
-                        //color = 0xff;
+                        #region apply fog
+                        var color_r = (color >> 16) & 0xff;
+                        var color_g = (color >> 8) & 0xff;
+                        var color_b = color & 0xff;
+
+                        var fog = 1 - (currentDist / 10).Min();
+
+                        fog = (fog * 2).Min();
+
+                        color_r = (uint)(color_r * fog);
+                        color_g = (uint)(color_g * fog);
+                        color_b = (uint)(color_b * fog);
+
+
+                        color = (color_r << 16) + (color_g << 8) + color_b;
+                        #endregion
 
                         screen.setPixel(x, y, color); //floor
                     }
@@ -264,13 +289,30 @@ namespace RayCaster4.ActionScript
                     {
                         //trace("err");
                     }
+                    #endregion
 
+
+                    #region draw ceiling
                     try
                     {
                         var color = textures[2][floorTexX][floorTexY];
 
-                        //color = 0xff00;
-                        //color = 0xff0000;
+                        #region apply fog
+                        var color_r = (color >> 16) & 0xff;
+                        var color_g = (color >> 8) & 0xff;
+                        var color_b = color & 0xff;
+
+                        var fog = 1 - (currentDist / 10).Min();
+
+                        fog = (fog * 2).Min();
+
+                        color_r = (uint)(color_r * fog);
+                        color_g = (uint)(color_g * fog);
+                        color_b = (uint)(color_b * fog);
+
+
+                        color = (color_r << 16) + (color_g << 8) + color_b;
+                        #endregion
 
                         screen.setPixel(x, h - y - 1, color); //ceiling (symmetrical!)
                     }
@@ -278,7 +320,10 @@ namespace RayCaster4.ActionScript
                     {
                         //trace("err");
                     }
-
+                    #endregion
+                    
+                    // draw sprites here
+                    
                     y++;
                 }
                 #endregion
@@ -333,10 +378,11 @@ namespace RayCaster4.ActionScript
                         }
                     }
 
-                g.DrawLine(Pens.Red, posX, posY, posX + dirX * 2, posY + dirY * 2);
+                g.DrawLine(Pens.Red, posX, posY, posX + dirX * 1, posY + dirY * 1);
 
 
-                
+                g.DrawLine(Pens.Yellow, Sprite1_posX, Sprite1_posY, Sprite1_posX + 1, Sprite1_posY);
+
 
             }
 
@@ -346,7 +392,12 @@ namespace RayCaster4.ActionScript
 
         Image PistolImage = Image.FromFile("pistol.png");
         Image HudImage = Image.FromFile("hud.png");
+        Image Sprite1 = Image.FromFile("116.png");
 
+
+
+        public double Sprite1_posX = 20;
+        public double Sprite1_posY = 12;
     }
 
 }

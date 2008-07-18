@@ -15,6 +15,11 @@ namespace RayCaster4.ActionScript
     [Script]
     internal static class Extensions
     {
+        public static double Min(this double e)
+        {
+            return Math.Min(e, 1);
+        }
+
         public static void DrawLine(this Graphics g, Pen p, double x, double y, double cx, double cy)
         {
             g.DrawLine(p, (float)x, (float)y, (float)cx, (float)cy);
