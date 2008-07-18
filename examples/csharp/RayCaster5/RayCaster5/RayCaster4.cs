@@ -54,7 +54,7 @@ namespace RayCaster4.ActionScript
         protected int time;
         protected int counter;
 
-        protected int[][] worldMap;
+
 
 
 
@@ -142,8 +142,8 @@ namespace RayCaster4.ActionScript
             rotSpeed = 0.12;
             texWidth = 64;
             texHeight = 64;
-            posX = 22;
-            posY = 11.5;
+            posX = 22.5;
+            posY = 13.5;
             dirX = -1;
             dirY = 0;
             planeX = 0;
@@ -184,13 +184,13 @@ namespace RayCaster4.ActionScript
 
             if (fKeyUp)
             {
-                if (worldMap[(posX + dirX * moveSpeed).Floor()][(posY).Floor()] == 0) posX += dirX * moveSpeed;
-                if (worldMap[(posX).Floor()][(posY + dirY * moveSpeed).Floor()] == 0) posY += dirY * moveSpeed;
+                if (worldMap[(posX + dirX * moveSpeed).Floor(),(posY).Floor()] == 0) posX += dirX * moveSpeed;
+                if (worldMap[(posX).Floor(),(posY + dirY * moveSpeed).Floor()] == 0) posY += dirY * moveSpeed;
             }
             if (fKeyDown)
             {
-                if (worldMap[(posX - dirX * moveSpeed).Floor()][(posY).Floor()] == 0) posX -= dirX * moveSpeed;
-                if (worldMap[(posX).Floor()][(posY - dirY * moveSpeed).Floor()] == 0) posY -= dirY * moveSpeed;
+                if (worldMap[(posX - dirX * moveSpeed).Floor(),(posY).Floor()] == 0) posX -= dirX * moveSpeed;
+                if (worldMap[(posX).Floor(),(posY - dirY * moveSpeed).Floor()] == 0) posY -= dirY * moveSpeed;
             }
             if (fKeyRight)
             { //both camera direction and camera plane must be rotated

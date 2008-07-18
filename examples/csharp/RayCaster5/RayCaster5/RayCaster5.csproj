@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Array2DSByte.cs" />
     <Compile Include="RayCaster4.setWorldMap.cs" />
     <Compile Include="RayCaster4.render.cs" />
     <Compile Include="Extensions.cs" />

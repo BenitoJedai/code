@@ -124,7 +124,7 @@ namespace RayCaster4.ActionScript
                         mapY += stepY;
                         side = 1;
                     }
-                    if (worldMap[mapX][mapY] > 0)
+                    if (worldMap[mapX, mapY] > 0)
                     {
                         hit = 1; //Check if ray has hit a wall   
                     }
@@ -141,6 +141,12 @@ namespace RayCaster4.ActionScript
                     perpWallDist = Math.Abs((mapY - rayPosY + (1 - stepY) / 2.0) / rayDirY);
                 }
 
+                if (perpWallDist == 0)
+                {
+                    x++;
+                    continue;
+                }
+
                 //Calculate height of line to draw on screen
                 var lineHeight = Math.Abs((h / perpWallDist).Floor());
 
@@ -150,7 +156,7 @@ namespace RayCaster4.ActionScript
                 var drawEnd = (lineHeight / 2 + h / 2).Floor();
                 if (drawEnd >= h) drawEnd = h;
 
-                var texNum = worldMap[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+                var texNum = worldMap[mapX, mapY] - 1; //1 subtracted from it so that texture 0 can be used!
 
                 //if (texNum != 3)
                 texNum = 3;
@@ -396,8 +402,9 @@ namespace RayCaster4.ActionScript
                                         distance = DeltaToSprite.GetDistance(),
                                         z = (1 / DeltaToSprite.GetDistance()) * 4,
                                         x = x,
-                                        Text = new {
-                                            distance =  DeltaToSprite.GetDistance()
+                                        Text = new
+                                        {
+                                            distance = DeltaToSprite.GetDistance()
 
                                             //dir = DeltaToSprite.GetRotation().RadiansToDegrees(), rayDirLeft = rayDirLeft.RadiansToDegrees(), rayDirRight = rayDirRight.RadiansToDegrees() 
                                         }.ToString().Replace(",", "\n")
@@ -450,7 +457,7 @@ namespace RayCaster4.ActionScript
                         var iystart = r.Rectangle.Top;
                         for (int iy = iystart.Max(0); iy < r.Rectangle.Bottom.Min(h); iy++)
                         {
-                            
+
                             var target_y = (iy - iystart) * 64 / r.Rectangle.Height;
 
                             var color = AsTextureWhichHasBits[target_x][target_y];
@@ -520,10 +527,10 @@ namespace RayCaster4.ActionScript
                 g.ScaleTransform(4, 4);
                 // i want a minimap!
 
-                for (int iy = 0; iy < worldMap.Length; iy++)
-                    for (int ix = 0; ix < worldMap[iy].Length; ix++)
+                for (int iy = 0; iy < worldMap.YLength; iy++)
+                    for (int ix = 0; ix < worldMap.XLength; ix++)
                     {
-                        var cell = worldMap[iy][ix];
+                        var cell = worldMap[ix, iy];
 
                         if (cell == 0)
                         {
@@ -531,7 +538,7 @@ namespace RayCaster4.ActionScript
                         }
                         else
                         {
-                            g.FillRectangle(colors[cell % colors.Length], iy, ix, 1, 1);
+                            g.FillRectangle(colors[cell % colors.Length], ix, iy, 1, 1);
 
                         }
                     }
@@ -616,15 +623,15 @@ namespace RayCaster4.ActionScript
 
             public Image Image;
 
-            
+
         }
 
         public Sprite[] Sprites =
             new[] {
-                new Sprite { X = 20.5, Y = 12.5, Image = Sprite1, DrawAsImage = false  },
-                new Sprite { X = 18.9, Y = 11.5, Image = Sprite2 },
-                new Sprite { X = 18.5, Y = 12.5, Image = Sprite1, DrawAsImage = false  },
-                new Sprite { X = 18.5, Y = 10.5, Image = Sprite1, DrawAsImage = false },
+                new Sprite { X = 20.5, Y = 15.5, Image = Sprite1, DrawAsImage = false  },
+                new Sprite { X = 18.9, Y = 16.5, Image = Sprite2 },
+                new Sprite { X = 18.5, Y = 16.5, Image = Sprite1, DrawAsImage = false  },
+                new Sprite { X = 18.5, Y = 15.5, Image = Sprite1, DrawAsImage = false },
             };
 
     }

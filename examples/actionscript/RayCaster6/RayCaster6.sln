@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C# Express 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayCaster4", "RayCaster4\RayCaster4.csproj", "{DCCE8932-F958-4A73-8CEB-06B041EBB885}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayCaster6", "RayCaster6\RayCaster6.csproj", "{DCCE8932-F958-4A73-8CEB-06B041EBB885}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

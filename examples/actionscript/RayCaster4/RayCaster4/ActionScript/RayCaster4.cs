@@ -559,7 +559,7 @@ namespace RayCaster4.ActionScript
     /// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
     /// </summary>
     [Script, ScriptApplicationEntryPoint]
-    [SWF(width = 800, height = 420)]
+    [SWF(width = 640, height = 480)]
     public class RayCaster4 : RayCaster4base
     {
         // http://www.digital-ist-besser.de/
