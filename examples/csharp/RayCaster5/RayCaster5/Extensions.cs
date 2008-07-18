@@ -21,6 +21,25 @@ namespace RayCaster4.ActionScript
     [Script]
     internal static class Extensions
     {
+        public static bool IsInView(this double e, double left, double right)
+        {
+            if (left > right)
+            {
+                if (e >left)
+                    return false;
+
+                if (e < right)
+                    return false;
+
+
+                return true;
+            }
+
+
+           
+
+            return e.IsInView(left + Math.PI * 4, right);
+        }
 
         public static double DegreesToRadians(this int Degrees)
         {
@@ -69,10 +88,22 @@ namespace RayCaster4.ActionScript
             return Math.Min(e, x);
         }
 
+        public static int Min(this int e, int x)
+        {
+            return Math.Min(e, x);
+        }
+
+        public static int Max(this int e, int x)
+        {
+            return Math.Max(e, x);
+        }
+
+
         public static double Min(this double e)
         {
             return Math.Min(e, 1);
         }
+
 
         public static void DrawImage(this Graphics g, Image i, double x, double y, double cx, double cy)
         {
@@ -101,6 +132,20 @@ namespace RayCaster4.ActionScript
         public static int ToInt32(this ulong i)
         {
             return (int)i;
+        }
+
+        public static void setPixelTransparent(this Bitmap b, int x, int y, uint c)
+        {
+            ulong a = (c );
+
+            if (lock_cache.ContainsKey(b))
+            {
+                var d = lock_cache[b];
+
+                Marshal.WriteInt32(d.Scan0, x * 4 + y * d.Stride, a.ToInt32());
+            }
+            else
+                b.SetPixel(x, y, Color.FromArgb(a.ToInt32()));
         }
 
         public static void setPixel(this Bitmap b, int x, int y, uint c)

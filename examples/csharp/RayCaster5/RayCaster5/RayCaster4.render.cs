@@ -353,7 +353,7 @@ namespace RayCaster4.ActionScript
                 }
                 #endregion
 
-               
+
                 foreach (var s in Sprites)
                 {
                     var DeltaToSprite =
@@ -366,11 +366,11 @@ namespace RayCaster4.ActionScript
 
                     var DirectionToSprite = Math.Abs(DeltaToSprite.GetRotation() - rayDir);
 
-                    if (DirectionToSprite > (rayDirLeft % (Math.PI * 4)))
+                    if (!DeltaToSprite.GetRotation().IsInView(rayDirLeft, rayDirRight))
                     {
                         continue;
                     }
-                
+
 
                     if (s.ScanComplete)
                     {
@@ -386,16 +386,25 @@ namespace RayCaster4.ActionScript
                         {
                             if (s.ScanDir < DirectionToSprite)
                             {
+
+                                var ScanDir = s.ScanDir;
+
                                 DelayDrawSprites.Add(
                                     new SpriteDrawRequest
                                     {
                                         Sprite = s,
+                                        distance = DeltaToSprite.GetDistance(),
                                         z = (1 / DeltaToSprite.GetDistance()) * 4,
                                         x = x,
+                                        Text = new {
+                                            distance =  DeltaToSprite.GetDistance()
+
+                                            //dir = DeltaToSprite.GetRotation().RadiansToDegrees(), rayDirLeft = rayDirLeft.RadiansToDegrees(), rayDirRight = rayDirRight.RadiansToDegrees() 
+                                        }.ToString().Replace(",", "\n")
                                     }
                                 );
 
-                          
+
 
                                 //for (int _y = 0; _y < (120 * z).ToInt32(); _y++)
                                 //{
@@ -415,13 +424,60 @@ namespace RayCaster4.ActionScript
                         }
                     }
 
-                 
+
                 }
 
                 x++;
 
                 if (x > 4)
                     render_DebugTrace_Assign_Active = false;
+            }
+
+            // draw clipped sprites
+            foreach (var r in DelayDrawSprites.Where(i => !i.Sprite.DrawAsImage).OrderBy(i => i.z))
+            {
+                // hardcoded for now
+                var AsTextureWhichHasBits = textures[4];
+
+                var ixstart = r.Rectangle.Left;
+
+                for (int ix = ixstart.Max(0); ix < r.Rectangle.Right.Min(w); ix++)
+                {
+                    if (ZBuffer[ix] > r.distance)
+                    {
+                        var target_x = (ix - ixstart) * 64 / r.Rectangle.Width;
+
+                        var iystart = r.Rectangle.Top;
+                        for (int iy = iystart.Max(0); iy < r.Rectangle.Bottom.Min(h); iy++)
+                        {
+                            
+                            var target_y = (iy - iystart) * 64 / r.Rectangle.Height;
+
+                            var color = AsTextureWhichHasBits[target_x][target_y];
+
+                            #region apply fog
+                            var color_a = (color >> 24) & 0xff;
+                            var color_r = (color >> 16) & 0xff;
+                            var color_g = (color >> 8) & 0xff;
+                            var color_b = color & 0xff;
+
+                            var fog = 1 - (r.distance / 10).Min();
+
+                            fog = (fog * 2).Min();
+
+                            color_r = (uint)(color_r * fog);
+                            color_g = (uint)(color_g * fog);
+                            color_b = (uint)(color_b * fog);
+
+
+                            color = (color_r << 16) + (color_g << 8) + color_b;
+                            #endregion
+
+                            if (color_a == 0xff)
+                                screen.setPixel(ix, iy, color);
+                        }
+                    }
+                }
             }
 
             counter++;
@@ -447,11 +503,14 @@ namespace RayCaster4.ActionScript
             {
                 foreach (var r in DelayDrawSprites.OrderBy(i => i.z))
                 {
-                     g.DrawImage(r.Sprite.Image,
-                                    r.x - r.Sprite.Image.Width / 2 * r.z,
-                                    120 - r.Sprite.Image.Height / 2 * r.z,
-                                    (r.Sprite.Image.Width * r.z),
-                                    (r.Sprite.Image.Width * r.z));
+                    if (r.Sprite.DrawAsImage)
+                        g.DrawImage(r.Sprite.Image, r.Rectangle);
+                    else
+                        g.DrawRectangle(Pens.Goldenrod, r.Rectangle);
+
+                    if (!string.IsNullOrEmpty(r.Text))
+                        g.DrawString(r.Text, SystemFonts.DefaultFont, Brushes.Red, r.Rectangle.X, 120);
+
                 }
 
                 var colors = new[] { green, yellow, blue, purple, cyan };
@@ -498,14 +557,48 @@ namespace RayCaster4.ActionScript
 
         static Image Sprite1 = Image.FromFile("116.png");
         static Image Sprite2 = Image.FromFile("lamp.png");
-        
+
         public class SpriteDrawRequest
         {
+            public double distance;
+
             public Sprite Sprite;
 
             public int x;
 
             public double z;
+
+            Rectangle GetRectangle()
+            {
+                return new Rectangle
+                {
+                    X = (this.x - this.Sprite.Image.Width / 2 * this.z).ToInt32(),
+                    Y = (120 - this.Sprite.Image.Height / 2 * this.z).ToInt32(),
+                    Width = (this.Sprite.Image.Width * this.z).ToInt32(),
+                    Height = (this.Sprite.Image.Height * this.z).ToInt32()
+                };
+            }
+
+
+            bool _RectangleEmpty = true;
+            Rectangle _Rectangle;
+
+            public Rectangle Rectangle
+            {
+                get
+                {
+                    if (_RectangleEmpty)
+                    {
+                        _Rectangle = GetRectangle();
+                        _RectangleEmpty = false;
+                    }
+
+
+                    return _Rectangle;
+                }
+            }
+
+            public string Text;
         }
 
         public class Sprite : PointDouble
@@ -514,19 +607,24 @@ namespace RayCaster4.ActionScript
             public bool ScanValid;
             public double ScanDir;
 
+            public bool DrawAsImage = true;
+
             public override string ToString()
             {
                 return new { ScanDir }.ToString();
             }
 
             public Image Image;
+
+            
         }
 
         public Sprite[] Sprites =
             new[] {
-                new Sprite { X = 20.5, Y = 12.5, Image = Sprite1 },
+                new Sprite { X = 20.5, Y = 12.5, Image = Sprite1, DrawAsImage = false  },
                 new Sprite { X = 18.9, Y = 11.5, Image = Sprite2 },
-                new Sprite { X = 18.5, Y = 12.5, Image = Sprite1 },
+                new Sprite { X = 18.5, Y = 12.5, Image = Sprite1, DrawAsImage = false  },
+                new Sprite { X = 18.5, Y = 10.5, Image = Sprite1, DrawAsImage = false },
             };
 
     }
