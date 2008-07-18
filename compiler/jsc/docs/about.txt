@@ -122,3 +122,4 @@ version history:
 	java: added InitializeArray support
 18.07.2008
 	actionscript: fixed ldftn
+	actionscript: method now supports the [Script(NoDecoration = true)] attribute

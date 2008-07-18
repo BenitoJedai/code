@@ -1063,7 +1063,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         //     System.Double.NaNIf d is equal to System.Double.NaN or System.Double.PositiveInfinity,
         //     that value is returned.
         [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
-        public static double Sqrt(double d) { throw new NotImplementedException(); }
+        public static double Sqrt(double d) { return global::ScriptCoreLib.ActionScript.Math.sqrt(d); }
         //
         // Summary:
         //     Returns the tangent of the specified angle.

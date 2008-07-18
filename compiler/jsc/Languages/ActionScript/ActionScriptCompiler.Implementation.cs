@@ -53,7 +53,7 @@ namespace jsc.Languages.ActionScript
             return ScriptCoreLib.ScriptType.ActionScript;
         }
 
-        
+
 
         private Action WriteTypeStaticConstructor(Type z, ScriptAttribute za)
         {
@@ -359,7 +359,7 @@ namespace jsc.Languages.ActionScript
             WriteLine();
         }
 
- 
+
         private void WriteCustomAttributes(ICustomAttributeProvider zfn)
         {
             foreach (var v in from i in zfn.GetCustomAttributes(false)
@@ -447,7 +447,7 @@ namespace jsc.Languages.ActionScript
 
 
 
-      
+
 
         public override void WriteSelf()
         {
@@ -555,7 +555,7 @@ namespace jsc.Languages.ActionScript
                 // todo: should use base62 encoding here
 
                 var s = z.DeclaringType.ToScriptAttribute();
-                if (s != null && s.IsNative)
+                if (s != null && s.IsNative || z.ToScriptAttributeOrDefault().NoDecoration)
                     WriteSafeLiteral(z.Name);
                 else
                     WriteSafeLiteral(z.Name + "_" + z.MetadataToken);

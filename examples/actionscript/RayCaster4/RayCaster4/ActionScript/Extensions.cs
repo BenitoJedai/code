@@ -12,5 +12,19 @@ namespace RayCaster4.ActionScript
     [Script]
     internal static class Extensions
     {
+
+
+        public static int Floor(this int e)
+        {
+            return e;
+        }
+
+        //[Script(OptimizedCode = "return int(e);")]
+        [Script(IsDebugCode = true)]
+        public static int Floor(this double e)
+        {
+            return (int)e;
+        }
+
     }
 }

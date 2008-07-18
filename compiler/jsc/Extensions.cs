@@ -98,6 +98,33 @@ namespace jsc //.Extensions
             return a;
         }
 
+        public static double[] StructAsDoubleArray(this object data)
+        {
+            // http://www.vsj.co.uk/articles/display.asp?id=501
+
+            var size = Marshal.SizeOf(data);
+            var buf = Marshal.AllocHGlobal(size);
+
+
+            Marshal.StructureToPtr(data, buf, false);
+
+            var a = new double[size / sizeof(double)];
+
+            unsafe
+            {
+                var p = (double*)buf;
+                for (int i = 0; i < a.Length; i++)
+                {
+                    a[i] = *p;
+                    p++;
+                }
+            }
+
+            Marshal.FreeHGlobal(buf);
+
+            return a;
+        }
+
         public static int[] StructAsInt32Array(this object data)
         {
             // http://www.vsj.co.uk/articles/display.asp?id=501

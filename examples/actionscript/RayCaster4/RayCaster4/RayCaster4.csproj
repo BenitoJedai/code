@@ -51,7 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\Assets.cs" />
-    <Compile Include="ActionScript\OrcasFlashApplication.cs" />
+    <Compile Include="ActionScript\KeyboardButton.cs" />
+    <Compile Include="ActionScript\RayCaster4.cs" />
     <Compile Include="ActionScript\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
@@ -83,12 +84,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
-    <Content Include="web\Main2.as">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\Main.as">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="web\assets\" />

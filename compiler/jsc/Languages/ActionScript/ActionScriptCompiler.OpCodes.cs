@@ -494,14 +494,43 @@ namespace jsc.Languages.ActionScript
 
                 CIW[OpCodes.Xor] = f("^");
                 CIW[OpCodes.Shl] = f("<<");
-                CIW[OpCodes.Shr] = f(">>");
+                CIW[OpCodes.Shr,
+                    OpCodes.Shr_Un] = f(">>");
 
                 CIW[OpCodes.Clt, OpCodes.Clt_Un] = f("<");
                 CIW[OpCodes.Cgt, OpCodes.Cgt_Un] = f(">");
 
-                // bitwise or logigal
-                CIW[OpCodes.Or] = f("||");
-                CIW[OpCodes.And] = f("&&");
+                // sho
+                CIW[OpCodes.Or] =
+                    e =>
+                    {
+                        // acctionscript does not accept short-circut or on boolean
+                        if (e.i.StackBeforeStrict[0].SingleStackInstruction.ReferencedType ==
+                            e.i.StackBeforeStrict[1].SingleStackInstruction.ReferencedType &&
+                            e.i.StackBeforeStrict[0].SingleStackInstruction.ReferencedType == typeof(bool))
+                        {
+                            WriteInlineOperator(e.p, e.i, "||");
+                            return;
+                        }
+
+                        WriteInlineOperator(e.p, e.i, "|");
+                    };
+
+                CIW[OpCodes.And] =
+                    e =>
+                    {
+                        // acctionscript does not accept short-circut or on boolean
+                        if (e.i.StackBeforeStrict[0].SingleStackInstruction.ReferencedType ==
+                            e.i.StackBeforeStrict[1].SingleStackInstruction.ReferencedType &&
+                            e.i.StackBeforeStrict[0].SingleStackInstruction.ReferencedType == typeof(bool))
+                        {
+                            WriteInlineOperator(e.p, e.i, "&&");
+                            return;
+                        }
+
+                        WriteInlineOperator(e.p, e.i, "&");
+                    };
+
                 CIW[OpCodes.Rem] = f("%");
                 CIW[OpCodes.Mul] = f("*");
                 CIW[OpCodes.Div, OpCodes.Div_Un] = f("/");
@@ -554,7 +583,7 @@ namespace jsc.Languages.ActionScript
                     {
                         WriteLine("[");
 
-                 
+
 
                         Ident++;
 
@@ -599,7 +628,7 @@ namespace jsc.Languages.ActionScript
 
                         Ident--;
 
-                  
+
 
                         WriteIdent();
                         Write("]");
@@ -645,8 +674,22 @@ namespace jsc.Languages.ActionScript
                                 }
                                 Write("]");
                             }
+                            else if (Type == typeof(double))
+                            {
+                                var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsDoubleArray();
+
+                                Write("[");
+                                for (int i = 0; i < Values.Length; i++)
+                                {
+                                    if (i > 0)
+                                        Write(", ");
+
+                                    Write(Values[i].ToString());
+                                }
+                                Write("]");
+                            }
                             else
-                                throw new NotImplementedException();
+                                throw new NotImplementedException(Type.Name);
 
 
 
