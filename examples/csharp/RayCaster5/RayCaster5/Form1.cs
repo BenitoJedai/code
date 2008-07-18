@@ -29,7 +29,13 @@ namespace RayCaster5
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.DrawImage(Virtual.screen, Point.Empty);
+            e.Graphics.DrawImage(
+                Virtual.screen,
+                0,
+                0,
+
+                Virtual.screen.Width * 2,
+                Virtual.screen.Height * 2);
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)

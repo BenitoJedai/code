@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 
 namespace RayCaster4.ActionScript
 {
@@ -36,13 +37,23 @@ namespace RayCaster4.ActionScript
         {
             ulong a = (c | 0xff000000);
 
-            b.SetPixel(x, y, Color.FromArgb(a.ToInt32()));
+            if (lock_cache.ContainsKey(b))
+            {
+                var d = lock_cache[b];
+
+                Marshal.WriteInt32(d.Scan0, x * 4 + y * d.Stride, a.ToInt32());
+            }
+            else
+                b.SetPixel(x, y, Color.FromArgb(a.ToInt32()));
         }
+
+        static Dictionary<Bitmap, BitmapData> lock_cache = new Dictionary<Bitmap, BitmapData>();
 
         public static BitmapData @lock(this Bitmap b)
         {
-            return b.LockBits(
-                new Rectangle(0, 0, b.Width, b.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.DontCare
+            
+            return lock_cache[b] = b.LockBits(
+                new Rectangle(0, 0, b.Width, b.Height), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb
                 );
         }
 

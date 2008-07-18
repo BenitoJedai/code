@@ -15,10 +15,13 @@ namespace RayCaster4.ActionScript
     [Script]
     public class RayCaster4base //: Sprite
     {
+        private const long TicksPerMillisecond = 0x10000;
+
+
         // http://livedocs.adobe.com/flex/2/langref/flash/utils/package.html#getTimer()
         internal static int getTimer()
         {
-            return (int)DateTime.Now.Ticks;
+            return (int)(DateTime.Now.Ticks / TicksPerMillisecond);
         }
 
         public Label txtMain;
@@ -249,7 +252,7 @@ namespace RayCaster4.ActionScript
                         } */
 
             //screen.floodFill(0, 0, 0x0);
-            //var screenData = screen.@lock();
+            var screenData = screen.@lock();
             
             int x;
             int y;
@@ -454,8 +457,8 @@ namespace RayCaster4.ActionScript
                     currentFloorX = weight * floorXWall + (1.0 - weight) * posX;
                     currentFloorY = weight * floorYWall + (1.0 - weight) * posY;
 
-                    floorTexX = (currentFloorX * texWidth).Floor() % texWidth;
-                    floorTexY = (currentFloorY * texHeight).Floor() % texHeight;
+                    floorTexX = Math.Abs((currentFloorX * texWidth).Floor() % texWidth);
+                    floorTexY = Math.Abs((currentFloorY * texHeight).Floor() % texHeight);
 
                     try
                     {
@@ -504,7 +507,7 @@ namespace RayCaster4.ActionScript
             }
 
             //screenImage.bitmapData = screen;
-            //screen.UnlockBits(screenData);
+            screen.UnlockBits(screenData);
 
         }
 
