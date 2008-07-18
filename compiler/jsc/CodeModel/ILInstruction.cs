@@ -618,7 +618,7 @@ namespace jsc
 
                 foreach (ILFlow.StackItem x in s)
                 {
-                    string si = x.ToString();
+                    // string si = x.ToString();
 
                     foreach (ILInstruction z in x.StackInstructions)
                     {

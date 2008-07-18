@@ -9,6 +9,7 @@ namespace RayCaster1.source.java
 
     partial class RayCaster1Base
     {
+  
 
         //*******************************************************************//
         //* Renderer
@@ -242,6 +243,10 @@ namespace RayCaster1.source.java
                     dist = distToVerticalGridBeingHit;
                 }
 
+                //  { dist = 36.948284202698105, castColumn = 0, fFishTable = 1.1547005383792512, 
+                // xIntersection = 103.43842805965508, horizontalGrid = 15, distToHorizontalGridBeingHit = 64.01108736559279,
+                // verticalGrid = 80, yIntersection = 29.52905780629071, distToVerticalGridBeingHit = 36.948284202698105 }
+
                 // correct distance (compensate for the fishbown effect)
                 dist /= fFishTable[castColumn];
                 // projected_wall_height/wall_height = fPlayerDistToProjectionPlane/dist;
@@ -250,6 +255,7 @@ namespace RayCaster1.source.java
                 int projectedWallHeight = (int)(WALL_HEIGHT * projectedWallHeightPercentage);
                 bottomOfWall = fProjectionPlaneYCenter + (int)(projectedWallHeight * 0.5F);
                 topOfWall = PROJECTIONPLANEHEIGHT - bottomOfWall;
+
                 if (bottomOfWall >= PROJECTIONPLANEHEIGHT)
                     bottomOfWall = PROJECTIONPLANEHEIGHT - 1;
 

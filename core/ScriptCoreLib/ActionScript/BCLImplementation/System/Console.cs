@@ -18,7 +18,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
         public static void WriteLine(string e)
         {
-            trace(e + "\n");
+            trace(e);
         }
 
         public static void WriteLine()

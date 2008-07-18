@@ -1175,6 +1175,22 @@ namespace jsc.Script
             if (p.Instruction.IsLoadInstruction)
                 BreakToDebugger("statement cannot be a load instruction (compiler fault?): " + p.Instruction.Location);
 
+            var DebugTrace = default(MethodInfo);
+
+            if (p.Instruction.IsStoreInstruction)
+            {
+                DebugTrace = p.DeclaringMethod.DeclaringType.GetMethod(
+                    p.DeclaringMethod.Name + "_DebugTrace_Assign", BindingFlags.Static | BindingFlags.NonPublic,
+                    null, CallingConventions.Any, new[] { typeof(string) }, null);
+
+                if (DebugTrace != null)
+                {
+                    WriteCall_DebugTrace_Assign(DebugTrace, p);
+
+                }
+
+            }
+
 
             WriteIdent();
 
@@ -1182,6 +1198,15 @@ namespace jsc.Script
             {
                 EmitInstruction(p, p.Instruction);
                 WriteLine(";");
+
+                if (p.Instruction.IsStoreInstruction)
+                {
+                    if (DebugTrace != null)
+                    {
+                        WriteCall_DebugTrace_AfterAssign(DebugTrace, p);
+
+                    }
+                }
             }
             catch (SkipThisPrestatementException exc)
             {
@@ -1191,9 +1216,21 @@ namespace jsc.Script
             {
                 throw;
             }
+
+
+            
+ 
         }
 
 
+        public virtual void WriteCall_DebugTrace_Assign(MethodInfo m, ILBlock.Prestatement p)
+        {
+
+        }
+        public virtual void WriteCall_DebugTrace_AfterAssign(MethodInfo m, ILBlock.Prestatement p)
+        {
+
+        }
 
     }
 }

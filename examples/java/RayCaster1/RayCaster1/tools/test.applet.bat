@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-call build
+::call build
 
 call find.java appletviewer.exe
 set TargetPath=%ReturnValue%
@@ -22,7 +22,7 @@ if not exist %AppletWebPage% (
 )
 
 
-call %TargetPath% "%AppletWebPage%"
+call %TargetPath% "%AppletWebPage%" > test.log
 
 
 popd

@@ -13,6 +13,14 @@ namespace RayCaster1.source.java
     partial class RayCaster1Base
     {
 
+        static bool render_DebugTrace_Assign_Active = true;
+
+        private static void render_DebugTrace_Assign(string e)
+        {
+            if (render_DebugTrace_Assign_Active)
+                Console.WriteLine(e);
+        }
+
         //*******************************************************************//
         //* Renderer
         //*******************************************************************//
@@ -286,7 +294,6 @@ namespace RayCaster1.source.java
                 //fOffscreenGraphics.drawLine(castColumn, topOfWall, castColumn, bottomOfWall);
                 fOffscreenGraphics.fillRect(castColumn, topOfWall, 5, projectedWallHeight);
 
-                Console.WriteLine("x: " + castColumn + " y: " + topOfWall + " h" + projectedWallHeight);
 
                 // TRACE THE NEXT RAY
                 castArc += 5;
@@ -298,7 +305,8 @@ namespace RayCaster1.source.java
             BlitToScreen();
 
             // freeze
-            fThread.stop();
+            render_DebugTrace_Assign_Active = false;
+            
         }
 
 

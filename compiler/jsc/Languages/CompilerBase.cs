@@ -343,9 +343,14 @@ namespace jsc.Script
                 WriteQuote();
         }
 
+        public bool WriteIdent_Enabled = true;
+
         public void WriteIdent()
         {
-            Write(new string(' ', Ident * 4));
+            if (WriteIdent_Enabled)
+                Write(new string(' ', Ident * 4));
+            else
+                Write(" ");
         }
 
         public void WriteNumeric(double i)
@@ -368,9 +373,16 @@ namespace jsc.Script
         }
 
 
+        public bool WriteLine_NewLineEnabled = true;
+
         public void WriteLine()
         {
-            MyWriter.WriteLine();
+            if (WriteLine_NewLineEnabled)
+
+                MyWriter.WriteLine();
+            else
+                WriteSpace();
+
         }
 
         public void WriteSpace()
@@ -381,7 +393,13 @@ namespace jsc.Script
 
         public void WriteLine(string p)
         {
-            MyWriter.WriteLine(p);
+            if (WriteLine_NewLineEnabled)
+                MyWriter.WriteLine(p);
+            else
+            {
+                Write(p);
+                WriteSpace();
+            }
         }
 
 

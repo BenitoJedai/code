@@ -152,6 +152,35 @@ namespace jsc.Languages.ActionScript
                 };
             #endregion
 
+            Action<CodeEmitArgs> WriteCall_DebugTrace_Assign_Load =
+                e =>
+                {
+                    #region WriteCall_DebugTrace_Assign_Active
+                    if (WriteCall_DebugTrace_Assign_Active)
+                    {
+                        var ok = false;
+
+                        Action<Type> check = t => ok |= (t != null && t.IsValueType);
+
+                        check(e.i.TargetField == null ? null : e.i.TargetField.FieldType);
+                        check(e.i.TargetVariable == null ? null : e.i.TargetVariable.LocalType);
+                        check(e.i.TargetParameter == null ? null : e.i.TargetParameter.ParameterType);
+
+                        if (ok)
+                        {
+                            Write(" [ \" + ");
+                            WriteCall_DebugTrace_Assign_Active = false;
+
+                            CIW[e.OpCode](e);
+
+                            WriteCall_DebugTrace_Assign_Active = true;
+                            Write(" + \" ] ");
+                        }
+                    }
+                    #endregion
+                };
+
+
 
             #region Ldloc
             CIW[OpCodes.Ldloc_0,
@@ -164,6 +193,8 @@ namespace jsc.Languages.ActionScript
                 OpCodes.Ldloca_S] =
                e =>
                {
+                   WriteCall_DebugTrace_Assign_Load(e);
+
                    #region inline assigment
                    if (e.i.InlineAssigmentValue != null)
                    {
@@ -212,6 +243,7 @@ namespace jsc.Languages.ActionScript
                 OpCodes.Ldflda] =
                 e =>
                 {
+                    WriteCall_DebugTrace_Assign_Load(e);
 
                     Emit(e.p, e.FirstOnStack);
                     Write(".");
@@ -259,7 +291,16 @@ namespace jsc.Languages.ActionScript
             CIW[OpCodes.Ldstr] =
                 e =>
                 {
-                    WriteQuotedLiteral(e.i.TargetLiteral);
+                    if (WriteCall_DebugTrace_Assign_Active)
+                        Write("\\\"");
+                    else
+                        Write("\"");
+                    WriteDecoratedLiteralString(e.i.TargetLiteral);
+
+                    if (WriteCall_DebugTrace_Assign_Active)
+                        Write("\\\"");
+                    else
+                        Write("\"");
                 };
 
 
@@ -274,6 +315,8 @@ namespace jsc.Languages.ActionScript
                 OpCodes.Ldarg] =
                 e =>
                 {
+                    WriteCall_DebugTrace_Assign_Load(e);
+
                     WriteMethodParameterOrSelf(e.i);
                 };
             #endregion
@@ -510,6 +553,9 @@ namespace jsc.Languages.ActionScript
                     if (e.p != null && e.p.IsValidInlineArrayInit)
                     {
                         WriteLine("[");
+
+                 
+
                         Ident++;
 
                         ILFlow.StackItem[] _stack = e.p.InlineArrayInitElements;
@@ -552,6 +598,9 @@ namespace jsc.Languages.ActionScript
                         WriteLine();
 
                         Ident--;
+
+                  
+
                         WriteIdent();
                         Write("]");
                     }
@@ -885,6 +934,13 @@ namespace jsc.Languages.ActionScript
                             Write(".");
                             WriteDecoratedMethodName(_IntPtr_Function, false);
                             Write("(");
+                            // jsc does not tell us the upper instructrion
+                            // we must  assume that the upper instruction
+                            // takes a stack of two (target, method)
+
+                            EmitInstruction(e.p, e.i.Prev);
+                            Write(".");
+
                             WriteDecoratedMethodName(e.i.TargetMethod, false);
                             Write(")");
                         }

@@ -23,7 +23,7 @@ namespace RayCaster2.ActionScript
         //*******************************************************************//
         public void run()
         {
-            fOffscreenGraphics.clear();
+            //fOffscreenGraphics.clear();
 
             // rotate left
             if (fKeyLeft)

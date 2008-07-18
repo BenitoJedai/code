@@ -15,6 +15,9 @@ namespace RayCaster2.ActionScript
     [SWF(width = DefaultWidth, height = DefaultHeight)]
     public partial class RayCaster2 : Sprite
     {
+        // more: http://labs.zeh.com.br/blog/?p=57
+        // more: http://www.digital-ist-besser.de/
+
         // !! this is a port from the RayCaster 1 java applet project
 
         public const int DefaultWidth = 640 + 100;
@@ -54,7 +57,9 @@ namespace RayCaster2.ActionScript
             fOffscreenGraphics = fOffscreenImage.graphics;
             fOffscreenImage.AttachTo(this);
 
-            fThread = 50.AtInterval(t => run());
+           // fThread = 50.AtInterval(t => run());
+
+            stage.enterFrame += e => run();
         }
 
         Timer fThread;

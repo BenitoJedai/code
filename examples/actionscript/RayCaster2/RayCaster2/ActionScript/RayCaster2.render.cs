@@ -3,6 +3,7 @@ using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.flash.utils;
 using System;
+using System.Diagnostics;
 
 namespace RayCaster2.ActionScript
 {
@@ -10,6 +11,15 @@ namespace RayCaster2.ActionScript
     {
         // !! this is a port from the RayCaster 1 java applet project
 
+        static bool render2_DebugTrace_Assign_Active = true;
+
+#if DebugTrace_Assign
+        private static void render2_DebugTrace_Assign(string e)
+        {
+            if (render2_DebugTrace_Assign_Active)
+                Console.WriteLine(e);
+        }
+#endif
 
         //*******************************************************************//
         //* Renderer
@@ -73,7 +83,7 @@ namespace RayCaster2.ActionScript
                     // truncuate then add to get the coordinate of the FIRST grid (horizontal
                     // wall) that is in front of the player (this is in pixel unit)
                     // ROUND DOWN
-                    horizontalGrid = (fPlayerY / TILE_SIZE) * TILE_SIZE + TILE_SIZE;
+                    horizontalGrid = (fPlayerY / TILE_SIZE).ToInt32() * TILE_SIZE + TILE_SIZE;
 
                     // compute distance to the next horizontal wall
                     distToNextHorizontalGrid = TILE_SIZE;
@@ -89,7 +99,7 @@ namespace RayCaster2.ActionScript
                 // else, the ray is facing up
                 else
                 {
-                    horizontalGrid = (fPlayerY / TILE_SIZE) * TILE_SIZE;
+                    horizontalGrid = (fPlayerY / TILE_SIZE).ToInt32() * TILE_SIZE;
                     distToNextHorizontalGrid = -TILE_SIZE;
 
                     double xtemp = fITanTable[castArc] * (horizontalGrid - fPlayerY);
@@ -111,9 +121,9 @@ namespace RayCaster2.ActionScript
                     var loop1 = true;
                     while (loop1)
                     {
-                        xGridIndex = (int)(xIntersection / TILE_SIZE);
+                        xGridIndex = (int)(xIntersection / TILE_SIZE).Floor();
                         // in the picture, yGridIndex will be 1
-                        yGridIndex = (horizontalGrid / TILE_SIZE);
+                        yGridIndex = (horizontalGrid / TILE_SIZE).ToInt32();
 
                         if (myMap.ToRectInt32().IsOutSide(
                                 new PointInt32
@@ -153,7 +163,7 @@ namespace RayCaster2.ActionScript
                 if (!castArc.IsBetween(ANGLE90, ANGLE270))
                 //if (castArc < ANGLE90 || castArc > ANGLE270)
                 {
-                    verticalGrid = TILE_SIZE + (fPlayerX / TILE_SIZE) * TILE_SIZE;
+                    verticalGrid = TILE_SIZE + (fPlayerX / TILE_SIZE).ToInt32() * TILE_SIZE;
                     distToNextVerticalGrid = TILE_SIZE;
 
                     double ytemp = fTanTable[castArc] * (verticalGrid - fPlayerX);
@@ -162,7 +172,7 @@ namespace RayCaster2.ActionScript
                 // RAY FACING LEFT
                 else
                 {
-                    verticalGrid = (fPlayerX / TILE_SIZE) * TILE_SIZE;
+                    verticalGrid = (fPlayerX / TILE_SIZE).ToInt32() * TILE_SIZE;
                     distToNextVerticalGrid = -TILE_SIZE;
 
                     double ytemp = fTanTable[castArc] * (verticalGrid - fPlayerX);
@@ -183,8 +193,8 @@ namespace RayCaster2.ActionScript
                     while (loop2)
                     {
                         // compute current map position to inspect
-                        xGridIndex = (verticalGrid / TILE_SIZE);
-                        yGridIndex = (int)(yIntersection / TILE_SIZE);
+                        xGridIndex = (verticalGrid / TILE_SIZE).ToInt32();
+                        yGridIndex = (int)(yIntersection / TILE_SIZE).Floor();
 
                         if (myMap.ToRectInt32().IsOutSide(
                                 new PointInt32
@@ -244,13 +254,35 @@ namespace RayCaster2.ActionScript
                 }
 
                 // correct distance (compensate for the fishbown effect)
+                dist_eq_32_00(dist.FuzzyEquals(32.00, 0.01),
+                    new
+                    {
+                        dist,
+                        castColumn,
+                        fFishTable = fFishTable[castColumn],
+                        xIntersection,
+                        horizontalGrid,
+                        distToHorizontalGridBeingHit,
+                        verticalGrid,
+                        yIntersection,
+                        distToVerticalGridBeingHit
+                    }.ToString());
                 dist /= fFishTable[castColumn];
                 // projected_wall_height/wall_height = fPlayerDistToProjectionPlane/dist;
                 var projectedWallHeightPercentage = (double)fPlayerDistanceToTheProjectionPlane / dist;
+                projectedWallHeightPercentage_eq_9_99(projectedWallHeightPercentage.FuzzyEquals(9.99, 0.01), new { fPlayerDistanceToTheProjectionPlane, dist, projectedWallHeightPercentage }.ToString());
 
                 int projectedWallHeight = (int)(WALL_HEIGHT * projectedWallHeightPercentage);
+                projectedWallHeight_eq_639(projectedWallHeight == 639, new { WALL_HEIGHT, projectedWallHeightPercentage, projectedWallHeight }.ToString());
+
+
                 bottomOfWall = fProjectionPlaneYCenter + (int)(projectedWallHeight * 0.5F);
+                bottomOfWall_eq_559(bottomOfWall == 559, new { fProjectionPlaneYCenter, projectedWallHeight, bottomOfWall }.ToString());
+
                 topOfWall = PROJECTIONPLANEHEIGHT - bottomOfWall;
+                topOfWall_eq_79(topOfWall == 79, new { PROJECTIONPLANEHEIGHT, bottomOfWall, topOfWall }.ToString());
+
+
                 if (bottomOfWall >= PROJECTIONPLANEHEIGHT)
                     bottomOfWall = PROJECTIONPLANEHEIGHT - 1;
 
@@ -286,10 +318,12 @@ namespace RayCaster2.ActionScript
                 //fOffscreenGraphics.drawLine(castColumn, topOfWall, castColumn, bottomOfWall);
                 fOffscreenGraphics.lineStyle(0, 0, 0);
                 fOffscreenGraphics.drawRect(castColumn, topOfWall, 5, projectedWallHeight);
-                Console.WriteLine("x: " + castColumn + " y: " + topOfWall + " h" + projectedWallHeight);
+
+
+
                 // y = 79;
                 // h = 639;
-                    
+
                 // TRACE THE NEXT RAY
                 castArc += 5;
                 if (castArc >= ANGLE360)
@@ -300,9 +334,44 @@ namespace RayCaster2.ActionScript
             // blit to screen
 
             // freeze
-            fThread.stop();
+            //fThread.stop();
+
+            render2_DebugTrace_Assign_Active = false;
         }
 
+        Action<bool, string> dist_eq_32_00 = new AssertOnce { Message = "dist_eq_32_00" };
+        Action<bool, string> projectedWallHeightPercentage_eq_9_99 = new AssertOnce { Message = "projectedWallHeightPercentage_eq_9_99" };
+        Action<bool, string> projectedWallHeight_eq_639 = new AssertOnce { Message = "projectedWallHeight_eq_639" };
+        Action<bool, string> bottomOfWall_eq_559 = new AssertOnce { Message = "bottomOfWall_eq_559" };
+        Action<bool, string> topOfWall_eq_79 = new AssertOnce { Message = "topOfWall_eq_79" };
 
+        [Script]
+        class AssertOnce
+        {
+            bool Once;
+
+            public string Message;
+
+            public void Assert(bool v, string message)
+            {
+                if (Once)
+                    return;
+                Once = true;
+
+                if (v)
+                    return;
+
+
+                Console.WriteLine("Assert: " + Message + " " + message);
+
+
+                //throw new Exception(Message + " " + message);
+            }
+
+            public static implicit operator Action<bool, string>(AssertOnce e)
+            {
+                return e.Assert;
+            }
+        }
     }
 }

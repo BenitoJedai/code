@@ -1051,5 +1051,56 @@ namespace jsc.Languages.Java
             Write(".class");
         }
 
+        /// <summary>
+        /// a special opcode emit mode
+        /// </summary>
+        bool WriteCall_DebugTrace_Assign_Active;
+
+        public override void WriteCall_DebugTrace_AfterAssign(MethodInfo m, ILBlock.Prestatement p)
+        {
+            if (p.Instruction.TargetVariable == null)
+                return;
+
+            WriteIdent();
+            WriteDecoratedMethodName(m, false);
+            Write("(");
+
+            Write("\"");
+
+            Write(" [ ");
+            WriteVariableName(p.Instruction.OwnerMethod.DeclaringType, p.Instruction.OwnerMethod, p.Instruction.TargetVariable);
+            Write(" ] \" + ");
+            WriteVariableName(p.Instruction.OwnerMethod.DeclaringType, p.Instruction.OwnerMethod, p.Instruction.TargetVariable);
+
+            Write(")");
+            WriteLine(";");
+        }
+
+        public override void WriteCall_DebugTrace_Assign(MethodInfo m, ILBlock.Prestatement p)
+        {
+            if (WriteCall_DebugTrace_Assign_Active)
+                return;
+
+            WriteIdent();
+            WriteDecoratedMethodName(m, false);
+            Write("(");
+
+            Write("\"");
+
+            WriteCall_DebugTrace_Assign_Active = true;
+            WriteLine_NewLineEnabled = false;
+            WriteIdent_Enabled = false;
+
+            EmitInstruction(p, p.Instruction);
+
+            WriteIdent_Enabled = true;
+            WriteLine_NewLineEnabled = true;
+            WriteCall_DebugTrace_Assign_Active = false;
+
+            Write("\"");
+
+            Write(")");
+            WriteLine(";");
+        }
     }
 }

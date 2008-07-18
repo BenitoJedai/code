@@ -70,6 +70,29 @@ namespace RayCaster2.ActionScript
     [Script]
     public static class MyExtensions
     {
+        public static int ToInt32(this int e)
+        {
+            return e;
+        }
+
+        public static int Floor(this double e)
+        {
+            return (int)Math.Floor(e);
+        }
+
+        public static bool FuzzyEquals(this double e, double x, double margin)
+        {
+            var v = e - x;
+
+            if (v > margin)
+                return false;
+
+            if (v < margin)
+                return false;
+
+            return true;
+        }
+
         public static string ToDebugString(this double[] e)
         {
             var v = "length: " + e.Length + "\n";

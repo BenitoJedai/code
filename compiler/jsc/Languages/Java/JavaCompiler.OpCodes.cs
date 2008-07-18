@@ -23,7 +23,33 @@ namespace jsc.Languages.Java
     {
         private void CreateInstructionHandlers()
         {
+            Action<CodeEmitArgs> WriteCall_DebugTrace_Assign_Load =
+                e =>
+                {
+                    #region WriteCall_DebugTrace_Assign_Active
+                    if (WriteCall_DebugTrace_Assign_Active)
+                    {
+                        var ok = false;
 
+                        Action<Type> check = t => ok |= (t != null && t.IsValueType);
+
+                        check(e.i.TargetField == null ? null : e.i.TargetField.FieldType);
+                        check(e.i.TargetVariable == null ? null : e.i.TargetVariable.LocalType);
+                        check(e.i.TargetParameter == null ? null : e.i.TargetParameter.ParameterType);
+
+                        if (ok)
+                        {
+                            Write(" [ \" + ");
+                            WriteCall_DebugTrace_Assign_Active = false;
+
+                            CIW[e.OpCode](e);
+
+                            WriteCall_DebugTrace_Assign_Active = true;
+                            Write(" + \" ] ");
+                        }
+                    }
+                    #endregion
+                };
 
             #region elem_ref
             CIW[OpCodes.Ldelem_Ref,
@@ -166,6 +192,8 @@ namespace jsc.Languages.Java
             CIW[OpCodes.Ldfld] =
                 e =>
                 {
+
+                    WriteCall_DebugTrace_Assign_Load(e);
 
                     Emit(e.p, e.FirstOnStack);
                     Write(".");
@@ -542,6 +570,8 @@ namespace jsc.Languages.Java
                 OpCodes.Ldarg] =
                 e =>
                 {
+                    WriteCall_DebugTrace_Assign_Load(e);
+
                     WriteMethodParameterOrSelf(e.i);
                 };
             #endregion
@@ -589,6 +619,24 @@ namespace jsc.Languages.Java
 
                        if (EmitEnumAsStringSafe(e))
                            return;
+
+                       #region  assign boolean literal
+                       if (e.i.TargetField.FieldType == typeof(bool))
+                       {
+                           if (e.i.StackBeforeStrict[0].StackInstructions.Length == 1)
+                           {
+                               if (e.i.StackBeforeStrict[0].SingleStackInstruction.TargetInteger != null)
+                               {
+                                   if (e.i.StackBeforeStrict[0].SingleStackInstruction.TargetInteger == 0)
+                                       Write("false");
+                                   else
+                                       Write("true");
+
+                                   return;
+                               }
+                           }
+                       }
+                       #endregion
 
                        Emit(e.p, e.FirstOnStack);
                    }
@@ -765,6 +813,8 @@ namespace jsc.Languages.Java
                 OpCodes.Ldloca_S] =
                e =>
                {
+                   WriteCall_DebugTrace_Assign_Load(e);
+
                    #region inline assigment
                    if (e.i.InlineAssigmentValue != null)
                    {
@@ -804,7 +854,16 @@ namespace jsc.Languages.Java
             CIW[OpCodes.Ldstr] =
                 e =>
                 {
-                    WriteQuotedLiteral(e.i.TargetLiteral);
+                    if (WriteCall_DebugTrace_Assign_Active)
+                        Write("\\\"");
+                    else
+                        Write("\"");
+                    WriteDecoratedLiteralString(e.i.TargetLiteral);
+
+                    if (WriteCall_DebugTrace_Assign_Active)
+                        Write("\\\"");
+                    else
+                        Write("\"");
                 };
 
 
