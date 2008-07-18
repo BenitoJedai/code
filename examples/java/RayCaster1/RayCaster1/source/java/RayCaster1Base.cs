@@ -12,6 +12,8 @@ namespace RayCaster1.source.java
     [Script]
     public partial class RayCaster1Base : Applet, Runnable
     {
+        // http://www.permadi.com/java/rayc/Rayc.java
+
         // this is Java's stuff 
         protected Thread fThread;
 

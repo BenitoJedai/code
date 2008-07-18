@@ -29,7 +29,7 @@ namespace RayCaster1.source.java
         protected static readonly sbyte O = 0;
 
         // size of tile (wall height)
-        public static readonly int TILE_SIZE = 32;
+        public static readonly int TILE_SIZE = 64;
         public static readonly int WALL_HEIGHT = 64;
 
         protected static readonly int MAP_WIDTH = 14;

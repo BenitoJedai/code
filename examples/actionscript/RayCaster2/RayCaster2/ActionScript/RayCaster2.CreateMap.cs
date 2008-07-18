@@ -28,7 +28,7 @@ namespace RayCaster2.ActionScript
         protected static readonly sbyte O = 0;
 
         // size of tile (wall height)
-        public static readonly int TILE_SIZE = 32;
+        public static readonly int TILE_SIZE = 64;
         public static readonly int WALL_HEIGHT = 64;
 
         protected static readonly int MAP_WIDTH = 14;
@@ -65,7 +65,7 @@ namespace RayCaster2.ActionScript
                 W, O, O, O, O, O, O, O, O, O, B, O, O, W,
                 W, O, O, O, O, O, O, O, O, O, G, O, O, W,
                 W, O, O, O, O, O, O, O, W, O, G, G, O, W,
-                W, O, O, W, O, R, O, O, W, O, O, O, O, W,
+                W, O, O, W, O, R, O, O, W, O, O, O, O, O,
                 W, O, O, W, O, W, W, O, W, O, W, W, O, W,
                 W, R, W, W, O, O, W, O, W, O, W, W, O, W,
                 W, W, W, W, W, O, W, O, W, O, W, O, O, W,

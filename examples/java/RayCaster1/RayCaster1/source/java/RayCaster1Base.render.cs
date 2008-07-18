@@ -15,11 +15,13 @@ namespace RayCaster1.source.java
 
         static bool render_DebugTrace_Assign_Active = true;
 
+#if DebugTrace_Assign
         private static void render_DebugTrace_Assign(string e)
         {
             if (render_DebugTrace_Assign_Active)
                 Console.WriteLine(e);
         }
+#endif
 
         //*******************************************************************//
         //* Renderer
@@ -73,7 +75,8 @@ namespace RayCaster1.source.java
                 castArc = ANGLE360 + castArc;
             }
 
-            for (castColumn = 0; castColumn < PROJECTIONPLANEWIDTH; castColumn += 5)
+            var castColumnStep = 2;
+            for (castColumn = 0; castColumn < PROJECTIONPLANEWIDTH; castColumn += castColumnStep)
             {
                 // ray is between 0 to 180 degree (1st and 2nd quadrant)
                 // ray is facing down
@@ -292,11 +295,11 @@ namespace RayCaster1.source.java
                 }
 
                 //fOffscreenGraphics.drawLine(castColumn, topOfWall, castColumn, bottomOfWall);
-                fOffscreenGraphics.fillRect(castColumn, topOfWall, 5, projectedWallHeight);
+                fOffscreenGraphics.fillRect(castColumn, topOfWall, castColumnStep, projectedWallHeight);
 
 
                 // TRACE THE NEXT RAY
-                castArc += 5;
+                castArc += castColumnStep;
                 if (castArc >= ANGLE360)
                     castArc -= ANGLE360;
             }

@@ -4,6 +4,7 @@ using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.flash.utils;
 using System;
 using System.Diagnostics;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace RayCaster2.ActionScript
 {
@@ -26,6 +27,10 @@ namespace RayCaster2.ActionScript
         //*******************************************************************//
         public void render2()
         {
+            fOffscreenGraphics.fillRect(
+                new Rectangle { width = DefaultWidth - 100, height = DefaultHeight }
+                , 0);
+
             drawBackground();
             drawOverheadMap();
 
@@ -73,7 +78,9 @@ namespace RayCaster2.ActionScript
                 castArc = ANGLE360 + castArc;
             }
 
-            for (castColumn = 0; castColumn < PROJECTIONPLANEWIDTH; castColumn += 5)
+            var castColumnStep = 4;
+
+            for (castColumn = 0; castColumn < PROJECTIONPLANEWIDTH; castColumn += castColumnStep)
             {
                 // ray is between 0 to 180 degree (1st and 2nd quadrant)
                 // ray is facing down
@@ -254,70 +261,73 @@ namespace RayCaster2.ActionScript
                 }
 
                 // correct distance (compensate for the fishbown effect)
-                dist_eq_32_00(dist.FuzzyEquals(32.00, 0.01),
-                    new
-                    {
-                        dist,
-                        castColumn,
-                        fFishTable = fFishTable[castColumn],
-                        xIntersection,
-                        horizontalGrid,
-                        distToHorizontalGridBeingHit,
-                        verticalGrid,
-                        yIntersection,
-                        distToVerticalGridBeingHit
-                    }.ToString());
+                //dist_eq_32_00(dist.FuzzyEquals(32.00, 0.01),
+                //    new
+                //    {
+                //        dist,
+                //        castColumn,
+                //        fFishTable = fFishTable[castColumn],
+                //        xIntersection,
+                //        horizontalGrid,
+                //        distToHorizontalGridBeingHit,
+                //        verticalGrid,
+                //        yIntersection,
+                //        distToVerticalGridBeingHit
+                //    }.ToString());
                 dist /= fFishTable[castColumn];
                 // projected_wall_height/wall_height = fPlayerDistToProjectionPlane/dist;
                 var projectedWallHeightPercentage = (double)fPlayerDistanceToTheProjectionPlane / dist;
-                projectedWallHeightPercentage_eq_9_99(projectedWallHeightPercentage.FuzzyEquals(9.99, 0.01), new { fPlayerDistanceToTheProjectionPlane, dist, projectedWallHeightPercentage }.ToString());
+                //projectedWallHeightPercentage_eq_9_99(projectedWallHeightPercentage.FuzzyEquals(9.99, 0.01), new { fPlayerDistanceToTheProjectionPlane, dist, projectedWallHeightPercentage }.ToString());
 
                 int projectedWallHeight = (int)(WALL_HEIGHT * projectedWallHeightPercentage);
-                projectedWallHeight_eq_639(projectedWallHeight == 639, new { WALL_HEIGHT, projectedWallHeightPercentage, projectedWallHeight }.ToString());
+                //projectedWallHeight_eq_639(projectedWallHeight == 639, new { WALL_HEIGHT, projectedWallHeightPercentage, projectedWallHeight }.ToString());
 
 
                 bottomOfWall = fProjectionPlaneYCenter + (int)(projectedWallHeight * 0.5F);
-                bottomOfWall_eq_559(bottomOfWall == 559, new { fProjectionPlaneYCenter, projectedWallHeight, bottomOfWall }.ToString());
+                //bottomOfWall_eq_559(bottomOfWall == 559, new { fProjectionPlaneYCenter, projectedWallHeight, bottomOfWall }.ToString());
 
                 topOfWall = PROJECTIONPLANEHEIGHT - bottomOfWall;
-                topOfWall_eq_79(topOfWall == 79, new { PROJECTIONPLANEHEIGHT, bottomOfWall, topOfWall }.ToString());
+                //topOfWall_eq_79(topOfWall == 79, new { PROJECTIONPLANEHEIGHT, bottomOfWall, topOfWall }.ToString());
 
 
                 if (bottomOfWall >= PROJECTIONPLANEHEIGHT)
                     bottomOfWall = PROJECTIONPLANEHEIGHT - 1;
+
+                var color = 0u;
 
                 #region get color
                 if (distToHorizontalGridBeingHit < distToVerticalGridBeingHit)
                 {
                     if (HorizontalGridBeingHit != W)
                     {
-                        fOffscreenGraphics.beginFill(GetWallColor(HorizontalGridBeingHit, true));
+                        color = GetWallColor(HorizontalGridBeingHit, true);
                     }
                     else
                     {
-                        GrayColor g = 0xa0 * projectedWallHeightPercentage.Min(1);
+                        GrayColor g = 0xa0 * (projectedWallHeightPercentage * 0.5).Min(1);
 
-                        fOffscreenGraphics.beginFill(g);
+                        color = g;
                     }
                 }
                 else
                 {
                     if (VerticalGridBeingHit != W)
                     {
-                        fOffscreenGraphics.beginFill(GetWallColor(VerticalGridBeingHit, false));
+                        color = GetWallColor(VerticalGridBeingHit, false);
                     }
                     else
                     {
-                        GrayColor g = 0x70 * projectedWallHeightPercentage.Min(1);
+                        GrayColor g = 0x70 * (projectedWallHeightPercentage * 0.5).Min(1);
 
-                        fOffscreenGraphics.beginFill(g);
+                        color = g;
                     }
                 }
                 #endregion
 
                 //fOffscreenGraphics.drawLine(castColumn, topOfWall, castColumn, bottomOfWall);
-                fOffscreenGraphics.lineStyle(0, 0, 0);
-                fOffscreenGraphics.drawRect(castColumn, topOfWall, 5, projectedWallHeight);
+                //fOffscreenGraphics.lineStyle(0, 0, 0);
+                fOffscreenGraphics.fillRect(
+                    new Rectangle(castColumn, topOfWall, castColumnStep, projectedWallHeight), color);
 
 
 
@@ -325,25 +335,28 @@ namespace RayCaster2.ActionScript
                 // h = 639;
 
                 // TRACE THE NEXT RAY
-                castArc += 5;
+                castArc += castColumnStep;
                 if (castArc >= ANGLE360)
                     castArc -= ANGLE360;
             }
 
 
             // blit to screen
-
+            
+            graphics.beginBitmapFill(fOffscreenGraphics);
+            graphics.drawRect(0, 0, fOffscreenGraphics.width, fOffscreenGraphics.height);
+            graphics.endFill();
             // freeze
             //fThread.stop();
 
             render2_DebugTrace_Assign_Active = false;
         }
 
-        Action<bool, string> dist_eq_32_00 = new AssertOnce { Message = "dist_eq_32_00" };
-        Action<bool, string> projectedWallHeightPercentage_eq_9_99 = new AssertOnce { Message = "projectedWallHeightPercentage_eq_9_99" };
-        Action<bool, string> projectedWallHeight_eq_639 = new AssertOnce { Message = "projectedWallHeight_eq_639" };
-        Action<bool, string> bottomOfWall_eq_559 = new AssertOnce { Message = "bottomOfWall_eq_559" };
-        Action<bool, string> topOfWall_eq_79 = new AssertOnce { Message = "topOfWall_eq_79" };
+        //Action<bool, string> dist_eq_32_00 = new AssertOnce { Message = "dist_eq_32_00" };
+        //Action<bool, string> projectedWallHeightPercentage_eq_9_99 = new AssertOnce { Message = "projectedWallHeightPercentage_eq_9_99" };
+        //Action<bool, string> projectedWallHeight_eq_639 = new AssertOnce { Message = "projectedWallHeight_eq_639" };
+        //Action<bool, string> bottomOfWall_eq_559 = new AssertOnce { Message = "bottomOfWall_eq_559" };
+        //Action<bool, string> topOfWall_eq_79 = new AssertOnce { Message = "topOfWall_eq_79" };
 
         [Script]
         class AssertOnce

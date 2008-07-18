@@ -5,10 +5,11 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace RayCaster2.ActionScript
 {
-    
+
     [Script]
     public class PointInt32
     {
@@ -70,6 +71,39 @@ namespace RayCaster2.ActionScript
     [Script]
     public static class MyExtensions
     {
+        public static void drawLine(this BitmapData e, uint color, int x, int y, int cx, int cy)
+        {
+            e.@lock();
+
+
+
+            var dx = cx - x;
+            var dy = cy - y;
+
+
+            Action<int, int> setPixel = (mul, div) =>
+                e.setPixel((x + dx * mul / div), (y + dy * mul / div), color);
+
+            var len = new Point { x = dx, y = dy }.length.Floor().Min(64);
+
+            if (len > 2)
+            {
+                for (int i = 0; i < len + 1; i++)
+                {
+                    setPixel(i, len);
+                }
+            }
+            else
+            {
+                setPixel(0, 1);
+                setPixel(1, 1);
+            }
+
+   
+
+            e.unlock();
+        }
+
         public static int ToInt32(this int e)
         {
             return e;

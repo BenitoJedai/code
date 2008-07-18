@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace ScriptCoreLib.ActionScript.flash.display
 {
@@ -9,6 +10,41 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public sealed class Graphics
     {
+        #region Methods
+        /// <summary>
+        /// Fills a drawing area with a bitmap image.
+        /// </summary>
+        public void beginBitmapFill(BitmapData bitmap, Matrix matrix, bool repeat, bool smooth)
+        {
+        }
+
+        /// <summary>
+        /// Fills a drawing area with a bitmap image.
+        /// </summary>
+        public void beginBitmapFill(BitmapData bitmap, Matrix matrix, bool repeat)
+        {
+        }
+
+        /// <summary>
+        /// Fills a drawing area with a bitmap image.
+        /// </summary>
+        public void beginBitmapFill(BitmapData bitmap, Matrix matrix)
+        {
+        }
+
+        /// <summary>
+        /// Fills a drawing area with a bitmap image.
+        /// </summary>
+        public void beginBitmapFill(BitmapData bitmap)
+        {
+        }
+
+        #endregion
+
+        #region Constructors
+        #endregion
+
+
         public void beginGradientFill(string type, uint[] colors, double[] alphas, int[] ratios)
         {
         }

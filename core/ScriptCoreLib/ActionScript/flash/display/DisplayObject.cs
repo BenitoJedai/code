@@ -18,7 +18,7 @@ namespace ScriptCoreLib.ActionScript.flash.display
     /// The DisplayObject class is the base class for all objects that can be placed on the display list. The display list manages all objects displayed in Flash Player or Adobe AIR. Use the DisplayObjectContainer class to arrange the display objects in the display list. DisplayObjectContainer objects can have child display objects, while other display objects, such as Shape and TextField objects, are "leaf" nodes that have only parents and siblings, no children.
     /// </summary>
     [Script(IsNative = true)]
-    public class DisplayObject : EventDispatcher
+    public class DisplayObject : EventDispatcher, IBitmapDrawable
     {
         #region Events
         /// <summary>

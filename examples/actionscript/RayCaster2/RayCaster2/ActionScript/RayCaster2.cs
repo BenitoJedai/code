@@ -5,14 +5,15 @@ using ScriptCoreLib.ActionScript.flash.utils;
 using System;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace RayCaster2.ActionScript
 {
     /// <summary>
     /// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
     /// </summary>
-    [Script, ScriptApplicationEntryPoint]
-    [SWF(width = DefaultWidth, height = DefaultHeight)]
+    [Script, ScriptApplicationEntryPoint(Width = DefaultWidth * DefaultScale, Height = DefaultHeight * DefaultScale)]
+    [SWF(width = DefaultWidth * DefaultScale, height = DefaultHeight * DefaultScale)]
     public partial class RayCaster2 : Sprite
     {
         // more: http://www.digital-ist-besser.de/?cat=0&id=0
@@ -24,7 +25,8 @@ namespace RayCaster2.ActionScript
         // !! this is a port from the RayCaster 1 java applet project
 
         public const int DefaultWidth = 320 + 100;
-        public const int DefaultHeight = 240;
+        public const int DefaultHeight = 200;
+        public const int DefaultScale = 2;
 
         /// <summary>
         /// Default constructor
@@ -56,17 +58,21 @@ namespace RayCaster2.ActionScript
 
             createTables();
 
-            fOffscreenImage = new Shape(); // createImage(getSize().width, getSize().height);
-            fOffscreenImage.cacheAsBitmap = true;
-            fOffscreenGraphics = fOffscreenImage.graphics;
-            fOffscreenImage.AttachTo(this);
+            var data = new BitmapData(DefaultWidth, DefaultHeight, false);
+            var bitmap = new Bitmap(data);
 
-            fThread = 50.AtInterval(t => run());
-
-          
+            bitmap.scaleX = DefaultScale;
+            bitmap.scaleY = DefaultScale;
 
 
-            //stage.enterFrame += e => run();
+            fOffscreenGraphics = data;
+            bitmap.AttachTo(this);
+
+
+
+
+
+            stage.enterFrame += e => run();
         }
 
         Timer fThread;
@@ -91,8 +97,8 @@ namespace RayCaster2.ActionScript
         public static readonly int ANGLE10 = (ANGLE5 * 2);
 
         // offscreen buffer
-        protected Shape fOffscreenImage;
-        protected Graphics fOffscreenGraphics;
+        //protected Shape fOffscreenImage;
+        protected BitmapData fOffscreenGraphics;
 
 
 
@@ -213,7 +219,7 @@ namespace RayCaster2.ActionScript
             //    "YStep:\n" + fYStepTable.ToDebugString() ;
 
             //throw new Exception(Log);
-            
+
 
             CreateMap();
 
@@ -260,9 +266,12 @@ namespace RayCaster2.ActionScript
             {
                 var red = (int)(255.0 * r / PROJECTIONPLANEHEIGHT);
 
-                fOffscreenGraphics.beginFill((uint)(0x7dE1 + (red << 16)));
+                //fOffscreenGraphics.beginFill((uint)(0x7dE1 + (red << 16)));
                 //fOffscreenGraphics.setColor(new Color(red, 125, 225));
-                fOffscreenGraphics.drawRect(0, r, PROJECTIONPLANEWIDTH, 10);
+                fOffscreenGraphics.fillRect(
+                    new Rectangle(0, r, PROJECTIONPLANEWIDTH, 10),
+                    (uint)(0x7dE1 + (red << 16))
+                    );
                 c += 20;
             }
             // ground
@@ -271,9 +280,12 @@ namespace RayCaster2.ActionScript
             {
                 var red2 = (int)(128.0 * r / PROJECTIONPLANEHEIGHT);
 
-                fOffscreenGraphics.beginFill((uint)(0x140014 + (red2 << 8)));
+                //fOffscreenGraphics.beginFill((uint)(0x140014 + (red2 << 8)));
                 //fOffscreenGraphics.setColor(new Color(20, red2, 20));
-                fOffscreenGraphics.drawRect(0, r, PROJECTIONPLANEWIDTH, 15);
+                fOffscreenGraphics.fillRect(
+                    new Rectangle(0, r, PROJECTIONPLANEWIDTH, 15),
+                    (uint)(0x140014 + (red2 << 8))
+                    );
                 c += 15;
             }
         }
@@ -290,16 +302,20 @@ namespace RayCaster2.ActionScript
             {
                 for (int v = 0; v < MAP_HEIGHT; v++)
                 {
+                    var color = 0u;
+
                     if (myMap[u, v] != O)
                     {
-                        fOffscreenGraphics.beginFill((uint)0x00ff00);
+                        color = (uint)0x00ff00;
                     }
                     else
                     {
-                        fOffscreenGraphics.beginFill((uint)0x002000);
+                        color = (uint)0x002000;
                     }
-                    fOffscreenGraphics.drawRect(PROJECTIONPLANEWIDTH + (u * fMinimapWidth),
-                                (v * fMinimapWidth), fMinimapWidth, fMinimapWidth);
+                    fOffscreenGraphics.fillRect(
+
+                        new Rectangle(PROJECTIONPLANEWIDTH + (u * fMinimapWidth),
+                                (v * fMinimapWidth), fMinimapWidth, fMinimapWidth), color);
                 }
             }
             fPlayerMapX = PROJECTIONPLANEWIDTH + (int)(((double)fPlayerX / (double)TILE_SIZE) * fMinimapWidth);
@@ -313,15 +329,20 @@ namespace RayCaster2.ActionScript
         //*******************************************************************//
         public void drawRayOnOverheadMap(double x, double y)
         {
-            fOffscreenGraphics.lineStyle(1, (uint)0xffff00, 1);
+
+            //fOffscreenGraphics.lineStyle(1, (uint)0xffff00, 1);
             // draw line from the player position to the position where the ray
             // intersect with wall
-            fOffscreenGraphics.drawLine(fPlayerMapX, fPlayerMapY,
+            fOffscreenGraphics.drawLine(
+                 (uint)0xffff00,
+                fPlayerMapX, fPlayerMapY,
                     (int)(PROJECTIONPLANEWIDTH + ((double)(x * fMinimapWidth) / (double)TILE_SIZE)),
                     (int)(((double)(y * fMinimapWidth) / (double)TILE_SIZE)));
             // draw a red line indication the player's direction
-            fOffscreenGraphics.lineStyle(1, (uint)0xff0000, 1);
-            fOffscreenGraphics.drawLine(fPlayerMapX, fPlayerMapY,
+            //fOffscreenGraphics.lineStyle(1, (uint)0xff0000, 1);
+            fOffscreenGraphics.drawLine(
+                (uint)0xff0000,
+                fPlayerMapX, fPlayerMapY,
               (int)(fPlayerMapX + fCosTable[fPlayerArc] * 10),
                   (int)(fPlayerMapY + fSinTable[fPlayerArc] * 10));
         }
@@ -333,7 +354,7 @@ namespace RayCaster2.ActionScript
 
 
 
-      
+
 
     }
 }
