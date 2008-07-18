@@ -767,6 +767,24 @@ namespace jsc.Languages.ActionScript
                        //Write(e.i.TargetField.Name);
                        WriteAssignment();
 
+                       #region  assign boolean literal
+                       if (e.i.TargetField.FieldType == typeof(bool))
+                       {
+                           if (e.i.StackBeforeStrict[0].StackInstructions.Length == 1)
+                           {
+                               if (e.i.StackBeforeStrict[0].SingleStackInstruction.TargetInteger != null)
+                               {
+                                   if (e.i.StackBeforeStrict[0].SingleStackInstruction.TargetInteger == 0)
+                                       Write("false");
+                                   else
+                                       Write("true");
+
+                                   return;
+                               }
+                           }
+                       }
+                       #endregion
+
                        if (EmitEnumAsStringSafe(e))
                            return;
 

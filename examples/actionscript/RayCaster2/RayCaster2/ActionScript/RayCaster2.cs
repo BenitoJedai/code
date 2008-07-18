@@ -15,13 +15,16 @@ namespace RayCaster2.ActionScript
     [SWF(width = DefaultWidth, height = DefaultHeight)]
     public partial class RayCaster2 : Sprite
     {
+        // more: http://www.digital-ist-besser.de/?cat=0&id=0
         // more: http://labs.zeh.com.br/blog/?p=57
         // more: http://www.digital-ist-besser.de/
+        // more: http://www.glenrhodes.com/wolf/myRay.html
+        // more: http://www.glenrhodes.com/
 
         // !! this is a port from the RayCaster 1 java applet project
 
-        public const int DefaultWidth = 640 + 100;
-        public const int DefaultHeight = 480;
+        public const int DefaultWidth = 320 + 100;
+        public const int DefaultHeight = 240;
 
         /// <summary>
         /// Default constructor
@@ -54,12 +57,16 @@ namespace RayCaster2.ActionScript
             createTables();
 
             fOffscreenImage = new Shape(); // createImage(getSize().width, getSize().height);
+            fOffscreenImage.cacheAsBitmap = true;
             fOffscreenGraphics = fOffscreenImage.graphics;
             fOffscreenImage.AttachTo(this);
 
-           // fThread = 50.AtInterval(t => run());
+            fThread = 50.AtInterval(t => run());
 
-            stage.enterFrame += e => run();
+          
+
+
+            //stage.enterFrame += e => run();
         }
 
         Timer fThread;
