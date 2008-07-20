@@ -9,6 +9,7 @@ using ScriptCoreLib.ActionScript.flash.system;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.ActionScript.flash.media;
 
 namespace ZIPExample1.ActionScript
 {
@@ -40,9 +41,11 @@ namespace ZIPExample1.ActionScript
                     // you can filter your images here
                     where f.FileName.EndsWith(".png")
                     select f
-                select new { File, GetBitmap = File.Bytes.ToBitmap(i => BitmapsLoaded++) }
+                select new { File, GetBitmap = File.Bytes.LoadBytes<Bitmap>(i => BitmapsLoaded++) }
             );
 
+    
+            
 
 
             (200).AtInterval(
@@ -51,6 +54,7 @@ namespace ZIPExample1.ActionScript
                     if (BitmapsLoaded != Bitmaps.Length)
                         return;
 
+           
                     var Entry = Bitmaps[t.currentCount % Bitmaps.Length];
                     var Bitmap = Entry.GetBitmap();
 

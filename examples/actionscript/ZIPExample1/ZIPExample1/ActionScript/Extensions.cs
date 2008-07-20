@@ -19,21 +19,21 @@ namespace ZIPExample1.ActionScript
     {
 
 
-        public static Func<Bitmap> ToBitmap(this ByteArray e, Action<Bitmap> done)
+        public static Func<T> LoadBytes<T>(this ByteArray e, Action<T> done) where T: DisplayObject
         {
             var loader = new Loader();
 
             loader.contentLoaderInfo.complete +=
                 delegate
                 {
-                    done((Bitmap)loader.content);
+                    done((T)loader.content);
                 };
 
             loader.loadBytes(e
                 , new LoaderContext(false, ApplicationDomain.currentDomain, null)
                 );
 
-            return () => (Bitmap)loader.content;
+            return () => (T)loader.content;
         }
 
         public static Timer AtInterval(this int e, Action<Timer, Action<Action>> a)
