@@ -46,6 +46,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         }
 
 
+
         [Script(DefineAsStatic = true, OptimizedCode = "return e.split(f).join(t);")]
         internal string InternalReplace(object e, object f, object t)
         {
@@ -290,5 +291,17 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             throw new NotSupportedException("");
         }
         #endregion
+
+        [Script(DefineAsStatic = true)]
+        public bool StartsWith(string value)
+        {
+            return this.Substring(0, value.Length) == value;
+        }
+
+        [Script(DefineAsStatic = true)]
+        public bool EndsWith(string value)
+        {
+            return this.Substring(this.Length - value.Length) == value;
+        }
     }
 }

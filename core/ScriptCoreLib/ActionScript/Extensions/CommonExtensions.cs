@@ -9,6 +9,7 @@ using ScriptCoreLib.ActionScript.flash.system;
 using ScriptCoreLib.ActionScript.mx.core;
 using ScriptCoreLib.ActionScript.mx.graphics;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.flash.utils;
 
 namespace ScriptCoreLib.ActionScript.Extensions
 {
@@ -111,6 +112,13 @@ namespace ScriptCoreLib.ActionScript.Extensions
             var a = c.ToByteArrayAsset();
 
             return a.readUTFBytes(a.length);
+        }
+
+        public static ZipFileEntry[] ToFiles(this Class c)
+        {
+            var bytes = c.ToByteArrayAsset();
+            bytes.endian = Endian.LITTLE_ENDIAN;
+            return ZipFileEntry.Parse(bytes);
         }
 
         public static ByteArrayAsset ToByteArrayAsset(this Class c)
