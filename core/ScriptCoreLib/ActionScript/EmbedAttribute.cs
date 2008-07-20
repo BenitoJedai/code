@@ -28,13 +28,17 @@ namespace ScriptCoreLib.ActionScript
         {
             this.source = source;
 
-            foreach (var p in
-                new Dictionary<string, string>
+            const string octet = "application/octet-stream";
+
+            var lookup = new Dictionary<string, string>
                 {
-                    {".txt", "application/octet-stream"},
-                    {".xml", "application/octet-stream"},
+                    {".zip", octet},
+                    {".txt", octet},
+                    {".xml", octet},
                     {".ttf", "application/x-font"}
-                })
+                };
+
+            foreach (var p in lookup)
                 if (source.EndsWith(p.Key))
                     mimeType = p.Value;
 

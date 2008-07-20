@@ -46,7 +46,7 @@ namespace ScriptCoreLib.ActionScript.flash.utils
         /// <summary>
         /// Compresses the byte array.
         /// </summary>
-        public void compress(string algorithm)
+        public void compress()
         {
         }
 
@@ -130,9 +130,9 @@ namespace ScriptCoreLib.ActionScript.flash.utils
         /// <summary>
         /// Reads a signed 16-bit integer from the byte stream.
         /// </summary>
-        public int readShort()
+        public short readShort()
         {
-            return default(int);
+            return default(short);
         }
 
         /// <summary>
@@ -178,7 +178,7 @@ namespace ScriptCoreLib.ActionScript.flash.utils
         /// <summary>
         /// Decompresses the byte array.
         /// </summary>
-        public void uncompress(string algorithm)
+        public void uncompress()
         {
         }
 
