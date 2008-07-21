@@ -147,7 +147,7 @@ namespace RayCaster6.ActionScript
                 if (drawEnd >= h) drawEnd = h;
 
                 var texNum = worldMap[mapX, mapY] - 1; //1 subtracted from it so that texture 0 can be used!
-                texNum = 0;
+                texNum = 3;
 
                 //calculate value of wallX
                 double wallX; //where exactly the wall was hit
@@ -299,7 +299,7 @@ namespace RayCaster6.ActionScript
 
             if (getTimer() - 500 >= time)
             {
-                txtMain.text = (counter * 2).ToString();
+                txtMain.text = (counter * 2).ToString() + "fps "  + global::ScriptCoreLib.ActionScript.flash.system.System.totalMemory + "bytes";
                 counter = 0;
                 time = getTimer();
             }
