@@ -8,7 +8,7 @@ namespace RayCaster6.ActionScript
     using T = SByte;
 
     [Script]
-    public class Array2DSByte
+    public sealed class Array2DSByte
     {
         readonly T[] items;
 

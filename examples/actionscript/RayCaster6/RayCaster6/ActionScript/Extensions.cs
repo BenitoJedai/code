@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.flash.display;
 
 namespace RayCaster6.ActionScript
 {
@@ -12,7 +14,88 @@ namespace RayCaster6.ActionScript
     [Script]
     internal static class Extensions
     {
+        public static int Max(this int i, int e)
+        {
+            if (e > i)
+                return e;
 
+            return i;
+        }
+
+        public static int Min(this int i, int e)
+        {
+            if (e < i)
+                return e;
+
+            return i;
+        }
+
+        public static double Min(this double i, double e)
+        {
+            if (e < i)
+                return e;
+
+            return i;
+        }
+
+        public static void drawLine(this BitmapData e, uint color, double x, double y, double cx, double cy)
+        {
+            e.drawLine(color, (int)x, (int)y, (int)cx, (int)cy);
+        }
+        public static void drawLine(this BitmapData e, uint color, int x, int y, int cx, int cy)
+        {
+            e.@lock();
+
+
+
+            var dx = cx - x;
+            var dy = cy - y;
+
+
+            Action<int, int> setPixel = (mul, div) =>
+                e.setPixel32((x + dx * mul / div), (y + dy * mul / div), color);
+
+            var len = new Point { x = dx, y = dy }.length.Floor().Min(64);
+
+            if (len > 2)
+            {
+                for (int i = 0; i < len + 1; i++)
+                {
+                    setPixel(i, len);
+                }
+            }
+            else
+            {
+                setPixel(0, 1);
+                setPixel(1, 1);
+            }
+
+
+
+            e.unlock();
+        }
+
+        public static double GetRotation(this Point p)
+        {
+            var x = p.x;
+            var y = p.y;
+
+            if (x == 0)
+                if (y < 0)
+                    return System.Math.PI / 2;
+                else
+                    return (System.Math.PI / 2) * 3;
+
+            var a = System.Math.Atan(y / x);
+
+            if (x < 0)
+                a += System.Math.PI;
+            else if (y < 0)
+                a += System.Math.PI * 2;
+
+
+            return a;
+        }
 
         public static int Floor(this int e)
         {

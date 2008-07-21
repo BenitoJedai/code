@@ -25,7 +25,6 @@ namespace RayCaster6.ActionScript
         }
 
         protected TextField txtMain;
-        protected TextFormat tfNormal;
         protected Loader bitmapLoader;
         protected BitmapData image;
         protected Sprite imageCont;
@@ -43,8 +42,7 @@ namespace RayCaster6.ActionScript
 
         protected double moveSpeed;
         protected double rotSpeed;
-        protected int texWidth;
-        protected int texHeight;
+
         protected BitmapData screen;
         protected Bitmap screenImage;
         protected Sprite[] sprites; // ?
@@ -52,43 +50,7 @@ namespace RayCaster6.ActionScript
         protected int time;
         protected int counter;
 
-        //protected int[][] worldMap;
-        public Array2DSByte worldMap;
-
-        protected int activeKey;
-
-        [Script(NoDecoration = true)]
-        protected void setWorldMap()
-        {
-            worldMap =
-                new Array2DSByte(24, 24,
-			        8,8,8,8,8,8,8,8,8,8,8,4,4,6,4,4,6,4,6,4,4,4,6,4,
-			        8,0,0,0,0,0,0,0,0,0,8,4,0,0,0,0,0,0,0,0,0,0,0,4,
-			        8,0,3,3,0,0,0,0,0,8,8,4,0,0,0,0,0,0,0,0,0,0,0,6,
-			        8,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,
-			        8,0,3,3,0,0,0,0,0,8,8,4,0,0,0,0,0,0,0,0,0,0,0,4,
-			        8,0,0,0,0,0,0,0,0,0,8,4,0,0,0,0,0,6,6,6,0,6,4,6,
-			        8,8,8,8,0,8,8,8,8,8,8,4,4,4,4,4,4,6,0,0,0,0,0,6,
-			        7,7,7,7,0,7,7,7,7,0,8,0,8,0,8,0,8,4,0,4,0,6,0,6,
-			        7,7,0,0,0,0,0,0,7,8,0,8,0,8,0,8,8,6,0,0,0,0,0,6,
-			        7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,6,0,0,0,0,0,4,
-			        7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,6,0,6,0,6,0,6,
-			        7,7,0,0,0,0,0,0,7,8,0,8,0,8,0,8,8,6,4,6,0,6,6,6,
-			        7,7,7,7,0,7,7,7,7,8,8,4,0,6,8,4,8,3,3,3,0,3,3,3,
-			        2,2,2,2,0,2,2,2,2,4,6,4,0,0,6,0,6,3,0,0,0,0,0,3,
-			        2,2,0,0,0,0,0,2,2,4,0,0,0,0,0,0,4,3,0,0,0,0,0,3,
-			        2,0,0,0,0,0,0,0,2,4,0,0,0,0,0,0,4,3,0,0,0,0,0,3,
-			        1,0,0,0,0,0,0,0,1,4,4,4,4,4,6,0,6,3,3,0,0,0,3,3,
-			        2,0,0,0,0,0,0,0,2,2,2,1,2,2,2,6,6,0,0,5,0,5,0,5,
-			        2,2,0,0,0,0,0,2,2,2,0,0,0,2,2,0,5,0,5,0,0,0,5,5,
-			        2,0,0,0,0,0,0,0,2,0,0,0,0,0,2,5,0,5,0,5,0,5,0,5,
-			        1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,
-			        2,0,0,0,0,0,0,0,2,0,0,0,0,0,2,5,0,5,0,5,0,5,0,5,
-			        2,2,0,0,0,0,0,2,2,2,0,0,0,2,2,0,5,0,5,0,0,0,5,5,
-			        2,2,2,2,1,2,2,2,2,2,2,1,2,2,2,5,5,5,5,5,5,5,5,5
-                );
-        }
-
+    
 
 
         public RayCaster4base()
@@ -155,20 +117,23 @@ namespace RayCaster6.ActionScript
             stage.align = StageAlign.TOP_LEFT;
             //stage.quality 	= StageQuality.LOW;
 
-            txtMain = new TextField();
-            tfNormal = new TextFormat();
-            tfNormal.font = "Verdana";
-            tfNormal.align = TextFormatAlign.LEFT;
-            tfNormal.size = 10;
-            tfNormal.color = 0xffffff;
-            txtMain.defaultTextFormat = tfNormal;
-            txtMain.autoSize = "left";
-            txtMain.appendText("0");
+            txtMain = new TextField
+            {
+                defaultTextFormat = new TextFormat
+                {
+                    font = "Verdana",
+                    align = TextFormatAlign.LEFT,
+                    size = 10,
+                    color = 0xffffff
+                },
+                autoSize = TextFieldAutoSize.LEFT,
+                text = "0"
+            };
+            
 
             moveSpeed = 0.2;
             rotSpeed = 0.12;
-            texWidth = 256;
-            texHeight = 256;
+
 
             posX = 22.5;
             posY = 13.5;

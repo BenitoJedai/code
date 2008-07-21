@@ -30,6 +30,9 @@ namespace RayCaster6.ActionScript
         int interleave_x_step = 1;
         int interleave_counter = 0;
 
+        double rayDirLeft;
+        double rayDirRight;
+
         [Script(NoDecoration = true)]
         private new void render(Event e)
         {
@@ -44,7 +47,7 @@ namespace RayCaster6.ActionScript
             screen.floodFill(0, 0, 0x0);
             screen.@lock();
 
-   
+
             int x;
             int y;
             DoMovement();
@@ -52,6 +55,14 @@ namespace RayCaster6.ActionScript
             // interleaving?
             interleave_counter++;
             x = interleave_counter % interleave_x_step;
+
+            double rayDirXLeft = dirX - planeX;
+            double rayDirYLeft = dirY - planeY;
+            rayDirLeft = new Point { x = rayDirXLeft, y = rayDirYLeft }.GetRotation();
+
+            double rayDirXRight = dirX + planeX;
+            double rayDirYRight = dirY + planeY;
+            rayDirRight = new Point { x = rayDirXRight, y = rayDirYRight }.GetRotation();
 
             while (x < w)
             {
@@ -147,7 +158,7 @@ namespace RayCaster6.ActionScript
                 if (drawEnd >= h) drawEnd = h;
 
                 var texNum = worldMap[mapX, mapY] - 1; //1 subtracted from it so that texture 0 can be used!
-                texNum = 3;
+                texNum = 0;
 
                 //calculate value of wallX
                 double wallX; //where exactly the wall was hit
@@ -293,18 +304,18 @@ namespace RayCaster6.ActionScript
                     render_DebugTrace_Assign_Active = false;
             }
 
-       
+
 
             counter++;
 
             if (getTimer() - 500 >= time)
             {
-                txtMain.text = (counter * 2).ToString() + "fps "  + global::ScriptCoreLib.ActionScript.flash.system.System.totalMemory + "bytes";
+                txtMain.text = (counter * 2).ToString() + "fps " + global::ScriptCoreLib.ActionScript.flash.system.System.totalMemory + "bytes";
                 counter = 0;
                 time = getTimer();
             }
 
-            const int isize = 3;
+            const int isize = 4;
 
             DrawMinimap(isize);
 
@@ -329,16 +340,66 @@ namespace RayCaster6.ActionScript
                 }
 
             minimap.applyFilter(minimap, minimap.rect, new Point(), new GlowFilter(0x00ff00));
-            minimap.fillRect(new Rectangle((posX + 1) * isize, (posY + 1) * isize, isize, isize), 0xffff0000);
+            
+            minimap.fillRect(new Rectangle((posX + 0.5) * isize, (posY + 0.5) * isize, isize, isize), 0xffff0000);
+
+            minimap.drawLine(0xffffffff,
+                (posX + 1) * isize, 
+                (posY + 1) * isize,
+                (posX + 1 + Math.Cos(rayDirLeft) * 8) * isize, 
+                (posY + 1 + Math.Sin(rayDirLeft) * 8) * isize
+                );
+
+            minimap.drawLine(0xffffffff,
+              (posX + 1) * isize,
+              (posY + 1) * isize,
+              (posX + 1 + Math.Cos(rayDirRight) * 8) * isize,
+              (posY + 1 + Math.Sin(rayDirRight) * 8) * isize
+              );
+
+            foreach (var ss in Sprites)
+            {
+                uint color = 0xff00ffff;
+
+                var p = new Point
+                {
+                    x = this.posX - ss.Position.x,
+                    y = this.posY - ss.Position.y
+                };
+
+                if (p.GetRotation() > this.rayDirLeft)
+                    color = 0xffffffff;
+                
+                minimap.fillRect(new Rectangle(
+                    (ss.Position.x + 1) * isize,
+                    (ss.Position.y + 1) * isize,
+                    isize,
+                    isize), color);
+            }
+
 
 
             screen.draw(minimap);
         }
 
 
+        [Script]
+        public class SpriteInfo
+        {
+            public Point Position = new Point();
+        }
 
-
-
+        public SpriteInfo[] Sprites = new[]
+        {
+            new SpriteInfo
+            {
+                Position = new Point { x = 21.5, y = 14.5 }
+            },
+             new SpriteInfo
+            {
+                Position = new Point { x = 18.5, y = 13.5 }
+            }
+        };
     }
 
 }

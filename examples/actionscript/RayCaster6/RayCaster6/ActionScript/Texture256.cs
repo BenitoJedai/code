@@ -8,7 +8,7 @@ namespace RayCaster6.ActionScript
     using T = UInt32;
 
     [Script]
-    public sealed class Texture256
+    public sealed class Texture256 : TextureBase
     {
         readonly T[] items;
  
@@ -17,11 +17,20 @@ namespace RayCaster6.ActionScript
             get { return items.Length; }
         }
 
+        const int SizeConstant = 256;
+
+        public override int Size
+        {
+            get { return SizeConstant; }
+        }
+        
+        
+
         public Texture256(params T[] value)
             //: this(x, y)
         {
 
-            this.items = new T[256 * 256];
+            this.items = new T[SizeConstant * SizeConstant];
 
             for (int i = 0; i < value.Length; i++)
             {
@@ -36,16 +45,16 @@ namespace RayCaster6.ActionScript
         }
 
 
-        public T this[int x, int y]
+        public override T this[int x, int y]
         {
             get
             {
-                return this.items[x + (y * 256)];
+                return this.items[x + (y * SizeConstant)];
             }
             set
             {
-        
-                this.items[256 * y + x] = value;
+
+                this.items[SizeConstant * y + x] = value;
             }
         }
 
