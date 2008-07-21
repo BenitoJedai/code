@@ -3,11 +3,14 @@ using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.text;
 using System.Collections.Generic;
 using ScriptCoreLib.ActionScript;
+using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.filters;
 using System;
 using ScriptCoreLib.ActionScript.flash.events;
 using ScriptCoreLib.ActionScript.flash.net;
 using ScriptCoreLib.ActionScript.flash.ui;
+using ScriptCoreLib.ActionScript.flash.geom;
+using System.Linq;
 
 
 namespace RayCaster6.ActionScript
@@ -45,12 +48,12 @@ namespace RayCaster6.ActionScript
 
         protected BitmapData screen;
         protected Bitmap screenImage;
-        protected Sprite[] sprites; // ?
+        //protected Sprite[] sprites; // ?
         protected double[] ZBuffer;
         protected int time;
         protected int counter;
 
-    
+
 
 
         public RayCaster4base()
@@ -83,7 +86,7 @@ namespace RayCaster6.ActionScript
         }
 
 
-      
+
 
         [Script(NoDecoration = true)]
         protected uint RGBToInt(int[] rgb)
@@ -109,6 +112,12 @@ namespace RayCaster6.ActionScript
         protected KeyboardButton fKeyLeft = new uint[] { Keyboard.LEFT, 'j', 'J', 'a', 'A' };
         protected KeyboardButton fKeyRight = new uint[] { Keyboard.RIGHT, 'l', 'L', 'd', 'D' };
 
+        protected KeyboardButton fKeySpace = new uint[] { Keyboard.SPACE };
+
+
+
+        [Embed("/flashsrc/textures/dude5.zip")]
+        Class MyZipFile;
 
 
         [Script(NoDecoration = true)]
@@ -129,7 +138,7 @@ namespace RayCaster6.ActionScript
                 autoSize = TextFieldAutoSize.LEFT,
                 text = "0"
             };
-            
+
 
             moveSpeed = 0.2;
             rotSpeed = 0.12;
@@ -142,8 +151,7 @@ namespace RayCaster6.ActionScript
             dirY = 0;
             planeX = 0;
             planeY = 0.66;
-            w = 320;
-            h = 240;
+
             time = getTimer();
             setWorldMap();
 
@@ -164,13 +172,89 @@ namespace RayCaster6.ActionScript
             addChild(txtMain);
 
 
+            this.Sprites.Add(
+                //new SpriteInfo
+                //{
+                //    Position = new Point { x = 21.5, y = 14.5 }
+                //},
+                 new SpriteInfo
+                {
+                    Position = new Point { x = 18.5, y = 13.5 },
+                    CurrentFrame = this.textures[3]
+                });
+
+            this.Sprites.Add(
+                      new SpriteInfo
+                {
+                    Position = new Point { x = 19.5, y = 13.5 },
+                    CurrentFrame = this.textures[3]
+                }
+            );
+
             this.enterFrame += render;
 
-            //addEventListener(Event.ENTER_FRAME, render);
+
+
+            var BitmapsLoaded = 0;
+            var Bitmaps = default(Func<Bitmap>[]);
+
+            Action BitmapsLoadedAction =
+                delegate
+                {
+                    var AsTextures = Bitmaps.Select(i => (Texture64)i()).ToArray();
+
+                    stage.keyUp +=
+                       e =>
+                       {
+                           if (e.keyCode == Keyboard.SPACE)
+                           {
+                               var s = new SpriteInfo
+                                  {
+                                      Position = new Point { x = posX, y = posY },
+                                      CurrentFrame = this.textures[3]
+                                  };
+
+                               Sprites.Add(
+                                   s
+                               );
+
+                               (1000 / 15).AtInterval(
+                                   t =>
+                                   {
+                                       s.CurrentFrame = AsTextures[t.currentCount % AsTextures.Length];
+                                   }
+                               );
+                           }
+
+                       };
+                };
+
+            Bitmaps = Enumerable.ToArray(
+                from File in
+                    from f in MyZipFile.ToFiles()
+                    // you can filter your images here
+                    where f.FileName.EndsWith(".png")
+                    select f
+                select
+                //new
+                //{
+                //    File,
+                    File.Bytes.LoadBytes<Bitmap>(
+                        i =>
+                        {
+                            BitmapsLoaded++;
+
+                            if (Bitmaps.Length == BitmapsLoaded)
+                                BitmapsLoadedAction();
+                        }
+                    )
+               // }
+            );
+
 
         }
 
-    
+
         private void DoMovement()
         {
             double oldDirX;

@@ -148,7 +148,7 @@ namespace jsc.Languages.ActionScript
 
 
 
-                    EmitFirstOnStack(e);
+                    Emit(e.p, e.FirstOnStack, e.i.TargetVariable.LocalType);
                 };
             #endregion
 

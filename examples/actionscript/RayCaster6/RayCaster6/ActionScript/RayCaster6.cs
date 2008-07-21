@@ -20,17 +20,26 @@ namespace RayCaster6.ActionScript
     /// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
     /// </summary>
     [Script, ScriptApplicationEntryPoint]
-    [SWF(width = 640, height = 480, frameRate = 60)]
+    [SWF(width = DefaultWidth * DefaultScale, height = DefaultHeight * DefaultScale, frameRate = 60)]
     public class RayCaster6 : RayCaster4base
     {
         // http://www.digital-ist-besser.de/
         // http://www.fredheintz.com/sitefred/main.html
 
+        // 120x90
+        // 160x120
+        const int DefaultWidth = DefaultHeight * 3 / 2;
+        const int DefaultHeight = 160;
+
+        const int DefaultScale = 3;
+
         public RayCaster6()
         {
+            w = DefaultWidth;
+            h = DefaultHeight;
 
-            this.scaleX = 2;
-            this.scaleY = 2;
+            this.scaleX = DefaultScale;
+            this.scaleY = DefaultScale;
             //this.filters = new[] { new BlurFilter() };
 
         }

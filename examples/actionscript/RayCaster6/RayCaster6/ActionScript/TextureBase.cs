@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using ScriptCoreLib.ActionScript.flash.display;
 
 namespace RayCaster6.ActionScript
 {
@@ -15,6 +16,8 @@ namespace RayCaster6.ActionScript
         {
             get;
         }
+
+        public Bitmap Bitmap;
 
         public abstract T this[int x, int y] { get; set; }
     }

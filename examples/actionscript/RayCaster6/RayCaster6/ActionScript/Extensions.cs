@@ -5,15 +5,130 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.system;
+using ScriptCoreLib.ActionScript.flash.utils;
 
 namespace RayCaster6.ActionScript
 {
+    [Script]
+    public class ViewInfo
+    {
+        public double Left;
+        public double Right;
+        public double Target;
+
+        public bool IsInView;
+
+        public void Update(double e, double left, double right)
+        {
+            IsInView = true;
+            Left = left;
+            Right = right;
+            Target = e;
+
+
+            if (Right < Left)
+            {
+                Right += 360.DegreesToRadians();
+
+                if (Target < Right)
+                    if (Left < Target)
+                        return;
+
+                Target += 360.DegreesToRadians();
+
+                if (Target < Right)
+                    if (Left < Target)
+                        return;
+
+                Target -= 360.DegreesToRadians();
+                Left -= 360.DegreesToRadians();
+                Right -= 360.DegreesToRadians();
+
+
+            }
+
+            if (Target < Right)
+                if (Left < Target)
+                    return;
+
+            IsInView = false;
+
+            return;
+        }
+    }
+
     /// <summary>
     /// This class defines the extension methods for this project
     /// </summary>
     [Script]
-    internal static class Extensions
+    internal static class MyExtensions
     {
+        public static Timer AtInterval(this int e, Action<Timer> a)
+        {
+            var t = new Timer(e);
+
+            t.timer += delegate { a(t); };
+
+            t.start();
+
+            return t;
+        }
+
+        public static Func<T> LoadBytes<T>(this ByteArray e, Action<T> done) where T : DisplayObject
+        {
+            var loader = new Loader();
+
+            loader.contentLoaderInfo.complete +=
+                delegate
+                {
+                    done((T)loader.content);
+                };
+
+            loader.loadBytes(e
+                , new LoaderContext(false, ApplicationDomain.currentDomain, null)
+                );
+
+            return () => (T)loader.content;
+        }
+
+       
+
+        public static bool IsOutOfView(this double e, double left, double right)
+        {
+
+
+            if (right < left)
+            {
+                right += DegreesToRadians(360);
+
+                if (e < right)
+                    if (left < e)
+                        return true;
+
+                left -= DegreesToRadians(360);
+                right -= DegreesToRadians(360);
+
+
+            }
+
+            if (e < right)
+                if (left < e)
+                    return true;
+
+            return false;
+        }
+
+        public static double DegreesToRadians(this int Degrees)
+        {
+            return (Math.PI * 2) * Degrees / 360;
+        }
+
+        public static int RadiansToDegrees(this double Arc)
+        {
+            return (int)(360 * Arc / (Math.PI * 2));
+        }
+
         public static int Max(this int i, int e)
         {
             if (e > i)

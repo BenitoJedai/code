@@ -36,5 +36,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
             a.sort(comparison.ToFunction());
         }
+
+        public static void Reverse(global::System.Array array)
+        {
+            var a = ((object)array) as global::ScriptCoreLib.ActionScript.Array;
+
+            a.reverse();
+        }
     }
 }

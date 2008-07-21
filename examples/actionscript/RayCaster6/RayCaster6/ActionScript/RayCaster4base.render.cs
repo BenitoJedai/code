@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.flash.filters;
 using System;
+using System.Linq;
 using ScriptCoreLib.ActionScript.flash.events;
 using ScriptCoreLib.ActionScript.flash.net;
 using ScriptCoreLib.ActionScript.flash.ui;
@@ -63,6 +64,10 @@ namespace RayCaster6.ActionScript
             double rayDirXRight = dirX + planeX;
             double rayDirYRight = dirY + planeY;
             rayDirRight = new Point { x = rayDirXRight, y = rayDirYRight }.GetRotation();
+
+            // update for current frame
+            UpdatePOV();
+
 
             while (x < w)
             {
@@ -245,7 +250,7 @@ namespace RayCaster6.ActionScript
                 if (drawEnd < 0) drawEnd = h; //becomes < 0 when the integer overflows
 
                 //draw the floor from drawEnd to the bottom of the screen
-                #region draw flood
+                #region draw floor
                 y = drawEnd;
                 double weight;
                 double currentFloorX;
@@ -304,7 +309,143 @@ namespace RayCaster6.ActionScript
                     render_DebugTrace_Assign_Active = false;
             }
 
+            foreach (var s in SpritesFromPOV)
+            {
+                if (s.ViewInfo.IsInView)
+                {
+                    //  { Left = 213, Right = 146, Target = 179 }
+                    // Error: { Left = 213, Right = 146, Target = 179, Total = 66, Start = 33 }
 
+                    var Total = (s.ViewInfo.Left - s.ViewInfo.Right);
+
+                    if (Total < 0)
+                    {
+                        if (s.ViewInfo.Target > s.ViewInfo.Right)
+                            s.ViewInfo.Left += 360.DegreesToRadians();
+
+                        Total = (s.ViewInfo.Left - s.ViewInfo.Right);
+                    }
+
+                    var Start = (s.ViewInfo.Target - s.ViewInfo.Right);
+                    var Start2 = (Total - Start);
+
+                    var Sprite_x = (w + (w * Start2 / Total).Floor()) % w;
+
+                    var depth = s.RelativePosition.length;
+
+                    // scale down enemies to eye line
+                    var z = (h / depth).Floor();
+                    var zhalf = z / 2;
+
+                    // screen.setPixel(Sprite_x, 120, 0xffffff);
+
+                    var texture = s.Sprite.CurrentFrame;
+
+                    // 14
+
+                    //if (depth < 1)
+                    //{
+                    //    var matrix = new Matrix();
+
+                    //    matrix.scale(z / texture.Size, z / texture.Size);
+                    //    matrix.translate(Sprite_x - zhalf, h / 2 - zhalf);
+
+                    //    screen.draw(texture.Bitmap.bitmapData,
+                    //     matrix
+                    //    );
+
+
+
+                    //}
+                    //else
+                    //{
+
+                    if (z > texture.Size)
+                    {
+                        var blocksize = (z / texture.Size).Floor().Max(1);
+
+                        for (int ix = 0; ix < z; ix++)
+                        {
+                            var cx = Sprite_x + ix - zhalf;
+                            var cxt = ix * texture.Size / z;
+
+                            if (ZBuffer[cx] > depth)
+                                for (int iy = 0; iy < z; iy += blocksize)
+                                {
+                                    var cyt = iy * texture.Size / z;
+
+                                    var color = texture[cxt, cyt];
+
+                                    var color_a = (color >> 24) & 0xff;
+                                    var color_r = (color >> 16) & 0xff;
+                                    var color_g = (color >> 8) & 0xff;
+                                    var color_b = color & 0xff;
+
+                                    if (color_a == 0xff)
+                                        screen.fillRect(
+                                            new Rectangle(cx, (h / 2) + iy - zhalf, 1, blocksize), color);
+
+
+                                }
+                        }
+                    }
+                    else
+                    {
+                        for (int ix = 0; ix < z; ix++)
+                        {
+                            var cx = Sprite_x + ix - zhalf;
+                            var cxt = ix * texture.Size / z;
+
+                            if (ZBuffer[cx] > depth)
+                                for (int iy = 0; iy < z; iy++)
+                                {
+                                    var cyt = iy * texture.Size / z;
+
+                                    var color = texture[cxt, cyt];
+
+                                    var color_a = (color >> 24) & 0xff;
+                                    var color_r = (color >> 16) & 0xff;
+                                    var color_g = (color >> 8) & 0xff;
+                                    var color_b = color & 0xff;
+
+                                    if (color_a == 0xff)
+                                        screen.setPixel(cx, (h / 2) + iy - zhalf, color);
+
+
+                                }
+                        }
+                    }
+
+                    //}
+
+
+                    Console.WriteLine(new
+                    {
+                        Sprite_x,
+                        Target = s.ViewInfo.Target.RadiansToDegrees(),
+                        Left = s.ViewInfo.Left.RadiansToDegrees(),
+                        Right = s.ViewInfo.Right.RadiansToDegrees(),
+                        Total = Total.RadiansToDegrees(),
+                        Start = Start.RadiansToDegrees(),
+                        Start2 = Start2.RadiansToDegrees()
+                    });
+
+                    //throw new Exception
+                    //(
+                    //    new
+                    //    {
+                    //        Sprite_x,
+                    //        Left = s.ViewInfo.Left.RadiansToDegrees(),
+                    //        Right = s.ViewInfo.Right.RadiansToDegrees(),
+                    //        Target = s.ViewInfo.Target.RadiansToDegrees(),
+                    //        Total = (s.ViewInfo.Left - s.ViewInfo.Right).RadiansToDegrees(),
+                    //        Start = ( s.ViewInfo.Target- s.ViewInfo.Right).RadiansToDegrees()
+
+
+                    //    }.ToString()
+                    //);
+                }
+            }
 
             counter++;
 
@@ -315,7 +456,7 @@ namespace RayCaster6.ActionScript
                 time = getTimer();
             }
 
-            const int isize = 4;
+            const int isize = 2;
 
             DrawMinimap(isize);
 
@@ -323,6 +464,27 @@ namespace RayCaster6.ActionScript
             screen.unlock();
 
 
+        }
+
+        private void UpdatePOV()
+        {
+            if (SpritesFromPOV == null || SpritesFromPOV.Length != Sprites.Count)
+                SpritesFromPOV = Sprites.Select(i => new SpriteInfoFromPOV(i)).ToArray();
+
+
+            //UpdatePOVCounter++;
+
+            foreach (var v in SpritesFromPOV)
+            {
+                v.Update(this.posX, this.posY, this.rayDirLeft, this.rayDirRight);
+            }
+
+            //if (UpdatePOVCounter % 4 == 0)
+
+            // whats up with the orderby? not working all the time..
+            SpritesFromPOV = SpritesFromPOV.OrderBy(i => (i.Distance * -texWidth).Floor()).ToArray();
+
+            //System.Array.Reverse(SpritesFromPOV);
         }
 
         private void DrawMinimap(int isize)
@@ -340,13 +502,13 @@ namespace RayCaster6.ActionScript
                 }
 
             minimap.applyFilter(minimap, minimap.rect, new Point(), new GlowFilter(0x00ff00));
-            
+
             minimap.fillRect(new Rectangle((posX + 0.5) * isize, (posY + 0.5) * isize, isize, isize), 0xffff0000);
 
             minimap.drawLine(0xffffffff,
-                (posX + 1) * isize, 
+                (posX + 1) * isize,
                 (posY + 1) * isize,
-                (posX + 1 + Math.Cos(rayDirLeft) * 8) * isize, 
+                (posX + 1 + Math.Cos(rayDirLeft) * 8) * isize,
                 (posY + 1 + Math.Sin(rayDirLeft) * 8) * isize
                 );
 
@@ -357,22 +519,22 @@ namespace RayCaster6.ActionScript
               (posY + 1 + Math.Sin(rayDirRight) * 8) * isize
               );
 
-            foreach (var ss in Sprites)
+            //Console.WriteLine("left: " + rayDirLeft);
+            //Console.WriteLine("right: " + rayDirLeft);
+
+            foreach (var ss in SpritesFromPOV)
             {
                 uint color = 0xff00ffff;
 
-                var p = new Point
-                {
-                    x = this.posX - ss.Position.x,
-                    y = this.posY - ss.Position.y
-                };
 
-                if (p.GetRotation() > this.rayDirLeft)
-                    color = 0xffffffff;
-                
+
+                if (!ss.ViewInfo.IsInView)
+                    color = 0xff000000;
+
+
                 minimap.fillRect(new Rectangle(
-                    (ss.Position.x + 1) * isize,
-                    (ss.Position.y + 1) * isize,
+                    (ss.Sprite.Position.x + 1) * isize,
+                    (ss.Sprite.Position.y + 1) * isize,
                     isize,
                     isize), color);
             }
@@ -382,24 +544,57 @@ namespace RayCaster6.ActionScript
             screen.draw(minimap);
         }
 
+        SpriteInfoFromPOV[] SpritesFromPOV;
+
+
+
+        [Script]
+        public class SpriteInfoFromPOV
+        {
+            public Point RelativePosition;
+
+            public SpriteInfo Sprite;
+
+            public double Direction;
+
+            public readonly ViewInfo ViewInfo = new ViewInfo();
+
+            public double Distance;
+
+            public SpriteInfoFromPOV(SpriteInfo s)
+            {
+                Sprite = s;
+
+
+
+
+            }
+
+            public void Update(double x, double y, double left, double right)
+            {
+                RelativePosition = new Point
+                {
+                    x = Sprite.Position.x - x,
+                    y = Sprite.Position.y - y
+                };
+
+                Direction = RelativePosition.GetRotation();
+                Distance = RelativePosition.length;
+
+                ViewInfo.Update(Direction, left, right);
+                ViewInfo.IsInView = !ViewInfo.IsInView;
+            }
+        }
 
         [Script]
         public class SpriteInfo
         {
             public Point Position = new Point();
+
+            public Texture64 CurrentFrame;
         }
 
-        public SpriteInfo[] Sprites = new[]
-        {
-            new SpriteInfo
-            {
-                Position = new Point { x = 21.5, y = 14.5 }
-            },
-             new SpriteInfo
-            {
-                Position = new Point { x = 18.5, y = 13.5 }
-            }
-        };
+        public readonly List<SpriteInfo> Sprites = new List<SpriteInfo>();
     }
 
 }

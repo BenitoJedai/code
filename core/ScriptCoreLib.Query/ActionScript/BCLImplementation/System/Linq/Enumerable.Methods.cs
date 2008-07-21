@@ -17,6 +17,18 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
 
     internal static partial class __Enumerable
     {
+        //public static IEnumerable<TSource> Reverse<TSource>(this IEnumerable<TSource> source)
+        //{
+        //    var s = new Stack<TSource>();
+
+        //    foreach (var v in source)
+        //    {
+        //        s.Push(v);
+        //    }
+
+        //    return s;
+        //}
+
         public static TSource Single<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
             return source.Where(predicate).Single();

@@ -60,7 +60,10 @@ namespace RayCaster6.ActionScript
 
         public static implicit operator Texture64(Bitmap bd)
         {
-            var t = new Texture64();
+            var t = new Texture64
+            {
+                Bitmap = bd,
+            };
 
 
             var bdata = bd.bitmapData;
@@ -69,7 +72,7 @@ namespace RayCaster6.ActionScript
                 for (var j = 0; j < 64; j++)
                     for (var k = 0; k < 64; k++)
                     {
-                        t[j, k] = bdata.getPixel(j, k);
+                        t[j, k] = bdata.getPixel32(j, k);
                     }
             else if (bdata.width == 256)
                 for (var j = 0; j < 64; j++)
@@ -79,9 +82,9 @@ namespace RayCaster6.ActionScript
                         var k4 = k * 4;
 
 
-                        var c = bdata.getPixel(j4, k4); ;
+                        var c = bdata.getPixel32(j4, k4); ;
 
-                        t[j, k] = bdata.getPixel(j, k);
+                        t[j, k] = c;
                     }
 
             return t;

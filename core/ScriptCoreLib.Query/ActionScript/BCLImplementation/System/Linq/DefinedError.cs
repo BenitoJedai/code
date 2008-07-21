@@ -29,19 +29,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
             return new Exception("Sequence contains no elements");
         }
 
-        internal static Exception MoreThanOneElement()
+        public static Exception MoreThanOneElement()
         {
             return new Exception("Sequence contains more than one element");
         }
 
-
-
-
-
-
-
-
-        internal static Exception NotImplemented()
+        public static Exception NotImplemented()
         {
             throw new Exception("The method or operation is not implemented.");
         }

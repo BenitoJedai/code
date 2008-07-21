@@ -31,28 +31,9 @@ namespace RayCaster6.ActionScript
         {
             // 24fps 10715136bytes
 
-            textureFiles = new[] { "wall.jpg", "tech2.jpg", "roof.jpg"
+            textureFiles = new[] { "bwall.png", "tech2.jpg", "roof.jpg"
                 , "114.png" 
-                , "114.png" 
-                , "114.png" 
-                , "114.png" 
-                , "114.png" 
-                , "114.png" 
-                , "114.png" 
-                , "114.png" 
-                , "114.png" 
-                , "114.png" 
-                , "114.png" 
-                , "114.png" 
-                , "114.png" 
-                , "114.png" 
-                , "114.png" 
-                , "114.png" 
-                , "114.png" 
-                , "114.png" 
-                , "114.png" 
-                , "114.png" 
-                , "114.png" 
+              
             };
             textureLoadNum = 0;
 

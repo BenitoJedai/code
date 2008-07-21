@@ -151,6 +151,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\Queue.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\Stack.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\ICollection.cs">
       <SubType>Code</SubType>
     </Compile>
