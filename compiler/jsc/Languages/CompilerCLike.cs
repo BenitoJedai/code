@@ -316,7 +316,7 @@ namespace jsc.Script
 
 
 
-                            Emit(p, s[si]);
+                            Emit(p, s[si], parameter.ParameterType);
                         }
                     }
                 }

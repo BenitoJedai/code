@@ -72,6 +72,8 @@ namespace jsc.Script
 
     public class CodeEmitArgs
     {
+        public Type TypeExpectedOrDefault;
+
         public ILBlock.Prestatement p;
         public ILInstruction i;
         public CompilerBase c;
@@ -267,11 +269,16 @@ namespace jsc.Script
 
         public void Emit(ILBlock.Prestatement p, ILFlow.StackItem s)
         {
+            Emit(p, s, null);
+        }
+
+        public void Emit(ILBlock.Prestatement p, ILFlow.StackItem s, Type TypeExpectedOrDefault)
+        {
             using (EmitGuard.Lock)
             {
                 if (s.StackInstructions.Length == 1)
                 {
-                    EmitInstruction(p, s.SingleStackInstruction);
+                    EmitInstruction(p, s.SingleStackInstruction, TypeExpectedOrDefault);
                 }
                 else
                 {
@@ -1250,6 +1257,11 @@ namespace jsc.Script
 
         public void EmitInstruction(ILBlock.Prestatement p, ILInstruction i)
         {
+            EmitInstruction(p, i, null);
+        }
+
+        public void EmitInstruction(ILBlock.Prestatement p, ILInstruction i, Type TypeExpectedOrDefault)
+        {
             if (CIW[i] == null)
             {
                 Break("Opcode not implemented: " + i.OpCode.Name + " at " + i.OwnerMethod.DeclaringType.FullName + "." + i.OwnerMethod.Name);
@@ -1258,7 +1270,8 @@ namespace jsc.Script
             var a = new CodeEmitArgs(this)
             {
                 i = i,
-                p = p
+                p = p,
+                TypeExpectedOrDefault = TypeExpectedOrDefault
             };
 
 

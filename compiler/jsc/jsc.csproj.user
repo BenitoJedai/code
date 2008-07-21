@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>X:\jsc.svn\examples\csharp\RayCaster5\RayCaster5\bin\Debug</StartWorkingDirectory>
-    <StartArguments>RayCaster5.exe -cs2</StartArguments>
+    <StartWorkingDirectory>X:\jsc.svn\examples\actionscript\RayCaster6\RayCaster6\bin\Debug</StartWorkingDirectory>
+    <StartArguments>RayCaster6.dll  -as</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

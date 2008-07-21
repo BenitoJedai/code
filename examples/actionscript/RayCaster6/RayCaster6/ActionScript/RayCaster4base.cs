@@ -29,9 +29,7 @@ namespace RayCaster6.ActionScript
         protected Loader bitmapLoader;
         protected BitmapData image;
         protected Sprite imageCont;
-        protected string[] textureFiles;
-        protected int textureLoadNum;
-        protected uint[][][] textures;
+
         //protected double[] floorVals;
 
         protected double posX;
@@ -117,43 +115,13 @@ namespace RayCaster6.ActionScript
                     fKeyRight.ProcessKeyUp(key);
                 };
 
-            textures = new uint[0][][];
-            textureFiles = new[] { "wall.jpg", "tech2.jpg", "roof.jpg" };
-            textureLoadNum = 0;
-            bitmapLoader = new Loader();
-            bitmapLoader.load(new URLRequest("flashsrc/textures/" + textureFiles[textureLoadNum]));
-
-            bitmapLoader.contentLoaderInfo.complete += onBitmapLoaded;
+            //textures = new uint[0][][];
+            LoadTextures();
 
         }
 
-        private void onBitmapLoaded(Event e)
-        {
-            var bd = (Bitmap)(bitmapLoader.getChildAt(0));
-            var bdata = bd.bitmapData;
 
-            textures[textureLoadNum] = new uint[0][];
-            for (var j = 0; j < 256; j++)
-            {
-                textures[textureLoadNum][j] = new uint[0];
-                for (var k = 0; k < 256; k++)
-                {
-                    textures[textureLoadNum][j][k] = bdata.getPixel(j, k);
-                }
-            }
-
-            if (textureLoadNum < textureFiles.Length - 1)
-            {
-                textureLoadNum++;
-                bitmapLoader.unload();
-                bitmapLoader.load(new URLRequest("flashsrc/textures/" + textureFiles[textureLoadNum]));
-            }
-            else
-            {
-                prepare();
-            }
-
-        }
+      
 
         [Script(NoDecoration = true)]
         protected uint RGBToInt(int[] rgb)

@@ -51,6 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\Assets.cs" />
+    <Compile Include="ActionScript\Array2D.cs" />
+    <Compile Include="ActionScript\Array2DUInt32.cs" />
+    <Compile Include="ActionScript\RayCaster4base.textures.cs" />
     <Compile Include="ActionScript\RayCaster4base.render.cs" />
     <Compile Include="ActionScript\KeyboardButton.cs" />
     <Compile Include="ActionScript\RayCaster4base.cs" />
@@ -66,6 +69,7 @@
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
     <Content Include="docs\SourceAnalysis.txt" />
+    <EmbeddedResource Include="web\flashsrc\textures\114.png" />
     <Content Include="web\flashsrc\textures\floor.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

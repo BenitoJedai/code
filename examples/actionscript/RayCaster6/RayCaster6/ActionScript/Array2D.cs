@@ -5,10 +5,9 @@ using System;
 
 namespace RayCaster6.ActionScript
 {
-    using T = SByte;
 
     [Script]
-    public class Array2DSByte
+    public class Array2D<T>
     {
         readonly T[] items;
 
@@ -36,7 +35,7 @@ namespace RayCaster6.ActionScript
  
         //}
 
-        public Array2DSByte(int x, int y, params T[] value)
+        public Array2D(int x, int y, params T[] value)
             //: this(x, y)
         {
             this._XLength = x;
@@ -62,10 +61,10 @@ namespace RayCaster6.ActionScript
         {
             get
             {
-                //if (x < 0) return EmptyValue;
-                //if (y < 0) return EmptyValue;
-                //if (x >= this._XLength) return EmptyValue;
-                //if (y >= this._YLength) return EmptyValue;
+                if (x < 0) return EmptyValue;
+                if (y < 0) return EmptyValue;
+                if (x >= this._XLength) return EmptyValue;
+                if (y >= this._YLength) return EmptyValue;
 
                 return this.items[this._XLength * y + x];
             }

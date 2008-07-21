@@ -410,10 +410,10 @@ namespace jsc.Languages.ActionScript
                 OpCodes.Ldc_I4_8,
                 OpCodes.Ldc_I4_M1,
                 OpCodes.Ldc_I8,
-
                 OpCodes.Ldc_I4_S] =
                e =>
                {
+
                    int? n = e.i.TargetInteger;
 
                    if (n == null)
@@ -433,7 +433,10 @@ namespace jsc.Languages.ActionScript
                    }
                    else
                    {
-                       MyWriter.Write(n.Value);
+                       if (e.TypeExpectedOrDefault == typeof(uint))
+                           MyWriter.Write((uint)n.Value);
+                       else
+                           MyWriter.Write(n.Value);
                    }
                };
             #endregion
@@ -532,7 +535,65 @@ namespace jsc.Languages.ActionScript
                     };
 
                 CIW[OpCodes.Rem] = f("%");
-                CIW[OpCodes.Mul] = f("*");
+
+
+
+
+                CIW[OpCodes.Mul] =
+                    e =>
+                    {
+                        var a = e.i.StackBeforeStrict[0].SingleStackInstruction.TargetInteger;
+                        var b = e.i.StackBeforeStrict[1].SingleStackInstruction.TargetInteger;
+
+                        Func<int?, int, jsc.ILFlow.StackItem, bool> TryOptimize =
+                            (z, x, s) =>
+                            {
+                                if (z != null)
+                                {
+                                    if (z == (1 << x))
+                                    {
+
+                                        Write("(");
+                                        Emit(e.p, s);
+                                        WriteSpace();
+                                        Write("<<");
+                                        WriteSpace();
+                                        Write((x).ToString());
+                                        Write(")");
+
+
+                                        return true;
+                                    }
+
+
+                                }
+                                return false;
+                            };
+
+                        Func<int, bool> TryOptimizeDual =
+                            x =>
+                            {
+                                if (TryOptimize(a, x, e.i.StackBeforeStrict[1]))
+                                    return true;
+
+                                if (TryOptimize(b, x, e.i.StackBeforeStrict[0]))
+                                    return true;
+
+                                return false;
+                            };
+
+                        for (int i = 2; i < 32; i++)
+                        {
+                            if (TryOptimizeDual(i))
+                                return;
+                        }
+                        
+
+
+
+                        WriteInlineOperator(e.p, e.i, "*");
+                    };
+
                 CIW[OpCodes.Div, OpCodes.Div_Un] = f("/");
                 CIW[OpCodes.Bge_S, OpCodes.Bge] = f(">=");
                 CIW[OpCodes.Ble_S, OpCodes.Ble] = f("<=");
@@ -1024,6 +1085,10 @@ namespace jsc.Languages.ActionScript
             CIW[OpCodes.Initobj] =
                 e =>
                 {
+                    // we can only initobj a variable. we cannot init a generic type parameter
+                    if (e.i.Prev.TargetVariable == null)
+                        throw new SkipThisPrestatementException();
+
                     WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.Prev.TargetVariable);
                     WriteAssignment();
                     Write("void(0)");

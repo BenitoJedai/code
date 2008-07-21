@@ -165,13 +165,15 @@ namespace RayCaster6.ActionScript
 
                 y = drawStart;
 
+                var texture = textures[texNum];
+
                 while (y < drawEnd)
                 {
 
                     var d = y * 256 - hT + lhT;  //256 and 128 factors to avoid floats
                     var texY = ((d * texHeight) / lineHeight) / 256;
 
-                    var color = textures[texNum][(texX).Floor()][(texY).Floor()];
+                    var color = texture[texX, texY];
 
                     if (side == 1) color = (color >> 1) & 0x7F7F7F;
                     screen.setPixel(x, y, color);
@@ -230,6 +232,9 @@ namespace RayCaster6.ActionScript
                 int floorTexX;
                 int floorTexY;
 
+                var textures_floor = textures[1];
+                var textures_ceiling = textures[2];
+
                 while (y < h)
                 {
 
@@ -246,7 +251,7 @@ namespace RayCaster6.ActionScript
 
                     try
                     {
-                        var color = textures[1][floorTexX][floorTexY];
+                        var color = textures_floor[floorTexX, floorTexY];
 
                         screen.setPixel(x, y, color); //floor
                     }
@@ -257,7 +262,7 @@ namespace RayCaster6.ActionScript
 
                     try
                     {
-                        var color = textures[2][floorTexX][floorTexY];
+                        var color = textures_ceiling[floorTexX, floorTexY];
 
                         screen.setPixel(x, h - y - 1, color); //ceiling (symmetrical!)
                     }
@@ -271,7 +276,7 @@ namespace RayCaster6.ActionScript
                 }
                 #endregion
 
-                x++;
+                x += 2;
 
                 if (x > 4)
                     render_DebugTrace_Assign_Active = false;
@@ -288,9 +293,19 @@ namespace RayCaster6.ActionScript
 
             const int isize = 3;
 
+            DrawMinimap(isize);
+
+            //screenImage.bitmapData = screen;
+            screen.unlock();
+
+
+        }
+
+        private void DrawMinimap(int isize)
+        {
             var minimap = new BitmapData(isize * (worldMap.XLength + 2), isize * (worldMap.YLength + 2), true, 0x0);
             var minimap_bmp = new Bitmap(minimap);
-            
+
 
             for (int ix = 0; ix < worldMap.XLength; ix++)
                 for (int iy = 0; iy < worldMap.YLength; iy++)
@@ -301,15 +316,10 @@ namespace RayCaster6.ActionScript
                 }
 
             minimap.applyFilter(minimap, minimap.rect, new Point(), new GlowFilter(0x00ff00));
-            minimap.fillRect(new Rectangle((posX + 1) * isize, (posY + 1) * isize , isize, isize), 0xffff0000);
+            minimap.fillRect(new Rectangle((posX + 1) * isize, (posY + 1) * isize, isize, isize), 0xffff0000);
 
 
             screen.draw(minimap);
-
-            //screenImage.bitmapData = screen;
-            screen.unlock();
-
-
         }
 
 

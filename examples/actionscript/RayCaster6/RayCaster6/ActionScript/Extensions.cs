@@ -20,7 +20,7 @@ namespace RayCaster6.ActionScript
         }
 
         //[Script(OptimizedCode = "return int(e);")]
-        [Script(IsDebugCode = true)]
+        //[Script(IsDebugCode = true)]
         public static int Floor(this double e)
         {
             return (int)e;

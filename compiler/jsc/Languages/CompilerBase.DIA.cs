@@ -280,6 +280,12 @@ namespace jsc.Script
         /// <param name="localVariableInfo"></param>
         public void WriteVariableName(Type type, MethodBase method, LocalVariableInfo TargetVariable)
         {
+            if (TargetVariable == null)
+            {
+                WriteSafeLiteral("_");
+                return;
+            }
+
             FResolve Resolve = (t, m, v) => DIACache.GetVariableName(t, m, v, this) ?? "_";
             FResolve ResolveCached =
                 (t, m, v) =>
