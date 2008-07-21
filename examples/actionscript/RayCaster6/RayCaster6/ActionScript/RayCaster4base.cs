@@ -198,6 +198,7 @@ namespace RayCaster6.ActionScript
             addChild(screenImage);
             addChild(txtMain);
 
+
             this.enterFrame += render;
 
             //addEventListener(Event.ENTER_FRAME, render);

@@ -9,6 +9,7 @@ using ScriptCoreLib.ActionScript.flash.events;
 using ScriptCoreLib.ActionScript.flash.net;
 using ScriptCoreLib.ActionScript.flash.ui;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.flash.utils;
 
 
 namespace RayCaster6.ActionScript
@@ -26,6 +27,9 @@ namespace RayCaster6.ActionScript
         }
 #endif
 
+        int interleave_x_step = 1;
+        int interleave_counter = 0;
+
         [Script(NoDecoration = true)]
         private new void render(Event e)
         {
@@ -40,11 +44,15 @@ namespace RayCaster6.ActionScript
             screen.floodFill(0, 0, 0x0);
             screen.@lock();
 
+   
             int x;
             int y;
             DoMovement();
 
-            x = 0;
+            // interleaving?
+            interleave_counter++;
+            x = interleave_counter % interleave_x_step;
+
             while (x < w)
             {
 
@@ -169,14 +177,16 @@ namespace RayCaster6.ActionScript
 
                 while (y < drawEnd)
                 {
-
                     var d = y * 256 - hT + lhT;  //256 and 128 factors to avoid floats
                     var texY = ((d * texHeight) / lineHeight) / 256;
 
                     var color = texture[texX, texY];
 
                     if (side == 1) color = (color >> 1) & 0x7F7F7F;
+
+
                     screen.setPixel(x, y, color);
+
 
                     y++;
                 }
@@ -264,6 +274,7 @@ namespace RayCaster6.ActionScript
                     {
                         var color = textures_ceiling[floorTexX, floorTexY];
 
+
                         screen.setPixel(x, h - y - 1, color); //ceiling (symmetrical!)
                     }
                     catch
@@ -276,11 +287,13 @@ namespace RayCaster6.ActionScript
                 }
                 #endregion
 
-                x += 2;
+                x += interleave_x_step;
 
                 if (x > 4)
                     render_DebugTrace_Assign_Active = false;
             }
+
+       
 
             counter++;
 
