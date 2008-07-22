@@ -11,15 +11,37 @@ namespace FlashConsoleWorm.ActionScript
     [Script]
     partial class Worm
     {
+        public bool IsAlive = true;
+
         public Point Location;
 
         public Func<Point, Point> Wrapper;
 
-        public Point Vector = new Point { x = 1, y = 0 };
+        Point _Vector;
+
+        public Point Vector
+        {
+            get
+            {
+                return _Vector;
+            }
+            set
+            {
+                if (_Vector != null)
+                    if (new Point { x = -_Vector.x, y = -_Vector.y }.IsEqual(value))
+                        return;
+                _Vector = value;
+            }
+        }
 
         public readonly List<Part> Parts = new List<Part>();
 
         public DisplayObjectContainer Canvas { get; set; }
+
+        public Worm()
+        {
+            Vector = new Point { x = 1, y = 0 };
+        }
 
         public Worm GrowToVector()
         {
