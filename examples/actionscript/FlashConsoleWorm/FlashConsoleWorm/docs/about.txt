@@ -8,3 +8,5 @@
 05. Compile, verify, checkin
 23:48
 06. Reboot, power failure
+07. Add classes Worm, Apple
+08. Add a green dot, compile
