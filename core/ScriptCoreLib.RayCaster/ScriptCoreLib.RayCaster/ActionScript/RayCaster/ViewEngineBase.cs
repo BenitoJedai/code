@@ -158,5 +158,10 @@ namespace ScriptCoreLib.ActionScript.RayCaster
             planeY = oldPlaneX * Math.Sin(rotSpeed) + planeY * Math.Cos(rotSpeed);
         }
         #endregion
+
+        public readonly List<SpriteInfo> Sprites = new List<SpriteInfo>();
+
+        public Texture64 FloorTexture;
+        public Texture64 CeilingTexture;
     }
 }

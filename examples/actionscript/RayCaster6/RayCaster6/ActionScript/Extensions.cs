@@ -18,6 +18,15 @@ namespace RayCaster6.ActionScript
     [Script]
     internal static class MyExtensions
     {
+        public static T Take<T>(this IEnumerator<T> e)
+        {
+            if (!e.MoveNext())
+                return e.Current;
+
+
+            throw new Exception("source is empty");
+        }
+
         public static T TakeOrDefault<T>(this IEnumerator<T> e)
         {
             var r = default(T);
@@ -40,22 +49,7 @@ namespace RayCaster6.ActionScript
             return t;
         }
 
-        public static Func<T> LoadBytes<T>(this ByteArray e, Action<T> done) where T : DisplayObject
-        {
-            var loader = new Loader();
-
-            loader.contentLoaderInfo.complete +=
-                delegate
-                {
-                    done((T)loader.content);
-                };
-
-            loader.loadBytes(e
-                , new LoaderContext(false, ApplicationDomain.currentDomain, null)
-                );
-
-            return () => (T)loader.content;
-        }
+        
 
        
 

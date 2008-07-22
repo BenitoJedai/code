@@ -30,7 +30,7 @@ namespace RayCaster6.ActionScript
 
         public TextField txtMain;
 
- 
+
         protected double[] _ZBuffer;
 
         protected int time;
@@ -61,11 +61,7 @@ namespace RayCaster6.ActionScript
                 text = "0"
             };
 
-            //textures = new uint[0][][];
-            LoadTextures();
 
-            // default
-            //this._WallMap = GetDefaultMap();
         }
 
 
@@ -74,9 +70,8 @@ namespace RayCaster6.ActionScript
 
 
 
-        public bool IsReady;
 
-        public void CreateWalkingDummy(Texture64[] Stand, Texture64[][] Walk)
+        public void CreateWalkingDummy(Texture64[] Stand, params Texture64[][] Walk)
         {
             var s = new SpriteInfo
             {
@@ -85,18 +80,18 @@ namespace RayCaster6.ActionScript
                 Direction = dir
             }.AddTo(Sprites);
 
-
-            (200).AtInterval(
-                t =>
-                {
-                    s.Frames = Walk[t.currentCount % Walk.Length];
-                }
-            );
+            if (Walk.Length > 0)
+                (200).AtInterval(
+                    t =>
+                    {
+                        s.Frames = Walk[t.currentCount % Walk.Length];
+                    }
+                );
         }
 
-        
 
-        
+
+
 
 
 

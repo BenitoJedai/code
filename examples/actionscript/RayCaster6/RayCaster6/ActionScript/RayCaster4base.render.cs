@@ -35,7 +35,10 @@ namespace RayCaster6.ActionScript
 
         public void RenderScene()
         {
-            if (!IsReady)
+            if (_textures == null)
+                return;
+
+            if (_textures.Length == 0)
                 return;
 
 
@@ -159,7 +162,7 @@ namespace RayCaster6.ActionScript
                 if (drawEnd >= _ViewHeight) drawEnd = _ViewHeight;
 
                 var texNum = _WallMap[mapX, mapY] - 1; //1 subtracted from it so that texture 0 can be used!
-                texNum = 0;
+                //texNum = 0;
 
                 //calculate value of wallX
                 double wallX; //where exactly the wall was hit
@@ -185,7 +188,7 @@ namespace RayCaster6.ActionScript
 
                 y = drawStart;
 
-                var texture = textures[texNum];
+                var texture = _textures[texNum % _textures.Length];
 
                 while (y < drawEnd)
                 {
@@ -255,8 +258,8 @@ namespace RayCaster6.ActionScript
                     int floorTexX;
                     int floorTexY;
 
-                    var textures_floor = textures[1];
-                    var textures_ceiling = textures[2];
+                    var textures_floor = base.FloorTexture;
+                    var textures_ceiling = base.CeilingTexture;
 
                     while (y < _ViewHeight)
                     {
@@ -578,7 +581,7 @@ namespace RayCaster6.ActionScript
 
         SpriteInfoFromPOV[] SpritesFromPOV;
 
-        public readonly List<SpriteInfo> Sprites = new List<SpriteInfo>();
+        
     }
 
 }

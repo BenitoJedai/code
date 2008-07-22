@@ -1,17 +1,17 @@
-﻿using ScriptCoreLib;
-using ScriptCoreLib.ActionScript.flash.display;
-using ScriptCoreLib.ActionScript.flash.text;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
-using ScriptCoreLib.ActionScript.flash.filters;
-using System;
+using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.events;
-using ScriptCoreLib.ActionScript.flash.net;
-using ScriptCoreLib.ActionScript.flash.ui;
-using System.Linq;
-using ScriptCoreLib.ActionScript.RayCaster;
+using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.flash.net;
+using ScriptCoreLib.ActionScript.flash.text;
+using ScriptCoreLib.ActionScript.flash.ui;
+using ScriptCoreLib.ActionScript.RayCaster;
 
 
 
@@ -33,9 +33,9 @@ namespace RayCaster6.ActionScript
         // 120x90
         // 160x120
         const int DefaultWidth = DefaultHeight * 3 / 2;
-        const int DefaultHeight = 240;
+        const int DefaultHeight = 200;
 
-        const int DefaultScale = 2;
+        const int DefaultScale = 3;
 
         public RayCaster6()
         {
@@ -43,9 +43,10 @@ namespace RayCaster6.ActionScript
             {
                 RenderFloorAndCeilingEnabled = false,
                 RenderMinimapEnabled = false,
-                ViewDirection = 270.DegreesToRadians(),
                 WallMap = Texture32.Of(Map1.ToBitmapAsset(), false),
-                ViewPosition = new Point { x = 4, y = 22 }
+                ViewPosition = new Point { x = 4, y = 22 },
+                ViewDirection = 270.DegreesToRadians(),
+
             };
 
             if (r.CurrentTile != 0)
@@ -136,8 +137,6 @@ namespace RayCaster6.ActionScript
                 }
             );
 
-            var BitmapsLoaded = 0;
-            var Bitmaps = default(Func<Bitmap>[]);
 
             stage.keyUp +=
                    e =>
@@ -153,8 +152,8 @@ namespace RayCaster6.ActionScript
                        }
                    };
 
-            Action BitmapsLoadedAction =
-                delegate
+            Action<Bitmap[]> BitmapsLoadedAction =
+                Bitmaps =>
                 {
                     Func<Texture64[], Texture64[]> Reorder8 =
                         p =>
@@ -163,7 +162,7 @@ namespace RayCaster6.ActionScript
                                 select p[(i + 6) % 8]
                             );
 
-                    var BitmapStream = Bitmaps.Select(i => (Texture64)i()).GetEnumerator();
+                    var BitmapStream = Bitmaps.Select(i => (Texture64)i).GetEnumerator();
 
                     Func<Texture64[]> Next8 =
                         delegate
@@ -212,35 +211,53 @@ namespace RayCaster6.ActionScript
                           };
                 };
 
-            Bitmaps = Enumerable.ToArray(
-                from File in
-                    from f in MyZipFile.ToFiles()
-                    // you can filter your images here
-                    where f.FileName.EndsWith(".png")
-                    select f
-                select
 
-                    File.Bytes.LoadBytes<Bitmap>(
-                        i =>
+            MyZipFile
+                .ToFiles()
+                .Where(f => f.FileName.EndsWith(".png"))
+                .ToBitmapArray(BitmapsLoadedAction);
+
+            MyTextures
+                .ToFiles()
+                .Where(f => f.FileName.EndsWith(".png"))
+                .ToBitmapDictionary(
+                    f =>
+                    {
+                        r.CreateWalkingDummy(
+                            new Texture64 [] { f["lamp.png"] } 
+                        );
+
+                        r.FloorTexture = f["floor.png"];
+                        r.CeilingTexture = f["roof.png"];
+
+                        // should add a mapping/rewrite support
+                        r.Textures = new Texture64 []
                         {
-                            BitmapsLoaded++;
+                            f["graywall.png"],
+                            f["bluewall.png"],
+                        };
 
-                            if (Bitmaps.Length == BitmapsLoaded)
-                                BitmapsLoadedAction();
-                        }
-                    )
+                        r.RenderScene();
 
-            );
+                        stage.enterFrame += r.RenderScene;
 
-            stage.enterFrame += r.RenderScene;
+                    }
+                );
 
+           
         }
 
 
         [Embed("/flashsrc/textures/dude5.zip")]
         Class MyZipFile;
 
+        [Embed("/flashsrc/textures/textures.zip")]
+        Class MyTextures;
+
+
         [Embed("/flashsrc/textures/Map1.png")]
         Class Map1;
+
+
     }
 }

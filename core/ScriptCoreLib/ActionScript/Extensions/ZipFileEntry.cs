@@ -6,6 +6,8 @@ using ScriptCoreLib.ActionScript.flash.utils;
 
 namespace ScriptCoreLib.ActionScript.Extensions
 {
+
+
     /// <summary>
     /// This class can be used to read a simple zip file
     /// </summary>
@@ -15,6 +17,12 @@ namespace ScriptCoreLib.ActionScript.Extensions
         // based on http://livedocs.adobe.com/air/1/devappsflash/help.html?content=ByteArrays_3.html
         // based on http://www.pkware.com/documents/casestudies/APPNOTE.TXT
 
+        [Script]
+        public class Cookie<T>
+        {
+            public ZipFileEntry Entry;
+            public T Value;
+        }
 
         readonly int file_header_signature;
         readonly short required_version;
@@ -100,7 +108,16 @@ namespace ScriptCoreLib.ActionScript.Extensions
             s.readBytes(file_data, 0, this.compressed_size);
 
             if (compression_method == DEFLATE)
-                file_data.uncompress();
+            {
+                try
+                {
+                    file_data.uncompress();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("The file '" + file_name + "' was unable to be uncompressed. " + ex.Message);
+                }
+            }
 
         }
 
