@@ -37,15 +37,9 @@ namespace RayCaster6.ActionScript
         {
             if (!IsReady)
                 return;
-   
 
-            buffer.fillRect(
-                new Rectangle(0, 0, _ViewWidth, _ViewHeight / 2), 0xa0a0a0
-                );
 
-            buffer.fillRect(
-                            new Rectangle(0, _ViewHeight / 2, _ViewWidth, _ViewHeight / 2), 0x808080
-                            );
+            RenderHorizon();
 
             buffer.@lock();
 
@@ -346,6 +340,8 @@ namespace RayCaster6.ActionScript
 
 
         }
+
+
 
         public bool RenderMinimapEnabled = true;
 
