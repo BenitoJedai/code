@@ -25,6 +25,9 @@ namespace RayCaster6.ActionScript
 
         public bool ProcessKeyDown(uint key)
         {
+            if (Buttons == null)
+                throw new Exception("buttons not defined");
+
             if (Buttons.Contains(key))
             {
                 this.IsPressed = true;

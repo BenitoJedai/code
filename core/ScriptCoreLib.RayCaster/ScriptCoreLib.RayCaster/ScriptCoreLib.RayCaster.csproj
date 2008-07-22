@@ -51,8 +51,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\RayCaster\Texture32.cs" />
     <Compile Include="ActionScript\RayCaster\Texture64.cs" />
     <Compile Include="ActionScript\RayCaster\TextureBase.cs" />
+    <Compile Include="ActionScript\RayCaster\ViewInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
