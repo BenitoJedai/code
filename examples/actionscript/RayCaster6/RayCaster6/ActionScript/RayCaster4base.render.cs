@@ -57,12 +57,12 @@ namespace RayCaster6.ActionScript
             interleave_counter++;
             x = interleave_counter % interleave_x_step;
 
-            double rayDirXLeft = dirX - planeX;
-            double rayDirYLeft = dirY - planeY;
+            double rayDirXLeft = dirX + planeX;
+            double rayDirYLeft = dirY + planeY;
             rayDirLeft = new Point { x = rayDirXLeft, y = rayDirYLeft }.GetRotation();
 
-            double rayDirXRight = dirX + planeX;
-            double rayDirYRight = dirY + planeY;
+            double rayDirXRight = dirX - planeX;
+            double rayDirYRight = dirY - planeY;
             rayDirRight = new Point { x = rayDirXRight, y = rayDirYRight }.GetRotation();
 
             // update for current frame
@@ -309,143 +309,7 @@ namespace RayCaster6.ActionScript
                     render_DebugTrace_Assign_Active = false;
             }
 
-            foreach (var s in SpritesFromPOV)
-            {
-                if (s.ViewInfo.IsInView)
-                {
-                    //  { Left = 213, Right = 146, Target = 179 }
-                    // Error: { Left = 213, Right = 146, Target = 179, Total = 66, Start = 33 }
-
-                    var Total = (s.ViewInfo.Left - s.ViewInfo.Right);
-
-                    if (Total < 0)
-                    {
-                        if (s.ViewInfo.Target > s.ViewInfo.Right)
-                            s.ViewInfo.Left += 360.DegreesToRadians();
-
-                        Total = (s.ViewInfo.Left - s.ViewInfo.Right);
-                    }
-
-                    var Start = (s.ViewInfo.Target - s.ViewInfo.Right);
-                    var Start2 = (Total - Start);
-
-                    var Sprite_x = (w + (w * Start2 / Total).Floor()) % w;
-
-                    var depth = s.RelativePosition.length;
-
-                    // scale down enemies to eye line
-                    var z = (h / depth).Floor();
-                    var zhalf = z / 2;
-
-                    // screen.setPixel(Sprite_x, 120, 0xffffff);
-
-                    var texture = s.Sprite.CurrentFrame;
-
-                    // 14
-
-                    //if (depth < 1)
-                    //{
-                    //    var matrix = new Matrix();
-
-                    //    matrix.scale(z / texture.Size, z / texture.Size);
-                    //    matrix.translate(Sprite_x - zhalf, h / 2 - zhalf);
-
-                    //    screen.draw(texture.Bitmap.bitmapData,
-                    //     matrix
-                    //    );
-
-
-
-                    //}
-                    //else
-                    //{
-
-                    if (z > texture.Size)
-                    {
-                        var blocksize = (z / texture.Size).Floor().Max(1);
-
-                        for (int ix = 0; ix < z; ix++)
-                        {
-                            var cx = Sprite_x + ix - zhalf;
-                            var cxt = ix * texture.Size / z;
-
-                            if (ZBuffer[cx] > depth)
-                                for (int iy = 0; iy < z; iy += blocksize)
-                                {
-                                    var cyt = iy * texture.Size / z;
-
-                                    var color = texture[cxt, cyt];
-
-                                    var color_a = (color >> 24) & 0xff;
-                                    var color_r = (color >> 16) & 0xff;
-                                    var color_g = (color >> 8) & 0xff;
-                                    var color_b = color & 0xff;
-
-                                    if (color_a == 0xff)
-                                        screen.fillRect(
-                                            new Rectangle(cx, (h / 2) + iy - zhalf, 1, blocksize), color);
-
-
-                                }
-                        }
-                    }
-                    else
-                    {
-                        for (int ix = 0; ix < z; ix++)
-                        {
-                            var cx = Sprite_x + ix - zhalf;
-                            var cxt = ix * texture.Size / z;
-
-                            if (ZBuffer[cx] > depth)
-                                for (int iy = 0; iy < z; iy++)
-                                {
-                                    var cyt = iy * texture.Size / z;
-
-                                    var color = texture[cxt, cyt];
-
-                                    var color_a = (color >> 24) & 0xff;
-                                    var color_r = (color >> 16) & 0xff;
-                                    var color_g = (color >> 8) & 0xff;
-                                    var color_b = color & 0xff;
-
-                                    if (color_a == 0xff)
-                                        screen.setPixel(cx, (h / 2) + iy - zhalf, color);
-
-
-                                }
-                        }
-                    }
-
-                    //}
-
-
-                    Console.WriteLine(new
-                    {
-                        Sprite_x,
-                        Target = s.ViewInfo.Target.RadiansToDegrees(),
-                        Left = s.ViewInfo.Left.RadiansToDegrees(),
-                        Right = s.ViewInfo.Right.RadiansToDegrees(),
-                        Total = Total.RadiansToDegrees(),
-                        Start = Start.RadiansToDegrees(),
-                        Start2 = Start2.RadiansToDegrees()
-                    });
-
-                    //throw new Exception
-                    //(
-                    //    new
-                    //    {
-                    //        Sprite_x,
-                    //        Left = s.ViewInfo.Left.RadiansToDegrees(),
-                    //        Right = s.ViewInfo.Right.RadiansToDegrees(),
-                    //        Target = s.ViewInfo.Target.RadiansToDegrees(),
-                    //        Total = (s.ViewInfo.Left - s.ViewInfo.Right).RadiansToDegrees(),
-                    //        Start = ( s.ViewInfo.Target- s.ViewInfo.Right).RadiansToDegrees()
-
-
-                    //    }.ToString()
-                    //);
-                }
-            }
+            RenderSprites();
 
             counter++;
 
@@ -464,6 +328,98 @@ namespace RayCaster6.ActionScript
             screen.unlock();
 
 
+        }
+
+        private void RenderSprites()
+        {
+
+            foreach (var s in SpritesFromPOV)
+            {
+                if (s.ViewInfo.IsInView)
+                {
+                    var Total = (s.ViewInfo.Right - s.ViewInfo.Left);
+
+                    //var LeftTarget = s.ViewInfo.Target - s.ViewInfo.Left;
+                    var RightTarget = s.ViewInfo.Right - s.ViewInfo.Target;
+
+                    RenderSingleSprite(s, (RightTarget * w / Total).Floor());
+
+                }
+            }
+        }
+
+        private void RenderSingleSprite(SpriteInfoFromPOV s, int Sprite_x)
+        {
+            var depth = s.RelativePosition.length;
+
+
+
+            // 14
+
+            // scale down enemies to eye line
+            var z = (h / depth).Floor();
+            var zhalf = z / 2;
+
+
+            // screen.setPixel(Sprite_x, 120, 0xffffff);
+
+            var texture = s.Sprite.CurrentFrame;
+
+            if (z > texture.Size)
+            {
+                var blocksize = (z / texture.Size).Floor().Max(1);
+
+                for (int ix = 0; ix < z; ix++)
+                {
+                    var cx = Sprite_x + ix - zhalf;
+                    var cxt = ix * texture.Size / z;
+
+                    if (ZBuffer[cx] > depth)
+                        for (int iy = 0; iy < z; iy += blocksize)
+                        {
+                            var cyt = iy * texture.Size / z;
+
+                            var color = texture[cxt, cyt];
+
+                            var color_a = (color >> 24) & 0xff;
+                            var color_r = (color >> 16) & 0xff;
+                            var color_g = (color >> 8) & 0xff;
+                            var color_b = color & 0xff;
+
+                            if (color_a == 0xff)
+                                screen.fillRect(
+                                    new Rectangle(cx, (h / 2) + iy - zhalf, 1, blocksize), color);
+
+
+                        }
+                }
+            }
+            else
+            {
+                for (int ix = 0; ix < z; ix++)
+                {
+                    var cx = Sprite_x + ix - zhalf;
+                    var cxt = ix * texture.Size / z;
+
+                    if (ZBuffer[cx] > depth)
+                        for (int iy = 0; iy < z; iy++)
+                        {
+                            var cyt = iy * texture.Size / z;
+
+                            var color = texture[cxt, cyt];
+
+                            var color_a = (color >> 24) & 0xff;
+                            var color_r = (color >> 16) & 0xff;
+                            var color_g = (color >> 8) & 0xff;
+                            var color_b = color & 0xff;
+
+                            if (color_a == 0xff)
+                                screen.setPixel(cx, (h / 2) + iy - zhalf , color);
+
+
+                        }
+                }
+            }
         }
 
         private void UpdatePOV()
@@ -581,8 +537,12 @@ namespace RayCaster6.ActionScript
                 Direction = RelativePosition.GetRotation();
                 Distance = RelativePosition.length;
 
-                ViewInfo.Update(Direction, left, right);
-                ViewInfo.IsInView = !ViewInfo.IsInView;
+                ViewInfo.Left = left;
+                ViewInfo.Right = right;
+                ViewInfo.Target = Direction;
+
+                ViewInfo.Update();
+
             }
         }
 
@@ -592,6 +552,8 @@ namespace RayCaster6.ActionScript
             public Point Position = new Point();
 
             public Texture64 CurrentFrame;
+
+            public double Zoom = 0.8;
         }
 
         public readonly List<SpriteInfo> Sprites = new List<SpriteInfo>();

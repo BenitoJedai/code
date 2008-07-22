@@ -19,31 +19,23 @@ namespace RayCaster6.ActionScript
 
         public bool IsInView;
 
-        public void Update(double e, double left, double right)
+        public void Update()
         {
             IsInView = true;
-            Left = left;
-            Right = right;
-            Target = e;
+
+            var w = 360.DegreesToRadians();
 
 
             if (Right < Left)
             {
-                Right += 360.DegreesToRadians();
+                Right += w;
 
                 if (Target < Right)
                     if (Left < Target)
                         return;
 
-                Target += 360.DegreesToRadians();
-
-                if (Target < Right)
-                    if (Left < Target)
-                        return;
-
-                Target -= 360.DegreesToRadians();
-                Left -= 360.DegreesToRadians();
-                Right -= 360.DegreesToRadians();
+                Left -= w;
+                Right -= w;
 
 
             }
@@ -57,6 +49,7 @@ namespace RayCaster6.ActionScript
             return;
         }
     }
+
 
     /// <summary>
     /// This class defines the extension methods for this project
