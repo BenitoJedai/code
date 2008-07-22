@@ -3,7 +3,7 @@
 using System.Linq;
 using System;
 
-namespace RayCaster6.ActionScript
+namespace ScriptCoreLib.ActionScript.RayCaster
 {
     using T = UInt32;
     using ScriptCoreLib.ActionScript.flash.display;

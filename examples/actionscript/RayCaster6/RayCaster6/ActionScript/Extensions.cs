@@ -57,6 +57,7 @@ namespace RayCaster6.ActionScript
     [Script]
     internal static class MyExtensions
     {
+        
         public static Timer AtInterval(this int e, Action<Timer> a)
         {
             var t = new Timer(e);

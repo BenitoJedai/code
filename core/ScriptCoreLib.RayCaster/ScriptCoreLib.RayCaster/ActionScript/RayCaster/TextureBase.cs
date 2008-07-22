@@ -5,7 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.display;
 
-namespace RayCaster6.ActionScript
+namespace ScriptCoreLib.ActionScript.RayCaster
 {
     using T = UInt32;
 

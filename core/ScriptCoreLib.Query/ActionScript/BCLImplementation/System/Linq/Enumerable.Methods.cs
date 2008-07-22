@@ -124,6 +124,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
             return result;
         }
 
+
+
         public static bool Any<TSource>(this IEnumerable<TSource> source)
         {
             if (source == null)

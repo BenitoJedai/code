@@ -29,9 +29,9 @@ namespace RayCaster6.ActionScript
         // 120x90
         // 160x120
         const int DefaultWidth = DefaultHeight * 3 / 2;
-        const int DefaultHeight = 160;
+        const int DefaultHeight = 240;
 
-        const int DefaultScale = 3;
+        const int DefaultScale = 2;
 
         public RayCaster6()
         {

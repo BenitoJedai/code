@@ -6,6 +6,7 @@ using System;
 namespace RayCaster6.ActionScript
 {
     using T = UInt32;
+    using ScriptCoreLib.ActionScript.RayCaster;
 
     [Script]
     public sealed class Texture256 : TextureBase

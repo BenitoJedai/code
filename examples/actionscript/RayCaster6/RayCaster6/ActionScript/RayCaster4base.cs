@@ -1,16 +1,17 @@
-﻿using ScriptCoreLib;
-using ScriptCoreLib.ActionScript.flash.display;
-using ScriptCoreLib.ActionScript.flash.text;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
-using ScriptCoreLib.ActionScript.flash.filters;
-using System;
+using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.events;
-using ScriptCoreLib.ActionScript.flash.net;
-using ScriptCoreLib.ActionScript.flash.ui;
+using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.flash.geom;
-using System.Linq;
+using ScriptCoreLib.ActionScript.flash.net;
+using ScriptCoreLib.ActionScript.flash.text;
+using ScriptCoreLib.ActionScript.flash.ui;
+using ScriptCoreLib.ActionScript.RayCaster;
 
 
 namespace RayCaster6.ActionScript
@@ -36,8 +37,11 @@ namespace RayCaster6.ActionScript
 
         protected double posX;
         protected double posY;  //x and y start position
+
         protected double dirX;
         protected double dirY; //initial direction vector
+        double dir;
+
         protected double planeX;
         protected double planeY; //the 2d raycaster version of camera plane
         protected int w;
@@ -180,14 +184,14 @@ namespace RayCaster6.ActionScript
                  new SpriteInfo
                 {
                     Position = new Point { x = 18.5, y = 13.5 },
-                    CurrentFrame = this.textures[3]
+                    CurrentFrame = new[] { this.textures[3] }
                 });
 
             this.Sprites.Add(
                       new SpriteInfo
                 {
                     Position = new Point { x = 19.5, y = 13.5 },
-                    CurrentFrame = this.textures[3]
+                    CurrentFrame = new[] { this.textures[3] }
                 }
             );
 
@@ -198,10 +202,41 @@ namespace RayCaster6.ActionScript
             var BitmapsLoaded = 0;
             var Bitmaps = default(Func<Bitmap>[]);
 
+            //var ghost = new SpriteInfo
+            //{
+            //    CurrentFrame = textures[3],
+            //    Position = new Point { x = posX, y = posY }
+            //}.AddTo(Sprites);
+
+            //var ghost_pos = new Queue<Point>();
+
+            //(1000 / 15).AtInterval(
+            //    delegate
+            //    {
+            //        ghost_pos.Enqueue(
+            //            new Point { x = posX, y = posY }
+            //            );
+
+            //        if (ghost_pos.Count > 64)
+            //        {
+            //            var p = ghost_pos.Dequeue();
+
+            //            ghost.Position.x = p.x;
+            //            ghost.Position.y = p.y;
+            //        }
+            //    }
+            //);
+
             Action BitmapsLoadedAction =
                 delegate
                 {
-                    var AsTextures = Bitmaps.Select(i => (Texture64)i()).ToArray();
+                    var AsTexturesUnordered = Bitmaps.Take(8).Select(i => (Texture64)i()).ToArray();
+
+                    var AsTextures = Enumerable.ToArray(
+                        from i in Enumerable.Range(0, 8)
+                        select AsTexturesUnordered[(i + 6) % 8]
+                    );
+
 
                     stage.keyUp +=
                        e =>
@@ -210,20 +245,18 @@ namespace RayCaster6.ActionScript
                            {
                                var s = new SpriteInfo
                                   {
-                                      Position = new Point { x = posX, y = posY },
-                                      CurrentFrame = this.textures[3]
-                                  };
+                                      Position = new Point { x = posX + dirX * 2, y = posY + dirY * 2 },
+                                      CurrentFrame = AsTextures,
+                                      Direction = dir
+                                  }.AddTo(Sprites);
 
-                               Sprites.Add(
-                                   s
-                               );
 
-                               (1000 / 15).AtInterval(
-                                   t =>
-                                   {
-                                       s.CurrentFrame = AsTextures[t.currentCount % AsTextures.Length];
-                                   }
-                               );
+                               //(1000).AtInterval(
+                               //    t =>
+                               //    {
+                               //        s.CurrentFrame = AsTextures[t.currentCount % AsTextures.Length];
+                               //    }
+                               //);
                            }
 
                        };
@@ -236,9 +269,7 @@ namespace RayCaster6.ActionScript
                     where f.FileName.EndsWith(".png")
                     select f
                 select
-                //new
-                //{
-                //    File,
+
                     File.Bytes.LoadBytes<Bitmap>(
                         i =>
                         {
@@ -248,7 +279,7 @@ namespace RayCaster6.ActionScript
                                 BitmapsLoadedAction();
                         }
                     )
-               // }
+
             );
 
 
@@ -275,6 +306,8 @@ namespace RayCaster6.ActionScript
                 oldDirX = dirX;
                 dirX = dirX * Math.Cos(-rotSpeed) - dirY * Math.Sin(-rotSpeed);
                 dirY = oldDirX * Math.Sin(-rotSpeed) + dirY * Math.Cos(-rotSpeed);
+                dir = new Point { x = dirX, y = dirY }.GetRotation();
+
                 oldPlaneX = planeX;
                 planeX = planeX * Math.Cos(-rotSpeed) - planeY * Math.Sin(-rotSpeed);
                 planeY = oldPlaneX * Math.Sin(-rotSpeed) + planeY * Math.Cos(-rotSpeed);
@@ -284,6 +317,8 @@ namespace RayCaster6.ActionScript
                 oldDirX = dirX;
                 dirX = dirX * Math.Cos(rotSpeed) - dirY * Math.Sin(rotSpeed);
                 dirY = oldDirX * Math.Sin(rotSpeed) + dirY * Math.Cos(rotSpeed);
+                dir = new Point { x = dirX, y = dirY }.GetRotation();
+
                 oldPlaneX = planeX;
                 planeX = planeX * Math.Cos(rotSpeed) - planeY * Math.Sin(rotSpeed);
                 planeY = oldPlaneX * Math.Sin(rotSpeed) + planeY * Math.Cos(rotSpeed);

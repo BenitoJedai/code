@@ -38,6 +38,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.RayCaster, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.RayCaster.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
@@ -53,7 +57,6 @@
     <Compile Include="ActionScript\Assets.cs" />
     <Compile Include="ActionScript\Array2D.cs" />
     <Compile Include="ActionScript\RayCaster4base.setWorldMap.cs" />
-    <Compile Include="ActionScript\Texture64.cs" />
     <Compile Include="ActionScript\Texture256.cs" />
     <Compile Include="ActionScript\RayCaster4base.textures.cs" />
     <Compile Include="ActionScript\RayCaster4base.render.cs" />
@@ -62,7 +65,6 @@
     <Compile Include="ActionScript\RayCaster6.cs" />
     <Compile Include="ActionScript\Extensions.cs" />
     <Compile Include="ActionScript\Array2DSByte.cs" />
-    <Compile Include="ActionScript\TextureBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>

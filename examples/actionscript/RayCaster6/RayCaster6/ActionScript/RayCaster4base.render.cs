@@ -11,6 +11,7 @@ using ScriptCoreLib.ActionScript.flash.net;
 using ScriptCoreLib.ActionScript.flash.ui;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.flash.utils;
+using ScriptCoreLib.ActionScript.RayCaster;
 
 
 namespace RayCaster6.ActionScript
@@ -34,6 +35,8 @@ namespace RayCaster6.ActionScript
         double rayDirLeft;
         double rayDirRight;
 
+        public bool RenderFloorAndCeiling;
+
         [Script(NoDecoration = true)]
         private new void render(Event e)
         {
@@ -45,7 +48,15 @@ namespace RayCaster6.ActionScript
                             trace("err");
                         } */
 
-            screen.floodFill(0, 0, 0x0);
+
+            screen.fillRect(
+                new Rectangle(0, 0, w, h / 2), 0xa0a0a0
+                );
+
+            screen.fillRect(
+                            new Rectangle(0, h / 2, w, h / 2), 0x808080
+                            );
+
             screen.@lock();
 
 
@@ -210,98 +221,102 @@ namespace RayCaster6.ActionScript
                 //SET THE ZBUFFER FOR THE SPRITE CASTING
                 ZBuffer[x] = perpWallDist; //perpendicular distance is used
 
-                //floor casting    
-                double floorXWall;
-                double floorYWall; //x, y position of the floor texel at the bottom of the wall
-
-                //4 different wall directions possible
-                if (side == 0)
+                if (RenderFloorAndCeiling)
                 {
-                    if (rayDirX > 0)
+                    //floor casting    
+                    double floorXWall;
+                    double floorYWall; //x, y position of the floor texel at the bottom of the wall
+
+                    //4 different wall directions possible
+                    if (side == 0)
                     {
-                        floorXWall = mapX;
-                        floorYWall = mapY + wallX;
+                        if (rayDirX > 0)
+                        {
+                            floorXWall = mapX;
+                            floorYWall = mapY + wallX;
+                        }
+                        else
+                        {
+                            floorXWall = mapX + 1.0;
+                            floorYWall = mapY + wallX;
+                        }
                     }
                     else
                     {
-                        floorXWall = mapX + 1.0;
-                        floorYWall = mapY + wallX;
+                        if (rayDirY > 0)
+                        {
+                            floorXWall = mapX + wallX;
+                            floorYWall = mapY;
+                        }
+                        else
+                        {
+                            floorXWall = mapX + wallX;
+                            floorYWall = mapY + 1.0;
+                        }
                     }
+
+
+                    var distWall = perpWallDist;
+                    var distPlayer = 0.0;
+                    var currentDist = 0.0;
+
+                    if (drawEnd < 0) drawEnd = h; //becomes < 0 when the integer overflows
+
+                    //draw the floor from drawEnd to the bottom of the screen
+                    #region draw floor
+                    y = drawEnd;
+                    double weight;
+                    double currentFloorX;
+                    double currentFloorY;
+                    int floorTexX;
+                    int floorTexY;
+
+                    var textures_floor = textures[1];
+                    var textures_ceiling = textures[2];
+
+                    while (y < h)
+                    {
+
+                        currentDist = h / (2 * y - h); //you could make a small lookup table for this instead
+                        //currentDist = floorVals[int(y-80)];
+
+                        weight = (currentDist - distPlayer) / (distWall - distPlayer);
+
+                        currentFloorX = weight * floorXWall + (1.0 - weight) * posX;
+                        currentFloorY = weight * floorYWall + (1.0 - weight) * posY;
+
+                        floorTexX = (currentFloorX * texWidth).Floor() % texWidth;
+                        floorTexY = (currentFloorY * texHeight).Floor() % texHeight;
+
+                        try
+                        {
+                            var color = textures_floor[floorTexX, floorTexY];
+
+                            screen.setPixel(x, y, color); //floor
+                        }
+                        catch
+                        {
+                            //trace("err");
+                        }
+
+                        try
+                        {
+                            var color = textures_ceiling[floorTexX, floorTexY];
+
+
+                            screen.setPixel(x, h - y - 1, color); //ceiling (symmetrical!)
+                        }
+                        catch
+                        {
+                            //trace("err");
+                        }
+
+
+                        y++;
+                    }
+                    #endregion
+
                 }
-                else
-                {
-                    if (rayDirY > 0)
-                    {
-                        floorXWall = mapX + wallX;
-                        floorYWall = mapY;
-                    }
-                    else
-                    {
-                        floorXWall = mapX + wallX;
-                        floorYWall = mapY + 1.0;
-                    }
-                }
-
-
-                var distWall = perpWallDist;
-                var distPlayer = 0.0;
-                var currentDist = 0.0;
-
-                if (drawEnd < 0) drawEnd = h; //becomes < 0 when the integer overflows
-
-                //draw the floor from drawEnd to the bottom of the screen
-                #region draw floor
-                y = drawEnd;
-                double weight;
-                double currentFloorX;
-                double currentFloorY;
-                int floorTexX;
-                int floorTexY;
-
-                var textures_floor = textures[1];
-                var textures_ceiling = textures[2];
-
-                while (y < h)
-                {
-
-                    currentDist = h / (2 * y - h); //you could make a small lookup table for this instead
-                    //currentDist = floorVals[int(y-80)];
-
-                    weight = (currentDist - distPlayer) / (distWall - distPlayer);
-
-                    currentFloorX = weight * floorXWall + (1.0 - weight) * posX;
-                    currentFloorY = weight * floorYWall + (1.0 - weight) * posY;
-
-                    floorTexX = (currentFloorX * texWidth).Floor() % texWidth;
-                    floorTexY = (currentFloorY * texHeight).Floor() % texHeight;
-
-                    try
-                    {
-                        var color = textures_floor[floorTexX, floorTexY];
-
-                        screen.setPixel(x, y, color); //floor
-                    }
-                    catch
-                    {
-                        //trace("err");
-                    }
-
-                    try
-                    {
-                        var color = textures_ceiling[floorTexX, floorTexY];
-
-
-                        screen.setPixel(x, h - y - 1, color); //ceiling (symmetrical!)
-                    }
-                    catch
-                    {
-                        //trace("err");
-                    }
-
-
-                    y++;
-                }
-                #endregion
 
                 x += interleave_x_step;
 
@@ -315,14 +330,14 @@ namespace RayCaster6.ActionScript
 
             if (getTimer() - 500 >= time)
             {
-                txtMain.text = (counter * 2).ToString() + "fps " + global::ScriptCoreLib.ActionScript.flash.system.System.totalMemory + "bytes";
+                // txtMain.text = (counter * 2).ToString() + "fps " + global::ScriptCoreLib.ActionScript.flash.system.System.totalMemory + "bytes";
+                txtMain.text = (counter * 2).ToString() + "fps @" + dir.RadiansToDegrees();
                 counter = 0;
                 time = getTimer();
             }
 
-            const int isize = 2;
 
-            DrawMinimap(isize);
+            DrawMinimap();
 
             //screenImage.bitmapData = screen;
             screen.unlock();
@@ -361,9 +376,24 @@ namespace RayCaster6.ActionScript
             var zhalf = z / 2;
 
 
-            // screen.setPixel(Sprite_x, 120, 0xffffff);
+            var r = (Math.PI * 2);
+            var dir = new Point { x = dirX, y = dirY }.GetRotation();
 
-            var texture = s.Sprite.CurrentFrame;
+            var len = s.Sprite.CurrentFrame.Length;
+            
+
+            dir += (r / (len)) / 2;
+            dir += s.Sprite.Direction;
+
+            // 90 deg problem
+            dir += Math.PI / 2;
+
+            var grad = ((dir * len) / (Math.PI * 2)).Floor() % len;
+
+            // we are in a mirror? theres definetly a bug somewhere
+            
+
+            var texture = s.Sprite.CurrentFrame[grad];
 
             if (z > texture.Size)
             {
@@ -414,7 +444,7 @@ namespace RayCaster6.ActionScript
                             var color_b = color & 0xff;
 
                             if (color_a == 0xff)
-                                screen.setPixel(cx, (h / 2) + iy - zhalf , color);
+                                screen.setPixel(cx, (h / 2) + iy - zhalf, color);
 
 
                         }
@@ -443,8 +473,10 @@ namespace RayCaster6.ActionScript
             //System.Array.Reverse(SpritesFromPOV);
         }
 
-        private void DrawMinimap(int isize)
+        private void DrawMinimap()
         {
+            const int isize = 6;
+
             var minimap = new BitmapData(isize * (worldMap.XLength + 2), isize * (worldMap.YLength + 2), true, 0x0);
             var minimap_bmp = new Bitmap(minimap);
 
@@ -457,7 +489,7 @@ namespace RayCaster6.ActionScript
 
                 }
 
-            minimap.applyFilter(minimap, minimap.rect, new Point(), new GlowFilter(0x00ff00));
+            //minimap.applyFilter(minimap, minimap.rect, new Point(), new GlowFilter(0x00ff00));
 
             minimap.fillRect(new Rectangle((posX + 0.5) * isize, (posY + 0.5) * isize, isize, isize), 0xffff0000);
 
@@ -489,11 +521,25 @@ namespace RayCaster6.ActionScript
 
 
                 minimap.fillRect(new Rectangle(
-                    (ss.Sprite.Position.x + 1) * isize,
-                    (ss.Sprite.Position.y + 1) * isize,
+                    (ss.Sprite.Position.x + 0.5) * isize,
+                    (ss.Sprite.Position.y + 0.5) * isize,
                     isize,
                     isize), color);
+
+                var _x = (ss.Sprite.Position.x + 1) * isize;
+                var _y = (ss.Sprite.Position.y + 1) * isize;
+
+                
+                minimap.drawLine(
+                    0xffffffff,
+                    _x,
+                    _y,
+                    _x + Math.Cos(ss.Sprite.Direction) * isize * 4,
+                    _y + Math.Sin(ss.Sprite.Direction) * isize * 4
+                );
+
             }
+
 
 
 
@@ -551,9 +597,11 @@ namespace RayCaster6.ActionScript
         {
             public Point Position = new Point();
 
-            public Texture64 CurrentFrame;
+            public Texture64[] CurrentFrame;
 
-            public double Zoom = 0.8;
+
+
+            public double Direction = 0;
         }
 
         public readonly List<SpriteInfo> Sprites = new List<SpriteInfo>();

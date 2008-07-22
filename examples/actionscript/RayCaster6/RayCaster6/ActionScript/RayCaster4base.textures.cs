@@ -9,6 +9,7 @@ using ScriptCoreLib.ActionScript.flash.events;
 using ScriptCoreLib.ActionScript.flash.net;
 using ScriptCoreLib.ActionScript.flash.ui;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.RayCaster;
 
 
 namespace RayCaster6.ActionScript
