@@ -28,6 +28,7 @@ call :build core\ScriptCoreLib.Mochi\ScriptCoreLib.Mochi.sln
 call :build core\ScriptCoreLib.GoogleMaps\ScriptCoreLib.GoogleMaps.sln
 call :build core\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing.sln
 call :build core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.sln
+call :build core\ScriptCoreLib.RayCaster\ScriptCoreLib.RayCaster.sln
 
 :: build some tools
 call :build javascript\Tools\ConvertASToCS\CreateNetworkProxy\CreateNetworkProxy.csproj
