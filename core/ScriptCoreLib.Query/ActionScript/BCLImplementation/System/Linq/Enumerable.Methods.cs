@@ -342,6 +342,38 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
         }
 
 
+        public static Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            return source.ToDictionary<TSource, TKey, TSource>(keySelector, ScriptCoreLib.Shared.Lambda.IdentityFunction<TSource>.Instance);
+        }
+
+        public static Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector)
+        {
+            if (source == null)
+            {
+                throw Error.ArgumentNull("source");
+            }
+            if (keySelector == null)
+            {
+                throw Error.ArgumentNull("keySelector");
+            }
+            if (elementSelector == null)
+            {
+                throw Error.ArgumentNull("elementSelector");
+            }
+            var dictionary = new Dictionary<TKey, TElement>();
+            foreach (var local in source)
+            {
+                dictionary.Add(keySelector(local), elementSelector(local));
+            }
+            return dictionary;
+        }
+
+ 
+
+ 
+
+
     }
 
 }

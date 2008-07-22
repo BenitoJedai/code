@@ -14,7 +14,13 @@ namespace ScriptCoreLib.ActionScript.RayCaster
         protected const int texWidth = Texture64.SizeConstant;
         protected const int texHeight = Texture64.SizeConstant;
 
-        protected Texture64[] textures;
+        protected Texture64[] _textures;
+
+        public Texture64[] Textures
+        {
+            get { return _textures; }
+            set { _textures = value; }
+        }
 
     }
 }

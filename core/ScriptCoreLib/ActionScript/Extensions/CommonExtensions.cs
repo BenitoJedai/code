@@ -114,11 +114,28 @@ namespace ScriptCoreLib.ActionScript.Extensions
             return a.readUTFBytes(a.length);
         }
 
+
         public static ZipFileEntry[] ToFiles(this Class c)
         {
             var bytes = c.ToByteArrayAsset();
             bytes.endian = Endian.LITTLE_ENDIAN;
             return ZipFileEntry.Parse(bytes);
+        }
+
+        public static void LoadBytes<T>(this ByteArray e, Action<T> done) where T : DisplayObject
+        {
+            var loader = new Loader();
+
+            loader.contentLoaderInfo.complete +=
+                delegate
+                {
+                    done((T)loader.content);
+                };
+
+            loader.loadBytes(e
+                , new LoaderContext(false, ApplicationDomain.currentDomain, null)
+                );
+
         }
 
         public static ByteArrayAsset ToByteArrayAsset(this Class c)
@@ -146,13 +163,13 @@ namespace ScriptCoreLib.ActionScript.Extensions
         }
 
         public static void CombineDelegate<T>(EventDispatcher _this, Action<T> value, string name)
-            // where T : Event
+        // where T : Event
         {
             _this.addEventListener(name, value.ToFunction(), false, 0, false);
         }
 
         public static void RemoveDelegate<T>(EventDispatcher _this, Action<T> value, string name)
-            // where T : Event
+        // where T : Event
         {
             _this.removeEventListener(name, value.ToFunction(), false);
         }
