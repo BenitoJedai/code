@@ -18,37 +18,11 @@ namespace RayCaster6.ActionScript
 
     partial class RayCaster4base
     {
-        //protected int[][] worldMap;
-        //public Array2DSByte worldMap;
-        Texture32 wallMap;
+      
 
-        /// <summary>
-        /// This property defines where are the walls
-        /// </summary>
-        public Texture32 WallMap
+        Texture32 GetDefaultMap()
         {
-            get
-            {
-                return wallMap;
-            }
-            set
-            {
-                wallMap = value;
-            }
-        }
-
-        public uint CurrentTile
-        {
-            get
-            {
-                return wallMap[posX.Floor(), posY.Floor()];
-            }
-        }
-
-        [Script(NoDecoration = true)]
-        protected void setWorldMap()
-        {
-            wallMap =
+            return
                 new Texture32(//32, 32,
                     8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 4, 4, 6, 4, 4, 6, 4, 6, 4, 4, 4, 6, 4, 8, 8, 8, 8, 8, 8, 8, 8,
                     8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8, 8, 8, 8, 8, 8, 8, 8,
