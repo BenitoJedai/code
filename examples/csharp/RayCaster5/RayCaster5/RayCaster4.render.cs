@@ -33,7 +33,7 @@ namespace RayCaster4.ActionScript
             //screen.floodFill(0, 0, 0x0);
             var screenData = screen.@lock();
 
-            int x;
+            
             int y;
             DoMovement();
 
@@ -54,8 +54,7 @@ namespace RayCaster4.ActionScript
 
             var DelayDrawSprites = new List<SpriteDrawRequest>();
 
-
-            x = 0;
+            var x = 0;
             while (x < w)
             {
 
@@ -543,7 +542,7 @@ namespace RayCaster4.ActionScript
                         }
                     }
 
-                g.DrawLine(Pens.Red, posX, posY, posX + dirX * 1, posY + dirY * 1);
+                g.DrawLine(Pens.Red, posX, posY, posX + dirX * 2, posY + dirY * 2);
 
 
                 foreach (var s in Sprites)
