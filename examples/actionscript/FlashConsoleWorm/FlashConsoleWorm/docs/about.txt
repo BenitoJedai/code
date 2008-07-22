@@ -15,3 +15,6 @@
 00:17
 11. We have a nonmoving screen, add movement
 12. Add keyboard support
+13. Safeguard against a 180" smashing into itself
+14. Ready to implement multiplay
+00:55

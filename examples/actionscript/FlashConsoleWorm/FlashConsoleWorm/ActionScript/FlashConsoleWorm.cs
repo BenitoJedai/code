@@ -7,6 +7,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.flash.text;
+using ScriptCoreLib.ActionScript.flash.ui;
 
 namespace FlashConsoleWorm.ActionScript
 {
@@ -17,6 +18,8 @@ namespace FlashConsoleWorm.ActionScript
     [SWF(width = DefaultWidth, height = DefaultHeight, backgroundColor = ColorBlack)]
     public class FlashConsoleWorm : Sprite
     {
+        // based on javascript version
+
         // vNext should be semi 3D - http://www.freeworldgroup.com/games/3dworm/index.html
 
 
@@ -27,11 +30,13 @@ namespace FlashConsoleWorm.ActionScript
         public const int DefaultWidth = RoomWidth * DefaultZoom;
         public const int DefaultHeight = RoomHeight * DefaultZoom;
 
-        public const int DefaultZoom = 24;
+        public const int DefaultZoom = 10;
 
-        public const int RoomWidth = 32;
-        public const int RoomHeight = 32;
+        public const int RoomWidth = 48;
+        public const int RoomHeight = 48;
 
+        public readonly KeyboardButtonGroup MovementWASD;
+        public readonly KeyboardButtonGroup MovementArrows;
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -72,7 +77,7 @@ namespace FlashConsoleWorm.ActionScript
 
             var apples = new List<Apple>();
 
-            10.Times(() =>
+            15.Times(() =>
                 CreateApple().AttachTo(canvas).AddTo(apples)
             );
 
@@ -88,29 +93,107 @@ namespace FlashConsoleWorm.ActionScript
              .GrowToVector()
              .GrowToVector();
 
+            #region keyboard
+
+            MovementWASD = new KeyboardButtonGroup { Name = "WASD" };
+            MovementArrows = new KeyboardButtonGroup { Name = "Arrows" };
+
+            var GoLeft = new KeyboardButton(stage)
+            {
+                Groups = new[]
+                {
+                    MovementWASD[Keyboard.A],
+                    MovementArrows[Keyboard.LEFT],
+                },
+                Up = () => { worm.Vector = new Point { x = -1, y = 0 }; },
+            }.Up;
+
+            var GoRight = new KeyboardButton(stage)
+            {
+                Groups = new[]
+                {
+                    MovementWASD[Keyboard.D],
+                    MovementArrows[Keyboard.RIGHT],
+                },
+                Up = () => { worm.Vector = new Point { x = 1, y = 0 }; },
+            }.Up;
+
+            var GoUp = new KeyboardButton(stage)
+            {
+                Groups = new[]
+                {
+                    MovementWASD[Keyboard.W],
+                    MovementArrows[Keyboard.UP],
+                },
+                Up = () => { worm.Vector = new Point { x = 0, y = -1 }; },
+            }.Up;
+
+            var GoDown = new KeyboardButton(stage)
+            {
+                Groups = new[]
+                {
+                    MovementWASD[Keyboard.S],
+                    MovementArrows[Keyboard.DOWN],
+                },
+                Up = () => { worm.Vector = new Point { x = 0, y = 1 }; },
+
+            }.Up;
+
+            #endregion
+
+            stage.click +=
+                e =>
+                {
+                    #region Dia
+                    var A = e.stageX > e.stageY;
+                    var B = e.stageX > (stage.stageWidth - e.stageY);
+
+                    var DiaClipLeft = !A && !B;
+                    var DiaClipRight = A && B;
+                    var DiaClipTop = A && !B;
+                    var DiaClipBottom = !A && B;
+                    #endregion
+
+                    if (DiaClipLeft) GoLeft();
+                    else if (DiaClipRight) GoRight();
+                    else if (DiaClipTop) GoUp();
+                    else if (DiaClipBottom) GoDown();
+                };
+
             100.AtInterval(
                t =>
                {
-                   worm.GrowToVector();
-
-                   // did we find an apple?
-                   var a = apples.Where(i => i.Location.IsEqual(worm.Location)).ToArray();
-
-                   if (a.Length > 0)
+                   if (worm.Parts.Any(i => i.Location.IsEqual(worm.NextLocation)))
                    {
-                       foreach (var v in a)
-                       {
-                           v.MoveToRandomLocation();
-                       }
+                       worm.IsAlive = false;
 
-                       // AddScore(1);
+                       //AddScore(0);
+
                    }
-                   else
+
+                   if (worm.IsAlive)
                    {
-                       worm.Shrink();
+                       worm.GrowToVector();
+
+                       // did we find an apple?
+                       var a = apples.Where(i => i.Location.IsEqual(worm.Location)).ToArray();
+
+                       if (a.Length > 0)
+                       {
+                           foreach (var v in a)
+                           {
+                               v.MoveToRandomLocation();
+                           }
+
+                           // AddScore(1);
+                       }
+                       else
+                       {
+                           worm.Shrink();
+                       }
                    }
                }
-              );
+            );
         }
     }
 }
