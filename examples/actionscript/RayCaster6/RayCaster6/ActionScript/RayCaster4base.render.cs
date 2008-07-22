@@ -1,15 +1,16 @@
-﻿using ScriptCoreLib;
-using ScriptCoreLib.ActionScript.flash.display;
-using ScriptCoreLib.ActionScript.flash.text;
+﻿using System;
 using System.Collections.Generic;
-using ScriptCoreLib.ActionScript;
-using ScriptCoreLib.ActionScript.flash.filters;
-using System;
 using System.Linq;
+using ScriptCoreLib;
+using ScriptCoreLib.ActionScript;
+using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.events;
-using ScriptCoreLib.ActionScript.flash.net;
-using ScriptCoreLib.ActionScript.flash.ui;
+using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.flash.net;
+using ScriptCoreLib.ActionScript.flash.text;
+using ScriptCoreLib.ActionScript.flash.ui;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.RayCaster;
 
@@ -19,27 +20,19 @@ namespace RayCaster6.ActionScript
 
     partial class RayCaster4base
     {
-        static bool render_DebugTrace_Assign_Active = true;
 
-#if DebugTrace_Assign
-        private static void render_DebugTrace_Assign(string e)
-        {
-            if (render_DebugTrace_Assign_Active)
-                Console.WriteLine(e);
-        }
-#endif
 
-        int interleave_x_step = 1;
-        int interleave_counter = 0;
 
         double rayDirLeft;
         double rayDirRight;
 
-        public bool RenderFloorAndCeiling;
+        public bool RenderFloorAndCeilingEnabled;
 
         [Script(NoDecoration = true)]
-        private new void render(Event e)
+        public new void render(Event e)
         {
+            if (!IsReady)
+                return;
             /* 			try {
                             screen.dispose();
                             screen = new BitmapData( w, h, false, 0x0 );
@@ -148,7 +141,7 @@ namespace RayCaster6.ActionScript
                         mapY += stepY;
                         side = 1;
                     }
-                    if (worldMap[mapX, mapY] > 0)
+                    if (wallMap[mapX, mapY] > 0)
                     {
                         hit = 1; //Check if ray has hit a wall   
                     }
@@ -174,7 +167,7 @@ namespace RayCaster6.ActionScript
                 var drawEnd = (lineHeight / 2 + h / 2).Floor();
                 if (drawEnd >= h) drawEnd = h;
 
-                var texNum = worldMap[mapX, mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+                var texNum = wallMap[mapX, mapY] - 1; //1 subtracted from it so that texture 0 can be used!
                 texNum = 0;
 
                 //calculate value of wallX
@@ -221,7 +214,7 @@ namespace RayCaster6.ActionScript
                 //SET THE ZBUFFER FOR THE SPRITE CASTING
                 ZBuffer[x_mirror] = perpWallDist; //perpendicular distance is used
 
-                if (RenderFloorAndCeiling)
+                if (RenderFloorAndCeilingEnabled)
                 {
                     //floor casting    
                     double floorXWall;
@@ -280,6 +273,13 @@ namespace RayCaster6.ActionScript
                         currentDist = h / (2 * y - h); //you could make a small lookup table for this instead
                         //currentDist = floorVals[int(y-80)];
 
+                        var pen_width = 1;
+
+                        pen_width = currentDist.Floor().Max(1).Min(2);
+
+
+
+
                         weight = (currentDist - distPlayer) / (distWall - distPlayer);
 
                         currentFloorX = weight * floorXWall + (1.0 - weight) * posX;
@@ -292,7 +292,10 @@ namespace RayCaster6.ActionScript
                         {
                             var color = textures_floor[floorTexX, floorTexY];
 
-                            screen.setPixel(x_mirror, y, color); //floor
+                            if (pen_width > 1)
+                                screen.fillRect(new Rectangle(x_mirror, y, 1, pen_width), color);
+                            else
+                                screen.setPixel(x_mirror, y, color); //floor
                         }
                         catch
                         {
@@ -303,22 +306,23 @@ namespace RayCaster6.ActionScript
                         {
                             var color = textures_ceiling[floorTexX, floorTexY];
 
-
-                            screen.setPixel(x_mirror, h - y - 1, color); //ceiling (symmetrical!)
+                            if (pen_width > 1)
+                                screen.fillRect(new Rectangle(x_mirror, h - y - pen_width, 1, pen_width), color);
+                            else
+                                screen.setPixel(x_mirror, h - y - 1, color); //ceiling (symmetrical!)
                         }
                         catch
                         {
                             //trace("err");
                         }
 
-
-                        y++;
+                        y += pen_width;
                     }
                     #endregion
 
                 }
 
-                x += interleave_x_step;
+                x += 1;
 
                 //if (x > 4)
                 //    render_DebugTrace_Assign_Active = false;
@@ -331,7 +335,8 @@ namespace RayCaster6.ActionScript
             if (getTimer() - 500 >= time)
             {
                 // txtMain.text = (counter * 2).ToString() + "fps " + global::ScriptCoreLib.ActionScript.flash.system.System.totalMemory + "bytes";
-                txtMain.text = (counter * 2).ToString() + "fps @" + dir.RadiansToDegrees();
+                //txtMain.text = (counter * 2).ToString() + "fps @" + dir.RadiansToDegrees();
+                txtMain.text = (counter * 2).ToString() + "fps @" + wallMap[posX.Floor(), posY.Floor()];
                 counter = 0;
                 time = getTimer();
             }
@@ -375,15 +380,19 @@ namespace RayCaster6.ActionScript
 
             // scale down enemies to eye line
             var z = (h / depth).Floor();
+
+            if (z < 0.1)
+                return;
+
             var zmaxed = z.Max(h / 2).Floor();
             var zhalf = z / 2;
 
 
-            
-             
+
+
             //Console.WriteLine(new { grad, deg = dir.RadiansToDegrees() }.ToString());
 
-            
+
             // we are in a mirror? theres definetly a bug somewhere
 
 
@@ -401,7 +410,7 @@ namespace RayCaster6.ActionScript
                     if (ZBuffer[cx] > depth)
                     {
                         if (texture == null)
-                            texture = s.Sprite.CurrentFrame[GetFrameForPOV(s)]; 
+                            texture = s.Sprite.Frames[GetFrameForPOV(s)];
 
                         for (int iy = 0; iy < zmaxed; iy += blocksize)
                         {
@@ -433,7 +442,7 @@ namespace RayCaster6.ActionScript
                     if (ZBuffer[cx] > depth)
                     {
                         if (texture == null)
-                            texture = s.Sprite.CurrentFrame[GetFrameForPOV(s)]; 
+                            texture = s.Sprite.Frames[GetFrameForPOV(s)];
 
                         for (int iy = 0; iy < z; iy++)
                         {
@@ -460,7 +469,7 @@ namespace RayCaster6.ActionScript
         {
             var r = 360.DegreesToRadians();
 
-            var len = s.Sprite.CurrentFrame.Length;
+            var len = s.Sprite.Frames.Length;
 
             #region direction translation magic
             var dir = s.Direction;
@@ -505,14 +514,14 @@ namespace RayCaster6.ActionScript
         {
             const int isize = 6;
 
-            var minimap = new BitmapData(isize * (worldMap.XLength + 2), isize * (worldMap.YLength + 2), true, 0x0);
+            var minimap = new BitmapData(isize * (wallMap.Size + 2), isize * (wallMap.Size + 2), true, 0x0);
             var minimap_bmp = new Bitmap(minimap);
 
 
-            for (int ix = 0; ix < worldMap.XLength; ix++)
-                for (int iy = 0; iy < worldMap.YLength; iy++)
+            for (int ix = 0; ix < wallMap.Size; ix++)
+                for (int iy = 0; iy < wallMap.Size; iy++)
                 {
-                    if (worldMap[ix, iy] > 0)
+                    if (wallMap[ix, iy] > 0)
                         minimap.fillRect(new Rectangle((ix + 1) * isize, (iy + 1) * isize, isize, isize), 0x7f00ff00);
 
                 }
@@ -635,9 +644,7 @@ namespace RayCaster6.ActionScript
         {
             public Point Position = new Point();
 
-            public Texture64[] CurrentFrame;
-
-
+            public Texture64[] Frames;
 
             public double Direction = 0;
         }

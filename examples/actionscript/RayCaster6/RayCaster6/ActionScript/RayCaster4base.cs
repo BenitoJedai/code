@@ -19,7 +19,7 @@ namespace RayCaster6.ActionScript
 
     [ScriptImportsType("flash.utils.getTimer")]
     [Script]
-    public partial class RayCaster4base : Sprite
+    public sealed partial class RayCaster4base //: Sprite
     {
         // http://livedocs.adobe.com/flex/2/langref/flash/utils/package.html#getTimer()
         [Script(OptimizedCode = "return flash.utils.getTimer();")]
@@ -28,19 +28,16 @@ namespace RayCaster6.ActionScript
             return default(int);
         }
 
-        protected TextField txtMain;
+        public TextField txtMain;
         protected Loader bitmapLoader;
         protected BitmapData image;
         protected Sprite imageCont;
 
         //protected double[] floorVals;
 
-        protected double posX;
-        protected double posY;  //x and y start position
+        public double posX;
+        public double posY;  //x and y start position
 
-        protected double dirX;
-        protected double dirY; //initial direction vector
-        double dir = 0;
 
         protected double planeX;
         protected double planeY; //the 2d raycaster version of camera plane
@@ -51,7 +48,8 @@ namespace RayCaster6.ActionScript
         protected double rotSpeed;
 
         protected BitmapData screen;
-        protected Bitmap screenImage;
+
+        public Bitmap screenImage;
         //protected Sprite[] sprites; // ?
         protected double[] ZBuffer;
         protected int time;
@@ -60,33 +58,50 @@ namespace RayCaster6.ActionScript
 
 
 
-        public RayCaster4base()
+        public RayCaster4base(int w, int h)
         {
-            stage.keyDown +=
-                e =>
+            this.w = w;
+            this.h = h;
+
+            fKeyUp = new uint[] { Keyboard.UP, 'i', 'I', 'w', 'W' };
+            fKeyDown = new uint[] { Keyboard.DOWN, 'k', 'K', 's', 'S' };
+  
+
+
+            moveSpeed = 0.2;
+            rotSpeed = 0.12;
+
+
+            posX = 22.5;
+            posY = 13.5;
+
+            dirX = -1;
+            dirY = 0;
+
+            planeX = 0;
+            planeY = 0.66;
+
+            screen = new BitmapData(w, h, false, 0x0);
+            screenImage = new Bitmap(screen);
+
+            txtMain = new TextField
+            {
+                defaultTextFormat = new TextFormat
                 {
-                    var key = e.keyCode;
-
-                    fKeyUp.ProcessKeyDown(key);
-                    fKeyDown.ProcessKeyDown(key);
-                    fKeyLeft.ProcessKeyDown(key);
-                    fKeyRight.ProcessKeyDown(key);
-                };
-
-            stage.keyUp +=
-                e =>
-                {
-                    var key = e.keyCode;
-
-                    fKeyUp.ProcessKeyUp(key);
-                    fKeyDown.ProcessKeyUp(key);
-                    fKeyLeft.ProcessKeyUp(key);
-                    fKeyRight.ProcessKeyUp(key);
-                };
+                    font = "Verdana",
+                    align = TextFormatAlign.LEFT,
+                    size = 10,
+                    color = 0xffffff
+                },
+                autoSize = TextFieldAutoSize.LEFT,
+                text = "0"
+            };
 
             //textures = new uint[0][][];
             LoadTextures();
 
+            // default
+            setWorldMap();
         }
 
 
@@ -111,53 +126,25 @@ namespace RayCaster6.ActionScript
         }
 
         // movement flag
-        protected KeyboardButton fKeyUp = new uint[] { Keyboard.UP, 'i', 'I', 'w', 'W' };
-        protected KeyboardButton fKeyDown = new uint[] { Keyboard.DOWN, 'k', 'K', 's', 'S' };
-        protected KeyboardButton fKeyLeft = new uint[] { Keyboard.LEFT, 'j', 'J', 'a', 'A' };
-        protected KeyboardButton fKeyRight = new uint[] { Keyboard.RIGHT, 'l', 'L', 'd', 'D' };
-
-        protected KeyboardButton fKeySpace = new uint[] { Keyboard.SPACE };
+        public KeyboardButton fKeyUp;
+        public KeyboardButton fKeyDown;
 
 
-
-        [Embed("/flashsrc/textures/dude5.zip")]
-        Class MyZipFile;
 
 
         [Script(NoDecoration = true)]
         protected void prepare()
         {
-            stage.align = StageAlign.TOP_LEFT;
+            //stage.align = StageAlign.TOP_LEFT;
             //stage.quality 	= StageQuality.LOW;
 
-            txtMain = new TextField
-            {
-                defaultTextFormat = new TextFormat
-                {
-                    font = "Verdana",
-                    align = TextFormatAlign.LEFT,
-                    size = 10,
-                    color = 0xffffff
-                },
-                autoSize = TextFieldAutoSize.LEFT,
-                text = "0"
-            };
 
 
-            moveSpeed = 0.2;
-            rotSpeed = 0.12;
 
 
-            posX = 22.5;
-            posY = 13.5;
-
-            dirX = -1;
-            dirY = 0;
-            planeX = 0;
-            planeY = 0.66;
 
             time = getTimer();
-            setWorldMap();
+           
 
             //floorVals = new[] {
             //    80,40,26.6666666666667,20,16,13.3333333333333,11.4285714285714,10,8.88888888888889,8,7.27272727272727,6.66666666666667,6.15384615384615,5.71428571428571,5.33333333333333,5,4.70588235294118,4.44444444444444,4.21052631578947,4,3.80952380952381,3.63636363636364,3.47826086956522,3.33333333333333,3.2,3.07692307692308,2.96296296296296,2.85714285714286,2.75862068965517,2.66666666666667,2.58064516129032,2.5,2.42424242424242,2.35294117647059,2.28571428571429,2.22222222222222,2.16216216216216,2.10526315789474,2.05128205128205,2,
@@ -168,153 +155,27 @@ namespace RayCaster6.ActionScript
 
             ZBuffer = new double[w];
 
-            screen = new BitmapData(w, h, false, 0x0);
-            screenImage = new Bitmap();
-            screenImage.bitmapData = screen;
+            IsReady = true;
+        }
 
-            addChild(screenImage);
-            addChild(txtMain);
+        public bool IsReady;
+
+        public void CreateWalkingDummy(Texture64[] Stand, Texture64[][] Walk)
+        {
+            var s = new SpriteInfo
+            {
+                Position = new Point { x = posX + dirX * 2, y = posY + dirY * 2 },
+                Frames = Stand,
+                Direction = dir
+            }.AddTo(Sprites);
 
 
-
-
-
-
-
-            var BitmapsLoaded = 0;
-            var Bitmaps = default(Func<Bitmap>[]);
-
-            //var ghost = new SpriteInfo
-            //{
-            //    CurrentFrame = textures[3],
-            //    Position = new Point { x = posX, y = posY }
-            //}.AddTo(Sprites);
-
-            //var ghost_pos = new Queue<Point>();
-
-            //(1000 / 15).AtInterval(
-            //    delegate
-            //    {
-            //        ghost_pos.Enqueue(
-            //            new Point { x = posX, y = posY }
-            //            );
-
-            //        if (ghost_pos.Count > 64)
-            //        {
-            //            var p = ghost_pos.Dequeue();
-
-            //            ghost.Position.x = p.x;
-            //            ghost.Position.y = p.y;
-            //        }
-            //    }
-            //);
-
-            Action BitmapsLoadedAction =
-                delegate
+            (200).AtInterval(
+                t =>
                 {
-                    Func<Texture64[], Texture64[]> Reorder8 =
-                        p =>
-                            Enumerable.ToArray(
-                                from i in Enumerable.Range(0, 8)
-                                select p[(i + 6) % 8]
-                            );
-
-                    var BitmapStream = Bitmaps.Select(i => (Texture64)i()).GetEnumerator();
-
-                    Func<Texture64[]> Next8 =
-                        delegate
-                        {
-                            // keeping compiler happy with full delegate form
-
-                            var a = new[]
-                                {
-                                    BitmapStream.TakeOrDefault(),
-                                    BitmapStream.TakeOrDefault(),
-                                    BitmapStream.TakeOrDefault(),
-                                    BitmapStream.TakeOrDefault(),
-
-                                    BitmapStream.TakeOrDefault(),
-                                    BitmapStream.TakeOrDefault(),
-                                    BitmapStream.TakeOrDefault(),
-                                    BitmapStream.TakeOrDefault(),
-
-                                };
-                            
-
-                            return Reorder8(a.ToArray());
-                        };
-
-
-                    var Stand = Next8();
-                    var Walk = new[]
-                        {
-                            Next8(),
-                            Next8(),
-                            Next8(),
-                            Next8(),
-                        };
-                 
-
-                    new SpriteInfo
-                    {
-                        Position = new Point { x = posX - 2, y = posY + 1 },
-                        CurrentFrame = Walk[0],
-                        Direction = 0
-                    }.AddTo(Sprites);
-
-                    new SpriteInfo
-                    {
-                        Position = new Point { x = posX - 2, y = posY + 2 },
-                        CurrentFrame = Walk[2],
-                        Direction = 90.DegreesToRadians()
-                    }.AddTo(Sprites);
-
-                    stage.keyUp +=
-                       e =>
-                       {
-                           if (e.keyCode == Keyboard.SPACE)
-                           {
-                               var s = new SpriteInfo
-                                   {
-                                       Position = new Point { x = posX + dirX * 2, y = posY + dirY * 2 },
-                                       CurrentFrame = Stand,
-                                       Direction = dir
-                                   }.AddTo(Sprites);
-
-
-                               (200).AtInterval(
-                                   t =>
-                                   {
-                                       s.CurrentFrame = Walk[t.currentCount % Walk.Length];
-                                   }
-                               );
-                           }
-
-                       };
-                };
-
-            Bitmaps = Enumerable.ToArray(
-                from File in
-                    from f in MyZipFile.ToFiles()
-                    // you can filter your images here
-                    where f.FileName.EndsWith(".png")
-                    select f
-                select
-
-                    File.Bytes.LoadBytes<Bitmap>(
-                        i =>
-                        {
-                            BitmapsLoaded++;
-
-                            if (Bitmaps.Length == BitmapsLoaded)
-                                BitmapsLoadedAction();
-                        }
-                    )
-
+                    s.Frames = Walk[t.currentCount % Walk.Length];
+                }
             );
-
-            this.enterFrame += render;
-
         }
 
 
@@ -324,26 +185,38 @@ namespace RayCaster6.ActionScript
 
             if (fKeyUp)
             {
-                if (worldMap[(posX + dirX * moveSpeed).Floor(), (posY).Floor()] == 0) posX += dirX * moveSpeed;
-                if (worldMap[(posX).Floor(), (posY + dirY * moveSpeed).Floor()] == 0) posY += dirY * moveSpeed;
+                if (wallMap[(posX + dirX * moveSpeed).Floor(), (posY).Floor()] == 0)
+                    posX += dirX * moveSpeed;
+                if (wallMap[(posX).Floor(), (posY + dirY * moveSpeed).Floor()] == 0)
+                    posY += dirY * moveSpeed;
             }
             if (fKeyDown)
             {
-                if (worldMap[(posX - dirX * moveSpeed).Floor(), (posY).Floor()] == 0) posX -= dirX * moveSpeed;
-                if (worldMap[(posX).Floor(), (posY - dirY * moveSpeed).Floor()] == 0) posY -= dirY * moveSpeed;
+                if (wallMap[(posX - dirX * moveSpeed).Floor(), (posY).Floor()] == 0)
+                    posX -= dirX * moveSpeed;
+                if (wallMap[(posX).Floor(), (posY - dirY * moveSpeed).Floor()] == 0)
+                    posY -= dirY * moveSpeed;
             }
-            if (fKeyRight)
-            { //both camera direction and camera plane must be rotated
-                DoRotateView(rotSpeed);
-            }
-            if (fKeyLeft)
-            { //both camera direction and camera plane must be rotated
+          
+        }
 
-                DoRotateView(-rotSpeed);
+
+        #region ViewDirection
+        double dirX;
+        double dirY; //initial direction vector
+
+        double dir = 0;
+
+        public double ViewDirection
+        {
+            get { return dir; }
+            set
+            {
+                DoRotateView(value - dir);
             }
         }
 
-        private void DoRotateView(double rotSpeed)
+        public void DoRotateView(double rotSpeed)
         {
             var oldDirX = dirX;
             dirX = dirX * Math.Cos(rotSpeed) - dirY * Math.Sin(rotSpeed);
@@ -354,7 +227,7 @@ namespace RayCaster6.ActionScript
             planeX = planeX * Math.Cos(rotSpeed) - planeY * Math.Sin(rotSpeed);
             planeY = oldPlaneX * Math.Sin(rotSpeed) + planeY * Math.Cos(rotSpeed);
         }
-
+        #endregion
 
 
 

@@ -10,45 +10,6 @@ using ScriptCoreLib.ActionScript.flash.utils;
 
 namespace RayCaster6.ActionScript
 {
-    [Script]
-    public class ViewInfo
-    {
-        public double Left;
-        public double Right;
-        public double Target;
-
-        public bool IsInView;
-
-        public void Update()
-        {
-            IsInView = true;
-
-            var w = 360.DegreesToRadians();
-
-
-            if (Right < Left)
-            {
-                Right += w;
-
-                if (Target < Right)
-                    if (Left < Target)
-                        return;
-
-                Left -= w;
-                Right -= w;
-
-
-            }
-
-            if (Target < Right)
-                if (Left < Target)
-                    return;
-
-            IsInView = false;
-
-            return;
-        }
-    }
 
 
     /// <summary>
@@ -98,40 +59,7 @@ namespace RayCaster6.ActionScript
 
        
 
-        public static bool IsOutOfView(this double e, double left, double right)
-        {
 
-
-            if (right < left)
-            {
-                right += DegreesToRadians(360);
-
-                if (e < right)
-                    if (left < e)
-                        return true;
-
-                left -= DegreesToRadians(360);
-                right -= DegreesToRadians(360);
-
-
-            }
-
-            if (e < right)
-                if (left < e)
-                    return true;
-
-            return false;
-        }
-
-        public static double DegreesToRadians(this int Degrees)
-        {
-            return (Math.PI * 2) * Degrees / 360;
-        }
-
-        public static int RadiansToDegrees(this double Arc)
-        {
-            return (int)(360 * Arc / (Math.PI * 2));
-        }
 
         public static int Max(this int i, int e)
         {

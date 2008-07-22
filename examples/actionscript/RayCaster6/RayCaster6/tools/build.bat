@@ -38,8 +38,10 @@ goto :eof
 
 :build
 echo - %2
+:: http://livedocs.adobe.com/flex/201/html/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Book_Parts&file=compilers_123_24.html
 :: http://www.adobe.com/products/flex/sdk/
 :: -compiler.verbose-stacktraces 
 :: call C:\util\flex2\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
-call C:\util\flex\bin\mxmlc.exe -optimize -use-network=false -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
+::call C:\util\flex\bin\mxmlc.exe -optimize -use-network=false -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
+call C:\util\flex\bin\mxmlc.exe -default-script-limits=1000,2 -debug -use-network=false -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 goto :eof
