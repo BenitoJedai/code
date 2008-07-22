@@ -166,7 +166,7 @@ namespace RayCaster6.ActionScript
             time = getTimer();
             counter = 0;
 
-            ZBuffer = new double[0];
+            ZBuffer = new double[w];
 
             screen = new BitmapData(w, h, false, 0x0);
             screenImage = new Bitmap();
@@ -288,8 +288,7 @@ namespace RayCaster6.ActionScript
 
         private void DoMovement()
         {
-            double oldDirX;
-            double oldPlaneX;
+ 
 
             if (fKeyUp)
             {
@@ -303,26 +302,25 @@ namespace RayCaster6.ActionScript
             }
             if (fKeyRight)
             { //both camera direction and camera plane must be rotated
-                oldDirX = dirX;
-                dirX = dirX * Math.Cos(-rotSpeed) - dirY * Math.Sin(-rotSpeed);
-                dirY = oldDirX * Math.Sin(-rotSpeed) + dirY * Math.Cos(-rotSpeed);
-                dir = new Point { x = dirX, y = dirY }.GetRotation();
-
-                oldPlaneX = planeX;
-                planeX = planeX * Math.Cos(-rotSpeed) - planeY * Math.Sin(-rotSpeed);
-                planeY = oldPlaneX * Math.Sin(-rotSpeed) + planeY * Math.Cos(-rotSpeed);
+                DoRotateView(rotSpeed);
             }
             if (fKeyLeft)
             { //both camera direction and camera plane must be rotated
-                oldDirX = dirX;
-                dirX = dirX * Math.Cos(rotSpeed) - dirY * Math.Sin(rotSpeed);
-                dirY = oldDirX * Math.Sin(rotSpeed) + dirY * Math.Cos(rotSpeed);
-                dir = new Point { x = dirX, y = dirY }.GetRotation();
-
-                oldPlaneX = planeX;
-                planeX = planeX * Math.Cos(rotSpeed) - planeY * Math.Sin(rotSpeed);
-                planeY = oldPlaneX * Math.Sin(rotSpeed) + planeY * Math.Cos(rotSpeed);
+           
+                DoRotateView(-rotSpeed);
             }
+        }
+
+        private void DoRotateView(double rotSpeed)
+        {
+            var oldDirX = dirX;
+            dirX = dirX * Math.Cos(rotSpeed) - dirY * Math.Sin(rotSpeed);
+            dirY = oldDirX * Math.Sin(rotSpeed) + dirY * Math.Cos(rotSpeed);
+            dir = new Point { x = dirX, y = dirY }.GetRotation();
+
+            var oldPlaneX = planeX;
+            planeX = planeX * Math.Cos(rotSpeed) - planeY * Math.Sin(rotSpeed);
+            planeY = oldPlaneX * Math.Sin(rotSpeed) + planeY * Math.Cos(rotSpeed);
         }
 
 

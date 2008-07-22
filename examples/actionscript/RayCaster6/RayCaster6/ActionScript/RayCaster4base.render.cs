@@ -60,13 +60,12 @@ namespace RayCaster6.ActionScript
             screen.@lock();
 
 
-            int x;
             int y;
             DoMovement();
 
-            // interleaving?
-            interleave_counter++;
-            x = interleave_counter % interleave_x_step;
+            //// interleaving?
+            //interleave_counter++;
+            //x = interleave_counter % interleave_x_step;
 
             double rayDirXLeft = dirX + planeX;
             double rayDirYLeft = dirY + planeY;
@@ -79,9 +78,11 @@ namespace RayCaster6.ActionScript
             // update for current frame
             UpdatePOV();
 
+            var x = 0;
 
             while (x < w)
             {
+                var x_mirror = w - x - 1;
 
                 //calculate ray position and direction
                 var cameraX = 2.0 * (double)x / (double)w - 1.0; //x-coordinate in camera space
@@ -211,15 +212,14 @@ namespace RayCaster6.ActionScript
 
                     if (side == 1) color = (color >> 1) & 0x7F7F7F;
 
-
-                    screen.setPixel(x, y, color);
+                    screen.setPixel(x_mirror, y, color);
 
 
                     y++;
                 }
 
                 //SET THE ZBUFFER FOR THE SPRITE CASTING
-                ZBuffer[x] = perpWallDist; //perpendicular distance is used
+                ZBuffer[x_mirror] = perpWallDist; //perpendicular distance is used
 
                 if (RenderFloorAndCeiling)
                 {
@@ -320,8 +320,8 @@ namespace RayCaster6.ActionScript
 
                 x += interleave_x_step;
 
-                if (x > 4)
-                    render_DebugTrace_Assign_Active = false;
+                //if (x > 4)
+                //    render_DebugTrace_Assign_Active = false;
             }
 
             RenderSprites();
@@ -354,10 +354,10 @@ namespace RayCaster6.ActionScript
                 {
                     var Total = (s.ViewInfo.Right - s.ViewInfo.Left);
 
-                    //var LeftTarget = s.ViewInfo.Target - s.ViewInfo.Left;
-                    var RightTarget = s.ViewInfo.Right - s.ViewInfo.Target;
+                    var LeftTarget = s.ViewInfo.Target - s.ViewInfo.Left;
+                    //var RightTarget = s.ViewInfo.Right - s.ViewInfo.Target;
 
-                    RenderSingleSprite(s, (RightTarget * w / Total).Floor());
+                    RenderSingleSprite(s, (LeftTarget * w / Total).Floor());
 
                 }
             }
@@ -373,6 +373,7 @@ namespace RayCaster6.ActionScript
 
             // scale down enemies to eye line
             var z = (h / depth).Floor();
+            var zmaxed = z.Max(h / 2).Floor();
             var zhalf = z / 2;
 
 
@@ -405,7 +406,7 @@ namespace RayCaster6.ActionScript
                     var cxt = ix * texture.Size / z;
 
                     if (ZBuffer[cx] > depth)
-                        for (int iy = 0; iy < z; iy += blocksize)
+                        for (int iy = 0; iy < zmaxed; iy += blocksize)
                         {
                             var cyt = iy * texture.Size / z;
 
