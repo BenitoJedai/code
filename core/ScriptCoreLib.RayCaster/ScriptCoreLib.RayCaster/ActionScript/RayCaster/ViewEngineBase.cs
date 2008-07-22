@@ -35,6 +35,9 @@ namespace ScriptCoreLib.ActionScript.RayCaster
             this.planeX = 0;
             this.planeY = 0.66;
 
+            this._WallMap = new Texture32();
+
+
         }
 
 

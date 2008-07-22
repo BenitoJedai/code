@@ -65,7 +65,7 @@ namespace RayCaster6.ActionScript
             LoadTextures();
 
             // default
-            this._WallMap = GetDefaultMap();
+            //this._WallMap = GetDefaultMap();
         }
 
 

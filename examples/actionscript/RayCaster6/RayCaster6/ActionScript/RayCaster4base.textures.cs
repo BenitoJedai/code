@@ -18,15 +18,7 @@ namespace RayCaster6.ActionScript
 
     partial class RayCaster4base
     {
-        //protected string[] textureFiles;
-        //protected int textureLoadNum;
-
-        //protected uint[][][] textures = new uint[4][][];
-        //internal uint[][][] textures;
-        //internal Texture256[] textures;
-        internal Texture64[] textures;
-
-        //readonly List<Array2DUInt32> textures = new List<Array2DUInt32>();
+      
 
         private void LoadTextures()
         {
@@ -41,9 +33,7 @@ namespace RayCaster6.ActionScript
             //textures = new uint[textureFiles.Length][][];
             textures = new Texture64[textureFiles.Length];
             //textures = new TextureSelector { Target = this };
-            texWidth = Texture64.SizeConstant;
-            texHeight = Texture64.SizeConstant;
-
+     
 
 
             var bitmapLoader = new Loader();
@@ -77,8 +67,7 @@ namespace RayCaster6.ActionScript
         }
 
 
-        int texWidth;
-        int texHeight;
+
 
 
         // fps:

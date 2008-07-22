@@ -49,13 +49,13 @@ namespace RayCaster6.ActionScript
             };
 
             if (r.CurrentTile != 0)
-                throw new Exception("bad start position: " + new { r.posX, r.posY, r.CurrentTile }.ToString());
+                throw new Exception("bad start position: " + new { r.ViewPositionX, r.ViewPositionY, r.CurrentTile }.ToString());
 
             r.Image.AttachTo(this);
             r.txtMain.AttachTo(this);
 
-            this.scaleX = DefaultScale;
-            this.scaleY = DefaultScale;
+            r.Image.scaleX = DefaultScale;
+            r.Image.scaleY = DefaultScale;
             //this.filters = new[] { new BlurFilter() };
 
 
