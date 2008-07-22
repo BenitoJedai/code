@@ -292,7 +292,7 @@ namespace RayCaster6.ActionScript
                         {
                             var color = textures_floor[floorTexX, floorTexY];
 
-                            screen.setPixel(x, y, color); //floor
+                            screen.setPixel(x_mirror, y, color); //floor
                         }
                         catch
                         {
@@ -304,7 +304,7 @@ namespace RayCaster6.ActionScript
                             var color = textures_ceiling[floorTexX, floorTexY];
 
 
-                            screen.setPixel(x, h - y - 1, color); //ceiling (symmetrical!)
+                            screen.setPixel(x_mirror, h - y - 1, color); //ceiling (symmetrical!)
                         }
                         catch
                         {
@@ -336,14 +336,16 @@ namespace RayCaster6.ActionScript
                 time = getTimer();
             }
 
-
-            DrawMinimap();
+            if (RenderMinimapEnabled)
+                DrawMinimap();
 
             //screenImage.bitmapData = screen;
             screen.unlock();
 
 
         }
+
+        public bool RenderMinimapEnabled = true;
 
         private void RenderSprites()
         {
@@ -377,35 +379,30 @@ namespace RayCaster6.ActionScript
             var zhalf = z / 2;
 
 
-            var r = (Math.PI * 2);
-            var dir = new Point { x = dirX, y = dirY }.GetRotation();
-
-            var len = s.Sprite.CurrentFrame.Length;
             
+             
+            //Console.WriteLine(new { grad, deg = dir.RadiansToDegrees() }.ToString());
 
-            dir += (r / (len)) / 2;
-            dir += s.Sprite.Direction;
-
-            // 90 deg problem
-            dir += Math.PI / 2;
-
-            var grad = ((dir * len) / (Math.PI * 2)).Floor() % len;
-
+            
             // we are in a mirror? theres definetly a bug somewhere
-            
 
-            var texture = s.Sprite.CurrentFrame[grad];
 
-            if (z > texture.Size)
+            var texture = default(Texture64);
+
+            if (z > texWidth)
             {
-                var blocksize = (z / texture.Size).Floor().Max(1);
+                var blocksize = (z / texWidth).Floor().Max(1);
 
                 for (int ix = 0; ix < z; ix++)
                 {
                     var cx = Sprite_x + ix - zhalf;
-                    var cxt = ix * texture.Size / z;
+                    var cxt = ix * texWidth / z;
 
                     if (ZBuffer[cx] > depth)
+                    {
+                        if (texture == null)
+                            texture = s.Sprite.CurrentFrame[GetFrameForPOV(s)]; 
+
                         for (int iy = 0; iy < zmaxed; iy += blocksize)
                         {
                             var cyt = iy * texture.Size / z;
@@ -423,6 +420,7 @@ namespace RayCaster6.ActionScript
 
 
                         }
+                    }
                 }
             }
             else
@@ -430,9 +428,13 @@ namespace RayCaster6.ActionScript
                 for (int ix = 0; ix < z; ix++)
                 {
                     var cx = Sprite_x + ix - zhalf;
-                    var cxt = ix * texture.Size / z;
+                    var cxt = ix * texWidth / z;
 
                     if (ZBuffer[cx] > depth)
+                    {
+                        if (texture == null)
+                            texture = s.Sprite.CurrentFrame[GetFrameForPOV(s)]; 
+
                         for (int iy = 0; iy < z; iy++)
                         {
                             var cyt = iy * texture.Size / z;
@@ -449,8 +451,33 @@ namespace RayCaster6.ActionScript
 
 
                         }
+                    }
                 }
             }
+        }
+
+        private static int GetFrameForPOV(SpriteInfoFromPOV s)
+        {
+            var r = 360.DegreesToRadians();
+
+            var len = s.Sprite.CurrentFrame.Length;
+
+            #region direction translation magic
+            var dir = s.Direction;
+
+            dir -= (r / (len)) / 2;
+
+            dir = r - (dir % r);
+            dir += s.Sprite.Direction;
+
+            dir += 270.DegreesToRadians();
+            #endregion
+
+            // we want to see it from behind...
+            //dir += Math.PI / 2;
+
+            var grad = ((dir * len) / r).Floor() % len;
+            return grad;
         }
 
         private void UpdatePOV()
@@ -530,7 +557,7 @@ namespace RayCaster6.ActionScript
                 var _x = (ss.Sprite.Position.x + 1) * isize;
                 var _y = (ss.Sprite.Position.y + 1) * isize;
 
-                
+
                 minimap.drawLine(
                     0xffffffff,
                     _x,
@@ -555,10 +582,12 @@ namespace RayCaster6.ActionScript
         public class SpriteInfoFromPOV
         {
             public Point RelativePosition;
+            public Point ReverseRelativePosition;
 
             public SpriteInfo Sprite;
 
             public double Direction;
+            public double ReverseDirection;
 
             public readonly ViewInfo ViewInfo = new ViewInfo();
 
@@ -581,7 +610,15 @@ namespace RayCaster6.ActionScript
                     y = Sprite.Position.y - y
                 };
 
+                ReverseRelativePosition = new Point
+                {
+                    x = x - Sprite.Position.x,
+                    y = y - Sprite.Position.y
+                };
+
                 Direction = RelativePosition.GetRotation();
+                ReverseDirection = ReverseRelativePosition.GetRotation();
+
                 Distance = RelativePosition.length;
 
                 ViewInfo.Left = left;

@@ -29,7 +29,7 @@ namespace RayCaster6.ActionScript
         // 120x90
         // 160x120
         const int DefaultWidth = DefaultHeight * 3 / 2;
-        const int DefaultHeight = 240;
+        const int DefaultHeight = 90;
 
         const int DefaultScale = 2;
 
@@ -37,6 +37,9 @@ namespace RayCaster6.ActionScript
         {
             w = DefaultWidth;
             h = DefaultHeight;
+
+            this.RenderFloorAndCeiling = true;
+            this.RenderMinimapEnabled = false;
 
             this.scaleX = DefaultScale;
             this.scaleY = DefaultScale;

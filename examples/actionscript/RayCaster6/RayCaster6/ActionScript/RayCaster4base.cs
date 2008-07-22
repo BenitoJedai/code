@@ -40,7 +40,7 @@ namespace RayCaster6.ActionScript
 
         protected double dirX;
         protected double dirY; //initial direction vector
-        double dir;
+        double dir = 0;
 
         protected double planeX;
         protected double planeY; //the 2d raycaster version of camera plane
@@ -176,26 +176,8 @@ namespace RayCaster6.ActionScript
             addChild(txtMain);
 
 
-            this.Sprites.Add(
-                //new SpriteInfo
-                //{
-                //    Position = new Point { x = 21.5, y = 14.5 }
-                //},
-                 new SpriteInfo
-                {
-                    Position = new Point { x = 18.5, y = 13.5 },
-                    CurrentFrame = new[] { this.textures[3] }
-                });
 
-            this.Sprites.Add(
-                      new SpriteInfo
-                {
-                    Position = new Point { x = 19.5, y = 13.5 },
-                    CurrentFrame = new[] { this.textures[3] }
-                }
-            );
 
-            this.enterFrame += render;
 
 
 
@@ -230,13 +212,62 @@ namespace RayCaster6.ActionScript
             Action BitmapsLoadedAction =
                 delegate
                 {
-                    var AsTexturesUnordered = Bitmaps.Take(8).Select(i => (Texture64)i()).ToArray();
+                    Func<Texture64[], Texture64[]> Reorder8 =
+                        p =>
+                            Enumerable.ToArray(
+                                from i in Enumerable.Range(0, 8)
+                                select p[(i + 6) % 8]
+                            );
 
-                    var AsTextures = Enumerable.ToArray(
-                        from i in Enumerable.Range(0, 8)
-                        select AsTexturesUnordered[(i + 6) % 8]
-                    );
+                    var BitmapStream = Bitmaps.Select(i => (Texture64)i()).GetEnumerator();
 
+                    Func<Texture64[]> Next8 =
+                        delegate
+                        {
+                            // keeping compiler happy with full delegate form
+
+                            var a = new[]
+                                {
+                                    BitmapStream.TakeOrDefault(),
+                                    BitmapStream.TakeOrDefault(),
+                                    BitmapStream.TakeOrDefault(),
+                                    BitmapStream.TakeOrDefault(),
+
+                                    BitmapStream.TakeOrDefault(),
+                                    BitmapStream.TakeOrDefault(),
+                                    BitmapStream.TakeOrDefault(),
+                                    BitmapStream.TakeOrDefault(),
+
+                                };
+                            
+
+                            return Reorder8(a.ToArray());
+                        };
+
+
+                    var Stand = Next8();
+                    var Walk = new[]
+                        {
+                            Next8(),
+                            Next8(),
+                            Next8(),
+                            Next8(),
+                        };
+                 
+
+                    new SpriteInfo
+                    {
+                        Position = new Point { x = posX - 2, y = posY + 1 },
+                        CurrentFrame = Walk[0],
+                        Direction = 0
+                    }.AddTo(Sprites);
+
+                    new SpriteInfo
+                    {
+                        Position = new Point { x = posX - 2, y = posY + 2 },
+                        CurrentFrame = Walk[2],
+                        Direction = 90.DegreesToRadians()
+                    }.AddTo(Sprites);
 
                     stage.keyUp +=
                        e =>
@@ -244,19 +275,19 @@ namespace RayCaster6.ActionScript
                            if (e.keyCode == Keyboard.SPACE)
                            {
                                var s = new SpriteInfo
-                                  {
-                                      Position = new Point { x = posX + dirX * 2, y = posY + dirY * 2 },
-                                      CurrentFrame = AsTextures,
-                                      Direction = dir
-                                  }.AddTo(Sprites);
+                                   {
+                                       Position = new Point { x = posX + dirX * 2, y = posY + dirY * 2 },
+                                       CurrentFrame = Stand,
+                                       Direction = dir
+                                   }.AddTo(Sprites);
 
 
-                               //(1000).AtInterval(
-                               //    t =>
-                               //    {
-                               //        s.CurrentFrame = AsTextures[t.currentCount % AsTextures.Length];
-                               //    }
-                               //);
+                               (200).AtInterval(
+                                   t =>
+                                   {
+                                       s.CurrentFrame = Walk[t.currentCount % Walk.Length];
+                                   }
+                               );
                            }
 
                        };
@@ -282,13 +313,14 @@ namespace RayCaster6.ActionScript
 
             );
 
+            this.enterFrame += render;
 
         }
 
 
         private void DoMovement()
         {
- 
+
 
             if (fKeyUp)
             {
@@ -306,7 +338,7 @@ namespace RayCaster6.ActionScript
             }
             if (fKeyLeft)
             { //both camera direction and camera plane must be rotated
-           
+
                 DoRotateView(-rotSpeed);
             }
         }

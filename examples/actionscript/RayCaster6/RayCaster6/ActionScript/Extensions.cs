@@ -57,7 +57,17 @@ namespace RayCaster6.ActionScript
     [Script]
     internal static class MyExtensions
     {
-        
+        public static T TakeOrDefault<T>(this IEnumerator<T> e)
+        {
+            var r = default(T);
+
+            if (e.MoveNext())
+                r = e.Current;
+
+
+            return r;
+        }
+
         public static Timer AtInterval(this int e, Action<Timer> a)
         {
             var t = new Timer(e);
