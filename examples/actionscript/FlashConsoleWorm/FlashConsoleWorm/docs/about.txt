@@ -10,3 +10,8 @@
 06. Reboot, power failure
 07. Add classes Worm, Apple
 08. Add a green dot, compile
+09. Add red dots as apples
+10. Add worm logic
+00:17
+11. We have a nonmoving screen, add movement
+12. Add keyboard support
