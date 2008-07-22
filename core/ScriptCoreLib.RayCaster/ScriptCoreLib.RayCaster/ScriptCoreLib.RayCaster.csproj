@@ -51,9 +51,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\RayCaster\ViewEngineBase.Render.cs" />
+    <Compile Include="ActionScript\RayCaster\Extensions\MyExtensions.cs" />
+    <Compile Include="ActionScript\RayCaster\SpriteInfo.cs" />
+    <Compile Include="ActionScript\RayCaster\SpriteInfoFromPOV.cs" />
     <Compile Include="ActionScript\RayCaster\Texture32.cs" />
     <Compile Include="ActionScript\RayCaster\Texture64.cs" />
     <Compile Include="ActionScript\RayCaster\TextureBase.cs" />
+    <Compile Include="ActionScript\RayCaster\ViewEngineBase.cs" />
     <Compile Include="ActionScript\RayCaster\ViewInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

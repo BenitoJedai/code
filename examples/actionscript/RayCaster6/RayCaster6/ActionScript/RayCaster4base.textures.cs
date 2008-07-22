@@ -18,8 +18,8 @@ namespace RayCaster6.ActionScript
 
     partial class RayCaster4base
     {
-        protected string[] textureFiles;
-        protected int textureLoadNum;
+        //protected string[] textureFiles;
+        //protected int textureLoadNum;
 
         //protected uint[][][] textures = new uint[4][][];
         //internal uint[][][] textures;
@@ -32,11 +32,11 @@ namespace RayCaster6.ActionScript
         {
             // 24fps 10715136bytes
 
-            textureFiles = new[] { "bwall.png", "tech2.jpg", "roof.jpg"
+            var textureFiles = new[] { "bwall.png", "tech2.jpg", "roof.jpg"
                 , "114.png" 
               
             };
-            textureLoadNum = 0;
+            var textureLoadNum = 0;
 
             //textures = new uint[textureFiles.Length][][];
             textures = new Texture64[textureFiles.Length];
@@ -44,67 +44,42 @@ namespace RayCaster6.ActionScript
             texWidth = Texture64.SizeConstant;
             texHeight = Texture64.SizeConstant;
 
-            bitmapLoader = new Loader();
+
+
+            var bitmapLoader = new Loader();
             bitmapLoader.load(new URLRequest("flashsrc/textures/" + textureFiles[textureLoadNum]));
 
-            bitmapLoader.contentLoaderInfo.complete += onBitmapLoaded;
-        }
+            bitmapLoader.contentLoaderInfo.complete +=
+                e =>
+                {
+                    var bmp = (Bitmap)(bitmapLoader.content);
+
+                    textures[textureLoadNum] = (Bitmap)(bitmapLoader.content);
 
 
-        protected int texWidth;
-        protected int texHeight;
 
-        private void onBitmapLoaded(Event e)
-        {
-            textures[textureLoadNum] = (Bitmap)(bitmapLoader.content);
+                    if (textureLoadNum < textureFiles.Length - 1)
+                    {
+                        textureLoadNum++;
+                        bitmapLoader.unload();
+                        bitmapLoader.load(new URLRequest("flashsrc/textures/" + textureFiles[textureLoadNum]));
+                    }
+                    else
+                    {
+                        time = getTimer();
 
-            // t64
-            //if (bdata.width == 256)
-            //{
-            //    for (var j = 0; j < 256; j++)
-            //    {
-            //        for (var k = 0; k < 256; k++)
-            //        {
-            //            t[j, k] = bdata.getPixel(j, k);
-            //        }
-            //    }
-            //}
-            //else if (bdata.width == 64)
-            //{
-            //    // 64 x 4 = 256
-            //    // make it bigger then
 
-            //    for (var j = 0; j < 64; j++)
-            //    {
-            //        for (var k = 0; k < 64; k++)
-            //        {
-            //            var c = bdata.getPixel(j, k); ;
-            //            var j4 = j * 4;
-            //            var k4 = k * 4;
+                        IsReady = true;
+                    }
 
-            //            for (int zj = 0; zj < 4; zj++)
-            //                for (int zk = 0; zk < 4; zk++)
-            //                {
-            //                    t[j4 + zj, k4 + zk] = c;
-
-            //                }
-
-            //        }
-            //    }
-            //}
-
-            if (textureLoadNum < textureFiles.Length - 1)
-            {
-                textureLoadNum++;
-                bitmapLoader.unload();
-                bitmapLoader.load(new URLRequest("flashsrc/textures/" + textureFiles[textureLoadNum]));
-            }
-            else
-            {
-                prepare();
-            }
+                };
 
         }
+
+
+        int texWidth;
+        int texHeight;
+
 
         // fps:
         // 22

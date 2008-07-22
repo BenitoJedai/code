@@ -28,33 +28,30 @@ namespace RayCaster6.ActionScript
 
         public bool RenderFloorAndCeilingEnabled;
 
-        [Script(NoDecoration = true)]
-        public new void render(Event e)
+        public void RenderScene(Event e)
+        {
+            this.RenderScene();
+        }
+
+        public void RenderScene()
         {
             if (!IsReady)
                 return;
-            /* 			try {
-                            screen.dispose();
-                            screen = new BitmapData( w, h, false, 0x0 );
-                            screen.lock();
-                        } catch(e:Error) {
-                            trace("err");
-                        } */
+   
 
-
-            screen.fillRect(
-                new Rectangle(0, 0, w, h / 2), 0xa0a0a0
+            buffer.fillRect(
+                new Rectangle(0, 0, _ViewWidth, _ViewHeight / 2), 0xa0a0a0
                 );
 
-            screen.fillRect(
-                            new Rectangle(0, h / 2, w, h / 2), 0x808080
+            buffer.fillRect(
+                            new Rectangle(0, _ViewHeight / 2, _ViewWidth, _ViewHeight / 2), 0x808080
                             );
 
-            screen.@lock();
+            buffer.@lock();
 
 
             int y;
-            DoMovement();
+            //DoMovement();
 
             //// interleaving?
             //interleave_counter++;
@@ -73,12 +70,12 @@ namespace RayCaster6.ActionScript
 
             var x = 0;
 
-            while (x < w)
+            while (x < _ViewWidth)
             {
-                var x_mirror = w - x - 1;
+                var x_mirror = _ViewWidth - x - 1;
 
                 //calculate ray position and direction
-                var cameraX = 2.0 * (double)x / (double)w - 1.0; //x-coordinate in camera space
+                var cameraX = 2.0 * (double)x / (double)_ViewWidth - 1.0; //x-coordinate in camera space
 
                 double rayPosX = posX;
                 double rayPosY = posY;
@@ -141,7 +138,7 @@ namespace RayCaster6.ActionScript
                         mapY += stepY;
                         side = 1;
                     }
-                    if (wallMap[mapX, mapY] > 0)
+                    if (_WallMap[mapX, mapY] > 0)
                     {
                         hit = 1; //Check if ray has hit a wall   
                     }
@@ -159,15 +156,15 @@ namespace RayCaster6.ActionScript
                 }
 
                 //Calculate height of line to draw on screen
-                var lineHeight = Math.Abs((h / perpWallDist).Floor());
+                var lineHeight = Math.Abs((_ViewHeight / perpWallDist).Floor());
 
                 //calculate lowest and highest pixel to fill in current stripe
-                var drawStart = (-lineHeight / 2 + h / 2).Floor();
+                var drawStart = (-lineHeight / 2 + _ViewHeight / 2).Floor();
                 if (drawStart < 0) drawStart = 0;
-                var drawEnd = (lineHeight / 2 + h / 2).Floor();
-                if (drawEnd >= h) drawEnd = h;
+                var drawEnd = (lineHeight / 2 + _ViewHeight / 2).Floor();
+                if (drawEnd >= _ViewHeight) drawEnd = _ViewHeight;
 
-                var texNum = wallMap[mapX, mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+                var texNum = _WallMap[mapX, mapY] - 1; //1 subtracted from it so that texture 0 can be used!
                 texNum = 0;
 
                 //calculate value of wallX
@@ -189,7 +186,7 @@ namespace RayCaster6.ActionScript
                 if (side == 1)
                     if (rayDirY < 0) texX = texWidth - texX - 1;
 
-                var hT = h * 128;
+                var hT = _ViewHeight * 128;
                 var lhT = lineHeight * 128;
 
                 y = drawStart;
@@ -205,14 +202,14 @@ namespace RayCaster6.ActionScript
 
                     if (side == 1) color = (color >> 1) & 0x7F7F7F;
 
-                    screen.setPixel(x_mirror, y, color);
+                    buffer.setPixel(x_mirror, y, color);
 
 
                     y++;
                 }
 
                 //SET THE ZBUFFER FOR THE SPRITE CASTING
-                ZBuffer[x_mirror] = perpWallDist; //perpendicular distance is used
+                _ZBuffer[x_mirror] = perpWallDist; //perpendicular distance is used
 
                 if (RenderFloorAndCeilingEnabled)
                 {
@@ -253,7 +250,7 @@ namespace RayCaster6.ActionScript
                     var distPlayer = 0.0;
                     var currentDist = 0.0;
 
-                    if (drawEnd < 0) drawEnd = h; //becomes < 0 when the integer overflows
+                    if (drawEnd < 0) drawEnd = _ViewHeight; //becomes < 0 when the integer overflows
 
                     //draw the floor from drawEnd to the bottom of the screen
                     #region draw floor
@@ -267,10 +264,10 @@ namespace RayCaster6.ActionScript
                     var textures_floor = textures[1];
                     var textures_ceiling = textures[2];
 
-                    while (y < h)
+                    while (y < _ViewHeight)
                     {
 
-                        currentDist = h / (2 * y - h); //you could make a small lookup table for this instead
+                        currentDist = _ViewHeight / (2 * y - _ViewHeight); //you could make a small lookup table for this instead
                         //currentDist = floorVals[int(y-80)];
 
                         var pen_width = 1;
@@ -293,9 +290,9 @@ namespace RayCaster6.ActionScript
                             var color = textures_floor[floorTexX, floorTexY];
 
                             if (pen_width > 1)
-                                screen.fillRect(new Rectangle(x_mirror, y, 1, pen_width), color);
+                                buffer.fillRect(new Rectangle(x_mirror, y, 1, pen_width), color);
                             else
-                                screen.setPixel(x_mirror, y, color); //floor
+                                buffer.setPixel(x_mirror, y, color); //floor
                         }
                         catch
                         {
@@ -307,9 +304,9 @@ namespace RayCaster6.ActionScript
                             var color = textures_ceiling[floorTexX, floorTexY];
 
                             if (pen_width > 1)
-                                screen.fillRect(new Rectangle(x_mirror, h - y - pen_width, 1, pen_width), color);
+                                buffer.fillRect(new Rectangle(x_mirror, _ViewHeight - y - pen_width, 1, pen_width), color);
                             else
-                                screen.setPixel(x_mirror, h - y - 1, color); //ceiling (symmetrical!)
+                                buffer.setPixel(x_mirror, _ViewHeight - y - 1, color); //ceiling (symmetrical!)
                         }
                         catch
                         {
@@ -336,7 +333,7 @@ namespace RayCaster6.ActionScript
             {
                 // txtMain.text = (counter * 2).ToString() + "fps " + global::ScriptCoreLib.ActionScript.flash.system.System.totalMemory + "bytes";
                 //txtMain.text = (counter * 2).ToString() + "fps @" + dir.RadiansToDegrees();
-                txtMain.text = (counter * 2).ToString() + "fps @" + wallMap[posX.Floor(), posY.Floor()];
+                txtMain.text = (counter * 2).ToString() + "fps @" + _WallMap[posX.Floor(), posY.Floor()];
                 counter = 0;
                 time = getTimer();
             }
@@ -345,7 +342,7 @@ namespace RayCaster6.ActionScript
                 DrawMinimap();
 
             //screenImage.bitmapData = screen;
-            screen.unlock();
+            buffer.unlock();
 
 
         }
@@ -364,7 +361,7 @@ namespace RayCaster6.ActionScript
                     var LeftTarget = s.ViewInfo.Target - s.ViewInfo.Left;
                     //var RightTarget = s.ViewInfo.Right - s.ViewInfo.Target;
 
-                    RenderSingleSprite(s, (LeftTarget * w / Total).Floor());
+                    RenderSingleSprite(s, (LeftTarget * _ViewWidth / Total).Floor());
 
                 }
             }
@@ -379,12 +376,12 @@ namespace RayCaster6.ActionScript
             // 14
 
             // scale down enemies to eye line
-            var z = (h / depth).Floor();
+            var z = (_ViewHeight / depth).Floor();
 
             if (z < 0.1)
                 return;
 
-            var zmaxed = z.Max(h / 2).Floor();
+            var zmaxed = z.Max(_ViewHeight / 2).Floor();
             var zhalf = z / 2;
 
 
@@ -407,7 +404,7 @@ namespace RayCaster6.ActionScript
                     var cx = Sprite_x + ix - zhalf;
                     var cxt = ix * texWidth / z;
 
-                    if (ZBuffer[cx] > depth)
+                    if (_ZBuffer[cx] > depth)
                     {
                         if (texture == null)
                             texture = s.Sprite.Frames[GetFrameForPOV(s)];
@@ -424,8 +421,8 @@ namespace RayCaster6.ActionScript
                             var color_b = color & 0xff;
 
                             if (color_a == 0xff)
-                                screen.fillRect(
-                                    new Rectangle(cx, (h / 2) + iy - zhalf, 1, blocksize), color);
+                                buffer.fillRect(
+                                    new Rectangle(cx, (_ViewHeight / 2) + iy - zhalf, 1, blocksize), color);
 
 
                         }
@@ -439,7 +436,7 @@ namespace RayCaster6.ActionScript
                     var cx = Sprite_x + ix - zhalf;
                     var cxt = ix * texWidth / z;
 
-                    if (ZBuffer[cx] > depth)
+                    if (_ZBuffer[cx] > depth)
                     {
                         if (texture == null)
                             texture = s.Sprite.Frames[GetFrameForPOV(s)];
@@ -456,7 +453,7 @@ namespace RayCaster6.ActionScript
                             var color_b = color & 0xff;
 
                             if (color_a == 0xff)
-                                screen.setPixel(cx, (h / 2) + iy - zhalf, color);
+                                buffer.setPixel(cx, (_ViewHeight / 2) + iy - zhalf, color);
 
 
                         }
@@ -514,14 +511,14 @@ namespace RayCaster6.ActionScript
         {
             const int isize = 6;
 
-            var minimap = new BitmapData(isize * (wallMap.Size + 2), isize * (wallMap.Size + 2), true, 0x0);
+            var minimap = new BitmapData(isize * (_WallMap.Size + 2), isize * (_WallMap.Size + 2), true, 0x0);
             var minimap_bmp = new Bitmap(minimap);
 
 
-            for (int ix = 0; ix < wallMap.Size; ix++)
-                for (int iy = 0; iy < wallMap.Size; iy++)
+            for (int ix = 0; ix < _WallMap.Size; ix++)
+                for (int iy = 0; iy < _WallMap.Size; iy++)
                 {
-                    if (wallMap[ix, iy] > 0)
+                    if (_WallMap[ix, iy] > 0)
                         minimap.fillRect(new Rectangle((ix + 1) * isize, (iy + 1) * isize, isize, isize), 0x7f00ff00);
 
                 }
@@ -580,74 +577,10 @@ namespace RayCaster6.ActionScript
 
 
 
-            screen.draw(minimap);
+            buffer.draw(minimap);
         }
 
         SpriteInfoFromPOV[] SpritesFromPOV;
-
-
-
-        [Script]
-        public class SpriteInfoFromPOV
-        {
-            public Point RelativePosition;
-            public Point ReverseRelativePosition;
-
-            public SpriteInfo Sprite;
-
-            public double Direction;
-            public double ReverseDirection;
-
-            public readonly ViewInfo ViewInfo = new ViewInfo();
-
-            public double Distance;
-
-            public SpriteInfoFromPOV(SpriteInfo s)
-            {
-                Sprite = s;
-
-
-
-
-            }
-
-            public void Update(double x, double y, double left, double right)
-            {
-                RelativePosition = new Point
-                {
-                    x = Sprite.Position.x - x,
-                    y = Sprite.Position.y - y
-                };
-
-                ReverseRelativePosition = new Point
-                {
-                    x = x - Sprite.Position.x,
-                    y = y - Sprite.Position.y
-                };
-
-                Direction = RelativePosition.GetRotation();
-                ReverseDirection = ReverseRelativePosition.GetRotation();
-
-                Distance = RelativePosition.length;
-
-                ViewInfo.Left = left;
-                ViewInfo.Right = right;
-                ViewInfo.Target = Direction;
-
-                ViewInfo.Update();
-
-            }
-        }
-
-        [Script]
-        public class SpriteInfo
-        {
-            public Point Position = new Point();
-
-            public Texture64[] Frames;
-
-            public double Direction = 0;
-        }
 
         public readonly List<SpriteInfo> Sprites = new List<SpriteInfo>();
     }

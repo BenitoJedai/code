@@ -11,6 +11,7 @@ using ScriptCoreLib.ActionScript.flash.net;
 using ScriptCoreLib.ActionScript.flash.ui;
 using System.Linq;
 using ScriptCoreLib.ActionScript.RayCaster;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 
 
@@ -32,26 +33,25 @@ namespace RayCaster6.ActionScript
         // 120x90
         // 160x120
         const int DefaultWidth = DefaultHeight * 3 / 2;
-        const int DefaultHeight = 120;
+        const int DefaultHeight = 240;
 
-        const int DefaultScale = 3;
+        const int DefaultScale = 2;
 
         public RayCaster6()
         {
             var r = new RayCaster4base(DefaultWidth, DefaultHeight)
             {
-                RenderFloorAndCeilingEnabled = true,
+                RenderFloorAndCeilingEnabled = false,
                 RenderMinimapEnabled = false,
                 ViewDirection = 270.DegreesToRadians(),
                 WallMap = Texture32.Of(Map1.ToBitmapAsset(), false),
-                posX = 4,
-                posY = 28
+                ViewPosition = new Point { x = 4, y = 22 }
             };
 
             if (r.CurrentTile != 0)
                 throw new Exception("bad start position: " + new { r.posX, r.posY, r.CurrentTile }.ToString());
 
-            r.screenImage.AttachTo(this);
+            r.Image.AttachTo(this);
             r.txtMain.AttachTo(this);
 
             this.scaleX = DefaultScale;
@@ -59,18 +59,30 @@ namespace RayCaster6.ActionScript
             //this.filters = new[] { new BlurFilter() };
 
 
-            KeyboardButton fKeyLeft = new uint[] { Keyboard.LEFT, 'j', 'J', 'a', 'A' };
-            KeyboardButton fKeyRight = new uint[] { Keyboard.RIGHT, 'l', 'L', 'd', 'D' };
+            KeyboardButton fKeyTurnLeft = new uint[] { Keyboard.LEFT, 'j', 'J', };
+            KeyboardButton fKeyTurnRight = new uint[] { Keyboard.RIGHT, 'l', 'L', };
+
+            KeyboardButton fKeyStrafeLeft = new uint[] { 'a', 'A' };
+            KeyboardButton fKeyStrafeRight = new uint[] { 'd', 'D' };
+
+            KeyboardButton fKeyUp = new uint[] { Keyboard.UP, 'i', 'I', 'w', 'W' };
+            KeyboardButton fKeyDown = new uint[] { Keyboard.DOWN, 'k', 'K', 's', 'S' };
+
 
             stage.keyDown +=
                 e =>
                 {
                     var key = e.keyCode;
 
-                    r.fKeyUp.ProcessKeyDown(key);
-                    r.fKeyDown.ProcessKeyDown(key);
-                    fKeyLeft.ProcessKeyDown(key);
-                    fKeyRight.ProcessKeyDown(key);
+                    fKeyStrafeLeft.ProcessKeyDown(key);
+                    fKeyStrafeRight.ProcessKeyDown(key);
+                    fKeyTurnLeft.ProcessKeyDown(key);
+                    fKeyTurnRight.ProcessKeyDown(key);
+
+                    fKeyUp.ProcessKeyDown(key);
+                    fKeyDown.ProcessKeyDown(key);
+
+
                 };
 
             stage.keyUp +=
@@ -78,21 +90,49 @@ namespace RayCaster6.ActionScript
                 {
                     var key = e.keyCode;
 
-                    r.fKeyUp.ProcessKeyUp(key);
-                    r.fKeyDown.ProcessKeyUp(key);
-                    fKeyLeft.ProcessKeyUp(key);
-                    fKeyRight.ProcessKeyUp(key);
+
+                    fKeyStrafeLeft.ProcessKeyUp(key);
+                    fKeyStrafeRight.ProcessKeyUp(key);
+
+                    fKeyTurnLeft.ProcessKeyUp(key);
+                    fKeyTurnRight.ProcessKeyUp(key);
+
+                    fKeyUp.ProcessKeyUp(key);
+                    fKeyDown.ProcessKeyUp(key);
+
                 };
 
 
             (1000 / 30).AtInterval(
                 delegate
                 {
-                    if (fKeyRight.IsPressed)
+                    if (fKeyTurnRight.IsPressed)
                         r.ViewDirection += 10.DegreesToRadians();
-
-                    if (fKeyLeft.IsPressed)
+                    else if (fKeyTurnLeft.IsPressed)
                         r.ViewDirection -= 10.DegreesToRadians();
+
+                    if (fKeyUp.IsPressed || fKeyStrafeLeft.IsPressed || fKeyStrafeRight.IsPressed)
+                    {
+                        var d = r.ViewDirection;
+
+
+
+                        if (fKeyStrafeLeft.IsPressed)
+                            d -= 90.DegreesToRadians();
+                        else if (fKeyStrafeRight.IsPressed)
+                            d += 90.DegreesToRadians();
+
+
+                        r.MoveTo(
+                            r.ViewPositionX + Math.Cos(d) * 0.2,
+                            r.ViewPositionY + Math.Sin(d) * 0.2
+                        );
+                    }
+                    else if (fKeyDown.IsPressed)
+                        r.MoveTo(
+                           r.ViewPositionX + Math.Cos(r.ViewDirection) * -0.2,
+                           r.ViewPositionY + Math.Sin(r.ViewDirection) * -0.2
+                       );
                 }
             );
 
@@ -192,7 +232,7 @@ namespace RayCaster6.ActionScript
 
             );
 
-            stage.enterFrame += r.render;
+            stage.enterFrame += r.RenderScene;
 
         }
 
