@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="ActionScript\Apple.cs" />
     <Compile Include="ActionScript\Assets.cs" />
+    <Compile Include="ActionScript\Worm.Part.cs" />
     <Compile Include="ActionScript\FlashConsoleWorm.cs" />
     <Compile Include="ActionScript\MyExtensions.cs" />
     <Compile Include="ActionScript\Worm.cs" />
