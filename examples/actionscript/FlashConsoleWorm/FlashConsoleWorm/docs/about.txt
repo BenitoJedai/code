@@ -1,0 +1,10 @@
+﻿Steps taken while creating this project:
+
+23:41
+01. Delete unneccesary .txt files
+02. Rename FlashConsoleWorm, add [SWF] 
+03. Rename MyExtensions.cs
+04. Clear assets
+05. Compile, verify, checkin
+23:48
+06. Reboot, power failure
