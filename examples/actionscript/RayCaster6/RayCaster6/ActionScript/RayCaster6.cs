@@ -43,7 +43,7 @@ namespace RayCaster6.ActionScript
             {
                 RenderFloorAndCeilingEnabled = false,
                 RenderMinimapEnabled = false,
-                WallMap = Texture32.Of(Map1.ToBitmapAsset(), false),
+                
                 ViewPosition = new Point { x = 4, y = 22 },
                 ViewDirection = 270.DegreesToRadians(),
 
@@ -235,8 +235,10 @@ namespace RayCaster6.ActionScript
                         {
                             f["graywall.png"],
                             f["bluewall.png"],
+                            f["greenwall.png"],
                         };
 
+                        r.Map.WallMap = Texture32.Of(Map1.ToBitmapAsset(), false);
                         r.RenderScene();
 
                         stage.enterFrame += r.RenderScene;
