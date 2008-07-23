@@ -132,6 +132,8 @@ namespace ScriptCoreLib.ActionScript.Extensions
                     done((T)loader.content);
                 };
 
+            e.position = 0;
+
             loader.loadBytes(e
                 , new LoaderContext(false, ApplicationDomain.currentDomain, null)
                 );

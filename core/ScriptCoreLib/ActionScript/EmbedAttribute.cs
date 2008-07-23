@@ -24,17 +24,18 @@ namespace ScriptCoreLib.ActionScript
 
         }
 
+        public const string OctetStream = "application/octet-stream";
+
         public EmbedAttribute(string source)
         {
             this.source = source;
 
-            const string octet = "application/octet-stream";
 
             var lookup = new Dictionary<string, string>
                 {
-                    {".zip", octet},
-                    {".txt", octet},
-                    {".xml", octet},
+                    {".zip", OctetStream},
+                    {".txt", OctetStream},
+                    {".xml", OctetStream},
                     {".ttf", "application/x-font"}
                 };
 
