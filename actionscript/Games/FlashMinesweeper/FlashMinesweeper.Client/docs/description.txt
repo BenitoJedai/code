@@ -5,3 +5,7 @@ A multiplayer remake of the classic minesweeper game. Multiple players share the
 
 How to play:
 Ctrl, alt or shift click to toggle a flag. Left click to reveal.
+
+Feedback 2008.07.23:
+Three more features, which I'll put in my votes for... Show each person's penalty score next to their names, a penalty countdown clock, and say "Shift-Click to Mark Flags" somewhere when the game star
+Do not blow up at first mine.
