@@ -66,6 +66,16 @@ namespace ScriptCoreLib.ActionScript.RayCaster
             };
 
 
+            t.Update();
+
+            return t;
+        }
+
+        public override void Update()
+        {
+            var bd = base.Bitmap;
+            var t = this;
+
             var bdata = bd.bitmapData;
 
             if (bdata.width == 64)
@@ -86,8 +96,6 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 
                         t[j, k] = c;
                     }
-
-            return t;
         }
 
     }
