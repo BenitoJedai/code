@@ -16,11 +16,7 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 
         protected Texture64[] _textures;
 
-        public Texture64[] Textures
-        {
-            get { return _textures; }
-            set { _textures = value; }
-        }
+
 
     }
 }

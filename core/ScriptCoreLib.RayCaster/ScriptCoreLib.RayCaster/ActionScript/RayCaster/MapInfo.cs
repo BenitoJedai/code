@@ -9,7 +9,7 @@ namespace ScriptCoreLib.ActionScript.RayCaster
     [Script]
     public sealed class MapInfo
     {
-        public event Action WallMapChanged;
+        public event Action Changed;
 
         Texture32 _WallMap;
 
@@ -26,14 +26,12 @@ namespace ScriptCoreLib.ActionScript.RayCaster
             {
                 _WallMap = value;
 
-                if (WallMapChanged != null)
-                    WallMapChanged();
             }
         }
 
         Texture32 _Map;
 
-        public Texture32 Map
+        public Texture32 WorldMap
         {
             get
             {
@@ -42,7 +40,58 @@ namespace ScriptCoreLib.ActionScript.RayCaster
             set
             {
                 _Map = value;
+
+                Update();
             }
+        }
+
+        Dictionary<uint, Texture64> _Textures;
+
+        public Dictionary<uint, Texture64> Textures
+        {
+            get
+            {
+                return _Textures;
+            }
+            set
+            {
+                _Textures = value;
+
+                Update();
+            }
+        }
+
+        /// <summary>
+        /// Generates the WallMap based on Map and Mappings
+        /// </summary>
+        public void Update()
+        {
+            if (_Map == null)
+                return;
+
+            if (_Textures == null)
+                return;
+
+            var w = new Texture32();
+            var k = _Textures.Keys.ToList();
+
+            for (int i = 0; i < Texture32.SizeConstant; i++)
+                for (int j = 0; j < Texture32.SizeConstant; j++)
+                {
+                    var c = _Map[i, j];
+
+                    if (k.Contains(c))
+                        c = (uint)( k.IndexOf(c) + 1);
+                    else
+                        c = 0;
+
+                    w[i, j] = c;
+                }
+
+            this.WallMap = w;
+
+            if (Changed != null)
+                Changed();
         }
     }
 
