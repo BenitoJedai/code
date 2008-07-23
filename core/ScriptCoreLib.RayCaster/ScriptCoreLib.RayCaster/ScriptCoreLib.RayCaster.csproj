@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\RayCaster\MapInfo.cs" />
     <Compile Include="ActionScript\RayCaster\ViewEngineBase.Textures.cs" />
     <Compile Include="ActionScript\RayCaster\ViewEngineBase.Render.cs" />
     <Compile Include="ActionScript\RayCaster\Extensions\MyExtensions.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="ActionScript\RayCaster\ViewEngineBase.cs" />
     <Compile Include="ActionScript\RayCaster\ViewInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\RayCaster\IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

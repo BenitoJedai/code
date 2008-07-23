@@ -101,7 +101,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
         {
             get
             {
-                return this.Values;
+                return _values;
             }
         }
 
@@ -109,7 +109,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
         {
             get
             {
-                return this.Values;
+                return _values;
             }
         }
 

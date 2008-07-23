@@ -43,7 +43,7 @@ namespace RayCaster6.ActionScript
             {
                 RenderFloorAndCeilingEnabled = false,
                 RenderMinimapEnabled = false,
-                
+
                 ViewPosition = new Point { x = 4, y = 22 },
                 ViewDirection = 270.DegreesToRadians(),
 
@@ -224,21 +224,20 @@ namespace RayCaster6.ActionScript
                     f =>
                     {
                         r.CreateWalkingDummy(
-                            new Texture64 [] { f["lamp.png"] } 
+                            new Texture64[] { f["lamp.png"] }
                         );
 
                         r.FloorTexture = f["floor.png"];
                         r.CeilingTexture = f["roof.png"];
 
-                        // should add a mapping/rewrite support
-                        r.Textures = new Texture64 []
+                        r.Map.WorldMap = Texture32.Of(Map1.ToBitmapAsset(), false);
+                        r.Map.Textures = new Dictionary<uint, Texture64>
                         {
-                            f["graywall.png"],
-                            f["bluewall.png"],
-                            f["greenwall.png"],
+                            {0xff0000, f["graywall.png"]},
+                            {0x0000ff,  f["bluewall.png"]},
+                            {0x00ff00, f["greenwall.png"]},
                         };
 
-                        r.Map.WallMap = Texture32.Of(Map1.ToBitmapAsset(), false);
                         r.RenderScene();
 
                         stage.enterFrame += r.RenderScene;
@@ -246,7 +245,7 @@ namespace RayCaster6.ActionScript
                     }
                 );
 
-           
+
         }
 
 
