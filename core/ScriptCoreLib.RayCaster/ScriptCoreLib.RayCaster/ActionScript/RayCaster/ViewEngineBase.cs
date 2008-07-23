@@ -37,6 +37,10 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 
             this._WallMap = new Texture32();
 
+            this.Map = new MapInfo();
+            this.Map.WallMapChanged += () => this._WallMap = this.Map.WallMap;
+
+
 
         }
 
@@ -103,20 +107,49 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 
         protected Texture32 _WallMap;
 
-        /// <summary>
-        /// This property defines where are the walls
-        /// </summary>
-        public Texture32 WallMap
+        
+
+        [Script]
+        public sealed class MapInfo
         {
-            get
+            public event Action WallMapChanged;
+
+            Texture32 _WallMap;
+
+            /// <summary>
+            /// This property defines where are the walls. 0 is for opening, otherwise the value is the index for texture
+            /// </summary>
+            public Texture32 WallMap
             {
-                return _WallMap;
+                get
+                {
+                    return _WallMap;
+                }
+                set
+                {
+                    _WallMap = value;
+
+                    if (WallMapChanged != null)
+                        WallMapChanged();
+                }
             }
-            set
+
+            Texture32 _Map;
+
+            public Texture32 Map
             {
-                _WallMap = value;
+                get
+                {
+                    return _Map;
+                }
+                set
+                {
+                    _Map = value;
+                }
             }
         }
+
+        public readonly MapInfo Map;
 
         public uint CurrentTile
         {
