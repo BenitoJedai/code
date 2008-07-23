@@ -40,6 +40,20 @@ namespace RayCaster6.ActionScript
 
         public RayCaster6()
         {
+            var GoFullScreen = new ContextMenuItem("Fullscreen");
+
+            GoFullScreen.menuItemSelect +=
+                delegate
+                {
+                    stage.SetFullscreen(true);
+                };
+
+            this.contextMenu = new ContextMenu
+            {
+                customItems = new[] { GoFullScreen }
+            };
+
+
             var r2 = new RayCaster4base(64, 48)
             {
                 RenderMinimapEnabled = false
@@ -206,7 +220,7 @@ namespace RayCaster6.ActionScript
                         };
 
 
-                    
+
                     Ego = r.CreateWalkingDummy(Stand, Walk);
                     UpdateEgoPosition();
 
@@ -228,7 +242,7 @@ namespace RayCaster6.ActionScript
                                   r.ViewPosition = new Point { x = 4, y = 22 };
                                   r.ViewDirection = 270.DegreesToRadians();
 
-                                  
+
                               }
 
 
@@ -326,7 +340,7 @@ namespace RayCaster6.ActionScript
                         );
 
 
-    
+
 
                         r2.Map.WorldMap = r.Map.WorldMap;
                         r2.Map.Textures = r.Map.Textures;

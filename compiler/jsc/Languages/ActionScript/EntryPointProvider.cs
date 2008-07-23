@@ -59,7 +59,8 @@ pluginspage="http://www.macromedia.com/go/getflashplayer">
                             type = "application/x-shockwave-flash",
                             data = href,
                             width,
-                            height
+                            height,
+                            allowFullScreen = true
                         }.GetPropertiesAsXAttributes(),
                         new XElement("param", 
                             new {
