@@ -18,13 +18,33 @@ namespace RayCaster6.ActionScript
     [Script]
     internal static class MyExtensions
     {
+        public static Point MoveTo(this Point p, double x, double y)
+        {
+            p.x = x;
+            p.y = y;
+
+            return p;
+        }
+
         public static T Take<T>(this IEnumerator<T> e)
         {
-            if (!e.MoveNext())
+            if (e.MoveNext())
                 return e.Current;
 
 
             throw new Exception("source is empty");
+        }
+
+        public static T[] Take<T>(this IEnumerator<T> e, int length)
+        {
+            var a = new T[length];
+
+            for (int i = 0; i < length; i++)
+            {
+                a[i] = e.Take();
+            }
+
+            return a;
         }
 
         public static T TakeOrDefault<T>(this IEnumerator<T> e)
