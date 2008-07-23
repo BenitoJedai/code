@@ -63,6 +63,8 @@ namespace ScriptCoreLib.ActionScript.RayCaster
             return Texture32.Of(bd, bd.bitmapData.transparent);
         }
 
+        bool alpha;
+
         public static Texture32 Of(Bitmap bd, bool alpha)
         {
             var t = new Texture32
@@ -70,8 +72,16 @@ namespace ScriptCoreLib.ActionScript.RayCaster
                 Bitmap = bd,
             };
 
+            t.alpha = alpha;
+            t.Update();
 
-            var bdata = bd.bitmapData;
+            return t;
+        }
+
+        public override void Update()
+        {
+            var t = this;
+            var bdata = Bitmap.bitmapData;
 
             if (bdata.width == SizeConstant)
                 for (var j = 0; j < SizeConstant; j++)
@@ -84,8 +94,6 @@ namespace ScriptCoreLib.ActionScript.RayCaster
                     }
             else
                 throw new Exception("This texture must be a size of " + SizeConstant);
-
-            return t;
         }
 
     }

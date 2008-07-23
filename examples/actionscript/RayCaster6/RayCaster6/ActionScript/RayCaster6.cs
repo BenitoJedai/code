@@ -34,12 +34,18 @@ namespace RayCaster6.ActionScript
         // 120x90
         // 160x120
         const int DefaultWidth = DefaultHeight * 3 / 2;
-        const int DefaultHeight = 200;
+        const int DefaultHeight = 180;
 
-        const int DefaultScale = 3;
+        const int DefaultScale = 2;
 
         public RayCaster6()
         {
+            var r2 = new RayCaster4base(64, 48)
+            {
+                RenderMinimapEnabled = false
+            };
+
+
             var r = new RayCaster4base(DefaultWidth, DefaultHeight)
             {
                 RenderFloorAndCeilingEnabled = false,
@@ -49,6 +55,7 @@ namespace RayCaster6.ActionScript
                 ViewDirection = 0.DegreesToRadians(),
 
             };
+
 
 
             r.Image.AttachTo(this);
@@ -102,6 +109,17 @@ namespace RayCaster6.ActionScript
 
                 };
 
+            var Ego = default(SpriteInfo);
+
+            Action UpdateEgoPosition =
+                delegate
+                {
+                    if (Ego != null)
+                    {
+                        Ego.Position = r.ViewPosition;
+                        Ego.Direction = r.ViewDirection;
+                    }
+                };
 
             (1000 / 30).AtInterval(
                 delegate
@@ -133,6 +151,8 @@ namespace RayCaster6.ActionScript
                            r.ViewPositionX + Math.Cos(r.ViewDirection) * -0.2,
                            r.ViewPositionY + Math.Sin(r.ViewDirection) * -0.2
                        );
+
+                    UpdateEgoPosition();
                 }
             );
 
@@ -150,6 +170,7 @@ namespace RayCaster6.ActionScript
                            r.RenderFloorAndCeilingEnabled = !r.RenderFloorAndCeilingEnabled;
                        }
                    };
+
 
             Action<Bitmap[]> BitmapsLoadedAction =
                 Bitmaps =>
@@ -181,19 +202,50 @@ namespace RayCaster6.ActionScript
                             Next8(),
                             Next8(),
                             Next8(),
+                            Next8(),
                         };
 
 
-                    //r.CreateWalkingDummy(Stand, Walk);
+                    
+                    Ego = r.CreateWalkingDummy(Stand, Walk);
+                    UpdateEgoPosition();
 
                     stage.keyUp +=
                           e =>
                           {
                               if (e.keyCode == Keyboard.SPACE)
                               {
-                                  r.CreateWalkingDummy(Stand, Walk);
+                                  var s = r.CreateWalkingDummy(Stand, Walk);
+
+                                  s.Direction += 180.DegreesToRadians();
+
+                                  r2.ViewPosition = s.Position;
+                                  r2.ViewDirection = s.Direction;
                               }
 
+                              if (e.keyCode == Keyboard.ENTER)
+                              {
+                                  r.ViewPosition = new Point { x = 4, y = 22 };
+                                  r.ViewDirection = 270.DegreesToRadians();
+
+                                  
+                              }
+
+
+
+                              if (e.keyCode == Keyboard.BACKSPACE)
+                              {
+
+                                  (1000 / 30).AtInterval(
+                                      t =>
+                                      {
+                                          r.ViewDirection += 18.DegreesToRadians();
+
+                                          if (t.currentCount == 10)
+                                              t.stop();
+                                      }
+                                  );
+                              }
                           };
                 };
 
@@ -222,12 +274,23 @@ namespace RayCaster6.ActionScript
                         // ! this is why map is in gif format
 
                         r.Map.WorldMap = Texture32.Of(f["Map1.gif"], false);
+
+                        var DynamicTextureBitmap = new Bitmap(new BitmapData(Texture64.SizeConstant, Texture64.SizeConstant, false, 0));
+                        Texture64 DynamicTexture = DynamicTextureBitmap;
+                        uint DynamicTextureKey = 0xffffff;
+
+                        r.Map.WorldMap[2, 22] = DynamicTextureKey;
+                        r.Map.WorldMap[3, 15] = DynamicTextureKey;
+
+
                         r.Map.Textures = new Dictionary<uint, Texture64>
                         {
                             {0xff0000, f["graywall.png"]},
                             {0x0000ff, f["bluewall.png"]},
                             {0x00ff00, f["greenwall.png"]},
                             {0x7F3300, f["woodwall.png"]},
+
+                            {DynamicTextureKey, DynamicTexture}
                         };
 
                         r.ViewDirection = 270.DegreesToRadians();
@@ -241,8 +304,38 @@ namespace RayCaster6.ActionScript
 
                         stage.enterFrame += r.RenderScene;
 
+                        var MirrorFrame = f["mirror.png"];
+
+                        300.AtInterval(
+                            t =>
+                            {
+                                DynamicTextureBitmap.bitmapData.fillRect(DynamicTextureBitmap.bitmapData.rect, (uint)(t.currentCount * 8 % 256));
+                                var m = new Matrix();
+
+                                // to center
+                                m.translate(0, 10);
+                                // m.scale(0.3, 0.3);
+
+                                r2.RenderScene();
+
+                                DynamicTextureBitmap.bitmapData.draw(r2.Image.bitmapData, m);
+                                DynamicTextureBitmap.bitmapData.draw(MirrorFrame.bitmapData);
+
+                                DynamicTexture.Update();
+                            }
+                        );
+
+
+    
+
+                        r2.Map.WorldMap = r.Map.WorldMap;
+                        r2.Map.Textures = r.Map.Textures;
+                        r2.Sprites = r.Sprites;
+                        r2.ViewPosition = r.ViewPosition;
+
                     }
                 );
+
 
 
         }

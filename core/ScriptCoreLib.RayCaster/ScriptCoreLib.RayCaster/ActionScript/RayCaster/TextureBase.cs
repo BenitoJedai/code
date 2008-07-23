@@ -19,6 +19,8 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 
         public Bitmap Bitmap;
 
+        public abstract void Update();
+
         public abstract T this[int x, int y] { get; set; }
     }
 }

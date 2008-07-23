@@ -493,9 +493,14 @@ namespace RayCaster6.ActionScript
 
             //UpdatePOVCounter++;
 
+            var fuzzy = 0.000001;
+
             foreach (var v in SpritesFromPOV)
             {
-                v.Update(this.posX, this.posY, this.rayDirLeft, this.rayDirRight);
+                v.Update(this.posX + fuzzy, this.posY + fuzzy, this.rayDirLeft, this.rayDirRight);
+
+                if (v.Distance < 0.1)
+                    v.ViewInfo.IsInView = false;
             }
 
             //if (UpdatePOVCounter % 4 == 0)
