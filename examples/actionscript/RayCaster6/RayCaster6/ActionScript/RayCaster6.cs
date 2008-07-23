@@ -42,15 +42,13 @@ namespace RayCaster6.ActionScript
             var r = new RayCaster4base(DefaultWidth, DefaultHeight)
             {
                 RenderFloorAndCeilingEnabled = false,
-                RenderMinimapEnabled = false,
+                RenderMinimapEnabled = true,
 
                 ViewPosition = new Point { x = 4, y = 22 },
                 ViewDirection = 270.DegreesToRadians(),
 
             };
 
-            if (r.CurrentTile != 0)
-                throw new Exception("bad start position: " + new { r.ViewPositionX, r.ViewPositionY, r.CurrentTile }.ToString());
 
             r.Image.AttachTo(this);
             r.txtMain.AttachTo(this);
@@ -217,12 +215,10 @@ namespace RayCaster6.ActionScript
                 .Where(f => f.FileName.EndsWith(".png"))
                 .ToBitmapArray(BitmapsLoadedAction);
 
-            MyTextures
-                .ToFiles()
-                .Where(f => f.FileName.EndsWith(".png"))
-                .ToBitmapDictionary(
+            MyStuff.ToFiles().ToBitmapDictionary(
                     f =>
                     {
+                
                         r.CreateWalkingDummy(
                             new Texture64[] { f["lamp.png"] }
                         );
@@ -230,13 +226,22 @@ namespace RayCaster6.ActionScript
                         r.FloorTexture = f["floor.png"];
                         r.CeilingTexture = f["roof.png"];
 
-                        r.Map.WorldMap = Texture32.Of(Map1.ToBitmapAsset(), false);
+                        // ! important
+                        // ----------------------------------------------------
+                        // ! loading png via bytes affects pixel values
+                        // ! this is why map is in gif format
+
+                        r.Map.WorldMap = Texture32.Of(f["Map1.gif"], false);
                         r.Map.Textures = new Dictionary<uint, Texture64>
                         {
                             {0xff0000, f["graywall.png"]},
-                            {0x0000ff,  f["bluewall.png"]},
+                            {0x0000ff, f["bluewall.png"]},
                             {0x00ff00, f["greenwall.png"]},
                         };
+
+                        if (r.CurrentTile != 0)
+                            throw new Exception("bad start position: " + new { r.ViewPositionX, r.ViewPositionY, r.CurrentTile }.ToString());
+
 
                         r.RenderScene();
 
@@ -252,13 +257,8 @@ namespace RayCaster6.ActionScript
         [Embed("/flashsrc/textures/dude5.zip")]
         Class MyZipFile;
 
-        [Embed("/flashsrc/textures/textures.zip")]
-        Class MyTextures;
-
-
-        [Embed("/flashsrc/textures/Map1.png")]
-        Class Map1;
-
+        [Embed("/flashsrc/textures/stuff.zip")]
+        Class MyStuff;
 
     }
 }

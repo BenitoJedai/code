@@ -61,6 +61,7 @@ namespace ScriptCoreLib.ActionScript.RayCaster
             }
         }
 
+        
         /// <summary>
         /// Generates the WallMap based on Map and Mappings
         /// </summary>
@@ -81,14 +82,21 @@ namespace ScriptCoreLib.ActionScript.RayCaster
                     var c = _Map[i, j];
 
                     if (k.Contains(c))
-                        c = (uint)( k.IndexOf(c) + 1);
+                        c = (uint)(k.IndexOf(c) + 1);
                     else
-                        c = 0;
+                    {
+                        Console.WriteLine("unmapped: " + c);
+
+                        if (i == 0 || j == 0 || i == Texture32.SizeConstant - 1 || j == Texture32.SizeConstant - 1)
+                            c = 1;
+                        else
+                            c = 0;
+                    }
 
                     w[i, j] = c;
                 }
 
-            this.WallMap = w;
+            _WallMap = w;
 
             if (Changed != null)
                 Changed();

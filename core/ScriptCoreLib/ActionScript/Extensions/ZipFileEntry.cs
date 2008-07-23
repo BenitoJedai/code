@@ -46,6 +46,11 @@ namespace ScriptCoreLib.ActionScript.Extensions
 
         readonly ByteArray file_data = new ByteArray();
 
+        public string GetString()
+        {
+            return this.Bytes.readUTFBytes(this.Bytes.length);
+        }
+
         public ByteArray Bytes
         {
             get

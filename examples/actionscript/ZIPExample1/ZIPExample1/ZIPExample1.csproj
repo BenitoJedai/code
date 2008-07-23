@@ -58,12 +58,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\ZIPExample1\bluestrip.gif" />
+    <EmbeddedResource Include="web\assets\ZIPExample1\bluestrip.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
-    <None Include="web\assets\ZIPExample1\dude5.zip">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <EmbeddedResource Include="web\assets\ZIPExample1\stuff.zip" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

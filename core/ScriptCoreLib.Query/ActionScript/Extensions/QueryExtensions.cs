@@ -49,7 +49,8 @@ namespace ScriptCoreLib.ActionScript.Extensions
 
         public static IEnumerable<ZipFileEntry> ToBitmapDictionary(this IEnumerable<ZipFileEntry> e, Action<Dictionary<string, Bitmap>> handler)
         {
-            return e.ToDictionary(CommonExtensions.LoadBytes, handler);
+            return e.ToDictionary(
+              CommonExtensions.LoadBytes, handler);
         }
 
         public static IEnumerable<ZipFileEntry> ToDictionary<T>(this IEnumerable<ZipFileEntry> e, Action<ByteArray, Action<T>> factory, Action<Dictionary<string, T>> handler)

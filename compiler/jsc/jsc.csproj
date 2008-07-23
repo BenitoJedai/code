@@ -113,6 +113,7 @@
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.EmitTryBlock.cs" />
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.WriteTypeFields.cs" />
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.WriteTypeInstanceConstructors.cs" />
+    <Compile Include="Languages\ActionScript\ActionScriptCompiler.WriteCustomAttributes.cs" />
     <Compile Include="Languages\ActionScript\DelegateImplementationProvider.cs" />
     <Compile Include="Languages\ActionScript\EntryPointProvider.cs" />
     <Compile Include="Languages\CompilerBase.DIA.cs" />
