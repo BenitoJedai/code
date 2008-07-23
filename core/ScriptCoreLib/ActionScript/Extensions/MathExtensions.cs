@@ -27,6 +27,8 @@ namespace ScriptCoreLib.ActionScript.Extensions
             if (x == 0)
                 if (y < 0)
                     return System.Math.PI / 2;
+                else if (y == 0)
+                    return 0;
                 else
                     return (System.Math.PI / 2) * 3;
 

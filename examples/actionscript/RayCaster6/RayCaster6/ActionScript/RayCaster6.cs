@@ -27,6 +27,7 @@ namespace RayCaster6.ActionScript
     [SWF(width = DefaultWidth * DefaultScale, height = DefaultHeight * DefaultScale, frameRate = 60)]
     public class RayCaster6 : Sprite
     {
+        // http://www.lostinactionscript.com/blog/index.php/2007/10/13/flash-you-tube-api/
         // http://www.digital-ist-besser.de/
         // http://www.fredheintz.com/sitefred/main.html
 
@@ -45,7 +46,7 @@ namespace RayCaster6.ActionScript
                 RenderMinimapEnabled = true,
 
                 ViewPosition = new Point { x = 4, y = 22 },
-                ViewDirection = 270.DegreesToRadians(),
+                ViewDirection = 0.DegreesToRadians(),
 
             };
 
@@ -167,29 +168,16 @@ namespace RayCaster6.ActionScript
                         {
                             // keeping compiler happy with full delegate form
 
-                            var a = new[]
-                                {
-                                    BitmapStream.TakeOrDefault(),
-                                    BitmapStream.TakeOrDefault(),
-                                    BitmapStream.TakeOrDefault(),
-                                    BitmapStream.TakeOrDefault(),
+                            if (BitmapStream == null)
+                                throw new Exception("BitmapStream is null");
 
-                                    BitmapStream.TakeOrDefault(),
-                                    BitmapStream.TakeOrDefault(),
-                                    BitmapStream.TakeOrDefault(),
-                                    BitmapStream.TakeOrDefault(),
-
-                                };
-
-
-                            return Reorder8(a.ToArray());
+                            return Reorder8(BitmapStream.Take(8));
                         };
 
 
                     var Stand = Next8();
                     var Walk = new[]
                         {
-                            Next8(),
                             Next8(),
                             Next8(),
                             Next8(),
@@ -218,10 +206,12 @@ namespace RayCaster6.ActionScript
             MyStuff.ToFiles().ToBitmapDictionary(
                     f =>
                     {
-                
-                        r.CreateWalkingDummy(
-                            new Texture64[] { f["lamp.png"] }
-                        );
+                        r.CreateDummy(f["plantbrown.png"]).Position.MoveTo(5, 25.5);
+                        r.CreateDummy(f["plantgreen.png"]).Position.MoveTo(4, 26.5);
+                        r.CreateDummy(f["chandelier.png"]).Position.MoveTo(4, 26);
+                        r.CreateDummy(f["lamp.png"]).Position.MoveTo(4, 22);
+                        r.CreateDummy(f["lamp.png"]).Position.MoveTo(4, 18);
+                        r.CreateDummy(f["lamp.png"]).Position.MoveTo(4, 14);
 
                         r.FloorTexture = f["floor.png"];
                         r.CeilingTexture = f["roof.png"];
@@ -237,7 +227,11 @@ namespace RayCaster6.ActionScript
                             {0xff0000, f["graywall.png"]},
                             {0x0000ff, f["bluewall.png"]},
                             {0x00ff00, f["greenwall.png"]},
+                            {0x7F3300, f["woodwall.png"]},
                         };
+
+                        r.ViewDirection = 270.DegreesToRadians();
+                        r.ViewPosition = r.ViewPosition;
 
                         if (r.CurrentTile != 0)
                             throw new Exception("bad start position: " + new { r.ViewPositionX, r.ViewPositionY, r.CurrentTile }.ToString());

@@ -71,7 +71,13 @@ namespace RayCaster6.ActionScript
 
 
 
-        public void CreateWalkingDummy(Texture64[] Stand, params Texture64[][] Walk)
+        public SpriteInfo CreateDummy(Texture64 Stand)
+        {
+            return CreateWalkingDummy(new[] { Stand });
+
+        }
+
+        public SpriteInfo CreateWalkingDummy(Texture64[] Stand, params Texture64[][] Walk)
         {
             var s = new SpriteInfo
             {
@@ -87,6 +93,8 @@ namespace RayCaster6.ActionScript
                         s.Frames = Walk[t.currentCount % Walk.Length];
                     }
                 );
+
+            return s;
         }
 
 
