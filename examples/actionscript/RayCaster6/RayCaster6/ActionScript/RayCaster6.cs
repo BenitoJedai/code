@@ -25,20 +25,23 @@ namespace RayCaster6.ActionScript
     /// <summary>
     /// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
     /// </summary>
-    [Script, ScriptApplicationEntryPoint]
-    [SWF(width = DefaultWidth * DefaultScale, height = DefaultHeight * DefaultScale, frameRate = 60)]
+    [Script, ScriptApplicationEntryPoint(Width = DefaultControlWidth, Height = DefaultControlHeight)]
+    [SWF(width = DefaultControlWidth, height = DefaultControlHeight, frameRate = 60)]
     public class RayCaster6 : Sprite
     {
         // http://www.lostinactionscript.com/blog/index.php/2007/10/13/flash-you-tube-api/
         // http://www.digital-ist-besser.de/
         // http://www.fredheintz.com/sitefred/main.html
 
+        const int DefaultControlWidth = DefaultWidth * DefaultScale;
+        const int DefaultControlHeight = DefaultHeight * DefaultScale;
+
         // 120x90
         // 160x120
         const int DefaultWidth = DefaultHeight * 3 / 2;
-        const int DefaultHeight = 180;
+        const int DefaultHeight = 120;
 
-        const int DefaultScale = 2;
+        const int DefaultScale = 4;
 
         public RayCaster6()
         {
@@ -53,7 +56,7 @@ namespace RayCaster6.ActionScript
 
             var r = new RayCaster4base(DefaultWidth, DefaultHeight)
             {
-                RenderFloorAndCeilingEnabled = false,
+                FloorAndCeilingVisible = false,
                 RenderMinimapEnabled = true,
 
                 ViewPosition = new Point { x = 4, y = 22 },
@@ -175,9 +178,19 @@ namespace RayCaster6.ActionScript
                            r.RenderMinimapEnabled = !r.RenderMinimapEnabled;
                        }
 
+                       if (e.keyCode == Keyboard.B)
+                       {
+                           r.SpritesVisible = !r.SpritesVisible;
+                       }
+
                        if (e.keyCode == Keyboard.F)
                        {
-                           r.RenderFloorAndCeilingEnabled = !r.RenderFloorAndCeilingEnabled;
+                           r.FloorAndCeilingVisible = !r.FloorAndCeilingVisible;
+                       }
+
+                       if (e.keyCode == Keyboard.DELETE)
+                       {
+                           r.Sprites.RemoveAll(p => p != Ego);
                        }
                    };
 
@@ -273,6 +286,8 @@ namespace RayCaster6.ActionScript
                 .Where(f => f.FileName.EndsWith(".png"))
                 .ToBitmapArray(BitmapsLoadedAction);
 
+
+
             MyStuff.ToFiles().ToBitmapDictionary(
                     f =>
                     {
@@ -283,70 +298,93 @@ namespace RayCaster6.ActionScript
 
                         r.Map.WorldMap = Texture32.Of(f["Map1.gif"], false);
 
-                        var FreeSpaceForStuff = r.Map.WorldMap.Entries.Where(i => i.Value == 0); //.Randomize().GetEnumerator();
-
-                        Func<Texture64.Entry, bool> IsNearWall =
-                           w =>
+                        MySprites.ToFiles().ToBitmapArray(
+                           sprites =>
                            {
-                               Func<int, int, bool> WallAtOffset =
-                                   (x, y) => r.Map.WorldMap[w.XIndex + x, w.YIndex + y] != 0;
+                               Action<IEnumerator<Texture64.Entry>, Texture64> AddSpriteByTexture =
+                                   (SpaceForStuff, tex) => SpaceForStuff.Take().Do(p => r.CreateDummy(tex).Position.To(p.XIndex + 0.5, p.YIndex + 0.5));
 
-                               if (WallAtOffset(1, 0))
-                                   return true;
+                               var FreeSpaceForStuff = r.Map.WorldMap.Entries.Where(i => i.Value == 0).Randomize().GetEnumerator();
 
-                               if (WallAtOffset(-1, 0))
-                                   return true;
+                               Action<Bitmap> AddSprite =
+                                   e => AddSpriteByTexture(FreeSpaceForStuff, e);
 
-                               if (WallAtOffset(0, 1))
-                                   return true;
+                               foreach (var s in sprites)
+                               {
+                                   for (int i = 0; i < 3; i++)
+                                   {
+                                       AddSprite(s);
+                                   }
+                               }
+                               
 
-                               if (WallAtOffset(0, -1))
-                                   return true;
+                               //Func<Texture64.Entry, bool> IsNearWall =
+                               //   w =>
+                               //   {
+                               //       Func<int, int, bool> WallAtOffset =
+                               //           (x, y) => r.Map.WorldMap[w.XIndex + x, w.YIndex + y] != 0;
 
-                               return false;
-                           };
+                               //       if (WallAtOffset(1, 0))
+                               //           return true;
 
-                        var FreeSpaceNearWalls = FreeSpaceForStuff.Where(IsNearWall);
-                        var FreeSpaceForLamps = FreeSpaceForStuff.Where(w => !IsNearWall(w));
+                               //       if (WallAtOffset(-1, 0))
+                               //           return true;
 
-                        var SpaceNearWalls = FreeSpaceNearWalls.Randomize().GetEnumerator();
-                        var SpaceForLamps = FreeSpaceForLamps.Randomize().GetEnumerator();
+                               //       if (WallAtOffset(0, 1))
+                               //           return true;
+
+                               //       if (WallAtOffset(0, -1))
+                               //           return true;
+
+                               //       return false;
+                               //   };
+
+                               //var FreeSpaceNearWalls = FreeSpaceForStuff.Where(IsNearWall);
+                               //var FreeSpaceForLamps = FreeSpaceForStuff.Where(w => !IsNearWall(w));
+
+                               //var SpaceNearWalls = FreeSpaceNearWalls.Randomize().GetEnumerator();
+                               //var SpaceForLamps = FreeSpaceForLamps.Randomize().GetEnumerator();
 
 
-                        Action<IEnumerator<Texture64.Entry>, Texture64> AddSpriteByTexture =
-                            (SpaceForStuff, tex) => SpaceForStuff.Take().Do(p => r.CreateDummy(tex).Position.To(p.XIndex + 0.5, p.YIndex + 0.5));
+                       
 
-                        Action<string> AddSpriteNearWall =
-                            texname => AddSpriteByTexture(SpaceNearWalls, f[texname + ".png"]);
-
-
-                        Action<string> AddSpaceForLamps =
-                            texname => AddSpriteByTexture(SpaceForLamps, f[texname + ".png"]);
+                               //Action<string> AddSpriteNearWall =
+                               //    texname => AddSpriteByTexture(SpaceNearWalls, t(texname));
 
 
-                        AddSpaceForLamps.Multiple(
-                            new KeyValuePairList<int, string>
-                            {
-                                // multi dict?
-                                {9, "lamp"},
-                                {8, "chandelier"},
+                               //Action<string> AddSpaceForLamps =
+                               //    texname => AddSpriteByTexture(SpaceForLamps, t(texname));
+
+
+                            //   AddSpaceForLamps.Multiple(
+                            //       new KeyValuePairList<int, string>
+                            //{
+                            //    // multi dict?
+                            //    {9, "lamp"},
+                            //    {8, "chandelier"},
                         
-                            }
+                            //}
+                            //   );
+
+                            //   AddSpriteNearWall.Multiple(
+                            //      new KeyValuePairList<int, string>
+                            //{
+                            //    // multi dict?
+                  
+                            //    {4, "armor"},
+                            //    {32, "plantbrown"},
+                            //    {32, "plantgreen"},
+                            //}
+                            //  );
+                           }
                         );
 
-                        AddSpriteNearWall.Multiple(
-                           new KeyValuePairList<int, string>
-                            {
-                                // multi dict?
-                  
-                                {4, "armor"},
-                                {32, "plantbrown"},
-                                {32, "plantgreen"},
-                            }
-                       );
 
-                        r.FloorTexture = f["floor.png"];
-                        r.CeilingTexture = f["roof.png"];
+                        Func<string, Texture64> t =
+                            texname => f[texname + ".png"];
+
+                        r.FloorTexture = t("floor");
+                        r.CeilingTexture = t("roof");
 
 
 
@@ -360,10 +398,10 @@ namespace RayCaster6.ActionScript
 
                         r.Map.Textures = new Dictionary<uint, Texture64>
                         {
-                            {0xff0000, f["graywall.png"]},
-                            {0x0000ff, f["bluewall.png"]},
-                            {0x00ff00, f["greenwall.png"]},
-                            {0x7F3300, f["woodwall.png"]},
+                            {0xff0000, t("graywall")},
+                            {0x0000ff, t("bluewall")},
+                            {0x00ff00, t("greenwall")},
+                            {0x7F3300, t("woodwall")},
 
                             {DynamicTextureKey, DynamicTexture}
                         };
@@ -381,10 +419,10 @@ namespace RayCaster6.ActionScript
 
                         var MirrorFrame = f["mirror.png"];
 
-                        300.AtInterval(
-                            t =>
+                        30.AtInterval(
+                            timer =>
                             {
-                                DynamicTextureBitmap.bitmapData.fillRect(DynamicTextureBitmap.bitmapData.rect, (uint)(t.currentCount * 8 % 256));
+                                DynamicTextureBitmap.bitmapData.fillRect(DynamicTextureBitmap.bitmapData.rect, (uint)(timer.currentCount * 8 % 256));
                                 var m = new Matrix();
 
                                 // to center
@@ -437,6 +475,9 @@ namespace RayCaster6.ActionScript
 
         [Embed("/flashsrc/textures/stuff.zip")]
         Class MyStuff;
+
+        [Embed("/flashsrc/textures/sprites.zip")]
+        Class MySprites;
 
         // fps: 58
     }

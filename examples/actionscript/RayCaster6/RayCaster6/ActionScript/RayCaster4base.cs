@@ -31,7 +31,7 @@ namespace RayCaster6.ActionScript
         public TextField txtMain;
 
 
-        protected double[] _ZBuffer;
+        
 
         protected int time;
         protected int counter;
