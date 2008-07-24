@@ -20,7 +20,10 @@ namespace RayCaster6.ActionScript
 
     partial class RayCaster4base
     {
-
+        /// <summary>
+        /// Enable this to render walls in lower quality
+        /// </summary>
+        public bool RenderLowQualityWalls;
 
 
         double rayDirLeft;
@@ -41,6 +44,10 @@ namespace RayCaster6.ActionScript
             if (_textures.Length == 0)
                 return;
 
+            if (_ZBuffer == null)
+                _ZBuffer = new double[_ViewWidth];
+            else if (_ZBuffer.Length != _ViewWidth)
+                _ZBuffer = new double[_ViewWidth];
 
             RenderHorizon();
 
@@ -69,7 +76,10 @@ namespace RayCaster6.ActionScript
             while (x < _ViewWidth)
             {
                 var x_mirror = _ViewWidth - (x) - 1;
-                var x_mirror_1 = _ViewWidth - (x + 1) - 1;
+                var x_mirror_1 = -1;
+
+                if (RenderLowQualityWalls)
+                    x_mirror_1 = _ViewWidth - (x + 1) - 1;
 
                 //calculate ray position and direction
                 var cameraX = 2.0 * (double)x / (double)_ViewWidth - 1.0; //x-coordinate in camera space
@@ -199,20 +209,32 @@ namespace RayCaster6.ActionScript
 
                     if (side == 1) color = (color >> 1) & 0x7F7F7F;
 
-                    // buffer.setPixel(x_mirror, y, color);
-                    buffer.fillRect(
-                        //new Rectangle(
-                            x_mirror_1, y, 2, 2
-                            //)
-                            , color);
 
-                    y += 2;
+                    if (RenderLowQualityWalls)
+                    {
+                        buffer.fillRect(
+                            //new Rectangle(
+                                x_mirror_1, y, 2, 2
+                            //)
+                                , color);
+                        y += 2;
+                    }
+                    else
+                    {
+                        buffer.setPixel(x_mirror, y, color);
+                        y += 1;
+                    }
+
+
+
                 }
 
                 //SET THE ZBUFFER FOR THE SPRITE CASTING
                 //perpendicular distance is used
                 _ZBuffer[x_mirror] = perpWallDist;
-                _ZBuffer[x_mirror_1] = perpWallDist; 
+
+                if (RenderLowQualityWalls)
+                    _ZBuffer[x_mirror_1] = perpWallDist;
 
                 if (RenderFloorAndCeilingEnabled)
                 {
@@ -273,8 +295,15 @@ namespace RayCaster6.ActionScript
                         currentDist = _ViewHeight / (2 * y - _ViewHeight); //you could make a small lookup table for this instead
                         //currentDist = floorVals[int(y-80)];
 
-                        var pen_width = 2;
+                        var pen_x = x_mirror;
+                        var pen_width = 1;
                         var pen_height = 1;
+
+                        if (RenderLowQualityWalls)
+                        {
+                            pen_x = x_mirror_1;
+                            pen_width = 2;
+                        }
 
                         //pen_width = currentDist.Floor().Max(2).Min(4);
 
@@ -296,8 +325,8 @@ namespace RayCaster6.ActionScript
                             if (pen_width > 1)
                                 buffer.fillRect(
                                     //new Rectangle(
-                                        x_mirror_1, y, pen_width, pen_height
-                                        //)
+                                        pen_x, y, pen_width, pen_height
+                                    //)
                                         , color);
                             else
                                 buffer.setPixel(x_mirror, y, color); //floor
@@ -314,11 +343,11 @@ namespace RayCaster6.ActionScript
                             if (pen_width > 1)
                                 buffer.fillRect(
                                     //new Rectangle(
-                                        x_mirror_1, _ViewHeight - y - pen_width, pen_width, pen_height
-                                        //)
+                                        pen_x, _ViewHeight - y - pen_width + 1, pen_width, pen_height
+                                    //)
                                         , color);
                             else
-                                buffer.setPixel(x_mirror, _ViewHeight - y - 1, color); //ceiling (symmetrical!)
+                                buffer.setPixel(pen_x, _ViewHeight - y - 1, color); //ceiling (symmetrical!)
                         }
                         catch
                         {
@@ -331,8 +360,13 @@ namespace RayCaster6.ActionScript
 
                 }
 
+
                 //x += 1;
-                x += 2;
+
+                if (RenderLowQualityWalls)
+                    x += 2;
+                else
+                    x += 1;
 
             }
 
@@ -346,8 +380,8 @@ namespace RayCaster6.ActionScript
             {
                 // txtMain.text = (counter * 2).ToString() + "fps " + global::ScriptCoreLib.ActionScript.flash.system.System.totalMemory + "bytes";
                 //txtMain.text = (counter * 2).ToString() + "fps @" + dir.RadiansToDegrees();
-                txtMain.text = (counter * 2).ToString() + "fps @" + _WallMap[posX.Floor(), posY.Floor()] 
-                    + " sprites: " + this.SpritesFromPOV.Length 
+                txtMain.text = (counter * 2).ToString() + "fps @" + _WallMap[posX.Floor(), posY.Floor()]
+                    + " sprites: " + this.SpritesFromPOV.Length
                     + " spriterender: " + RenderSpritesTimeB
                     + " spriterender/sprite: " + (RenderSpritesTimeB / this.SpritesFromPOV.Length)
                     ;
@@ -436,15 +470,15 @@ namespace RayCaster6.ActionScript
                             var color = texture[cxt, cyt];
 
                             var color_a = (color >> 24) & 0xff;
-                            var color_r = (color >> 16) & 0xff;
-                            var color_g = (color >> 8) & 0xff;
-                            var color_b = color & 0xff;
+                            //var color_r = (color >> 16) & 0xff;
+                            //var color_g = (color >> 8) & 0xff;
+                            //var color_b = color & 0xff;
 
                             if (color_a == 0xff)
                                 buffer.fillRect(
                                     //new Rectangle(
                                         cx, (_ViewHeight / 2) + iy - zhalf, 1, blocksize
-                                        //)
+                                    //)
                                         , color);
 
 
@@ -471,9 +505,9 @@ namespace RayCaster6.ActionScript
                             var color = texture[cxt, cyt];
 
                             var color_a = (color >> 24) & 0xff;
-                            var color_r = (color >> 16) & 0xff;
-                            var color_g = (color >> 8) & 0xff;
-                            var color_b = color & 0xff;
+                            //var color_r = (color >> 16) & 0xff;
+                            //var color_g = (color >> 8) & 0xff;
+                            //var color_b = color & 0xff;
 
                             if (color_a == 0xff)
                                 buffer.setPixel(cx, (_ViewHeight / 2) + iy - zhalf, color);
@@ -610,7 +644,7 @@ namespace RayCaster6.ActionScript
 
         SpriteInfoFromPOV[] SpritesFromPOV;
 
-        
+
     }
 
 }
