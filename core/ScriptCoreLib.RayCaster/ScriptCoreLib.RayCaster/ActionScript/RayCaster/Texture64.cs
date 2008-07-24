@@ -11,12 +11,9 @@ namespace ScriptCoreLib.ActionScript.RayCaster
     [Script]
     public sealed class Texture64 : TextureBase
     {
-        readonly T[] items;
 
-        public int Length
-        {
-            get { return items.Length; }
-        }
+        
+    
 
         public const int SizeConstant = 64;
 

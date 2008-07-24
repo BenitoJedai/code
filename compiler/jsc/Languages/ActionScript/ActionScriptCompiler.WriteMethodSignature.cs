@@ -23,6 +23,7 @@ namespace jsc.Languages.ActionScript
             Implementing,
             Overriding,
             OverridingImplementing,
+            ValueTypeConstructorAlias
         }
 
         protected void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic, WriteMethodSignatureMode mode)
@@ -126,7 +127,7 @@ namespace jsc.Languages.ActionScript
 
             WriteKeywordSpace(Keywords._function);
 
-            if (m.IsConstructor)
+            if (m.IsConstructor && !(mode == WriteMethodSignatureMode.ValueTypeConstructorAlias))
                 Write(GetDecoratedTypeName(m.DeclaringType, false));
             else
             {
@@ -163,7 +164,7 @@ namespace jsc.Languages.ActionScript
             Write(")");
 
             var cctor = m as ConstructorInfo;
-            if (cctor != null && cctor.IsStatic)
+            if (cctor != null && (cctor.IsStatic || mode == WriteMethodSignatureMode.ValueTypeConstructorAlias))
             {
                 Write(":");
                 WriteDecoratedTypeName(typeof(void));

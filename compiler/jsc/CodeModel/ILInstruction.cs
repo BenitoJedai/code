@@ -2476,12 +2476,29 @@ namespace jsc
             return Self.BaseType == Base;
         }
 
-        public bool IsBaseConstructorCall(MethodBase m, Func<MethodBase, MethodBase> ResolveMethod)
+        public bool IsBaseConstructorCall(MethodBase m, Func<MethodBase, MethodBase> ResolveMethod, Func<Type, Type> ResolveType)
         {
+            
             if (TargetConstructor == null)
                 return false;
 
-            return m.DeclaringType == (ResolveMethod(this.TargetConstructor) ?? this.TargetConstructor).DeclaringType;
+            var OwnerMethod_Resolved = (ResolveMethod(this.OwnerMethod) ?? this.OwnerMethod);
+            var TargetConstructor_Resolved = (ResolveMethod(this.TargetConstructor) ?? this.TargetConstructor);
+
+            Type Self = OwnerMethod_Resolved.DeclaringType;
+            Type Base = TargetConstructor_Resolved.DeclaringType;
+
+            // need to use generic parameters to make it more accurate
+
+            if (Base.IsGenericType)
+                Base = Base.GetGenericTypeDefinition();
+
+            Type SelfBase = ResolveType(Self.BaseType) ?? Self.BaseType;
+
+            if (SelfBase.IsGenericType)
+                SelfBase = SelfBase.GetGenericTypeDefinition();
+            
+            return SelfBase == Base;
         }
 
 
@@ -2587,10 +2604,15 @@ namespace jsc
         {
             get
             {
+                if (this.TargetVariable != null)
+                    return false;
+
+
                 if (this.TargetInteger != null ||
                     this.TargetLong != null ||
                     this.TargetFloat != null ||
-                    this.TargetDouble != null)
+                    this.TargetDouble != null ||
+                    this.TargetVariable != null)
                     return true;
 
                 if (IsAnyOpCodeOf(OpCodes.Ldstr, OpCodes.Ldnull))

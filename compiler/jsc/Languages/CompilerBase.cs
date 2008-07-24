@@ -1041,6 +1041,10 @@ namespace jsc.Script
 #if true
                 if (SupportsInlineAssigments)
                 {
+                    if (v.LocalType.IsValueType && !v.LocalType.IsPrimitive)
+                    {
+                        goto define;
+                    }
 
                     foreach (ILInstruction var in xb.Instructrions)
                     {
@@ -1053,6 +1057,7 @@ namespace jsc.Script
                             }
                     }
 
+                    
                     continue;
                 }
 

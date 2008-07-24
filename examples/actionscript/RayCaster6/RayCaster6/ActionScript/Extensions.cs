@@ -12,12 +12,31 @@ namespace RayCaster6.ActionScript
 {
 
 
+
     /// <summary>
     /// This class defines the extension methods for this project
     /// </summary>
     [Script]
     internal static class MyExtensions
     {
+
+        public static void Multiple<T>(this Action<T> h, List<KeyValuePair<int, T>> e)
+        {
+            foreach (var v in e)
+            {
+                if (v.Key > 0)
+                    for (int i = 0; i < v.Key; i++)
+                    {
+                        h(v.Value);
+                    }
+            }
+        }
+
+        public static void Do<T>(this T a, Action<T> e)
+        {
+            e(a);
+        }
+
         static readonly Rectangle fillRect_rect = new Rectangle();
 
         public static void fillRect(this BitmapData e, int x, int y, int w, int h, uint color)
@@ -29,12 +48,20 @@ namespace RayCaster6.ActionScript
 
             e.fillRect(fillRect_rect, color);
         }
-        public static Point MoveTo(this Point p, double x, double y)
+
+        public static Point MoveToArc(this Point e, double direction, double distance)
+        {
+            var p = new Point(e.x, e.y);
+            p.x += Math.Cos(direction) * distance;
+            p.y += Math.Sin(direction) * distance;
+
+            return p;
+        }
+
+        public static void To(this Point p, double x, double y)
         {
             p.x = x;
             p.y = y;
-
-            return p;
         }
 
         public static T Take<T>(this IEnumerator<T> e)
@@ -80,9 +107,9 @@ namespace RayCaster6.ActionScript
             return t;
         }
 
-        
 
-       
+
+
 
 
 
@@ -158,6 +185,28 @@ namespace RayCaster6.ActionScript
         public static int Floor(this double e)
         {
             return (int)e;
+        }
+
+    }
+
+    [Script]
+    public class KeyValuePairList<TKey, TValue> : List<KeyValuePair<TKey, TValue>>
+    {
+        public KeyValuePairList()
+        {
+
+        }
+        
+        public void Add(TKey key, TValue value)
+        {
+            var dummy = 0;
+
+            var s = new KeyValuePair<TKey, TValue>(key, value);
+
+            this.Add(s);
+
+            dummy++;
+
         }
 
     }

@@ -123,3 +123,5 @@ version history:
 18.07.2008
 	actionscript: fixed ldftn
 	actionscript: method now supports the [Script(NoDecoration = true)] attribute
+24.07.2008:
+	actionscript: fixed new struct ctor merge support

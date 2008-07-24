@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(IEqualityComparer<>))]
-    internal interface IEqualityComparer<T>
+    internal interface __IEqualityComparer<T>
     {
         // Summary:
         //     Determines whether the specified objects are equal.

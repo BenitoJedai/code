@@ -200,7 +200,11 @@ namespace RayCaster6.ActionScript
                     if (side == 1) color = (color >> 1) & 0x7F7F7F;
 
                     // buffer.setPixel(x_mirror, y, color);
-                    buffer.fillRect(new Rectangle(x_mirror_1, y, 2, 2), color);
+                    buffer.fillRect(
+                        //new Rectangle(
+                            x_mirror_1, y, 2, 2
+                            //)
+                            , color);
 
                     y += 2;
                 }
@@ -290,7 +294,11 @@ namespace RayCaster6.ActionScript
                             var color = textures_floor[floorTexX, floorTexY];
 
                             if (pen_width > 1)
-                                buffer.fillRect(new Rectangle(x_mirror_1, y, pen_width, pen_height), color);
+                                buffer.fillRect(
+                                    //new Rectangle(
+                                        x_mirror_1, y, pen_width, pen_height
+                                        //)
+                                        , color);
                             else
                                 buffer.setPixel(x_mirror, y, color); //floor
                         }
@@ -304,7 +312,11 @@ namespace RayCaster6.ActionScript
                             var color = textures_ceiling[floorTexX, floorTexY];
 
                             if (pen_width > 1)
-                                buffer.fillRect(new Rectangle(x_mirror_1, _ViewHeight - y - pen_width, pen_width, pen_height), color);
+                                buffer.fillRect(
+                                    //new Rectangle(
+                                        x_mirror_1, _ViewHeight - y - pen_width, pen_width, pen_height
+                                        //)
+                                        , color);
                             else
                                 buffer.setPixel(x_mirror, _ViewHeight - y - 1, color); //ceiling (symmetrical!)
                         }
@@ -324,7 +336,9 @@ namespace RayCaster6.ActionScript
 
             }
 
+            var RenderSpritesTimeA = getTimer();
             RenderSprites();
+            RenderSpritesTimeB = (RenderSpritesTimeB + getTimer() - RenderSpritesTimeA) / 2;
 
             counter++;
 
@@ -332,7 +346,11 @@ namespace RayCaster6.ActionScript
             {
                 // txtMain.text = (counter * 2).ToString() + "fps " + global::ScriptCoreLib.ActionScript.flash.system.System.totalMemory + "bytes";
                 //txtMain.text = (counter * 2).ToString() + "fps @" + dir.RadiansToDegrees();
-                txtMain.text = (counter * 2).ToString() + "fps @" + _WallMap[posX.Floor(), posY.Floor()];
+                txtMain.text = (counter * 2).ToString() + "fps @" + _WallMap[posX.Floor(), posY.Floor()] 
+                    + " sprites: " + this.SpritesFromPOV.Length 
+                    + " spriterender: " + RenderSpritesTimeB
+                    + " spriterender/sprite: " + (RenderSpritesTimeB / this.SpritesFromPOV.Length)
+                    ;
                 counter = 0;
                 time = getTimer();
             }
@@ -346,6 +364,7 @@ namespace RayCaster6.ActionScript
 
         }
 
+        int RenderSpritesTimeB = 0;
 
 
         public bool RenderMinimapEnabled = true;
@@ -423,7 +442,10 @@ namespace RayCaster6.ActionScript
 
                             if (color_a == 0xff)
                                 buffer.fillRect(
-                                    new Rectangle(cx, (_ViewHeight / 2) + iy - zhalf, 1, blocksize), color);
+                                    //new Rectangle(
+                                        cx, (_ViewHeight / 2) + iy - zhalf, 1, blocksize
+                                        //)
+                                        , color);
 
 
                         }

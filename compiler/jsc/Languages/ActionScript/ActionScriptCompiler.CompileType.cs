@@ -33,6 +33,10 @@ namespace jsc.Languages.ActionScript
                 if (ScriptAttribute.IsAnonymousType(z))
                     za = new ScriptAttribute();
 
+                var z_Implements = za.Implements;
+                var z_NonPrimitiveValueType = z_Implements != null && z_Implements.IsValueType && !z_Implements.IsPrimitive;
+
+
                 #region type summary
                 var u = GetXMLNode(z);
 
@@ -61,6 +65,8 @@ namespace jsc.Languages.ActionScript
                         WriteTypeFields(z, za);
                         WriteLine();
 
+                        var ctor = default(ConstructorMergeInfo);
+
                         if (ScriptAttribute.IsAnonymousType(z))
                         {
                             WriteTypeInstanceConstructors(z);
@@ -87,7 +93,7 @@ namespace jsc.Languages.ActionScript
                             {
                                 // there is another type that needs to be created
 
-                                WriteTypeInstanceConstructors(z);
+                                ctor = WriteTypeInstanceConstructorsAndGetPrimary(z);
                                 WriteLine();
 
                                 WriteTypeInstanceMethods(z, za);
@@ -112,6 +118,17 @@ namespace jsc.Languages.ActionScript
                         }
 
                         WriteVirtualMethodOverrides(z);
+
+                        if (ctor != null)
+                            if (z_NonPrimitiveValueType)
+                            {
+                                // define ctor as methods
+                                WriteIdent();
+                                WriteCommentLine("NonPrimitiveValueType");
+                                WriteMethodSignature(ctor.Primary, false, WriteMethodSignatureMode.ValueTypeConstructorAlias, ctor.Values, i => ctor.CustomVariableInitialization += i, null);
+                                WriteMethodBody(ctor.Primary, null, ctor.CustomVariableInitialization);
+
+                            }
                     }
 
                 }

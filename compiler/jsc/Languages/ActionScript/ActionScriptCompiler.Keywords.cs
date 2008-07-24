@@ -14,6 +14,7 @@ namespace jsc.Languages.ActionScript
     {
         public enum Keywords
         {
+            _new,
             _public,
             _private,
             _override,

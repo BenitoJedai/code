@@ -13,8 +13,34 @@ namespace jsc.Languages.ActionScript
     partial class ActionScriptCompiler
     {
 
+        public  class TypeInstanceConstructorInfo
+        {
+            public ILBlock code;
+            public ConstructorInfo ctor;
+            public ConstructorInfo target;
+            public ILFlow.StackItem[] args;
+        }
+
+
+
         protected override void WriteTypeInstanceConstructors(Type z)
         {
+            WriteTypeInstanceConstructorsAndGetPrimary(z);
+        }
+
+        public class ConstructorMergeInfo
+        {
+            public ConstructorInfo Primary;
+
+            public ILFlow.StackItem[] Values;
+
+            public Action CustomVariableInitialization;
+        }
+
+        protected ConstructorMergeInfo WriteTypeInstanceConstructorsAndGetPrimary(Type z)
+        {
+            var r = new ConstructorMergeInfo();
+
             var zci = GetAllInstanceConstructors(z);
 
             if (zci.Length > 1)
@@ -27,22 +53,25 @@ namespace jsc.Languages.ActionScript
                 // a workaround could be:
                 // if (param == null) { param = UIComponent; } 
 
+                
+
                 var query =
                     from c in zci
-                    let b = new ILBlock(c).Prestatements.PrestatementCommands.Where(p => !p.Instruction.IsAnyOpCodeOf(OpCodes.Ret, OpCodes.Nop)).ToArray()
+                    let code = new ILBlock(c)
+                    let b = code.Prestatements.PrestatementCommands.Where(p => !p.Instruction.IsAnyOpCodeOf(OpCodes.Initobj, OpCodes.Ret, OpCodes.Nop)).ToArray()
                     where (b.Length == 1 && b[0].Instruction == OpCodes.Call)
                     let i = b[0].Instruction
                     let t = i.TargetConstructor
                     where t != null && zci.Contains(t)
                     // skip the ldarg0/this op
-                    select new { ctor = c, target = t, args = i.StackBeforeStrict.Skip(1).ToArray() };
+                    select new TypeInstanceConstructorInfo { code = code, ctor = c, /*b,*/ target = t, args = i.StackBeforeStrict.Skip(1).ToArray() };
 
                 var cache = query.ToArray();
                 var targets = zci.Except(cache.Select(i => i.ctor)).ToArray();
 
 
                 if (targets.Length != 1)
-                    throw new NotSupportedException("Unable to transform overloaded constructors to a single constructor via optional parameters for " + z.FullName);
+                    Break("Unable to transform overloaded constructors to a single constructor via optional parameters for " + z.FullName);
 
                 var target = targets.Single();
 
@@ -51,6 +80,8 @@ namespace jsc.Languages.ActionScript
                 var ctor = cache.Single(i => i.target == target);
                 var args = ctor.args;
 
+                Action CustomVariableInitialization = delegate { };
+
                 while (true)
                 {
                     ctor = cache.SingleOrDefault(i => i.target == ctor.ctor);
@@ -58,15 +89,42 @@ namespace jsc.Languages.ActionScript
                     if (ctor == null)
                         break;
 
-                    args = args.Select((s, i) => s.SingleStackInstruction.TargetParameter == null ? s : ctor.args[i]).ToArray();
+
+
+                    args = args.Select(
+                        (s, i) =>
+                        {
+                            if (s.SingleStackInstruction.TargetParameter != null)
+                                return ctor.args[i];
+
+                            return s;
+                        }
+                    ).ToArray();
                 }
 
                 // now we should have one ctor and others that point to them
 
-                Action CustomVariableInitialization = delegate { };
+                args = args.Select(
+                    a =>
+                    {
+                        if (a.SingleStackInstruction.IsLoadLocal)
+                        {
+                            // probably default(T), but we do not know for sure with this implementation
+                            return null;
+                        }
 
-                WriteMethodSignature(target, false, WriteMethodSignatureMode.Delcaring, args, i => CustomVariableInitialization += i, null);
-                WriteMethodBody(target, this.MethodBodyFilter, CustomVariableInitialization);
+                        return a;
+                    }
+                ).ToArray();
+
+                Action CustomVariableInitializationForBody = delegate { CustomVariableInitialization(); };
+
+                WriteMethodSignature(target, false, WriteMethodSignatureMode.Delcaring, args, i => CustomVariableInitializationForBody += i, null);
+                WriteMethodBody(target, this.MethodBodyFilter, CustomVariableInitializationForBody);
+
+                r.Primary = target;
+                r.Values = args;
+                r.CustomVariableInitialization = CustomVariableInitialization;
 
 
             }
@@ -74,6 +132,8 @@ namespace jsc.Languages.ActionScript
             {
                 foreach (var zc in zci)
                 {
+                    r.Primary = zc;
+
                     WriteMethodSignature(zc, false);
                     WriteMethodBody(zc);
 
@@ -81,6 +141,8 @@ namespace jsc.Languages.ActionScript
             }
 
             WriteLine();
+
+            return r;
         }
 
     }

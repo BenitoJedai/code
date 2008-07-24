@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ScriptCoreLib;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
@@ -12,6 +13,7 @@ using ScriptCoreLib.ActionScript.flash.net;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.flash.ui;
 using ScriptCoreLib.ActionScript.RayCaster;
+using System.Collections.Specialized;
 
 
 
@@ -226,6 +228,14 @@ namespace RayCaster6.ActionScript
                                   r2.ViewDirection = s.Direction;
                               }
 
+                              if (e.keyCode == Keyboard.INSERT)
+                              {
+                                  var s = r.CreateWalkingDummy(Stand, Walk);
+
+                                  s.Direction += 180.DegreesToRadians();
+                                  s.Position = Ego.Position.MoveToArc(Ego.Direction, 0.5);
+                              }
+
                               if (e.keyCode == Keyboard.ENTER)
                               {
                                   r.ViewPosition = new Point { x = 4, y = 22 };
@@ -261,22 +271,40 @@ namespace RayCaster6.ActionScript
             MyStuff.ToFiles().ToBitmapDictionary(
                     f =>
                     {
-                        r.CreateDummy(f["plantbrown.png"]).Position.MoveTo(5, 25.5);
-                        r.CreateDummy(f["plantgreen.png"]).Position.MoveTo(4, 26.5);
-                        r.CreateDummy(f["chandelier.png"]).Position.MoveTo(4, 26);
-                        r.CreateDummy(f["lamp.png"]).Position.MoveTo(4, 22);
-                        r.CreateDummy(f["lamp.png"]).Position.MoveTo(4, 18);
-                        r.CreateDummy(f["lamp.png"]).Position.MoveTo(4, 14);
-
-                        r.FloorTexture = f["floor.png"];
-                        r.CeilingTexture = f["roof.png"];
-
                         // ! important
                         // ----------------------------------------------------
                         // ! loading png via bytes affects pixel values
                         // ! this is why map is in gif format
 
                         r.Map.WorldMap = Texture32.Of(f["Map1.gif"], false);
+
+                        var SpaceForStuff = r.Map.WorldMap.Entries.Where(i => i.Value == 0).Randomize().GetEnumerator();
+
+                        Action<Texture64> AddSpriteByTexture =
+                            tex => SpaceForStuff.Take().Do(p => r.CreateDummy(tex).Position.To(p.XIndex + 0.5, p.YIndex + 0.5));
+
+                        Action<string> AddSprite =
+                            texname => AddSpriteByTexture(f[texname + ".png"]);
+
+                        
+                        AddSprite.Multiple(
+                            new KeyValuePairList<int, string>
+                            {
+                                // multi dict?
+                                {9, "lamp"},
+                                {8, "chandelier"},
+                                {4, "armor"},
+                                {7, "plantbrown"},
+                                {16, "plantgreen"},
+                            }
+                        );
+
+
+
+                        r.FloorTexture = f["floor.png"];
+                        r.CeilingTexture = f["roof.png"];
+
+              
 
                         var DynamicTextureBitmap = new Bitmap(new BitmapData(Texture64.SizeConstant, Texture64.SizeConstant, false, 0));
                         Texture64 DynamicTexture = DynamicTextureBitmap;
@@ -319,7 +347,7 @@ namespace RayCaster6.ActionScript
                                 m.translate(0, 10);
                                 // m.scale(0.3, 0.3);
 
-                               // r2.RenderScene();
+                                r2.RenderScene();
 
                                 DynamicTextureBitmap.bitmapData.draw(r2.Image.bitmapData, m);
                                 DynamicTextureBitmap.bitmapData.draw(MirrorFrame.bitmapData);
@@ -366,5 +394,6 @@ namespace RayCaster6.ActionScript
         [Embed("/flashsrc/textures/stuff.zip")]
         Class MyStuff;
 
+        // fps: 58
     }
 }
