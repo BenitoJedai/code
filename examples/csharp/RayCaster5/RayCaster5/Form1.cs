@@ -24,7 +24,8 @@ namespace RayCaster5
             Virtual = new RayCaster4.ActionScript.RayCaster4base();
             Virtual.txtMain = label1;
             Virtual.prepare();
-            Refresh();
+            //Refresh();
+            timer1.Enabled = true;
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)

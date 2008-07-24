@@ -48,7 +48,6 @@ namespace RayCaster6.ActionScript
 
 
             int y;
-            //DoMovement();
 
             //// interleaving?
             //interleave_counter++;
@@ -69,7 +68,8 @@ namespace RayCaster6.ActionScript
 
             while (x < _ViewWidth)
             {
-                var x_mirror = _ViewWidth - x - 1;
+                var x_mirror = _ViewWidth - (x) - 1;
+                var x_mirror_1 = _ViewWidth - (x + 1) - 1;
 
                 //calculate ray position and direction
                 var cameraX = 2.0 * (double)x / (double)_ViewWidth - 1.0; //x-coordinate in camera space
@@ -199,14 +199,16 @@ namespace RayCaster6.ActionScript
 
                     if (side == 1) color = (color >> 1) & 0x7F7F7F;
 
-                    buffer.setPixel(x_mirror, y, color);
+                    // buffer.setPixel(x_mirror, y, color);
+                    buffer.fillRect(new Rectangle(x_mirror_1, y, 2, 2), color);
 
-
-                    y++;
+                    y += 2;
                 }
 
                 //SET THE ZBUFFER FOR THE SPRITE CASTING
-                _ZBuffer[x_mirror] = perpWallDist; //perpendicular distance is used
+                //perpendicular distance is used
+                _ZBuffer[x_mirror] = perpWallDist;
+                _ZBuffer[x_mirror_1] = perpWallDist; 
 
                 if (RenderFloorAndCeilingEnabled)
                 {
@@ -267,9 +269,10 @@ namespace RayCaster6.ActionScript
                         currentDist = _ViewHeight / (2 * y - _ViewHeight); //you could make a small lookup table for this instead
                         //currentDist = floorVals[int(y-80)];
 
-                        var pen_width = 1;
+                        var pen_width = 2;
+                        var pen_height = 1;
 
-                        pen_width = currentDist.Floor().Max(1).Min(2);
+                        //pen_width = currentDist.Floor().Max(2).Min(4);
 
 
 
@@ -287,7 +290,7 @@ namespace RayCaster6.ActionScript
                             var color = textures_floor[floorTexX, floorTexY];
 
                             if (pen_width > 1)
-                                buffer.fillRect(new Rectangle(x_mirror, y, 1, pen_width), color);
+                                buffer.fillRect(new Rectangle(x_mirror_1, y, pen_width, pen_height), color);
                             else
                                 buffer.setPixel(x_mirror, y, color); //floor
                         }
@@ -301,7 +304,7 @@ namespace RayCaster6.ActionScript
                             var color = textures_ceiling[floorTexX, floorTexY];
 
                             if (pen_width > 1)
-                                buffer.fillRect(new Rectangle(x_mirror, _ViewHeight - y - pen_width, 1, pen_width), color);
+                                buffer.fillRect(new Rectangle(x_mirror_1, _ViewHeight - y - pen_width, pen_width, pen_height), color);
                             else
                                 buffer.setPixel(x_mirror, _ViewHeight - y - 1, color); //ceiling (symmetrical!)
                         }
@@ -310,16 +313,15 @@ namespace RayCaster6.ActionScript
                             //trace("err");
                         }
 
-                        y += pen_width;
+                        y += pen_height;
                     }
                     #endregion
 
                 }
 
-                x += 1;
+                //x += 1;
+                x += 2;
 
-                //if (x > 4)
-                //    render_DebugTrace_Assign_Active = false;
             }
 
             RenderSprites();

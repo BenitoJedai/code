@@ -40,18 +40,7 @@ namespace RayCaster6.ActionScript
 
         public RayCaster6()
         {
-            var GoFullScreen = new ContextMenuItem("Fullscreen");
-
-            GoFullScreen.menuItemSelect +=
-                delegate
-                {
-                    stage.SetFullscreen(true);
-                };
-
-            this.contextMenu = new ContextMenu
-            {
-                customItems = new[] { GoFullScreen }
-            };
+            AddFullscreenMenu();
 
 
             var r2 = new RayCaster4base(64, 48)
@@ -330,7 +319,7 @@ namespace RayCaster6.ActionScript
                                 m.translate(0, 10);
                                 // m.scale(0.3, 0.3);
 
-                                r2.RenderScene();
+                               // r2.RenderScene();
 
                                 DynamicTextureBitmap.bitmapData.draw(r2.Image.bitmapData, m);
                                 DynamicTextureBitmap.bitmapData.draw(MirrorFrame.bitmapData);
@@ -352,6 +341,22 @@ namespace RayCaster6.ActionScript
 
 
 
+        }
+
+        private void AddFullscreenMenu()
+        {
+            var GoFullScreen = new ContextMenuItem("Fullscreen");
+
+            GoFullScreen.menuItemSelect +=
+                delegate
+                {
+                    stage.SetFullscreen(true);
+                };
+
+            this.contextMenu = new ContextMenu
+            {
+                customItems = new[] { GoFullScreen }
+            };
         }
 
 

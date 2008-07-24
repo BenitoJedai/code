@@ -18,6 +18,17 @@ namespace RayCaster6.ActionScript
     [Script]
     internal static class MyExtensions
     {
+        static readonly Rectangle fillRect_rect = new Rectangle();
+
+        public static void fillRect(this BitmapData e, int x, int y, int w, int h, uint color)
+        {
+            fillRect_rect.x = x;
+            fillRect_rect.y = y;
+            fillRect_rect.width = w;
+            fillRect_rect.height = h;
+
+            e.fillRect(fillRect_rect, color);
+        }
         public static Point MoveTo(this Point p, double x, double y)
         {
             p.x = x;
