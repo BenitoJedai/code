@@ -218,9 +218,6 @@ namespace RayCaster6.ActionScript
                         buffer.setPixel(x_mirror, y, color);
                         y += 1;
                     }
-
-
-
                 }
 
                 //SET THE ZBUFFER FOR THE SPRITE CASTING

@@ -239,7 +239,7 @@ namespace ScriptCoreLib.ActionScript.RayCaster
         /// <summary>
         /// Renders all visible sprites
         /// </summary>
-        private void RenderSprites()
+        protected void RenderSprites()
         {
             if (!SpritesVisible)
                 return;
