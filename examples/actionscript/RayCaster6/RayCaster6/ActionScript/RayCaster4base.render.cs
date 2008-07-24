@@ -20,16 +20,10 @@ namespace RayCaster6.ActionScript
 
     partial class RayCaster4base
     {
-        /// <summary>
-        /// Enable this to render walls in lower quality
-        /// </summary>
-        public bool RenderLowQualityWalls;
 
 
-        double rayDirLeft;
-        double rayDirRight;
 
-        public bool RenderFloorAndCeilingEnabled;
+
 
         public void RenderScene(Event e)
         {
@@ -236,7 +230,7 @@ namespace RayCaster6.ActionScript
                 if (RenderLowQualityWalls)
                     _ZBuffer[x_mirror_1] = perpWallDist;
 
-                if (RenderFloorAndCeilingEnabled)
+                if (FloorAndCeilingVisible)
                 {
                     //floor casting    
                     double floorXWall;
@@ -403,175 +397,12 @@ namespace RayCaster6.ActionScript
 
         public bool RenderMinimapEnabled = true;
 
-        private void RenderSprites()
-        {
 
-            foreach (var s in SpritesFromPOV)
-            {
-                if (s.ViewInfo.IsInView)
-                {
-                    var Total = (s.ViewInfo.Right - s.ViewInfo.Left);
-
-                    var LeftTarget = s.ViewInfo.Target - s.ViewInfo.Left;
-                    //var RightTarget = s.ViewInfo.Right - s.ViewInfo.Target;
-
-                    RenderSingleSprite(s, (LeftTarget * _ViewWidth / Total).Floor());
-
-                }
-            }
-        }
-
-        private void RenderSingleSprite(SpriteInfoFromPOV s, int Sprite_x)
-        {
-            var depth = s.RelativePosition.length;
-
-
-
-            // 14
-
-            // scale down enemies to eye line
-            var z = (_ViewHeight / depth).Floor();
-
-            if (z < 0.1)
-                return;
-
-            var zmaxed = z.Max(_ViewHeight / 2).Floor();
-            var zhalf = z / 2;
-
-
-
-
-            //Console.WriteLine(new { grad, deg = dir.RadiansToDegrees() }.ToString());
-
-
-            // we are in a mirror? theres definetly a bug somewhere
-
-
-            var texture = default(Texture64);
-
-            if (z > texWidth)
-            {
-                var blocksize = (z / texWidth).Floor().Max(1);
-
-                for (int ix = 0; ix < z; ix++)
-                {
-                    var cx = Sprite_x + ix - zhalf;
-                    var cxt = ix * texWidth / z;
-
-                    if (_ZBuffer[cx] > depth)
-                    {
-                        if (texture == null)
-                            texture = s.Sprite.Frames[GetFrameForPOV(s)];
-
-                        for (int iy = 0; iy < zmaxed; iy += blocksize)
-                        {
-                            var cyt = iy * texture.Size / z;
-
-                            var color = texture[cxt, cyt];
-
-                            var color_a = (color >> 24) & 0xff;
-                            //var color_r = (color >> 16) & 0xff;
-                            //var color_g = (color >> 8) & 0xff;
-                            //var color_b = color & 0xff;
-
-                            if (color_a == 0xff)
-                                buffer.fillRect(
-                                    //new Rectangle(
-                                        cx, (_ViewHeight / 2) + iy - zhalf, 1, blocksize
-                                    //)
-                                        , color);
-
-
-                        }
-                    }
-                }
-            }
-            else
-            {
-                for (int ix = 0; ix < z; ix++)
-                {
-                    var cx = Sprite_x + ix - zhalf;
-                    var cxt = ix * texWidth / z;
-
-                    if (_ZBuffer[cx] > depth)
-                    {
-                        if (texture == null)
-                            texture = s.Sprite.Frames[GetFrameForPOV(s)];
-
-                        for (int iy = 0; iy < z; iy++)
-                        {
-                            var cyt = iy * texture.Size / z;
-
-                            var color = texture[cxt, cyt];
-
-                            var color_a = (color >> 24) & 0xff;
-                            //var color_r = (color >> 16) & 0xff;
-                            //var color_g = (color >> 8) & 0xff;
-                            //var color_b = color & 0xff;
-
-                            if (color_a == 0xff)
-                                buffer.setPixel(cx, (_ViewHeight / 2) + iy - zhalf, color);
-
-
-                        }
-                    }
-                }
-            }
-        }
-
-        private static int GetFrameForPOV(SpriteInfoFromPOV s)
-        {
-            var r = 360.DegreesToRadians();
-
-            var len = s.Sprite.Frames.Length;
-
-            #region direction translation magic
-            var dir = s.Direction;
-
-            dir -= (r / (len)) / 2;
-
-            dir = r - (dir % r);
-            dir += s.Sprite.Direction;
-
-            dir += 270.DegreesToRadians();
-            #endregion
-
-            // we want to see it from behind...
-            //dir += Math.PI / 2;
-
-            var grad = ((dir * len) / r).Floor() % len;
-            return grad;
-        }
-
-        private void UpdatePOV()
-        {
-            if (SpritesFromPOV == null || SpritesFromPOV.Length != Sprites.Count)
-                SpritesFromPOV = Sprites.Select(i => new SpriteInfoFromPOV(i)).ToArray();
-
-
-            //UpdatePOVCounter++;
-
-            var fuzzy = 0.000001;
-
-            foreach (var v in SpritesFromPOV)
-            {
-                v.Update(this.posX + fuzzy, this.posY + fuzzy, this.rayDirLeft, this.rayDirRight);
-
-                if (v.Distance < 0.1)
-                    v.ViewInfo.IsInView = false;
-            }
-
-            //if (UpdatePOVCounter % 4 == 0)
-
-            // whats up with the orderby? not working all the time..
-            SpritesFromPOV = SpritesFromPOV.OrderBy(i => (i.Distance * -texWidth).Floor()).ToArray();
-
-            //System.Array.Reverse(SpritesFromPOV);
-        }
+ 
 
         private void DrawMinimap()
         {
-            const int isize = 6;
+            const int isize = 4;
 
             var minimap = new BitmapData(isize * (_WallMap.Size + 2), isize * (_WallMap.Size + 2), true, 0x0);
             var minimap_bmp = new Bitmap(minimap);
@@ -587,7 +418,6 @@ namespace RayCaster6.ActionScript
 
             //minimap.applyFilter(minimap, minimap.rect, new Point(), new GlowFilter(0x00ff00));
 
-            minimap.fillRect(new Rectangle((posX + 0.5) * isize, (posY + 0.5) * isize, isize, isize), 0xffff0000);
 
             minimap.drawLine(0xffffffff,
                 (posX + 1) * isize,
@@ -636,13 +466,13 @@ namespace RayCaster6.ActionScript
 
             }
 
+            minimap.fillRect(new Rectangle((posX + 0.5) * isize, (posY + 0.5) * isize, isize, isize), 0xffff0000);
 
 
 
             buffer.draw(minimap);
         }
 
-        SpriteInfoFromPOV[] SpritesFromPOV;
 
 
     }

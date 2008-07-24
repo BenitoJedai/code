@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.system;
@@ -19,6 +20,7 @@ namespace RayCaster6.ActionScript
     [Script]
     internal static class MyExtensions
     {
+   
 
         public static void Multiple<T>(this Action<T> h, List<KeyValuePair<int, T>> e)
         {
@@ -113,22 +115,7 @@ namespace RayCaster6.ActionScript
 
 
 
-        public static int Max(this int i, int e)
-        {
-            if (e > i)
-                return e;
-
-            return i;
-        }
-
-        public static int Min(this int i, int e)
-        {
-            if (e < i)
-                return e;
-
-            return i;
-        }
-
+ 
         public static double Min(this double i, double e)
         {
             if (e < i)

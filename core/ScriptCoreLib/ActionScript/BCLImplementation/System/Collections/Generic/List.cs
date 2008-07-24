@@ -132,6 +132,22 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
             return true;
         }
 
+        public int RemoveAll(Predicate<T> filter)
+        {
+            var c = 0;
+
+            for (int i = Count - 1; i >= 0; i--)
+            {
+                if (filter(this[i]))
+                    this._items.splice(i, 1);
+                else
+                    c++;
+            }
+
+
+            return c;
+        }
+
         #endregion
 
         #region IEnumerable<T> Members
