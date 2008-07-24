@@ -199,14 +199,7 @@ namespace RayCaster6.ActionScript
         
         public void Add(TKey key, TValue value)
         {
-            var dummy = 0;
-
-            var s = new KeyValuePair<TKey, TValue>(key, value);
-
-            this.Add(s);
-
-            dummy++;
-
+            Add(new KeyValuePair<TKey, TValue>(key, value));
         }
 
     }

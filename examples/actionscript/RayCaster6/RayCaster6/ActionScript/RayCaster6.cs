@@ -165,6 +165,11 @@ namespace RayCaster6.ActionScript
             stage.keyUp +=
                    e =>
                    {
+                       if (e.keyCode == Keyboard.N)
+                       {
+                           r.RenderLowQualityWalls = !r.RenderLowQualityWalls;
+                       }
+
                        if (e.keyCode == Keyboard.M)
                        {
                            r.RenderMinimapEnabled = !r.RenderMinimapEnabled;
@@ -278,33 +283,72 @@ namespace RayCaster6.ActionScript
 
                         r.Map.WorldMap = Texture32.Of(f["Map1.gif"], false);
 
-                        var SpaceForStuff = r.Map.WorldMap.Entries.Where(i => i.Value == 0).Randomize().GetEnumerator();
+                        var FreeSpaceForStuff = r.Map.WorldMap.Entries.Where(i => i.Value == 0); //.Randomize().GetEnumerator();
 
-                        Action<Texture64> AddSpriteByTexture =
-                            tex => SpaceForStuff.Take().Do(p => r.CreateDummy(tex).Position.To(p.XIndex + 0.5, p.YIndex + 0.5));
+                        Func<Texture64.Entry, bool> IsNearWall =
+                           w =>
+                           {
+                               Func<int, int, bool> WallAtOffset =
+                                   (x, y) => r.Map.WorldMap[w.XIndex + x, w.YIndex + y] != 0;
 
-                        Action<string> AddSprite =
-                            texname => AddSpriteByTexture(f[texname + ".png"]);
+                               if (WallAtOffset(1, 0))
+                                   return true;
 
-                        
-                        AddSprite.Multiple(
+                               if (WallAtOffset(-1, 0))
+                                   return true;
+
+                               if (WallAtOffset(0, 1))
+                                   return true;
+
+                               if (WallAtOffset(0, -1))
+                                   return true;
+
+                               return false;
+                           };
+
+                        var FreeSpaceNearWalls = FreeSpaceForStuff.Where(IsNearWall);
+                        var FreeSpaceForLamps = FreeSpaceForStuff.Where(w => !IsNearWall(w));
+
+                        var SpaceNearWalls = FreeSpaceNearWalls.Randomize().GetEnumerator();
+                        var SpaceForLamps = FreeSpaceForLamps.Randomize().GetEnumerator();
+
+
+                        Action<IEnumerator<Texture64.Entry>, Texture64> AddSpriteByTexture =
+                            (SpaceForStuff, tex) => SpaceForStuff.Take().Do(p => r.CreateDummy(tex).Position.To(p.XIndex + 0.5, p.YIndex + 0.5));
+
+                        Action<string> AddSpriteNearWall =
+                            texname => AddSpriteByTexture(SpaceNearWalls, f[texname + ".png"]);
+
+
+                        Action<string> AddSpaceForLamps =
+                            texname => AddSpriteByTexture(SpaceForLamps, f[texname + ".png"]);
+
+
+                        AddSpaceForLamps.Multiple(
                             new KeyValuePairList<int, string>
                             {
                                 // multi dict?
                                 {9, "lamp"},
                                 {8, "chandelier"},
-                                {4, "armor"},
-                                {7, "plantbrown"},
-                                {16, "plantgreen"},
+                        
                             }
                         );
 
-
+                        AddSpriteNearWall.Multiple(
+                           new KeyValuePairList<int, string>
+                            {
+                                // multi dict?
+                  
+                                {4, "armor"},
+                                {32, "plantbrown"},
+                                {32, "plantgreen"},
+                            }
+                       );
 
                         r.FloorTexture = f["floor.png"];
                         r.CeilingTexture = f["roof.png"];
 
-              
+
 
                         var DynamicTextureBitmap = new Bitmap(new BitmapData(Texture64.SizeConstant, Texture64.SizeConstant, false, 0));
                         Texture64 DynamicTexture = DynamicTextureBitmap;

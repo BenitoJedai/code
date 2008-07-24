@@ -46,8 +46,7 @@ namespace RayCaster6.ActionScript
 
             counter = 0;
 
-            _ZBuffer = new double[w];
-
+           
             txtMain = new TextField
             {
                 defaultTextFormat = new TextFormat
