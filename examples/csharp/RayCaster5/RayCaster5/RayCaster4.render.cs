@@ -33,7 +33,7 @@ namespace RayCaster4.ActionScript
             //screen.floodFill(0, 0, 0x0);
             var screenData = screen.@lock();
 
-            
+
             int y;
             DoMovement();
 
@@ -150,8 +150,10 @@ namespace RayCaster4.ActionScript
                 var lineHeight = Math.Abs((h / perpWallDist).Floor());
 
                 //calculate lowest and highest pixel to fill in current stripe
-                var drawStart = (-lineHeight / 2 + h / 2).Floor();
-                if (drawStart < 0) drawStart = 0;
+                var drawStart = (-lineHeight / 2 + h / 2).Floor().Max(0);
+                
+              
+
                 var drawEnd = (lineHeight / 2 + h / 2).Floor();
                 if (drawEnd >= h) drawEnd = h;
 
@@ -186,6 +188,8 @@ namespace RayCaster4.ActionScript
 
                 y = drawStart;
 
+
+
                 while (y < drawEnd)
                 {
 
@@ -215,9 +219,11 @@ namespace RayCaster4.ActionScript
                     #endregion
                     //color = 0xff0000;
 
-                    screen.setPixel(x, y, color);
+               
+                        screen.setPixel(x, y, color);
+           
 
-                    y++;
+                    y += 1;
                 }
 
                 //SET THE ZBUFFER FOR THE SPRITE CASTING

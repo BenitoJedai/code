@@ -173,7 +173,7 @@ namespace RayCaster4.ActionScript
 
             //addEventListener(Event.ENTER_FRAME, render);
 
-            render(null);
+            //render(null);
         }
 
    
