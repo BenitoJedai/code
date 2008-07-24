@@ -78,6 +78,7 @@ namespace jsc.Languages.ActionScript
             };
         }
 
+
         public MethodBase ResolveMethod(MethodBase m)
         {
             return
@@ -496,6 +497,22 @@ namespace jsc.Languages.ActionScript
             Write(":");
 
             WriteDecoratedTypeNameOrImplementationTypeName(v.LocalType, true, true, IsFullyQualifiedNamesRequired(u.DeclaringType, v.LocalType));
+
+            if (v.LocalType.IsValueType && !v.LocalType.IsPrimitive)
+            {
+                var z = MySession.ResolveImplementation(v.LocalType) ?? v.LocalType;
+
+                // define default ctor
+                if (z.GetConstructor(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance, null, new Type[0], null) == null)
+                    Break("valuetype " + z.ToString() + " - " + z.Namespace + "." + z.Name + " must define a default .ctor");
+
+
+                WriteAssignment();
+                WriteKeywordSpace(Keywords._new);
+                WriteDecoratedTypeNameOrImplementationTypeName(z, true, true, IsFullyQualifiedNamesRequired(u.DeclaringType, z));
+                Write("()");
+            }
+
             WriteLine(";");
         }
 

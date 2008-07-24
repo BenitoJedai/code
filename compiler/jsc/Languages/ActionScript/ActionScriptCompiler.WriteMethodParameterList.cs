@@ -94,9 +94,14 @@ namespace jsc.Languages.ActionScript
                     // if the value aint literal we cannot use it with
                     // the curent actionscript compiler
 
-                    var DefaultValue = DefaultValues[mpi].SingleStackInstruction;
+                    var DefaultValue = DefaultValues[mpi] == null ? null : DefaultValues[mpi].SingleStackInstruction;
 
-                    if (DefaultValue.IsLiteral)
+                    if (DefaultValue == null)
+                    {
+                        // fixme!
+                        Write("null");
+                    }
+                    else if (DefaultValue.IsLiteral)
                         EmitInstruction(null, DefaultValue);
                     else
                     {

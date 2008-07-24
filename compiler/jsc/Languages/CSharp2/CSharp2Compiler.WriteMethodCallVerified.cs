@@ -66,7 +66,7 @@ namespace jsc.Languages.CSharp2
 
                 };
 
-            var IsBaseConstructorCall = i.IsBaseConstructorCall(TargetMethod, ResolveMethod);
+            var IsBaseConstructorCall = i.IsBaseConstructorCall(TargetMethod, ResolveMethod, MySession.ResolveImplementation);
 
             var s = i.StackBeforeStrict;
             var offset = 1;

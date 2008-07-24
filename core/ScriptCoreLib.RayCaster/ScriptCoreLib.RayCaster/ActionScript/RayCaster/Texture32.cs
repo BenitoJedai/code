@@ -8,17 +8,12 @@ namespace ScriptCoreLib.ActionScript.RayCaster
     using T = UInt32;
     using ScriptCoreLib.ActionScript.flash.display;
 
-    
+
     [Script]
     public sealed class Texture32 : TextureBase
     {
-        readonly T[] items;
 
-        public int Length
-        {
-            get { return items.Length; }
-        }
-
+    
         public const int SizeConstant = 32;
 
         public override int Size

@@ -182,8 +182,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
         {
             IEnumerator<T> value;
 
+            internal __Enumerator() : this(null) { }
             internal __Enumerator(__List<T> list)
             {
+                if (list == null)
+                    return;
+
                 //value = InternalSequenceImplementation.AsEnumerable(list.ToArray()).GetEnumerator();
 
 
