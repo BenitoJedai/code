@@ -9,157 +9,162 @@ using ScriptCoreLib.ActionScript.Extensions;
 
 namespace ScriptCoreLib.ActionScript.RayCaster
 {
-    [Script]
-    public partial class ViewEngineBase
-    {
-        protected readonly int _ViewWidth;
-        protected readonly int _ViewHeight;
+	[Script]
+	public partial class ViewEngineBase
+	{
+		protected readonly int _ViewWidth;
+		protected readonly int _ViewHeight;
 
-        public int ViewWidth { get { return _ViewWidth; } }
-        public int ViewHeight { get { return _ViewHeight; } }
+		public int ViewWidth { get { return _ViewWidth; } }
+		public int ViewHeight { get { return _ViewHeight; } }
 
-        public ViewEngineBase(int w, int h)
-        {
-            this._ViewWidth = w;
-            this._ViewHeight = h;
+		public ViewEngineBase(int w, int h)
+		{
+			this._ViewWidth = w;
+			this._ViewHeight = h;
 
-            this.buffer = new BitmapData(w, h, false, 0x0);
-            this._Image = new Bitmap(this.buffer);
+			this.buffer = new BitmapData(w, h, false, 0x0);
+			this._Image = new Bitmap(this.buffer);
 
-            this.posX = 1.5;
-            this.posY = 1.5;
+			this.posX = 1.5;
+			this.posY = 1.5;
 
-            this.dirX = -1;
-            this.dirY = 0;
+			this.dirX = -1;
+			this.dirY = 0;
 
-            this.planeX = 0;
-            this.planeY = 0.66;
+			this.planeX = 0;
+			this.planeY = 0.66;
 
-            this._WallMap = new Texture32();
+			this._WallMap = new Texture32();
 
-            this.Map = new MapInfo();
-            this.Map.Changed += () =>
-                {
-                    this._textures = this.Map.Textures.Values.ToArray();
-                    this._WallMap = this.Map.WallMap;
+			this.Map = new MapInfo();
+			this.Map.Changed += () =>
+					{
+						this._textures = this.Map.Textures.Values.ToArray();
+						this._WallMap = this.Map.WallMap;
 
-                };
-
-
-
-        }
-
-
-        protected BitmapData buffer;
-
-        Bitmap _Image;
-
-        public Bitmap Image
-        {
-            get
-            {
-                return _Image;
-            }
-        }
-
-        #region ViewPosition
-        protected double posX;
-        protected double posY;  //x and y start position
-
-        public Point ViewPosition
-        {
-            get
-            {
-                return new Point { x = posX, y = posY };
-            }
-            set
-            {
-                MoveTo(value.x, value.y);
-            }
-        }
-
-        public double ViewPositionX
-        {
-            get
-            {
-                return posX;
-            }
-
-
-        }
-
-        public double ViewPositionY
-        {
-
-            get
-            {
-                return posY;
-            }
-        }
-
-
-        public void MoveTo(double x, double y)
-        {
-            if (_WallMap[x.Floor(), y.Floor()] == 0)
-            {
-                posX = x;
-                posY = y;
-            }
-        }
-        #endregion
+					};
 
 
 
-        protected Texture32 _WallMap;
-
-        
-
-        public readonly MapInfo Map;
-
-        public uint CurrentTile
-        {
-            get
-            {
-                return _WallMap[posX.Floor(), posY.Floor()];
-            }
-        }
+		}
 
 
-        #region ViewDirection
-        protected double planeX;
-        protected double planeY; //the 2d raycaster version of camera plane
+		protected BitmapData buffer;
+
+		Bitmap _Image;
+
+		public Bitmap Image
+		{
+			get
+			{
+				return _Image;
+			}
+		}
+
+		#region ViewPosition
+		protected double posX;
+		protected double posY;  //x and y start position
+
+		public Point ViewPosition
+		{
+			get
+			{
+				return new Point { x = posX, y = posY };
+			}
+			set
+			{
+				MoveTo(value.x, value.y);
+			}
+		}
+
+		public double ViewPositionX
+		{
+			get
+			{
+				return posX;
+			}
 
 
-        protected double dirX;
-        protected double dirY; //initial direction vector
+		}
 
-        protected double dir = 0;
+		public double ViewPositionY
+		{
 
-        public double ViewDirection
-        {
-            get { return dir; }
-            set
-            {
-                DoRotateView(value - dir);
-            }
-        }
+			get
+			{
+				return posY;
+			}
+		}
 
-        public void DoRotateView(double rotSpeed)
-        {
-            var oldDirX = dirX;
-            dirX = dirX * Math.Cos(rotSpeed) - dirY * Math.Sin(rotSpeed);
-            dirY = oldDirX * Math.Sin(rotSpeed) + dirY * Math.Cos(rotSpeed);
-            dir = new Point { x = dirX, y = dirY }.GetRotation();
 
-            var oldPlaneX = planeX;
-            planeX = planeX * Math.Cos(rotSpeed) - planeY * Math.Sin(rotSpeed);
-            planeY = oldPlaneX * Math.Sin(rotSpeed) + planeY * Math.Cos(rotSpeed);
-        }
-        #endregion
+		public Action ViewPositionChanged;
 
-        public List<SpriteInfo> Sprites = new List<SpriteInfo>();
+		public void MoveTo(double x, double y)
+		{
+			if (_WallMap[x.Floor(), y.Floor()] == 0)
+			{
+				posX = x;
+				posY = y;
 
-        public Texture64 FloorTexture;
-        public Texture64 CeilingTexture;
-    }
+				if (ViewPositionChanged != null)
+					ViewPositionChanged();
+			}
+		}
+		#endregion
+
+
+
+		protected Texture32 _WallMap;
+
+
+
+		public readonly MapInfo Map;
+
+		public uint CurrentTile
+		{
+			get
+			{
+				return _WallMap[posX.Floor(), posY.Floor()];
+			}
+		}
+
+
+		#region ViewDirection
+		protected double planeX;
+		protected double planeY; //the 2d raycaster version of camera plane
+
+
+		protected double dirX;
+		protected double dirY; //initial direction vector
+
+		protected double dir = 0;
+
+		public double ViewDirection
+		{
+			get { return dir; }
+			set
+			{
+				DoRotateView(value - dir);
+			}
+		}
+
+		public void DoRotateView(double rotSpeed)
+		{
+			var oldDirX = dirX;
+			dirX = dirX * Math.Cos(rotSpeed) - dirY * Math.Sin(rotSpeed);
+			dirY = oldDirX * Math.Sin(rotSpeed) + dirY * Math.Cos(rotSpeed);
+			dir = new Point { x = dirX, y = dirY }.GetRotation();
+
+			var oldPlaneX = planeX;
+			planeX = planeX * Math.Cos(rotSpeed) - planeY * Math.Sin(rotSpeed);
+			planeY = oldPlaneX * Math.Sin(rotSpeed) + planeY * Math.Cos(rotSpeed);
+		}
+		#endregion
+
+		public List<SpriteInfo> Sprites = new List<SpriteInfo>();
+
+		public Texture64 FloorTexture;
+		public Texture64 CeilingTexture;
+	}
 }
