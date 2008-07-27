@@ -26,7 +26,7 @@ namespace RayCaster6.ActionScript
     /// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
     /// </summary>
     [Script, ScriptApplicationEntryPoint(Width = DefaultControlWidth, Height = DefaultControlHeight)]
-    [SWF(width = DefaultControlWidth, height = DefaultControlHeight, frameRate = 60)]
+    [SWF(width = DefaultControlWidth, height = DefaultControlHeight, frameRate = 60, backgroundColor = 0)]
     public class RayCaster6 : Sprite
     {
         // http://www.lostinactionscript.com/blog/index.php/2007/10/13/flash-you-tube-api/
@@ -232,6 +232,38 @@ namespace RayCaster6.ActionScript
 
                     Ego = r.CreateWalkingDummy(Stand, Walk);
                     UpdateEgoPosition();
+
+                    stage.click +=
+                        e =>
+                        {
+                            if (e.stageX < (stage.stageWidth / 4))
+                            {
+
+                                (1000 / 30).AtInterval(
+                                    t =>
+                                    {
+                                        r.ViewDirection -=  15.DegreesToRadians();
+
+                                        if (t.currentCount == 3)
+                                            t.stop();
+                                    }
+                                );
+                            }
+
+                            if (e.stageX > stage.stageWidth - (stage.stageWidth / 4))
+                            {
+
+                                (1000 / 30).AtInterval(
+                                    t =>
+                                    {
+                                        r.ViewDirection += 15.DegreesToRadians();
+
+                                        if (t.currentCount == 3)
+                                            t.stop();
+                                    }
+                                );
+                            }
+                        };
 
                     stage.keyUp +=
                           e =>
