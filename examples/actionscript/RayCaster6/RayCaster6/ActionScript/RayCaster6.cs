@@ -27,7 +27,7 @@ namespace RayCaster6.ActionScript
     /// </summary>
     [Script, ScriptApplicationEntryPoint(Width = DefaultControlWidth, Height = DefaultControlHeight)]
     [SWF(width = DefaultControlWidth, height = DefaultControlHeight, frameRate = 60, backgroundColor = 0)]
-    public class RayCaster6 : Sprite
+    public partial class RayCaster6 : Sprite
     {
         // http://www.lostinactionscript.com/blog/index.php/2007/10/13/flash-you-tube-api/
         // http://www.digital-ist-besser.de/
@@ -138,40 +138,46 @@ namespace RayCaster6.ActionScript
                     }
                 };
 
-            (1000 / 30).AtInterval(
-                delegate
-                {
-                    if (fKeyTurnRight.IsPressed)
-                        r.ViewDirection += 10.DegreesToRadians();
-                    else if (fKeyTurnLeft.IsPressed)
-                        r.ViewDirection -= 10.DegreesToRadians();
+						r.ViewPositionChanged +=
+							delegate
+							{
+								UpdateEgoPosition();
+							};
 
-                    if (fKeyUp.IsPressed || fKeyStrafeLeft.IsPressed || fKeyStrafeRight.IsPressed)
-                    {
-                        var d = r.ViewDirection;
+							(1000 / 30).AtInterval(
+									delegate
+									{
+										if (fKeyTurnRight.IsPressed)
+											r.ViewDirection += 10.DegreesToRadians();
+										else if (fKeyTurnLeft.IsPressed)
+											r.ViewDirection -= 10.DegreesToRadians();
+
+										if (fKeyUp.IsPressed || fKeyStrafeLeft.IsPressed || fKeyStrafeRight.IsPressed)
+										{
+											var d = r.ViewDirection;
 
 
 
-                        if (fKeyStrafeLeft.IsPressed)
-                            d -= 90.DegreesToRadians();
-                        else if (fKeyStrafeRight.IsPressed)
-                            d += 90.DegreesToRadians();
+											if (fKeyStrafeLeft.IsPressed)
+												d -= 90.DegreesToRadians();
+											else if (fKeyStrafeRight.IsPressed)
+												d += 90.DegreesToRadians();
 
 
-                        r.MoveTo(
-                            r.ViewPositionX + Math.Cos(d) * 0.2,
-                            r.ViewPositionY + Math.Sin(d) * 0.2
-                        );
-                    }
-                    else if (fKeyDown.IsPressed)
-                        r.MoveTo(
-                           r.ViewPositionX + Math.Cos(r.ViewDirection) * -0.2,
-                           r.ViewPositionY + Math.Sin(r.ViewDirection) * -0.2
-                       );
+											r.MoveTo(
+													r.ViewPositionX + Math.Cos(d) * 0.2,
+													r.ViewPositionY + Math.Sin(d) * 0.2
+											);
+										}
+										else if (fKeyDown.IsPressed)
+											r.MoveTo(
+												 r.ViewPositionX + Math.Cos(r.ViewDirection) * -0.2,
+												 r.ViewPositionY + Math.Sin(r.ViewDirection) * -0.2
+										 );
 
-                    UpdateEgoPosition();
-                }
-            );
+
+									}
+							);
 
 
             stage.keyUp +=
@@ -492,6 +498,7 @@ namespace RayCaster6.ActionScript
                     }
                 );
 
+						AttachMovementInput(r);
 
 
         }
