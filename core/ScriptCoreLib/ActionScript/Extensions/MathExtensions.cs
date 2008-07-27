@@ -43,12 +43,6 @@ namespace ScriptCoreLib.ActionScript.Extensions
             return a;
         }
 
-        /// <summary>
-        /// Returns largest number
-        /// </summary>
-        /// <param name="i"></param>
-        /// <param name="e"></param>
-        /// <returns></returns>
         public static int Max(this int i, int e)
         {
             if (e > i)
@@ -57,12 +51,6 @@ namespace ScriptCoreLib.ActionScript.Extensions
             return i;
         }
 
-        /// <summary>
-        /// Returns smallest number
-        /// </summary>
-        /// <param name="i"></param>
-        /// <param name="e"></param>
-        /// <returns></returns>
         public static int Min(this int i, int e)
         {
             if (e < i)

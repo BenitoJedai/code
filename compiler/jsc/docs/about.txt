@@ -125,3 +125,5 @@ version history:
 	actionscript: method now supports the [Script(NoDecoration = true)] attribute
 24.07.2008:
 	actionscript: fixed new struct ctor merge support
+27.07.2008
+	actionscript: added namespace and type name disamigunation

@@ -527,7 +527,7 @@ namespace jsc.Languages.ActionScript
             if (context.GetField(subject.Name) != null)
                 return true;
 
-            return GetImportTypes(context).Count(i => i.Name == subject.Name) > 1;
+            return GetImportTypes(context).Any(i => i.Name == subject.Name || (i.Namespace != null && i.Namespace.EndsWith("." + subject.Name)));
         }
 
     }
