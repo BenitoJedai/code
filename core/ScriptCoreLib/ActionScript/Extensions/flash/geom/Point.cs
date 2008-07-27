@@ -33,6 +33,20 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.geom
             return new Point { x = ((Point)a).x + ((Point)b).x, y = ((Point)a).y + ((Point)b).y };
         }
 
+				public static Point operator *(__Point a, __Point b)
+				{
+					return new Point { x = ((Point)a).x * ((Point)b).x, y = ((Point)a).y * ((Point)b).y };
+				}
+
+				public static Point operator *(__Point a, double b)
+				{
+					return new Point { x = ((Point)a).x * b, y = ((Point)a).y * b };
+				}
+
+				public static Point operator /(__Point a, __Point b)
+				{
+					return new Point { x = ((Point)a).x / ((Point)b).x, y = ((Point)a).y / ((Point)b).y };
+				}
   
         #endregion
 

@@ -69,6 +69,15 @@ namespace RayCaster6.ActionScript
             r.Image.AttachTo(this);
             r.txtMain.AttachTo(this);
 
+            var info = new TextField
+                {
+                    y = 32,
+                    selectable = false,
+
+                }.AttachTo(this);
+
+
+
             r.Image.scaleX = DefaultScale;
             r.Image.scaleY = DefaultScale;
             //this.filters = new[] { new BlurFilter() };
@@ -236,13 +245,15 @@ namespace RayCaster6.ActionScript
                     stage.click +=
                         e =>
                         {
+                            info.text = new { stage.stageWidth, e.stageX }.ToString();
+
                             if (e.stageX < (stage.stageWidth / 4))
                             {
 
                                 (1000 / 30).AtInterval(
                                     t =>
                                     {
-                                        r.ViewDirection -=  15.DegreesToRadians();
+                                        r.ViewDirection -= 15.DegreesToRadians();
 
                                         if (t.currentCount == 3)
                                             t.stop();
@@ -348,7 +359,7 @@ namespace RayCaster6.ActionScript
                                        AddSprite(s);
                                    }
                                }
-                               
+
 
                                //Func<Texture64.Entry, bool> IsNearWall =
                                //   w =>
@@ -378,7 +389,7 @@ namespace RayCaster6.ActionScript
                                //var SpaceForLamps = FreeSpaceForLamps.Randomize().GetEnumerator();
 
 
-                       
+
 
                                //Action<string> AddSpriteNearWall =
                                //    texname => AddSpriteByTexture(SpaceNearWalls, t(texname));
@@ -388,26 +399,26 @@ namespace RayCaster6.ActionScript
                                //    texname => AddSpriteByTexture(SpaceForLamps, t(texname));
 
 
-                            //   AddSpaceForLamps.Multiple(
-                            //       new KeyValuePairList<int, string>
-                            //{
-                            //    // multi dict?
-                            //    {9, "lamp"},
-                            //    {8, "chandelier"},
-                        
-                            //}
-                            //   );
+                               //   AddSpaceForLamps.Multiple(
+                               //       new KeyValuePairList<int, string>
+                               //{
+                               //    // multi dict?
+                               //    {9, "lamp"},
+                               //    {8, "chandelier"},
 
-                            //   AddSpriteNearWall.Multiple(
-                            //      new KeyValuePairList<int, string>
-                            //{
-                            //    // multi dict?
-                  
-                            //    {4, "armor"},
-                            //    {32, "plantbrown"},
-                            //    {32, "plantgreen"},
-                            //}
-                            //  );
+                               //}
+                               //   );
+
+                               //   AddSpriteNearWall.Multiple(
+                               //      new KeyValuePairList<int, string>
+                               //{
+                               //    // multi dict?
+
+                               //    {4, "armor"},
+                               //    {32, "plantbrown"},
+                               //    {32, "plantgreen"},
+                               //}
+                               //  );
                            }
                         );
 

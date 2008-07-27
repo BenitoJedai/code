@@ -139,5 +139,23 @@ namespace ScriptCoreLib.ActionScript.flash.geom
         {
             return default(Point);
         }
+
+				[Script(NotImplementedHere = true)]
+				public static Point operator *(Point a, Point b)
+				{
+					return default(Point);
+				}
+
+				[Script(NotImplementedHere = true)]
+				public static Point operator *(Point a, double b)
+				{
+					return default(Point);
+				}
+
+				[Script(NotImplementedHere = true)]
+				public static Point operator /(Point a, Point b)
+				{
+					return default(Point);
+				}
     }
 }
