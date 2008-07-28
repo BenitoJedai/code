@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\Apple.cs" />
-    <Compile Include="ActionScript\Assets.cs" />
+    <Compile Include="ActionScript\Sounds.cs" />
     <Compile Include="ActionScript\KeyboardButton.cs" />
     <Compile Include="ActionScript\KeyboardButtonGroup.cs" />
     <Compile Include="ActionScript\Worm.Part.cs" />
@@ -64,12 +64,12 @@
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\FlashConsoleWorm.Sounds\explosion.mp3" />
+    <EmbeddedResource Include="web\assets\FlashConsoleWorm.Sounds\reveal.mp3" />
+    <EmbeddedResource Include="web\assets\FlashConsoleWorm.Sounds\sound20.mp3" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="web\assets\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
