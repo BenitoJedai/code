@@ -20,9 +20,9 @@ namespace FlashConsoleWorm.ActionScript
 
             internal protected readonly Shape Control = new Shape();
 
-            public Part()
+            public Part(uint Color)
             {
-                Control.graphics.beginFill(FlashConsoleWorm.ColorGreen);
+                Control.graphics.beginFill(Color);
                 Control.graphics.drawRect(0, 0, 1, 1);
             }
 

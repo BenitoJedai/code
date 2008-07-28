@@ -61,13 +61,15 @@ namespace FlashConsoleWorm.ActionScript
             var x = Wrapper(this.Location + p);
 
             Parts.Add(
-                new Part { Location = x, Wrapper = Wrapper }.AttachTo(Canvas)
+                new Part(Color) { Location = x, Wrapper = Wrapper }.AttachTo(Canvas)
             );
 
             Location = x;
 
             return this;
         }
+
+		public uint Color = FlashConsoleWorm.ColorGreen;
 
         public Worm Grow()
         {

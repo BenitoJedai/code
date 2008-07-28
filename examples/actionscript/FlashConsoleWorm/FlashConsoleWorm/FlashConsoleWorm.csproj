@@ -30,9 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Nonoba.GameLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="ScriptCoreLib, Version=3.0.2665.39893, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Nonoba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Nonoba.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -60,16 +65,25 @@
     <Compile Include="ActionScript\Worm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
+    <Compile Include="Server\NonobaGame.cs" />
+    <Compile Include="Shared\MyGame.cs" />
+    <Compile Include="Shared\MyPlayer.cs" />
+    <Compile Include="Shared\SharedClass1.cs" />
+    <Compile Include="Shared\SharedClass1.DispatchHelper.cs" />
+    <Compile Include="Shared\SharedClass1.Generated.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
+    <Content Include="Library\Development Server.exe" />
+    <Content Include="Library\Nonoba.GameLibrary.dll" />
     <EmbeddedResource Include="web\assets\FlashConsoleWorm.Sounds\explosion.mp3" />
     <EmbeddedResource Include="web\assets\FlashConsoleWorm.Sounds\reveal.mp3" />
     <EmbeddedResource Include="web\assets\FlashConsoleWorm.Sounds\sound20.mp3" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
+    <None Include="tools\update.bat" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
