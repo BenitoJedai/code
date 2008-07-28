@@ -80,14 +80,15 @@ namespace RayCaster6.ActionScript
 			var PortalView = new ViewEngineBase(64, 64)
 			{
 				ViewPosition = EgoView.ViewPosition,
-				ViewDirection = EgoView.ViewDirection
+				ViewDirection = EgoView.ViewDirection,
+				//RenderLowQualityWalls = true,
 			};
 
 
 
 			EgoView.ViewDirectionChanged += () => PortalView.ViewDirection = EgoView.ViewDirection;
 
-			Texture64 PortalFrame = new Bitmap(new BitmapData(64, 64, true));
+			Texture64 PortalFrame = new Bitmap(new BitmapData(64, 64, true, 0x0));
 
 			var PortalSprite = new SpriteInfo
 			{
@@ -96,12 +97,34 @@ namespace RayCaster6.ActionScript
 				Direction = EgoView.ViewDirection
 			}.AddTo(EgoView.Sprites);
 
+			var Ego = default(SpriteInfo);
+
+			bool ViewPositionChangedDisabled = false;
+
+			EgoView.ViewPositionChanged +=
+				delegate
+				{
+					if (ViewPositionChangedDisabled)
+						return;
+
+					ViewPositionChangedDisabled = true;
+
+					var p = EgoView.SpritesFromPointOfView.SingleOrDefault(i => i.Sprite == PortalSprite);
+
+					if (p != null)
+					{
+						if (p.Distance < 0.5)
+							EgoView.ViewPosition = PortalView.ViewPosition;
+					}
+
+					ViewPositionChangedDisabled = false;
+
+				};
 
 			var CameraView = new ViewEngineBase(64, 48)
 			{
 			};
 
-			var Ego = default(SpriteInfo);
 
 			EgoView.RenderOverlay += DrawMinimap;
 			EgoView.FramesPerSecondChanged += () => txtMain.text = EgoView.FramesPerSecond + " fps " + new { EgoView.ViewPositionX, EgoView.ViewPositionY };
@@ -399,8 +422,6 @@ namespace RayCaster6.ActionScript
                             {DynamicTextureKey, DynamicTexture}
                         };
 
-						//EgoView.ViewDirection = 270.DegreesToRadians();
-						//EgoView.ViewPosition = EgoView.ViewPosition;
 
 						if (EgoView.CurrentTile != 0)
 							throw new Exception("bad start position: " + new { EgoView.ViewPositionX, EgoView.ViewPositionY, EgoView.CurrentTile }.ToString());
@@ -426,14 +447,6 @@ namespace RayCaster6.ActionScript
 					
 
 
-						//PortalView.RenderOverlay +=
-						//    delegate
-						//    {
-
-						//        PortalView.Buffer.draw(PortalView.Image);
-						//        //PortalView.Buffer.draw(PortalMask, null, null, BlendMode.ALPHA);
-						//    };
-
 						stage.enterFrame += e =>
 							{
 								PortalView.RenderScene();
@@ -441,8 +454,7 @@ namespace RayCaster6.ActionScript
 								PortalFrame.Bitmap.bitmapData.copyPixels(PortalView.Buffer, PortalView.Buffer.rect, new Point(), PortalMask.bitmapData);
 								PortalFrame.Bitmap.filters = new[] { new GlowFilter(0xff) };
 
-								//PortalFrame.Bitmap.bitmapData.draw(PortalView.Image);
-								//PortalFrame.Bitmap.bitmapData.draw(PortalMask);
+						
 
 								PortalFrame.Update();
 								EgoView.RenderScene();
