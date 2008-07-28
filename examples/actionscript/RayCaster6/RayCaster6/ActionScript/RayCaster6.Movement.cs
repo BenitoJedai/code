@@ -33,37 +33,9 @@ namespace RayCaster6.ActionScript
 				throw new Exception("stage is null");
 
 
-			//this.graphics.beginFill(0xefff80);
-			//this.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight / 2);
-
-			//this.graphics.beginFill(0xef8fff);
-			//this.graphics.drawRect(0, stage.stageHeight / 2, stage.stageWidth, stage.stageHeight / 2);
-
-
-			//var info = new TextField
-			//{
-			//  selectable = false,
-			//  multiline = true,
-			//  width = stage.stageWidth,
-			//  height = stage.stageHeight / 2
-			//}.AttachTo(this);
-
 			var snapcontainer = new Shape().AttachTo(this);
 			var vectorized = new Shape().AttachTo(this);
 			var delta = new Shape { alpha = 0.5 }.AttachTo(this);
-
-			//var ego = new Sprite { mouseEnabled = false, x = stage.stageWidth / 2, y = stage.stageHeight / 2 }.AttachTo(this);
-			//var ego_img = gtataxi.ToBitmapAsset().AttachTo(ego);
-
-			//ego_img.x = -ego_img.width / 2;
-			//ego_img.y = -ego_img.height / 2;
-
-			//Action<string, object> Write = (p, e) =>
-			//{
-			//  info.appendText(p + e.ToString() + Environment.NewLine);
-			//  info.setSelection(info.text.Length - 1, info.text.Length - 1);
-			//};
-
 
 
 
@@ -131,29 +103,28 @@ namespace RayCaster6.ActionScript
 
 							DrawArrow(vectorized, e.stageX, e.stageY, color);
 						}
-						else
-						{
-							//if (delta_pos == 0)
-							//  Write("move ", new { e.stageY, stage.stageHeight, stageScaleY = stage.scaleY, this.scaleY, stage.height });
-							//Write("move ", new { e.stageX, e.stageY, stage.stageWidth, stage.stageHeight, stage.scaleX, stage.scaleY });
-						}
 					};
 
 			stage.mouseUp +=
 					e =>
 					{
-						//Write("up ", new { e.localX, e.localY, e.buttonDown });
-
 						if (mouseUp_fadeOut != null)
 							mouseUp_fadeOut.stop();
 
+						var _vectorized = vectorized;
+						var _snapcontainer = snapcontainer;
 
 						mouseUp_fadeOut = 50.AtInterval(
 								t =>
 								{
-									vectorized.alpha -= 0.02;
+									if (vectorized.alpha < 0)
+									{
+										t.stop();
+										return;
+									}
 
-									snapcontainer.alpha -= 0.04;
+									_vectorized.alpha -= 0.02;
+									_snapcontainer.alpha -= 0.04;
 								}
 						);
 					};
@@ -180,18 +151,16 @@ namespace RayCaster6.ActionScript
 					if (vectorized.alpha == 1)
 					{
 						delta_pos += delta_acc;
-						//delta_deacc = (delta_deacc - delta_deacc_acc).Max(delta_deacc_min);
 						delta_acc += delta_acc_acc;
 					}
 					else
 					{
-						delta_pos -= delta_deacc;
-						delta_acc -= delta_acc_acc;
-
+						delta_acc -= delta_acc_acc * 3;
 						if (delta_acc < delta_acc_min)
 							delta_acc = delta_acc_min;
 
-						//delta_deacc += delta_deacc_acc;
+
+						delta_pos -= delta_acc;
 					}
 
 					delta_pos = delta_pos.Min(1).Max(0);
@@ -199,29 +168,22 @@ namespace RayCaster6.ActionScript
 					var u = (mouseMove_args.ToStagePoint() - mouseDown_args.ToStagePoint()) * delta_pos;
 					var z = mouseDown_args.ToStagePoint() + u;
 
+					var Q1 = mouseDown_args.stageY < stage.height * 1 / 6;
+					var Q4 = mouseDown_args.stageY > stage.height * 5 / 6;
+					var IsPan = Q1 || Q4;
+
+
 					if (delta_pos > 0)
-						if (mouseDown_args.stageY > stage.height / 2)
+						if (!IsPan)
 						{
-							// boolean
-							//Write("rot ", new { delta_pos, u.x, u.y });
 
-							view.ViewDirection += u.x * 0.0005;
+							view.ViewDirection += u.x * 0.0004;
 
-							//ego.rotation += u.x * 0.2;
-
-							//var p = ego.ToPoint().MoveToArc(((int)ego.rotation).DegreesToRadians(), -u.y * 0.2);
-							view.ViewPosition = view.ViewPosition.MoveToArc(view.ViewDirection, -u.y.Max(-snap_radius * 2).Min(snap_radius * 2) * 0.002);
-
-							//ego.x = p.x;
-							//ego.y = p.y;
+							view.ViewPosition = view.ViewPosition.MoveToArc(view.ViewDirection, -u.y.Max(-snap_radius * 2).Min(snap_radius * 2) * 0.001);
 						}
 						else
 						{
-							//Write("pan ", new { delta_pos, u.x, u.y });
-							view.ViewPosition = view.ViewPosition.MoveToArc(u.GetRotation() + view.ViewDirection + 270.DegreesToRadians(), -(u.length.Min(snap_radius * 2)) * 0.002);
-
-							//ego.x = p.x;
-							//ego.y = p.y;
+							view.ViewPosition = view.ViewPosition.MoveToArc(u.GetRotation() + view.ViewDirection + 270.DegreesToRadians(), -(u.length.Min(snap_radius * 2)) * 0.001);
 						}
 
 					DrawArrow(delta, z.x, z.y, 0xff00);
