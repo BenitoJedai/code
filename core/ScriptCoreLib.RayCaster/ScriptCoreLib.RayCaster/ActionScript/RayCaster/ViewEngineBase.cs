@@ -49,6 +49,13 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 
 		}
 
+		public BitmapData Buffer
+		{
+			get
+			{
+				return buffer;
+			}
+		}
 
 		protected BitmapData buffer;
 
