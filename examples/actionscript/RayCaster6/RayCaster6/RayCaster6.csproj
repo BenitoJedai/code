@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\Assets.cs" />
+    <Compile Include="ActionScript\RayCaster6.DrawMinimap.cs" />
     <Compile Include="ActionScript\RayCaster6.Movement.cs" />
     <Compile Include="ActionScript\KeyboardButton.cs" />
     <Compile Include="ActionScript\RayCaster6.cs" />

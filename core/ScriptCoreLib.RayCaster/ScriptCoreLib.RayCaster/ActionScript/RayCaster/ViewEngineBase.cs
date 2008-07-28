@@ -147,12 +147,17 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 
 		protected double dir = 0;
 
+		public event Action ViewDirectionChanged;
+
 		public double ViewDirection
 		{
 			get { return dir; }
 			set
 			{
 				DoRotateView(value - dir);
+
+				if (ViewDirectionChanged != null)
+					ViewDirectionChanged();
 			}
 		}
 
