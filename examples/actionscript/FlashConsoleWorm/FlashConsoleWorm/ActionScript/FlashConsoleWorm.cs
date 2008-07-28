@@ -8,6 +8,7 @@ using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.flash.ui;
+using ScriptCoreLib.ActionScript.flash.events;
 
 namespace FlashConsoleWorm.ActionScript
 {
@@ -141,12 +142,23 @@ namespace FlashConsoleWorm.ActionScript
 
             #endregion
 
-            stage.click +=
+			//var info = new TextField
+			//{
+			//    textColor = 0xffffff,
+			//    autoSize = TextFieldAutoSize.LEFT,
+			//}.AttachTo(this);
+
+			Action<MouseEvent> Go =
+
                 e =>
                 {
-                    #region Dia
-                    var A = e.stageX > e.stageY;
-                    var B = e.stageX > (stage.stageWidth - e.stageY);
+                    #region Diaww
+					var x = e.stageX;
+					var y = e.stageY;
+
+
+                    var A = x > y;
+                    var B = x > (stage.height - y);
 
                     var DiaClipLeft = !A && !B;
                     var DiaClipRight = A && B;
@@ -154,44 +166,78 @@ namespace FlashConsoleWorm.ActionScript
                     var DiaClipBottom = !A && B;
                     #endregion
 
+					//info.text = new { e.stageX, stage.width, e.stageY }.ToString();
+
                     if (DiaClipLeft) GoLeft();
                     else if (DiaClipRight) GoRight();
                     else if (DiaClipTop) GoUp();
                     else if (DiaClipBottom) GoDown();
                 };
 
+			stage.click += Go;
+			stage.mouseMove +=
+				e =>
+				{
+					if (e.buttonDown) Go(e);
+				};
+
+
+			Sounds.reveal.ToSoundAsset().play();
             100.AtInterval(
                t =>
                {
-                   if (worm.Parts.Any(i => i.Location.IsEqual(worm.NextLocation)))
-                   {
-                       worm.IsAlive = false;
+                   
 
-                       //AddScore(0);
+				   if (worm.IsAlive)
+				   {
+					   if (worm.Parts.Any(i => i.Location.IsEqual(worm.NextLocation)))
+					   {
+						   Sounds.explosion.ToSoundAsset().play();
+						   worm.IsAlive = false;
 
-                   }
 
-                   if (worm.IsAlive)
-                   {
-                       worm.GrowToVector();
+						   foreach (var v in worm.Parts)
+						   {
+							   v.Control.alpha = 0.5;
+						   }
 
-                       // did we find an apple?
-                       var a = apples.Where(i => i.Location.IsEqual(worm.Location)).ToArray();
 
-                       if (a.Length > 0)
-                       {
-                           foreach (var v in a)
-                           {
-                               v.MoveToRandomLocation();
-                           }
+						   1000.AtDelayDo(
+							   delegate
+							   {
+								   while (worm.Parts.Count > 1)
+									   worm.Shrink();
 
-                           // AddScore(1);
-                       }
-                       else
-                       {
-                           worm.Shrink();
-                       }
-                   }
+								   Sounds.reveal.ToSoundAsset().play();
+
+								   worm.IsAlive = true;
+							   }
+						   );
+					   }
+					   else
+					   {
+						   worm.GrowToVector();
+
+						   // did we find an apple?
+						   var a = apples.Where(i => i.Location.IsEqual(worm.Location)).ToArray();
+
+						   if (a.Length > 0)
+						   {
+							   foreach (var v in a)
+							   {
+								   v.MoveToRandomLocation();
+							   }
+
+							   Sounds.sound20.ToSoundAsset().play();
+							   // AddScore(1);
+						   }
+						   else
+						   {
+							   worm.Shrink();
+						   }
+					   }
+				   }
+				  
                }
             );
         }

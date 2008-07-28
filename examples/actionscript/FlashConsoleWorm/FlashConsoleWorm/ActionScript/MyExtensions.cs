@@ -14,6 +14,17 @@ namespace FlashConsoleWorm.ActionScript
     [Script]
     internal static class MyExtensions
     {
+		public static Timer AtDelayDo(this int e, Action a)
+		{
+			var t = new Timer(e, 1);
+
+			t.timer += delegate { a(); };
+
+			t.start();
+
+			return t;
+		}
+
         public static bool IsEqual(this Point p, Point x)
         {
             if (p.x != x.x)
