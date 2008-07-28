@@ -12,46 +12,46 @@ using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace ScriptCoreLib.ActionScript.Extensions.flash.geom
 {
-    [Script(Implements = typeof(Point))]
-    internal class __Point
-    {
+	[Script(Implements = typeof(Point))]
+	internal class __Point
+	{
 
-        public static implicit operator Point(__Point e)
-        {
-            return (Point)(object)e;
-        }
+		public static implicit operator Point(__Point e)
+		{
+			return (Point)(object)e;
+		}
 
-        #region Implementation for methods marked with [Script(NotImplementedHere = true)]
+		#region Implementation for methods marked with [Script(NotImplementedHere = true)]
 
-        public static Point operator -(__Point a, __Point b)
-        {
-            return new Point { x = ((Point)a).x - ((Point)b).x, y = ((Point)a).y - ((Point)b).y };
-        }
+		public static Point operator -(__Point a, __Point b)
+		{
+			return new Point { x = ((Point)a).x - ((Point)b).x, y = ((Point)a).y - ((Point)b).y };
+		}
 
-        public static Point operator +(__Point a, __Point b)
-        {
-            return new Point { x = ((Point)a).x + ((Point)b).x, y = ((Point)a).y + ((Point)b).y };
-        }
+		public static Point operator +(__Point a, __Point b)
+		{
+			return new Point { x = ((Point)a).x + ((Point)b).x, y = ((Point)a).y + ((Point)b).y };
+		}
 
-				public static Point operator *(__Point a, __Point b)
-				{
-					return new Point { x = ((Point)a).x * ((Point)b).x, y = ((Point)a).y * ((Point)b).y };
-				}
+		public static Point operator *(__Point a, __Point b)
+		{
+			return new Point { x = ((Point)a).x * ((Point)b).x, y = ((Point)a).y * ((Point)b).y };
+		}
 
-				public static Point operator *(__Point a, double b)
-				{
-					return new Point { x = ((Point)a).x * b, y = ((Point)a).y * b };
-				}
+		public static Point operator *(__Point a, double b)
+		{
+			return new Point { x = ((Point)a).x * b, y = ((Point)a).y * b };
+		}
 
-				public static Point operator /(__Point a, __Point b)
-				{
-					return new Point { x = ((Point)a).x / ((Point)b).x, y = ((Point)a).y / ((Point)b).y };
-				}
-  
-        #endregion
+		public static Point operator /(__Point a, __Point b)
+		{
+			return new Point { x = ((Point)a).x / ((Point)b).x, y = ((Point)a).y / ((Point)b).y };
+		}
 
-
+		#endregion
 
 
-    }
+
+
+	}
 }
