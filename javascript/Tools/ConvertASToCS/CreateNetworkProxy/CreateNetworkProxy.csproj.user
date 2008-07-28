@@ -1,6 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartArguments>ExampleInput/SharedClass1.cs</StartArguments>
+    <StartArguments>SharedClass1.cs</StartArguments>
     <StartAction>Project</StartAction>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\FlashConsoleWorm\FlashConsoleWorm\Shared</StartWorkingDirectory>
   </PropertyGroup>
 </Project>

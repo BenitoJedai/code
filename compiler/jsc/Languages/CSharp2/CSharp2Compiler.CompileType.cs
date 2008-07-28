@@ -117,7 +117,7 @@ namespace jsc.Languages.CSharp2
 
                         if (!z.IsEnum)
                         {
-                            z.GetInterfaces().Where(i => i.IsPublic).Aggregate(
+                            z.GetInterfaces().Where(i => i.Namespace == z.Namespace || i.IsPublic).Aggregate(
                                 BaseTypeWritten ? 1 : 0,
                                 (index, i) =>
                                 {

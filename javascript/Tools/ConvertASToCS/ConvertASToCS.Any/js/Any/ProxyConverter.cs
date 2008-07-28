@@ -562,33 +562,33 @@ namespace ConvertASToCS.js.Any
                 var MessagesToOthersArray = MessagesToOthers.ToArray();
 
 
-                var IPairedEvents = new
-                {
-                    WithoutUser = new TypeInfo
-                    {
-                        IsInterface = true,
-                        Name = "IPairedEventsWithoutUser",
-                    },
-                    WithUser = new TypeInfo
-                    {
-                        IsInterface = true,
-                        Name = "IPairedEventsWithUser",
-                    }
-                };
+				//var IPairedEvents = new
+				//{
+				//    WithoutUser = new TypeInfo
+				//    {
+				//        IsInterface = true,
+				//        Name = "IPairedEventsWithoutUser",
+				//    },
+				//    WithUser = new TypeInfo
+				//    {
+				//        IsInterface = true,
+				//        Name = "IPairedEventsWithUser",
+				//    }
+				//};
 
-                var IPairedMessages = new
-                {
-                    WithoutUser = new TypeInfo
-                   {
-                       IsInterface = true,
-                       Name = "IPairedMessagesWithoutUser"
-                   },
-                    WithUser = new TypeInfo
-                    {
-                        IsInterface = true,
-                        Name = "IPairedMessagesWithUser"
-                    }
-                };
+				//var IPairedMessages = new
+				//{
+				//    WithoutUser = new TypeInfo
+				//   {
+				//       IsInterface = true,
+				//       Name = "IPairedMessagesWithoutUser"
+				//   },
+				//    WithUser = new TypeInfo
+				//    {
+				//        IsInterface = true,
+				//        Name = "IPairedMessagesWithUser"
+				//    }
+				//};
 
                 var IMessages = new TypeInfo
                 {
@@ -648,7 +648,7 @@ namespace ConvertASToCS.js.Any
                     {
                         IsSealed = true,
                         Name = "RemoteEvents",
-                        BaseTypeNames = new[] { IEvents.Name, IPairedEvents.WithoutUser.Name, IPairedEvents.WithUser.Name },
+                        BaseTypeNames = new[] { IEvents.Name/*, IPairedEvents.WithoutUser.Name, IPairedEvents.WithUser.Name*/ },
                         Fields = new[]
                                 {
                                     RemoteEvents_DispatchTable,
@@ -662,7 +662,7 @@ namespace ConvertASToCS.js.Any
                         {
                             IsSealed = true,
                             Name = "RemoteMessages",
-                            BaseTypeNames = new[] { IMessages.Name, IPairedMessages.WithoutUser.Name, IPairedMessages.WithUser.Name },
+                            BaseTypeNames = new[] { IMessages.Name/*, IPairedMessages.WithoutUser.Name, IPairedMessages.WithUser.Name*/ },
                             Fields = new[]
                         {
                             new FieldInfo { FieldName = "Send", TypeName = "Action<SendArguments>" }
@@ -691,108 +691,108 @@ namespace ConvertASToCS.js.Any
 
 
 
-                #region IPairedEvents
+				//#region IPairedEvents
 
-                using (DefineType(IPairedEvents.WithoutUser))
-                {
-                    foreach (var v in MessagesToOthersArray)
-                    {
-                        using (IndentLine())
-                        {
-                            WriteBlue("event");
-                            WriteSpace();
-                            WriteCyan("Action<" + RemoteEvents.Name + "." + v.MessageWithoutUser.Name + "Arguments>");
-                            WriteSpace();
-                            Write(v.MessageWithoutUser.Name);
-                            Write(";");
-                        }
-                    }
-                }
+				//using (DefineType(IPairedEvents.WithoutUser))
+				//{
+				//    foreach (var v in MessagesToOthersArray)
+				//    {
+				//        using (IndentLine())
+				//        {
+				//            WriteBlue("event");
+				//            WriteSpace();
+				//            WriteCyan("Action<" + RemoteEvents.Name + "." + v.MessageWithoutUser.Name + "Arguments>");
+				//            WriteSpace();
+				//            Write(v.MessageWithoutUser.Name);
+				//            Write(";");
+				//        }
+				//    }
+				//}
 
-                using (DefineType(IPairedEvents.WithUser))
-                {
-                    foreach (var v in MessagesToOthersArray)
-                    {
-                        using (IndentLine())
-                        {
-                            WriteBlue("event");
-                            WriteSpace();
-                            WriteCyan("Action<" + RemoteEvents.Name + "." + v.MessageWithUser.Name + "Arguments>");
-                            WriteSpace();
-                            Write(v.MessageWithUser.Name);
-                            Write(";");
-                        }
-                    }
-                }
+				//using (DefineType(IPairedEvents.WithUser))
+				//{
+				//    foreach (var v in MessagesToOthersArray)
+				//    {
+				//        using (IndentLine())
+				//        {
+				//            WriteBlue("event");
+				//            WriteSpace();
+				//            WriteCyan("Action<" + RemoteEvents.Name + "." + v.MessageWithUser.Name + "Arguments>");
+				//            WriteSpace();
+				//            Write(v.MessageWithUser.Name);
+				//            Write(";");
+				//        }
+				//    }
+				//}
 
-                #endregion
+				//#endregion
 
-                #region IPairedMessages
+				//#region IPairedMessages
 
 
-                using (DefineType(IPairedMessages.WithUser))
-                {
-                    foreach (var v in MessagesToOthersArray)
-                    {
-                        using (IndentLine())
-                        {
-                            WriteBlue("void");
-                            WriteSpace();
-                            WriteCyan(v.MessageWithUser.Name);
+				//using (DefineType(IPairedMessages.WithUser))
+				//{
+				//    foreach (var v in MessagesToOthersArray)
+				//    {
+				//        using (IndentLine())
+				//        {
+				//            WriteBlue("void");
+				//            WriteSpace();
+				//            WriteCyan(v.MessageWithUser.Name);
 
-                            using (Parenthesis())
-                            {
-                                v.MessageWithUser.ParametersInfo.Parameters.ForEach(
-                                    (vv, i) =>
-                                    {
-                                        if (i > 0)
-                                        {
-                                            Write(",");
-                                            WriteSpace();
-                                        }
+				//            using (Parenthesis())
+				//            {
+				//                v.MessageWithUser.ParametersInfo.Parameters.ForEach(
+				//                    (vv, i) =>
+				//                    {
+				//                        if (i > 0)
+				//                        {
+				//                            Write(",");
+				//                            WriteSpace();
+				//                        }
 
-                                        WriteVariableDefinition(vv.TypeName, vv.Name);
-                                    }
-                                );
-                            }
+				//                        WriteVariableDefinition(vv.TypeName, vv.Name);
+				//                    }
+				//                );
+				//            }
 
-                            Write(";");
-                        }
-                    }
-                }
+				//            Write(";");
+				//        }
+				//    }
+				//}
 
-                using (DefineType(IPairedMessages.WithoutUser))
-                {
-                    foreach (var v in MessagesToOthersArray)
-                    {
-                        using (IndentLine())
-                        {
-                            WriteBlue("void");
-                            WriteSpace();
-                            WriteCyan(v.MessageWithoutUser.Name);
+				//using (DefineType(IPairedMessages.WithoutUser))
+				//{
+				//    foreach (var v in MessagesToOthersArray)
+				//    {
+				//        using (IndentLine())
+				//        {
+				//            WriteBlue("void");
+				//            WriteSpace();
+				//            WriteCyan(v.MessageWithoutUser.Name);
 
-                            using (Parenthesis())
-                            {
-                                v.MessageWithoutUser.ParametersInfo.Parameters.ForEach(
-                                    (vv, i) =>
-                                    {
-                                        if (i > 0)
-                                        {
-                                            Write(",");
-                                            WriteSpace();
-                                        }
+				//            using (Parenthesis())
+				//            {
+				//                v.MessageWithoutUser.ParametersInfo.Parameters.ForEach(
+				//                    (vv, i) =>
+				//                    {
+				//                        if (i > 0)
+				//                        {
+				//                            Write(",");
+				//                            WriteSpace();
+				//                        }
 
-                                        WriteVariableDefinition(vv.TypeName, vv.Name);
-                                    }
-                                );
-                            }
+				//                        WriteVariableDefinition(vv.TypeName, vv.Name);
+				//                    }
+				//                );
+				//            }
 
-                            Write(";");
-                        }
-                    }
-                }
+				//            Write(";");
+				//        }
+				//    }
+				//}
 
-                #endregion
+				//#endregion
 
                 WriteLine();
 
@@ -1758,11 +1758,11 @@ namespace ConvertASToCS.js.Any
                             };
                         #endregion
 
-                        if (MessagesToOthersArray.Any(i => i.MessageWithUser.Name == v.Name))
-                            WriteExplicitImplementation(IPairedMessages.WithUser, RedirectToIMessages);
+						//if (MessagesToOthersArray.Any(i => i.MessageWithUser.Name == v.Name))
+						//    WriteExplicitImplementation(IPairedMessages.WithUser, RedirectToIMessages);
 
-                        if (MessagesToOthersArray.Any(i => i.MessageWithoutUser.Name == v.Name))
-                            WriteExplicitImplementation(IPairedMessages.WithoutUser, RedirectToIMessages);
+						//if (MessagesToOthersArray.Any(i => i.MessageWithoutUser.Name == v.Name))
+						//    WriteExplicitImplementation(IPairedMessages.WithoutUser, RedirectToIMessages);
 
                         WriteLine();
                     }

@@ -56,6 +56,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\Apple.cs" />
+    <Compile Include="ActionScript\Nonoba\Client.cs" />
+    <Compile Include="ActionScript\Nonoba\ShowMessage.cs" />
+    <Compile Include="ActionScript\Nonoba\Map.cs" />
+    <Compile Include="ActionScript\Nonoba\Events.cs" />
     <Compile Include="ActionScript\Sounds.cs" />
     <Compile Include="ActionScript\KeyboardButton.cs" />
     <Compile Include="ActionScript\KeyboardButtonGroup.cs" />

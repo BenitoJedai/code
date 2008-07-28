@@ -71,18 +71,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
-    <None Include="web\flashsrc\textures\dude5.zip">
+    <None Include="web\assets\RayCaster6\dude5.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="web\flashsrc\textures\sprites.zip">
+    <None Include="web\assets\RayCaster6\sprites.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="web\flashsrc\textures\stuff.zip">
+    <None Include="web\assets\RayCaster6\stuff.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="web\assets\" />
+    <Folder Include="web\assets\RayCaster6.Sounds\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

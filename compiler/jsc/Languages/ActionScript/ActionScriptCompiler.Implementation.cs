@@ -498,7 +498,7 @@ namespace jsc.Languages.ActionScript
 
             WriteDecoratedTypeNameOrImplementationTypeName(v.LocalType, true, true, IsFullyQualifiedNamesRequired(u.DeclaringType, v.LocalType));
 
-            if (v.LocalType.IsValueType && !v.LocalType.IsPrimitive)
+            if (v.LocalType.IsValueType && !v.LocalType.IsPrimitive && !v.LocalType.IsEnum)
             {
                 var z = MySession.ResolveImplementation(v.LocalType) ?? v.LocalType;
 
