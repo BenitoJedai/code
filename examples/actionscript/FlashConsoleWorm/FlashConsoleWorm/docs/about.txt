@@ -23,3 +23,5 @@
 15. Add generic sounds, bind them to actions
 15:05
 16. Added death logic, commit
+17. Added -cs2 switch and ScriptTypeFilter
+18. Added Nonoba Library
