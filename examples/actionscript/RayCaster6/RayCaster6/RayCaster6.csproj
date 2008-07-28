@@ -56,9 +56,7 @@
   <ItemGroup>
     <Compile Include="ActionScript\Assets.cs" />
     <Compile Include="ActionScript\RayCaster6.Movement.cs" />
-    <Compile Include="ActionScript\RayCaster4base.render.cs" />
     <Compile Include="ActionScript\KeyboardButton.cs" />
-    <Compile Include="ActionScript\RayCaster4base.cs" />
     <Compile Include="ActionScript\RayCaster6.cs" />
     <Compile Include="ActionScript\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
