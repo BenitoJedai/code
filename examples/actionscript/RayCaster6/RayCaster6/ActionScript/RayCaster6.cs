@@ -39,9 +39,9 @@ namespace RayCaster6.ActionScript
         // 120x90
         // 160x120
         const int DefaultWidth = DefaultHeight * 3 / 2;
-        const int DefaultHeight = 180;
+        const int DefaultHeight = 120;
 
-        const int DefaultScale = 3;
+        const int DefaultScale = 4;
 
         public RayCaster6()
         {
@@ -69,12 +69,7 @@ namespace RayCaster6.ActionScript
             r.Image.AttachTo(this);
             r.txtMain.AttachTo(this);
 
-            var info = new TextField
-                {
-                    y = 32,
-                    selectable = false,
-
-                }.AttachTo(this);
+    
 
 
 
@@ -248,39 +243,7 @@ namespace RayCaster6.ActionScript
                     Ego = r.CreateWalkingDummy(Stand, Walk);
                     UpdateEgoPosition();
 
-                    stage.click +=
-                        e =>
-                        {
-                            info.text = new { stage.stageWidth, e.stageX }.ToString();
-
-                            if (e.stageX < (stage.stageWidth / 4))
-                            {
-
-                                (1000 / 30).AtInterval(
-                                    t =>
-                                    {
-                                        r.ViewDirection -= 15.DegreesToRadians();
-
-                                        if (t.currentCount == 3)
-                                            t.stop();
-                                    }
-                                );
-                            }
-
-                            if (e.stageX > stage.stageWidth - (stage.stageWidth / 4))
-                            {
-
-                                (1000 / 30).AtInterval(
-                                    t =>
-                                    {
-                                        r.ViewDirection += 15.DegreesToRadians();
-
-                                        if (t.currentCount == 3)
-                                            t.stop();
-                                    }
-                                );
-                            }
-                        };
+                   
 
                     stage.keyUp +=
                           e =>
