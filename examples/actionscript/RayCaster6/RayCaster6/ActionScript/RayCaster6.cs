@@ -309,14 +309,14 @@ namespace RayCaster6.ActionScript
 				};
 
 
-			MyZipFile
+			Assets.ZipFiles.MyZipFile
 				.ToFiles()
 				.Where(f => f.FileName.EndsWith(".png"))
 				.ToBitmapArray(BitmapsLoadedAction);
 
 
 
-			MyStuff.ToFiles().ToBitmapDictionary(
+			Assets.ZipFiles.MyStuff.ToFiles().ToBitmapDictionary(
 					f =>
 					{
 						// ! important
@@ -326,7 +326,7 @@ namespace RayCaster6.ActionScript
 
 						r.Map.WorldMap = Texture32.Of(f["Map1.gif"], false);
 
-						MySprites.ToFiles().ToBitmapArray(
+						Assets.ZipFiles.MySprites.ToFiles().ToBitmapArray(
 						   sprites =>
 						   {
 							   Action<IEnumerator<Texture64.Entry>, Texture64> AddSpriteByTexture =
@@ -499,14 +499,7 @@ namespace RayCaster6.ActionScript
 		}
 
 
-		[Embed("/flashsrc/textures/dude5.zip")]
-		Class MyZipFile;
-
-		[Embed("/flashsrc/textures/stuff.zip")]
-		Class MyStuff;
-
-		[Embed("/flashsrc/textures/sprites.zip")]
-		Class MySprites;
+	
 
 		// fps: 58
 

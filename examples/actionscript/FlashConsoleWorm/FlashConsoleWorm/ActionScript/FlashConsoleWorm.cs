@@ -33,15 +33,21 @@ namespace FlashConsoleWorm.ActionScript
 
 		public const int DefaultZoom = 10;
 
-		public const int RoomWidth = 48;
+		public const int RoomWidth = 72;
 		public const int RoomHeight = 48;
 
-		public readonly KeyboardButtonGroup MovementWASD;
-		public readonly KeyboardButtonGroup MovementArrows;
+		public  KeyboardButtonGroup MovementWASD;
+		public  KeyboardButtonGroup MovementArrows;
 		/// <summary>
 		/// Default constructor
 		/// </summary>
 		public FlashConsoleWorm()
+		{
+			this.InvokeWhenStageIsReady(Initialize);
+			
+		}
+
+		private void Initialize()
 		{
 			var canvas = new Sprite();
 
@@ -57,10 +63,10 @@ namespace FlashConsoleWorm.ActionScript
 
 			Func<Point> GetRandomLocation =
 				() => new Point
-					{
-						x = (RoomWidth - 1).Random(),
-						y = (RoomHeight - 1).Random()
-					};
+				{
+					x = (RoomWidth - 1).Random(),
+					y = (RoomHeight - 1).Random()
+				};
 
 			Func<Point, Point> Wrapper =
 				p => new Point
