@@ -73,7 +73,7 @@ namespace RayCaster6.ActionScript
 				FloorAndCeilingVisible = false,
 
 				ViewPosition = new Point { x = 4, y = 22 },
-				ViewDirection = 270.DegreesToRadians(),
+				ViewDirection = 90.DegreesToRadians(),
 
 			};
 
@@ -87,7 +87,7 @@ namespace RayCaster6.ActionScript
 
 			EgoView.ViewDirectionChanged += () => PortalView.ViewDirection = EgoView.ViewDirection;
 
-			Texture64 PortalFrame = PortalView.Image;
+			Texture64 PortalFrame = new Bitmap(new BitmapData(64, 64, true));
 
 			var PortalSprite = new SpriteInfo
 			{
@@ -420,17 +420,30 @@ namespace RayCaster6.ActionScript
 
 						EgoView.RenderScene();
 
-						var PortalMask = f["portalmask.png"];
+						var PortalMask = 
+							f["portalmask.png"];
 
-						PortalView.RenderOverlay +=
-							delegate
-							{
-								PortalView.Buffer.draw(PortalMask, null, null, BlendMode.SUBTRACT);
-							};
+					
+
+
+						//PortalView.RenderOverlay +=
+						//    delegate
+						//    {
+
+						//        PortalView.Buffer.draw(PortalView.Image);
+						//        //PortalView.Buffer.draw(PortalMask, null, null, BlendMode.ALPHA);
+						//    };
 
 						stage.enterFrame += e =>
 							{
 								PortalView.RenderScene();
+
+								PortalFrame.Bitmap.bitmapData.copyPixels(PortalView.Buffer, PortalView.Buffer.rect, new Point(), PortalMask.bitmapData);
+								PortalFrame.Bitmap.filters = new[] { new GlowFilter(0xff) };
+
+								//PortalFrame.Bitmap.bitmapData.draw(PortalView.Image);
+								//PortalFrame.Bitmap.bitmapData.draw(PortalMask);
+
 								PortalFrame.Update();
 								EgoView.RenderScene();
 							};
