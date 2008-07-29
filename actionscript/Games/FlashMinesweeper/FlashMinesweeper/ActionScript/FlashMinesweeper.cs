@@ -44,6 +44,7 @@ namespace FlashMinesweeper.ActionScript
         public const int DefaultControlWidth = FlashMinesweeper.FieldXCount * FlashMinesweeper.MineButton.Width;
         public const int DefaultControlHeight = FlashMinesweeper.FieldYCount * FlashMinesweeper.MineButton.Height;
         // todo:
+		// http://nothings.org/games/minesweeper/
         // http://www.kirupa.com/forum/showthread.php?t=261577
         // http://groups.google.com/group/youtube-api-basics/browse_thread/thread/89ff378fc44985f0/6b63c2e46159640f?lnk=gst&q=flash+loadClip&rnum=1
         // snd:

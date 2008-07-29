@@ -18,7 +18,6 @@ namespace ScriptCoreLib.ActionScript.Extensions
     [Script]
     public static class CommonExtensions
     {
-
         public static void Orphanize(this DisplayObject e)
         {
             if (e.parent != null)

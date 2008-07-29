@@ -69,21 +69,20 @@
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
     <Content Include="docs\SourceAnalysis.txt" />
+    <EmbeddedResource Include="web\assets\RayCaster6.Sounds\treasure.mp3" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
     <None Include="web\assets\RayCaster6\dude5.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <EmbeddedResource Include="web\assets\RayCaster6\gold.zip" />
     <None Include="web\assets\RayCaster6\sprites.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="web\assets\RayCaster6\stuff.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="web\assets\RayCaster6.Sounds\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

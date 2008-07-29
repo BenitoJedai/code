@@ -10,7 +10,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 namespace ScriptCoreLib.ActionScript.RayCaster
 {
 	[Script]
-	public partial class ViewEngineBase
+	public partial class ViewEngineBase : IVector
 	{
 		protected readonly int _ViewWidth;
 		protected readonly int _ViewHeight;
@@ -69,6 +69,7 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 			}
 		}
 
+
 		#region ViewPosition
 		protected double posX;
 		protected double posY;  //x and y start position
@@ -105,7 +106,9 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 		}
 
 
-		public Action ViewPositionChanged;
+		public event Action ViewPositionChanged;
+
+		bool ViewPositionChangedLock;
 
 		public void MoveTo(double x, double y)
 		{
@@ -114,8 +117,15 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 				posX = x;
 				posY = y;
 
-				if (ViewPositionChanged != null)
-					ViewPositionChanged();
+				if (!ViewPositionChangedLock)
+				{
+					ViewPositionChangedLock = true;
+
+					if (ViewPositionChanged != null)
+						ViewPositionChanged();
+
+					ViewPositionChangedLock = false;
+				}
 			}
 		}
 		#endregion
@@ -149,6 +159,8 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 
 		public event Action ViewDirectionChanged;
 
+		bool ViewDirectionChangedLock;
+
 		public double ViewDirection
 		{
 			get { return dir; }
@@ -156,8 +168,15 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 			{
 				DoRotateView(value - dir);
 
-				if (ViewDirectionChanged != null)
-					ViewDirectionChanged();
+				if (!ViewDirectionChangedLock)
+				{
+					ViewDirectionChangedLock = true;
+
+					if (ViewDirectionChanged != null)
+						ViewDirectionChanged();
+
+					ViewDirectionChangedLock = false;
+				}
 			}
 		}
 
@@ -178,5 +197,34 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 
 		public Texture64 FloorTexture;
 		public Texture64 CeilingTexture;
+
+		#region IVector Members
+
+
+		Point IVector.Position
+		{
+			get
+			{
+				return ViewPosition;
+			}
+			set
+			{
+				ViewPosition = value;
+			}
+		}
+
+		double IVector.Direction
+		{
+			get
+			{
+				return ViewDirection;
+			}
+			set
+			{
+				ViewDirection = value;
+			}
+		}
+
+		#endregion
 	}
 }
