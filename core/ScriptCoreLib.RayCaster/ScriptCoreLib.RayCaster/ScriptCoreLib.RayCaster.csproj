@@ -51,7 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\RayCaster\IVector.cs" />
     <Compile Include="ActionScript\RayCaster\MapInfo.cs" />
+    <Compile Include="ActionScript\RayCaster\PortalInfo.cs" />
     <Compile Include="ActionScript\RayCaster\ViewEngineBase.Textures.cs" />
     <Compile Include="ActionScript\RayCaster\ViewEngineBase.Render.cs" />
     <Compile Include="ActionScript\RayCaster\Extensions\MyExtensions.cs" />

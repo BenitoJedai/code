@@ -39,7 +39,7 @@ namespace RayCaster6.ActionScript
 			var rayDirRight = EgoView.ViewDirectionRightBorder;
 
 
-			int isize = stage.stageHeight / (Texture32.SizeConstant + 2);
+			int isize = 2;
 
 			var minimap = new BitmapData(isize * (_WallMap.Size + 2), isize * (_WallMap.Size + 2), true, 0x0);
 			var minimap_bmp = new Bitmap(minimap);

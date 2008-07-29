@@ -7,12 +7,20 @@ using ScriptCoreLib.ActionScript.flash.geom;
 namespace ScriptCoreLib.ActionScript.RayCaster
 {
     [Script]
-    public class SpriteInfo
+    public class SpriteInfo : IVector
     {
-        public Point Position = new Point();
+		public SpriteInfo()
+		{
+			Position = new Point();
+		}
+
+
+		public Point Position { get; set; }
 
         public Texture64[] Frames;
 
-        public double Direction = 0;
+        public double Direction { get; set; }
+
+		public double Range;
     }
 }

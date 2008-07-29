@@ -6,7 +6,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 
-////[assembly: ScriptResources(RayCaster4.ActionScript.Assets.Path)]
+[assembly: ScriptResources(RayCaster6.ActionScript.Assets.SoundFiles.Path)]
 
 namespace RayCaster6.ActionScript
 {
@@ -15,19 +15,21 @@ namespace RayCaster6.ActionScript
 	/// external and embeded assets.
 	/// </summary>
 	[Script]
-	internal static class Assets
+	internal static partial class Assets
 	{
 		/// <summary>
 		/// The files from solution folder 'web/assets/RayCaster4' 
 		/// that are marked as 'Embedded Resource' will be extracted by jsc
 		/// to this path. The value only reflects the real folder.
 		/// </summary>
-		public const string Path = "/assets/RayCaster6";
 
 
 		[Script]
 		public static class ZipFiles
 		{
+			public const string Path = "/assets/RayCaster6";
+
+
 			[Embed(Path + "/dude5.zip")]
 			public static Class MyZipFile;
 
@@ -36,8 +38,19 @@ namespace RayCaster6.ActionScript
 
 			[Embed(Path + "/sprites.zip")]
 			public static Class MySprites;
+
+			[Embed(Path + "/gold.zip")]
+			public static Class MyGold;
 		}
 
 
+		[Script]
+		public static class SoundFiles
+		{
+			public const string Path = "/assets/RayCaster6.Sounds";
+
+			[Embed(Path + "/treasure.mp3")]
+			public static Class treasure;
+		}
 	}
 }

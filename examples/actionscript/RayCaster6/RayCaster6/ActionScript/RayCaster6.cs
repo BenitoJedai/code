@@ -23,6 +23,7 @@ namespace RayCaster6.ActionScript
 {
 
 
+
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
 	/// </summary>
@@ -30,6 +31,7 @@ namespace RayCaster6.ActionScript
 	[SWF(width = DefaultControlWidth, height = DefaultControlHeight, frameRate = 60, backgroundColor = 0)]
 	public partial class RayCaster6 : Sprite
 	{
+		// http://www.glenrhodes.com/wolf/myRay.html
 		// http://nihilogic.dk/labs/wolf/sounds/
 		// http://www.lostinactionscript.com/blog/index.php/2007/10/13/flash-you-tube-api/
 		// http://www.digital-ist-besser.de/
@@ -46,6 +48,7 @@ namespace RayCaster6.ActionScript
 		const int DefaultScale = 4;
 
 		public TextField txtMain;
+
 
 		public RayCaster6()
 		{
@@ -77,47 +80,65 @@ namespace RayCaster6.ActionScript
 
 			};
 
-			var PortalView = new ViewEngineBase(64, 64)
+			var Portals = new List<PortalInfo>();
+
+			EgoView.ViewDirectionChanged += () => Portals.ForEach(Portal => Portal.View.ViewDirection = EgoView.ViewDirection);
+
+			#region create a dual portal
+			var PortalA = new PortalInfo
 			{
-				ViewPosition = EgoView.ViewPosition,
-				ViewDirection = EgoView.ViewDirection,
-				//RenderLowQualityWalls = true,
-			};
+				Color = 0xFF6A00,
+				ViewVector = new Vector { Direction = EgoView.ViewDirection, Position = new Point { x = 4.5, y = 14 } },
+				SpriteVector = new Vector { Direction = EgoView.ViewDirection, Position = new Point { x = 3.5, y = 20 } },
+			}.AddTo(Portals);
 
 
+			EgoView.Sprites.Add(PortalA.Sprite);
 
-			EgoView.ViewDirectionChanged += () => PortalView.ViewDirection = EgoView.ViewDirection;
 
-			Texture64 PortalFrame = new Bitmap(new BitmapData(64, 64, true, 0x0));
-
-			var PortalSprite = new SpriteInfo
+			var PortalB = new PortalInfo
 			{
-				Position = new Point { x = EgoView.ViewPositionX, y = EgoView.ViewPositionY - 5 },
-				Frames = new[] { PortalFrame },
-				Direction = EgoView.ViewDirection
-			}.AddTo(EgoView.Sprites);
+				Color = 0xff00,
+				ViewVector = PortalA.SpriteVector,
+				SpriteVector = PortalA.ViewVector,
+			}.AddTo(Portals);
+
+
+			EgoView.Sprites.Add(PortalB.Sprite);
+			#endregion
+
+
 
 			var Ego = default(SpriteInfo);
 
-			bool ViewPositionChangedDisabled = false;
 
 			EgoView.ViewPositionChanged +=
 				delegate
 				{
-					if (ViewPositionChangedDisabled)
-						return;
-
-					ViewPositionChangedDisabled = true;
-
-					var p = EgoView.SpritesFromPointOfView.SingleOrDefault(i => i.Sprite == PortalSprite);
-
-					if (p != null)
+					foreach (var Portal in Portals)
 					{
-						if (p.Distance < 0.5)
-							EgoView.ViewPosition = PortalView.ViewPosition;
-					}
+						var p = EgoView.SpritesFromPointOfView.SingleOrDefault(i => i.Sprite == Portal.Sprite);
 
-					ViewPositionChangedDisabled = false;
+						if (p != null)
+						{
+							if (p.Distance < Portal.Sprite.Range)
+							{
+								// we are going thro the portal, show it
+
+								new Bitmap(EgoView.Buffer.clone())
+								{
+									scaleX = DefaultScale,
+									scaleY = DefaultScale
+								}.AttachTo(this).FadeOutAndOrphanize(1000 / 24, 0.2);
+
+								// fixme: should use Ego.MovementDirection instead
+								// currently stepping backwards into the portal will behave recursivly
+								EgoView.ViewPosition = Portal.View.ViewPosition.MoveToArc(EgoView.ViewDirection, Portal.Sprite.Range + p.Distance);
+
+								break;
+							}
+						}
+					}
 
 				};
 
@@ -235,10 +256,16 @@ namespace RayCaster6.ActionScript
 					}
 			);
 
+			var UpdatePortals = true;
 
 			stage.keyUp +=
 				   e =>
 				   {
+					   if (e.keyCode == Keyboard.V)
+					   {
+						   UpdatePortals = !UpdatePortals;
+					   }
+
 					   if (e.keyCode == Keyboard.N)
 					   {
 						   EgoView.RenderLowQualityWalls = !EgoView.RenderLowQualityWalls;
@@ -371,17 +398,17 @@ namespace RayCaster6.ActionScript
 
 						EgoView.Map.WorldMap = Texture32.Of(f["Map1.gif"], false);
 
+						Action<IEnumerator<Texture64.Entry>, Texture64, Action<SpriteInfo>> AddSpriteByTexture =
+								  (SpaceForStuff, tex, handler) => SpaceForStuff.Take().Do(p => CreateDummy(tex).Do(handler).Position.To(p.XIndex + 0.5, p.YIndex + 0.5));
+
+						var FreeSpaceForStuff = EgoView.Map.WorldMap.Entries.Where(i => i.Value == 0).Randomize().GetEnumerator();
+
+						Action<Bitmap> AddSprite =
+							e => AddSpriteByTexture(FreeSpaceForStuff, e, null);
+
 						Assets.ZipFiles.MySprites.ToFiles().ToBitmapArray(
 						   sprites =>
 						   {
-							   Action<IEnumerator<Texture64.Entry>, Texture64> AddSpriteByTexture =
-								   (SpaceForStuff, tex) => SpaceForStuff.Take().Do(p => CreateDummy(tex).Position.To(p.XIndex + 0.5, p.YIndex + 0.5));
-
-							   var FreeSpaceForStuff = EgoView.Map.WorldMap.Entries.Where(i => i.Value == 0).Randomize().GetEnumerator();
-
-							   Action<Bitmap> AddSprite =
-								   e => AddSpriteByTexture(FreeSpaceForStuff, e);
-
 							   foreach (var s in sprites)
 							   {
 								   for (int i = 0; i < 3; i++)
@@ -389,7 +416,71 @@ namespace RayCaster6.ActionScript
 									   AddSprite(s);
 								   }
 							   }
+						   }
+						);
 
+						Assets.ZipFiles.MyGold.ToFiles().ToBitmapArray(
+						   sprites =>
+						   {
+							   var GoldSprites = new List<SpriteInfo>();
+
+							   foreach (var s in sprites)
+							   {
+								   for (int i = 0; i < 20; i++)
+								   {
+									   // compiler bug: get a delegate to BCL class
+									   //AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
+
+									   AddSpriteByTexture(FreeSpaceForStuff, s,
+										   k =>
+										   {
+											   k.Range = 0.5;
+											   GoldSprites.Add(k);
+										   }
+									   );
+
+								   }
+							   }
+
+							   var LastPosition = new Point();
+
+							   EgoView.ViewPositionChanged +=
+								   delegate
+								   {
+									   // only check for items each 0.5 distance travelled
+									   if ((EgoView.ViewPosition - LastPosition).length < 0.5)
+										   return;
+
+									   Action Later = delegate { };
+
+
+									   foreach (var Item in EgoView.SpritesFromPointOfView)
+									   {
+										   var Item_Sprite = Item.Sprite;
+
+										   if (Item.Distance <Item_Sprite.Range)
+										   {
+											   if (GoldSprites.Contains(Item_Sprite))
+											   {
+												   // ding-ding-ding!
+
+												   new Bitmap(new BitmapData(DefaultWidth, DefaultHeight, false, 0xffff00))
+												   {
+													   scaleX = DefaultScale,
+													   scaleY = DefaultScale
+												   }.AttachTo(this).FadeOutAndOrphanize(1000 / 24, 0.2);
+
+												   Assets.SoundFiles.treasure.ToSoundAsset().play();
+
+												   Later += () => EgoView.Sprites.Remove(Item_Sprite);
+											   }
+										   }
+									   }
+
+									   Later();
+
+									   LastPosition = EgoView.ViewPosition;
+								   };
 
 
 						   }
@@ -433,53 +524,54 @@ namespace RayCaster6.ActionScript
 						CameraView.Sprites = EgoView.Sprites;
 						CameraView.ViewPosition = EgoView.ViewPosition;
 
+						foreach (var Portal in Portals)
+						{
+							Portal.View.Map.WorldMap = EgoView.Map.WorldMap;
+							Portal.View.Map.Textures = EgoView.Map.Textures;
+							Portal.View.Sprites = EgoView.Sprites;
+							Portal.AlphaMask = f["portalmask.png"];
+						}
 
-						PortalView.Map.WorldMap = EgoView.Map.WorldMap;
-						PortalView.Map.Textures = EgoView.Map.Textures;
-						PortalView.Sprites = EgoView.Sprites;
-						PortalView.ViewPosition = EgoView.ViewPosition;
 
 						EgoView.RenderScene();
 
-						var PortalMask = 
-							f["portalmask.png"];
 
-					
-
+						var MirrorFrame = f["mirror.png"];
+						var counter = 0;
 
 						stage.enterFrame += e =>
 							{
-								PortalView.RenderScene();
+								counter++;
 
-								PortalFrame.Bitmap.bitmapData.copyPixels(PortalView.Buffer, PortalView.Buffer.rect, new Point(), PortalMask.bitmapData);
-								PortalFrame.Bitmap.filters = new[] { new GlowFilter(0xff) };
+								if (UpdatePortals)
+								{
+									// updateing it too often causes framerate to drop
 
-						
+									foreach (var Portal in Portals)
+									{
+										Portal.Update();
+									}
 
-								PortalFrame.Update();
+									DynamicTextureBitmap.bitmapData.fillRect(DynamicTextureBitmap.bitmapData.rect, (uint)(counter * 8 % 256));
+									var m = new Matrix();
+
+									// to center
+									m.translate(0, 10);
+									// m.scale(0.3, 0.3);
+
+									CameraView.RenderScene();
+
+									DynamicTextureBitmap.bitmapData.draw(CameraView.Image.bitmapData, m);
+									DynamicTextureBitmap.bitmapData.draw(MirrorFrame.bitmapData);
+
+									DynamicTexture.Update();
+								}
+
 								EgoView.RenderScene();
 							};
 
-						var MirrorFrame = f["mirror.png"];
 
-						30.AtInterval(
-							timer =>
-							{
-								DynamicTextureBitmap.bitmapData.fillRect(DynamicTextureBitmap.bitmapData.rect, (uint)(timer.currentCount * 8 % 256));
-								var m = new Matrix();
 
-								// to center
-								m.translate(0, 10);
-								// m.scale(0.3, 0.3);
-
-								CameraView.RenderScene();
-
-								DynamicTextureBitmap.bitmapData.draw(CameraView.Image.bitmapData, m);
-								DynamicTextureBitmap.bitmapData.draw(MirrorFrame.bitmapData);
-
-								DynamicTexture.Update();
-							}
-						);
 
 
 

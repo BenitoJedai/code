@@ -21,6 +21,23 @@ namespace RayCaster6.ActionScript
 	[Script]
 	internal static class MyExtensions
 	{
+		public static void FadeOutAndOrphanize(this DisplayObject e, int timeout, double step)
+		{
+			timeout.AtInterval(
+			   t =>
+			   {
+				   if (e.alpha < 0.1)
+				   {
+					   t.stop();
+					   e.Orphanize();
+				   }
+				   else
+				   {
+					   e.alpha -= step;
+				   }
+			   }
+		   );
+		}
 
 		public static Point ToStagePoint(this MouseEvent m)
 		{
@@ -39,9 +56,12 @@ namespace RayCaster6.ActionScript
 			}
 		}
 
-		public static void Do<T>(this T a, Action<T> e)
+		public static T Do<T>(this T a, Action<T> e)
 		{
-			e(a);
+			if (e != null)
+				e(a);
+
+			return a;
 		}
 
 		static readonly Rectangle fillRect_rect = new Rectangle();
