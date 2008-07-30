@@ -28,6 +28,9 @@ namespace FlashConsoleWorm.ActionScript
 
 		[Embed(Path + "/reveal.mp3")]
 		public static Class reveal;
+		
+		[Embed(Path + "/flag.mp3")]
+		public static Class flag;
 
 		[Embed(Path + "/explosion.mp3")]
 		public static Class explosion;

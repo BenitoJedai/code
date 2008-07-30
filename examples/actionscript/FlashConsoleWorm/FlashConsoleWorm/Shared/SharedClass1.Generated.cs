@@ -27,6 +27,8 @@ namespace FlashConsoleWorm.Shared
             UserMouseMove,
             MouseOut,
             UserMouseOut,
+            VectorChanged,
+            UserVectorChanged,
             ServerSendMap,
             SendMap,
             UserSendMap,
@@ -66,6 +68,8 @@ namespace FlashConsoleWorm.Shared
             event Action<RemoteEvents.UserMouseMoveArguments> UserMouseMove;
             event Action<RemoteEvents.MouseOutArguments> MouseOut;
             event Action<RemoteEvents.UserMouseOutArguments> UserMouseOut;
+            event Action<RemoteEvents.VectorChangedArguments> VectorChanged;
+            event Action<RemoteEvents.UserVectorChangedArguments> UserVectorChanged;
             event Action<RemoteEvents.ServerSendMapArguments> ServerSendMap;
             event Action<RemoteEvents.SendMapArguments> SendMap;
             event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
@@ -134,6 +138,14 @@ namespace FlashConsoleWorm.Shared
             public void UserMouseOut(int user, int color)
             {
                 Send(new SendArguments { i = Messages.UserMouseOut, args = new object[] { user, color } });
+            }
+            public void VectorChanged(int x, int y)
+            {
+                Send(new SendArguments { i = Messages.VectorChanged, args = new object[] { x, y } });
+            }
+            public void UserVectorChanged(int user, int x, int y)
+            {
+                Send(new SendArguments { i = Messages.UserVectorChanged, args = new object[] { user, x, y } });
             }
             public void ServerSendMap()
             {
@@ -259,6 +271,10 @@ namespace FlashConsoleWorm.Shared
                 public void UserMouseOut(MouseOutArguments e)
                 {
                     Target.UserMouseOut(this.user, e.color);
+                }
+                public void UserVectorChanged(VectorChangedArguments e)
+                {
+                    Target.UserVectorChanged(this.user, e.x, e.y);
                 }
                 public void UserSendMap(SendMapArguments e)
                 {
@@ -412,6 +428,36 @@ namespace FlashConsoleWorm.Shared
             }
             #endregion
             public event Action<UserMouseOutArguments> UserMouseOut;
+            #region VectorChangedArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class VectorChangedArguments
+            {
+                public int x;
+                public int y;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<VectorChangedArguments> VectorChanged;
+            #region UserVectorChangedArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserVectorChangedArguments : WithUserArguments
+            {
+                public int x;
+                public int y;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserVectorChangedArguments> UserVectorChanged;
             #region ServerSendMapArguments
             [Script]
             [CompilerGenerated]
@@ -631,6 +677,8 @@ namespace FlashConsoleWorm.Shared
                             { Messages.UserMouseMove, e => { UserMouseMove(new UserMouseMoveArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2), color = e.GetInt32(3) }); } },
                             { Messages.MouseOut, e => { MouseOut(new MouseOutArguments { color = e.GetInt32(0) }); } },
                             { Messages.UserMouseOut, e => { UserMouseOut(new UserMouseOutArguments { user = e.GetInt32(0), color = e.GetInt32(1) }); } },
+                            { Messages.VectorChanged, e => { VectorChanged(new VectorChangedArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
+                            { Messages.UserVectorChanged, e => { UserVectorChanged(new UserVectorChangedArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
                             { Messages.ServerSendMap, e => { ServerSendMap(new ServerSendMapArguments {  }); } },
                             { Messages.SendMap, e => { SendMap(new SendMapArguments { buttons = e.GetInt32Array(0) }); } },
                             { Messages.UserSendMap, e => { UserSendMap(new UserSendMapArguments { user = e.GetInt32(0), buttons = e.GetInt32Array(1) }); } },
@@ -659,6 +707,8 @@ namespace FlashConsoleWorm.Shared
                             { Messages.UserMouseMove, e => UserMouseMove },
                             { Messages.MouseOut, e => MouseOut },
                             { Messages.UserMouseOut, e => UserMouseOut },
+                            { Messages.VectorChanged, e => VectorChanged },
+                            { Messages.UserVectorChanged, e => UserVectorChanged },
                             { Messages.ServerSendMap, e => ServerSendMap },
                             { Messages.SendMap, e => SendMap },
                             { Messages.UserSendMap, e => UserSendMap },
@@ -693,6 +743,7 @@ namespace FlashConsoleWorm.Shared
                         this.PlayerAdvertise -= _Router.UserPlayerAdvertise;
                         this.MouseMove -= _Router.UserMouseMove;
                         this.MouseOut -= _Router.UserMouseOut;
+                        this.VectorChanged -= _Router.UserVectorChanged;
                         this.SendMap -= _Router.UserSendMap;
                         this.SendMapLater -= _Router.UserSendMapLater;
                         this.SetFlag -= _Router.UserSetFlag;
@@ -704,6 +755,7 @@ namespace FlashConsoleWorm.Shared
                         this.PlayerAdvertise += _Router.UserPlayerAdvertise;
                         this.MouseMove += _Router.UserMouseMove;
                         this.MouseOut += _Router.UserMouseOut;
+                        this.VectorChanged += _Router.UserVectorChanged;
                         this.SendMap += _Router.UserSendMap;
                         this.SendMapLater += _Router.UserSendMapLater;
                         this.SetFlag += _Router.UserSetFlag;
@@ -779,6 +831,20 @@ namespace FlashConsoleWorm.Shared
             {
                 if(UserMouseOut == null) return;
                 UserMouseOut(new RemoteEvents.UserMouseOutArguments { user = user, color = color });
+            }
+
+            public event Action<RemoteEvents.VectorChangedArguments> VectorChanged;
+            void IMessages.VectorChanged(int x, int y)
+            {
+                if(VectorChanged == null) return;
+                VectorChanged(new RemoteEvents.VectorChangedArguments { x = x, y = y });
+            }
+
+            public event Action<RemoteEvents.UserVectorChangedArguments> UserVectorChanged;
+            void IMessages.UserVectorChanged(int user, int x, int y)
+            {
+                if(UserVectorChanged == null) return;
+                UserVectorChanged(new RemoteEvents.UserVectorChangedArguments { user = user, x = x, y = y });
             }
 
             public event Action<RemoteEvents.ServerSendMapArguments> ServerSendMap;
@@ -891,4 +957,4 @@ namespace FlashConsoleWorm.Shared
     }
     #endregion
 }
-// 28.07.2008 15:53:27
+// 30.07.2008 16:13:20
