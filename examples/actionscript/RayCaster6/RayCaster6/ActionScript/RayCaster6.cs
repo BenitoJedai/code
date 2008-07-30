@@ -131,6 +131,8 @@ namespace RayCaster6.ActionScript
 									scaleY = DefaultScale
 								}.AttachTo(this).FadeOutAndOrphanize(1000 / 24, 0.2);
 
+								Assets.SoundFiles.teleport.ToSoundAsset().play();
+
 								// fixme: should use Ego.MovementDirection instead
 								// currently stepping backwards into the portal will behave recursivly
 								EgoView.ViewPosition = Portal.View.ViewPosition.MoveToArc(EgoView.ViewDirection, Portal.Sprite.Range + p.Distance);
@@ -418,6 +420,7 @@ namespace RayCaster6.ActionScript
 							   }
 						   }
 						);
+						#region gold
 
 						Assets.ZipFiles.MyGold.ToFiles().ToBitmapArray(
 						   sprites =>
@@ -458,7 +461,7 @@ namespace RayCaster6.ActionScript
 									   {
 										   var Item_Sprite = Item.Sprite;
 
-										   if (Item.Distance <Item_Sprite.Range)
+										   if (Item.Distance < Item_Sprite.Range)
 										   {
 											   if (GoldSprites.Contains(Item_Sprite))
 											   {
@@ -484,8 +487,78 @@ namespace RayCaster6.ActionScript
 
 
 						   }
-						);
+						); 
+						#endregion
 
+						#region ammo
+
+						Assets.ZipFiles.ammo.ToFiles().ToBitmapArray(
+						   sprites =>
+						   {
+							   var AmmoSprites = new List<SpriteInfo>();
+
+							   foreach (var s in sprites)
+							   {
+								   for (int i = 0; i < 20; i++)
+								   {
+									   // compiler bug: get a delegate to BCL class
+									   //AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
+
+									   AddSpriteByTexture(FreeSpaceForStuff, s,
+										   k =>
+										   {
+											   k.Range = 0.5;
+											   AmmoSprites.Add(k);
+										   }
+									   );
+
+								   }
+							   }
+
+							   var LastPosition = new Point();
+
+							   EgoView.ViewPositionChanged +=
+								   delegate
+								   {
+									   // only check for items each 0.5 distance travelled
+									   if ((EgoView.ViewPosition - LastPosition).length < 0.5)
+										   return;
+
+									   Action Later = delegate { };
+
+
+									   foreach (var Item in EgoView.SpritesFromPointOfView)
+									   {
+										   var Item_Sprite = Item.Sprite;
+
+										   if (Item.Distance < Item_Sprite.Range)
+										   {
+											   if (AmmoSprites.Contains(Item_Sprite))
+											   {
+												   // ding-ding-ding!
+
+												   new Bitmap(new BitmapData(DefaultWidth, DefaultHeight, false, 0x8080ff))
+												   {
+													   scaleX = DefaultScale,
+													   scaleY = DefaultScale
+												   }.AttachTo(this).FadeOutAndOrphanize(1000 / 24, 0.2);
+
+												   Assets.SoundFiles.ammo.ToSoundAsset().play();
+
+												   Later += () => EgoView.Sprites.Remove(Item_Sprite);
+											   }
+										   }
+									   }
+
+									   Later();
+
+									   LastPosition = EgoView.ViewPosition;
+								   };
+
+
+						   }
+						);
+						#endregion
 
 						Func<string, Texture64> t =
 							texname => f[texname + ".png"];

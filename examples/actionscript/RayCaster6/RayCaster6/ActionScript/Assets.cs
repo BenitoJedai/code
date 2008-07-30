@@ -41,6 +41,9 @@ namespace RayCaster6.ActionScript
 
 			[Embed(Path + "/gold.zip")]
 			public static Class MyGold;
+
+			[Embed(Path + "/ammo.zip")]
+			public static Class ammo;
 		}
 
 
@@ -51,6 +54,12 @@ namespace RayCaster6.ActionScript
 
 			[Embed(Path + "/treasure.mp3")]
 			public static Class treasure;
+
+			[Embed(Path + "/ammo.mp3")]
+			public static Class ammo;
+
+			[Embed(Path + "/teleport.mp3")]
+			public static Class teleport;
 		}
 	}
 }

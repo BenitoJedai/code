@@ -69,10 +69,13 @@
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
     <Content Include="docs\SourceAnalysis.txt" />
+    <EmbeddedResource Include="web\assets\RayCaster6.Sounds\teleport.mp3" />
+    <EmbeddedResource Include="web\assets\RayCaster6.Sounds\ammo.mp3" />
     <EmbeddedResource Include="web\assets\RayCaster6.Sounds\treasure.mp3" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
+    <EmbeddedResource Include="web\assets\RayCaster6\ammo.zip" />
     <None Include="web\assets\RayCaster6\dude5.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
