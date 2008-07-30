@@ -31,31 +31,44 @@ namespace FlashConsoleWorm.ActionScript
 		public const int DefaultWidth = RoomWidth * DefaultZoom;
 		public const int DefaultHeight = RoomHeight * DefaultZoom;
 
-		public const int DefaultZoom = 10;
+		public const int DefaultZoom = 5;
 
 		public const int RoomWidth = 72;
 		public const int RoomHeight = 48;
 
-		public  KeyboardButtonGroup MovementWASD;
-		public  KeyboardButtonGroup MovementArrows;
+		public KeyboardButtonGroup MovementWASD;
+		public KeyboardButtonGroup MovementArrows;
 		/// <summary>
 		/// Default constructor
 		/// </summary>
 		public FlashConsoleWorm()
 		{
 			this.InvokeWhenStageIsReady(Initialize);
-			
+
+		}
+
+		public Worm Ego;
+		public List<Worm> Worms = new List<Worm>();
+		public Sprite Canvas;
+
+		public Point Wrapper(Point p)
+		{
+			return new Point
+				{
+					x = (p.x + RoomWidth) % RoomWidth,
+					y = (p.y + RoomHeight) % RoomHeight
+				};
 		}
 
 		private void Initialize()
 		{
-			var canvas = new Sprite();
+			Canvas = new Sprite();
 
 			//s.bitmapData.setPixel(1, 1, ColorGreen);
-			canvas.scaleX = DefaultZoom;
-			canvas.scaleY = DefaultZoom;
+			Canvas.scaleX = DefaultZoom;
+			Canvas.scaleY = DefaultZoom;
 
-			canvas.AttachTo(this);
+			Canvas.AttachTo(this);
 
 			// add scull ani here
 			// add status text here
@@ -68,12 +81,7 @@ namespace FlashConsoleWorm.ActionScript
 					y = (RoomHeight - 1).Random()
 				};
 
-			Func<Point, Point> Wrapper =
-				p => new Point
-				{
-					x = (p.x + RoomWidth) % RoomWidth,
-					y = (p.y + RoomHeight) % RoomHeight
-				};
+
 
 			Func<Apple> CreateApple =
 				   () => new Apple
@@ -85,34 +93,35 @@ namespace FlashConsoleWorm.ActionScript
 			var apples = new List<Apple>();
 
 			15.Times(() =>
-				CreateApple().AttachTo(canvas).AddTo(apples)
+				CreateApple().AttachTo(Canvas).AddTo(apples)
 			);
 
-			var myworm = new Worm
+			Ego = new Worm
 			{
 				Wrapper = Wrapper,
 				Location = GetRandomLocation(),
-				Canvas = canvas,
-				Vector = new Point { x = 0, y = 1 },
+				Canvas = Canvas,
+				Vector = Worm.VectorRight
 				// Color = game_colors.worm.active
 			}
+			.AddTo(Worms)
 			 .Grow()
 			 .GrowToVector()
 			 .GrowToVector();
 
-			var evilworm = new Worm
-			{
-				Wrapper = Wrapper,
-				Location = GetRandomLocation(),
-				Canvas = canvas,
-				Vector = new Point { x = 0, y = 1 },
-				Color = 0x0000ff
-			}
-		   .Grow()
-		   .GrowToVector()
-		   .GrowToVector();
+			// var evilworm = new Worm
+			// {
+			//     Wrapper = Wrapper,
+			//     Location = GetRandomLocation(),
+			//     Canvas = canvas,
+			//     Vector = new Point { x = 0, y = 1 },
+			//     Color = 0x0000ff
+			// }
+			//.Grow()
+			//.GrowToVector()
+			//.GrowToVector();
 
-			var worms = new List<Worm> { myworm, evilworm };
+			//var Worms = new List<Worm> { Ego, evilworm };
 
 			#region keyboard
 
@@ -126,7 +135,7 @@ namespace FlashConsoleWorm.ActionScript
                     MovementWASD[Keyboard.A],
                     MovementArrows[Keyboard.LEFT],
                 },
-				Up = () => { myworm.Vector = new Point { x = -1, y = 0 }; },
+				Up = () => { Ego.Vector = Worm.VectorLeft; },
 			}.Up;
 
 			var GoRight = new KeyboardButton(stage)
@@ -136,7 +145,7 @@ namespace FlashConsoleWorm.ActionScript
                     MovementWASD[Keyboard.D],
                     MovementArrows[Keyboard.RIGHT],
                 },
-				Up = () => { myworm.Vector = new Point { x = 1, y = 0 }; },
+				Up = () => { Ego.Vector = Worm.VectorRight; },
 			}.Up;
 
 			var GoUp = new KeyboardButton(stage)
@@ -146,7 +155,7 @@ namespace FlashConsoleWorm.ActionScript
                     MovementWASD[Keyboard.W],
                     MovementArrows[Keyboard.UP],
                 },
-				Up = () => { myworm.Vector = new Point { x = 0, y = -1 }; },
+				Up = () => { Ego.Vector = Worm.VectorUp; },
 			}.Up;
 
 			var GoDown = new KeyboardButton(stage)
@@ -156,12 +165,17 @@ namespace FlashConsoleWorm.ActionScript
                     MovementWASD[Keyboard.S],
                     MovementArrows[Keyboard.DOWN],
                 },
-				Up = () => { myworm.Vector = new Point { x = 0, y = 1 }; },
+				Up = () => { Ego.Vector = Worm.VectorDown; },
 
 			}.Up;
 
 			#endregion
 
+			Ego.VectorChanged +=
+				delegate
+				{
+					Sounds.flag.ToSoundAsset().play();
+				};
 			//var info = new TextField
 			//{
 			//    textColor = 0xffffff,
@@ -207,14 +221,14 @@ namespace FlashConsoleWorm.ActionScript
 			100.AtInterval(
 			   t =>
 			   {
-				   foreach (var p in worms)
+				   foreach (var p in Worms)
 				   {
 					   var worm = p;
 
 					   if (worm.IsAlive)
 					   {
 						   if (worm.Parts.Count > 1)
-							   if (worms.Any(k => k.Parts.Any(i => i.Location.IsEqual(worm.NextLocation))))
+							   if (Worms.Any(k => k.Parts.Any(i => i.Location.IsEqual(worm.NextLocation))))
 							   {
 								   Sounds.explosion.ToSoundAsset().play();
 

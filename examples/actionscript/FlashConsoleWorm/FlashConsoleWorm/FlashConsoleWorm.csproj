@@ -81,6 +81,7 @@
     <Content Include="docs\description.txt" />
     <Content Include="Library\Development Server.exe" />
     <Content Include="Library\Nonoba.GameLibrary.dll" />
+    <EmbeddedResource Include="web\assets\FlashConsoleWorm.Sounds\flag.mp3" />
     <EmbeddedResource Include="web\assets\FlashConsoleWorm.Sounds\explosion.mp3" />
     <EmbeddedResource Include="web\assets\FlashConsoleWorm.Sounds\reveal.mp3" />
     <EmbeddedResource Include="web\assets\FlashConsoleWorm.Sounds\sound20.mp3" />
@@ -101,5 +102,8 @@
     <PostBuildEvent>pushd ..\..\tools\
 call build.bat $(ProjectName)
 popd</PostBuildEvent>
+    <PreBuildEvent>pushd ..\..\tools\
+call update.bat $(ProjectName)
+popd</PreBuildEvent>
   </PropertyGroup>
 </Project>

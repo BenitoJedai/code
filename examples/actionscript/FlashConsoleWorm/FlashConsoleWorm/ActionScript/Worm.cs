@@ -9,8 +9,13 @@ using ScriptCoreLib.ActionScript.flash.display;
 namespace FlashConsoleWorm.ActionScript
 {
     [Script]
-    partial class Worm
+    public partial class Worm
     {
+		public static Point VectorLeft = new Point(-1, 0);
+		public static Point VectorUp = new Point(0, -1);
+		public static Point VectorRight = new Point(1, 0);
+		public static Point VectorDown = new Point(0, 1);
+
         public bool IsAlive = true;
 
         public Point Location;
@@ -30,9 +35,14 @@ namespace FlashConsoleWorm.ActionScript
                 if (_Vector != null)
                     if (new Point { x = -_Vector.x, y = -_Vector.y }.IsEqual(value))
                         return;
+
                 _Vector = value;
+
+				if (VectorChanged != null)
+					VectorChanged();
             }
         }
+		public event Action VectorChanged;
 
         public readonly List<Part> Parts = new List<Part>();
 

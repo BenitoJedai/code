@@ -41,6 +41,8 @@ namespace FlashConsoleWorm.Shared
             void MouseOut(int color);
             void UserMouseOut(int user, int color);
 
+			void VectorChanged(int x, int y);
+			void UserVectorChanged(int user, int x, int y);
 
             void ServerSendMap();
 
