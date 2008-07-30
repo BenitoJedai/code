@@ -1,9 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+# Visual C# Express 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashConsoleWorm", "FlashConsoleWorm\FlashConsoleWorm.csproj", "{4B145FE0-8A0F-4B0A-A0B2-2C4345E74E54}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashConsoleWorm.Test", "FlashConsoleWorm.Test\FlashConsoleWorm.Test.csproj", "{2F6CDEAA-AB86-49A0-B00B-456B8B450357}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4B145FE0-8A0F-4B0A-A0B2-2C4345E74E54} = {4B145FE0-8A0F-4B0A-A0B2-2C4345E74E54}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
