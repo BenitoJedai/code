@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\FlashConsoleWorm\FlashConsoleWorm\bin\Debug</StartWorkingDirectory>
-    <StartArguments>FlashConsoleWorm.dll -cs2</StartArguments>
+    <StartWorkingDirectory>c:\util\jsc\bin</StartWorkingDirectory>
+    <StartArguments>ScriptCoreLib.dll -as</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

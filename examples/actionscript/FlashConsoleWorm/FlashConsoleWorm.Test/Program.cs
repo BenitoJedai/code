@@ -30,6 +30,8 @@ namespace FlashConsoleWorm.Test
 
 							var p = Process.Start(swf);
 
+							x.checkedListBox1.Items.Add(p.Id);
+
 							x.FormClosing +=
 								delegate
 								{

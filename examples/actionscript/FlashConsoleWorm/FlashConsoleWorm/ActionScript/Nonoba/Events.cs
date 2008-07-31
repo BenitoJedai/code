@@ -11,6 +11,7 @@ using ScriptCoreLib.ActionScript.Nonoba.api;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.flash.geom;
+using System.IO;
 
 namespace FlashConsoleWorm.ActionScript.Nonoba
 {
@@ -82,7 +83,7 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 					  }
 
 					  ShowMessage("Player left - " + e.name);
-				  }; 
+				  };
 			#endregion
 
 			Events.UserPlayerAdvertise +=
@@ -127,7 +128,7 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 						};
 
 						s.AttachTo(this).MoveTo(e.x, e.y);
-					}; 
+					};
 			#endregion
 
 			Events.UserMouseOut +=
@@ -146,6 +147,65 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 					{
 						RemoteEgos[e.user].Vector = new Point(e.x, e.y);
 					}
+				};
+
+			Events.ServerSendMap +=
+				e =>
+				{
+					// server has chosen me to send a map to the new users
+
+					// map is the apples, so we need to serialize them
+					// for now lets do a manual serialization
+
+					var ms = new MemoryStream();
+
+					ms.WriteByte((byte)Map.Apples.Count);
+
+					foreach (var a in Map.Apples)
+					{
+						ms.WriteByte((byte)a.Location.x);
+						ms.WriteByte((byte)a.Location.y);
+					}
+
+					// proxy expects int[], at the moment, so we need to cast for now (overkill)
+
+					var bytes_as_integers = ms.ToArray().Select(i => (int)i).ToArray();
+
+					ShowMessage("sent map: " + bytes_as_integers.Length);
+
+					Messages.SendMap(bytes_as_integers);
+
+				};
+
+			Events.UserSendMap +=
+				e =>
+				{
+					// we got a new map, do we need it?
+
+					foreach (var v in Map.Apples)
+					{
+						v.Control.Orphanize();
+					}
+
+					Map.Apples.Clear();
+
+					// now add apples as the new map says
+					var integers_as_bytes = e.buttons.Select(i => (byte)i).ToArray();
+
+					var m = new MemoryStream(integers_as_bytes);
+
+					var AppleCount = m.ReadByte();
+
+					for (int i = 0; i < AppleCount; i++)
+					{
+						new Apple
+						{
+							Wrapper = Map.Wrapper,
+							Location = new Point(m.ReadByte(), m.ReadByte())
+						}.AddTo(Map.Apples).AttachTo(Map.Canvas);
+					}
+
+					ShowMessage("got map: " + integers_as_bytes.Length);
 				};
 		}
 	}

@@ -32,9 +32,14 @@ namespace FlashConsoleWorm.ActionScript
             }
             set
             {
-                if (_Vector != null)
-                    if (new Point { x = -_Vector.x, y = -_Vector.y }.IsEqual(value))
-                        return;
+				if (_Vector != null)
+				{
+					if (new Point { x = -_Vector.x, y = -_Vector.y }.IsEqual(value))
+						return;
+
+					if (new Point { x = _Vector.x, y = _Vector.y }.IsEqual(value))
+						return;
+				}
 
                 _Vector = value;
 

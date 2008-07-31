@@ -10,7 +10,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 namespace FlashConsoleWorm.ActionScript
 {
     [Script]
-    class Apple
+    public class Apple
     {
         public Func<Point> GetRandomLocation;
 
@@ -18,7 +18,7 @@ namespace FlashConsoleWorm.ActionScript
 
         public Point Location;
 
-        readonly Shape Control = new Shape();
+        public readonly Shape Control = new Shape();
 
         public Apple MoveToRandomLocation()
         {

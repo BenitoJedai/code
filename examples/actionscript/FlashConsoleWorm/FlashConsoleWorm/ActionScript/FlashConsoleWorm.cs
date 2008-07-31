@@ -49,6 +49,7 @@ namespace FlashConsoleWorm.ActionScript
 
 		public Worm Ego;
 		public List<Worm> Worms = new List<Worm>();
+		public List<Apple> Apples = new List<Apple>();
 		public Sprite Canvas;
 
 		public Point Wrapper(Point p)
@@ -90,10 +91,9 @@ namespace FlashConsoleWorm.ActionScript
 					   Wrapper = Wrapper
 				   }.MoveToRandomLocation();
 
-			var apples = new List<Apple>();
 
 			15.Times(() =>
-				CreateApple().AttachTo(Canvas).AddTo(apples)
+				CreateApple().AttachTo(Canvas).AddTo(Apples)
 			);
 
 			Ego = new Worm
@@ -109,19 +109,7 @@ namespace FlashConsoleWorm.ActionScript
 			 .GrowToVector()
 			 .GrowToVector();
 
-			// var evilworm = new Worm
-			// {
-			//     Wrapper = Wrapper,
-			//     Location = GetRandomLocation(),
-			//     Canvas = canvas,
-			//     Vector = new Point { x = 0, y = 1 },
-			//     Color = 0x0000ff
-			// }
-			//.Grow()
-			//.GrowToVector()
-			//.GrowToVector();
 
-			//var Worms = new List<Worm> { Ego, evilworm };
 
 			#region keyboard
 
@@ -263,7 +251,7 @@ namespace FlashConsoleWorm.ActionScript
 							   worm.GrowToVector();
 
 							   // did we find an apple?
-							   var a = apples.Where(i => i.Location.IsEqual(worm.Location)).ToArray();
+							   var a = Apples.Where(i => i.Location.IsEqual(worm.Location)).ToArray();
 
 							   if (a.Length > 0)
 							   {
