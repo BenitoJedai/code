@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>c:\util\jsc\bin</StartWorkingDirectory>
-    <StartArguments>ScriptCoreLib.dll -as</StartArguments>
+    <StartWorkingDirectory>C:\work\mindware.svn\ChipXPress\ChipXPressPlugins\ChipXpress.PluginHelper\trunk\bin\debug</StartWorkingDirectory>
+    <StartArguments>ChipXpress.PluginHelper.dll -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
