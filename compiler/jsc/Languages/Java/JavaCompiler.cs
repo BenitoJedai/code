@@ -107,7 +107,7 @@ namespace jsc.Languages.Java
 
                 XmlNode n = GetXMLNodeForMethod(m);
 
-                if (n != null)
+				if (n != null && n["summary"] != null)
                 {
                     string Summary = n["summary"].InnerText.Trim();
 
