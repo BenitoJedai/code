@@ -31,6 +31,15 @@ namespace RayCaster6.ActionScript
 	[SWF(width = DefaultControlWidth, height = DefaultControlHeight, frameRate = 60, backgroundColor = 0)]
 	public partial class RayCaster6 : Sprite
 	{
+		// codename: Hundefelsen 4C
+
+		// http://en.wikipedia.org/wiki/Castle_Wolfenstein
+		// http://www.mobygames.com/game/wolfenstein-3d/trivia
+
+		// http://www1.linkclub.or.jp/~clubey/wolfenmania.html
+		// http://www.geocities.com/TimesSquare/3744/index2.html
+		// http://www.users.globalnet.co.uk/~brlowe/utilities.htm
+		// http://www.geocities.com/TimesSquare/Cavern/4087/
 		// http://www.glenrhodes.com/wolf/myRay.html
 		// http://nihilogic.dk/labs/wolf/sounds/
 		// http://www.lostinactionscript.com/blog/index.php/2007/10/13/flash-you-tube-api/
