@@ -125,12 +125,7 @@ namespace jsc.Languages.ActionScript
                         );
                     }
                 }
-                /*
-                if (za.Implements == null || m.DeclaringType.GUID != p.ParameterType.GUID)
-                    WriteDecoratedTypeName(p.ParameterType);
-                else
-                    WriteDecoratedTypeName(za.Implements);
-                */
+       
 
             }
         }

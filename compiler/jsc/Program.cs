@@ -243,6 +243,9 @@ namespace jsc
                 }
                 catch (Exception exc)
                 {
+					if (Debugger.IsAttached)
+						Debugger.Break();
+
                     Task.Error("internal compiler failure: " + exc + "\n\n" + exc.StackTrace);
 
                 }
