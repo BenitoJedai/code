@@ -95,6 +95,7 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 								// done eating it!
 
 								worm.WormWhoIsGoingToEatMe = null;
+
 								Messages.EatThisWormEnd(food);
 							}
 						}

@@ -127,3 +127,5 @@ version history:
 	actionscript: fixed new struct ctor merge support
 27.07.2008
 	actionscript: added namespace and type name disamigunation
+02.08.2008
+	actionscript: added OpCodes.Stobj

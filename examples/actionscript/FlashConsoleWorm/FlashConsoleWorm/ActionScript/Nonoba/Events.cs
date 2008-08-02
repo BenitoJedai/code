@@ -21,12 +21,20 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 		readonly Dictionary<int, Worm> RemoteEgos = new Dictionary<int, Worm>();
 		readonly Dictionary<int, ShapeWithMovement> Cursors = new Dictionary<int, ShapeWithMovement>();
 
+		SharedClass1.RemoteEvents.ServerPlayerHelloArguments MyIdentity = null;
+
+		public IEnumerable<KeyValuePair<int, Worm>> AllEgos
+		{
+			get
+			{
+				var me = new KeyValuePair<int, Worm>(MyIdentity.user, Map.Ego);
+
+				return RemoteEgos.AsEnumerable().Concat(new[] { me });
+			}
+		}
 
 		private void InitializeEvents()
 		{
-
-			var MyIdentity = default(SharedClass1.RemoteEvents.ServerPlayerHelloArguments);
-
 			Events.ServerPlayerHello +=
 				e =>
 				{
@@ -266,12 +274,12 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 					{
 						var user = RemoteEgos[e.user];
 
-						if (RemoteEgos.ContainsKey(e.food))
+						if (AllEgos.Any(i => i.Key == e.food))
 						{
-							var food = RemoteEgos[e.food];
+							var food = AllEgos.Single(i => i.Key == e.food).Value;
 
 							food.WormWhoIsGoingToEatMe = user;
-							food.Color = 0xffffff;
+							food.Color = 0x8f8f8f;
 
 							// whatif async end never comes?
 						}
@@ -285,11 +293,12 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 					{
 						var user = RemoteEgos[e.user];
 
-						if (RemoteEgos.ContainsKey(e.food))
+						if (AllEgos.Any(i => i.Key == e.food))
 						{
-							var food = RemoteEgos[e.food];
+							var food = AllEgos.Single(i => i.Key == e.food).Value;
 
 							food.IsAlive = false;
+							food.Color = 0xffffff;
 
 							// done eating it!
 
