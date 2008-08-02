@@ -29,6 +29,14 @@ namespace FlashConsoleWorm.Shared
             UserMouseOut,
             VectorChanged,
             UserVectorChanged,
+            TeleportTo,
+            UserTeleportTo,
+            EatApple,
+            UserEatApple,
+            EatThisWormBegin,
+            UserEatThisWormBegin,
+            EatThisWormEnd,
+            UserEatThisWormEnd,
             ServerSendMap,
             SendMap,
             UserSendMap,
@@ -70,6 +78,14 @@ namespace FlashConsoleWorm.Shared
             event Action<RemoteEvents.UserMouseOutArguments> UserMouseOut;
             event Action<RemoteEvents.VectorChangedArguments> VectorChanged;
             event Action<RemoteEvents.UserVectorChangedArguments> UserVectorChanged;
+            event Action<RemoteEvents.TeleportToArguments> TeleportTo;
+            event Action<RemoteEvents.UserTeleportToArguments> UserTeleportTo;
+            event Action<RemoteEvents.EatAppleArguments> EatApple;
+            event Action<RemoteEvents.UserEatAppleArguments> UserEatApple;
+            event Action<RemoteEvents.EatThisWormBeginArguments> EatThisWormBegin;
+            event Action<RemoteEvents.UserEatThisWormBeginArguments> UserEatThisWormBegin;
+            event Action<RemoteEvents.EatThisWormEndArguments> EatThisWormEnd;
+            event Action<RemoteEvents.UserEatThisWormEndArguments> UserEatThisWormEnd;
             event Action<RemoteEvents.ServerSendMapArguments> ServerSendMap;
             event Action<RemoteEvents.SendMapArguments> SendMap;
             event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
@@ -146,6 +162,38 @@ namespace FlashConsoleWorm.Shared
             public void UserVectorChanged(int user, int x, int y)
             {
                 Send(new SendArguments { i = Messages.UserVectorChanged, args = new object[] { user, x, y } });
+            }
+            public void TeleportTo(int x, int y)
+            {
+                Send(new SendArguments { i = Messages.TeleportTo, args = new object[] { x, y } });
+            }
+            public void UserTeleportTo(int user, int x, int y)
+            {
+                Send(new SendArguments { i = Messages.UserTeleportTo, args = new object[] { user, x, y } });
+            }
+            public void EatApple(int x, int y)
+            {
+                Send(new SendArguments { i = Messages.EatApple, args = new object[] { x, y } });
+            }
+            public void UserEatApple(int user, int x, int y)
+            {
+                Send(new SendArguments { i = Messages.UserEatApple, args = new object[] { user, x, y } });
+            }
+            public void EatThisWormBegin(int food)
+            {
+                Send(new SendArguments { i = Messages.EatThisWormBegin, args = new object[] { food } });
+            }
+            public void UserEatThisWormBegin(int user, int food)
+            {
+                Send(new SendArguments { i = Messages.UserEatThisWormBegin, args = new object[] { user, food } });
+            }
+            public void EatThisWormEnd(int food)
+            {
+                Send(new SendArguments { i = Messages.EatThisWormEnd, args = new object[] { food } });
+            }
+            public void UserEatThisWormEnd(int user, int food)
+            {
+                Send(new SendArguments { i = Messages.UserEatThisWormEnd, args = new object[] { user, food } });
             }
             public void ServerSendMap()
             {
@@ -275,6 +323,22 @@ namespace FlashConsoleWorm.Shared
                 public void UserVectorChanged(VectorChangedArguments e)
                 {
                     Target.UserVectorChanged(this.user, e.x, e.y);
+                }
+                public void UserTeleportTo(TeleportToArguments e)
+                {
+                    Target.UserTeleportTo(this.user, e.x, e.y);
+                }
+                public void UserEatApple(EatAppleArguments e)
+                {
+                    Target.UserEatApple(this.user, e.x, e.y);
+                }
+                public void UserEatThisWormBegin(EatThisWormBeginArguments e)
+                {
+                    Target.UserEatThisWormBegin(this.user, e.food);
+                }
+                public void UserEatThisWormEnd(EatThisWormEndArguments e)
+                {
+                    Target.UserEatThisWormEnd(this.user, e.food);
                 }
                 public void UserSendMap(SendMapArguments e)
                 {
@@ -458,6 +522,122 @@ namespace FlashConsoleWorm.Shared
             }
             #endregion
             public event Action<UserVectorChangedArguments> UserVectorChanged;
+            #region TeleportToArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class TeleportToArguments
+            {
+                public int x;
+                public int y;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<TeleportToArguments> TeleportTo;
+            #region UserTeleportToArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserTeleportToArguments : WithUserArguments
+            {
+                public int x;
+                public int y;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserTeleportToArguments> UserTeleportTo;
+            #region EatAppleArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class EatAppleArguments
+            {
+                public int x;
+                public int y;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<EatAppleArguments> EatApple;
+            #region UserEatAppleArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserEatAppleArguments : WithUserArguments
+            {
+                public int x;
+                public int y;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserEatAppleArguments> UserEatApple;
+            #region EatThisWormBeginArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class EatThisWormBeginArguments
+            {
+                public int food;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ food = ").Append(this.food).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<EatThisWormBeginArguments> EatThisWormBegin;
+            #region UserEatThisWormBeginArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserEatThisWormBeginArguments : WithUserArguments
+            {
+                public int food;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", food = ").Append(this.food).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserEatThisWormBeginArguments> UserEatThisWormBegin;
+            #region EatThisWormEndArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class EatThisWormEndArguments
+            {
+                public int food;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ food = ").Append(this.food).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<EatThisWormEndArguments> EatThisWormEnd;
+            #region UserEatThisWormEndArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserEatThisWormEndArguments : WithUserArguments
+            {
+                public int food;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", food = ").Append(this.food).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserEatThisWormEndArguments> UserEatThisWormEnd;
             #region ServerSendMapArguments
             [Script]
             [CompilerGenerated]
@@ -679,6 +859,14 @@ namespace FlashConsoleWorm.Shared
                             { Messages.UserMouseOut, e => { UserMouseOut(new UserMouseOutArguments { user = e.GetInt32(0), color = e.GetInt32(1) }); } },
                             { Messages.VectorChanged, e => { VectorChanged(new VectorChangedArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
                             { Messages.UserVectorChanged, e => { UserVectorChanged(new UserVectorChangedArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
+                            { Messages.TeleportTo, e => { TeleportTo(new TeleportToArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
+                            { Messages.UserTeleportTo, e => { UserTeleportTo(new UserTeleportToArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
+                            { Messages.EatApple, e => { EatApple(new EatAppleArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
+                            { Messages.UserEatApple, e => { UserEatApple(new UserEatAppleArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
+                            { Messages.EatThisWormBegin, e => { EatThisWormBegin(new EatThisWormBeginArguments { food = e.GetInt32(0) }); } },
+                            { Messages.UserEatThisWormBegin, e => { UserEatThisWormBegin(new UserEatThisWormBeginArguments { user = e.GetInt32(0), food = e.GetInt32(1) }); } },
+                            { Messages.EatThisWormEnd, e => { EatThisWormEnd(new EatThisWormEndArguments { food = e.GetInt32(0) }); } },
+                            { Messages.UserEatThisWormEnd, e => { UserEatThisWormEnd(new UserEatThisWormEndArguments { user = e.GetInt32(0), food = e.GetInt32(1) }); } },
                             { Messages.ServerSendMap, e => { ServerSendMap(new ServerSendMapArguments {  }); } },
                             { Messages.SendMap, e => { SendMap(new SendMapArguments { buttons = e.GetInt32Array(0) }); } },
                             { Messages.UserSendMap, e => { UserSendMap(new UserSendMapArguments { user = e.GetInt32(0), buttons = e.GetInt32Array(1) }); } },
@@ -709,6 +897,14 @@ namespace FlashConsoleWorm.Shared
                             { Messages.UserMouseOut, e => UserMouseOut },
                             { Messages.VectorChanged, e => VectorChanged },
                             { Messages.UserVectorChanged, e => UserVectorChanged },
+                            { Messages.TeleportTo, e => TeleportTo },
+                            { Messages.UserTeleportTo, e => UserTeleportTo },
+                            { Messages.EatApple, e => EatApple },
+                            { Messages.UserEatApple, e => UserEatApple },
+                            { Messages.EatThisWormBegin, e => EatThisWormBegin },
+                            { Messages.UserEatThisWormBegin, e => UserEatThisWormBegin },
+                            { Messages.EatThisWormEnd, e => EatThisWormEnd },
+                            { Messages.UserEatThisWormEnd, e => UserEatThisWormEnd },
                             { Messages.ServerSendMap, e => ServerSendMap },
                             { Messages.SendMap, e => SendMap },
                             { Messages.UserSendMap, e => UserSendMap },
@@ -744,6 +940,10 @@ namespace FlashConsoleWorm.Shared
                         this.MouseMove -= _Router.UserMouseMove;
                         this.MouseOut -= _Router.UserMouseOut;
                         this.VectorChanged -= _Router.UserVectorChanged;
+                        this.TeleportTo -= _Router.UserTeleportTo;
+                        this.EatApple -= _Router.UserEatApple;
+                        this.EatThisWormBegin -= _Router.UserEatThisWormBegin;
+                        this.EatThisWormEnd -= _Router.UserEatThisWormEnd;
                         this.SendMap -= _Router.UserSendMap;
                         this.SendMapLater -= _Router.UserSendMapLater;
                         this.SetFlag -= _Router.UserSetFlag;
@@ -756,6 +956,10 @@ namespace FlashConsoleWorm.Shared
                         this.MouseMove += _Router.UserMouseMove;
                         this.MouseOut += _Router.UserMouseOut;
                         this.VectorChanged += _Router.UserVectorChanged;
+                        this.TeleportTo += _Router.UserTeleportTo;
+                        this.EatApple += _Router.UserEatApple;
+                        this.EatThisWormBegin += _Router.UserEatThisWormBegin;
+                        this.EatThisWormEnd += _Router.UserEatThisWormEnd;
                         this.SendMap += _Router.UserSendMap;
                         this.SendMapLater += _Router.UserSendMapLater;
                         this.SetFlag += _Router.UserSetFlag;
@@ -845,6 +1049,62 @@ namespace FlashConsoleWorm.Shared
             {
                 if(UserVectorChanged == null) return;
                 UserVectorChanged(new RemoteEvents.UserVectorChangedArguments { user = user, x = x, y = y });
+            }
+
+            public event Action<RemoteEvents.TeleportToArguments> TeleportTo;
+            void IMessages.TeleportTo(int x, int y)
+            {
+                if(TeleportTo == null) return;
+                TeleportTo(new RemoteEvents.TeleportToArguments { x = x, y = y });
+            }
+
+            public event Action<RemoteEvents.UserTeleportToArguments> UserTeleportTo;
+            void IMessages.UserTeleportTo(int user, int x, int y)
+            {
+                if(UserTeleportTo == null) return;
+                UserTeleportTo(new RemoteEvents.UserTeleportToArguments { user = user, x = x, y = y });
+            }
+
+            public event Action<RemoteEvents.EatAppleArguments> EatApple;
+            void IMessages.EatApple(int x, int y)
+            {
+                if(EatApple == null) return;
+                EatApple(new RemoteEvents.EatAppleArguments { x = x, y = y });
+            }
+
+            public event Action<RemoteEvents.UserEatAppleArguments> UserEatApple;
+            void IMessages.UserEatApple(int user, int x, int y)
+            {
+                if(UserEatApple == null) return;
+                UserEatApple(new RemoteEvents.UserEatAppleArguments { user = user, x = x, y = y });
+            }
+
+            public event Action<RemoteEvents.EatThisWormBeginArguments> EatThisWormBegin;
+            void IMessages.EatThisWormBegin(int food)
+            {
+                if(EatThisWormBegin == null) return;
+                EatThisWormBegin(new RemoteEvents.EatThisWormBeginArguments { food = food });
+            }
+
+            public event Action<RemoteEvents.UserEatThisWormBeginArguments> UserEatThisWormBegin;
+            void IMessages.UserEatThisWormBegin(int user, int food)
+            {
+                if(UserEatThisWormBegin == null) return;
+                UserEatThisWormBegin(new RemoteEvents.UserEatThisWormBeginArguments { user = user, food = food });
+            }
+
+            public event Action<RemoteEvents.EatThisWormEndArguments> EatThisWormEnd;
+            void IMessages.EatThisWormEnd(int food)
+            {
+                if(EatThisWormEnd == null) return;
+                EatThisWormEnd(new RemoteEvents.EatThisWormEndArguments { food = food });
+            }
+
+            public event Action<RemoteEvents.UserEatThisWormEndArguments> UserEatThisWormEnd;
+            void IMessages.UserEatThisWormEnd(int user, int food)
+            {
+                if(UserEatThisWormEnd == null) return;
+                UserEatThisWormEnd(new RemoteEvents.UserEatThisWormEndArguments { user = user, food = food });
             }
 
             public event Action<RemoteEvents.ServerSendMapArguments> ServerSendMap;
@@ -957,4 +1217,4 @@ namespace FlashConsoleWorm.Shared
     }
     #endregion
 }
-// 31.07.2008 12:33:05
+// 2.08.2008 12:10:25

@@ -6,6 +6,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.filters;
 
 namespace FlashConsoleWorm.ActionScript
 {
@@ -24,6 +25,7 @@ namespace FlashConsoleWorm.ActionScript
             {
                 Control.graphics.beginFill(Color);
                 Control.graphics.drawRect(0, 0, 1, 1);
+				Control.filters = new[] { new GlowFilter(Color) };
             }
 
             public Part AttachTo(DisplayObjectContainer canvas)

@@ -42,6 +42,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
             return _keys.Contains(key);
         }
 
+		public bool ContainsValue(TValue value)
+		{
+			return _values.Contains(value);
+		}
+
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.KeyCollection)
             //, IsDebugCode = true
             )]

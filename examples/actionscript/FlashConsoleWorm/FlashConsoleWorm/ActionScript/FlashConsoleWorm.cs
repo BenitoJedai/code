@@ -105,9 +105,9 @@ namespace FlashConsoleWorm.ActionScript
 				// Color = game_colors.worm.active
 			}
 			.AddTo(Worms)
-			 .Grow()
-			 .GrowToVector()
-			 .GrowToVector();
+			 .Grow();
+			//.GrowToVector()
+			//.GrowToVector();
 
 
 
@@ -213,42 +213,63 @@ namespace FlashConsoleWorm.ActionScript
 				   {
 					   var worm = p;
 
+					   // can we eat other worms?
+
+					   //if (worm.Parts.Count > 1)
+					   //    if (Worms.Any(k => k.Parts.Any(i => i.Location.IsEqual(worm.NextLocation))))
+					   //    {
+					   //        Sounds.explosion.ToSoundAsset().play();
+
+
+
+
+					   //        foreach (var v in worm.Parts)
+					   //        {
+					   //            v.Control.alpha = 0.5;
+					   //        }
+
+
+
+					   //        worm.IsAlive = false;
+
+					   //        1000.AtDelayDo(
+					   //            delegate
+					   //            {
+					   //                while (worm.Parts.Count > 1)
+					   //                    worm.Shrink();
+
+					   //                Sounds.reveal.ToSoundAsset().play();
+
+					   //                worm.IsAlive = true;
+					   //            }
+					   //        );
+
+					   //    }
+
 					   if (worm.IsAlive)
 					   {
-						   if (worm.Parts.Count > 1)
-							   if (Worms.Any(k => k.Parts.Any(i => i.Location.IsEqual(worm.NextLocation))))
-							   {
-								   Sounds.explosion.ToSoundAsset().play();
+						   worm.GrowToVector();
 
-
-
-
-								   foreach (var v in worm.Parts)
-								   {
-									   v.Control.alpha = 0.5;
-								   }
-
-
-
-								   worm.IsAlive = false;
-
-								   1000.AtDelayDo(
-									   delegate
-									   {
-										   while (worm.Parts.Count > 1)
-											   worm.Shrink();
-
-										   Sounds.reveal.ToSoundAsset().play();
-
-										   worm.IsAlive = true;
-									   }
-								   );
-
-							   }
-
-						   if (worm.IsAlive)
+						   if (worm.ThisNetworkInstanceCannotEat)
 						   {
-							   worm.GrowToVector();
+							   worm.Shrink();
+						   }
+						   else
+						   {
+							   // is there a worm smaller than us that we can eat?
+							   if (worm.Parts.Count > 1)
+							   {
+								   var OtherWorms = Worms.Where(k => k != worm);
+
+								   var ToBeEaten = OtherWorms.FirstOrDefault(k => k.Parts.Any(i => i.Location.IsEqual(worm.NextLocation)));
+
+								   if (ToBeEaten != null)
+									   if (ToBeEaten.Parts.Count < worm.Parts.Count)
+									   {
+										   worm.EatThisWormSoon(ToBeEaten);
+										   ToBeEaten.Color = 0xffffff;
+									   }
+							   }
 
 							   // did we find an apple?
 							   var a = Apples.Where(i => i.Location.IsEqual(worm.Location)).ToArray();
@@ -257,7 +278,11 @@ namespace FlashConsoleWorm.ActionScript
 							   {
 								   foreach (var v in a)
 								   {
-									   v.MoveToRandomLocation();
+									   v.Control.Orphanize();
+									   Apples.Remove(v);
+
+									   if (worm.HasEatenAnApple != null)
+										   worm.HasEatenAnApple(v);
 								   }
 
 								   Sounds.sound20.ToSoundAsset().play();

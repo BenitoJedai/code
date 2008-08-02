@@ -8,30 +8,38 @@ using ScriptCoreLib.ActionScript.flash.display;
 
 namespace FlashConsoleWorm.ActionScript
 {
-    [Script]
-    public partial class Worm
-    {
+	[Script]
+	public partial class Worm
+	{
+		public Worm WormWhoIsGoingToEatMe;
+
+		public Action<Worm> EatThisWormSoon;
+
+		public Action<Apple> HasEatenAnApple;
+
+		public bool ThisNetworkInstanceCannotEat;
+
 		public static Point VectorLeft = new Point(-1, 0);
 		public static Point VectorUp = new Point(0, -1);
 		public static Point VectorRight = new Point(1, 0);
 		public static Point VectorDown = new Point(0, 1);
 
-        public bool IsAlive = true;
+		public bool IsAlive = true;
 
-        public Point Location;
+		public Point Location;
 
-        public Func<Point, Point> Wrapper;
+		public Func<Point, Point> Wrapper;
 
-        Point _Vector;
+		Point _Vector;
 
-        public Point Vector
-        {
-            get
-            {
-                return _Vector;
-            }
-            set
-            {
+		public Point Vector
+		{
+			get
+			{
+				return _Vector;
+			}
+			set
+			{
 				if (_Vector != null)
 				{
 					if (new Point { x = -_Vector.x, y = -_Vector.y }.IsEqual(value))
@@ -41,66 +49,67 @@ namespace FlashConsoleWorm.ActionScript
 						return;
 				}
 
-                _Vector = value;
+				_Vector = value;
 
 				if (VectorChanged != null)
 					VectorChanged();
-            }
-        }
+			}
+		}
 		public event Action VectorChanged;
 
-        public readonly List<Part> Parts = new List<Part>();
+		public readonly List<Part> Parts = new List<Part>();
 
-        public DisplayObjectContainer Canvas { get; set; }
+		public DisplayObjectContainer Canvas { get; set; }
 
-        public Worm()
-        {
-            Vector = new Point { x = 1, y = 0 };
-        }
+		public Worm()
+		{
+			Vector = new Point { x = 1, y = 0 };
+		}
 
-        public Worm GrowToVector()
-        {
-            return GrowTo(this.Vector);
-        }
+		public Worm GrowToVector()
+		{
+			return GrowTo(this.Vector);
+		}
 
-        public Point NextLocation
-        {
-            get
-            {
-                return Wrapper(this.Location + this.Vector);
-            }
-        }
+		public Point NextLocation
+		{
+			get
+			{
+				return Wrapper(this.Location + this.Vector);
+			}
+		}
 
-        public Worm GrowTo(Point p)
-        {
-            var x = Wrapper(this.Location + p);
+		public Worm GrowTo(Point p)
+		{
+			var x = Wrapper(this.Location + p);
 
-            Parts.Add(
-                new Part(Color) { Location = x, Wrapper = Wrapper }.AttachTo(Canvas)
-            );
+			Parts.Add(
+				new Part(Color) { Location = x, Wrapper = Wrapper }.AttachTo(Canvas)
+			);
 
-            Location = x;
+			Location = x;
 
-            return this;
-        }
+			return this;
+		}
 
 		public uint Color = FlashConsoleWorm.ColorGreen;
 
-        public Worm Grow()
-        {
-            return GrowTo(new Point { x = 0, y = 0 });
-        }
+		public Worm Grow()
+		{
+			return GrowTo(new Point { x = 0, y = 0 });
+		}
 
-        public void Shrink()
-        {
-            var p = this.Parts.FirstOrDefault();
+		public void Shrink()
+		{
+			var p = this.Parts.FirstOrDefault();
 
-            if (p == null)
-                return;
+			if (p == null)
+				return;
 
-            this.Parts.Remove(p);
+			this.Parts.Remove(p);
 
-            p.Dispose();
-        }
-    }
+			p.Dispose();
+		}
+
+	}
 }
