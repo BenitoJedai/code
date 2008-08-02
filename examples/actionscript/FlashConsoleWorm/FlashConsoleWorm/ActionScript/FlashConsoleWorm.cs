@@ -267,7 +267,7 @@ namespace FlashConsoleWorm.ActionScript
 									   if (ToBeEaten.Parts.Count < worm.Parts.Count)
 									   {
 										   worm.EatThisWormSoon(ToBeEaten);
-										   ToBeEaten.Color = 0xffffff;
+										   ToBeEaten.Color = 0x8f8f8f;
 									   }
 							   }
 
