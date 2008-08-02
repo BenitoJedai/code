@@ -35,7 +35,9 @@ namespace FlashConsoleWorm.Test
 							x.FormClosing +=
 								delegate
 								{
-									p.CloseMainWindow();
+									p.Kill();
+
+									//p.CloseMainWindow();
 								};
 
 						};

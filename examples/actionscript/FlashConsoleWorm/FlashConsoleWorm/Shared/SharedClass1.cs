@@ -44,6 +44,19 @@ namespace FlashConsoleWorm.Shared
 			void VectorChanged(int x, int y);
 			void UserVectorChanged(int user, int x, int y);
 
+			void TeleportTo(int x, int y);
+			void UserTeleportTo(int user, int x, int y);
+
+			void EatApple(int x, int y);
+			void UserEatApple(int user, int x, int y);
+
+			void EatThisWormBegin(int food);
+			void UserEatThisWormBegin(int user, int food);
+
+			void EatThisWormEnd(int food);
+			void UserEatThisWormEnd(int user, int food);
+
+
             void ServerSendMap();
 
             void SendMap(int[] buttons);

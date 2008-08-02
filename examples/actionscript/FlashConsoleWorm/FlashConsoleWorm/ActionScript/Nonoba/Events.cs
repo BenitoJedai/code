@@ -18,6 +18,10 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 	partial class Client
 	{
 		readonly Dictionary<int, string> CoPlayerNames = new Dictionary<int, string>();
+		readonly Dictionary<int, Worm> RemoteEgos = new Dictionary<int, Worm>();
+		readonly Dictionary<int, ShapeWithMovement> Cursors = new Dictionary<int, ShapeWithMovement>();
+
+
 		private void InitializeEvents()
 		{
 
@@ -31,7 +35,6 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 					ShowMessage("Howdy, " + e.name);
 				};
 
-			var RemoteEgos = new Dictionary<int, Worm>();
 
 			Action<int, string> CreateRemoteEgo =
 				(user, name) =>
@@ -46,7 +49,8 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 						Color = 0xff,
 						Canvas = Map.Canvas,
 						Wrapper = Map.Wrapper,
-						Location = new Point()
+						Location = new Point(),
+						ThisNetworkInstanceCannotEat = true
 					}.AddTo(Map.Worms).Grow();
 
 					ShowMessage("remote worm created - " + Map.Worms.Count);
@@ -60,11 +64,10 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 
 				  ShowMessage("Player joined - " + e.name);
 
-
 				  Messages.PlayerAdvertise(MyIdentity.name);
+				  Messages.TeleportTo((int)Map.Ego.Location.x, (int)Map.Ego.Location.y);
 			  };
 
-			var Cursors = new Dictionary<int, ShapeWithMovement>();
 
 
 			#region ServerPlayerLeft
@@ -80,6 +83,17 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 					  {
 						  Cursors[e.user].Orphanize();
 						  Cursors.Remove(e.user);
+					  }
+
+					  if (RemoteEgos.ContainsKey(e.user))
+					  {
+						  var w = RemoteEgos[e.user];
+
+						  while (w.Parts.Count > 0)
+							  w.Shrink();
+
+						  Map.Worms.Remove(w);
+						  RemoteEgos.Remove(e.user);
 					  }
 
 					  ShowMessage("Player left - " + e.name);
@@ -206,6 +220,82 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 					}
 
 					ShowMessage("got map: " + integers_as_bytes.Length);
+				};
+
+			Events.UserTeleportTo +=
+				e =>
+				{
+					//ShowMessage(new { teleport = e.user, e.x, e.y }.ToString());
+
+					if (RemoteEgos.ContainsKey(e.user))
+					{
+						var w = RemoteEgos[e.user];
+
+
+						w.Location = new Point(e.x, e.y);
+						w.Grow();
+						w.Shrink();
+					}
+				};
+
+			Events.UserEatApple +=
+				e =>
+				{
+					if (RemoteEgos.ContainsKey(e.user))
+					{
+						var w = RemoteEgos[e.user];
+
+						w.Grow();
+
+						foreach (var v in from i in Map.Apples
+										  where i.Location.IsEqual(new Point(e.x, e.y))
+										  select i)
+						{
+							v.Control.Orphanize();
+							Map.Apples.Remove(v);
+						}
+
+						Sounds.sound20.ToSoundAsset().play();
+					}
+				};
+
+			Events.UserEatThisWormBegin +=
+				e =>
+				{
+					if (RemoteEgos.ContainsKey(e.user))
+					{
+						var user = RemoteEgos[e.user];
+
+						if (RemoteEgos.ContainsKey(e.food))
+						{
+							var food = RemoteEgos[e.food];
+
+							food.WormWhoIsGoingToEatMe = user;
+							food.Color = 0xffffff;
+
+							// whatif async end never comes?
+						}
+					}
+				};
+
+			Events.UserEatThisWormEnd +=
+				e =>
+				{
+					if (RemoteEgos.ContainsKey(e.user))
+					{
+						var user = RemoteEgos[e.user];
+
+						if (RemoteEgos.ContainsKey(e.food))
+						{
+							var food = RemoteEgos[e.food];
+
+							food.IsAlive = false;
+
+							// done eating it!
+
+							food.WormWhoIsGoingToEatMe = null;
+						}
+					}
 				};
 		}
 	}

@@ -34,6 +34,7 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 				{
 					// let others know we changed vector
 
+					Messages.TeleportTo((int)Map.Ego.Location.x, (int)Map.Ego.Location.y);
 					Messages.VectorChanged((int)Map.Ego.Vector.x, (int)Map.Ego.Vector.y);
 				};
 
@@ -50,6 +51,62 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 				{
 					Messages.MouseOut((int)MyColor);
 				};
+
+			Map.Ego.HasEatenAnApple +=
+				e =>
+				{
+					Messages.EatApple((int)e.Location.x, (int)e.Location.y);
+
+				};
+
+			Map.Ego.EatThisWormSoon +=
+				e =>
+				{
+					// somebody else is going to eat it
+					if (e.WormWhoIsGoingToEatMe != null)
+					{
+						return;
+					}
+
+					if (!RemoteEgos.ContainsValue(e))
+					{
+						return;
+					}
+
+					var p = RemoteEgos.Where(w => w.Value == e).First();
+					
+					var food = p.Key;
+
+					Messages.EatThisWormBegin(food);
+
+					var worm = p.Value;
+
+					worm.WormWhoIsGoingToEatMe = Map.Ego;
+
+					AsyncDelay.AtDelayDo(
+						delegate
+						{
+							// if we are still going to eat it finish eating it!
+
+							if (worm.WormWhoIsGoingToEatMe == Map.Ego)
+							{
+								worm.IsAlive = false;
+
+								// done eating it!
+
+								worm.WormWhoIsGoingToEatMe = null;
+								Messages.EatThisWormEnd(food);
+							}
+						}
+					);
+				};
+
+			// only dudes which are already in room get this
+			Messages.TeleportTo((int)Map.Ego.Location.x, (int)Map.Ego.Location.y);
+
 		}
+
+		public const int AsyncDelay = 500;
+		public const int AsyncDelayTimeout = AsyncDelay * 2;
 	}
 }
