@@ -49,7 +49,7 @@ namespace FlashConsoleWorm.Shared
             Reveal,
             UserReveal,
             AddScore,
-            AwardAchievementFirstMinefieldComplete,
+            AwardAchievementFiver,
             SendPassword,
             ServerPasswordStatus,
             LockGame,
@@ -100,7 +100,7 @@ namespace FlashConsoleWorm.Shared
             event Action<RemoteEvents.RevealArguments> Reveal;
             event Action<RemoteEvents.UserRevealArguments> UserReveal;
             event Action<RemoteEvents.AddScoreArguments> AddScore;
-            event Action<RemoteEvents.AwardAchievementFirstMinefieldCompleteArguments> AwardAchievementFirstMinefieldComplete;
+            event Action<RemoteEvents.AwardAchievementFiverArguments> AwardAchievementFiver;
             event Action<RemoteEvents.SendPasswordArguments> SendPassword;
             event Action<RemoteEvents.ServerPasswordStatusArguments> ServerPasswordStatus;
             event Action<RemoteEvents.LockGameArguments> LockGame;
@@ -247,13 +247,13 @@ namespace FlashConsoleWorm.Shared
             {
                 Send(new SendArguments { i = Messages.UserReveal, args = new object[] { user, button } });
             }
-            public void AddScore(int score)
+            public void AddScore(int apples, int worms)
             {
-                Send(new SendArguments { i = Messages.AddScore, args = new object[] { score } });
+                Send(new SendArguments { i = Messages.AddScore, args = new object[] { apples, worms } });
             }
-            public void AwardAchievementFirstMinefieldComplete()
+            public void AwardAchievementFiver()
             {
-                Send(new SendArguments { i = Messages.AwardAchievementFirstMinefieldComplete, args = new object[] {  } });
+                Send(new SendArguments { i = Messages.AwardAchievementFiver, args = new object[] {  } });
             }
             public void SendPassword(string password)
             {
@@ -810,19 +810,20 @@ namespace FlashConsoleWorm.Shared
             [CompilerGenerated]
             public sealed partial class AddScoreArguments
             {
-                public int score;
+                public int apples;
+                public int worms;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ score = ").Append(this.score).Append(" }").ToString();
+                    return new StringBuilder().Append("{ apples = ").Append(this.apples).Append(", worms = ").Append(this.worms).Append(" }").ToString();
                 }
             }
             #endregion
             public event Action<AddScoreArguments> AddScore;
-            #region AwardAchievementFirstMinefieldCompleteArguments
+            #region AwardAchievementFiverArguments
             [Script]
             [CompilerGenerated]
-            public sealed partial class AwardAchievementFirstMinefieldCompleteArguments
+            public sealed partial class AwardAchievementFiverArguments
             {
                 [DebuggerHidden]
                 public override string ToString()
@@ -831,7 +832,7 @@ namespace FlashConsoleWorm.Shared
                 }
             }
             #endregion
-            public event Action<AwardAchievementFirstMinefieldCompleteArguments> AwardAchievementFirstMinefieldComplete;
+            public event Action<AwardAchievementFiverArguments> AwardAchievementFiver;
             #region SendPasswordArguments
             [Script]
             [CompilerGenerated]
@@ -920,8 +921,8 @@ namespace FlashConsoleWorm.Shared
                             { Messages.UserSetFlag, e => { UserSetFlag(new UserSetFlagArguments { user = e.GetInt32(0), button = e.GetInt32(1), value = e.GetInt32(2) }); } },
                             { Messages.Reveal, e => { Reveal(new RevealArguments { button = e.GetInt32(0) }); } },
                             { Messages.UserReveal, e => { UserReveal(new UserRevealArguments { user = e.GetInt32(0), button = e.GetInt32(1) }); } },
-                            { Messages.AddScore, e => { AddScore(new AddScoreArguments { score = e.GetInt32(0) }); } },
-                            { Messages.AwardAchievementFirstMinefieldComplete, e => { AwardAchievementFirstMinefieldComplete(new AwardAchievementFirstMinefieldCompleteArguments {  }); } },
+                            { Messages.AddScore, e => { AddScore(new AddScoreArguments { apples = e.GetInt32(0), worms = e.GetInt32(1) }); } },
+                            { Messages.AwardAchievementFiver, e => { AwardAchievementFiver(new AwardAchievementFiverArguments {  }); } },
                             { Messages.SendPassword, e => { SendPassword(new SendPasswordArguments { password = e.GetString(0) }); } },
                             { Messages.ServerPasswordStatus, e => { ServerPasswordStatus(new ServerPasswordStatusArguments { status = e.GetInt32(0) }); } },
                             { Messages.LockGame, e => { LockGame(new LockGameArguments {  }); } },
@@ -961,7 +962,7 @@ namespace FlashConsoleWorm.Shared
                             { Messages.Reveal, e => Reveal },
                             { Messages.UserReveal, e => UserReveal },
                             { Messages.AddScore, e => AddScore },
-                            { Messages.AwardAchievementFirstMinefieldComplete, e => AwardAchievementFirstMinefieldComplete },
+                            { Messages.AwardAchievementFiver, e => AwardAchievementFiver },
                             { Messages.SendPassword, e => SendPassword },
                             { Messages.ServerPasswordStatus, e => ServerPasswordStatus },
                             { Messages.LockGame, e => LockGame },
@@ -1233,17 +1234,17 @@ namespace FlashConsoleWorm.Shared
             }
 
             public event Action<RemoteEvents.AddScoreArguments> AddScore;
-            void IMessages.AddScore(int score)
+            void IMessages.AddScore(int apples, int worms)
             {
                 if(AddScore == null) return;
-                AddScore(new RemoteEvents.AddScoreArguments { score = score });
+                AddScore(new RemoteEvents.AddScoreArguments { apples = apples, worms = worms });
             }
 
-            public event Action<RemoteEvents.AwardAchievementFirstMinefieldCompleteArguments> AwardAchievementFirstMinefieldComplete;
-            void IMessages.AwardAchievementFirstMinefieldComplete()
+            public event Action<RemoteEvents.AwardAchievementFiverArguments> AwardAchievementFiver;
+            void IMessages.AwardAchievementFiver()
             {
-                if(AwardAchievementFirstMinefieldComplete == null) return;
-                AwardAchievementFirstMinefieldComplete(new RemoteEvents.AwardAchievementFirstMinefieldCompleteArguments {  });
+                if(AwardAchievementFiver == null) return;
+                AwardAchievementFiver(new RemoteEvents.AwardAchievementFiverArguments {  });
             }
 
             public event Action<RemoteEvents.SendPasswordArguments> SendPassword;
@@ -1279,4 +1280,4 @@ namespace FlashConsoleWorm.Shared
     }
     #endregion
 }
-// 3.08.2008 15:34:05
+// 3.08.2008 16:30:37

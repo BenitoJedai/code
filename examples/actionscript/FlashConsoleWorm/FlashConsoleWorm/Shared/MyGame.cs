@@ -22,9 +22,12 @@ namespace FlashConsoleWorm.Shared
             player.FromPlayer.LockGame += e => this.GameState = MyGame.GameStateEnum.ClosedGameInProgress;
             player.FromPlayer.UnlockGame += e => this.GameState = MyGame.GameStateEnum.OpenGameInProgress;
 
-            player.FromPlayer.AddScore += e => player.AddScore("score", e.score);
-            player.FromPlayer.AwardAchievementFirstMinefieldComplete +=
-                e => player.AwardAchievement("firstminefielddone");
+			// registered nonoba rankings
+			player.FromPlayer.AddScore += e => player.AddScore("apples", e.apples);
+			player.FromPlayer.AddScore += e => player.AddScore("worms", e.worms);
+
+            player.FromPlayer.AwardAchievementFiver +=
+                e => player.AwardAchievement("fiver");
 
             player.ToPlayer.ServerPlayerHello(player.UserId, player.Username);
 

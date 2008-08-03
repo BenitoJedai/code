@@ -39,6 +39,7 @@ pushd ..\bin\debug\web
 
 call :build %1 %2
 call :build %1/Nonoba Client
+call :build %1/Monetized MochiPreloader
 
 
 popd

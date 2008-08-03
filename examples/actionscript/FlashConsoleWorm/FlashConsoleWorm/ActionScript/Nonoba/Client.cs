@@ -12,14 +12,20 @@ using ScriptCoreLib.ActionScript.flash.display;
 namespace FlashConsoleWorm.ActionScript.Nonoba
 {
 	[Script, ScriptApplicationEntryPoint]
-	[SWF(width = DefaultControlWidth + NonobaChatWidth, height = DefaultControlHeight, backgroundColor = FlashConsoleWorm.ColorBlack)]
+	[SWF(width = OuterControlWidth, height = OuterControlHeight, backgroundColor = FlashConsoleWorm.ColorBlack)]
 	public partial class Client : Sprite
 	{
+		public const int OuterControlWidth = DefaultControlWidth + NonobaChatWidth;
+		public const int OuterControlHeight = DefaultControlHeight;
+
+
 		public const int NonobaChatWidth = 200;
 
 		public const int DefaultControlWidth = FlashConsoleWorm.DefaultWidth;
 		public const int DefaultControlHeight = FlashConsoleWorm.DefaultHeight;
 
+
+		public int LevelsPlayed = 0;
 
 		public Client()
 		{
