@@ -340,7 +340,9 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 			var apples = Map.Ego.ApplesEaten;
 			var worms = Map.Ego.WormsEaten;
 
-			ShowMessage("You ate " + apples + " apples and " + worms + " worms!");
+			Messages.AddScore(apples, worms);
+
+			ShowMessage("Level " + LevelsPlayed + ": You ate " + apples + " apples and " + worms + " worms!");
 
 			Map.Ego.ApplesEaten = 0;
 			Map.Ego.WormsEaten = 0;
