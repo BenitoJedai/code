@@ -74,6 +74,13 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 
 				  Messages.PlayerAdvertise(MyIdentity.name);
 				  Messages.TeleportTo((int)Map.Ego.Location.x, (int)Map.Ego.Location.y);
+
+				  for (int i = 1; i < Map.Ego.Parts.Count; i++)
+				  {
+					  // there is no apple, but we just need to gain in size
+
+					  Messages.EatApple((int)Map.Ego.Location.x, (int)Map.Ego.Location.y);
+				  }
 			  };
 
 
@@ -174,29 +181,17 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 			Events.ServerSendMap +=
 				e =>
 				{
-					// server has chosen me to send a map to the new users
+					
+					OnServerSendMap();
 
-					// map is the apples, so we need to serialize them
-					// for now lets do a manual serialization
+				};
 
-					var ms = new MemoryStream();
+			Events.UserLevelHasEnded +=
+				e =>
+				{
+					// update rankings
 
-					ms.WriteByte((byte)Map.Apples.Count);
-
-					foreach (var a in Map.Apples)
-					{
-						ms.WriteByte((byte)a.Location.x);
-						ms.WriteByte((byte)a.Location.y);
-					}
-
-					// proxy expects int[], at the moment, so we need to cast for now (overkill)
-
-					var bytes_as_integers = ms.ToArray().Select(i => (int)i).ToArray();
-
-					ShowMessage("sent map: " + bytes_as_integers.Length);
-
-					Messages.SendMap(bytes_as_integers);
-
+					OnLevelHasEnded();
 				};
 
 			Events.UserSendMap +=
@@ -227,7 +222,7 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 						}.AddTo(Map.Apples).AttachTo(Map.Canvas);
 					}
 
-					ShowMessage("got map: " + integers_as_bytes.Length);
+					//ShowMessage("got map: " + integers_as_bytes.Length);
 				};
 
 			Events.UserTeleportTo +=
@@ -256,15 +251,18 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 
 						w.Grow();
 
+
 						foreach (var v in from i in Map.Apples
 										  where i.Location.IsEqual(new Point(e.x, e.y))
 										  select i)
 						{
 							v.Control.Orphanize();
 							Map.Apples.Remove(v);
+
+							Sounds.sound20.ToSoundAsset().play();
+
 						}
 
-						Sounds.sound20.ToSoundAsset().play();
 					}
 				};
 
@@ -332,6 +330,48 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 				};
 			#endregion
 
+		}
+
+		private void OnLevelHasEnded()
+		{
+			ShowMessage("You ate " + Map.Ego.ApplesEaten + " apples and " + Map.Ego.WormsEaten + " worms!");
+
+			Map.Ego.ApplesEaten = 0;
+			Map.Ego.WormsEaten = 0;
+
+			foreach (var worm in Map.Worms)
+			{
+				while (worm.Parts.Count > 1)
+					worm.Shrink();
+			}
+		
+
+		}
+
+		private void OnServerSendMap()
+		{
+			// server has chosen me to send a map to the new users
+
+			// map is the apples, so we need to serialize them
+			// for now lets do a manual serialization
+
+			var ms = new MemoryStream();
+
+			ms.WriteByte((byte)Map.Apples.Count);
+
+			foreach (var a in Map.Apples)
+			{
+				ms.WriteByte((byte)a.Location.x);
+				ms.WriteByte((byte)a.Location.y);
+			}
+
+			// proxy expects int[], at the moment, so we need to cast for now (overkill)
+
+			var bytes_as_integers = ms.ToArray().Select(i => (int)i).ToArray();
+
+			//ShowMessage("sent map: " + bytes_as_integers.Length);
+
+			Messages.SendMap(bytes_as_integers);
 		}
 	}
 }

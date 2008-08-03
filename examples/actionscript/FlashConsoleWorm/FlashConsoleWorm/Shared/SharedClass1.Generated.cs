@@ -37,6 +37,8 @@ namespace FlashConsoleWorm.Shared
             UserEatThisWormBegin,
             EatThisWormEnd,
             UserEatThisWormEnd,
+            LevelHasEnded,
+            UserLevelHasEnded,
             ServerSendMap,
             SendMap,
             UserSendMap,
@@ -86,6 +88,8 @@ namespace FlashConsoleWorm.Shared
             event Action<RemoteEvents.UserEatThisWormBeginArguments> UserEatThisWormBegin;
             event Action<RemoteEvents.EatThisWormEndArguments> EatThisWormEnd;
             event Action<RemoteEvents.UserEatThisWormEndArguments> UserEatThisWormEnd;
+            event Action<RemoteEvents.LevelHasEndedArguments> LevelHasEnded;
+            event Action<RemoteEvents.UserLevelHasEndedArguments> UserLevelHasEnded;
             event Action<RemoteEvents.ServerSendMapArguments> ServerSendMap;
             event Action<RemoteEvents.SendMapArguments> SendMap;
             event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
@@ -194,6 +198,14 @@ namespace FlashConsoleWorm.Shared
             public void UserEatThisWormEnd(int user, int food)
             {
                 Send(new SendArguments { i = Messages.UserEatThisWormEnd, args = new object[] { user, food } });
+            }
+            public void LevelHasEnded()
+            {
+                Send(new SendArguments { i = Messages.LevelHasEnded, args = new object[] {  } });
+            }
+            public void UserLevelHasEnded(int user)
+            {
+                Send(new SendArguments { i = Messages.UserLevelHasEnded, args = new object[] { user } });
             }
             public void ServerSendMap()
             {
@@ -339,6 +351,10 @@ namespace FlashConsoleWorm.Shared
                 public void UserEatThisWormEnd(EatThisWormEndArguments e)
                 {
                     Target.UserEatThisWormEnd(this.user, e.food);
+                }
+                public void UserLevelHasEnded(LevelHasEndedArguments e)
+                {
+                    Target.UserLevelHasEnded(this.user);
                 }
                 public void UserSendMap(SendMapArguments e)
                 {
@@ -638,6 +654,32 @@ namespace FlashConsoleWorm.Shared
             }
             #endregion
             public event Action<UserEatThisWormEndArguments> UserEatThisWormEnd;
+            #region LevelHasEndedArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class LevelHasEndedArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().ToString();
+                }
+            }
+            #endregion
+            public event Action<LevelHasEndedArguments> LevelHasEnded;
+            #region UserLevelHasEndedArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserLevelHasEndedArguments : WithUserArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserLevelHasEndedArguments> UserLevelHasEnded;
             #region ServerSendMapArguments
             [Script]
             [CompilerGenerated]
@@ -867,6 +909,8 @@ namespace FlashConsoleWorm.Shared
                             { Messages.UserEatThisWormBegin, e => { UserEatThisWormBegin(new UserEatThisWormBeginArguments { user = e.GetInt32(0), food = e.GetInt32(1) }); } },
                             { Messages.EatThisWormEnd, e => { EatThisWormEnd(new EatThisWormEndArguments { food = e.GetInt32(0) }); } },
                             { Messages.UserEatThisWormEnd, e => { UserEatThisWormEnd(new UserEatThisWormEndArguments { user = e.GetInt32(0), food = e.GetInt32(1) }); } },
+                            { Messages.LevelHasEnded, e => { LevelHasEnded(new LevelHasEndedArguments {  }); } },
+                            { Messages.UserLevelHasEnded, e => { UserLevelHasEnded(new UserLevelHasEndedArguments { user = e.GetInt32(0) }); } },
                             { Messages.ServerSendMap, e => { ServerSendMap(new ServerSendMapArguments {  }); } },
                             { Messages.SendMap, e => { SendMap(new SendMapArguments { buttons = e.GetInt32Array(0) }); } },
                             { Messages.UserSendMap, e => { UserSendMap(new UserSendMapArguments { user = e.GetInt32(0), buttons = e.GetInt32Array(1) }); } },
@@ -905,6 +949,8 @@ namespace FlashConsoleWorm.Shared
                             { Messages.UserEatThisWormBegin, e => UserEatThisWormBegin },
                             { Messages.EatThisWormEnd, e => EatThisWormEnd },
                             { Messages.UserEatThisWormEnd, e => UserEatThisWormEnd },
+                            { Messages.LevelHasEnded, e => LevelHasEnded },
+                            { Messages.UserLevelHasEnded, e => UserLevelHasEnded },
                             { Messages.ServerSendMap, e => ServerSendMap },
                             { Messages.SendMap, e => SendMap },
                             { Messages.UserSendMap, e => UserSendMap },
@@ -944,6 +990,7 @@ namespace FlashConsoleWorm.Shared
                         this.EatApple -= _Router.UserEatApple;
                         this.EatThisWormBegin -= _Router.UserEatThisWormBegin;
                         this.EatThisWormEnd -= _Router.UserEatThisWormEnd;
+                        this.LevelHasEnded -= _Router.UserLevelHasEnded;
                         this.SendMap -= _Router.UserSendMap;
                         this.SendMapLater -= _Router.UserSendMapLater;
                         this.SetFlag -= _Router.UserSetFlag;
@@ -960,6 +1007,7 @@ namespace FlashConsoleWorm.Shared
                         this.EatApple += _Router.UserEatApple;
                         this.EatThisWormBegin += _Router.UserEatThisWormBegin;
                         this.EatThisWormEnd += _Router.UserEatThisWormEnd;
+                        this.LevelHasEnded += _Router.UserLevelHasEnded;
                         this.SendMap += _Router.UserSendMap;
                         this.SendMapLater += _Router.UserSendMapLater;
                         this.SetFlag += _Router.UserSetFlag;
@@ -1107,6 +1155,20 @@ namespace FlashConsoleWorm.Shared
                 UserEatThisWormEnd(new RemoteEvents.UserEatThisWormEndArguments { user = user, food = food });
             }
 
+            public event Action<RemoteEvents.LevelHasEndedArguments> LevelHasEnded;
+            void IMessages.LevelHasEnded()
+            {
+                if(LevelHasEnded == null) return;
+                LevelHasEnded(new RemoteEvents.LevelHasEndedArguments {  });
+            }
+
+            public event Action<RemoteEvents.UserLevelHasEndedArguments> UserLevelHasEnded;
+            void IMessages.UserLevelHasEnded(int user)
+            {
+                if(UserLevelHasEnded == null) return;
+                UserLevelHasEnded(new RemoteEvents.UserLevelHasEndedArguments { user = user });
+            }
+
             public event Action<RemoteEvents.ServerSendMapArguments> ServerSendMap;
             void IMessages.ServerSendMap()
             {
@@ -1217,4 +1279,4 @@ namespace FlashConsoleWorm.Shared
     }
     #endregion
 }
-// 2.08.2008 18:47:18
+// 3.08.2008 15:34:05

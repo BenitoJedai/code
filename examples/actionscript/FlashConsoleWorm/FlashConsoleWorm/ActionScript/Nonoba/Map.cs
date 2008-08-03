@@ -55,13 +55,35 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 			Map.Ego.HasEatenAnApple +=
 				e =>
 				{
+					Map.Ego.ApplesEaten++;
+
 					Messages.EatApple((int)e.Location.x, (int)e.Location.y);
 
+					if (Map.Apples.Count == 0)
+					{
+						// end of level
+						Messages.LevelHasEnded();
+
+						OnLevelHasEnded();
+
+						EndOfLevelDelay.AtDelayDo(
+							delegate
+							{
+								// make new apples
+								Map.AddApples();
+
+								// send them to others
+								OnServerSendMap();
+							}
+						);
+
+					}
 				};
 
 			Map.Ego.EatThisWormSoon +=
 				e =>
 				{
+
 					// somebody else is going to eat it
 					if (e.WormWhoIsGoingToEatMe != null)
 					{
@@ -99,6 +121,8 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 							if (worm.WormWhoIsGoingToEatMe != Map.Ego)
 								return;
 
+							Map.Ego.WormsEaten++;
+
 							Messages.EatThisWormEnd(food);
 
 							worm.IsAlive = false;
@@ -127,5 +151,9 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 		public const int AsyncDelay = 400;
 
 		public const int DeathDelay = 2000;
+
+
+		public const int EndOfLevelDelay = 4000;
+
 	}
 }
