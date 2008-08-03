@@ -27,13 +27,13 @@ namespace FlashConsoleWorm.ActionScript.Monetized
 		   author = "Arvo Sulakatko",
 		   category = "lifestyle",
 		   category2 = "funandgames",
-		   screenshot = "http://jsc.sourceforge.net/?",
-		   thumbnail = "http://jsc.sourceforge.net/?",
+		  // screenshot = "http://jsc.sourceforge.net/?",
+		   thumbnail = "http://files.nonoba.com/GameIcon/2282/gameicon_rev1.png",
 		   description = MochiPreloader.Description,
 		   width = PreloaderContent.OuterControlWidth,
 		   height = PreloaderContent.OuterControlHeight,
 		   title = MochiPreloader.Title,
-		   title_url = "http://nonoba.com/zproxy/?"
+		   title_url = MochiPreloader.NonobaLink
 
 	   )]
 	public class MochiPreloader : MochiAdPreloaderBase
@@ -51,7 +51,7 @@ namespace FlashConsoleWorm.ActionScript.Monetized
 
 		public const string Keywords = "worm, multiplayer";
 
-		// http://nonoba.com/zproxy/flashconsoleworm
+		public const string NonobaLink = "http://nonoba.com/zproxy/flashconsoleworm";
 		// http://www.mochiads.com/games/flashconsoleworm/
 
 		public MochiPreloader()
