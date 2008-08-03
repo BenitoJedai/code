@@ -31,10 +31,10 @@ namespace FlashConsoleWorm.ActionScript
 		public const int DefaultWidth = RoomWidth * DefaultZoom;
 		public const int DefaultHeight = RoomHeight * DefaultZoom;
 
-		public const int DefaultZoom = 10;
+		public const int DefaultZoom = 15;
 
 		public const int RoomWidth = 32;
-		public const int RoomHeight = 24;
+		public const int RoomHeight = 32;
 
 		public KeyboardButtonGroup MovementWASD;
 		public KeyboardButtonGroup MovementArrows;
@@ -97,7 +97,7 @@ namespace FlashConsoleWorm.ActionScript
 
 			AddApples = delegate
 			{
-				15.Times(() =>
+				20.Times(() =>
 					CreateApple().AttachTo(Canvas).AddTo(Apples)
 				);
 			};

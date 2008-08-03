@@ -90,8 +90,8 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 
 						if (e.WormWhoIsGoingToEatMe != Map.Ego)
 							ShowMessage("somebody else is going to eat that worm");
-						else
-							ShowMessage("already am going to eat that worm");
+						//else
+						//    ShowMessage("already am going to eat that worm");
 
 						return;
 					}

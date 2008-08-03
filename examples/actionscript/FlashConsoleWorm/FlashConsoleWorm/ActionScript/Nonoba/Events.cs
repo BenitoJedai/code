@@ -332,9 +332,15 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 
 		}
 
+
 		private void OnLevelHasEnded()
 		{
-			ShowMessage("You ate " + Map.Ego.ApplesEaten + " apples and " + Map.Ego.WormsEaten + " worms!");
+			LevelsPlayed++;
+
+			var apples = Map.Ego.ApplesEaten;
+			var worms = Map.Ego.WormsEaten;
+
+			ShowMessage("You ate " + apples + " apples and " + worms + " worms!");
 
 			Map.Ego.ApplesEaten = 0;
 			Map.Ego.WormsEaten = 0;
@@ -344,8 +350,11 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 				while (worm.Parts.Count > 1)
 					worm.Shrink();
 			}
-		
 
+			if (LevelsPlayed == 5)
+			{
+				Messages.AwardAchievementFiver();
+			}
 		}
 
 		private void OnServerSendMap()

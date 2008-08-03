@@ -73,8 +73,10 @@ namespace FlashConsoleWorm.Shared
             void Reveal(int button);
             void UserReveal(int user, int button);
 
-            void AddScore(int score);
-            void AwardAchievementFirstMinefieldComplete();
+			// registered nonoba rankings
+			void AddScore(int apples, int worms);
+
+            void AwardAchievementFiver();
 
             void SendPassword(string password);
             void ServerPasswordStatus(int status);
