@@ -71,6 +71,10 @@ namespace FlashConsoleWorm.ActionScript
 			Canvas.scaleX = DefaultZoom;
 			Canvas.scaleY = DefaultZoom;
 
+			Canvas.graphics.beginFill(ColorBlack);
+			Canvas.graphics.drawRect(0, 0, RoomWidth, RoomHeight);
+
+
 			Canvas.AttachTo(this);
 
 			// add scull ani here
