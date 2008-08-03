@@ -239,7 +239,8 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 					{
 						var w = RemoteEgos[e.user];
 
-
+						w.Color = 0xff;
+						w.IsAlive = true;
 						w.Location = new Point(e.x, e.y);
 						w.Grow();
 						w.Shrink();
@@ -267,45 +268,70 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 					}
 				};
 
+			#region EatThisWorm
 			Events.UserEatThisWormBegin +=
 				e =>
 				{
-					if (RemoteEgos.ContainsKey(e.user))
-					{
-						var user = RemoteEgos[e.user];
+					if (!RemoteEgos.ContainsKey(e.user))
+						return;
 
-						if (AllEgos.Any(i => i.Key == e.food))
-						{
-							var food = AllEgos.Single(i => i.Key == e.food).Value;
+					var user = RemoteEgos[e.user];
 
-							food.WormWhoIsGoingToEatMe = user;
-							food.Color = 0x8f8f8f;
+					if (!AllEgos.Any(i => i.Key == e.food))
+						return;
 
-							// whatif async end never comes?
-						}
-					}
+					var food = AllEgos.Single(i => i.Key == e.food).Value;
+
+					
+					food.WormWhoIsGoingToEatMe = user;
+					food.Color = 0x8f8f8f;
+
+					// whatif async end never comes?
+
 				};
 
 			Events.UserEatThisWormEnd +=
 				e =>
 				{
-					if (RemoteEgos.ContainsKey(e.user))
+					if (!RemoteEgos.ContainsKey(e.user))
+						return;
+
+					var user = RemoteEgos[e.user];
+
+					if (!AllEgos.Any(i => i.Key == e.food))
+						return;
+
+					var food = AllEgos.Single(i => i.Key == e.food).Value;
+
+					food.IsAlive = false;
+
+					// do the eating 
+					while (food.Parts.Count > 1)
 					{
-						var user = RemoteEgos[e.user];
-
-						if (AllEgos.Any(i => i.Key == e.food))
-						{
-							var food = AllEgos.Single(i => i.Key == e.food).Value;
-
-							food.IsAlive = false;
-							food.Color = 0xffffff;
-
-							// done eating it!
-
-							food.WormWhoIsGoingToEatMe = null;
-						}
+						food.Shrink();
+						user.Grow();
 					}
+
+					food.WormWhoIsGoingToEatMe = null;
+
+					if (food == Map.Ego)
+					{
+						// we now decide how long must we be dead
+
+						DeathDelay.AtDelayDo(
+							delegate
+							{
+								food.IsAlive = true;
+								food.Color = 0x00ff00;
+
+								Messages.TeleportTo((int)Map.Ego.Location.x, (int)Map.Ego.Location.y);
+							}
+						);
+					}
+
 				};
+			#endregion
+
 		}
 	}
 }
