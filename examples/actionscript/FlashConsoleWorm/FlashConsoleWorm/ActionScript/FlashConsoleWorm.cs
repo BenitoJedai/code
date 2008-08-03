@@ -31,10 +31,10 @@ namespace FlashConsoleWorm.ActionScript
 		public const int DefaultWidth = RoomWidth * DefaultZoom;
 		public const int DefaultHeight = RoomHeight * DefaultZoom;
 
-		public const int DefaultZoom = 5;
+		public const int DefaultZoom = 10;
 
-		public const int RoomWidth = 72;
-		public const int RoomHeight = 48;
+		public const int RoomWidth = 32;
+		public const int RoomHeight = 24;
 
 		public KeyboardButtonGroup MovementWASD;
 		public KeyboardButtonGroup MovementArrows;
@@ -74,6 +74,7 @@ namespace FlashConsoleWorm.ActionScript
 			// add scull ani here
 			// add status text here
 
+			var Status = new TextField { autoSize = TextFieldAutoSize.LEFT, textColor = 0xffffff }.AttachTo(this);
 
 			Func<Point> GetRandomLocation =
 				() => new Point
@@ -206,45 +207,14 @@ namespace FlashConsoleWorm.ActionScript
 
 			Sounds.reveal.ToSoundAsset().play();
 
-			100.AtInterval(
+			(1000 / 10).AtInterval(
 			   t =>
 			   {
 				   foreach (var p in Worms)
 				   {
 					   var worm = p;
 
-					   // can we eat other worms?
 
-					   //if (worm.Parts.Count > 1)
-					   //    if (Worms.Any(k => k.Parts.Any(i => i.Location.IsEqual(worm.NextLocation))))
-					   //    {
-					   //        Sounds.explosion.ToSoundAsset().play();
-
-
-
-
-					   //        foreach (var v in worm.Parts)
-					   //        {
-					   //            v.Control.alpha = 0.5;
-					   //        }
-
-
-
-					   //        worm.IsAlive = false;
-
-					   //        1000.AtDelayDo(
-					   //            delegate
-					   //            {
-					   //                while (worm.Parts.Count > 1)
-					   //                    worm.Shrink();
-
-					   //                Sounds.reveal.ToSoundAsset().play();
-
-					   //                worm.IsAlive = true;
-					   //            }
-					   //        );
-
-					   //    }
 
 					   if (worm.IsAlive)
 					   {
@@ -259,16 +229,42 @@ namespace FlashConsoleWorm.ActionScript
 							   // is there a worm smaller than us that we can eat?
 							   if (worm.Parts.Count > 1)
 							   {
-								   var OtherWorms = Worms.Where(k => k != worm);
+								   var OtherWorms = Worms.Where(k => k != worm).ToArray();
 
-								   var ToBeEaten = OtherWorms.FirstOrDefault(k => k.Parts.Any(i => i.Location.IsEqual(worm.NextLocation)));
+								   Status.text = "";
+
+								   Status.appendText("others: " + OtherWorms.Length);
+
+								   var ToBeEaten = OtherWorms.FirstOrDefault(k => k.Parts.Any(i => i.Location.IsEqual(worm.NextLocation) || i.Location.IsEqual(worm.Location)));
 
 								   if (ToBeEaten != null)
-									   if (ToBeEaten.Parts.Count < worm.Parts.Count)
+								   {
+
+
+									   if (ToBeEaten.IsAlive)
 									   {
-										   worm.EatThisWormSoon(ToBeEaten);
-										   ToBeEaten.Color = 0x8f8f8f;
+										   if (ToBeEaten.Parts.Count < worm.Parts.Count)
+										   {
+											   ToBeEaten.Color = 0x8f8f8f;
+
+											   worm.EatThisWormSoon(ToBeEaten);
+										   }
+										   else
+										   {
+											   Status.appendText(" target not smaller");
+										   }
 									   }
+									   else
+									   {
+										   Status.appendText(" target not alive");
+									   }
+
+
+								   }
+								   else
+								   {
+									   Status.appendText(" noone in range");
+								   }
 							   }
 
 							   // did we find an apple?

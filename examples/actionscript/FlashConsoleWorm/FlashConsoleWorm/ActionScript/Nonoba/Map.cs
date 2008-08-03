@@ -65,16 +65,24 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 					// somebody else is going to eat it
 					if (e.WormWhoIsGoingToEatMe != null)
 					{
+
+						if (e.WormWhoIsGoingToEatMe != Map.Ego)
+							ShowMessage("somebody else is going to eat that worm");
+						else
+							ShowMessage("already am going to eat that worm");
+
 						return;
 					}
 
 					if (!RemoteEgos.ContainsValue(e))
 					{
+						ShowMessage("not a valid remote ego");
+
 						return;
 					}
 
 					var p = RemoteEgos.Where(w => w.Value == e).First();
-					
+
 					var food = p.Key;
 
 					Messages.EatThisWormBegin(food);
@@ -88,16 +96,24 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 						{
 							// if we are still going to eat it finish eating it!
 
-							if (worm.WormWhoIsGoingToEatMe == Map.Ego)
+							if (worm.WormWhoIsGoingToEatMe != Map.Ego)
+								return;
+
+							Messages.EatThisWormEnd(food);
+
+							worm.IsAlive = false;
+
+							// do the eating 
+							while (worm.Parts.Count > 1)
 							{
-								worm.IsAlive = false;
-
-								// done eating it!
-
-								worm.WormWhoIsGoingToEatMe = null;
-
-								Messages.EatThisWormEnd(food);
+								worm.Shrink();
+								Map.Ego.Grow();
 							}
+
+							worm.WormWhoIsGoingToEatMe = null;
+
+							// how long are we dead? worm owner decides...
+
 						}
 					);
 				};
@@ -107,7 +123,9 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 
 		}
 
-		public const int AsyncDelay = 500;
-		public const int AsyncDelayTimeout = AsyncDelay * 2;
+		// should depend on lag
+		public const int AsyncDelay = 400;
+
+		public const int DeathDelay = 2000;
 	}
 }
