@@ -61,6 +61,8 @@ namespace FlashConsoleWorm.ActionScript
 				};
 		}
 
+		public Action AddApples;
+
 		private void Initialize()
 		{
 			Canvas = new Sprite();
@@ -74,7 +76,7 @@ namespace FlashConsoleWorm.ActionScript
 			// add scull ani here
 			// add status text here
 
-			var Status = new TextField { autoSize = TextFieldAutoSize.LEFT, textColor = 0xffffff }.AttachTo(this);
+			//var Status = new TextField { autoSize = TextFieldAutoSize.LEFT, textColor = 0xffffff }.AttachTo(this);
 
 			Func<Point> GetRandomLocation =
 				() => new Point
@@ -93,9 +95,14 @@ namespace FlashConsoleWorm.ActionScript
 				   }.MoveToRandomLocation();
 
 
-			15.Times(() =>
-				CreateApple().AttachTo(Canvas).AddTo(Apples)
-			);
+			AddApples = delegate
+			{
+				15.Times(() =>
+					CreateApple().AttachTo(Canvas).AddTo(Apples)
+				);
+			};
+
+			AddApples();
 
 			Ego = new Worm
 			{
@@ -207,89 +214,92 @@ namespace FlashConsoleWorm.ActionScript
 
 			Sounds.reveal.ToSoundAsset().play();
 
-			(1000 / 10).AtInterval(
+			(1000 / 20).AtInterval(
 			   t =>
 			   {
 				   foreach (var p in Worms)
 				   {
 					   var worm = p;
 
-
-
-					   if (worm.IsAlive)
-					   {
-						   worm.GrowToVector();
-
-						   if (worm.ThisNetworkInstanceCannotEat)
+					   if (Apples.Count > 0)
+						   if (worm.IsAlive)
 						   {
-							   worm.Shrink();
-						   }
-						   else
-						   {
-							   // is there a worm smaller than us that we can eat?
-							   if (worm.Parts.Count > 1)
-							   {
-								   var OtherWorms = Worms.Where(k => k != worm).ToArray();
 
-								   Status.text = "";
-
-								   Status.appendText("others: " + OtherWorms.Length);
-
-								   var ToBeEaten = OtherWorms.FirstOrDefault(k => k.Parts.Any(i => i.Location.IsEqual(worm.NextLocation) || i.Location.IsEqual(worm.Location)));
-
-								   if (ToBeEaten != null)
-								   {
+							   //Status.text = "";
 
 
-									   if (ToBeEaten.IsAlive)
-									   {
-										   if (ToBeEaten.Parts.Count < worm.Parts.Count)
-										   {
-											   ToBeEaten.Color = 0x8f8f8f;
+							   worm.GrowToVector();
 
-											   worm.EatThisWormSoon(ToBeEaten);
-										   }
-										   else
-										   {
-											   Status.appendText(" target not smaller");
-										   }
-									   }
-									   else
-									   {
-										   Status.appendText(" target not alive");
-									   }
-
-
-								   }
-								   else
-								   {
-									   Status.appendText(" noone in range");
-								   }
-							   }
-
-							   // did we find an apple?
-							   var a = Apples.Where(i => i.Location.IsEqual(worm.Location)).ToArray();
-
-							   if (a.Length > 0)
-							   {
-								   foreach (var v in a)
-								   {
-									   v.Control.Orphanize();
-									   Apples.Remove(v);
-
-									   if (worm.HasEatenAnApple != null)
-										   worm.HasEatenAnApple(v);
-								   }
-
-								   Sounds.sound20.ToSoundAsset().play();
-								   // AddScore(1);
-							   }
-							   else
+							   if (worm.ThisNetworkInstanceCannotEat)
 							   {
 								   worm.Shrink();
 							   }
+							   else
+							   {
+								   // is there a worm smaller than us that we can eat?
+								   if (worm.Parts.Count > 1)
+								   {
+									   var OtherWorms = Worms.Where(k => k != worm).ToArray();
+
+
+
+									   //Status.appendText("others: " + OtherWorms.Length);
+
+									   var ToBeEaten = OtherWorms.FirstOrDefault(k => k.Parts.Any(i => i.Location.IsEqual(worm.NextLocation) || i.Location.IsEqual(worm.Location)));
+
+									   if (ToBeEaten != null)
+									   {
+
+
+										   if (ToBeEaten.IsAlive)
+										   {
+											   if (ToBeEaten.Parts.Count < worm.Parts.Count)
+											   {
+												   ToBeEaten.Color = 0x8f8f8f;
+
+												   worm.EatThisWormSoon(ToBeEaten);
+											   }
+											   else
+											   {
+												   //Status.appendText(" target not smaller");
+											   }
+										   }
+										   else
+										   {
+											   //Status.appendText(" target not alive");
+										   }
+
+
+									   }
+									   else
+									   {
+										   //Status.appendText(" noone in range");
+									   }
+								   }
+
+								   // did we find an apple?
+								   var a = Apples.Where(i => i.Location.IsEqual(worm.Location)).ToArray();
+
+								   if (a.Length > 0)
+								   {
+									   foreach (var v in a)
+									   {
+										   v.Control.Orphanize();
+										   Apples.Remove(v);
+
+										   if (worm.HasEatenAnApple != null)
+											   worm.HasEatenAnApple(v);
+									   }
+
+									   Sounds.sound20.ToSoundAsset().play();
+									   // AddScore(1);
+								   }
+								   else
+								   {
+									   worm.Shrink();
+								   }
+							   }
 						   }
-					   }
 				   }
 
 

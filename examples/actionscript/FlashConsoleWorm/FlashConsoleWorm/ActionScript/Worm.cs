@@ -11,6 +11,10 @@ namespace FlashConsoleWorm.ActionScript
 	[Script]
 	public partial class Worm
 	{
+		public int ApplesEaten;
+		public int WormsEaten;
+
+
 		public Worm WormWhoIsGoingToEatMe;
 
 		public Action<Worm> EatThisWormSoon;

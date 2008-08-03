@@ -56,6 +56,8 @@ namespace FlashConsoleWorm.Shared
 			void EatThisWormEnd(int food);
 			void UserEatThisWormEnd(int user, int food);
 
+			void LevelHasEnded();
+			void UserLevelHasEnded(int user);
 
             void ServerSendMap();
 
