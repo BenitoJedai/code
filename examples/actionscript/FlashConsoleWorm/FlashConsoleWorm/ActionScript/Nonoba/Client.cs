@@ -16,10 +16,14 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 	public partial class Client : Sprite
 	{
 		public const int OuterControlWidth = DefaultControlWidth + NonobaChatWidth;
-		public const int OuterControlHeight = DefaultControlHeight;
+		public const int OuterControlHeight = DefaultControlHeight + NonobaChatHeight;
 
 
 		public const int NonobaChatWidth = 200;
+
+		// we are losing stage on the bottom?
+		// clear firefox3 zoom settings
+		public const int NonobaChatHeight = 0;
 
 		public const int DefaultControlWidth = FlashConsoleWorm.DefaultWidth;
 		public const int DefaultControlHeight = FlashConsoleWorm.DefaultHeight;
