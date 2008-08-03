@@ -18,7 +18,8 @@ namespace FlashConsoleWorm.ActionScript.Monetized
 		   )]
 	[SWF(
 		width = PreloaderContent.OuterControlWidth,
-		height = PreloaderContent.OuterControlHeight
+		height = PreloaderContent.OuterControlHeight,
+		backgroundColor = 0
 		)]
 	[GoogleGadget(
 		   author_email = "dadeval@gmail.com",
@@ -55,13 +56,17 @@ namespace FlashConsoleWorm.ActionScript.Monetized
 
 		public MochiPreloader()
 		{
-
-			_mochiads_game_id = MochiAdKey;
-
-			showPreGameAd(
+			this.InvokeWhenStageIsReady(
 				delegate
 				{
-					new PreloaderContent().AttachTo(stage);
+					_mochiads_game_id = MochiAdKey;
+
+					showPreGameAd(
+						delegate
+						{
+							new PreloaderContent().AttachTo(stage);
+						}
+					);
 				}
 			);
 		}

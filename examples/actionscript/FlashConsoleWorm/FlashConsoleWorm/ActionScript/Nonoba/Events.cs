@@ -61,7 +61,7 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 						ThisNetworkInstanceCannotEat = true
 					}.AddTo(Map.Worms).Grow();
 
-					ShowMessage("remote worm created - " + Map.Worms.Count);
+					//ShowMessage("remote worm created - " + Map.Worms.Count);
 				};
 
 			Events.ServerPlayerJoined +=
