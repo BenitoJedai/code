@@ -27,7 +27,7 @@ namespace FlashConsoleWorm.ActionScript.Monetized
 		   author = "Arvo Sulakatko",
 		   category = "lifestyle",
 		   category2 = "funandgames",
-		  // screenshot = "http://jsc.sourceforge.net/?",
+		   screenshot = "http://files.nonoba.com/GameScreenshot/2282/screenshot_rev1.png",
 		   thumbnail = "http://files.nonoba.com/GameIcon/2282/gameicon_rev1.png",
 		   description = MochiPreloader.Description,
 		   width = PreloaderContent.OuterControlWidth,
