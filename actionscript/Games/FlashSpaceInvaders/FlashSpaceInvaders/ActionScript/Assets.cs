@@ -36,5 +36,8 @@ namespace FlashSpaceInvaders.ActionScript
 
         [Embed(source = Path + "/biggun_1.png")]
         static public readonly Class biggun_1;
+
+		[Embed(source = Path + "/ufo_1.png")]
+		static public readonly Class ufo_1;
     }
 }
