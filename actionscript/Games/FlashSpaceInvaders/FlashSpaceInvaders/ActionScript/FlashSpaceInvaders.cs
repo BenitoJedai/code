@@ -13,6 +13,7 @@ using ScriptCoreLib.ActionScript.flash.geom;
 
 using FlashSpaceInvaders.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.filters;
+using System.Collections.Generic;
 
 namespace FlashSpaceInvaders.ActionScript
 {
@@ -106,7 +107,7 @@ namespace FlashSpaceInvaders.ActionScript
 			}.AttachTo(this);
 			#endregion
 
-
+			#region lifebar
 			Func<int, Sprite> AddLife =
 				offset =>
 					Animations.Spawn_BigGun((int)(TextLives.x + TextLives.width) + offset, (int)(TextLives.y + TextLives.height / 2));
@@ -129,41 +130,39 @@ namespace FlashSpaceInvaders.ActionScript
 			var EvilLife3 = AddEvilLife(40 * 2);
 
 			var EvilLifeBar = new SpriteWithMovement { EvilLife1, EvilLife2, EvilLife3 };
+			#endregion
 
 
 			MovementWASD = new KeyboardButtonGroup { Name = "WASD" };
 			MovementArrows = new KeyboardButtonGroup { Name = "Arrows" };
 
-			this.Ego = new SpriteWithMovement { Animations.Spawn_BigGun(0, 0) }.AttachTo(Canvas);
+			var cp1 = new PlayerShip(DefaultWidth, DefaultHeight);
 
-			var EgoY = DefaultHeight - 20;
-			var EvilEgoY = 60;
+			cp1.GoodEgo.AttachTo(Canvas);
+			cp1.EvilEgo.AttachTo(Canvas);
 
-			Ego.y = EgoY;
-
-			var EvilEgo = new SpriteWithMovement { Animations.Spawn_UFO(0, 0) }.AttachTo(Canvas);
-
-			EvilEgo.y = EvilEgoY;
-
-			this.Ego.MoveToTarget.ValueChanged +=
+			(1000 / 30).AtInterval(
 				delegate
 				{
-					if (this.Ego.MoveToTarget.Value.x > DefaultWidth / 2)
-						EvilEgo.MoveTo(this.Ego.MoveToTarget.Value.x - DefaultWidth, EvilEgoY);
-					else
-						EvilEgo.MoveTo(this.Ego.MoveToTarget.Value.x + DefaultWidth, EvilEgoY);
-				};
+					cp1.GoodEgo.MoveToTarget.Value.x += 5;
+				}
+			);
 
-			var EvilMode = new BooleanProperty();
+			var cp2 = new PlayerShip(DefaultWidth, DefaultHeight);
 
+			cp2.GoodEgo.AttachTo(Canvas);
+			cp2.EvilEgo.AttachTo(Canvas);
 
+			(1000 / 30).AtInterval(
+				delegate
+				{
+					cp2.GoodEgo.MoveToTarget.Value.x -= 6;
+				}
+			);
 
+			this.Ego = new PlayerShip(DefaultWidth, DefaultHeight);
 
-
-
-
-
-			EvilMode.ValueChangedToTrue +=
+			this.Ego.EvilMode.ValueChangedToTrue +=
 				delegate
 				{
 					EvilLifeBar.AttachTo(Canvas);
@@ -172,7 +171,7 @@ namespace FlashSpaceInvaders.ActionScript
 					this.filters = new[] { Filters.RedChannelFilter };
 				};
 
-			EvilMode.ValueChangedToFalse +=
+			this.Ego.EvilMode.ValueChangedToFalse +=
 				delegate
 				{
 					LifeBar.AttachTo(Canvas);
@@ -182,57 +181,20 @@ namespace FlashSpaceInvaders.ActionScript
 					this.filters = null;
 				};
 
-			this.Ego.PositionChanged +=
-				delegate
-				{
-					var EvilModePending = true;
-
-					if (this.Ego.x < DefaultWidth)
-						if (this.Ego.x > 0)
-						{
-
-							if (this.Ego.MoveToTarget.Value.x > DefaultWidth / 2)
-								EvilEgo.TeleportTo(this.Ego.x - DefaultWidth, EvilEgoY);
-							else
-								EvilEgo.TeleportTo(this.Ego.x + DefaultWidth, EvilEgoY);
-
-							EvilModePending = false;
-
-						}
-
-					EvilMode.Value = EvilModePending;
-
-					if (this.Ego.x > DefaultWidth * 2)
-					{
-						this.Ego.MoveToTarget.Value.x -= DefaultWidth * 2;
-						this.Ego.x -= DefaultWidth * 2;
-					}
-
-					if (this.Ego.x < -DefaultWidth)
-					{
-						this.Ego.MoveToTarget.Value.x += DefaultWidth * 2;
-						this.Ego.x += DefaultWidth * 2;
-					}
-				};
-
-
-			Ego.MoveTo(DefaultWidth / 2, EgoY);
-
-			
-			Ego.MaxStep = 12;
-			EvilEgo.MaxStep = 12;
+			this.Ego.GoodEgo.AttachTo(Canvas);
+			this.Ego.EvilEgo.AttachTo(Canvas);
 
 			#region Ego Movement
 			// ego input
 			stage.click +=
 				e =>
 				{
-					if (EvilMode)
+					if (Ego.EvilMode)
 					{
-						Ego.MoveTo(e.stageX + DefaultWidth, EgoY);
+						Ego.GoodEgo.MoveTo(e.stageX + DefaultWidth, Ego.GoodEgoY);
 					}
 					else
-						Ego.MoveTo(e.stageX, EgoY);
+						Ego.GoodEgo.MoveTo(e.stageX, Ego.GoodEgoY);
 				};
 
 			var GoLeft = new KeyboardButton(stage)
@@ -242,7 +204,7 @@ namespace FlashSpaceInvaders.ActionScript
                     MovementWASD[Keyboard.A],
                     MovementArrows[Keyboard.LEFT],
                 },
-				Tick = () => { Ego.MoveToTarget.Value = Ego.ToPoint().MoveToArc(Math.PI, Ego.MaxStep * 2); }
+				Tick = () => { Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(Math.PI, Ego.GoodEgo.MaxStep * 2); }
 			};
 
 			var GoRight = new KeyboardButton(stage)
@@ -252,7 +214,7 @@ namespace FlashSpaceInvaders.ActionScript
                     MovementWASD[Keyboard.D],
                     MovementArrows[Keyboard.RIGHT],
                 },
-				Tick = () => { Ego.MoveToTarget.Value = Ego.ToPoint().MoveToArc(0, Ego.MaxStep * 2); }
+				Tick = () => { Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(0, Ego.GoodEgo.MaxStep * 2); }
 			};
 			#endregion
 
@@ -286,23 +248,11 @@ namespace FlashSpaceInvaders.ActionScript
 		}
 
 
-		[Script]
-		public class SolidColorShape : Shape
-		{
-			public readonly int Size;
-			public readonly uint Color;
 
-			public SolidColorShape(int size, uint color)
-			{
-				this.Size = size;
-				this.Color = color;
 
-				this.graphics.beginFill(color);
-				this.graphics.drawRect(-size / 2, -size / 2, size, size);
-			}
-		}
+		public readonly List<PlayerShip> CoPlayers = new List<PlayerShip>();
 
-		public SpriteWithMovement Ego;
+		public PlayerShip Ego;
 
 		public KeyboardButtonGroup MovementWASD;
 		public KeyboardButtonGroup MovementArrows;

@@ -58,6 +58,7 @@
     <Compile Include="ActionScript\KeyboardButton.cs" />
     <Compile Include="ActionScript\KeyboardButtonGroup.cs" />
     <Compile Include="ActionScript\Property.cs" />
+    <Compile Include="ActionScript\SolidColorShape.cs" />
     <Compile Include="ActionScript\SpriteWithMovement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
