@@ -62,12 +62,8 @@ namespace FlashSpaceInvaders.ActionScript
 			#region Spawn_BigGun
 			Func<int, int, Sprite> Spawn_BigGun =
 				(x, y) =>
-					new Sprite { x = x, y = y }.AttachTo(menu).AnimateAt(
-						new BitmapAsset[]
-                        {
-                            Assets.biggun_1.ToBitmapAsset(),
-                        }
-					, 500);
+					Animations.Spawn_BigGun(x, y).AttachTo(menu);
+
 			#endregion
 
 			#region Spawn_BigGun
