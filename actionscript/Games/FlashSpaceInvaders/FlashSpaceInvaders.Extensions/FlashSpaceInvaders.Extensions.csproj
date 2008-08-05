@@ -51,8 +51,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\Animations.cs" />
+    <Compile Include="ActionScript\BooleanProperty.cs" />
     <Compile Include="ActionScript\Colors.cs" />
     <Compile Include="ActionScript\Extensions\MyExtensions.cs" />
+    <Compile Include="ActionScript\Filters.cs" />
     <Compile Include="ActionScript\KeyboardButton.cs" />
     <Compile Include="ActionScript\KeyboardButtonGroup.cs" />
     <Compile Include="ActionScript\Property.cs" />

@@ -243,6 +243,7 @@
     <Compile Include="ActionScript\Class.cs" />
     <Compile Include="ActionScript\Extensions\MathExtensions.cs" />
     <Compile Include="ActionScript\Extensions\ZipFileEntry.cs" />
+    <Compile Include="ActionScript\flash\filters\ColorMatrixFilter.cs" />
     <Compile Include="ActionScript\flash\system\IME.cs" />
     <Compile Include="ActionScript\flash\system\SecurityDomain.cs" />
     <Compile Include="ActionScript\flash\system\System.cs" />

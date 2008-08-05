@@ -59,44 +59,17 @@ namespace FlashSpaceInvaders.ActionScript
 					, 500);
 			#endregion
 
-			#region Spawn_BigGun
 			Func<int, int, Sprite> Spawn_BigGun =
 				(x, y) =>
 					Animations.Spawn_BigGun(x, y).AttachTo(menu);
 
-			#endregion
-
-			#region Spawn_BigGun
 			Func<int, int, Sprite> Spawn_UFO =
 				(x, y) =>
-					new Sprite { x = x, y = y }.AttachTo(menu).AnimateAt(
-						new BitmapAsset[]
-                        {
-                            Assets.ufo_1.ToBitmapAsset(),
-                        }
-					, 500);
-			#endregion
+					Animations.Spawn_UFO(x, y).AttachTo(menu);
 
 
 
-			//var Player = Spawn_BigGun(300, 360);
 
-			//stage.doubleClickEnabled = true;
-			//stage.doubleClick +=
-			//    ev =>
-			//    {
-			//        stage.SetFullscreen(true);
-			//    };
-
-			//stage.keyDown +=
-			//    ev =>
-			//    {
-			//        if (ev.keyCode == KeyLeft)
-			//            Player.x -= 4;
-
-			//        if (ev.keyCode == KeyRight)
-			//            Player.x += 4;
-			//    };
 
 
 			// http://blog.paoloiulita.it/2008/03/11/as3-embedding-font-with-code-only/

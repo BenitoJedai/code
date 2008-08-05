@@ -12,6 +12,7 @@ namespace FlashSpaceInvaders.ActionScript
 		public const uint Green = 0xff00;
 		public const uint Blue = 0xff;
 		public const uint White = 0xffffff;
+		public const uint Red = 0xff0000;
 		public const uint Black = 0x0;
 		public const uint Gray = 0x808080;
 	}

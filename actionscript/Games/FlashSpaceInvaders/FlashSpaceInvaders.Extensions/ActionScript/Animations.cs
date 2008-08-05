@@ -14,7 +14,15 @@ namespace FlashSpaceInvaders.ActionScript
 	[Script]
 	public static class Animations
 	{
-		#region Spawn_BigGun
+		public static Func<int, int, Sprite> Spawn_UFO =
+			(x, y) =>
+				new Sprite { x = x, y = y }.AnimateAt(
+					new BitmapAsset[]
+                        {
+                            Assets.ufo_1.ToBitmapAsset(),
+                        }
+				, 500);
+
 		public static Func<int, int, Sprite> Spawn_BigGun =
 			(x, y) =>
 				new Sprite { x = x, y = y }.AnimateAt(
@@ -23,6 +31,5 @@ namespace FlashSpaceInvaders.ActionScript
                             Assets.biggun_1.ToBitmapAsset(),
                         }
 				, 500);
-		#endregion
 	}
 }

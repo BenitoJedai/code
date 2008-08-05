@@ -674,6 +674,8 @@ namespace jsc.Languages.ActionScript
 										Write("0");
 									else if (e.i.TargetType == typeof(sbyte))
 										Write("0");
+									else if (e.i.TargetType == typeof(double))
+										Write("0");
 									else
 										BreakToDebugger("default for " + e.i.TargetType.FullName + " is unknown");
 								}
