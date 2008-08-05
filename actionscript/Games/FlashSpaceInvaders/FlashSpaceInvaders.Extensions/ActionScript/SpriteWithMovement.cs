@@ -49,6 +49,8 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public double MaxStep = 0;
 
+		public readonly BooleanProperty CloseEnough = new BooleanProperty { Value = true };
+
 		public SpriteWithMovement()
 		{
 			(1000 / 30).AtInterval(
@@ -60,9 +62,18 @@ namespace FlashSpaceInvaders.ActionScript
 
 					if (x.length < 2)
 					{
+						if (!CloseEnough.Value)
+						{
+							CloseEnough.Value = true;
+
+							if (PositionChanged != null)
+								PositionChanged();
+						}
 					}
 					else
 					{
+						CloseEnough.Value = false;
+
 						var step = x.length;
 
 						if (x.length < 4)
@@ -91,6 +102,8 @@ namespace FlashSpaceInvaders.ActionScript
 						if (PositionChanged != null)
 							PositionChanged();
 					}
+
+			
 				}
 			);
 		}
