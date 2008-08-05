@@ -6,10 +6,10 @@ using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.utils;
 
-namespace FlashSpaceInvaders.ActionScript
+namespace FlashSpaceInvaders.ActionScript.Extensions
 {
     [Script]
-    static class MyExtensions
+    public static class MyExtensions
     {
         public static T AnimateAt<T>(this T c, DisplayObject[] e, int interval)  where T:DisplayObjectContainer
         {
