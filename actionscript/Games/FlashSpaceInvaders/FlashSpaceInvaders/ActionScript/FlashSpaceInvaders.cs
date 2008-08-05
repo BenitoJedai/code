@@ -7,8 +7,11 @@ using System;
 using ScriptCoreLib.ActionScript.mx.core;
 using ScriptCoreLib.ActionScript.flash.ui;
 using System.Linq;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 
+
+using FlashSpaceInvaders.ActionScript.Extensions;
 
 namespace FlashSpaceInvaders.ActionScript
 {
@@ -36,6 +39,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 
 			var m = new MenuSprite(DefaultWidth).AttachTo(this);
+			var Canvas = new Sprite();
 
 			stage.keyUp +=
 				e =>
@@ -43,11 +47,13 @@ namespace FlashSpaceInvaders.ActionScript
 					if (e.keyCode == Keyboard.ENTER)
 					{
 						m.Orphanize();
+						Canvas.AttachTo(this);
 					}
 
 					if (e.keyCode == Keyboard.ESCAPE)
 					{
 						m.AttachTo(this);
+						Canvas.Orphanize();
 					}
 				};
 
@@ -108,7 +114,55 @@ namespace FlashSpaceInvaders.ActionScript
 			var Life1 = AddLife(40 * 0);
 			var Life2 = AddLife(40 * 1);
 			var Life3 = AddLife(40 * 2);
+
+
+			MovementWASD = new KeyboardButtonGroup { Name = "WASD" };
+			MovementArrows = new KeyboardButtonGroup { Name = "Arrows" };
+
+			this.Ego = new SpriteWithMovement { Animations.Spawn_BigGun(0, 0) }.AttachTo(Canvas);
+
+			var EgoMarginX = 20;
+
+			var EgoY = DefaultHeight - 20;
+
+			Ego.MoveTo(DefaultWidth / 2, EgoY);
+			Ego.ClipRectangle = new Rectangle(EgoMarginX, EgoY, DefaultWidth - EgoMarginX * 2, 0);
+
+			Ego.MaxStep = 12;
+
+			// ego input
+			stage.click +=
+				e =>
+				{
+					Ego.MoveTo(e.stageX, e.stageY);
+				};
+
+			var GoLeft = new KeyboardButton(stage)
+			{
+				Groups = new[]
+                {
+                    MovementWASD[Keyboard.A],
+                    MovementArrows[Keyboard.LEFT],
+                },
+				Tick = () => { Ego.MoveToTarget.Value = Ego.ToPoint().MoveToArc(Math.PI, Ego.MaxStep * 2); }
+			};
+
+			var GoRight = new KeyboardButton(stage)
+			{
+				Groups = new[]
+                {
+                    MovementWASD[Keyboard.D],
+                    MovementArrows[Keyboard.RIGHT],
+                },
+				Tick = () => { Ego.MoveToTarget.Value = Ego.ToPoint().MoveToArc(0, Ego.MaxStep * 2); }
+			};
 		}
+
+		public SpriteWithMovement Ego;
+
+		public KeyboardButtonGroup MovementWASD;
+		public KeyboardButtonGroup MovementArrows;
+
     }
 
 }
