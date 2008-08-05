@@ -56,5 +56,19 @@ namespace FlashSpaceInvaders.ActionScript
 				};
 			}
 		}
+
+		public KeyboardButtonGroupInfo this[KeyboardKeyInfo button, uint loc]
+		{
+			get
+			{
+				button.Location = loc;
+
+				return new KeyboardButtonGroupInfo
+				{
+					Group = this,
+					Buttons = new[] { button }
+				};
+			}
+		}
 	}
 }

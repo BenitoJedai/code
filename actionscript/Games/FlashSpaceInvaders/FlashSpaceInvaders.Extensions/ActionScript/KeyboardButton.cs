@@ -61,8 +61,13 @@ namespace FlashSpaceInvaders.ActionScript
 		public Action Tick;
 
 		public KeyboardButton(Stage s)
+			: this(s, 1000 / 30)
 		{
-			var t = new Timer(1000 / 30);
+		}
+
+		public KeyboardButton(Stage s, int fps)
+		{
+			var t = new Timer(fps);
 
 			t.timer +=
 				delegate
