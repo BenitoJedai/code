@@ -43,6 +43,9 @@ namespace FlashSpaceInvaders.ActionScript
 			var m = new MenuSprite(DefaultWidth).AttachTo(this);
 			var Canvas = new Sprite();
 
+		
+
+			Canvas.mask = mask;
 			stage.keyUp +=
 				e =>
 				{
@@ -218,6 +221,8 @@ namespace FlashSpaceInvaders.ActionScript
 			};
 			#endregion
 
+
+
 			var BlockSize = 16;
 
 			DefenseArrays = new[]
@@ -228,6 +233,20 @@ namespace FlashSpaceInvaders.ActionScript
 					CreateDefenseArray(BlockSize, DefaultWidth * 7 / 8, 420, Colors.Green, Canvas)
 				};
 
+
+			var DoFire = new KeyboardButton(stage, 400)
+			{
+				Groups = new[]
+                {
+                    MovementWASD[Keyboard.CONTROL , 1],
+                    MovementArrows[Keyboard.RIGHT , 2],
+                },
+				Tick = 
+					delegate
+					{
+						// shoot
+					}
+			};
 
 		}
 
