@@ -50,10 +50,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\Animations.cs" />
     <Compile Include="ActionScript\Colors.cs" />
     <Compile Include="ActionScript\Extensions\MyExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FlashSpaceInvaders.Assets\FlashSpaceInvaders.Assets.csproj">
+      <Project>{A1524B06-06D4-4C88-AF21-417C5C7784B8}</Project>
+      <Name>FlashSpaceInvaders.Assets</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="web\" />
