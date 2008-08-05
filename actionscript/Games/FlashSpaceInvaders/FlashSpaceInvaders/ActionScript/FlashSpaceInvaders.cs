@@ -15,25 +15,25 @@ using FlashSpaceInvaders.ActionScript.Extensions;
 
 namespace FlashSpaceInvaders.ActionScript
 {
-    /// <summary>
-    /// testing...
-    /// </summary>
-    [Script, ScriptApplicationEntryPoint]
-    [SWF(backgroundColor = Colors.Black, width = DefaultWidth, height = DefaultHeight)]
-    public class FlashSpaceInvaders : Sprite
-    {
-        public const int DefaultWidth = 480;
-        public const int DefaultHeight = 480;
+	/// <summary>
+	/// testing...
+	/// </summary>
+	[Script, ScriptApplicationEntryPoint]
+	[SWF(backgroundColor = Colors.Black, width = DefaultWidth, height = DefaultHeight)]
+	public class FlashSpaceInvaders : Sprite
+	{
+		public const int DefaultWidth = 480;
+		public const int DefaultHeight = 480;
 
- 
-        public const int KeyLeft = 37;
-        public const int KeyRight = 39;
 
-	
-   
-        
-        public FlashSpaceInvaders()
-        {
+		public const int KeyLeft = 37;
+		public const int KeyRight = 39;
+
+
+
+
+		public FlashSpaceInvaders()
+		{
 			this.graphics.lineStyle(1, Colors.Green, 1);
 			this.graphics.drawRect(0, 0, DefaultWidth - 1, DefaultHeight - 1);
 
@@ -130,6 +130,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 			Ego.MaxStep = 12;
 
+			#region Ego Movement
 			// ego input
 			stage.click +=
 				e =>
@@ -156,6 +157,52 @@ namespace FlashSpaceInvaders.ActionScript
                 },
 				Tick = () => { Ego.MoveToTarget.Value = Ego.ToPoint().MoveToArc(0, Ego.MaxStep * 2); }
 			};
+			#endregion
+
+			var BlockSize = 16;
+
+			DefenseArrays = new[]
+				{
+					CreateDefenseArray(BlockSize, DefaultWidth * 1 / 8, 420, Colors.Green, Canvas),
+					CreateDefenseArray(BlockSize, DefaultWidth * 3 / 8, 420, Colors.Green, Canvas),
+					CreateDefenseArray(BlockSize, DefaultWidth * 5 / 8, 420, Colors.Green, Canvas),
+					CreateDefenseArray(BlockSize, DefaultWidth * 7 / 8, 420, Colors.Green, Canvas)
+				};
+
+
+		}
+
+		public SolidColorShape[][] DefenseArrays;
+
+		static SolidColorShape[] CreateDefenseArray(int size, int x, int y, uint color, DisplayObjectContainer owner)
+		{
+			return new[]
+			{
+				new SolidColorShape(size, color) { x = x  + size * 0.5, y = y }.AttachTo(owner),
+				new SolidColorShape(size, color) { x = x  + size * 1.5, y = y }.AttachTo(owner),
+				new SolidColorShape(size, color) { x = x  + size * 1.5, y = y  + size}.AttachTo(owner),
+
+				new SolidColorShape(size, color) { x = x  - size * 0.5, y = y }.AttachTo(owner),
+				new SolidColorShape(size, color) { x = x  - size * 1.5, y = y }.AttachTo(owner),
+				new SolidColorShape(size, color) { x = x  - size * 1.5, y = y + size }.AttachTo(owner),
+			};
+		}
+
+
+		[Script]
+		public class SolidColorShape : Shape
+		{
+			public readonly int Size;
+			public readonly uint Color;
+
+			public SolidColorShape(int size, uint color)
+			{
+				this.Size = size;
+				this.Color = color;
+
+				this.graphics.beginFill(color);
+				this.graphics.drawRect(-size / 2, -size / 2, size, size);
+			}
 		}
 
 		public SpriteWithMovement Ego;
@@ -163,6 +210,6 @@ namespace FlashSpaceInvaders.ActionScript
 		public KeyboardButtonGroup MovementWASD;
 		public KeyboardButtonGroup MovementArrows;
 
-    }
+	}
 
 }
