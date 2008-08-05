@@ -38,6 +38,7 @@ namespace FlashConsoleWorm.ActionScript
 
 		public KeyboardButtonGroup MovementWASD;
 		public KeyboardButtonGroup MovementArrows;
+
 		/// <summary>
 		/// Default constructor
 		/// </summary>

@@ -12,6 +12,7 @@ using ScriptCoreLib.ActionScript.flash.geom;
 
 
 using FlashSpaceInvaders.ActionScript.Extensions;
+using ScriptCoreLib.ActionScript.flash.filters;
 
 namespace FlashSpaceInvaders.ActionScript
 {
@@ -108,12 +109,26 @@ namespace FlashSpaceInvaders.ActionScript
 
 			Func<int, Sprite> AddLife =
 				offset =>
-					Animations.Spawn_BigGun((int)(TextLives.x + TextLives.width) + offset, (int)(TextLives.y + TextLives.height / 2)).AttachTo(this);
+					Animations.Spawn_BigGun((int)(TextLives.x + TextLives.width) + offset, (int)(TextLives.y + TextLives.height / 2));
+
+
+			Func<int, Sprite> AddEvilLife =
+				offset =>
+					Animations.Spawn_UFO((int)(TextLives.x + TextLives.width) + offset, (int)(TextLives.y + TextLives.height / 2));
+
 
 
 			var Life1 = AddLife(40 * 0);
 			var Life2 = AddLife(40 * 1);
 			var Life3 = AddLife(40 * 2);
+
+			var LifeBar = new SpriteWithMovement { Life1, Life2, Life3 }.AttachTo(Canvas);
+
+			var EvilLife1 = AddEvilLife(40 * 0);
+			var EvilLife2 = AddEvilLife(40 * 1);
+			var EvilLife3 = AddEvilLife(40 * 2);
+
+			var EvilLifeBar = new SpriteWithMovement { EvilLife1, EvilLife2, EvilLife3 };
 
 
 			MovementWASD = new KeyboardButtonGroup { Name = "WASD" };
@@ -121,21 +136,103 @@ namespace FlashSpaceInvaders.ActionScript
 
 			this.Ego = new SpriteWithMovement { Animations.Spawn_BigGun(0, 0) }.AttachTo(Canvas);
 
-			var EgoMarginX = 20;
-
 			var EgoY = DefaultHeight - 20;
+			var EvilEgoY = 60;
+
+			Ego.y = EgoY;
+
+			var EvilEgo = new SpriteWithMovement { Animations.Spawn_UFO(0, 0) }.AttachTo(Canvas);
+
+			EvilEgo.y = EvilEgoY;
+
+			this.Ego.MoveToTarget.ValueChanged +=
+				delegate
+				{
+					if (this.Ego.MoveToTarget.Value.x > DefaultWidth / 2)
+						EvilEgo.MoveTo(this.Ego.MoveToTarget.Value.x - DefaultWidth, EvilEgoY);
+					else
+						EvilEgo.MoveTo(this.Ego.MoveToTarget.Value.x + DefaultWidth, EvilEgoY);
+				};
+
+			var EvilMode = new BooleanProperty();
+
+
+
+
+
+
+
+
+			EvilMode.ValueChangedToTrue +=
+				delegate
+				{
+					EvilLifeBar.AttachTo(Canvas);
+					LifeBar.Orphanize();
+
+					this.filters = new[] { Filters.RedChannelFilter };
+				};
+
+			EvilMode.ValueChangedToFalse +=
+				delegate
+				{
+					LifeBar.AttachTo(Canvas);
+					EvilLifeBar.Orphanize();
+
+
+					this.filters = null;
+				};
+
+			this.Ego.PositionChanged +=
+				delegate
+				{
+					var EvilModePending = true;
+
+					if (this.Ego.x < DefaultWidth)
+						if (this.Ego.x > 0)
+						{
+
+							if (this.Ego.MoveToTarget.Value.x > DefaultWidth / 2)
+								EvilEgo.TeleportTo(this.Ego.x - DefaultWidth, EvilEgoY);
+							else
+								EvilEgo.TeleportTo(this.Ego.x + DefaultWidth, EvilEgoY);
+
+							EvilModePending = false;
+
+						}
+
+					EvilMode.Value = EvilModePending;
+
+					if (this.Ego.x > DefaultWidth * 2)
+					{
+						this.Ego.MoveToTarget.Value.x -= DefaultWidth * 2;
+						this.Ego.x -= DefaultWidth * 2;
+					}
+
+					if (this.Ego.x < -DefaultWidth)
+					{
+						this.Ego.MoveToTarget.Value.x += DefaultWidth * 2;
+						this.Ego.x += DefaultWidth * 2;
+					}
+				};
+
 
 			Ego.MoveTo(DefaultWidth / 2, EgoY);
-			Ego.ClipRectangle = new Rectangle(EgoMarginX, EgoY, DefaultWidth - EgoMarginX * 2, 0);
 
+			
 			Ego.MaxStep = 12;
+			EvilEgo.MaxStep = 12;
 
 			#region Ego Movement
 			// ego input
 			stage.click +=
 				e =>
 				{
-					Ego.MoveTo(e.stageX, e.stageY);
+					if (EvilMode)
+					{
+						Ego.MoveTo(e.stageX + DefaultWidth, EgoY);
+					}
+					else
+						Ego.MoveTo(e.stageX, EgoY);
 				};
 
 			var GoLeft = new KeyboardButton(stage)

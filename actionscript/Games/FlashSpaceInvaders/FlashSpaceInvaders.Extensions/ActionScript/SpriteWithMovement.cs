@@ -26,6 +26,17 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public readonly Property<Point> MoveToTarget = new Property<Point> { Value = new Point() };
 
+		public SpriteWithMovement TeleportTo(double x, double y)
+		{
+			this.x = x;
+			this.y = y;
+
+			MoveToTarget.Value = new Point { x = x, y = y };
+
+
+			return this;
+		}
+
 		public SpriteWithMovement MoveTo(double x, double y)
 		{
 			MoveToTarget.Value = new Point { x = x, y = y };
@@ -76,11 +87,15 @@ namespace FlashSpaceInvaders.ActionScript
 							this.x = this.x.Min(this.ClipRectangle.right).Max(this.ClipRectangle.left);
 							this.y = this.y.Min(this.ClipRectangle.bottom).Max(this.ClipRectangle.top);
 						}
+
+						if (PositionChanged != null)
+							PositionChanged();
 					}
 				}
 			);
 		}
 
+		public event Action PositionChanged;
 
 
 		#region IEnumerable Members
