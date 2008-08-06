@@ -26,16 +26,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public readonly Property<Point> MoveToTarget = new Property<Point> { Value = new Point() };
 
-		public SpriteWithMovement TeleportTo(double x, double y)
-		{
-			this.x = x;
-			this.y = y;
 
-			MoveToTarget.Value = new Point { x = x, y = y };
-
-
-			return this;
-		}
 
 		public SpriteWithMovement MoveTo(double x, double y)
 		{

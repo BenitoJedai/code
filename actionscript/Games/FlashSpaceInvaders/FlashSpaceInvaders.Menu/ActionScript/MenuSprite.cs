@@ -17,57 +17,9 @@ namespace FlashSpaceInvaders.ActionScript
 	{
 		public MenuSprite(int DefaultWidth)
 		{
-			var SizeA = Assets.aenemy_1.ToBitmapAsset();
-			var SizeB = Assets.benemy_1.ToBitmapAsset();
-
-
 			var menu = new Sprite().AttachTo(this);
 
-			#region Spawn_A
-			Func<int, int, Sprite> Spawn_A =
-				(x, y) =>
-					new Sprite { x = x, y = y }.AttachTo(menu).AnimateAt(
-						new BitmapAsset[]
-                        {
-                            Assets.aenemy_1.ToBitmapAsset(),
-                            Assets.aenemy_2.ToBitmapAsset()
-                        }
-					, 500);
-			#endregion
-
-			#region Spawn_B
-			Func<int, int, Sprite> Spawn_B =
-				(x, y) =>
-					new Sprite { x = x, y = y }.AttachTo(menu).AnimateAt(
-						new BitmapAsset[]
-                        {
-                            Assets.benemy_1.ToBitmapAsset(),
-                            Assets.benemy_2.ToBitmapAsset()
-                        }
-					, 500);
-			#endregion
-
-			#region Spawn_C
-			Func<int, int, Sprite> Spawn_C =
-				(x, y) =>
-					new Sprite { x = x, y = y }.AttachTo(menu).AnimateAt(
-						new BitmapAsset[]
-                        {
-                            Assets.cenemy_1.ToBitmapAsset(),
-                            Assets.cenemy_2.ToBitmapAsset()
-                        }
-					, 500);
-			#endregion
-
-			Func<int, int, Sprite> Spawn_BigGun =
-				(x, y) =>
-					Animations.Spawn_BigGun(x, y).AttachTo(menu);
-
-			Func<int, int, Sprite> Spawn_UFO =
-				(x, y) =>
-					Animations.Spawn_UFO(x, y).AttachTo(menu);
-
-
+			
 
 
 
@@ -101,21 +53,21 @@ namespace FlashSpaceInvaders.ActionScript
 
 			#region SurroundText
 
-			Action<Func<int, int, Sprite>, TextField> SurroundTextLeft =
+			Action<Func<double, double, Sprite>, TextField> SurroundTextLeft =
 				(ctor, t) =>
 				{
-					ctor((int)t.x, (int)(t.y + (t.height) / 2));
+					ctor((int)t.x, (int)(t.y + (t.height) / 2)).AttachTo(menu);
 				};
 
 
-			Action<Func<int, int, Sprite>, TextField> SurroundTextRight =
+			Action<Func<double, double, Sprite>, TextField> SurroundTextRight =
 				(ctor, t) =>
 				{
-					ctor((int)(t.x + t.width), (int)(t.y + (t.height) / 2));
+					ctor((int)(t.x + t.width), (int)(t.y + (t.height) / 2)).AttachTo(menu);
 
 				};
 
-			Action<Func<int, int, Sprite>, TextField> SurroundText =
+			Action<Func<double, double, Sprite>, TextField> SurroundText =
 				(ctor, t) =>
 				{
 					SurroundTextLeft(ctor, t);
@@ -146,8 +98,8 @@ namespace FlashSpaceInvaders.ActionScript
 			}.AttachTo(menu);
 			#endregion
 
-			SurroundText(Spawn_C, TextSpace);
-			SurroundText(Spawn_A, TextInvaders);
+			SurroundText(Animations.Spawn_C, TextSpace);
+			SurroundText(Animations.Spawn_A, TextInvaders);
 
 
 			#region TextPressEnterToStartGame
@@ -174,7 +126,7 @@ namespace FlashSpaceInvaders.ActionScript
 			#endregion
 
 			#region CreateScoreInfo
-			Action<Func<int, int, Sprite>, int, string> CreateScoreInfo =
+			Action<Func<double, double, Sprite>, int, string> CreateScoreInfo =
 				(ctor, offset, text) =>
 				{
 					#region TextEnemyA
@@ -204,10 +156,10 @@ namespace FlashSpaceInvaders.ActionScript
 					SurroundTextLeft(ctor, t);
 				};
 
-			CreateScoreInfo(Spawn_A, 0, "  - 4 points");
-			CreateScoreInfo(Spawn_B, 30, "  - 2 points");
-			CreateScoreInfo(Spawn_C, 60, "  - 1 points");
-			CreateScoreInfo(Spawn_UFO, 90, "  - 10 points");
+			CreateScoreInfo(Animations.Spawn_A, 0, "  - 4 points");
+			CreateScoreInfo(Animations.Spawn_B, 30, "  - 2 points");
+			CreateScoreInfo(Animations.Spawn_C, 60, "  - 1 points");
+			CreateScoreInfo(Animations.Spawn_UFO, 90, "  - 10 points");
 			#endregion
 
 			#region TextInstructions1

@@ -60,6 +60,10 @@
       <Project>{A1524B06-06D4-4C88-AF21-417C5C7784B8}</Project>
       <Name>FlashSpaceInvaders.Assets</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FlashSpaceInvaders.Engine\FlashSpaceInvaders.Engine.csproj">
+      <Project>{54850763-92E4-4E2B-92A1-8A07D94E4B67}</Project>
+      <Name>FlashSpaceInvaders.Engine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FlashSpaceInvaders.Extensions\FlashSpaceInvaders.Extensions.csproj">
       <Project>{E99AEB58-9564-466F-8951-12FD95BF3198}</Project>
       <Name>FlashSpaceInvaders.Extensions</Name>
