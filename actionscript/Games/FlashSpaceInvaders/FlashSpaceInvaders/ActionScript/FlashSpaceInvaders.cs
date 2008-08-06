@@ -43,7 +43,7 @@ namespace FlashSpaceInvaders.ActionScript
 			var m = new MenuSprite(DefaultWidth).AttachTo(this);
 			var Canvas = new Sprite();
 
-		
+
 
 			Canvas.mask = mask;
 			stage.keyUp +=
@@ -238,13 +238,47 @@ namespace FlashSpaceInvaders.ActionScript
 			{
 				Groups = new[]
                 {
-                    MovementWASD[Keyboard.CONTROL , 1],
-                    MovementArrows[Keyboard.RIGHT , 2],
+                    MovementWASD[Keyboard.CONTROL , KeyLocation.LEFT],
+                    MovementArrows[Keyboard.RIGHT , KeyLocation.RIGHT],
                 },
-				Tick = 
+				Tick =
 					delegate
 					{
 						// shoot
+
+						var bullet = new SpriteWithMovement().AttachTo(Canvas);
+
+						bullet.graphics.beginFill(Colors.Green);
+						bullet.graphics.drawRect(0, -8, 1, 16);
+						bullet.StepMultiplier = 0.3;
+
+						if (Ego.EvilMode)
+						{
+							bullet.TeleportTo(Ego.EvilEgo.x, Ego.EvilEgo.y);
+							bullet.MoveTo(Ego.EvilEgo.x + 0.00001, DefaultHeight);
+
+							bullet.PositionChanged +=
+								delegate
+								{
+									if (bullet.y > Ego.GoodEgoY)
+										bullet.Orphanize();
+								};
+						}
+						else
+						{
+							bullet.TeleportTo(Ego.GoodEgo.x, Ego.GoodEgo.y);
+							bullet.MoveTo(Ego.GoodEgo.x + 0.00001, 0);
+
+
+							bullet.PositionChanged +=
+								delegate
+								{
+									if (bullet.y < Ego.EvilEgoY)
+										bullet.Orphanize();
+								};
+						}
+
+						
 					}
 			};
 
