@@ -161,6 +161,16 @@ namespace FlashSpaceInvaders.ActionScript
 			);
 			#endregion
 
+			1000.AtInterval(
+				delegate
+				{
+					AddBullet(cp1.FireBullet().Do(n => n.Element.AttachTo(Canvas)));
+					AddBullet(cp2.FireBullet(4).Do(n => n.Element.AttachTo(Canvas)));
+
+
+				}
+			);
+
 			this.Ego = new PlayerShip(DefaultWidth, DefaultHeight);
 
 			#region evilmode indicator
@@ -187,30 +197,42 @@ namespace FlashSpaceInvaders.ActionScript
 			this.Ego.GoodEgo.AttachTo(Canvas);
 			this.Ego.EvilEgo.AttachTo(Canvas);
 
-	
+			#region  build shared defense buildings
+			for (int i = 0; i < 4; i++)
+			{
+				var offset = DefaultWidth * (i * 2 + 1) / 8;
 
 
-			var BlockSize = 16;
-
-			DefenseArrays = new[]
+				foreach (var v in CreateDefenseArray(offset, 420, Canvas))
 				{
-					CreateDefenseArray(BlockSize, DefaultWidth * 1 / 8, 420, Colors.Green, Canvas),
-					CreateDefenseArray(BlockSize, DefaultWidth * 3 / 8, 420, Colors.Green, Canvas),
-					CreateDefenseArray(BlockSize, DefaultWidth * 5 / 8, 420, Colors.Green, Canvas),
-					CreateDefenseArray(BlockSize, DefaultWidth * 7 / 8, 420, Colors.Green, Canvas)
-				};
+					v.AddTo(DefenseBlocks).AddTo(FragileEntities);
+				}
+			}
+
+			#endregion
+
 
 
 			var input = new PlayerInput(stage, Ego)
 			{
-				StepLeft = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(Math.PI, Ego.GoodEgo.MaxStep * 2),
-				StepRight = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(0, Ego.GoodEgo.MaxStep * 2),
+				StepLeft = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(Math.PI, Ego.GoodEgo.MaxStep / 2),
+				StepRight = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(0, Ego.GoodEgo.MaxStep / 2),
 				FireBullet = () => AddBullet(Ego.FireBullet())
 			};
 		}
 
+		public readonly List<IFragileEntity> FragileEntities = new List<IFragileEntity>();
+
+
 		public void BulletHitTest(BulletInfo n)
 		{
+			var p = n.Element.ToPoint();
+			foreach (var v in from x in FragileEntities
+							  where (x.Location - p).length < n.Element.MaxStep
+							  select x)
+			{
+				v.TakeDamage(n.Damage * n.Multiplier);
+			}
 		}
 
 		public void AddBullet(BulletInfo n)
@@ -219,14 +241,21 @@ namespace FlashSpaceInvaders.ActionScript
 
 			n.Element.AttachTo(Canvas);
 
-			var p = n.Element.ToPoint();
+			var p = default(Point);
 
 			n.Element.PositionChanged +=
 				delegate
 				{
 					var k = n.Element.ToPoint();
 
-					if ((k - p).length > 8)
+					var DoHitTest = false;
+
+					if (p == null)
+						DoHitTest = true;
+					else if ((k - p).length > n.Element.MaxStep)
+						DoHitTest = true;
+
+					if (DoHitTest)
 					{
 						// only check for hit on each moved 8 pixels
 
@@ -246,19 +275,23 @@ namespace FlashSpaceInvaders.ActionScript
 		public readonly List<BulletInfo> Bullets =
 			new List<BulletInfo>();
 
-		public SolidColorShape[][] DefenseArrays;
+		public readonly List<DefenseBlock> DefenseBlocks =
+			new List<DefenseBlock>();
 
-		static SolidColorShape[] CreateDefenseArray(int size, int x, int y, uint color, DisplayObjectContainer owner)
+
+		static DefenseBlock[] CreateDefenseArray(int x, int y, DisplayObjectContainer owner)
 		{
+			const int size = DefenseBlock.BlockSize;
+
 			return new[]
 			{
-				new SolidColorShape(size, color) { x = x  + size * 0.5, y = y }.AttachTo(owner),
-				new SolidColorShape(size, color) { x = x  + size * 1.5, y = y }.AttachTo(owner),
-				new SolidColorShape(size, color) { x = x  + size * 1.5, y = y  + size}.AttachTo(owner),
+				new DefenseBlock { x = x  + size * 0.5, y = y }.AttachTo(owner),
+				new DefenseBlock { x = x  + size * 1.5, y = y }.AttachTo(owner),
+				new DefenseBlock { x = x  + size * 1.5, y = y  + size}.AttachTo(owner),
 
-				new SolidColorShape(size, color) { x = x  - size * 0.5, y = y }.AttachTo(owner),
-				new SolidColorShape(size, color) { x = x  - size * 1.5, y = y }.AttachTo(owner),
-				new SolidColorShape(size, color) { x = x  - size * 1.5, y = y + size }.AttachTo(owner),
+				new DefenseBlock { x = x  - size * 0.5, y = y }.AttachTo(owner),
+				new DefenseBlock { x = x  - size * 1.5, y = y }.AttachTo(owner),
+				new DefenseBlock { x = x  - size * 1.5, y = y + size }.AttachTo(owner),
 			};
 		}
 
@@ -269,7 +302,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public PlayerShip Ego;
 
-	
+
 
 	}
 
