@@ -58,7 +58,7 @@ namespace FlashSpaceInvaders.ActionScript.Extensions
 		}
 		public static void FadeOutAndOrphanize(this DisplayObject e)
 		{
-			FadeOutAndOrphanize(e, 1000 / 30, 8);
+			FadeOutAndOrphanize(e, 1000 / 30, 0.08);
 		}
 
 		public static void FadeOutAndOrphanize(this DisplayObject e, int timeout, double step)
