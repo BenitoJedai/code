@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{835DD72F-77DC-4DF1-A6DC-8B01118ED2DD}</ProjectGuid>
+    <ProjectGuid>{54850763-92E4-4E2B-92A1-8A07D94E4B67}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FlashSpaceInvaders</RootNamespace>
-    <AssemblyName>FlashSpaceInvaders</AssemblyName>
+    <AssemblyName>FlashSpaceInvaders.Engine</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -50,39 +50,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionScript\FlashSpaceInvaders.cs" />
+    <Compile Include="ActionScript\BulletInfo.cs" />
+    <Compile Include="ActionScript\PlayerInput.cs" />
+    <Compile Include="ActionScript\PlayerShip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="docs\about.txt" />
-    <Content Include="docs\browser.txt" />
-    <Content Include="docs\description.txt" />
-    <Content Include="docs\help.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="tools\build.bat" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlashSpaceInvaders.Assets\FlashSpaceInvaders.Assets.csproj">
       <Project>{A1524B06-06D4-4C88-AF21-417C5C7784B8}</Project>
       <Name>FlashSpaceInvaders.Assets</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FlashSpaceInvaders.Engine\FlashSpaceInvaders.Engine.csproj">
-      <Project>{54850763-92E4-4E2B-92A1-8A07D94E4B67}</Project>
-      <Name>FlashSpaceInvaders.Engine</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FlashSpaceInvaders.Extensions\FlashSpaceInvaders.Extensions.csproj">
       <Project>{E99AEB58-9564-466F-8951-12FD95BF3198}</Project>
       <Name>FlashSpaceInvaders.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FlashSpaceInvaders.Menu\FlashSpaceInvaders.Menu.csproj">
-      <Project>{B9E1DD3A-67EE-4035-BB1D-7A613D466C9F}</Project>
-      <Name>FlashSpaceInvaders.Menu</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="web\assets\FlashSpaceInvaders\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -93,8 +75,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>pushd ..\..\tools\
-call build.bat $(ProjectName)
-popd</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

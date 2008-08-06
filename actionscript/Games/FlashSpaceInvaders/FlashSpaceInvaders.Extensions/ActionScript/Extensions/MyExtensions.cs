@@ -13,6 +13,11 @@ namespace FlashSpaceInvaders.ActionScript.Extensions
     [Script]
     public static class MyExtensions
     {
+		public static ParentRelation<TElement, TParent> WithParent<TElement, TParent>(this TElement e, TParent p)
+		{
+			return new ParentRelation<TElement, TParent> { Element = e, Parent = p };
+		}
+
 		public static Point MoveToArc(this Point e, double arc, double distance) 
 		{
 			var n = new Point(e.x, e.y);
@@ -32,6 +37,11 @@ namespace FlashSpaceInvaders.ActionScript.Extensions
 
 			return e;
 		}
+		public static void FadeOutAndOrphanize(this DisplayObject e)
+		{
+			FadeOutAndOrphanize(e, 1000 / 30, 8);
+		}
+
 		public static void FadeOutAndOrphanize(this DisplayObject e, int timeout, double step)
 		{
 			timeout.AtInterval(

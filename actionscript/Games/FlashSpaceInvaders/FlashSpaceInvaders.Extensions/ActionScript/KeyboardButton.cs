@@ -65,15 +65,43 @@ namespace FlashSpaceInvaders.ActionScript
 		{
 		}
 
+		public readonly Action ForceKeyDown;
+		public readonly Action ForceKeyUp;
+
 		public KeyboardButton(Stage s, int fps)
 		{
 			var t = new Timer(fps);
+			var a = false;
 
 			t.timer +=
 				delegate
 				{
+					if (a)
+					{
+						a = false;
+						t.stop();
+						return;
+					}
+
 					if (this.Tick != null)
 						this.Tick();
+				};
+
+			this.ForceKeyDown =
+				delegate
+				{
+					a = false;
+
+					if (this.Down != null)
+						this.Down();
+
+					if (!t.running)
+					{
+						if (this.Tick != null)
+							this.Tick();
+
+						t.start();
+					}
 				};
 
 			s.keyDown +=
@@ -82,11 +110,18 @@ namespace FlashSpaceInvaders.ActionScript
 
 					if (CheckButton(e.keyCode, e.keyLocation))
 					{
-						if (this.Down != null)
-							this.Down();
-
-						t.start();
+						this.ForceKeyDown();
 					}
+				};
+
+
+			this.ForceKeyUp =
+				delegate
+				{
+					if (this.Up != null)
+						this.Up();
+
+					a = true;
 				};
 
 			s.keyUp +=
@@ -95,10 +130,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 					  if (CheckButton(e.keyCode, e.keyLocation))
 					  {
-						  if (this.Up != null)
-							  this.Up();
-
-						  t.stop();
+						  this.ForceKeyUp();
 					  }
 				  };
 		}
