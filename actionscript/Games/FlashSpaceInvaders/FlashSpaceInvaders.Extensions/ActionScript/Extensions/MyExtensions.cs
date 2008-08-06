@@ -8,12 +8,18 @@ using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.text;
+using ScriptCoreLib.ActionScript;
+using ScriptCoreLib.ActionScript.flash.media;
 
 namespace FlashSpaceInvaders.ActionScript.Extensions
 {
 	[Script]
 	public static class MyExtensions
 	{
+		public static SoundChannel play(this Class c)
+		{
+			return c.ToSoundAsset().play();
+		}
 		public static T TeleportTo<T>(this T e, double x, double y) where T : SpriteWithMovement
 		{
 			SpriteWithMovement n = e;

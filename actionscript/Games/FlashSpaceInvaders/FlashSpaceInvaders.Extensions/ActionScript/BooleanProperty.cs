@@ -14,18 +14,20 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public BooleanProperty()
 		{
-			this.ValueChanged +=
-				delegate
+			this.ValueChanging +=
+				(o, v) =>
 				{
-					if (this.Value)
+					if (v)
 					{
-						if (ValueChangedToTrue != null)
-							ValueChangedToTrue();
+						if (!o)
+							if (ValueChangedToTrue != null)
+								ValueChangedToTrue();
 					}
 					else
 					{
-						if (ValueChangedToFalse != null)
-							ValueChangedToFalse();
+						if (o)
+							if (ValueChangedToFalse != null)
+								ValueChangedToFalse();
 					}
 				};
 		}
@@ -45,7 +47,7 @@ namespace FlashSpaceInvaders.ActionScript
 			this.Value = !this.Value;
 		}
 
-	
+
 	}
 
 }

@@ -60,6 +60,23 @@
   <ItemGroup>
     <EmbeddedResource Include="web\assets\FlashSpaceInvaders.Assets.Sounds\baseexplode.mp3" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\FlashSpaceInvaders.Assets.Sounds\duh0.mp3" />
+    <EmbeddedResource Include="web\assets\FlashSpaceInvaders.Assets.Sounds\duh1.mp3" />
+    <EmbeddedResource Include="web\assets\FlashSpaceInvaders.Assets.Sounds\duh2.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\FlashSpaceInvaders.Assets.Sounds\duh3.mp3" />
+    <EmbeddedResource Include="web\assets\FlashSpaceInvaders.Assets.Sounds\fade.mp3" />
+    <EmbeddedResource Include="web\assets\FlashSpaceInvaders.Assets.Sounds\firemissile.mp3" />
+    <EmbeddedResource Include="web\assets\FlashSpaceInvaders.Assets.Sounds\freecredit.mp3" />
+    <EmbeddedResource Include="web\assets\FlashSpaceInvaders.Assets.Sounds\insertcoin.mp3" />
+    <EmbeddedResource Include="web\assets\FlashSpaceInvaders.Assets.Sounds\invaderexplode.mp3" />
+    <EmbeddedResource Include="web\assets\FlashSpaceInvaders.Assets.Sounds\mothershipexplode.mp3" />
+    <EmbeddedResource Include="web\assets\FlashSpaceInvaders.Assets.Sounds\mothershiploop.mp3" />
+    <EmbeddedResource Include="web\assets\FlashSpaceInvaders.Assets.Sounds\shortdweep.mp3" />
+    <EmbeddedResource Include="web\assets\FlashSpaceInvaders.Assets.Sounds\shortwhite.mp3" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -31,12 +31,12 @@ namespace FlashSpaceInvaders.ActionScript
 
 		// http://zproxy.wordpress.com/2007/03/03/jsc-space-invaders/
 
+		// http://cdexos.sourceforge.net/?q=download
+
 		public const int DefaultWidth = 480;
 		public const int DefaultHeight = 480;
 
 
-		public const int KeyLeft = 37;
-		public const int KeyRight = 39;
 
 
 
@@ -145,6 +145,19 @@ namespace FlashSpaceInvaders.ActionScript
 				};
 
 
+			this.Ego.EvilMode.ValueChangedToTrue +=
+				delegate
+				{
+					Sounds.fade.play();
+				};
+
+			this.Ego.EvilMode.ValueChangedToFalse +=
+				delegate
+				{
+					Sounds.insertcoin.play();
+				};
+
+
 			this.Ego.EvilMode.LinkTo(Statusbar.EvilMode);
 
 			#region evilmode indicator
@@ -199,18 +212,39 @@ namespace FlashSpaceInvaders.ActionScript
 			AddEnemy.Chained(new StarShip { Animations.Spawn_B }, new Point(240, 200));
 			AddEnemy.Chained(new StarShip { Animations.Spawn_C }, new Point(280, 200));
 
+			var EnemySounds = new SoundAsset[] {
+			    Sounds.duh0,
+			    Sounds.duh1,
+			    Sounds.duh2,
+			    Sounds.duh3,
+			};
+
+			1000.AtInterval(
+				t =>
+				{
+					EnemySounds[t.currentCount % EnemySounds.Length].play();
+
+					// move enemies
+				}
+			);
+
 			#region AddBullet
 			this.AddBullet.Direct +=
 				bullet =>
 				{
+					// local only
+					FragileEntities.AddBullet(bullet);
+
 					bullet.Element.AttachTo(CanvasOverlay);
+
+					Sounds.firemissile.ToSoundAsset().play();
 				};
 
 			this.AddBullet.Handler +=
 				bullet =>
 				{
 					// our bullets will need to check for collisions
-					FragileEntities.AddBullet(bullet);
+					
 					// remote bullets check on their hosts for collision
 				};
 			#endregion
@@ -251,6 +285,10 @@ namespace FlashSpaceInvaders.ActionScript
 					if (target.HitPoints <= 0)
 					{
 						Sounds.baseexplode.ToSoundAsset().play();
+					}
+					else
+					{
+						Sounds.shortwhite.ToSoundAsset().play();
 					}
 
 					DebugDump.Write(
