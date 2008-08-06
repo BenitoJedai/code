@@ -41,7 +41,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 				defaultTextFormat = new TextFormat
 				{
-					font = Assets.FontFixedSys,
+					font = Fonts.FontFixedSys,
 					size = 28,
 				},
 				selectable = false,
@@ -69,7 +69,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 				defaultTextFormat = new TextFormat
 				{
-					font = Assets.FontFixedSys,
+					font = Fonts.FontFixedSys,
 					size = 28,
 				},
 				selectable = false,
@@ -105,12 +105,21 @@ namespace FlashSpaceInvaders.ActionScript
 
 			this.Lives.ValueChangedTo +=
 				i =>
+				{
 					LifeBar.Children().ForEach(
 						(c, j) =>
 						{
 							c.visible = j < i;
 						}
 					);
+
+					EvilLifeBar.Children().ForEach(
+						(c, j) =>
+						{
+							c.visible = j < i;
+						}
+					);
+				};
 
 			var Fader = new DualFader { Value = LifeBar };
 
