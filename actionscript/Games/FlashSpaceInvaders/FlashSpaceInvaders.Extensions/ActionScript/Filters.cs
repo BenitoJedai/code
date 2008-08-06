@@ -32,12 +32,31 @@ namespace FlashSpaceInvaders.ActionScript
 			get
 			{
 				return new ColorMatrixFilter(
-					1, 1, 1, 0, 255,
+					1, 1, 1, 0, 0,
 					r, g, b, 0, 0,
 					r, g, b, 0, 0,
 					0, 0, 0, 1, 0
 				);
 			}
+		}
+
+		public static ColorMatrixFilter ColorFillFilter(int rgb)
+		{
+			var r = (byte)((rgb >> 16) & 0xff);
+			var g = (byte)((rgb >> 8) & 0xff);
+			var b = (byte)((rgb >> 0) & 0xff);
+
+			return ColorFillFilter(r, g, b);
+		}
+
+		public static ColorMatrixFilter ColorFillFilter(byte r, byte g, byte b)
+		{
+				return new ColorMatrixFilter(
+					0, 0, 0, 0, r,
+					0, 0, 0, 0, g,
+					0, 0, 0, 0, b,
+					0, 0, 0, 1, 0
+				);
 		}
 
 		//redResult   = (a[0]  * srcR) + (a[1]  * srcG) + (a[2]  * srcB) + (a[3]  * srcA) + a[4]

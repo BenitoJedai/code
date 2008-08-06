@@ -56,6 +56,8 @@
     <Compile Include="ActionScript\DefenseBlock.cs" />
     <Compile Include="ActionScript\DualFader.cs" />
     <Compile Include="ActionScript\FixedBorderCanvas.cs" />
+    <Compile Include="ActionScript\FragileEntities\IScorePoints.cs" />
+    <Compile Include="ActionScript\FragileEntities\IDeathSound.cs" />
     <Compile Include="ActionScript\FragileEntities\FragileEntitiesContainer.cs" />
     <Compile Include="ActionScript\FragileEntities\IFragileEntity.cs" />
     <Compile Include="ActionScript\FragileEntities\IHitPoints.cs" />
@@ -65,12 +67,22 @@
     <Compile Include="ActionScript\FragileEntities\IWithLocation.cs" />
     <Compile Include="ActionScript\PlayerInput.cs" />
     <Compile Include="ActionScript\PlayerShip.cs" />
+    <Compile Include="ActionScript\StarShips\EnemyBigGun.cs" />
+    <Compile Include="ActionScript\StarShips\EnemyCloud.cs" />
+    <Compile Include="ActionScript\StarShips\EnemyUFO.cs" />
+    <Compile Include="ActionScript\StarShips\EnemyC.cs" />
+    <Compile Include="ActionScript\StarShips\EnemyB.cs" />
+    <Compile Include="ActionScript\StarShips\EnemyA.cs" />
     <Compile Include="ActionScript\StarShips\StarShip.cs" />
     <Compile Include="ActionScript\Statusbar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FlashSpaceInvaders.Assets.Sounds\FlashSpaceInvaders.Assets.Sounds.csproj">
+      <Project>{E60C20A8-3E4C-40BB-92DC-868875E9A1D0}</Project>
+      <Name>FlashSpaceInvaders.Assets.Sounds</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FlashSpaceInvaders.Assets\FlashSpaceInvaders.Assets.csproj">
       <Project>{A1524B06-06D4-4C88-AF21-417C5C7784B8}</Project>
       <Name>FlashSpaceInvaders.Assets</Name>

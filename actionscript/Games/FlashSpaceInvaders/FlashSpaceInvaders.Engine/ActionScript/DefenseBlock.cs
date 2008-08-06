@@ -31,7 +31,8 @@ namespace FlashSpaceInvaders.ActionScript
 		public const int BlockSize = 16;
 		public const uint BlockColor = Colors.Green;
 
-		public DefenseBlock() : base(BlockSize, BlockColor)
+		public DefenseBlock()
+			: base(BlockSize, BlockColor)
 		{
 
 		}
@@ -41,6 +42,9 @@ namespace FlashSpaceInvaders.ActionScript
 		public void TakeDamage(double damage)
 		{
 			this.alpha -= damage;
+
+			if (this.alpha < 0.5)
+				this.alpha = 0;
 		}
 
 		#endregion
@@ -82,5 +86,16 @@ namespace FlashSpaceInvaders.ActionScript
 		}
 
 		#endregion
+
+		#region IDeathSound Members
+
+		public ScriptCoreLib.ActionScript.flash.media.Sound GetDeathSound()
+		{
+			return Sounds.shortwhite;
+		}
+
+		#endregion
+
+		public int ScorePoints { get { return 0; } }
 	}
 }

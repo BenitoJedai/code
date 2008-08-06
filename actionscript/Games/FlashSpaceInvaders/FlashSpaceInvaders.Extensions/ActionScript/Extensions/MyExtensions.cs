@@ -10,12 +10,25 @@ using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.flash.media;
+using ScriptCoreLib.ActionScript.flash.filters;
 
 namespace FlashSpaceInvaders.ActionScript.Extensions
 {
 	[Script]
 	public static class MyExtensions
 	{
+		public static T ApplyFilter<T>(this T e, BitmapFilter f)  where T : DisplayObject
+		{
+			if (f != null)
+			{
+				var n = (DisplayObject)e;
+
+				n.filters = new[] { f };
+			}
+
+			return e;
+		}
+
 		public static SoundChannel play(this Class c)
 		{
 			return c.ToSoundAsset().play();
