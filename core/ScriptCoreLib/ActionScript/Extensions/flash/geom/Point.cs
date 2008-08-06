@@ -25,6 +25,12 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.geom
 
 		public static Point operator -(__Point a, __Point b)
 		{
+			if (a == null)
+				return b;
+
+			if (b == null)
+				return a;
+
 			return new Point { x = ((Point)a).x - ((Point)b).x, y = ((Point)a).y - ((Point)b).y };
 		}
 
@@ -41,6 +47,7 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.geom
 
 		public static Point operator *(__Point a, __Point b)
 		{
+
 			return new Point { x = ((Point)a).x * ((Point)b).x, y = ((Point)a).y * ((Point)b).y };
 		}
 

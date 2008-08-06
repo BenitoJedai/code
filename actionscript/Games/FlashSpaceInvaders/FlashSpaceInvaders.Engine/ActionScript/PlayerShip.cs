@@ -101,7 +101,16 @@ namespace FlashSpaceInvaders.ActionScript
 
 		}
 
+		public StarShip ActiveEgo
+		{
+			get
+			{
+				if (EvilMode)
+					return EvilEgo;
 
+				return GoodEgo;
+			}
+		}
 
 		public BulletInfo FireBullet()
 		{
@@ -165,6 +174,24 @@ namespace FlashSpaceInvaders.ActionScript
 			}
 			else
 				Ego.GoodEgo.MoveTo(x, Ego.GoodEgoY);
+		}
+
+		string _Name = "";
+
+		public string Name
+		{
+			get
+			{
+				return _Name;
+			}
+
+			set
+			{
+				_Name = value;
+
+				GoodEgo.Name = _Name;
+				EvilEgo.Name = "Evil " + _Name;
+			}
 		}
 	}
 }

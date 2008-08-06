@@ -52,11 +52,12 @@
   <ItemGroup>
     <Compile Include="ActionScript\BulletInfo.cs" />
     <Compile Include="ActionScript\DefenseBlock.cs" />
-    <Compile Include="ActionScript\IFragileEntity.cs" />
-    <Compile Include="ActionScript\IHitPoints.cs" />
-    <Compile Include="ActionScript\IHitRange.cs" />
-    <Compile Include="ActionScript\ITakeDamage.cs" />
-    <Compile Include="ActionScript\IWithLocation.cs" />
+    <Compile Include="ActionScript\FragileEntity\IFragileEntity.cs" />
+    <Compile Include="ActionScript\FragileEntity\IHitPoints.cs" />
+    <Compile Include="ActionScript\FragileEntity\IHitRange.cs" />
+    <Compile Include="ActionScript\FragileEntity\IName.cs" />
+    <Compile Include="ActionScript\FragileEntity\ITakeDamage.cs" />
+    <Compile Include="ActionScript\FragileEntity\IWithLocation.cs" />
     <Compile Include="ActionScript\PlayerInput.cs" />
     <Compile Include="ActionScript\PlayerShip.cs" />
     <Compile Include="ActionScript\StarShip.cs" />
