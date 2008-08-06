@@ -12,6 +12,7 @@ namespace jsc.Languages.ActionScript
 {
     partial class ActionScriptCompiler
     {
+		
         private void WriteCustomAttributes(ICustomAttributeProvider zfn)
         {
             foreach (var v in from i in zfn.GetCustomAttributes(false)
@@ -22,78 +23,95 @@ namespace jsc.Languages.ActionScript
                               let fields = type.GetFields()
                               select new { name, type, i, meta, fields })
             {
-                WriteIdent();
-                Write("[");
-                WriteSafeLiteral(v.name);
-                Write("(");
+				var AttributeName = v.name;
+				var AttributeRef = v.i;
+				var AttributeFields = v.fields;
 
-                v.fields.Aggregate("",
-                    (seed, f) =>
-                    {
-                        if (f.IsLiteral)
-                            return seed;
-
-                        if (f.FieldType == typeof(string))
-                        {
-                            var value = (string)f.GetValue(v.i);
-
-                            if (value == null)
-                                return seed;
-
-                            Write(seed);
-
-                            Write(f.Name);
-                            WriteAssignment();
-
-                            WriteQuotedLiteral(value);
-
-
-                        }
-                        else if (f.FieldType == typeof(uint))
-                        {
-                            Write(seed);
-
-                            Write(f.Name);
-                            WriteAssignment();
-
-                            var value = (uint)f.GetValue(v.i);
-
-                            var HexA = f.GetCustomAttributes(typeof(HexAttribute), false).Cast<HexAttribute>().SingleOrDefault();
-
-                            if (HexA != null)
-                                Write(string.Format("0x{0:x8}", value));
-                            else
-                                Write((value).ToString());
-                        }
-                        else if (f.FieldType == typeof(int))
-                        {
-                            Write(seed);
-
-                            Write(f.Name);
-                            WriteAssignment();
-
-                            var value = (int)f.GetValue(v.i);
-
-                            var HexA = f.GetCustomAttributes(typeof(HexAttribute), false).Cast<HexAttribute>().SingleOrDefault();
-
-                            if (HexA != null)
-                                Write(string.Format("0x{0:x8}", value));
-                            else
-                                Write((value).ToString());
-                        }
-                        else
-                            throw new NotImplementedException();
-
-                        return ", ";
-                    }
-                );
-
-
-                Write(")");
-                Write("]");
-                WriteLine();
+				WriteCustomAttribute(AttributeName, AttributeRef, AttributeFields);
             }
         }
+
+		private void WriteCustomAttribute(string AttributeName, object AttributeRef, FieldInfo[] AttributeFields)
+		{
+			WriteIdent();
+
+			Write("[");
+			WriteSafeLiteral(AttributeName);
+			Write("(");
+
+
+
+			WriteCustomAttributeNamedParameters(AttributeRef, AttributeFields);
+
+
+			Write(")");
+			Write("]");
+			WriteLine();
+		}
+
+		private void WriteCustomAttributeNamedParameters(object AttributeRef, FieldInfo[] AttributeFields)
+		{
+			AttributeFields.Aggregate("",
+							(seed, f) =>
+							{
+								if (f.IsLiteral)
+									return seed;
+
+								if (f.FieldType == typeof(string))
+								{
+									var value = (string)f.GetValue(AttributeRef);
+
+									if (value == null)
+										return seed;
+
+									Write(seed);
+
+									Write(f.Name);
+									WriteAssignment();
+
+									WriteQuotedLiteral(value);
+
+
+								}
+								else if (f.FieldType == typeof(uint))
+								{
+									Write(seed);
+
+									Write(f.Name);
+									WriteAssignment();
+
+									var value = (uint)f.GetValue(AttributeRef);
+
+									var HexA = f.GetCustomAttributes(typeof(HexAttribute), false).Cast<HexAttribute>().SingleOrDefault();
+
+									if (HexA != null)
+										Write(string.Format("0x{0:x8}", value));
+									else
+										Write((value).ToString());
+								}
+								else if (f.FieldType == typeof(int))
+								{
+									Write(seed);
+
+									Write(f.Name);
+									WriteAssignment();
+
+									var value = (int)f.GetValue(AttributeRef);
+
+									var HexA = f.GetCustomAttributes(typeof(HexAttribute), false).Cast<HexAttribute>().SingleOrDefault();
+
+									if (HexA != null)
+										Write(string.Format("0x{0:x8}", value));
+									else
+										Write((value).ToString());
+								}
+								else
+									throw new NotImplementedException();
+
+								return ", ";
+							}
+						);
+		}
 
 
 
