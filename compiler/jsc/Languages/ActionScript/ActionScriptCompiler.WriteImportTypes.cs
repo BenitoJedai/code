@@ -395,7 +395,11 @@ namespace jsc.Languages.ActionScript
 
                     if (i == OpCodes.Ldftn)
                     {
-                        imp.Add(typeof(IntPtr));
+						imp.Add(typeof(IntPtr));
+
+						if (i.TargetMethod != null)
+							imp.Add(i.TargetMethod.DeclaringType);
+
                         continue;
                     }
 

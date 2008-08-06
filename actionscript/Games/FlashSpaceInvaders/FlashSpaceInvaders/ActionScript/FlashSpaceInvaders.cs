@@ -17,6 +17,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using FlashSpaceInvaders.ActionScript.FragileEntities;
+using ScriptCoreLib.ActionScript.flash.media;
+using FlashSpaceInvaders.ActionScript.StarShips;
 
 namespace FlashSpaceInvaders.ActionScript
 {
@@ -43,8 +45,17 @@ namespace FlashSpaceInvaders.ActionScript
 		const string LinkPoweredByJSC = @"<a href='http:/jsc.sf.net' target='_blank'><u>powered by jsc</u></a>";
 		const string LinkPlayMoreGames = @"<a href='http://nonoba.com/zproxy/' target='_blank'><u>play more games</u></a>";
 
-		public FlashSpaceInvaders() : base(DefaultWidth, DefaultHeight)
+		public bool SoundEnabled { get; set; }
+
+		public FlashSpaceInvaders()
+			: base(DefaultWidth, DefaultHeight)
 		{
+			Action<Sound> play =
+				s =>
+				{
+					if (SoundEnabled)
+						s.play();
+				};
 
 			var Menu = new MenuSprite(DefaultWidth).AttachTo(base.InfoOverlay);
 
@@ -96,19 +107,25 @@ namespace FlashSpaceInvaders.ActionScript
 
 					if (e.keyCode == Keyboard.T)
 					{
-						DebugDump.Visible.Toggle(); 
-			
-					}
+						DebugDump.Visible.Toggle();
 
+					}
 
 					if (e.keyCode == Keyboard.M)
 					{
-						Sounds.miu.ToSoundAsset().play();
+						SoundEnabled = !SoundEnabled;
+
+					}
+
+					if (e.keyCode == Keyboard.C)
+					{
+						play(Sounds.miu);
+
 
 					}
 				};
 
-	
+
 
 			#region npc
 			var cp1 = new PlayerShip(DefaultWidth, DefaultHeight)
@@ -148,13 +165,13 @@ namespace FlashSpaceInvaders.ActionScript
 			this.Ego.EvilMode.ValueChangedToTrue +=
 				delegate
 				{
-					Sounds.fade.play();
+					play(Sounds.fade);
 				};
 
 			this.Ego.EvilMode.ValueChangedToFalse +=
 				delegate
 				{
-					Sounds.insertcoin.play();
+					play(Sounds.insertcoin);
 				};
 
 
@@ -202,15 +219,24 @@ namespace FlashSpaceInvaders.ActionScript
 					e.Name = "Enemy";
 
 					e.TeleportTo(p.x, p.y)
-				.AttachTo(CanvasOverlay)
-				.AddTo(FragileEntities.Items);
+					.AttachTo(CanvasOverlay)
+					.AddTo(FragileEntities.Items);
 				};
 
-		
+			var cloud1 = new EnemyCloud();
 
-			AddEnemy.Chained(new StarShip { Animations.Spawn_A }, new Point(200, 200));
-			AddEnemy.Chained(new StarShip { Animations.Spawn_B }, new Point(240, 200));
-			AddEnemy.Chained(new StarShip { Animations.Spawn_C }, new Point(280, 200));
+			cloud1.AttachTo(this.CanvasOverlay);
+			cloud1.TeleportTo(60, 80);
+
+			cloud1.Members.ForEach(v =>
+				AddEnemy.Chained(v.Element, v.Element.ToPoint())
+			);
+
+			//AddEnemy.Chained(new EnemyA(), new Point(200, 200));
+			//AddEnemy.Chained(new EnemyB(), new Point(240, 200));
+			//AddEnemy.Chained(new EnemyC(), new Point(280, 200));
+			//AddEnemy.Chained(new EnemyUFO(), new Point(160, 200));
+			//AddEnemy.Chained(new EnemyBigGun(), new Point(120, 200));
 
 			var EnemySounds = new SoundAsset[] {
 			    Sounds.duh0,
@@ -222,7 +248,7 @@ namespace FlashSpaceInvaders.ActionScript
 			1000.AtInterval(
 				t =>
 				{
-					EnemySounds[t.currentCount % EnemySounds.Length].play();
+					play(EnemySounds[t.currentCount % EnemySounds.Length]);
 
 					// move enemies
 				}
@@ -237,14 +263,14 @@ namespace FlashSpaceInvaders.ActionScript
 
 					bullet.Element.AttachTo(CanvasOverlay);
 
-					Sounds.firemissile.ToSoundAsset().play();
+					play(Sounds.firemissile);
 				};
 
 			this.AddBullet.Handler +=
 				bullet =>
 				{
 					// our bullets will need to check for collisions
-					
+
 					// remote bullets check on their hosts for collision
 				};
 			#endregion
@@ -277,6 +303,7 @@ namespace FlashSpaceInvaders.ActionScript
 			};
 			#endregion
 
+			#region AddDamage
 			this.AddDamage.Direct +=
 				(target, bullet) =>
 				{
@@ -284,11 +311,13 @@ namespace FlashSpaceInvaders.ActionScript
 
 					if (target.HitPoints <= 0)
 					{
-						Sounds.baseexplode.ToSoundAsset().play();
+						Statusbar.Score.Value += target.ScorePoints;
+
+						play(target.GetDeathSound());
 					}
 					else
 					{
-						Sounds.shortwhite.ToSoundAsset().play();
+						play(Sounds.shortwhite);
 					}
 
 					DebugDump.Write(
@@ -301,6 +330,8 @@ namespace FlashSpaceInvaders.ActionScript
 						}
 					);
 				};
+			#endregion
+
 
 
 			#region FragileEntities

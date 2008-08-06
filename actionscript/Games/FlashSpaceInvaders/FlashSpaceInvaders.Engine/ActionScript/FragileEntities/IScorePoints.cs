@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
-using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace FlashSpaceInvaders.ActionScript.FragileEntities
 {
 	[Script]
-	public interface IFragileEntity :
-		ITakeDamage, IWithLocation, IHitPoints, IHitRange, IName, IDeathSound, IScorePoints
+	public interface IScorePoints
 	{
+		int ScorePoints { get; }
 	}
 }

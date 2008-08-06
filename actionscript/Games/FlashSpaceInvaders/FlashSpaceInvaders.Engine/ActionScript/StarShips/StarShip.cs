@@ -12,6 +12,13 @@ namespace FlashSpaceInvaders.ActionScript
 	[Script]
 	public class StarShip : SpriteWithMovement, IFragileEntity
 	{
+		public int ScorePoints { get; set; }
+
+		public StarShip()
+		{
+			this.ScorePoints = 10;
+		}
+
 		public static implicit operator StarShip(Func<double, double, Sprite> ctor)
 		{
 			return new StarShip { ctor };
@@ -71,5 +78,19 @@ namespace FlashSpaceInvaders.ActionScript
 		public string Name { get; set; }
 
 		#endregion
+
+		#region IDeathSound Members
+
+		public ScriptCoreLib.ActionScript.flash.media.Sound GetDeathSound()
+		{
+			return GetVirtualDeathSound();
+		}
+
+		#endregion
+
+		public virtual ScriptCoreLib.ActionScript.flash.media.Sound GetVirtualDeathSound()
+		{
+			return Sounds.baseexplode;
+		}
 	}
 }

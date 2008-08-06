@@ -5,10 +5,12 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.Shared.Lambda;
 
 using FlashSpaceInvaders.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.mx.core;
 using ScriptCoreLib.ActionScript.flash.text;
+using FlashSpaceInvaders.ActionScript.StarShips;
 
 namespace FlashSpaceInvaders.ActionScript
 {
@@ -126,7 +128,7 @@ namespace FlashSpaceInvaders.ActionScript
 			#endregion
 
 			#region CreateScoreInfo
-			Action<Func<double, double, Sprite>, int, string> CreateScoreInfo =
+			Action<StarShip, int, string> CreateScoreInfo =
 				(ctor, offset, text) =>
 				{
 					#region TextEnemyA
@@ -153,13 +155,23 @@ namespace FlashSpaceInvaders.ActionScript
 					}.AttachTo(menu);
 					#endregion
 
-					SurroundTextLeft(ctor, t);
+					ctor.TeleportTo((int)t.x, (int)(t.y + (t.height) / 2)).AttachTo(menu);
 				};
 
-			CreateScoreInfo(Animations.Spawn_A, 0, "  - 4 points");
-			CreateScoreInfo(Animations.Spawn_B, 30, "  - 2 points");
-			CreateScoreInfo(Animations.Spawn_C, 60, "  - 1 points");
-			CreateScoreInfo(Animations.Spawn_UFO, 90, "  - 10 points");
+			var KnownEnemies = 
+				new StarShip []
+				{
+					new EnemyA(),
+					new EnemyB(),
+					new EnemyC(),
+					new EnemyUFO()
+				};
+
+			KnownEnemies.ForEach(
+				(v, i) => 
+					CreateScoreInfo(v, i * 30, "  - " + v.HitPoints +  " points")
+			);
+
 			#endregion
 
 			#region TextInstructions1
