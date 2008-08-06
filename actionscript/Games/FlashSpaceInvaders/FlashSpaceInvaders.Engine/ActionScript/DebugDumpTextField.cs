@@ -32,7 +32,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 				defaultTextFormat = new TextFormat
 				{
-					font = Assets.FontFixedSys,
+					font = Fonts.FontFixedSys,
 					size = 12,
 				},
 				//selectable = false,

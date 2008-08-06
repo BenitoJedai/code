@@ -83,21 +83,15 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 					);
 				};
 
-			TickInterval.ValueChangedToZero +=
-				delegate
-				{
-					if (Timer != null)
-						Timer.stop();
-				};
-
-
-			TickInterval.ValueChangedToNonZero +=
-				delegate
+		
+			TickInterval.ValueChangedTo +=
+				e =>
 				{
 					if (Timer != null)
 						Timer.stop();
 
-					Reset();
+					if (e > 0)
+						Reset();
 				};
 
 		}

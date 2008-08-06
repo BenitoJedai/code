@@ -44,7 +44,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 				defaultTextFormat = new TextFormat
 				{
-					font = Assets.FontFixedSys,
+					font = Fonts.FontFixedSys,
 					size = 48,
 				},
 				selectable = false,
@@ -92,7 +92,7 @@ namespace FlashSpaceInvaders.ActionScript
 				embedFonts = true,
 				defaultTextFormat = new TextFormat
 				{
-					font = Assets.FontFixedSys,
+					font = Fonts.FontFixedSys,
 					size = 48,
 				},
 				selectable = false,
@@ -119,7 +119,7 @@ namespace FlashSpaceInvaders.ActionScript
 				embedFonts = true,
 				defaultTextFormat = new TextFormat
 				{
-					font = Assets.FontFixedSys,
+					font = Fonts.FontFixedSys,
 					size = 16,
 				},
 				selectable = false,
@@ -147,7 +147,7 @@ namespace FlashSpaceInvaders.ActionScript
 						embedFonts = true,
 						defaultTextFormat = new TextFormat
 						{
-							font = Assets.FontFixedSys,
+							font = Fonts.FontFixedSys,
 							size = 16,
 						},
 						selectable = false,
@@ -189,7 +189,7 @@ namespace FlashSpaceInvaders.ActionScript
 				embedFonts = true,
 				defaultTextFormat = new TextFormat
 				{
-					font = Assets.FontFixedSys,
+					font = Fonts.FontFixedSys,
 					size = 16,
 				},
 				selectable = false,
@@ -213,7 +213,7 @@ namespace FlashSpaceInvaders.ActionScript
 				embedFonts = true,
 				defaultTextFormat = new TextFormat
 				{
-					font = Assets.FontFixedSys,
+					font = Fonts.FontFixedSys,
 					size = 16,
 				},
 				selectable = false,
@@ -237,7 +237,7 @@ namespace FlashSpaceInvaders.ActionScript
 				embedFonts = true,
 				defaultTextFormat = new TextFormat
 				{
-					font = Assets.FontFixedSys,
+					font = Fonts.FontFixedSys,
 					size = 16,
 				},
 				selectable = false,
@@ -266,7 +266,7 @@ namespace FlashSpaceInvaders.ActionScript
 				embedFonts = true,
 				defaultTextFormat = new TextFormat
 				{
-					font = Assets.FontFixedSys,
+					font = Fonts.FontFixedSys,
 					size = 16,
 				},
 				selectable = false,
