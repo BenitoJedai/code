@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
+using FlashSpaceInvaders.ActionScript.FragileEntities;
 
 namespace FlashSpaceInvaders.ActionScript
 {

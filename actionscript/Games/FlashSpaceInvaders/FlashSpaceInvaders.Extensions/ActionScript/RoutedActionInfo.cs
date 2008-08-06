@@ -20,7 +20,7 @@ namespace FlashSpaceInvaders.ActionScript
 				Handler();
 		}
 
-		public Action Handler;
+		public event Action Handler;
 	}
 
 	[Script]
@@ -37,7 +37,7 @@ namespace FlashSpaceInvaders.ActionScript
 				Handler(t1);
 		}
 
-		public Action<T1> Handler;
+		public event Action<T1> Handler;
 	}
 
 	[Script]
@@ -54,7 +54,7 @@ namespace FlashSpaceInvaders.ActionScript
 				Handler(t1, t2);
 		}
 
-		public Action<T1, T2> Handler;
+		public event Action<T1, T2> Handler;
 	}
 
 	[Script]
@@ -71,6 +71,6 @@ namespace FlashSpaceInvaders.ActionScript
 				Handler(t1, t2, t3);
 		}
 
-		public Action<T1, T2, T3> Handler;
+		public event Action<T1, T2, T3> Handler;
 	}
 }

@@ -6,6 +6,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.Extensions;
 
 using FlashSpaceInvaders.ActionScript.Extensions;
+using FlashSpaceInvaders.ActionScript.FragileEntities;
 
 namespace FlashSpaceInvaders.ActionScript
 {
