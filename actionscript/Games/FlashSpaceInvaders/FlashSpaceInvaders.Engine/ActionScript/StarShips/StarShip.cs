@@ -22,7 +22,7 @@ namespace FlashSpaceInvaders.ActionScript
 			ctor(0, 0).AttachTo(this);
 		}
 
-		public readonly BooleanProperty IsAlive = new BooleanProperty { Value = true };
+		public readonly BooleanProperty IsAlive = true;
 
 
 		#region ITakeDamage Members

@@ -165,19 +165,19 @@ namespace FlashSpaceInvaders.ActionScript
 		}
 
 
-		public void SmartMoveTo(int x)
+		public double Wrapper(double x)
 		{
 			var Ego = this;
 
 			if (Ego.EvilMode)
 			{
 				if (Ego.GoodEgo.x < DefaultWidth / 2)
-					Ego.GoodEgo.MoveTo(x - DefaultWidth, Ego.GoodEgoY);
+					return x - DefaultWidth;
 				else
-					Ego.GoodEgo.MoveTo(x + DefaultWidth, Ego.GoodEgoY);
+					return x + DefaultWidth;
 			}
 			else
-				Ego.GoodEgo.MoveTo(x, Ego.GoodEgoY);
+				return x;
 		}
 
 		string _Name = "";

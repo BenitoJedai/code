@@ -7,7 +7,21 @@ using ScriptCoreLib;
 namespace FlashSpaceInvaders.ActionScript
 {
 	[Script]
-	public class RoutedActionInfo
+	public abstract class RoutedActionInfoBase
+	{
+		public string EventName { get; set; }
+
+		protected void RaiseBaseHandler()
+		{
+			if (BaseHandler != null)
+				BaseHandler(this);
+		}
+
+		public event Action<RoutedActionInfoBase> BaseHandler;
+	}
+
+	[Script]
+	public class RoutedActionInfo : RoutedActionInfoBase
 	{
 		public Action Direct;
 
@@ -18,13 +32,15 @@ namespace FlashSpaceInvaders.ActionScript
 
 			if (Handler != null)
 				Handler();
+
+				RaiseBaseHandler();
 		}
 
 		public event Action Handler;
 	}
 
 	[Script]
-	public class RoutedActionInfo<T1>
+	public class RoutedActionInfo<T1> : RoutedActionInfoBase
 	{
 		public Action<T1> Direct;
 
@@ -35,13 +51,21 @@ namespace FlashSpaceInvaders.ActionScript
 
 			if (Handler != null)
 				Handler(t1);
+
+			RaiseBaseHandler();
+
 		}
 
 		public event Action<T1> Handler;
+
+		public static implicit operator RoutedActionInfo<T1>(string EventName)
+		{
+			return new RoutedActionInfo<T1> { EventName = EventName };
+		}
 	}
 
 	[Script]
-	public class RoutedActionInfo<T1, T2>
+	public class RoutedActionInfo<T1, T2> : RoutedActionInfoBase
 	{
 		public Action<T1, T2> Direct;
 
@@ -52,13 +76,21 @@ namespace FlashSpaceInvaders.ActionScript
 
 			if (Handler != null)
 				Handler(t1, t2);
+
+			RaiseBaseHandler();
+
 		}
 
 		public event Action<T1, T2> Handler;
+
+		public static implicit operator RoutedActionInfo<T1, T2>(string EventName)
+		{
+			return new RoutedActionInfo<T1, T2> { EventName = EventName };
+		}
 	}
 
 	[Script]
-	public class RoutedActionInfo<T1, T2, T3>
+	public class RoutedActionInfo<T1, T2, T3> : RoutedActionInfoBase
 	{
 		public Action<T1, T2, T3> Direct;
 
@@ -69,8 +101,16 @@ namespace FlashSpaceInvaders.ActionScript
 
 			if (Handler != null)
 				Handler(t1, t2, t3);
+
+			RaiseBaseHandler();
+
 		}
 
 		public event Action<T1, T2, T3> Handler;
+
+		public static implicit operator RoutedActionInfo<T1, T2, T3>(string EventName)
+		{
+			return new RoutedActionInfo<T1, T2, T3> { EventName = EventName };
+		}
 	}
 }
