@@ -14,7 +14,7 @@ namespace FlashSpaceInvaders.ActionScript
 	{
 		public readonly TextField Field;
 
-		public readonly BooleanProperty Visible = true;
+		public readonly BooleanProperty Visible = false;
 
 		public DebugDumpTextField()
 		{

@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="ActionScript\BooleanProperty.cs" />
     <Compile Include="ActionScript\Colors.cs" />
+    <Compile Include="ActionScript\Int32Property.cs" />
     <Compile Include="ActionScript\Extensions\MyExtensions.cs" />
     <Compile Include="ActionScript\Filters.cs" />
     <Compile Include="ActionScript\KeyboardButton.cs" />

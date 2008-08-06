@@ -240,7 +240,7 @@ namespace FlashSpaceInvaders.ActionScript
 			#endregion
 
 			#region TextPoweredByJSC
-			var TextPoweredByJSC = new TextField
+			this.TextExternalLink2 = new TextField
 			{
 
 				y = 450,
@@ -264,9 +264,11 @@ namespace FlashSpaceInvaders.ActionScript
 				//    htmlText = "<a href='http://jsc.sf.net' target='_blank'>powered by <b>jsc</b></a>",
 
 
-				htmlText = "<a href='http:/jsc.sf.net' target='_blank'><u>powered by jsc</u></a>",
+				htmlText = "",
 			}.AttachTo(menu);
 			#endregion
 		}
+
+		public TextField TextExternalLink2;
 	}
 }
