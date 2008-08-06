@@ -42,7 +42,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public double HitRange
 		{
-			get { return 64; }
+			get { return 32; }
 		}
 
 		#endregion

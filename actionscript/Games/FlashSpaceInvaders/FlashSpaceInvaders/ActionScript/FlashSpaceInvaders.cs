@@ -14,6 +14,8 @@ using ScriptCoreLib.ActionScript.flash.geom;
 using FlashSpaceInvaders.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.filters;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace FlashSpaceInvaders.ActionScript
 {
@@ -39,9 +41,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public FlashSpaceInvaders()
 		{
-			this.graphics.lineStyle(1, Colors.Green, 1);
-			this.graphics.drawRect(0, 0, DefaultWidth - 1, DefaultHeight - 1);
-
+		
 
 			var m = new MenuSprite(DefaultWidth).AttachTo(this);
 
@@ -128,7 +128,7 @@ namespace FlashSpaceInvaders.ActionScript
 			var Life2 = AddLife(40 * 1);
 			var Life3 = AddLife(40 * 2);
 
-			var LifeBar = new SpriteWithMovement { Life1, Life2, Life3 }.AttachTo(Canvas);
+			var LifeBar = new SpriteWithMovement { Life1, Life2, Life3 }.AttachTo(this);
 
 			var EvilLife1 = AddEvilLife(40 * 0);
 			var EvilLife2 = AddEvilLife(40 * 1);
@@ -164,6 +164,7 @@ namespace FlashSpaceInvaders.ActionScript
 			);
 			#endregion
 
+			#region info
 			var TextInfo = new TextField
 			{
 
@@ -171,7 +172,7 @@ namespace FlashSpaceInvaders.ActionScript
 				x = 0,
 
 				width = DefaultWidth,
-				height = 60,
+				height = DefaultHeight / 2,
 
 				textColor = Colors.White,
 				embedFonts = true,
@@ -183,23 +184,46 @@ namespace FlashSpaceInvaders.ActionScript
 					font = Assets.FontFixedSys,
 					size = 12,
 				},
-				selectable = false,
+				//selectable = false,
 				condenseWhite = false,
 
 				background = true,
-				backgroundColor = Colors.Gray,
+				backgroundColor = 0x101010,
 
 				multiline = true,
 				text = "",
 			}.AttachTo(this);
 
+			var DebugDumpQueue = new Queue<string>();
+			Action DebugDumpUpdate =
+				delegate
+				{
+					var w = new StringBuilder();
+
+					foreach (var v in DebugDumpQueue)
+					{
+						w.AppendLine(v);
+					}
+
+					TextInfo.text = w.ToString();
+				};
+
+			DebugDump =
+				o =>
+				{
+					if (DebugDumpQueue.Count > 16)
+						DebugDumpQueue.Dequeue();
+
+					DebugDumpQueue.Enqueue(o.ToString());
+
+					DebugDumpUpdate();
+				};
+
 			1000.AtInterval(
 				delegate
 				{
-					var i = TextInfo.text.IndexOf("\n");
-
-					if (i > 0)
-						TextInfo.text = TextInfo.text.Substring(i);
+					DebugDumpQueue.Dequeue();
+					DebugDumpUpdate();
 
 					//AddBullet(cp1.FireBullet().Do(n => n.Element.AttachTo(Canvas)));
 					//AddBullet(cp2.FireBullet(4).Do(n => n.Element.AttachTo(Canvas)));
@@ -207,6 +231,9 @@ namespace FlashSpaceInvaders.ActionScript
 
 				}
 			);
+
+			#endregion
+
 
 			this.Ego = new PlayerShip(DefaultWidth, DefaultHeight)
 				{
@@ -217,7 +244,7 @@ namespace FlashSpaceInvaders.ActionScript
 			this.Ego.EvilMode.ValueChangedToTrue +=
 				delegate
 				{
-					EvilLifeBar.AttachTo(Canvas);
+					EvilLifeBar.AttachTo(this);
 					LifeBar.Orphanize();
 
 					this.filters = new[] { Filters.RedChannelFilter };
@@ -226,7 +253,7 @@ namespace FlashSpaceInvaders.ActionScript
 			this.Ego.EvilMode.ValueChangedToFalse +=
 				delegate
 				{
-					LifeBar.AttachTo(Canvas);
+					LifeBar.AttachTo(this);
 					EvilLifeBar.Orphanize();
 
 
@@ -246,7 +273,7 @@ namespace FlashSpaceInvaders.ActionScript
 				foreach (var v in CreateDefenseArray(offset, 420, Canvas))
 				{
 					v.AddTo(DefenseBlocks);
-					//v.AddTo(FragileEntities);
+					v.AddTo(FragileEntities);
 				}
 			}
 			#endregion
@@ -267,15 +294,8 @@ namespace FlashSpaceInvaders.ActionScript
 				FireBullet = () => AddBullet(Ego.FireBullet())
 			};
 
-			DebugDump =
-				o =>
-				{
-					TextInfo.appendTextLine(o.ToString());
-					
-					var x = TextInfo.text.Length - 1;
-
-					TextInfo.setSelection(x, x);
-				};
+	
+	
 
 			this.AddDamage +=
 				(target, bullet) =>
@@ -292,6 +312,12 @@ namespace FlashSpaceInvaders.ActionScript
 						}
 					);
 				};
+
+			var BorderOverlay = new Shape().AttachTo(this);
+
+			BorderOverlay.graphics.lineStyle(1, Colors.Green, 1);
+			BorderOverlay.graphics.drawRect(0, 0, DefaultWidth - 1, DefaultHeight - 1);
+
 		}
 
 		public Action<object> DebugDump;

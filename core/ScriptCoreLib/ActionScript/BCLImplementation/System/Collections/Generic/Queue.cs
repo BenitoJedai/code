@@ -98,11 +98,19 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
 
             IEnumerator<T> value;
 
+			internal __Enumerator() : this(null)
+			{
+
+			}
+
             internal __Enumerator(__Queue<T> e)
             {
-                //value = InternalSequenceImplementation.AsEnumerable(e.ToArray()).GetEnumerator();
-                value = ((IEnumerable<T>)e.ToArray()).GetEnumerator();
+				if (e != null)
+				{
+					//value = InternalSequenceImplementation.AsEnumerable(e.ToArray()).GetEnumerator();
+					value = ((IEnumerable<T>)e.ToArray()).GetEnumerator();
 
+				}
 
             }
 
