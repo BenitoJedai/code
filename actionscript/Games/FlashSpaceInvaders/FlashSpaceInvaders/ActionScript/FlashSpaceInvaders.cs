@@ -41,13 +41,40 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public FlashSpaceInvaders()
 		{
-		
+			var TextInfo = new TextField
+			{
+
+				y = DefaultHeight / 4,
+				x = 0,
+
+				width = DefaultWidth,
+				height = DefaultHeight / 2,
+
+				textColor = Colors.White,
+				embedFonts = true,
+
+				mouseEnabled = false,
+
+				defaultTextFormat = new TextFormat
+				{
+					font = Assets.FontFixedSys,
+					size = 12,
+				},
+				//selectable = false,
+				condenseWhite = false,
+
+				background = true,
+				backgroundColor = 0x101010,
+
+				multiline = true,
+				text = "",
+			};
+
 
 			var m = new MenuSprite(DefaultWidth).AttachTo(this);
 
 
 
-			Canvas.mask = mask;
 			stage.keyUp +=
 				e =>
 				{
@@ -61,6 +88,17 @@ namespace FlashSpaceInvaders.ActionScript
 					{
 						m.AttachTo(this);
 						Canvas.Orphanize();
+					}
+
+					if (e.keyCode == Keyboard.T)
+					{
+						if (TextInfo.parent == null)
+						{
+							TextInfo.alpha = 1;
+							TextInfo.AttachToBefore(BorderOverlay);
+						}
+						else
+							TextInfo.FadeOutAndOrphanize();
 					}
 				};
 
@@ -165,39 +203,15 @@ namespace FlashSpaceInvaders.ActionScript
 			#endregion
 
 			#region info
-			var TextInfo = new TextField
-			{
 
-				y = DefaultHeight / 4,
-				x = 0,
-
-				width = DefaultWidth,
-				height = DefaultHeight / 2,
-
-				textColor = Colors.White,
-				embedFonts = true,
-
-				mouseEnabled = false,
-
-				defaultTextFormat = new TextFormat
-				{
-					font = Assets.FontFixedSys,
-					size = 12,
-				},
-				//selectable = false,
-				condenseWhite = false,
-
-				background = true,
-				backgroundColor = 0x101010,
-
-				multiline = true,
-				text = "",
-			}.AttachTo(this);
 
 			var DebugDumpQueue = new Queue<string>();
 			Action DebugDumpUpdate =
 				delegate
 				{
+					if (TextInfo.parent == null)
+						return;
+
 					var w = new StringBuilder();
 
 					foreach (var v in DebugDumpQueue)
@@ -239,6 +253,7 @@ namespace FlashSpaceInvaders.ActionScript
 				{
 					Name = "Ego"
 				};
+
 
 			#region evilmode indicator
 			this.Ego.EvilMode.ValueChangedToTrue +=
@@ -294,8 +309,8 @@ namespace FlashSpaceInvaders.ActionScript
 				FireBullet = () => AddBullet(Ego.FireBullet())
 			};
 
-	
-	
+
+
 
 			this.AddDamage +=
 				(target, bullet) =>
@@ -313,12 +328,15 @@ namespace FlashSpaceInvaders.ActionScript
 					);
 				};
 
-			var BorderOverlay = new Shape().AttachTo(this);
+
+			BorderOverlay = new Shape().AttachTo(this);
 
 			BorderOverlay.graphics.lineStyle(1, Colors.Green, 1);
 			BorderOverlay.graphics.drawRect(0, 0, DefaultWidth - 1, DefaultHeight - 1);
 
 		}
+
+		Shape BorderOverlay;
 
 		public Action<object> DebugDump;
 
