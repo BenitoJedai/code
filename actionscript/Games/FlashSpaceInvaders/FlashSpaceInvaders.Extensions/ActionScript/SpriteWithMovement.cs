@@ -36,6 +36,7 @@ namespace FlashSpaceInvaders.ActionScript
 			return this;
 		}
 
+		public Func<Point, Point> Clip;
 		public Rectangle ClipRectangle;
 
 		public double MaxStep = 0;
@@ -89,6 +90,14 @@ namespace FlashSpaceInvaders.ActionScript
 								step = MaxStep;
 
 						this.MoveToArc(x.GetRotation(), step);
+
+						if (Clip != null)
+						{
+							var p = Clip(this.ToPoint());
+
+							this.x = p.x;
+							this.y = p.y;
+						}
 
 						if (ClipRectangle != null)
 						{
