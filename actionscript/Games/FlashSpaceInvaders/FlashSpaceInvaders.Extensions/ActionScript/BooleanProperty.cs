@@ -39,6 +39,11 @@ namespace FlashSpaceInvaders.ActionScript
 		{
 			return new BooleanProperty { Value = e };
 		}
+
+		public void Toggle()
+		{
+			this.Value = !this.Value;
+		}
 	}
 
 }

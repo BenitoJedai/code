@@ -52,7 +52,9 @@
   <ItemGroup>
     <Compile Include="ActionScript\Animations.cs" />
     <Compile Include="ActionScript\BulletInfo.cs" />
+    <Compile Include="ActionScript\DebugDumpTextField.cs" />
     <Compile Include="ActionScript\DefenseBlock.cs" />
+    <Compile Include="ActionScript\FixedBorderCanvas.cs" />
     <Compile Include="ActionScript\FragileEntities\FragileEntitiesContainer.cs" />
     <Compile Include="ActionScript\FragileEntities\IFragileEntity.cs" />
     <Compile Include="ActionScript\FragileEntities\IHitPoints.cs" />
