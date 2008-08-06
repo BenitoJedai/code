@@ -9,19 +9,16 @@ namespace FlashSpaceInvaders.ActionScript
 	[Script]
 	public class BulletInfo : ParentRelation<SpriteWithMovement, PlayerShip>
 	{
-		public BulletInfo()
-			: this(null)
-		{
-
-		}
+		public double Damage = 0.10;
+		public double Multiplier = 1;
 
 		public BulletInfo(ParentRelation<SpriteWithMovement, PlayerShip> e)
 		{
-			if (e != null)
-			{
-				this.Element = e.Element;
-				this.Parent = e.Parent;
-			}
+
+			this.Element = e.Element;
+			this.Parent = e.Parent;
+
+			
 		}
 
 	}

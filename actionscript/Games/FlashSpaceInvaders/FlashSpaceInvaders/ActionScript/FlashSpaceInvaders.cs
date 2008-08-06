@@ -24,6 +24,8 @@ namespace FlashSpaceInvaders.ActionScript
 	[SWF(backgroundColor = Colors.Black, width = DefaultWidth, height = DefaultHeight)]
 	public class FlashSpaceInvaders : Sprite
 	{
+		// todo: add http://gimme.badsectoracula.com/flashmodplayer/modplayer.html
+
 		public const int DefaultWidth = 480;
 		public const int DefaultHeight = 480;
 
@@ -136,19 +138,14 @@ namespace FlashSpaceInvaders.ActionScript
 			#endregion
 
 			#region npc
-			var cp1 = new PlayerShip(DefaultWidth, DefaultHeight);
+			var cp1 = new PlayerShip(DefaultWidth, DefaultHeight).AddTo(CoPlayers);
 
 			cp1.GoodEgo.AttachTo(Canvas);
 			cp1.EvilEgo.AttachTo(Canvas);
 
-			(1000 / 30).AtInterval(
-				delegate
-				{
-					cp1.GoodEgo.MoveToTarget.Value.x += 5;
-				}
-			);
 
-			var cp2 = new PlayerShip(DefaultWidth, DefaultHeight);
+
+			var cp2 = new PlayerShip(DefaultWidth, DefaultHeight).AddTo(CoPlayers);
 
 			cp2.GoodEgo.AttachTo(Canvas);
 			cp2.EvilEgo.AttachTo(Canvas);
@@ -205,21 +202,37 @@ namespace FlashSpaceInvaders.ActionScript
 
 				foreach (var v in CreateDefenseArray(offset, 420, Canvas))
 				{
-					v.AddTo(DefenseBlocks).AddTo(FragileEntities);
+					v.AddTo(DefenseBlocks);
+					v.AddTo(FragileEntities);
 				}
 			}
-
 			#endregion
 
 
+			cp1.AddTo(FragileEntities);
+			cp2.AddTo(FragileEntities);
+			Ego.AddTo(FragileEntities);
 
 			var input = new PlayerInput(stage, Ego)
 			{
-				StepLeft = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(Math.PI, Ego.GoodEgo.MaxStep / 2),
-				StepRight = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(0, Ego.GoodEgo.MaxStep / 2),
+				StepLeft = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(Math.PI, Ego.GoodEgo.MaxStep * 2),
+				StepLeftEnd = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(Math.PI, Ego.GoodEgo.MaxStep / 2),
+				
+				StepRight = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(0, Ego.GoodEgo.MaxStep * 2),
+				StepRightEnd = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(0, Ego.GoodEgo.MaxStep / 2),
+				
 				FireBullet = () => AddBullet(Ego.FireBullet())
 			};
 		}
+
+		public PlayerShip[] KnownEgos
+		{
+			get
+			{
+				return this.CoPlayers.Concat(this.Ego).ToArray();
+			}
+		}
+
 
 		public readonly List<IFragileEntity> FragileEntities = new List<IFragileEntity>();
 
@@ -227,11 +240,32 @@ namespace FlashSpaceInvaders.ActionScript
 		public void BulletHitTest(BulletInfo n)
 		{
 			var p = n.Element.ToPoint();
-			foreach (var v in from x in FragileEntities
-							  where (x.Location - p).length < n.Element.MaxStep
-							  select x)
+
+			var GroupGoodEgos = KnownEgos.Select(i => i.GoodEgo).ToArray();
+			var GroupEvilEgos = KnownEgos.Select(i => i.EvilEgo).ToArray();
+			
+
+			var query = default(IEnumerable<IFragileEntity>);
+
+			if (n.Parent.EvilMode)
+				query = FragileEntities.Where(x => !GroupEvilEgos.Contains(x));
+			else
+				query = FragileEntities.Where(x => !GroupGoodEgos.Contains(x));
+
+
+			var v = Enumerable.FirstOrDefault(
+				from x in query
+				where x.HitPoints > 0
+				let distance = (x.Location - p).length
+				where distance <= x.HitRange
+				orderby distance
+				select x
+			);
+
+			if (v != null)
 			{
 				v.TakeDamage(n.Damage * n.Multiplier);
+				n.Element.Orphanize();
 			}
 		}
 
@@ -252,7 +286,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 					if (p == null)
 						DoHitTest = true;
-					else if ((k - p).length > n.Element.MaxStep)
+					else if ((k - p).length > DefenseBlock.BlockSize)
 						DoHitTest = true;
 
 					if (DoHitTest)

@@ -18,7 +18,10 @@ namespace FlashSpaceInvaders.ActionScript
 		public readonly KeyboardButtonGroup MovementArrows;
 
 		public Action StepLeft;
+		public Action StepLeftEnd;
 		public Action StepRight;
+		public Action StepRightEnd;
+
 		public Action FireBullet;
 
 		public PlayerInput(Stage stage, PlayerShip Ego)
@@ -52,7 +55,8 @@ namespace FlashSpaceInvaders.ActionScript
                     MovementWASD[Keyboard.A],
                     MovementArrows[Keyboard.LEFT],
                 },
-				Tick = () => { this.StepLeft(); }
+				Tick = () => this.StepLeft(),
+				Up = () => this.StepLeftEnd()
 			};
 
 			var GoRight = new KeyboardButton(stage)
@@ -62,7 +66,8 @@ namespace FlashSpaceInvaders.ActionScript
                     MovementWASD[Keyboard.D],
                     MovementArrows[Keyboard.RIGHT],
                 },
-				Tick = () => { this.StepRight(); }
+				Tick = () => this.StepRight(),
+				Up = () => this.StepRightEnd()
 			};
 			#endregion
 
@@ -76,6 +81,7 @@ namespace FlashSpaceInvaders.ActionScript
                     MovementArrows[Keyboard.RIGHT , KeyLocation.RIGHT],
                 },
 				Tick = () => FireBullet()
+
 			};
 
 			stage.mouseDown +=
