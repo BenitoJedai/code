@@ -16,6 +16,7 @@ using ScriptCoreLib.ActionScript.flash.filters;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using FlashSpaceInvaders.ActionScript.FragileEntities;
 
 namespace FlashSpaceInvaders.ActionScript
 {
@@ -116,18 +117,6 @@ namespace FlashSpaceInvaders.ActionScript
 					DebugDumpUpdate();
 				};
 
-			1000.AtInterval(
-				delegate
-				{
-					DebugDumpQueue.Dequeue();
-					DebugDumpUpdate();
-
-					//AddBullet(cp1.FireBullet().Do(n => n.Element.AttachTo(Canvas)));
-					//AddBullet(cp2.FireBullet(4).Do(n => n.Element.AttachTo(Canvas)));
-
-
-				}
-			);
 
 			#endregion
 
@@ -262,7 +251,8 @@ namespace FlashSpaceInvaders.ActionScript
 			);
 			#endregion
 
-
+		
+			
 			this.Ego = new PlayerShip(DefaultWidth, DefaultHeight)
 				{
 					Name = "Ego"
@@ -303,7 +293,7 @@ namespace FlashSpaceInvaders.ActionScript
 				{
 					v.AttachTo(Canvas);
 					v.AddTo(DefenseBlocks);
-					v.AddTo(FragileEntities);
+					v.AddTo(FragileEntities.Items);
 				}
 			}
 			#endregion
@@ -314,7 +304,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 			this.AddEnemy.Direct += (e, p) => e.TeleportTo(p.x, p.y)
 				.AttachTo(Canvas)
-				.AddTo(FragileEntities);
+				.AddTo(FragileEntities.Items);
 
 
 			AddEnemy.Chained(new StarShip { Animations.Spawn_A }, new Point(200, 200));
@@ -330,17 +320,16 @@ namespace FlashSpaceInvaders.ActionScript
 				StepRight = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(0, Ego.GoodEgo.MaxStep * 2),
 				StepRightEnd = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(0, Ego.GoodEgo.MaxStep / 2),
 
-				FireBullet = () => AddBullet(Ego.FireBullet())
+				FireBullet = () => FragileEntities.AddBullet(Ego.FireBullet().Do(n => n.Element.AttachTo(Canvas)))
 			};
 
 
 
 
-			this.AddDamage +=
+			this.AddDamage.Direct +=
 				(target, bullet) =>
 				{
 					target.TakeDamage(bullet.TotalDamage);
-
 
 					DebugDump(
 						new
@@ -353,6 +342,31 @@ namespace FlashSpaceInvaders.ActionScript
 				};
 
 
+			this.FragileEntities.AddDamage = this.AddDamage;
+
+			this.FragileEntities.PrepareFilter =
+				delegate
+				{
+					var GroupGoodEgos = KnownEgos.Select(i => i.GoodEgo).ToArray();
+					var GroupEvilEgos = KnownEgos.Select(i => i.EvilEgo).ToArray();
+
+					this.FragileEntities.Filter =
+						(source, n) =>
+						{
+							// spare yourself
+							var query = source;
+
+							// spare coplayers in the same mode
+							if (n.Parent.EvilMode)
+								query = query.Where(x => !GroupEvilEgos.Contains(x));
+							else
+								query = query.Where(x => !GroupGoodEgos.Contains(x));
+
+							return query;
+						};
+				};
+
+			
 			BorderOverlay = new Shape().AttachTo(this);
 
 			BorderOverlay.graphics.lineStyle(1, Colors.Green, 1);
@@ -366,94 +380,11 @@ namespace FlashSpaceInvaders.ActionScript
 
 
 
-
-		public readonly List<IFragileEntity> FragileEntities = new List<IFragileEntity>();
-
-		public event Action<IFragileEntity, BulletInfo> AddDamage;
-
-
-
-
+		public readonly RoutedActionInfo<IFragileEntity, BulletInfo> AddDamage = new RoutedActionInfo<IFragileEntity, BulletInfo>();
 		public readonly RoutedActionInfo<StarShip, Point> AddEnemy = new RoutedActionInfo<StarShip, Point>();
 
+		public readonly FragileEntitiesContainer FragileEntities = new FragileEntitiesContainer();
 
-
-		int BulletHitTestCounter = 0;
-
-		public void BulletHitTest(BulletInfo n)
-		{
-			BulletHitTestCounter++;
-
-			var p = n.Element.ToPoint();
-
-			var GroupGoodEgos = KnownEgos.Select(i => i.GoodEgo).ToArray();
-			var GroupEvilEgos = KnownEgos.Select(i => i.EvilEgo).ToArray();
-
-
-			// spare yourself
-			var query = FragileEntities.Where(x => x != n.Parent.ActiveEgo);
-
-			// spare coplayers in the same mode
-			if (n.Parent.EvilMode)
-				query = query.Where(x => !GroupEvilEgos.Contains(x));
-			else
-				query = query.Where(x => !GroupGoodEgos.Contains(x));
-
-			query = from x in query
-					where x.HitPoints > 0
-					let distance = (x.Location - p).length
-					where distance <= x.HitRange
-					orderby distance
-					select x;
-
-			//DebugDump(
-			//    new { counter = BulletHitTestCounter, targets = query.Count() }
-			//    );
-
-			var v = query.FirstOrDefault();
-
-			if (v != null)
-			{
-				if (AddDamage != null)
-					AddDamage(v, n);
-
-				n.Element.Orphanize();
-			}
-		}
-
-		public void AddBullet(BulletInfo n)
-		{
-			n.AddTo(Bullets);
-
-			n.Element.AttachTo(Canvas);
-
-			var p = default(Point);
-
-			n.Element.PositionChanged +=
-				delegate
-				{
-					var k = n.Element.ToPoint();
-
-
-					if ((k - p).length > 1)
-					{
-						// only check for hit on each moved one pixel
-
-						BulletHitTest(n);
-					}
-
-					p = k;
-				};
-
-			n.Element.removed +=
-				delegate
-				{
-					Bullets.Remove(n);
-				};
-		}
-
-		public readonly List<BulletInfo> Bullets =
-			new List<BulletInfo>();
 
 		public readonly List<DefenseBlock> DefenseBlocks =
 			new List<DefenseBlock>();

@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace FlashSpaceInvaders.ActionScript
+namespace FlashSpaceInvaders.ActionScript.FragileEntities
 {
 	[Script]
-	public interface ITakeDamage
+	public interface IName
 	{
-		void TakeDamage(double damage);
-
+		string Name { get; }
 	}
 }

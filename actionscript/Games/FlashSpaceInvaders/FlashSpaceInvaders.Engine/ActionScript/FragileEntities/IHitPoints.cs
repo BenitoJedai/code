@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace FlashSpaceInvaders.ActionScript
+namespace FlashSpaceInvaders.ActionScript.FragileEntities
 {
 	[Script]
-	public interface IHitRange
+	public interface IHitPoints
 	{
-		double HitRange { get; }
+		 double HitPoints { get; }
 	}
 }

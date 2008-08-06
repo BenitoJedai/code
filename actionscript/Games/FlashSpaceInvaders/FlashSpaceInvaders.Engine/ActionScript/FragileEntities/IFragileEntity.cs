@@ -5,7 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.geom;
 
-namespace FlashSpaceInvaders.ActionScript
+namespace FlashSpaceInvaders.ActionScript.FragileEntities
 {
 	[Script]
 	public interface IFragileEntity : ITakeDamage, IWithLocation, IHitPoints, IHitRange, IName

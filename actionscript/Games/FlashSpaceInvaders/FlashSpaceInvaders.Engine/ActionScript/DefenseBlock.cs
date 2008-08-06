@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.Extensions;
+using FlashSpaceInvaders.ActionScript.FragileEntities;
 
 namespace FlashSpaceInvaders.ActionScript
 {
@@ -68,7 +69,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public double HitRange
 		{
-			get { return BlockSize; }
+			get { return BlockSize / 2 + 1; }
 		}
 
 		#endregion
