@@ -25,7 +25,7 @@ namespace FlashSpaceInvaders.ActionScript
 	/// </summary>
 	[Script, ScriptApplicationEntryPoint]
 	[SWF(backgroundColor = Colors.Black, width = DefaultWidth, height = DefaultHeight)]
-	public class FlashSpaceInvaders : Sprite
+	public class FlashSpaceInvaders : FixedBorderCanvas
 	{
 		// todo: add http://gimme.badsectoracula.com/flashmodplayer/modplayer.html
 
@@ -40,87 +40,26 @@ namespace FlashSpaceInvaders.ActionScript
 
 
 
-		readonly Sprite Canvas = new Sprite();
 
-		public FlashSpaceInvaders()
+		public FlashSpaceInvaders() : base(DefaultWidth, DefaultHeight)
 		{
-			#region mask
-			var CanvasMask = new Shape();
+	
 
-			CanvasMask.graphics.beginFill(0x00ffffff);
-			CanvasMask.graphics.drawRect(0, 0, DefaultWidth, DefaultHeight);
+			var DebugDump = new DebugDumpTextField();
 
-			CanvasMask.AttachTo(this);
+			DebugDump.Field.y = DefaultHeight / 4;
+			DebugDump.Field.x = 0;
 
-			Canvas.mask = CanvasMask;
-			#endregion
+			DebugDump.Field.width = DefaultWidth;
+			DebugDump.Field.height = DefaultHeight / 2;
 
-
-			var TextInfo = new TextField
-			{
-
-				y = DefaultHeight / 4,
-				x = 0,
-
-				width = DefaultWidth,
-				height = DefaultHeight / 2,
-
-				textColor = Colors.White,
-				embedFonts = true,
-
-				mouseEnabled = false,
-
-				defaultTextFormat = new TextFormat
-				{
-					font = Assets.FontFixedSys,
-					size = 12,
-				},
-				//selectable = false,
-				condenseWhite = false,
-
-				background = true,
-				backgroundColor = 0x101010,
-
-				multiline = true,
-				text = "",
-			};
-
-
-			var m = new MenuSprite(DefaultWidth).AttachTo(this);
-
-			#region info
-
-
-			var DebugDumpQueue = new Queue<string>();
-			Action DebugDumpUpdate =
+			DebugDump.Visible.ValueChangedToTrue +=
 				delegate
 				{
-					if (TextInfo.parent == null)
-						return;
-
-					var w = new StringBuilder();
-
-					foreach (var v in DebugDumpQueue)
-					{
-						w.AppendLine(v);
-					}
-
-					TextInfo.text = w.ToString();
+					DebugDump.Field.AttachToBefore(BorderOverlay);
 				};
 
-			DebugDump =
-				o =>
-				{
-					if (DebugDumpQueue.Count > 16)
-						DebugDumpQueue.Dequeue();
-
-					DebugDumpQueue.Enqueue(o.ToString());
-
-					DebugDumpUpdate();
-				};
-
-
-			#endregion
+			var m = new MenuSprite(DefaultWidth).AttachTo(base.InfoOverlay);
 
 
 
@@ -141,15 +80,8 @@ namespace FlashSpaceInvaders.ActionScript
 
 					if (e.keyCode == Keyboard.T)
 					{
-						if (TextInfo.parent == null)
-						{
-							TextInfo.alpha = 1;
-							TextInfo.AttachToBefore(BorderOverlay);
-							DebugDumpUpdate();
-
-						}
-						else
-							TextInfo.FadeOutAndOrphanize();
+						DebugDump.Visible.Toggle(); 
+			
 					}
 				};
 
@@ -331,18 +263,19 @@ namespace FlashSpaceInvaders.ActionScript
 				{
 					// our bullets will need to check for collisions
 					FragileEntities.AddBullet(bullet);
+					// remote bullets check on their hosts for collision
 				};
 			#endregion
 
-
+			#region DoPlayerMovement
 			this.DoPlayerMovement.Direct +=
 				(e, p) =>
 				{
 					e.GoodEgo.MoveToTarget.Value = p;
 				};
 
-			Action<double, double> DoEgoPlayerMovement = 
-				(arc, length) => 
+			Action<double, double> DoEgoPlayerMovement =
+				(arc, length) =>
 					 this.DoPlayerMovement.Chained(Ego, Ego.GoodEgo.ToPoint().MoveToArc(arc, Ego.GoodEgo.MaxStep * length));
 
 
@@ -356,20 +289,18 @@ namespace FlashSpaceInvaders.ActionScript
 
 				FireBullet = () => this.AddBullet.Chained(Ego.FireBullet()),
 
-				SmartMoveTo = x => 
+				SmartMoveTo = x =>
 					this.DoPlayerMovement.Chained(Ego, new Point(Ego.Wrapper(x), Ego.GoodEgoY))
 
 			};
-
-
-
+			#endregion
 
 			this.AddDamage.Direct +=
 				(target, bullet) =>
 				{
 					target.TakeDamage(bullet.TotalDamage);
 
-					DebugDump(
+					DebugDump.Write(
 						new
 						{
 							bullet.TotalDamage,
@@ -379,7 +310,7 @@ namespace FlashSpaceInvaders.ActionScript
 					);
 				};
 
-
+			#region FragileEntities
 			this.FragileEntities.AddDamage = this.AddDamage;
 
 			this.FragileEntities.PrepareFilter =
@@ -403,15 +334,13 @@ namespace FlashSpaceInvaders.ActionScript
 							return query;
 						};
 				};
+			#endregion
 
 
-			BorderOverlay = new Shape().AttachTo(this);
 
-			BorderOverlay.graphics.lineStyle(1, Colors.Green, 1);
-			BorderOverlay.graphics.drawRect(0, 0, DefaultWidth - 1, DefaultHeight - 1);
 
 			Action<RoutedActionInfoBase> BaseHandler =
-				e => DebugDump(new { e.EventName });
+				e => DebugDump.Write(new { e.EventName });
 
 			this.AddDamage.BaseHandler += BaseHandler;
 			this.AddEnemy.BaseHandler += BaseHandler;
@@ -420,16 +349,16 @@ namespace FlashSpaceInvaders.ActionScript
 
 		}
 
-		Shape BorderOverlay;
-
-		public Action<object> DebugDump;
 
 
+		#region routed events
 
 		public readonly RoutedActionInfo<IFragileEntity, BulletInfo> AddDamage = "AddDamage";
 		public readonly RoutedActionInfo<StarShip, Point> AddEnemy = "AddEnemy";
 		public readonly RoutedActionInfo<BulletInfo> AddBullet = "AddBullet";
 		public readonly RoutedActionInfo<PlayerShip, Point> DoPlayerMovement = "DoMovement";
+
+		#endregion
 
 
 		public readonly FragileEntitiesContainer FragileEntities = new FragileEntitiesContainer();
