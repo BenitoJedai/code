@@ -36,6 +36,14 @@ namespace FlashSpaceInvaders.ActionScript
 			return this;
 		}
 
+
+		public SpriteWithMovement TweenMoveToArc(double arc, double length)
+		{
+			MoveToTarget.Value = MoveToTarget.Value.MoveToArc(arc, length);
+
+
+			return this;
+		}
 		public Func<Point, Point> Clip;
 		public Rectangle ClipRectangle;
 

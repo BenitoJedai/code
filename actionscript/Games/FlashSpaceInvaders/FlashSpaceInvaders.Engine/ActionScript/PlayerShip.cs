@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.Shared.Lambda;
 
 using FlashSpaceInvaders.ActionScript.Extensions;
 using FlashSpaceInvaders.ActionScript.FragileEntities;

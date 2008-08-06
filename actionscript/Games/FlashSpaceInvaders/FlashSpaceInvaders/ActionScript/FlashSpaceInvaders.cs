@@ -281,6 +281,12 @@ namespace FlashSpaceInvaders.ActionScript
 
 			cloud1.TickInterval.Value = 1000;
 
+			cloud1.Tick +=
+				delegate
+				{
+					cloud1.MoveToOffset(4, 0);
+				};
+
 			//AddEnemy.Chained(new EnemyA(), new Point(200, 200));
 			//AddEnemy.Chained(new EnemyB(), new Point(240, 200));
 			//AddEnemy.Chained(new EnemyC(), new Point(280, 200));
@@ -347,7 +353,11 @@ namespace FlashSpaceInvaders.ActionScript
 					if (target.HitPoints <= 0)
 					{
 						if (ComputerEnemies.Any(k => k == target))
-							cloud1.TickInterval.Value -= 900 / cloud1.Members.Count;
+						{
+
+							cloud1.TickInterval.Value = (cloud1.TickInterval.Value - 50).Max(50);
+
+						}
 
 						Statusbar.Score.Value += target.ScorePoints;
 
