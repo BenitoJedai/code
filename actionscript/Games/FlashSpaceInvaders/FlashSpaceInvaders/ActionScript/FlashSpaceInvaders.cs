@@ -33,6 +33,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 
 
+		readonly Sprite Canvas = new Sprite();
 
 		public FlashSpaceInvaders()
 		{
@@ -41,7 +42,6 @@ namespace FlashSpaceInvaders.ActionScript
 
 
 			var m = new MenuSprite(DefaultWidth).AttachTo(this);
-			var Canvas = new Sprite();
 
 
 
@@ -135,10 +135,7 @@ namespace FlashSpaceInvaders.ActionScript
 			var EvilLifeBar = new SpriteWithMovement { EvilLife1, EvilLife2, EvilLife3 };
 			#endregion
 
-
-			MovementWASD = new KeyboardButtonGroup { Name = "WASD" };
-			MovementArrows = new KeyboardButtonGroup { Name = "Arrows" };
-
+			#region npc
 			var cp1 = new PlayerShip(DefaultWidth, DefaultHeight);
 
 			cp1.GoodEgo.AttachTo(Canvas);
@@ -162,9 +159,11 @@ namespace FlashSpaceInvaders.ActionScript
 					cp2.GoodEgo.MoveToTarget.Value.x -= 6;
 				}
 			);
+			#endregion
 
 			this.Ego = new PlayerShip(DefaultWidth, DefaultHeight);
 
+			#region evilmode indicator
 			this.Ego.EvilMode.ValueChangedToTrue +=
 				delegate
 				{
@@ -183,44 +182,12 @@ namespace FlashSpaceInvaders.ActionScript
 
 					this.filters = null;
 				};
+			#endregion
 
 			this.Ego.GoodEgo.AttachTo(Canvas);
 			this.Ego.EvilEgo.AttachTo(Canvas);
 
-			#region Ego Movement
-			// ego input
-			stage.click +=
-				e =>
-				{
-					if (Ego.EvilMode)
-					{
-						Ego.GoodEgo.MoveTo(e.stageX + DefaultWidth, Ego.GoodEgoY);
-					}
-					else
-						Ego.GoodEgo.MoveTo(e.stageX, Ego.GoodEgoY);
-				};
-
-			var GoLeft = new KeyboardButton(stage)
-			{
-				Groups = new[]
-                {
-                    MovementWASD[Keyboard.A],
-                    MovementArrows[Keyboard.LEFT],
-                },
-				Tick = () => { Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(Math.PI, Ego.GoodEgo.MaxStep * 2); }
-			};
-
-			var GoRight = new KeyboardButton(stage)
-			{
-				Groups = new[]
-                {
-                    MovementWASD[Keyboard.D],
-                    MovementArrows[Keyboard.RIGHT],
-                },
-				Tick = () => { Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(0, Ego.GoodEgo.MaxStep * 2); }
-			};
-			#endregion
-
+	
 
 
 			var BlockSize = 16;
@@ -234,55 +201,50 @@ namespace FlashSpaceInvaders.ActionScript
 				};
 
 
-			var DoFire = new KeyboardButton(stage, 400)
+			var input = new PlayerInput(stage, Ego)
 			{
-				Groups = new[]
-                {
-                    MovementWASD[Keyboard.CONTROL , KeyLocation.LEFT],
-                    MovementArrows[Keyboard.RIGHT , KeyLocation.RIGHT],
-                },
-				Tick =
-					delegate
-					{
-						// shoot
-
-						var bullet = new SpriteWithMovement().AttachTo(Canvas);
-
-						bullet.graphics.beginFill(Colors.Green);
-						bullet.graphics.drawRect(0, -8, 1, 16);
-						bullet.StepMultiplier = 0.3;
-
-						if (Ego.EvilMode)
-						{
-							bullet.TeleportTo(Ego.EvilEgo.x, Ego.EvilEgo.y);
-							bullet.MoveTo(Ego.EvilEgo.x + 0.00001, DefaultHeight);
-
-							bullet.PositionChanged +=
-								delegate
-								{
-									if (bullet.y > Ego.GoodEgoY)
-										bullet.Orphanize();
-								};
-						}
-						else
-						{
-							bullet.TeleportTo(Ego.GoodEgo.x, Ego.GoodEgo.y);
-							bullet.MoveTo(Ego.GoodEgo.x + 0.00001, 0);
-
-
-							bullet.PositionChanged +=
-								delegate
-								{
-									if (bullet.y < Ego.EvilEgoY)
-										bullet.Orphanize();
-								};
-						}
-
-						
-					}
+				StepLeft = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(Math.PI, Ego.GoodEgo.MaxStep * 2),
+				StepRight = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(0, Ego.GoodEgo.MaxStep * 2),
+				FireBullet = () => AddBullet(Ego.FireBullet())
 			};
-
 		}
+
+		public void BulletHitTest(BulletInfo n)
+		{
+		}
+
+		public void AddBullet(BulletInfo n)
+		{
+			n.AddTo(Bullets);
+
+			n.Element.AttachTo(Canvas);
+
+			var p = n.Element.ToPoint();
+
+			n.Element.PositionChanged +=
+				delegate
+				{
+					var k = n.Element.ToPoint();
+
+					if ((k - p).length > 8)
+					{
+						// only check for hit on each moved 8 pixels
+
+						BulletHitTest(n);
+					}
+
+					p = k;
+				};
+
+			n.Element.removed +=
+				delegate
+				{
+					Bullets.Remove(n);
+				};
+		}
+
+		public readonly List<BulletInfo> Bullets =
+			new List<BulletInfo>();
 
 		public SolidColorShape[][] DefenseArrays;
 
@@ -307,8 +269,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public PlayerShip Ego;
 
-		public KeyboardButtonGroup MovementWASD;
-		public KeyboardButtonGroup MovementArrows;
+	
 
 	}
 

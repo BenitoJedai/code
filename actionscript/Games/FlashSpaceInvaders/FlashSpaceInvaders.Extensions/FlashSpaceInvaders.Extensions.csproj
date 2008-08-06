@@ -57,6 +57,7 @@
     <Compile Include="ActionScript\Filters.cs" />
     <Compile Include="ActionScript\KeyboardButton.cs" />
     <Compile Include="ActionScript\KeyboardButtonGroup.cs" />
+    <Compile Include="ActionScript\ParentRelation.cs" />
     <Compile Include="ActionScript\Property.cs" />
     <Compile Include="ActionScript\SolidColorShape.cs" />
     <Compile Include="ActionScript\SpriteWithMovement.cs" />

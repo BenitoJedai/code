@@ -51,11 +51,15 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public readonly BooleanProperty CloseEnough = new BooleanProperty { Value = true };
 
+		public double StepMultiplier = 1;
+
 		public SpriteWithMovement()
 		{
-			(1000 / 30).AtInterval(
-				t =>
+			var t = (1000 / 30).AtInterval(
+				delegate
 				{
+					
+
 					var c = this.ToPoint();
 
 					var x = this.MoveToTarget.Value - c;
@@ -86,6 +90,8 @@ namespace FlashSpaceInvaders.ActionScript
 							step /= 4;
 
 						}
+						step *= StepMultiplier;
+
 
 						if (MaxStep > 0)
 							if (MaxStep < step)
@@ -106,6 +112,19 @@ namespace FlashSpaceInvaders.ActionScript
 			
 				}
 			);
+
+
+			this.removedFromStage +=
+				delegate
+				{
+					t.stop();
+				};
+
+			this.addedToStage +=
+				delegate
+				{
+					t.start();
+				};
 		}
 
 		public event Action PositionChanged;
