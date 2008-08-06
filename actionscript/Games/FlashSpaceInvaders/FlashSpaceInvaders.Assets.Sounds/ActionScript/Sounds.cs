@@ -23,8 +23,37 @@ namespace FlashSpaceInvaders.ActionScript
 		/// </summary>
 		public const string Path = "/assets/FlashSpaceInvaders.Assets.Sounds";
 
+
 		public static readonly Class miu;
 		public static readonly Class baseexplode;
+		public static readonly Class
+			duh0;
+		public static readonly Class
+			duh1;
+		public static readonly Class
+			duh2;
+		public static readonly Class
+			duh3;
+		public static readonly Class
+			fade;
+		public static readonly Class
+			firemissile;
+		public static readonly Class
+			freecredit;
+		public static readonly Class
+			insertcoin;
+		public static readonly Class
+			invaderexplode;
+		
+		public static readonly Class
+			mothershipexplode;
+		public static readonly Class
+			mothershiploop;
+		public static readonly Class
+			shortdweep;
+		public static readonly Class
+			shortwhite;
+
 	}
 }
 
