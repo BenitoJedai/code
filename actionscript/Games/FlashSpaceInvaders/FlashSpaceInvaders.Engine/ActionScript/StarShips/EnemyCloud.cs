@@ -67,7 +67,7 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 
 			var Timer = default(Timer);
 
-			Action Reset = 
+			Action Reset =
 				delegate
 				{
 					Timer = TickInterval.Value.AtInterval(
@@ -121,5 +121,15 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 		public readonly Int32Property TickInterval = 0;
 
 		public event Action Tick;
+
+		public double Direction;
+
+		public void MoveToOffset(double x, int y)
+		{
+			foreach (var v in Members)
+			{
+				v.Element.MoveTo(v.Element.MoveToTarget.Value.x + x, v.Element.MoveToTarget.Value.y + y);
+			}
+		}
 	}
 }
