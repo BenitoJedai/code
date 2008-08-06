@@ -13,7 +13,7 @@ namespace FlashSpaceInvaders.ActionScript
 	/// This class should define all links and references to 
 	/// external and embeded assets.
 	/// </summary>
-	[Script]
+	[Script, EmbedFields(Path, "mp3")]
 	public static partial class Sounds
 	{
 		/// <summary>
@@ -23,10 +23,7 @@ namespace FlashSpaceInvaders.ActionScript
 		/// </summary>
 		public const string Path = "/assets/FlashSpaceInvaders.Assets.Sounds";
 
-		[Embed(Path + "/miu.mp3")]
 		public static readonly Class miu;
-
-		[Embed(Path + "/baseexplode.mp3")]
 		public static readonly Class baseexplode;
 	}
 }

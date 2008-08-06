@@ -7,98 +7,117 @@ using System.Xml;
 using System.Reflection;
 using System.Diagnostics;
 using System.Reflection.Emit;
+using ScriptCoreLib.ActionScript;
 
 namespace jsc.Languages.ActionScript
 {
-    partial class ActionScriptCompiler
-    {
-        public override void WriteTypeFields(Type z, ScriptAttribute za)
-        {
-            FieldInfo[] zf = GetAllFields(z);
+	partial class ActionScriptCompiler
+	{
+		class EmbedAttributeStub
+		{
+			public string source;
+		}
 
-            foreach (FieldInfo zfn in zf)
-            {
-                // external class cannot have static variables inside a type
-                // should be defined outside as global static instead
-                if ((za.HasNoPrototype || za.ImplementationType != null) && !zfn.IsStatic)
-                    continue;
+		public override void WriteTypeFields(Type z, ScriptAttribute za)
+		{
+			var EmbedFields = z.GetCustomAttributes<EmbedFieldsAttribute>().SingleOrDefault();
 
-                if (zfn.IsLiteral)
-                    continue;
+			FieldInfo[] zf = GetAllFields(z);
 
+			foreach (FieldInfo zfn in zf)
+			{
+				// external class cannot have static variables inside a type
+				// should be defined outside as global static instead
+				if ((za.HasNoPrototype || za.ImplementationType != null) && !zfn.IsStatic)
+					continue;
 
-                // write the attributes for current field
-                WriteCustomAttributes(zfn);
+				if (zfn.IsLiteral)
+					continue;
 
-                WriteIdent();
-                WriteTypeFieldModifier(zfn);
+				// auto embed fields
+				if (EmbedFields != null)
+				{
+					var AttributeRef = new EmbedAttributeStub
+					{
+						source = EmbedFields.Path + "/" + zfn.Name + "." + EmbedFields.FileExtension
+					};
 
-                Write("var ");
-                WriteSafeLiteral(zfn.Name);
-                Write(":");
-                //WriteGenericOrDecoratedTypeName(zfn.FieldType);
-                WriteDecoratedTypeNameOrImplementationTypeName(zfn.FieldType, true, true, IsFullyQualifiedNamesRequired(z, zfn.FieldType));
+					WriteCustomAttribute("Embed", AttributeRef, typeof(EmbedAttributeStub).GetFields());
+					
+				}
 
-                //WriteDecoratedTypeNameOrImplementationTypeName(zfn.FieldType, true, true);
-                //WriteSpace();
+				// write the attributes for current field
+				WriteCustomAttributes(zfn);
 
-                //WriteVariableType(zfn.FieldType, true);
+				WriteIdent();
+				WriteTypeFieldModifier(zfn);
 
-                /*
-                if (zfn.IsStatic && zfn.IsInitOnly)
-                {
-                    ConstructorInfo[] ci = z.GetConstructors(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Public);
+				Write("var ");
+				WriteSafeLiteral(zfn.Name);
+				Write(":");
+				//WriteGenericOrDecoratedTypeName(zfn.FieldType);
+				WriteDecoratedTypeNameOrImplementationTypeName(zfn.FieldType, true, true, IsFullyQualifiedNamesRequired(z, zfn.FieldType));
 
-                    if (ci.Length == 1)
-                    {
-                        ILBlock cctor = new ILBlock(ci[0]);
-                        ILBlock.Prestatement assign = cctor.GetStaticFieldFinalAssignment(zfn);
+				//WriteDecoratedTypeNameOrImplementationTypeName(zfn.FieldType, true, true);
+				//WriteSpace();
 
-                        if (assign != null)
-                        {
-                            WriteAssignment();
+				//WriteVariableType(zfn.FieldType, true);
 
-                            EmitFirstOnStack(assign);
-                        }
-                    }
-                }
-                */
+				/*
+				if (zfn.IsStatic && zfn.IsInitOnly)
+				{
+					ConstructorInfo[] ci = z.GetConstructors(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Public);
 
-                WriteLine(";");
-            }
-        }
+					if (ci.Length == 1)
+					{
+						ILBlock cctor = new ILBlock(ci[0]);
+						ILBlock.Prestatement assign = cctor.GetStaticFieldFinalAssignment(zfn);
 
+						if (assign != null)
+						{
+							WriteAssignment();
 
-        public override void WriteTypeFieldModifier(FieldInfo zfn)
-        {
-            // If the field is not public and also not used then we can ditch the public keywword
-            // until then we always need public because the field is used by other generated types
+							EmitFirstOnStack(assign);
+						}
+					}
+				}
+				*/
 
-            Write("public ");
-
-            /*
-            if (zfn.IsPublic)
-                Write("public ");
-            else
-            {
-                if (zfn.IsFamily)
-                    Write("protected ");
-                else
-                    Write("private ");
-            }*/
-            /*
-            if (zfn.IsInitOnly)
-                WriteKeywordFinal();
-            */
-            if (zfn.IsStatic)
-                Write("static ");
-
-            /*
-            if (zfn.IsNotSerialized)
-                Write("transient ");
-             * */
-        }
+				WriteLine(";");
+			}
+		}
 
 
-    }
+		public override void WriteTypeFieldModifier(FieldInfo zfn)
+		{
+			// If the field is not public and also not used then we can ditch the public keywword
+			// until then we always need public because the field is used by other generated types
+
+			Write("public ");
+
+			/*
+			if (zfn.IsPublic)
+				Write("public ");
+			else
+			{
+				if (zfn.IsFamily)
+					Write("protected ");
+				else
+					Write("private ");
+			}*/
+			/*
+			if (zfn.IsInitOnly)
+				WriteKeywordFinal();
+			*/
+			if (zfn.IsStatic)
+				Write("static ");
+
+			/*
+			if (zfn.IsNotSerialized)
+				Write("transient ");
+			 * */
+		}
+
+
+	}
 }
