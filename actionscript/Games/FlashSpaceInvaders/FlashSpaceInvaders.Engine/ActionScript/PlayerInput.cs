@@ -24,6 +24,8 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public Action FireBullet;
 
+		public Action<double> SmartMoveTo;
+
 		public PlayerInput(Stage stage, PlayerShip Ego)
 		{
 
@@ -38,14 +40,21 @@ namespace FlashSpaceInvaders.ActionScript
 			stage.click +=
 				e =>
 				{
-					Ego.SmartMoveTo((int)e.stageX);
+					if (SmartMoveTo != null)
+						SmartMoveTo(e.stageX);
 				};
 
 			stage.mouseMove +=
 				e =>
 				{
+
+
 					if (e.buttonDown)
-						Ego.SmartMoveTo((int)e.stageX);
+					{
+
+						if (SmartMoveTo != null)
+							SmartMoveTo(e.stageX);
+					}
 				};
 
 			var GoLeft = new KeyboardButton(stage)

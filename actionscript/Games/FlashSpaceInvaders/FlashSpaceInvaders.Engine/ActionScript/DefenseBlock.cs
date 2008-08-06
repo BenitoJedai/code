@@ -69,7 +69,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public double HitRange
 		{
-			get { return BlockSize / 2 + 1; }
+			get { return BlockSize; }
 		}
 
 		#endregion

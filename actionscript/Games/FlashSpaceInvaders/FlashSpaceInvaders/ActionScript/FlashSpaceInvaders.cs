@@ -29,6 +29,8 @@ namespace FlashSpaceInvaders.ActionScript
 	{
 		// todo: add http://gimme.badsectoracula.com/flashmodplayer/modplayer.html
 
+		// http://zproxy.wordpress.com/2007/03/03/jsc-space-invaders/
+
 		public const int DefaultWidth = 480;
 		public const int DefaultHeight = 480;
 
@@ -251,8 +253,8 @@ namespace FlashSpaceInvaders.ActionScript
 			);
 			#endregion
 
-		
-			
+
+
 			this.Ego = new PlayerShip(DefaultWidth, DefaultHeight)
 				{
 					Name = "Ego"
@@ -302,25 +304,61 @@ namespace FlashSpaceInvaders.ActionScript
 			cp2.AddTo(FragileEntities);
 			Ego.AddTo(FragileEntities);
 
-			this.AddEnemy.Direct += (e, p) => e.TeleportTo(p.x, p.y)
+			this.AddEnemy.Direct +=
+				(e, p) =>
+				{
+					e.Name = "Enemy";
+
+					e.TeleportTo(p.x, p.y)
 				.AttachTo(Canvas)
 				.AddTo(FragileEntities.Items);
+				};
 
 
 			AddEnemy.Chained(new StarShip { Animations.Spawn_A }, new Point(200, 200));
 			AddEnemy.Chained(new StarShip { Animations.Spawn_B }, new Point(240, 200));
 			AddEnemy.Chained(new StarShip { Animations.Spawn_C }, new Point(280, 200));
 
+			#region AddBullet
+			this.AddBullet.Direct +=
+				bullet =>
+				{
+					bullet.Element.AttachTo(Canvas);
+				};
+
+			this.AddBullet.Handler +=
+				bullet =>
+				{
+					// our bullets will need to check for collisions
+					FragileEntities.AddBullet(bullet);
+				};
+			#endregion
+
+
+			this.DoPlayerMovement.Direct +=
+				(e, p) =>
+				{
+					e.GoodEgo.MoveToTarget.Value = p;
+				};
+
+			Action<double, double> DoEgoPlayerMovement = 
+				(arc, length) => 
+					 this.DoPlayerMovement.Chained(Ego, Ego.GoodEgo.ToPoint().MoveToArc(arc, Ego.GoodEgo.MaxStep * length));
+
 
 			var input = new PlayerInput(stage, Ego)
 			{
-				StepLeft = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(Math.PI, Ego.GoodEgo.MaxStep * 2),
-				StepLeftEnd = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(Math.PI, Ego.GoodEgo.MaxStep / 2),
+				StepLeft = () => DoEgoPlayerMovement(Math.PI, 2),
+				StepLeftEnd = () => DoEgoPlayerMovement(Math.PI, 0.5),
 
-				StepRight = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(0, Ego.GoodEgo.MaxStep * 2),
-				StepRightEnd = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(0, Ego.GoodEgo.MaxStep / 2),
+				StepRight = () => DoEgoPlayerMovement(0, 2),
+				StepRightEnd = () => DoEgoPlayerMovement(0, 0.5),
 
-				FireBullet = () => FragileEntities.AddBullet(Ego.FireBullet().Do(n => n.Element.AttachTo(Canvas)))
+				FireBullet = () => this.AddBullet.Chained(Ego.FireBullet()),
+
+				SmartMoveTo = x => 
+					this.DoPlayerMovement.Chained(Ego, new Point(Ego.Wrapper(x), Ego.GoodEgoY))
+
 			};
 
 
@@ -366,11 +404,19 @@ namespace FlashSpaceInvaders.ActionScript
 						};
 				};
 
-			
+
 			BorderOverlay = new Shape().AttachTo(this);
 
 			BorderOverlay.graphics.lineStyle(1, Colors.Green, 1);
 			BorderOverlay.graphics.drawRect(0, 0, DefaultWidth - 1, DefaultHeight - 1);
+
+			Action<RoutedActionInfoBase> BaseHandler =
+				e => DebugDump(new { e.EventName });
+
+			this.AddDamage.BaseHandler += BaseHandler;
+			this.AddEnemy.BaseHandler += BaseHandler;
+			this.AddBullet.BaseHandler += BaseHandler;
+			this.DoPlayerMovement.BaseHandler += BaseHandler;
 
 		}
 
@@ -380,8 +426,11 @@ namespace FlashSpaceInvaders.ActionScript
 
 
 
-		public readonly RoutedActionInfo<IFragileEntity, BulletInfo> AddDamage = new RoutedActionInfo<IFragileEntity, BulletInfo>();
-		public readonly RoutedActionInfo<StarShip, Point> AddEnemy = new RoutedActionInfo<StarShip, Point>();
+		public readonly RoutedActionInfo<IFragileEntity, BulletInfo> AddDamage = "AddDamage";
+		public readonly RoutedActionInfo<StarShip, Point> AddEnemy = "AddEnemy";
+		public readonly RoutedActionInfo<BulletInfo> AddBullet = "AddBullet";
+		public readonly RoutedActionInfo<PlayerShip, Point> DoPlayerMovement = "DoMovement";
+
 
 		public readonly FragileEntitiesContainer FragileEntities = new FragileEntitiesContainer();
 
