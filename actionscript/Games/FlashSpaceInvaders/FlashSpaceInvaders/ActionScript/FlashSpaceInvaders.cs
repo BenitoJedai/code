@@ -41,6 +41,18 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public FlashSpaceInvaders()
 		{
+			#region mask
+			var CanvasMask = new Shape();
+
+			CanvasMask.graphics.beginFill(0x00ffffff);
+			CanvasMask.graphics.drawRect(0, 0, DefaultWidth, DefaultHeight);
+
+			CanvasMask.AttachTo(this);
+
+			Canvas.mask = CanvasMask;
+			#endregion
+
+
 			var TextInfo = new TextField
 			{
 
@@ -73,6 +85,52 @@ namespace FlashSpaceInvaders.ActionScript
 
 			var m = new MenuSprite(DefaultWidth).AttachTo(this);
 
+			#region info
+
+
+			var DebugDumpQueue = new Queue<string>();
+			Action DebugDumpUpdate =
+				delegate
+				{
+					if (TextInfo.parent == null)
+						return;
+
+					var w = new StringBuilder();
+
+					foreach (var v in DebugDumpQueue)
+					{
+						w.AppendLine(v);
+					}
+
+					TextInfo.text = w.ToString();
+				};
+
+			DebugDump =
+				o =>
+				{
+					if (DebugDumpQueue.Count > 16)
+						DebugDumpQueue.Dequeue();
+
+					DebugDumpQueue.Enqueue(o.ToString());
+
+					DebugDumpUpdate();
+				};
+
+			1000.AtInterval(
+				delegate
+				{
+					DebugDumpQueue.Dequeue();
+					DebugDumpUpdate();
+
+					//AddBullet(cp1.FireBullet().Do(n => n.Element.AttachTo(Canvas)));
+					//AddBullet(cp2.FireBullet(4).Do(n => n.Element.AttachTo(Canvas)));
+
+
+				}
+			);
+
+			#endregion
+
 
 
 			stage.keyUp +=
@@ -96,6 +154,8 @@ namespace FlashSpaceInvaders.ActionScript
 						{
 							TextInfo.alpha = 1;
 							TextInfo.AttachToBefore(BorderOverlay);
+							DebugDumpUpdate();
+
 						}
 						else
 							TextInfo.FadeOutAndOrphanize();
@@ -202,52 +262,6 @@ namespace FlashSpaceInvaders.ActionScript
 			);
 			#endregion
 
-			#region info
-
-
-			var DebugDumpQueue = new Queue<string>();
-			Action DebugDumpUpdate =
-				delegate
-				{
-					if (TextInfo.parent == null)
-						return;
-
-					var w = new StringBuilder();
-
-					foreach (var v in DebugDumpQueue)
-					{
-						w.AppendLine(v);
-					}
-
-					TextInfo.text = w.ToString();
-				};
-
-			DebugDump =
-				o =>
-				{
-					if (DebugDumpQueue.Count > 16)
-						DebugDumpQueue.Dequeue();
-
-					DebugDumpQueue.Enqueue(o.ToString());
-
-					DebugDumpUpdate();
-				};
-
-			1000.AtInterval(
-				delegate
-				{
-					DebugDumpQueue.Dequeue();
-					DebugDumpUpdate();
-
-					//AddBullet(cp1.FireBullet().Do(n => n.Element.AttachTo(Canvas)));
-					//AddBullet(cp2.FireBullet(4).Do(n => n.Element.AttachTo(Canvas)));
-
-
-				}
-			);
-
-			#endregion
-
 
 			this.Ego = new PlayerShip(DefaultWidth, DefaultHeight)
 				{
@@ -285,18 +299,28 @@ namespace FlashSpaceInvaders.ActionScript
 				var offset = DefaultWidth * (i * 2 + 1) / 8;
 
 
-				foreach (var v in CreateDefenseArray(offset, 420, Canvas))
+				foreach (var v in DefenseBlock.CreateDefenseArray(offset, 420))
 				{
+					v.AttachTo(Canvas);
 					v.AddTo(DefenseBlocks);
 					v.AddTo(FragileEntities);
 				}
 			}
 			#endregion
 
-
 			cp1.AddTo(FragileEntities);
 			cp2.AddTo(FragileEntities);
 			Ego.AddTo(FragileEntities);
+
+			this.AddEnemy.Direct += (e, p) => e.TeleportTo(p.x, p.y)
+				.AttachTo(Canvas)
+				.AddTo(FragileEntities);
+
+
+			AddEnemy.Chained(new StarShip { Animations.Spawn_A }, new Point(200, 200));
+			AddEnemy.Chained(new StarShip { Animations.Spawn_B }, new Point(240, 200));
+			AddEnemy.Chained(new StarShip { Animations.Spawn_C }, new Point(280, 200));
+
 
 			var input = new PlayerInput(stage, Ego)
 			{
@@ -340,18 +364,19 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public Action<object> DebugDump;
 
-		public PlayerShip[] KnownEgos
-		{
-			get
-			{
-				return this.CoPlayers.Concat(this.Ego).ToArray();
-			}
-		}
+
 
 
 		public readonly List<IFragileEntity> FragileEntities = new List<IFragileEntity>();
 
 		public event Action<IFragileEntity, BulletInfo> AddDamage;
+
+
+
+
+		public readonly RoutedActionInfo<StarShip, Point> AddEnemy = new RoutedActionInfo<StarShip, Point>();
+
+
 
 		int BulletHitTestCounter = 0;
 
@@ -381,9 +406,9 @@ namespace FlashSpaceInvaders.ActionScript
 					orderby distance
 					select x;
 
-			DebugDump(
-				new { counter = BulletHitTestCounter, targets = query.Count() }
-				);
+			//DebugDump(
+			//    new { counter = BulletHitTestCounter, targets = query.Count() }
+			//    );
 
 			var v = query.FirstOrDefault();
 
@@ -433,30 +458,19 @@ namespace FlashSpaceInvaders.ActionScript
 		public readonly List<DefenseBlock> DefenseBlocks =
 			new List<DefenseBlock>();
 
-
-		static DefenseBlock[] CreateDefenseArray(int x, int y, DisplayObjectContainer owner)
-		{
-			const int size = DefenseBlock.BlockSize;
-
-			return new[]
-			{
-				new DefenseBlock { x = x  + size * 0.5, y = y }.AttachTo(owner),
-				new DefenseBlock { x = x  + size * 1.5, y = y }.AttachTo(owner),
-				new DefenseBlock { x = x  + size * 1.5, y = y  + size}.AttachTo(owner),
-
-				new DefenseBlock { x = x  - size * 0.5, y = y }.AttachTo(owner),
-				new DefenseBlock { x = x  - size * 1.5, y = y }.AttachTo(owner),
-				new DefenseBlock { x = x  - size * 1.5, y = y + size }.AttachTo(owner),
-			};
-		}
-
-
-
-
+		#region friendly units, human controlled
 		public readonly List<PlayerShip> CoPlayers = new List<PlayerShip>();
 
 		public PlayerShip Ego;
 
+		public PlayerShip[] KnownEgos
+		{
+			get
+			{
+				return this.CoPlayers.Concat(this.Ego).ToArray();
+			}
+		}
+		#endregion
 
 
 	}

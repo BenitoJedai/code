@@ -14,6 +14,19 @@ namespace FlashSpaceInvaders.ActionScript.Extensions
 	[Script]
 	public static class MyExtensions
 	{
+		public static T TeleportTo<T>(this T e, double x, double y) where T : SpriteWithMovement
+		{
+			SpriteWithMovement n = e;
+
+			n.x = x;
+			n.y = y;
+
+			n.MoveToTarget.Value = new Point { x = x, y = y };
+
+
+			return e;
+		}
+
 		public static void appendTextLine(this TextField t, string e)
 		{
 			t.appendText(e + Environment.NewLine);

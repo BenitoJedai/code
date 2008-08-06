@@ -79,13 +79,13 @@ namespace FlashSpaceInvaders.ActionScript
 
 					EvilMode.Value = EvilModePending;
 
-					if (this.GoodEgo.x > DefaultWidth * 2)
+					if (this.GoodEgo.x > DefaultWidth * 0.5)
 					{
 						this.GoodEgo.MoveToTarget.Value.x -= DefaultWidth * 2;
 						this.GoodEgo.x -= DefaultWidth * 2;
 					}
 
-					if (this.GoodEgo.x < -DefaultWidth)
+					if (this.GoodEgo.x < -DefaultWidth * 0.5)
 					{
 						this.GoodEgo.MoveToTarget.Value.x += DefaultWidth * 2;
 						this.GoodEgo.x += DefaultWidth * 2;
@@ -170,7 +170,10 @@ namespace FlashSpaceInvaders.ActionScript
 
 			if (Ego.EvilMode)
 			{
-				Ego.GoodEgo.MoveTo(x + DefaultWidth, Ego.GoodEgoY);
+				if (Ego.GoodEgo.x < DefaultWidth / 2)
+					Ego.GoodEgo.MoveTo(x - DefaultWidth, Ego.GoodEgoY);
+				else
+					Ego.GoodEgo.MoveTo(x + DefaultWidth, Ego.GoodEgoY);
 			}
 			else
 				Ego.GoodEgo.MoveTo(x, Ego.GoodEgoY);

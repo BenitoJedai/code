@@ -10,6 +10,23 @@ namespace FlashSpaceInvaders.ActionScript
 	[Script]
 	public class DefenseBlock : SolidColorShape, IFragileEntity
 	{
+		public static DefenseBlock[] CreateDefenseArray(int x, int y)
+		{
+			const int size = DefenseBlock.BlockSize;
+
+			return new[]
+			{
+				new DefenseBlock { x = x  + size * 0.5, y = y },
+				new DefenseBlock { x = x  + size * 1.5, y = y },
+				new DefenseBlock { x = x  + size * 1.5, y = y  + size},
+
+				new DefenseBlock { x = x  - size * 0.5, y = y },
+				new DefenseBlock { x = x  - size * 1.5, y = y },
+				new DefenseBlock { x = x  - size * 1.5, y = y + size },
+			};
+		}
+
+
 		public const int BlockSize = 16;
 		public const uint BlockColor = Colors.Green;
 

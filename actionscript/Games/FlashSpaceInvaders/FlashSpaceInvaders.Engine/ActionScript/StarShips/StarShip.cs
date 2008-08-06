@@ -4,18 +4,36 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.ActionScript.flash.display;
 
 namespace FlashSpaceInvaders.ActionScript
 {
 	[Script]
 	public class StarShip : SpriteWithMovement, IFragileEntity
 	{
+		public static implicit operator StarShip(Func<double, double, Sprite> ctor)
+		{
+			return new StarShip { ctor };
+		}
+
+		public void Add(Func<double, double, Sprite> ctor)
+		{
+			ctor(0, 0).AttachTo(this);
+		}
+
+		public readonly BooleanProperty IsAlive = new BooleanProperty { Value = true };
+
 
 		#region ITakeDamage Members
 
 		public void TakeDamage(double damage)
 		{
 			this.alpha -= damage * 4;
+
+			if (this.alpha < 0.5)
+				this.alpha = 0;
+
+			IsAlive.Value = this.alpha > 0;
 		}
 
 		#endregion
