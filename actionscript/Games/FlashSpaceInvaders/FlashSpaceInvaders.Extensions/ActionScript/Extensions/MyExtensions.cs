@@ -69,14 +69,14 @@ namespace FlashSpaceInvaders.ActionScript.Extensions
 
 			return e;
 		}
-		public static void FadeOutAndOrphanize(this DisplayObject e)
+		public static Action FadeOutAndOrphanize(this DisplayObject e)
 		{
-			FadeOutAndOrphanize(e, 1000 / 30, 0.08);
+			return FadeOutAndOrphanize(e, 1000 / 30, 0.08);
 		}
 
-		public static void FadeOutAndOrphanize(this DisplayObject e, int timeout, double step)
+		public static Action FadeOutAndOrphanize(this DisplayObject e, int timeout, double step)
 		{
-			timeout.AtInterval(
+			var r = timeout.AtInterval(
 			   t =>
 			   {
 				   if (e.alpha < 0.1)
@@ -90,6 +90,9 @@ namespace FlashSpaceInvaders.ActionScript.Extensions
 				   }
 			   }
 		   );
+
+			return () => r.stop();
+
 		}
 
 		public static void InvokeWhenStageIsReady(this DisplayObject o, Action a)

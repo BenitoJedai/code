@@ -44,6 +44,8 @@ namespace FlashSpaceInvaders.ActionScript
 		{
 			this.Value = !this.Value;
 		}
+
+	
 	}
 
 }

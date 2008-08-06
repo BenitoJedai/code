@@ -40,10 +40,16 @@ namespace FlashSpaceInvaders.ActionScript
 
 
 
+		const string LinkPoweredByJSC = @"<a href='http:/jsc.sf.net' target='_blank'><u>powered by jsc</u></a>";
+		const string LinkPlayMoreGames = @"<a href='http://nonoba.com/zproxy/' target='_blank'><u>play more games</u></a>";
 
 		public FlashSpaceInvaders() : base(DefaultWidth, DefaultHeight)
 		{
-	
+
+			var Menu = new MenuSprite(DefaultWidth).AttachTo(base.InfoOverlay);
+
+			Menu.TextExternalLink2.htmlText = LinkPlayMoreGames;
+
 
 			var DebugDump = new DebugDumpTextField();
 
@@ -56,26 +62,36 @@ namespace FlashSpaceInvaders.ActionScript
 			DebugDump.Visible.ValueChangedToTrue +=
 				delegate
 				{
+					Menu.TextExternalLink2.htmlText = LinkPoweredByJSC;
 					DebugDump.Field.AttachToBefore(BorderOverlay);
 				};
 
-			var m = new MenuSprite(DefaultWidth).AttachTo(base.InfoOverlay);
+			DebugDump.Visible.ValueChangedToFalse +=
+				delegate
+				{
+					Menu.TextExternalLink2.htmlText = LinkPlayMoreGames;
+				};
 
+			var Statusbar = new Statusbar();
 
+			Statusbar.Lives.Value = 2;
+			Statusbar.Score.Value = 1234;
+
+			Statusbar.Element.AttachTo(InfoOverlay);
+
+			var MenuFader = new DualFader { Value = Menu };
 
 			stage.keyUp +=
 				e =>
 				{
 					if (e.keyCode == Keyboard.ENTER)
 					{
-						m.Orphanize();
-						Canvas.AttachTo(this);
+						MenuFader.Value = CanvasOverlay;
 					}
 
 					if (e.keyCode == Keyboard.ESCAPE)
 					{
-						m.AttachTo(this);
-						Canvas.Orphanize();
+						MenuFader.Value = Menu;
 					}
 
 					if (e.keyCode == Keyboard.T)
@@ -83,80 +99,16 @@ namespace FlashSpaceInvaders.ActionScript
 						DebugDump.Visible.Toggle(); 
 			
 					}
+
+
+					if (e.keyCode == Keyboard.M)
+					{
+						Sounds.miu.ToSoundAsset().play();
+
+					}
 				};
 
-			#region TextScore
-			var TextScore = new TextField
-			{
-
-				y = 8,
-				x = 8,
-				autoSize = TextFieldAutoSize.LEFT,
-				textColor = Colors.White,
-				embedFonts = true,
-
-				//background = true,
-				//backgroundColor = Colors.Gray,
-
-				defaultTextFormat = new TextFormat
-				{
-					font = Assets.FontFixedSys,
-					size = 28,
-				},
-				selectable = false,
-				condenseWhite = false,
-				htmlText = "Score: <font color='#00ff00'>15</font>",
-			}.AttachTo(this);
-			#endregion
-
-			#region TextLives
-			var TextLives = new TextField
-			{
-
-				y = 8,
-				x = 240,
-				autoSize = TextFieldAutoSize.LEFT,
-				textColor = Colors.White,
-				embedFonts = true,
-
-				//background = true,
-				//backgroundColor = Colors.Gray,
-
-				defaultTextFormat = new TextFormat
-				{
-					font = Assets.FontFixedSys,
-					size = 28,
-				},
-				selectable = false,
-				condenseWhite = false,
-				htmlText = "Lives:  ",
-			}.AttachTo(this);
-			#endregion
-
-			#region lifebar
-			Func<int, Sprite> AddLife =
-				offset =>
-					Animations.Spawn_BigGun((int)(TextLives.x + TextLives.width) + offset, (int)(TextLives.y + TextLives.height / 2));
-
-
-			Func<int, Sprite> AddEvilLife =
-				offset =>
-					Animations.Spawn_UFO((int)(TextLives.x + TextLives.width) + offset, (int)(TextLives.y + TextLives.height / 2));
-
-
-
-			var Life1 = AddLife(40 * 0);
-			var Life2 = AddLife(40 * 1);
-			var Life3 = AddLife(40 * 2);
-
-			var LifeBar = new SpriteWithMovement { Life1, Life2, Life3 }.AttachTo(this);
-
-			var EvilLife1 = AddEvilLife(40 * 0);
-			var EvilLife2 = AddEvilLife(40 * 1);
-			var EvilLife3 = AddEvilLife(40 * 2);
-
-			var EvilLifeBar = new SpriteWithMovement { EvilLife1, EvilLife2, EvilLife3 };
-			#endregion
+	
 
 			#region npc
 			var cp1 = new PlayerShip(DefaultWidth, DefaultHeight)
@@ -164,8 +116,8 @@ namespace FlashSpaceInvaders.ActionScript
 					Name = "cp1"
 				}.AddTo(CoPlayers);
 
-			cp1.GoodEgo.AttachTo(Canvas);
-			cp1.EvilEgo.AttachTo(Canvas);
+			cp1.GoodEgo.AttachTo(CanvasOverlay);
+			cp1.EvilEgo.AttachTo(CanvasOverlay);
 
 
 
@@ -174,8 +126,8 @@ namespace FlashSpaceInvaders.ActionScript
 					Name = "cp2"
 				}.AddTo(CoPlayers);
 
-			cp2.GoodEgo.AttachTo(Canvas);
-			cp2.EvilEgo.AttachTo(Canvas);
+			cp2.GoodEgo.AttachTo(CanvasOverlay);
+			cp2.EvilEgo.AttachTo(CanvasOverlay);
 
 			(1000 / 30).AtInterval(
 				delegate
@@ -193,29 +145,24 @@ namespace FlashSpaceInvaders.ActionScript
 				};
 
 
+			this.Ego.EvilMode.LinkTo(Statusbar.EvilMode);
+
 			#region evilmode indicator
 			this.Ego.EvilMode.ValueChangedToTrue +=
 				delegate
 				{
-					EvilLifeBar.AttachTo(this);
-					LifeBar.Orphanize();
-
 					this.filters = new[] { Filters.RedChannelFilter };
 				};
 
 			this.Ego.EvilMode.ValueChangedToFalse +=
 				delegate
 				{
-					LifeBar.AttachTo(this);
-					EvilLifeBar.Orphanize();
-
-
 					this.filters = null;
 				};
 			#endregion
 
-			this.Ego.GoodEgo.AttachTo(Canvas);
-			this.Ego.EvilEgo.AttachTo(Canvas);
+			this.Ego.GoodEgo.AttachTo(CanvasOverlay);
+			this.Ego.EvilEgo.AttachTo(CanvasOverlay);
 
 			#region  build shared defense buildings
 			for (int i = 0; i < 4; i++)
@@ -225,7 +172,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 				foreach (var v in DefenseBlock.CreateDefenseArray(offset, 420))
 				{
-					v.AttachTo(Canvas);
+					v.AttachTo(CanvasOverlay);
 					v.AddTo(DefenseBlocks);
 					v.AddTo(FragileEntities.Items);
 				}
@@ -242,10 +189,11 @@ namespace FlashSpaceInvaders.ActionScript
 					e.Name = "Enemy";
 
 					e.TeleportTo(p.x, p.y)
-				.AttachTo(Canvas)
+				.AttachTo(CanvasOverlay)
 				.AddTo(FragileEntities.Items);
 				};
 
+		
 
 			AddEnemy.Chained(new StarShip { Animations.Spawn_A }, new Point(200, 200));
 			AddEnemy.Chained(new StarShip { Animations.Spawn_B }, new Point(240, 200));
@@ -255,7 +203,7 @@ namespace FlashSpaceInvaders.ActionScript
 			this.AddBullet.Direct +=
 				bullet =>
 				{
-					bullet.Element.AttachTo(Canvas);
+					bullet.Element.AttachTo(CanvasOverlay);
 				};
 
 			this.AddBullet.Handler +=
@@ -300,15 +248,22 @@ namespace FlashSpaceInvaders.ActionScript
 				{
 					target.TakeDamage(bullet.TotalDamage);
 
+					if (target.HitPoints <= 0)
+					{
+						Sounds.baseexplode.ToSoundAsset().play();
+					}
+
 					DebugDump.Write(
 						new
 						{
-							bullet.TotalDamage,
 							From = bullet.Parent.ActiveEgo.Name,
+							Delta = bullet.TotalDamage,
+							target.HitPoints,
 							To = target.Name
 						}
 					);
 				};
+
 
 			#region FragileEntities
 			this.FragileEntities.AddDamage = this.AddDamage;
@@ -342,6 +297,7 @@ namespace FlashSpaceInvaders.ActionScript
 			Action<RoutedActionInfoBase> BaseHandler =
 				e => DebugDump.Write(new { e.EventName });
 
+			// events for network
 			this.AddDamage.BaseHandler += BaseHandler;
 			this.AddEnemy.BaseHandler += BaseHandler;
 			this.AddBullet.BaseHandler += BaseHandler;
