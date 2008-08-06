@@ -138,14 +138,20 @@ namespace FlashSpaceInvaders.ActionScript
 			#endregion
 
 			#region npc
-			var cp1 = new PlayerShip(DefaultWidth, DefaultHeight).AddTo(CoPlayers);
+			var cp1 = new PlayerShip(DefaultWidth, DefaultHeight)
+				{
+					Name = "cp1"
+				}.AddTo(CoPlayers);
 
 			cp1.GoodEgo.AttachTo(Canvas);
 			cp1.EvilEgo.AttachTo(Canvas);
 
 
 
-			var cp2 = new PlayerShip(DefaultWidth, DefaultHeight).AddTo(CoPlayers);
+			var cp2 = new PlayerShip(DefaultWidth, DefaultHeight)
+				{
+					Name = "cp2"
+				}.AddTo(CoPlayers);
 
 			cp2.GoodEgo.AttachTo(Canvas);
 			cp2.EvilEgo.AttachTo(Canvas);
@@ -153,22 +159,59 @@ namespace FlashSpaceInvaders.ActionScript
 			(1000 / 30).AtInterval(
 				delegate
 				{
-					cp2.GoodEgo.MoveToTarget.Value.x -= 6;
+					//cp2.GoodEgo.MoveToTarget.Value.x -= 6;
 				}
 			);
 			#endregion
 
+			var TextInfo = new TextField
+			{
+
+				y = DefaultHeight / 4,
+				x = 0,
+
+				width = DefaultWidth,
+				height = 60,
+
+				textColor = Colors.White,
+				embedFonts = true,
+
+				mouseEnabled = false,
+
+				defaultTextFormat = new TextFormat
+				{
+					font = Assets.FontFixedSys,
+					size = 12,
+				},
+				selectable = false,
+				condenseWhite = false,
+
+				background = true,
+				backgroundColor = Colors.Gray,
+
+				multiline = true,
+				text = "",
+			}.AttachTo(this);
+
 			1000.AtInterval(
 				delegate
 				{
-					AddBullet(cp1.FireBullet().Do(n => n.Element.AttachTo(Canvas)));
-					AddBullet(cp2.FireBullet(4).Do(n => n.Element.AttachTo(Canvas)));
+					var i = TextInfo.text.IndexOf("\n");
+
+					if (i > 0)
+						TextInfo.text = TextInfo.text.Substring(i);
+
+					//AddBullet(cp1.FireBullet().Do(n => n.Element.AttachTo(Canvas)));
+					//AddBullet(cp2.FireBullet(4).Do(n => n.Element.AttachTo(Canvas)));
 
 
 				}
 			);
 
-			this.Ego = new PlayerShip(DefaultWidth, DefaultHeight);
+			this.Ego = new PlayerShip(DefaultWidth, DefaultHeight)
+				{
+					Name = "Ego"
+				};
 
 			#region evilmode indicator
 			this.Ego.EvilMode.ValueChangedToTrue +=
@@ -203,7 +246,7 @@ namespace FlashSpaceInvaders.ActionScript
 				foreach (var v in CreateDefenseArray(offset, 420, Canvas))
 				{
 					v.AddTo(DefenseBlocks);
-					v.AddTo(FragileEntities);
+					//v.AddTo(FragileEntities);
 				}
 			}
 			#endregion
@@ -217,13 +260,41 @@ namespace FlashSpaceInvaders.ActionScript
 			{
 				StepLeft = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(Math.PI, Ego.GoodEgo.MaxStep * 2),
 				StepLeftEnd = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(Math.PI, Ego.GoodEgo.MaxStep / 2),
-				
+
 				StepRight = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(0, Ego.GoodEgo.MaxStep * 2),
 				StepRightEnd = () => Ego.GoodEgo.MoveToTarget.Value = Ego.GoodEgo.ToPoint().MoveToArc(0, Ego.GoodEgo.MaxStep / 2),
-				
+
 				FireBullet = () => AddBullet(Ego.FireBullet())
 			};
+
+			DebugDump =
+				o =>
+				{
+					TextInfo.appendTextLine(o.ToString());
+					
+					var x = TextInfo.text.Length - 1;
+
+					TextInfo.setSelection(x, x);
+				};
+
+			this.AddDamage +=
+				(target, bullet) =>
+				{
+					target.TakeDamage(bullet.TotalDamage);
+
+
+					DebugDump(
+						new
+						{
+							bullet.TotalDamage,
+							From = bullet.Parent.ActiveEgo.Name,
+							To = target.Name
+						}
+					);
+				};
 		}
+
+		public Action<object> DebugDump;
 
 		public PlayerShip[] KnownEgos
 		{
@@ -236,35 +307,47 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public readonly List<IFragileEntity> FragileEntities = new List<IFragileEntity>();
 
+		public event Action<IFragileEntity, BulletInfo> AddDamage;
+
+		int BulletHitTestCounter = 0;
 
 		public void BulletHitTest(BulletInfo n)
 		{
+			BulletHitTestCounter++;
+
 			var p = n.Element.ToPoint();
 
 			var GroupGoodEgos = KnownEgos.Select(i => i.GoodEgo).ToArray();
 			var GroupEvilEgos = KnownEgos.Select(i => i.EvilEgo).ToArray();
-			
 
-			var query = default(IEnumerable<IFragileEntity>);
 
+			// spare yourself
+			var query = FragileEntities.Where(x => x != n.Parent.ActiveEgo);
+
+			// spare coplayers in the same mode
 			if (n.Parent.EvilMode)
-				query = FragileEntities.Where(x => !GroupEvilEgos.Contains(x));
+				query = query.Where(x => !GroupEvilEgos.Contains(x));
 			else
-				query = FragileEntities.Where(x => !GroupGoodEgos.Contains(x));
+				query = query.Where(x => !GroupGoodEgos.Contains(x));
 
+			query = from x in query
+					where x.HitPoints > 0
+					let distance = (x.Location - p).length
+					where distance <= x.HitRange
+					orderby distance
+					select x;
 
-			var v = Enumerable.FirstOrDefault(
-				from x in query
-				where x.HitPoints > 0
-				let distance = (x.Location - p).length
-				where distance <= x.HitRange
-				orderby distance
-				select x
-			);
+			DebugDump(
+				new { counter = BulletHitTestCounter, targets = query.Count() }
+				);
+
+			var v = query.FirstOrDefault();
 
 			if (v != null)
 			{
-				v.TakeDamage(n.Damage * n.Multiplier);
+				if (AddDamage != null)
+					AddDamage(v, n);
+
 				n.Element.Orphanize();
 			}
 		}
@@ -282,16 +365,10 @@ namespace FlashSpaceInvaders.ActionScript
 				{
 					var k = n.Element.ToPoint();
 
-					var DoHitTest = false;
 
-					if (p == null)
-						DoHitTest = true;
-					else if ((k - p).length > DefenseBlock.BlockSize)
-						DoHitTest = true;
-
-					if (DoHitTest)
+					if ((k - p).length > 1)
 					{
-						// only check for hit on each moved 8 pixels
+						// only check for hit on each moved one pixel
 
 						BulletHitTest(n);
 					}

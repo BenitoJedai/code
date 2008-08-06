@@ -12,6 +12,14 @@ namespace FlashSpaceInvaders.ActionScript
 		public double Damage = 0.10;
 		public double Multiplier = 1;
 
+		public double TotalDamage
+		{
+			get
+			{
+				return Damage * Multiplier;
+			}
+		}
+
 		public BulletInfo(ParentRelation<SpriteWithMovement, PlayerShip> e)
 		{
 

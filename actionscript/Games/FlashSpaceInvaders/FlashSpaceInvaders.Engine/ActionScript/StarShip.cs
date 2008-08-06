@@ -46,5 +46,11 @@ namespace FlashSpaceInvaders.ActionScript
 		}
 
 		#endregion
+
+		#region IName Members
+
+		public string Name { get; set; }
+
+		#endregion
 	}
 }

@@ -8,7 +8,7 @@ using ScriptCoreLib.ActionScript.flash.geom;
 namespace FlashSpaceInvaders.ActionScript
 {
 	[Script]
-	public interface IFragileEntity : ITakeDamage, IWithLocation, IHitPoints, IHitRange
+	public interface IFragileEntity : ITakeDamage, IWithLocation, IHitPoints, IHitRange, IName
 	{
 	}
 }

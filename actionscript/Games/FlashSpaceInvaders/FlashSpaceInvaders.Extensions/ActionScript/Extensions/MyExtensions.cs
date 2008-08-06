@@ -7,12 +7,18 @@ using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.ActionScript.flash.text;
 
 namespace FlashSpaceInvaders.ActionScript.Extensions
 {
 	[Script]
 	public static class MyExtensions
 	{
+		public static void appendTextLine(this TextField t, string e)
+		{
+			t.appendText(e + Environment.NewLine);
+
+		}
 		public static IEnumerable<T> Concat<T>(this IEnumerable<T> e, T u)
 		{
 			return e.Concat(new[] { u });
