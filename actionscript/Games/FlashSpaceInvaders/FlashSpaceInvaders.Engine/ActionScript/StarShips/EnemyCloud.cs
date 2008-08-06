@@ -7,6 +7,8 @@ using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 
 using FlashSpaceInvaders.ActionScript.Extensions;
+using ScriptCoreLib.ActionScript.flash.media;
+using ScriptCoreLib.ActionScript.flash.utils;
 
 namespace FlashSpaceInvaders.ActionScript.StarShips
 {
@@ -34,6 +36,9 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 
 		public readonly List<Member> Members = new List<Member>();
 
+		public Action<Sound> PlaySound;
+		public Sound[] TickSounds;
+
 		public EnemyCloud()
 		{
 			Action<int, Func<int, StarShip>> Spawn =
@@ -44,7 +49,7 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 				};
 
 
-			var colors = new []
+			var colors = new[]
 			{
 				Filters.ColorFillFilter(0xffffff.Random()),
 				Filters.ColorFillFilter(0xffffff.Random()),
@@ -59,6 +64,41 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 			Spawn(2, y => new EnemyB().ApplyFilter(colors[y]));
 			Spawn(3, y => new EnemyC().ApplyFilter(colors[y]));
 			Spawn(4, y => new EnemyC().ApplyFilter(colors[y]));
+
+			var Timer = default(Timer);
+
+			Action Reset = 
+				delegate
+				{
+					Timer = TickInterval.Value.AtInterval(
+						t =>
+						{
+							if (PlaySound != null)
+								if (TickSounds != null)
+									PlaySound(TickSounds[t.currentCount % TickSounds.Length]);
+
+							if (this.Tick != null)
+								this.Tick();
+						}
+					);
+				};
+
+			TickInterval.ValueChangedToZero +=
+				delegate
+				{
+					if (Timer != null)
+						Timer.stop();
+				};
+
+
+			TickInterval.ValueChangedToNonZero +=
+				delegate
+				{
+					if (Timer != null)
+						Timer.stop();
+
+					Reset();
+				};
 
 		}
 
@@ -77,5 +117,9 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 				v.Element.TeleportTo(x + DefaultMargin * v.x, y + DefaultMargin * v.y);
 			}
 		}
+
+		public readonly Int32Property TickInterval = 0;
+
+		public event Action Tick;
 	}
 }

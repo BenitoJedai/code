@@ -1,24 +1,22 @@
-﻿using ScriptCoreLib;
-using ScriptCoreLib.ActionScript.flash.display;
-using ScriptCoreLib.ActionScript.flash.text;
-using ScriptCoreLib.ActionScript;
-using ScriptCoreLib.ActionScript.Extensions;
-using System;
-using ScriptCoreLib.ActionScript.mx.core;
-using ScriptCoreLib.ActionScript.flash.ui;
-using System.Linq;
-using ScriptCoreLib.ActionScript.flash.geom;
-
-
-
-using FlashSpaceInvaders.ActionScript.Extensions;
-using ScriptCoreLib.ActionScript.flash.filters;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
+using FlashSpaceInvaders.ActionScript.Extensions;
 using FlashSpaceInvaders.ActionScript.FragileEntities;
-using ScriptCoreLib.ActionScript.flash.media;
 using FlashSpaceInvaders.ActionScript.StarShips;
+using ScriptCoreLib;
+using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.ActionScript;
+using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.filters;
+using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.flash.media;
+using ScriptCoreLib.ActionScript.flash.text;
+using ScriptCoreLib.ActionScript.flash.ui;
+using ScriptCoreLib.ActionScript.mx.core;
 
 namespace FlashSpaceInvaders.ActionScript
 {
@@ -161,11 +159,41 @@ namespace FlashSpaceInvaders.ActionScript
 					Name = "Ego"
 				};
 
+			const int ClipMargin = 20;
+
+			#region evilmode
 
 			this.Ego.EvilMode.ValueChangedToTrue +=
 				delegate
 				{
 					play(Sounds.fade);
+
+					#region keep ego here for 10 secs
+
+					this.Ego.GoodEgo.Clip =
+						p =>
+						{
+							if (p.x < DefaultWidth / 2)
+							{
+								p.x = p.x.Min(-ClipMargin);
+							}
+							else
+							{
+								p.x = p.x.Max(DefaultWidth + ClipMargin);
+							}
+
+							return p;
+						};
+
+					5000.AtDelayDo(
+						delegate
+						{
+							this.Ego.GoodEgo.Clip = null;
+							play(Sounds.fade);
+						}
+					);
+					#endregion
+
 				};
 
 			this.Ego.EvilMode.ValueChangedToFalse +=
@@ -174,6 +202,7 @@ namespace FlashSpaceInvaders.ActionScript
 					play(Sounds.insertcoin);
 				};
 
+			#endregion
 
 			this.Ego.EvilMode.LinkTo(Statusbar.EvilMode);
 
@@ -213,6 +242,7 @@ namespace FlashSpaceInvaders.ActionScript
 			cp2.AddTo(FragileEntities);
 			Ego.AddTo(FragileEntities);
 
+			#region AddEnemy
 			this.AddEnemy.Direct +=
 				(e, p) =>
 				{
@@ -220,10 +250,23 @@ namespace FlashSpaceInvaders.ActionScript
 
 					e.TeleportTo(p.x, p.y)
 					.AttachTo(CanvasOverlay)
-					.AddTo(FragileEntities.Items);
+					.AddTo(FragileEntities.Items)
+					.AddTo(ComputerEnemies);
 				};
+			#endregion
 
-			var cloud1 = new EnemyCloud();
+			var cloud1 = new EnemyCloud
+			{
+				PlaySound = play
+			};
+
+			cloud1.TickSounds =
+					new Sound[] {
+						Sounds.duh0,
+						Sounds.duh1,
+						Sounds.duh2,
+						Sounds.duh3,
+					};
 
 			cloud1.AttachTo(this.CanvasOverlay);
 			cloud1.TeleportTo(60, 80);
@@ -232,27 +275,19 @@ namespace FlashSpaceInvaders.ActionScript
 				AddEnemy.Chained(v.Element, v.Element.ToPoint())
 			);
 
+
+			cloud1.TickInterval.ValueChangedTo +=
+				e => DebugDump.Write(new { TickInterval = e });
+
+			cloud1.TickInterval.Value = 1000;
+
 			//AddEnemy.Chained(new EnemyA(), new Point(200, 200));
 			//AddEnemy.Chained(new EnemyB(), new Point(240, 200));
 			//AddEnemy.Chained(new EnemyC(), new Point(280, 200));
 			//AddEnemy.Chained(new EnemyUFO(), new Point(160, 200));
 			//AddEnemy.Chained(new EnemyBigGun(), new Point(120, 200));
 
-			var EnemySounds = new SoundAsset[] {
-			    Sounds.duh0,
-			    Sounds.duh1,
-			    Sounds.duh2,
-			    Sounds.duh3,
-			};
 
-			1000.AtInterval(
-				t =>
-				{
-					play(EnemySounds[t.currentCount % EnemySounds.Length]);
-
-					// move enemies
-				}
-			);
 
 			#region AddBullet
 			this.AddBullet.Direct +=
@@ -311,6 +346,9 @@ namespace FlashSpaceInvaders.ActionScript
 
 					if (target.HitPoints <= 0)
 					{
+						if (ComputerEnemies.Any(k => k == target))
+							cloud1.TickInterval.Value -= 900 / cloud1.Members.Count;
+
 						Statusbar.Score.Value += target.ScorePoints;
 
 						play(target.GetDeathSound());
@@ -340,8 +378,8 @@ namespace FlashSpaceInvaders.ActionScript
 			this.FragileEntities.PrepareFilter =
 				delegate
 				{
-					var GroupGoodEgos = KnownEgos.Select(i => i.GoodEgo).ToArray();
-					var GroupEvilEgos = KnownEgos.Select(i => i.EvilEgo).ToArray();
+					var GroupGood = KnownEgos.Select(i => i.GoodEgo).ToArray();
+					var GroupEvil = KnownEgos.Select(i => i.EvilEgo).Concat(ComputerEnemies).ToArray();
 
 					this.FragileEntities.Filter =
 						(source, n) =>
@@ -351,9 +389,9 @@ namespace FlashSpaceInvaders.ActionScript
 
 							// spare coplayers in the same mode
 							if (n.Parent.EvilMode)
-								query = query.Where(x => !GroupEvilEgos.Contains(x));
+								query = query.Where(x => !GroupEvil.Contains(x));
 							else
-								query = query.Where(x => !GroupGoodEgos.Contains(x));
+								query = query.Where(x => !GroupGood.Contains(x));
 
 							return query;
 						};
@@ -388,6 +426,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public readonly FragileEntitiesContainer FragileEntities = new FragileEntitiesContainer();
 
+		public readonly List<StarShip> ComputerEnemies = new List<StarShip>();
 
 		public readonly List<DefenseBlock> DefenseBlocks =
 			new List<DefenseBlock>();

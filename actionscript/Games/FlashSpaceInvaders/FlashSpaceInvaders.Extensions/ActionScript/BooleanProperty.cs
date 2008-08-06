@@ -17,17 +17,18 @@ namespace FlashSpaceInvaders.ActionScript
 			this.ValueChanging +=
 				(o, v) =>
 				{
+					if (o == v)
+						return;
+
 					if (v)
 					{
-						if (!o)
-							if (ValueChangedToTrue != null)
-								ValueChangedToTrue();
+						if (ValueChangedToTrue != null)
+							ValueChangedToTrue();
 					}
 					else
 					{
-						if (o)
-							if (ValueChangedToFalse != null)
-								ValueChangedToFalse();
+						if (ValueChangedToFalse != null)
+							ValueChangedToFalse();
 					}
 				};
 		}
