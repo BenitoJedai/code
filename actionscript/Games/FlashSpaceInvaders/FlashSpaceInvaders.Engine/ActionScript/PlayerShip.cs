@@ -12,8 +12,8 @@ namespace FlashSpaceInvaders.ActionScript
 	[Script]
 	public class PlayerShip
 	{
-		public readonly SpriteWithMovement GoodEgo;
-		public readonly SpriteWithMovement EvilEgo;
+		public readonly StarShip GoodEgo;
+		public readonly StarShip EvilEgo;
 
 		public readonly BooleanProperty EvilMode;
 
@@ -23,19 +23,27 @@ namespace FlashSpaceInvaders.ActionScript
 		public readonly int DefaultWidth;
 		public readonly int DefaultHeight;
 
+		public PlayerShip AddTo(List<IFragileEntity> c)
+		{
+			GoodEgo.AddTo(c);
+			EvilEgo.AddTo(c);
+
+			return this;
+		}
+
 		public PlayerShip(int DefaultWidth, int DefaultHeight)
 		{
 			this.DefaultWidth = DefaultWidth;
 			this.DefaultHeight = DefaultHeight;
 
-			this.GoodEgo = new SpriteWithMovement { Animations.Spawn_BigGun(0, 0) };
+			this.GoodEgo = new StarShip { Animations.Spawn_BigGun(0, 0) };
 
 			this.GoodEgoY = DefaultHeight - 20;
 			this.EvilEgoY = 60;
 
 			GoodEgo.y = GoodEgoY;
 
-			this.EvilEgo = new SpriteWithMovement { Animations.Spawn_UFO(0, 0) };
+			this.EvilEgo = new StarShip { Animations.Spawn_UFO(0, 0) };
 
 			EvilEgo.y = EvilEgoY;
 
@@ -93,14 +101,29 @@ namespace FlashSpaceInvaders.ActionScript
 
 		}
 
+
+
 		public BulletInfo FireBullet()
+		{
+			return FireBullet(1);
+		}
+
+		public BulletInfo FireBullet(int Multiplier)
 		{
 			var Ego = this;
 			var bullet = new SpriteWithMovement();
 
-			bullet.graphics.beginFill(Colors.Green);
-			bullet.graphics.drawRect(0, -8, 1, 16);
+			Multiplier = Multiplier.Max(1);
+
+			for (int i = 1; i <= Multiplier; i++)
+			{
+				bullet.graphics.beginFill(Colors.Green);
+				bullet.graphics.drawRect((i - Multiplier) * 2, -8, 1, 16);
+			}
+
+
 			bullet.StepMultiplier = 0.3;
+			bullet.MaxStep = 24;
 
 			if (Ego.EvilMode)
 			{
@@ -128,7 +151,7 @@ namespace FlashSpaceInvaders.ActionScript
 					};
 			}
 
-			return new BulletInfo( bullet.WithParent(this) );
+			return new BulletInfo(bullet.WithParent(this)) { Multiplier = Multiplier };
 		}
 
 

@@ -10,15 +10,28 @@ using ScriptCoreLib.ActionScript.Extensions;
 
 namespace FlashSpaceInvaders.ActionScript.Extensions
 {
-    [Script]
-    public static class MyExtensions
-    {
+	[Script]
+	public static class MyExtensions
+	{
+		public static IEnumerable<T> Concat<T>(this IEnumerable<T> e, T u)
+		{
+			return e.Concat(new[] { u });
+
+		}
+		public static T Do<T>(this T e, Action<T> handler)
+		{
+			handler(e);
+
+			return e;
+
+		}
+
 		public static ParentRelation<TElement, TParent> WithParent<TElement, TParent>(this TElement e, TParent p)
 		{
 			return new ParentRelation<TElement, TParent> { Element = e, Parent = p };
 		}
 
-		public static Point MoveToArc(this Point e, double arc, double distance) 
+		public static Point MoveToArc(this Point e, double arc, double distance)
 		{
 			var n = new Point(e.x, e.y);
 
@@ -121,44 +134,44 @@ namespace FlashSpaceInvaders.ActionScript.Extensions
 			}
 		}
 
-        public static T AnimateAt<T>(this T c, DisplayObject[] e, int interval)  where T:DisplayObjectContainer
-        {
-            var i = 0;
+		public static T AnimateAt<T>(this T c, DisplayObject[] e, int interval) where T : DisplayObjectContainer
+		{
+			var i = 0;
 
-            Action update =
-                delegate
-                {
-                    e[i].x = -e[i].width / 2;
-                    e[i].y = -e[i].height / 2;
-                };
+			Action update =
+				delegate
+				{
+					e[i].x = -e[i].width / 2;
+					e[i].y = -e[i].height / 2;
+				};
 
-            update();
+			update();
 
-            c.addChild(e[i]);
+			c.addChild(e[i]);
 
-            if (e.Length > 1)
-            {
-                var t = new Timer(interval);
-
-
-                t.timer +=
-                    delegate
-                    {
-                        c.removeChild(e[i]);
-
-                        i = (i + 1) % e.Length;
-
-                        update();
-
-                        c.addChild(e[i]);
+			if (e.Length > 1)
+			{
+				var t = new Timer(interval);
 
 
-                    };
+				t.timer +=
+					delegate
+					{
+						c.removeChild(e[i]);
 
-                t.start();
-            }
+						i = (i + 1) % e.Length;
 
-            return c;
-        }
-    }
+						update();
+
+						c.addChild(e[i]);
+
+
+					};
+
+				t.start();
+			}
+
+			return c;
+		}
+	}
 }
