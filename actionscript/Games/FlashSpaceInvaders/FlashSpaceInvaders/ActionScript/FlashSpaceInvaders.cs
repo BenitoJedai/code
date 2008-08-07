@@ -38,16 +38,23 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public FlashSpaceInvaders()
 		{
-		
-			var g = new Game
-				{
-					x = DefaultWidth  / 4
-				};
+			var g = new MultiPlayer.Client();
 
+			g.Element.x = (DefaultWidth - MultiPlayer.Client.DefaultWidth) / 2;
+
+			g.Element.AttachTo(this);
+			
+		}
+
+		void SinglePlayer()
+		{
+			var g = new Game
+			{
+				x = DefaultWidth / 4
+			};
 
 			g.AttachTo(this);
 		}
-
 	}
 
 }
