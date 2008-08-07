@@ -34,7 +34,8 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 
 		const int DefaultCloudWidth = 9;
 		const int DefaultCloudHeight = 5;
-		const int DefaultCloudMargin = 32;
+
+		public const int DefaultCloudMargin = 32;
 
 		public readonly List<Member> Members = new List<Member>();
 
@@ -48,7 +49,12 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 				(y, ctor) =>
 				{
 					for (int x = 0; x < DefaultCloudWidth; x++)
-						Members.Add(new Member(ctor(y), this, x, y));
+					{
+						var n = ctor(y);
+
+						n.MaxStep = DefaultCloudMargin / 2;
+						Members.Add(new Member(n, this, x, y));
+					}
 				};
 
 
@@ -69,6 +75,20 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 			Spawn(4, y => new EnemyC().ApplyFilter(colors[y]));
 
 			var Timer = default(Timer);
+			var Counter = 0;
+
+			Action InternalTick =
+				delegate
+				{
+					Counter++;
+
+					if (PlaySound != null)
+						if (TickSounds != null)
+							PlaySound(TickSounds[Counter  % TickSounds.Length]);
+
+					if (this.Tick != null)
+						this.Tick();
+				};
 
 			Action Reset =
 				delegate
@@ -76,14 +96,13 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 					Timer = TickInterval.Value.AtInterval(
 						t =>
 						{
-							if (PlaySound != null)
-								if (TickSounds != null)
-									PlaySound(TickSounds[t.currentCount % TickSounds.Length]);
-
-							if (this.Tick != null)
-								this.Tick();
+							InternalTick();
+					
 						}
 					);
+
+					InternalTick();
+
 				};
 
 
@@ -115,6 +134,35 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 			}
 		}
 
+
+		public void ResetColors()
+		{
+			var colors = new[]
+			{
+				Filters.ColorFillFilter(0xffffff.Random()),
+				Filters.ColorFillFilter(0xffffff.Random()),
+				Filters.ColorFillFilter(0xffffff.Random()),
+				Filters.ColorFillFilter(0xffffff.Random()),
+				Filters.ColorFillFilter(0xffffff.Random()),
+
+			};
+
+			foreach (var v in Members)
+			{
+				v.Element.ApplyFilter(colors[v.y]);
+			}
+		}
+
+
+		public void ResetLives()
+		{
+
+			foreach (var v in Members)
+			{
+				v.Element.alpha = 1;
+			}
+		}
+
 		public readonly Int32Property TickInterval = 0;
 
 		public event Action Tick;
@@ -142,23 +190,32 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 
 				foreach (var item in Members)
 				{
-					if (r == null)
-						r = new Rectangle(item.Element.x, item.Element.y, 0, 0);
-					else
-					{
-						r.left = item.Element.x.Min(r.left);
-						r.top = item.Element.y.Min(r.top);
+					if (item.Element.HitPoints > 0)
+						if (r == null)
+							r = new Rectangle(item.Element.x, item.Element.y, 0, 0);
+						else
+						{
+							r.left = item.Element.x.Min(r.left);
+							r.top = item.Element.y.Min(r.top);
 
-						r.right = item.Element.x.Max(r.left);
-						r.bottom = item.Element.y.Max(r.top);
-					}
+							r.right = item.Element.x.Max(r.right);
+							r.bottom = item.Element.y.Max(r.bottom);
+						}
 				}
-		
+
 				return r;
 			}
 		}
 
 
-		
+
+
+		public void Stop()
+		{
+			foreach (var v in Members)
+			{
+				v.Element.TeleportTo(v.Element.x, v.Element.y);
+			}
+		}
 	}
 }

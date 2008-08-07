@@ -15,6 +15,8 @@ namespace FlashSpaceInvaders.ActionScript
 
 		T _Value;
 
+
+
 		public T Value
 		{
 			get { return _Value; }
