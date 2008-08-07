@@ -26,6 +26,9 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public Action<double, double> SmartMoveTo;
 
+
+		public readonly BooleanProperty Enabled = true;
+
 		public PlayerInput(Stage stage, PlayerShip Ego)
 		{
 
@@ -40,6 +43,9 @@ namespace FlashSpaceInvaders.ActionScript
 			stage.click +=
 				e =>
 				{
+					if (!Enabled)
+						return;
+
 					if (SmartMoveTo != null)
 						SmartMoveTo(e.stageX, e.stageY);
 				};
@@ -47,7 +53,8 @@ namespace FlashSpaceInvaders.ActionScript
 			stage.mouseMove +=
 				e =>
 				{
-
+					if (!Enabled)
+						return;
 
 					if (e.buttonDown)
 					{
@@ -57,6 +64,7 @@ namespace FlashSpaceInvaders.ActionScript
 					}
 				};
 
+
 			var GoLeft = new KeyboardButton(stage)
 			{
 				Groups = new[]
@@ -64,6 +72,7 @@ namespace FlashSpaceInvaders.ActionScript
                     MovementWASD[Keyboard.A],
                     MovementArrows[Keyboard.LEFT],
                 },
+				Filter = Enabled,
 				Tick = () => this.StepLeft(),
 				Up = () => this.StepLeftEnd()
 			};
@@ -75,6 +84,7 @@ namespace FlashSpaceInvaders.ActionScript
                     MovementWASD[Keyboard.D],
                     MovementArrows[Keyboard.RIGHT],
                 },
+				Filter = Enabled,
 				Tick = () => this.StepRight(),
 				Up = () => this.StepRightEnd()
 			};
@@ -89,6 +99,7 @@ namespace FlashSpaceInvaders.ActionScript
                     MovementWASD[Keyboard.CONTROL , KeyLocation.LEFT],
                     MovementArrows[Keyboard.RIGHT , KeyLocation.RIGHT],
                 },
+				Filter = Enabled,
 				Tick = () => FireBullet()
 
 			};
@@ -96,12 +107,18 @@ namespace FlashSpaceInvaders.ActionScript
 			stage.mouseDown +=
 				delegate
 				{
+					if (!Enabled)
+						return;
+
 					DoFire.ForceKeyDown();
 				};
 
 			stage.mouseUp +=
 				delegate
 				{
+					if (!Enabled)
+						return;
+
 					DoFire.ForceKeyUp();
 				};
 			#endregion

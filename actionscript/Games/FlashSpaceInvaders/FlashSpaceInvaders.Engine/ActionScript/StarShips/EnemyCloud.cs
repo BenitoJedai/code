@@ -41,6 +41,8 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 
 		public Action<Sound> PlaySound;
 		public Sound[] TickSounds;
+		
+		public int Counter = 0;
 
 
 		public EnemyCloud()
@@ -75,7 +77,6 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 			Spawn(4, y => new EnemyC().ApplyFilter(colors[y]));
 
 			var Timer = default(Timer);
-			var Counter = 0;
 
 			Action InternalTick =
 				delegate
