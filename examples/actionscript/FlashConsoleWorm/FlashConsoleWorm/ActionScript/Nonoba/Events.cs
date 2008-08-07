@@ -158,7 +158,7 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 
 						s.AttachTo(this).MoveTo(e.x, e.y);
 					};
-			#endregion
+			
 
 			Events.UserMouseOut +=
 			   e =>
@@ -168,6 +168,7 @@ namespace FlashConsoleWorm.ActionScript.Nonoba
 					   Cursors[e.color].Orphanize();
 				   }
 			   };
+			#endregion
 
 			Events.UserVectorChanged +=
 				e =>
