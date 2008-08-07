@@ -24,7 +24,7 @@ namespace FlashSpaceInvaders.ActionScript
 		public uint[] Buttons;
 
 
-		bool CheckButton(uint button, uint location)
+		bool CheckButton(uint button, uint location, bool ResetTickTimer)
 		{
 
 			if (Groups == null)
@@ -34,6 +34,9 @@ namespace FlashSpaceInvaders.ActionScript
 
 				if (!this.Buttons.Contains(button))
 					return false;
+
+				if (ResetTickTimer)
+					a = true;
 
 				if (this.Filter != null && !this.Filter())
 					return false;
@@ -46,11 +49,14 @@ namespace FlashSpaceInvaders.ActionScript
 
 				if (g != null)
 				{
-					if (this.Filter != null && !this.Filter())
-						return false;
+					if (this.Filter == null)
+						return true;
 
+					if (ResetTickTimer)
+						a =  true;
+					
 					//Console.WriteLine("keyCode " + button + " ok for " + g.Group.Name);
-					return true;
+					return this.Filter();
 				}
 
 
@@ -67,11 +73,12 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public readonly Action ForceKeyDown;
 		public readonly Action ForceKeyUp;
+		
+		bool a = false;
 
 		public KeyboardButton(Stage s, int fps)
 		{
 			var t = new Timer(fps);
-			var a = false;
 
 			t.timer +=
 				delegate
@@ -108,7 +115,7 @@ namespace FlashSpaceInvaders.ActionScript
 				e =>
 				{
 
-					if (CheckButton(e.keyCode, e.keyLocation))
+					if (CheckButton(e.keyCode, e.keyLocation, false))
 					{
 						this.ForceKeyDown();
 					}
@@ -128,7 +135,7 @@ namespace FlashSpaceInvaders.ActionScript
 				  e =>
 				  {
 
-					  if (CheckButton(e.keyCode, e.keyLocation))
+					  if (CheckButton(e.keyCode, e.keyLocation, true))
 					  {
 						  this.ForceKeyUp();
 					  }

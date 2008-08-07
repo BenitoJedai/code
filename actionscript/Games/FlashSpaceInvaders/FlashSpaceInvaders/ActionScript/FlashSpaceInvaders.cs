@@ -36,6 +36,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public FlashSpaceInvaders()
 		{
+		
 			var g = new Game();
 
 

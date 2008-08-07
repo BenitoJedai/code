@@ -38,6 +38,12 @@ namespace FlashSpaceInvaders.ActionScript
 			return e.Value;
 		}
 
+		public static implicit operator Func<bool>(BooleanProperty e)
+		{
+			return () => e.Value;
+		}
+
+
 		public static implicit operator BooleanProperty(bool e)
 		{
 			return new BooleanProperty { Value = e };
