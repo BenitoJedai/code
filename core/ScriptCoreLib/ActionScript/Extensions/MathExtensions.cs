@@ -43,22 +43,7 @@ namespace ScriptCoreLib.ActionScript.Extensions
             return a;
         }
 
-        public static int Max(this int i, int e)
-        {
-            if (e > i)
-                return e;
-
-            return i;
-        }
-
-        public static int Min(this int i, int e)
-        {
-            if (e < i)
-                return e;
-
-            return i;
-        }
-
+   
 
     }
 }
