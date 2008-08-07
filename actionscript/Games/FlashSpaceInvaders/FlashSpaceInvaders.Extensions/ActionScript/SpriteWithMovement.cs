@@ -28,7 +28,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 
 
-		public SpriteWithMovement MoveTo(double x, double y)
+		public SpriteWithMovement TweenMoveTo(double x, double y)
 		{
 			MoveToTarget.Value = new Point { x = x, y = y };
 

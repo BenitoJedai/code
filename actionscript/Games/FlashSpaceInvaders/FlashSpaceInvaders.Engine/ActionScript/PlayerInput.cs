@@ -24,7 +24,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public Action FireBullet;
 
-		public Action<double> SmartMoveTo;
+		public Action<double, double> SmartMoveTo;
 
 		public PlayerInput(Stage stage, PlayerShip Ego)
 		{
@@ -41,7 +41,7 @@ namespace FlashSpaceInvaders.ActionScript
 				e =>
 				{
 					if (SmartMoveTo != null)
-						SmartMoveTo(e.stageX);
+						SmartMoveTo(e.stageX, e.stageY);
 				};
 
 			stage.mouseMove +=
@@ -53,7 +53,7 @@ namespace FlashSpaceInvaders.ActionScript
 					{
 
 						if (SmartMoveTo != null)
-							SmartMoveTo(e.stageX);
+							SmartMoveTo(e.stageX, e.stageY);
 					}
 				};
 

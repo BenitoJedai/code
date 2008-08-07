@@ -95,7 +95,7 @@ namespace FlashSpaceInvaders.ActionScript
 				};
 
 
-			GoodEgo.MoveTo(DefaultWidth / 2, GoodEgoY);
+			GoodEgo.TweenMoveTo(DefaultWidth / 2, GoodEgoY);
 
 
 			GoodEgo.MaxStep = 12;
@@ -114,9 +114,11 @@ namespace FlashSpaceInvaders.ActionScript
 			}
 		}
 
+		public readonly Int32Property CurrentBulletMultiplier = 1;
+
 		public BulletInfo FireBullet()
 		{
-			return FireBullet(1);
+			return FireBullet(CurrentBulletMultiplier);
 		}
 
 		public BulletInfo FireBullet(int Multiplier)
@@ -139,7 +141,7 @@ namespace FlashSpaceInvaders.ActionScript
 			if (Ego.EvilMode)
 			{
 				bullet.TeleportTo(Ego.EvilEgo.x, Ego.EvilEgo.y);
-				bullet.MoveTo(Ego.EvilEgo.x + 0.00001, DefaultHeight);
+				bullet.TweenMoveTo(Ego.EvilEgo.x + 0.00001, DefaultHeight);
 
 				bullet.PositionChanged +=
 					delegate
@@ -151,7 +153,7 @@ namespace FlashSpaceInvaders.ActionScript
 			else
 			{
 				bullet.TeleportTo(Ego.GoodEgo.x, Ego.GoodEgo.y);
-				bullet.MoveTo(Ego.GoodEgo.x + 0.00001, 0);
+				bullet.TweenMoveTo(Ego.GoodEgo.x + 0.00001, 0);
 
 
 				bullet.PositionChanged +=
@@ -166,11 +168,20 @@ namespace FlashSpaceInvaders.ActionScript
 		}
 
 
-		public double Wrapper(double x)
+		public double Wrapper(double x, double y)
 		{
 			var Ego = this;
 
-			if (Ego.EvilMode)
+			var m = Ego.EvilMode;
+
+			if (m && y > (DefaultHeight * 3 / 4))
+				m = false;
+
+			if (!m && y < (DefaultHeight * 1 / 4))
+				m = true;
+
+
+			if (m)
 			{
 				if (Ego.GoodEgo.x < DefaultWidth / 2)
 					return x - DefaultWidth;

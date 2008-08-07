@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 
 using FlashSpaceInvaders.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.media;
 using ScriptCoreLib.ActionScript.flash.utils;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace FlashSpaceInvaders.ActionScript.StarShips
 {
@@ -30,21 +32,22 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 			}
 		}
 
-		const int DefaultWidth = 9;
-		const int DefaultHeight = 5;
-		const int DefaultMargin = 32;
+		const int DefaultCloudWidth = 9;
+		const int DefaultCloudHeight = 5;
+		const int DefaultCloudMargin = 32;
 
 		public readonly List<Member> Members = new List<Member>();
 
 		public Action<Sound> PlaySound;
 		public Sound[] TickSounds;
 
+
 		public EnemyCloud()
 		{
 			Action<int, Func<int, StarShip>> Spawn =
 				(y, ctor) =>
 				{
-					for (int x = 0; x < DefaultWidth; x++)
+					for (int x = 0; x < DefaultCloudWidth; x++)
 						Members.Add(new Member(ctor(y), this, x, y));
 				};
 
@@ -83,7 +86,7 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 					);
 				};
 
-		
+
 			TickInterval.ValueChangedTo +=
 				e =>
 				{
@@ -108,7 +111,7 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 		{
 			foreach (var v in Members)
 			{
-				v.Element.TeleportTo(x + DefaultMargin * v.x, y + DefaultMargin * v.y);
+				v.Element.TeleportTo(x + DefaultCloudMargin * v.x, y + DefaultCloudMargin * v.y);
 			}
 		}
 
@@ -118,12 +121,44 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 
 		public double Direction;
 
-		public void MoveToOffset(double x, int y)
+		public void MoveToOffset(Point p)
 		{
+			var x = p.x;
+			var y = p.y;
+
 			foreach (var v in Members)
 			{
-				v.Element.MoveTo(v.Element.MoveToTarget.Value.x + x, v.Element.MoveToTarget.Value.y + y);
+				v.Element.TweenMoveTo(v.Element.MoveToTarget.Value.x + x, v.Element.MoveToTarget.Value.y + y);
 			}
 		}
+
+		public Rectangle Warzone
+		{
+			get
+			{
+				var r = default(Rectangle);
+
+
+
+				foreach (var item in Members)
+				{
+					if (r == null)
+						r = new Rectangle(item.Element.x, item.Element.y, 0, 0);
+					else
+					{
+						r.left = item.Element.x.Min(r.left);
+						r.top = item.Element.y.Min(r.top);
+
+						r.right = item.Element.x.Max(r.left);
+						r.bottom = item.Element.y.Max(r.top);
+					}
+				}
+		
+				return r;
+			}
+		}
+
+
+		
 	}
 }

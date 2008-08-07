@@ -48,6 +48,8 @@ namespace FlashSpaceInvaders.ActionScript
 		public FlashSpaceInvaders()
 			: base(DefaultWidth, DefaultHeight)
 		{
+			SoundEnabled = true;
+
 			Action<Sound> play =
 				s =>
 				{
@@ -84,7 +86,7 @@ namespace FlashSpaceInvaders.ActionScript
 			var Statusbar = new Statusbar();
 
 			Statusbar.Lives.Value = 2;
-			Statusbar.Score.Value = 1234;
+			Statusbar.Score.Value = 0;
 
 			Statusbar.Element.AttachTo(InfoOverlay);
 
@@ -255,6 +257,7 @@ namespace FlashSpaceInvaders.ActionScript
 				};
 			#endregion
 
+			#region cloud
 			var cloud1 = new EnemyCloud
 			{
 				PlaySound = play
@@ -271,21 +274,58 @@ namespace FlashSpaceInvaders.ActionScript
 			cloud1.AttachTo(this.CanvasOverlay);
 			cloud1.TeleportTo(60, 80);
 
-			cloud1.Members.ForEach(v =>
-				AddEnemy.Chained(v.Element, v.Element.ToPoint())
-			);
-
+		
 
 			cloud1.TickInterval.ValueChangedTo +=
 				e => DebugDump.Write(new { TickInterval = e });
 
 			cloud1.TickInterval.Value = 1000;
 
+			var CloudMargin = 40;
+			var CloudSpeed = 4;
+			var CloudMove = new Point { x = CloudSpeed };
+
 			cloud1.Tick +=
 				delegate
 				{
-					cloud1.MoveToOffset(4, 0);
+					var r = cloud1.Warzone;
+
+					if (CloudMove.y == 0)
+					{
+						if (r.right > (DefaultWidth - CloudMargin))
+						{
+							// reached far right
+
+							CloudMove.x = 0;
+							CloudMove.y = CloudSpeed * 3;
+						}
+					}
+					else
+					{
+						if (CloudMove.y > 0)
+						{
+							CloudMove.y -= CloudSpeed / 2;
+						}
+						else
+						{
+							CloudMove.y = 0;
+							CloudMove.x = -CloudSpeed;
+						}
+					}
+
+					//DebugDump.Write(new { r.left, r.top, r.right, r.bottom });
+
+					cloud1.MoveToOffset(CloudMove);
+
 				};
+
+			cloud1.Members.ForEach(v =>
+				AddEnemy.Chained(v.Element, v.Element.ToPoint())
+			);
+
+			#endregion
+
+
 
 			//AddEnemy.Chained(new EnemyA(), new Point(200, 200));
 			//AddEnemy.Chained(new EnemyB(), new Point(240, 200));
@@ -316,7 +356,7 @@ namespace FlashSpaceInvaders.ActionScript
 				};
 			#endregion
 
-			#region DoPlayerMovement
+			#region input
 			this.DoPlayerMovement.Direct +=
 				(e, p) =>
 				{
@@ -338,10 +378,19 @@ namespace FlashSpaceInvaders.ActionScript
 
 				FireBullet = () => this.AddBullet.Chained(Ego.FireBullet()),
 
-				SmartMoveTo = x =>
-					this.DoPlayerMovement.Chained(Ego, new Point(Ego.Wrapper(x), Ego.GoodEgoY))
+				SmartMoveTo = (x, y) =>
+					this.DoPlayerMovement.Chained(Ego, new Point(Ego.Wrapper(x, y), Ego.GoodEgoY))
 
 			};
+			#endregion
+
+			#region SetWeaponMultiplier
+
+			this.SetWeaponMultiplier.Direct =
+				(p, value) =>
+				{
+					p.CurrentBulletMultiplier.Value = value;
+				};
 			#endregion
 
 			#region AddDamage
@@ -355,11 +404,19 @@ namespace FlashSpaceInvaders.ActionScript
 						if (ComputerEnemies.Any(k => k == target))
 						{
 
-							cloud1.TickInterval.Value = (cloud1.TickInterval.Value - 50).Max(50);
+							cloud1.TickInterval.Value = (cloud1.TickInterval.Value - 50).Max(200);
 
 						}
 
 						Statusbar.Score.Value += target.ScorePoints;
+
+						if (Statusbar.Score < 5)
+							this.SetWeaponMultiplier.Chained(Ego, 1);
+						else
+							if (Statusbar.Score < 10)
+								this.SetWeaponMultiplier.Chained(Ego, 2);
+							else
+								this.SetWeaponMultiplier.Chained(Ego, 3);
 
 						play(target.GetDeathSound());
 					}
@@ -419,6 +476,7 @@ namespace FlashSpaceInvaders.ActionScript
 			this.AddEnemy.BaseHandler += BaseHandler;
 			this.AddBullet.BaseHandler += BaseHandler;
 			this.DoPlayerMovement.BaseHandler += BaseHandler;
+			this.SetWeaponMultiplier.BaseHandler += BaseHandler;
 
 		}
 
@@ -430,6 +488,7 @@ namespace FlashSpaceInvaders.ActionScript
 		public readonly RoutedActionInfo<StarShip, Point> AddEnemy = "AddEnemy";
 		public readonly RoutedActionInfo<BulletInfo> AddBullet = "AddBullet";
 		public readonly RoutedActionInfo<PlayerShip, Point> DoPlayerMovement = "DoMovement";
+		public readonly RoutedActionInfo<PlayerShip, int> SetWeaponMultiplier = "SetWeaponMultiplier";
 
 		#endregion
 
