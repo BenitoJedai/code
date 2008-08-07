@@ -11,13 +11,19 @@ using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.flash.media;
 using ScriptCoreLib.ActionScript.flash.filters;
+using ScriptCoreLib.ActionScript.flash.events;
 
 namespace FlashSpaceInvaders.ActionScript.Extensions
 {
 	[Script]
 	public static class MyExtensions
 	{
-		public static T ApplyFilter<T>(this T e, BitmapFilter f)  where T : DisplayObject
+		public static Point ToStagePoint(this  MouseEvent e)
+		{
+			return new Point(e.stageX, e.stageY);
+		}
+
+		public static T ApplyFilter<T>(this T e, BitmapFilter f) where T : DisplayObject
 		{
 			if (f != null)
 			{

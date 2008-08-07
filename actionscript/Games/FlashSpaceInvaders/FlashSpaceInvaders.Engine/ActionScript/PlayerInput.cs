@@ -29,7 +29,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public readonly BooleanProperty Enabled = true;
 
-		public PlayerInput(Stage stage, PlayerShip Ego)
+		public PlayerInput(Stage stage, PlayerShip Ego, DisplayObject Owner)
 		{
 
 			MovementWASD = new KeyboardButtonGroup { Name = "WASD" };
@@ -46,8 +46,10 @@ namespace FlashSpaceInvaders.ActionScript
 					if (!Enabled)
 						return;
 
+					var p = Owner.globalToLocal(e.ToStagePoint());
+
 					if (SmartMoveTo != null)
-						SmartMoveTo(e.stageX, e.stageY);
+						SmartMoveTo(p.x, p.y);
 				};
 
 			stage.mouseMove +=
@@ -58,9 +60,10 @@ namespace FlashSpaceInvaders.ActionScript
 
 					if (e.buttonDown)
 					{
+						var p = Owner.globalToLocal(e.ToStagePoint());
 
 						if (SmartMoveTo != null)
-							SmartMoveTo(e.stageX, e.stageY);
+							SmartMoveTo(p.x, p.y);
 					}
 				};
 

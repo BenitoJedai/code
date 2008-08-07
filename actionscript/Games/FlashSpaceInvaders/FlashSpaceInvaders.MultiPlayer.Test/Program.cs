@@ -24,6 +24,10 @@ namespace FlashSpaceInvaders.MultiPlayer.Test
 
 					var x = new Launcher();
 
+					var app = new ApplicationContext(x);
+
+					Action<Action> Invoke =
+						h => x.Invoke(h);
 
 					x.button1.Click +=
 						delegate
@@ -32,6 +36,20 @@ namespace FlashSpaceInvaders.MultiPlayer.Test
 							var p = Process.Start(swf);
 
 							x.checkedListBox1.Items.Add(p.Id);
+
+							p.EnableRaisingEvents = true;
+
+
+							p.Exited +=
+								delegate
+								{
+									Invoke(
+										delegate
+										{
+											x.checkedListBox1.Items.Remove(p.Id);
+										}
+									);
+								};
 
 							x.FormClosing +=
 								delegate
@@ -62,7 +80,7 @@ namespace FlashSpaceInvaders.MultiPlayer.Test
 						};
 
 
-					Application.Run(new ApplicationContext(x));
+					Application.Run(app);
 
 
 				}

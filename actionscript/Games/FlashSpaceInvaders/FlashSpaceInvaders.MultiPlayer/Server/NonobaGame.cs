@@ -22,6 +22,8 @@ namespace FlashSpaceInvaders.Server
     [Script]
     public class NonobaGame : NonobaGame<NonobaGameUser<MyPlayer>>
     {
+		// this must be a direct inheritance to get it working 
+
         public MyGame Virtual;
 
 
