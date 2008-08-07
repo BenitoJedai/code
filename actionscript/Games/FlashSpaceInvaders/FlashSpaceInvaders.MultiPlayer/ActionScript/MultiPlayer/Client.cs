@@ -16,9 +16,9 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 	public partial class Client : NonobaClient
 	{
 		public const int DefaultWidth = Game.DefaultWidth + NonobaChatWidth;
-		
 
-		public Client()
+
+		public Client() 
 		{
 		}
 

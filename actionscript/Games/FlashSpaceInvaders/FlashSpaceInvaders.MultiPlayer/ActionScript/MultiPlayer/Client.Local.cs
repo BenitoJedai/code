@@ -9,7 +9,7 @@ using ScriptCoreLib.ActionScript.Nonoba.api;
 
 namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 {
-	partial class Client 
+	partial class Client<T>
 	{
 		IGameRoutedActions Map;
 
