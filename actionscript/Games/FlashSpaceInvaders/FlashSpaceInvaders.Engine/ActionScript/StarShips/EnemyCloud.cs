@@ -226,11 +226,11 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 
 				for (int i = 0; i < DefaultCloudWidth; i++)
 				{
-					var p = Enumerable.FirstOrDefault(
+					var p = Enumerable.LastOrDefault(
 						from m in Members
 						where m.Element.HitPoints > 0
 						where m.x == i
-						orderby m.y descending
+						//orderby m.y descending
 						select m
 					);
 

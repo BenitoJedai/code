@@ -61,13 +61,21 @@ namespace FlashSpaceInvaders.ActionScript.FragileEntities
 
 			var p = default(Point);
 
+			var c = 0;
+
 			n.Element.PositionChanged +=
 				delegate
 				{
+					c++;
+
 					var k = n.Element.ToPoint();
 
+					var DoHitTest = ((k - p).length > 12);
 
-					if ((k - p).length > 2)
+					if (c % 4 == 0)
+						DoHitTest = true;
+
+					if (DoHitTest)
 					{
 						// only check for hit on each moved one pixel
 

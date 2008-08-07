@@ -9,6 +9,8 @@ namespace FlashSpaceInvaders.ActionScript
 	[Script]
 	public class BulletInfo : ParentRelation<SpriteWithMovement, StarShip>
 	{
+		public bool Silent;
+
 		public double Damage = 0.10;
 		public double Multiplier = 1;
 
