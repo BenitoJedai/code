@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FlashSpaceInvaders.ActionScript.Extensions;
+using FlashSpaceInvaders.ActionScript.FragileEntities;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
-using FlashSpaceInvaders.ActionScript.FragileEntities;
+using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace FlashSpaceInvaders.ActionScript
 {
@@ -92,5 +95,51 @@ namespace FlashSpaceInvaders.ActionScript
 		{
 			return Sounds.baseexplode;
 		}
+
+		public BulletInfo FireBullet(int Multiplier, Point From, Point To, double Limit)
+		{
+			var bullet = new SpriteWithMovement();
+
+			Multiplier = Multiplier.Max(1);
+
+			for (int i = 1; i <= Multiplier; i++)
+			{
+				bullet.graphics.beginFill(Colors.Green);
+				bullet.graphics.drawRect((i - Multiplier) * 2, -8, 1, 16);
+			}
+
+
+			bullet.StepMultiplier = 0.3;
+			bullet.MaxStep = 24;
+
+			if (From.y < To.y)
+			{
+				bullet.TeleportTo(From.x, From.y);
+				bullet.TweenMoveTo(To.x + 0.00001, To.y);
+
+				bullet.PositionChanged +=
+					delegate
+					{
+						if (bullet.y > Limit)
+							bullet.Orphanize();
+					};
+			}
+			else
+			{
+				bullet.TeleportTo(From.x, From.y);
+				bullet.TweenMoveTo(To.x + 0.00001, To.y);
+
+
+				bullet.PositionChanged +=
+					delegate
+					{
+						if (bullet.y < Limit)
+							bullet.Orphanize();
+					};
+			}
+
+			return new BulletInfo(bullet.WithParent(this)) { Multiplier = Multiplier };
+		}
+
 	}
 }

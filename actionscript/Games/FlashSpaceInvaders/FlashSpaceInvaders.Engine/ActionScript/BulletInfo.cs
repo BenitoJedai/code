@@ -7,7 +7,7 @@ using ScriptCoreLib;
 namespace FlashSpaceInvaders.ActionScript
 {
 	[Script]
-	public class BulletInfo : ParentRelation<SpriteWithMovement, PlayerShip>
+	public class BulletInfo : ParentRelation<SpriteWithMovement, StarShip>
 	{
 		public double Damage = 0.10;
 		public double Multiplier = 1;
@@ -20,7 +20,7 @@ namespace FlashSpaceInvaders.ActionScript
 			}
 		}
 
-		public BulletInfo(ParentRelation<SpriteWithMovement, PlayerShip> e)
+		public BulletInfo(ParentRelation<SpriteWithMovement, StarShip> e)
 		{
 
 			this.Element = e.Element;

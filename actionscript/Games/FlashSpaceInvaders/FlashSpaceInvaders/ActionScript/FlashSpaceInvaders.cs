@@ -162,6 +162,8 @@ namespace FlashSpaceInvaders.ActionScript
 					Name = "Ego"
 				};
 
+			this.ComputerEnemies.Add(this.Ego.EvilEgo);
+
 			const int ClipMargin = 20;
 
 			#region evilmode
@@ -273,7 +275,7 @@ namespace FlashSpaceInvaders.ActionScript
 					};
 
 			cloud1.AttachTo(this.CanvasOverlay);
-			
+
 
 
 
@@ -297,7 +299,7 @@ namespace FlashSpaceInvaders.ActionScript
 					cloud1.TeleportTo(60, 80);
 
 				};
-			
+
 			ResetCloudLocal();
 
 			Action ResetCloudSoon =
@@ -326,7 +328,7 @@ namespace FlashSpaceInvaders.ActionScript
 					if (r == null)
 					{
 						ResetCloudSoon();
-			
+
 						return;
 					}
 
@@ -334,9 +336,9 @@ namespace FlashSpaceInvaders.ActionScript
 					//this.graphics.beginFill(0xffffff);
 					//this.graphics.drawRect(r.x, r.y, r.width, r.height);
 
-					DebugDump.Write(new { r.left, r.right });
+					//DebugDump.Write(new { r.left, r.right, cloud1.FrontRow.Length });
 
-					if (r.bottom > Ego.GoodEgoY)
+					if (r.bottom > DefenseY)
 					{
 						ResetCloudSoon();
 
@@ -362,13 +364,24 @@ namespace FlashSpaceInvaders.ActionScript
 
 
 						CloudMove.x = 0;
-						CloudMove.y = 8 ;
+						CloudMove.y = 8;
 
 						CloudSpeed *= CloudSpeedAcc;
 					}
 					else
 					{
-						CloudMove.y -= CloudSpeed / 2;
+						if (WillStartVerticalMovement)
+							CloudMove.y -= CloudSpeed / 2;
+						else
+						{
+							// fire some bullets
+							var rr = cloud1.FrontRow.Random();
+
+
+							AddBullet.Chained(
+								rr.Element.FireBullet(1, new Point(rr.Element.x, rr.Element.y), new Point(rr.Element.x, DefaultHeight), Ego.GoodEgoY)
+							);
+						}
 
 						if (CloudMove.y <= 0)
 						{
@@ -381,7 +394,7 @@ namespace FlashSpaceInvaders.ActionScript
 						}
 					}
 
-					DebugDump.Write(new { CloudMove.x, CloudMove.y });
+					//DebugDump.Write(new { CloudMove.x, CloudMove.y });
 
 					cloud1.MoveToOffset(CloudMove);
 
@@ -497,7 +510,7 @@ namespace FlashSpaceInvaders.ActionScript
 					DebugDump.Write(
 						new
 						{
-							From = bullet.Parent.ActiveEgo.Name,
+							From = bullet.Parent.Name,
 							Delta = bullet.TotalDamage,
 							target.HitPoints,
 							To = target.Name
@@ -524,7 +537,7 @@ namespace FlashSpaceInvaders.ActionScript
 							var query = source;
 
 							// spare coplayers in the same mode
-							if (n.Parent.EvilMode)
+							if (ComputerEnemies.Contains(n.Parent))
 								query = query.Where(x => !GroupEvil.Contains(x));
 							else
 								query = query.Where(x => !GroupGood.Contains(x));

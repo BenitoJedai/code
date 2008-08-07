@@ -8,6 +8,7 @@ using ScriptCoreLib.Shared.Lambda;
 
 using FlashSpaceInvaders.ActionScript.Extensions;
 using FlashSpaceInvaders.ActionScript.FragileEntities;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace FlashSpaceInvaders.ActionScript
 {
@@ -118,55 +119,14 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public BulletInfo FireBullet()
 		{
-			return FireBullet(CurrentBulletMultiplier);
-		}
-
-		public BulletInfo FireBullet(int Multiplier)
-		{
-			var Ego = this;
-			var bullet = new SpriteWithMovement();
-
-			Multiplier = Multiplier.Max(1);
-
-			for (int i = 1; i <= Multiplier; i++)
-			{
-				bullet.graphics.beginFill(Colors.Green);
-				bullet.graphics.drawRect((i - Multiplier) * 2, -8, 1, 16);
-			}
-
-
-			bullet.StepMultiplier = 0.3;
-			bullet.MaxStep = 24;
-
-			if (Ego.EvilMode)
-			{
-				bullet.TeleportTo(Ego.EvilEgo.x, Ego.EvilEgo.y);
-				bullet.TweenMoveTo(Ego.EvilEgo.x + 0.00001, DefaultHeight);
-
-				bullet.PositionChanged +=
-					delegate
-					{
-						if (bullet.y > Ego.GoodEgoY)
-							bullet.Orphanize();
-					};
-			}
+			if (EvilMode)
+				return ActiveEgo.FireBullet(CurrentBulletMultiplier, new Point(EvilEgo.x, EvilEgo.y), new Point(EvilEgo.x, DefaultHeight), GoodEgoY);
 			else
-			{
-				bullet.TeleportTo(Ego.GoodEgo.x, Ego.GoodEgo.y);
-				bullet.TweenMoveTo(Ego.GoodEgo.x + 0.00001, 0);
+				return ActiveEgo.FireBullet(CurrentBulletMultiplier, new Point(GoodEgo.x, GoodEgo.y), new Point(GoodEgo.x, 0), EvilEgoY);
 
-
-				bullet.PositionChanged +=
-					delegate
-					{
-						if (bullet.y < Ego.EvilEgoY)
-							bullet.Orphanize();
-					};
-			}
-
-			return new BulletInfo(bullet.WithParent(this)) { Multiplier = Multiplier };
 		}
 
+		
 
 		public double Wrapper(double x, double y)
 		{

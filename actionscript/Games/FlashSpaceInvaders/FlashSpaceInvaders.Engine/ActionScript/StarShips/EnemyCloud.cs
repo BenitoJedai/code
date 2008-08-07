@@ -217,5 +217,29 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 				v.Element.TeleportTo(v.Element.x, v.Element.y);
 			}
 		}
+
+		public Member[] FrontRow
+		{
+			get
+			{
+				var a = new List<Member>();
+
+				for (int i = 0; i < DefaultCloudWidth; i++)
+				{
+					var p = Enumerable.FirstOrDefault(
+						from m in Members
+						where m.Element.HitPoints > 0
+						where m.x == i
+						orderby m.y descending
+						select m
+					);
+
+					if (p != null)
+						a.Add(p);
+				}
+
+				return a.ToArray();
+			}
+		}
 	}
 }
