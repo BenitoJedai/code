@@ -24,9 +24,11 @@ namespace FlashSpaceInvaders.ActionScript
 	/// testing...
 	/// </summary>
 	[Script, ScriptApplicationEntryPoint]
-	[SWF(backgroundColor = Colors.Black, width = Game.DefaultWidth, height = Game.DefaultHeight)]
+	[SWF(backgroundColor = Colors.Black, width = DefaultWidth, height = Game.DefaultHeight)]
 	public class FlashSpaceInvaders : Sprite
 	{
+		public const int DefaultWidth = Game.DefaultWidth * 2;
+
 		// todo: add http://gimme.badsectoracula.com/flashmodplayer/modplayer.html
 
 		// http://zproxy.wordpress.com/2007/03/03/jsc-space-invaders/
@@ -37,7 +39,10 @@ namespace FlashSpaceInvaders.ActionScript
 		public FlashSpaceInvaders()
 		{
 		
-			var g = new Game();
+			var g = new Game
+				{
+					x = DefaultWidth  / 4
+				};
 
 
 			g.AttachTo(this);

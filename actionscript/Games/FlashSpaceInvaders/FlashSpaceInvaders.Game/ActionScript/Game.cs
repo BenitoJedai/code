@@ -177,7 +177,7 @@ namespace FlashSpaceInvaders.ActionScript
 				delegate
 				{
 
-					var input = new PlayerInput(stage, Ego)
+					var input = new PlayerInput(stage, Ego, this)
 					{
 						StepLeft = () => DoEgoPlayerMovement(Math.PI, 2),
 						StepLeftEnd = () => DoEgoPlayerMovement(Math.PI, 0.5),
