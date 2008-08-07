@@ -39,6 +39,8 @@ namespace FlashSpaceInvaders.ActionScript
 		public event Action Handler;
 	}
 
+
+
 	[Script]
 	public class RoutedActionInfo<T1> : RoutedActionInfoBase
 	{

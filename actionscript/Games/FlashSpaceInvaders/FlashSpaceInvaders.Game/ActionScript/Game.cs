@@ -22,7 +22,7 @@ using FlashSpaceInvaders.ActionScript;
 namespace FlashSpaceInvaders.ActionScript
 {
 	[Script]
-	public class Game : FixedBorderCanvas
+	public partial class Game : FixedBorderCanvas
 	{
 		public const int DefaultWidth = 480;
 		public const int DefaultHeight = 480;
@@ -43,11 +43,16 @@ namespace FlashSpaceInvaders.ActionScript
 		public Game()
 			: base(DefaultWidth, DefaultHeight)
 		{
+			InitializeRoutedActions();
+
 			SoundEnabled = true;
 
 			Action<Sound> play =
 				s =>
 				{
+					if (CanvasOverlay.parent == null)
+						return;
+
 					if (SoundEnabled)
 						s.play();
 				};
@@ -58,6 +63,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 			var DefenseY = 420;
 
+			#region DebugDump
 			var DebugDump = new DebugDumpTextField();
 
 			DebugDump.Field.y = DefaultHeight / 4;
@@ -78,6 +84,10 @@ namespace FlashSpaceInvaders.ActionScript
 				{
 					Menu.TextExternalLink2.htmlText = LinkPlayMoreGames;
 				};
+			#endregion
+
+			this.SendTextMessage.Direct =
+				e => DebugDump.Write(new { Message = e });
 
 			this.Statusbar = new Statusbar();
 
@@ -630,15 +640,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 
 
-		#region routed events
 
-		public readonly RoutedActionInfo<IFragileEntity, BulletInfo> AddDamage = "AddDamage";
-		public readonly RoutedActionInfo<StarShip, Point> AddEnemy = "AddEnemy";
-		public readonly RoutedActionInfo<BulletInfo> AddBullet = "AddBullet";
-		public readonly RoutedActionInfo<PlayerShip, Point> DoPlayerMovement = "DoMovement";
-		public readonly RoutedActionInfo<PlayerShip, int> SetWeaponMultiplier = "SetWeaponMultiplier";
-
-		#endregion
 
 
 		public readonly FragileEntitiesContainer FragileEntities = new FragileEntitiesContainer();

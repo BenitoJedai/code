@@ -169,7 +169,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 			KnownEnemies.ForEach(
 				(v, i) => 
-					CreateScoreInfo(v, i * 30, "  - " + v.HitPoints +  " points")
+					CreateScoreInfo(v, i * 30, "  - " + v.ScorePoints +  " points")
 			);
 
 			#endregion

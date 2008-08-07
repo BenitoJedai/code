@@ -1,0 +1,143 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using FlashSpaceInvaders.Shared;
+using ScriptCoreLib;
+using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.Nonoba.api;
+using ScriptCoreLib.ActionScript.Extensions;
+
+using FlashSpaceInvaders.ActionScript.Extensions;
+
+namespace FlashSpaceInvaders.ActionScript.MultiPlayer
+{
+	[Script]
+	public partial class NonobaClient : MyClient
+	{
+		public readonly Sprite Element = new Sprite();
+
+		public const int NonobaChatWidth = 200;
+
+		public NonobaClient()
+		{
+			Element.InvokeWhenStageIsReady(Initialize);
+		}
+
+		public static void SendMessage(Connection c, SharedClass1.Messages m, params object[] e)
+		{
+			var i = new Message(((int)m).ToString());
+
+			foreach (var z in e)
+			{
+				i.Add(z);
+			}
+
+			c.Send(i);
+		}
+
+		private void Initialize()
+		{
+			var c = NonobaAPI.MakeMultiplayer(Element.stage
+				//, "192.168.3.102"
+				//, "192.168.1.119"
+				);
+
+
+			var MyEvents = new SharedClass1.RemoteEvents();
+			var MyMessages = new SharedClass1.RemoteMessages
+			{
+				Send = e => SendMessage(c, e.i, e.args)
+			};
+
+
+
+			Events = MyEvents;
+			Messages = MyMessages;
+
+			this.InitializeEvents();
+
+			#region Dispatch
+			Func<Message, bool> Dispatch =
+			   e =>
+			   {
+				   var type = (SharedClass1.Messages)int.Parse(e.Type);
+
+				   if (MyEvents.Dispatch(type,
+						 new SharedClass1.RemoteEvents.DispatchHelper
+						 {
+							 GetLength = i => e.length,
+							 GetInt32 = e.GetInt,
+							 GetDouble = e.GetNumber,
+							 GetString = e.GetString,
+						 }
+					 ))
+					   return true;
+
+				   return false;
+			   };
+			#endregion
+
+
+			#region message
+			c.Message +=
+				e =>
+				{
+					InitializeMap();
+
+
+					var Dispatched = false;
+
+					try
+					{
+						Dispatched = Dispatch(e.message);
+					}
+					catch (Exception ex)
+					{
+						System.Console.WriteLine("error at dispatch " + e.message.Type);
+
+						throw ex;
+					}
+
+					if (Dispatched)
+						return;
+
+					System.Console.WriteLine("not on dispatch: " + e.message.Type);
+
+				};
+			#endregion
+
+			c.Disconnect +=
+				 delegate
+				 {
+				 };
+
+
+
+
+		}
+
+
+
+		bool InitializeMapDone;
+
+		public void InitializeMap()
+		{
+			if (InitializeMapDone)
+				return;
+
+			InitializeMapDone = true;
+
+			InitializeMapOnce();
+		}
+
+		public virtual void InitializeMapOnce()
+		{
+
+		}
+
+		public virtual void InitializeEvents()
+		{
+		}
+	}
+}

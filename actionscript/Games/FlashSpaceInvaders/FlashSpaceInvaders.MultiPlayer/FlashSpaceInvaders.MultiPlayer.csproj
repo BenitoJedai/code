@@ -55,13 +55,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\MultiPlayer\Client.cs" />
+    <Compile Include="ActionScript\MultiPlayer\Client.Remote.cs" />
+    <Compile Include="ActionScript\MultiPlayer\Client.Local.cs" />
+    <Compile Include="ActionScript\MultiPlayer\NonobaClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Server\NonobaGame.cs" />
+    <Compile Include="Shared\MyClient.cs" />
     <Compile Include="Shared\MyGame.cs" />
     <Compile Include="Shared\MyPlayer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FlashSpaceInvaders.Engine\FlashSpaceInvaders.Engine.csproj">
+      <Project>{54850763-92E4-4E2B-92A1-8A07D94E4B67}</Project>
+      <Name>FlashSpaceInvaders.Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashSpaceInvaders.Extensions\FlashSpaceInvaders.Extensions.csproj">
+      <Project>{E99AEB58-9564-466F-8951-12FD95BF3198}</Project>
+      <Name>FlashSpaceInvaders.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashSpaceInvaders.Game\FlashSpaceInvaders.Game.csproj">
+      <Project>{F991F9A4-7029-40AC-A730-3715F2B6218B}</Project>
+      <Name>FlashSpaceInvaders.Game</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FlashSpaceInvaders.MultiPlayer.Messages\FlashSpaceInvaders.MultiPlayer.Messages.csproj">
       <Project>{32EBF32E-3660-453A-BEBE-C038E52931FB}</Project>
       <Name>FlashSpaceInvaders.MultiPlayer.Messages</Name>
@@ -70,9 +87,6 @@
   <ItemGroup>
     <Content Include="Library\Development Server.exe" />
     <Content Include="Library\Nonoba.GameLibrary.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ActionScript\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
