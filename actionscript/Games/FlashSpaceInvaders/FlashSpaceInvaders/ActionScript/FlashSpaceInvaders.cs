@@ -61,6 +61,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 			Menu.TextExternalLink2.htmlText = LinkPlayMoreGames;
 
+			var DefenseY = 420;
 
 			var DebugDump = new DebugDumpTextField();
 
@@ -231,7 +232,7 @@ namespace FlashSpaceInvaders.ActionScript
 				var offset = DefaultWidth * (i * 2 + 1) / 8;
 
 
-				foreach (var v in DefenseBlock.CreateDefenseArray(offset, 420))
+				foreach (var v in DefenseBlock.CreateDefenseArray(offset, DefenseY))
 				{
 					v.AttachTo(CanvasOverlay);
 					v.AddTo(DefenseBlocks);
@@ -272,48 +273,115 @@ namespace FlashSpaceInvaders.ActionScript
 					};
 
 			cloud1.AttachTo(this.CanvasOverlay);
-			cloud1.TeleportTo(60, 80);
+			
 
-		
+
 
 			cloud1.TickInterval.ValueChangedTo +=
 				e => DebugDump.Write(new { TickInterval = e });
 
-			cloud1.TickInterval.Value = 1000;
 
-			var CloudMargin = 40;
-			var CloudSpeed = 4;
-			var CloudMove = new Point { x = CloudSpeed };
+
+			var CloudSpeedAcc = 1.04;
+			var CloudSpeed = 12.0;
+			var CloudMove = new Point();
+
+			Action ResetCloudLocal =
+				delegate
+				{
+					CloudMove.x = CloudSpeed;
+					CloudMove.y = 0;
+
+					cloud1.TickInterval.Value = 1000;
+					CloudSpeed = 12;
+					cloud1.TeleportTo(60, 80);
+
+				};
+			
+			ResetCloudLocal();
+
+			Action ResetCloudSoon =
+				delegate
+				{
+					cloud1.TickInterval.Value = 0;
+
+					1000.AtDelayDo(
+						delegate
+						{
+							cloud1.ResetColors();
+
+							ResetCloudLocal();
+
+							cloud1.ResetLives();
+						}
+					);
+
+				};
 
 			cloud1.Tick +=
 				delegate
 				{
 					var r = cloud1.Warzone;
 
-					if (CloudMove.y == 0)
+					if (r == null)
 					{
-						if (r.right > (DefaultWidth - CloudMargin))
-						{
-							// reached far right
+						ResetCloudSoon();
+			
+						return;
+					}
 
-							CloudMove.x = 0;
-							CloudMove.y = CloudSpeed * 3;
-						}
+					//this.graphics.clear();
+					//this.graphics.beginFill(0xffffff);
+					//this.graphics.drawRect(r.x, r.y, r.width, r.height);
+
+					DebugDump.Write(new { r.left, r.right });
+
+					if (r.bottom > Ego.GoodEgoY)
+					{
+						ResetCloudSoon();
+
+						return;
+					}
+
+					var IsFarRight = r.right >= (DefaultWidth - EnemyCloud.DefaultCloudMargin);
+
+					if (CloudMove.x < 0)
+						IsFarRight = false;
+
+					var IsFarLeft = r.left <= (EnemyCloud.DefaultCloudMargin);
+
+					if (CloudMove.x > 0)
+						IsFarLeft = false;
+
+
+					var WillStartVerticalMovement = IsFarLeft || IsFarRight;
+
+
+					if (WillStartVerticalMovement && CloudMove.y == 0)
+					{
+
+
+						CloudMove.x = 0;
+						CloudMove.y = 8 ;
+
+						CloudSpeed *= CloudSpeedAcc;
 					}
 					else
 					{
-						if (CloudMove.y > 0)
-						{
-							CloudMove.y -= CloudSpeed / 2;
-						}
-						else
+						CloudMove.y -= CloudSpeed / 2;
+
+						if (CloudMove.y <= 0)
 						{
 							CloudMove.y = 0;
-							CloudMove.x = -CloudSpeed;
+
+							if (IsFarLeft)
+								CloudMove.x = CloudSpeed;
+							else if (IsFarRight)
+								CloudMove.x = -CloudSpeed;
 						}
 					}
 
-					//DebugDump.Write(new { r.left, r.top, r.right, r.bottom });
+					DebugDump.Write(new { CloudMove.x, CloudMove.y });
 
 					cloud1.MoveToOffset(CloudMove);
 
@@ -405,6 +473,7 @@ namespace FlashSpaceInvaders.ActionScript
 						{
 
 							cloud1.TickInterval.Value = (cloud1.TickInterval.Value - 50).Max(200);
+							CloudSpeed *= CloudSpeedAcc;
 
 						}
 

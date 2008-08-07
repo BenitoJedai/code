@@ -67,7 +67,7 @@ namespace FlashSpaceInvaders.ActionScript.FragileEntities
 					var k = n.Element.ToPoint();
 
 
-					if ((k - p).length > 1)
+					if ((k - p).length > 2)
 					{
 						// only check for hit on each moved one pixel
 
