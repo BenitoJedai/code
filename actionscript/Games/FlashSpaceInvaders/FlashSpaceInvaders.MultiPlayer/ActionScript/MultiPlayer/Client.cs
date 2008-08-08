@@ -13,9 +13,9 @@ using ScriptCoreLib.ActionScript.flash.display;
 namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 {
 	[Script]
-	public partial class Client : NonobaClient
+	public partial class Client : MyClient
 	{
-		public const int DefaultWidth = Game.DefaultWidth + NonobaChatWidth;
+		public readonly Sprite Element = new Sprite();
 
 
 		public Client() 

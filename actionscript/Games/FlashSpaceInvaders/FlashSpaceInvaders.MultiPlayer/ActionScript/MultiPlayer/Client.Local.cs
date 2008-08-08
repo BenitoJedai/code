@@ -17,13 +17,14 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 		GameRoutedActions MapRoutedActions;
 		GameSharedState MapSharedState;
 
-		public override void InitializeMapOnce()
+
+		public void InitializeMapOnce()
 		{
 			var n = new Game().AttachTo(Element);
 
 			this.MapRoutedActions = n.RoutedActions;
 			this.MapSharedState = n.SharedState;
-			
+
 			#region MouseMove
 			var MyColor = (uint)0xffffff.Random();
 
