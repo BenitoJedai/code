@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\GameSharedState.cs" />
     <Compile Include="ActionScript\GameRoutedActions.cs" />
     <Compile Include="ActionScript\Game.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

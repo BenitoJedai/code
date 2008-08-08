@@ -13,7 +13,6 @@ namespace FlashSpaceInvaders.ActionScript
 	{
 		RoutedActionInfo<IFragileEntity, BulletInfo> AddDamage { get; }
 		RoutedActionInfo<StarShip, Point> AddEnemy { get; }
-		RoutedActionInfo<BulletInfo> AddBullet { get; }
 
 
 		RoutedActionInfo<PlayerShip, Point> DoPlayerMovement { get; }
@@ -21,9 +20,10 @@ namespace FlashSpaceInvaders.ActionScript
 
 		RoutedActionInfo<string> SendTextMessage { get; }
 
-		RoutedActionInfo<Action<PlayerShip>> CreateCoPlayer { get; }
+		RoutedActionInfo<int, Action<PlayerShip>> CreateCoPlayer { get; }
 		RoutedActionInfo<PlayerShip, Point> MoveCoPlayer { get; }
 
+		RoutedActionInfo<StarShip, int, Point, Point, double, Action<BulletInfo>> FireBullet { get; }
 	}
 
 	partial class Game : IGameRoutedActions
@@ -32,13 +32,14 @@ namespace FlashSpaceInvaders.ActionScript
 		{
 			this.AddDamage = "AddDamage";
 			this.AddEnemy = "AddEnemy";
-			this.AddBullet = "AddBullet";
 			this.DoPlayerMovement = "DoPlayerMovement";
 			this.SetWeaponMultiplier = "SetWeaponMultiplier";
 			this.SendTextMessage = "SendTextMessage";
 
 			this.CreateCoPlayer = "CreateCoPlayer";
 			this.MoveCoPlayer = "MoveCoPlayer";
+
+			this.FireBullet = "FireBullet";
 		}
 
 		#region routed events
@@ -47,13 +48,14 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public RoutedActionInfo<IFragileEntity, BulletInfo> AddDamage { get; set; }
 		public RoutedActionInfo<StarShip, Point> AddEnemy { get; set; }
-		public RoutedActionInfo<BulletInfo> AddBullet { get; set; }
 		public RoutedActionInfo<PlayerShip, Point> DoPlayerMovement { get; set; }
 		public RoutedActionInfo<PlayerShip, int> SetWeaponMultiplier { get; set; }
 		public RoutedActionInfo<string> SendTextMessage { get; set; }
 
-		public RoutedActionInfo<Action<PlayerShip>> CreateCoPlayer { get; set; }
+		public RoutedActionInfo<int, Action<PlayerShip>> CreateCoPlayer { get; set; }
 		public RoutedActionInfo<PlayerShip, Point> MoveCoPlayer { get; set; }
+
+		public RoutedActionInfo<StarShip, int, Point, Point, double, Action<BulletInfo>> FireBullet { get; set; }
 
 		#endregion
 	}

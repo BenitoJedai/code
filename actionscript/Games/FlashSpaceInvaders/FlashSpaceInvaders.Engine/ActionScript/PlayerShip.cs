@@ -26,6 +26,8 @@ namespace FlashSpaceInvaders.ActionScript
 		public readonly int DefaultWidth;
 		public readonly int DefaultHeight;
 
+		public readonly BooleanProperty GodMode = false;
+
 		public PlayerShip AddTo(List<IFragileEntity> c)
 		{
 			GoodEgo.AddTo(c);
@@ -53,7 +55,8 @@ namespace FlashSpaceInvaders.ActionScript
 			this.EvilMode = new BooleanProperty();
 
 
-
+			this.GodMode.LinkTo(this.GoodEgo.GodMode);
+			this.GodMode.LinkTo(this.EvilEgo.GodMode);
 
 
 
@@ -120,9 +123,9 @@ namespace FlashSpaceInvaders.ActionScript
 		public BulletInfo FireBullet()
 		{
 			if (EvilMode)
-				return ActiveEgo.FireBullet(CurrentBulletMultiplier, new Point(EvilEgo.x, EvilEgo.y), new Point(EvilEgo.x, DefaultHeight), GoodEgoY);
+				return ActiveEgo.FireBulletChained(CurrentBulletMultiplier, new Point(EvilEgo.x, EvilEgo.y), new Point(EvilEgo.x, DefaultHeight), GoodEgoY);
 			else
-				return ActiveEgo.FireBullet(CurrentBulletMultiplier, new Point(GoodEgo.x, GoodEgo.y), new Point(GoodEgo.x, 0), EvilEgoY);
+				return ActiveEgo.FireBulletChained(CurrentBulletMultiplier, new Point(GoodEgo.x, GoodEgo.y), new Point(GoodEgo.x, 0), EvilEgoY);
 
 		}
 

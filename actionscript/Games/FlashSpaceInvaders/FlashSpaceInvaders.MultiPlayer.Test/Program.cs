@@ -51,7 +51,7 @@ namespace FlashSpaceInvaders.MultiPlayer.Test
 									);
 								};
 
-							x.FormClosing +=
+							x.FormClosed +=
 								delegate
 								{
 									p.Kill();

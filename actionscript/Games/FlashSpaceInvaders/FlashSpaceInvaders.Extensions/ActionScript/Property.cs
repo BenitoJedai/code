@@ -50,6 +50,10 @@ namespace FlashSpaceInvaders.ActionScript
 				};
 		}
 
+		public static implicit operator Action<T>(Property<T> e)
+		{
+			return value => e.Value = value;
+		}
 
 	}
 }

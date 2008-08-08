@@ -265,7 +265,7 @@ namespace jsc.Script
         }
 
 
-        RecursionGuard EmitGuard = new RecursionGuard(16);
+        RecursionGuard EmitGuard = new RecursionGuard(32);
 
         public void Emit(ILBlock.Prestatement p, ILFlow.StackItem s)
         {

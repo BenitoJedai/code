@@ -85,7 +85,7 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 			  {
 				  //CreateRemoteEgo(e.user, e.name);
 
-				  Map.CreateCoPlayer.Direct(r => CoPlayers[e.user] = r);
+				  Map.CreateCoPlayer.Direct(e.user, r => CoPlayers[e.user] = r);
 
 				  Map.SendTextMessage.Direct("Player joined - " + e.name);
 
@@ -108,7 +108,7 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 					if (CoPlayers.ContainsKey(e.user))
 						return;
 
-					Map.CreateCoPlayer.Direct(r => CoPlayers[e.user] = r);
+					Map.CreateCoPlayer.Direct(e.user, r => CoPlayers[e.user] = r);
 
 					Map.SendTextMessage.Direct("Player here - " + e.name);
 				};
@@ -127,6 +127,26 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 
 			#endregion
 
+			Events.UserFireBullet +=
+				e =>
+				{
+					// ding ding
+					// which starship?
+
+					var starship = this.MapSharedState[e.user, e.starship] as StarShip;
+
+					if (starship == null)
+						throw new Exception("MapSharedState does not have a starship at offset " + e.starship + " for user " + e.user);
+
+					Map.FireBullet.Direct(
+						starship,
+						e.multiplier,
+						new Point(e.from_x, e.from_y),
+						new Point(e.to_x, e.to_y),
+						e.limit,
+						null
+					);
+				};
 		}
 	}
 }
