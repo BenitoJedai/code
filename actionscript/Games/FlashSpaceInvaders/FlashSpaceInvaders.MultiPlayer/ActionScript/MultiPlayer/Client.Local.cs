@@ -39,6 +39,14 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 
 			#endregion
 
+			Map.DoPlayerMovement.Handler +=
+				(ego, p) =>
+				{
+					// ego should be const
+
+					// ego has moved
+					Messages.VectorChanged((int)p.x, (int)p.y);
+				};
 			// hook on map events
 		}
 	}

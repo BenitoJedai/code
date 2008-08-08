@@ -7,6 +7,7 @@ using FlashSpaceInvaders.Shared;
 using ScriptCoreLib.ActionScript.Nonoba.api;
 using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 {
@@ -15,6 +16,7 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 		SharedClass1.RemoteEvents.ServerPlayerHelloArguments MyIdentity;
 
 		readonly Dictionary<int, SpriteWithMovement> Cursors = new Dictionary<int, SpriteWithMovement>();
+		readonly Dictionary<int, PlayerShip> CoPlayers = new Dictionary<int, PlayerShip>();
 
 
 		public override void InitializeEvents()
@@ -75,6 +77,56 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 				   }
 			   };
 			#endregion
+
+			#region Create and Move Players
+
+			Events.ServerPlayerJoined +=
+			  e =>
+			  {
+				  //CreateRemoteEgo(e.user, e.name);
+
+				  Map.CreateCoPlayer.Direct(r => CoPlayers[e.user] = r);
+
+				  Map.SendTextMessage.Direct("Player joined - " + e.name);
+
+				  Messages.PlayerAdvertise(MyIdentity.name);
+
+
+				  //Messages.TeleportTo((int)Map.Ego.Location.x, (int)Map.Ego.Location.y);
+
+				  //for (int i = 1; i < Map.Ego.Parts.Count; i++)
+				  //{
+				  //    // there is no apple, but we just need to gain in size
+				  //    Messages.EatApple((int)Map.Ego.Location.x, (int)Map.Ego.Location.y);
+				  //}
+			  };
+
+			Events.UserPlayerAdvertise +=
+				e =>
+				{
+					// if we already know about the player then we dont care
+					if (CoPlayers.ContainsKey(e.user))
+						return;
+
+					Map.CreateCoPlayer.Direct(r => CoPlayers[e.user] = r);
+
+					Map.SendTextMessage.Direct("Player here - " + e.name);
+				};
+
+			Events.UserVectorChanged +=
+				e =>
+				{
+					// do we know about this player?
+
+					if (!CoPlayers.ContainsKey(e.user))
+						return;
+
+					Map.MoveCoPlayer.Direct(CoPlayers[e.user], new Point(e.x, e.y));
+				};
+
+
+			#endregion
+
 		}
 	}
 }

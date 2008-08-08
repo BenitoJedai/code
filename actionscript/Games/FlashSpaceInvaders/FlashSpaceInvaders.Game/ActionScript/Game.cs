@@ -331,6 +331,38 @@ namespace FlashSpaceInvaders.ActionScript
 			//cp2.AddTo(FragileEntities);
 			Ego.AddTo(FragileEntities);
 
+			#region Create and Move CoPlayer
+
+			this.CreateCoPlayer.Direct =
+				handler =>
+				{
+					var cp1 = new PlayerShip(DefaultWidth, DefaultHeight)
+						{
+							Name = "CoPlayer"
+						}.AddTo(CoPlayers);
+
+					cp1.GoodEgo.AttachTo(CanvasOverlay);
+					cp1.EvilEgo.AttachTo(CanvasOverlay);
+
+					cp1.AddTo(FragileEntities);
+
+					handler(cp1);
+
+					// this entity only moves when that player wants to move...
+
+					// yet we might need to notify of damage
+				};
+
+			this.MoveCoPlayer.Direct =
+				(ego, p) =>
+				{
+					ego.GoodEgo.TweenMoveTo(p.x, p.y);
+				};
+
+			#endregion
+
+
+
 			#region AddEnemy
 			this.AddEnemy.Direct +=
 				(e, p) =>
