@@ -31,6 +31,8 @@ namespace FlashSpaceInvaders.Shared
             UserVectorChanged,
             FireBullet,
             UserFireBullet,
+            RestoreStarship,
+            UserRestoreStarship,
             TeleportTo,
             UserTeleportTo,
             EatApple,
@@ -84,6 +86,8 @@ namespace FlashSpaceInvaders.Shared
             event Action<RemoteEvents.UserVectorChangedArguments> UserVectorChanged;
             event Action<RemoteEvents.FireBulletArguments> FireBullet;
             event Action<RemoteEvents.UserFireBulletArguments> UserFireBullet;
+            event Action<RemoteEvents.RestoreStarshipArguments> RestoreStarship;
+            event Action<RemoteEvents.UserRestoreStarshipArguments> UserRestoreStarship;
             event Action<RemoteEvents.TeleportToArguments> TeleportTo;
             event Action<RemoteEvents.UserTeleportToArguments> UserTeleportTo;
             event Action<RemoteEvents.EatAppleArguments> EatApple;
@@ -178,6 +182,14 @@ namespace FlashSpaceInvaders.Shared
             public void UserFireBullet(int user, int starship, int multiplier, int from_x, int from_y, int to_x, int to_y, int limit)
             {
                 Send(new SendArguments { i = Messages.UserFireBullet, args = new object[] { user, starship, multiplier, from_x, from_y, to_x, to_y, limit } });
+            }
+            public void RestoreStarship(int starship)
+            {
+                Send(new SendArguments { i = Messages.RestoreStarship, args = new object[] { starship } });
+            }
+            public void UserRestoreStarship(int user, int starship)
+            {
+                Send(new SendArguments { i = Messages.UserRestoreStarship, args = new object[] { user, starship } });
             }
             public void TeleportTo(int x, int y)
             {
@@ -351,6 +363,10 @@ namespace FlashSpaceInvaders.Shared
                 public void UserFireBullet(FireBulletArguments e)
                 {
                     Target.UserFireBullet(this.user, e.starship, e.multiplier, e.from_x, e.from_y, e.to_x, e.to_y, e.limit);
+                }
+                public void UserRestoreStarship(RestoreStarshipArguments e)
+                {
+                    Target.UserRestoreStarship(this.user, e.starship);
                 }
                 public void UserTeleportTo(TeleportToArguments e)
                 {
@@ -594,6 +610,34 @@ namespace FlashSpaceInvaders.Shared
             }
             #endregion
             public event Action<UserFireBulletArguments> UserFireBullet;
+            #region RestoreStarshipArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class RestoreStarshipArguments
+            {
+                public int starship;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ starship = ").Append(this.starship).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<RestoreStarshipArguments> RestoreStarship;
+            #region UserRestoreStarshipArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserRestoreStarshipArguments : WithUserArguments
+            {
+                public int starship;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", starship = ").Append(this.starship).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserRestoreStarshipArguments> UserRestoreStarship;
             #region TeleportToArguments
             [Script]
             [CompilerGenerated]
@@ -960,6 +1004,8 @@ namespace FlashSpaceInvaders.Shared
                             { Messages.UserVectorChanged, e => { UserVectorChanged(new UserVectorChangedArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
                             { Messages.FireBullet, e => { FireBullet(new FireBulletArguments { starship = e.GetInt32(0), multiplier = e.GetInt32(1), from_x = e.GetInt32(2), from_y = e.GetInt32(3), to_x = e.GetInt32(4), to_y = e.GetInt32(5), limit = e.GetInt32(6) }); } },
                             { Messages.UserFireBullet, e => { UserFireBullet(new UserFireBulletArguments { user = e.GetInt32(0), starship = e.GetInt32(1), multiplier = e.GetInt32(2), from_x = e.GetInt32(3), from_y = e.GetInt32(4), to_x = e.GetInt32(5), to_y = e.GetInt32(6), limit = e.GetInt32(7) }); } },
+                            { Messages.RestoreStarship, e => { RestoreStarship(new RestoreStarshipArguments { starship = e.GetInt32(0) }); } },
+                            { Messages.UserRestoreStarship, e => { UserRestoreStarship(new UserRestoreStarshipArguments { user = e.GetInt32(0), starship = e.GetInt32(1) }); } },
                             { Messages.TeleportTo, e => { TeleportTo(new TeleportToArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
                             { Messages.UserTeleportTo, e => { UserTeleportTo(new UserTeleportToArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
                             { Messages.EatApple, e => { EatApple(new EatAppleArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
@@ -1002,6 +1048,8 @@ namespace FlashSpaceInvaders.Shared
                             { Messages.UserVectorChanged, e => UserVectorChanged },
                             { Messages.FireBullet, e => FireBullet },
                             { Messages.UserFireBullet, e => UserFireBullet },
+                            { Messages.RestoreStarship, e => RestoreStarship },
+                            { Messages.UserRestoreStarship, e => UserRestoreStarship },
                             { Messages.TeleportTo, e => TeleportTo },
                             { Messages.UserTeleportTo, e => UserTeleportTo },
                             { Messages.EatApple, e => EatApple },
@@ -1048,6 +1096,7 @@ namespace FlashSpaceInvaders.Shared
                         this.MouseOut -= _Router.UserMouseOut;
                         this.VectorChanged -= _Router.UserVectorChanged;
                         this.FireBullet -= _Router.UserFireBullet;
+                        this.RestoreStarship -= _Router.UserRestoreStarship;
                         this.TeleportTo -= _Router.UserTeleportTo;
                         this.EatApple -= _Router.UserEatApple;
                         this.EatThisWormBegin -= _Router.UserEatThisWormBegin;
@@ -1066,6 +1115,7 @@ namespace FlashSpaceInvaders.Shared
                         this.MouseOut += _Router.UserMouseOut;
                         this.VectorChanged += _Router.UserVectorChanged;
                         this.FireBullet += _Router.UserFireBullet;
+                        this.RestoreStarship += _Router.UserRestoreStarship;
                         this.TeleportTo += _Router.UserTeleportTo;
                         this.EatApple += _Router.UserEatApple;
                         this.EatThisWormBegin += _Router.UserEatThisWormBegin;
@@ -1174,6 +1224,20 @@ namespace FlashSpaceInvaders.Shared
             {
                 if(UserFireBullet == null) return;
                 UserFireBullet(new RemoteEvents.UserFireBulletArguments { user = user, starship = starship, multiplier = multiplier, from_x = from_x, from_y = from_y, to_x = to_x, to_y = to_y, limit = limit });
+            }
+
+            public event Action<RemoteEvents.RestoreStarshipArguments> RestoreStarship;
+            void IMessages.RestoreStarship(int starship)
+            {
+                if(RestoreStarship == null) return;
+                RestoreStarship(new RemoteEvents.RestoreStarshipArguments { starship = starship });
+            }
+
+            public event Action<RemoteEvents.UserRestoreStarshipArguments> UserRestoreStarship;
+            void IMessages.UserRestoreStarship(int user, int starship)
+            {
+                if(UserRestoreStarship == null) return;
+                UserRestoreStarship(new RemoteEvents.UserRestoreStarshipArguments { user = user, starship = starship });
             }
 
             public event Action<RemoteEvents.TeleportToArguments> TeleportTo;
@@ -1356,4 +1420,4 @@ namespace FlashSpaceInvaders.Shared
     }
     #endregion
 }
-// 8.08.2008 10:25:37
+// 8.08.2008 11:28:01

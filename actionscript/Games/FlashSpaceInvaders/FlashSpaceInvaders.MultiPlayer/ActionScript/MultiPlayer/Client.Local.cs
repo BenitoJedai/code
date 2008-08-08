@@ -14,14 +14,14 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 {
 	partial class Client
 	{
-		IGameRoutedActions Map;
+		GameRoutedActions MapRoutedActions;
 		GameSharedState MapSharedState;
 
 		public override void InitializeMapOnce()
 		{
 			var n = new Game().AttachTo(Element);
 
-			this.Map = n;
+			this.MapRoutedActions = n.RoutedActions;
 			this.MapSharedState = n.SharedState;
 			
 			#region MouseMove
@@ -43,7 +43,7 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 
 			#endregion
 
-			Map.DoPlayerMovement.Handler +=
+			MapRoutedActions.DoPlayerMovement.Handler +=
 				(ego, p) =>
 				{
 					// ego should be const
@@ -52,7 +52,22 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 					Messages.VectorChanged((int)p.x, (int)p.y);
 				};
 
-			Map.FireBullet.Handler +=
+			MapRoutedActions.RestoreStarship.Handler +=
+				s =>
+				{
+					var starship = this.MapSharedState[s];
+
+					// must be local id
+
+					if (starship >= GameSharedState.MaxObjectsPerSection)
+						throw new Exception("RestoreStarship must be local starship");
+
+					// MapRoutedActions.SendTextMessage.Direct("send RestoreStarship " + starship);
+
+					Messages.RestoreStarship(starship);
+				};
+
+			MapRoutedActions.FireBullet.Handler +=
 				(StarShip s, int Multiplier, Point From, Point To, double Limit, Action<BulletInfo> handler) =>
 				{
 					// serialize arguments

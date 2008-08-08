@@ -6,6 +6,8 @@ using ScriptCoreLib;
 using FlashSpaceInvaders.ActionScript.FragileEntities;
 using ScriptCoreLib.ActionScript.flash.geom;
 
+using FlashSpaceInvaders.ActionScript.Extensions;
+
 namespace FlashSpaceInvaders.ActionScript
 {
 	[Script]
@@ -34,8 +36,10 @@ namespace FlashSpaceInvaders.ActionScript
 			{
 				var i = this.LocalObjects.IndexOf(e);
 
-				if (i == -1)
-					i = this.SharedObjects.IndexOf(e);
+				if (i != -1)
+					return i;
+
+				i = this.SharedObjects.IndexOf(e);
 
 				if (i == -1)
 					throw new Exception("This object is not known shared state");
@@ -44,17 +48,18 @@ namespace FlashSpaceInvaders.ActionScript
 			}
 		}
 
-		public object this[int user, int i]
+		public ParentRelation<object, object> this[int user, int i]
 		{
 			get
 			{
 				if (i == -1)
 					return null;
 
+				// 0..999 are not shared objects
 				if (i < MaxObjectsPerSection)
-					return this.RemoteObjects[user][i];
+					return this.RemoteObjects[user][i].WithParent<object, object>(this.RemoteObjects);
 
-				return this.SharedObjects[i - MaxObjectsPerSection];
+				return this.SharedObjects[i - MaxObjectsPerSection].WithParent<object, object>(this.SharedObjects);
 			}
 		}
 

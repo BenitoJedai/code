@@ -53,7 +53,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 
 			var DebugDumpQueue = new Queue<string>();
-			Action DebugDumpUpdate =
+			this.DebugDumpUpdate =
 				delegate
 				{
 					if (TextInfo.parent == null)
@@ -99,6 +99,8 @@ namespace FlashSpaceInvaders.ActionScript
 
 
 		}
+
+		public readonly Action DebugDumpUpdate;
 
 		public readonly Action<object> Write;
 

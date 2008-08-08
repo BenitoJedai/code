@@ -14,8 +14,9 @@ namespace FlashSpaceInvaders.ActionScript
 	[Script]
 	public class PlayerInput
 	{
-		public readonly KeyboardButtonGroup MovementWASD;
-		public readonly KeyboardButtonGroup MovementArrows;
+		public readonly KeyboardButtonGroup Cheats = "Name";
+		public readonly KeyboardButtonGroup MovementWASD = "WASD";
+		public readonly KeyboardButtonGroup MovementArrows = "Arrows";
 
 		public Action StepLeft;
 		public Action StepLeftEnd;
@@ -32,8 +33,6 @@ namespace FlashSpaceInvaders.ActionScript
 		public PlayerInput(Stage stage, PlayerShip Ego, DisplayObject Owner)
 		{
 
-			MovementWASD = new KeyboardButtonGroup { Name = "WASD" };
-			MovementArrows = new KeyboardButtonGroup { Name = "Arrows" };
 
 
 			#region Ego Movement
