@@ -37,6 +37,12 @@ namespace FlashSpaceInvaders.ActionScript
 	[Script]
 	public class KeyboardButtonGroup
 	{
+		public static implicit operator KeyboardButtonGroup(string Name)
+		{
+			return new KeyboardButtonGroup { Name = Name };
+		}
+
+
 		public string Name;
 		public bool Enabled;
 

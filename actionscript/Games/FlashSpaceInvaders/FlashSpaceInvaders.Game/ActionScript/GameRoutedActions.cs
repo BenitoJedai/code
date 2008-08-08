@@ -9,54 +9,31 @@ using ScriptCoreLib.ActionScript.flash.geom;
 namespace FlashSpaceInvaders.ActionScript
 {
 	[Script]
-	public partial interface IGameRoutedActions
+	public class GameRoutedActions
 	{
-		RoutedActionInfo<IFragileEntity, BulletInfo> AddDamage { get; }
-		RoutedActionInfo<StarShip, Point> AddEnemy { get; }
+		internal RoutedActionInfo<StarShip, Point> AddEnemy = "AddEnemy";
 
 
-		RoutedActionInfo<PlayerShip, Point> DoPlayerMovement { get; }
-		RoutedActionInfo<PlayerShip, int> SetWeaponMultiplier { get; }
+		public RoutedActionInfo<IFragileEntity, BulletInfo> AddDamage = "AddDamage";
+		public RoutedActionInfo<PlayerShip, Point> DoPlayerMovement = "DoPlayerMovement";
+		public RoutedActionInfo<PlayerShip, int> SetWeaponMultiplier = "SetWeaponMultiplier";
+		public RoutedActionInfo<string> SendTextMessage = "SendTextMessage";
 
-		RoutedActionInfo<string> SendTextMessage { get; }
+		public RoutedActionInfo<int, Action<PlayerShip>> CreateCoPlayer = "CreateCoPlayer";
+		public RoutedActionInfo<PlayerShip, Point> MoveCoPlayer = "MoveCoPlayer";
 
-		RoutedActionInfo<int, Action<PlayerShip>> CreateCoPlayer { get; }
-		RoutedActionInfo<PlayerShip, Point> MoveCoPlayer { get; }
+		public RoutedActionInfo<StarShip, int, Point, Point, double, Action<BulletInfo>> FireBullet = "FireBullet";
+		public RoutedActionInfo<StarShip> RestoreStarship = "RestoreStarship";
 
-		RoutedActionInfo<StarShip, int, Point, Point, double, Action<BulletInfo>> FireBullet { get; }
 	}
 
-	partial class Game : IGameRoutedActions
+	partial class Game 
 	{
 		void InitializeRoutedActions()
 		{
-			this.AddDamage = "AddDamage";
-			this.AddEnemy = "AddEnemy";
-			this.DoPlayerMovement = "DoPlayerMovement";
-			this.SetWeaponMultiplier = "SetWeaponMultiplier";
-			this.SendTextMessage = "SendTextMessage";
 
-			this.CreateCoPlayer = "CreateCoPlayer";
-			this.MoveCoPlayer = "MoveCoPlayer";
-
-			this.FireBullet = "FireBullet";
 		}
 
-		#region routed events
-
-		// gee... yet again.. mxmlc cannot handle properties with different modifiers
-
-		public RoutedActionInfo<IFragileEntity, BulletInfo> AddDamage { get; set; }
-		public RoutedActionInfo<StarShip, Point> AddEnemy { get; set; }
-		public RoutedActionInfo<PlayerShip, Point> DoPlayerMovement { get; set; }
-		public RoutedActionInfo<PlayerShip, int> SetWeaponMultiplier { get; set; }
-		public RoutedActionInfo<string> SendTextMessage { get; set; }
-
-		public RoutedActionInfo<int, Action<PlayerShip>> CreateCoPlayer { get; set; }
-		public RoutedActionInfo<PlayerShip, Point> MoveCoPlayer { get; set; }
-
-		public RoutedActionInfo<StarShip, int, Point, Point, double, Action<BulletInfo>> FireBullet { get; set; }
-
-		#endregion
+		public readonly GameRoutedActions RoutedActions = new GameRoutedActions();
 	}
 }

@@ -78,6 +78,7 @@ namespace FlashSpaceInvaders.ActionScript
 				{
 					Menu.TextExternalLink2.htmlText = LinkPoweredByJSC;
 					DebugDump.Field.AttachToBefore(BorderOverlay);
+					DebugDump.DebugDumpUpdate();
 				};
 
 			DebugDump.Visible.ValueChangedToFalse +=
@@ -87,7 +88,7 @@ namespace FlashSpaceInvaders.ActionScript
 				};
 			#endregion
 
-			this.SendTextMessage.Direct =
+			RoutedActions.SendTextMessage.Direct =
 				e => DebugDump.Write(new { Message = e });
 
 			this.Statusbar = new Statusbar();
@@ -98,6 +99,7 @@ namespace FlashSpaceInvaders.ActionScript
 			Statusbar.Element.AttachTo(InfoOverlay);
 
 			var MenuFader = new DualFader { Value = Menu };
+
 
 			#region common keys
 			this.InvokeWhenStageIsReady(
@@ -159,53 +161,21 @@ namespace FlashSpaceInvaders.ActionScript
 				GodMode => DebugDump.Write(new { GodMode });
 
 			MenuFader.ValueChangedTo += e => this.Ego.GodMode.Value = e == Menu;
-			
+
 			this.Ego.GodMode.Value = true;
 
+			var input = default(PlayerInput);
 
-			#region input
-			this.DoPlayerMovement.Direct +=
-				(e, p) =>
-				{
-					e.GoodEgo.MoveToTarget.Value = p;
-				};
 
-			Action<double, double> DoEgoPlayerMovement =
-				(arc, length) =>
-					 this.DoPlayerMovement.Chained(Ego, Ego.GoodEgo.ToPoint().MoveToArc(arc, Ego.GoodEgo.MaxStep * length));
 
-			this.InvokeWhenStageIsReady(
-				delegate
-				{
-
-					var input = new PlayerInput(stage, Ego, this)
-					{
-						StepLeft = () => DoEgoPlayerMovement(Math.PI, 2),
-						StepLeftEnd = () => DoEgoPlayerMovement(Math.PI, 0.5),
-
-						StepRight = () => DoEgoPlayerMovement(0, 2),
-						StepRightEnd = () => DoEgoPlayerMovement(0, 0.5),
-
-						FireBullet = () => Ego.FireBullet(),
-
-						SmartMoveTo = (x, y) =>
-							this.DoPlayerMovement.Chained(Ego, new Point(Ego.Wrapper(x, y), Ego.GoodEgoY))
-
-					};
-
-					input.Enabled.ValueChangedTo +=
-						InputEnabled =>
-						{
-							DebugDump.Write(new { InputEnabled });
-
-						};
-
-					this.Ego.GoodEgo.IsAlive.ValueChangedToFalse +=
+			#region lives and gameover
+			this.Ego.GoodEgo.IsAlive.ValueChangedToFalse +=
 						delegate
 						{
 							this.ApplyFilter(Filters.GrayScaleFilter);
 
-							input.Enabled.Value = false;
+							if (input != null)
+								input.Enabled.Value = false;
 
 							Statusbar.Lives.Value--;
 
@@ -214,11 +184,12 @@ namespace FlashSpaceInvaders.ActionScript
 								3000.AtDelayDo(
 									delegate
 									{
-										this.Ego.GoodEgo.alpha = 1;
+										this.RoutedActions.RestoreStarship.Chained(this.Ego.GoodEgo);
 
 										this.filters = null;
 
-										input.Enabled.Value = true;
+										if (input != null)
+											input.Enabled.Value = true;
 
 										play(Sounds.insertcoin);
 									}
@@ -233,11 +204,64 @@ namespace FlashSpaceInvaders.ActionScript
 
 							}
 						};
+			#endregion
+
+
+			#region input
+			RoutedActions.DoPlayerMovement.Direct +=
+				(e, p) =>
+				{
+					e.GoodEgo.MoveToTarget.Value = p;
+				};
+
+			Action<double, double> DoEgoPlayerMovement =
+				(arc, length) =>
+					 RoutedActions.DoPlayerMovement.Chained(Ego, Ego.GoodEgo.ToPoint().MoveToArc(arc, Ego.GoodEgo.MaxStep * length));
+
+			this.RoutedActions.RestoreStarship.Direct =
+				s =>
+				{
+					DebugDump.Write("restore starship: " + s.Name);
+
+					s.alpha = 1;
+				};
+
+			this.InvokeWhenStageIsReady(
+				delegate
+				{
+
+					input = new PlayerInput(stage, Ego, this)
+					{
+						StepLeft = () => DoEgoPlayerMovement(Math.PI, 2),
+						StepLeftEnd = () => DoEgoPlayerMovement(Math.PI, 0.5),
+
+						StepRight = () => DoEgoPlayerMovement(0, 2),
+						StepRightEnd = () => DoEgoPlayerMovement(0, 0.5),
+
+						FireBullet = () => Ego.FireBullet(),
+
+						SmartMoveTo = (x, y) =>
+							RoutedActions.DoPlayerMovement.Chained(Ego, new Point(Ego.Wrapper(x, y), Ego.GoodEgoY))
+
+					};
+
+					input.Enabled.ValueChangedTo +=
+						InputEnabled =>
+						{
+							DebugDump.Write(new { InputEnabled });
+
+						};
+
+
 				}
 			);
 			#endregion
 
-			this.ComputerEnemies.Add(this.Ego.EvilEgo);
+			this.GroupEnemies.Add(this.Ego.EvilEgo);
+
+			// hide menu for fast start
+			MenuFader.Value = CanvasOverlay;
+
 
 			const int ClipMargin = 20;
 
@@ -300,10 +324,10 @@ namespace FlashSpaceInvaders.ActionScript
 				};
 			#endregion
 
-			this.Ego.GoodEgo.FireBullet = this.FireBullet;
+			this.Ego.GoodEgo.FireBullet = RoutedActions.FireBullet;
 			this.Ego.GoodEgo.AttachTo(CanvasOverlay);
 
-			this.Ego.EvilEgo.FireBullet = this.FireBullet;
+			this.Ego.EvilEgo.FireBullet = RoutedActions.FireBullet;
 			this.Ego.EvilEgo.AttachTo(CanvasOverlay);
 
 			#region  build shared defense buildings
@@ -321,12 +345,12 @@ namespace FlashSpaceInvaders.ActionScript
 			}
 			#endregion
 
-		
+
 			Ego.AddTo(FragileEntities);
 
 			#region Create and Move CoPlayer
 
-			this.CreateCoPlayer.Direct =
+			RoutedActions.CreateCoPlayer.Direct =
 				(user, handler) =>
 				{
 					var cp1 = new PlayerShip(DefaultWidth, DefaultHeight)
@@ -342,7 +366,7 @@ namespace FlashSpaceInvaders.ActionScript
 					cp1.EvilEgo.AddTo(this.SharedState.RemoteObjects[user]);
 
 					// group as enemies
-					cp1.EvilEgo.AddTo(this.ComputerEnemies);
+					cp1.EvilEgo.AddTo(this.GroupEnemies);
 
 					cp1.AddTo(FragileEntities);
 
@@ -353,7 +377,7 @@ namespace FlashSpaceInvaders.ActionScript
 					// yet we might need to notify of damage
 				};
 
-			this.MoveCoPlayer.Direct =
+			RoutedActions.MoveCoPlayer.Direct =
 				(ego, p) =>
 				{
 					ego.GoodEgo.TweenMoveTo(p.x, p.y);
@@ -364,7 +388,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 
 			#region AddEnemy
-			this.AddEnemy.Direct +=
+			RoutedActions.AddEnemy.Direct +=
 				(e, p) =>
 				{
 					e.Name = "Enemy";
@@ -372,7 +396,7 @@ namespace FlashSpaceInvaders.ActionScript
 					e.TeleportTo(p.x, p.y)
 					.AttachTo(CanvasOverlay)
 					.AddTo(FragileEntities.Items)
-					.AddTo(ComputerEnemies);
+					.AddTo(GroupEnemies);
 				};
 			#endregion
 
@@ -386,9 +410,12 @@ namespace FlashSpaceInvaders.ActionScript
 				m =>
 				{
 					// if a cloud member fires, it will go across network...
-					m.Element.FireBullet = this.FireBullet;
+					m.Element.FireBullet = RoutedActions.FireBullet;
 
 					this.SharedState.SharedObjects.Add(m.Element);
+
+					// we are adding enemies over network - but they actually are shared objects
+					RoutedActions.AddEnemy.Chained(m.Element, m.Element.ToPoint());
 				}
 			);
 
@@ -536,9 +563,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 				};
 
-			cloud1.Members.ForEach(v =>
-				AddEnemy.Chained(v.Element, v.Element.ToPoint())
-			);
+
 
 			#endregion
 
@@ -552,7 +577,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 			#region FireBullet
 
-			this.FireBullet.Direct =
+			RoutedActions.FireBullet.Direct =
 				(StarShip starship, int Multiplier, Point From, Point To, double Limit, Action<BulletInfo> handler) =>
 				{
 					var bullet = new SpriteWithMovement();
@@ -621,13 +646,13 @@ namespace FlashSpaceInvaders.ActionScript
 			#endregion
 
 
-			
+
 
 
 
 			#region SetWeaponMultiplier
 
-			this.SetWeaponMultiplier.Direct =
+			RoutedActions.SetWeaponMultiplier.Direct =
 				(p, value) =>
 				{
 					p.CurrentBulletMultiplier.Value = value;
@@ -635,7 +660,7 @@ namespace FlashSpaceInvaders.ActionScript
 			#endregion
 
 			#region AddDamage
-			this.AddDamage.Direct +=
+			RoutedActions.AddDamage.Direct +=
 				(target, bullet) =>
 				{
 					target.TakeDamage(bullet.TotalDamage);
@@ -644,7 +669,7 @@ namespace FlashSpaceInvaders.ActionScript
 					{
 						if (bullet.Parent == Ego.ActiveEgo)
 						{
-							if (ComputerEnemies.Any(k => k == target))
+							if (GroupEnemies.Any(k => k == target))
 							{
 
 								cloud1.TickInterval.Value = (cloud1.TickInterval.Value - 50).Max(200);
@@ -655,12 +680,12 @@ namespace FlashSpaceInvaders.ActionScript
 							Statusbar.Score.Value += target.ScorePoints;
 
 							if (Statusbar.Score < 5)
-								this.SetWeaponMultiplier.Chained(Ego, 1);
+								RoutedActions.SetWeaponMultiplier.Chained(Ego, 1);
 							else
 								if (Statusbar.Score < 10)
-									this.SetWeaponMultiplier.Chained(Ego, 2);
+									RoutedActions.SetWeaponMultiplier.Chained(Ego, 2);
 								else
-									this.SetWeaponMultiplier.Chained(Ego, 3);
+									RoutedActions.SetWeaponMultiplier.Chained(Ego, 3);
 						}
 
 						play(target.GetDeathSound());
@@ -685,13 +710,13 @@ namespace FlashSpaceInvaders.ActionScript
 
 
 			#region FragileEntities
-			this.FragileEntities.AddDamage = this.AddDamage;
+			this.FragileEntities.AddDamage = RoutedActions.AddDamage;
 
 			this.FragileEntities.PrepareFilter =
 				delegate
 				{
 					var GroupGood = KnownEgos.Select(i => i.GoodEgo).ToArray();
-					var GroupEvil = ComputerEnemies.ToArray();
+					var GroupEvil = GroupEnemies.ToArray();
 
 					this.FragileEntities.Filter =
 						(source, n) =>
@@ -700,7 +725,7 @@ namespace FlashSpaceInvaders.ActionScript
 							var query = source;
 
 							// spare coplayers in the same mode
-							if (ComputerEnemies.Contains(n.Parent))
+							if (GroupEnemies.Contains(n.Parent))
 								query = query.Where(x => !GroupEvil.Contains(x));
 							else
 								query = query.Where(x => !GroupGood.Contains(x));
@@ -717,7 +742,9 @@ namespace FlashSpaceInvaders.ActionScript
 				e => DebugDump.Write(new { e.EventName });
 
 			// events for network
-			this.AddDamage.BaseHandler += BaseHandler;
+			// RoutedActions.AddDamage.BaseHandler += BaseHandler;
+			RoutedActions.RestoreStarship.BaseHandler += BaseHandler;
+
 			//this.AddEnemy.BaseHandler += BaseHandler;
 			////this.AddBullet.BaseHandler += BaseHandler;
 			//this.DoPlayerMovement.BaseHandler += BaseHandler;
@@ -732,7 +759,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public readonly FragileEntitiesContainer FragileEntities = new FragileEntitiesContainer();
 
-		public readonly List<StarShip> ComputerEnemies = new List<StarShip>();
+		public readonly List<StarShip> GroupEnemies = new List<StarShip>();
 
 		public readonly List<DefenseBlock> DefenseBlocks =
 			new List<DefenseBlock>();
