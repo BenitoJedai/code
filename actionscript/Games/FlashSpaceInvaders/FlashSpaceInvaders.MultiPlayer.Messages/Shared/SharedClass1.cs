@@ -44,6 +44,9 @@ namespace FlashSpaceInvaders.Shared
 			void VectorChanged(int x, int y);
 			void UserVectorChanged(int user, int x, int y);
 
+			void FireBullet(int starship, int multiplier, int from_x, int from_y, int to_x, int to_y, int limit);
+			void UserFireBullet(int user, int starship, int multiplier, int from_x, int from_y, int to_x, int to_y, int limit);
+
 			void TeleportTo(int x, int y);
 			void UserTeleportTo(int user, int x, int y);
 

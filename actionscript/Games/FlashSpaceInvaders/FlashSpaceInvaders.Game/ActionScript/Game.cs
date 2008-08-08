@@ -44,8 +44,9 @@ namespace FlashSpaceInvaders.ActionScript
 			: base(DefaultWidth, DefaultHeight)
 		{
 			InitializeRoutedActions();
+			InitializeSharedState();
 
-			SoundEnabled = true;
+			SoundEnabled = false;
 
 			Action<Sound> play =
 				s =>
@@ -98,6 +99,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 			var MenuFader = new DualFader { Value = Menu };
 
+			#region common keys
 			this.InvokeWhenStageIsReady(
 				delegate
 				{
@@ -136,34 +138,10 @@ namespace FlashSpaceInvaders.ActionScript
 				}
 			);
 
-
-
-			//#region npc
-			//var cp1 = new PlayerShip(DefaultWidth, DefaultHeight)
-			//    {
-			//        Name = "cp1"
-			//    }.AddTo(CoPlayers);
-
-			//cp1.GoodEgo.AttachTo(CanvasOverlay);
-			//cp1.EvilEgo.AttachTo(CanvasOverlay);
+			#endregion
 
 
 
-			//var cp2 = new PlayerShip(DefaultWidth, DefaultHeight)
-			//    {
-			//        Name = "cp2"
-			//    }.AddTo(CoPlayers);
-
-			//cp2.GoodEgo.AttachTo(CanvasOverlay);
-			//cp2.EvilEgo.AttachTo(CanvasOverlay);
-
-			//(1000 / 30).AtInterval(
-			//    delegate
-			//    {
-			//        //cp2.GoodEgo.MoveToTarget.Value.x -= 6;
-			//    }
-			//);
-			//#endregion
 
 
 
@@ -171,6 +149,19 @@ namespace FlashSpaceInvaders.ActionScript
 				{
 					Name = "Ego"
 				};
+
+			// addding our entities to list ensures we know under what id to send them
+			this.Ego.GoodEgo.AddTo(this.SharedState.LocalObjects);
+			this.Ego.EvilEgo.AddTo(this.SharedState.LocalObjects);
+
+			// our ego cannot be hit while the menu is showing
+			this.Ego.GodMode.ValueChangedTo +=
+				GodMode => DebugDump.Write(new { GodMode });
+
+			MenuFader.ValueChangedTo += e => this.Ego.GodMode.Value = e == Menu;
+			
+			this.Ego.GodMode.Value = true;
+
 
 			#region input
 			this.DoPlayerMovement.Direct +=
@@ -195,7 +186,7 @@ namespace FlashSpaceInvaders.ActionScript
 						StepRight = () => DoEgoPlayerMovement(0, 2),
 						StepRightEnd = () => DoEgoPlayerMovement(0, 0.5),
 
-						FireBullet = () => this.AddBullet.Chained(Ego.FireBullet()),
+						FireBullet = () => Ego.FireBullet(),
 
 						SmartMoveTo = (x, y) =>
 							this.DoPlayerMovement.Chained(Ego, new Point(Ego.Wrapper(x, y), Ego.GoodEgoY))
@@ -309,7 +300,10 @@ namespace FlashSpaceInvaders.ActionScript
 				};
 			#endregion
 
+			this.Ego.GoodEgo.FireBullet = this.FireBullet;
 			this.Ego.GoodEgo.AttachTo(CanvasOverlay);
+
+			this.Ego.EvilEgo.FireBullet = this.FireBullet;
 			this.Ego.EvilEgo.AttachTo(CanvasOverlay);
 
 			#region  build shared defense buildings
@@ -327,14 +321,13 @@ namespace FlashSpaceInvaders.ActionScript
 			}
 			#endregion
 
-			//cp1.AddTo(FragileEntities);
-			//cp2.AddTo(FragileEntities);
+		
 			Ego.AddTo(FragileEntities);
 
 			#region Create and Move CoPlayer
 
 			this.CreateCoPlayer.Direct =
-				handler =>
+				(user, handler) =>
 				{
 					var cp1 = new PlayerShip(DefaultWidth, DefaultHeight)
 						{
@@ -343,6 +336,13 @@ namespace FlashSpaceInvaders.ActionScript
 
 					cp1.GoodEgo.AttachTo(CanvasOverlay);
 					cp1.EvilEgo.AttachTo(CanvasOverlay);
+
+					// we are adding remote controlled objects
+					cp1.GoodEgo.AddTo(this.SharedState.RemoteObjects[user]);
+					cp1.EvilEgo.AddTo(this.SharedState.RemoteObjects[user]);
+
+					// group as enemies
+					cp1.EvilEgo.AddTo(this.ComputerEnemies);
 
 					cp1.AddTo(FragileEntities);
 
@@ -381,6 +381,16 @@ namespace FlashSpaceInvaders.ActionScript
 			{
 				PlaySound = play
 			};
+
+			cloud1.Members.ForEach(
+				m =>
+				{
+					// if a cloud member fires, it will go across network...
+					m.Element.FireBullet = this.FireBullet;
+
+					this.SharedState.SharedObjects.Add(m.Element);
+				}
+			);
 
 			cloud1.TickSounds =
 					new Sound[] {
@@ -467,13 +477,14 @@ namespace FlashSpaceInvaders.ActionScript
 						// fire some bullets
 						var rr = cloud1.FrontRow.Random();
 
-						var rb = rr.Element.FireBullet(1, new Point(rr.Element.x, rr.Element.y), new Point(rr.Element.x, DefaultHeight), Ego.GoodEgoY);
+						// invaders bullets should have different sound or be silent
+						rr.Element.FireBulletChained(1, new Point(rr.Element.x, rr.Element.y), new Point(rr.Element.x, DefaultHeight), Ego.GoodEgoY);
 
-						rb.Silent = true;
+						//rb.Silent = true;
 
-						AddBullet.Chained(
-							rb
-						);
+						//AddBullet.Chained(
+						//    rb
+						//);
 					}
 
 					var IsFarRight = r.right >= (DefaultWidth - EnemyCloud.DefaultCloudMargin);
@@ -539,34 +550,78 @@ namespace FlashSpaceInvaders.ActionScript
 			//AddEnemy.Chained(new EnemyUFO(), new Point(160, 200));
 			//AddEnemy.Chained(new EnemyBigGun(), new Point(120, 200));
 
+			#region FireBullet
 
-
-			#region AddBullet
-			this.AddBullet.Direct +=
-				bullet =>
+			this.FireBullet.Direct =
+				(StarShip starship, int Multiplier, Point From, Point To, double Limit, Action<BulletInfo> handler) =>
 				{
-					// local only
-					FragileEntities.AddBullet(bullet);
+					var bullet = new SpriteWithMovement();
 
-					bullet.Element.AttachTo(CanvasOverlay);
-					bullet.Element.removed +=
+					Multiplier = Multiplier.Max(1);
+
+					for (int i = 1; i <= Multiplier; i++)
+					{
+						bullet.graphics.beginFill(Colors.Green);
+						bullet.graphics.drawRect((i - Multiplier) * 2, -8, 1, 16);
+					}
+
+
+					bullet.StepMultiplier = 0.3;
+					bullet.MaxStep = 24;
+
+					if (From.y < To.y)
+					{
+						bullet.TeleportTo(From.x, From.y);
+						bullet.TweenMoveTo(To.x + 0.00001, To.y);
+
+						bullet.PositionChanged +=
+							delegate
+							{
+								if (bullet.y > Limit)
+									bullet.Orphanize();
+							};
+					}
+					else
+					{
+						bullet.TeleportTo(From.x, From.y);
+						bullet.TweenMoveTo(To.x + 0.00001, To.y);
+
+
+						bullet.PositionChanged +=
+							delegate
+							{
+								if (bullet.y < Limit)
+									bullet.Orphanize();
+							};
+					}
+
+					// it should not be null and provide the correct parent for the bullet
+					if (starship == null)
+						starship = this.Ego.ActiveEgo;
+
+					var bulletp = new BulletInfo(bullet.WithParent(starship)) { Multiplier = Multiplier };
+
+					// local only
+					FragileEntities.AddBullet(bulletp);
+
+					bulletp.Element.AttachTo(CanvasOverlay);
+					bulletp.Element.removed +=
 						delegate
 						{
-							FragileEntities.Bullets.Remove(bullet);
+							FragileEntities.Bullets.Remove(bulletp);
 						};
 
-					if (!bullet.Silent)
+					if (!bulletp.Silent)
 						play(Sounds.firemissile);
+
+					if (handler != null)
+						handler(bulletp);
 				};
 
-			this.AddBullet.Handler +=
-				bullet =>
-				{
-					// our bullets will need to check for collisions
-
-					// remote bullets check on their hosts for collision
-				};
 			#endregion
+
+
+			
 
 
 
@@ -663,10 +718,10 @@ namespace FlashSpaceInvaders.ActionScript
 
 			// events for network
 			this.AddDamage.BaseHandler += BaseHandler;
-			this.AddEnemy.BaseHandler += BaseHandler;
-			this.AddBullet.BaseHandler += BaseHandler;
-			this.DoPlayerMovement.BaseHandler += BaseHandler;
-			this.SetWeaponMultiplier.BaseHandler += BaseHandler;
+			//this.AddEnemy.BaseHandler += BaseHandler;
+			////this.AddBullet.BaseHandler += BaseHandler;
+			//this.DoPlayerMovement.BaseHandler += BaseHandler;
+			//this.SetWeaponMultiplier.BaseHandler += BaseHandler;
 
 		}
 

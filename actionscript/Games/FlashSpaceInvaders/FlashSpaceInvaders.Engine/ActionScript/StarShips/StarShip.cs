@@ -20,6 +20,10 @@ namespace FlashSpaceInvaders.ActionScript
 		public StarShip()
 		{
 			this.ScorePoints = 10;
+
+			// this should be global to network session
+		
+
 		}
 
 		public static implicit operator StarShip(Func<double, double, Sprite> ctor)
@@ -34,11 +38,15 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public readonly BooleanProperty IsAlive = true;
 
+		public readonly BooleanProperty GodMode = false;
 
 		#region ITakeDamage Members
 
 		public void TakeDamage(double damage)
 		{
+			if (GodMode)
+				return;
+
 			this.alpha -= damage * 4;
 
 			if (this.alpha < 0.5)
@@ -96,49 +104,19 @@ namespace FlashSpaceInvaders.ActionScript
 			return Sounds.baseexplode;
 		}
 
-		public BulletInfo FireBullet(int Multiplier, Point From, Point To, double Limit)
+		public RoutedActionInfo<StarShip, int, Point, Point, double, Action<BulletInfo>> FireBullet;
+
+		public BulletInfo FireBulletChained(int Multiplier, Point From, Point To, double Limit)
 		{
-			var bullet = new SpriteWithMovement();
+			// fixme should return a Future instead
+			var result = new Property<BulletInfo>();
 
-			Multiplier = Multiplier.Max(1);
+			if (this.FireBullet != null)
+				this.FireBullet.Chained(this, Multiplier, From, To, Limit, result);
 
-			for (int i = 1; i <= Multiplier; i++)
-			{
-				bullet.graphics.beginFill(Colors.Green);
-				bullet.graphics.drawRect((i - Multiplier) * 2, -8, 1, 16);
-			}
+			return result.Value;
 
-
-			bullet.StepMultiplier = 0.3;
-			bullet.MaxStep = 24;
-
-			if (From.y < To.y)
-			{
-				bullet.TeleportTo(From.x, From.y);
-				bullet.TweenMoveTo(To.x + 0.00001, To.y);
-
-				bullet.PositionChanged +=
-					delegate
-					{
-						if (bullet.y > Limit)
-							bullet.Orphanize();
-					};
-			}
-			else
-			{
-				bullet.TeleportTo(From.x, From.y);
-				bullet.TweenMoveTo(To.x + 0.00001, To.y);
-
-
-				bullet.PositionChanged +=
-					delegate
-					{
-						if (bullet.y < Limit)
-							bullet.Orphanize();
-					};
-			}
-
-			return new BulletInfo(bullet.WithParent(this)) { Multiplier = Multiplier };
+			
 		}
 
 	}
