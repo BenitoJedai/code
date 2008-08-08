@@ -343,6 +343,47 @@ namespace FlashSpaceInvaders.Shared
             public sealed partial class WithUserArgumentsRouter : WithUserArguments
             {
                 public IMessages Target;
+
+                #region Automatic Event Routing
+                public void CombineDelegates(IEvents value)
+                {
+                    value.PlayerAdvertise += this.UserPlayerAdvertise;
+                    value.MouseMove += this.UserMouseMove;
+                    value.MouseOut += this.UserMouseOut;
+                    value.VectorChanged += this.UserVectorChanged;
+                    value.FireBullet += this.UserFireBullet;
+                    value.RestoreStarship += this.UserRestoreStarship;
+                    value.TeleportTo += this.UserTeleportTo;
+                    value.EatApple += this.UserEatApple;
+                    value.EatThisWormBegin += this.UserEatThisWormBegin;
+                    value.EatThisWormEnd += this.UserEatThisWormEnd;
+                    value.LevelHasEnded += this.UserLevelHasEnded;
+                    value.SendMap += this.UserSendMap;
+                    value.SendMapLater += this.UserSendMapLater;
+                    value.SetFlag += this.UserSetFlag;
+                    value.Reveal += this.UserReveal;
+                }
+
+                public void RemoveDelegates(IEvents value)
+                {
+                    value.PlayerAdvertise -= this.UserPlayerAdvertise;
+                    value.MouseMove -= this.UserMouseMove;
+                    value.MouseOut -= this.UserMouseOut;
+                    value.VectorChanged -= this.UserVectorChanged;
+                    value.FireBullet -= this.UserFireBullet;
+                    value.RestoreStarship -= this.UserRestoreStarship;
+                    value.TeleportTo -= this.UserTeleportTo;
+                    value.EatApple -= this.UserEatApple;
+                    value.EatThisWormBegin -= this.UserEatThisWormBegin;
+                    value.EatThisWormEnd -= this.UserEatThisWormEnd;
+                    value.LevelHasEnded -= this.UserLevelHasEnded;
+                    value.SendMap -= this.UserSendMap;
+                    value.SendMapLater -= this.UserSendMapLater;
+                    value.SetFlag -= this.UserSetFlag;
+                    value.Reveal -= this.UserReveal;
+                }
+                #endregion
+
                 #region Routing
                 public void UserPlayerAdvertise(PlayerAdvertiseArguments e)
                 {
@@ -1091,40 +1132,12 @@ namespace FlashSpaceInvaders.Shared
                 {
                     if(_Router != null)
                     {
-                        this.PlayerAdvertise -= _Router.UserPlayerAdvertise;
-                        this.MouseMove -= _Router.UserMouseMove;
-                        this.MouseOut -= _Router.UserMouseOut;
-                        this.VectorChanged -= _Router.UserVectorChanged;
-                        this.FireBullet -= _Router.UserFireBullet;
-                        this.RestoreStarship -= _Router.UserRestoreStarship;
-                        this.TeleportTo -= _Router.UserTeleportTo;
-                        this.EatApple -= _Router.UserEatApple;
-                        this.EatThisWormBegin -= _Router.UserEatThisWormBegin;
-                        this.EatThisWormEnd -= _Router.UserEatThisWormEnd;
-                        this.LevelHasEnded -= _Router.UserLevelHasEnded;
-                        this.SendMap -= _Router.UserSendMap;
-                        this.SendMapLater -= _Router.UserSendMapLater;
-                        this.SetFlag -= _Router.UserSetFlag;
-                        this.Reveal -= _Router.UserReveal;
+                        _Router.RemoveDelegates(this);
                     }
                     _Router = value;
                     if(_Router != null)
                     {
-                        this.PlayerAdvertise += _Router.UserPlayerAdvertise;
-                        this.MouseMove += _Router.UserMouseMove;
-                        this.MouseOut += _Router.UserMouseOut;
-                        this.VectorChanged += _Router.UserVectorChanged;
-                        this.FireBullet += _Router.UserFireBullet;
-                        this.RestoreStarship += _Router.UserRestoreStarship;
-                        this.TeleportTo += _Router.UserTeleportTo;
-                        this.EatApple += _Router.UserEatApple;
-                        this.EatThisWormBegin += _Router.UserEatThisWormBegin;
-                        this.EatThisWormEnd += _Router.UserEatThisWormEnd;
-                        this.LevelHasEnded += _Router.UserLevelHasEnded;
-                        this.SendMap += _Router.UserSendMap;
-                        this.SendMapLater += _Router.UserSendMapLater;
-                        this.SetFlag += _Router.UserSetFlag;
-                        this.Reveal += _Router.UserReveal;
+                        _Router.CombineDelegates(this);
                     }
                 }
             }
@@ -1135,284 +1148,333 @@ namespace FlashSpaceInvaders.Shared
         [CompilerGenerated]
         public partial class Bridge : IEvents, IMessages
         {
+            public Action<Action> VirtualLatency;
+            public Bridge()
+            {
+                this.VirtualLatency = VirtualLatencyDefaultImplemenetation;
+            }
+            public void VirtualLatencyDefaultImplemenetation(Action e)
+            {
+                e();
+            }
             public event Action<RemoteEvents.ServerPlayerHelloArguments> ServerPlayerHello;
             void IMessages.ServerPlayerHello(int user, string name)
             {
                 if(ServerPlayerHello == null) return;
-                ServerPlayerHello(new RemoteEvents.ServerPlayerHelloArguments { user = user, name = name });
+                var v = new RemoteEvents.ServerPlayerHelloArguments { user = user, name = name };
+                this.VirtualLatency(() => this.ServerPlayerHello(v));
             }
 
             public event Action<RemoteEvents.ServerPlayerJoinedArguments> ServerPlayerJoined;
             void IMessages.ServerPlayerJoined(int user, string name)
             {
                 if(ServerPlayerJoined == null) return;
-                ServerPlayerJoined(new RemoteEvents.ServerPlayerJoinedArguments { user = user, name = name });
+                var v = new RemoteEvents.ServerPlayerJoinedArguments { user = user, name = name };
+                this.VirtualLatency(() => this.ServerPlayerJoined(v));
             }
 
             public event Action<RemoteEvents.ServerPlayerLeftArguments> ServerPlayerLeft;
             void IMessages.ServerPlayerLeft(int user, string name)
             {
                 if(ServerPlayerLeft == null) return;
-                ServerPlayerLeft(new RemoteEvents.ServerPlayerLeftArguments { user = user, name = name });
+                var v = new RemoteEvents.ServerPlayerLeftArguments { user = user, name = name };
+                this.VirtualLatency(() => this.ServerPlayerLeft(v));
             }
 
             public event Action<RemoteEvents.PlayerAdvertiseArguments> PlayerAdvertise;
             void IMessages.PlayerAdvertise(string name)
             {
                 if(PlayerAdvertise == null) return;
-                PlayerAdvertise(new RemoteEvents.PlayerAdvertiseArguments { name = name });
+                var v = new RemoteEvents.PlayerAdvertiseArguments { name = name };
+                this.VirtualLatency(() => this.PlayerAdvertise(v));
             }
 
             public event Action<RemoteEvents.UserPlayerAdvertiseArguments> UserPlayerAdvertise;
             void IMessages.UserPlayerAdvertise(int user, string name)
             {
                 if(UserPlayerAdvertise == null) return;
-                UserPlayerAdvertise(new RemoteEvents.UserPlayerAdvertiseArguments { user = user, name = name });
+                var v = new RemoteEvents.UserPlayerAdvertiseArguments { user = user, name = name };
+                this.VirtualLatency(() => this.UserPlayerAdvertise(v));
             }
 
             public event Action<RemoteEvents.MouseMoveArguments> MouseMove;
             void IMessages.MouseMove(int x, int y, int color)
             {
                 if(MouseMove == null) return;
-                MouseMove(new RemoteEvents.MouseMoveArguments { x = x, y = y, color = color });
+                var v = new RemoteEvents.MouseMoveArguments { x = x, y = y, color = color };
+                this.VirtualLatency(() => this.MouseMove(v));
             }
 
             public event Action<RemoteEvents.UserMouseMoveArguments> UserMouseMove;
             void IMessages.UserMouseMove(int user, int x, int y, int color)
             {
                 if(UserMouseMove == null) return;
-                UserMouseMove(new RemoteEvents.UserMouseMoveArguments { user = user, x = x, y = y, color = color });
+                var v = new RemoteEvents.UserMouseMoveArguments { user = user, x = x, y = y, color = color };
+                this.VirtualLatency(() => this.UserMouseMove(v));
             }
 
             public event Action<RemoteEvents.MouseOutArguments> MouseOut;
             void IMessages.MouseOut(int color)
             {
                 if(MouseOut == null) return;
-                MouseOut(new RemoteEvents.MouseOutArguments { color = color });
+                var v = new RemoteEvents.MouseOutArguments { color = color };
+                this.VirtualLatency(() => this.MouseOut(v));
             }
 
             public event Action<RemoteEvents.UserMouseOutArguments> UserMouseOut;
             void IMessages.UserMouseOut(int user, int color)
             {
                 if(UserMouseOut == null) return;
-                UserMouseOut(new RemoteEvents.UserMouseOutArguments { user = user, color = color });
+                var v = new RemoteEvents.UserMouseOutArguments { user = user, color = color };
+                this.VirtualLatency(() => this.UserMouseOut(v));
             }
 
             public event Action<RemoteEvents.VectorChangedArguments> VectorChanged;
             void IMessages.VectorChanged(int x, int y)
             {
                 if(VectorChanged == null) return;
-                VectorChanged(new RemoteEvents.VectorChangedArguments { x = x, y = y });
+                var v = new RemoteEvents.VectorChangedArguments { x = x, y = y };
+                this.VirtualLatency(() => this.VectorChanged(v));
             }
 
             public event Action<RemoteEvents.UserVectorChangedArguments> UserVectorChanged;
             void IMessages.UserVectorChanged(int user, int x, int y)
             {
                 if(UserVectorChanged == null) return;
-                UserVectorChanged(new RemoteEvents.UserVectorChangedArguments { user = user, x = x, y = y });
+                var v = new RemoteEvents.UserVectorChangedArguments { user = user, x = x, y = y };
+                this.VirtualLatency(() => this.UserVectorChanged(v));
             }
 
             public event Action<RemoteEvents.FireBulletArguments> FireBullet;
             void IMessages.FireBullet(int starship, int multiplier, int from_x, int from_y, int to_x, int to_y, int limit)
             {
                 if(FireBullet == null) return;
-                FireBullet(new RemoteEvents.FireBulletArguments { starship = starship, multiplier = multiplier, from_x = from_x, from_y = from_y, to_x = to_x, to_y = to_y, limit = limit });
+                var v = new RemoteEvents.FireBulletArguments { starship = starship, multiplier = multiplier, from_x = from_x, from_y = from_y, to_x = to_x, to_y = to_y, limit = limit };
+                this.VirtualLatency(() => this.FireBullet(v));
             }
 
             public event Action<RemoteEvents.UserFireBulletArguments> UserFireBullet;
             void IMessages.UserFireBullet(int user, int starship, int multiplier, int from_x, int from_y, int to_x, int to_y, int limit)
             {
                 if(UserFireBullet == null) return;
-                UserFireBullet(new RemoteEvents.UserFireBulletArguments { user = user, starship = starship, multiplier = multiplier, from_x = from_x, from_y = from_y, to_x = to_x, to_y = to_y, limit = limit });
+                var v = new RemoteEvents.UserFireBulletArguments { user = user, starship = starship, multiplier = multiplier, from_x = from_x, from_y = from_y, to_x = to_x, to_y = to_y, limit = limit };
+                this.VirtualLatency(() => this.UserFireBullet(v));
             }
 
             public event Action<RemoteEvents.RestoreStarshipArguments> RestoreStarship;
             void IMessages.RestoreStarship(int starship)
             {
                 if(RestoreStarship == null) return;
-                RestoreStarship(new RemoteEvents.RestoreStarshipArguments { starship = starship });
+                var v = new RemoteEvents.RestoreStarshipArguments { starship = starship };
+                this.VirtualLatency(() => this.RestoreStarship(v));
             }
 
             public event Action<RemoteEvents.UserRestoreStarshipArguments> UserRestoreStarship;
             void IMessages.UserRestoreStarship(int user, int starship)
             {
                 if(UserRestoreStarship == null) return;
-                UserRestoreStarship(new RemoteEvents.UserRestoreStarshipArguments { user = user, starship = starship });
+                var v = new RemoteEvents.UserRestoreStarshipArguments { user = user, starship = starship };
+                this.VirtualLatency(() => this.UserRestoreStarship(v));
             }
 
             public event Action<RemoteEvents.TeleportToArguments> TeleportTo;
             void IMessages.TeleportTo(int x, int y)
             {
                 if(TeleportTo == null) return;
-                TeleportTo(new RemoteEvents.TeleportToArguments { x = x, y = y });
+                var v = new RemoteEvents.TeleportToArguments { x = x, y = y };
+                this.VirtualLatency(() => this.TeleportTo(v));
             }
 
             public event Action<RemoteEvents.UserTeleportToArguments> UserTeleportTo;
             void IMessages.UserTeleportTo(int user, int x, int y)
             {
                 if(UserTeleportTo == null) return;
-                UserTeleportTo(new RemoteEvents.UserTeleportToArguments { user = user, x = x, y = y });
+                var v = new RemoteEvents.UserTeleportToArguments { user = user, x = x, y = y };
+                this.VirtualLatency(() => this.UserTeleportTo(v));
             }
 
             public event Action<RemoteEvents.EatAppleArguments> EatApple;
             void IMessages.EatApple(int x, int y)
             {
                 if(EatApple == null) return;
-                EatApple(new RemoteEvents.EatAppleArguments { x = x, y = y });
+                var v = new RemoteEvents.EatAppleArguments { x = x, y = y };
+                this.VirtualLatency(() => this.EatApple(v));
             }
 
             public event Action<RemoteEvents.UserEatAppleArguments> UserEatApple;
             void IMessages.UserEatApple(int user, int x, int y)
             {
                 if(UserEatApple == null) return;
-                UserEatApple(new RemoteEvents.UserEatAppleArguments { user = user, x = x, y = y });
+                var v = new RemoteEvents.UserEatAppleArguments { user = user, x = x, y = y };
+                this.VirtualLatency(() => this.UserEatApple(v));
             }
 
             public event Action<RemoteEvents.EatThisWormBeginArguments> EatThisWormBegin;
             void IMessages.EatThisWormBegin(int food)
             {
                 if(EatThisWormBegin == null) return;
-                EatThisWormBegin(new RemoteEvents.EatThisWormBeginArguments { food = food });
+                var v = new RemoteEvents.EatThisWormBeginArguments { food = food };
+                this.VirtualLatency(() => this.EatThisWormBegin(v));
             }
 
             public event Action<RemoteEvents.UserEatThisWormBeginArguments> UserEatThisWormBegin;
             void IMessages.UserEatThisWormBegin(int user, int food)
             {
                 if(UserEatThisWormBegin == null) return;
-                UserEatThisWormBegin(new RemoteEvents.UserEatThisWormBeginArguments { user = user, food = food });
+                var v = new RemoteEvents.UserEatThisWormBeginArguments { user = user, food = food };
+                this.VirtualLatency(() => this.UserEatThisWormBegin(v));
             }
 
             public event Action<RemoteEvents.EatThisWormEndArguments> EatThisWormEnd;
             void IMessages.EatThisWormEnd(int food)
             {
                 if(EatThisWormEnd == null) return;
-                EatThisWormEnd(new RemoteEvents.EatThisWormEndArguments { food = food });
+                var v = new RemoteEvents.EatThisWormEndArguments { food = food };
+                this.VirtualLatency(() => this.EatThisWormEnd(v));
             }
 
             public event Action<RemoteEvents.UserEatThisWormEndArguments> UserEatThisWormEnd;
             void IMessages.UserEatThisWormEnd(int user, int food)
             {
                 if(UserEatThisWormEnd == null) return;
-                UserEatThisWormEnd(new RemoteEvents.UserEatThisWormEndArguments { user = user, food = food });
+                var v = new RemoteEvents.UserEatThisWormEndArguments { user = user, food = food };
+                this.VirtualLatency(() => this.UserEatThisWormEnd(v));
             }
 
             public event Action<RemoteEvents.LevelHasEndedArguments> LevelHasEnded;
             void IMessages.LevelHasEnded()
             {
                 if(LevelHasEnded == null) return;
-                LevelHasEnded(new RemoteEvents.LevelHasEndedArguments {  });
+                var v = new RemoteEvents.LevelHasEndedArguments {  };
+                this.VirtualLatency(() => this.LevelHasEnded(v));
             }
 
             public event Action<RemoteEvents.UserLevelHasEndedArguments> UserLevelHasEnded;
             void IMessages.UserLevelHasEnded(int user)
             {
                 if(UserLevelHasEnded == null) return;
-                UserLevelHasEnded(new RemoteEvents.UserLevelHasEndedArguments { user = user });
+                var v = new RemoteEvents.UserLevelHasEndedArguments { user = user };
+                this.VirtualLatency(() => this.UserLevelHasEnded(v));
             }
 
             public event Action<RemoteEvents.ServerSendMapArguments> ServerSendMap;
             void IMessages.ServerSendMap()
             {
                 if(ServerSendMap == null) return;
-                ServerSendMap(new RemoteEvents.ServerSendMapArguments {  });
+                var v = new RemoteEvents.ServerSendMapArguments {  };
+                this.VirtualLatency(() => this.ServerSendMap(v));
             }
 
             public event Action<RemoteEvents.SendMapArguments> SendMap;
             void IMessages.SendMap(int[] buttons)
             {
                 if(SendMap == null) return;
-                SendMap(new RemoteEvents.SendMapArguments { buttons = buttons });
+                var v = new RemoteEvents.SendMapArguments { buttons = buttons };
+                this.VirtualLatency(() => this.SendMap(v));
             }
 
             public event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
             void IMessages.UserSendMap(int user, int[] buttons)
             {
                 if(UserSendMap == null) return;
-                UserSendMap(new RemoteEvents.UserSendMapArguments { user = user, buttons = buttons });
+                var v = new RemoteEvents.UserSendMapArguments { user = user, buttons = buttons };
+                this.VirtualLatency(() => this.UserSendMap(v));
             }
 
             public event Action<RemoteEvents.SendMapLaterArguments> SendMapLater;
             void IMessages.SendMapLater()
             {
                 if(SendMapLater == null) return;
-                SendMapLater(new RemoteEvents.SendMapLaterArguments {  });
+                var v = new RemoteEvents.SendMapLaterArguments {  };
+                this.VirtualLatency(() => this.SendMapLater(v));
             }
 
             public event Action<RemoteEvents.UserSendMapLaterArguments> UserSendMapLater;
             void IMessages.UserSendMapLater(int user)
             {
                 if(UserSendMapLater == null) return;
-                UserSendMapLater(new RemoteEvents.UserSendMapLaterArguments { user = user });
+                var v = new RemoteEvents.UserSendMapLaterArguments { user = user };
+                this.VirtualLatency(() => this.UserSendMapLater(v));
             }
 
             public event Action<RemoteEvents.SetFlagArguments> SetFlag;
             void IMessages.SetFlag(int button, int value)
             {
                 if(SetFlag == null) return;
-                SetFlag(new RemoteEvents.SetFlagArguments { button = button, value = value });
+                var v = new RemoteEvents.SetFlagArguments { button = button, value = value };
+                this.VirtualLatency(() => this.SetFlag(v));
             }
 
             public event Action<RemoteEvents.UserSetFlagArguments> UserSetFlag;
             void IMessages.UserSetFlag(int user, int button, int value)
             {
                 if(UserSetFlag == null) return;
-                UserSetFlag(new RemoteEvents.UserSetFlagArguments { user = user, button = button, value = value });
+                var v = new RemoteEvents.UserSetFlagArguments { user = user, button = button, value = value };
+                this.VirtualLatency(() => this.UserSetFlag(v));
             }
 
             public event Action<RemoteEvents.RevealArguments> Reveal;
             void IMessages.Reveal(int button)
             {
                 if(Reveal == null) return;
-                Reveal(new RemoteEvents.RevealArguments { button = button });
+                var v = new RemoteEvents.RevealArguments { button = button };
+                this.VirtualLatency(() => this.Reveal(v));
             }
 
             public event Action<RemoteEvents.UserRevealArguments> UserReveal;
             void IMessages.UserReveal(int user, int button)
             {
                 if(UserReveal == null) return;
-                UserReveal(new RemoteEvents.UserRevealArguments { user = user, button = button });
+                var v = new RemoteEvents.UserRevealArguments { user = user, button = button };
+                this.VirtualLatency(() => this.UserReveal(v));
             }
 
             public event Action<RemoteEvents.AddScoreArguments> AddScore;
             void IMessages.AddScore(int apples, int worms)
             {
                 if(AddScore == null) return;
-                AddScore(new RemoteEvents.AddScoreArguments { apples = apples, worms = worms });
+                var v = new RemoteEvents.AddScoreArguments { apples = apples, worms = worms };
+                this.VirtualLatency(() => this.AddScore(v));
             }
 
             public event Action<RemoteEvents.AwardAchievementFiverArguments> AwardAchievementFiver;
             void IMessages.AwardAchievementFiver()
             {
                 if(AwardAchievementFiver == null) return;
-                AwardAchievementFiver(new RemoteEvents.AwardAchievementFiverArguments {  });
+                var v = new RemoteEvents.AwardAchievementFiverArguments {  };
+                this.VirtualLatency(() => this.AwardAchievementFiver(v));
             }
 
             public event Action<RemoteEvents.SendPasswordArguments> SendPassword;
             void IMessages.SendPassword(string password)
             {
                 if(SendPassword == null) return;
-                SendPassword(new RemoteEvents.SendPasswordArguments { password = password });
+                var v = new RemoteEvents.SendPasswordArguments { password = password };
+                this.VirtualLatency(() => this.SendPassword(v));
             }
 
             public event Action<RemoteEvents.ServerPasswordStatusArguments> ServerPasswordStatus;
             void IMessages.ServerPasswordStatus(int status)
             {
                 if(ServerPasswordStatus == null) return;
-                ServerPasswordStatus(new RemoteEvents.ServerPasswordStatusArguments { status = status });
+                var v = new RemoteEvents.ServerPasswordStatusArguments { status = status };
+                this.VirtualLatency(() => this.ServerPasswordStatus(v));
             }
 
             public event Action<RemoteEvents.LockGameArguments> LockGame;
             void IMessages.LockGame()
             {
                 if(LockGame == null) return;
-                LockGame(new RemoteEvents.LockGameArguments {  });
+                var v = new RemoteEvents.LockGameArguments {  };
+                this.VirtualLatency(() => this.LockGame(v));
             }
 
             public event Action<RemoteEvents.UnlockGameArguments> UnlockGame;
             void IMessages.UnlockGame()
             {
                 if(UnlockGame == null) return;
-                UnlockGame(new RemoteEvents.UnlockGameArguments {  });
+                var v = new RemoteEvents.UnlockGameArguments {  };
+                this.VirtualLatency(() => this.UnlockGame(v));
             }
 
         }
@@ -1420,4 +1482,4 @@ namespace FlashSpaceInvaders.Shared
     }
     #endregion
 }
-// 8.08.2008 13:13:08
+// 8.08.2008 20:31:46

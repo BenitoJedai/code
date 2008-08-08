@@ -241,7 +241,17 @@ namespace FlashSpaceInvaders.ActionScript
 						FireBullet = () => Ego.FireBullet(),
 
 						SmartMoveTo = (x, y) =>
-							RoutedActions.DoPlayerMovement.Chained(Ego, new Point(Ego.Wrapper(x, y), Ego.GoodEgoY))
+							{
+								// ignore mouse while out of bounds
+								if (x < 0)
+									return;
+
+								if (x > DefaultWidth)
+									return;
+
+								RoutedActions.DoPlayerMovement.Chained(Ego, new Point(Ego.Wrapper(x, y), Ego.GoodEgoY));
+
+							}
 
 					};
 

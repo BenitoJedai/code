@@ -645,6 +645,8 @@ namespace jsc.Script
                     }
                     else
                     {
+						// fixme: is this operator valid on this expression?
+
                         Write("!");
                         Write("(");
                         Emit(p, expression);

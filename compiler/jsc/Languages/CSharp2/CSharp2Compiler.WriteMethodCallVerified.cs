@@ -248,7 +248,7 @@ namespace jsc.Languages.CSharp2
 
                     if (eventinfo.RemoveEvent != null)
                     {
-                        Write(eventinfo.AddEvent.Name);
+						Write(eventinfo.RemoveEvent.Name);
                         WriteSpace();
                         Write("-=");
                         WriteSpace();

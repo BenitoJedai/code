@@ -24,8 +24,8 @@ namespace ConvertASToCS.js.Any
 
 
             public bool IsProperty;
- 
 
+			public string DefaultValue;
         }
 
   

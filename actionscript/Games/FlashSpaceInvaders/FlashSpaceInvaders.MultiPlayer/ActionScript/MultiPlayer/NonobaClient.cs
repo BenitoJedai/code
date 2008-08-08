@@ -13,11 +13,13 @@ using FlashSpaceInvaders.ActionScript.Extensions;
 namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 {
 	[Script]
-	public partial class NonobaClient : MyClient
+	public partial class NonobaClient : Client
 	{
-		public readonly Sprite Element = new Sprite();
 
 		public const int NonobaChatWidth = 200;
+
+
+		public const int DefaultWidth = Game.DefaultWidth + NonobaChatWidth;
 
 		public NonobaClient()
 		{
@@ -131,13 +133,6 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 			InitializeMapOnce();
 		}
 
-		public virtual void InitializeMapOnce()
-		{
 
-		}
-
-		public virtual void InitializeEvents()
-		{
-		}
 	}
 }

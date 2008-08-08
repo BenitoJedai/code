@@ -20,7 +20,7 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 		readonly Dictionary<int, PlayerShip> CoPlayers = new Dictionary<int, PlayerShip>();
 
 
-		public override void InitializeEvents()
+		public void InitializeEvents()
 		{
 			#region ServerPlayerHello
 			Events.ServerPlayerHello +=
