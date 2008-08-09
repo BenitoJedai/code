@@ -14,7 +14,9 @@ namespace FlashSpaceInvaders.ActionScript
 		internal RoutedActionInfo<StarShip, Point> AddEnemy = "AddEnemy";
 
 
-		public RoutedActionInfo<IFragileEntity, BulletInfo> AddDamage = "AddDamage";
+		// public RoutedActionInfo<IFragileEntity, BulletInfo> AddDamage = "AddDamage";
+		public RoutedActionInfo<IFragileEntity, double, StarShip> AddDamage = "AddDamage";
+
 		public RoutedActionInfo<PlayerShip, Point> DoPlayerMovement = "DoPlayerMovement";
 		public RoutedActionInfo<PlayerShip, int> SetWeaponMultiplier = "SetWeaponMultiplier";
 		public RoutedActionInfo<string> SendTextMessage = "SendTextMessage";

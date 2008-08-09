@@ -11,6 +11,7 @@ using ScriptCoreLib.ActionScript.flash.geom;
 using System.IO;
 
 using FlashSpaceInvaders.ActionScript.Extensions;
+using FlashSpaceInvaders.ActionScript.FragileEntities;
 
 namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 {
@@ -31,11 +32,12 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 				{
 					MyIdentity.Value = e;
 
-					//ShowMessage("Howdy, " + e.name);
+					// now we know our player id.
+					this.MapSharedState.RemoteObjects[e.user] = this.MapSharedState.LocalObjects;
 
 
 					// local only
-					MapRoutedActions.SendTextMessage.Direct("Howdy, " + e.name);
+					MapRoutedActions.SendTextMessage.Direct("Howdy, " + e.name + " " + e.user);
 				};
 			#endregion
 
@@ -155,7 +157,16 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 								new Point(e.from_x, e.from_y),
 								new Point(e.to_x, e.to_y),
 								e.limit,
-								null
+
+								// this is a remote bullet 
+								// for syncing it has no damage - a fake bullet
+								// the impact damage should be sent later
+								bullet =>
+								{
+									// make fake bullets blue
+									bullet.Element.ApplyFilter(Filters.ColorFillFilter(0xff));
+									bullet.Multiplier = 0;
+								}
 							);
 						};
 					#endregion
@@ -189,6 +200,25 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 
 						};
 
+					Events.UserAddDamage +=
+						e =>
+						{
+							// damage by remote bullet
+							var target = MapSharedState[e.user, e.target].Element as IFragileEntity;
+							var shooter = MapSharedState[e.user, e.shooter].Element as StarShip;
+
+							if (target == null)
+								throw new Exception("invalid target " + e.target);
+							if (shooter == null)
+								throw new Exception("invalid shooter " + e.shooter);
+
+
+							this.MapRoutedActions.SendTextMessage.Direct("got damage for " + e.target + " " + e.damage + " by shooter " + e.shooter);
+
+							this.MapRoutedActions.AddDamage.Direct(target, e.damage, shooter);
+						};
+
+					#region UserSendMap
 					Events.UserSendMap +=
 						e =>
 						{
@@ -198,7 +228,7 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 							var integers_as_bytes = e.buttons.Select(i => (byte)i).ToArray();
 
 							var m = new MemoryStream(integers_as_bytes);
-							
+
 							m.Position = 0;
 
 							var mr = new BinaryReader(m);
@@ -215,6 +245,8 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 							// leave the scene?
 							// fixed: unsigned vs signed vector
 							// we need timer tick interval too!!
+
+							Map.cloud1.TickInterval.Value = mr.ReadInt16();
 
 							Map.cloud1.NextMove.x = mr.ReadInt16();
 							Map.cloud1.NextMove.y = mr.ReadInt16();
@@ -251,6 +283,8 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 
 							//ShowMessage("got map: " + integers_as_bytes.Length);
 						};
+					#endregion
+
 				};
 
 		}
@@ -269,6 +303,7 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 			mw.Write((byte)cloud.Count);
 
 			// we need to send movement info too
+			mw.Write((short)Map.cloud1.TickInterval.Value);
 			mw.Write((short)Map.cloud1.NextMove.x);
 			mw.Write((short)Map.cloud1.NextMove.y);
 			mw.Write((double)Map.cloud1.Speed);

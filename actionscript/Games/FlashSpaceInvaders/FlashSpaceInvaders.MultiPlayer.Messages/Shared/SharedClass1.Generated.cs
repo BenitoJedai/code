@@ -31,6 +31,8 @@ namespace FlashSpaceInvaders.Shared
             UserVectorChanged,
             FireBullet,
             UserFireBullet,
+            AddDamage,
+            UserAddDamage,
             RestoreStarship,
             UserRestoreStarship,
             TeleportTo,
@@ -86,6 +88,8 @@ namespace FlashSpaceInvaders.Shared
             event Action<RemoteEvents.UserVectorChangedArguments> UserVectorChanged;
             event Action<RemoteEvents.FireBulletArguments> FireBullet;
             event Action<RemoteEvents.UserFireBulletArguments> UserFireBullet;
+            event Action<RemoteEvents.AddDamageArguments> AddDamage;
+            event Action<RemoteEvents.UserAddDamageArguments> UserAddDamage;
             event Action<RemoteEvents.RestoreStarshipArguments> RestoreStarship;
             event Action<RemoteEvents.UserRestoreStarshipArguments> UserRestoreStarship;
             event Action<RemoteEvents.TeleportToArguments> TeleportTo;
@@ -182,6 +186,14 @@ namespace FlashSpaceInvaders.Shared
             public void UserFireBullet(int user, int starship, int multiplier, int from_x, int from_y, int to_x, int to_y, int limit)
             {
                 Send(new SendArguments { i = Messages.UserFireBullet, args = new object[] { user, starship, multiplier, from_x, from_y, to_x, to_y, limit } });
+            }
+            public void AddDamage(int target, double damage, int shooter)
+            {
+                Send(new SendArguments { i = Messages.AddDamage, args = new object[] { target, damage, shooter } });
+            }
+            public void UserAddDamage(int user, int target, double damage, int shooter)
+            {
+                Send(new SendArguments { i = Messages.UserAddDamage, args = new object[] { user, target, damage, shooter } });
             }
             public void RestoreStarship(int starship)
             {
@@ -352,6 +364,7 @@ namespace FlashSpaceInvaders.Shared
                     value.MouseOut += this.UserMouseOut;
                     value.VectorChanged += this.UserVectorChanged;
                     value.FireBullet += this.UserFireBullet;
+                    value.AddDamage += this.UserAddDamage;
                     value.RestoreStarship += this.UserRestoreStarship;
                     value.TeleportTo += this.UserTeleportTo;
                     value.EatApple += this.UserEatApple;
@@ -371,6 +384,7 @@ namespace FlashSpaceInvaders.Shared
                     value.MouseOut -= this.UserMouseOut;
                     value.VectorChanged -= this.UserVectorChanged;
                     value.FireBullet -= this.UserFireBullet;
+                    value.AddDamage -= this.UserAddDamage;
                     value.RestoreStarship -= this.UserRestoreStarship;
                     value.TeleportTo -= this.UserTeleportTo;
                     value.EatApple -= this.UserEatApple;
@@ -404,6 +418,10 @@ namespace FlashSpaceInvaders.Shared
                 public void UserFireBullet(FireBulletArguments e)
                 {
                     Target.UserFireBullet(this.user, e.starship, e.multiplier, e.from_x, e.from_y, e.to_x, e.to_y, e.limit);
+                }
+                public void UserAddDamage(AddDamageArguments e)
+                {
+                    Target.UserAddDamage(this.user, e.target, e.damage, e.shooter);
                 }
                 public void UserRestoreStarship(RestoreStarshipArguments e)
                 {
@@ -651,6 +669,38 @@ namespace FlashSpaceInvaders.Shared
             }
             #endregion
             public event Action<UserFireBulletArguments> UserFireBullet;
+            #region AddDamageArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class AddDamageArguments
+            {
+                public int target;
+                public double damage;
+                public int shooter;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ target = ").Append(this.target).Append(", damage = ").Append(this.damage).Append(", shooter = ").Append(this.shooter).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<AddDamageArguments> AddDamage;
+            #region UserAddDamageArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserAddDamageArguments : WithUserArguments
+            {
+                public int target;
+                public double damage;
+                public int shooter;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", target = ").Append(this.target).Append(", damage = ").Append(this.damage).Append(", shooter = ").Append(this.shooter).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserAddDamageArguments> UserAddDamage;
             #region RestoreStarshipArguments
             [Script]
             [CompilerGenerated]
@@ -1045,6 +1095,8 @@ namespace FlashSpaceInvaders.Shared
                             { Messages.UserVectorChanged, e => { UserVectorChanged(new UserVectorChangedArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
                             { Messages.FireBullet, e => { FireBullet(new FireBulletArguments { starship = e.GetInt32(0), multiplier = e.GetInt32(1), from_x = e.GetInt32(2), from_y = e.GetInt32(3), to_x = e.GetInt32(4), to_y = e.GetInt32(5), limit = e.GetInt32(6) }); } },
                             { Messages.UserFireBullet, e => { UserFireBullet(new UserFireBulletArguments { user = e.GetInt32(0), starship = e.GetInt32(1), multiplier = e.GetInt32(2), from_x = e.GetInt32(3), from_y = e.GetInt32(4), to_x = e.GetInt32(5), to_y = e.GetInt32(6), limit = e.GetInt32(7) }); } },
+                            { Messages.AddDamage, e => { AddDamage(new AddDamageArguments { target = e.GetInt32(0), damage = e.GetDouble(1), shooter = e.GetInt32(2) }); } },
+                            { Messages.UserAddDamage, e => { UserAddDamage(new UserAddDamageArguments { user = e.GetInt32(0), target = e.GetInt32(1), damage = e.GetDouble(2), shooter = e.GetInt32(3) }); } },
                             { Messages.RestoreStarship, e => { RestoreStarship(new RestoreStarshipArguments { starship = e.GetInt32(0) }); } },
                             { Messages.UserRestoreStarship, e => { UserRestoreStarship(new UserRestoreStarshipArguments { user = e.GetInt32(0), starship = e.GetInt32(1) }); } },
                             { Messages.TeleportTo, e => { TeleportTo(new TeleportToArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
@@ -1089,6 +1141,8 @@ namespace FlashSpaceInvaders.Shared
                             { Messages.UserVectorChanged, e => UserVectorChanged },
                             { Messages.FireBullet, e => FireBullet },
                             { Messages.UserFireBullet, e => UserFireBullet },
+                            { Messages.AddDamage, e => AddDamage },
+                            { Messages.UserAddDamage, e => UserAddDamage },
                             { Messages.RestoreStarship, e => RestoreStarship },
                             { Messages.UserRestoreStarship, e => UserRestoreStarship },
                             { Messages.TeleportTo, e => TeleportTo },
@@ -1259,6 +1313,22 @@ namespace FlashSpaceInvaders.Shared
                 if(UserFireBullet == null) return;
                 var v = new RemoteEvents.UserFireBulletArguments { user = user, starship = starship, multiplier = multiplier, from_x = from_x, from_y = from_y, to_x = to_x, to_y = to_y, limit = limit };
                 this.VirtualLatency(() => this.UserFireBullet(v));
+            }
+
+            public event Action<RemoteEvents.AddDamageArguments> AddDamage;
+            void IMessages.AddDamage(int target, double damage, int shooter)
+            {
+                if(AddDamage == null) return;
+                var v = new RemoteEvents.AddDamageArguments { target = target, damage = damage, shooter = shooter };
+                this.VirtualLatency(() => this.AddDamage(v));
+            }
+
+            public event Action<RemoteEvents.UserAddDamageArguments> UserAddDamage;
+            void IMessages.UserAddDamage(int user, int target, double damage, int shooter)
+            {
+                if(UserAddDamage == null) return;
+                var v = new RemoteEvents.UserAddDamageArguments { user = user, target = target, damage = damage, shooter = shooter };
+                this.VirtualLatency(() => this.UserAddDamage(v));
             }
 
             public event Action<RemoteEvents.RestoreStarshipArguments> RestoreStarship;
@@ -1482,4 +1552,4 @@ namespace FlashSpaceInvaders.Shared
     }
     #endregion
 }
-// 8.08.2008 20:31:46
+// 9.08.2008 14:45:20
