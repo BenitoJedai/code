@@ -100,6 +100,7 @@ namespace FlashSpaceInvaders.ActionScript
                 {
                     MovementWASD[Keyboard.CONTROL , KeyLocation.LEFT],
                     MovementArrows[Keyboard.RIGHT , KeyLocation.RIGHT],
+                    MovementArrows[Keyboard.SPACE],
                 },
 				Filter = Enabled,
 				Tick = () => FireBullet()
