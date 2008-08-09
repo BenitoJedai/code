@@ -74,6 +74,23 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 					Messages.RestoreStarship(starship);
 				};
 
+			MapRoutedActions.AddDamage.Handler +=
+				(target, damage, shooter) =>
+				{
+					// how much damage are we making?
+
+					// is it a fake?
+					if (damage == 0)
+						return;
+
+					// who are we damaging?
+					var target_id = MapSharedState[target];
+					var shooter_id = MapSharedState[shooter];
+
+					MapRoutedActions.SendTextMessage.Direct("sent damage: " + target_id + " " + damage + " by shooter " + shooter_id);
+					Messages.AddDamage(target_id, damage, shooter_id);
+				};
+
 			MapRoutedActions.FireBullet.Handler +=
 				(StarShip s, int Multiplier, Point From, Point To, double Limit, Action<BulletInfo> handler) =>
 				{

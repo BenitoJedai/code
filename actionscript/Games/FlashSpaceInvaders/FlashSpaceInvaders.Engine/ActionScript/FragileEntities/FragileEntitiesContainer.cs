@@ -20,7 +20,7 @@ namespace FlashSpaceInvaders.ActionScript.FragileEntities
 		public Action PrepareFilter;
 		public Func<IEnumerable<IFragileEntity>, BulletInfo, IEnumerable<IFragileEntity>> Filter;
 
-		public RoutedActionInfo<IFragileEntity, BulletInfo> AddDamage;
+		public RoutedActionInfo<IFragileEntity, double, StarShip> AddDamage;
 
 		int BulletHitTestCounter = 0;
 
@@ -48,7 +48,7 @@ namespace FlashSpaceInvaders.ActionScript.FragileEntities
 
 			if (v != null)
 			{
-				AddDamage.Chained(v, n);
+				AddDamage.Chained(v, n.TotalDamage, n.Parent);
 
 				n.Element.Orphanize();
 			}

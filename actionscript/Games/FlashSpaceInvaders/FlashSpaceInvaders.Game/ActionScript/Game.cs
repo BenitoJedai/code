@@ -352,6 +352,9 @@ namespace FlashSpaceInvaders.ActionScript
 					v.AttachTo(CanvasOverlay);
 					v.AddTo(DefenseBlocks);
 					v.AddTo(FragileEntities.Items);
+
+					// defense blocks like invaders cloud are shared
+					this.SharedState.SharedObjects.Add(v);
 				}
 			}
 			#endregion
@@ -672,22 +675,24 @@ namespace FlashSpaceInvaders.ActionScript
 
 			#region AddDamage
 			RoutedActions.AddDamage.Direct +=
-				(target, bullet) =>
+				(target, damage, shooter) =>
 				{
-					target.TakeDamage(bullet.TotalDamage);
+					target.TakeDamage(damage);
 
 					if (target.HitPoints <= 0)
 					{
-						if (bullet.Parent == Ego.ActiveEgo)
+						// did we kill anything?
+						// shall we take credit?
+
+						if (GroupEnemies.Any(k => k == target))
 						{
-							if (GroupEnemies.Any(k => k == target))
-							{
+							cloud1.TickInterval.Value = (cloud1.TickInterval.Value - 50).Max(200);
+							cloud1.Speed *= cloud1.SpeedAcc;
+						}
 
-								cloud1.TickInterval.Value = (cloud1.TickInterval.Value - 50).Max(200);
-								cloud1.Speed *= cloud1.SpeedAcc;
-
-							}
-
+						#region award localplayer and upgrade weapon
+						if (shooter == Ego.ActiveEgo)
+						{
 							Statusbar.Score.Value += target.ScorePoints;
 
 							if (Statusbar.Score < 5)
@@ -698,6 +703,8 @@ namespace FlashSpaceInvaders.ActionScript
 								else
 									RoutedActions.SetWeaponMultiplier.Chained(Ego, 3);
 						}
+						#endregion
+
 
 						play(target.GetDeathSound());
 					}
