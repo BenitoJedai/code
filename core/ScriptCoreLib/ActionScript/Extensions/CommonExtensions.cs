@@ -10,6 +10,8 @@ using ScriptCoreLib.ActionScript.mx.core;
 using ScriptCoreLib.ActionScript.mx.graphics;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.flash.utils;
+using System.IO;
+using ScriptCoreLib.ActionScript.BCLImplementation.System.IO;
 
 namespace ScriptCoreLib.ActionScript.Extensions
 {
@@ -18,6 +20,23 @@ namespace ScriptCoreLib.ActionScript.Extensions
     [Script]
     public static class CommonExtensions
     {
+		public static ByteArray ToByteArray(this Stream s)
+		{
+			var m = s as MemoryStream;
+
+			if (m == null)
+				throw new NotSupportedException();
+
+			return m.ToByteArray();
+		}
+
+		public static ByteArray ToByteArray(this MemoryStream m)
+		{
+			var x = (__MemoryStream)(object)m;
+
+			return x.Buffer;
+		}
+
         public static void Orphanize(this DisplayObject e)
         {
             if (e.parent != null)

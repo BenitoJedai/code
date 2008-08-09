@@ -32,8 +32,16 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 			}
 		}
 
+		public double Speed = 12.0;
+		public double SpeedAcc = 1.039;
+		public Point NextMove = new Point();
+
+
 		const int DefaultCloudWidth = 9;
 		const int DefaultCloudHeight = 5;
+
+		//const int DefaultCloudWidth = 2;
+		//const int DefaultCloudHeight = 2;
 
 		public const int DefaultCloudMargin = 32;
 
@@ -70,11 +78,21 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 
 			};
 
-			Spawn(0, y => new EnemyA().ApplyFilter(colors[y]));
-			Spawn(1, y => new EnemyB().ApplyFilter(colors[y]));
-			Spawn(2, y => new EnemyB().ApplyFilter(colors[y]));
-			Spawn(3, y => new EnemyC().ApplyFilter(colors[y]));
-			Spawn(4, y => new EnemyC().ApplyFilter(colors[y]));
+			var factory = new Func<StarShip>[]
+				{
+					() => new EnemyA(),
+					() => new EnemyB(),
+					() => new EnemyB(),
+					() => new EnemyC(),
+					() => new EnemyC(),
+				};
+
+			for (int i = 0; i < DefaultCloudHeight; i++)
+			{
+				Spawn(i, y => factory[y]().ApplyFilter(colors[y]));
+				
+			}
+
 
 			var Timer = default(Timer);
 

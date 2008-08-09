@@ -39,6 +39,7 @@ namespace FlashSpaceInvaders.ActionScript
 		public event Action GameOver;
 
 		public readonly Statusbar Statusbar = new Statusbar();
+		public PlayerInput PlayerInput;
 
 		public Game()
 			: base(DefaultWidth, DefaultHeight)
@@ -164,7 +165,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 			this.Ego.GodMode.Value = true;
 
-			var input = default(PlayerInput);
+			
 
 
 
@@ -174,8 +175,8 @@ namespace FlashSpaceInvaders.ActionScript
 						{
 							this.ApplyFilter(Filters.GrayScaleFilter);
 
-							if (input != null)
-								input.Enabled.Value = false;
+							if (PlayerInput != null)
+								PlayerInput.Enabled.Value = false;
 
 							Statusbar.Lives.Value--;
 
@@ -188,8 +189,8 @@ namespace FlashSpaceInvaders.ActionScript
 
 										this.filters = null;
 
-										if (input != null)
-											input.Enabled.Value = true;
+										if (PlayerInput != null)
+											PlayerInput.Enabled.Value = true;
 
 										play(Sounds.insertcoin);
 									}
@@ -230,7 +231,7 @@ namespace FlashSpaceInvaders.ActionScript
 				delegate
 				{
 
-					input = new PlayerInput(stage, Ego, this)
+					PlayerInput = new PlayerInput(stage, Ego, this)
 					{
 						StepLeft = () => DoEgoPlayerMovement(Math.PI, 2),
 						StepLeftEnd = () => DoEgoPlayerMovement(Math.PI, 0.5),
@@ -255,7 +256,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 					};
 
-					input.Enabled.ValueChangedTo +=
+					PlayerInput.Enabled.ValueChangedTo +=
 						InputEnabled =>
 						{
 							DebugDump.Write(new { InputEnabled });
@@ -411,7 +412,7 @@ namespace FlashSpaceInvaders.ActionScript
 			#endregion
 
 			#region cloud
-			var cloud1 = new EnemyCloud
+			 cloud1 = new EnemyCloud
 			{
 				PlaySound = play
 			};
@@ -447,18 +448,18 @@ namespace FlashSpaceInvaders.ActionScript
 
 
 
-			var CloudSpeedAcc = 1.04;
-			var CloudSpeed = 12.0;
-			var CloudMove = new Point();
+			//var CloudSpeedAcc = 1.04;
+			//var CloudSpeed = 12.0;
+			//var CloudMove = new Point();
 
 			Action ResetCloudLocal =
 				delegate
 				{
-					CloudMove.x = CloudSpeed;
-					CloudMove.y = 0;
+					cloud1.NextMove.x = cloud1.Speed;
+					cloud1.NextMove.y = 0;
 
 					cloud1.TickInterval.Value = 1000;
-					CloudSpeed = 12;
+					cloud1.Speed = 12;
 					cloud1.TeleportTo(60, 80);
 
 				};
@@ -526,50 +527,50 @@ namespace FlashSpaceInvaders.ActionScript
 
 					var IsFarRight = r.right >= (DefaultWidth - EnemyCloud.DefaultCloudMargin);
 
-					if (CloudMove.x < 0)
+					if (cloud1.NextMove.x < 0)
 						IsFarRight = false;
 
 					var IsFarLeft = r.left <= (EnemyCloud.DefaultCloudMargin);
 
-					if (CloudMove.x > 0)
+					if (cloud1.NextMove.x > 0)
 						IsFarLeft = false;
 
 
 					var WillStartVerticalMovement = IsFarLeft || IsFarRight;
 
 
-					if (WillStartVerticalMovement && CloudMove.y == 0)
+					if (WillStartVerticalMovement && cloud1.NextMove.y == 0)
 					{
 
 
-						CloudMove.x = 0;
-						CloudMove.y = 8;
+						cloud1.NextMove.x = 0;
+						cloud1.NextMove.y = 8;
 
-						CloudSpeed *= CloudSpeedAcc;
+						cloud1.Speed *= cloud1.SpeedAcc;
 					}
 					else
 					{
 						if (WillStartVerticalMovement)
-							CloudMove.y -= CloudSpeed / 2;
+							cloud1.NextMove.y -= cloud1.Speed / 2;
 						else
 						{
 
 						}
 
-						if (CloudMove.y <= 0)
+						if (cloud1.NextMove.y <= 0)
 						{
-							CloudMove.y = 0;
+							cloud1.NextMove.y = 0;
 
 							if (IsFarLeft)
-								CloudMove.x = CloudSpeed;
+								cloud1.NextMove.x = cloud1.Speed;
 							else if (IsFarRight)
-								CloudMove.x = -CloudSpeed;
+								cloud1.NextMove.x = -cloud1.Speed;
 						}
 					}
 
 					//DebugDump.Write(new { CloudMove.x, CloudMove.y });
 
-					cloud1.MoveToOffset(CloudMove);
+					cloud1.MoveToOffset(cloud1.NextMove);
 
 				};
 
@@ -683,7 +684,7 @@ namespace FlashSpaceInvaders.ActionScript
 							{
 
 								cloud1.TickInterval.Value = (cloud1.TickInterval.Value - 50).Max(200);
-								CloudSpeed *= CloudSpeedAcc;
+								cloud1.Speed *= cloud1.SpeedAcc;
 
 							}
 
@@ -705,15 +706,15 @@ namespace FlashSpaceInvaders.ActionScript
 						play(Sounds.shortwhite);
 					}
 
-					DebugDump.Write(
-						new
-						{
-							From = bullet.Parent.Name,
-							Delta = bullet.TotalDamage,
-							target.HitPoints,
-							To = target.Name
-						}
-					);
+					//DebugDump.Write(
+					//    new
+					//    {
+					//        From = bullet.Parent.Name,
+					//        Delta = bullet.TotalDamage,
+					//        target.HitPoints,
+					//        To = target.Name
+					//    }
+					//);
 				};
 			#endregion
 
@@ -787,5 +788,7 @@ namespace FlashSpaceInvaders.ActionScript
 			}
 		}
 		#endregion
+
+		public EnemyCloud cloud1;
 	}
 }

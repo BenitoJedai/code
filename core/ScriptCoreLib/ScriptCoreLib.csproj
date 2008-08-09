@@ -173,8 +173,11 @@
     <Compile Include="ActionScript\BCLImplementation\System\Converter.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ArgumentException.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Boolean.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\IO\BinaryReader.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\IO\BinaryWriter.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\MemoryStream.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\Stream.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\IO\StreamWriter.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Predicate.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Double.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\UInt32.cs" />

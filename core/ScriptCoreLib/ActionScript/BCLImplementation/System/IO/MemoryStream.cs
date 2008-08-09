@@ -9,7 +9,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.MemoryStream))]
 	internal class __MemoryStream : __Stream
 	{
-		ByteArray Buffer = new ByteArray();
+		internal ByteArray Buffer = new ByteArray();
 
 		public __MemoryStream() : this(null)
 		{
@@ -37,7 +37,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 
 			for (int i = 0; i < count; i++)
 			{
-				buffer[i] = (byte)o.readByte();
+				buffer[i] = (byte)((byte)(o.readByte()) & 0xff);
 			}
 
 			return buffer.Length;
@@ -50,7 +50,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 
 			for (int i = 0; i < count; i++)
 			{
-				o.writeByte(buffer[offset + i]);
+				o.writeByte(buffer[offset + i] & 0xff);
 			}
 
 			Buffer.writeBytes(o);
@@ -64,7 +64,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 
 			for (int i = 0; i < o.Length; i++)
 			{
-				o[i] = (byte)this.Buffer.readByte();
+				var b = (byte)(this.Buffer.readByte());
+
+				o[i] = (byte)(b & 0xff);
 			}
 
 			return o;
