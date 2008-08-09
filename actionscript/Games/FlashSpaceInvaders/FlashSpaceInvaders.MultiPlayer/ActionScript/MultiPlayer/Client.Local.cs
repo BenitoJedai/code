@@ -14,33 +14,39 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 {
 	partial class Client
 	{
-		GameRoutedActions MapRoutedActions;
-		GameSharedState MapSharedState;
-
+		public GameRoutedActions MapRoutedActions;
+		public GameSharedState MapSharedState;
+		public Game Map;
 
 		public void InitializeMapOnce()
 		{
 			var n = new Game().AttachTo(Element);
 
+			this.Map = n;
 			this.MapRoutedActions = n.RoutedActions;
 			this.MapSharedState = n.SharedState;
 
 			#region MouseMove
 			var MyColor = (uint)0xffffff.Random();
 
-			Element.stage.mouseMove +=
-				e =>
-				{
-					var p = this.Element.globalToLocal(e.ToStagePoint());
-
-					Messages.MouseMove((int)p.x, (int)p.y, (int)MyColor);
-				};
-
-			Element.stage.mouseOut +=
+			Element.InvokeWhenStageIsReady(
 				delegate
 				{
-					Messages.MouseOut((int)MyColor);
-				};
+					Element.stage.mouseMove +=
+						e =>
+						{
+							var p = this.Element.globalToLocal(e.ToStagePoint());
+
+							Messages.MouseMove((int)p.x, (int)p.y, (int)MyColor);
+						};
+
+					Element.stage.mouseOut +=
+						delegate
+						{
+							Messages.MouseOut((int)MyColor);
+						};
+				}
+			);
 
 			#endregion
 

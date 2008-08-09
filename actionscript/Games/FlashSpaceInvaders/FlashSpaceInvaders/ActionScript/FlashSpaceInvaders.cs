@@ -18,6 +18,7 @@ using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.flash.ui;
 using ScriptCoreLib.ActionScript.mx.core;
 using FlashSpaceInvaders.Shared;
+using FlashSpaceInvaders.ActionScript.MultiPlayer;
 
 namespace FlashSpaceInvaders.ActionScript
 {
@@ -41,88 +42,23 @@ namespace FlashSpaceInvaders.ActionScript
 		{
 			// why the virtual latency doesnt work?
 			//Action<Action> VirtualLatency = e => 200.AtDelayDo(e);
-			Action<Action> VirtualLatency = e => e();
 
-			var a_to_server = new SharedClass1.Bridge { VirtualLatency = VirtualLatency };
-			var server_to_a = new SharedClass1.Bridge { VirtualLatency = VirtualLatency };
+			PlayMultiPlayer();
+		}
 
-			var b_to_server = new SharedClass1.Bridge { VirtualLatency = VirtualLatency };
-			var server_to_b = new SharedClass1.Bridge { VirtualLatency = VirtualLatency };
+		private void PlaySplitScreen()
+		{
+			var s = new SplitScreen();
 
-			var a = new MultiPlayer.Client
-			{
-				Events = server_to_a,
-				Messages = a_to_server
-			};
+			s.Righty.Element.x = Game.DefaultWidth;
 
-			var b = new MultiPlayer.Client
-			{
-				Events = server_to_b,
-				Messages = b_to_server
-			};
+			s.Lefty.Element.AttachTo(this);
+			s.Lefty.Map.PlayerInput.MovementArrows.Enabled = false;
 
-			var s = new MyGame
-			{
-				
-			};
-
-			b.Element.x = Game.DefaultWidth;
-
-			a.Element.AttachTo(this);
-			b.Element.AttachTo(this);
-
+			s.Righty.Element.AttachTo(this);
+			s.Righty.Map.PlayerInput.MovementWASD.Enabled = false;
 
 		
-			var player_a = new MyPlayer
-			{
-				FromPlayer = a_to_server,
-				ToPlayer = server_to_a,
-				ToOthers = server_to_b,
-				UserId = 0,
-				Username = "Lefty",
-				AddScore = delegate { },
-				
-			};
-
-			new SharedClass1.RemoteEvents.WithUserArgumentsRouter
-			{
-				user = player_a.UserId,
-				Target = player_a.ToOthers
-			}.CombineDelegates(a_to_server);
-
-			var player_b = new MyPlayer
-			{
-				FromPlayer = b_to_server,
-				ToPlayer = server_to_b,
-				ToOthers = server_to_a,
-				UserId = 1,
-				Username = "Righty",
-				AddScore = delegate { },
-				
-			};
-
-			new SharedClass1.RemoteEvents.WithUserArgumentsRouter
-			{
-				user = player_b.UserId,
-				Target = player_b.ToOthers
-			}.CombineDelegates(b_to_server);
-
-			
-
-
-			a.InitializeEvents();
-			b.InitializeEvents();
-
-			s.GameStarted();
-
-			a.InitializeMapOnce();
-			b.InitializeMapOnce();
-
-			s.Users.Add(player_a);
-			s.UserJoined(player_a);
-
-			s.Users.Add(player_b);
-			s.UserJoined(player_b);
 		}
 
 		private void PlayMultiPlayer()
@@ -134,7 +70,7 @@ namespace FlashSpaceInvaders.ActionScript
 			g.Element.AttachTo(this);
 		}
 
-		void SinglePlayer()
+		void PlaySinglePlayer()
 		{
 			var g = new Game
 			{

@@ -8,6 +8,9 @@ using ScriptCoreLib.ActionScript.Nonoba.api;
 using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.geom;
+using System.IO;
+
+using FlashSpaceInvaders.ActionScript.Extensions;
 
 namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 {
@@ -134,6 +137,7 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 
 					#endregion
 
+					#region UserFireBullet
 					Events.UserFireBullet +=
 						e =>
 						{
@@ -154,7 +158,9 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 								null
 							);
 						};
+					#endregion
 
+					#region UserRestoreStarship
 					Events.UserRestoreStarship +=
 						e =>
 						{
@@ -173,8 +179,127 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 
 							MapRoutedActions.RestoreStarship.Direct(starship);
 						};
+					#endregion
+
+					Events.ServerSendMap +=
+						e =>
+						{
+
+							OnServerSendMap();
+
+						};
+
+					Events.UserSendMap +=
+						e =>
+						{
+							// we got a new map, do we need it?
+
+							// now add apples as the new map says
+							var integers_as_bytes = e.buttons.Select(i => (byte)i).ToArray();
+
+							var m = new MemoryStream(integers_as_bytes);
+							
+							m.Position = 0;
+
+							var mr = new BinaryReader(m);
+
+							MapRoutedActions.SendTextMessage.Direct("got map " + m.Length + " bytes");
+
+
+							var cloud = Map.cloud1.Members;
+
+							if (cloud.Count != mr.ReadByte())
+								throw new Exception("cloud count mismatch");
+
+							// if we get it the second time why do the invaders 
+							// leave the scene?
+							// fixed: unsigned vs signed vector
+							// we need timer tick interval too!!
+
+							Map.cloud1.NextMove.x = mr.ReadInt16();
+							Map.cloud1.NextMove.y = mr.ReadInt16();
+
+							MapRoutedActions.SendTextMessage.Direct("got next move: " + Map.cloud1.NextMove.x + " " + Map.cloud1.NextMove.y);
+
+							Map.cloud1.Speed = mr.ReadDouble();
+
+							MapRoutedActions.SendTextMessage.Direct("got cloud speed " + Map.cloud1.Speed);
+
+							foreach (var a in cloud)
+							{
+								var a_x = mr.ReadInt16();
+								var a_y = mr.ReadInt16();
+
+								MapRoutedActions.SendTextMessage.Direct("invader: " + a_x + " " + a_y);
+
+								a.Element.TeleportTo(a_x, a_y);
+								a.Element.alpha = (double)mr.ReadByte() / 255.0;
+							}
+
+							var blocks = Map.DefenseBlocks;
+
+
+							if (blocks.Count != mr.ReadByte())
+								throw new Exception("blocks count mismatch");
+
+							foreach (var a in blocks)
+							{
+								//a.x = m.ReadByte();
+								//a.y = m.ReadByte();
+								a.alpha = (double)mr.ReadByte() / 255.0;
+							}
+
+							//ShowMessage("got map: " + integers_as_bytes.Length);
+						};
 				};
 
+		}
+
+		public void OnServerSendMap()
+		{
+			// server has chosen me to send a map to the new users
+
+			// for now lets do a manual serialization
+
+			var ms = new MemoryStream();
+			var mw = new BinaryWriter(ms);
+
+			var cloud = Map.cloud1.Members;
+
+			mw.Write((byte)cloud.Count);
+
+			// we need to send movement info too
+			mw.Write((short)Map.cloud1.NextMove.x);
+			mw.Write((short)Map.cloud1.NextMove.y);
+			mw.Write((double)Map.cloud1.Speed);
+
+			MapRoutedActions.SendTextMessage.Direct("sent cloud speed " + Map.cloud1.Speed);
+
+			foreach (var a in cloud)
+			{
+				mw.Write((short)a.Element.MoveToTarget.Value.x);
+				mw.Write((short)a.Element.MoveToTarget.Value.y);
+				mw.Write((byte)(a.Element.alpha * 255));
+			}
+
+			var blocks = Map.DefenseBlocks;
+
+			mw.Write((byte)blocks.Count);
+
+			foreach (var a in blocks)
+			{
+				mw.Write((byte)(a.alpha * 255));
+			}
+
+
+			// proxy expects int[], at the moment, so we need to cast for now (overkill)
+
+			var bytes_as_integers = ms.ToArray().Select(i => (int)i).ToArray();
+
+			//ShowMessage("sent map: " + bytes_as_integers.Length);
+
+			MapRoutedActions.SendTextMessage.Direct("sent map " + ms.Length + " bytes");
+			Messages.SendMap(bytes_as_integers);
 		}
 	}
 }

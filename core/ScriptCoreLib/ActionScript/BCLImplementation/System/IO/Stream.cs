@@ -25,14 +25,16 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 
 			Read(buffer, 0, 1);
 
-			return buffer[0];
+			return (int) buffer[0] & 0xff;
 		}
 
 		public abstract void Write(byte[] buffer, int offset, int count);
 
 		public virtual void WriteByte(byte value)
 		{
-			this.Write(new[] { value }, 0, 1);
+			var v = (byte)(value & 0xff);
+
+			this.Write(new[] { v }, 0, 1);
 		}
 
 		public abstract long Length { get; }
