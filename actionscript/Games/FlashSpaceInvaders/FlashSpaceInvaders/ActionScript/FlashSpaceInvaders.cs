@@ -19,17 +19,18 @@ using ScriptCoreLib.ActionScript.flash.ui;
 using ScriptCoreLib.ActionScript.mx.core;
 using FlashSpaceInvaders.Shared;
 using FlashSpaceInvaders.ActionScript.MultiPlayer;
+using ScriptCoreLib.ActionScript.MochiLibrary;
 
 namespace FlashSpaceInvaders.ActionScript
 {
 	/// <summary>
 	/// testing...
 	/// </summary>
-	[Script, ScriptApplicationEntryPoint]
+	[Script, ScriptApplicationEntryPoint(Width = DefaultWidth, Height = Game.DefaultHeight)]
 	[SWF(backgroundColor = Colors.Black, width = DefaultWidth, height = Game.DefaultHeight)]
-	public class FlashSpaceInvaders : Sprite
+	public class FlashSpaceInvaders : MochiAdPreloaderBase
 	{
-		public const int DefaultWidth = Game.DefaultWidth * 2;
+		public const int DefaultWidth = Game.DefaultWidth + NonobaClient.NonobaChatWidth;
 
 		// todo: add http://gimme.badsectoracula.com/flashmodplayer/modplayer.html
 
@@ -37,13 +38,32 @@ namespace FlashSpaceInvaders.ActionScript
 
 		// http://cdexos.sourceforge.net/?q=download
 
+		// http://en.wikipedia.org/wiki/Space_Invaders
+
+
+		public const string MochiAdKey = "5ea4cb6ec61420b1";
+
+		const string Description = "A remake of the classic Space Invaders.";
+
+		const string Instructions = "Use arrow keys or mouse to move around. Space to shoot.";
 
 		public FlashSpaceInvaders()
 		{
-			// why the virtual latency doesnt work?
-			//Action<Action> VirtualLatency = e => 200.AtDelayDo(e);
+			this.InvokeWhenStageIsReady(
+				delegate
+				{
+					_mochiads_game_id = MochiAdKey;
 
-			PlayMultiPlayer();
+					showPreGameAd(
+						delegate
+						{
+							PlayMultiPlayer();
+						}
+					);
+				}
+			);
+
+			
 		}
 
 		private void PlaySplitScreen()
@@ -65,7 +85,7 @@ namespace FlashSpaceInvaders.ActionScript
 		{
 			var g = new MultiPlayer.NonobaClient();
 
-			g.Element.x = (DefaultWidth - MultiPlayer.NonobaClient.DefaultWidth) / 2;
+			//g.Element.x = (DefaultWidth - MultiPlayer.NonobaClient.DefaultWidth) / 2;
 
 			g.Element.AttachTo(this);
 		}

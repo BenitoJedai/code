@@ -47,7 +47,7 @@ namespace FlashSpaceInvaders.ActionScript
 			InitializeRoutedActions();
 			InitializeSharedState();
 
-			SoundEnabled = false;
+			SoundEnabled = true;
 
 			Action<Sound> play =
 				s =>
@@ -162,9 +162,8 @@ namespace FlashSpaceInvaders.ActionScript
 			this.Ego.GodMode.ValueChangedTo +=
 				GodMode => DebugDump.Write(new { GodMode });
 
-			MenuFader.ValueChangedTo += e => this.Ego.GodMode.Value = e == Menu;
-
-			this.Ego.GodMode.Value = true;
+			// MenuFader.ValueChangedTo += e => this.Ego.GodMode.Value = e == Menu;
+			// this.Ego.GodMode.Value = true;
 
 
 
@@ -175,6 +174,7 @@ namespace FlashSpaceInvaders.ActionScript
 						delegate
 						{
 							this.ApplyFilter(Filters.GrayScaleFilter);
+							this.RoutedActions.SendTextMessage.Direct("waiting for respawn...");
 
 							if (PlayerInput != null)
 								PlayerInput.Enabled.Value = false;
@@ -201,6 +201,9 @@ namespace FlashSpaceInvaders.ActionScript
 							3000.AtDelayDo(
 								delegate
 								{
+									this.RoutedActions.SendTextMessage.Direct("respawn!");
+
+
 									if (Statusbar.Lives == 0)
 									{
 										Statusbar.Lives.Value = 3;
@@ -285,7 +288,7 @@ namespace FlashSpaceInvaders.ActionScript
 			this.GroupEnemies.Add(this.Ego.EvilEgo);
 
 			// hide menu for fast start
-			MenuFader.Value = CanvasOverlay;
+			// MenuFader.Value = CanvasOverlay;
 
 
 			const int ClipMargin = 20;
@@ -737,10 +740,10 @@ namespace FlashSpaceInvaders.ActionScript
 						{
 							Statusbar.Score.Value += target.ScorePoints;
 
-							if (Statusbar.Score < 5)
+							if (Statusbar.Score < 50)
 								RoutedActions.SetWeaponMultiplier.Chained(Ego, 1);
 							else
-								if (Statusbar.Score < 10)
+								if (Statusbar.Score < 200)
 									RoutedActions.SetWeaponMultiplier.Chained(Ego, 2);
 								else
 									RoutedActions.SetWeaponMultiplier.Chained(Ego, 3);
