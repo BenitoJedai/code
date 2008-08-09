@@ -22,6 +22,7 @@ namespace FlashSpaceInvaders.ActionScript
 		public RoutedActionInfo<string> SendTextMessage = "SendTextMessage";
 
 		public RoutedActionInfo<int, Action<PlayerShip>> CreateCoPlayer = "CreateCoPlayer";
+		public RoutedActionInfo<int> RemoveCoPlayer = "RemoveCoPlayer";
 		public RoutedActionInfo<PlayerShip, Point> MoveCoPlayer = "MoveCoPlayer";
 
 		public RoutedActionInfo<StarShip, int, Point, Point, double, Action<BulletInfo>> FireBullet = "FireBullet";

@@ -102,10 +102,9 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 						  MapRoutedActions.SendTextMessage.Direct("Player joined - " + e.name);
 
 						  Messages.PlayerAdvertise(MyIdentity.Value.name);
-
+						  Messages.VectorChanged((int)Map.Ego.GoodEgo.MoveToTarget.Value.x, (int)Map.Ego.GoodEgo.MoveToTarget.Value.y);
 
 						  //Messages.TeleportTo((int)Map.Ego.Location.x, (int)Map.Ego.Location.y);
-
 						  //for (int i = 1; i < Map.Ego.Parts.Count; i++)
 						  //{
 						  //    // there is no apple, but we just need to gain in size
@@ -124,6 +123,15 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 
 							MapRoutedActions.SendTextMessage.Direct("Player here - " + e.name);
 						};
+
+					Events.ServerPlayerLeft +=
+						e =>
+						{
+							MapRoutedActions.RemoveCoPlayer.Direct(e.user);
+
+						};
+
+					
 
 					Events.UserVectorChanged +=
 						e =>

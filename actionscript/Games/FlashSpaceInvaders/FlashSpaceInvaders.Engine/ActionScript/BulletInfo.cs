@@ -11,7 +11,7 @@ namespace FlashSpaceInvaders.ActionScript
 	{
 		public bool Silent;
 
-		public double Damage = 0.10;
+		public double Damage = 0.05;
 		public double Multiplier = 1;
 
 		public double TotalDamage
