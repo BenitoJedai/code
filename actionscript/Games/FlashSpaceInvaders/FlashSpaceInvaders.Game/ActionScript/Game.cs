@@ -154,6 +154,7 @@ namespace FlashSpaceInvaders.ActionScript
 				};
 
 			// addding our entities to list ensures we know under what id to send them
+			this.Ego.AddTo(this.SharedState.LocalObjects);
 			this.Ego.GoodEgo.AddTo(this.SharedState.LocalObjects);
 			this.Ego.EvilEgo.AddTo(this.SharedState.LocalObjects);
 
@@ -165,7 +166,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 			this.Ego.GodMode.Value = true;
 
-			
+
 
 
 
@@ -180,30 +181,43 @@ namespace FlashSpaceInvaders.ActionScript
 
 							Statusbar.Lives.Value--;
 
-							if (Statusbar.Lives > 0)
+							if (Statusbar.Lives == 0)
 							{
-								3000.AtDelayDo(
-									delegate
+								var ScoreMinStep = this.Statusbar.Score.Value / 30;
+
+								100.AtInterval(
+									t =>
 									{
-										this.RoutedActions.RestoreStarship.Chained(this.Ego.GoodEgo);
+										var v = (this.Statusbar.Score.Value - ScoreMinStep).Max(0);
 
-										this.filters = null;
+										Statusbar.Score.Value = v;
 
-										if (PlayerInput != null)
-											PlayerInput.Enabled.Value = true;
-
-										play(Sounds.insertcoin);
+										if (v == 0)
+											t.stop();
 									}
 								);
 							}
-							else
-							{
 
-								if (GameOver != null)
-									GameOver();
+							3000.AtDelayDo(
+								delegate
+								{
+									if (Statusbar.Lives == 0)
+									{
+										Statusbar.Lives.Value = 3;
+										Statusbar.Score.Value = 0;
+									}
 
+									this.RoutedActions.RestoreStarship.Chained(this.Ego.GoodEgo);
 
-							}
+									this.filters = null;
+
+									if (PlayerInput != null)
+										PlayerInput.Enabled.Value = true;
+
+									play(Sounds.insertcoin);
+								}
+							);
+
 						};
 			#endregion
 
@@ -376,6 +390,8 @@ namespace FlashSpaceInvaders.ActionScript
 					cp1.EvilEgo.AttachTo(CanvasOverlay);
 
 					// we are adding remote controlled objects
+					cp1.AddTo(this.SharedState.RemoteObjects[user]);
+
 					cp1.GoodEgo.AddTo(this.SharedState.RemoteObjects[user]);
 					cp1.EvilEgo.AddTo(this.SharedState.RemoteObjects[user]);
 
@@ -389,6 +405,24 @@ namespace FlashSpaceInvaders.ActionScript
 					// this entity only moves when that player wants to move...
 
 					// yet we might need to notify of damage
+				};
+
+			RoutedActions.RemoveCoPlayer.Direct =
+				user =>
+				{
+					var CoPlayer = (PlayerShip)this.SharedState.RemoteObjects[user][0];
+
+					this.SharedState.RemoteObjects[user].Clear();
+
+					CoPlayers.Remove(CoPlayer);
+
+					CoPlayer.EvilEgo.Orphanize();
+					CoPlayer.GoodEgo.Orphanize();
+
+					GroupEnemies.Remove(CoPlayer.EvilEgo);
+
+					CoPlayer.EvilEgo.RemoveFrom(FragileEntities.Items);
+					CoPlayer.GoodEgo.RemoveFrom(FragileEntities.Items);
 				};
 
 			RoutedActions.MoveCoPlayer.Direct =
@@ -415,10 +449,10 @@ namespace FlashSpaceInvaders.ActionScript
 			#endregion
 
 			#region cloud
-			 cloud1 = new EnemyCloud
-			{
-				PlaySound = play
-			};
+			cloud1 = new EnemyCloud
+		   {
+			   PlaySound = play
+		   };
 
 			cloud1.Members.ForEach(
 				m =>
@@ -465,6 +499,12 @@ namespace FlashSpaceInvaders.ActionScript
 					cloud1.Speed = 12;
 					cloud1.TeleportTo(60, 80);
 
+					// rebuild defense
+
+					foreach (var v in DefenseBlocks)
+					{
+						v.alpha = 1;
+					}
 				};
 
 			ResetCloudLocal();
@@ -513,7 +553,9 @@ namespace FlashSpaceInvaders.ActionScript
 						return;
 					}
 
-					if (cloud1.Counter % 4 == 0)
+					var Skip = 4 * (CoPlayers.Count + 1);
+
+					if (cloud1.Counter % Skip == 0)
 					{
 						// fire some bullets
 						var rr = cloud1.FrontRow.Random();
@@ -686,7 +728,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 						if (GroupEnemies.Any(k => k == target))
 						{
-							cloud1.TickInterval.Value = (cloud1.TickInterval.Value - 50).Max(200);
+							cloud1.TickInterval.Value = (cloud1.TickInterval.Value - 25).Max(200);
 							cloud1.Speed *= cloud1.SpeedAcc;
 						}
 

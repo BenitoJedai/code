@@ -32,8 +32,8 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 			}
 		}
 
-		public double Speed = 12.0;
-		public double SpeedAcc = 1.039;
+		public double Speed = 10.0;
+		public double SpeedAcc = 1.02;
 		public Point NextMove = new Point();
 
 

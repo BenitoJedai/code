@@ -120,12 +120,15 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public readonly Int32Property CurrentBulletMultiplier = 1;
 
-		public BulletInfo FireBullet()
+		public void FireBullet()
 		{
+			if (!GoodEgo.IsAlive.Value)
+				return;
+
 			if (EvilMode)
-				return ActiveEgo.FireBulletChained(CurrentBulletMultiplier, new Point(EvilEgo.x, EvilEgo.y), new Point(EvilEgo.x, DefaultHeight), GoodEgoY);
+				 ActiveEgo.FireBulletChained(CurrentBulletMultiplier, new Point(EvilEgo.x, EvilEgo.y), new Point(EvilEgo.x, DefaultHeight), GoodEgoY);
 			else
-				return ActiveEgo.FireBulletChained(CurrentBulletMultiplier, new Point(GoodEgo.x, GoodEgo.y), new Point(GoodEgo.x, 0), EvilEgoY);
+				ActiveEgo.FireBulletChained(CurrentBulletMultiplier, new Point(GoodEgo.x, GoodEgo.y), new Point(GoodEgo.x, 0), EvilEgoY);
 
 		}
 
