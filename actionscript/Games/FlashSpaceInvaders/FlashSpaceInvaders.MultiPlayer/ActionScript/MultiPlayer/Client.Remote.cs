@@ -27,10 +27,23 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 		public void InitializeEvents()
 		{
 			#region ServerPlayerHello
+
+			//Events.ServerPlayerHandshake +=
+			//    e =>
+			//    {
+			//        if (e.version == null)
+			//            throw new Exception("version is null");
+
+			//        if (e.version.Length != 2)
+			//            throw new Exception("version length mismatch");
+			//    };
+
 			Events.ServerPlayerHello +=
 				e =>
 				{
 					MyIdentity.Value = e;
+
+	
 
 					// now we know our player id.
 					this.MapSharedState.RemoteObjects[e.user] = this.MapSharedState.LocalObjects;
@@ -131,7 +144,7 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 
 						};
 
-					
+
 
 					Events.UserVectorChanged +=
 						e =>
@@ -234,8 +247,13 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 
 							// now add apples as the new map says
 							var integers_as_bytes = e.buttons.Select(i => (byte)i).ToArray();
-
 							var m = new MemoryStream(integers_as_bytes);
+
+							//if (e.stream.Length == 0)
+							//    throw new Exception("0 bytes in stream");
+
+							//var m = new MemoryStream(e.stream);
+
 
 							m.Position = 0;
 
@@ -342,6 +360,8 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 			//ShowMessage("sent map: " + bytes_as_integers.Length);
 
 			MapRoutedActions.SendTextMessage.Direct("sent map " + ms.Length + " bytes");
+
+			//Messages.SendMap(ms.ToArray());
 			Messages.SendMap(bytes_as_integers);
 		}
 	}

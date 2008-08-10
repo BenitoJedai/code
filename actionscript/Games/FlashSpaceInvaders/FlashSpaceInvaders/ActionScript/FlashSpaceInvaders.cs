@@ -49,6 +49,13 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public FlashSpaceInvaders()
 		{
+			PlayMultiPlayerWithMochi();
+
+			
+		}
+
+		private void PlayMultiPlayerWithMochi()
+		{
 			this.InvokeWhenStageIsReady(
 				delegate
 				{
@@ -62,8 +69,6 @@ namespace FlashSpaceInvaders.ActionScript
 					);
 				}
 			);
-
-			
 		}
 
 		private void PlaySplitScreen()

@@ -9,6 +9,8 @@ using ScriptCoreLib.ActionScript.Nonoba.api;
 using ScriptCoreLib.ActionScript.Extensions;
 
 using FlashSpaceInvaders.ActionScript.Extensions;
+using System.IO;
+using ScriptCoreLib.ActionScript.flash.utils;
 
 namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 {
@@ -65,6 +67,17 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 			   {
 				   var type = (SharedClass1.Messages)int.Parse(e.Type);
 
+				   //Converter<uint, byte[]> GetMemoryStream =
+				   //    index =>
+				   //    {
+				   //        var a = e.GetByteArray(index);
+
+				   //        if (a == null)
+				   //            throw new Exception("bytearray missing at " + index + " - " + e.ToString());
+
+				   //        return a.ToArray();
+				   //    };
+
 				   if (MyEvents.Dispatch(type,
 						 new SharedClass1.RemoteEvents.DispatchHelper
 						 {
@@ -72,6 +85,7 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 							 GetInt32 = e.GetInt,
 							 GetDouble = e.GetNumber,
 							 GetString = e.GetString,
+			//				 GetMemoryStream = GetMemoryStream
 						 }
 					 ))
 					   return true;
@@ -80,6 +94,11 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 			   };
 			#endregion
 
+			//c.MessageDirect +=
+			//    e =>
+			//    {
+			//        throw new Exception("got first message");
+			//    };
 
 			#region message
 			c.Message +=
@@ -113,9 +132,6 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 				 delegate
 				 {
 				 };
-
-
-
 
 		}
 
