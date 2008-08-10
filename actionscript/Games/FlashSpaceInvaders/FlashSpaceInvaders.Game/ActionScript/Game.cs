@@ -188,7 +188,11 @@ namespace FlashSpaceInvaders.ActionScript
 			var ReportedScore = 0;
 
 			#region lives and gameover
-			this.Ego.GoodEgo.IsAlive.ValueChangedToFalse +=
+
+			Action<StarShip> ApplyEgoRespawn =
+				xego =>
+				{
+					xego.IsAlive.ValueChangedToFalse +=
 						delegate
 						{
 							this.ApplyFilter(Filters.GrayScaleFilter);
@@ -230,10 +234,10 @@ namespace FlashSpaceInvaders.ActionScript
 									}
 									else
 									{
-								
+
 									}
 
-								
+
 
 									if (Statusbar.Score.Value > 0)
 									{
@@ -242,7 +246,7 @@ namespace FlashSpaceInvaders.ActionScript
 										ReportedScore = Statusbar.Score.Value;
 									}
 
-									this.RoutedActions.RestoreStarship.Chained(this.Ego.GoodEgo);
+									this.RoutedActions.RestoreStarship.Chained(xego);
 
 									this.filters = null;
 
@@ -254,6 +258,12 @@ namespace FlashSpaceInvaders.ActionScript
 							);
 
 						};
+				};
+
+
+			ApplyEgoRespawn(this.Ego.GoodEgo);
+			ApplyEgoRespawn(this.Ego.EvilEgo);
+
 			#endregion
 
 
@@ -603,7 +613,7 @@ namespace FlashSpaceInvaders.ActionScript
 					cloud1.NextMove.y = 0;
 					
 
-					1000.AtDelayDo(
+					3000.AtDelayDo(
 						delegate
 						{
 							cloud1.ResetColors();
