@@ -18,6 +18,7 @@ namespace FlashSpaceInvaders.Shared
         public enum Messages
         {
             None = 100,
+            ServerPlayerHandshake,
             ServerPlayerHello,
             ServerPlayerJoined,
             ServerPlayerLeft,
@@ -75,6 +76,7 @@ namespace FlashSpaceInvaders.Shared
         [CompilerGenerated]
         public partial interface IEvents
         {
+            event Action<RemoteEvents.ServerPlayerHandshakeArguments> ServerPlayerHandshake;
             event Action<RemoteEvents.ServerPlayerHelloArguments> ServerPlayerHello;
             event Action<RemoteEvents.ServerPlayerJoinedArguments> ServerPlayerJoined;
             event Action<RemoteEvents.ServerPlayerLeftArguments> ServerPlayerLeft;
@@ -135,6 +137,12 @@ namespace FlashSpaceInvaders.Shared
                 public object[] args;
             }
             #endregion
+            public void ServerPlayerHandshake(int[] version)
+            {
+                var args = new object[version.Length];
+                Array.Copy(version, args, version.Length);
+                Send(new SendArguments { i = Messages.ServerPlayerHandshake, args = args });
+            }
             public void ServerPlayerHello(int user, string name)
             {
                 Send(new SendArguments { i = Messages.ServerPlayerHello, args = new object[] { user, name } });
@@ -330,7 +338,7 @@ namespace FlashSpaceInvaders.Shared
                 public Converter<uint, int[]> GetInt32Array { get; set; }
                 public Converter<uint, double[]> GetDoubleArray { get; set; }
                 public Converter<uint, string[]> GetStringArray { get; set; }
-                public Converter<uint, object[]> GetArray { get; set; }
+                public Converter<uint, byte[]> GetMemoryStream { get; set; }
             }
             #endregion
             public bool Dispatch(Messages e, IDispatchHelper h)
@@ -466,6 +474,20 @@ namespace FlashSpaceInvaders.Shared
                 #endregion
             }
             #endregion
+            #region ServerPlayerHandshakeArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class ServerPlayerHandshakeArguments
+            {
+                public int[] version;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ version = ").Append(this.version).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<ServerPlayerHandshakeArguments> ServerPlayerHandshake;
             #region ServerPlayerHelloArguments
             [Script]
             [CompilerGenerated]
@@ -1082,6 +1104,7 @@ namespace FlashSpaceInvaders.Shared
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
                         {
+                            { Messages.ServerPlayerHandshake, e => { ServerPlayerHandshake(new ServerPlayerHandshakeArguments { version = e.GetInt32Array(0) }); } },
                             { Messages.ServerPlayerHello, e => { ServerPlayerHello(new ServerPlayerHelloArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                             { Messages.ServerPlayerJoined, e => { ServerPlayerJoined(new ServerPlayerJoinedArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                             { Messages.ServerPlayerLeft, e => { ServerPlayerLeft(new ServerPlayerLeftArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
@@ -1128,6 +1151,7 @@ namespace FlashSpaceInvaders.Shared
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
                         {
+                            { Messages.ServerPlayerHandshake, e => ServerPlayerHandshake },
                             { Messages.ServerPlayerHello, e => ServerPlayerHello },
                             { Messages.ServerPlayerJoined, e => ServerPlayerJoined },
                             { Messages.ServerPlayerLeft, e => ServerPlayerLeft },
@@ -1211,6 +1235,14 @@ namespace FlashSpaceInvaders.Shared
             {
                 e();
             }
+            public event Action<RemoteEvents.ServerPlayerHandshakeArguments> ServerPlayerHandshake;
+            void IMessages.ServerPlayerHandshake(int[] version)
+            {
+                if(ServerPlayerHandshake == null) return;
+                var v = new RemoteEvents.ServerPlayerHandshakeArguments { version = version };
+                this.VirtualLatency(() => this.ServerPlayerHandshake(v));
+            }
+
             public event Action<RemoteEvents.ServerPlayerHelloArguments> ServerPlayerHello;
             void IMessages.ServerPlayerHello(int user, string name)
             {
@@ -1552,4 +1584,4 @@ namespace FlashSpaceInvaders.Shared
     }
     #endregion
 }
-// 9.08.2008 14:45:20
+// 10.08.2008 13:19:12

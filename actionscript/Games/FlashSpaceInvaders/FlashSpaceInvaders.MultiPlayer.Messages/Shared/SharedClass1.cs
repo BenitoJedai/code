@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Runtime.CompilerServices;
+using System.IO;
 
 
 namespace FlashSpaceInvaders.Shared
@@ -25,8 +26,10 @@ namespace FlashSpaceInvaders.Shared
       
             // this will generate lots of overkill boilerplate code :)
 
-           
-            void ServerPlayerHello(int user, string name);
+
+			void ServerPlayerHandshake(int[] version);
+
+			void ServerPlayerHello(int user, string name);
             void ServerPlayerJoined(int user, string name);
             void ServerPlayerLeft(int user, string name);
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.IO;
 
 namespace FlashSpaceInvaders.MultiPlayer.Test
 {
@@ -27,7 +28,15 @@ namespace FlashSpaceInvaders.MultiPlayer.Test
 					var app = new ApplicationContext(x);
 
 					Action<Action> Invoke =
-						h => x.Invoke(h);
+						h =>
+						{
+							if (x.IsDisposed)
+								return;
+							x.Invoke(h);
+						};
+
+
+					x.button1.Enabled = File.Exists(swf);
 
 					x.button1.Click +=
 						delegate
@@ -51,9 +60,12 @@ namespace FlashSpaceInvaders.MultiPlayer.Test
 									);
 								};
 
-							x.FormClosed +=
+							x.FormClosing +=
 								delegate
 								{
+									if (p.HasExited)
+										return;
+
 									p.Kill();
 
 									//p.CloseMainWindow();
@@ -61,7 +73,7 @@ namespace FlashSpaceInvaders.MultiPlayer.Test
 
 						};
 
-					x.FormClosing +=
+					x.FormClosed +=
 						delegate
 						{
 							foreach (Form f in Application.OpenForms)

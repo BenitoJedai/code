@@ -30,7 +30,13 @@ namespace FlashSpaceInvaders.Shared
             player.FromPlayer.AwardAchievementFiver +=
                 e => player.AwardAchievement("fiver");
 
-            player.ToPlayer.ServerPlayerHello(player.UserId, player.Username);
+			//player.ToPlayer.ServerPlayerHandshake(
+			//    new  [] { 0x12, 0x34 }
+			//);
+
+            player.ToPlayer.ServerPlayerHello(
+				player.UserId, player.Username
+			);
 
             player.ToOthers.ServerPlayerJoined(
                player.UserId, player.Username
@@ -45,7 +51,6 @@ namespace FlashSpaceInvaders.Shared
 
         public override void UserLeft(MyPlayer player)
         {
-
             player.ToOthers.ServerPlayerLeft(player.UserId, player.Username);
         }
 
