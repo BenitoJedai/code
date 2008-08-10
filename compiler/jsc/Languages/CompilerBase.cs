@@ -781,11 +781,16 @@ namespace jsc.Script
         }
 
 
-
+		protected virtual bool WriteMethodCustomBody(MethodBase m)
+		{
+			return false;
+		}
         public void WriteMethodBody(MethodBase m, Predicate<ILBlock.Prestatement> predicate, Action CustomVariableInitialization)
         {
             using (CreateScope())
             {
+				if (WriteMethodCustomBody(m))
+					return;
 
                 try
                 {

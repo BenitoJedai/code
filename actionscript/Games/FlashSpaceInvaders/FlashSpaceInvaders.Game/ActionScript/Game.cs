@@ -192,9 +192,16 @@ namespace FlashSpaceInvaders.ActionScript
 			Action<StarShip> ApplyEgoRespawn =
 				xego =>
 				{
+					var WaitingForRespawn = false;
+
 					xego.IsAlive.ValueChangedToFalse +=
 						delegate
 						{
+							if (WaitingForRespawn)
+								return;
+
+							WaitingForRespawn = true;
+
 							this.ApplyFilter(Filters.GrayScaleFilter);
 							this.RoutedActions.SendTextMessage.Direct("waiting for respawn...");
 
@@ -203,7 +210,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 							Statusbar.Lives.Value--;
 
-							if (Statusbar.Lives == 0)
+							if (Statusbar.Lives <= 0)
 							{
 								var ScoreMinStep = this.Statusbar.Score.Value / 30;
 
@@ -220,7 +227,7 @@ namespace FlashSpaceInvaders.ActionScript
 								);
 							}
 
-							3000.AtDelayDo(
+							3100.AtDelayDo(
 								delegate
 								{
 									this.RoutedActions.SendTextMessage.Direct("respawn!");
@@ -232,11 +239,7 @@ namespace FlashSpaceInvaders.ActionScript
 										Statusbar.Score.Value = 0;
 										PlaysSurvived.Value = 0;
 									}
-									else
-									{
-
-									}
-
+								
 
 
 									if (Statusbar.Score.Value > 0)
@@ -246,6 +249,8 @@ namespace FlashSpaceInvaders.ActionScript
 										ReportedScore = Statusbar.Score.Value;
 									}
 
+									WaitingForRespawn = false;
+									
 									this.RoutedActions.RestoreStarship.Chained(xego);
 
 									this.filters = null;
@@ -294,6 +299,9 @@ namespace FlashSpaceInvaders.ActionScript
 						{
 							s.GodMode.Value = false;
 							s.filters = null;
+
+							if (this.CoPlayers.Any(k => s == k.GoodEgo))
+								s.ApplyFilter(Filters.ColorFillFilter(0xff));
 						}
 					);
 				};
@@ -467,7 +475,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 					// group as enemies
 					cp1.EvilEgo.AddTo(this.GroupEnemies);
-
+					cp1.GoodEgo.ApplyFilter(Filters.ColorFillFilter(0xff));
 					cp1.AddTo(FragileEntities);
 
 					handler(cp1);
@@ -578,6 +586,11 @@ namespace FlashSpaceInvaders.ActionScript
 						v.alpha = 1;
 					}
 
+					foreach (var v in KnownEgos)
+					{
+						v.GoodEgo.alpha = 1;
+						v.EvilEgo.alpha = 1;
+					}
 	
 				};
 

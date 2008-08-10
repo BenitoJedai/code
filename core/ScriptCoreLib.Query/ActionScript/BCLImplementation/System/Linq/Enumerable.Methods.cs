@@ -17,6 +17,27 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
 
     internal static partial class __Enumerable
     {
+		public static T ElementAt<T>(this IEnumerable<T> e, int index)
+		{
+			int i = -1;
+
+			T r = default(T);
+
+			foreach (var v in e.AsEnumerable())
+			{
+				i++;
+
+				if (i == index)
+				{
+					r = v;
+					break;
+				}
+			}
+
+			return r;
+		}
+
+
         //public static IEnumerable<TSource> Reverse<TSource>(this IEnumerable<TSource> source)
         //{
         //    var s = new Stack<TSource>();

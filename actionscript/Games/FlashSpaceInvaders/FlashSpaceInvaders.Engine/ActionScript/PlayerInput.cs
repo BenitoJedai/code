@@ -94,7 +94,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 
 			#region EgoFire
-			var DoFire = new KeyboardButton(stage, 400)
+			var DoFire = new KeyboardButton(stage, 700)
 			{
 				Groups = new[]
                 {

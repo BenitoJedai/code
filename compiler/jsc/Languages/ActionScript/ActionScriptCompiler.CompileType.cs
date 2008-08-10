@@ -12,11 +12,14 @@ namespace jsc.Languages.ActionScript
 {
     partial class ActionScriptCompiler
     {
+		public Action CompileType_WriteAdditionalMembers;
 
         public override bool CompileType(Type z)
         {
             if (IsNativeType(z))
                 return false;
+
+			CompileType_WriteAdditionalMembers = delegate { };
 
             WriteIdent();
             Write("package " + NamespaceFixup(z.Namespace));
@@ -131,10 +134,13 @@ namespace jsc.Languages.ActionScript
                             }
                     }
 
+					CompileType_WriteAdditionalMembers();
+
                 }
 
                 if (cctor != null)
                     cctor();
+
             }
 
             return true;

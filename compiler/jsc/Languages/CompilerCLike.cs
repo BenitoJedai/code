@@ -1155,12 +1155,6 @@ namespace jsc.Script
                         WriteAbstractMethodBody(m);
                     }
 
-                    //else if (!SupportsAbstractMethods && z.IsClass && z.IsAbstract)
-                    //{
-                    //    WriteScopeBegin();
-                    //    WriteScopeEnd(false);
-
-                    //}
                 }
 
 
