@@ -17,6 +17,7 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 using global::System.Collections.Generic;
 using System.Linq;
 using System;
+using Mahjong.Shared;
 
 
 
@@ -31,7 +32,7 @@ namespace Mahjong.js
 
         public static implicit operator LoadedAsset(RankAsset e)
         {
-            return new LoadedAsset { Asset = e, Image = e };
+            return new LoadedAsset { Asset = e, Image = e.ToImage() };
         }
     }
 
