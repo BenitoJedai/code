@@ -28,6 +28,7 @@ namespace FlashSpaceInvaders.Shared
 
 			//player.FromPlayer.AddScore += e => player.AddScore("worms", e.worms);
 
+			player.FromPlayer.AwardAchievementFirst += e => player.AwardAchievement("first");
 			player.FromPlayer.AwardAchievementFiver += e => player.AwardAchievement("fiver");
 			player.FromPlayer.AwardAchievementUFOKill += e => player.AwardAchievement("ufokill");
 			player.FromPlayer.AwardAchievementMaxGun += e => player.AwardAchievement("maxgun");

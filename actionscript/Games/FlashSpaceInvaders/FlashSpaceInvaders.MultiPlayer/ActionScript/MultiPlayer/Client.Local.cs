@@ -116,6 +116,10 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 				score =>
 					Messages.AddScore(score);
 
+			MapRoutedActions.AddAchivementFirst.Handler +=
+				() => Messages.AwardAchievementFirst();
+
+
 			MapRoutedActions.AddAchivementFiver.Handler +=
 				() => Messages.AwardAchievementFiver();
 
@@ -125,6 +129,9 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 
 			MapRoutedActions.AddAchivementMaxGun.Handler +=
 				() => Messages.AwardAchievementMaxGun();
+
+			MapRoutedActions.KillAllInvaders.Handler +=
+				() => Messages.KillAllInvaders();
 
 			// hook on map events
 		}

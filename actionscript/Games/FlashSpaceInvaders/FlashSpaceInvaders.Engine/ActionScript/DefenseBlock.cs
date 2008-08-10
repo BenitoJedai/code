@@ -41,7 +41,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public void TakeDamage(double damage)
 		{
-			this.alpha -= damage;
+			this.alpha -= damage * 4;
 
 			if (this.alpha < 0.5)
 				this.alpha = 0;

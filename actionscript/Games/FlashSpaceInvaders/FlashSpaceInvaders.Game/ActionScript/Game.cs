@@ -41,6 +41,9 @@ namespace FlashSpaceInvaders.ActionScript
 		public readonly Statusbar Statusbar = new Statusbar();
 		public PlayerInput PlayerInput;
 
+
+		readonly Int32Property PlaysSurvived = 0;
+
 		public Game()
 			: base(DefaultWidth, DefaultHeight)
 		{
@@ -101,11 +104,20 @@ namespace FlashSpaceInvaders.ActionScript
 
 			var MenuFader = new DualFader { Value = Menu };
 
+		
 
 			#region common keys
 			this.InvokeWhenStageIsReady(
 				delegate
 				{
+					stage.click +=
+						delegate
+						{
+							if (MenuFader.Value != CanvasOverlay)
+								MenuFader.Value = CanvasOverlay;
+						};
+
+
 					stage.keyUp +=
 						e =>
 						{
@@ -135,6 +147,12 @@ namespace FlashSpaceInvaders.ActionScript
 							{
 								play(Sounds.miu);
 
+								foreach (var v in cloud1.Members)
+								{
+									DebugDump.Write(new { v.Element.x, v.Element.y });
+								}
+
+								DebugDump.Write(new { PlaysSurvived = this.PlaysSurvived.Value });
 
 							}
 						};
@@ -168,7 +186,6 @@ namespace FlashSpaceInvaders.ActionScript
 
 
 			var ReportedScore = 0;
-			var PlaysSurvived = 0;
 
 			#region lives and gameover
 			this.Ego.GoodEgo.IsAlive.ValueChangedToFalse +=
@@ -209,17 +226,14 @@ namespace FlashSpaceInvaders.ActionScript
 									{
 										Statusbar.Lives.Value = 3;
 										Statusbar.Score.Value = 0;
-										PlaysSurvived = 0;
+										PlaysSurvived.Value = 0;
 									}
 									else
 									{
-										// do not count evil mode
-										if (!Ego.EvilMode)
-											PlaysSurvived++;
+								
 									}
 
-									if (PlaysSurvived == 5)
-										this.RoutedActions.AddAchivementFiver.Chained();
+								
 
 									if (Statusbar.Score.Value > 0)
 									{
@@ -261,6 +275,7 @@ namespace FlashSpaceInvaders.ActionScript
 
 					
 					s.GodMode.Value = true;
+					s.TakeDamage(0);
 					s.ApplyFilter(new BlurFilter());
 					s.alpha = 1;
 
@@ -318,6 +333,19 @@ namespace FlashSpaceInvaders.ActionScript
 
 			// hide menu for fast start
 			// MenuFader.Value = CanvasOverlay;
+
+			this.PlaysSurvived.ValueChangedTo +=
+				PlaysSurvived => DebugDump.Write(new { PlaysSurvived });
+
+			this.PlaysSurvived.ValueChangedTo +=
+				PlaysSurvived =>
+				{
+					if (PlaysSurvived == 5)
+						this.RoutedActions.AddAchivementFiver.ChainedOnce();
+
+					if (PlaysSurvived == 1)
+						this.RoutedActions.AddAchivementFirst.ChainedOnce();
+				};
 
 
 			const int ClipMargin = 20;
@@ -524,12 +552,14 @@ namespace FlashSpaceInvaders.ActionScript
 			Action ResetCloudLocal =
 				delegate
 				{
+					cloud1.Speed = 12;
 					cloud1.NextMove.x = cloud1.Speed;
 					cloud1.NextMove.y = 0;
 
-					cloud1.TickInterval.Value = 1000;
-					cloud1.Speed = 12;
+					
+					
 					cloud1.TeleportTo(60, 80);
+					cloud1.TickInterval.Value = 1000;
 
 					// rebuild defense
 
@@ -537,14 +567,41 @@ namespace FlashSpaceInvaders.ActionScript
 					{
 						v.alpha = 1;
 					}
+
+	
 				};
 
 			ResetCloudLocal();
 
+			bool ResetCloudSoonDisabled = false;
+
+			RoutedActions.KillAllInvaders.Direct =
+				delegate
+				{
+					cloud1.Members.ForEach(m => m.Element.alpha = 0);
+				};
+
 			Action ResetCloudSoon =
 				delegate
 				{
+					if (ResetCloudSoonDisabled)
+						return;
+
+					ResetCloudSoonDisabled = true;
+
+					RoutedActions.KillAllInvaders.Chained();
+
+					// do not count evil mode
+					if (!Ego.EvilMode)
+						PlaysSurvived.Value++;
+
 					cloud1.TickInterval.Value = 0;
+					cloud1.TeleportTo(60, 80);
+
+					cloud1.Speed = 12;
+					cloud1.NextMove.x = cloud1.Speed;
+					cloud1.NextMove.y = 0;
+					
 
 					1000.AtDelayDo(
 						delegate
@@ -554,6 +611,9 @@ namespace FlashSpaceInvaders.ActionScript
 							ResetCloudLocal();
 
 							cloud1.ResetLives();
+
+							ResetCloudSoonDisabled = false;
+
 						}
 					);
 
@@ -866,9 +926,9 @@ namespace FlashSpaceInvaders.ActionScript
 			if (Statusbar.Score < 50)
 				RoutedActions.SetWeaponMultiplier.Chained(Ego, 1);
 			else
-				if (Statusbar.Score < 200)
+				if (Statusbar.Score < 100)
 					RoutedActions.SetWeaponMultiplier.Chained(Ego, 2);
-				else if (Statusbar.Score < 400)
+				else if (Statusbar.Score < 200)
 					RoutedActions.SetWeaponMultiplier.Chained(Ego, 3);
 				else
 				{

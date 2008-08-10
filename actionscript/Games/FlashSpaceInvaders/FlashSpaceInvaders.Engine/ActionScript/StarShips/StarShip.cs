@@ -44,13 +44,14 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public void TakeDamage(double damage)
 		{
-			if (GodMode)
-				return;
 
-			this.alpha -= damage * 4;
+			if (!GodMode)
+			{
+				this.alpha -= damage * 4;
 
-			if (this.alpha < 0.5)
-				this.alpha = 0;
+				if (this.alpha < 0.5)
+					this.alpha = 0;
+			}
 
 			IsAlive.Value = this.alpha > 0;
 		}

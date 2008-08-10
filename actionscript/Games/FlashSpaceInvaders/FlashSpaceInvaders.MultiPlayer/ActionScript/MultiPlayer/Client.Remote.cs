@@ -239,6 +239,13 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 							this.MapRoutedActions.AddDamage.Direct(target, e.damage, shooter);
 						};
 
+					Events.UserKillAllInvaders +=
+						e =>
+						{
+							this.MapRoutedActions.KillAllInvaders.Direct();
+
+						};
+
 					#region UserSendMap
 					Events.UserSendMap +=
 						e =>
@@ -287,6 +294,8 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 							{
 								var a_x = mr.ReadInt16();
 								var a_y = mr.ReadInt16();
+
+					
 
 								MapRoutedActions.SendTextMessage.Direct("invader: " + a_x + " " + a_y);
 
