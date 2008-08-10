@@ -32,6 +32,16 @@ namespace FlashSpaceInvaders.ActionScript
 	{
 		public Action Direct;
 
+		bool ChainedOnceDone = false;
+		public void ChainedOnce()
+		{
+			if (ChainedOnceDone)
+				return;
+
+			ChainedOnceDone = true;
+
+			Chained();
+		}
 		public void Chained()
 		{
 			if (Direct != null)
@@ -44,6 +54,12 @@ namespace FlashSpaceInvaders.ActionScript
 		}
 
 		public event Action Handler;
+
+
+		public static implicit operator RoutedActionInfo(string EventName)
+		{
+			return new RoutedActionInfo { EventName = EventName };
+		}
 	}
 
 

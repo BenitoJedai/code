@@ -112,6 +112,20 @@ namespace FlashSpaceInvaders.ActionScript.MultiPlayer
 					);
 				};
 
+			MapRoutedActions.AddRankingScore.Handler +=
+				score =>
+					Messages.AddScore(score);
+
+			MapRoutedActions.AddAchivementFiver.Handler +=
+				() => Messages.AwardAchievementFiver();
+
+			MapRoutedActions.AddAchivementUFO.Handler +=
+				() => Messages.AwardAchievementUFOKill();
+
+
+			MapRoutedActions.AddAchivementMaxGun.Handler +=
+				() => Messages.AwardAchievementMaxGun();
+
 			// hook on map events
 		}
 	}

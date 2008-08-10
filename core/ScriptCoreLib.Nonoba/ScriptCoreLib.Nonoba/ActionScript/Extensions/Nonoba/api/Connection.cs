@@ -37,6 +37,16 @@ namespace ScriptCoreLib.ActionScript.Extensions.Nonoba.api
 
         #endregion
 
+		public static void add_MessageDirect(Connection that, Action<object> value)
+		{
+			CommonExtensions.CombineDelegate(that, value, MessageEvent.MESSAGE);
+		}
+
+		public static void remove_MessageDirect(Connection that, Action<object> value)
+		{
+			CommonExtensions.RemoveDelegate(that, value, MessageEvent.MESSAGE);
+		}
+
         #region Implementation for methods marked with [Script(NotImplementedHere = true)]
         #region Message
         public static void add_Message(Connection that, Action<MessageEvent> value)

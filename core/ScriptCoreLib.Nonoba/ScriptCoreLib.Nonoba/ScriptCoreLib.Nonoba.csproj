@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\Extensions\NonobaExtensions.cs" />
     <Compile Include="ActionScript\Extensions\Nonoba\api\Connection.cs" />
     <Compile Include="ActionScript\Extensions\Nonoba\api\MessageEvent.cs" />
     <Compile Include="ActionScript\Extensions\Nonoba\api\Message.cs" />

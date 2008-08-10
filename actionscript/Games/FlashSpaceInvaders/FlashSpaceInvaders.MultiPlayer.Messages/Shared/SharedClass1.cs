@@ -86,9 +86,11 @@ namespace FlashSpaceInvaders.Shared
             void UserReveal(int user, int button);
 
 			// registered nonoba rankings
-			void AddScore(int apples, int worms);
+			void AddScore(int score);
 
-            void AwardAchievementFiver();
+			void AwardAchievementFiver();
+			void AwardAchievementUFOKill();
+			void AwardAchievementMaxGun();
 
             void SendPassword(string password);
             void ServerPasswordStatus(int status);

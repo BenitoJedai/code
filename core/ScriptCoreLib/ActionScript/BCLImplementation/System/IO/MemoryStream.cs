@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.ActionScript.flash.utils;
+using ScriptCoreLib.ActionScript.Extensions;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 {
@@ -58,18 +59,18 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 
 		public virtual byte[] ToArray()
 		{
-			this.Buffer.position = 0;
+			return this.Buffer.ToArray();
 
-			var o = new byte[this.Buffer.length];
+			//var o = new byte[this.Buffer.length];
 
-			for (int i = 0; i < o.Length; i++)
-			{
-				var b = (byte)(this.Buffer.readByte());
+			//for (int i = 0; i < o.Length; i++)
+			//{
+			//    var b = (byte)(this.Buffer.readByte());
 
-				o[i] = (byte)(b & 0xff);
-			}
+			//    o[i] = (byte)(b & 0xff);
+			//}
 
-			return o;
+			//return o;
 		}
 
 		public override long Length

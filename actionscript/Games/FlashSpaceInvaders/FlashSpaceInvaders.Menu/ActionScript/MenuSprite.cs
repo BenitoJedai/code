@@ -217,7 +217,7 @@ namespace FlashSpaceInvaders.ActionScript
 					size = 16,
 				},
 				selectable = false,
-				htmlText = "<font color='#00ff00'>Escape</font> - quit, <font color='#00ff00'>P</font> - pause",
+				htmlText = "<font color='#00ff00'>Escape</font> - quit, <font color='#00ff00'>M</font> - mute",
 			}.AttachTo(menu);
 			#endregion
 

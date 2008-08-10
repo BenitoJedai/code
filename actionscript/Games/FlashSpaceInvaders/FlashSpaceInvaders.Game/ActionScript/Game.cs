@@ -167,7 +167,8 @@ namespace FlashSpaceInvaders.ActionScript
 
 
 
-
+			var ReportedScore = 0;
+			var PlaysSurvived = 0;
 
 			#region lives and gameover
 			this.Ego.GoodEgo.IsAlive.ValueChangedToFalse +=
@@ -208,6 +209,23 @@ namespace FlashSpaceInvaders.ActionScript
 									{
 										Statusbar.Lives.Value = 3;
 										Statusbar.Score.Value = 0;
+										PlaysSurvived = 0;
+									}
+									else
+									{
+										// do not count evil mode
+										if (!Ego.EvilMode)
+											PlaysSurvived++;
+									}
+
+									if (PlaysSurvived == 5)
+										this.RoutedActions.AddAchivementFiver.Chained();
+
+									if (Statusbar.Score.Value > 0)
+									{
+										this.RoutedActions.AddRankingScore.Chained(Statusbar.Score.Value - ReportedScore);
+
+										ReportedScore = Statusbar.Score.Value;
 									}
 
 									this.RoutedActions.RestoreStarship.Chained(this.Ego.GoodEgo);
@@ -241,7 +259,18 @@ namespace FlashSpaceInvaders.ActionScript
 				{
 					DebugDump.Write("restore starship: " + s.Name);
 
+					
+					s.GodMode.Value = true;
+					s.ApplyFilter(new BlurFilter());
 					s.alpha = 1;
+
+					2000.AtDelayDo(
+						delegate
+						{
+							s.GodMode.Value = false;
+							s.filters = null;
+						}
+					);
 				};
 
 			this.InvokeWhenStageIsReady(
@@ -735,18 +764,17 @@ namespace FlashSpaceInvaders.ActionScript
 							cloud1.Speed *= cloud1.SpeedAcc;
 						}
 
+						// we shot a coplayer while in evil mode! yay!
+						if (shooter == Ego.EvilEgo)
+							if (KnownEgos.Any(k => k.GoodEgo == target))
+								this.RoutedActions.AddAchivementUFO.Chained();
+
 						#region award localplayer and upgrade weapon
 						if (shooter == Ego.ActiveEgo)
 						{
 							Statusbar.Score.Value += target.ScorePoints;
 
-							if (Statusbar.Score < 50)
-								RoutedActions.SetWeaponMultiplier.Chained(Ego, 1);
-							else
-								if (Statusbar.Score < 200)
-									RoutedActions.SetWeaponMultiplier.Chained(Ego, 2);
-								else
-									RoutedActions.SetWeaponMultiplier.Chained(Ego, 3);
+							TryUpgradeWeapon();
 						}
 						#endregion
 
@@ -798,8 +826,23 @@ namespace FlashSpaceInvaders.ActionScript
 				};
 			#endregion
 
+			this.RoutedActions.AddAchivementFiver.Direct =
+				delegate
+				{
+					play(Sounds.insertcoin);
+				};
 
+			this.RoutedActions.AddAchivementMaxGun.Direct =
+				delegate
+				{
+					play(Sounds.insertcoin);
+				};
 
+			this.RoutedActions.AddAchivementUFO.Direct =
+				delegate
+				{
+					play(Sounds.mothershiploop);
+				};
 
 			Action<RoutedActionInfoBase> BaseHandler =
 				e => DebugDump.Write(new { e.EventName });
@@ -807,12 +850,32 @@ namespace FlashSpaceInvaders.ActionScript
 			// events for network
 			// RoutedActions.AddDamage.BaseHandler += BaseHandler;
 			RoutedActions.RestoreStarship.BaseHandler += BaseHandler;
+			RoutedActions.AddAchivementFiver.BaseHandler += BaseHandler;
+			RoutedActions.AddAchivementUFO.BaseHandler += BaseHandler;
+			RoutedActions.AddAchivementMaxGun.BaseHandler += BaseHandler;
 
 			//this.AddEnemy.BaseHandler += BaseHandler;
 			////this.AddBullet.BaseHandler += BaseHandler;
 			//this.DoPlayerMovement.BaseHandler += BaseHandler;
 			//this.SetWeaponMultiplier.BaseHandler += BaseHandler;
 
+		}
+
+		private void TryUpgradeWeapon()
+		{
+			if (Statusbar.Score < 50)
+				RoutedActions.SetWeaponMultiplier.Chained(Ego, 1);
+			else
+				if (Statusbar.Score < 200)
+					RoutedActions.SetWeaponMultiplier.Chained(Ego, 2);
+				else if (Statusbar.Score < 400)
+					RoutedActions.SetWeaponMultiplier.Chained(Ego, 3);
+				else
+				{
+					RoutedActions.SetWeaponMultiplier.Chained(Ego, 4);
+					
+					RoutedActions.AddAchivementMaxGun.ChainedOnce();
+				}
 		}
 
 

@@ -24,11 +24,13 @@ namespace FlashSpaceInvaders.Shared
             player.FromPlayer.UnlockGame += e => this.GameState = MyGame.GameStateEnum.OpenGameInProgress;
 
 			// registered nonoba rankings
-			player.FromPlayer.AddScore += e => player.AddScore("apples", e.apples);
-			player.FromPlayer.AddScore += e => player.AddScore("worms", e.worms);
+			player.FromPlayer.AddScore += e => player.AddScore("score", e.score);
 
-            player.FromPlayer.AwardAchievementFiver +=
-                e => player.AwardAchievement("fiver");
+			//player.FromPlayer.AddScore += e => player.AddScore("worms", e.worms);
+
+			player.FromPlayer.AwardAchievementFiver += e => player.AwardAchievement("fiver");
+			player.FromPlayer.AwardAchievementUFOKill += e => player.AwardAchievement("ufokill");
+			player.FromPlayer.AwardAchievementMaxGun += e => player.AwardAchievement("maxgun");
 
 			//player.ToPlayer.ServerPlayerHandshake(
 			//    new  [] { 0x12, 0x34 }

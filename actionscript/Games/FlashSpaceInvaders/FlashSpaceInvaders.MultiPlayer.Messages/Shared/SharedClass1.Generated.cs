@@ -57,6 +57,8 @@ namespace FlashSpaceInvaders.Shared
             UserReveal,
             AddScore,
             AwardAchievementFiver,
+            AwardAchievementUFOKill,
+            AwardAchievementMaxGun,
             SendPassword,
             ServerPasswordStatus,
             LockGame,
@@ -115,6 +117,8 @@ namespace FlashSpaceInvaders.Shared
             event Action<RemoteEvents.UserRevealArguments> UserReveal;
             event Action<RemoteEvents.AddScoreArguments> AddScore;
             event Action<RemoteEvents.AwardAchievementFiverArguments> AwardAchievementFiver;
+            event Action<RemoteEvents.AwardAchievementUFOKillArguments> AwardAchievementUFOKill;
+            event Action<RemoteEvents.AwardAchievementMaxGunArguments> AwardAchievementMaxGun;
             event Action<RemoteEvents.SendPasswordArguments> SendPassword;
             event Action<RemoteEvents.ServerPasswordStatusArguments> ServerPasswordStatus;
             event Action<RemoteEvents.LockGameArguments> LockGame;
@@ -291,13 +295,21 @@ namespace FlashSpaceInvaders.Shared
             {
                 Send(new SendArguments { i = Messages.UserReveal, args = new object[] { user, button } });
             }
-            public void AddScore(int apples, int worms)
+            public void AddScore(int score)
             {
-                Send(new SendArguments { i = Messages.AddScore, args = new object[] { apples, worms } });
+                Send(new SendArguments { i = Messages.AddScore, args = new object[] { score } });
             }
             public void AwardAchievementFiver()
             {
                 Send(new SendArguments { i = Messages.AwardAchievementFiver, args = new object[] {  } });
+            }
+            public void AwardAchievementUFOKill()
+            {
+                Send(new SendArguments { i = Messages.AwardAchievementUFOKill, args = new object[] {  } });
+            }
+            public void AwardAchievementMaxGun()
+            {
+                Send(new SendArguments { i = Messages.AwardAchievementMaxGun, args = new object[] {  } });
             }
             public void SendPassword(string password)
             {
@@ -1023,12 +1035,11 @@ namespace FlashSpaceInvaders.Shared
             [CompilerGenerated]
             public sealed partial class AddScoreArguments
             {
-                public int apples;
-                public int worms;
+                public int score;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ apples = ").Append(this.apples).Append(", worms = ").Append(this.worms).Append(" }").ToString();
+                    return new StringBuilder().Append("{ score = ").Append(this.score).Append(" }").ToString();
                 }
             }
             #endregion
@@ -1046,6 +1057,32 @@ namespace FlashSpaceInvaders.Shared
             }
             #endregion
             public event Action<AwardAchievementFiverArguments> AwardAchievementFiver;
+            #region AwardAchievementUFOKillArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class AwardAchievementUFOKillArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().ToString();
+                }
+            }
+            #endregion
+            public event Action<AwardAchievementUFOKillArguments> AwardAchievementUFOKill;
+            #region AwardAchievementMaxGunArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class AwardAchievementMaxGunArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().ToString();
+                }
+            }
+            #endregion
+            public event Action<AwardAchievementMaxGunArguments> AwardAchievementMaxGun;
             #region SendPasswordArguments
             [Script]
             [CompilerGenerated]
@@ -1141,8 +1178,10 @@ namespace FlashSpaceInvaders.Shared
                             { Messages.UserSetFlag, e => { UserSetFlag(new UserSetFlagArguments { user = e.GetInt32(0), button = e.GetInt32(1), value = e.GetInt32(2) }); } },
                             { Messages.Reveal, e => { Reveal(new RevealArguments { button = e.GetInt32(0) }); } },
                             { Messages.UserReveal, e => { UserReveal(new UserRevealArguments { user = e.GetInt32(0), button = e.GetInt32(1) }); } },
-                            { Messages.AddScore, e => { AddScore(new AddScoreArguments { apples = e.GetInt32(0), worms = e.GetInt32(1) }); } },
+                            { Messages.AddScore, e => { AddScore(new AddScoreArguments { score = e.GetInt32(0) }); } },
                             { Messages.AwardAchievementFiver, e => { AwardAchievementFiver(new AwardAchievementFiverArguments {  }); } },
+                            { Messages.AwardAchievementUFOKill, e => { AwardAchievementUFOKill(new AwardAchievementUFOKillArguments {  }); } },
+                            { Messages.AwardAchievementMaxGun, e => { AwardAchievementMaxGun(new AwardAchievementMaxGunArguments {  }); } },
                             { Messages.SendPassword, e => { SendPassword(new SendPasswordArguments { password = e.GetString(0) }); } },
                             { Messages.ServerPasswordStatus, e => { ServerPasswordStatus(new ServerPasswordStatusArguments { status = e.GetInt32(0) }); } },
                             { Messages.LockGame, e => { LockGame(new LockGameArguments {  }); } },
@@ -1190,6 +1229,8 @@ namespace FlashSpaceInvaders.Shared
                             { Messages.UserReveal, e => UserReveal },
                             { Messages.AddScore, e => AddScore },
                             { Messages.AwardAchievementFiver, e => AwardAchievementFiver },
+                            { Messages.AwardAchievementUFOKill, e => AwardAchievementUFOKill },
+                            { Messages.AwardAchievementMaxGun, e => AwardAchievementMaxGun },
                             { Messages.SendPassword, e => SendPassword },
                             { Messages.ServerPasswordStatus, e => ServerPasswordStatus },
                             { Messages.LockGame, e => LockGame },
@@ -1532,10 +1573,10 @@ namespace FlashSpaceInvaders.Shared
             }
 
             public event Action<RemoteEvents.AddScoreArguments> AddScore;
-            void IMessages.AddScore(int apples, int worms)
+            void IMessages.AddScore(int score)
             {
                 if(AddScore == null) return;
-                var v = new RemoteEvents.AddScoreArguments { apples = apples, worms = worms };
+                var v = new RemoteEvents.AddScoreArguments { score = score };
                 this.VirtualLatency(() => this.AddScore(v));
             }
 
@@ -1545,6 +1586,22 @@ namespace FlashSpaceInvaders.Shared
                 if(AwardAchievementFiver == null) return;
                 var v = new RemoteEvents.AwardAchievementFiverArguments {  };
                 this.VirtualLatency(() => this.AwardAchievementFiver(v));
+            }
+
+            public event Action<RemoteEvents.AwardAchievementUFOKillArguments> AwardAchievementUFOKill;
+            void IMessages.AwardAchievementUFOKill()
+            {
+                if(AwardAchievementUFOKill == null) return;
+                var v = new RemoteEvents.AwardAchievementUFOKillArguments {  };
+                this.VirtualLatency(() => this.AwardAchievementUFOKill(v));
+            }
+
+            public event Action<RemoteEvents.AwardAchievementMaxGunArguments> AwardAchievementMaxGun;
+            void IMessages.AwardAchievementMaxGun()
+            {
+                if(AwardAchievementMaxGun == null) return;
+                var v = new RemoteEvents.AwardAchievementMaxGunArguments {  };
+                this.VirtualLatency(() => this.AwardAchievementMaxGun(v));
             }
 
             public event Action<RemoteEvents.SendPasswordArguments> SendPassword;
@@ -1584,4 +1641,4 @@ namespace FlashSpaceInvaders.Shared
     }
     #endregion
 }
-// 10.08.2008 13:19:12
+// 10.08.2008 14:51:52
