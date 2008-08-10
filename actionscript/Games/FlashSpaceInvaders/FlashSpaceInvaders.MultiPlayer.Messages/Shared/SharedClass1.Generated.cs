@@ -56,6 +56,9 @@ namespace FlashSpaceInvaders.Shared
             Reveal,
             UserReveal,
             AddScore,
+            KillAllInvaders,
+            UserKillAllInvaders,
+            AwardAchievementFirst,
             AwardAchievementFiver,
             AwardAchievementUFOKill,
             AwardAchievementMaxGun,
@@ -116,6 +119,9 @@ namespace FlashSpaceInvaders.Shared
             event Action<RemoteEvents.RevealArguments> Reveal;
             event Action<RemoteEvents.UserRevealArguments> UserReveal;
             event Action<RemoteEvents.AddScoreArguments> AddScore;
+            event Action<RemoteEvents.KillAllInvadersArguments> KillAllInvaders;
+            event Action<RemoteEvents.UserKillAllInvadersArguments> UserKillAllInvaders;
+            event Action<RemoteEvents.AwardAchievementFirstArguments> AwardAchievementFirst;
             event Action<RemoteEvents.AwardAchievementFiverArguments> AwardAchievementFiver;
             event Action<RemoteEvents.AwardAchievementUFOKillArguments> AwardAchievementUFOKill;
             event Action<RemoteEvents.AwardAchievementMaxGunArguments> AwardAchievementMaxGun;
@@ -299,6 +305,18 @@ namespace FlashSpaceInvaders.Shared
             {
                 Send(new SendArguments { i = Messages.AddScore, args = new object[] { score } });
             }
+            public void KillAllInvaders()
+            {
+                Send(new SendArguments { i = Messages.KillAllInvaders, args = new object[] {  } });
+            }
+            public void UserKillAllInvaders(int user)
+            {
+                Send(new SendArguments { i = Messages.UserKillAllInvaders, args = new object[] { user } });
+            }
+            public void AwardAchievementFirst()
+            {
+                Send(new SendArguments { i = Messages.AwardAchievementFirst, args = new object[] {  } });
+            }
             public void AwardAchievementFiver()
             {
                 Send(new SendArguments { i = Messages.AwardAchievementFiver, args = new object[] {  } });
@@ -395,6 +413,7 @@ namespace FlashSpaceInvaders.Shared
                     value.SendMapLater += this.UserSendMapLater;
                     value.SetFlag += this.UserSetFlag;
                     value.Reveal += this.UserReveal;
+                    value.KillAllInvaders += this.UserKillAllInvaders;
                 }
 
                 public void RemoveDelegates(IEvents value)
@@ -415,6 +434,7 @@ namespace FlashSpaceInvaders.Shared
                     value.SendMapLater -= this.UserSendMapLater;
                     value.SetFlag -= this.UserSetFlag;
                     value.Reveal -= this.UserReveal;
+                    value.KillAllInvaders -= this.UserKillAllInvaders;
                 }
                 #endregion
 
@@ -482,6 +502,10 @@ namespace FlashSpaceInvaders.Shared
                 public void UserReveal(RevealArguments e)
                 {
                     Target.UserReveal(this.user, e.button);
+                }
+                public void UserKillAllInvaders(KillAllInvadersArguments e)
+                {
+                    Target.UserKillAllInvaders(this.user);
                 }
                 #endregion
             }
@@ -1044,6 +1068,45 @@ namespace FlashSpaceInvaders.Shared
             }
             #endregion
             public event Action<AddScoreArguments> AddScore;
+            #region KillAllInvadersArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class KillAllInvadersArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().ToString();
+                }
+            }
+            #endregion
+            public event Action<KillAllInvadersArguments> KillAllInvaders;
+            #region UserKillAllInvadersArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserKillAllInvadersArguments : WithUserArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserKillAllInvadersArguments> UserKillAllInvaders;
+            #region AwardAchievementFirstArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class AwardAchievementFirstArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().ToString();
+                }
+            }
+            #endregion
+            public event Action<AwardAchievementFirstArguments> AwardAchievementFirst;
             #region AwardAchievementFiverArguments
             [Script]
             [CompilerGenerated]
@@ -1179,6 +1242,9 @@ namespace FlashSpaceInvaders.Shared
                             { Messages.Reveal, e => { Reveal(new RevealArguments { button = e.GetInt32(0) }); } },
                             { Messages.UserReveal, e => { UserReveal(new UserRevealArguments { user = e.GetInt32(0), button = e.GetInt32(1) }); } },
                             { Messages.AddScore, e => { AddScore(new AddScoreArguments { score = e.GetInt32(0) }); } },
+                            { Messages.KillAllInvaders, e => { KillAllInvaders(new KillAllInvadersArguments {  }); } },
+                            { Messages.UserKillAllInvaders, e => { UserKillAllInvaders(new UserKillAllInvadersArguments { user = e.GetInt32(0) }); } },
+                            { Messages.AwardAchievementFirst, e => { AwardAchievementFirst(new AwardAchievementFirstArguments {  }); } },
                             { Messages.AwardAchievementFiver, e => { AwardAchievementFiver(new AwardAchievementFiverArguments {  }); } },
                             { Messages.AwardAchievementUFOKill, e => { AwardAchievementUFOKill(new AwardAchievementUFOKillArguments {  }); } },
                             { Messages.AwardAchievementMaxGun, e => { AwardAchievementMaxGun(new AwardAchievementMaxGunArguments {  }); } },
@@ -1228,6 +1294,9 @@ namespace FlashSpaceInvaders.Shared
                             { Messages.Reveal, e => Reveal },
                             { Messages.UserReveal, e => UserReveal },
                             { Messages.AddScore, e => AddScore },
+                            { Messages.KillAllInvaders, e => KillAllInvaders },
+                            { Messages.UserKillAllInvaders, e => UserKillAllInvaders },
+                            { Messages.AwardAchievementFirst, e => AwardAchievementFirst },
                             { Messages.AwardAchievementFiver, e => AwardAchievementFiver },
                             { Messages.AwardAchievementUFOKill, e => AwardAchievementUFOKill },
                             { Messages.AwardAchievementMaxGun, e => AwardAchievementMaxGun },
@@ -1580,6 +1649,30 @@ namespace FlashSpaceInvaders.Shared
                 this.VirtualLatency(() => this.AddScore(v));
             }
 
+            public event Action<RemoteEvents.KillAllInvadersArguments> KillAllInvaders;
+            void IMessages.KillAllInvaders()
+            {
+                if(KillAllInvaders == null) return;
+                var v = new RemoteEvents.KillAllInvadersArguments {  };
+                this.VirtualLatency(() => this.KillAllInvaders(v));
+            }
+
+            public event Action<RemoteEvents.UserKillAllInvadersArguments> UserKillAllInvaders;
+            void IMessages.UserKillAllInvaders(int user)
+            {
+                if(UserKillAllInvaders == null) return;
+                var v = new RemoteEvents.UserKillAllInvadersArguments { user = user };
+                this.VirtualLatency(() => this.UserKillAllInvaders(v));
+            }
+
+            public event Action<RemoteEvents.AwardAchievementFirstArguments> AwardAchievementFirst;
+            void IMessages.AwardAchievementFirst()
+            {
+                if(AwardAchievementFirst == null) return;
+                var v = new RemoteEvents.AwardAchievementFirstArguments {  };
+                this.VirtualLatency(() => this.AwardAchievementFirst(v));
+            }
+
             public event Action<RemoteEvents.AwardAchievementFiverArguments> AwardAchievementFiver;
             void IMessages.AwardAchievementFiver()
             {
@@ -1641,4 +1734,4 @@ namespace FlashSpaceInvaders.Shared
     }
     #endregion
 }
-// 10.08.2008 14:51:52
+// 10.08.2008 16:18:22

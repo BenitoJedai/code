@@ -88,6 +88,10 @@ namespace FlashSpaceInvaders.Shared
 			// registered nonoba rankings
 			void AddScore(int score);
 
+			void KillAllInvaders();
+			void UserKillAllInvaders(int user);
+
+			void AwardAchievementFirst();
 			void AwardAchievementFiver();
 			void AwardAchievementUFOKill();
 			void AwardAchievementMaxGun();

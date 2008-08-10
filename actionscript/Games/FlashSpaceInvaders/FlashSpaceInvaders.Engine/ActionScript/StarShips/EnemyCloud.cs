@@ -112,15 +112,18 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 			Action Reset =
 				delegate
 				{
-					Timer = TickInterval.Value.AtInterval(
-						t =>
-						{
-							InternalTick();
-					
-						}
-					);
+					if (TickInterval.Value > 0)
+					{
+						Timer = TickInterval.Value.AtInterval(
+							t =>
+							{
+								InternalTick();
 
-					InternalTick();
+							}
+						);
+
+						InternalTick();
+					}
 
 				};
 
@@ -195,7 +198,12 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 
 			foreach (var v in Members)
 			{
-				v.Element.TweenMoveTo(v.Element.MoveToTarget.Value.x + x, v.Element.MoveToTarget.Value.y + y);
+				var _y = v.Element.MoveToTarget.Value.y + y;
+
+				if (_y < 80)
+					_y = 80;
+
+				v.Element.TweenMoveTo(v.Element.MoveToTarget.Value.x + x, _y);
 			}
 		}
 
