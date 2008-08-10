@@ -40,5 +40,20 @@ using ScriptCoreLib;
 
 [assembly:
     Script,
-    ScriptTypeFilter(ScriptType.JavaScript, "*.js")
+	ScriptTypeFilter(ScriptType.JavaScript, "*.js"),
+	ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
+    ScriptTypeFilter(ScriptType.ActionScript, "*.Shared"),
+    ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript")
+]
+
+[assembly:
+	ScriptResources("assets/Mahjong/bamboo"),
+	ScriptResources("assets/Mahjong/characters"),
+	ScriptResources("assets/Mahjong/dots"),
+	ScriptResources("assets/Mahjong/dragons"),
+	ScriptResources("assets/Mahjong/flowers"),
+	ScriptResources("assets/Mahjong/seasons"),
+	ScriptResources("assets/Mahjong/special"),
+	ScriptResources("assets/Mahjong/winds"),
+
 ]

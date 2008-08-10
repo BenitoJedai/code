@@ -7,7 +7,7 @@
     <ProjectGuid>{37337673-4A19-4F25-B7CC-B1532AB909CE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mahjong.Assets</RootNamespace>
+    <RootNamespace>Mahjong</RootNamespace>
     <AssemblyName>Mahjong.Assets</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -50,14 +50,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="js\Assets.cs" />
+    <Compile Include="ActionScript\Images.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\Assets.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
     <EmbeddedResource Include="web\assets\Mahjong\bamboo\1.png" />
-    <EmbeddedResource Include="web\assets\Mahjong\bamboo\2.Png" />
+    <EmbeddedResource Include="web\assets\Mahjong\bamboo\2.png" />
     <EmbeddedResource Include="web\assets\Mahjong\bamboo\3.png" />
     <EmbeddedResource Include="web\assets\Mahjong\bamboo\4.png" />
     <EmbeddedResource Include="web\assets\Mahjong\bamboo\5.png" />

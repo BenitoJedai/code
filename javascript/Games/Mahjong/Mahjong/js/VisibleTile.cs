@@ -16,6 +16,7 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 
 using global::System.Collections.Generic;
 using System.Linq;
+using Mahjong.Shared;
 
 
 namespace Mahjong.js
@@ -28,9 +29,6 @@ namespace Mahjong.js
 
         public readonly IHTMLDiv Background = new IHTMLDiv();
         public readonly IHTMLDiv Display = new IHTMLDiv();
-
-
-
 
         public VisibleTile(LoadedAsset Info, Asset.Settings Settings)
         {
@@ -45,7 +43,7 @@ namespace Mahjong.js
             this.Background.style.SetSize(Settings.OuterWidth, Settings.OuterHeight);
             this.Background.appendChild(this.Display);
 
-            Settings.BackgroundTile.ToBackground(Background);
+            Settings.BackgroundTile.ToImage().ToBackground(Background);
         }
 
         public bool IsMatch(VisibleTile a)
