@@ -868,7 +868,12 @@ namespace ConvertASToCS.js.Any
 						{
 							var SingleArray = v.ParametersInfo.SingleArrayParameter;
 							var SingleObjectArray = SingleArray != null ? SingleArray.ElementTypeName == "object" : false;
-							var SignleArrayConverted = SingleArray != null && !SingleObjectArray;
+							var SingleByteArray = SingleArray != null ? SingleArray.ElementTypeName == "byte" : false;
+
+							var SignleArrayConverted = SingleArray != null;
+
+							SignleArrayConverted &= !SingleObjectArray;
+							SignleArrayConverted &= !SingleByteArray;
 
 							if (SignleArrayConverted)
 							{
@@ -1002,7 +1007,10 @@ namespace ConvertASToCS.js.Any
                         { "double[]", "GetDoubleArray" },
                         { "string[]", "GetStringArray" },
 
-                        { "object[]", "GetArray" },
+						//{ "object[]", "GetArray" },
+
+						{ "byte[]", "GetMemoryStream" },
+
                     };
 
 
@@ -1104,8 +1112,6 @@ namespace ConvertASToCS.js.Any
 									// remove User prefix
 									WriteVariableDefinition(IEvents.Name, "value");
 								}
-
-							
 							}
 
 							using (CodeBlock())

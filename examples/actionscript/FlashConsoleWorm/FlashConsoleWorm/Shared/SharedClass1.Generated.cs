@@ -294,7 +294,7 @@ namespace FlashConsoleWorm.Shared
                 public Converter<uint, int[]> GetInt32Array { get; set; }
                 public Converter<uint, double[]> GetDoubleArray { get; set; }
                 public Converter<uint, string[]> GetStringArray { get; set; }
-                public Converter<uint, object[]> GetArray { get; set; }
+                public Converter<uint, byte[]> GetMemoryStream { get; set; }
             }
             #endregion
             public bool Dispatch(Messages e, IDispatchHelper h)
@@ -1338,4 +1338,4 @@ namespace FlashConsoleWorm.Shared
     }
     #endregion
 }
-// 9.08.2008 19:27:59
+// 10.08.2008 13:40:42

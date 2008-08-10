@@ -122,8 +122,10 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public void FireBullet()
 		{
-			if (!GoodEgo.IsAlive.Value)
+			if (this.ActiveEgo.HitPoints <= 0)
 				return;
+
+	
 
 			if (EvilMode)
 				 ActiveEgo.FireBulletChained(CurrentBulletMultiplier, new Point(EvilEgo.x, EvilEgo.y), new Point(EvilEgo.x, DefaultHeight), GoodEgoY);

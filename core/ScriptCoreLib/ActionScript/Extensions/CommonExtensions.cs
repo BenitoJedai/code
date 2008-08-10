@@ -20,6 +20,32 @@ namespace ScriptCoreLib.ActionScript.Extensions
     [Script]
     public static class CommonExtensions
     {
+		public static byte[] ToArray(this ByteArray e)
+		{
+			if (e == null)
+				throw new ArgumentNullException("e");
+
+			var p = e.position;
+
+			e.position = 0;
+
+			var a = new byte[e.length];
+
+			for (int i = 0; i < e.length; i++)
+			{
+				a[i] = (byte)(((byte)e.readByte()) & 0xff);
+			}
+
+			e.position = p;
+
+			return a;
+		}
+		public static MemoryStream ToMemoryStream(this ByteArray e)
+		{
+
+			return (MemoryStream) (object) new __MemoryStream { Buffer = e };
+		}
+
 		public static ByteArray ToByteArray(this Stream s)
 		{
 			var m = s as MemoryStream;

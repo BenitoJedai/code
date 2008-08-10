@@ -31,6 +31,9 @@ namespace ScriptCoreLib.ActionScript.Nonoba.api
         [method: Script(NotImplementedHere = true)]
         public event Action<MessageEvent> Message;
 
+
+		[method: Script(NotImplementedHere = true)]
+		public event Action<object> MessageDirect;
         #endregion
 
         public void Send(/* params */ object args)

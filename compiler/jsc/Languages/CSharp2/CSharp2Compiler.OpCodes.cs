@@ -723,13 +723,15 @@ namespace jsc.Languages.CSharp2
                      return;
                  }
 
-                 Write("new ");
-                 WriteGenericTypeName(e.Method.DeclaringType, t);
-                 Write("(");
+				 //Write("new ");
+				 //WriteGenericTypeName(e.Method.DeclaringType, t);
+				 //Write("(");
+
+				 // c# boxes values for us
 
                  EmitFirstOnStack(e);
 
-                 Write(")");
+				 //Write(")");
              };
             #endregion
 

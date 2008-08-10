@@ -28,6 +28,12 @@ namespace FlashSpaceInvaders.ActionScript
 		public RoutedActionInfo<StarShip, int, Point, Point, double, Action<BulletInfo>> FireBullet = "FireBullet";
 		public RoutedActionInfo<StarShip> RestoreStarship = "RestoreStarship";
 
+
+		public RoutedActionInfo<int> AddRankingScore = "AddRankingScore";
+		public RoutedActionInfo AddAchivementFiver = "AddAchivementFiver";
+		public RoutedActionInfo AddAchivementUFO = "AddAchivementUFO";
+		public RoutedActionInfo AddAchivementMaxGun = "AddAchivementMaxGun";
+
 	}
 
 	partial class Game 
