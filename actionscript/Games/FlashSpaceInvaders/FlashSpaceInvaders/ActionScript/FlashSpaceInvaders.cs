@@ -28,6 +28,21 @@ namespace FlashSpaceInvaders.ActionScript
 	/// </summary>
 	[Script, ScriptApplicationEntryPoint(Width = DefaultWidth, Height = Game.DefaultHeight)]
 	[SWF(backgroundColor = Colors.Black, width = DefaultWidth, height = Game.DefaultHeight)]
+	[GoogleGadget(
+	   author_email = "dadeval@gmail.com",
+	   author_link = "http://zproxy.wordpress.com",
+	   author = "Arvo Sulakatko",
+	   category = "lifestyle",
+	   category2 = "funandgames",
+	   screenshot = "http://picon.ngfiles.com/453000/portal_453076.gif",
+	   thumbnail = "http://picon.ngfiles.com/453000/portal_453076.gif",
+	   description = FlashSpaceInvaders.Description,
+	   width = DefaultWidth,
+	   height = Game.DefaultHeight,
+	   title = "FlashSpaceInvaders",
+	   title_url = "http://nonoba.com/zproxy/flashspaceinvaders"
+
+   )]
 	public class FlashSpaceInvaders : MochiAdPreloaderBase
 	{
 		public const int DefaultWidth = Game.DefaultWidth + NonobaClient.NonobaChatWidth;

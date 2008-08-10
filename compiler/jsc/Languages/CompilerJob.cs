@@ -204,7 +204,17 @@ namespace jsc.Languages
         }
 
 
-        public static void ExtractEmbeddedResources(DirectoryInfo dir, Assembly e)
+		public static void ExtractEmbeddedResources(DirectoryInfo dir, Assembly e)
+		{
+			ExtractEmbeddedResources(dir, e,
+				 (v, tf, Path, File) =>
+					  CopyStream(e.GetManifestResourceStream(v), tf.OpenWrite())
+			);
+
+
+		}
+
+        public static void ExtractEmbeddedResources(DirectoryInfo dir, Assembly e, Action<string, FileInfo, string, string> handler)
         {
             var DefaultResources = new ScriptResourcesAttribute("assets/" + e.GetName().Name);
 
@@ -275,11 +285,13 @@ namespace jsc.Languages
                         let t = string.IsNullOrEmpty(NewSubDir) ? dir : dir.CreateSubdirectory(NewSubDir)
                         let f = string.IsNullOrEmpty(NewSubDir) ? v.Substring(z.ap.Length) : v.Substring(z.ap.Length + 1)
                         let tf = new FileInfo(t.FullName + "/" + f)
-                        select new { v, tf };
+						select new { v, tf, File = f, Path = z.av.Value };
 
             foreach (var p in query)
             {
-                CopyStream(e.GetManifestResourceStream(p.v), p.tf.OpenWrite());
+				handler(p.v, p.tf, p.Path, p.File);
+
+				//CopyStream(e.GetManifestResourceStream(p.v), p.tf.OpenWrite());
             }
         }
 
