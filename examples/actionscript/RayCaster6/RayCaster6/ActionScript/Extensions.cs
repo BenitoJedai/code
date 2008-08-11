@@ -9,6 +9,7 @@ using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.system;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.flash.events;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace RayCaster6.ActionScript
 {

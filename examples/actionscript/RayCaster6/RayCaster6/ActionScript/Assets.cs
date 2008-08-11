@@ -30,6 +30,10 @@ namespace RayCaster6.ActionScript
 			public const string Path = "/assets/RayCaster6";
 
 
+			[Embed(Path + "/wolfer.zip")]
+			public static Class wolfer;
+
+
 			[Embed(Path + "/dude5.zip")]
 			public static Class MyZipFile;
 
