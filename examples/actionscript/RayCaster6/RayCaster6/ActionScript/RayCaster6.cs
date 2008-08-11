@@ -307,6 +307,9 @@ namespace RayCaster6.ActionScript
 			Action<Bitmap[]> BitmapsLoadedAction =
 				Bitmaps =>
 				{
+					if (Bitmaps == null)
+						throw new Exception("No bitmaps");
+
 					Func<Texture64[], Texture64[]> Reorder8 =
 						p =>
 							Enumerable.ToArray(
@@ -329,7 +332,15 @@ namespace RayCaster6.ActionScript
 
 
 					var Stand = Next8();
-					var Walk = new[]
+					var Spawn = default(Func<SpriteInfo>);
+
+					if (Bitmaps.Length == 8)
+					{
+						Spawn = () => CreateWalkingDummy(Stand);
+					}
+					else
+					{
+						var Walk = new[]
                         {
                             Next8(),
                             Next8(),
@@ -339,7 +350,12 @@ namespace RayCaster6.ActionScript
 
 
 
-					Ego = CreateWalkingDummy(Stand, Walk);
+						Spawn = () => CreateWalkingDummy(Stand, Walk);
+					}
+
+					Ego = Spawn();
+
+
 					UpdateEgoPosition();
 
 
@@ -349,7 +365,7 @@ namespace RayCaster6.ActionScript
 						  {
 							  if (e.keyCode == Keyboard.SPACE)
 							  {
-								  var s = CreateWalkingDummy(Stand, Walk);
+								  var s = Spawn();
 
 								  //s.Direction += 180.DegreesToRadians();
 
@@ -359,7 +375,7 @@ namespace RayCaster6.ActionScript
 
 							  if (e.keyCode == Keyboard.INSERT)
 							  {
-								  var s = CreateWalkingDummy(Stand, Walk);
+								  var s = Spawn();
 
 								  s.Direction += 180.DegreesToRadians();
 								  s.Position = Ego.Position.MoveToArc(Ego.Direction, 0.5);
@@ -392,7 +408,7 @@ namespace RayCaster6.ActionScript
 				};
 
 
-			Assets.ZipFiles.MyZipFile
+			Assets.ZipFiles.wolfer
 				.ToFiles()
 				.Where(f => f.FileName.EndsWith(".png"))
 				.ToBitmapArray(BitmapsLoadedAction);

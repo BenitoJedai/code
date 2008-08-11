@@ -6,6 +6,7 @@ using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.RayCaster.Extensions;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace ScriptCoreLib.ActionScript.RayCaster
 {
