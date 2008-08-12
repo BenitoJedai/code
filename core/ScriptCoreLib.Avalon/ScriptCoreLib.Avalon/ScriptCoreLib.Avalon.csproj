@@ -41,6 +41,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Query, Version=3.5.3144.38456, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
@@ -70,6 +74,9 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\UIElementCollection.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\DependencyObject.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\FrameworkElement.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\IInputElement.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Markup\IAddChild.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Animation\IAnimatable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Brushes.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Effects\BitmapEffect.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Effects\DropShadowBitmapEffect.cs" />
@@ -80,10 +87,15 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Shapes\Path.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Threading\DispatcherObject.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\UIElement.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\IFrameworkInputElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\Avalon\IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\Notes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ActionScript\BCLImplementation\System\Windows\Media\Composition\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

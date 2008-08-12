@@ -64,6 +64,7 @@ using ScriptCoreLib;
 [assembly: InternalsVisibleTo("ScriptCoreLib.Query")]
 [assembly: InternalsVisibleTo("ScriptCoreLib.Windows.Forms")]
 [assembly: InternalsVisibleTo("ScriptCoreLib.Drawing.Vector")]
+[assembly: InternalsVisibleTo("ScriptCoreLib.Avalon")]
 
 
 namespace ScriptCoreLib.Shared

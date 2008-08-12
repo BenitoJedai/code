@@ -269,6 +269,13 @@ namespace jsc.Languages.ActionScript
 
                     if (p_impl == null)
                     {
+						// is it a hidden type?
+						if (p.IsNotPublic)
+							continue;
+
+						if (p.DeclaringType != null && p.DeclaringType.IsNotPublic)
+							continue;
+
                         //if (p.IsInterface)
                         //{
                         //    // silently skip this interface
