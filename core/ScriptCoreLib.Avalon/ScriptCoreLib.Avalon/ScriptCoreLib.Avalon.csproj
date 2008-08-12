@@ -8,7 +8,7 @@
     <ProjectGuid>{0910EC49-6697-4664-8A71-F09CAEC02E88}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScriptCoreLib.Avalon</RootNamespace>
+    <RootNamespace>ScriptCoreLib</RootNamespace>
     <AssemblyName>ScriptCoreLib.Avalon</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -31,6 +31,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="ScriptCoreLib, Version=3.0.3144.19797, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -43,10 +57,33 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Canvas.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Control.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Panel.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\TextBox.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Primitives\TextBoxBase.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\UIElementCollection.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\DependencyObject.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\FrameworkElement.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Brushes.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Effects\BitmapEffect.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Effects\DropShadowBitmapEffect.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Visual.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Point.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Rect.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Shapes\Shape.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Shapes\Path.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Threading\DispatcherObject.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\UIElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Documents\Notes.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -56,4 +93,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin\"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

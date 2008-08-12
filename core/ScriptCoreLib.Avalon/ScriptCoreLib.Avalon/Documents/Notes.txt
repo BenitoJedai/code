@@ -1,1 +1,5 @@
 ﻿http://en.wikipedia.org/wiki/Windows_Presentation_Foundation
+
+http://msdn.microsoft.com/en-us/library/ms747393.aspx
+
+http://bubblemark.com/
