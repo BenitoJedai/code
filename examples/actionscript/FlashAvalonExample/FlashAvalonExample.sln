@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashAvalonExample", "FlashAvalonExample\FlashAvalonExample.csproj", "{7ECF9C7F-03A2-41C1-9AB8-943CCCC6005A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashAvalonExample.ConsoleTest", "FlashAvalonExample.ConsoleTest\FlashAvalonExample.ConsoleTest.csproj", "{CE8D3B32-3EE6-4860-AAB2-B3E7DD5199C5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7ECF9C7F-03A2-41C1-9AB8-943CCCC6005A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ECF9C7F-03A2-41C1-9AB8-943CCCC6005A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ECF9C7F-03A2-41C1-9AB8-943CCCC6005A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ECF9C7F-03A2-41C1-9AB8-943CCCC6005A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE8D3B32-3EE6-4860-AAB2-B3E7DD5199C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE8D3B32-3EE6-4860-AAB2-B3E7DD5199C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE8D3B32-3EE6-4860-AAB2-B3E7DD5199C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE8D3B32-3EE6-4860-AAB2-B3E7DD5199C5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
