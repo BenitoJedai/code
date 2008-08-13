@@ -38,6 +38,10 @@ using ScriptCoreLib;
 
 [assembly:
     Script,
+
+    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
+    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = ""),
+
     ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
     ScriptTypeFilter(ScriptType.ActionScript, "*.Shared.Lambda"),
     ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),

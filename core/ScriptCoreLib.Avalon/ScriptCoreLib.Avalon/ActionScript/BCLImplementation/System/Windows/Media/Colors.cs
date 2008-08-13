@@ -6,10 +6,10 @@ using System.Windows.Media;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 {
-	[Script(Implements = typeof(global::System.Windows.Media.Brushes))]
-	internal class __Brushes
+	[Script(Implements = typeof(global::System.Windows.Media.Colors))]
+	internal static class __Colors
 	{
 
-		public static SolidColorBrush Red { get { return null; } }
+		public static Color Red { get { return null; } }
 	}
 }
