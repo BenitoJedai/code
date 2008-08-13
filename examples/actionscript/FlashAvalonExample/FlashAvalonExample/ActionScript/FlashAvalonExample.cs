@@ -1,6 +1,7 @@
 ﻿using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.text;
+using ScriptCoreLib.ActionScript.Extensions;
 using System.Collections.Generic;
 using System;
 
@@ -18,8 +19,8 @@ namespace FlashAvalonExample.ActionScript
 		/// </summary>
 		public FlashAvalonExample()
 		{
-
-
+			AvalonExtensions.AttachTo(new MyCanvas(), this);
+			//new MyCanvas().AttachTo(this);
 		}
 	}
 }

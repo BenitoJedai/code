@@ -59,17 +59,29 @@ namespace jsc.Languages.ActionScript
                     z.BaseType
                     ;
 
-        
-                var vm = z.BaseType.GetMethod(
-                    tmethod.Name,
-                    BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public,
-                    null,
-                    iparamstypes,
-                    null
-                );
+				Func<Type, MethodInfo> GetMethod =
+					basetype =>
+						basetype.GetMethod(
+							tmethod.Name,
+							BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public,
+							null,
+							iparamstypes,
+							null
+						);
+
+				#region find method to overload
+				var basetypep = z.BaseType;
+			next_basetype:
+				var vm = GetMethod(basetypep);
+				if (vm == null && basetypep.BaseType != null)
+				{
+					basetypep = basetypep.BaseType;
+					goto next_basetype;
+				}
+				#endregion
 
 
-                var InterfaceMethodImplementationSignature = (MethodInfo)MySession.ResolveImplementation(InterfaceMethodDeclaringType, vm,
+				var InterfaceMethodImplementationSignature = (MethodInfo)MySession.ResolveImplementation(InterfaceMethodDeclaringType, vm,
                     AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveMethodOnly
                     //AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveBCLImplementation
                     ) ?? vm;
