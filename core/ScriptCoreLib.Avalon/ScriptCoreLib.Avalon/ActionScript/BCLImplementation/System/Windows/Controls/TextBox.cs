@@ -6,6 +6,8 @@ using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls.Primi
 using ScriptCoreLib.ActionScript.flash.text;
 using System.Windows.Controls;
 using ScriptCoreLib.ActionScript.flash.events;
+using System.Windows.Media;
+using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 {
@@ -24,6 +26,39 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 				};
 		}
 
+		public override void InternalSetForeground(Brush value)
+		{
+			var AsSolidColorBrush = value as SolidColorBrush;
+
+			if (AsSolidColorBrush != null)
+			{
+				var _SolidColorBrush = (__SolidColorBrush)AsSolidColorBrush;
+				var _Color = (__Color)_SolidColorBrush.Color;
+
+				InternalTextField.textColor = _Color;
+			}
+		}
+
+		public override void InternalSetBackground(Brush value)
+		{
+			var AsSolidColorBrush = value as SolidColorBrush;
+
+			if (AsSolidColorBrush != null)
+			{
+				var _SolidColorBrush = (__SolidColorBrush)AsSolidColorBrush;
+				uint _Color = (__Color)_SolidColorBrush.Color;
+
+				if (_SolidColorBrush.Color.A == 0)
+				{
+					InternalTextField.background = false;
+				}
+				else
+				{
+					InternalTextField.background = true;
+					InternalTextField.backgroundColor = _Color;
+				}
+			}
+		}
 
 		public override event TextChangedEventHandler TextChanged
 		{
@@ -57,6 +92,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			{
 				InternalTextField.text = value;
 			}
+		}
+
+		public override void InternalAppendText(string textData)
+		{
+			InternalTextField.appendText(textData);
 		}
 
 		public static implicit operator __TextBox(TextBox e)

@@ -15,7 +15,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls.P
 
 		}
 
+		public virtual void InternalAppendText(string textData)
+		{
+			throw new NotImplementedException();
+		}
 
+		public void AppendText(string textData)
+		{
+			InternalAppendText(textData);
+		}
 
 		public virtual event TextChangedEventHandler TextChanged
 		{

@@ -85,9 +85,13 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Brushes.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Colors.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Color.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\ScaleTransform.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\RotateTransform.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\GeneralTransform.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Effects\BitmapEffect.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Effects\DropShadowBitmapEffect.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\SolidColorBrush.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Transform.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Visual.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Point.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Rect.cs" />
