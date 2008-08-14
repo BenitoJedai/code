@@ -10,6 +10,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 	internal class __Brushes
 	{
 
-		public static SolidColorBrush Red { get { return null; } }
+		public static SolidColorBrush Transparent { get { return new __SolidColorBrush { Color = Colors.Transparent }; } }
+		public static SolidColorBrush Red { get { return new __SolidColorBrush { Color = Colors.Red }; } }
+		public static SolidColorBrush GreenYellow { get { return new __SolidColorBrush { Color = Colors.GreenYellow }; } }
 	}
 }
