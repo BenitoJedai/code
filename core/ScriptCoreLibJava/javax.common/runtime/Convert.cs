@@ -82,6 +82,8 @@ namespace javax.common.runtime
             }
             catch (csharp.ThrowableException exc)
             {
+				global::System.Console.WriteLine("ToInt32 failed for - " + e);
+
                 Console.WriteThrowable(exc);
             }
 
