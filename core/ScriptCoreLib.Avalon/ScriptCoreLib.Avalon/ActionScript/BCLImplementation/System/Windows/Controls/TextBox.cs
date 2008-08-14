@@ -77,7 +77,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			}
 		}
 
-		public override ScriptCoreLib.ActionScript.flash.display.DisplayObject InternalGetDisplayObject()
+		public override ScriptCoreLib.ActionScript.flash.display.InteractiveObject InternalGetDisplayObject()
 		{
 			return InternalTextField;
 		}

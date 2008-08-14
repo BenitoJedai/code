@@ -10,6 +10,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 	internal static class __Colors
 	{
 
+		public static Color Yellow { get { return (__Color)0xffffff00; } }
 		public static Color Transparent { get { return (__Color)0x00ffffff; } }
 		public static Color Red { get { return (__Color)0xffff0000; } }
 		public static Color GreenYellow { get { return (__Color)0xFFADFF2F; } }

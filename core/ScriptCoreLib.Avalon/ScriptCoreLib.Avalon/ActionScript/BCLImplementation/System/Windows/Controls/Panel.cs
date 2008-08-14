@@ -15,6 +15,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 	{
 		public readonly Sprite InternalSprite = new Sprite();
 
+		public override InteractiveObject InternalGetDisplayObject()
+		{
+			return InternalSprite;
+		}
+
 		public __Panel()
 		{
 			_Children = new __UIElementCollection { InternalSprite = InternalSprite };
