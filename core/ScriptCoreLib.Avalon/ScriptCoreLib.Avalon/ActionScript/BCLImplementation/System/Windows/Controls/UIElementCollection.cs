@@ -10,7 +10,7 @@ using System.Windows.Controls;
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 {
 	[Script(Implements = typeof(global::System.Windows.Controls.UIElementCollection))]
-	internal class __UIElementCollection 
+	internal class __UIElementCollection
 	{
 		public Sprite InternalSprite;
 
@@ -18,14 +18,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 		public virtual int Add(UIElement element)
 		{
-			var AsTextField = element as TextBox;
+			__UIElement _element = element;
 
-			if (AsTextField != null)
-			{
-				__TextBox _TextField = AsTextField;
-
-				InternalSprite.addChild(_TextField.InternalTextField);
-			}
+			InternalSprite.addChild(_element.InternalGetDisplayObject());
 
 			InternalItems.Add(element);
 

@@ -78,6 +78,9 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\FrameworkElement.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Freezable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\IInputElement.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\InputEventArgs.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\MouseEventArgs.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\MouseEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Markup\IAddChild.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Animation\Animatable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Animation\IAnimatable.cs" />
@@ -85,6 +88,8 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Brushes.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Colors.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Color.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Geometry.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\RectangleGeometry.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\ScaleTransform.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\RotateTransform.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\GeneralTransform.cs" />
@@ -96,6 +101,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Point.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Rect.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\RoutedEventArgs.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Shapes\Line.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Shapes\Shape.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Shapes\Path.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Threading\DispatcherObject.cs" />

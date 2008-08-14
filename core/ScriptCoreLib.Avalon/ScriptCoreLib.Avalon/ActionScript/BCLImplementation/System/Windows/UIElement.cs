@@ -9,14 +9,25 @@ using ScriptCoreLib.ActionScript.flash.display;
 using System.Windows.Media.Effects;
 using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media.Effects;
 using System.Windows.Media;
+using System.Windows.Input;
+using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Input;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 {
 
 	[Script(Implements = typeof(global::System.Windows.UIElement))]
-	internal class __UIElement : __Visual, __IAnimatable
+	internal class __UIElement : __Visual, __IAnimatable, __IInputElement
 	{
-		public virtual DisplayObject InternalGetDisplayObject()
+		#region __IInputElement Members
+
+		public InteractiveObject InternalGetDisplayObjectDirect()
+		{
+			return InternalGetDisplayObject();
+		}
+
+		#endregion
+
+		public virtual InteractiveObject InternalGetDisplayObject()
 		{
 			throw new NotImplementedException();
 		}
@@ -73,5 +84,32 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 				}
 			}
 		}
+
+
+		public event MouseEventHandler MouseMove
+		{
+			add
+			{
+
+				InternalGetDisplayObject().mouseMove +=
+					e =>
+					{
+						
+						var args = new __MouseEventArgs
+						{
+							Internal_stageX = e.stageX,
+							Internal_stageY = e.stageY
+						};
+
+						value(this, args);
+					};
+			}
+			remove
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		
 	}
 }
