@@ -103,6 +103,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Point.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Rect.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\RoutedEventArgs.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Shapes\Rectangle.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Shapes\Line.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Shapes\Shape.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Shapes\Path.cs" />

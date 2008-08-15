@@ -51,15 +51,20 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 			return (__UIElement)(object)e;
 		}
 
+		public virtual DisplayObject InternalGetOpacityTarget()
+		{
+			return InternalGetDisplayObject();
+		}
+
 		public double Opacity
 		{
 			get
 			{
-				return InternalGetDisplayObject().alpha;
+				return InternalGetOpacityTarget().alpha;
 			}
 			set
 			{
-				InternalGetDisplayObject().alpha = value;
+				InternalGetOpacityTarget().alpha = value;
 			}
 		}
 
@@ -94,14 +99,41 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 				InternalGetDisplayObject().mouseMove +=
 					e =>
 					{
-						
-						var args = new __MouseEventArgs
-						{
-							Internal_stageX = e.stageX,
-							Internal_stageY = e.stageY
-						};
+						value(this, (__MouseEventArgs) e);
+					};
+			}
+			remove
+			{
+				throw new NotImplementedException();
+			}
+		}
 
-						value(this, args);
+		public event MouseEventHandler MouseEnter
+		{
+			add
+			{
+
+				InternalGetDisplayObject().mouseOver +=
+					e =>
+					{
+						value(this, (__MouseEventArgs)e);
+					};
+			}
+			remove
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public event MouseEventHandler MouseLeave
+		{
+			add
+			{
+
+				InternalGetDisplayObject().mouseOut +=
+					e =>
+					{
+						value(this, (__MouseEventArgs)e);
 					};
 			}
 			remove
