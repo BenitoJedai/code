@@ -39,7 +39,8 @@ using ScriptCoreLib;
 
 [assembly:
 	Script,
-    ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
+	ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
+	ScriptTypeFilter(ScriptType.CSharp2, "*.CSharp"),
     ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
     ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = "")
 ]    // some namespace mangling

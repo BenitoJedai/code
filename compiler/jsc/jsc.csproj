@@ -121,6 +121,7 @@
     <Compile Include="Languages\CompilerBase.CompilerConstants.cs" />
     <Compile Include="Languages\CompilerJob.cs" />
     <Compile Include="Languages\CompilerBase.Handler.cs" />
+    <Compile Include="Languages\CompilerJob.ExtractResources.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteTypeInstanceConstructors.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteTypeStaticConstructor.cs" />
     <Compile Include="Languages\EventDetector.cs" />
