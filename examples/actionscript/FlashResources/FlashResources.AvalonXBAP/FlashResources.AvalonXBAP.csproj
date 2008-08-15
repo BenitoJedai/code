@@ -3,19 +3,32 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{698102AD-2A60-44DA-8F1C-692B560BAD97}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{2A7DA2CC-93CB-453B-8433-D4FC8CE1D88F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FlashResources.AvalonTest</RootNamespace>
-    <AssemblyName>FlashResources.AvalonTest</AssemblyName>
+    <RootNamespace>FlashResources.AvalonXBAP</RootNamespace>
+    <AssemblyName>FlashResources.AvalonXBAP</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>FlashResources.AvalonTest.DefaultPage</StartupObject>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <EnableSecurityDebugging>true</EnableSecurityDebugging>
+    <Install>False</Install>
+    <StartAction>URL</StartAction>
+    <HostInBrowser>true</HostInBrowser>
+    <BootstrapperEnabled>false</BootstrapperEnabled>
+    <TargetZone>Internet</TargetZone>
+    <GenerateManifests>true</GenerateManifests>
     <SignManifests>true</SignManifests>
-    <ManifestCertificateThumbprint>700DEBE7DAA3541058D70EAE5EFE39148775E2E4</ManifestCertificateThumbprint>
-    <ManifestKeyFile>FlashResources.AvalonTest_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>FlashResources.AvalonXBAP_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestCertificateThumbprint>164472211A89D4498874A0876C240D2BCD756CA2</ManifestCertificateThumbprint>
+    <StartupObject>FlashResources.AvalonXBAP.App</StartupObject>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <ExcludedPermissions>
+    </ExcludedPermissions>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,12 +48,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="PresentationFramework">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
     <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
@@ -57,20 +64,38 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IAssemblyReferenceToken.cs" />
-    <Compile Include="DefaultPage.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Properties\app.manifest" />
+    <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FlashResources.Assets\FlashResources.Assets.csproj">
-      <Project>{686210D4-B24F-47C3-999E-476F53A232FB}</Project>
-      <Name>FlashResources.Assets</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FlashResources.AvalonCode\FlashResources.AvalonCode.csproj">
       <Project>{106EAF47-AFC4-4C55-BFC3-C899A4FB30E8}</Project>
       <Name>FlashResources.AvalonCode</Name>
@@ -84,4 +109,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <StartArguments />
+  </PropertyGroup>
 </Project>

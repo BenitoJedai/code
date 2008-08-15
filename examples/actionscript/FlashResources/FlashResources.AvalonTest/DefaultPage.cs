@@ -7,24 +7,25 @@ using System.Windows.Controls;
 
 namespace FlashResources.AvalonTest
 {
-	class Program
+	public class DefaultPage
 	{
-		public static bool? ShowDialog(Canvas e)
+		public static Window ToWindow(Canvas e)
 		{
-			var w = new Window
+			return new Window
 			{
 				Width = e.Width,
 				Height = e.Height,
 				Content = e
 			};
 
-			return w.ShowDialog();
 		}
 
+	
+
 		[STAThread]
-		static void Main(string[] args)
+		public static void Main(string[] args)
 		{
-			ShowDialog(new FlashResources.ActionScript.MyCanvas());
+			ToWindow(new FlashResources.ActionScript.MyCanvas()).ShowDialog();
 		}
 	}
 }
