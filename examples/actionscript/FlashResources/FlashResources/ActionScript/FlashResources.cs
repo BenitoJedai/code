@@ -4,6 +4,7 @@ using ScriptCoreLib.ActionScript.flash.text;
 using System.Collections.Generic;
 using System;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.ActionScript;
 
 namespace FlashResources.ActionScript
 {
@@ -11,6 +12,7 @@ namespace FlashResources.ActionScript
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
 	/// </summary>
 	[Script, ScriptApplicationEntryPoint]
+	[SWF]
 	public class FlashResources : Sprite
 	{
 
