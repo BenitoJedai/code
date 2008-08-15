@@ -108,6 +108,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\UIElement.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\IFrameworkInputElement.cs" />
     <Compile Include="ActionScript\Extensions\AvalonExtensions.cs" />
+    <Compile Include="CSharp\Extensions\AvalonExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\Avalon\IAssemblyReferenceToken.cs" />
   </ItemGroup>
