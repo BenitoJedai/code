@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using ScriptCoreLib.ActionScript.flash.events;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Input
 {
@@ -27,6 +28,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Input
 		public static implicit operator MouseEventArgs(__MouseEventArgs e)
 		{
 			return (MouseEventArgs)(object)e;
+		}
+
+		public static implicit operator __MouseEventArgs(MouseEvent e)
+		{
+			return new __MouseEventArgs
+			{
+				Internal_stageX = e.stageX,
+				Internal_stageY = e.stageY
+			};
 		}
 	}
 }

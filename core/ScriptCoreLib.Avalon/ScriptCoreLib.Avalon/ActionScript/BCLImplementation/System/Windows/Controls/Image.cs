@@ -14,12 +14,21 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 	{
 		readonly Sprite InternalSprite = new Sprite();
 
+		Bitmap InternalBitmap;
 
 		public override ScriptCoreLib.ActionScript.flash.display.InteractiveObject InternalGetDisplayObject()
 		{
 			return InternalSprite;
 		}
 
+		public override DisplayObject InternalGetOpacityTarget()
+		{
+			if (InternalBitmap != null)
+				return InternalBitmap;
+
+			return base.InternalGetOpacityTarget();
+		}
+		
 		public ImageSource Source
 		{
 			get
@@ -38,7 +47,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 					throw new Exception("asset '" + alias + "' not found in KnownEmbeddedResources.Default.");
 
 				InternalSprite.OrphanizeChildren();
-				InternalSprite.addChild(c.ToBitmapAsset());
+
+				InternalBitmap = c.ToBitmapAsset();
+
+				InternalSprite.addChild(InternalBitmap);
 			}
 		}
 	}
