@@ -63,6 +63,13 @@ namespace ScriptCoreLib.ActionScript.Extensions
 			return x.Buffer;
 		}
 
+
+		public static void OrphanizeChildren(this DisplayObjectContainer e)
+		{
+			while (e.numChildren > 0)
+				e.getChildAt(0).Orphanize();
+		}
+
         public static void Orphanize(this DisplayObject e)
         {
             if (e.parent != null)

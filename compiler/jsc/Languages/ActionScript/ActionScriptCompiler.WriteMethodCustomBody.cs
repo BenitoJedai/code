@@ -24,6 +24,12 @@ namespace jsc.Languages.ActionScript
 				var web = new DirectoryInfo(new FileInfo(m.DeclaringType.Assembly.Location).Directory.FullName + "/web");
 				var counter = 0;
 
+				Action<int> WriteIndexedField =
+					index =>
+					{
+						Write("embedded_" + index);
+					};
+
 				#region fields
 				CompilerJob.ExtractEmbeddedResources(web, m.DeclaringType.Assembly,
 					(v, tf, Path, File) =>
@@ -46,9 +52,12 @@ namespace jsc.Languages.ActionScript
 
 						
 								WriteIdent();
+								WriteKeywordSpace(Keywords._internal);
 								WriteKeywordSpace(Keywords._static);
 								WriteKeywordSpace(Keywords._var);
-								Write("_" + index);
+
+								WriteIndexedField(index);
+
 								Write(":");
 								Write("Class");
 								WriteLine(";");
@@ -65,7 +74,7 @@ namespace jsc.Languages.ActionScript
 						Write(")");
 						WriteSpace();
 						WriteKeywordSpace(Keywords._return);
-						Write("_" + index);
+						WriteIndexedField(index);
 						WriteLine(";");
 					}
 				);
