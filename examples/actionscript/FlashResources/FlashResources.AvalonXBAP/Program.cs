@@ -29,6 +29,7 @@ namespace FlashResources.AvalonXBAP
 		{
 			// http://blogs.microsoft.co.il/blogs/maxim/archive/2008/03/05/wpf-xbap-as-full-trust-application.aspx
 
+
 			var a = new App();
 			
 			a.Navigated +=
