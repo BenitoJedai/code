@@ -64,6 +64,12 @@
   <ItemGroup>
     <EmbeddedResource Include="web\assets\BrowserAvalonExample.Assets\arrow.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\BrowserAvalonExample.Assets\bluearrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\BrowserAvalonExample.Assets\bluebrush.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
