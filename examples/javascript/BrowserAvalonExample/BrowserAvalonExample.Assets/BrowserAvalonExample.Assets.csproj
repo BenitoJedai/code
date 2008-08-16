@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="ActionScript\Assets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\Assets\IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="web\assets\BrowserAvalonExample.Assets\2.png" />
