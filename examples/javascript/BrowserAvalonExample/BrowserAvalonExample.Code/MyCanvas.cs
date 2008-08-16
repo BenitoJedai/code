@@ -62,6 +62,15 @@ namespace BrowserAvalonExample.Code
 				Height = 64
 			}.AttachTo(this).MoveTo(0, 160);
 
+			new Image
+			{
+				Source = "assets/BrowserAvalonExample.Assets/gradientwhite.png".ToSource(),
+				Stretch = Stretch.Fill,
+				Width = DefaultWidth,
+				Height = 64
+			}.AttachTo(this).MoveTo(0, 160 - 64);
+
+
 			var info = new TextBox
 			{
 				Text = "hello world",
