@@ -6,17 +6,21 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 
-namespace FlashAvalonExample
+namespace BrowserAvalonExample.Code
 {
 	/// <summary>
 	/// Without this class some assemblies are not referenced as they only contain
 	/// type mappings but no real type usage.
 	/// </summary>
 	public interface IAssemblyReferenceToken :
-		ScriptCoreLib.Shared.Query.IAssemblyReferenceToken,
 		ScriptCoreLib.Shared.IAssemblyReferenceToken,
-		BrowserAvalonExample.Shared.Assets.IAssemblyReferenceToken,
-		BrowserAvalonExample.Code.IAssemblyReferenceToken
+		ScriptCoreLib.Shared.Avalon.IAssemblyReferenceToken,
+		BrowserAvalonExample.Shared.Assets.IAssemblyReferenceToken
+	{
+	}
+
+	public interface IAssemblyReferenceTokenNative :
+		BrowserAvalonExample.Shared.Assets.IAssemblyReferenceTokenNative
 	{
 	}
 }
