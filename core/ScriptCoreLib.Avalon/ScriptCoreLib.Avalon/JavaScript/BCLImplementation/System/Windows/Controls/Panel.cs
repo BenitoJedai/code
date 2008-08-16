@@ -23,6 +23,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			return InternalSprite;
 		}
 
+		public override IHTMLElement InternalGetOpacityTarget()
+		{
+			return InternalContent;
+		}
+
 		public Cursor InternalCursorValue;
 
 		[Script(IsNative = true)]
@@ -47,12 +52,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 		public sealed override void InternalSetHeight(double value)
 		{
-			InternalSprite.style.height = Convert.ToInt32(value) + "px";
+			var height = Convert.ToInt32(value) + "px";
+
+			InternalSprite.style.height = height;
+			InternalContent.style.height = height;
 		}
 
 		public sealed override void InternalSetWidth(double value)
 		{
-			InternalSprite.style.width = Convert.ToInt32(value) + "px";
+			var width = Convert.ToInt32(value) + "px";
+
+			InternalSprite.style.width = width;
+			InternalContent.style.width = width;
 		}
 
 		public __Panel()

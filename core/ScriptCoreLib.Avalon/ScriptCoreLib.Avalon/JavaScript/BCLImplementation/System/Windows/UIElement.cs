@@ -82,7 +82,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 				InternalGetDisplayObject().onmouseover +=
 					e =>
 					{
-						//value(this, (__MouseEventArgs)e);
+						value(this, (__MouseEventArgs)e);
 					};
 			}
 			remove
@@ -99,7 +99,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 				InternalGetDisplayObject().onmouseout +=
 					e =>
 					{
-						//value(this, (__MouseEventArgs)e);
+						value(this, (__MouseEventArgs)e);
 					};
 			}
 			remove

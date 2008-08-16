@@ -99,7 +99,7 @@ namespace jsc.Languages
                     }
                 );
 
-                Languages.ActionScript.EntryPointProvider.WriteEntryPoints(j.AssamblyInfo, TargetDirectory);
+				Languages.ActionScript.EntryPointProvider.WriteEntryPoints(j.AssamblyInfo, TargetDirectory, xw.Session.Types);
 
                 // Languages.CompilerJob.InvokeEntryPoints(TargetDirectory, j.AssamblyInfo);
             }

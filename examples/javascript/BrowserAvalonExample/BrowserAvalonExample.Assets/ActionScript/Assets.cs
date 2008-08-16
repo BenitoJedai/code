@@ -14,7 +14,6 @@ namespace BrowserAvalonExample.ActionScript
 
 		public Class this[string e]
 		{
-
 			[EmbedByFileName]
 			get
 			{
