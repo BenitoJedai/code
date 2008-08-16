@@ -133,3 +133,4 @@ version history:
 	jsc: added EmbedFieldsAttribute to ease asset embedding
 16.08.2008
 	actionscript: fixed enum to int downcasting
+	javascript: added shr_un opcode
