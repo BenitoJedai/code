@@ -142,6 +142,55 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 			}
 		}
 
-		
+		public event MouseButtonEventHandler MouseLeftButtonDown
+		{
+			add
+			{
+
+				InternalGetDisplayObject().mouseDown +=
+					e =>
+					{
+						value(this, (__MouseButtonEventArgs)e);
+					};
+			}
+			remove
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public event MouseButtonEventHandler MouseLeftButtonUp
+		{
+			add
+			{
+
+				InternalGetDisplayObject().mouseUp +=
+					e =>
+					{
+						value(this, (__MouseButtonEventArgs)e);
+					};
+			}
+			remove
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public event MouseWheelEventHandler MouseWheel
+		{
+			add
+			{
+
+				InternalGetDisplayObject().mouseWheel +=
+					e =>
+					{
+						value(this, (__MouseWheelEventArgs)e);
+					};
+			}
+			remove
+			{
+				throw new NotImplementedException();
+			}
+		}
 	}
 }

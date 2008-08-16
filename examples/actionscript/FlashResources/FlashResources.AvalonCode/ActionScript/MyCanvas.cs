@@ -44,6 +44,32 @@ namespace FlashResources.ActionScript
 					e.Opacity = 0.5;
 				};
 
+			e.MouseLeftButtonDown +=
+				(s, ev) =>
+				{
+					e.BitmapEffect = new OuterGlowBitmapEffect();
+				};
+
+			e.MouseLeftButtonUp +=
+				(s, ev) =>
+				{
+					e.BitmapEffect = new DropShadowBitmapEffect();
+				};
+
+			var scale = new ScaleTransform { ScaleX = 1, ScaleY = 1 };
+
+			e.MouseWheel +=
+				(s, ev) =>
+				{
+
+					scale.ScaleX += Math.Sign(ev.Delta) * 0.05;
+					scale.ScaleY += Math.Sign(ev.Delta) * 0.05;
+
+					e.RenderTransform = scale;
+				};
+
+			e.Opacity = 0.5;
+
 			Canvas.SetLeft(e, 32);
 			Canvas.SetTop(e, 32);
 			Children.Add(e);
