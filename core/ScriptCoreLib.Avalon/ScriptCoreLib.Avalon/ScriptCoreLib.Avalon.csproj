@@ -79,6 +79,8 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\FrameworkElement.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Freezable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\IInputElement.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\Cursors.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\Cursor.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\MouseButtonEventArgs.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\MouseButtonEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\MouseWheelEventArgs.cs" />
@@ -104,6 +106,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\FrameworkElement.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Freezable.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\IInputElement.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\Cursor.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\Cursors.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\InputEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\MouseButtonEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\MouseButtonEventHandler.cs" />
@@ -164,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\Notes.txt" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon\transparent.cur" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ActionScript\BCLImplementation\System\Windows\Media\Composition\" />

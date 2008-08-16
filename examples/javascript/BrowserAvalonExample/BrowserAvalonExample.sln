@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashAvalonExample", "Flash
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAvalonExample", "ConsoleAvalonExample\ConsoleAvalonExample.csproj", "{CE8BC183-E470-4449-BFBD-F5CFE80AA1FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XBAPAvalonExample", "XBAPAvalonExample\XBAPAvalonExample.csproj", "{4EEEEAF0-4CD6-43C8-9CE9-FEB2F6867AAB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{CE8BC183-E470-4449-BFBD-F5CFE80AA1FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE8BC183-E470-4449-BFBD-F5CFE80AA1FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE8BC183-E470-4449-BFBD-F5CFE80AA1FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EEEEAF0-4CD6-43C8-9CE9-FEB2F6867AAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EEEEAF0-4CD6-43C8-9CE9-FEB2F6867AAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EEEEAF0-4CD6-43C8-9CE9-FEB2F6867AAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EEEEAF0-4CD6-43C8-9CE9-FEB2F6867AAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,5 +53,6 @@ Global
 		{09F2E246-7ED5-41F5-AC86-F1531720C19F} = {72C086DB-3610-4346-A85A-717C7B53DE6A}
 		{9D3B4B7B-045B-4319-98F5-ABD29891B860} = {72C086DB-3610-4346-A85A-717C7B53DE6A}
 		{CE8BC183-E470-4449-BFBD-F5CFE80AA1FC} = {72C086DB-3610-4346-A85A-717C7B53DE6A}
+		{4EEEEAF0-4CD6-43C8-9CE9-FEB2F6867AAB} = {72C086DB-3610-4346-A85A-717C7B53DE6A}
 	EndGlobalSection
 EndGlobal

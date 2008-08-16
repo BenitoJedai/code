@@ -8,6 +8,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Markup;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media;
 using System.Windows;
+using System.Windows.Input;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 {
@@ -22,6 +23,28 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			return InternalSprite;
 		}
 
+		public Cursor InternalCursorValue;
+
+		[Script(IsNative = true)]
+		internal class InternalStyleCursorMixin
+		{
+			public string cursor;
+		}
+
+		public override void InternalSetCursor(Cursor value)
+		{
+			InternalCursorValue = value;
+
+
+			var s = ((InternalStyleCursorMixin)(object)InternalSprite.style);
+
+			if (InternalCursorValue == Cursors.None)
+				s.cursor = "url('assets/ScriptCoreLib.Avalon/transparent.cur'), auto";
+
+			if (InternalCursorValue == Cursors.Arrow)
+				s.cursor = "auto";
+		}
+
 		public sealed override void InternalSetHeight(double value)
 		{
 			InternalSprite.style.height = Convert.ToInt32(value) + "px";
@@ -34,7 +57,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 		public __Panel()
 		{
-			InternalSprite.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
+			//InternalSprite.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
 
 			InternalSprite.style.width = "600px";
 			InternalSprite.style.height = "400px";

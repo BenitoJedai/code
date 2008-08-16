@@ -12,16 +12,24 @@ namespace BrowserAvalonExample.js
 	[Script, ScriptApplicationEntryPoint]
 	public class BrowserAvalonExample
 	{
-		public BrowserAvalonExample()
+		public BrowserAvalonExample(IHTMLElement e)
 		{
 			// wpf here
-			AvalonExtensions.AttachToContainer(new MyCanvas(), Native.Document.body);
+			var clip = new IHTMLDiv();
+
+			clip.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
+			clip.style.SetSize(MyCanvas.DefaultWidth, MyCanvas.DefaultHeight);
+			clip.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
+
+			e.insertPreviousSibling(clip);
+
+			AvalonExtensions.AttachToContainer(new MyCanvas(), clip);
 
 		}
 
 		static BrowserAvalonExample()
 		{
-			typeof(BrowserAvalonExample).SpawnTo(i => new BrowserAvalonExample());
+			typeof(BrowserAvalonExample).SpawnTo(i => new BrowserAvalonExample(i));
 		}
 
 	}
