@@ -2,28 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls.Primitives;
-using ScriptCoreLib.ActionScript.flash.text;
 using System.Windows.Controls;
-using ScriptCoreLib.ActionScript.flash.events;
 using System.Windows.Media;
-using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls.Primitives;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media;
+using ScriptCoreLib.JavaScript.DOM;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
+namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 {
 	[Script(Implements = typeof(global::System.Windows.Controls.TextBox))]
 	internal class __TextBox : __TextBoxBase
 	{
-		public readonly TextField InternalTextField;
+		public readonly IHTMLInput InternalTextField;
 
 		public __TextBox()
 		{
 
-			InternalTextField = new TextField
+			InternalTextField = new IHTMLInput( ScriptCoreLib.Shared.HTMLInputTypeEnum.text)
 				{
-					autoSize = TextFieldAutoSize.LEFT,
-					type = TextFieldType.INPUT
+					//autoSize = TextFieldAutoSize.LEFT,
+					//type = TextFieldType.INPUT
 				};
+
+			//InternalTextField.style.width = "auto";
 		}
 
 		public override void InternalSetBorderThickness(global::System.Windows.Thickness value)
@@ -32,14 +34,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 			if (v.InternalValue == 0)
 			{
-				this.InternalTextField.border = false;
+				this.InternalTextField.style.borderWidth = "0";
 
 				return;
 			}
 
 			if (v.InternalValue == 1)
 			{
-				this.InternalTextField.border = true;
+				this.InternalTextField.style.borderWidth = "1px";
 
 				return;
 			}
@@ -54,9 +56,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			if (AsSolidColorBrush != null)
 			{
 				var _SolidColorBrush = (__SolidColorBrush)AsSolidColorBrush;
-				var _Color = (__Color)_SolidColorBrush.Color;
+				__Color _Color = _SolidColorBrush.Color;
 
-				InternalTextField.textColor = _Color;
+				InternalTextField.style.color = _Color;
+				//InternalTextField.textColor = _Color;
 			}
 		}
 
@@ -67,16 +70,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			if (AsSolidColorBrush != null)
 			{
 				var _SolidColorBrush = (__SolidColorBrush)AsSolidColorBrush;
-				uint _Color = (__Color)_SolidColorBrush.Color;
+				__Color _Color =_SolidColorBrush.Color;
 
 				if (_SolidColorBrush.Color.A == 0)
 				{
-					InternalTextField.background = false;
+					InternalTextField.style.backgroundColor = "transparent";
 				}
 				else
 				{
-					InternalTextField.background = true;
-					InternalTextField.backgroundColor = _Color;
+					InternalTextField.style.backgroundColor = _Color;
 				}
 			}
 		}
@@ -86,8 +88,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			add
 			{
 
-				InternalTextField.change +=
-					(Event e) =>
+				InternalTextField.onchange +=
+					(IEvent e) =>
 					{
 						value(null, null);
 					};
@@ -98,7 +100,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			}
 		}
 
-		public override ScriptCoreLib.ActionScript.flash.display.InteractiveObject InternalGetDisplayObject()
+		public override IHTMLElement InternalGetDisplayObject()
 		{
 			return InternalTextField;
 		}
@@ -107,17 +109,17 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 		{
 			get
 			{
-				return InternalTextField.text;
+				return InternalTextField.value;
 			}
 			set
 			{
-				InternalTextField.text = value;
+				InternalTextField.value = value;
 			}
 		}
 
 		public override void InternalAppendText(string textData)
 		{
-			InternalTextField.appendText(textData);
+			InternalTextField.value += textData;
 		}
 
 		public static implicit operator __TextBox(TextBox e)

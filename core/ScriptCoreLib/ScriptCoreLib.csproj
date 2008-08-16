@@ -175,6 +175,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\ArgumentException.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Boolean.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\EventArgs.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\IEquatable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\BinaryReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\BinaryWriter.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\MemoryStream.cs" />

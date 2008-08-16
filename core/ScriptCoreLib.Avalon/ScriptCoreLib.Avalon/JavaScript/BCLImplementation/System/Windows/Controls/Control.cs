@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Media;
 using System.Windows;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
+namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 {
 	[Script(Implements = typeof(global::System.Windows.Controls.Control))]
 	internal class __Control : __FrameworkElement
@@ -40,8 +40,6 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 		#endregion
 
-
-
 		#region BorderThickness
 		public virtual Thickness InternalGetBorderThickness()
 		{
@@ -56,7 +54,6 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 		public Thickness BorderThickness { get { return InternalGetBorderThickness(); } set { InternalSetBorderThickness(value); } }
 
 		#endregion
-
 
 	}
 }
