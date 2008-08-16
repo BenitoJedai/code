@@ -56,6 +56,8 @@ namespace FlashResources.ActionScript
 					e.BitmapEffect = new DropShadowBitmapEffect();
 				};
 
+			
+
 			var scale = new ScaleTransform { ScaleX = 1, ScaleY = 1 };
 
 			e.MouseWheel +=

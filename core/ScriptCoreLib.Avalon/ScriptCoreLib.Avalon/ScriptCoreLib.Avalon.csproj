@@ -89,6 +89,10 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Markup\IAddChild.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Animation\Animatable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Animation\IAnimatable.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\DependencyObject.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Freezable.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\Animation\Animatable.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\Animation\IAnimatable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Brush.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Brushes.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Colors.cs" />
@@ -117,6 +121,9 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\IFrameworkInputElement.cs" />
     <Compile Include="ActionScript\Extensions\AvalonExtensions.cs" />
     <Compile Include="ActionScript\UCLImplementation\AvalonExtensions.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\ImageSource.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Threading\DispatcherObject.cs" />
+    <Compile Include="JavaScript\UCLImplementation\AvalonExtensions.cs" />
     <Compile Include="Shared\Avalon\Extensions\AvalonExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\Avalon\IAssemblyReferenceToken.cs" />

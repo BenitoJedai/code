@@ -11,19 +11,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
         public Shared.Drawing.Color Value;
 
 
-        public int R
+        public byte R
         {
-            get { return Value.R; }
+			get { return (byte)Value.R; }
         }
 
-        public int G
+		public byte G
         {
-            get { return Value.G; }
+			get { return (byte)Value.G; }
         }
 
-        public int B
+		public byte B
         {
-            get { return Value.B; }
+			get { return (byte)Value.B; }
         }
 	
 

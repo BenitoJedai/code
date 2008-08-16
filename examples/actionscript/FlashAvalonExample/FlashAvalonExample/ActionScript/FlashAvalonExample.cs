@@ -19,7 +19,7 @@ namespace FlashAvalonExample.ActionScript
 		/// </summary>
 		public FlashAvalonExample()
 		{
-			AvalonExtensions.AttachTo(new MyCanvas(), this);
+			AvalonExtensions.AttachToContainer(new MyCanvas(), this);
 			//new MyCanvas().AttachTo(this);
 		}
 	}
