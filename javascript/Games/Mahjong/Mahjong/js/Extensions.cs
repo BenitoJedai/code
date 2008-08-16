@@ -13,7 +13,7 @@ namespace Mahjong.js
 	{
 		public static IHTMLImage ToImage(this RankAsset e)
 		{
-			return e.Source + "/" + e.Suit + "/" + e.Rank + ".png";
+			return e.ResourceAlias;
 		}
 	}
 }

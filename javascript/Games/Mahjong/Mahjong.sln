@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mahjong.Assets", "Mahjong.A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mahjong.Flash", "Mahjong.Flash\Mahjong.Flash.csproj", "{AE25FBB0-4129-4971-AB25-2C3076ADEF8C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entrypoints", "Entrypoints", "{646688F0-A380-4187-BEC7-F10863D9D1F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mahjong.Code", "Mahjong.Code\Mahjong.Code.csproj", "{10B71A22-D062-4A4B-BB93-F2F749DE89BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,8 +29,16 @@ Global
 		{AE25FBB0-4129-4971-AB25-2C3076ADEF8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE25FBB0-4129-4971-AB25-2C3076ADEF8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE25FBB0-4129-4971-AB25-2C3076ADEF8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10B71A22-D062-4A4B-BB93-F2F749DE89BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10B71A22-D062-4A4B-BB93-F2F749DE89BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10B71A22-D062-4A4B-BB93-F2F749DE89BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10B71A22-D062-4A4B-BB93-F2F749DE89BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AE25FBB0-4129-4971-AB25-2C3076ADEF8C} = {646688F0-A380-4187-BEC7-F10863D9D1F5}
+		{F41DE7E7-4FBF-4E69-B16D-2F3CC762CCF7} = {646688F0-A380-4187-BEC7-F10863D9D1F5}
 	EndGlobalSection
 EndGlobal

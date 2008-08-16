@@ -17,11 +17,10 @@ namespace Mahjong.ActionScript
 	{
 		public static BitmapAsset ToImage(this RankAsset e)
 		{
-			var source = e.Source + "/" + e.Suit + "/" + e.Rank + ".png";
-			var n = Images.ByFileName(source);
+			var n = Assets.Default[e.ResourceAlias];
 
 			if (n == null)
-				throw new Exception(source);
+				throw new NotSupportedException();
 
 			return n;
 		}

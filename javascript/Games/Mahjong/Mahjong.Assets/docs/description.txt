@@ -1,1 +1,0 @@
-﻿Browser application. Crosscompiled from c# to javascript.

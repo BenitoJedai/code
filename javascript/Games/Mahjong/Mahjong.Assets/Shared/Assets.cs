@@ -12,6 +12,13 @@ namespace Mahjong.Shared
 		public string Suit;
 		public string Rank;
 
+		public string ResourceAlias
+		{
+			get
+			{
+				return this.Source + "/" + this.Suit + "/" + this.Rank + ".png";
+			}
+		}
 	}
 
 

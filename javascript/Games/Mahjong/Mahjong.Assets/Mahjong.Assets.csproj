@@ -50,13 +50,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionScript\Images.cs" />
+    <Compile Include="ActionScript\Assets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\Assets.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="docs\about.txt" />
-    <Content Include="docs\description.txt" />
     <EmbeddedResource Include="web\assets\Mahjong\bamboo\1.png" />
     <EmbeddedResource Include="web\assets\Mahjong\bamboo\2.png" />
     <EmbeddedResource Include="web\assets\Mahjong\bamboo\3.png" />
