@@ -54,6 +54,14 @@ namespace BrowserAvalonExample.Code
 				Source = "assets/BrowserAvalonExample.Assets/ground.png".ToSource()
 			}.AttachTo(this).MoveTo(0, 160);
 
+			new Image
+			{
+				Source = "assets/BrowserAvalonExample.Assets/shadowtop.png".ToSource(),
+				Stretch = Stretch.Fill,
+				Width = DefaultWidth,
+				Height = 64
+			}.AttachTo(this).MoveTo(0, 160);
+
 			var info = new TextBox
 			{
 				Text = "hello world",
@@ -110,8 +118,12 @@ namespace BrowserAvalonExample.Code
 					}.AttachTo(underlay).MoveTo(x, y);
 
 
-
-					img.FadeOut();
+					2000.AtDelay(
+						delegate
+						{
+							img.FadeOut();
+						}
+					);
 
 				};
 

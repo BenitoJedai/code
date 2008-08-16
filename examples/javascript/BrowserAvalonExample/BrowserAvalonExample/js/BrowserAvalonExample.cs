@@ -21,7 +21,10 @@ namespace BrowserAvalonExample.js
 			clip.style.SetSize(MyCanvas.DefaultWidth, MyCanvas.DefaultHeight);
 			clip.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
 
-			e.insertPreviousSibling(clip);
+			if (e == null)
+				clip.AttachToDocument();
+			else
+				e.insertPreviousSibling(clip);
 
 			AvalonExtensions.AttachToContainer(new MyCanvas(), clip);
 
@@ -32,6 +35,20 @@ namespace BrowserAvalonExample.js
 			typeof(BrowserAvalonExample).SpawnTo(i => new BrowserAvalonExample(i));
 		}
 
+	}
+
+	[Script(), ScriptApplicationEntryPoint(IsClickOnce = true, ScriptedLoading = true, Format = SerializedDataFormat.none)]
+	public class BrowserAvalonExamplePreloader : BrowserAvalonExample
+	{
+		public BrowserAvalonExamplePreloader() : base(null)
+		{
+		}
+
+
+		static BrowserAvalonExamplePreloader()
+		{
+			typeof(BrowserAvalonExamplePreloader).Spawn();
+		}
 	}
 
 }

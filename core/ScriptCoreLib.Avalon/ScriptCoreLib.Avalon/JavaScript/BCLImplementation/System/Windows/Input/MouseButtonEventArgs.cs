@@ -21,8 +21,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
 		{
 			return new __MouseButtonEventArgs
 			{
-				Internal_stageX = e.CursorX,
-				Internal_stageY = e.CursorY,
+				Internal_stageX = e.OffsetX,
+				Internal_stageY = e.OffsetY,
 				ChangedButton = MouseButton.Left
 			};
 		}
