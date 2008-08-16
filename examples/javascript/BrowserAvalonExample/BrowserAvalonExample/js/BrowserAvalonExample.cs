@@ -4,6 +4,7 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
+using BrowserAvalonExample.Code;
 
 
 namespace BrowserAvalonExample.js
@@ -14,6 +15,8 @@ namespace BrowserAvalonExample.js
 		public BrowserAvalonExample()
 		{
 			// wpf here
+			AvalonExtensions.AttachToContainer(new MyCanvas(), Native.Document.body);
+
 		}
 
 		static BrowserAvalonExample()

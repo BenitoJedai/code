@@ -1621,15 +1621,27 @@ namespace jsc
 
             w.WriteCommentLine("Are the references up to date?");
             w.WriteCommentLine("Are they imported in the dependency sort order?");
+
+			var KnownReferences =
+				from reference in ScriptCoreLib.SharedHelper.LoadReferencedAssemblies(assembly, false)
+				let token = IdentWriter.GetGUID64(reference.ManifestModule.ModuleVersionId)
+				select new { reference, token };
+
+			foreach (var v in KnownReferences)
+			{
+				w.WriteCommentLine("reference " + v.reference.GetName().Name + " - " + v.token);
+
+			}
+
             w.WriteMemberAssignment(
                 assembly.ManifestModule.ModuleVersionId,
                 new
                 {
                     Types = CompiledTypes.ToArray(),
-                    References =
-                        ScriptCoreLib.SharedHelper.LoadReferencedAssemblies(assembly, false).
-                        Select(i => (LiteralString)IdentWriter.GetGUID64(i.ManifestModule.ModuleVersionId)).
-                        ToArray()
+					References = KnownReferences.Select(k => (LiteralString)k.token).ToArray()
+						//ScriptCoreLib.SharedHelper.LoadReferencedAssemblies(assembly, false).
+						//Select(i => (LiteralString)IdentWriter.GetGUID64(i.ManifestModule.ModuleVersionId)).
+						//ToArray()
                 }
             );
 

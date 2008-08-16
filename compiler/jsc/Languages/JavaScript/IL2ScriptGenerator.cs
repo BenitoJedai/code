@@ -122,7 +122,8 @@ namespace jsc
                      OpCodes.Xor,
                      OpCodes.Not,
                      OpCodes.Shl,
-                     OpCodes.Shr,
+					 OpCodes.Shr,
+					 OpCodes.Shr_Un,
                      OpCodes.Neg,
                      OpCodes.Ceq,
                      OpCodes.Cgt,
@@ -1470,7 +1471,8 @@ namespace jsc
             if (i == OpCodes.Or) w.Write("|");
             if (i == OpCodes.Xor) w.Write("^");
             if (i == OpCodes.Shl) w.Write("<<");
-            if (i == OpCodes.Shr) w.Write(">>");
+			if (i == OpCodes.Shr) w.Write(">>");
+			if (i == OpCodes.Shr_Un) w.Write(">>");
             if (i == OpCodes.Cgt) w.Write(">");
             if (i == OpCodes.Cgt_Un) w.Write(">");
             if (i == OpCodes.Ceq) w.Write("==");
