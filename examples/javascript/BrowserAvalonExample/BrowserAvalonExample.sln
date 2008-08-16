@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserAvalonExample", "BrowserAvalonExample\BrowserAvalonExample.csproj", "{09F2E246-7ED5-41F5-AC86-F1531720C19F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entrypoints", "Entrypoints", "{72C086DB-3610-4346-A85A-717C7B53DE6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserAvalonExample.Assets", "BrowserAvalonExample.Assets\BrowserAvalonExample.Assets.csproj", "{93500606-43DA-4E5A-9375-363270089721}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserAvalonExample.Code", "BrowserAvalonExample.Code\BrowserAvalonExample.Code.csproj", "{B04DE80F-2338-49C9-8252-BBAC3B943B9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashAvalonExample", "FlashAvalonExample\FlashAvalonExample.csproj", "{9D3B4B7B-045B-4319-98F5-ABD29891B860}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAvalonExample", "ConsoleAvalonExample\ConsoleAvalonExample.csproj", "{CE8BC183-E470-4449-BFBD-F5CFE80AA1FC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{09F2E246-7ED5-41F5-AC86-F1531720C19F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09F2E246-7ED5-41F5-AC86-F1531720C19F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09F2E246-7ED5-41F5-AC86-F1531720C19F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09F2E246-7ED5-41F5-AC86-F1531720C19F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93500606-43DA-4E5A-9375-363270089721}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93500606-43DA-4E5A-9375-363270089721}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93500606-43DA-4E5A-9375-363270089721}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93500606-43DA-4E5A-9375-363270089721}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B04DE80F-2338-49C9-8252-BBAC3B943B9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B04DE80F-2338-49C9-8252-BBAC3B943B9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B04DE80F-2338-49C9-8252-BBAC3B943B9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B04DE80F-2338-49C9-8252-BBAC3B943B9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D3B4B7B-045B-4319-98F5-ABD29891B860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D3B4B7B-045B-4319-98F5-ABD29891B860}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D3B4B7B-045B-4319-98F5-ABD29891B860}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D3B4B7B-045B-4319-98F5-ABD29891B860}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE8BC183-E470-4449-BFBD-F5CFE80AA1FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE8BC183-E470-4449-BFBD-F5CFE80AA1FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE8BC183-E470-4449-BFBD-F5CFE80AA1FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE8BC183-E470-4449-BFBD-F5CFE80AA1FC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{09F2E246-7ED5-41F5-AC86-F1531720C19F} = {72C086DB-3610-4346-A85A-717C7B53DE6A}
+		{9D3B4B7B-045B-4319-98F5-ABD29891B860} = {72C086DB-3610-4346-A85A-717C7B53DE6A}
+		{CE8BC183-E470-4449-BFBD-F5CFE80AA1FC} = {72C086DB-3610-4346-A85A-717C7B53DE6A}
+	EndGlobalSection
+EndGlobal
