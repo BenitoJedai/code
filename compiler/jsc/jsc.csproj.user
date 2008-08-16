@@ -16,7 +16,7 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\javascript\Examples\FormsExample\FormsExample\bin\Debug</StartWorkingDirectory>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\javascript\BrowserAvalonExample\FlashAvalonExample\bin\Debug</StartWorkingDirectory>
     <StartArguments>FormsExample.dll -js</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>

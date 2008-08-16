@@ -124,5 +124,18 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 		{
 			return (__TextBox)(object)e;
 		}
+
+		public override void InternalSetIsReadOnly(bool value)
+		{
+			if (value)
+			{
+				this.InternalTextField.type = TextFieldType.DYNAMIC;
+			}
+			else
+			{
+				this.InternalTextField.type = TextFieldType.INPUT;
+			}
+		}
+
 	}
 }

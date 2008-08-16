@@ -126,5 +126,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 		{
 			return (__TextBox)(object)e;
 		}
+
+		public override void InternalSetIsReadOnly(bool value)
+		{
+			this.InternalTextField.readOnly = value;
+		}
 	}
 }

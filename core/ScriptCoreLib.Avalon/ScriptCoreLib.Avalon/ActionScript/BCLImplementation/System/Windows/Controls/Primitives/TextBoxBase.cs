@@ -35,5 +35,22 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls.P
 			{
 			}
 		}
+
+		public virtual void InternalSetIsReadOnly(bool value)
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool IsReadOnly
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				InternalSetIsReadOnly(value);
+			}
+		}
 	}
 }

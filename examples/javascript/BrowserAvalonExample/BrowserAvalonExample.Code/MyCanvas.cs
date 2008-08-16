@@ -51,9 +51,19 @@ namespace BrowserAvalonExample.Code
 			{
 				Text = "hello world",
 				Background = Brushes.Transparent,
-				BorderThickness = new Thickness(0)
+				BorderThickness = new Thickness(0),
+				IsReadOnly = true
 			}.AttachTo(this).MoveTo(32, 32);
 
+
+			new TextBox
+			{
+				Text = "enter text here",
+				Background = Brushes.GreenYellow,
+				Foreground = Brushes.Red,
+				BorderThickness = new Thickness(0),
+				IsReadOnly = false
+			}.AttachTo(this).MoveTo(32, 64);
 		}
 
 	}
