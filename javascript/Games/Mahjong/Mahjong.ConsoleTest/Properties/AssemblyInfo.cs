@@ -2,17 +2,15 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-using ScriptCoreLib;
-
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Mahjong")]
+[assembly: AssemblyTitle("Mahjong.ConsoleTest")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Mahjong")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2007")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Mahjong.ConsoleTest")]
+[assembly: AssemblyCopyright("Copyright ©  2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -22,7 +20,7 @@ using ScriptCoreLib;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("91a9e2f5-2152-4ebf-8b11-d814dfb83a78")]
+[assembly: Guid("48d9578d-a8c8-4d1d-b77a-6dd74b965fb1")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -36,10 +34,3 @@ using ScriptCoreLib;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-
-
-[assembly:
-    Script,
-    ScriptTypeFilter(ScriptType.JavaScript, "*.js"),
-    ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript")
-]
