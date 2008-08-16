@@ -7,9 +7,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel
     [Script(Implements = typeof(global::System.ComponentModel.Component))]
     internal class __Component
     {
-        public bool Dispose(bool e)
+        public virtual void Dispose(bool e)
         {
-            return e;
         }
 
         public bool DesignMode { get; set; }
