@@ -1106,10 +1106,17 @@ namespace jsc.Languages.ActionScript
 					if (e.i.Prev.TargetVariable == null)
 						throw new SkipThisPrestatementException();
 
+					var target = MySession.ResolveImplementation(e.i.TargetType) ?? e.i.TargetType;
+
+
+					if (target.IsGenericParameter)
+					{
+						throw new SkipThisPrestatementException();
+					}
+
 					WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.Prev.TargetVariable);
 					WriteAssignment();
 
-					var target = MySession.ResolveImplementation(e.i.TargetType) ?? e.i.TargetType;
 
 					WriteKeywordSpace(Keywords._new);
 					WriteDecoratedTypeName(e.Method.DeclaringType, target);

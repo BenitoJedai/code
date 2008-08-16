@@ -12,9 +12,9 @@ namespace jsc.Languages.ActionScript
 {
     static class EntryPointProvider
     {
-        static public void WriteEntryPoints(this Assembly a, DirectoryInfo dir)
+        static public void WriteEntryPoints(this Assembly a, DirectoryInfo dir, Type[] KnownTypes)
         {
-            var Entries = from _Type in a.GetTypes()
+			var Entries = from _Type in KnownTypes
                           let _Script = _Type.GetCustomAttributes<ScriptAttribute>().SingleOrDefault()
                           where _Script != null
                           let _ScriptApplicationEntryPoint = _Type.GetCustomAttributes<ScriptApplicationEntryPointAttribute>().SingleOrDefault()
