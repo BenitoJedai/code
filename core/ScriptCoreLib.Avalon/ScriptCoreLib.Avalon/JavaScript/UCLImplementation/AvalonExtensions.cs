@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Media;
-using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media;
 
 namespace ScriptCoreLib.JavaScript.UCLImplementation
 {

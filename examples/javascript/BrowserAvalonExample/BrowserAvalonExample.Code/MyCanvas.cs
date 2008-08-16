@@ -55,6 +55,32 @@ namespace BrowserAvalonExample.Code
 				IsReadOnly = true
 			}.AttachTo(this).MoveTo(32, 32);
 
+			var e = new Image 
+			{
+				Source = "assets/BrowserAvalonExample.Assets/tipsi2.png".ToSource()
+			}.AttachTo(this).MoveTo(4, 5);
+
+			var arrow = new Image
+			{
+				Source = "assets/BrowserAvalonExample.Assets/arrow.png".ToSource()
+			}.AttachTo(this).MoveTo(4, 5);
+
+			var overlay = new Rectangle
+			{
+				Fill = Brushes.Red,
+				Width = DefaultWidth,
+				Height = DefaultHeight,
+				Opacity = 0
+			}.AttachTo(this);
+
+
+			overlay.MouseMove +=
+				(s, a)=>
+				{
+					var p = a.GetPosition(this);
+
+					arrow.MoveTo(p.X, p.Y);
+				};
 
 			new TextBox
 			{
@@ -64,6 +90,8 @@ namespace BrowserAvalonExample.Code
 				BorderThickness = new Thickness(0),
 				IsReadOnly = false
 			}.AttachTo(this).MoveTo(32, 64);
+
+			
 		}
 
 	}

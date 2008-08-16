@@ -11,7 +11,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     {
         public IDate Value;
 
-        protected __DateTime()
+        public __DateTime()
         {
 
         }

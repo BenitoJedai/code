@@ -5,8 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
-	[Script(Implements = typeof(IComparable))]
-	internal interface IEquatable<T>
+	[Script(Implements = typeof(IEquatable<>))]
+	internal interface __IEquatable<T>
 	{
 		bool Equals(T other);
 	}

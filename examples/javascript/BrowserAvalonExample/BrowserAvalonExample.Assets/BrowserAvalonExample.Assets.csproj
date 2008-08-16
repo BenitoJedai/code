@@ -59,7 +59,10 @@
     <Compile Include="Shared\Assets\IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="web\assets\BrowserAvalonExample.Assets\2.png" />
+    <EmbeddedResource Include="web\assets\BrowserAvalonExample.Assets\tipsi2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\BrowserAvalonExample.Assets\arrow.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
