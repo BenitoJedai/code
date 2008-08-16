@@ -10,12 +10,17 @@ using ScriptCoreLib.ActionScript.Extensions;
 namespace Mahjong.ActionScript
 {
 	[Script]
-	public class Images
+	public class Assets
 	{
-		[EmbedByFileName]
-		public static Class ByFileName(string e)
+		public static readonly Assets Default = new Assets();
+
+		public Class this[string e]
 		{
-			throw new NotImplementedException();
+			[EmbedByFileName]
+			get
+			{
+				throw new NotImplementedException();
+			}
 		}
 	}
 }
