@@ -91,7 +91,15 @@ namespace jsc
                     throw new Exception("a load instruction was selected as prestatement. this is a bug within jsc. " + p.Instruction.Location);
 
                 w.WriteIdent();
-                IL2ScriptGenerator.OpCodeHandler(w, p);
+				try
+				{
+					IL2ScriptGenerator.OpCodeHandler(w, p);
+				}
+				catch (SkipThisPrestatementException)
+				{
+
+				}
+
                 w.WriteLine(";");
             }
         }

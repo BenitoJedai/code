@@ -47,7 +47,7 @@ namespace BrowserAvalonExample.Code
 				Height = 62
 			}.AttachTo(this).MoveTo(32, 8);
 
-			new TextBox
+			var info = new TextBox
 			{
 				Text = "hello world",
 				Background = Brushes.Transparent,
@@ -60,10 +60,36 @@ namespace BrowserAvalonExample.Code
 				Source = "assets/BrowserAvalonExample.Assets/tipsi2.png".ToSource()
 			}.AttachTo(this).MoveTo(4, 5);
 
+			var underlay = new Canvas
+			{
+				Width = DefaultWidth,
+				Height = DefaultHeight,
+
+			}.AttachTo(this);
+
 			var arrow = new Image
 			{
 				Source = "assets/BrowserAvalonExample.Assets/arrow.png".ToSource()
 			}.AttachTo(this).MoveTo(4, 5);
+
+			var bluearrow = new Image
+			{
+				Source = "assets/BrowserAvalonExample.Assets/bluearrow.png".ToSource()
+			}.AttachTo(this).MoveTo(4, 5);
+
+
+			bluearrow.Visibility = Visibility.Hidden;
+
+
+
+			Action<double, double> DrawBrush =
+				(x, y) =>
+				{
+					new Image
+					{
+						Source = "assets/BrowserAvalonExample.Assets/bluebrush.png".ToSource()
+					}.AttachTo(underlay).MoveTo(x, y);
+				};
 
 			var overlay = new Rectangle
 			{
@@ -71,15 +97,47 @@ namespace BrowserAvalonExample.Code
 				Width = DefaultWidth,
 				Height = DefaultHeight,
 				Opacity = 0
-			}.AttachTo(this);
+			}.AttachTo(this).MoveTo(0, 0);
+
+			var Cursor = new Point();
+			var Counter = 0;
+			var MyBrushPainter = 50.AtInterval(
+				delegate
+				{
+					Counter++;
+
+					info.Text = "counter: " + Counter;
+
+
+					DrawBrush(Cursor.X - 32, Cursor.Y -32);
+
+				}
+			);
+
+			MyBrushPainter.Stop();
+
+			overlay.MouseLeftButtonDown +=
+				delegate
+				{
+					bluearrow.Visibility = Visibility.Visible;
+					MyBrushPainter.Start();
+				};
+
+			overlay.MouseLeftButtonUp +=
+				delegate
+				{
+					bluearrow.Visibility = Visibility.Hidden;
+					MyBrushPainter.Stop();
+				};
 
 
 			overlay.MouseMove +=
 				(s, a)=>
 				{
-					var p = a.GetPosition(this);
+					Cursor = a.GetPosition(this);
 
-					arrow.MoveTo(p.X, p.Y);
+					arrow.MoveTo(Cursor.X, Cursor.Y);
+					bluearrow.MoveTo(Cursor.X, Cursor.Y);
 				};
 
 			new TextBox

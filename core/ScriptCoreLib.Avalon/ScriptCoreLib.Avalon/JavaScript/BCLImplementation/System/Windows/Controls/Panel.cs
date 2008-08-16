@@ -15,6 +15,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 	internal class __Panel : __FrameworkElement, __IAddChild
 	{
 		public readonly IHTMLDiv InternalSprite = new IHTMLDiv();
+		public readonly IHTMLDiv InternalContent = new IHTMLDiv();
 
 		public override IHTMLElement InternalGetDisplayObject()
 		{
@@ -33,12 +34,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 		public __Panel()
 		{
-			InternalSprite.style.backgroundColor = "gray";
+			InternalSprite.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
+
 			InternalSprite.style.width = "600px";
 			InternalSprite.style.height = "400px";
-			InternalSprite.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
 
-			_Children = new __UIElementCollection { InternalSprite = InternalSprite };
+			InternalSprite.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+
+			InternalSprite.appendChild(InternalContent);
+
+			InternalContent.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
+
+			_Children = new __UIElementCollection { InternalSprite = InternalContent };
 		}
 
 
@@ -54,7 +61,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 					var _SolidColorBrush = (__SolidColorBrush)AsSolidColorBrush;
 					__Color _Color = _SolidColorBrush.Color;
 
-					this.InternalSprite.style.backgroundColor = _Color;
+					if (_Color.A == 0)
+						this.InternalSprite.style.backgroundColor = "transparent";
+					else
+						this.InternalSprite.style.backgroundColor = _Color;
 				}
 			}
 		}

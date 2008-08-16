@@ -99,7 +99,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 				InternalGetDisplayObject().mouseMove +=
 					e =>
 					{
-						value(this, (__MouseEventArgs) e);
+						value(this, (__MouseEventArgs)e);
 					};
 			}
 			remove
@@ -190,6 +190,21 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 			remove
 			{
 				throw new NotImplementedException();
+			}
+		}
+
+		public Visibility Visibility
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				if (value == Visibility.Visible)
+					this.InternalGetDisplayObject().visible = true;
+				else
+					this.InternalGetDisplayObject().visible = false;
 			}
 		}
 	}

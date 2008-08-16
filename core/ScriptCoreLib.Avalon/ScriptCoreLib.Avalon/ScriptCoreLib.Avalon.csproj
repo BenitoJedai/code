@@ -90,6 +90,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Animation\Animatable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Animation\IAnimatable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Thickness.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Threading\DispatcherTimer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Canvas.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Control.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Image.cs" />
@@ -104,6 +105,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Freezable.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\IInputElement.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\InputEventArgs.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\MouseButtonEventArgs.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\MouseButtonEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\MouseEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\MouseEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Markup\IAddChild.cs" />
@@ -150,6 +153,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Shapes\Shape.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Thickness.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Threading\DispatcherObject.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Threading\DispatcherTimer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\UIElement.cs" />
     <Compile Include="JavaScript\Extensions\AvalonExtensions.cs" />
     <Compile Include="JavaScript\UCLImplementation\AvalonExtensions.cs" />

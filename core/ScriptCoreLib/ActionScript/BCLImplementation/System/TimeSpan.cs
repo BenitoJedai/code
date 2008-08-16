@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System
+namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
     [Script(Implements = typeof(global::System.TimeSpan))]
     internal class __TimeSpan
@@ -12,7 +12,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 		}
 
-		public double TotalMilliseconds { get; set; }
+		public double TotalMilliseconds { get; set;  }
 
         public static TimeSpan Parse(string e)
         {

@@ -65,7 +65,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 				InternalGetDisplayObject().onmousemove +=
 					e =>
 					{
-						value(this, (__MouseEventArgs) e);
+						value(this, (__MouseEventArgs)e);
 					};
 			}
 			remove
@@ -116,7 +116,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 				InternalGetDisplayObject().onmousedown +=
 					e =>
 					{
-						//value(this, (__MouseButtonEventArgs)e);
+						e.PreventDefault();
+
+						if (e.MouseButton == ScriptCoreLib.JavaScript.DOM.IEvent.MouseButtonEnum.Left)
+							value(this, (__MouseButtonEventArgs)e);
 					};
 			}
 			remove
@@ -133,8 +136,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 				InternalGetDisplayObject().onmouseup +=
 					e =>
 					{
+						e.PreventDefault();
 
-						//value(this, (__MouseButtonEventArgs)e);
+						if (e.MouseButton == ScriptCoreLib.JavaScript.DOM.IEvent.MouseButtonEnum.Left)
+							value(this, (__MouseButtonEventArgs)e);
 					};
 			}
 			remove
@@ -157,6 +162,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 			remove
 			{
 				throw new NotImplementedException();
+			}
+		}
+
+		public Visibility Visibility
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				if (value == Visibility.Visible)
+					this.InternalGetDisplayObject().style.display = ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.empty;
+				else
+					this.InternalGetDisplayObject().style.display = ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.none;
+
 			}
 		}
 	}
