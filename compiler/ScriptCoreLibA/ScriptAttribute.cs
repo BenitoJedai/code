@@ -55,6 +55,10 @@ namespace ScriptCoreLib
         public readonly ScriptType Type;
         public readonly string Filter;
 
+		public ScriptTypeFilterAttribute(ScriptType e) : this(e, "*")
+		{
+		}
+
         public ScriptTypeFilterAttribute(ScriptType e, string f)
         {
             Type = e;
