@@ -44,6 +44,12 @@ namespace jsc.Languages.ActionScript
                 return;
             }
 
+			if (timpv.IsEnum)
+			{
+				WriteSafeLiteral(GetDecoratedTypeName(timpv, true));
+
+				return;
+			}
 
             var iType = MySession.ResolveImplementation(timpv);
 

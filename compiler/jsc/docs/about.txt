@@ -131,3 +131,5 @@ version history:
 	actionscript: added OpCodes.Stobj
 06.08.2008
 	jsc: added EmbedFieldsAttribute to ease asset embedding
+16.08.2008
+	actionscript: fixed enum to int downcasting
