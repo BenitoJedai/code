@@ -7,6 +7,7 @@ using System.Windows.Media;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Markup;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media;
+using System.Windows;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 {
@@ -20,14 +21,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			return InternalSprite;
 		}
 
+		public sealed override void InternalSetHeight(double value)
+		{
+			InternalSprite.style.height = Convert.ToInt32(value) + "px";
+		}
+
+		public sealed override void InternalSetWidth(double value)
+		{
+			InternalSprite.style.width = Convert.ToInt32(value) + "px";
+		}
+
 		public __Panel()
 		{
 			InternalSprite.style.backgroundColor = "gray";
 			InternalSprite.style.width = "600px";
 			InternalSprite.style.height = "400px";
+			InternalSprite.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
 
 			_Children = new __UIElementCollection { InternalSprite = InternalSprite };
 		}
+
 
 		public Brush Background
 		{
@@ -39,9 +52,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 				if (AsSolidColorBrush != null)
 				{
 					var _SolidColorBrush = (__SolidColorBrush)AsSolidColorBrush;
-					uint _Color = (__Color)_SolidColorBrush.Color;
+					__Color _Color = _SolidColorBrush.Color;
 
-					this.InternalSprite.style.backgroundColor = "red";
+					this.InternalSprite.style.backgroundColor = _Color;
 				}
 			}
 		}
@@ -60,5 +73,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 		{
 			return (__Panel)(object)e;
 		}
+
+		#region __IAddChild Members
+
+		public void AddChild(object value)
+		{
+			var e = value as UIElement;
+
+			if (e == null)
+				throw new NotSupportedException("AddChild supports UIElement");
+
+			this.Children.Add(e);
+		}
+
+		#endregion
 	}
 }

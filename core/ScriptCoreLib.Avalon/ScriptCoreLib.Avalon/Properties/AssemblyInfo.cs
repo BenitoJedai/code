@@ -40,8 +40,10 @@ using ScriptCoreLib;
 [assembly:
 	Script,
 	ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
+	ScriptTypeFilter(ScriptType.ActionScript, "*.Shared"),
 	ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),
-	ScriptTypeFilter(ScriptType.CSharp2, "*.CSharp"),
+	ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
+	// ScriptTypeFilter(ScriptType.CSharp2, "*.CSharp"),
     ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
     ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = "")
 ]    // some namespace mangling

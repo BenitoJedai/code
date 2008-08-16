@@ -22,6 +22,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media
 
 
 		public byte A { get { return sRgbColor.a; } set { sRgbColor.a = value; } }
+		public byte R { get { return sRgbColor.r; } set { sRgbColor.r = value; } }
+		public byte G { get { return sRgbColor.g; } set { sRgbColor.g = value; } }
+		public byte B { get { return sRgbColor.b; } set { sRgbColor.b = value; } }
 
 		public static implicit operator global::System.Windows.Media.Color(__Color e)
 		{
@@ -56,5 +59,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media
 			return c;
 		}
 
+		public string ToHTMLRGBString()
+		{
+			return "RGB(" + sRgbColor.r + ", " + sRgbColor.g + ", " + sRgbColor.b + ")";
+		}
+
+		public static implicit operator string(__Color e)
+		{
+			return e.ToHTMLRGBString();
+		}
 	}
 }

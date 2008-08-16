@@ -5,16 +5,18 @@ using System.Collections.Generic;
 using System;
 using ScriptCoreLib.ActionScript.Extensions;
 using BrowserAvalonExample.Code;
+using ScriptCoreLib.ActionScript;
 
 namespace FlashAvalonExample.ActionScript
 {
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
 	/// </summary>
-	[Script, ScriptApplicationEntryPoint]
+	[Script, ScriptApplicationEntryPoint(Width = MyCanvas.DefaultWidth, Height = MyCanvas.DefaultHeight)]
+	[SWF(width = MyCanvas.DefaultWidth, height = MyCanvas.DefaultHeight)]
 	public class FlashAvalonExample : Sprite
 	{
-		
+
 
 
 		/// <summary>
@@ -32,7 +34,7 @@ namespace FlashAvalonExample.ActionScript
 		{
 			// add resources to be found by ImageSource
 			KnownEmbeddedResources.Default.Handlers.Add(
-				e =>  global::BrowserAvalonExample.ActionScript.Assets.Default[e]
+				e => global::BrowserAvalonExample.ActionScript.Assets.Default[e]
 			);
 
 		}

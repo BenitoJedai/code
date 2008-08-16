@@ -13,14 +13,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 		{
 			__UIElement _element = element;
 
-			_element.InternalGetDisplayObject().style.left = Convert.ToInt32(length) + "px";
+			var n = _element.InternalGetDisplayObject();
+
+			n.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+			n.style.left = Convert.ToInt32(length) + "px";
 		}
 
 		public static void SetTop(UIElement element, double length)
 		{
 			__UIElement _element = element;
 
-			_element.InternalGetDisplayObject().style.top = Convert.ToInt32(length) + "px";
+			var n = _element.InternalGetDisplayObject();
+
+			n.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+			n.style.top = Convert.ToInt32(length) + "px";
 		}
 	}
 }
