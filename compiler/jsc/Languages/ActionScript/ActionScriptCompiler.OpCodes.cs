@@ -1108,7 +1108,12 @@ namespace jsc.Languages.ActionScript
 
 					WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.Prev.TargetVariable);
 					WriteAssignment();
-					Write("void(0)");
+
+					var target = MySession.ResolveImplementation(e.i.TargetType) ?? e.i.TargetType;
+
+					WriteKeywordSpace(Keywords._new);
+					WriteDecoratedTypeName(e.Method.DeclaringType, target);
+					Write("()");
 				};
 
 			#region Throw

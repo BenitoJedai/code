@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 {
@@ -45,6 +46,22 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 			}
 		}
 
+		public virtual void InternalSetCursor(Cursor value)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Cursor Cursor
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				InternalSetCursor(value);
+			}
+		}
 
 	}
 }

@@ -9,6 +9,7 @@ using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows.Shapes;
 using System.Windows.Media;
 using System.Windows;
+using System.Windows.Input;
 
 namespace BrowserAvalonExample.Code
 {
@@ -17,24 +18,25 @@ namespace BrowserAvalonExample.Code
 	{
 		public const int DefaultWidth = 480;
 		public const int DefaultHeight = 320;
-
+		
 		public MyCanvas()
 		{
 			// jsc:javascript does not work well with structs
+			this.Cursor = Cursors.None;
 
 			this.Width = DefaultWidth;
 			this.Height = DefaultHeight;
 
 			new Rectangle
 			{
-				Fill = Brushes.Red,
+				Fill = 0xff3D87FF.ToSolidColorBrush(),
 				Width = DefaultWidth,
 				Height = DefaultHeight / 2
 			}.AttachTo(this).MoveTo(0, 0);
 
 			new Rectangle
 			{
-				Fill = Brushes.Yellow,
+				Fill = 0xff72BC3E.ToSolidColorBrush(),
 				Width = DefaultWidth,
 				Height = DefaultHeight / 2
 			}.AttachTo(this).MoveTo(0, DefaultHeight / 2);
@@ -46,6 +48,11 @@ namespace BrowserAvalonExample.Code
 				Width = 62,
 				Height = 62
 			}.AttachTo(this).MoveTo(32, 8);
+
+			new Image
+			{
+				Source = "assets/BrowserAvalonExample.Assets/ground.png".ToSource()
+			}.AttachTo(this).MoveTo(0, 160);
 
 			var info = new TextBox
 			{
@@ -67,15 +74,27 @@ namespace BrowserAvalonExample.Code
 
 			}.AttachTo(this);
 
+			 new Image
+			{
+				Source = "assets/BrowserAvalonExample.Assets/shadowtop.png".ToSource(),
+				Stretch = Stretch.Fill,
+				Width = DefaultWidth,
+				Height = 64
+			}.AttachTo(this).MoveTo(0, 0);
+
+			 var cursor = new Canvas
+			 {
+			 }.AttachTo(this).MoveTo(4, 5);
+
 			var arrow = new Image
 			{
 				Source = "assets/BrowserAvalonExample.Assets/arrow.png".ToSource()
-			}.AttachTo(this).MoveTo(4, 5);
+			}.AttachTo(cursor).MoveTo(-16, -16);
 
 			var bluearrow = new Image
 			{
 				Source = "assets/BrowserAvalonExample.Assets/bluearrow.png".ToSource()
-			}.AttachTo(this).MoveTo(4, 5);
+			}.AttachTo(cursor).MoveTo(-16, -16);
 
 
 			bluearrow.Visibility = Visibility.Hidden;
@@ -85,10 +104,15 @@ namespace BrowserAvalonExample.Code
 			Action<double, double> DrawBrush =
 				(x, y) =>
 				{
-					new Image
+					var img = new Image
 					{
 						Source = "assets/BrowserAvalonExample.Assets/bluebrush.png".ToSource()
 					}.AttachTo(underlay).MoveTo(x, y);
+
+
+
+					img.FadeOut();
+
 				};
 
 			var overlay = new Rectangle
@@ -136,8 +160,7 @@ namespace BrowserAvalonExample.Code
 				{
 					Cursor = a.GetPosition(this);
 
-					arrow.MoveTo(Cursor.X, Cursor.Y);
-					bluearrow.MoveTo(Cursor.X, Cursor.Y);
+					cursor.MoveTo(Cursor.X, Cursor.Y);
 				};
 
 			new TextBox

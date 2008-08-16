@@ -87,18 +87,20 @@ namespace jsc.Languages.ActionScript
 				{
 					WriteAssignment();
 
+					var value = s.Last();
+
 					#region bool
 					if (prop.SetProperty.PropertyType == typeof(bool))
 					{
-						if (s[1].StackInstructions.Length == 1)
+						if (value.StackInstructions.Length == 1)
 						{
-							if (s[1].SingleStackInstruction.TargetInteger == 0)
+							if (value.SingleStackInstruction.TargetInteger == 0)
 							{
 								Write("false");
 								return;
 							}
 
-							if (s[1].SingleStackInstruction.TargetInteger == 1)
+							if (value.SingleStackInstruction.TargetInteger == 1)
 							{
 								Write("true");
 								return;
@@ -107,7 +109,7 @@ namespace jsc.Languages.ActionScript
 					}
 					#endregion
 
-					Emit(p, s[1]);
+					Emit(p, value);
 				};
 			#endregion
 

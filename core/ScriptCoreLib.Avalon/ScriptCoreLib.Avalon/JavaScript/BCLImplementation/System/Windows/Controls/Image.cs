@@ -49,5 +49,55 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 				InternalSprite.appendChild(InternalBitmap);
 			}
 		}
+
+		Stretch InternalStretch;
+
+		public Stretch Stretch
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				// emulate wpf stretch
+
+				this.InternalStretch = value;
+			}
+		}
+
+		public double InternalWidth;
+		public double InternalHeight;
+
+		public override void InternalSetHeight(double value)
+		{
+			InternalHeight = value;
+
+			InternalUpdateStrech();
+		}
+
+		public override void InternalSetWidth(double value)
+		{
+			InternalWidth = value;
+
+			InternalUpdateStrech();
+		}
+
+		private void InternalUpdateStrech()
+		{
+			if (InternalStretch == Stretch.None)
+			{
+				return;
+			}
+
+			if (InternalStretch == Stretch.Fill)
+			{
+				this.InternalBitmap.width = Convert.ToInt32(InternalWidth);
+				this.InternalBitmap.height = Convert.ToInt32(InternalHeight);
+
+				return;
+			}
+		}
+		
 	}
 }
