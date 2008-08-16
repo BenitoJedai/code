@@ -92,6 +92,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Thickness.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Canvas.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Control.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Image.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Panel.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Primitives\TextBoxBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\TextBox.cs" />
@@ -102,6 +103,9 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\FrameworkElement.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Freezable.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\IInputElement.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\InputEventArgs.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\MouseEventArgs.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\MouseEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Markup\IAddChild.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\Animation\Animatable.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\Animation\IAnimatable.cs" />
@@ -140,6 +144,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\ImageSource.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\SolidColorBrush.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\Visual.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Point.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\RoutedEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Shapes\Rectangle.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Shapes\Shape.cs" />
@@ -158,7 +163,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ActionScript\BCLImplementation\System\Windows\Media\Composition\" />
-    <Folder Include="JavaScript\BCLImplementation\System\Windows\Input\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

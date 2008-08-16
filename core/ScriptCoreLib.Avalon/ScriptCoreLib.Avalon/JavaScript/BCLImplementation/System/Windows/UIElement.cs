@@ -9,6 +9,7 @@ using System.Windows.Input;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media.Animation;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 {
@@ -64,7 +65,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 				InternalGetDisplayObject().onmousemove +=
 					e =>
 					{
-						//value(this, (__MouseEventArgs) e);
+						value(this, (__MouseEventArgs) e);
 					};
 			}
 			remove
