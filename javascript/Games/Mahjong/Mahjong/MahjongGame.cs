@@ -34,7 +34,7 @@ namespace Mahjong.js
 			var clip = new IHTMLDiv();
 
 			clip.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
-			clip.style.SetSize(MyCanvas.DefaultWidth, MyCanvas.DefaultHeight);
+			clip.style.SetSize(MyCanvas.DefaultScaledWidth, MyCanvas.DefaultScaledHeight);
 			clip.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
 
 			if (e == null)

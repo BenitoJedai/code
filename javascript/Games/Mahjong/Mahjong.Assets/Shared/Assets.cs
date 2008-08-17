@@ -31,6 +31,8 @@ namespace Mahjong.Shared
 		[Script]
 		public class Settings
 		{
+			public double Scale = 1;
+
 			public int OuterWidth = 32;
 			public int OuterHeight = 46;
 
@@ -38,6 +40,39 @@ namespace Mahjong.Shared
 			public int InnerHeight = 38;
 
 			public SpecialAsset BackgroundTile = "tile0";
+
+			public double ScaledOuterWidth
+			{
+				get
+				{
+					return (int)((double)OuterWidth * Scale);
+				}
+			}
+
+			public double ScaledOuterHeight
+			{
+				get
+				{
+					return (int)((double)OuterHeight * Scale);
+				}
+			}
+
+
+			public double ScaledInnerWidth
+			{
+				get
+				{
+					return (int)((double)InnerWidth * Scale);
+				}
+			}
+
+			public double ScaledInnerHeight
+			{
+				get
+				{
+					return (int)((double)InnerHeight * Scale);
+				}
+			}
 		}
 
 		static public RankAsset[] Bamboo { get { return BambooAsset.Collection; } }
