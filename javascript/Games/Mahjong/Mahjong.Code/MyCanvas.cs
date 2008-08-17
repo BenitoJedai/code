@@ -14,7 +14,7 @@ namespace Mahjong.Code
 	public class MyCanvas : Canvas
 	{
 		public const int DefaultWidth = 480;
-		public const int DefaultHeight = 640;
+		public const int DefaultHeight = 480;
 
 		[Script]
 		public class VisibleTile
@@ -58,6 +58,11 @@ namespace Mahjong.Code
 		{
 			this.Width = DefaultWidth;
 			this.Height = DefaultHeight;
+
+			new Image
+			{
+				Source = "assets/Mahjong.Assets/china.jpg".ToSource()
+			}.AttachTo(this);
 
 			var stuff = Asset.Bamboo.
 					Concat(Asset.Characters).
