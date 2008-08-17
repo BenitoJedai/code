@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using Mahjong.Code;
+using System.Windows.Media;
 
 namespace Mahjong.ConsoleTest
 {
@@ -14,11 +15,10 @@ namespace Mahjong.ConsoleTest
 		{
 			return new Window
 			{
-				Width = e.Width,
-				Height = e.Height,
+				Background = Brushes.Black,
+				SizeToContent = SizeToContent.WidthAndHeight,
 				Content = e
 			};
-
 		}
 
 		[STAThread]
