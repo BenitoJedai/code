@@ -38,12 +38,12 @@ namespace FlashMouseMaze.Shared
 			var help_idle = new Image
 			{
 				Source = "assets/FlashMouseMaze/help_idle.png".ToSource()
-			}.AttachTo(this);
+			}.MoveTo(0, 0).AttachTo(this);
 
 			var help = new Image
 			{
 				Source = "assets/FlashMouseMaze/help.png".ToSource()
-			}.AttachTo(this);
+			}.MoveTo(0, 0).AttachTo(this);
 
 			help.Opacity = 0;
 
@@ -52,7 +52,7 @@ namespace FlashMouseMaze.Shared
 				Source = "assets/FlashMouseMaze/jsc.png".ToSource()
 			}.MoveTo(DefaultWidth - 128, DefaultHeight - 128).AttachTo(this);
 
-			
+
 			var mouse = new Image
 			{
 				Source = "assets/FlashMouseMaze/mouse.png".ToSource()
@@ -73,13 +73,13 @@ namespace FlashMouseMaze.Shared
 			canvas.MouseEnter +=
 				delegate
 				{
-					mouse.Opacity = 1;
+					mouse.Visibility = Visibility.Visible;
 				};
 
 			canvas.MouseLeave +=
 				delegate
 				{
-					mouse.Opacity = 0;
+					mouse.Visibility = Visibility.Hidden;
 				};
 
 			canvas.MouseMove +=
@@ -100,27 +100,25 @@ namespace FlashMouseMaze.Shared
 				IsReadOnly = true
 			}.MoveTo(32, 32).AttachTo(this);
 
-			help_idle.Opacity = 0;
-			help.Opacity = 1;
-			img.Opacity = 0.5;
+			//help_idle.Visibility = Visibility.Visible;
+			//help.Visibility = Visibility.Visible;
 
 			t.MouseEnter +=
 				delegate
 				{
-					help_idle.Opacity = 1;
-					help.Opacity = 0;
+					//help_idle.Visibility = Visibility.Hidden;
+					//help.Visibility = Visibility.Visible;
 
-					img.Opacity = 1;
+
 					t.Foreground = 0xffffff00.ToSolidColorBrush();
 				};
 
 			t.MouseLeave +=
 				delegate
 				{
-					help_idle.Opacity = 0;
-					help.Opacity = 1;
+					//help_idle.Visibility = Visibility.Visible;
+					//help.Visibility = Visibility.Hidden;
 
-					img.Opacity = 0.5;
 					t.Foreground = 0xffffffff.ToSolidColorBrush();
 				};
 
