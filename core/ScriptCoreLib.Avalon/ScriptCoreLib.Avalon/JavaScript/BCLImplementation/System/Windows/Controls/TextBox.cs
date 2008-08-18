@@ -19,13 +19,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 		public __TextBox()
 		{
 
-			InternalTextField = new IHTMLInput( ScriptCoreLib.Shared.HTMLInputTypeEnum.text)
+			InternalTextField = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.text)
 				{
 					//autoSize = TextFieldAutoSize.LEFT,
 					//type = TextFieldType.INPUT
 				};
 
 			//InternalTextField.style.width = "auto";
+		}
+
+		public override void InternalSetFontSize(double value)
+		{
+			InternalTextField.style.fontSize = Convert.ToInt32(value) + "pt";
 		}
 
 		public override void InternalSetBorderThickness(global::System.Windows.Thickness value)
@@ -70,7 +75,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			if (AsSolidColorBrush != null)
 			{
 				var _SolidColorBrush = (__SolidColorBrush)AsSolidColorBrush;
-				__Color _Color =_SolidColorBrush.Color;
+				__Color _Color = _SolidColorBrush.Color;
 
 				if (_SolidColorBrush.Color.A == 0)
 				{

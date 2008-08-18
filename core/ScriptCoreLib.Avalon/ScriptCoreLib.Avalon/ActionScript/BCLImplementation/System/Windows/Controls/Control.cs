@@ -57,6 +57,21 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 		#endregion
 
+		#region FontSize
+		public virtual double InternalGetFontSize()
+		{
+			throw new NotImplementedException();
+		}
+
+		public virtual void InternalSetFontSize(double value)
+		{
+			throw new NotImplementedException();
+		}
+
+		public double FontSize { get { return InternalGetFontSize(); } set { InternalSetFontSize(value); } }
+
+		#endregion
+
 
 	}
 }
