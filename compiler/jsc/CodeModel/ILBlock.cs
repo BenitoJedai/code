@@ -1010,6 +1010,9 @@ namespace jsc
                         if (!p.Instruction.StackBeforeStrict[0].SingleStackInstruction.IsEqualStoreLocation(this.Instruction))
                             return null;
 
+						if (p.Instruction.StackBeforeStrict.Length < 2)
+							return null;
+
                         int? _offset = p.Instruction.StackBeforeStrict[1].SingleStackInstruction.TargetInteger;
 
                         if (_offset == null)

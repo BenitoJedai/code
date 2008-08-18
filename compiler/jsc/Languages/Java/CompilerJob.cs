@@ -76,20 +76,14 @@ namespace jsc.Languages
                 {
                     Console.WriteLine("this version is already built: " + SourceVersion.Name);
 
-                    if (!Debugger.IsAttached)
-                    {
+					//if (!Debugger.IsAttached)
+					//{
                         return;
-                    }
+					//}
                 }
             }
 
-            StreamWriter SVW = new StreamWriter(SourceVersion.OpenWrite());
-
-            SVW.WriteLine("ConstantCompilerBuildDate: " + CompilerBase.ConstantCompilerBuildDate);
-            SVW.WriteLine("AssamblyFile.LastWriteTime: " + j.AssamblyFile.LastWriteTime);
-            SVW.WriteLine("SourceVersion.LastWriteTime: " + SourceVersion.LastWriteTime);
-
-            SVW.Close();
+        
 
             Helper.WorkPool n = new Helper.WorkPool();
 
@@ -101,6 +95,10 @@ namespace jsc.Languages
                     delegate(Type xx)
                     {
                         if (xx.IsEnum) return;
+
+						if (xx.Assembly != j.AssamblyInfo)
+							return;
+
 
                         CompilerBase c = new Languages.Java.JavaCompiler(new StringWriter(), xw.Session);
 
@@ -123,6 +121,15 @@ namespace jsc.Languages
                 Languages.CompilerJob.InvokeEntryPoints(TargetDirectory, j.AssamblyInfo);
 
             }
+
+
+			StreamWriter SVW = new StreamWriter(SourceVersion.OpenWrite());
+
+			SVW.WriteLine("ConstantCompilerBuildDate: " + CompilerBase.ConstantCompilerBuildDate);
+			SVW.WriteLine("AssamblyFile.LastWriteTime: " + j.AssamblyFile.LastWriteTime);
+			SVW.WriteLine("SourceVersion.LastWriteTime: " + SourceVersion.LastWriteTime);
+
+			SVW.Close();
         }
 
     }

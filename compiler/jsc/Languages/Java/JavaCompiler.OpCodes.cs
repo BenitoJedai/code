@@ -60,6 +60,7 @@ namespace jsc.Languages.Java
                 OpCodes.Ldelem_I8,
                 OpCodes.Ldelem_R4,
                 OpCodes.Ldelem_R8,
+				OpCodes.Ldelema,
                 OpCodes.Ldelem
                 ] =
                 e =>
@@ -91,6 +92,36 @@ namespace jsc.Languages.Java
 
                     Emit(e.p, s[2]);
                 };
+
+
+			CIW[
+				OpCodes.Ldobj
+				] =
+				e =>
+				{
+					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+
+					Emit(e.p, s[0]);
+					//Write("[");
+					//WriteAssignment();
+
+					//Emit(e.p, s[1]);
+					//Write("]");
+				};
+
+			CIW[
+				OpCodes.Stobj
+				] =
+				e =>
+				{
+					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+
+					Emit(e.p, s[0]);
+
+					WriteAssignment();
+
+					Emit(e.p, s[1]);
+				};
             #endregion
 
             CIW[OpCodes.Leave,
@@ -442,12 +473,29 @@ namespace jsc.Languages.Java
                             {
                                 WriteKeywordSpace(Keywords._new);
                                 // WriteGenericTypeName(e.i.OwnerMethod.DeclaringType, e.i.TargetType);
-                                WriteDecoratedTypeName(e.i.TargetType);
-                                
 
-                                Write("[");
-                                EmitFirstOnStack(e);
-                                Write("]");
+								var ElementType = e.i.TargetType;
+								var ElementRank = 0;
+
+								while (ElementType.IsArray)
+								{
+									ElementType = ElementType.GetElementType();
+									ElementRank++;
+								}
+
+
+								WriteDecoratedTypeName(ElementType);
+
+								for (int i = 0; i <= ElementRank; i++)
+								{
+									Write("[");
+									if (i == 0)
+										EmitFirstOnStack(e);
+									Write("]");
+								}
+                           
+
+								
 
                             }
                         }
@@ -923,7 +971,8 @@ namespace jsc.Languages.Java
 
 
             #region  operands
-            CIW[OpCodes.Xor] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "^"); };
+			CIW[OpCodes.Not] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "~"); };
+			CIW[OpCodes.Xor] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "^"); };
             CIW[OpCodes.Shl] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<<"); };
             CIW[OpCodes.Shr] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">>"); };
 

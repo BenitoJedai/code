@@ -1,0 +1,112 @@
+OrcasAppletApplication
+
+java applet via jsc.
+======================================================
+03.06.2008
+
+
+
+We assume that jsc.exe is located at
+C:\util\jsc\bin\jsc.exe 
+
+Steps to create this template:
+
+
+
+I. Creating basic code translation template.
+======================================================
+
+1. Create folders 'docs', 'tools' and 'web'
+2. Create folders 'source/java' and 'source/chsarp'
+3. Create source/java/MazeApplet.cs
+4. Add references to 'ScriptCoreLibA.dll' and 'ScriptCoreLibJava.dll'
+5. Replace 'System.*' namespace by 'ScribtCoreLib' and 'java.lang'
+6. Add [Script] attribute to the MazeApplet class
+7. Update Properties/AssemblyInfo.cs
+
+using ScriptCoreLib;
+
+[assembly: 
+    Script,
+    ScriptTypeFilter(ScriptType.Java, "*.source.java")
+]
+
+8. Add a post build event to project properties.
+
+C:\util\jsc\bin\jsc.exe "$(TargetFileName)" -z
+
+The path to the jsc compiler may vary.
+9. Build the project, verify that java source is being generated at bin/Debug/web/java
+
+
+
+
+II. Creating java compiled application.
+======================================================
+
+- jsc compiler provides a way to rename assemblies. Define those aliases or omit the use of this feature.
+
+1. Update Properties/AssemblyInfo.cs
+
+using PrimaryAppletSettings = AppletTemplate.source.java.MazeApplet.Settings;
+
+
+[assembly:
+    ScriptNamespaceRename(
+        NativeNamespaceName = "javax.common.runtime",
+        VirtualNamespaceName = PrimaryAppletSettings.AliasNamespace + ".util"
+    ),
+    ScriptNamespaceRename(
+        NativeNamespaceName = "javax.common.wrapper",
+        VirtualNamespaceName = PrimaryAppletSettings.AliasNamespace + ".util"
+    ),
+    ScriptNamespaceRename(
+        NativeNamespaceName = "AppletTemplate.source.java",
+        VirtualNamespaceName = PrimaryAppletSettings.AliasNamespace
+    )
+]
+
+
+2. Create source/charp/Setup.cs
+3. Implement DefineEntryPoint.
+4. Implement Main
+
+using javax.common.runtime;
+
+        public static void main(string[] args)
+        {
+            Console.WriteLine("Hello World");
+        }
+5. Verify the java source code and 'setup.settings.cmd' was generated 
+6. Implement 'tools/*.bat'
+7. Run the java compiler and verify .class files and .jar file were generated.
+8. Verify that main was called and output was printed.
+
+Example:
++ compile java [MazeApplet:ExampleCompany/DemoAppletProject\MazeApplet]
++ creating jar [DemoAppletPackage.jar]
++ run [MazeApplet]
+Hello World
+
+III. Upgrading class to be the applet
+======================================================
+
+1. Inherit from java.applet.Applet
+2. Override methods:
+        public override void init()
+        {
+            base.init();
+
+            base.resize(Settings.DefaultWidth, Settings.DefaultHeight);
+        }
+
+        public override void paint(global::java.awt.Graphics g)
+        {
+            base.paint(g);
+
+            g.drawString("hello world", 8, 8);
+        }
+3. Update 'DefineEntryPoint' to generate PrimaryApplet html.
+4. Verify file 'MazeApplet.htm'
+
+Currently the jsc compiler is unable to convert delegates. Once that issue is resolved one should really enjoy making applets :)
