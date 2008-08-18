@@ -408,7 +408,7 @@ namespace RayCaster6.ActionScript
 				};
 
 
-			Assets.ZipFiles.wolfer
+			Assets.ZipFiles.MyZipFile
 				.ToFiles()
 				.Where(f => f.FileName.EndsWith(".png"))
 				.ToBitmapArray(BitmapsLoadedAction);
