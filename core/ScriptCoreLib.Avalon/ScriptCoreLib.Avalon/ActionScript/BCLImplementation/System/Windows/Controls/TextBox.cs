@@ -26,6 +26,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 				};
 		}
 
+		public override void InternalSetFontSize(double value)
+		{
+			InternalTextField.defaultTextFormat = new TextFormat { size = Convert.ToInt32(value) };
+			
+
+		}
+
 		public override void InternalSetBorderThickness(global::System.Windows.Thickness value)
 		{
 			__Thickness v = value;

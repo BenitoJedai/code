@@ -15,6 +15,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 		IHTMLImage InternalBitmap;
 
+		public __Image()
+		{
+			InternalSprite.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+		}
+
 		public override IHTMLElement InternalGetDisplayObject()
 		{
 			return InternalSprite;

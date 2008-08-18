@@ -466,29 +466,7 @@ namespace jsc
 
             if (sinfo.Options.Trim)
             {
-                //var AllTypesToBeCompiled = new List<Type>();
-
-                //foreach (var item in SharedHelper.LoadReferencedAssemblies(_assambly_loaded, true))
-                //{
-                //    AllTypesToBeCompiled.AddRange(ScriptAttribute.FindTypes(item, type));
-                //}
-
-                //// now we need the entrypoints to start trimming
-
-                //var KnownEntryPoints =
-                //              from i in AllTypesToBeCompiled
-                //              where null != (ScriptApplicationEntryPointAttribute)i.GetCustomAttributes(typeof(ScriptApplicationEntryPointAttribute), false).SingleOrDefault()
-                //              select i;
-
-                //var KnownEntryPointsArray = KnownEntryPoints.ToArray();
-
-                //var TypesToBeCompiled = new List<Type>();
-
-                //TrimTypes(AllTypesToBeCompiled, TypesToBeCompiled, KnownEntryPointsArray);
-
-                //xw.Session.Types = TypesToBeCompiled.ToArray();
-
-                //xw.Session.ImplementationTypes.AddRange(xw.Session.Types);
+               
 
                 throw new NotImplementedException();
             }
@@ -574,38 +552,7 @@ namespace jsc
                 xw.Flush();
 
                 string TargetFile = TargetDirectory.FullName + "/" + TargetFileName;
-                /*
-                #region javascript packer (*.packed.js)
-                bool bPackJS = type == ScriptType.JavaScript;
-
-                if (bPackJS)
-                {
-                    // trim down
-
-                    ECMAScriptPacker p = new ECMAScriptPacker(ECMAScriptPacker.PackerEncoding.None, true, false);
-
-                    Task.WriteLine("packing...");
-
-                    StreamWriter sw = new StreamWriter(new FileStream(TargetFile + ".packed.js", FileMode.Create));
-
-                    string packed = p.Pack(xw.ToString());
-
-                    sw.Write(packed);
-                    sw.Flush();
-
-                    sw.Close();
-
-                    //if (AssamblyS.IsCoreLib)
-                    //{
-                    //    jsc.Helper.WriteFile(TargetFile, packed);
-
-                    //    goto corelib_protection;
-
-                    //}
-                }
-
-                #endregion
-                */
+               
 
                 xw.ToFile(TargetFile);
             }
