@@ -12,8 +12,8 @@ namespace MazeApplet.source.java
 			public const string Alias = "MazeApplet";
 			public const string AliasNamespace = "ExampleCompany.DemoAppletProject";
 
-			public const int DefaultWidth = 400;
-			public const int DefaultHeight = 300;
+			public const int DefaultWidth = 480;
+			public const int DefaultHeight = 320;
 		}
 	}
 }

@@ -75,13 +75,15 @@ namespace MazeApplet.source.java
 			return new Random().NextDouble();
 		}
 
+		RectInt32 clip;
+
 		public override void init()
 		{
 			//this.InitializeComponents();
 
 			base.resize(Settings.DefaultWidth, Settings.DefaultHeight);
 
-			var clip = new RectInt32 { Width = 20, Height = 20 };
+			clip = new RectInt32 { Width = 12, Height = 12 };
 
 
 			int x, y, n, d;
@@ -98,7 +100,7 @@ namespace MazeApplet.source.java
 				maze[maze_x] = new int[clip.Height];
 			}
 
-		
+
 
 			/* We start with a grid full of walls. */
 			for (x = 0; x < clip.Width; ++x)
@@ -188,8 +190,8 @@ namespace MazeApplet.source.java
 			}
 
 			/* One may want to add an entrance and exit. */
-			maze[1][1] &= ~1;
-			maze[18][18] &= ~2;
+			//maze[1][1] &= ~1;
+			//maze[18][18] &= ~2;
 
 		}
 
@@ -218,20 +220,58 @@ namespace MazeApplet.source.java
 			//g.drawString("hello world, this is the sample applet", 16, 64);
 
 			int x, y;
+			int z = 12;
 
-			for (x = 1; x < 19; ++x)
-				for (y = 1; y < 19; ++y)
+			for (x = 1; x < clip.Width - 1; x++)
+				for (y = 1; y < clip.Height; y++)
 				{
 					if ((maze[x][y] & 1) != 0) /* This cell has a top wall */
-						g.drawLine(x * 10, y * 10, x * 10 + 10, y * 10);
-					if ((maze[x][y] & 2) != 0) /* This cell has a bottom wall */
-						g.drawLine(x * 10, y * 10 + 10, x * 10 + 10, y * 10 + 10);
+						g.drawLine(x * z, y * z, x * z + z, y * z);
+
 					if ((maze[x][y] & 4) != 0) /* This cell has a left wall */
-						g.drawLine(x * 10, y * 10, x * 10, y * 10 + 10);
+						g.drawLine(x * z, y * z, x * z, y * z + z);
+
+
 					if ((maze[x][y] & 8) != 0) /* This cell has a right wall */
-						g.drawLine(x * 10 + 10, y * 10, x * 10 + 10, y * 10 + 10);
+						g.drawLine(x * z + z, y * z, x * z + z, y * z + z);
+
+					if ((maze[x][y] & 2) != 0) /* This cell has a bottom wall */
+						g.drawLine(x * z, y * z + z, x * z + z, y * z + z);
 				}
 
+			var offset = clip.Width * z;
+
+			g.setColor(new Color(0x00ff00));
+			g.drawRect(offset + z, z, (clip.Width -2) * z, (clip.Height -2) * z);
+
+
+			for (x = 1; x < clip.Width - 1; x++)
+				for (y = 1; y < clip.Height; y++)
+				{
+					var IsTop = (maze[x][y] & 1) != 0;
+					var IsLeft = (maze[x][y] & 4) != 0;
+
+					if (IsTop) /* This cell has a top wall */
+						g.fillRect(offset + x * z, y * z, z , z / 3);
+
+					if (IsLeft) /* This cell has a left wall */
+						g.fillRect(offset + x * z, y * z, z / 3, z);
+
+					var IsBottom = (maze[x][y] & 2) != 0;
+					var IsRight = (maze[x][y] & 8) != 0;
+
+					if (IsRight)
+					{
+						g.fillRect(offset + x * z + z - z / 3, y * z, z / 3, z);
+					}
+
+					if (IsBottom)
+					{
+						g.fillRect(offset + x * z, y * z + z - z / 3, z, z / 3);
+					}
+
+
+				}
 		}
 
 		#region [this.Button1_Clicked]
