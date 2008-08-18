@@ -1,7 +1,8 @@
 using ScriptCoreLib;
 
 using java.lang;
-using javax.common.runtime;
+
+using System;
 
 namespace DemoApplet.source.java
 {

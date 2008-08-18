@@ -746,13 +746,23 @@ namespace jsc.Script
             }
             #endregion
 
-            Write("(");
-            Emit(p, s[0]);
-            WriteSpace();
-            Write(op);
-            WriteSpace();
-            Emit(p, s[1]);
-            Write(")");
+			if (s.Length == 1)
+			{
+				Write("(");
+				Write(op);
+				Emit(p, s[0]);
+				Write(")");
+			}
+			else
+			{
+				Write("(");
+				Emit(p, s[0]);
+				WriteSpace();
+				Write(op);
+				WriteSpace();
+				Emit(p, s[1]);
+				Write(")");
+			}
         }
 
         public void WriteQuotedLiteral(string e)

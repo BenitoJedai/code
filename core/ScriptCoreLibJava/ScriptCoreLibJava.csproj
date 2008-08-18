@@ -63,6 +63,7 @@
     <Compile Include="BCLImplementation\System\Exception.cs" />
     <Compile Include="BCLImplementation\System\IDisposable.cs" />
     <Compile Include="BCLImplementation\System\Math.cs" />
+    <Compile Include="BCLImplementation\System\Random.cs" />
     <Compile Include="BCLImplementation\System\String.cs" />
     <Compile Include="BCLImplementation\System\Threading\Thread.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />

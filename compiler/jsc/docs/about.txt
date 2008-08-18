@@ -134,3 +134,5 @@ version history:
 16.08.2008
 	actionscript: fixed enum to int downcasting
 	javascript: added shr_un opcode
+18.08.2008
+	java: added OpCode.Not
