@@ -61,6 +61,7 @@
     <Compile Include="ActionScript\Assets.cs" />
     <Compile Include="ActionScript\Assets.Sounds.cs" />
     <Compile Include="ActionScript\Assets.Images.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.Compass.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.Keyboard.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.Settings.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.cs" />
@@ -75,6 +76,8 @@
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
     <Content Include="docs\SourceAnalysis.txt" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\compasscolor.png" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\compass.png" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\treasure.mp3" />
   </ItemGroup>
   <ItemGroup>
