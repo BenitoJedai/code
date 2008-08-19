@@ -16,6 +16,7 @@ namespace jsc.Languages.ActionScript
 		class EmbedAttributeStub
 		{
 			public string source;
+			public string mimeType;
 		}
 
 		public override void WriteTypeFields(Type z, ScriptAttribute za)

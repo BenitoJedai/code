@@ -24,24 +24,14 @@ namespace ScriptCoreLib.ActionScript
 
         }
 
-        public const string OctetStream = "application/octet-stream";
 
         public EmbedAttribute(string source)
         {
             this.source = source;
 
+			this.mimeType = EmbedMimeTypes.Resolve(source);
 
-            var lookup = new Dictionary<string, string>
-                {
-                    {".zip", OctetStream},
-                    {".txt", OctetStream},
-                    {".xml", OctetStream},
-                    {".ttf", "application/x-font"}
-                };
-
-            foreach (var p in lookup)
-                if (source.EndsWith(p.Key))
-                    mimeType = p.Value;
+      
 
         }
         /// <summary>

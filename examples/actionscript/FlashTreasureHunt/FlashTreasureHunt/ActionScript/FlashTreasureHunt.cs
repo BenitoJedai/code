@@ -118,7 +118,7 @@ namespace FlashTreasureHunt.ActionScript
 						}
 					#endregion
 
-					maze = new BlockMaze(new MazeGenerator(9, 9, null));
+					maze = new BlockMaze(new MazeGenerator(14, 14, null));
 
 
 					for (int x = 1; x < maze.Width - 1; x++)
@@ -233,7 +233,7 @@ namespace FlashTreasureHunt.ActionScript
 						texname => f[texname + ".png"];
 
 					#region game goal
-					var TheGoldStack = CreateDummy(f["goldstack.png"]);
+					var TheGoldStack = CreateDummy(f["life.png"]);
 					TheGoldStack.Position.To(maze.Width - 1.5, maze.Height - 1.5);
 					TheGoldStack.Range = 0.5;
 					GoldSprites.Add(TheGoldStack);

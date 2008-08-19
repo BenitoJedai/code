@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="ActionScript\EmbedByFileNameAttribute.cs" />
     <Compile Include="ActionScript\EmbedFieldsAttribute.cs" />
+    <Compile Include="ActionScript\EmbedMimeTypes.cs" />
     <Compile Include="CSharp\Extensions\EmbeddedResourcesExtensions.cs" />
     <Compile Include="GoogleGadget.cs" />
     <Compile Include="Helper.cs" />

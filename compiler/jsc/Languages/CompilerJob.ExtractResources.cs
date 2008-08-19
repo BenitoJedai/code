@@ -83,7 +83,7 @@ namespace jsc.Languages
             var prefixes = new[] { prefix1, prefix2 };
 
             var query = from v in r
-                        from prefix in prefixes
+                        from prefix in prefixes.Distinct()
                         where v.StartsWith(prefix)
                         let z = (
                                     from av in a
