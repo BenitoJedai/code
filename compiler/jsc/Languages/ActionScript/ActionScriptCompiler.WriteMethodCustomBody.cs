@@ -44,7 +44,8 @@ namespace jsc.Languages.ActionScript
 							{
 								var AttributeRef = new EmbedAttributeStub
 								{
-									source = "/" + source
+									source = "/" + source,
+									mimeType = EmbedMimeTypes.Resolve(source)
 								};
 
 								WriteCustomAttribute("Embed", AttributeRef, typeof(EmbedAttributeStub).GetFields());

@@ -25,5 +25,6 @@ namespace FlashMouseMaze.ActionScript
 				throw new NotImplementedException();
 			}
 		}
+
 	}
 }
