@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.utils;
+using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.flash.display;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -13,6 +16,41 @@ namespace FlashTreasureHunt.ActionScript
 	[Script]
 	internal static class Extensions
 	{
+		public static void FadeOutAndOrphanize(this DisplayObject e, int timeout, double step)
+		{
+			timeout.AtInterval(
+			   t =>
+			   {
+				   if (e.alpha < 0.1)
+				   {
+					   t.stop();
+					   e.Orphanize();
+				   }
+				   else
+				   {
+					   e.alpha -= step;
+				   }
+			   }
+		   );
+		}
+
+
+		public static void To(this Point p, double x, double y)
+		{
+			p.x = x;
+			p.y = y;
+		}
+
+
+		public static T Do<T>(this T a, Action<T> e)
+		{
+			if (e != null)
+				e(a);
+
+			return a;
+		}
+
+
 		public static Timer AtInterval(this int e, Action<Timer> a)
 		{
 			var t = new Timer(e);

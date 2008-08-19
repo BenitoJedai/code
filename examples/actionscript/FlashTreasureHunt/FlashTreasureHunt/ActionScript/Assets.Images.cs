@@ -38,5 +38,21 @@ namespace FlashTreasureHunt.ActionScript
 				return this[Path + "/stuff.zip"].ToFiles();
 			}
 		}
+
+		public BitmapAsset compass
+		{
+			get
+			{
+				return this[Path + "/compass.png"].ToBitmapAsset();
+			}
+		}
+
+		public BitmapAsset compasscolor
+		{
+			get
+			{
+				return this[Path + "/compasscolor.png"].ToBitmapAsset();
+			}
+		}
 	}
 }

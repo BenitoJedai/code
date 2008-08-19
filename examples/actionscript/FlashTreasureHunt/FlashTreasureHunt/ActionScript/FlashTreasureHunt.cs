@@ -8,6 +8,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.RayCaster;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.Shared.Maze;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -17,7 +18,7 @@ namespace FlashTreasureHunt.ActionScript
 	[Script]
 	public partial class FlashTreasureHunt : Sprite
 	{
-
+		BlockMaze maze;
 		ViewEngineBase EgoView;
 
 		public FlashTreasureHunt()
@@ -28,7 +29,7 @@ namespace FlashTreasureHunt.ActionScript
 				FloorAndCeilingVisible = false,
 
 				ViewPosition = new Point { x = 1.5, y = 1.5 },
-				ViewDirection = 90.DegreesToRadians(),
+				ViewDirection = 270.DegreesToRadians(),
 
 			};
 
@@ -103,50 +104,148 @@ namespace FlashTreasureHunt.ActionScript
 				{
 					const uint graywall = 0xff0000;
 					const uint bluewall = 0x0000ff;
-
+					const uint greenwall = 0x00ff00;
+					const uint woodwall = 0x7F3300;
 
 					var Map = new Texture32();
 
+
 					#region safe map
 					for (int i = 0; i < 32; i++)
-					{
-						Map[i, 0] = bluewall;
-						Map[0, i] = bluewall;
-						Map[i, 31] = bluewall;
-						Map[31, i] = bluewall;
-					}
+						for (int j = 0; j < 32; j++)
+						{
+							Map[i, j] = bluewall;
+						}
 					#endregion
 
-					var maze = new BlockMaze(new MazeGenerator(9, 9, null));
+					maze = new BlockMaze(new MazeGenerator(9, 9, null));
 
-					for (int x = 1; x < maze.Width - 1; x++)
-					{
-						Map[x, maze.Height - 1] = bluewall;
-					}
-
-					for (int y = 1; y < maze.Height - 1; y++)
-					{
-						Map[maze.Width - 1, y] = bluewall;
-					}
 
 					for (int x = 1; x < maze.Width - 1; x++)
 						for (int y = 1; y < maze.Height - 1; y++)
 						{
 							if (maze.Walls[x][y])
-								Map[x, y] = graywall;
+							{
+								if (y > maze.Height / 2)
+									Map[x, y] = woodwall;
+								else
+									Map[x, y] = graywall;
+							}
+							else
+								Map[x, y] = 0;
 						}
+
+					#region maze is smaller than 31
+					for (int x = 1; x < maze.Width - 1; x++)
+					{
+						Map[x, maze.Height - 1] = greenwall;
+					}
+
+					for (int y = 1; y < maze.Height - 1; y++)
+					{
+						Map[maze.Width - 1, y] = greenwall;
+					}
+					#endregion
+
 
 					EgoView.Map.WorldMap = Map;
 
+					Action<IEnumerator<Texture64.Entry>, Texture64, Action<SpriteInfo>> AddSpriteByTexture =
+							  (SpaceForStuff, tex, handler) => SpaceForStuff.Take().Do(p => CreateDummy(tex).Do(handler).Position.To(p.XIndex + 0.5, p.YIndex + 0.5));
+
+
+					var FreeSpaceForStuff = EgoView.Map.WorldMap.Entries.Where(i => i.Value == 0).Randomize().GetEnumerator();
+
+					#region gold
+
+					var GoldSprites = new List<SpriteInfo>();
+
+					Assets.Default.gold.ToBitmapArray(
+					   sprites =>
+					   {
+
+
+						   foreach (var s in sprites)
+						   {
+							   for (int i = 0; i < 20; i++)
+							   {
+								   // compiler bug: get a delegate to BCL class
+								   //AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
+
+								   AddSpriteByTexture(FreeSpaceForStuff, s,
+									   k =>
+									   {
+										   k.Range = 0.5;
+										   GoldSprites.Add(k);
+									   }
+								   );
+
+							   }
+						   }
+
+						   var LastPosition = new Point();
+
+						   EgoView.ViewPositionChanged +=
+							   delegate
+							   {
+								   // only check for items each 0.5 distance travelled
+								   if ((EgoView.ViewPosition - LastPosition).length < 0.5)
+									   return;
+
+								   Action Later = delegate { };
+
+
+								   foreach (var Item in EgoView.SpritesFromPointOfView)
+								   {
+									   var Item_Sprite = Item.Sprite;
+
+									   if (Item.Distance < Item_Sprite.Range)
+									   {
+										   if (GoldSprites.Contains(Item_Sprite))
+										   {
+											   // ding-ding-ding!
+
+											   new Bitmap(new BitmapData(DefaultWidth, DefaultHeight, false, 0xffff00))
+											   {
+												   scaleX = DefaultScale,
+												   scaleY = DefaultScale
+											   }.AttachTo(this).FadeOutAndOrphanize(1000 / 24, 0.2);
+
+											   Assets.Default.treasure.play();
+
+											   Later += () => EgoView.Sprites.Remove(Item_Sprite);
+										   }
+									   }
+								   }
+
+								   Later();
+
+								   LastPosition = EgoView.ViewPosition;
+							   };
+
+
+					   }
+					);
+					#endregion
+
+
 					Func<string, Texture64> t =
 						texname => f[texname + ".png"];
+
+					#region game goal
+					var TheGoldStack = CreateDummy(f["goldstack.png"]);
+					TheGoldStack.Position.To(maze.Width - 1.5, maze.Height - 1.5);
+					TheGoldStack.Range = 0.5;
+					GoldSprites.Add(TheGoldStack);
+					#endregion
+
 
 					EgoView.Map.Textures = new Dictionary<uint, Texture64>
                         {
                             {graywall, t("graywall")},
                             {bluewall, t("bluewall")},
-                            {0x00ff00, t("greenwall")},
-                            {0x7F3300, t("woodwall")},
+                            {greenwall, t("greenwall")},
+                            {woodwall, t("woodwall")},
                         };
 
 					EgoView.RenderScene();
@@ -157,6 +256,7 @@ namespace FlashTreasureHunt.ActionScript
 							EgoView.RenderScene();
 						};
 
+					InitializeCompass();
 					InitializeKeyboard();
 				}
 			);
@@ -181,5 +281,12 @@ namespace FlashTreasureHunt.ActionScript
 
 			return s;
 		}
+
+		public SpriteInfo CreateDummy(Texture64 Stand)
+		{
+			return CreateWalkingDummy(new[] { Stand });
+
+		}
+
 	}
 }
