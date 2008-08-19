@@ -113,7 +113,7 @@ namespace jsc
 
                     string file = options.TargetAssembly.DirectoryName + @"\" + name + ".dll";
 
-                    //Console.WriteLine("looking for :" + file);
+                    Console.WriteLine("looking for :" + file);
 
                     Assembly x = File.Exists(file) ? Assembly.LoadFile(file) : null;
 
@@ -263,78 +263,11 @@ namespace jsc
                 SharedHelper.LoadReferencedAssemblies(
                     Assembly.LoadFile(options.TargetAssembly.FullName), true))
             {
-                Console.WriteLine("assembly: " + v.GetName().Name);
+                Console.WriteLine("assembly: " + v.GetName().Name + " " + v.Location);
             }
         }
 
-        //private static void ExtractResourcesStreams(CommandLineOptions options)
-        //{
-        //    foreach (Assembly v in SharedHelper.LoadReferencedAssemblies(Assembly.LoadFile(options.TargetAssembly.FullName), true))
-        //    {
-        //        Console.WriteLine("assembly: " + v.CodeBase);
-
-        //        foreach (string vname in v.GetManifestResourceNames())
-        //        {
-
-        //            if (vname.EndsWith(".resources"))
-        //                try
-        //                {
-
-        //                    // http://blogs.clearscreen.com/kartones/archive/2007/03/24/6240.aspx
-
-        //                    ResourceSet rs = new ResourceSet(v.GetManifestResourceStream(vname));
-
-        //                    foreach (DictionaryEntry vx in rs)
-        //                    {
-        //                        if (vx.Value is System.Drawing.Bitmap)
-        //                        {
-        //                            using (Bitmap img = (System.Drawing.Bitmap)vx.Value)
-        //                            {
-
-        //                                DirectoryInfo dir = options.TargetAssembly.Directory;
-        //                                DirectoryInfo assets = dir.
-        //                                    CreateSubdirectory("web").
-        //                                    CreateSubdirectory("assets").
-        //                                    CreateSubdirectory(options.TargetAssembly.Name).
-        //                                    CreateSubdirectory(vname);
-
-
-        //                                string target = null;
-
-        //                                if (img.RawFormat.Guid.Equals(ImageFormat.Gif.Guid))
-        //                                    target = assets.FullName + "/" + vx.Key.ToString() + ".gif";
-        //                                else if (img.RawFormat.Guid.Equals(ImageFormat.Png.Guid))
-        //                                    target = assets.FullName + "/" + vx.Key.ToString() + ".png";
-        //                                else if (img.RawFormat.Guid.Equals(ImageFormat.Jpeg.Guid))
-        //                                    target = assets.FullName + "/" + vx.Key.ToString() + ".jpg";
-
-        //                                if (target != null)
-        //                                {
-        //                                    img.Save(target);
-
-
-        //                                    Console.WriteLine("res: " + target);
-        //                                }
-
-        //                            }
-        //                            // web/assets/FormsExample.Properties.Resources.resources/cal.png
-        //                        }
-
-        //                    }
-        //                }
-        //                catch
-        //                {
-
-        //                }
-
-
-
-        //        }
-
-        //    }
-
-
-        //}
+       
 
         static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {

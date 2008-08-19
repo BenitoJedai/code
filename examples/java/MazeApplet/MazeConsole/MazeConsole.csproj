@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BFF566DD-6F61-42A8-86FF-711010B019B9}</ProjectGuid>
+    <ProjectGuid>{64169A12-64D2-4233-B317-0D4580D0BD2D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MazeApplet</RootNamespace>
-    <AssemblyName>MazeApplet</AssemblyName>
+    <RootNamespace>MazeConsole</RootNamespace>
+    <AssemblyName>MazeConsole</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>
@@ -44,13 +44,15 @@
     </Reference>
     <Reference Include="ScriptCoreLibJava, Version=1.2006.222.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -60,11 +62,8 @@
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="source\csharp\Setup.cs" />
-    <Compile Include="source\java\DemoApplet.Script.cs" />
-    <Compile Include="source\java\DemoApplet.Designer.cs" />
-    <Compile Include="source\java\DemoApplet.Program.cs" />
-    <Compile Include="source\java\DemoApplet.Settings.cs" />
-    <Compile Include="source\java\DemoApplet.cs" />
+    <Compile Include="source\java\Program.cs" />
+    <Compile Include="source\java\Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
@@ -76,16 +75,18 @@
     <None Include="tools\find.java.bat" />
     <None Include="tools\create.jar.bat" />
     <None Include="tools\run.jar.bat" />
-    <None Include="tools\test.applet.bat" />
+    <None Include="web\release\META-INF\MANIFEST.MF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="web\" />
+    <Folder Include="web\assets\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
+    <PostBuildEvent>C:\util\jsc\bin\jsc.exe "$(TargetFileName)" -java
 pushd ..\..\tools\
-call build.bat $(ProjectName) $(TargetFileName) $(ConfigurationName)
+call build.bat $(ProjectName)
 popd
 </PostBuildEvent>
   </PropertyGroup>

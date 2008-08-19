@@ -6,194 +6,43 @@ using java.awt;
 using java.awt.@event;
 using javax.common.runtime;
 using System;
+using ScriptCoreLib.Shared.Maze;
 
 namespace MazeApplet.source.java
 {
-	[Script]
-	class PointInt32
-	{
-		public int X;
-		public int Y;
-	}
 
-	[Script]
-	class RectInt32
-	{
-		public int X;
-		public int Y;
-
-		public int Width;
-		public int Height;
-
-		public bool IsBorder(PointInt32 e)
-		{
-			if (e.X == X)
-				return true;
-
-			if (e.Y == Y)
-				return true;
-
-			if (e.X == X + Width - 1)
-				return true;
-
-			if (e.Y == Y + Height - 1)
-				return true;
-
-			return false;
-		}
-		public bool Contains(PointInt32 e)
-		{
-			if (e.X < X)
-				return false;
-
-			if (e.X >= Width)
-				return false;
-
-			if (e.Y < Y)
-				return false;
-
-			if (e.Y >= Height)
-				return false;
-
-			return true;
-		}
-	}
 
 
 	[Script]
-	public partial class MazeApplet : Applet
+	public partial class MazeApplet : Applet, MazeGenerator.IFeedback
 	{
 		// http://www.astrolog.org/labyrnth/algrithm.htm
 		// http://en.wikipedia.org/wiki/Maze_generation_algorithm
 		// http://en.wikipedia.org/wiki/Image:Maze.png
 		// http://www.siteexperts.com/tips/functions/ts20/page3.asp
 
-		int[][] maze;
-
-		public static double random()
-		{
-			return new Random().NextDouble();
-		}
-
-		RectInt32 clip;
+		MazeGenerator Maze;
 
 		public override void init()
 		{
-			//this.InitializeComponents();
+			this.InitializeComponents();
 
 			base.resize(Settings.DefaultWidth, Settings.DefaultHeight);
 
-			clip = new RectInt32 { Width = 12, Height = 12 };
-
-
-			int x, y, n, d;
-			int[] dx = { 0, 0, -1, 1 };
-			int[] dy = { -1, 1, 0, 0 };
-			int[] todo = new int[clip.Width * clip.Height];
-			int todonum = 0;
-
-			/* We want to create a maze on a grid. */
-			maze = new int[clip.Width][];
-
-			for (int maze_x = 0; maze_x < clip.Width; maze_x++)
+			try
 			{
-				maze[maze_x] = new int[clip.Height];
+				System.Console.WriteLine("MazeGenerator");
+				Maze = new MazeGenerator(20, 20, this);
+
 			}
-
-
-
-			/* We start with a grid full of walls. */
-			for (x = 0; x < clip.Width; ++x)
-				for (y = 0; y < clip.Height; ++y)
-					if (clip.IsBorder(new PointInt32 { X = x, Y = y }))
-					{
-						maze[x][y] = 32;
-					}
-					else
-					{
-						maze[x][y] = 63;
-					}
-
-			/* Select any square of the grid, to start with. */
-			x = (int)(1 + random() * 18);
-			y = (int)(1 + random() * 18);
-
-			/* Mark this square as connected to the maze. */
-			maze[x][y] &= ~48;
-
-			/* Remember the surrounding squares, as we will */
-			for (d = 0; d < 4; ++d)
-				if ((maze[x + dx[d]][y + dy[d]] & 16) != 0)
-				{
-					/* want to connect them to the maze. */
-
-					/* alternately, you could use a struct to store the two integers
-					 * this would result in easier to read code, though not as speedy
-					 * of course, if you were worried about speed, you wouldn't be using Java
-					 * you could also use a single integer which represents (x + y * width)
-					 * this would actually be faster than the current approach
-					 * - quin/10-24-06
-					 *    Actually, the former wouldn't work in Java- there's no such thing as a
-					 *    struct. It's a class or nothing, I'm afraid.
-					 *    - Jae Armstrong/23-03-07
-					 */
-
-					todo[todonum++] = ((x + dx[d]) << 16) | (y + dy[d]);
-					maze[x + dx[d]][y + dy[d]] &= ~16;
-				}
-
-			/* We won't be finished until all is connected. */
-			while (todonum > 0)
+			catch (csharp.ThrowableException ex)
 			{
-				/* We select one of the squares next to the maze. */
-				n = (int)(random() * todonum);
+				Error = ex.Message;
 
-				if (n < 0)
-					throw new csharp.RuntimeException("n = " + n);
-
-				if (n >= todo.Length)
-					throw new csharp.RuntimeException("n = " + n);
-
-
-				x = todo[n] >> 16; /* the top 2 bytes of the data */
-				y = todo[n] & 65535; /* the bottom 2 bytes of the data */
-
-				/* We will connect it, so remove it from the queue. */
-				todonum--;
-
-				todo[n] = todo[todonum];
-
-				/* Select a direction, which leads to the maze. */
-
-				var do_enabled = true;
-
-				while (do_enabled)
-				{
-					d = (int)(random() * 4);
-					do_enabled = ((maze[x + dx[d]][y + dy[d]] & 32) != 0);
-				}
-
-				/* Connect this square to the maze. */
-				maze[x][y] &= ~((1 << d) | 32);
-				maze[x + dx[d]][y + dy[d]] &= ~(1 << (d ^ 1));
-
-				/* Remember the surrounding squares, which aren't */
-				for (d = 0; d < 4; ++d)
-					if ((maze[x + dx[d]][y + dy[d]] & 16) != 0)
-					{
-
-						/* connected to the maze, and aren't yet queued to be. */
-						todo[todonum++] = ((x + dx[d]) << 16) | (y + dy[d]);
-						maze[x + dx[d]][y + dy[d]] &= ~16;
-					}
-				/* Repeat until finished. */
 			}
-
-			/* One may want to add an entrance and exit. */
-			//maze[1][1] &= ~1;
-			//maze[18][18] &= ~2;
-
 		}
+
+		string Error = "";
 
 		static Color GetBlue(double b)
 		{
@@ -217,61 +66,74 @@ namespace MazeApplet.source.java
 			}
 
 			g.setColor(new Color(0xffff00));
-			//g.drawString("hello world, this is the sample applet", 16, 64);
+			g.drawString(Error, 16, 64);
 
-			int x, y;
-			int z = 12;
-
-			for (x = 1; x < clip.Width - 1; x++)
-				for (y = 1; y < clip.Height; y++)
+			if (this.Maze != null)
+			{
+				try
 				{
-					if ((maze[x][y] & 1) != 0) /* This cell has a top wall */
-						g.drawLine(x * z, y * z, x * z + z, y * z);
+					int x, y;
+					int z = 12;
 
-					if ((maze[x][y] & 4) != 0) /* This cell has a left wall */
-						g.drawLine(x * z, y * z, x * z, y * z + z);
+					for (x = 1; x < Maze.Width - 1; x++)
+						for (y = 1; y < Maze.Height - 1; y++)
+						{
+							var v = Maze[x, y];
+
+							if ((v & 1) != 0) /* This cell has a top wall */
+								g.drawLine(x * z, y * z, x * z + z, y * z);
+
+							if ((v & 4) != 0) /* This cell has a left wall */
+								g.drawLine(x * z, y * z, x * z, y * z + z);
 
 
-					if ((maze[x][y] & 8) != 0) /* This cell has a right wall */
-						g.drawLine(x * z + z, y * z, x * z + z, y * z + z);
+							if ((v & 8) != 0) /* This cell has a right wall */
+								g.drawLine(x * z + z, y * z, x * z + z, y * z + z);
 
-					if ((maze[x][y] & 2) != 0) /* This cell has a bottom wall */
-						g.drawLine(x * z, y * z + z, x * z + z, y * z + z);
+							if ((v & 2) != 0) /* This cell has a bottom wall */
+								g.drawLine(x * z, y * z + z, x * z + z, y * z + z);
+						}
+
+					var offset = Maze.Width * z;
+
+					g.setColor(new Color(0x00ff00));
+					g.drawRect(offset + z, z, (Maze.Width - 2) * z, (Maze.Height - 2) * z);
+
+
+					for (x = 1; x < Maze.Width - 1; x++)
+						for (y = 1; y < Maze.Height - 1; y++)
+						{
+							var v = Maze[x, y];
+							var IsTop = (v & 1) != 0;
+							var IsLeft = (v & 4) != 0;
+
+							if (IsTop) /* This cell has a top wall */
+								g.fillRect(offset + x * z, y * z, z, z / 3);
+
+							if (IsLeft) /* This cell has a left wall */
+								g.fillRect(offset + x * z, y * z, z / 3, z);
+
+							var IsBottom = (v & 2) != 0;
+							var IsRight = (v & 8) != 0;
+
+							if (IsRight)
+							{
+								g.fillRect(offset + x * z + z - z / 3, y * z, z / 3, z);
+							}
+
+							if (IsBottom)
+							{
+								g.fillRect(offset + x * z, y * z + z - z / 3, z, z / 3);
+							}
+
+
+						}
 				}
-
-			var offset = clip.Width * z;
-
-			g.setColor(new Color(0x00ff00));
-			g.drawRect(offset + z, z, (clip.Width -2) * z, (clip.Height -2) * z);
-
-
-			for (x = 1; x < clip.Width - 1; x++)
-				for (y = 1; y < clip.Height; y++)
+				catch
 				{
-					var IsTop = (maze[x][y] & 1) != 0;
-					var IsLeft = (maze[x][y] & 4) != 0;
-
-					if (IsTop) /* This cell has a top wall */
-						g.fillRect(offset + x * z, y * z, z , z / 3);
-
-					if (IsLeft) /* This cell has a left wall */
-						g.fillRect(offset + x * z, y * z, z / 3, z);
-
-					var IsBottom = (maze[x][y] & 2) != 0;
-					var IsRight = (maze[x][y] & 8) != 0;
-
-					if (IsRight)
-					{
-						g.fillRect(offset + x * z + z - z / 3, y * z, z / 3, z);
-					}
-
-					if (IsBottom)
-					{
-						g.fillRect(offset + x * z, y * z + z - z / 3, z, z / 3);
-					}
-
 
 				}
+			}
 		}
 
 		#region [this.Button1_Clicked]
@@ -289,8 +151,21 @@ namespace MazeApplet.source.java
 
 		public void Button1_Clicked()
 		{
+		
+
 			EvaluateJavaScript(this, "alert('script was evaluated!');");
 
 		}
+
+		#region IFeedback Members
+
+		public void Invoke(string e)
+		{
+			System.Console.WriteLine(e);
+
+			this.showStatus(e);
+		}
+
+		#endregion
 	}
 }

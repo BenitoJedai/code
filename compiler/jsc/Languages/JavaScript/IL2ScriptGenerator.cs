@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection.Emit;
 
 using ScriptCoreLib;
@@ -206,7 +207,13 @@ namespace jsc
 			Handlers[OpCodes.Stelem,
 					 OpCodes.Stelem_Ref,
 					 OpCodes.Stelem_I4,
+					 OpCodes.Stelem_R8,
 					 OpCodes.Stelem_I2] = OpCode_stelem;
+
+			Handlers[OpCodes.Stobj] = OpCode_stobj;
+
+			Handlers[OpCodes.Ldobj] = OpCode_ldobj;
+
 
 			Handlers[OpCodes.Ldelem_Ref,
 				OpCodes.Ldelem_U1,
@@ -214,6 +221,7 @@ namespace jsc
 				OpCodes.Ldelem_I1,
 				OpCodes.Ldelem_I4,
 				OpCodes.Ldelem_R8,
+				OpCodes.Ldelema,
 				OpCodes.Ldelem
 					 ] = new OpCodeHandler(OpCode_ldelem);
 
@@ -912,6 +920,20 @@ namespace jsc
 			OpCodeHandler(w, p, i, s[2]);
 		}
 
+
+		static void OpCode_stobj(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+		{
+			OpCodeHandler(w, p, i, s[0]);
+
+			w.Write("=");
+
+			OpCodeHandler(w, p, i, s[1]);
+		}
+
+		static void OpCode_ldobj(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+		{
+			OpCodeHandler(w, p, i, s[0]);
+		}
 		static void OpCode_ldlen(IdentWriter w, ilbp p, ili i, ilfsi[] s)
 		{
 			OpCodeHandler(w, p, i, s[0]);
@@ -1227,7 +1249,19 @@ namespace jsc
 			}
 			#endregion
 			else
-				w.Write("[]");
+				if (s.First().SingleStackInstruction == OpCodes.Ldc_I4_0)
+				{
+					w.Write("[]");
+				}
+				else
+				{
+					w.Write("new Array(");
+					IL2ScriptGenerator.OpCodeHandler(w, p, i, s[0]);
+					w.Write(")");
+				}
+
+
+
 		}
 
 		static void OpCode_rethrow(IdentWriter w, ilbp p, ili i, ilfsi[] s)

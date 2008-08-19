@@ -94,24 +94,16 @@ namespace jsc.Languages.Java
                 };
 
 
-			CIW[
-				OpCodes.Ldobj
-				] =
+			CIW[OpCodes.Ldobj] =
 				e =>
 				{
 					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
 
 					Emit(e.p, s[0]);
-					//Write("[");
-					//WriteAssignment();
-
-					//Emit(e.p, s[1]);
-					//Write("]");
+				
 				};
 
-			CIW[
-				OpCodes.Stobj
-				] =
+			CIW[OpCodes.Stobj] =
 				e =>
 				{
 					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
