@@ -16,7 +16,7 @@ namespace FlashTreasureHunt.ActionScript
 	/// external and embeded assets.
 	/// </summary>
 	[Script]
-	public class Assets
+	public partial class Assets
 	{
 		/// <summary>
 		/// The files from solution folder 'web/assets/FlashTreasureHunt' 
@@ -36,12 +36,6 @@ namespace FlashTreasureHunt.ActionScript
 			}
 		}
 
-		public SoundAsset treasure
-		{
-			get
-			{
-				return this[Path + "/treasure.mp3"].ToSoundAsset();
-			}
-		}
+
 	}
 }
