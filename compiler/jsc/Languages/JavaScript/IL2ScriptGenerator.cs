@@ -206,6 +206,7 @@ namespace jsc
 
 			Handlers[OpCodes.Stelem,
 					 OpCodes.Stelem_Ref,
+					 OpCodes.Stelem_I1,
 					 OpCodes.Stelem_I4,
 					 OpCodes.Stelem_R8,
 					 OpCodes.Stelem_I2] = OpCode_stelem;
