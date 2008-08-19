@@ -17,10 +17,10 @@ namespace FlashMouseMaze.Shared
 	[Script]
 	public class MyCanvas : Canvas
 	{
-		public const int DefaultWidth = 640;
-		public const int DefaultHeight = 640;
+		public const int DefaultWidth = 800;
+		public const int DefaultHeight = 400;
 
-		const int z = 48;
+		const int z = 42;
 
 
 		public MyCanvas()
@@ -125,23 +125,39 @@ namespace FlashMouseMaze.Shared
 
 		}
 
+
+
 		private void InitializeCanvasDrawing(Canvas c)
 		{
 
 			Action<int, int> fillRect =
-				(_x, _y) =>
-				{
-					new Rectangle
+					(_x, _y) =>
 					{
-						Fill = Brushes.GreenYellow,
-						Width = z / 2,
-						Height = z / 2,
-					}.MoveTo(_x, _y).AttachTo(c);
+						new Rectangle
+						{
+							Fill = Brushes.GreenYellow,
+							Width = z / 2,
+							Height = z / 2
+						}.MoveTo(_x, _y).AttachTo(c);
 
-				};
+					};
 
 			int x, y;
 			var offset = 0;
+			var w = new BlockMaze(maze);
+
+			for (x = 0; x < w.Width; x++)
+				for (y = 0; y < w.Height; y++)
+				{
+					var v = w.Walls[x][y];
+
+					if (v)
+						fillRect(maze.Width * z + x * z / 2, z + y * z / 2);
+
+
+				}
+
+			
 
 
 			for (x = 1; x < maze.Width - 1; x++)
@@ -163,17 +179,15 @@ namespace FlashMouseMaze.Shared
 						fillRect(offset + x * z + z / 4, y * z + z * 3 / 4);
 
 					if (!IsLeft)
-						fillRect(offset + x * z - z /4, y * z + z / 4);
+						fillRect(offset + x * z - z / 4, y * z + z / 4);
 
 					if (!IsRight)
 						fillRect(offset + x * z + z * 3 / 4, y * z + z / 4);
-
-
 
 				}
 		}
 
 
-		MazeGenerator maze = new MazeGenerator(12, 12, null);
+		MazeGenerator maze = new MazeGenerator(9, 9, null);
 	}
 }

@@ -6,6 +6,73 @@ using System.Text;
 namespace ScriptCoreLib.Shared.Maze
 {
 	[Script]
+	public class BlockMaze
+	{
+		public bool[][] Walls;
+
+		public int Width;
+		public int Height;
+
+		public BlockMaze(MazeGenerator maze)
+		{
+			var sx = maze.Width * 2 - 3;
+			var sy = maze.Height * 2 - 3;
+
+			this.Width = sy;
+			this.Height = sy;
+
+			var w = new bool[sx][];
+
+			this.Walls = w;
+
+			for (var x = 0; x < w.Length; x++)
+			{
+				w[x] = new bool[sy];
+
+				for (var y = 0; y < sy; y++)
+					w[x][y] = true;
+
+			}
+
+			for (var x = 1; x < maze.Width - 1; x++)
+			{
+				var dx = x * 2 - 1;
+
+				for (var y = 1; y < maze.Height - 1; y++)
+				{
+					var dy = y * 2 - 1;
+
+					w[dx][dy] = false;
+
+					var v = maze[x, y];
+
+					var IsTop = (v & 1) != 0;
+					var IsLeft = (v & 4) != 0;
+					var IsBottom = (v & 2) != 0;
+					var IsRight = (v & 8) != 0;
+
+					var NotTop = (v & 1) == 0;
+					var NotLeft = (v & 4) == 0;
+					var NotBottom = (v & 2) == 0;
+					var NotRight = (v & 8) == 0;
+
+					if (NotTop)
+						w[dx][dy - 1] = false;
+
+					if (NotBottom)
+						w[dx][dy + 1] = false;
+
+					if (NotLeft)
+						w[dx - 1][dy] = false;
+
+					if (NotRight)
+						w[dx + 1][dy] = false;
+				}
+			}
+		}	
+	}
+
+	[Script]
 	public class MazeGenerator
 	{
 		[Script]
