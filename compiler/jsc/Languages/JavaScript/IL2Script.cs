@@ -1632,6 +1632,7 @@ namespace jsc
 
 			var KnownReferences =
 				from reference in ScriptCoreLib.SharedHelper.LoadReferencedAssemblies(assembly, false)
+				where reference.GetCustomAttributes<ScriptTypeFilterAttribute>().Any(q => q.Type == ScriptType.JavaScript)
 				let token = IdentWriter.GetGUID64(reference.ManifestModule.ModuleVersionId)
 				select new { reference, token };
 

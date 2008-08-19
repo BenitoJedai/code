@@ -49,7 +49,7 @@ namespace jsc.Languages
 
             sinfo.Logging.LogMessage("found {0} types to be compiled", xw.Session.Types.Length);
 
-            DirectoryInfo TargetDirectory = j.AssamblyFile.Directory.CreateSubdirectory("web");
+			DirectoryInfo TargetDirectory = sinfo.Options.TargetAssembly.Directory.CreateSubdirectory("web");
             DirectoryInfo SourceDir = TargetDirectory.CreateSubdirectory("java");
             DirectoryInfo SourceCompiledDir = TargetDirectory.CreateSubdirectory("release");
             DirectoryInfo SourceCompiledHeadersDir = TargetDirectory.CreateSubdirectory("headers");
@@ -74,7 +74,7 @@ namespace jsc.Languages
             {
                 if (j.AssamblyFile.LastWriteTime <= SourceVersion.LastWriteTime)
                 {
-                    Console.WriteLine("this version is already built: " + SourceVersion.Name);
+                    Console.WriteLine("this version is already built: " + SourceVersion.FullName);
 
 					//if (!Debugger.IsAttached)
 					//{

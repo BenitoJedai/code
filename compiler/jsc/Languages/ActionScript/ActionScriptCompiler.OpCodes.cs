@@ -495,6 +495,7 @@ namespace jsc.Languages.ActionScript
 			{
 				Func<string, CodeInstructionHandler> f = t => e => WriteInlineOperator(e.p, e.i, t);
 
+				CIW[OpCodes.Not] = f("~");
 				CIW[OpCodes.Xor] = f("^");
 				CIW[OpCodes.Shl] = f("<<");
 				CIW[OpCodes.Shr,
@@ -830,9 +831,7 @@ namespace jsc.Languages.ActionScript
 					Emit(e.p, s[2]);
 				};
 
-			CIW[
-				OpCodes.Stobj
-				] =
+			CIW[OpCodes.Stobj] =
 				e =>
 				{
 					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
@@ -842,6 +841,15 @@ namespace jsc.Languages.ActionScript
 					WriteAssignment();
 
 					Emit(e.p, s[1]);
+				};
+
+			CIW[OpCodes.Ldobj] =
+				e =>
+				{
+					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+
+					Emit(e.p, s[0]);
+
 				};
 			#endregion
 
