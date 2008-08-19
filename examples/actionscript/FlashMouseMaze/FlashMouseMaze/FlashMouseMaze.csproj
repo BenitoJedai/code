@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />
+    <EmbeddedResource Include="web\assets\FlashMouseMaze\mouse_hollow.png" />
     <EmbeddedResource Include="web\assets\FlashMouseMaze\mouse.png" />
     <EmbeddedResource Include="web\assets\FlashMouseMaze\jsc.png" />
   </ItemGroup>
