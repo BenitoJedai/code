@@ -18,6 +18,10 @@ namespace FlashTreasureHunt.ActionScript
 	[Script]
 	public partial class FlashTreasureHunt : Sprite
 	{
+		// http://www.users.globalnet.co.uk/~brlowe/index.html
+		// http://www.wolfenstein3d.co.uk/index.htm
+		// http://winwolf3d.dugtrio17.com/index.php
+
 		BlockMaze maze;
 		ViewEngineBase EgoView;
 
@@ -27,9 +31,10 @@ namespace FlashTreasureHunt.ActionScript
 			EgoView = new ViewEngineBase(DefaultWidth, DefaultHeight)
 			{
 				FloorAndCeilingVisible = false,
+				RenderLowQualityWalls = true,
 
-				ViewPosition = new Point { x = 1.5, y = 1.5 },
-				ViewDirection = 270.DegreesToRadians(),
+				ViewPosition = new Point { x = 1.25, y = 1.25 },
+				ViewDirection = (45 + 180).DegreesToRadians(),
 
 			};
 
@@ -37,6 +42,13 @@ namespace FlashTreasureHunt.ActionScript
 			EgoView.Image.scaleY = DefaultScale;
 
 			EgoView.Image.AttachTo(this);
+
+			var hud = Assets.Default.hud;
+
+			hud.y = DefaultControlHeight - hud.height * 2;
+			hud.scaleX = 2;
+			hud.scaleY = 2;
+			hud.AttachTo(this);
 
 			Action<Bitmap[]> BitmapsLoadedAction =
 				Bitmaps =>

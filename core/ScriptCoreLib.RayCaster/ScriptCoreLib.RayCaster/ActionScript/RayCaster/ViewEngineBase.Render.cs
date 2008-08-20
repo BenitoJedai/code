@@ -21,11 +21,11 @@ namespace ScriptCoreLib.ActionScript.RayCaster
         public void RenderHorizon()
         {
             buffer.fillRect(
-                new Rectangle(0, 0, _ViewWidth, _ViewHeight / 2), 0xa0a0a0
+				new Rectangle(0, 0, _ViewWidth, _ViewHeight / 2), 0x808080
                 );
 
             buffer.fillRect(
-                            new Rectangle(0, _ViewHeight / 2, _ViewWidth, _ViewHeight / 2), 0x808080
+                            new Rectangle(0, _ViewHeight / 2, _ViewWidth, _ViewHeight / 2), 0xa0a0a0
                             );
         }
 
@@ -493,9 +493,14 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 
 					if (RenderLowQualityWalls)
 					{
+						var h = 2;
+
+						if (y + 1 == drawEnd)
+							h = 1;
+
 						buffer.fillRect(
 							//new Rectangle(
-										x_mirror_1, y, 2, 2
+										x_mirror_1, y, 2, h
 							//)
 										, color);
 						y += 2;
