@@ -54,5 +54,13 @@ namespace FlashTreasureHunt.ActionScript
 				return this[Path + "/compasscolor.png"].ToBitmapAsset();
 			}
 		}
+
+		public BitmapAsset hud
+		{
+			get
+			{
+				return this[Path + "/hud.png"].ToBitmapAsset();
+			}
+		}
 	}
 }

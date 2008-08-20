@@ -16,14 +16,16 @@ namespace FlashTreasureHunt.ActionScript
 	partial class FlashTreasureHunt
 	{
 		const int DefaultControlWidth = DefaultWidth * DefaultScale;
-		const int DefaultControlHeight = DefaultHeight * DefaultScale;
+		const int DefaultControlHeight = DefaultHeight * DefaultScale + 66;
 
 		// 120x90
 		// 160x120
-		const int DefaultWidth = 200;
-		const int DefaultHeight = 100;
 
-		const int DefaultScale = 3;
+		const int DefaultWidth = 302;
+		const int DefaultHeight = DefaultWidth * 2 / 3;
 
+		const int DefaultScale = 2;
+
+		// hud : 302x33
 	}
 }
