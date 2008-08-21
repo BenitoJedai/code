@@ -53,7 +53,11 @@ namespace ScriptCoreLib.ActionScript.Extensions
 			if (m == null)
 				throw new NotSupportedException();
 
-			return m.ToByteArray();
+			var a = m.ToByteArray();
+
+			a.endian = Endian.LITTLE_ENDIAN;
+
+			return a;
 		}
 
 		public static ByteArray ToByteArray(this MemoryStream m)

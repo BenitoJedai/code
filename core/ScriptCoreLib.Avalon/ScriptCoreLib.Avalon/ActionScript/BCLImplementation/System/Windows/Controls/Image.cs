@@ -40,17 +40,38 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 				
 				__ImageSource v = value;
 
+
 				var alias = v.InternalManifestResourceAlias;
-				var c = KnownEmbeddedResources.Default[alias];
+				var stream = v.InternalStreamAlias;
 
-				if (c == null)
-					throw new Exception("asset '" + alias + "' not found in KnownEmbeddedResources.Default.");
+				if (alias != null)
+				{
+					var c = KnownEmbeddedResources.Default[alias];
 
-				InternalSprite.OrphanizeChildren();
+					if (c == null)
+						throw new Exception("asset '" + alias + "' not found in KnownEmbeddedResources.Default.");
 
-				InternalBitmap = c.ToBitmapAsset();
 
-				InternalSprite.addChild(InternalBitmap);
+					InternalBitmap = c.ToBitmapAsset();
+
+					InternalSprite.OrphanizeChildren();
+					InternalSprite.addChild(InternalBitmap);
+				}
+				else if (stream != null)
+				{
+					// this is a lazy load, yet it might load later than c# wpf counterpart
+					stream.ToByteArray().LoadBytes<Bitmap>(
+						e =>
+						{
+							InternalBitmap = e;
+
+							InternalSprite.OrphanizeChildren();
+							InternalSprite.addChild(InternalBitmap);
+						}
+					);
+				}
+				
+
 			}
 		}
 

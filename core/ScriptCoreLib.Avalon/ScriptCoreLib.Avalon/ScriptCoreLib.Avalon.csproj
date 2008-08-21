@@ -53,6 +53,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -91,6 +92,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Markup\IAddChild.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Animation\Animatable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Animation\IAnimatable.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Imaging\BitmapSource.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Thickness.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Threading\DispatcherTimer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Canvas.cs" />
