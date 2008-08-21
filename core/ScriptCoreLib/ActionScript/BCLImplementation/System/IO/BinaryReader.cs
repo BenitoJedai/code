@@ -15,7 +15,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 		private byte[] m_buffer;
 
 
-
+		public virtual Stream BaseStream
+		{
+			get
+			{
+				return m_stream;
+			}
+		}
 
 
 		public __BinaryReader(Stream input)
@@ -27,6 +33,17 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 			this.m_stream = input;
 			this.m_buffer = new byte[0x10];
 
+		}
+
+
+		public virtual uint ReadUInt32()
+		{
+			return m_stream.ToByteArray().readUnsignedInt();
+		}
+
+		public virtual int ReadInt32()
+		{
+			return m_stream.ToByteArray().readInt();
 		}
 
 		public virtual short ReadInt16()
@@ -70,6 +87,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 		}
 
 
+		public static implicit operator __BinaryReader(BinaryReader r)
+		{
+			return (__BinaryReader)(object)r;
+		}
 
 	}
 }

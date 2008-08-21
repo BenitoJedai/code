@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media.Animation;
 using System.Windows.Media;
 using ScriptCoreLib.ActionScript.Extensions;
+using System.IO;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 {
@@ -22,7 +23,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 		}
 
 		public string InternalManifestResourceAlias;
-	
+
+		public Stream InternalStreamAlias;
 
 	
 	}

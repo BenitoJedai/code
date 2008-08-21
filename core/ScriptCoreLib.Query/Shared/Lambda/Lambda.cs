@@ -8,6 +8,13 @@ namespace ScriptCoreLib.Shared.Lambda
     [Script]
     public static partial class LambdaExtensions
     {
+		public static T AtModulus<T>(this IEnumerable<T> a, int i)
+		{
+			var x = a.ToArray();
+
+			return x[i % x.Length];
+		}
+
         public static T AtOrDefault<T>(this IEnumerable<T> a, int i, T value)
         {
             var j = 0;

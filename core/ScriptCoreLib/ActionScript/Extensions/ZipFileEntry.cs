@@ -74,7 +74,7 @@ namespace ScriptCoreLib.ActionScript.Extensions
             var file_header_signature = default(int);
             var a = new List<ZipFileEntry>();
             var x = true;
-
+			
             while (x)
             {
                 file_header_signature = s.readInt();
