@@ -34,6 +34,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Archive, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Archive.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Maze, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Maze.dll</HintPath>
@@ -76,13 +80,13 @@
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
     <Content Include="docs\SourceAnalysis.txt" />
-    <EmbeddedResource Include="web\assets\FlashTreasureHunt\hud.png" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\compasscolor.png" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\compass.png" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\treasure.mp3" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\head.zip" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\dude5.zip" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\gold.zip" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\stuff.zip" />

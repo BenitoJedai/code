@@ -21,7 +21,7 @@ namespace ScriptCoreLib.ActionScript.RayCaster
         public void RenderHorizon()
         {
             buffer.fillRect(
-				new Rectangle(0, 0, _ViewWidth, _ViewHeight / 2), 0x808080
+				new Rectangle(0, 0, _ViewWidth, _ViewHeight / 2), 0x404040
                 );
 
             buffer.fillRect(
