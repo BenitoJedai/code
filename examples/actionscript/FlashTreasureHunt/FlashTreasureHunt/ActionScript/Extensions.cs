@@ -8,6 +8,7 @@ using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.flash.display;
 using System.IO;
+using ScriptCoreLib.ActionScript.flash.events;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -17,6 +18,22 @@ namespace FlashTreasureHunt.ActionScript
 	[Script]
 	internal static class Extensions
 	{
+
+		public static Point MoveToArc(this Point e, double direction, double distance)
+		{
+			var p = new Point(e.x, e.y);
+			p.x += Math.Cos(direction) * distance;
+			p.y += Math.Sin(direction) * distance;
+
+			return p;
+		}
+
+
+		public static Point ToStagePoint(this MouseEvent m)
+		{
+			return new Point(m.stageX, m.stageY);
+		}
+
 		public static void ToImages(this IEnumerable<MemoryStream> m, Action<Bitmap[]> h)
 		{
 			var a = m.ToArray();

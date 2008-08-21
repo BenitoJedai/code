@@ -272,7 +272,6 @@ namespace FlashTreasureHunt.ActionScript
 					
 					#endregion
 
-
 					EgoView.Map.Textures = new Dictionary<uint, Texture64>
                         {
                             {graywall, t("graywall")},
@@ -342,6 +341,8 @@ namespace FlashTreasureHunt.ActionScript
 
 					InitializeCompass();
 					InitializeKeyboard();
+
+					AttachMovementInput(EgoView, true, false);
 				}
 			);
 		}
