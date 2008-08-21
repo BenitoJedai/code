@@ -9,6 +9,7 @@ using ScriptCoreLib.ActionScript.RayCaster;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.Shared.Maze;
 using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.ActionScript.flash.filters;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -27,28 +28,26 @@ namespace FlashTreasureHunt.ActionScript
 
 		public FlashTreasureHunt()
 		{
+			Action ResetEgoPosition =
+				delegate
+				{
+						EgoView.ViewPosition = new Point { x = 1.25, y = 1.25 };
+				EgoView.ViewDirection = (45 + 180).DegreesToRadians();
+				};
 
 			EgoView = new ViewEngineBase(DefaultWidth, DefaultHeight)
 			{
 				FloorAndCeilingVisible = false,
-				RenderLowQualityWalls = true,
-
-				ViewPosition = new Point { x = 1.25, y = 1.25 },
-				ViewDirection = (45 + 180).DegreesToRadians(),
-
+				RenderLowQualityWalls = true
 			};
 
+			ResetEgoPosition();
 			EgoView.Image.scaleX = DefaultScale;
 			EgoView.Image.scaleY = DefaultScale;
 
 			EgoView.Image.AttachTo(this);
 
-			var hud = Assets.Default.hud;
 
-			hud.y = DefaultControlHeight - hud.height * 2;
-			hud.scaleX = 2;
-			hud.scaleY = 2;
-			hud.AttachTo(this);
 
 			Action<Bitmap[]> BitmapsLoadedAction =
 				Bitmaps =>
@@ -168,6 +167,8 @@ namespace FlashTreasureHunt.ActionScript
 
 					var FreeSpaceForStuff = EgoView.Map.WorldMap.Entries.Where(i => i.Value == 0).Randomize().GetEnumerator();
 
+					var GoldTakenCounter = 0;
+
 					#region gold
 
 					var GoldSprites = new List<SpriteInfo>();
@@ -225,6 +226,13 @@ namespace FlashTreasureHunt.ActionScript
 
 											   Assets.Default.treasure.play();
 
+											   var WithItemTaken = Item_Sprite as SpriteInfoExtended;
+											   if (WithItemTaken != null)
+												   if (WithItemTaken.ItemTaken != null)
+													   WithItemTaken.ItemTaken();
+
+											   GoldTakenCounter = (GoldTakenCounter + 1).Min(1);
+
 											   Later += () => EgoView.Sprites.Remove(Item_Sprite);
 										   }
 									   }
@@ -248,7 +256,20 @@ namespace FlashTreasureHunt.ActionScript
 					var TheGoldStack = CreateDummy(f["life.png"]);
 					TheGoldStack.Position.To(maze.Width - 1.5, maze.Height - 1.5);
 					TheGoldStack.Range = 0.5;
+					TheGoldStack.ItemTaken +=
+						delegate
+						{
+							new Bitmap(EgoView.Buffer.clone())
+							{
+								scaleX = DefaultScale,
+								scaleY = DefaultScale
+							}.AttachTo(this).FadeOutAndOrphanize(1000 / 24, 0.2);
+
+							ResetEgoPosition();
+						};
 					GoldSprites.Add(TheGoldStack);
+
+					
 					#endregion
 
 
@@ -268,15 +289,66 @@ namespace FlashTreasureHunt.ActionScript
 							EgoView.RenderScene();
 						};
 
+					var hand = f["hand.png"];
+					const int handsize = 4;
+
+					var hand_x = (DefaultControlWidth - hand.width * handsize) / 2; 
+					var hand_y = DefaultControlHeight - hand.height * handsize; 
+					hand.x = hand_x;
+					hand.y = hand_y;
+					hand.scaleX = handsize;
+					hand.scaleY = handsize;
+					hand.AttachTo(this);
+
+					(1000 / 24).AtInterval(
+						tt =>
+						{
+							hand.x = hand_x + Math.Cos(tt.currentCount * 0.2) * 6;
+							hand.y = hand_y + Math.Abs( Math.Sin(tt.currentCount * 0.2)) * 4;
+						}
+					);
+
+					#region heads
+					var heads = new Bitmap[0];
+
+					Assets.Default.head.Items.OrderBy(k => k.FileName).Select(k => k.Data).ToImages(value => heads = value);
+
+					var head = default(Bitmap);
+
+					1000.AtInterval(
+						tt =>
+						{
+							if (head != null)
+								head.Orphanize();
+
+							if (heads.Length > 0)
+							{
+								if (GoldTakenCounter > 0)
+								{
+									GoldTakenCounter--;
+									head = heads.Last();
+								}
+								else
+									head = heads.AtModulus(tt.currentCount % 3);
+
+								head.filters = new[] { new DropShadowFilter() };
+								head.scaleX = 2;
+								head.scaleY = 2;
+								head.MoveTo(4, DefaultControlHeight - head.height - 4).AttachTo(this);
+							}
+						}
+					);
+					#endregion
+
 					InitializeCompass();
 					InitializeKeyboard();
 				}
 			);
 		}
 
-		public SpriteInfo CreateWalkingDummy(Texture64[] Stand, params Texture64[][] Walk)
+		public SpriteInfoExtended CreateWalkingDummy(Texture64[] Stand, params Texture64[][] Walk)
 		{
-			var s = new SpriteInfo
+			var s = new SpriteInfoExtended
 			{
 				Position = new Point { x = EgoView.ViewPositionX, y = EgoView.ViewPositionY },
 				Frames = Stand,
@@ -294,7 +366,13 @@ namespace FlashTreasureHunt.ActionScript
 			return s;
 		}
 
-		public SpriteInfo CreateDummy(Texture64 Stand)
+		[Script]
+		public class SpriteInfoExtended : SpriteInfo
+		{
+			public Action ItemTaken;
+		}
+
+		public SpriteInfoExtended CreateDummy(Texture64 Stand)
 		{
 			return CreateWalkingDummy(new[] { Stand });
 

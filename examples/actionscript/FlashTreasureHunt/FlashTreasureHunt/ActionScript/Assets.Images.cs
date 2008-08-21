@@ -6,12 +6,15 @@ using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.mx.core;
+using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.Shared.Archive;
+using System.IO;
 
 ////[assembly: ScriptResources(FlashTreasureHunt.ActionScript.Assets.Path)]
 
 namespace FlashTreasureHunt.ActionScript
 {
-	
+
 	partial class Assets
 	{
 
@@ -55,12 +58,13 @@ namespace FlashTreasureHunt.ActionScript
 			}
 		}
 
-		public BitmapAsset hud
+		public ZIPFile head
 		{
 			get
 			{
-				return this[Path + "/hud.png"].ToBitmapAsset();
+				return new BinaryReader(this[Path + "/head.zip"].ToByteArrayAsset().ToMemoryStream());
 			}
 		}
+
 	}
 }
