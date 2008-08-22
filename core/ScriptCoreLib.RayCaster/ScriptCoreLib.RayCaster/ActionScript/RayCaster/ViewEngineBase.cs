@@ -112,10 +112,24 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 
 		public void MoveTo(double x, double y)
 		{
-			if (_WallMap[x.Floor(), y.Floor()] == 0)
+			this.MoveTo(new Point(x, y));
+		}
+
+		public virtual void ClipViewPosition(Point e)
+		{
+
+		}
+
+		public void MoveTo(Point p)
+		{
+			ClipViewPosition(p);
+
+			if (_WallMap[p.x.Floor(), p.y.Floor()] == 0)
 			{
-				posX = x;
-				posY = y;
+				// sanity check
+
+				posX = p.x;
+				posY = p.y;
 
 				if (!ViewPositionChangedLock)
 				{

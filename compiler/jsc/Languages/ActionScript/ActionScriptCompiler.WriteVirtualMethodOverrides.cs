@@ -96,6 +96,9 @@ namespace jsc.Languages.ActionScript
 
                 WriteMethodSignature(InterfaceMethodImplementationSignature, false, WriteMethodSignatureMode.Overriding);
 
+				// get correct names for params
+				iparams = InterfaceMethodImplementationSignature.GetParameters();
+
                 using (CreateScope())
                 {
                     WriteIdent();

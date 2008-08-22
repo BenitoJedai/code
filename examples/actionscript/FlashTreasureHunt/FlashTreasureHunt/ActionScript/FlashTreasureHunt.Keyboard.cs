@@ -45,7 +45,7 @@ namespace FlashTreasureHunt.ActionScript
                     MovementArrows[Keyboard.A],
                 },
 				Down = () => { StrafeLeftSmooth.down(new Point(DefaultControlWidth / 2, 0)); },
-				Tick = () => { StrafeLeftSmooth.move(new Point(0, DefaultControlHeight / 2)); },
+				Tick = () => { StrafeLeftSmooth.move(new Point(0, 0)); },
 				Up = () => { StrafeLeftSmooth.up(); }
 			};
 
@@ -58,14 +58,14 @@ namespace FlashTreasureHunt.ActionScript
                     MovementArrows[Keyboard.D],
                 },
 				Down = () => { StrafeRightSmooth.down(new Point(DefaultControlWidth / 2, 0)); },
-				Tick = () => { StrafeRightSmooth.move(new Point(DefaultControlWidth, DefaultControlHeight / 2)); },
+				Tick = () => { StrafeRightSmooth.move(new Point(DefaultControlWidth, 0)); },
 				Up = () => { StrafeRightSmooth.up(); }
 			};
 			#endregion
 
 			#region turn
 			var GoLeftSmooth = AttachMovementInput(EgoView, false, false);
-			Setup(4, GoLeftSmooth);
+			Setup(8, GoLeftSmooth);
 			var GoLeft = new global::FlashTreasureHunt.ActionScript.UI.KeyboardButton(stage)
 			{
 				Groups = new[]
@@ -78,7 +78,7 @@ namespace FlashTreasureHunt.ActionScript
 			};
 
 			var GoRightSmooth = AttachMovementInput(EgoView, false, false);
-			Setup(4, GoRightSmooth);
+			Setup(8, GoRightSmooth);
 			var GoRight = new global::FlashTreasureHunt.ActionScript.UI.KeyboardButton(stage)
 			{
 				Groups = new[]

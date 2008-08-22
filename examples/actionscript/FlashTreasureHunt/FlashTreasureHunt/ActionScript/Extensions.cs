@@ -18,6 +18,16 @@ namespace FlashTreasureHunt.ActionScript
 	[Script]
 	internal static class Extensions
 	{
+		public static Timer AtDelayDo(this int e, Action a)
+		{
+			var t = new Timer(e, 1);
+
+			t.timer += delegate { a(); };
+
+			t.start();
+
+			return t;
+		}
 
 		public static Point MoveToArc(this Point e, double direction, double distance)
 		{
@@ -34,7 +44,28 @@ namespace FlashTreasureHunt.ActionScript
 			return new Point(m.stageX, m.stageY);
 		}
 
-	
+
+		public static void FadeOut(this DisplayObject e, int timeout, double step, Action done)
+		{
+			timeout.AtInterval(
+			   t =>
+			   {
+				   if (e.alpha < 0.1)
+				   {
+					   e.alpha = 0;
+
+					   t.stop();
+					   done();
+				   }
+				   else
+				   {
+					   e.alpha -= step;
+				   }
+			   }
+		   );
+		}
+
+
 		public static void FadeOutAndOrphanize(this DisplayObject e, int timeout, double step)
 		{
 			timeout.AtInterval(
