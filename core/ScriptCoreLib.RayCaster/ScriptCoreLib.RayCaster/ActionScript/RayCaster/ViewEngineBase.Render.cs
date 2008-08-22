@@ -18,7 +18,7 @@ namespace ScriptCoreLib.ActionScript.RayCaster
         /// <summary>
         /// Renders a solid color ceiling and floor
         /// </summary>
-        public void RenderHorizon()
+        public virtual void RenderHorizon()
         {
             buffer.fillRect(
 				new Rectangle(0, 0, _ViewWidth, _ViewHeight / 2), 0x404040

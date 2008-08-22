@@ -34,29 +34,7 @@ namespace FlashTreasureHunt.ActionScript
 			return new Point(m.stageX, m.stageY);
 		}
 
-		public static void ToImages(this IEnumerable<MemoryStream> m, Action<Bitmap[]> h)
-		{
-			var a = m.ToArray();
-			var c = a.Length;
-			var n = new Bitmap[c];
-
-			for (int i = 0; i < a.Length; i++)
-			{
-				var k = i;
-
-				a[k].ToByteArray().LoadBytes<Bitmap>(
-					u => 
-					{
-						n[k] = u;
-
-						c--;
-
-						if (c == 0)
-							h(n);
-					}
-				);
-			}
-		}
+	
 		public static void FadeOutAndOrphanize(this DisplayObject e, int timeout, double step)
 		{
 			timeout.AtInterval(

@@ -213,8 +213,8 @@ namespace FlashTreasureHunt.ActionScript
 					var u = (mouseMove_args - mouseDown_args) * delta_pos;
 					var z = mouseDown_args + u;
 
-					var Q1 = mouseDown_args.y < stage.stageHeight * 1 / 6;
-					var Q4 = mouseDown_args.y > stage.stageHeight * 5 / 6;
+					var Q1 = mouseDown_args.y < DefaultControlHeight * 1 / 6;
+					var Q4 = mouseDown_args.y > DefaultControlHeight * 5 / 6;
 					var IsPan = Q1 || Q4;
 
 

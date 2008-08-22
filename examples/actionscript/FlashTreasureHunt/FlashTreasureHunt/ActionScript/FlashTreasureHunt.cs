@@ -6,10 +6,12 @@ using System;
 using System.Linq;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.RayCaster;
+using ScriptCoreLib.ActionScript.Archive.Extensions;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.Shared.Maze;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.ActionScript.flash.filters;
+using FlashTreasureHunt.ActionScript.ThreeD;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -31,11 +33,11 @@ namespace FlashTreasureHunt.ActionScript
 			Action ResetEgoPosition =
 				delegate
 				{
-						EgoView.ViewPosition = new Point { x = 1.25, y = 1.25 };
-				EgoView.ViewDirection = (45 + 180).DegreesToRadians();
+					EgoView.ViewPosition = new Point { x = 1.25, y = 1.25 };
+					EgoView.ViewDirection = (45 + 180).DegreesToRadians();
 				};
 
-			EgoView = new ViewEngineBase(DefaultWidth, DefaultHeight)
+			EgoView = new ViewEngine(DefaultWidth, DefaultHeight)
 			{
 				FloorAndCeilingVisible = false,
 				RenderLowQualityWalls = true
@@ -173,6 +175,29 @@ namespace FlashTreasureHunt.ActionScript
 
 					var GoldSprites = new List<SpriteInfo>();
 
+					Assets.Default.nonblock.ToBitmapArray(
+						sprites =>
+						{
+							foreach (var s in sprites)
+							{
+								for (int i = 0; i < 3; i++)
+								{
+									// compiler bug: get a delegate to BCL class
+									//AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
+
+									AddSpriteByTexture(FreeSpaceForStuff, s,
+										k =>
+										{
+											k.Range = 0.5;
+											//GoldSprites.Add(k);
+										}
+									);
+
+								}
+							}
+						}
+					);
+
 					Assets.Default.gold.ToBitmapArray(
 					   sprites =>
 					   {
@@ -180,7 +205,7 @@ namespace FlashTreasureHunt.ActionScript
 
 						   foreach (var s in sprites)
 						   {
-							   for (int i = 0; i < 20; i++)
+							   for (int i = 0; i < 6; i++)
 							   {
 								   // compiler bug: get a delegate to BCL class
 								   //AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
@@ -269,7 +294,7 @@ namespace FlashTreasureHunt.ActionScript
 						};
 					GoldSprites.Add(TheGoldStack);
 
-					
+
 					#endregion
 
 					EgoView.Map.Textures = new Dictionary<uint, Texture64>
@@ -280,19 +305,14 @@ namespace FlashTreasureHunt.ActionScript
                             {woodwall, t("woodwall")},
                         };
 
-					EgoView.RenderScene();
+					// EgoView.RenderScene();
 
-					stage.enterFrame +=
-						e =>
-						{
-							EgoView.RenderScene();
-						};
 
 					var hand = f["hand.png"];
 					const int handsize = 4;
 
-					var hand_x = (DefaultControlWidth - hand.width * handsize) / 2; 
-					var hand_y = DefaultControlHeight - hand.height * handsize; 
+					var hand_x = (DefaultControlWidth - hand.width * handsize) / 2;
+					var hand_y = DefaultControlHeight - hand.height * handsize;
 					hand.x = hand_x;
 					hand.y = hand_y;
 					hand.scaleX = handsize;
@@ -303,46 +323,57 @@ namespace FlashTreasureHunt.ActionScript
 						tt =>
 						{
 							hand.x = hand_x + Math.Cos(tt.currentCount * 0.2) * 6;
-							hand.y = hand_y + Math.Abs( Math.Sin(tt.currentCount * 0.2)) * 4;
+							hand.y = hand_y + Math.Abs(Math.Sin(tt.currentCount * 0.2)) * 4;
 						}
 					);
 
 					#region heads
-					var heads = new Bitmap[0];
 
-					Assets.Default.head.Items.OrderBy(k => k.FileName).Select(k => k.Data).ToImages(value => heads = value);
-
-					var head = default(Bitmap);
-
-					1000.AtInterval(
-						tt =>
+					Assets.Default.head.Items.OrderBy(k => k.FileName).Select(k => k.Data).ToImages(
+						heads =>
 						{
-							if (head != null)
-								head.Orphanize();
+							var head = default(Bitmap);
 
-							if (heads.Length > 0)
-							{
-								if (GoldTakenCounter > 0)
+							1000.AtInterval(
+								tt =>
 								{
-									GoldTakenCounter--;
-									head = heads.Last();
-								}
-								else
-									head = heads.AtModulus(tt.currentCount % 3);
+									if (head != null)
+										head.Orphanize();
 
-								head.filters = new[] { new DropShadowFilter() };
-								head.scaleX = 2;
-								head.scaleY = 2;
-								head.MoveTo(4, DefaultControlHeight - head.height - 4).AttachTo(this);
-							}
+									if (heads.Length > 0)
+									{
+										if (GoldTakenCounter > 0)
+										{
+											GoldTakenCounter--;
+											head = heads.Last();
+										}
+										else
+											head = heads.AtModulus(tt.currentCount % 3);
+
+										head.filters = new[] { new DropShadowFilter() };
+										head.scaleX = 2;
+										head.scaleY = 2;
+										head.MoveTo(4, DefaultControlHeight - head.height - 4).AttachTo(this);
+									}
+								}
+							);
 						}
 					);
+
+
 					#endregion
 
 					InitializeCompass();
 					InitializeKeyboard();
 
 					AttachMovementInput(EgoView, true, false);
+
+
+					stage.enterFrame +=
+						e =>
+						{
+							EgoView.RenderScene();
+						};
 				}
 			);
 		}
