@@ -110,8 +110,7 @@ namespace FlashTreasureHunt.ActionScript
 					#endregion
 
 
-					Assets.Default.treasure.play();
-
+				
 				};
 
 
@@ -202,6 +201,7 @@ namespace FlashTreasureHunt.ActionScript
 
 					EgoView.Map.WorldMap = Map;
 
+
 					Action<IEnumerator<Texture64.Entry>, Texture64, Action<SpriteInfo>> AddSpriteByTexture =
 							  (SpaceForStuff, tex, handler) => SpaceForStuff.Take().Do(p => CreateDummy(tex).Do(handler).Position.To(p.XIndex + 0.5, p.YIndex + 0.5));
 
@@ -219,7 +219,7 @@ namespace FlashTreasureHunt.ActionScript
 						{
 							foreach (var s in sprites)
 							{
-								for (int i = 0; i < 3; i++)
+								for (int i = 0; i < 7; i++)
 								{
 									// compiler bug: get a delegate to BCL class
 									//AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
@@ -369,7 +369,7 @@ namespace FlashTreasureHunt.ActionScript
 
 					// EgoView.RenderScene();
 
-
+					#region hand
 					var hand = f["hand.png"];
 					const int handsize = 4;
 
@@ -388,6 +388,7 @@ namespace FlashTreasureHunt.ActionScript
 							hand.y = hand_y + Math.Abs(Math.Sin(tt.currentCount * 0.2)) * 4;
 						}
 					);
+					#endregion
 
 					#region heads
 
@@ -430,6 +431,8 @@ namespace FlashTreasureHunt.ActionScript
 
 					AttachMovementInput(EgoView, true, false);
 
+					EgoView.ClipViewPosition += Clip(EgoView.Map.WallMap);
+
 					ResetEgoPosition();
 
 					stage.enterFrame +=
@@ -439,6 +442,122 @@ namespace FlashTreasureHunt.ActionScript
 						};
 				}
 			);
+		}
+
+		private Action<Point> Clip(Texture32 Walls)
+		{
+			const double PlayerRadiusMargin = 0.3;
+
+			return
+				p =>
+				{
+					var fPlayerX = p.x;
+					var fPlayerY = p.y;
+
+					var c = new PointInt32
+					{
+						X = (int)Math.Floor(p.x),
+						Y = (int)Math.Floor(p.y)
+					};
+
+					var TILE_SIZE = 1.0;
+
+					var PositionInWall =
+						 new Point
+						 {
+							 x = fPlayerX % TILE_SIZE,
+							 y = fPlayerY % TILE_SIZE
+						 };
+
+
+					var TileTop = Walls[c.X, c.Y - 1];
+					var TileLeft = Walls[c.X - 1, c.Y];
+					var TileRight = Walls[c.X + 1, c.Y];
+					var TileBottom = Walls[c.X, c.Y + 1];
+
+
+					var CurrentMapTile = Walls[c.X, c.Y];
+
+					if (CurrentMapTile != 0)
+					{
+						// we are inside a wall
+						// push us out of there
+
+						#region Dia
+						var A = PositionInWall.x > PositionInWall.y;
+						var B = PositionInWall.x > (TILE_SIZE - PositionInWall.y);
+
+						var DiaClipLeft = !A && !B;
+						var DiaClipRight = A && B;
+						var DiaClipTop = A && !B;
+						var DiaClipBottom = !A && B;
+						#endregion
+
+						#region Alt
+						var C = PositionInWall.x > (TILE_SIZE / 2);
+						var D = PositionInWall.y > (TILE_SIZE / 2);
+
+						var AltClipTopLeft = !C && !D;
+						var AltClipBottomLeft = !C && D;
+						var AltClipTopRight = C && !D;
+						var AltClipBottomRight = C && D;
+						#endregion
+
+
+						var ClipLeft = DiaClipLeft;
+
+						if (TileTop != 0) ClipLeft |= AltClipTopLeft;
+						if (TileBottom != 0) ClipLeft |= AltClipBottomLeft;
+
+						var ClipRight = DiaClipRight;
+
+						if (TileTop != 0) ClipRight |= AltClipTopRight;
+						if (TileBottom != 0) ClipRight |= AltClipBottomRight;
+
+						var ClipTop = DiaClipTop;
+
+						if (TileLeft != 0) ClipTop |= AltClipTopLeft;
+						if (TileRight != 0) ClipTop |= AltClipTopRight;
+
+						var ClipBottom = DiaClipBottom;
+
+						if (TileLeft != 0) ClipBottom |= AltClipBottomLeft;
+						if (TileRight != 0) ClipBottom |= AltClipBottomRight;
+
+
+
+						if (ClipLeft)
+							fPlayerX = fPlayerX.Min(c.X * TILE_SIZE - PlayerRadiusMargin);
+						else if (ClipRight)
+							fPlayerX = fPlayerX.Max((c.X + 1) * TILE_SIZE + PlayerRadiusMargin);
+
+						if (ClipTop)
+							fPlayerY = fPlayerY.Min(c.Y * TILE_SIZE - PlayerRadiusMargin);
+						else if (ClipRight)
+							fPlayerY = fPlayerY.Max((c.Y + 1) * TILE_SIZE + PlayerRadiusMargin);
+					}
+					else
+					{
+						// fix corners
+						//
+						//   *        L
+						//    F      *
+
+						if (TileLeft != 0)
+							fPlayerX = fPlayerX.Max(c.X * TILE_SIZE + PlayerRadiusMargin);
+						if (TileRight != 0)
+							fPlayerX = fPlayerX.Min((c.X + 1) * TILE_SIZE - PlayerRadiusMargin);
+
+						if (TileTop != 0)
+							fPlayerY = fPlayerY.Max(c.Y * TILE_SIZE + PlayerRadiusMargin);
+						if (TileBottom != 0)
+							fPlayerY = fPlayerY.Min((c.Y + 1) * TILE_SIZE - PlayerRadiusMargin);
+
+					}
+
+					p.x = fPlayerX;
+					p.y = fPlayerY;
+				};
 		}
 
 		public SpriteInfoExtended CreateWalkingDummy(Texture64[] Stand, params Texture64[][] Walk)
