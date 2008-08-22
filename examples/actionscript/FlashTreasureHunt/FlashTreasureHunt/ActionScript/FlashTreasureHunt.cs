@@ -24,17 +24,24 @@ namespace FlashTreasureHunt.ActionScript
 		// http://www.users.globalnet.co.uk/~brlowe/index.html
 		// http://www.wolfenstein3d.co.uk/index.htm
 		// http://winwolf3d.dugtrio17.com/index.php
+		// http://www.3drealms.com/wolf3d/
+
+		// shareware:
+		// Computer software developed for the public domain, which can be used or copied without infringing copyright. ...
+		// tr.wou.edu/ntac/documents/fact_sheets/glossary.htm
 
 		BlockMaze maze;
 		ViewEngineBase EgoView;
 
 		public FlashTreasureHunt()
 		{
+			Assets.Default.music.play(0, 9999);
+
 			Action ResetEgoPosition =
 				delegate
 				{
 					EgoView.ViewPosition = new Point { x = 1.25, y = 1.25 };
-					EgoView.ViewDirection = (45 + 180).DegreesToRadians();
+					EgoView.ViewDirection = (45).DegreesToRadians();
 				};
 
 			EgoView = new ViewEngine(DefaultWidth, DefaultHeight)
@@ -368,6 +375,7 @@ namespace FlashTreasureHunt.ActionScript
 
 					AttachMovementInput(EgoView, true, false);
 
+					ResetEgoPosition();
 
 					stage.enterFrame +=
 						e =>

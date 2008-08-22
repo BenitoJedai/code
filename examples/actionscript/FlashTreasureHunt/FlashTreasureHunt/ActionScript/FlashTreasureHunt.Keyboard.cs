@@ -73,7 +73,7 @@ namespace FlashTreasureHunt.ActionScript
                     MovementArrows[Keyboard.LEFT],
                 },
 				Down = () => { GoLeftSmooth.down(new Point(DefaultControlWidth / 2, DefaultControlHeight / 2)); },
-				Tick = () => { GoLeftSmooth.move(new Point(0, DefaultControlHeight / 2)); },
+				Tick = () => { GoLeftSmooth.move(new Point(DefaultControlWidth / 4, DefaultControlHeight / 2)); },
 				Up = () => { GoLeftSmooth.up(); }
 			};
 
@@ -86,7 +86,7 @@ namespace FlashTreasureHunt.ActionScript
 			        MovementArrows[Keyboard.RIGHT],
 			    },
 				Down = () => { GoRightSmooth.down(new Point(DefaultControlWidth / 2, DefaultControlHeight / 2)); },
-				Tick = () => { GoRightSmooth.move(new Point(DefaultControlWidth, DefaultControlHeight / 2)); },
+				Tick = () => { GoRightSmooth.move(new Point(DefaultControlWidth * 3 / 4, DefaultControlHeight / 2)); },
 				Up = () => { GoRightSmooth.up(); }
 			};
 			#endregion
