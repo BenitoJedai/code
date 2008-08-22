@@ -54,10 +54,13 @@ namespace FlashTreasureHunt.ActionScript
 
 		Func<SpriteInfoExtended> CreateGuard;
 
+		Bitmap getpsyched;
+
 		public FlashTreasureHunt()
 		{
 			this.music = Assets.Default.music.play(0, 9999);
 
+			Assets.Default.gutentag.play();
 
 
 
@@ -69,9 +72,18 @@ namespace FlashTreasureHunt.ActionScript
 
 			EgoView.Image.scaleX = DefaultScale;
 			EgoView.Image.scaleY = DefaultScale;
+			EgoView.Image.alpha = 0;
 			EgoView.Image.AttachTo(this);
 
 			this.HudContainer = new Sprite().AttachTo(this);
+			this.HudContainer.alpha = 0;
+
+			getpsyched = Assets.Default.getpsyched.AttachTo(this);
+
+			getpsyched.scaleX = 2;
+			getpsyched.scaleY = 2;
+			getpsyched.MoveTo((DefaultControlWidth - getpsyched.width) / 2, (DefaultControlHeight - getpsyched.height) / 2);
+
 
 			ResetEgoPosition();
 
@@ -129,6 +141,8 @@ namespace FlashTreasureHunt.ActionScript
 					CreateGuard = Spawn;
 
 					InitializeMap();
+
+
 				}
 			);
 
