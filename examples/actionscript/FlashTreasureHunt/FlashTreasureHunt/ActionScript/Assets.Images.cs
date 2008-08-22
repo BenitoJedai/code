@@ -43,6 +43,14 @@ namespace FlashTreasureHunt.ActionScript
 			}
 		}
 
+		public BitmapAsset scroll
+		{
+			get
+			{
+				return this[Path + "/scroll.png"].ToBitmapAsset();
+			}
+		}
+
 		public BitmapAsset compass
 		{
 			get

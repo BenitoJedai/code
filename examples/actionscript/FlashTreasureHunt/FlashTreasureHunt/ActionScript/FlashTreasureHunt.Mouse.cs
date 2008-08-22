@@ -46,6 +46,8 @@ namespace FlashTreasureHunt.ActionScript
 
 		}
 
+		public bool MovementEnabled = true;
+
 		ManualControl AttachMovementInput(ViewEngineBase view, bool EnableMouse, bool Visualize)
 		{
 			var mc = new ManualControl();
@@ -79,6 +81,9 @@ namespace FlashTreasureHunt.ActionScript
 			mc.down =
 				p =>
 				{
+					if (!MovementEnabled)
+						return;
+
 					color = 0;
 
 
@@ -121,6 +126,9 @@ namespace FlashTreasureHunt.ActionScript
 			mc.move =
 				p =>
 				{
+					if (!MovementEnabled)
+						return;
+
 					mouseMove_args = p;
 
 					if (mouseUp_fadeOut != null)

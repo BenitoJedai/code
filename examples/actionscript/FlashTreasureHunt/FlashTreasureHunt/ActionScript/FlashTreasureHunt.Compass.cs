@@ -21,7 +21,7 @@ namespace FlashTreasureHunt.ActionScript
 			var container = new Sprite();
 
 			compass.AttachTo(container);
-			container.AttachTo(this);
+			container.AttachTo(HudContainer);
 
 			Action Update =
 				delegate

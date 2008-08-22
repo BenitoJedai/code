@@ -486,7 +486,7 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 					var d = y * 256 - hT + lhT;  //256 and 128 factors to avoid floats
 					var texY = ((d * texHeight) / lineHeight) / 256;
 
-					var color = texture[texX, texY];
+					var color = texture[63 - texX, texY];
 
 					if (side == 1) color = (color >> 1) & 0x7F7F7F;
 

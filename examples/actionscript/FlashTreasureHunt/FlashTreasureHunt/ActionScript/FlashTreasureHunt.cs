@@ -12,6 +12,7 @@ using ScriptCoreLib.Shared.Maze;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.ActionScript.flash.filters;
 using FlashTreasureHunt.ActionScript.ThreeD;
+using ScriptCoreLib.ActionScript.flash.media;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -31,11 +32,19 @@ namespace FlashTreasureHunt.ActionScript
 		// tr.wou.edu/ntac/documents/fact_sheets/glossary.htm
 
 		BlockMaze maze;
-		ViewEngineBase EgoView;
+		ViewEngine EgoView;
+
+		SoundChannel music;
+
+		bool EndLevelMode = false;
+
+		SpriteInfoExtended TheGoldStack;
+
+		Sprite HudContainer;
 
 		public FlashTreasureHunt()
 		{
-			Assets.Default.music.play(0, 9999);
+			this.music = Assets.Default.music.play(0, 9999);
 
 			Action ResetEgoPosition =
 				delegate
@@ -44,18 +53,22 @@ namespace FlashTreasureHunt.ActionScript
 					EgoView.ViewDirection = (45).DegreesToRadians();
 				};
 
+
+
 			EgoView = new ViewEngine(DefaultWidth, DefaultHeight)
 			{
 				FloorAndCeilingVisible = false,
-				RenderLowQualityWalls = true
+				RenderLowQualityWalls = false
 			};
 
-			ResetEgoPosition();
 			EgoView.Image.scaleX = DefaultScale;
 			EgoView.Image.scaleY = DefaultScale;
-
 			EgoView.Image.AttachTo(this);
 
+			this.HudContainer = new Sprite().AttachTo(this);
+
+
+			ResetEgoPosition();
 
 
 			Action<Bitmap[]> BitmapsLoadedAction =
@@ -110,7 +123,7 @@ namespace FlashTreasureHunt.ActionScript
 					#endregion
 
 
-				
+
 				};
 
 
@@ -143,7 +156,7 @@ namespace FlashTreasureHunt.ActionScript
 						}
 					#endregion
 
-					maze = new BlockMaze(new MazeGenerator(14, 14, null));
+					maze = new BlockMaze(new MazeGenerator(MazeSize, MazeSize, null));
 
 					#region write walls to map
 					var wall_counter = 0;
@@ -202,8 +215,18 @@ namespace FlashTreasureHunt.ActionScript
 					EgoView.Map.WorldMap = Map;
 
 
-					Action<IEnumerator<Texture64.Entry>, Texture64, Action<SpriteInfo>> AddSpriteByTexture =
-							  (SpaceForStuff, tex, handler) => SpaceForStuff.Take().Do(p => CreateDummy(tex).Do(handler).Position.To(p.XIndex + 0.5, p.YIndex + 0.5));
+					Action<IEnumerator<Texture64.Entry>, Texture64, Action<SpriteInfoExtended>> AddSpriteByTexture =
+							  (SpaceForStuff, tex, handler) =>
+							  {
+								  var p = SpaceForStuff.TakeOrDefault();
+
+								  if (p == null)
+									  return;
+
+								  CreateDummy(tex).Do(handler).Position.To(p.XIndex + 0.5, p.YIndex + 0.5);
+
+							  };
+
 
 
 					var FreeSpaceForStuff = EgoView.Map.WorldMap.Entries.Where(i => i.Value == 0).Randomize().GetEnumerator();
@@ -214,38 +237,47 @@ namespace FlashTreasureHunt.ActionScript
 
 					var GoldSprites = new List<SpriteInfo>();
 
-					Assets.Default.nonblock.ToBitmapArray(
-						sprites =>
+					#region nonblock
+					Action AddNonBlockingItems =
+						delegate
 						{
-							foreach (var s in sprites)
-							{
-								for (int i = 0; i < 7; i++)
+
+
+
+							Assets.Default.nonblock.ToBitmapArray(
+								sprites =>
 								{
-									// compiler bug: get a delegate to BCL class
-									//AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
-
-									AddSpriteByTexture(FreeSpaceForStuff, s,
-										k =>
+									for (int i = 0; i < 7; i++)
+										foreach (var s in sprites)
 										{
-											k.Range = 0.5;
-											//GoldSprites.Add(k);
-										}
-									);
+											// compiler bug: get a delegate to BCL class
+											//AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
 
+											AddSpriteByTexture(FreeSpaceForStuff, s,
+												k =>
+												{
+													k.Range = 0.5;
+													//GoldSprites.Add(k);
+												}
+											);
+
+										}
 								}
-							}
-						}
-					);
+							);
+
+
+						};
+					#endregion
 
 					Assets.Default.gold.ToBitmapArray(
 					   sprites =>
 					   {
 
-
-						   foreach (var s in sprites)
-						   {
-							   for (int i = 0; i < 6; i++)
+						   for (int i = 0; i < 6; i++)
+							   foreach (var _s in sprites)
 							   {
+								   var s = _s;
+
 								   // compiler bug: get a delegate to BCL class
 								   //AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
 
@@ -253,12 +285,17 @@ namespace FlashTreasureHunt.ActionScript
 									   k =>
 									   {
 										   k.Range = 0.5;
+										   k.ItemTaken +=
+											   delegate
+											   {
+
+											   };
+
 										   GoldSprites.Add(k);
 									   }
 								   );
 
 							   }
-						   }
 
 						   var LastPosition = new Point();
 
@@ -270,6 +307,7 @@ namespace FlashTreasureHunt.ActionScript
 									   return;
 
 								   Action Later = delegate { };
+								   Action ItemTaken = delegate { };
 
 
 								   foreach (var Item in EgoView.SpritesFromPointOfView)
@@ -293,7 +331,7 @@ namespace FlashTreasureHunt.ActionScript
 											   var WithItemTaken = Item_Sprite as SpriteInfoExtended;
 											   if (WithItemTaken != null)
 												   if (WithItemTaken.ItemTaken != null)
-													   WithItemTaken.ItemTaken();
+													   ItemTaken += WithItemTaken.ItemTaken;
 
 											   GoldTakenCounter = (GoldTakenCounter + 1).Min(1);
 
@@ -305,13 +343,15 @@ namespace FlashTreasureHunt.ActionScript
 								   Later();
 
 								   LastPosition = EgoView.ViewPosition;
+
+								   ItemTaken();
 							   };
 
+						   AddNonBlockingItems();
 
 					   }
 					);
 					#endregion
-
 
 					Func<string, Texture64> t =
 						texname => f[texname + ".png"];
@@ -330,20 +370,23 @@ namespace FlashTreasureHunt.ActionScript
 							return u;
 						};
 
+
+
 					#region game goal
-					var TheGoldStack = CreateDummy(f["life.png"]);
+					TheGoldStack = CreateDummy(f["life.png"]);
 					TheGoldStack.Position.To(maze.Width - 1.5, maze.Height - 1.5);
 					TheGoldStack.Range = 0.5;
 					TheGoldStack.ItemTaken +=
 						delegate
 						{
-							new Bitmap(EgoView.Buffer.clone())
-							{
-								scaleX = DefaultScale,
-								scaleY = DefaultScale
-							}.AttachTo(this).FadeOutAndOrphanize(1000 / 24, 0.2);
+							if (EndLevelMode)
+								return;
 
-							ResetEgoPosition();
+
+
+							// show stats
+
+							EnterEndLevelMode();
 						};
 					GoldSprites.Add(TheGoldStack);
 
@@ -379,7 +422,7 @@ namespace FlashTreasureHunt.ActionScript
 					hand.y = hand_y;
 					hand.scaleX = handsize;
 					hand.scaleY = handsize;
-					hand.AttachTo(this);
+					hand.AttachTo(HudContainer);
 
 					(1000 / 24).AtInterval(
 						tt =>
@@ -416,7 +459,7 @@ namespace FlashTreasureHunt.ActionScript
 										head.filters = new[] { new DropShadowFilter() };
 										head.scaleX = 2;
 										head.scaleY = 2;
-										head.MoveTo(4, DefaultControlHeight - head.height - 4).AttachTo(this);
+										head.MoveTo(4, DefaultControlHeight - head.height - 4).AttachTo(HudContainer);
 									}
 								}
 							);
@@ -431,134 +474,21 @@ namespace FlashTreasureHunt.ActionScript
 
 					AttachMovementInput(EgoView, true, false);
 
-					EgoView.ClipViewPosition += Clip(EgoView.Map.WallMap);
 
 					ResetEgoPosition();
 
 					stage.enterFrame +=
 						e =>
 						{
+							//if (EndLevelMode)
+							//    return;
+
 							EgoView.RenderScene();
 						};
 				}
 			);
 		}
 
-		private Action<Point> Clip(Texture32 Walls)
-		{
-			const double PlayerRadiusMargin = 0.3;
-
-			return
-				p =>
-				{
-					var fPlayerX = p.x;
-					var fPlayerY = p.y;
-
-					var c = new PointInt32
-					{
-						X = (int)Math.Floor(p.x),
-						Y = (int)Math.Floor(p.y)
-					};
-
-					var TILE_SIZE = 1.0;
-
-					var PositionInWall =
-						 new Point
-						 {
-							 x = fPlayerX % TILE_SIZE,
-							 y = fPlayerY % TILE_SIZE
-						 };
-
-
-					var TileTop = Walls[c.X, c.Y - 1];
-					var TileLeft = Walls[c.X - 1, c.Y];
-					var TileRight = Walls[c.X + 1, c.Y];
-					var TileBottom = Walls[c.X, c.Y + 1];
-
-
-					var CurrentMapTile = Walls[c.X, c.Y];
-
-					if (CurrentMapTile != 0)
-					{
-						// we are inside a wall
-						// push us out of there
-
-						#region Dia
-						var A = PositionInWall.x > PositionInWall.y;
-						var B = PositionInWall.x > (TILE_SIZE - PositionInWall.y);
-
-						var DiaClipLeft = !A && !B;
-						var DiaClipRight = A && B;
-						var DiaClipTop = A && !B;
-						var DiaClipBottom = !A && B;
-						#endregion
-
-						#region Alt
-						var C = PositionInWall.x > (TILE_SIZE / 2);
-						var D = PositionInWall.y > (TILE_SIZE / 2);
-
-						var AltClipTopLeft = !C && !D;
-						var AltClipBottomLeft = !C && D;
-						var AltClipTopRight = C && !D;
-						var AltClipBottomRight = C && D;
-						#endregion
-
-
-						var ClipLeft = DiaClipLeft;
-
-						if (TileTop != 0) ClipLeft |= AltClipTopLeft;
-						if (TileBottom != 0) ClipLeft |= AltClipBottomLeft;
-
-						var ClipRight = DiaClipRight;
-
-						if (TileTop != 0) ClipRight |= AltClipTopRight;
-						if (TileBottom != 0) ClipRight |= AltClipBottomRight;
-
-						var ClipTop = DiaClipTop;
-
-						if (TileLeft != 0) ClipTop |= AltClipTopLeft;
-						if (TileRight != 0) ClipTop |= AltClipTopRight;
-
-						var ClipBottom = DiaClipBottom;
-
-						if (TileLeft != 0) ClipBottom |= AltClipBottomLeft;
-						if (TileRight != 0) ClipBottom |= AltClipBottomRight;
-
-
-
-						if (ClipLeft)
-							fPlayerX = fPlayerX.Min(c.X * TILE_SIZE - PlayerRadiusMargin);
-						else if (ClipRight)
-							fPlayerX = fPlayerX.Max((c.X + 1) * TILE_SIZE + PlayerRadiusMargin);
-
-						if (ClipTop)
-							fPlayerY = fPlayerY.Min(c.Y * TILE_SIZE - PlayerRadiusMargin);
-						else if (ClipRight)
-							fPlayerY = fPlayerY.Max((c.Y + 1) * TILE_SIZE + PlayerRadiusMargin);
-					}
-					else
-					{
-						// fix corners
-						//
-						//   *        L
-						//    F      *
-
-						if (TileLeft != 0)
-							fPlayerX = fPlayerX.Max(c.X * TILE_SIZE + PlayerRadiusMargin);
-						if (TileRight != 0)
-							fPlayerX = fPlayerX.Min((c.X + 1) * TILE_SIZE - PlayerRadiusMargin);
-
-						if (TileTop != 0)
-							fPlayerY = fPlayerY.Max(c.Y * TILE_SIZE + PlayerRadiusMargin);
-						if (TileBottom != 0)
-							fPlayerY = fPlayerY.Min((c.Y + 1) * TILE_SIZE - PlayerRadiusMargin);
-
-					}
-
-					p.x = fPlayerX;
-					p.y = fPlayerY;
-				};
-		}
 
 		public SpriteInfoExtended CreateWalkingDummy(Texture64[] Stand, params Texture64[][] Walk)
 		{

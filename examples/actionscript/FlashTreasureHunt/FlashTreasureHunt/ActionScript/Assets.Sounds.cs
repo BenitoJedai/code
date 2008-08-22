@@ -14,6 +14,14 @@ namespace FlashTreasureHunt.ActionScript
 	
 	partial class Assets
 	{
+		public SoundAsset music_endlevel
+		{
+			get
+			{
+				return this[Path + "/ENDLEVEL.mp3"].ToSoundAsset();
+			}
+		}
+
 		public SoundAsset music
 		{
 			get
