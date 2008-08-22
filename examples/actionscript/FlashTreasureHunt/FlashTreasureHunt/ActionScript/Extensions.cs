@@ -18,6 +18,11 @@ namespace FlashTreasureHunt.ActionScript
 	[Script]
 	internal static class Extensions
 	{
+		public static int Floor(this double e)
+		{
+			return (int)Math.Floor(e);
+		}
+
 		public static Timer AtDelayDo(this int e, Action a)
 		{
 			var t = new Timer(e, 1);
