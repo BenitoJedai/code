@@ -17,247 +17,38 @@ namespace FlashTreasureHunt.ActionScript
 {
 	partial class FlashTreasureHunt
 	{
+		const uint graywall = 0xff0000;
+		const uint graywall_achtung = 0xff0001;
+		const uint graywall_verboten = 0xff0002;
 
+		const uint woodwall = 0x7F3300;
+		const uint woodwall_books = 0x7F33F0;
+		const uint woodwall_achtung = 0x7F3301;
+		const uint woodwall_verboten = 0x7F3302;
+
+
+		const uint bluewall = 0x0000ff;
+		const uint greenwall = 0x00ff00;
+
+		// items for pickup
+		List<SpriteInfoExtended> AmmoSprites = new List<SpriteInfoExtended>();
+		List<SpriteInfoExtended> GoldSprites = new List<SpriteInfoExtended>();
+
+		// used to make BJ smile
+		int GoldTakenCounter = 0;
+		
 		private void InitializeMap()
 		{
 			#region fill map
 			Assets.Default.stuff.ToBitmapDictionary(
 				f =>
 				{
-					const uint graywall = 0xff0000;
-					const uint graywall_achtung = 0xff0001;
-					const uint graywall_verboten = 0xff0002;
 
-					const uint woodwall = 0x7F3300;
-					const uint woodwall_books = 0x7F33F0;
-					const uint woodwall_achtung = 0x7F3301;
-					const uint woodwall_verboten = 0x7F3302;
 
+					CreateMapFromMaze();
 
-					const uint bluewall = 0x0000ff;
-					const uint greenwall = 0x00ff00;
 
-					var Map = new Texture32();
-
-
-					#region safe map
-					for (int i = 0; i < 32; i++)
-						for (int j = 0; j < 32; j++)
-						{
-							Map[i, j] = bluewall;
-						}
-					#endregion
-
-					maze = new BlockMaze(new MazeGenerator(MazeSize, MazeSize, null));
-
-					#region write walls to map
-					var wall_counter = 0;
-
-					for (int x = 1; x < maze.Width - 1; x++)
-						for (int y = 1; y < maze.Height - 1; y++)
-						{
-							if (maze.Walls[x][y])
-							{
-								wall_counter++;
-
-								var variant = graywall;
-
-								if (y > maze.Height / 2)
-								{
-									variant = woodwall;
-
-									if (wall_counter % 7 == 0)
-										variant = woodwall_books;
-									if (wall_counter % 11 == 0)
-										variant = woodwall_achtung;
-									else if (wall_counter % 13 == 0)
-										variant = woodwall_verboten;
-								}
-								else
-								{
-									variant = graywall;
-
-									if (wall_counter % 8 == 0)
-										variant = graywall_achtung;
-									else if (wall_counter % 9 == 0)
-										variant = graywall_verboten;
-
-								}
-
-								Map[x, y] = variant;
-
-							}
-							else
-								Map[x, y] = 0;
-						}
-					#endregion
-
-
-					#region maze is smaller than 31
-					for (int x = 1; x < maze.Width - 1; x++)
-					{
-						Map[x, maze.Height - 1] = greenwall;
-					}
-
-					for (int y = 1; y < maze.Height - 1; y++)
-					{
-						Map[maze.Width - 1, y] = greenwall;
-					}
-					#endregion
-
-
-					EgoView.Map.WorldMap = Map;
-
-
-					Action<IEnumerator<Texture64.Entry>, Texture64, Action<SpriteInfoExtended>> AddSpriteByTexture =
-							  (SpaceForStuff, tex, handler) =>
-							  {
-								  var p = SpaceForStuff.TakeOrDefault();
-
-								  if (p == null)
-									  return;
-
-								  CreateDummy(tex).Do(handler).Position.To(p.XIndex + 0.5, p.YIndex + 0.5);
-
-							  };
-
-
-
-					var FreeSpaceForStuff = EgoView.Map.WorldMap.Entries.Where(i => i.Value == 0).Randomize().GetEnumerator();
-
-					CreateGuards(FreeSpaceForStuff);
-
-
-					var GoldTakenCounter = 0;
-
-					#region gold
-
-					var GoldSprites = new List<SpriteInfo>();
-
-					#region nonblock
-					Action AddNonBlockingItems =
-						delegate
-						{
-
-
-
-							Assets.Default.nonblock.ToBitmapArray(
-								sprites =>
-								{
-									for (int i = 0; i < 7; i++)
-										foreach (var s in sprites)
-										{
-											// compiler bug: get a delegate to BCL class
-											//AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
-
-											AddSpriteByTexture(FreeSpaceForStuff, s,
-												k =>
-												{
-													k.Range = 0.5;
-													//GoldSprites.Add(k);
-												}
-											);
-
-										}
-								}
-							);
-
-
-						};
-					#endregion
-
-					Assets.Default.gold.ToBitmapArray(
-					   sprites =>
-					   {
-
-						   for (int i = 0; i < 6; i++)
-							   foreach (var _s in sprites)
-							   {
-								   var s = _s;
-
-								   // compiler bug: get a delegate to BCL class
-								   //AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
-
-								   AddSpriteByTexture(FreeSpaceForStuff, s,
-									   k =>
-									   {
-										   k.Range = 0.5;
-										   k.ItemTaken +=
-											   delegate
-											   {
-												   Assets.Default.treasure.play();
-											   };
-
-										   GoldSprites.Add(k);
-									   }
-								   );
-
-							   }
-
-						   var LastPosition = new Point();
-
-						   EgoView.ViewPositionChanged +=
-							   delegate
-							   {
-								   // only check for items each 0.5 distance travelled
-								   if ((EgoView.ViewPosition - LastPosition).length < 0.5)
-									   return;
-
-								   Action Later = null;
-								   Action ItemTaken = null;
-
-
-								   foreach (var Item in EgoView.SpritesFromPointOfView)
-								   {
-									   var Item_Sprite = Item.Sprite as SpriteInfoExtended;
-
-									   if (Item_Sprite != null)
-										   if (!Item_Sprite.IsTaken)
-											   if (Item.Distance < Item_Sprite.Range)
-											   {
-												   if (GoldSprites.Contains(Item_Sprite))
-												   {
-													   // ding-ding-ding!
-													   Item_Sprite.IsTaken = true;
-
-													   new Bitmap(new BitmapData(DefaultWidth, DefaultHeight, false, 0xffff00))
-													   {
-														   scaleX = DefaultScale,
-														   scaleY = DefaultScale
-													   }.AttachTo(this).FadeOutAndOrphanize(1000 / 24, 0.2);
-
-
-
-													   if (Item_Sprite != null)
-														   if (Item_Sprite.ItemTaken != null)
-															   ItemTaken += () => Item_Sprite.ItemTaken();
-
-													   GoldTakenCounter = (GoldTakenCounter + 1).Min(1);
-
-													   Later +=
-														   delegate
-														   {
-															   EgoView.Sprites.Remove(Item_Sprite);
-															   GoldSprites.Remove(Item_Sprite);
-														   };
-												   }
-											   }
-								   }
-
-								   if (Later != null)
-									   Later();
-
-								   LastPosition = EgoView.ViewPosition;
-
-								   if (ItemTaken != null)
-									   ItemTaken();
-							   };
-
-						   AddNonBlockingItems();
-
-					   }
-					);
-					#endregion
+					AddIngameEntities();
 
 					Func<string, Texture64> t =
 						texname => f[texname + ".png"];
@@ -410,6 +201,82 @@ namespace FlashTreasureHunt.ActionScript
 			#endregion
 		}
 
+
+		private void CreateMapFromMaze()
+		{
+			var Map = new Texture32();
+
+
+			#region safe map
+			for (int i = 0; i < 32; i++)
+				for (int j = 0; j < 32; j++)
+				{
+					Map[i, j] = bluewall;
+				}
+			#endregion
+
+			maze = new BlockMaze(new MazeGenerator(MazeSize, MazeSize, null));
+
+			#region write walls to map
+			var wall_counter = 0;
+
+			for (int x = 1; x < maze.Width - 1; x++)
+				for (int y = 1; y < maze.Height - 1; y++)
+				{
+					if (maze.Walls[x][y])
+					{
+						wall_counter++;
+
+						var variant = graywall;
+
+						if (y > maze.Height / 2)
+						{
+							variant = woodwall;
+
+							if (wall_counter % 7 == 0)
+								variant = woodwall_books;
+							if (wall_counter % 11 == 0)
+								variant = woodwall_achtung;
+							else if (wall_counter % 13 == 0)
+								variant = woodwall_verboten;
+						}
+						else
+						{
+							variant = graywall;
+
+							if (wall_counter % 8 == 0)
+								variant = graywall_achtung;
+							else if (wall_counter % 9 == 0)
+								variant = graywall_verboten;
+
+						}
+
+						Map[x, y] = variant;
+
+					}
+					else
+						Map[x, y] = 0;
+				}
+			#endregion
+
+
+			#region maze is smaller than 31
+			for (int x = 1; x < maze.Width - 1; x++)
+			{
+				Map[x, maze.Height - 1] = greenwall;
+			}
+
+			for (int y = 1; y < maze.Height - 1; y++)
+			{
+				Map[maze.Width - 1, y] = greenwall;
+			}
+			#endregion
+
+
+			EgoView.Map.WorldMap = Map;
+		}
+
+	
 
 
 

@@ -35,6 +35,14 @@ namespace FlashTreasureHunt.ActionScript
 			}
 		}
 
+		public ZIPFile ammo_sprites
+		{
+			get
+			{
+				return this[Path + "/ammo.zip"].ToZIPFile();
+			}
+		}
+
 		public ZIPFile stuff
 		{
 			get

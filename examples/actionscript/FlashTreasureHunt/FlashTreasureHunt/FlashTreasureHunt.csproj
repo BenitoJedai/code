@@ -65,6 +65,9 @@
     <Compile Include="ActionScript\Assets.cs" />
     <Compile Include="ActionScript\Assets.Sounds.cs" />
     <Compile Include="ActionScript\Assets.Images.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.AddTreasure.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.AddIngameEntities.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.AddAmmoToEgoAndSwitchWeapon.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.CreateGuards.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.InitializeMap.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.EnterEndLevelMode.cs" />
@@ -89,17 +92,19 @@
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
     <Content Include="docs\SourceAnalysis.txt" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\ammo.mp3" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\getpsyched.png" />
-    <EmbeddedResource Include="web\assets\FlashTreasureHunt\gutentag.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\gutentag.mp3" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\scroll.png" />
-    <EmbeddedResource Include="web\assets\FlashTreasureHunt\ENDLEVEL.mp3" />
-    <EmbeddedResource Include="web\assets\FlashTreasureHunt\WONDERIN.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\ENDLEVEL.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\WONDERIN.mp3" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\compasscolor.png" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\compass.png" />
-    <EmbeddedResource Include="web\assets\FlashTreasureHunt\treasure.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\treasure.mp3" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\ammo.zip" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\nonblock.zip" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\head.zip" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\dude5.zip" />

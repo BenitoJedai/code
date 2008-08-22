@@ -1,4 +1,5 @@
 ﻿using ScriptCoreLib;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.text;
 using System.Collections.Generic;
@@ -20,12 +21,12 @@ namespace FlashTreasureHunt.ActionScript
 			ScoreContainer.alpha = 0.8;
 
 			var scroll = Assets.Default.scroll.AttachTo(ScoreContainer);
-			var scroll_scale =  DefaultControlHeight / scroll.height;
+			var scroll_scale = DefaultControlHeight / scroll.height;
 
 			scroll.scaleX = scroll_scale;
 			scroll.scaleY = scroll_scale;
 
-			scroll.MoveTo(DefaultControlWidth - scroll.width, 0 );
+			scroll.MoveTo(DefaultControlWidth - scroll.width, 0);
 			scroll.filters = new BitmapFilter[] { new DropShadowFilter() };
 
 			new Bitmap(EgoView.Buffer.clone())
@@ -66,7 +67,7 @@ namespace FlashTreasureHunt.ActionScript
 
 			this.EgoView.ViewDirection = FrozenLook.DegreesToRadians();
 
-		
+
 
 			1500.AtDelayDo(
 				delegate
@@ -85,7 +86,7 @@ namespace FlashTreasureHunt.ActionScript
 						{
 							size = 36,
 						},
-						text = "Level 7 Complete",
+						text = "Level " + CurrentLevel + " Complete",
 
 						textColor = 0xFFC526,
 						autoSize = TextFieldAutoSize.LEFT,
@@ -102,7 +103,7 @@ namespace FlashTreasureHunt.ActionScript
 						{
 							size = 33,
 						},
-						text = "Player 1 - 1000$",
+						text = "Blazkowicz - " + CurrentLevelScore + "$",
 
 						textColor = 0xFFC526,
 						autoSize = TextFieldAutoSize.LEFT,
@@ -147,16 +148,7 @@ namespace FlashTreasureHunt.ActionScript
 								{
 									ScoreContainer.Orphanize();
 
-									//this.EgoView.Image.filters = null;
-									//this.EgoView.ViewPositionLock = null;
-
-									//EndLevelMode = false;
-									//MovementEnabled = true;
-
-									//HudContainer.alpha = 1;
-
-									if (ReadyForNextLevel != null)
-										ReadyForNextLevel();
+									ReadyForNextLevel();
 								}
 							);
 						};
@@ -165,6 +157,47 @@ namespace FlashTreasureHunt.ActionScript
 
 		}
 
-		public event Action ReadyForNextLevel;
+		public int CurrentLevel = 1;
+
+		public virtual void ReadyForNextLevel()
+		{
+			CurrentLevel++;
+
+			this.EgoView.Image.FadeOut(
+				delegate
+				{
+					this.EgoView.Sprites.Clear();
+					this.GoldSprites.Clear();
+					this.AmmoSprites.Clear();
+
+					MazeSize = (MazeSizeMin + CurrentLevel / 2).Min(MazeSizeMax);
+
+					CreateMapFromMaze();
+
+					AddIngameEntities();
+
+					TheGoldStack.IsTaken = false;
+					TheGoldStack.Position.To(maze.Width - 1.5, maze.Height - 1.5);
+					EgoView.Sprites.Add(TheGoldStack);
+					GoldSprites.Add(TheGoldStack);
+					
+
+					music = Assets.Default.music.play(0, 9999);
+
+					this.EgoView.Image.filters = null;
+					this.EgoView.ViewPositionLock = null;
+
+					EndLevelMode = false;
+					MovementEnabled = true;
+
+					ResetEgoPosition();
+
+					this.EgoView.Image.FadeIn();
+					this.HudContainer.FadeIn();
+				}
+			);
+
+		
+		}
 	}
 }

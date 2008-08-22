@@ -26,8 +26,12 @@ namespace FlashTreasureHunt.ActionScript
 
 		const int DefaultScale = 4;
 
-		const int MazeSize = 5;
-		//const int MazeSize = 14;
+		//const int MazeSize = 5;
+		//const int MazeSize = 9;
+		const int MazeSizeMin = 7;
+		const int MazeSizeMax = 17;
+
+		int MazeSize = MazeSizeMin;
 		// hud : 302x33
 	}
 }
