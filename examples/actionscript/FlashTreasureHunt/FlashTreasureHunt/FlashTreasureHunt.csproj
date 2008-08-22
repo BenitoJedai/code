@@ -65,6 +65,8 @@
     <Compile Include="ActionScript\Assets.cs" />
     <Compile Include="ActionScript\Assets.Sounds.cs" />
     <Compile Include="ActionScript\Assets.Images.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.CreateGuards.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.InitializeMap.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.EnterEndLevelMode.cs" />
     <Compile Include="ActionScript\Filters.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.Mouse.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="ActionScript\FlashTreasureHunt.cs" />
     <Compile Include="ActionScript\Extensions.cs" />
     <Compile Include="ActionScript\PointInt32.cs" />
+    <Compile Include="ActionScript\SpriteInfoExtended.cs" />
     <Compile Include="ActionScript\ThreeD\ViewEngine.cs" />
     <Compile Include="ActionScript\UI\KeyboardButton.cs" />
     <Compile Include="ActionScript\UI\KeyboardButtonGroup.cs" />

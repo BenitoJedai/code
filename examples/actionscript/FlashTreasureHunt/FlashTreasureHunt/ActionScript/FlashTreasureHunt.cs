@@ -13,6 +13,7 @@ using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.ActionScript.flash.filters;
 using FlashTreasureHunt.ActionScript.ThreeD;
 using ScriptCoreLib.ActionScript.flash.media;
+using ScriptCoreLib.ActionScript.flash.utils;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -31,6 +32,9 @@ namespace FlashTreasureHunt.ActionScript
 		// Computer software developed for the public domain, which can be used or copied without infringing copyright. ...
 		// tr.wou.edu/ntac/documents/fact_sheets/glossary.htm
 
+		// todo: add teleport
+		// todo: add random start points
+
 		BlockMaze maze;
 		ViewEngine EgoView;
 
@@ -42,16 +46,18 @@ namespace FlashTreasureHunt.ActionScript
 
 		Sprite HudContainer;
 
+		void ResetEgoPosition()
+		{
+			EgoView.ViewPosition = new Point { x = 1.25, y = 1.25 };
+			EgoView.ViewDirection = (45).DegreesToRadians();
+		}
+
+		Func<SpriteInfoExtended> CreateGuard;
+
 		public FlashTreasureHunt()
 		{
 			this.music = Assets.Default.music.play(0, 9999);
 
-			Action ResetEgoPosition =
-				delegate
-				{
-					EgoView.ViewPosition = new Point { x = 1.25, y = 1.25 };
-					EgoView.ViewDirection = (45).DegreesToRadians();
-				};
 
 
 
@@ -67,14 +73,12 @@ namespace FlashTreasureHunt.ActionScript
 
 			this.HudContainer = new Sprite().AttachTo(this);
 
-
 			ResetEgoPosition();
 
-
-			Action<Bitmap[]> BitmapsLoadedAction =
+			Assets.Default.dude5.ToBitmapArray(
 				Bitmaps =>
 				{
-					var Spawn = default(Func<SpriteInfo>);
+					var Spawn = default(Func<SpriteInfoExtended>);
 
 					#region figure out
 					if (Bitmaps == null)
@@ -122,399 +126,62 @@ namespace FlashTreasureHunt.ActionScript
 					}
 					#endregion
 
+					CreateGuard = Spawn;
 
-
-				};
-
-
-			Assets.Default.dude5.ToBitmapArray(BitmapsLoadedAction);
-
-
-			Assets.Default.stuff.ToBitmapDictionary(
-				f =>
-				{
-					const uint graywall = 0xff0000;
-					const uint graywall_achtung = 0xff0001;
-					const uint graywall_verboten = 0xff0002;
-
-					const uint woodwall = 0x7F3300;
-					const uint woodwall_achtung = 0x7F3301;
-					const uint woodwall_verboten = 0x7F3302;
-
-
-					const uint bluewall = 0x0000ff;
-					const uint greenwall = 0x00ff00;
-
-					var Map = new Texture32();
-
-
-					#region safe map
-					for (int i = 0; i < 32; i++)
-						for (int j = 0; j < 32; j++)
-						{
-							Map[i, j] = bluewall;
-						}
-					#endregion
-
-					maze = new BlockMaze(new MazeGenerator(MazeSize, MazeSize, null));
-
-					#region write walls to map
-					var wall_counter = 0;
-
-					for (int x = 1; x < maze.Width - 1; x++)
-						for (int y = 1; y < maze.Height - 1; y++)
-						{
-							if (maze.Walls[x][y])
-							{
-								wall_counter++;
-
-								var variant = graywall;
-
-								if (y > maze.Height / 2)
-								{
-									variant = woodwall;
-
-									if (wall_counter % 8 == 0)
-										variant = woodwall_achtung;
-									else if (wall_counter % 9 == 0)
-										variant = woodwall_verboten;
-								}
-								else
-								{
-									variant = graywall;
-
-									if (wall_counter % 8 == 0)
-										variant = graywall_achtung;
-									else if (wall_counter % 9 == 0)
-										variant = graywall_verboten;
-
-								}
-
-								Map[x, y] = variant;
-
-							}
-							else
-								Map[x, y] = 0;
-						}
-					#endregion
-
-
-					#region maze is smaller than 31
-					for (int x = 1; x < maze.Width - 1; x++)
-					{
-						Map[x, maze.Height - 1] = greenwall;
-					}
-
-					for (int y = 1; y < maze.Height - 1; y++)
-					{
-						Map[maze.Width - 1, y] = greenwall;
-					}
-					#endregion
-
-
-					EgoView.Map.WorldMap = Map;
-
-
-					Action<IEnumerator<Texture64.Entry>, Texture64, Action<SpriteInfoExtended>> AddSpriteByTexture =
-							  (SpaceForStuff, tex, handler) =>
-							  {
-								  var p = SpaceForStuff.TakeOrDefault();
-
-								  if (p == null)
-									  return;
-
-								  CreateDummy(tex).Do(handler).Position.To(p.XIndex + 0.5, p.YIndex + 0.5);
-
-							  };
-
-
-
-					var FreeSpaceForStuff = EgoView.Map.WorldMap.Entries.Where(i => i.Value == 0).Randomize().GetEnumerator();
-
-					var GoldTakenCounter = 0;
-
-					#region gold
-
-					var GoldSprites = new List<SpriteInfo>();
-
-					#region nonblock
-					Action AddNonBlockingItems =
-						delegate
-						{
-
-
-
-							Assets.Default.nonblock.ToBitmapArray(
-								sprites =>
-								{
-									for (int i = 0; i < 7; i++)
-										foreach (var s in sprites)
-										{
-											// compiler bug: get a delegate to BCL class
-											//AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
-
-											AddSpriteByTexture(FreeSpaceForStuff, s,
-												k =>
-												{
-													k.Range = 0.5;
-													//GoldSprites.Add(k);
-												}
-											);
-
-										}
-								}
-							);
-
-
-						};
-					#endregion
-
-					Assets.Default.gold.ToBitmapArray(
-					   sprites =>
-					   {
-
-						   for (int i = 0; i < 6; i++)
-							   foreach (var _s in sprites)
-							   {
-								   var s = _s;
-
-								   // compiler bug: get a delegate to BCL class
-								   //AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
-
-								   AddSpriteByTexture(FreeSpaceForStuff, s,
-									   k =>
-									   {
-										   k.Range = 0.5;
-										   k.ItemTaken +=
-											   delegate
-											   {
-
-											   };
-
-										   GoldSprites.Add(k);
-									   }
-								   );
-
-							   }
-
-						   var LastPosition = new Point();
-
-						   EgoView.ViewPositionChanged +=
-							   delegate
-							   {
-								   // only check for items each 0.5 distance travelled
-								   if ((EgoView.ViewPosition - LastPosition).length < 0.5)
-									   return;
-
-								   Action Later = delegate { };
-								   Action ItemTaken = delegate { };
-
-
-								   foreach (var Item in EgoView.SpritesFromPointOfView)
-								   {
-									   var Item_Sprite = Item.Sprite;
-
-									   if (Item.Distance < Item_Sprite.Range)
-									   {
-										   if (GoldSprites.Contains(Item_Sprite))
-										   {
-											   // ding-ding-ding!
-
-											   new Bitmap(new BitmapData(DefaultWidth, DefaultHeight, false, 0xffff00))
-											   {
-												   scaleX = DefaultScale,
-												   scaleY = DefaultScale
-											   }.AttachTo(this).FadeOutAndOrphanize(1000 / 24, 0.2);
-
-											   Assets.Default.treasure.play();
-
-											   var WithItemTaken = Item_Sprite as SpriteInfoExtended;
-											   if (WithItemTaken != null)
-												   if (WithItemTaken.ItemTaken != null)
-													   ItemTaken += WithItemTaken.ItemTaken;
-
-											   GoldTakenCounter = (GoldTakenCounter + 1).Min(1);
-
-											   Later += () => EgoView.Sprites.Remove(Item_Sprite);
-										   }
-									   }
-								   }
-
-								   Later();
-
-								   LastPosition = EgoView.ViewPosition;
-
-								   ItemTaken();
-							   };
-
-						   AddNonBlockingItems();
-
-					   }
-					);
-					#endregion
-
-					Func<string, Texture64> t =
-						texname => f[texname + ".png"];
-
-					Func<string, string, Texture64> mix =
-						(a, b) =>
-						{
-							var ia = f[a + ".png"];
-							var ib = f[b + ".png"];
-
-							var u = new Bitmap(ia.bitmapData.clone());
-
-
-
-							u.bitmapData.draw(ib);
-							return u;
-						};
-
-
-
-					#region game goal
-					TheGoldStack = CreateDummy(f["life.png"]);
-					TheGoldStack.Position.To(maze.Width - 1.5, maze.Height - 1.5);
-					TheGoldStack.Range = 0.5;
-					TheGoldStack.ItemTaken +=
-						delegate
-						{
-							if (EndLevelMode)
-								return;
-
-
-
-							// show stats
-
-							EnterEndLevelMode();
-						};
-					GoldSprites.Add(TheGoldStack);
-
-
-					#endregion
-
-
-					EgoView.Map.Textures = new Dictionary<uint, Texture64>
-                        {
-                            {graywall_achtung, mix("graywall", "achtung")},
-                            {graywall_verboten, mix("graywall", "verboten")},
-                            {graywall, t("graywall")},
-
-
-							{woodwall_achtung, mix("woodwall", "achtung")},
-                            {woodwall_verboten, mix("woodwall", "verboten")},
-                            {woodwall, t("woodwall")},
-
-
-                            {bluewall, t("bluewall")},
-                            {greenwall, t("greenwall")},
-                        };
-
-					// EgoView.RenderScene();
-
-					#region hand
-					var hand = f["hand.png"];
-					const int handsize = 4;
-
-					var hand_x = (DefaultControlWidth - hand.width * handsize) / 2;
-					var hand_y = DefaultControlHeight - hand.height * handsize;
-					hand.x = hand_x;
-					hand.y = hand_y;
-					hand.scaleX = handsize;
-					hand.scaleY = handsize;
-					hand.AttachTo(HudContainer);
-
-					(1000 / 24).AtInterval(
-						tt =>
-						{
-							hand.x = hand_x + Math.Cos(tt.currentCount * 0.2) * 6;
-							hand.y = hand_y + Math.Abs(Math.Sin(tt.currentCount * 0.2)) * 4;
-						}
-					);
-					#endregion
-
-					#region heads
-
-					Assets.Default.head.Items.OrderBy(k => k.FileName).Select(k => k.Data).ToImages(
-						heads =>
-						{
-							var head = default(Bitmap);
-
-							1000.AtInterval(
-								tt =>
-								{
-									if (head != null)
-										head.Orphanize();
-
-									if (heads.Length > 0)
-									{
-										if (GoldTakenCounter > 0)
-										{
-											GoldTakenCounter--;
-											head = heads.Last();
-										}
-										else
-											head = heads.AtModulus(tt.currentCount % 3);
-
-										head.filters = new[] { new DropShadowFilter() };
-										head.scaleX = 2;
-										head.scaleY = 2;
-										head.MoveTo(4, DefaultControlHeight - head.height - 4).AttachTo(HudContainer);
-									}
-								}
-							);
-						}
-					);
-
-
-					#endregion
-
-					InitializeCompass();
-					InitializeKeyboard();
-
-					AttachMovementInput(EgoView, true, false);
-
-
-					ResetEgoPosition();
-
-					stage.enterFrame +=
-						e =>
-						{
-							//if (EndLevelMode)
-							//    return;
-
-							EgoView.RenderScene();
-						};
+					InitializeMap();
 				}
 			);
+
+
+
 		}
 
 
 		public SpriteInfoExtended CreateWalkingDummy(Texture64[] Stand, params Texture64[][] Walk)
 		{
-			var s = new SpriteInfoExtended
+			var tt = default(Timer);
+			var s = default(SpriteInfoExtended);
+
+			Action start =
+				delegate
+				{
+					s.WalkingAnimationRunning = true;
+
+					if (Walk.Length > 0)
+						tt = (200).AtInterval(
+							t =>
+							{
+								s.Frames = Walk[t.currentCount % Walk.Length];
+							}
+						);
+				};
+
+			Action stop =
+				delegate
+				{
+					s.WalkingAnimationRunning = false;
+
+					if (tt != null)
+						tt.stop();
+				};
+
+
+			s = new SpriteInfoExtended
 			{
 				Position = new Point { x = EgoView.ViewPositionX, y = EgoView.ViewPositionY },
 				Frames = Stand,
-				Direction = EgoView.ViewDirection
+				Direction = EgoView.ViewDirection,
+				StartWalkingAnimation = start,
+				StopWalkingAnimation = stop
+
 			}.AddTo(EgoView.Sprites);
 
-			if (Walk.Length > 0)
-				(200).AtInterval(
-					t =>
-					{
-						s.Frames = Walk[t.currentCount % Walk.Length];
-					}
-				);
+
 
 			return s;
 		}
 
-		[Script]
-		public class SpriteInfoExtended : SpriteInfo
-		{
-			public Action ItemTaken;
-		}
+
 
 		public SpriteInfoExtended CreateDummy(Texture64 Stand)
 		{
