@@ -163,6 +163,8 @@ namespace FlashTreasureHunt.ActionScript
 
 					if (tt != null)
 						tt.stop();
+
+					s.Frames = Stand;
 				};
 
 
