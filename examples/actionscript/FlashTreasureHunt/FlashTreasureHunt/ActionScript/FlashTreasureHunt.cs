@@ -34,6 +34,7 @@ namespace FlashTreasureHunt.ActionScript
 
 		// todo: add teleport
 		// todo: add random start points
+		// todo: add ammo
 
 		BlockMaze maze;
 		ViewEngine EgoView;
@@ -48,8 +49,22 @@ namespace FlashTreasureHunt.ActionScript
 
 		void ResetEgoPosition()
 		{
-			EgoView.ViewPosition = new Point { x = 1.25, y = 1.25 };
-			EgoView.ViewDirection = (45).DegreesToRadians();
+			var PossibleStarters = EgoView.Map.WorldMap.Entries.Where(i => i.Value == 0).Where(i => i.YIndex < (maze.Height / 2)).Randomize();
+
+			var StartPoint = PossibleStarters.First();
+
+			EgoView.ViewPosition = new Point { x = StartPoint.XIndex + 0.5, y = StartPoint.YIndex + 0.5 };
+
+			// what direction shall we be looking at?
+
+			if (EgoView.Map.WallMap[StartPoint.XIndex + 1, StartPoint.YIndex] == 0)
+				EgoView.ViewDirection = 0.DegreesToRadians();
+			else if (EgoView.Map.WallMap[StartPoint.XIndex - 1, StartPoint.YIndex] == 0)
+				EgoView.ViewDirection = 180.DegreesToRadians();
+			else if (EgoView.Map.WallMap[StartPoint.XIndex , StartPoint.YIndex + 1] == 0)
+				EgoView.ViewDirection = 90.DegreesToRadians();
+			else if (EgoView.Map.WallMap[StartPoint.XIndex, StartPoint.YIndex - 1] == 0)
+				EgoView.ViewDirection = 270.DegreesToRadians();
 		}
 
 		Func<SpriteInfoExtended> CreateGuard;
@@ -67,7 +82,9 @@ namespace FlashTreasureHunt.ActionScript
 			EgoView = new ViewEngine(DefaultWidth, DefaultHeight)
 			{
 				FloorAndCeilingVisible = false,
-				RenderLowQualityWalls = false
+				RenderLowQualityWalls = false,
+				ViewDirection = 0,
+				ViewPosition = new Point()
 			};
 
 			EgoView.Image.scaleX = DefaultScale;
@@ -85,7 +102,6 @@ namespace FlashTreasureHunt.ActionScript
 			getpsyched.MoveTo((DefaultControlWidth - getpsyched.width) / 2, (DefaultControlHeight - getpsyched.height) / 2);
 
 
-			ResetEgoPosition();
 
 			Assets.Default.dude5.ToBitmapArray(
 				Bitmaps =>

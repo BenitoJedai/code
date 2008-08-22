@@ -82,6 +82,13 @@ namespace FlashTreasureHunt.ActionScript
 			   );
 		}
 
+		public static void FadeOut(this DisplayObject e, Action done)
+		{
+			FadeOut(e, 1000 / 15, 0.1, done
+				);
+
+		}
+
 		public static void FadeOut(this DisplayObject e, int timeout, double step, Action done)
 		{
 			timeout.AtInterval(

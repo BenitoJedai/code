@@ -31,8 +31,14 @@ namespace FlashTreasureHunt.ActionScript
 
 				// each 3 secs turn 90 while not walking
 				3000.AtInterval(
-					delegate
+					tt =>
 					{
+						if (!EgoView.Sprites.Contains(g))
+						{
+							tt.stop();
+							return;
+						}
+
 						if (g.WalkingAnimationRunning)
 							return;
 						

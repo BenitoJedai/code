@@ -7,18 +7,20 @@ using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.mx.core;
 
-////[assembly: ScriptResources(FlashTreasureHunt.ActionScript.Assets.Path)]
+[assembly: ScriptResources(FlashTreasureHunt.ActionScript.Assets.SoundPath)]
 
 namespace FlashTreasureHunt.ActionScript
 {
 	
 	partial class Assets
 	{
+		public const string SoundPath = Path + "/Sounds";
+
 		public SoundAsset music_endlevel
 		{
 			get
 			{
-				return this[Path + "/ENDLEVEL.mp3"].ToSoundAsset();
+				return this[SoundPath + "/ENDLEVEL.mp3"].ToSoundAsset();
 			}
 		}
 
@@ -26,7 +28,7 @@ namespace FlashTreasureHunt.ActionScript
 		{
 			get
 			{
-				return this[Path + "/WONDERIN.mp3"].ToSoundAsset();
+				return this[SoundPath + "/WONDERIN.mp3"].ToSoundAsset();
 			}
 		}
 
@@ -34,15 +36,24 @@ namespace FlashTreasureHunt.ActionScript
 		{
 			get
 			{
-				return this[Path + "/treasure.mp3"].ToSoundAsset();
+				return this[SoundPath + "/treasure.mp3"].ToSoundAsset();
 			}
 		}
+
+		public SoundAsset ammo
+		{
+			get
+			{
+				return this[SoundPath + "/ammo.mp3"].ToSoundAsset();
+			}
+		}
+
 
 		public SoundAsset gutentag
 		{
 			get
 			{
-				return this[Path + "/gutentag.mp3"].ToSoundAsset();
+				return this[SoundPath + "/gutentag.mp3"].ToSoundAsset();
 			}
 		}
 	}
