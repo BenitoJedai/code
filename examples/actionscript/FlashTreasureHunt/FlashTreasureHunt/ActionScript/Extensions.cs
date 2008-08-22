@@ -100,6 +100,12 @@ namespace FlashTreasureHunt.ActionScript
 			return a;
 		}
 
+		public static R Do<T, R>(this T a, Func<T, R> e)
+		{
+			return e(a);
+
+		}
+
 
 		public static Timer AtInterval(this int e, Action<Timer> a)
 		{
