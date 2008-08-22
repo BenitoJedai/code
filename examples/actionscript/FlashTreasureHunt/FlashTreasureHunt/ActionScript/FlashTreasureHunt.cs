@@ -122,9 +122,16 @@ namespace FlashTreasureHunt.ActionScript
 				f =>
 				{
 					const uint graywall = 0xff0000;
+					const uint graywall_achtung = 0xff0001;
+					const uint graywall_verboten = 0xff0002;
+
+					const uint woodwall = 0x7F3300;
+					const uint woodwall_achtung = 0x7F3301;
+					const uint woodwall_verboten = 0x7F3302;
+
+
 					const uint bluewall = 0x0000ff;
 					const uint greenwall = 0x00ff00;
-					const uint woodwall = 0x7F3300;
 
 					var Map = new Texture32();
 
@@ -139,20 +146,46 @@ namespace FlashTreasureHunt.ActionScript
 
 					maze = new BlockMaze(new MazeGenerator(14, 14, null));
 
+					#region write walls to map
+					var wall_counter = 0;
 
 					for (int x = 1; x < maze.Width - 1; x++)
 						for (int y = 1; y < maze.Height - 1; y++)
 						{
 							if (maze.Walls[x][y])
 							{
+								wall_counter++;
+
+								var variant = graywall;
+
 								if (y > maze.Height / 2)
-									Map[x, y] = woodwall;
+								{
+									variant = woodwall;
+
+									if (wall_counter % 8 == 0)
+										variant = woodwall_achtung;
+									else if (wall_counter % 9 == 0)
+										variant = woodwall_verboten;
+								}
 								else
-									Map[x, y] = graywall;
+								{
+									variant = graywall;
+
+									if (wall_counter % 8 == 0)
+										variant = graywall_achtung;
+									else if (wall_counter % 9 == 0)
+										variant = graywall_verboten;
+
+								}
+
+								Map[x, y] = variant;
+
 							}
 							else
 								Map[x, y] = 0;
 						}
+					#endregion
+
 
 					#region maze is smaller than 31
 					for (int x = 1; x < maze.Width - 1; x++)
@@ -283,6 +316,20 @@ namespace FlashTreasureHunt.ActionScript
 					Func<string, Texture64> t =
 						texname => f[texname + ".png"];
 
+					Func<string, string, Texture64> mix =
+						(a, b) =>
+						{
+							var ia = f[a + ".png"];
+							var ib = f[b + ".png"];
+
+							var u = new Bitmap(ia.bitmapData.clone());
+
+
+
+							u.bitmapData.draw(ib);
+							return u;
+						};
+
 					#region game goal
 					var TheGoldStack = CreateDummy(f["life.png"]);
 					TheGoldStack.Position.To(maze.Width - 1.5, maze.Height - 1.5);
@@ -303,12 +350,21 @@ namespace FlashTreasureHunt.ActionScript
 
 					#endregion
 
+
 					EgoView.Map.Textures = new Dictionary<uint, Texture64>
                         {
+                            {graywall_achtung, mix("graywall", "achtung")},
+                            {graywall_verboten, mix("graywall", "verboten")},
                             {graywall, t("graywall")},
+
+
+							{woodwall_achtung, mix("woodwall", "achtung")},
+                            {woodwall_verboten, mix("woodwall", "verboten")},
+                            {woodwall, t("woodwall")},
+
+
                             {bluewall, t("bluewall")},
                             {greenwall, t("greenwall")},
-                            {woodwall, t("woodwall")},
                         };
 
 					// EgoView.RenderScene();
