@@ -35,11 +35,11 @@ namespace FlashTreasureHunt.ActionScript
 			}
 		}
 
-		public ZipFileEntry[] stuff
+		public ZIPFile stuff
 		{
 			get
 			{
-				return this[Path + "/stuff.zip"].ToFiles();
+				return this[Path + "/stuff.zip"].ToZIPFile();
 			}
 		}
 
