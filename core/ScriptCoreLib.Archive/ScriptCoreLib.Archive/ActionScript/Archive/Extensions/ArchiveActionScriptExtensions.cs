@@ -40,5 +40,10 @@ namespace ScriptCoreLib.ActionScript.Archive.Extensions
 		{
 			zip.Items.Select(k => k.Data).ToImages(handler);
 		}
+
+		public static ZIPFile ToZIPFile(this Class c)
+		{
+			return new BinaryReader(c.ToByteArrayAsset().ToMemoryStream());
+		}
 	}
 }

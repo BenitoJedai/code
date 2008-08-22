@@ -115,9 +115,8 @@ namespace FlashTreasureHunt.ActionScript
 				};
 
 
-			Assets.Default.dude5
-				.Where(f => f.FileName.EndsWith(".png"))
-				.ToBitmapArray(BitmapsLoadedAction);
+			Assets.Default.dude5.ToBitmapArray(BitmapsLoadedAction);
+
 
 			Assets.Default.stuff.ToBitmapDictionary(
 				f =>

@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript;
+using ScriptCoreLib.ActionScript.Archive.Extensions;
 using ScriptCoreLib.ActionScript.mx.core;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Shared.Archive;
@@ -18,19 +19,19 @@ namespace FlashTreasureHunt.ActionScript
 	partial class Assets
 	{
 
-		public ZipFileEntry[] dude5
+		public ZIPFile dude5
 		{
 			get
 			{
-				return this[Path + "/dude5.zip"].ToFiles();
+				return this[Path + "/dude5.zip"].ToZIPFile();
 			}
 		}
 
-		public ZipFileEntry[] gold
+		public ZIPFile gold
 		{
 			get
 			{
-				return this[Path + "/gold.zip"].ToFiles();
+				return this[Path + "/gold.zip"].ToZIPFile();
 			}
 		}
 
@@ -62,7 +63,7 @@ namespace FlashTreasureHunt.ActionScript
 		{
 			get
 			{
-				return new BinaryReader(this[Path + "/head.zip"].ToByteArrayAsset().ToMemoryStream());
+				return this[Path + "/head.zip"].ToZIPFile();
 			}
 		}
 
@@ -71,7 +72,7 @@ namespace FlashTreasureHunt.ActionScript
 		{
 			get
 			{
-				return new BinaryReader(this[Path + "/nonblock.zip"].ToByteArrayAsset().ToMemoryStream());
+				return this[Path + "/nonblock.zip"].ToZIPFile();
 			}
 		}
 	}
