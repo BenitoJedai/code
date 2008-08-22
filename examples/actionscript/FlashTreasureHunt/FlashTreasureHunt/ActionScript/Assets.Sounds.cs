@@ -14,6 +14,13 @@ namespace FlashTreasureHunt.ActionScript
 	
 	partial class Assets
 	{
+		public SoundAsset music
+		{
+			get
+			{
+				return this[Path + "/WONDERIN.mp3"].ToSoundAsset();
+			}
+		}
 
 		public SoundAsset treasure
 		{
