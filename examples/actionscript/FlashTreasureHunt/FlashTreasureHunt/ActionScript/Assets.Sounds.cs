@@ -37,5 +37,13 @@ namespace FlashTreasureHunt.ActionScript
 				return this[Path + "/treasure.mp3"].ToSoundAsset();
 			}
 		}
+
+		public SoundAsset gutentag
+		{
+			get
+			{
+				return this[Path + "/gutentag.mp3"].ToSoundAsset();
+			}
+		}
 	}
 }

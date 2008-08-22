@@ -26,7 +26,7 @@ namespace FlashTreasureHunt.ActionScript
 			scroll.scaleY = scroll_scale;
 
 			scroll.MoveTo(DefaultControlWidth - scroll.width, 0 );
-			scroll.filters = new[] { new DropShadowFilter() };
+			scroll.filters = new BitmapFilter[] { new DropShadowFilter() };
 
 			new Bitmap(EgoView.Buffer.clone())
 			{
@@ -41,8 +41,10 @@ namespace FlashTreasureHunt.ActionScript
 
 			var music_endlevel = Assets.Default.music_endlevel.play(1);
 
-			
-			this.EgoView.Image.filters = new[] { Filters.GrayScaleFilter };
+
+			this.EgoView.Image.filters = new BitmapFilter[] {
+				Filters.GrayScaleFilter,
+			};
 
 			this.EgoView.ViewPositionLock = TheGoldStack.Position;
 			this.EgoView.ViewPosition = TheGoldStack.Position;

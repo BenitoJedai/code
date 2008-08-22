@@ -89,6 +89,8 @@
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
     <Content Include="docs\SourceAnalysis.txt" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\getpsyched.png" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\gutentag.mp3" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\scroll.png" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\ENDLEVEL.mp3" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\WONDERIN.mp3" />

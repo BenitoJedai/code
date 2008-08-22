@@ -67,6 +67,14 @@ namespace FlashTreasureHunt.ActionScript
 			}
 		}
 
+		public BitmapAsset getpsyched
+		{
+			get
+			{
+				return this[Path + "/getpsyched.png"].ToBitmapAsset();
+			}
+		}
+
 		public ZIPFile head
 		{
 			get

@@ -49,6 +49,38 @@ namespace FlashTreasureHunt.ActionScript
 			return new Point(m.stageX, m.stageY);
 		}
 
+		public static void FadeIn(this DisplayObject e)
+		{
+			FadeIn(e, 1000 / 15, 0.1, null);
+		}
+
+
+		public static void FadeIn(this DisplayObject e, Action done)
+		{
+			FadeIn(e, 1000 / 15, 0.1, done);
+		}
+
+		public static void FadeIn(this DisplayObject e, int interval, double step, Action done)
+		{
+			interval.AtInterval(
+				   t =>
+				   {
+					   if (e.alpha > 0.9)
+					   {
+						   e.alpha = 1;
+
+						   t.stop();
+
+						   if (done != null)
+							   done();
+					   }
+					   else
+					   {
+						   e.alpha += step;
+					   }
+				   }
+			   );
+		}
 
 		public static void FadeOut(this DisplayObject e, int timeout, double step, Action done)
 		{
