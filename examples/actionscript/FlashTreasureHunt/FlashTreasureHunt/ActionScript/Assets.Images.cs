@@ -66,5 +66,13 @@ namespace FlashTreasureHunt.ActionScript
 			}
 		}
 
+
+		public ZIPFile nonblock
+		{
+			get
+			{
+				return new BinaryReader(this[Path + "/nonblock.zip"].ToByteArrayAsset().ToMemoryStream());
+			}
+		}
 	}
 }

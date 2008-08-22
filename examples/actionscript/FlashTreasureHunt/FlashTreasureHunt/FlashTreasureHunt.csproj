@@ -71,7 +71,7 @@
     <Compile Include="ActionScript\FlashTreasureHunt.Settings.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.cs" />
     <Compile Include="ActionScript\Extensions.cs" />
-    <Compile Include="ActionScript\KeyboardButton.cs" />
+    <Compile Include="ActionScript\ThreeD\ViewEngine.cs" />
     <Compile Include="ActionScript\UI\KeyboardButton.cs" />
     <Compile Include="ActionScript\UI\KeyboardButtonGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\nonblock.zip" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\head.zip" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\dude5.zip" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\gold.zip" />
