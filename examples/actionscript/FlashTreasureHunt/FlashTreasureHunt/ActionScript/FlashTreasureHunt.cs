@@ -92,6 +92,18 @@ namespace FlashTreasureHunt.ActionScript
 			EgoView.Image.alpha = 0;
 			EgoView.Image.AttachTo(this);
 
+            // show fps
+            new TextField().AttachTo(this).Do(t => EgoView.FramesPerSecondChanged += () => t.text = "fps: " + EgoView.FramesPerSecond);
+
+            EgoView.FramesPerSecondChanged +=
+                delegate
+                {
+                    if (EgoView.FramesPerSecond < 15)
+                        if (!EgoView.RenderLowQualityWalls)
+                            EgoView.RenderLowQualityWalls = true;
+                };
+
+
 			this.HudContainer = new Sprite().AttachTo(this);
 			this.HudContainer.alpha = 0;
 
