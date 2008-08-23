@@ -36,11 +36,11 @@
     </Reference>
     <Reference Include="ScriptCoreLib.Archive, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Archive.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Archive.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Maze, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Maze.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Maze.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -48,7 +48,7 @@
     </Reference>
     <Reference Include="ScriptCoreLib.RayCaster, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.RayCaster.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.RayCaster.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
