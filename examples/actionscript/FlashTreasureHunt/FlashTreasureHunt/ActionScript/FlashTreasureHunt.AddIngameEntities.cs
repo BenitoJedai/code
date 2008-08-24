@@ -53,7 +53,7 @@ namespace FlashTreasureHunt.ActionScript
 					Assets.Default.nonblock.ToBitmapArray(
 						sprites =>
 						{
-							for (int i = 0; i < 7; i++)
+							for (int i = 0; i < 2; i++)
 								foreach (var s in sprites)
 								{
 									// compiler bug: get a delegate to BCL class
