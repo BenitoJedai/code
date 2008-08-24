@@ -28,6 +28,21 @@ namespace FlashTreasureHunt.ActionScript
 		// http://winwolf3d.dugtrio17.com/index.php
 		// http://www.3drealms.com/wolf3d/
 
+		// codename: Hundefelsen 4C
+
+		// http://en.wikipedia.org/wiki/Castle_Wolfenstein
+		// http://www.mobygames.com/game/wolfenstein-3d/trivia
+
+		// http://www1.linkclub.or.jp/~clubey/wolfenmania.html
+		// http://www.geocities.com/TimesSquare/3744/index2.html
+		// http://www.users.globalnet.co.uk/~brlowe/utilities.htm
+		// http://www.geocities.com/TimesSquare/Cavern/4087/
+		// http://www.glenrhodes.com/wolf/myRay.html
+		// http://nihilogic.dk/labs/wolf/sounds/
+		// http://www.lostinactionscript.com/blog/index.php/2007/10/13/flash-you-tube-api/
+		// http://www.digital-ist-besser.de/
+		// http://www.fredheintz.com/sitefred/main.html
+
 		// shareware:
 		// Computer software developed for the public domain, which can be used or copied without infringing copyright. ...
 		// tr.wou.edu/ntac/documents/fact_sheets/glossary.htm
@@ -46,6 +61,22 @@ namespace FlashTreasureHunt.ActionScript
 
 		Sprite HudContainer;
 
+		public double GetGoodDirection(Point p)
+		{
+			var u = new PointInt32 { X = p.x.Floor(), Y = p.y.Floor() };
+
+			if (EgoView.Map.WallMap[u.X + 1, u.Y] == 0)
+				return 0.DegreesToRadians();
+			else if (EgoView.Map.WallMap[u.X - 1, u.Y] == 0)
+				return 180.DegreesToRadians();
+			else if (EgoView.Map.WallMap[u.X, u.Y + 1] == 0)
+				return 90.DegreesToRadians();
+			else if (EgoView.Map.WallMap[u.X, u.Y - 1] == 0)
+				return 270.DegreesToRadians();
+
+			return 0;
+		}
+
 		void ResetEgoPosition()
 		{
 			var PossibleStarters = EgoView.Map.WorldMap.Entries.Where(i => i.Value == 0).Where(i => i.YIndex < (maze.Height / 2)).Randomize();
@@ -56,14 +87,7 @@ namespace FlashTreasureHunt.ActionScript
 
 			// what direction shall we be looking at?
 
-			if (EgoView.Map.WallMap[StartPoint.XIndex + 1, StartPoint.YIndex] == 0)
-				EgoView.ViewDirection = 0.DegreesToRadians();
-			else if (EgoView.Map.WallMap[StartPoint.XIndex - 1, StartPoint.YIndex] == 0)
-				EgoView.ViewDirection = 180.DegreesToRadians();
-			else if (EgoView.Map.WallMap[StartPoint.XIndex, StartPoint.YIndex + 1] == 0)
-				EgoView.ViewDirection = 90.DegreesToRadians();
-			else if (EgoView.Map.WallMap[StartPoint.XIndex, StartPoint.YIndex - 1] == 0)
-				EgoView.ViewDirection = 270.DegreesToRadians();
+			EgoView.ViewDirection = GetGoodDirection(EgoView.ViewPosition);
 		}
 
 		Func<SpriteInfoExtended> CreateGuard;
@@ -75,11 +99,10 @@ namespace FlashTreasureHunt.ActionScript
 			Initialize();
 		}
 
-		public Action<string> WriteLine;
 
 		private void Initialize()
 		{
-			this.music = Assets.Default.music.play(0, 9999);
+			this.music = Assets.Default.Sounds.music.play(0, 9999);
 
 			Assets.Default.Sounds.gutentag.play();
 
@@ -99,7 +122,7 @@ namespace FlashTreasureHunt.ActionScript
 			EgoView.Image.AttachTo(this);
 
 			// show fps
-			new TextField().AttachTo(this).Do(t => EgoView.FramesPerSecondChanged += () => t.text = "fps: " + EgoView.FramesPerSecond);
+			new TextField { textColor = 0xff0000, x = DefaultControlWidth / 2 }.AttachTo(this).Do(t => EgoView.FramesPerSecondChanged += () => t.text = "fps: " + EgoView.FramesPerSecond);
 
 			EgoView.FramesPerSecondChanged +=
 				delegate
@@ -123,31 +146,9 @@ namespace FlashTreasureHunt.ActionScript
 			getpsyched.scaleY = 2;
 			getpsyched.MoveTo((DefaultControlWidth - getpsyched.width) / 2, (DefaultControlHeight - getpsyched.height) / 2);
 
-			var dumper = new TextField
-			{
-				width = DefaultControlWidth,
-				height = DefaultControlHeight,
-				textColor = 0xffff00,
-				mouseEnabled = false
-			}.AttachTo(this);
 
-			var dumper_queue = new Queue<string>();
- 
-			WriteLine =
-				text =>
-				{
-					dumper_queue.Enqueue(text);
+			InitializeWriteLine();
 
-					while (dumper_queue.Count > 10)
-						dumper_queue.Dequeue();
-
-					dumper.text = "";
-
-					foreach (var v in dumper_queue)
-					{
-						dumper.appendText(v + Environment.NewLine);
-					}
-				};
 
 			Assets.Default.dude5.ToBitmapArray(
 				Bitmaps =>
@@ -227,7 +228,7 @@ namespace FlashTreasureHunt.ActionScript
 		}
 
 
-	
+
 
 	}
 }

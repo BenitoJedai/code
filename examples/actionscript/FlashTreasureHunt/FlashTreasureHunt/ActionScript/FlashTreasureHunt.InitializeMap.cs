@@ -36,19 +36,22 @@ namespace FlashTreasureHunt.ActionScript
 
 		// used to make BJ smile
 		int GoldTakenCounter = 0;
-		
+
+		Dictionary<string, Bitmap> StuffDictionary;
+
 		private void InitializeMap()
 		{
 			#region fill map
 			Assets.Default.stuff.ToBitmapDictionary(
 				f =>
 				{
+					StuffDictionary = f;
 
 
 					CreateMapFromMaze();
 
 
-					AddIngameEntities();
+					
 
 					Func<string, Texture64> t =
 						texname => f[texname + ".png"];
@@ -79,7 +82,7 @@ namespace FlashTreasureHunt.ActionScript
 							if (EndLevelMode)
 								return;
 
-							Assets.Default.yeah.play();
+							Assets.Default.Sounds.yeah.play();
 
 
 							// show stats
@@ -151,34 +154,45 @@ namespace FlashTreasureHunt.ActionScript
 
 					InitializeCompass();
 					InitializeKeyboard();
+					
+					AddIngameEntities();
 
 					AttachMovementInput(EgoView, true, false);
 
 
 					ResetEgoPosition();
 
-					stage.enterFrame +=
-						e =>
-						{
-							//if (EndLevelMode)
-							//    return;
+					AddPortals();
 
-							EgoView.RenderScene();
-						};
+				
 
-					getpsyched.FadeOutAndOrphanize(1000 / 15, 0.1);
-
-					this.EgoView.Image.FadeIn(
+					getpsyched.FadeOut(
 						delegate
 						{
-							1500.AtDelayDo(
+							stage.enterFrame +=
+								e =>
+								{
+							
+									EgoView.RenderScene();
+								};
+
+							this.EgoView.Image.FadeIn(
 								delegate
 								{
-									this.HudContainer.FadeIn();
+									1500.AtDelayDo(
+										delegate
+										{
+											this.HudContainer.FadeIn();
+										}
+									);
 								}
 							);
+
 						}
+
 					);
+
+				
 				}
 			);
 			#endregion

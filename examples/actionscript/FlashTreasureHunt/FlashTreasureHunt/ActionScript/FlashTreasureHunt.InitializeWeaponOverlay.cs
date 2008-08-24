@@ -174,6 +174,9 @@ namespace FlashTreasureHunt.ActionScript
 			FireWeapon =
 				delegate
 				{
+					if (EndLevelMode)
+						return;
+
 					if (!WeaponIsActive)
 						return;
 
@@ -181,7 +184,7 @@ namespace FlashTreasureHunt.ActionScript
 					if (gun_index != 0)
 						return;
 
-					Assets.Default.gunshot.play();
+					Assets.Default.Sounds.gunshot.play();
 
 					WeaponAmmo--;
 
@@ -198,8 +201,8 @@ namespace FlashTreasureHunt.ActionScript
 						from k in EgoView.GetVisibleSprites(15.DegreesToRadians(),
 							from p in EgoView.Sprites
 							let fragile = p as SpriteInfoExtended
-							where fragile.Health > 0
 							where fragile != null
+							where fragile.Health > 0
 							where fragile.TakeDamage != null
 							select p
 						)

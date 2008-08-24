@@ -14,58 +14,67 @@ namespace FlashTreasureHunt.ActionScript
 	
 	partial class Assets
 	{
-	
-
-		public SoundAsset music_endlevel
-		{
-			get
-			{
-				return this[SoundPath + "/ENDLEVEL.mp3"].ToSoundAsset();
-			}
-		}
-
-		public SoundAsset music
-		{
-			get
-			{
-				return this[SoundPath + "/WONDERIN.mp3"].ToSoundAsset();
-			}
-		}
-
-		public SoundAsset treasure
-		{
-			get
-			{
-				return this[SoundPath + "/treasure.mp3"].ToSoundAsset();
-			}
-		}
-
-		public SoundAsset ammo
-		{
-			get
-			{
-				return this[SoundPath + "/ammo.mp3"].ToSoundAsset();
-			}
-		}
-
-		public SoundAsset gunshot
-		{
-			get
-			{
-				return this[SoundPath + "/gunshot.mp3"];
-			}
-		}
-		
-		public SoundAsset yeah
-		{
-			get
-			{
-				return this[SoundPath + "/yeah.mp3"];
-			}
-		}
-
 		partial class SoundFiles
 		{
+
+			public SoundAsset music_endlevel
+			{
+				get
+				{
+					return this["ENDLEVEL"];
+				}
+			}
+
+			public SoundAsset music
+			{
+				get
+				{
+					return this["WONDERIN"];
+				}
+			}
+
+			public SoundAsset teleport
+			{
+				get
+				{
+					return this["teleport"];
+				}
+			}
+
+
+			public SoundAsset treasure
+			{
+				get
+				{
+					return this["treasure"];
+				}
+			}
+
+			public SoundAsset ammo
+			{
+				get
+				{
+					return this["ammo"];
+				}
+			}
+
+			public SoundAsset gunshot
+			{
+				get
+				{
+					return this["gunshot"];
+				}
+			}
+
+			public SoundAsset yeah
+			{
+				get
+				{
+					return this["yeah"];
+				}
+			}
+
+
 			public SoundAsset hit
 			{
 				get
