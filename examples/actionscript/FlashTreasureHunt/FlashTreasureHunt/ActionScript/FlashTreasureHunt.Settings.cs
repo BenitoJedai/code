@@ -15,8 +15,8 @@ namespace FlashTreasureHunt.ActionScript
 	[SWF(width = DefaultControlWidth, height = DefaultControlHeight, frameRate = 60, backgroundColor = 0)]
 	partial class FlashTreasureHunt
 	{
-		const int DefaultControlWidth = DefaultWidth * DefaultScale;
-		const int DefaultControlHeight = DefaultHeight * DefaultScale ;
+		public const int DefaultControlWidth = DefaultWidth * DefaultScale;
+		public const int DefaultControlHeight = DefaultHeight * DefaultScale;
 
 		// 120x90
 		// 160x120
