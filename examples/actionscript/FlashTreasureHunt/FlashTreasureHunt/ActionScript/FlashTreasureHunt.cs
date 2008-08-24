@@ -98,9 +98,13 @@ namespace FlashTreasureHunt.ActionScript
             EgoView.FramesPerSecondChanged +=
                 delegate
                 {
-                    if (EgoView.FramesPerSecond < 15)
+                    if (EgoView.FramesPerSecond < 14)
                         if (!EgoView.RenderLowQualityWalls)
                             EgoView.RenderLowQualityWalls = true;
+
+                    if (EgoView.FramesPerSecond > 22)
+                        if (!EgoView.RenderLowQualityWalls)
+                            EgoView.RenderLowQualityWalls = false;
                 };
 
 
