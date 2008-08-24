@@ -24,6 +24,10 @@ namespace FlashTreasureHunt.ActionScript
 			for (int i = 0; i < 3; i++)
 			{
 				var g = CreateGuard();
+
+				EgoView.BlockingSprites.Add(g);
+
+
 				g.Position = FreeSpaceForStuff.Take().Do(kk => new Point(kk.XIndex + 0.5, kk.YIndex + 0.5));
 				g.Direction = 0;
 

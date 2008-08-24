@@ -48,6 +48,21 @@ namespace FlashTreasureHunt.ActionScript
 			}
 		}
 
+		public SoundAsset gunshot
+		{
+			get
+			{
+				return this[SoundPath + "/gunshot.mp3"];
+			}
+		}
+		
+		public SoundAsset yeah
+		{
+			get
+			{
+				return this[SoundPath + "/yeah.mp3"];
+			}
+		}
 
 		public SoundAsset gutentag
 		{

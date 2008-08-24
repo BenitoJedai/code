@@ -170,7 +170,8 @@ namespace FlashTreasureHunt.ActionScript
 					this.GoldSprites.Clear();
 					this.AmmoSprites.Clear();
 
-					MazeSize = (MazeSizeMin + CurrentLevel / 2).Min(MazeSizeMax);
+					//MazeSize = (MazeSizeMin + CurrentLevel / 2).Min(MazeSizeMax);
+					MazeSize = (MazeSizeMin + CurrentLevel).Min(MazeSizeMax);
 
 					CreateMapFromMaze();
 

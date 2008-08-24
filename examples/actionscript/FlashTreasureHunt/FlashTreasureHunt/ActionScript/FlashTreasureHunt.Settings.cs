@@ -33,5 +33,9 @@ namespace FlashTreasureHunt.ActionScript
 
 		int MazeSize = MazeSizeMin;
 		// hud : 302x33
+
+		public const double PlayerRadiusMargin = 0.25;
+
+		public const int AmmoFoundInClip = 3;
 	}
 }

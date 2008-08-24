@@ -119,7 +119,21 @@ namespace FlashTreasureHunt.ActionScript
 				Up = () => { GoBackwardSmooth.up(); }
 			};
 
+			var gunshot = new global::FlashTreasureHunt.ActionScript.UI.KeyboardButton(stage)
+			{
+				Groups = new[]
+			    {
+			        MovementArrows[Keyboard.CONTROL]
+			    },
+				//Down = () => { GoBackwardSmooth.down(new Point(DefaultControlWidth / 2, DefaultControlHeight / 2)); },
+				//Tick = () => { GoBackwardSmooth.move(new Point(DefaultControlWidth / 2, DefaultControlHeight)); },
+				Up = () =>
+				{
 
+					FireWeapon();
+			
+				}
+			};
 		}
 	}
 }
