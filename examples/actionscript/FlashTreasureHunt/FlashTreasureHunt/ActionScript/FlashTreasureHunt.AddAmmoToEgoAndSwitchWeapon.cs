@@ -20,6 +20,9 @@ namespace FlashTreasureHunt.ActionScript
 		private void AddAmmoToEgoAndSwitchWeapon()
 		{
 			// add some logic here
+
+			WeaponAmmo += AmmoFoundInClip;
+			SwitchToWeapon();
 		}
 	}
 }

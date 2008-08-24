@@ -79,6 +79,8 @@ namespace FlashTreasureHunt.ActionScript
 							if (EndLevelMode)
 								return;
 
+							Assets.Default.yeah.play();
+
 
 							// show stats
 
@@ -109,26 +111,7 @@ namespace FlashTreasureHunt.ActionScript
 
 					// EgoView.RenderScene();
 
-					#region hand
-					var hand = f["hand.png"];
-					const int handsize = 4;
-
-					var hand_x = (DefaultControlWidth - hand.width * handsize) / 2;
-					var hand_y = DefaultControlHeight - hand.height * handsize;
-					hand.x = hand_x;
-					hand.y = hand_y;
-					hand.scaleX = handsize;
-					hand.scaleY = handsize;
-					hand.AttachTo(HudContainer);
-
-					(1000 / 24).AtInterval(
-						tt =>
-						{
-							hand.x = hand_x + Math.Cos(tt.currentCount * 0.2) * 6;
-							hand.y = hand_y + Math.Abs(Math.Sin(tt.currentCount * 0.2)) * 4;
-						}
-					);
-					#endregion
+					InitializeWeaponOverlay(f);
 
 					#region heads
 
@@ -200,6 +183,7 @@ namespace FlashTreasureHunt.ActionScript
 			);
 			#endregion
 		}
+
 
 
 		private void CreateMapFromMaze()

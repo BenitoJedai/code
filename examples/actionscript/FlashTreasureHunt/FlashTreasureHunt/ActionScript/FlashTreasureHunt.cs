@@ -33,8 +33,7 @@ namespace FlashTreasureHunt.ActionScript
 		// tr.wou.edu/ntac/documents/fact_sheets/glossary.htm
 
 		// todo: add teleport
-		// todo: add random start points
-		// todo: add ammo
+	
 
 		BlockMaze maze;
 		ViewEngine EgoView;
@@ -73,6 +72,11 @@ namespace FlashTreasureHunt.ActionScript
 
 		public FlashTreasureHunt()
 		{
+			Initialize();
+		}
+
+		private void Initialize()
+		{
 			this.music = Assets.Default.music.play(0, 9999);
 
 			Assets.Default.gutentag.play();
@@ -103,7 +107,7 @@ namespace FlashTreasureHunt.ActionScript
                             EgoView.RenderLowQualityWalls = true;
 
                     if (EgoView.FramesPerSecond > 22)
-                        if (!EgoView.RenderLowQualityWalls)
+                        if (EgoView.RenderLowQualityWalls)
                             EgoView.RenderLowQualityWalls = false;
                 };
 
@@ -177,9 +181,6 @@ namespace FlashTreasureHunt.ActionScript
 
 				}
 			);
-
-
-
 		}
 
 
@@ -220,7 +221,8 @@ namespace FlashTreasureHunt.ActionScript
 				Frames = Stand,
 				Direction = EgoView.ViewDirection,
 				StartWalkingAnimation = start,
-				StopWalkingAnimation = stop
+				StopWalkingAnimation = stop,
+				Range = PlayerRadiusMargin
 
 			}.AddTo(EgoView.Sprites);
 

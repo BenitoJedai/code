@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.RayCaster;
 using ScriptCoreLib.ActionScript.flash.geom;
 
@@ -20,6 +21,8 @@ namespace FlashTreasureHunt.ActionScript.ThreeD
 		uint[] HorizonGradientUpper;
 
 		uint[] HorizonGradientLower;
+
+		const double PlayerRadiusMargin = FlashTreasureHunt.PlayerRadiusMargin;
 
 		public ViewEngine(int w, int h)
 			: base(w, h)
@@ -74,6 +77,9 @@ namespace FlashTreasureHunt.ActionScript.ThreeD
 
 		public Point ViewPositionLock { get; set; }
 
+		public readonly List<SpriteInfoExtended> BlockingSprites = new List<SpriteInfoExtended>();
+
+
 		public override void ClipViewPosition(Point p)
 		{
 			if (ViewPositionLock != null)
@@ -89,10 +95,28 @@ namespace FlashTreasureHunt.ActionScript.ThreeD
 			if (Walls == null)
 				return;
 
-			const double PlayerRadiusMargin = 0.3;
+
+			#region bump on blocking sprites
+			foreach (var v in BlockingSprites)
+			{
+				var z = Point.distance(p, v.Position);
+
+				if (z < v.Range)
+				{
+					// pump us out of that sprite
+
+					var a = (p - v.Position).GetRotation();
+
+					p.x = v.Position.x + Math.Cos(a) * v.Range;
+					p.y = v.Position.y + Math.Sin(a) * v.Range;
+				}
+
+			}
+			#endregion
 
 			var fPlayerX = p.x;
 			var fPlayerY = p.y;
+
 
 			var c = new PointInt32
 			{
@@ -197,6 +221,9 @@ namespace FlashTreasureHunt.ActionScript.ThreeD
 
 			p.x = fPlayerX;
 			p.y = fPlayerY;
+
+
+
 		}
 	}
 }
