@@ -16,6 +16,13 @@ namespace FlashTreasureHunt.ActionScript
 	{
 		partial class SoundFiles
 		{
+			public SoundAsset revealed
+			{
+				get
+				{
+					return this["revealed"];
+				}
+			}
 
 			public SoundAsset music_endlevel
 			{

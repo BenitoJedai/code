@@ -104,7 +104,6 @@ namespace FlashTreasureHunt.ActionScript
 		{
 			this.music = Assets.Default.Sounds.music.play(0, 9999);
 
-			Assets.Default.Sounds.gutentag.play();
 
 
 
@@ -145,86 +144,97 @@ namespace FlashTreasureHunt.ActionScript
 			getpsyched.scaleX = 2;
 			getpsyched.scaleY = 2;
 			getpsyched.MoveTo((DefaultControlWidth - getpsyched.width) / 2, (DefaultControlHeight - getpsyched.height) / 2);
-
+			getpsyched.alpha = 0;
 
 			InitializeWriteLine();
 
-
-			Assets.Default.dude5.ToBitmapArray(
-				Bitmaps =>
+			getpsyched.FadeIn(
+				delegate
 				{
-					var Spawn = default(Func<SpriteInfoExtended>);
+					Assets.Default.Sounds.gutentag.play();
 
-					#region figure out
-					if (Bitmaps == null)
-						throw new Exception("No bitmaps");
 
-					Func<Texture64[], Texture64[]> Reorder8 =
-						p =>
-							Enumerable.ToArray(
-								from i in Enumerable.Range(0, 8)
-								select p[(i + 6) % 8]
-							);
-
-					var BitmapStream = Bitmaps.Select(i => (Texture64)i).GetEnumerator();
-
-					Func<Texture64[]> Next8 =
-						delegate
+					Assets.Default.dude5.ToBitmapArray(
+						Bitmaps =>
 						{
-							// keeping compiler happy with full delegate form
+							var Spawn = default(Func<SpriteInfoExtended>);
 
-							if (BitmapStream == null)
-								throw new Exception("BitmapStream is null");
+							#region figure out
+							if (Bitmaps == null)
+								throw new Exception("No bitmaps");
 
-							return Reorder8(BitmapStream.Take(8));
-						};
+							Func<Texture64[], Texture64[]> Reorder8 =
+								p =>
+									Enumerable.ToArray(
+										from i in Enumerable.Range(0, 8)
+										select p[(i + 6) % 8]
+									);
 
+							var BitmapStream = Bitmaps.Select(i => (Texture64)i).GetEnumerator();
 
-					var Stand = Next8();
+							Func<Texture64[]> Next8 =
+								delegate
+								{
+									// keeping compiler happy with full delegate form
 
+									if (BitmapStream == null)
+										throw new Exception("BitmapStream is null");
 
-					//if (Bitmaps.Length == 8)
-					//{
-					//    Spawn = () => CreateWalkingDummy(Stand);
-					//}
-					//else
-					//{
-					var Walk = new[]
-                        {
-                            Next8(),
-                            Next8(),
-                            Next8(),
-                            Next8(),
-                        };
-
-					var Death = new List<Texture64>
-					{
-						BitmapStream.Take(),
-						BitmapStream.Take(),
-						BitmapStream.Take(),
-						BitmapStream.Take(),
-						BitmapStream.Take()
-					};
+									return Reorder8(BitmapStream.Take(8));
+								};
 
 
-					var Hit = new[] { BitmapStream.Take() };
-
-					// funny ordering huh?
-					Death.Add(BitmapStream.Take());
-
-					Spawn = () => CreateWalkingDummy(Stand, Walk, Hit, Death.ToArray());
-
-					//}
-
-					#endregion
-
-					CreateGuard = Spawn;
-
-					InitializeMap();
+							var Stand = Next8();
 
 
+							//if (Bitmaps.Length == 8)
+							//{
+							//    Spawn = () => CreateWalkingDummy(Stand);
+							//}
+							//else
+							//{
+							var Walk = new[]
+							{
+								Next8(),
+								Next8(),
+								Next8(),
+								Next8(),
+							};
+
+							var Death = new List<Texture64>
+							{
+								BitmapStream.Take(),
+								BitmapStream.Take(),
+								BitmapStream.Take(),
+								BitmapStream.Take(),
+								BitmapStream.Take()
+							};
+
+
+							var Hit = new[] { BitmapStream.Take() };
+
+							// funny ordering huh?
+							Death.Add(BitmapStream.Take());
+
+							Spawn = () => CreateWalkingDummy(Stand, Walk, Hit, Death.ToArray());
+
+							//}
+
+							#endregion
+
+							CreateGuard = Spawn;
+
+
+
+
+							InitializeMap();
+
+
+						}
+					);
 				}
 			);
+
 		}
 
 

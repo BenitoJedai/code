@@ -15,10 +15,16 @@ namespace FlashTreasureHunt.ActionScript
 	/// </summary>
 	partial class FlashTreasureHunt
 	{
+		public Sprite CompassContainer;
+
 		public void InitializeCompass()
 		{
 			var compass = Assets.Default.compasscolor;
 			var container = new Sprite();
+
+			container.alpha = 0;
+
+			CompassContainer = container;
 
 			compass.AttachTo(container);
 			container.AttachTo(HudContainer);

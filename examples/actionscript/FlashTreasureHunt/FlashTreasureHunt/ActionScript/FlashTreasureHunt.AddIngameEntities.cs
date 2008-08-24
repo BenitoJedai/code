@@ -19,7 +19,7 @@ namespace FlashTreasureHunt.ActionScript
 	{
 		int NonblockingTotal;
 		int AmmoTotal;
-		int GoldTotal;
+	
 
 		public IEnumerable<TextureBase.Entry> FreeSpace
 		{

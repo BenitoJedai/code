@@ -18,6 +18,46 @@ namespace FlashTreasureHunt.ActionScript
 	[Script]
 	internal static class Extensions
 	{
+		[Script]
+		public class DelayChain
+		{
+			// should actually be immutable type
+
+			public int Delay;
+
+			public readonly Queue<Action> Actions = new Queue<Action>();
+		}
+
+		public static DelayChain Chain(this int delay, Action handler)
+		{
+			return new DelayChain { Delay = delay }.Chain(handler);
+		}
+
+		public static DelayChain Chain(this DelayChain e, Action handler)
+		{
+			e.Actions.Enqueue(handler);
+
+			return e;
+		}
+
+
+		public static Timer Do(this DelayChain e)
+		{
+			return e.Delay.AtInterval(
+				t =>
+				{
+					if (e.Actions.Count == 0)
+					{
+						t.stop();
+						return;
+					}
+
+					e.Actions.Dequeue()();
+				}
+			);
+		}
+
+
 		public static int Floor(this double e)
 		{
 			return (int)Math.Floor(e);
@@ -82,6 +122,13 @@ namespace FlashTreasureHunt.ActionScript
 			   );
 		}
 
+		public static void FadeOut(this DisplayObject e)
+		{
+			FadeOut(e, 1000 / 15, 0.1, null
+				);
+
+		}
+
 		public static void FadeOut(this DisplayObject e, Action done)
 		{
 			FadeOut(e, 1000 / 15, 0.1, done
@@ -99,7 +146,9 @@ namespace FlashTreasureHunt.ActionScript
 					   e.alpha = 0;
 
 					   t.stop();
-					   done();
+
+					   if (done != null)
+						   done();
 				   }
 				   else
 				   {

@@ -19,11 +19,53 @@ namespace FlashTreasureHunt.ActionScript
 	{
 		public int CurrentLevelScore = 0;
 
+		int GoldTotal;
+		int GoldTotalCollected = 0;
+
+		Action HalfOfTheTreasureCollected;
+
 		private void AddTreasure()
 		{
+			GoldTotalCollected++;
+
+			//WriteLine("GoldTotalCollected: " + GoldTotalCollected);
+
 			CurrentLevelScore += 10;
+
+			if (GoldTotal / 2 < GoldTotalCollected)
+				if (HalfOfTheTreasureCollected != null)
+					HalfOfTheTreasureCollected();
 
 			// add some logic here
 		}
+
+		private void WaitForCollectingHalfTheTreasureToRevealEndGoal()
+		{
+			HalfOfTheTreasureCollected =
+							delegate
+							{
+								// ding ding ding - end of level revealed
+
+								HalfOfTheTreasureCollected = null;
+
+								Assets.Default.Sounds.revealed.play();
+
+								EgoView.Image.FadeOut(
+									delegate
+									{
+
+										CompassContainer.FadeIn(
+											delegate
+											{
+												EgoView.Image.FadeIn();
+											}
+										);
+									}
+								);
+
+								TheGoldStack.AddTo(EgoView.Sprites);
+							};
+		}
+
 	}
 }
