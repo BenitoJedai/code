@@ -8,6 +8,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.RayCaster;
 using ScriptCoreLib.ActionScript.flash.ui;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.flash.events;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -119,6 +120,12 @@ namespace FlashTreasureHunt.ActionScript
 				Up = () => { GoBackwardSmooth.up(); }
 			};
 
+
+
+
+
+
+
 			var gunshot = new global::FlashTreasureHunt.ActionScript.UI.KeyboardButton(stage)
 			{
 				Groups = new[]
@@ -134,6 +141,48 @@ namespace FlashTreasureHunt.ActionScript
 			
 				}
 			};
+
+			const int ClickRadius = 16;
+			const int ClickTimeout = 400;
+
+
+			stage.mouseDown +=
+				e =>
+				{
+					// we should shoot with mouse only
+					// if its a rapid click
+
+					var clickpoint = e.ToStagePoint();
+
+					var remove = default(Action);
+						
+
+					Action<MouseEvent> mouseUp =
+						mouseUp_e =>
+						{
+							if (Point.distance(clickpoint, mouseUp_e.ToStagePoint()) < ClickRadius)
+							{
+								FireWeapon();
+							}
+
+							remove();
+						};
+
+					remove =
+						delegate
+						{
+							if (mouseUp == null)
+								return;
+
+							stage.mouseUp -= mouseUp;
+							mouseUp = null;
+						};
+
+					stage.mouseUp += mouseUp;
+
+					ClickTimeout.AtDelayDo(remove);
+
+				};
 		}
 	}
 }

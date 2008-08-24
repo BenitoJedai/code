@@ -22,7 +22,7 @@ namespace FlashTreasureHunt.ActionScript
 
 		private void CreateGuards(IEnumerator<TextureBase.Entry> FreeSpaceForStuff)
 		{
-			for (int i = 0; i < 5; i++)
+			for (int i = 0; i < 2 + CurrentLevel; i++)
 			{
 				var g = CreateGuard();
 
