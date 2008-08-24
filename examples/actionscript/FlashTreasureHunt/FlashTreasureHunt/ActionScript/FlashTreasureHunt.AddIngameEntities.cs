@@ -17,8 +17,51 @@ namespace FlashTreasureHunt.ActionScript
 {
 	partial class FlashTreasureHunt
 	{
+		int NonblockingTotal;
+		int AmmoTotal;
+		int GoldTotal;
+
+		public IEnumerable<TextureBase.Entry> FreeSpace
+		{
+			get
+			{
+				return EgoView.Map.WallMap.Entries.Where(
+					i =>
+					{
+						if (i.Value != 0)
+							return false;
+
+						var c = 0;
+
+						if (EgoView.Map.WallMap[i.XIndex - 1, i.YIndex] == 0)
+							c++;
+
+						if (EgoView.Map.WallMap[i.XIndex + 1, i.YIndex] == 0)
+							c++;
+
+						if (EgoView.Map.WallMap[i.XIndex, i.YIndex + 1] == 0)
+							c++;
+
+						if (EgoView.Map.WallMap[i.XIndex, i.YIndex - 1] == 0)
+							c++;
+
+						return c >= 2;
+					}
+				);
+			}
+		}
+
+	
+
+
+
 		private void AddIngameEntities()
 		{
+
+			
+
+
+
 			Action<IEnumerator<Texture64.Entry>, Texture64, Action<SpriteInfoExtended>> AddSpriteByTexture =
 									 (SpaceForStuff, tex, handler) =>
 									 {
@@ -33,13 +76,18 @@ namespace FlashTreasureHunt.ActionScript
 
 
 
-			var FreeSpaceForStuff = EgoView.Map.WorldMap.Entries.Where(i => i.Value == 0).Randomize().GetEnumerator();
+			var FreeSpaceForStuff = FreeSpace.Randomize().GetEnumerator();
 
 			CreateGuards(FreeSpaceForStuff);
 
 
+			var FreeSpaceCount = FreeSpace.Count();
 
+			NonblockingTotal = (FreeSpaceCount * 0.4).Floor();
+			AmmoTotal = (FreeSpaceCount * 0.2).Floor();
+			GoldTotal = (FreeSpaceCount * 0.4).Floor();
 
+			WriteLine(new { GoldTotal, AmmoTotal, NonblockingTotal }.ToString());
 			#region gold
 
 
@@ -53,27 +101,28 @@ namespace FlashTreasureHunt.ActionScript
 					Assets.Default.nonblock.ToBitmapArray(
 						sprites =>
 						{
-							for (int i = 0; i < 2; i++)
-								foreach (var s in sprites)
-								{
-									// compiler bug: get a delegate to BCL class
-									//AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
+							for (int i = 0; i < NonblockingTotal; i++)
+							{
+								// compiler bug: get a delegate to BCL class
+								//AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
 
-									AddSpriteByTexture(FreeSpaceForStuff, s,
-										k =>
-										{
-											k.Range = 0.5;
-											//GoldSprites.Add(k);
-										}
-									);
+								AddSpriteByTexture(FreeSpaceForStuff, sprites.AtModulus(i),
+									k =>
+									{
+										k.Range = 0.5;
+										//GoldSprites.Add(k);
+									}
+								);
 
-								}
+							}
 						}
 					);
 
 
 				};
 			#endregion
+
+
 
 			#region AddAmmoPickups
 			Action AddAmmoPickups =
@@ -83,33 +132,30 @@ namespace FlashTreasureHunt.ActionScript
 					   sprites =>
 					   {
 
-						   for (int i = 0; i < 9; i++)
-							   foreach (var _s in sprites)
-							   {
-								   var s = _s;
+						   for (int i = 0; i < AmmoTotal; i++)
+						   {
+							   // compiler bug: get a delegate to BCL class
+							   //AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
 
-								   // compiler bug: get a delegate to BCL class
-								   //AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
+							   AddSpriteByTexture(FreeSpaceForStuff, sprites.AtModulus(i),
+								   k =>
+								   {
+									   k.Range = 0.5;
+									   k.ItemTaken +=
+										   delegate
+										   {
+											   Assets.Default.Sounds.ammo.play();
 
-								   AddSpriteByTexture(FreeSpaceForStuff, s,
-									   k =>
-									   {
-										   k.Range = 0.5;
-										   k.ItemTaken +=
-											   delegate
-											   {
-												   Assets.Default.ammo.play();
+											   // we have taken ammo
 
-												   // we have taken ammo
+											   AddAmmoToEgoAndSwitchWeapon();
+										   };
 
-												   AddAmmoToEgoAndSwitchWeapon();
-											   };
+									   AmmoSprites.Add(k);
+								   }
+							   );
 
-										   AmmoSprites.Add(k);
-									   }
-								   );
-
-							   }
+						   }
 
 						   var LastPosition = new Point();
 
@@ -177,35 +223,35 @@ namespace FlashTreasureHunt.ActionScript
 				};
 			#endregion
 
+
+
 			Assets.Default.gold.ToBitmapArray(
 			   sprites =>
 			   {
 
-				   for (int i = 0; i < 3; i++)
-					   foreach (var _s in sprites)
-					   {
-						   var s = _s;
+				   for (int i = 0; i < GoldTotal; i++)
+				   {
 
-						   // compiler bug: get a delegate to BCL class
-						   //AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
+					   // compiler bug: get a delegate to BCL class
+					   //AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
 
-						   AddSpriteByTexture(FreeSpaceForStuff, s,
-							   k =>
-							   {
-								   k.Range = 0.5;
-								   k.ItemTaken +=
-									   delegate
-									   {
-										   Assets.Default.treasure.play();
+					   AddSpriteByTexture(FreeSpaceForStuff, sprites.AtModulus(i),
+						   k =>
+						   {
+							   k.Range = 0.5;
+							   k.ItemTaken +=
+								   delegate
+								   {
+									   Assets.Default.Sounds.treasure.play();
 
-										   AddTreasure();
-									   };
+									   AddTreasure();
+								   };
 
-								   GoldSprites.Add(k);
-							   }
-						   );
+							   GoldSprites.Add(k);
+						   }
+					   );
 
-					   }
+				   }
 
 				   var LastPosition = new Point();
 

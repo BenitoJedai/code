@@ -4,6 +4,7 @@ using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.text;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.RayCaster;
@@ -40,7 +41,7 @@ namespace FlashTreasureHunt.ActionScript
 			EndLevelMode = true;
 			MovementEnabled = false;
 
-			var music_endlevel = Assets.Default.music_endlevel.play(1);
+			var music_endlevel = Assets.Default.Sounds.music_endlevel.play(1);
 
 
 			this.EgoView.Image.filters = new BitmapFilter[] {
@@ -181,9 +182,10 @@ namespace FlashTreasureHunt.ActionScript
 					TheGoldStack.Position.To(maze.Width - 1.5, maze.Height - 1.5);
 					EgoView.Sprites.Add(TheGoldStack);
 					GoldSprites.Add(TheGoldStack);
-					
 
-					music = Assets.Default.music.play(0, 9999);
+					ResetPortals();
+
+					music = Assets.Default.Sounds.music.play(0, 9999);
 
 					this.EgoView.Image.filters = null;
 					this.EgoView.ViewPositionLock = null;

@@ -65,6 +65,8 @@
     <Compile Include="ActionScript\Assets.cs" />
     <Compile Include="ActionScript\Assets.Sounds.cs" />
     <Compile Include="ActionScript\Assets.Images.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.AddPortals.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.WriteLine.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.InitializeWeaponOverlay.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.AddTreasure.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.AddIngameEntities.cs" />
@@ -93,6 +95,7 @@
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
     <Content Include="docs\SourceAnalysis.txt" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\teleport.mp3" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\death.mp3" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\hit.mp3" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\yeah.mp3" />
