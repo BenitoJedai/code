@@ -13,7 +13,7 @@ namespace FlashTreasureHunt.ConsoleTest
 	{
 		static void Main(string[] args)
 		{
-			var swf = @"..\..\..\FlashTreasureHunt.MultiPlayer\bin\debug\web\NonobaClient.swf";
+			var swf = @"..\..\..\bin\Game.swf";
 
 			#region launcher
 			ThreadPool.QueueUserWorkItem(
