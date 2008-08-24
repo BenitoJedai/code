@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace FlashTreasureHunt
+namespace FlashTreasureHunt.MultiPlayer
 {
 	public interface IAssemblyReferenceToken :
 		ScriptCoreLib.Shared.Query.IAssemblyReferenceToken,

@@ -41,5 +41,5 @@ using ScriptCoreLib;
 	Script,
 	ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
 
-	ScriptTypeFilter(ScriptType.CSharp2, "*.Shared"),
+	ScriptTypeFilter(ScriptType.CSharp2, "*.Server"),
 ]

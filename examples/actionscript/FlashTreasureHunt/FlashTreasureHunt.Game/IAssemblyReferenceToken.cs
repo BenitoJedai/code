@@ -14,7 +14,8 @@ namespace FlashTreasureHunt.Game
 	/// </summary>
 	public interface IAssemblyReferenceToken :
 		ScriptCoreLib.Shared.Query.IAssemblyReferenceToken,
-		ScriptCoreLib.Shared.IAssemblyReferenceToken
+		ScriptCoreLib.Shared.IAssemblyReferenceToken,
+		FlashTreasureHunt.MultiPlayer.IAssemblyReferenceToken
 	{
 	}
 }
