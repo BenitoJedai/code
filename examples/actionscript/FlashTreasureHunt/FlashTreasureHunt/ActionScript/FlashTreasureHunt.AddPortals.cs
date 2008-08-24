@@ -39,15 +39,18 @@ namespace FlashTreasureHunt.ActionScript
 					if (EgoView.SpritesFromPointOfView == null)
 						return;
 
-					var p = Portals.AtModulus(tt.currentCount);
-					var s = EgoView.SpritesFromPointOfView.SingleOrDefault(k => k.Sprite == p.Sprite);
+					if (Portals.Count > 0)
+					{
+						var p = Portals.AtModulus(tt.currentCount);
+						var s = EgoView.SpritesFromPointOfView.SingleOrDefault(k => k.Sprite == p.Sprite);
 
-					if (s != null)
-						if (s.ViewInfo.IsInView)
-						{
-							p.View.RenderLowQualityWalls = EgoView.RenderLowQualityWalls;
-							p.Update();
-						}
+						if (s != null)
+							if (s.ViewInfo.IsInView)
+							{
+								p.View.RenderLowQualityWalls = EgoView.RenderLowQualityWalls;
+								p.Update();
+							}
+					}
 				}
 			);
 
@@ -62,13 +65,14 @@ namespace FlashTreasureHunt.ActionScript
 					if (PortalsInactiveForEgo)
 						return;
 
-					// only check for items each 0.5 distance travelled
-					if ((EgoView.ViewPosition - LastPosition).length < 0.5)
+					// only check for items each ~ distance travelled
+					if ((EgoView.ViewPosition - LastPosition).length < 0.3)
 						return;
 
 					foreach (var Portal in Portals)
 					{
 						var p = EgoView.SpritesFromPointOfView.SingleOrDefault(i => i.Sprite == Portal.Sprite);
+
 
 						if (p != null)
 						{
@@ -118,10 +122,13 @@ namespace FlashTreasureHunt.ActionScript
 			DualPortals.Clear();
 			Portals.Clear();
 
-			AddNextDualPortal();
+			// first level does not get a portal
+			if (CurrentLevel > 1)
+				AddNextDualPortal();
 
 			if (CurrentLevel > 4)
 				AddNextDualPortal();
+
 			if (CurrentLevel > 8)
 				AddNextDualPortal();
 

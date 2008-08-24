@@ -76,66 +76,91 @@ namespace FlashTreasureHunt.ActionScript
 					HudContainer.FadeOut(1000 / 15, 0.2,
 						delegate
 						{
-
+							CompassContainer.alpha = 0;
 						}
 					);
 
 
-					new TextField
-					{
-						defaultTextFormat = new TextFormat
-						{
-							size = 36,
-						},
-						text = "Level " + CurrentLevel + " Complete",
-
-						textColor = 0xFFC526,
-						autoSize = TextFieldAutoSize.LEFT,
-						filters = new[] { new GlowFilter(0xC1931D) }
-					}.AttachTo(ScoreContainer).MoveTo(scroll.x + 40, scroll.y + 64);
-
+			
 					// level ends for all
 
 					// list current scores
 
-					new TextField
-					{
-						defaultTextFormat = new TextFormat
+
+					1000.Chain(
+						delegate
 						{
-							size = 33,
-						},
-						text = "Blazkowicz - " + CurrentLevelScore + "$",
+							Assets.Default.Sounds.gunshot.play();
 
-						textColor = 0xFFC526,
-						autoSize = TextFieldAutoSize.LEFT,
-						filters = new[] { new GlowFilter(0xC1931D) }
-					}.AttachTo(ScoreContainer).MoveTo(scroll.x + 48, scroll.y + 96 + 33 * 1);
+							new TextField
+							{
+								defaultTextFormat = new TextFormat
+								{
+									size = 36,
+								},
+								text = "Level " + CurrentLevel + " Complete",
 
-					new TextField
-					{
-						defaultTextFormat = new TextFormat
+								textColor = 0xFFC526,
+								autoSize = TextFieldAutoSize.LEFT,
+								filters = new[] { new GlowFilter(0xC1931D) }
+							}.AttachTo(ScoreContainer).MoveTo(scroll.x + 40, scroll.y + 64);
+
+						}
+					).Chain(
+						delegate
 						{
-							size = 30,
-						},
-						text = "Player 2 - 1200$",
+							Assets.Default.Sounds.gunshot.play();
 
-						textColor = 0xbebebe,
-						autoSize = TextFieldAutoSize.LEFT,
-						filters = new[] { new GlowFilter(0x909090) }
-					}.AttachTo(ScoreContainer).MoveTo(scroll.x + 48, scroll.y + 96 + 33 * 2);
+							new TextField
+							{
+								defaultTextFormat = new TextFormat
+								{
+									size = 33,
+								},
+								text = "Blazkowicz - " + CurrentLevelScore + "$",
 
-					new TextField
-					{
-						defaultTextFormat = new TextFormat
+								textColor = 0xFFC526,
+								autoSize = TextFieldAutoSize.LEFT,
+								filters = new[] { new GlowFilter(0xC1931D) }
+							}.AttachTo(ScoreContainer).MoveTo(scroll.x + 48, scroll.y + 96 + 33 * 1);
+
+						}
+					).Chain(
+						delegate
 						{
-							size = 30,
-						},
-						text = "Player 3 - 1800$",
+							Assets.Default.Sounds.gunshot.play();
+							new TextField
+							{
+								defaultTextFormat = new TextFormat
+								{
+									size = 30,
+								},
+								text = "Player 2 - 1200$",
 
-						textColor = 0xbebebe,
-						autoSize = TextFieldAutoSize.LEFT,
-						filters = new[] { new GlowFilter(0x909090) }
-					}.AttachTo(ScoreContainer).MoveTo(scroll.x + 48, scroll.y + 96 + 33 * 3);
+								textColor = 0xbebebe,
+								autoSize = TextFieldAutoSize.LEFT,
+								filters = new[] { new GlowFilter(0x909090) }
+							}.AttachTo(ScoreContainer).MoveTo(scroll.x + 48, scroll.y + 96 + 33 * 2);
+
+						}
+					).Chain(
+						delegate
+						{
+							Assets.Default.Sounds.gunshot.play();
+							new TextField
+							{
+								defaultTextFormat = new TextFormat
+								{
+									size = 30,
+								},
+								text = "Player 3 - 1800$",
+
+								textColor = 0xbebebe,
+								autoSize = TextFieldAutoSize.LEFT,
+								filters = new[] { new GlowFilter(0x909090) }
+							}.AttachTo(ScoreContainer).MoveTo(scroll.x + 48, scroll.y + 96 + 33 * 3);
+						}
+					).Do();
 
 
 					music_endlevel.soundComplete +=
@@ -171,6 +196,9 @@ namespace FlashTreasureHunt.ActionScript
 					this.GoldSprites.Clear();
 					this.AmmoSprites.Clear();
 
+					// each level starts counting from zero
+					GoldTotalCollected = 0;
+
 					//MazeSize = (MazeSizeMin + CurrentLevel / 2).Min(MazeSizeMax);
 					MazeSize = (MazeSizeMin + CurrentLevel).Min(MazeSizeMax);
 
@@ -180,8 +208,12 @@ namespace FlashTreasureHunt.ActionScript
 
 					TheGoldStack.IsTaken = false;
 					TheGoldStack.Position.To(maze.Width - 1.5, maze.Height - 1.5);
-					EgoView.Sprites.Add(TheGoldStack);
+
+
 					GoldSprites.Add(TheGoldStack);
+
+					WaitForCollectingHalfTheTreasureToRevealEndGoal();
+
 
 					ResetPortals();
 
@@ -200,7 +232,7 @@ namespace FlashTreasureHunt.ActionScript
 				}
 			);
 
-		
+
 		}
 	}
 }

@@ -130,7 +130,8 @@ namespace FlashTreasureHunt.ActionScript
 			{
 				Groups = new[]
 			    {
-			        MovementArrows[Keyboard.CONTROL]
+			        MovementArrows[Keyboard.CONTROL],
+			        MovementArrows[Keyboard.SPACE]
 			    },
 				//Down = () => { GoBackwardSmooth.down(new Point(DefaultControlWidth / 2, DefaultControlHeight / 2)); },
 				//Tick = () => { GoBackwardSmooth.move(new Point(DefaultControlWidth / 2, DefaultControlHeight)); },

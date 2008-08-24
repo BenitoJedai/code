@@ -74,6 +74,11 @@ namespace FlashTreasureHunt.ActionScript
 
 					#region game goal
 					TheGoldStack = CreateDummy(f["life.png"]);
+					
+					TheGoldStack.RemoveFrom(EgoView.Sprites);
+
+					WaitForCollectingHalfTheTreasureToRevealEndGoal();
+
 					TheGoldStack.Position.To(maze.Width - 1.5, maze.Height - 1.5);
 					TheGoldStack.Range = 0.5;
 					TheGoldStack.ItemTaken +=
@@ -197,6 +202,7 @@ namespace FlashTreasureHunt.ActionScript
 			);
 			#endregion
 		}
+
 
 
 
