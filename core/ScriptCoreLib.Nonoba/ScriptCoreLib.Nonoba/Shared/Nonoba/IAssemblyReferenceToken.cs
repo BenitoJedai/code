@@ -6,7 +6,7 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 
-namespace ScriptCoreLib.Nonoba
+namespace ScriptCoreLib.Shared.Nonoba
 {
     /// <summary>
     /// Without this class some assemblies are not referenced as they only contain
