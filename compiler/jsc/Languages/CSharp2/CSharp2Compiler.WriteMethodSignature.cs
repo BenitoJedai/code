@@ -52,15 +52,17 @@ namespace jsc.Languages.CSharp2
                     prop.GetProperty != null &&
                     prop.GetProperty.GetGetMethod(true).GetParameters().Length == 0;
 
+			var ExcplicitInterfaceImplementation = Enumerable.FirstOrDefault(
+				   from i in m.DeclaringType.GetInterfaces()
+				   let map = m.DeclaringType.GetInterfaceMap(i)
+				   from t in map.TargetMethods
+				   where t == m
+				   select new { map, t, i }
+
+				);
+
             var IsExcplicitInterfaceImplementation =
-                m.IsPrivate &&
-                      Enumerable.Any(
-                          from i in m.DeclaringType.GetInterfaces()
-                          let map = m.DeclaringType.GetInterfaceMap(i)
-                          from t in map.TargetMethods
-                          where t == m
-                          select new { map, t, i }
-                      );
+				m.IsPrivate && ExcplicitInterfaceImplementation != null;
 
             if (IsSet || IsGet || IsExcplicitInterfaceImplementation)
             {
@@ -205,10 +207,13 @@ namespace jsc.Languages.CSharp2
                 }
                 else
                 {
-                    if (IsExcplicitInterfaceImplementation)
-                        Write(m.Name);
-                    else
-                        WriteDecoratedMethodName(m, false);
+					if (IsExcplicitInterfaceImplementation)
+					{
+						WriteGenericTypeName(m.DeclaringType, ExcplicitInterfaceImplementation.i);
+						Write(m.Name.Substring(m.Name.LastIndexOf(".")));
+					}
+					else
+						WriteDecoratedMethodName(m, false);
 
                     WriteGenericTypeParameters(m.DeclaringType, m);
                 }

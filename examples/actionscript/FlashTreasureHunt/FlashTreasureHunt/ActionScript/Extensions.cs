@@ -16,8 +16,21 @@ namespace FlashTreasureHunt.ActionScript
 	/// This class defines the extension methods for this project
 	/// </summary>
 	[Script]
-	internal static class Extensions
+	public static class Extensions
 	{
+		public static void InvokeWhenStageIsReady(this DisplayObject o, Action a)
+		{
+			if (o.stage == null)
+				o.addedToStage +=
+					delegate
+					{
+						a();
+					};
+			else
+				a();
+		}
+
+
 		[Script]
 		public class DelayChain
 		{

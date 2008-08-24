@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\FlashTreasureHunt\FlashTreasureHunt\bin\Debug</StartWorkingDirectory>
-    <StartArguments>FlashTreasureHunt.dll -as</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\FlashTreasureHunt\FlashTreasureHunt.MultiPlayer\bin\Debug</StartWorkingDirectory>
+    <StartArguments>FlashTreasureHunt.MultiPlayer.dll -cs2</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
