@@ -1,0 +1,136 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{53FAB63F-CFB0-4B48-A7BA-26E3CFAEB916}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FlashTreasureHunt</RootNamespace>
+    <AssemblyName>FlashTreasureHunt</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ScriptCoreLib, Version=3.0.2665.39893, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Archive, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Archive.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Maze, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Maze.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.RayCaster, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.RayCaster.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionScript\Assets.cs" />
+    <Compile Include="ActionScript\Assets.Sounds.cs" />
+    <Compile Include="ActionScript\Assets.Images.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.AddPortals.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.WriteLine.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.InitializeWeaponOverlay.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.AddTreasure.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.AddIngameEntities.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.AddAmmoToEgoAndSwitchWeapon.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.CreateGuards.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.InitializeMap.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.EnterEndLevelMode.cs" />
+    <Compile Include="ActionScript\Filters.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.Mouse.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.Compass.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.Keyboard.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.Settings.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.cs" />
+    <Compile Include="ActionScript\Extensions.cs" />
+    <Compile Include="ActionScript\PointInt32.cs" />
+    <Compile Include="ActionScript\SpriteInfoExtended.cs" />
+    <Compile Include="ActionScript\ThreeD\ViewEngine.cs" />
+    <Compile Include="ActionScript\UI\KeyboardButton.cs" />
+    <Compile Include="ActionScript\UI\KeyboardButtonGroup.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IAssemblyReferenceToken.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="docs\about.txt" />
+    <Content Include="docs\browser.txt" />
+    <Content Include="docs\description.txt" />
+    <Content Include="docs\help.txt" />
+    <Content Include="docs\SourceAnalysis.txt" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\revealed.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\teleport.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\death.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\hit.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\yeah.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\gunshot.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\ammo.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\getpsyched.png" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\gutentag.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\scroll.png" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\ENDLEVEL.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\WONDERIN.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\compasscolor.png" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\compass.png" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\treasure.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tools\build.bat" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\ammo.zip" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\nonblock.zip" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\head.zip" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\dude5.zip" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\gold.zip" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\stuff.zip" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>pushd ..\..\tools\
+call build.bat $(ProjectName)
+popd</PostBuildEvent>
+  </PropertyGroup>
+</Project>
