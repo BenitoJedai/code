@@ -93,6 +93,8 @@
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
     <Content Include="docs\SourceAnalysis.txt" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\death.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\hit.mp3" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\yeah.mp3" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\gunshot.mp3" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\ammo.mp3" />

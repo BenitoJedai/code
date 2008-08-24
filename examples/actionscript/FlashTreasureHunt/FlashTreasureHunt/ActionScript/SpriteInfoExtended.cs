@@ -21,6 +21,8 @@ namespace FlashTreasureHunt.ActionScript
 
 		public bool AIEnabled = true;
 
-		public Action TakeDamage;
+		public double Health = 1;
+
+		public Action<double> TakeDamage;
 	}
 }

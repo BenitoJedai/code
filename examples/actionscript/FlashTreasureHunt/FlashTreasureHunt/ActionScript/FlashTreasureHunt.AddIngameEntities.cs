@@ -83,7 +83,7 @@ namespace FlashTreasureHunt.ActionScript
 					   sprites =>
 					   {
 
-						   for (int i = 0; i < 6; i++)
+						   for (int i = 0; i < 9; i++)
 							   foreach (var _s in sprites)
 							   {
 								   var s = _s;
@@ -181,7 +181,7 @@ namespace FlashTreasureHunt.ActionScript
 			   sprites =>
 			   {
 
-				   for (int i = 0; i < 6; i++)
+				   for (int i = 0; i < 3; i++)
 					   foreach (var _s in sprites)
 					   {
 						   var s = _s;

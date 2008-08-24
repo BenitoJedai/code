@@ -44,6 +44,15 @@ namespace FlashTreasureHunt.ActionScript
 							return;
 						}
 
+						#region death
+						if (g.Health <= 0)
+						{
+							tt.stop();
+							return;
+						}
+						#endregion
+
+
 						if (!g.AIEnabled)
 							return;
 
@@ -63,11 +72,20 @@ namespace FlashTreasureHunt.ActionScript
 							// whee we can walk at this direction
 							g.StartWalkingAnimation();
 
-							const int StepsToBeTaken  = 100;
+							const int StepsToBeTaken  = 80;
 
 							(1000 / 15).AtInterval(
 								t =>
 								{
+
+									#region death
+									if (g.Health <= 0)
+									{
+										t.stop();
+										return;
+									}
+									#endregion
+
 									if (!g.AIEnabled)
 										return;
 
@@ -107,6 +125,15 @@ namespace FlashTreasureHunt.ActionScript
 						tt = (200).AtInterval(
 							t =>
 							{
+								#region dead people do not walk
+								if (s.Health <= 0)
+								{
+									t.stop();
+									return;
+								}
+								#endregion
+
+
 								if (!s.AIEnabled)
 									return;
 
@@ -138,20 +165,51 @@ namespace FlashTreasureHunt.ActionScript
 
 			if (Hit != null)
 				s.TakeDamage =
-					delegate
+					DamageToBeTaken =>
 					{
-						s.AIEnabled = false;
+						s.Health -= DamageToBeTaken;
 
-						var q = s.Frames;
-						s.Frames = Hit;
+						if (s.Health > 0)
+						{
+							Assets.Default.Sounds.hit.play();
+							 
+							#region just show being hurt for a short moment
+							s.AIEnabled = false;
 
-						300.AtDelayDo(
-							delegate
-							{
-								s.Frames = q;
-								s.AIEnabled = true;
-							}
-						);
+							var q = s.Frames;
+							s.Frames = Hit;
+
+							300.AtDelayDo(
+								delegate
+								{
+									s.Frames = q;
+									s.AIEnabled = true;
+								}
+							);
+							#endregion
+
+						}
+						else
+						{
+							Assets.Default.Sounds.death.play();
+
+							// player wont be blocked by a corpse
+							s.Range = 0;
+
+							// animate death
+							(1000 / 10).AtInterval(
+								ttt =>
+								{
+									if (Death.Length == ttt.currentCount)
+									{
+										ttt.stop();
+										return;
+									}
+
+									s.Frames = new[] { Death[ttt.currentCount] };
+								}
+							);
+						}
 							
 					};
 
