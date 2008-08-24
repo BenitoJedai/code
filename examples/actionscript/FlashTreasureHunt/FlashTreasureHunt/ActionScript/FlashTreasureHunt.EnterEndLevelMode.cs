@@ -9,6 +9,7 @@ using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.RayCaster;
 using ScriptCoreLib.ActionScript.flash.filters;
+using ScriptCoreLib.ActionScript.flash.events;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -162,6 +163,29 @@ namespace FlashTreasureHunt.ActionScript
 						}
 					).Do();
 
+					var ReadyToContinue = default(Action);
+					var onClick = default(Action<MouseEvent>);
+					var onKeyUp = default(Action<KeyboardEvent>);
+
+
+					ReadyToContinue =
+						delegate
+						{
+							ReadyToContinue = delegate { };
+
+							ScoreContainer.FadeOut(
+								delegate
+								{
+									ScoreContainer.Orphanize();
+
+									EgoView.Image.FadeOut(ReadyForNextLevel);
+								}
+							);
+
+							stage.keyUp -= onKeyUp;
+							stage.click -= onClick;
+
+						};
 
 					music_endlevel.soundComplete +=
 						delegate
@@ -169,15 +193,36 @@ namespace FlashTreasureHunt.ActionScript
 							// we are ready to continue...
 							// are other players?
 
-							ScoreContainer.FadeOut(1000 / 15, 0.1,
-								delegate
-								{
-									ScoreContainer.Orphanize();
+							ReadyToContinue();
 
-									ReadyForNextLevel();
-								}
-							);
 						};
+
+
+					onClick =
+						delegate
+						{
+							music_endlevel.stop();
+							ReadyToContinue();
+
+						};
+
+					stage.click += onClick;
+
+
+
+					onKeyUp =
+						delegate
+						{
+							music_endlevel.stop();
+							ReadyToContinue();
+
+						};
+
+					stage.click += onClick;
+
+					stage.keyUp += onKeyUp;
+
+					// should add click / any key to dismiss this menu
 				}
 			);
 
@@ -186,6 +231,23 @@ namespace FlashTreasureHunt.ActionScript
 		public int CurrentLevel = 1;
 
 		public virtual void ReadyForNextLevel()
+		{
+			getpsyched.FadeIn(
+				delegate
+				{
+					LoadNextLevel(
+						AlmostDone =>
+						{
+							getpsyched.FadeOut(AlmostDone);
+						}
+					);
+				}
+			);
+
+
+		}
+
+		private void LoadNextLevel(Action<Action> AlmostDone)
 		{
 			CurrentLevel++;
 
@@ -227,12 +289,15 @@ namespace FlashTreasureHunt.ActionScript
 
 					ResetEgoPosition();
 
-					this.EgoView.Image.FadeIn();
-					this.HudContainer.FadeIn();
+					AlmostDone(
+						delegate
+						{
+							this.EgoView.Image.FadeIn();
+							this.HudContainer.FadeIn();
+						}
+					);
 				}
 			);
-
-
 		}
 	}
 }

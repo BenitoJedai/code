@@ -54,7 +54,8 @@ namespace FlashTreasureHunt.ActionScript
 				}
 			);
 
-			bool PortalsInactiveForEgo = false;
+
+			var LastPortalExit = default(PortalInfo);
 
 			var LastPosition = new Point();
 
@@ -62,8 +63,7 @@ namespace FlashTreasureHunt.ActionScript
 			EgoView.ViewPositionChanged +=
 				delegate
 				{
-					if (PortalsInactiveForEgo)
-						return;
+
 
 					// only check for items each ~ distance travelled
 					if ((EgoView.ViewPosition - LastPosition).length < 0.3)
@@ -71,11 +71,15 @@ namespace FlashTreasureHunt.ActionScript
 
 					foreach (var Portal in Portals)
 					{
+						if (Portal == LastPortalExit)
+							continue;
+
 						var p = EgoView.SpritesFromPointOfView.SingleOrDefault(i => i.Sprite == Portal.Sprite);
 
 
 						if (p != null)
 						{
+
 							if (p.Distance < Portal.Sprite.Range)
 							{
 								// we are going thro the portal, show it
@@ -93,12 +97,17 @@ namespace FlashTreasureHunt.ActionScript
 								EgoView.ViewPosition = Portal.View.ViewPosition; //.MoveToArc(EgoView.ViewDirection, Portal.Sprite.Range + p.Distance);
 								EgoView.ViewDirection = Portal.View.ViewDirection;
 
-								PortalsInactiveForEgo = true;
+								var o = DualPortals.SingleOrDefault(k => k.Blue == Portal);
 
-								10000.AtDelayDo(
+								if (o == null)
+									LastPortalExit = DualPortals.SingleOrDefault(k => k.Orange == Portal).Blue;
+								else
+									LastPortalExit = o.Orange;
+
+								5000.AtDelayDo(
 									delegate
 									{
-										PortalsInactiveForEgo = false;
+										LastPortalExit = null;
 									}
 								);
 
