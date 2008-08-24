@@ -81,7 +81,7 @@ namespace FlashTreasureHunt.ActionScript
 		{
 			this.music = Assets.Default.music.play(0, 9999);
 
-			Assets.Default.gutentag.play();
+			Assets.Default.Sounds.gutentag.play();
 
 
 
@@ -196,9 +196,22 @@ namespace FlashTreasureHunt.ActionScript
                             Next8(),
                         };
 
+					var Death = new List<Texture64>
+					{
+						BitmapStream.Take(),
+						BitmapStream.Take(),
+						BitmapStream.Take(),
+						BitmapStream.Take(),
+						BitmapStream.Take()
+					};
+
+
 					var Hit = new[] { BitmapStream.Take() };
 
-					Spawn = () => CreateWalkingDummy(Stand, Walk, Hit, new Texture64[0]);
+					// funny ordering huh?
+					Death.Add(BitmapStream.Take());
+
+					Spawn = () => CreateWalkingDummy(Stand, Walk, Hit, Death.ToArray());
 
 					//}
 

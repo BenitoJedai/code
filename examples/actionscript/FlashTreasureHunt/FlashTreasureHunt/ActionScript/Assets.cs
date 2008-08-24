@@ -37,5 +37,41 @@ namespace FlashTreasureHunt.ActionScript
 		}
 
 
+		public const string SoundPath = Path + "/Sounds";
+
+		[Script]
+		public partial class SoundFiles
+		{
+			Assets a;
+
+			public SoundFiles(Assets a)
+			{
+				this.a = a;
+			}
+
+			public SoundAsset this[string e]
+			{
+				get
+				{
+					var f = SoundPath + "/" + e + ".mp3";
+					var r = a[f];
+
+					if (r == null)
+						throw new Exception(f);
+
+					return r;
+				}
+			}
+		}
+
+
+		public Assets()
+		{
+			Sounds = new SoundFiles(this);
+		}
+
+		public readonly SoundFiles Sounds;
+
+
 	}
 }

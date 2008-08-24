@@ -14,7 +14,7 @@ namespace FlashTreasureHunt.ActionScript
 	
 	partial class Assets
 	{
-		public const string SoundPath = Path + "/Sounds";
+	
 
 		public SoundAsset music_endlevel
 		{
@@ -64,12 +64,33 @@ namespace FlashTreasureHunt.ActionScript
 			}
 		}
 
-		public SoundAsset gutentag
+		partial class SoundFiles
 		{
-			get
+			public SoundAsset hit
 			{
-				return this[SoundPath + "/gutentag.mp3"].ToSoundAsset();
+				get
+				{
+					return this["hit"];
+				}
+			}
+
+
+			public SoundAsset death
+			{
+				get
+				{
+					return this["death"];
+				}
+			}
+
+			public SoundAsset gutentag
+			{
+				get
+				{
+					return this["gutentag"];
+				}
 			}
 		}
+
 	}
 }

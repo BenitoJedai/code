@@ -194,22 +194,32 @@ namespace FlashTreasureHunt.ActionScript
 					//WriteLine("fire:");
 
 
-		
+					var query = 
+						from k in EgoView.GetVisibleSprites(15.DegreesToRadians(),
+							from p in EgoView.Sprites
+							let fragile = p as SpriteInfoExtended
+							where fragile.Health > 0
+							where fragile != null
+							where fragile.TakeDamage != null
+							select p
+						)
+						orderby k.Distance
+						let fragile = k.Sprite as SpriteInfoExtended
+						select new { k, fragile };
 
-					var query =
-						from p in EgoView.GetPointOfViewSprites(15.DegreesToRadians())
-						where p.ViewInfo.IsInView
-						let fragile = p.Sprite as SpriteInfoExtended
-						where fragile != null
-						where fragile.TakeDamage != null
-						orderby p.Distance
-						select fragile;
+
 
 
 					var first = query.FirstOrDefault();
 
 					if (first != null)
-						first.TakeDamage();
+					{
+						var DamageToBeTaken = 1 / first.k.Distance;
+
+						//WriteLine("hit: " + DamageToBeTaken);
+
+						first.fragile.TakeDamage(DamageToBeTaken);
+					}
 
 
 					PlayFireAnimation(

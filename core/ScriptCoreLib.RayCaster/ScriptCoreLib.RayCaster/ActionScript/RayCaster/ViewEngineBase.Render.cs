@@ -11,206 +11,206 @@ using ScriptCoreLib.Shared.Lambda;
 namespace ScriptCoreLib.ActionScript.RayCaster
 {
 	[ScriptImportsType("flash.utils.getTimer")]
-    partial class ViewEngineBase
-    {
-        protected double[] _ZBuffer;
+	partial class ViewEngineBase
+	{
+		protected double[] _ZBuffer;
 
-        /// <summary>
-        /// Renders a solid color ceiling and floor
-        /// </summary>
-        public virtual void RenderHorizon()
-        {
-            buffer.fillRect(
+		/// <summary>
+		/// Renders a solid color ceiling and floor
+		/// </summary>
+		public virtual void RenderHorizon()
+		{
+			buffer.fillRect(
 				new Rectangle(0, 0, _ViewWidth, _ViewHeight / 2), 0x404040
-                );
+				);
 
-            buffer.fillRect(
-                            new Rectangle(0, _ViewHeight / 2, _ViewWidth, _ViewHeight / 2), 0xa0a0a0
-                            );
-        }
+			buffer.fillRect(
+							new Rectangle(0, _ViewHeight / 2, _ViewWidth, _ViewHeight / 2), 0xa0a0a0
+							);
+		}
 
-        /// <summary>
-        /// Enable RenderLowQualityWalls to render walls in lower quality
-        /// </summary>
-        public bool RenderLowQualityWalls;
+		/// <summary>
+		/// Enable RenderLowQualityWalls to render walls in lower quality
+		/// </summary>
+		public bool RenderLowQualityWalls;
 
-        /// <summary>
-        /// Enable SpritesVisible to render sprites
-        /// </summary>
-        public bool SpritesVisible = true;
+		/// <summary>
+		/// Enable SpritesVisible to render sprites
+		/// </summary>
+		public bool SpritesVisible = true;
 
-        /// <summary>
-        /// Enable FloorAndCeilingVisible to see texturized floor and ceiling
-        /// </summary>
-        public bool FloorAndCeilingVisible;
-
-
-        /// <summary>
-        /// renders a single sprite on display honoring zbuffer
-        /// </summary>
-        /// <param name="s"></param>
-        /// <param name="Sprite_x"></param>
-        public void RenderSingleSprite(SpriteInfoFromPOV s, int Sprite_x)
-        {
-            var depth = s.RelativePosition.length;
-
-            // scale down enemies to eye line
-            var z = (_ViewHeight / depth).Floor();
-
-            if (z < 0.1)
-                return;
-
-            //var zmaxed = z.Max(_ViewHeight / 2).Floor();
-            var zhalf = z / 2;
-
-            // we are in a mirror? theres definetly a bug somewhere
-
-            var clip = new Rectangle(Sprite_x - zhalf, 0, 0, ViewHeight);
-
-            var min = clip.left.Floor().Max(0);
-            var max = (clip.left + z).Floor().Min(_ViewWidth);
-
-            if (min < max)
-                for (int i = min; i < max; i++)
-                {
-                    if (_ZBuffer[i] > depth)
-                    {
-                        clip.left = i;
-
-                        for (; i < max; i++)
-                        {
-                            if (_ZBuffer[i] > depth)
-                            {
-                                //buffer.setPixel32(i, _ViewHeight / 2 + 2, 0xffff00);
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
+		/// <summary>
+		/// Enable FloorAndCeilingVisible to see texturized floor and ceiling
+		/// </summary>
+		public bool FloorAndCeilingVisible;
 
 
-                        clip.width = i - clip.left;
+		/// <summary>
+		/// renders a single sprite on display honoring zbuffer
+		/// </summary>
+		/// <param name="s"></param>
+		/// <param name="Sprite_x"></param>
+		public void RenderSingleSprite(SpriteInfoFromPOV s, int Sprite_x)
+		{
+			var depth = s.RelativePosition.length;
 
-                        for (; i < max; i++)
-                        {
-                            //buffer.setPixel32(i, _ViewHeight / 2 + 1, 0xff8f0000);
-                        }
+			// scale down enemies to eye line
+			var z = (_ViewHeight / depth).Floor();
 
-                        break;
-                    }
-                    else
-                    {
-                        //buffer.setPixel32(i, _ViewHeight / 2, 0xffff0000);
-                    }
-                }
+			if (z < 0.1)
+				return;
 
-            if (clip.width > 0)
-            {
-                var texture = s.Sprite.Frames[GetFrameForPOV(s)];
+			//var zmaxed = z.Max(_ViewHeight / 2).Floor();
+			var zhalf = z / 2;
 
-                var matrix = new Matrix();
-                var scale = (double)z / (double)texWidth;
+			// we are in a mirror? theres definetly a bug somewhere
 
-                matrix.scale(scale, scale);
-                matrix.translate(-zhalf + Sprite_x, -zhalf + _ViewHeight / 2);
+			var clip = new Rectangle(Sprite_x - zhalf, 0, 0, ViewHeight);
 
-                buffer.draw(texture.Bitmap, matrix, null, null, clip, true);
-            }
+			var min = clip.left.Floor().Max(0);
+			var max = (clip.left + z).Floor().Min(_ViewWidth);
 
+			if (min < max)
+				for (int i = min; i < max; i++)
+				{
+					if (_ZBuffer[i] > depth)
+					{
+						clip.left = i;
 
-
-            //for (int ix = 0; ix < z; ix++)
-            //{
-            //    var cx = Sprite_x + ix - zhalf;
-            //    var cxt = ix * texWidth / z;
-
-            //    if (_ZBuffer[cx] > depth)
-            //    {
-            //        if (texture == null)
-            //            texture = s.Sprite.Frames[GetFrameForPOV(s)];
-
-            //        for (int iy = 0; iy < zmaxed; iy += blocksize)
-            //        {
-            //            var cyt = iy * texture.Size / z;
-
-            //            var color = texture[cxt, cyt];
-
-            //            var color_a = (color >> 24) & 0xff;
-            //            //var color_r = (color >> 16) & 0xff;
-            //            //var color_g = (color >> 8) & 0xff;
-            //            //var color_b = color & 0xff;
-
-            //            if (color_a == 0xff)
-            //                buffer.fillRect(
-            //                    //new Rectangle(
-            //                        cx, (_ViewHeight / 2) + iy - zhalf, 1, blocksize
-            //                    //)
-            //                        , color);
+						for (; i < max; i++)
+						{
+							if (_ZBuffer[i] > depth)
+							{
+								//buffer.setPixel32(i, _ViewHeight / 2 + 2, 0xffff00);
+							}
+							else
+							{
+								break;
+							}
+						}
 
 
-            //        }
-            //    }
-            //}
-            //}
-            //else
-            //{
-            //    for (int ix = 0; ix < z; ix++)
-            //    {
-            //        var cx = Sprite_x + ix - zhalf;
-            //        var cxt = ix * texWidth / z;
+						clip.width = i - clip.left;
 
-            //        if (_ZBuffer[cx] > depth)
-            //        {
-            //            if (texture == null)
-            //                texture = s.Sprite.Frames[GetFrameForPOV(s)];
+						for (; i < max; i++)
+						{
+							//buffer.setPixel32(i, _ViewHeight / 2 + 1, 0xff8f0000);
+						}
 
-            //            for (int iy = 0; iy < z; iy++)
-            //            {
-            //                var cyt = iy * texture.Size / z;
+						break;
+					}
+					else
+					{
+						//buffer.setPixel32(i, _ViewHeight / 2, 0xffff0000);
+					}
+				}
 
-            //                var color = texture[cxt, cyt];
+			if (clip.width > 0)
+			{
+				var texture = s.Sprite.Frames[GetFrameForPOV(s)];
 
-            //                var color_a = (color >> 24) & 0xff;
-            //                //var color_r = (color >> 16) & 0xff;
-            //                //var color_g = (color >> 8) & 0xff;
-            //                //var color_b = color & 0xff;
+				var matrix = new Matrix();
+				var scale = (double)z / (double)texWidth;
 
-            //                if (color_a == 0xff)
-            //                    buffer.setPixel(cx, (_ViewHeight / 2) + iy - zhalf, color);
+				matrix.scale(scale, scale);
+				matrix.translate(-zhalf + Sprite_x, -zhalf + _ViewHeight / 2);
+
+				buffer.draw(texture.Bitmap, matrix, null, null, clip, true);
+			}
 
 
-            //            }
-            //        }
-            //    }
-            //}
-        }
 
-        private static int GetFrameForPOV(SpriteInfoFromPOV s)
-        {
-            var r = 360.DegreesToRadians();
+			//for (int ix = 0; ix < z; ix++)
+			//{
+			//    var cx = Sprite_x + ix - zhalf;
+			//    var cxt = ix * texWidth / z;
 
-            var len = s.Sprite.Frames.Length;
+			//    if (_ZBuffer[cx] > depth)
+			//    {
+			//        if (texture == null)
+			//            texture = s.Sprite.Frames[GetFrameForPOV(s)];
 
-            #region direction translation magic
-            var dir = s.Direction;
+			//        for (int iy = 0; iy < zmaxed; iy += blocksize)
+			//        {
+			//            var cyt = iy * texture.Size / z;
 
-            dir -= (r / (len)) / 2;
+			//            var color = texture[cxt, cyt];
 
-            dir = r - (dir % r);
-            dir += s.Sprite.Direction;
+			//            var color_a = (color >> 24) & 0xff;
+			//            //var color_r = (color >> 16) & 0xff;
+			//            //var color_g = (color >> 8) & 0xff;
+			//            //var color_b = color & 0xff;
 
-            dir += 270.DegreesToRadians();
-            #endregion
+			//            if (color_a == 0xff)
+			//                buffer.fillRect(
+			//                    //new Rectangle(
+			//                        cx, (_ViewHeight / 2) + iy - zhalf, 1, blocksize
+			//                    //)
+			//                        , color);
 
-            // we want to see it from behind...
-            //dir += Math.PI / 2;
 
-            var grad = ((dir * len) / r).Floor() % len;
-            return grad;
-        }
+			//        }
+			//    }
+			//}
+			//}
+			//else
+			//{
+			//    for (int ix = 0; ix < z; ix++)
+			//    {
+			//        var cx = Sprite_x + ix - zhalf;
+			//        var cxt = ix * texWidth / z;
 
-        protected SpriteInfoFromPOV[] _SpritesFromPOV;
+			//        if (_ZBuffer[cx] > depth)
+			//        {
+			//            if (texture == null)
+			//                texture = s.Sprite.Frames[GetFrameForPOV(s)];
+
+			//            for (int iy = 0; iy < z; iy++)
+			//            {
+			//                var cyt = iy * texture.Size / z;
+
+			//                var color = texture[cxt, cyt];
+
+			//                var color_a = (color >> 24) & 0xff;
+			//                //var color_r = (color >> 16) & 0xff;
+			//                //var color_g = (color >> 8) & 0xff;
+			//                //var color_b = color & 0xff;
+
+			//                if (color_a == 0xff)
+			//                    buffer.setPixel(cx, (_ViewHeight / 2) + iy - zhalf, color);
+
+
+			//            }
+			//        }
+			//    }
+			//}
+		}
+
+		private static int GetFrameForPOV(SpriteInfoFromPOV s)
+		{
+			var r = 360.DegreesToRadians();
+
+			var len = s.Sprite.Frames.Length;
+
+			#region direction translation magic
+			var dir = s.Direction;
+
+			dir -= (r / (len)) / 2;
+
+			dir = r - (dir % r);
+			dir += s.Sprite.Direction;
+
+			dir += 270.DegreesToRadians();
+			#endregion
+
+			// we want to see it from behind...
+			//dir += Math.PI / 2;
+
+			var grad = ((dir * len) / r).Floor() % len;
+			return grad;
+		}
+
+		protected SpriteInfoFromPOV[] _SpritesFromPOV;
 
 		public SpriteInfoFromPOV[] SpritesFromPointOfView
 		{
@@ -220,53 +220,75 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 			}
 		}
 
-        protected void UpdatePOV()
-        {
-            if (_SpritesFromPOV == null || _SpritesFromPOV.Length != Sprites.Count)
-                _SpritesFromPOV = Sprites.Select(i => new SpriteInfoFromPOV(i)).ToArray();
+		public IEnumerable<SpriteInfoFromPOV> GetVisibleSprites(double arc, IEnumerable<SpriteInfo> source)
+		{
+			var a = new List<SpriteInfoFromPOV>();
+
+			var fuzzy = 0.000001;
+
+			foreach (var i in source)
+			{
+				var v = new SpriteInfoFromPOV(i);
+
+				v.Update(this.posX + fuzzy, this.posY + fuzzy, this.ViewDirection - arc, this.ViewDirection + arc);
+
+				if (v.Distance < 0.1)
+					v.ViewInfo.IsInView = false;
+
+				if (v.ViewInfo.IsInView)
+					a.Add(v);
+			}
+
+			return a;
+		}
+
+		protected void UpdatePOV()
+		{
+			if (_SpritesFromPOV == null || _SpritesFromPOV.Length != Sprites.Count)
+				_SpritesFromPOV = Sprites.Select(i => new SpriteInfoFromPOV(i)).ToArray();
 
 
-            //UpdatePOVCounter++;
+			//UpdatePOVCounter++;
 
-            var fuzzy = 0.000001;
+			var fuzzy = 0.000001;
 
-            foreach (var v in _SpritesFromPOV)
-            {
-                v.Update(this.posX + fuzzy, this.posY + fuzzy, this.rayDirLeft, this.rayDirRight);
+			foreach (var v in _SpritesFromPOV)
+			{
+				v.Update(this.posX + fuzzy, this.posY + fuzzy, this.rayDirLeft, this.rayDirRight);
 
-                if (v.Distance < 0.1)
-                    v.ViewInfo.IsInView = false;
-            }
+				if (v.Distance < 0.1)
+					v.ViewInfo.IsInView = false;
+			}
 
-            //if (UpdatePOVCounter % 4 == 0)
+			//if (UpdatePOVCounter % 4 == 0)
 
-            // whats up with the orderby? not working all the time..
-            _SpritesFromPOV = _SpritesFromPOV.OrderBy(i => (i.Distance * -texWidth).Floor()).ToArray();
+			// whats up with the orderby? not working all the time..
+			_SpritesFromPOV = _SpritesFromPOV.OrderBy(i => (i.Distance * -texWidth).Floor()).ToArray();
 
-        }
+		}
 
-        /// <summary>
-        /// Renders all visible sprites
-        /// </summary>
-        protected void RenderSprites()
-        {
-            if (!SpritesVisible)
-                return;
+		/// <summary>
+		/// Renders all visible sprites
+		/// </summary>
+		protected void RenderSprites()
+		{
+			if (!SpritesVisible)
+				return;
 
-            foreach (var s in _SpritesFromPOV)
-            {
-                if (s.ViewInfo.IsInView)
-                {
-                    var Total = (s.ViewInfo.Right - s.ViewInfo.Left);
+			foreach (var s in _SpritesFromPOV)
+			{
+				if (s.ViewInfo.IsInView)
+				{
+					var Total = (s.ViewInfo.Right - s.ViewInfo.Left);
 
-                    var LeftTarget = s.ViewInfo.Target - s.ViewInfo.Left;
-                    //var RightTarget = s.ViewInfo.Right - s.ViewInfo.Target;
+					var LeftTarget = s.ViewInfo.Target - s.ViewInfo.Left;
+					//var RightTarget = s.ViewInfo.Right - s.ViewInfo.Target;
 
-                    RenderSingleSprite(s, (LeftTarget * _ViewWidth / Total).Floor());
+					RenderSingleSprite(s, (LeftTarget * _ViewWidth / Total).Floor());
 
-                }
-            }
-        }
+				}
+			}
+		}
 
 		public double ViewDirectionLeftBorder
 		{
@@ -285,8 +307,8 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 		}
 
 
-        protected double rayDirLeft;
-        protected double rayDirRight;
+		protected double rayDirLeft;
+		protected double rayDirRight;
 
 
 		// http://livedocs.adobe.com/flex/2/langref/flash/utils/package.html#getTimer()
@@ -693,5 +715,5 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 
 
 
-    }
+	}
 }
