@@ -12,6 +12,7 @@ using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.Shared.Maze;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.flash.utils;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -21,7 +22,7 @@ namespace FlashTreasureHunt.ActionScript
 
 		private void CreateGuards(IEnumerator<TextureBase.Entry> FreeSpaceForStuff)
 		{
-			for (int i = 0; i < 3; i++)
+			for (int i = 0; i < 5; i++)
 			{
 				var g = CreateGuard();
 
@@ -42,6 +43,9 @@ namespace FlashTreasureHunt.ActionScript
 							tt.stop();
 							return;
 						}
+
+						if (!g.AIEnabled)
+							return;
 
 						if (g.WalkingAnimationRunning)
 							return;
@@ -64,6 +68,9 @@ namespace FlashTreasureHunt.ActionScript
 							(1000 / 15).AtInterval(
 								t =>
 								{
+									if (!g.AIEnabled)
+										return;
+
 									g.Position = g.Position.MoveToArc(g.Direction, 1.0 / (double)StepsToBeTaken);
 
 									if (t.currentCount == StepsToBeTaken)
@@ -85,5 +92,79 @@ namespace FlashTreasureHunt.ActionScript
 		}
 
 
+
+		public SpriteInfoExtended CreateWalkingDummy(Texture64[] Stand, Texture64[][] Walk, Texture64[] Hit, Texture64[] Death)
+		{
+			var tt = default(Timer);
+			var s = new SpriteInfoExtended();
+
+			Action start =
+				delegate
+				{
+					s.WalkingAnimationRunning = true;
+
+					if (Walk.Length > 0)
+						tt = (200).AtInterval(
+							t =>
+							{
+								if (!s.AIEnabled)
+									return;
+
+								s.Frames = Walk[t.currentCount % Walk.Length];
+							}
+						);
+				};
+
+			Action stop =
+				delegate
+				{
+					s.WalkingAnimationRunning = false;
+
+					if (tt != null)
+						tt.stop();
+
+					s.Frames = Stand;
+				};
+
+
+			s.Position = new Point { x = EgoView.ViewPositionX, y = EgoView.ViewPositionY };
+			s.Frames = Stand;
+			s.Direction = EgoView.ViewDirection;
+			s.StartWalkingAnimation = start;
+			s.StopWalkingAnimation = stop;
+			s.Range = PlayerRadiusMargin;
+
+			s.AddTo(EgoView.Sprites);
+
+			if (Hit != null)
+				s.TakeDamage =
+					delegate
+					{
+						s.AIEnabled = false;
+
+						var q = s.Frames;
+						s.Frames = Hit;
+
+						300.AtDelayDo(
+							delegate
+							{
+								s.Frames = q;
+								s.AIEnabled = true;
+							}
+						);
+							
+					};
+
+
+			return s;
+		}
+
+
+
+		public SpriteInfoExtended CreateDummy(Texture64 Stand)
+		{
+			return CreateWalkingDummy(new[] { Stand }, null, null, null);
+
+		}
 	}
 }

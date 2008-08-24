@@ -46,7 +46,7 @@ namespace FlashTreasureHunt.ActionScript
 
 
 			//var hand = f["330.png"];
-			const int handsize = 6;
+			const int handsize = 4;
 
 			var hand_x = (DefaultControlWidth - 64 * handsize) / 2;
 			var hand_y_default = DefaultControlHeight - 64 * handsize;
@@ -70,7 +70,7 @@ namespace FlashTreasureHunt.ActionScript
 			#endregion
 
 
-			var WeaponChangeSpeed = handsize * 1;
+			var WeaponChangeSpeed = handsize * 5;
 
 			Action<Action> BringWeaponUp =
 				ChangeDone =>
@@ -142,7 +142,7 @@ namespace FlashTreasureHunt.ActionScript
 
 
 			SwitchToWeapon = SwitchToWeaponDefault;
-	
+
 
 			Action<Action> PlayFireAnimation =
 				done =>
@@ -184,6 +184,33 @@ namespace FlashTreasureHunt.ActionScript
 					Assets.Default.gunshot.play();
 
 					WeaponAmmo--;
+
+					// add damage to sprites
+
+					// we need to find out the one we are shooting at!
+
+					// try adding damage to all
+
+					//WriteLine("fire:");
+
+
+		
+
+					var query =
+						from p in EgoView.GetPointOfViewSprites(15.DegreesToRadians())
+						where p.ViewInfo.IsInView
+						let fragile = p.Sprite as SpriteInfoExtended
+						where fragile != null
+						where fragile.TakeDamage != null
+						orderby p.Distance
+						select fragile;
+
+
+					var first = query.FirstOrDefault();
+
+					if (first != null)
+						first.TakeDamage();
+
 
 					PlayFireAnimation(
 						delegate

@@ -33,7 +33,7 @@ namespace FlashTreasureHunt.ActionScript
 		// tr.wou.edu/ntac/documents/fact_sheets/glossary.htm
 
 		// todo: add teleport
-	
+
 
 		BlockMaze maze;
 		ViewEngine EgoView;
@@ -60,7 +60,7 @@ namespace FlashTreasureHunt.ActionScript
 				EgoView.ViewDirection = 0.DegreesToRadians();
 			else if (EgoView.Map.WallMap[StartPoint.XIndex - 1, StartPoint.YIndex] == 0)
 				EgoView.ViewDirection = 180.DegreesToRadians();
-			else if (EgoView.Map.WallMap[StartPoint.XIndex , StartPoint.YIndex + 1] == 0)
+			else if (EgoView.Map.WallMap[StartPoint.XIndex, StartPoint.YIndex + 1] == 0)
 				EgoView.ViewDirection = 90.DegreesToRadians();
 			else if (EgoView.Map.WallMap[StartPoint.XIndex, StartPoint.YIndex - 1] == 0)
 				EgoView.ViewDirection = 270.DegreesToRadians();
@@ -74,6 +74,8 @@ namespace FlashTreasureHunt.ActionScript
 		{
 			Initialize();
 		}
+
+		public Action<string> WriteLine;
 
 		private void Initialize()
 		{
@@ -96,20 +98,20 @@ namespace FlashTreasureHunt.ActionScript
 			EgoView.Image.alpha = 0;
 			EgoView.Image.AttachTo(this);
 
-            // show fps
-            new TextField().AttachTo(this).Do(t => EgoView.FramesPerSecondChanged += () => t.text = "fps: " + EgoView.FramesPerSecond);
+			// show fps
+			new TextField().AttachTo(this).Do(t => EgoView.FramesPerSecondChanged += () => t.text = "fps: " + EgoView.FramesPerSecond);
 
-            EgoView.FramesPerSecondChanged +=
-                delegate
-                {
-                    if (EgoView.FramesPerSecond < 14)
-                        if (!EgoView.RenderLowQualityWalls)
-                            EgoView.RenderLowQualityWalls = true;
+			EgoView.FramesPerSecondChanged +=
+				delegate
+				{
+					if (EgoView.FramesPerSecond < 14)
+						if (!EgoView.RenderLowQualityWalls)
+							EgoView.RenderLowQualityWalls = true;
 
-                    if (EgoView.FramesPerSecond > 22)
-                        if (EgoView.RenderLowQualityWalls)
-                            EgoView.RenderLowQualityWalls = false;
-                };
+					if (EgoView.FramesPerSecond > 22)
+						if (EgoView.RenderLowQualityWalls)
+							EgoView.RenderLowQualityWalls = false;
+				};
 
 
 			this.HudContainer = new Sprite().AttachTo(this);
@@ -121,7 +123,31 @@ namespace FlashTreasureHunt.ActionScript
 			getpsyched.scaleY = 2;
 			getpsyched.MoveTo((DefaultControlWidth - getpsyched.width) / 2, (DefaultControlHeight - getpsyched.height) / 2);
 
+			var dumper = new TextField
+			{
+				width = DefaultControlWidth,
+				height = DefaultControlHeight,
+				textColor = 0xffff00,
+				mouseEnabled = false
+			}.AttachTo(this);
 
+			var dumper_queue = new Queue<string>();
+ 
+			WriteLine =
+				text =>
+				{
+					dumper_queue.Enqueue(text);
+
+					while (dumper_queue.Count > 10)
+						dumper_queue.Dequeue();
+
+					dumper.text = "";
+
+					foreach (var v in dumper_queue)
+					{
+						dumper.appendText(v + Environment.NewLine);
+					}
+				};
 
 			Assets.Default.dude5.ToBitmapArray(
 				Bitmaps =>
@@ -156,13 +182,13 @@ namespace FlashTreasureHunt.ActionScript
 					var Stand = Next8();
 
 
-					if (Bitmaps.Length == 8)
-					{
-						Spawn = () => CreateWalkingDummy(Stand);
-					}
-					else
-					{
-						var Walk = new[]
+					//if (Bitmaps.Length == 8)
+					//{
+					//    Spawn = () => CreateWalkingDummy(Stand);
+					//}
+					//else
+					//{
+					var Walk = new[]
                         {
                             Next8(),
                             Next8(),
@@ -170,8 +196,12 @@ namespace FlashTreasureHunt.ActionScript
                             Next8(),
                         };
 
-						Spawn = () => CreateWalkingDummy(Stand, Walk);
-					}
+					var Hit = new[] { BitmapStream.Take() };
+
+					Spawn = () => CreateWalkingDummy(Stand, Walk, Hit, new Texture64[0]);
+
+					//}
+
 					#endregion
 
 					CreateGuard = Spawn;
@@ -184,60 +214,7 @@ namespace FlashTreasureHunt.ActionScript
 		}
 
 
-		public SpriteInfoExtended CreateWalkingDummy(Texture64[] Stand, params Texture64[][] Walk)
-		{
-			var tt = default(Timer);
-			var s = default(SpriteInfoExtended);
-
-			Action start =
-				delegate
-				{
-					s.WalkingAnimationRunning = true;
-
-					if (Walk.Length > 0)
-						tt = (200).AtInterval(
-							t =>
-							{
-								s.Frames = Walk[t.currentCount % Walk.Length];
-							}
-						);
-				};
-
-			Action stop =
-				delegate
-				{
-					s.WalkingAnimationRunning = false;
-
-					if (tt != null)
-						tt.stop();
-
-					s.Frames = Stand;
-				};
-
-
-			s = new SpriteInfoExtended
-			{
-				Position = new Point { x = EgoView.ViewPositionX, y = EgoView.ViewPositionY },
-				Frames = Stand,
-				Direction = EgoView.ViewDirection,
-				StartWalkingAnimation = start,
-				StopWalkingAnimation = stop,
-				Range = PlayerRadiusMargin
-
-			}.AddTo(EgoView.Sprites);
-
-
-
-			return s;
-		}
-
-
-
-		public SpriteInfoExtended CreateDummy(Texture64 Stand)
-		{
-			return CreateWalkingDummy(new[] { Stand });
-
-		}
+	
 
 	}
 }

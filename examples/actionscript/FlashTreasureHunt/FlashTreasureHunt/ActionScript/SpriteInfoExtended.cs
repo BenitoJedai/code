@@ -19,5 +19,8 @@ namespace FlashTreasureHunt.ActionScript
 		public Action StartWalkingAnimation;
 		public bool WalkingAnimationRunning;
 
+		public bool AIEnabled = true;
+
+		public Action TakeDamage;
 	}
 }
