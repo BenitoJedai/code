@@ -46,7 +46,21 @@ namespace FlashTreasureHunt.ActionScript
 
 		}
 
-		public bool MovementEnabled = true;
+		public bool MovementEnabled_IsInGame = true;
+		public bool MovementEnabled_IsFocused = true;
+		public bool MovementEnabled
+		{
+			get
+			{
+				if (!MovementEnabled_IsInGame)
+					return false;
+
+				if (!MovementEnabled_IsFocused)
+					return false;
+					
+				return true;
+			}
+		}
 
 		ManualControl AttachMovementInput(ViewEngineBase view, bool EnableMouse, bool Visualize)
 		{
@@ -127,6 +141,9 @@ namespace FlashTreasureHunt.ActionScript
 				p =>
 				{
 					if (!MovementEnabled)
+						return;
+					
+					if (mouseDown_args == null)
 						return;
 
 					mouseMove_args = p;

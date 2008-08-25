@@ -10,6 +10,7 @@ using ScriptCoreLib.JavaScript.DOM;
 namespace gameclient.source.js.Controls
 {
     using shared;
+	using ScriptCoreLib.JavaScript.Controls.LayeredControl;
 
 
     [Script]

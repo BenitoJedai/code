@@ -105,6 +105,19 @@ namespace FlashTreasureHunt.ActionScript
 
 		private void Initialize()
 		{
+			this.stage.fullScreenSourceRect = new Rectangle
+			{
+				width = DefaultControlWidth,
+				height = DefaultControlHeight
+			};
+
+			this.stage.fullScreen +=
+				e =>
+				{
+					// hide chat while fullscreen zoom
+					this.GetStageChild().Siblings().ForEach(k => k.visible = !e.fullScreen);
+				};
+
 			this.music = Assets.Default.Sounds.music.play(0, 9999);
 
 
@@ -150,6 +163,8 @@ namespace FlashTreasureHunt.ActionScript
 			getpsyched.alpha = 0;
 
 			InitializeWriteLine();
+
+
 
 			getpsyched.FadeIn(
 				delegate

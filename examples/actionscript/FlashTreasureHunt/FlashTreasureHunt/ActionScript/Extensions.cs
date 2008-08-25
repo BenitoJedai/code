@@ -18,6 +18,31 @@ namespace FlashTreasureHunt.ActionScript
 	[Script]
 	public static class Extensions
 	{
+		public static DisplayObject GetStageChild(this DisplayObject e)
+		{
+			DisplayObject r = null;
+			DisplayObject p = e;
+
+			while (r  == null)
+			{
+				if (p.parent == p.stage)
+				{
+					r = p;
+				}
+				else
+				{
+					p = p.parent;
+				}
+			}
+
+			return r;
+		}
+
+		public static IEnumerable<DisplayObject> Siblings(this DisplayObject e)
+		{
+			return e.parent.Children().Where(k => k != e);
+		}
+
 		public static void InvokeWhenStageIsReady(this DisplayObject o, Action a)
 		{
 			if (o.stage == null)

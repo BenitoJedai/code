@@ -242,7 +242,7 @@ namespace cncserver
 
             
             if (q == "/")
-                q += typeof(gameclient.source.js.Controls.Program).Name + ".xml.htm";
+                q += typeof(gameclient.source.js.Controls.DemoControl).Name + ".htm";
             
 
             var f = new FileInfo("web" + q);
@@ -263,6 +263,8 @@ namespace cncserver
             else
             {
                 c.Response.StatusCode = 404;
+				using (var w = new StreamWriter(c.Response.OutputStream))
+					w.WriteLine(f.Name + " not found");
                 c.Response.Close();
             }
 

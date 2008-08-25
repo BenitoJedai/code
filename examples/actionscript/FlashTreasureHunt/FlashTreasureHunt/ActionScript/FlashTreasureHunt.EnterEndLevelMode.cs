@@ -40,7 +40,7 @@ namespace FlashTreasureHunt.ActionScript
 			music.stop();
 
 			EndLevelMode = true;
-			MovementEnabled = false;
+			MovementEnabled_IsInGame = false;
 
 			var music_endlevel = Assets.Default.Sounds.music_endlevel.play(1);
 
@@ -201,6 +201,9 @@ namespace FlashTreasureHunt.ActionScript
 					onClick =
 						delegate
 						{
+							if (!MovementEnabled)
+								return;
+
 							music_endlevel.stop();
 							ReadyToContinue();
 
@@ -213,6 +216,8 @@ namespace FlashTreasureHunt.ActionScript
 					onKeyUp =
 						delegate
 						{
+							if (!MovementEnabled)
+								return;
 							music_endlevel.stop();
 							ReadyToContinue();
 
@@ -273,7 +278,7 @@ namespace FlashTreasureHunt.ActionScript
 					TheGoldStack.Position.To(maze.Width - 1.3, maze.Height - 1.3);
 					GoldSprites.Add(TheGoldStack);
 
-					this.WriteLine("goal is at " + new { TheGoldStack.Position.x, TheGoldStack.Position.y });
+					//this.WriteLine("goal is at " + new { TheGoldStack.Position.x, TheGoldStack.Position.y });
 
 
 					WaitForCollectingHalfTheTreasureToRevealEndGoal();
@@ -286,7 +291,7 @@ namespace FlashTreasureHunt.ActionScript
 					this.EgoView.ViewPositionLock = null;
 
 					EndLevelMode = false;
-					MovementEnabled = true;
+					MovementEnabled_IsInGame = true;
 
 					ResetEgoPosition();
 

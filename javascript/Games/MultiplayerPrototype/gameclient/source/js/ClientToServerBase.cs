@@ -2,6 +2,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.JavaScript.Net;
 using ScriptCoreLib.JavaScript.Runtime;
+using Console = System.Console;
 
 namespace gameclient.source.js
 {
@@ -87,7 +88,7 @@ namespace gameclient.source.js
                         }
                         else
                         {
-                            Console.LogError("unknown status: " + t.Request.status);
+                            Console.WriteLine("unknown status: " + t.Request.status);
                         }
 
 
