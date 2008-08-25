@@ -51,7 +51,7 @@ namespace FlashTreasureHunt.ActionScript
 
 
 		BlockMaze maze;
-		ViewEngine EgoView;
+		public ViewEngine EgoView;
 
 		SoundChannel music;
 
@@ -77,7 +77,7 @@ namespace FlashTreasureHunt.ActionScript
 			return 0;
 		}
 
-		void ResetEgoPosition()
+		public void ResetEgoPosition()
 		{
 			var PossibleStarters = EgoView.Map.WorldMap.Entries.Where(i => i.Value == 0).Where(i => i.YIndex < (maze.Height / 2)).Randomize();
 

@@ -252,6 +252,8 @@ namespace FlashTreasureHunt.ActionScript
 
 		}
 
+
+
 		private void LoadNextLevel(Action<Action> AlmostDone)
 		{
 			CurrentLevel++;
@@ -259,10 +261,7 @@ namespace FlashTreasureHunt.ActionScript
 			this.EgoView.Image.FadeOut(
 				delegate
 				{
-					this.EgoView.BlockingSprites.Clear();
-					this.EgoView.Sprites.Clear();
-					this.GoldSprites.Clear();
-					this.AmmoSprites.Clear();
+					RemoveAllEntities();
 
 					// each level starts counting from zero
 					GoldTotalCollected = 0;
@@ -272,7 +271,12 @@ namespace FlashTreasureHunt.ActionScript
 
 					CreateMapFromMaze();
 
-					AddIngameEntities();
+					AddIngameEntities(
+						delegate
+						{
+
+						}
+					);
 
 					TheGoldStack.IsTaken = false;
 					TheGoldStack.Position.To(maze.Width - 1.3, maze.Height - 1.3);
@@ -304,6 +308,16 @@ namespace FlashTreasureHunt.ActionScript
 					);
 				}
 			);
+		}
+
+		public void RemoveAllEntities()
+		{
+			this.EgoView.BlockingSprites.Clear();
+			this.EgoView.Sprites.Clear();
+			this.GoldSprites.Clear();
+			this.AmmoSprites.Clear();
+			this.DualPortals.Clear();
+			this.Portals.Clear();
 		}
 	}
 }

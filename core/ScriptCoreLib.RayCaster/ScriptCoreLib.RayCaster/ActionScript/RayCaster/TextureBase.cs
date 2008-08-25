@@ -7,161 +7,171 @@ using ScriptCoreLib.ActionScript.flash.display;
 
 namespace ScriptCoreLib.ActionScript.RayCaster
 {
-    using T = UInt32;
+	using T = UInt32;
 
-    [Script]
-    public abstract class TextureBase
-    {
-        protected T[] items;
+	[Script]
+	public abstract class TextureBase
+	{
+		protected T[] items;
 
-        public int Length
-        {
-            get { return items.Length; }
-        }
+		public int Length
+		{
+			get { return items.Length; }
+		}
+
+		public T[] Values
+		{
+			get
+			{
+				return items;
+			}
+		}
+
+		[Script]
+		public sealed class Entry
+		{
+			public int XIndex;
+			public int YIndex;
+
+			public T Value;
+		}
+
+		[Script]
+		internal class Enumerator : IEnumerable<Entry>, IEnumerator<Entry>
+		{
+			private int __1__state;
+
+			public TextureBase __3__target;
+
+			public TextureBase target;
+
+			private int __2__x;
+			private Entry __2__current;
+
+			public Enumerator(int __1__state)
+			{
+				this.__1__state = __1__state;
+				return;
+			}
+
+			#region IEnumerable<Entry> Members
+
+			public IEnumerator<Entry> GetEnumerator()
+			{
+				Enumerator _ret = null;
+
+				if (this.__1__state == -2)
+				{
+					this.__1__state = 0;
+					_ret = this;
+				}
+				else
+				{
+					_ret = new Enumerator(0);
+				}
 
 
-        [Script]
-        public sealed class Entry
-        {
-            public int XIndex;
-            public int YIndex;
 
-            public T Value;
-        }
+				_ret.target = this.__3__target;
 
-        [Script]
-        internal class Enumerator : IEnumerable<Entry>, IEnumerator<Entry>
-        {
-            private int __1__state;
+				return _ret;
+			}
 
-            public TextureBase __3__target;
+			#endregion
 
-            public TextureBase target;
+			#region IEnumerable Members
 
-            private int __2__x;
-            private Entry __2__current;
+			System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+			{
+				return this.GetEnumerator();
+			}
 
-            public Enumerator(int __1__state)
-            {
-                this.__1__state = __1__state;
-                return;
-            }
+			#endregion
 
-            #region IEnumerable<Entry> Members
+			#region IEnumerator<Entry> Members
 
-            public IEnumerator<Entry> GetEnumerator()
-            {
-                Enumerator _ret = null;
+			public Entry Current
+			{
+				get { return __2__current; }
+			}
 
-                if (this.__1__state == -2)
-                {
-                    this.__1__state = 0;
-                    _ret = this;
-                }
-                else
-                {
-                    _ret = new Enumerator(0);
-                }
+			#endregion
 
+			#region IDisposable Members
 
+			public void Dispose()
+			{
+				target = null;
 
-                _ret.target = this.__3__target;
+			}
 
-                return _ret;
-            }
+			#endregion
 
-            #endregion
+			#region IEnumerator Members
 
-            #region IEnumerable Members
+			object System.Collections.IEnumerator.Current
+			{
+				get { return this.Current; }
+			}
 
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
+			public bool MoveNext()
+			{
+				if (this.__1__state == 0)
+				{
+					this.__1__state = -1;
+					this.__2__x = 0;
+				}
+				else if (this.__1__state == 1)
+				{
+					this.__1__state = -1;
+					this.__2__x++;
+				}
+				else
+				{
+					return false;
+				}
 
-            #endregion
+				if (this.__2__x < this.target.items.Length)
+				{
+					var x = this.__2__x % this.target.Size;
+					var y = this.__2__x / this.target.Size;
 
-            #region IEnumerator<Entry> Members
+					this.__2__current = new Entry { XIndex = x, YIndex = y, Value = target[x, y] };
+					this.__1__state = 1;
+					return true;
+				}
 
-            public Entry Current
-            {
-                get { return __2__current; }
-            }
+				return false;
+			}
 
-            #endregion
+			public void Reset()
+			{
+				throw new NotImplementedException();
+			}
 
-            #region IDisposable Members
+			#endregion
+		}
 
-            public void Dispose()
-            {
-                target = null;
+		public IEnumerable<Entry> Entries
+		{
+			get
+			{
+				return new Enumerator(-2) { __3__target = this };
+			}
+		}
 
-            }
+		public abstract int Size
+		{
+			get;
+		}
 
-            #endregion
+		public Bitmap Bitmap;
 
-            #region IEnumerator Members
+		public abstract void Update();
 
-            object System.Collections.IEnumerator.Current
-            {
-                get { return this.Current; }
-            }
+		public abstract T this[int x, int y] { get; set; }
 
-            public bool MoveNext()
-            {
-                if (this.__1__state == 0)
-                {
-                    this.__1__state = -1;
-                    this.__2__x = 0;
-                }
-                else if (this.__1__state == 1)
-                {
-                    this.__1__state = -1;
-                    this.__2__x++;
-                }
-                else
-                {
-                    return false;
-                }
+		public T this[int offset] { get { return items[offset]; } set { items[offset] = value; } }
 
-                if (this.__2__x < this.target.items.Length)
-                {
-                    var x = this.__2__x % this.target.Size;
-                    var y = this.__2__x / this.target.Size;
-
-                    this.__2__current = new Entry { XIndex = x, YIndex = y, Value = target[x, y] };
-                    this.__1__state = 1;
-                    return true;
-                }
-
-                return false;
-            }
-
-            public void Reset()
-            {
-                throw new NotImplementedException();
-            }
-
-            #endregion
-        }
-
-        public IEnumerable<Entry> Entries
-        {
-            get
-            {
-                return new Enumerator(-2) { __3__target = this };
-            }
-        }
-
-        public abstract int Size
-        {
-            get;
-        }
-
-        public Bitmap Bitmap;
-
-        public abstract void Update();
-
-        public abstract T this[int x, int y] { get; set; }
-    }
+	}
 }

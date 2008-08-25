@@ -8,17 +8,17 @@ using ScriptCoreLib.Shared.Nonoba.Generic;
 namespace FlashTreasureHunt.Shared
 {
 
-    [Script]
-    public class MyGame : ServerGameBase<SharedClass1.IEvents, SharedClass1.IMessages, MyPlayer>
-    {
+	[Script]
+	public class MyGame : ServerGameBase<SharedClass1.IEvents, SharedClass1.IMessages, MyPlayer>
+	{
 
 
-        public override void UserJoined(MyPlayer player)
-        {
-            Console.WriteLine("UserJoined " + player.Username);
+		public override void UserJoined(MyPlayer player)
+		{
+			Console.WriteLine("- UserJoined " + player.Username);
 
 
-            var x = AnyOtherUser(player);
+			var x = AnyOtherUser(player);
 
 			//player.FromPlayer.LockGame += e => this.GameState = MyGame.GameStateEnum.ClosedGameInProgress;
 			//player.FromPlayer.UnlockGame += e => this.GameState = MyGame.GameStateEnum.OpenGameInProgress;
@@ -33,32 +33,36 @@ namespace FlashTreasureHunt.Shared
 			//player.FromPlayer.AwardAchievementUFOKill += e => player.AwardAchievement("ufokill");
 			//player.FromPlayer.AwardAchievementMaxGun += e => player.AwardAchievement("maxgun");
 
-		
+
 			// let new player know how it is named, also send magic bytes to verify
-            player.ToPlayer.ServerPlayerHello(
+			player.ToPlayer.ServerPlayerHello(
 				player.UserId, player.Username, new Handshake().ToArray()
 			);
 
 			// let other players know that there is a new player in the map
-            player.ToOthers.ServerPlayerJoined(
-               player.UserId, player.Username
-            );
+			player.ToOthers.ServerPlayerJoined(
+			   player.UserId, player.Username
+			);
 
-			//if (x != null)
-			//{
-			//    x.ToPlayer.ServerSendMap();
-			//}
+			if (x != null)
+			{
+				// the new player wont wait forever for the new map.
+				// if certain time passes and no map is recieved, it will use
+				// its own map, this desyncing from others
+				Console.WriteLine("Will ask for map transfer from " + x.Username);
+				x.ToPlayer.ServerSendMap();
+			}
 
-        }
+		}
 
-        public override void UserLeft(MyPlayer player)
-        {
-            player.ToOthers.ServerPlayerLeft(player.UserId, player.Username);
-        }
+		public override void UserLeft(MyPlayer player)
+		{
+			player.ToOthers.ServerPlayerLeft(player.UserId, player.Username);
+		}
 
-        public override void GameStarted()
-        {
-        }
+		public override void GameStarted()
+		{
+		}
 
-    }
+	}
 }

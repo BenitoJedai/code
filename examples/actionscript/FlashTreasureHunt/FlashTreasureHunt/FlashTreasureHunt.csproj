@@ -81,6 +81,7 @@
     <Compile Include="ActionScript\FlashTreasureHunt.Settings.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.cs" />
     <Compile Include="ActionScript\Extensions.cs" />
+    <Compile Include="ActionScript\JoinAction.cs" />
     <Compile Include="ActionScript\PointInt32.cs" />
     <Compile Include="ActionScript\Properties\BooleanProperty.cs" />
     <Compile Include="ActionScript\Properties\Int32Property.cs" />
