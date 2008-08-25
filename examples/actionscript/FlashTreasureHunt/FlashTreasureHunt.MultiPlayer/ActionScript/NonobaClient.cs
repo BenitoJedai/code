@@ -9,7 +9,7 @@ using ScriptCoreLib.ActionScript.Nonoba.api;
 namespace FlashTreasureHunt.ActionScript
 {
 	[Script]
-	class NonobaClient : Client
+	public class NonobaClient : Client
 	{
 		public const int NonobaChatWidth = 200;
 
@@ -40,6 +40,7 @@ namespace FlashTreasureHunt.ActionScript
 				//, "192.168.1.119"
 				);
 
+			
 
 			var MyEvents = new SharedClass1.RemoteEvents();
 			var MyMessages = new SharedClass1.RemoteMessages
@@ -52,7 +53,7 @@ namespace FlashTreasureHunt.ActionScript
 			Events = MyEvents;
 			Messages = MyMessages;
 
-			//this.InitializeEvents();
+			this.InitializeEventsOnce();
 
 			#region Dispatch
 			Func<Message, bool> Dispatch =
@@ -97,7 +98,7 @@ namespace FlashTreasureHunt.ActionScript
 			c.Message +=
 				e =>
 				{
-					//InitializeMap();
+					InitializeMapOnce();
 
 
 					var Dispatched = false;
@@ -124,10 +125,21 @@ namespace FlashTreasureHunt.ActionScript
 			c.Disconnect +=
 				 delegate
 				 {
+					 throw new Exception("Disconnect");
 				 };
 
 		}
 
+		bool InitializeMapDone;
 
+		public void InitializeMap()
+		{
+			if (InitializeMapDone)
+				return;
+
+			InitializeMapDone = true;
+
+			InitializeMapOnce();
+		}
 	}
 }
