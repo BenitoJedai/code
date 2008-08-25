@@ -10,6 +10,9 @@ namespace FlashTreasureHunt.ActionScript
 {
 	partial class Client
 	{
+		public void InitializeEventsOnce()
+		{
 
+		}
 	}
 }

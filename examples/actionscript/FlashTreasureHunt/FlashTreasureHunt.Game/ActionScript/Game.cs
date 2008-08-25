@@ -23,10 +23,20 @@ namespace FlashTreasureHunt.ActionScript
 		public Game()
 		{
 			// nonoba + mochiad
-			PlaySinglePlayer();
+			PlayMultiPlayer();
 
 
 		}
+
+		private void PlayMultiPlayer()
+		{
+			var g = new NonobaClient();
+
+			//g.Element.x = (DefaultWidth - MultiPlayer.NonobaClient.DefaultWidth) / 2;
+
+			g.Element.AttachTo(this);
+		}
+
 
 		private void PlaySinglePlayer()
 		{

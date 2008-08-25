@@ -51,7 +51,7 @@ namespace FlashTreasureHunt.ActionScript
 					CreateMapFromMaze();
 
 
-					
+
 
 					Func<string, Texture64> t =
 						texname => f[texname + ".png"];
@@ -74,7 +74,7 @@ namespace FlashTreasureHunt.ActionScript
 
 					#region game goal
 					TheGoldStack = CreateDummy(f["life.png"]);
-					
+
 					TheGoldStack.RemoveFrom(EgoView.Sprites);
 
 					WaitForCollectingHalfTheTreasureToRevealEndGoal();
@@ -159,7 +159,7 @@ namespace FlashTreasureHunt.ActionScript
 
 					InitializeCompass();
 					InitializeKeyboard();
-					
+
 					AddIngameEntities();
 
 					AttachMovementInput(EgoView, true, false);
@@ -169,38 +169,42 @@ namespace FlashTreasureHunt.ActionScript
 
 					AddPortals();
 
-				
 
-					getpsyched.FadeOut(
-						delegate
-						{
-							stage.enterFrame +=
+					stage.enterFrame +=
 								e =>
 								{
-							
-									EgoView.RenderScene();
+									if (EgoView.Image.alpha > 0)
+										EgoView.RenderScene();
 								};
 
-							this.EgoView.Image.FadeIn(
-								delegate
-								{
-									1500.AtDelayDo(
-										delegate
-										{
-											this.HudContainer.FadeIn();
-										}
-									);
-								}
-							);
-
-						}
-
-					);
-
-				
+					ReadyWithLoadingCurrentLevel();
 				}
 			);
 			#endregion
+		}
+
+		protected virtual void ReadyWithLoadingCurrentLevel()
+		{
+			getpsyched.FadeOut(
+							   delegate
+							   {
+							
+
+								   this.EgoView.Image.FadeIn(
+									   delegate
+									   {
+										   1000.AtDelayDo(
+											   delegate
+											   {
+												   this.HudContainer.FadeIn();
+											   }
+										   );
+									   }
+								   );
+
+							   }
+
+						   );
 		}
 
 
@@ -280,7 +284,7 @@ namespace FlashTreasureHunt.ActionScript
 			EgoView.Map.WorldMap = Map;
 		}
 
-	
+
 
 
 

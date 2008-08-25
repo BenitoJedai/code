@@ -42,6 +42,7 @@ echo - %2
 :: http://www.adobe.com/products/flex/sdk/
 :: -compiler.verbose-stacktraces 
 ::call C:\util\flex\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
-call C:\util\flex\bin\mxmlc.exe -debug -use-network=false -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
+::call C:\util\flex\bin\mxmlc.exe -debug -use-network=true -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
+call C:\util\flex\bin\mxmlc.exe -optimize -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 ::call C:\util\flex\bin\mxmlc.exe -optimize -use-network=false -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 goto :eof
