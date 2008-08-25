@@ -33,14 +33,13 @@ namespace FlashTreasureHunt.Shared
 			//player.FromPlayer.AwardAchievementUFOKill += e => player.AwardAchievement("ufokill");
 			//player.FromPlayer.AwardAchievementMaxGun += e => player.AwardAchievement("maxgun");
 
-			//player.ToPlayer.ServerPlayerHandshake(
-			//    new  [] { 0x12, 0x34 }
-			//);
-
+		
+			// let new player know how it is named, also send magic bytes to verify
             player.ToPlayer.ServerPlayerHello(
-				player.UserId, player.Username
+				player.UserId, player.Username, new Handshake().ToArray()
 			);
 
+			// let other players know that there is a new player in the map
             player.ToOthers.ServerPlayerJoined(
                player.UserId, player.Username
             );

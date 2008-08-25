@@ -18,12 +18,14 @@ namespace FlashTreasureHunt.Shared
         public enum Messages
         {
             None = 100,
-            ServerPlayerHandshake,
             ServerPlayerHello,
             ServerPlayerJoined,
             ServerPlayerLeft,
             PlayerAdvertise,
             UserPlayerAdvertise,
+            ServerSendMap,
+            SendMap,
+            UserSendMap,
         }
         #endregion
 
@@ -39,12 +41,14 @@ namespace FlashTreasureHunt.Shared
         [CompilerGenerated]
         public partial interface IEvents
         {
-            event Action<RemoteEvents.ServerPlayerHandshakeArguments> ServerPlayerHandshake;
             event Action<RemoteEvents.ServerPlayerHelloArguments> ServerPlayerHello;
             event Action<RemoteEvents.ServerPlayerJoinedArguments> ServerPlayerJoined;
             event Action<RemoteEvents.ServerPlayerLeftArguments> ServerPlayerLeft;
             event Action<RemoteEvents.PlayerAdvertiseArguments> PlayerAdvertise;
             event Action<RemoteEvents.UserPlayerAdvertiseArguments> UserPlayerAdvertise;
+            event Action<RemoteEvents.ServerSendMapArguments> ServerSendMap;
+            event Action<RemoteEvents.SendMapArguments> SendMap;
+            event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
         }
         #endregion
 
@@ -63,15 +67,13 @@ namespace FlashTreasureHunt.Shared
                 public object[] args;
             }
             #endregion
-            public void ServerPlayerHandshake(int[] version)
+            public void ServerPlayerHello(int user, string name, int[] handshake)
             {
-                var args = new object[version.Length];
-                Array.Copy(version, args, version.Length);
-                Send(new SendArguments { i = Messages.ServerPlayerHandshake, args = args });
-            }
-            public void ServerPlayerHello(int user, string name)
-            {
-                Send(new SendArguments { i = Messages.ServerPlayerHello, args = new object[] { user, name } });
+                var args = new object[handshake.Length + 2];
+                args[0] = user;
+                args[1] = name;
+                Array.Copy(handshake, 0, args, 2, handshake.Length);
+                Send(new SendArguments { i = Messages.ServerPlayerHello, args = args });
             }
             public void ServerPlayerJoined(int user, string name)
             {
@@ -88,6 +90,23 @@ namespace FlashTreasureHunt.Shared
             public void UserPlayerAdvertise(int user, string name)
             {
                 Send(new SendArguments { i = Messages.UserPlayerAdvertise, args = new object[] { user, name } });
+            }
+            public void ServerSendMap()
+            {
+                Send(new SendArguments { i = Messages.ServerSendMap, args = new object[] {  } });
+            }
+            public void SendMap(int[] bytestream)
+            {
+                var args = new object[bytestream.Length + 0];
+                Array.Copy(bytestream, 0, args, 0, bytestream.Length);
+                Send(new SendArguments { i = Messages.SendMap, args = args });
+            }
+            public void UserSendMap(int user, int[] bytestream)
+            {
+                var args = new object[bytestream.Length + 1];
+                args[0] = user;
+                Array.Copy(bytestream, 0, args, 1, bytestream.Length);
+                Send(new SendArguments { i = Messages.UserSendMap, args = args });
             }
         }
         #endregion
@@ -142,11 +161,13 @@ namespace FlashTreasureHunt.Shared
                 public void CombineDelegates(IEvents value)
                 {
                     value.PlayerAdvertise += this.UserPlayerAdvertise;
+                    value.SendMap += this.UserSendMap;
                 }
 
                 public void RemoveDelegates(IEvents value)
                 {
                     value.PlayerAdvertise -= this.UserPlayerAdvertise;
+                    value.SendMap -= this.UserSendMap;
                 }
                 #endregion
 
@@ -155,23 +176,13 @@ namespace FlashTreasureHunt.Shared
                 {
                     Target.UserPlayerAdvertise(this.user, e.name);
                 }
+                public void UserSendMap(SendMapArguments e)
+                {
+                    Target.UserSendMap(this.user, e.bytestream);
+                }
                 #endregion
             }
             #endregion
-            #region ServerPlayerHandshakeArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class ServerPlayerHandshakeArguments
-            {
-                public int[] version;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ version = ").Append(this.version).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<ServerPlayerHandshakeArguments> ServerPlayerHandshake;
             #region ServerPlayerHelloArguments
             [Script]
             [CompilerGenerated]
@@ -179,10 +190,11 @@ namespace FlashTreasureHunt.Shared
             {
                 public int user;
                 public string name;
+                public int[] handshake;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name).Append(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name).Append(", handshake = ").Append(this.handshake).Append(" }").ToString();
                 }
             }
             #endregion
@@ -245,26 +257,71 @@ namespace FlashTreasureHunt.Shared
             }
             #endregion
             public event Action<UserPlayerAdvertiseArguments> UserPlayerAdvertise;
+            #region ServerSendMapArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class ServerSendMapArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().ToString();
+                }
+            }
+            #endregion
+            public event Action<ServerSendMapArguments> ServerSendMap;
+            #region SendMapArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class SendMapArguments
+            {
+                public int[] bytestream;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ bytestream = ").Append(this.bytestream).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<SendMapArguments> SendMap;
+            #region UserSendMapArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserSendMapArguments : WithUserArguments
+            {
+                public int[] bytestream;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", bytestream = ").Append(this.bytestream).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserSendMapArguments> UserSendMap;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
                         {
-                            { Messages.ServerPlayerHandshake, e => { ServerPlayerHandshake(new ServerPlayerHandshakeArguments { version = e.GetInt32Array(0) }); } },
-                            { Messages.ServerPlayerHello, e => { ServerPlayerHello(new ServerPlayerHelloArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
+                            { Messages.ServerPlayerHello, e => { ServerPlayerHello(new ServerPlayerHelloArguments { user = e.GetInt32(0), name = e.GetString(1), handshake = e.GetInt32Array(2) }); } },
                             { Messages.ServerPlayerJoined, e => { ServerPlayerJoined(new ServerPlayerJoinedArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                             { Messages.ServerPlayerLeft, e => { ServerPlayerLeft(new ServerPlayerLeftArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                             { Messages.PlayerAdvertise, e => { PlayerAdvertise(new PlayerAdvertiseArguments { name = e.GetString(0) }); } },
                             { Messages.UserPlayerAdvertise, e => { UserPlayerAdvertise(new UserPlayerAdvertiseArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
+                            { Messages.ServerSendMap, e => { ServerSendMap(new ServerSendMapArguments {  }); } },
+                            { Messages.SendMap, e => { SendMap(new SendMapArguments { bytestream = e.GetInt32Array(0) }); } },
+                            { Messages.UserSendMap, e => { UserSendMap(new UserSendMapArguments { user = e.GetInt32(0), bytestream = e.GetInt32Array(1) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
                         {
-                            { Messages.ServerPlayerHandshake, e => ServerPlayerHandshake },
                             { Messages.ServerPlayerHello, e => ServerPlayerHello },
                             { Messages.ServerPlayerJoined, e => ServerPlayerJoined },
                             { Messages.ServerPlayerLeft, e => ServerPlayerLeft },
                             { Messages.PlayerAdvertise, e => PlayerAdvertise },
                             { Messages.UserPlayerAdvertise, e => UserPlayerAdvertise },
+                            { Messages.ServerSendMap, e => ServerSendMap },
+                            { Messages.SendMap, e => SendMap },
+                            { Messages.UserSendMap, e => UserSendMap },
                         }
                 ;
             }
@@ -306,19 +363,11 @@ namespace FlashTreasureHunt.Shared
             {
                 e();
             }
-            public event Action<RemoteEvents.ServerPlayerHandshakeArguments> ServerPlayerHandshake;
-            void IMessages.ServerPlayerHandshake(int[] version)
-            {
-                if(ServerPlayerHandshake == null) return;
-                var v = new RemoteEvents.ServerPlayerHandshakeArguments { version = version };
-                this.VirtualLatency(() => this.ServerPlayerHandshake(v));
-            }
-
             public event Action<RemoteEvents.ServerPlayerHelloArguments> ServerPlayerHello;
-            void IMessages.ServerPlayerHello(int user, string name)
+            void IMessages.ServerPlayerHello(int user, string name, int[] handshake)
             {
                 if(ServerPlayerHello == null) return;
-                var v = new RemoteEvents.ServerPlayerHelloArguments { user = user, name = name };
+                var v = new RemoteEvents.ServerPlayerHelloArguments { user = user, name = name, handshake = handshake };
                 this.VirtualLatency(() => this.ServerPlayerHello(v));
             }
 
@@ -354,9 +403,33 @@ namespace FlashTreasureHunt.Shared
                 this.VirtualLatency(() => this.UserPlayerAdvertise(v));
             }
 
+            public event Action<RemoteEvents.ServerSendMapArguments> ServerSendMap;
+            void IMessages.ServerSendMap()
+            {
+                if(ServerSendMap == null) return;
+                var v = new RemoteEvents.ServerSendMapArguments {  };
+                this.VirtualLatency(() => this.ServerSendMap(v));
+            }
+
+            public event Action<RemoteEvents.SendMapArguments> SendMap;
+            void IMessages.SendMap(int[] bytestream)
+            {
+                if(SendMap == null) return;
+                var v = new RemoteEvents.SendMapArguments { bytestream = bytestream };
+                this.VirtualLatency(() => this.SendMap(v));
+            }
+
+            public event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
+            void IMessages.UserSendMap(int user, int[] bytestream)
+            {
+                if(UserSendMap == null) return;
+                var v = new RemoteEvents.UserSendMapArguments { user = user, bytestream = bytestream };
+                this.VirtualLatency(() => this.UserSendMap(v));
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 24.08.2008 23:23:52
+// 25.08.2008 19:43:52

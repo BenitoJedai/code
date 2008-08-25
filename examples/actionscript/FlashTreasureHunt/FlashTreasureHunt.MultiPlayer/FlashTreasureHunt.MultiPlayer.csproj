@@ -76,6 +76,7 @@
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\NonobaGame.cs" />
+    <Compile Include="Shared\Handshake.cs" />
     <Compile Include="Shared\MyClient.cs" />
     <Compile Include="Shared\MyGame.cs" />
     <Compile Include="Shared\MyPlayer.cs" />

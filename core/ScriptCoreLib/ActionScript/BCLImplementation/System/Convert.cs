@@ -8,6 +8,18 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Convert))]
     internal class __Convert
     {
+		public static uint ToUInt32(long value)
+		{
+			return ((uint)value & 0xffffffff);
+
+		}
+
+		public static int ToInt32(long value)
+		{
+			return (int)((int)value & 0xffffffff);
+
+		}
+
 		public static int ToInt32(int value)
 		{
 			return (int)global::System.Math.Floor((double)value);

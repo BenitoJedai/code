@@ -868,12 +868,33 @@ namespace ConvertASToCS.js.Any
 						{
 							var SingleArray = v.ParametersInfo.SingleArrayParameter;
 							var SingleObjectArray = SingleArray != null ? SingleArray.ElementTypeName == "object" : false;
-							var SingleByteArray = SingleArray != null ? SingleArray.ElementTypeName == "byte" : false;
 
 							var SignleArrayConverted = SingleArray != null;
 
+							// we should not try to convert (object[])
 							SignleArrayConverted &= !SingleObjectArray;
-							SignleArrayConverted &= !SingleByteArray;
+
+							if (v.ParametersInfo.Parameters.Length > 1)
+								if (SingleArray == null)
+								{
+
+									var AllPriorParametersAreNotArrays = true;
+
+									for (int i = 0; i < v.ParametersInfo.Parameters.Length - 1; i++)
+									{
+										if (v.ParametersInfo.Parameters[i].IsArray)
+											AllPriorParametersAreNotArrays = false;
+									}
+
+									if (AllPriorParametersAreNotArrays)
+									{
+										if (v.ParametersInfo.Parameters.Last().IsArray)
+										{
+											SingleArray = v.ParametersInfo.Parameters.Last();
+											SignleArrayConverted = true;
+										}
+									}
+								}
 
 							if (SignleArrayConverted)
 							{
@@ -890,8 +911,26 @@ namespace ConvertASToCS.js.Any
 									Write(SingleArray.Name);
 									Write(".");
 									Write("Length");
+									WriteSpace();
+									Write("+");
+									WriteSpace();
+									Write("" + (v.ParametersInfo.Parameters.Length - 1));
 									Write("]");
 									Write(";");
+								}
+
+								for (int i = 0; i < v.ParametersInfo.Parameters.Length - 1; i++)
+								{
+									using (IndentLine())
+									{
+										Write("args");
+										Write("[");
+										Write("" + i);
+										Write("]");
+										WriteAssignment();
+										Write(v.ParametersInfo.Parameters[i].Name);
+										Write(";");
+									}
 								}
 
 								using (IndentLine())
@@ -904,12 +943,18 @@ namespace ConvertASToCS.js.Any
 
 										Write(",");
 										WriteSpace();
+										Write("0");
 
+										Write(",");
+										WriteSpace();
 										Write("args");
 
 										Write(",");
 										WriteSpace();
+										Write("" + (v.ParametersInfo.Parameters.Length - 1));
 
+										Write(",");
+										WriteSpace();
 										WriteInstanceMethodName(SingleArray.Name, "Length");
 									}
 
@@ -948,10 +993,13 @@ namespace ConvertASToCS.js.Any
 										}
 										else if (SingleObjectArray)
 										{
+											// the only parameter is object[]
 											Write(SingleArray.Name);
 										}
 										else
 										{
+											// all parameters are non arrays
+
 											WriteBlue("new");
 											WriteSpace();
 											WriteBlue("object");
@@ -1756,7 +1804,7 @@ namespace ConvertASToCS.js.Any
 					new TypeInfo
 					{
 						Name = Bridge,
-						Fields = new []
+						Fields = new[]
 						{
 							new FieldInfo { TypeName = "Action<Action>", FieldName = Bridge_VirtualLatency }
 						},
