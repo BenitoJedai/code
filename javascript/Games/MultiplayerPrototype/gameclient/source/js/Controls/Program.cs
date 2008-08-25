@@ -17,6 +17,7 @@ namespace gameclient.source.js.Controls
     using System.Collections.Generic;
     using NatureBoy.js;
     using System;
+	using ScriptCoreLib.JavaScript.Controls.LayeredControl;
 
     [Script]
     class __Type1

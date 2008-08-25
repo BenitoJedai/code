@@ -1,30 +1,62 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express Codename Orcas
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gameserver", "gameserver\gameserver.csproj", "{A6C83EF0-601F-44A5-AE87-91102FFCC7E9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gameclient", "gameclient\gameclient.csproj", "{5D93F60E-27BC-4E9A-85CC-8EE0D3D73083}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gameinstaller", "gameinstaller\gameinstaller.csproj", "{55515081-4DE9-4C72-AB26-A69696EB9D28}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jsc.server", "..\..\..\core\jsc.server\jsc.server\jsc.server.csproj", "{62E03A76-0721-4B00-BA74-BB94E82B4F9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibA", "..\..\..\compiler\ScriptCoreLibA\ScriptCoreLibA.csproj", "{477C5608-F5CD-436F-935D-66675988F1D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug with Doc|Any CPU = Debug with Doc|Any CPU
 		Debug|Any CPU = Debug|Any CPU
+		HTShop|Any CPU = HTShop|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A6C83EF0-601F-44A5-AE87-91102FFCC7E9}.Debug with Doc|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6C83EF0-601F-44A5-AE87-91102FFCC7E9}.Debug with Doc|Any CPU.Build.0 = Debug|Any CPU
 		{A6C83EF0-601F-44A5-AE87-91102FFCC7E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A6C83EF0-601F-44A5-AE87-91102FFCC7E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6C83EF0-601F-44A5-AE87-91102FFCC7E9}.HTShop|Any CPU.ActiveCfg = Release|Any CPU
+		{A6C83EF0-601F-44A5-AE87-91102FFCC7E9}.HTShop|Any CPU.Build.0 = Release|Any CPU
 		{A6C83EF0-601F-44A5-AE87-91102FFCC7E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6C83EF0-601F-44A5-AE87-91102FFCC7E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D93F60E-27BC-4E9A-85CC-8EE0D3D73083}.Debug with Doc|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D93F60E-27BC-4E9A-85CC-8EE0D3D73083}.Debug with Doc|Any CPU.Build.0 = Debug|Any CPU
 		{5D93F60E-27BC-4E9A-85CC-8EE0D3D73083}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5D93F60E-27BC-4E9A-85CC-8EE0D3D73083}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D93F60E-27BC-4E9A-85CC-8EE0D3D73083}.HTShop|Any CPU.ActiveCfg = Release|Any CPU
+		{5D93F60E-27BC-4E9A-85CC-8EE0D3D73083}.HTShop|Any CPU.Build.0 = Release|Any CPU
 		{5D93F60E-27BC-4E9A-85CC-8EE0D3D73083}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D93F60E-27BC-4E9A-85CC-8EE0D3D73083}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55515081-4DE9-4C72-AB26-A69696EB9D28}.Debug with Doc|Any CPU.ActiveCfg = Debug|Any CPU
 		{55515081-4DE9-4C72-AB26-A69696EB9D28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{55515081-4DE9-4C72-AB26-A69696EB9D28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55515081-4DE9-4C72-AB26-A69696EB9D28}.HTShop|Any CPU.ActiveCfg = Release|Any CPU
 		{55515081-4DE9-4C72-AB26-A69696EB9D28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55515081-4DE9-4C72-AB26-A69696EB9D28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62E03A76-0721-4B00-BA74-BB94E82B4F9E}.Debug with Doc|Any CPU.ActiveCfg = Debug|Any CPU
+		{62E03A76-0721-4B00-BA74-BB94E82B4F9E}.Debug with Doc|Any CPU.Build.0 = Debug|Any CPU
+		{62E03A76-0721-4B00-BA74-BB94E82B4F9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62E03A76-0721-4B00-BA74-BB94E82B4F9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62E03A76-0721-4B00-BA74-BB94E82B4F9E}.HTShop|Any CPU.ActiveCfg = Release|Any CPU
+		{62E03A76-0721-4B00-BA74-BB94E82B4F9E}.HTShop|Any CPU.Build.0 = Release|Any CPU
+		{62E03A76-0721-4B00-BA74-BB94E82B4F9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62E03A76-0721-4B00-BA74-BB94E82B4F9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.Debug with Doc|Any CPU.ActiveCfg = Debug with Doc|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.Debug with Doc|Any CPU.Build.0 = Debug with Doc|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.HTShop|Any CPU.ActiveCfg = HTShop|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.HTShop|Any CPU.Build.0 = HTShop|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

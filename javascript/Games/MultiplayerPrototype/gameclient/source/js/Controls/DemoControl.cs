@@ -13,6 +13,8 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
 
+using Console = System.Console;
+
 namespace gameclient.source.js.Controls
 {
     using shared;
@@ -225,7 +227,7 @@ namespace gameclient.source.js.Controls
         {
             //Native.DebugBreak();
 
-            Console.EnableActiveXConsole();
+			//Console.EnableActiveXConsole();
             // Console.WriteLine("!!!");
 
             ImportStyleSheet("fx/css/cnc.css");

@@ -79,7 +79,7 @@ namespace FlashTreasureHunt.ActionScript
 
 					WaitForCollectingHalfTheTreasureToRevealEndGoal();
 
-					TheGoldStack.Position.To(maze.Width - 1.5, maze.Height - 1.5);
+					TheGoldStack.Position.To(maze.Width - 1.25, maze.Height - 1.25);
 					TheGoldStack.Range = 0.5;
 					TheGoldStack.ItemTaken +=
 						delegate
@@ -164,6 +164,32 @@ namespace FlashTreasureHunt.ActionScript
 
 					AttachMovementInput(EgoView, true, false);
 
+					#region focus logic
+					this.focusIn +=
+						e =>
+						{
+							this.MovementEnabled_IsFocused = true;
+							//WriteLine("focusIn");
+
+							this.filters = null;
+
+						};
+
+					this.focusOut +=
+						delegate
+						{
+							this.MovementEnabled_IsFocused = false;
+							this.filters = new[] { Filters.GrayScaleFilter };
+							//WriteLine("focusOut");
+						};
+
+
+					this.focusRect = null;
+					this.mouseChildren = false;
+					this.tabEnabled = true;
+					#endregion
+					
+					//this.stage.focus = this;
 
 					ResetEgoPosition();
 

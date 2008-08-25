@@ -139,7 +139,7 @@ namespace FlashTreasureHunt.ActionScript
 				{
 
 					FireWeapon();
-			
+
 				}
 			};
 
@@ -150,20 +150,24 @@ namespace FlashTreasureHunt.ActionScript
 			stage.mouseDown +=
 				e =>
 				{
+					if (!MovementEnabled)
+						return;
+
 					// we should shoot with mouse only
 					// if its a rapid click
 
 					var clickpoint = e.ToStagePoint();
 
 					var remove = default(Action);
-						
+
 
 					Action<MouseEvent> mouseUp =
 						mouseUp_e =>
 						{
 							if (Point.distance(clickpoint, mouseUp_e.ToStagePoint()) < ClickRadius)
 							{
-								FireWeapon();
+								if (MovementEnabled)
+									FireWeapon();
 							}
 
 							remove();

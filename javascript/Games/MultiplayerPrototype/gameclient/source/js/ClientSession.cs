@@ -4,6 +4,7 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Net;
 using ScriptCoreLib.JavaScript.Runtime;
+using Console = System.Console;
 
 namespace gameclient.source.js
 {

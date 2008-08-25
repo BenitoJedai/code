@@ -125,7 +125,7 @@ namespace FlashTreasureHunt.ActionScript
 			c.Disconnect +=
 				 delegate
 				 {
-					 throw new Exception("Disconnect");
+					 // disconnected...
 				 };
 
 		}
