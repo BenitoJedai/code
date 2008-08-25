@@ -254,6 +254,7 @@ namespace FlashTreasureHunt.ActionScript
 			this.EgoView.Image.FadeOut(
 				delegate
 				{
+					this.EgoView.BlockingSprites.Clear();
 					this.EgoView.Sprites.Clear();
 					this.GoldSprites.Clear();
 					this.AmmoSprites.Clear();
@@ -269,13 +270,13 @@ namespace FlashTreasureHunt.ActionScript
 					AddIngameEntities();
 
 					TheGoldStack.IsTaken = false;
-					TheGoldStack.Position.To(maze.Width - 1.5, maze.Height - 1.5);
-
-
+					TheGoldStack.Position.To(maze.Width - 1.3, maze.Height - 1.3);
 					GoldSprites.Add(TheGoldStack);
 
-					WaitForCollectingHalfTheTreasureToRevealEndGoal();
+					this.WriteLine("goal is at " + new { TheGoldStack.Position.x, TheGoldStack.Position.y });
 
+
+					WaitForCollectingHalfTheTreasureToRevealEndGoal();
 
 					ResetPortals();
 

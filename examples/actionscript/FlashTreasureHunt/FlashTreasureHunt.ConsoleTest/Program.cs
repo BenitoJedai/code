@@ -99,6 +99,8 @@ namespace FlashTreasureHunt.ConsoleTest
 
 									p.Kill();
 
+									p.WaitForExit();
+
 									//p.CloseMainWindow();
 								};
 
@@ -125,6 +127,25 @@ namespace FlashTreasureHunt.ConsoleTest
 							}
 						};
 
+					x.ShowServerWindow.CheckedChanged +=
+						delegate
+						{
+							foreach (Form f in Application.OpenForms)
+							{
+								if (f == x)
+									continue;
+
+								f.Invoke(
+									new Action(
+										() => f.Visible = x.ShowServerWindow.Checked
+									)
+								);
+							}
+
+						};
+
+					x.ShowServerWindow.Checked = true;
+					x.ShowServerWindow.Checked = false;
 
 					Application.Run(app);
 

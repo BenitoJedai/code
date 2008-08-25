@@ -162,6 +162,9 @@ namespace FlashTreasureHunt.ActionScript
 						   EgoView.ViewPositionChanged +=
 							   delegate
 							   {
+								   if (EgoView.SpritesFromPointOfView == null)
+									   return;
+
 								   // only check for items each 0.5 distance travelled
 								   if ((EgoView.ViewPosition - LastPosition).length < 0.5)
 									   return;
@@ -258,6 +261,10 @@ namespace FlashTreasureHunt.ActionScript
 				   EgoView.ViewPositionChanged +=
 					   delegate
 					   {
+						   if (EgoView.SpritesFromPointOfView == null)
+							   return;
+
+
 						   // only check for items each 0.5 distance travelled
 						   if ((EgoView.ViewPosition - LastPosition).length < 0.5)
 							   return;
