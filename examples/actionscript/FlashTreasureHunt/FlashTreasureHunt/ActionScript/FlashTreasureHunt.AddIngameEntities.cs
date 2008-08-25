@@ -51,16 +51,12 @@ namespace FlashTreasureHunt.ActionScript
 			}
 		}
 
-	
 
 
-
-		private void AddIngameEntities()
+		private void AddIngameEntities(Action done)
 		{
-
+			var done_3 = new JoinAction(done, 3);
 			
-
-
 
 			Action<IEnumerator<Texture64.Entry>, Texture64, Action<SpriteInfoExtended>> AddSpriteByTexture =
 									 (SpaceForStuff, tex, handler) =>
@@ -88,10 +84,10 @@ namespace FlashTreasureHunt.ActionScript
 			GoldTotal = (FreeSpaceCount * 0.4).Floor();
 
 			WriteLine(new { GoldTotal, AmmoTotal, NonblockingTotal }.ToString());
-			#region gold
+			
 
 
-			#region nonblock
+			#region 3. nonblock
 			Action AddNonBlockingItems =
 				delegate
 				{
@@ -101,6 +97,7 @@ namespace FlashTreasureHunt.ActionScript
 					Assets.Default.nonblock.ToBitmapArray(
 						sprites =>
 						{
+							#region add nonblock
 							for (int i = 0; i < NonblockingTotal; i++)
 							{
 								// compiler bug: get a delegate to BCL class
@@ -115,23 +112,26 @@ namespace FlashTreasureHunt.ActionScript
 								);
 
 							}
+							#endregion
+
+							done_3.Signal();
 						}
 					);
 
-
+					
 				};
 			#endregion
 
 
 
-			#region AddAmmoPickups
+			#region 2. AddAmmoPickups
 			Action AddAmmoPickups =
 				delegate
 				{
 					Assets.Default.ammo_sprites.ToBitmapArray(
 					   sprites =>
 					   {
-
+						   #region add ammo
 						   for (int i = 0; i < AmmoTotal; i++)
 						   {
 							   // compiler bug: get a delegate to BCL class
@@ -219,7 +219,12 @@ namespace FlashTreasureHunt.ActionScript
 									   ItemTaken();
 							   };
 
+						   #endregion
+
 						   AddNonBlockingItems();
+
+						   done_3.Signal();
+
 					   }
 					);
 
@@ -227,11 +232,11 @@ namespace FlashTreasureHunt.ActionScript
 			#endregion
 
 
-
+			#region 1. gold
 			Assets.Default.gold.ToBitmapArray(
 			   sprites =>
 			   {
-
+				   #region add gold
 				   for (int i = 0; i < GoldTotal; i++)
 				   {
 
@@ -318,8 +323,12 @@ namespace FlashTreasureHunt.ActionScript
 						   if (ItemTaken != null)
 							   ItemTaken();
 					   };
+				   #endregion
 
 				   AddAmmoPickups();
+
+				   done_3.Signal();
+
 			   }
 			);
 			#endregion

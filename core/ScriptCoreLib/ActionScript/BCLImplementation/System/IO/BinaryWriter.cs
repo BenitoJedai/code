@@ -42,6 +42,16 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 			OutStream.ToByteArray().writeShort(value);
 		}
 
+		public virtual void Write(int value)
+		{
+			OutStream.ToByteArray().writeInt(value);
+		}
+
+		public virtual void Write(uint value)
+		{
+			OutStream.ToByteArray().writeUnsignedInt(value);
+		}
+
 		public virtual void Write(byte value)
 		{
 			this.OutStream.WriteByte(value);

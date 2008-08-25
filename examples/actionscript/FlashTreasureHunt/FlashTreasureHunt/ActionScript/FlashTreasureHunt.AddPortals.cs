@@ -128,8 +128,7 @@ namespace FlashTreasureHunt.ActionScript
 
 		private void ResetPortals()
 		{
-			DualPortals.Clear();
-			Portals.Clear();
+
 
 			// first level does not get a portal
 			if (CurrentLevel > 1)

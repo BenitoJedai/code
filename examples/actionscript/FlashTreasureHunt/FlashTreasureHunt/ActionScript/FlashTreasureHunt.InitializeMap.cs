@@ -160,7 +160,7 @@ namespace FlashTreasureHunt.ActionScript
 					InitializeCompass();
 					InitializeKeyboard();
 
-					AddIngameEntities();
+					
 
 					AttachMovementInput(EgoView, true, false);
 
@@ -195,15 +195,19 @@ namespace FlashTreasureHunt.ActionScript
 
 					AddPortals();
 
-
-					stage.enterFrame +=
-						e =>
+					AddIngameEntities(
+						delegate
 						{
-							if (EgoView.Image.alpha > 0)
-								EgoView.RenderScene();
-						};
+							stage.enterFrame +=
+								e =>
+								{
+									if (EgoView.Image.alpha > 0)
+										EgoView.RenderScene();
+								};
 
-					ReadyWithLoadingCurrentLevel();
+							ReadyWithLoadingCurrentLevel();
+						}
+					);
 				}
 			);
 			#endregion
