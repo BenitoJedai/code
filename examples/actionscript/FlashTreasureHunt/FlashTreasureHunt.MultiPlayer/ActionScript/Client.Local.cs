@@ -11,39 +11,32 @@ namespace FlashTreasureHunt.ActionScript
 {
 	partial class Client
 	{
-		public FlashTreasureHuntForMultiPlayer Map;
+		public FlashTreasureHunt Map;
 
-		[Script]
-		public class FlashTreasureHuntForMultiPlayer : FlashTreasureHunt
-		{
-			public FlashTreasureHuntForMultiPlayer(Action ReadyWithLoadingCurrentLevel)
-			{
-				this.BeforeReadyWithLoadingCurrentLevel = ReadyWithLoadingCurrentLevel;
-			}
-
-			Action BeforeReadyWithLoadingCurrentLevel;
-
-			protected override void ReadyWithLoadingCurrentLevel()
-			{
-				BeforeReadyWithLoadingCurrentLevel();
-
-				// base.ReadyWithLoadingCurrentLevel();
-			}
-		}
-
+	
 		public void InitializeMapOnce()
 		{
 			// this should be a ctor instead?
 
-			this.Map = new FlashTreasureHuntForMultiPlayer(InitializeMap_When_ReadyWithLoadingCurrentLevel).AttachTo(Element);
+			this.Map =
+				new FlashTreasureHunt
+				{
+					ReadyWithLoadingCurrentLevel =
+						delegate
+						{
+							this.Map.WriteLine("ready for multiplayer map");
+
+							this.Map.ReadyWithLoadingCurrentLevelDirect();
+
+							// if we are the host, we will have the primary map
+						}
+				};
+
+			this.Map.AttachTo(Element);
 
 
 		}
 
-		public void InitializeMap_When_ReadyWithLoadingCurrentLevel()
-		{
-			this.Map.WriteLine("ready for multiplayer map");
-		}
 
 	}
 }

@@ -11,10 +11,11 @@ namespace FlashTreasureHunt.ActionScript
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
 	/// </summary>
-	[Script, ScriptApplicationEntryPoint(Width = FlashTreasureHunt.DefaultControlWidth, Height = FlashTreasureHunt.DefaultControlHeight)]
-	[SWF(width = FlashTreasureHunt.DefaultControlWidth, height = FlashTreasureHunt.DefaultControlHeight, backgroundColor = 0)]
+	[Script, ScriptApplicationEntryPoint(Width = ControlWidth, Height = FlashTreasureHunt.DefaultControlHeight)]
+	[SWF(width = ControlWidth, height = FlashTreasureHunt.DefaultControlHeight, backgroundColor = 0)]
 	public class Game : Sprite
 	{
+		public const int ControlWidth = FlashTreasureHunt.DefaultControlWidth + NonobaClient.NonobaChatWidth;
 
 
 		/// <summary>

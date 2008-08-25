@@ -171,11 +171,11 @@ namespace FlashTreasureHunt.ActionScript
 
 
 					stage.enterFrame +=
-								e =>
-								{
-									if (EgoView.Image.alpha > 0)
-										EgoView.RenderScene();
-								};
+						e =>
+						{
+							if (EgoView.Image.alpha > 0)
+								EgoView.RenderScene();
+						};
 
 					ReadyWithLoadingCurrentLevel();
 				}
@@ -183,28 +183,29 @@ namespace FlashTreasureHunt.ActionScript
 			#endregion
 		}
 
-		protected virtual void ReadyWithLoadingCurrentLevel()
+		public Action ReadyWithLoadingCurrentLevel;
+
+
+		public void ReadyWithLoadingCurrentLevelDirect()
 		{
 			getpsyched.FadeOut(
+			   delegate
+			   {
+				   this.EgoView.Image.FadeIn(
+					   delegate
+					   {
+						   1000.AtDelayDo(
 							   delegate
 							   {
-							
-
-								   this.EgoView.Image.FadeIn(
-									   delegate
-									   {
-										   1000.AtDelayDo(
-											   delegate
-											   {
-												   this.HudContainer.FadeIn();
-											   }
-										   );
-									   }
-								   );
-
+								   this.HudContainer.FadeIn();
 							   }
-
 						   );
+					   }
+				   );
+
+			   }
+
+		   );
 		}
 
 

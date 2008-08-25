@@ -42,29 +42,32 @@ namespace FlashTreasureHunt.ActionScript
 		private void WaitForCollectingHalfTheTreasureToRevealEndGoal()
 		{
 			HalfOfTheTreasureCollected =
-							delegate
-							{
-								// ding ding ding - end of level revealed
+				delegate
+				{
+					// ding ding ding - end of level revealed
 
-								HalfOfTheTreasureCollected = null;
+					HalfOfTheTreasureCollected = null;
 
-								Assets.Default.Sounds.revealed.play();
+					Assets.Default.Sounds.revealed.play();
 
-								EgoView.Image.FadeOut(
-									delegate
-									{
+					EgoView.Image.FadeOut(
+						delegate
+						{
 
-										CompassContainer.FadeIn(
-											delegate
-											{
-												EgoView.Image.FadeIn();
-											}
-										);
-									}
-								);
+							CompassContainer.FadeIn(
+								delegate
+								{
+									EgoView.Image.FadeIn();
+								}
+							);
 
-								TheGoldStack.AddTo(EgoView.Sprites);
-							};
+						}
+					);
+
+					this.WriteLine("game goal is now there");
+
+					TheGoldStack.AddTo(EgoView.Sprites);
+				};
 		}
 
 	}
