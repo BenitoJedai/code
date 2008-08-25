@@ -17,6 +17,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         {
         }
 
+		[Script(OptimizedCode = "d[di] = s[si];")]
+		internal static void InternalCopyElement(global::System.Array s, int si, global::System.Array d, int di)
+		{
+		}
+
+
         public static void Copy(global::System.Array sourceArray, global::System.Array destinationArray, int length)
         {
             for (int i = 0; i < length; i++)
@@ -24,6 +30,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
                 InternalCopyElement(sourceArray, destinationArray, i);
             }
         }
+
+		public static void Copy(global::System.Array sourceArray, int sourceOffset, global::System.Array destinationArray, int destinationOffset, int length)
+		{
+			for (int i = 0; i < length; i++)
+			{
+				InternalCopyElement(sourceArray, i + sourceOffset, destinationArray, i + destinationOffset);
+			}
+		}
+
 
         public static void Sort<T>(T[] array, IComparer<T> comparer)
         {

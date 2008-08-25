@@ -70,7 +70,7 @@ namespace FlashTreasureHunt.ActionScript
 			#endregion
 
 
-			var WeaponChangeSpeed = handsize * 5;
+			var WeaponChangeSpeed = handsize * 4;
 
 			Action<Action> BringWeaponUp =
 				ChangeDone =>
@@ -104,7 +104,7 @@ namespace FlashTreasureHunt.ActionScript
 						{
 							hand_y += WeaponChangeSpeed;
 
-							if (hand_y >= DefaultControlHeight)
+							if (hand_y >= DefaultControlHeight - (32 * handsize))
 							{
 								// hand is off screen
 								// lets switch to a weapon

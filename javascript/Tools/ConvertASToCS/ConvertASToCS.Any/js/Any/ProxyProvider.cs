@@ -6,142 +6,145 @@ using ScriptCoreLib;
 
 namespace ConvertASToCS.js.Any
 {
-    [Script]
-    public class ProxyProvider
-    {
-        [Script]
-        public class MethodParametersInfo
-        {
-            public ParamInfo SingleArrayParameter
-            {
-                get
-                {
-                    return this.Parameters.SingleOrDefault(i => i.IsArray);
-                }
-            }
+	[Script]
+	public class ProxyProvider
+	{
+		[Script]
+		public class MethodParametersInfo
+		{
+			public ParamInfo SingleArrayParameter
+			{
+				get
+				{
+					if (this.Parameters.Length != 1)
+						return null;
 
-            
-            [Script]
-            public class ParamInfo
-            {
-                public string Name;
-                public string TypeName;
+					return this.Parameters.SingleOrDefault(i => i.IsArray);
+				}
+			}
 
 
-                public string ElementTypeName
-                {
-                    get
-                    {
-                        if (IsArray)
-                        {
-                            return TypeName.Substring(0, TypeName.Length - 2);
-                        }
-
-                        return "";
-                    }
-                }
-
-                public bool IsArray
-                {
-                    get
-                    {
-                        return TypeName.EndsWith("[]");
-                    }
-                }
-            }
-
-            public readonly ParamInfo[] Parameters;
-
-            public MethodParametersInfo(string e)
-            {
-                Parameters = e.Split(',').Select(i => i.Trim()).Where(i => !string.IsNullOrEmpty(i)).Select(
-                    text =>
-                    {
-                       
-                        var z = text.Split(' ');
-
-                  
-                        return new ParamInfo
-                        {
-                            Name = z[1].Trim(),
-                            TypeName = z[0].Trim(),
-                        };
-                    }
-                ).ToArray();
-            }
-        }
-
-        [Script]
-        public class MethodDefinition
-        {
-            public string Signature;
-            public string Name;
-
-            public MethodParametersInfo ParametersInfo { get; private set; }
+			[Script]
+			public class ParamInfo
+			{
+				public string Name;
+				public string TypeName;
 
 
+				public string ElementTypeName
+				{
+					get
+					{
+						if (IsArray)
+						{
+							return TypeName.Substring(0, TypeName.Length - 2);
+						}
 
-            static public MethodDefinition Parse(string z)
-            {
-                // scan this line
+						return "";
+					}
+				}
+
+				public bool IsArray
+				{
+					get
+					{
+						return TypeName.EndsWith("[]");
+					}
+				}
+			}
+
+			public readonly ParamInfo[] Parameters;
+
+			public MethodParametersInfo(string e)
+			{
+				Parameters = e.Split(',').Select(i => i.Trim()).Where(i => !string.IsNullOrEmpty(i)).Select(
+					text =>
+					{
+
+						var z = text.Split(' ');
 
 
-                var a = z.IndexInfoOf(" ");
-                
-                if (a.Index == -1)
-                    return null;
+						return new ParamInfo
+						{
+							Name = z[1].Trim(),
+							TypeName = z[0].Trim(),
+						};
+					}
+				).ToArray();
+			}
+		}
 
-                // name
-                var b = a.IndexInfoOf("(");
+		[Script]
+		public class MethodDefinition
+		{
+			public string Signature;
+			public string Name;
 
-                if (b.Index == -1)
-                    return null;
+			public MethodParametersInfo ParametersInfo { get; private set; }
 
-                // params
-                var c = b.IndexInfoOf(")");
 
-                if (c.Index == -1)
-                    return null;
 
-                return new MethodDefinition
-                {
-                     Name = a.SubString(b),
-                     Signature = z,
-                     ParametersInfo = new MethodParametersInfo(b.SubString(c))
-                };
-            }
-        }
+			static public MethodDefinition Parse(string z)
+			{
+				// scan this line
 
-        public readonly List<MethodDefinition> MethodDefinitions = new List<MethodDefinition>();
 
-        public ProxyProvider(string text)
-        {
-            var p = text.IndexInfoOf("");
+				var a = z.IndexInfoOf(" ");
 
-            while (p.Index != -1)
-            {
-                var t = p.IndexInfoOf("\n");
+				if (a.Index == -1)
+					return null;
 
-                if (t.Index != -1)
-                {
-                    var z = p.SubString(t).Trim();
+				// name
+				var b = a.IndexInfoOf("(");
 
-                    //Console.WriteLine("try parse " + z);
+				if (b.Index == -1)
+					return null;
 
-                    var n = MethodDefinition.Parse(z);
+				// params
+				var c = b.IndexInfoOf(")");
 
-                    if (n != null)
-                    {
-                        MethodDefinitions.Add(n);
-                        //Console.WriteLine("ok: " + z);
-                    }
+				if (c.Index == -1)
+					return null;
 
-                    
-                }
+				return new MethodDefinition
+				{
+					Name = a.SubString(b),
+					Signature = z,
+					ParametersInfo = new MethodParametersInfo(b.SubString(c))
+				};
+			}
+		}
 
-                p = t;
-            }
+		public readonly List<MethodDefinition> MethodDefinitions = new List<MethodDefinition>();
 
-        }
-    }
+		public ProxyProvider(string text)
+		{
+			var p = text.IndexInfoOf("");
+
+			while (p.Index != -1)
+			{
+				var t = p.IndexInfoOf("\n");
+
+				if (t.Index != -1)
+				{
+					var z = p.SubString(t).Trim();
+
+					//Console.WriteLine("try parse " + z);
+
+					var n = MethodDefinition.Parse(z);
+
+					if (n != null)
+					{
+						MethodDefinitions.Add(n);
+						//Console.WriteLine("ok: " + z);
+					}
+
+
+				}
+
+				p = t;
+			}
+
+		}
+	}
 }

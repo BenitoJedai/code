@@ -2,6 +2,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <StartArguments>SharedClass1.cs</StartArguments>
     <StartAction>Project</StartAction>
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\FlashConsoleWorm\FlashConsoleWorm\Shared</StartWorkingDirectory>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\FlashTreasureHunt\FlashTreasureHunt.MultiPlayer\Shared</StartWorkingDirectory>
   </PropertyGroup>
 </Project>

@@ -10,62 +10,84 @@ namespace FlashTreasureHunt.Shared
 {
 
 
-    public partial class SharedClass1
-    {
+	public partial class SharedClass1
+	{
 
-        partial class RemoteEvents : IEventsDispatch
-        {
-            public void EmptyHandler<T>(T Arguments)
-            {
-            }
+		partial class RemoteEvents : IEventsDispatch
+		{
+			public void EmptyHandler<T>(T Arguments)
+			{
+			}
 
-            bool IEventsDispatch.DispatchInt32(int e, IDispatchHelper h)
-            {
-                return Dispatch((Messages)e, h);
-            }
+			bool IEventsDispatch.DispatchInt32(int e, IDispatchHelper h)
+			{
+				return Dispatch((Messages)e, h);
+			}
 
-            partial class DispatchHelper : IDispatchHelper
-            {
-                public Converter<object, int> GetLength { get; set; }
+			partial class DispatchHelper : IDispatchHelper
+			{
+				public Converter<object, int> GetLength { get; set; }
 
-                public DispatchHelper()
-                {
-                    this.GetDoubleArray =
-                        delegate
-                        {
-                            var a = new double[GetLength(null)];
+				public DispatchHelper()
+				{
+					this.GetDoubleArray =
+						offset =>
+						{
+							int offseti = (int)offset;
+							int len = GetLength(null) - offseti;
 
-                            for (var i = 0; i < a.Length; i++)
-                                a[i] = this.GetDouble((uint)i);
+							var a = new double[len];
 
-                            return a;
-                        };
+							for (var i = 0; i < a.Length; i++)
+							{
+								uint ii = (uint)i;
+								uint j = ii + offset;
 
-                    this.GetInt32Array =
-                          delegate
-                          {
-                              var a = new int[GetLength(null)];
+								a[i] = this.GetDouble(j);
+							}
 
-                              for (var i = 0; i < a.Length; i++)
-                                  a[i] = this.GetInt32((uint)i);
+							return a;
+						};
 
-                              return a;
-                          };
+					this.GetInt32Array =
+						offset =>
+						{
+							int offseti = (int)offset;
+							int len = GetLength(null) - offseti;
+							var a = new int[len];
 
-                    this.GetStringArray =
-                          delegate
-                          {
-                              var a = new string[GetLength(null)];
+							for (var i = 0; i < a.Length; i++)
+							{
+								uint ii = (uint)i;
+								uint j = ii + offset;
 
-                              for (var i = 0; i < a.Length; i++)
-                                  a[i] = this.GetString((uint)i);
+								a[i] = this.GetInt32(j);
+							}
 
-                              return a;
-                          };
-                }
-            }
-        }
+							return a;
+						};
+
+					this.GetStringArray =
+						offset =>
+						{
+							int offseti = (int)offset;
+							int len = GetLength(null) - offseti;
+							var a = new string[len];
+
+							for (var i = 0; i < a.Length; i++)
+							{
+								uint ii = (uint)i;
+								uint j = ii + offset;
+
+								a[i] = this.GetString(j);
+							}
+
+							return a;
+						};
+				}
+			}
+		}
 
 
-    }
+	}
 }

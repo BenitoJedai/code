@@ -64,7 +64,7 @@ namespace FlashTreasureHunt.ActionScript
 						}
 					);
 
-					this.WriteLine("game goal is now there");
+					//this.WriteLine("game goal is now there");
 
 					TheGoldStack.AddTo(EgoView.Sprites);
 				};

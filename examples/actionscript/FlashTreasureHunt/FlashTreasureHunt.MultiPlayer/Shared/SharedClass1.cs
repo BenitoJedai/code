@@ -27,18 +27,18 @@ namespace FlashTreasureHunt.Shared
             // this will generate lots of overkill boilerplate code :)
 
 
-			void ServerPlayerHandshake(int[] version);
 
-			void ServerPlayerHello(int user, string name);
+			void ServerPlayerHello(int user, string name, int[] handshake);
             void ServerPlayerJoined(int user, string name);
             void ServerPlayerLeft(int user, string name);
 
             void PlayerAdvertise(string name);
             void UserPlayerAdvertise(int user, string name);
 
+			void ServerSendMap();
 
-			
-
+			void SendMap(int[] bytestream);
+			void UserSendMap(int user, int[] bytestream);
         }
     }
 }

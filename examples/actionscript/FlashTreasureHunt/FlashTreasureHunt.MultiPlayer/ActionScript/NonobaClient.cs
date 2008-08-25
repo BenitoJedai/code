@@ -98,7 +98,7 @@ namespace FlashTreasureHunt.ActionScript
 			c.Message +=
 				e =>
 				{
-					InitializeMapOnce();
+					InitializeMap();
 
 
 					var Dispatched = false;
