@@ -19,7 +19,13 @@ namespace FlashTreasureHunt.ActionScript
 	{
 		int NonblockingTotal;
 		int AmmoTotal;
-	
+
+
+		// items for pickup
+		public readonly List<SpriteInfoExtended> AmmoSprites = new List<SpriteInfoExtended>();
+		public readonly List<SpriteInfoExtended> GoldSprites = new List<SpriteInfoExtended>();
+		public readonly List<SpriteInfoExtended> NonblockSprites = new List<SpriteInfoExtended>();
+
 
 		public IEnumerable<TextureBase.Entry> FreeSpace
 		{
@@ -52,23 +58,80 @@ namespace FlashTreasureHunt.ActionScript
 		}
 
 
+		Bitmap[] CachedGoldTextures;
+		Bitmap[] CachedAmmoTextures;
+		Bitmap[] CachedNonblockTextures;
+
+		public void InsertGoldSprite(int i, double x, double y)
+		{
+			CreateDummy(CachedGoldTextures.AtModulus(i)).Do(
+				k =>
+				{
+					k.Range = 0.5;
+					k.ItemTaken +=
+						delegate
+						{
+							Assets.Default.Sounds.treasure.play();
+
+							AddTreasureCollected();
+						};
+
+					k.ConstructorIndexForSync = i;
+					GoldSprites.Add(k);
+				}
+			).Position.To(x, y);
+		}
+
+		public void InsertAmmoSprite(int i, double x, double y)
+		{
+			CreateDummy(CachedAmmoTextures.AtModulus(i)).Do(
+				k =>
+				{
+					k.Range = 0.5;
+					k.ItemTaken +=
+						delegate
+						{
+							Assets.Default.Sounds.ammo.play();
+
+							// we have taken ammo
+
+							AddAmmoToEgoAndSwitchWeapon();
+						};
+					k.ConstructorIndexForSync = i;
+
+					AmmoSprites.Add(k);
+				}
+			).Position.To(x, y);
+		}
+
+		public void InsertNonblockSprite(int i, double x, double y)
+		{
+			CreateDummy(CachedNonblockTextures.AtModulus(i)).Do(
+				k =>
+				{
+					k.Range = 0.5;
+					k.ConstructorIndexForSync = i;
+					NonblockSprites.Add(k);
+				}
+			).Position.To(x, y);
+		}
 
 		private void AddIngameEntities(Action done)
 		{
-			var done_3 = new JoinAction(done, 3);
-			
+			//var done_3 = new JoinAction(done, 3);
+
 
 			Action<IEnumerator<Texture64.Entry>, Texture64, Action<SpriteInfoExtended>> AddSpriteByTexture =
-									 (SpaceForStuff, tex, handler) =>
-									 {
-										 var p = SpaceForStuff.TakeOrDefault();
+				 (SpaceForStuff, tex, handler) =>
+				 {
+					 var p = SpaceForStuff.TakeOrDefault();
 
-										 if (p == null)
-											 return;
+					 if (p == null)
+						 return;
 
-										 CreateDummy(tex).Do(handler).Position.To(p.XIndex + 0.5, p.YIndex + 0.5);
+					 CreateDummy(tex).Do(handler).Position.To(p.XIndex + 0.5, p.YIndex + 0.5);
 
-									 };
+				 };
 
 
 
@@ -84,79 +147,56 @@ namespace FlashTreasureHunt.ActionScript
 			GoldTotal = (FreeSpaceCount * 0.4).Floor();
 
 			WriteLine(new { GoldTotal, AmmoTotal, NonblockingTotal }.ToString());
-			
+
 
 
 			#region 3. nonblock
 			Action AddNonBlockingItems =
-				delegate
-				{
+				() => Assets.Default.nonblock.ToBitmapArray(CachedNonblockTextures,
+					sprites =>
+					{
+						CachedNonblockTextures = sprites;
 
-
-
-					Assets.Default.nonblock.ToBitmapArray(
-						sprites =>
+						#region add nonblock
+						for (int i = 0; i < NonblockingTotal; i++)
 						{
-							#region add nonblock
-							for (int i = 0; i < NonblockingTotal; i++)
-							{
-								// compiler bug: get a delegate to BCL class
-								//AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
+							// compiler bug: get a delegate to BCL class
+							//AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
 
-								AddSpriteByTexture(FreeSpaceForStuff, sprites.AtModulus(i),
-									k =>
-									{
-										k.Range = 0.5;
-										//GoldSprites.Add(k);
-									}
-								);
+							AddSpriteByTexture(FreeSpaceForStuff, CachedNonblockTextures.AtModulus(i),
+								k =>
+								{
+									k.Range = 0.5;
+									k.ConstructorIndexForSync = i;
 
-							}
-							#endregion
+									NonblockSprites.Add(k);
+								}
+							);
 
-							done_3.Signal();
 						}
-					);
+						#endregion
 
-					
-				};
+						done();
+						//done_3.Signal();
+					}
+				);
+
+
 			#endregion
 
 
 
 			#region 2. AddAmmoPickups
 			Action AddAmmoPickups =
-				delegate
-				{
-					Assets.Default.ammo_sprites.ToBitmapArray(
-					   sprites =>
+				() => Assets.Default.ammo_sprites.ToBitmapArray(CachedAmmoTextures,
+				   sprites =>
+				   {
+					   if (CachedAmmoTextures == null)
 					   {
-						   #region add ammo
-						   for (int i = 0; i < AmmoTotal; i++)
-						   {
-							   // compiler bug: get a delegate to BCL class
-							   //AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
+						   CachedAmmoTextures = sprites;
 
-							   AddSpriteByTexture(FreeSpaceForStuff, sprites.AtModulus(i),
-								   k =>
-								   {
-									   k.Range = 0.5;
-									   k.ItemTaken +=
-										   delegate
-										   {
-											   Assets.Default.Sounds.ammo.play();
-
-											   // we have taken ammo
-
-											   AddAmmoToEgoAndSwitchWeapon();
-										   };
-
-									   AmmoSprites.Add(k);
-								   }
-							   );
-
-						   }
-
+						   // this should only be done once
+						   #region track ammo pickup
 						   var LastPosition = new Point();
 
 						   EgoView.ViewPositionChanged +=
@@ -221,21 +261,126 @@ namespace FlashTreasureHunt.ActionScript
 
 						   #endregion
 
-						   AddNonBlockingItems();
+					   }
 
-						   done_3.Signal();
+					   #region add ammo
+					   for (int i = 0; i < AmmoTotal; i++)
+					   {
+						   // compiler bug: get a delegate to BCL class
+						   //AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
+
+						   AddSpriteByTexture(FreeSpaceForStuff, CachedAmmoTextures.AtModulus(i),
+							   k =>
+							   {
+								   k.Range = 0.5;
+								   k.ItemTaken +=
+									   delegate
+									   {
+										   Assets.Default.Sounds.ammo.play();
+
+										   // we have taken ammo
+
+										   AddAmmoToEgoAndSwitchWeapon();
+									   };
+								   k.ConstructorIndexForSync = i;
+
+								   AmmoSprites.Add(k);
+							   }
+						   );
 
 					   }
-					);
 
-				};
+
+					   #endregion
+
+					   AddNonBlockingItems();
+
+					  // done_3.Signal();
+
+				   }
+				);
+
 			#endregion
 
 
 			#region 1. gold
 			Assets.Default.gold.ToBitmapArray(
+				CachedGoldTextures,
 			   sprites =>
 			   {
+				   if (CachedGoldTextures == null)
+				   {
+					   CachedGoldTextures = sprites;
+
+					   // this should only be done once
+
+					   #region Track gold pickup
+					   var LastPosition = new Point();
+
+					   EgoView.ViewPositionChanged +=
+						   delegate
+						   {
+							   if (EgoView.SpritesFromPointOfView == null)
+								   return;
+
+
+							   // only check for items each 0.5 distance travelled
+							   if ((EgoView.ViewPosition - LastPosition).length < 0.5)
+								   return;
+
+							   Action Later = null;
+							   Action ItemTaken = null;
+
+
+							   foreach (var Item in EgoView.SpritesFromPointOfView)
+							   {
+								   var Item_Sprite = Item.Sprite as SpriteInfoExtended;
+
+								   if (Item_Sprite != null)
+									   if (!Item_Sprite.IsTaken)
+										   if (Item.Distance < Item_Sprite.Range)
+										   {
+											   if (GoldSprites.Contains(Item_Sprite))
+											   {
+												   // ding-ding-ding!
+												   Item_Sprite.IsTaken = true;
+
+												   new Bitmap(new BitmapData(DefaultWidth, DefaultHeight, false, 0xffff00))
+												   {
+													   scaleX = DefaultScale,
+													   scaleY = DefaultScale
+												   }.AttachTo(this).FadeOutAndOrphanize(1000 / 24, 0.2);
+
+
+
+												   if (Item_Sprite != null)
+													   if (Item_Sprite.ItemTaken != null)
+														   ItemTaken += () => Item_Sprite.ItemTaken();
+
+												   GoldTakenCounter = (GoldTakenCounter + 1).Min(1);
+
+												   Later +=
+													   delegate
+													   {
+														   EgoView.Sprites.Remove(Item_Sprite);
+														   GoldSprites.Remove(Item_Sprite);
+													   };
+											   }
+										   }
+							   }
+
+							   if (Later != null)
+								   Later();
+
+							   LastPosition = EgoView.ViewPosition;
+
+							   if (ItemTaken != null)
+								   ItemTaken();
+						   };
+					   #endregion
+
+				   }
+
 				   #region add gold
 				   for (int i = 0; i < GoldTotal; i++)
 				   {
@@ -243,7 +388,9 @@ namespace FlashTreasureHunt.ActionScript
 					   // compiler bug: get a delegate to BCL class
 					   //AddSpriteByTexture(FreeSpaceForStuff, s, GoldSprites.Add);
 
-					   AddSpriteByTexture(FreeSpaceForStuff, sprites.AtModulus(i),
+					   var gold_version = CachedGoldTextures.AtModulus(i);
+
+					   AddSpriteByTexture(FreeSpaceForStuff, gold_version,
 						   k =>
 						   {
 							   k.Range = 0.5;
@@ -252,82 +399,21 @@ namespace FlashTreasureHunt.ActionScript
 								   {
 									   Assets.Default.Sounds.treasure.play();
 
-									   AddTreasure();
+									   AddTreasureCollected();
 								   };
 
+							   k.ConstructorIndexForSync = i;
 							   GoldSprites.Add(k);
 						   }
 					   );
-
 				   }
 
-				   var LastPosition = new Point();
 
-				   EgoView.ViewPositionChanged +=
-					   delegate
-					   {
-						   if (EgoView.SpritesFromPointOfView == null)
-							   return;
-
-
-						   // only check for items each 0.5 distance travelled
-						   if ((EgoView.ViewPosition - LastPosition).length < 0.5)
-							   return;
-
-						   Action Later = null;
-						   Action ItemTaken = null;
-
-
-						   foreach (var Item in EgoView.SpritesFromPointOfView)
-						   {
-							   var Item_Sprite = Item.Sprite as SpriteInfoExtended;
-
-							   if (Item_Sprite != null)
-								   if (!Item_Sprite.IsTaken)
-									   if (Item.Distance < Item_Sprite.Range)
-									   {
-										   if (GoldSprites.Contains(Item_Sprite))
-										   {
-											   // ding-ding-ding!
-											   Item_Sprite.IsTaken = true;
-
-											   new Bitmap(new BitmapData(DefaultWidth, DefaultHeight, false, 0xffff00))
-											   {
-												   scaleX = DefaultScale,
-												   scaleY = DefaultScale
-											   }.AttachTo(this).FadeOutAndOrphanize(1000 / 24, 0.2);
-
-
-
-											   if (Item_Sprite != null)
-												   if (Item_Sprite.ItemTaken != null)
-													   ItemTaken += () => Item_Sprite.ItemTaken();
-
-											   GoldTakenCounter = (GoldTakenCounter + 1).Min(1);
-
-											   Later +=
-												   delegate
-												   {
-													   EgoView.Sprites.Remove(Item_Sprite);
-													   GoldSprites.Remove(Item_Sprite);
-												   };
-										   }
-									   }
-						   }
-
-						   if (Later != null)
-							   Later();
-
-						   LastPosition = EgoView.ViewPosition;
-
-						   if (ItemTaken != null)
-							   ItemTaken();
-					   };
 				   #endregion
 
 				   AddAmmoPickups();
 
-				   done_3.Signal();
+				   //done_3.Signal();
 
 			   }
 			);

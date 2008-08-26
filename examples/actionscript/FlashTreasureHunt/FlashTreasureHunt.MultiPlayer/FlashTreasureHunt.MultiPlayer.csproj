@@ -76,6 +76,7 @@
     <Compile Include="ActionScript\Client.cs" />
     <Compile Include="ActionScript\Client.Local.cs" />
     <Compile Include="ActionScript\Client.Remote.cs" />
+    <Compile Include="ActionScript\Client.Sync.cs" />
     <Compile Include="ActionScript\NonobaClient.cs" />
     <Compile Include="ActionScript\TimeoutAction.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />

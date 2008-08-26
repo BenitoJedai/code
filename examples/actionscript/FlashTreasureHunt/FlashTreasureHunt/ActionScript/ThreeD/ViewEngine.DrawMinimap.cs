@@ -46,32 +46,16 @@ namespace FlashTreasureHunt.ActionScript.ThreeD
 
 			//minimap.applyFilter(minimap, minimap.rect, new Point(), new GlowFilter(0x00ff00));
 
-
-			minimap.drawLine(0xffffffff,
-					(posX + 1) * isize,
-					(posY + 1) * isize,
-					(posX + 1 + Math.Cos(rayDirLeft) * isize) * isize,
-					(posY + 1 + Math.Sin(rayDirLeft) * isize) * isize
-					);
-
-			minimap.drawLine(0xffffffff,
-				(posX + 1) * isize,
-				(posY + 1) * isize,
-				(posX + 1 + Math.Cos(rayDirRight) * isize) * isize,
-				(posY + 1 + Math.Sin(rayDirRight) * isize) * isize
-				);
-
 			//Console.WriteLine("left: " + rayDirLeft);
 			//Console.WriteLine("right: " + rayDirLeft);
 
-			foreach (var ss in EgoView.SpritesFromPointOfView)
+			foreach (var _ss in EgoView.SpritesFromPointOfView)
 			{
-				uint color = 0xff00ff00;
+				var ss = _ss;
+
+				uint color = 0x9f008000;
 
 
-
-				if (!ss.ViewInfo.IsInView)
-					color = 0x9f008000;
 
 
 				minimap.fillRect(new Rectangle(
@@ -84,16 +68,23 @@ namespace FlashTreasureHunt.ActionScript.ThreeD
 				var _y = (ss.Sprite.Position.y + 1) * isize;
 
 
-				if (ss.Sprite.Frames.Length > 1)
-					minimap.drawLine(
-							0xffffffff,
-							_x,
-							_y,
-							_x + Math.Cos(ss.Sprite.Direction) * isize,
-							_y + Math.Sin(ss.Sprite.Direction) * isize
-					);
-
+			
 			}
+
+			minimap.drawLine(0xffffffff,
+				(posX + 1) * isize,
+				(posY + 1) * isize,
+				(posX + 1 + Math.Cos(rayDirLeft) * isize) * isize,
+				(posY + 1 + Math.Sin(rayDirLeft) * isize) * isize
+				);
+
+			minimap.drawLine(0xffffffff,
+				(posX + 1) * isize,
+				(posY + 1) * isize,
+				(posX + 1 + Math.Cos(rayDirRight) * isize) * isize,
+				(posY + 1 + Math.Sin(rayDirRight) * isize) * isize
+				);
+
 
 			minimap.fillRect(new Rectangle((posX + 0.5) * isize, (posY + 0.5) * isize, isize, isize), 0xffff0000);
 
