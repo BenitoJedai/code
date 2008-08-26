@@ -45,18 +45,33 @@ namespace FlashTreasureHunt.ActionScript
 
 		public readonly List<CoPlayer> CoPlayers = new List<CoPlayer>();
 
+		public bool DisableAddDamageToCoPlayer;
+
 		private void PlayerAdvertise(SharedClass1.RemoteEvents.UserPlayerAdvertiseArguments e)
 		{
+			CoPlayer c = CoPlayers.SingleOrDefault(k => k.Identity.user == e.user);
+
 			#region does that coplayer already exist?
-			if (!CoPlayers.Any(k => k.Identity.user == e.user))
+			if (c == null)
 			{
 				// the player has just joined
 
-				new CoPlayer { Identity = e, Guard = this.Map.CreateGuard().AddTo(this.Map.EgoView.BlockingSprites) }.AddTo(CoPlayers);
+				c = new CoPlayer { Identity = e, Guard = this.Map.CreateGuard().AddTo(this.Map.EgoView.BlockingSprites) }.AddTo(CoPlayers);
+
+				c.Guard.TakeDamage +=
+					damage =>
+					{
+						// we should not mirror remoted damage
+						if (DisableAddDamageToCoPlayer)
+							return;
+
+						// we have been shot
+						Messages.AddDamageToCoPlayer(c.Identity.user, damage);
+					};
 			}
 			#endregion
 
-			var c = CoPlayers.Single(k => k.Identity.user == e.user);
+			
 
 			var MemoryStream_UInt8 = e.vector.Select(i => (byte)i).ToArray();
 			var ms = new MemoryStream(MemoryStream_UInt8);

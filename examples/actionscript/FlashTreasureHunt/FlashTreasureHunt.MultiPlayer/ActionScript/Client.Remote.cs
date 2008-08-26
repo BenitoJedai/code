@@ -144,9 +144,17 @@ namespace FlashTreasureHunt.ActionScript
 						i => i.RemoveFrom(this.Map.GoldSprites).RemoveFrom(this.Map.EgoView.Sprites)
 					);
 				};
+
+			Events.UserAddDamageToCoPlayer +=
+				e =>
+				{
+					this.DisableAddDamageToCoPlayer = true;
+					this.CoPlayers.Where(k => k.Identity.user == e.target).ForEach(k => k.Guard.TakeDamage(e.damage));
+					this.DisableAddDamageToCoPlayer = false;
+				};
 		}
 
-	
+
 
 
 	}
