@@ -25,9 +25,11 @@ namespace FlashTreasureHunt.ActionScript
 			var dumper = new TextField
 			{
 				width = DefaultControlWidth,
-				height = DefaultControlHeight,
+				height = DefaultControlHeight / 2,
 				textColor = 0xffff00,
-				mouseEnabled = false
+				mouseEnabled = false,
+				y = DefaultControlHeight / 2,
+
 			}.AttachTo(this);
 
 			var dumper_queue = new Queue<string>();

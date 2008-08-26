@@ -9,8 +9,8 @@ namespace FlashTreasureHunt.Shared
 	[Script]
 	public class Handshake
 	{
-		public const int MagicValue1 = 0x0000BEEF;
-		public const int MagicValue2 = 0x0000DEAD;
+		public const int MagicValue1 = (int)0x1230BEEF;
+		public const int MagicValue2 = (int)0x7F30DEAD;
 
 		public int[] ToArray()
 		{

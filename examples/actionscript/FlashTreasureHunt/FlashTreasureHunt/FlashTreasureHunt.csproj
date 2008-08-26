@@ -87,6 +87,7 @@
     <Compile Include="ActionScript\Properties\Int32Property.cs" />
     <Compile Include="ActionScript\Properties\Property.cs" />
     <Compile Include="ActionScript\SpriteInfoExtended.cs" />
+    <Compile Include="ActionScript\ThreeD\ViewEngine.DrawMinimap.cs" />
     <Compile Include="ActionScript\ThreeD\ViewEngine.cs" />
     <Compile Include="ActionScript\UI\KeyboardButton.cs" />
     <Compile Include="ActionScript\UI\KeyboardButtonGroup.cs" />
@@ -134,7 +135,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>pushd ..\..\tools\
-::call build.bat $(ProjectName)
+:: call build.bat $(ProjectName)
 popd</PostBuildEvent>
   </PropertyGroup>
 </Project>

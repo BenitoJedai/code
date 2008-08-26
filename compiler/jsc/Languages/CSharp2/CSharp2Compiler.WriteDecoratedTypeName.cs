@@ -230,7 +230,12 @@ namespace jsc.Languages.CSharp2
                     return GetSafeLiteral(z.Name.Substring(0, g));
             }
 
-            return GetSafeLiteral(z.Name);
+			var s = GetSafeLiteral(z.Name);
+
+			if (ScriptAttribute.IsAnonymousType(z))
+				s += "_" + z.MetadataToken;
+
+            return s;
         }
 
 

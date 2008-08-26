@@ -7,6 +7,7 @@ using ScriptCoreLib.ActionScript.flash.display;
 using FlashTreasureHunt.Shared;
 using FlashTreasureHunt.ActionScript.Properties;
 using System.IO;
+using ScriptCoreLib.ActionScript.RayCaster;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -38,9 +39,17 @@ namespace FlashTreasureHunt.ActionScript
 					//// now we know our player id.
 					//this.MapSharedState.RemoteObjects[e.user] = this.MapSharedState.LocalObjects;
 
-
+					
 					// how long should we wait for the map?
-					FirstMapLoader.Wait(3000);
+					FirstMapLoader.Wait(5000);
+
+					if (e.user_with_map == -1)
+						FirstMapLoader.Signal(
+							delegate
+							{
+								Map.WriteLine("using generated map");
+							}
+						);
 
 					// this causes other events to be attached
 					MyIdentity.Value = e;
@@ -83,15 +92,24 @@ namespace FlashTreasureHunt.ActionScript
 					var ms = new MemoryStream();
 					var mw = new BinaryWriter(ms);
 
-					var wm = Map.EgoView.Map.WallMap;
+					var wm = Map.EgoView.Map.WorldMap;
 
 					mw.Write(wm.Values.Length);
 
+					uint xor = 0;
+
 					foreach (var v in wm.Values)
 					{
+						xor ^= v;
+
 						mw.Write(v);
 					}
 
+					mw.Write(xor);
+
+					Map.WriteLine("sent xor  " + new { xor });
+
+					// we will waste 3 bytes - 0xffffff00 cuz memorystream isn't supported
 					var MemoryStream_Int32 = ms.ToArray().Select(i => (int)i).ToArray();
 
 					Messages.SendMap(MemoryStream_Int32);
@@ -108,8 +126,8 @@ namespace FlashTreasureHunt.ActionScript
 							// we need to 
 							Map.RemoveAllEntities();
 
-							var wm = Map.EgoView.Map.WallMap;
-
+							var wm = new Texture32();
+							
 							var MemoryStream_UInt8 = e.bytestream.Select(i => (byte)i).ToArray();
 							var ms = new MemoryStream(MemoryStream_UInt8);
 							var mr = new BinaryReader(ms);
@@ -122,13 +140,33 @@ namespace FlashTreasureHunt.ActionScript
 							}
 							else
 							{
+								uint xor = 0;
+
 								for (int i = 0; i < Values; i++)
 								{
-									wm[i] = mr.ReadUInt32();
+									var v = mr.ReadUInt32();
+
+									xor ^= v;
+
+									wm[i] = v;
 								}
 
-								Map.ResetEgoPosition();
+								var xor_Expected = mr.ReadUInt32();
+
+								if (xor == xor_Expected)
+								{
+									Map.WriteLine("xor ok " + new { xor, xor_Expected });
+
+									Map.EgoView.Map.WorldMap = wm;
+
+									Map.ResetEgoPosition();
+								}
+								else
+								{
+									Map.WriteLine("xor failed " + new { xor, xor_Expected });
+								}
 							}
+
 						}
 					);
 				};

@@ -11,7 +11,7 @@ using ScriptCoreLib.ActionScript.flash.geom;
 namespace FlashTreasureHunt.ActionScript.ThreeD
 {
 	[Script]
-	public class ViewEngine : ViewEngineBase
+	public partial class ViewEngine : ViewEngineBase
 	{
 		int HorizonStep = 4;
 
@@ -27,6 +27,8 @@ namespace FlashTreasureHunt.ActionScript.ThreeD
 		public ViewEngine(int w, int h)
 			: base(w, h)
 		{
+			this.RenderOverlay += DrawMinimap;
+
 			Func<byte, byte, int, Func<int, uint>> f =
 				(g0, g1, max) =>
 				{
