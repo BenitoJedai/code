@@ -23,6 +23,8 @@ namespace FlashTreasureHunt.ActionScript
 			var ms = new MemoryStream();
 			var mw = new BinaryWriter(ms);
 
+			mw.Write(this.LocalCoPlayer.Guard.Health);
+
 			mw.Write(EgoVector.Direction);
 			mw.Write(EgoVector.Position.x);
 			mw.Write(EgoVector.Position.y);
@@ -58,6 +60,7 @@ namespace FlashTreasureHunt.ActionScript
 
 				c = new CoPlayer { Identity = e, Guard = this.Map.CreateGuard().AddTo(this.Map.EgoView.BlockingSprites) }.AddTo(CoPlayers);
 
+				c.Guard.MinimapColor = 0xff0000ff;
 				c.Guard.TakeDamage +=
 					damage =>
 					{
@@ -77,6 +80,7 @@ namespace FlashTreasureHunt.ActionScript
 			var ms = new MemoryStream(MemoryStream_UInt8);
 			var mr = new BinaryReader(ms);
 
+			c.Guard.Health = mr.ReadDouble();
 			c.Guard.Direction = mr.ReadDouble();
 			c.Guard.Position = new Point(mr.ReadDouble(), mr.ReadDouble());
 
@@ -84,5 +88,47 @@ namespace FlashTreasureHunt.ActionScript
 
 		}
 
+		public CoPlayer LocalCoPlayer;
+
+		private void CreateLocalCoPlayer()
+		{
+			var c = new CoPlayer
+			{
+				Identity =
+					new SharedClass1.RemoteEvents.UserPlayerAdvertiseArguments
+					{
+						name = MyIdentity.Value.name,
+						user = MyIdentity.Value.user
+					},
+				Guard = this.Map.CreateGuard()
+			}.AddTo(CoPlayers);
+
+
+			
+			c.Guard.RemoveFrom(Map.EgoView.Sprites);
+
+			// we will never render ourself
+
+			c.Guard.TakeDamageDone +=
+				damage =>
+				{
+					this.Map.FlashColors(0xffff0000);
+
+					if (this.LocalCoPlayer.Guard.Health <= 0)
+					{
+						// we die!
+
+						this.Map.filters = new[] { Filters.RedChannelFilter };
+						this.Map.MovementEnabled_IsAlive = false;
+						this.Map.HudContainer.FadeOut();
+
+						// should we respawn soon?
+					}
+				};
+
+
+			LocalCoPlayer = c;
+
+		}
 	}
 }

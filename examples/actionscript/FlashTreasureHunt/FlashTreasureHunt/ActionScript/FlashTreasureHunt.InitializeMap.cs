@@ -156,7 +156,7 @@ namespace FlashTreasureHunt.ActionScript
 					InitializeCompass();
 					InitializeKeyboard();
 
-					
+
 
 					AttachMovementInput(EgoView, true, false);
 
@@ -167,7 +167,8 @@ namespace FlashTreasureHunt.ActionScript
 							this.MovementEnabled_IsFocused = true;
 							//WriteLine("focusIn");
 
-							this.filters = null;
+							if (this.MovementEnabled_IsAlive)
+								this.filters = null;
 
 						};
 
@@ -175,7 +176,9 @@ namespace FlashTreasureHunt.ActionScript
 						delegate
 						{
 							this.MovementEnabled_IsFocused = false;
-							this.filters = new[] { Filters.GrayScaleFilter };
+
+							if (this.MovementEnabled_IsAlive)
+								this.filters = new[] { Filters.GrayScaleFilter };
 							//WriteLine("focusOut");
 						};
 
@@ -184,7 +187,7 @@ namespace FlashTreasureHunt.ActionScript
 					this.mouseChildren = false;
 					this.tabEnabled = true;
 					#endregion
-					
+
 					//this.stage.focus = this;
 
 					ResetEgoPosition();

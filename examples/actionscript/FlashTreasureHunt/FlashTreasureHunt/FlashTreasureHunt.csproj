@@ -65,6 +65,7 @@
     <Compile Include="ActionScript\Assets.cs" />
     <Compile Include="ActionScript\Assets.Sounds.cs" />
     <Compile Include="ActionScript\Assets.Images.cs" />
+    <Compile Include="ActionScript\FlashTreasureHunt.FlashColors.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.AddPortals.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.WriteLine.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.InitializeWeaponOverlay.cs" />

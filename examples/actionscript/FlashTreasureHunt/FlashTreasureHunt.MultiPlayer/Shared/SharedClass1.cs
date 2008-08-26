@@ -50,6 +50,9 @@ namespace FlashTreasureHunt.Shared
 			void AddDamageToCoPlayer(int target, double damage);
 			void UserAddDamageToCoPlayer(int user, int target, double damage);
 
+
+			void WalkTo(int[] bytestream);
+			void UserWalkTo(int user, int[] bytestream);
 		}
     }
 }

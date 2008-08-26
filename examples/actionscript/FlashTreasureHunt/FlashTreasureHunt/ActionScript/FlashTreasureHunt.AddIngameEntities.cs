@@ -230,11 +230,8 @@ namespace FlashTreasureHunt.ActionScript
 													   // ding-ding-ding!
 													   Item_Sprite.IsTaken = true;
 
-													   new Bitmap(new BitmapData(DefaultWidth, DefaultHeight, false, 0x0000ff))
-													   {
-														   scaleX = DefaultScale,
-														   scaleY = DefaultScale
-													   }.AttachTo(this).FadeOutAndOrphanize(1000 / 24, 0.2);
+													   uint color = 0x0000ff;
+													   FlashColors(color);
 
 
 
@@ -354,12 +351,9 @@ namespace FlashTreasureHunt.ActionScript
 												   // ding-ding-ding!
 												   Item_Sprite.IsTaken = true;
 
-												   new Bitmap(new BitmapData(DefaultWidth, DefaultHeight, false, 0xffff00))
-												   {
-													   scaleX = DefaultScale,
-													   scaleY = DefaultScale
-												   }.AttachTo(this).FadeOutAndOrphanize(1000 / 24, 0.2);
+												   FlashColors(0xffff00);
 
+												   
 
 
 												   if (Item_Sprite != null)
@@ -435,6 +429,8 @@ namespace FlashTreasureHunt.ActionScript
 			);
 			#endregion
 		}
+
+	
 
 	}
 }

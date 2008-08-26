@@ -32,6 +32,8 @@ namespace FlashTreasureHunt.Shared
             UserTakeGold,
             AddDamageToCoPlayer,
             UserAddDamageToCoPlayer,
+            WalkTo,
+            UserWalkTo,
         }
         #endregion
 
@@ -61,6 +63,8 @@ namespace FlashTreasureHunt.Shared
             event Action<RemoteEvents.UserTakeGoldArguments> UserTakeGold;
             event Action<RemoteEvents.AddDamageToCoPlayerArguments> AddDamageToCoPlayer;
             event Action<RemoteEvents.UserAddDamageToCoPlayerArguments> UserAddDamageToCoPlayer;
+            event Action<RemoteEvents.WalkToArguments> WalkTo;
+            event Action<RemoteEvents.UserWalkToArguments> UserWalkTo;
         }
         #endregion
 
@@ -152,6 +156,19 @@ namespace FlashTreasureHunt.Shared
             {
                 Send(new SendArguments { i = Messages.UserAddDamageToCoPlayer, args = new object[] { user, target, damage } });
             }
+            public void WalkTo(int[] bytestream)
+            {
+                var args = new object[bytestream.Length + 0];
+                Array.Copy(bytestream, 0, args, 0, bytestream.Length);
+                Send(new SendArguments { i = Messages.WalkTo, args = args });
+            }
+            public void UserWalkTo(int user, int[] bytestream)
+            {
+                var args = new object[bytestream.Length + 1];
+                args[0] = user;
+                Array.Copy(bytestream, 0, args, 1, bytestream.Length);
+                Send(new SendArguments { i = Messages.UserWalkTo, args = args });
+            }
         }
         #endregion
 
@@ -209,6 +226,7 @@ namespace FlashTreasureHunt.Shared
                     value.TakeAmmo += this.UserTakeAmmo;
                     value.TakeGold += this.UserTakeGold;
                     value.AddDamageToCoPlayer += this.UserAddDamageToCoPlayer;
+                    value.WalkTo += this.UserWalkTo;
                 }
 
                 public void RemoveDelegates(IEvents value)
@@ -218,6 +236,7 @@ namespace FlashTreasureHunt.Shared
                     value.TakeAmmo -= this.UserTakeAmmo;
                     value.TakeGold -= this.UserTakeGold;
                     value.AddDamageToCoPlayer -= this.UserAddDamageToCoPlayer;
+                    value.WalkTo -= this.UserWalkTo;
                 }
                 #endregion
 
@@ -241,6 +260,10 @@ namespace FlashTreasureHunt.Shared
                 public void UserAddDamageToCoPlayer(AddDamageToCoPlayerArguments e)
                 {
                     Target.UserAddDamageToCoPlayer(this.user, e.target, e.damage);
+                }
+                public void UserWalkTo(WalkToArguments e)
+                {
+                    Target.UserWalkTo(this.user, e.bytestream);
                 }
                 #endregion
             }
@@ -449,6 +472,34 @@ namespace FlashTreasureHunt.Shared
             }
             #endregion
             public event Action<UserAddDamageToCoPlayerArguments> UserAddDamageToCoPlayer;
+            #region WalkToArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class WalkToArguments
+            {
+                public int[] bytestream;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ bytestream = ").Append(this.bytestream).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<WalkToArguments> WalkTo;
+            #region UserWalkToArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserWalkToArguments : WithUserArguments
+            {
+                public int[] bytestream;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", bytestream = ").Append(this.bytestream).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserWalkToArguments> UserWalkTo;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -467,6 +518,8 @@ namespace FlashTreasureHunt.Shared
                             { Messages.UserTakeGold, e => { UserTakeGold(new UserTakeGoldArguments { user = e.GetInt32(0), index = e.GetInt32(1) }); } },
                             { Messages.AddDamageToCoPlayer, e => { AddDamageToCoPlayer(new AddDamageToCoPlayerArguments { target = e.GetInt32(0), damage = e.GetDouble(1) }); } },
                             { Messages.UserAddDamageToCoPlayer, e => { UserAddDamageToCoPlayer(new UserAddDamageToCoPlayerArguments { user = e.GetInt32(0), target = e.GetInt32(1), damage = e.GetDouble(2) }); } },
+                            { Messages.WalkTo, e => { WalkTo(new WalkToArguments { bytestream = e.GetInt32Array(0) }); } },
+                            { Messages.UserWalkTo, e => { UserWalkTo(new UserWalkToArguments { user = e.GetInt32(0), bytestream = e.GetInt32Array(1) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -485,6 +538,8 @@ namespace FlashTreasureHunt.Shared
                             { Messages.UserTakeGold, e => UserTakeGold },
                             { Messages.AddDamageToCoPlayer, e => AddDamageToCoPlayer },
                             { Messages.UserAddDamageToCoPlayer, e => UserAddDamageToCoPlayer },
+                            { Messages.WalkTo, e => WalkTo },
+                            { Messages.UserWalkTo, e => UserWalkTo },
                         }
                 ;
             }
@@ -638,9 +693,25 @@ namespace FlashTreasureHunt.Shared
                 this.VirtualLatency(() => this.UserAddDamageToCoPlayer(v));
             }
 
+            public event Action<RemoteEvents.WalkToArguments> WalkTo;
+            void IMessages.WalkTo(int[] bytestream)
+            {
+                if(WalkTo == null) return;
+                var v = new RemoteEvents.WalkToArguments { bytestream = bytestream };
+                this.VirtualLatency(() => this.WalkTo(v));
+            }
+
+            public event Action<RemoteEvents.UserWalkToArguments> UserWalkTo;
+            void IMessages.UserWalkTo(int user, int[] bytestream)
+            {
+                if(UserWalkTo == null) return;
+                var v = new RemoteEvents.UserWalkToArguments { user = user, bytestream = bytestream };
+                this.VirtualLatency(() => this.UserWalkTo(v));
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 26.08.2008 15:31:01
+// 26.08.2008 16:08:46

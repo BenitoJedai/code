@@ -56,6 +56,12 @@ namespace FlashTreasureHunt.ActionScript.ThreeD
 				uint color = 0x9f008000;
 
 
+				var extended = _ss.Sprite as SpriteInfoExtended;
+
+				if (extended != null)
+				{
+					color = extended.MinimapColor;
+				}
 
 
 				minimap.fillRect(new Rectangle(

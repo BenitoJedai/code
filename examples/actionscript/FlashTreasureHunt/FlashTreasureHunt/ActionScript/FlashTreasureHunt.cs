@@ -59,7 +59,7 @@ namespace FlashTreasureHunt.ActionScript
 
 		public SpriteInfoExtended TheGoldStack;
 
-		Sprite HudContainer;
+		public Sprite HudContainer;
 
 		public double GetGoodDirection(Point p)
 		{
