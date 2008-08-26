@@ -52,7 +52,7 @@ namespace FlashTreasureHunt.ActionScript
 				return;
 			}
 
-			Map.WriteLine("xor ok " + new { xor, xor_Expected });
+			//Map.WriteLine("xor ok " + new { xor, xor_Expected });
 			#endregion
 
 			#region read gold

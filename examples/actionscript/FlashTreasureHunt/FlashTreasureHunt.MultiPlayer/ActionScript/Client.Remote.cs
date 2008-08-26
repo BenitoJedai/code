@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using ScriptCoreLib;
-using ScriptCoreLib.ActionScript.flash.display;
-using FlashTreasureHunt.Shared;
 using FlashTreasureHunt.ActionScript.Properties;
-using System.IO;
+using FlashTreasureHunt.Shared;
+using ScriptCoreLib;
+using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.RayCaster;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -39,7 +41,7 @@ namespace FlashTreasureHunt.ActionScript
 					//// now we know our player id.
 					//this.MapSharedState.RemoteObjects[e.user] = this.MapSharedState.LocalObjects;
 
-					
+
 					// how long should we wait for the map?
 					FirstMapLoader.Wait(5000);
 
@@ -104,6 +106,23 @@ namespace FlashTreasureHunt.ActionScript
 					);
 				};
 
+			// note: you should not listen to non user, non server events
+
+			Events.UserTakeAmmo +=
+				e =>
+				{
+					this.Map.AmmoSprites.Where(k => k.ConstructorIndexForSync == e.index).ToArray().ForEach(
+						i => i.RemoveFrom(this.Map.AmmoSprites).RemoveFrom(this.Map.EgoView.Sprites)
+					);
+				};
+
+			Events.UserTakeGold +=
+				e =>
+				{
+					this.Map.GoldSprites.Where(k => k.ConstructorIndexForSync == e.index).ToArray().ForEach(
+						i => i.RemoveFrom(this.Map.GoldSprites).RemoveFrom(this.Map.EgoView.Sprites)
+					);
+				};
 		}
 
 

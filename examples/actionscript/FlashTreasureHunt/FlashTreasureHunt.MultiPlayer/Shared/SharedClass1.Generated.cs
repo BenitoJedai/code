@@ -26,6 +26,10 @@ namespace FlashTreasureHunt.Shared
             ServerSendMap,
             SendMap,
             UserSendMap,
+            TakeAmmo,
+            UserTakeAmmo,
+            TakeGold,
+            UserTakeGold,
         }
         #endregion
 
@@ -49,6 +53,10 @@ namespace FlashTreasureHunt.Shared
             event Action<RemoteEvents.ServerSendMapArguments> ServerSendMap;
             event Action<RemoteEvents.SendMapArguments> SendMap;
             event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
+            event Action<RemoteEvents.TakeAmmoArguments> TakeAmmo;
+            event Action<RemoteEvents.UserTakeAmmoArguments> UserTakeAmmo;
+            event Action<RemoteEvents.TakeGoldArguments> TakeGold;
+            event Action<RemoteEvents.UserTakeGoldArguments> UserTakeGold;
         }
         #endregion
 
@@ -109,6 +117,22 @@ namespace FlashTreasureHunt.Shared
                 Array.Copy(bytestream, 0, args, 1, bytestream.Length);
                 Send(new SendArguments { i = Messages.UserSendMap, args = args });
             }
+            public void TakeAmmo(int index)
+            {
+                Send(new SendArguments { i = Messages.TakeAmmo, args = new object[] { index } });
+            }
+            public void UserTakeAmmo(int user, int index)
+            {
+                Send(new SendArguments { i = Messages.UserTakeAmmo, args = new object[] { user, index } });
+            }
+            public void TakeGold(int index)
+            {
+                Send(new SendArguments { i = Messages.TakeGold, args = new object[] { index } });
+            }
+            public void UserTakeGold(int user, int index)
+            {
+                Send(new SendArguments { i = Messages.UserTakeGold, args = new object[] { user, index } });
+            }
         }
         #endregion
 
@@ -163,12 +187,16 @@ namespace FlashTreasureHunt.Shared
                 {
                     value.PlayerAdvertise += this.UserPlayerAdvertise;
                     value.SendMap += this.UserSendMap;
+                    value.TakeAmmo += this.UserTakeAmmo;
+                    value.TakeGold += this.UserTakeGold;
                 }
 
                 public void RemoveDelegates(IEvents value)
                 {
                     value.PlayerAdvertise -= this.UserPlayerAdvertise;
                     value.SendMap -= this.UserSendMap;
+                    value.TakeAmmo -= this.UserTakeAmmo;
+                    value.TakeGold -= this.UserTakeGold;
                 }
                 #endregion
 
@@ -180,6 +208,14 @@ namespace FlashTreasureHunt.Shared
                 public void UserSendMap(SendMapArguments e)
                 {
                     Target.UserSendMap(this.user, e.bytestream);
+                }
+                public void UserTakeAmmo(TakeAmmoArguments e)
+                {
+                    Target.UserTakeAmmo(this.user, e.index);
+                }
+                public void UserTakeGold(TakeGoldArguments e)
+                {
+                    Target.UserTakeGold(this.user, e.index);
                 }
                 #endregion
             }
@@ -300,6 +336,62 @@ namespace FlashTreasureHunt.Shared
             }
             #endregion
             public event Action<UserSendMapArguments> UserSendMap;
+            #region TakeAmmoArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class TakeAmmoArguments
+            {
+                public int index;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ index = ").Append(this.index).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<TakeAmmoArguments> TakeAmmo;
+            #region UserTakeAmmoArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserTakeAmmoArguments : WithUserArguments
+            {
+                public int index;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", index = ").Append(this.index).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserTakeAmmoArguments> UserTakeAmmo;
+            #region TakeGoldArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class TakeGoldArguments
+            {
+                public int index;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ index = ").Append(this.index).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<TakeGoldArguments> TakeGold;
+            #region UserTakeGoldArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserTakeGoldArguments : WithUserArguments
+            {
+                public int index;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", index = ").Append(this.index).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserTakeGoldArguments> UserTakeGold;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -312,6 +404,10 @@ namespace FlashTreasureHunt.Shared
                             { Messages.ServerSendMap, e => { ServerSendMap(new ServerSendMapArguments {  }); } },
                             { Messages.SendMap, e => { SendMap(new SendMapArguments { bytestream = e.GetInt32Array(0) }); } },
                             { Messages.UserSendMap, e => { UserSendMap(new UserSendMapArguments { user = e.GetInt32(0), bytestream = e.GetInt32Array(1) }); } },
+                            { Messages.TakeAmmo, e => { TakeAmmo(new TakeAmmoArguments { index = e.GetInt32(0) }); } },
+                            { Messages.UserTakeAmmo, e => { UserTakeAmmo(new UserTakeAmmoArguments { user = e.GetInt32(0), index = e.GetInt32(1) }); } },
+                            { Messages.TakeGold, e => { TakeGold(new TakeGoldArguments { index = e.GetInt32(0) }); } },
+                            { Messages.UserTakeGold, e => { UserTakeGold(new UserTakeGoldArguments { user = e.GetInt32(0), index = e.GetInt32(1) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -324,6 +420,10 @@ namespace FlashTreasureHunt.Shared
                             { Messages.ServerSendMap, e => ServerSendMap },
                             { Messages.SendMap, e => SendMap },
                             { Messages.UserSendMap, e => UserSendMap },
+                            { Messages.TakeAmmo, e => TakeAmmo },
+                            { Messages.UserTakeAmmo, e => UserTakeAmmo },
+                            { Messages.TakeGold, e => TakeGold },
+                            { Messages.UserTakeGold, e => UserTakeGold },
                         }
                 ;
             }
@@ -429,9 +529,41 @@ namespace FlashTreasureHunt.Shared
                 this.VirtualLatency(() => this.UserSendMap(v));
             }
 
+            public event Action<RemoteEvents.TakeAmmoArguments> TakeAmmo;
+            void IMessages.TakeAmmo(int index)
+            {
+                if(TakeAmmo == null) return;
+                var v = new RemoteEvents.TakeAmmoArguments { index = index };
+                this.VirtualLatency(() => this.TakeAmmo(v));
+            }
+
+            public event Action<RemoteEvents.UserTakeAmmoArguments> UserTakeAmmo;
+            void IMessages.UserTakeAmmo(int user, int index)
+            {
+                if(UserTakeAmmo == null) return;
+                var v = new RemoteEvents.UserTakeAmmoArguments { user = user, index = index };
+                this.VirtualLatency(() => this.UserTakeAmmo(v));
+            }
+
+            public event Action<RemoteEvents.TakeGoldArguments> TakeGold;
+            void IMessages.TakeGold(int index)
+            {
+                if(TakeGold == null) return;
+                var v = new RemoteEvents.TakeGoldArguments { index = index };
+                this.VirtualLatency(() => this.TakeGold(v));
+            }
+
+            public event Action<RemoteEvents.UserTakeGoldArguments> UserTakeGold;
+            void IMessages.UserTakeGold(int user, int index)
+            {
+                if(UserTakeGold == null) return;
+                var v = new RemoteEvents.UserTakeGoldArguments { user = user, index = index };
+                this.VirtualLatency(() => this.UserTakeGold(v));
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 26.08.2008 10:02:52
+// 26.08.2008 13:10:36
