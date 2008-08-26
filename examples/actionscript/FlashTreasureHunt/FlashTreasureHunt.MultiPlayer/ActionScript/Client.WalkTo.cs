@@ -49,7 +49,7 @@ namespace FlashTreasureHunt.ActionScript
 					// we will waste 3 bytes - 0xffffff00 cuz memorystream isn't supported
 					var MemoryStream_Int32 = ms.ToArray().Select(i => (int)i).ToArray();
 
-					Map.WriteLine("sent WalkTo " + MemoryStream_Int32.Length);
+					//Map.WriteLine("sent WalkTo " + MemoryStream_Int32.Length);
 
 					this.Messages.WalkTo(MemoryStream_Int32);
 				};
@@ -66,7 +66,7 @@ namespace FlashTreasureHunt.ActionScript
 
 					LastViewDirection = CurrentViewDirection;
 
-					Map.WriteLine("sent LookAt ");
+					//Map.WriteLine("sent LookAt ");
 
 					this.Messages.LookAt(this.Map.EgoView.ViewDirection);
 				};

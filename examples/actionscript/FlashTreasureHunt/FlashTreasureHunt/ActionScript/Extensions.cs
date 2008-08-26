@@ -19,6 +19,14 @@ namespace FlashTreasureHunt.ActionScript
 	[Script]
 	public static class Extensions
 	{
+		public static double GetDistance(this Point a, Point b)
+		{
+			var x = a.x - b.x;
+			var y = a.y - b.y;
+
+			return Math.Sqrt(x * x + y * y);
+		}
+
 		public static void drawLine(this BitmapData e, uint color, double x, double y, double cx, double cy)
 		{
 			e.drawLine(color, (int)x, (int)y, (int)cx, (int)cy);

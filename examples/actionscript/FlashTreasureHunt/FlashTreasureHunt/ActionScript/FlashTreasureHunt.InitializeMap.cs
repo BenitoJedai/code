@@ -41,6 +41,8 @@ namespace FlashTreasureHunt.ActionScript
 			Assets.Default.stuff.ToBitmapDictionary(
 				f =>
 				{
+					this.WriteLine("init: stuff");
+
 					StuffDictionary = f;
 
 
@@ -197,6 +199,9 @@ namespace FlashTreasureHunt.ActionScript
 					AddIngameEntities(
 						delegate
 						{
+							this.WriteLine("init: AddIngameEntities");
+
+
 							stage.enterFrame +=
 								e =>
 								{
