@@ -67,12 +67,13 @@ namespace FlashTreasureHunt.Shared
                 public object[] args;
             }
             #endregion
-            public void ServerPlayerHello(int user, string name, int[] handshake)
+            public void ServerPlayerHello(int user, string name, int user_with_map, int[] handshake)
             {
-                var args = new object[handshake.Length + 2];
+                var args = new object[handshake.Length + 3];
                 args[0] = user;
                 args[1] = name;
-                Array.Copy(handshake, 0, args, 2, handshake.Length);
+                args[2] = user_with_map;
+                Array.Copy(handshake, 0, args, 3, handshake.Length);
                 Send(new SendArguments { i = Messages.ServerPlayerHello, args = args });
             }
             public void ServerPlayerJoined(int user, string name)
@@ -190,11 +191,12 @@ namespace FlashTreasureHunt.Shared
             {
                 public int user;
                 public string name;
+                public int user_with_map;
                 public int[] handshake;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name).Append(", handshake = ").Append(this.handshake).Append(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name).Append(", user_with_map = ").Append(this.user_with_map).Append(", handshake = ").Append(this.handshake).Append(" }").ToString();
                 }
             }
             #endregion
@@ -302,7 +304,7 @@ namespace FlashTreasureHunt.Shared
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
                         {
-                            { Messages.ServerPlayerHello, e => { ServerPlayerHello(new ServerPlayerHelloArguments { user = e.GetInt32(0), name = e.GetString(1), handshake = e.GetInt32Array(2) }); } },
+                            { Messages.ServerPlayerHello, e => { ServerPlayerHello(new ServerPlayerHelloArguments { user = e.GetInt32(0), name = e.GetString(1), user_with_map = e.GetInt32(2), handshake = e.GetInt32Array(3) }); } },
                             { Messages.ServerPlayerJoined, e => { ServerPlayerJoined(new ServerPlayerJoinedArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                             { Messages.ServerPlayerLeft, e => { ServerPlayerLeft(new ServerPlayerLeftArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                             { Messages.PlayerAdvertise, e => { PlayerAdvertise(new PlayerAdvertiseArguments { name = e.GetString(0) }); } },
@@ -364,10 +366,10 @@ namespace FlashTreasureHunt.Shared
                 e();
             }
             public event Action<RemoteEvents.ServerPlayerHelloArguments> ServerPlayerHello;
-            void IMessages.ServerPlayerHello(int user, string name, int[] handshake)
+            void IMessages.ServerPlayerHello(int user, string name, int user_with_map, int[] handshake)
             {
                 if(ServerPlayerHello == null) return;
-                var v = new RemoteEvents.ServerPlayerHelloArguments { user = user, name = name, handshake = handshake };
+                var v = new RemoteEvents.ServerPlayerHelloArguments { user = user, name = name, user_with_map = user_with_map, handshake = handshake };
                 this.VirtualLatency(() => this.ServerPlayerHello(v));
             }
 
@@ -432,4 +434,4 @@ namespace FlashTreasureHunt.Shared
     }
     #endregion
 }
-// 25.08.2008 19:43:52
+// 26.08.2008 10:02:52

@@ -28,7 +28,7 @@ namespace FlashTreasureHunt.Shared
 
 
 
-			void ServerPlayerHello(int user, string name, int[] handshake);
+			void ServerPlayerHello(int user, string name, int user_with_map, int[] handshake);
             void ServerPlayerJoined(int user, string name);
             void ServerPlayerLeft(int user, string name);
 

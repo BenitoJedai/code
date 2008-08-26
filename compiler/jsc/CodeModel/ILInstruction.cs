@@ -2612,7 +2612,9 @@ namespace jsc
                     this.TargetLong != null ||
                     this.TargetFloat != null ||
                     this.TargetDouble != null ||
-                    this.TargetVariable != null)
+                    this.TargetVariable != null || 
+                    this.TargetParameter != null
+					)
                     return true;
 
                 if (IsAnyOpCodeOf(OpCodes.Ldstr, OpCodes.Ldnull))

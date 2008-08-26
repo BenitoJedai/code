@@ -164,7 +164,7 @@ namespace FlashTreasureHunt.ActionScript
 
 			InitializeWriteLine();
 
-
+			WriteLine("with minimap");
 
 			getpsyched.FadeIn(
 				delegate

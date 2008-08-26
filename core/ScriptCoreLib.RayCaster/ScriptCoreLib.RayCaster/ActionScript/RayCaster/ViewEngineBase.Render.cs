@@ -244,7 +244,14 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 
 		protected void UpdatePOV()
 		{
-			if (_SpritesFromPOV == null || _SpritesFromPOV.Length != Sprites.Count)
+			var SpritesHaveChanged = _SpritesFromPOV == null || _SpritesFromPOV.Length != Sprites.Count;
+
+			UpdatePOV(SpritesHaveChanged);
+		}
+
+		public void UpdatePOV(bool SpritesHaveChanged)
+		{
+			if (SpritesHaveChanged)
 				_SpritesFromPOV = Sprites.Select(i => new SpriteInfoFromPOV(i)).ToArray();
 
 

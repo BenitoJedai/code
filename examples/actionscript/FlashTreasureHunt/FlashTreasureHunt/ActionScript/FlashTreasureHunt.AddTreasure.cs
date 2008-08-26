@@ -67,6 +67,13 @@ namespace FlashTreasureHunt.ActionScript
 					//this.WriteLine("game goal is now there");
 
 					TheGoldStack.AddTo(EgoView.Sprites);
+
+					// cuz we removed and then added, we have to manually update
+					// pov info, otherwise we need to wait
+					// until we collect another treasure
+					// for the endlevel to show up
+
+					EgoView.UpdatePOV(true);
 				};
 		}
 

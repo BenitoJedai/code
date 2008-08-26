@@ -201,7 +201,7 @@ namespace FlashTreasureHunt.ActionScript
 					onClick =
 						delegate
 						{
-							if (!MovementEnabled)
+							if (!MovementEnabled_IsFocused)
 								return;
 
 							music_endlevel.stop();
@@ -216,8 +216,9 @@ namespace FlashTreasureHunt.ActionScript
 					onKeyUp =
 						delegate
 						{
-							if (!MovementEnabled)
+							if (!MovementEnabled_IsFocused)
 								return;
+
 							music_endlevel.stop();
 							ReadyToContinue();
 

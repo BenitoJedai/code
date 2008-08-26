@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.flash.geom;
@@ -18,6 +19,44 @@ namespace FlashTreasureHunt.ActionScript
 	[Script]
 	public static class Extensions
 	{
+		public static void drawLine(this BitmapData e, uint color, double x, double y, double cx, double cy)
+		{
+			e.drawLine(color, (int)x, (int)y, (int)cx, (int)cy);
+		}
+		public static void drawLine(this BitmapData e, uint color, int x, int y, int cx, int cy)
+		{
+			e.@lock();
+
+
+
+			var dx = cx - x;
+			var dy = cy - y;
+
+
+			Action<int, int> setPixel = (mul, div) =>
+					e.setPixel32((x + dx * mul / div), (y + dy * mul / div), color);
+
+			var len = new Point { x = dx, y = dy }.length.Floor().Min(64);
+
+			if (len > 2)
+			{
+				for (int i = 0; i < len + 1; i++)
+				{
+					setPixel(i, len);
+				}
+			}
+			else
+			{
+				setPixel(0, 1);
+				setPixel(1, 1);
+			}
+
+
+
+			e.unlock();
+		}
+
+
 		public static DisplayObject GetStageChild(this DisplayObject e)
 		{
 			DisplayObject r = null;

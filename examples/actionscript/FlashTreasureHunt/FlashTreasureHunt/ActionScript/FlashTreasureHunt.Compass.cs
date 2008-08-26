@@ -55,7 +55,7 @@ namespace FlashTreasureHunt.ActionScript
 
 			container.filters = new[] { new ScriptCoreLib.ActionScript.flash.filters.DropShadowFilter() };
 
-			container.x = compass.width / 2;
+			container.x = DefaultControlWidth - compass.width / 2;
 			container.y = compass.height / 2;
 		}
 	}
