@@ -34,6 +34,10 @@ namespace FlashTreasureHunt.Shared
             UserAddDamageToCoPlayer,
             WalkTo,
             UserWalkTo,
+            LookAt,
+            UserLookAt,
+            FireWeapon,
+            UserFireWeapon,
         }
         #endregion
 
@@ -65,6 +69,10 @@ namespace FlashTreasureHunt.Shared
             event Action<RemoteEvents.UserAddDamageToCoPlayerArguments> UserAddDamageToCoPlayer;
             event Action<RemoteEvents.WalkToArguments> WalkTo;
             event Action<RemoteEvents.UserWalkToArguments> UserWalkTo;
+            event Action<RemoteEvents.LookAtArguments> LookAt;
+            event Action<RemoteEvents.UserLookAtArguments> UserLookAt;
+            event Action<RemoteEvents.FireWeaponArguments> FireWeapon;
+            event Action<RemoteEvents.UserFireWeaponArguments> UserFireWeapon;
         }
         #endregion
 
@@ -169,6 +177,22 @@ namespace FlashTreasureHunt.Shared
                 Array.Copy(bytestream, 0, args, 1, bytestream.Length);
                 Send(new SendArguments { i = Messages.UserWalkTo, args = args });
             }
+            public void LookAt(double arc)
+            {
+                Send(new SendArguments { i = Messages.LookAt, args = new object[] { arc } });
+            }
+            public void UserLookAt(int user, double arc)
+            {
+                Send(new SendArguments { i = Messages.UserLookAt, args = new object[] { user, arc } });
+            }
+            public void FireWeapon()
+            {
+                Send(new SendArguments { i = Messages.FireWeapon, args = new object[] {  } });
+            }
+            public void UserFireWeapon(int user)
+            {
+                Send(new SendArguments { i = Messages.UserFireWeapon, args = new object[] { user } });
+            }
         }
         #endregion
 
@@ -227,6 +251,8 @@ namespace FlashTreasureHunt.Shared
                     value.TakeGold += this.UserTakeGold;
                     value.AddDamageToCoPlayer += this.UserAddDamageToCoPlayer;
                     value.WalkTo += this.UserWalkTo;
+                    value.LookAt += this.UserLookAt;
+                    value.FireWeapon += this.UserFireWeapon;
                 }
 
                 public void RemoveDelegates(IEvents value)
@@ -237,6 +263,8 @@ namespace FlashTreasureHunt.Shared
                     value.TakeGold -= this.UserTakeGold;
                     value.AddDamageToCoPlayer -= this.UserAddDamageToCoPlayer;
                     value.WalkTo -= this.UserWalkTo;
+                    value.LookAt -= this.UserLookAt;
+                    value.FireWeapon -= this.UserFireWeapon;
                 }
                 #endregion
 
@@ -264,6 +292,14 @@ namespace FlashTreasureHunt.Shared
                 public void UserWalkTo(WalkToArguments e)
                 {
                     Target.UserWalkTo(this.user, e.bytestream);
+                }
+                public void UserLookAt(LookAtArguments e)
+                {
+                    Target.UserLookAt(this.user, e.arc);
+                }
+                public void UserFireWeapon(FireWeaponArguments e)
+                {
+                    Target.UserFireWeapon(this.user);
                 }
                 #endregion
             }
@@ -500,6 +536,60 @@ namespace FlashTreasureHunt.Shared
             }
             #endregion
             public event Action<UserWalkToArguments> UserWalkTo;
+            #region LookAtArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class LookAtArguments
+            {
+                public double arc;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ arc = ").Append(this.arc).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<LookAtArguments> LookAt;
+            #region UserLookAtArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserLookAtArguments : WithUserArguments
+            {
+                public double arc;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", arc = ").Append(this.arc).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserLookAtArguments> UserLookAt;
+            #region FireWeaponArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class FireWeaponArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().ToString();
+                }
+            }
+            #endregion
+            public event Action<FireWeaponArguments> FireWeapon;
+            #region UserFireWeaponArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserFireWeaponArguments : WithUserArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserFireWeaponArguments> UserFireWeapon;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -520,6 +610,10 @@ namespace FlashTreasureHunt.Shared
                             { Messages.UserAddDamageToCoPlayer, e => { UserAddDamageToCoPlayer(new UserAddDamageToCoPlayerArguments { user = e.GetInt32(0), target = e.GetInt32(1), damage = e.GetDouble(2) }); } },
                             { Messages.WalkTo, e => { WalkTo(new WalkToArguments { bytestream = e.GetInt32Array(0) }); } },
                             { Messages.UserWalkTo, e => { UserWalkTo(new UserWalkToArguments { user = e.GetInt32(0), bytestream = e.GetInt32Array(1) }); } },
+                            { Messages.LookAt, e => { LookAt(new LookAtArguments { arc = e.GetDouble(0) }); } },
+                            { Messages.UserLookAt, e => { UserLookAt(new UserLookAtArguments { user = e.GetInt32(0), arc = e.GetDouble(1) }); } },
+                            { Messages.FireWeapon, e => { FireWeapon(new FireWeaponArguments {  }); } },
+                            { Messages.UserFireWeapon, e => { UserFireWeapon(new UserFireWeaponArguments { user = e.GetInt32(0) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -540,6 +634,10 @@ namespace FlashTreasureHunt.Shared
                             { Messages.UserAddDamageToCoPlayer, e => UserAddDamageToCoPlayer },
                             { Messages.WalkTo, e => WalkTo },
                             { Messages.UserWalkTo, e => UserWalkTo },
+                            { Messages.LookAt, e => LookAt },
+                            { Messages.UserLookAt, e => UserLookAt },
+                            { Messages.FireWeapon, e => FireWeapon },
+                            { Messages.UserFireWeapon, e => UserFireWeapon },
                         }
                 ;
             }
@@ -709,9 +807,41 @@ namespace FlashTreasureHunt.Shared
                 this.VirtualLatency(() => this.UserWalkTo(v));
             }
 
+            public event Action<RemoteEvents.LookAtArguments> LookAt;
+            void IMessages.LookAt(double arc)
+            {
+                if(LookAt == null) return;
+                var v = new RemoteEvents.LookAtArguments { arc = arc };
+                this.VirtualLatency(() => this.LookAt(v));
+            }
+
+            public event Action<RemoteEvents.UserLookAtArguments> UserLookAt;
+            void IMessages.UserLookAt(int user, double arc)
+            {
+                if(UserLookAt == null) return;
+                var v = new RemoteEvents.UserLookAtArguments { user = user, arc = arc };
+                this.VirtualLatency(() => this.UserLookAt(v));
+            }
+
+            public event Action<RemoteEvents.FireWeaponArguments> FireWeapon;
+            void IMessages.FireWeapon()
+            {
+                if(FireWeapon == null) return;
+                var v = new RemoteEvents.FireWeaponArguments {  };
+                this.VirtualLatency(() => this.FireWeapon(v));
+            }
+
+            public event Action<RemoteEvents.UserFireWeaponArguments> UserFireWeapon;
+            void IMessages.UserFireWeapon(int user)
+            {
+                if(UserFireWeapon == null) return;
+                var v = new RemoteEvents.UserFireWeaponArguments { user = user };
+                this.VirtualLatency(() => this.UserFireWeapon(v));
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 26.08.2008 16:08:46
+// 26.08.2008 18:45:01

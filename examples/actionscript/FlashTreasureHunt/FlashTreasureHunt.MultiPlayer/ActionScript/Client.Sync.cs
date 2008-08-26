@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using ScriptCoreLib;
-using ScriptCoreLib.ActionScript.flash.display;
 using FlashTreasureHunt.Shared;
+using ScriptCoreLib;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.RayCaster;
-using System.IO;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -149,8 +150,12 @@ namespace FlashTreasureHunt.ActionScript
 
 			#region restore coplayers
 
-			this.CoPlayers.ForEach(k => k.Guard.AddTo(this.Map.EgoView.Sprites).AddTo(this.Map.EgoView.BlockingSprites));
-			this.LocalCoPlayer.Guard.RemoveFrom(this.Map.EgoView.Sprites);
+			this.CoPlayers.Where(k => k != this.LocalCoPlayer).ForEach(
+				k =>
+				{
+					k.Guard.AddTo(this.Map.EgoView.Sprites).AddTo(this.Map.EgoView.BlockingSprites);
+				}
+			);
 			
 			#endregion
 

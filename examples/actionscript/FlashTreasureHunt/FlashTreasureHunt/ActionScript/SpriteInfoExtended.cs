@@ -31,6 +31,16 @@ namespace FlashTreasureHunt.ActionScript
 		// this is used while syncing
 		public int ConstructorIndexForSync = -1;
 
+		#region Minimap
 		public uint MinimapColor = 0x9f008000;
+		public int MinimapZIndex = MinimapZIndex_Default;
+
+		public const int MinimapZIndex_Default = 0;
+		public const int MinimapZIndex_OnTop = 1;
+		#endregion
+
+
+		public Action PlayShootingAnimation;
+
 	}
 }

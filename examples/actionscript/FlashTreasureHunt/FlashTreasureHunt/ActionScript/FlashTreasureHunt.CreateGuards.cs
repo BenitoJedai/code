@@ -18,6 +18,7 @@ namespace FlashTreasureHunt.ActionScript
 {
 	partial class FlashTreasureHunt
 	{
+		public Bitmap[] CachedGuardTextures;
 
 		public Func<SpriteInfoExtended> CreateGuard;
 
@@ -59,7 +60,7 @@ namespace FlashTreasureHunt.ActionScript
 
 						if (g.WalkingAnimationRunning)
 							return;
-						
+
 						var PossibleDestination = g.Position.MoveToArc(g.Direction, 1);
 
 						var AsMapLocation = new PointInt32
@@ -73,7 +74,7 @@ namespace FlashTreasureHunt.ActionScript
 							// whee we can walk at this direction
 							g.StartWalkingAnimation();
 
-							const int StepsToBeTaken  = 80;
+							const int StepsToBeTaken = 80;
 
 							(1000 / 15).AtInterval(
 								t =>
@@ -112,10 +113,15 @@ namespace FlashTreasureHunt.ActionScript
 
 
 
-		public SpriteInfoExtended CreateWalkingDummy(Texture64[] Stand, Texture64[][] Walk, Texture64[] Hit, Texture64[] Death)
+		public SpriteInfoExtended CreateWalkingDummy(Texture64[] _Stand, Texture64[][] _Walk, Texture64[] Hit, Texture64[] Death, Texture64[] Shooting)
 		{
+			var Walk = _Walk;
+			var Stand = _Stand;
+
 			var tt = default(Timer);
 			var s = new SpriteInfoExtended();
+
+			int WalkingAnimationFrame = 0;
 
 			Action start =
 				delegate
@@ -138,7 +144,9 @@ namespace FlashTreasureHunt.ActionScript
 								if (!s.AIEnabled)
 									return;
 
-								s.Frames = Walk[t.currentCount % Walk.Length];
+								WalkingAnimationFrame = t.currentCount % Walk.Length;
+
+								s.Frames = Walk[WalkingAnimationFrame];
 							}
 						);
 				};
@@ -164,11 +172,94 @@ namespace FlashTreasureHunt.ActionScript
 
 			s.AddTo(EgoView.Sprites);
 
+			Action UpdateCurrentFrame =
+				delegate
+				{
+					if (s.WalkingAnimationRunning)
+						s.Frames = Walk[WalkingAnimationFrame];
+					else
+						s.Frames = Stand;
+				};
+
+			if (Shooting != null)
+			{
+				#region prepare
+				#region clone
+
+				var WalkShooting = Enumerable.ToArray(
+					_Walk.Select(r0 => Enumerable.ToArray(r0))
+				);
+
+				var StandShooting = Enumerable.ToArray(
+					_Stand
+				);
+
+				#endregion
+
+				// 0 .. 8
+				Action<int> ApplyShootingFrame =
+					ShootingFrameIndex =>
+					{
+						var k = Shooting.AtModulus(ShootingFrameIndex);
+
+						StandShooting[1] = k;
+						StandShooting[2] = k;
+						StandShooting[3] = k;
+
+						foreach (var v in WalkShooting)
+						{
+							v[1] = k;
+							v[2] = k;
+							v[3] = k;
+						}
+
+						UpdateCurrentFrame();
+					};
+				#endregion
+
+				var PlayShootingAnimationTimer = default(Timer);
+
+				s.PlayShootingAnimation +=
+					delegate
+					{
+						// for a short period of time we need to overwrite
+						// stand and walk frames
+
+						Walk = WalkShooting;
+						Stand = StandShooting;
+
+						if (PlayShootingAnimationTimer != null)
+							PlayShootingAnimationTimer.stop();
+
+						PlayShootingAnimationTimer = FrameRate_ShootingAnimation.Chain(
+							() => ApplyShootingFrame(0)
+						).Chain(
+							() => ApplyShootingFrame(1)
+						).Chain(
+							() => ApplyShootingFrame(2)
+						).Chain(
+							() => ApplyShootingFrame(1)
+						).Chain(
+							() => ApplyShootingFrame(0)
+						).Chain(
+							delegate
+							{
+								// revert soon after animation finishes
+								Walk = _Walk;
+								Stand = _Stand;
+								UpdateCurrentFrame();
+
+								PlayShootingAnimationTimer = null;
+							}
+						).Do();
+					};
+			}
+
 			if (Hit != null)
 				s.TakeDamage +=
 					DamageToBeTaken =>
 					{
-						// we have nothing to do here if we are dead
+						// we have nothing to do here if we are dead 
 						if (s.Health < 0)
 							return;
 
@@ -177,7 +268,7 @@ namespace FlashTreasureHunt.ActionScript
 						if (s.Health > 0)
 						{
 							Assets.Default.Sounds.hit.play();
-							 
+
 							#region just show being hurt for a short moment
 							s.AIEnabled = false;
 
@@ -202,7 +293,7 @@ namespace FlashTreasureHunt.ActionScript
 							s.Range = 0;
 
 							// animate death
-							(1000 / 10).AtInterval(
+							FrameRate_DeathAnimation.AtInterval(
 								ttt =>
 								{
 									if (Death.Length == ttt.currentCount)
@@ -218,7 +309,7 @@ namespace FlashTreasureHunt.ActionScript
 
 						if (s.TakeDamageDone != null)
 							s.TakeDamageDone(DamageToBeTaken);
-							
+
 					};
 
 
@@ -229,7 +320,7 @@ namespace FlashTreasureHunt.ActionScript
 
 		public SpriteInfoExtended CreateDummy(Texture64 Stand)
 		{
-			return CreateWalkingDummy(new[] { Stand }, null, null, null);
+			return CreateWalkingDummy(new[] { Stand }, null, null, null, null);
 
 		}
 	}

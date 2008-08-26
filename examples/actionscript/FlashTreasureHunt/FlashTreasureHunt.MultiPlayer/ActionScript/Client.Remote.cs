@@ -43,7 +43,7 @@ namespace FlashTreasureHunt.ActionScript
 
 
 					// how long should we wait for the map?
-					FirstMapLoader.Wait(5000);
+					FirstMapLoader.Wait(10000);
 
 					if (e.user_with_map == -1)
 						FirstMapLoader.Signal(
@@ -162,8 +162,20 @@ namespace FlashTreasureHunt.ActionScript
 					this.DisableAddDamageToCoPlayer = false;
 				};
 
+			Events.UserFireWeapon +=
+				e =>
+				{
+					Assets.Default.Sounds.gunshot.play();
+
+					this.CoPlayers.Where(k => k.Identity.user == e.user).ForEach(k => k.Guard.PlayShootingAnimation());
+				};
+
 			Events.UserWalkTo += WalkTo;
+			Events.UserLookAt += UserLookAt;
+
 		}
+
+	
 
 	
 

@@ -163,7 +163,7 @@ namespace FlashTreasureHunt.ActionScript
 
 			InitializeWriteLine();
 
-			WriteLine("with minimap");
+			//WriteLine("with minimap");
 
 			getpsyched.FadeIn(
 				delegate
@@ -171,9 +171,11 @@ namespace FlashTreasureHunt.ActionScript
 					Assets.Default.Sounds.gutentag.play();
 
 
-					Assets.Default.dude5.ToBitmapArray(
+					Assets.Default.dude5.ToBitmapArray(CachedGuardTextures,
 						Bitmaps =>
 						{
+							CachedGuardTextures = Bitmaps;
+
 							var Spawn = default(Func<SpriteInfoExtended>);
 
 							#region figure out
@@ -204,12 +206,6 @@ namespace FlashTreasureHunt.ActionScript
 							var Stand = Next8();
 
 
-							//if (Bitmaps.Length == 8)
-							//{
-							//    Spawn = () => CreateWalkingDummy(Stand);
-							//}
-							//else
-							//{
 							var Walk = new[]
 							{
 								Next8(),
@@ -233,9 +229,16 @@ namespace FlashTreasureHunt.ActionScript
 							// funny ordering huh?
 							Death.Add(BitmapStream.Take());
 
-							Spawn = () => CreateWalkingDummy(Stand, Walk, Hit, Death.ToArray());
 
-							//}
+							var Shooting = new List<Texture64>
+							{
+								BitmapStream.Take(),
+								BitmapStream.Take(),
+								BitmapStream.Take()
+							};
+
+							Spawn = () => CreateWalkingDummy(Stand, Walk, Hit, Death.ToArray(), Shooting.ToArray());
+
 
 							#endregion
 

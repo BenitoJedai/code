@@ -134,7 +134,10 @@ namespace FlashTreasureHunt.ActionScript
 			        MovementArrows[Keyboard.SPACE]
 			    },
 				//Down = () => { GoBackwardSmooth.down(new Point(DefaultControlWidth / 2, DefaultControlHeight / 2)); },
-				//Tick = () => { GoBackwardSmooth.move(new Point(DefaultControlWidth / 2, DefaultControlHeight)); },
+				Tick = () => 
+				{ 
+					FireWeapon();
+				},
 				Up = () =>
 				{
 

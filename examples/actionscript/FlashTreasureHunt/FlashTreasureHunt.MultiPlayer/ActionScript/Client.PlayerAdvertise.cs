@@ -9,6 +9,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.RayCaster;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.flash.utils;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -43,6 +44,34 @@ namespace FlashTreasureHunt.ActionScript
 			public SharedClass1.RemoteEvents.UserPlayerAdvertiseArguments Identity;
 
 			public SpriteInfoExtended Guard;
+
+			Timer WalkTo_Timer;
+
+			public CoPlayer WalkTo(double x, double y)
+			{
+				if (WalkTo_Timer == null)
+				{
+					Guard.StartWalkingAnimation();
+				}
+				else
+				{
+					WalkTo_Timer.stop();
+				}
+
+				WalkTo_Timer = 500.AtDelayDo(
+					delegate
+					{
+						WalkTo_Timer = null;
+
+						Guard.StopWalkingAnimation();
+					}
+				);
+
+				// should do a smooth movement now
+				this.Guard.Position.To(x, y);
+
+				return this;
+			}
 		}
 
 		public readonly List<CoPlayer> CoPlayers = new List<CoPlayer>();
@@ -60,6 +89,7 @@ namespace FlashTreasureHunt.ActionScript
 
 				c = new CoPlayer { Identity = e, Guard = this.Map.CreateGuard().AddTo(this.Map.EgoView.BlockingSprites) }.AddTo(CoPlayers);
 
+				c.Guard.MinimapZIndex = SpriteInfoExtended.MinimapZIndex_OnTop;
 				c.Guard.MinimapColor = 0xff0000ff;
 				c.Guard.TakeDamage +=
 					damage =>
@@ -106,6 +136,7 @@ namespace FlashTreasureHunt.ActionScript
 
 			
 			c.Guard.RemoveFrom(Map.EgoView.Sprites);
+			c.Guard.RemoveFrom(Map.EgoView.BlockingSprites);
 
 			// we will never render ourself
 
