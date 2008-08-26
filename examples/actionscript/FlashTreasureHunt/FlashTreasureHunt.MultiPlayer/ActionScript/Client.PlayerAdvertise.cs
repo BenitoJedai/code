@@ -46,32 +46,82 @@ namespace FlashTreasureHunt.ActionScript
 			public SpriteInfoExtended Guard;
 
 			Timer WalkTo_Timer;
+			Timer WalkTo_Smooth;
+
+			Point WalkTo_Target = new Point();
 
 			public CoPlayer WalkTo(double x, double y)
 			{
-				if (WalkTo_Timer == null)
+				WalkTo_Target.To(x, y);
+
+				if (WalkTo_Timer != null)
 				{
-					Guard.StartWalkingAnimation();
-				}
-				else
-				{
+					// reset the timer, so that the counting begins from now
 					WalkTo_Timer.stop();
 				}
 
-				WalkTo_Timer = 500.AtDelayDo(
-					delegate
-					{
-						WalkTo_Timer = null;
+				Action<int> StopWalkingSoon =
+					ms =>
+						WalkTo_Timer = ms.AtDelayDo(
+							delegate
+							{
+								WalkTo_Timer = null;
 
-						Guard.StopWalkingAnimation();
-					}
-				);
+								Guard.StopWalkingAnimation();
+							}
+						);
 
 				// should do a smooth movement now
-				this.Guard.Position.To(x, y);
+
+				const double Step = 0.01;
+
+				if (WalkTo_Smooth == null)
+				{
+					Guard.StartWalkingAnimation();
+
+					WalkTo_Smooth = (1000 / 24).AtInterval(
+						t =>
+						{
+							var z = Point.distance(WalkTo_Target, this.Guard.Position);
+
+							var IsCloseEnough = false; // z < Step;
+							var IsInNeedForTeleport = z > 1.0;
+
+							if (IsCloseEnough || IsInNeedForTeleport)
+							{
+								this.Guard.Position = WalkTo_Target;
+								t.stop();
+								WalkTo_Smooth = null;
+								StopWalkingSoon(500);
+
+								if (IsCloseEnough)
+								{
+									if (WalkToDone != null)
+										WalkToDone();
+								}
+
+								if (IsInNeedForTeleport)
+								{
+									if (WalkToTeleported != null)
+										WalkToTeleported();
+								}
+
+								return;
+							}
+
+							var arc = (this.Guard.Position - WalkTo_Target).GetRotation();
+
+							this.Guard.Position = this.Guard.Position.MoveToArc(arc, Step);
+
+						}
+					);
+				}
 
 				return this;
 			}
+
+			public event Action WalkToTeleported;
+			public event Action WalkToDone;
 		}
 
 		public readonly List<CoPlayer> CoPlayers = new List<CoPlayer>();
@@ -101,10 +151,21 @@ namespace FlashTreasureHunt.ActionScript
 						// we have been shot
 						Messages.AddDamageToCoPlayer(c.Identity.user, damage);
 					};
+				c.WalkToTeleported +=
+					delegate
+					{
+						this.Map.WriteLine(c.Identity.name + " has teleported");
+					};
+
+				c.WalkToDone +=
+					delegate
+					{
+						this.Map.WriteLine(c.Identity.name + " has stopped");
+					};
 			}
 			#endregion
 
-			
+
 
 			var MemoryStream_UInt8 = e.vector.Select(i => (byte)i).ToArray();
 			var ms = new MemoryStream(MemoryStream_UInt8);
@@ -134,7 +195,7 @@ namespace FlashTreasureHunt.ActionScript
 			}.AddTo(CoPlayers);
 
 
-			
+
 			c.Guard.RemoveFrom(Map.EgoView.Sprites);
 			c.Guard.RemoveFrom(Map.EgoView.BlockingSprites);
 

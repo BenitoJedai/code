@@ -10,6 +10,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.RayCaster;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.flash.utils;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -17,10 +18,23 @@ namespace FlashTreasureHunt.ActionScript
 	{
 		public void WalkTo()
 		{
+			var LastPosition = new Point();
+
+			var LastPositionReset = default(Timer);
 
 			this.Map.EgoView.ViewPositionChanged +=
 				delegate
 				{
+					if (Point.distance(LastPosition, this.Map.EgoView.ViewPosition) < FlashTreasureHunt.PlayerRadiusMargin / 2)
+						return;
+
+					LastPosition = this.Map.EgoView.ViewPosition;
+
+					if (LastPositionReset != null)
+						LastPositionReset.stop();
+
+					LastPositionReset = 500.AtDelayDo(() => LastPosition = new Point());
+
 					// based on time and distance block this call
 					// from occurrung too often
 
@@ -40,9 +54,18 @@ namespace FlashTreasureHunt.ActionScript
 					this.Messages.WalkTo(MemoryStream_Int32);
 				};
 
+			var LastViewDirection = -1;
+
 			this.Map.EgoView.ViewDirectionChanged +=
 				delegate
 				{
+					var CurrentViewDirection = Convert.ToInt32(this.Map.EgoView.ViewDirection.RadiansToDegrees() / 10);
+
+					if (CurrentViewDirection == LastViewDirection)
+						return;
+
+					LastViewDirection = CurrentViewDirection;
+
 					Map.WriteLine("sent LookAt ");
 
 					this.Messages.LookAt(this.Map.EgoView.ViewDirection);

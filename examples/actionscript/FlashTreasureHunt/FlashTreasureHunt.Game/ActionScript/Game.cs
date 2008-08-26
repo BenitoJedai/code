@@ -31,7 +31,7 @@ namespace FlashTreasureHunt.ActionScript
 
 		private void PlayMultiPlayer()
 		{
-			var g = new NonobaClient();
+			var g = new NonobaClient("arvo-pc");
 
 			//g.Element.x = (DefaultWidth - MultiPlayer.NonobaClient.DefaultWidth) / 2;
 
