@@ -53,9 +53,18 @@ namespace FlashTreasureHunt.ActionScript
 							}
 						);
 
+
+
 					// this causes other events to be attached
 					MyIdentity.Value = e;
 				};
+
+			MyIdentity.ValueChanged += 
+				() => MapInitialized.ContinueWhenDone(CreateLocalCoPlayer);
+
+			MyIdentity.ValueChanged +=
+				() => MapInitialized.ContinueWhenDone(WalkTo);
+
 
 			MyIdentity.ValueChanged += InitializeOtherEvents;
 		}
@@ -152,7 +161,11 @@ namespace FlashTreasureHunt.ActionScript
 					this.CoPlayers.Where(k => k.Identity.user == e.target).ForEach(k => k.Guard.TakeDamage(e.damage));
 					this.DisableAddDamageToCoPlayer = false;
 				};
+
+			Events.UserWalkTo += WalkTo;
 		}
+
+	
 
 
 

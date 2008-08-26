@@ -168,6 +168,10 @@ namespace FlashTreasureHunt.ActionScript
 				s.TakeDamage +=
 					DamageToBeTaken =>
 					{
+						// we have nothing to do here if we are dead
+						if (s.Health < 0)
+							return;
+
 						s.Health -= DamageToBeTaken;
 
 						if (s.Health > 0)
@@ -211,6 +215,9 @@ namespace FlashTreasureHunt.ActionScript
 								}
 							);
 						}
+
+						if (s.TakeDamageDone != null)
+							s.TakeDamageDone(DamageToBeTaken);
 							
 					};
 

@@ -26,7 +26,11 @@ namespace FlashTreasureHunt.ActionScript
 
 		public Action<double> TakeDamage;
 
+		public Action<double> TakeDamageDone;
+
 		// this is used while syncing
 		public int ConstructorIndexForSync = -1;
+
+		public uint MinimapColor = 0x9f008000;
 	}
 }

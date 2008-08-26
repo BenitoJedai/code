@@ -150,6 +150,7 @@ namespace FlashTreasureHunt.ActionScript
 			#region restore coplayers
 
 			this.CoPlayers.ForEach(k => k.Guard.AddTo(this.Map.EgoView.Sprites).AddTo(this.Map.EgoView.BlockingSprites));
+			this.LocalCoPlayer.Guard.RemoveFrom(this.Map.EgoView.Sprites);
 			
 			#endregion
 
