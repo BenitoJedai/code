@@ -42,7 +42,7 @@ namespace FlashTreasureHunt.ActionScript
 			EndLevelMode = true;
 			MovementEnabled_IsInGame = false;
 
-			var music_endlevel = Assets.Default.Sounds.music_endlevel.play(1);
+			var music_endlevel = Assets.Default.Music.music_endlevel.play(1);
 
 
 			this.EgoView.Image.filters = new BitmapFilter[] {
@@ -290,7 +290,7 @@ namespace FlashTreasureHunt.ActionScript
 
 					ResetPortals();
 
-					music = Assets.Default.Sounds.music.play(0, 9999);
+					music = Assets.Default.Music.music.play(0, 9999);
 
 					this.EgoView.Image.filters = null;
 					this.EgoView.ViewPositionLock = null;

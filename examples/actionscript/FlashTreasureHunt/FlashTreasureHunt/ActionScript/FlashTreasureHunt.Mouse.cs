@@ -48,7 +48,7 @@ namespace FlashTreasureHunt.ActionScript
 
 		public bool MovementEnabled_IsInGame = true;
 		public bool MovementEnabled_IsFocused = true;
-		public bool MovementEnabled_IsAlive = true;
+		//public bool MovementEnabled_IsAlive = true;
 		public bool MovementEnabled
 		{
 			get
@@ -59,8 +59,8 @@ namespace FlashTreasureHunt.ActionScript
 				if (!MovementEnabled_IsFocused)
 					return false;
 
-				if (!MovementEnabled_IsAlive)
-					return false;
+				//if (!MovementEnabled_IsAlive)
+				//    return false;
 
 				return true;
 			}

@@ -25,6 +25,13 @@ namespace FlashTreasureHunt.ActionScript
 			this.Map.EgoView.ViewPositionChanged +=
 				delegate
 				{
+					// our ego is dead, we move as a ghost
+					if (this.LocalCoPlayer.Guard == null)
+						return;
+
+					if (this.LocalCoPlayer.Guard.Health <= 0)
+						return;
+
 					if (Point.distance(LastPosition, this.Map.EgoView.ViewPosition) < FlashTreasureHunt.PlayerRadiusMargin / 2)
 						return;
 
@@ -59,6 +66,13 @@ namespace FlashTreasureHunt.ActionScript
 			this.Map.EgoView.ViewDirectionChanged +=
 				delegate
 				{
+					// our ego is dead, we move as a ghost
+					if (this.LocalCoPlayer.Guard == null)
+						return;
+
+					if (this.LocalCoPlayer.Guard.Health <= 0)
+						return;
+
 					var CurrentViewDirection = Convert.ToInt32(this.Map.EgoView.ViewDirection.RadiansToDegrees() / 10);
 
 					if (CurrentViewDirection == LastViewDirection)

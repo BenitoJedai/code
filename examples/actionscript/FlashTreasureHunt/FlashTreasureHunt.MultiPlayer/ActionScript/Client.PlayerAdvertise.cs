@@ -17,7 +17,12 @@ namespace FlashTreasureHunt.ActionScript
 	{
 		private void PlayerAdvertise()
 		{
+			// we are in ghost mode...
+			if (this.LocalCoPlayer.Guard == null)
+				return;
+
 			// we are starting on a new position, advertise that
+		
 
 			IVector EgoVector = this.Map.EgoView;
 
@@ -38,117 +43,6 @@ namespace FlashTreasureHunt.ActionScript
 			this.Messages.PlayerAdvertise(MyIdentity.Value.name, MemoryStream_Int32);
 		}
 
-		[Script]
-		public class CoPlayer
-		{
-			public SharedClass1.RemoteEvents.UserPlayerAdvertiseArguments Identity;
-
-			public SpriteInfoExtended Guard;
-
-			Timer WalkTo_Timer;
-			Timer WalkTo_Smooth;
-
-			Point WalkTo_Target = new Point();
-
-			public double WalkToDistance
-			{
-				get
-				{
-					return WalkTo_Target.GetDistance(this.Guard.Position);
-				}
-			}
-
-			public CoPlayer WalkTo(double x, double y)
-			{
-				WalkTo_Target = new Point(x, y);
-
-				// should do a smooth movement now
-
-				const double Step = 1.0 / 60.0;
-
-				if (WalkTo_Smooth == null)
-				{
-					if (WalkToStart != null)
-					{
-						WalkToStart();
-					}
-
-					if (WalkTo_Timer != null)
-					{
-						// reset the timer, so that the counting begins from now
-						WalkTo_Timer.stop();
-					}
-					else
-					{
-						Guard.StartWalkingAnimation();
-					}
-
-					WalkTo_Smooth = (1000 / 24).AtInterval(
-						t =>
-						{
-							var z = WalkToDistance;
-
-							var IsCloseEnough = z < Step;
-							var IsInNeedForTeleport = z > 1.0;
-
-							if (IsCloseEnough || IsInNeedForTeleport)
-							{
-								this.Guard.Position = WalkTo_Target;
-								t.stop();
-								WalkTo_Smooth = null;
-								WalkTo_Timer = 500.AtDelayDo(
-									delegate
-									{
-										WalkTo_Timer = null;
-
-										Guard.StopWalkingAnimation();
-									}
-								);
-
-								if (IsCloseEnough)
-								{
-									if (WalkToDone != null)
-										WalkToDone();
-								}
-
-								if (IsInNeedForTeleport)
-								{
-									if (WalkToTeleported != null)
-										WalkToTeleported();
-								}
-
-								return;
-							}
-
-							var arc = (WalkTo_Target - this.Guard.Position).GetRotation();
-							var speed = Step;
-
-							if (z > 0.2)
-								speed *= 2;
-
-							if (z > 0.4)
-								speed *= 2;
-
-							if (z > 0.6)
-								speed *= 2;
-
-							if (z > 0.8)
-								speed *= 2;
-
-							this.Guard.Position = this.Guard.Position.MoveToArc(arc, speed);
-
-						}
-					);
-				}
-
-				return this;
-			}
-
-			public event Action WalkToTeleported;
-			public event Action WalkToDone;
-			public event Action WalkToStart;
-		}
-
 		public readonly List<CoPlayer> CoPlayers = new List<CoPlayer>();
 
 		public bool DisableAddDamageToCoPlayer;
@@ -162,20 +56,9 @@ namespace FlashTreasureHunt.ActionScript
 			{
 				// the player has just joined
 
-				c = new CoPlayer { Identity = e, Guard = this.Map.CreateGuard().AddTo(this.Map.EgoView.BlockingSprites) }.AddTo(CoPlayers);
+				c = new CoPlayer { Identity = e }.AddTo(CoPlayers);
 
-				c.Guard.MinimapZIndex = SpriteInfoExtended.MinimapZIndex_OnTop;
-				c.Guard.MinimapColor = 0xff0000ff;
-				c.Guard.TakeDamage +=
-					damage =>
-					{
-						// we should not mirror remoted damage
-						if (DisableAddDamageToCoPlayer)
-							return;
 
-						// we have been shot
-						Messages.AddDamageToCoPlayer(c.Identity.user, damage);
-					};
 
 				//c.WalkToTeleported +=
 				//    delegate
@@ -197,7 +80,41 @@ namespace FlashTreasureHunt.ActionScript
 			}
 			#endregion
 
+			if (c.Guard == null)
+			{
+				Map.WriteLine("coplayer " + e.name + " spawned as a new guard");
 
+
+				c.Guard = this.Map.CreateGuard().AddTo(this.Map.EgoView.BlockingSprites);
+				c.Guard.MinimapZIndex = SpriteInfoExtended.MinimapZIndex_OnTop;
+				c.Guard.MinimapColor = 0xff0000ff;
+
+				c.Guard.TakeDamage +=
+					damage =>
+					{
+						// we should not mirror remoted damage
+						if (DisableAddDamageToCoPlayer)
+							return;
+
+						// we have been shot
+						Messages.AddDamageToCoPlayer(c.Identity.user, damage);
+					};
+
+				c.Guard.TakeDamageDone +=
+					damage =>
+					{
+						if (c.Guard.Health <= 0)
+						{
+							c.Guard.MinimapColor = 0xff00007f;
+							c.Guard = null;
+
+							Map.WriteLine("coplayer " + e.name + " died and left a corpse");
+
+						}
+					};
+
+				this.Map.EgoView.UpdatePOV(true);
+			}
 
 			var MemoryStream_UInt8 = e.vector.Select(i => (byte)i).ToArray();
 			var ms = new MemoryStream(MemoryStream_UInt8);
@@ -211,6 +128,7 @@ namespace FlashTreasureHunt.ActionScript
 
 		}
 
+		#region LocalCoPlayer
 		public CoPlayer LocalCoPlayer;
 
 		private void CreateLocalCoPlayer()
@@ -222,36 +140,125 @@ namespace FlashTreasureHunt.ActionScript
 					{
 						name = MyIdentity.Value.name,
 						user = MyIdentity.Value.user
-					},
-				Guard = this.Map.CreateGuard()
+					}
 			}.AddTo(CoPlayers);
 
 
+			LocalCoPlayer = c;
 
-			c.Guard.RemoveFrom(Map.EgoView.Sprites);
-			c.Guard.RemoveFrom(Map.EgoView.BlockingSprites);
+			CreateLocalCoPlayerGuard();
 
-			// we will never render ourself
+			this.Map.Sync_Suicide +=
+				delegate
+				{
+					if (this.LocalCoPlayer.Guard != null)
+						this.LocalCoPlayer.Guard.TakeDamage(this.LocalCoPlayer.Guard.Health);
+				};
+		}
 
-			c.Guard.TakeDamageDone +=
+		private void CreateLocalCoPlayerGuard()
+		{
+			LocalCoPlayer.Guard = this.Map.CreateGuard();
+			LocalCoPlayer.Guard.RemoveFrom(Map.EgoView.Sprites);
+			LocalCoPlayer.Guard.RemoveFrom(Map.EgoView.BlockingSprites);
+
+			LocalCoPlayer.Guard.TakeDamage +=
+				damage =>
+				{
+					if (this.DisableAddDamageToCoPlayer)
+						return;
+
+					Map.WriteLine("ego has been damaged... was it a suicide?");
+
+					this.Messages.AddDamageToCoPlayer(this.LocalCoPlayer.Identity.user, damage);
+				};
+
+			LocalCoPlayer.Guard.TakeDamageDone +=
 				damage =>
 				{
 					this.Map.FlashColors(0xffff0000);
 
 					if (this.LocalCoPlayer.Guard.Health <= 0)
 					{
-						// we die!
+						EnterGhostMode();
 
-						this.Map.filters = new[] { Filters.RedChannelFilter };
-						this.Map.MovementEnabled_IsAlive = false;
-						this.Map.HudContainer.FadeOut();
-
-						// should we respawn soon?
 					}
 				};
+		}
+		#endregion
+
+		private void EnterGhostMode()
+		{
+			// we die!
+			if (this.Map.music != null)
+				this.Map.music.stop();
+
+			var music = Assets.Default.Music.funkyou.play(0, 9999);
+
+			if (music == null)
+				Map.WriteLine("music not playing...");
+
+			this.Map.filters = new[] { Filters.RedChannelFilter };
+
+			this.Map.EnableItemPickup = false;
+			this.Map.EgoView.EnableBlockingSprites = false;
+			this.Map.WeaponAmmo = 0;
+			this.Map.HudContainer.FadeOut(
+				delegate
+				{
+					this.Map.SwitchToHand();
+
+				}
+			);
+
+			LocalCoPlayer.Guard.Position = this.Map.EgoView.ViewPosition;
+			LocalCoPlayer.Guard.AddTo(this.Map.EgoView.Sprites);
+			LocalCoPlayer.Guard = null;
+
+			Map.WriteLine("ego died and left a corpse");
+
+			var GhostWeapon = default(Action);
+
+			GhostWeapon =
+				delegate
+				{
+					if (music != null)
+						music.stop();
 
 
-			LocalCoPlayer = c;
+					this.Map.FireWeapon -= GhostWeapon;
+
+					GhostWeapon = null;
+
+					this.Map.FlashColors(0xffffffff);
+					this.Map.WriteLine("respawn now!");
+
+					this.Map.music = Assets.Default.Music.music.play(0, 9999);
+
+					this.Map.filters = null;
+
+					this.Map.EnableItemPickup = true;
+					this.Map.EgoView.EnableBlockingSprites = true;
+					this.Map.HudContainer.FadeIn();
+
+					// we now have a new body, but we have not announced it yet
+					CreateLocalCoPlayerGuard();
+
+					PlayerAdvertise();
+				};
+
+			3000.AtDelayDo(
+				delegate
+				{
+					this.Map.FireWeapon += GhostWeapon;
+
+					this.Map.FlashColors(0xffffffff);
+
+
+				}
+			);
+
+
 
 		}
 	}

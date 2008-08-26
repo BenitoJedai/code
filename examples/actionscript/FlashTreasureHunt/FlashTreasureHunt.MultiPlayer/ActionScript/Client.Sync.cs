@@ -16,7 +16,7 @@ namespace FlashTreasureHunt.ActionScript
 	{
 		private void ReadSync(int[] bytestream)
 		{
-			Map.WriteLine("syncing, got " + bytestream.Length);
+			Map.WriteLine("sync ReadSync " + bytestream.Length);
 
 			// we need to 
 			Map.RemoveAllEntities();
@@ -248,7 +248,7 @@ namespace FlashTreasureHunt.ActionScript
 			// we will waste 3 bytes - 0xffffff00 cuz memorystream isn't supported
 			var MemoryStream_Int32 = ms.ToArray().Select(i => (int)i).ToArray();
 
-			Map.WriteLine("sent " + MemoryStream_Int32.Length);
+			Map.WriteLine("sent WriteSync " + MemoryStream_Int32.Length);
 
 			Messages.SendMap(MemoryStream_Int32);
 		}

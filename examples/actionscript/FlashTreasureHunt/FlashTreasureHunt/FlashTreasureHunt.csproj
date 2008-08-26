@@ -65,6 +65,7 @@
     <Compile Include="ActionScript\Assets.cs" />
     <Compile Include="ActionScript\Assets.Sounds.cs" />
     <Compile Include="ActionScript\Assets.Images.cs" />
+    <Compile Include="ActionScript\Assets.Music.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.FlashColors.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.AddPortals.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.WriteLine.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="ActionScript\Properties\Int32Property.cs" />
     <Compile Include="ActionScript\Properties\Property.cs" />
     <Compile Include="ActionScript\SpriteInfoExtended.cs" />
+    <Compile Include="ActionScript\ThreeD\ViewEngine.BlockingSprites.cs" />
     <Compile Include="ActionScript\ThreeD\ViewEngine.DrawMinimap.cs" />
     <Compile Include="ActionScript\ThreeD\ViewEngine.cs" />
     <Compile Include="ActionScript\UI\KeyboardButton.cs" />
@@ -101,6 +103,7 @@
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
     <Content Include="docs\SourceAnalysis.txt" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Music\FUNKYOU.mp3" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\revealed.mp3" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\teleport.mp3" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\death.mp3" />
@@ -111,8 +114,8 @@
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\getpsyched.png" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\gutentag.mp3" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\scroll.png" />
-    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\ENDLEVEL.mp3" />
-    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\WONDERIN.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Music\ENDLEVEL.mp3" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Music\WONDERIN.mp3" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\compasscolor.png" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\compass.png" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\treasure.mp3" />

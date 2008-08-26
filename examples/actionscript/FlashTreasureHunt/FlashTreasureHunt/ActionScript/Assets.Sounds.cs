@@ -24,22 +24,7 @@ namespace FlashTreasureHunt.ActionScript
 				}
 			}
 
-			public SoundAsset music_endlevel
-			{
-				get
-				{
-					return this["ENDLEVEL"];
-				}
-			}
-
-			public SoundAsset music
-			{
-				get
-				{
-					return this["WONDERIN"];
-				}
-			}
-
+		
 			public SoundAsset teleport
 			{
 				get

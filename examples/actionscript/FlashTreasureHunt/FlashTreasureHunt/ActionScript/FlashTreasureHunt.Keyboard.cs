@@ -146,6 +146,25 @@ namespace FlashTreasureHunt.ActionScript
 				}
 			};
 
+			var suicide = new global::FlashTreasureHunt.ActionScript.UI.KeyboardButton(stage)
+			{
+				Groups = new[]
+			    {
+			        MovementArrows[Keyboard.K],
+			    },
+				//Down = () => { GoBackwardSmooth.down(new Point(DefaultControlWidth / 2, DefaultControlHeight / 2)); },
+				
+				Up = () =>
+				{
+
+					if (MovementEnabled)
+						if (Sync_Suicide != null)
+							Sync_Suicide();
+
+
+				}
+			};
+
 			const int ClickRadius = 16;
 			const int ClickTimeout = 400;
 

@@ -47,13 +47,18 @@ namespace FlashTreasureHunt.ActionScript
 		// Computer software developed for the public domain, which can be used or copied without infringing copyright. ...
 		// tr.wou.edu/ntac/documents/fact_sheets/glossary.htm
 
-		// todo: add teleport
+		// todo: 
+		// fix portals
+		// fix respawn
+		// fix end of level
+		// fix dead coplayers showing up alive
+		// fix shooting thru walls
 
 
 		BlockMaze maze;
 		public ViewEngine EgoView;
 
-		SoundChannel music;
+		public SoundChannel music;
 
 		bool EndLevelMode = false;
 
@@ -117,7 +122,7 @@ namespace FlashTreasureHunt.ActionScript
 					this.GetStageChild().Siblings().ForEach(k => k.visible = !e.fullScreen);
 				};
 
-			this.music = Assets.Default.Sounds.music.play(0, 9999);
+			this.music = Assets.Default.Music.music.play(0, 9999);
 
 
 
@@ -172,8 +177,16 @@ namespace FlashTreasureHunt.ActionScript
 				{
 					Assets.Default.Sounds.gutentag.play();
 
+					this.WriteLine("init: gutentag");
 
-					Assets.Default.dude5.ToBitmapArray(CachedGuardTextures,
+
+					Assets.Default.dude5.ToBitmapArray(
+						(cur, max) =>
+						{
+							this.WriteLine("init: dude5 " + cur + "/" + max);
+
+						},
+						CachedGuardTextures,
 						Bitmaps =>
 						{
 							CachedGuardTextures = Bitmaps;

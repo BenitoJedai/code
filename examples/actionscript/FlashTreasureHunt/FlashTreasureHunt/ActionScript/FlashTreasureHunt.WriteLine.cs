@@ -39,7 +39,7 @@ namespace FlashTreasureHunt.ActionScript
 				{
 					dumper_queue.Enqueue(text);
 
-					while (dumper_queue.Count > 10)
+					while (dumper_queue.Count > 15)
 						dumper_queue.Dequeue();
 
 					dumper.text = "";
