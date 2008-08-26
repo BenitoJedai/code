@@ -13,30 +13,47 @@ namespace ScriptCoreLib.ActionScript.Archive.Extensions
 	[Script]
 	public static class ArchiveActionScriptExtensions
 	{
-	
+
 
 		public static void ToImages(this IEnumerable<MemoryStream> m, Action<Bitmap[]> h)
 		{
+			m.ToImages(null, h);
+		}
+
+		public static void ToImages(this IEnumerable<MemoryStream> m, Action<int, int> progress, Action<Bitmap[]> h)
+		{
 			var a = m.ToArray();
-			var c = a.Length;
-			var n = new Bitmap[c];
 
-			for (int i = 0; i < a.Length; i++)
-			{
-				var k = i;
+			var n = new Bitmap[a.Length];
 
-				a[k].ToByteArray().LoadBytes<Bitmap>(
+			var Next = default(Action<int>);
+
+			Next =
+				k => a[k].ToByteArray().LoadBytes<Bitmap>(
 					u =>
 					{
 						n[k] = u;
 
-						c--;
+						if (progress != null)
+							progress(k, a.Length);
 
-						if (c == 0)
+						if (k == 0)
 							h(n);
+						else
+							Next(k - 1);
 					}
 				);
-			}
+
+			Next(a.Length - 1);
+		}
+
+
+		public static void ToBitmapArray(this ZIPFile zip, Action<int, int> progress, Bitmap[] cache, Action<Bitmap[]> h)
+		{
+			if (cache == null)
+				zip.ToBitmapArray(progress, h);
+			else
+				h(cache);
 		}
 
 		public static void ToBitmapArray(this ZIPFile zip, Bitmap[] cache, Action<Bitmap[]> h)
@@ -45,6 +62,11 @@ namespace ScriptCoreLib.ActionScript.Archive.Extensions
 				zip.ToBitmapArray(h);
 			else
 				h(cache);
+		}
+
+		public static void ToBitmapArray(this ZIPFile zip, Action<int, int> progress, Action<Bitmap[]> handler)
+		{
+			zip.Items.Select(k => k.Data).ToImages(progress, handler);
 		}
 
 		public static void ToBitmapArray(this ZIPFile zip, Action<Bitmap[]> handler)

@@ -27,6 +27,8 @@ namespace FlashTreasureHunt.ActionScript
 
 		public int WeaponAmmo;
 
+		public Action SwitchToHand;
+
 		private void InitializeWeaponOverlay(Dictionary<string, Bitmap> f)
 		{
 			Func<int, Bitmap> id = _id => f[_id + ".png"];
@@ -46,6 +48,12 @@ namespace FlashTreasureHunt.ActionScript
 					id(330),
 				};
 
+			this.SwitchToHand =
+				delegate
+				{
+					gun.First().Orphanize();
+					noweapon.AttachTo(hand);
+				};
 
 			//var hand = f["330.png"];
 			const int handsize = 4;
@@ -190,6 +198,23 @@ namespace FlashTreasureHunt.ActionScript
 					if (PlayFireAnimationTimer != null)
 						return;
 
+			
+
+					if (WeaponAmmo <= 0)
+					{
+						WeaponIsActive = false;
+
+						SwitchToWeapon = delegate { };
+
+						BringWeaponDown(SwitchToHand,
+								delegate
+								{
+									SwitchToWeapon = SwitchToWeaponDefault;
+								}
+							);
+
+						return;
+					}
 
 					if (Sync_FireWeapon != null)
 						Sync_FireWeapon();
@@ -261,13 +286,7 @@ namespace FlashTreasureHunt.ActionScript
 										ReadyForMoreAmmo = SwitchToWeaponDefault;
 									};
 
-								BringWeaponDown(
-									delegate
-									{
-										gun.First().Orphanize();
-										noweapon.AttachTo(hand);
-									}
-									,
+								BringWeaponDown(SwitchToHand,
 									delegate
 									{
 										ReadyForMoreAmmo();

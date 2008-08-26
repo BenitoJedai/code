@@ -26,8 +26,11 @@ namespace FlashTreasureHunt.ActionScript
 		public readonly List<SpriteInfoExtended> GoldSprites = new List<SpriteInfoExtended>();
 		public readonly List<SpriteInfoExtended> NonblockSprites = new List<SpriteInfoExtended>();
 
+		public event Action Sync_Suicide;
 		public event Action<int> Sync_TakeGold;
 		public event Action<int> Sync_TakeAmmo;
+
+		public bool EnableItemPickup = true;
 
 		public IEnumerable<TextureBase.Entry> FreeSpace
 		{
@@ -150,7 +153,7 @@ namespace FlashTreasureHunt.ActionScript
 			AmmoTotal = (FreeSpaceCount * 0.2).Floor();
 			GoldTotal = (FreeSpaceCount * 0.4).Floor();
 
-			WriteLine(new { GoldTotal, AmmoTotal, NonblockingTotal }.ToString());
+			//WriteLine(new { GoldTotal, AmmoTotal, NonblockingTotal }.ToString());
 
 
 
@@ -206,6 +209,9 @@ namespace FlashTreasureHunt.ActionScript
 						   EgoView.ViewPositionChanged +=
 							   delegate
 							   {
+								   if (!EnableItemPickup)
+									   return;
+
 								   if (EgoView.SpritesFromPointOfView == null)
 									   return;
 
@@ -326,6 +332,10 @@ namespace FlashTreasureHunt.ActionScript
 					   EgoView.ViewPositionChanged +=
 						   delegate
 						   {
+							   if (!EnableItemPickup)
+								   return;
+
+
 							   if (EgoView.SpritesFromPointOfView == null)
 								   return;
 

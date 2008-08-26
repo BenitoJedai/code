@@ -7,7 +7,8 @@ using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.mx.core;
 
-////[assembly: ScriptResources(FlashTreasureHunt.ActionScript.Assets.Path)]
+[assembly: ScriptResources(FlashTreasureHunt.ActionScript.Assets.SoundPath)]
+[assembly: ScriptResources(FlashTreasureHunt.ActionScript.Assets.MusicPath)]
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -38,22 +39,25 @@ namespace FlashTreasureHunt.ActionScript
 
 
 		public const string SoundPath = Path + "/Sounds";
+		public const string MusicPath = Path + "/Music";
 
 		[Script]
-		public partial class SoundFiles
+		public class SoundFilesBase
 		{
 			Assets a;
+			string p;
 
-			public SoundFiles(Assets a)
+			public SoundFilesBase(Assets a, string p)
 			{
 				this.a = a;
+				this.p = p;
 			}
 
 			public SoundAsset this[string e]
 			{
 				get
 				{
-					var f = SoundPath + "/" + e + ".mp3";
+					var f = p + "/" + e + ".mp3";
 					var r = a[f];
 
 					if (r == null)
@@ -64,13 +68,34 @@ namespace FlashTreasureHunt.ActionScript
 			}
 		}
 
+		[Script]
+		public partial class SoundFiles : SoundFilesBase
+		{
+
+			public SoundFiles(Assets a) : base(a, SoundPath)
+			{
+			}
+			
+		}
+
+		[Script]
+		public partial class MusicFiles : SoundFilesBase
+		{
+
+			public MusicFiles(Assets a) : base(a, MusicPath)
+			{
+			}
+
+		}
 
 		public Assets()
 		{
 			Sounds = new SoundFiles(this);
+			Music = new MusicFiles(this);
 		}
 
 		public readonly SoundFiles Sounds;
+		public readonly MusicFiles Music;
 
 
 	}

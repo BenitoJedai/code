@@ -95,7 +95,7 @@
     <PostBuildEvent>pushd ..\..\tools\
 call build.bat $(ProjectName)
 popd
-dir  "../../../bin"
+
 copy "$(TargetDir)web\*.dll" "../../../bin"
 copy "$(TargetDir)web\*.pdb" "../../../bin"
 copy "$(TargetDir)web\*.swf" "../../../bin"

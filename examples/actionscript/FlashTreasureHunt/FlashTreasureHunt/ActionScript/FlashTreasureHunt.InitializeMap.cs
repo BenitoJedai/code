@@ -169,8 +169,8 @@ namespace FlashTreasureHunt.ActionScript
 							this.MovementEnabled_IsFocused = true;
 							//WriteLine("focusIn");
 
-							if (this.MovementEnabled_IsAlive)
-								this.filters = null;
+							//if (this.MovementEnabled_IsAlive)
+							//    this.filters = null;
 
 						};
 
@@ -179,8 +179,8 @@ namespace FlashTreasureHunt.ActionScript
 						{
 							this.MovementEnabled_IsFocused = false;
 
-							if (this.MovementEnabled_IsAlive)
-								this.filters = new[] { Filters.GrayScaleFilter };
+							//if (this.MovementEnabled_IsAlive)
+							//    this.filters = new[] { Filters.GrayScaleFilter };
 							//WriteLine("focusOut");
 						};
 

@@ -79,6 +79,7 @@
     <Compile Include="ActionScript\Client.Sync.cs" />
     <Compile Include="ActionScript\Client.PlayerAdvertise.cs" />
     <Compile Include="ActionScript\Client.WalkTo.cs" />
+    <Compile Include="ActionScript\CoPlayer.cs" />
     <Compile Include="ActionScript\NonobaClient.cs" />
     <Compile Include="ActionScript\OrderedAction.cs" />
     <Compile Include="ActionScript\TimeoutAction.cs" />
