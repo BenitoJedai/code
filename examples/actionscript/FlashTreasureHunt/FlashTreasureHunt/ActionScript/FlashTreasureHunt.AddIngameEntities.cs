@@ -26,6 +26,8 @@ namespace FlashTreasureHunt.ActionScript
 		public readonly List<SpriteInfoExtended> GoldSprites = new List<SpriteInfoExtended>();
 		public readonly List<SpriteInfoExtended> NonblockSprites = new List<SpriteInfoExtended>();
 
+		public event Action<int> Sync_TakeGold;
+		public event Action<int> Sync_TakeAmmo;
 
 		public IEnumerable<TextureBase.Entry> FreeSpace
 		{
@@ -74,6 +76,8 @@ namespace FlashTreasureHunt.ActionScript
 							Assets.Default.Sounds.treasure.play();
 
 							AddTreasureCollected();
+
+						
 						};
 
 					k.ConstructorIndexForSync = i;
@@ -235,8 +239,13 @@ namespace FlashTreasureHunt.ActionScript
 
 
 													   if (Item_Sprite != null)
+													   {
 														   if (Item_Sprite.ItemTaken != null)
 															   ItemTaken += () => Item_Sprite.ItemTaken();
+
+														   if (Sync_TakeAmmo != null)
+															   Sync_TakeAmmo(Item_Sprite.ConstructorIndexForSync);
+													   }
 
 													   // GoldTakenCounter = (GoldTakenCounter + 1).Min(1);
 
@@ -354,8 +363,15 @@ namespace FlashTreasureHunt.ActionScript
 
 
 												   if (Item_Sprite != null)
+												   {
 													   if (Item_Sprite.ItemTaken != null)
 														   ItemTaken += () => Item_Sprite.ItemTaken();
+
+													   if (Sync_TakeGold != null)
+														   Sync_TakeGold(Item_Sprite.ConstructorIndexForSync);
+												   }
+												   
+
 
 												   GoldTakenCounter = (GoldTakenCounter + 1).Min(1);
 

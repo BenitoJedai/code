@@ -63,6 +63,11 @@ namespace FlashTreasureHunt.ActionScript
 				};
 			#endregion
 
+			// pass sync events from singleplayer to server
+
+			this.Map.Sync_TakeGold += this.Messages.TakeGold;
+			this.Map.Sync_TakeAmmo += this.Messages.TakeAmmo;
+
 
 			this.Map.AttachTo(Element);
 

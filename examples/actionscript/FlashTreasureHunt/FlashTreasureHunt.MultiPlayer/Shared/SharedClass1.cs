@@ -39,6 +39,13 @@ namespace FlashTreasureHunt.Shared
 
 			void SendMap(int[] bytestream);
 			void UserSendMap(int user, int[] bytestream);
-        }
+
+
+			void TakeAmmo(int index);
+			void UserTakeAmmo(int user, int index);
+
+			void TakeGold(int index);
+			void UserTakeGold(int user, int index);
+		}
     }
 }
