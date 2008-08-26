@@ -13,8 +13,11 @@ namespace FlashTreasureHunt.ActionScript
 	{
 		public const int NonobaChatWidth = 200;
 
-		public NonobaClient()
+		string ServerEndPoint;
+		public NonobaClient(string ServerEndPoint)
 		{
+			this.ServerEndPoint = ServerEndPoint;
+
 			Element.InvokeWhenStageIsReady(Initialize);
 		}
 
@@ -35,7 +38,7 @@ namespace FlashTreasureHunt.ActionScript
 
 		private void Initialize()
 		{
-			var c = NonobaAPI.MakeMultiplayer(Element.stage
+			var c = NonobaAPI.MakeMultiplayer(Element.stage, ServerEndPoint
 				//, "192.168.3.102"
 				//, "192.168.1.119"
 				);
