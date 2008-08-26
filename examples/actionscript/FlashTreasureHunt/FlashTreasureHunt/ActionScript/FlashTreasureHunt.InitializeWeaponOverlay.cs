@@ -12,6 +12,7 @@ using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.Shared.Maze;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.flash.utils;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -21,6 +22,7 @@ namespace FlashTreasureHunt.ActionScript
 
 		public bool WeaponIsActive;
 
+		public event Action Sync_FireWeapon;
 		public Action FireWeapon;
 
 		public int WeaponAmmo;
@@ -144,11 +146,13 @@ namespace FlashTreasureHunt.ActionScript
 			SwitchToWeapon = SwitchToWeaponDefault;
 
 
+			var PlayFireAnimationTimer = default(Timer);
+
 			Action<Action> PlayFireAnimation =
 				done =>
 				{
 
-					(1000 / 15).AtInterval(
+					PlayFireAnimationTimer = FrameRate_FireWeapon.AtInterval(
 						tt =>
 						{
 							gun[gun_index].Orphanize();
@@ -161,6 +165,8 @@ namespace FlashTreasureHunt.ActionScript
 
 								gun_index = 0;
 								tt.stop();
+
+								PlayFireAnimationTimer = null;
 
 								done();
 							}
@@ -181,8 +187,12 @@ namespace FlashTreasureHunt.ActionScript
 						return;
 
 					// we can fire only if the animation has stopped
-					if (gun_index != 0)
+					if (PlayFireAnimationTimer != null)
 						return;
+
+
+					if (Sync_FireWeapon != null)
+						Sync_FireWeapon();
 
 					Assets.Default.Sounds.gunshot.play();
 

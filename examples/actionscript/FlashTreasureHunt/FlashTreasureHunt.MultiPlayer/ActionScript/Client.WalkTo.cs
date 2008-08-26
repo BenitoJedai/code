@@ -39,6 +39,14 @@ namespace FlashTreasureHunt.ActionScript
 
 					this.Messages.WalkTo(MemoryStream_Int32);
 				};
+
+			this.Map.EgoView.ViewDirectionChanged +=
+				delegate
+				{
+					Map.WriteLine("sent LookAt ");
+
+					this.Messages.LookAt(this.Map.EgoView.ViewDirection);
+				};
 		}
 
 		void WalkTo(SharedClass1.RemoteEvents.UserWalkToArguments e)
@@ -51,7 +59,13 @@ namespace FlashTreasureHunt.ActionScript
 			var y = mr.ReadDouble();
 
 			// this is teleporting, we need to smooth that
-			this.CoPlayers.Where(k => k.Identity.user == e.user).ForEach(k => k.Guard.Position.To(x, y));
+			this.CoPlayers.Where(k => k.Identity.user == e.user).ForEach(k => k.WalkTo(x, y));
+		}
+
+		void UserLookAt(SharedClass1.RemoteEvents.UserLookAtArguments e)
+		{
+			this.CoPlayers.Where(k => k.Identity.user == e.user).ForEach(k => k.Guard.Direction = e.arc);
+
 		}
 	}
 }

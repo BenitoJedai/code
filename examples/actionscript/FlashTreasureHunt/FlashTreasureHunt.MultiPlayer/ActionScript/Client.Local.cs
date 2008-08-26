@@ -72,7 +72,7 @@ namespace FlashTreasureHunt.ActionScript
 
 			this.Map.Sync_TakeGold += this.Messages.TakeGold;
 			this.Map.Sync_TakeAmmo += this.Messages.TakeAmmo;
-
+			this.Map.Sync_FireWeapon += this.Messages.FireWeapon;
 
 			this.Map.AttachTo(Element);
 

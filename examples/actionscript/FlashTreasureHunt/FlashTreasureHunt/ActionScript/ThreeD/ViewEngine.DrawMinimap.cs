@@ -49,7 +49,18 @@ namespace FlashTreasureHunt.ActionScript.ThreeD
 			//Console.WriteLine("left: " + rayDirLeft);
 			//Console.WriteLine("right: " + rayDirLeft);
 
-			foreach (var _ss in EgoView.SpritesFromPointOfView)
+			Func<SpriteInfoFromPOV, int> Predicate =
+				p =>
+				{
+					var extended = p.Sprite as SpriteInfoExtended;
+
+					if (extended == null)
+						return SpriteInfoExtended.MinimapZIndex_Default;
+
+					return extended.MinimapZIndex;
+				};
+
+			foreach (var _ss in EgoView.SpritesFromPointOfView.OrderBy(Predicate))
 			{
 				var ss = _ss;
 

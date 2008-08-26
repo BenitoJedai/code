@@ -13,6 +13,8 @@ namespace ScriptCoreLib.ActionScript.Archive.Extensions
 	[Script]
 	public static class ArchiveActionScriptExtensions
 	{
+	
+
 		public static void ToImages(this IEnumerable<MemoryStream> m, Action<Bitmap[]> h)
 		{
 			var a = m.ToArray();
@@ -35,6 +37,14 @@ namespace ScriptCoreLib.ActionScript.Archive.Extensions
 					}
 				);
 			}
+		}
+
+		public static void ToBitmapArray(this ZIPFile zip, Bitmap[] cache, Action<Bitmap[]> h)
+		{
+			if (cache == null)
+				zip.ToBitmapArray(h);
+			else
+				h(cache);
 		}
 
 		public static void ToBitmapArray(this ZIPFile zip, Action<Bitmap[]> handler)

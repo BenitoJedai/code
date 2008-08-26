@@ -53,6 +53,12 @@ namespace FlashTreasureHunt.Shared
 
 			void WalkTo(int[] bytestream);
 			void UserWalkTo(int user, int[] bytestream);
+
+			void LookAt(double arc);
+			void UserLookAt(int user, double arc);
+
+			void FireWeapon();
+			void UserFireWeapon(int user);
 		}
     }
 }
