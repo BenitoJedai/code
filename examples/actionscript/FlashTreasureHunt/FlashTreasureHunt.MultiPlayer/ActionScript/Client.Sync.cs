@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.display;
 using FlashTreasureHunt.Shared;
+using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.RayCaster;
 using System.IO;
 
@@ -54,6 +55,21 @@ namespace FlashTreasureHunt.ActionScript
 
 			//Map.WriteLine("xor ok " + new { xor, xor_Expected });
 			#endregion
+
+			this.Map.GoldTotal = mr.ReadInt32();
+			this.Map.AmmoTotal = mr.ReadInt32();
+			this.Map.NonblockingTotal = mr.ReadInt32();
+
+
+			#region write goal pos
+
+			this.Map.TheGoldStack.Position.x = mr.ReadDouble();
+			this.Map.TheGoldStack.Position.y = mr.ReadDouble();
+
+			// you can pick up the end goal, once it ise revealed
+			this.Map.TheGoldStack.AddTo(this.Map.GoldSprites);
+			#endregion
+
 
 			#region read gold
 
@@ -131,8 +147,16 @@ namespace FlashTreasureHunt.ActionScript
 
 			Map.ResetEgoPosition();
 
+			#region restore coplayers
+
+			this.CoPlayers.ForEach(k => k.Guard.AddTo(this.Map.EgoView.Sprites).AddTo(this.Map.EgoView.BlockingSprites));
+			
+			#endregion
+
+			PlayerAdvertise();
 		}
 
+	
 		public const uint SyncEndOfStream = 0xF0F0F0F0;
 
 		private void WriteSync()
@@ -157,7 +181,18 @@ namespace FlashTreasureHunt.ActionScript
 			}
 
 			mw.Write(xor);
-			Map.WriteLine("sent xor  " + new { xor });
+			//Map.WriteLine("sent xor  " + new { xor });
+			#endregion
+
+			mw.Write(this.Map.GoldTotal);
+			mw.Write(this.Map.AmmoTotal);
+			mw.Write(this.Map.NonblockingTotal);
+
+			#region write goal pos
+
+			mw.Write(this.Map.TheGoldStack.Position.x);
+			mw.Write(this.Map.TheGoldStack.Position.y);
+
 			#endregion
 
 			#region write gold

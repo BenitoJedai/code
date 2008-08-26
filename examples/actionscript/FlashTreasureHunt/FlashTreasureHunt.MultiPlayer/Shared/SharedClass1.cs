@@ -32,8 +32,8 @@ namespace FlashTreasureHunt.Shared
             void ServerPlayerJoined(int user, string name);
             void ServerPlayerLeft(int user, string name);
 
-            void PlayerAdvertise(string name);
-            void UserPlayerAdvertise(int user, string name);
+            void PlayerAdvertise(string name, int[] vector);
+			void UserPlayerAdvertise(int user, string name, int[] vector);
 
 			void ServerSendMap();
 

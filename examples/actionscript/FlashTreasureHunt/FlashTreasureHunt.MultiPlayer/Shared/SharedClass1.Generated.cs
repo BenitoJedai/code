@@ -92,13 +92,20 @@ namespace FlashTreasureHunt.Shared
             {
                 Send(new SendArguments { i = Messages.ServerPlayerLeft, args = new object[] { user, name } });
             }
-            public void PlayerAdvertise(string name)
+            public void PlayerAdvertise(string name, int[] vector)
             {
-                Send(new SendArguments { i = Messages.PlayerAdvertise, args = new object[] { name } });
+                var args = new object[vector.Length + 1];
+                args[0] = name;
+                Array.Copy(vector, 0, args, 1, vector.Length);
+                Send(new SendArguments { i = Messages.PlayerAdvertise, args = args });
             }
-            public void UserPlayerAdvertise(int user, string name)
+            public void UserPlayerAdvertise(int user, string name, int[] vector)
             {
-                Send(new SendArguments { i = Messages.UserPlayerAdvertise, args = new object[] { user, name } });
+                var args = new object[vector.Length + 2];
+                args[0] = user;
+                args[1] = name;
+                Array.Copy(vector, 0, args, 2, vector.Length);
+                Send(new SendArguments { i = Messages.UserPlayerAdvertise, args = args });
             }
             public void ServerSendMap()
             {
@@ -203,7 +210,7 @@ namespace FlashTreasureHunt.Shared
                 #region Routing
                 public void UserPlayerAdvertise(PlayerAdvertiseArguments e)
                 {
-                    Target.UserPlayerAdvertise(this.user, e.name);
+                    Target.UserPlayerAdvertise(this.user, e.name, e.vector);
                 }
                 public void UserSendMap(SendMapArguments e)
                 {
@@ -273,10 +280,11 @@ namespace FlashTreasureHunt.Shared
             public sealed partial class PlayerAdvertiseArguments
             {
                 public string name;
+                public int[] vector;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ name = ").Append(this.name).Append(" }").ToString();
+                    return new StringBuilder().Append("{ name = ").Append(this.name).Append(", vector = ").Append(this.vector).Append(" }").ToString();
                 }
             }
             #endregion
@@ -287,10 +295,11 @@ namespace FlashTreasureHunt.Shared
             public sealed partial class UserPlayerAdvertiseArguments : WithUserArguments
             {
                 public string name;
+                public int[] vector;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name).Append(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name).Append(", vector = ").Append(this.vector).Append(" }").ToString();
                 }
             }
             #endregion
@@ -399,8 +408,8 @@ namespace FlashTreasureHunt.Shared
                             { Messages.ServerPlayerHello, e => { ServerPlayerHello(new ServerPlayerHelloArguments { user = e.GetInt32(0), name = e.GetString(1), user_with_map = e.GetInt32(2), handshake = e.GetInt32Array(3) }); } },
                             { Messages.ServerPlayerJoined, e => { ServerPlayerJoined(new ServerPlayerJoinedArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                             { Messages.ServerPlayerLeft, e => { ServerPlayerLeft(new ServerPlayerLeftArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
-                            { Messages.PlayerAdvertise, e => { PlayerAdvertise(new PlayerAdvertiseArguments { name = e.GetString(0) }); } },
-                            { Messages.UserPlayerAdvertise, e => { UserPlayerAdvertise(new UserPlayerAdvertiseArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
+                            { Messages.PlayerAdvertise, e => { PlayerAdvertise(new PlayerAdvertiseArguments { name = e.GetString(0), vector = e.GetInt32Array(1) }); } },
+                            { Messages.UserPlayerAdvertise, e => { UserPlayerAdvertise(new UserPlayerAdvertiseArguments { user = e.GetInt32(0), name = e.GetString(1), vector = e.GetInt32Array(2) }); } },
                             { Messages.ServerSendMap, e => { ServerSendMap(new ServerSendMapArguments {  }); } },
                             { Messages.SendMap, e => { SendMap(new SendMapArguments { bytestream = e.GetInt32Array(0) }); } },
                             { Messages.UserSendMap, e => { UserSendMap(new UserSendMapArguments { user = e.GetInt32(0), bytestream = e.GetInt32Array(1) }); } },
@@ -490,18 +499,18 @@ namespace FlashTreasureHunt.Shared
             }
 
             public event Action<RemoteEvents.PlayerAdvertiseArguments> PlayerAdvertise;
-            void IMessages.PlayerAdvertise(string name)
+            void IMessages.PlayerAdvertise(string name, int[] vector)
             {
                 if(PlayerAdvertise == null) return;
-                var v = new RemoteEvents.PlayerAdvertiseArguments { name = name };
+                var v = new RemoteEvents.PlayerAdvertiseArguments { name = name, vector = vector };
                 this.VirtualLatency(() => this.PlayerAdvertise(v));
             }
 
             public event Action<RemoteEvents.UserPlayerAdvertiseArguments> UserPlayerAdvertise;
-            void IMessages.UserPlayerAdvertise(int user, string name)
+            void IMessages.UserPlayerAdvertise(int user, string name, int[] vector)
             {
                 if(UserPlayerAdvertise == null) return;
-                var v = new RemoteEvents.UserPlayerAdvertiseArguments { user = user, name = name };
+                var v = new RemoteEvents.UserPlayerAdvertiseArguments { user = user, name = name, vector = vector };
                 this.VirtualLatency(() => this.UserPlayerAdvertise(v));
             }
 
@@ -566,4 +575,4 @@ namespace FlashTreasureHunt.Shared
     }
     #endregion
 }
-// 26.08.2008 13:10:36
+// 26.08.2008 15:06:04

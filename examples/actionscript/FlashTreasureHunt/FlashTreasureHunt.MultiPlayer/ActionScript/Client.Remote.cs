@@ -62,25 +62,42 @@ namespace FlashTreasureHunt.ActionScript
 
 		public void InitializeOtherEvents()
 		{
+			// todo: events need to automatically 
+			// queue based on message id and wait timer
+			// currently this is done manually.
+
 			Events.ServerPlayerJoined +=
 				e =>
 				{
-					Map.WriteLine("joined: " + e.name);
+					MapInitialized.ContinueWhenDone(
+						delegate
+						{
+							Map.WriteLine("joined: " + e.name);
 
-					Messages.PlayerAdvertise(MyIdentity.Value.name);
+							PlayerAdvertise();
+						}
+					);
 				};
 
 			Events.UserPlayerAdvertise +=
 				e =>
 				{
-					Map.WriteLine("present: " + e.name);
-
+					MapInitialized.ContinueWhenDone(
+						delegate
+						{
+							PlayerAdvertise(e);
+						}
+					);
 				};
+
 
 			Events.ServerPlayerLeft +=
 				e =>
 				{
 					Map.WriteLine("left: " + e.name);
+
+					// kill the player guard, and remove the coplayer entity
+					this.CoPlayers.Where(k => k.Identity.user == e.user).ToArray().ForEach(k => k.RemoveFrom(CoPlayers).Guard.TakeDamage(k.Guard.Health));
 
 				};
 
@@ -88,8 +105,12 @@ namespace FlashTreasureHunt.ActionScript
 				e =>
 				{
 					// we have been chosen to tell the new guy about current map
-
-					WriteSync();
+					MapInitialized.ContinueWhenDone(
+						delegate
+						{
+							WriteSync();
+						}
+					);
 				};
 
 			Events.UserSendMap +=
@@ -124,6 +145,8 @@ namespace FlashTreasureHunt.ActionScript
 					);
 				};
 		}
+
+	
 
 
 	}

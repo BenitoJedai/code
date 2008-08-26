@@ -57,7 +57,7 @@ namespace FlashTreasureHunt.ActionScript
 
 		bool EndLevelMode = false;
 
-		SpriteInfoExtended TheGoldStack;
+		public SpriteInfoExtended TheGoldStack;
 
 		Sprite HudContainer;
 
@@ -90,7 +90,6 @@ namespace FlashTreasureHunt.ActionScript
 			EgoView.ViewDirection = GetGoodDirection(EgoView.ViewPosition);
 		}
 
-		Func<SpriteInfoExtended> CreateGuard;
 
 		Bitmap getpsyched;
 
@@ -128,7 +127,7 @@ namespace FlashTreasureHunt.ActionScript
 				FloorAndCeilingVisible = false,
 				RenderLowQualityWalls = false,
 				ViewDirection = 0,
-				ViewPosition = new Point()
+				ViewPosition = new Point(0, 0)
 			};
 
 			EgoView.Image.scaleX = DefaultScale;
