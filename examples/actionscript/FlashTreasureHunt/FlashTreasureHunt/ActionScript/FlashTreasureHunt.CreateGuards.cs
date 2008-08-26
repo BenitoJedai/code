@@ -19,6 +19,7 @@ namespace FlashTreasureHunt.ActionScript
 	partial class FlashTreasureHunt
 	{
 
+		public Func<SpriteInfoExtended> CreateGuard;
 
 		private void CreateGuards(IEnumerator<TextureBase.Entry> FreeSpaceForStuff)
 		{

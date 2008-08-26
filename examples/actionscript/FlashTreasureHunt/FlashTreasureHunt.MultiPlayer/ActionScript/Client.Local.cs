@@ -16,6 +16,7 @@ namespace FlashTreasureHunt.ActionScript
 
 
 		public readonly TimeoutAction FirstMapLoader = new TimeoutAction();
+		public readonly OrderedAction MapInitialized = new OrderedAction();
 
 		public void InitializeMapOnce()
 		{
@@ -29,9 +30,13 @@ namespace FlashTreasureHunt.ActionScript
 						{
 							//this.Map.WriteLine("ready for multiplayer map");
 
+							MapInitialized.Signal();
+
 							FirstMapLoader.ContinueWhenDone(
 								this.Map.ReadyWithLoadingCurrentLevelDirect
 							);
+
+							
 
 							// if we are the host, we will have the primary map
 						}

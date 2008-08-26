@@ -17,8 +17,8 @@ namespace FlashTreasureHunt.ActionScript
 {
 	partial class FlashTreasureHunt
 	{
-		int NonblockingTotal;
-		int AmmoTotal;
+		public int NonblockingTotal;
+		public int AmmoTotal;
 
 
 		// items for pickup
