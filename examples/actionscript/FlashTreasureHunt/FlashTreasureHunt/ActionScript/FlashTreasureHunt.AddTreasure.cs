@@ -24,7 +24,7 @@ namespace FlashTreasureHunt.ActionScript
 
 		Action HalfOfTheTreasureCollected;
 
-		private void AddTreasure()
+		private void AddTreasureCollected()
 		{
 			GoldTotalCollected++;
 

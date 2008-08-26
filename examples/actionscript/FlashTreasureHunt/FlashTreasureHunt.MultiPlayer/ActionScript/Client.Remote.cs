@@ -87,91 +87,25 @@ namespace FlashTreasureHunt.ActionScript
 				{
 					// we have been chosen to tell the new guy about current map
 
-					Map.WriteLine("we sent out a map");
-
-					var ms = new MemoryStream();
-					var mw = new BinaryWriter(ms);
-
-					var wm = Map.EgoView.Map.WorldMap;
-
-					mw.Write(wm.Values.Length);
-
-					uint xor = 0;
-
-					foreach (var v in wm.Values)
-					{
-						xor ^= v;
-
-						mw.Write(v);
-					}
-
-					mw.Write(xor);
-
-					Map.WriteLine("sent xor  " + new { xor });
-
-					// we will waste 3 bytes - 0xffffff00 cuz memorystream isn't supported
-					var MemoryStream_Int32 = ms.ToArray().Select(i => (int)i).ToArray();
-
-					Messages.SendMap(MemoryStream_Int32);
+					WriteSync();
 				};
 
 			Events.UserSendMap +=
 				e =>
 				{
+					var bytestream = e.bytestream;
+
 					FirstMapLoader.Signal(
 						delegate
 						{
-							Map.WriteLine("syncing map");
-
-							// we need to 
-							Map.RemoveAllEntities();
-
-							var wm = new Texture32();
-							
-							var MemoryStream_UInt8 = e.bytestream.Select(i => (byte)i).ToArray();
-							var ms = new MemoryStream(MemoryStream_UInt8);
-							var mr = new BinaryReader(ms);
-
-							var Values = mr.ReadInt32();
-
-							if (Values != wm.Values.Length)
-							{
-								Map.WriteLine("wrong length");
-							}
-							else
-							{
-								uint xor = 0;
-
-								for (int i = 0; i < Values; i++)
-								{
-									var v = mr.ReadUInt32();
-
-									xor ^= v;
-
-									wm[i] = v;
-								}
-
-								var xor_Expected = mr.ReadUInt32();
-
-								if (xor == xor_Expected)
-								{
-									Map.WriteLine("xor ok " + new { xor, xor_Expected });
-
-									Map.EgoView.Map.WorldMap = wm;
-
-									Map.ResetEgoPosition();
-								}
-								else
-								{
-									Map.WriteLine("xor failed " + new { xor, xor_Expected });
-								}
-							}
+							ReadSync(bytestream);
 
 						}
 					);
 				};
 
 		}
+
 
 	}
 }

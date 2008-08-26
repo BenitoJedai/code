@@ -315,8 +315,11 @@ namespace FlashTreasureHunt.ActionScript
 		{
 			this.EgoView.BlockingSprites.Clear();
 			this.EgoView.Sprites.Clear();
+			
 			this.GoldSprites.Clear();
 			this.AmmoSprites.Clear();
+			this.NonblockSprites.Clear();
+
 			this.DualPortals.Clear();
 			this.Portals.Clear();
 		}

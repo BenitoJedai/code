@@ -30,10 +30,6 @@ namespace FlashTreasureHunt.ActionScript
 		const uint bluewall = 0x0000ff;
 		const uint greenwall = 0x00ff00;
 
-		// items for pickup
-		List<SpriteInfoExtended> AmmoSprites = new List<SpriteInfoExtended>();
-		List<SpriteInfoExtended> GoldSprites = new List<SpriteInfoExtended>();
-
 		// used to make BJ smile
 		int GoldTakenCounter = 0;
 

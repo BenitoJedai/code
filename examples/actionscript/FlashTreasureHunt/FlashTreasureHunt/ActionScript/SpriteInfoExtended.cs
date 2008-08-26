@@ -24,5 +24,8 @@ namespace FlashTreasureHunt.ActionScript
 		public double Health = 1;
 
 		public Action<double> TakeDamage;
+
+		// this is used while syncing
+		public int ConstructorIndexForSync = -1;
 	}
 }
