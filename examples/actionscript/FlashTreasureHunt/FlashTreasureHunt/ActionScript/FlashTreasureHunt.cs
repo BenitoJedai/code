@@ -163,6 +163,8 @@ namespace FlashTreasureHunt.ActionScript
 
 			InitializeWriteLine();
 
+			this.WriteLine("init: getpsyched");
+
 			//WriteLine("with minimap");
 
 			getpsyched.FadeIn(
@@ -245,6 +247,7 @@ namespace FlashTreasureHunt.ActionScript
 							CreateGuard = Spawn;
 
 
+							this.WriteLine("init: dude5");
 
 
 							InitializeMap();
