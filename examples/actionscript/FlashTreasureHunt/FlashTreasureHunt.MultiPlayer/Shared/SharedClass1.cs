@@ -46,6 +46,10 @@ namespace FlashTreasureHunt.Shared
 
 			void TakeGold(int index);
 			void UserTakeGold(int user, int index);
+
+			void AddDamageToCoPlayer(int target, double damage);
+			void UserAddDamageToCoPlayer(int user, int target, double damage);
+
 		}
     }
 }

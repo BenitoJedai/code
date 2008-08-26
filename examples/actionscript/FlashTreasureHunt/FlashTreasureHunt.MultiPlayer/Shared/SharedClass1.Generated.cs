@@ -30,6 +30,8 @@ namespace FlashTreasureHunt.Shared
             UserTakeAmmo,
             TakeGold,
             UserTakeGold,
+            AddDamageToCoPlayer,
+            UserAddDamageToCoPlayer,
         }
         #endregion
 
@@ -57,6 +59,8 @@ namespace FlashTreasureHunt.Shared
             event Action<RemoteEvents.UserTakeAmmoArguments> UserTakeAmmo;
             event Action<RemoteEvents.TakeGoldArguments> TakeGold;
             event Action<RemoteEvents.UserTakeGoldArguments> UserTakeGold;
+            event Action<RemoteEvents.AddDamageToCoPlayerArguments> AddDamageToCoPlayer;
+            event Action<RemoteEvents.UserAddDamageToCoPlayerArguments> UserAddDamageToCoPlayer;
         }
         #endregion
 
@@ -140,6 +144,14 @@ namespace FlashTreasureHunt.Shared
             {
                 Send(new SendArguments { i = Messages.UserTakeGold, args = new object[] { user, index } });
             }
+            public void AddDamageToCoPlayer(int target, double damage)
+            {
+                Send(new SendArguments { i = Messages.AddDamageToCoPlayer, args = new object[] { target, damage } });
+            }
+            public void UserAddDamageToCoPlayer(int user, int target, double damage)
+            {
+                Send(new SendArguments { i = Messages.UserAddDamageToCoPlayer, args = new object[] { user, target, damage } });
+            }
         }
         #endregion
 
@@ -196,6 +208,7 @@ namespace FlashTreasureHunt.Shared
                     value.SendMap += this.UserSendMap;
                     value.TakeAmmo += this.UserTakeAmmo;
                     value.TakeGold += this.UserTakeGold;
+                    value.AddDamageToCoPlayer += this.UserAddDamageToCoPlayer;
                 }
 
                 public void RemoveDelegates(IEvents value)
@@ -204,6 +217,7 @@ namespace FlashTreasureHunt.Shared
                     value.SendMap -= this.UserSendMap;
                     value.TakeAmmo -= this.UserTakeAmmo;
                     value.TakeGold -= this.UserTakeGold;
+                    value.AddDamageToCoPlayer -= this.UserAddDamageToCoPlayer;
                 }
                 #endregion
 
@@ -223,6 +237,10 @@ namespace FlashTreasureHunt.Shared
                 public void UserTakeGold(TakeGoldArguments e)
                 {
                     Target.UserTakeGold(this.user, e.index);
+                }
+                public void UserAddDamageToCoPlayer(AddDamageToCoPlayerArguments e)
+                {
+                    Target.UserAddDamageToCoPlayer(this.user, e.target, e.damage);
                 }
                 #endregion
             }
@@ -401,6 +419,36 @@ namespace FlashTreasureHunt.Shared
             }
             #endregion
             public event Action<UserTakeGoldArguments> UserTakeGold;
+            #region AddDamageToCoPlayerArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class AddDamageToCoPlayerArguments
+            {
+                public int target;
+                public double damage;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ target = ").Append(this.target).Append(", damage = ").Append(this.damage).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<AddDamageToCoPlayerArguments> AddDamageToCoPlayer;
+            #region UserAddDamageToCoPlayerArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserAddDamageToCoPlayerArguments : WithUserArguments
+            {
+                public int target;
+                public double damage;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", target = ").Append(this.target).Append(", damage = ").Append(this.damage).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserAddDamageToCoPlayerArguments> UserAddDamageToCoPlayer;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -417,6 +465,8 @@ namespace FlashTreasureHunt.Shared
                             { Messages.UserTakeAmmo, e => { UserTakeAmmo(new UserTakeAmmoArguments { user = e.GetInt32(0), index = e.GetInt32(1) }); } },
                             { Messages.TakeGold, e => { TakeGold(new TakeGoldArguments { index = e.GetInt32(0) }); } },
                             { Messages.UserTakeGold, e => { UserTakeGold(new UserTakeGoldArguments { user = e.GetInt32(0), index = e.GetInt32(1) }); } },
+                            { Messages.AddDamageToCoPlayer, e => { AddDamageToCoPlayer(new AddDamageToCoPlayerArguments { target = e.GetInt32(0), damage = e.GetDouble(1) }); } },
+                            { Messages.UserAddDamageToCoPlayer, e => { UserAddDamageToCoPlayer(new UserAddDamageToCoPlayerArguments { user = e.GetInt32(0), target = e.GetInt32(1), damage = e.GetDouble(2) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -433,6 +483,8 @@ namespace FlashTreasureHunt.Shared
                             { Messages.UserTakeAmmo, e => UserTakeAmmo },
                             { Messages.TakeGold, e => TakeGold },
                             { Messages.UserTakeGold, e => UserTakeGold },
+                            { Messages.AddDamageToCoPlayer, e => AddDamageToCoPlayer },
+                            { Messages.UserAddDamageToCoPlayer, e => UserAddDamageToCoPlayer },
                         }
                 ;
             }
@@ -570,9 +622,25 @@ namespace FlashTreasureHunt.Shared
                 this.VirtualLatency(() => this.UserTakeGold(v));
             }
 
+            public event Action<RemoteEvents.AddDamageToCoPlayerArguments> AddDamageToCoPlayer;
+            void IMessages.AddDamageToCoPlayer(int target, double damage)
+            {
+                if(AddDamageToCoPlayer == null) return;
+                var v = new RemoteEvents.AddDamageToCoPlayerArguments { target = target, damage = damage };
+                this.VirtualLatency(() => this.AddDamageToCoPlayer(v));
+            }
+
+            public event Action<RemoteEvents.UserAddDamageToCoPlayerArguments> UserAddDamageToCoPlayer;
+            void IMessages.UserAddDamageToCoPlayer(int user, int target, double damage)
+            {
+                if(UserAddDamageToCoPlayer == null) return;
+                var v = new RemoteEvents.UserAddDamageToCoPlayerArguments { user = user, target = target, damage = damage };
+                this.VirtualLatency(() => this.UserAddDamageToCoPlayer(v));
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 26.08.2008 15:06:04
+// 26.08.2008 15:31:01

@@ -165,7 +165,7 @@ namespace FlashTreasureHunt.ActionScript
 			s.AddTo(EgoView.Sprites);
 
 			if (Hit != null)
-				s.TakeDamage =
+				s.TakeDamage +=
 					DamageToBeTaken =>
 					{
 						s.Health -= DamageToBeTaken;
