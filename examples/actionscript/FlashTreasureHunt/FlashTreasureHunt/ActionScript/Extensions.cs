@@ -126,6 +126,17 @@ namespace FlashTreasureHunt.ActionScript
 		}
 
 
+		public static DelayChain Chain(this DelayChain e, IEnumerable<Action> handler)
+		{
+			foreach (var v in handler)
+			{
+				e.Actions.Enqueue(v);
+			}
+
+			return e;
+		}
+
+
 		public static Timer Do(this DelayChain e)
 		{
 			return e.Delay.AtInterval(
@@ -155,7 +166,7 @@ namespace FlashTreasureHunt.ActionScript
 			t.timer += delegate { a(); };
 
 			t.start();
-			
+
 			return t;
 		}
 
