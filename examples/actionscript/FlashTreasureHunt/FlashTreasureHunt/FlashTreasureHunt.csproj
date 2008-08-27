@@ -66,6 +66,7 @@
     <Compile Include="ActionScript\Assets.Sounds.cs" />
     <Compile Include="ActionScript\Assets.Images.cs" />
     <Compile Include="ActionScript\Assets.Music.cs" />
+    <Compile Include="ActionScript\ContextMenuEx.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.FlashColors.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.AddPortals.cs" />
     <Compile Include="ActionScript\FlashTreasureHunt.WriteLine.cs" />
@@ -140,7 +141,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>pushd ..\..\tools\
-call build.bat $(ProjectName)
+::call build.bat $(ProjectName)
 popd</PostBuildEvent>
   </PropertyGroup>
 </Project>

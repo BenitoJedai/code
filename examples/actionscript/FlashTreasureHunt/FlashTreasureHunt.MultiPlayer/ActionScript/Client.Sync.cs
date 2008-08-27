@@ -9,6 +9,7 @@ using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.RayCaster;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -57,6 +58,7 @@ namespace FlashTreasureHunt.ActionScript
 			//Map.WriteLine("xor ok " + new { xor, xor_Expected });
 			#endregion
 
+			this.Map.CurrentLevel = mr.ReadInt32();
 			this.Map.GoldTotal = mr.ReadInt32();
 			this.Map.AmmoTotal = mr.ReadInt32();
 			this.Map.NonblockingTotal = mr.ReadInt32();
@@ -129,6 +131,22 @@ namespace FlashTreasureHunt.ActionScript
 
 			#endregion
 
+			var Portals = mr.ReadInt32();
+			var Portals_Positions = new List<Point>();
+
+			for (int i = 0; i < Portals; i++)
+			{
+				Portals_Positions.Add(new Point(mr.ReadDouble(), mr.ReadDouble()));
+				Portals_Positions.Add(new Point(mr.ReadDouble(), mr.ReadDouble()));
+
+				Map.AddNextDualPortal();
+			}
+
+
+			Map.UpdatePortalPositions(Portals_Positions.GetEnumerator());
+			Map.UpdatePortalTextures();
+
+
 
 			#region end of stream
 			var Found_SyncEndOfStream = mr.ReadUInt32();
@@ -194,6 +212,7 @@ namespace FlashTreasureHunt.ActionScript
 			//Map.WriteLine("sent xor  " + new { xor });
 			#endregion
 
+			mw.Write(this.Map.CurrentLevel);
 			mw.Write(this.Map.GoldTotal);
 			mw.Write(this.Map.AmmoTotal);
 			mw.Write(this.Map.NonblockingTotal);
@@ -246,6 +265,16 @@ namespace FlashTreasureHunt.ActionScript
 			}
 			#endregion
 
+
+			mw.Write(Map.DualPortals.Count);
+
+			foreach (var v in Map.DualPortals)
+			{
+				mw.Write(v.Blue.SpriteVector.Position.x);
+				mw.Write(v.Blue.SpriteVector.Position.y);
+				mw.Write(v.Orange.SpriteVector.Position.x);
+				mw.Write(v.Orange.SpriteVector.Position.y);
+			}
 
 			mw.Write(SyncEndOfStream);
 

@@ -186,7 +186,20 @@ namespace FlashTreasureHunt.ActionScript
 			Events.UserEnterEndLevelMode +=
 				e =>
 				{
-					Map.WriteLine("got UserEnterEndLevelMode from " + this.CoPlayers.Single(k => k.Identity.user == e.user).Identity.name);
+					var sender = this.CoPlayers.SingleOrDefault(k => k.Identity.user == e.user);
+
+					if (sender == null)
+					{
+						Map.WriteLine("must wait until next level is generated");
+
+						if (!MapInitializedAndLoaded.Ready)
+							if (!FirstMapLoader.Ready)
+								FirstMapLoader.Wait(TimeoutAction.LongOperation);
+
+						return;
+					}
+
+					Map.WriteLine("got UserEnterEndLevelMode from " + sender.Identity.name);
 
 					if (this.AbortGhostMode != null)
 						this.AbortGhostMode();

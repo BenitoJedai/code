@@ -50,140 +50,28 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 		/// </summary>
 		/// <param name="s"></param>
 		/// <param name="Sprite_x"></param>
-		public void RenderSingleSprite(SpriteInfoFromPOV s, int Sprite_x)
+		public void RenderSingleSprite(SpriteInfoFromPOV s)
 		{
-			var depth = s.RelativePosition.length;
-
-			// scale down enemies to eye line
-			var z = (_ViewHeight / depth).Floor();
-
-			if (z < 0.1)
+			if (s.LastRenderedClip == null)
 				return;
 
-			//var zmaxed = z.Max(_ViewHeight / 2).Floor();
-			var zhalf = z / 2;
-
-			// we are in a mirror? theres definetly a bug somewhere
-
-			var clip = new Rectangle(Sprite_x - zhalf, 0, 0, ViewHeight);
-
-			var min = clip.left.Floor().Max(0);
-			var max = (clip.left + z).Floor().Min(_ViewWidth);
-
-			if (min < max)
-				for (int i = min; i < max; i++)
-				{
-					if (_ZBuffer[i] > depth)
-					{
-						clip.left = i;
-
-						for (; i < max; i++)
-						{
-							if (_ZBuffer[i] > depth)
-							{
-								//buffer.setPixel32(i, _ViewHeight / 2 + 2, 0xffff00);
-							}
-							else
-							{
-								break;
-							}
-						}
-
-
-						clip.width = i - clip.left;
-
-						for (; i < max; i++)
-						{
-							//buffer.setPixel32(i, _ViewHeight / 2 + 1, 0xff8f0000);
-						}
-
-						break;
-					}
-					else
-					{
-						//buffer.setPixel32(i, _ViewHeight / 2, 0xffff0000);
-					}
-				}
-
-			if (clip.width > 0)
-			{
-				var texture = s.Sprite.Frames[GetFrameForPOV(s)];
-
-				var matrix = new Matrix();
-				var scale = (double)z / (double)texWidth;
-
-				matrix.scale(scale, scale);
-				matrix.translate(-zhalf + Sprite_x, -zhalf + _ViewHeight / 2);
-
-				buffer.draw(texture.Bitmap, matrix, null, null, clip, true);
-			}
+			if (s.LastRenderedClip.width <= 0)
+				return;
 
 
 
-			//for (int ix = 0; ix < z; ix++)
-			//{
-			//    var cx = Sprite_x + ix - zhalf;
-			//    var cxt = ix * texWidth / z;
+			var texture = s.Sprite.Frames[GetFrameForPOV(s)];
 
-			//    if (_ZBuffer[cx] > depth)
-			//    {
-			//        if (texture == null)
-			//            texture = s.Sprite.Frames[GetFrameForPOV(s)];
+			var matrix = new Matrix();
+			var scale = (double)s.LastRenderedZoom / (double)texWidth;
 
-			//        for (int iy = 0; iy < zmaxed; iy += blocksize)
-			//        {
-			//            var cyt = iy * texture.Size / z;
+			var zhalf = s.LastRenderedZoom / 2;
 
-			//            var color = texture[cxt, cyt];
+			matrix.scale(scale, scale);
+			matrix.translate(-zhalf + s.LastRenderedX, -zhalf + _ViewHeight / 2);
 
-			//            var color_a = (color >> 24) & 0xff;
-			//            //var color_r = (color >> 16) & 0xff;
-			//            //var color_g = (color >> 8) & 0xff;
-			//            //var color_b = color & 0xff;
+			buffer.draw(texture.Bitmap, matrix, null, null, s.LastRenderedClip, true);
 
-			//            if (color_a == 0xff)
-			//                buffer.fillRect(
-			//                    //new Rectangle(
-			//                        cx, (_ViewHeight / 2) + iy - zhalf, 1, blocksize
-			//                    //)
-			//                        , color);
-
-
-			//        }
-			//    }
-			//}
-			//}
-			//else
-			//{
-			//    for (int ix = 0; ix < z; ix++)
-			//    {
-			//        var cx = Sprite_x + ix - zhalf;
-			//        var cxt = ix * texWidth / z;
-
-			//        if (_ZBuffer[cx] > depth)
-			//        {
-			//            if (texture == null)
-			//                texture = s.Sprite.Frames[GetFrameForPOV(s)];
-
-			//            for (int iy = 0; iy < z; iy++)
-			//            {
-			//                var cyt = iy * texture.Size / z;
-
-			//                var color = texture[cxt, cyt];
-
-			//                var color_a = (color >> 24) & 0xff;
-			//                //var color_r = (color >> 16) & 0xff;
-			//                //var color_g = (color >> 8) & 0xff;
-			//                //var color_b = color & 0xff;
-
-			//                if (color_a == 0xff)
-			//                    buffer.setPixel(cx, (_ViewHeight / 2) + iy - zhalf, color);
-
-
-			//            }
-			//        }
-			//    }
-			//}
 		}
 
 		private static int GetFrameForPOV(SpriteInfoFromPOV s)
@@ -235,8 +123,16 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 				if (v.Distance < 0.1)
 					v.ViewInfo.IsInView = false;
 
+				UpdateSpriteRenderInfo(v);
+
 				if (v.ViewInfo.IsInView)
-					a.Add(v);
+				{
+					if (v.LastRenderedClip != null)
+						if (v.LastRenderedClip.width > 0)
+							a.Add(v);
+				}
+
+
 			}
 
 			return a;
@@ -284,17 +180,82 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 
 			foreach (var s in _SpritesFromPOV)
 			{
-				if (s.ViewInfo.IsInView)
-				{
-					var Total = (s.ViewInfo.Right - s.ViewInfo.Left);
-
-					var LeftTarget = s.ViewInfo.Target - s.ViewInfo.Left;
-					//var RightTarget = s.ViewInfo.Right - s.ViewInfo.Target;
-
-					RenderSingleSprite(s, (LeftTarget * _ViewWidth / Total).Floor());
-
-				}
+				UpdateSpriteRenderInfo(s);
+				RenderSingleSprite(s);
 			}
+		}
+
+		void UpdateSpriteRenderInfo(SpriteInfoFromPOV s)
+		{
+			if (s.ViewInfo.IsInView)
+			{
+				var Total = (s.ViewInfo.Right - s.ViewInfo.Left);
+
+				var LeftTarget = s.ViewInfo.Target - s.ViewInfo.Left;
+				//var RightTarget = s.ViewInfo.Right - s.ViewInfo.Target;
+
+				s.LastRenderedX = (LeftTarget * _ViewWidth / Total).Floor();
+
+				var depth = s.RelativePosition.length;
+
+				// scale down enemies to eye line
+				var z = (_ViewHeight / depth).Floor();
+
+				s.LastRenderedZoom = z;
+
+				if (z < 0.1)
+					return;
+
+				//var zmaxed = z.Max(_ViewHeight / 2).Floor();
+				var zhalf = z / 2;
+
+				// we are in a mirror? theres definetly a bug somewhere
+
+				var clip = new Rectangle(s.LastRenderedX - zhalf, 0, 0, ViewHeight);
+
+				var min = clip.left.Floor().Max(0);
+				var max = (clip.left + z).Floor().Min(_ViewWidth);
+
+				if (min < max)
+					for (int i = min; i < max; i++)
+					{
+						if (_ZBuffer[i] > depth)
+						{
+							clip.left = i;
+
+							for (; i < max; i++)
+							{
+								if (_ZBuffer[i] > depth)
+								{
+									//buffer.setPixel32(i, _ViewHeight / 2 + 2, 0xffff00);
+								}
+								else
+								{
+									break;
+								}
+							}
+
+
+							clip.width = i - clip.left;
+
+							for (; i < max; i++)
+							{
+								//buffer.setPixel32(i, _ViewHeight / 2 + 1, 0xff8f0000);
+							}
+
+							break;
+						}
+						else
+						{
+							//buffer.setPixel32(i, _ViewHeight / 2, 0xffff0000);
+						}
+					}
+
+				s.LastRenderedClip = clip;
+
+			}
+			else
+				s.LastRenderedClip = null;
 		}
 
 		public double ViewDirectionLeftBorder

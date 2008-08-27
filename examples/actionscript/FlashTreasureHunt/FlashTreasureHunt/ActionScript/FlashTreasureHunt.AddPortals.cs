@@ -18,14 +18,14 @@ namespace FlashTreasureHunt.ActionScript
 	partial class FlashTreasureHunt
 	{
 		[Script]
-		class DualPortal
+		public class DualPortal
 		{
 			public PortalInfo Orange;
 			public PortalInfo Blue;
 		}
 
-		List<DualPortal> DualPortals = new List<DualPortal>();
-		List<PortalInfo> Portals = new List<PortalInfo>();
+		public List<DualPortal> DualPortals = new List<DualPortal>();
+		public List<PortalInfo> Portals = new List<PortalInfo>();
 
 		public void AddPortals()
 		{
@@ -126,10 +126,11 @@ namespace FlashTreasureHunt.ActionScript
 
 		}
 
-		private void ResetPortals()
+
+	
+
+		public void ResetPortals()
 		{
-
-
 			// first level does not get a portal
 			if (CurrentLevel > 1)
 				AddNextDualPortal();
@@ -142,6 +143,11 @@ namespace FlashTreasureHunt.ActionScript
 
 			UpdatePortalPositions(FreeSpaceForPortals.GetEnumerator());
 
+			UpdatePortalTextures();
+		}
+
+		public void UpdatePortalTextures()
+		{
 			foreach (var Portal in Portals)
 			{
 				Portal.View.Map.WorldMap = EgoView.Map.WorldMap;
@@ -153,11 +159,16 @@ namespace FlashTreasureHunt.ActionScript
 
 		void UpdatePortalPositions(IEnumerator<TextureBase.Entry> PortalPositions)
 		{
+			UpdatePortalPositions(PortalPositions.Select(u => new Point { x = u.XIndex + 0.5, y = u.YIndex + 0.5 }));
+		}
+
+		public void UpdatePortalPositions(IEnumerator<Point> PortalPositions)
+		{
 			//WriteLine("portals: ");
 			foreach (var v in DualPortals)
 			{
-				var PortalAPos = PortalPositions.Take().Do(u => new Point { x = u.XIndex + 0.5, y = u.YIndex + 0.5 });
-				var PortalBPos = PortalPositions.Take().Do(u => new Point { x = u.XIndex + 0.5, y = u.YIndex + 0.5 });
+				var PortalAPos = PortalPositions.Take();
+				var PortalBPos = PortalPositions.Take();
 
 				//WriteLine("A: " + new { PortalAPos.x, PortalAPos.y });
 				//WriteLine("B: " + new { PortalBPos.x, PortalBPos.y });
@@ -177,7 +188,7 @@ namespace FlashTreasureHunt.ActionScript
 
 		}
 
-		private void AddNextDualPortal()
+		public DualPortal AddNextDualPortal()
 		{
 
 			//WriteLine("Orange View: " + PortalADir.RadiansToDegrees());
@@ -204,8 +215,11 @@ namespace FlashTreasureHunt.ActionScript
 			EgoView.Sprites.Add(PortalB.Sprite);
 			#endregion
 
-			DualPortals.Add(new DualPortal { Orange = PortalA, Blue = PortalB });
+			var n = new DualPortal { Orange = PortalA, Blue = PortalB };
 
+			DualPortals.Add(n);
+
+			return n;
 		}
 
 		public IEnumerable<TextureBase.Entry> FreeSpaceForPortals
