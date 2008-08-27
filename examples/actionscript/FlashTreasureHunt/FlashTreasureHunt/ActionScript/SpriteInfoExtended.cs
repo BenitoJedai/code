@@ -32,7 +32,8 @@ namespace FlashTreasureHunt.ActionScript
 		public int ConstructorIndexForSync = -1;
 
 		#region Minimap
-		public uint MinimapColor = 0x9f008000;
+		public uint MinimapColor = 0x9f00FF00;
+		public uint MinimapInactiveColor = 0x9f008000;
 		public int MinimapZIndex = MinimapZIndex_Default;
 
 		public const int MinimapZIndex_Default = 0;

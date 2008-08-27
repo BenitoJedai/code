@@ -88,6 +88,7 @@ namespace FlashTreasureHunt.ActionScript
 				c.Guard = this.Map.CreateGuard().AddTo(this.Map.EgoView.BlockingSprites);
 				c.Guard.MinimapZIndex = SpriteInfoExtended.MinimapZIndex_OnTop;
 				c.Guard.MinimapColor = 0xff0000ff;
+				c.Guard.MinimapInactiveColor = 0x80000080;
 
 				c.Guard.TakeDamage +=
 					damage =>

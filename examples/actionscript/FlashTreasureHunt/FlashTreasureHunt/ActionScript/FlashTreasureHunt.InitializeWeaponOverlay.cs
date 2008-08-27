@@ -231,22 +231,30 @@ namespace FlashTreasureHunt.ActionScript
 
 					//WriteLine("fire:");
 
-
-					var query = 
-						from k in EgoView.GetVisibleSprites(15.DegreesToRadians(),
-							from p in EgoView.Sprites
+					var PossibleTargets =
+						from p in EgoView.Sprites
 							let fragile = p as SpriteInfoExtended
 							where fragile != null
 							where fragile.Health > 0
 							where fragile.TakeDamage != null
-							select p
-						)
+							select p;
+
+
+					var query =
+						from k in EgoView.GetVisibleSprites(15.DegreesToRadians(), PossibleTargets)
+						let VisiblePercentage = k.LastRenderedClip.width / k.LastRenderedZoom
+						where VisiblePercentage > 0.5
 						orderby k.Distance
 						let fragile = k.Sprite as SpriteInfoExtended
 						select new { k, fragile };
 
+					WriteLine("" + new { PossibleTargets = PossibleTargets.Count(), Targets = query.Count() });
 
-
+					//foreach (var q in query)
+					//{
+					//    WriteLine("" + new { q.k.LastRenderedClip.width, q.k.LastRenderedZoom, vis = q.k.LastRenderedClip.width / q.k.LastRenderedZoom } );
+					//}
+			
 
 					var first = query.FirstOrDefault();
 
