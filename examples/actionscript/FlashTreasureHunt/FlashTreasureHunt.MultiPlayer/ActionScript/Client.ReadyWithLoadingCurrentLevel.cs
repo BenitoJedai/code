@@ -14,7 +14,12 @@ namespace FlashTreasureHunt.ActionScript
 			MapInitialized.Signal();
 
 			FirstMapLoader.ContinueWhenDone(
-				this.Map.ReadyWithLoadingCurrentLevelDirect
+				delegate
+				{
+					this.Map.ReadyWithLoadingCurrentLevelDirect();
+
+					this.MapInitializedAndLoaded.Signal();
+				}
 			);
 
 			// if we are the host, we will have the primary map

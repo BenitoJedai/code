@@ -54,6 +54,7 @@ namespace FlashTreasureHunt.ActionScript
 
 			var music_endlevel = Assets.Default.Music.music_endlevel.play(1);
 
+			this.WriteLine("init: music_endlevel");
 
 			this.EgoView.Image.filters = new BitmapFilter[] {
 				Filters.GrayScaleFilter,
@@ -79,7 +80,7 @@ namespace FlashTreasureHunt.ActionScript
 
 			this.EgoView.ViewDirection = FrozenLook.DegreesToRadians();
 
-
+			var ReadyToContinue = default(Action);
 
 			1500.AtDelayDo(
 				delegate
@@ -173,17 +174,21 @@ namespace FlashTreasureHunt.ActionScript
 						}
 					).Do();
 
-					var ReadyToContinue = default(Action);
+					
 					var onClick = default(Action<MouseEvent>);
 					var onKeyUp = default(Action<KeyboardEvent>);
-
 
 					ReadyToContinue =
 						delegate
 						{
-							music_endlevel.stop();
+							if (ReadyToContinue == null)
+								return;
 
 							ReadyToContinue = null;
+
+							music_endlevel.stop();
+
+							this.WriteLine("stop: music_endlevel");
 
 							ScoreContainer.FadeOut(
 								delegate
@@ -199,6 +204,7 @@ namespace FlashTreasureHunt.ActionScript
 
 						};
 
+					#region exit this menu
 					music_endlevel.soundComplete +=
 						delegate
 						{
@@ -217,16 +223,9 @@ namespace FlashTreasureHunt.ActionScript
 							if (!MovementEnabled_IsFocused)
 								return;
 
-
-
 							if (ReadyToContinue != null)
 								ReadyToContinue();
-
 						};
-
-					stage.click += onClick;
-
-
 
 					onKeyUp =
 						delegate
@@ -236,11 +235,10 @@ namespace FlashTreasureHunt.ActionScript
 
 							if (ReadyToContinue != null)
 								ReadyToContinue();
-
 						};
+					#endregion
 
 					stage.click += onClick;
-
 					stage.keyUp += onKeyUp;
 
 					// should add click / any key to dismiss this menu
@@ -249,19 +247,19 @@ namespace FlashTreasureHunt.ActionScript
 
 		}
 
+		public event Action BeforeReadyForNextLevel;
+
 		private void PrepareToCallReadyForNextLevel()
 		{
-			this.WriteLine("init: PrepareToCallReadyForNextLevel");
-
-
+			this.WriteLine("init: PrepareToCallReadyForNextLevel - was it expected?");
 
 			EgoView.Image.FadeOut(delegate
 			{
 				getpsyched.FadeIn(delegate
 				{
+					LoadNextLevel(ReadyForNextLevel);
 
-					if (this.ReadyForNextLevel != null)
-						this.ReadyForNextLevel();
+				
 				});
 			});
 		}
@@ -270,10 +268,10 @@ namespace FlashTreasureHunt.ActionScript
 
 
 
-		public Action ReadyForNextLevel;
+		public Action<Action> ReadyForNextLevel;
 
 
-		private void LoadNextLevel(Action<Action> AlmostDone)
+		public void LoadNextLevel(Action<Action> AlmostDone)
 		{
 			CurrentLevel++;
 
@@ -286,7 +284,9 @@ namespace FlashTreasureHunt.ActionScript
 					GoldTotalCollected = 0;
 
 					//MazeSize = (MazeSizeMin + CurrentLevel / 2).Min(MazeSizeMax);
-					MazeSize = (MazeSizeMin + CurrentLevel).Min(MazeSizeMax);
+					MazeSize = (MazeSizeMin + CurrentLevel / MazeDelayResize).Min(MazeSizeMax);
+
+					this.WriteLine("mazesize: " + MazeSize);
 
 					CreateMapFromMaze();
 

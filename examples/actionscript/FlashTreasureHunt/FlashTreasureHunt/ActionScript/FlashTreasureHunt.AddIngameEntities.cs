@@ -350,6 +350,7 @@ namespace FlashTreasureHunt.ActionScript
 							   Action Later = null;
 							   Action ItemTaken = null;
 
+							   int ItemsPickedUp = 0;
 
 							   foreach (var Item in EgoView.SpritesFromPointOfView)
 							   {
@@ -364,27 +365,22 @@ namespace FlashTreasureHunt.ActionScript
 												   // ding-ding-ding!
 												   Item_Sprite.IsTaken = true;
 
-												   FlashColors(0xffff00);
-
-
-
-
-												   if (Item_Sprite != null)
-												   {
-													   if (Item_Sprite.ItemTaken != null)
-														   ItemTaken += () => Item_Sprite.ItemTaken();
-
-													   if (Sync_TakeGold != null)
-														   Sync_TakeGold(Item_Sprite.ConstructorIndexForSync);
-												   }
-
-
-
-												   GoldTakenCounter = (GoldTakenCounter + 1).Min(1);
+												   
 
 												   Later +=
 													   delegate
 													   {
+														   GoldTakenCounter = (GoldTakenCounter + 1).Min(1);
+
+														   if (Item_Sprite != null)
+														   {
+															   if (Item_Sprite.ItemTaken != null)
+																   ItemTaken += () => Item_Sprite.ItemTaken();
+
+															   if (Sync_TakeGold != null)
+																   Sync_TakeGold(Item_Sprite.ConstructorIndexForSync);
+														   }
+
 														   EgoView.Sprites.Remove(Item_Sprite);
 														   GoldSprites.Remove(Item_Sprite);
 													   };
@@ -393,7 +389,11 @@ namespace FlashTreasureHunt.ActionScript
 							   }
 
 							   if (Later != null)
+							   {
+								   FlashColors(0xffff00);
+
 								   Later();
+							   }
 
 							   LastPosition = EgoView.ViewPosition;
 

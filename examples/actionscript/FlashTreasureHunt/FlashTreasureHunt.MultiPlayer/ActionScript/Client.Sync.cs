@@ -149,18 +149,21 @@ namespace FlashTreasureHunt.ActionScript
 
 			Map.ResetEgoPosition();
 
-			#region restore coplayers
 
-			this.CoPlayers.Where(k => k != this.LocalCoPlayer).ForEach(
-				k =>
-				{
-					k.Guard.AddTo(this.Map.EgoView.Sprites).AddTo(this.Map.EgoView.BlockingSprites);
-				}
-			);
+			RestoreCoPlayers();
 			
-			#endregion
 
 			PlayerAdvertise();
+		}
+
+		private void RestoreCoPlayers()
+		{
+			this.CoPlayers.Where(k => k != this.LocalCoPlayer).ForEach(
+					k =>
+					{
+						k.Guard.AddTo(this.Map.EgoView.Sprites).AddTo(this.Map.EgoView.BlockingSprites);
+					}
+				);
 		}
 
 	

@@ -14,6 +14,14 @@ namespace FlashTreasureHunt.ActionScript
 	{
 		readonly Queue<Action> Queue = new Queue<Action>();
 
+		public bool Ready
+		{
+			get
+			{
+				return _Signal;
+			}
+		}
+
 		public void ContinueWhenDone(Action e)
 		{
 			if (_Signal)

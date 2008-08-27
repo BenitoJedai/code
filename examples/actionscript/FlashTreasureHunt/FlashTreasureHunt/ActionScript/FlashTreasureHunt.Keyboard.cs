@@ -173,7 +173,11 @@ namespace FlashTreasureHunt.ActionScript
 				{
 
 					if (MovementEnabled)
+					{
+						this.WriteLine("Cheat -> EnterEndLevelMode");
+
 						EnterEndLevelMode();
+					}
 				}
 			};
 

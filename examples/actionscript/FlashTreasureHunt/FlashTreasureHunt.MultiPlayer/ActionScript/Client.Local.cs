@@ -15,8 +15,11 @@ namespace FlashTreasureHunt.ActionScript
 		public FlashTreasureHunt Map;
 
 
+
 		public readonly TimeoutAction FirstMapLoader = new TimeoutAction();
+
 		public readonly OrderedAction MapInitialized = new OrderedAction();
+		public readonly OrderedAction MapInitializedAndLoaded = new OrderedAction();
 
 		public void InitializeMapOnce()
 		{
@@ -53,6 +56,9 @@ namespace FlashTreasureHunt.ActionScript
 				};
 			#endregion
 
+
+
+
 			// pass sync events from singleplayer to server
 
 			this.Map.Sync_TakeGold += this.Messages.TakeGold;
@@ -62,12 +68,28 @@ namespace FlashTreasureHunt.ActionScript
 			this.Map.Sync_EnterEndLevelMode +=
 				delegate
 				{
+					this.CoPlayers.ForEach(k => this.Map.EgoView.Sprites.Remove(k.Guard));
+
+					FirstMapLoader.Wait(TimeoutAction.LongOperation);
+
 					if (DisableEnterEndLevelMode)
 						return;
 
 					this.Map.WriteLine("send EnterEndLevelMode");
 
 					this.Messages.EnterEndLevelMode();
+
+					FirstMapLoader.Signal(
+						delegate
+						{
+							this.Map.WriteLine("sync copy that level to others");
+
+							WriteSync();
+
+							RestoreCoPlayers();
+						}
+					);
+
 				};
 
 			this.Map.AttachTo(Element);

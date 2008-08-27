@@ -116,10 +116,16 @@ namespace FlashTreasureHunt.ActionScript
 				e =>
 				{
 					// we have been chosen to tell the new guy about current map
-					MapInitialized.ContinueWhenDone(
+					MapInitializedAndLoaded.ContinueWhenDone(
 						delegate
 						{
-							WriteSync();
+							if (FirstMapLoader.Ready)
+								WriteSync();
+							else
+							{
+								this.Map.WriteLine("we are not ready to send out a map - between levels");
+
+							}
 						}
 					);
 				};
@@ -180,7 +186,7 @@ namespace FlashTreasureHunt.ActionScript
 			Events.UserEnterEndLevelMode +=
 				e =>
 				{
-					Map.WriteLine("got UserEnterEndLevelMode");
+					Map.WriteLine("got UserEnterEndLevelMode from " + this.CoPlayers.Single(k => k.Identity.user == e.user).Identity.name);
 
 					if (this.AbortGhostMode != null)
 						this.AbortGhostMode();
