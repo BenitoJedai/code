@@ -106,6 +106,8 @@ namespace FlashTreasureHunt.ActionScript
 
 		public FlashTreasureHunt()
 		{
+
+
 			// users can override this method
 			this.ReadyWithLoadingCurrentLevel = this.ReadyWithLoadingCurrentLevelDirect;
 

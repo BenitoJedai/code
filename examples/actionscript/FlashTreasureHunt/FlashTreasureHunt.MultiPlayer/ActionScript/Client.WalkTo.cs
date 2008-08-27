@@ -95,8 +95,7 @@ namespace FlashTreasureHunt.ActionScript
 			var x = mr.ReadDouble();
 			var y = mr.ReadDouble();
 
-			// this is teleporting, we need to smooth that
-			this.CoPlayers.Where(k => k.Identity.user == e.user).ForEach(k => k.WalkTo(x, y));
+			this.CoPlayers.Where(k => k.Identity.user == e.user).ForEach(k => k.Guard.WalkTo(x, y));
 		}
 
 		void UserLookAt(SharedClass1.RemoteEvents.UserLookAtArguments e)
