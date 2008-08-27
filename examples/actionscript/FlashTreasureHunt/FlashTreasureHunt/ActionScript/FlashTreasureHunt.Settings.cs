@@ -41,10 +41,14 @@ namespace FlashTreasureHunt.ActionScript
 
 		public const int AmmoFoundInClip = 6;
 
+		public const double GuardMaxHealth = 2.1;
+
+		public const double GuardCriticalHealth = 0.5;
 
 		public const int FrameRate_ShootingAnimation = 1000 / 15;
 		public const int FrameRate_DeathAnimation = 1000 / 15;
 		public const int FrameRate_FireWeapon = 1000 / 15;
+		public const int FrameRate_PortalRefresh = 1000 / 10;
 
 		// publishing settings:
 

@@ -33,7 +33,7 @@ namespace FlashTreasureHunt.ActionScript
 
 
 
-			(1000 / 5).AtInterval(
+			FrameRate_PortalRefresh.AtInterval(
 				tt =>
 				{
 					if (EgoView.SpritesFromPointOfView == null)
@@ -41,15 +41,18 @@ namespace FlashTreasureHunt.ActionScript
 
 					if (Portals.Count > 0)
 					{
-						var p = Portals.AtModulus(tt.currentCount);
-						var s = EgoView.SpritesFromPointOfView.SingleOrDefault(k => k.Sprite == p.Sprite);
+			
+						foreach (var p in this.Portals)
+						{
+							var v = EgoView.GetVisibleSprites(60, new[] { p.Sprite });
 
-						if (s != null)
-							if (s.ViewInfo.IsInView)
+							if (v.Any())
 							{
 								p.View.RenderLowQualityWalls = EgoView.RenderLowQualityWalls;
 								p.Update();
 							}
+							
+						}
 					}
 				}
 			);
@@ -66,7 +69,7 @@ namespace FlashTreasureHunt.ActionScript
 
 
 					// only check for items each ~ distance travelled
-					if ((EgoView.ViewPosition - LastPosition).length < 0.3)
+					if ((EgoView.ViewPosition - LastPosition).length < PlayerRadiusMargin)
 						return;
 
 					foreach (var Portal in Portals)
@@ -127,7 +130,7 @@ namespace FlashTreasureHunt.ActionScript
 		}
 
 
-	
+
 
 		public void ResetPortals()
 		{
