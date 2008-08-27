@@ -38,31 +38,21 @@ namespace FlashTreasureHunt.ActionScript
 
 				// state machine for AI guard
 
-				// each 3 secs turn 90 while not walking
-				3000.AtInterval(
-					tt =>
+				var TurnAndWalk = default(Action);
+				var WalkToQueue = new Queue<Point>();
+
+				TurnAndWalk =
+					delegate
 					{
-						if (!EgoView.Sprites.Contains(g))
+						if (WalkToQueue.Count > 0)
 						{
-							tt.stop();
+							var p = WalkToQueue.Dequeue();
+
+							g.WalkTo(p.x, p.y);
+
 							return;
 						}
-
-						#region death
-						if (g.Health <= 0)
-						{
-							tt.stop();
-							return;
-						}
-						#endregion
-
-
-						if (!g.AIEnabled)
-							return;
-
-						if (g.WalkingAnimationRunning)
-							return;
-
+						
 						var PossibleDestination = g.Position.MoveToArc(g.Direction, 1);
 
 						var AsMapLocation = new PointInt32
@@ -73,43 +63,106 @@ namespace FlashTreasureHunt.ActionScript
 
 						if (EgoView.Map.WallMap[AsMapLocation.X, AsMapLocation.Y] == 0)
 						{
-							// whee we can walk at this direction
-							g.StartWalkingAnimation();
-
-							const int StepsToBeTaken = 80;
-
-							(1000 / 15).AtInterval(
-								t =>
-								{
-
-									#region death
-									if (g.Health <= 0)
-									{
-										t.stop();
-										return;
-									}
-									#endregion
-
-									if (!g.AIEnabled)
-										return;
-
-									g.Position = g.Position.MoveToArc(g.Direction, 1.0 / (double)StepsToBeTaken);
-
-									if (t.currentCount == StepsToBeTaken)
-									{
-										t.stop();
-										g.StopWalkingAnimation();
-									}
-								}
-							);
-							return;
+							WalkToQueue.Enqueue(g.Position.MoveToArc(g.Direction, 0.2));
+							WalkToQueue.Enqueue(g.Position.MoveToArc(g.Direction, 0.4));
+							WalkToQueue.Enqueue(g.Position.MoveToArc(g.Direction, 0.6));
+							WalkToQueue.Enqueue(g.Position.MoveToArc(g.Direction, 0.8));
+							WalkToQueue.Enqueue(g.Position.MoveToArc(g.Direction, 1.0));
+						}
+						else
+						{
+							g.Direction += 90.DegreesToRadians();
 						}
 
-						// can we walk at that direction?
-						g.Direction += 90.DegreesToRadians();
+						3000.AtDelayDo(TurnAndWalk);
+					};
 
-					}
-				);
+				g.WalkToDone +=
+					delegate
+					{
+						TurnAndWalk();
+					};
+
+				g.WalkToTeleported +=
+					delegate
+					{
+						TurnAndWalk();
+					};
+
+				TurnAndWalk();
+
+				//// each 3 secs turn 90 while not walking
+				//3000.AtInterval(
+				//    tt =>
+				//    {
+				//        if (!EgoView.Sprites.Contains(g))
+				//        {
+				//            tt.stop();
+				//            return;
+				//        }
+
+				//        #region death
+				//        if (g.Health <= 0)
+				//        {
+				//            tt.stop();
+				//            return;
+				//        }
+				//        #endregion
+
+
+				//        if (!g.AIEnabled)
+				//            return;
+
+				//        if (g.WalkingAnimationRunning)
+				//            return;
+
+				//        var PossibleDestination = g.Position.MoveToArc(g.Direction, 1);
+
+				//        var AsMapLocation = new PointInt32
+				//        {
+				//            X = PossibleDestination.x.Floor(),
+				//            Y = PossibleDestination.y.Floor()
+				//        };
+
+				//        if (EgoView.Map.WallMap[AsMapLocation.X, AsMapLocation.Y] == 0)
+				//        {
+				//            // whee we can walk at this direction
+				//            g.StartWalkingAnimation();
+
+				//            const int StepsToBeTaken = 80;
+
+				//            (1000 / 15).AtInterval(
+				//                t =>
+				//                {
+
+				//                    #region death
+				//                    if (g.Health <= 0)
+				//                    {
+				//                        t.stop();
+				//                        return;
+				//                    }
+				//                    #endregion
+
+				//                    if (!g.AIEnabled)
+				//                        return;
+
+				//                    g.Position = g.Position.MoveToArc(g.Direction, 1.0 / (double)StepsToBeTaken);
+
+				//                    if (t.currentCount == StepsToBeTaken)
+				//                    {
+				//                        t.stop();
+				//                        g.StopWalkingAnimation();
+				//                    }
+				//                }
+				//            );
+				//            return;
+				//        }
+
+				//        // can we walk at that direction?
+				//        g.Direction += 90.DegreesToRadians();
+
+				//    }
+				//);
 			}
 		}
 
