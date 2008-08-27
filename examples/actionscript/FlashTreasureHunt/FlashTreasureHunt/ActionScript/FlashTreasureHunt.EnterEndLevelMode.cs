@@ -34,7 +34,7 @@ namespace FlashTreasureHunt.ActionScript
 
 			ScoreContainer.alpha = 0.8;
 
-			var scroll = Assets.Default.scroll.AttachTo(ScoreContainer);
+			Bitmap scroll = Assets.Default.scroll.AttachTo(ScoreContainer);
 			var scroll_scale = DefaultControlHeight / scroll.height;
 
 			scroll.scaleX = scroll_scale;
@@ -132,7 +132,7 @@ namespace FlashTreasureHunt.ActionScript
 			1500.AtDelayDo(
 				delegate
 				{
-				
+
 
 
 
@@ -140,86 +140,10 @@ namespace FlashTreasureHunt.ActionScript
 
 					// list current scores
 
-
-					#region chain
-					1000.Chain(
-						delegate
-						{
-							Assets.Default.Sounds.gunshot.play();
-
-							new TextField
-							{
-								defaultTextFormat = new TextFormat
-								{
-									size = 33,
-								},
-								text = "Level " + CurrentLevel + " Complete",
-
-								textColor = 0xFFC526,
-								autoSize = TextFieldAutoSize.LEFT,
-								filters = new[] { new GlowFilter(0xC1931D) }
-							}.AttachTo(ScoreContainer).MoveTo(scroll.x + 40, scroll.y + 64);
-
-						}
-					).Chain(
-						delegate
-						{
-							Assets.Default.Sounds.gunshot.play();
-
-							new TextField
-							{
-								defaultTextFormat = new TextFormat
-								{
-									size = 30,
-								},
-								text = "Blazkowicz - " + CurrentLevelScore + "$",
-
-								textColor = 0xFFC526,
-								autoSize = TextFieldAutoSize.LEFT,
-								filters = new[] { new GlowFilter(0xC1931D) }
-							}.AttachTo(ScoreContainer).MoveTo(scroll.x + 48, scroll.y + 96 + 33 * 1);
-
-						}
-					).Chain(
-						delegate
-						{
-							Assets.Default.Sounds.gunshot.play();
-							new TextField
-							{
-								defaultTextFormat = new TextFormat
-								{
-									size = 27,
-								},
-								text = "Player 2 - 1200$",
-
-								textColor = 0xbebebe,
-								autoSize = TextFieldAutoSize.LEFT,
-								filters = new[] { new GlowFilter(0x909090) }
-							}.AttachTo(ScoreContainer).MoveTo(scroll.x + 48, scroll.y + 96 + 33 * 2);
-
-						}
-					).Chain(
-						delegate
-						{
-							Assets.Default.Sounds.gunshot.play();
-							new TextField
-							{
-								defaultTextFormat = new TextFormat
-								{
-									size = 27,
-								},
-								text = "Player 3 - 1800$",
-
-								textColor = 0xbebebe,
-								autoSize = TextFieldAutoSize.LEFT,
-								filters = new[] { new GlowFilter(0x909090) }
-							}.AttachTo(ScoreContainer).MoveTo(scroll.x + 48, scroll.y + 96 + 33 * 3);
-						}
-					).Do();
-					#endregion
+					ShowScoreTable(ScoreContainer, scroll);
 
 
-					
+
 
 					#region exit this menu
 					music_endlevel.soundComplete +=
@@ -264,6 +188,156 @@ namespace FlashTreasureHunt.ActionScript
 
 		}
 
+		const int HeaderOffset = 70;
+		const int MarginLeft = 48;
+
+		const int Spacing = 50;
+
+		const int ScoreLeft = 90;
+		const int KillsLeft = 200;
+
+		const int DelayBetweenEntries = 900;
+
+		const int FrameRate_HideEntry = 1000 / 20;
+
+		[Script]
+		public class ScoreTag
+		{
+			public string Name;
+
+			public int Score;
+			public int Kills;
+		}
+
+		public virtual ScoreTag[] GetScoreValues()
+		{
+			return new[]
+			{
+				new ScoreTag { Name = "Blazkowicz", Score = CurrentLevelScore, Kills = 7 },
+				new ScoreTag { Name = "ken1", Score = 3, Kills = 7 },
+				new ScoreTag { Name = "ken2", Score = 3, Kills = 7 },
+				new ScoreTag { Name = "ken3", Score = 3, Kills = 7 },
+				new ScoreTag { Name = "zen", Score = 22, Kills = 7 },
+				new ScoreTag { Name = "yyy", Score = 224, Kills = 7 },
+			};
+		}
+		private void ShowScoreTable(Sprite ScoreContainer, Bitmap scroll)
+		{
+
+			var ContainerForEntries = new Sprite { x = scroll.x, y = scroll.y }.AttachTo(ScoreContainer);
+
+			var Entries = new Queue<Sprite>();
+
+			Action RemoveFirst =
+				delegate
+				{
+					Entries.Dequeue().FadeOut();
+
+					var Steps = DelayBetweenEntries / FrameRate_HideEntry;
+
+					(FrameRate_HideEntry / 2).AtInterval(
+						t =>
+						{
+							if (t.currentCount == Steps)
+							{
+								t.stop();
+
+								return;
+							}
+
+							ContainerForEntries.y -= Spacing / Steps;
+						}
+					);
+				};
+
+			Action ConditionalRemoveFirst =
+				delegate
+				{
+					if (Entries.Count > 4)
+						RemoveFirst();
+				};
+
+			#region chain
+			DelayBetweenEntries.Chain(
+				delegate
+				{
+					Assets.Default.Sounds.gunshot.play();
+
+					new TextField
+					{
+						defaultTextFormat = new TextFormat
+						{
+							size = 33,
+						},
+						text = "Level " + CurrentLevel + " Complete",
+
+						textColor = 0xFFC526,
+						autoSize = TextFieldAutoSize.LEFT,
+						filters = new[] { new GlowFilter(0xC1931D) }
+					}.AttachTo(ScoreContainer).MoveTo(scroll.x + 40, scroll.y + 64);
+
+				}
+			).Chain(
+				GetScoreValues().Select<ScoreTag, Action>(
+					(k, i) => delegate
+					{
+							Entries.Enqueue(ShowScoreTable_Entry(ContainerForEntries, k.Name, k.Score, k.Kills, i + 1));
+							ConditionalRemoveFirst();
+					}
+				)
+			).Do();
+			#endregion
+		}
+
+		private Sprite ShowScoreTable_Entry(Sprite _ScoreContainer, string Text, int Score, int Kills, int Index)
+		{
+			var ScoreContainer = new Sprite().AttachTo(_ScoreContainer);
+
+			Assets.Default.Sounds.gunshot.play();
+
+			new TextField
+			{
+				defaultTextFormat = new TextFormat
+				{
+					size = 24,
+				},
+				text = Text,
+				textColor = 0x0000ff,
+				autoSize = TextFieldAutoSize.LEFT,
+				filters = new[] { new GlowFilter(0xffffff) }
+			}.AttachTo(ScoreContainer).MoveTo(MarginLeft, HeaderOffset + Spacing * Index);
+
+
+
+			new TextField
+			{
+				defaultTextFormat = new TextFormat
+				{
+					size = 20,
+				},
+				autoSize = TextFieldAutoSize.RIGHT,
+				text = "",
+
+				textColor = 0xFFC526,
+				filters = new[] { new GlowFilter(0xC1931D) }
+			}.AttachTo(ScoreContainer).MoveTo(MarginLeft + ScoreLeft, HeaderOffset + Spacing * (Index + .5)).text = Score + "$";
+
+			new TextField
+			{
+				defaultTextFormat = new TextFormat
+				{
+					size = 20,
+				},
+				autoSize = TextFieldAutoSize.RIGHT,
+				text = "",
+
+				textColor = 0xa00000,
+				filters = new[] { new GlowFilter(0xff0000) }
+			}.AttachTo(ScoreContainer).MoveTo(MarginLeft + KillsLeft, HeaderOffset + Spacing * (Index + .5)).text = Kills + " kills";
+
+			return ScoreContainer;
+		}
+
 		public event Action BeforeReadyForNextLevel;
 
 		private void PrepareToCallReadyForNextLevel()
@@ -276,7 +350,7 @@ namespace FlashTreasureHunt.ActionScript
 				{
 					LoadNextLevel(ReadyForNextLevel);
 
-				
+
 				});
 			});
 		}

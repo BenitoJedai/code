@@ -293,6 +293,8 @@ namespace FlashTreasureHunt.ActionScript
 						}
 						else
 						{
+							RemoveBloodUnderSprite(s);
+
 							Assets.Default.Sounds.death.play();
 
 							// player wont be blocked by a corpse
@@ -324,14 +326,7 @@ namespace FlashTreasureHunt.ActionScript
 
 		private void EmitBloodUnderSprite(SpriteInfoExtended s)
 		{
-			var old_blood = 0;
-
-			foreach (var k in BloodSprites.Where(k => k.Position.GetDistance(s.Position) < PlayerRadiusMargin * 2))
-			{
-				k.RemoveFrom(BloodSprites).RemoveFrom(this.EgoView.Sprites);
-
-				old_blood++;
-			}
+			var old_blood = RemoveBloodUnderSprite(s);
 
 			var blood_source = "blood_small.png";
 
@@ -349,6 +344,19 @@ namespace FlashTreasureHunt.ActionScript
 			blood.Position.To(s.Position.x, s.Position.y);
 
 			this.EgoView.UpdatePOV(true);
+		}
+
+		private int RemoveBloodUnderSprite(SpriteInfoExtended s)
+		{
+			var old_blood = 0;
+
+			foreach (var k in BloodSprites.Where(k => k.Position.GetDistance(s.Position) < PlayerRadiusMargin * 2))
+			{
+				k.RemoveFrom(BloodSprites).RemoveFrom(this.EgoView.Sprites);
+
+				old_blood++;
+			}
+			return old_blood;
 		}
 
 
