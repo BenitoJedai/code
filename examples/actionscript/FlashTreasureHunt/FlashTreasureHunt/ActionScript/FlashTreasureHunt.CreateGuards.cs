@@ -22,6 +22,8 @@ namespace FlashTreasureHunt.ActionScript
 
 		public Func<SpriteInfoExtended> CreateGuard;
 
+		public readonly List<SpriteInfo> BloodSprites = new List<SpriteInfo>();
+
 		private void CreateGuards(IEnumerator<TextureBase.Entry> FreeSpaceForStuff)
 		{
 			for (int i = 0; i < 2 + CurrentLevel; i++)
@@ -120,6 +122,8 @@ namespace FlashTreasureHunt.ActionScript
 
 			var tt = default(Timer);
 			var s = new SpriteInfoExtended();
+
+			s.Health = GuardMaxHealth;
 
 			int WalkingAnimationFrame = 0;
 
@@ -284,6 +288,8 @@ namespace FlashTreasureHunt.ActionScript
 							);
 							#endregion
 
+							// remove old blood which is too near
+							EmitBloodUnderSprite(s);
 						}
 						else
 						{
@@ -314,6 +320,35 @@ namespace FlashTreasureHunt.ActionScript
 
 
 			return s;
+		}
+
+		private void EmitBloodUnderSprite(SpriteInfoExtended s)
+		{
+			var old_blood = 0;
+
+			foreach (var k in BloodSprites.Where(k => k.Position.GetDistance(s.Position) < PlayerRadiusMargin * 2))
+			{
+				k.RemoveFrom(BloodSprites).RemoveFrom(this.EgoView.Sprites);
+
+				old_blood++;
+			}
+
+			var blood_source = "blood_small.png";
+
+			if (old_blood > 1)
+				blood_source = "blood.png";
+
+			if (s.Health < GuardCriticalHealth)
+				blood_source = "blood.png";
+
+			var blood = CreateDummy(this.StuffDictionary[blood_source]);
+
+			blood.AddTo(BloodSprites);
+
+			// move blood under target
+			blood.Position.To(s.Position.x, s.Position.y);
+
+			this.EgoView.UpdatePOV(true);
 		}
 
 
