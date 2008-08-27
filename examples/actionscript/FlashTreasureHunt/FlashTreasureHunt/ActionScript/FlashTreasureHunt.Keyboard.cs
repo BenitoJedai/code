@@ -9,6 +9,7 @@ using ScriptCoreLib.ActionScript.RayCaster;
 using ScriptCoreLib.ActionScript.flash.ui;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.flash.events;
+using FlashTreasureHunt.ActionScript.UI;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -18,11 +19,12 @@ namespace FlashTreasureHunt.ActionScript
 	partial class FlashTreasureHunt
 	{
 
-
+		KeyboardButtonGroup MovementArrows = new KeyboardButtonGroup { Name = "Arrows" };
+		KeyboardButtonGroup Keyboard_Settings = new KeyboardButtonGroup { Name = "Settings" };
 
 		public void InitializeKeyboard()
 		{
-			var MovementArrows = new global::FlashTreasureHunt.ActionScript.UI.KeyboardButtonGroup { Name = "Arrows" };
+			
 
 			Action<double, ManualControl> Setup =
 				(m, n) =>

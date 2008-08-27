@@ -115,10 +115,14 @@ namespace FlashTreasureHunt.ActionScript
 			Events.ServerSendMap +=
 				e =>
 				{
+				
+
 					// we have been chosen to tell the new guy about current map
 					MapInitializedAndLoaded.ContinueWhenDone(
 						delegate
 						{
+							
+
 							if (FirstMapLoader.Ready)
 								WriteSync();
 							else
@@ -126,6 +130,8 @@ namespace FlashTreasureHunt.ActionScript
 								this.Map.WriteLine("we are not ready to send out a map - between levels");
 
 							}
+
+							
 						}
 					);
 				};
@@ -133,6 +139,17 @@ namespace FlashTreasureHunt.ActionScript
 			Events.UserSendMap +=
 				e =>
 				{
+					// stop showing score and keep map in sync instead by loading a new map
+					if (this.Map.EnterEndLevelMode_ReadyToContinue != null)
+					{
+						this.Map.EnterEndLevelMode_ReadyToContinue();
+						this.Map.WriteLine("did we speed up the end game menu?");
+					}
+					else
+					{
+						this.Map.WriteLine("looks like we cannot speed up the end game menu?");
+					}
+
 					var bytestream = e.bytestream;
 
 					this.Map.WriteLine("got UserSendMap");

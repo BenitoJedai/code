@@ -58,6 +58,9 @@ namespace FlashTreasureHunt.ActionScript
 			//Map.WriteLine("xor ok " + new { xor, xor_Expected });
 			#endregion
 
+			Map.EgoView.Map.WorldMap = wm;
+			Map.ResetEgoPosition();
+
 			this.Map.CurrentLevel = mr.ReadInt32();
 			this.Map.GoldTotal = mr.ReadInt32();
 			this.Map.AmmoTotal = mr.ReadInt32();
@@ -163,9 +166,7 @@ namespace FlashTreasureHunt.ActionScript
 			#endregion
 
 
-			Map.EgoView.Map.WorldMap = wm;
-
-			Map.ResetEgoPosition();
+		
 
 
 			RestoreCoPlayers();

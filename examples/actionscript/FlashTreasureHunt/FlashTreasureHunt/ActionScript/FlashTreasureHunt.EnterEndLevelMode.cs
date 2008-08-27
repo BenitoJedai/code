@@ -18,6 +18,8 @@ namespace FlashTreasureHunt.ActionScript
 
 		public event Action Sync_EnterEndLevelMode;
 
+		public Action EnterEndLevelMode_ReadyToContinue;
+
 		public void EnterEndLevelMode()
 		{
 			if (EndLevelMode)
@@ -80,17 +82,57 @@ namespace FlashTreasureHunt.ActionScript
 
 			this.EgoView.ViewDirection = FrozenLook.DegreesToRadians();
 
-			var ReadyToContinue = default(Action);
-
-			1500.AtDelayDo(
-				delegate
-				{
-					HudContainer.FadeOut(1000 / 15, 0.2,
+			HudContainer.FadeOut(1000 / 15, 0.2,
 						delegate
 						{
 							CompassContainer.alpha = 0;
 						}
 					);
+
+
+			var onClick = default(Action<MouseEvent>);
+			var onKeyUp = default(Action<KeyboardEvent>);
+
+
+			#region EnterEndLevelMode_ReadyToContinue
+			EnterEndLevelMode_ReadyToContinue =
+				delegate
+				{
+					if (EnterEndLevelMode_ReadyToContinue == null)
+					{
+						this.WriteLine("EnterEndLevelMode_ReadyToContinue already disabled?");
+
+						return;
+					}
+
+					this.WriteLine("EnterEndLevelMode_ReadyToContinue is now disabled!");
+
+					EnterEndLevelMode_ReadyToContinue = null;
+
+					music_endlevel.stop();
+
+
+					ScoreContainer.FadeOut(
+						delegate
+						{
+							ScoreContainer.Orphanize();
+
+							PrepareToCallReadyForNextLevel();
+						}
+					);
+
+					stage.keyUp -= onKeyUp;
+					stage.click -= onClick;
+
+				};
+			#endregion
+
+
+
+			1500.AtDelayDo(
+				delegate
+				{
+				
 
 
 
@@ -99,6 +141,7 @@ namespace FlashTreasureHunt.ActionScript
 					// list current scores
 
 
+					#region chain
 					1000.Chain(
 						delegate
 						{
@@ -173,36 +216,10 @@ namespace FlashTreasureHunt.ActionScript
 							}.AttachTo(ScoreContainer).MoveTo(scroll.x + 48, scroll.y + 96 + 33 * 3);
 						}
 					).Do();
+					#endregion
+
 
 					
-					var onClick = default(Action<MouseEvent>);
-					var onKeyUp = default(Action<KeyboardEvent>);
-
-					ReadyToContinue =
-						delegate
-						{
-							if (ReadyToContinue == null)
-								return;
-
-							ReadyToContinue = null;
-
-							music_endlevel.stop();
-
-							this.WriteLine("stop: music_endlevel");
-
-							ScoreContainer.FadeOut(
-								delegate
-								{
-									ScoreContainer.Orphanize();
-
-									PrepareToCallReadyForNextLevel();
-								}
-							);
-
-							stage.keyUp -= onKeyUp;
-							stage.click -= onClick;
-
-						};
 
 					#region exit this menu
 					music_endlevel.soundComplete +=
@@ -211,8 +228,8 @@ namespace FlashTreasureHunt.ActionScript
 							// we are ready to continue...
 							// are other players?
 
-							if (ReadyToContinue != null)
-								ReadyToContinue();
+							if (EnterEndLevelMode_ReadyToContinue != null)
+								EnterEndLevelMode_ReadyToContinue();
 
 						};
 
@@ -223,8 +240,8 @@ namespace FlashTreasureHunt.ActionScript
 							if (!MovementEnabled_IsFocused)
 								return;
 
-							if (ReadyToContinue != null)
-								ReadyToContinue();
+							if (EnterEndLevelMode_ReadyToContinue != null)
+								EnterEndLevelMode_ReadyToContinue();
 						};
 
 					onKeyUp =
@@ -233,8 +250,8 @@ namespace FlashTreasureHunt.ActionScript
 							if (!MovementEnabled_IsFocused)
 								return;
 
-							if (ReadyToContinue != null)
-								ReadyToContinue();
+							if (EnterEndLevelMode_ReadyToContinue != null)
+								EnterEndLevelMode_ReadyToContinue();
 						};
 					#endregion
 
