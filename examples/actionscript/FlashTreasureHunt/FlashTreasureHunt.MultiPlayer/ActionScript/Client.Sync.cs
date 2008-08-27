@@ -61,6 +61,7 @@ namespace FlashTreasureHunt.ActionScript
 			this.Map.AmmoTotal = mr.ReadInt32();
 			this.Map.NonblockingTotal = mr.ReadInt32();
 
+			this.Map.GoldTotalCollected = 0;
 
 			#region write goal pos
 

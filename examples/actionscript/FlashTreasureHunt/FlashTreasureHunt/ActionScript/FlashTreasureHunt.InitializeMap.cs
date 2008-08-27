@@ -78,7 +78,7 @@ namespace FlashTreasureHunt.ActionScript
 					WaitForCollectingHalfTheTreasureToRevealEndGoal();
 
 					TheGoldStack.Position.To(maze.Width - 1.25, maze.Height - 1.25);
-					TheGoldStack.Range = 0.5;
+					TheGoldStack.Range = 0.6;
 					TheGoldStack.ItemTaken +=
 						delegate
 						{
@@ -199,7 +199,7 @@ namespace FlashTreasureHunt.ActionScript
 					AddIngameEntities(
 						delegate
 						{
-							this.WriteLine("init: AddIngameEntities");
+							this.WriteLine("init: AddIngameEntities done");
 
 
 							stage.enterFrame +=
@@ -209,7 +209,9 @@ namespace FlashTreasureHunt.ActionScript
 										EgoView.RenderScene();
 								};
 
-							ReadyWithLoadingCurrentLevel();
+							this.WriteLine("init: AddIngameEntities + ReadyWithLoadingCurrentLevel");
+
+							this.ReadyWithLoadingCurrentLevel();
 						}
 					);
 				}

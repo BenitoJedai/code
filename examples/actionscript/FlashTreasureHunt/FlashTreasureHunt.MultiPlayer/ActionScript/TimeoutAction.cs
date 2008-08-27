@@ -10,6 +10,9 @@ namespace FlashTreasureHunt.ActionScript
 	[Script]
 	public class TimeoutAction
 	{
+		// 5 minutes
+		public const int LongOperation = 1000 * 60 * 5; 
+
 		// initially disabled
 		// active for only a small amount of time
 

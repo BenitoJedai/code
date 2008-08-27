@@ -70,7 +70,7 @@ namespace FlashTreasureHunt.ActionScript
 			DisplayObject r = null;
 			DisplayObject p = e;
 
-			while (r  == null)
+			while (r == null)
 			{
 				if (p.parent == p.stage)
 				{
@@ -155,7 +155,7 @@ namespace FlashTreasureHunt.ActionScript
 			t.timer += delegate { a(); };
 
 			t.start();
-
+			
 			return t;
 		}
 
@@ -194,15 +194,16 @@ namespace FlashTreasureHunt.ActionScript
 					   {
 						   e.alpha = 1;
 
-						   t.stop();
+
 
 						   if (done != null)
 							   done();
+
+						   t.stop();
+
+						   return;
 					   }
-					   else
-					   {
-						   e.alpha += step;
-					   }
+					   e.alpha += step;
 				   }
 			   );
 		}
@@ -230,15 +231,14 @@ namespace FlashTreasureHunt.ActionScript
 				   {
 					   e.alpha = 0;
 
-					   t.stop();
 
 					   if (done != null)
 						   done();
+
+					   t.stop();
+					   return;
 				   }
-				   else
-				   {
-					   e.alpha -= step;
-				   }
+				   e.alpha -= step;
 			   }
 		   );
 		}

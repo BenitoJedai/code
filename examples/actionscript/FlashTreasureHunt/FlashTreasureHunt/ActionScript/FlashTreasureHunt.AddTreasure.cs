@@ -20,9 +20,9 @@ namespace FlashTreasureHunt.ActionScript
 		public int CurrentLevelScore = 0;
 
 		public int GoldTotal;
-		int GoldTotalCollected = 0;
+		public int GoldTotalCollected = 0;
 
-		Action HalfOfTheTreasureCollected;
+		public Action HalfOfTheTreasureCollected;
 
 		private void AddTreasureCollected()
 		{

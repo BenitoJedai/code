@@ -105,6 +105,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\Client.ReadyForNextLevel.cs" />
+    <Compile Include="ActionScript\Client.ReadyWithLoadingCurrentLevel.cs" />
     <None Include="tools\update.bat" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

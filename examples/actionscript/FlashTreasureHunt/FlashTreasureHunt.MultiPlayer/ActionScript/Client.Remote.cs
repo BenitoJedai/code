@@ -33,7 +33,7 @@ namespace FlashTreasureHunt.ActionScript
 					// atleast it seems to knows our protocol
 
 
-					Map.WriteLine("Howdy, " + e.name);
+					//Map.WriteLine("Howdy, " + e.name);
 
 
 
@@ -46,20 +46,22 @@ namespace FlashTreasureHunt.ActionScript
 					FirstMapLoader.Wait(10000);
 
 					if (e.user_with_map == -1)
+					{
+						Map.WriteLine("got ServerPlayerHello");
 						FirstMapLoader.Signal(
 							delegate
 							{
 								Map.WriteLine("using generated map");
 							}
 						);
-
+					}
 
 
 					// this causes other events to be attached
 					MyIdentity.Value = e;
 				};
 
-			MyIdentity.ValueChanged += 
+			MyIdentity.ValueChanged +=
 				() => MapInitialized.ContinueWhenDone(CreateLocalCoPlayer);
 
 			MyIdentity.ValueChanged +=
@@ -81,7 +83,7 @@ namespace FlashTreasureHunt.ActionScript
 					MapInitialized.ContinueWhenDone(
 						delegate
 						{
-							Map.WriteLine("joined: " + e.name);
+							//Map.WriteLine("joined: " + e.name);
 
 							PlayerAdvertise();
 						}
@@ -103,10 +105,10 @@ namespace FlashTreasureHunt.ActionScript
 			Events.ServerPlayerLeft +=
 				e =>
 				{
-					Map.WriteLine("left: " + e.name);
+					//Map.WriteLine("left: " + e.name);
 
 					// kill the player guard, and remove the coplayer entity
-					this.CoPlayers.Where(k => k.Identity.user == e.user).ToArray().ForEach(k => k.RemoveFrom(CoPlayers).Guard.TakeDamage(k.Guard.Health));
+					this.CoPlayers.Where(k => k.Identity.user == e.user).Where(k => k.Guard != null).ToArray().ForEach(k => k.RemoveFrom(CoPlayers).Guard.TakeDamage(k.Guard.Health));
 
 				};
 
@@ -126,6 +128,8 @@ namespace FlashTreasureHunt.ActionScript
 				e =>
 				{
 					var bytestream = e.bytestream;
+
+					this.Map.WriteLine("got UserSendMap");
 
 					FirstMapLoader.Signal(
 						delegate
@@ -173,11 +177,23 @@ namespace FlashTreasureHunt.ActionScript
 			Events.UserWalkTo += WalkTo;
 			Events.UserLookAt += UserLookAt;
 
+			Events.UserEnterEndLevelMode +=
+				e =>
+				{
+					Map.WriteLine("got UserEnterEndLevelMode");
+
+					if (this.AbortGhostMode != null)
+						this.AbortGhostMode();
+
+					DisableEnterEndLevelMode = true;
+					this.Map.EnterEndLevelMode();
+					DisableEnterEndLevelMode = false;
+				};
 		}
 
-	
 
-	
+		bool DisableEnterEndLevelMode;
+
 
 
 
