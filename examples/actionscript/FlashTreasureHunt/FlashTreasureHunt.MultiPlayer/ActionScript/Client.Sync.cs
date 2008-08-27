@@ -116,7 +116,7 @@ namespace FlashTreasureHunt.ActionScript
 			#endregion
 
 
-			#region read ammo
+			#region read nonblock
 
 			var NonblockSprites_Count = mr.ReadInt32();
 
@@ -134,6 +134,7 @@ namespace FlashTreasureHunt.ActionScript
 
 			#endregion
 
+			#region read portals
 			var Portals = mr.ReadInt32();
 			var Portals_Positions = new List<Point>();
 
@@ -144,11 +145,17 @@ namespace FlashTreasureHunt.ActionScript
 
 				Map.AddNextDualPortal();
 			}
+			
+
 
 
 			Map.UpdatePortalPositions(Portals_Positions.GetEnumerator());
 			Map.UpdatePortalTextures();
+			#endregion
 
+			var GuardSpritesCount = mr.ReadInt32();
+
+			this.Map.WriteLine("guards: " + GuardSpritesCount);
 
 
 			#region end of stream
@@ -266,7 +273,7 @@ namespace FlashTreasureHunt.ActionScript
 			}
 			#endregion
 
-
+			#region write portals
 			mw.Write(Map.DualPortals.Count);
 
 			foreach (var v in Map.DualPortals)
@@ -275,6 +282,16 @@ namespace FlashTreasureHunt.ActionScript
 				mw.Write(v.Blue.SpriteVector.Position.y);
 				mw.Write(v.Orange.SpriteVector.Position.x);
 				mw.Write(v.Orange.SpriteVector.Position.y);
+			}
+			#endregion
+
+			mw.Write(this.Map.GuardSprites.Count);
+
+			foreach (var v in this.Map.GuardSprites)
+			{
+				mw.Write(v.Direction);
+				mw.Write(v.Position.x);
+				mw.Write(v.Position.y);
 			}
 
 			mw.Write(SyncEndOfStream);

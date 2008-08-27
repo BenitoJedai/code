@@ -24,15 +24,19 @@ namespace FlashTreasureHunt.ActionScript
 
 		public readonly List<SpriteInfo> BloodSprites = new List<SpriteInfo>();
 
+		public readonly List<SpriteInfoExtended> GuardSprites = new List<SpriteInfoExtended>();
+
 		private void CreateGuards(IEnumerator<TextureBase.Entry> FreeSpaceForStuff)
 		{
 			for (int i = 0; i < 2 + CurrentLevel; i++)
 			{
 				var g = CreateGuard();
 
+				GuardSprites.Add(g);
+
 				EgoView.BlockingSprites.Add(g);
 
-
+				g.ConstructorIndexForSync = i;
 				g.Position = FreeSpaceForStuff.Take().Do(kk => new Point(kk.XIndex + 0.5, kk.YIndex + 0.5));
 				g.Direction = 0;
 
@@ -44,6 +48,12 @@ namespace FlashTreasureHunt.ActionScript
 				TurnAndWalk =
 					delegate
 					{
+						if (g.Health <= 0)
+							return;
+
+						if (!this.EgoView.Sprites.Contains(g))
+							return;
+
 						if (WalkToQueue.Count > 0)
 						{
 							var p = WalkToQueue.Dequeue();
@@ -91,78 +101,7 @@ namespace FlashTreasureHunt.ActionScript
 
 				TurnAndWalk();
 
-				//// each 3 secs turn 90 while not walking
-				//3000.AtInterval(
-				//    tt =>
-				//    {
-				//        if (!EgoView.Sprites.Contains(g))
-				//        {
-				//            tt.stop();
-				//            return;
-				//        }
-
-				//        #region death
-				//        if (g.Health <= 0)
-				//        {
-				//            tt.stop();
-				//            return;
-				//        }
-				//        #endregion
-
-
-				//        if (!g.AIEnabled)
-				//            return;
-
-				//        if (g.WalkingAnimationRunning)
-				//            return;
-
-				//        var PossibleDestination = g.Position.MoveToArc(g.Direction, 1);
-
-				//        var AsMapLocation = new PointInt32
-				//        {
-				//            X = PossibleDestination.x.Floor(),
-				//            Y = PossibleDestination.y.Floor()
-				//        };
-
-				//        if (EgoView.Map.WallMap[AsMapLocation.X, AsMapLocation.Y] == 0)
-				//        {
-				//            // whee we can walk at this direction
-				//            g.StartWalkingAnimation();
-
-				//            const int StepsToBeTaken = 80;
-
-				//            (1000 / 15).AtInterval(
-				//                t =>
-				//                {
-
-				//                    #region death
-				//                    if (g.Health <= 0)
-				//                    {
-				//                        t.stop();
-				//                        return;
-				//                    }
-				//                    #endregion
-
-				//                    if (!g.AIEnabled)
-				//                        return;
-
-				//                    g.Position = g.Position.MoveToArc(g.Direction, 1.0 / (double)StepsToBeTaken);
-
-				//                    if (t.currentCount == StepsToBeTaken)
-				//                    {
-				//                        t.stop();
-				//                        g.StopWalkingAnimation();
-				//                    }
-				//                }
-				//            );
-				//            return;
-				//        }
-
-				//        // can we walk at that direction?
-				//        g.Direction += 90.DegreesToRadians();
-
-				//    }
-				//);
+				
 			}
 		}
 

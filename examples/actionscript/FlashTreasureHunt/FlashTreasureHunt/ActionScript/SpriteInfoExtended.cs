@@ -103,16 +103,16 @@ namespace FlashTreasureHunt.ActionScript
 						var speed = Step;
 
 						if (z > 0.2)
-							speed *= 1.5;
+							speed *= 2;
 
 						if (z > 0.4)
-							speed *= 1.5;
+							speed *= 2;
 
 						if (z > 0.6)
-							speed *= 1.5;
+							speed *= 2;
 
 						if (z > 0.8)
-							speed *= 1.5;
+							speed *= 2;
 
 						var IsCloseEnough = z < (Step * 2);
 						var IsInNeedForTeleport = z > 1.0;
