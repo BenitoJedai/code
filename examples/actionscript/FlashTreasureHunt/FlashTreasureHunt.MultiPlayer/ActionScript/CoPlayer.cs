@@ -82,7 +82,8 @@ namespace FlashTreasureHunt.ActionScript
 								{
 									WalkTo_Timer = null;
 
-									Guard.StopWalkingAnimation();
+									if (this.Guard != null)
+										this.Guard.StopWalkingAnimation();
 								}
 							);
 

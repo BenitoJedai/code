@@ -16,8 +16,18 @@ namespace FlashTreasureHunt.ActionScript
 	partial class FlashTreasureHunt
 	{
 
-		private void EnterEndLevelMode()
+		public event Action Sync_EnterEndLevelMode;
+
+		public void EnterEndLevelMode()
 		{
+			if (EndLevelMode)
+				return;
+
+			this.WriteLine("init: EnterEndLevelMode");
+
+			if (Sync_EnterEndLevelMode != null)
+				Sync_EnterEndLevelMode();
+
 			var ScoreContainer = new Sprite().AttachTo(this);
 
 			ScoreContainer.alpha = 0.8;
@@ -82,7 +92,7 @@ namespace FlashTreasureHunt.ActionScript
 					);
 
 
-			
+
 					// level ends for all
 
 					// list current scores
@@ -171,14 +181,16 @@ namespace FlashTreasureHunt.ActionScript
 					ReadyToContinue =
 						delegate
 						{
-							ReadyToContinue = delegate { };
+							music_endlevel.stop();
+
+							ReadyToContinue = null;
 
 							ScoreContainer.FadeOut(
 								delegate
 								{
 									ScoreContainer.Orphanize();
 
-									EgoView.Image.FadeOut(ReadyForNextLevel);
+									PrepareToCallReadyForNextLevel();
 								}
 							);
 
@@ -193,7 +205,8 @@ namespace FlashTreasureHunt.ActionScript
 							// we are ready to continue...
 							// are other players?
 
-							ReadyToContinue();
+							if (ReadyToContinue != null)
+								ReadyToContinue();
 
 						};
 
@@ -204,8 +217,10 @@ namespace FlashTreasureHunt.ActionScript
 							if (!MovementEnabled_IsFocused)
 								return;
 
-							music_endlevel.stop();
-							ReadyToContinue();
+
+
+							if (ReadyToContinue != null)
+								ReadyToContinue();
 
 						};
 
@@ -219,8 +234,8 @@ namespace FlashTreasureHunt.ActionScript
 							if (!MovementEnabled_IsFocused)
 								return;
 
-							music_endlevel.stop();
-							ReadyToContinue();
+							if (ReadyToContinue != null)
+								ReadyToContinue();
 
 						};
 
@@ -234,25 +249,28 @@ namespace FlashTreasureHunt.ActionScript
 
 		}
 
-		public int CurrentLevel = 1;
-
-		public virtual void ReadyForNextLevel()
+		private void PrepareToCallReadyForNextLevel()
 		{
-			getpsyched.FadeIn(
-				delegate
+			this.WriteLine("init: PrepareToCallReadyForNextLevel");
+
+
+
+			EgoView.Image.FadeOut(delegate
+			{
+				getpsyched.FadeIn(delegate
 				{
-					LoadNextLevel(
-						AlmostDone =>
-						{
-							getpsyched.FadeOut(AlmostDone);
-						}
-					);
-				}
-			);
 
-
+					if (this.ReadyForNextLevel != null)
+						this.ReadyForNextLevel();
+				});
+			});
 		}
 
+		public int CurrentLevel = 1;
+
+
+
+		public Action ReadyForNextLevel;
 
 
 		private void LoadNextLevel(Action<Action> AlmostDone)
@@ -275,38 +293,38 @@ namespace FlashTreasureHunt.ActionScript
 					AddIngameEntities(
 						delegate
 						{
+							TheGoldStack.IsTaken = false;
+							TheGoldStack.Position.To(maze.Width - 1.3, maze.Height - 1.3);
+							GoldSprites.Add(TheGoldStack);
 
+							//this.WriteLine("goal is at " + new { TheGoldStack.Position.x, TheGoldStack.Position.y });
+
+
+							WaitForCollectingHalfTheTreasureToRevealEndGoal();
+
+							ResetPortals();
+
+							music = Assets.Default.Music.music.play(0, 9999);
+
+							this.EgoView.Image.filters = null;
+							this.EgoView.ViewPositionLock = null;
+
+							EndLevelMode = false;
+							MovementEnabled_IsInGame = true;
+
+							ResetEgoPosition();
+
+							AlmostDone(
+								delegate
+								{
+									this.EgoView.Image.FadeIn();
+									this.HudContainer.FadeIn();
+								}
+							);
 						}
 					);
 
-					TheGoldStack.IsTaken = false;
-					TheGoldStack.Position.To(maze.Width - 1.3, maze.Height - 1.3);
-					GoldSprites.Add(TheGoldStack);
 
-					//this.WriteLine("goal is at " + new { TheGoldStack.Position.x, TheGoldStack.Position.y });
-
-
-					WaitForCollectingHalfTheTreasureToRevealEndGoal();
-
-					ResetPortals();
-
-					music = Assets.Default.Music.music.play(0, 9999);
-
-					this.EgoView.Image.filters = null;
-					this.EgoView.ViewPositionLock = null;
-
-					EndLevelMode = false;
-					MovementEnabled_IsInGame = true;
-
-					ResetEgoPosition();
-
-					AlmostDone(
-						delegate
-						{
-							this.EgoView.Image.FadeIn();
-							this.HudContainer.FadeIn();
-						}
-					);
 				}
 			);
 		}
@@ -315,7 +333,7 @@ namespace FlashTreasureHunt.ActionScript
 		{
 			this.EgoView.BlockingSprites.Clear();
 			this.EgoView.Sprites.Clear();
-			
+
 			this.GoldSprites.Clear();
 			this.AmmoSprites.Clear();
 			this.NonblockSprites.Clear();

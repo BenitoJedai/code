@@ -22,25 +22,10 @@ namespace FlashTreasureHunt.ActionScript
 		{
 			// this should be a ctor instead?
 
-			this.Map =
-				new FlashTreasureHunt
-				{
-					ReadyWithLoadingCurrentLevel =
-						delegate
-						{
-							//this.Map.WriteLine("ready for multiplayer map");
-
-							MapInitialized.Signal();
-
-							FirstMapLoader.ContinueWhenDone(
-								this.Map.ReadyWithLoadingCurrentLevelDirect
-							);
-
-							
-
-							// if we are the host, we will have the primary map
-						}
-				};
+			this.Map = new FlashTreasureHunt();
+			this.Map.ReadyWithLoadingCurrentLevel = this.ReadyWithLoadingCurrentLevel;
+			this.Map.ReadyForNextLevel = this.ReadyForNextLevel;
+					
 
 			#region FirstMapLoader
 			this.FirstMapLoader.SignalMissed +=
@@ -73,6 +58,17 @@ namespace FlashTreasureHunt.ActionScript
 			this.Map.Sync_TakeGold += this.Messages.TakeGold;
 			this.Map.Sync_TakeAmmo += this.Messages.TakeAmmo;
 			this.Map.Sync_FireWeapon += this.Messages.FireWeapon;
+
+			this.Map.Sync_EnterEndLevelMode +=
+				delegate
+				{
+					if (DisableEnterEndLevelMode)
+						return;
+
+					this.Map.WriteLine("send EnterEndLevelMode");
+
+					this.Messages.EnterEndLevelMode();
+				};
 
 			this.Map.AttachTo(Element);
 

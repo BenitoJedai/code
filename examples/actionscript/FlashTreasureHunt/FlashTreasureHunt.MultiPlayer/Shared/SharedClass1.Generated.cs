@@ -38,6 +38,8 @@ namespace FlashTreasureHunt.Shared
             UserLookAt,
             FireWeapon,
             UserFireWeapon,
+            EnterEndLevelMode,
+            UserEnterEndLevelMode,
         }
         #endregion
 
@@ -73,6 +75,8 @@ namespace FlashTreasureHunt.Shared
             event Action<RemoteEvents.UserLookAtArguments> UserLookAt;
             event Action<RemoteEvents.FireWeaponArguments> FireWeapon;
             event Action<RemoteEvents.UserFireWeaponArguments> UserFireWeapon;
+            event Action<RemoteEvents.EnterEndLevelModeArguments> EnterEndLevelMode;
+            event Action<RemoteEvents.UserEnterEndLevelModeArguments> UserEnterEndLevelMode;
         }
         #endregion
 
@@ -193,6 +197,14 @@ namespace FlashTreasureHunt.Shared
             {
                 Send(new SendArguments { i = Messages.UserFireWeapon, args = new object[] { user } });
             }
+            public void EnterEndLevelMode()
+            {
+                Send(new SendArguments { i = Messages.EnterEndLevelMode, args = new object[] {  } });
+            }
+            public void UserEnterEndLevelMode(int user)
+            {
+                Send(new SendArguments { i = Messages.UserEnterEndLevelMode, args = new object[] { user } });
+            }
         }
         #endregion
 
@@ -253,6 +265,7 @@ namespace FlashTreasureHunt.Shared
                     value.WalkTo += this.UserWalkTo;
                     value.LookAt += this.UserLookAt;
                     value.FireWeapon += this.UserFireWeapon;
+                    value.EnterEndLevelMode += this.UserEnterEndLevelMode;
                 }
 
                 public void RemoveDelegates(IEvents value)
@@ -265,6 +278,7 @@ namespace FlashTreasureHunt.Shared
                     value.WalkTo -= this.UserWalkTo;
                     value.LookAt -= this.UserLookAt;
                     value.FireWeapon -= this.UserFireWeapon;
+                    value.EnterEndLevelMode -= this.UserEnterEndLevelMode;
                 }
                 #endregion
 
@@ -300,6 +314,10 @@ namespace FlashTreasureHunt.Shared
                 public void UserFireWeapon(FireWeaponArguments e)
                 {
                     Target.UserFireWeapon(this.user);
+                }
+                public void UserEnterEndLevelMode(EnterEndLevelModeArguments e)
+                {
+                    Target.UserEnterEndLevelMode(this.user);
                 }
                 #endregion
             }
@@ -590,6 +608,32 @@ namespace FlashTreasureHunt.Shared
             }
             #endregion
             public event Action<UserFireWeaponArguments> UserFireWeapon;
+            #region EnterEndLevelModeArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class EnterEndLevelModeArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().ToString();
+                }
+            }
+            #endregion
+            public event Action<EnterEndLevelModeArguments> EnterEndLevelMode;
+            #region UserEnterEndLevelModeArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserEnterEndLevelModeArguments : WithUserArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserEnterEndLevelModeArguments> UserEnterEndLevelMode;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -614,6 +658,8 @@ namespace FlashTreasureHunt.Shared
                             { Messages.UserLookAt, e => { UserLookAt(new UserLookAtArguments { user = e.GetInt32(0), arc = e.GetDouble(1) }); } },
                             { Messages.FireWeapon, e => { FireWeapon(new FireWeaponArguments {  }); } },
                             { Messages.UserFireWeapon, e => { UserFireWeapon(new UserFireWeaponArguments { user = e.GetInt32(0) }); } },
+                            { Messages.EnterEndLevelMode, e => { EnterEndLevelMode(new EnterEndLevelModeArguments {  }); } },
+                            { Messages.UserEnterEndLevelMode, e => { UserEnterEndLevelMode(new UserEnterEndLevelModeArguments { user = e.GetInt32(0) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -638,6 +684,8 @@ namespace FlashTreasureHunt.Shared
                             { Messages.UserLookAt, e => UserLookAt },
                             { Messages.FireWeapon, e => FireWeapon },
                             { Messages.UserFireWeapon, e => UserFireWeapon },
+                            { Messages.EnterEndLevelMode, e => EnterEndLevelMode },
+                            { Messages.UserEnterEndLevelMode, e => UserEnterEndLevelMode },
                         }
                 ;
             }
@@ -839,9 +887,25 @@ namespace FlashTreasureHunt.Shared
                 this.VirtualLatency(() => this.UserFireWeapon(v));
             }
 
+            public event Action<RemoteEvents.EnterEndLevelModeArguments> EnterEndLevelMode;
+            void IMessages.EnterEndLevelMode()
+            {
+                if(EnterEndLevelMode == null) return;
+                var v = new RemoteEvents.EnterEndLevelModeArguments {  };
+                this.VirtualLatency(() => this.EnterEndLevelMode(v));
+            }
+
+            public event Action<RemoteEvents.UserEnterEndLevelModeArguments> UserEnterEndLevelMode;
+            void IMessages.UserEnterEndLevelMode(int user)
+            {
+                if(UserEnterEndLevelMode == null) return;
+                var v = new RemoteEvents.UserEnterEndLevelModeArguments { user = user };
+                this.VirtualLatency(() => this.UserEnterEndLevelMode(v));
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 26.08.2008 18:45:01
+// 27.08.2008 1:53:29

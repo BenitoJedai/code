@@ -80,7 +80,7 @@ namespace FlashTreasureHunt.ActionScript
 
 							AddTreasureCollected();
 
-						
+
 						};
 
 					k.ConstructorIndexForSync = i;
@@ -125,6 +125,8 @@ namespace FlashTreasureHunt.ActionScript
 
 		private void AddIngameEntities(Action done)
 		{
+			this.WriteLine("init: AddIngameEntities");
+
 			//var done_3 = new JoinAction(done, 3);
 
 
@@ -183,7 +185,8 @@ namespace FlashTreasureHunt.ActionScript
 						}
 						#endregion
 
-						done();
+						if (done != null)
+							done();
 						//done_3.Signal();
 					}
 				);
@@ -216,7 +219,7 @@ namespace FlashTreasureHunt.ActionScript
 									   return;
 
 								   // only check for items each 0.5 distance travelled
-								   if ((EgoView.ViewPosition - LastPosition).length < 0.5)
+								   if ((EgoView.ViewPosition - LastPosition).length < PlayerRadiusMargin)
 									   return;
 
 								   Action Later = null;
@@ -307,7 +310,7 @@ namespace FlashTreasureHunt.ActionScript
 
 					   AddNonBlockingItems();
 
-					  // done_3.Signal();
+					   // done_3.Signal();
 
 				   }
 				);
@@ -341,7 +344,7 @@ namespace FlashTreasureHunt.ActionScript
 
 
 							   // only check for items each 0.5 distance travelled
-							   if ((EgoView.ViewPosition - LastPosition).length < 0.5)
+							   if ((EgoView.ViewPosition - LastPosition).length < PlayerRadiusMargin)
 								   return;
 
 							   Action Later = null;
@@ -363,7 +366,7 @@ namespace FlashTreasureHunt.ActionScript
 
 												   FlashColors(0xffff00);
 
-												   
+
 
 
 												   if (Item_Sprite != null)
@@ -374,7 +377,7 @@ namespace FlashTreasureHunt.ActionScript
 													   if (Sync_TakeGold != null)
 														   Sync_TakeGold(Item_Sprite.ConstructorIndexForSync);
 												   }
-												   
+
 
 
 												   GoldTakenCounter = (GoldTakenCounter + 1).Min(1);
@@ -440,7 +443,7 @@ namespace FlashTreasureHunt.ActionScript
 			#endregion
 		}
 
-	
+
 
 	}
 }

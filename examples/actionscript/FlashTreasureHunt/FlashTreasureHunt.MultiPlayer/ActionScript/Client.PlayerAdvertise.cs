@@ -22,7 +22,7 @@ namespace FlashTreasureHunt.ActionScript
 				return;
 
 			// we are starting on a new position, advertise that
-		
+
 
 			IVector EgoVector = this.Map.EgoView;
 
@@ -110,6 +110,10 @@ namespace FlashTreasureHunt.ActionScript
 
 							Map.WriteLine("coplayer " + e.name + " died and left a corpse");
 
+							// killing a coplayer will result in revealing end level
+							if (this.Map.HalfOfTheTreasureCollected != null)
+								this.Map.HalfOfTheTreasureCollected();
+
 						}
 					};
 
@@ -124,7 +128,7 @@ namespace FlashTreasureHunt.ActionScript
 			c.Guard.Direction = mr.ReadDouble();
 			c.Guard.Position = new Point(mr.ReadDouble(), mr.ReadDouble());
 
-			this.Map.WriteLine("present: " + e.name);
+			//this.Map.WriteLine("present: " + e.name);
 
 		}
 
@@ -187,6 +191,8 @@ namespace FlashTreasureHunt.ActionScript
 		}
 		#endregion
 
+		Action AbortGhostMode;
+
 		private void EnterGhostMode()
 		{
 			// we die!
@@ -219,16 +225,11 @@ namespace FlashTreasureHunt.ActionScript
 
 			var GhostWeapon = default(Action);
 
-			GhostWeapon =
+			AbortGhostMode =
 				delegate
 				{
 					if (music != null)
 						music.stop();
-
-
-					this.Map.FireWeapon -= GhostWeapon;
-
-					GhostWeapon = null;
 
 					this.Map.FlashColors(0xffffffff);
 					this.Map.WriteLine("respawn now!");
@@ -245,16 +246,32 @@ namespace FlashTreasureHunt.ActionScript
 					CreateLocalCoPlayerGuard();
 
 					PlayerAdvertise();
+
+					AbortGhostMode = null;
+
+
+				};
+
+			GhostWeapon =
+				delegate
+				{
+					this.Map.FireWeapon -= GhostWeapon;
+
+					GhostWeapon = null;
+
+					if (AbortGhostMode != null)
+						AbortGhostMode();
 				};
 
 			3000.AtDelayDo(
 				delegate
 				{
-					this.Map.FireWeapon += GhostWeapon;
+					if (AbortGhostMode != null)
+					{
+						this.Map.FireWeapon += GhostWeapon;
 
-					this.Map.FlashColors(0xffffffff);
-
-
+						this.Map.FlashColors(0xffffffff);
+					}
 				}
 			);
 

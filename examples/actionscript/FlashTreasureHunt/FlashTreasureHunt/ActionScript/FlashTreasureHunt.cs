@@ -49,7 +49,6 @@ namespace FlashTreasureHunt.ActionScript
 
 		// todo: 
 		// fix portals
-		// fix respawn
 		// fix end of level
 		// fix dead coplayers showing up alive
 		// fix shooting thru walls
@@ -102,6 +101,20 @@ namespace FlashTreasureHunt.ActionScript
 		{
 			// users can override this method
 			this.ReadyWithLoadingCurrentLevel = this.ReadyWithLoadingCurrentLevelDirect;
+
+			this.ReadyForNextLevel =
+				delegate
+				{
+					this.WriteLine("default ReadyForNextLevel");
+
+					LoadNextLevel(
+						AlmostDone =>
+						{
+							getpsyched.FadeOut(AlmostDone);
+						}
+					);
+				};
+
 
 			this.InvokeWhenStageIsReady(Initialize);
 		}
@@ -172,6 +185,7 @@ namespace FlashTreasureHunt.ActionScript
 
 			//WriteLine("with minimap");
 
+	
 			getpsyched.FadeIn(
 				delegate
 				{
@@ -181,11 +195,11 @@ namespace FlashTreasureHunt.ActionScript
 
 
 					Assets.Default.dude5.ToBitmapArray(
-						(cur, max) =>
-						{
-							this.WriteLine("init: dude5 " + cur + "/" + max);
+						//(cur, max) =>
+						//{
+						//    this.WriteLine("init: dude5 " + cur + "/" + max);
 
-						},
+						//},
 						CachedGuardTextures,
 						Bitmaps =>
 						{

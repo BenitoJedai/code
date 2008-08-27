@@ -19,6 +19,7 @@ namespace FlashTreasureHunt.ActionScript
 	{
 		public Action<string> WriteLine;
 
+		public TextField WriteLineControl;
 
 		private void InitializeWriteLine()
 		{
@@ -28,9 +29,11 @@ namespace FlashTreasureHunt.ActionScript
 				height = DefaultControlHeight / 2,
 				textColor = 0xffff00,
 				mouseEnabled = false,
-				y = DefaultControlHeight / 2,
+				y = DefaultControlHeight / 4,
 
 			}.AttachTo(this);
+
+			WriteLineControl = dumper;
 
 			var dumper_queue = new Queue<string>();
 
@@ -39,7 +42,7 @@ namespace FlashTreasureHunt.ActionScript
 				{
 					dumper_queue.Enqueue(text);
 
-					while (dumper_queue.Count > 15)
+					while (dumper_queue.Count > 10)
 						dumper_queue.Dequeue();
 
 					dumper.text = "";

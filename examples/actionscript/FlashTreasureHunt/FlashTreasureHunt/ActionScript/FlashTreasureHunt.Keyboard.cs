@@ -152,8 +152,6 @@ namespace FlashTreasureHunt.ActionScript
 			    {
 			        MovementArrows[Keyboard.K],
 			    },
-				//Down = () => { GoBackwardSmooth.down(new Point(DefaultControlWidth / 2, DefaultControlHeight / 2)); },
-				
 				Up = () =>
 				{
 
@@ -162,6 +160,20 @@ namespace FlashTreasureHunt.ActionScript
 							Sync_Suicide();
 
 
+				}
+			};
+
+			var endlevel = new global::FlashTreasureHunt.ActionScript.UI.KeyboardButton(stage)
+			{
+				Groups = new[]
+			    {
+			        MovementArrows[Keyboard.U],
+			    },
+				Up = () =>
+				{
+
+					if (MovementEnabled)
+						EnterEndLevelMode();
 				}
 			};
 

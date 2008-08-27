@@ -59,6 +59,9 @@ namespace FlashTreasureHunt.Shared
 
 			void FireWeapon();
 			void UserFireWeapon(int user);
+
+			void EnterEndLevelMode();
+			void UserEnterEndLevelMode(int user);
 		}
     }
 }
