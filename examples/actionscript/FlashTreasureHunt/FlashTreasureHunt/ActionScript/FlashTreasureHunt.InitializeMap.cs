@@ -89,7 +89,7 @@ namespace FlashTreasureHunt.ActionScript
 
 
 							// show stats
-
+							this.WriteLine("TheGoldStack -> EnterEndLevelMode");
 							EnterEndLevelMode();
 						};
 					GoldSprites.Add(TheGoldStack);

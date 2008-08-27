@@ -92,6 +92,7 @@
     <Compile Include="ActionScript\ThreeD\ViewEngine.BlockingSprites.cs" />
     <Compile Include="ActionScript\ThreeD\ViewEngine.DrawMinimap.cs" />
     <Compile Include="ActionScript\ThreeD\ViewEngine.cs" />
+    <Compile Include="ActionScript\TimeoutAction.cs" />
     <Compile Include="ActionScript\UI\KeyboardButton.cs" />
     <Compile Include="ActionScript\UI\KeyboardButtonGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

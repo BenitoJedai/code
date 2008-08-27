@@ -52,6 +52,12 @@ namespace FlashTreasureHunt.ActionScript
 		// fix end of level
 		// fix dead coplayers showing up alive
 		// fix shooting thru walls
+		// fix multiple endlevel
+		// add fullscreen context menu
+		// add clip to corners via radius
+		// fix compass reveal when not killing a coplayer by ego
+		// add a secret room
+		// dummy guards?
 
 
 		BlockMaze maze;
@@ -95,7 +101,7 @@ namespace FlashTreasureHunt.ActionScript
 		}
 
 
-		Bitmap getpsyched;
+		public Bitmap getpsyched;
 
 		public FlashTreasureHunt()
 		{
@@ -103,16 +109,11 @@ namespace FlashTreasureHunt.ActionScript
 			this.ReadyWithLoadingCurrentLevel = this.ReadyWithLoadingCurrentLevelDirect;
 
 			this.ReadyForNextLevel =
-				delegate
+				AlmostDone =>
 				{
 					this.WriteLine("default ReadyForNextLevel");
 
-					LoadNextLevel(
-						AlmostDone =>
-						{
-							getpsyched.FadeOut(AlmostDone);
-						}
-					);
+					getpsyched.FadeOut(AlmostDone);
 				};
 
 
@@ -185,7 +186,7 @@ namespace FlashTreasureHunt.ActionScript
 
 			//WriteLine("with minimap");
 
-	
+
 			getpsyched.FadeIn(
 				delegate
 				{

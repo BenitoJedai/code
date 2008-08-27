@@ -7,17 +7,23 @@ namespace FlashTreasureHunt.ActionScript
 {
 	partial class Client
 	{
-		public TimeoutAction Sync_ReadyForNextLevel;
 
-		public void ReadyForNextLevel()
+		public void ReadyForNextLevel(Action AlmostDone)
 		{
 			// ...
 
-			this.Map.WriteLine("whoever exited last level should now send a map!");
+			this.Map.WriteLine("init: ReadyForNextLevel");
+			
+			// wait only five more secs
+			//FirstMapLoader.ExtendedWait(5000);
 
-
-			//throw new Exception("trace - " + this.Map.WriteLineControl.text);
-
+			FirstMapLoader.ContinueWhenDone(
+				delegate
+				{
+					this.Map.getpsyched.FadeOut(AlmostDone);
+				}
+			);
+		
 		}
 	}
 

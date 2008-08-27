@@ -19,6 +19,20 @@ namespace FlashTreasureHunt.ActionScript
 		Action ContinueWhenDone_Before;
 		Action ContinueWhenDone_e;
 
+		public bool Ready
+		{
+			get
+			{
+				if (ContinueWhenDone_e != null)
+					return false;
+
+				if (Wait_ms != null)
+					return false;
+
+				return true;
+			}
+		}
+
 		public void ContinueWhenDone(Action e)
 		{
 			if (this.ContinueWhenDone_e != null)
@@ -45,14 +59,20 @@ namespace FlashTreasureHunt.ActionScript
 
 		private void Continue()
 		{
-			if (ContinueWhenDone_Before != null)
-			{
-				ContinueWhenDone_Before();
-				ContinueWhenDone_Before = null;
-			}
+			var _ContinueWhenDone_Before = ContinueWhenDone_Before;
+			var _ContinueWhenDone_e = ContinueWhenDone_e;
 
-			ContinueWhenDone_e();
+			ContinueWhenDone_Before = null;
 			ContinueWhenDone_e = null;
+
+			_SignalMissed = true;
+
+			if (_ContinueWhenDone_Before != null)
+				_ContinueWhenDone_Before();
+
+			if (_ContinueWhenDone_e != null)
+				_ContinueWhenDone_e();
+
 		}
 
 		Timer Wait_ms;
@@ -61,6 +81,12 @@ namespace FlashTreasureHunt.ActionScript
 		public void Wait(int ms)
 		{
 			_SignalMissed = true;
+
+
+			ExtendedWait(ms);
+		}
+		public void ExtendedWait(int ms)
+		{
 
 			if (Wait_ms != null)
 			{
