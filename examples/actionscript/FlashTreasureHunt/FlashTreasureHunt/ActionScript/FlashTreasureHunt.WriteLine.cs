@@ -34,7 +34,6 @@ namespace FlashTreasureHunt.ActionScript
 			}.AttachTo(this);
 
 			WriteLineControl = dumper;
-
 			var dumper_queue = new Queue<string>();
 
 			WriteLine =
@@ -52,6 +51,9 @@ namespace FlashTreasureHunt.ActionScript
 						dumper.appendText(v + Environment.NewLine);
 					}
 				};
+
+			this.EgoView.WriteLine = this.WriteLine;
+
 		}
 	}
 }

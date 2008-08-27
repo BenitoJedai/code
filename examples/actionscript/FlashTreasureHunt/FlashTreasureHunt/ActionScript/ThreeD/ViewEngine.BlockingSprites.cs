@@ -35,23 +35,35 @@ namespace FlashTreasureHunt.ActionScript.ThreeD
 			if (Walls == null)
 				return;
 
+			Func<Point, double, bool> RadialBump =
+				(vp, vr) =>
+				{
+
+					var z = p.GetDistance(vp);
+
+					if (z < vr)
+					{
+						// pump us out of that sprite
+
+						var a = (p - vp).GetRotation();
+
+						p.x = vp.x + Math.Cos(a) * vr;
+						p.y = vp.y + Math.Sin(a) * vr;
+
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				};
+
 
 			#region bump on blocking sprites
 			if (EnableBlockingSprites)
 				foreach (var v in BlockingSprites)
 				{
-					var z = Point.distance(p, v.Position);
-
-					if (z < v.Range)
-					{
-						// pump us out of that sprite
-
-						var a = (p - v.Position).GetRotation();
-
-						p.x = v.Position.x + Math.Cos(a) * v.Range;
-						p.y = v.Position.y + Math.Sin(a) * v.Range;
-					}
-
+					RadialBump(v.Position, v.Range);
 				}
 			#endregion
 
@@ -158,15 +170,57 @@ namespace FlashTreasureHunt.ActionScript.ThreeD
 				if (TileBottom != 0)
 					fPlayerY = fPlayerY.Min((c.Y + 1) * TILE_SIZE - PlayerRadiusMargin);
 
+
+
+
+
 			}
 
 			p.x = fPlayerX;
 			p.y = fPlayerY;
 
+		
+			BumpCounter++;
 
+			var p_top_left = new Point(c.X, c.Y);
+			var p_top_right = new Point(c.X + 1, c.Y);
+			var p_bottom_right = new Point(c.X + 1, c.Y + 1);
+			var p_bottom_left = new Point(c.X, c.Y + 1);
 
+			var z_top_left = p.GetDistance(p_top_left);
+			var z_top_right = p.GetDistance(p_top_right);
+			var z_bottom_right = p.GetDistance(p_bottom_right);
+			var z_bottom_left = p.GetDistance(p_bottom_left);
+
+			var is_top_left = z_top_left < PlayerRadiusMargin;
+			var is_top_right = z_top_right < PlayerRadiusMargin;
+			var is_bottom_right = z_bottom_right < PlayerRadiusMargin;
+			var is_bottom_left = z_bottom_left < PlayerRadiusMargin;
+
+			// this assumes there are always corners.
+			// if we add larger rooms we need to adjust this here
+
+			//WriteLine(BumpCounter + " " + new { is_top_left, is_top_right, is_bottom_right, is_bottom_left });
+
+			if (is_top_left)
+				if (!RadialBump(p_top_left, PlayerRadiusMargin))
+					WriteLine("fail p_top_left");
+
+			if (is_top_right)
+				if (!RadialBump(p_top_right, PlayerRadiusMargin))
+					WriteLine("fail p_top_right");
+
+			if (is_bottom_right)
+				if (!RadialBump(p_bottom_right, PlayerRadiusMargin))
+					WriteLine("fail p_bottom_right");
+
+			if (is_bottom_left)
+				if (!RadialBump(p_bottom_left, PlayerRadiusMargin))
+					WriteLine("fail bottom_left");
 		}
 
+		int BumpCounter = 0;
 
+		public Action<string> WriteLine;
 	}
 }

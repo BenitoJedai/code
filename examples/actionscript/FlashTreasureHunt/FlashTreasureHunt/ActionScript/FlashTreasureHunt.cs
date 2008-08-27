@@ -42,6 +42,8 @@ namespace FlashTreasureHunt.ActionScript
 		// http://www.lostinactionscript.com/blog/index.php/2007/10/13/flash-you-tube-api/
 		// http://www.digital-ist-besser.de/
 		// http://www.fredheintz.com/sitefred/main.html
+		// http://www.newgrounds.com/portal/view/412065
+		// http://www.2flashgames.com/f/f-Wolfenstein-3D-Headshot-5297.htm
 
 		// shareware:
 		// Computer software developed for the public domain, which can be used or copied without infringing copyright. ...
@@ -49,14 +51,10 @@ namespace FlashTreasureHunt.ActionScript
 
 		// todo: 
 		// fix portals
-		// fix end of level
 		// fix dead coplayers showing up alive
 		// fix shooting thru walls
-		// fix multiple endlevel
 		// add fullscreen context menu
-		// add clip to corners via radius
 		// fix compass reveal when not killing a coplayer by ego
-		// add a secret room
 		// dummy guards?
 
 
