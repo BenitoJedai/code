@@ -85,6 +85,11 @@ namespace FlashTreasureHunt.ActionScript
 							if (EndLevelMode)
 								return;
 
+							if (HalfOfTheTreasureCollected != null)
+							{
+								throw new Exception("should not reach here");
+							}
+
 							Assets.Default.Sounds.yeah.play();
 
 

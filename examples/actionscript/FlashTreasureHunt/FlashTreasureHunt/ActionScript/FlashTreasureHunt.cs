@@ -14,6 +14,7 @@ using ScriptCoreLib.ActionScript.flash.filters;
 using FlashTreasureHunt.ActionScript.ThreeD;
 using ScriptCoreLib.ActionScript.flash.media;
 using ScriptCoreLib.ActionScript.flash.utils;
+using ScriptCoreLib.ActionScript.flash.ui;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -50,11 +51,14 @@ namespace FlashTreasureHunt.ActionScript
 		// tr.wou.edu/ntac/documents/fact_sheets/glossary.htm
 
 		// todo: 
-		// fix portals
 		// fix dead coplayers showing up alive
-		// add fullscreen context menu
 		// fix compass reveal when not killing a coplayer by ego
 		// dummy guards?
+		// fix portal rerender
+		// fix score sharing
+		// add button to clear portal renders
+		// set players health to 2
+		// emit blood while hit
 
 
 		BlockMaze maze;
@@ -126,12 +130,31 @@ namespace FlashTreasureHunt.ActionScript
 				height = DefaultControlHeight
 			};
 
+			#region fullscreen support
+			bool NextFullscreenMode = true;
+
 			this.stage.fullScreen +=
 				e =>
 				{
+					NextFullscreenMode = !e.fullScreen;
+
 					// hide chat while fullscreen zoom
 					this.GetStageChild().Siblings().ForEach(k => k.visible = !e.fullScreen);
 				};
+			
+		
+			this.contextMenu = new ContextMenuEx
+			{
+				{ "Fullscreen", 
+					delegate
+					{
+						this.stage.SetFullscreen(NextFullscreenMode);
+					}
+				}
+			};
+			#endregion
+
+
 
 			this.music = Assets.Default.Music.music.play(0, 9999);
 

@@ -20,6 +20,10 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 
         public double Distance;
 
+		public Rectangle LastRenderedClip;
+		public int LastRenderedX;
+		public double LastRenderedZoom;
+
         public SpriteInfoFromPOV(SpriteInfo s)
         {
             Sprite = s;

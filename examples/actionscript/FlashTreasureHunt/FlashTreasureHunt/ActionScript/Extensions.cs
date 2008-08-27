@@ -296,6 +296,62 @@ namespace FlashTreasureHunt.ActionScript
 			return t;
 		}
 
+		public static IEnumerator<TResult> Select<T, TResult>(this IEnumerator<T> e, Func<T, TResult> selector)
+		{
+			return new DynamicEnumerator<TResult>
+			{
+				VirtualCurrent = () => selector(e.Current),
+				VirtualDispose = () => e.Dispose(),
+				VirtualMoveNext = () => e.MoveNext()
+
+			};
+		}
+
+		[Script]
+		class DynamicEnumerator<T> : IEnumerator<T>
+		{
+			public Func<T> VirtualCurrent;
+			public Action VirtualDispose;
+			public Func<bool> VirtualMoveNext;
+
+			#region IEnumerator<T> Members
+
+			public T Current
+			{
+				get { return VirtualCurrent(); }
+			}
+
+			#endregion
+
+			#region IDisposable Members
+
+			public void Dispose()
+			{
+				VirtualDispose();
+			}
+
+			#endregion
+
+			#region IEnumerator Members
+
+			object System.Collections.IEnumerator.Current
+			{
+				get { return Current; }
+			}
+
+			public bool MoveNext()
+			{
+				return VirtualMoveNext();
+			}
+
+			public void Reset()
+			{
+				throw new NotImplementedException();
+			}
+
+			#endregion
+		}
+
 		public static T Take<T>(this IEnumerator<T> e)
 		{
 			if (e.MoveNext())

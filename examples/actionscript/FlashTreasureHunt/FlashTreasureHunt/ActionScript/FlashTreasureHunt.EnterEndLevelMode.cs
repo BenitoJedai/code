@@ -108,7 +108,7 @@ namespace FlashTreasureHunt.ActionScript
 							{
 								defaultTextFormat = new TextFormat
 								{
-									size = 36,
+									size = 33,
 								},
 								text = "Level " + CurrentLevel + " Complete",
 
@@ -127,7 +127,7 @@ namespace FlashTreasureHunt.ActionScript
 							{
 								defaultTextFormat = new TextFormat
 								{
-									size = 33,
+									size = 30,
 								},
 								text = "Blazkowicz - " + CurrentLevelScore + "$",
 
@@ -145,7 +145,7 @@ namespace FlashTreasureHunt.ActionScript
 							{
 								defaultTextFormat = new TextFormat
 								{
-									size = 30,
+									size = 27,
 								},
 								text = "Player 2 - 1200$",
 
@@ -163,7 +163,7 @@ namespace FlashTreasureHunt.ActionScript
 							{
 								defaultTextFormat = new TextFormat
 								{
-									size = 30,
+									size = 27,
 								},
 								text = "Player 3 - 1800$",
 
