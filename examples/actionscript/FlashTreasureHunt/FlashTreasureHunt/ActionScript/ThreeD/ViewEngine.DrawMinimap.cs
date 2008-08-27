@@ -67,11 +67,16 @@ namespace FlashTreasureHunt.ActionScript.ThreeD
 				uint color = 0x9f008000;
 
 
+
 				var extended = _ss.Sprite as SpriteInfoExtended;
 
 				if (extended != null)
 				{
-					color = extended.MinimapColor;
+					color = extended.MinimapInactiveColor;
+
+					if (ss.LastRenderedClip != null)
+						if (ss.LastRenderedClip.width > 0)
+							color = extended.MinimapColor;
 				}
 
 
@@ -85,7 +90,7 @@ namespace FlashTreasureHunt.ActionScript.ThreeD
 				var _y = (ss.Sprite.Position.y + 1) * isize;
 
 
-			
+
 			}
 
 			minimap.drawLine(0xffffffff,

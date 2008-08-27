@@ -52,7 +52,6 @@ namespace FlashTreasureHunt.ActionScript
 		// todo: 
 		// fix portals
 		// fix dead coplayers showing up alive
-		// fix shooting thru walls
 		// add fullscreen context menu
 		// fix compass reveal when not killing a coplayer by ego
 		// dummy guards?
