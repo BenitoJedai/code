@@ -215,6 +215,9 @@ namespace FlashTreasureHunt.ActionScript
 								   if (!EnableItemPickup)
 									   return;
 
+								   if (EndLevelMode)
+									   return;
+
 								   if (EgoView.SpritesFromPointOfView == null)
 									   return;
 
@@ -328,79 +331,7 @@ namespace FlashTreasureHunt.ActionScript
 					   CachedGoldTextures = sprites;
 
 					   // this should only be done once
-
-					   #region Track gold pickup
-					   var LastPosition = new Point();
-
-					   EgoView.ViewPositionChanged +=
-						   delegate
-						   {
-							   if (!EnableItemPickup)
-								   return;
-
-
-							   if (EgoView.SpritesFromPointOfView == null)
-								   return;
-
-
-							   // only check for items each 0.5 distance travelled
-							   if ((EgoView.ViewPosition - LastPosition).length < PlayerRadiusMargin)
-								   return;
-
-							   Action Later = null;
-							   Action ItemTaken = null;
-
-							   int ItemsPickedUp = 0;
-
-							   foreach (var Item in EgoView.SpritesFromPointOfView)
-							   {
-								   var Item_Sprite = Item.Sprite as SpriteInfoExtended;
-
-								   if (Item_Sprite != null)
-									   if (!Item_Sprite.IsTaken)
-										   if (Item.Distance < Item_Sprite.Range)
-										   {
-											   if (GoldSprites.Contains(Item_Sprite))
-											   {
-												   // ding-ding-ding!
-												   Item_Sprite.IsTaken = true;
-
-												   
-
-												   Later +=
-													   delegate
-													   {
-														   GoldTakenCounter = (GoldTakenCounter + 1).Min(1);
-
-														   if (Item_Sprite != null)
-														   {
-															   if (Item_Sprite.ItemTaken != null)
-																   ItemTaken += () => Item_Sprite.ItemTaken();
-
-															   if (Sync_TakeGold != null)
-																   Sync_TakeGold(Item_Sprite.ConstructorIndexForSync);
-														   }
-
-														   EgoView.Sprites.Remove(Item_Sprite);
-														   GoldSprites.Remove(Item_Sprite);
-													   };
-											   }
-										   }
-							   }
-
-							   if (Later != null)
-							   {
-								   FlashColors(0xffff00);
-
-								   Later();
-							   }
-
-							   LastPosition = EgoView.ViewPosition;
-
-							   if (ItemTaken != null)
-								   ItemTaken();
-						   };
-					   #endregion
+					   TrackGoldSpritePickup();
 
 				   }
 
@@ -440,6 +371,91 @@ namespace FlashTreasureHunt.ActionScript
 
 			   }
 			);
+			#endregion
+		}
+
+		private void TrackGoldSpritePickup()
+		{
+
+			#region Track gold pickup
+			var LastPosition = new Point();
+
+			EgoView.ViewPositionChanged +=
+				delegate
+				{
+					if (!EnableItemPickup)
+						return;
+
+					if (EndLevelMode)
+						return;
+
+					if (EgoView.SpritesFromPointOfView == null)
+						return;
+
+
+					// only check for items each 0.5 distance travelled
+					if ((EgoView.ViewPosition - LastPosition).length < PlayerRadiusMargin)
+						return;
+
+					Action Later = null;
+					Action ItemTaken = null;
+
+					int ItemsPickedUp = 0;
+
+
+					EgoView.UpdatePOV(true);
+
+					foreach (var Item in EgoView.SpritesFromPointOfView)
+					{
+						var Item_Sprite = Item.Sprite as SpriteInfoExtended;
+
+						if (Item_Sprite != null)
+							if (!Item_Sprite.IsTaken)
+								if (Item.Distance < Item_Sprite.Range)
+								{
+									if (GoldSprites.Contains(Item_Sprite))
+									{
+										// ding-ding-ding!
+										Item_Sprite.IsTaken = true;
+
+
+										this.WriteLine("gold taken: " + Item_Sprite.ConstructorIndexForSync);
+
+										Later +=
+											delegate
+											{
+												GoldTakenCounter = (GoldTakenCounter + 1).Min(1);
+
+												
+
+												if (Item_Sprite != null)
+												{
+													if (Item_Sprite.ItemTaken != null)
+														ItemTaken += () => Item_Sprite.ItemTaken();
+
+													if (Sync_TakeGold != null)
+														Sync_TakeGold(Item_Sprite.ConstructorIndexForSync);
+												}
+
+												EgoView.Sprites.Remove(Item_Sprite);
+												GoldSprites.Remove(Item_Sprite);
+											};
+									}
+								}
+					}
+
+					if (Later != null)
+					{
+						FlashColors(0xffff00);
+
+						Later();
+					}
+
+					LastPosition = EgoView.ViewPosition;
+
+					if (ItemTaken != null)
+						ItemTaken();
+				};
 			#endregion
 		}
 

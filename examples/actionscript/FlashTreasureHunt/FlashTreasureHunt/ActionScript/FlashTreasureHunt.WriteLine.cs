@@ -12,6 +12,8 @@ using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.Shared.Maze;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.ActionScript.flash.geom;
+using FlashTreasureHunt.ActionScript.UI;
+using ScriptCoreLib.ActionScript.flash.ui;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -23,6 +25,11 @@ namespace FlashTreasureHunt.ActionScript
 
 		private void InitializeWriteLine()
 		{
+			var dumperbg = new Shape().AttachTo(this);
+
+			dumperbg.graphics.beginFill(0, 0.5);
+			dumperbg.graphics.drawRect(0, DefaultControlHeight / 4, DefaultControlWidth, DefaultControlHeight / 2);
+
 			var dumper = new TextField
 			{
 				width = DefaultControlWidth,
@@ -51,6 +58,21 @@ namespace FlashTreasureHunt.ActionScript
 						dumper.appendText(v + Environment.NewLine);
 					}
 				};
+
+
+			new KeyboardButton(stage)
+			{
+				Groups = new[]
+			    {
+			        MovementArrows[Keyboard.T],
+			    },
+				Up = () =>
+				{
+					dumperbg.visible = !dumperbg.visible;
+
+					dumper.visible = !dumper.visible;
+				}
+			};
 
 			this.EgoView.WriteLine = this.WriteLine;
 
