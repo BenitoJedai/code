@@ -168,7 +168,7 @@ namespace FlashTreasureHunt.ActionScript
 				e =>
 				{
 					this.DisableAddDamageToCoPlayer = true;
-					this.CoPlayers.Where(k => k.Identity.user == e.target).ForEach(k => k.Guard.TakeDamage(e.damage));
+					this.CoPlayers.Where(k => k.Identity.user == e.target).Where(k => k.Guard != null).ForEach(k => k.Guard.TakeDamage(e.damage));
 					this.DisableAddDamageToCoPlayer = false;
 				};
 

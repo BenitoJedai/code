@@ -45,5 +45,15 @@ namespace FlashTreasureHunt.ActionScript
 		public const int FrameRate_ShootingAnimation = 1000 / 15;
 		public const int FrameRate_DeathAnimation = 1000 / 15;
 		public const int FrameRate_FireWeapon = 1000 / 15;
+
+		// publishing settings:
+
+		[Script]
+		public static class PublishedInfo
+		{
+			public const string Title = "Treasure Hunt";
+			public const string Description = "A 3D Maze game where you get to collect gold treasure. Inspired by Wolfenstein 3D shareware.";
+			public const string Instructions = "Collect half of the treasure to get the compass which guides you to the next level.";
+		}
 	}
 }
