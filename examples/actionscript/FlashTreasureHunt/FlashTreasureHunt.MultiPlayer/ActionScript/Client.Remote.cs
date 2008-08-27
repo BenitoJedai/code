@@ -43,7 +43,7 @@ namespace FlashTreasureHunt.ActionScript
 
 
 					// how long should we wait for the map?
-					FirstMapLoader.Wait(10000);
+					FirstMapLoader.Wait(TimeoutAction.LongOperation);
 
 					if (e.user_with_map == -1)
 					{
