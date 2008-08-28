@@ -67,7 +67,16 @@ namespace FlashTreasureHunt.ActionScript
 
 			this.Map.Sync_GuardLookAt += this.Messages.GuardLookAt;
 			this.Map.Sync_GuardWalkTo += GuardWalkTo;
+			this.Map.Sync_GuardAddDamage +=
+				(index, damage) =>
+				{
+					if (DisableGuardAddDamage)
+						return;
 
+					//this.Map.WriteLine("sent GuardAddDamage " + new { index, damage });
+
+					this.Messages.GuardAddDamage(index, damage);
+				};
 
 			this.Map.Sync_EnterEndLevelMode +=
 				delegate

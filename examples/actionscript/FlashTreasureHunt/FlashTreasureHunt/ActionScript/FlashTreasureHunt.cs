@@ -28,6 +28,7 @@ namespace FlashTreasureHunt.ActionScript
 		// http://www.wolfenstein3d.co.uk/index.htm
 		// http://winwolf3d.dugtrio17.com/index.php
 		// http://www.3drealms.com/wolf3d/
+		// http://www.permadi.com/tutorial/raycast/rayc1.html
 
 		// codename: Hundefelsen 4C
 

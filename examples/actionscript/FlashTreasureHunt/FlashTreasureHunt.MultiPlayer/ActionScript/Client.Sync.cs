@@ -145,7 +145,7 @@ namespace FlashTreasureHunt.ActionScript
 
 				Map.AddNextDualPortal();
 			}
-			
+
 
 
 
@@ -165,6 +165,7 @@ namespace FlashTreasureHunt.ActionScript
 			{
 				var _i = i;
 				var Index = mr.ReadInt32();
+				var Health = mr.ReadDouble();
 				var Direction = mr.ReadDouble();
 				var Position = new Point(mr.ReadDouble(), mr.ReadDouble());
 
@@ -174,16 +175,16 @@ namespace FlashTreasureHunt.ActionScript
 					{
 						Map.WriteLine("init: guard # " + _i + " " + Index);
 
+						k.Health = Health;
 						k.Direction = Direction;
 						k.ConstructorIndexForSync = Index;
 					}
 				);
 				//...
 			}
-			
 
-
-			this.Map.CreateGuards(GuardPositions.GetEnumerator(), false).ForEach(GuardSetup);
+			if (GuardSpritesCount > 0)
+				this.Map.CreateGuards(GuardPositions.GetEnumerator(), GuardSpritesCount, false).ForEach(GuardSetup);
 			#endregion
 
 			#region end of stream
@@ -201,11 +202,11 @@ namespace FlashTreasureHunt.ActionScript
 			#endregion
 
 
-		
+
 
 
 			RestoreCoPlayers();
-			
+
 
 			PlayerAdvertise();
 		}
@@ -220,12 +221,12 @@ namespace FlashTreasureHunt.ActionScript
 				);
 		}
 
-	
+
 		public const uint SyncEndOfStream = 0xF0F0F0F0;
 
 		private void WriteSync()
 		{
-			
+
 
 			var ms = new MemoryStream();
 			var mw = new BinaryWriter(ms);
@@ -313,15 +314,20 @@ namespace FlashTreasureHunt.ActionScript
 			}
 			#endregion
 
-			mw.Write(this.Map.GuardSprites.Count);
+			#region write guards
+			var GuardSprites = Map.GuardSprites.Where(k => k.ConstructorIndexForSync >= FlashTreasureHunt.ConstructorIndexForSync_Guards).Where(k => k.Health > 0).ToArray();
 
-			foreach (var v in this.Map.GuardSprites)
+			mw.Write(GuardSprites.Length);
+
+			foreach (var v in GuardSprites)
 			{
 				mw.Write(v.ConstructorIndexForSync);
+				mw.Write(v.Health);
 				mw.Write(v.Direction);
 				mw.Write(v.Position.x);
 				mw.Write(v.Position.y);
 			}
+			#endregion
 
 			mw.Write(SyncEndOfStream);
 

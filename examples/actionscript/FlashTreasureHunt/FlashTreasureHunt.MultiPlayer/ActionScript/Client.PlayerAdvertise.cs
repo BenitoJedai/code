@@ -46,6 +46,7 @@ namespace FlashTreasureHunt.ActionScript
 		public readonly List<CoPlayer> CoPlayers = new List<CoPlayer>();
 
 		public bool DisableAddDamageToCoPlayer;
+		public bool DisableGuardAddDamage;
 
 		private void PlayerAdvertise(SharedClass1.RemoteEvents.UserPlayerAdvertiseArguments e)
 		{

@@ -17,6 +17,7 @@ namespace FlashTreasureHunt.Shared
         // A pattern like this gets special treatment:
         // void User...(int user, ...)
 
+		// possible mistake: forgot to add (int user)
 
         /// <summary>
         /// this interface is to be used in a generator
@@ -26,7 +27,7 @@ namespace FlashTreasureHunt.Shared
       
             // this will generate lots of overkill boilerplate code :)
 
-
+			
 
 			void ServerPlayerHello(int user, string name, int user_with_map, int[] handshake);
             void ServerPlayerJoined(int user, string name);
@@ -50,7 +51,7 @@ namespace FlashTreasureHunt.Shared
 			void AddDamageToCoPlayer(int target, double damage);
 			void UserAddDamageToCoPlayer(int user, int target, double damage);
 
-
+	
 			void WalkTo(int[] bytestream);
 			void UserWalkTo(int user, int[] bytestream);
 
@@ -70,6 +71,10 @@ namespace FlashTreasureHunt.Shared
 
 			void GuardLookAt(int index, double arc);
 			void UserGuardLookAt(int user, int index, double arc);
+
+			void GuardAddDamage(int index, double damage);
+			void UserGuardAddDamage(int user, int index, double damage);
+
 		}
     }
 }

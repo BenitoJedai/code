@@ -44,6 +44,8 @@ namespace FlashTreasureHunt.Shared
             UserGuardWalkTo,
             GuardLookAt,
             UserGuardLookAt,
+            GuardAddDamage,
+            UserGuardAddDamage,
         }
         #endregion
 
@@ -85,6 +87,8 @@ namespace FlashTreasureHunt.Shared
             event Action<RemoteEvents.UserGuardWalkToArguments> UserGuardWalkTo;
             event Action<RemoteEvents.GuardLookAtArguments> GuardLookAt;
             event Action<RemoteEvents.UserGuardLookAtArguments> UserGuardLookAt;
+            event Action<RemoteEvents.GuardAddDamageArguments> GuardAddDamage;
+            event Action<RemoteEvents.UserGuardAddDamageArguments> UserGuardAddDamage;
         }
         #endregion
 
@@ -234,6 +238,14 @@ namespace FlashTreasureHunt.Shared
             {
                 Send(new SendArguments { i = Messages.UserGuardLookAt, args = new object[] { user, index, arc } });
             }
+            public void GuardAddDamage(int index, double damage)
+            {
+                Send(new SendArguments { i = Messages.GuardAddDamage, args = new object[] { index, damage } });
+            }
+            public void UserGuardAddDamage(int user, int index, double damage)
+            {
+                Send(new SendArguments { i = Messages.UserGuardAddDamage, args = new object[] { user, index, damage } });
+            }
         }
         #endregion
 
@@ -297,6 +309,7 @@ namespace FlashTreasureHunt.Shared
                     value.EnterEndLevelMode += this.UserEnterEndLevelMode;
                     value.GuardWalkTo += this.UserGuardWalkTo;
                     value.GuardLookAt += this.UserGuardLookAt;
+                    value.GuardAddDamage += this.UserGuardAddDamage;
                 }
 
                 public void RemoveDelegates(IEvents value)
@@ -312,6 +325,7 @@ namespace FlashTreasureHunt.Shared
                     value.EnterEndLevelMode -= this.UserEnterEndLevelMode;
                     value.GuardWalkTo -= this.UserGuardWalkTo;
                     value.GuardLookAt -= this.UserGuardLookAt;
+                    value.GuardAddDamage -= this.UserGuardAddDamage;
                 }
                 #endregion
 
@@ -359,6 +373,10 @@ namespace FlashTreasureHunt.Shared
                 public void UserGuardLookAt(GuardLookAtArguments e)
                 {
                     Target.UserGuardLookAt(this.user, e.index, e.arc);
+                }
+                public void UserGuardAddDamage(GuardAddDamageArguments e)
+                {
+                    Target.UserGuardAddDamage(this.user, e.index, e.damage);
                 }
                 #endregion
             }
@@ -733,6 +751,36 @@ namespace FlashTreasureHunt.Shared
             }
             #endregion
             public event Action<UserGuardLookAtArguments> UserGuardLookAt;
+            #region GuardAddDamageArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class GuardAddDamageArguments
+            {
+                public int index;
+                public double damage;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ index = ").Append(this.index).Append(", damage = ").Append(this.damage).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<GuardAddDamageArguments> GuardAddDamage;
+            #region UserGuardAddDamageArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserGuardAddDamageArguments : WithUserArguments
+            {
+                public int index;
+                public double damage;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", index = ").Append(this.index).Append(", damage = ").Append(this.damage).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserGuardAddDamageArguments> UserGuardAddDamage;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -763,6 +811,8 @@ namespace FlashTreasureHunt.Shared
                             { Messages.UserGuardWalkTo, e => { UserGuardWalkTo(new UserGuardWalkToArguments { user = e.GetInt32(0), bytestream = e.GetInt32Array(1) }); } },
                             { Messages.GuardLookAt, e => { GuardLookAt(new GuardLookAtArguments { index = e.GetInt32(0), arc = e.GetDouble(1) }); } },
                             { Messages.UserGuardLookAt, e => { UserGuardLookAt(new UserGuardLookAtArguments { user = e.GetInt32(0), index = e.GetInt32(1), arc = e.GetDouble(2) }); } },
+                            { Messages.GuardAddDamage, e => { GuardAddDamage(new GuardAddDamageArguments { index = e.GetInt32(0), damage = e.GetDouble(1) }); } },
+                            { Messages.UserGuardAddDamage, e => { UserGuardAddDamage(new UserGuardAddDamageArguments { user = e.GetInt32(0), index = e.GetInt32(1), damage = e.GetDouble(2) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -793,6 +843,8 @@ namespace FlashTreasureHunt.Shared
                             { Messages.UserGuardWalkTo, e => UserGuardWalkTo },
                             { Messages.GuardLookAt, e => GuardLookAt },
                             { Messages.UserGuardLookAt, e => UserGuardLookAt },
+                            { Messages.GuardAddDamage, e => GuardAddDamage },
+                            { Messages.UserGuardAddDamage, e => UserGuardAddDamage },
                         }
                 ;
             }
@@ -1042,9 +1094,25 @@ namespace FlashTreasureHunt.Shared
                 this.VirtualLatency(() => this.UserGuardLookAt(v));
             }
 
+            public event Action<RemoteEvents.GuardAddDamageArguments> GuardAddDamage;
+            void IMessages.GuardAddDamage(int index, double damage)
+            {
+                if(GuardAddDamage == null) return;
+                var v = new RemoteEvents.GuardAddDamageArguments { index = index, damage = damage };
+                this.VirtualLatency(() => this.GuardAddDamage(v));
+            }
+
+            public event Action<RemoteEvents.UserGuardAddDamageArguments> UserGuardAddDamage;
+            void IMessages.UserGuardAddDamage(int user, int index, double damage)
+            {
+                if(UserGuardAddDamage == null) return;
+                var v = new RemoteEvents.UserGuardAddDamageArguments { user = user, index = index, damage = damage };
+                this.VirtualLatency(() => this.UserGuardAddDamage(v));
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 28.08.2008 2:14:09
+// 28.08.2008 22:10:45
