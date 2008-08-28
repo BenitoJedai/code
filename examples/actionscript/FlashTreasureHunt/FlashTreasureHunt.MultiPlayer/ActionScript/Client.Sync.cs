@@ -153,10 +153,38 @@ namespace FlashTreasureHunt.ActionScript
 			Map.UpdatePortalTextures();
 			#endregion
 
+			#region read guards
 			var GuardSpritesCount = mr.ReadInt32();
 
 			this.Map.WriteLine("guards: " + GuardSpritesCount);
 
+			var GuardPositions = new List<Point>();
+			var GuardSetup = new List<Action<SpriteInfoExtended>>();
+
+			for (int i = 0; i < GuardSpritesCount; i++)
+			{
+				var _i = i;
+				var Index = mr.ReadInt32();
+				var Direction = mr.ReadDouble();
+				var Position = new Point(mr.ReadDouble(), mr.ReadDouble());
+
+				GuardPositions.Add(Position);
+				GuardSetup.Add(
+					k =>
+					{
+						Map.WriteLine("init: guard # " + _i + " " + Index);
+
+						k.Direction = Direction;
+						k.ConstructorIndexForSync = Index;
+					}
+				);
+				//...
+			}
+			
+
+
+			this.Map.CreateGuards(GuardPositions.GetEnumerator(), false).ForEach(GuardSetup);
+			#endregion
 
 			#region end of stream
 			var Found_SyncEndOfStream = mr.ReadUInt32();
@@ -289,6 +317,7 @@ namespace FlashTreasureHunt.ActionScript
 
 			foreach (var v in this.Map.GuardSprites)
 			{
+				mw.Write(v.ConstructorIndexForSync);
 				mw.Write(v.Direction);
 				mw.Write(v.Position.x);
 				mw.Write(v.Position.y);

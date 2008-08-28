@@ -16,7 +16,7 @@ namespace FlashTreasureHunt.ActionScript
 {
 	partial class Client
 	{
-		public void WalkTo()
+		public void InitializeWalkTo()
 		{
 			var LastPosition = new Point();
 
@@ -86,7 +86,7 @@ namespace FlashTreasureHunt.ActionScript
 				};
 		}
 
-		void WalkTo(SharedClass1.RemoteEvents.UserWalkToArguments e)
+		void UserWalkTo(SharedClass1.RemoteEvents.UserWalkToArguments e)
 		{
 			var MemoryStream_UInt8 = e.bytestream.Select(i => (byte)i).ToArray();
 			var ms = new MemoryStream(MemoryStream_UInt8);
@@ -103,5 +103,49 @@ namespace FlashTreasureHunt.ActionScript
 			this.CoPlayers.Where(k => k.Identity.user == e.user).ForEach(k => k.Guard.Direction = e.arc);
 
 		}
+
+		void GuardWalkTo(int index, Point p)
+		{
+			var ms = new MemoryStream();
+			var mw = new BinaryWriter(ms);
+
+			mw.Write(index);
+			mw.Write(p.x);
+			mw.Write(p.y);
+
+			// we will waste 3 bytes - 0xffffff00 cuz memorystream isn't supported
+			var MemoryStream_Int32 = ms.ToArray().Select(i => (int)i).ToArray();
+
+			//Map.WriteLine("sent GuardWalkTo " + MemoryStream_Int32.Length + " index " + index);
+
+			this.Messages.GuardWalkTo(MemoryStream_Int32);
+		}
+
+		void UserGuardWalkTo(SharedClass1.RemoteEvents.UserGuardWalkToArguments e)
+		{
+			var MemoryStream_UInt8 = e.bytestream.Select(i => (byte)i).ToArray();
+			var ms = new MemoryStream(MemoryStream_UInt8);
+			var mr = new BinaryReader(ms);
+
+			var index = mr.ReadInt32();
+			var x = mr.ReadDouble();
+			var y = mr.ReadDouble();
+
+
+			var Targets = this.Map.GuardSprites.Where(k => k.ConstructorIndexForSync == index).ToArray();
+
+			//Map.WriteLine("got UserGuardWalkTo " + MemoryStream_UInt8.Length + " " + new { index, Targets.Length });
+
+
+			Targets.ForEach(k => k.WalkTo(x, y));
+
+		}
+
+		void UserGuardLookAt(SharedClass1.RemoteEvents.UserGuardLookAtArguments e)
+		{
+			this.Map.GuardSprites.Where(k => k.ConstructorIndexForSync == e.index).ForEach(k => k.Direction = e.arc);
+			
+		}
+
 	}
 }

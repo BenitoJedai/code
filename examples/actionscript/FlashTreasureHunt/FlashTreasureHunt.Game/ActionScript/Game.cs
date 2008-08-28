@@ -5,6 +5,7 @@ using ScriptCoreLib.ActionScript.flash.text;
 using System.Collections.Generic;
 using System;
 using ScriptCoreLib.ActionScript;
+using ScriptCoreLib.ActionScript.MochiLibrary.Ad;
 
 namespace FlashTreasureHunt.ActionScript
 {

@@ -7,6 +7,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.mx.core;
 
+[assembly: ScriptResources(FlashTreasureHunt.ActionScript.Assets.PromotionalPath)]
 [assembly: ScriptResources(FlashTreasureHunt.ActionScript.Assets.SoundPath)]
 [assembly: ScriptResources(FlashTreasureHunt.ActionScript.Assets.MusicPath)]
 
@@ -38,6 +39,7 @@ namespace FlashTreasureHunt.ActionScript
 		}
 
 
+		public const string PromotionalPath = Path + "/Promotional";
 		public const string SoundPath = Path + "/Sounds";
 		public const string MusicPath = Path + "/Music";
 

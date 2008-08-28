@@ -25,6 +25,10 @@ namespace FlashTreasureHunt.ActionScript
 
 		private void InitializeWriteLine()
 		{
+			// show fps
+			var fps = new TextField { textColor = 0xff0000, x = DefaultControlWidth / 2 }.AttachTo(this).Do(t => EgoView.FramesPerSecondChanged += () => t.text = "fps: " + EgoView.FramesPerSecond);
+
+
 			var dumperbg = new Shape().AttachTo(this);
 
 			dumperbg.graphics.beginFill(0, 0.5);
@@ -60,7 +64,7 @@ namespace FlashTreasureHunt.ActionScript
 				};
 
 
-			new KeyboardButton(stage)
+			var ButtonT = new KeyboardButton(stage)
 			{
 				Groups = new[]
 			    {
@@ -71,11 +75,17 @@ namespace FlashTreasureHunt.ActionScript
 					dumperbg.visible = !dumperbg.visible;
 
 					dumper.visible = !dumper.visible;
+
+					fps.visible = !dumper.visible;
+
+					Keyboard_Cheats.Enabled = !Keyboard_Cheats.Enabled;
 				}
 			};
 
 			this.EgoView.WriteLine = this.WriteLine;
 
+			if (!global::ScriptCoreLib.ActionScript.flash.system.Capabilities.isDebugger)
+				ButtonT.Up();
 		}
 	}
 }
