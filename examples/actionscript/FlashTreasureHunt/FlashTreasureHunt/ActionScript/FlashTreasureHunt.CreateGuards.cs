@@ -31,14 +31,16 @@ namespace FlashTreasureHunt.ActionScript
 
 		private void CreateGuards(IEnumerator<TextureBase.Entry> FreeSpaceForStuff)
 		{
-			CreateGuards(FreeSpaceForStuff.Select(kk => new Point(kk.XIndex + 0.5, kk.YIndex + 0.5)), true);
+			CreateGuards(FreeSpaceForStuff.Select(kk => new Point(kk.XIndex + 0.5, kk.YIndex + 0.5)), 2 + CurrentLevel, true);
 		}
 
 		public const int ConstructorIndexForSync_Guards = 0x1000;
 
-		public IEnumerable<SpriteInfoExtended> CreateGuards(IEnumerator<Point> FreeSpaceForStuff, bool DoAttachGuardLogic)
+		public event Action<int, double> Sync_GuardAddDamage;
+
+		public IEnumerable<SpriteInfoExtended> CreateGuards(IEnumerator<Point> FreeSpaceForStuff, int Count, bool DoAttachGuardLogic)
 		{
-			for (int i = 0; i < 2 + CurrentLevel; i++)
+			for (int i = 0; i < Count; i++)
 			{
 				var g = CreateGuard();
 
@@ -49,6 +51,13 @@ namespace FlashTreasureHunt.ActionScript
 				g.ConstructorIndexForSync = i + ConstructorIndexForSync_Guards;
 				g.Position = FreeSpaceForStuff.Take();
 				g.Direction = 0;
+
+				g.TakeDamage +=
+					damage =>
+					{
+						if (Sync_GuardAddDamage != null)
+							Sync_GuardAddDamage(g.ConstructorIndexForSync, damage);
+					};
 
 				// state machine for AI guard
 

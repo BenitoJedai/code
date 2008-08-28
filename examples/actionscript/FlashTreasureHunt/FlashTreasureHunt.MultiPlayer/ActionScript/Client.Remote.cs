@@ -202,6 +202,15 @@ namespace FlashTreasureHunt.ActionScript
 
 			Events.UserGuardWalkTo += UserGuardWalkTo;
 			Events.UserGuardLookAt += UserGuardLookAt;
+			Events.UserGuardAddDamage +=
+				e =>
+				{
+					this.Map.WriteLine("got UserGuardAddDamage " + e);
+
+					this.DisableGuardAddDamage = true;
+					this.Map.GuardSprites.Where(k => k.ConstructorIndexForSync == e.index).ForEach(k => k.TakeDamage(e.damage));
+					this.DisableGuardAddDamage = false;
+				};
 
 			Events.UserEnterEndLevelMode +=
 				e =>

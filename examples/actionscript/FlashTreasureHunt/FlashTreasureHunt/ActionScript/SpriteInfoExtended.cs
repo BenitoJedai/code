@@ -29,6 +29,9 @@ namespace FlashTreasureHunt.ActionScript
 
 		public Action<double> TakeDamage;
 
+		/// <summary>
+		/// This event is used when an additional action should be raised. This event could also have been called HealthChanged.
+		/// </summary>
 		public Action<double> TakeDamageDone;
 
 		// this is used while syncing

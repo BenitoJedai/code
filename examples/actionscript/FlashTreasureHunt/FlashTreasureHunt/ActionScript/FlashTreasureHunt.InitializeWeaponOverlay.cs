@@ -248,7 +248,9 @@ namespace FlashTreasureHunt.ActionScript
 						let fragile = k.Sprite as SpriteInfoExtended
 						select new { k, fragile };
 
-					WriteLine("" + new { PossibleTargets = PossibleTargets.Count(), Targets = query.Count() });
+					var first = query.FirstOrDefault();
+
+					WriteLine("" + new { PossibleTargets = PossibleTargets.Count(), Targets = query.Count()/*, first.fragile.ConstructorIndexForSync */});
 
 					//foreach (var q in query)
 					//{
@@ -256,7 +258,6 @@ namespace FlashTreasureHunt.ActionScript
 					//}
 			
 
-					var first = query.FirstOrDefault();
 
 					if (first != null)
 					{

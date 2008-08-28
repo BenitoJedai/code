@@ -14,6 +14,7 @@ using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.ActionScript.flash.geom;
 using FlashTreasureHunt.ActionScript.UI;
 using ScriptCoreLib.ActionScript.flash.ui;
+using FlashTreasureHunt.ActionScript.Properties;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -47,6 +48,16 @@ namespace FlashTreasureHunt.ActionScript
 			WriteLineControl = dumper;
 			var dumper_queue = new Queue<string>();
 
+			Action Update =
+				delegate
+				{
+					dumper.text = "";
+
+					foreach (var v in dumper_queue)
+					{
+						dumper.appendText(v + Environment.NewLine);
+					};
+				};
 			WriteLine =
 				text =>
 				{
@@ -55,12 +66,19 @@ namespace FlashTreasureHunt.ActionScript
 					while (dumper_queue.Count > 10)
 						dumper_queue.Dequeue();
 
-					dumper.text = "";
+					if (dumper.visible)
+						Update();
+				};
 
-					foreach (var v in dumper_queue)
-					{
-						dumper.appendText(v + Environment.NewLine);
-					}
+			BooleanProperty CheatMode = true;
+
+			CheatMode.ValueChangedTo +=
+				value =>
+				{
+					dumperbg.visible = value;
+					dumper.visible = value;
+					fps.visible = value;
+					Keyboard_Cheats.Enabled = value;
 				};
 
 
@@ -70,22 +88,13 @@ namespace FlashTreasureHunt.ActionScript
 			    {
 			        MovementArrows[Keyboard.T],
 			    },
-				Up = () =>
-				{
-					dumperbg.visible = !dumperbg.visible;
-
-					dumper.visible = !dumper.visible;
-
-					fps.visible = !dumper.visible;
-
-					Keyboard_Cheats.Enabled = !Keyboard_Cheats.Enabled;
-				}
+				Up = CheatMode.Toggle
 			};
 
 			this.EgoView.WriteLine = this.WriteLine;
 
 			if (!global::ScriptCoreLib.ActionScript.flash.system.Capabilities.isDebugger)
-				ButtonT.Up();
+				CheatMode.Toggle();
 		}
 	}
 }
