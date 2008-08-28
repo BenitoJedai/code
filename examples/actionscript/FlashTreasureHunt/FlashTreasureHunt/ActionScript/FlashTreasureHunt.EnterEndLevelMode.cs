@@ -431,6 +431,9 @@ namespace FlashTreasureHunt.ActionScript
 
 			this.DualPortals.Clear();
 			this.Portals.Clear();
+
+
+			this.GuardSprites.Clear();
 		}
 	}
 }

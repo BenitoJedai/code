@@ -187,6 +187,9 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 
 		void UpdateSpriteRenderInfo(SpriteInfoFromPOV s)
 		{
+			if (this._ZBuffer == null)
+				return;
+
 			if (s.ViewInfo.IsInView)
 			{
 				var Total = (s.ViewInfo.Right - s.ViewInfo.Left);

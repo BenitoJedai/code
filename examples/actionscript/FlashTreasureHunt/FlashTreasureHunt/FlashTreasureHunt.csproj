@@ -105,6 +105,7 @@
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
     <Content Include="docs\SourceAnalysis.txt" />
+    <EmbeddedResource Include="web\assets\FlashTreasureHunt\Promotional\x100.png" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Music\FUNKYOU.mp3" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\revealed.mp3" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\teleport.mp3" />

@@ -65,7 +65,7 @@ namespace FlashTreasureHunt.ActionScript
 				() => MapInitialized.ContinueWhenDone(CreateLocalCoPlayer);
 
 			MyIdentity.ValueChanged +=
-				() => MapInitialized.ContinueWhenDone(WalkTo);
+				() => MapInitialized.ContinueWhenDone(InitializeWalkTo);
 
 
 			MyIdentity.ValueChanged += InitializeOtherEvents;
@@ -197,8 +197,11 @@ namespace FlashTreasureHunt.ActionScript
 					this.CoPlayers.Where(k => k.Identity.user == e.user).ForEach(k => k.Guard.PlayShootingAnimation());
 				};
 
-			Events.UserWalkTo += WalkTo;
+			Events.UserWalkTo += UserWalkTo;
 			Events.UserLookAt += UserLookAt;
+
+			Events.UserGuardWalkTo += UserGuardWalkTo;
+			Events.UserGuardLookAt += UserGuardLookAt;
 
 			Events.UserEnterEndLevelMode +=
 				e =>
@@ -226,6 +229,9 @@ namespace FlashTreasureHunt.ActionScript
 					DisableEnterEndLevelMode = false;
 				};
 		}
+
+	
+
 
 
 		bool DisableEnterEndLevelMode;

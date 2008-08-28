@@ -21,6 +21,7 @@ namespace FlashTreasureHunt.ActionScript
 
 		KeyboardButtonGroup MovementArrows = new KeyboardButtonGroup { Name = "Arrows" };
 		KeyboardButtonGroup Keyboard_Settings = new KeyboardButtonGroup { Name = "Settings" };
+		KeyboardButtonGroup Keyboard_Cheats = new KeyboardButtonGroup { Name = "Cheats" };
 
 		public void InitializeKeyboard()
 		{
@@ -169,7 +170,7 @@ namespace FlashTreasureHunt.ActionScript
 			{
 				Groups = new[]
 			    {
-			        MovementArrows[Keyboard.U],
+			        Keyboard_Cheats[Keyboard.U],
 			    },
 				Up = () =>
 				{

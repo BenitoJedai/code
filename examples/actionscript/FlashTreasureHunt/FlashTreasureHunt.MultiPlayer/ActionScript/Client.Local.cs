@@ -65,6 +65,10 @@ namespace FlashTreasureHunt.ActionScript
 			this.Map.Sync_TakeAmmo += this.Messages.TakeAmmo;
 			this.Map.Sync_FireWeapon += this.Messages.FireWeapon;
 
+			this.Map.Sync_GuardLookAt += this.Messages.GuardLookAt;
+			this.Map.Sync_GuardWalkTo += GuardWalkTo;
+
+
 			this.Map.Sync_EnterEndLevelMode +=
 				delegate
 				{
@@ -96,6 +100,8 @@ namespace FlashTreasureHunt.ActionScript
 
 
 		}
+
+	
 
 
 	}

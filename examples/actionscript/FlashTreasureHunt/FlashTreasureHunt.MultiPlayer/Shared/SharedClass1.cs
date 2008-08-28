@@ -57,11 +57,19 @@ namespace FlashTreasureHunt.Shared
 			void LookAt(double arc);
 			void UserLookAt(int user, double arc);
 
+
 			void FireWeapon();
 			void UserFireWeapon(int user);
 
 			void EnterEndLevelMode();
 			void UserEnterEndLevelMode(int user);
+
+
+			void GuardWalkTo(int[] bytestream);
+			void UserGuardWalkTo(int user, int[] bytestream);
+
+			void GuardLookAt(int index, double arc);
+			void UserGuardLookAt(int user, int index, double arc);
 		}
     }
 }

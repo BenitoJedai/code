@@ -40,6 +40,10 @@ namespace FlashTreasureHunt.Shared
             UserFireWeapon,
             EnterEndLevelMode,
             UserEnterEndLevelMode,
+            GuardWalkTo,
+            UserGuardWalkTo,
+            GuardLookAt,
+            UserGuardLookAt,
         }
         #endregion
 
@@ -77,6 +81,10 @@ namespace FlashTreasureHunt.Shared
             event Action<RemoteEvents.UserFireWeaponArguments> UserFireWeapon;
             event Action<RemoteEvents.EnterEndLevelModeArguments> EnterEndLevelMode;
             event Action<RemoteEvents.UserEnterEndLevelModeArguments> UserEnterEndLevelMode;
+            event Action<RemoteEvents.GuardWalkToArguments> GuardWalkTo;
+            event Action<RemoteEvents.UserGuardWalkToArguments> UserGuardWalkTo;
+            event Action<RemoteEvents.GuardLookAtArguments> GuardLookAt;
+            event Action<RemoteEvents.UserGuardLookAtArguments> UserGuardLookAt;
         }
         #endregion
 
@@ -205,6 +213,27 @@ namespace FlashTreasureHunt.Shared
             {
                 Send(new SendArguments { i = Messages.UserEnterEndLevelMode, args = new object[] { user } });
             }
+            public void GuardWalkTo(int[] bytestream)
+            {
+                var args = new object[bytestream.Length + 0];
+                Array.Copy(bytestream, 0, args, 0, bytestream.Length);
+                Send(new SendArguments { i = Messages.GuardWalkTo, args = args });
+            }
+            public void UserGuardWalkTo(int user, int[] bytestream)
+            {
+                var args = new object[bytestream.Length + 1];
+                args[0] = user;
+                Array.Copy(bytestream, 0, args, 1, bytestream.Length);
+                Send(new SendArguments { i = Messages.UserGuardWalkTo, args = args });
+            }
+            public void GuardLookAt(int index, double arc)
+            {
+                Send(new SendArguments { i = Messages.GuardLookAt, args = new object[] { index, arc } });
+            }
+            public void UserGuardLookAt(int user, int index, double arc)
+            {
+                Send(new SendArguments { i = Messages.UserGuardLookAt, args = new object[] { user, index, arc } });
+            }
         }
         #endregion
 
@@ -266,6 +295,8 @@ namespace FlashTreasureHunt.Shared
                     value.LookAt += this.UserLookAt;
                     value.FireWeapon += this.UserFireWeapon;
                     value.EnterEndLevelMode += this.UserEnterEndLevelMode;
+                    value.GuardWalkTo += this.UserGuardWalkTo;
+                    value.GuardLookAt += this.UserGuardLookAt;
                 }
 
                 public void RemoveDelegates(IEvents value)
@@ -279,6 +310,8 @@ namespace FlashTreasureHunt.Shared
                     value.LookAt -= this.UserLookAt;
                     value.FireWeapon -= this.UserFireWeapon;
                     value.EnterEndLevelMode -= this.UserEnterEndLevelMode;
+                    value.GuardWalkTo -= this.UserGuardWalkTo;
+                    value.GuardLookAt -= this.UserGuardLookAt;
                 }
                 #endregion
 
@@ -318,6 +351,14 @@ namespace FlashTreasureHunt.Shared
                 public void UserEnterEndLevelMode(EnterEndLevelModeArguments e)
                 {
                     Target.UserEnterEndLevelMode(this.user);
+                }
+                public void UserGuardWalkTo(GuardWalkToArguments e)
+                {
+                    Target.UserGuardWalkTo(this.user, e.bytestream);
+                }
+                public void UserGuardLookAt(GuardLookAtArguments e)
+                {
+                    Target.UserGuardLookAt(this.user, e.index, e.arc);
                 }
                 #endregion
             }
@@ -634,6 +675,64 @@ namespace FlashTreasureHunt.Shared
             }
             #endregion
             public event Action<UserEnterEndLevelModeArguments> UserEnterEndLevelMode;
+            #region GuardWalkToArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class GuardWalkToArguments
+            {
+                public int[] bytestream;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ bytestream = ").Append(this.bytestream).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<GuardWalkToArguments> GuardWalkTo;
+            #region UserGuardWalkToArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserGuardWalkToArguments : WithUserArguments
+            {
+                public int[] bytestream;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", bytestream = ").Append(this.bytestream).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserGuardWalkToArguments> UserGuardWalkTo;
+            #region GuardLookAtArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class GuardLookAtArguments
+            {
+                public int index;
+                public double arc;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ index = ").Append(this.index).Append(", arc = ").Append(this.arc).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<GuardLookAtArguments> GuardLookAt;
+            #region UserGuardLookAtArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserGuardLookAtArguments : WithUserArguments
+            {
+                public int index;
+                public double arc;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", index = ").Append(this.index).Append(", arc = ").Append(this.arc).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserGuardLookAtArguments> UserGuardLookAt;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -660,6 +759,10 @@ namespace FlashTreasureHunt.Shared
                             { Messages.UserFireWeapon, e => { UserFireWeapon(new UserFireWeaponArguments { user = e.GetInt32(0) }); } },
                             { Messages.EnterEndLevelMode, e => { EnterEndLevelMode(new EnterEndLevelModeArguments {  }); } },
                             { Messages.UserEnterEndLevelMode, e => { UserEnterEndLevelMode(new UserEnterEndLevelModeArguments { user = e.GetInt32(0) }); } },
+                            { Messages.GuardWalkTo, e => { GuardWalkTo(new GuardWalkToArguments { bytestream = e.GetInt32Array(0) }); } },
+                            { Messages.UserGuardWalkTo, e => { UserGuardWalkTo(new UserGuardWalkToArguments { user = e.GetInt32(0), bytestream = e.GetInt32Array(1) }); } },
+                            { Messages.GuardLookAt, e => { GuardLookAt(new GuardLookAtArguments { index = e.GetInt32(0), arc = e.GetDouble(1) }); } },
+                            { Messages.UserGuardLookAt, e => { UserGuardLookAt(new UserGuardLookAtArguments { user = e.GetInt32(0), index = e.GetInt32(1), arc = e.GetDouble(2) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -686,6 +789,10 @@ namespace FlashTreasureHunt.Shared
                             { Messages.UserFireWeapon, e => UserFireWeapon },
                             { Messages.EnterEndLevelMode, e => EnterEndLevelMode },
                             { Messages.UserEnterEndLevelMode, e => UserEnterEndLevelMode },
+                            { Messages.GuardWalkTo, e => GuardWalkTo },
+                            { Messages.UserGuardWalkTo, e => UserGuardWalkTo },
+                            { Messages.GuardLookAt, e => GuardLookAt },
+                            { Messages.UserGuardLookAt, e => UserGuardLookAt },
                         }
                 ;
             }
@@ -903,9 +1010,41 @@ namespace FlashTreasureHunt.Shared
                 this.VirtualLatency(() => this.UserEnterEndLevelMode(v));
             }
 
+            public event Action<RemoteEvents.GuardWalkToArguments> GuardWalkTo;
+            void IMessages.GuardWalkTo(int[] bytestream)
+            {
+                if(GuardWalkTo == null) return;
+                var v = new RemoteEvents.GuardWalkToArguments { bytestream = bytestream };
+                this.VirtualLatency(() => this.GuardWalkTo(v));
+            }
+
+            public event Action<RemoteEvents.UserGuardWalkToArguments> UserGuardWalkTo;
+            void IMessages.UserGuardWalkTo(int user, int[] bytestream)
+            {
+                if(UserGuardWalkTo == null) return;
+                var v = new RemoteEvents.UserGuardWalkToArguments { user = user, bytestream = bytestream };
+                this.VirtualLatency(() => this.UserGuardWalkTo(v));
+            }
+
+            public event Action<RemoteEvents.GuardLookAtArguments> GuardLookAt;
+            void IMessages.GuardLookAt(int index, double arc)
+            {
+                if(GuardLookAt == null) return;
+                var v = new RemoteEvents.GuardLookAtArguments { index = index, arc = arc };
+                this.VirtualLatency(() => this.GuardLookAt(v));
+            }
+
+            public event Action<RemoteEvents.UserGuardLookAtArguments> UserGuardLookAt;
+            void IMessages.UserGuardLookAt(int user, int index, double arc)
+            {
+                if(UserGuardLookAt == null) return;
+                var v = new RemoteEvents.UserGuardLookAtArguments { user = user, index = index, arc = arc };
+                this.VirtualLatency(() => this.UserGuardLookAt(v));
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 27.08.2008 1:53:29
+// 28.08.2008 2:14:09

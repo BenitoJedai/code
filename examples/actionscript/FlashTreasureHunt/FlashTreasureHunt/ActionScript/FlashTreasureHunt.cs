@@ -176,9 +176,7 @@ namespace FlashTreasureHunt.ActionScript
 			EgoView.Image.alpha = 0;
 			EgoView.Image.AttachTo(this);
 
-			// show fps
-			new TextField { textColor = 0xff0000, x = DefaultControlWidth / 2 }.AttachTo(this).Do(t => EgoView.FramesPerSecondChanged += () => t.text = "fps: " + EgoView.FramesPerSecond);
-
+		
 			EgoView.FramesPerSecondChanged +=
 				delegate
 				{

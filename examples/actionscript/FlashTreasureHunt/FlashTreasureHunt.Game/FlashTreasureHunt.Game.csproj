@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\Game.cs" />
+    <Compile Include="ActionScript\Monetized\MochiPreloader.cs" />
     <Compile Include="Server\Dummy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
@@ -99,6 +100,7 @@ popd
 copy "$(TargetDir)web\*.dll" "../../../bin"
 copy "$(TargetDir)web\*.pdb" "../../../bin"
 copy "$(TargetDir)web\*.swf" "../../../bin"
-copy "$(TargetDir)web\*.htm" "../../../bin"</PostBuildEvent>
+copy "$(TargetDir)web\*.htm" "../../../bin"
+copy "$(TargetDir)web\assets\FlashTreasureHunt\Promotional\*.png" "../../../bin"</PostBuildEvent>
   </PropertyGroup>
 </Project>

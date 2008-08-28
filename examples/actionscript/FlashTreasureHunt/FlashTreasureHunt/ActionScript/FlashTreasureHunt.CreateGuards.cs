@@ -18,6 +18,9 @@ namespace FlashTreasureHunt.ActionScript
 {
 	partial class FlashTreasureHunt
 	{
+		public event Action<int, Point> Sync_GuardWalkTo;
+		public event Action<int, double> Sync_GuardLookAt;
+
 		public Bitmap[] CachedGuardTextures;
 
 		public Func<SpriteInfoExtended> CreateGuard;
@@ -28,6 +31,13 @@ namespace FlashTreasureHunt.ActionScript
 
 		private void CreateGuards(IEnumerator<TextureBase.Entry> FreeSpaceForStuff)
 		{
+			CreateGuards(FreeSpaceForStuff.Select(kk => new Point(kk.XIndex + 0.5, kk.YIndex + 0.5)), true);
+		}
+
+		public const int ConstructorIndexForSync_Guards = 0x1000;
+
+		public IEnumerable<SpriteInfoExtended> CreateGuards(IEnumerator<Point> FreeSpaceForStuff, bool DoAttachGuardLogic)
+		{
 			for (int i = 0; i < 2 + CurrentLevel; i++)
 			{
 				var g = CreateGuard();
@@ -36,73 +46,88 @@ namespace FlashTreasureHunt.ActionScript
 
 				EgoView.BlockingSprites.Add(g);
 
-				g.ConstructorIndexForSync = i;
-				g.Position = FreeSpaceForStuff.Take().Do(kk => new Point(kk.XIndex + 0.5, kk.YIndex + 0.5));
+				g.ConstructorIndexForSync = i + ConstructorIndexForSync_Guards;
+				g.Position = FreeSpaceForStuff.Take();
 				g.Direction = 0;
 
 				// state machine for AI guard
 
-				var TurnAndWalk = default(Action);
-				var WalkToQueue = new Queue<Point>();
+				if (DoAttachGuardLogic)
+					AttachGuardLogic(g);
 
-				TurnAndWalk =
-					delegate
-					{
-						if (g.Health <= 0)
-							return;
 
-						if (!this.EgoView.Sprites.Contains(g))
-							return;
-
-						if (WalkToQueue.Count > 0)
-						{
-							var p = WalkToQueue.Dequeue();
-
-							g.WalkTo(p.x, p.y);
-
-							return;
-						}
-						
-						var PossibleDestination = g.Position.MoveToArc(g.Direction, 1);
-
-						var AsMapLocation = new PointInt32
-						{
-							X = PossibleDestination.x.Floor(),
-							Y = PossibleDestination.y.Floor()
-						};
-
-						if (EgoView.Map.WallMap[AsMapLocation.X, AsMapLocation.Y] == 0)
-						{
-							WalkToQueue.Enqueue(g.Position.MoveToArc(g.Direction, 0.2));
-							WalkToQueue.Enqueue(g.Position.MoveToArc(g.Direction, 0.4));
-							WalkToQueue.Enqueue(g.Position.MoveToArc(g.Direction, 0.6));
-							WalkToQueue.Enqueue(g.Position.MoveToArc(g.Direction, 0.8));
-							WalkToQueue.Enqueue(g.Position.MoveToArc(g.Direction, 1.0));
-						}
-						else
-						{
-							g.Direction += 90.DegreesToRadians();
-						}
-
-						3000.AtDelayDo(TurnAndWalk);
-					};
-
-				g.WalkToDone +=
-					delegate
-					{
-						TurnAndWalk();
-					};
-
-				g.WalkToTeleported +=
-					delegate
-					{
-						TurnAndWalk();
-					};
-
-				TurnAndWalk();
-
-				
 			}
+
+			return GuardSprites;
+		}
+
+		private void AttachGuardLogic(SpriteInfoExtended g)
+		{
+			var TurnAndWalk = default(Action);
+			var WalkToQueue = new Queue<Point>();
+
+			TurnAndWalk =
+				delegate
+				{
+					if (g.Health <= 0)
+						return;
+
+					if (!this.EgoView.Sprites.Contains(g))
+						return;
+
+					if (WalkToQueue.Count > 0)
+					{
+						var p = WalkToQueue.Dequeue();
+
+						g.WalkTo(p.x, p.y);
+
+						if (Sync_GuardWalkTo != null)
+							Sync_GuardWalkTo(g.ConstructorIndexForSync, p);
+
+						return;
+					}
+
+					var PossibleDestination = g.Position.MoveToArc(g.Direction, 1);
+
+					var AsMapLocation = new PointInt32
+					{
+						X = PossibleDestination.x.Floor(),
+						Y = PossibleDestination.y.Floor()
+					};
+
+					if (EgoView.Map.WallMap[AsMapLocation.X, AsMapLocation.Y] == 0)
+					{
+						WalkToQueue.Enqueue(g.Position.MoveToArc(g.Direction, 0.2));
+						WalkToQueue.Enqueue(g.Position.MoveToArc(g.Direction, 0.4));
+						WalkToQueue.Enqueue(g.Position.MoveToArc(g.Direction, 0.6));
+						WalkToQueue.Enqueue(g.Position.MoveToArc(g.Direction, 0.8));
+						WalkToQueue.Enqueue(g.Position.MoveToArc(g.Direction, 1.0));
+					}
+					else
+					{
+						g.Direction += 90.DegreesToRadians();
+
+						if (Sync_GuardLookAt != null)
+							Sync_GuardLookAt(g.ConstructorIndexForSync, g.Direction);
+
+					}
+
+					3000.AtDelayDo(TurnAndWalk);
+				};
+
+			g.WalkToDone +=
+				delegate
+				{
+					TurnAndWalk();
+				};
+
+			g.WalkToTeleported +=
+				delegate
+				{
+					TurnAndWalk();
+				};
+
+			TurnAndWalk();
 		}
 
 

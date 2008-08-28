@@ -55,9 +55,19 @@ namespace FlashTreasureHunt.ActionScript
 		[Script]
 		public static class PublishedInfo
 		{
+			public const string MochiAd = "daf8c9989dba6a98";
+			public const string Dimensions = "800x400";
+
 			public const string Title = "Treasure Hunt";
 			public const string Description = "A 3D Maze game where you get to collect gold treasure. Inspired by Wolfenstein 3D shareware.";
 			public const string Instructions = "Collect half of the treasure to get the compass which guides you to the next level.";
+
+			public const string Keywords = "wolf3d, maze, gold, treasure, multiplayer";
+
+
+			public const string NonobaLink = "http://nonoba.com/zproxy/treasure-hunt";
+
+			public const string MochiAdLink = "http://games.mochiads.com/c/g/treasure-hunt/treasure-hunt.swf";
 		}
 	}
 }
