@@ -39,11 +39,14 @@ namespace FlashTreasureHunt.ActionScript
 
 		public const double PlayerRadiusMargin = 0.25;
 
-		public const int AmmoFoundInClip = 6;
+		public const int AmmoFoundInClip = 8;
 
 		public const double GuardMaxHealth = 1.1;
 
 		public const double GuardCriticalHealth = 0.3;
+
+		public const int ScoreForGold = 10;
+		public const int ScoreForEndLevel = 100;
 
 		public const int FrameRate_ShootingAnimation = 1000 / 15;
 		public const int FrameRate_DeathAnimation = 1000 / 15;

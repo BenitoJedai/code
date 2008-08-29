@@ -37,6 +37,7 @@ namespace FlashTreasureHunt.ActionScript
 		public const int ConstructorIndexForSync_Guards = 0x1000;
 
 		public event Action<int, double, object> Sync_GuardAddDamage;
+		public event Action<object> Sync_GuardKilled;
 
 		public IEnumerable<SpriteInfoExtended> CreateGuards(IEnumerator<Point> FreeSpaceForStuff, int Count, bool DoAttachGuardLogic)
 		{
@@ -319,6 +320,9 @@ namespace FlashTreasureHunt.ActionScript
 						}
 						else
 						{
+							if (Sync_GuardKilled != null)
+								Sync_GuardKilled(DamageOwner);
+
 							RemoveBloodUnderSprite(s);
 
 							Assets.Default.Sounds.death.play();

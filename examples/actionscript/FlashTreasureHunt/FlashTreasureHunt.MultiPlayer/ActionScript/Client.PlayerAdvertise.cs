@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using FlashTreasureHunt.Shared;
 using ScriptCoreLib;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.RayCaster;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.flash.utils;
+using ScriptCoreLib.ActionScript.flash.media;
 
 namespace FlashTreasureHunt.ActionScript
 {
@@ -30,6 +32,8 @@ namespace FlashTreasureHunt.ActionScript
 			var mw = new BinaryWriter(ms);
 
 			mw.Write(this.LocalCoPlayer.Guard.Health);
+			mw.Write(this.LocalCoPlayer.Kills);
+			mw.Write(this.LocalCoPlayer.Score);
 
 			mw.Write(EgoVector.Direction);
 			mw.Write(EgoVector.Position.x);
@@ -118,11 +122,15 @@ namespace FlashTreasureHunt.ActionScript
 
 							if (DamageOwner == Map.EgoWeaponIdentity)
 							{
-								this.LocalCoPlayer.Kills++;
+								// ego killed a coplayer
 
 								// killing a coplayer will result in revealing end level
 								if (this.Map.HalfOfTheTreasureCollected != null)
 									this.Map.HalfOfTheTreasureCollected();
+							}
+							else
+							{
+								// coplayer killed a coplayer
 							}
 
 						}
@@ -136,6 +144,9 @@ namespace FlashTreasureHunt.ActionScript
 			var mr = new BinaryReader(ms);
 
 			c.Guard.Health = mr.ReadDouble();
+			c.Kills = mr.ReadInt32();
+			c.Score = mr.ReadInt32();
+
 			c.Guard.Direction = mr.ReadDouble();
 			c.Guard.Position = new Point(mr.ReadDouble(), mr.ReadDouble());
 
@@ -158,10 +169,13 @@ namespace FlashTreasureHunt.ActionScript
 					}
 			}.AddTo(CoPlayers);
 
-
+			
 			LocalCoPlayer = c;
+			LocalCoPlayer.WeaponIdentity = Map.EgoWeaponIdentity;
+
 
 			CreateLocalCoPlayerGuard();
+
 
 			this.Map.Sync_Suicide +=
 				delegate
@@ -198,6 +212,9 @@ namespace FlashTreasureHunt.ActionScript
 
 					if (this.LocalCoPlayer.Guard.Health <= 0)
 					{
+						// coplayer killed ego
+
+
 						EnterGhostMode();
 
 					}
@@ -213,7 +230,7 @@ namespace FlashTreasureHunt.ActionScript
 			if (this.Map.music != null)
 				this.Map.music.stop();
 
-			var music = Assets.Default.Music.funkyou.play(0, 9999);
+			var music = Assets.Default.Music.funkyou.play(0, 9999, new ScriptCoreLib.ActionScript.flash.media.SoundTransform(0.5));
 
 			if (music == null)
 				Map.WriteLine("music not playing...");
@@ -248,7 +265,7 @@ namespace FlashTreasureHunt.ActionScript
 					this.Map.FlashColors(0xffffffff);
 					this.Map.WriteLine("respawn now!");
 
-					this.Map.music = Assets.Default.Music.music.play(0, 9999);
+					this.Map.music = Assets.Default.Music.music.play(0, 9999, new SoundTransform(0.5));
 
 					this.Map.filters = null;
 

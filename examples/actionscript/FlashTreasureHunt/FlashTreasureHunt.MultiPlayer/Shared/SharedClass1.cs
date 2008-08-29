@@ -75,6 +75,7 @@ namespace FlashTreasureHunt.Shared
 			void GuardAddDamage(int index, double damage);
 			void UserGuardAddDamage(int user, int index, double damage);
 
+			void ReportScore(int level, int score, int kills, int teleports);
 		}
     }
 }

@@ -21,6 +21,9 @@ namespace FlashTreasureHunt.ActionScript
 		public object WeaponIdentity = new object();
 
 		public int Kills;
+		public int Score;
+
+		public int Teleports;
 	}
 
 }

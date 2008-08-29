@@ -30,7 +30,7 @@ namespace FlashTreasureHunt.ActionScript
 
 			//WriteLine("GoldTotalCollected: " + GoldTotalCollected);
 
-			CurrentLevelScore += 10;
+			CurrentLevelScore += ScoreForGold;
 
 			if (GoldTotal / 2 < GoldTotalCollected)
 				if (HalfOfTheTreasureCollected != null)

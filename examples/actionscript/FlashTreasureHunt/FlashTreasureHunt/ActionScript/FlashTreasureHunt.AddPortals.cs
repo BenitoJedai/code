@@ -27,6 +27,8 @@ namespace FlashTreasureHunt.ActionScript
 		public List<DualPortal> DualPortals = new List<DualPortal>();
 		public List<PortalInfo> Portals = new List<PortalInfo>();
 
+		public event Action Sync_PortalUsed;
+
 		public void AddPortals()
 		{
 			ResetPortals();
@@ -110,6 +112,9 @@ namespace FlashTreasureHunt.ActionScript
 								NextViewVectorDirty = true;
 
 								WriteLine("portal used");
+
+								if (Sync_PortalUsed != null)
+									Sync_PortalUsed();
 
 								var o = DualPortals.SingleOrDefault(k => k.Blue == Portal);
 
