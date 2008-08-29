@@ -93,9 +93,6 @@ namespace FlashTreasureHunt.ActionScript
 				};
 
 				this.EgoView.WriteLine = this.WriteLine;
-
-				CheatMode.Toggle();
-
 			}
 
 			CheatMode.Toggle();

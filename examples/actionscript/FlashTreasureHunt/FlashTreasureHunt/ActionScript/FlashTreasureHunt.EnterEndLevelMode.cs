@@ -17,6 +17,7 @@ namespace FlashTreasureHunt.ActionScript
 	{
 
 		public event Action Sync_EnterEndLevelMode;
+		public event Action Sync_ExitEndLevelMode;
 
 		public Action EnterEndLevelMode_ReadyToContinue;
 
@@ -107,6 +108,8 @@ namespace FlashTreasureHunt.ActionScript
 					}
 
 					this.WriteLine("EnterEndLevelMode_ReadyToContinue is now disabled!");
+					if (Sync_ExitEndLevelMode != null)
+						Sync_ExitEndLevelMode();
 
 					EnterEndLevelMode_ReadyToContinue = null;
 
