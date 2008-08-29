@@ -130,6 +130,8 @@ namespace FlashTreasureHunt.ActionScript
 						{
 							LevelFPS = (LevelFPS + this.Map.EgoView.FramesPerSecond) / 2;
 						};
+
+					this.Map.AddAmmoToEgoAndSwitchWeapon();
 				}
 			);
 		
