@@ -54,7 +54,7 @@ namespace FlashTreasureHunt.Server
 
 
 			// You can explicitly setup how many users are allowed in your game.
-			MaxUsers = 8;
+			MaxUsers = 4;
 
 			Virtual.GameStarted();
 		}
