@@ -107,21 +107,21 @@ namespace FlashTreasureHunt.ActionScript
 				{
 					//Map.WriteLine("left: " + e.name);
 
-					// kill the player guard, and remove the coplayer entity
-					this.CoPlayers.Where(k => k.Identity.user == e.user).Where(k => k.Guard != null).ToArray().ForEach(k => k.RemoveFrom(CoPlayers).Guard.TakeDamage(k.Guard.Health));
+					// self kill the player guard, and remove the coplayer entity
+					this.CoPlayers.Where(k => k.Identity.user == e.user).Where(k => k.Guard != null).ToArray().ForEach(k => k.RemoveFrom(CoPlayers).Guard.TakeDamage(k.Guard.Health, k.WeaponIdentity));
 
 				};
 
 			Events.ServerSendMap +=
 				e =>
 				{
-				
+
 
 					// we have been chosen to tell the new guy about current map
 					MapInitializedAndLoaded.ContinueWhenDone(
 						delegate
 						{
-							
+
 
 							if (FirstMapLoader.Ready)
 								WriteSync();
@@ -131,7 +131,7 @@ namespace FlashTreasureHunt.ActionScript
 
 							}
 
-							
+
 						}
 					);
 				};
@@ -184,9 +184,16 @@ namespace FlashTreasureHunt.ActionScript
 			Events.UserAddDamageToCoPlayer +=
 				e =>
 				{
-					this.DisableAddDamageToCoPlayer = true;
-					this.CoPlayers.Where(k => k.Identity.user == e.target).Where(k => k.Guard != null).ForEach(k => k.Guard.TakeDamage(e.damage));
-					this.DisableAddDamageToCoPlayer = false;
+					this.MapInitializedAndLoaded.ContinueWhenDone(
+						delegate
+						{
+							var DamageOwner = CoPlayers.Single(k => k.Identity.user == e.user).WeaponIdentity;
+
+							this.DisableAddDamageToCoPlayer = true;
+							this.CoPlayers.Where(k => k.Identity.user == e.target).Where(k => k.Guard != null).ForEach(k => k.Guard.TakeDamage(e.damage, DamageOwner));
+							this.DisableAddDamageToCoPlayer = false;
+						}
+					);
 				};
 
 			Events.UserFireWeapon +=
@@ -205,11 +212,18 @@ namespace FlashTreasureHunt.ActionScript
 			Events.UserGuardAddDamage +=
 				e =>
 				{
-					this.Map.WriteLine("got UserGuardAddDamage " + e);
+					this.MapInitializedAndLoaded.ContinueWhenDone(
+						delegate
+						{
+							this.Map.WriteLine("got UserGuardAddDamage " + e);
 
-					this.DisableGuardAddDamage = true;
-					this.Map.GuardSprites.Where(k => k.ConstructorIndexForSync == e.index).ForEach(k => k.TakeDamage(e.damage));
-					this.DisableGuardAddDamage = false;
+							var DamageOwner = CoPlayers.Single(k => k.Identity.user == e.user).WeaponIdentity;
+
+							this.DisableGuardAddDamage = true;
+							this.Map.GuardSprites.Where(k => k.ConstructorIndexForSync == e.index).ForEach(k => k.TakeDamage(e.damage, DamageOwner));
+							this.DisableGuardAddDamage = false;
+						}
+					);
 				};
 
 			Events.UserEnterEndLevelMode +=
@@ -239,7 +253,7 @@ namespace FlashTreasureHunt.ActionScript
 				};
 		}
 
-	
+
 
 
 

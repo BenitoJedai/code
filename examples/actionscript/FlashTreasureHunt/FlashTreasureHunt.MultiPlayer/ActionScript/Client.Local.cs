@@ -68,8 +68,11 @@ namespace FlashTreasureHunt.ActionScript
 			this.Map.Sync_GuardLookAt += this.Messages.GuardLookAt;
 			this.Map.Sync_GuardWalkTo += GuardWalkTo;
 			this.Map.Sync_GuardAddDamage +=
-				(index, damage) =>
+				(index, damage, DamageOwner) =>
 				{
+					if (DamageOwner != Map.EgoWeaponIdentity)
+						return;
+
 					if (DisableGuardAddDamage)
 						return;
 

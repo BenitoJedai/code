@@ -27,12 +27,12 @@ namespace FlashTreasureHunt.ActionScript
 		public double Health = 1;
 
 
-		public Action<double> TakeDamage;
+		public Action<double, object> TakeDamage;
 
 		/// <summary>
 		/// This event is used when an additional action should be raised. This event could also have been called HealthChanged.
 		/// </summary>
-		public Action<double> TakeDamageDone;
+		public Action<double, object> TakeDamageDone;
 
 		// this is used while syncing
 		public int ConstructorIndexForSync = -1;

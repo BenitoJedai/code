@@ -158,7 +158,7 @@ namespace FlashTreasureHunt.ActionScript
 
 
 
-			this.music = Assets.Default.Music.music.play(0, 9999);
+			// this.music = Assets.Default.Music.music.play(0, 9999);
 
 
 
@@ -176,6 +176,17 @@ namespace FlashTreasureHunt.ActionScript
 			EgoView.Image.alpha = 0;
 			EgoView.Image.AttachTo(this);
 
+			EgoView.ViewPositionChanged +=
+				delegate
+				{
+					this.NextViewPosition = EgoView.ViewPosition;
+				};
+
+			EgoView.ViewDirectionChanged +=
+				delegate
+				{
+					this.NextViewDirection = EgoView.ViewDirection;
+				};
 		
 			EgoView.FramesPerSecondChanged +=
 				delegate
@@ -184,7 +195,7 @@ namespace FlashTreasureHunt.ActionScript
 						if (!EgoView.RenderLowQualityWalls)
 							EgoView.RenderLowQualityWalls = true;
 
-					if (EgoView.FramesPerSecond > 22)
+					if (EgoView.FramesPerSecond > 20)
 						if (EgoView.RenderLowQualityWalls)
 							EgoView.RenderLowQualityWalls = false;
 				};

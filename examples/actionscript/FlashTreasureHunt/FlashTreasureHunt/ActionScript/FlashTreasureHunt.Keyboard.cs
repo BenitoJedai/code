@@ -23,6 +23,8 @@ namespace FlashTreasureHunt.ActionScript
 		KeyboardButtonGroup Keyboard_Settings = new KeyboardButtonGroup { Name = "Settings" };
 		KeyboardButtonGroup Keyboard_Cheats = new KeyboardButtonGroup { Name = "Cheats" };
 
+		Action Smooth_DisableJoin;
+
 		public void InitializeKeyboard()
 		{
 			
@@ -52,6 +54,7 @@ namespace FlashTreasureHunt.ActionScript
 				Tick = () => { StrafeLeftSmooth.move(new Point(0, 0)); },
 				Up = () => { StrafeLeftSmooth.up(); }
 			};
+			Smooth_DisableJoin += () => StrafeLeftSmooth.disable_join = true; 
 
 			var StrafeRightSmooth = AttachMovementInput(EgoView, false, false);
 			Setup(1, StrafeRightSmooth);
@@ -65,6 +68,7 @@ namespace FlashTreasureHunt.ActionScript
 				Tick = () => { StrafeRightSmooth.move(new Point(DefaultControlWidth, 0)); },
 				Up = () => { StrafeRightSmooth.up(); }
 			};
+			Smooth_DisableJoin += () => StrafeRightSmooth.disable_join = true;
 			#endregion
 
 			#region turn
@@ -95,6 +99,7 @@ namespace FlashTreasureHunt.ActionScript
 			};
 			#endregion
 
+
 			var GoForwardSmooth = AttachMovementInput(EgoView, false, false);
 			Setup(1, GoForwardSmooth);
 			var GoForward = new global::FlashTreasureHunt.ActionScript.UI.KeyboardButton(stage)
@@ -108,6 +113,7 @@ namespace FlashTreasureHunt.ActionScript
 				Tick = () => { GoForwardSmooth.move(new Point(DefaultControlWidth / 2, 0)); },
 				Up = () => { GoForwardSmooth.up(); }
 			};
+			Smooth_DisableJoin += () => GoForwardSmooth.disable_join = true; 
 
 			var GoBackwardSmooth = AttachMovementInput(EgoView, false, false);
 			Setup(1, GoBackwardSmooth);
@@ -122,6 +128,7 @@ namespace FlashTreasureHunt.ActionScript
 				Tick = () => { GoBackwardSmooth.move(new Point(DefaultControlWidth / 2, DefaultControlHeight)); },
 				Up = () => { GoBackwardSmooth.up(); }
 			};
+			Smooth_DisableJoin += () => GoBackwardSmooth.disable_join = true; 
 
 
 

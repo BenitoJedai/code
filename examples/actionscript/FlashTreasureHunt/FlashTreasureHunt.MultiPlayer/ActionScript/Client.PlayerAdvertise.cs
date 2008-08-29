@@ -92,8 +92,12 @@ namespace FlashTreasureHunt.ActionScript
 				c.Guard.MinimapInactiveColor = 0x80000080;
 
 				c.Guard.TakeDamage +=
-					damage =>
+					(damage, DamageOwner) =>
 					{
+						// we will broadcast damage by our weapons
+						if (DamageOwner != Map.EgoWeaponIdentity)
+							return;
+
 						// we should not mirror remoted damage
 						if (DisableAddDamageToCoPlayer)
 							return;
@@ -103,7 +107,7 @@ namespace FlashTreasureHunt.ActionScript
 					};
 
 				c.Guard.TakeDamageDone +=
-					damage =>
+					(damage, DamageOwner) =>
 					{
 						if (c.Guard.Health <= 0)
 						{
@@ -112,9 +116,14 @@ namespace FlashTreasureHunt.ActionScript
 
 							Map.WriteLine("coplayer " + e.name + " died and left a corpse");
 
-							// killing a coplayer will result in revealing end level
-							if (this.Map.HalfOfTheTreasureCollected != null)
-								this.Map.HalfOfTheTreasureCollected();
+							if (DamageOwner == Map.EgoWeaponIdentity)
+							{
+								this.LocalCoPlayer.Kills++;
+
+								// killing a coplayer will result in revealing end level
+								if (this.Map.HalfOfTheTreasureCollected != null)
+									this.Map.HalfOfTheTreasureCollected();
+							}
 
 						}
 					};
@@ -158,7 +167,7 @@ namespace FlashTreasureHunt.ActionScript
 				delegate
 				{
 					if (this.LocalCoPlayer.Guard != null)
-						this.LocalCoPlayer.Guard.TakeDamage(this.LocalCoPlayer.Guard.Health);
+						this.LocalCoPlayer.Guard.TakeDamage(this.LocalCoPlayer.Guard.Health, this.Map.EgoWeaponIdentity);
 				};
 		}
 
@@ -169,8 +178,11 @@ namespace FlashTreasureHunt.ActionScript
 			LocalCoPlayer.Guard.RemoveFrom(Map.EgoView.BlockingSprites);
 
 			LocalCoPlayer.Guard.TakeDamage +=
-				damage =>
+				(damage, DamageOwner) =>
 				{
+					if (DamageOwner != Map.EgoWeaponIdentity)
+						return;
+
 					if (this.DisableAddDamageToCoPlayer)
 						return;
 
@@ -180,7 +192,7 @@ namespace FlashTreasureHunt.ActionScript
 				};
 
 			LocalCoPlayer.Guard.TakeDamageDone +=
-				damage =>
+				(damage, DamageOwner) =>
 				{
 					this.Map.FlashColors(0xffff0000);
 

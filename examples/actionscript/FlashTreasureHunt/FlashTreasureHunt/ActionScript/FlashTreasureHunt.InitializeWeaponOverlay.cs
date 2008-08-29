@@ -265,7 +265,7 @@ namespace FlashTreasureHunt.ActionScript
 
 						//WriteLine("hit: " + DamageToBeTaken);
 
-						first.fragile.TakeDamage(DamageToBeTaken);
+						first.fragile.TakeDamage(DamageToBeTaken, EgoWeaponIdentity);
 					}
 
 
@@ -308,5 +308,6 @@ namespace FlashTreasureHunt.ActionScript
 				};
 		}
 
+		public readonly object EgoWeaponIdentity = new object();
 	}
 }
