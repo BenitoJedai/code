@@ -210,6 +210,8 @@ namespace FlashTreasureHunt.ActionScript
 							stage.enterFrame +=
 								e =>
 								{
+									ApplyNextViewVector();
+
 									if (EgoView.Image.alpha > 0)
 										EgoView.RenderScene();
 								};
@@ -222,6 +224,19 @@ namespace FlashTreasureHunt.ActionScript
 				}
 			);
 			#endregion
+		}
+
+		private void ApplyNextViewVector()
+		{
+			if (EgoView.ViewDirection != NextViewDirection)
+				EgoView.ViewDirection = NextViewDirection;
+
+			if (EgoView.ViewPosition.x != NextViewPosition.x)
+				if (EgoView.ViewPosition.y != NextViewPosition.y)
+					EgoView.ViewPosition = NextViewPosition;
+
+			NextViewVectorDirty = false;
+
 		}
 
 		public Action ReadyWithLoadingCurrentLevel;

@@ -36,7 +36,7 @@ namespace FlashTreasureHunt.ActionScript
 
 		public const int ConstructorIndexForSync_Guards = 0x1000;
 
-		public event Action<int, double> Sync_GuardAddDamage;
+		public event Action<int, double, object> Sync_GuardAddDamage;
 
 		public IEnumerable<SpriteInfoExtended> CreateGuards(IEnumerator<Point> FreeSpaceForStuff, int Count, bool DoAttachGuardLogic)
 		{
@@ -53,10 +53,10 @@ namespace FlashTreasureHunt.ActionScript
 				g.Direction = 0;
 
 				g.TakeDamage +=
-					damage =>
+					(damage, DamageOwner) =>
 					{
 						if (Sync_GuardAddDamage != null)
-							Sync_GuardAddDamage(g.ConstructorIndexForSync, damage);
+							Sync_GuardAddDamage(g.ConstructorIndexForSync, damage, DamageOwner);
 					};
 
 				// state machine for AI guard
@@ -287,7 +287,7 @@ namespace FlashTreasureHunt.ActionScript
 
 			if (Hit != null)
 				s.TakeDamage +=
-					DamageToBeTaken =>
+					(DamageToBeTaken, DamageOwner) =>
 					{
 						// we have nothing to do here if we are dead 
 						if (s.Health < 0)
@@ -342,7 +342,7 @@ namespace FlashTreasureHunt.ActionScript
 						}
 
 						if (s.TakeDamageDone != null)
-							s.TakeDamageDone(DamageToBeTaken);
+							s.TakeDamageDone(DamageToBeTaken, DamageOwner);
 
 					};
 

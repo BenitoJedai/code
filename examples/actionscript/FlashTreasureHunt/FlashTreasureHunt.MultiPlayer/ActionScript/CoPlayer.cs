@@ -18,7 +18,9 @@ namespace FlashTreasureHunt.ActionScript
 
 		public SpriteInfoExtended Guard;
 
+		public object WeaponIdentity = new object();
 
+		public int Kills;
 	}
 
 }

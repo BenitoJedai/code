@@ -44,6 +44,8 @@ namespace FlashTreasureHunt.ActionScript
 
 			}
 
+			public bool disable_join;
+
 		}
 
 		public bool MovementEnabled_IsInGame = true;
@@ -106,16 +108,18 @@ namespace FlashTreasureHunt.ActionScript
 
 
 					// snap to old point
-					if (mouseDown_args != null)
-						if (snapcontainer.alpha > 0)
-							if ((mouseDown_args - p).length < snap_radius)
-							{
-								color = 0xff;
+					if (!mc.disable_join)
+						if (mouseDown_args != null)
+							if (snapcontainer.alpha > 0)
+								if ((mouseDown_args - p).length < snap_radius)
+								{
+									color = 0xff;
 
-								p = mouseDown_args;
-							}
+									p = mouseDown_args;
+								}
 
 					mouseDown_args = p;
+					mc.disable_join = false;
 				};
 
 			if (EnableMouse)
@@ -131,11 +135,13 @@ namespace FlashTreasureHunt.ActionScript
 					(s, x, y, c) =>
 					{
 
-
-						s.graphics.lineStyle(2, c, 1);
-						s.graphics.moveTo(mouseDown_args.x, mouseDown_args.y);
-						s.graphics.lineTo(x, y);
-						s.graphics.drawCircle(x, y, 4);
+						if (Visualize)
+						{
+							s.graphics.lineStyle(2, c, 1);
+							s.graphics.moveTo(mouseDown_args.x, mouseDown_args.y);
+							s.graphics.lineTo(x, y);
+							s.graphics.drawCircle(x, y, 4);
+						}
 					};
 
 			var mouseMove_args = default(Point);
@@ -146,7 +152,7 @@ namespace FlashTreasureHunt.ActionScript
 				{
 					if (!MovementEnabled)
 						return;
-					
+
 					if (mouseDown_args == null)
 						return;
 
@@ -210,7 +216,7 @@ namespace FlashTreasureHunt.ActionScript
 					};
 
 
-	
+
 			(1000 / 24).AtInterval(
 				t =>
 				{
@@ -251,13 +257,13 @@ namespace FlashTreasureHunt.ActionScript
 						if (!IsPan)
 						{
 
-							view.ViewDirection += u.x * 0.0004;
+							NextViewDirection += u.x * 0.0004;
 
-							view.ViewPosition = view.ViewPosition.MoveToArc(view.ViewDirection, -u.y.Max(-snap_radius * 2).Min(snap_radius * 2) * 0.001);
+							NextViewPosition = NextViewPosition.MoveToArc(NextViewDirection, -u.y.Max(-snap_radius * 2).Min(snap_radius * 2) * 0.001);
 						}
 						else
 						{
-							view.ViewPosition = view.ViewPosition.MoveToArc(u.GetRotation() + view.ViewDirection + 270.DegreesToRadians(), -(u.length.Min(snap_radius * 2)) * 0.001);
+							NextViewPosition = NextViewPosition.MoveToArc(u.GetRotation() + NextViewDirection + 270.DegreesToRadians(), -(u.length.Min(snap_radius * 2)) * 0.001);
 						}
 
 					DrawArrow(delta, z.x, z.y, 0xff00);
@@ -267,5 +273,8 @@ namespace FlashTreasureHunt.ActionScript
 			return mc;
 		}
 
+		public bool NextViewVectorDirty = false;
+		public Point NextViewPosition = new Point();
+		public double NextViewDirection = 0;
 	}
 }

@@ -74,6 +74,9 @@ namespace FlashTreasureHunt.ActionScript
 
 					foreach (var Portal in Portals)
 					{
+						if (NextViewVectorDirty)
+							continue;
+
 						if (Portal == LastPortalExit)
 							continue;
 
@@ -97,8 +100,16 @@ namespace FlashTreasureHunt.ActionScript
 
 								// fixme: should use Ego.MovementDirection instead
 								// currently stepping backwarads into the portal will behave recursivly
-								EgoView.ViewPosition = Portal.View.ViewPosition; //.MoveToArc(EgoView.ViewDirection, Portal.Sprite.Range + p.Distance);
-								EgoView.ViewDirection = Portal.View.ViewDirection;
+								//EgoView.ViewPosition = Portal.View.ViewPosition; //.MoveToArc(EgoView.ViewDirection, Portal.Sprite.Range + p.Distance);
+								//EgoView.ViewDirection = Portal.View.ViewDirection;
+
+								NextViewPosition = Portal.View.ViewPosition;
+								NextViewDirection = Portal.View.ViewDirection;
+								ApplyNextViewVector();
+								Smooth_DisableJoin();
+								NextViewVectorDirty = true;
+
+								WriteLine("portal used");
 
 								var o = DualPortals.SingleOrDefault(k => k.Blue == Portal);
 

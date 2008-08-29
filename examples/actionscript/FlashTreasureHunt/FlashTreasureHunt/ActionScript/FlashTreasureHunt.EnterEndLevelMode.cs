@@ -49,7 +49,8 @@ namespace FlashTreasureHunt.ActionScript
 				scaleY = DefaultScale
 			}.AttachTo(this).FadeOutAndOrphanize(1000 / 24, 0.1);
 
-			music.stop();
+			if (music != null)
+				music.stop();
 
 			EndLevelMode = true;
 			MovementEnabled_IsInGame = false;
@@ -281,8 +282,8 @@ namespace FlashTreasureHunt.ActionScript
 				GetScoreValues().Select<ScoreTag, Action>(
 					(k, i) => delegate
 					{
-							Entries.Enqueue(ShowScoreTable_Entry(ContainerForEntries, k.Name, k.Score, k.Kills, i + 1));
-							ConditionalRemoveFirst();
+						Entries.Enqueue(ShowScoreTable_Entry(ContainerForEntries, k.Name, k.Score, k.Kills, i + 1));
+						ConditionalRemoveFirst();
 					}
 				)
 			).Do();
