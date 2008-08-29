@@ -14,6 +14,11 @@ namespace FlashPreloader.ActionScript
 	[Script]
 	internal static class Extensions
 	{
+		public static object CreateInstance(this Type e)
+		{
+			return Activator.CreateInstance(e);
+		}
+
 		public static Timer AtDelayDo(this int e, Action a)
 		{
 			var t = new Timer(e, 1);

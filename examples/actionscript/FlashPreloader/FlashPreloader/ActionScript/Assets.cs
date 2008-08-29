@@ -27,18 +27,38 @@ namespace FlashPreloader.ActionScript
 
 		public string[] Entries 
 		{
+			[EmbedGetFileNames]
 			get
 			{
 				throw new NotImplementedException();
 			}
 		}
 
+		[EmbedByFileName]
+		public Class ByFileName(string e)
+		{
+			throw new NotImplementedException();
+		}
+
 		public Class this[string e]
 		{
-			[EmbedByFileName]
 			get
 			{
-				throw new NotImplementedException();
+				var c = ByFileName(e);
+
+				if (c == null)
+				{
+					var n = Entries.FirstOrDefault(k => k.Contains(e));
+
+					if (n != null)
+						c = ByFileName(n);
+				}
+
+				if (c == null)
+					throw new Exception(e);
+
+
+				return c;
 			}
 		}
 

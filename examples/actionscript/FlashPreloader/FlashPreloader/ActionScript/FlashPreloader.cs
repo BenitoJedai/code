@@ -4,6 +4,7 @@ using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.Extensions;
 using System.Collections.Generic;
 using System;
+using ScriptCoreLib.Shared;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.flash.events;
 
@@ -15,7 +16,6 @@ namespace FlashPreloader.ActionScript
 	[Script, ScriptApplicationEntryPoint, Frame(typeof(MyFactory))]
 	public class FlashPreloader : Sprite
 	{
-		public const string Type_FullName = "FlashPreloader.ActionScript.FlashPreloader";
 
 		// http://www.onflex.org/flexapps/components/CustomPreloader/srcview/index.html
 		// http://www.onflex.org/ted/2006/07/flex-2-custom-preloaders.php
@@ -42,51 +42,109 @@ namespace FlashPreloader.ActionScript
 					new TextField { text = "This is the main content" }.AttachTo(this);
 
 
-					Assets.Default[Assets.Path + "/WONDERIN.mp3"].ToSoundAsset().play();
+					Assets.Default["WONDERIN"].ToSoundAsset().play();
 				}
 			);
 		}
 	}
 
+	
 	[Script]
-	public class MyFactory : Sprite
+	public class MyFactory : PreloaderSprite
 	{
+		[TypeOfByNameOverride]
+		protected override DisplayObject CreateInstance()
+		{
+			return typeof(FlashPreloader).CreateInstance() as DisplayObject;
+
+		}
+
 		public MyFactory()
 		{
-			// this.stop();
+			var t = new TextField { text = "loading", autoSize = TextFieldAutoSize.LEFT }.AttachTo(this);
 
-			var e = default(Action<Event>);
-
-			var s = new Sprite().AttachTo(this);
-
-			var t = new TextField { text = "loading", autoSize = TextFieldAutoSize.LEFT }.AttachTo(s);
-
-			e = delegate
-			{
-				t.text = new { root.loaderInfo.bytesLoaded, root.loaderInfo.bytesTotal /*, framesLoaded, totalFrames */}.ToString();
-
-				if (root.loaderInfo.bytesLoaded == root.loaderInfo.bytesTotal)
+			this.LoadingComplete +=
+				delegate
 				{
-					this.enterFrame -= e;
+					t.Orphanize();
+				};
 
-					t.textColor = 0xff0000;
+			this.LoadingInProgress +=
+				delegate
+				{
+					t.text = new { root.loaderInfo.bytesLoaded, root.loaderInfo.bytesTotal /*, framesLoaded, totalFrames */}.ToString();
+				};
 
-					s.FadeOut(
-						delegate
-						{
-							var x = Activator.CreateInstance(Type.GetType(FlashPreloader.Type_FullName)) as DisplayObject;
-
-							s.Orphanize();
-							x.AttachTo(this);
-						}
-					);
-						
-
-
-				}
-			};
-
-			this.enterFrame += e;
 		}
 	}
+
+
+	[Script]
+	public abstract class PreloaderSprite : Sprite
+	{
+		protected abstract DisplayObject CreateInstance();
+
+		public PreloaderSprite()
+		{
+			this.LoadingComplete +=
+				delegate
+				{
+					CreateInstance().AttachTo(this.stage);
+
+					this.Orphanize();
+				};
+		}
+
+		public event Action LoadingComplete
+		{
+			add
+			{
+				var e = default(Action<Event>);
+
+				e = delegate
+				{
+					if (root.loaderInfo.bytesLoaded == root.loaderInfo.bytesTotal)
+					{
+						this.enterFrame -= e;
+						value();
+					}
+
+
+				};
+
+				this.enterFrame += e;
+
+			}
+			remove
+			{
+			}
+		}
+
+		public event Action LoadingInProgress
+		{
+			add
+			{
+				var e = default(Action<Event>);
+
+				e = delegate
+				{
+					if (root.loaderInfo.bytesLoaded == root.loaderInfo.bytesTotal)
+					{
+						this.enterFrame -= e;
+						return;
+					}
+
+					value();
+				};
+
+				this.enterFrame += e;
+
+			}
+			remove
+			{
+
+			}
+		}
+	}
+
 }
