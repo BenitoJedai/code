@@ -12,7 +12,7 @@ namespace FlashPreloader.ActionScript
 	/// This class defines the extension methods for this project
 	/// </summary>
 	[Script]
-	internal static class Extensions
+	public static class Extensions
 	{
 		public static object CreateInstance(this Type e)
 		{

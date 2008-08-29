@@ -12,8 +12,8 @@ call "C:\WINDOWS\Microsoft.NET\Framework\v3.5\csc.exe" /debug /out:"..\bin\debug
 
 :: Namespace name, type name
 @call :mxmlc FlashTreasureHunt/ActionScript Game
-@call :mxmlc FlashTreasureHunt/ActionScript FlashTreasureHunt
-@call :mxmlc FlashTreasureHunt/ActionScript/Monetized MochiPreloader
+::@call :mxmlc FlashTreasureHunt/ActionScript FlashTreasureHunt
+::@call :mxmlc FlashTreasureHunt/ActionScript/Monetized MochiPreloader
 
 goto :eof
 

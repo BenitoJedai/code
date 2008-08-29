@@ -6,17 +6,21 @@ using System.Collections.Generic;
 using System;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.MochiLibrary.Ad;
+using ScriptCoreLib.Shared;
+using FlashTreasureHunt.ActionScript.Monetized;
 
 namespace FlashTreasureHunt.ActionScript
 {
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
 	/// </summary>
-	[Script, ScriptApplicationEntryPoint(Width = ControlWidth, Height = FlashTreasureHunt.DefaultControlHeight)]
-	[SWF(width = ControlWidth, height = FlashTreasureHunt.DefaultControlHeight, backgroundColor = 0)]
+	[Script, ScriptApplicationEntryPoint(Width = ControlWidth, Height = ControlHeight)]
+	[SWF(width = ControlWidth, height = ControlHeight, backgroundColor = 0)]
+	// [Frame(typeof(MochiPreloader))]
 	public class Game : Sprite
 	{
 		public const int ControlWidth = FlashTreasureHunt.DefaultControlWidth + NonobaClient.NonobaChatWidth;
+		public const int ControlHeight = FlashTreasureHunt.DefaultControlHeight;
 
 
 		/// <summary>
@@ -25,24 +29,24 @@ namespace FlashTreasureHunt.ActionScript
 		public Game()
 		{
 			// nonoba + mochiad
+			
 			PlayMultiPlayer();
 
+			// PlaySinglePlayer();
 
 		}
 
 		private void PlayMultiPlayer()
 		{
-			var g = new NonobaClient("arvo-pc");
-
-			//g.Element.x = (DefaultWidth - MultiPlayer.NonobaClient.DefaultWidth) / 2;
-
-			g.Element.AttachTo(this);
+			new NonobaClient("arvo-pc").Element.AttachTo(this);
 		}
 
 
 		private void PlaySinglePlayer()
 		{
-			new global::FlashTreasureHunt.ActionScript.FlashTreasureHunt().AttachTo(this);
+			new FlashTreasureHunt().AttachTo(this);
 		}
 	}
+
+
 }

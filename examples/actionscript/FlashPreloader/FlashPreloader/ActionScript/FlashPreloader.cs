@@ -7,6 +7,7 @@ using System;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.flash.events;
+using ScriptCoreLib.ActionScript.MochiLibrary;
 
 namespace FlashPreloader.ActionScript
 {
@@ -14,6 +15,7 @@ namespace FlashPreloader.ActionScript
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
 	/// </summary>
 	[Script, ScriptApplicationEntryPoint, Frame(typeof(MyFactory))]
+	[SWF(width = 400, height = 400)]
 	public class FlashPreloader : Sprite
 	{
 
@@ -48,25 +50,64 @@ namespace FlashPreloader.ActionScript
 		}
 	}
 
-	
+
 	[Script]
-	public class MyFactory : PreloaderSprite
+	[SWF(width = 400, height = 400)]
+	public class MyFactory : MochiAdPreloaderBase
 	{
 		[TypeOfByNameOverride]
-		protected override DisplayObject CreateInstance()
+		public override DisplayObject CreateInstance()
 		{
 			return typeof(FlashPreloader).CreateInstance() as DisplayObject;
 
 		}
 
+		public override bool AutoCreateInstance()
+		{
+			return false;
+		}
+
+	
+
 		public MyFactory()
 		{
-			var t = new TextField { text = "loading", autoSize = TextFieldAutoSize.LEFT }.AttachTo(this);
+			var t = new TextField { text = "loading", autoSize = TextFieldAutoSize.LEFT, x = 400 }.AttachTo(this);
+
+
+
+			var Ready = default(Action);
+
+			Ready = delegate
+			{
+				// 1 more
+				Ready = delegate
+				{
+					// done
+					Ready = delegate
+					{
+						// nothing
+					};
+
+					CreateInstance().AttachTo(this);
+				};
+			};
+
+			_mochiads_game_id = "test";
+
+			this.InvokeWhenStageIsReady(
+				delegate
+				{
+					this.showPreGameAd(() => Ready(), 400, 400);
+
+				}
+			);
 
 			this.LoadingComplete +=
 				delegate
 				{
 					t.Orphanize();
+
+					Ready();
 				};
 
 			this.LoadingInProgress +=
