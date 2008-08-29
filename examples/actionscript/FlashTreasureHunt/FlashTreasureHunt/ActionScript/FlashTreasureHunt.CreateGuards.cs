@@ -206,6 +206,11 @@ namespace FlashTreasureHunt.ActionScript
 			Action UpdateCurrentFrame =
 				delegate
 				{
+					if (s.Health <= 0)
+						return;
+					if (!s.AIEnabled)
+						return;
+
 					if (s.WalkingAnimationRunning)
 						s.Frames = Walk[WalkingAnimationFrame];
 					else

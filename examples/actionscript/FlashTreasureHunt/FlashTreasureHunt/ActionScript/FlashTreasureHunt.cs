@@ -225,98 +225,118 @@ namespace FlashTreasureHunt.ActionScript
 
 					this.WriteLine("init: gutentag");
 
+					var TryLoad = default(Action);
 
-					Assets.Default.dude5.ToBitmapArray(
-						//(cur, max) =>
-						//{
-						//    this.WriteLine("init: dude5 " + cur + "/" + max);
-
-						//},
-						CachedGuardTextures,
-						Bitmaps =>
+					TryLoad =
+						delegate
 						{
-							CachedGuardTextures = Bitmaps;
-
-							var Spawn = default(Func<SpriteInfoExtended>);
-
-							#region figure out
-							if (Bitmaps == null)
-								throw new Exception("No bitmaps");
-
-							Func<Texture64[], Texture64[]> Reorder8 =
-								p =>
-									Enumerable.ToArray(
-										from i in Enumerable.Range(0, 8)
-										select p[(i + 6) % 8]
-									);
-
-							var BitmapStream = Bitmaps.Select(i => (Texture64)i).GetEnumerator();
-
-							Func<Texture64[]> Next8 =
-								delegate
+							Assets.Default.dude5.ToBitmapArray(
+								CachedGuardTextures,
+								Bitmaps =>
 								{
-									// keeping compiler happy with full delegate form
-
-									if (BitmapStream == null)
-										throw new Exception("BitmapStream is null");
-
-									return Reorder8(BitmapStream.Take(8));
-								};
+									TryLoad = null;
+									LoadGuardTextures(Bitmaps);
+								}
+							);
+						};
 
 
-							var Stand = Next8();
-
-
-							var Walk = new[]
-							{
-								Next8(),
-								Next8(),
-								Next8(),
-								Next8(),
-							};
-
-							var Death = new List<Texture64>
-							{
-								BitmapStream.Take(),
-								BitmapStream.Take(),
-								BitmapStream.Take(),
-								BitmapStream.Take(),
-								BitmapStream.Take()
-							};
-
-
-							var Hit = new[] { BitmapStream.Take() };
-
-							// funny ordering huh?
-							Death.Add(BitmapStream.Take());
-
-
-							var Shooting = new List<Texture64>
-							{
-								BitmapStream.Take(),
-								BitmapStream.Take(),
-								BitmapStream.Take()
-							};
-
-							Spawn = () => CreateWalkingDummy(Stand, Walk, Hit, Death.ToArray(), Shooting.ToArray());
-
-
-							#endregion
-
-							CreateGuard = Spawn;
-
-
-							this.WriteLine("init: dude5");
-
-
-							InitializeMap();
-
-
+					10000.AtDelayDo(
+						delegate
+						{
+							if (TryLoad != null)
+								TryLoad();
 						}
 					);
+
+					TryLoad();
+
 				}
 			);
 
+		}
+
+		private void LoadGuardTextures(Bitmap[] Bitmaps)
+		{
+			// wont load twice
+			if (CachedGuardTextures != null)
+				return;
+
+			CachedGuardTextures = Bitmaps;
+
+			var Spawn = default(Func<SpriteInfoExtended>);
+
+			#region figure out
+			if (Bitmaps == null)
+				throw new Exception("No bitmaps");
+
+			Func<Texture64[], Texture64[]> Reorder8 =
+				p =>
+					Enumerable.ToArray(
+						from i in Enumerable.Range(0, 8)
+						select p[(i + 6) % 8]
+					);
+
+			var BitmapStream = Bitmaps.Select(i => (Texture64)i).GetEnumerator();
+
+			Func<Texture64[]> Next8 =
+				delegate
+				{
+					// keeping compiler happy with full delegate form
+
+					if (BitmapStream == null)
+						throw new Exception("BitmapStream is null");
+
+					return Reorder8(BitmapStream.Take(8));
+				};
+
+
+			var Stand = Next8();
+
+
+			var Walk = new[]
+							{
+								Next8(),
+								Next8(),
+								Next8(),
+								Next8(),
+							};
+
+			var Death = new List<Texture64>
+							{
+								BitmapStream.Take(),
+								BitmapStream.Take(),
+								BitmapStream.Take(),
+								BitmapStream.Take(),
+								BitmapStream.Take()
+							};
+
+
+			var Hit = new[] { BitmapStream.Take() };
+
+			// funny ordering huh?
+			Death.Add(BitmapStream.Take());
+
+
+			var Shooting = new List<Texture64>
+							{
+								BitmapStream.Take(),
+								BitmapStream.Take(),
+								BitmapStream.Take()
+							};
+
+			Spawn = () => CreateWalkingDummy(Stand, Walk, Hit, Death.ToArray(), Shooting.ToArray());
+
+
+			#endregion
+
+			CreateGuard = Spawn;
+
+
+			this.WriteLine("init: dude5");
+
+
+			InitializeMap();
 		}
 
 

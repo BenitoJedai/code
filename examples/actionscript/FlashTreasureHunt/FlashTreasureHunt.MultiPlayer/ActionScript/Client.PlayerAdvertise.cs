@@ -169,7 +169,7 @@ namespace FlashTreasureHunt.ActionScript
 					}
 			}.AddTo(CoPlayers);
 
-			
+
 			LocalCoPlayer = c;
 			LocalCoPlayer.WeaponIdentity = Map.EgoWeaponIdentity;
 
@@ -280,6 +280,9 @@ namespace FlashTreasureHunt.ActionScript
 
 					AbortGhostMode = null;
 
+					// if there are many players give ego atleast a pistol
+					if (this.CoPlayers.Count > 1)
+						this.Map.AddAmmoToEgoAndSwitchWeapon();
 
 				};
 

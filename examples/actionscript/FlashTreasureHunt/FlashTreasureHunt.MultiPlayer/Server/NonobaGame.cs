@@ -119,9 +119,12 @@ namespace FlashTreasureHunt.Server
 				Username = user.Username,
 
 				AddScore = user.SubmitRankingDelta,
+				SetScore = user.SetRankingScore,
+
+				AddHighscore = user.SubmitHighscore,
+
 				AwardAchievement = user.AwardAchievement,
 			};
-
 			FromPlayer.Router.Target = user.Virtual.ToOthers;
 
 			Virtual.Users.Add(user.Virtual);

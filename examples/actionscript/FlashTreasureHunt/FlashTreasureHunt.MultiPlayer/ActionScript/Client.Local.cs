@@ -120,7 +120,18 @@ namespace FlashTreasureHunt.ActionScript
 					this.LocalCoPlayer.Teleports++;
 				};
 
+			var LevelFPS = 0;
 
+			this.MapInitializedAndLoaded.ContinueWhenDone(
+				delegate
+				{
+					this.Map.EgoView.FramesPerSecondChanged +=
+						delegate
+						{
+							LevelFPS = (LevelFPS + this.Map.EgoView.FramesPerSecond) / 2;
+						};
+				}
+			);
 		
 			this.Map.Sync_EnterEndLevelMode +=
 				delegate
@@ -149,7 +160,10 @@ namespace FlashTreasureHunt.ActionScript
 					this.Messages.ReportScore(LScoreForLevelEnding,
 						this.LocalCoPlayer.Score ,
 						this.LocalCoPlayer.Kills ,
-						this.LocalCoPlayer.Teleports);
+						this.LocalCoPlayer.Teleports,
+						
+						LevelFPS
+					);
 
 
 				};
@@ -157,6 +171,8 @@ namespace FlashTreasureHunt.ActionScript
 			this.Map.Sync_ExitEndLevelMode +=
 				delegate
 				{
+					LevelFPS = 0;
+
 					this.CoPlayers.ForEach(
 						k =>
 						{

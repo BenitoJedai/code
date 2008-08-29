@@ -17,7 +17,7 @@ namespace FlashTreasureHunt.ActionScript
 {
 	partial class FlashTreasureHunt
 	{
-		private void AddAmmoToEgoAndSwitchWeapon()
+		public void AddAmmoToEgoAndSwitchWeapon()
 		{
 			// add some logic here
 
