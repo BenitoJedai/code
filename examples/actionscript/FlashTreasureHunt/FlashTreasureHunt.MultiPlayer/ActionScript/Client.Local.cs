@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using FlashTreasureHunt.Shared;
@@ -21,6 +22,22 @@ namespace FlashTreasureHunt.ActionScript
 		public readonly OrderedAction MapInitialized = new OrderedAction();
 		public readonly OrderedAction MapInitializedAndLoaded = new OrderedAction();
 
+	
+
+		public FlashTreasureHunt.ScoreTag[] GetScoreValues()
+		{
+			var a = CoPlayers.Select(k => new FlashTreasureHunt.ScoreTag
+							{
+								Kills = k.Kills,
+								Name = k.Identity.name,
+								Score = k.Score
+							}).ToArray();
+
+			Map.WriteLine("scoretable length: " + a.Length);
+
+			return a;
+		}
+
 		public void InitializeMapOnce()
 		{
 			// this should be a ctor instead?
@@ -28,7 +45,9 @@ namespace FlashTreasureHunt.ActionScript
 			this.Map = new FlashTreasureHunt();
 			this.Map.ReadyWithLoadingCurrentLevel = this.ReadyWithLoadingCurrentLevel;
 			this.Map.ReadyForNextLevel = this.ReadyForNextLevel;
-					
+			this.Map.VirtualGetScoreValues = GetScoreValues;
+
+
 
 			#region FirstMapLoader
 			this.FirstMapLoader.SignalMissed +=
@@ -61,7 +80,20 @@ namespace FlashTreasureHunt.ActionScript
 
 			// pass sync events from singleplayer to server
 
-			this.Map.Sync_TakeGold += this.Messages.TakeGold;
+			this.Map.Sync_TakeGold +=
+				index =>
+				{
+					this.LocalCoPlayer.Score += FlashTreasureHunt.ScoreForGold;
+					this.Messages.TakeGold(index);
+				};
+
+			this.Map.Sync_GuardKilled +=
+				DamageOwner =>
+				{
+					this.CoPlayers.Where(k => k.WeaponIdentity == DamageOwner).ForEach(k => k.Kills++);
+
+				};
+
 			this.Map.Sync_TakeAmmo += this.Messages.TakeAmmo;
 			this.Map.Sync_FireWeapon += this.Messages.FireWeapon;
 
@@ -81,6 +113,19 @@ namespace FlashTreasureHunt.ActionScript
 					this.Messages.GuardAddDamage(index, damage);
 				};
 
+
+			var ReportedScore = 0;
+			var ReportedKills = 0;
+			var ReportedTeleports = 0;
+
+			this.Map.Sync_PortalUsed +=
+				delegate
+				{
+					this.LocalCoPlayer.Teleports++;
+				};
+
+	
+
 			this.Map.Sync_EnterEndLevelMode +=
 				delegate
 				{
@@ -88,23 +133,28 @@ namespace FlashTreasureHunt.ActionScript
 
 					FirstMapLoader.Wait(TimeoutAction.LongOperation);
 
-					if (DisableEnterEndLevelMode)
-						return;
+					if (!DisableEnterEndLevelMode)
+					{
 
-					this.Map.WriteLine("send EnterEndLevelMode");
+						this.LocalCoPlayer.Score += FlashTreasureHunt.ScoreForEndLevel;
 
-					this.Messages.EnterEndLevelMode();
+						this.Map.WriteLine("send EnterEndLevelMode");
 
-					FirstMapLoader.Signal(
-						delegate
-						{
-							this.Map.WriteLine("sync copy that level to others");
+						this.Messages.EnterEndLevelMode();
 
-							WriteSync();
+						UseOurMapForNextLevel();
 
-							RestoreCoPlayers();
-						}
-					);
+					}
+
+
+					this.Messages.ReportScore(1,
+						this.LocalCoPlayer.Score - ReportedScore,
+						this.LocalCoPlayer.Kills - ReportedKills,
+						this.LocalCoPlayer.Teleports - ReportedTeleports);
+
+					ReportedKills = this.LocalCoPlayer.Kills;
+					ReportedScore = this.LocalCoPlayer.Score;
+					ReportedTeleports = this.LocalCoPlayer.Teleports;
 
 				};
 
@@ -113,7 +163,21 @@ namespace FlashTreasureHunt.ActionScript
 
 		}
 
-	
+		private void UseOurMapForNextLevel()
+		{
+			FirstMapLoader.Signal(
+							delegate
+							{
+								this.Map.WriteLine("sync copy that level to others");
+
+								WriteSync();
+
+								RestoreCoPlayers();
+							}
+						);
+		}
+
+
 
 
 	}

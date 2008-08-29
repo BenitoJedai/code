@@ -158,7 +158,7 @@ namespace FlashTreasureHunt.ActionScript
 
 
 
-			// this.music = Assets.Default.Music.music.play(0, 9999);
+			this.music = Assets.Default.Music.music.play(0, 9999, new SoundTransform(0.5));
 
 
 

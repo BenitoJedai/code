@@ -46,6 +46,7 @@ namespace FlashTreasureHunt.Shared
             UserGuardLookAt,
             GuardAddDamage,
             UserGuardAddDamage,
+            ReportScore,
         }
         #endregion
 
@@ -89,6 +90,7 @@ namespace FlashTreasureHunt.Shared
             event Action<RemoteEvents.UserGuardLookAtArguments> UserGuardLookAt;
             event Action<RemoteEvents.GuardAddDamageArguments> GuardAddDamage;
             event Action<RemoteEvents.UserGuardAddDamageArguments> UserGuardAddDamage;
+            event Action<RemoteEvents.ReportScoreArguments> ReportScore;
         }
         #endregion
 
@@ -245,6 +247,10 @@ namespace FlashTreasureHunt.Shared
             public void UserGuardAddDamage(int user, int index, double damage)
             {
                 Send(new SendArguments { i = Messages.UserGuardAddDamage, args = new object[] { user, index, damage } });
+            }
+            public void ReportScore(int level, int score, int kills, int teleports)
+            {
+                Send(new SendArguments { i = Messages.ReportScore, args = new object[] { level, score, kills, teleports } });
             }
         }
         #endregion
@@ -781,6 +787,23 @@ namespace FlashTreasureHunt.Shared
             }
             #endregion
             public event Action<UserGuardAddDamageArguments> UserGuardAddDamage;
+            #region ReportScoreArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class ReportScoreArguments
+            {
+                public int level;
+                public int score;
+                public int kills;
+                public int teleports;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ level = ").Append(this.level).Append(", score = ").Append(this.score).Append(", kills = ").Append(this.kills).Append(", teleports = ").Append(this.teleports).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<ReportScoreArguments> ReportScore;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -813,6 +836,7 @@ namespace FlashTreasureHunt.Shared
                             { Messages.UserGuardLookAt, e => { UserGuardLookAt(new UserGuardLookAtArguments { user = e.GetInt32(0), index = e.GetInt32(1), arc = e.GetDouble(2) }); } },
                             { Messages.GuardAddDamage, e => { GuardAddDamage(new GuardAddDamageArguments { index = e.GetInt32(0), damage = e.GetDouble(1) }); } },
                             { Messages.UserGuardAddDamage, e => { UserGuardAddDamage(new UserGuardAddDamageArguments { user = e.GetInt32(0), index = e.GetInt32(1), damage = e.GetDouble(2) }); } },
+                            { Messages.ReportScore, e => { ReportScore(new ReportScoreArguments { level = e.GetInt32(0), score = e.GetInt32(1), kills = e.GetInt32(2), teleports = e.GetInt32(3) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -845,6 +869,7 @@ namespace FlashTreasureHunt.Shared
                             { Messages.UserGuardLookAt, e => UserGuardLookAt },
                             { Messages.GuardAddDamage, e => GuardAddDamage },
                             { Messages.UserGuardAddDamage, e => UserGuardAddDamage },
+                            { Messages.ReportScore, e => ReportScore },
                         }
                 ;
             }
@@ -1110,9 +1135,17 @@ namespace FlashTreasureHunt.Shared
                 this.VirtualLatency(() => this.UserGuardAddDamage(v));
             }
 
+            public event Action<RemoteEvents.ReportScoreArguments> ReportScore;
+            void IMessages.ReportScore(int level, int score, int kills, int teleports)
+            {
+                if(ReportScore == null) return;
+                var v = new RemoteEvents.ReportScoreArguments { level = level, score = score, kills = kills, teleports = teleports };
+                this.VirtualLatency(() => this.ReportScore(v));
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 28.08.2008 22:10:45
+// 29.08.2008 19:34:27

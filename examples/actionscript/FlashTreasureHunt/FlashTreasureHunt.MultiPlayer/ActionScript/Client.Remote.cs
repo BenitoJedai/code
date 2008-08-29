@@ -105,6 +105,32 @@ namespace FlashTreasureHunt.ActionScript
 			Events.ServerPlayerLeft +=
 				e =>
 				{
+					if (UserEnterEndLevelMode_LastSender != null)
+						if (UserEnterEndLevelMode_LastSender.Identity.user == e.user)
+						{
+							Map.WriteLine("bummer, map owner left...");
+							// bummer, he was gonna send us a map!
+							// in next 1 to 5 secs we try to use our map
+							1000.AtDelayDo(
+								delegate
+								{
+									Convert.ToInt32(new Random().NextDouble() * 4000).AtDelayDo(
+										delegate
+										{
+											if (UserEnterEndLevelMode_LastSender == null)
+												return;
+
+											UserEnterEndLevelMode_LastSender = null;
+
+											Map.WriteLine("sending our map...");
+
+											UseOurMapForNextLevel();
+										}
+									);
+								}
+							);
+						}
+
 					//Map.WriteLine("left: " + e.name);
 
 					// self kill the player guard, and remove the coplayer entity
@@ -139,6 +165,9 @@ namespace FlashTreasureHunt.ActionScript
 			Events.UserSendMap +=
 				e =>
 				{
+					// got a map, no need to worry about not getting one
+					UserEnterEndLevelMode_LastSender = null;
+
 					// stop showing score and keep map in sync instead by loading a new map
 					if (this.Map.EnterEndLevelMode_ReadyToContinue != null)
 					{
@@ -176,6 +205,8 @@ namespace FlashTreasureHunt.ActionScript
 			Events.UserTakeGold +=
 				e =>
 				{
+					CoPlayers.Where(k => k.Identity.user == e.user).ForEach(k => k.Score += FlashTreasureHunt.ScoreForGold);
+
 					this.Map.GoldSprites.Where(k => k.ConstructorIndexForSync == e.index).ToArray().ForEach(
 						i => i.RemoveFrom(this.Map.GoldSprites).RemoveFrom(this.Map.EgoView.Sprites)
 					);
@@ -242,7 +273,11 @@ namespace FlashTreasureHunt.ActionScript
 						return;
 					}
 
+					sender.Score += FlashTreasureHunt.ScoreForEndLevel;
+
 					Map.WriteLine("got UserEnterEndLevelMode from " + sender.Identity.name);
+
+					UserEnterEndLevelMode_LastSender = sender;
 
 					if (this.AbortGhostMode != null)
 						this.AbortGhostMode();
@@ -253,7 +288,7 @@ namespace FlashTreasureHunt.ActionScript
 				};
 		}
 
-
+		public CoPlayer UserEnterEndLevelMode_LastSender;
 
 
 

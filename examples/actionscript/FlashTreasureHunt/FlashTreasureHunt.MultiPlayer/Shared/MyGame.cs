@@ -24,7 +24,15 @@ namespace FlashTreasureHunt.Shared
 			//player.FromPlayer.UnlockGame += e => this.GameState = MyGame.GameStateEnum.OpenGameInProgress;
 
 			//// registered nonoba rankings
-			//player.FromPlayer.AddScore += e => player.AddScore("score", e.score);
+			player.FromPlayer.ReportScore +=
+				e =>
+				{
+					player.AddScore("score", e.score);
+					player.AddScore("kills", e.kills);
+					player.AddScore("level", e.level);
+					player.AddScore("teleports", e.teleports);
+				};
+			
 
 			////player.FromPlayer.AddScore += e => player.AddScore("worms", e.worms);
 

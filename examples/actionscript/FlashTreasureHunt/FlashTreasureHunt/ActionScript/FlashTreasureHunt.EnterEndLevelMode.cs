@@ -210,8 +210,13 @@ namespace FlashTreasureHunt.ActionScript
 			public int Kills;
 		}
 
-		public virtual ScoreTag[] GetScoreValues()
+		public Func<ScoreTag[]> VirtualGetScoreValues;
+
+		public ScoreTag[] GetScoreValues()
 		{
+			if (VirtualGetScoreValues != null)
+				return VirtualGetScoreValues();
+
 			return new[]
 			{
 				new ScoreTag { Name = "Blazkowicz", Score = CurrentLevelScore, Kills = 7 },

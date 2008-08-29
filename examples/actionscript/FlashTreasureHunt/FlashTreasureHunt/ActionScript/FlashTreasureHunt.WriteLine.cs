@@ -81,20 +81,25 @@ namespace FlashTreasureHunt.ActionScript
 					Keyboard_Cheats.Enabled = value;
 				};
 
-
-			var ButtonT = new KeyboardButton(stage)
+			if (global::ScriptCoreLib.ActionScript.flash.system.Capabilities.isDebugger)
 			{
-				Groups = new[]
+				var ButtonT = new KeyboardButton(stage)
+				{
+					Groups = new[]
 			    {
 			        MovementArrows[Keyboard.T],
 			    },
-				Up = CheatMode.Toggle
-			};
+					Up = CheatMode.Toggle
+				};
 
-			this.EgoView.WriteLine = this.WriteLine;
+				this.EgoView.WriteLine = this.WriteLine;
 
-			if (!global::ScriptCoreLib.ActionScript.flash.system.Capabilities.isDebugger)
 				CheatMode.Toggle();
+
+			}
+
+			CheatMode.Toggle();
+
 		}
 	}
 }
