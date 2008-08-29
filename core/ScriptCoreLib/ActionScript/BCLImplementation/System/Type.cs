@@ -13,6 +13,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Type))]
     internal class __Type : __MemberInfo
     {
+		public static implicit operator __Type(Type e)
+		{
+			return (__Type)(object)e;
+		}
 
         RuntimeTypeHandle _TypeHandle;
 
@@ -67,7 +71,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         //  <variable name="Text" type="String"/>
         //</type>
 
-        XML TypeDescription
+        public XML TypeDescription
         {
             get
             {
@@ -87,7 +91,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
         // http://livedocs.adobe.com/flex/2/langref/flash/utils/package.html#getDefinitionByName()
         [Script(OptimizedCode = "return flash.utils.getDefinitionByName(e);")]
-        internal static object getDefinitionByName(string e)
+        public static object getDefinitionByName(string e)
         {
             return default(object);
         }
@@ -97,7 +101,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             return TypeDescription.ToString();
         }
 
-        internal string InternalFullName
+        public string InternalFullName
         {
             get
             {

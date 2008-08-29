@@ -55,12 +55,11 @@ namespace FlashTreasureHunt.ActionScript
 		// fix dead coplayers showing up alive
 		// fix compass reveal when not killing a coplayer by ego
 		// dummy guards?
-		// fix portal rerender
 		// fix score sharing
 		// add button to clear portal renders
-		// set players health to 2
-		// emit blood while hit
-
+		// move game goal to a newly revealed tile
+		// add movement smoothing
+		// add damage emitter info
 
 		BlockMaze maze;
 		public ViewEngine EgoView;
