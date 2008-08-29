@@ -12,6 +12,58 @@ namespace jsc.Languages.ActionScript
 {
 	partial class ActionScriptCompiler
 	{
+		public override void WriteCustomMethodCall(Type context, MethodInfo TargetMethod, params object[] e)
+		{
+			var MethodScriptAttribute = TargetMethod.ToScriptAttribute();
+			var TypeScriptAttribute = TargetMethod.DeclaringType.ToScriptAttribute();
+
+
+
+
+
+			var IsDefineAsStatic = MethodScriptAttribute != null && MethodScriptAttribute.DefineAsStatic;
+			var HasMethodExternalTarget = MethodScriptAttribute != null && MethodScriptAttribute.ExternalTarget != null;
+
+			Action WriteMethodName =
+				delegate
+				{
+					if (TypeScriptAttribute != null && TypeScriptAttribute.IsNative)
+						Write(TargetMethod.Name);
+					else
+						if (HasMethodExternalTarget)
+							Write(MethodScriptAttribute.ExternalTarget);
+						else
+							WriteDecoratedMethodName(TargetMethod, false);
+
+				};
+
+
+			if (TargetMethod.IsStatic)
+			{
+				WriteDecoratedTypeName(context, TargetMethod.DeclaringType, WriteDecoratedTypeNameOrImplementationTypeNameMode.IgnoreImplementationType);
+				Write(".");
+				WriteMethodName();
+				Write("(");
+
+				for (int i = 0; i < e.Length; i++)
+				{
+					var arg = e[i];
+
+					if (arg is string)
+						WriteQuotedLiteral((string)arg);
+					else
+						throw new NotImplementedException();
+
+					if (i < e.Length - 1)
+						Write(",");
+				}
+				Write(")");
+
+			}
+			else
+				throw new NotSupportedException();
+		}
+
 		public override void WriteMethodCallVerified(ILBlock.Prestatement p, ILInstruction i, System.Reflection.MethodBase m)
 		{
 

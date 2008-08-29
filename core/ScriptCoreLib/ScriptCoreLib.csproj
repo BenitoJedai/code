@@ -252,6 +252,7 @@
     <Compile Include="ActionScript\Class.cs" />
     <Compile Include="ActionScript\Extensions\KnownEmbeddedResources.cs" />
     <Compile Include="ActionScript\Extensions\MathExtensions.cs" />
+    <Compile Include="ActionScript\Extensions\PreloaderSprite.cs" />
     <Compile Include="ActionScript\Extensions\ZipFileEntry.cs" />
     <Compile Include="ActionScript\flash\display\FrameLabel.cs" />
     <Compile Include="ActionScript\flash\display\Scene.cs" />

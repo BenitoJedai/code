@@ -1146,7 +1146,7 @@ namespace jsc.Languages.C
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public Type ResolveImplementation(Type t)
+        public override Type ResolveImplementation(Type t)
         {
             return MySession.ResolveImplementation(t); ;
         }

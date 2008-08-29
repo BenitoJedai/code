@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Reflection;
 using ScriptCoreLib;
+using ScriptCoreLib.Shared;
 using System.Reflection.Emit;
 using jsc.Script;
 using System.Runtime.InteropServices;
@@ -491,6 +492,7 @@ namespace jsc.Languages.ActionScript
 					else
 						WriteInlineOperator(e.p, e.i, "==");
 				};
+
 
 			{
 				Func<string, CodeInstructionHandler> f = t => e => WriteInlineOperator(e.p, e.i, t);
@@ -1030,6 +1032,7 @@ namespace jsc.Languages.ActionScript
 
 					var _TargetType = MySession.ResolveImplementation(e.i.TargetType) ?? e.i.TargetType;
 
+			
 					#region _RuntimeTypeHandle_From_Class
 					WriteDecoratedTypeNameOrImplementationTypeName(_RuntimeTypeHandle, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _RuntimeTypeHandle));
 					Write(".");
@@ -1038,6 +1041,7 @@ namespace jsc.Languages.ActionScript
 
 					if (_TargetType.IsGenericParameter)
 					{
+						// the Type should be passed as an argument?
 						throw new NotSupportedException("typeof(T) not supported yet.");
 					}
 

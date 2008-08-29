@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.ActionScript
 {
 	[global::System.AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
-	class EmbedGetEntriesAttribute
+	public class EmbedGetFileNamesAttribute : Attribute
 	{
 	}
 }

@@ -580,7 +580,10 @@ namespace jsc.Script.PHP
 
 
 
-
+		public override Type ResolveImplementation(Type t)
+		{
+			return MySession.ResolveImplementation(t);
+		}
 
         public override MethodBase ResolveImplementationMethod(Type t, MethodBase m)
         {
