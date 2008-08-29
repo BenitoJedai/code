@@ -25,6 +25,14 @@ namespace FlashPreloader.ActionScript
 
 		public static readonly Assets Default = new Assets();
 
+		public string[] Entries 
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
 		public Class this[string e]
 		{
 			[EmbedByFileName]

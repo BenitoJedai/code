@@ -112,6 +112,7 @@
   <ItemGroup>
     <Compile Include="ActionScript\Array.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Action.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Activator.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ArgumentNullException.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -252,6 +253,8 @@
     <Compile Include="ActionScript\Extensions\KnownEmbeddedResources.cs" />
     <Compile Include="ActionScript\Extensions\MathExtensions.cs" />
     <Compile Include="ActionScript\Extensions\ZipFileEntry.cs" />
+    <Compile Include="ActionScript\flash\display\FrameLabel.cs" />
+    <Compile Include="ActionScript\flash\display\Scene.cs" />
     <Compile Include="ActionScript\flash\filters\ColorMatrixFilter.cs" />
     <Compile Include="ActionScript\flash\system\Capabilities.cs" />
     <Compile Include="ActionScript\flash\system\IME.cs" />
@@ -262,6 +265,8 @@
     <Compile Include="ActionScript\flash\utils\IDataOutput.cs" />
     <Compile Include="ActionScript\flash\utils\IDataInput.cs" />
     <Compile Include="ActionScript\flash\utils\IExternalizable.cs" />
+    <Compile Include="ActionScript\FrameAttribute.cs" />
+    <Compile Include="ActionScript\mx\preloaders\IPreloaderDisplay.cs" />
     <Compile Include="ActionScript\Number.cs" />
     <Compile Include="ActionScript\QName.cs" />
     <Compile Include="ActionScript\uint.cs" />

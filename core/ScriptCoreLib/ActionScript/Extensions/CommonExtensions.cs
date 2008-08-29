@@ -156,6 +156,13 @@ namespace ScriptCoreLib.ActionScript.Extensions
 			return default(object);
 		}
 
+		public static Class ToClassToken(this Type e)
+		{
+			__Type c = e;
+
+			return (Class)__Type.getDefinitionByName(c.InternalFullName);
+		}
+
 		public static Class ToClassToken(this IntPtr e)
 		{
 			var x = e;
