@@ -11,18 +11,22 @@ namespace ScriptCoreLib.ActionScript.Extensions
 	/// To be used with FrameAttribute and TypeOfByNameOverrideAttribute
 	/// </summary>
 	[Script]
-	public abstract class PreloaderSprite : MovieClip
+	public abstract class PreloaderSprite : Sprite
 	{
-		protected abstract DisplayObject CreateInstance();
+		public abstract DisplayObject CreateInstance();
+
+		public virtual bool AutoCreateInstance()
+		{
+			return true;
+		}
 
 		public PreloaderSprite()
 		{
 			this.LoadingComplete +=
 				delegate
 				{
-					CreateInstance().AttachTo(this.stage);
-
-					this.Orphanize();
+					if (AutoCreateInstance())
+						CreateInstance().AttachTo(this);
 				};
 		}
 

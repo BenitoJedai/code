@@ -2607,16 +2607,19 @@ namespace jsc
                 if (this.TargetVariable != null)
                     return false;
 
+				if (this.TargetParameter != null)
+					return false;
 
                 if (this.TargetInteger != null ||
                     this.TargetLong != null ||
                     this.TargetFloat != null ||
                     this.TargetDouble != null ||
-                    this.TargetVariable != null || 
-                    this.TargetParameter != null
+                    this.TargetVariable != null /*|| 
+                    this.TargetParameter != null*/
 					)
                     return true;
 
+		
                 if (IsAnyOpCodeOf(OpCodes.Ldstr, OpCodes.Ldnull))
                     return true;
 

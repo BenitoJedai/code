@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="ActionScript\Game.cs" />
     <Compile Include="ActionScript\Monetized\MochiPreloader.cs" />
+    <Compile Include="ActionScript\PreloaderExtensions.cs" />
     <Compile Include="Server\Dummy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
