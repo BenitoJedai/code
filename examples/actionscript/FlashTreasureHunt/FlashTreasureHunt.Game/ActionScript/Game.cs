@@ -16,7 +16,7 @@ namespace FlashTreasureHunt.ActionScript
 	/// </summary>
 	[Script, ScriptApplicationEntryPoint(Width = ControlWidth, Height = ControlHeight)]
 	[SWF(width = ControlWidth, height = ControlHeight, backgroundColor = 0)]
-	// [Frame(typeof(MochiPreloader))]
+	[Frame(typeof(MochiPreloader))]
 	public class Game : Sprite
 	{
 		public const int ControlWidth = FlashTreasureHunt.DefaultControlWidth + NonobaClient.NonobaChatWidth;

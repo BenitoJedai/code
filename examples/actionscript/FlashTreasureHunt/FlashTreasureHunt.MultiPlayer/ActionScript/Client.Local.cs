@@ -114,18 +114,14 @@ namespace FlashTreasureHunt.ActionScript
 				};
 
 
-			var ReportedScore = 0;
-			var ReportedKills = 0;
-			var ReportedTeleports = 0;
-
 			this.Map.Sync_PortalUsed +=
 				delegate
 				{
 					this.LocalCoPlayer.Teleports++;
 				};
 
-	
 
+		
 			this.Map.Sync_EnterEndLevelMode +=
 				delegate
 				{
@@ -133,8 +129,11 @@ namespace FlashTreasureHunt.ActionScript
 
 					FirstMapLoader.Wait(TimeoutAction.LongOperation);
 
+					var LScoreForLevelEnding = 0;
+
 					if (!DisableEnterEndLevelMode)
 					{
+						LScoreForLevelEnding = 1;
 
 						this.LocalCoPlayer.Score += FlashTreasureHunt.ScoreForEndLevel;
 
@@ -147,17 +146,25 @@ namespace FlashTreasureHunt.ActionScript
 					}
 
 
-					this.Messages.ReportScore(1,
-						this.LocalCoPlayer.Score - ReportedScore,
-						this.LocalCoPlayer.Kills - ReportedKills,
-						this.LocalCoPlayer.Teleports - ReportedTeleports);
+					this.Messages.ReportScore(LScoreForLevelEnding,
+						this.LocalCoPlayer.Score ,
+						this.LocalCoPlayer.Kills ,
+						this.LocalCoPlayer.Teleports);
 
-					ReportedKills = this.LocalCoPlayer.Kills;
-					ReportedScore = this.LocalCoPlayer.Score;
-					ReportedTeleports = this.LocalCoPlayer.Teleports;
 
 				};
 
+			this.Map.Sync_ExitEndLevelMode +=
+				delegate
+				{
+					this.CoPlayers.ForEach(
+						k =>
+						{
+							k.Score = 0;
+							k.Kills = 0;
+							k.Teleports = 0;
+						});
+				};
 			this.Map.AttachTo(Element);
 
 
