@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="ActionScript\EmbedByFileNameAttribute.cs" />
     <Compile Include="ActionScript\EmbedFieldsAttribute.cs" />
+    <Compile Include="ActionScript\EmbedGetFileNamesAttribute.cs" />
     <Compile Include="ActionScript\EmbedMimeTypes.cs" />
     <Compile Include="CSharp\Extensions\EmbeddedResourcesExtensions.cs" />
     <Compile Include="GoogleGadget.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="ScriptAttribute.cs" />
     <Compile Include="ScriptImportsTypeAttribute.cs" />
     <Compile Include="ScriptLanguageProvider.cs" />
+    <Compile Include="Shared\TypeOfByNameOverrideAttribute.cs" />
     <Compile Include="Tools\JSONSerializer.cs" />
   </ItemGroup>
   <ItemGroup>

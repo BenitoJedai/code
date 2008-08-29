@@ -381,6 +381,11 @@ namespace jsc.Languages.ActionScript
             throw new NotImplementedException();
         }
 
+		public override Type ResolveImplementation(Type t)
+		{
+			return MySession.ResolveImplementation(t);
+		}
+
         public override System.Reflection.MethodBase ResolveImplementationMethod(Type t, System.Reflection.MethodBase m)
         {
             return MySession.ResolveImplementation(t, m);

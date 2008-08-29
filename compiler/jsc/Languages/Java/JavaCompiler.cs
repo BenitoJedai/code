@@ -71,7 +71,7 @@ namespace jsc.Languages.Java
 
 
 
-        public Type ResolveImplementation(Type t)
+        public override Type ResolveImplementation(Type t)
         {
             return MySession.ResolveImplementation(t); ;
         }
@@ -982,11 +982,13 @@ namespace jsc.Languages.Java
         //}
 
 
-        protected override void WriteTypeOf(ILBlock.Prestatement p, ILInstruction i)
+        protected override bool WriteTypeOf(ILBlock.Prestatement p, ILInstruction i)
         {
             Emit(p, i.StackBeforeStrict[0]);
 
             Write(".class");
+
+			return true;
         }
 
         /// <summary>

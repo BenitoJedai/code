@@ -136,3 +136,5 @@ version history:
 	javascript: added shr_un opcode
 18.08.2008
 	java: added OpCode.Not
+29.08.2008
+	jsc: added TypeOfByNameOverrideAttribute support
