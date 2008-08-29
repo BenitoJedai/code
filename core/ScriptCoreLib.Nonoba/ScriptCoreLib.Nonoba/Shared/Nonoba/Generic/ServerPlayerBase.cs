@@ -17,7 +17,16 @@ namespace ScriptCoreLib.Shared.Nonoba.Generic
         public RemoteMessages ToPlayer;
         public RemoteMessages ToOthers;
 
-        public Action<string, int> AddScore;
+		/// <summary>
+		/// Adds score to ranking list as a delta
+		/// </summary>
+		public Action<string, int> AddScore;
+		public Action<string, int> SetScore;
+
+		/// <summary>
+		/// Adds score to highscore list as absolute value
+		/// </summary>
+		public Action<string, int> AddHighscore;
 
         // http://nonoba.com/developers/documentation/multiplayerapi/classnonobagameuserserverside#server.nonobagameuser.awardachievement
         public Func<string, uint> AwardAchievement;

@@ -12,10 +12,43 @@ namespace FlashTreasureHunt.Shared
 	public class MyGame : ServerGameBase<SharedClass1.IEvents, SharedClass1.IMessages, MyPlayer>
 	{
 
+		[Script]
+		public class AvailibleAchievement
+		{
+			public readonly string Key;
+
+			bool GivenOnce;
+
+			public void Give()
+			{
+				if (GivenOnce)
+					return;
+
+				GivenOnce = true;
+
+				_Submit(Key);
+			}
+
+			Func<string, uint> _Submit;
+
+			public AvailibleAchievement(Func<string, uint> Submit, string Key)
+			{
+				this._Submit = Submit;
+				this.Key = Key;
+			}
+		}
 
 		public override void UserJoined(MyPlayer player)
 		{
 			Console.WriteLine("- UserJoined " + player.Username);
+
+
+			var exitfound = new AvailibleAchievement(player.AwardAchievement, "exitfound");
+			var firstblood = new AvailibleAchievement(player.AwardAchievement, "firstblood");
+			var portalfound = new AvailibleAchievement(player.AwardAchievement, "portalfound");
+			var getrich = new AvailibleAchievement(player.AwardAchievement, "getrich");
+			var massacre = new AvailibleAchievement(player.AwardAchievement, "massacre");
+			var levelup = new AvailibleAchievement(player.AwardAchievement, "levelup");
 
 
 			var x = AnyOtherUser(player);
@@ -23,16 +56,43 @@ namespace FlashTreasureHunt.Shared
 			//player.FromPlayer.LockGame += e => this.GameState = MyGame.GameStateEnum.ClosedGameInProgress;
 			//player.FromPlayer.UnlockGame += e => this.GameState = MyGame.GameStateEnum.OpenGameInProgress;
 
+			var total_score = 0;
+			var total_kills = 0;
+			var total_level = 0;
+
 			//// registered nonoba rankings
 			player.FromPlayer.ReportScore +=
 				e =>
 				{
+					if (e.level > 0)
+						exitfound.Give();
+
+					if (e.kills > 0)
+						firstblood.Give();
+
+					if (e.teleports > 0)
+						portalfound.Give();
+
+					total_score += e.score;
+					total_kills += e.kills;
+					total_level += e.level;
+
+					if (total_score > 2000)
+						getrich.Give();
+
+					if (total_kills > 50)
+						massacre.Give();
+
+					if (total_level > 15)
+						levelup.Give();
+
 					player.AddScore("score", e.score);
 					player.AddScore("kills", e.kills);
 					player.AddScore("level", e.level);
 					player.AddScore("teleports", e.teleports);
+					player.SetScore("fps", e.fps);
 				};
-			
+
 
 			////player.FromPlayer.AddScore += e => player.AddScore("worms", e.worms);
 

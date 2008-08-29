@@ -50,6 +50,9 @@ namespace FlashTreasureHunt.ActionScript.Monetized
 			this.InvokeWhenStageIsReady(
 				delegate
 				{
+					stage.scaleMode = StageScaleMode.NO_SCALE;
+					stage.align = StageAlign.TOP_LEFT;
+
 					_mochiads_game_id = FlashTreasureHunt.PublishedInfo.MochiAd;
 
 					showPreGameAd(

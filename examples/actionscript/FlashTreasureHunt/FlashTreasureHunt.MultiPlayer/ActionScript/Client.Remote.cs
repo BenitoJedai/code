@@ -136,6 +136,13 @@ namespace FlashTreasureHunt.ActionScript
 					// self kill the player guard, and remove the coplayer entity
 					this.CoPlayers.Where(k => k.Identity.user == e.user).Where(k => k.Guard != null).ToArray().ForEach(k => k.RemoveFrom(CoPlayers).Guard.TakeDamage(k.Guard.Health, k.WeaponIdentity));
 
+					if (this.CoPlayers.Count == 1)
+					{
+						// if ego is left alone reveal exit
+
+						if (this.Map.HalfOfTheTreasureCollected != null)
+							this.Map.HalfOfTheTreasureCollected();
+					}
 				};
 
 			Events.ServerSendMap +=

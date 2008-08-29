@@ -114,11 +114,14 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 
 			var fuzzy = 0.000001;
 
+			var ViewDirectionLeftByArc = (this.ViewDirection - arc + 360.DegreesToRadians()) % 360.DegreesToRadians();
+			var ViewDirectionRightByArc = (this.ViewDirection + arc + 360.DegreesToRadians()) % 360.DegreesToRadians();
+
 			foreach (var i in source)
 			{
 				var v = new SpriteInfoFromPOV(i);
 
-				v.Update(this.posX + fuzzy, this.posY + fuzzy, this.ViewDirection - arc, this.ViewDirection + arc);
+				v.Update(this.posX + fuzzy, this.posY + fuzzy, ViewDirectionLeftByArc, ViewDirectionRightByArc);
 
 				if (v.Distance < 0.1)
 					v.ViewInfo.IsInView = false;
