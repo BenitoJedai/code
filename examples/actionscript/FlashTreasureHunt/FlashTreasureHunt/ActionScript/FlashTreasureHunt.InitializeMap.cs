@@ -201,11 +201,23 @@ namespace FlashTreasureHunt.ActionScript
 
 					AddPortals();
 
+
+
 					AddIngameEntities(
 						delegate
 						{
 							this.WriteLine("init: AddIngameEntities done");
 
+
+							1000.AtInterval(
+								delegate
+								{
+									var u = new PointInt32 { X = EgoView.ViewPosition.x.Floor(), Y = EgoView.ViewPosition.y.Floor() };
+
+									if (this.EgoView.Map.WallMap[u.X, u.Y] != 0)
+										ResetEgoPosition();
+								}
+							);
 
 							stage.enterFrame +=
 								e =>
