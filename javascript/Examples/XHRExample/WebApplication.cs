@@ -11,7 +11,7 @@ using ScriptCoreLib.JavaScript.Net;
 
 namespace jsXMLhttpRequest
 {
-    [Script]
+    [Script, ScriptApplicationEntryPoint]
     public class WebApplication
     {
         [Script(OptimizedCode= @"
