@@ -18,6 +18,7 @@ using Console = System.Console;
 namespace gameclient.source.js.Controls
 {
     using shared;
+	using System.Diagnostics;
 
     [Script]
     class UnitCache
@@ -247,6 +248,8 @@ namespace gameclient.source.js.Controls
 
             this.CurrentSession = new ClientSession();
             this.CurrentSession.Control = this;
+
+			Debugger.Break();
 
             this.CurrentSession.MethodA("a1", "a2",
                 delegate(string text)

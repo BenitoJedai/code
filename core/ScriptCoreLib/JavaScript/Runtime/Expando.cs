@@ -328,7 +328,8 @@ namespace ScriptCoreLib.JavaScript.Runtime
                                 // \x not supported
                                 // w.Write(@"\x" + Convert.ToHexString(c));
 
-                                w.Write(x);
+								
+								w.Write(BCLImplementation.System.__String.FromCharCode(x));
                             }
 
                         }
