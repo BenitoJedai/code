@@ -114,7 +114,10 @@ namespace jsXMLhttpRequest
 
             if (sat == 0)
             {            /* achromatic case */
-                c.R = c.G = c.B = (byte)((lum * RGBMAX) / HLSMAX);
+                c.R =   (byte)((lum * RGBMAX) / HLSMAX);
+				c.G = c.R;
+				c.B = c.R;
+
                 if (hue != UNDEFINED)
                 {
                     /* ERROR */
