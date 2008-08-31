@@ -115,13 +115,13 @@ namespace ScriptCoreLib.Tools
             b(x.B);
         }
 
-        public static void Deserialize<T>(T o, Stream ds)
+        public static void Deserialize<T>(T o, Stream s)
         {
-			var s = new BufferedStream(ds);
+			//var s = new BufferedStream(ds);
 
-			var stext = new BinaryReader(s).ReadString();
+			//var stext = new BinaryReader(s).ReadString();
 
-			s.Position = 0;
+			//s.Position = 0;
 
             int StreamPosition = 0;
 

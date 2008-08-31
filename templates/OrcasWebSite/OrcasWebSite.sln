@@ -1,24 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "OrcasWebSite", "X:\jsc.svn\templates\OrcasWebSite\", "{EA1F5BA3-1370-452C-AF4B-2EA418195DED}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "OrcasWebSite", ".", "{80F196C8-0BE7-42AF-ACAB-AD540BE44BFB}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFramework = "3.5"
 		Debug.AspNetCompiler.VirtualPath = "/OrcasWebSite"
-		Debug.AspNetCompiler.PhysicalPath = "..\OrcasWebSite\"
+		Debug.AspNetCompiler.PhysicalPath = "..\..\..\..\..\..\work\jsc.svn\templates\OrcasWebSite\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\OrcasWebSite\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.VirtualPath = "/OrcasWebSite"
-		Release.AspNetCompiler.PhysicalPath = "..\OrcasWebSite\"
+		Release.AspNetCompiler.PhysicalPath = "..\..\..\..\..\..\work\jsc.svn\templates\OrcasWebSite\"
 		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\OrcasWebSite\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "1309"
+		VWDPort = "51797"
 	EndProjectSection
 EndProject
 Global
@@ -26,8 +26,8 @@ Global
 		Debug|.NET = Debug|.NET
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EA1F5BA3-1370-452C-AF4B-2EA418195DED}.Debug|.NET.ActiveCfg = Debug|.NET
-		{EA1F5BA3-1370-452C-AF4B-2EA418195DED}.Debug|.NET.Build.0 = Debug|.NET
+		{80F196C8-0BE7-42AF-ACAB-AD540BE44BFB}.Debug|.NET.ActiveCfg = Debug|.NET
+		{80F196C8-0BE7-42AF-ACAB-AD540BE44BFB}.Debug|.NET.Build.0 = Debug|.NET
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

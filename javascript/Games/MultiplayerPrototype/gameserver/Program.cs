@@ -77,8 +77,7 @@ namespace cncserver
 
             var s = new HttpListener();
 
-            s.Prefixes.Add("http://*:80/");
-
+            s.Prefixes.Add("http://*:8080/");
             s.Start();
 
             Console.WriteLine("server ready!");
