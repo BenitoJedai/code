@@ -13,9 +13,16 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 	{
 		protected Stream OutStream;
 		private byte[] _buffer;
- 
 
- 
+
+		public virtual Stream BaseStream
+		{
+			get
+			{
+				return OutStream;
+			}
+		}
+
 
 
 		public __BinaryWriter(Stream output)
@@ -57,6 +64,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 			this.OutStream.WriteByte(value);
 		}
 
+		public virtual void Write(byte[] value)
+		{
+			this.OutStream.Write(value, 0, value.Length);
+		}
 
 		public virtual void Write(double value)
 		{
