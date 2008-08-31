@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.ActionScript.flash.utils;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 {
@@ -41,6 +42,16 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 			return m_stream.ToByteArray().readUnsignedInt();
 		}
 
+		public virtual byte[] ReadBytes(int length)
+		{
+			var k = new ByteArray();
+			var s = m_stream.ToByteArray();
+
+			s.readBytes(k, s.position, (uint)length);
+
+			return k.ToArray();
+		}
+
 		public virtual int ReadInt32()
 		{
 			return m_stream.ToByteArray().readInt();
@@ -71,7 +82,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 
 				if (ms != null)
 				{
-					
+
 					throw new Exception("MemoryStreamEndOfFile: " + new { this.m_stream.Position, this.m_stream.Length, num, value = ms.ToArray() }.ToString());
 				}
 				else

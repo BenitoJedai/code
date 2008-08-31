@@ -30,5 +30,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         {
             return (int)global::System.Math.Floor(value);
         }
+
+		public static byte ToByte(double value)
+		{
+			return (byte)(((int)global::System.Math.Floor(value)) % 256);
+		}
     }
 }

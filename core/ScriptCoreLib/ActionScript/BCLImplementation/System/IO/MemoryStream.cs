@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.Extensions;
+using System.IO;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 {
@@ -88,6 +89,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 			{
 				Buffer.position = (uint)value;
 			}
+		}
+
+		public void WriteTo(Stream s)
+		{
+			var b = new byte[s.Length];
+
+			s.Read(b, 0, b.Length);
+			
+			this.Write(b, 0, b.Length);
 		}
 	}
 }
