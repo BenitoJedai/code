@@ -138,13 +138,13 @@ namespace FlashAvalonQueryExample.Shared
 						{
 							var src = FaciconService + k;
 
-							var y = 32 + KnownDomainsInputHeight + 4 + FilterInputHeight + 4 + i * 22;
+							var y = 32 + KnownDomainsInputHeight + 4 + FilterInputHeight + 4 + i * 24;
 
 							var bg = new Rectangle
 							{
 								Fill = Color_Inactive,
 								Width = 400,
-								Height = 22
+								Height = 24
 
 							}
 							.MoveTo(32, y).AttachTo(this);

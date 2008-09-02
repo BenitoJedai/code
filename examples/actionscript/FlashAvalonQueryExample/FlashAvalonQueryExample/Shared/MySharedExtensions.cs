@@ -113,9 +113,9 @@ namespace FlashAvalonQueryExample.Shared
 			if (e.Parent is UnrelatedType)
 				throw new NotSupportedException("is operator");
 
-			var IsPanel = e.Parent is Panel;
+			var IsPanel = e.Parent as Panel;
 
-			if (!IsPanel)
+			if (IsPanel != null)
 				throw new NotImplementedException("Parent should have been a Panel");
 
 			var p = (Panel)e.Parent;

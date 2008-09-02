@@ -1290,7 +1290,22 @@ namespace jsc
 
 		static void OpCode_isinst(IdentWriter w, ilbp p, ili i, ilfsi[] s)
 		{
+			// this opcode should unwrap itself from cgt null
+			// we might be inside double not operator
+
+			// we might need the library help here
+
+			w.Write("!(");
 			OpCodeHandler(w, p, i, s[0]);
+
+			w.WriteSpace();
+			w.Write("instanceof");
+			// http://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Operators/Special_Operators/instanceof_Operator
+			w.WriteSpace();
+
+			w.WriteDecoratedType(w.Session.ResolveImplementation(i.TargetType) ?? i.TargetType, false);
+			w.Write(")");
+
 		}
 
 		static void OpCode_dup(IdentWriter w, ilbp p, ili i, ilfsi[] s)
@@ -1505,6 +1520,21 @@ namespace jsc
 				return;
 
 			}
+
+			if (s[0].SingleStackInstruction.OpCode == OpCodes.Isinst)
+				if (i.OpCode == OpCodes.Cgt_Un)
+					if (s[1].SingleStackInstruction.OpCode == OpCodes.Ldnull)
+					{
+						OpCodeHandler(w, p, i, s[0]);
+
+						// il is like this:
+						// (u as T) != null
+						// yet javascript supports this:
+						// u instanceof T
+
+						return;
+					}
+
 
 			w.Write("(");
 
