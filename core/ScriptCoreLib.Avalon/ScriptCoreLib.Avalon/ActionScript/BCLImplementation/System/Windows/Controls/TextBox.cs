@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using ScriptCoreLib.ActionScript.flash.events;
 using System.Windows.Media;
 using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media;
+using System.Windows;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 {
@@ -26,10 +27,28 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 				};
 		}
 
+		public override void InternalSetWidth(double value)
+		{
+			this.InternalTextField.autoSize = TextFieldAutoSize.NONE;
+			this.InternalTextField.width = value;
+		}
+
+		public override void InternalSetHeight(double value)
+		{
+			this.InternalTextField.autoSize = TextFieldAutoSize.NONE;
+			this.InternalTextField.height = value;
+		}
+
+
+		public override void InternalSetAcceptsReturn(bool value)
+		{
+			this.InternalTextField.multiline = value;
+		}
+
 		public override void InternalSetFontSize(double value)
 		{
 			InternalTextField.defaultTextFormat = new TextFormat { size = Convert.ToInt32(value) };
-			
+
 
 		}
 
@@ -144,5 +163,30 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			}
 		}
 
+		public TextWrapping TextWrapping
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				if (value == TextWrapping.NoWrap)
+				{
+					this.InternalTextField.wordWrap = false;
+
+					return;
+				}
+
+				if (value == TextWrapping.Wrap)
+				{
+					this.InternalTextField.wordWrap = true;
+
+					return;
+				}
+
+				throw new NotSupportedException();
+			}
+		}
 	}
 }
