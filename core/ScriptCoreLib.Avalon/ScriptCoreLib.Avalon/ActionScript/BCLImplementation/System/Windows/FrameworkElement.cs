@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+using System.Windows;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 {
@@ -63,5 +64,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 			}
 		}
 
+		public DependencyObject InternalParent;
+
+		public DependencyObject Parent { get { return this.InternalParent; } }
+
+		public static implicit operator global::System.Windows.FrameworkElement(__FrameworkElement e)
+		{
+			return (global::System.Windows.FrameworkElement)(object)e;
+		}
 	}
 }

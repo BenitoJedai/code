@@ -47,7 +47,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 		public __Panel()
 		{
-			_Children = new __UIElementCollection { InternalSprite = InternalSprite };
+			_Children = new __UIElementCollection(this) { InternalSprite = InternalSprite };
 		}
 
 		public double InternalWidthValue;
