@@ -103,5 +103,11 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 
 			return e;
 		}
+
+		public static T Orphanize<T>(T e)
+			where T : UIElement
+		{
+
+		}
 	}
 }

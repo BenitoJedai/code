@@ -5,6 +5,8 @@ using System.Text;
 using ScriptCoreLib;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 
 namespace FlashAvalonQueryExample.Shared
 {
@@ -85,6 +87,42 @@ namespace FlashAvalonQueryExample.Shared
 				return false;
 
 			return true;
+		}
+
+		public static void AppendTextLine(this TextBoxBase e, string textData)
+		{
+			e.AppendText(textData + Environment.NewLine);
+		}
+
+		public static void Do(this IEnumerable<Action> e)
+		{
+			foreach (var a in e)
+			{
+				a();
+			}
+		}
+
+		[Script]
+		class UnrelatedType : FrameworkElement
+		{
+		}
+
+		public static T Orphanize<T>(this T e)
+			where T : FrameworkElement
+		{
+			if (e.Parent is UnrelatedType)
+				throw new NotSupportedException("is operator");
+
+			var IsPanel = e.Parent is Panel;
+
+			if (!IsPanel)
+				throw new NotImplementedException("Parent should have been a Panel");
+
+			var p = (Panel)e.Parent;
+			
+			p.Children.Remove(e);
+
+			return e;
 		}
 	}
 }

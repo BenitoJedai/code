@@ -9,6 +9,7 @@ using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Media.Imaging;
 
 namespace FlashAvalonQueryExample.Shared
 {
@@ -36,11 +37,14 @@ namespace FlashAvalonQueryExample.Shared
 			}
 			#endregion
 
+			var FaciconService = "http://www.google.com/s2/favicons?domain=";
+
 			// http://www.google.com/s2/favicons?domain=wordpress.com
 			var KnownDomains = "google.com, wordpress.com, sf.net, mochiads.com, nonoba.com, newgrounds.com, youtube.com";
 
 			var Color_Inactive = 0xffc0c0c0.ToSolidColorBrush();
 			var Color_Active = 0xffffffff.ToSolidColorBrush();
+			var Color_Error = 0xffffff80.ToSolidColorBrush();
 
 			var KnownDomainsInputHeight = 120;
 
@@ -91,27 +95,32 @@ namespace FlashAvalonQueryExample.Shared
 
 			ApplyActiveColor(FilterInput);
 
-			var ResultOutputHeight = 120;
-			var ResultOutput = new TextBox
-			{
-				AcceptsReturn = true,
-				FontSize = 15,
-				Text = "?",
-				BorderThickness = new Thickness(0),
-				//Foreground = 0xffffffff.ToSolidColorBrush(),
-				Background = Color_Inactive,
-				Width = 400,
-				Height = ResultOutputHeight,
-				IsReadOnly = true
-				
-			}.MoveTo(32, 32 + KnownDomainsInputHeight + 4 + FilterInputHeight + 4).AttachTo(this);
+			//var ResultOutputHeight = 120;
+			//var ResultOutput = new TextBox
+			//{
+			//    AcceptsReturn = true,
+			//    FontSize = 15,
+			//    Text = "?",
+			//    BorderThickness = new Thickness(0),
+			//    //Foreground = 0xffffffff.ToSolidColorBrush(),
+			//    Background = Color_Inactive,
+			//    Width = 400,
+			//    Height = ResultOutputHeight,
+			//    IsReadOnly = true
 
-			ApplyActiveColor(ResultOutput);
+			//}.MoveTo(32, 32 + KnownDomainsInputHeight + 4 + FilterInputHeight + 4).AttachTo(this);
+
+			//ApplyActiveColor(ResultOutput);
+
+			var AnyInputChangedBefore = new List<Action>();
 
 			Action AnyInputChanged =
 				delegate
 				{
-					ResultOutput.Text = "chars: " + KnownDomainsInput.Text.Length;
+					AnyInputChangedBefore.Do();
+					AnyInputChangedBefore.Clear();
+
+					//ResultOutput.Text = "chars: " + KnownDomainsInput.Text.Length;
 
 					var query = from k in KnownDomainsInput.Text.Split(',')
 								let t = k.Trim()
@@ -122,12 +131,65 @@ namespace FlashAvalonQueryExample.Shared
 
 					//var Entries = KnownDomainsInput.Text.Split(',').Select(t => t.Trim()).Where(k => k.LooksLikeValidCName()).ToArray();
 
-					ResultOutput.AppendText(" entries: " + query.Count() + Environment.NewLine);
+					//ResultOutput.AppendTextLine(" entries: " + query.Count());
 
 					query.ForEach(
 						(k, i) =>
 						{
-							ResultOutput.AppendText((i + 1) + ". " + k + Environment.NewLine);
+							var src = FaciconService + k;
+
+							var y = 32 + KnownDomainsInputHeight + 4 + FilterInputHeight + 4 + i * 22;
+
+							var bg = new Rectangle
+							{
+								Fill = Color_Active,
+								Width = 400,
+								Height = 22
+
+							}
+							.MoveTo(32, y).AttachTo(this);
+
+							
+							//var img = new Image
+							//{
+								
+							//}
+							//.MoveTo(32 + 2, y + 2).AttachTo(this);
+
+						
+							var text = new TextBox
+							{
+								IsReadOnly = true,
+								Text = (i + 1) + ". " + k,
+								Width = 400 - 32,
+								BorderThickness = new Thickness(0),
+								Background = Color_Inactive
+							}.MoveTo(32 + 32, y + 2).AttachTo(this);
+
+				
+						
+
+							//var src_uri = new BitmapImage(new Uri(src));
+
+							//src_uri.DownloadCompleted +=
+							//    delegate
+							//    {
+							//        text.Background = Color_Active;
+							//    };
+
+							//src_uri.DownloadFailed +=
+							//    delegate
+							//    {
+							//        text.Background = Color_Error;
+							//    };
+
+
+							//img.Source = src_uri;
+
+							AnyInputChangedBefore.Add(() => bg.Orphanize());
+							//AnyInputChangedBefore.Add(() => img.Orphanize());
+							AnyInputChangedBefore.Add(() => text.Orphanize());
+							//ResultOutput.AppendTextLine((i + 1) + ". " + k + " " + src);
 						}
 					);
 					// we need to validate CNAMEs

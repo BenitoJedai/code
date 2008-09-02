@@ -51,10 +51,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 						this.InternalTextField_MultiLine = new IHTMLTextArea(this.InternalTextField.value)
 						{
-							readOnly = this.InternalTextField.readOnly
+							readOnly = this.InternalTextField.readOnly,
+							wrap = "off"
 						};
 
-
+						
 						var p = this.InternalTextField.parentNode;
 
 						// we should actually just norify our collection about this change
@@ -234,6 +235,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 				if (value == TextWrapping.NoWrap)
 				{
 					this.InternalTextField_MultiLine.wrap = "off";
+					//this.InternalTextField_MultiLine.style.whiteSpace = IStyle.WhiteSpaceEnum.nowrap;
 
 					return;
 				}
@@ -242,6 +244,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 				{
 					// Default. Text is displayed with wordwrapping and submitted without carriage returns and line feeds.
 					this.InternalTextField_MultiLine.wrap = "soft";
+					//this.InternalTextField_MultiLine.style.whiteSpace = IStyle.WhiteSpaceEnum.pre;
 
 					return;
 				}
