@@ -79,7 +79,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 			InternalContent.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
 
-			_Children = new __UIElementCollection { InternalSprite = InternalContent };
+			_Children = new __UIElementCollection(this) { InternalSprite = InternalContent };
 		}
 
 
