@@ -142,7 +142,7 @@ namespace FlashAvalonQueryExample.Shared
 
 							var bg = new Rectangle
 							{
-								Fill = Color_Active,
+								Fill = Color_Inactive,
 								Width = 400,
 								Height = 22
 
@@ -156,12 +156,13 @@ namespace FlashAvalonQueryExample.Shared
 							//}
 							//.MoveTo(32 + 2, y + 2).AttachTo(this);
 
-						
+
 							var text = new TextBox
 							{
 								IsReadOnly = true,
 								Text = (i + 1) + ". " + k,
 								Width = 400 - 32,
+								Height = 20,
 								BorderThickness = new Thickness(0),
 								Background = Color_Inactive
 							}.MoveTo(32 + 32, y + 2).AttachTo(this);

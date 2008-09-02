@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\FlashPreloader\FlashPreloader\bin\Debug</StartWorkingDirectory>
-    <StartArguments>FlashPreloader.dll -as</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\FlashAvalonQueryExample\FlashAvalonQueryExample\bin\Release</StartWorkingDirectory>
+    <StartArguments>FlashAvalonQueryExample.exe -as</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

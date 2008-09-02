@@ -118,7 +118,7 @@ namespace jsc.Languages.ActionScript
 				};
 
 
-			DebugBreak(p.DeclaringMethod);
+			DebugBreak(i.OwnerMethod);
 
 			var IsBaseConstructorCall = i.IsBaseConstructorCall(TargetMethod, ResolveMethod, MySession.ResolveImplementation);
 
