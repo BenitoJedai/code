@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 using ScriptCoreLib;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows;
 using System.Windows.Media;
@@ -75,7 +76,9 @@ namespace FlashAvalonQueryExample.Shared
 
 			ApplyActiveColor(KnownDomainsInput);
 
-			var Filter = new TextBox
+			var FilterInputHeight = 22;
+
+			var FilterInput = new TextBox
 			{
 				FontSize = 15,
 				Text = ".com",
@@ -83,10 +86,72 @@ namespace FlashAvalonQueryExample.Shared
 				//Foreground = 0xffffffff.ToSolidColorBrush(),
 				Background = Color_Inactive,
 				Width = 400,
-				Height = 22,
+				Height = FilterInputHeight,
 			}.MoveTo(32, 32 + KnownDomainsInputHeight + 4).AttachTo(this);
 
-			ApplyActiveColor(Filter);
+			ApplyActiveColor(FilterInput);
+
+			var ResultOutputHeight = 120;
+			var ResultOutput = new TextBox
+			{
+				AcceptsReturn = true,
+				FontSize = 15,
+				Text = "?",
+				BorderThickness = new Thickness(0),
+				//Foreground = 0xffffffff.ToSolidColorBrush(),
+				Background = Color_Inactive,
+				Width = 400,
+				Height = ResultOutputHeight,
+				IsReadOnly = true
+				
+			}.MoveTo(32, 32 + KnownDomainsInputHeight + 4 + FilterInputHeight + 4).AttachTo(this);
+
+			ApplyActiveColor(ResultOutput);
+
+			Action AnyInputChanged =
+				delegate
+				{
+					ResultOutput.Text = "chars: " + KnownDomainsInput.Text.Length;
+
+					var query = from k in KnownDomainsInput.Text.Split(',')
+								let t = k.Trim()
+								where t.LooksLikeValidCName()
+								where t.Contains(FilterInput.Text)
+								orderby t
+								select t;
+
+					//var Entries = KnownDomainsInput.Text.Split(',').Select(t => t.Trim()).Where(k => k.LooksLikeValidCName()).ToArray();
+
+					ResultOutput.AppendText(" entries: " + query.Count() + Environment.NewLine);
+
+					query.ForEach(
+						(k, i) =>
+						{
+							ResultOutput.AppendText((i + 1) + ". " + k + Environment.NewLine);
+						}
+					);
+					// we need to validate CNAMEs
+
+
+
+				};
+
+			#region attach AnyInputChanged
+			KnownDomainsInput.TextChanged +=
+				delegate
+				{
+					AnyInputChanged();
+				};
+
+			FilterInput.TextChanged +=
+				delegate
+				{
+					AnyInputChanged();
+				};
+
+			AnyInputChanged();
+
+			#endregion
 
 		}
 	}
