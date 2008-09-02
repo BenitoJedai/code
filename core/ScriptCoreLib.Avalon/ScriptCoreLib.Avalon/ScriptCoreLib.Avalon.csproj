@@ -93,6 +93,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Animation\Animatable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Animation\IAnimatable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Imaging\BitmapSource.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\RoutedEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Thickness.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Threading\DispatcherTimer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Canvas.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\TextChangedEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\TextChangedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\UIElementCollection.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\RoutedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\DependencyObject.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\FrameworkElement.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Freezable.cs" />

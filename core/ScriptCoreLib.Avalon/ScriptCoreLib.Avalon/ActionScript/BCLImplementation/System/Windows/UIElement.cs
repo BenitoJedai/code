@@ -207,5 +207,40 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 					this.InternalGetDisplayObject().visible = false;
 			}
 		}
+
+		public event RoutedEventHandler GotFocus
+		{
+			add
+			{
+
+				InternalGetDisplayObject().focusIn +=
+					e =>
+					{
+						value(this, null);
+					};
+			}
+			remove
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+
+		public event RoutedEventHandler LostFocus
+		{
+			add
+			{
+
+				InternalGetDisplayObject().focusOut +=
+					e =>
+					{
+						value(this, null);
+					};
+			}
+			remove
+			{
+				throw new NotImplementedException();
+			}
+		}
 	}
 }

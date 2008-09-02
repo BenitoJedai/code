@@ -53,5 +53,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls.Pri
 			}
 		}
 
+		public virtual void InternalSetAcceptsReturn(bool value)
+		{
+			throw new NotImplementedException();
+		}
+
+
+		public bool AcceptsReturn
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				InternalSetAcceptsReturn(value);
+			}
+		}
 	}
 }

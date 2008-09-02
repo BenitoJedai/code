@@ -180,5 +180,40 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 
 			}
 		}
+
+		public event RoutedEventHandler GotFocus
+		{
+			add
+			{
+
+				InternalGetDisplayObject().onfocus +=
+					e =>
+					{
+						value(this, null);
+					};
+			}
+			remove
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+
+		public event RoutedEventHandler LostFocus
+		{
+			add
+			{
+
+				InternalGetDisplayObject().onblur +=
+					e =>
+					{
+						value(this, null);
+					};
+			}
+			remove
+			{
+				throw new NotImplementedException();
+			}
+		}
 	}
 }

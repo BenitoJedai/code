@@ -144,8 +144,8 @@ namespace FlashTreasureHunt.ConsoleTest
 
 						};
 
-					x.ShowServerWindow.Checked = true;
-					x.ShowServerWindow.Checked = false;
+					//x.ShowServerWindow.Checked = true;
+					//x.ShowServerWindow.Checked = false;
 
 					Application.Run(app);
 
