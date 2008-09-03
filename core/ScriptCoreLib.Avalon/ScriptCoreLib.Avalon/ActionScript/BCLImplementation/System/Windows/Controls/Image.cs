@@ -70,6 +70,18 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 						}
 					);
 				}
+				else if (v.InternalBitmap != null)
+				{
+					v.InternalBitmap.Continue(
+						e =>
+						{
+							InternalBitmap = e;
+
+							InternalSprite.OrphanizeChildren();
+							InternalSprite.addChild(InternalBitmap);
+						}
+					);
+				}
 				
 
 			}

@@ -6,6 +6,8 @@ using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media.Animatio
 using System.Windows.Media;
 using ScriptCoreLib.ActionScript.Extensions;
 using System.IO;
+using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 {
@@ -25,6 +27,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 		public string InternalManifestResourceAlias;
 
 		public Stream InternalStreamAlias;
+
+
+		public Future<Bitmap> InternalBitmap;
 
 	
 	}

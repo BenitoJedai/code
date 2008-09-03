@@ -92,6 +92,8 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Markup\IAddChild.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Animation\Animatable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Animation\IAnimatable.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\ExceptionEventArgs.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Imaging\BitmapImage.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Imaging\BitmapSource.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\RoutedEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Thickness.cs" />

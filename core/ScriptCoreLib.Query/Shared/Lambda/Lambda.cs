@@ -8,6 +8,14 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static void Do(this IEnumerable<Action> e)
+		{
+			foreach (var a in e)
+			{
+				a();
+			}
+		}
+
 		public static T AtModulus<T>(this IEnumerable<T> a, int i)
 		{
 			var x = a.ToArray();

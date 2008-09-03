@@ -7,12 +7,19 @@ using System.Windows.Markup;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Windows.Media;
+using System.Windows.Controls.Primitives;
 
 namespace ScriptCoreLib.Shared.Avalon.Extensions
 {
 	[Script]
 	public static class AvalonSharedExtensions
 	{
+		public static void AppendTextLine(this TextBoxBase e, string textData)
+		{
+			e.AppendText(textData + Environment.NewLine);
+		}
+
+
 		public static void FadeOut(this UIElement e)
 		{
 			var a = 1.0;
