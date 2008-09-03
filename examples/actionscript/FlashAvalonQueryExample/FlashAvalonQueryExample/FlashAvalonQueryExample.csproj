@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />
+    <EmbeddedResource Include="web\assets\FlashAvalonQueryExample\Preview.png" />
     <EmbeddedResource Include="web\assets\FlashAvalonQueryExample\labels.png" />
   </ItemGroup>
   <ItemGroup>
