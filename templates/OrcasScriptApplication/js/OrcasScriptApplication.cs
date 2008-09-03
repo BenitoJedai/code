@@ -13,34 +13,22 @@ namespace OrcasScriptApplication.js
 	public class OrcasScriptApplication
 	{
 
-		[Script]
-		class BaseType
-		{
-		}
-
-		[Script]
-		class OtherType
-		{
-		}
-
-
-		[Script]
-		class SubType : BaseType
-		{
-		}
-
 		public OrcasScriptApplication()
 		{
-			CheckIsOperator();
+			try
+			{
+				IStyleSheet.Default.AddRule("span",
+					r =>
+					{
+						r.style.fontWeight = "bold";
+						r.style.textDecoration = "underline";
 
-			IStyleSheet.Default.AddRule("span",
-				r =>
-				{
-					r.style.fontWeight = "bold";
-					r.style.textDecoration = "underline";
-
-				}
-			);
+					}
+				);
+			}
+			catch
+			{
+			}
 
 			var btn = new IHTMLButton("Hello World!").AttachToDocument();
 
@@ -69,16 +57,6 @@ namespace OrcasScriptApplication.js
 			new IHTMLImage(Assets.Path + "/Preview.png").AttachToDocument();
 		}
 
-		private static void CheckIsOperator()
-		{
-			object x = new SubType();
-
-			if (!(x is BaseType))
-				throw new System.Exception("not BaseType");
-
-			if (x is OtherType)
-				throw new System.Exception("is OtherType");
-		}
 
 		static OrcasScriptApplication()
 		{

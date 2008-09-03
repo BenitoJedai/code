@@ -3617,6 +3617,16 @@
             [static] A Boolean value that tells Flash Player which code page to use to interpret external text files.
             </summary>
         </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.FrameLabel.frame">
+            <summary>
+            [read-only] The frame number containing the label.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.FrameLabel.name">
+            <summary>
+            [read-only] The name of the label.
+            </summary>
+        </member>
         <member name="T:ScriptCoreLib.JavaScript.DOM.XML.IXMLDocument">
             <summary>
             http://www.howtocreate.co.uk/tutorials/jsexamples/importingXML.html
@@ -4503,6 +4513,146 @@
         <member name="P:ScriptCoreLib.ActionScript.flash.utils.IDataOutput.objectEncoding">
             <summary>
             Used to determine whether the AMF3 or AMF0 format is used when writing or reading binary data using the writeObject() method.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.avHardwareDisable">
+            <summary>
+            [static] [read-only] Specifies whether access to the user's camera and microphone has been administratively prohibited (true) or allowed (false).
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.hasAccessibility">
+            <summary>
+            [static] [read-only] Specifies whether the system supports (true) or does not support (false) communication with accessibility aids.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.hasAudio">
+            <summary>
+            [static] [read-only] Specifies whether the system has audio capabilities.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.hasAudioEncoder">
+            <summary>
+            [static] [read-only] Specifies whether the system can (true) or cannot (false) encode an audio stream, such as that coming from a microphone.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.hasEmbeddedVideo">
+            <summary>
+            [static] [read-only] Specifies whether the system supports (true) or does not support (false) embedded video.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.hasIME">
+            <summary>
+            [static] [read-only] Specifies whether the system does (true) or does not (false) have an input method editor (IME) installed.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.hasMP3">
+            <summary>
+            [static] [read-only] Specifies whether the system does (true) or does not (false) have an MP3 decoder.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.hasPrinting">
+            <summary>
+            [static] [read-only] Specifies whether the system does (true) or does not (false) support printing.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.hasScreenBroadcast">
+            <summary>
+            [static] [read-only] Specifies whether the system does (true) or does not (false) support the development of screen broadcast applications to be run through Flash Media Server.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.hasScreenPlayback">
+            <summary>
+            [static] [read-only] Specifies whether the system does (true) or does not (false) support the playback of screen broadcast applications that are being run through Flash Media Server.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.hasStreamingAudio">
+            <summary>
+            [static] [read-only] Specifies whether the system can (true) or cannot (false) play streaming audio.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.hasStreamingVideo">
+            <summary>
+            [static] [read-only] Specifies whether the system can (true) or cannot (false) play streaming video.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.hasTLS">
+            <summary>
+            [static] [read-only] Specifies whether the system supports native SSL sockets through NetConnection (true) or does not (false).
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.hasVideoEncoder">
+            <summary>
+            [static] [read-only] Specifies whether the system can (true) or cannot (false) encode a video stream, such as that coming from a web camera.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.isDebugger">
+            <summary>
+            [static] [read-only] Specifies whether the system is a special debugging version (true) or an officially released version (false).
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.isEmbeddedInAcrobat">
+            <summary>
+            [static] [read-only] Specifies whether the player is embedded in a PDF file that is open in Acrobat 9.0 or higher (true) or not (false).
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.language">
+            <summary>
+            [static] [read-only] Specifies the language code of the system on which the content is running.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.localFileReadDisable">
+            <summary>
+            [static] [read-only] Specifies whether read access to the user's hard disk has been administratively prohibited (true) or allowed (false).
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.manufacturer">
+            <summary>
+            [static] [read-only] Specifies the manufacturer of the running version of Flash Player or the AIR runtime, in the format "Adobe OSName".
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.os">
+            <summary>
+            [static] [read-only] Specifies the current operating system.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.pixelAspectRatio">
+            <summary>
+            [static] [read-only] Specifies the pixel aspect ratio of the screen.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.playerType">
+            <summary>
+            [static] [read-only] Specifies the type of runtime environment.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.screenColor">
+            <summary>
+            [static] [read-only] Specifies the screen color.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.screenDPI">
+            <summary>
+            [static] [read-only] Specifies the dots-per-inch (dpi) resolution of the screen, in pixels.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.screenResolutionX">
+            <summary>
+            [static] [read-only] Specifies the maximum horizontal resolution of the screen.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.screenResolutionY">
+            <summary>
+            [static] [read-only] Specifies the maximum vertical resolution of the screen.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.serverString">
+            <summary>
+            [static] [read-only] A URL-encoded string that specifies values for each Capabilities property.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.system.Capabilities.version">
+            <summary>
+            [static] [read-only] Specifies the Flash Player or Adobe® AIR platform and version information.
             </summary>
         </member>
         <member name="M:ScriptCoreLib.JavaScript.Runtime.Fader.Fade(ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement,System.Int32,System.Int32,ScriptCoreLib.Shared.EventHandler)">
@@ -7311,6 +7461,116 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.Sprite.startDrag(System.Boolean,ScriptCoreLib.ActionScript.flash.geom.Rectangle)">
+            <summary>
+            Lets the user drag the specified sprite.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.Sprite.startDrag(System.Boolean)">
+            <summary>
+            Lets the user drag the specified sprite.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.Sprite.startDrag">
+            <summary>
+            Lets the user drag the specified sprite.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.Sprite.stopDrag">
+            <summary>
+            Ends the startDrag() method.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.Sprite.#ctor">
+            <summary>
+            Creates a new Sprite instance.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.buttonMode">
+            <summary>
+            Specifies the button mode of this sprite.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.dropTarget">
+            <summary>
+            [read-only] Specifies the display object over which the sprite is being dragged, or on which the sprite was dropped.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.graphics">
+            <summary>
+            [read-only] Specifies the Graphics object that belongs to this sprite where vector drawing commands can occur.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.hitArea">
+            <summary>
+            Designates another sprite to serve as the hit area for a sprite.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.soundTransform">
+            <summary>
+            Controls sound within this sprite.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.useHandCursor">
+            <summary>
+            A Boolean value that indicates whether the pointing hand (hand cursor) appears when the mouse rolls over a sprite in which the buttonMode property is set to true.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.MovieClip.play">
+            <summary>
+            Moves the playhead in the timeline of the movie clip.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.MovieClip.stop">
+            <summary>
+            Stops the playhead in the movie clip.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.MovieClip.currentFrame">
+            <summary>
+            [read-only] Specifies the number of the frame in which the playhead is located in the timeline of the MovieClip instance.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.MovieClip.currentLabel">
+            <summary>
+            [read-only] The current label in which the playhead is located in the timeline of the MovieClip instance.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.MovieClip.currentLabels">
+            <summary>
+            [read-only] Returns an array of FrameLabel objects from the current scene.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.MovieClip.currentScene">
+            <summary>
+            [read-only] The current scene in which the playhead is located in the timeline of the MovieClip instance.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.MovieClip.enabled">
+            <summary>
+            A Boolean value that indicates whether a movie clip is enabled.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.MovieClip.framesLoaded">
+            <summary>
+            [read-only] The number of frames that are loaded from a streaming SWF file.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.MovieClip.scenes">
+            <summary>
+            [read-only] An array of Scene objects, each listing the name, the number of frames, and the frame labels for a scene in the MovieClip instance.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.MovieClip.totalFrames">
+            <summary>
+            [read-only] The total number of frames in the MovieClip instance.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.MovieClip.trackAsMenu">
+            <summary>
+            Indicates whether other display objects that are SimpleButton or MovieClip objects can receive mouse release events.
+            </summary>
+        </member>
         <member name="M:ScriptCoreLib.ActionScript.flash.net.NetConnection.addHeader(System.String,System.Boolean,System.Object)">
             <summary>
             Adds a context header to the Action Message Format (AMF) packet structure.
@@ -7414,6 +7674,61 @@
         <member name="E:ScriptCoreLib.ActionScript.flash.net.NetConnection.securityError">
             <summary>
             Dispatched if a call to NetConnection.call() attempts to connect to a server outside the caller's security sandbox.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.mx.preloaders.IPreloaderDisplay.initialize">
+            <summary>
+            Called by the Preloader after the download progress bar has been added as a child of the Preloader.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.mx.preloaders.IPreloaderDisplay.backgroundAlpha">
+            <summary>
+            Alpha level of the SWF file or image defined by the backgroundImage property, or the color defined by the backgroundColor property.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.mx.preloaders.IPreloaderDisplay.backgroundColor">
+            <summary>
+            Background color of a download progress bar.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.mx.preloaders.IPreloaderDisplay.backgroundImage">
+            <summary>
+            The background image of the application, which is passed in by the preloader.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.mx.preloaders.IPreloaderDisplay.backgroundSize">
+            <summary>
+            Scales the image specified by backgroundImage to different percentage sizes.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.mx.preloaders.IPreloaderDisplay.preloader">
+            <summary>
+            [write-only] The Preloader class passes in a reference to itself to the display class so that it can listen for events from the preloader.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.mx.preloaders.IPreloaderDisplay.stageHeight">
+            <summary>
+            The height of the stage, which is passed in by the Preloader class.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.mx.preloaders.IPreloaderDisplay.stageWidth">
+            <summary>
+            The width of the stage, which is passed in by the Preloader class.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.Scene.labels">
+            <summary>
+            [read-only] An array of FrameLabel objects for the scene.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.Scene.name">
+            <summary>
+            [read-only] The name of the scene.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.Scene.numFrames">
+            <summary>
+            [read-only] The number of frames in the scene.
             </summary>
         </member>
         <member name="T:ScriptCoreLib.JavaScript.DOM.HTML.IHTMLSelect">
@@ -7839,61 +8154,6 @@
             [static] Computes and returns the tangent of the specified angle.
             </summary>
         </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.Sprite.startDrag(System.Boolean,ScriptCoreLib.ActionScript.flash.geom.Rectangle)">
-            <summary>
-            Lets the user drag the specified sprite.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.Sprite.startDrag(System.Boolean)">
-            <summary>
-            Lets the user drag the specified sprite.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.Sprite.startDrag">
-            <summary>
-            Lets the user drag the specified sprite.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.Sprite.stopDrag">
-            <summary>
-            Ends the startDrag() method.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.Sprite.#ctor">
-            <summary>
-            Creates a new Sprite instance.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.buttonMode">
-            <summary>
-            Specifies the button mode of this sprite.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.dropTarget">
-            <summary>
-            [read-only] Specifies the display object over which the sprite is being dragged, or on which the sprite was dropped.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.graphics">
-            <summary>
-            [read-only] Specifies the Graphics object that belongs to this sprite where vector drawing commands can occur.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.hitArea">
-            <summary>
-            Designates another sprite to serve as the hit area for a sprite.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.soundTransform">
-            <summary>
-            Controls sound within this sprite.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.useHandCursor">
-            <summary>
-            A Boolean value that indicates whether the pointing hand (hand cursor) appears when the mouse rolls over a sprite in which the buttonMode property is set to true.
-            </summary>
-        </member>
         <member name="M:ScriptCoreLib.ActionScript.flash.display.Loader.close">
             <summary>
             Cancels a load() method operation that is currently in progress for the Loader instance.
@@ -7999,7 +8259,18 @@
             Lets the user zoom in and out on a SWF file at run time.
             </summary>
         </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.system.Security.loadPolicyFile(System.String)">
+            <summary>
+            [static] Loads a cross-domain policy file from a location specified by the url parameter.
+            </summary>
+        </member>
         <member name="M:ScriptCoreLib.ActionScript.flash.system.Security.allowDomain(System.String)">
+            <summary>
+            This method applies to cross-scripting of ActionScript 3.0 code (in SWF content).
+            </summary>
+            <param name="domains"></param>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.system.Security.allowInsecureDomain(System.String)">
             <summary>
             This method applies to cross-scripting of ActionScript 3.0 code (in SWF content).
             </summary>
@@ -8420,6 +8691,11 @@
         <member name="P:ScriptCoreLib.ActionScript.flash.geom.Matrix.ty">
             <summary>
             The distance by which to translate each point along the y axis.
+            </summary>
+        </member>
+        <member name="T:ScriptCoreLib.ActionScript.Extensions.PreloaderSprite">
+            <summary>
+            To be used with FrameAttribute and TypeOfByNameOverrideAttribute
             </summary>
         </member>
         <member name="M:ScriptCoreLib.JavaScript.DOM.IWindow.focus">
@@ -9234,6 +9510,21 @@
         <member name="P:ScriptCoreLib.ActionScript.flash.utils.Timer.running">
             <summary>
             [read-only] The timer's current state; true if the timer is running, otherwise false.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.filters.ColorMatrixFilter.#ctor(System.Double[])">
+            <summary>
+            Initializes a new ColorMatrixFilter instance with the specified parameters.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.filters.ColorMatrixFilter.#ctor">
+            <summary>
+            Initializes a new ColorMatrixFilter instance with the specified parameters.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.filters.ColorMatrixFilter.matrix">
+            <summary>
+            An array of 20 items for 4 x 5 color transform.
             </summary>
         </member>
         <member name="P:ScriptCoreLib.JavaScript.DOM.IEvent.KeyCode">

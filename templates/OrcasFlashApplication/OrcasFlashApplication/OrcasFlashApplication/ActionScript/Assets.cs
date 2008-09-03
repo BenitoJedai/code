@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using ScriptCoreLib.ActionScript;
 
 ////[assembly: ScriptResources(OrcasFlashApplication.ActionScript.Assets.Path)]
 
@@ -13,7 +14,7 @@ namespace OrcasFlashApplication.ActionScript
     /// external and embeded assets.
     /// </summary>
     [Script]
-    internal static class Assets
+    public class Assets
     {
         /// <summary>
         /// The files from solution folder 'web/assets/OrcasFlashApplication' 
@@ -21,5 +22,16 @@ namespace OrcasFlashApplication.ActionScript
         /// to this path. The value only reflects the real folder.
         /// </summary>
         public const string Path = "assets/OrcasFlashApplication";
+
+		public static readonly Assets Default = new Assets();
+
+		public Class this[string e]
+		{
+			[EmbedByFileName]
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
     }
 }

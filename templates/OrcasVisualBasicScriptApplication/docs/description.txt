@@ -1,1 +1,1 @@
-﻿ScriptApplication within webbrowser. Crosscompiled from visual basic to javascript.
+﻿OrcasVisualBasicScriptApplication within webbrowser. Crosscompiled from visual basic to javascript.
