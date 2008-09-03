@@ -116,7 +116,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			var e = value as UIElement;
 
 			if (e == null)
+			{
 				throw new NotSupportedException("AddChild supports UIElement");
+			}
 
 			this.Children.Add(e);
 		}

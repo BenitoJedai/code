@@ -1107,31 +1107,31 @@ namespace jsc
             // and instead of explicitly setting the constructor one can use the default prototype
             /// of the base$ctor
 
-            int counter = 0;
+			//int counter = 0;
 
-            Action Before =
-                delegate
-                {
-                    w.WriteIdent();
-                    //w.Write(CopyMembers);
-                    //w.Write("(");
-                    w.Helper.WritePrototypeAlias(type);
-                    w.Helper.WriteAssignment();
-                    w.WriteDecorated(type);
-                    w.Helper.WriteAccessor();
-                    w.Helper.WritePrototype();
-                    w.Helper.WriteAssignment();
+			//Action Before =
+			//    delegate
+			//    {
+			//        w.WriteIdent();
+			//        //w.Write(CopyMembers);
+			//        //w.Write("(");
+			//        w.Helper.WritePrototypeAlias(type);
+			//        w.Helper.WriteAssignment();
+			//        w.WriteDecorated(type);
+			//        w.Helper.WriteAccessor();
+			//        w.Helper.WritePrototype();
+			//        w.Helper.WriteAssignment();
 
-                    w.WriteBeginScope();
+			//        w.WriteBeginScope();
 
-                    // hack
-                    counter++;
-                    w.WriteIdent();
-                    w.Write("constructor: ");
-                    w.WriteDecoratedType(type, false);
-                    w.WriteLine(",");
+			//        // hack
+			//        counter++;
+			//        w.WriteIdent();
+			//        w.Write("constructor: ");
+			//        w.WriteDecoratedType(type, false);
+			//        w.WriteLine(",");
 
-                };
+			//    };
 
 
 
@@ -1150,19 +1150,22 @@ namespace jsc
                 if (s != null && s.HasNoPrototype)
                     continue;
 
-                if (counter++ > 0)
-                    w.WriteLine(",");
-                else
-                {
-                    Before();
-                }
+				//if (counter++ > 0)
+				//    w.WriteLine(",");
+				//else
+				//{
+				//    Before();
+				//}
 
 
                 w.WriteIdent();
-                w.WriteDecoratedMemberInfo(zf);
-                w.Write(": ");
+				w.Helper.WritePrototypeAlias(type);
+				w.Helper.WriteAccessor();
+				w.WriteDecoratedMemberInfo(zf);
+				w.Helper.WriteAssignment();
                 DeclareFieldDefaultValue(w, zf);
-
+				w.Helper.WriteTerminator();
+				w.WriteLine();
 
             }
 
@@ -1176,12 +1179,12 @@ namespace jsc
 
             //}
 
-            if (counter > 0)
-            {
-                w.WriteLine();
-                w.WriteEndScope();
-                w.WriteLine(";");
-            }
+			//if (counter > 0)
+			//{
+			//    w.WriteLine();
+			//    w.WriteEndScope();
+			//    w.WriteLine(";");
+			//}
 
 
             // whatif hasnoprototype?
@@ -1468,6 +1471,7 @@ namespace jsc
                     }
 
                     w.Helper.DOMDefineNamedType(z);
+					w.Helper.DefineAndAssignPrototype(z);
 
 
                     DeclareFields(w, z.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Public), z);

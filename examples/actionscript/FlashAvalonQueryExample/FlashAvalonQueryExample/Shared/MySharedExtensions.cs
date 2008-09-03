@@ -102,25 +102,17 @@ namespace FlashAvalonQueryExample.Shared
 			}
 		}
 
-		[Script]
-		class UnrelatedType : FrameworkElement
-		{
-		}
 
 		public static T Orphanize<T>(this T e)
 			where T : FrameworkElement
 		{
-			if (e.Parent is UnrelatedType)
-				throw new NotSupportedException("is operator");
+			var Panel = e.Parent as Panel;
 
-			var IsPanel = e.Parent as Panel;
-
-			if (IsPanel != null)
+			if (Panel == null)
+				//throw new NotImplementedException("Parent should have been a Panel instead of " + e.GetType().Name);
 				throw new NotImplementedException("Parent should have been a Panel");
 
-			var p = (Panel)e.Parent;
-			
-			p.Children.Remove(e);
+			Panel.Children.Remove(e);
 
 			return e;
 		}

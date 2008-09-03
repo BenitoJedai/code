@@ -22,6 +22,8 @@ namespace FlashAvalonQueryExample.Shared
 
 		public MyCanvas()
 		{
+			CheckIsPanel();
+
 			Width = DefaultWidth;
 			Height = DefaultHeight;
 
@@ -60,6 +62,9 @@ namespace FlashAvalonQueryExample.Shared
 				Height = KnownDomainsInputHeight,
 				TextWrapping = TextWrapping.Wrap
 			}.MoveTo(32, 32).AttachTo(this);
+
+			KnownDomainsInput.Orphanize();
+			KnownDomainsInput.AttachTo(this);
 
 			Action<TextBox> ApplyActiveColor =
 				e =>
@@ -216,6 +221,16 @@ namespace FlashAvalonQueryExample.Shared
 
 			#endregion
 
+		}
+
+		private void CheckIsPanel()
+		{
+			object e = this;
+
+			var p = e as Panel;
+
+			if (p == null)
+				throw new Exception("this not a Panel?");
 		}
 	}
 }

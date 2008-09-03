@@ -9,6 +9,7 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Markup;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Shapes;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 {
@@ -125,7 +126,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			var e = value as UIElement;
 
 			if (e == null)
-				throw new NotSupportedException("AddChild supports UIElement");
+			{
+				throw new NotSupportedException("AddChild supports UIElement instead of " + value.GetType().Name);
+			}
 
 			this.Children.Add(e);
 		}

@@ -10,18 +10,46 @@ namespace InstanceOfOperator.js
 
 	}
 
-	[Script]
-	public class InstanceOfOperatorBase
+	[Script(Implements = typeof(InstanceOfOperatorBase))]
+	public class __InstanceOfOperatorBase
+	{
+		public string Name;
+
+		public __InstanceOfOperatorBase()
+		{
+			this.Name = "__InstanceOfOperatorBase";
+		}
+
+	}
+
+	[Script(Implements = typeof(InstanceOfOperatorSubclass))]
+	public class __InstanceOfOperatorSubclass : __InstanceOfOperatorBase
 	{
 
 
 	}
 
-	[Script]
+	[Script(Implements = typeof(InstanceOfOperatorChild))]
+	public class __InstanceOfOperatorChild : __InstanceOfOperatorSubclass
+	{
+	}
+
+	public class InstanceOfOperatorBase
+	{
+
+		public string Name;
+	}
+
+
+
 	public class InstanceOfOperatorSubclass : InstanceOfOperatorBase
 	{
 
 
+	}
+
+	public class InstanceOfOperatorChild : InstanceOfOperatorSubclass
+	{
 	}
 
 	[Script, ScriptApplicationEntryPoint]
@@ -38,7 +66,7 @@ namespace InstanceOfOperator.js
 		{
 		}
 
-		[Script(IsDebugCode=true)]
+		[Script(IsDebugCode = true)]
 		public static void Test_IsBaseType()
 		{
 			object e = new InstanceOfOperatorSubclass();
@@ -50,7 +78,7 @@ namespace InstanceOfOperator.js
 
 		}
 
-		static object Test_AsBaseType_e { get { return new InstanceOfOperatorSubclass(); } }
+		static object Test_AsBaseType_e { get { return new InstanceOfOperatorChild(); } }
 
 
 		[Script(IsDebugCode = true)]
@@ -65,6 +93,7 @@ namespace InstanceOfOperator.js
 			assert(y != null, "e as InstanceOfOperatorBase");
 			assert(n == null, "e as InstanceOfOperatorOther");
 
+			alert(y.Name);
 		}
 
 
