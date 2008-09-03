@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media.Imaging
+namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media.Imaging
 {
 	[Script(Implements = typeof(global::System.Windows.Media.Imaging.BitmapSource))]
 	internal class __BitmapSource : __ImageSource

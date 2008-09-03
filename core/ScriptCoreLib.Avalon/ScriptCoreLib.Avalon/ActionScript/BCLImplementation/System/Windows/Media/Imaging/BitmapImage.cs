@@ -29,10 +29,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media.Imag
 					{
 						var v = (Bitmap)e.content;
 
-						if (this.DownloadCompleted != null)
-							this.DownloadCompleted(null, null);
+	
 
 						this.InternalBitmap.Value = v;
+
+						if (this.DownloadCompleted != null)
+							this.DownloadCompleted(null, null);
 					}
 					catch
 					{
@@ -48,11 +50,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media.Imag
 						this.DownloadFailed(null, null);
 				};
 
-			e.load(url, Context);
-			//e.load(new ScriptCoreLib.ActionScript.flash.net.URLRequest(uri.OriginalString));
 
 			this.InternalBitmap = new Future<Bitmap>();
 
+			e.load(url, Context);
 
 	
 		}

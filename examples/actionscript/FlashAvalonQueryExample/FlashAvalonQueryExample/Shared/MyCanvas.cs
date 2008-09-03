@@ -39,10 +39,16 @@ namespace FlashAvalonQueryExample.Shared
 			}
 			#endregion
 
+			new Image
+			{
+				Source = "assets/FlashAvalonQueryExample/labels.png".ToSource()
+			}.MoveTo(0, 0).AttachTo(this);
+
 			//var FaciconService = "http://www.google.com/s2/favicons?domain=";
 
 			// http://www.google.com/s2/favicons?domain=wordpress.com
-			var KnownDomains = "63/155262375_104aee1bb0, 3183/2825405970_a1469cd673, 2336/2454679206_de5176b827";
+			var KnownDomains = "63/155262375_104aee1bb0, 3183/2825405970_a1469cd673, 2336/2454679206_de5176b827, 3178/2825551196_6548ff54b9";
+			var KnownFilter = "31";
 
 			Func<Brush> Color_Inactive = () => 0xffc0c0c0.ToSolidColorBrush();
 			Func<Brush> Color_Active = () => 0xffffffff.ToSolidColorBrush();
@@ -90,7 +96,7 @@ namespace FlashAvalonQueryExample.Shared
 			var FilterInput = new TextBox
 			{
 				FontSize = 15,
-				Text = "63",
+				Text = KnownFilter,
 				BorderThickness = new Thickness(0),
 				//Foreground = 0xffffffff.ToSolidColorBrush(),
 				Background = Color_Inactive(),

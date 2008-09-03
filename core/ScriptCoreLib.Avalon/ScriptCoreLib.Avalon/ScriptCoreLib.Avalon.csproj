@@ -107,6 +107,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\TextChangedEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\TextChangedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\UIElementCollection.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\Imaging\BitmapImage.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\Imaging\BitmapSource.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\RoutedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\DependencyObject.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\FrameworkElement.cs" />
