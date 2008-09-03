@@ -438,6 +438,15 @@ namespace jsc
 
 							}
 			w.WriteLine(";");
+
+			w.WriteIdent();
+			w.Helper.WritePrototypeAlias(z);
+			w.Helper.WriteAccessor();
+			w.Write("constructor");
+			w.Helper.WriteAssignment();
+			w.WriteDecorated(z);
+			w.WriteLine(";");
+
 		}
 
 		public void DefineTypeInheritanceConstructor(Type z, Type basetype)

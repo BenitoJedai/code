@@ -20,6 +20,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 		public __UIElementCollection(FrameworkElement VisualParent)
 		{
+			var p = VisualParent as Panel;
+
+			if (p == null)
+				throw new Exception("VisualParent should be of type Panel instead of " + VisualParent.GetType().Name);
+
+
 			this.InternalVisualParent = VisualParent;
 		}
 

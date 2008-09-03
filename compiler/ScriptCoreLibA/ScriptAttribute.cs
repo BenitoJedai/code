@@ -240,7 +240,8 @@ namespace ScriptCoreLib
 
     }
 
-    [global::System.AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
+	// AllowMultiple should be set
+    [global::System.AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = false)]
     public sealed class ScriptAttribute : Attribute
     {
         public const string InternalConstructorDefault = "InternalConstructor";

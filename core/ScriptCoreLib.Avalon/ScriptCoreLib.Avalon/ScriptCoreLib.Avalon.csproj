@@ -163,6 +163,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Threading\DispatcherObject.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Threading\DispatcherTimer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\UIElement.cs" />
+    <Compile Include="JavaScript\Checks\NameCheck.cs" />
+    <Compile Include="JavaScript\Checks\InheritanceCheck.cs" />
     <Compile Include="JavaScript\Extensions\AvalonExtensions.cs" />
     <Compile Include="JavaScript\UCLImplementation\AvalonExtensions.cs" />
     <Compile Include="Shared\Avalon\Extensions\AvalonExtensions.cs" />
