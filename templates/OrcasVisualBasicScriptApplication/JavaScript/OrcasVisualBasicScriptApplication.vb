@@ -223,7 +223,7 @@ Namespace JavaScript
 
 
 
-            Lambda.ForEach(items, AddressOf AddAsResult)
+            LambdaExtensions.ForEach(items, AddressOf AddAsResult)
 
 
         End Sub

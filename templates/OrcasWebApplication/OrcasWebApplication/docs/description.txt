@@ -1,1 +1,1 @@
-﻿ScriptApplication as a web application. Crosscompiled from c# to javascript.
+﻿OrcasWebApplication as a web application. Crosscompiled from c# to javascript.

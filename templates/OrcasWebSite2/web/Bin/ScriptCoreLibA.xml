@@ -118,35 +118,14 @@
             <param name="a"></param>
             <returns></returns>
         </member>
-        <member name="T:ScriptCoreLib.HexAttribute">
+        <member name="T:ScriptCoreLib.ScriptImportsTypeAttribute">
             <summary>
-            Indicates that the integer value assigned to a parameter should be represented
-            as an hex 
+            Defines an external type to be imported with current class definition. To be used with native source code injection.
             </summary>
         </member>
-        <member name="T:ScriptCoreLib.ScriptApplicationEntryPointAttribute">
+        <member name="T:ScriptCoreLib.ScriptLanguageProviderAttribute">
             <summary>
-            Will generate an entrypoint to this class with the default value of field 'DefaultData'
-            </summary>
-        </member>
-        <member name="F:ScriptCoreLib.ScriptApplicationEntryPointAttribute.IsClickOnce">
-            <summary>
-            Application will be loaded from a href
-            </summary>
-        </member>
-        <member name="F:ScriptCoreLib.ScriptApplicationEntryPointAttribute.Format">
-            <summary>
-            formats in which the data will be serialized and inserted inline into html document
-            </summary>
-        </member>
-        <member name="F:ScriptCoreLib.ScriptApplicationEntryPointAttribute.DefaultFormat">
-            <summary>
-            Suffix on the filename will be omitted.
-            </summary>
-        </member>
-        <member name="F:ScriptCoreLib.ScriptApplicationEntryPointAttribute.ScriptedLoading">
-            <summary>
-            script files are loaded dynamically
+            this attribut tells the compiler in what namespaces the classes marked with ScriptAttribute are eligible for cross compilation
             </summary>
         </member>
         <member name="T:ScriptCoreLib.ScriptType">
@@ -311,14 +290,35 @@
             System prototype might still exist
             </summary>
         </member>
-        <member name="T:ScriptCoreLib.ScriptImportsTypeAttribute">
+        <member name="T:ScriptCoreLib.ScriptApplicationEntryPointAttribute">
             <summary>
-            Defines an external type to be imported with current class definition. To be used with native source code injection.
+            Will generate an entrypoint to this class with the default value of field 'DefaultData'
             </summary>
         </member>
-        <member name="T:ScriptCoreLib.ScriptLanguageProviderAttribute">
+        <member name="F:ScriptCoreLib.ScriptApplicationEntryPointAttribute.IsClickOnce">
             <summary>
-            this attribut tells the compiler in what namespaces the classes marked with ScriptAttribute are eligible for cross compilation
+            Application will be loaded from a href
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ScriptApplicationEntryPointAttribute.Format">
+            <summary>
+            formats in which the data will be serialized and inserted inline into html document
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ScriptApplicationEntryPointAttribute.DefaultFormat">
+            <summary>
+            Suffix on the filename will be omitted.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ScriptApplicationEntryPointAttribute.ScriptedLoading">
+            <summary>
+            script files are loaded dynamically
+            </summary>
+        </member>
+        <member name="T:ScriptCoreLib.HexAttribute">
+            <summary>
+            Indicates that the integer value assigned to a parameter should be represented
+            as an hex 
             </summary>
         </member>
     </members>
