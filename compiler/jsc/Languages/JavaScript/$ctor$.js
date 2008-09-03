@@ -1,4 +1,8 @@
-    function $ctor$(/* base, null */ p, /* string, null*/ b, /* object */ x)
+    function $ctor$(
+        p,  // base, null 
+        b,  // string, null
+        x   // object - new prototype
+    )
     {
         var f = null;
         var z = x[b];
@@ -18,18 +22,19 @@
                 var i = 'toString';
                     if (a[i] == void(0)) a[i] = n[i];
                 
+          
                 if (z)
                     z.apply(a, arguments);        
             };
         }
         else if (z) // defined ctor is reused
-        {
-            f = z;
-        }
-        else // a default ctor will be created
-        {
-            f = function () { };
-        }
+            {
+                f = z;
+            }
+            else // a default ctor will be created
+            {
+                f = function () { };
+            }
 
         f.prototype = x;
 

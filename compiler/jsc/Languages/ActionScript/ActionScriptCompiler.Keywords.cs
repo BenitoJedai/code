@@ -14,6 +14,8 @@ namespace jsc.Languages.ActionScript
     {
         public enum Keywords
         {
+			_is,
+			_as,
 			_null,
 			_return,
 			_if,

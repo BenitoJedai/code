@@ -69,7 +69,6 @@ namespace OrcasScriptApplication.js
 			new IHTMLImage(Assets.Path + "/Preview.png").AttachToDocument();
 		}
 
-		[Script(IsDebugCode = true)]
 		private static void CheckIsOperator()
 		{
 			object x = new SubType();
