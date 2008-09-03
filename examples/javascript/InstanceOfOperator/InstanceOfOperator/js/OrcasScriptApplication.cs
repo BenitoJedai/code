@@ -48,13 +48,31 @@ namespace InstanceOfOperator.js
 			assert(y, "e is InstanceOfOperatorBase");
 			assert(!n, "e is InstanceOfOperatorOther");
 
-			alert("All tests are good");
+		}
+
+		[Script(IsDebugCode = true)]
+		public static void Test_AsBaseType()
+		{
+			object e = new InstanceOfOperatorSubclass();
+			var y = e as InstanceOfOperatorBase;
+			var n = e as InstanceOfOperatorOther;
+
+
+
+
+			assert(y != null, "e as InstanceOfOperatorBase");
+			assert(n == null, "e as InstanceOfOperatorOther");
+
 		}
 
 
 		static Module1()
 		{
 			Test_IsBaseType();
+			Test_AsBaseType();
+
+			alert("All tests are good");
+
 		}
 	}
 
