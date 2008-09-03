@@ -135,7 +135,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections
             IComparable comparable = a as IComparable;
             if (comparable == null)
             {
-                throw new ArgumentException("ImplementIComparable for " + a.GetType().FullName + " vs " + b.GetType().FullName);
+                throw new ArgumentException("Implement IComparable for " + a.GetType().FullName + " vs " + b.GetType().FullName);
             }
             return comparable.CompareTo(b);
 

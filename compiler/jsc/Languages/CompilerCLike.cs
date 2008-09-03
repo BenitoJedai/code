@@ -14,737 +14,770 @@ using jsc.Languages;
 
 namespace jsc.Script
 {
-    /// <summary>
-    /// c like language compiler
-    /// </summary>
-    public abstract class CompilerCLike : CompilerBase
-    {
-        #region scope
-        public class ScopeHelper : IDisposable
-        {
-            public bool UseNewLine = true;
-
-            CompilerCLike _c;
+	/// <summary>
+	/// c like language compiler
+	/// </summary>
+	public abstract class CompilerCLike : CompilerBase
+	{
+		#region scope
+		public class ScopeHelper : IDisposable
+		{
+			public bool UseNewLine = true;
+
+			CompilerCLike _c;
 
-            public ScopeHelper(CompilerCLike e)
-            {
-                _c = e;
+			public ScopeHelper(CompilerCLike e)
+			{
+				_c = e;
 
-                e.WriteScopeBegin();
-            }
+				e.WriteScopeBegin();
+			}
 
-            #region IDisposable Members
+			#region IDisposable Members
 
-            public void Dispose()
-            {
-                _c.WriteScopeEnd(UseNewLine);
-            }
-
-            #endregion
-        }
+			public void Dispose()
+			{
+				_c.WriteScopeEnd(UseNewLine);
+			}
+
+			#endregion
+		}
 
-
-        public override IDisposable CreateScope()
-        {
-            return new ScopeHelper(this);
-        }
 
+		public override IDisposable CreateScope()
+		{
+			return new ScopeHelper(this);
+		}
 
-        public IDisposable CreateScope(bool _insert_newline)
-        {
-            ScopeHelper h = new ScopeHelper(this);
 
-            h.UseNewLine = _insert_newline;
+		public IDisposable CreateScope(bool _insert_newline)
+		{
+			ScopeHelper h = new ScopeHelper(this);
 
-            return h;
-        }
+			h.UseNewLine = _insert_newline;
 
-        public CompilerCLike(TextWriter xw)
-            : base(xw)
-        {
-        }
+			return h;
+		}
 
-        #endregion
+		public CompilerCLike(TextWriter xw)
+			: base(xw)
+		{
+		}
 
+		#endregion
 
-        public override void EmitLoopBlock(ILBlock.Prestatement p, ILLoopConstruct loop)
-        {
-            if (loop.IsBreak(p.Instruction))
-            {
-                WriteIdent();
-                Write("break");
-                Write(";");
-                WriteLine();
-
-            }
-            else if (loop.IsContinue(p.Instruction))
-            {
-                WriteIdent();
-                Write("continue");
-                Write(";");
-                WriteLine();
-
-            }
-            else
-            {
-                WriteIdent();
-                Write("while");
-                WriteSpace();
-                Write("(");
 
+		public override void EmitLoopBlock(ILBlock.Prestatement p, ILLoopConstruct loop)
+		{
+			if (loop.IsBreak(p.Instruction))
+			{
+				WriteIdent();
+				Write("break");
+				Write(";");
+				WriteLine();
 
-                ILBlock.PrestatementBlock block = p.Owner.ExtractBlock(loop.CFirst, loop.CLast);
+			}
+			else if (loop.IsContinue(p.Instruction))
+			{
+				WriteIdent();
+				Write("continue");
+				Write(";");
+				WriteLine();
 
-                block.IsCompound = true;
+			}
+			else
+			{
+				WriteIdent();
+				Write("while");
+				WriteSpace();
+				Write("(");
 
-                if (block.LastPrestatement.Instruction.OpCode.FlowControl == FlowControl.Branch)
-                {
-                    Write("true");
-                }
-                else
-                {
-                    Emit(block.LastPrestatement, block.LastPrestatement.Instruction.StackBeforeStrict[0]);
-                }
 
-                Write(")");
-                WriteLine();
+				ILBlock.PrestatementBlock block = p.Owner.ExtractBlock(loop.CFirst, loop.CLast);
 
-                EmitScope(p.Owner.ExtractBlock(loop.BodyFirst, loop.BodyLast));
-            }
-        }
+				block.IsCompound = true;
 
-        public override void WriteTypeConstructionVerified(CodeEmitArgs e, Type mtype, MethodBase m, ScriptAttribute mza)
-        {
-            string alias = mza == null ? null : mza.GetConstructorAlias();
+				if (block.LastPrestatement.Instruction.OpCode.FlowControl == FlowControl.Branch)
+				{
+					Write("true");
+				}
+				else
+				{
+					Emit(block.LastPrestatement, block.LastPrestatement.Instruction.StackBeforeStrict[0]);
+				}
 
-            if (alias != null)
-            {
-                MethodBase m_impl = ResolveImplementationMethod(m.DeclaringType, m, alias);
+				Write(")");
+				WriteLine();
 
-                if (m_impl == null)
-                    Break("Constructor '" + alias + "' missing: " + e.i.TargetConstructor + " for " + e.i.TargetConstructor.DeclaringType);
+				EmitScope(p.Owner.ExtractBlock(loop.BodyFirst, loop.BodyLast));
+			}
+		}
 
-                WriteMethodCall(e.p, e.i, m_impl);
+		public override void WriteTypeConstructionVerified(CodeEmitArgs e, Type mtype, MethodBase m, ScriptAttribute mza)
+		{
+			string alias = mza == null ? null : mza.GetConstructorAlias();
 
-            }
-            else
-            {
+			if (alias != null)
+			{
+				MethodBase m_impl = ResolveImplementationMethod(m.DeclaringType, m, alias);
 
-                Write("new");
-                WriteSpace();
+				if (m_impl == null)
+					Break("Constructor '" + alias + "' missing: " + e.i.TargetConstructor + " for " + e.i.TargetConstructor.DeclaringType);
 
-                if (mza != null && mza.ImplementationType != null)
-                {
-                    WriteDecoratedTypeName(e.Method.DeclaringType, mza.ImplementationType);
-                }
-                else
-                {
-                    WriteDecoratedTypeName(e.Method.DeclaringType, m.DeclaringType);
-                }
+				WriteMethodCall(e.p, e.i, m_impl);
 
-                
-                WriteParameterInfoFromStack(m, e.p, e.i.StackBeforeStrict, 0);
-            }
-        }
+			}
+			else
+			{
 
+				Write("new");
+				WriteSpace();
 
+				if (mza != null && mza.ImplementationType != null)
+				{
+					WriteDecoratedTypeName(e.Method.DeclaringType, mza.ImplementationType);
+				}
+				else
+				{
+					WriteDecoratedTypeName(e.Method.DeclaringType, m.DeclaringType);
+				}
 
-        public virtual void MethodCallParameterTypeCast(Type context, Type p)
-        {
-        }
 
+				WriteParameterInfoFromStack(m, e.p, e.i.StackBeforeStrict, 0);
+			}
+		}
 
 
-        public virtual bool AlwaysDefineAsStatic
-        {
-            get
-            {
-                return false;
-            }
-        }
 
-        public virtual bool AlwaysDoTypeCastOnParameters
-        {
-            get
-            {
-                return false;
-            }
-        }
+		public virtual void MethodCallParameterTypeCast(Type context, Type p)
+		{
+		}
 
-        public virtual bool IsBooleanSupported
-        {
-            get
-            {
-                return true;
-            }
-        }
 
-      
 
-        public void WriteParameterInfoFromStack(MethodBase m, ILBlock.Prestatement p, ILFlow.StackItem[] s, int offset)
-        {
-            ParameterInfo[] pi = m == null ? null : m.GetParameters();
+		public virtual bool AlwaysDefineAsStatic
+		{
+			get
+			{
+				return false;
+			}
+		}
 
-            Write("(");
+		public virtual bool AlwaysDoTypeCastOnParameters
+		{
+			get
+			{
+				return false;
+			}
+		}
 
-            var a = m.ToScriptAttribute();
+		public virtual bool IsBooleanSupported
+		{
+			get
+			{
+				return true;
+			}
+		}
 
 
 
-            bool pWritten = false;
+		public void WriteParameterInfoFromStack(MethodBase m, ILBlock.Prestatement p, ILFlow.StackItem[] s, int offset)
+		{
+			ParameterInfo[] pi = m == null ? null : m.GetParameters();
 
+			Write("(");
 
-            if (!m.IsStatic)
-            {
-                if (AlwaysDefineAsStatic || (a != null && a.DefineAsStatic))
-                {
-                    pWritten = true;
-
-                    if (AlwaysDoTypeCastOnParameters)
-                        WriteTypeCast(m.DeclaringType);
+			var a = m.ToScriptAttribute();
 
-                    Emit(p, s[0]);
-                }
-            }
 
-            WriteParameters(p, m, s, offset, pi, pWritten, ",");
 
-            Write(")");
-        }
+			bool pWritten = false;
 
-        public virtual void WriteArrayToCustomArrayEnumeratorCast(Type Enumerable, Type ElementType, ILBlock.Prestatement p, ILFlow.StackItem s)
-        {
-            Write("/* autocast " + Enumerable.Name + " */");
-            Emit(p, s);
-        }
 
-        protected virtual bool IsTypeCastRequired(Type e, ILFlow.StackItem s)
-        {
-            return AlwaysDoTypeCastOnParameters;
-        }
+			if (!m.IsStatic)
+			{
+				if (AlwaysDefineAsStatic || (a != null && a.DefineAsStatic))
+				{
+					pWritten = true;
 
-        public override void WriteParameters(ILBlock.Prestatement p, MethodBase _method, ILFlow.StackItem[] s, int offset, ParameterInfo[] pi, bool pWritten, string op)
-        {
-            DebugBreak(p.Instruction.OwnerMethod.ToScriptAttributeOrDefault());
+					if (AlwaysDoTypeCastOnParameters)
+						WriteTypeCast(m.DeclaringType);
 
-            if (s != null)
-            {
-                for (int si = offset; si < s.Length; si++)
-                {
-                    if (si > offset || pWritten)
-                    {
-                        Write(op);
-                        WriteSpace();
-                    }
+					Emit(p, s[0]);
+				}
+			}
 
+			WriteParameters(p, m, s, offset, pi, pWritten, ",");
 
-                    ParameterInfo parameter = null;
+			Write(")");
+		}
 
-                    if (pi.Length > si - offset)
-                        parameter = pi[si - offset];
+		public virtual void WriteArrayToCustomArrayEnumeratorCast(Type Enumerable, Type ElementType, ILBlock.Prestatement p, ILFlow.StackItem s)
+		{
+			Write("/* autocast " + Enumerable.Name + " */");
+			Emit(p, s);
+		}
 
-                    if (parameter == null)
-                    {
-                        if (AlwaysDoTypeCastOnParameters)
-                            WriteTypeCast(_method.DeclaringType);
+		protected virtual bool IsTypeCastRequired(Type e, ILFlow.StackItem s)
+		{
+			return AlwaysDoTypeCastOnParameters;
+		}
 
-                        Emit(p, s[si]);
-                    }
-                    else
-                    {
+		public override void WriteParameters(ILBlock.Prestatement p, MethodBase _method, ILFlow.StackItem[] s, int offset, ParameterInfo[] pi, bool pWritten, string op)
+		{
+			DebugBreak(p.Instruction.OwnerMethod.ToScriptAttributeOrDefault());
 
-                        if (pi == null || !EmitEnumAsString(s[si].SingleStackInstruction, parameter.ParameterType))
-                        {
-                            #region [Hex] parameter
-                            object[] HexA = parameter.GetCustomAttributes(typeof(HexAttribute), false);
+			if (s != null)
+			{
+				for (int si = offset; si < s.Length; si++)
+				{
+					if (si > offset || pWritten)
+					{
+						Write(op);
+						WriteSpace();
+					}
 
-                            if (HexA.Length == 1)
-                            {
-                                int? HexV = s[si].SingleStackInstruction.TargetInteger;
 
-                                if (HexV != null)
-                                {
-                                    Write(string.Format("0x{0:x8}", HexV.Value));
+					ParameterInfo parameter = null;
 
-                                    continue;
-                                }
-                            }
-                            #endregion
+					if (pi.Length > si - offset)
+						parameter = pi[si - offset];
 
+					if (parameter == null)
+					{
+						if (AlwaysDoTypeCastOnParameters)
+							WriteTypeCast(_method.DeclaringType);
 
-                            #region boolean
-                            if (IsBooleanSupported)
-                            {
-                                if (s[si].SingleStackInstruction.TargetInteger != null)
-                                {
-                                    if (parameter.ParameterType == typeof(bool))
-                                    {
+						Emit(p, s[si]);
+					}
+					else
+					{
 
-                                        if (s[si].SingleStackInstruction.TargetInteger == 0)
-                                            WriteKeywordFalse();
-                                        else
-                                            WriteKeywordTrue();
+						if (pi == null || !EmitEnumAsString(s[si].SingleStackInstruction, parameter.ParameterType))
+						{
+							#region [Hex] parameter
+							object[] HexA = parameter.GetCustomAttributes(typeof(HexAttribute), false);
 
-                                        continue;
-                                    }
-                                    else
-                                    {
-                                        MethodCallParameterTypeCast(p.DeclaringMethod.DeclaringType, parameter.ParameterType);
-                                    }
-                                }
-                            }
-                            #endregion
+							if (HexA.Length == 1)
+							{
+								int? HexV = s[si].SingleStackInstruction.TargetInteger;
 
-                            #region SupportsCustomArrayEnumerator
-                            if (SupportsCustomArrayEnumerator)
-                            {
-                                var CurrentStack = s[si];
+								if (HexV != null)
+								{
+									Write(string.Format("0x{0:x8}", HexV.Value));
 
-                                var DidCastToEnumerator = AutoCastToEnumerator(p, parameter.ParameterType, CurrentStack);
+									continue;
+								}
+							}
+							#endregion
 
-                                if (DidCastToEnumerator)
-                                    continue;
-                            }
-                            #endregion
 
+							#region boolean
+							if (IsBooleanSupported)
+							{
+								if (s[si].SingleStackInstruction.TargetInteger != null)
+								{
+									if (parameter.ParameterType == typeof(bool))
+									{
 
-                            // todo: only if types donot comply
+										if (s[si].SingleStackInstruction.TargetInteger == 0)
+											WriteKeywordFalse();
+										else
+											WriteKeywordTrue();
 
-                            if (IsTypeCastRequired(parameter.ParameterType, s[si]))
-                                MethodCallParameterTypeCast(p.DeclaringMethod.DeclaringType, parameter.ParameterType);
+										continue;
+									}
+									else
+									{
+										MethodCallParameterTypeCast(p.DeclaringMethod.DeclaringType, parameter.ParameterType);
+									}
+								}
+							}
+							#endregion
 
+							#region SupportsCustomArrayEnumerator
+							if (SupportsCustomArrayEnumerator)
+							{
+								var CurrentStack = s[si];
 
+								var DidCastToEnumerator = AutoCastToEnumerator(p, parameter.ParameterType, CurrentStack);
 
+								if (DidCastToEnumerator)
+									continue;
+							}
+							#endregion
 
-                            Emit(p, s[si], parameter.ParameterType);
-                        }
-                    }
-                }
-            }
-        }
 
-        public bool AutoCastToEnumerator(ILBlock.Prestatement p, Type ParameterType, ILFlow.StackItem CurrentStack)
-        {
-            var SingleStackInstruction = CurrentStack.SingleStackInstruction;
-            var ParameterGeneric = ParameterType.IsGenericType ? ParameterType.GetGenericTypeDefinition() : null;
-            var SupportsIEnumerable = ParameterGeneric != null && (ParameterGeneric == typeof(IEnumerable<>) || ParameterGeneric.IsSubclassOf(typeof(IEnumerable<>)));
-            var DidCastToEnumerator = false;
+							// todo: only if types donot comply
 
-            if (!ParameterType.IsArray && SupportsIEnumerable)
-            {
+							if (IsTypeCastRequired(parameter.ParameterType, s[si]))
+								MethodCallParameterTypeCast(p.DeclaringMethod.DeclaringType, parameter.ParameterType);
 
-                #region Cast To IEnumerable
 
 
-                if (SingleStackInstruction != null)
-                {
-                    var ElementType = SingleStackInstruction.GetNewArrayElementType();
 
+							Emit(p, s[si], parameter.ParameterType);
+						}
+					}
+				}
+			}
+		}
 
-                    if (ElementType == null)
-                    {
-                        var ReferencedType = SingleStackInstruction.ReferencedType;
-                        if ((ReferencedType != null && ReferencedType.IsArray))
-                        {
-                            ElementType = ReferencedType.GetElementType();
-                        }
-                    }
-                    else
-                    {
-                        // this is a new array
-                    }
+		public bool AutoCastToEnumerator(ILBlock.Prestatement p, Type ParameterType, ILFlow.StackItem CurrentStack)
+		{
+			var SingleStackInstruction = CurrentStack.SingleStackInstruction;
+			var ParameterGeneric = ParameterType.IsGenericType ? ParameterType.GetGenericTypeDefinition() : null;
+			var SupportsIEnumerable = ParameterGeneric != null && (ParameterGeneric == typeof(IEnumerable<>) || ParameterGeneric.IsSubclassOf(typeof(IEnumerable<>)));
+			var DidCastToEnumerator = false;
 
-                    if (ElementType != null)
-                    {
-                        var Enumerable = typeof(IEnumerable<>).MakeGenericType(ElementType);
+			if (!ParameterType.IsArray && SupportsIEnumerable)
+			{
 
-                        if (Enumerable.GUID == ParameterType.GUID)
-                        {
-                            WriteArrayToCustomArrayEnumeratorCast(Enumerable, ElementType, p, CurrentStack);
-                            DidCastToEnumerator = true;
-                        }
-                    }
+				#region Cast To IEnumerable
 
 
-                }
-                #endregion
+				if (SingleStackInstruction != null)
+				{
+					var ElementType = SingleStackInstruction.GetNewArrayElementType();
 
-            }
-            return DidCastToEnumerator;
-        }
 
-        protected virtual void WriteTypeCast(Type type)
-        {
+					if (ElementType == null)
+					{
+						var ReferencedType = SingleStackInstruction.ReferencedType;
+						if ((ReferencedType != null && ReferencedType.IsArray))
+						{
+							ElementType = ReferencedType.GetElementType();
+						}
+					}
+					else
+					{
+						// this is a new array
+					}
 
-        }
+					if (ElementType != null)
+					{
+						var Enumerable = typeof(IEnumerable<>).MakeGenericType(ElementType);
 
-        public void WriteKeywordTrue()
-        {
-            Write("true");
-        }
+						if (Enumerable.GUID == ParameterType.GUID)
+						{
+							WriteArrayToCustomArrayEnumeratorCast(Enumerable, ElementType, p, CurrentStack);
+							DidCastToEnumerator = true;
+						}
+					}
 
-        public void WriteKeywordFalse()
-        {
-            Write("false");
-        }
 
-        public void WriteKeywordNull()
-        {
-            Write("null");
-        }
+				}
+				#endregion
 
-        public bool EmitEnumAsStringSafe(CodeEmitArgs e)
-        {
-            bool bEnum = false;
+			}
+			return DidCastToEnumerator;
+		}
 
-            if (e.FirstOnStack.StackInstructions.Length == 1 && e.i.TargetVariable != null)
-                if (EmitEnumAsString(e.FirstOnStack.SingleStackInstruction, e.i.TargetVariable.LocalType))
-                    bEnum = true;
+		protected virtual void WriteTypeCast(Type type)
+		{
 
-            return bEnum;
-        }
+		}
 
-        public bool EmitEnumAsString(ILInstruction i, Type type)
-        {
+		public void WriteKeywordTrue()
+		{
+			Write("true");
+		}
 
+		public void WriteKeywordFalse()
+		{
+			Write("false");
+		}
 
-            if (type != null && type.IsEnum)
-            {
-                ScriptAttribute a = ScriptAttribute.Of(type, false);
+		public void WriteKeywordNull()
+		{
+			Write("null");
+		}
 
-                if (a != null && a.IsStringEnum)
-                {
-                    int? v = i.TargetInteger;
+		public bool EmitEnumAsStringSafe(CodeEmitArgs e)
+		{
+			bool bEnum = false;
 
-                    if (v != null)
-                    {
-                        string name = Enum.GetName(type, v.Value);
+			if (e.FirstOnStack.StackInstructions.Length == 1 && e.i.TargetVariable != null)
+				if (EmitEnumAsString(e.FirstOnStack.SingleStackInstruction, e.i.TargetVariable.LocalType))
+					bEnum = true;
 
-                        ScriptAttribute ma = ScriptAttribute.OfTypeMember(type, name);
+			return bEnum;
+		}
 
-                        if (ma != null)
-                        {
-                            if (ma.ExternalTarget != null)
-                            {
-                                this.WriteQuotedLiteral(ma.ExternalTarget);
+		public bool EmitEnumAsString(ILInstruction i, Type type)
+		{
 
-                                return true;
 
-                            }
-                        }
+			if (type != null && type.IsEnum)
+			{
+				ScriptAttribute a = ScriptAttribute.Of(type, false);
 
-                        this.WriteQuotedLiteral(Enum.GetName(type, v.Value));
+				if (a != null && a.IsStringEnum)
+				{
+					int? v = i.TargetInteger;
 
+					if (v != null)
+					{
+						string name = Enum.GetName(type, v.Value);
 
-                        return true;
-                    }
-                }
-            }
+						ScriptAttribute ma = ScriptAttribute.OfTypeMember(type, name);
 
+						if (ma != null)
+						{
+							if (ma.ExternalTarget != null)
+							{
+								this.WriteQuotedLiteral(ma.ExternalTarget);
 
+								return true;
 
-            return false;
-        }
+							}
+						}
 
-        public override void EmitLogic(ILBlock.Prestatement p, ILBlock.InlineLogic logic)
-        {
-            if (logic.hint == ILBlock.InlineLogic.SpecialType.AndOperator)
-            {
-                if (logic.IsNegative)
-                    Write("!");
+						this.WriteQuotedLiteral(Enum.GetName(type, v.Value));
 
-                Write("(");
 
+						return true;
+					}
+				}
+			}
 
-                EmitLogic(p, logic.lhs);
 
-                WriteSpace();
-                Write("&&");
-                WriteSpace();
 
-                EmitLogic(p, logic.rhs);
+			return false;
+		}
 
-                Write(")");
+		public override void EmitLogic(ILBlock.Prestatement p, ILBlock.InlineLogic logic)
+		{
+			if (logic.hint == ILBlock.InlineLogic.SpecialType.AndOperator)
+			{
+				if (logic.IsNegative)
+					Write("!");
 
-                return;
-            }
+				Write("(");
 
-            if (logic.hint == ILBlock.InlineLogic.SpecialType.OrOperator)
-            {
-                if (logic.IsNegative)
-                    Write("!");
 
-                Write("(");
-                EmitLogic(p, logic.lhs);
+				EmitLogic(p, logic.lhs);
 
-                WriteSpace();
-                Write("||");
-                WriteSpace();
+				WriteSpace();
+				Write("&&");
+				WriteSpace();
 
-                EmitLogic(p, logic.rhs);
+				EmitLogic(p, logic.rhs);
 
-                Write(")");
+				Write(")");
 
-                return;
-            }
+				return;
+			}
 
-            if (logic.hint == ILBlock.InlineLogic.SpecialType.Value)
-            {
-                if (logic.IsNegative)
-                    Write("!");
+			if (logic.hint == ILBlock.InlineLogic.SpecialType.OrOperator)
+			{
+				if (logic.IsNegative)
+					Write("!");
 
-                Emit(p, logic.value);
+				Write("(");
+				EmitLogic(p, logic.lhs);
 
+				WriteSpace();
+				Write("||");
+				WriteSpace();
 
-                return;
-            }
+				EmitLogic(p, logic.rhs);
 
-            if (logic.hint == ILBlock.InlineLogic.SpecialType.IfClause)
-            {
-                Write("(");
+				Write(")");
 
-                if (logic.IsNegative)
-                {
-                    Write("!");
+				return;
+			}
 
-                }
+			if (logic.hint == ILBlock.InlineLogic.SpecialType.Value)
+			{
+				if (logic.IsNegative)
+					Write("!");
 
-                Write("(");
+				Emit(p, logic.value);
 
-                if (logic.IfClause.Branch == OpCodes.Brtrue_S
-                    || logic.IfClause.Branch == OpCodes.Brfalse_S)
-                    Emit(p, logic.IfClause.Branch.StackBeforeStrict[0]);
-                else
-                    EmitInstruction(p, logic.IfClause.Branch);
 
-                Write(")");
+				return;
+			}
 
-                WriteSpace();
-                Write("?");
-                WriteSpace();
+			if (logic.hint == ILBlock.InlineLogic.SpecialType.IfClause)
+			{
+				Write("(");
 
-                ILBlock.PrestatementBlock block;
+				if (logic.IsNegative)
+				{
+					Write("!");
 
-                block = p.Owner.ExtractBlock(
-                    /*logic.IsNegative ? logic.IfClause.FFirst :*/ logic.IfClause.BodyFalseFirst,
-                    /*logic.IsNegative ? logic.IfClause.FLast :*/ logic.IfClause.BodyFalseLast
-                );
+				}
 
-                EmitInstruction(
-                  block.PrestatementCommands[block.PrestatementCommands.Count - 1],
-                  block.PrestatementCommands[block.PrestatementCommands.Count - 1].Instruction
-                  );
+				Write("(");
 
+				if (logic.IfClause.Branch == OpCodes.Brtrue_S
+					|| logic.IfClause.Branch == OpCodes.Brfalse_S)
+					Emit(p, logic.IfClause.Branch.StackBeforeStrict[0]);
+				else
+					EmitInstruction(p, logic.IfClause.Branch);
 
+				Write(")");
 
-                WriteSpace();
-                Write(":");
-                WriteSpace();
+				WriteSpace();
+				Write("?");
+				WriteSpace();
 
-                block = p.Owner.ExtractBlock(
-                    /*!logic.IsNegative ?*/ logic.IfClause.BodyTrueFirst /*: logic.IfClause.TFirst*/,
-                    /*!logic.IsNegative ?*/ logic.IfClause.BodyTrueLast /*: logic.IfClause.TLast*/
-                );
+				ILBlock.PrestatementBlock block;
 
+				block = p.Owner.ExtractBlock(
+					/*logic.IsNegative ? logic.IfClause.FFirst :*/ logic.IfClause.BodyFalseFirst,
+					/*logic.IsNegative ? logic.IfClause.FLast :*/ logic.IfClause.BodyFalseLast
+				);
 
-                EmitInstruction(
-                    block.PrestatementCommands[block.PrestatementCommands.Count - 1],
-                    block.PrestatementCommands[block.PrestatementCommands.Count - 1].Instruction
-                    );
+				EmitInstruction(
+				  block.PrestatementCommands[block.PrestatementCommands.Count - 1],
+				  block.PrestatementCommands[block.PrestatementCommands.Count - 1].Instruction
+				  );
 
 
-                Write(")");
 
-                return;
-            }
+				WriteSpace();
+				Write(":");
+				WriteSpace();
 
-            Break("EmitAsArgument");
-        }
+				block = p.Owner.ExtractBlock(
+					/*!logic.IsNegative ?*/ logic.IfClause.BodyTrueFirst /*: logic.IfClause.TFirst*/,
+					/*!logic.IsNegative ?*/ logic.IfClause.BodyTrueLast /*: logic.IfClause.TLast*/
+				);
 
-        public override void EmitIfBlock(ILBlock.Prestatement p, ILIfElseConstruct iif)
-        {
-            WriteLine();
-            WriteIdent();
-            WriteKeywordIf();
 
-            Write("(");
+				EmitInstruction(
+					block.PrestatementCommands[block.PrestatementCommands.Count - 1],
+					block.PrestatementCommands[block.PrestatementCommands.Count - 1].Instruction
+					);
 
-            if (iif.Branch.IsAnyOpCodeOf(OpCodes.Brfalse_S, OpCodes.Brfalse))
-            {
-                Emit(p, iif.Branch.StackBeforeStrict[0]);
-            }
-            else
-            {
-                if (iif.Branch.IsAnyOpCodeOf(OpCodes.Brtrue_S, OpCodes.Brtrue))
-                {
-                    ILFlow.StackItem expression = iif.Branch.StackBeforeStrict[0];
 
-                    bool compact = false;
+				Write(")");
 
-                    if (expression.StackInstructions.Length == 1)
-                    {
-                        if (expression.SingleStackInstruction.TargetVariable != null)
-                            compact = true;
-                    }
+				return;
+			}
 
-                    if (compact)
-                    {
-                        // get if inline value
-                        //ILFlow.StackItem if_Value = expression.SingleStackInstruction.InlineAssigmentValue.Instruction.StackBeforeStrict[0];
+			Break("EmitAsArgument");
+		}
 
+		public override void EmitIfBlock(ILBlock.Prestatement p, ILIfElseConstruct iif)
+		{
+			WriteLine();
+			WriteIdent();
+			WriteKeywordIf();
 
-                        //if (p.Instruction.IsDebugCode)
-                        //    Debugger.Break();
+			Write("(");
 
-                        if (SupportsInlineAssigments && expression.StackInstructions.Length == 1 &&
-                            expression.SingleStackInstruction.InlineAssigmentValue != null)
-                        {
-                            #region redundant !! removal
-                            expression = expression.SingleStackInstruction.InlineAssigmentValue.Instruction.StackBeforeStrict[0];
+			if (iif.Branch.IsAnyOpCodeOf(OpCodes.Brfalse_S, OpCodes.Brfalse))
+			{
+				Emit(p, iif.Branch.StackBeforeStrict[0]);
+			}
+			else
+			{
+				if (iif.Branch.IsAnyOpCodeOf(OpCodes.Brtrue_S, OpCodes.Brtrue))
+				{
+					ILFlow.StackItem expression = iif.Branch.StackBeforeStrict[0];
 
-                            if (expression.IsSingle)
-                            {
-                                if (expression.SingleStackInstruction.IsNegativeOperator)
-                                {
-                                    Emit(p, expression.SingleStackInstruction.StackBeforeStrict[0]);
+					bool compact = false;
 
-                                    goto skipx;
-                                }
-                            }
-                            #endregion
+					if (expression.StackInstructions.Length == 1)
+					{
+						if (expression.SingleStackInstruction.TargetVariable != null)
+							compact = true;
+					}
 
+					if (compact)
+					{
+						// get if inline value
+						//ILFlow.StackItem if_Value = expression.SingleStackInstruction.InlineAssigmentValue.Instruction.StackBeforeStrict[0];
 
-                            Write("!");
-                            Emit(p, expression);
 
-                        skipx:
-                            ;
-                        }
-                        else
-                        {
+						//if (p.Instruction.IsDebugCode)
+						//    Debugger.Break();
 
-                            // expression.SingleStackInstruction.TargetVariable.LocalType.IsClass
+						if (SupportsInlineAssigments && expression.StackInstructions.Length == 1 &&
+							expression.SingleStackInstruction.InlineAssigmentValue != null)
+						{
+							#region redundant !! removal
+							expression = expression.SingleStackInstruction.InlineAssigmentValue.Instruction.StackBeforeStrict[0];
 
-                            if (expression.IsSingle &&
-                                expression.SingleStackInstruction.TargetVariable != null &&
-                                expression.SingleStackInstruction.TargetVariable.LocalType.IsClass)
-                            {
-                                
-                                Emit(p, expression);
-                                WriteSpace();
-                                Write("==");
-                                WriteSpace();
-                                WriteKeywordNull();
-                            }
-                            else
-                            {
-                                Write("!");
-                                Emit(p, expression);
-                            }
-                        }
-                    }
-                    else
-                    {
+							if (expression.IsSingle)
+							{
+								if (expression.SingleStackInstruction.IsNegativeOperator)
+								{
+									Emit(p, expression.SingleStackInstruction.StackBeforeStrict[0]);
+
+									goto skipx;
+								}
+							}
+							#endregion
+
+
+							Write("!");
+							Emit(p, expression);
+
+						skipx:
+							;
+						}
+						else
+						{
+
+							// expression.SingleStackInstruction.TargetVariable.LocalType.IsClass
+
+							if (expression.IsSingle &&
+								expression.SingleStackInstruction.TargetVariable != null &&
+								expression.SingleStackInstruction.TargetVariable.LocalType.IsClass)
+							{
+
+								Emit(p, expression);
+								WriteSpace();
+								Write("==");
+								WriteSpace();
+								WriteKeywordNull();
+							}
+							else
+							{
+								Write("!");
+								Emit(p, expression);
+							}
+						}
+					}
+					else
+					{
 						// fixme: is this operator valid on this expression?
 
-                        Write("!");
-                        Write("(");
-                        Emit(p, expression);
+						Write("!");
+						Write("(");
+						Emit(p, expression);
 
-                        Write(")");
-                    }
+						Write(")");
+					}
 
-                }
-                else Break("invalid if block");
-            }
+				}
+				else Break("invalid if block");
+			}
 
-            Write(")");
-            WriteLine();
-
-
-            EmitScope(p.Owner.ExtractBlock(iif.BodyTrueFirst, iif.BodyTrueLast));
-
-            if (iif.HasElseClause)
-            {
-                WriteIdent();
-                WriteKeywordElse();
-
-                EmitScope(p.Owner.ExtractBlock(iif.BodyFalseFirst, iif.BodyFalseLast));
+			Write(")");
+			WriteLine();
 
 
-            }
+			EmitScope(p.Owner.ExtractBlock(iif.BodyTrueFirst, iif.BodyTrueLast));
 
-            WriteLine();
-        }
+			if (iif.HasElseClause)
+			{
+				WriteIdent();
+				WriteKeywordElse();
 
-        private void WriteKeywordElse()
-        {
-            Write("else");
-            WriteLine();
-        }
-
-        private void WriteKeywordIf()
-        {
-            Write("if ");
-        }
-
-        public void WriteScopeEnd()
-        {
-            WriteScopeEnd(true);
-        }
-
-        public void WriteScopeEnd(bool usenewline)
-        {
-            Ident--;
-
-            WriteIdent();
-            Write("}");
-
-            if (usenewline)
-                WriteLine();
-        }
-
-        public void WriteScopeBegin()
-        {
-            WriteIdent();
-            Write("{");
-            WriteLine();
-
-            Ident++;
-        }
-
-        public virtual void WriteInstanceOfOperator(ILInstruction value, Type type)
-        {
-            throw new NotImplementedException("instanceof operator not supported");
-        }
+				EmitScope(p.Owner.ExtractBlock(iif.BodyFalseFirst, iif.BodyFalseLast));
 
 
-        public void WriteInlineOperator(ILBlock.Prestatement p, ILInstruction i, string op)
-        {
-            ILFlow.StackItem[] s = i.StackBeforeStrict;
+			}
 
-            #region is operator support
-            if (s[0].SingleStackInstruction == OpCodes.Isinst)
-            {
-                if (s[1].SingleStackInstruction == OpCodes.Ldnull)
-                {
-                    // write the instanceof opcode
+			WriteLine();
+		}
 
-                    ILInstruction _instanceof =
-                        s[0].SingleStackInstruction;
+		private void WriteKeywordElse()
+		{
+			Write("else");
+			WriteLine();
+		}
 
-                    WriteInstanceOfOperator(
-                        _instanceof.StackBeforeStrict[0].SingleStackInstruction,
-                        _instanceof.TargetType
-                    );
+		private void WriteKeywordIf()
+		{
+			Write("if ");
+		}
+
+		public void WriteScopeEnd()
+		{
+			WriteScopeEnd(true);
+		}
+
+		public void WriteScopeEnd(bool usenewline)
+		{
+			Ident--;
+
+			WriteIdent();
+			Write("}");
+
+			if (usenewline)
+				WriteLine();
+		}
+
+		public void WriteScopeBegin()
+		{
+			WriteIdent();
+			Write("{");
+			WriteLine();
+
+			Ident++;
+		}
+
+		public virtual void WriteInstanceOfOperator(ILInstruction value, Type type)
+		{
+			throw new NotImplementedException("instanceof operator not supported");
+		}
 
 
-                    //Emit(p, s[0]);
+		public void WriteInlineOperator(ILBlock.Prestatement p, ILInstruction i, string op)
+		{
+			ILFlow.StackItem[] s = i.StackBeforeStrict;
 
-                    return;
-                }
-            }
-            #endregion
+			if (i.OpCode == OpCodes.Ceq)
+				if (s[0].SingleStackInstruction == OpCodes.Cgt_Un)
+					if (s[1].SingleStackInstruction == OpCodes.Ldc_I4_0)
+					{
+						var xs = s[0].SingleStackInstruction.StackBeforeStrict;
+
+						#region is operator support
+						if (xs[0].SingleStackInstruction == OpCodes.Isinst)
+						{
+							if (xs[1].SingleStackInstruction == OpCodes.Ldnull)
+							{
+								// write the instanceof opcode
+
+								ILInstruction _instanceof =
+									xs[0].SingleStackInstruction;
+
+								Write("!(");
+
+								WriteInstanceOfOperator(
+									_instanceof.StackBeforeStrict[0].SingleStackInstruction,
+									_instanceof.TargetType
+								);
+
+								Write(")");
+
+								//Emit(p, s[0]);
+
+								return;
+							}
+						}
+						#endregion
+					}
+
+			#region is operator support
+			if (s[0].SingleStackInstruction == OpCodes.Isinst)
+			{
+				if (s[1].SingleStackInstruction == OpCodes.Ldnull)
+				{
+					// write the instanceof opcode
+
+					ILInstruction _instanceof =
+						s[0].SingleStackInstruction;
+
+					WriteInstanceOfOperator(
+						_instanceof.StackBeforeStrict[0].SingleStackInstruction,
+						_instanceof.TargetType
+					);
+
+
+					//Emit(p, s[0]);
+
+					return;
+				}
+			}
+			#endregion
 
 			if (s.Length == 1)
 			{
@@ -763,480 +796,480 @@ namespace jsc.Script
 				Emit(p, s[1]);
 				Write(")");
 			}
-        }
+		}
 
-        public void WriteQuotedLiteral(string e)
-        {
+		public void WriteQuotedLiteral(string e)
+		{
 
-            WriteQuote();
-            this.WriteDecoratedLiteralString(e);
-            WriteQuote();
+			WriteQuote();
+			this.WriteDecoratedLiteralString(e);
+			WriteQuote();
 
-        }
+		}
 
-        public override bool IsVisibleCharacter(char c)
-        {
-            return (c >= 'a' && c <= 'z')
-                || (c >= 'A' && c <= 'Z')
-                || (c >= '0' && c <= '9')
-                || " +-/*:_#%.,=;!&<>|()[]{}?".IndexOf(c) > -1;
+		public override bool IsVisibleCharacter(char c)
+		{
+			return (c >= 'a' && c <= 'z')
+				|| (c >= 'A' && c <= 'Z')
+				|| (c >= '0' && c <= '9')
+				|| " +-/*:_#%.,=;!&<>|()[]{}?".IndexOf(c) > -1;
 
-        }
+		}
 
-        public override void WriteMethodHint(MethodBase m)
-        {
-            WriteIdent();
-            WriteCommentLine((m.IsStatic ? "static " : "instance ") + m.DeclaringType.FullName + "." + m.Name);
-        }
+		public override void WriteMethodHint(MethodBase m)
+		{
+			WriteIdent();
+			WriteCommentLine((m.IsStatic ? "static " : "instance ") + m.DeclaringType.FullName + "." + m.Name);
+		}
 
-        public void WriteCommentLine(string p)
-        {
-            WriteLine("// " + p);
-        }
+		public void WriteCommentLine(string p)
+		{
+			WriteLine("// " + p);
+		}
 
-        public void WriteBoxedCommentLine(string e)
-        {
-            WriteLine("/* " + e + " */");
-        }
+		public void WriteBoxedCommentLine(string e)
+		{
+			WriteLine("/* " + e + " */");
+		}
 
-        public void WriteMachineGeneratedWarning()
-        {
-            WriteBoxedCommentLine("prevalidated at " + DateTime.Now.ToUniversalTime());
-        }
+		public void WriteMachineGeneratedWarning()
+		{
+			WriteBoxedCommentLine("prevalidated at " + DateTime.Now.ToUniversalTime());
+		}
 
-        public void WriteKeywordReturn()
-        {
-            Write("return");
-        }
+		public void WriteKeywordReturn()
+		{
+			Write("return");
+		}
 
-        public override void WriteBoxedComment(string p)
-        {
-            Write("/* " + p + " */");
-        }
+		public override void WriteBoxedComment(string p)
+		{
+			Write("/* " + p + " */");
+		}
 
-        public virtual bool WillReturnPointerToThisOnConstructorReturn
-        {
-            get
-            {
-                return false;
-            }
-        }
+		public virtual bool WillReturnPointerToThisOnConstructorReturn
+		{
+			get
+			{
+				return false;
+			}
+		}
 
 
 
-        public void WriteReturn(ILBlock.Prestatement p, ILInstruction i)
-        {
-            DebugBreak(i.OwnerMethod.ToScriptAttribute());
+		public void WriteReturn(ILBlock.Prestatement p, ILInstruction i)
+		{
+			DebugBreak(i.OwnerMethod.ToScriptAttribute());
 
-            ILFlow.StackItem[] s = i.StackBeforeStrict;
+			ILFlow.StackItem[] s = i.StackBeforeStrict;
 
-            //WriteBoxedComment("return");
+			//WriteBoxedComment("return");
 
-            WriteKeywordReturn();
+			WriteKeywordReturn();
 
 
 
-            if (i.OwnerMethod is ConstructorInfo)
-            {
-                if (WillReturnPointerToThisOnConstructorReturn)
-                {
-                    WriteSpace();
-                    WriteSelf();
-                }
+			if (i.OwnerMethod is ConstructorInfo)
+			{
+				if (WillReturnPointerToThisOnConstructorReturn)
+				{
+					WriteSpace();
+					WriteSelf();
+				}
 
-                return;
-            }
+				return;
+			}
 
-            if (((MethodInfo)i.OwnerMethod).ReturnType == typeof(void))
-                return;
-
-            
-            Action<ILFlow.StackItem> WriteReturnValue =
-                left_s =>
-                {
-              
-
-
-                    if (left_s.StackInstructions.Length > 1)
-                    {
-                        WriteSpace();
-
-                        Emit(p, left_s);
-                    }
-                    else
-                    {
-                        var left = left_s.SingleStackInstruction;
-
-                        if (SupportsInlineAssigments)
-                        {
-                            if (left.InlineAssigmentValue != null)
-                            {
-                                //WriteBoxedComment("inline");
-
-                                WriteSpace();
-
-
-                                ILBlock.Prestatement _p = left.InlineAssigmentValue;
-                                ILInstruction _i = _p.Instruction;
-
-                                if (_i.IsStoreInstruction)
-                                {
-                                    if (_i.StackBeforeStrict.Single().StackInstructions.Length == 1)
-                                        WriteReturnParameter(_p, _i.StackBeforeStrict.Single().SingleStackInstruction, _i.StackBeforeStrict.Single());
-                                    else
-                                        WriteReturnParameter(p, left, left_s);
-                                }
-                                else
-                                    WriteReturnParameter(_p, _i);
-
-                                return;
-                            }
-                        }
-
-                        //WriteBoxedComment(" br ");
-
-                        WriteSpace();
-                        //Emit(p, s[0]);
-
-                        WriteReturnParameter(p, left, left_s);
-                    }
-                };
-
-            if (s.Length == 1)
-            {
-
-                WriteReturnValue(s[0]);
+			if (((MethodInfo)i.OwnerMethod).ReturnType == typeof(void))
+				return;
 
-            }
-            else
-            {
-                if (i.TargetFlow.Branch == OpCodes.Ret)
-                {
-
-                    // this is a dirty fix for return branch with a value
-                    s = i.Prev.StackBeforeStrict;
-
-                    if (s.Length == 1)
-                    {
-                        WriteReturnValue(s[0]);
-                    }
-                }
-            }
-
-        }
-
-        public void WriteReturnParameter(ILBlock.Prestatement p, ILInstruction i, ILFlow.StackItem s)
-        {
-            if (IsTypeCastRequired(((MethodInfo)p.DeclaringMethod).ReturnType, s))
-            {
-                MethodCallParameterTypeCast(
-                    p.DeclaringMethod.DeclaringType,
-                    ((MethodInfo)p.DeclaringMethod).ReturnType
-                );
-            }
-
-            WriteReturnParameter(p, i);
-        }
-
-        public virtual void WriteReturnParameter(ILBlock.Prestatement _p, ILInstruction _i)
-        {
-            
-            var m = _i.OwnerMethod as MethodInfo;
-
-            if (m != null && m.ReturnType == typeof(bool))
-            {
-                if (_i.OpCode == OpCodes.Ldc_I4_0)
-                {
-                    WriteKeywordFalse();
-                    return;
-                }
-
-                if (_i.OpCode == OpCodes.Ldc_I4_1)
-                {
-                    WriteKeywordTrue();
-                    return;
-                }
-            }
-
-      
-            EmitInstruction(_p, _i);
-        }
-
-        public virtual void WriteExceptionVar()
-        {
-            Write("__exc");
-        }
 
+			Action<ILFlow.StackItem> WriteReturnValue =
+				left_s =>
+				{
 
-        public virtual void ConvertTypeAndEmit(CodeEmitArgs e, string x)
-        {
-            Write("((" + x + ")(");
-            EmitFirstOnStack(e);
-            Write("))");
-        }
 
-        public void WriteBlockComment(string Summary)
-        {
-            string x = Summary.Trim();
 
-            WriteIdent();
-            WriteLine("/**");
+					if (left_s.StackInstructions.Length > 1)
+					{
+						WriteSpace();
 
-            foreach (string var in x.Split('\n'))
-            {
-                WriteIdent();
-                WriteLine(" * " + var.Trim());
+						Emit(p, left_s);
+					}
+					else
+					{
+						var left = left_s.SingleStackInstruction;
+
+						if (SupportsInlineAssigments)
+						{
+							if (left.InlineAssigmentValue != null)
+							{
+								//WriteBoxedComment("inline");
+
+								WriteSpace();
+
+
+								ILBlock.Prestatement _p = left.InlineAssigmentValue;
+								ILInstruction _i = _p.Instruction;
+
+								if (_i.IsStoreInstruction)
+								{
+									if (_i.StackBeforeStrict.Single().StackInstructions.Length == 1)
+										WriteReturnParameter(_p, _i.StackBeforeStrict.Single().SingleStackInstruction, _i.StackBeforeStrict.Single());
+									else
+										WriteReturnParameter(p, left, left_s);
+								}
+								else
+									WriteReturnParameter(_p, _i);
+
+								return;
+							}
+						}
+
+						//WriteBoxedComment(" br ");
 
-            }
+						WriteSpace();
+						//Emit(p, s[0]);
+
+						WriteReturnParameter(p, left, left_s);
+					}
+				};
 
-            WriteIdent();
-            WriteLine(" */");
-        }
+			if (s.Length == 1)
+			{
 
+				WriteReturnValue(s[0]);
 
-        public MethodBase GetMethodImplementation(AssamblyTypeInfo MySession, ILInstruction i)
-        {
-            MethodBase method = i.ReferencedMethod;
+			}
+			else
+			{
+				if (i.TargetFlow.Branch == OpCodes.Ret)
+				{
 
+					// this is a dirty fix for return branch with a value
+					s = i.Prev.StackBeforeStrict;
 
-            ScriptAttribute method_type_attribute = ScriptAttribute.OfProvider(method.DeclaringType);
+					if (s.Length == 1)
+					{
+						WriteReturnValue(s[0]);
+					}
+				}
+			}
+
+		}
+
+		public void WriteReturnParameter(ILBlock.Prestatement p, ILInstruction i, ILFlow.StackItem s)
+		{
+			if (IsTypeCastRequired(((MethodInfo)p.DeclaringMethod).ReturnType, s))
+			{
+				MethodCallParameterTypeCast(
+					p.DeclaringMethod.DeclaringType,
+					((MethodInfo)p.DeclaringMethod).ReturnType
+				);
+			}
+
+			WriteReturnParameter(p, i);
+		}
+
+		public virtual void WriteReturnParameter(ILBlock.Prestatement _p, ILInstruction _i)
+		{
+
+			var m = _i.OwnerMethod as MethodInfo;
+
+			if (m != null && m.ReturnType == typeof(bool))
+			{
+				if (_i.OpCode == OpCodes.Ldc_I4_0)
+				{
+					WriteKeywordFalse();
+					return;
+				}
+
+				if (_i.OpCode == OpCodes.Ldc_I4_1)
+				{
+					WriteKeywordTrue();
+					return;
+				}
+			}
+
 
-            if (method_type_attribute == null)
-            {
-                MethodBase impl = MySession.ResolveImplementation(method.DeclaringType, method);
+			EmitInstruction(_p, _i);
+		}
 
+		public virtual void WriteExceptionVar()
+		{
+			Write("__exc");
+		}
 
-                if (impl == null)
-                {
-                    if (SupportsBCLTypesAreNative)
-                    {
-                        // ok
-                    }
-                    else
-                    {
-                        throw new NotSupportedException("implementation not found for type import : " +
-                            (method.DeclaringType.FullName
-                            ?? method.DeclaringType.Name) + " :: " + method);
 
-                    }
-                }
-                else
-                {
-                    method = impl;
-                }
+		public virtual void ConvertTypeAndEmit(CodeEmitArgs e, string x)
+		{
+			Write("((" + x + ")(");
+			EmitFirstOnStack(e);
+			Write("))");
+		}
 
-            }
-            return method;
-        }
+		public void WriteBlockComment(string Summary)
+		{
+			string x = Summary.Trim();
 
-        public bool IsEmptyImplementationType(Type e)
-        {
-            ScriptAttribute a = ScriptAttribute.Of(e);
+			WriteIdent();
+			WriteLine("/**");
 
-            if (a == null)
-                return false;
+			foreach (string var in x.Split('\n'))
+			{
+				WriteIdent();
+				WriteLine(" * " + var.Trim());
 
-            if (a.Implements == null)
-                return false;
-            MethodInfo[] u = GetAllMethods(e);
+			}
 
-            foreach (MethodInfo var in u)
-            {
-                ScriptAttribute s = ScriptAttribute.Of(var);
+			WriteIdent();
+			WriteLine(" */");
+		}
 
-                if (s != null)
-                {
-                    if (s.ExternalTarget != null)
-                        continue;
 
-                    if (s.StringConcatOperator != null)
-                        continue;
-                }
+		public MethodBase GetMethodImplementation(AssamblyTypeInfo MySession, ILInstruction i)
+		{
+			MethodBase method = i.ReferencedMethod;
 
-                return false;
-            }
 
-            return true;
+			ScriptAttribute method_type_attribute = ScriptAttribute.OfProvider(method.DeclaringType);
 
+			if (method_type_attribute == null)
+			{
+				MethodBase impl = MySession.ResolveImplementation(method.DeclaringType, method);
 
-        }
 
+				if (impl == null)
+				{
+					if (SupportsBCLTypesAreNative)
+					{
+						// ok
+					}
+					else
+					{
+						throw new NotSupportedException("implementation not found for type import : " +
+							(method.DeclaringType.FullName
+							?? method.DeclaringType.Name) + " :: " + method);
 
-        protected virtual void WriteTypeInstanceConstructors(Type z)
-        {
-            ConstructorInfo[] zci = GetAllInstanceConstructors(z);
+					}
+				}
+				else
+				{
+					method = impl;
+				}
 
+			}
+			return method;
+		}
 
-            foreach (ConstructorInfo zc in zci)
-            {
-                WriteMethodSignature(zc, false);
-                WriteMethodBody(zc);
+		public bool IsEmptyImplementationType(Type e)
+		{
+			ScriptAttribute a = ScriptAttribute.Of(e);
 
-            }
+			if (a == null)
+				return false;
 
-            WriteLine();
-        }
+			if (a.Implements == null)
+				return false;
+			MethodInfo[] u = GetAllMethods(e);
 
-        public virtual bool WriteTypeInstanceMethodsFilter(MethodInfo m)
-        {
-            return false;
-        }
+			foreach (MethodInfo var in u)
+			{
+				ScriptAttribute s = ScriptAttribute.Of(var);
 
-        public override void WriteTypeInstanceMethods(Type z, ScriptAttribute za)
-        {
-            MethodInfo[] mx = GetAllInstanceMethods(z);
-            MethodInfo[] mxb = GetAllInstanceMethods(z.BaseType);
+				if (s != null)
+				{
+					if (s.ExternalTarget != null)
+						continue;
 
-            int idx = 0;
+					if (s.StringConcatOperator != null)
+						continue;
+				}
 
-            foreach (MethodInfo m in mx)
-            {
+				return false;
+			}
 
+			return true;
 
-                ScriptAttribute ma = ScriptAttribute.Of(m);
 
-                bool dStatic = ma != null && ma.DefineAsStatic;
+		}
 
-                if (dStatic)
-                {
-                    continue;
-                }
 
-                if (ma != null && (ma.IsNative || ma.ExternalTarget != null))
-                    continue;
+		protected virtual void WriteTypeInstanceConstructors(Type z)
+		{
+			ConstructorInfo[] zci = GetAllInstanceConstructors(z);
 
-                if (ma == null && !m.IsStatic && (za.HasNoPrototype))
-                    continue;
 
-                if (WriteTypeInstanceMethodsFilter(m))
-                    continue;
+			foreach (ConstructorInfo zc in zci)
+			{
+				WriteMethodSignature(zc, false);
+				WriteMethodBody(zc);
 
-                // if overmaps another method in base class and it isnt virtual
-                // issue warning
+			}
 
-                if (mxb != null)
-                {
-                    ParameterInfo[] m_params = m.GetParameters();
+			WriteLine();
+		}
 
-                    foreach (MethodBase var in mxb)
-                    {
-                        if (var.Name == m.Name)
-                        {
-                            // signatures must match
+		public virtual bool WriteTypeInstanceMethodsFilter(MethodInfo m)
+		{
+			return false;
+		}
 
-                            ParameterInfo[] var_params = var.GetParameters();
+		public override void WriteTypeInstanceMethods(Type z, ScriptAttribute za)
+		{
+			MethodInfo[] mx = GetAllInstanceMethods(z);
+			MethodInfo[] mxb = GetAllInstanceMethods(z.BaseType);
 
+			int idx = 0;
 
-                            if (!var.IsVirtual && !var.IsAbstract && ParameterInfoArrayEquals(m_params, var_params))
-                            {
-                                Break("method overlapps " + m.DeclaringType.FullName + " - " + m.ToString() + " :: " + var.DeclaringType.FullName + " - " + var.ToString());
-                            }
+			foreach (MethodInfo m in mx)
+			{
 
-                        }
-                    }
-                }
 
+				ScriptAttribute ma = ScriptAttribute.Of(m);
 
+				bool dStatic = ma != null && ma.DefineAsStatic;
 
-                if (idx++ > 0)
-                    WriteLine();
+				if (dStatic)
+				{
+					continue;
+				}
 
+				if (ma != null && (ma.IsNative || ma.ExternalTarget != null))
+					continue;
 
-                if (m.ToScriptAttributeOrDefault().IsDebugCode)
-                {
-                    WriteIdent();
-                    WriteCommentLine("[Script(IsDebugCode = true)]");
-                }
+				if (ma == null && !m.IsStatic && (za.HasNoPrototype))
+					continue;
 
-                WriteXmlDoc(m);
-                WriteMethodSignature(m, dStatic);
+				if (WriteTypeInstanceMethodsFilter(m))
+					continue;
 
-                if (ScriptIsPInvoke(m))
-                {
-                }
-                else
-                {
-                    if (!m.IsAbstract)
-                    {
-                        WriteMethodBody(m);
-                    }
-                    else if (!z.IsInterface && !SupportsAbstractMethods)
-                    {
-                        WriteAbstractMethodBody(m);
-                    }
+				// if overmaps another method in base class and it isnt virtual
+				// issue warning
 
-                }
+				if (mxb != null)
+				{
+					ParameterInfo[] m_params = m.GetParameters();
 
+					foreach (MethodBase var in mxb)
+					{
+						if (var.Name == m.Name)
+						{
+							// signatures must match
 
-            }
-        }
+							ParameterInfo[] var_params = var.GetParameters();
 
-        public virtual void WriteAbstractMethodBody(MethodBase m)
-        {
-            throw new NotSupportedException();
-        }
 
-        public override void EmitPrestatement(ILBlock.Prestatement p)
-        {
-            if (p.Instruction.IsLoadInstruction)
-                BreakToDebugger("statement cannot be a load instruction (compiler fault?): " + p.Instruction.Location);
+							if (!var.IsVirtual && !var.IsAbstract && ParameterInfoArrayEquals(m_params, var_params))
+							{
+								Break("method overlapps " + m.DeclaringType.FullName + " - " + m.ToString() + " :: " + var.DeclaringType.FullName + " - " + var.ToString());
+							}
 
-            var DebugTrace = default(MethodInfo);
+						}
+					}
+				}
 
-            if (p.Instruction.IsStoreInstruction)
-            {
-                DebugTrace = p.DeclaringMethod.DeclaringType.GetMethod(
-                    p.DeclaringMethod.Name + "_DebugTrace_Assign", BindingFlags.Static | BindingFlags.NonPublic,
-                    null, CallingConventions.Any, new[] { typeof(string) }, null);
 
-                if (DebugTrace != null)
-                {
-                    WriteCall_DebugTrace_Assign(DebugTrace, p);
 
-                }
+				if (idx++ > 0)
+					WriteLine();
 
-            }
 
+				if (m.ToScriptAttributeOrDefault().IsDebugCode)
+				{
+					WriteIdent();
+					WriteCommentLine("[Script(IsDebugCode = true)]");
+				}
 
-            WriteIdent();
+				WriteXmlDoc(m);
+				WriteMethodSignature(m, dStatic);
 
-            try
-            {
-                EmitInstruction(p, p.Instruction);
-                WriteLine(";");
+				if (ScriptIsPInvoke(m))
+				{
+				}
+				else
+				{
+					if (!m.IsAbstract)
+					{
+						WriteMethodBody(m);
+					}
+					else if (!z.IsInterface && !SupportsAbstractMethods)
+					{
+						WriteAbstractMethodBody(m);
+					}
 
-                if (p.Instruction.IsStoreInstruction)
-                {
-                    if (DebugTrace != null)
-                    {
-                        WriteCall_DebugTrace_AfterAssign(DebugTrace, p);
+				}
 
-                    }
-                }
-            }
-            catch (SkipThisPrestatementException exc)
-            {
-                WriteLine();
-            }
-            catch
-            {
-                throw;
-            }
 
+			}
+		}
 
-            
- 
-        }
+		public virtual void WriteAbstractMethodBody(MethodBase m)
+		{
+			throw new NotSupportedException();
+		}
 
+		public override void EmitPrestatement(ILBlock.Prestatement p)
+		{
+			if (p.Instruction.IsLoadInstruction)
+				BreakToDebugger("statement cannot be a load instruction (compiler fault?): " + p.Instruction.Location);
 
-        public virtual void WriteCall_DebugTrace_Assign(MethodInfo m, ILBlock.Prestatement p)
-        {
+			var DebugTrace = default(MethodInfo);
 
-        }
-        public virtual void WriteCall_DebugTrace_AfterAssign(MethodInfo m, ILBlock.Prestatement p)
-        {
+			if (p.Instruction.IsStoreInstruction)
+			{
+				DebugTrace = p.DeclaringMethod.DeclaringType.GetMethod(
+					p.DeclaringMethod.Name + "_DebugTrace_Assign", BindingFlags.Static | BindingFlags.NonPublic,
+					null, CallingConventions.Any, new[] { typeof(string) }, null);
 
-        }
+				if (DebugTrace != null)
+				{
+					WriteCall_DebugTrace_Assign(DebugTrace, p);
 
-    }
+				}
+
+			}
+
+
+			WriteIdent();
+
+			try
+			{
+				EmitInstruction(p, p.Instruction);
+				WriteLine(";");
+
+				if (p.Instruction.IsStoreInstruction)
+				{
+					if (DebugTrace != null)
+					{
+						WriteCall_DebugTrace_AfterAssign(DebugTrace, p);
+
+					}
+				}
+			}
+			catch (SkipThisPrestatementException exc)
+			{
+				WriteLine();
+			}
+			catch
+			{
+				throw;
+			}
+
+
+
+
+		}
+
+
+		public virtual void WriteCall_DebugTrace_Assign(MethodInfo m, ILBlock.Prestatement p)
+		{
+
+		}
+		public virtual void WriteCall_DebugTrace_AfterAssign(MethodInfo m, ILBlock.Prestatement p)
+		{
+
+		}
+
+	}
 }

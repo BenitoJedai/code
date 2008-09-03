@@ -16,13 +16,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 
         public object GetValue(object obj)
         {
-            return Runtime.Expando.InternalGetMember(obj, _Name);
+			return global::ScriptCoreLib.JavaScript.Runtime.Expando.InternalGetMember(obj, _Name);
             
         }
 
         public void SetValue(object obj, object value)
         {
-            Runtime.Expando.InternalSetMember(obj, _Name, value);
+			global::ScriptCoreLib.JavaScript.Runtime.Expando.InternalSetMember(obj, _Name, value);
         }
 
         public static implicit operator global::System.Reflection.FieldInfo(__FieldInfo e)

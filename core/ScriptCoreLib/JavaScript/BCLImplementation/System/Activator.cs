@@ -12,9 +12,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static object CreateInstance(Type e)
         {
-            var prototype = Runtime.Expando.Of(e.TypeHandle.Value);
+            var prototype = global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(e.TypeHandle.Value);
 
-            var ctor = Runtime.Expando.Of(prototype.constructor).GetMember<IFunction>("ctor");
+			var ctor = global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(prototype.constructor).GetMember<IFunction>("ctor");
 
             if (ctor == null)
                 throw new NotSupportedException(e.Name);

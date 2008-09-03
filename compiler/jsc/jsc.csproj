@@ -115,6 +115,7 @@
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.WriteTypeInstanceConstructors.cs" />
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.WriteCustomAttributes.cs" />
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.WriteMethodCustomBody.cs" />
+    <Compile Include="Languages\ActionScript\ActionScriptCompiler.OpCodes.Isinst.cs" />
     <Compile Include="Languages\ActionScript\DelegateImplementationProvider.cs" />
     <Compile Include="Languages\ActionScript\EntryPointProvider.cs" />
     <Compile Include="Languages\CompilerBase.DIA.cs" />

@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\javascript\InstanceOfOperator\InstanceOfOperator\bin\Debug</StartWorkingDirectory>
-    <StartArguments>InstanceOfOperator.dll -js</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\core\ScriptCoreLib\bin\Debug</StartWorkingDirectory>
+    <StartArguments>ScriptCoreLib.dll -as</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

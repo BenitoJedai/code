@@ -103,18 +103,5 @@ namespace FlashAvalonQueryExample.Shared
 		}
 
 
-		public static T Orphanize<T>(this T e)
-			where T : FrameworkElement
-		{
-			var Panel = e.Parent as Panel;
-
-			if (Panel == null)
-				//throw new NotImplementedException("Parent should have been a Panel instead of " + e.GetType().Name);
-				throw new NotImplementedException("Parent should have been a Panel");
-
-			Panel.Children.Remove(e);
-
-			return e;
-		}
 	}
 }

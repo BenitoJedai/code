@@ -949,33 +949,8 @@ namespace jsc.Languages.ActionScript
 					WriteSafeLiteral(e.i.TargetField.Name);
 				};
 
-
-			CIW[OpCodes.Isinst] =
-				e =>
-				{
-					//Write("/* is or as */");
-
-					// http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/operators.html#as
-					// http://crawlmsdn.microsoft.com/en-us/library/cscsdfbt.aspx
-					// expression as type
-					// expression is type ? (type)expression : (type)null
-
-					if (e.i.StackBeforeStrict.Length == 1)
-					{
-						EmitFirstOnStack(e);
-
-						WriteSpace();
-						WriteKeywordSpace(Keywords._as);
-						WriteSpace();
-
-						WriteDecoratedTypeNameOrImplementationTypeName(
-							e.i.TargetType, false, false,
-							IsFullyQualifiedNamesRequired(e.Method.DeclaringType, e.i.TargetType)
-						);
-					}
-					else
-						throw new NotSupportedException();
-				};
+			CIW[OpCodes.Isinst] = this.OpCodes_Isinst;
+				
 
 			CIW[
 				OpCodes.Nop,
