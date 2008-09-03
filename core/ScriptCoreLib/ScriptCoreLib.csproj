@@ -245,6 +245,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Type.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Uri.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\WeakReference.cs">
       <SubType>Code</SubType>
     </Compile>

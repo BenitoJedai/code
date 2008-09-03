@@ -22,7 +22,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Shapes
 			return InternalSprite;
 		}
 
-		public Brush Fill { get; set; }
+		public virtual void InternalSetFill(Brush s)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Brush Fill { get { throw new NotImplementedException(); } set { InternalSetFill(value); } }
 		public Brush Stroke { get; set; }
 
 	}

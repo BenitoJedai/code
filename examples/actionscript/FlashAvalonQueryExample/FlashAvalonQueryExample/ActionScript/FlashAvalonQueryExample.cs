@@ -9,6 +9,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 namespace FlashAvalonQueryExample.ActionScript
 {
 	using TargetCanvas = global::FlashAvalonQueryExample.Shared.MyCanvas;
+	using ScriptCoreLib.ActionScript.flash.system;
 
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
@@ -19,6 +20,13 @@ namespace FlashAvalonQueryExample.ActionScript
 	{
 		public FlashAvalonQueryExample()
 		{
+			//Security.allowDomain("*");
+			//Security.allowInsecureDomain("*");
+
+			Security.loadPolicyFile("http://farm1.static.flickr.com/crossdomain.xml");
+			Security.loadPolicyFile("http://farm2.static.flickr.com/crossdomain.xml");
+			Security.loadPolicyFile("http://farm3.static.flickr.com/crossdomain.xml");
+			Security.loadPolicyFile("http://farm4.static.flickr.com/crossdomain.xml");
 			// spawn the wpf control
 			AvalonExtensions.AttachToContainer(new TargetCanvas(), this);
 		}

@@ -89,18 +89,8 @@ namespace FlashAvalonQueryExample.Shared
 			return true;
 		}
 
-		public static void AppendTextLine(this TextBoxBase e, string textData)
-		{
-			e.AppendText(textData + Environment.NewLine);
-		}
 
-		public static void Do(this IEnumerable<Action> e)
-		{
-			foreach (var a in e)
-			{
-				a();
-			}
-		}
+
 
 
 	}
