@@ -57,7 +57,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 
             for (int i = 0; i < t.Length; i++)
             {
-                var constructor = Runtime.Expando.Of(t[i]);
+                var constructor = global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(t[i]);
 
                 var p = new __RuntimeTypeHandle
                 {

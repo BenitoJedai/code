@@ -401,18 +401,7 @@ namespace jsc.Languages.ActionScript
 			Write("{}");
 		}
 
-		public override void WriteInstanceOfOperator(ILInstruction value, Type type)
-		{
-			EmitInstruction(null, value);
 
-			// http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/compilerWarnings.html
-			//  	3556	The instanceof operator is deprecated, use the is operator instead.
-			WriteSpace();
-			Write("is");
-			WriteSpace();
-
-			WriteDecoratedTypeName(ResolveImplementation(type) ?? type);
-		}
 
 
 

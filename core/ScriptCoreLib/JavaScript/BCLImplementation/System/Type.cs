@@ -49,7 +49,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             __FieldInfo r = null;
 
-            foreach (var m in Runtime.Expando.Of(_TypeHandle.Value).GetFields())
+			foreach (var m in global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(_TypeHandle.Value).GetFields())
             {
                 if (m.Name == name)
                 {
@@ -65,7 +65,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         Expando AsExpando()
         {
-            return Runtime.Expando.Of(_TypeHandle.Value);
+			return global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(_TypeHandle.Value);
         }
 
         public __FieldInfo[] GetFields()
