@@ -148,5 +148,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
             return i.ToArray();
         }
+
+	
     }
 }

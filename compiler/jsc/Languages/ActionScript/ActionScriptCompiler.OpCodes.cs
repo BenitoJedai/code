@@ -965,7 +965,7 @@ namespace jsc.Languages.ActionScript
 						EmitFirstOnStack(e);
 
 						WriteSpace();
-						Write("as");
+						WriteKeywordSpace(Keywords._as);
 						WriteSpace();
 
 						WriteDecoratedTypeNameOrImplementationTypeName(

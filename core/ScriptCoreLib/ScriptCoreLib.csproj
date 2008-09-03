@@ -435,6 +435,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\AssemblyName.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\MemberInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\FieldInfo.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Runtime\CompilerServices\RuntimeHelpers.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Monitor.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\MulticastDelegate.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Object.cs" />
