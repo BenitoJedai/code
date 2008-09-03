@@ -46,12 +46,28 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 				var alias = v.InternalManifestResourceAlias;
 
-				//InternalSprite.OrphanizeChildren();
-				InternalSprite.removeChildren();
+				if (alias != null)
+				{
+					//InternalSprite.OrphanizeChildren();
+					InternalSprite.removeChildren();
 
-				InternalBitmap = new IHTMLImage(alias);
+					InternalBitmap = new IHTMLImage(alias);
 
-				InternalSprite.appendChild(InternalBitmap);
+					InternalSprite.appendChild(InternalBitmap);
+				}
+				else if (v.InternalBitmap != null)
+				{
+					v.InternalBitmap.Continue(
+						img =>
+						{
+							InternalSprite.removeChildren();
+
+							InternalBitmap = img;
+
+							InternalSprite.appendChild(InternalBitmap);
+						}
+					);
+				}
 			}
 		}
 

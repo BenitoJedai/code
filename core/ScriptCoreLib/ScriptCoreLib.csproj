@@ -446,6 +446,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Text\StringBuilder.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\TimeSpan.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Type.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Uri.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\WeakReference.cs" />
     <Compile Include="JavaScript\Controls\DragHelper.cs" />
     <Compile Include="JavaScript\Controls\Effects\OpacityTween.cs" />
