@@ -54,7 +54,7 @@ namespace FlashAvalonQueryExample.Shared
 			Func<Brush> Color_Active = () => 0xffffffff.ToSolidColorBrush();
 			Func<Brush> Color_Error = () => 0xffffff80.ToSolidColorBrush();
 
-			var KnownDomainsInputHeight = 120;
+			var KnownDomainsInputHeight = 100;
 
 			var KnownDomainsInput = new TextBox
 			{
@@ -115,18 +115,12 @@ namespace FlashAvalonQueryExample.Shared
 					AnyInputChangedBefore.Do();
 					AnyInputChangedBefore.Clear();
 
-					//ResultOutput.Text = "chars: " + KnownDomainsInput.Text.Length;
-
 					var query = from k in KnownDomainsInput.Text.Split(',')
 								let t = k.Trim()
-								//where t.LooksLikeValidCName()
 								where t.Contains(FilterInput.Text)
 								orderby t
 								select t;
 
-					//var Entries = KnownDomainsInput.Text.Split(',').Select(t => t.Trim()).Where(k => k.LooksLikeValidCName()).ToArray();
-
-					//ResultOutput.AppendTextLine(" entries: " + query.Count());
 
 					query.ForEach(
 						(k, i) =>
@@ -134,17 +128,25 @@ namespace FlashAvalonQueryExample.Shared
 							// http://static.flickr.com/63/155262375_104aee1bb0.jpg
 							var src = "http://static.flickr.com/" + k + "_s.jpg";
 
-							var y = 32 + KnownDomainsInputHeight + 4 + FilterInputHeight + 4 + i * 78;
+							var y = 32 + KnownDomainsInputHeight + 4 + FilterInputHeight + 4 + i * 80;
 
 							var bg = new Rectangle
 							{
 								Fill = Color_Inactive(),
 								Width = 400,
-								Height = 24
+								Height = 26
 
 							}
-							.MoveTo(32, y).AttachTo(this);
+							.MoveTo(32, y + 20).AttachTo(this);
 
+							var img_shadow = new Rectangle
+							{
+								Fill = 0xff000000.ToSolidColorBrush(),
+								Opacity = 0.3,
+								Width = 75,
+								Height = 75
+							}
+							.MoveTo(32 + 2 + 3, y + 2 + 3).AttachTo(this);
 
 							var img = new Image
 							{
@@ -158,17 +160,17 @@ namespace FlashAvalonQueryExample.Shared
 							{
 								IsReadOnly = true,
 								Text = (i + 1) + ". " + src,
-								Width = 400 - 80,
+								Width = 400 - 88,
 								Height = 20,
 								BorderThickness = new Thickness(0),
 								Foreground = 0xff0000ff.ToSolidColorBrush(),
 								Background = 0xffffffff.ToSolidColorBrush()
-							}.MoveTo(32 + 80, y + 2).AttachTo(this);
+							}.MoveTo(32 + 84, y + 22).AttachTo(this);
 
 
 
 
-							var src_uri = new BitmapImage(new Uri(src));
+							var src_uri = new BitmapImage();
 
 							src_uri.DownloadCompleted +=
 								delegate
@@ -185,13 +187,40 @@ namespace FlashAvalonQueryExample.Shared
 									//bg.Fill = Color_Error();
 								};
 
+							src_uri.BeginInit();
+							src_uri.UriSource = new Uri(src);
+							src_uri.EndInit();
+
 
 							img.Source = src_uri;
 
+							text.Background = Color_Inactive();
+							bg.Opacity = 0.3;
 
-							AnyInputChangedBefore.Add(() => bg.Orphanize());
-							AnyInputChangedBefore.Add(() => img.Orphanize());
-							AnyInputChangedBefore.Add(() => text.Orphanize());
+							text.GotFocus +=
+								delegate
+								{
+									text.Background = Color_Active();
+									bg.Opacity = 1;
+								};
+
+							text.LostFocus +=
+								delegate
+								{
+									text.Background = Color_Inactive();
+									bg.Opacity = 0.3;
+								};
+
+							AnyInputChangedBefore.Add(
+								delegate
+								{
+									bg.Orphanize();
+									img.Orphanize();
+									text.Orphanize();
+									img_shadow.Orphanize();
+								}
+							);
+
 							//ResultOutput.AppendTextLine((i + 1) + ". " + k + " " + src);
 						}
 					);

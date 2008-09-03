@@ -14,52 +14,78 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media.Imag
 	{
 		static readonly LoaderContext Context = new LoaderContext(true);
 
-		public __BitmapImage(Uri uri)
+		public Uri UriSource
 		{
-			var e = new flash.display.Loader();
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				var e = new flash.display.Loader();
 
-			var url = new ScriptCoreLib.ActionScript.flash.net.URLRequest(uri.OriginalString);
+				var url = new ScriptCoreLib.ActionScript.flash.net.URLRequest(value.OriginalString);
 
 
-			
-			e.contentLoaderInfo.complete +=
-				ev =>
-				{
-					try
+
+				e.contentLoaderInfo.complete +=
+					ev =>
 					{
-						var v = (Bitmap)e.content;
+						try
+						{
+							var v = (Bitmap)e.content;
 
-	
 
-						this.InternalBitmap.Value = v;
 
-						if (this.DownloadCompleted != null)
-							this.DownloadCompleted(null, null);
-					}
-					catch
+							this.InternalBitmap.Value = v;
+
+							if (this.DownloadCompleted != null)
+								this.DownloadCompleted(null, null);
+						}
+						catch
+						{
+							if (this.DownloadFailed != null)
+								this.DownloadFailed(null, null);
+						}
+					};
+
+				e.contentLoaderInfo.ioError +=
+					ev =>
 					{
 						if (this.DownloadFailed != null)
 							this.DownloadFailed(null, null);
-					}
-				};
-
-			e.contentLoaderInfo.ioError +=
-				ev =>
-				{
-					if (this.DownloadFailed != null)
-						this.DownloadFailed(null, null);
-				};
+					};
 
 
+
+				e.load(url, Context);
+			}
+		}
+		
+		public __BitmapImage()
+			: this(null)
+		{
+		}
+
+		public __BitmapImage(Uri uri)
+		{
 			this.InternalBitmap = new Future<Bitmap>();
 
-			e.load(url, Context);
+			if (uri != null)
+				this.UriSource = uri;
 
-	
 		}
 
 		public override event EventHandler DownloadCompleted;
 
 		public override event EventHandler<ExceptionEventArgs> DownloadFailed;
+
+		public void BeginInit()
+		{
+		}
+
+		public void EndInit()
+		{
+		}
 	}
 }
