@@ -50,12 +50,14 @@ namespace InstanceOfOperator.js
 
 		}
 
+		static object Test_AsBaseType_e { get { return new InstanceOfOperatorSubclass(); } }
+
+
 		[Script(IsDebugCode = true)]
 		public static void Test_AsBaseType()
 		{
-			object e = new InstanceOfOperatorSubclass();
-			var y = e as InstanceOfOperatorBase;
-			var n = e as InstanceOfOperatorOther;
+			var y = Test_AsBaseType_e as InstanceOfOperatorBase;
+			var n = Test_AsBaseType_e as InstanceOfOperatorOther;
 
 
 
