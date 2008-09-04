@@ -8,7 +8,7 @@ using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.Shared;
 
-namespace Mahjong.ActionScript
+namespace Mahjong.JavaScript
 {
 	[Script(Implements=typeof(Mahjong.Shared.Assets))]
 	public class __Assets
@@ -16,13 +16,6 @@ namespace Mahjong.ActionScript
 
 		public static readonly __Assets Default = new __Assets();
 
-		public void PlaySound(string SoundName)
-		{
-			var AssetName = this.FileNames.FirstOrDefault(k => k.EndsWith(SoundName + ".mp3"));
-
-			if (AssetName != null)
-				this[AssetName].ToSoundAsset().play();
-		}
 
 		public string[] FileNames
 		{
@@ -33,13 +26,6 @@ namespace Mahjong.ActionScript
 			}
 		}
 
-		public Class this[string e]
-		{
-			[EmbedByFileName]
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+
 	}
 }

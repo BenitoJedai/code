@@ -10,7 +10,9 @@ using ScriptCoreLib.CSharp.Extensions;
 using System.IO;
 using ScriptCoreLib;
 using ScriptCoreLib.Shared.Avalon.Extensions;
+using ScriptCoreLib.Shared.Lambda;
 using Mahjong.Shared;
+using Mahjong.ActionScript;
 
 namespace Mahjong.ConsoleTest
 {
@@ -33,16 +35,17 @@ namespace Mahjong.ConsoleTest
 			//var lay = "assets/Mahjong.Layouts/test.lay".ToManifestResourceStream();
 			//var lay = "assets/Mahjong.Layouts/Abstract Building.lay".ToManifestResourceStream();
 
-			"assets/Mahjong.Layouts/Chess - Bishop.lay".ToStringAsset(
+
+			Assets.Default.FileNames.Random().ToStringAsset(
 				lay => RenderLayout(new Layout(lay))
 			);
 
 
-			"assets/Mahjong.Layouts/Crown.lay".ToStringAsset(
+			Assets.Default.FileNames.Random().ToStringAsset(
 				lay => RenderLayout(new Layout(lay))
 			);
 
-			// ToWindow(new MyCanvas()).ShowDialog();
+			ToWindow(new MyCanvas()).ShowDialog();
 
 		}
 

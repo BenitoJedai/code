@@ -24,7 +24,7 @@ namespace Mahjong.ActionScript
 		{
 			var c = new MyCanvas();
 
-			c.PlaySoundFuture.Value = Assets.Default.PlaySound;
+			c.PlaySoundFuture.Value = __Assets.Default.PlaySound;
 
 
 			// spawn the wpf control
@@ -35,7 +35,7 @@ namespace Mahjong.ActionScript
 		{
 			// add resources to be found by ImageSource
 			KnownEmbeddedResources.Default.Handlers.Add(
-				e => global::Mahjong.ActionScript.Assets.Default[e]
+				e => global::Mahjong.ActionScript.__Assets.Default[e]
 			);
 
 		}

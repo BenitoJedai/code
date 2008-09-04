@@ -42,7 +42,20 @@ namespace Mahjong.js
 			else
 				e.insertPreviousSibling(clip);
 
-			AvalonExtensions.AttachToContainer(new MyCanvas(), clip);
+			var loading = new IHTMLSpan();
+
+			loading.AttachTo(clip);
+
+			Assets.Default.FileNames.ForEach(
+				(string src, int index, Action SignalNext) =>
+				{
+					IHTMLImage img = src;
+
+					loading.innerText = "loading #" + index + " " + src;
+
+					img.InvokeOnComplete(_img => SignalNext());
+				}
+			)(() => AvalonExtensions.AttachToContainer(new MyCanvas(), clip));
 
 		}
 

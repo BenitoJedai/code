@@ -32,18 +32,19 @@ namespace ScriptCoreLib.ActionScript
 
 			var lookup = new Dictionary<string, string>
                 {
-                    {".zip", OctetStream},
-                    {".txt", OctetStream},
-                    {".xml", OctetStream},
-                    {".lay", OctetStream},
-                    {".ttf", "application/x-font"}
+                    {".ttf", "application/x-font"},
+                    {".gif", "image/gif"},
+                    {".jpg", "image/jpeg"},
+                    {".png", "image/png"},
+                    {".mp3", "audio/mpeg"},
+                    {".swf", "application/x-shockwave-flash"},
                 };
 
 			foreach (var p in lookup)
 				if (FileName.EndsWith(p.Key))
 					return p.Value;
 
-			return null;
+			return OctetStream;
 		}
 	}
 }

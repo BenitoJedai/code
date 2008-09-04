@@ -40,7 +40,7 @@ using ScriptCoreLib;
 
 [assembly:
     Script,
-	ScriptTypeFilter(ScriptType.JavaScript, "*.js"),
+	ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),
 	ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
     ScriptTypeFilter(ScriptType.ActionScript, "*.Shared"),
     ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript")
