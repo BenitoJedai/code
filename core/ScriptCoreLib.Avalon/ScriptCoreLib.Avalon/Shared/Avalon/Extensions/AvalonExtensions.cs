@@ -16,6 +16,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	// reimplement for target languages
 	public static class AvalonExtensions
 	{
+
 		public static void ToStringAsset(this string e, Action<string> h)
 		{
 			h(new StreamReader(e.ToManifestResourceStream().Stream).ReadToEnd());

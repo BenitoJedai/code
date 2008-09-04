@@ -180,9 +180,12 @@
     <Compile Include="ActionScript\BCLImplementation\System\IEquatable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\BinaryReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\BinaryWriter.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\IO\StringReader.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\IO\StreamReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\MemoryStream.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\Stream.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\StreamWriter.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\IO\TextReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Predicate.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Double.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\TimeSpan.cs" />
