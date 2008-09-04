@@ -57,4 +57,27 @@ namespace ScriptCoreLib.Shared.Lambda
 			e(this.Value);
 		}
 	}
+
+
+	[Script]
+	public class FutureAction<T> : Future<Action<T>>
+	{
+		public void Continue(T e)
+		{
+			this.Continue(Handler => Handler(e));
+		}
+
+		public static implicit operator Action<T>(FutureAction<T> e)
+		{
+			return e.Continue;
+		}
+
+		public Action this[T e]
+		{
+			get
+			{
+				return () => this.Continue(e);
+			}
+		}
+	}
 }

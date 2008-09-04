@@ -1,1 +1,1 @@
-﻿OrcasWebSite on a web site. Crosscompiled from c# to javascript.
+﻿OrcasWebSite. Crosscompiled from c# to javascript.

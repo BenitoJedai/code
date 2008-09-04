@@ -22,10 +22,13 @@ namespace Mahjong.ActionScript
 		/// </summary>
 		public Mahjong()
 		{
+			var c = new MyCanvas();
+
+			c.PlaySoundFuture.Value = Assets.Default.PlaySound;
 
 
 			// spawn the wpf control
-			AvalonExtensions.AttachToContainer(new MyCanvas(), this);
+			AvalonExtensions.AttachToContainer(c, this);
 		}
 
 		static Mahjong()

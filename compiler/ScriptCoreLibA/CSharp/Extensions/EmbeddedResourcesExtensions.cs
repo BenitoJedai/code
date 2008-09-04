@@ -16,6 +16,8 @@ namespace ScriptCoreLib.CSharp.Extensions
 
 			public string File;
 
+			public string ResourceName;
+
 			public Stream Stream;
 		}
 
@@ -82,6 +84,7 @@ namespace ScriptCoreLib.CSharp.Extensions
 							 {
 								 Stream = stream,
 								 File = file,
+								 ResourceName = resource,
 								 VirtualPath = folder
 							 };
 

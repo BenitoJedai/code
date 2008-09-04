@@ -53,6 +53,7 @@
     <Compile Include="ActionScript\Assets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\Assets.cs" />
+    <Compile Include="Shared\IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="web\assets\Mahjong\bamboo\1.png" />
@@ -100,6 +101,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="web\assets\Mahjong.Assets\china.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\Mahjong.Sounds\birds.mp3" />
+    <EmbeddedResource Include="web\assets\Mahjong.Sounds\buzzer.mp3" />
+    <EmbeddedResource Include="web\assets\Mahjong.Sounds\flag.mp3" />
+    <EmbeddedResource Include="web\assets\Mahjong.Sounds\reveal.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
