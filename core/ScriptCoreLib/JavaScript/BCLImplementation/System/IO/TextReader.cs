@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
+namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 {
 	[Script(Implements = typeof(global::System.IO.TextReader))]
 	internal abstract class __TextReader : IDisposable

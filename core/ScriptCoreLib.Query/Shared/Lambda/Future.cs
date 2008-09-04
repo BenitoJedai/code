@@ -56,6 +56,11 @@ namespace ScriptCoreLib.Shared.Lambda
 
 			e(this.Value);
 		}
+
+		public static implicit operator Action<T>(Future<T> e)
+		{
+			return value => e.Value = value;
+		}
 	}
 
 
