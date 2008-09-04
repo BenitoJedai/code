@@ -8,7 +8,6 @@ using ScriptCoreLib.Shared.Lambda;
 
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Extensions;
-using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -25,9 +24,14 @@ using Mahjong.Code;
 namespace Mahjong.js
 {
 
-	[Script, ScriptApplicationEntryPoint]
+	[Script, ScriptApplicationEntryPoint(IsClickOnce = true, ScriptedLoading = true)]
 	public class MahjongGame
 	{
+		public MahjongGame() : this(null)
+		{
+
+		}
+
 		public MahjongGame(IHTMLElement e)
 		{
 			// wpf here
@@ -46,16 +50,29 @@ namespace Mahjong.js
 
 			loading.AttachTo(clip);
 
-			Assets.Default.FileNames.ForEach(
+			var Images = Assets.Default.FileNames.Where(k => k.EndsWith(".png") || k.EndsWith(".png")).ToArray();
+
+			Images.ForEach(
 				(string src, int index, Action SignalNext) =>
 				{
 					IHTMLImage img = src;
 
-					loading.innerText = "loading #" + index + " " + src;
+					var c = Images.Length;
 
-					img.InvokeOnComplete(_img => SignalNext());
+					var p = Convert.ToInt32((index + 1) * 100 / c);
+
+					loading.innerText = "loading #" + p + " " + src;
+
+					img.InvokeOnComplete(_img => SignalNext(), 5);
 				}
-			)(() => AvalonExtensions.AttachToContainer(new MyCanvas(), clip));
+			)(
+				delegate
+				{
+					loading.Dispose();
+
+					AvalonExtensions.AttachToContainer(new MyCanvas(), clip);
+				}
+			);
 
 		}
 
