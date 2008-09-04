@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />
+    <EmbeddedResource Include="web\assets\OrcasAvalonTemplate\about.txt" />
     <EmbeddedResource Include="web\assets\OrcasAvalonTemplate\help_idle.png" />
     <EmbeddedResource Include="web\assets\OrcasAvalonTemplate\help.png" />
     <EmbeddedResource Include="web\assets\OrcasAvalonTemplate\jsc.png" />

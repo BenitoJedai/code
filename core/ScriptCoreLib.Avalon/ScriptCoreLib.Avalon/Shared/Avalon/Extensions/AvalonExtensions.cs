@@ -16,6 +16,11 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	// reimplement for target languages
 	public static class AvalonExtensions
 	{
+		public static void ToStringAsset(this string e, Action<string> h)
+		{
+			h(new StreamReader(e.ToManifestResourceStream().Stream).ReadToEnd());
+		}
+
 		internal static ImageSource ToSource(this EmbeddedResourcesExtensions.ManifestResourceEntry fileStream)
 		{
 			var ext = fileStream.File.ToLower();
@@ -50,7 +55,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 
 		public static BitmapSource ToSource(this Stream e)
 		{
-			
+
 			return System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
 				new System.Drawing.Bitmap(e).GetHbitmap(), IntPtr.Zero, Int32Rect.Empty,
 				System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions()

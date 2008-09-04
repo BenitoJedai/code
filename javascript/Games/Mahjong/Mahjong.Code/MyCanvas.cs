@@ -16,6 +16,8 @@ namespace Mahjong.Code
 	[Script]
 	public class MyCanvas : Canvas
 	{
+		// http://cynagames.com/
+
 		public const double DefaultScale = 1;
 
 		public const int DefaultWidth = 480;
