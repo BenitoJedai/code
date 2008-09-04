@@ -15,6 +15,11 @@ namespace ScriptCoreLib.ActionScript.UCLImplementation
 	[Script(Implements = typeof(global::ScriptCoreLib.Shared.Avalon.Extensions.AvalonExtensions))]
 	internal static class __AvalonExtensions
 	{
+		public static void ToStringAsset(this string e, Action<string> h)
+		{
+			h(KnownEmbeddedResources.Default[e].ToStringAsset());
+		}
+
 		public static ImageSource ToSource(this string e)
 		{
 			// the c# version must do some internal work to figure
