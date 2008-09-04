@@ -8,6 +8,7 @@ using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace EmbeddedResourcesBrowser.Shared
 {
@@ -34,7 +35,7 @@ namespace EmbeddedResourcesBrowser.Shared
 			}
 			#endregion
 
-			
+
 			var t = new TextBox
 			{
 				AcceptsReturn = true,
@@ -47,11 +48,51 @@ namespace EmbeddedResourcesBrowser.Shared
 				Height = 300
 			}.MoveTo(32, 10).AttachTo(this);
 
+			Assets.Default.FileNames.ForEach(
+				(v, index, SignalNext) =>
+				{
+					t.AppendTextLine(v);
 
-			foreach (var v in Assets.Default.FileNames)
-			{
-				t.AppendTextLine(v);
-			}
+					v.ToStringAsset(
+						value =>
+						{
+							t.AppendTextLine(index + ": " + value);
+
+
+							500.AtDelay(SignalNext);
+						}
+					);
+				}
+			);
+
+			//var c = new FutureStream();
+
+
+			//// ready for first call
+			//c.Signal();
+
+			//foreach (var _v in Assets.Default.FileNames)
+			//{
+			//    var v = _v;
+
+			//    c.Continue(
+			//        SignalNext =>
+			//        {
+
+			//            t.AppendTextLine(v);
+
+			//            v.ToStringAsset(
+			//                value =>
+			//                {
+			//                    t.AppendTextLine(value);
+
+
+			//                    SignalNext();
+			//                }
+			//            );
+			//        }
+			//    );
+			//}
 
 
 		}
