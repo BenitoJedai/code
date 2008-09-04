@@ -58,7 +58,8 @@ namespace OrcasAvalonTemplate.Shared
 				BorderThickness = new Thickness(0),
 				Foreground = 0xffffffff.ToSolidColorBrush(),
 				Background = Brushes.Transparent,
-				IsReadOnly = true
+				IsReadOnly = true,
+				Width = 300
 			}.MoveTo(32, 32).AttachTo(this);
 
 			help_idle.Opacity = 0;
@@ -93,8 +94,8 @@ namespace OrcasAvalonTemplate.Shared
 					"assets/OrcasAvalonTemplate/about.txt".ToStringAsset(
 						e =>
 						{
-							t.Text = e;
 							t.FontSize = 16;
+							t.Text = e;
 						}
 					);
 				}
