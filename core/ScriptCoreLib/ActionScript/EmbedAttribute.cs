@@ -38,7 +38,7 @@ namespace ScriptCoreLib.ActionScript
         /// Specifies the mime type of the asset.
         /// Supported values: 
         /// <example>
-        ///     *  application/octet-stream
+        /// *  application/octet-stream
         /// * application/x-font
         /// * application/x-font-truetype
         /// * application/x-shockwave-flash

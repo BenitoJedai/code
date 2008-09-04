@@ -202,7 +202,7 @@ namespace ScriptCoreLib.Shared.Lambda
 					}
 				);
 
-			if (ready == null)
+			if (ready != null)
 				ready(SignalFirst);
 			else
 				SignalFirst();
