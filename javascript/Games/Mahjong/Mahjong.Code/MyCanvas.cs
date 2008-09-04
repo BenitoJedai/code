@@ -56,17 +56,17 @@ namespace Mahjong.Code
 				Height = DefaultScaledHeight
 			}.AttachTo(this);
 
-			var stuff = Asset.Bamboo.
-					Concat(Asset.Characters).
-					Concat(Asset.Dots).
-					Concat(Asset.Dragons).
-					Concat(Asset.Flowers).
-					Concat(Asset.Seasons).
-					Concat(Asset.Winds);
+			var stuff = AbstractAsset.Bamboo.
+					Concat(AbstractAsset.Characters).
+					Concat(AbstractAsset.Dots).
+					Concat(AbstractAsset.Dragons).
+					Concat(AbstractAsset.Flowers).
+					Concat(AbstractAsset.Seasons).
+					Concat(AbstractAsset.Winds);
 
 			var random = stuff.Concat(stuff).Randomize().ToArray();
 
-			var s = new Asset.Settings { Scale = DefaultScale };
+			var s = new AbstractAsset.Settings { Scale = DefaultScale };
 
 			const int TilesPerLine = 12;
 

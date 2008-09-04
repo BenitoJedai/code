@@ -52,7 +52,7 @@
   <ItemGroup>
     <Compile Include="ActionScript\Assets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shared\Assets.cs" />
+    <Compile Include="Shared\AbstractAsset.cs" />
     <Compile Include="Shared\EmbeddedResources.cs" />
     <Compile Include="Shared\IAssemblyReferenceToken.cs" />
     <Compile Include="Shared\Layout.cs" />

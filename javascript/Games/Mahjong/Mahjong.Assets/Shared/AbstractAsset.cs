@@ -7,7 +7,7 @@ using ScriptCoreLib;
 namespace Mahjong.Shared
 {
 	[Script]
-	public class RankAsset : Asset
+	public class RankAsset : AbstractAsset
 	{
 		public string Suit;
 		public string Rank;
@@ -23,7 +23,7 @@ namespace Mahjong.Shared
 
 
 	[Script]
-	public abstract class Asset
+	public abstract class AbstractAsset
 	{
 		public string Source = "assets/Mahjong";
 

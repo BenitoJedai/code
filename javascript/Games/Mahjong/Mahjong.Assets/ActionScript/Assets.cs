@@ -6,6 +6,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.mx.core;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.Shared;
 
 namespace Mahjong.ActionScript
 {

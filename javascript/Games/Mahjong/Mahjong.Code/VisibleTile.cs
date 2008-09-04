@@ -16,7 +16,7 @@ namespace Mahjong.Code
 
 		public readonly RankAsset Value;
 
-		public VisibleTile(Asset.Settings s, RankAsset r)
+		public VisibleTile(AbstractAsset.Settings s, RankAsset r)
 		{
 			Value = r;
 

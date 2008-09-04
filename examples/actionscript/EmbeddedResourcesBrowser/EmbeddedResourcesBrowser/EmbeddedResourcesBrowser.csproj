@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />
+    <EmbeddedResource Include="web\assets\EmbeddedResourcesBrowser\data3.txt" />
     <EmbeddedResource Include="web\assets\EmbeddedResourcesBrowser\data2.txt" />
     <EmbeddedResource Include="web\assets\EmbeddedResourcesBrowser\data1.txt" />
   </ItemGroup>
