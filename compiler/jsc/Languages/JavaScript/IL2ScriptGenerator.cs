@@ -772,12 +772,11 @@ namespace jsc
 
 				return;
 			}
-			object[] o = i.TargetField.DeclaringType.GetCustomAttributes(typeof(ScriptAttribute), true);
 
-			if (o.Length == 1)
+			var sa = i.TargetField.DeclaringType.ToScriptAttributeOrDefault();
+
+			if (sa != null)
 			{
-				ScriptAttribute sa = o[0] as ScriptAttribute;
-
 				if (sa.HasNoPrototype)
 				{
 					if (i.TargetField.IsStatic)
@@ -802,7 +801,22 @@ namespace jsc
 
 		skip:
 
-			w.WriteDecoratedMemberInfo(i.TargetField);
+			var TargetField = i.TargetField;
+			var TargetFieldType = TargetField.DeclaringType;
+			var TargetFieldTypeImplementation = w.Session.ResolveImplementation(TargetFieldType);
+
+			if (TargetFieldTypeImplementation != null)
+				if (TargetFieldType != TargetFieldTypeImplementation)
+				{
+					TargetField = TargetFieldTypeImplementation.GetField(TargetField.Name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+				}
+
+			// static fields live on the global scope
+			// yet when they need to honor [Script(Implements=)]
+
+
+
+			w.WriteDecoratedMemberInfo(TargetField);
 
 
 		}
@@ -1510,7 +1524,7 @@ namespace jsc
 					if (s[1].SingleStackInstruction.OpCode == OpCodes.Ldnull)
 					{
 						WriteOperatorIs(w, p, i, s[0]);
-				
+
 
 						return;
 					}

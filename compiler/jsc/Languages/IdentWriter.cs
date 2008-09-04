@@ -347,6 +347,7 @@ namespace jsc
 
         }
 
+	
         public void WriteQoute(bool qoute, Action e)
         {
             if (qoute)
@@ -499,7 +500,7 @@ namespace jsc
 
                     }
 
-
+				
                     WriteGUIDAndToken64(x);
 
 

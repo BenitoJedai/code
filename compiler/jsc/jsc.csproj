@@ -122,7 +122,6 @@
     <Compile Include="Languages\CompilerBase.CompilerConstants.cs" />
     <Compile Include="Languages\CompilerJob.cs" />
     <Compile Include="Languages\CompilerBase.Handler.cs" />
-    <Compile Include="Languages\CompilerJob.ExtractResources.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteTypeInstanceConstructors.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteTypeStaticConstructor.cs" />
     <Compile Include="Languages\EventDetector.cs" />
@@ -145,6 +144,7 @@
     <Compile Include="Languages\C\CCompiler.cs" />
     <Compile Include="Languages\DelegateHint.cs" />
     <Compile Include="Languages\JavaScript\AnonymousTypeWriter.cs" />
+    <Compile Include="Languages\JavaScript\IL2Script.WriteMethodCustomBody.cs" />
     <Compile Include="Languages\JavaScript\IL2ScriptGenerator.OpCodes.Isinst.cs" />
     <Compile Include="Languages\JavaScript\DelegateImplementationProvider.cs" />
     <Compile Include="Languages\JavaScript\EntryPointProvider.cs" />

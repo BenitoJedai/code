@@ -23,6 +23,7 @@ namespace jsc
 {
     using Script;
     using jsc.Languages.JavaScript;
+	using ScriptCoreLib.CSharp.Extensions;
 
 
     public class Program
@@ -136,7 +137,7 @@ namespace jsc
 
                     foreach (Assembly v in SharedHelper.LoadReferencedAssemblies(Assembly.LoadFile(options.TargetAssembly.FullName), true))
                     {
-                        Languages.CompilerJob.ExtractEmbeddedResources(TargetDirectory, v);
+						EmbeddedResourcesExtensions.ExtractEmbeddedResources(TargetDirectory, v);
                     }
                 }
                 #endregion
@@ -498,7 +499,7 @@ namespace jsc
             SVW.Close();
 
 
-            Languages.CompilerJob.ExtractEmbeddedResources(TargetDirectory, _assambly_loaded);
+			EmbeddedResourcesExtensions.ExtractEmbeddedResources(TargetDirectory, _assambly_loaded);
             Languages.CompilerJob.InvokeEntryPoints(TargetDirectory, _assambly_loaded);
 
         }

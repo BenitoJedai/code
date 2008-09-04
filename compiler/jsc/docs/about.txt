@@ -140,3 +140,6 @@ version history:
 	jsc: added TypeOfByNameOverrideAttribute support
 03.09.2008
 	javascript: added OpCodes.isinst support
+04.09.2008
+	actionscript: fixed OpCodes.ldsfld to honor [Script(Implements=)]
+	javascript: fixed OpCodes.ldsfld to honor [Script(Implements=)]	

@@ -9,6 +9,8 @@ using System.Diagnostics;
 using System.Reflection.Emit;
 using ScriptCoreLib.ActionScript;
 using System.IO;
+using ScriptCoreLib.CSharp.Extensions;
+using ScriptCoreLib.Shared;
 
 namespace jsc.Languages.ActionScript
 {
@@ -41,34 +43,23 @@ namespace jsc.Languages.ActionScript
 
 		private void WriteMethodCustomBody_EmbedGetFileNames(MethodBase m)
 		{
-			var web = new DirectoryInfo(new FileInfo(m.DeclaringType.Assembly.Location).Directory.FullName + "/web");
-
 			WriteIdent();
 			WriteKeywordSpace(Keywords._return);
 			Write("[");
 			WriteLine();
 
-			var a = new List<string>();
+			var a = EmbeddedResourcesExtensions.GetEmbeddedResources(null, m.DeclaringType.Assembly);
 
-			#region fields
-			CompilerJob.ExtractEmbeddedResources(web, m.DeclaringType.Assembly,
-				(v, tf, Path, File) =>
-				{
-					var source = Path + "/" + File;
 
-					a.Add(source);
-				}
-			);
-			#endregion
 
-			for (int i = 0; i < a.Count; i++)
+			for (int i = 0; i < a.Length; i++)
 			{
 				var source = a[i];
 				
 				WriteIdent();
 				WriteQuotedLiteral(source);
 
-				if (i < a.Count - 1)
+				if (i < a.Length - 1)
 					Write(",");
 
 				WriteLine();
@@ -93,7 +84,7 @@ namespace jsc.Languages.ActionScript
 				};
 
 			#region fields
-			CompilerJob.ExtractEmbeddedResources(web, m.DeclaringType.Assembly,
+			EmbeddedResourcesExtensions.ExtractEmbeddedResources(web, m.DeclaringType.Assembly,
 				(v, tf, Path, File) =>
 				{
 					var source = Path + "/" + File;
