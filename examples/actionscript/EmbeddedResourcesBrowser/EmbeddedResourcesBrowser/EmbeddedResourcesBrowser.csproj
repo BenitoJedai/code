@@ -70,6 +70,7 @@
     <Compile Include="ActionScript\Assets.cs" />
     <Compile Include="ActionScript\OrcasAvalonTemplate.cs" />
     <Compile Include="ActionScript\MyExtensions.cs" />
+    <Compile Include="JavaScript\Assets.cs" />
     <Compile Include="JavaScript\MyCanvasScriptControl.cs" />
     <Compile Include="JavaScript\MyExtensions.cs" />
     <Compile Include="Program.cs" />

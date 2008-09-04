@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\core\ScriptCoreLib\bin\Debug</StartWorkingDirectory>
-    <StartArguments>ScriptCoreLib.dll -as</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\EmbeddedResourcesBrowser\EmbeddedResourcesBrowser\bin\Release</StartWorkingDirectory>
+    <StartArguments>EmbeddedResourcesBrowser.exe -js</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

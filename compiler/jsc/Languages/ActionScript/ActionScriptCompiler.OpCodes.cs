@@ -944,7 +944,9 @@ namespace jsc.Languages.ActionScript
 				{
 					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
 
-					WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
+
+					var t = e.i.TargetField.DeclaringType;
+					WriteDecoratedTypeNameOrImplementationTypeName(t, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, t), WriteDecoratedTypeNameOrImplementationTypeNameMode.IgnoreImplementationType);
 					Write(".");
 					WriteSafeLiteral(e.i.TargetField.Name);
 				};

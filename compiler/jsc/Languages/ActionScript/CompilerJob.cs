@@ -11,6 +11,7 @@ namespace jsc.Languages
 
     using Languages;
     using Script;
+	using ScriptCoreLib.CSharp.Extensions;
 
     public partial class CompilerJob
     {
@@ -43,7 +44,7 @@ namespace jsc.Languages
             // assets
             foreach (Assembly v in SharedHelper.LoadReferencedAssemblies(Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName), true))
             {
-                Languages.CompilerJob.ExtractEmbeddedResources(TargetDirectory, v);
+				EmbeddedResourcesExtensions.ExtractEmbeddedResources(TargetDirectory, v);
             }
 
             #region SourceVersion

@@ -27,7 +27,7 @@ namespace EmbeddedResourcesBrowser.ActionScript
 		{
 			// add resources to be found by ImageSource
 			KnownEmbeddedResources.Default.Handlers.Add(
-				e => Assets.Default[e]
+				e => __Assets.Default[e]
 			);
 
 		}
