@@ -85,7 +85,20 @@ namespace OrcasAvalonTemplate.Shared
 					t.Foreground = 0xffffffff.ToSolidColorBrush();
 				};
 
+			3000.AtDelay(
+				delegate
+				{
+					// load new text from embedded resource
 
+					"assets/OrcasAvalonTemplate/about.txt".ToStringAsset(
+						e =>
+						{
+							t.Text = e;
+							t.FontSize = 16;
+						}
+					);
+				}
+			);
 
 		}
 	}

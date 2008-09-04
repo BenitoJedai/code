@@ -49,9 +49,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="web\assets\Sudoku.Editor\Level1.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <EmbeddedResource Include="web\assets\Sudoku.Editor\Level1.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sudoku.Transform\Sudoku.Transform.csproj">

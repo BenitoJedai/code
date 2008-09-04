@@ -8,6 +8,47 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static string[] Split(this string e, int length)
+		{
+			var a = new List<string>();
+
+			for (int i = 0; i < e.Length; i += length)
+			{
+				var c = length;
+				var n = e.Length - i;
+
+				if (n < c)
+					n = c;
+
+				a.Add(e.Substring(i, c));
+			}
+
+			return a.ToArray();
+		}
+
+		public static string[][] Split(this string[] e, int length)
+		{
+			var a = new List<string[]>();
+
+			for (int i = 0; i < e.Length; i += length)
+			{
+				var n = new string[length];
+
+				for (int u = 0; u < length; u++)
+				{
+					var c = i + u;
+
+					if (c < e.Length)
+						n[u] = e[c];
+				}
+
+				a.Add(n);
+			}
+
+			return a.ToArray();
+		}
+
+
 		public static void Do(this IEnumerable<Action> e)
 		{
 			foreach (var a in e)
