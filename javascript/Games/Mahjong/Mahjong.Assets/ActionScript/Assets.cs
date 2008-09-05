@@ -37,7 +37,9 @@ namespace Mahjong.ActionScript
 			}
 
 			if (c != null)
+			{
 				c.ToSoundAsset().play();
+			}
 		}
 
 		public string[] FileNames

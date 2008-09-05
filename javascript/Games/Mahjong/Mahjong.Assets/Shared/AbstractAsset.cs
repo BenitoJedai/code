@@ -20,6 +20,11 @@ namespace Mahjong.Shared
 				return this.Source + "/" + this.Suit + "/" + this.Rank + ".png";
 			}
 		}
+
+		public override string ToString()
+		{
+			return new {  Suit, Rank }.ToString();
+		}	
 	}
 
 

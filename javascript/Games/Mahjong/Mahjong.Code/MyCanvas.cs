@@ -34,18 +34,21 @@ namespace Mahjong.Code
 
 		public MyCanvas()
 		{
-
-
 			this.PlaySoundFuture = new FutureAction<string>();
 			this.PlaySound = this.PlaySoundFuture;
 
 			this.Width = DefaultScaledWidth;
 			this.Height = DefaultScaledHeight;
 
+			// http://www.partnersinrhyme.com/pir/free_music_loops.shtml
+			// http://www.soundsnap.com/taxonomy/term/62
+
 			var Sounds = new
 			{
+				click = PlaySoundFuture["click"],
 				birds = PlaySoundFuture["birds"],
 				flag = PlaySoundFuture["flag"],
+				buzzer = PlaySoundFuture["buzzer"],
 				reveal = PlaySoundFuture["reveal"]
 			};
 
@@ -82,11 +85,10 @@ namespace Mahjong.Code
 
 			var Comment = new TextBox
 			{
-				Text = "",
+				Text = "Loading...",
 				IsReadOnly = true
 			}.MoveTo(4, 4).AttachTo(this);
 
-			var stuff = AbstractAsset.RandomizedPairs.AsCyclicEnumerable().GetEnumerator();
 
 			MyLayout.LayoutChanging +=
 				delegate
@@ -102,15 +104,8 @@ namespace Mahjong.Code
 					);
 					// we should suffle the ranks
 
-					foreach (var p in MyLayout.Pairs)
-					{
-						var k = stuff.Take();
+				
 
-						p.Left.RankImage = k.Left;
-						p.Right.RankImage = k.Right;
-					}
-
-					#region attach interactive
 					foreach (var v in MyLayout.Tiles)
 					{
 						// any image
@@ -154,19 +149,24 @@ namespace Mahjong.Code
 									}
 								);
 
-								//tt.Control.MouseLeftButtonUp +=
-								//    delegate
-								//    {
-								//        //tt.YellowFilter.Opacity = 0;
-								//        tt.GreenFilter.Opacity = 0.5;
-								//        Sounds.flag();
-								//    };
+								tt.Control.MouseLeftButtonUp +=
+									delegate
+									{
+										//tt.YellowFilter.Opacity = 0;
+
+										Console.WriteLine(tt.Entry.RankImage.ToString());
+
+										if (tt.Entry.BlockingSiblings.Any())
+											Sounds.buzzer();
+										else
+											Sounds.click();
+
+									};
 								#endregion
 
 							}
 						);
 					}
-					#endregion
 
 				};
 
