@@ -86,14 +86,7 @@ namespace Mahjong.Code
 				IsReadOnly = true
 			}.MoveTo(4, 4).AttachTo(this);
 
-			var stuff = AbstractAsset.Bamboo. // 9x
-			Concat(AbstractAsset.Characters). // 9x
-			Concat(AbstractAsset.Dots). // 9x
-
-			Concat(AbstractAsset.Dragons). // 2
-			Concat(AbstractAsset.Flowers). // 4
-			Concat(AbstractAsset.Seasons). // 4
-			Concat(AbstractAsset.Winds); // 3
+			var stuff = AbstractAsset.RandomizedPairs.AsCyclicEnumerable().GetEnumerator();
 
 			MyLayout.LayoutChanging +=
 				delegate
@@ -109,11 +102,18 @@ namespace Mahjong.Code
 					);
 					// we should suffle the ranks
 
+					foreach (var p in MyLayout.Pairs)
+					{
+						var k = stuff.Take();
+
+						p.Left.RankImage = k.Left;
+						p.Right.RankImage = k.Right;
+					}
+
 					#region attach interactive
 					foreach (var v in MyLayout.Tiles)
 					{
 						// any image
-						v.RankImage = stuff.Random();
 
 						v.Tile.Continue(
 							(VisibleTile tt) =>
