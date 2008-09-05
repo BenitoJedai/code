@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using ScriptCoreLib.Shared.Avalon.Extensions;
 using ScriptCoreLib.Shared.Lambda;
 using Mahjong.Shared;
 
@@ -39,14 +40,14 @@ namespace Mahjong.Code
 					if (c.Length == 1)
 					{
 						// bummer we need to do a rollback
-						Console.WriteLine("bummer!");
+						//Console.WriteLine("bummer!");
 
 						var c_previous = Candidates.Pop();
 
 						foreach (var v in c_previous)
 						{
 							// replace with previousle chosen pair member
-							var p_alternate = new TilesInfoType(p.CountZ, p.Tiles.Replace(c[0], v ).ToArray());
+							var p_alternate = new TilesInfoType(p.CountZ, p.Tiles.Replace(c[0], v).ToArray());
 							var c_alternate = p_alternate.Tiles.Where(k => !k.BlockingSiblings.Any()).ToArray();
 
 							if (c_alternate.Length > 1)
@@ -70,7 +71,7 @@ namespace Mahjong.Code
 					// jsc is still missing Linq Skip command
 					if (c.Length % 2 == 1)
 					{
-						Console.WriteLine("leaving 1");
+						//Console.WriteLine("leaving 1");
 						c = c.Take(c.Length - 1).ToArray();
 					}
 
@@ -81,7 +82,9 @@ namespace Mahjong.Code
 						{
 							// bummer
 
-							Console.WriteLine("Invalid Layout: " + new { c.Length, Tiles = p.Tiles.Length, Layout.Comment });
+							var Error = "Invalid Layout: " + new { c.Length, Tiles = p.Tiles.Length, Layout.Comment };
+
+							Console.WriteLine(Error);
 
 							// show the invalid state for debugging
 							this.TilesInfo = p;
@@ -95,7 +98,7 @@ namespace Mahjong.Code
 
 							Condition = () => false;
 
-							SignalNext();
+							1.AtDelay(SignalNext);
 
 							return;
 						}
@@ -109,11 +112,38 @@ namespace Mahjong.Code
 					p = new TilesInfoType(p.CountZ, except_c);
 
 					Candidates.Push(c);
-					Console.WriteLine("candidates: " + c.Length);
+					//Console.WriteLine("candidates: " + c.Length);
 					SignalNext();
 				};
 
-			ExtractCandidates.While(() => Condition())(Done);
+			ExtractCandidates.While(() => Condition())(
+				delegate
+				{
+					var a = new List<EntryPair>();
+
+					while (Candidates.Count > 0)
+					{
+						var ClonedEntries = Candidates.Pop();
+
+						for (int i = 0; i < ClonedEntries.Length; i += 2)
+						{
+							a.Add(
+								new EntryPair
+								{
+									Left = this.TilesInfo.TilesByPointer[ClonedEntries[i].Pointer],
+									Right = this.TilesInfo.TilesByPointer[ClonedEntries[i + 1].Pointer]
+								}
+							);
+						}
+
+
+					}
+
+					this.Pairs = a.ToArray();
+
+					Done();
+				}
+			);
 		}
 
 

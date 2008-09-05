@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace Mahjong.Shared
 {
@@ -129,11 +130,73 @@ namespace Mahjong.Shared
 		static public RankAsset[] Bamboo { get { return BambooAsset.Collection; } }
 		static public RankAsset[] Characters { get { return CharacterAsset.Collection; } }
 		static public RankAsset[] Dots { get { return DotsAsset.Collection; } }
+
 		static public RankAsset[] Dragons { get { return DragonAsset.Collection; } }
 		static public RankAsset[] Flowers { get { return FlowerAsset.Collection; } }
 		static public RankAsset[] Seasons { get { return SeasonAsset.Collection; } }
 		static public RankAsset[] Winds { get { return WindAsset.Collection; } }
 
+		[Script]
+		public class RankAssetPair
+		{
+			public RankAsset Left;
+			public RankAsset Right;
+		}
+
+		public static RankAssetPair[] RandomizedPairs
+		{
+			get
+			{
+				var a = new List<RankAssetPair>();
+
+				#region x2
+				Action<RankAsset[]> x2 =
+					e =>
+					{
+						foreach (var v in e)
+						{
+							a.Add(
+								new RankAssetPair
+								{
+									Left = v,
+									Right = v,
+								}
+							);
+						}
+					};
+				#endregion
+
+				x2(Bamboo);
+				x2(Characters);
+				x2(Dots);
+
+				#region y2
+				Action<RankAsset[]> y2 =
+					e =>
+					{
+						var q = e.Randomize().ToArray();
+
+						for (int i = 0; i < q.Length; i += 2)
+						{
+							a.Add(
+								new RankAssetPair
+								{
+									Left = q[i],
+									Right = q[i + 1]
+								}
+							);
+						}
+					};
+				#endregion
+
+				y2(Dragons);
+				y2(Flowers);
+				y2(Seasons);
+				y2(Winds);
+
+				return a.Randomize().ToArray();
+			}
+		}
 	}
 
 	[Script]
