@@ -11,11 +11,12 @@ namespace ScriptCoreLib.Shared.Lambda
 		public static string[] Split(this string e, int length)
 		{
 			var a = new List<string>();
+			var u = e.Length;
 
-			for (int i = 0; i < e.Length; i += length)
+			for (int i = 0; i < u; i += length)
 			{
 				var c = length;
-				var n = e.Length - i;
+				var n = u - i;
 
 				if (n < c)
 					n = c;
@@ -359,6 +360,11 @@ namespace ScriptCoreLib.Shared.Lambda
 		public static T Random<T>(this IEnumerable<T> e)
 		{
 			return e.Randomize().First();
+		}
+
+		public static T Random<T>(this IEnumerable<T> e, Func<T, bool> filter)
+		{
+			return e.Where(filter).Randomize().First();
 		}
 
 		public static IEnumerable<T> ForEach<T>(this IEnumerable<T> array, Action<T, int> action)

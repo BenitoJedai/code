@@ -175,6 +175,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Converter.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ArgumentException.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Boolean.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Diagnostics\Debugger.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\EventArgs.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\EventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IEquatable.cs" />

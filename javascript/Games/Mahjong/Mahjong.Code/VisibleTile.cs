@@ -14,15 +14,34 @@ namespace Mahjong.Code
 	{
 		public readonly Canvas Control = new Canvas();
 
-		public readonly RankAsset Value;
+		public readonly Image RankImage;
+
+		public readonly Image BlackFilter;
+		public readonly Image YellowFilter;
+		public readonly Image GreenFilter;
+
+		public VisibleLayout.Entry Entry;
+
+
+
+
+		public readonly AbstractAsset.Settings Settings;
 
 		public VisibleTile(AbstractAsset.Settings s, RankAsset r)
 		{
-			Value = r;
+			this.Settings = s;
+
 
 			Control.Width = s.OuterWidth;
 			Control.Height = s.OuterHeight;
 
+			new Image
+			{
+				Source = s.BackgroundTileShadow.ResourceAlias.ToSource(),
+				Stretch = System.Windows.Media.Stretch.Fill,
+				Width = s.ScaledShadowWidth,
+				Height = s.ScaledShadowHeight
+			}.AttachTo(Control).MoveTo(-4 * s.Scale, -4 * s.Scale);
 
 			new Image
 			{
@@ -32,26 +51,45 @@ namespace Mahjong.Code
 				Height = s.ScaledOuterHeight
 			}.AttachTo(Control);
 
-			new Image
+
+			RankImage = new Image
 			{
 				Source = r.ResourceAlias.ToSource(),
 				Stretch = System.Windows.Media.Stretch.Fill,
 				Width = s.ScaledInnerWidth,
-				Height = s.ScaledInnerHeight 
-			}.AttachTo(Control).MoveTo((s.ScaledOuterWidth - s.ScaledInnerWidth - 1) , 1 * s.Scale);
+				Height = s.ScaledInnerHeight
+			}.AttachTo(Control).MoveTo((s.ScaledOuterWidth - s.ScaledInnerWidth - 1), 1 * s.Scale);
 
 
-			Control.MouseEnter +=
-				delegate
-				{
-					Control.Opacity = 0.8;
-				};
 
-			Control.MouseLeave +=
-				delegate
-				{
-					Control.Opacity = 1;
-				};
+			BlackFilter = new Image
+			{
+				Source = s.BackgroundTileBlack.ResourceAlias.ToSource(),
+				Stretch = System.Windows.Media.Stretch.Fill,
+				Width = s.ScaledOuterWidth,
+				Height = s.ScaledOuterHeight
+			}.AttachTo(Control);
+
+			YellowFilter = new Image
+			{
+				Source = s.BackgroundTileYellow.ResourceAlias.ToSource(),
+				Stretch = System.Windows.Media.Stretch.Fill,
+				Width = s.ScaledShadowWidth,
+				Height = s.ScaledShadowHeight,
+				Opacity = 0
+			}.AttachTo(Control).MoveTo(-4 * s.Scale, -4 * s.Scale);
+
+
+			GreenFilter = new Image
+			{
+				Source = s.BackgroundTileGreen.ResourceAlias.ToSource(),
+				Stretch = System.Windows.Media.Stretch.Fill,
+				Width = s.ScaledShadowWidth,
+				Height = s.ScaledShadowHeight,
+				Opacity = 0
+			}.AttachTo(Control).MoveTo(-4 * s.Scale, -4 * s.Scale);
+
+
 		}
 	}
 

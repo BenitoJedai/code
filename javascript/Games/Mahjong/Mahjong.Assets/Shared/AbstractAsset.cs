@@ -33,6 +33,9 @@ namespace Mahjong.Shared
 		{
 			public double Scale = 1;
 
+			public int ShadowWidth = 32 + 8;
+			public int ShadowHeight = 46 + 8;
+
 			public int OuterWidth = 32;
 			public int OuterHeight = 46;
 
@@ -40,6 +43,27 @@ namespace Mahjong.Shared
 			public int InnerHeight = 38;
 
 			public SpecialAsset BackgroundTile = "tile0";
+			public SpecialAsset BackgroundTileBlack = "tile0_black";
+			public SpecialAsset BackgroundTileShadow = "tile8_black";
+			public SpecialAsset BackgroundTileYellow = "tile8_yellow";
+			public SpecialAsset BackgroundTileGreen = "tile8_green";
+
+			public double ScaledShadowHeight
+			{
+				get
+				{
+					return ShadowHeight * Scale;
+				}
+			}
+
+
+			public double ScaledShadowWidth
+			{
+				get
+				{
+					return ShadowWidth * Scale;
+				}
+			}
 
 			public double ScaledOuterWidth
 			{
@@ -57,6 +81,16 @@ namespace Mahjong.Shared
 				}
 			}
 
+			public int Spacing = 6;
+
+			public double ScaledSpacing
+			{
+				get
+				{
+					return Spacing * Scale;
+
+				}
+			}
 
 			public double ScaledInnerWidth
 			{
@@ -71,6 +105,22 @@ namespace Mahjong.Shared
 				get
 				{
 					return (int)((double)InnerHeight * Scale);
+				}
+			}
+
+			public double ScaledBorderWidth
+			{
+				get
+				{
+					return (int)((double)(OuterWidth - InnerWidth) * Scale);
+				}
+			}
+
+			public double ScaledBorderHeight
+			{
+				get
+				{
+					return (int)((double)(OuterHeight - InnerHeight) * Scale);
 				}
 			}
 		}

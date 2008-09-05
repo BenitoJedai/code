@@ -19,7 +19,13 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 
 		public static void ToStringAsset(this string e, Action<string> h)
 		{
-			h(new StreamReader(e.ToManifestResourceStream().Stream).ReadToEnd());
+			var s = e.ToManifestResourceStream();
+
+			s.Stream.Position = 0;
+
+			var v = new StreamReader(s.Stream).ReadToEnd();
+
+			h(v);
 		}
 
 		internal static ImageSource ToSource(this EmbeddedResourcesExtensions.ManifestResourceEntry fileStream)
@@ -48,6 +54,8 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			throw new NotSupportedException(ext);
 
 		}
+
+
 
 		public static ImageSource ToSource(this string e)
 		{

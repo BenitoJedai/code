@@ -8,6 +8,11 @@ using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.Shared;
 
+[assembly: ScriptResources("assets/Mahjong")]
+[assembly: ScriptResources("assets/Mahjong.Assets")]
+[assembly: ScriptResources("assets/Mahjong.Layouts")]
+[assembly: ScriptResources("assets/Mahjong.Sounds")]
+
 namespace Mahjong.Shared
 {
 	public class Assets
