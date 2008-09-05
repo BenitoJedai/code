@@ -71,6 +71,17 @@ namespace Mahjong.Code
 			LayoutUpdatePairs(
 				delegate
 				{
+					using (var stuff = AbstractAsset.RandomizedPairs.AsCyclicEnumerable().GetEnumerator())
+					{
+						foreach (var p in this.Pairs)
+						{
+							var k = stuff.Take();
+
+							p.Left.RankImage = k.Left;
+							p.Right.RankImage = k.Right;
+						}
+					}
+
 					if (LayoutChanging != null)
 						LayoutChanging();
 
