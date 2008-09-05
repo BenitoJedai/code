@@ -23,6 +23,9 @@ namespace Mahjong.Code
 			public Entry[] SiblingsAbove;
 			public Entry[] Siblings;
 
+
+			public Entry[] BlockingSiblings;
+
 			public int Pointer
 			{
 				get
@@ -55,10 +58,10 @@ namespace Mahjong.Code
 			public void FindSiblings(Entry[] ByPointer)
 			{
 				Func<int, int, int, Entry> f =
-					(x, y, z) => 
+					(x, y, z) =>
 					{
 						var p = GetPointer(x + this.x, y + this.y, z + this.z);
-						
+
 						if (p < 0)
 							return null;
 
@@ -71,7 +74,7 @@ namespace Mahjong.Code
 				Func<int, Entry[]> q =
 					z =>
 					{
-						var a = new List<Entry>();
+						var s = new List<Entry>();
 
 						for (int x = -2; x <= 2; x++)
 							for (int y = -2; y <= 2; y++)
@@ -80,10 +83,10 @@ namespace Mahjong.Code
 
 								if (n != null)
 									if (n != this)
-										a.Add(n);
+										s.Add(n);
 							}
 
-						return a.ToArray();
+						return s.ToArray();
 					};
 
 				this.SiblingsAround = q(0);
@@ -93,6 +96,49 @@ namespace Mahjong.Code
 				this.Siblings =
 					this.SiblingsAround.Concat(this.SiblingsBelow).Concat(this.SiblingsAbove).ToArray();
 
+				var a = f.FixLastParam(1);
+				var o = f.FixLastParam(0);
+
+				// this is a game rule, possibly should be marked for override
+
+				var _right = new[]
+				{
+					o(2, -1),
+					o(2, 0),
+					o(2, 1)
+				};
+
+				var _left = new[]
+				{
+					o(-2, -1),
+					o(-2, 0),
+					o(-2, 1)
+				};
+
+				// we are only blocked if both sides have a sibling
+		
+
+				var above =
+					new[]
+					{
+						a(-1, -1), a(0, -1), a(1, -1),
+						a(-1, 0), a(0, 0), a(1, 0),
+						a(-1, 1), a(0, 1), a(1, 1)
+					};
+
+				var r = above.AsEnumerable();
+
+				if (_right.Any(k => k != null))
+					if (_left.Any(k => k != null))
+					{
+						r = r.Concat(_left);
+						r = r.Concat(_right);
+					}
+
+			
+
+				this.BlockingSiblings =
+					r.Where(k => k != null).ToArray();
 			}
 
 			public override string ToString()

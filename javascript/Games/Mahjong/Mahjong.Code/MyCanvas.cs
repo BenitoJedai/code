@@ -122,7 +122,7 @@ namespace Mahjong.Code
 								tt.Control.MouseEnter +=
 									delegate
 									{
-										tt.YellowFilter.Opacity = 0.5;
+										tt.GreenFilter.Opacity = 0.5;
 
 									};
 
@@ -131,7 +131,7 @@ namespace Mahjong.Code
 								tt.Control.MouseLeave +=
 									delegate
 									{
-										tt.YellowFilter.Opacity = 0;
+										tt.GreenFilter.Opacity = 0;
 									};
 
 								// while loading the k.Tile.Value is null for siblings
@@ -141,13 +141,15 @@ namespace Mahjong.Code
 										tt.Control.MouseEnter +=
 											delegate
 											{
-												tt.Entry.Siblings.ForEach(k => k.Tile.Value.GreenFilter.Opacity = 0.5);
+												tt.Entry.Siblings.ForEach(k => k.Tile.Value.YellowFilter.Opacity = 0.5);
+												tt.Entry.BlockingSiblings.ForEach(k => k.Tile.Value.RedFilter.Opacity = 0.5);
 											};
 
 										tt.Control.MouseLeave +=
 											delegate
 											{
-												tt.Entry.Siblings.ForEach(k => k.Tile.Value.GreenFilter.Opacity = 0);
+												tt.Entry.Siblings.ForEach(k => k.Tile.Value.YellowFilter.Opacity = 0);
+												tt.Entry.BlockingSiblings.ForEach(k => k.Tile.Value.RedFilter.Opacity = 0);
 											};
 									}
 								);
