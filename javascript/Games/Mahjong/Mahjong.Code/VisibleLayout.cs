@@ -57,67 +57,31 @@ namespace Mahjong.Code
 		{
 		}
 
+	
 
-		public Entry[] Tiles;
-		public Entry[] TilesByPointer;
 
-		[Script]
-		public class EntryPair
-		{
-			public Entry Left;
-			public Entry Right;
-		}
-
-		public EntryPair[] Pairs;
 
 		private void LayoutUpdate()
 		{
 			this.LayoutProgress = new Future();
-			this.TilesByPointer = new Entry[this.Layout.CountZ * Layout.DefaultCountY * Layout.DefaultCountX];
 
-			// upgrade the tile entries so we could bind images
-			// must preserve ordering
-			this.Tiles = this.Layout.Tiles.Select(
-				k =>
+			this.TilesInfo = new TilesInfoType(this.Layout.CountZ, this.Layout.Tiles);
+			
+
+			LayoutUpdatePairs(
+				delegate
 				{
-					var n = new Entry
-					{
-						index = k.index,
-						x = k.x,
-						y = k.y,
-						z = k.z,
+					if (LayoutChanging != null)
+						LayoutChanging();
 
-					};
-
-					this.TilesByPointer[n.Pointer] = n;
-
-					return n;
+					LayoutUpdateFinalize();
 				}
-			).ToArray();
-
-			foreach (var v in this.Tiles)
-			{
-				v.FindSiblings(this.TilesByPointer);
-			}
-
-			LayoutUpdatePairs();
-
-			if (LayoutChanging != null)
-				LayoutChanging();
-
-			LayoutUpdateFinalize();
+			);
 
 			
 		}
 
-		private void LayoutUpdatePairs()
-		{
-			// we need to figure out pairs so they could be assigned to an image
-			for (int i = 0; i < this.Layout.CountZ; i++)
-			{
-				
-			}
-		}
+	
 
 		private void LayoutUpdateFinalize()
 		{

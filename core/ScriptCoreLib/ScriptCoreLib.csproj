@@ -183,6 +183,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\IO\BinaryWriter.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\StringReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\TextReader.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Stack.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\StringReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\StreamReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\MemoryStream.cs" />

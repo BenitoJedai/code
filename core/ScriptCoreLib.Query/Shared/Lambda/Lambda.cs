@@ -8,6 +8,19 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static IEnumerable<T> Replace<T>(this IEnumerable<T> source, T remove, T add)
+		{
+			var _remove = new[] { remove };
+			var _add = new[] { add };
+
+			return source.Replace(_remove, _add);
+		}
+
+		public static IEnumerable<T> Replace<T>(this IEnumerable<T> source, IEnumerable<T> remove, IEnumerable<T> add)
+		{
+			return source.Where(k => !remove.Contains(k)).Concat(add);
+		}
+
 		public static string[] Split(this string e, int length)
 		{
 			var a = new List<string>();

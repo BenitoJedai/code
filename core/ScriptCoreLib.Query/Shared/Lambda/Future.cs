@@ -121,6 +121,11 @@ namespace ScriptCoreLib.Shared.Lambda
 
 
 
+		/// <summary>
+		/// Returns an action to signal this event
+		/// </summary>
+		/// <param name="PublishSignalNext"></param>
+		/// <returns></returns>
 		public Action Continue(Action<Action> PublishSignalNext)
 		{
 
@@ -207,6 +212,46 @@ namespace ScriptCoreLib.Shared.Lambda
 			else
 				SignalFirst();
 
+			return r.Continue;
+		}
+
+		/// <summary>
+		/// Returns an action to continue when done
+		/// </summary>
+		/// <param name="e"></param>
+		/// <param name="condition"></param>
+		/// <returns></returns>
+		public static Action<Action> While(this Action<Action> e, Func<bool> condition)
+		{
+			var c = new FutureStream();
+			var r = new Future();
+
+			var MoveNext = default(Action<Action>);
+
+			MoveNext =
+				SignalNext =>
+				{
+					if (condition())
+					{
+						// when SignalNext is called MoveNext is called too...
+						c.Continue(MoveNext);
+
+						e(SignalNext);
+					}
+					else
+					{
+						// we need to signal r to indicate we are done
+						r.Signal();
+					}
+				};
+
+
+
+
+			// we could just return s so the caller can initiate the loop on its own sometime later
+			// yet for now we just start it here
+			c.Continue(MoveNext)();
+			
 			return r.Continue;
 		}
 	}

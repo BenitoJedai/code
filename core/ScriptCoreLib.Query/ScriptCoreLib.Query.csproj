@@ -73,6 +73,8 @@
     <Compile Include="Shared\Query\Enumerable.OrderBy.cs" />
     <Compile Include="Shared\Query\Enumerable.Range.cs" />
     <Compile Include="Shared\Query\Enumerable.Range.MoveNext.cs" />
+    <Compile Include="Shared\Query\Enumerable.Take.cs" />
+    <Compile Include="Shared\Query\Enumerable.Take.MoveNext.cs" />
     <Compile Include="Shared\Query\OrderedEnumerable.cs" />
     <Compile Include="JavaScript\Query\LocalInternalEnumerableImplementation.cs" />
     <Compile Include="Shared\Lambda\Lambda.cs" />

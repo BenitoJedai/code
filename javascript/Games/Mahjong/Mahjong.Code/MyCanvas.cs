@@ -181,6 +181,7 @@ namespace Mahjong.Code
 				};
 
 			Assets.Default.FileNames.Random(k => k.EndsWith(".lay")).ToStringAsset(
+			//Assets.Default.FileNames.First(k => k.Contains("Beatle")).ToStringAsset(
 				DataString =>
 				{
 					MyLayout.Layout = new Layout(DataString);

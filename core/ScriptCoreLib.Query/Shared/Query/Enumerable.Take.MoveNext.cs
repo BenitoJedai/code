@@ -6,7 +6,7 @@ using global::System.Collections.Generic;
 
 using IDisposable = global::System.IDisposable;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
+namespace ScriptCoreLib.Shared.Query
 {
 
     internal static partial class __Enumerable
@@ -29,7 +29,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
                             this.__m__Finally43();
                             return false;
                         }
-                        this.__7__wrap42 = this.source.GetEnumerator();
+                        this.__7__wrap42 = this.source.AsEnumerable().GetEnumerator();
 
 
                     }

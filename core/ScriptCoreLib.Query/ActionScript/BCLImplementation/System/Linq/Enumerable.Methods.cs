@@ -308,6 +308,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
 
 
 
+		public static TSource First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> filter)
+		{
+			return source.Where(filter).First();
+		}
+
         public static TSource First<TSource>(this IEnumerable<TSource> source)
         {
             if (source == null)

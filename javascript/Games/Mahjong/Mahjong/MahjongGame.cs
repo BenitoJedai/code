@@ -49,7 +49,7 @@ namespace Mahjong.js
 			else
 				e.insertPreviousSibling(clip);
 
-			var loading = new IHTMLSpan();
+			var loading = new IHTMLElement(IHTMLElement.HTMLElementEnum.h3);
 
 			loading.AttachTo(clip);
 
@@ -64,7 +64,7 @@ namespace Mahjong.js
 
 					var p = Convert.ToInt32((index + 1) * 100 / c);
 
-					loading.innerText = "loading #" + p + " " + src;
+					loading.innerText = "loading... " + p + "% " + src;
 
 					img.InvokeOnComplete(_img => SignalNext(), 5);
 				}
