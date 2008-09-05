@@ -47,6 +47,7 @@ namespace Mahjong.Shared
 			public SpecialAsset BackgroundTileShadow = "tile8_black";
 			public SpecialAsset BackgroundTileYellow = "tile8_yellow";
 			public SpecialAsset BackgroundTileGreen = "tile8_green";
+			public SpecialAsset BackgroundTileRed = "tile8_red";
 
 			public double ScaledShadowHeight
 			{

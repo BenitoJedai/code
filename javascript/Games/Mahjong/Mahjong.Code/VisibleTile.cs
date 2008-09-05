@@ -17,8 +17,10 @@ namespace Mahjong.Code
 		public readonly Image RankImage;
 
 		public readonly Image BlackFilter;
+
 		public readonly Image YellowFilter;
 		public readonly Image GreenFilter;
+		public readonly Image RedFilter;
 
 		public VisibleLayout.Entry Entry;
 
@@ -79,6 +81,7 @@ namespace Mahjong.Code
 				Opacity = 0
 			}.AttachTo(Control).MoveTo(-4 * s.Scale, -4 * s.Scale);
 
+		
 
 			GreenFilter = new Image
 			{
@@ -89,6 +92,14 @@ namespace Mahjong.Code
 				Opacity = 0
 			}.AttachTo(Control).MoveTo(-4 * s.Scale, -4 * s.Scale);
 
+			RedFilter = new Image
+			{
+				Source = s.BackgroundTileRed.ResourceAlias.ToSource(),
+				Stretch = System.Windows.Media.Stretch.Fill,
+				Width = s.ScaledShadowWidth,
+				Height = s.ScaledShadowHeight,
+				Opacity = 0
+			}.AttachTo(Control).MoveTo(-4 * s.Scale, -4 * s.Scale);
 
 		}
 	}
