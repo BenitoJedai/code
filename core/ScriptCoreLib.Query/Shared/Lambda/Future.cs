@@ -54,7 +54,7 @@ namespace ScriptCoreLib.Shared.Lambda
 
 			set
 			{
-				if (CanSignal)
+				if (!CanSignal)
 					throw new Exception("Value can be set only once!");
 
 				_Value = value;

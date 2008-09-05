@@ -36,12 +36,12 @@ namespace Mahjong.ConsoleTest
 			//var lay = "assets/Mahjong.Layouts/Abstract Building.lay".ToManifestResourceStream();
 
 
-			Assets.Default.FileNames.Random().ToStringAsset(
+			Assets.Default.FileNames.Where(k => k.EndsWith(".lay")).Random().ToStringAsset(
 				lay => RenderLayout(new Layout(lay))
 			);
 
 
-			Assets.Default.FileNames.Random().ToStringAsset(
+			Assets.Default.FileNames.Where(k => k.EndsWith(".lay")).Random().ToStringAsset(
 				lay => RenderLayout(new Layout(lay))
 			);
 
@@ -65,9 +65,9 @@ namespace Mahjong.ConsoleTest
 			Console.WriteLine(n.Comment);
 
 			var u = Console.BackgroundColor;
-			for (int x = 0; x < Layout.CountX; x++)
+			for (int y = 0; y < Layout.DefaultCountY; y++)
 			{
-				for (int y = 0; y < Layout.CountY; y++)
+				for (int x = 0; x < Layout.DefaultCountX; x++)
 				{
 					var i = 0;
 
@@ -82,7 +82,6 @@ namespace Mahjong.ConsoleTest
 
 
 				}
-
 				Console.WriteLine();
 			}
 			Console.BackgroundColor = u;

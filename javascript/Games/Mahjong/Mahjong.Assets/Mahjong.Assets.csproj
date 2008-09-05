@@ -217,6 +217,21 @@
   <ItemGroup>
     <EmbeddedResource Include="web\assets\Mahjong.Layouts\test.lay" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\Mahjong\special\tile0_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\Mahjong\special\tile8_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\Mahjong\special\tile8_yellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\Mahjong\special\tile8_green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\Mahjong.Assets\shadow.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

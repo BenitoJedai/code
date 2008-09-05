@@ -23,7 +23,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			InternalTextField = new TextField
 				{
 					autoSize = TextFieldAutoSize.LEFT,
-					type = TextFieldType.INPUT
+					type = TextFieldType.INPUT,
+					background = true,
+					backgroundColor = 0xffffffff
 				};
 		}
 

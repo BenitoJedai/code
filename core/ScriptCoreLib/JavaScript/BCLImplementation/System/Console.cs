@@ -15,6 +15,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         /// and about:config must be altered
         /// explorer: activex addin required
         /// 
+		/// browser.dom.window.dump.enabled
+		/// 
         /// <see>http://kb.mozillazine.org/Viewing_dump%28%29_output</see>
         /// </summary>
         /// 

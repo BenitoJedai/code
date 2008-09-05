@@ -34,6 +34,9 @@ namespace Mahjong.js
 
 		public MahjongGame(IHTMLElement e)
 		{
+
+
+
 			// wpf here
 			var clip = new IHTMLDiv();
 

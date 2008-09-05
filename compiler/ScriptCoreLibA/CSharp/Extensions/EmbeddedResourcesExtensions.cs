@@ -26,8 +26,13 @@ namespace ScriptCoreLib.CSharp.Extensions
 			public bool Value;
 		}
 
+		public static readonly Dictionary<string, ManifestResourceEntry> ToManifestResourceStream_Cache = new Dictionary<string, ManifestResourceEntry>();
+
 		public static ManifestResourceEntry ToManifestResourceStream(this string e)
 		{
+			if (ToManifestResourceStream_Cache.ContainsKey(e))
+				return ToManifestResourceStream_Cache[e];
+
 			// what we know: assets/ConsoleApplication3/3.png
 			// what we want: ConsoleApplication3.web.assets.ConsoleApplication3.3.png
 			// how we map folders: [ScriptResourcesAttribute]
@@ -90,9 +95,7 @@ namespace ScriptCoreLib.CSharp.Extensions
 
 
 
-			return Candidates.Single();
-
-
+			return ToManifestResourceStream_Cache[e] = Candidates.Single();
 		}
 
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using ScriptCoreLib;
 using ScriptCoreLib.Shared.Lambda;
+using System.Diagnostics;
 
 namespace Mahjong.Shared
 {
@@ -13,8 +14,8 @@ namespace Mahjong.Shared
 	{
 		// this is basically a voxel
 
-		public const int CountX = 20;
-		public const int CountY = 34;
+		public const int DefaultCountX = 34;
+		public const int DefaultCountY = 20;
 
 		public string Version;
 		public string Comment;
@@ -31,6 +32,8 @@ namespace Mahjong.Shared
 			this.DataString = DataString;
 		}
 
+		string _DataString;
+
 		public string DataString
 		{
 			set
@@ -38,22 +41,93 @@ namespace Mahjong.Shared
 				if (value == null)
 					return;
 
+		
+				_DataString = value;
+
 				using (var s = new StringReader(value))
 				{
 
 					this.Version = s.ReadLine();
-					this.Comment = s.ReadLine();
-					this.MapString = s.ReadLine();
 
+					if (this.Version == null)
+						throw new Exception("Version missing");
+
+					this.Comment = s.ReadLine();
+
+					if (this.Comment == null)
+						throw new Exception("Comment missing");
+
+					var MapString = s.ReadLine();
+
+					if (MapString == null)
+						throw new Exception("MapString missing");
+
+					if (MapString.Length < Layout.DefaultCountX * Layout.DefaultCountY)
+						throw new Exception("MapString too small - " + MapString);
+
+
+					this.MapString = MapString;
 				}
+			}
+			get
+			{
+				return _DataString;
 			}
 		}
 
+		string _MapString;
+		string[] _MapString_Split;
+
 		public string MapString
 		{
+			get
+			{
+				return _MapString;
+			}
+
 			set
 			{
-				Map = value.Split(Layout.CountY).Split(Layout.CountX);
+				_MapString = value;
+				_MapString_Split = value.Split(Layout.DefaultCountX);
+
+				Map = _MapString_Split.Split(Layout.DefaultCountY);
+
+				Validate();
+			}
+		}
+
+		private void Validate()
+		{
+			//Console.WriteLine("Will validate layout " + new { CountZ, _MapString.Length } );
+
+			if (CountZ != 5)
+				throw new Exception("expected 5");
+
+			for (int z = 0; z < CountZ; z++)
+			{
+				var by_z = Map[z];
+
+				if (by_z == null)
+				{
+					throw new Exception("by_z is missing");
+				}
+
+
+				for (int y = 0; y < Layout.DefaultCountY; y++)
+				{
+					var by_y = by_z[y];
+
+					if (by_y == null)
+					{
+						throw new Exception("by_y is missing " + new { z, y, by_z.Length });
+					}
+
+					if (by_y.Length != Layout.DefaultCountX)
+						throw new Exception("by_y too small " + new { CountZ, z, y, by_y, _MapString });
+
+					//Console.WriteLine("" + new { z, y, by_y });
+
+				}
 			}
 		}
 
@@ -65,11 +139,56 @@ namespace Mahjong.Shared
 			}
 		}
 
+		public bool this[Entry i]
+		{
+			get
+			{
+				return this[i.x, i.y, i.z];
+			}
+
+		}
 		public bool this[int x, int y, int z]
 		{
 			get
 			{
-				return Map[z][x][y] == '1';
+				return Map[z][y][x] == '1';
+			}
+		}
+
+		[Script]
+		public class Entry
+		{
+			public int index;
+
+			public int x;
+			public int y;
+			public int z;
+		}
+
+		Entry[] _Tiles;
+
+		public Entry[] Tiles
+		{
+			get
+			{
+				if (_Tiles == null)
+				{
+					var a = new List<Entry>();
+
+					for (int z = 0; z < this.CountZ; z++)
+						for (int x = Layout.DefaultCountX - 1; x >= 0; x--)
+							for (int y = 0; y < Layout.DefaultCountY; y++)
+							{
+								if (this[x, y, z])
+									a.Add(new Entry { x = x, y = y, z = z, index = a.Count });
+							}
+
+
+					_Tiles = a.ToArray();
+				}
+
+
+				return _Tiles;
 			}
 		}
 	}

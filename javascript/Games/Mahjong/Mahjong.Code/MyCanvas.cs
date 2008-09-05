@@ -20,8 +20,8 @@ namespace Mahjong.Code
 
 		public const double DefaultScale = 1;
 
-		public const int DefaultWidth = 480;
-		public const int DefaultHeight = 480;
+		public const int DefaultWidth = 600;
+		public const int DefaultHeight = 500;
 
 		public const int DefaultScaledWidth = (int)((double)DefaultWidth * DefaultScale);
 		public const int DefaultScaledHeight = (int)((double)DefaultHeight * DefaultScale);
@@ -34,7 +34,9 @@ namespace Mahjong.Code
 
 		public MyCanvas()
 		{
-			this.PlaySoundFuture =  new FutureAction<string>();
+
+
+			this.PlaySoundFuture = new FutureAction<string>();
 			this.PlaySound = this.PlaySoundFuture;
 
 			this.Width = DefaultScaledWidth;
@@ -43,11 +45,13 @@ namespace Mahjong.Code
 			var Sounds = new
 			{
 				birds = PlaySoundFuture["birds"],
-				flag = PlaySoundFuture["flag"]
+				flag = PlaySoundFuture["flag"],
+				reveal = PlaySoundFuture["reveal"]
 			};
 
 			Sounds.birds();
-			
+
+			#region background
 			new Image
 			{
 				Source = "assets/Mahjong.Assets/china.jpg".ToSource(),
@@ -56,34 +60,130 @@ namespace Mahjong.Code
 				Height = DefaultScaledHeight
 			}.AttachTo(this);
 
-			var stuff = AbstractAsset.Bamboo.
-					Concat(AbstractAsset.Characters).
-					Concat(AbstractAsset.Dots).
-					Concat(AbstractAsset.Dragons).
-					Concat(AbstractAsset.Flowers).
-					Concat(AbstractAsset.Seasons).
-					Concat(AbstractAsset.Winds);
-
-			var random = stuff.Concat(stuff).Randomize().ToArray();
-
-			var s = new AbstractAsset.Settings { Scale = DefaultScale };
-
-			const int TilesPerLine = 12;
-
-			for (int i = 0; i < random.Length; i++)
+			new Image
 			{
-				var tt = new VisibleTile(s, random[i]);
-				
-				tt.Control.AttachTo(this).MoveTo(
-					32 + (s.ScaledInnerWidth + 4) * (TilesPerLine - (i % TilesPerLine)), 
-					32 + (s.ScaledInnerHeight + 4) * Convert.ToInt32(i / TilesPerLine));
+				Source = "assets/Mahjong.Assets/shadow.png".ToSource(),
+				Stretch = System.Windows.Media.Stretch.Fill,
+				Width = DefaultScaledWidth,
+				Height = DefaultScaledHeight
+			}.AttachTo(this);
+			#endregion
 
-				tt.Control.MouseLeftButtonUp +=
-					delegate
+			var MyLayout = new VisibleLayout(
+				new VisibleLayout.SettingsInfo
+				{
+					Scale = DefaultScale,
+					ScaledWidth = DefaultScaledWidth,
+					ScaledHeight = DefaultScaledHeight
+				}
+			);
+
+			MyLayout.Container.AttachTo(this);
+
+			var Comment = new TextBox
+			{
+				Text = "",
+				IsReadOnly = true
+			}.MoveTo(4, 4).AttachTo(this);
+
+			var stuff = AbstractAsset.Bamboo. // 9x
+			Concat(AbstractAsset.Characters). // 9x
+			Concat(AbstractAsset.Dots). // 9x
+
+			Concat(AbstractAsset.Dragons). // 2
+			Concat(AbstractAsset.Flowers). // 4
+			Concat(AbstractAsset.Seasons). // 4
+			Concat(AbstractAsset.Winds); // 3
+
+			MyLayout.LayoutChanging +=
+				delegate
+				{
+					Console.WriteLine("LayoutChanging ...");
+
+					// this occurs only after current load is complete
+					MyLayout.LayoutProgress.Continue(
+						delegate
+						{
+							Console.WriteLine("Layout loaded!");
+						}
+					);
+					// we should suffle the ranks
+
+					#region attach interactive
+					foreach (var v in MyLayout.Tiles)
 					{
-						Sounds.flag();
-					};
-			}
+						// any image
+						v.RankImage = stuff.Random();
+
+						v.Tile.Continue(
+							(VisibleTile tt) =>
+							{
+								#region interactive logic
+								tt.Control.MouseEnter +=
+									delegate
+									{
+										tt.YellowFilter.Opacity = 0.5;
+
+									};
+
+				
+
+								tt.Control.MouseLeave +=
+									delegate
+									{
+										tt.YellowFilter.Opacity = 0;
+									};
+
+								// while loading the k.Tile.Value is null for siblings
+								MyLayout.LayoutProgress.Continue(
+									delegate
+									{
+										tt.Control.MouseEnter +=
+											delegate
+											{
+												tt.Entry.Siblings.ForEach(k => k.Tile.Value.GreenFilter.Opacity = 0.5);
+											};
+
+										tt.Control.MouseLeave +=
+											delegate
+											{
+												tt.Entry.Siblings.ForEach(k => k.Tile.Value.GreenFilter.Opacity = 0);
+											};
+									}
+								);
+
+								//tt.Control.MouseLeftButtonUp +=
+								//    delegate
+								//    {
+								//        //tt.YellowFilter.Opacity = 0;
+								//        tt.GreenFilter.Opacity = 0.5;
+								//        Sounds.flag();
+								//    };
+								#endregion
+
+							}
+						);
+					}
+					#endregion
+
+				};
+
+			// this occurs always
+			MyLayout.LayoutChanged +=
+				delegate
+				{
+					// done loading new layout
+					Comment.Text = MyLayout.Layout.Comment;
+
+					Sounds.reveal();
+				};
+
+			Assets.Default.FileNames.Random(k => k.EndsWith(".lay")).ToStringAsset(
+				DataString =>
+				{
+					MyLayout.Layout = new Layout(DataString);
+				}
+			);
 
 
 		}

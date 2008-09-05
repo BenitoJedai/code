@@ -76,7 +76,13 @@ namespace System_IO_StringReader.Shared
 						// skip header
 						var header = s.ReadLine();
 
-						t.Text = "Content: " + s.ReadLine();
+						var _1 = s.ReadLine();
+						var _2 = s.ReadLine();
+
+						Console.WriteLine("" + new { _1, _1.Length });
+						Console.WriteLine("" + new { _2, _2.Length });
+
+						t.Text = "Content: " + _2;
 
 						var footer = s.ReadLine();
 

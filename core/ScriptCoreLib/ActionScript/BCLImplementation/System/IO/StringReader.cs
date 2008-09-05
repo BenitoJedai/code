@@ -29,14 +29,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 				// if newline not found, take it all
 				if (i < 0)
 				{
-					Position = InputString.Length;
+					i = InputString.Length;
+					Position = i;
 				}
 				else
 				{
 					Position = i + n.Length;
 				}
 
-				return this.InputString.Substring(p, Position - p);
+				return this.InputString.Substring(p, i - p);
 			}
 
 			return null;

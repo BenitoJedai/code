@@ -16,12 +16,28 @@ namespace Mahjong.ActionScript
 
 		public static readonly __Assets Default = new __Assets();
 
+		private readonly Dictionary<string, Class> PlaySoundCache = new Dictionary<string, Class>();
+
 		public void PlaySound(string SoundName)
 		{
-			var AssetName = this.FileNames.FirstOrDefault(k => k.EndsWith(SoundName + ".mp3"));
+			var c = default(Class);
 
-			if (AssetName != null)
-				this[AssetName].ToSoundAsset().play();
+			if (PlaySoundCache.ContainsKey(SoundName))
+			{
+				c = PlaySoundCache[SoundName];
+			}
+			else
+			{
+				var AssetName = this.FileNames.FirstOrDefault(k => k.EndsWith(SoundName + ".mp3"));
+
+				if (AssetName != null)
+					c = this[AssetName];
+				else
+					c = null;
+			}
+
+			if (c != null)
+				c.ToSoundAsset().play();
 		}
 
 		public string[] FileNames
