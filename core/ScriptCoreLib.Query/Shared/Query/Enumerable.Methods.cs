@@ -257,6 +257,10 @@ namespace ScriptCoreLib.Shared.Query
         }
 
 
+		public static TSource First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> filter)
+		{
+			return source.Where(filter).First();
+		}
 
         public static TSource First<TSource>(this IEnumerable<TSource> source)
         {
