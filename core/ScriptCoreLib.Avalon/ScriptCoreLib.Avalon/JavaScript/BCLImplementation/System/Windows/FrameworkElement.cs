@@ -48,9 +48,31 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 		}
 
 
-		public virtual void InternalSetCursor(Cursor value)
+		public Cursor InternalCursorValue;
+
+		[Script(IsNative = true)]
+		internal class InternalStyleCursorMixin
 		{
-			throw new NotImplementedException();
+			public string cursor;
+		}
+
+		public  void InternalSetCursor(Cursor value)
+		{
+			InternalCursorValue = value;
+
+
+			var s = ((InternalStyleCursorMixin)(object)InternalGetDisplayObjectDirect().style);
+
+			if (InternalCursorValue == Cursors.None)
+				s.cursor = "url('assets/ScriptCoreLib.Avalon/transparent.cur'), auto";
+
+			// http://www.w3schools.com/CSS/pr_class_cursor.asp
+
+			if (InternalCursorValue == Cursors.Arrow)
+				s.cursor = "auto";
+
+			if (InternalCursorValue == Cursors.Hand)
+				s.cursor = "pointer";
 		}
 
 		public Cursor Cursor

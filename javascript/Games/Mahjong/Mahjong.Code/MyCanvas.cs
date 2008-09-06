@@ -10,6 +10,9 @@ using ScriptCoreLib.CSharp.Extensions;
 using Mahjong.Shared;
 using System.Windows.Media;
 using System.Media;
+using System.Windows.Input;
+using System.Windows.Shapes;
+using System.Windows;
 
 namespace Mahjong.Code
 {
@@ -83,11 +86,17 @@ namespace Mahjong.Code
 
 			MyLayout.Container.AttachTo(this);
 
+			var CommentMargin = 8;
 			var Comment = new TextBox
 			{
+				Background = Brushes.Transparent,
+				Foreground = Brushes.White,
+				BorderThickness = new Thickness(0),
 				Text = "Loading...",
-				IsReadOnly = true
-			}.MoveTo(4, 4).AttachTo(this);
+				TextAlignment = TextAlignment.Right,
+				//IsReadOnly = true,
+				Width = DefaultScaledWidth - CommentMargin * 2
+			}.MoveTo(CommentMargin, CommentMargin).AttachTo(this);
 
 
 			MyLayout.LayoutChanging +=
@@ -178,6 +187,39 @@ namespace Mahjong.Code
 					Comment.Text = MyLayout.Layout.Comment;
 
 					Sounds.reveal();
+				};
+
+			var button1 = new TextBox
+			{
+				Foreground = Brushes.White,
+				Background = Brushes.Transparent,
+				Text = "Next Layout »",
+				IsReadOnly = true,
+				Width = 120,
+				Height = 24,
+				BorderThickness = new Thickness(0),
+				TextAlignment = TextAlignment.Center
+			}.MoveTo(8, DefaultScaledHeight - 32).AttachTo(this);
+
+			var button1_overlay = new Rectangle
+			{
+				Width = 120,
+				Height = 24,
+				Fill = Brushes.Blue,
+				Opacity = 0.0,
+				Cursor = Cursors.Hand
+			}.MoveTo(8, DefaultScaledHeight - 32).AttachTo(this);
+
+			button1_overlay.MouseEnter +=
+				delegate
+				{
+					button1.Foreground = Brushes.Blue;
+				};
+
+			button1_overlay.MouseLeave +=
+				delegate
+				{
+					button1.Foreground = Brushes.White;
 				};
 
 			Assets.Default.FileNames.Random(k => k.EndsWith(".lay")).ToStringAsset(

@@ -22,28 +22,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			return InternalSprite;
 		}
 
-		public Cursor InternalCursorValue;
-
-		public override void InternalSetCursor(Cursor value)
-		{
-			if (InternalCursorValue == null)
-			{
-				InternalSprite.mouseOver +=
-					delegate
-					{
-						if (InternalCursorValue == Cursors.None)
-							global::ScriptCoreLib.ActionScript.flash.ui.Mouse.hide();
-					};
-
-				InternalSprite.mouseOut +=
-					delegate
-					{
-						global::ScriptCoreLib.ActionScript.flash.ui.Mouse.show();
-					};
-			}
-
-			InternalCursorValue = value;
-		}
+		
 
 		public __Panel()
 		{
