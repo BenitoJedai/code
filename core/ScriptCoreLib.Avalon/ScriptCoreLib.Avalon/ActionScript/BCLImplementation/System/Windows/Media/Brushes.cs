@@ -16,5 +16,6 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 		public static SolidColorBrush White { get { return new __SolidColorBrush { Color = Colors.White }; } }
 		public static SolidColorBrush Black { get { return new __SolidColorBrush { Color = Colors.Black }; } }
 		public static SolidColorBrush GreenYellow { get { return new __SolidColorBrush { Color = Colors.GreenYellow }; } }
+		public static SolidColorBrush Blue { get { return new __SolidColorBrush { Color = Colors.Blue }; } }
 	}
 }

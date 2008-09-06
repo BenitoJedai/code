@@ -29,27 +29,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			return InternalContent;
 		}
 
-		public Cursor InternalCursorValue;
-
-		[Script(IsNative = true)]
-		internal class InternalStyleCursorMixin
-		{
-			public string cursor;
-		}
-
-		public override void InternalSetCursor(Cursor value)
-		{
-			InternalCursorValue = value;
-
-
-			var s = ((InternalStyleCursorMixin)(object)InternalSprite.style);
-
-			if (InternalCursorValue == Cursors.None)
-				s.cursor = "url('assets/ScriptCoreLib.Avalon/transparent.cur'), auto";
-
-			if (InternalCursorValue == Cursors.Arrow)
-				s.cursor = "auto";
-		}
+		
 
 		public sealed override void InternalSetHeight(double value)
 		{

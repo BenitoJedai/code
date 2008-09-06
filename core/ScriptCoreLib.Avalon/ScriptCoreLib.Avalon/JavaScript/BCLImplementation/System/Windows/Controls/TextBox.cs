@@ -26,6 +26,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			{
 			};
 
+			this.InternalTextField.style.paddingTop = "0";
+			this.InternalTextField.style.paddingBottom = "0";
 		}
 
 		public override void InternalSetWidth(double value)
@@ -250,6 +252,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 				}
 
 				throw new NotSupportedException();
+			}
+		}
+
+		public TextAlignment TextAlignment
+		{
+			get
+			{
+				throw new NotImplementedException();
+
+			}
+			set
+			{
+				// http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/text/TextFormatAlign.html
+
+
+				var s = this.InternalGetDisplayObjectDirect().style;
+
+
+				if (value == TextAlignment.Left)
+					s.textAlign = IStyle.TextAlignEnum.left;
+				if (value == TextAlignment.Right)
+					s.textAlign = IStyle.TextAlignEnum.right;
+				else if (value == TextAlignment.Center)
+					s.textAlign = IStyle.TextAlignEnum.center;
+				else if (value == TextAlignment.Justify)
+					s.textAlign = IStyle.TextAlignEnum.justify;
 			}
 		}
 	}

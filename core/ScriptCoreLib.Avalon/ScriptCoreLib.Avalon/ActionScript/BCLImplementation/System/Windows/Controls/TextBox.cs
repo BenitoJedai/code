@@ -27,6 +27,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 					background = true,
 					backgroundColor = 0xffffffff
 				};
+
 		}
 
 		public override void InternalSetWidth(double value)
@@ -49,9 +50,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 		public override void InternalSetFontSize(double value)
 		{
-			InternalTextField.defaultTextFormat = new TextFormat { size = Convert.ToInt32(value) };
+			InternalChangeTextFormat(new TextFormat { size = Convert.ToInt32(value) });
+		}
 
-
+		void InternalChangeTextFormat(TextFormat e)
+		{
+			InternalTextField.defaultTextFormat = e;
+			InternalTextField.setTextFormat(e);
 		}
 
 		public override void InternalSetBorderThickness(global::System.Windows.Thickness value)
@@ -188,6 +193,35 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 				}
 
 				throw new NotSupportedException();
+			}
+		}
+
+		public TextAlignment TextAlignment
+		{
+			get
+			{
+				throw new NotImplementedException();
+
+			}
+			set
+			{
+				// http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/text/TextFormatAlign.html
+				var align = TextFormatAlign.LEFT;
+
+				if (value != TextAlignment.Left)
+					if (value == TextAlignment.Right)
+						align = TextFormatAlign.RIGHT;
+					else if (value == TextAlignment.Center)
+						align = TextFormatAlign.CENTER;
+					else if (value == TextAlignment.Justify)
+						align = TextFormatAlign.JUSTIFY;
+
+				this.InternalChangeTextFormat(
+					new TextFormat
+					{
+						align = align
+					}
+				);
 			}
 		}
 	}

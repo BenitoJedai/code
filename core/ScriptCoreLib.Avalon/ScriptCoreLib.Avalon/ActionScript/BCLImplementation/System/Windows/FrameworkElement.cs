@@ -47,9 +47,43 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 			}
 		}
 
-		public virtual void InternalSetCursor(Cursor value)
+		public Cursor InternalCursorValue;
+
+		public void InternalSetCursor(Cursor value)
 		{
-			throw new NotImplementedException();
+			if (InternalCursorValue == null)
+			{
+				this.InternalGetDisplayObjectDirect().mouseOver +=
+					delegate
+					{
+						if (InternalCursorValue == Cursors.None)
+							global::ScriptCoreLib.ActionScript.flash.ui.Mouse.hide();
+					};
+
+				this.InternalGetDisplayObjectDirect().mouseOut +=
+					delegate
+					{
+						if (InternalCursorValue == Cursors.None) 
+							global::ScriptCoreLib.ActionScript.flash.ui.Mouse.show();
+					};
+			}
+
+			
+			InternalCursorValue = value;
+
+			if (InternalCursorValue == Cursors.Hand)
+			{
+				var Sprite = this.InternalGetDisplayObjectDirect() as global::ScriptCoreLib.ActionScript.flash.display.Sprite;
+
+				if (Sprite != null)
+				{
+					Sprite.buttonMode = true;
+					Sprite.useHandCursor = true;
+				}
+
+			
+			}
+
 		}
 
 		public Cursor Cursor
