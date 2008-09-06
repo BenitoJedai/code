@@ -124,7 +124,7 @@ namespace Mahjong.Code
 				delegate
 				{
 					Comment.Foreground = Brushes.Black;
-					CommentForUnfocusing.Foreground = Brushes.Black;
+					CommentForUnfocusing.Foreground = Brushes.Gray;
 					Stripes.Visibility = Visibility.Visible;
 				};
 
@@ -171,6 +171,8 @@ namespace Mahjong.Code
 									delegate
 									{
 										tt.GreenFilter.Opacity = 0.5;
+										tt.BlackFilter.Visibility = Visibility.Hidden;
+
 
 									};
 
@@ -180,6 +182,7 @@ namespace Mahjong.Code
 									delegate
 									{
 										tt.GreenFilter.Opacity = 0;
+										tt.BlackFilter.Visibility = Visibility.Visible;
 									};
 
 								// while loading the k.Tile.Value is null for siblings

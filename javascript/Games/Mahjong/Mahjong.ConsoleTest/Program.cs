@@ -29,10 +29,12 @@ namespace Mahjong.ConsoleTest
 			};
 		}
 
+		
 
 		[STAThread]
 		static void Main(string[] args)
 		{
+	
 			//var lay = "assets/Mahjong.Layouts/test.lay".ToManifestResourceStream();
 			//var lay = "assets/Mahjong.Layouts/Abstract Building.lay".ToManifestResourceStream();
 
