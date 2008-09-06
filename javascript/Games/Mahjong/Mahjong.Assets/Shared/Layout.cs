@@ -176,12 +176,13 @@ namespace Mahjong.Shared
 					var a = new List<Entry>();
 
 					for (int z = 0; z < this.CountZ; z++)
-						for (int y = 0; y < Layout.DefaultCountY; y++)
-							for (int x = Layout.DefaultCountX - 1; x >= 0; x--)
+						StreamIndicies(Layout.DefaultCountX, Layout.DefaultCountY,
+							(x, y) =>
 							{
 								if (this[x, y, z])
 									a.Add(new Entry { x = x, y = y, z = z, index = a.Count });
 							}
+						);
 
 
 					_Tiles = a.ToArray();
@@ -189,6 +190,54 @@ namespace Mahjong.Shared
 
 
 				return _Tiles;
+			}
+		}
+
+		/// <summary>
+		/// Provides indicies starting from top right moving diagonally to top left. This
+		/// prevents z-index errors with current tileset.
+		/// </summary>
+		/// <param name="w"></param>
+		/// <param name="h"></param>
+		/// <param name="handler"></param>
+		public static void StreamIndicies(int w, int h, Action<int, int> handler)
+		{
+			int px = w - 1;
+			int py = 0;
+			int p = w * h;
+
+			while (p > 0)
+			{
+				if (px < 0)
+				{
+					px = px + h - 1;
+					py += h;
+				}
+
+				if (py < 0)
+				{
+					py = w - px - 1;
+					px = w - 1;
+				}
+
+				if (py >= h)
+				{
+					px -= (py - h) + 1;
+					py -= (py - h) + 1;
+				}
+
+
+				if (px >= w)
+				{
+					py -= (px - w) + 1;
+					px -= (px - w) + 1;
+				}
+
+				p--;
+				handler(px, py);
+
+				px--;
+				py--;
 			}
 		}
 	}

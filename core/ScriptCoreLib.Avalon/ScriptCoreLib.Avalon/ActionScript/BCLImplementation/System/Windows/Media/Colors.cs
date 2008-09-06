@@ -17,5 +17,6 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 		public static Color Black { get { return (__Color)0xff000000; } }
 		public static Color GreenYellow { get { return (__Color)0xFFADFF2F; } }
 		public static Color Blue { get { return (__Color)0xff0000ff; } }
+		public static Color Gray { get { return (__Color)0xff808080; } }
 	}
 }
