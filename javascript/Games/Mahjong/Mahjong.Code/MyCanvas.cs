@@ -86,17 +86,61 @@ namespace Mahjong.Code
 
 			MyLayout.Container.AttachTo(this);
 
+			// http://www.stripegenerator.com
+			var Stripes = new Image
+			{
+				Source = "assets/Mahjong.Assets/stripes.png".ToSource(),
+				Stretch = System.Windows.Media.Stretch.Fill,
+				Width = DefaultScaledWidth,
+				Height = DefaultScaledHeight,
+				Visibility = Visibility.Hidden
+			}.AttachTo(this);
+
 			var CommentMargin = 8;
+			var CommentForUnfocusing = new TextBox
+			{
+				Width = DefaultScaledWidth - CommentMargin * 2,
+				Height = 24,
+				Background = Brushes.Transparent,
+				Foreground = Brushes.White,
+				BorderThickness = new Thickness(0),
+				Text = "Mahjong Multiplayer",
+				TextAlignment = TextAlignment.Left,
+				IsReadOnly = true,
+			}.MoveTo(CommentMargin, CommentMargin).AttachTo(this);
+
 			var Comment = new TextBox
 			{
+				Width = DefaultScaledWidth - CommentMargin * 2,
+				Height = 24,
 				Background = Brushes.Transparent,
 				Foreground = Brushes.White,
 				BorderThickness = new Thickness(0),
 				Text = "Loading...",
 				TextAlignment = TextAlignment.Right,
-				//IsReadOnly = true,
-				Width = DefaultScaledWidth - CommentMargin * 2
 			}.MoveTo(CommentMargin, CommentMargin).AttachTo(this);
+
+			Comment.GotFocus +=
+				delegate
+				{
+					Comment.Foreground = Brushes.Black;
+					CommentForUnfocusing.Foreground = Brushes.Black;
+					Stripes.Visibility = Visibility.Visible;
+				};
+
+			Comment.LostFocus +=
+				delegate
+				{
+					Comment.Foreground = Brushes.White;
+					CommentForUnfocusing.Foreground = Brushes.White;
+					Stripes.Visibility = Visibility.Hidden;
+				};
+
+			Stripes.MouseLeftButtonUp +=
+				delegate
+				{
+					CommentForUnfocusing.Focus();
+				};
 
 
 			MyLayout.LayoutChanging +=
