@@ -165,6 +165,41 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 			}
 		}
 
+		public event KeyEventHandler KeyDown
+		{
+			add
+			{
+
+				InternalGetDisplayObject().onkeydown +=
+					e =>
+					{
+						__KeyEventArgs.InternalInvoke(value, this, e);
+					};
+			}
+			remove
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+
+		public event KeyEventHandler KeyUp
+		{
+			add
+			{
+
+				InternalGetDisplayObject().onkeyup +=
+					e =>
+					{
+						__KeyEventArgs.InternalInvoke(value, this, e);
+					};
+			}
+			remove
+			{
+				throw new NotImplementedException();
+			}
+		}
+
 		public Visibility Visibility
 		{
 			get

@@ -175,5 +175,19 @@ namespace ScriptCoreLib.ActionScript.flash.events
 
         #endregion
 
+		/// <summary>
+		/// Cancels an event's default behavior if that behavior can be canceled.
+		/// </summary>
+		public void preventDefault()
+		{
+		}
+
+		/// <summary>
+		/// Prevents processing of any event listeners in the current node and any subsequent nodes in the event flow.
+		/// </summary>
+		public void stopImmediatePropagation()
+		{
+		}
+
     }
 }

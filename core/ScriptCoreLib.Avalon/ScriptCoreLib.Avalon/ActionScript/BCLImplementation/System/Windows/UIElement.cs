@@ -193,6 +193,42 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 			}
 		}
 
+		public event KeyEventHandler KeyDown
+		{
+			add
+			{
+
+				InternalGetDisplayObject().keyDown +=
+					e =>
+					{
+						__KeyEventArgs.InternalInvoke(value, this, e);
+					};
+			}
+			remove
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public event KeyEventHandler KeyUp
+		{
+			add
+			{
+
+				InternalGetDisplayObject().keyUp +=
+					e =>
+					{
+						__KeyEventArgs.InternalInvoke(value, this, e);
+					};
+			}
+			remove
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+
+
 		public Visibility Visibility
 		{
 			get

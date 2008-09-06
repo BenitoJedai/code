@@ -84,8 +84,12 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\FrameworkElement.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Freezable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\IInputElement.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\KeyboardEventArgs.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\KeyEventArgs.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\KeyEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\Cursors.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\Cursor.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\KeyInterop.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\MouseButtonEventArgs.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\MouseButtonEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\MouseWheelEventArgs.cs" />
@@ -111,6 +115,10 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\TextChangedEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\TextChangedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\UIElementCollection.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\KeyboardEventArgs.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\KeyEventArgs.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\KeyEventHandler.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\KeyInterop.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\Imaging\BitmapImage.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\Imaging\BitmapSource.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\RoutedEventHandler.cs" />
