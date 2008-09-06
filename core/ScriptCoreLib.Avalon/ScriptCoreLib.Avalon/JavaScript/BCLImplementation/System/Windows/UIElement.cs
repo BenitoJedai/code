@@ -215,5 +215,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 				throw new NotImplementedException();
 			}
 		}
+
+		public bool Focus()
+		{
+			var k = this.InternalGetDisplayObjectDirect();
+
+			k.focus();
+
+			return true;
+		}
 	}
 }

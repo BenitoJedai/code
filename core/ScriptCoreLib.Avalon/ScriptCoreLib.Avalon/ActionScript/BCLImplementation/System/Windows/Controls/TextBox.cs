@@ -25,7 +25,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 					autoSize = TextFieldAutoSize.LEFT,
 					type = TextFieldType.INPUT,
 					background = true,
-					backgroundColor = 0xffffffff
+					backgroundColor = 0xffffffff,
+					alwaysShowSelection = true,
+					
+					// http://code.hellokeita.in/public/trunk/as3/br/hellokeita/utils/TextFieldColor.as
+
 				};
 
 		}

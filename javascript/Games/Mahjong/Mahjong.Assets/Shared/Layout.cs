@@ -176,8 +176,8 @@ namespace Mahjong.Shared
 					var a = new List<Entry>();
 
 					for (int z = 0; z < this.CountZ; z++)
-						for (int x = Layout.DefaultCountX - 1; x >= 0; x--)
-							for (int y = 0; y < Layout.DefaultCountY; y++)
+						for (int y = 0; y < Layout.DefaultCountY; y++)
+							for (int x = Layout.DefaultCountX - 1; x >= 0; x--)
 							{
 								if (this[x, y, z])
 									a.Add(new Entry { x = x, y = y, z = z, index = a.Count });
