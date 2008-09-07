@@ -27,7 +27,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 					background = true,
 					backgroundColor = 0xffffffff,
 					alwaysShowSelection = true,
-
+					border = true,
+					borderColor = 0x808080
 					// http://code.hellokeita.in/public/trunk/as3/br/hellokeita/utils/TextFieldColor.as
 
 				};
