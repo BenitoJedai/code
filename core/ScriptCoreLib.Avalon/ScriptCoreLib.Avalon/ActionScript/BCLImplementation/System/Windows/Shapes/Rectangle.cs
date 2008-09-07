@@ -47,11 +47,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Shapes
 		{
 			var g = this.InternalSprite.graphics;
 
-			g.clear();
 
 			if (_Width <= 0)
 				if (_Height <= 0)
 					return;
+
+			g.clear();
 
 			var stroke = this.Stroke as SolidColorBrush;
 			var fill = this.InternalFill as SolidColorBrush;
@@ -66,7 +67,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Shapes
 
 			if (fill != null)
 			{
-				__Color color = fill.Color;
+				uint color = (__Color)fill.Color;
+
+				color &= 0xffffff;
 
 				g.beginFill(color);
 			}

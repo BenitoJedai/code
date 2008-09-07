@@ -27,9 +27,11 @@ namespace TextSuggestions.Shared
 			#region Gradient
 			for (int i = 0; i < DefaultHeight; i += 4)
 			{
+				var green = Convert.ToInt32(128 * i / DefaultHeight) << 8;
+
 				new Rectangle
 				{
-					Fill = ((uint)(0xff00007F + Convert.ToInt32(128 * i / DefaultHeight))).ToSolidColorBrush(),
+					Fill = ((uint)(0xff007F00 + green)).ToSolidColorBrush(),
 					Width = DefaultWidth,
 					Height = 4,
 				}.MoveTo(0, i).AttachTo(this);
@@ -54,11 +56,8 @@ namespace TextSuggestions.Shared
 
 			}.MoveTo(32, 4).AttachTo(this);
 
-			Func<string, IEnumerable<string>> Interpolate =
-				k => Enumerable.Range(1, 2).Select(i => k + " " + i).ConcatSingle(k);
-
-			var Data =
-	@"
+			var DataInput =
+				@"
 Action
 Adventure
 Animation
@@ -84,21 +83,40 @@ Thriller
 TV mini-series
 War
 Western
-	".Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Select(k => k.Trim()).WhereNot(string.IsNullOrEmpty).SelectMany(Interpolate);
+	".Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Select(k => k.Trim()).WhereNot(string.IsNullOrEmpty);
+
+			
+			Func<string, IEnumerable<string>> Interpolate =
+				k => Enumerable.Range(1, 2).Select(i => k + " " + i).ConcatSingle(k)
+					//.Concat(DataInput.Select(u => k + " vs " + u))
+					;
+
+
+			var Data = DataInput.SelectMany(Interpolate);
 
 
 
 
-			//var Anwsers = new TextBox
-			//{
-			//    BorderThickness = new Thickness(0),
-			//    AcceptsReturn = true,
-			//    Width = 200,
-			//    Height = 200
-			//}.MoveTo(32, 64).AttachTo(this);
+	
 
 			var MaxResults = 7;
 			var Results = new List<TextBox>();
+			var ResultsLayers = new List<Rectangle>();
+			var DataSelectedLastTimeDefault = new string[0];
+			var DataSelectedLastTime = DataSelectedLastTimeDefault;
+
+			Action ClearResults =
+				delegate
+				{
+					Results.AsEnumerable().Orphanize();
+					Results.Clear();
+
+					ResultsLayers.AsEnumerable().Orphanize();
+					ResultsLayers.Clear();
+
+					DataSelectedLastTime = DataSelectedLastTimeDefault;
+				};
+
 			var FriendlyFocusChange = false;
 
 			Action<TextBox> ApplyFocusKeys =
@@ -143,18 +161,19 @@ Western
 			Action CancelExitDefault = delegate { };
 			Action CancelExit = CancelExitDefault;
 
+
+
 			Action StartExit =
 				delegate
 				{
 					if (!FriendlyFocusChange)
 					{
-						CancelExit = 1.AtDelay(
+						CancelExit = 100.AtDelay(
 							delegate
 							{
 								CancelExit = CancelExitDefault;
 
-								Results.AsEnumerable().Orphanize();
-								Results.Clear();
+								ClearResults();
 							}
 						).Stop;
 
@@ -202,41 +221,32 @@ Western
 					StartExit();
 				};
 
+
+
 			Update =
 				delegate
 				{
 					var Filter = t.Text.ToLower();
-					var Filters = Filter.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+					var DataSelected = GetDataSelected(Data, MaxResults, Filter);
 
-					var DataSelectedSource = from k in Data
-											 let Subject = k.ToLower()
-											 where Filter != Subject
-											 let match =
-												Filters.Aggregate(0,
-													(seed, entry) =>
-													{
-														if (Subject.Contains(entry))
-															return seed + 1;
+					if (DataSelectedLastTime.Length == DataSelected.Length)
+					{
+						var skip = true;
 
-														return seed;
-													}
-												 )
-											 orderby match descending, k
-											 select k;
+						for (int i = 0; i < DataSelected.Length; i++)
+						{
+							if (DataSelected[i] != DataSelectedLastTime[i])
+							{
+								skip = false;
+								break;
+							}
+						}
 
-					// we need to rebuild results
+						if (skip)
+							return;
+					}
 
-
-					//Anwsers.Text = DataSelectedSource.ConcatToLines();
-
-					// TakeWhile is not yet supported...
-
-					var DataSelectedArray = DataSelectedSource.ToArray();
-					var DataSelected = DataSelectedSource.Take(DataSelectedArray.Length.Min(MaxResults));
-
-
-					Results.AsEnumerable().Orphanize();
-					Results.Clear();
+					ClearResults();
 
 					DataSelected.ForEach(
 						(Entry, Index) =>
@@ -250,16 +260,39 @@ Western
 									t_Unfocus.Focus();
 								};
 
+							var r_Margin = 4;
+							var r_Below = new Rectangle
+							{
+								Fill = Brushes.White,
+								Width = 200 + r_Margin * 2,
+								Height = 24 + r_Margin * 2,
+							}.MoveTo(64 - r_Margin, 64 + Index * 30 - r_Margin).AttachTo(this);
+
+							ResultsLayers.Add(r_Below);
+
 							var r = new TextBox
 							{
 								Text = Entry,
 								Width = 200,
 								Height = 24,
 								IsReadOnly = true,
-								BorderThickness = new Thickness(0)
+								BorderThickness = new Thickness(0),
+								Background = Brushes.Transparent
 							}.MoveTo(64, 64 + Index * 30).AttachTo(this);
 
+							var r_Above = new Rectangle
+							{
+								Fill = Brushes.Red,
+								Opacity = 0,
+								Cursor = Cursors.Hand,
+								Width = 200 + r_Margin * 2,
+								Height = 24 + r_Margin * 2,
+							}.MoveTo(64 - r_Margin, 64 + Index * 30 - r_Margin).AttachTo(this);
+
+							ResultsLayers.Add(r_Above);
+
 							var HasFocus = false;
+							var HasMouse = false;
 
 							r.GotFocus +=
 								delegate
@@ -273,7 +306,7 @@ Western
 
 									Console.WriteLine("r got focus - " + Entry);
 
-									r.Background = Brushes.Blue;
+									r_Below.Fill = Brushes.Blue;
 									r.Foreground = Brushes.White;
 
 									if (!FriendlyFocusChange)
@@ -291,29 +324,43 @@ Western
 								{
 									HasFocus = false;
 
-									r.Background = Brushes.White;
-									r.Foreground = Brushes.Black;
+									if (!HasMouse)
+									{
+										r_Below.Fill = Brushes.Yellow;
+										r.Foreground = Brushes.Black;
+									}
 
 									StartExit();
 								};
 
-							r.MouseEnter +=
+							r_Above.MouseLeftButtonDown +=
 								delegate
 								{
+									CancelExit();
+									r.Focus();
+								};
+
+							r_Above.MouseEnter +=
+								delegate
+								{
+									HasMouse = true;
+
 									if (HasFocus)
 										return;
 
-									r.Background = Brushes.Blue;
+									r_Below.Fill = Brushes.Blue;
 									r.Foreground = Brushes.White;
 								};
 
-							r.MouseLeave +=
+							r_Above.MouseLeave +=
 								delegate
 								{
+									HasMouse = false;
+
 									if (HasFocus)
 										return;
 
-									r.Background = Brushes.White;
+									r_Below.Fill = Brushes.White;
 									r.Foreground = Brushes.Black;
 								};
 
@@ -389,6 +436,8 @@ Western
 			t_Unfocus.Background = Brushes.Black;
 			t_Unfocus.Foreground = Brushes.White;
 
+			Action CancelUpdateDelayDefault = delegate { };
+			Action CancelUpdateDelay = CancelUpdateDelayDefault;
 
 			t.KeyUp +=
 				(sender, ev) =>
@@ -411,10 +460,50 @@ Western
 						return;
 					}
 
-					Update();
+					CancelUpdateDelayDefault();
+					CancelUpdateDelay = 300.AtDelay(
+						delegate
+						{
+							Update();
+							CancelUpdateDelay = CancelUpdateDelayDefault;
+						}
+					).Stop;
 				};
 
 
+		}
+
+		Dictionary<string, string[]> GetDataSelected_Cache = new Dictionary<string, string[]>();
+
+
+		private string[] GetDataSelected(IEnumerable<string> Data, int MaxResults, string Filter)
+		{
+			if (GetDataSelected_Cache.ContainsKey(Filter))
+				return GetDataSelected_Cache[Filter];
+
+			var Filters = Filter.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+
+			var DataSelectedSource = from k in Data
+									 let Subject = k.ToLower()
+									 where Filter != Subject
+									 let match =
+										Filters.Aggregate(0,
+											(seed, entry) =>
+											{
+												if (Subject.Contains(entry))
+													return seed + 1;
+
+												return seed;
+											}
+										 )
+									 orderby match descending, k
+									 select k;
+			var DataSelectedArray = DataSelectedSource.ToArray();
+			var DataSelected = DataSelectedSource.Take(DataSelectedArray.Length.Min(MaxResults)).ToArray();
+
+			GetDataSelected_Cache[Filter] = DataSelected;
+
+			return DataSelected;
 		}
 	}
 }

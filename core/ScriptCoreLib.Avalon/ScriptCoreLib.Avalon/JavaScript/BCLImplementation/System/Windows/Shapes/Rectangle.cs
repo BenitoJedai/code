@@ -20,6 +20,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Shapes
 			_Height = 0;
 		}
 
+		Brush InternalFill;
+
+		public override void InternalSetFill(Brush s)
+		{
+			InternalFill = s;
+
+			InternalUpdate();
+		}
+
 		public override void InternalSetWidth(double value)
 		{
 			_Width = value;
@@ -41,7 +50,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Shapes
 			//g.clear();
 
 			var stroke = this.Stroke as SolidColorBrush;
-			var fill = this.Fill as SolidColorBrush;
+			var fill = InternalFill as SolidColorBrush;
 
 			if (stroke != null)
 			{
