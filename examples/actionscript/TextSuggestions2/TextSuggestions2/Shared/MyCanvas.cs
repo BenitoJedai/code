@@ -61,15 +61,29 @@ namespace TextSuggestions2.Shared
 				Height = 200
 			}.MoveTo(8, 8).AttachTo(this);
 
+			var t_unfocus = new TextBox
+			{
+				// watermark text
+				Text = "powered by jsc",
+				Width = 400,
+				Height = 24,
+				Foreground = Brushes.Gray,
+				IsReadOnly = true
+			}.MoveTo(8, 16 + 200).AttachTo(this);
+
+			
 			var t = new TextBox
 			{
+				Background = Brushes.Transparent,
 				Text = "us",
 				Width = 400,
 				Height = 24,
 				TextAlignment = TextAlignment.Right
 			}.MoveTo(8, 16 + 200).AttachTo(this);
 
-			var s = new TextSuggestionsControl(t);
+
+
+			var s = new TextSuggestionsControl(t, 7, t_unfocus);
 
 			#region update suggestions
 			s.Suggestions = data.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
