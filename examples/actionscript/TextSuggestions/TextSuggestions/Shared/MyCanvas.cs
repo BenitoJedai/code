@@ -41,8 +41,18 @@ namespace TextSuggestions.Shared
 				Width = 200,
 				Height = 22,
 				Text = "we",
+				BorderThickness = new Thickness(0)
 
 			}.MoveTo(32, 32).AttachTo(this);
+
+			var t_Unfocus = new TextBox
+			{
+				Width = 200,
+				Height = 22,
+				Text = "powered by jsc",
+				BorderThickness = new Thickness(0)
+
+			}.MoveTo(32, 4).AttachTo(this);
 
 			Func<string, IEnumerable<string>> Interpolate =
 				k => Enumerable.Range(1, 2).Select(i => k + " " + i).ConcatSingle(k);
@@ -76,49 +86,276 @@ War
 Western
 	".Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Select(k => k.Trim()).WhereNot(string.IsNullOrEmpty).SelectMany(Interpolate);
 
-		
-
-
-			var Anwsers = new TextBox
-			{
-				BorderThickness = new Thickness(0),
-				AcceptsReturn = true,
-				Width = 200,
-				Height = 200
-			}.MoveTo(32, 64).AttachTo(this);
 
 
 
-			Action Update =
-				delegate
+			//var Anwsers = new TextBox
+			//{
+			//    BorderThickness = new Thickness(0),
+			//    AcceptsReturn = true,
+			//    Width = 200,
+			//    Height = 200
+			//}.MoveTo(32, 64).AttachTo(this);
+
+			var MaxResults = 7;
+			var Results = new List<TextBox>();
+			var FriendlyFocusChange = false;
+
+			Action<TextBox> ApplyFocusKeys =
+				e =>
 				{
-					var Filter = t.Text.ToLower();
-					var DataSelected = from k in Data
-									   where k.ToLower().Contains(Filter)
-									   orderby k select k;
+					e.KeyUp +=
+						(sender, ev) =>
+						{
 
+							if (ev.Key == Key.Down)
+							{
+								FriendlyFocusChange = true;
 
-					
-					Anwsers.Text = DataSelected.ConcatToLines();
+								if (Results.Count > 0)
+									if (e == t)
+										Results.First().Focus();
+									else if (e == Results.Last())
+										t.Focus();
+									else
+										Results.Next(k => k == e).Focus();
+
+								FriendlyFocusChange = false;
+
+							}
+							else if (ev.Key == Key.Up)
+							{
+								FriendlyFocusChange = true;
+
+								if (Results.Count > 0)
+									if (e == t)
+										Results.Last().Focus();
+									else if (e == Results.First())
+										t.Focus();
+									else
+										Results.Previous(k => k == e).Focus();
+
+								FriendlyFocusChange = false;
+							}
+						};
 				};
 
-			Update();
+			Action CancelExitDefault = delegate { };
+			Action CancelExit = CancelExitDefault;
+
+			Action StartExit =
+				delegate
+				{
+					if (!FriendlyFocusChange)
+					{
+						CancelExit = 1.AtDelay(
+							delegate
+							{
+								CancelExit = CancelExitDefault;
+
+								Results.AsEnumerable().Orphanize();
+								Results.Clear();
+							}
+						).Stop;
+
+					}
+				};
+
+			var Update = default(Action);
+			
+			Update =
+				delegate
+				{
+					var Filters = t.Text.ToLower().Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+
+					var DataSelectedSource = from k in Data
+											 let Subject = k.ToLower()
+											 let match = 
+												Filters.Aggregate(0,
+													(seed, entry)  =>
+													{
+														if (Subject.Contains(entry))
+															return seed + 1;
+
+														return seed;
+													}
+												 )
+											 orderby match descending, k
+											 select k;
+
+					// we need to rebuild results
+
+
+					//Anwsers.Text = DataSelectedSource.ConcatToLines();
+
+					// TakeWhile is not yet supported...
+
+					var DataSelectedArray = DataSelectedSource.ToArray();
+					var DataSelected = DataSelectedSource.Take(DataSelectedArray.Length.Min(MaxResults));
+
+
+					Results.AsEnumerable().Orphanize();
+					Results.Clear();
+
+					DataSelected.ForEach(
+						(Entry, Index) =>
+						{
+							Action SelectEntry =
+								delegate
+								{
+									t.Text = Entry;
+
+									FriendlyFocusChange = true;
+									t.Focus();
+									FriendlyFocusChange = false;
+
+									Update();
+								};
+
+							var r = new TextBox
+							{
+								Text = Entry,
+								Width = 200,
+								Height = 24,
+								IsReadOnly = true,
+								BorderThickness = new Thickness(0)
+							}.MoveTo(64, 64 + Index * 30).AttachTo(this);
+
+							r.GotFocus +=
+								delegate
+								{
+									CancelExit();
+
+									Console.WriteLine("r got focus - " + Entry);
+
+									r.Background = Brushes.Blue;
+									r.Foreground = Brushes.White;
+
+									if (!FriendlyFocusChange)
+									{
+
+										SelectEntry();
+									}
+
+
+
+								};
+
+							r.LostFocus +=
+								delegate
+								{
+									r.Background = Brushes.White;
+									r.Foreground = Brushes.Black;
+
+									StartExit();
+								};
+
+							r.KeyUp +=
+								(sender, ev) =>
+								{
+									if (ev.Key == Key.Left)
+									{
+										Results.First().Focus();
+									}
+									else if (ev.Key == Key.Right)
+									{
+										Results.Last().Focus();
+									}
+									else if (ev.Key == Key.Enter)
+									{
+										SelectEntry();
+									}
+									else
+									{
+										FriendlyFocusChange = true;
+										t.Focus();
+										FriendlyFocusChange = false;
+
+									}
+								};
+
+
+							ApplyFocusKeys(r);
+
+							Results.Add(r);
+						}
+					);
+				};
+
+
+
+			ApplyFocusKeys(t);
+
+			t.GotFocus +=
+				delegate
+				{
+					t.Background = Brushes.White;
+					t.Foreground = Brushes.Black;
+
+					if (!FriendlyFocusChange)
+					{
+						Update();
+					}
+				};
+
+			t.LostFocus +=
+				(sender, ev) =>
+				{
+					t.Background = Brushes.Black;
+					t.Foreground = Brushes.White;
+
+
+					// to whome we lost focus?
+					Console.WriteLine("t lost focus");
+
+					StartExit();
+				};
+
+			t.Background = Brushes.Black;
+			t.Foreground = Brushes.White;
+
+
+			t_Unfocus.GotFocus +=
+						delegate
+						{
+							t_Unfocus.Background = Brushes.White;
+							t_Unfocus.Foreground = Brushes.Black;
+						};
+
+			t_Unfocus.LostFocus +=
+				delegate
+				{
+					t_Unfocus.Background = Brushes.Black;
+					t_Unfocus.Foreground = Brushes.White;
+				};
+
+			t_Unfocus.Background = Brushes.Black;
+			t_Unfocus.Foreground = Brushes.White;
 
 
 			t.KeyUp +=
 				(sender, ev) =>
 				{
+					if (ev.Key == Key.Up)
+						return;
+
 					if (ev.Key == Key.Down)
-						Anwsers.Text = "down";
-					else if (ev.Key == Key.Up)
-						Anwsers.Text = "up";
-					else
+						return;
+
+					if (ev.Key == Key.Left)
+						return;
+
+					if (ev.Key == Key.Right)
+						return;
+
+					if (ev.Key == Key.Enter)
 					{
-						Update();
+						t_Unfocus.Focus();
+						return;
 					}
 
+					Update();
 				};
-
 
 
 		}
