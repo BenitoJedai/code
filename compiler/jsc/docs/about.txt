@@ -143,3 +143,6 @@ version history:
 04.09.2008
 	actionscript: fixed OpCodes.ldsfld to honor [Script(Implements=)]
 	javascript: fixed OpCodes.ldsfld to honor [Script(Implements=)]	
+07.09.2008
+	actionscript: fixed ldftn for BCL types that have a forwarding ImplementationType attribute set
+	javascript: fixed ldftn for BCL types that have a forwarding ImplementationType attribute set

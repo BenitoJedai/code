@@ -8,6 +8,21 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static IEnumerable<T> WhereNot<T>(this IEnumerable<T> source, Func<T, bool> filter)
+		{
+			return source.Where(k => !filter(k));
+		}
+
+		public static string ConcatToLines(this IEnumerable<string> source)
+		{
+			return source.Select(k => k + Environment.NewLine).Concat();
+		}
+
+		public static string Concat(this IEnumerable<string> source)
+		{
+			return string.Concat(source.AsEnumerable().ToArray());
+		}
+
 		public static int Count(this string e, string subject)
 		{
 			var i = e.IndexOf(subject);

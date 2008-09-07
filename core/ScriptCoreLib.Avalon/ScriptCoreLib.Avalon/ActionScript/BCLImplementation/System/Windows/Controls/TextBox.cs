@@ -230,5 +230,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 				);
 			}
 		}
+
+		public void Clear()
+		{
+			this.Text = "";
+		}
 	}
 }

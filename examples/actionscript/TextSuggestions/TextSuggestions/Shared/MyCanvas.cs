@@ -49,32 +49,32 @@ namespace TextSuggestions.Shared
 
 			var Data =
 	@"
-( )	 Action
-( )	 Adventure
-( )	 Animation
-( )	 Biography
-( )	 Comedy
-( )	 Crime
-( )	 Documentary
-( )	 Drama
-( )	 Family
-( )	 Fantasy
-( )	 Film-Noir
-( )	 History
-( )	 Horror
-( )	 Independent
-( )	 Music
-( )	 Musical
-( )	 Mystery
-( )	 Romance
-( )	 Sci-Fi
-( )	 Short
-( )	 Sport
-( )	 Thriller
-( )	 TV mini-series
-( )	 War
-( )	 Western
-	".Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).SelectMany(Interpolate);
+Action
+Adventure
+Animation
+Biography
+Comedy
+Crime
+Documentary
+Drama
+Family
+Fantasy
+Film-Noir
+History
+Horror
+Independent
+Music
+Musical
+Mystery
+Romance
+Sci-Fi
+Short
+Sport
+Thriller
+TV mini-series
+War
+Western
+	".Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Select(k => k.Trim()).WhereNot(string.IsNullOrEmpty).SelectMany(Interpolate);
 
 		
 
@@ -88,41 +88,22 @@ namespace TextSuggestions.Shared
 			}.MoveTo(32, 64).AttachTo(this);
 
 
-			int Counter = 0;
-
-			Action UpdateSummary =
-				delegate
-				{
-					var _c = Anwsers.Text.Length;
-					var _lf = Anwsers.Text.Count(Environment.NewLine);
-					var _n = Anwsers.Text.Count("\n");
-					var _r = Anwsers.Text.Count("\r");
-
-					Anwsers.AppendTextLine("linefeeds: " + _lf);
-					Anwsers.AppendTextLine("n: " + _n);
-					Anwsers.AppendTextLine("r: " + _r);
-					Anwsers.AppendTextLine("chars: " + _c);
-				};
 
 			Action Update =
 				delegate
 				{
-					var DataSelected = Data.Where(k => k.ToLower().Contains(t.Text.ToLower())).Select(k => k.Length + " [" + k + "]").ToArray();
+					var Filter = t.Text.ToLower();
+					var DataSelected = from k in Data
+									   where k.ToLower().Contains(Filter)
+									   orderby k select k;
 
 
-					Anwsers.Text = "";
-					Counter++;
-
-					Anwsers.AppendTextLine("Counter: " + Counter);
-					Anwsers.AppendTextLine("Count: " + DataSelected.Length);
-					Anwsers.AppendTextLine(DataSelected);
-
-					UpdateSummary();
+					
+					Anwsers.Text = DataSelected.ConcatToLines();
 				};
 
-			Anwsers.AppendTextLine();
+			Update();
 
-			UpdateSummary();
 
 			t.KeyUp +=
 				(sender, ev) =>
@@ -138,7 +119,6 @@ namespace TextSuggestions.Shared
 
 				};
 
-			2.AtDelay(UpdateSummary);
 
 
 		}
