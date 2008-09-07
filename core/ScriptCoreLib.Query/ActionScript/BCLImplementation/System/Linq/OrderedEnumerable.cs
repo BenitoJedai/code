@@ -52,6 +52,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
 
         internal override int Compare(TSource a, TSource b)
         {
+			if (descending)
+				return comparer.Compare(
+					keySelector(b),
+					keySelector(a)
+				);
+
             return comparer.Compare(
                 keySelector(a),
                 keySelector(b)

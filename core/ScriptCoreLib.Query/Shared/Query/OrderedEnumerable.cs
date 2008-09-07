@@ -52,6 +52,12 @@ namespace ScriptCoreLib.Shared.Query
 
         protected override int Compare(TSource a, TSource b)
         {
+			if (descending)
+				return comparer.Compare(
+					keySelector(b),
+					keySelector(a)
+				);
+
             return comparer.Compare(
                 keySelector(a),
                 keySelector(b)
