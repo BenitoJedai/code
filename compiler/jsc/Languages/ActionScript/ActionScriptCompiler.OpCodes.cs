@@ -952,7 +952,7 @@ namespace jsc.Languages.ActionScript
 				};
 
 			CIW[OpCodes.Isinst] = this.OpCodes_Isinst;
-				
+
 
 			CIW[
 				OpCodes.Nop,
@@ -1009,7 +1009,7 @@ namespace jsc.Languages.ActionScript
 
 					var _TargetType = MySession.ResolveImplementation(e.i.TargetType) ?? e.i.TargetType;
 
-			
+
 					#region _RuntimeTypeHandle_From_Class
 					WriteDecoratedTypeNameOrImplementationTypeName(_RuntimeTypeHandle, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _RuntimeTypeHandle));
 					Write(".");
@@ -1042,16 +1042,18 @@ namespace jsc.Languages.ActionScript
 					var _IntPtr_string = _Operators.Single(i => i.GetParameters().Single().ParameterType == typeof(string));
 					var _IntPtr_Function = _Operators.Single(i => i.GetParameters().Single().ParameterType != typeof(string));
 
-					var _Method = e.i.TargetMethod;
+
+					var _Method = ResolveImplementationMethod(e.i.TargetMethod.DeclaringType, e.i.TargetMethod) ?? e.i.TargetMethod;
+
 					if (_Method.IsStatic)
 					{
 						WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _IntPtr));
 						Write(".");
 						WriteDecoratedMethodName(_IntPtr_Function, false);
 						Write("(");
-						WriteDecoratedTypeNameOrImplementationTypeName(_Method.DeclaringType, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _Method.DeclaringType));
+						WriteDecoratedTypeNameOrImplementationTypeName(_Method.DeclaringType, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _Method.DeclaringType), WriteDecoratedTypeNameOrImplementationTypeNameMode.IgnoreImplementationType);
 						Write(".");
-						WriteDecoratedMethodName(e.i.TargetMethod, false);
+						WriteDecoratedMethodName(_Method, false);
 						Write(")");
 					}
 					else
@@ -1069,7 +1071,7 @@ namespace jsc.Languages.ActionScript
 							EmitInstruction(e.p, e.i.Prev);
 							Write(".");
 
-							WriteDecoratedMethodName(e.i.TargetMethod, false);
+							WriteDecoratedMethodName(_Method, false);
 							Write(")");
 						}
 						else

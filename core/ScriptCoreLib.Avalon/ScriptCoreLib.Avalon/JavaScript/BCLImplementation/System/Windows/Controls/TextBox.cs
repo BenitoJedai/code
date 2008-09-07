@@ -300,5 +300,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 					s.textAlign = IStyle.TextAlignEnum.justify;
 			}
 		}
+
+		public void Clear()
+		{
+			this.Text = "";
+		}
 	}
 }

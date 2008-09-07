@@ -994,8 +994,9 @@ namespace jsc
 
 		static void OpCode_ldftn(IdentWriter w, ilbp p, ili i, ilfsi[] s)
 		{
+			var _Method = w.Session.ResolveImplementation(i.TargetMethod.DeclaringType, i.TargetMethod) ?? i.TargetMethod;
 
-			w.WriteDecoratedMemberInfo(i.TargetMethod, true);
+			w.WriteDecoratedMemberInfo(_Method, true);
 		}
 
 
