@@ -303,6 +303,7 @@ namespace jsc.Languages.ActionScript
                 select ia.ImplementationType
             );
 
+			imp_types.Add(ResolveImplementation(typeof(object)));
 
             return GetImportTypes_Cache[t] = imp_types;
         }
