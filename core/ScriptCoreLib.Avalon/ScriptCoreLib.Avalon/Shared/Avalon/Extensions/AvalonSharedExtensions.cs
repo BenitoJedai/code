@@ -121,6 +121,8 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			return e;
 		}
 
+
+
 		public static T AttachTo<T>(this T e, IAddChild c)
 			where T : UIElement
 		{
