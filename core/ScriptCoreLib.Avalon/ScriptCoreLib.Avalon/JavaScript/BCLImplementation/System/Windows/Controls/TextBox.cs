@@ -8,6 +8,7 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls.Primiti
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media;
 using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.Shared.Lambda;
 using System.Windows;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
@@ -24,6 +25,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 			this.InternalTextField = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.text)
 			{
+
 			};
 
 			this.InternalTextField.style.paddingTop = "0";
@@ -57,7 +59,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 							wrap = "off"
 						};
 
-						
+
+
 						var p = this.InternalTextField.parentNode;
 
 						// we should actually just norify our collection about this change
@@ -141,7 +144,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			}
 		}
 
-	
+
 		public override event TextChangedEventHandler TextChanged
 		{
 			add
@@ -166,12 +169,29 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			return InternalTextField;
 		}
 
+		int InternalTextKnownLength = 0;
+		bool InternalTextNewLineMangling = false;
+
 		public string Text
 		{
 			get
 			{
 				if (this.InternalTextField_MultiLine != null)
 				{
+					#region detect newline changes
+					var c = this.InternalTextField.value.Length;
+
+					if (c != this.InternalTextKnownLength)
+					{
+						this.InternalTextKnownLength = c;
+						this.InternalTextNewLineMangling = this.InternalTextField_MultiLine.value.Count("\n") > this.InternalTextField_MultiLine.value.Count(Environment.NewLine);
+					}
+					#endregion
+
+
+					if (this.InternalTextNewLineMangling)
+						return this.InternalTextField_MultiLine.value.Replace("\n", Environment.NewLine);
+
 					return this.InternalTextField_MultiLine.value;
 				}
 
@@ -181,7 +201,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			{
 				if (this.InternalTextField_MultiLine != null)
 				{
+					// we need to detect newline mangling
+
 					this.InternalTextField_MultiLine.value = value;
+
+					#region detect newline changes
+					this.InternalTextKnownLength = this.InternalTextField_MultiLine.value.Length;
+					this.InternalTextNewLineMangling = this.InternalTextKnownLength < value.Length;
+					#endregion
 
 					return;
 				}
@@ -192,14 +219,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 		public override void InternalAppendText(string textData)
 		{
-			if (this.InternalTextField_MultiLine != null)
-			{
-				this.InternalTextField_MultiLine.value += textData;
-
-				return;
-			}
-
-			InternalTextField.value += textData;
+			this.Text += textData;
 		}
 
 		public static implicit operator __TextBox(TextBox e)

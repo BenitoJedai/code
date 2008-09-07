@@ -62,7 +62,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Text
 
         public __StringBuilder AppendLine()
         {
-            return Append("\n");
+            return Append(Environment.NewLine);
         }
 
         public __StringBuilder AppendLine(string value)

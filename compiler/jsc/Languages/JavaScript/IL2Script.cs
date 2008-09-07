@@ -87,20 +87,26 @@ namespace jsc
 					}
 				}
 
+
 				if (p.Instruction.IsLoadInstruction)
-					throw new Exception("a load instruction was selected as prestatement. this is a bug within jsc. " + p.Instruction.Location);
+				{
+					CompilerBase.BreakToDebugger("a load instruction was selected as prestatement. this is a bug within jsc. " + p.Instruction.Location);
+
+					//w.WriteCommentLine("skipped: " + p.Instruction.ToString());
+				}
 
 				w.WriteIdent();
 				try
 				{
 					IL2ScriptGenerator.OpCodeHandler(w, p);
+					w.WriteLine(";");
+
 				}
 				catch (SkipThisPrestatementException)
 				{
-
+					w.WriteLine();
 				}
 
-				w.WriteLine(";");
 			}
 		}
 
