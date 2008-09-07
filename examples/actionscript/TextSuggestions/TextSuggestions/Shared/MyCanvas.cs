@@ -162,17 +162,58 @@ Western
 				};
 
 			var Update = default(Action);
-			
+
+			var t_HasFocus = false;
+
+			t.GotFocus +=
+				delegate
+				{
+					CancelExit();
+
+					t_HasFocus = true;
+
+					t.Background = Brushes.White;
+					t.Foreground = Brushes.Black;
+
+					Console.WriteLine("t got focus");
+
+
+					if (!FriendlyFocusChange)
+					{
+						Update();
+					}
+
+
+				};
+
+			t.LostFocus +=
+				(sender, ev) =>
+				{
+
+					t_HasFocus = false;
+
+					t.Background = Brushes.Black;
+					t.Foreground = Brushes.White;
+
+
+					// to whome we lost focus?
+					Console.WriteLine("t lost focus");
+
+					StartExit();
+				};
+
 			Update =
 				delegate
 				{
-					var Filters = t.Text.ToLower().Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+					var Filter = t.Text.ToLower();
+					var Filters = Filter.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
 
 					var DataSelectedSource = from k in Data
 											 let Subject = k.ToLower()
-											 let match = 
+											 where Filter != Subject
+											 let match =
 												Filters.Aggregate(0,
-													(seed, entry)  =>
+													(seed, entry) =>
 													{
 														if (Subject.Contains(entry))
 															return seed + 1;
@@ -203,13 +244,10 @@ Western
 							Action SelectEntry =
 								delegate
 								{
+									Console.WriteLine("select " + Entry);
 									t.Text = Entry;
 
-									FriendlyFocusChange = true;
-									t.Focus();
-									FriendlyFocusChange = false;
-
-									Update();
+									t_Unfocus.Focus();
 								};
 
 							var r = new TextBox
@@ -221,9 +259,16 @@ Western
 								BorderThickness = new Thickness(0)
 							}.MoveTo(64, 64 + Index * 30).AttachTo(this);
 
+							var HasFocus = false;
+
 							r.GotFocus +=
 								delegate
 								{
+									if (t_HasFocus)
+										return;
+
+									HasFocus = true;
+
 									CancelExit();
 
 									Console.WriteLine("r got focus - " + Entry);
@@ -244,22 +289,57 @@ Western
 							r.LostFocus +=
 								delegate
 								{
+									HasFocus = false;
+
 									r.Background = Brushes.White;
 									r.Foreground = Brushes.Black;
 
 									StartExit();
 								};
 
+							r.MouseEnter +=
+								delegate
+								{
+									if (HasFocus)
+										return;
+
+									r.Background = Brushes.Blue;
+									r.Foreground = Brushes.White;
+								};
+
+							r.MouseLeave +=
+								delegate
+								{
+									if (HasFocus)
+										return;
+
+									r.Background = Brushes.White;
+									r.Foreground = Brushes.Black;
+								};
+
+
 							r.KeyUp +=
 								(sender, ev) =>
 								{
 									if (ev.Key == Key.Left)
 									{
-										Results.First().Focus();
+										FriendlyFocusChange = true;
+										if (r == Results.First())
+											t.Focus();
+										else
+											Results.First().Focus();
+										FriendlyFocusChange = false;
+
 									}
 									else if (ev.Key == Key.Right)
 									{
-										Results.Last().Focus();
+										FriendlyFocusChange = true;
+										if (r == Results.Last())
+											t.Focus();
+										else
+											Results.Last().Focus();
+										FriendlyFocusChange = false;
+
 									}
 									else if (ev.Key == Key.Enter)
 									{
@@ -286,30 +366,7 @@ Western
 
 			ApplyFocusKeys(t);
 
-			t.GotFocus +=
-				delegate
-				{
-					t.Background = Brushes.White;
-					t.Foreground = Brushes.Black;
 
-					if (!FriendlyFocusChange)
-					{
-						Update();
-					}
-				};
-
-			t.LostFocus +=
-				(sender, ev) =>
-				{
-					t.Background = Brushes.Black;
-					t.Foreground = Brushes.White;
-
-
-					// to whome we lost focus?
-					Console.WriteLine("t lost focus");
-
-					StartExit();
-				};
 
 			t.Background = Brushes.Black;
 			t.Foreground = Brushes.White;
