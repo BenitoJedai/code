@@ -19,6 +19,26 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			e.AppendText(textData + Environment.NewLine);
 		}
 
+		public static void AppendTextLine(this TextBoxBase e)
+		{
+			e.AppendText(Environment.NewLine);
+		}
+
+		public static void AppendTextLine(this TextBoxBase e, params string[] textData)
+		{
+			foreach (var v in textData)
+			{
+				e.AppendTextLine(v);
+			}
+		}
+
+		public static void AppendTextLine(this TextBoxBase e, IEnumerable<string> textData)
+		{
+			foreach (var v in textData.AsEnumerable())
+			{
+				e.AppendTextLine(v);
+			}
+		}
 
 		public static void FadeOut(this UIElement e)
 		{
@@ -36,7 +56,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 						a = 0;
 						t.Stop();
 					}
-						e.Opacity = a;
+					e.Opacity = a;
 				}
 			);
 		}

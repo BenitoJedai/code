@@ -36,7 +36,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 
         public __StringBuilder AppendLine()
         {
-            data.push("\r\n");
+            data.push(Environment.NewLine);
 
             return this;
         }

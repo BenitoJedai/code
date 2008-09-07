@@ -27,7 +27,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 					background = true,
 					backgroundColor = 0xffffffff,
 					alwaysShowSelection = true,
-					
+
 					// http://code.hellokeita.in/public/trunk/as3/br/hellokeita/utils/TextFieldColor.as
 
 				};
@@ -140,21 +140,23 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			return InternalTextField;
 		}
 
+
 		public string Text
 		{
 			get
 			{
-				return InternalTextField.text;
+				return InternalTextField.text.Replace("\r", Environment.NewLine);
 			}
 			set
 			{
-				InternalTextField.text = value;
+				// http://blog.madebyderek.com/archives/2005/08/26/textfield_newline_and_crlf/
+				InternalTextField.text = value.Replace(Environment.NewLine, "\n");
 			}
 		}
 
 		public override void InternalAppendText(string textData)
 		{
-			InternalTextField.appendText(textData);
+			InternalTextField.appendText(textData.Replace(Environment.NewLine, "\n"));
 		}
 
 		public static implicit operator __TextBox(TextBox e)

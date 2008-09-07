@@ -8,6 +8,24 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static int Count(this string e, string subject)
+		{
+			var i = e.IndexOf(subject);
+			var c = 0;
+
+			while (i >= 0)
+			{
+				c++;
+				i = e.IndexOf(subject, i + subject.Length);
+			}
+
+			return c;
+		}
+
+		public static IEnumerable<T> ConcatSingle<T>(this IEnumerable<T> source, T e)
+		{
+			return source.Concat(new[] { e });
+		}
 		public static IEnumerable<T> Replace<T>(this IEnumerable<T> source, T remove, T add)
 		{
 			var _remove = new[] { remove };

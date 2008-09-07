@@ -1211,8 +1211,16 @@ namespace jsc.Script
 
 		public override void EmitPrestatement(ILBlock.Prestatement p)
 		{
+
 			if (p.Instruction.IsLoadInstruction)
+			{
+				//WriteIdent();
+				//WriteCommentLine("skipped: " + p.Instruction.ToString());
+
 				BreakToDebugger("statement cannot be a load instruction (compiler fault?): " + p.Instruction.Location);
+
+				return;
+			}
 
 			var DebugTrace = default(MethodInfo);
 
