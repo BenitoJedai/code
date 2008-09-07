@@ -226,6 +226,8 @@ namespace ScriptCoreLib.ActionScript.Extensions
 			return (SoundAsset)c.CreateType();
 		}
 
+	
+
 		public static BitmapAsset ToBitmapAsset(this Class c)
 		{
 			if (c == null) return null;

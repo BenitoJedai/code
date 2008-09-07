@@ -31,10 +31,11 @@ namespace ScriptCoreLib.ActionScript
         }
 
         [Script(NotImplementedHere = true)]
-        public static implicit operator Bitmap(Class e)
+        public static implicit operator Sprite(Class e)
         {
-            return default(Bitmap);
+            return default(Sprite);
         } 
+
 
     }
 }

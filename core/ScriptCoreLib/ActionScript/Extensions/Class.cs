@@ -27,6 +27,8 @@ namespace ScriptCoreLib.ActionScript.Extensions
             return ((Class)e).ToSoundAsset();
         }
 
+	
+
         public static implicit operator Sound(__Class e)
         {
             return ((Class)e).ToSoundAsset();
