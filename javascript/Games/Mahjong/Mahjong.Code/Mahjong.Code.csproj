@@ -74,6 +74,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LayoutsFuture.cs" />
     <Compile Include="VisibleLayout.Tiles.cs" />
     <Compile Include="VisibleLayout.LayoutUpdatePairs.cs" />
     <Compile Include="VisibleLayout.Entry.cs" />

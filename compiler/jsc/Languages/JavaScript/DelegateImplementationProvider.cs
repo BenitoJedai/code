@@ -81,6 +81,8 @@ namespace jsc.Languages.JavaScript.legacy
         /// <param name="z"></param>
         public static void Write(IdentWriter w, Type z)
         {
+			// note: we are lucky to support extension method calls by design. :)
+
             Type MulticastDelegate = w.Session.ResolveImplementation(z.BaseType);
             Type Delegate = w.Session.ResolveImplementation(z.BaseType.BaseType);
 

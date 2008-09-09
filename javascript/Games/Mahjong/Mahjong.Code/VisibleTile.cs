@@ -102,6 +102,8 @@ namespace Mahjong.Code
 			}.AttachTo(Control).MoveTo(-4 * s.Scale, -4 * s.Scale);
 
 		}
+
+
 	}
 
 }

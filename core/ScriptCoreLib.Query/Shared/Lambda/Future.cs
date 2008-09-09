@@ -8,18 +8,9 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public class Future
 	{
-		List<Action> _Continue = new List<Action>();
+		internal List<Action> _Continue = new List<Action>();
 
-		public void Continue(Action e)
-		{
-			if (_Continue != null)
-			{
-				_Continue.Add(e);
-				return;
-			}
 
-			e();
-		}
 
 		public bool CanSignal
 		{
@@ -33,9 +24,12 @@ namespace ScriptCoreLib.Shared.Lambda
 		{
 			if (CanSignal)
 			{
-				_Continue.Do();
-				_Continue.Clear();
+				var c = _Continue;
 				_Continue = null;
+
+				c.Do();
+				c.Clear();
+
 			}
 		}
 	}
@@ -71,9 +65,10 @@ namespace ScriptCoreLib.Shared.Lambda
 
 		public void Continue(Action<T> e)
 		{
+
 			if (CanSignal)
 			{
-				Continue(() => e(this.Value));
+				this.Continue(() => e(this.Value));
 				return;
 			}
 
@@ -149,6 +144,18 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static class FutureExtensions
 	{
+		public static void Continue(this Future f, Action e)
+		{
+			if (f != null)
+				if (f._Continue != null)
+				{
+					f._Continue.Add(e);
+					return;
+				}
+
+			e();
+		}
+
 		public static Action<Action> ForEach<T>(this IEnumerable<T> source, Action<Action> ready, Action<T, Action> handler, Action done)
 		{
 			return source.ForEach(ready, (value, i, SignalNext) => handler(value, SignalNext), done);
@@ -251,7 +258,7 @@ namespace ScriptCoreLib.Shared.Lambda
 			// we could just return s so the caller can initiate the loop on its own sometime later
 			// yet for now we just start it here
 			c.Continue(MoveNext)();
-			
+
 			return r.Continue;
 		}
 	}

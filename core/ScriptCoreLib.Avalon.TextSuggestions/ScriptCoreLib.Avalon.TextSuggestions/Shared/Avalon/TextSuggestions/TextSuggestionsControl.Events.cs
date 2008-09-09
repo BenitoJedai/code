@@ -18,5 +18,7 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 
 		public event Action<Rectangle, TextBox> Activate;
 		public event Action<Rectangle, TextBox> Deactivate;
+
+		public event Action<string> Select;
 	}
 }

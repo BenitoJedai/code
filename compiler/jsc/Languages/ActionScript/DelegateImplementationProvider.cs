@@ -9,6 +9,9 @@ namespace jsc.Languages.ActionScript
 {
     static class DelegateImplementationProvider
     {
+		const string IsExtensionMethod = "IsExtensionMethod";
+		public const string AsExtensionMethod = "AsExtensionMethod";
+
         public static void WriteDelegate(this ActionScriptCompiler w, Type z, ScriptAttribute za)
         {
             Type MulticastDelegate = w.MySession.ResolveImplementation(z.BaseType);
@@ -46,6 +49,11 @@ namespace jsc.Languages.ActionScript
             var _IntPtr_Function = _Operators.Single(i => i.ReturnType != typeof(string));
 
 
+
+
+			const string Local_a = "_arguments";
+
+
             #region Invoke
             var Invoke = z.GetMethod("Invoke");
             w.WriteMethodSignature(Invoke, false);
@@ -60,8 +68,8 @@ namespace jsc.Languages.ActionScript
                 w.WriteLine();
                 #endregion
 
-                #region var target:Object
-                w.WriteIdent();
+				#region var method:Object
+				w.WriteIdent();
                 w.Write("var method");
                 w.Write(":");
                 w.WriteDecoratedTypeNameOrImplementationTypeName(IntPtr, false, false, w.IsFullyQualifiedNamesRequired(z, IntPtr));
@@ -70,8 +78,8 @@ namespace jsc.Languages.ActionScript
                 #endregion
 
 
-                #region var target:Object
-                w.WriteIdent();
+				#region var field:Object
+				w.WriteIdent();
                 w.Write("var field");
                 w.Write(":");
                 w.WriteDecoratedTypeNameOrImplementationTypeName(typeof(string), false, false, w.IsFullyQualifiedNamesRequired(z, typeof(string)));
@@ -79,20 +87,24 @@ namespace jsc.Languages.ActionScript
                 w.WriteLine();
                 #endregion
 
-                if (Invoke.ReturnType != typeof(void))
+				#region ReturnType
+				if (Invoke.ReturnType != typeof(void))
                 {
                     w.WriteIdent();
 
-                    w.Write("var val");
+					w.WriteKeywordSpace(ActionScriptCompiler.Keywords._var);
+                    w.Write("val");
                     w.Write(":");
                     w.WriteDecoratedTypeNameOrImplementationTypeName(Invoke.ReturnType, false, false, w.IsFullyQualifiedNamesRequired(z, Invoke.ReturnType));
                     w.Write(";");
 
                     w.WriteLine();
-                }
+				}
+				#endregion
 
-                #region for each (var ptr:* in super.list)
-                w.WriteIdent();
+
+				#region for each (var ptr:* in super.list)
+				w.WriteIdent();
 
                 w.Write("for each(");
                 w.Write("var ptr");
@@ -106,12 +118,28 @@ namespace jsc.Languages.ActionScript
                 #endregion
 
                 using (w.CreateScope())
-                {
-                    #region target = ptr._Target;
-                    w.WriteIdent();
+				{
+					#region target = IsExtensionMethod ? null :  ptr._Target;
+					w.WriteIdent();
                     w.Write("target");
                     w.WriteAssignment();
-                    w.Write("ptr");
+
+					w.WriteKeyword(ActionScriptCompiler.Keywords._this);
+					w.Write(".");
+					w.Write(IsExtensionMethod);
+
+					w.WriteSpace();
+
+					w.Write("?");
+					w.WriteSpace();
+
+					w.Write("null");
+					w.WriteSpace();
+
+					w.Write(":");
+					w.WriteSpace();
+
+					w.Write("ptr");
                     w.Write(".");
                     w.Write(FieldTarget.Name);
                     w.Write(";");
@@ -143,7 +171,42 @@ namespace jsc.Languages.ActionScript
                     w.WriteLine();
                     #endregion
 
-                    w.WriteIdent();
+
+					#region var Local_a
+					w.WriteIdent();
+					w.WriteKeywordSpace(ActionScriptCompiler.Keywords._var);
+					w.Write(Local_a);
+					w.Write(":");
+					w.WriteDecoratedTypeName(typeof(object[]));
+					w.WriteAssignment();
+					w.WriteKeyword(ActionScriptCompiler.Keywords._arguments);
+					w.Write(".");
+					w.Write("slice(0)");
+					w.Write(";");
+					w.WriteLine();
+					#endregion
+
+					w.WriteIdent();
+					w.WriteKeywordSpace(ActionScriptCompiler.Keywords._if);
+
+					w.Write("(");
+					w.WriteKeyword(ActionScriptCompiler.Keywords._this);
+					w.Write(".");
+					w.Write(IsExtensionMethod);
+					w.Write(")");
+					w.WriteSpace();
+					w.Write(Local_a);
+					w.Write(".");
+					w.Write("splice(0, 0, ");
+					w.Write("ptr");
+					w.Write(".");
+					w.Write(FieldTarget.Name);
+					w.Write(")");
+					
+					w.Write(";");
+					w.WriteLine();
+
+					w.WriteIdent();
                     
                     if (Invoke.ReturnType != typeof(void))
                     {
@@ -176,7 +239,7 @@ namespace jsc.Languages.ActionScript
                     w.Write("apply(");
                     w.Write("target");
                     w.Write(",");
-                    w.Write("arguments");
+                    w.Write(Local_a);
                     w.Write(")");
                     w.Write(";");
                     
@@ -187,7 +250,7 @@ namespace jsc.Languages.ActionScript
                 if (Invoke.ReturnType != typeof(void))
                 {
                     w.WriteIdent();
-                    w.Write("return ");
+                    w.WriteKeywordSpace(ActionScriptCompiler.Keywords._return);
                     w.Write("val");
                     w.Write(";");
 
@@ -196,6 +259,46 @@ namespace jsc.Languages.ActionScript
             }
             w.WriteLine();
             #endregion
-        }
+
+			#region IsExtensionMethod
+			w.WriteIdent();
+			w.WriteKeywordSpace(ActionScriptCompiler.Keywords._private);
+			w.WriteKeywordSpace(ActionScriptCompiler.Keywords._var);
+			w.Write(IsExtensionMethod);
+			w.Write(":");
+			w.WriteDecoratedTypeName(typeof(bool));
+			w.Write(";");
+			w.WriteLine();
+			#endregion
+
+			#region AsExtensionMethod
+			w.WriteIdent();
+			w.WriteKeywordSpace(ActionScriptCompiler.Keywords._public);
+			w.WriteKeywordSpace(ActionScriptCompiler.Keywords._function);
+			w.Write(AsExtensionMethod);
+			w.Write("()");
+			w.Write(":");
+			w.WriteDecoratedTypeName(z);
+			w.WriteLine();
+			using (w.CreateScope())
+			{
+				w.WriteIdent();
+				w.WriteKeyword(ActionScriptCompiler.Keywords._this);
+				w.Write(".");
+				w.Write(IsExtensionMethod);
+				w.WriteAssignment();
+				w.WriteKeyword(ActionScriptCompiler.Keywords._true);
+				w.Write(";");
+				w.WriteLine();
+
+				w.WriteIdent();
+				w.WriteKeywordSpace(ActionScriptCompiler.Keywords._return);
+				w.WriteKeyword(ActionScriptCompiler.Keywords._this);
+				w.Write(";");
+				w.WriteLine();
+			}
+			#endregion
+
+		}
     }
 }

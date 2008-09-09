@@ -87,6 +87,7 @@ namespace Mahjong.Code
 
 			MyLayout.Container.AttachTo(this);
 
+			#region Layout Selection
 			// http://www.stripegenerator.com
 			var Stripes = new Image
 			{
@@ -97,6 +98,7 @@ namespace Mahjong.Code
 				Visibility = Visibility.Hidden
 			}.AttachTo(this);
 
+			
 			var CommentMargin = 8;
 			var CommentForUnfocusing = new TextBox
 			{
@@ -126,7 +128,8 @@ namespace Mahjong.Code
 			{
 				Suggestions = new string [0],
 				InactiveResultBackground = Brushes.Transparent,
-				Margin = 2
+				Margin = 2,
+				Enabled = false
 			};
 
 			CommentSuggestions.Activate +=
@@ -158,18 +161,28 @@ namespace Mahjong.Code
 				{
 					CommentForUnfocusing.Focus();
 				};
+			#endregion
 
+
+			MyLayout.LayoutDestroyed +=
+				delegate
+				{
+					//Comment.IsReadOnly = true;
+					//CommentSuggestions.Enabled = false;
+				};
 
 			MyLayout.LayoutChanging +=
 				delegate
 				{
-					Console.WriteLine("LayoutChanging ...");
+					Console.WriteLine("LayoutChanging ..." + MyLayout.Layout.Source);
+
+					Comment.Text = MyLayout.Layout.Comment;
 
 					// this occurs only after current load is complete
 					MyLayout.LayoutProgress.Continue(
 						delegate
 						{
-							Console.WriteLine("Layout loaded!");
+							Console.WriteLine("Layout loaded! " + MyLayout.Layout.Source);
 						}
 					);
 					// we should suffle the ranks
@@ -248,99 +261,89 @@ namespace Mahjong.Code
 				delegate
 				{
 					// done loading new layout
-					Comment.Text = MyLayout.Layout.Comment;
 
 					Sounds.reveal();
+
+
+					Layouts.AllLoaded.Continue(
+						delegate
+						{
+							Comment.IsReadOnly = false;
+							CommentSuggestions.Enabled = true;
+						}
+					);
+
 				};
 
-			var button1 = new TextBox
-			{
-				Foreground = Brushes.White,
-				Background = Brushes.Transparent,
-				Text = "Next Layout »",
-				IsReadOnly = true,
-				Width = 120,
-				Height = 24,
-				BorderThickness = new Thickness(0),
-				TextAlignment = TextAlignment.Center
-			}.MoveTo(8, DefaultScaledHeight - 32).AttachTo(this);
+			//var button1 = new TextBox
+			//{
+			//    Foreground = Brushes.White,
+			//    Background = Brushes.Transparent,
+			//    Text = "Next Layout »",
+			//    IsReadOnly = true,
+			//    Width = 120,
+			//    Height = 24,
+			//    BorderThickness = new Thickness(0),
+			//    TextAlignment = TextAlignment.Center
+			//}.MoveTo(8, DefaultScaledHeight - 32).AttachTo(this);
 
-			var button1_overlay = new Rectangle
-			{
-				Width = 120,
-				Height = 24,
-				Fill = Brushes.Blue,
-				Opacity = 0.0,
-				Cursor = Cursors.Hand
-			}.MoveTo(8, DefaultScaledHeight - 32).AttachTo(this);
+			//var button1_overlay = new Rectangle
+			//{
+			//    Width = 120,
+			//    Height = 24,
+			//    Fill = Brushes.Blue,
+			//    Opacity = 0.0,
+			//    Cursor = Cursors.Hand
+			//}.MoveTo(8, DefaultScaledHeight - 32).AttachTo(this);
 
-			button1_overlay.MouseEnter +=
-				delegate
-				{
-					button1.Foreground = Brushes.Blue;
-				};
+			//button1_overlay.MouseEnter +=
+			//    delegate
+			//    {
+			//        button1.Foreground = Brushes.Blue;
+			//    };
 
-			button1_overlay.MouseLeave +=
-				delegate
-				{
-					button1.Foreground = Brushes.White;
-				};
+			//button1_overlay.MouseLeave +=
+			//    delegate
+			//    {
+			//        button1.Foreground = Brushes.White;
+			//    };
 
 	
 
 			Layouts = new LayoutsFuture(Assets.Default.FileNames.Where(k => k.EndsWith(".lay")).Randomize().ToArray());
 
 			Layouts.FirstLoaded.Continue(
-				value => MyLayout.Layout = value
+				value => 
+				{
+					MyLayout.Layout = value;
+				}
 			);
 
 			Layouts.AllLoaded.Continue(
 				ByComment =>
 				{
 					CommentSuggestions.Suggestions = ByComment.Keys.ToArray();
-					Comment.IsReadOnly = false;
+				
+					CommentSuggestions.Select +=
+						NewLayoutComment =>
+						{
+							// Do not reload the same layout
+							if (MyLayout.Layout != null)
+								if (NewLayoutComment == MyLayout.Layout.Comment)
+									return;
+
+							if (Layouts.ByComment.ContainsKey(NewLayoutComment))
+							{
+								// new layout does indeed exist!
+								MyLayout.Layout = Layouts.ByComment[NewLayoutComment];
+							}
+						};
 				}
 			);
 		}
 
-		[Script]
-		public class LayoutsFuture
-		{
-			public readonly Future<Layout> FirstLoaded = new Future<Layout>();
-			public readonly Future<Dictionary<string, Layout>> AllLoaded = new Future<Dictionary<string, Layout>>();
-
-			public readonly Dictionary<string, Layout> ByComment = new Dictionary<string, Layout>();
-
-			public LayoutsFuture(string[] Files)
-			{
-				Files.ForEach(
-					(string File, Action SignalNext) =>
-					{
-						File.ToStringAsset(
-							DataString =>
-							{
-								var e = new Layout(DataString);
-
-								ByComment[e.Comment] = e;
-
-								if (FirstLoaded.CanSignal)
-									FirstLoaded.Value = e;
-
-								1.AtDelay(SignalNext);
-							}
-						);
-					}
-					
-				)(
-					delegate
-					{
-						AllLoaded.Value = ByComment;
-					}
-				);
-			}
-		}
 
 		public readonly LayoutsFuture Layouts;
-		
+
 	}
 }

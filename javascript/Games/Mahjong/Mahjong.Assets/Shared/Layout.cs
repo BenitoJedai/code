@@ -27,6 +27,8 @@ namespace Mahjong.Shared
 
 		}
 
+		public string Source;
+
 		public Layout(string DataString)
 		{
 			this.DataString = DataString;

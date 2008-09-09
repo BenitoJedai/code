@@ -37,24 +37,47 @@ namespace Mahjong.Code
 			}
 			set
 			{
-				if (_Layout != null)
-				{
-					LayoutClear();
-				}
+				this.LayoutProgress.Continue(
+					delegate
+					{
+						if (_Layout != null)
+						{
+							LayoutClear();
 
-				_Layout = value;
 
-				if (_Layout != null)
-				{
-					// create
+							if (LayoutDestroyed != null)
+								LayoutDestroyed();
+						}
 
-					LayoutUpdate();
-				}
+						_Layout = value;
+
+						if (_Layout != null)
+						{
+							// create
+
+							LayoutUpdate();
+						}
+					}
+				);
 			}
 		}
 
 		private void LayoutClear()
 		{
+			var t = this.TilesInfo;
+
+			if (t != null)
+			{
+				this.LayoutProgress.Continue(
+					delegate
+					{
+						foreach (var v in t.Tiles)
+						{
+							v.Tile.Value.Control.Orphanize();
+						}
+					}
+				);
+			}
 		}
 
 	
@@ -97,7 +120,7 @@ namespace Mahjong.Code
 		private void LayoutUpdateFinalize()
 		{
 			var s = this.TileSettings;
-			var o = 3;
+			var o = 1;
 			var f = this.Tiles.OrderBy(k => k.z).Last();
 			var h = f.z + o;
 
@@ -129,11 +152,12 @@ namespace Mahjong.Code
 					if (LayoutChanged != null)
 						LayoutChanged();
 
-					LayoutProgress.Signal();
+					1.AtDelay(LayoutProgress.Signal);
 				}
 			);
 		}
 
+		public event Action LayoutDestroyed;
 		public event Action LayoutChanging;
 		public event Action LayoutChanged;
 

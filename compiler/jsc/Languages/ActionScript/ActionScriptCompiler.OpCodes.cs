@@ -236,6 +236,20 @@ namespace jsc.Languages.ActionScript
 				e =>
 				{
 					WriteTypeConstruction(e);
+
+					if (e.i.TargetConstructor.DeclaringType.IsDelegate())
+					{
+						var TargetIsNotNull = e.i.StackBeforeStrict[0].SingleStackInstruction != OpCodes.Ldnull;
+						var TargetMethodIsStatic = e.i.StackBeforeStrict[1].SingleStackInstruction.TargetMethod.IsStatic;
+
+						if (TargetMethodIsStatic )
+							if (TargetIsNotNull)
+							{
+								Write(".");
+								Write(DelegateImplementationProvider.AsExtensionMethod);
+								Write("()");
+							}
+					}
 				};
 			#endregion
 
