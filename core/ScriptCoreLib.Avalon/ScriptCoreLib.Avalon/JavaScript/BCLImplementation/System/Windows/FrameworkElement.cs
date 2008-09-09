@@ -20,12 +20,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 			throw new NotImplementedException();
 		}
 
+		public virtual double InternalGetWidth()
+		{
+			throw new NotImplementedException();
+		}
+
+		public virtual double InternalGetHeight()
+		{
+			throw new NotImplementedException();
+		}
+
 
 		public double Width
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return InternalGetWidth();
 
 			}
 			set
@@ -38,7 +48,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return InternalGetHeight();
 
 			}
 			set

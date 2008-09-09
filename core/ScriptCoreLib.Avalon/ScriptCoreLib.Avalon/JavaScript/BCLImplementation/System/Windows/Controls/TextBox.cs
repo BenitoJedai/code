@@ -25,11 +25,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 			this.InternalTextField = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.text)
 			{
-
+				
 			};
 
 			this.InternalTextField.style.paddingTop = "0";
 			this.InternalTextField.style.paddingBottom = "0";
+			this.InternalTextField.style.border = "1px solid gray";
 		}
 
 		public override void InternalSetWidth(double value)
@@ -44,6 +45,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			s.height = value + "px";
 		}
 
+		public override double InternalGetWidth()
+		{
+			var e = this.InternalGetDisplayObject();
+
+			return e.Bounds.Width;
+		}
+
+		public override double InternalGetHeight()
+		{
+			var e = this.InternalGetDisplayObject();
+
+			return e.Bounds.Height;
+		}
 
 		public override void InternalSetAcceptsReturn(bool value)
 		{
@@ -279,8 +293,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 		{
 			get
 			{
-				throw new NotImplementedException();
+				var align = this.InternalGetDisplayObjectDirect().style.textAlign;
 
+				// jsc will replace local enum assignment with their string values...
+				var right = IStyle.TextAlignEnum.right;
+				if (align == right)
+					return TextAlignment.Right;
+
+				var center = IStyle.TextAlignEnum.center;
+				if (align == center)
+					return TextAlignment.Center;
+
+				var justify = IStyle.TextAlignEnum.justify;
+				if (align == justify)
+					return TextAlignment.Justify;
+
+				return TextAlignment.Left;
 			}
 			set
 			{

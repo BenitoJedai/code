@@ -8,6 +8,11 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static TReturn[] ToArray<T, TReturn>(this IEnumerable<T> source, Func<T, TReturn> selector)
+		{
+			return source.Select(selector).ToArray();
+		}
+
 		public static IEnumerable<T> WhereNot<T>(this IEnumerable<T> source, Func<T, bool> filter)
 		{
 			return source.Where(k => !filter(k));

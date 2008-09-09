@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Controls;
-using ScriptCoreLib;
-using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using ScriptCoreLib;
+using ScriptCoreLib.Shared.Avalon.Extensions;
 using ScriptCoreLib.Shared.Avalon.TextSuggestions;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace TextSuggestions2.Shared
 {
@@ -58,7 +59,8 @@ namespace TextSuggestions2.Shared
 				AcceptsReturn = true,
 				Text = TopTen,
 				Width = 400,
-				Height = 200
+				Height = 200,
+				BorderThickness = new Thickness(0)
 			}.MoveTo(8, 8).AttachTo(this);
 
 			var t_unfocus = new TextBox
@@ -68,6 +70,7 @@ namespace TextSuggestions2.Shared
 				Width = 400,
 				Height = 24,
 				Foreground = Brushes.Gray,
+				BorderThickness = new Thickness(0),
 				IsReadOnly = true
 			}.MoveTo(8, 16 + 200).AttachTo(this);
 
@@ -78,21 +81,43 @@ namespace TextSuggestions2.Shared
 				Text = "us",
 				Width = 400,
 				Height = 24,
-				TextAlignment = TextAlignment.Right
+				TextAlignment = TextAlignment.Right,
+				BorderThickness = new Thickness(0)
 			}.MoveTo(8, 16 + 200).AttachTo(this);
 
+	
 
+			var s = new TextSuggestionsControl(t, 7, t_unfocus, this);
 
-			var s = new TextSuggestionsControl(t, 7, t_unfocus);
+			#region indicate when we are in search mode
+			s.Enter +=
+				delegate
+				{
+					t_unfocus.Text = "search";
+				};
+
+			s.Exit +=
+				delegate
+				{
+					t_unfocus.Text = "powered by jsc";
+				};
+			#endregion
 
 			#region update suggestions
-			s.Suggestions = data.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+			Action UpdateSuggestions = 
+				delegate
+				{
+					s.Suggestions = data.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Select(k => k.Trim()).WhereNot(k => string.IsNullOrEmpty(k)).ToArray();
+				};
+
 
 			data.TextChanged +=
 				delegate
 				{
-					s.Suggestions = data.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+					UpdateSuggestions();
 				};
+
+			UpdateSuggestions();
 			#endregion
 
 		}
