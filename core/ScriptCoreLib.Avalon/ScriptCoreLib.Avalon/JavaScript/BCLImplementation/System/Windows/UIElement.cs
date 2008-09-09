@@ -43,14 +43,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 			return InternalGetDisplayObject();
 		}
 
+		double InternalOpacity;
+
 		public double Opacity
 		{
 			get
 			{
-				throw new NotImplementedException();
+				// fixme: we cannot get the opacity value from DOM at the moment
+				return InternalOpacity;
 			}
 			set
 			{
+				InternalOpacity = value;
 				InternalGetOpacityTarget().style.Opacity = value;
 			}
 		}

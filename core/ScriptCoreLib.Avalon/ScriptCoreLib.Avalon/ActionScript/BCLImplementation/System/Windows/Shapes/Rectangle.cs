@@ -56,26 +56,36 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Shapes
 
 			var stroke = this.Stroke as SolidColorBrush;
 			var fill = this.InternalFill as SolidColorBrush;
+			var draw = false;
 
 			if (stroke != null)
 			{
 				__Color color = stroke.Color;
 
 				g.lineStyle(1, color, 1);
-			
+
+				draw = true;
 			}
 
 			if (fill != null)
 			{
 				uint color = (__Color)fill.Color;
 
-				color &= 0xffffff;
+				if (color != 0x00ffffffu)
+				{
 
-				g.beginFill(color);
+					color &= 0xffffff;
+
+					g.beginFill(color);
+					draw = true;
+				}
 			}
 
-			g.drawRect(0, 0, _Width, _Height);
-			g.endFill();
+			if (draw)
+			{
+				g.drawRect(0, 0, _Width, _Height);
+				g.endFill();
+			}
 
 		}
 

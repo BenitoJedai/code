@@ -1147,7 +1147,7 @@ namespace jsc
 
 					sw.Write(")");
 
-					Task.Error("Missing Script Attribute?\nNative constructor was invoked, please implement [{0}]", sw.ToString());
+					Task.Error("Missing Script Attribute? Native constructor was invoked, please implement [{0}]", sw.ToString());
 
 					w.Session.ResolveImplementationTrace(m.DeclaringType, m);
 

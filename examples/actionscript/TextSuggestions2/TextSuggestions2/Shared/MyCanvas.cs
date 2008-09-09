@@ -24,17 +24,29 @@ namespace TextSuggestions2.Shared
 			Width = DefaultWidth;
 			Height = DefaultHeight;
 
-			#region Gradient
-			for (int i = 0; i < DefaultHeight; i += 4)
-			{
-				new Rectangle
+			Colors.Blue.ToGradient(Colors.White, DefaultHeight / 4).ForEach(
+				(c, i) =>
 				{
-					Fill = ((uint)(0xff00007F + Convert.ToInt32(128 * i / DefaultHeight))).ToSolidColorBrush(),
-					Width = DefaultWidth,
-					Height = 4,
-				}.MoveTo(0, i).AttachTo(this);
-			}
-			#endregion
+					new Rectangle
+					{
+						Fill = new SolidColorBrush(c),
+						Width = DefaultWidth,
+						Height = 4,
+					}.MoveTo(0, i * 4).AttachTo(this);
+				}
+			);
+
+			//#region Gradient
+			//for (int i = 0; i < DefaultHeight; i += 4)
+			//{
+			//    new Rectangle
+			//    {
+			//        Fill = ((uint)(0xff00007F + Convert.ToInt32(128 * i / DefaultHeight))).ToSolidColorBrush(),
+			//        Width = DefaultWidth,
+			//        Height = 4,
+			//    }.MoveTo(0, i).AttachTo(this);
+			//}
+			//#endregion
 
 
 
@@ -85,9 +97,36 @@ namespace TextSuggestions2.Shared
 				BorderThickness = new Thickness(0)
 			}.MoveTo(8, 16 + 200).AttachTo(this);
 
-	
 
-			var s = new TextSuggestionsControl(t, 7, t_unfocus, this);
+
+			var s = new TextSuggestionsControl(t, 7, t_unfocus, this)
+			{
+				Margin = 4,
+
+				// we will override colors
+				DisableColorChange = true,
+
+				// initially inactive
+				InactiveResultBackground = Brushes.Transparent,
+
+				// we will use this color
+				ActiveResultBackground = Brushes.Black,
+				ActiveResultForeground = Brushes.White
+			};
+
+			s.Activate +=
+				(bg, text) =>
+				{
+					text.Foreground = s.ActiveResultForeground;
+					bg.Fill = s.ActiveResultBackground;
+					bg.Opacity = 1;
+				};
+
+			s.Deactivate +=
+				(bg, text) =>
+				{
+					bg.FadeOut();
+				};
 
 			#region indicate when we are in search mode
 			s.Enter +=

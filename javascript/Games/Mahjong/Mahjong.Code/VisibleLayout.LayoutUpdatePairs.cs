@@ -35,7 +35,7 @@ namespace Mahjong.Code
 			Action<Action> ExtractCandidates =
 				SignalNext =>
 				{
-					var c = p.Tiles.Where(k => !k.BlockingSiblings.Any()).ToArray();
+					var c = p.Tiles.Where(k => !k.BlockingSiblings.Any()).Randomize().ToArray();
 
 					if (c.Length == 1)
 					{

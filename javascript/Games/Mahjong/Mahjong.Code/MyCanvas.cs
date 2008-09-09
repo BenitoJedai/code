@@ -13,6 +13,7 @@ using System.Media;
 using System.Windows.Input;
 using System.Windows.Shapes;
 using System.Windows;
+using ScriptCoreLib.Shared.Avalon.TextSuggestions;
 
 namespace Mahjong.Code
 {
@@ -118,9 +119,23 @@ namespace Mahjong.Code
 				BorderThickness = new Thickness(0),
 				Text = "Loading...",
 				TextAlignment = TextAlignment.Right,
+				IsReadOnly = true,
 			}.MoveTo(CommentMargin, CommentMargin).AttachTo(this);
 
-			Comment.GotFocus +=
+			var CommentSuggestions = new TextSuggestionsControl(Comment, 6, CommentForUnfocusing, this)
+			{
+				Suggestions = new string [0],
+				InactiveResultBackground = Brushes.Transparent,
+				Margin = 2
+			};
+
+			CommentSuggestions.Activate +=
+				(bg, text) =>
+				{
+					bg.Opacity = 0.6;
+				};
+
+			CommentSuggestions.Enter +=
 				delegate
 				{
 					Comment.Foreground = Brushes.Black;
@@ -128,12 +143,14 @@ namespace Mahjong.Code
 					Stripes.Visibility = Visibility.Visible;
 				};
 
-			Comment.LostFocus +=
+			CommentSuggestions.Exit +=
 				delegate
 				{
 					Comment.Foreground = Brushes.White;
 					CommentForUnfocusing.Foreground = Brushes.White;
 					Stripes.Visibility = Visibility.Hidden;
+
+					// we need to reload a map now...
 				};
 
 			Stripes.MouseLeftButtonUp +=
@@ -269,15 +286,61 @@ namespace Mahjong.Code
 					button1.Foreground = Brushes.White;
 				};
 
-			Assets.Default.FileNames.Random(k => k.EndsWith(".lay")).ToStringAsset(
-			//Assets.Default.FileNames.First(k => k.Contains("Beatle")).ToStringAsset(
-				DataString =>
-				{
-					MyLayout.Layout = new Layout(DataString);
-				}
+	
+
+			Layouts = new LayoutsFuture(Assets.Default.FileNames.Where(k => k.EndsWith(".lay")).Randomize().ToArray());
+
+			Layouts.FirstLoaded.Continue(
+				value => MyLayout.Layout = value
 			);
 
-
+			Layouts.AllLoaded.Continue(
+				ByComment =>
+				{
+					CommentSuggestions.Suggestions = ByComment.Keys.ToArray();
+					Comment.IsReadOnly = false;
+				}
+			);
 		}
+
+		[Script]
+		public class LayoutsFuture
+		{
+			public readonly Future<Layout> FirstLoaded = new Future<Layout>();
+			public readonly Future<Dictionary<string, Layout>> AllLoaded = new Future<Dictionary<string, Layout>>();
+
+			public readonly Dictionary<string, Layout> ByComment = new Dictionary<string, Layout>();
+
+			public LayoutsFuture(string[] Files)
+			{
+				Files.ForEach(
+					(string File, Action SignalNext) =>
+					{
+						File.ToStringAsset(
+							DataString =>
+							{
+								var e = new Layout(DataString);
+
+								ByComment[e.Comment] = e;
+
+								if (FirstLoaded.CanSignal)
+									FirstLoaded.Value = e;
+
+								1.AtDelay(SignalNext);
+							}
+						);
+					}
+					
+				)(
+					delegate
+					{
+						AllLoaded.Value = ByComment;
+					}
+				);
+			}
+		}
+
+		public readonly LayoutsFuture Layouts;
+		
 	}
 }

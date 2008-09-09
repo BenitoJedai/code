@@ -18,7 +18,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media
 			public byte b;
 		}
 
-		private __MILColor sRgbColor = new __MILColor();
+		private readonly __MILColor sRgbColor = new __MILColor();
 
 
 		public byte A { get { return sRgbColor.a; } set { sRgbColor.a = value; } }
@@ -67,6 +67,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media
 		public static implicit operator string(__Color e)
 		{
 			return e.ToHTMLRGBString();
+		}
+
+		public static Color FromRgb(byte r, byte g, byte b)
+		{
+			__Color color = new __Color();
+			color.sRgbColor.a = 0xff;
+			color.sRgbColor.r = r;
+			color.sRgbColor.g = g;
+			color.sRgbColor.b = b;
+
+			return color;
 		}
 	}
 }
