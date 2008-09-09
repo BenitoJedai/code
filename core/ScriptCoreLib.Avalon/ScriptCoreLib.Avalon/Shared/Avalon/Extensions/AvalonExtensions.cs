@@ -23,7 +23,10 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 
 			s.Stream.Position = 0;
 
-			var v = new StreamReader(s.Stream).ReadToEnd();
+			var b = new byte[s.Stream.Length];
+			s.Stream.Read(b, 0, b.Length);
+
+			var v = Encoding.UTF8.GetString(b);
 
 			h(v);
 		}

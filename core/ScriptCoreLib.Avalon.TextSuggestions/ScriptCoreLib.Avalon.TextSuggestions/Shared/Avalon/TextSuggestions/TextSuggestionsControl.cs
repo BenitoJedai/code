@@ -47,8 +47,11 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 
 		public int Delay = 200;
 
+		public bool Enabled { get; set; }
+
 		public TextSuggestionsControl(TextBox Input, int MaxResults, UIElement Unfocus, Canvas Container)
 		{
+			this.Enabled = true;
 			this.Input = Input;
 			this.MaxResults = MaxResults;
 			this.Unfocus = Unfocus;
@@ -80,13 +83,76 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 					FriendlyFocusChange = false;
 				};
 
+			Action CancelExitDefault = delegate { };
+			Action CancelExit = CancelExitDefault;
+
+			Action<Rectangle, TextBox> DefaultActivate =
+				(r_Below, r) =>
+				{
+					if (!DisableColorChange)
+					{
+						r_Below.Fill = this.ActiveResultBackground;
+						r.Foreground = this.ActiveResultForeground;
+					}
+
+					if (this.Activate != null)
+						this.Activate(r_Below, r);
+				};
+
+			Action<Rectangle, TextBox> DefaultDeactivate =
+				(r_Below, r) =>
+				{
+					if (!DisableColorChange)
+					{
+						r_Below.Fill = this.InactiveResultBackground;
+						r.Foreground = this.InactiveResultForeground;
+					}
+
+					if (this.Deactivate != null)
+						this.Deactivate(r_Below, r);
+				};
+
+			Action CancelUpdateDelayDefault = delegate { };
+			Action CancelUpdateDelay = CancelUpdateDelayDefault;
+
+			Action StartExit =
+				delegate
+				{
+					if (!FriendlyFocusChange)
+					{
+						CancelExit = 100.AtDelay(
+							delegate
+							{
+								CancelExit = CancelExitDefault;
+
+								CancelUpdateDelayDefault();
+								ClearResults();
+
+								if (this.Exit != null)
+									this.Exit();
+							}
+						).Stop;
+
+					}
+				};
+
+
 			Action<TextBox> ApplyFocusKeys =
 				e =>
 				{
 					e.KeyUp +=
 						(sender, ev) =>
 						{
+							if (!this.Enabled)
+								return;
 
+							if (ev.Key == Key.Escape)
+							{
+								Unfocus.Focus();
+								return;
+							}
+
+							
 							if (ev.Key == Key.Down)
 							{
 								FriendlyFocusChange = true;
@@ -119,56 +185,7 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 						};
 				};
 
-			Action CancelExitDefault = delegate { };
-			Action CancelExit = CancelExitDefault;
-
-			Action<Rectangle, TextBox> DefaultActivate =
-				(r_Below, r) =>
-				{
-					if (!DisableColorChange)
-					{
-						r_Below.Fill = this.ActiveResultBackground;
-						r.Foreground = this.ActiveResultForeground;
-					}
-
-					if (this.Activate != null)
-						this.Activate(r_Below, r);
-				};
-
-			Action<Rectangle, TextBox> DefaultDeactivate =
-				(r_Below, r) =>
-				{
-					if (!DisableColorChange)
-					{
-						r_Below.Fill = this.InactiveResultBackground;
-						r.Foreground = this.InactiveResultForeground;
-					}
-
-					if (this.Deactivate != null)
-						this.Deactivate(r_Below, r);
-				};
-
-
-			Action StartExit =
-				delegate
-				{
-					if (!FriendlyFocusChange)
-					{
-						CancelExit = 100.AtDelay(
-							delegate
-							{
-								CancelExit = CancelExitDefault;
-
-								ClearResults();
-
-								if (this.Exit != null)
-									this.Exit();
-							}
-						).Stop;
-
-					}
-				};
-
+		
 			var Update = default(Action);
 
 			var t_HasFocus = false;
@@ -176,6 +193,12 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 			Input.GotFocus +=
 				delegate
 				{
+					if (!this.Enabled)
+					{
+						Unfocus.Focus();
+						return;
+					}
+
 					CancelExit();
 
 					t_HasFocus = true;
@@ -197,6 +220,8 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 			Input.LostFocus +=
 				(sender, ev) =>
 				{
+					if (!this.Enabled)
+						return;
 
 					t_HasFocus = false;
 
@@ -242,6 +267,9 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 									Input.Text = Entry.Data;
 
 									Unfocus.Focus();
+
+									if (Select != null)
+										Select(Input.Text);
 								};
 
 							var r_Margin = this.Margin;
@@ -393,12 +421,15 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 			ApplyFocusKeys(Input);
 
 			#region Search Exit by Enter
-			Action CancelUpdateDelayDefault = delegate { };
-			Action CancelUpdateDelay = CancelUpdateDelayDefault;
+
 
 			Input.KeyUp +=
 				(sender, ev) =>
 				{
+					if (!this.Enabled)
+						return;
+
+					#region Handeled by ApplyFocusKeys
 					if (ev.Key == Key.Up)
 						return;
 
@@ -411,9 +442,17 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 					if (ev.Key == Key.Right)
 						return;
 
+					if (ev.Key == Key.Escape)
+						return;
+					#endregion
+
 					if (ev.Key == Key.Enter)
 					{
 						Unfocus.Focus();
+						
+						if (Select != null)
+							Select(Input.Text);
+
 						return;
 					}
 

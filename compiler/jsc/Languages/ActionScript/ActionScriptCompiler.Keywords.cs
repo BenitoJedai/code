@@ -14,11 +14,13 @@ namespace jsc.Languages.ActionScript
     {
         public enum Keywords
         {
+			_arguments,
 			_is,
 			_as,
 			_null,
 			_return,
 			_if,
+			_this,
 			_var,
 			_new,
 			_super,
@@ -31,6 +33,7 @@ namespace jsc.Languages.ActionScript
             _set,
             _static,
             _function,
+			_true,
 
 
 

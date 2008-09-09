@@ -1286,6 +1286,8 @@ namespace jsc.Script
 			{
 				WriteTypeConstructionVerified(e, t, m, mza);
 			}
+
+		
 		}
 
 		public abstract bool EmitTryBlock(ILBlock.Prestatement p);
