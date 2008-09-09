@@ -85,10 +85,10 @@ War
 Western
 	".Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Select(k => k.Trim()).WhereNot(string.IsNullOrEmpty);
 
-			
+
 			Func<string, IEnumerable<string>> Interpolate =
 				k => Enumerable.Range(1, 2).Select(i => k + " " + i).ConcatSingle(k)
-					//.Concat(DataInput.Select(u => k + " vs " + u))
+				//.Concat(DataInput.Select(u => k + " vs " + u))
 					;
 
 
@@ -97,12 +97,12 @@ Western
 
 
 
-	
+
 
 			var MaxResults = 7;
 			var Results = new List<TextBox>();
 			var ResultsLayers = new List<Rectangle>();
-			var DataSelectedLastTimeDefault = new string[0];
+			var DataSelectedLastTimeDefault = new Match[0];
 			var DataSelectedLastTime = DataSelectedLastTimeDefault;
 
 			Action ClearResults =
@@ -235,7 +235,7 @@ Western
 
 						for (int i = 0; i < DataSelected.Length; i++)
 						{
-							if (DataSelected[i] != DataSelectedLastTime[i])
+							if (DataSelected[i].Data != DataSelectedLastTime[i].Data)
 							{
 								skip = false;
 								break;
@@ -255,7 +255,7 @@ Western
 								delegate
 								{
 									Console.WriteLine("select " + Entry);
-									t.Text = Entry;
+									t.Text = Entry.Data;
 
 									t_Unfocus.Focus();
 								};
@@ -272,7 +272,7 @@ Western
 
 							var r = new TextBox
 							{
-								Text = Entry,
+								Text = Entry.Data,
 								Width = 200,
 								Height = 24,
 								IsReadOnly = true,
@@ -307,7 +307,10 @@ Western
 									Console.WriteLine("r got focus - " + Entry);
 
 									r_Below.Fill = Brushes.Blue;
-									r.Foreground = Brushes.White;
+									if (Entry.Weight == 0)
+										r.Foreground = Brushes.Gray;
+									else
+										r.Foreground = Brushes.White;
 
 									if (!FriendlyFocusChange)
 									{
@@ -327,7 +330,10 @@ Western
 									if (!HasMouse)
 									{
 										r_Below.Fill = Brushes.Yellow;
-										r.Foreground = Brushes.Black;
+										if (Entry.Weight == 0)
+											r.Foreground = Brushes.Gray;
+										else
+											r.Foreground = Brushes.Black;
 									}
 
 									StartExit();
@@ -349,7 +355,11 @@ Western
 										return;
 
 									r_Below.Fill = Brushes.Blue;
-									r.Foreground = Brushes.White;
+
+									if (Entry.Weight == 0)
+										r.Foreground = Brushes.Gray;
+									else
+										r.Foreground = Brushes.White;
 								};
 
 							r_Above.MouseLeave +=
@@ -361,7 +371,11 @@ Western
 										return;
 
 									r_Below.Fill = Brushes.White;
-									r.Foreground = Brushes.Black;
+
+									if (Entry.Weight == 0)
+										r.Foreground = Brushes.Gray;
+									else
+										r.Foreground = Brushes.Black;
 								};
 
 
@@ -473,10 +487,18 @@ Western
 
 		}
 
-		Dictionary<string, string[]> GetDataSelected_Cache = new Dictionary<string, string[]>();
+		Dictionary<string, Match[]> GetDataSelected_Cache = new Dictionary<string, Match[]>();
 
 
-		private string[] GetDataSelected(IEnumerable<string> Data, int MaxResults, string Filter)
+		[Script]
+		public class Match
+		{
+			public string Data;
+
+			public int Weight;
+		}
+
+		private Match[] GetDataSelected(IEnumerable<string> Data, int MaxResults, string Filter)
 		{
 			if (GetDataSelected_Cache.ContainsKey(Filter))
 				return GetDataSelected_Cache[Filter];
@@ -497,7 +519,7 @@ Western
 											}
 										 )
 									 orderby match descending, k
-									 select k;
+									 select new Match { Data = k, Weight = match };
 			var DataSelectedArray = DataSelectedSource.ToArray();
 			var DataSelected = DataSelectedSource.Take(DataSelectedArray.Length.Min(MaxResults)).ToArray();
 

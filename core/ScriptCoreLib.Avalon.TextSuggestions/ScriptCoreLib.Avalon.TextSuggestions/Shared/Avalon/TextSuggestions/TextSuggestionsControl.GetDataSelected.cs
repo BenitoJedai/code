@@ -11,17 +11,25 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 {
 	partial class TextSuggestionsControl
 	{
-		
-		Dictionary<string, string[]> GetDataSelected_Cache = new Dictionary<string, string[]>();
 
-		private string[] GetDataSelected(IEnumerable<string> Data, string Filter)
+		Dictionary<string, Match[]> GetDataSelected_Cache = new Dictionary<string, Match[]>();
+
+
+		[Script]
+		public class Match
+		{
+			public string Data;
+
+			public int Weight;
+		}
+		private Match[] GetDataSelected(string Filter)
 		{
 			if (GetDataSelected_Cache.ContainsKey(Filter))
 				return GetDataSelected_Cache[Filter];
 
 			var Filters = Filter.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
 
-			var DataSelectedSource = from k in Data
+			var DataSelectedSource = from k in InternalSuggestions
 									 let Subject = k.ToLower()
 									 where Filter != Subject
 									 let match =
@@ -35,7 +43,7 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 											}
 										 )
 									 orderby match descending, k
-									 select k;
+									 select new Match { Data = k, Weight = match };
 			var DataSelectedArray = DataSelectedSource.ToArray();
 			var DataSelected = DataSelectedSource.Take(DataSelectedArray.Length.Min(MaxResults)).ToArray();
 

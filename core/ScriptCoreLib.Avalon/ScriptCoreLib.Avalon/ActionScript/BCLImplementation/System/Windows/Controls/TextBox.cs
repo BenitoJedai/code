@@ -33,6 +33,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 				};
 
+
+			// http://www.typetester.org/
+			InternalTextField.defaultTextFormat.font = "Verdana";
+
 		}
 
 		public override void InternalSetWidth(double value)
@@ -47,6 +51,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			this.InternalTextField.height = value;
 		}
 
+		public override double InternalGetWidth()
+		{
+			return this.InternalTextField.width;
+		}
+
+		public override double InternalGetHeight()
+		{
+			return this.InternalTextField.height;
+		}
 
 		public override void InternalSetAcceptsReturn(bool value)
 		{
@@ -207,8 +220,19 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 		{
 			get
 			{
-				throw new NotImplementedException();
+				var align = this.InternalTextField.defaultTextFormat.align;
 
+
+				if (align == TextFormatAlign.RIGHT)
+					return TextAlignment.Right;
+
+				if (align == TextFormatAlign.CENTER)
+					return TextAlignment.Center;
+
+				if (align == TextFormatAlign.JUSTIFY)
+					return TextAlignment.Justify;
+
+				return TextAlignment.Left;
 			}
 			set
 			{
