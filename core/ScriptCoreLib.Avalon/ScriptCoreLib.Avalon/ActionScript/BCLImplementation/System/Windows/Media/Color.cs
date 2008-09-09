@@ -18,7 +18,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 			public byte b;
 		}
 
-		private __MILColor sRgbColor = new __MILColor();
+		private readonly __MILColor sRgbColor = new __MILColor();
 
 
 		public byte A { get { return sRgbColor.a; } set { sRgbColor.a = value; } }
@@ -57,6 +57,17 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 			c += (uint)(e.sRgbColor.b << 0x0);
 
 			return c;
+		}
+
+		public static Color FromRgb(byte r, byte g, byte b)
+		{
+			__Color color = new __Color();
+			color.sRgbColor.a = 0xff;
+			color.sRgbColor.r = r;
+			color.sRgbColor.g = g;
+			color.sRgbColor.b = b;
+
+			return color;
 		}
 
 	}

@@ -17,6 +17,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return (int)global::System.Math.Floor(value);
         }
 
+		public static byte ToByte(int value)
+		{
+			return (byte)(value & 0xff);
+
+		}
+
+
         public static string ToString(char value)
         {
             return __String.FromCharCode(value);

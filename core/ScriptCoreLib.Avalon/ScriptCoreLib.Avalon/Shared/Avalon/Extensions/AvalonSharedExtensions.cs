@@ -42,13 +42,19 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 
 		public static void FadeOut(this UIElement e)
 		{
-			var a = 1.0;
+			var a = e.Opacity;
 
 			var t = default(DispatcherTimer);
 
-			t = (1000 / 15).AtInterval(
+			t = (1000 / 20).AtInterval(
 				delegate
 				{
+					if (e.Opacity > a)
+					{
+						t.Stop();
+						return;
+					}
+
 					a -= 0.09;
 
 					if (a <= 0)

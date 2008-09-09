@@ -34,6 +34,8 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 		public readonly int MaxResults;
 		public readonly UIElement Unfocus;
 
+		public bool DisableColorChange;
+
 		public Brush InactiveResultForeground = Brushes.Black;
 		public Brush InactiveResultBackground = Brushes.White;
 
@@ -42,9 +44,8 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 
 		public int Margin = 4;
 
-		public int Spacing = 8;
 
-		public int Delay = 300;
+		public int Delay = 200;
 
 		public TextSuggestionsControl(TextBox Input, int MaxResults, UIElement Unfocus, Canvas Container)
 		{
@@ -121,6 +122,31 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 			Action CancelExitDefault = delegate { };
 			Action CancelExit = CancelExitDefault;
 
+			Action<Rectangle, TextBox> DefaultActivate =
+				(r_Below, r) =>
+				{
+					if (!DisableColorChange)
+					{
+						r_Below.Fill = this.ActiveResultBackground;
+						r.Foreground = this.ActiveResultForeground;
+					}
+
+					if (this.Activate != null)
+						this.Activate(r_Below, r);
+				};
+
+			Action<Rectangle, TextBox> DefaultDeactivate =
+				(r_Below, r) =>
+				{
+					if (!DisableColorChange)
+					{
+						r_Below.Fill = this.InactiveResultBackground;
+						r.Foreground = this.InactiveResultForeground;
+					}
+
+					if (this.Deactivate != null)
+						this.Deactivate(r_Below, r);
+				};
 
 
 			Action StartExit =
@@ -218,17 +244,17 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 									Unfocus.Focus();
 								};
 
-							var r_Margin = 6;
+							var r_Margin = this.Margin;
 
 							var x = Canvas.GetLeft(Input);
-							var y = Canvas.GetTop(Input) + Input.Height + r_Margin * 2;
+							var y = Canvas.GetTop(Input) + (Index + 1) * (Input.Height + r_Margin * 2);
 
 							var r_Below = new Rectangle
 							{
-								Fill = Brushes.White,
+								Fill = this.InactiveResultBackground,
 								Width = Input.Width,
 								Height = Input.Height + r_Margin * 2,
-							}.MoveTo(x, y + Index * 30 - r_Margin).AttachTo(Container);
+							}.MoveTo(x, y - r_Margin).AttachTo(Container);
 
 							ResultsLayers.Add(r_Below);
 
@@ -241,7 +267,7 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 								BorderThickness = new Thickness(0),
 								Background = Brushes.Transparent,
 								TextAlignment = Input.TextAlignment
-							}.MoveTo(x + r_Margin, y + Index * 30).AttachTo(Container);
+							}.MoveTo(x + r_Margin, y).AttachTo(Container);
 
 							var r_Above = new Rectangle
 							{
@@ -250,7 +276,7 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 								Cursor = Cursors.Hand,
 								Width = Input.Width,
 								Height = Input.Height + r_Margin * 2,
-							}.MoveTo(x, y + Index * 30 - r_Margin).AttachTo(Container);
+							}.MoveTo(x, y - r_Margin).AttachTo(Container);
 
 							ResultsLayers.Add(r_Above);
 
@@ -267,8 +293,7 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 
 									CancelExit();
 
-									r_Below.Fill = this.ActiveResultBackground;
-									r.Foreground = this.ActiveResultForeground;
+									DefaultActivate(r_Below, r);
 
 									if (!FriendlyFocusChange)
 									{
@@ -287,8 +312,8 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 
 									if (!HasMouse)
 									{
-										r_Below.Fill = this.InactiveResultBackground;
-										r.Foreground = this.InactiveResultForeground;
+										DefaultDeactivate(r_Below, r);
+
 									}
 
 									StartExit();
@@ -309,8 +334,8 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 									if (HasFocus)
 										return;
 
-									r_Below.Fill = this.ActiveResultBackground;
-									r.Foreground = this.ActiveResultForeground;
+									DefaultActivate(r_Below, r);
+
 								};
 
 							r_Above.MouseLeave +=
@@ -321,8 +346,7 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 									if (HasFocus)
 										return;
 
-									r_Below.Fill = this.InactiveResultBackground;
-									r.Foreground = this.InactiveResultForeground;
+									DefaultDeactivate(r_Below, r);
 								};
 
 

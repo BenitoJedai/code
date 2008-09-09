@@ -11,6 +11,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 	{
 		public Color Color { get; set; }
 
+		public __SolidColorBrush(Color Color)
+		{
+			this.Color = Color;
+		}
+
+		public __SolidColorBrush() : this(Colors.Transparent)
+		{
+
+		}
 
 		public static implicit operator __SolidColorBrush(SolidColorBrush e)
 		{

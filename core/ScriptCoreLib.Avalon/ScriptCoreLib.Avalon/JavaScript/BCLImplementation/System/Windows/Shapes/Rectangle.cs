@@ -57,14 +57,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Shapes
 				__Color color = stroke.Color;
 
 				InternalSprite.style.borderColor = color;
-			
+
 			}
 
 			if (fill != null)
 			{
-				__Color color = fill.Color;
+				__Color color_ = fill.Color;
+				uint color = color_;
 
-				InternalSprite.style.backgroundColor = color;
+				if (color != 0x00ffffffu)
+					InternalSprite.style.backgroundColor = color_;
+				else
+					InternalSprite.style.backgroundColor = "transparent";
+
 			}
 
 			InternalSprite.style.width = _Width + "px";
