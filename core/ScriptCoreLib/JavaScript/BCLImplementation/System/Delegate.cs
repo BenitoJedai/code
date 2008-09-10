@@ -17,14 +17,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
         // TODO: dom events and delay events do not support truly multiple targets
-        public IFunction InvokePointer;
+		IFunction InvokePointerCache;
+
+		public IFunction InvokePointer
+		{
+			get
+			{
+				if (InvokePointerCache == null)
+					InvokePointerCache = InternalGetAsyncInvoke(Target, Method);
+
+				return InvokePointerCache;
+			}
+		}
 
         public __Delegate(object e, global::System.IntPtr p)
         {
             Target = e == null ? Native.Window : e;
             Method = p;
-
-            InvokePointer = InternalGetAsyncInvoke(Target, Method);
         }
 
 

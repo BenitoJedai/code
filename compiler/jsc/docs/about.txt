@@ -148,3 +148,5 @@ version history:
 	javascript: fixed ldftn for BCL types that have a forwarding ImplementationType attribute set
 09.09.2008
 	actionscript: fixed delegates taken from extension methods
+20.09.2008
+	javascript: fixed delegates taken from extension methods

@@ -124,7 +124,7 @@ namespace jsc.Languages.ActionScript
                     w.Write("target");
                     w.WriteAssignment();
 
-					w.WriteKeyword(ActionScriptCompiler.Keywords._this);
+					w.Write("ptr");
 					w.Write(".");
 					w.Write(IsExtensionMethod);
 
@@ -186,11 +186,12 @@ namespace jsc.Languages.ActionScript
 					w.WriteLine();
 					#endregion
 
+					#region add this pointer to argumetns for extension methods
 					w.WriteIdent();
 					w.WriteKeywordSpace(ActionScriptCompiler.Keywords._if);
 
 					w.Write("(");
-					w.WriteKeyword(ActionScriptCompiler.Keywords._this);
+					w.Write("ptr");
 					w.Write(".");
 					w.Write(IsExtensionMethod);
 					w.Write(")");
@@ -205,6 +206,8 @@ namespace jsc.Languages.ActionScript
 					
 					w.Write(";");
 					w.WriteLine();
+					#endregion
+
 
 					w.WriteIdent();
                     
