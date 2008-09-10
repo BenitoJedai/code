@@ -118,7 +118,7 @@ namespace ScriptCoreLib.Shared.Query
 					if (this._1_state == 0)
 					{
 						this._1_state = -1;
-						this._7_wrap = this.source.GetEnumerator();
+						this._7_wrap = this.source.AsEnumerable().GetEnumerator();
 					}
 
 					this._1_state = 1;
@@ -258,7 +258,7 @@ namespace ScriptCoreLib.Shared.Query
 					{
 						this._1_state = -1;
 						this._index = -1;
-						this._7_wrap = this.source.GetEnumerator();
+						this._7_wrap = this.source.AsEnumerable().GetEnumerator();
 					}
 
 					this._1_state = 1;
