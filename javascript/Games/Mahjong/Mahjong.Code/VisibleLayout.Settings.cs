@@ -15,6 +15,8 @@ namespace Mahjong.Code
 			public double ScaledWidth;
 			public double ScaledHeight;
 			public double Scale;
+
+			public bool CreateOverlay;
 		}
 	}
 }

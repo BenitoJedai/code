@@ -6,6 +6,9 @@ using ScriptCoreLib;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows.Controls;
 using Mahjong.Shared;
+using System.Windows.Shapes;
+using System.Windows;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace Mahjong.Code
 {
@@ -25,9 +28,93 @@ namespace Mahjong.Code
 		public VisibleLayout.Entry Entry;
 
 
+		public Rectangle Overlay;
 
+		public Future LayoutProgress;
 
 		public readonly AbstractAsset.Settings Settings;
+
+		public UIElement InteractiveControl
+		{
+			get
+			{
+				if (Overlay == null)
+					return Control;
+
+				return Overlay;
+			}
+		}
+
+		public event Action MouseEnter
+		{
+			add
+			{
+				InteractiveControl.MouseEnter += delegate { value(); };
+			}
+			remove
+			{
+				throw new NotSupportedException();
+			}
+		}
+
+		public event Action MouseLeaveWhenLayoutLoaded
+		{
+			add
+			{
+				this.LayoutProgress.Continue(
+					delegate
+					{
+						InteractiveControl.MouseLeave += delegate { value(); };
+					}
+				);
+			}
+			remove
+			{
+				throw new NotSupportedException();
+			}
+		}
+
+		public event Action MouseEnterWhenLayoutLoaded
+		{
+			add
+			{
+				this.LayoutProgress.Continue(
+					delegate
+					{
+						InteractiveControl.MouseEnter += delegate { value(); };
+					}
+				);
+			}
+			remove
+			{
+				throw new NotSupportedException();
+			}
+		}
+
+
+		public event Action MouseLeave
+		{
+			add
+			{
+				InteractiveControl.MouseLeave += delegate { value(); };
+			}
+			remove
+			{
+				throw new NotSupportedException();
+			}
+		}
+
+		public event Action Click
+		{
+			add
+			{
+				InteractiveControl.MouseLeftButtonUp += delegate { value(); };
+			}
+			remove
+			{
+				throw new NotSupportedException();
+			}
+		}
 
 		public VisibleTile(AbstractAsset.Settings s, RankAsset r)
 		{
