@@ -74,6 +74,39 @@ namespace Mahjong.Code
 			}
 		}
 
+		public event Func<Action> MouseEnterLeaveWhenLayoutLoaded
+		{
+			add
+			{
+				this.LayoutProgress.Continue(
+					delegate
+					{
+						var Leave = new Future();
+
+						InteractiveControl.MouseLeave +=
+							delegate
+							{
+								var x = Leave;
+								Leave = new Future();
+								x.Signal();
+							};
+
+						InteractiveControl.MouseEnter += 
+							delegate 
+							{ 
+								Leave.Continue(value()); 
+
+							};
+					}
+				);
+
+			}
+			remove
+			{
+				throw new NotSupportedException();
+			}
+		}
+
 		public event Action MouseEnterWhenLayoutLoaded
 		{
 			add
@@ -97,6 +130,23 @@ namespace Mahjong.Code
 			add
 			{
 				InteractiveControl.MouseLeave += delegate { value(); };
+			}
+			remove
+			{
+				throw new NotSupportedException();
+			}
+		}
+
+		public event Action ClickWhenLayoutLoaded
+		{
+			add
+			{
+				this.LayoutProgress.Continue(
+					delegate
+					{
+						InteractiveControl.MouseLeftButtonUp += delegate { value(); };
+					}
+				);
 			}
 			remove
 			{
@@ -168,7 +218,7 @@ namespace Mahjong.Code
 				Opacity = 0
 			}.AttachTo(Control).MoveTo(-4 * s.Scale, -4 * s.Scale);
 
-		
+
 
 			GreenFilter = new Image
 			{

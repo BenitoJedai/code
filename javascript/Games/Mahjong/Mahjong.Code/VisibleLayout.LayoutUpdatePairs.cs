@@ -12,10 +12,29 @@ namespace Mahjong.Code
 	partial class VisibleLayout
 	{
 		[Script]
-		public class EntryPair
+		public class EntryPair : IEnumerable<Entry>
 		{
 			public Entry Left;
 			public Entry Right;
+
+
+			#region IEnumerable<Entry> Members
+
+			public IEnumerator<Entry> GetEnumerator()
+			{
+				return new[] { Left, Right }.AsEnumerable().GetEnumerator();
+			}
+
+			#endregion
+
+			#region IEnumerable Members
+
+			System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+			{
+				return this.GetEnumerator();
+			}
+
+			#endregion
 		}
 
 		public EntryPair[] Pairs;

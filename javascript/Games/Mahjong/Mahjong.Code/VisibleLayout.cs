@@ -9,6 +9,7 @@ using Mahjong.Shared;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Windows.Media;
+using System.Windows.Input;
 
 namespace Mahjong.Code
 {
@@ -141,7 +142,7 @@ namespace Mahjong.Code
 		private void LayoutUpdateFinalize()
 		{
 			var s = this.TileSettings;
-			var o = 1;
+			var o = 2;
 			var f = this.Tiles.OrderBy(k => k.z).Last();
 			var h = f.z + o;
 
@@ -173,7 +174,8 @@ namespace Mahjong.Code
 						{
 							Fill = Brushes.Yellow,
 							Width = s.ScaledOuterWidth,
-							Height = s.ScaledOuterHeight
+							Height = s.ScaledOuterHeight,
+							Cursor = Cursors.Hand
 						}.MoveTo(x, y).AttachTo(this.Overlay);
 					}
 

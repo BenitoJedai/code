@@ -86,8 +86,11 @@ namespace Mahjong.Code
 				}
 			);
 
+
+			
 			MyLayout.Container.AttachTo(this);
 
+			#region CoPlayer mouse
 			// place stuff between tiles and cursor here
 			var CoPlayer2 = new Image
 			{
@@ -104,6 +107,7 @@ namespace Mahjong.Code
 					);
 				}
 			);
+			#endregion
 
 			//MyLayout.Overlay.Opacity = 0.1;
 
@@ -134,7 +138,7 @@ namespace Mahjong.Code
 				IsReadOnly = true,
 			}.MoveTo(CommentMargin, CommentMargin).AttachTo(this);
 
-			
+
 
 			var Comment = new TextBox
 			{
@@ -191,6 +195,8 @@ namespace Mahjong.Code
 			MyLayout.LayoutDestroyed +=
 				delegate
 				{
+					Console.WriteLine("LayoutDestroyed ...");
+
 					//Comment.IsReadOnly = true;
 					//CommentSuggestions.Enabled = false;
 				};
@@ -220,43 +226,21 @@ namespace Mahjong.Code
 						v.Tile.Continue(
 							(VisibleTile tt) =>
 							{
-								#region interactive logic
-								tt.MouseEnter +=
-									delegate
-									{
-										tt.GreenFilter.Opacity = 0.5;
-										tt.BlackFilter.Visibility = Visibility.Hidden;
+								// ApplyDiagnostics(tt);
 
+								ApplyDiagnosticsForPairs(MyLayout, tt);
 
-									};
-
-
-
-								tt.MouseLeave +=
-									delegate
-									{
-										tt.GreenFilter.Opacity = 0;
-										tt.BlackFilter.Visibility = Visibility.Visible;
-									};
-
-								// while loading the k.Tile.Value is null for siblings
 
 								tt.MouseEnterWhenLayoutLoaded +=
 									delegate
 									{
-										tt.Entry.Siblings.ForEach(k => k.Tile.Value.YellowFilter.Opacity = 0.5);
-										tt.Entry.BlockingSiblings.ForEach(k => k.Tile.Value.RedFilter.Opacity = 0.5);
+										// we need to lock this tile
+										// otherwise two network clients might take the same
+										// tile yet get out of sync score
+										Console.WriteLine("lock: " + tt.Entry.RankImage.ToString());
 									};
 
-								tt.MouseLeaveWhenLayoutLoaded +=
-									delegate
-									{
-										tt.Entry.Siblings.ForEach(k => k.Tile.Value.YellowFilter.Opacity = 0);
-										tt.Entry.BlockingSiblings.ForEach(k => k.Tile.Value.RedFilter.Opacity = 0);
-									};
-
-
-								tt.Click +=
+								tt.ClickWhenLayoutLoaded +=
 									delegate
 									{
 										//tt.YellowFilter.Opacity = 0;
@@ -269,7 +253,6 @@ namespace Mahjong.Code
 											Sounds.click();
 
 									};
-								#endregion
 
 							}
 						);
@@ -361,6 +344,97 @@ namespace Mahjong.Code
 						};
 				}
 			);
+		}
+
+		private static void ApplyDiagnosticsForPairs(VisibleLayout MyLayout, VisibleTile tt)
+		{
+			tt.MouseEnterLeaveWhenLayoutLoaded +=
+				delegate
+				{
+					tt.BlackFilter.Visibility = Visibility.Hidden;
+
+					return delegate
+					{
+						tt.BlackFilter.Visibility = Visibility.Visible;
+					};
+				};
+
+			tt.MouseEnterLeaveWhenLayoutLoaded +=
+				delegate
+				{
+					if (tt.Entry.BlockingSiblings.Any())
+					{
+
+
+						var SetOpacity = tt.Entry.BlockingSiblings.Select(
+							k =>
+								new Action<double>(
+									Opacity => k.Tile.Value.YellowFilter.Opacity = Opacity
+								)
+							).Combine();
+
+						tt.RedFilter.Opacity = 0.5;
+						SetOpacity(0.5);
+
+						return delegate
+						{
+							tt.RedFilter.Opacity = 0;
+							SetOpacity(0);
+						};
+					}
+					else
+					{
+						var SetOpacity = MyLayout.Pairs.Single(k => k.Contains(tt.Entry)).Select(
+							k =>
+								new Action<double>(
+									Opacity => k.Tile.Value.GreenFilter.Opacity = Opacity
+								)
+							).Combine();
+
+
+						SetOpacity(0.5);
+
+						return delegate
+						{
+							SetOpacity(0);
+						};
+					}
+				};
+		}
+
+		private static void ApplyDiagnostics(VisibleTile tt)
+		{
+			tt.MouseEnter +=
+				delegate
+				{
+					tt.GreenFilter.Opacity = 0.5;
+					tt.BlackFilter.Visibility = Visibility.Hidden;
+				};
+
+
+
+			tt.MouseLeave +=
+				delegate
+				{
+					tt.GreenFilter.Opacity = 0;
+					tt.BlackFilter.Visibility = Visibility.Visible;
+				};
+
+			// while loading the k.Tile.Value is null for siblings
+
+			tt.MouseEnterWhenLayoutLoaded +=
+				delegate
+				{
+					tt.Entry.Siblings.ForEach(k => k.Tile.Value.YellowFilter.Opacity = 0.5);
+					tt.Entry.BlockingSiblings.ForEach(k => k.Tile.Value.RedFilter.Opacity = 0.5);
+				};
+
+			tt.MouseLeaveWhenLayoutLoaded +=
+				delegate
+				{
+					tt.Entry.Siblings.ForEach(k => k.Tile.Value.YellowFilter.Opacity = 0);
+					tt.Entry.BlockingSiblings.ForEach(k => k.Tile.Value.RedFilter.Opacity = 0);
+				};
 		}
 
 
