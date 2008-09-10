@@ -8,6 +8,31 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+
+		
+		public static Action<T> Combine<T>(this IEnumerable<Action<T>> source)
+		{
+			return
+				(a) =>
+				{
+					foreach (var e in source)
+					{
+						e(a);
+					}
+				};
+		}
+
+		public static Func<bool> And(this Func<bool> a, Func<bool> b)
+		{
+			return () => a() && b();
+		}
+
+		public static Func<bool> Or(this Func<bool> a, Func<bool> b)
+		{
+			return () => a() || b();
+		}
+
+
 		public static TReturn[] ToArray<T, TReturn>(this IEnumerable<T> source, Func<T, TReturn> selector)
 		{
 			return source.Select(selector).ToArray();
@@ -135,15 +160,6 @@ namespace ScriptCoreLib.Shared.Lambda
 			return r;
 		}
 
-		public static Func<bool> And(this Func<bool> a, Func<bool> b)
-		{
-			return () => a() && b();
-		}
-
-		public static Func<bool> Or(this Func<bool> a, Func<bool> b)
-		{
-			return () => a() || b();
-		}
 
 		public static T Previous<T>(this IEnumerable<T> source, Func<T, bool> predicate)
 		{
