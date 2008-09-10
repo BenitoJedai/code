@@ -81,11 +81,33 @@ namespace Mahjong.Code
 				{
 					Scale = DefaultScale,
 					ScaledWidth = DefaultScaledWidth,
-					ScaledHeight = DefaultScaledHeight
+					ScaledHeight = DefaultScaledHeight,
+					CreateOverlay = true,
 				}
 			);
 
 			MyLayout.Container.AttachTo(this);
+
+			// place stuff between tiles and cursor here
+			var CoPlayer2 = new Image
+			{
+				Source = CursorAssets.Cursors["red"].ToSource()
+			}.MoveTo(32, 32).AttachTo(this);
+
+
+			(1000 / 30).AtIntervalWithCounter(
+				Counter =>
+				{
+					CoPlayer2.MoveTo(
+						DefaultScaledWidth / 2 + Math.Cos((double)Counter / 20) * 64,
+						DefaultScaledHeight / 2 + Math.Sin((double)Counter / 20) * 64
+					);
+				}
+			);
+
+			//MyLayout.Overlay.Opacity = 0.1;
+
+			MyLayout.Overlay.AttachTo(this);
 
 			#region Layout Selection
 			// http://www.stripegenerator.com
@@ -98,7 +120,7 @@ namespace Mahjong.Code
 				Visibility = Visibility.Hidden
 			}.AttachTo(this);
 
-			
+
 			var CommentMargin = 8;
 			var CommentForUnfocusing = new TextBox
 			{
@@ -111,6 +133,8 @@ namespace Mahjong.Code
 				TextAlignment = TextAlignment.Left,
 				IsReadOnly = true,
 			}.MoveTo(CommentMargin, CommentMargin).AttachTo(this);
+
+			
 
 			var Comment = new TextBox
 			{
@@ -126,7 +150,7 @@ namespace Mahjong.Code
 
 			var CommentSuggestions = new TextSuggestionsControl(Comment, 6, CommentForUnfocusing, this)
 			{
-				Suggestions = new string [0],
+				Suggestions = new string[0],
 				InactiveResultBackground = Brushes.Transparent,
 				Margin = 2,
 				Enabled = false
@@ -187,7 +211,7 @@ namespace Mahjong.Code
 					);
 					// we should suffle the ranks
 
-				
+
 
 					foreach (var v in MyLayout.Tiles)
 					{
@@ -197,7 +221,7 @@ namespace Mahjong.Code
 							(VisibleTile tt) =>
 							{
 								#region interactive logic
-								tt.Control.MouseEnter +=
+								tt.MouseEnter +=
 									delegate
 									{
 										tt.GreenFilter.Opacity = 0.5;
@@ -206,9 +230,9 @@ namespace Mahjong.Code
 
 									};
 
-				
 
-								tt.Control.MouseLeave +=
+
+								tt.MouseLeave +=
 									delegate
 									{
 										tt.GreenFilter.Opacity = 0;
@@ -216,26 +240,23 @@ namespace Mahjong.Code
 									};
 
 								// while loading the k.Tile.Value is null for siblings
-								MyLayout.LayoutProgress.Continue(
+
+								tt.MouseEnterWhenLayoutLoaded +=
 									delegate
 									{
-										tt.Control.MouseEnter +=
-											delegate
-											{
-												tt.Entry.Siblings.ForEach(k => k.Tile.Value.YellowFilter.Opacity = 0.5);
-												tt.Entry.BlockingSiblings.ForEach(k => k.Tile.Value.RedFilter.Opacity = 0.5);
-											};
+										tt.Entry.Siblings.ForEach(k => k.Tile.Value.YellowFilter.Opacity = 0.5);
+										tt.Entry.BlockingSiblings.ForEach(k => k.Tile.Value.RedFilter.Opacity = 0.5);
+									};
 
-										tt.Control.MouseLeave +=
-											delegate
-											{
-												tt.Entry.Siblings.ForEach(k => k.Tile.Value.YellowFilter.Opacity = 0);
-												tt.Entry.BlockingSiblings.ForEach(k => k.Tile.Value.RedFilter.Opacity = 0);
-											};
-									}
-								);
+								tt.MouseLeaveWhenLayoutLoaded +=
+									delegate
+									{
+										tt.Entry.Siblings.ForEach(k => k.Tile.Value.YellowFilter.Opacity = 0);
+										tt.Entry.BlockingSiblings.ForEach(k => k.Tile.Value.RedFilter.Opacity = 0);
+									};
 
-								tt.Control.MouseLeftButtonUp +=
+
+								tt.Click +=
 									delegate
 									{
 										//tt.YellowFilter.Opacity = 0;
@@ -308,12 +329,12 @@ namespace Mahjong.Code
 			//        button1.Foreground = Brushes.White;
 			//    };
 
-	
+
 
 			Layouts = new LayoutsFuture(Assets.Default.FileNames.Where(k => k.EndsWith(".lay")).Randomize().ToArray());
 
 			Layouts.FirstLoaded.Continue(
-				value => 
+				value =>
 				{
 					MyLayout.Layout = value;
 				}
@@ -323,7 +344,7 @@ namespace Mahjong.Code
 				ByComment =>
 				{
 					CommentSuggestions.Suggestions = ByComment.Keys.ToArray();
-				
+
 					CommentSuggestions.Select +=
 						NewLayoutComment =>
 						{

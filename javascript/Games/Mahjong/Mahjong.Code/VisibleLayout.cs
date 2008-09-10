@@ -7,6 +7,8 @@ using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using Mahjong.Shared;
 using System.Windows.Controls;
+using System.Windows.Shapes;
+using System.Windows.Media;
 
 namespace Mahjong.Code
 {
@@ -18,6 +20,8 @@ namespace Mahjong.Code
 
 		public readonly Canvas Container;
 
+		public readonly Canvas Overlay;
+
 		public VisibleLayout(SettingsInfo s)
 		{
 			this.Settings = s;
@@ -25,6 +29,22 @@ namespace Mahjong.Code
 
 			this.Container = new Canvas { Width = s.ScaledWidth, Height = s.ScaledHeight };
 
+			if (s.CreateOverlay)
+			{
+				this.Overlay = new Canvas { 
+					Width = s.ScaledWidth, 
+					Height = s.ScaledHeight,
+					Opacity = 0
+				};
+
+				new Rectangle
+				{
+					Fill = Brushes.Blue,
+					Width = s.ScaledWidth,
+					Height = s.ScaledHeight
+				}.AttachTo(Overlay);
+
+			}
 		}
 
 		Layout _Layout;
@@ -74,6 +94,7 @@ namespace Mahjong.Code
 						foreach (var v in t.Tiles)
 						{
 							v.Tile.Value.Control.Orphanize();
+							v.Tile.Value.Overlay.Orphanize();
 						}
 					}
 				);
@@ -131,14 +152,30 @@ namespace Mahjong.Code
 			this.Tiles.ForEach(
 				(entry, index, SignalNext) =>
 				{
-					var tt = new VisibleTile(s, entry.RankImage) { Entry = entry };
+					var tt = new VisibleTile(s, entry.RankImage) 
+					{ 
+						Entry = entry,
+						LayoutProgress = this.LayoutProgress
+					};
 
-					tt.Control.MoveTo(
-						48 + ((s.ScaledInnerWidth + s.ScaledSpacing) * entry.x + (s.ScaledBorderWidth + s.ScaledSpacing) * entry.z) / 2,
-						32 + ((s.ScaledInnerHeight + s.ScaledSpacing) * entry.y - (s.ScaledBorderHeight + s.ScaledSpacing) * entry.z) / 2
+					var x = 48 + ((s.ScaledInnerWidth + s.ScaledSpacing) * entry.x + (s.ScaledBorderWidth + s.ScaledSpacing) * entry.z) / 2;
+					var y = 32 + ((s.ScaledInnerHeight + s.ScaledSpacing) * entry.y - (s.ScaledBorderHeight + s.ScaledSpacing) * entry.z) / 2;
+
+ 					tt.Control.MoveTo(
+						x,
+						y
 					).AttachTo(this.Container);
 
 
+					if (this.Settings.CreateOverlay)
+					{
+						tt.Overlay = new Rectangle
+						{
+							Fill = Brushes.Yellow,
+							Width = s.ScaledOuterWidth,
+							Height = s.ScaledOuterHeight
+						}.MoveTo(x, y).AttachTo(this.Overlay);
+					}
 
 					tt.BlackFilter.Opacity = (double)(h - (entry.z + o)) / h;
 
