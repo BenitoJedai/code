@@ -346,11 +346,25 @@ namespace Mahjong.Code
 					if (Savepoints.Count > 0)
 						MyLayout.ReadFrom(Savepoints.Pop());
 
-					Console.WriteLine("undo");
+					Console.WriteLine("Load");
 				};
 
 			ButtonLoad.Container.MoveTo(8, DefaultScaledHeight - 32).AttachTo(this);
 
+			var ButtonUndo = new BlueButton
+			{
+				Width = 120,
+				Height = 24,
+				Text = "Undo",
+			};
+
+			ButtonUndo.Click +=
+				delegate
+				{
+					MyLayout.UndoRemove();
+				};
+
+			ButtonUndo.Container.MoveTo(DefaultScaledWidth - 8 - 120, DefaultScaledHeight - 8 - 24).AttachTo(this);
 
 
 			Layouts = new LayoutsFuture(Assets.Default.FileNames.Where(k => k.EndsWith(".lay")).Randomize().ToArray());

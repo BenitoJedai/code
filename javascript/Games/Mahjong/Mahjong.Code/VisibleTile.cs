@@ -82,8 +82,12 @@ namespace Mahjong.Code
 					if (Overlay != null)
 						Overlay.Visibility = Visibility.Hidden;
 				}
+
+
 			}
 		}
+
+	
 		#region events
 		public event Action MouseEnter
 		{
@@ -212,6 +216,7 @@ namespace Mahjong.Code
 			this.Settings = s;
 			this.Rank = r;
 
+			Control.Visibility = Visibility.Hidden;
 			Control.Width = s.OuterWidth;
 			Control.Height = s.OuterHeight;
 
