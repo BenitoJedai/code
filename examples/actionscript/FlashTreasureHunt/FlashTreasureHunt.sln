@@ -14,8 +14,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTreasureHunt.ConsoleTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTreasureHunt.Game", "FlashTreasureHunt.Game\FlashTreasureHunt.Game.csproj", "{5F48E004-6888-4FB1-934E-71823F067954}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTreasureHunt.NonobaWrapper", "FlashTreasureHunt.NonobaWrapper\FlashTreasureHunt.NonobaWrapper.csproj", "{3A8ABA7D-CE17-43DC-8942-3DFCF43763F8}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,10 +36,6 @@ Global
 		{5F48E004-6888-4FB1-934E-71823F067954}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F48E004-6888-4FB1-934E-71823F067954}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F48E004-6888-4FB1-934E-71823F067954}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3A8ABA7D-CE17-43DC-8942-3DFCF43763F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3A8ABA7D-CE17-43DC-8942-3DFCF43763F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3A8ABA7D-CE17-43DC-8942-3DFCF43763F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3A8ABA7D-CE17-43DC-8942-3DFCF43763F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

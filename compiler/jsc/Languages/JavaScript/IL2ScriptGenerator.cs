@@ -171,6 +171,7 @@ namespace jsc
 
 			Handlers[OpCodes.Conv_R8,
 					OpCodes.Conv_I4,
+					OpCodes.Conv_I2,
 					OpCodes.Conv_Ovf_I4,
 					OpCodes.Conv_Ovf_I4_Un,
 					OpCodes.Conv_I8,
@@ -178,7 +179,8 @@ namespace jsc
 					OpCodes.Conv_R4,
 					OpCodes.Conv_U4,
 					OpCodes.Conv_U2,
-					 OpCodes.Conv_U1
+					 OpCodes.Conv_U1,
+					 OpCodes.Conv_Ovf_I
 					] = new OpCodeHandler(OpCode_conv);
 
 			Handlers[

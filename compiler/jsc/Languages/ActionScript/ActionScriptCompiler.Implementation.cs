@@ -47,6 +47,10 @@ namespace jsc.Languages.ActionScript
 			get { return true; }
 		}
 
+		public override bool IsUTF8SupportedInLiterals()
+		{
+			return true;
+		}
 
 		public override ScriptCoreLib.ScriptType GetScriptType()
 		{

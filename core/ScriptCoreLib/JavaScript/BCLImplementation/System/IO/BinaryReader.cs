@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using ScriptCoreLib.ActionScript.Extensions;
-using ScriptCoreLib.ActionScript.flash.utils;
+using ScriptCoreLib.JavaScript.DOM;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
+namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 {
 	[Script(Implements = typeof(global::System.IO.BinaryReader))]
 	internal class __BinaryReader
@@ -39,27 +38,51 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 
 		public virtual uint ReadUInt32()
 		{
-			return m_stream.ToByteArray().readUnsignedInt();
+			FillBuffer(4);
+
+			uint v = 0;
+
+			v += (uint)(this.m_buffer[0] << (0 * 8));
+			v += (uint)(this.m_buffer[1] << (1 * 8));
+			v += (uint)(this.m_buffer[2] << (2 * 8));
+			v += (uint)(this.m_buffer[3] << (3 * 8));
+
+			return v;
 		}
 
 		public virtual byte[] ReadBytes(int length)
 		{
-			var k = new ByteArray();
-			var s = m_stream.ToByteArray();
+			var u = new byte[length];
 
-			s.readBytes(k, s.position, (uint)length);
+			this.m_stream.Read(u, 0, length);
 
-			return k.ToArray();
+			return u;
 		}
 
 		public virtual int ReadInt32()
 		{
-			return m_stream.ToByteArray().readInt();
+			FillBuffer(4);
+
+			int v = 0;
+
+			v += this.m_buffer[0] << (0 * 8);
+			v += this.m_buffer[1] << (1 * 8);
+			v += this.m_buffer[2] << (2 * 8);
+			v += this.m_buffer[3] << (3 * 8);
+
+			return v;
 		}
 
 		public virtual short ReadInt16()
 		{
-			return m_stream.ToByteArray().readShort();
+			FillBuffer(2);
+
+			short v = 0;
+
+			v += (short)(this.m_buffer[0] << (0 * 8));
+			v += (short)(this.m_buffer[1] << (1 * 8));
+
+			return v;
 		}
 
 		private void FillBuffer(int p)
@@ -93,16 +116,55 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 
 		public virtual double ReadDouble()
 		{
-			return m_stream.ToByteArray().readDouble();
-
+			throw new NotSupportedException();
 		}
 
 		public virtual string ReadString()
 		{
 			var length = Read7BitEncodedInt();
-			//var bytes = ReadBytes(length);
+			var bytes = ReadBytes(length);
+			var i = 0;
+			var a = new IArray<int>();
 
-			return m_stream.ToByteArray().readUTFBytes((uint)length);
+			while (i < bytes.Length)
+			{
+				int c = bytes[i];
+
+				if (c < 128)
+				{
+					a.push(c);
+					i++;
+				}
+				else
+				{
+					var gt_191 = c > 191;
+					var lt_224 = c < 224;
+
+					if (gt_191 && lt_224)
+					{
+						int c2 = bytes[i + 1];
+						a.push(((c & 31) << 6) | (c2 & 63));
+						i += 2;
+					}
+					else
+					{
+						int c2 = bytes[i + 1];
+						int c3 = bytes[i + 2];
+						a.push(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+						i += 3;
+					}
+				}
+
+			}
+
+
+			return String_fromCharCode(a);
+		}
+
+		[Script(OptimizedCode = "return String.fromCharCode.apply(null, e);")]
+		static string String_fromCharCode(int[] e)
+		{
+			return default(string);
 		}
 
 		protected internal int Read7BitEncodedInt()
@@ -126,6 +188,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 
 			return num;
 		}
+
+
+
+
+
 
 		public static implicit operator __BinaryReader(BinaryReader r)
 		{

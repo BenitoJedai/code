@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Windows;
 using ScriptCoreLib.Shared.Avalon.TextSuggestions;
 using ScriptCoreLib.Avalon.TextButton.Shared.Avalon.TextButton;
+using System.IO;
 
 namespace Mahjong.Code
 {
@@ -301,6 +302,8 @@ namespace Mahjong.Code
 
 				};
 
+			var Savepoints = new Stack<MemoryStream>();
+
 			var ButtonSave = new BlueButton
 			{
 				Width = 120,
@@ -311,7 +314,18 @@ namespace Mahjong.Code
 			ButtonSave.Click +=
 				delegate
 				{
-					Console.WriteLine("save");
+					MyLayout.LayoutProgress.Continue(
+						delegate
+						{
+							var m = new MemoryStream();
+
+							MyLayout.WriteTo(m);
+
+							Savepoints.Push(m);
+
+							Console.WriteLine("save: " + m.Length);
+						}
+					);
 				};
 
 			ButtonSave.Container.MoveTo(8, DefaultScaledHeight - 64).AttachTo(this);
@@ -326,7 +340,10 @@ namespace Mahjong.Code
 			ButtonLoad.Click +=
 				delegate
 				{
-					Console.WriteLine("load");
+					if (Savepoints.Count > 0)
+						MyLayout.ReadFrom(Savepoints.Pop());
+
+					Console.WriteLine("undo");
 				};
 
 			ButtonLoad.Container.MoveTo(8, DefaultScaledHeight - 32).AttachTo(this);
