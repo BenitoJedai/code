@@ -32,8 +32,9 @@ namespace Mahjong.Code
 
 			if (s.CreateOverlay)
 			{
-				this.Overlay = new Canvas { 
-					Width = s.ScaledWidth, 
+				this.Overlay = new Canvas
+				{
+					Width = s.ScaledWidth,
 					Height = s.ScaledHeight,
 					Opacity = 0
 				};
@@ -102,7 +103,7 @@ namespace Mahjong.Code
 			}
 		}
 
-	
+
 
 
 
@@ -111,7 +112,7 @@ namespace Mahjong.Code
 			this.LayoutProgress = new Future();
 
 			this.TilesInfo = new TilesInfoType(this.Layout.CountZ, this.Layout.Tiles);
-			
+
 
 			LayoutUpdatePairs(
 				delegate
@@ -134,10 +135,10 @@ namespace Mahjong.Code
 				}
 			);
 
-			
+
 		}
 
-	
+
 
 		private void LayoutUpdateFinalize()
 		{
@@ -153,8 +154,8 @@ namespace Mahjong.Code
 			this.Tiles.ForEach(
 				(entry, index, SignalNext) =>
 				{
-					var tt = new VisibleTile(s, entry.RankImage) 
-					{ 
+					var tt = new VisibleTile(s, entry.RankImage)
+					{
 						Entry = entry,
 						LayoutProgress = this.LayoutProgress
 					};
@@ -162,7 +163,7 @@ namespace Mahjong.Code
 					var x = 48 + ((s.ScaledInnerWidth + s.ScaledSpacing) * entry.x + (s.ScaledBorderWidth + s.ScaledSpacing) * entry.z) / 2;
 					var y = 32 + ((s.ScaledInnerHeight + s.ScaledSpacing) * entry.y - (s.ScaledBorderHeight + s.ScaledSpacing) * entry.z) / 2;
 
- 					tt.Control.MoveTo(
+					tt.Control.MoveTo(
 						x,
 						y
 					).AttachTo(this.Container);
@@ -207,5 +208,36 @@ namespace Mahjong.Code
 		/// direct dispatch when loaded
 		/// </summary>
 		public Future LayoutProgress;
+
+		public void Remove(VisibleTile a, VisibleTile b)
+		{
+			this.TilesInfo.Tiles = this.TilesInfo.Tiles.Where(
+				k =>
+				{
+					if (k == a.Entry)
+						return false;
+
+					if (k == b.Entry)
+						return false;
+
+					return true;
+				}
+			).ToArray();
+ 
+			this.TilesInfo.TilesByPointer[a.Entry.Pointer] = null;
+			this.TilesInfo.TilesByPointer[b.Entry.Pointer] = null;
+
+			a.Entry.Siblings.ForEach(k => k.FindSiblings(this.TilesInfo.TilesByPointer));
+			b.Entry.Siblings.ForEach(k => k.FindSiblings(this.TilesInfo.TilesByPointer));
+
+
+			a.Overlay.Orphanize();
+			a.Control.Orphanize();
+
+			b.Control.Orphanize();
+			b.Overlay.Orphanize();
+
+
+		}
 	}
 }

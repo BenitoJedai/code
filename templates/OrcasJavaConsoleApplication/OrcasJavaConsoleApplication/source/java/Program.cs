@@ -9,9 +9,10 @@ namespace OrcasJavaConsoleApplication.source.java
     [Script]
     public class Program
     {
-        public static string Text;
+		public static string Text { get; set; }
 
-        public static void main(string[] args)
+
+        public static void Main(string[] args)
         {
             // doubleclicking on the jar will not show the console
 
@@ -19,7 +20,7 @@ namespace OrcasJavaConsoleApplication.source.java
 
             var dot = "...";
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 2; i++)
             {
                 Thread.Sleep(500);
 
