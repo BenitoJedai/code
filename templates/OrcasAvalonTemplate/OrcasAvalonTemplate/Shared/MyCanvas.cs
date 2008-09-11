@@ -22,17 +22,16 @@ namespace OrcasAvalonTemplate.Shared
 			Width = DefaultWidth;
 			Height = DefaultHeight;
 
-			#region Gradient
-			for (int i = 0; i < DefaultHeight; i += 4)
-			{
-				new Rectangle
-				{
-					Fill = ((uint)(0xff00007F + Convert.ToInt32(128 * i / DefaultHeight))).ToSolidColorBrush(),
-					Width = DefaultWidth,
-					Height = 4,
-				}.MoveTo(0, i).AttachTo(this);
-			}
-			#endregion
+			Colors.Blue.ToGradient(Colors.Red, DefaultHeight / 4).Select(
+				(c, i) =>
+					new Rectangle
+					{
+						Fill = new SolidColorBrush(c),
+						Width = DefaultWidth,
+						Height = 4,
+					}.MoveTo(0, i * 4).AttachTo(this)
+			).ToArray();
+
 
 			var help_idle = new Image
 			{
