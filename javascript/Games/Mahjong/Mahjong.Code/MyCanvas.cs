@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Shapes;
 using System.Windows;
 using ScriptCoreLib.Shared.Avalon.TextSuggestions;
+using ScriptCoreLib.Avalon.TextButton.Shared.Avalon.TextButton;
 
 namespace Mahjong.Code
 {
@@ -53,7 +54,8 @@ namespace Mahjong.Code
 				birds = PlaySoundFuture["birds"],
 				flag = PlaySoundFuture["flag"],
 				buzzer = PlaySoundFuture["buzzer"],
-				reveal = PlaySoundFuture["reveal"]
+				reveal = PlaySoundFuture["reveal"],
+				treasure = PlaySoundFuture["treasure"],
 			};
 
 			Sounds.birds();
@@ -249,6 +251,7 @@ namespace Mahjong.Code
 
 										if (tt.Entry.BlockingSiblings.Any())
 										{
+											SelectedTile = null;
 											Sounds.buzzer();
 										}
 										else
@@ -261,13 +264,14 @@ namespace Mahjong.Code
 											
 
 												SelectedTile = null;
+												Sounds.treasure();
 											}
 											else
 											{
 												SelectedTile = tt;
+												Sounds.click();
 											}
 
-											Sounds.click();
 										}
 
 									};
@@ -297,38 +301,35 @@ namespace Mahjong.Code
 
 				};
 
-			//var button1 = new TextBox
-			//{
-			//    Foreground = Brushes.White,
-			//    Background = Brushes.Transparent,
-			//    Text = "Next Layout »",
-			//    IsReadOnly = true,
-			//    Width = 120,
-			//    Height = 24,
-			//    BorderThickness = new Thickness(0),
-			//    TextAlignment = TextAlignment.Center
-			//}.MoveTo(8, DefaultScaledHeight - 32).AttachTo(this);
+			var ButtonSave = new BlueButton
+			{
+				Width = 120,
+				Height = 24,
+				Text = "Save",
+			};
 
-			//var button1_overlay = new Rectangle
-			//{
-			//    Width = 120,
-			//    Height = 24,
-			//    Fill = Brushes.Blue,
-			//    Opacity = 0.0,
-			//    Cursor = Cursors.Hand
-			//}.MoveTo(8, DefaultScaledHeight - 32).AttachTo(this);
+			ButtonSave.Click +=
+				delegate
+				{
+					Console.WriteLine("save");
+				};
 
-			//button1_overlay.MouseEnter +=
-			//    delegate
-			//    {
-			//        button1.Foreground = Brushes.Blue;
-			//    };
+			ButtonSave.Container.MoveTo(8, DefaultScaledHeight - 64).AttachTo(this);
 
-			//button1_overlay.MouseLeave +=
-			//    delegate
-			//    {
-			//        button1.Foreground = Brushes.White;
-			//    };
+			var ButtonLoad = new BlueButton
+			{
+				Width = 120,
+				Height = 24,
+				Text = "Load",
+			};
+
+			ButtonLoad.Click +=
+				delegate
+				{
+					Console.WriteLine("load");
+				};
+
+			ButtonLoad.Container.MoveTo(8, DefaultScaledHeight - 32).AttachTo(this);
 
 
 
