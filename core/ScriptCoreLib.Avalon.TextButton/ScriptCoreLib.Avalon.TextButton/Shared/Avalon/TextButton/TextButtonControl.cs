@@ -9,7 +9,7 @@ using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows;
 using System.Windows.Input;
 
-namespace ScriptCoreLib.Avalon.TextButton.Shared.Avalon.TextButton
+namespace ScriptCoreLib.Shared.Avalon.TextButton
 {
 	[Script]
 	public class TextButtonControl
@@ -34,21 +34,21 @@ namespace ScriptCoreLib.Avalon.TextButton.Shared.Avalon.TextButton
 			this.Background = new Rectangle
 			{
 				Fill = Brushes.Transparent,
-			}.AttachTo(this.Container);
+			}.AttachTo(this.Container).MoveTo(0, 0);
 
 			this.Content = new TextBox
 			{
 				Background = Brushes.Transparent,
 				BorderThickness = new Thickness(0),
 				IsReadOnly = true
-			}.AttachTo(this.Container);
+			}.AttachTo(this.Container).MoveTo(0, 0);
 
 			this.Overlay = new Rectangle
 			{
 				Cursor = Cursors.Hand,
 				Fill = Brushes.White,
 				Opacity = 0
-			}.AttachTo(this.Container);
+			}.AttachTo(this.Container).MoveTo(0, 0);
 		}
 
 		public Brush Foreground

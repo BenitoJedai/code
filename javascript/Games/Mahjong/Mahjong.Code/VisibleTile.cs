@@ -60,6 +60,30 @@ namespace Mahjong.Code
 			}
 		}
 
+		public bool Visible
+		{
+			get
+			{
+				return this.Entry.Visible;
+			}
+			set
+			{
+				this.Entry.Visible = value;
+
+				if (value)
+				{
+					Control.Visibility = Visibility.Visible;
+					if (Overlay != null)
+						Overlay.Visibility = Visibility.Visible;
+				}
+				else
+				{
+					Control.Visibility = Visibility.Hidden;
+					if (Overlay != null)
+						Overlay.Visibility = Visibility.Hidden;
+				}
+			}
+		}
 		#region events
 		public event Action MouseEnter
 		{

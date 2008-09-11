@@ -30,8 +30,14 @@ namespace Mahjong.Shared
 		public string Source;
 
 		public Layout(string DataString)
+			: this(DataString, null)
+		{
+		}
+
+		public Layout(string DataString, Entry[] Tiles)
 		{
 			this.DataString = DataString;
+			this._Tiles = Tiles;
 		}
 
 		string _DataString;
@@ -193,6 +199,7 @@ namespace Mahjong.Shared
 
 				return _Tiles;
 			}
+			
 		}
 
 		/// <summary>

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ScriptCoreLib.Avalon.TextButton.Shared.Avalon.TextButton;
 using ScriptCoreLib;
 using System.Windows.Media;
 using System.Windows;
+using ScriptCoreLib.Shared.Avalon.TextButton;
 
 namespace Mahjong.Code
 {

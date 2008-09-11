@@ -145,11 +145,16 @@ namespace Mahjong.Code
 		{
 			var s = this.TileSettings;
 			var o = 2;
-			var f = this.Tiles.OrderBy(k => k.z).Last();
-			var h = f.z + o;
+			var h = 0;
 
-			if (h < o)
-				h = o;
+			if (this.Tiles.Length > 0)
+			{
+				var f = this.Tiles.OrderBy(k => k.z).Last();
+				h = f.z + o;
+
+				if (h < o)
+					h = o;
+			}
 
 			// just render what we know
 			this.Tiles.ForEach(
@@ -158,7 +163,7 @@ namespace Mahjong.Code
 					var tt = new VisibleTile(s, entry.RankImage)
 					{
 						Entry = entry,
-						LayoutProgress = this.LayoutProgress
+						LayoutProgress = this.LayoutProgress,
 					};
 
 					var x = 48 + ((s.ScaledInnerWidth + s.ScaledSpacing) * entry.x + (s.ScaledBorderWidth + s.ScaledSpacing) * entry.z) / 2;
@@ -184,6 +189,8 @@ namespace Mahjong.Code
 					tt.BlackFilter.Opacity = (double)(h - (entry.z + o)) / h;
 
 					entry.Tile.Value = tt;
+
+					tt.Visible = entry.Visible;
 
 					1.AtDelay(SignalNext);
 				}
@@ -212,31 +219,34 @@ namespace Mahjong.Code
 
 		public void Remove(VisibleTile a, VisibleTile b)
 		{
-			this.TilesInfo.Tiles = this.TilesInfo.Tiles.Where(
-				k =>
-				{
-					if (k == a.Entry)
-						return false;
+			//this.TilesInfo.Tiles = this.TilesInfo.Tiles.Where(
+			//    k =>
+			//    {
+			//        if (k == a.Entry)
+			//            return false;
 
-					if (k == b.Entry)
-						return false;
+			//        if (k == b.Entry)
+			//            return false;
 
-					return true;
-				}
-			).ToArray();
+			//        return true;
+			//    }
+			//).ToArray();
  
-			this.TilesInfo.TilesByPointer[a.Entry.Pointer] = null;
-			this.TilesInfo.TilesByPointer[b.Entry.Pointer] = null;
+			//this.TilesInfo.TilesByPointer[a.Entry.Pointer] = null;
+			//this.TilesInfo.TilesByPointer[b.Entry.Pointer] = null;
+
+			a.Visible = false;
+			b.Visible = false;
 
 			a.Entry.Siblings.ForEach(k => k.FindSiblings(this.TilesInfo.TilesByPointer));
 			b.Entry.Siblings.ForEach(k => k.FindSiblings(this.TilesInfo.TilesByPointer));
 
 
-			a.Overlay.Orphanize();
-			a.Control.Orphanize();
+			//a.Overlay.Orphanize();
+			//a.Control.Orphanize();
 
-			b.Control.Orphanize();
-			b.Overlay.Orphanize();
+			//b.Control.Orphanize();
+			//b.Overlay.Orphanize();
 
 
 		}

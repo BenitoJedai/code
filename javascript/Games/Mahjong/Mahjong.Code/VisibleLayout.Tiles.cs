@@ -27,14 +27,21 @@ namespace Mahjong.Code
 				this.Tiles = source.Select(
 					k =>
 					{
-						var n = new Entry
-						{
-							index = k.index,
-							x = k.x,
-							y = k.y,
-							z = k.z,
+						var x = k as Entry;
 
-						};
+						var n = new Entry
+							{
+								index = k.index,
+								x = k.x,
+								y = k.y,
+								z = k.z,
+							};
+
+						if (x != null)
+						{
+							n.RankImage = x.RankImage;
+							n.Visible = x.Visible;
+						}
 
 						this.TilesByPointer[n.Pointer] = n;
 
@@ -42,6 +49,11 @@ namespace Mahjong.Code
 					}
 				).ToArray();
 
+				FindSiblings();
+			}
+
+			public void FindSiblings()
+			{
 				foreach (var v in this.Tiles)
 				{
 					v.FindSiblings(this.TilesByPointer);
