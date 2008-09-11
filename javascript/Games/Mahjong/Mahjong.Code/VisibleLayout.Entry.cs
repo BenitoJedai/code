@@ -55,6 +55,8 @@ namespace Mahjong.Code
 						+ x;
 			}
 
+			public bool Visible = true;
+
 			public void FindSiblings(Entry[] ByPointer)
 			{
 				Func<int, int, int, Entry> f =
@@ -68,7 +70,15 @@ namespace Mahjong.Code
 						if (p >= ByPointer.Length)
 							return null;
 
-						return ByPointer[p];
+						var n = ByPointer[p];
+
+						if (n == null)
+							return null;
+
+						if (!n.Visible)
+							return null;
+
+						return n;
 					};
 
 				Func<int, Entry[]> q =
@@ -116,7 +126,7 @@ namespace Mahjong.Code
 				};
 
 				// we are only blocked if both sides have a sibling
-		
+
 
 				var above =
 					new[]
@@ -135,7 +145,7 @@ namespace Mahjong.Code
 						r = r.Concat(_right);
 					}
 
-			
+
 
 				this.BlockingSiblings =
 					r.Where(k => k != null).ToArray();

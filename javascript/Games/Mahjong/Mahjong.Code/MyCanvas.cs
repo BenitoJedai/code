@@ -14,7 +14,6 @@ using System.Windows.Input;
 using System.Windows.Shapes;
 using System.Windows;
 using ScriptCoreLib.Shared.Avalon.TextSuggestions;
-using ScriptCoreLib.Avalon.TextButton.Shared.Avalon.TextButton;
 using System.IO;
 
 namespace Mahjong.Code
@@ -321,6 +320,10 @@ namespace Mahjong.Code
 
 							MyLayout.WriteTo(m);
 
+							// rewind
+							m.Position = 0;
+
+
 							Savepoints.Push(m);
 
 							Console.WriteLine("save: " + m.Length);
@@ -420,19 +423,23 @@ namespace Mahjong.Code
 					}
 					else
 					{
-						var SetOpacity = MyLayout.Pairs.Single(k => k.Contains(tt.Entry)).Select(
-							k =>
-								new Action<double>(
-									Opacity => k.Tile.Value.GreenFilter.Opacity = Opacity
-								)
-							).Combine();
+						tt.GreenFilter.Opacity = 0.5;
 
+						var a = MyLayout.Tiles.WhereNot(k => k.BlockingSiblings.Any()).Where(k => k.Tile.Value.IsPairable(tt)).ToArray();
 
-						SetOpacity(0.5);
+						foreach (var v in a)
+						{
+							v.Tile.Value.YellowFilter.Opacity = 0.5;
+						}
 
 						return delegate
 						{
-							SetOpacity(0);
+							tt.GreenFilter.Opacity = 0;
+
+							foreach (var v in a)
+							{
+								v.Tile.Value.YellowFilter.Opacity = 0;
+							}
 						};
 					}
 				};

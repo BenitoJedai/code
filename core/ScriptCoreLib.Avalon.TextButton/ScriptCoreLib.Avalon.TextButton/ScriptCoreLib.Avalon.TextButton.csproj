@@ -8,7 +8,7 @@
     <ProjectGuid>{98C28456-EEFD-4CAD-982D-767060858FAD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScriptCoreLib.Avalon.TextButton</RootNamespace>
+    <RootNamespace>ScriptCoreLib</RootNamespace>
     <AssemblyName>ScriptCoreLib.Avalon.TextButton</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

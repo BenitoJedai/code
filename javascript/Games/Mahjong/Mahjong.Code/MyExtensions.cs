@@ -11,7 +11,21 @@ namespace Mahjong.Code
 	[Script]
 	public static class MyExtensions
 	{
+		public static bool ToBoolean(this byte e)
+		{
+			if (e == 1)
+				return true;
 
+			return false;
+		}
+
+		public static byte ToByte(this bool e)
+		{
+			if (e)
+				return 1;
+
+			return 0;
+		}
 
 		public static IEnumerable<T> Multiply<T>(this IEnumerable<T> e, int count)
 		{

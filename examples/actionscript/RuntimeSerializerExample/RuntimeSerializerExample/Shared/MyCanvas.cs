@@ -68,6 +68,7 @@ namespace RuntimeSerializerExample.Shared
 			var r = new BinaryReader(m);
 
 			t.AppendTextLine();
+			t.AppendTextLine("bytes: " + r.BaseStream.Length);
 			t.AppendTextLine("byte " + r.ReadByte());
 			t.AppendTextLine("short " + r.ReadInt16());
 			t.AppendTextLine("int " + r.ReadInt32());

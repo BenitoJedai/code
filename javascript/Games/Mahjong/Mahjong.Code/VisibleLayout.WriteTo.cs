@@ -21,38 +21,83 @@ namespace Mahjong.Code
 			if (Layout == null)
 				return;
 
-			//var w = new BinaryWriter(m);
+			var w = new BinaryWriter(m);
 
-			//// what layout are we using
-			//w.Write(this.Layout.DataString.Length);
-			//w.Write(this.Layout.DataString);
+			// what layout are we using
+			w.Write(this.Layout.DataString);
 
+			w.Write(this.TilesInfo.Tiles.Length);
 
-			//foreach (var v in this.TilesInfo.Tiles)
-			//{
-			//    w.Write((short)v.index);
-			//    w.Write((byte)v.x);
-			//    w.Write((byte)v.y);
-			//    w.Write((byte)v.z);
+			foreach (var v in this.TilesInfo.Tiles)
+			{
+				w.Write((short)v.index);
+				w.Write((byte)v.x);
+				w.Write((byte)v.y);
+				w.Write((byte)v.z);
 
-			//    w.Write(v.RankImage.Rank.Length);
-			//    w.Write(v.RankImage.Rank);
+				w.Write(v.RankImage.Rank);
+				w.Write(v.RankImage.Suit);
+				w.Write((byte)v.RankImage.IsPairableMode);
 
-			//    w.Write(v.RankImage.Suit.Length);
-			//    w.Write(v.RankImage.Suit);
+				w.Write((byte)v.Visible.ToByte());
 
-			//    w.Write((byte)v.RankImage.IsPairableMode);
-			//}
+			}
+
+			Console.WriteLine(new { m.Length }.ToString());
 		}
 
 		public void ReadFrom(Stream m)
 		{
 			this.Layout = null;
 
+			
 
-			//var r = new BinaryReader(m);
+			var r = new BinaryReader(m);
+
+			var DataString = r.ReadString();
+
+			var TilesCount = r.ReadInt32();
+			var Tiles = Enumerable.Range(0, TilesCount).ToArray(
+					i =>
+					{
+						var n =
+							new Entry
+							{
+								index = r.ReadInt16(),
+								x = r.ReadByte(),
+								y = r.ReadByte(),
+								z = r.ReadByte(),
+							};
+
+						n.RankImage = new RankAsset
+						{
+							Rank = r.ReadString(),
+							Suit = r.ReadString(),
+							IsPairableMode = (RankAsset.IsPairableModeEnum)r.ReadByte()
+						};
+
+						n.Visible = r.ReadByte().ToBoolean();
 
 
+						return n;
+					}
+				);
+
+			var layout = new Layout(DataString, Tiles);
+
+			this._Layout = layout;
+
+			this.LayoutProgress = new Future();
+
+			this.TilesInfo = new TilesInfoType(this.Layout.CountZ, this.Layout.Tiles);
+
+			if (LayoutChanging != null)
+				LayoutChanging();
+
+			
+	
+			
+			LayoutUpdateFinalize();
 		}
 	}
 }
