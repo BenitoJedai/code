@@ -24,7 +24,38 @@ namespace Mahjong.Shared
 		public override string ToString()
 		{
 			return new {  Suit, Rank }.ToString();
-		}	
+		}
+
+
+		public enum IsPairableModeEnum
+		{
+			NotPairable,
+			SuitAndRank,
+			Suit
+		}
+
+		public IsPairableModeEnum IsPairableMode = IsPairableModeEnum.SuitAndRank;
+
+		public virtual bool IsPairable(RankAsset e)
+		{
+			if (e == null)
+				return false;
+
+			if (IsPairableMode == IsPairableModeEnum.NotPairable)
+				return false;
+
+			if (Suit != e.Suit)
+				return false;
+
+			if (IsPairableMode == IsPairableModeEnum.Suit)
+				return true;
+
+			if (Rank != e.Rank)
+				return false;
+
+			return true;
+		}
+
 	}
 
 
@@ -268,6 +299,7 @@ namespace Mahjong.Shared
 		public DragonAsset()
 		{
 			this.Suit = "dragons";
+			this.IsPairableMode = IsPairableModeEnum.Suit;
 		}
 
 		public static RankAsset[] Collection
@@ -290,6 +322,7 @@ namespace Mahjong.Shared
 		public WindAsset()
 		{
 			this.Suit = "winds";
+			this.IsPairableMode = IsPairableModeEnum.Suit;
 		}
 
 		public static RankAsset[] Collection
@@ -334,6 +367,7 @@ namespace Mahjong.Shared
 		public SeasonAsset()
 		{
 			this.Suit = "seasons";
+			this.IsPairableMode = IsPairableModeEnum.Suit;
 		}
 
 		public static RankAsset[] Collection
@@ -356,6 +390,7 @@ namespace Mahjong.Shared
 		public FlowerAsset()
 		{
 			this.Suit = "flowers";
+			this.IsPairableMode = IsPairableModeEnum.Suit;
 		}
 
 		public static RankAsset[] Collection

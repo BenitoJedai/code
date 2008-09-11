@@ -18,6 +18,7 @@ namespace Mahjong.Code
 		public readonly Canvas Control = new Canvas();
 
 		public readonly Image RankImage;
+		public readonly RankAsset Rank;
 
 		public readonly Image BlackFilter;
 
@@ -34,6 +35,20 @@ namespace Mahjong.Code
 
 		public readonly AbstractAsset.Settings Settings;
 
+		public bool IsPairable(VisibleTile e)
+		{
+			if (e == this)
+				return false;
+
+			if (e == null)
+				return false;
+
+			if (e.Rank == null)
+				return false;
+
+			return this.Rank.IsPairable(e.Rank);
+		}
+
 		public UIElement InteractiveControl
 		{
 			get
@@ -45,6 +60,7 @@ namespace Mahjong.Code
 			}
 		}
 
+		#region events
 		public event Action MouseEnter
 		{
 			add
@@ -165,11 +181,12 @@ namespace Mahjong.Code
 				throw new NotSupportedException();
 			}
 		}
+		#endregion
 
 		public VisibleTile(AbstractAsset.Settings s, RankAsset r)
 		{
 			this.Settings = s;
-
+			this.Rank = r;
 
 			Control.Width = s.OuterWidth;
 			Control.Height = s.OuterHeight;
@@ -241,6 +258,8 @@ namespace Mahjong.Code
 		}
 
 
+
+	
 	}
 
 }

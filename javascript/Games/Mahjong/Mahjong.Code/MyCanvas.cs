@@ -217,7 +217,7 @@ namespace Mahjong.Code
 					);
 					// we should suffle the ranks
 
-
+					var SelectedTile = default(VisibleTile);
 
 					foreach (var v in MyLayout.Tiles)
 					{
@@ -237,7 +237,7 @@ namespace Mahjong.Code
 										// we need to lock this tile
 										// otherwise two network clients might take the same
 										// tile yet get out of sync score
-										Console.WriteLine("lock: " + tt.Entry.RankImage.ToString());
+										//Console.WriteLine("lock: " + tt.Entry.RankImage.ToString());
 									};
 
 								tt.ClickWhenLayoutLoaded +=
@@ -248,9 +248,27 @@ namespace Mahjong.Code
 										Console.WriteLine(tt.Entry.RankImage.ToString());
 
 										if (tt.Entry.BlockingSiblings.Any())
+										{
 											Sounds.buzzer();
+										}
 										else
+										{
+											if (tt.IsPairable(SelectedTile))
+											{
+												Console.WriteLine("pairable: " + SelectedTile.Rank.ToString());
+
+												MyLayout.Remove(SelectedTile, tt);
+											
+
+												SelectedTile = null;
+											}
+											else
+											{
+												SelectedTile = tt;
+											}
+
 											Sounds.click();
+										}
 
 									};
 
