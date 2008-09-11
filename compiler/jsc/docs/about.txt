@@ -150,3 +150,6 @@ version history:
 	actionscript: fixed delegates taken from extension methods
 20.09.2008
 	javascript: fixed delegates taken from extension methods
+11.09.2008
+	java: fixed field to use safe literals to support automatic properties
+	java: Main will be translated to main
