@@ -220,7 +220,7 @@ namespace jsc.Languages.Java
 
                     Emit(e.p, e.FirstOnStack);
                     Write(".");
-                    Write(e.i.TargetField.Name);
+                    WriteSafeLiteral(e.i.TargetField.Name);
 
                 };
 
@@ -233,7 +233,7 @@ namespace jsc.Languages.Java
 
                     Emit(e.p, s[0]);
                     Write(".");
-                    Write(e.i.TargetField.Name);
+					WriteSafeLiteral(e.i.TargetField.Name);
                     WriteAssignment();
 
                     #region  assign boolean literal
@@ -654,7 +654,7 @@ namespace jsc.Languages.Java
                            WriteTypeStaticAccessor();
                        }
 
-                       Write(e.i.TargetField.Name);
+					   WriteSafeLiteral(e.i.TargetField.Name);
                        WriteAssignment();
 
                        if (EmitEnumAsStringSafe(e))
@@ -695,7 +695,7 @@ namespace jsc.Languages.Java
 
                     WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
                     WriteTypeStaticAccessor();
-                    Write(e.i.TargetField.Name);
+					WriteSafeLiteral(e.i.TargetField.Name);
                 };
 
             CIW[OpCodes.Callvirt] =

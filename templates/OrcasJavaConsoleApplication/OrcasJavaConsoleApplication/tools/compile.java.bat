@@ -10,7 +10,7 @@ if '%TargetPath%' == '' (
 )
 
 
-pushd ..\bin\debug\web
+pushd ..\bin\%ConfigurationName%\web
 
 :: import settings
 call setup.settings.cmd
