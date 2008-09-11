@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlueButton.cs" />
+    <Compile Include="VisibleLayout.RemovePair.cs" />
     <Compile Include="VisibleLayout.WriteTo.cs" />
     <Compile Include="LayoutsFuture.cs" />
     <Compile Include="VisibleLayout.Tiles.cs" />

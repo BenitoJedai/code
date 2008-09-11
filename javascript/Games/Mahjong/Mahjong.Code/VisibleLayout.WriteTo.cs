@@ -43,6 +43,16 @@ namespace Mahjong.Code
 
 			}
 
+			w.Write(this.RemovedTiles.Count);
+
+			// jsc cannot resolve BCL implements to explicitly implemented members
+
+			foreach (var v in this.RemovedTiles.AsEnumerable())
+			{
+				w.Write((short)v.Left.Entry.index);
+				w.Write((short)v.Right.Entry.index);
+			}
+
 			Console.WriteLine(new { m.Length }.ToString());
 		}
 
@@ -50,7 +60,7 @@ namespace Mahjong.Code
 		{
 			this.Layout = null;
 
-			
+
 
 			var r = new BinaryReader(m);
 
@@ -85,18 +95,42 @@ namespace Mahjong.Code
 
 			var layout = new Layout(DataString, Tiles);
 
-			this._Layout = layout;
-
 			this.LayoutProgress = new Future();
 
-			this.TilesInfo = new TilesInfoType(this.Layout.CountZ, this.Layout.Tiles);
+			this.TilesInfo = new TilesInfoType(layout.CountZ, layout.Tiles);
+
+			Enumerable.Range(0, r.ReadInt32()).ForEach(
+				k =>
+				{
+					var Left = r.ReadInt16();
+					var Right = r.ReadInt16();
+
+					this.LayoutProgress.Continue(
+						delegate
+						{
+							this.RemovedTiles.Push(
+								new RemovedTilePair
+								{
+									Left = this.Tiles[Left].Tile.Value,
+									Right = this.Tiles[Right].Tile.Value,
+								}
+							);
+						}
+					);
+				}
+			);
+
+
+			this._Layout = layout;
+
+		
 
 			if (LayoutChanging != null)
 				LayoutChanging();
 
-			
-	
-			
+
+
+
 			LayoutUpdateFinalize();
 		}
 	}

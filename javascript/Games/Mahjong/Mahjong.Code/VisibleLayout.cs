@@ -99,9 +99,13 @@ namespace Mahjong.Code
 							v.Tile.Value.Control.Orphanize();
 							v.Tile.Value.Overlay.Orphanize();
 						}
+
+						
 					}
 				);
 			}
+
+			this.RemovedTiles.Clear();
 		}
 
 
@@ -216,41 +220,6 @@ namespace Mahjong.Code
 		/// direct dispatch when loaded
 		/// </summary>
 		public Future LayoutProgress;
-
-		public void Remove(VisibleTile a, VisibleTile b)
-		{
-			//this.TilesInfo.Tiles = this.TilesInfo.Tiles.Where(
-			//    k =>
-			//    {
-			//        if (k == a.Entry)
-			//            return false;
-
-			//        if (k == b.Entry)
-			//            return false;
-
-			//        return true;
-			//    }
-			//).ToArray();
- 
-			//this.TilesInfo.TilesByPointer[a.Entry.Pointer] = null;
-			//this.TilesInfo.TilesByPointer[b.Entry.Pointer] = null;
-
-			a.Visible = false;
-			b.Visible = false;
-
-			a.Entry.Siblings.ForEach(k => k.FindSiblings(this.TilesInfo.TilesByPointer));
-			b.Entry.Siblings.ForEach(k => k.FindSiblings(this.TilesInfo.TilesByPointer));
-
-
-			//a.Overlay.Orphanize();
-			//a.Control.Orphanize();
-
-			//b.Control.Orphanize();
-			//b.Overlay.Orphanize();
-
-
-		}
-
 
 	}
 }

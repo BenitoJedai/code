@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\DelegateToExtensionMethod\DelegateToExtensionMethod\bin\Release\</StartWorkingDirectory>
-    <StartArguments>DelegateToExtensionMethod.exe -js</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\javascript\Games\Mahjong\Mahjong\bin\Debug</StartWorkingDirectory>
+    <StartArguments>Mahjong.dll -js</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
