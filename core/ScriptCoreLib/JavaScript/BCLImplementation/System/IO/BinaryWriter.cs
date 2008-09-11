@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using ScriptCoreLib.ActionScript.flash.utils;
-using ScriptCoreLib.ActionScript.Extensions;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
+namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 {
 	[Script(Implements = typeof(global::System.IO.BinaryWriter))]
-	internal class __BinaryWriter : __IDisposable
+	internal class __BinaryWriter : IDisposable
 	{
 		protected Stream OutStream;
 		private byte[] _buffer;
@@ -46,17 +44,30 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 
 		public virtual void Write(short value)
 		{
-			OutStream.ToByteArray().writeShort(value);
+			this._buffer[0] = (byte)((value >> 8 * 0) & 0xff);
+			this._buffer[1] = (byte)((value >> 8 * 1) & 0xff);
+
+			OutStream.Write(this._buffer, 0, 2);
 		}
 
 		public virtual void Write(int value)
 		{
-			OutStream.ToByteArray().writeInt(value);
+			this._buffer[0] = (byte)((value >> 8 * 0) & 0xff);
+			this._buffer[1] = (byte)((value >> 8 * 1) & 0xff);
+			this._buffer[2] = (byte)((value >> 8 * 2) & 0xff);
+			this._buffer[3] = (byte)((value >> 8 * 3) & 0xff);
+
+			OutStream.Write(this._buffer, 0, 4);
 		}
 
 		public virtual void Write(uint value)
 		{
-			OutStream.ToByteArray().writeUnsignedInt(value);
+			this._buffer[0] = (byte)((value >> 8 * 0) & 0xff);
+			this._buffer[1] = (byte)((value >> 8 * 1) & 0xff);
+			this._buffer[2] = (byte)((value >> 8 * 2) & 0xff);
+			this._buffer[3] = (byte)((value >> 8 * 3) & 0xff);
+
+			OutStream.Write(this._buffer, 0, 4);
 		}
 
 		public virtual void Write(byte value)
@@ -71,13 +82,34 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 
 		public virtual void Write(double value)
 		{
-			OutStream.ToByteArray().writeDouble(value);
+			throw new NotSupportedException();
 		}
 
 		public virtual void Write(string value)
 		{
 			Write7BitEncodedInt(GetByteCount(value));
-			OutStream.ToByteArray().writeUTFBytes(value);
+
+			// http://www.webtoolkit.info/javascript-utf8.html
+
+			foreach (var c in value)
+			{
+				if (c < 128)
+				{
+					BaseStream.WriteByte((byte)c);
+				}
+				else if (c < 2048)
+				{
+					BaseStream.WriteByte((byte)((c >> 6) | 192));
+					BaseStream.WriteByte((byte)((c & 63) | 128));
+				}
+				else
+				{
+					BaseStream.WriteByte((byte)((c >> 12) | 224));
+					BaseStream.WriteByte((byte)(((c >> 6) & 63) | 128));
+					BaseStream.WriteByte((byte)((c & 63) | 128));
+				}
+
+			}
 		}
 
 		public int GetByteCount(string value)
@@ -109,11 +141,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 			this.Write((byte)num);
 		}
 
- 
 
- 
-
- 
 
 	}
 }

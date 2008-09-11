@@ -73,12 +73,16 @@ namespace jsc.Languages.JavaScript
                 .Replace("$done$", code);
         }
 
-        static void WriteEntryPointHTMLTemplate(StreamWriter w, Action WriteScript, Action WriteBody)
+        static void WriteEntryPointHTMLTemplate(StreamWriter w, string Title, Action WriteScript, Action WriteBody)
         {
             w.WriteLine("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
             w.WriteLine("<html>");
             w.WriteLine("<head>");
-            w.WriteLine("<title>ScriptApplication</title>");
+
+			w.WriteLine("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">");
+
+
+			w.WriteLine("<title>" + Title + "</title>");
 
             w.WriteLine("<!-- created at " + System.DateTime.Now.ToString() + " -->");
 
@@ -102,6 +106,7 @@ namespace jsc.Languages.JavaScript
         static void DefineSpawnPoint(this Assembly ass, StreamWriter w, string alias, string mime, string data)
         {
             WriteEntryPointHTMLTemplate(w,
+				ass.GetName().Name,
                 () => SharedHelper.DefineScript(w, SharedHelper.LocalModulesOf(ass)),
                 () => w.WriteLine("<script type='" + mime + "' class='" + alias + "'>" + (string.IsNullOrEmpty(data) ? "" : "\n" + data + "\n") + "</script>")
             );
@@ -177,7 +182,9 @@ namespace jsc.Languages.JavaScript
 
 
                             WriteEntryPointHTMLTemplate(
-                                w, () => { },
+                                w,
+								a.GetName().Name,
+								() => { },
                                 delegate
                                 {
                                     w.Write("<a href=\"javascript:");
@@ -233,7 +240,9 @@ namespace jsc.Languages.JavaScript
 
 
                             WriteEntryPointHTMLTemplate(
-                                w, () => { },
+                                w,
+								a.GetName().Name,
+								() => { },
                                 delegate
                                 {
                                     w.Write("<script>");

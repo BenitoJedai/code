@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.Shared.Lambda;
+using System.IO;
 
 namespace Mahjong.Code
 {
 	[Script]
 	public static class MyExtensions
 	{
+
+
 		public static IEnumerable<T> Multiply<T>(this IEnumerable<T> e, int count)
 		{
 			if (count < 1)
