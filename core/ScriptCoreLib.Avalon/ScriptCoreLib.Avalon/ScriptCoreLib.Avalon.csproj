@@ -119,8 +119,11 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\KeyEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\KeyEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\KeyInterop.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\Geometry.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\RectangleGeometry.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\Imaging\BitmapImage.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\Imaging\BitmapSource.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Rect.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\RoutedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\DependencyObject.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\FrameworkElement.cs" />
