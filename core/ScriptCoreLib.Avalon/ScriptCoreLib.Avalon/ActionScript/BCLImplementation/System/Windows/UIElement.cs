@@ -287,5 +287,39 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 
 			return true;
 		}
+
+		Shape InternalClipMask;
+
+		public Geometry Clip
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				var rg = value as RectangleGeometry;
+
+				if (rg == null)
+					throw new NotSupportedException();
+
+				var r = rg.Rect;
+
+				var e = this.InternalGetDisplayObject();
+
+				if (InternalClipMask == null)
+					InternalClipMask = new Shape();
+
+				var c = InternalClipMask;
+
+				c.graphics.clear();
+				c.graphics.beginFill(0x00ffffff);
+				c.graphics.drawRect(r.X, r.Y, r.Width, r.Height);
+				c.graphics.endFill();
+
+				e.parent.addChild(c);
+				e.mask = c;
+			}
+		}
 	}
 }
