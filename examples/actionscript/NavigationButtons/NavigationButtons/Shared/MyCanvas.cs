@@ -8,6 +8,7 @@ using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using ScriptCoreLib.Shared.Avalon.TiledImageButton;
 
 namespace NavigationButtons.Shared
 {
@@ -34,64 +35,51 @@ namespace NavigationButtons.Shared
 
 			// http://social.msdn.microsoft.com/forums/en-US/wpf/thread/21504c22-0d79-404e-ba0e-1cee91a02c2a/
 
-			var bg = new Image
-			{
-				Source = "assets/NavigationButtons/backMenuPic.png".ToSource(),
-				Clip = new RectangleGeometry
-				{
-					Rect = new Rect { X = 0, Y = 0, Width = 58, Height = 28 }
-				}
-			}.AttachTo(this);
+			
 
-			var fg = new Image
-			{
-				Source = "assets/NavigationButtons/back-forward-large.png".ToSource(),
-				Clip = new RectangleGeometry
-				{
-					Rect = new Rect { X = 0, Y = 0, Width = 58, Height = 28 }
-				}
-			}.AttachTo(this);
+			var n1 = new AeroNavigationBar();
 
+			n1.Container.MoveTo(50, 50).AttachTo(this);
 
-
-			var c = new Canvas
-			{
-				Width = 28,
-				Height = 28,
-
-				Clip = new RectangleGeometry
-				{
-					Rect = new Rect { X = 0, Y = 0, Width = 28, Height = 28 }
-				}
-
-			}.MoveTo(100, 100).AttachTo(this);
-
-			var c_Buttons = new Image
-			{
-				Source = "assets/NavigationButtons/back-forward-large.png".ToSource(),
-
-			}
-			.AttachTo(c);
-
-			var c_Overlay = new Rectangle
-			{
-				Fill = Brushes.Yellow,
-				Width = 28,
-				Height = 28,
-				Opacity = 0
-			}.AttachTo(c);
-
-			c_Overlay.MouseEnter +=
+			n1.GoBack +=
 				delegate
 				{
-					c_Buttons.MoveTo(0, -27);
+					n1.ButtonGoBack.Enabled = false;
+					n1.ButtonGoForward.Enabled = true;
+
 				};
 
-			c_Overlay.MouseLeave +=
+			n1.GoForward +=
 				delegate
 				{
-					c_Buttons.MoveTo(0, 0);
+					n1.ButtonGoForward.Enabled = false;
+					n1.ButtonGoBack.Enabled = true;
+
+				};
+
+
+			var n2 = new AeroNavigationBar();
+
+			n2.Container.MoveTo(120, 50).AttachTo(this);
+
+			n2.GoBack +=
+				delegate
+				{
+					n2.ButtonGoBack.Enabled = false;
+					n2.ButtonGoForward.Enabled = true;
+
+				};
+
+			n2.GoForward +=
+				delegate
+				{
+					n2.ButtonGoForward.Enabled = false;
+					n2.ButtonGoBack.Enabled = true;
+
 				};
 		}
+
 	}
+
+
 }

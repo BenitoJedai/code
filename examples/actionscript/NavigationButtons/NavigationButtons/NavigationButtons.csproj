@@ -46,6 +46,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Avalon.TiledImageButton, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Avalon.TiledImageButton.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
@@ -65,7 +69,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionScript\Assets.cs" />
     <Compile Include="ActionScript\NavigationButtons.cs" />
     <Compile Include="ActionScript\MyExtensions.cs" />
     <Compile Include="JavaScript\MyCanvasScriptControl.cs" />
@@ -78,11 +81,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />
-    <EmbeddedResource Include="web\assets\NavigationButtons\back-forward-large.png" />
-    <EmbeddedResource Include="web\assets\NavigationButtons\backMenuPic.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="web\assets\NavigationButtons\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
