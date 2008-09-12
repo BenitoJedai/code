@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express Codename Orcas
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageZoomer", "ImageZoomer\ImageZoomer.csproj", "{EC981E9F-7E87-4DBE-A955-E16596BDF6C7}"
 EndProject
 Global

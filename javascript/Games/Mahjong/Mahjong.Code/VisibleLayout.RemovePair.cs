@@ -36,6 +36,8 @@ namespace Mahjong.Code
 					Right = b
 				}
 			);
+
+			RemovedTilesForRedo.Clear();
 		}
 
 		public void UndoRemove()
@@ -50,6 +52,24 @@ namespace Mahjong.Code
 
 			UpdateRelations(p.Left);
 			UpdateRelations(p.Right);
+
+			RemovedTilesForRedo.Push(p);
+		}
+
+		public void RedoRemove()
+		{
+			if (RemovedTilesForRedo.Count == 0)
+				return;
+
+			var p = RemovedTilesForRedo.Pop();
+
+			p.Left.Visible = false;
+			p.Right.Visible = false;
+
+			UpdateRelations(p.Left);
+			UpdateRelations(p.Right);
+
+			RemovedTiles.Push(p);
 		}
 
 		[Script]
@@ -60,6 +80,7 @@ namespace Mahjong.Code
 		}
 
 		public readonly Stack<RemovedTilePair> RemovedTiles = new Stack<RemovedTilePair>();
+		public readonly Stack<RemovedTilePair> RemovedTilesForRedo = new Stack<RemovedTilePair>();
 
 	}
 }

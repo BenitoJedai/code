@@ -18,6 +18,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 		public __Image()
 		{
 			InternalSprite.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+			InternalSprite.style.left = "0px";
+			InternalSprite.style.top = "0px";
 		}
 
 		public override IHTMLElement InternalGetDisplayObject()

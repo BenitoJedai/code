@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
+using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Input;
 using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media;
 using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media.Animation;
-using System.Windows;
-using ScriptCoreLib.ActionScript.flash.display;
-using System.Windows.Media.Effects;
 using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media.Effects;
-using System.Windows.Media;
-using System.Windows.Input;
-using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Input;
+using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.events;
+using ScriptCoreLib.ActionScript.Extensions;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 {
@@ -18,6 +20,24 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 	[Script(Implements = typeof(global::System.Windows.UIElement))]
 	internal class __UIElement : __Visual, __IAnimatable, __IInputElement
 	{
+		public void InternalSetLeft(double e)
+		{
+			var k = this.InternalGetDisplayObject();
+			k.x = e;
+
+			if (this.InternalClipMask != null)
+				this.InternalClipMask.MoveTo(k);
+		}
+
+		public void InternalSetTop(double e)
+		{
+			var k = this.InternalGetDisplayObject();
+			k.y = e;
+
+			if (this.InternalClipMask != null)
+				this.InternalClipMask.MoveTo(k);
+		}
+
 		#region __IInputElement Members
 
 		public InteractiveObject InternalGetDisplayObjectDirect()
@@ -308,7 +328,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 				var e = this.InternalGetDisplayObject();
 
 				if (InternalClipMask == null)
-					InternalClipMask = new Shape();
+					InternalClipMask = new Shape().MoveTo(e);
 
 				var c = InternalClipMask;
 
@@ -317,8 +337,25 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 				c.graphics.drawRect(r.X, r.Y, r.Width, r.Height);
 				c.graphics.endFill();
 
-				e.parent.addChild(c);
-				e.mask = c;
+				if (e.parent == null)
+				{
+					var added = default(Action<Event>);
+
+					added = delegate
+					{
+						e.parent.addChild(c);
+						e.mask = c;
+
+						e.added -= added;
+					};
+					e.added += added;
+				}
+				else
+				{
+
+					e.parent.addChild(c);
+					e.mask = c;
+				}
 			}
 		}
 	}

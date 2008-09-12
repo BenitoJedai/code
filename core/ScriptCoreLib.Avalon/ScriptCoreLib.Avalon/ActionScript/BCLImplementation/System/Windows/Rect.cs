@@ -11,8 +11,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 		public double Height { get; set; }
 		public double Width { get; set; }
 		public double X { get; set; }
-
 		public double Y { get; set; }
+
+		public double Right { get { return this.X + this.Width; } }
+		public double Bottom { get { return this.Y + this.Height; } }
 
 		public __Rect()
 		{

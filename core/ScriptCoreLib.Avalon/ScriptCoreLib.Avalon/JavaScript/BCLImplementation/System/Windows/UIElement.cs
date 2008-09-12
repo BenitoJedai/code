@@ -263,5 +263,40 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 
 			return true;
 		}
+
+		public Geometry Clip
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				var rg = value as RectangleGeometry;
+
+				if (rg == null)
+					throw new NotSupportedException();
+
+				var r = rg.Rect;
+
+				var e = this.InternalGetDisplayObject();
+
+
+				// http://www.w3schools.com/CSS/pr_pos_clip.asp
+			
+				// shape  	Sets the shape of the element. The valid shape value is: rect (top, right, bottom, left)
+				// auto 	Default. The browser sets the shape of the element
+				var rect = "rect(";
+
+				rect += Convert.ToInt32(r.Y) + "px, ";
+				rect += Convert.ToInt32(r.Right) + "px, ";
+				rect += Convert.ToInt32(r.Bottom) + "px, ";
+				rect += Convert.ToInt32(r.X) + "px";
+
+				rect += ")";
+
+				e.style.clip = rect;
+			}
+		}
 	}
 }
