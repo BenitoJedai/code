@@ -15,6 +15,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Shapes
 		public __Shape()
 		{
 			InternalSprite = new IHTMLDiv();
+			InternalSprite.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+			InternalSprite.style.left = "0px";
+			InternalSprite.style.top = "0px";
 		}
 
 		public override IHTMLElement InternalGetDisplayObject()

@@ -158,6 +158,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         public string lineHeight;
 
+		// http://www.w3schools.com/CSS/pr_pos_clip.asp
         public string clip;
         public string clear;
 

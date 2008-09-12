@@ -25,14 +25,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 		{
 			__UIElement _element = element;
 
-			_element.InternalGetDisplayObject().x = length;
+			_element.InternalSetLeft(length);
+
 		}
 
 		public static void SetTop(UIElement element, double length)
 		{
 			__UIElement _element = element;
 
-			_element.InternalGetDisplayObject().y = length;
+			_element.InternalSetTop(length);
 		}
 	}
 }

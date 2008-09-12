@@ -364,7 +364,25 @@ namespace Mahjong.Code
 					MyLayout.UndoRemove();
 				};
 
-			ButtonUndo.Container.MoveTo(DefaultScaledWidth - 8 - 120, DefaultScaledHeight - 8 - 24).AttachTo(this);
+			ButtonUndo.Container.MoveTo(DefaultScaledWidth - 8 - 120 * 2, DefaultScaledHeight - 8 - 24).AttachTo(this);
+
+
+
+			var ButtonRedo = new BlueButton
+			{
+				Width = 120,
+				Height = 24,
+				Text = "Redo",
+			};
+
+			ButtonRedo.Click +=
+				delegate
+				{
+					MyLayout.RedoRemove();
+				};
+
+			ButtonRedo.Container.MoveTo(DefaultScaledWidth - 8 - 120 * 1, DefaultScaledHeight - 8 - 24).AttachTo(this);
+
 
 
 			Layouts = new LayoutsFuture(Assets.Default.FileNames.Where(k => k.EndsWith(".lay")).Randomize().ToArray());

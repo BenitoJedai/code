@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media.Animation;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media.Animation;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media
 {
