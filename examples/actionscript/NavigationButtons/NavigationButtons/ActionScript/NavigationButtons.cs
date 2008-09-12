@@ -27,7 +27,7 @@ namespace NavigationButtons.ActionScript
 		{
 			// add resources to be found by ImageSource
 			KnownEmbeddedResources.Default.Handlers.Add(
-				e => Assets.Default[e]
+				e => ScriptCoreLib.ActionScript.Avalon.TiledImageButton.Assets.Default[e]
 			);
 
 		}

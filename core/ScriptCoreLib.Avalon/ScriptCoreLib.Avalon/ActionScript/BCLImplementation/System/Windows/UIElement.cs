@@ -171,6 +171,33 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 					e =>
 					{
 						value(this, (__MouseButtonEventArgs)e);
+
+						// we could track the mouseup - yet we wont
+
+						//if (InternalMouseLeftButtonUp_Out == null)
+						//    return;
+
+						//var g = InternalGetDisplayObject().stage;
+
+						//if (g == null)
+						//    return;
+
+						//var mouseUp = default(Action<MouseEvent>);
+						//var mouseUp_Previous = this.InternalMouseLeftButtonUp_In;
+
+
+						//mouseUp =
+						//    mouseUp_e =>
+						//    {
+						//        g.mouseUp -= mouseUp;
+						//        InternalGetDisplayObject().mouseUp += mouseUp_Previous;
+
+						//        this.InternalMouseLeftButtonUp_Out(this, (__MouseButtonEventArgs)mouseUp_e);
+
+						//    };
+
+						//InternalGetDisplayObject().mouseUp -= mouseUp_Previous;
+						//g.mouseUp += mouseUp;
 					};
 			}
 			remove
@@ -178,23 +205,41 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 				throw new NotImplementedException();
 			}
 		}
+
+		#region MouseLeftButtonUp
+		Action<MouseEvent> InternalMouseLeftButtonUp_In;
+		MouseButtonEventHandler InternalMouseLeftButtonUp_Out;
 
 		public event MouseButtonEventHandler MouseLeftButtonUp
 		{
 			add
 			{
+				if (InternalMouseLeftButtonUp_Out == null)
+				{
+					InternalMouseLeftButtonUp_In =
+						e =>
+						{
+							if (InternalMouseLeftButtonUp_Out != null)
+								InternalMouseLeftButtonUp_Out(this, (__MouseButtonEventArgs)e);
+						};
 
-				InternalGetDisplayObject().mouseUp +=
-					e =>
-					{
-						value(this, (__MouseButtonEventArgs)e);
-					};
+					InternalGetDisplayObject().mouseUp += InternalMouseLeftButtonUp_In;
+				}
+
+				InternalMouseLeftButtonUp_Out += value;
 			}
 			remove
 			{
-				throw new NotImplementedException();
+				InternalMouseLeftButtonUp_Out -= value;
+
+				if (InternalMouseLeftButtonUp_Out == null)
+				{
+					InternalGetDisplayObject().mouseUp -= InternalMouseLeftButtonUp_In;
+				}
 			}
 		}
+		#endregion
+
 
 		public event MouseWheelEventHandler MouseWheel
 		{
@@ -343,12 +388,16 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 
 					added = delegate
 					{
+						if (e.parent == null)
+							return;
+
 						e.parent.addChild(c);
 						e.mask = c;
 
-						e.added -= added;
+						e.addedToStage -= added;
 					};
-					e.added += added;
+
+					e.addedToStage += added;
 				}
 				else
 				{
