@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Windows;
 using ScriptCoreLib.Shared.Avalon.TextSuggestions;
 using System.IO;
+using ScriptCoreLib.Shared.Avalon.TiledImageButton;
 
 namespace Mahjong.Code
 {
@@ -130,7 +131,7 @@ namespace Mahjong.Code
 			var CommentMargin = 8;
 			var CommentForUnfocusing = new TextBox
 			{
-				Width = DefaultScaledWidth - CommentMargin * 2,
+				Width = DefaultScaledWidth - CommentMargin * 2 -64,
 				Height = 24,
 				Background = Brushes.Transparent,
 				Foreground = Brushes.White,
@@ -138,7 +139,7 @@ namespace Mahjong.Code
 				Text = "Mahjong Multiplayer",
 				TextAlignment = TextAlignment.Left,
 				IsReadOnly = true,
-			}.MoveTo(CommentMargin, CommentMargin).AttachTo(this);
+			}.MoveTo(CommentMargin + 64, CommentMargin).AttachTo(this);
 
 
 
@@ -351,39 +352,22 @@ namespace Mahjong.Code
 
 			ButtonLoad.Container.MoveTo(8, DefaultScaledHeight - 32).AttachTo(this);
 
-			var ButtonUndo = new BlueButton
-			{
-				Width = 120,
-				Height = 24,
-				Text = "Undo",
-			};
+			
 
-			ButtonUndo.Click +=
-				delegate
-				{
-					MyLayout.UndoRemove();
-				};
+			var Navbar = new AeroNavigationBar();
 
-			ButtonUndo.Container.MoveTo(DefaultScaledWidth - 8 - 120 * 2, DefaultScaledHeight - 8 - 24).AttachTo(this);
+			Navbar.ButtonGoBack.Enabled = false;
+			Navbar.ButtonGoForward.Enabled = false;
 
+			Navbar.Container.AttachTo(this).MoveTo(CommentMargin, 2);
 
+			MyLayout.GoBackAvailable += () => Navbar.ButtonGoBack.Enabled = true;
+			MyLayout.GoBackUnavailable += () => Navbar.ButtonGoBack.Enabled = false;
+			Navbar.GoBack += () => MyLayout.GoBack();
 
-			var ButtonRedo = new BlueButton
-			{
-				Width = 120,
-				Height = 24,
-				Text = "Redo",
-			};
-
-			ButtonRedo.Click +=
-				delegate
-				{
-					MyLayout.RedoRemove();
-				};
-
-			ButtonRedo.Container.MoveTo(DefaultScaledWidth - 8 - 120 * 1, DefaultScaledHeight - 8 - 24).AttachTo(this);
-
-
+			MyLayout.GoForwardAvailable += () => Navbar.ButtonGoForward.Enabled = true;
+			MyLayout.GoForwardUnavailable += () => Navbar.ButtonGoForward.Enabled = false;
+			Navbar.GoForward += () => MyLayout.GoForward();
 
 			Layouts = new LayoutsFuture(Assets.Default.FileNames.Where(k => k.EndsWith(".lay")).Randomize().ToArray());
 

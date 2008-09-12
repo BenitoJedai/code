@@ -37,10 +37,22 @@ namespace Mahjong.Code
 				}
 			);
 
+			if (RemovedTiles.Count == 1)
+				if (GoBackAvailable != null)
+					GoBackAvailable();
+
 			RemovedTilesForRedo.Clear();
+
+			if (GoForwardUnavailable != null)
+				GoForwardUnavailable();
 		}
 
-		public void UndoRemove()
+		public event Action GoForwardAvailable;
+		public event Action GoForwardUnavailable;
+		public event Action GoBackAvailable;
+		public event Action GoBackUnavailable;
+
+		public void GoBack()
 		{
 			if (RemovedTiles.Count == 0)
 				return;
@@ -53,10 +65,18 @@ namespace Mahjong.Code
 			UpdateRelations(p.Left);
 			UpdateRelations(p.Right);
 
+			if (RemovedTiles.Count == 0)
+				if (GoBackUnavailable != null)
+					GoBackUnavailable();
+
 			RemovedTilesForRedo.Push(p);
+
+			if (RemovedTilesForRedo.Count == 1)
+				if (GoForwardAvailable != null)
+					GoForwardAvailable();
 		}
 
-		public void RedoRemove()
+		public void GoForward()
 		{
 			if (RemovedTilesForRedo.Count == 0)
 				return;
@@ -69,7 +89,15 @@ namespace Mahjong.Code
 			UpdateRelations(p.Left);
 			UpdateRelations(p.Right);
 
+			if (RemovedTilesForRedo.Count == 0)
+				if (GoForwardUnavailable != null)
+					GoForwardUnavailable();
+
 			RemovedTiles.Push(p);
+
+			if (RemovedTiles.Count == 1)
+				if (GoBackAvailable != null)
+					GoBackAvailable();
 		}
 
 		[Script]

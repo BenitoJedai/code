@@ -35,8 +35,14 @@ namespace Mahjong.ActionScript
 		{
 			// add resources to be found by ImageSource
 			KnownEmbeddedResources.Default.Handlers.Add(
+				
 				e => global::Mahjong.ActionScript.__Assets.Default[e]
-			);
+				);
+
+			KnownEmbeddedResources.Default.Handlers.Add(
+
+				e => global::ScriptCoreLib.ActionScript.Avalon.TiledImageButton.Assets.Default[e]
+				);
 
 		}
 	}
