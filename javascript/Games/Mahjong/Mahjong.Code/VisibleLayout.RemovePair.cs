@@ -29,23 +29,45 @@ namespace Mahjong.Code
 			UpdateRelations(a);
 			UpdateRelations(b);
 
-			RemovedTiles.Push(
-				new RemovedTilePair
-				{
-					Left = a,
-					Right = b
-				}
-			);
 
-			if (RemovedTiles.Count == 1)
-				if (GoBackAvailable != null)
-					GoBackAvailable();
+			if (this.Tiles.Any(k => k.Visible))
+			{
+				GoBackHistory.Push(
+					new RemovedTilePair
+					{
+						Left = a,
+						Right = b
+					}
+				);
 
-			RemovedTilesForRedo.Clear();
 
-			if (GoForwardUnavailable != null)
-				GoForwardUnavailable();
+				if (GoBackHistory.Count == 1)
+					if (GoBackAvailable != null)
+						GoBackAvailable();
+
+				GoForwardHistory.Clear();
+
+				if (GoForwardUnavailable != null)
+					GoForwardUnavailable();
+			}
+			else
+			{
+				GoBackHistory.Clear();
+
+				if (GoBackUnavailable != null)
+					GoBackUnavailable();
+
+				GoForwardHistory.Clear();
+
+				if (GoForwardUnavailable != null)
+					GoForwardUnavailable();
+
+				if (ReadyForNextLayout != null)
+					ReadyForNextLayout();
+			}
 		}
+
+		public event Action ReadyForNextLayout;
 
 		public event Action GoForwardAvailable;
 		public event Action GoForwardUnavailable;
@@ -54,10 +76,10 @@ namespace Mahjong.Code
 
 		public void GoBack()
 		{
-			if (RemovedTiles.Count == 0)
+			if (GoBackHistory.Count == 0)
 				return;
 
-			var p = RemovedTiles.Pop();
+			var p = GoBackHistory.Pop();
 
 			p.Left.Visible = true;
 			p.Right.Visible = true;
@@ -65,23 +87,23 @@ namespace Mahjong.Code
 			UpdateRelations(p.Left);
 			UpdateRelations(p.Right);
 
-			if (RemovedTiles.Count == 0)
+			if (GoBackHistory.Count == 0)
 				if (GoBackUnavailable != null)
 					GoBackUnavailable();
 
-			RemovedTilesForRedo.Push(p);
+			GoForwardHistory.Push(p);
 
-			if (RemovedTilesForRedo.Count == 1)
+			if (GoForwardHistory.Count == 1)
 				if (GoForwardAvailable != null)
 					GoForwardAvailable();
 		}
 
 		public void GoForward()
 		{
-			if (RemovedTilesForRedo.Count == 0)
+			if (GoForwardHistory.Count == 0)
 				return;
 
-			var p = RemovedTilesForRedo.Pop();
+			var p = GoForwardHistory.Pop();
 
 			p.Left.Visible = false;
 			p.Right.Visible = false;
@@ -89,13 +111,13 @@ namespace Mahjong.Code
 			UpdateRelations(p.Left);
 			UpdateRelations(p.Right);
 
-			if (RemovedTilesForRedo.Count == 0)
+			if (GoForwardHistory.Count == 0)
 				if (GoForwardUnavailable != null)
 					GoForwardUnavailable();
 
-			RemovedTiles.Push(p);
+			GoBackHistory.Push(p);
 
-			if (RemovedTiles.Count == 1)
+			if (GoBackHistory.Count == 1)
 				if (GoBackAvailable != null)
 					GoBackAvailable();
 		}
@@ -107,8 +129,8 @@ namespace Mahjong.Code
 			public VisibleTile Right;
 		}
 
-		public readonly Stack<RemovedTilePair> RemovedTiles = new Stack<RemovedTilePair>();
-		public readonly Stack<RemovedTilePair> RemovedTilesForRedo = new Stack<RemovedTilePair>();
+		public readonly Stack<RemovedTilePair> GoBackHistory = new Stack<RemovedTilePair>();
+		public readonly Stack<RemovedTilePair> GoForwardHistory = new Stack<RemovedTilePair>();
 
 	}
 }

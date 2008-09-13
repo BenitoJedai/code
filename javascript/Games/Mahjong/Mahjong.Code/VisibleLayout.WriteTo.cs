@@ -43,11 +43,11 @@ namespace Mahjong.Code
 
 			}
 
-			w.Write(this.RemovedTiles.Count);
+			w.Write(this.GoBackHistory.Count);
 
 			// jsc cannot resolve BCL implements to explicitly implemented members
 
-			foreach (var v in this.RemovedTiles.AsEnumerable())
+			foreach (var v in this.GoBackHistory.AsEnumerable())
 			{
 				w.Write((short)v.Left.Entry.index);
 				w.Write((short)v.Right.Entry.index);
@@ -108,7 +108,7 @@ namespace Mahjong.Code
 					this.LayoutProgress.Continue(
 						delegate
 						{
-							this.RemovedTiles.Push(
+							this.GoBackHistory.Push(
 								new RemovedTilePair
 								{
 									Left = this.Tiles[Left].Tile.Value,
