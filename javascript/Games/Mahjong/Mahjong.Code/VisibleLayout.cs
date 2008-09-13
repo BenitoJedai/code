@@ -105,7 +105,7 @@ namespace Mahjong.Code
 				);
 			}
 
-			this.RemovedTiles.Clear();
+			this.GoBackHistory.Clear();
 		}
 
 

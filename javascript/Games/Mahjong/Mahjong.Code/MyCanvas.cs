@@ -302,6 +302,7 @@ namespace Mahjong.Code
 
 				};
 
+			#region Savepoints
 			var Savepoints = new Stack<MemoryStream>();
 
 			var ButtonSave = new BlueButton
@@ -351,9 +352,10 @@ namespace Mahjong.Code
 				};
 
 			ButtonLoad.Container.MoveTo(8, DefaultScaledHeight - 32).AttachTo(this);
+			#endregion
 
-			
 
+			#region back/forward buttons
 			var Navbar = new AeroNavigationBar();
 
 			Navbar.ButtonGoBack.Enabled = false;
@@ -368,6 +370,7 @@ namespace Mahjong.Code
 			MyLayout.GoForwardAvailable += () => Navbar.ButtonGoForward.Enabled = true;
 			MyLayout.GoForwardUnavailable += () => Navbar.ButtonGoForward.Enabled = false;
 			Navbar.GoForward += () => MyLayout.GoForward();
+			#endregion
 
 			Layouts = new LayoutsFuture(Assets.Default.FileNames.Where(k => k.EndsWith(".lay")).Randomize().ToArray());
 
@@ -377,6 +380,12 @@ namespace Mahjong.Code
 					MyLayout.Layout = value;
 				}
 			);
+
+			MyLayout.ReadyForNextLayout +=
+				delegate
+				{
+					Console.WriteLine("congrats!");
+				};
 
 			Layouts.AllLoaded.Continue(
 				ByComment =>
