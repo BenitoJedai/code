@@ -71,7 +71,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
 						}
 					);
 
-					e = (IHTMLElement) e.parentNode;
+					e = (IHTMLElement)e.parentNode;
 				}
 
 				return a;
@@ -84,10 +84,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
 			var b = GetPositionData.Of(Internal_Element);
 
 			// top elements might be the same so we remove them
-			while (a[a.Count - 1].Element == b[b.Count - 1].Element)
+			var loop = true;
+
+			while (loop)
 			{
-				a.RemoveAt(a.Count - 1);
-				b.RemoveAt(b.Count - 1);
+				loop = false;
+
+				if (a.Count > 0)
+					if (b.Count > 0)
+						if (a[a.Count - 1].Element == b[b.Count - 1].Element)
+						{
+							a.RemoveAt(a.Count - 1);
+							b.RemoveAt(b.Count - 1);
+
+							loop = true;
+						}
 			}
 
 			var x = 0;

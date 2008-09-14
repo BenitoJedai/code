@@ -125,10 +125,10 @@ namespace Mahjong.Code
 				IsReadOnly = true
 			}.MoveTo(4, 32).AttachTo(this);
 
-			MyLayout.Overlay.MouseMove +=
+			this.MouseMove +=
 				(sender, e) =>
 				{
-					var p = e.GetPosition(MyLayout.Overlay);
+					var p = e.GetPosition(this);
 
 					CoPlayer3.MoveTo(p.X + 32, p.Y + 32);
 
@@ -393,7 +393,10 @@ namespace Mahjong.Code
 			Navbar.GoForward += () => MyLayout.GoForward();
 			#endregion
 
-			Layouts = new LayoutsFuture(Assets.Default.FileNames.Where(k => k.EndsWith(".lay")).Randomize().ToArray());
+			Layouts = new LayoutsFuture(
+				//new string [0]
+				Assets.Default.FileNames.Where(k => k.EndsWith(".lay")).Randomize().ToArray()
+			);
 
 			Layouts.FirstLoaded.Continue(
 				value =>
