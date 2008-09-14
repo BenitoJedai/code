@@ -13,6 +13,7 @@ using ScriptCoreLib.Shared.Lambda;
 namespace Mahjong.SplitScreen.Shared
 {
 	using SinglePlayerCanvas = Mahjong.Code.MyCanvas;
+	using Mahjong.NetworkCode.ClientSide.Shared;
 
 	[Script]
 	public class MyCanvas : Canvas
@@ -27,8 +28,10 @@ namespace Mahjong.SplitScreen.Shared
 			Width = DefaultWidth;
 			Height = DefaultHeight;
 
-			var lefty = new SinglePlayerCanvas().AttachTo(this);
-			var righty = new SinglePlayerCanvas().MoveTo(SinglePlayerCanvas.DefaultScaledWidth, 0).AttachTo(this);
+			var c = new SplitScreenClient();
+
+			var lefty = c.Lefty.Map.AttachTo(this);
+			var righty = c.Righty.Map.MoveTo(SinglePlayerCanvas.DefaultScaledWidth, 0).AttachTo(this);
 
 
 			PlaySoundFuture.Continue(lefty.PlaySoundFuture);

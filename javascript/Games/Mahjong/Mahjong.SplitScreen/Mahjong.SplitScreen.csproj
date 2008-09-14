@@ -93,6 +93,10 @@
       <Project>{10B71A22-D062-4A4B-BB93-F2F749DE89BC}</Project>
       <Name>Mahjong.Code</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mahjong.NetworkCode\Mahjong.NetworkCode.csproj">
+      <Project>{DF27AB39-5FC8-458B-842A-0547369E263C}</Project>
+      <Name>Mahjong.NetworkCode</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="web\assets\" />

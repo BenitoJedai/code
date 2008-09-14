@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="ScriptCoreLib, Version=3.0.3176.36818, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.dll</HintPath>
@@ -59,8 +65,16 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientSide\ActionScript\NonobaClient.cs" />
+    <Compile Include="ClientSide\Shared\Client.cs" />
+    <Compile Include="ClientSide\Shared\Client.Local.cs" />
+    <Compile Include="ClientSide\Shared\Client.Remote.cs" />
+    <Compile Include="ClientSide\Shared\SplitScreenClient.cs" />
     <Compile Include="Shared\Communication.cs" />
     <Compile Include="Shared\Communication.Generated.cs">
       <DependentUpon>Communication.cs</DependentUpon>
@@ -74,8 +88,13 @@
     <None Include="tools\update.bat" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Client\" />
-    <Folder Include="Server\" />
+    <ProjectReference Include="..\Mahjong.Code\Mahjong.Code.csproj">
+      <Project>{10B71A22-D062-4A4B-BB93-F2F749DE89BC}</Project>
+      <Name>Mahjong.Code</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ServerSide\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
