@@ -64,9 +64,14 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public FlashSpaceInvaders()
 		{
-			PlayMultiPlayerWithMochi();
-
+			//PlayMultiPlayerWithMochi();
+			PlaySplitScreen();
 			
+		}
+
+		public override DisplayObject CreateInstance()
+		{
+			throw new NotImplementedException();
 		}
 
 		private void PlayMultiPlayerWithMochi()

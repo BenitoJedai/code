@@ -12,7 +12,7 @@ using ScriptCoreLib.Shared.Lambda;
 
 namespace Mahjong.SplitScreen.Shared
 {
-	using SinglePlayerCanvas = Mahjong.Code.MyCanvas;
+	using SinglePlayerCanvas = Mahjong.Code.MahjongGameControl;
 	using Mahjong.NetworkCode.ClientSide.Shared;
 
 	[Script]

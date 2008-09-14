@@ -41,7 +41,7 @@ namespace Mahjong.js
 			var clip = new IHTMLDiv();
 
 			clip.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
-			clip.style.SetSize(MyCanvas.DefaultScaledWidth, MyCanvas.DefaultScaledHeight);
+			clip.style.SetSize(MahjongGameControl.DefaultScaledWidth, MahjongGameControl.DefaultScaledHeight);
 			clip.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
 
 			if (e == null)
@@ -73,7 +73,7 @@ namespace Mahjong.js
 				{
 					loading.Dispose();
 
-					AvalonExtensions.AttachToContainer(new MyCanvas(), clip);
+					AvalonExtensions.AttachToContainer(new MahjongGameControl(), clip);
 				}
 			);
 
