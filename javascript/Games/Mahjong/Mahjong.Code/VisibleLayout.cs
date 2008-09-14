@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using ScriptCoreLib;
-using ScriptCoreLib.Shared.Lambda;
-using ScriptCoreLib.Shared.Avalon.Extensions;
-using Mahjong.Shared;
 using System.Windows.Controls;
-using System.Windows.Shapes;
-using System.Windows.Media;
 using System.Windows.Input;
-using System.IO;
+using System.Windows.Media;
+using System.Windows.Shapes;
+using Mahjong.Shared;
+using ScriptCoreLib;
+using ScriptCoreLib.Shared.Avalon.Extensions;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace Mahjong.Code
 {

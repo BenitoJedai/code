@@ -9,6 +9,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 namespace Mahjong.SplitScreen.ActionScript
 {
 	using TargetCanvas = global::Mahjong.SplitScreen.Shared.MyCanvas;
+	using Mahjong.ActionScript;
 
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
@@ -30,15 +31,7 @@ namespace Mahjong.SplitScreen.ActionScript
 		static SplitScreen()
 		{
 			// add resources to be found by ImageSource
-			KnownEmbeddedResources.Default.Handlers.Add(
-
-				e => global::Mahjong.ActionScript.__Assets.Default[e]
-				);
-
-			KnownEmbeddedResources.Default.Handlers.Add(
-
-				e => global::ScriptCoreLib.ActionScript.Avalon.TiledImageButton.Assets.Default[e]
-				);
+			KnownEmbeddedResources.Default.Handlers.AddRange(__Assets.ReferencedKnownEmbeddedResources());
 
 		}
 	}

@@ -173,13 +173,13 @@ namespace Mahjong.NetworkCode.Shared
             {
                 Send(new SendArguments { i = Messages.UserPlayerAdvertise, args = new object[] { user, name } });
             }
-            public void MouseMove(int x, int y, int color)
+            public void MouseMove(int x, int y)
             {
-                Send(new SendArguments { i = Messages.MouseMove, args = new object[] { x, y, color } });
+                Send(new SendArguments { i = Messages.MouseMove, args = new object[] { x, y } });
             }
-            public void UserMouseMove(int user, int x, int y, int color)
+            public void UserMouseMove(int user, int x, int y)
             {
-                Send(new SendArguments { i = Messages.UserMouseMove, args = new object[] { user, x, y, color } });
+                Send(new SendArguments { i = Messages.UserMouseMove, args = new object[] { user, x, y } });
             }
             public void MouseOut(int color)
             {
@@ -446,7 +446,7 @@ namespace Mahjong.NetworkCode.Shared
                 }
                 public void UserMouseMove(MouseMoveArguments e)
                 {
-                    Target.UserMouseMove(this.user, e.x, e.y, e.color);
+                    Target.UserMouseMove(this.user, e.x, e.y);
                 }
                 public void UserMouseOut(MouseOutArguments e)
                 {
@@ -605,11 +605,10 @@ namespace Mahjong.NetworkCode.Shared
             {
                 public int x;
                 public int y;
-                public int color;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ x = ").Append(this.x).Append(", y = ").Append(this.y).Append(", color = ").Append(this.color).Append(" }").ToString();
+                    return new StringBuilder().Append("{ x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
                 }
             }
             #endregion
@@ -621,11 +620,10 @@ namespace Mahjong.NetworkCode.Shared
             {
                 public int x;
                 public int y;
-                public int color;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", x = ").Append(this.x).Append(", y = ").Append(this.y).Append(", color = ").Append(this.color).Append(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
                 }
             }
             #endregion
@@ -1211,8 +1209,8 @@ namespace Mahjong.NetworkCode.Shared
                             { Messages.ServerPlayerLeft, e => { ServerPlayerLeft(new ServerPlayerLeftArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                             { Messages.PlayerAdvertise, e => { PlayerAdvertise(new PlayerAdvertiseArguments { name = e.GetString(0) }); } },
                             { Messages.UserPlayerAdvertise, e => { UserPlayerAdvertise(new UserPlayerAdvertiseArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
-                            { Messages.MouseMove, e => { MouseMove(new MouseMoveArguments { x = e.GetInt32(0), y = e.GetInt32(1), color = e.GetInt32(2) }); } },
-                            { Messages.UserMouseMove, e => { UserMouseMove(new UserMouseMoveArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2), color = e.GetInt32(3) }); } },
+                            { Messages.MouseMove, e => { MouseMove(new MouseMoveArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
+                            { Messages.UserMouseMove, e => { UserMouseMove(new UserMouseMoveArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
                             { Messages.MouseOut, e => { MouseOut(new MouseOutArguments { color = e.GetInt32(0) }); } },
                             { Messages.UserMouseOut, e => { UserMouseOut(new UserMouseOutArguments { user = e.GetInt32(0), color = e.GetInt32(1) }); } },
                             { Messages.VectorChanged, e => { VectorChanged(new VectorChangedArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
@@ -1395,18 +1393,18 @@ namespace Mahjong.NetworkCode.Shared
             }
 
             public event Action<RemoteEvents.MouseMoveArguments> MouseMove;
-            void IMessages.MouseMove(int x, int y, int color)
+            void IMessages.MouseMove(int x, int y)
             {
                 if(MouseMove == null) return;
-                var v = new RemoteEvents.MouseMoveArguments { x = x, y = y, color = color };
+                var v = new RemoteEvents.MouseMoveArguments { x = x, y = y };
                 this.VirtualLatency(() => this.MouseMove(v));
             }
 
             public event Action<RemoteEvents.UserMouseMoveArguments> UserMouseMove;
-            void IMessages.UserMouseMove(int user, int x, int y, int color)
+            void IMessages.UserMouseMove(int user, int x, int y)
             {
                 if(UserMouseMove == null) return;
-                var v = new RemoteEvents.UserMouseMoveArguments { user = user, x = x, y = y, color = color };
+                var v = new RemoteEvents.UserMouseMoveArguments { user = user, x = x, y = y };
                 this.VirtualLatency(() => this.UserMouseMove(v));
             }
 
@@ -1735,4 +1733,4 @@ namespace Mahjong.NetworkCode.Shared
     }
     #endregion
 }
-// 14.09.2008 13:08:46
+// 14.09.2008 20:23:15

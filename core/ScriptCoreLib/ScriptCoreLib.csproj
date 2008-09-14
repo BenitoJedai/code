@@ -187,6 +187,7 @@
     <Compile Include="ActionScript\mx\core\UIComponent.cs" />
     <Compile Include="ActionScript\mx\core\FlexSprite.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Stack.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Converter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\BinaryReader.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\BinaryWriter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\MemoryStream.cs" />

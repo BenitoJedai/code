@@ -38,13 +38,13 @@ using ScriptCoreLib;
 
 [assembly:
 	Script,
-	ScriptTypeFilter(ScriptType.ActionScript, "*.Shared"),
-	ScriptTypeFilter(ScriptType.ActionScript, "*.ClientSide.Shared"),
-	ScriptTypeFilter(ScriptType.ActionScript, "*.ClientSide.ActionScript"),
+	ScriptTypeFilter(ScriptType.ActionScript, "Mahjong.NetworkCode.Shared"),
+	ScriptTypeFilter(ScriptType.ActionScript, "Mahjong.NetworkCode.ClientSide.Shared"),
+	ScriptTypeFilter(ScriptType.ActionScript, "Mahjong.NetworkCode.ClientSide.ActionScript"),
 
-	ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
-	ScriptTypeFilter(ScriptType.JavaScript, "*.ClientSide.Shared"),
+	ScriptTypeFilter(ScriptType.JavaScript, "Mahjong.NetworkCode.Shared"),
+	ScriptTypeFilter(ScriptType.JavaScript, "Mahjong.NetworkCode.ClientSide.Shared"),
 
-	ScriptTypeFilter(ScriptType.CSharp2, "*.Shared"),
-	ScriptTypeFilter(ScriptType.CSharp2, "*.ServerSide")
+	ScriptTypeFilter(ScriptType.CSharp2, "Mahjong.NetworkCode.Shared"),
+	ScriptTypeFilter(ScriptType.CSharp2, "Mahjong.NetworkCode.ServerSide")
 ]

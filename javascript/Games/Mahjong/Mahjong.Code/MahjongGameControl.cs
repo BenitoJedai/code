@@ -16,6 +16,7 @@ using System.Windows;
 using ScriptCoreLib.Shared.Avalon.TextSuggestions;
 using System.IO;
 using ScriptCoreLib.Shared.Avalon.TiledImageButton;
+using ScriptCoreLib.Shared.Avalon.Cursors;
 
 namespace Mahjong.Code
 {
@@ -37,6 +38,10 @@ namespace Mahjong.Code
 
 		public readonly FutureAction<string> PlaySoundFuture;
 		public readonly Action<string> PlaySound;
+
+		public event Action<int, int> Sync_MouseMove;
+
+		public readonly Canvas CoPlayerMouseContainer;
 
 		public MahjongGameControl()
 		{
@@ -93,29 +98,18 @@ namespace Mahjong.Code
 			
 			MyLayout.Container.AttachTo(this);
 
-			#region CoPlayer mouse
-			// place stuff between tiles and cursor here
-			var CoPlayer2 = new Image
+
+			this.CoPlayerMouseContainer = new Canvas
 			{
-				Source = CursorAssets.Cursors["red"].ToSource()
-			}.MoveTo(32, 32).AttachTo(this);
+				Width = DefaultScaledWidth,
+				Height = DefaultScaledHeight
+			}.AttachTo(this);
 
-
-			(1000 / 30).AtIntervalWithCounter(
-				Counter =>
-				{
-					CoPlayer2.MoveTo(
-						DefaultScaledWidth / 2 + Math.Cos((double)Counter / 20) * 64,
-						DefaultScaledHeight / 2 + Math.Sin((double)Counter / 20) * 64
-					);
-				}
-			);
-			#endregion
-
-			var CoPlayer3 = new Image
+			var CoPlayer3 = new ArrowCursorControl
 			{
-				Source = CursorAssets.Cursors["blue"].ToSource()
-			}.MoveTo(32, 32).AttachTo(this);
+			};
+
+			CoPlayer3.Container.MoveTo(32, 32).AttachTo(this.CoPlayerMouseContainer);
 
 			var EgoCursorPositionDisplay = new TextBox
 			{
@@ -130,9 +124,12 @@ namespace Mahjong.Code
 				{
 					var p = e.GetPosition(this);
 
-					CoPlayer3.MoveTo(p.X + 32, p.Y + 32);
+					CoPlayer3.Container.MoveTo(p.X + 32, p.Y + 32);
 
 					EgoCursorPositionDisplay.Text = new { p.X, p.Y }.ToString();
+
+					if (Sync_MouseMove != null)
+						Sync_MouseMove(Convert.ToInt32( p.X),Convert.ToInt32( p.Y));
 				};
 
 			MyLayout.Overlay.AttachTo(this);
@@ -395,7 +392,7 @@ namespace Mahjong.Code
 
 			Layouts = new LayoutsFuture(
 				//new string [0]
-				Assets.Default.FileNames.Where(k => k.EndsWith(".lay")).Randomize().ToArray()
+				Mahjong.Shared.Assets.Default.FileNames.Where(k => k.EndsWith(".lay")).Randomize().ToArray()
 			);
 
 			Layouts.FirstLoaded.Continue(
