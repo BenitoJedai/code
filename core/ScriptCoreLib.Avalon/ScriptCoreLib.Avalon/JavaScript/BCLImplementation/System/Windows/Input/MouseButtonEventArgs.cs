@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
 {
@@ -21,8 +22,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
 		{
 			return new __MouseButtonEventArgs
 			{
-				Internal_stageX = e.OffsetX,
-				Internal_stageY = e.OffsetY,
+				Internal_OffsetX = e.OffsetX,
+				Internal_OffsetY = e.OffsetY,
+				Internal_Element = (IHTMLElement)e.Element,
 				ChangedButton = MouseButton.Left
 			};
 		}
