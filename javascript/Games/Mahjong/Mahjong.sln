@@ -19,6 +19,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mahjong.SplitScreen", "Mahj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mahjong.NetworkCode", "Mahjong.NetworkCode\Mahjong.NetworkCode.csproj", "{DF27AB39-5FC8-458B-842A-0547369E263C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mahjong.NonobaClient", "Mahjong.NonobaClient\Mahjong.NonobaClient.csproj", "{DB37106C-02DB-4A60-A43D-BF03A412A469}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mahjong.NonobaClientTest", "Mahjong.NonobaClientTest\Mahjong.NonobaClientTest.csproj", "{4B53A8A4-3BBC-4369-B1F8-881142A0C7A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mahjong.PromotionalAssets", "Mahjong.PromotionalAssets\Mahjong.PromotionalAssets.csproj", "{E1614DF2-041D-4CA7-9E42-CC020008FD8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +55,18 @@ Global
 		{DF27AB39-5FC8-458B-842A-0547369E263C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF27AB39-5FC8-458B-842A-0547369E263C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF27AB39-5FC8-458B-842A-0547369E263C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB37106C-02DB-4A60-A43D-BF03A412A469}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB37106C-02DB-4A60-A43D-BF03A412A469}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB37106C-02DB-4A60-A43D-BF03A412A469}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB37106C-02DB-4A60-A43D-BF03A412A469}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B53A8A4-3BBC-4369-B1F8-881142A0C7A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B53A8A4-3BBC-4369-B1F8-881142A0C7A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B53A8A4-3BBC-4369-B1F8-881142A0C7A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B53A8A4-3BBC-4369-B1F8-881142A0C7A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1614DF2-041D-4CA7-9E42-CC020008FD8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1614DF2-041D-4CA7-9E42-CC020008FD8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1614DF2-041D-4CA7-9E42-CC020008FD8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1614DF2-041D-4CA7-9E42-CC020008FD8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,5 +77,7 @@ Global
 		{CCD63D5A-8E33-44E3-97E3-8E60D0B5BA7F} = {646688F0-A380-4187-BEC7-F10863D9D1F5}
 		{F41DE7E7-4FBF-4E69-B16D-2F3CC762CCF7} = {646688F0-A380-4187-BEC7-F10863D9D1F5}
 		{526C61A0-C705-4F95-8749-6ECD5C94FAA7} = {64C28E55-E153-4658-A600-40EC0FFA71E5}
+		{DB37106C-02DB-4A60-A43D-BF03A412A469} = {64C28E55-E153-4658-A600-40EC0FFA71E5}
+		{4B53A8A4-3BBC-4369-B1F8-881142A0C7A2} = {64C28E55-E153-4658-A600-40EC0FFA71E5}
 	EndGlobalSection
 EndGlobal

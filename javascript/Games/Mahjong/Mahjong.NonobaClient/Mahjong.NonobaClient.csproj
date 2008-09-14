@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{526C61A0-C705-4F95-8749-6ECD5C94FAA7}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{DB37106C-02DB-4A60-A43D-BF03A412A469}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mahjong.SplitScreen</RootNamespace>
-    <AssemblyName>Mahjong.SplitScreen</AssemblyName>
+    <RootNamespace>Mahjong.NonobaClient</RootNamespace>
+    <AssemblyName>Mahjong.NonobaClient</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
@@ -46,10 +46,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.Avalon.TiledImageButton, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Avalon.TiledImageButton.dll</HintPath>
-    </Reference>
     <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
@@ -69,16 +65,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionScript\SplitScreen.cs" />
-    <Compile Include="JavaScript\MyCanvasScriptControl.cs" />
-    <Compile Include="JavaScript\MyExtensions.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="ActionScript\NonobaClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
-    <Compile Include="Shared\MyCanvas.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Documents\description.txt" />
+    <Compile Include="ServerSide\KeepLookingForMore.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
@@ -97,9 +87,6 @@
       <Name>Mahjong.NetworkCode</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="web\assets\" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -111,6 +98,11 @@
   <PropertyGroup>
     <PostBuildEvent>pushd ..\..\tools\
 call build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
-popd</PostBuildEvent>
+popd
+
+copy "$(TargetDir)web\*.dll" "../../../bin"
+copy "$(TargetDir)web\*.pdb" "../../../bin"
+copy "$(TargetDir)web\*.swf" "../../../bin"
+copy "$(TargetDir)web\*.htm" "../../../bin"</PostBuildEvent>
   </PropertyGroup>
 </Project>

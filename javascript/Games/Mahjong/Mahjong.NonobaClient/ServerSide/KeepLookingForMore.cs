@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace Mahjong.SplitScreen.Shared
+namespace Mahjong.NonobaClient.ServerSide
 {
 	[Script]
-	public static class MySharedExtensions
+	class KeepLookingForMore
 	{
 	}
 }
