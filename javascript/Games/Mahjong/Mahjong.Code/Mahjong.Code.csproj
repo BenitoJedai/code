@@ -90,7 +90,7 @@
     <Compile Include="VisibleLayout.LayoutUpdatePairs.cs" />
     <Compile Include="VisibleLayout.Entry.cs" />
     <Compile Include="VisibleLayout.Settings.cs" />
-    <Compile Include="MyCanvas.cs" />
+    <Compile Include="MahjongGameControl.cs" />
     <Compile Include="MyExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VisibleLayout.cs" />

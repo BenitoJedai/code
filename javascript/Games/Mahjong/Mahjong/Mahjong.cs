@@ -10,8 +10,8 @@ using ScriptCoreLib.ActionScript.flash.display;
 
 namespace Mahjong.ActionScript
 {
-	[Script, ScriptApplicationEntryPoint(Width = MyCanvas.DefaultScaledWidth, Height = MyCanvas.DefaultScaledHeight)]
-	[SWF(width = MyCanvas.DefaultScaledWidth, height = MyCanvas.DefaultScaledHeight, backgroundColor = 0)]
+	[Script, ScriptApplicationEntryPoint(Width = MahjongGameControl.DefaultScaledWidth, Height = MahjongGameControl.DefaultScaledHeight)]
+	[SWF(width = MahjongGameControl.DefaultScaledWidth, height = MahjongGameControl.DefaultScaledHeight, backgroundColor = 0)]
 	public class Mahjong : Sprite
 	{
 
@@ -22,7 +22,7 @@ namespace Mahjong.ActionScript
 		/// </summary>
 		public Mahjong()
 		{
-			var c = new MyCanvas();
+			var c = new MahjongGameControl();
 
 			c.PlaySoundFuture.Value = __Assets.Default.PlaySound;
 
