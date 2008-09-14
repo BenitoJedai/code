@@ -44,16 +44,20 @@ namespace Mahjong.Code
 			}
 
 			w.Write(this.GoBackHistory.Count);
-
-			// jsc cannot resolve BCL implements to explicitly implemented members
-
 			foreach (var v in this.GoBackHistory.AsEnumerable())
 			{
 				w.Write((short)v.Left.Entry.index);
 				w.Write((short)v.Right.Entry.index);
 			}
 
-			Console.WriteLine(new { m.Length }.ToString());
+
+			w.Write(this.GoForwardHistory.Count);
+			foreach (var v in this.GoForwardHistory.AsEnumerable())
+			{
+				w.Write((short)v.Left.Entry.index);
+				w.Write((short)v.Right.Entry.index);
+			}
+
 		}
 
 		public void ReadFrom(Stream m)
@@ -120,6 +124,27 @@ namespace Mahjong.Code
 				}
 			);
 
+
+			Enumerable.Range(0, r.ReadInt32()).ForEach(
+					k =>
+					{
+						var Left = r.ReadInt16();
+						var Right = r.ReadInt16();
+
+						this.LayoutProgress.Continue(
+							delegate
+							{
+								this.GoForwardHistory.Push(
+									new RemovedTilePair
+									{
+										Left = this.Tiles[Left].Tile.Value,
+										Right = this.Tiles[Right].Tile.Value,
+									}
+								);
+							}
+						);
+					}
+				);
 
 			this._Layout = layout;
 

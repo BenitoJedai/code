@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{10B71A22-D062-4A4B-BB93-F2F749DE89BC}</ProjectGuid>
+    <ProjectGuid>{DF27AB39-5FC8-458B-842A-0547369E263C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mahjong.Code</RootNamespace>
-    <AssemblyName>Mahjong.Code</AssemblyName>
+    <RootNamespace>Mahjong.NetworkCode</RootNamespace>
+    <AssemblyName>Mahjong.NetworkCode</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -24,40 +24,22 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="PresentationFramework">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="ScriptCoreLib, Version=3.0.3150.32807, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ScriptCoreLib, Version=3.0.3176.36818, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.Avalon, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ScriptCoreLib.Nonoba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Nonoba.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.Avalon.TextButton, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Avalon.TextButton.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLib.Avalon.TextSuggestions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Avalon.TextSuggestions.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLib.Avalon.TiledImageButton, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Avalon.TiledImageButton.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLib.Query, Version=3.5.3147.31645, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ScriptCoreLib.Query, Version=3.5.3175.22454, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
     </Reference>
@@ -77,30 +59,23 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BlueButton.cs" />
-    <Compile Include="VisibleLayout.RemovePair.cs" />
-    <Compile Include="VisibleLayout.WriteTo.cs" />
-    <Compile Include="LayoutsFuture.cs" />
-    <Compile Include="VisibleLayout.Tiles.cs" />
-    <Compile Include="VisibleLayout.LayoutUpdatePairs.cs" />
-    <Compile Include="VisibleLayout.Entry.cs" />
-    <Compile Include="VisibleLayout.Settings.cs" />
-    <Compile Include="MyCanvas.cs" />
-    <Compile Include="MyExtensions.cs" />
+    <Compile Include="Shared\Communication.cs" />
+    <Compile Include="Shared\Communication.Generated.cs">
+      <DependentUpon>Communication.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VisibleLayout.cs" />
-    <Compile Include="VisibleTile.cs" />
+    <Compile Include="Shared\VirtualClient.cs" />
+    <Compile Include="Shared\VirtualGame.cs" />
+    <Compile Include="Shared\VirtualPlayer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mahjong.Assets\Mahjong.Assets.csproj">
-      <Project>{37337673-4A19-4F25-B7CC-B1532AB909CE}</Project>
-      <Name>Mahjong.Assets</Name>
-    </ProjectReference>
+    <None Include="tools\update.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Client\" />
+    <Folder Include="Server\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
