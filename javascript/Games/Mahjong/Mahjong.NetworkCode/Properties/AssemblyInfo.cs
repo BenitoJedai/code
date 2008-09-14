@@ -38,9 +38,13 @@ using ScriptCoreLib;
 
 [assembly:
 	Script,
-	ScriptTypeFilter(ScriptType.ActionScript),
-	ScriptTypeFilter(ScriptType.JavaScript),
+	ScriptTypeFilter(ScriptType.ActionScript, "*.Shared"),
+	ScriptTypeFilter(ScriptType.ActionScript, "*.ClientSide.Shared"),
+	ScriptTypeFilter(ScriptType.ActionScript, "*.ClientSide.ActionScript"),
+
+	ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
+	ScriptTypeFilter(ScriptType.JavaScript, "*.ClientSide.Shared"),
 
 	ScriptTypeFilter(ScriptType.CSharp2, "*.Shared"),
-	ScriptTypeFilter(ScriptType.CSharp2, "*.Server")
+	ScriptTypeFilter(ScriptType.CSharp2, "*.ServerSide")
 ]
