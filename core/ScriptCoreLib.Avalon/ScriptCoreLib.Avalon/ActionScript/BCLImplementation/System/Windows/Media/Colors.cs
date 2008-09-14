@@ -10,7 +10,6 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 	internal static class __Colors
 	{
 
-		public static Color Yellow { get { return (__Color)0xffffff00; } }
 		public static Color Transparent { get { return (__Color)0x00ffffff; } }
 		public static Color Red { get { return (__Color)0xffff0000; } }
 		public static Color White { get { return (__Color)0xffffffff; } }
@@ -18,5 +17,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 		public static Color GreenYellow { get { return (__Color)0xFFADFF2F; } }
 		public static Color Blue { get { return (__Color)0xff0000ff; } }
 		public static Color Gray { get { return (__Color)0xff808080; } }
+		public static Color Green { get { return (__Color)0xff008000; } }
+		public static Color Magenta { get { return (__Color)0xFFFF00FF; } }
+		public static Color Cyan { get { return (__Color)0xFF00FFFF; } }
+		public static Color Yellow { get { return (__Color)0xFFFFFF00; } }
 	}
 }
