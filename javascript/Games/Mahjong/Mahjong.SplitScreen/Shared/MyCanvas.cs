@@ -30,12 +30,12 @@ namespace Mahjong.SplitScreen.Shared
 
 			var c = new SplitScreenClient();
 
-			var lefty = c.Lefty.Map.AttachTo(this);
-			var righty = c.Righty.Map.MoveTo(SinglePlayerCanvas.DefaultScaledWidth, 0).AttachTo(this);
+			c.Lefty.Element.AttachTo(this);
+			c.Righty.Element.MoveTo(SinglePlayerCanvas.DefaultScaledWidth, 0).AttachTo(this);
 
 
-			PlaySoundFuture.Continue(lefty.PlaySoundFuture);
-			PlaySoundFuture.Continue(righty.PlaySoundFuture);
+			PlaySoundFuture.Continue(c.Lefty.Map.PlaySoundFuture);
+			PlaySoundFuture.Continue(c.Righty.Map.PlaySoundFuture);
 
 		}
 	}
