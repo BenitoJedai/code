@@ -10,7 +10,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media
 	internal class __Brushes
 	{
 
-		public static SolidColorBrush Yellow { get { return new __SolidColorBrush { Color = Colors.Yellow }; } }
 		public static SolidColorBrush Transparent { get { return new __SolidColorBrush { Color = Colors.Transparent }; } }
 		public static SolidColorBrush Red { get { return new __SolidColorBrush { Color = Colors.Red }; } }
 		public static SolidColorBrush White { get { return new __SolidColorBrush { Color = Colors.White }; } }
@@ -18,5 +17,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media
 		public static SolidColorBrush GreenYellow { get { return new __SolidColorBrush { Color = Colors.GreenYellow }; } }
 		public static SolidColorBrush Blue { get { return new __SolidColorBrush { Color = Colors.Blue }; } }
 		public static SolidColorBrush Gray { get { return new __SolidColorBrush { Color = Colors.Gray }; } }
+		public static SolidColorBrush Green { get { return new __SolidColorBrush { Color = Colors.Green }; } }
+		public static SolidColorBrush Magenta { get { return new __SolidColorBrush { Color = Colors.Magenta }; } }
+		public static SolidColorBrush Cyan { get { return new __SolidColorBrush { Color = Colors.Cyan }; } }
+		public static SolidColorBrush Yellow { get { return new __SolidColorBrush { Color = Colors.Yellow }; } }
 	}
 }
