@@ -196,7 +196,7 @@ namespace Mahjong.Code
 
 					tt.Visible = entry.Visible;
 
-					1.AtDelay(SignalNext);
+					10.AtDelay(SignalNext);
 				}
 			)(
 				delegate
