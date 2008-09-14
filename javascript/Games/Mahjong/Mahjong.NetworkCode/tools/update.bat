@@ -3,4 +3,4 @@
 
 
 :: Dll name
-@call "c:\util\jsc\bin\CreateNetworkProxy.exe" "..\Communication.cs"
+@call "c:\util\jsc\bin\CreateNetworkProxy.exe" "..\Shared\Communication.cs"

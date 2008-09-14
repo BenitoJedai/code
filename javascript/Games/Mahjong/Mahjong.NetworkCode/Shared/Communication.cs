@@ -35,8 +35,8 @@ namespace Mahjong.NetworkCode.Shared
 			void UserPlayerAdvertise(int user, string name);
 
 
-			void MouseMove(int x, int y, int color);
-			void UserMouseMove(int user, int x, int y, int color);
+			void MouseMove(int x, int y);
+			void UserMouseMove(int user, int x, int y);
 
 
 			void MouseOut(int color);

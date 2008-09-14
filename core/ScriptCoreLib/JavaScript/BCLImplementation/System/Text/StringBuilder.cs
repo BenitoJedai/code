@@ -4,61 +4,77 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 {
-    using ScriptCoreLib.JavaScript.DOM;
 
-    [Script(Implements = typeof(global::System.Text.StringBuilder))]
-    internal class __StringBuilder
-    {
-        readonly IArray<string> data = new IArray<string>();
+	[Script(Implements = typeof(global::System.Text.StringBuilder))]
+	internal class __StringBuilder
+	{
+		public __StringBuilder()
+		{
 
-        public __StringBuilder()
-        {
+		}
 
-        }
+		string _Value = "";
 
-        public __StringBuilder Append(string e)
-        {
-            if (e != null)
-                data.push(e);
+		public __StringBuilder Append(bool e)
+		{
+			_Value += e;
 
-            return this;
-        }
+			return this;
+		}
 
-        public __StringBuilder AppendLine(string e)
-        {
-            if (e != null)
-                data.push(e);
+		public __StringBuilder Append(double e)
+		{
+			_Value += e;
 
-            AppendLine();
+			return this;
+		}
 
-            return this;
-        }
+		public __StringBuilder Append(uint e)
+		{
+			_Value += e;
 
-        public __StringBuilder AppendLine()
-        {
-            data.push(Environment.NewLine);
+			return this;
+		}
 
-            return this;
-        }
+		public __StringBuilder Append(int e)
+		{
+			_Value += e;
+
+			return this;
+		}
+
+		public __StringBuilder Append(string e)
+		{
+			_Value += e;
+
+			return this;
+		}
+
+		public __StringBuilder Append(object value)
+		{
+			if (value != null)
+			{
+				_Value += value.ToString();
+			}
+
+			return this;
+		}
+
+		public __StringBuilder AppendLine()
+		{
+			return Append(Environment.NewLine);
+		}
+
+		public __StringBuilder AppendLine(string value)
+		{
+			return Append(value).AppendLine();
+		}
 
 
-        public __StringBuilder Append(object value)
-        {
-            if (value == null)
-            {
-                return this;
-            }
-            return this.Append(value.ToString());
-        }
-
-
-        public override string ToString()
-        {
-            return data.join("");
-        }
-
-
-
-    }
+		public override string ToString()
+		{
+			return _Value;
+		}
+	}
 
 }

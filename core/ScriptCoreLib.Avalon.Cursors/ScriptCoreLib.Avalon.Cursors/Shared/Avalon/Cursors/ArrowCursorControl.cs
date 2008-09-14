@@ -40,10 +40,12 @@ namespace ScriptCoreLib.Shared.Avalon.Cursors
 					{
 						Source = (Assets.Path + e).ToSource(),
 						Width = Size,
-						Height = Size
+						Height = Size,
+						Opacity = 0
 					}.AttachTo(this.Container);
 
 			this.Background = f("/Aero_Arrow.png");
+			this.Background.Opacity = 1;
 
 			this.Cyan = f("/Aero_Arrow_cyan.png");
 			this.Magenta = f("/Aero_Arrow_magenta.png");
@@ -52,6 +54,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cursors
 			this.Red = f("/Aero_Arrow_red.png");
 			this.Green = f("/Aero_Arrow_green.png");
 			this.Blue = f("/Aero_Arrow_blue.png");
+
 		}
 
 		public static double GetColorDistance(Color x, Color y)

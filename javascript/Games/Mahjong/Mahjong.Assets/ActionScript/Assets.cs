@@ -11,7 +11,7 @@ using ScriptCoreLib.Shared;
 namespace Mahjong.ActionScript
 {
 	[Script(Implements=typeof(Mahjong.Shared.Assets))]
-	public class __Assets
+	public partial class __Assets
 	{
 
 		public static readonly __Assets Default = new __Assets();
@@ -59,5 +59,8 @@ namespace Mahjong.ActionScript
 				throw new NotImplementedException();
 			}
 		}
+
+	
+
 	}
 }
