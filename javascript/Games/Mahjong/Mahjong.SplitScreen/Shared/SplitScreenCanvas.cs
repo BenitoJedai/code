@@ -16,14 +16,14 @@ namespace Mahjong.SplitScreen.Shared
 	using Mahjong.NetworkCode.ClientSide.Shared;
 
 	[Script]
-	public class MyCanvas : Canvas
+	public class SplitScreenCanvas : Canvas
 	{
 		public const int DefaultWidth = SinglePlayerCanvas.DefaultScaledWidth * 2;
 		public const int DefaultHeight = SinglePlayerCanvas.DefaultScaledHeight;
 
 		public readonly FutureAction<string> PlaySoundFuture = new FutureAction<string>();
 
-		public MyCanvas()
+		public SplitScreenCanvas()
 		{
 			Width = DefaultWidth;
 			Height = DefaultHeight;
