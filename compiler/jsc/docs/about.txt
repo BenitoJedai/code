@@ -6,8 +6,10 @@ compiles MSIL into
 - php 
 - java
 - ansi c
+- csharp 2
 - (vb6?)
-- (c#?)
+
+- (batch files?)
 
 version history:
 28 06 2006
@@ -153,3 +155,5 @@ version history:
 11.09.2008
 	java: fixed field to use safe literals to support automatic properties
 	java: Main will be translated to main
+15.09.2008
+	actionscript: fixed uint constants for method parameters
