@@ -24,7 +24,7 @@ namespace Mahjong.SplitScreen
 		[STAThread]
 		static public void Main(string[] args)
 		{
-			ToWindow(new MyCanvas()).ShowDialog();
+			ToWindow(new SplitScreenCanvas()).ShowDialog();
 		}
 	}
 }

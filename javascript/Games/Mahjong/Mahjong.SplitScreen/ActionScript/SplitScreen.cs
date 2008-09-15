@@ -8,7 +8,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 
 namespace Mahjong.SplitScreen.ActionScript
 {
-	using TargetCanvas = global::Mahjong.SplitScreen.Shared.MyCanvas;
+	using TargetCanvas = global::Mahjong.SplitScreen.Shared.SplitScreenCanvas;
 	using Mahjong.ActionScript;
 
 	/// <summary>

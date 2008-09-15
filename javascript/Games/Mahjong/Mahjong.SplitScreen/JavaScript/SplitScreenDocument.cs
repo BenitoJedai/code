@@ -9,20 +9,22 @@ using ScriptCoreLib.Shared.Lambda;
 
 namespace Mahjong.SplitScreen.JavaScript
 {
-	using TargetCanvas = global::Mahjong.SplitScreen.Shared.MyCanvas;
+	using TargetCanvas = global::Mahjong.SplitScreen.Shared.SplitScreenCanvas;
 	using Mahjong.SplitScreen.Shared;
 	using Mahjong.Shared;
+	using ScriptCoreLib.JavaScript;
 
 	[Script, ScriptApplicationEntryPoint]
-	public class MyCanvasScriptControl
+	public class SplitScreenDocument
 	{
-		public MyCanvasScriptControl(IHTMLElement e)
+		public SplitScreenDocument(IHTMLElement e)
 		{
+			
 			// wpf here
 			var clip = new IHTMLDiv();
 
 			clip.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
-			clip.style.SetSize(MyCanvas.DefaultWidth, MyCanvas.DefaultHeight);
+			clip.style.SetSize(SplitScreenCanvas.DefaultWidth, SplitScreenCanvas.DefaultHeight);
 			clip.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
 
 			if (e == null)
@@ -54,15 +56,17 @@ namespace Mahjong.SplitScreen.JavaScript
 				{
 					loading.Dispose();
 
-					AvalonExtensions.AttachToContainer(new MyCanvas(), clip);
+					Native.Document.body.style.backgroundColor = "black";
+
+					AvalonExtensions.AttachToContainer(new SplitScreenCanvas(), clip);
 				}
 			);
 
 		}
 
-		static MyCanvasScriptControl()
+		static SplitScreenDocument()
 		{
-			typeof(MyCanvasScriptControl).SpawnTo(i => new MyCanvasScriptControl(i));
+			typeof(SplitScreenDocument).SpawnTo(i => new SplitScreenDocument(i));
 		}
 
 	}
