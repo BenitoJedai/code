@@ -242,7 +242,7 @@ namespace jsc.Languages.ActionScript
 						var TargetIsNotNull = e.i.StackBeforeStrict[0].SingleStackInstruction != OpCodes.Ldnull;
 						var TargetMethodIsStatic = e.i.StackBeforeStrict[1].SingleStackInstruction.TargetMethod.IsStatic;
 
-						if (TargetMethodIsStatic )
+						if (TargetMethodIsStatic)
 							if (TargetIsNotNull)
 							{
 								Write(".");
@@ -296,7 +296,7 @@ namespace jsc.Languages.ActionScript
 					}
 					#endregion
 
-					Emit(e.p, s[1]);
+					Emit(e.p, s[1], e.i.TargetField.FieldType);
 				};
 			#endregion
 

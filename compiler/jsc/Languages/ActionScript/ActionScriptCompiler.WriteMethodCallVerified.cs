@@ -161,7 +161,7 @@ namespace jsc.Languages.ActionScript
 					}
 					#endregion
 
-					Emit(p, value);
+					Emit(p, value, prop.SetProperty.PropertyType);
 				};
 			#endregion
 

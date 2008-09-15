@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\javascript\Games\Mahjong\Mahjong\bin\Debug</StartWorkingDirectory>
-    <StartArguments>Mahjong.dll -js</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\bin\Debug</StartWorkingDirectory>
+    <StartArguments>ScriptCoreLib.Avalon.dll -as</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

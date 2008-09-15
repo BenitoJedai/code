@@ -56,7 +56,7 @@ namespace Mahjong.SplitScreen.JavaScript
 				{
 					loading.Dispose();
 
-					Native.Document.body.style.backgroundColor = "black";
+					//Native.Document.body.style.backgroundColor = "black";
 
 					AvalonExtensions.AttachToContainer(new SplitScreenCanvas(), clip);
 				}
