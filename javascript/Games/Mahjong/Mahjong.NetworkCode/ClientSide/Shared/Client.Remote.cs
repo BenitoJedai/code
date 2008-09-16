@@ -15,7 +15,6 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 		public void InitializeEvents()
 		{
 			// this should be called once!
-
 			var CoPlayers = new CoPlayerGroup(
 				user =>
 				{
@@ -28,8 +27,14 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					#region MouseMove
 					var MouseMove = NumericEmitter.Of(
 						// dynamically generated events
-						(x, y) => n.Cursor.Container.MoveTo(x, y)
+						(x, y) =>
+						{
+							n.Cursor.Container.MoveTo(x, y);
+							//this.Map.DiagnosticsWriteLine("emit: " + new { x, y }.ToString());
+						}
 					);
+
+					MouseMove.DiagnosticsWriteLine = this.Map.DiagnosticsWriteLine;
 
 					// entry point for rare events
 					n.MouseMove = MouseMove;

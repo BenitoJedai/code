@@ -112,9 +112,9 @@ namespace Mahjong.Code
 
 			this.DiagnosticsText = new TextBox
 			{
+				AcceptsReturn = true,
 				Width = DefaultScaledWidth,
 				Height = DefaultScaledHeight / 2,
-				AcceptsReturn = true,
 				IsReadOnly = true,
 				Background = Brushes.Transparent,
 				Foreground = Brushes.White,
@@ -127,12 +127,14 @@ namespace Mahjong.Code
 			this.DiagnosticsWriteLine =
 				text =>
 				{
+					Console.WriteLine(text);
+
 					DiagnosticsHistory.Enqueue(text);
 
 					while (DiagnosticsHistory.Count > 8)
 						DiagnosticsHistory.Dequeue();
 
-					DiagnosticsText.Text = string.Concat(DiagnosticsHistory.ToArray(u => u + Environment.NewLine));
+					DiagnosticsText.Text = string.Concat(DiagnosticsHistory.Select(u => u + Environment.NewLine).ToArray());
 				};
 
 			this.CoPlayerMouseContainer = new Canvas
