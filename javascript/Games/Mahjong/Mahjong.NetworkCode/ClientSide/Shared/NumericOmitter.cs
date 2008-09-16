@@ -17,7 +17,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			// possbible parameters:
 			const int DefaultTresholdDistance = 8;
 			const int DefaultTresholdTimeout = 300;
-			const int DefaultUpdateTimeout = 300;
+			const int DefaultUpdateTimeout = 150;
 
 			// we are not going to send updates when the happen too often
 			// or they are too near to last update 

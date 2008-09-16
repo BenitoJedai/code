@@ -52,7 +52,15 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 				{
 					this.Map.DiagnosticsWriteLine("read: " + e.ToString());
  
-					CoPlayers[e].MouseMove(e.x, e.y);
+					CoPlayers[e.user].MouseMove(e.x, e.y);
+				};
+
+			this.Events.ServerPlayerLeft +=
+				e =>
+				{
+					CoPlayers[e.user].Cursor.Container.Orphanize();
+
+					CoPlayers.Remove(e.user);
 				};
 		}
 	}
