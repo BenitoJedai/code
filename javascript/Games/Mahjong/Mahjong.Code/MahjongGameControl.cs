@@ -41,6 +41,10 @@ namespace Mahjong.Code
 
 		public event Action<int, int> Sync_MouseMove;
 
+		public readonly Action<string> DiagnosticsWriteLine;
+
+		public readonly TextBox DiagnosticsText;
+
 		public readonly Canvas CoPlayerMouseContainer;
 
 		public MahjongGameControl()
@@ -98,6 +102,38 @@ namespace Mahjong.Code
 			
 			MyLayout.Container.AttachTo(this);
 
+			var DiagnosticsBackground = new Rectangle
+			{
+				Fill = Brushes.Black,
+				Width = DefaultScaledWidth,
+				Height = DefaultScaledHeight / 2,
+				Opacity = 0.5
+			}.MoveTo(0, DefaultScaledHeight / 4).AttachTo(this);
+
+			this.DiagnosticsText = new TextBox
+			{
+				Width = DefaultScaledWidth,
+				Height = DefaultScaledHeight / 2,
+				AcceptsReturn = true,
+				IsReadOnly = true,
+				Background = Brushes.Transparent,
+				Foreground = Brushes.White,
+				BorderThickness = new Thickness(0)
+
+			}.MoveTo(0, DefaultScaledHeight / 4).AttachTo(this);
+
+			var DiagnosticsHistory = new Queue<string>();
+
+			this.DiagnosticsWriteLine =
+				text =>
+				{
+					DiagnosticsHistory.Enqueue(text);
+
+					while (DiagnosticsHistory.Count > 8)
+						DiagnosticsHistory.Dequeue();
+
+					DiagnosticsText.Text = string.Concat(DiagnosticsHistory.ToArray(u => u + Environment.NewLine));
+				};
 
 			this.CoPlayerMouseContainer = new Canvas
 			{
@@ -105,28 +141,28 @@ namespace Mahjong.Code
 				Height = DefaultScaledHeight
 			}.AttachTo(this);
 
-			var CoPlayer3 = new ArrowCursorControl
-			{
-			};
+			//var CoPlayer3 = new ArrowCursorControl
+			//{
+			//};
 
-			CoPlayer3.Container.MoveTo(32, 32).AttachTo(this.CoPlayerMouseContainer);
+			//CoPlayer3.Container.MoveTo(32, 32).AttachTo(this.CoPlayerMouseContainer);
 
-			var EgoCursorPositionDisplay = new TextBox
-			{
-				BorderThickness = new Thickness(0),
-				Background = Brushes.Transparent,
-				Foreground = Brushes.White,
-				IsReadOnly = true
-			}.MoveTo(4, 32).AttachTo(this);
+			//var EgoCursorPositionDisplay = new TextBox
+			//{
+			//    BorderThickness = new Thickness(0),
+			//    Background = Brushes.Transparent,
+			//    Foreground = Brushes.White,
+			//    IsReadOnly = true
+			//}.MoveTo(4, 32).AttachTo(this);
 
 			this.MouseMove +=
 				(sender, e) =>
 				{
 					var p = e.GetPosition(this);
 
-					CoPlayer3.Container.MoveTo(p.X + 32, p.Y + 32);
+					//CoPlayer3.Container.MoveTo(p.X + 32, p.Y + 32);
 
-					EgoCursorPositionDisplay.Text = new { p.X, p.Y }.ToString();
+					//EgoCursorPositionDisplay.Text = new { p.X, p.Y }.ToString();
 
 					if (Sync_MouseMove != null)
 						Sync_MouseMove(Convert.ToInt32( p.X),Convert.ToInt32( p.Y));

@@ -24,7 +24,14 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			this.Map.AttachTo(Element);
 
 			// we need to use a treshold and throttle too frequent updates
-			var MouseMove = NumericOmitter.Of(this.Messages.MouseMove);
+			var MouseMove = NumericOmitter.Of(
+				(x, y) =>
+				{
+					this.Messages.MouseMove(x, y);
+
+					this.Map.DiagnosticsWriteLine("write: " + new { x, y }.ToString());
+				}
+			);
 
 			this.Map.Sync_MouseMove += MouseMove;
 
