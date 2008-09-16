@@ -45,6 +45,8 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			this.Events.UserMouseMove +=
 				e =>
 				{
+					this.Map.DiagnosticsWriteLine("read: " + e.ToString());
+ 
 					CoPlayers[e].MouseMove(e.x, e.y);
 				};
 		}
