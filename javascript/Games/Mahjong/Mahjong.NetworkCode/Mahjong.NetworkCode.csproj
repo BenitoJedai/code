@@ -83,6 +83,11 @@
     <Compile Include="ClientSide\Shared\Client.cs" />
     <Compile Include="ClientSide\Shared\Client.Local.cs" />
     <Compile Include="ClientSide\Shared\Client.Remote.cs" />
+    <Compile Include="ClientSide\Shared\CoPlayer.cs" />
+    <Compile Include="ClientSide\Shared\CoPlayerGroup.cs" />
+    <Compile Include="ClientSide\Shared\NumericEmitter.cs" />
+    <Compile Include="ClientSide\Shared\NumericOmitter.cs" />
+    <Compile Include="ClientSide\Shared\NumericTransmitter.cs" />
     <Compile Include="ClientSide\Shared\SplitScreenClient.cs" />
     <Compile Include="ServerSide\NonobaGame.cs" />
     <Compile Include="Shared\Communication.cs" />

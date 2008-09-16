@@ -391,8 +391,8 @@ namespace Mahjong.Code
 			#endregion
 
 			Layouts = new LayoutsFuture(
-				//new string [0]
-				Mahjong.Shared.Assets.Default.FileNames.Where(k => k.EndsWith(".lay")).Randomize().ToArray()
+				new string [0]
+				//Mahjong.Shared.Assets.Default.FileNames.Where(k => k.EndsWith(".lay")).Randomize().ToArray()
 			);
 
 			Layouts.FirstLoaded.Continue(
@@ -402,15 +402,17 @@ namespace Mahjong.Code
 				}
 			);
 
-			MyLayout.ReadyForNextLayout +=
-				delegate
-				{
-					Console.WriteLine("congrats!");
-				};
+	
 
 			Layouts.AllLoaded.Continue(
 				ByComment =>
 				{
+					if (ByComment.Count == 0)
+					{
+						Comment.Text = "No layouts were loaded!";
+						return;
+					}
+
 					CommentSuggestions.Suggestions = ByComment.Keys.ToArray();
 
 					CommentSuggestions.Select +=
@@ -429,6 +431,12 @@ namespace Mahjong.Code
 						};
 				}
 			);
+
+			MyLayout.ReadyForNextLayout +=
+				delegate
+				{
+					Console.WriteLine("congrats!");
+				};
 		}
 
 		private static void ApplyDiagnosticsForPairs(VisibleLayout MyLayout, VisibleTile tt)
