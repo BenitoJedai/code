@@ -121,6 +121,13 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         }
 
+		// http://www.w3schools.com/jsref/jsref_slice_array.asp
+		public IArray<TItem> slice(int index)
+		{
+			return default(IArray<TItem>);
+		}
+
+
         public int length;
 
         public string join()
@@ -146,6 +153,23 @@ namespace ScriptCoreLib.JavaScript.DOM
                 Expando.InternalSetMember(this, i, value);
             }
         }
+
+		[Script(DefineAsStatic = true)]
+		public int indexOf(TItem item)
+		{
+			var j = -1;
+
+			for (int i = 0; i < length; i++)
+			{
+				if (Expando.ReferenceEquals(this[i], item))
+				{
+					j = i;
+					break;
+				}
+			}
+
+			return j;
+		}
 
 
         [Script(DefineAsStatic=true)]

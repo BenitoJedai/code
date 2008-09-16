@@ -17,6 +17,8 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 		// 2. tweened movement based on erratic movement input
 
+		public Action<string> DiagnosticsWriteLine = delegate { };
+
 
 		public static NumericEmitter Of(Action<int, int> Output)
 		{
@@ -42,76 +44,92 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			var StopTween = default(Action);
 			var StopTargetTween = default(Action);
 
-			return new NumericEmitter
-			{
-				Output = Output,
-				Input =
+			var n = new NumericEmitter();
+
+			n.Output = Output;
+
+			n.Input =
 					(x, y) =>
 					{
 						ttx = x;
 						tty = y;
 
-						//Console.WriteLine(new { x, y, _dirty }.ToString());
+						//n.DiagnosticsWriteLine("emitter - new target : " + new { x, y, _dirty }.ToString());
 
 						// we need to interpolate events here
 						if (_dirty)
 						{
-							if (StopTween == null)
-								StopTween = DefaultFrameRate.AtInterval(
+							//n.DiagnosticsWriteLine("emitter - new silding target setup ");
+
+							Action StartTween =
+								delegate
+								{
+									if (StopTween == null)
+										StopTween = DefaultFrameRate.AtInterval(
+											delegate
+											{
+												var dx = (_x - tx);
+												var dy = (_y - ty);
+
+												if (Math.Abs(dx) <= DefaultEndConditionDelta)
+													if (Math.Abs(dy) <= DefaultEndConditionDelta)
+													{
+														_x = tx;
+														_y = ty;
+
+														Output(_x, _y);
+
+														//StopTween();
+														StopTween = null;
+
+														//n.DiagnosticsWriteLine("emitter - done : " + new { _x, _y }.ToString());
+
+														return;
+													}
+
+												_x = tx + dx - dx / DefaultDivider;
+												_y = ty + dy - dy / DefaultDivider;
+
+												Output(_x, _y);
+											}
+										).Stop;
+								};
+
+							if (StopTargetTween == null)
+								StopTargetTween = DefaultFrameRate.AtInterval(
 									delegate
 									{
-										var dx = (_x - tx);
-										var dy = (_y - ty);
+										var dx = (tx - ttx);
+										var dy = (ty - tty);
 
-											if (Math.Abs(dx) <= DefaultEndConditionDelta)
-												if (Math.Abs(dy) <= DefaultEndConditionDelta)
-												{
-													_x = tx;
-													_y = ty;
+										if (Math.Abs(dx) <= DefaultEndConditionDelta)
+											if (Math.Abs(dy) <= DefaultEndConditionDelta)
+											{
+												tx = ttx;
+												ty = tty;
 
-													Output(_x, _y);
+												//StopTargetTween();
+												StopTargetTween = null;
 
-													StopTween();
-													StopTween = null;
+												StartTween();
 
+												return;
+											}
 
-													return;
-												}
+										tx = ttx + dx - dx / DefaultTargetDivider;
+										ty = tty + dy - dy / DefaultTargetDivider;
 
-										_x = tx + dx - dx / DefaultDivider;
-										_y = ty + dy - dy / DefaultDivider;
+										StartTween();
 
-										Output(_x, _y);
+										//n.DiagnosticsWriteLine("emitter - new silding target : " + new { tx, ty }.ToString());
+
+										//Console.WriteLine(new { tx, ty, c, x, y }.ToString());
 									}
 								).Stop;
 
-							if (StopTargetTween == null)
-								StopTargetTween = DefaultFrameRate.AtIntervalWithCounter(
-										c =>
-										{
-											var dx = (tx - ttx);
-											var dy = (ty - tty);
+							
 
-											if (Math.Abs(dx) <= DefaultEndConditionDelta)
-												if (Math.Abs(dy) <= DefaultEndConditionDelta)
-												{
-													tx = ttx;
-													ty = tty;
-
-													StopTargetTween();
-													StopTargetTween = null;
-
-													return;
-												}
-
-											tx = ttx + dx - dx / DefaultTargetDivider;
-											ty = tty + dy - dy / DefaultTargetDivider;
-
-
-
-											//Console.WriteLine(new { tx, ty, c, x, y }.ToString());
-										}
-									).Stop;
+							
 						}
 						else
 						{
@@ -126,8 +144,10 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 							Output(_x, _y);
 						}
-					}
-			};
+					};
+
+			return n;
+
 		}
 
 

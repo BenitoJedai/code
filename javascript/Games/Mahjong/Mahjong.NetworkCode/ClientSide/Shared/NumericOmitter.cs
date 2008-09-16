@@ -17,6 +17,10 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			// possbible parameters:
 			const int DefaultTresholdDistance = 8;
 			const int DefaultTresholdTimeout = 300;
+			const int DefaultUpdateTimeout = 300;
+
+			// we are not going to send updates when the happen too often
+			// or they are too near to last update 
 
 			var _x = 0;
 			var _y = 0;
@@ -55,6 +59,9 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					Output(x, y);
 				};
 
+			Action DelayedOutput = delegate {};
+			Action StopDelayedOutput = null;
+
 			return new NumericOmitter
 			{
 				Output = OutputAndRemember,
@@ -85,7 +92,22 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 						}
 						#endregion
 
-						OutputAndRemember(x, y);
+						if (StopDelayedOutput == null)
+						{
+							StopDelayedOutput = DefaultUpdateTimeout.AtDelay(
+								delegate
+								{
+									DelayedOutput();
+									StopDelayedOutput = null;
+								}
+							).Stop;
+
+							OutputAndRemember(x, y);
+						}
+						else
+						{
+							DelayedOutput = () => OutputAndRemember(x, y);
+						}
 				
 					}
 			};
