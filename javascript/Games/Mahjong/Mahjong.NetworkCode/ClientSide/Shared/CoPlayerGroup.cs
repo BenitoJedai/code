@@ -19,11 +19,10 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 		readonly Dictionary<int, CoPlayer> List = new Dictionary<int, CoPlayer>();
 
-		public CoPlayer this[Communication.RemoteEvents.WithUserArguments k]
+		public CoPlayer this[int user]
 		{
 			get
 			{
-				var user = k.user;
 
 				if (this.List.ContainsKey(user))
 					return this.List[user];
@@ -35,6 +34,11 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 				return z;
 			}
 
+		}
+
+		public void Remove(int user)
+		{
+			this.List.Remove(user);
 		}
 	}
 }

@@ -27,7 +27,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			// we are using sliding target to avoid single vector movement between events
 
 			const int DefaultFrameRate = 1000 / 30;
-			const int DefaultDivider = 4;
+			const int DefaultDivider = 6;
 			const int DefaultTargetDivider = 4;
 			const int DefaultEndConditionDelta = 1;
 
