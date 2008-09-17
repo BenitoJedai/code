@@ -109,7 +109,8 @@ namespace Mahjong.NetworkCode.Shared
 
 			// let new player know how it is named, also send magic bytes to verify
 			player.ToPlayer.ServerPlayerHello(
-				player.UserId, player.Username //, user_with_map, new Handshake().ToArray()
+				player.UserId, player.Username, this.Users.Count - 1
+				//, user_with_map, new Handshake().ToArray()
 			);
 
 			// let other players know that there is a new player in the map
@@ -117,14 +118,7 @@ namespace Mahjong.NetworkCode.Shared
 			   player.UserId, player.Username
 			);
 
-			//if (x != null)
-			//{
-			//    // the new player wont wait forever for the new map.
-			//    // if certain time passes and no map is recieved, it will use
-			//    // its own map, this desyncing from others
-			//    //Console.WriteLine("Will ask for map transfer from " + x.Username);
-			//    //x.ToPlayer.ServerSendMap();
-			//}
+		
 
 		}
 

@@ -47,6 +47,10 @@ namespace Mahjong.Code
 
 		public readonly Canvas CoPlayerMouseContainer;
 
+		public readonly TextBox Comment;
+
+		public readonly VisibleLayout MyLayout;
+
 		public MahjongGameControl()
 		{
 			this.PlaySoundFuture = new FutureAction<string>();
@@ -88,7 +92,7 @@ namespace Mahjong.Code
 			}.AttachTo(this);
 			#endregion
 
-			var MyLayout = new VisibleLayout(
+			this.MyLayout = new VisibleLayout(
 				new VisibleLayout.SettingsInfo
 				{
 					Scale = DefaultScale,
@@ -143,28 +147,12 @@ namespace Mahjong.Code
 				Height = DefaultScaledHeight
 			}.AttachTo(this);
 
-			//var CoPlayer3 = new ArrowCursorControl
-			//{
-			//};
-
-			//CoPlayer3.Container.MoveTo(32, 32).AttachTo(this.CoPlayerMouseContainer);
-
-			//var EgoCursorPositionDisplay = new TextBox
-			//{
-			//    BorderThickness = new Thickness(0),
-			//    Background = Brushes.Transparent,
-			//    Foreground = Brushes.White,
-			//    IsReadOnly = true
-			//}.MoveTo(4, 32).AttachTo(this);
+	
 
 			this.MouseMove +=
 				(sender, e) =>
 				{
 					var p = e.GetPosition(this);
-
-					//CoPlayer3.Container.MoveTo(p.X + 32, p.Y + 32);
-
-					//EgoCursorPositionDisplay.Text = new { p.X, p.Y }.ToString();
 
 					if (Sync_MouseMove != null)
 						Sync_MouseMove(Convert.ToInt32( p.X),Convert.ToInt32( p.Y));
@@ -199,7 +187,7 @@ namespace Mahjong.Code
 
 
 
-			var Comment = new TextBox
+			this.Comment = new TextBox
 			{
 				Width = DefaultScaledWidth - CommentMargin * 2,
 				Height = 24,
@@ -428,18 +416,18 @@ namespace Mahjong.Code
 			Navbar.GoForward += () => MyLayout.GoForward();
 			#endregion
 
-			Layouts = new LayoutsFuture(
-				new string [0]
-				//Mahjong.Shared.Assets.Default.FileNames.Where(k => k.EndsWith(".lay")).Randomize().ToArray()
+			this.Layouts = new LayoutsFuture(
+				// new string [0]
+				Mahjong.Shared.Assets.Default.FileNames.Where(k => k.EndsWith(".lay")).Randomize().ToArray()
 			);
 
-			Layouts.FirstLoaded.Continue(
-				value =>
+			Layouts.Progress +=
+				(Index, Count) =>
 				{
-					MyLayout.Layout = value;
-				}
-			);
+					Comment.Text = "Loading layout " + Index + " of " + Count;
+				};
 
+			WhatToDoWhenFirstLayoutIsLoaded();
 	
 
 			Layouts.AllLoaded.Continue(
@@ -449,6 +437,10 @@ namespace Mahjong.Code
 					{
 						Comment.Text = "No layouts were loaded!";
 						return;
+					}
+					else
+					{
+						Comment.Text = "There are " + ByComment.Count + " layouts";
 					}
 
 					CommentSuggestions.Suggestions = ByComment.Keys.ToArray();
@@ -475,6 +467,16 @@ namespace Mahjong.Code
 				{
 					Console.WriteLine("congrats!");
 				};
+		}
+
+		public virtual void WhatToDoWhenFirstLayoutIsLoaded()
+		{
+			Layouts.FirstLoaded.Continue(
+				value =>
+				{
+					MyLayout.Layout = value;
+				}
+			);
 		}
 
 		private static void ApplyDiagnosticsForPairs(VisibleLayout MyLayout, VisibleTile tt)

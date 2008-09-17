@@ -27,7 +27,7 @@ namespace Mahjong.NetworkCode.Shared
 
 			void ServerPlayerHandshake(int[] version);
 
-			void ServerPlayerHello(int user, string name);
+			void ServerPlayerHello(int user, string name, int others);
 			void ServerPlayerJoined(int user, string name);
 			void ServerPlayerLeft(int user, string name);
 

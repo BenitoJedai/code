@@ -15,12 +15,21 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 		public MahjongGameControl Map;
 
+		[Script]
+		public class MahjongGameControlForNetwork : MahjongGameControl
+		{
+			public override void WhatToDoWhenFirstLayoutIsLoaded()
+			{
+				// nothing 
+			}
+		}
+
 		public void InitializeMap()
 		{
 			if (this.Map != null)
 				throw new NotSupportedException();
 
-			this.Map = new MahjongGameControl();
+			this.Map = new MahjongGameControlForNetwork();
 			this.Map.AttachTo(Element);
 
 			// we need to use a treshold and throttle too frequent updates
@@ -29,7 +38,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 				{
 					this.Messages.MouseMove(x, y);
 
-					this.Map.DiagnosticsWriteLine("write: " + new { x, y }.ToString());
+					//this.Map.DiagnosticsWriteLine("write: " + new { x, y }.ToString());
 				}
 			);
 

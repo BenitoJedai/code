@@ -17,11 +17,16 @@ namespace Mahjong.Code
 
 		public readonly Dictionary<string, Layout> ByComment = new Dictionary<string, Layout>();
 
+		public event Action<int, int> Progress;
+
 		public LayoutsFuture(string[] Files)
 		{
 			Files.ForEach(
-				(string File, Action SignalNext) =>
+				(string File, int Index, Action SignalNext) =>
 				{
+					if (Progress != null)
+						Progress(Index, Files.Length);
+
 					File.ToStringAsset(
 						DataString =>
 						{
