@@ -95,37 +95,59 @@ namespace Mahjong.NetworkCode.Shared
 				public DispatchHelper()
 				{
 					this.GetDoubleArray =
-						delegate
+						offset =>
 						{
-							var a = new double[GetLength(null)];
+							int offseti = (int)offset;
+							int len = GetLength(null) - offseti;
+
+							var a = new double[len];
 
 							for (var i = 0; i < a.Length; i++)
-								a[i] = this.GetDouble((uint)i);
+							{
+								uint ii = (uint)i;
+								uint j = ii + offset;
+
+								a[i] = this.GetDouble(j);
+							}
 
 							return a;
 						};
 
 					this.GetInt32Array =
-						  delegate
-						  {
-							  var a = new int[GetLength(null)];
+						offset =>
+						{
+							int offseti = (int)offset;
+							int len = GetLength(null) - offseti;
+							var a = new int[len];
 
-							  for (var i = 0; i < a.Length; i++)
-								  a[i] = this.GetInt32((uint)i);
+							for (var i = 0; i < a.Length; i++)
+							{
+								uint ii = (uint)i;
+								uint j = ii + offset;
 
-							  return a;
-						  };
+								a[i] = this.GetInt32(j);
+							}
+
+							return a;
+						};
 
 					this.GetStringArray =
-						  delegate
-						  {
-							  var a = new string[GetLength(null)];
+						offset =>
+						{
+							int offseti = (int)offset;
+							int len = GetLength(null) - offseti;
+							var a = new string[len];
 
-							  for (var i = 0; i < a.Length; i++)
-								  a[i] = this.GetString((uint)i);
+							for (var i = 0; i < a.Length; i++)
+							{
+								uint ii = (uint)i;
+								uint j = ii + offset;
 
-							  return a;
-						  };
+								a[i] = this.GetString(j);
+							}
+
+							return a;
+						};
 				}
 			}
 		}
