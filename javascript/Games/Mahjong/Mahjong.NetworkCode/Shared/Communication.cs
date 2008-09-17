@@ -31,8 +31,10 @@ namespace Mahjong.NetworkCode.Shared
 			void ServerPlayerJoined(int user, string name);
 			void ServerPlayerLeft(int user, string name);
 
-			void PlayerAdvertise(string name);
 			void UserPlayerAdvertise(int user, string name);
+
+			void UserMapRequest(int user);
+			void UserMapResponse(int user, int[] bytes);
 
 
 			void MouseMove(int x, int y);
@@ -42,40 +44,11 @@ namespace Mahjong.NetworkCode.Shared
 			void MouseOut(int color);
 			void UserMouseOut(int user, int color);
 
-			void VectorChanged(int x, int y);
-			void UserVectorChanged(int user, int x, int y);
-
-			void FireBullet(int starship, int multiplier, int from_x, int from_y, int to_x, int to_y, int limit);
-			void UserFireBullet(int user, int starship, int multiplier, int from_x, int from_y, int to_x, int to_y, int limit);
-
-			void AddDamage(int target, double damage, int shooter);
-			void UserAddDamage(int user, int target, double damage, int shooter);
-
-			void RestoreStarship(int starship);
-			void UserRestoreStarship(int user, int starship);
-
-			void TeleportTo(int x, int y);
-			void UserTeleportTo(int user, int x, int y);
-
-			void EatApple(int x, int y);
-			void UserEatApple(int user, int x, int y);
-
-			void EatThisWormBegin(int food);
-			void UserEatThisWormBegin(int user, int food);
-
-			void EatThisWormEnd(int food);
-			void UserEatThisWormEnd(int user, int food);
 
 			void LevelHasEnded();
 			void UserLevelHasEnded(int user);
 
-			void ServerSendMap();
-
-			void SendMap(int[] buttons);
-			void UserSendMap(int user, int[] buttons);
-
-			void SendMapLater();
-			void UserSendMapLater(int user);
+		
 
 			void SetFlag(int button, int value);
 			void UserSetFlag(int user, int button, int value);
@@ -86,13 +59,9 @@ namespace Mahjong.NetworkCode.Shared
 			// registered nonoba rankings
 			void AddScore(int score);
 
-			void KillAllInvaders();
-			void UserKillAllInvaders(int user);
-
+		
 			void AwardAchievementFirst();
-			void AwardAchievementFiver();
-			void AwardAchievementUFOKill();
-			void AwardAchievementMaxGun();
+		
 
 			void SendPassword(string password);
 			void ServerPasswordStatus(int status);

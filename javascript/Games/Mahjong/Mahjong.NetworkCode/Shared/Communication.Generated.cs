@@ -23,46 +23,21 @@ namespace Mahjong.NetworkCode.Shared
             ServerPlayerHello,
             ServerPlayerJoined,
             ServerPlayerLeft,
-            PlayerAdvertise,
             UserPlayerAdvertise,
+            UserMapRequest,
+            UserMapResponse,
             MouseMove,
             UserMouseMove,
             MouseOut,
             UserMouseOut,
-            VectorChanged,
-            UserVectorChanged,
-            FireBullet,
-            UserFireBullet,
-            AddDamage,
-            UserAddDamage,
-            RestoreStarship,
-            UserRestoreStarship,
-            TeleportTo,
-            UserTeleportTo,
-            EatApple,
-            UserEatApple,
-            EatThisWormBegin,
-            UserEatThisWormBegin,
-            EatThisWormEnd,
-            UserEatThisWormEnd,
             LevelHasEnded,
             UserLevelHasEnded,
-            ServerSendMap,
-            SendMap,
-            UserSendMap,
-            SendMapLater,
-            UserSendMapLater,
             SetFlag,
             UserSetFlag,
             Reveal,
             UserReveal,
             AddScore,
-            KillAllInvaders,
-            UserKillAllInvaders,
             AwardAchievementFirst,
-            AwardAchievementFiver,
-            AwardAchievementUFOKill,
-            AwardAchievementMaxGun,
             SendPassword,
             ServerPasswordStatus,
             LockGame,
@@ -87,46 +62,21 @@ namespace Mahjong.NetworkCode.Shared
             event Action<RemoteEvents.ServerPlayerHelloArguments> ServerPlayerHello;
             event Action<RemoteEvents.ServerPlayerJoinedArguments> ServerPlayerJoined;
             event Action<RemoteEvents.ServerPlayerLeftArguments> ServerPlayerLeft;
-            event Action<RemoteEvents.PlayerAdvertiseArguments> PlayerAdvertise;
             event Action<RemoteEvents.UserPlayerAdvertiseArguments> UserPlayerAdvertise;
+            event Action<RemoteEvents.UserMapRequestArguments> UserMapRequest;
+            event Action<RemoteEvents.UserMapResponseArguments> UserMapResponse;
             event Action<RemoteEvents.MouseMoveArguments> MouseMove;
             event Action<RemoteEvents.UserMouseMoveArguments> UserMouseMove;
             event Action<RemoteEvents.MouseOutArguments> MouseOut;
             event Action<RemoteEvents.UserMouseOutArguments> UserMouseOut;
-            event Action<RemoteEvents.VectorChangedArguments> VectorChanged;
-            event Action<RemoteEvents.UserVectorChangedArguments> UserVectorChanged;
-            event Action<RemoteEvents.FireBulletArguments> FireBullet;
-            event Action<RemoteEvents.UserFireBulletArguments> UserFireBullet;
-            event Action<RemoteEvents.AddDamageArguments> AddDamage;
-            event Action<RemoteEvents.UserAddDamageArguments> UserAddDamage;
-            event Action<RemoteEvents.RestoreStarshipArguments> RestoreStarship;
-            event Action<RemoteEvents.UserRestoreStarshipArguments> UserRestoreStarship;
-            event Action<RemoteEvents.TeleportToArguments> TeleportTo;
-            event Action<RemoteEvents.UserTeleportToArguments> UserTeleportTo;
-            event Action<RemoteEvents.EatAppleArguments> EatApple;
-            event Action<RemoteEvents.UserEatAppleArguments> UserEatApple;
-            event Action<RemoteEvents.EatThisWormBeginArguments> EatThisWormBegin;
-            event Action<RemoteEvents.UserEatThisWormBeginArguments> UserEatThisWormBegin;
-            event Action<RemoteEvents.EatThisWormEndArguments> EatThisWormEnd;
-            event Action<RemoteEvents.UserEatThisWormEndArguments> UserEatThisWormEnd;
             event Action<RemoteEvents.LevelHasEndedArguments> LevelHasEnded;
             event Action<RemoteEvents.UserLevelHasEndedArguments> UserLevelHasEnded;
-            event Action<RemoteEvents.ServerSendMapArguments> ServerSendMap;
-            event Action<RemoteEvents.SendMapArguments> SendMap;
-            event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
-            event Action<RemoteEvents.SendMapLaterArguments> SendMapLater;
-            event Action<RemoteEvents.UserSendMapLaterArguments> UserSendMapLater;
             event Action<RemoteEvents.SetFlagArguments> SetFlag;
             event Action<RemoteEvents.UserSetFlagArguments> UserSetFlag;
             event Action<RemoteEvents.RevealArguments> Reveal;
             event Action<RemoteEvents.UserRevealArguments> UserReveal;
             event Action<RemoteEvents.AddScoreArguments> AddScore;
-            event Action<RemoteEvents.KillAllInvadersArguments> KillAllInvaders;
-            event Action<RemoteEvents.UserKillAllInvadersArguments> UserKillAllInvaders;
             event Action<RemoteEvents.AwardAchievementFirstArguments> AwardAchievementFirst;
-            event Action<RemoteEvents.AwardAchievementFiverArguments> AwardAchievementFiver;
-            event Action<RemoteEvents.AwardAchievementUFOKillArguments> AwardAchievementUFOKill;
-            event Action<RemoteEvents.AwardAchievementMaxGunArguments> AwardAchievementMaxGun;
             event Action<RemoteEvents.SendPasswordArguments> SendPassword;
             event Action<RemoteEvents.ServerPasswordStatusArguments> ServerPasswordStatus;
             event Action<RemoteEvents.LockGameArguments> LockGame;
@@ -168,13 +118,20 @@ namespace Mahjong.NetworkCode.Shared
             {
                 Send(new SendArguments { i = Messages.ServerPlayerLeft, args = new object[] { user, name } });
             }
-            public void PlayerAdvertise(string name)
-            {
-                Send(new SendArguments { i = Messages.PlayerAdvertise, args = new object[] { name } });
-            }
             public void UserPlayerAdvertise(int user, string name)
             {
                 Send(new SendArguments { i = Messages.UserPlayerAdvertise, args = new object[] { user, name } });
+            }
+            public void UserMapRequest(int user)
+            {
+                Send(new SendArguments { i = Messages.UserMapRequest, args = new object[] { user } });
+            }
+            public void UserMapResponse(int user, int[] bytes)
+            {
+                var args = new object[bytes.Length + 1];
+                args[0] = user;
+                Array.Copy(bytes, 0, args, 1, bytes.Length);
+                Send(new SendArguments { i = Messages.UserMapResponse, args = args });
             }
             public void MouseMove(int x, int y)
             {
@@ -192,70 +149,6 @@ namespace Mahjong.NetworkCode.Shared
             {
                 Send(new SendArguments { i = Messages.UserMouseOut, args = new object[] { user, color } });
             }
-            public void VectorChanged(int x, int y)
-            {
-                Send(new SendArguments { i = Messages.VectorChanged, args = new object[] { x, y } });
-            }
-            public void UserVectorChanged(int user, int x, int y)
-            {
-                Send(new SendArguments { i = Messages.UserVectorChanged, args = new object[] { user, x, y } });
-            }
-            public void FireBullet(int starship, int multiplier, int from_x, int from_y, int to_x, int to_y, int limit)
-            {
-                Send(new SendArguments { i = Messages.FireBullet, args = new object[] { starship, multiplier, from_x, from_y, to_x, to_y, limit } });
-            }
-            public void UserFireBullet(int user, int starship, int multiplier, int from_x, int from_y, int to_x, int to_y, int limit)
-            {
-                Send(new SendArguments { i = Messages.UserFireBullet, args = new object[] { user, starship, multiplier, from_x, from_y, to_x, to_y, limit } });
-            }
-            public void AddDamage(int target, double damage, int shooter)
-            {
-                Send(new SendArguments { i = Messages.AddDamage, args = new object[] { target, damage, shooter } });
-            }
-            public void UserAddDamage(int user, int target, double damage, int shooter)
-            {
-                Send(new SendArguments { i = Messages.UserAddDamage, args = new object[] { user, target, damage, shooter } });
-            }
-            public void RestoreStarship(int starship)
-            {
-                Send(new SendArguments { i = Messages.RestoreStarship, args = new object[] { starship } });
-            }
-            public void UserRestoreStarship(int user, int starship)
-            {
-                Send(new SendArguments { i = Messages.UserRestoreStarship, args = new object[] { user, starship } });
-            }
-            public void TeleportTo(int x, int y)
-            {
-                Send(new SendArguments { i = Messages.TeleportTo, args = new object[] { x, y } });
-            }
-            public void UserTeleportTo(int user, int x, int y)
-            {
-                Send(new SendArguments { i = Messages.UserTeleportTo, args = new object[] { user, x, y } });
-            }
-            public void EatApple(int x, int y)
-            {
-                Send(new SendArguments { i = Messages.EatApple, args = new object[] { x, y } });
-            }
-            public void UserEatApple(int user, int x, int y)
-            {
-                Send(new SendArguments { i = Messages.UserEatApple, args = new object[] { user, x, y } });
-            }
-            public void EatThisWormBegin(int food)
-            {
-                Send(new SendArguments { i = Messages.EatThisWormBegin, args = new object[] { food } });
-            }
-            public void UserEatThisWormBegin(int user, int food)
-            {
-                Send(new SendArguments { i = Messages.UserEatThisWormBegin, args = new object[] { user, food } });
-            }
-            public void EatThisWormEnd(int food)
-            {
-                Send(new SendArguments { i = Messages.EatThisWormEnd, args = new object[] { food } });
-            }
-            public void UserEatThisWormEnd(int user, int food)
-            {
-                Send(new SendArguments { i = Messages.UserEatThisWormEnd, args = new object[] { user, food } });
-            }
             public void LevelHasEnded()
             {
                 Send(new SendArguments { i = Messages.LevelHasEnded, args = new object[] {  } });
@@ -263,31 +156,6 @@ namespace Mahjong.NetworkCode.Shared
             public void UserLevelHasEnded(int user)
             {
                 Send(new SendArguments { i = Messages.UserLevelHasEnded, args = new object[] { user } });
-            }
-            public void ServerSendMap()
-            {
-                Send(new SendArguments { i = Messages.ServerSendMap, args = new object[] {  } });
-            }
-            public void SendMap(int[] buttons)
-            {
-                var args = new object[buttons.Length + 0];
-                Array.Copy(buttons, 0, args, 0, buttons.Length);
-                Send(new SendArguments { i = Messages.SendMap, args = args });
-            }
-            public void UserSendMap(int user, int[] buttons)
-            {
-                var args = new object[buttons.Length + 1];
-                args[0] = user;
-                Array.Copy(buttons, 0, args, 1, buttons.Length);
-                Send(new SendArguments { i = Messages.UserSendMap, args = args });
-            }
-            public void SendMapLater()
-            {
-                Send(new SendArguments { i = Messages.SendMapLater, args = new object[] {  } });
-            }
-            public void UserSendMapLater(int user)
-            {
-                Send(new SendArguments { i = Messages.UserSendMapLater, args = new object[] { user } });
             }
             public void SetFlag(int button, int value)
             {
@@ -309,29 +177,9 @@ namespace Mahjong.NetworkCode.Shared
             {
                 Send(new SendArguments { i = Messages.AddScore, args = new object[] { score } });
             }
-            public void KillAllInvaders()
-            {
-                Send(new SendArguments { i = Messages.KillAllInvaders, args = new object[] {  } });
-            }
-            public void UserKillAllInvaders(int user)
-            {
-                Send(new SendArguments { i = Messages.UserKillAllInvaders, args = new object[] { user } });
-            }
             public void AwardAchievementFirst()
             {
                 Send(new SendArguments { i = Messages.AwardAchievementFirst, args = new object[] {  } });
-            }
-            public void AwardAchievementFiver()
-            {
-                Send(new SendArguments { i = Messages.AwardAchievementFiver, args = new object[] {  } });
-            }
-            public void AwardAchievementUFOKill()
-            {
-                Send(new SendArguments { i = Messages.AwardAchievementUFOKill, args = new object[] {  } });
-            }
-            public void AwardAchievementMaxGun()
-            {
-                Send(new SendArguments { i = Messages.AwardAchievementMaxGun, args = new object[] {  } });
             }
             public void SendPassword(string password)
             {
@@ -407,52 +255,24 @@ namespace Mahjong.NetworkCode.Shared
                 #region Automatic Event Routing
                 public void CombineDelegates(IEvents value)
                 {
-                    value.PlayerAdvertise += this.UserPlayerAdvertise;
                     value.MouseMove += this.UserMouseMove;
                     value.MouseOut += this.UserMouseOut;
-                    value.VectorChanged += this.UserVectorChanged;
-                    value.FireBullet += this.UserFireBullet;
-                    value.AddDamage += this.UserAddDamage;
-                    value.RestoreStarship += this.UserRestoreStarship;
-                    value.TeleportTo += this.UserTeleportTo;
-                    value.EatApple += this.UserEatApple;
-                    value.EatThisWormBegin += this.UserEatThisWormBegin;
-                    value.EatThisWormEnd += this.UserEatThisWormEnd;
                     value.LevelHasEnded += this.UserLevelHasEnded;
-                    value.SendMap += this.UserSendMap;
-                    value.SendMapLater += this.UserSendMapLater;
                     value.SetFlag += this.UserSetFlag;
                     value.Reveal += this.UserReveal;
-                    value.KillAllInvaders += this.UserKillAllInvaders;
                 }
 
                 public void RemoveDelegates(IEvents value)
                 {
-                    value.PlayerAdvertise -= this.UserPlayerAdvertise;
                     value.MouseMove -= this.UserMouseMove;
                     value.MouseOut -= this.UserMouseOut;
-                    value.VectorChanged -= this.UserVectorChanged;
-                    value.FireBullet -= this.UserFireBullet;
-                    value.AddDamage -= this.UserAddDamage;
-                    value.RestoreStarship -= this.UserRestoreStarship;
-                    value.TeleportTo -= this.UserTeleportTo;
-                    value.EatApple -= this.UserEatApple;
-                    value.EatThisWormBegin -= this.UserEatThisWormBegin;
-                    value.EatThisWormEnd -= this.UserEatThisWormEnd;
                     value.LevelHasEnded -= this.UserLevelHasEnded;
-                    value.SendMap -= this.UserSendMap;
-                    value.SendMapLater -= this.UserSendMapLater;
                     value.SetFlag -= this.UserSetFlag;
                     value.Reveal -= this.UserReveal;
-                    value.KillAllInvaders -= this.UserKillAllInvaders;
                 }
                 #endregion
 
                 #region Routing
-                public void UserPlayerAdvertise(PlayerAdvertiseArguments e)
-                {
-                    Target.UserPlayerAdvertise(this.user, e.name);
-                }
                 public void UserMouseMove(MouseMoveArguments e)
                 {
                     Target.UserMouseMove(this.user, e.x, e.y);
@@ -461,49 +281,9 @@ namespace Mahjong.NetworkCode.Shared
                 {
                     Target.UserMouseOut(this.user, e.color);
                 }
-                public void UserVectorChanged(VectorChangedArguments e)
-                {
-                    Target.UserVectorChanged(this.user, e.x, e.y);
-                }
-                public void UserFireBullet(FireBulletArguments e)
-                {
-                    Target.UserFireBullet(this.user, e.starship, e.multiplier, e.from_x, e.from_y, e.to_x, e.to_y, e.limit);
-                }
-                public void UserAddDamage(AddDamageArguments e)
-                {
-                    Target.UserAddDamage(this.user, e.target, e.damage, e.shooter);
-                }
-                public void UserRestoreStarship(RestoreStarshipArguments e)
-                {
-                    Target.UserRestoreStarship(this.user, e.starship);
-                }
-                public void UserTeleportTo(TeleportToArguments e)
-                {
-                    Target.UserTeleportTo(this.user, e.x, e.y);
-                }
-                public void UserEatApple(EatAppleArguments e)
-                {
-                    Target.UserEatApple(this.user, e.x, e.y);
-                }
-                public void UserEatThisWormBegin(EatThisWormBeginArguments e)
-                {
-                    Target.UserEatThisWormBegin(this.user, e.food);
-                }
-                public void UserEatThisWormEnd(EatThisWormEndArguments e)
-                {
-                    Target.UserEatThisWormEnd(this.user, e.food);
-                }
                 public void UserLevelHasEnded(LevelHasEndedArguments e)
                 {
                     Target.UserLevelHasEnded(this.user);
-                }
-                public void UserSendMap(SendMapArguments e)
-                {
-                    Target.UserSendMap(this.user, e.buttons);
-                }
-                public void UserSendMapLater(SendMapLaterArguments e)
-                {
-                    Target.UserSendMapLater(this.user);
                 }
                 public void UserSetFlag(SetFlagArguments e)
                 {
@@ -512,10 +292,6 @@ namespace Mahjong.NetworkCode.Shared
                 public void UserReveal(RevealArguments e)
                 {
                     Target.UserReveal(this.user, e.button);
-                }
-                public void UserKillAllInvaders(KillAllInvadersArguments e)
-                {
-                    Target.UserKillAllInvaders(this.user);
                 }
                 #endregion
             }
@@ -535,6 +311,22 @@ namespace Mahjong.NetworkCode.Shared
                 {
                     this.Target.UserPlayerAdvertise(this.user, e.name);
                 }
+                public void UserMapRequest()
+                {
+                    this.Target.UserMapRequest(this.user);
+                }
+                public void UserMapRequest(UserMapRequestArguments e)
+                {
+                    this.Target.UserMapRequest(this.user);
+                }
+                public void UserMapResponse(int[] bytes)
+                {
+                    this.Target.UserMapResponse(this.user, bytes);
+                }
+                public void UserMapResponse(UserMapResponseArguments e)
+                {
+                    this.Target.UserMapResponse(this.user, e.bytes);
+                }
                 public void UserMouseMove(int x, int y)
                 {
                     this.Target.UserMouseMove(this.user, x, y);
@@ -551,70 +343,6 @@ namespace Mahjong.NetworkCode.Shared
                 {
                     this.Target.UserMouseOut(this.user, e.color);
                 }
-                public void UserVectorChanged(int x, int y)
-                {
-                    this.Target.UserVectorChanged(this.user, x, y);
-                }
-                public void UserVectorChanged(UserVectorChangedArguments e)
-                {
-                    this.Target.UserVectorChanged(this.user, e.x, e.y);
-                }
-                public void UserFireBullet(int starship, int multiplier, int from_x, int from_y, int to_x, int to_y, int limit)
-                {
-                    this.Target.UserFireBullet(this.user, starship, multiplier, from_x, from_y, to_x, to_y, limit);
-                }
-                public void UserFireBullet(UserFireBulletArguments e)
-                {
-                    this.Target.UserFireBullet(this.user, e.starship, e.multiplier, e.from_x, e.from_y, e.to_x, e.to_y, e.limit);
-                }
-                public void UserAddDamage(int target, double damage, int shooter)
-                {
-                    this.Target.UserAddDamage(this.user, target, damage, shooter);
-                }
-                public void UserAddDamage(UserAddDamageArguments e)
-                {
-                    this.Target.UserAddDamage(this.user, e.target, e.damage, e.shooter);
-                }
-                public void UserRestoreStarship(int starship)
-                {
-                    this.Target.UserRestoreStarship(this.user, starship);
-                }
-                public void UserRestoreStarship(UserRestoreStarshipArguments e)
-                {
-                    this.Target.UserRestoreStarship(this.user, e.starship);
-                }
-                public void UserTeleportTo(int x, int y)
-                {
-                    this.Target.UserTeleportTo(this.user, x, y);
-                }
-                public void UserTeleportTo(UserTeleportToArguments e)
-                {
-                    this.Target.UserTeleportTo(this.user, e.x, e.y);
-                }
-                public void UserEatApple(int x, int y)
-                {
-                    this.Target.UserEatApple(this.user, x, y);
-                }
-                public void UserEatApple(UserEatAppleArguments e)
-                {
-                    this.Target.UserEatApple(this.user, e.x, e.y);
-                }
-                public void UserEatThisWormBegin(int food)
-                {
-                    this.Target.UserEatThisWormBegin(this.user, food);
-                }
-                public void UserEatThisWormBegin(UserEatThisWormBeginArguments e)
-                {
-                    this.Target.UserEatThisWormBegin(this.user, e.food);
-                }
-                public void UserEatThisWormEnd(int food)
-                {
-                    this.Target.UserEatThisWormEnd(this.user, food);
-                }
-                public void UserEatThisWormEnd(UserEatThisWormEndArguments e)
-                {
-                    this.Target.UserEatThisWormEnd(this.user, e.food);
-                }
                 public void UserLevelHasEnded()
                 {
                     this.Target.UserLevelHasEnded(this.user);
@@ -622,22 +350,6 @@ namespace Mahjong.NetworkCode.Shared
                 public void UserLevelHasEnded(UserLevelHasEndedArguments e)
                 {
                     this.Target.UserLevelHasEnded(this.user);
-                }
-                public void UserSendMap(int[] buttons)
-                {
-                    this.Target.UserSendMap(this.user, buttons);
-                }
-                public void UserSendMap(UserSendMapArguments e)
-                {
-                    this.Target.UserSendMap(this.user, e.buttons);
-                }
-                public void UserSendMapLater()
-                {
-                    this.Target.UserSendMapLater(this.user);
-                }
-                public void UserSendMapLater(UserSendMapLaterArguments e)
-                {
-                    this.Target.UserSendMapLater(this.user);
                 }
                 public void UserSetFlag(int button, int value)
                 {
@@ -654,14 +366,6 @@ namespace Mahjong.NetworkCode.Shared
                 public void UserReveal(UserRevealArguments e)
                 {
                     this.Target.UserReveal(this.user, e.button);
-                }
-                public void UserKillAllInvaders()
-                {
-                    this.Target.UserKillAllInvaders(this.user);
-                }
-                public void UserKillAllInvaders(UserKillAllInvadersArguments e)
-                {
-                    this.Target.UserKillAllInvaders(this.user);
                 }
                 public void UserSayLine(string text)
                 {
@@ -685,44 +389,26 @@ namespace Mahjong.NetworkCode.Shared
                 public void CombineDelegates(IEvents value)
                 {
                     value.UserPlayerAdvertise += this.UserPlayerAdvertise;
+                    value.UserMapRequest += this.UserMapRequest;
+                    value.UserMapResponse += this.UserMapResponse;
                     value.UserMouseMove += this.UserMouseMove;
                     value.UserMouseOut += this.UserMouseOut;
-                    value.UserVectorChanged += this.UserVectorChanged;
-                    value.UserFireBullet += this.UserFireBullet;
-                    value.UserAddDamage += this.UserAddDamage;
-                    value.UserRestoreStarship += this.UserRestoreStarship;
-                    value.UserTeleportTo += this.UserTeleportTo;
-                    value.UserEatApple += this.UserEatApple;
-                    value.UserEatThisWormBegin += this.UserEatThisWormBegin;
-                    value.UserEatThisWormEnd += this.UserEatThisWormEnd;
                     value.UserLevelHasEnded += this.UserLevelHasEnded;
-                    value.UserSendMap += this.UserSendMap;
-                    value.UserSendMapLater += this.UserSendMapLater;
                     value.UserSetFlag += this.UserSetFlag;
                     value.UserReveal += this.UserReveal;
-                    value.UserKillAllInvaders += this.UserKillAllInvaders;
                     value.UserSayLine += this.UserSayLine;
                 }
 
                 public void RemoveDelegates(IEvents value)
                 {
                     value.UserPlayerAdvertise -= this.UserPlayerAdvertise;
+                    value.UserMapRequest -= this.UserMapRequest;
+                    value.UserMapResponse -= this.UserMapResponse;
                     value.UserMouseMove -= this.UserMouseMove;
                     value.UserMouseOut -= this.UserMouseOut;
-                    value.UserVectorChanged -= this.UserVectorChanged;
-                    value.UserFireBullet -= this.UserFireBullet;
-                    value.UserAddDamage -= this.UserAddDamage;
-                    value.UserRestoreStarship -= this.UserRestoreStarship;
-                    value.UserTeleportTo -= this.UserTeleportTo;
-                    value.UserEatApple -= this.UserEatApple;
-                    value.UserEatThisWormBegin -= this.UserEatThisWormBegin;
-                    value.UserEatThisWormEnd -= this.UserEatThisWormEnd;
                     value.UserLevelHasEnded -= this.UserLevelHasEnded;
-                    value.UserSendMap -= this.UserSendMap;
-                    value.UserSendMapLater -= this.UserSendMapLater;
                     value.UserSetFlag -= this.UserSetFlag;
                     value.UserReveal -= this.UserReveal;
-                    value.UserKillAllInvaders -= this.UserKillAllInvaders;
                     value.UserSayLine -= this.UserSayLine;
                 }
                 #endregion
@@ -733,6 +419,18 @@ namespace Mahjong.NetworkCode.Shared
                     var _target = this.Target(e.user);
                     if (_target == null) return;
                     _target.UserPlayerAdvertise(this.user, e.name);
+                }
+                public void UserMapRequest(UserMapRequestArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserMapRequest(this.user);
+                }
+                public void UserMapResponse(UserMapResponseArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserMapResponse(this.user, e.bytes);
                 }
                 public void UserMouseMove(UserMouseMoveArguments e)
                 {
@@ -746,71 +444,11 @@ namespace Mahjong.NetworkCode.Shared
                     if (_target == null) return;
                     _target.UserMouseOut(this.user, e.color);
                 }
-                public void UserVectorChanged(UserVectorChangedArguments e)
-                {
-                    var _target = this.Target(e.user);
-                    if (_target == null) return;
-                    _target.UserVectorChanged(this.user, e.x, e.y);
-                }
-                public void UserFireBullet(UserFireBulletArguments e)
-                {
-                    var _target = this.Target(e.user);
-                    if (_target == null) return;
-                    _target.UserFireBullet(this.user, e.starship, e.multiplier, e.from_x, e.from_y, e.to_x, e.to_y, e.limit);
-                }
-                public void UserAddDamage(UserAddDamageArguments e)
-                {
-                    var _target = this.Target(e.user);
-                    if (_target == null) return;
-                    _target.UserAddDamage(this.user, e.target, e.damage, e.shooter);
-                }
-                public void UserRestoreStarship(UserRestoreStarshipArguments e)
-                {
-                    var _target = this.Target(e.user);
-                    if (_target == null) return;
-                    _target.UserRestoreStarship(this.user, e.starship);
-                }
-                public void UserTeleportTo(UserTeleportToArguments e)
-                {
-                    var _target = this.Target(e.user);
-                    if (_target == null) return;
-                    _target.UserTeleportTo(this.user, e.x, e.y);
-                }
-                public void UserEatApple(UserEatAppleArguments e)
-                {
-                    var _target = this.Target(e.user);
-                    if (_target == null) return;
-                    _target.UserEatApple(this.user, e.x, e.y);
-                }
-                public void UserEatThisWormBegin(UserEatThisWormBeginArguments e)
-                {
-                    var _target = this.Target(e.user);
-                    if (_target == null) return;
-                    _target.UserEatThisWormBegin(this.user, e.food);
-                }
-                public void UserEatThisWormEnd(UserEatThisWormEndArguments e)
-                {
-                    var _target = this.Target(e.user);
-                    if (_target == null) return;
-                    _target.UserEatThisWormEnd(this.user, e.food);
-                }
                 public void UserLevelHasEnded(UserLevelHasEndedArguments e)
                 {
                     var _target = this.Target(e.user);
                     if (_target == null) return;
                     _target.UserLevelHasEnded(this.user);
-                }
-                public void UserSendMap(UserSendMapArguments e)
-                {
-                    var _target = this.Target(e.user);
-                    if (_target == null) return;
-                    _target.UserSendMap(this.user, e.buttons);
-                }
-                public void UserSendMapLater(UserSendMapLaterArguments e)
-                {
-                    var _target = this.Target(e.user);
-                    if (_target == null) return;
-                    _target.UserSendMapLater(this.user);
                 }
                 public void UserSetFlag(UserSetFlagArguments e)
                 {
@@ -823,12 +461,6 @@ namespace Mahjong.NetworkCode.Shared
                     var _target = this.Target(e.user);
                     if (_target == null) return;
                     _target.UserReveal(this.user, e.button);
-                }
-                public void UserKillAllInvaders(UserKillAllInvadersArguments e)
-                {
-                    var _target = this.Target(e.user);
-                    if (_target == null) return;
-                    _target.UserKillAllInvaders(this.user);
                 }
                 public void UserSayLine(UserSayLineArguments e)
                 {
@@ -899,20 +531,6 @@ namespace Mahjong.NetworkCode.Shared
             }
             #endregion
             public event Action<ServerPlayerLeftArguments> ServerPlayerLeft;
-            #region PlayerAdvertiseArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class PlayerAdvertiseArguments
-            {
-                public string name;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ name = ").Append(this.name).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<PlayerAdvertiseArguments> PlayerAdvertise;
             #region UserPlayerAdvertiseArguments
             [Script]
             [CompilerGenerated]
@@ -927,6 +545,33 @@ namespace Mahjong.NetworkCode.Shared
             }
             #endregion
             public event Action<UserPlayerAdvertiseArguments> UserPlayerAdvertise;
+            #region UserMapRequestArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserMapRequestArguments : WithUserArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserMapRequestArguments> UserMapRequest;
+            #region UserMapResponseArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserMapResponseArguments : WithUserArguments
+            {
+                public int[] bytes;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", bytes = ").Append(this.bytes).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserMapResponseArguments> UserMapResponse;
             #region MouseMoveArguments
             [Script]
             [CompilerGenerated]
@@ -985,252 +630,6 @@ namespace Mahjong.NetworkCode.Shared
             }
             #endregion
             public event Action<UserMouseOutArguments> UserMouseOut;
-            #region VectorChangedArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class VectorChangedArguments
-            {
-                public int x;
-                public int y;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<VectorChangedArguments> VectorChanged;
-            #region UserVectorChangedArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class UserVectorChangedArguments : WithUserArguments
-            {
-                public int x;
-                public int y;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<UserVectorChangedArguments> UserVectorChanged;
-            #region FireBulletArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class FireBulletArguments
-            {
-                public int starship;
-                public int multiplier;
-                public int from_x;
-                public int from_y;
-                public int to_x;
-                public int to_y;
-                public int limit;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ starship = ").Append(this.starship).Append(", multiplier = ").Append(this.multiplier).Append(", from_x = ").Append(this.from_x).Append(", from_y = ").Append(this.from_y).Append(", to_x = ").Append(this.to_x).Append(", to_y = ").Append(this.to_y).Append(", limit = ").Append(this.limit).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<FireBulletArguments> FireBullet;
-            #region UserFireBulletArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class UserFireBulletArguments : WithUserArguments
-            {
-                public int starship;
-                public int multiplier;
-                public int from_x;
-                public int from_y;
-                public int to_x;
-                public int to_y;
-                public int limit;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", starship = ").Append(this.starship).Append(", multiplier = ").Append(this.multiplier).Append(", from_x = ").Append(this.from_x).Append(", from_y = ").Append(this.from_y).Append(", to_x = ").Append(this.to_x).Append(", to_y = ").Append(this.to_y).Append(", limit = ").Append(this.limit).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<UserFireBulletArguments> UserFireBullet;
-            #region AddDamageArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class AddDamageArguments
-            {
-                public int target;
-                public double damage;
-                public int shooter;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ target = ").Append(this.target).Append(", damage = ").Append(this.damage).Append(", shooter = ").Append(this.shooter).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<AddDamageArguments> AddDamage;
-            #region UserAddDamageArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class UserAddDamageArguments : WithUserArguments
-            {
-                public int target;
-                public double damage;
-                public int shooter;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", target = ").Append(this.target).Append(", damage = ").Append(this.damage).Append(", shooter = ").Append(this.shooter).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<UserAddDamageArguments> UserAddDamage;
-            #region RestoreStarshipArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class RestoreStarshipArguments
-            {
-                public int starship;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ starship = ").Append(this.starship).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<RestoreStarshipArguments> RestoreStarship;
-            #region UserRestoreStarshipArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class UserRestoreStarshipArguments : WithUserArguments
-            {
-                public int starship;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", starship = ").Append(this.starship).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<UserRestoreStarshipArguments> UserRestoreStarship;
-            #region TeleportToArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class TeleportToArguments
-            {
-                public int x;
-                public int y;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<TeleportToArguments> TeleportTo;
-            #region UserTeleportToArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class UserTeleportToArguments : WithUserArguments
-            {
-                public int x;
-                public int y;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<UserTeleportToArguments> UserTeleportTo;
-            #region EatAppleArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class EatAppleArguments
-            {
-                public int x;
-                public int y;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<EatAppleArguments> EatApple;
-            #region UserEatAppleArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class UserEatAppleArguments : WithUserArguments
-            {
-                public int x;
-                public int y;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", x = ").Append(this.x).Append(", y = ").Append(this.y).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<UserEatAppleArguments> UserEatApple;
-            #region EatThisWormBeginArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class EatThisWormBeginArguments
-            {
-                public int food;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ food = ").Append(this.food).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<EatThisWormBeginArguments> EatThisWormBegin;
-            #region UserEatThisWormBeginArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class UserEatThisWormBeginArguments : WithUserArguments
-            {
-                public int food;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", food = ").Append(this.food).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<UserEatThisWormBeginArguments> UserEatThisWormBegin;
-            #region EatThisWormEndArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class EatThisWormEndArguments
-            {
-                public int food;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ food = ").Append(this.food).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<EatThisWormEndArguments> EatThisWormEnd;
-            #region UserEatThisWormEndArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class UserEatThisWormEndArguments : WithUserArguments
-            {
-                public int food;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", food = ").Append(this.food).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<UserEatThisWormEndArguments> UserEatThisWormEnd;
             #region LevelHasEndedArguments
             [Script]
             [CompilerGenerated]
@@ -1257,73 +656,6 @@ namespace Mahjong.NetworkCode.Shared
             }
             #endregion
             public event Action<UserLevelHasEndedArguments> UserLevelHasEnded;
-            #region ServerSendMapArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class ServerSendMapArguments
-            {
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().ToString();
-                }
-            }
-            #endregion
-            public event Action<ServerSendMapArguments> ServerSendMap;
-            #region SendMapArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class SendMapArguments
-            {
-                public int[] buttons;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ buttons = ").Append(this.buttons).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<SendMapArguments> SendMap;
-            #region UserSendMapArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class UserSendMapArguments : WithUserArguments
-            {
-                public int[] buttons;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", buttons = ").Append(this.buttons).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<UserSendMapArguments> UserSendMap;
-            #region SendMapLaterArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class SendMapLaterArguments
-            {
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().ToString();
-                }
-            }
-            #endregion
-            public event Action<SendMapLaterArguments> SendMapLater;
-            #region UserSendMapLaterArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class UserSendMapLaterArguments : WithUserArguments
-            {
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<UserSendMapLaterArguments> UserSendMapLater;
             #region SetFlagArguments
             [Script]
             [CompilerGenerated]
@@ -1396,32 +728,6 @@ namespace Mahjong.NetworkCode.Shared
             }
             #endregion
             public event Action<AddScoreArguments> AddScore;
-            #region KillAllInvadersArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class KillAllInvadersArguments
-            {
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().ToString();
-                }
-            }
-            #endregion
-            public event Action<KillAllInvadersArguments> KillAllInvaders;
-            #region UserKillAllInvadersArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class UserKillAllInvadersArguments : WithUserArguments
-            {
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<UserKillAllInvadersArguments> UserKillAllInvaders;
             #region AwardAchievementFirstArguments
             [Script]
             [CompilerGenerated]
@@ -1435,45 +741,6 @@ namespace Mahjong.NetworkCode.Shared
             }
             #endregion
             public event Action<AwardAchievementFirstArguments> AwardAchievementFirst;
-            #region AwardAchievementFiverArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class AwardAchievementFiverArguments
-            {
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().ToString();
-                }
-            }
-            #endregion
-            public event Action<AwardAchievementFiverArguments> AwardAchievementFiver;
-            #region AwardAchievementUFOKillArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class AwardAchievementUFOKillArguments
-            {
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().ToString();
-                }
-            }
-            #endregion
-            public event Action<AwardAchievementUFOKillArguments> AwardAchievementUFOKill;
-            #region AwardAchievementMaxGunArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class AwardAchievementMaxGunArguments
-            {
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().ToString();
-                }
-            }
-            #endregion
-            public event Action<AwardAchievementMaxGunArguments> AwardAchievementMaxGun;
             #region SendPasswordArguments
             [Script]
             [CompilerGenerated]
@@ -1550,46 +817,21 @@ namespace Mahjong.NetworkCode.Shared
                             { Messages.ServerPlayerHello, e => { ServerPlayerHello(new ServerPlayerHelloArguments { user = e.GetInt32(0), name = e.GetString(1), others = e.GetInt32(2) }); } },
                             { Messages.ServerPlayerJoined, e => { ServerPlayerJoined(new ServerPlayerJoinedArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                             { Messages.ServerPlayerLeft, e => { ServerPlayerLeft(new ServerPlayerLeftArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
-                            { Messages.PlayerAdvertise, e => { PlayerAdvertise(new PlayerAdvertiseArguments { name = e.GetString(0) }); } },
                             { Messages.UserPlayerAdvertise, e => { UserPlayerAdvertise(new UserPlayerAdvertiseArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
+                            { Messages.UserMapRequest, e => { UserMapRequest(new UserMapRequestArguments { user = e.GetInt32(0) }); } },
+                            { Messages.UserMapResponse, e => { UserMapResponse(new UserMapResponseArguments { user = e.GetInt32(0), bytes = e.GetInt32Array(1) }); } },
                             { Messages.MouseMove, e => { MouseMove(new MouseMoveArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
                             { Messages.UserMouseMove, e => { UserMouseMove(new UserMouseMoveArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
                             { Messages.MouseOut, e => { MouseOut(new MouseOutArguments { color = e.GetInt32(0) }); } },
                             { Messages.UserMouseOut, e => { UserMouseOut(new UserMouseOutArguments { user = e.GetInt32(0), color = e.GetInt32(1) }); } },
-                            { Messages.VectorChanged, e => { VectorChanged(new VectorChangedArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
-                            { Messages.UserVectorChanged, e => { UserVectorChanged(new UserVectorChangedArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
-                            { Messages.FireBullet, e => { FireBullet(new FireBulletArguments { starship = e.GetInt32(0), multiplier = e.GetInt32(1), from_x = e.GetInt32(2), from_y = e.GetInt32(3), to_x = e.GetInt32(4), to_y = e.GetInt32(5), limit = e.GetInt32(6) }); } },
-                            { Messages.UserFireBullet, e => { UserFireBullet(new UserFireBulletArguments { user = e.GetInt32(0), starship = e.GetInt32(1), multiplier = e.GetInt32(2), from_x = e.GetInt32(3), from_y = e.GetInt32(4), to_x = e.GetInt32(5), to_y = e.GetInt32(6), limit = e.GetInt32(7) }); } },
-                            { Messages.AddDamage, e => { AddDamage(new AddDamageArguments { target = e.GetInt32(0), damage = e.GetDouble(1), shooter = e.GetInt32(2) }); } },
-                            { Messages.UserAddDamage, e => { UserAddDamage(new UserAddDamageArguments { user = e.GetInt32(0), target = e.GetInt32(1), damage = e.GetDouble(2), shooter = e.GetInt32(3) }); } },
-                            { Messages.RestoreStarship, e => { RestoreStarship(new RestoreStarshipArguments { starship = e.GetInt32(0) }); } },
-                            { Messages.UserRestoreStarship, e => { UserRestoreStarship(new UserRestoreStarshipArguments { user = e.GetInt32(0), starship = e.GetInt32(1) }); } },
-                            { Messages.TeleportTo, e => { TeleportTo(new TeleportToArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
-                            { Messages.UserTeleportTo, e => { UserTeleportTo(new UserTeleportToArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
-                            { Messages.EatApple, e => { EatApple(new EatAppleArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
-                            { Messages.UserEatApple, e => { UserEatApple(new UserEatAppleArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
-                            { Messages.EatThisWormBegin, e => { EatThisWormBegin(new EatThisWormBeginArguments { food = e.GetInt32(0) }); } },
-                            { Messages.UserEatThisWormBegin, e => { UserEatThisWormBegin(new UserEatThisWormBeginArguments { user = e.GetInt32(0), food = e.GetInt32(1) }); } },
-                            { Messages.EatThisWormEnd, e => { EatThisWormEnd(new EatThisWormEndArguments { food = e.GetInt32(0) }); } },
-                            { Messages.UserEatThisWormEnd, e => { UserEatThisWormEnd(new UserEatThisWormEndArguments { user = e.GetInt32(0), food = e.GetInt32(1) }); } },
                             { Messages.LevelHasEnded, e => { LevelHasEnded(new LevelHasEndedArguments {  }); } },
                             { Messages.UserLevelHasEnded, e => { UserLevelHasEnded(new UserLevelHasEndedArguments { user = e.GetInt32(0) }); } },
-                            { Messages.ServerSendMap, e => { ServerSendMap(new ServerSendMapArguments {  }); } },
-                            { Messages.SendMap, e => { SendMap(new SendMapArguments { buttons = e.GetInt32Array(0) }); } },
-                            { Messages.UserSendMap, e => { UserSendMap(new UserSendMapArguments { user = e.GetInt32(0), buttons = e.GetInt32Array(1) }); } },
-                            { Messages.SendMapLater, e => { SendMapLater(new SendMapLaterArguments {  }); } },
-                            { Messages.UserSendMapLater, e => { UserSendMapLater(new UserSendMapLaterArguments { user = e.GetInt32(0) }); } },
                             { Messages.SetFlag, e => { SetFlag(new SetFlagArguments { button = e.GetInt32(0), value = e.GetInt32(1) }); } },
                             { Messages.UserSetFlag, e => { UserSetFlag(new UserSetFlagArguments { user = e.GetInt32(0), button = e.GetInt32(1), value = e.GetInt32(2) }); } },
                             { Messages.Reveal, e => { Reveal(new RevealArguments { button = e.GetInt32(0) }); } },
                             { Messages.UserReveal, e => { UserReveal(new UserRevealArguments { user = e.GetInt32(0), button = e.GetInt32(1) }); } },
                             { Messages.AddScore, e => { AddScore(new AddScoreArguments { score = e.GetInt32(0) }); } },
-                            { Messages.KillAllInvaders, e => { KillAllInvaders(new KillAllInvadersArguments {  }); } },
-                            { Messages.UserKillAllInvaders, e => { UserKillAllInvaders(new UserKillAllInvadersArguments { user = e.GetInt32(0) }); } },
                             { Messages.AwardAchievementFirst, e => { AwardAchievementFirst(new AwardAchievementFirstArguments {  }); } },
-                            { Messages.AwardAchievementFiver, e => { AwardAchievementFiver(new AwardAchievementFiverArguments {  }); } },
-                            { Messages.AwardAchievementUFOKill, e => { AwardAchievementUFOKill(new AwardAchievementUFOKillArguments {  }); } },
-                            { Messages.AwardAchievementMaxGun, e => { AwardAchievementMaxGun(new AwardAchievementMaxGunArguments {  }); } },
                             { Messages.SendPassword, e => { SendPassword(new SendPasswordArguments { password = e.GetString(0) }); } },
                             { Messages.ServerPasswordStatus, e => { ServerPasswordStatus(new ServerPasswordStatusArguments { status = e.GetInt32(0) }); } },
                             { Messages.LockGame, e => { LockGame(new LockGameArguments {  }); } },
@@ -1603,46 +845,21 @@ namespace Mahjong.NetworkCode.Shared
                             { Messages.ServerPlayerHello, e => ServerPlayerHello },
                             { Messages.ServerPlayerJoined, e => ServerPlayerJoined },
                             { Messages.ServerPlayerLeft, e => ServerPlayerLeft },
-                            { Messages.PlayerAdvertise, e => PlayerAdvertise },
                             { Messages.UserPlayerAdvertise, e => UserPlayerAdvertise },
+                            { Messages.UserMapRequest, e => UserMapRequest },
+                            { Messages.UserMapResponse, e => UserMapResponse },
                             { Messages.MouseMove, e => MouseMove },
                             { Messages.UserMouseMove, e => UserMouseMove },
                             { Messages.MouseOut, e => MouseOut },
                             { Messages.UserMouseOut, e => UserMouseOut },
-                            { Messages.VectorChanged, e => VectorChanged },
-                            { Messages.UserVectorChanged, e => UserVectorChanged },
-                            { Messages.FireBullet, e => FireBullet },
-                            { Messages.UserFireBullet, e => UserFireBullet },
-                            { Messages.AddDamage, e => AddDamage },
-                            { Messages.UserAddDamage, e => UserAddDamage },
-                            { Messages.RestoreStarship, e => RestoreStarship },
-                            { Messages.UserRestoreStarship, e => UserRestoreStarship },
-                            { Messages.TeleportTo, e => TeleportTo },
-                            { Messages.UserTeleportTo, e => UserTeleportTo },
-                            { Messages.EatApple, e => EatApple },
-                            { Messages.UserEatApple, e => UserEatApple },
-                            { Messages.EatThisWormBegin, e => EatThisWormBegin },
-                            { Messages.UserEatThisWormBegin, e => UserEatThisWormBegin },
-                            { Messages.EatThisWormEnd, e => EatThisWormEnd },
-                            { Messages.UserEatThisWormEnd, e => UserEatThisWormEnd },
                             { Messages.LevelHasEnded, e => LevelHasEnded },
                             { Messages.UserLevelHasEnded, e => UserLevelHasEnded },
-                            { Messages.ServerSendMap, e => ServerSendMap },
-                            { Messages.SendMap, e => SendMap },
-                            { Messages.UserSendMap, e => UserSendMap },
-                            { Messages.SendMapLater, e => SendMapLater },
-                            { Messages.UserSendMapLater, e => UserSendMapLater },
                             { Messages.SetFlag, e => SetFlag },
                             { Messages.UserSetFlag, e => UserSetFlag },
                             { Messages.Reveal, e => Reveal },
                             { Messages.UserReveal, e => UserReveal },
                             { Messages.AddScore, e => AddScore },
-                            { Messages.KillAllInvaders, e => KillAllInvaders },
-                            { Messages.UserKillAllInvaders, e => UserKillAllInvaders },
                             { Messages.AwardAchievementFirst, e => AwardAchievementFirst },
-                            { Messages.AwardAchievementFiver, e => AwardAchievementFiver },
-                            { Messages.AwardAchievementUFOKill, e => AwardAchievementUFOKill },
-                            { Messages.AwardAchievementMaxGun, e => AwardAchievementMaxGun },
                             { Messages.SendPassword, e => SendPassword },
                             { Messages.ServerPasswordStatus, e => ServerPasswordStatus },
                             { Messages.LockGame, e => LockGame },
@@ -1743,20 +960,28 @@ namespace Mahjong.NetworkCode.Shared
                 this.VirtualLatency(() => this.ServerPlayerLeft(v));
             }
 
-            public event Action<RemoteEvents.PlayerAdvertiseArguments> PlayerAdvertise;
-            void IMessages.PlayerAdvertise(string name)
-            {
-                if(PlayerAdvertise == null) return;
-                var v = new RemoteEvents.PlayerAdvertiseArguments { name = name };
-                this.VirtualLatency(() => this.PlayerAdvertise(v));
-            }
-
             public event Action<RemoteEvents.UserPlayerAdvertiseArguments> UserPlayerAdvertise;
             void IMessages.UserPlayerAdvertise(int user, string name)
             {
                 if(UserPlayerAdvertise == null) return;
                 var v = new RemoteEvents.UserPlayerAdvertiseArguments { user = user, name = name };
                 this.VirtualLatency(() => this.UserPlayerAdvertise(v));
+            }
+
+            public event Action<RemoteEvents.UserMapRequestArguments> UserMapRequest;
+            void IMessages.UserMapRequest(int user)
+            {
+                if(UserMapRequest == null) return;
+                var v = new RemoteEvents.UserMapRequestArguments { user = user };
+                this.VirtualLatency(() => this.UserMapRequest(v));
+            }
+
+            public event Action<RemoteEvents.UserMapResponseArguments> UserMapResponse;
+            void IMessages.UserMapResponse(int user, int[] bytes)
+            {
+                if(UserMapResponse == null) return;
+                var v = new RemoteEvents.UserMapResponseArguments { user = user, bytes = bytes };
+                this.VirtualLatency(() => this.UserMapResponse(v));
             }
 
             public event Action<RemoteEvents.MouseMoveArguments> MouseMove;
@@ -1791,134 +1016,6 @@ namespace Mahjong.NetworkCode.Shared
                 this.VirtualLatency(() => this.UserMouseOut(v));
             }
 
-            public event Action<RemoteEvents.VectorChangedArguments> VectorChanged;
-            void IMessages.VectorChanged(int x, int y)
-            {
-                if(VectorChanged == null) return;
-                var v = new RemoteEvents.VectorChangedArguments { x = x, y = y };
-                this.VirtualLatency(() => this.VectorChanged(v));
-            }
-
-            public event Action<RemoteEvents.UserVectorChangedArguments> UserVectorChanged;
-            void IMessages.UserVectorChanged(int user, int x, int y)
-            {
-                if(UserVectorChanged == null) return;
-                var v = new RemoteEvents.UserVectorChangedArguments { user = user, x = x, y = y };
-                this.VirtualLatency(() => this.UserVectorChanged(v));
-            }
-
-            public event Action<RemoteEvents.FireBulletArguments> FireBullet;
-            void IMessages.FireBullet(int starship, int multiplier, int from_x, int from_y, int to_x, int to_y, int limit)
-            {
-                if(FireBullet == null) return;
-                var v = new RemoteEvents.FireBulletArguments { starship = starship, multiplier = multiplier, from_x = from_x, from_y = from_y, to_x = to_x, to_y = to_y, limit = limit };
-                this.VirtualLatency(() => this.FireBullet(v));
-            }
-
-            public event Action<RemoteEvents.UserFireBulletArguments> UserFireBullet;
-            void IMessages.UserFireBullet(int user, int starship, int multiplier, int from_x, int from_y, int to_x, int to_y, int limit)
-            {
-                if(UserFireBullet == null) return;
-                var v = new RemoteEvents.UserFireBulletArguments { user = user, starship = starship, multiplier = multiplier, from_x = from_x, from_y = from_y, to_x = to_x, to_y = to_y, limit = limit };
-                this.VirtualLatency(() => this.UserFireBullet(v));
-            }
-
-            public event Action<RemoteEvents.AddDamageArguments> AddDamage;
-            void IMessages.AddDamage(int target, double damage, int shooter)
-            {
-                if(AddDamage == null) return;
-                var v = new RemoteEvents.AddDamageArguments { target = target, damage = damage, shooter = shooter };
-                this.VirtualLatency(() => this.AddDamage(v));
-            }
-
-            public event Action<RemoteEvents.UserAddDamageArguments> UserAddDamage;
-            void IMessages.UserAddDamage(int user, int target, double damage, int shooter)
-            {
-                if(UserAddDamage == null) return;
-                var v = new RemoteEvents.UserAddDamageArguments { user = user, target = target, damage = damage, shooter = shooter };
-                this.VirtualLatency(() => this.UserAddDamage(v));
-            }
-
-            public event Action<RemoteEvents.RestoreStarshipArguments> RestoreStarship;
-            void IMessages.RestoreStarship(int starship)
-            {
-                if(RestoreStarship == null) return;
-                var v = new RemoteEvents.RestoreStarshipArguments { starship = starship };
-                this.VirtualLatency(() => this.RestoreStarship(v));
-            }
-
-            public event Action<RemoteEvents.UserRestoreStarshipArguments> UserRestoreStarship;
-            void IMessages.UserRestoreStarship(int user, int starship)
-            {
-                if(UserRestoreStarship == null) return;
-                var v = new RemoteEvents.UserRestoreStarshipArguments { user = user, starship = starship };
-                this.VirtualLatency(() => this.UserRestoreStarship(v));
-            }
-
-            public event Action<RemoteEvents.TeleportToArguments> TeleportTo;
-            void IMessages.TeleportTo(int x, int y)
-            {
-                if(TeleportTo == null) return;
-                var v = new RemoteEvents.TeleportToArguments { x = x, y = y };
-                this.VirtualLatency(() => this.TeleportTo(v));
-            }
-
-            public event Action<RemoteEvents.UserTeleportToArguments> UserTeleportTo;
-            void IMessages.UserTeleportTo(int user, int x, int y)
-            {
-                if(UserTeleportTo == null) return;
-                var v = new RemoteEvents.UserTeleportToArguments { user = user, x = x, y = y };
-                this.VirtualLatency(() => this.UserTeleportTo(v));
-            }
-
-            public event Action<RemoteEvents.EatAppleArguments> EatApple;
-            void IMessages.EatApple(int x, int y)
-            {
-                if(EatApple == null) return;
-                var v = new RemoteEvents.EatAppleArguments { x = x, y = y };
-                this.VirtualLatency(() => this.EatApple(v));
-            }
-
-            public event Action<RemoteEvents.UserEatAppleArguments> UserEatApple;
-            void IMessages.UserEatApple(int user, int x, int y)
-            {
-                if(UserEatApple == null) return;
-                var v = new RemoteEvents.UserEatAppleArguments { user = user, x = x, y = y };
-                this.VirtualLatency(() => this.UserEatApple(v));
-            }
-
-            public event Action<RemoteEvents.EatThisWormBeginArguments> EatThisWormBegin;
-            void IMessages.EatThisWormBegin(int food)
-            {
-                if(EatThisWormBegin == null) return;
-                var v = new RemoteEvents.EatThisWormBeginArguments { food = food };
-                this.VirtualLatency(() => this.EatThisWormBegin(v));
-            }
-
-            public event Action<RemoteEvents.UserEatThisWormBeginArguments> UserEatThisWormBegin;
-            void IMessages.UserEatThisWormBegin(int user, int food)
-            {
-                if(UserEatThisWormBegin == null) return;
-                var v = new RemoteEvents.UserEatThisWormBeginArguments { user = user, food = food };
-                this.VirtualLatency(() => this.UserEatThisWormBegin(v));
-            }
-
-            public event Action<RemoteEvents.EatThisWormEndArguments> EatThisWormEnd;
-            void IMessages.EatThisWormEnd(int food)
-            {
-                if(EatThisWormEnd == null) return;
-                var v = new RemoteEvents.EatThisWormEndArguments { food = food };
-                this.VirtualLatency(() => this.EatThisWormEnd(v));
-            }
-
-            public event Action<RemoteEvents.UserEatThisWormEndArguments> UserEatThisWormEnd;
-            void IMessages.UserEatThisWormEnd(int user, int food)
-            {
-                if(UserEatThisWormEnd == null) return;
-                var v = new RemoteEvents.UserEatThisWormEndArguments { user = user, food = food };
-                this.VirtualLatency(() => this.UserEatThisWormEnd(v));
-            }
-
             public event Action<RemoteEvents.LevelHasEndedArguments> LevelHasEnded;
             void IMessages.LevelHasEnded()
             {
@@ -1933,46 +1030,6 @@ namespace Mahjong.NetworkCode.Shared
                 if(UserLevelHasEnded == null) return;
                 var v = new RemoteEvents.UserLevelHasEndedArguments { user = user };
                 this.VirtualLatency(() => this.UserLevelHasEnded(v));
-            }
-
-            public event Action<RemoteEvents.ServerSendMapArguments> ServerSendMap;
-            void IMessages.ServerSendMap()
-            {
-                if(ServerSendMap == null) return;
-                var v = new RemoteEvents.ServerSendMapArguments {  };
-                this.VirtualLatency(() => this.ServerSendMap(v));
-            }
-
-            public event Action<RemoteEvents.SendMapArguments> SendMap;
-            void IMessages.SendMap(int[] buttons)
-            {
-                if(SendMap == null) return;
-                var v = new RemoteEvents.SendMapArguments { buttons = buttons };
-                this.VirtualLatency(() => this.SendMap(v));
-            }
-
-            public event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
-            void IMessages.UserSendMap(int user, int[] buttons)
-            {
-                if(UserSendMap == null) return;
-                var v = new RemoteEvents.UserSendMapArguments { user = user, buttons = buttons };
-                this.VirtualLatency(() => this.UserSendMap(v));
-            }
-
-            public event Action<RemoteEvents.SendMapLaterArguments> SendMapLater;
-            void IMessages.SendMapLater()
-            {
-                if(SendMapLater == null) return;
-                var v = new RemoteEvents.SendMapLaterArguments {  };
-                this.VirtualLatency(() => this.SendMapLater(v));
-            }
-
-            public event Action<RemoteEvents.UserSendMapLaterArguments> UserSendMapLater;
-            void IMessages.UserSendMapLater(int user)
-            {
-                if(UserSendMapLater == null) return;
-                var v = new RemoteEvents.UserSendMapLaterArguments { user = user };
-                this.VirtualLatency(() => this.UserSendMapLater(v));
             }
 
             public event Action<RemoteEvents.SetFlagArguments> SetFlag;
@@ -2015,52 +1072,12 @@ namespace Mahjong.NetworkCode.Shared
                 this.VirtualLatency(() => this.AddScore(v));
             }
 
-            public event Action<RemoteEvents.KillAllInvadersArguments> KillAllInvaders;
-            void IMessages.KillAllInvaders()
-            {
-                if(KillAllInvaders == null) return;
-                var v = new RemoteEvents.KillAllInvadersArguments {  };
-                this.VirtualLatency(() => this.KillAllInvaders(v));
-            }
-
-            public event Action<RemoteEvents.UserKillAllInvadersArguments> UserKillAllInvaders;
-            void IMessages.UserKillAllInvaders(int user)
-            {
-                if(UserKillAllInvaders == null) return;
-                var v = new RemoteEvents.UserKillAllInvadersArguments { user = user };
-                this.VirtualLatency(() => this.UserKillAllInvaders(v));
-            }
-
             public event Action<RemoteEvents.AwardAchievementFirstArguments> AwardAchievementFirst;
             void IMessages.AwardAchievementFirst()
             {
                 if(AwardAchievementFirst == null) return;
                 var v = new RemoteEvents.AwardAchievementFirstArguments {  };
                 this.VirtualLatency(() => this.AwardAchievementFirst(v));
-            }
-
-            public event Action<RemoteEvents.AwardAchievementFiverArguments> AwardAchievementFiver;
-            void IMessages.AwardAchievementFiver()
-            {
-                if(AwardAchievementFiver == null) return;
-                var v = new RemoteEvents.AwardAchievementFiverArguments {  };
-                this.VirtualLatency(() => this.AwardAchievementFiver(v));
-            }
-
-            public event Action<RemoteEvents.AwardAchievementUFOKillArguments> AwardAchievementUFOKill;
-            void IMessages.AwardAchievementUFOKill()
-            {
-                if(AwardAchievementUFOKill == null) return;
-                var v = new RemoteEvents.AwardAchievementUFOKillArguments {  };
-                this.VirtualLatency(() => this.AwardAchievementUFOKill(v));
-            }
-
-            public event Action<RemoteEvents.AwardAchievementMaxGunArguments> AwardAchievementMaxGun;
-            void IMessages.AwardAchievementMaxGun()
-            {
-                if(AwardAchievementMaxGun == null) return;
-                var v = new RemoteEvents.AwardAchievementMaxGunArguments {  };
-                this.VirtualLatency(() => this.AwardAchievementMaxGun(v));
             }
 
             public event Action<RemoteEvents.SendPasswordArguments> SendPassword;
@@ -2108,4 +1125,4 @@ namespace Mahjong.NetworkCode.Shared
     }
     #endregion
 }
-// 17.09.2008 21:15:06
+// 18.09.2008 0:23:49

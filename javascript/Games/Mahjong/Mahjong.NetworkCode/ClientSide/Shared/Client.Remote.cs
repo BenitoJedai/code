@@ -8,6 +8,7 @@ using ScriptCoreLib.Shared.Avalon.Extensions;
 using ScriptCoreLib.Shared.Avalon.Cursors;
 using System.Windows.Media;
 using ScriptCoreLib.Shared.Lambda;
+using System.IO;
 
 namespace Mahjong.NetworkCode.ClientSide.Shared
 {
@@ -84,6 +85,9 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					CoPlayers.Remove(e.user);
 				};
 
+			var UserPlayerAdvertise = new Future<CoPlayer>();
+			var UserMapResponse = default(Future<Communication.RemoteEvents.UserMapResponseArguments>);
+
 			this.Events.ServerPlayerHello +=
 				e =>
 				{
@@ -92,10 +96,53 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					if (e.others == 0)
 					{
 						DiagnosticsWriteLine("we are the first on this game");
+
+						#region load first layout
+						this.Map.Layouts.FirstLoaded.Continue(
+							value =>
+							{
+								this.Map.MyLayout.Layout = value;
+							}
+						);
+						#endregion
+
 					}
 					else
 					{
 						DiagnosticsWriteLine("we need to sync the map over network");
+
+						UserPlayerAdvertise.Continue(
+							(CoPlayer FirstFoundCoPlayerToAskAMapFrom) =>
+							{
+								UserPlayerAdvertise = null;
+
+								DiagnosticsWriteLine("asked for map from: " + FirstFoundCoPlayerToAskAMapFrom.Name);
+
+								UserMapResponse = new Future<Communication.RemoteEvents.UserMapResponseArguments>();
+
+								// what if it takes too long or that player leaves?
+								FirstFoundCoPlayerToAskAMapFrom.ToPlayer.UserMapRequest();
+
+								// we currently do not check if the same user responds...
+								UserMapResponse.Continue(
+									LayoutToBeLoaded =>
+									{
+										UserMapResponse = null;
+
+										var bytes = LayoutToBeLoaded.bytes.ToArray(k => Convert.ToByte(k));
+										var m = new MemoryStream(bytes);
+										m.Position = 0;
+
+										DiagnosticsWriteLine("asked for map from: " + FirstFoundCoPlayerToAskAMapFrom.Name + " done! " + bytes.Length);
+
+
+										this.Map.MyLayout.ReadFrom(m);
+
+
+									}
+								);
+							}
+						);
 					}
 				};
 
@@ -122,8 +169,47 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					CoPlayers[e.user].Name = e.name;
 
 					this.Map.DiagnosticsWriteLine("UserPlayerAdvertise: " + e.name);
+
+					// first coplayer found that was already in room when we joined
+					if (UserPlayerAdvertise != null)
+						UserPlayerAdvertise.Value = CoPlayers[e.user];
+
 				};
 
+
+			this.Events.UserMapRequest +=
+				e =>
+				{
+					var c = CoPlayers[e.user];
+
+					this.Map.DiagnosticsWriteLine("UserMapRequest: " + c.Name);
+
+					// if we are loading we need to wait - we can test it by making the map
+					// to load real slow
+					this.Map.MyLayout.LayoutProgress.Continue(
+						delegate
+						{
+							// what if the guy leaves without waiting for response?
+
+							var m = new MemoryStream();
+
+							this.Map.MyLayout.WriteTo(m);
+
+							c.ToPlayer.UserMapResponse(m.ToArray().ToArray(k => (int)k));
+						}
+					);
+				};
+
+			this.Events.UserMapResponse +=
+				e =>
+				{
+					var c = CoPlayers[e.user];
+
+					this.Map.DiagnosticsWriteLine("UserMapResponse: " + c.Name);
+
+					if (UserMapResponse != null)
+						UserMapResponse.Value = e;
+				};
 		}
 	}
 }
