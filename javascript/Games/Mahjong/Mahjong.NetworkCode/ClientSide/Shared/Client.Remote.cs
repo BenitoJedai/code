@@ -129,12 +129,20 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 									{
 										UserMapResponse = null;
 
-										var bytes = LayoutToBeLoaded.bytes.ToArray(k => Convert.ToByte(k));
-										var m = new MemoryStream(bytes);
+										var MemoryStream_UInt8 = LayoutToBeLoaded.bytes.Select(i => (byte)i).ToArray();
+										var m = new MemoryStream(MemoryStream_UInt8);
 										m.Position = 0;
 
-										DiagnosticsWriteLine("asked for map from: " + FirstFoundCoPlayerToAskAMapFrom.Name + " done! " + bytes.Length);
+										DiagnosticsWriteLine("asked for map from: " + FirstFoundCoPlayerToAskAMapFrom.Name + " done! " + MemoryStream_UInt8.Length);
 
+										var w = "";
+
+										for (int i = 0; i < 32; i++)
+										{
+											w += MemoryStream_UInt8[i] + " ";
+										}
+
+										DiagnosticsWriteLine(w);
 
 										this.Map.MyLayout.ReadFrom(m);
 
@@ -195,7 +203,21 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 							this.Map.MyLayout.WriteTo(m);
 
-							c.ToPlayer.UserMapResponse(m.ToArray().ToArray(k => (int)k));
+							// we will waste 3 bytes - 0xffffff00 cuz memorystream isn't supported
+							var MemoryStream_Int32 = m.ToArray().Select(i => (int)i).ToArray();
+
+							var w = "";
+
+							for (int i = 0; i < 32; i++)
+							{
+								w += MemoryStream_Int32[i] + " ";
+							}
+
+							DiagnosticsWriteLine(w);
+
+							this.Map.DiagnosticsWriteLine("sending map to : " + c.Name + " " + MemoryStream_Int32.Length);
+
+							c.ToPlayer.UserMapResponse(MemoryStream_Int32);
 						}
 					);
 				};
