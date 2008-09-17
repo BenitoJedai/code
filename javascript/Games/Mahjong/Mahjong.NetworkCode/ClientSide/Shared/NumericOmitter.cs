@@ -59,7 +59,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					Output(x, y);
 				};
 
-			Action DelayedOutput = delegate {};
+			Action DelayedOutput = delegate { };
 			Action StopDelayedOutput = null;
 
 			return new NumericOmitter
@@ -69,28 +69,6 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					(x, y) =>
 					{
 						// we need drop events
-
-						#region try to drop this event
-						if (_dirty)
-						{
-
-							if (GetDistance(x, y) < DefaultTresholdDistance)
-							{
-								// we were ready to tram a change too small to be 
-								// passed over on.
-								// we will drop it for now, but we will still sumbit
-								// it later if no other update follows
-
-								if (StopInputViaTimeout == null)
-									StopInputViaTimeout = DefaultTresholdTimeout.AtDelay(
-										() => OutputAndRemember(x, y)
-									).Stop;
-
-								return;
-							}
-						
-						}
-						#endregion
 
 						if (StopDelayedOutput == null)
 						{
@@ -102,13 +80,21 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 								}
 							).Stop;
 
+							if (_dirty)
+								if (GetDistance(x, y) < DefaultTresholdDistance)
+								{
+									DelayedOutput = () => OutputAndRemember(x, y);
+
+									return;
+								}
+
 							OutputAndRemember(x, y);
 						}
 						else
 						{
 							DelayedOutput = () => OutputAndRemember(x, y);
 						}
-				
+
 					}
 			};
 

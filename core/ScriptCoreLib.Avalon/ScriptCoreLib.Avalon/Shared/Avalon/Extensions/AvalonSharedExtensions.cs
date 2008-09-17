@@ -138,6 +138,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			return t;
 		}
 
+
 		public static DispatcherTimer AtInterval(this int Milliseconds, Action Handler)
 		{
 			var t = new DispatcherTimer
