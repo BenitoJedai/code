@@ -18,14 +18,24 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 		public void InitializeEvents()
 		{
+			Action<string> DiagnosticsWriteLine = text => this.Map.DiagnosticsWriteLine(text);
+
 			// this should be called once!
 			#region  CoPlayers
 			var CoPlayers = new CoPlayerGroup(
 				user =>
 				{
-					var n = new CoPlayer { user = user };
+					var n = new CoPlayer 
+					{ 
+						user = user,
+						ToPlayer = new Communication.RemoteEvents.WithUserArgumentsRouter_SinglecastView
+						{
+							user = user,
+							Target = this.Messages
+						}
+					};
 
-					n.Cursor =   new ArrowCursorControl();
+					n.Cursor = new ArrowCursorControl();
 					n.Cursor.Blue.Opacity  = 0.9;
 					n.Cursor.Container.AttachTo(this.Map.CoPlayerMouseContainer);
 
@@ -61,7 +71,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			this.Events.UserMouseMove +=
 				e =>
 				{
-					this.Map.DiagnosticsWriteLine("read: " + e.ToString());
+					//this.Map.DiagnosticsWriteLine("read: " + e.ToString());
  
 					CoPlayers[e.user].MouseMove(e.x, e.y);
 				};
@@ -74,25 +84,35 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					CoPlayers.Remove(e.user);
 				};
 
-			this.Events.ServerPlayerHello += this.Identity;
+			this.Events.ServerPlayerHello +=
+				e =>
+				{
+					this.Identity.Value = e;
+
+					if (e.others == 0)
+					{
+						DiagnosticsWriteLine("we are the first on this game");
+					}
+					else
+					{
+						DiagnosticsWriteLine("we need to sync the map over network");
+					}
+				};
 
 			
 			this.Events.ServerPlayerJoined +=
 				e =>
 				{
-					if (this.Identity.CanSignal)
-					{
-						this.Map.DiagnosticsWriteLine("ServerPlayerJoined: " + e.name + " to not ready");
-						return;
-					}
-
 					// we got the name of the user that is currently joining the game
 					CoPlayers[e.user].Name = e.name;
 
-					// we will introduse ourself directly to the new user
-					this.Messages.UserPlayerAdvertise(e.user, Identity.Value.name);
+				
 
 					this.Map.DiagnosticsWriteLine("ServerPlayerJoined: " + e.name);
+
+					// we will introduse ourself directly to the new user
+					CoPlayers[e.user].ToPlayer.UserPlayerAdvertise(Identity.Value.name);
+
 				};
 
 			this.Events.UserPlayerAdvertise +=

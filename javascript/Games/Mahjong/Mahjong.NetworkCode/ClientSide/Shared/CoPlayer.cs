@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.Shared.Avalon.Cursors;
+using Mahjong.NetworkCode.Shared;
 
 namespace Mahjong.NetworkCode.ClientSide.Shared
 {
@@ -18,5 +19,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 		public Action<int, int> MouseMove;
 
 		public string Name;
+
+		public Communication.RemoteEvents.WithUserArgumentsRouter_SinglecastView ToPlayer;
 	}
 }

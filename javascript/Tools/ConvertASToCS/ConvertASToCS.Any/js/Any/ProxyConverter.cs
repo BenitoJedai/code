@@ -634,6 +634,19 @@ namespace ConvertASToCS.js.Any
                                      }.ToArray()
 					};
 
+				var WithUserArgumentsRouter_SinglecastViewTarget = new FieldInfo { FieldName = "Target", TypeName = IMessages.Name };
+				var WithUserArgumentsRouter_SinglecastView =
+					new TypeInfo
+					{
+						IsSealed = true,
+						Name = "WithUserArgumentsRouter_SinglecastView",
+						BaseTypeName = WithUserArguments.Name,
+						Fields = new[]
+                                     {
+                                         WithUserArgumentsRouter_SinglecastViewTarget
+                                     }.ToArray()
+					};
+
 				var WithUserArgumentsRouter_SinglecastTarget = new FieldInfo { FieldName = "Target", TypeName = "System.Converter<int, IMessages>" };
 				var WithUserArgumentsRouter_Singlecast =
 					new TypeInfo
@@ -1204,6 +1217,126 @@ namespace ConvertASToCS.js.Any
 								}
 
 								//WriteCommentLine(v.Name);
+							}
+						}
+						#endregion
+
+
+					}
+					#endregion
+
+					#region WithUserArgumentsRouter_SinglecastView
+					using (DefineType(WithUserArgumentsRouter_SinglecastView))
+					{
+						#region Routing
+						using (Region("Routing"))
+						{
+							foreach (var v in r.MethodDefinitions.Where(IsUserArguments))
+							{
+								//public void UserPlayerAdvertise(UserPlayerAdvertiseArguments e)
+								//{
+								//    this.Target(e.user).UserPlayerAdvertise(this.user, e.name);
+								//}
+								const string Local_Arguments = "e";
+
+								using (IndentLine())
+								{
+									WriteKeywordSpace("public");
+									WriteKeywordSpace("void");
+
+									Write(v.Name);
+
+									using (Parenthesis())
+									{
+										for (int i = 1; i < v.ParametersInfo.Parameters.Length; i++)
+										{
+											if (i > 1)
+												Write(", ");
+											var p = v.ParametersInfo.Parameters[i];
+
+											WriteVariableDefinition(p.TypeName, p.Name);
+										}
+									}
+								}
+
+								using (CodeBlock())
+								{
+									using (IndentLine())
+									{
+										WriteBlue("this");
+										Write(".");
+										Write(WithUserArgumentsRouter_SinglecastTarget.FieldName);
+										Write(".");
+										Write(v.Name);
+										using (Parenthesis())
+										{
+											for (int i = 0; i < v.ParametersInfo.Parameters.Length; i++)
+											{
+												if (i > 0)
+													Write(", ");
+
+												var p = v.ParametersInfo.Parameters[i];
+
+												if (p.Name == WithUserArguments_user.FieldName)
+												{
+													WriteBlue("this");
+													Write(".");
+
+												}
+											
+												Write(p.Name);
+											}
+										}
+										Write(";");
+									}
+								}
+
+								using (IndentLine())
+								{
+									WriteKeywordSpace("public");
+									WriteKeywordSpace("void");
+
+									Write(v.Name);
+
+									using (Parenthesis())
+									{
+										WriteVariableDefinition(v.Name + "Arguments", Local_Arguments);
+									}
+								}
+
+								using (CodeBlock())
+								{
+									using (IndentLine())
+									{
+										WriteBlue("this");
+										Write(".");
+										Write(WithUserArgumentsRouter_SinglecastTarget.FieldName);
+										Write(".");
+										Write(v.Name);
+										using (Parenthesis())
+										{
+											for (int i = 0; i < v.ParametersInfo.Parameters.Length; i++)
+											{
+												if (i > 0)
+													Write(", ");
+
+												var p = v.ParametersInfo.Parameters[i];
+
+												if (p.Name == WithUserArguments_user.FieldName)
+												{
+													WriteBlue("this");
+												}
+												else
+												{
+													Write("e");
+												}
+												Write(".");
+												Write(p.Name);
+											}
+										}
+										Write(";");
+									}
+								}
 							}
 						}
 						#endregion

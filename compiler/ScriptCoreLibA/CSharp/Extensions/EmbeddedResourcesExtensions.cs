@@ -19,6 +19,8 @@ namespace ScriptCoreLib.CSharp.Extensions
 			public string ResourceName;
 
 			public Stream Stream;
+
+			public string PrefixlessResourceName;
 		}
 
 		internal class BooleanProperty
@@ -30,8 +32,10 @@ namespace ScriptCoreLib.CSharp.Extensions
 
 		public static ManifestResourceEntry ToManifestResourceStream(this string e)
 		{
-			if (ToManifestResourceStream_Cache.ContainsKey(e))
-				return ToManifestResourceStream_Cache[e];
+			var request = e.Replace("/", ".");
+
+			if (ToManifestResourceStream_Cache.ContainsKey(request))
+				return ToManifestResourceStream_Cache[request];
 
 			// what we know: assets/ConsoleApplication3/3.png
 			// what we want: ConsoleApplication3.web.assets.ConsoleApplication3.3.png
@@ -80,8 +84,8 @@ namespace ScriptCoreLib.CSharp.Extensions
 							 where !folderfound.Value 
 							 let folderprefix = folder.Value.Replace("/", ".")
 							 where prefixless.StartsWith(folderprefix)
-							 let request = e.Replace("/", ".")
-							 where request == prefixless
+							 //let request = e.Replace("/", ".")
+							 //where request == prefixless
 							 let file = prefixless.Substring(folderprefix.Length + 1)
 							 let stream = assembly.GetManifestResourceStream(resource)
 							 let folderfound_value = folderfound.Value = true
@@ -90,12 +94,22 @@ namespace ScriptCoreLib.CSharp.Extensions
 								 Stream = stream,
 								 File = file,
 								 ResourceName = resource,
-								 VirtualPath = folder
+								 VirtualPath = folder,
+								 PrefixlessResourceName = prefixless
 							 };
 
+			var a = Candidates.ToArray();
+			
 
+			foreach (var v in a)
+			{
+				if (ToManifestResourceStream_Cache.ContainsKey(v.PrefixlessResourceName))
+					continue;
 
-			return ToManifestResourceStream_Cache[e] = Candidates.Single();
+				ToManifestResourceStream_Cache[v.PrefixlessResourceName] = v;
+			}
+
+			return  a.Where(k => k.PrefixlessResourceName == request).Single();
 		}
 
 

@@ -156,9 +156,9 @@ namespace Mahjong.NetworkCode.Shared
                 Array.Copy(version, 0, args, 0, version.Length);
                 Send(new SendArguments { i = Messages.ServerPlayerHandshake, args = args });
             }
-            public void ServerPlayerHello(int user, string name)
+            public void ServerPlayerHello(int user, string name, int others)
             {
-                Send(new SendArguments { i = Messages.ServerPlayerHello, args = new object[] { user, name } });
+                Send(new SendArguments { i = Messages.ServerPlayerHello, args = new object[] { user, name, others } });
             }
             public void ServerPlayerJoined(int user, string name)
             {
@@ -520,6 +520,160 @@ namespace Mahjong.NetworkCode.Shared
                 #endregion
             }
             #endregion
+            #region WithUserArgumentsRouter_SinglecastView
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class WithUserArgumentsRouter_SinglecastView : WithUserArguments
+            {
+                public IMessages Target;
+                #region Routing
+                public void UserPlayerAdvertise(string name)
+                {
+                    this.Target.UserPlayerAdvertise(this.user, name);
+                }
+                public void UserPlayerAdvertise(UserPlayerAdvertiseArguments e)
+                {
+                    this.Target.UserPlayerAdvertise(this.user, e.name);
+                }
+                public void UserMouseMove(int x, int y)
+                {
+                    this.Target.UserMouseMove(this.user, x, y);
+                }
+                public void UserMouseMove(UserMouseMoveArguments e)
+                {
+                    this.Target.UserMouseMove(this.user, e.x, e.y);
+                }
+                public void UserMouseOut(int color)
+                {
+                    this.Target.UserMouseOut(this.user, color);
+                }
+                public void UserMouseOut(UserMouseOutArguments e)
+                {
+                    this.Target.UserMouseOut(this.user, e.color);
+                }
+                public void UserVectorChanged(int x, int y)
+                {
+                    this.Target.UserVectorChanged(this.user, x, y);
+                }
+                public void UserVectorChanged(UserVectorChangedArguments e)
+                {
+                    this.Target.UserVectorChanged(this.user, e.x, e.y);
+                }
+                public void UserFireBullet(int starship, int multiplier, int from_x, int from_y, int to_x, int to_y, int limit)
+                {
+                    this.Target.UserFireBullet(this.user, starship, multiplier, from_x, from_y, to_x, to_y, limit);
+                }
+                public void UserFireBullet(UserFireBulletArguments e)
+                {
+                    this.Target.UserFireBullet(this.user, e.starship, e.multiplier, e.from_x, e.from_y, e.to_x, e.to_y, e.limit);
+                }
+                public void UserAddDamage(int target, double damage, int shooter)
+                {
+                    this.Target.UserAddDamage(this.user, target, damage, shooter);
+                }
+                public void UserAddDamage(UserAddDamageArguments e)
+                {
+                    this.Target.UserAddDamage(this.user, e.target, e.damage, e.shooter);
+                }
+                public void UserRestoreStarship(int starship)
+                {
+                    this.Target.UserRestoreStarship(this.user, starship);
+                }
+                public void UserRestoreStarship(UserRestoreStarshipArguments e)
+                {
+                    this.Target.UserRestoreStarship(this.user, e.starship);
+                }
+                public void UserTeleportTo(int x, int y)
+                {
+                    this.Target.UserTeleportTo(this.user, x, y);
+                }
+                public void UserTeleportTo(UserTeleportToArguments e)
+                {
+                    this.Target.UserTeleportTo(this.user, e.x, e.y);
+                }
+                public void UserEatApple(int x, int y)
+                {
+                    this.Target.UserEatApple(this.user, x, y);
+                }
+                public void UserEatApple(UserEatAppleArguments e)
+                {
+                    this.Target.UserEatApple(this.user, e.x, e.y);
+                }
+                public void UserEatThisWormBegin(int food)
+                {
+                    this.Target.UserEatThisWormBegin(this.user, food);
+                }
+                public void UserEatThisWormBegin(UserEatThisWormBeginArguments e)
+                {
+                    this.Target.UserEatThisWormBegin(this.user, e.food);
+                }
+                public void UserEatThisWormEnd(int food)
+                {
+                    this.Target.UserEatThisWormEnd(this.user, food);
+                }
+                public void UserEatThisWormEnd(UserEatThisWormEndArguments e)
+                {
+                    this.Target.UserEatThisWormEnd(this.user, e.food);
+                }
+                public void UserLevelHasEnded()
+                {
+                    this.Target.UserLevelHasEnded(this.user);
+                }
+                public void UserLevelHasEnded(UserLevelHasEndedArguments e)
+                {
+                    this.Target.UserLevelHasEnded(this.user);
+                }
+                public void UserSendMap(int[] buttons)
+                {
+                    this.Target.UserSendMap(this.user, buttons);
+                }
+                public void UserSendMap(UserSendMapArguments e)
+                {
+                    this.Target.UserSendMap(this.user, e.buttons);
+                }
+                public void UserSendMapLater()
+                {
+                    this.Target.UserSendMapLater(this.user);
+                }
+                public void UserSendMapLater(UserSendMapLaterArguments e)
+                {
+                    this.Target.UserSendMapLater(this.user);
+                }
+                public void UserSetFlag(int button, int value)
+                {
+                    this.Target.UserSetFlag(this.user, button, value);
+                }
+                public void UserSetFlag(UserSetFlagArguments e)
+                {
+                    this.Target.UserSetFlag(this.user, e.button, e.value);
+                }
+                public void UserReveal(int button)
+                {
+                    this.Target.UserReveal(this.user, button);
+                }
+                public void UserReveal(UserRevealArguments e)
+                {
+                    this.Target.UserReveal(this.user, e.button);
+                }
+                public void UserKillAllInvaders()
+                {
+                    this.Target.UserKillAllInvaders(this.user);
+                }
+                public void UserKillAllInvaders(UserKillAllInvadersArguments e)
+                {
+                    this.Target.UserKillAllInvaders(this.user);
+                }
+                public void UserSayLine(string text)
+                {
+                    this.Target.UserSayLine(this.user, text);
+                }
+                public void UserSayLine(UserSayLineArguments e)
+                {
+                    this.Target.UserSayLine(this.user, e.text);
+                }
+                #endregion
+            }
+            #endregion
             #region WithUserArgumentsRouter_Singlecast
             [Script]
             [CompilerGenerated]
@@ -706,10 +860,11 @@ namespace Mahjong.NetworkCode.Shared
             {
                 public int user;
                 public string name;
+                public int others;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name).Append(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name).Append(", others = ").Append(this.others).Append(" }").ToString();
                 }
             }
             #endregion
@@ -1392,7 +1547,7 @@ namespace Mahjong.NetworkCode.Shared
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
                         {
                             { Messages.ServerPlayerHandshake, e => { ServerPlayerHandshake(new ServerPlayerHandshakeArguments { version = e.GetInt32Array(0) }); } },
-                            { Messages.ServerPlayerHello, e => { ServerPlayerHello(new ServerPlayerHelloArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
+                            { Messages.ServerPlayerHello, e => { ServerPlayerHello(new ServerPlayerHelloArguments { user = e.GetInt32(0), name = e.GetString(1), others = e.GetInt32(2) }); } },
                             { Messages.ServerPlayerJoined, e => { ServerPlayerJoined(new ServerPlayerJoinedArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                             { Messages.ServerPlayerLeft, e => { ServerPlayerLeft(new ServerPlayerLeftArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                             { Messages.PlayerAdvertise, e => { PlayerAdvertise(new PlayerAdvertiseArguments { name = e.GetString(0) }); } },
@@ -1565,10 +1720,10 @@ namespace Mahjong.NetworkCode.Shared
             }
 
             public event Action<RemoteEvents.ServerPlayerHelloArguments> ServerPlayerHello;
-            void IMessages.ServerPlayerHello(int user, string name)
+            void IMessages.ServerPlayerHello(int user, string name, int others)
             {
                 if(ServerPlayerHello == null) return;
-                var v = new RemoteEvents.ServerPlayerHelloArguments { user = user, name = name };
+                var v = new RemoteEvents.ServerPlayerHelloArguments { user = user, name = name, others = others };
                 this.VirtualLatency(() => this.ServerPlayerHello(v));
             }
 
@@ -1953,4 +2108,4 @@ namespace Mahjong.NetworkCode.Shared
     }
     #endregion
 }
-// 17.09.2008 10:31:59
+// 17.09.2008 21:15:06
