@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.Shared.Avalon.Extensions;
+using System.Windows.Threading;
 
 namespace Mahjong.NetworkCode.ClientSide.Shared
 {
@@ -17,7 +18,6 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 		// 2. tweened movement based on erratic movement input
 
-		public Action<string> DiagnosticsWriteLine = delegate { };
 
 
 		public static NumericEmitter Of(Action<int, int> Output)
@@ -28,127 +28,79 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 			const int DefaultFrameRate = 1000 / 30;
 			const double DefaultDivider = 6;
-			const double DefaultTargetDivider = 4;
 			const int DefaultEndConditionDelta = 2;
-
-			var _x = 0;
-			var _y = 0;
-			var _dirty = false;
-
-			var tx = 0;
-			var ty = 0;
-
-			var ttx = 0;
-			var tty = 0;
-
-			var StopTween = default(Action);
-			var StopTargetTween = default(Action);
 
 			var n = new NumericEmitter();
 
 			n.Output = Output;
 
+			double nx = 0;
+			double ny = 0;
+
+			double tx = 0;
+			double ty = 0;
+
+			bool dirty = false;
+
+			#region GetDistance
+			Func<double, double, double> GetDistance =
+				(dx, dy) =>
+				{
+					return Math.Sqrt(dx * dx + dy * dy);
+				};
+			#endregion
+
+
+			var Stop = default(Action);
+
 			n.Input =
 				(x, y) =>
 				{
-					ttx = x;
-					tty = y;
+					tx = x;
+					ty = y;
 
-					//n.DiagnosticsWriteLine("emitter - new target : " + new { x, y, _dirty }.ToString());
-
-					// we need to interpolate events here
-					if (_dirty)
+					if (!dirty)
 					{
-						//n.DiagnosticsWriteLine("emitter - new silding target setup ");
+						dirty = true;
 
-						Action StartTween =
+						nx = tx;
+						ny = ty;
+
+						n.Output(
+									x,
+									y
+								);
+
+						return;
+					}
+
+					if (Stop == null)
+						Stop = DefaultFrameRate.AtInterval(
 							delegate
 							{
-								if (StopTween == null)
-									StopTween = DefaultFrameRate.AtInterval(
-										delegate
-										{
-											var dx = (_x - tx);
-											var dy = (_y - ty);
+								var dx = tx - nx;
+								var dy = ty - ny;
 
-											if (Math.Abs(dx) <= DefaultEndConditionDelta)
-												if (Math.Abs(dy) <= DefaultEndConditionDelta)
-												{
-													_x = tx;
-													_y = ty;
-
-													//Output(_x, _y);
-
-												
-													n.DiagnosticsWriteLine("emitter - done : " + new { _x, _y }.ToString());
-
-													StopTween();
-													StopTween = null;
-
-
-													return;
-												}
-
-											_x = tx + Convert.ToInt32(dx - dx / DefaultDivider);
-											_y = ty + Convert.ToInt32(dy - dy / DefaultDivider);
-
-											Output(_x, _y);
-										}
-									).Stop;
-								else
-									n.DiagnosticsWriteLine("emitter - already running");
-
-							};
-
-						if (StopTargetTween == null)
-							StopTargetTween = DefaultFrameRate.AtInterval(
-								delegate
+								if (GetDistance(dx, dy) < DefaultEndConditionDelta)
 								{
-									var dx = (tx - ttx);
-									var dy = (ty - tty);
+									Stop();
+									Stop = null;
 
-									if (Math.Abs(dx) <= DefaultEndConditionDelta)
-										if (Math.Abs(dy) <= DefaultEndConditionDelta)
-										{
-											tx = ttx;
-											ty = tty;
-
-											StopTargetTween();
-											StopTargetTween = null;
-
-											//StartTween();
-
-											return;
-										}
-
-									tx = ttx +  Convert.ToInt32(dx - dx / DefaultTargetDivider);
-									ty = tty +  Convert.ToInt32(dy - dy / DefaultTargetDivider);
-
-									StartTween();
-
-									//n.DiagnosticsWriteLine("emitter - new silding target : " + new { tx, ty }.ToString());
-
-									//Console.WriteLine(new { tx, ty, c, x, y }.ToString());
+									nx = tx;
+									ny = ty;
 								}
-							).Stop;
+								else
+								{
+									nx += dx / DefaultDivider;
+									ny += dy / DefaultDivider;
+								}
 
-
-
-
-					}
-					else
-					{
-
-
-						_dirty = true;
-						_x = x;
-						_y = y;
-
-						tx = x;
-						ty = y;
-
-						Output(_x, _y);
-					}
+								n.Output(
+									Convert.ToInt32(nx),
+									Convert.ToInt32(ny)
+								);
+							}
+						).Stop;
 				};
 
 			return n;

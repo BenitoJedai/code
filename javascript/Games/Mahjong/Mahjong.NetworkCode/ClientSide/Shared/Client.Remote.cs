@@ -39,7 +39,6 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 						}
 					);
 
-					MouseMove.DiagnosticsWriteLine = this.Map.DiagnosticsWriteLine;
 
 					// entry point for rare events
 					n.MouseMove = MouseMove;
