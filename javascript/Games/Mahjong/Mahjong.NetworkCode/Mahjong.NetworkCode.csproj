@@ -103,6 +103,10 @@
     <None Include="tools\update.bat" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mahjong.Assets\Mahjong.Assets.csproj">
+      <Project>{37337673-4A19-4F25-B7CC-B1532AB909CE}</Project>
+      <Name>Mahjong.Assets</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mahjong.Code\Mahjong.Code.csproj">
       <Project>{10B71A22-D062-4A4B-BB93-F2F749DE89BC}</Project>
       <Name>Mahjong.Code</Name>

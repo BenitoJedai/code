@@ -39,7 +39,7 @@ namespace Mahjong.Code
 							if (FirstLoaded.CanSignal)
 								FirstLoaded.Value = e;
 
-							1.AtDelay(SignalNext);
+							90.AtDelay(SignalNext);
 						}
 					);
 				}
