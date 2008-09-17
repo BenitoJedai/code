@@ -131,7 +131,7 @@ namespace Mahjong.Code
 
 					DiagnosticsHistory.Enqueue(text);
 
-					while (DiagnosticsHistory.Count > 8)
+					while (DiagnosticsHistory.Count > 12)
 						DiagnosticsHistory.Dequeue();
 
 					DiagnosticsText.Text = string.Concat(DiagnosticsHistory.Select(u => u + Environment.NewLine).ToArray());

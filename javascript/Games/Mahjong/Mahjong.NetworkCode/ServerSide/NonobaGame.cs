@@ -95,7 +95,7 @@ namespace Mahjong.NetworkCode.ServerSide
 			var FromPlayer =
 				  new Communication.RemoteEvents
 				  {
-					  Router = new Communication.RemoteEvents.WithUserArgumentsRouter
+					  BroadcastRouter = new Communication.RemoteEvents.WithUserArgumentsRouter_Broadcast
 					  {
 						  user = user.UserId,
 					  }
@@ -125,7 +125,8 @@ namespace Mahjong.NetworkCode.ServerSide
 
 				AwardAchievement = user.AwardAchievement,
 			};
-			FromPlayer.Router.Target = user.Virtual.ToOthers;
+
+			FromPlayer.BroadcastRouter.Target = user.Virtual.ToOthers;
 
 			Virtual.Users.Add(user.Virtual);
 

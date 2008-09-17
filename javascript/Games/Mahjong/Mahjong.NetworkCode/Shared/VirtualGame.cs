@@ -42,22 +42,22 @@ namespace Mahjong.NetworkCode.Shared
 			Console.WriteLine("- UserJoined " + player.Username);
 
 
-			var exitfound = new AvailibleAchievement(player.AwardAchievement, "exitfound");
-			var firstblood = new AvailibleAchievement(player.AwardAchievement, "firstblood");
-			var portalfound = new AvailibleAchievement(player.AwardAchievement, "portalfound");
-			var getrich = new AvailibleAchievement(player.AwardAchievement, "getrich");
-			var massacre = new AvailibleAchievement(player.AwardAchievement, "massacre");
-			var levelup = new AvailibleAchievement(player.AwardAchievement, "levelup");
+			//var exitfound = new AvailibleAchievement(player.AwardAchievement, "exitfound");
+			//var firstblood = new AvailibleAchievement(player.AwardAchievement, "firstblood");
+			//var portalfound = new AvailibleAchievement(player.AwardAchievement, "portalfound");
+			//var getrich = new AvailibleAchievement(player.AwardAchievement, "getrich");
+			//var massacre = new AvailibleAchievement(player.AwardAchievement, "massacre");
+			//var levelup = new AvailibleAchievement(player.AwardAchievement, "levelup");
 
 
-			var x = AnyOtherUser(player);
+			//var x = AnyOtherUser(player);
 
 			//player.FromPlayer.LockGame += e => this.GameState = MyGame.GameStateEnum.ClosedGameInProgress;
 			//player.FromPlayer.UnlockGame += e => this.GameState = MyGame.GameStateEnum.OpenGameInProgress;
 
-			var total_score = 0;
-			var total_kills = 0;
-			var total_level = 0;
+			//var total_score = 0;
+			//var total_kills = 0;
+			//var total_level = 0;
 
 			//// registered nonoba rankings
 			//player.FromPlayer.ReportScore +=
@@ -100,12 +100,12 @@ namespace Mahjong.NetworkCode.Shared
 			//player.FromPlayer.AwardAchievementUFOKill += e => player.AwardAchievement("ufokill");
 			//player.FromPlayer.AwardAchievementMaxGun += e => player.AwardAchievement("maxgun");
 
-			var user_with_map = -1;
+			//var user_with_map = -1;
 
-			if (x != null)
-			{
-				user_with_map = x.UserId;
-			}
+			//if (x != null)
+			//{
+			//    user_with_map = x.UserId;
+			//}
 
 			// let new player know how it is named, also send magic bytes to verify
 			player.ToPlayer.ServerPlayerHello(
@@ -117,14 +117,14 @@ namespace Mahjong.NetworkCode.Shared
 			   player.UserId, player.Username
 			);
 
-			if (x != null)
-			{
-				// the new player wont wait forever for the new map.
-				// if certain time passes and no map is recieved, it will use
-				// its own map, this desyncing from others
-				Console.WriteLine("Will ask for map transfer from " + x.Username);
-				x.ToPlayer.ServerSendMap();
-			}
+			//if (x != null)
+			//{
+			//    // the new player wont wait forever for the new map.
+			//    // if certain time passes and no map is recieved, it will use
+			//    // its own map, this desyncing from others
+			//    //Console.WriteLine("Will ask for map transfer from " + x.Username);
+			//    //x.ToPlayer.ServerSendMap();
+			//}
 
 		}
 

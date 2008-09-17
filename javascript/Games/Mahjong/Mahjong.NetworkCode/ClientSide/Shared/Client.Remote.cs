@@ -7,14 +7,19 @@ using ScriptCoreLib;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using ScriptCoreLib.Shared.Avalon.Cursors;
 using System.Windows.Media;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace Mahjong.NetworkCode.ClientSide.Shared
 {
 	partial class Client
 	{
+		public readonly Future<Communication.RemoteEvents.ServerPlayerHelloArguments> Identity = new Future<Communication.RemoteEvents.ServerPlayerHelloArguments>();
+
+
 		public void InitializeEvents()
 		{
 			// this should be called once!
+			#region  CoPlayers
 			var CoPlayers = new CoPlayerGroup(
 				user =>
 				{
@@ -44,8 +49,15 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					return n;
 				}
 			);
+			#endregion
 
 
+			this.Identity.Continue(
+				delegate
+				{
+					this.Map.DiagnosticsWriteLine("Identity: " + Identity.Value.ToString());
+				}
+			);
 
 			this.Events.UserMouseMove +=
 				e =>
@@ -62,6 +74,37 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 					CoPlayers.Remove(e.user);
 				};
+
+			this.Events.ServerPlayerHello += this.Identity;
+
+			
+			this.Events.ServerPlayerJoined +=
+				e =>
+				{
+					if (this.Identity.CanSignal)
+					{
+						this.Map.DiagnosticsWriteLine("ServerPlayerJoined: " + e.name + " to not ready");
+						return;
+					}
+
+					// we got the name of the user that is currently joining the game
+					CoPlayers[e.user].Name = e.name;
+
+					// we will introduse ourself directly to the new user
+					this.Messages.UserPlayerAdvertise(e.user, Identity.Value.name);
+
+					this.Map.DiagnosticsWriteLine("ServerPlayerJoined: " + e.name);
+				};
+
+			this.Events.UserPlayerAdvertise +=
+				e =>
+				{
+					// a user was already in the room before we joined
+					CoPlayers[e.user].Name = e.name;
+
+					this.Map.DiagnosticsWriteLine("UserPlayerAdvertise: " + e.name);
+				};
+
 		}
 	}
 }

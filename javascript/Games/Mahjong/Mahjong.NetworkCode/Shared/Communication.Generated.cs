@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using ScriptCoreLib.Shared.Nonoba;
 using ScriptCoreLib;
+
 namespace Mahjong.NetworkCode.Shared
 {
     #region Communication
@@ -66,6 +67,7 @@ namespace Mahjong.NetworkCode.Shared
             ServerPasswordStatus,
             LockGame,
             UnlockGame,
+            UserSayLine,
         }
         #endregion
 
@@ -129,6 +131,7 @@ namespace Mahjong.NetworkCode.Shared
             event Action<RemoteEvents.ServerPasswordStatusArguments> ServerPasswordStatus;
             event Action<RemoteEvents.LockGameArguments> LockGame;
             event Action<RemoteEvents.UnlockGameArguments> UnlockGame;
+            event Action<RemoteEvents.UserSayLineArguments> UserSayLine;
         }
         #endregion
 
@@ -346,6 +349,10 @@ namespace Mahjong.NetworkCode.Shared
             {
                 Send(new SendArguments { i = Messages.UnlockGame, args = new object[] {  } });
             }
+            public void UserSayLine(int user, string text)
+            {
+                Send(new SendArguments { i = Messages.UserSayLine, args = new object[] { user, text } });
+            }
         }
         #endregion
 
@@ -356,8 +363,10 @@ namespace Mahjong.NetworkCode.Shared
         {
             private readonly Dictionary<Messages, Action<IDispatchHelper>> DispatchTable;
             private readonly Dictionary<Messages, Converter<object, Delegate>> DispatchTableDelegates;
-            [AccessedThroughProperty("Router")]
-            private WithUserArgumentsRouter _Router;
+            [AccessedThroughProperty("BroadcastRouter")]
+            private WithUserArgumentsRouter_Broadcast _BroadcastRouter;
+            [AccessedThroughProperty("SinglecastRouter")]
+            private WithUserArgumentsRouter_Singlecast _SinglecastRouter;
             #region DispatchHelper
             [Script]
             [CompilerGenerated]
@@ -388,10 +397,10 @@ namespace Mahjong.NetworkCode.Shared
                 public int user;
             }
             #endregion
-            #region WithUserArgumentsRouter
+            #region WithUserArgumentsRouter_Broadcast
             [Script]
             [CompilerGenerated]
-            public sealed partial class WithUserArgumentsRouter : WithUserArguments
+            public sealed partial class WithUserArgumentsRouter_Broadcast : WithUserArguments
             {
                 public IMessages Target;
 
@@ -507,6 +516,171 @@ namespace Mahjong.NetworkCode.Shared
                 public void UserKillAllInvaders(KillAllInvadersArguments e)
                 {
                     Target.UserKillAllInvaders(this.user);
+                }
+                #endregion
+            }
+            #endregion
+            #region WithUserArgumentsRouter_Singlecast
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class WithUserArgumentsRouter_Singlecast : WithUserArguments
+            {
+                public System.Converter<int, IMessages> Target;
+
+                #region Automatic Event Routing
+                public void CombineDelegates(IEvents value)
+                {
+                    value.UserPlayerAdvertise += this.UserPlayerAdvertise;
+                    value.UserMouseMove += this.UserMouseMove;
+                    value.UserMouseOut += this.UserMouseOut;
+                    value.UserVectorChanged += this.UserVectorChanged;
+                    value.UserFireBullet += this.UserFireBullet;
+                    value.UserAddDamage += this.UserAddDamage;
+                    value.UserRestoreStarship += this.UserRestoreStarship;
+                    value.UserTeleportTo += this.UserTeleportTo;
+                    value.UserEatApple += this.UserEatApple;
+                    value.UserEatThisWormBegin += this.UserEatThisWormBegin;
+                    value.UserEatThisWormEnd += this.UserEatThisWormEnd;
+                    value.UserLevelHasEnded += this.UserLevelHasEnded;
+                    value.UserSendMap += this.UserSendMap;
+                    value.UserSendMapLater += this.UserSendMapLater;
+                    value.UserSetFlag += this.UserSetFlag;
+                    value.UserReveal += this.UserReveal;
+                    value.UserKillAllInvaders += this.UserKillAllInvaders;
+                    value.UserSayLine += this.UserSayLine;
+                }
+
+                public void RemoveDelegates(IEvents value)
+                {
+                    value.UserPlayerAdvertise -= this.UserPlayerAdvertise;
+                    value.UserMouseMove -= this.UserMouseMove;
+                    value.UserMouseOut -= this.UserMouseOut;
+                    value.UserVectorChanged -= this.UserVectorChanged;
+                    value.UserFireBullet -= this.UserFireBullet;
+                    value.UserAddDamage -= this.UserAddDamage;
+                    value.UserRestoreStarship -= this.UserRestoreStarship;
+                    value.UserTeleportTo -= this.UserTeleportTo;
+                    value.UserEatApple -= this.UserEatApple;
+                    value.UserEatThisWormBegin -= this.UserEatThisWormBegin;
+                    value.UserEatThisWormEnd -= this.UserEatThisWormEnd;
+                    value.UserLevelHasEnded -= this.UserLevelHasEnded;
+                    value.UserSendMap -= this.UserSendMap;
+                    value.UserSendMapLater -= this.UserSendMapLater;
+                    value.UserSetFlag -= this.UserSetFlag;
+                    value.UserReveal -= this.UserReveal;
+                    value.UserKillAllInvaders -= this.UserKillAllInvaders;
+                    value.UserSayLine -= this.UserSayLine;
+                }
+                #endregion
+
+                #region Routing
+                public void UserPlayerAdvertise(UserPlayerAdvertiseArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserPlayerAdvertise(this.user, e.name);
+                }
+                public void UserMouseMove(UserMouseMoveArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserMouseMove(this.user, e.x, e.y);
+                }
+                public void UserMouseOut(UserMouseOutArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserMouseOut(this.user, e.color);
+                }
+                public void UserVectorChanged(UserVectorChangedArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserVectorChanged(this.user, e.x, e.y);
+                }
+                public void UserFireBullet(UserFireBulletArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserFireBullet(this.user, e.starship, e.multiplier, e.from_x, e.from_y, e.to_x, e.to_y, e.limit);
+                }
+                public void UserAddDamage(UserAddDamageArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserAddDamage(this.user, e.target, e.damage, e.shooter);
+                }
+                public void UserRestoreStarship(UserRestoreStarshipArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserRestoreStarship(this.user, e.starship);
+                }
+                public void UserTeleportTo(UserTeleportToArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserTeleportTo(this.user, e.x, e.y);
+                }
+                public void UserEatApple(UserEatAppleArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserEatApple(this.user, e.x, e.y);
+                }
+                public void UserEatThisWormBegin(UserEatThisWormBeginArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserEatThisWormBegin(this.user, e.food);
+                }
+                public void UserEatThisWormEnd(UserEatThisWormEndArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserEatThisWormEnd(this.user, e.food);
+                }
+                public void UserLevelHasEnded(UserLevelHasEndedArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserLevelHasEnded(this.user);
+                }
+                public void UserSendMap(UserSendMapArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserSendMap(this.user, e.buttons);
+                }
+                public void UserSendMapLater(UserSendMapLaterArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserSendMapLater(this.user);
+                }
+                public void UserSetFlag(UserSetFlagArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserSetFlag(this.user, e.button, e.value);
+                }
+                public void UserReveal(UserRevealArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserReveal(this.user, e.button);
+                }
+                public void UserKillAllInvaders(UserKillAllInvadersArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserKillAllInvaders(this.user);
+                }
+                public void UserSayLine(UserSayLineArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserSayLine(this.user, e.text);
                 }
                 #endregion
             }
@@ -1199,6 +1373,20 @@ namespace Mahjong.NetworkCode.Shared
             }
             #endregion
             public event Action<UnlockGameArguments> UnlockGame;
+            #region UserSayLineArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserSayLineArguments : WithUserArguments
+            {
+                public string text;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", text = ").Append(this.text).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserSayLineArguments> UserSayLine;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -1251,6 +1439,7 @@ namespace Mahjong.NetworkCode.Shared
                             { Messages.ServerPasswordStatus, e => { ServerPasswordStatus(new ServerPasswordStatusArguments { status = e.GetInt32(0) }); } },
                             { Messages.LockGame, e => { LockGame(new LockGameArguments {  }); } },
                             { Messages.UnlockGame, e => { UnlockGame(new UnlockGameArguments {  }); } },
+                            { Messages.UserSayLine, e => { UserSayLine(new UserSayLineArguments { user = e.GetInt32(0), text = e.GetString(1) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -1303,28 +1492,51 @@ namespace Mahjong.NetworkCode.Shared
                             { Messages.ServerPasswordStatus, e => ServerPasswordStatus },
                             { Messages.LockGame, e => LockGame },
                             { Messages.UnlockGame, e => UnlockGame },
+                            { Messages.UserSayLine, e => UserSayLine },
                         }
                 ;
             }
-            public WithUserArgumentsRouter Router
+            public WithUserArgumentsRouter_Broadcast BroadcastRouter
             {
                 [DebuggerNonUserCode]
                 get
                 {
-                    return this._Router;
+                    return this._BroadcastRouter;
                 }
                 [DebuggerNonUserCode]
                 [MethodImpl(MethodImplOptions.Synchronized)]
                 set
                 {
-                    if(_Router != null)
+                    if(_BroadcastRouter != null)
                     {
-                        _Router.RemoveDelegates(this);
+                        _BroadcastRouter.RemoveDelegates(this);
                     }
-                    _Router = value;
-                    if(_Router != null)
+                    _BroadcastRouter = value;
+                    if(_BroadcastRouter != null)
                     {
-                        _Router.CombineDelegates(this);
+                        _BroadcastRouter.CombineDelegates(this);
+                    }
+                }
+            }
+            public WithUserArgumentsRouter_Singlecast SinglecastRouter
+            {
+                [DebuggerNonUserCode]
+                get
+                {
+                    return this._SinglecastRouter;
+                }
+                [DebuggerNonUserCode]
+                [MethodImpl(MethodImplOptions.Synchronized)]
+                set
+                {
+                    if(_SinglecastRouter != null)
+                    {
+                        _SinglecastRouter.RemoveDelegates(this);
+                    }
+                    _SinglecastRouter = value;
+                    if(_SinglecastRouter != null)
+                    {
+                        _SinglecastRouter.CombineDelegates(this);
                     }
                 }
             }
@@ -1728,9 +1940,17 @@ namespace Mahjong.NetworkCode.Shared
                 this.VirtualLatency(() => this.UnlockGame(v));
             }
 
+            public event Action<RemoteEvents.UserSayLineArguments> UserSayLine;
+            void IMessages.UserSayLine(int user, string text)
+            {
+                if(UserSayLine == null) return;
+                var v = new RemoteEvents.UserSayLineArguments { user = user, text = text };
+                this.VirtualLatency(() => this.UserSayLine(v));
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 14.09.2008 20:23:15
+// 17.09.2008 10:31:59
