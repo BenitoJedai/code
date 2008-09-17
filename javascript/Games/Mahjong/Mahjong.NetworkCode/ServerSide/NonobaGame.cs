@@ -98,6 +98,10 @@ namespace Mahjong.NetworkCode.ServerSide
 					  BroadcastRouter = new Communication.RemoteEvents.WithUserArgumentsRouter_Broadcast
 					  {
 						  user = user.UserId,
+					  },
+					  SinglecastRouter  = new Communication.RemoteEvents.WithUserArgumentsRouter_Singlecast
+					  {
+						  user = user.UserId,
 					  }
 				  };
 
@@ -127,6 +131,24 @@ namespace Mahjong.NetworkCode.ServerSide
 			};
 
 			FromPlayer.BroadcastRouter.Target = user.Virtual.ToOthers;
+
+			FromPlayer.SinglecastRouter.Target =
+				target_user =>
+				{
+					var r = default(Communication.IMessages);
+
+					foreach (var v in this.Users)
+					{
+						if (v.UserId == target_user)
+						{
+							r = v.Virtual.ToPlayer;
+
+							break; 
+						}
+
+					}
+					return r;
+				};
 
 			Virtual.Users.Add(user.Virtual);
 
