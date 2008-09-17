@@ -101,6 +101,10 @@ namespace Mahjong.NetworkCode.Shared
 			void LockGame();
 			void UnlockGame();
 
+			// some user to user messages
+
+			void UserSayLine(int user, string text);
+
 		}
 
 

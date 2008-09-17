@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartArguments>SharedClass1.cs</StartArguments>
+    <StartArguments>Communication.cs</StartArguments>
     <StartAction>Project</StartAction>
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\FlashTreasureHunt\FlashTreasureHunt.MultiPlayer\Shared</StartWorkingDirectory>
+    <StartWorkingDirectory>C:\work\jsc.svn\javascript\Games\Mahjong\Mahjong.NetworkCode\Shared\</StartWorkingDirectory>
   </PropertyGroup>
 </Project>

@@ -27,9 +27,9 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			// we are using sliding target to avoid single vector movement between events
 
 			const int DefaultFrameRate = 1000 / 30;
-			const int DefaultDivider = 6;
-			const int DefaultTargetDivider = 4;
-			const int DefaultEndConditionDelta = 1;
+			const double DefaultDivider = 6;
+			const double DefaultTargetDivider = 4;
+			const int DefaultEndConditionDelta = 2;
 
 			var _x = 0;
 			var _y = 0;
@@ -49,102 +49,107 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			n.Output = Output;
 
 			n.Input =
-					(x, y) =>
+				(x, y) =>
+				{
+					ttx = x;
+					tty = y;
+
+					//n.DiagnosticsWriteLine("emitter - new target : " + new { x, y, _dirty }.ToString());
+
+					// we need to interpolate events here
+					if (_dirty)
 					{
-						ttx = x;
-						tty = y;
+						//n.DiagnosticsWriteLine("emitter - new silding target setup ");
 
-						//n.DiagnosticsWriteLine("emitter - new target : " + new { x, y, _dirty }.ToString());
+						Action StartTween =
+							delegate
+							{
+								if (StopTween == null)
+									StopTween = DefaultFrameRate.AtInterval(
+										delegate
+										{
+											var dx = (_x - tx);
+											var dy = (_y - ty);
 
-						// we need to interpolate events here
-						if (_dirty)
-						{
-							//n.DiagnosticsWriteLine("emitter - new silding target setup ");
+											if (Math.Abs(dx) <= DefaultEndConditionDelta)
+												if (Math.Abs(dy) <= DefaultEndConditionDelta)
+												{
+													_x = tx;
+													_y = ty;
 
-							Action StartTween =
+													//Output(_x, _y);
+
+												
+													n.DiagnosticsWriteLine("emitter - done : " + new { _x, _y }.ToString());
+
+													StopTween();
+													StopTween = null;
+
+
+													return;
+												}
+
+											_x = tx + Convert.ToInt32(dx - dx / DefaultDivider);
+											_y = ty + Convert.ToInt32(dy - dy / DefaultDivider);
+
+											Output(_x, _y);
+										}
+									).Stop;
+								else
+									n.DiagnosticsWriteLine("emitter - already running");
+
+							};
+
+						if (StopTargetTween == null)
+							StopTargetTween = DefaultFrameRate.AtInterval(
 								delegate
 								{
-									if (StopTween == null)
-										StopTween = DefaultFrameRate.AtInterval(
-											delegate
-											{
-												var dx = (_x - tx);
-												var dy = (_y - ty);
+									var dx = (tx - ttx);
+									var dy = (ty - tty);
 
-												if (Math.Abs(dx) <= DefaultEndConditionDelta)
-													if (Math.Abs(dy) <= DefaultEndConditionDelta)
-													{
-														_x = tx;
-														_y = ty;
+									if (Math.Abs(dx) <= DefaultEndConditionDelta)
+										if (Math.Abs(dy) <= DefaultEndConditionDelta)
+										{
+											tx = ttx;
+											ty = tty;
 
-														Output(_x, _y);
+											StopTargetTween();
+											StopTargetTween = null;
 
-														//StopTween();
-														StopTween = null;
+											//StartTween();
 
-														//n.DiagnosticsWriteLine("emitter - done : " + new { _x, _y }.ToString());
+											return;
+										}
 
-														return;
-													}
+									tx = ttx +  Convert.ToInt32(dx - dx / DefaultTargetDivider);
+									ty = tty +  Convert.ToInt32(dy - dy / DefaultTargetDivider);
 
-												_x = tx + dx - dx / DefaultDivider;
-												_y = ty + dy - dy / DefaultDivider;
+									StartTween();
 
-												Output(_x, _y);
-											}
-										).Stop;
-								};
+									//n.DiagnosticsWriteLine("emitter - new silding target : " + new { tx, ty }.ToString());
 
-							if (StopTargetTween == null)
-								StopTargetTween = DefaultFrameRate.AtInterval(
-									delegate
-									{
-										var dx = (tx - ttx);
-										var dy = (ty - tty);
-
-										if (Math.Abs(dx) <= DefaultEndConditionDelta)
-											if (Math.Abs(dy) <= DefaultEndConditionDelta)
-											{
-												tx = ttx;
-												ty = tty;
-
-												//StopTargetTween();
-												StopTargetTween = null;
-
-												StartTween();
-
-												return;
-											}
-
-										tx = ttx + dx - dx / DefaultTargetDivider;
-										ty = tty + dy - dy / DefaultTargetDivider;
-
-										StartTween();
-
-										//n.DiagnosticsWriteLine("emitter - new silding target : " + new { tx, ty }.ToString());
-
-										//Console.WriteLine(new { tx, ty, c, x, y }.ToString());
-									}
-								).Stop;
-
-							
-
-							
-						}
-						else
-						{
+									//Console.WriteLine(new { tx, ty, c, x, y }.ToString());
+								}
+							).Stop;
 
 
-							_dirty = true;
-							_x = x;
-							_y = y;
 
-							tx = x;
-							ty = y;
 
-							Output(_x, _y);
-						}
-					};
+					}
+					else
+					{
+
+
+						_dirty = true;
+						_x = x;
+						_y = y;
+
+						tx = x;
+						ty = y;
+
+						Output(_x, _y);
+					}
+				};
 
 			return n;
 

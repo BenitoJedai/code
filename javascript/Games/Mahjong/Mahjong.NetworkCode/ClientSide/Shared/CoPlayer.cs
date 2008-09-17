@@ -16,5 +16,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 		// remote -> local
 		public Action<int, int> MouseMove;
+
+		public string Name;
 	}
 }
