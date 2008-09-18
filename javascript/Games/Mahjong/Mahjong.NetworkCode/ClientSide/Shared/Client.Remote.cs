@@ -16,14 +16,11 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 	{
 		public readonly Future<Communication.RemoteEvents.ServerPlayerHelloArguments> Identity = new Future<Communication.RemoteEvents.ServerPlayerHelloArguments>();
 
-		/// <summary>
-		/// When null or signalled then we do not have a lock. One can use .Continue
-		/// to run after lock is released or does not exist at all.
-		/// </summary>
-		public Future UserLockEnter_ByLocal;
 
 
-		public Future UserLockEnter_ByRemote;
+
+		public readonly FutureLock UserLockEnter_ByLocal = new FutureLock();
+		public readonly FutureLock UserLockEnter_ByRemote = new FutureLock();
 
 		public CoPlayerGroup CoPlayers;
 
@@ -241,32 +238,42 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 					DiagnosticsWriteLine("UserLockEnter: " + c.Name);
 
-					// are we trying to get a lock by ourselves?
-					this.UserLockEnter_ByLocal.Continue(
+					this.UserLockEnter_ByRemote[
+						this.UserLockEnter_ByLocal,
+						this.Map.MyLayout.LayoutProgress
+					](
 						delegate
 						{
-							DiagnosticsWriteLine("UserLockEnter (we were not trying to lock): " + c.Name);
-
-							this.UserLockEnter_ByRemote.Continue(
-								delegate
-								{
-									DiagnosticsWriteLine("UserLockEnter (we were not locked by remote): " + c.Name);
-
-									this.UserLockEnter_ByRemote = new Future();
-
-									this.Map.MyLayout.LayoutProgress.Continue(
-										delegate
-										{
-											DiagnosticsWriteLine("UserLockEnter (we have loaded the map): " + c.Name);
-
-											// we cannot give lock to the user while we are still loading the map
-											c.ToPlayer.UserLockValidate(e.id);
-										}
-									);
-								}
-							);
+							c.ToPlayer.UserLockValidate(e.id);
 						}
 					);
+
+					//// are we trying to get a lock by ourselves?
+					//this.UserLockEnter_ByLocal.Continue(
+					//    delegate
+					//    {
+					//        DiagnosticsWriteLine("UserLockEnter (we were not trying to lock): " + c.Name);
+
+					//        this.UserLockEnter_ByRemote.Acquire(
+					//            delegate
+					//            {
+					//                DiagnosticsWriteLine("UserLockEnter (we were not locked by remote): " + c.Name);
+
+					//                //this.UserLockEnter_ByRemote = new Future();
+
+					//                this.Map.MyLayout.LayoutProgress.Continue(
+					//                    delegate
+					//                    {
+					//                        DiagnosticsWriteLine("UserLockEnter (we have loaded the map): " + c.Name);
+
+					//                        // we cannot give lock to the user while we are still loading the map
+					//                        c.ToPlayer.UserLockValidate(e.id);
+					//                    }
+					//                );
+					//            }
+					//        );
+					//    }
+					//);
 				};
 
 			this.Events.UserLockExit +=
@@ -276,9 +283,10 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 					DiagnosticsWriteLine("UserLockExit: " + c.Name);
 
-					var s = this.UserLockEnter_ByRemote;
-					this.UserLockEnter_ByRemote = null;
-					s.Signal();
+					this.UserLockEnter_ByRemote.Release();
+					//var s = this.UserLockEnter_ByRemote;
+					//this.UserLockEnter_ByRemote = null;
+					//s.Signal();
 				};
 
 			#region UserLockValidate
@@ -299,7 +307,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 				{
 					var c = CoPlayers[e.user];
 
-					if (this.UserLockEnter_ByRemote == null)
+					if (!this.UserLockEnter_ByRemote.IsAcquired)
 						throw new Exception("UserRemovePair needs a lock");
 
 					DiagnosticsWriteLine("UserRemovePair: " + c.Name);
