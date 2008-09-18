@@ -103,7 +103,9 @@ namespace Mahjong.Code
 
 			this.TilesInfo = new TilesInfoType(layout.CountZ, layout.Tiles);
 
-			Enumerable.Range(0, r.ReadInt32()).ForEach(
+			#region GoBackHistory
+			var GoBackHistoryCount = r.ReadInt32();
+			Enumerable.Range(0, GoBackHistoryCount).ForEach(
 				k =>
 				{
 					var Left = r.ReadInt16();
@@ -123,9 +125,21 @@ namespace Mahjong.Code
 					);
 				}
 			);
+			if (GoBackHistoryCount < 0)
+			{
+				if (this.GoBackAvailable != null)
+					this.GoBackAvailable();
+			}
+			else
+			{
+				if (this.GoBackUnavailable != null)
+					this.GoBackUnavailable();
+			}
+			#endregion
 
-
-			Enumerable.Range(0, r.ReadInt32()).ForEach(
+			#region GoForwardHistory
+			var GoForwardHistoryCount = r.ReadInt32();
+			Enumerable.Range(0, GoForwardHistoryCount).ForEach(
 					k =>
 					{
 						var Left = r.ReadInt16();
@@ -145,10 +159,22 @@ namespace Mahjong.Code
 						);
 					}
 				);
+			if (GoForwardHistoryCount < 0)
+			{
+				if (this.GoForwardAvailable != null)
+					this.GoForwardAvailable();
+			}
+			else
+			{
+				if (this.GoForwardUnavailable != null)
+					this.GoForwardUnavailable();
+			}
+			#endregion
+
 
 			this._Layout = layout;
 
-		
+
 
 			if (LayoutChanging != null)
 				LayoutChanging();
