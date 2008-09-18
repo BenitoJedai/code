@@ -103,7 +103,7 @@ namespace Mahjong.Code
 			);
 
 
-			
+
 			MyLayout.Container.AttachTo(this);
 
 			var DiagnosticsBackground = new Rectangle
@@ -147,7 +147,7 @@ namespace Mahjong.Code
 				Height = DefaultScaledHeight
 			}.AttachTo(this);
 
-	
+
 
 			this.MouseMove +=
 				(sender, e) =>
@@ -155,7 +155,7 @@ namespace Mahjong.Code
 					var p = e.GetPosition(this);
 
 					if (Sync_MouseMove != null)
-						Sync_MouseMove(Convert.ToInt32( p.X),Convert.ToInt32( p.Y));
+						Sync_MouseMove(Convert.ToInt32(p.X), Convert.ToInt32(p.Y));
 				};
 
 			MyLayout.Overlay.AttachTo(this);
@@ -175,7 +175,7 @@ namespace Mahjong.Code
 			var CommentMargin = 8;
 			var CommentForUnfocusing = new TextBox
 			{
-				Width = DefaultScaledWidth - CommentMargin * 2 -64,
+				Width = DefaultScaledWidth - CommentMargin * 2 - 64,
 				Height = 24,
 				Background = Brushes.Transparent,
 				Foreground = Brushes.White,
@@ -306,7 +306,7 @@ namespace Mahjong.Code
 												Console.WriteLine("pairable: " + SelectedTile.Rank.ToString());
 
 												MyLayout.Remove(SelectedTile, tt);
-											
+
 
 												SelectedTile = null;
 												Sounds.treasure();
@@ -346,57 +346,57 @@ namespace Mahjong.Code
 
 				};
 
-			#region Savepoints
-			var Savepoints = new Stack<MemoryStream>();
+			//#region Savepoints
+			//var Savepoints = new Stack<MemoryStream>();
 
-			var ButtonSave = new BlueButton
-			{
-				Width = 120,
-				Height = 24,
-				Text = "Save",
-			};
+			//var ButtonSave = new BlueButton
+			//{
+			//    Width = 120,
+			//    Height = 24,
+			//    Text = "Save",
+			//};
 
-			ButtonSave.Click +=
-				delegate
-				{
-					MyLayout.LayoutProgress.Continue(
-						delegate
-						{
-							var m = new MemoryStream();
+			//ButtonSave.Click +=
+			//    delegate
+			//    {
+			//        MyLayout.LayoutProgress.Continue(
+			//            delegate
+			//            {
+			//                var m = new MemoryStream();
 
-							MyLayout.WriteTo(m);
+			//                MyLayout.WriteTo(m);
 
-							// rewind
-							m.Position = 0;
+			//                // rewind
+			//                m.Position = 0;
 
 
-							Savepoints.Push(m);
+			//                Savepoints.Push(m);
 
-							Console.WriteLine("save: " + m.Length);
-						}
-					);
-				};
+			//                Console.WriteLine("save: " + m.Length);
+			//            }
+			//        );
+			//    };
 
-			ButtonSave.Container.MoveTo(8, DefaultScaledHeight - 64).AttachTo(this);
+			//ButtonSave.Container.MoveTo(8, DefaultScaledHeight - 64).AttachTo(this);
 
-			var ButtonLoad = new BlueButton
-			{
-				Width = 120,
-				Height = 24,
-				Text = "Load",
-			};
+			//var ButtonLoad = new BlueButton
+			//{
+			//    Width = 120,
+			//    Height = 24,
+			//    Text = "Load",
+			//};
 
-			ButtonLoad.Click +=
-				delegate
-				{
-					if (Savepoints.Count > 0)
-						MyLayout.ReadFrom(Savepoints.Pop());
+			//ButtonLoad.Click +=
+			//    delegate
+			//    {
+			//        if (Savepoints.Count > 0)
+			//            MyLayout.ReadFrom(Savepoints.Pop());
 
-					Console.WriteLine("Load");
-				};
+			//        Console.WriteLine("Load");
+			//    };
 
-			ButtonLoad.Container.MoveTo(8, DefaultScaledHeight - 32).AttachTo(this);
-			#endregion
+			//ButtonLoad.Container.MoveTo(8, DefaultScaledHeight - 32).AttachTo(this);
+			//#endregion
 
 
 			#region back/forward buttons
@@ -428,7 +428,7 @@ namespace Mahjong.Code
 				};
 
 			WhatToDoWhenFirstLayoutIsLoaded();
-	
+
 
 			Layouts.AllLoaded.Continue(
 				ByComment =>
@@ -440,7 +440,10 @@ namespace Mahjong.Code
 					}
 					else
 					{
-						Comment.Text = "There are " + ByComment.Count + " layouts";
+						if (MyLayout.LayoutProgress.CanSignal)
+							Comment.Text = MyLayout.Layout.Comment;
+						else
+							Comment.Text = "There are " + ByComment.Count + " layouts";
 					}
 
 					CommentSuggestions.Suggestions = ByComment.Keys.ToArray();
