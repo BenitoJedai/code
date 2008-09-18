@@ -43,6 +43,11 @@ namespace Mahjong.NetworkCode.Shared
             LockGame,
             UnlockGame,
             UserSayLine,
+            UserLockEnter,
+            UserLockValidate,
+            UserLockExit,
+            RemovePair,
+            UserRemovePair,
         }
         #endregion
 
@@ -82,6 +87,11 @@ namespace Mahjong.NetworkCode.Shared
             event Action<RemoteEvents.LockGameArguments> LockGame;
             event Action<RemoteEvents.UnlockGameArguments> UnlockGame;
             event Action<RemoteEvents.UserSayLineArguments> UserSayLine;
+            event Action<RemoteEvents.UserLockEnterArguments> UserLockEnter;
+            event Action<RemoteEvents.UserLockValidateArguments> UserLockValidate;
+            event Action<RemoteEvents.UserLockExitArguments> UserLockExit;
+            event Action<RemoteEvents.RemovePairArguments> RemovePair;
+            event Action<RemoteEvents.UserRemovePairArguments> UserRemovePair;
         }
         #endregion
 
@@ -201,6 +211,26 @@ namespace Mahjong.NetworkCode.Shared
             {
                 Send(new SendArguments { i = Messages.UserSayLine, args = new object[] { user, text } });
             }
+            public void UserLockEnter(int user, int id)
+            {
+                Send(new SendArguments { i = Messages.UserLockEnter, args = new object[] { user, id } });
+            }
+            public void UserLockValidate(int user, int id)
+            {
+                Send(new SendArguments { i = Messages.UserLockValidate, args = new object[] { user, id } });
+            }
+            public void UserLockExit(int user, int id)
+            {
+                Send(new SendArguments { i = Messages.UserLockExit, args = new object[] { user, id } });
+            }
+            public void RemovePair(int a, int b)
+            {
+                Send(new SendArguments { i = Messages.RemovePair, args = new object[] { a, b } });
+            }
+            public void UserRemovePair(int user, int a, int b)
+            {
+                Send(new SendArguments { i = Messages.UserRemovePair, args = new object[] { user, a, b } });
+            }
         }
         #endregion
 
@@ -260,6 +290,7 @@ namespace Mahjong.NetworkCode.Shared
                     value.LevelHasEnded += this.UserLevelHasEnded;
                     value.SetFlag += this.UserSetFlag;
                     value.Reveal += this.UserReveal;
+                    value.RemovePair += this.UserRemovePair;
                 }
 
                 public void RemoveDelegates(IEvents value)
@@ -269,6 +300,7 @@ namespace Mahjong.NetworkCode.Shared
                     value.LevelHasEnded -= this.UserLevelHasEnded;
                     value.SetFlag -= this.UserSetFlag;
                     value.Reveal -= this.UserReveal;
+                    value.RemovePair -= this.UserRemovePair;
                 }
                 #endregion
 
@@ -292,6 +324,10 @@ namespace Mahjong.NetworkCode.Shared
                 public void UserReveal(RevealArguments e)
                 {
                     Target.UserReveal(this.user, e.button);
+                }
+                public void UserRemovePair(RemovePairArguments e)
+                {
+                    Target.UserRemovePair(this.user, e.a, e.b);
                 }
                 #endregion
             }
@@ -375,6 +411,38 @@ namespace Mahjong.NetworkCode.Shared
                 {
                     this.Target.UserSayLine(this.user, e.text);
                 }
+                public void UserLockEnter(int id)
+                {
+                    this.Target.UserLockEnter(this.user, id);
+                }
+                public void UserLockEnter(UserLockEnterArguments e)
+                {
+                    this.Target.UserLockEnter(this.user, e.id);
+                }
+                public void UserLockValidate(int id)
+                {
+                    this.Target.UserLockValidate(this.user, id);
+                }
+                public void UserLockValidate(UserLockValidateArguments e)
+                {
+                    this.Target.UserLockValidate(this.user, e.id);
+                }
+                public void UserLockExit(int id)
+                {
+                    this.Target.UserLockExit(this.user, id);
+                }
+                public void UserLockExit(UserLockExitArguments e)
+                {
+                    this.Target.UserLockExit(this.user, e.id);
+                }
+                public void UserRemovePair(int a, int b)
+                {
+                    this.Target.UserRemovePair(this.user, a, b);
+                }
+                public void UserRemovePair(UserRemovePairArguments e)
+                {
+                    this.Target.UserRemovePair(this.user, e.a, e.b);
+                }
                 #endregion
             }
             #endregion
@@ -397,6 +465,10 @@ namespace Mahjong.NetworkCode.Shared
                     value.UserSetFlag += this.UserSetFlag;
                     value.UserReveal += this.UserReveal;
                     value.UserSayLine += this.UserSayLine;
+                    value.UserLockEnter += this.UserLockEnter;
+                    value.UserLockValidate += this.UserLockValidate;
+                    value.UserLockExit += this.UserLockExit;
+                    value.UserRemovePair += this.UserRemovePair;
                 }
 
                 public void RemoveDelegates(IEvents value)
@@ -410,6 +482,10 @@ namespace Mahjong.NetworkCode.Shared
                     value.UserSetFlag -= this.UserSetFlag;
                     value.UserReveal -= this.UserReveal;
                     value.UserSayLine -= this.UserSayLine;
+                    value.UserLockEnter -= this.UserLockEnter;
+                    value.UserLockValidate -= this.UserLockValidate;
+                    value.UserLockExit -= this.UserLockExit;
+                    value.UserRemovePair -= this.UserRemovePair;
                 }
                 #endregion
 
@@ -467,6 +543,30 @@ namespace Mahjong.NetworkCode.Shared
                     var _target = this.Target(e.user);
                     if (_target == null) return;
                     _target.UserSayLine(this.user, e.text);
+                }
+                public void UserLockEnter(UserLockEnterArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserLockEnter(this.user, e.id);
+                }
+                public void UserLockValidate(UserLockValidateArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserLockValidate(this.user, e.id);
+                }
+                public void UserLockExit(UserLockExitArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserLockExit(this.user, e.id);
+                }
+                public void UserRemovePair(UserRemovePairArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserRemovePair(this.user, e.a, e.b);
                 }
                 #endregion
             }
@@ -809,6 +909,78 @@ namespace Mahjong.NetworkCode.Shared
             }
             #endregion
             public event Action<UserSayLineArguments> UserSayLine;
+            #region UserLockEnterArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserLockEnterArguments : WithUserArguments
+            {
+                public int id;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", id = ").Append(this.id).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserLockEnterArguments> UserLockEnter;
+            #region UserLockValidateArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserLockValidateArguments : WithUserArguments
+            {
+                public int id;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", id = ").Append(this.id).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserLockValidateArguments> UserLockValidate;
+            #region UserLockExitArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserLockExitArguments : WithUserArguments
+            {
+                public int id;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", id = ").Append(this.id).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserLockExitArguments> UserLockExit;
+            #region RemovePairArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class RemovePairArguments
+            {
+                public int a;
+                public int b;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ a = ").Append(this.a).Append(", b = ").Append(this.b).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<RemovePairArguments> RemovePair;
+            #region UserRemovePairArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserRemovePairArguments : WithUserArguments
+            {
+                public int a;
+                public int b;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", a = ").Append(this.a).Append(", b = ").Append(this.b).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserRemovePairArguments> UserRemovePair;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -837,6 +1009,11 @@ namespace Mahjong.NetworkCode.Shared
                             { Messages.LockGame, e => { LockGame(new LockGameArguments {  }); } },
                             { Messages.UnlockGame, e => { UnlockGame(new UnlockGameArguments {  }); } },
                             { Messages.UserSayLine, e => { UserSayLine(new UserSayLineArguments { user = e.GetInt32(0), text = e.GetString(1) }); } },
+                            { Messages.UserLockEnter, e => { UserLockEnter(new UserLockEnterArguments { user = e.GetInt32(0), id = e.GetInt32(1) }); } },
+                            { Messages.UserLockValidate, e => { UserLockValidate(new UserLockValidateArguments { user = e.GetInt32(0), id = e.GetInt32(1) }); } },
+                            { Messages.UserLockExit, e => { UserLockExit(new UserLockExitArguments { user = e.GetInt32(0), id = e.GetInt32(1) }); } },
+                            { Messages.RemovePair, e => { RemovePair(new RemovePairArguments { a = e.GetInt32(0), b = e.GetInt32(1) }); } },
+                            { Messages.UserRemovePair, e => { UserRemovePair(new UserRemovePairArguments { user = e.GetInt32(0), a = e.GetInt32(1), b = e.GetInt32(2) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -865,6 +1042,11 @@ namespace Mahjong.NetworkCode.Shared
                             { Messages.LockGame, e => LockGame },
                             { Messages.UnlockGame, e => UnlockGame },
                             { Messages.UserSayLine, e => UserSayLine },
+                            { Messages.UserLockEnter, e => UserLockEnter },
+                            { Messages.UserLockValidate, e => UserLockValidate },
+                            { Messages.UserLockExit, e => UserLockExit },
+                            { Messages.RemovePair, e => RemovePair },
+                            { Messages.UserRemovePair, e => UserRemovePair },
                         }
                 ;
             }
@@ -1120,9 +1302,49 @@ namespace Mahjong.NetworkCode.Shared
                 this.VirtualLatency(() => this.UserSayLine(v));
             }
 
+            public event Action<RemoteEvents.UserLockEnterArguments> UserLockEnter;
+            void IMessages.UserLockEnter(int user, int id)
+            {
+                if(UserLockEnter == null) return;
+                var v = new RemoteEvents.UserLockEnterArguments { user = user, id = id };
+                this.VirtualLatency(() => this.UserLockEnter(v));
+            }
+
+            public event Action<RemoteEvents.UserLockValidateArguments> UserLockValidate;
+            void IMessages.UserLockValidate(int user, int id)
+            {
+                if(UserLockValidate == null) return;
+                var v = new RemoteEvents.UserLockValidateArguments { user = user, id = id };
+                this.VirtualLatency(() => this.UserLockValidate(v));
+            }
+
+            public event Action<RemoteEvents.UserLockExitArguments> UserLockExit;
+            void IMessages.UserLockExit(int user, int id)
+            {
+                if(UserLockExit == null) return;
+                var v = new RemoteEvents.UserLockExitArguments { user = user, id = id };
+                this.VirtualLatency(() => this.UserLockExit(v));
+            }
+
+            public event Action<RemoteEvents.RemovePairArguments> RemovePair;
+            void IMessages.RemovePair(int a, int b)
+            {
+                if(RemovePair == null) return;
+                var v = new RemoteEvents.RemovePairArguments { a = a, b = b };
+                this.VirtualLatency(() => this.RemovePair(v));
+            }
+
+            public event Action<RemoteEvents.UserRemovePairArguments> UserRemovePair;
+            void IMessages.UserRemovePair(int user, int a, int b)
+            {
+                if(UserRemovePair == null) return;
+                var v = new RemoteEvents.UserRemovePairArguments { user = user, a = a, b = b };
+                this.VirtualLatency(() => this.UserRemovePair(v));
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 18.09.2008 0:23:49
+// 18.09.2008 15:01:47
