@@ -74,6 +74,13 @@ namespace Mahjong.NetworkCode.Shared
 
 			void UserSayLine(int user, string text);
 
+			void UserLockEnter(int user, int id);
+			void UserLockValidate(int user, int id);
+
+			void UserLockExit(int user, int id);
+
+			void RemovePair(int a, int b);
+			void UserRemovePair(int user, int a, int b);
 		}
 
 

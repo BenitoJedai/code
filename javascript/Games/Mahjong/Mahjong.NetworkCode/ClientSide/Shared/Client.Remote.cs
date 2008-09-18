@@ -16,6 +16,16 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 	{
 		public readonly Future<Communication.RemoteEvents.ServerPlayerHelloArguments> Identity = new Future<Communication.RemoteEvents.ServerPlayerHelloArguments>();
 
+		/// <summary>
+		/// When null or signalled then we do not have a lock. One can use .Continue
+		/// to run after lock is released or does not exist at all.
+		/// </summary>
+		public Future UserLockEnter_ByLocal;
+
+
+		public Future UserLockEnter_ByRemote;
+
+		public CoPlayerGroup CoPlayers;
 
 		public void InitializeEvents()
 		{
@@ -23,11 +33,11 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 			// this should be called once!
 			#region  CoPlayers
-			var CoPlayers = new CoPlayerGroup(
+			this.CoPlayers = new CoPlayerGroup(
 				user =>
 				{
-					var n = new CoPlayer 
-					{ 
+					var n = new CoPlayer
+					{
 						user = user,
 						ToPlayer = new Communication.RemoteEvents.WithUserArgumentsRouter_SinglecastView
 						{
@@ -37,7 +47,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					};
 
 					n.Cursor = new ArrowCursorControl();
-					n.Cursor.Blue.Opacity  = 0.9;
+					n.Cursor.Blue.Opacity = 0.9;
 					n.Cursor.Container.AttachTo(this.Map.CoPlayerMouseContainer);
 
 					#region MouseMove
@@ -73,7 +83,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 				e =>
 				{
 					//this.Map.DiagnosticsWriteLine("read: " + e.ToString());
- 
+
 					CoPlayers[e.user].MouseMove(e.x, e.y);
 				};
 
@@ -88,6 +98,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			var UserPlayerAdvertise = new Future<CoPlayer>();
 			var UserMapResponse = default(Future<Communication.RemoteEvents.UserMapResponseArguments>);
 
+			#region ServerPlayerHello
 			this.Events.ServerPlayerHello +=
 				e =>
 				{
@@ -109,14 +120,14 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					}
 					else
 					{
-						DiagnosticsWriteLine("we need to sync the map over network");
+						DiagnosticsWriteLine("Somebody must say they are in the room so we could ask the map");
 
 						UserPlayerAdvertise.Continue(
 							(CoPlayer FirstFoundCoPlayerToAskAMapFrom) =>
 							{
 								UserPlayerAdvertise = null;
 
-								DiagnosticsWriteLine("asked for map from: " + FirstFoundCoPlayerToAskAMapFrom.Name);
+								DiagnosticsWriteLine("Asked for map from: " + FirstFoundCoPlayerToAskAMapFrom.Name);
 
 								UserMapResponse = new Future<Communication.RemoteEvents.UserMapResponseArguments>();
 
@@ -127,13 +138,20 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 								UserMapResponse.Continue(
 									LayoutToBeLoaded =>
 									{
-										UserMapResponse = null;
+										DiagnosticsWriteLine("We got the map now we will soon load it: " + FirstFoundCoPlayerToAskAMapFrom.Name);
 
-										var MemoryStream_UInt8 = LayoutToBeLoaded.bytes.Select(i => (byte)i).ToArray();
-										var m = new MemoryStream(MemoryStream_UInt8);
+										// this delay could be 0 in release mode
+										1500.AtDelay(
+											delegate
+											{
+												UserMapResponse = null;
 
-										this.Map.MyLayout.ReadFrom(m);
+												var MemoryStream_UInt8 = LayoutToBeLoaded.bytes.Select(i => (byte)i).ToArray();
+												var m = new MemoryStream(MemoryStream_UInt8);
 
+												this.Map.MyLayout.ReadFrom(m);
+											}
+										);
 
 									}
 								);
@@ -141,15 +159,16 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 						);
 					}
 				};
+			#endregion
 
-			
+			#region ServerPlayerJoined
 			this.Events.ServerPlayerJoined +=
 				e =>
 				{
 					// we got the name of the user that is currently joining the game
 					CoPlayers[e.user].Name = e.name;
 
-				
+
 
 					this.Map.DiagnosticsWriteLine("ServerPlayerJoined: " + e.name);
 
@@ -157,7 +176,9 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					CoPlayers[e.user].ToPlayer.UserPlayerAdvertise(Identity.Value.name);
 
 				};
+			#endregion
 
+			#region UserPlayerAdvertise
 			this.Events.UserPlayerAdvertise +=
 				e =>
 				{
@@ -171,8 +192,9 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 						UserPlayerAdvertise.Value = CoPlayers[e.user];
 
 				};
+			#endregion
 
-
+			#region UserMapRequest
 			this.Events.UserMapRequest +=
 				e =>
 				{
@@ -198,16 +220,98 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 						}
 					);
 				};
+			#endregion
+
 
 			this.Events.UserMapResponse +=
 				e =>
 				{
 					var c = CoPlayers[e.user];
 
-					this.Map.DiagnosticsWriteLine("UserMapResponse: " + c.Name);
+					DiagnosticsWriteLine("UserMapResponse: " + c.Name);
 
 					if (UserMapResponse != null)
 						UserMapResponse.Value = e;
+				};
+
+			this.Events.UserLockEnter +=
+				e =>
+				{
+					var c = CoPlayers[e.user];
+
+					DiagnosticsWriteLine("UserLockEnter: " + c.Name);
+
+					// are we trying to get a lock by ourselves?
+					this.UserLockEnter_ByLocal.Continue(
+						delegate
+						{
+							DiagnosticsWriteLine("UserLockEnter (we were not trying to lock): " + c.Name);
+
+							this.UserLockEnter_ByRemote.Continue(
+								delegate
+								{
+									DiagnosticsWriteLine("UserLockEnter (we were not locked by remote): " + c.Name);
+
+									this.UserLockEnter_ByRemote = new Future();
+
+									this.Map.MyLayout.LayoutProgress.Continue(
+										delegate
+										{
+											DiagnosticsWriteLine("UserLockEnter (we have loaded the map): " + c.Name);
+
+											// we cannot give lock to the user while we are still loading the map
+											c.ToPlayer.UserLockValidate(e.id);
+										}
+									);
+								}
+							);
+						}
+					);
+				};
+
+			this.Events.UserLockExit +=
+				e =>
+				{
+					var c = CoPlayers[e.user];
+
+					DiagnosticsWriteLine("UserLockExit: " + c.Name);
+
+					var s = this.UserLockEnter_ByRemote;
+					this.UserLockEnter_ByRemote = null;
+					s.Signal();
+				};
+
+			#region UserLockValidate
+			this.Events.UserLockValidate +=
+				e =>
+				{
+					var c = CoPlayers[e.user];
+
+					DiagnosticsWriteLine("UserLockValidate: " + c.Name);
+
+					if (c.LockValidate != null)
+						c.LockValidate(e.id);
+				};
+			#endregion
+
+			this.Events.UserRemovePair +=
+				e =>
+				{
+					var c = CoPlayers[e.user];
+
+					if (this.UserLockEnter_ByRemote == null)
+						throw new Exception("UserRemovePair needs a lock");
+
+					DiagnosticsWriteLine("UserRemovePair: " + c.Name);
+
+					// we should probably check here if that user has "focus"
+
+					this.Map.MyLayout.Remove(
+						this.Map.MyLayout.Tiles[e.a].Tile.Value,
+						this.Map.MyLayout.Tiles[e.b].Tile.Value
+						);
+
+
 				};
 		}
 	}

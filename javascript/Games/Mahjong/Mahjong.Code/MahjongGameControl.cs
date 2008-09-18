@@ -303,9 +303,7 @@ namespace Mahjong.Code
 										{
 											if (tt.IsPairable(SelectedTile))
 											{
-												Console.WriteLine("pairable: " + SelectedTile.Rank.ToString());
-
-												MyLayout.Remove(SelectedTile, tt);
+												TryToRemovePair(SelectedTile, tt);
 
 
 												SelectedTile = null;
@@ -316,9 +314,7 @@ namespace Mahjong.Code
 												SelectedTile = tt;
 												Sounds.click();
 											}
-
 										}
-
 									};
 
 							}
@@ -470,6 +466,47 @@ namespace Mahjong.Code
 				{
 					Console.WriteLine("congrats!");
 				};
+		}
+
+		public event Action<Action> Sync_Synchronized;
+
+		void Synchronized(Action h)
+		{
+			// using a virtual method will allow us to provide a default
+			// implementation for singleplayer mode
+
+			if (Sync_Synchronized == null)
+			{
+				h();
+
+				return;
+			}
+
+			Sync_Synchronized(h);
+		}
+
+		public event Action<int, int> Sync_RemovePair;
+
+		private void TryToRemovePair(VisibleTile SelectedTile, VisibleTile tt)
+		{
+			// we need to lock the game for this action
+			// create a new lock
+			// aquire it
+
+			Synchronized(
+				delegate
+				{
+					// does the tile still exist?
+					// maybe a coplayer stole it?
+
+					DiagnosticsWriteLine("pairable: " + SelectedTile.Rank.ToString());
+
+					MyLayout.Remove(SelectedTile, tt);
+
+					if (Sync_RemovePair != null)
+						Sync_RemovePair(SelectedTile.Entry.index, tt.Entry.index);
+				}
+			);
 		}
 
 		public virtual void WhatToDoWhenFirstLayoutIsLoaded()

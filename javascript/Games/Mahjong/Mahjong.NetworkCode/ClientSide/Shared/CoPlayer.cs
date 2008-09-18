@@ -21,5 +21,8 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 		public string Name;
 
 		public Communication.RemoteEvents.WithUserArgumentsRouter_SinglecastView ToPlayer;
+
+
+		public Action<int> LockValidate;
 	}
 }

@@ -8,7 +8,7 @@ using Mahjong.NetworkCode.Shared;
 namespace Mahjong.NetworkCode.ClientSide.Shared
 {
 	[Script]
-	public class CoPlayerGroup
+	public class CoPlayerGroup 
 	{
 		readonly Func<int, CoPlayer> Constructor;
 
@@ -17,7 +17,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			this.Constructor = Constructor;
 		}
 
-		readonly Dictionary<int, CoPlayer> List = new Dictionary<int, CoPlayer>();
+		public readonly Dictionary<int, CoPlayer> List = new Dictionary<int, CoPlayer>();
 
 		public CoPlayer this[int user]
 		{
@@ -40,5 +40,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 		{
 			this.List.Remove(user);
 		}
+
+	
 	}
 }
