@@ -71,12 +71,11 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 						{
 							this.Map.DiagnosticsWriteLine("Sync_Synchronized (no remote lock)");
 
-							this.UserLockEnter_ByLocal.Continue(
+							this.UserLockEnter_ByLocal.Acquire(
 								delegate
 								{
 									this.Map.DiagnosticsWriteLine("Sync_Synchronized (no local lock)");
 
-									this.UserLockEnter_ByLocal = new Future();
 
 
 									var a = this.CoPlayers.List.ToArray(k => k.Value);
@@ -96,10 +95,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 												{
 													this.Map.DiagnosticsWriteLine("Sync_Synchronized Releasing Locks");
 
-
-													var s = this.UserLockEnter_ByLocal;
-													this.UserLockEnter_ByLocal = null;
-													s.Signal();
+													this.UserLockEnter_ByLocal.Release();
 
 													// release all locks
 													foreach (var vv in a)

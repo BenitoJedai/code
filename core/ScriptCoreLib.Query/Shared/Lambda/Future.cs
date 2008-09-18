@@ -6,11 +6,20 @@ using System.Text;
 namespace ScriptCoreLib.Shared.Lambda
 {
 	[Script]
-	public class Future
+	public interface IFutureContinue
+	{
+		void InternalContinue(Action e);
+	}
+
+	[Script]
+	public class Future : IFutureContinue
 	{
 		internal List<Action> _Continue = new List<Action>();
 
-
+		public void InternalContinue(Action e)
+		{
+			this.Continue(e);
+		}
 
 		public bool CanSignal
 		{
@@ -262,4 +271,84 @@ namespace ScriptCoreLib.Shared.Lambda
 			return r.Continue;
 		}
 	}
+
+	[Script]
+	public class FutureLock : IFutureContinue
+	{
+		Future Lock;
+
+		public void InternalContinue(Action e)
+		{
+			Continue(e);
+		}
+
+		public void Continue(Action e)
+		{
+			Lock.Continue(e);
+		}
+
+		public bool IsAcquired;
+
+		public void Acquire(Action e)
+		{
+			if (Pending != null)
+				Pending();
+
+			Continue(
+				delegate
+				{
+					Lock = new Future();
+
+					IsAcquired = true;
+					if (Acquired != null)
+						Acquired();
+
+					e();
+				}
+			);
+		}
+
+		/// <summary>
+		/// Returns a handler that will acquire a lock after locks named in the parameters
+		/// </summary>
+		/// <param name="e"></param>
+		/// <returns></returns>
+		public Action<Action> this[params IFutureContinue[] e]
+		{
+			get
+			{
+				return 
+					done =>
+					{
+						e.ForEach(
+							(v, next) =>
+							{
+								v.InternalContinue(next);
+							}
+						)(() => this.Acquire(done));
+					};
+			}
+		}
+
+		public void Release()
+		{
+			var x = Lock;
+
+			Lock = null;
+
+			IsAcquired = false;
+			if (Released != null)
+				Released();
+
+			if (x == null)
+				return;
+
+			x.Signal();
+		}
+
+		public event Action Released;
+		public event Action Acquired;
+		public event Action Pending;
+	}
+
 }
