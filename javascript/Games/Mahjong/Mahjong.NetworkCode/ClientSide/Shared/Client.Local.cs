@@ -8,6 +8,8 @@ using Mahjong.NetworkCode.Shared;
 using ScriptCoreLib;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using ScriptCoreLib.Shared.Lambda;
+using System.Windows.Media;
+using System.Windows;
 
 namespace Mahjong.NetworkCode.ClientSide.Shared
 {
@@ -49,6 +51,67 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			this.Map.Sync_MouseMove += MouseMove;
 			#endregion
 
+			#region DisplayLockLocal
+			var DisplayLockLocal = new TextBox
+			{
+				Text = "local lock",
+				Width = 200,
+				Height = 20,
+				Background = Brushes.Transparent,
+				BorderThickness = new Thickness(0),
+				Foreground = Brushes.Green
+			}.AttachTo(this.Map.CoPlayerMouseContainer).MoveTo(8, 64);
+
+			this.UserLock_ByLocal.Acquired +=
+				delegate
+				{
+					DisplayLockLocal.Foreground = Brushes.Red;
+				};
+
+			this.UserLock_ByLocal.Pending +=
+				delegate
+				{
+					DisplayLockLocal.Foreground = Brushes.Yellow;
+				};
+
+			this.UserLock_ByLocal.Released +=
+				delegate
+				{
+					DisplayLockLocal.Foreground = Brushes.Green;
+				};
+			#endregion
+
+
+			#region DisplayLockRemote
+			var DisplayLockRemote = new TextBox
+			{
+				Text = "Remote lock",
+				Width = 200,
+				Height = 20,
+				Background = Brushes.Transparent,
+				BorderThickness = new Thickness(0),
+				Foreground = Brushes.Green
+			}.AttachTo(this.Map.CoPlayerMouseContainer).MoveTo(8, 64 + 20);
+
+			this.UserLock_ByRemote.Acquired +=
+				delegate
+				{
+					DisplayLockRemote.Foreground = Brushes.Red;
+				};
+
+			this.UserLock_ByRemote.Pending +=
+				delegate
+				{
+					DisplayLockRemote.Foreground = Brushes.Yellow;
+				};
+
+			this.UserLock_ByRemote.Released +=
+				delegate
+				{
+					DisplayLockRemote.Foreground = Brushes.Green;
+				};
+			#endregion
+
 			this.Map.Sync_RemovePair +=
 				(a, b) =>
 				{
@@ -66,7 +129,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 					this.Map.DiagnosticsWriteLine("Sync_Synchronized");
 
-					this.UserLockEnter_ByLocal[this.UserLockEnter_ByRemote](
+					this.UserLock_ByLocal[this.UserLock_ByRemote](
 						delegate
 						{
 							this.Map.DiagnosticsWriteLine("Sync_Synchronized (no local lock)");
@@ -90,7 +153,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 										{
 											this.Map.DiagnosticsWriteLine("Sync_Synchronized Releasing Locks");
 
-											this.UserLockEnter_ByLocal.Release();
+											this.UserLock_ByLocal.Release();
 
 											// release all locks
 											foreach (var vv in a)

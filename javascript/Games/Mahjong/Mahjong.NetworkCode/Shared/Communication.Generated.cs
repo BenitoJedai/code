@@ -47,6 +47,10 @@ namespace Mahjong.NetworkCode.Shared
             UserLockExit,
             RemovePair,
             UserRemovePair,
+            GoBack,
+            UserGoBack,
+            GoForward,
+            UserGoForward,
         }
         #endregion
 
@@ -90,6 +94,10 @@ namespace Mahjong.NetworkCode.Shared
             event Action<RemoteEvents.UserLockExitArguments> UserLockExit;
             event Action<RemoteEvents.RemovePairArguments> RemovePair;
             event Action<RemoteEvents.UserRemovePairArguments> UserRemovePair;
+            event Action<RemoteEvents.GoBackArguments> GoBack;
+            event Action<RemoteEvents.UserGoBackArguments> UserGoBack;
+            event Action<RemoteEvents.GoForwardArguments> GoForward;
+            event Action<RemoteEvents.UserGoForwardArguments> UserGoForward;
         }
         #endregion
 
@@ -228,6 +236,22 @@ namespace Mahjong.NetworkCode.Shared
             {
                 Send(new SendArguments { i = Messages.UserRemovePair, args = new object[] { user, a, b } });
             }
+            public void GoBack()
+            {
+                Send(new SendArguments { i = Messages.GoBack, args = new object[] {  } });
+            }
+            public void UserGoBack(int user)
+            {
+                Send(new SendArguments { i = Messages.UserGoBack, args = new object[] { user } });
+            }
+            public void GoForward()
+            {
+                Send(new SendArguments { i = Messages.GoForward, args = new object[] {  } });
+            }
+            public void UserGoForward(int user)
+            {
+                Send(new SendArguments { i = Messages.UserGoForward, args = new object[] { user } });
+            }
         }
         #endregion
 
@@ -288,6 +312,8 @@ namespace Mahjong.NetworkCode.Shared
                     value.SetFlag += this.UserSetFlag;
                     value.Reveal += this.UserReveal;
                     value.RemovePair += this.UserRemovePair;
+                    value.GoBack += this.UserGoBack;
+                    value.GoForward += this.UserGoForward;
                 }
 
                 public void RemoveDelegates(IEvents value)
@@ -298,6 +324,8 @@ namespace Mahjong.NetworkCode.Shared
                     value.SetFlag -= this.UserSetFlag;
                     value.Reveal -= this.UserReveal;
                     value.RemovePair -= this.UserRemovePair;
+                    value.GoBack -= this.UserGoBack;
+                    value.GoForward -= this.UserGoForward;
                 }
                 #endregion
 
@@ -325,6 +353,14 @@ namespace Mahjong.NetworkCode.Shared
                 public void UserRemovePair(RemovePairArguments e)
                 {
                     Target.UserRemovePair(this.user, e.a, e.b);
+                }
+                public void UserGoBack(GoBackArguments e)
+                {
+                    Target.UserGoBack(this.user);
+                }
+                public void UserGoForward(GoForwardArguments e)
+                {
+                    Target.UserGoForward(this.user);
                 }
                 #endregion
             }
@@ -440,6 +476,22 @@ namespace Mahjong.NetworkCode.Shared
                 {
                     this.Target.UserRemovePair(this.user, e.a, e.b);
                 }
+                public void UserGoBack()
+                {
+                    this.Target.UserGoBack(this.user);
+                }
+                public void UserGoBack(UserGoBackArguments e)
+                {
+                    this.Target.UserGoBack(this.user);
+                }
+                public void UserGoForward()
+                {
+                    this.Target.UserGoForward(this.user);
+                }
+                public void UserGoForward(UserGoForwardArguments e)
+                {
+                    this.Target.UserGoForward(this.user);
+                }
                 #endregion
             }
             #endregion
@@ -466,6 +518,8 @@ namespace Mahjong.NetworkCode.Shared
                     value.UserLockValidate += this.UserLockValidate;
                     value.UserLockExit += this.UserLockExit;
                     value.UserRemovePair += this.UserRemovePair;
+                    value.UserGoBack += this.UserGoBack;
+                    value.UserGoForward += this.UserGoForward;
                 }
 
                 public void RemoveDelegates(IEvents value)
@@ -483,6 +537,8 @@ namespace Mahjong.NetworkCode.Shared
                     value.UserLockValidate -= this.UserLockValidate;
                     value.UserLockExit -= this.UserLockExit;
                     value.UserRemovePair -= this.UserRemovePair;
+                    value.UserGoBack -= this.UserGoBack;
+                    value.UserGoForward -= this.UserGoForward;
                 }
                 #endregion
 
@@ -564,6 +620,18 @@ namespace Mahjong.NetworkCode.Shared
                     var _target = this.Target(e.user);
                     if (_target == null) return;
                     _target.UserRemovePair(this.user, e.a, e.b);
+                }
+                public void UserGoBack(UserGoBackArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserGoBack(this.user);
+                }
+                public void UserGoForward(UserGoForwardArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserGoForward(this.user);
                 }
                 #endregion
             }
@@ -965,6 +1033,58 @@ namespace Mahjong.NetworkCode.Shared
             }
             #endregion
             public event Action<UserRemovePairArguments> UserRemovePair;
+            #region GoBackArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class GoBackArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().ToString();
+                }
+            }
+            #endregion
+            public event Action<GoBackArguments> GoBack;
+            #region UserGoBackArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserGoBackArguments : WithUserArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserGoBackArguments> UserGoBack;
+            #region GoForwardArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class GoForwardArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().ToString();
+                }
+            }
+            #endregion
+            public event Action<GoForwardArguments> GoForward;
+            #region UserGoForwardArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserGoForwardArguments : WithUserArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserGoForwardArguments> UserGoForward;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
@@ -997,6 +1117,10 @@ namespace Mahjong.NetworkCode.Shared
                             { Messages.UserLockExit, e => { UserLockExit(new UserLockExitArguments { user = e.GetInt32(0), id = e.GetInt32(1) }); } },
                             { Messages.RemovePair, e => { RemovePair(new RemovePairArguments { a = e.GetInt32(0), b = e.GetInt32(1) }); } },
                             { Messages.UserRemovePair, e => { UserRemovePair(new UserRemovePairArguments { user = e.GetInt32(0), a = e.GetInt32(1), b = e.GetInt32(2) }); } },
+                            { Messages.GoBack, e => { GoBack(new GoBackArguments {  }); } },
+                            { Messages.UserGoBack, e => { UserGoBack(new UserGoBackArguments { user = e.GetInt32(0) }); } },
+                            { Messages.GoForward, e => { GoForward(new GoForwardArguments {  }); } },
+                            { Messages.UserGoForward, e => { UserGoForward(new UserGoForwardArguments { user = e.GetInt32(0) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -1029,6 +1153,10 @@ namespace Mahjong.NetworkCode.Shared
                             { Messages.UserLockExit, e => UserLockExit },
                             { Messages.RemovePair, e => RemovePair },
                             { Messages.UserRemovePair, e => UserRemovePair },
+                            { Messages.GoBack, e => GoBack },
+                            { Messages.UserGoBack, e => UserGoBack },
+                            { Messages.GoForward, e => GoForward },
+                            { Messages.UserGoForward, e => UserGoForward },
                         }
                 ;
             }
@@ -1316,9 +1444,41 @@ namespace Mahjong.NetworkCode.Shared
                 this.VirtualLatency(() => this.UserRemovePair(v));
             }
 
+            public event Action<RemoteEvents.GoBackArguments> GoBack;
+            void IMessages.GoBack()
+            {
+                if(GoBack == null) return;
+                var v = new RemoteEvents.GoBackArguments {  };
+                this.VirtualLatency(() => this.GoBack(v));
+            }
+
+            public event Action<RemoteEvents.UserGoBackArguments> UserGoBack;
+            void IMessages.UserGoBack(int user)
+            {
+                if(UserGoBack == null) return;
+                var v = new RemoteEvents.UserGoBackArguments { user = user };
+                this.VirtualLatency(() => this.UserGoBack(v));
+            }
+
+            public event Action<RemoteEvents.GoForwardArguments> GoForward;
+            void IMessages.GoForward()
+            {
+                if(GoForward == null) return;
+                var v = new RemoteEvents.GoForwardArguments {  };
+                this.VirtualLatency(() => this.GoForward(v));
+            }
+
+            public event Action<RemoteEvents.UserGoForwardArguments> UserGoForward;
+            void IMessages.UserGoForward(int user)
+            {
+                if(UserGoForward == null) return;
+                var v = new RemoteEvents.UserGoForwardArguments { user = user };
+                this.VirtualLatency(() => this.UserGoForward(v));
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 19.09.2008 14:20:25
+// 19.09.2008 15:25:29
