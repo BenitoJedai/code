@@ -99,6 +99,12 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			this.Events.ServerPlayerHello +=
 				e =>
 				{
+					new Handshake().Verify(e.handshake);
+
+					DiagnosticsWriteLine("handshake ok");
+
+					Messages.ServerPlayerHello(e.user, e.name, e.others, new Handshake().Bytes);
+
 					this.Identity.Value = e;
 
 					if (e.others == 0)
@@ -145,6 +151,13 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 												var MemoryStream_UInt8 = LayoutToBeLoaded.bytes.Select(i => (byte)i).ToArray();
 												var m = new MemoryStream(MemoryStream_UInt8);
+
+												DiagnosticsWriteLine("read map " + m.Length);
+
+												if (m.Length == 0)
+													throw new Exception("no map data");
+
+												m.Position = 0;
 
 												this.Map.MyLayout.ReadFrom(m);
 											}
@@ -213,6 +226,8 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 							// we will waste 3 bytes - 0xffffff00 cuz memorystream isn't supported
 							var MemoryStream_Int32 = m.ToArray().Select(i => (int)i).ToArray();
 
+							DiagnosticsWriteLine("write map " + MemoryStream_Int32.Length);
+
 							c.ToPlayer.UserMapResponse(MemoryStream_Int32);
 						}
 					);
@@ -238,6 +253,8 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 					DiagnosticsWriteLine("UserLockEnter: " + c.Name);
 
+					//// are we trying to get a lock by ourselves?
+					// we cannot give lock to the user while we are still loading the map
 					this.UserLockEnter_ByRemote[
 						this.UserLockEnter_ByLocal,
 						this.Map.MyLayout.LayoutProgress
@@ -248,32 +265,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 						}
 					);
 
-					//// are we trying to get a lock by ourselves?
-					//this.UserLockEnter_ByLocal.Continue(
-					//    delegate
-					//    {
-					//        DiagnosticsWriteLine("UserLockEnter (we were not trying to lock): " + c.Name);
-
-					//        this.UserLockEnter_ByRemote.Acquire(
-					//            delegate
-					//            {
-					//                DiagnosticsWriteLine("UserLockEnter (we were not locked by remote): " + c.Name);
-
-					//                //this.UserLockEnter_ByRemote = new Future();
-
-					//                this.Map.MyLayout.LayoutProgress.Continue(
-					//                    delegate
-					//                    {
-					//                        DiagnosticsWriteLine("UserLockEnter (we have loaded the map): " + c.Name);
-
-					//                        // we cannot give lock to the user while we are still loading the map
-					//                        c.ToPlayer.UserLockValidate(e.id);
-					//                    }
-					//                );
-					//            }
-					//        );
-					//    }
-					//);
+					
 				};
 
 			this.Events.UserLockExit +=

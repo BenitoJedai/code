@@ -647,11 +647,26 @@ namespace jsc.Script
 					{
 						// fixme: is this operator valid on this expression?
 
-						Write("!");
-						Write("(");
-						Emit(p, expression);
+						var expression_type = expression.SingleStackInstruction.ReferencedType;
 
-						Write(")");
+						if (expression_type.IsClass)
+						{
+							Write("(");
+							Emit(p, expression);
+							WriteSpace();
+							Write("==");
+							WriteSpace();
+							WriteKeywordNull();
+							Write(")");
+						}
+						else
+						{
+							Write("!");
+							Write("(");
+							Emit(p, expression);
+
+							Write(")");
+						}
 					}
 
 				}
