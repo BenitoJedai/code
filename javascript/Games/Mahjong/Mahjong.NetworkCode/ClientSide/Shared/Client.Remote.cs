@@ -19,8 +19,8 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 
 
-		public readonly FutureLock UserLockEnter_ByLocal = new FutureLock();
-		public readonly FutureLock UserLockEnter_ByRemote = new FutureLock();
+		public readonly FutureLock UserLock_ByLocal = new FutureLock();
+		public readonly FutureLock UserLock_ByRemote = new FutureLock();
 
 		public CoPlayerGroup CoPlayers;
 
@@ -212,9 +212,9 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 					this.Map.DiagnosticsWriteLine("UserMapRequest: " + c.Name);
 
+					this.UserLock_ByLocal[this.Map.MyLayout.LayoutProgress](
 					// if we are loading we need to wait - we can test it by making the map
 					// to load real slow
-					this.Map.MyLayout.LayoutProgress.Continue(
 						delegate
 						{
 							// what if the guy leaves without waiting for response?
@@ -229,12 +229,14 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 							DiagnosticsWriteLine("write map " + MemoryStream_Int32.Length);
 
 							c.ToPlayer.UserMapResponse(MemoryStream_Int32);
+
+							this.UserLock_ByLocal.Release();
 						}
 					);
 				};
 			#endregion
 
-
+			#region Lock management
 			this.Events.UserMapResponse +=
 				e =>
 				{
@@ -251,16 +253,17 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 				{
 					var c = CoPlayers[e.user];
 
-					DiagnosticsWriteLine("UserLockEnter: " + c.Name);
+					//DiagnosticsWriteLine("UserLockEnter: " + c.Name);
 
 					//// are we trying to get a lock by ourselves?
 					// we cannot give lock to the user while we are still loading the map
-					this.UserLockEnter_ByRemote[
-						this.UserLockEnter_ByLocal,
+					this.UserLock_ByRemote[
+						this.UserLock_ByLocal,
 						this.Map.MyLayout.LayoutProgress
 					](
 						delegate
 						{
+							// what if this player leaves?
 							c.ToPlayer.UserLockValidate(e.id);
 						}
 					);
@@ -273,12 +276,12 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 				{
 					var c = CoPlayers[e.user];
 
-					DiagnosticsWriteLine("UserLockExit: " + c.Name);
+					//DiagnosticsWriteLine("UserLockExit: " + c.Name);
 
-					this.UserLockEnter_ByRemote.Release();
-					//var s = this.UserLockEnter_ByRemote;
-					//this.UserLockEnter_ByRemote = null;
-					//s.Signal();
+					if (!this.UserLock_ByRemote.IsAcquired)
+						throw new Exception("UserLockExit needs a lock");
+
+					this.UserLock_ByRemote.Release();
 				};
 
 			#region UserLockValidate
@@ -293,13 +296,14 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 						c.LockValidate(e.id);
 				};
 			#endregion
+			#endregion
 
 			this.Events.UserRemovePair +=
 				e =>
 				{
 					var c = CoPlayers[e.user];
 
-					if (!this.UserLockEnter_ByRemote.IsAcquired)
+					if (!this.UserLock_ByRemote.IsAcquired)
 						throw new Exception("UserRemovePair needs a lock");
 
 					DiagnosticsWriteLine("UserRemovePair: " + c.Name);
