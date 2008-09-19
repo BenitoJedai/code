@@ -90,11 +90,13 @@
     <Compile Include="ClientSide\Shared\NumericTransmitter.cs" />
     <Compile Include="ClientSide\Shared\SplitScreenClient.cs" />
     <Compile Include="ServerSide\NonobaGame.cs" />
+    <Compile Include="Shared\AvailibleAchievement.cs" />
     <Compile Include="Shared\Communication.cs" />
     <Compile Include="Shared\Communication.Generated.cs">
       <DependentUpon>Communication.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\Handshake.cs" />
     <Compile Include="Shared\VirtualClient.cs" />
     <Compile Include="Shared\VirtualGame.cs" />
     <Compile Include="Shared\VirtualPlayer.cs" />

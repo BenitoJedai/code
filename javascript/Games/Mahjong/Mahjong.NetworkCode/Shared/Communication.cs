@@ -25,9 +25,8 @@ namespace Mahjong.NetworkCode.Shared
 			// this will generate lots of overkill boilerplate code :)
 
 
-			void ServerPlayerHandshake(int[] version);
 
-			void ServerPlayerHello(int user, string name, int others);
+			void ServerPlayerHello(int user, string name, int others, int[] handshake);
 			void ServerPlayerJoined(int user, string name);
 			void ServerPlayerLeft(int user, string name);
 

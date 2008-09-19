@@ -11,31 +11,6 @@ namespace Mahjong.NetworkCode.Shared
 	public class VirtualGame : ServerGameBase<Communication.IEvents, Communication.IMessages, VirtualPlayer>
 	{
 
-		[Script]
-		public class AvailibleAchievement
-		{
-			public readonly string Key;
-
-			bool GivenOnce;
-
-			public void Give()
-			{
-				if (GivenOnce)
-					return;
-
-				GivenOnce = true;
-
-				_Submit(Key);
-			}
-
-			Func<string, uint> _Submit;
-
-			public AvailibleAchievement(Func<string, uint> Submit, string Key)
-			{
-				this._Submit = Submit;
-				this.Key = Key;
-			}
-		}
 
 		public override void UserJoined(VirtualPlayer player)
 		{
@@ -109,8 +84,8 @@ namespace Mahjong.NetworkCode.Shared
 
 			// let new player know how it is named, also send magic bytes to verify
 			player.ToPlayer.ServerPlayerHello(
-				player.UserId, player.Username, this.Users.Count - 1
-				//, user_with_map, new Handshake().ToArray()
+				player.UserId, player.Username, this.Users.Count - 1,
+				new Handshake().Bytes
 			);
 
 			// let other players know that there is a new player in the map
@@ -118,9 +93,28 @@ namespace Mahjong.NetworkCode.Shared
 			   player.UserId, player.Username
 			);
 
-		
+			var PreventStatic = 0;
 
+			player.FromPlayer.ServerPlayerHello +=
+				e =>
+				{
+					var StaticPrevented = PreventStatic;
+
+					new Handshake().Verify(e.handshake);
+				};
+
+			player.FromPlayer.UserMapResponse +=
+				e =>
+				{
+					var StaticPrevented = PreventStatic;
+
+					Console.WriteLine("map: " + e.bytes.Length);
+
+				};
+				
 		}
+
+	
 
 		public override void UserLeft(VirtualPlayer player)
 		{

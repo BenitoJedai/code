@@ -66,87 +66,80 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 					this.Map.DiagnosticsWriteLine("Sync_Synchronized");
 
-					this.UserLockEnter_ByRemote.Continue(
+					this.UserLockEnter_ByLocal[this.UserLockEnter_ByRemote](
 						delegate
 						{
-							this.Map.DiagnosticsWriteLine("Sync_Synchronized (no remote lock)");
+							this.Map.DiagnosticsWriteLine("Sync_Synchronized (no local lock)");
 
-							this.UserLockEnter_ByLocal.Acquire(
+
+
+							var a = this.CoPlayers.List.ToArray(k => k.Value);
+							var n = 0;
+							var lock_id = 700;
+
+							Action DoneUsingThisLock =
 								delegate
 								{
-									this.Map.DiagnosticsWriteLine("Sync_Synchronized (no local lock)");
+									this.Map.DiagnosticsWriteLine("Sync_Synchronized ready (will release lock later)");
 
+									h();
 
-
-									var a = this.CoPlayers.List.ToArray(k => k.Value);
-									var n = 0;
-									var lock_id = 700;
-
-									Action DoneUsingThisLock =
+									// we got the lock now continue
+									3000.AtDelay(
 										delegate
 										{
-											this.Map.DiagnosticsWriteLine("Sync_Synchronized ready (will release lock later)");
+											this.Map.DiagnosticsWriteLine("Sync_Synchronized Releasing Locks");
 
-											h();
+											this.UserLockEnter_ByLocal.Release();
 
-											// we got the lock now continue
-											3000.AtDelay(
-												delegate
-												{
-													this.Map.DiagnosticsWriteLine("Sync_Synchronized Releasing Locks");
-
-													this.UserLockEnter_ByLocal.Release();
-
-													// release all locks
-													foreach (var vv in a)
-													{
-														vv.ToPlayer.UserLockExit(lock_id);
-													}
-												}
-											);
-										};
-
-									if (a.Length == 0)
-									{
-										DoneUsingThisLock();
-
-										return;
-									}
-
-									#region enter locks
-									foreach (var v in a)
-									{
-										var c = v;
-
-										var LockValidate = default(Action<int>);
-
-										LockValidate =
-											id =>
+											// release all locks
+											foreach (var vv in a)
 											{
-												if (id != lock_id)
-													return;
+												vv.ToPlayer.UserLockExit(lock_id);
+											}
+										}
+									);
+								};
 
-												c.LockValidate -= LockValidate;
+							if (a.Length == 0)
+							{
+								DoneUsingThisLock();
 
-												n++;
+								return;
+							}
 
-												if (n != a.Length)
-													return;
+							#region enter locks
+							foreach (var v in a)
+							{
+								var c = v;
+
+								var LockValidate = default(Action<int>);
+
+								LockValidate =
+									id =>
+									{
+										if (id != lock_id)
+											return;
+
+										c.LockValidate -= LockValidate;
+
+										n++;
+
+										if (n != a.Length)
+											return;
 
 
-												DoneUsingThisLock();
-											};
+										DoneUsingThisLock();
+									};
 
-										c.LockValidate += LockValidate;
-
-
-										c.ToPlayer.UserLockEnter(lock_id);
-									}
-									#endregion
+								c.LockValidate += LockValidate;
 
 
-								}
-							);
+								c.ToPlayer.UserLockEnter(lock_id);
+							}
+							#endregion
+
+
 						}
 					);
 
