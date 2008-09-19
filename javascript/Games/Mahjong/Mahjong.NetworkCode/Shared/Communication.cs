@@ -36,6 +36,10 @@ namespace Mahjong.NetworkCode.Shared
 			void UserMapResponse(int user, int[] bytes);
 
 
+			void MapReload(int[] bytes);
+			void UserMapReload(int user, int[] bytes);
+
+
 			void MouseMove(int x, int y);
 			void UserMouseMove(int user, int x, int y);
 

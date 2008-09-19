@@ -12,12 +12,13 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 	[Script]
 	public class SplitScreenClient
 	{
+		public const int Lag = 5;
+
 		public readonly Client Lefty;
 		public readonly Client Righty;
 
 		public SplitScreenClient()
 		{
-			const int Lag = 200;
 
 			
 			// game instance that would run on the server

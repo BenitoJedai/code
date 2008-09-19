@@ -10,6 +10,7 @@ using ScriptCoreLib.Shared.Avalon.Extensions;
 using ScriptCoreLib.Shared.Lambda;
 using System.Windows.Media;
 using System.Windows;
+using System.Collections;
 
 namespace Mahjong.NetworkCode.ClientSide.Shared
 {
@@ -28,6 +29,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 
 		}
+
 
 		public void InitializeMap()
 		{
@@ -51,6 +53,8 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			this.Map.Sync_MouseMove += MouseMove;
 			#endregion
 
+			Action<string> DiagnosticsWriteLine = text => this.Map.DiagnosticsWriteLine(text);
+
 			#region DisplayLockLocal
 			var DisplayLockLocal = new TextBox
 			{
@@ -65,18 +69,21 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			this.UserLock_ByLocal.Acquired +=
 				delegate
 				{
+					DiagnosticsWriteLine("UserLock_ByLocal.Acquired");
 					DisplayLockLocal.Foreground = Brushes.Red;
 				};
 
 			this.UserLock_ByLocal.Pending +=
 				delegate
 				{
+					DiagnosticsWriteLine("UserLock_ByLocal.Pending");
 					DisplayLockLocal.Foreground = Brushes.Yellow;
 				};
 
 			this.UserLock_ByLocal.Released +=
 				delegate
 				{
+					DiagnosticsWriteLine("UserLock_ByLocal.Released");
 					DisplayLockLocal.Foreground = Brushes.Green;
 				};
 			#endregion
@@ -96,18 +103,21 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			this.UserLock_ByRemote.Acquired +=
 				delegate
 				{
+					DiagnosticsWriteLine("UserLock_ByRemote.Acquired");
 					DisplayLockRemote.Foreground = Brushes.Red;
 				};
 
 			this.UserLock_ByRemote.Pending +=
 				delegate
 				{
+					DiagnosticsWriteLine("UserLock_ByRemote.Pending");
 					DisplayLockRemote.Foreground = Brushes.Yellow;
 				};
 
 			this.UserLock_ByRemote.Released +=
 				delegate
 				{
+					DiagnosticsWriteLine("UserLock_ByRemote.Released");
 					DisplayLockRemote.Foreground = Brushes.Green;
 				};
 			#endregion
@@ -115,54 +125,88 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			this.Map.Sync_RemovePair +=
 				(a, b) =>
 				{
-					// do we really have focus?
-
-					this.Map.DiagnosticsWriteLine("Sync_RemovePair");
-
 					this.Messages.RemovePair(a, b);
 				};
 
-			#region Sync_Synchronized
-			this.Map.Sync_Synchronized +=
+			this.Map.Sync_GoBack += this.Messages.GoBack;
+			this.Map.Sync_GoForward += this.Messages.GoForward;
+
+
+			var SynchronizedCache = new Queue<Action<Action>>();
+
+			#region Synchronized
+			this.SynchronizedAsync =
 				h =>
 				{
 
-					this.Map.DiagnosticsWriteLine("Sync_Synchronized");
+					// whatif we are already trying to sync
+					if (this.UserLock_ByLocal.IsAcquired)
+					{
+						this.Map.DiagnosticsWriteLine("Synchronized to be continued");
+
+						SynchronizedCache.Enqueue(h);
+
+						return;
+					}
+					else
+					{
+						this.Map.DiagnosticsWriteLine("Synchronized");
+					}
 
 					this.UserLock_ByLocal[this.UserLock_ByRemote](
 						delegate
 						{
-							this.Map.DiagnosticsWriteLine("Sync_Synchronized (no local lock)");
-
-
-
+							// 
 							var a = this.CoPlayers.List.ToArray(k => k.Value);
 							var n = 0;
 							var lock_id = 700;
 
-							Action DoneUsingThisLock =
+							var DoneUsingThisLockTimeout = default(Action);
+
+							var AllDoneForNow = default(Action);
+
+							AllDoneForNow =
 								delegate
 								{
-									this.Map.DiagnosticsWriteLine("Sync_Synchronized ready (will release lock later)");
-
-									h();
-
 									// we got the lock now continue
-									3000.AtDelay(
+									SynchronizedLingerTime.AtDelay(
 										delegate
 										{
-											this.Map.DiagnosticsWriteLine("Sync_Synchronized Releasing Locks");
+											if (SynchronizedCache.Count > 0)
+											{
+												DiagnosticsWriteLine("Synchronized continued");
 
-											this.UserLock_ByLocal.Release();
+												var p = SynchronizedCache.Dequeue();
+
+												p(AllDoneForNow);
+
+												return;
+											}
 
 											// release all locks
 											foreach (var vv in a)
 											{
 												vv.ToPlayer.UserLockExit(lock_id);
 											}
+
+											this.UserLock_ByLocal.Release();
+
 										}
 									);
 								};
+
+							#region DoneUsingThisLock
+							Action DoneUsingThisLock =
+								delegate
+								{
+									DoneUsingThisLockTimeout = null;
+
+									h(AllDoneForNow);
+
+
+									
+								};
+							#endregion
 
 							if (a.Length == 0)
 							{
@@ -202,7 +246,18 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 							}
 							#endregion
 
+							DoneUsingThisLockTimeout = 5000.AtDelay(
+								delegate
+								{
+									// if we did got the lock then we are not deadlocked
+									if (DoneUsingThisLockTimeout == null)
+										return;
 
+
+									// we should clear our lock and retry later
+									DiagnosticsWriteLine("Deadlock");
+								}
+							).Stop;
 						}
 					);
 
@@ -213,6 +268,14 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 				};
 			#endregion
 
+			this.Map.Sync_SynchronizedAsync += this.SynchronizedAsync;
+
+
+			this.Map.Sync_MapReloaded +=
+				delegate
+				{
+					this.Messages.MapReload(SerializeMap());
+				};
 		}
 	}
 }

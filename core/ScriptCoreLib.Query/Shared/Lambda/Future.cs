@@ -18,7 +18,13 @@ namespace ScriptCoreLib.Shared.Lambda
 
 		public void InternalContinue(Action e)
 		{
-			this.Continue(e);
+			if (_Continue != null)
+			{
+				_Continue.Add(e);
+				return;
+			}
+
+			e();
 		}
 
 		public bool CanSignal
@@ -153,14 +159,23 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static class FutureExtensions
 	{
-		public static void Continue(this Future f, Action e)
+		public static void Continue(this IEnumerable<IFutureContinue> source, Action done)
+		{
+			source.ForEach(
+					(v, next) =>
+					{
+						v.Continue(next);
+					}
+				)(done);
+		}
+
+		public static void Continue(this IFutureContinue f, Action e)
 		{
 			if (f != null)
-				if (f._Continue != null)
-				{
-					f._Continue.Add(e);
-					return;
-				}
+			{
+				f.InternalContinue(e);
+				return;
+			}
 
 			e();
 		}
@@ -289,16 +304,32 @@ namespace ScriptCoreLib.Shared.Lambda
 
 		public bool IsAcquired;
 
+		public FutureLock  Acquire()
+		{
+			if (Lock != null)
+				throw new Exception("Cannot acquire this lock without waiting");
+
+			Lock = new Future();
+
+			IsAcquired = true;
+			if (Acquired != null)
+				Acquired();
+
+			return this;
+		}
+
 		public void Acquire(Action e)
 		{
+			var u = Lock;
+
+			Lock = new Future();
+
 			if (Pending != null)
 				Pending();
 
-			Continue(
+			u.Continue(
 				delegate
 				{
-					Lock = new Future();
-
 					IsAcquired = true;
 					if (Acquired != null)
 						Acquired();
@@ -308,30 +339,74 @@ namespace ScriptCoreLib.Shared.Lambda
 			);
 		}
 
+		public void Acquire(Action e, IEnumerable<IFutureContinue> dependencies)
+		{
+			var u = Lock;
+
+			Lock = new Future();
+
+			if (u != null)
+				this.ToBeReleased.Enqueue(u.Signal);
+
+
+			if (Pending != null)
+				Pending();
+
+				dependencies.Continue(
+					delegate
+					{
+						u.Continue(
+							delegate
+							{
+								dependencies.Continue(
+									delegate
+									{
+										IsAcquired = true;
+										if (Acquired != null)
+											Acquired();
+
+										e();
+									}
+								);
+							}
+						);
+					}
+				);
+		}
+
+
 		/// <summary>
 		/// Returns a handler that will acquire a lock after locks named in the parameters
 		/// </summary>
 		/// <param name="e"></param>
 		/// <returns></returns>
-		public Action<Action> this[params IFutureContinue[] e]
+		public Action<Action> this[params IFutureContinue[] dependencies]
 		{
 			get
 			{
-				return 
+				return
 					done =>
 					{
-						e.ForEach(
-							(v, next) =>
-							{
-								v.InternalContinue(next);
-							}
-						)(() => this.Acquire(done));
+						this.Acquire(done, dependencies);
 					};
 			}
 		}
 
+		public readonly Queue<Action> ToBeReleased = new Queue<Action>();
+
 		public void Release()
 		{
+			if (ToBeReleased.Count > 0)
+			{
+				ToBeReleased.Dequeue()();
+				return;
+			}
+
+
+			if (!IsAcquired)
+				throw new Exception("Thislock is not yet acquired");
+
+
 			var x = Lock;
 
 			Lock = null;
