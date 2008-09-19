@@ -40,6 +40,10 @@ namespace Mahjong.Code
 		public readonly Action<string> PlaySound;
 
 		public event Action<int, int> Sync_MouseMove;
+		public event Action Sync_GoBack;
+		public event Action Sync_GoForward;
+		public event Action Sync_MapReloaded;
+
 
 		public readonly Action<string> DiagnosticsWriteLine;
 
@@ -106,6 +110,7 @@ namespace Mahjong.Code
 
 			MyLayout.Container.AttachTo(this);
 
+			#region DiagnosticsWriteLine
 			var DiagnosticsBackground = new Rectangle
 			{
 				Fill = Brushes.Black,
@@ -114,6 +119,7 @@ namespace Mahjong.Code
 				Opacity = 0.5
 			}.MoveTo(0, DefaultScaledHeight / 4).AttachTo(this);
 
+			
 			this.DiagnosticsText = new TextBox
 			{
 				AcceptsReturn = true,
@@ -140,6 +146,7 @@ namespace Mahjong.Code
 
 					DiagnosticsText.Text = string.Concat(DiagnosticsHistory.Select(u => u + Environment.NewLine).ToArray());
 				};
+			#endregion
 
 			this.CoPlayerMouseContainer = new Canvas
 			{
@@ -242,12 +249,14 @@ namespace Mahjong.Code
 			MyLayout.LayoutDestroyed +=
 				delegate
 				{
+					
 					Console.WriteLine("LayoutDestroyed ...");
 
 					//Comment.IsReadOnly = true;
 					//CommentSuggestions.Enabled = false;
 				};
 
+			#region MyLayout.LayoutChanging
 			MyLayout.LayoutChanging +=
 				delegate
 				{
@@ -303,7 +312,7 @@ namespace Mahjong.Code
 										{
 											if (tt.IsPairable(SelectedTile))
 											{
-												TryToRemovePair(SelectedTile, tt);
+												TryToRemovePair(SelectedTile, tt, Sounds.buzzer);
 
 
 												SelectedTile = null;
@@ -322,6 +331,7 @@ namespace Mahjong.Code
 					}
 
 				};
+			#endregion
 
 			// this occurs always
 			MyLayout.LayoutChanged +=
@@ -342,57 +352,6 @@ namespace Mahjong.Code
 
 				};
 
-			//#region Savepoints
-			//var Savepoints = new Stack<MemoryStream>();
-
-			//var ButtonSave = new BlueButton
-			//{
-			//    Width = 120,
-			//    Height = 24,
-			//    Text = "Save",
-			//};
-
-			//ButtonSave.Click +=
-			//    delegate
-			//    {
-			//        MyLayout.LayoutProgress.Continue(
-			//            delegate
-			//            {
-			//                var m = new MemoryStream();
-
-			//                MyLayout.WriteTo(m);
-
-			//                // rewind
-			//                m.Position = 0;
-
-
-			//                Savepoints.Push(m);
-
-			//                Console.WriteLine("save: " + m.Length);
-			//            }
-			//        );
-			//    };
-
-			//ButtonSave.Container.MoveTo(8, DefaultScaledHeight - 64).AttachTo(this);
-
-			//var ButtonLoad = new BlueButton
-			//{
-			//    Width = 120,
-			//    Height = 24,
-			//    Text = "Load",
-			//};
-
-			//ButtonLoad.Click +=
-			//    delegate
-			//    {
-			//        if (Savepoints.Count > 0)
-			//            MyLayout.ReadFrom(Savepoints.Pop());
-
-			//        Console.WriteLine("Load");
-			//    };
-
-			//ButtonLoad.Container.MoveTo(8, DefaultScaledHeight - 32).AttachTo(this);
-			//#endregion
 
 
 			#region back/forward buttons
@@ -405,11 +364,35 @@ namespace Mahjong.Code
 
 			MyLayout.GoBackAvailable += () => Navbar.ButtonGoBack.Enabled = true;
 			MyLayout.GoBackUnavailable += () => Navbar.ButtonGoBack.Enabled = false;
-			Navbar.GoBack += () => MyLayout.GoBack();
+			Navbar.GoBack += 
+				() => Synchronized(
+					delegate
+					{
+						if (MyLayout.GoBackHistory.Count == 0)
+							return;
+
+						MyLayout.GoBack();
+
+						if (this.Sync_GoBack != null)
+							this.Sync_GoBack();
+					}
+				);
 
 			MyLayout.GoForwardAvailable += () => Navbar.ButtonGoForward.Enabled = true;
 			MyLayout.GoForwardUnavailable += () => Navbar.ButtonGoForward.Enabled = false;
-			Navbar.GoForward += () => MyLayout.GoForward();
+			Navbar.GoForward +=
+					() => Synchronized(
+						delegate
+						{
+							if (MyLayout.GoForwardHistory.Count == 0)
+								return;
+
+							MyLayout.GoForward();
+
+							if (this.Sync_GoForward != null)
+								this.Sync_GoForward();
+						}
+					);
 			#endregion
 
 			this.Layouts = new LayoutsFuture(
@@ -436,7 +419,9 @@ namespace Mahjong.Code
 					}
 					else
 					{
-						if (MyLayout.LayoutProgress.CanSignal)
+						if (MyLayout.LayoutProgress == null)
+							Comment.Text = "There are " + ByComment.Count + " layouts";
+						else if (MyLayout.LayoutProgress.CanSignal)
 							Comment.Text = MyLayout.Layout.Comment;
 						else
 							Comment.Text = "There are " + ByComment.Count + " layouts";
@@ -454,8 +439,25 @@ namespace Mahjong.Code
 
 							if (Layouts.ByComment.ContainsKey(NewLayoutComment))
 							{
-								// new layout does indeed exist!
-								MyLayout.Layout = Layouts.ByComment[NewLayoutComment];
+								SynchronizedAsync(
+									DoneLoadingNewMap =>
+									{
+										// new layout does indeed exist!
+										MyLayout.Layout = Layouts.ByComment[NewLayoutComment];
+
+										// this is a long process actually
+
+										MyLayout.LayoutProgress.Continue(
+											delegate
+											{
+												if (Sync_MapReloaded != null)
+													Sync_MapReloaded();
+
+												DoneLoadingNewMap();
+											}
+										);
+									}
+								);
 							}
 						};
 				}
@@ -468,43 +470,82 @@ namespace Mahjong.Code
 				};
 		}
 
-		public event Action<Action> Sync_Synchronized;
+		public event Action<Action<Action>> Sync_SynchronizedAsync;
 
 		void Synchronized(Action h)
+		{
+			SynchronizedAsync(
+				Done =>
+				{
+					h();
+
+					Done();
+				}
+			);
+		}
+
+		void SynchronizedAsync(Action<Action> h)
 		{
 			// using a virtual method will allow us to provide a default
 			// implementation for singleplayer mode
 
-			if (Sync_Synchronized == null)
+			if (Sync_SynchronizedAsync == null)
 			{
-				h();
+				h(
+					delegate
+					{
+						// release the virtual lock that we do not have
+					}
+				);
 
 				return;
 			}
 
-			Sync_Synchronized(h);
+			Sync_SynchronizedAsync(h);
 		}
 
 		public event Action<int, int> Sync_RemovePair;
 
-		private void TryToRemovePair(VisibleTile SelectedTile, VisibleTile tt)
+		private void TryToRemovePair(VisibleTile a, VisibleTile b, Action fail)
 		{
 			// we need to lock the game for this action
 			// create a new lock
 			// aquire it
 
+			// make tiles semitransparent to indicate we are syncing
+			a.Control.Opacity = 0.5;
+			b.Control.Opacity = 0.5;
+
+			var m = this.MyLayout.Layout;
+
 			Synchronized(
 				delegate
 				{
-					// does the tile still exist?
-					// maybe a coplayer stole it?
+					// maybe we loaded a new map in the meanwhile?
+					if (m == this.MyLayout.Layout)
+					{
+						// revert from pending state
+						a.Control.Opacity = 1;
+						b.Control.Opacity = 1;
 
-					DiagnosticsWriteLine("pairable: " + SelectedTile.Rank.ToString());
+						// does the tile still exist?
+						// maybe a coplayer stole it?
 
-					MyLayout.Remove(SelectedTile, tt);
+						if (a.Visible)
+							if (b.Visible)
+							{
 
-					if (Sync_RemovePair != null)
-						Sync_RemovePair(SelectedTile.Entry.index, tt.Entry.index);
+								MyLayout.Remove(a, b);
+
+								if (Sync_RemovePair != null)
+									Sync_RemovePair(a.Entry.index, b.Entry.index);
+
+								return;
+							}
+					}
+
+					DiagnosticsWriteLine("whooops");
+					fail();
 				}
 			);
 		}

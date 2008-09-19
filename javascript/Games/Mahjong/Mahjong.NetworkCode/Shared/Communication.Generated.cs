@@ -25,6 +25,8 @@ namespace Mahjong.NetworkCode.Shared
             UserPlayerAdvertise,
             UserMapRequest,
             UserMapResponse,
+            MapReload,
+            UserMapReload,
             MouseMove,
             UserMouseMove,
             MouseOut,
@@ -72,6 +74,8 @@ namespace Mahjong.NetworkCode.Shared
             event Action<RemoteEvents.UserPlayerAdvertiseArguments> UserPlayerAdvertise;
             event Action<RemoteEvents.UserMapRequestArguments> UserMapRequest;
             event Action<RemoteEvents.UserMapResponseArguments> UserMapResponse;
+            event Action<RemoteEvents.MapReloadArguments> MapReload;
+            event Action<RemoteEvents.UserMapReloadArguments> UserMapReload;
             event Action<RemoteEvents.MouseMoveArguments> MouseMove;
             event Action<RemoteEvents.UserMouseMoveArguments> UserMouseMove;
             event Action<RemoteEvents.MouseOutArguments> MouseOut;
@@ -147,6 +151,19 @@ namespace Mahjong.NetworkCode.Shared
                 args[0] = user;
                 Array.Copy(bytes, 0, args, 1, bytes.Length);
                 Send(new SendArguments { i = Messages.UserMapResponse, args = args });
+            }
+            public void MapReload(int[] bytes)
+            {
+                var args = new object[bytes.Length + 0];
+                Array.Copy(bytes, 0, args, 0, bytes.Length);
+                Send(new SendArguments { i = Messages.MapReload, args = args });
+            }
+            public void UserMapReload(int user, int[] bytes)
+            {
+                var args = new object[bytes.Length + 1];
+                args[0] = user;
+                Array.Copy(bytes, 0, args, 1, bytes.Length);
+                Send(new SendArguments { i = Messages.UserMapReload, args = args });
             }
             public void MouseMove(int x, int y)
             {
@@ -306,6 +323,7 @@ namespace Mahjong.NetworkCode.Shared
                 #region Automatic Event Routing
                 public void CombineDelegates(IEvents value)
                 {
+                    value.MapReload += this.UserMapReload;
                     value.MouseMove += this.UserMouseMove;
                     value.MouseOut += this.UserMouseOut;
                     value.LevelHasEnded += this.UserLevelHasEnded;
@@ -318,6 +336,7 @@ namespace Mahjong.NetworkCode.Shared
 
                 public void RemoveDelegates(IEvents value)
                 {
+                    value.MapReload -= this.UserMapReload;
                     value.MouseMove -= this.UserMouseMove;
                     value.MouseOut -= this.UserMouseOut;
                     value.LevelHasEnded -= this.UserLevelHasEnded;
@@ -330,6 +349,10 @@ namespace Mahjong.NetworkCode.Shared
                 #endregion
 
                 #region Routing
+                public void UserMapReload(MapReloadArguments e)
+                {
+                    Target.UserMapReload(this.user, e.bytes);
+                }
                 public void UserMouseMove(MouseMoveArguments e)
                 {
                     Target.UserMouseMove(this.user, e.x, e.y);
@@ -395,6 +418,14 @@ namespace Mahjong.NetworkCode.Shared
                 public void UserMapResponse(UserMapResponseArguments e)
                 {
                     this.Target.UserMapResponse(this.user, e.bytes);
+                }
+                public void UserMapReload(int[] bytes)
+                {
+                    this.Target.UserMapReload(this.user, bytes);
+                }
+                public void UserMapReload(UserMapReloadArguments e)
+                {
+                    this.Target.UserMapReload(this.user, e.bytes);
                 }
                 public void UserMouseMove(int x, int y)
                 {
@@ -508,6 +539,7 @@ namespace Mahjong.NetworkCode.Shared
                     value.UserPlayerAdvertise += this.UserPlayerAdvertise;
                     value.UserMapRequest += this.UserMapRequest;
                     value.UserMapResponse += this.UserMapResponse;
+                    value.UserMapReload += this.UserMapReload;
                     value.UserMouseMove += this.UserMouseMove;
                     value.UserMouseOut += this.UserMouseOut;
                     value.UserLevelHasEnded += this.UserLevelHasEnded;
@@ -527,6 +559,7 @@ namespace Mahjong.NetworkCode.Shared
                     value.UserPlayerAdvertise -= this.UserPlayerAdvertise;
                     value.UserMapRequest -= this.UserMapRequest;
                     value.UserMapResponse -= this.UserMapResponse;
+                    value.UserMapReload -= this.UserMapReload;
                     value.UserMouseMove -= this.UserMouseMove;
                     value.UserMouseOut -= this.UserMouseOut;
                     value.UserLevelHasEnded -= this.UserLevelHasEnded;
@@ -560,6 +593,12 @@ namespace Mahjong.NetworkCode.Shared
                     var _target = this.Target(e.user);
                     if (_target == null) return;
                     _target.UserMapResponse(this.user, e.bytes);
+                }
+                public void UserMapReload(UserMapReloadArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserMapReload(this.user, e.bytes);
                 }
                 public void UserMouseMove(UserMouseMoveArguments e)
                 {
@@ -724,6 +763,34 @@ namespace Mahjong.NetworkCode.Shared
             }
             #endregion
             public event Action<UserMapResponseArguments> UserMapResponse;
+            #region MapReloadArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class MapReloadArguments
+            {
+                public int[] bytes;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ bytes = ").Append(this.bytes).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<MapReloadArguments> MapReload;
+            #region UserMapReloadArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserMapReloadArguments : WithUserArguments
+            {
+                public int[] bytes;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", bytes = ").Append(this.bytes).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserMapReloadArguments> UserMapReload;
             #region MouseMoveArguments
             [Script]
             [CompilerGenerated]
@@ -1095,6 +1162,8 @@ namespace Mahjong.NetworkCode.Shared
                             { Messages.UserPlayerAdvertise, e => { UserPlayerAdvertise(new UserPlayerAdvertiseArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                             { Messages.UserMapRequest, e => { UserMapRequest(new UserMapRequestArguments { user = e.GetInt32(0) }); } },
                             { Messages.UserMapResponse, e => { UserMapResponse(new UserMapResponseArguments { user = e.GetInt32(0), bytes = e.GetInt32Array(1) }); } },
+                            { Messages.MapReload, e => { MapReload(new MapReloadArguments { bytes = e.GetInt32Array(0) }); } },
+                            { Messages.UserMapReload, e => { UserMapReload(new UserMapReloadArguments { user = e.GetInt32(0), bytes = e.GetInt32Array(1) }); } },
                             { Messages.MouseMove, e => { MouseMove(new MouseMoveArguments { x = e.GetInt32(0), y = e.GetInt32(1) }); } },
                             { Messages.UserMouseMove, e => { UserMouseMove(new UserMouseMoveArguments { user = e.GetInt32(0), x = e.GetInt32(1), y = e.GetInt32(2) }); } },
                             { Messages.MouseOut, e => { MouseOut(new MouseOutArguments { color = e.GetInt32(0) }); } },
@@ -1131,6 +1200,8 @@ namespace Mahjong.NetworkCode.Shared
                             { Messages.UserPlayerAdvertise, e => UserPlayerAdvertise },
                             { Messages.UserMapRequest, e => UserMapRequest },
                             { Messages.UserMapResponse, e => UserMapResponse },
+                            { Messages.MapReload, e => MapReload },
+                            { Messages.UserMapReload, e => UserMapReload },
                             { Messages.MouseMove, e => MouseMove },
                             { Messages.UserMouseMove, e => UserMouseMove },
                             { Messages.MouseOut, e => MouseOut },
@@ -1266,6 +1337,22 @@ namespace Mahjong.NetworkCode.Shared
                 if(UserMapResponse == null) return;
                 var v = new RemoteEvents.UserMapResponseArguments { user = user, bytes = bytes };
                 this.VirtualLatency(() => this.UserMapResponse(v));
+            }
+
+            public event Action<RemoteEvents.MapReloadArguments> MapReload;
+            void IMessages.MapReload(int[] bytes)
+            {
+                if(MapReload == null) return;
+                var v = new RemoteEvents.MapReloadArguments { bytes = bytes };
+                this.VirtualLatency(() => this.MapReload(v));
+            }
+
+            public event Action<RemoteEvents.UserMapReloadArguments> UserMapReload;
+            void IMessages.UserMapReload(int user, int[] bytes)
+            {
+                if(UserMapReload == null) return;
+                var v = new RemoteEvents.UserMapReloadArguments { user = user, bytes = bytes };
+                this.VirtualLatency(() => this.UserMapReload(v));
             }
 
             public event Action<RemoteEvents.MouseMoveArguments> MouseMove;
@@ -1481,4 +1568,4 @@ namespace Mahjong.NetworkCode.Shared
     }
     #endregion
 }
-// 19.09.2008 15:25:29
+// 19.09.2008 19:04:41

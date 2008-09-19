@@ -50,6 +50,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Avalon.Cursors.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Avalon.TiledImageButton, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Avalon.TiledImageButton.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Nonoba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Nonoba.dll</HintPath>

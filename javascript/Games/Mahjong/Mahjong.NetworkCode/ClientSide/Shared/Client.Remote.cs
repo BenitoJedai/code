@@ -16,11 +16,9 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 	{
 		public readonly Future<Communication.RemoteEvents.ServerPlayerHelloArguments> Identity = new Future<Communication.RemoteEvents.ServerPlayerHelloArguments>();
 
+		public readonly FutureLock MapLoading = new FutureLock().Acquire();
 
 
-
-		public readonly FutureLock UserLock_ByLocal = new FutureLock();
-		public readonly FutureLock UserLock_ByRemote = new FutureLock();
 
 		public CoPlayerGroup CoPlayers;
 
@@ -99,6 +97,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			this.Events.ServerPlayerHello +=
 				e =>
 				{
+
 					new Handshake().Verify(e.handshake);
 
 					DiagnosticsWriteLine("handshake ok");
@@ -116,6 +115,14 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 							value =>
 							{
 								this.Map.MyLayout.Layout = value;
+
+
+								this.Map.MyLayout.LayoutProgress.Continue(
+											delegate
+											{
+												MapLoading.Release();
+											}
+										);
 							}
 						);
 						#endregion
@@ -149,17 +156,16 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 											{
 												UserMapResponse = null;
 
-												var MemoryStream_UInt8 = LayoutToBeLoaded.bytes.Select(i => (byte)i).ToArray();
-												var m = new MemoryStream(MemoryStream_UInt8);
+												var bytes = LayoutToBeLoaded.bytes;
 
-												DiagnosticsWriteLine("read map " + m.Length);
+												DeserializeMap(bytes);
 
-												if (m.Length == 0)
-													throw new Exception("no map data");
-
-												m.Position = 0;
-
-												this.Map.MyLayout.ReadFrom(m);
+												this.Map.MyLayout.LayoutProgress.Continue(
+													delegate
+													{
+														MapLoading.Release();
+													}
+												);
 											}
 										);
 
@@ -212,31 +218,27 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 					this.Map.DiagnosticsWriteLine("UserMapRequest: " + c.Name);
 
-					this.UserLock_ByLocal[this.Map.MyLayout.LayoutProgress](
+					this.SynchronizedAsync(
 					// if we are loading we need to wait - we can test it by making the map
 					// to load real slow
-						delegate
+						Done =>
 						{
 							// what if the guy leaves without waiting for response?
 
-							var m = new MemoryStream();
+							LagBeforeRespondingToMapRequest.AtDelay(
+								delegate
+								{
+									c.ToPlayer.UserMapResponse(SerializeMap());
 
-							this.Map.MyLayout.WriteTo(m);
+									Done();
+								}
+							);
 
-							// we will waste 3 bytes - 0xffffff00 cuz memorystream isn't supported
-							var MemoryStream_Int32 = m.ToArray().Select(i => (int)i).ToArray();
-
-							DiagnosticsWriteLine("write map " + MemoryStream_Int32.Length);
-
-							c.ToPlayer.UserMapResponse(MemoryStream_Int32);
-
-							this.UserLock_ByLocal.Release();
 						}
 					);
 				};
 			#endregion
 
-			#region Lock management
 			this.Events.UserMapResponse +=
 				e =>
 				{
@@ -247,6 +249,33 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					if (UserMapResponse != null)
 						UserMapResponse.Value = e;
 				};
+
+			this.Events.UserMapReload +=
+				e =>
+				{
+					var c = CoPlayers[e.user];
+
+					if (!this.UserLock_ByRemote.IsAcquired)
+						throw new Exception("UserMapReload needs a lock");
+
+					DiagnosticsWriteLine("UserMapReload: " + c.Name);
+
+					MapLoading.Acquire(
+						delegate
+						{
+							DeserializeMap(e.bytes);
+
+							this.Map.MyLayout.LayoutProgress.Continue(
+												delegate
+												{
+													MapLoading.Release();
+												}
+											);
+						}
+					);
+				};
+
+			#region Lock management
 
 			this.Events.UserLockEnter +=
 				e =>
@@ -281,6 +310,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					if (!this.UserLock_ByRemote.IsAcquired)
 						throw new Exception("UserLockExit needs a lock");
 
+					// maybe we should wait a bit?
 					this.UserLock_ByRemote.Release();
 				};
 
@@ -308,15 +338,81 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 					DiagnosticsWriteLine("UserRemovePair: " + c.Name);
 
-					// we should probably check here if that user has "focus"
+					MapLoading.Continue(
+						delegate
+						{
+							// we should probably check here if that user has "focus"
 
-					this.Map.MyLayout.Remove(
-						this.Map.MyLayout.Tiles[e.a].Tile.Value,
-						this.Map.MyLayout.Tiles[e.b].Tile.Value
-						);
+							this.Map.MyLayout.Remove(
+								this.Map.MyLayout.Tiles[e.a].Tile.Value,
+								this.Map.MyLayout.Tiles[e.b].Tile.Value
+							);
+						}
+					);
 
 
 				};
+
+			this.Events.UserGoBack +=
+				e =>
+				{
+					var c = CoPlayers[e.user];
+					if (!this.UserLock_ByRemote.IsAcquired)
+						throw new Exception("UserGoBack needs a lock");
+
+					DiagnosticsWriteLine("UserGoBack: " + c.Name);
+
+					MapLoading.Continue(
+						delegate
+						{
+							this.Map.MyLayout.GoBack();
+						}
+					);
+				};
+
+
+			this.Events.UserGoForward +=
+				e =>
+				{
+					var c = CoPlayers[e.user];
+					if (!this.UserLock_ByRemote.IsAcquired)
+						throw new Exception("UserGoForward needs a lock");
+
+					DiagnosticsWriteLine("UserGoForward: " + c.Name);
+
+					MapLoading.Continue(
+						delegate
+						{
+							this.Map.MyLayout.GoForward();
+						}
+					);
+				};
+		}
+
+		private void DeserializeMap(int[] bytes)
+		{
+			var MemoryStream_UInt8 = bytes.Select(i => (byte)i).ToArray();
+			var m = new MemoryStream(MemoryStream_UInt8);
+
+			//DiagnosticsWriteLine("read map " + m.Length);
+
+			if (m.Length == 0)
+				throw new Exception("no map data");
+
+			m.Position = 0;
+
+			this.Map.MyLayout.ReadFrom(m);
+		}
+
+		private int[] SerializeMap()
+		{
+			var m = new MemoryStream();
+
+			this.Map.MyLayout.WriteTo(m);
+
+			// we will waste 3 bytes - 0xffffff00 cuz memorystream isn't supported
+			var MemoryStream_Int32 = m.ToArray().Select(i => (int)i).ToArray();
+			return MemoryStream_Int32;
 		}
 	}
 }

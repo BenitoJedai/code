@@ -74,6 +74,8 @@ namespace Mahjong.Code
 		public event Action GoBackAvailable;
 		public event Action GoBackUnavailable;
 
+
+
 		public void GoBack()
 		{
 			if (GoBackHistory.Count == 0)
@@ -96,6 +98,8 @@ namespace Mahjong.Code
 			if (GoForwardHistory.Count == 1)
 				if (GoForwardAvailable != null)
 					GoForwardAvailable();
+
+	
 		}
 
 		public void GoForward()
@@ -120,6 +124,8 @@ namespace Mahjong.Code
 			if (GoBackHistory.Count == 1)
 				if (GoBackAvailable != null)
 					GoBackAvailable();
+
+	
 		}
 
 		[Script]

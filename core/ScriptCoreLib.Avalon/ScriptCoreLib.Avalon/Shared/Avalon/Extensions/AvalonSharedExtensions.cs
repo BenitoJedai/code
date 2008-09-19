@@ -116,6 +116,24 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			return t;
 		}
 
+		public static DispatcherTimer AtIntervalWithTimer(this int Milliseconds, Action<DispatcherTimer> Handler)
+		{
+			var t = new DispatcherTimer
+			{
+				Interval = TimeSpan.FromMilliseconds(Milliseconds)
+			};
+
+			t.Tick +=
+				delegate
+				{
+					Handler(t);
+				};
+
+			t.Start();
+
+			return t;
+		}
+
 		public static DispatcherTimer AtIntervalWithCounter(this int Milliseconds, Action<int> Handler)
 		{
 			var t = new DispatcherTimer
