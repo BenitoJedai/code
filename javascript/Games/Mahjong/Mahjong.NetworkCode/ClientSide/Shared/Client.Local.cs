@@ -19,6 +19,8 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 		public MahjongGameControl Map;
 
+		public readonly FutureAction<string> PlaySoundFuture = new FutureAction<string>();
+
 		[Script]
 		public class MahjongGameControlForNetwork : MahjongGameControl
 		{
@@ -38,6 +40,9 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 			this.Map = new MahjongGameControlForNetwork();
 			this.Map.AttachTo(Element);
+
+			PlaySoundFuture.Continue(this.Map.PlaySoundFuture);
+			
 
 			#region MouseMove
 			// we need to use a treshold and throttle too frequent updates
