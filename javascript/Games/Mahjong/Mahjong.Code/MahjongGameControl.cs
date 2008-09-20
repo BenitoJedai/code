@@ -55,6 +55,8 @@ namespace Mahjong.Code
 
 		public readonly VisibleLayout MyLayout;
 
+		public readonly Canvas DiagnosticsContainer = new Canvas();
+
 		public MahjongGameControl()
 		{
 			this.PlaySoundFuture = new FutureAction<string>();
@@ -119,7 +121,8 @@ namespace Mahjong.Code
 				Opacity = 0.5
 			}.MoveTo(0, DefaultScaledHeight / 4).AttachTo(this);
 
-			
+			DiagnosticsContainer.AttachTo(this);
+
 			this.DiagnosticsText = new TextBox
 			{
 				AcceptsReturn = true,
@@ -130,7 +133,7 @@ namespace Mahjong.Code
 				Foreground = Brushes.White,
 				BorderThickness = new Thickness(0)
 
-			}.MoveTo(0, DefaultScaledHeight / 4).AttachTo(this);
+			}.MoveTo(0, DefaultScaledHeight / 4).AttachTo(DiagnosticsContainer);
 
 			var DiagnosticsHistory = new Queue<string>();
 

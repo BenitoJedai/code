@@ -5,13 +5,15 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4B53A8A4-3BBC-4369-B1F8-881142A0C7A2}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{1C0F7931-A4F9-43FE-A1A8-AF0F8402EFBB}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mahjong.NonobaClientTest</RootNamespace>
-    <AssemblyName>Mahjong.NonobaClientTest</AssemblyName>
+    <RootNamespace>Mahjong.NonobaClient.MonetizedTest</RootNamespace>
+    <AssemblyName>Mahjong.NonobaClient.MonetizedTest</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,11 +34,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Development Server, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <ExecutableExtension>.exe</ExecutableExtension>
-    </Reference>
-    <Reference Include="Mahjong.NonobaClient.NonobaServer, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\bin\Mahjong.NonobaClient.NonobaServer.dll</HintPath>
+      <HintPath>..\Mahjong.NonobaClientTest\Library\Development Server.exe</HintPath>
+    </Reference>
+    <Reference Include="Mahjong.NonobaClient.Monetized.NonobaServer, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\Monetized\Mahjong.NonobaClient.Monetized.NonobaServer.dll</HintPath>
     </Reference>
     <Reference Include="Nonoba.GameLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -59,12 +62,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -85,9 +82,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Library\Development Server.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

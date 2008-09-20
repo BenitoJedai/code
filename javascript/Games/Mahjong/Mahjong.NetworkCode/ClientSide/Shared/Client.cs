@@ -24,7 +24,8 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 		public const int SynchronizedLingerTime = 100;
 
-		public const int LagBeforeRespondingToMapRequest = 5000;
+		public const int LagBeforeRespondingToMapRequest = 1;
+		public const int LagBeforeReadingMapResponse = 1;
 
 		public Client()
 		{

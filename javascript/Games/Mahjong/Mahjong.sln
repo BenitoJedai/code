@@ -35,6 +35,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mahjong.NonobaClient.Monetized", "Mahjong.NonobaClient.Monetized\Mahjong.NonobaClient.Monetized.csproj", "{53DA20CD-7FF8-45DD-9AD3-871186A1DFC7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mahjong.NonobaClient.MonetizedTest", "Mahjong.NonobaClient.MonetizedTest\Mahjong.NonobaClient.MonetizedTest.csproj", "{1C0F7931-A4F9-43FE-A1A8-AF0F8402EFBB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DB37106C-02DB-4A60-A43D-BF03A412A469} = {DB37106C-02DB-4A60-A43D-BF03A412A469}
+		{53DA20CD-7FF8-45DD-9AD3-871186A1DFC7} = {53DA20CD-7FF8-45DD-9AD3-871186A1DFC7}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mahjong.Specialize", "Mahjong.Specialize\Mahjong.Specialize.csproj", "{324683C6-7B93-4279-A7A1-C43A958A3B9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,6 +92,10 @@ Global
 		{1C0F7931-A4F9-43FE-A1A8-AF0F8402EFBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C0F7931-A4F9-43FE-A1A8-AF0F8402EFBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C0F7931-A4F9-43FE-A1A8-AF0F8402EFBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{324683C6-7B93-4279-A7A1-C43A958A3B9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{324683C6-7B93-4279-A7A1-C43A958A3B9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{324683C6-7B93-4279-A7A1-C43A958A3B9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{324683C6-7B93-4279-A7A1-C43A958A3B9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

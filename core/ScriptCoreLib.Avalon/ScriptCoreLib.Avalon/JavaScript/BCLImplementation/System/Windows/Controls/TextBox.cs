@@ -74,6 +74,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 						};
 
 
+						this.InternalTextField_MultiLine.style.overflow = IStyle.OverflowEnum.hidden;
 
 						var p = this.InternalTextField.parentNode;
 

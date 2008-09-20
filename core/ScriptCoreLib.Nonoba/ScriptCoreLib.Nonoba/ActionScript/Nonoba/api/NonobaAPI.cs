@@ -13,7 +13,7 @@ namespace ScriptCoreLib.ActionScript.Nonoba.api
         /// <summary>
         /// Registers an event listener object with an EventDispatcher object so that the listener receives notification of an event.
         /// </summary>
-        public static Connection MakeMultiplayer(Stage stage, string s, double p)
+        public static Connection MakeMultiplayer(Stage stage, string s, int p)
         {
             return default(Connection);
         }

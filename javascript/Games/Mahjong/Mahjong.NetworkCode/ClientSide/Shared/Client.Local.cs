@@ -18,6 +18,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 	{
 
 		public MahjongGameControl Map;
+		public readonly Future<MahjongGameControl> MapInitialized = new Future<MahjongGameControl>();
 
 		public readonly FutureAction<string> PlaySoundFuture = new FutureAction<string>();
 
@@ -40,6 +41,8 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 			this.Map = new MahjongGameControlForNetwork();
 			this.Map.AttachTo(Element);
+
+			this.MapInitialized.Value = this.Map;
 
 			PlaySoundFuture.Continue(this.Map.PlaySoundFuture);
 			
@@ -69,7 +72,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 				Background = Brushes.Transparent,
 				BorderThickness = new Thickness(0),
 				Foreground = Brushes.Green
-			}.AttachTo(this.Map.CoPlayerMouseContainer).MoveTo(8, 64);
+			}.AttachTo(this.Map.DiagnosticsContainer).MoveTo(8, 64);
 
 			this.UserLock_ByLocal.Acquired +=
 				delegate
@@ -103,7 +106,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 				Background = Brushes.Transparent,
 				BorderThickness = new Thickness(0),
 				Foreground = Brushes.Green
-			}.AttachTo(this.Map.CoPlayerMouseContainer).MoveTo(8, 64 + 20);
+			}.AttachTo(this.Map.DiagnosticsContainer).MoveTo(8, 64 + 20);
 
 			this.UserLock_ByRemote.Acquired +=
 				delegate
@@ -155,7 +158,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					}
 					else
 					{
-						this.Map.DiagnosticsWriteLine("Synchronized");
+						//this.Map.DiagnosticsWriteLine("Synchronized");
 					}
 
 					this.UserLock_ByLocal[this.UserLock_ByRemote](

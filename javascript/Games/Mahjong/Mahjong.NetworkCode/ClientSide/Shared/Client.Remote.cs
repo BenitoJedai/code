@@ -16,7 +16,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 	{
 		public readonly Future<Communication.RemoteEvents.ServerPlayerHelloArguments> Identity = new Future<Communication.RemoteEvents.ServerPlayerHelloArguments>();
 
-		public readonly FutureLock MapLoading = new FutureLock().Acquire();
+		public readonly FutureLock FirstSyncComplete = new FutureLock().Acquire();
 
 
 
@@ -120,7 +120,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 								this.Map.MyLayout.LayoutProgress.Continue(
 											delegate
 											{
-												MapLoading.Release();
+												FirstSyncComplete.Release();
 											}
 										);
 							}
@@ -151,7 +151,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 										DiagnosticsWriteLine("We got the map now we will soon load it: " + FirstFoundCoPlayerToAskAMapFrom.Name);
 
 										// this delay could be 0 in release mode
-										1500.AtDelay(
+										LagBeforeReadingMapResponse.AtDelay(
 											delegate
 											{
 												UserMapResponse = null;
@@ -163,7 +163,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 												this.Map.MyLayout.LayoutProgress.Continue(
 													delegate
 													{
-														MapLoading.Release();
+														FirstSyncComplete.Release();
 													}
 												);
 											}
@@ -260,7 +260,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 					DiagnosticsWriteLine("UserMapReload: " + c.Name);
 
-					MapLoading.Acquire(
+					FirstSyncComplete.Acquire(
 						delegate
 						{
 							DeserializeMap(e.bytes);
@@ -268,7 +268,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 							this.Map.MyLayout.LayoutProgress.Continue(
 												delegate
 												{
-													MapLoading.Release();
+													FirstSyncComplete.Release();
 												}
 											);
 						}
@@ -338,7 +338,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 					DiagnosticsWriteLine("UserRemovePair: " + c.Name);
 
-					MapLoading.Continue(
+					FirstSyncComplete.Continue(
 						delegate
 						{
 							// we should probably check here if that user has "focus"
@@ -362,7 +362,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 					DiagnosticsWriteLine("UserGoBack: " + c.Name);
 
-					MapLoading.Continue(
+					FirstSyncComplete.Continue(
 						delegate
 						{
 							this.Map.MyLayout.GoBack();
@@ -380,7 +380,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 					DiagnosticsWriteLine("UserGoForward: " + c.Name);
 
-					MapLoading.Continue(
+					FirstSyncComplete.Continue(
 						delegate
 						{
 							this.Map.MyLayout.GoForward();
