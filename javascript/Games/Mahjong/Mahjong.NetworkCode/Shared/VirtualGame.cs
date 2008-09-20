@@ -4,12 +4,20 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.Shared.Nonoba.Generic;
+using Nonoba.GameLibrary;
 
 namespace Mahjong.NetworkCode.Shared
 {
 	[Script]
 	public class VirtualGame : ServerGameBase<Communication.IEvents, Communication.IMessages, VirtualPlayer>
 	{
+		[Script]
+		public class SettingsInfo
+		{
+			public const string navbar = "navbar";
+
+		}
+
 
 
 		public override void UserJoined(VirtualPlayer player)
@@ -82,9 +90,15 @@ namespace Mahjong.NetworkCode.Shared
 			//    user_with_map = x.UserId;
 			//}
 
+			var navbar = 1;
+
+			if (!this.Settings.GetBoolean(SettingsInfo.navbar))
+				navbar = 0;
+
 			// let new player know how it is named, also send magic bytes to verify
 			player.ToPlayer.ServerPlayerHello(
 				player.UserId, player.Username, this.Users.Count - 1,
+				navbar,
 				new Handshake().Bytes
 			);
 

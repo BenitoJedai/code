@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ScriptCoreLib;
-using System.Xml;
-using System.Reflection;
 using System.Diagnostics;
+using System.Linq;
+using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
+using System.Text;
+using System.Xml;
+using ScriptCoreLib;
+
 
 namespace jsc.Languages.CSharp2
 {
@@ -115,6 +117,10 @@ namespace jsc.Languages.CSharp2
 
                 goto removesome;
             }
+
+			imp.AddRange(
+				t.GetCustomAttributes(false).Where(k => !(k is ScriptAttribute)).Select(k => k.GetType())
+			);
 
             var tinterfaces = t.GetInterfaces();
 

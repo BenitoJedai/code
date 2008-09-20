@@ -120,13 +120,14 @@ namespace Mahjong.NetworkCode.Shared
                 public object[] args;
             }
             #endregion
-            public void ServerPlayerHello(int user, string name, int others, int[] handshake)
+            public void ServerPlayerHello(int user, string name, int others, int navbar, int[] handshake)
             {
-                var args = new object[handshake.Length + 3];
+                var args = new object[handshake.Length + 4];
                 args[0] = user;
                 args[1] = name;
                 args[2] = others;
-                Array.Copy(handshake, 0, args, 3, handshake.Length);
+                args[3] = navbar;
+                Array.Copy(handshake, 0, args, 4, handshake.Length);
                 Send(new SendArguments { i = Messages.ServerPlayerHello, args = args });
             }
             public void ServerPlayerJoined(int user, string name)
@@ -683,11 +684,12 @@ namespace Mahjong.NetworkCode.Shared
                 public int user;
                 public string name;
                 public int others;
+                public int navbar;
                 public int[] handshake;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name).Append(", others = ").Append(this.others).Append(", handshake = ").Append(this.handshake).Append(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name).Append(", others = ").Append(this.others).Append(", navbar = ").Append(this.navbar).Append(", handshake = ").Append(this.handshake).Append(" }").ToString();
                 }
             }
             #endregion
@@ -1156,7 +1158,7 @@ namespace Mahjong.NetworkCode.Shared
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
                         {
-                            { Messages.ServerPlayerHello, e => { ServerPlayerHello(new ServerPlayerHelloArguments { user = e.GetInt32(0), name = e.GetString(1), others = e.GetInt32(2), handshake = e.GetInt32Array(3) }); } },
+                            { Messages.ServerPlayerHello, e => { ServerPlayerHello(new ServerPlayerHelloArguments { user = e.GetInt32(0), name = e.GetString(1), others = e.GetInt32(2), navbar = e.GetInt32(3), handshake = e.GetInt32Array(4) }); } },
                             { Messages.ServerPlayerJoined, e => { ServerPlayerJoined(new ServerPlayerJoinedArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                             { Messages.ServerPlayerLeft, e => { ServerPlayerLeft(new ServerPlayerLeftArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                             { Messages.UserPlayerAdvertise, e => { UserPlayerAdvertise(new UserPlayerAdvertiseArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
@@ -1292,10 +1294,10 @@ namespace Mahjong.NetworkCode.Shared
                 e();
             }
             public event Action<RemoteEvents.ServerPlayerHelloArguments> ServerPlayerHello;
-            void IMessages.ServerPlayerHello(int user, string name, int others, int[] handshake)
+            void IMessages.ServerPlayerHello(int user, string name, int others, int navbar, int[] handshake)
             {
                 if(ServerPlayerHello == null) return;
-                var v = new RemoteEvents.ServerPlayerHelloArguments { user = user, name = name, others = others, handshake = handshake };
+                var v = new RemoteEvents.ServerPlayerHelloArguments { user = user, name = name, others = others, navbar = navbar, handshake = handshake };
                 this.VirtualLatency(() => this.ServerPlayerHello(v));
             }
 
@@ -1568,4 +1570,4 @@ namespace Mahjong.NetworkCode.Shared
     }
     #endregion
 }
-// 19.09.2008 19:04:41
+// 20.09.2008 20:45:00
