@@ -66,6 +66,8 @@ namespace ScriptCoreLib.Shared.Avalon.Cursors
 			return Math.Sqrt(b * b + g * g + b * b);
 		}
 
+		public double DefaultColorOpacity = 0.8;
+
 		public Color Color
 		{
 			set
@@ -88,7 +90,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cursors
 					select new { z, k.i }
 				);
 
-				a[0].i.Opacity = 0.5;
+				a[0].i.Opacity = DefaultColorOpacity;
 
 				for (int i = 1; i < a.Length; i++)
 				{

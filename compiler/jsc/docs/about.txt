@@ -157,3 +157,5 @@ version history:
 	java: Main will be translated to main
 15.09.2008
 	actionscript: fixed uint constants for method parameters
+20.09.2008
+	cs2: added trivial support for custom attributes

@@ -14,7 +14,18 @@ namespace Mahjong.NetworkCode.ServerSide
 {
 	using SettingsInfo = VirtualGame.SettingsInfo;
 
-	[GameSetup.Boolean(SettingsInfo.navbar, "With Navigation Bar", "Allows players take a step back", true)]
+	[GameSetup.Boolean(
+		SettingsInfo.navbar, 
+		"With Navigation Bar", 
+		"Allows players to navigate a step back to their last moves", 
+		true)]
+
+	[GameSetup.Boolean(
+		SettingsInfo.layoutinput,
+		"With Layout Chooser",
+		"Allows players to freely choose between layouts",
+		true)]
+
 	partial class NonobaGame
 	{
 

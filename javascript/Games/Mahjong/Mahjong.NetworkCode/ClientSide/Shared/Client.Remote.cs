@@ -9,6 +9,7 @@ using ScriptCoreLib.Shared.Avalon.Cursors;
 using System.Windows.Media;
 using ScriptCoreLib.Shared.Lambda;
 using System.IO;
+using Mahjong.Code;
 
 namespace Mahjong.NetworkCode.ClientSide.Shared
 {
@@ -102,9 +103,25 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 					DiagnosticsWriteLine("handshake ok");
 
-					Messages.ServerPlayerHello(e.user, e.name, e.others, e.navbar, new Handshake().Bytes);
+					Messages.ServerPlayerHello(e.user, e.name, e.others, e.navbar, e.layoutinput, new Handshake().Bytes);
 
 					this.Identity.Value = e;
+
+					if (e.navbar == 0)
+					{
+						this.Map.Navbar.Container.Visibility = System.Windows.Visibility.Hidden;
+						this.Map.CommentForUnfocusing.MoveTo(
+							MahjongGameControl.CommentMargin,
+							MahjongGameControl.CommentMargin
+							);
+					}
+
+					if (e.layoutinput == 0)
+					{
+						this.Map.AllowPlayerToChooseLayouts = false;
+						this.Map.Comment.IsReadOnly = true;
+						this.Map.CommentSuggestions.Enabled = false;
+					}
 
 					if (e.others == 0)
 					{
@@ -219,8 +236,8 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					this.Map.DiagnosticsWriteLine("UserMapRequest: " + c.Name);
 
 					this.SynchronizedAsync(
-					// if we are loading we need to wait - we can test it by making the map
-					// to load real slow
+						// if we are loading we need to wait - we can test it by making the map
+						// to load real slow
 						Done =>
 						{
 							// what if the guy leaves without waiting for response?
@@ -297,7 +314,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 						}
 					);
 
-					
+
 				};
 
 			this.Events.UserLockExit +=

@@ -9,7 +9,7 @@ namespace Mahjong.NetworkCode.Shared
 	[Script]
 	public class Handshake
 	{
-		const byte Count = 0xA0;
+		const byte Count = 0x04;
 
 		public readonly int[] Bytes = new int[Count];
 

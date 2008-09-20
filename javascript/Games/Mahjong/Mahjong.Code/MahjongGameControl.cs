@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Controls;
-using ScriptCoreLib;
-using ScriptCoreLib.Shared.Avalon.Extensions;
-using ScriptCoreLib.Shared.Lambda;
-using ScriptCoreLib.CSharp.Extensions;
-using Mahjong.Shared;
-using System.Windows.Media;
-using System.Media;
-using System.Windows.Input;
-using System.Windows.Shapes;
-using System.Windows;
-using ScriptCoreLib.Shared.Avalon.TextSuggestions;
 using System.IO;
-using ScriptCoreLib.Shared.Avalon.TiledImageButton;
+using System.Linq;
+using System.Media;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Shapes;
+using Mahjong.Shared;
+using ScriptCoreLib;
+using ScriptCoreLib.CSharp.Extensions;
 using ScriptCoreLib.Shared.Avalon.Cursors;
+using ScriptCoreLib.Shared.Avalon.Extensions;
+using ScriptCoreLib.Shared.Avalon.TextSuggestions;
+using ScriptCoreLib.Shared.Avalon.TiledImageButton;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace Mahjong.Code
 {
@@ -51,11 +51,19 @@ namespace Mahjong.Code
 
 		public readonly Canvas CoPlayerMouseContainer;
 
+		public const int CommentMargin = 8;
+		public readonly TextBox CommentForUnfocusing;
 		public readonly TextBox Comment;
+		public readonly TextSuggestionsControl CommentSuggestions;
 
 		public readonly VisibleLayout MyLayout;
 
 		public readonly Canvas DiagnosticsContainer = new Canvas();
+
+		public readonly AeroNavigationBar Navbar;
+
+
+		public bool AllowPlayerToChooseLayouts = true;
 
 		public MahjongGameControl()
 		{
@@ -184,8 +192,7 @@ namespace Mahjong.Code
 			}.AttachTo(this);
 
 
-			var CommentMargin = 8;
-			var CommentForUnfocusing = new TextBox
+			this.CommentForUnfocusing = new TextBox
 			{
 				Width = DefaultScaledWidth - CommentMargin * 2 - 64,
 				Height = 24,
@@ -211,12 +218,13 @@ namespace Mahjong.Code
 				IsReadOnly = true,
 			}.MoveTo(CommentMargin, CommentMargin).AttachTo(this);
 
-			var CommentSuggestions = new TextSuggestionsControl(Comment, 6, CommentForUnfocusing, this)
+			this.CommentSuggestions = new TextSuggestionsControl(Comment, 7, CommentForUnfocusing, this)
 			{
 				Suggestions = new string[0],
 				InactiveResultBackground = Brushes.Transparent,
 				Margin = 2,
-				Enabled = false
+				Enabled = false,
+				UnfocusWhenDisabled = false
 			};
 
 			CommentSuggestions.Activate +=
@@ -350,8 +358,11 @@ namespace Mahjong.Code
 					Layouts.AllLoaded.Continue(
 						delegate
 						{
-							Comment.IsReadOnly = false;
-							CommentSuggestions.Enabled = true;
+							if (AllowPlayerToChooseLayouts)
+							{
+								Comment.IsReadOnly = false;
+								CommentSuggestions.Enabled = true;
+							}
 						}
 					);
 
@@ -360,7 +371,7 @@ namespace Mahjong.Code
 
 
 			#region back/forward buttons
-			var Navbar = new AeroNavigationBar();
+			this.Navbar = new AeroNavigationBar();
 
 			Navbar.ButtonGoBack.Enabled = false;
 			Navbar.ButtonGoForward.Enabled = false;
