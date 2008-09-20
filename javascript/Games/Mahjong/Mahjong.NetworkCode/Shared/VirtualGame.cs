@@ -15,6 +15,7 @@ namespace Mahjong.NetworkCode.Shared
 		public class SettingsInfo
 		{
 			public const string navbar = "navbar";
+			public const string layoutinput = "layoutinput";
 
 		}
 
@@ -91,14 +92,19 @@ namespace Mahjong.NetworkCode.Shared
 			//}
 
 			var navbar = 1;
+			var layoutinput = 1;
 
-			if (!this.Settings.GetBoolean(SettingsInfo.navbar))
+			if (!this.Settings.GetBoolean(SettingsInfo.navbar, true))
 				navbar = 0;
+
+			if (!this.Settings.GetBoolean(SettingsInfo.layoutinput, true))
+				layoutinput = 0;
 
 			// let new player know how it is named, also send magic bytes to verify
 			player.ToPlayer.ServerPlayerHello(
 				player.UserId, player.Username, this.Users.Count - 1,
 				navbar,
+				layoutinput,
 				new Handshake().Bytes
 			);
 

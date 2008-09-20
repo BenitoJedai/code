@@ -49,6 +49,8 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 
 		public bool Enabled { get; set; }
 
+		public bool UnfocusWhenDisabled;
+
 		public TextSuggestionsControl(TextBox Input, int MaxResults, UIElement Unfocus, Canvas Container)
 		{
 			this.Enabled = true;
@@ -195,7 +197,9 @@ namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 				{
 					if (!this.Enabled)
 					{
-						Unfocus.Focus();
+						if (UnfocusWhenDisabled)
+							Unfocus.Focus();
+
 						return;
 					}
 

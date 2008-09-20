@@ -39,10 +39,10 @@ namespace Mahjong.NetworkCode.ServerSide
 				AtInterval = (h, i) => this.AddTimer(() => h(), i).Stop,
 				Settings = new ServerGameSettings
 				{
-					GetBoolean = this.Setup.GetBoolean,
-					GetInteger = this.Setup.GetInteger,
-					GetOption = this.Setup.GetOption,
-					GetString = this.Setup.GetString
+					GetBoolean = (e, v) => this.Setup.GetBoolean(e),
+					GetInteger = (e, v) => this.Setup.GetInteger(e),
+					GetOption = (e, v) => this.Setup.GetOption(e),
+					GetString = (e, v) => this.Setup.GetString(e)
 				}
 			};
 

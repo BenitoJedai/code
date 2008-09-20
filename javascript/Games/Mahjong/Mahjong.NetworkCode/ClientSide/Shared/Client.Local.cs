@@ -41,7 +41,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 			this.Map = new MahjongGameControlForNetwork();
 			this.Map.AttachTo(Element);
-
+			//this.Map.Navbar.Container.Visibility = Visibility.Hidden;
 			this.MapInitialized.Value = this.Map;
 
 			PlaySoundFuture.Continue(this.Map.PlaySoundFuture);
