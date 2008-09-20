@@ -14,6 +14,7 @@ namespace Mahjong.SplitScreen.Shared
 {
 	using SinglePlayerCanvas = Mahjong.Code.MahjongGameControl;
 	using Mahjong.NetworkCode.ClientSide.Shared;
+	using Mahjong.Code;
 
 	[Script]
 	public class SplitScreenCanvas : Canvas
@@ -36,6 +37,9 @@ namespace Mahjong.SplitScreen.Shared
 			c.Lefty.Element.AttachTo(this);
 			c.Righty.Element.MoveTo(SinglePlayerCanvas.DefaultScaledWidth, 0).AttachTo(this);
 
+			c.Righty.MapInitialized.Continue(
+				(MahjongGameControl Map) => Map.DiagnosticsContainer.Visibility = Visibility.Hidden
+			);
 
 			PlaySoundFuture.Continue(c.Lefty.Map.PlaySoundFuture);
 			PlaySoundFuture.Continue(c.Righty.Map.PlaySoundFuture);

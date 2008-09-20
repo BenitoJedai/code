@@ -17,7 +17,7 @@ namespace Mahjong.NonobaClient.Monetized.ActionScript
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
 	/// </summary>
 	[Script, ScriptApplicationEntryPoint(Width = TargetCanvas.DefaultWidth, Height = TargetCanvas.DefaultHeight)]
-	[SWF(width = TargetCanvas.DefaultWidth, height = TargetCanvas.DefaultHeight)]
+	[SWF(width = TargetCanvas.DefaultWidth, height = TargetCanvas.DefaultHeight, backgroundColor = 0)]
 	[Frame(typeof(MochiPreloader))]
 	public class MonetizedNonobaClient : TargetCanvas
 	{
@@ -40,7 +40,7 @@ namespace Mahjong.NonobaClient.Monetized.ActionScript
 		[TypeOfByNameOverride]
 		public override DisplayObject CreateInstance()
 		{
-			return Activator.CreateInstance(typeof(TargetCanvas)) as DisplayObject;
+			return Activator.CreateInstance(typeof(MonetizedNonobaClient)) as DisplayObject;
 		}
 
 		public override bool AutoCreateInstance()

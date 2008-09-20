@@ -113,15 +113,17 @@ namespace Mahjong.Code
 			MyLayout.Container.AttachTo(this);
 
 			#region DiagnosticsWriteLine
+
+			DiagnosticsContainer.AttachTo(this);
+
 			var DiagnosticsBackground = new Rectangle
 			{
 				Fill = Brushes.Black,
 				Width = DefaultScaledWidth,
 				Height = DefaultScaledHeight / 2,
 				Opacity = 0.5
-			}.MoveTo(0, DefaultScaledHeight / 4).AttachTo(this);
+			}.MoveTo(0, DefaultScaledHeight / 4).AttachTo(DiagnosticsContainer);
 
-			DiagnosticsContainer.AttachTo(this);
 
 			this.DiagnosticsText = new TextBox
 			{
@@ -424,10 +426,22 @@ namespace Mahjong.Code
 					{
 						if (MyLayout.LayoutProgress == null)
 							Comment.Text = "There are " + ByComment.Count + " layouts";
-						else if (MyLayout.LayoutProgress.CanSignal)
-							Comment.Text = MyLayout.Layout.Comment;
 						else
-							Comment.Text = "There are " + ByComment.Count + " layouts";
+						{
+							if (MyLayout.LayoutProgress.CanSignal)
+								Comment.Text = MyLayout.Layout.Comment;
+							else
+								Comment.Text = "There are " + ByComment.Count + " layouts";
+
+							MyLayout.LayoutProgress.Continue(
+								delegate
+								{
+									Comment.Text = MyLayout.Layout.Comment;
+								}
+							);
+						}
+
+
 					}
 
 					CommentSuggestions.Suggestions = ByComment.Keys.ToArray();
