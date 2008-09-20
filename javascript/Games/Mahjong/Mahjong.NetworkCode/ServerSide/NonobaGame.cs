@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Mahjong.NetworkCode.Shared;
 using Nonoba.GameLibrary;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.utils;
-using Mahjong.NetworkCode.Shared;
+using ScriptCoreLib.Shared.Nonoba.Generic;
 
 namespace Mahjong.NetworkCode.ServerSide
 {
@@ -23,7 +24,7 @@ namespace Mahjong.NetworkCode.ServerSide
 	}
 
 	[Script]
-	public class NonobaGame : NonobaGame<NonobaGameUser<VirtualPlayer>>
+	public partial class NonobaGame : NonobaGame<NonobaGameUser<VirtualPlayer>>
 	{
 		// this must be a direct inheritance to get it working 
 
@@ -36,7 +37,13 @@ namespace Mahjong.NetworkCode.ServerSide
 			{
 				AtDelay = (h, i) => this.ScheduleCallback(() => h(), i).Stop,
 				AtInterval = (h, i) => this.AddTimer(() => h(), i).Stop,
-
+				Settings = new ServerGameSettings
+				{
+					GetBoolean = this.Setup.GetBoolean,
+					GetInteger = this.Setup.GetInteger,
+					GetOption = this.Setup.GetOption,
+					GetString = this.Setup.GetString
+				}
 			};
 
 			var StateMap = new Dictionary<VirtualGame.GameStateEnum, NonobaGameState>

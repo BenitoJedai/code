@@ -29,6 +29,9 @@ namespace jsc.Languages.CSharp2
             WriteNamespaceAndDeclaringTypes(NamespaceFixup(z.Namespace), z,
                 delegate
                 {
+					// attributes
+					this.WriteCustomAttributes(z);
+
                     // using
 
                     WriteIdent();

@@ -18,6 +18,7 @@ namespace ScriptCoreLib.Shared.Nonoba.Generic
         public virtual void GameStarted() { }
         public virtual void GameClosed() { }
 
+		public ServerGameSettings Settings = new ServerGameSettings();
 
         public Func<Action, int, Action> AtInterval;
         public Func<Action, int, Action> AtDelay;

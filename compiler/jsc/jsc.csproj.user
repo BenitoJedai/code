@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\javascript\Games\Mahjong\Mahjong.NonobaClient\bin\Release</StartWorkingDirectory>
-    <StartArguments>Mahjong.NonobaClient.dll -cs2</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\javascript\Games\Mahjong\Mahjong.NetworkCode\bin\Debug</StartWorkingDirectory>
+    <StartArguments>Mahjong.NetworkCode.dll -cs2</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

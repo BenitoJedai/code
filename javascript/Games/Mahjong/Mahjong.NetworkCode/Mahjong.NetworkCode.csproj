@@ -93,6 +93,7 @@
     <Compile Include="ClientSide\Shared\NumericOmitter.cs" />
     <Compile Include="ClientSide\Shared\NumericTransmitter.cs" />
     <Compile Include="ClientSide\Shared\SplitScreenClient.cs" />
+    <Compile Include="ServerSide\NonobaGame.Settings.cs" />
     <Compile Include="ServerSide\NonobaGame.cs" />
     <Compile Include="Shared\AvailibleAchievement.cs" />
     <Compile Include="Shared\Communication.cs" />

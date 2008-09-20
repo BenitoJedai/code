@@ -102,7 +102,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 					DiagnosticsWriteLine("handshake ok");
 
-					Messages.ServerPlayerHello(e.user, e.name, e.others, new Handshake().Bytes);
+					Messages.ServerPlayerHello(e.user, e.name, e.others, e.navbar, new Handshake().Bytes);
 
 					this.Identity.Value = e;
 
