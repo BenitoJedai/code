@@ -107,6 +107,12 @@ namespace Mahjong.Code
 
 			this.GoBackHistory.Clear();
 			this.GoForwardHistory.Clear();
+
+			if (GoBackUnavailable != null)
+				GoBackUnavailable();
+
+			if (GoForwardUnavailable != null)
+				GoForwardUnavailable();
 		}
 
 

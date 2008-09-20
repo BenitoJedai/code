@@ -320,7 +320,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 				{
 					var c = CoPlayers[e.user];
 
-					DiagnosticsWriteLine("UserLockValidate: " + c.Name);
+					//DiagnosticsWriteLine("UserLockValidate: " + c.Name);
 
 					if (c.LockValidate != null)
 						c.LockValidate(e.id);

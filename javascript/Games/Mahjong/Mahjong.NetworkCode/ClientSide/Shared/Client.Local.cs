@@ -69,21 +69,21 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			this.UserLock_ByLocal.Acquired +=
 				delegate
 				{
-					DiagnosticsWriteLine("UserLock_ByLocal.Acquired");
+					//DiagnosticsWriteLine("UserLock_ByLocal.Acquired");
 					DisplayLockLocal.Foreground = Brushes.Red;
 				};
 
 			this.UserLock_ByLocal.Pending +=
 				delegate
 				{
-					DiagnosticsWriteLine("UserLock_ByLocal.Pending");
+					//DiagnosticsWriteLine("UserLock_ByLocal.Pending");
 					DisplayLockLocal.Foreground = Brushes.Yellow;
 				};
 
 			this.UserLock_ByLocal.Released +=
 				delegate
 				{
-					DiagnosticsWriteLine("UserLock_ByLocal.Released");
+					//DiagnosticsWriteLine("UserLock_ByLocal.Released");
 					DisplayLockLocal.Foreground = Brushes.Green;
 				};
 			#endregion
@@ -103,21 +103,21 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			this.UserLock_ByRemote.Acquired +=
 				delegate
 				{
-					DiagnosticsWriteLine("UserLock_ByRemote.Acquired");
+					//DiagnosticsWriteLine("UserLock_ByRemote.Acquired");
 					DisplayLockRemote.Foreground = Brushes.Red;
 				};
 
 			this.UserLock_ByRemote.Pending +=
 				delegate
 				{
-					DiagnosticsWriteLine("UserLock_ByRemote.Pending");
+					//DiagnosticsWriteLine("UserLock_ByRemote.Pending");
 					DisplayLockRemote.Foreground = Brushes.Yellow;
 				};
 
 			this.UserLock_ByRemote.Released +=
 				delegate
 				{
-					DiagnosticsWriteLine("UserLock_ByRemote.Released");
+					//DiagnosticsWriteLine("UserLock_ByRemote.Released");
 					DisplayLockRemote.Foreground = Brushes.Green;
 				};
 			#endregion
