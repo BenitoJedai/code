@@ -104,6 +104,14 @@
   <PropertyGroup>
     <PostBuildEvent>pushd ..\..\tools\
 call build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
-popd</PostBuildEvent>
+popd
+
+
+if %25ConfigurationName%25==Debug goto :eof
+
+copy "$(TargetDir)web\*.js" "../../../bin/SplitScreen/"
+xcopy "$(TargetDir)web\assets" "../../../bin/SplitScreen/assets" /E /I
+copy "$(TargetDir)web\*.swf" "../../../bin/SplitScreen/"
+copy "$(TargetDir)web\*.htm" "../../../bin/SplitScreen/"</PostBuildEvent>
   </PropertyGroup>
 </Project>

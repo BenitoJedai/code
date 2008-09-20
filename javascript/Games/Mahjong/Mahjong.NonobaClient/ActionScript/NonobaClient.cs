@@ -13,20 +13,21 @@ namespace Mahjong.NonobaClient.ActionScript
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
 	/// </summary>
-	[Script, ScriptApplicationEntryPoint(Width = ControlWidth, Height = ControlHeight)]
-	[SWF(width = ControlWidth, height = ControlHeight)]
+	[Script, ScriptApplicationEntryPoint(Width = DefaultWidth, Height = DefaultHeight)]
+	[SWF(width = DefaultWidth, height = DefaultHeight)]
 	public class NonobaClient : Sprite
 	{
-		public const int ControlWidth = MahjongGameControl.DefaultScaledWidth + global::Mahjong.NetworkCode.ClientSide.ActionScript.NonobaClient.NonobaChatWidth;
-		public const int ControlHeight = MahjongGameControl.DefaultScaledHeight;
+		public const int DefaultWidth = MahjongGameControl.DefaultScaledWidth + global::Mahjong.NetworkCode.ClientSide.ActionScript.NonobaClient.NonobaChatWidth;
+		public const int DefaultHeight = MahjongGameControl.DefaultScaledHeight;
 
 		public NonobaClient()
 		{
-			var n = new global::Mahjong.NetworkCode.ClientSide.ActionScript.NonobaClient("arvo-pc");
+			var c = new global::Mahjong.NetworkCode.ClientSide.ActionScript.NonobaClient("arvo-pc");
 
+			c.PlaySoundFuture.Value = global::Mahjong.ActionScript.__Assets.Default.PlaySound;
 
 			// spawn the wpf control
-			AvalonExtensions.AttachToContainer(n.Element, this);
+			AvalonExtensions.AttachToContainer(c.Element, this);
 		}
 
 		static NonobaClient()
