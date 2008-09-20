@@ -1,5 +1,5 @@
 ﻿/*
-    MochiAds.com ActionScript 3 code, version 2.5
+    MochiAds.com ActionScript 3 code, version 2.6
 
     Flash movies should be published for Flash 9 or later.
 
@@ -24,7 +24,7 @@ package {
     public class MochiAd {
 
         public static function getVersion():String {
-            return "2.5";
+            return "2.6";
         }
 
         public static function doOnEnterFrame(mc:MovieClip):void {
@@ -148,7 +148,10 @@ package {
             
             if ("c862232051e0a94e1c3609b3916ddb17".substr(0) == "dfeada81ac97cde83665f81c12da7def") {
                 options.ad_started();
-                setTimeout(options.ad_finished, 100);
+                var fn:Function = function ():void {
+                    options.ad_finished();
+                };
+                setTimeout(fn, 100);
                 return;
             }
 

@@ -20,6 +20,18 @@ namespace ScriptCoreLib.ActionScript.Extensions
 	[Script]
 	public static class CommonExtensions
 	{
+		public static void InvokeWhenStageIsReady(this DisplayObject o, Action a)
+		{
+			if (o.stage == null)
+				o.addedToStage +=
+					delegate
+					{
+						a();
+					};
+			else
+				a();
+		}
+
 		public static byte[] ToArray(this ByteArray e)
 		{
 			if (e == null)

@@ -23,7 +23,13 @@ namespace Mahjong.NonobaClient.Monetized.ActionScript
 	{
 		public MonetizedNonobaClient()
 		{
-	
+
+			this.Client.MapInitialized.Continue(
+				Map =>
+				{
+					Map.DiagnosticsContainer.Visibility = System.Windows.Visibility.Hidden;
+				}
+			);
 		}
 	}
 

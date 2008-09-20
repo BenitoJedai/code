@@ -23,12 +23,15 @@ namespace Mahjong.SplitScreen.Shared
 
 		public readonly FutureAction<string> PlaySoundFuture = new FutureAction<string>();
 
+		public readonly SplitScreenClient Client;
+
 		public SplitScreenCanvas()
 		{
 			Width = DefaultWidth;
 			Height = DefaultHeight;
 
 			var c = new SplitScreenClient();
+			Client = c;
 
 			c.Lefty.Element.AttachTo(this);
 			c.Righty.Element.MoveTo(SinglePlayerCanvas.DefaultScaledWidth, 0).AttachTo(this);
