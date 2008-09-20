@@ -113,6 +113,6 @@ if %25ConfigurationName%25==Debug goto :eof
 copy "$(TargetDir)web\*.dll" "../../../bin/Monetized/"
 copy "$(TargetDir)web\*.pdb" "../../../bin/Monetized/"
 copy "$(TargetDir)web\*.swf" "../../../bin/Monetized/"
-copy "$(TargetDir)web\*.htm" "../../../bin/Monetized/"</PostBuildEvent>
+</PostBuildEvent>
   </PropertyGroup>
 </Project>
