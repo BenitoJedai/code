@@ -494,7 +494,7 @@ namespace Mahjong.Code
 			MyLayout.ReadyForNextLayout +=
 				delegate
 				{
-					Console.WriteLine("congrats!");
+					DiagnosticsWriteLine("congrats!");
 				};
 		}
 

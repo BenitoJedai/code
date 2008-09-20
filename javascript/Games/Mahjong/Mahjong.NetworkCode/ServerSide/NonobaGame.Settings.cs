@@ -16,15 +16,15 @@ namespace Mahjong.NetworkCode.ServerSide
 
 	[GameSetup.Boolean(
 		SettingsInfo.navbar, 
-		"With Navigation Bar", 
-		"Allows players to navigate a step back to their last moves", 
-		true)]
+		"Without navigation bar", 
+		"Disallows players to navigate a step back to their last moves", 
+		false)]
 
 	[GameSetup.Boolean(
 		SettingsInfo.layoutinput,
-		"With Layout Chooser",
-		"Allows players to freely choose between layouts",
-		true)]
+		"Without layout chooser",
+		"Disallows players to freely choose between layouts",
+		false)]
 
 	partial class NonobaGame
 	{

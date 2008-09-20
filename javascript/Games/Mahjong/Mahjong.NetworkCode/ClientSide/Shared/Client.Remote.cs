@@ -121,6 +121,8 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 						this.Map.AllowPlayerToChooseLayouts = false;
 						this.Map.Comment.IsReadOnly = true;
 						this.Map.CommentSuggestions.Enabled = false;
+					
+
 					}
 
 					if (e.others == 0)
