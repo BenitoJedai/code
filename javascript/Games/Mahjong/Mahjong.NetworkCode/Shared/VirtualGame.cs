@@ -94,10 +94,10 @@ namespace Mahjong.NetworkCode.Shared
 			var navbar = 1;
 			var layoutinput = 1;
 
-			if (!this.Settings.GetBoolean(SettingsInfo.navbar, true))
+			if (this.Settings.GetBoolean(SettingsInfo.navbar, false))
 				navbar = 0;
 
-			if (!this.Settings.GetBoolean(SettingsInfo.layoutinput, true))
+			if (this.Settings.GetBoolean(SettingsInfo.layoutinput, false))
 				layoutinput = 0;
 
 			// let new player know how it is named, also send magic bytes to verify
