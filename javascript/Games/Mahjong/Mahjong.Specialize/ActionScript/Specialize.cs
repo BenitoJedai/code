@@ -74,7 +74,7 @@ namespace Mahjong.Specialize.ActionScript
 
 					var IsFullscreen = false;
 
-					Action Toggle =
+					Action ToggleUnsafe =
 						delegate
 						{
 							if (IsFullscreen)
@@ -103,6 +103,19 @@ namespace Mahjong.Specialize.ActionScript
 								Enter(s);
 						};
 
+					Action Toggle =
+						delegate
+						{
+							try
+							{
+								ToggleUnsafe();
+							}
+							catch
+							{
+								u.FullscreenButton.ButtonGoFullscreen.Enabled = false;
+							}
+						};
+
 					s.stage.fullScreen +=
 						e =>
 						{
@@ -116,6 +129,8 @@ namespace Mahjong.Specialize.ActionScript
 							{
 								{ "Fullscreen",  Toggle }
 							};
+
+					s.contextMenu.hideBuiltInItems();
 
 
 				}

@@ -126,9 +126,15 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					
 
 					}
+
 					if (e.hints == 1)
 					{
-						this.Map.ShowMatchingTiles = true;
+						this.FirstSyncComplete.Continue(
+							delegate
+							{
+								this.Map.ShowMatchingTiles = true;
+							}
+						);
 					}
 
 					

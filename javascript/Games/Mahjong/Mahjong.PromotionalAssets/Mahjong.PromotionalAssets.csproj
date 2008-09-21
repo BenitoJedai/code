@@ -53,6 +53,12 @@
     <Content Include="mahjong-multiplayer.swf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Screenshot.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Screenshot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="x100.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -67,6 +73,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)*.png" "../../../bin/"
+copy "$(TargetDir)*.jpg" "../../../bin/"
 copy "$(TargetDir)*.swf" "../../../bin/"</PostBuildEvent>
   </PropertyGroup>
 </Project>
