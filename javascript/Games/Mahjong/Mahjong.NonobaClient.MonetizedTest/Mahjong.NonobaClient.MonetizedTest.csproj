@@ -34,8 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Development Server, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Mahjong.NonobaClientTest\Library\Development Server.exe</HintPath>
+      <ExecutableExtension>.exe</ExecutableExtension>
     </Reference>
     <Reference Include="Mahjong.NonobaClient.Monetized.NonobaServer, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -82,6 +81,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Library\Development Server.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

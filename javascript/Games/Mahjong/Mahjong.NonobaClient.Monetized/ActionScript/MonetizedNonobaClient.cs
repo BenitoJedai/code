@@ -19,7 +19,7 @@ namespace Mahjong.NonobaClient.Monetized.ActionScript
 	[Script, ScriptApplicationEntryPoint(Width = TargetCanvas.DefaultWidth, Height = TargetCanvas.DefaultHeight)]
 	[SWF(width = TargetCanvas.DefaultWidth, height = TargetCanvas.DefaultHeight, backgroundColor = 0)]
 	[Frame(typeof(MochiPreloader))]
-	public class MonetizedNonobaClient : TargetCanvas
+	public partial class MonetizedNonobaClient : TargetCanvas
 	{
 		public MonetizedNonobaClient()
 		{
