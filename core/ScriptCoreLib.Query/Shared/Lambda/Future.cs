@@ -47,6 +47,19 @@ namespace ScriptCoreLib.Shared.Lambda
 
 			}
 		}
+
+		public Future()
+			: this(null)
+		{
+		}
+
+		public Future(Action e)
+		{
+			if (e != null)
+				this.Continue(e);
+
+		}
+
 	}
 
 	[Script]
@@ -304,7 +317,7 @@ namespace ScriptCoreLib.Shared.Lambda
 
 		public bool IsAcquired;
 
-		public FutureLock  Acquire()
+		public FutureLock Acquire()
 		{
 			if (Lock != null)
 				throw new Exception("Cannot acquire this lock without waiting");
@@ -352,26 +365,26 @@ namespace ScriptCoreLib.Shared.Lambda
 			if (Pending != null)
 				Pending();
 
-				dependencies.Continue(
-					delegate
-					{
-						u.Continue(
-							delegate
-							{
-								dependencies.Continue(
-									delegate
-									{
-										IsAcquired = true;
-										if (Acquired != null)
-											Acquired();
+			dependencies.Continue(
+				delegate
+				{
+					u.Continue(
+						delegate
+						{
+							dependencies.Continue(
+								delegate
+								{
+									IsAcquired = true;
+									if (Acquired != null)
+										Acquired();
 
-										e();
-									}
-								);
-							}
-						);
-					}
-				);
+									e();
+								}
+							);
+						}
+					);
+				}
+			);
 		}
 
 
