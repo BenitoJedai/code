@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 using Mahjong.Code;
+using Mahjong.Specialize.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 
@@ -24,8 +25,9 @@ namespace Mahjong.ActionScript
 		{
 			var c = new MahjongGameControl();
 
-			c.PlaySoundFuture.Value = __Assets.Default.PlaySound;
-
+			c.BindToFullScreen();
+			c.PlaySoundFuture.BindToPlaySound();
+			c.DiagnosticsContainer.Visibility = System.Windows.Visibility.Hidden;
 
 			// spawn the wpf control
 			AvalonExtensions.AttachToContainer(c, this);

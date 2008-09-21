@@ -277,7 +277,9 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					this.Messages.MapReload(SerializeMap());
 				};
 
-		
+
+			this.Map.Sync_ScoreChangedBy += this.Messages.AddScore;
+
 			InitializeMapDone.Signal();
 		}
 	}

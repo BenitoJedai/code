@@ -84,6 +84,10 @@
       <Project>{10B71A22-D062-4A4B-BB93-F2F749DE89BC}</Project>
       <Name>Mahjong.Code</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mahjong.Specialize\Mahjong.Specialize.csproj">
+      <Project>{324683C6-7B93-4279-A7A1-C43A958A3B9E}</Project>
+      <Name>Mahjong.Specialize</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />

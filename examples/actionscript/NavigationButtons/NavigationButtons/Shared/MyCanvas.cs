@@ -77,6 +77,17 @@ namespace NavigationButtons.Shared
 					n2.ButtonGoBack.Enabled = true;
 
 				};
+
+
+			var fs = new FullscreenButtonControl();
+
+			fs.Container.AttachTo(this).MoveTo(8, DefaultHeight - 8 - 24);
+
+
+			var fs2 = new FullscreenButtonControl();
+
+			fs2.ButtonGoFullscreen.Enabled = false;
+			fs2.Container.AttachTo(this).MoveTo(8 + 24, DefaultHeight - 8 - 24);
 		}
 
 	}

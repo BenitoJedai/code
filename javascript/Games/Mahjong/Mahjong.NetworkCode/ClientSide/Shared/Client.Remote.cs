@@ -105,7 +105,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 					DiagnosticsWriteLine("handshake ok");
 
-					Messages.ServerPlayerHello(e.user, e.name, e.others, e.navbar, e.vote, e.layoutinput, new Handshake().Bytes);
+					Messages.ServerPlayerHello(e.user, e.name, e.others, e.navbar, e.vote, e.layoutinput, e.hints, new Handshake().Bytes);
 
 					this.Identity.Value = e;
 
@@ -125,6 +125,10 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 						this.Map.CommentSuggestions.Enabled = false;
 					
 
+					}
+					if (e.hints == 1)
+					{
+						this.Map.ShowMatchingTiles = true;
 					}
 
 					

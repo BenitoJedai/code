@@ -19,7 +19,7 @@ namespace Mahjong.Specialize.ActionScript
 	[Script]
 	public static class Specialize
 	{
-	
+
 		/// <summary>
 		/// This will enable sounds 
 		/// </summary>
@@ -29,7 +29,7 @@ namespace Mahjong.Specialize.ActionScript
 			e.Value = global::Mahjong.ActionScript.__Assets.Default.PlaySound;
 		}
 
-		public static void BindToFullScreenExclusively(this Panel u)
+		public static void BindToFullScreenExclusively(this MahjongGameControl u)
 		{
 			Action<Sprite> Enter =
 				s =>
@@ -52,66 +52,68 @@ namespace Mahjong.Specialize.ActionScript
 
 					s.stage.fullScreen += h;
 
-					
+
 				};
 
 			BindToFullScreen(u, Enter, null);
 		}
 
-		public static void BindToFullScreen(this Panel u)
+		public static void BindToFullScreen(this MahjongGameControl u)
 		{
 			BindToFullScreen(u, null, null);
 		}
 
-		public static void BindToFullScreen(this Panel u, Action<Sprite> Enter, Action<Sprite> Exit)
+		public static void BindToFullScreen(this MahjongGameControl u, Action<Sprite> Enter, Action<Sprite> Exit)
 		{
 			var s = u.ToSprite();
 
 			s.InvokeWhenStageIsReady(
 				delegate
 				{
-					100.AtDelay(
+					var IsFullscreen = false;
+
+					Action Toggle =
 						delegate
 						{
-							s.contextMenu = new ContextMenuEx
+							if (IsFullscreen)
 							{
-								{ "Go Fullscreen", 
-									delegate
-									{
-										var p = s.localToGlobal(new Point());
+								s.stage.SetFullscreen(false);
 
-										
+								if (Exit != null)
+									Exit(s);
 
+								return;
+							}
 
-										s.stage.fullScreenSourceRect = new Rectangle
-										{
-											left = p.x,
-											top = p.y,
-											width = MahjongGameControl.DefaultScaledWidth,
-											height = MahjongGameControl.DefaultScaledHeight
-										};
+							var p = s.localToGlobal(new Point());
 
-										s.stage.SetFullscreen(true);
-
-										if (Enter != null)
-											Enter(s);
-									}
-								},
-								{ "Exit Fullscreen", 
-									delegate
-									{
-								
-
-
-										s.stage.SetFullscreen(false);
-
-										if (Exit != null)
-											Exit(s);
-									}
-								}
+							s.stage.fullScreenSourceRect = new Rectangle
+							{
+								left = p.x,
+								top = p.y,
+								width = MahjongGameControl.DefaultScaledWidth,
+								height = MahjongGameControl.DefaultScaledHeight
 							};
-						}
-					);
+
+							s.stage.SetFullscreen(true);
+
+							if (Enter != null)
+								Enter(s);
+						};
+
+					s.stage.fullScreen +=
+						e =>
+						{
+							IsFullscreen = e.fullScreen;
+						};
+
+					u.FullscreenButton.ButtonGoFullscreen.Enabled = true;
+					u.FullscreenButton.GoFullscreen += Toggle;
+
+					s.contextMenu = new ContextMenuEx
+							{
+								{ "Fullscreen",  Toggle }
+							};
 
 
 				}

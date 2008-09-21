@@ -9,15 +9,9 @@ using Nonoba.GameLibrary;
 namespace Mahjong.NetworkCode.Shared
 {
 	[Script]
-	public class VirtualGame : ServerGameBase<Communication.IEvents, Communication.IMessages, VirtualPlayer>
+	public partial class VirtualGame : ServerGameBase<Communication.IEvents, Communication.IMessages, VirtualPlayer>
 	{
-		[Script]
-		public class SettingsInfo
-		{
-			public const string navbar = "navbar";
-			public const string layoutinput = "layoutinput";
-			public const string vote = "vote";
-		}
+
 
 
 
@@ -77,7 +71,7 @@ namespace Mahjong.NetworkCode.Shared
 			//    };
 
 
-			////player.FromPlayer.AddScore += e => player.AddScore("worms", e.worms);
+			player.FromPlayer.AddScore += e => player.AddScore("score", e.score);
 
 			//player.FromPlayer.AwardAchievementFirst += e => player.AwardAchievement("first");
 			//player.FromPlayer.AwardAchievementFiver += e => player.AwardAchievement("fiver");
@@ -94,6 +88,7 @@ namespace Mahjong.NetworkCode.Shared
 			var navbar = 1;
 			var layoutinput = 1;
 			var vote = 1;
+			var hints = 0;
 
 			if (this.Settings.GetBoolean(SettingsInfo.navbar, false))
 				navbar = 0;
@@ -104,12 +99,16 @@ namespace Mahjong.NetworkCode.Shared
 			if (this.Settings.GetBoolean(SettingsInfo.vote, false))
 				vote = 0;
 
+			if (this.Settings.GetBoolean(SettingsInfo.hints, false))
+				hints = 1;
+
 			// let new player know how it is named, also send magic bytes to verify
 			player.ToPlayer.ServerPlayerHello(
 				player.UserId, player.Username, this.Users.Count - 1,
 				navbar,
 				vote,
 				layoutinput,
+				hints,
 				new Handshake().Bytes
 			);
 
