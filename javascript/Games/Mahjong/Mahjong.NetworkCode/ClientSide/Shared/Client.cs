@@ -47,6 +47,12 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 				Width = Mahjong.Code.MahjongGameControl.DefaultScaledWidth,
 				Height = Mahjong.Code.MahjongGameControl.DefaultScaledHeight
 			};
+
+			new []
+			{
+				this.InitializeMapDone,
+				this.InitializeEventsDone
+			}.Continue(InitializeVote);
 		}
 	}
 }

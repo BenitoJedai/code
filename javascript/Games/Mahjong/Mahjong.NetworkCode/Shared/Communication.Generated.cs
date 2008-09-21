@@ -33,14 +33,8 @@ namespace Mahjong.NetworkCode.Shared
             UserMouseOut,
             LevelHasEnded,
             UserLevelHasEnded,
-            SetFlag,
-            UserSetFlag,
-            Reveal,
-            UserReveal,
             AddScore,
             AwardAchievementFirst,
-            SendPassword,
-            ServerPasswordStatus,
             LockGame,
             UnlockGame,
             UserSayLine,
@@ -53,6 +47,13 @@ namespace Mahjong.NetworkCode.Shared
             UserGoBack,
             GoForward,
             UserGoForward,
+            VoteRequest,
+            UserVoteRequest,
+            UserVoteResponse,
+            VoteStats,
+            UserVoteStats,
+            VoteAbort,
+            UserVoteAbort,
         }
         #endregion
 
@@ -82,14 +83,8 @@ namespace Mahjong.NetworkCode.Shared
             event Action<RemoteEvents.UserMouseOutArguments> UserMouseOut;
             event Action<RemoteEvents.LevelHasEndedArguments> LevelHasEnded;
             event Action<RemoteEvents.UserLevelHasEndedArguments> UserLevelHasEnded;
-            event Action<RemoteEvents.SetFlagArguments> SetFlag;
-            event Action<RemoteEvents.UserSetFlagArguments> UserSetFlag;
-            event Action<RemoteEvents.RevealArguments> Reveal;
-            event Action<RemoteEvents.UserRevealArguments> UserReveal;
             event Action<RemoteEvents.AddScoreArguments> AddScore;
             event Action<RemoteEvents.AwardAchievementFirstArguments> AwardAchievementFirst;
-            event Action<RemoteEvents.SendPasswordArguments> SendPassword;
-            event Action<RemoteEvents.ServerPasswordStatusArguments> ServerPasswordStatus;
             event Action<RemoteEvents.LockGameArguments> LockGame;
             event Action<RemoteEvents.UnlockGameArguments> UnlockGame;
             event Action<RemoteEvents.UserSayLineArguments> UserSayLine;
@@ -102,6 +97,13 @@ namespace Mahjong.NetworkCode.Shared
             event Action<RemoteEvents.UserGoBackArguments> UserGoBack;
             event Action<RemoteEvents.GoForwardArguments> GoForward;
             event Action<RemoteEvents.UserGoForwardArguments> UserGoForward;
+            event Action<RemoteEvents.VoteRequestArguments> VoteRequest;
+            event Action<RemoteEvents.UserVoteRequestArguments> UserVoteRequest;
+            event Action<RemoteEvents.UserVoteResponseArguments> UserVoteResponse;
+            event Action<RemoteEvents.VoteStatsArguments> VoteStats;
+            event Action<RemoteEvents.UserVoteStatsArguments> UserVoteStats;
+            event Action<RemoteEvents.VoteAbortArguments> VoteAbort;
+            event Action<RemoteEvents.UserVoteAbortArguments> UserVoteAbort;
         }
         #endregion
 
@@ -120,15 +122,16 @@ namespace Mahjong.NetworkCode.Shared
                 public object[] args;
             }
             #endregion
-            public void ServerPlayerHello(int user, string name, int others, int navbar, int layoutinput, int[] handshake)
+            public void ServerPlayerHello(int user, string name, int others, int navbar, int vote, int layoutinput, int[] handshake)
             {
-                var args = new object[handshake.Length + 5];
+                var args = new object[handshake.Length + 6];
                 args[0] = user;
                 args[1] = name;
                 args[2] = others;
                 args[3] = navbar;
-                args[4] = layoutinput;
-                Array.Copy(handshake, 0, args, 5, handshake.Length);
+                args[4] = vote;
+                args[5] = layoutinput;
+                Array.Copy(handshake, 0, args, 6, handshake.Length);
                 Send(new SendArguments { i = Messages.ServerPlayerHello, args = args });
             }
             public void ServerPlayerJoined(int user, string name)
@@ -191,22 +194,6 @@ namespace Mahjong.NetworkCode.Shared
             {
                 Send(new SendArguments { i = Messages.UserLevelHasEnded, args = new object[] { user } });
             }
-            public void SetFlag(int button, int value)
-            {
-                Send(new SendArguments { i = Messages.SetFlag, args = new object[] { button, value } });
-            }
-            public void UserSetFlag(int user, int button, int value)
-            {
-                Send(new SendArguments { i = Messages.UserSetFlag, args = new object[] { user, button, value } });
-            }
-            public void Reveal(int button)
-            {
-                Send(new SendArguments { i = Messages.Reveal, args = new object[] { button } });
-            }
-            public void UserReveal(int user, int button)
-            {
-                Send(new SendArguments { i = Messages.UserReveal, args = new object[] { user, button } });
-            }
             public void AddScore(int score)
             {
                 Send(new SendArguments { i = Messages.AddScore, args = new object[] { score } });
@@ -214,14 +201,6 @@ namespace Mahjong.NetworkCode.Shared
             public void AwardAchievementFirst()
             {
                 Send(new SendArguments { i = Messages.AwardAchievementFirst, args = new object[] {  } });
-            }
-            public void SendPassword(string password)
-            {
-                Send(new SendArguments { i = Messages.SendPassword, args = new object[] { password } });
-            }
-            public void ServerPasswordStatus(int status)
-            {
-                Send(new SendArguments { i = Messages.ServerPasswordStatus, args = new object[] { status } });
             }
             public void LockGame()
             {
@@ -270,6 +249,34 @@ namespace Mahjong.NetworkCode.Shared
             public void UserGoForward(int user)
             {
                 Send(new SendArguments { i = Messages.UserGoForward, args = new object[] { user } });
+            }
+            public void VoteRequest(string text)
+            {
+                Send(new SendArguments { i = Messages.VoteRequest, args = new object[] { text } });
+            }
+            public void UserVoteRequest(int user, string text)
+            {
+                Send(new SendArguments { i = Messages.UserVoteRequest, args = new object[] { user, text } });
+            }
+            public void UserVoteResponse(int user, int value)
+            {
+                Send(new SendArguments { i = Messages.UserVoteResponse, args = new object[] { user, value } });
+            }
+            public void VoteStats(int value, int count)
+            {
+                Send(new SendArguments { i = Messages.VoteStats, args = new object[] { value, count } });
+            }
+            public void UserVoteStats(int value, int count)
+            {
+                Send(new SendArguments { i = Messages.UserVoteStats, args = new object[] { value, count } });
+            }
+            public void VoteAbort()
+            {
+                Send(new SendArguments { i = Messages.VoteAbort, args = new object[] {  } });
+            }
+            public void UserVoteAbort(int user)
+            {
+                Send(new SendArguments { i = Messages.UserVoteAbort, args = new object[] { user } });
             }
         }
         #endregion
@@ -329,11 +336,11 @@ namespace Mahjong.NetworkCode.Shared
                     value.MouseMove += this.UserMouseMove;
                     value.MouseOut += this.UserMouseOut;
                     value.LevelHasEnded += this.UserLevelHasEnded;
-                    value.SetFlag += this.UserSetFlag;
-                    value.Reveal += this.UserReveal;
                     value.RemovePair += this.UserRemovePair;
                     value.GoBack += this.UserGoBack;
                     value.GoForward += this.UserGoForward;
+                    value.VoteRequest += this.UserVoteRequest;
+                    value.VoteAbort += this.UserVoteAbort;
                 }
 
                 public void RemoveDelegates(IEvents value)
@@ -342,11 +349,11 @@ namespace Mahjong.NetworkCode.Shared
                     value.MouseMove -= this.UserMouseMove;
                     value.MouseOut -= this.UserMouseOut;
                     value.LevelHasEnded -= this.UserLevelHasEnded;
-                    value.SetFlag -= this.UserSetFlag;
-                    value.Reveal -= this.UserReveal;
                     value.RemovePair -= this.UserRemovePair;
                     value.GoBack -= this.UserGoBack;
                     value.GoForward -= this.UserGoForward;
+                    value.VoteRequest -= this.UserVoteRequest;
+                    value.VoteAbort -= this.UserVoteAbort;
                 }
                 #endregion
 
@@ -367,14 +374,6 @@ namespace Mahjong.NetworkCode.Shared
                 {
                     Target.UserLevelHasEnded(this.user);
                 }
-                public void UserSetFlag(SetFlagArguments e)
-                {
-                    Target.UserSetFlag(this.user, e.button, e.value);
-                }
-                public void UserReveal(RevealArguments e)
-                {
-                    Target.UserReveal(this.user, e.button);
-                }
                 public void UserRemovePair(RemovePairArguments e)
                 {
                     Target.UserRemovePair(this.user, e.a, e.b);
@@ -386,6 +385,14 @@ namespace Mahjong.NetworkCode.Shared
                 public void UserGoForward(GoForwardArguments e)
                 {
                     Target.UserGoForward(this.user);
+                }
+                public void UserVoteRequest(VoteRequestArguments e)
+                {
+                    Target.UserVoteRequest(this.user, e.text);
+                }
+                public void UserVoteAbort(VoteAbortArguments e)
+                {
+                    Target.UserVoteAbort(this.user);
                 }
                 #endregion
             }
@@ -453,22 +460,6 @@ namespace Mahjong.NetworkCode.Shared
                 {
                     this.Target.UserLevelHasEnded(this.user);
                 }
-                public void UserSetFlag(int button, int value)
-                {
-                    this.Target.UserSetFlag(this.user, button, value);
-                }
-                public void UserSetFlag(UserSetFlagArguments e)
-                {
-                    this.Target.UserSetFlag(this.user, e.button, e.value);
-                }
-                public void UserReveal(int button)
-                {
-                    this.Target.UserReveal(this.user, button);
-                }
-                public void UserReveal(UserRevealArguments e)
-                {
-                    this.Target.UserReveal(this.user, e.button);
-                }
                 public void UserSayLine(string text)
                 {
                     this.Target.UserSayLine(this.user, text);
@@ -525,6 +516,30 @@ namespace Mahjong.NetworkCode.Shared
                 {
                     this.Target.UserGoForward(this.user);
                 }
+                public void UserVoteRequest(string text)
+                {
+                    this.Target.UserVoteRequest(this.user, text);
+                }
+                public void UserVoteRequest(UserVoteRequestArguments e)
+                {
+                    this.Target.UserVoteRequest(this.user, e.text);
+                }
+                public void UserVoteResponse(int value)
+                {
+                    this.Target.UserVoteResponse(this.user, value);
+                }
+                public void UserVoteResponse(UserVoteResponseArguments e)
+                {
+                    this.Target.UserVoteResponse(this.user, e.value);
+                }
+                public void UserVoteAbort()
+                {
+                    this.Target.UserVoteAbort(this.user);
+                }
+                public void UserVoteAbort(UserVoteAbortArguments e)
+                {
+                    this.Target.UserVoteAbort(this.user);
+                }
                 #endregion
             }
             #endregion
@@ -545,8 +560,6 @@ namespace Mahjong.NetworkCode.Shared
                     value.UserMouseMove += this.UserMouseMove;
                     value.UserMouseOut += this.UserMouseOut;
                     value.UserLevelHasEnded += this.UserLevelHasEnded;
-                    value.UserSetFlag += this.UserSetFlag;
-                    value.UserReveal += this.UserReveal;
                     value.UserSayLine += this.UserSayLine;
                     value.UserLockEnter += this.UserLockEnter;
                     value.UserLockValidate += this.UserLockValidate;
@@ -554,6 +567,9 @@ namespace Mahjong.NetworkCode.Shared
                     value.UserRemovePair += this.UserRemovePair;
                     value.UserGoBack += this.UserGoBack;
                     value.UserGoForward += this.UserGoForward;
+                    value.UserVoteRequest += this.UserVoteRequest;
+                    value.UserVoteResponse += this.UserVoteResponse;
+                    value.UserVoteAbort += this.UserVoteAbort;
                 }
 
                 public void RemoveDelegates(IEvents value)
@@ -565,8 +581,6 @@ namespace Mahjong.NetworkCode.Shared
                     value.UserMouseMove -= this.UserMouseMove;
                     value.UserMouseOut -= this.UserMouseOut;
                     value.UserLevelHasEnded -= this.UserLevelHasEnded;
-                    value.UserSetFlag -= this.UserSetFlag;
-                    value.UserReveal -= this.UserReveal;
                     value.UserSayLine -= this.UserSayLine;
                     value.UserLockEnter -= this.UserLockEnter;
                     value.UserLockValidate -= this.UserLockValidate;
@@ -574,6 +588,9 @@ namespace Mahjong.NetworkCode.Shared
                     value.UserRemovePair -= this.UserRemovePair;
                     value.UserGoBack -= this.UserGoBack;
                     value.UserGoForward -= this.UserGoForward;
+                    value.UserVoteRequest -= this.UserVoteRequest;
+                    value.UserVoteResponse -= this.UserVoteResponse;
+                    value.UserVoteAbort -= this.UserVoteAbort;
                 }
                 #endregion
 
@@ -620,18 +637,6 @@ namespace Mahjong.NetworkCode.Shared
                     if (_target == null) return;
                     _target.UserLevelHasEnded(this.user);
                 }
-                public void UserSetFlag(UserSetFlagArguments e)
-                {
-                    var _target = this.Target(e.user);
-                    if (_target == null) return;
-                    _target.UserSetFlag(this.user, e.button, e.value);
-                }
-                public void UserReveal(UserRevealArguments e)
-                {
-                    var _target = this.Target(e.user);
-                    if (_target == null) return;
-                    _target.UserReveal(this.user, e.button);
-                }
                 public void UserSayLine(UserSayLineArguments e)
                 {
                     var _target = this.Target(e.user);
@@ -674,6 +679,24 @@ namespace Mahjong.NetworkCode.Shared
                     if (_target == null) return;
                     _target.UserGoForward(this.user);
                 }
+                public void UserVoteRequest(UserVoteRequestArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserVoteRequest(this.user, e.text);
+                }
+                public void UserVoteResponse(UserVoteResponseArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserVoteResponse(this.user, e.value);
+                }
+                public void UserVoteAbort(UserVoteAbortArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserVoteAbort(this.user);
+                }
                 #endregion
             }
             #endregion
@@ -686,12 +709,13 @@ namespace Mahjong.NetworkCode.Shared
                 public string name;
                 public int others;
                 public int navbar;
+                public int vote;
                 public int layoutinput;
                 public int[] handshake;
                 [DebuggerHidden]
                 public override string ToString()
                 {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name).Append(", others = ").Append(this.others).Append(", navbar = ").Append(this.navbar).Append(", layoutinput = ").Append(this.layoutinput).Append(", handshake = ").Append(this.handshake).Append(" }").ToString();
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", name = ").Append(this.name).Append(", others = ").Append(this.others).Append(", navbar = ").Append(this.navbar).Append(", vote = ").Append(this.vote).Append(", layoutinput = ").Append(this.layoutinput).Append(", handshake = ").Append(this.handshake).Append(" }").ToString();
                 }
             }
             #endregion
@@ -879,64 +903,6 @@ namespace Mahjong.NetworkCode.Shared
             }
             #endregion
             public event Action<UserLevelHasEndedArguments> UserLevelHasEnded;
-            #region SetFlagArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class SetFlagArguments
-            {
-                public int button;
-                public int value;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ button = ").Append(this.button).Append(", value = ").Append(this.value).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<SetFlagArguments> SetFlag;
-            #region UserSetFlagArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class UserSetFlagArguments : WithUserArguments
-            {
-                public int button;
-                public int value;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", button = ").Append(this.button).Append(", value = ").Append(this.value).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<UserSetFlagArguments> UserSetFlag;
-            #region RevealArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class RevealArguments
-            {
-                public int button;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ button = ").Append(this.button).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<RevealArguments> Reveal;
-            #region UserRevealArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class UserRevealArguments : WithUserArguments
-            {
-                public int button;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", button = ").Append(this.button).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<UserRevealArguments> UserReveal;
             #region AddScoreArguments
             [Script]
             [CompilerGenerated]
@@ -964,34 +930,6 @@ namespace Mahjong.NetworkCode.Shared
             }
             #endregion
             public event Action<AwardAchievementFirstArguments> AwardAchievementFirst;
-            #region SendPasswordArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class SendPasswordArguments
-            {
-                public string password;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ password = ").Append(this.password).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<SendPasswordArguments> SendPassword;
-            #region ServerPasswordStatusArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class ServerPasswordStatusArguments
-            {
-                public int status;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ status = ").Append(this.status).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<ServerPasswordStatusArguments> ServerPasswordStatus;
             #region LockGameArguments
             [Script]
             [CompilerGenerated]
@@ -1156,11 +1094,109 @@ namespace Mahjong.NetworkCode.Shared
             }
             #endregion
             public event Action<UserGoForwardArguments> UserGoForward;
+            #region VoteRequestArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class VoteRequestArguments
+            {
+                public string text;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ text = ").Append(this.text).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<VoteRequestArguments> VoteRequest;
+            #region UserVoteRequestArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserVoteRequestArguments : WithUserArguments
+            {
+                public string text;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", text = ").Append(this.text).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserVoteRequestArguments> UserVoteRequest;
+            #region UserVoteResponseArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserVoteResponseArguments : WithUserArguments
+            {
+                public int value;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(", value = ").Append(this.value).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserVoteResponseArguments> UserVoteResponse;
+            #region VoteStatsArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class VoteStatsArguments
+            {
+                public int value;
+                public int count;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ value = ").Append(this.value).Append(", count = ").Append(this.count).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<VoteStatsArguments> VoteStats;
+            #region UserVoteStatsArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserVoteStatsArguments
+            {
+                public int value;
+                public int count;
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ value = ").Append(this.value).Append(", count = ").Append(this.count).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserVoteStatsArguments> UserVoteStats;
+            #region VoteAbortArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class VoteAbortArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().ToString();
+                }
+            }
+            #endregion
+            public event Action<VoteAbortArguments> VoteAbort;
+            #region UserVoteAbortArguments
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class UserVoteAbortArguments : WithUserArguments
+            {
+                [DebuggerHidden]
+                public override string ToString()
+                {
+                    return new StringBuilder().Append("{ user = ").Append(this.user).Append(" }").ToString();
+                }
+            }
+            #endregion
+            public event Action<UserVoteAbortArguments> UserVoteAbort;
             public RemoteEvents()
             {
                 DispatchTable = new Dictionary<Messages, Action<IDispatchHelper>>
                         {
-                            { Messages.ServerPlayerHello, e => { ServerPlayerHello(new ServerPlayerHelloArguments { user = e.GetInt32(0), name = e.GetString(1), others = e.GetInt32(2), navbar = e.GetInt32(3), layoutinput = e.GetInt32(4), handshake = e.GetInt32Array(5) }); } },
+                            { Messages.ServerPlayerHello, e => { ServerPlayerHello(new ServerPlayerHelloArguments { user = e.GetInt32(0), name = e.GetString(1), others = e.GetInt32(2), navbar = e.GetInt32(3), vote = e.GetInt32(4), layoutinput = e.GetInt32(5), handshake = e.GetInt32Array(6) }); } },
                             { Messages.ServerPlayerJoined, e => { ServerPlayerJoined(new ServerPlayerJoinedArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                             { Messages.ServerPlayerLeft, e => { ServerPlayerLeft(new ServerPlayerLeftArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
                             { Messages.UserPlayerAdvertise, e => { UserPlayerAdvertise(new UserPlayerAdvertiseArguments { user = e.GetInt32(0), name = e.GetString(1) }); } },
@@ -1174,14 +1210,8 @@ namespace Mahjong.NetworkCode.Shared
                             { Messages.UserMouseOut, e => { UserMouseOut(new UserMouseOutArguments { user = e.GetInt32(0), color = e.GetInt32(1) }); } },
                             { Messages.LevelHasEnded, e => { LevelHasEnded(new LevelHasEndedArguments {  }); } },
                             { Messages.UserLevelHasEnded, e => { UserLevelHasEnded(new UserLevelHasEndedArguments { user = e.GetInt32(0) }); } },
-                            { Messages.SetFlag, e => { SetFlag(new SetFlagArguments { button = e.GetInt32(0), value = e.GetInt32(1) }); } },
-                            { Messages.UserSetFlag, e => { UserSetFlag(new UserSetFlagArguments { user = e.GetInt32(0), button = e.GetInt32(1), value = e.GetInt32(2) }); } },
-                            { Messages.Reveal, e => { Reveal(new RevealArguments { button = e.GetInt32(0) }); } },
-                            { Messages.UserReveal, e => { UserReveal(new UserRevealArguments { user = e.GetInt32(0), button = e.GetInt32(1) }); } },
                             { Messages.AddScore, e => { AddScore(new AddScoreArguments { score = e.GetInt32(0) }); } },
                             { Messages.AwardAchievementFirst, e => { AwardAchievementFirst(new AwardAchievementFirstArguments {  }); } },
-                            { Messages.SendPassword, e => { SendPassword(new SendPasswordArguments { password = e.GetString(0) }); } },
-                            { Messages.ServerPasswordStatus, e => { ServerPasswordStatus(new ServerPasswordStatusArguments { status = e.GetInt32(0) }); } },
                             { Messages.LockGame, e => { LockGame(new LockGameArguments {  }); } },
                             { Messages.UnlockGame, e => { UnlockGame(new UnlockGameArguments {  }); } },
                             { Messages.UserSayLine, e => { UserSayLine(new UserSayLineArguments { user = e.GetInt32(0), text = e.GetString(1) }); } },
@@ -1194,6 +1224,13 @@ namespace Mahjong.NetworkCode.Shared
                             { Messages.UserGoBack, e => { UserGoBack(new UserGoBackArguments { user = e.GetInt32(0) }); } },
                             { Messages.GoForward, e => { GoForward(new GoForwardArguments {  }); } },
                             { Messages.UserGoForward, e => { UserGoForward(new UserGoForwardArguments { user = e.GetInt32(0) }); } },
+                            { Messages.VoteRequest, e => { VoteRequest(new VoteRequestArguments { text = e.GetString(0) }); } },
+                            { Messages.UserVoteRequest, e => { UserVoteRequest(new UserVoteRequestArguments { user = e.GetInt32(0), text = e.GetString(1) }); } },
+                            { Messages.UserVoteResponse, e => { UserVoteResponse(new UserVoteResponseArguments { user = e.GetInt32(0), value = e.GetInt32(1) }); } },
+                            { Messages.VoteStats, e => { VoteStats(new VoteStatsArguments { value = e.GetInt32(0), count = e.GetInt32(1) }); } },
+                            { Messages.UserVoteStats, e => { UserVoteStats(new UserVoteStatsArguments { value = e.GetInt32(0), count = e.GetInt32(1) }); } },
+                            { Messages.VoteAbort, e => { VoteAbort(new VoteAbortArguments {  }); } },
+                            { Messages.UserVoteAbort, e => { UserVoteAbort(new UserVoteAbortArguments { user = e.GetInt32(0) }); } },
                         }
                 ;
                 DispatchTableDelegates = new Dictionary<Messages, Converter<object, Delegate>>
@@ -1212,14 +1249,8 @@ namespace Mahjong.NetworkCode.Shared
                             { Messages.UserMouseOut, e => UserMouseOut },
                             { Messages.LevelHasEnded, e => LevelHasEnded },
                             { Messages.UserLevelHasEnded, e => UserLevelHasEnded },
-                            { Messages.SetFlag, e => SetFlag },
-                            { Messages.UserSetFlag, e => UserSetFlag },
-                            { Messages.Reveal, e => Reveal },
-                            { Messages.UserReveal, e => UserReveal },
                             { Messages.AddScore, e => AddScore },
                             { Messages.AwardAchievementFirst, e => AwardAchievementFirst },
-                            { Messages.SendPassword, e => SendPassword },
-                            { Messages.ServerPasswordStatus, e => ServerPasswordStatus },
                             { Messages.LockGame, e => LockGame },
                             { Messages.UnlockGame, e => UnlockGame },
                             { Messages.UserSayLine, e => UserSayLine },
@@ -1232,6 +1263,13 @@ namespace Mahjong.NetworkCode.Shared
                             { Messages.UserGoBack, e => UserGoBack },
                             { Messages.GoForward, e => GoForward },
                             { Messages.UserGoForward, e => UserGoForward },
+                            { Messages.VoteRequest, e => VoteRequest },
+                            { Messages.UserVoteRequest, e => UserVoteRequest },
+                            { Messages.UserVoteResponse, e => UserVoteResponse },
+                            { Messages.VoteStats, e => VoteStats },
+                            { Messages.UserVoteStats, e => UserVoteStats },
+                            { Messages.VoteAbort, e => VoteAbort },
+                            { Messages.UserVoteAbort, e => UserVoteAbort },
                         }
                 ;
             }
@@ -1296,10 +1334,10 @@ namespace Mahjong.NetworkCode.Shared
                 e();
             }
             public event Action<RemoteEvents.ServerPlayerHelloArguments> ServerPlayerHello;
-            void IMessages.ServerPlayerHello(int user, string name, int others, int navbar, int layoutinput, int[] handshake)
+            void IMessages.ServerPlayerHello(int user, string name, int others, int navbar, int vote, int layoutinput, int[] handshake)
             {
                 if(ServerPlayerHello == null) return;
-                var v = new RemoteEvents.ServerPlayerHelloArguments { user = user, name = name, others = others, navbar = navbar, layoutinput = layoutinput, handshake = handshake };
+                var v = new RemoteEvents.ServerPlayerHelloArguments { user = user, name = name, others = others, navbar = navbar, vote = vote, layoutinput = layoutinput, handshake = handshake };
                 this.VirtualLatency(() => this.ServerPlayerHello(v));
             }
 
@@ -1407,38 +1445,6 @@ namespace Mahjong.NetworkCode.Shared
                 this.VirtualLatency(() => this.UserLevelHasEnded(v));
             }
 
-            public event Action<RemoteEvents.SetFlagArguments> SetFlag;
-            void IMessages.SetFlag(int button, int value)
-            {
-                if(SetFlag == null) return;
-                var v = new RemoteEvents.SetFlagArguments { button = button, value = value };
-                this.VirtualLatency(() => this.SetFlag(v));
-            }
-
-            public event Action<RemoteEvents.UserSetFlagArguments> UserSetFlag;
-            void IMessages.UserSetFlag(int user, int button, int value)
-            {
-                if(UserSetFlag == null) return;
-                var v = new RemoteEvents.UserSetFlagArguments { user = user, button = button, value = value };
-                this.VirtualLatency(() => this.UserSetFlag(v));
-            }
-
-            public event Action<RemoteEvents.RevealArguments> Reveal;
-            void IMessages.Reveal(int button)
-            {
-                if(Reveal == null) return;
-                var v = new RemoteEvents.RevealArguments { button = button };
-                this.VirtualLatency(() => this.Reveal(v));
-            }
-
-            public event Action<RemoteEvents.UserRevealArguments> UserReveal;
-            void IMessages.UserReveal(int user, int button)
-            {
-                if(UserReveal == null) return;
-                var v = new RemoteEvents.UserRevealArguments { user = user, button = button };
-                this.VirtualLatency(() => this.UserReveal(v));
-            }
-
             public event Action<RemoteEvents.AddScoreArguments> AddScore;
             void IMessages.AddScore(int score)
             {
@@ -1453,22 +1459,6 @@ namespace Mahjong.NetworkCode.Shared
                 if(AwardAchievementFirst == null) return;
                 var v = new RemoteEvents.AwardAchievementFirstArguments {  };
                 this.VirtualLatency(() => this.AwardAchievementFirst(v));
-            }
-
-            public event Action<RemoteEvents.SendPasswordArguments> SendPassword;
-            void IMessages.SendPassword(string password)
-            {
-                if(SendPassword == null) return;
-                var v = new RemoteEvents.SendPasswordArguments { password = password };
-                this.VirtualLatency(() => this.SendPassword(v));
-            }
-
-            public event Action<RemoteEvents.ServerPasswordStatusArguments> ServerPasswordStatus;
-            void IMessages.ServerPasswordStatus(int status)
-            {
-                if(ServerPasswordStatus == null) return;
-                var v = new RemoteEvents.ServerPasswordStatusArguments { status = status };
-                this.VirtualLatency(() => this.ServerPasswordStatus(v));
             }
 
             public event Action<RemoteEvents.LockGameArguments> LockGame;
@@ -1567,9 +1557,65 @@ namespace Mahjong.NetworkCode.Shared
                 this.VirtualLatency(() => this.UserGoForward(v));
             }
 
+            public event Action<RemoteEvents.VoteRequestArguments> VoteRequest;
+            void IMessages.VoteRequest(string text)
+            {
+                if(VoteRequest == null) return;
+                var v = new RemoteEvents.VoteRequestArguments { text = text };
+                this.VirtualLatency(() => this.VoteRequest(v));
+            }
+
+            public event Action<RemoteEvents.UserVoteRequestArguments> UserVoteRequest;
+            void IMessages.UserVoteRequest(int user, string text)
+            {
+                if(UserVoteRequest == null) return;
+                var v = new RemoteEvents.UserVoteRequestArguments { user = user, text = text };
+                this.VirtualLatency(() => this.UserVoteRequest(v));
+            }
+
+            public event Action<RemoteEvents.UserVoteResponseArguments> UserVoteResponse;
+            void IMessages.UserVoteResponse(int user, int value)
+            {
+                if(UserVoteResponse == null) return;
+                var v = new RemoteEvents.UserVoteResponseArguments { user = user, value = value };
+                this.VirtualLatency(() => this.UserVoteResponse(v));
+            }
+
+            public event Action<RemoteEvents.VoteStatsArguments> VoteStats;
+            void IMessages.VoteStats(int value, int count)
+            {
+                if(VoteStats == null) return;
+                var v = new RemoteEvents.VoteStatsArguments { value = value, count = count };
+                this.VirtualLatency(() => this.VoteStats(v));
+            }
+
+            public event Action<RemoteEvents.UserVoteStatsArguments> UserVoteStats;
+            void IMessages.UserVoteStats(int value, int count)
+            {
+                if(UserVoteStats == null) return;
+                var v = new RemoteEvents.UserVoteStatsArguments { value = value, count = count };
+                this.VirtualLatency(() => this.UserVoteStats(v));
+            }
+
+            public event Action<RemoteEvents.VoteAbortArguments> VoteAbort;
+            void IMessages.VoteAbort()
+            {
+                if(VoteAbort == null) return;
+                var v = new RemoteEvents.VoteAbortArguments {  };
+                this.VirtualLatency(() => this.VoteAbort(v));
+            }
+
+            public event Action<RemoteEvents.UserVoteAbortArguments> UserVoteAbort;
+            void IMessages.UserVoteAbort(int user)
+            {
+                if(UserVoteAbort == null) return;
+                var v = new RemoteEvents.UserVoteAbortArguments { user = user };
+                this.VirtualLatency(() => this.UserVoteAbort(v));
+            }
+
         }
         #endregion
     }
     #endregion
 }
-// 20.09.2008 23:30:31
+// 21.09.2008 10:51:08

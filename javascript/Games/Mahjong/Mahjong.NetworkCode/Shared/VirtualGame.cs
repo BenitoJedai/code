@@ -16,7 +16,7 @@ namespace Mahjong.NetworkCode.Shared
 		{
 			public const string navbar = "navbar";
 			public const string layoutinput = "layoutinput";
-
+			public const string vote = "vote";
 		}
 
 
@@ -93,6 +93,7 @@ namespace Mahjong.NetworkCode.Shared
 
 			var navbar = 1;
 			var layoutinput = 1;
+			var vote = 1;
 
 			if (this.Settings.GetBoolean(SettingsInfo.navbar, false))
 				navbar = 0;
@@ -100,10 +101,14 @@ namespace Mahjong.NetworkCode.Shared
 			if (this.Settings.GetBoolean(SettingsInfo.layoutinput, false))
 				layoutinput = 0;
 
+			if (this.Settings.GetBoolean(SettingsInfo.vote, false))
+				vote = 0;
+
 			// let new player know how it is named, also send magic bytes to verify
 			player.ToPlayer.ServerPlayerHello(
 				player.UserId, player.Username, this.Users.Count - 1,
 				navbar,
+				vote,
 				layoutinput,
 				new Handshake().Bytes
 			);

@@ -11,6 +11,7 @@ using ScriptCoreLib.Shared.Lambda;
 using System.Windows.Media;
 using System.Windows;
 using System.Collections;
+using System.Windows.Shapes;
 
 namespace Mahjong.NetworkCode.ClientSide.Shared
 {
@@ -22,17 +23,8 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 		public readonly FutureAction<string> PlaySoundFuture = new FutureAction<string>();
 
-		[Script]
-		public class MahjongGameControlForNetwork : MahjongGameControl
-		{
-			public override void WhatToDoWhenFirstLayoutIsLoaded()
-			{
-				// nothing 
-			}
 
-
-		}
-
+		readonly Future InitializeMapDone = new Future();
 
 		public void InitializeMap()
 		{
@@ -284,6 +276,9 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 				{
 					this.Messages.MapReload(SerializeMap());
 				};
+
+		
+			InitializeMapDone.Signal();
 		}
 	}
 }

@@ -21,7 +21,7 @@ using ScriptCoreLib.Shared.Lambda;
 namespace Mahjong.Code
 {
 	[Script]
-	public class MahjongGameControl : Canvas
+	public partial class MahjongGameControl : Canvas
 	{
 		// http://cynagames.com/
 
@@ -467,27 +467,19 @@ namespace Mahjong.Code
 
 							if (Layouts.ByComment.ContainsKey(NewLayoutComment))
 							{
-								SynchronizedAsync(
-									DoneLoadingNewMap =>
-									{
-										// new layout does indeed exist!
-										MyLayout.Layout = Layouts.ByComment[NewLayoutComment];
-
-										// this is a long process actually
-
-										MyLayout.LayoutProgress.Continue(
-											delegate
-											{
-												if (Sync_MapReloaded != null)
-													Sync_MapReloaded();
-
-												DoneLoadingNewMap();
-											}
-										);
-									}
-								);
+								TryToChangeLayout(NewLayoutComment);
+							}
+							else
+							{
+								// that layout is not available
+								Sounds.buzzer();
 							}
 						};
+
+					if (AllowPlayerToChooseLayouts)
+					{
+						CommentForUnfocusing.Focus();
+					}
 				}
 			);
 
@@ -497,6 +489,8 @@ namespace Mahjong.Code
 					DiagnosticsWriteLine("congrats!");
 				};
 		}
+
+	
 
 		public event Action<Action<Action>> Sync_SynchronizedAsync;
 
@@ -512,7 +506,7 @@ namespace Mahjong.Code
 			);
 		}
 
-		void SynchronizedAsync(Action<Action> h)
+		public void SynchronizedAsync(Action<Action> h)
 		{
 			// using a virtual method will allow us to provide a default
 			// implementation for singleplayer mode

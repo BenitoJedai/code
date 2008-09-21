@@ -17,7 +17,8 @@ namespace Mahjong.SplitScreen
 			{
 				Background = Brushes.Black,
 				SizeToContent = SizeToContent.WidthAndHeight,
-				Content = e
+				Content = e,
+				Title = e.GetType().Name
 			};
 		}
 
