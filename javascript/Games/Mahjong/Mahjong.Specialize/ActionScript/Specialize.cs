@@ -8,10 +8,12 @@ using ScriptCoreLib.ActionScript.Extensions;
 using Mahjong.ActionScript;
 using Mahjong.Code;
 using ScriptCoreLib.ActionScript.flash.geom;
-using ScriptCoreLib.Shared.Avalon.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.events;
 using System.Windows.Controls;
+using ScriptCoreLib.ActionScript.flash.net;
+using ScriptCoreLib.Shared.Avalon.TiledImageButton;
+using Mahjong.PromotionalAssets;
 
 namespace Mahjong.Specialize.ActionScript
 {
@@ -27,6 +29,70 @@ namespace Mahjong.Specialize.ActionScript
 		public static void BindToPlaySound(this FutureAction<string> e)
 		{
 			e.Value = global::Mahjong.ActionScript.__Assets.Default.PlaySound;
+		}
+
+		public static void AddSocialBookmarks(this MahjongGameControl u)
+		{
+			var x = (MahjongGameControl.DefaultScaledWidth - 62 - 16 - MahjongGameControl.CommentMargin) / 2;
+			AddLink(u, "assets/Mahjong.Assets/plus_google.png", 
+				x, 
+				 MahjongGameControl.DefaultScaledHeight - 19 - MahjongGameControl.CommentMargin, 
+				 62, 17, 
+				 MahjongInfo.GoogleGadgetAddLink
+			);
+
+			AddLink(u, "assets/Mahjong.Assets/su.png",
+				x + MahjongGameControl.CommentMargin + 62,
+				 MahjongGameControl.DefaultScaledHeight - 19 - MahjongGameControl.CommentMargin,
+				 16, 16,
+				 "http://www.stumbleupon.com/submit?url=" + MahjongInfo.URL
+			);
+		}
+
+		private static void AddLink(MahjongGameControl u, string src, int x, int y, int w, int h, string href)
+		{
+			var s = new Sprite
+			{
+				alpha = 0.5
+			}.AttachTo(u.ToSprite());
+
+			var img = __Assets.Default[src].ToBitmapAsset().AttachTo(s);
+			s.useHandCursor = true;
+
+			var Overlay = new Sprite
+			{
+				alpha = 0
+			};
+
+			Overlay.AttachTo(s);
+
+			Overlay.graphics.beginFill(0);
+			Overlay.graphics.drawRect(0, 0, w, h);
+			Overlay.buttonMode = true;
+			Overlay.useHandCursor = true;
+			Overlay.click +=
+				delegate
+				{
+					new URLRequest(href).NavigateTo("_blank");
+					s.alpha = 0.5;
+				};
+
+			s.mouseOver +=
+				delegate
+				{
+					s.alpha = 1;
+				};
+
+			s.mouseOut +=
+				delegate
+				{
+					s.alpha = 0.5;
+				};
+
+			s.MoveTo(
+				x,
+				y
+			);
 		}
 
 		public static void BindToFullScreenExclusively(this MahjongGameControl u)

@@ -89,6 +89,10 @@
       <Project>{DF27AB39-5FC8-458B-842A-0547369E263C}</Project>
       <Name>Mahjong.NetworkCode</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mahjong.PromotionalAssets\Mahjong.PromotionalAssets.csproj">
+      <Project>{E1614DF2-041D-4CA7-9E42-CC020008FD8D}</Project>
+      <Name>Mahjong.PromotionalAssets</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
