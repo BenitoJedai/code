@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlueButton.cs" />
+    <Compile Include="MahjongGameControl.Score.cs" />
     <Compile Include="MahjongGameControl.TryToChangeLayout.cs" />
     <Compile Include="VisibleLayout.RemovePair.cs" />
     <Compile Include="VisibleLayout.WriteTo.cs" />

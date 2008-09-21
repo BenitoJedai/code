@@ -48,7 +48,9 @@ namespace Mahjong.ConsoleTest
 				lay => RenderLayout(new Layout(lay))
 			);
 
-			ToWindow(new MahjongGameControl()).ShowDialog();
+			var c = new MahjongGameControl();
+
+			ToWindow(c).ShowDialog();
 
 		}
 

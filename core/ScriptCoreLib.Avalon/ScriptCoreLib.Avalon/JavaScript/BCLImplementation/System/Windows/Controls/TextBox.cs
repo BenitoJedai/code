@@ -122,8 +122,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			throw new NotSupportedException();
 		}
 
+
+		#region InternalForeground
+		Brush InternalForeground;
+
+		public override Brush InternalGetForeground()
+		{
+			return InternalForeground;
+		}
+
 		public override void InternalSetForeground(Brush value)
 		{
+			InternalForeground = value;
 			var AsSolidColorBrush = value as SolidColorBrush;
 
 			if (AsSolidColorBrush != null)
@@ -136,6 +146,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 				//InternalTextField.textColor = _Color;
 			}
 		}
+		#endregion
 
 		public override void InternalSetBackground(Brush value)
 		{

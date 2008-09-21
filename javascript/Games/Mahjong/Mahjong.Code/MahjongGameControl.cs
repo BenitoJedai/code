@@ -65,6 +65,8 @@ namespace Mahjong.Code
 
 		public bool AllowPlayerToChooseLayouts = true;
 
+		public readonly FullscreenButtonControl FullscreenButton;
+
 		public MahjongGameControl()
 		{
 			this.PlaySoundFuture = new FutureAction<string>();
@@ -161,12 +163,15 @@ namespace Mahjong.Code
 				};
 			#endregion
 
+
 			this.CoPlayerMouseContainer = new Canvas
 			{
 				Width = DefaultScaledWidth,
 				Height = DefaultScaledHeight
 			}.AttachTo(this);
 
+
+			this.Score = 0;
 
 
 			this.MouseMove +=
@@ -259,10 +264,15 @@ namespace Mahjong.Code
 			#endregion
 
 
+			this.FullscreenButton = new FullscreenButtonControl();
+
+			FullscreenButton.Container.AttachTo(this).MoveTo(CommentMargin, DefaultScaledHeight - CommentMargin - FullscreenButtonControl.Height);
+			FullscreenButton.ButtonGoFullscreen.Enabled = false;
+
 			MyLayout.LayoutDestroyed +=
 				delegate
 				{
-					
+
 					Console.WriteLine("LayoutDestroyed ...");
 
 					//Comment.IsReadOnly = true;
@@ -380,7 +390,7 @@ namespace Mahjong.Code
 
 			MyLayout.GoBackAvailable += () => Navbar.ButtonGoBack.Enabled = true;
 			MyLayout.GoBackUnavailable += () => Navbar.ButtonGoBack.Enabled = false;
-			Navbar.GoBack += 
+			Navbar.GoBack +=
 				() => Synchronized(
 					delegate
 					{
@@ -388,6 +398,8 @@ namespace Mahjong.Code
 							return;
 
 						MyLayout.GoBack();
+
+						Score -= 2;
 
 						if (this.Sync_GoBack != null)
 							this.Sync_GoBack();
@@ -404,6 +416,8 @@ namespace Mahjong.Code
 								return;
 
 							MyLayout.GoForward();
+
+							Score -= 2;
 
 							if (this.Sync_GoForward != null)
 								this.Sync_GoForward();
@@ -424,7 +438,7 @@ namespace Mahjong.Code
 
 			WhatToDoWhenFirstLayoutIsLoaded();
 
-
+			#region layouts loaded
 			Layouts.AllLoaded.Continue(
 				ByComment =>
 				{
@@ -482,6 +496,7 @@ namespace Mahjong.Code
 					}
 				}
 			);
+			#endregion
 
 			MyLayout.ReadyForNextLayout +=
 				IsLocalPlayer =>
@@ -572,6 +587,11 @@ namespace Mahjong.Code
 
 								if (Sync_RemovePair != null)
 									Sync_RemovePair(a.Entry.index, b.Entry.index);
+
+								if (this.ShowMatchingTiles)
+									Score++;
+								else
+									Score += 10;
 
 								return;
 							}

@@ -14,6 +14,20 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	[Script]
 	public static class AvalonSharedExtensions
 	{
+		public static IEnumerable<Brush> ToGradient(this Brush from, Brush to, int count)
+		{
+			var _from = from as SolidColorBrush;
+			var _to = to as SolidColorBrush;
+
+			if (_from == null)
+				throw new NotSupportedException();
+
+			if (_to == null)
+				throw new NotSupportedException();
+
+			return _from.Color.ToGradient(_to.Color, count).Select(k => (Brush)new SolidColorBrush(k));
+		}
+
 		public static IEnumerable<Color> ToGradient(this Color from, Color to, int count)
 		{
 			return Enumerable.Range(0, count).Select(

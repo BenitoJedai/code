@@ -16,8 +16,8 @@ namespace Mahjong.NetworkCode.ServerSide
 
 	[GameSetup.Boolean(
 		SettingsInfo.navbar,
-		"Disable navigation bar", 
-		"Disallows players to navigate a step back to their last moves", 
+		"Disable navigation bar",
+		"Disallows players to navigate a step back to their last moves",
 		false)]
 
 	[GameSetup.Boolean(
@@ -28,9 +28,16 @@ namespace Mahjong.NetworkCode.ServerSide
 
 	[GameSetup.Boolean(
 		SettingsInfo.vote,
-		"Disable voting",
+		"Disable layout voting",
 		"Without voting you can change the layout without asking others",
-	false)]
+		false)]
+
+
+	[GameSetup.Boolean(
+		SettingsInfo.hints,
+		"Enable hints",
+		"With hints you can learn how to play but you gain less score",
+		false)]
 
 	partial class NonobaGame
 	{
