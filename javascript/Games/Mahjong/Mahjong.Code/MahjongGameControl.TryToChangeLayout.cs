@@ -41,30 +41,35 @@ namespace Mahjong.Code
 				{
 					Done();
 
-					SynchronizedAsync(
-						DoneLoadingNewMap =>
-						{
-							// new layout does indeed exist!
-							MyLayout.Layout = Layouts.ByComment[NewLayoutComment];
+					SynchronizedChangeLayout(Layouts.ByComment[NewLayoutComment]);
 
-							// this is a long process actually
-
-							MyLayout.LayoutProgress.Continue(
-								delegate
-								{
-									if (Sync_MapReloaded != null)
-										Sync_MapReloaded();
-
-									DoneLoadingNewMap();
-								}
-							);
-						}
-					);
 				},
 				Done
 			);
 		}
 
+		public void SynchronizedChangeLayout(Layout value)
+		{
+			SynchronizedAsync(
+					DoneLoadingNewMap =>
+					{
+						// new layout does indeed exist!
+						MyLayout.Layout = value;
+
+						// this is a long process actually
+
+						MyLayout.LayoutProgress.Continue(
+							delegate
+							{
+								if (Sync_MapReloaded != null)
+									Sync_MapReloaded();
+
+								DoneLoadingNewMap();
+							}
+						);
+					}
+				);
+		}
 		public Action<string, Action, Action> Sync_Vote;
 
 		public void Vote(string Message, Action Continue, Action Abort)

@@ -484,13 +484,24 @@ namespace Mahjong.Code
 			);
 
 			MyLayout.ReadyForNextLayout +=
-				delegate
+				IsLocalPlayer =>
 				{
 					DiagnosticsWriteLine("congrats!");
+
+					if (Sync_ReadyForNextLayout != null)
+						Sync_ReadyForNextLayout();
+
+					if (IsLocalPlayer)
+					{
+						Layouts.AllLoaded.Continue(
+							k => SynchronizedChangeLayout(k.Random().Value)
+						);
+					}
 				};
 		}
 
-	
+
+		public Action Sync_ReadyForNextLayout;
 
 		public event Action<Action<Action>> Sync_SynchronizedAsync;
 

@@ -367,7 +367,8 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 							this.Map.MyLayout.Remove(
 								this.Map.MyLayout.Tiles[e.a].Tile.Value,
-								this.Map.MyLayout.Tiles[e.b].Tile.Value
+								this.Map.MyLayout.Tiles[e.b].Tile.Value,
+								false
 							);
 						}
 					);
