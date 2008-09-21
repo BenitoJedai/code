@@ -503,11 +503,18 @@ namespace Mahjong.Code
 				{
 					DiagnosticsWriteLine("congrats!");
 
-					if (Sync_ReadyForNextLayout != null)
-						Sync_ReadyForNextLayout();
 
 					if (IsLocalPlayer)
 					{
+						// small layouts do not count
+						if (MyLayout.Tiles.Length > 8)
+						{
+							Score += MyLayout.Tiles.Length;
+
+							if (Sync_LocalPlayerCompletedLayout != null)
+								Sync_LocalPlayerCompletedLayout();
+						}
+
 						Layouts.AllLoaded.Continue(
 							k => SynchronizedChangeLayout(k.Random().Value)
 						);
@@ -516,7 +523,7 @@ namespace Mahjong.Code
 		}
 
 
-		public Action Sync_ReadyForNextLayout;
+		public event Action Sync_LocalPlayerCompletedLayout;
 
 		public event Action<Action<Action>> Sync_SynchronizedAsync;
 

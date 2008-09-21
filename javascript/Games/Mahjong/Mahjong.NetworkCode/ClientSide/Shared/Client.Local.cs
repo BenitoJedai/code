@@ -279,6 +279,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 
 			this.Map.Sync_ScoreChangedBy += this.Messages.AddScore;
+			this.Map.Sync_LocalPlayerCompletedLayout += this.Messages.AwardAchievementLayoutCompleted;
 
 			InitializeMapDone.Signal();
 		}

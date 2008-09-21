@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
+using Mahjong.Specialize.ActionScript;
 
 namespace Mahjong.NonobaClient.Monetized.ActionScript
 {
@@ -28,6 +29,8 @@ namespace Mahjong.NonobaClient.Monetized.ActionScript
 				Map =>
 				{
 					Map.DiagnosticsContainer.Visibility = System.Windows.Visibility.Hidden;
+					Map.AddSocialBookmarks();
+
 				}
 			);
 		}

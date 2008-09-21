@@ -20,7 +20,15 @@ namespace Mahjong.NetworkCode.Shared
 
 			GivenOnce = true;
 
-			_Submit(Key);
+			if (_Submit != null)
+				_Submit(Key);
+		}
+
+		public void GiveMultiple()
+		{
+			if (_Submit != null)
+				_Submit(Key);
+
 		}
 
 		Func<string, uint> _Submit;
