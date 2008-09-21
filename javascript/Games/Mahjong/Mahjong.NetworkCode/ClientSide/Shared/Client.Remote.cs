@@ -23,6 +23,8 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 		public CoPlayerGroup CoPlayers;
 
+		readonly Future InitializeEventsDone = new Future();
+
 		public void InitializeEvents()
 		{
 			Action<string> DiagnosticsWriteLine = text => this.Map.DiagnosticsWriteLine(text);
@@ -103,7 +105,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 					DiagnosticsWriteLine("handshake ok");
 
-					Messages.ServerPlayerHello(e.user, e.name, e.others, e.navbar, e.layoutinput, new Handshake().Bytes);
+					Messages.ServerPlayerHello(e.user, e.name, e.others, e.navbar, e.vote, e.layoutinput, new Handshake().Bytes);
 
 					this.Identity.Value = e;
 
@@ -125,6 +127,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 					}
 
+					
 					if (e.others == 0)
 					{
 						DiagnosticsWriteLine("we are the first on this game");
@@ -406,6 +409,9 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 						}
 					);
 				};
+
+
+			InitializeEventsDone.Signal();
 		}
 
 		private void DeserializeMap(int[] bytes)

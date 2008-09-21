@@ -26,7 +26,7 @@ namespace Mahjong.NetworkCode.Shared
 
 
 
-			void ServerPlayerHello(int user, string name, int others, int navbar, int layoutinput, int[] handshake);
+			void ServerPlayerHello(int user, string name, int others, int navbar, int vote, int layoutinput, int[] handshake);
 			void ServerPlayerJoined(int user, string name);
 			void ServerPlayerLeft(int user, string name);
 
@@ -53,12 +53,7 @@ namespace Mahjong.NetworkCode.Shared
 
 		
 
-			void SetFlag(int button, int value);
-			void UserSetFlag(int user, int button, int value);
-
-			void Reveal(int button);
-			void UserReveal(int user, int button);
-
+		
 			// registered nonoba rankings
 			void AddScore(int score);
 
@@ -66,9 +61,7 @@ namespace Mahjong.NetworkCode.Shared
 			void AwardAchievementFirst();
 		
 
-			void SendPassword(string password);
-			void ServerPasswordStatus(int status);
-
+		
 
 			void LockGame();
 			void UnlockGame();
@@ -91,6 +84,19 @@ namespace Mahjong.NetworkCode.Shared
 
 			void GoForward();
 			void UserGoForward(int user);
+
+			#region voteing
+			void VoteRequest(string text);
+			void UserVoteRequest(int user, string text);
+
+			void UserVoteResponse(int user, int value);
+
+			void VoteStats(int value, int count);
+			void UserVoteStats(int value, int count);
+
+			void VoteAbort();
+			void UserVoteAbort(int user);
+			#endregion
 		}
 
 

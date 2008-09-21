@@ -15,16 +15,22 @@ namespace Mahjong.NetworkCode.ServerSide
 	using SettingsInfo = VirtualGame.SettingsInfo;
 
 	[GameSetup.Boolean(
-		SettingsInfo.navbar, 
-		"Without navigation bar", 
+		SettingsInfo.navbar,
+		"Disable navigation bar", 
 		"Disallows players to navigate a step back to their last moves", 
 		false)]
 
 	[GameSetup.Boolean(
 		SettingsInfo.layoutinput,
-		"Without layout chooser",
+		"Disable layout chooser",
 		"Disallows players to freely choose between layouts",
 		false)]
+
+	[GameSetup.Boolean(
+		SettingsInfo.vote,
+		"Disable voting",
+		"Without voting you can change the layout without asking others",
+	false)]
 
 	partial class NonobaGame
 	{
