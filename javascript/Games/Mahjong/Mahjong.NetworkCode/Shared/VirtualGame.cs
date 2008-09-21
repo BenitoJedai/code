@@ -20,7 +20,31 @@ namespace Mahjong.NetworkCode.Shared
 			Console.WriteLine("- UserJoined " + player.Username);
 
 
-			//var exitfound = new AvailibleAchievement(player.AwardAchievement, "exitfound");
+			var a100 = new AvailibleAchievement(player.AwardAchievement, "a100");
+			var a1000 = new AvailibleAchievement(player.AwardAchievement, "a1000");
+			var a50000 = new AvailibleAchievement(player.AwardAchievement, "a50000");
+			var aLC = new AvailibleAchievement(player.AwardAchievement, "alc");
+
+			player.FromPlayer.AddScore += e =>
+				{
+					player.AddScore("score", e.score);
+
+					if (e.score > 100)
+						a100.Give();
+
+					if (e.score > 1000)
+						a1000.Give();
+
+					if (e.score > 50000)
+						a50000.Give();
+				};
+
+			player.FromPlayer.AwardAchievementLayoutCompleted +=
+				e =>
+				{
+					aLC.GiveMultiple();
+				};
+
 			//var firstblood = new AvailibleAchievement(player.AwardAchievement, "firstblood");
 			//var portalfound = new AvailibleAchievement(player.AwardAchievement, "portalfound");
 			//var getrich = new AvailibleAchievement(player.AwardAchievement, "getrich");
@@ -71,7 +95,6 @@ namespace Mahjong.NetworkCode.Shared
 			//    };
 
 
-			player.FromPlayer.AddScore += e => player.AddScore("score", e.score);
 
 			//player.FromPlayer.AwardAchievementFirst += e => player.AwardAchievement("first");
 			//player.FromPlayer.AwardAchievementFiver += e => player.AwardAchievement("fiver");

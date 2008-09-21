@@ -57,9 +57,7 @@ namespace Mahjong.NetworkCode.Shared
 			// registered nonoba rankings
 			void AddScore(int score);
 
-		
-			void AwardAchievementFirst();
-		
+			void AwardAchievementLayoutCompleted();
 
 		
 

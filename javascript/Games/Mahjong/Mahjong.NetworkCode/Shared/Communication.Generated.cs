@@ -34,7 +34,7 @@ namespace Mahjong.NetworkCode.Shared
             LevelHasEnded,
             UserLevelHasEnded,
             AddScore,
-            AwardAchievementFirst,
+            AwardAchievementLayoutCompleted,
             LockGame,
             UnlockGame,
             UserSayLine,
@@ -82,7 +82,7 @@ namespace Mahjong.NetworkCode.Shared
             event Action<RemoteEvents.LevelHasEndedArguments> LevelHasEnded;
             event Action<RemoteEvents.UserLevelHasEndedArguments> UserLevelHasEnded;
             event Action<RemoteEvents.AddScoreArguments> AddScore;
-            event Action<RemoteEvents.AwardAchievementFirstArguments> AwardAchievementFirst;
+            event Action<RemoteEvents.AwardAchievementLayoutCompletedArguments> AwardAchievementLayoutCompleted;
             event Action<RemoteEvents.LockGameArguments> LockGame;
             event Action<RemoteEvents.UnlockGameArguments> UnlockGame;
             event Action<RemoteEvents.UserSayLineArguments> UserSayLine;
@@ -195,9 +195,9 @@ namespace Mahjong.NetworkCode.Shared
             {
                 Send(new SendArguments { i = Messages.AddScore, args = new object[] { score } });
             }
-            public void AwardAchievementFirst()
+            public void AwardAchievementLayoutCompleted()
             {
-                Send(new SendArguments { i = Messages.AwardAchievementFirst, args = new object[] {  } });
+                Send(new SendArguments { i = Messages.AwardAchievementLayoutCompleted, args = new object[] {  } });
             }
             public void LockGame()
             {
@@ -907,10 +907,10 @@ namespace Mahjong.NetworkCode.Shared
             }
             #endregion
             public event Action<AddScoreArguments> AddScore;
-            #region AwardAchievementFirstArguments
+            #region AwardAchievementLayoutCompletedArguments
             [Script]
             [CompilerGenerated]
-            public sealed partial class AwardAchievementFirstArguments
+            public sealed partial class AwardAchievementLayoutCompletedArguments
             {
                 [DebuggerHidden]
                 public override string ToString()
@@ -919,7 +919,7 @@ namespace Mahjong.NetworkCode.Shared
                 }
             }
             #endregion
-            public event Action<AwardAchievementFirstArguments> AwardAchievementFirst;
+            public event Action<AwardAchievementLayoutCompletedArguments> AwardAchievementLayoutCompleted;
             #region LockGameArguments
             [Script]
             [CompilerGenerated]
@@ -1171,7 +1171,7 @@ namespace Mahjong.NetworkCode.Shared
                             { Messages.LevelHasEnded, e => { LevelHasEnded(new LevelHasEndedArguments {  }); } },
                             { Messages.UserLevelHasEnded, e => { UserLevelHasEnded(new UserLevelHasEndedArguments { user = e.GetInt32(0) }); } },
                             { Messages.AddScore, e => { AddScore(new AddScoreArguments { score = e.GetInt32(0) }); } },
-                            { Messages.AwardAchievementFirst, e => { AwardAchievementFirst(new AwardAchievementFirstArguments {  }); } },
+                            { Messages.AwardAchievementLayoutCompleted, e => { AwardAchievementLayoutCompleted(new AwardAchievementLayoutCompletedArguments {  }); } },
                             { Messages.LockGame, e => { LockGame(new LockGameArguments {  }); } },
                             { Messages.UnlockGame, e => { UnlockGame(new UnlockGameArguments {  }); } },
                             { Messages.UserSayLine, e => { UserSayLine(new UserSayLineArguments { user = e.GetInt32(0), text = e.GetString(1) }); } },
@@ -1208,7 +1208,7 @@ namespace Mahjong.NetworkCode.Shared
                             { Messages.LevelHasEnded, e => LevelHasEnded },
                             { Messages.UserLevelHasEnded, e => UserLevelHasEnded },
                             { Messages.AddScore, e => AddScore },
-                            { Messages.AwardAchievementFirst, e => AwardAchievementFirst },
+                            { Messages.AwardAchievementLayoutCompleted, e => AwardAchievementLayoutCompleted },
                             { Messages.LockGame, e => LockGame },
                             { Messages.UnlockGame, e => UnlockGame },
                             { Messages.UserSayLine, e => UserSayLine },
@@ -1409,12 +1409,12 @@ namespace Mahjong.NetworkCode.Shared
                 this.VirtualLatency(() => this.AddScore(v));
             }
 
-            public event Action<RemoteEvents.AwardAchievementFirstArguments> AwardAchievementFirst;
-            void IMessages.AwardAchievementFirst()
+            public event Action<RemoteEvents.AwardAchievementLayoutCompletedArguments> AwardAchievementLayoutCompleted;
+            void IMessages.AwardAchievementLayoutCompleted()
             {
-                if(AwardAchievementFirst == null) return;
-                var v = new RemoteEvents.AwardAchievementFirstArguments {  };
-                this.VirtualLatency(() => this.AwardAchievementFirst(v));
+                if(AwardAchievementLayoutCompleted == null) return;
+                var v = new RemoteEvents.AwardAchievementLayoutCompletedArguments {  };
+                this.VirtualLatency(() => this.AwardAchievementLayoutCompleted(v));
             }
 
             public event Action<RemoteEvents.LockGameArguments> LockGame;
@@ -1558,4 +1558,4 @@ namespace Mahjong.NetworkCode.Shared
     }
     #endregion
 }
-// 21.09.2008 14:12:12
+// 21.09.2008 20:06:09
