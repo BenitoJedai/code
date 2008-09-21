@@ -30,5 +30,9 @@ namespace Mahjong.PromotionalAssets
 
 		public const string Category1 = "lifestyle";
 		public const string Category2 = "funandgames";
+
+		public const string ScreenshotURL = "http://farm4.static.flickr.com/3176/2875651628_85e6bd93cb_o.png";
+		public const string ScreenshotSmallURL = "http://files.nonoba.com/GameScreenshot/2855/screenshot_rev1.jpg";
+
 	}
 }
