@@ -50,8 +50,6 @@ namespace Mahjong.NetworkCode.Shared
             VoteRequest,
             UserVoteRequest,
             UserVoteResponse,
-            VoteStats,
-            UserVoteStats,
             VoteAbort,
             UserVoteAbort,
         }
@@ -100,8 +98,6 @@ namespace Mahjong.NetworkCode.Shared
             event Action<RemoteEvents.VoteRequestArguments> VoteRequest;
             event Action<RemoteEvents.UserVoteRequestArguments> UserVoteRequest;
             event Action<RemoteEvents.UserVoteResponseArguments> UserVoteResponse;
-            event Action<RemoteEvents.VoteStatsArguments> VoteStats;
-            event Action<RemoteEvents.UserVoteStatsArguments> UserVoteStats;
             event Action<RemoteEvents.VoteAbortArguments> VoteAbort;
             event Action<RemoteEvents.UserVoteAbortArguments> UserVoteAbort;
         }
@@ -261,14 +257,6 @@ namespace Mahjong.NetworkCode.Shared
             public void UserVoteResponse(int user, int value)
             {
                 Send(new SendArguments { i = Messages.UserVoteResponse, args = new object[] { user, value } });
-            }
-            public void VoteStats(int value, int count)
-            {
-                Send(new SendArguments { i = Messages.VoteStats, args = new object[] { value, count } });
-            }
-            public void UserVoteStats(int value, int count)
-            {
-                Send(new SendArguments { i = Messages.UserVoteStats, args = new object[] { value, count } });
             }
             public void VoteAbort()
             {
@@ -1136,36 +1124,6 @@ namespace Mahjong.NetworkCode.Shared
             }
             #endregion
             public event Action<UserVoteResponseArguments> UserVoteResponse;
-            #region VoteStatsArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class VoteStatsArguments
-            {
-                public int value;
-                public int count;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ value = ").Append(this.value).Append(", count = ").Append(this.count).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<VoteStatsArguments> VoteStats;
-            #region UserVoteStatsArguments
-            [Script]
-            [CompilerGenerated]
-            public sealed partial class UserVoteStatsArguments
-            {
-                public int value;
-                public int count;
-                [DebuggerHidden]
-                public override string ToString()
-                {
-                    return new StringBuilder().Append("{ value = ").Append(this.value).Append(", count = ").Append(this.count).Append(" }").ToString();
-                }
-            }
-            #endregion
-            public event Action<UserVoteStatsArguments> UserVoteStats;
             #region VoteAbortArguments
             [Script]
             [CompilerGenerated]
@@ -1227,8 +1185,6 @@ namespace Mahjong.NetworkCode.Shared
                             { Messages.VoteRequest, e => { VoteRequest(new VoteRequestArguments { text = e.GetString(0) }); } },
                             { Messages.UserVoteRequest, e => { UserVoteRequest(new UserVoteRequestArguments { user = e.GetInt32(0), text = e.GetString(1) }); } },
                             { Messages.UserVoteResponse, e => { UserVoteResponse(new UserVoteResponseArguments { user = e.GetInt32(0), value = e.GetInt32(1) }); } },
-                            { Messages.VoteStats, e => { VoteStats(new VoteStatsArguments { value = e.GetInt32(0), count = e.GetInt32(1) }); } },
-                            { Messages.UserVoteStats, e => { UserVoteStats(new UserVoteStatsArguments { value = e.GetInt32(0), count = e.GetInt32(1) }); } },
                             { Messages.VoteAbort, e => { VoteAbort(new VoteAbortArguments {  }); } },
                             { Messages.UserVoteAbort, e => { UserVoteAbort(new UserVoteAbortArguments { user = e.GetInt32(0) }); } },
                         }
@@ -1266,8 +1222,6 @@ namespace Mahjong.NetworkCode.Shared
                             { Messages.VoteRequest, e => VoteRequest },
                             { Messages.UserVoteRequest, e => UserVoteRequest },
                             { Messages.UserVoteResponse, e => UserVoteResponse },
-                            { Messages.VoteStats, e => VoteStats },
-                            { Messages.UserVoteStats, e => UserVoteStats },
                             { Messages.VoteAbort, e => VoteAbort },
                             { Messages.UserVoteAbort, e => UserVoteAbort },
                         }
@@ -1581,22 +1535,6 @@ namespace Mahjong.NetworkCode.Shared
                 this.VirtualLatency(() => this.UserVoteResponse(v));
             }
 
-            public event Action<RemoteEvents.VoteStatsArguments> VoteStats;
-            void IMessages.VoteStats(int value, int count)
-            {
-                if(VoteStats == null) return;
-                var v = new RemoteEvents.VoteStatsArguments { value = value, count = count };
-                this.VirtualLatency(() => this.VoteStats(v));
-            }
-
-            public event Action<RemoteEvents.UserVoteStatsArguments> UserVoteStats;
-            void IMessages.UserVoteStats(int value, int count)
-            {
-                if(UserVoteStats == null) return;
-                var v = new RemoteEvents.UserVoteStatsArguments { value = value, count = count };
-                this.VirtualLatency(() => this.UserVoteStats(v));
-            }
-
             public event Action<RemoteEvents.VoteAbortArguments> VoteAbort;
             void IMessages.VoteAbort()
             {
@@ -1618,4 +1556,4 @@ namespace Mahjong.NetworkCode.Shared
     }
     #endregion
 }
-// 21.09.2008 10:51:08
+// 21.09.2008 12:01:15

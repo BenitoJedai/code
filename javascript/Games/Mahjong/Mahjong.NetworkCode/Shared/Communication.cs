@@ -91,9 +91,7 @@ namespace Mahjong.NetworkCode.Shared
 
 			void UserVoteResponse(int user, int value);
 
-			void VoteStats(int value, int count);
-			void UserVoteStats(int value, int count);
-
+		
 			void VoteAbort();
 			void UserVoteAbort(int user);
 			#endregion
