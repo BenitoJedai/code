@@ -23,51 +23,84 @@ namespace Mahjong.Code
 
 		public void Remove(VisibleTile a, VisibleTile b)
 		{
-			a.Visible = false;
-			b.Visible = false;
-
-			UpdateRelations(a);
-			UpdateRelations(b);
-
-
-			if (this.Tiles.Any(k => k.Visible))
-			{
-				GoBackHistory.Push(
-					new RemovedTilePair
-					{
-						Left = a,
-						Right = b
-					}
-				);
-
-
-				if (GoBackHistory.Count == 1)
-					if (GoBackAvailable != null)
-						GoBackAvailable();
-
-				GoForwardHistory.Clear();
-
-				if (GoForwardUnavailable != null)
-					GoForwardUnavailable();
-			}
-			else
-			{
-				GoBackHistory.Clear();
-
-				if (GoBackUnavailable != null)
-					GoBackUnavailable();
-
-				GoForwardHistory.Clear();
-
-				if (GoForwardUnavailable != null)
-					GoForwardUnavailable();
-
-				if (ReadyForNextLayout != null)
-					ReadyForNextLayout();
-			}
+			Remove(a, b, true);
 		}
 
-		public event Action ReadyForNextLayout;
+		readonly FutureLock RemoveLock = new FutureLock();
+
+		public void Remove(VisibleTile a, VisibleTile b, bool IsLocalPlayer)
+		{
+			RemoveLock.Acquire(
+				delegate
+				{
+					a.BlackFilter.Visibility = System.Windows.Visibility.Hidden;
+					b.BlackFilter.Visibility = System.Windows.Visibility.Hidden;
+
+					a.Control.Opacity = 1;
+					b.Control.Opacity = 1;
+
+					a.GreenFilter.Opacity = 0;
+					b.GreenFilter.Opacity = 0;
+
+					a.YellowFilter.Opacity = 0.6;
+					b.YellowFilter.Opacity = 0.6;
+
+					200.AtDelay(
+						delegate
+						{
+							a.YellowFilter.Opacity = 0;
+							b.YellowFilter.Opacity = 0;
+
+							a.Visible = false;
+							b.Visible = false;
+
+							UpdateRelations(a);
+							UpdateRelations(b);
+
+							if (this.Tiles.Any(k => k.Visible))
+							{
+								GoBackHistory.Push(
+									new RemovedTilePair
+									{
+										Left = a,
+										Right = b
+									}
+								);
+
+
+								if (GoBackHistory.Count == 1)
+									if (GoBackAvailable != null)
+										GoBackAvailable();
+
+								GoForwardHistory.Clear();
+
+								if (GoForwardUnavailable != null)
+									GoForwardUnavailable();
+							}
+							else
+							{
+								GoBackHistory.Clear();
+
+								if (GoBackUnavailable != null)
+									GoBackUnavailable();
+
+								GoForwardHistory.Clear();
+
+								if (GoForwardUnavailable != null)
+									GoForwardUnavailable();
+
+								if (ReadyForNextLayout != null)
+									ReadyForNextLayout(IsLocalPlayer);
+							}
+
+							RemoveLock.Release();
+						}
+					);
+				}
+			);
+		}
+
+		public event Action<bool> ReadyForNextLayout;
 
 		public event Action GoForwardAvailable;
 		public event Action GoForwardUnavailable;
