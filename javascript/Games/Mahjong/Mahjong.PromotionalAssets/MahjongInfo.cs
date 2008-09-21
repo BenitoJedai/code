@@ -18,5 +18,17 @@ namespace Mahjong.PromotionalAssets
 		public const string MochiAd = "3765158181148f75";
 
 		public const string Keywords = "mahjong, puzzle, multiplayer";
+
+		public const string EMail = "dadeval@gmail.com";
+
+		public const string URL = "http://nonoba.com/zproxy/mahjong-multiplayer";
+
+		public const string Author = "Arvo Sulakatko";
+
+		public const string Blog = "http://zproxy.wordpress.com/";
+
+
+		public const string Category1 = "lifestyle";
+		public const string Category2 = "funandgames";
 	}
 }

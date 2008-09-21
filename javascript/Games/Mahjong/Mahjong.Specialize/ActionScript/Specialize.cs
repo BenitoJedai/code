@@ -70,6 +70,8 @@ namespace Mahjong.Specialize.ActionScript
 			s.InvokeWhenStageIsReady(
 				delegate
 				{
+					//s.stage.scaleMode = StageScaleMode.NO_SCALE;
+
 					var IsFullscreen = false;
 
 					Action Toggle =
