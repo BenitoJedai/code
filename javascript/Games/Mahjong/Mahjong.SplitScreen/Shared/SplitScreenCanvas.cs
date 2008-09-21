@@ -38,7 +38,11 @@ namespace Mahjong.SplitScreen.Shared
 			c.Righty.Element.MoveTo(SinglePlayerCanvas.DefaultScaledWidth, 0).AttachTo(this);
 
 			c.Righty.MapInitialized.Continue(
-				(MahjongGameControl Map) => Map.DiagnosticsContainer.Visibility = Visibility.Hidden
+				(MahjongGameControl Map) =>
+				{
+					Map.DiagnosticsContainer.Visibility = Visibility.Hidden;
+					Map.ShowMatchingTiles = false;
+				}
 			);
 
 			PlaySoundFuture.Continue(c.Lefty.Map.PlaySoundFuture);

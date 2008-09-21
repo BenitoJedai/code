@@ -138,14 +138,14 @@ namespace Mahjong.NetworkCode.ClientSide.ActionScript
 
 		}
 
-		bool InitializeMapDone;
+		bool InitializeMapOrSkipOnce;
 
 		public void InitializeMapOrSkip()
 		{
-			if (InitializeMapDone)
+			if (InitializeMapOrSkipOnce)
 				return;
 
-			InitializeMapDone = true;
+			InitializeMapOrSkipOnce = true;
 
 			InitializeMap();
 		}
