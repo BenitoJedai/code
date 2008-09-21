@@ -25,17 +25,21 @@ namespace Mahjong.NetworkCode.Shared
 			var a50000 = new AvailibleAchievement(player.AwardAchievement, "a50000");
 			var aLC = new AvailibleAchievement(player.AwardAchievement, "alc");
 
+			var score = 0;
+
 			player.FromPlayer.AddScore += e =>
 				{
-					player.AddScore("score", e.score);
+					score += e.score;
 
-					if (e.score > 100)
+					player.AddScore("score", score);
+
+					if (score > 100)
 						a100.Give();
 
-					if (e.score > 1000)
+					if (score > 1000)
 						a1000.Give();
 
-					if (e.score > 50000)
+					if (score > 50000)
 						a50000.Give();
 				};
 
