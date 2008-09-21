@@ -150,6 +150,20 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 						if (Cancel != null)
 							Cancel();
 					};
+
+
+				new TextBox
+				{
+					Background = Brushes.Transparent,
+					Foreground = Brushes.White,
+					Width = MahjongGameControl.DefaultScaledWidth,
+					Height = 72,
+					TextAlignment = TextAlignment.Center,
+					BorderThickness = new Thickness(0),
+					Text = "Atleast half of the players need to agree within a limited time",
+					FontSize = 14,
+					IsReadOnly = true
+				}.AttachTo(Container).MoveTo(0, 300);
 			}
 
 			public event Action Ok;
@@ -192,46 +206,32 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 							this.Messages.VoteRequest(Message);
 
-							Action Return = delegate
-							{
-								this.Messages.VoteAbort();
-
-								dialog.Container.Orphanize();
-								Done();
-							};
-
 							var SingalsDisabled = false;
 
-							Action SignalContinue = new Future(
-								delegate
+							Action<Action> Return =
+								Next =>
 								{
 									if (SingalsDisabled)
 										return;
 
 									SingalsDisabled = true;
 
-									Return();
-									
-									Continue();
-								}
-							).Signal;
 
-							Action SignalAbort = new Future(
-								delegate
-								{
-									if (SingalsDisabled)
-										return;
+									this.Messages.VoteAbort();
 
-									SingalsDisabled = true;
+									dialog.Container.Orphanize();
+									Done();
 
-									Return();
-									
-									Abort();
-								}
-							).Signal;
+									Next();
+
+								};
+
+
+							Action SignalContinue = () => Return(Continue);
+							Action SignalAbort = () => Return(Abort);
 
 							dialog.Cancel += SignalAbort;
-							
+
 
 							var VoteResponse = default(Action<Communication.RemoteEvents.UserVoteResponseArguments>);
 							var VotesInFavor = 0;

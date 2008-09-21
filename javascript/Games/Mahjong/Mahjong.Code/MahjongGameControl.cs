@@ -582,7 +582,9 @@ namespace Mahjong.Code
 			);
 		}
 
-		private static void ApplyDiagnosticsForPairs(VisibleLayout MyLayout, VisibleTile tt)
+		public bool ShowMatchingTiles = true;
+
+		private void ApplyDiagnosticsForPairs(VisibleLayout MyLayout, VisibleTile tt)
 		{
 			tt.MouseEnterLeaveWhenLayoutLoaded +=
 				delegate
@@ -622,22 +624,32 @@ namespace Mahjong.Code
 					{
 						tt.GreenFilter.Opacity = 0.5;
 
-						var a = MyLayout.Tiles.WhereNot(k => k.BlockingSiblings.Any()).Where(k => k.Tile.Value.IsPairable(tt)).ToArray();
-
-						foreach (var v in a)
+						if (this.ShowMatchingTiles)
 						{
-							v.Tile.Value.YellowFilter.Opacity = 0.5;
-						}
-
-						return delegate
-						{
-							tt.GreenFilter.Opacity = 0;
+							var a = MyLayout.Tiles.WhereNot(k => k.BlockingSiblings.Any()).Where(k => k.Tile.Value.IsPairable(tt)).ToArray();
 
 							foreach (var v in a)
 							{
-								v.Tile.Value.YellowFilter.Opacity = 0;
+								v.Tile.Value.YellowFilter.Opacity = 0.5;
 							}
-						};
+
+							return delegate
+							{
+								tt.GreenFilter.Opacity = 0;
+
+								foreach (var v in a)
+								{
+									v.Tile.Value.YellowFilter.Opacity = 0;
+								}
+							};
+						}
+						else
+						{
+							return delegate
+							{
+								tt.GreenFilter.Opacity = 0;
+							};
+						}
 					}
 				};
 		}
