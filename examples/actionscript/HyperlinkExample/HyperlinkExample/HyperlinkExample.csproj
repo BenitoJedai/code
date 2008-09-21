@@ -55,11 +55,6 @@
     <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="docs\about.txt" />
-    <Content Include="docs\browser.txt" />
-    <Content Include="docs\description.txt" />
-    <Content Include="docs\help.txt" />
-    <Content Include="docs\SourceAnalysis.txt" />
     <EmbeddedResource Include="web\assets\HyperlinkExample\plus_google.gif" />
   </ItemGroup>
   <ItemGroup>

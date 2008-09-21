@@ -28,6 +28,7 @@ namespace Mahjong.ActionScript
 			c.BindToFullScreen();
 			c.PlaySoundFuture.BindToPlaySound();
 			c.DiagnosticsContainer.Visibility = System.Windows.Visibility.Hidden;
+			c.AddSocialBookmarks();
 
 			// spawn the wpf control
 			AvalonExtensions.AttachToContainer(c, this);

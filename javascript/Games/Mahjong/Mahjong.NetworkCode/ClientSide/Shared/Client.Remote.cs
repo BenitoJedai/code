@@ -127,12 +127,12 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 					}
 
-					if (e.hints == 1)
+					if (e.hints == 0)
 					{
 						this.FirstSyncComplete.Continue(
 							delegate
 							{
-								this.Map.ShowMatchingTiles = true;
+								this.Map.ShowMatchingTiles = false;
 							}
 						);
 					}

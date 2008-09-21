@@ -60,7 +60,9 @@ pluginspage="http://www.macromedia.com/go/getflashplayer">
                             data = href,
                             width,
                             height,
-                            allowFullScreen = true
+                            allowFullScreen = true,
+							allowNetworking = "all",
+							allowScriptAccess = "always",
                         }.GetPropertiesAsXAttributes(),
                         new XElement("param", 
                             new {
@@ -69,7 +71,7 @@ pluginspage="http://www.macromedia.com/go/getflashplayer">
                             }.GetPropertiesAsXAttributes()
                         )
                     );
-
+			//<object width="800" height="500"><param name="movie" value="http://nonoba.com/zproxy/mahjong-multiplayer/embed"></param><param name="allowScriptAccess" value="always" ></param><param name="allowNetworking" value="all" ></param><embed src="http://nonoba.com/zproxy/mahjong-multiplayer/embed" allowNetworking="all" allowScriptAccess="always" type="application/x-shockwave-flash" width="800" height="500"></embed></object>
 
             foreach (var v in Entries)
                 using (var w = dir.CreateFile(v._Type.Name + ".htm"))

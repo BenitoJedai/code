@@ -12,14 +12,23 @@ using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.flash.utils;
 using System.IO;
 using ScriptCoreLib.ActionScript.BCLImplementation.System.IO;
+using ScriptCoreLib.ActionScript.flash.net;
 
 namespace ScriptCoreLib.ActionScript.Extensions
 {
 
-
+	[ScriptImportsType("flash.net.navigateToURL")]
 	[Script]
 	public static class CommonExtensions
 	{
+		// http://livedocs.adobe.com/flex/2/langref/flash/net/package.html#navigateToURL()
+
+		[Script(OptimizedCode = "return flash.net.navigateToURL(r, window);")]
+		public static void NavigateTo(this URLRequest r, string window)
+		{
+
+		}
+
 		public static void InvokeWhenStageIsReady(this DisplayObject o, Action a)
 		{
 			if (o.stage == null)
