@@ -429,13 +429,18 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 		private void DeserializeMap(int[] bytes)
 		{
+			Map.DiagnosticsWriteLine("read map " + bytes.Length);
+
+
+			if (bytes.Length == 0)
+				throw new Exception("no map data: bytes");
+
 			var MemoryStream_UInt8 = bytes.Select(i => (byte)i).ToArray();
 			var m = new MemoryStream(MemoryStream_UInt8);
 
-			//DiagnosticsWriteLine("read map " + m.Length);
 
 			if (m.Length == 0)
-				throw new Exception("no map data");
+				throw new Exception("no map data: m");
 
 			m.Position = 0;
 
@@ -450,6 +455,11 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 			// we will waste 3 bytes - 0xffffff00 cuz memorystream isn't supported
 			var MemoryStream_Int32 = m.ToArray().Select(i => (int)i).ToArray();
+
+			Map.DiagnosticsWriteLine("write map " + MemoryStream_Int32.Length);
+
+
+
 			return MemoryStream_Int32;
 		}
 	}

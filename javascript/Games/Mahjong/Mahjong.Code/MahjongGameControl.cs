@@ -534,7 +534,7 @@ namespace Mahjong.Code
 
 							if (Layouts.ByComment.ContainsKey(NewLayoutComment))
 							{
-								TryToChangeLayout(NewLayoutComment);
+								TryToChangeLayout(Layouts.ByComment[NewLayoutComment]);
 							}
 							else
 							{
@@ -569,7 +569,14 @@ namespace Mahjong.Code
 						}
 
 						Layouts.AllLoaded.Continue(
-							k => SynchronizedChangeLayout(k.Random().Value)
+							delegate
+							{
+								var n = Layouts.KnownLayouts.Randomize().Where(k => k != null).First();
+
+								DiagnosticsWriteLine("next: " + n.Comment);
+
+								SynchronizedChangeLayout(n);
+							}
 						);
 					}
 				};

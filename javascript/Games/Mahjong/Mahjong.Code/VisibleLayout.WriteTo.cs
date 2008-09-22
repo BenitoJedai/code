@@ -125,7 +125,7 @@ namespace Mahjong.Code
 					);
 				}
 			);
-			if (GoBackHistoryCount < 0)
+			if (GoBackHistoryCount > 0)
 			{
 				if (this.GoBackAvailable != null)
 					this.GoBackAvailable();
@@ -159,7 +159,7 @@ namespace Mahjong.Code
 						);
 					}
 				);
-			if (GoForwardHistoryCount < 0)
+			if (GoForwardHistoryCount > 0)
 			{
 				if (this.GoForwardAvailable != null)
 					this.GoForwardAvailable();
