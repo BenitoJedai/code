@@ -37,7 +37,7 @@ namespace Mahjong.Code
 		// WPF does not (2008 09)
 
 		public readonly FutureAction<string> PlaySoundFuture;
-		public readonly Action<string> PlaySound;
+		//public readonly Action<string> PlaySound;
 
 		public event Action<int, int> Sync_MouseMove;
 		public event Action Sync_GoBack;
@@ -66,11 +66,14 @@ namespace Mahjong.Code
 		public bool AllowPlayerToChooseLayouts = true;
 
 		public readonly FullscreenButtonControl FullscreenButton;
+		public readonly HelpButtonControl HelpButton;
+
+		public Action PlaySoundClick;
 
 		public MahjongGameControl()
 		{
 			this.PlaySoundFuture = new FutureAction<string>();
-			this.PlaySound = this.PlaySoundFuture;
+			//this.PlaySound = this.PlaySoundFuture;
 
 			this.Width = DefaultScaledWidth;
 			this.Height = DefaultScaledHeight;
@@ -87,6 +90,8 @@ namespace Mahjong.Code
 				reveal = PlaySoundFuture["reveal"],
 				treasure = PlaySoundFuture["treasure"],
 			};
+
+			PlaySoundClick = Sounds.click;
 
 			Sounds.birds();
 
@@ -266,12 +271,59 @@ namespace Mahjong.Code
 
 			this.FullscreenButton = new FullscreenButtonControl();
 
-			FullscreenButton.Container.AttachTo(this).MoveTo(CommentMargin, DefaultScaledHeight - CommentMargin - FullscreenButtonControl.Height);
+			FullscreenButton.Container.AttachTo(this).MoveTo(
+								CommentMargin,
+				DefaultScaledHeight - CommentMargin - FullscreenButtonControl.Height - CommentMargin - HelpButtonControl.Height
+			);
+
 			FullscreenButton.ButtonGoFullscreen.Enabled = false;
+
+			this.HelpButton = new HelpButtonControl();
+
+			HelpButton.Container.AttachTo(this).MoveTo(
+				//CommentMargin + HelpButtonControl.Width + CommentMargin, 
+				//DefaultScaledHeight - CommentMargin - HelpButtonControl.Height
+				CommentMargin,
+				DefaultScaledHeight - CommentMargin - HelpButtonControl.Height
+			);
+
+			HelpButton.ButtonHelp.Enabled = false;
+
+			HelpButton.Help +=
+				delegate
+				{
+					// now we should flash valid moves
+
+
+					var ValidMoves =
+						Enumerable.ToArray(
+							from tt in this.MyLayout.Tiles
+							where !tt.BlockingSiblings.Any()
+							let m = this.MyLayout.Tiles.WhereNot(k => k.BlockingSiblings.Any()).Where(k => k.Tile.Value.IsPairable(tt.Tile.Value)).ToArray()
+							where m.Length > 0
+							select new { tt, m }
+						);
+
+					if (ValidMoves.Length == 0)
+					{
+						Sounds.buzzer();
+					}
+					else
+					{
+						PlaySoundClick();
+
+						var p = ValidMoves.Random();
+
+						MyLayout.FlashGreen(p.m.ConcatSingle(p.tt).Select(k => k.Tile.Value).ToArray());
+
+						Score -= 9;
+					}
+				};
 
 			MyLayout.LayoutDestroyed +=
 				delegate
 				{
+					HelpButton.ButtonHelp.Enabled = false;
 
 					Console.WriteLine("LayoutDestroyed ...");
 
@@ -364,6 +416,7 @@ namespace Mahjong.Code
 
 					Sounds.reveal();
 
+					HelpButton.ButtonHelp.Enabled = true;
 
 					Layouts.AllLoaded.Continue(
 						delegate
@@ -373,6 +426,9 @@ namespace Mahjong.Code
 								Comment.IsReadOnly = false;
 								CommentSuggestions.Enabled = true;
 							}
+
+
+
 						}
 					);
 
@@ -424,6 +480,9 @@ namespace Mahjong.Code
 						}
 					);
 			#endregion
+
+			MyLayout.GoBackCompleted += this.PlaySoundClick;
+			MyLayout.GoForwardCompleted += this.PlaySoundClick;
 
 			this.Layouts = new LayoutsFuture(
 				// new string [0]

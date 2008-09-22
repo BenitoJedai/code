@@ -73,6 +73,7 @@
     <Compile Include="ActionScript\Avalon\TiledImageButton\Assets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\Avalon\TiledImageButton\AeroNavigationBar.cs" />
+    <Compile Include="Shared\Avalon\TiledImageButton\HelpButtonControl.cs" />
     <Compile Include="Shared\Avalon\TiledImageButton\FullscreenButtonControl.cs" />
     <Compile Include="Shared\Avalon\TiledImageButton\IAssemblyReferenceToken.cs" />
     <Compile Include="Shared\Avalon\TiledImageButton\ImageButtonStates.cs" />
@@ -85,6 +86,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.TiledImageButton\fullscreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.TiledImageButton\help.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
