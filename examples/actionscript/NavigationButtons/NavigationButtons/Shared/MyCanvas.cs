@@ -95,6 +95,13 @@ namespace NavigationButtons.Shared
 			h.Container.AttachTo(this).MoveTo(8 + 24 + 24, DefaultHeight - 8 - 24);
 
 			h.Help += () => h.ButtonHelp.Enabled = false;
+
+			var con = new ConsoleButtonControl();
+
+			con.ButtonConsole.Enabled = true;
+			con.Container.AttachTo(this).MoveTo(8 + 24 + 24 + 24, DefaultHeight - 8 - 24);
+
+			con.Console += () => h.ButtonHelp.Enabled = false;
 		
 		}
 

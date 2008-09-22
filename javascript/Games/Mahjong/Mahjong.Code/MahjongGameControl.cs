@@ -269,6 +269,17 @@ namespace Mahjong.Code
 			#endregion
 
 
+			var ConsoleButton = new ConsoleButtonControl();
+
+			ConsoleButton.Container.AttachTo(this).MoveTo(
+								CommentMargin,
+				DefaultScaledHeight - CommentMargin - FullscreenButtonControl.Height - CommentMargin - HelpButtonControl.Height - CommentMargin - ConsoleButtonControl.Height
+			);
+
+			ConsoleButton.Console += DiagnosticsContainer.ToggleVisible;
+
+				
+
 			this.FullscreenButton = new FullscreenButtonControl();
 
 			FullscreenButton.Container.AttachTo(this).MoveTo(

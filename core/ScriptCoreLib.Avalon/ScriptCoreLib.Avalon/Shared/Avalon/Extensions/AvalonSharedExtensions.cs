@@ -14,6 +14,15 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	[Script]
 	public static class AvalonSharedExtensions
 	{
+		public static void ToggleVisible(this UIElement e)
+		{
+			if (e.Visibility == Visibility.Visible)
+				e.Visibility = Visibility.Hidden;
+			else
+				e.Visibility = Visibility.Visible;
+
+		}
+
 		public static IEnumerable<Brush> ToGradient(this Brush from, Brush to, int count)
 		{
 			var _from = from as SolidColorBrush;

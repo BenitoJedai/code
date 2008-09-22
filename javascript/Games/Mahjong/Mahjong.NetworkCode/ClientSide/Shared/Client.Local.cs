@@ -215,12 +215,29 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 								return;
 							}
 
+							var LockValidateAbortList = new List<Action>();
+
 							#region enter locks
 							foreach (var v in a)
 							{
 								var c = v;
 
 								var LockValidate = default(Action<int>);
+								var LockValidateAborted = false;
+
+								Action LockValidateAbort =
+									delegate
+									{
+										if (LockValidateAborted)
+											return;
+
+										LockValidateAborted = true;
+
+										c.LockValidate -= LockValidate;
+										c.ToPlayer.UserLockExit(lock_id);
+									};
+
+								LockValidateAbortList.Add(LockValidateAbort);
 
 								LockValidate =
 									id =>
@@ -228,13 +245,14 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 										if (id != lock_id)
 											return;
 
+										LockValidateAborted = true;
+
 										c.LockValidate -= LockValidate;
 
 										n++;
 
 										if (n != a.Length)
 											return;
-
 
 										DoneUsingThisLock();
 									};
@@ -256,6 +274,22 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 									// we should clear our lock and retry later
 									DiagnosticsWriteLine("Deadlock");
+
+									foreach (var v in LockValidateAbortList)
+									{
+										v();
+									}
+
+									5000.AtDelay(
+										delegate
+										{
+											// retry after a deadlock and hope it has cleared
+
+											DiagnosticsWriteLine("Deadlock continue");
+
+											this.SynchronizedAsync(h);
+										}
+									);
 								}
 							).Stop;
 						}
