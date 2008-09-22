@@ -26,11 +26,54 @@ namespace Mahjong.Code
 			Remove(a, b, true);
 		}
 
-		readonly FutureLock RemoveLock = new FutureLock();
+		readonly FutureLock FlashLock = new FutureLock();
+
+		public void FlashGreen(VisibleTile[] a)
+		{
+			FlashGreen(a,
+				delegate
+				{
+					100.AtDelay(() => FlashGreen(a, null));
+				}
+			);
+		}
+
+		public void FlashGreen(VisibleTile[] a, Action Done)
+		{
+			FlashLock.Acquire(
+				delegate
+				{
+					foreach (var b in a)
+					{
+						b.BlackFilter.Visibility = System.Windows.Visibility.Hidden;
+						b.GreenFilter.Opacity = 0.6;
+
+					}
+
+
+					200.AtDelay(
+						delegate
+						{
+							foreach (var b in a)
+							{
+								b.BlackFilter.Visibility = System.Windows.Visibility.Visible;
+								b.GreenFilter.Opacity = 0;
+
+							}
+
+							FlashLock.Release();
+
+							if (Done != null)
+								Done();
+						}
+					);
+				}
+			);
+		}
 
 		public void Remove(VisibleTile a, VisibleTile b, bool IsLocalPlayer)
 		{
-			RemoveLock.Acquire(
+			FlashLock.Acquire(
 				delegate
 				{
 					a.BlackFilter.Visibility = System.Windows.Visibility.Hidden;
@@ -93,7 +136,7 @@ namespace Mahjong.Code
 									ReadyForNextLayout(IsLocalPlayer);
 							}
 
-							RemoveLock.Release();
+							FlashLock.Release();
 						}
 					);
 				}
@@ -108,6 +151,8 @@ namespace Mahjong.Code
 		public event Action GoBackUnavailable;
 
 
+		public event Action GoBackCompleted;
+		public event Action GoForwardCompleted;
 
 		public void GoBack()
 		{
@@ -132,7 +177,9 @@ namespace Mahjong.Code
 				if (GoForwardAvailable != null)
 					GoForwardAvailable();
 
-	
+			if (GoBackCompleted != null)
+				GoBackCompleted();
+
 		}
 
 		public void GoForward()
@@ -158,7 +205,8 @@ namespace Mahjong.Code
 				if (GoBackAvailable != null)
 					GoBackAvailable();
 
-	
+			if (GoForwardCompleted != null)
+				GoForwardCompleted();
 		}
 
 		[Script]

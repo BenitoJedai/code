@@ -375,6 +375,8 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 						{
 							// we should probably check here if that user has "focus"
 
+							this.Map.PlaySoundClick();
+
 							this.Map.MyLayout.Remove(
 								this.Map.MyLayout.Tiles[e.a].Tile.Value,
 								this.Map.MyLayout.Tiles[e.b].Tile.Value,

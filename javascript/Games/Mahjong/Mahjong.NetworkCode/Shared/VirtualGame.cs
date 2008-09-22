@@ -31,7 +31,7 @@ namespace Mahjong.NetworkCode.Shared
 				{
 					score += e.score;
 
-					player.AddScore("score", score);
+					player.AddScore("score", e.score);
 
 					if (score > 100)
 						a100.Give();

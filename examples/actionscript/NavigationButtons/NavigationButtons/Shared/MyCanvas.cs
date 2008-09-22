@@ -88,6 +88,14 @@ namespace NavigationButtons.Shared
 
 			fs2.ButtonGoFullscreen.Enabled = false;
 			fs2.Container.AttachTo(this).MoveTo(8 + 24, DefaultHeight - 8 - 24);
+
+			var h = new HelpButtonControl();
+
+			h.ButtonHelp.Enabled = true;
+			h.Container.AttachTo(this).MoveTo(8 + 24 + 24, DefaultHeight - 8 - 24);
+
+			h.Help += () => h.ButtonHelp.Enabled = false;
+		
 		}
 
 	}
