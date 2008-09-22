@@ -1039,7 +1039,7 @@ namespace jsc
 			//Task.Fail(i);
 		}
 
-		
+
 
 		private static void WriteCreateType(IdentWriter w, ilbp p, ili i, ilfsi[] s, MethodBase m)
 		{
@@ -1437,6 +1437,14 @@ namespace jsc
 			if (i == OpCodes.Rem) w.Write("%");
 
 			w.WriteSpace();
+
+			if (s[0].SingleStackInstruction.TargetField != null)
+				if (OpCodeEmitStringEnum(w, s[1], s[0].SingleStackInstruction.TargetField.FieldType))
+				{
+
+					w.Write(")");
+					return;
+				}
 
 			OpCodeHandler(w, p, i, s[1]);
 
