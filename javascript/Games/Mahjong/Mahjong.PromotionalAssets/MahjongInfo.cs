@@ -50,5 +50,8 @@ namespace Mahjong.PromotionalAssets
 		public const string GoogleModulesLink = "http://googlemodules.com/module/7424/";
 
 
+		public const string NewgroundsLink = "http://www.newgrounds.com/portal/view/461010";
+		public const string MochiAdsLink = "http://www.mochiads.com/games/mahjong-multiplayer/";
+
 	}
 }
