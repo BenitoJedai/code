@@ -49,7 +49,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="a100.png" />
+    <Content Include="a1000.png" />
+    <Content Include="a50000.png" />
     <Content Include="about.txt" />
+    <Content Include="aLC.png" />
+    <Content Include="g46.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="mahjong-multiplayer.swf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -74,6 +81,7 @@
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)*.png" "../../../bin/"
 copy "$(TargetDir)*.jpg" "../../../bin/"
+copy "$(TargetDir)*.gif" "../../../bin/"
 copy "$(TargetDir)*.swf" "../../../bin/"</PostBuildEvent>
   </PropertyGroup>
 </Project>
