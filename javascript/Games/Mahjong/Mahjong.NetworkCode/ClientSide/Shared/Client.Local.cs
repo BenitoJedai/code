@@ -55,38 +55,38 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 			Action<string> DiagnosticsWriteLine = text => this.Map.DiagnosticsWriteLine(text);
 
-			#region DisplayLockLocal
-			var DisplayLockLocal = new TextBox
-			{
-				Text = "local lock",
-				Width = 200,
-				Height = 20,
-				Background = Brushes.Transparent,
-				BorderThickness = new Thickness(0),
-				Foreground = Brushes.Green
-			}.AttachTo(this.Map.DiagnosticsContainer).MoveTo(8, 64);
+			//#region DisplayLockLocal
+			//var DisplayLockLocal = new TextBox
+			//{
+			//    Text = "local lock",
+			//    Width = 200,
+			//    Height = 20,
+			//    Background = Brushes.Transparent,
+			//    BorderThickness = new Thickness(0),
+			//    Foreground = Brushes.Green
+			//}.AttachTo(this.Map.DiagnosticsContainer).MoveTo(8, 64);
 
-			this.UserLock_ByLocal.Acquired +=
-				delegate
-				{
-					//DiagnosticsWriteLine("UserLock_ByLocal.Acquired");
-					DisplayLockLocal.Foreground = Brushes.Red;
-				};
+			//this.UserLock_ByLocal.Acquired +=
+			//    delegate
+			//    {
+			//        //DiagnosticsWriteLine("UserLock_ByLocal.Acquired");
+			//        DisplayLockLocal.Foreground = Brushes.Red;
+			//    };
 
-			this.UserLock_ByLocal.Pending +=
-				delegate
-				{
-					//DiagnosticsWriteLine("UserLock_ByLocal.Pending");
-					DisplayLockLocal.Foreground = Brushes.Yellow;
-				};
+			//this.UserLock_ByLocal.Pending +=
+			//    delegate
+			//    {
+			//        //DiagnosticsWriteLine("UserLock_ByLocal.Pending");
+			//        DisplayLockLocal.Foreground = Brushes.Yellow;
+			//    };
 
-			this.UserLock_ByLocal.Released +=
-				delegate
-				{
-					//DiagnosticsWriteLine("UserLock_ByLocal.Released");
-					DisplayLockLocal.Foreground = Brushes.Green;
-				};
-			#endregion
+			//this.UserLock_ByLocal.Released +=
+			//    delegate
+			//    {
+			//        //DiagnosticsWriteLine("UserLock_ByLocal.Released");
+			//        DisplayLockLocal.Foreground = Brushes.Green;
+			//    };
+			//#endregion
 
 
 			#region DisplayLockRemote
@@ -103,21 +103,21 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			this.UserLock_ByRemote.Acquired +=
 				delegate
 				{
-					//DiagnosticsWriteLine("UserLock_ByRemote.Acquired");
+					DiagnosticsWriteLine("UserLock_ByRemote.Acquired");
 					DisplayLockRemote.Foreground = Brushes.Red;
 				};
 
 			this.UserLock_ByRemote.Pending +=
 				delegate
 				{
-					//DiagnosticsWriteLine("UserLock_ByRemote.Pending");
+					DiagnosticsWriteLine("UserLock_ByRemote.Pending");
 					DisplayLockRemote.Foreground = Brushes.Yellow;
 				};
 
 			this.UserLock_ByRemote.Released +=
 				delegate
 				{
-					//DiagnosticsWriteLine("UserLock_ByRemote.Released");
+					DiagnosticsWriteLine("UserLock_ByRemote.Released");
 					DisplayLockRemote.Foreground = Brushes.Green;
 				};
 			#endregion
@@ -132,28 +132,28 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			this.Map.Sync_GoForward += this.Messages.GoForward;
 
 
-			var SynchronizedCache = new Queue<Action<Action>>();
+			//var SynchronizedCache = new Queue<Action<Action>>();
 
 			#region Synchronized
 			this.SynchronizedAsync =
 				h =>
 				{
 
-					// whatif we are already trying to sync
-					if (this.UserLock_ByLocal.IsAcquired)
-					{
-						this.Map.DiagnosticsWriteLine("Synchronized to be continued");
+					//// whatif we are already trying to sync
+					//if (this.UserLock_ByLocal.IsAcquired)
+					//{
+					//    this.Map.DiagnosticsWriteLine("Synchronized to be continued");
 
-						SynchronizedCache.Enqueue(h);
+					//    SynchronizedCache.Enqueue(h);
 
-						return;
-					}
-					else
-					{
-						//this.Map.DiagnosticsWriteLine("Synchronized");
-					}
+					//    return;
+					//}
+					//else
+					//{
+					//    //this.Map.DiagnosticsWriteLine("Synchronized");
+					//}
 
-					this.UserLock_ByLocal[this.UserLock_ByRemote](
+					this.UserLock_ByRemote.Acquire(
 						delegate
 						{
 							// 
@@ -172,16 +172,16 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 									SynchronizedLingerTime.AtDelay(
 										delegate
 										{
-											if (SynchronizedCache.Count > 0)
-											{
-												DiagnosticsWriteLine("Synchronized continued");
+											//if (SynchronizedCache.Count > 0)
+											//{
+											//    DiagnosticsWriteLine("Synchronized continued");
 
-												var p = SynchronizedCache.Dequeue();
+											//    var p = SynchronizedCache.Dequeue();
 
-												p(AllDoneForNow);
+											//    p(AllDoneForNow);
 
-												return;
-											}
+											//    return;
+											//}
 
 											// release all locks
 											foreach (var vv in a)
@@ -189,7 +189,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 												vv.ToPlayer.UserLockExit(lock_id);
 											}
 
-											this.UserLock_ByLocal.Release();
+											this.UserLock_ByRemote.Release();
 
 										}
 									);
@@ -223,21 +223,21 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 								var c = v;
 
 								var LockValidate = default(Action<int>);
-								var LockValidateAborted = false;
+								//var LockValidateAborted = false;
 
-								Action LockValidateAbort =
-									delegate
-									{
-										if (LockValidateAborted)
-											return;
+								//Action LockValidateAbort =
+								//    delegate
+								//    {
+								//        if (LockValidateAborted)
+								//            return;
 
-										LockValidateAborted = true;
+								//        LockValidateAborted = true;
 
-										c.LockValidate -= LockValidate;
-										c.ToPlayer.UserLockExit(lock_id);
-									};
+								//        c.LockValidate -= LockValidate;
+								//        c.ToPlayer.UserLockExit(lock_id);
+								//    };
 
-								LockValidateAbortList.Add(LockValidateAbort);
+								//LockValidateAbortList.Add(LockValidateAbort);
 
 								LockValidate =
 									id =>
@@ -245,7 +245,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 										if (id != lock_id)
 											return;
 
-										LockValidateAborted = true;
+										//LockValidateAborted = true;
 
 										c.LockValidate -= LockValidate;
 
@@ -275,21 +275,21 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 									// we should clear our lock and retry later
 									DiagnosticsWriteLine("Deadlock");
 
-									foreach (var v in LockValidateAbortList)
-									{
-										v();
-									}
+									//foreach (var v in LockValidateAbortList)
+									//{
+									//    v();
+									//}
 
-									5000.AtDelay(
-										delegate
-										{
-											// retry after a deadlock and hope it has cleared
+									//5000.AtDelay(
+									//    delegate
+									//    {
+									//        // retry after a deadlock and hope it has cleared
 
-											DiagnosticsWriteLine("Deadlock continue");
+									//        DiagnosticsWriteLine("Deadlock continue");
 
-											this.SynchronizedAsync(h);
-										}
-									);
+									//        this.SynchronizedAsync(h);
+									//    }
+									//);
 								}
 							).Stop;
 						}

@@ -15,14 +15,14 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 		public readonly Canvas Element;
 
 
-		public readonly FutureLock UserLock_ByLocal = new FutureLock();
+		//public readonly FutureLock UserLock_ByLocal = new FutureLock();
 		public readonly FutureLock UserLock_ByRemote = new FutureLock();
 
 
 		public Action<Action<Action>> SynchronizedAsync;
 		public Action<Action> Synchronized;
 
-		public const int SynchronizedLingerTime = 100;
+		public const int SynchronizedLingerTime = 1;
 
 		public const int LagBeforeRespondingToMapRequest = 1;
 		public const int LagBeforeReadingMapResponse = 1;
