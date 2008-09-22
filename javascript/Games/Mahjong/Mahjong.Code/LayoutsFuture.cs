@@ -19,6 +19,8 @@ namespace Mahjong.Code
 
 		public event Action<int, int> Progress;
 
+		public readonly List<Layout> KnownLayouts = new List<Layout>();
+
 		public LayoutsFuture(string[] Files)
 		{
 			Files.ForEach(
@@ -35,6 +37,8 @@ namespace Mahjong.Code
 							e.Source = File;
 
 							ByComment[e.Comment] = e;
+
+							KnownLayouts.Add(e);
 
 							if (FirstLoaded.CanSignal)
 								FirstLoaded.Value = e;

@@ -22,8 +22,10 @@ namespace Mahjong.Code
 {
 	partial class MahjongGameControl
 	{
-		private void TryToChangeLayout(string NewLayoutComment)
+		private void TryToChangeLayout(Layout n)
 		{
+
+
 			this.Comment.IsReadOnly = true;
 			this.CommentSuggestions.Enabled = false;
 
@@ -36,12 +38,12 @@ namespace Mahjong.Code
 				};
 
 			// Player x would like to ....
-			Vote("play `" + NewLayoutComment + "´",
+			Vote("play `" + n.Comment + "´",
 				delegate
 				{
 					Done();
 
-					SynchronizedChangeLayout(Layouts.ByComment[NewLayoutComment]);
+					SynchronizedChangeLayout(n);
 
 				},
 				Done
@@ -53,6 +55,9 @@ namespace Mahjong.Code
 			SynchronizedAsync(
 					DoneLoadingNewMap =>
 					{
+						if (value == null)
+							throw new Exception("Should not change layout to null");
+
 						// new layout does indeed exist!
 						MyLayout.Layout = value;
 
