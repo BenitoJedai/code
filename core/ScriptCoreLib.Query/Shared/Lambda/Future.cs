@@ -315,7 +315,8 @@ namespace ScriptCoreLib.Shared.Lambda
 			Lock.Continue(e);
 		}
 
-		public bool IsAcquired;
+		public bool IsAcquired { get { return this.ToBeReleased.Count > 0; } }
+
 
 		public FutureLock Acquire()
 		{
@@ -324,7 +325,9 @@ namespace ScriptCoreLib.Shared.Lambda
 
 			Lock = new Future();
 
-			IsAcquired = true;
+			this.ToBeReleased.Enqueue(Lock.Signal);
+
+
 			if (Acquired != null)
 				Acquired();
 
@@ -337,13 +340,15 @@ namespace ScriptCoreLib.Shared.Lambda
 
 			Lock = new Future();
 
+			this.ToBeReleased.Enqueue(Lock.Signal);
+
+
 			if (Pending != null)
 				Pending();
 
 			u.Continue(
 				delegate
 				{
-					IsAcquired = true;
 					if (Acquired != null)
 						Acquired();
 
@@ -358,8 +363,7 @@ namespace ScriptCoreLib.Shared.Lambda
 
 			Lock = new Future();
 
-			if (u != null)
-				this.ToBeReleased.Enqueue(u.Signal);
+			this.ToBeReleased.Enqueue(Lock.Signal);
 
 
 			if (Pending != null)
@@ -374,7 +378,6 @@ namespace ScriptCoreLib.Shared.Lambda
 							dependencies.Continue(
 								delegate
 								{
-									IsAcquired = true;
 									if (Acquired != null)
 										Acquired();
 
@@ -409,29 +412,35 @@ namespace ScriptCoreLib.Shared.Lambda
 
 		public void Release()
 		{
+		
+
 			if (ToBeReleased.Count > 0)
 			{
+				if (Released != null)
+					Released();
+
 				ToBeReleased.Dequeue()();
 				return;
 			}
 
 
-			if (!IsAcquired)
-				throw new Exception("Thislock is not yet acquired");
+			//if (!IsAcquired)
+
+			throw new Exception("This lock is not yet acquired");
 
 
-			var x = Lock;
+			//var x = Lock;
 
-			Lock = null;
+			//Lock = null;
 
-			IsAcquired = false;
-			if (Released != null)
-				Released();
+			//IsAcquired = false;
+			//if (Released != null)
+			//    Released();
 
-			if (x == null)
-				return;
+			//if (x == null)
+			//    return;
 
-			x.Signal();
+			//x.Signal();
 		}
 
 		public event Action Released;

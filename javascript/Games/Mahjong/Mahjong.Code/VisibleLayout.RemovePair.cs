@@ -91,6 +91,10 @@ namespace Mahjong.Code
 					200.AtDelay(
 						delegate
 						{
+							a.BlackFilter.Visibility = System.Windows.Visibility.Visible;
+							b.BlackFilter.Visibility = System.Windows.Visibility.Visible;
+
+
 							a.YellowFilter.Opacity = 0;
 							b.YellowFilter.Opacity = 0;
 

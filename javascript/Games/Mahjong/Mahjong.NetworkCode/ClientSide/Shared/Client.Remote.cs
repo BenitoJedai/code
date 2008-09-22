@@ -332,7 +332,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					//// are we trying to get a lock by ourselves?
 					// we cannot give lock to the user while we are still loading the map
 					this.UserLock_ByRemote[
-						this.UserLock_ByLocal,
+						//this.UserLock_ByLocal,
 						this.Map.MyLayout.LayoutProgress
 					](
 						delegate
@@ -416,8 +416,8 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 				{
 					var c = CoPlayers[e.user];
 
-					if (!this.UserLock_ByRemote.IsAcquired)
-						throw new Exception("UserRemovePair needs a lock");
+					//if (!this.UserLock_ByRemote.IsAcquired)
+					//    throw new Exception("UserRemovePair needs a lock");
 
 					DiagnosticsWriteLine("UserRemovePair: " + c.Name);
 
