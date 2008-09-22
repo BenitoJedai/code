@@ -314,8 +314,21 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 				{
 					var c = CoPlayers[e.user];
 
-					//DiagnosticsWriteLine("UserLockEnter: " + c.Name);
+					// whatif that user will send lock exit before we get that lock?
+					var IsPrematureExit = false;
 
+					var PrematureLockExit = default(Action<Communication.RemoteEvents.UserLockExitArguments>);
+
+					PrematureLockExit =
+							args =>
+							{
+								this.Map.DiagnosticsWriteLine("PrematureLockExit: " + c.Name);
+								IsPrematureExit = true;
+								this.Events.UserLockExit -= PrematureLockExit;
+							};
+
+					this.Events.UserLockExit += PrematureLockExit;
+					
 					//// are we trying to get a lock by ourselves?
 					// we cannot give lock to the user while we are still loading the map
 					this.UserLock_ByRemote[
@@ -324,8 +337,53 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					](
 						delegate
 						{
+							if (IsPrematureExit)
+							{
+								this.Map.DiagnosticsWriteLine("IsPrematureExit: " + c.Name);
+								this.UserLock_ByRemote.Release();
+
+								return;
+							}
+							
+							this.Events.UserLockExit -= PrematureLockExit;
+
 							// what if this player leaves?
 							c.ToPlayer.UserLockValidate(e.id);
+
+							var LockOwnerLeft = default(Action<Communication.RemoteEvents.ServerPlayerLeftArguments>);
+							var LockOwnerReleasedTheLockInstead = default(Action<Communication.RemoteEvents.UserLockExitArguments>);
+
+
+							LockOwnerLeft =
+								args =>
+								{
+									if (args.user != c.user)
+										return;
+
+									// he had the lock yet he left... we need to aviod deadlocks
+									this.UserLock_ByRemote.Release();
+
+									this.Events.ServerPlayerLeft -= LockOwnerLeft;
+									this.Events.UserLockExit -= LockOwnerReleasedTheLockInstead;
+								};
+
+
+							LockOwnerReleasedTheLockInstead =
+								args =>
+								{
+									if (args.user != c.user)
+										return;
+
+									this.UserLock_ByRemote.Release();
+
+									this.Events.ServerPlayerLeft -= LockOwnerLeft;
+									this.Events.UserLockExit -= LockOwnerReleasedTheLockInstead;
+								};
+
+
+
+							this.Events.ServerPlayerLeft += LockOwnerLeft;
+							this.Events.UserLockExit += LockOwnerReleasedTheLockInstead;
 						}
 					);
 
@@ -335,15 +393,8 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			this.Events.UserLockExit +=
 				e =>
 				{
-					var c = CoPlayers[e.user];
-
-					//DiagnosticsWriteLine("UserLockExit: " + c.Name);
-
-					if (!this.UserLock_ByRemote.IsAcquired)
-						throw new Exception("UserLockExit needs a lock");
-
-					// maybe we should wait a bit?
-					this.UserLock_ByRemote.Release();
+					//if (!this.UserLock_ByRemote.IsAcquired)
+					//    throw new Exception("UserLockExit needs a lock");
 				};
 
 			#region UserLockValidate

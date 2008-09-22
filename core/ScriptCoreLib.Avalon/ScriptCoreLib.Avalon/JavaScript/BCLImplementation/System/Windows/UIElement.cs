@@ -208,7 +208,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 		{
 			get
 			{
-				throw new NotImplementedException();
+				var expect = ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.empty;
+				var current = this.InternalGetDisplayObject().style.display;
+
+				if (current == expect)
+					return Visibility.Visible;
+
+				return Visibility.Hidden;
 			}
 			set
 			{
@@ -283,7 +289,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 
 
 				// http://www.w3schools.com/CSS/pr_pos_clip.asp
-			
+
 				// shape  	Sets the shape of the element. The valid shape value is: rect (top, right, bottom, left)
 				// auto 	Default. The browser sets the shape of the element
 				var rect = "rect(";

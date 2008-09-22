@@ -298,7 +298,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 		{
 			get
 			{
-				throw new NotImplementedException();
+				if (this.InternalGetDisplayObject().visible)
+					return Visibility.Visible;
+				else
+					return Visibility.Hidden;
 			}
 			set
 			{
