@@ -295,14 +295,7 @@ namespace Mahjong.Code
 					// now we should flash valid moves
 
 
-					var ValidMoves =
-						Enumerable.ToArray(
-							from tt in this.MyLayout.Tiles
-							where !tt.BlockingSiblings.Any()
-							let m = this.MyLayout.Tiles.WhereNot(k => k.BlockingSiblings.Any()).Where(k => k.Tile.Value.IsPairable(tt.Tile.Value)).ToArray()
-							where m.Length > 0
-							select new { tt, m }
-						);
+					var ValidMoves = GetValidMoves();
 
 					if (ValidMoves.Length == 0)
 					{
@@ -314,9 +307,10 @@ namespace Mahjong.Code
 
 						var p = ValidMoves.Random();
 
-						MyLayout.FlashGreen(p.m.ConcatSingle(p.tt).Select(k => k.Tile.Value).ToArray());
+						DiagnosticsWriteLine("chose valid move tiles: " + p.Length);
+						MyLayout.FlashGreen(p);
 
-						Score -= 9;
+						Score = (Score - 9).Max(0);
 					}
 				};
 
@@ -579,6 +573,27 @@ namespace Mahjong.Code
 						);
 					}
 				};
+		}
+
+		private VisibleTile[][] GetValidMoves()
+		{
+			var ValidMoves = new List<VisibleTile[]>();
+
+			foreach (var v in this.MyLayout.Tiles)
+			{
+				if (v.Visible)
+					if (!v.BlockingSiblings.Any())
+					{
+						var m = this.MyLayout.Tiles.Where(k => k.Visible).WhereNot(k => k.BlockingSiblings.Any()).Where(k => k.Tile.Value.IsPairable(v.Tile.Value)).ToArray();
+
+						if (m.Length > 0)
+							ValidMoves.Add(m.ConcatSingle(v).Select(k => k.Tile.Value).ToArray());
+
+
+					}
+			}
+
+			return ValidMoves.ToArray();
 		}
 
 
