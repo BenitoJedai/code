@@ -159,3 +159,5 @@ version history:
 	actionscript: fixed uint constants for method parameters
 20.09.2008
 	cs2: added trivial support for custom attributes
+22.09.2008
+	javascript: fixed enum as string for ceq opcode

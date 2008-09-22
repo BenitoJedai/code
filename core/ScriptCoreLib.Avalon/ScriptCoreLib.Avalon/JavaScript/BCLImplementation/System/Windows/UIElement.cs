@@ -208,10 +208,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 		{
 			get
 			{
-				var expect = ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.empty;
-				var current = this.InternalGetDisplayObject().style.display;
+				var s = this.InternalGetDisplayObject().style;
 
-				if (current == expect)
+				if (s.display == ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.empty)
 					return Visibility.Visible;
 
 				return Visibility.Hidden;
