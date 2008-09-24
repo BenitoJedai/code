@@ -15,7 +15,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 		public readonly Canvas Element;
 
 
-		//public readonly FutureLock UserLock_ByLocal = new FutureLock();
+		public readonly FutureLock UserLock_Singelton = new FutureLock();
 		public readonly FutureLock UserLock_ByRemote = new FutureLock();
 
 
@@ -26,6 +26,8 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 
 		public const int LagBeforeRespondingToMapRequest = 1;
 		public const int LagBeforeReadingMapResponse = 1;
+		public const int LagBeforeGoingForALock = 1;
+		public const int LagBeforeUsingAcuiredLock = 5000;
 
 		public Client()
 		{

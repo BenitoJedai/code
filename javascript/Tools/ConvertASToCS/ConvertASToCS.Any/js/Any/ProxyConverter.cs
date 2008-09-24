@@ -281,6 +281,14 @@ namespace ConvertASToCS.js.Any
 					WriteSpace();
 				};
 
+			Action WriteInequals =
+				delegate
+				{
+					WriteSpace();
+					Write("!=");
+					WriteSpace();
+				};
+
 			Action<string, string> WriteStaticMethodName =
 				(TypeName, MethodName) =>
 				{
@@ -694,6 +702,8 @@ namespace ConvertASToCS.js.Any
                                 }
 					};
 
+				var RemoteMessages_Send = new FieldInfo { FieldName = "Send", TypeName = "Action<SendArguments>" };
+				var RemoteMessages_VirtualTargets = new FieldInfo { FieldName = "VirtualTargets", TypeName = "Func<IEnumerable<IMessages>>" };
 				var RemoteMessages =
 					 new TypeInfo
 						{
@@ -702,7 +712,8 @@ namespace ConvertASToCS.js.Any
 							BaseTypeNames = new[] { IMessages.Name/*, IPairedMessages.WithoutUser.Name, IPairedMessages.WithUser.Name*/ },
 							Fields = new[]
 							{
-								new FieldInfo { FieldName = "Send", TypeName = "Action<SendArguments>" }
+								RemoteMessages_Send,
+								RemoteMessages_VirtualTargets
 							}
 						};
 
@@ -758,7 +769,7 @@ namespace ConvertASToCS.js.Any
 					{
 						//public void TeleportTo(int x, int y)
 
-
+						#region signature
 						using (IndentLine())
 						{
 
@@ -786,6 +797,7 @@ namespace ConvertASToCS.js.Any
 							   );
 
 						}
+						#endregion
 
 						//{
 						//    Send(new SendArguments { i = Messages.TeleportTo, args = new object[] { x, y } });
@@ -793,164 +805,238 @@ namespace ConvertASToCS.js.Any
 
 						using (CodeBlock())
 						{
-							var SingleArray = v.ParametersInfo.SingleArrayParameter;
-							var SingleObjectArray = SingleArray != null ? SingleArray.ElementTypeName == "object" : false;
-
-							var SignleArrayConverted = SingleArray != null;
-
-							// we should not try to convert (object[])
-							SignleArrayConverted &= !SingleObjectArray;
-
-							if (v.ParametersInfo.Parameters.Length > 1)
-								if (SingleArray == null)
+							#region Send if availible
+							using (IndentLine())
+							{
+								WriteKeywordSpace("if");
+								using (Parenthesis())
 								{
+									WriteBlue("this");
+									Write(".");
+									Write(RemoteMessages_Send.FieldName);
+									WriteInequals();
+									WriteBlue("null");
+								}
+							}
+							using (CodeBlock())
+							{
 
-									var AllPriorParametersAreNotArrays = true;
+								#region Send(...)
+								var SingleArray = v.ParametersInfo.SingleArrayParameter;
+								var SingleObjectArray = SingleArray != null ? SingleArray.ElementTypeName == "object" : false;
 
-									for (int i = 0; i < v.ParametersInfo.Parameters.Length - 1; i++)
+								var SignleArrayConverted = SingleArray != null;
+
+								// we should not try to convert (object[])
+								SignleArrayConverted &= !SingleObjectArray;
+
+								if (v.ParametersInfo.Parameters.Length > 1)
+									if (SingleArray == null)
 									{
-										if (v.ParametersInfo.Parameters[i].IsArray)
-											AllPriorParametersAreNotArrays = false;
-									}
 
-									if (AllPriorParametersAreNotArrays)
-									{
-										if (v.ParametersInfo.Parameters.Last().IsArray)
+										var AllPriorParametersAreNotArrays = true;
+
+										for (int i = 0; i < v.ParametersInfo.Parameters.Length - 1; i++)
 										{
-											SingleArray = v.ParametersInfo.Parameters.Last();
-											SignleArrayConverted = true;
+											if (v.ParametersInfo.Parameters[i].IsArray)
+												AllPriorParametersAreNotArrays = false;
+										}
+
+										if (AllPriorParametersAreNotArrays)
+										{
+											if (v.ParametersInfo.Parameters.Last().IsArray)
+											{
+												SingleArray = v.ParametersInfo.Parameters.Last();
+												SignleArrayConverted = true;
+											}
 										}
 									}
-								}
 
-							if (SignleArrayConverted)
-							{
-								using (IndentLine())
-								{
-									WriteBlue("var");
-									WriteSpace();
-									Write("args");
-									WriteAssignment();
-									WriteBlue("new");
-									WriteSpace();
-									WriteBlue("object");
-									Write("[");
-									Write(SingleArray.Name);
-									Write(".");
-									Write("Length");
-									WriteSpace();
-									Write("+");
-									WriteSpace();
-									Write("" + (v.ParametersInfo.Parameters.Length - 1));
-									Write("]");
-									Write(";");
-								}
-
-								for (int i = 0; i < v.ParametersInfo.Parameters.Length - 1; i++)
+								if (SignleArrayConverted)
 								{
 									using (IndentLine())
 									{
+										WriteBlue("var");
+										WriteSpace();
 										Write("args");
-										Write("[");
-										Write("" + i);
-										Write("]");
 										WriteAssignment();
-										Write(v.ParametersInfo.Parameters[i].Name);
+										WriteBlue("new");
+										WriteSpace();
+										WriteBlue("object");
+										Write("[");
+										Write(SingleArray.Name);
+										Write(".");
+										Write("Length");
+										WriteSpace();
+										Write("+");
+										WriteSpace();
+										Write("" + (v.ParametersInfo.Parameters.Length - 1));
+										Write("]");
+										Write(";");
+									}
+
+									for (int i = 0; i < v.ParametersInfo.Parameters.Length - 1; i++)
+									{
+										using (IndentLine())
+										{
+											Write("args");
+											Write("[");
+											Write("" + i);
+											Write("]");
+											WriteAssignment();
+											Write(v.ParametersInfo.Parameters[i].Name);
+											Write(";");
+										}
+									}
+
+									using (IndentLine())
+									{
+										WriteStaticMethodName("Array", "Copy");
+
+										using (Parenthesis())
+										{
+											Write(SingleArray.Name);
+
+											Write(",");
+											WriteSpace();
+											Write("0");
+
+											Write(",");
+											WriteSpace();
+											Write("args");
+
+											Write(",");
+											WriteSpace();
+											Write("" + (v.ParametersInfo.Parameters.Length - 1));
+
+											Write(",");
+											WriteSpace();
+											WriteInstanceMethodName(SingleArray.Name, "Length");
+										}
+
 										Write(";");
 									}
 								}
 
 								using (IndentLine())
 								{
-									WriteStaticMethodName("Array", "Copy");
-
+									WriteBlack(RemoteMessages_Send.FieldName);
 									using (Parenthesis())
 									{
-										Write(SingleArray.Name);
-
-										Write(",");
+										WriteBlue("new");
 										WriteSpace();
-										Write("0");
-
-										Write(",");
-										WriteSpace();
-										Write("args");
-
-										Write(",");
-										WriteSpace();
-										Write("" + (v.ParametersInfo.Parameters.Length - 1));
-
-										Write(",");
-										WriteSpace();
-										WriteInstanceMethodName(SingleArray.Name, "Length");
-									}
-
-									Write(";");
-								}
-							}
-
-							using (IndentLine())
-							{
-								WriteBlack("Send");
-								using (Parenthesis())
-								{
-									WriteBlue("new");
-									WriteSpace();
-									WriteCyan("SendArguments");
-									WriteSpace();
-
-									using (InlineCodeBlock())
-									{
-										Write("i");
-										WriteAssignment();
-
-										WriteCyan(MessagesEnumName);
-										Write(".");
-										Write(v.Name);
-
-										Write(",");
+										WriteCyan("SendArguments");
 										WriteSpace();
 
-										Write("args");
-										WriteAssignment();
-
-										if (SignleArrayConverted)
+										using (InlineCodeBlock())
 										{
+											Write("i");
+											WriteAssignment();
+
+											WriteCyan(MessagesEnumName);
+											Write(".");
+											Write(v.Name);
+
+											Write(",");
+											WriteSpace();
+
 											Write("args");
-										}
-										else if (SingleObjectArray)
-										{
-											// the only parameter is object[]
-											Write(SingleArray.Name);
-										}
-										else
-										{
-											// all parameters are non arrays
+											WriteAssignment();
 
-											WriteBlue("new");
-											WriteSpace();
-											WriteBlue("object");
-											Write("[]");
-											WriteSpace();
-
-											using (InlineCodeBlock())
+											if (SignleArrayConverted)
 											{
-												for (int k = 0; k < v.ParametersInfo.Parameters.Length; k++)
-												{
-													if (k > 0)
-													{
-														Write(",");
-														WriteSpace();
-													}
+												Write("args");
+											}
+											else if (SingleObjectArray)
+											{
+												// the only parameter is object[]
+												Write(SingleArray.Name);
+											}
+											else
+											{
+												// all parameters are non arrays
 
-													Write(v.ParametersInfo.Parameters[k].Name);
+												WriteBlue("new");
+												WriteSpace();
+												WriteBlue("object");
+												Write("[]");
+												WriteSpace();
+
+												using (InlineCodeBlock())
+												{
+													for (int k = 0; k < v.ParametersInfo.Parameters.Length; k++)
+													{
+														if (k > 0)
+														{
+															Write(",");
+															WriteSpace();
+														}
+
+														Write(v.ParametersInfo.Parameters[k].Name);
+													}
 												}
 											}
 										}
 									}
-								}
-								Write(";");
+									Write(";");
 
+								}
+								#endregion
+
+							}
+							#endregion
+
+							// if there are other targets, invoke them too
+							using (IndentLine())
+							{
+								WriteKeywordSpace("if");
+								using (Parenthesis())
+								{
+									WriteBlue("this");
+									Write(".");
+									Write(RemoteMessages_VirtualTargets.FieldName);
+									WriteInequals();
+									WriteBlue("null");
+								}
+							}
+							using (CodeBlock())
+							{
+								const string Local_Target__ = "Target__";
+								using (IndentLine())
+								{
+									WriteKeywordSpace("foreach");
+									using (Parenthesis())
+									{
+										WriteKeywordSpace("var");
+										Write(Local_Target__);
+										WriteSpace();
+										WriteKeywordSpace("in");
+										WriteBlue("this");
+										Write(".");
+										Write(RemoteMessages_VirtualTargets.FieldName);
+										Write("()");
+									}
+								}
+								using (CodeBlock())
+								using (IndentLine())
+								{
+									Write(Local_Target__);
+									Write(".");
+									Write(v.Name);
+									using (Parenthesis())
+									{
+										v.ParametersInfo.Parameters.ForEach(
+											(arg, index) =>
+											{
+												if (index > 0)
+													Write(", ");
+
+												Write(arg.Name);
+											}
+										);
+									};
+									Write(";");
+								}
 							}
 						}
 					}
@@ -1283,7 +1369,7 @@ namespace ConvertASToCS.js.Any
 													Write(".");
 
 												}
-											
+
 												Write(p.Name);
 											}
 										}

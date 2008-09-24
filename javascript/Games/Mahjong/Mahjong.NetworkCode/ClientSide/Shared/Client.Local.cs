@@ -37,7 +37,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 			this.MapInitialized.Value = this.Map;
 
 			PlaySoundFuture.Continue(this.Map.PlaySoundFuture);
-			
+
 
 			#region MouseMove
 			// we need to use a treshold and throttle too frequent updates
@@ -153,145 +153,118 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					//    //this.Map.DiagnosticsWriteLine("Synchronized");
 					//}
 
-					this.UserLock_ByRemote.Acquire(
+					this.UserLock_Singelton.Acquire(
 						delegate
 						{
-							// 
-							var a = this.CoPlayers.List.ToArray(k => k.Value);
-							var n = 0;
-							var lock_id = 700;
-
-							var DoneUsingThisLockTimeout = default(Action);
-
-							var AllDoneForNow = default(Action);
-
-							AllDoneForNow =
+							this.UserLock_ByRemote.Continue(
 								delegate
 								{
-									// we got the lock now continue
-									SynchronizedLingerTime.AtDelay(
+									LagBeforeGoingForALock.AtDelay(
 										delegate
 										{
-											//if (SynchronizedCache.Count > 0)
-											//{
-											//    DiagnosticsWriteLine("Synchronized continued");
+											#region actions under lock
+											var a = this.CoPlayers.List.ToArray(k => k.Value);
+											var n = 0;
+											var lock_id = 700;
 
-											//    var p = SynchronizedCache.Dequeue();
+											//var DoneUsingThisLockTimeout = default(Action);
 
-											//    p(AllDoneForNow);
+											var AllDoneForNow = default(Action);
 
-											//    return;
-											//}
+											AllDoneForNow =
+												delegate
+												{
+													// we got the lock now continue
+													SynchronizedLingerTime.AtDelay(
+														delegate
+														{
+								
 
-											// release all locks
-											foreach (var vv in a)
+															// release all locks
+															foreach (var vv in a)
+															{
+																vv.ToPlayer.UserLockExit(lock_id);
+															}
+
+															this.UserLock_ByRemote.Release();
+															this.UserLock_Singelton.Release();
+
+														}
+													);
+												};
+
+											#region DoneUsingThisLock
+											Action DoneUsingThisLock =
+												delegate
+												{
+													//DoneUsingThisLockTimeout = null;
+
+													this.UserLock_ByRemote.Acquire(
+														delegate
+														{
+															LagBeforeUsingAcuiredLock.AtDelay(
+																delegate
+																{
+																	h(AllDoneForNow);
+																}
+															);
+														}
+													);
+
+
+
+												};
+											#endregion
+
+											if (a.Length == 0)
 											{
-												vv.ToPlayer.UserLockExit(lock_id);
+												DoneUsingThisLock();
+
+												return;
 											}
 
-											this.UserLock_ByRemote.Release();
+											var LockValidateAbortList = new List<Action>();
+
+											#region enter locks
+											foreach (var v in a)
+											{
+												var c = v;
+
+												var LockValidate = default(Action<int>);
+								
+
+												LockValidate =
+													id =>
+													{
+														if (id != lock_id)
+															return;
+
+														//LockValidateAborted = true;
+
+														c.LockValidate -= LockValidate;
+
+														n++;
+
+														if (n != a.Length)
+															return;
+
+														DoneUsingThisLock();
+													};
+
+												c.LockValidate += LockValidate;
+
+
+												c.ToPlayer.UserLockEnter(lock_id);
+											}
+											#endregion
+
+											
+											#endregion
 
 										}
 									);
-								};
-
-							#region DoneUsingThisLock
-							Action DoneUsingThisLock =
-								delegate
-								{
-									DoneUsingThisLockTimeout = null;
-
-									h(AllDoneForNow);
-
-
-									
-								};
-							#endregion
-
-							if (a.Length == 0)
-							{
-								DoneUsingThisLock();
-
-								return;
-							}
-
-							var LockValidateAbortList = new List<Action>();
-
-							#region enter locks
-							foreach (var v in a)
-							{
-								var c = v;
-
-								var LockValidate = default(Action<int>);
-								//var LockValidateAborted = false;
-
-								//Action LockValidateAbort =
-								//    delegate
-								//    {
-								//        if (LockValidateAborted)
-								//            return;
-
-								//        LockValidateAborted = true;
-
-								//        c.LockValidate -= LockValidate;
-								//        c.ToPlayer.UserLockExit(lock_id);
-								//    };
-
-								//LockValidateAbortList.Add(LockValidateAbort);
-
-								LockValidate =
-									id =>
-									{
-										if (id != lock_id)
-											return;
-
-										//LockValidateAborted = true;
-
-										c.LockValidate -= LockValidate;
-
-										n++;
-
-										if (n != a.Length)
-											return;
-
-										DoneUsingThisLock();
-									};
-
-								c.LockValidate += LockValidate;
-
-
-								c.ToPlayer.UserLockEnter(lock_id);
-							}
-							#endregion
-
-							DoneUsingThisLockTimeout = 5000.AtDelay(
-								delegate
-								{
-									// if we did got the lock then we are not deadlocked
-									if (DoneUsingThisLockTimeout == null)
-										return;
-
-
-									// we should clear our lock and retry later
-									DiagnosticsWriteLine("Deadlock");
-
-									//foreach (var v in LockValidateAbortList)
-									//{
-									//    v();
-									//}
-
-									//5000.AtDelay(
-									//    delegate
-									//    {
-									//        // retry after a deadlock and hope it has cleared
-
-									//        DiagnosticsWriteLine("Deadlock continue");
-
-									//        this.SynchronizedAsync(h);
-									//    }
-									//);
 								}
-							).Stop;
+							);
 						}
 					);
 
@@ -299,6 +272,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 					// if anyone else is also looking for a lock, wait some and then deny it 
 					// do our stuff
 					// release the lock
+
 				};
 			#endregion
 

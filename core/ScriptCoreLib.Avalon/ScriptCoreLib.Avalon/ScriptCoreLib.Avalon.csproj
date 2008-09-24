@@ -106,6 +106,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\RoutedEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Thickness.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Threading\DispatcherTimer.cs" />
+    <Compile Include="CSharp\Avalon\Extensions\AvalonExtensions.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Canvas.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Control.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Image.cs" />

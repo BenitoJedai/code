@@ -109,6 +109,7 @@ namespace Mahjong.NetworkCode.Shared
         public sealed partial class RemoteMessages : IMessages
         {
             public Action<SendArguments> Send;
+            public Func<IEnumerable<IMessages>> VirtualTargets;
             #region SendArguments
             [Script]
             [CompilerGenerated]
@@ -120,152 +121,482 @@ namespace Mahjong.NetworkCode.Shared
             #endregion
             public void ServerPlayerHello(int user, string name, int others, int navbar, int vote, int layoutinput, int hints, int[] handshake)
             {
-                var args = new object[handshake.Length + 7];
-                args[0] = user;
-                args[1] = name;
-                args[2] = others;
-                args[3] = navbar;
-                args[4] = vote;
-                args[5] = layoutinput;
-                args[6] = hints;
-                Array.Copy(handshake, 0, args, 7, handshake.Length);
-                Send(new SendArguments { i = Messages.ServerPlayerHello, args = args });
+                if (this.Send != null)
+                {
+                    var args = new object[handshake.Length + 7];
+                    args[0] = user;
+                    args[1] = name;
+                    args[2] = others;
+                    args[3] = navbar;
+                    args[4] = vote;
+                    args[5] = layoutinput;
+                    args[6] = hints;
+                    Array.Copy(handshake, 0, args, 7, handshake.Length);
+                    Send(new SendArguments { i = Messages.ServerPlayerHello, args = args });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.ServerPlayerHello(user, name, others, navbar, vote, layoutinput, hints, handshake);
+                    }
+                }
             }
             public void ServerPlayerJoined(int user, string name)
             {
-                Send(new SendArguments { i = Messages.ServerPlayerJoined, args = new object[] { user, name } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.ServerPlayerJoined, args = new object[] { user, name } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.ServerPlayerJoined(user, name);
+                    }
+                }
             }
             public void ServerPlayerLeft(int user, string name)
             {
-                Send(new SendArguments { i = Messages.ServerPlayerLeft, args = new object[] { user, name } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.ServerPlayerLeft, args = new object[] { user, name } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.ServerPlayerLeft(user, name);
+                    }
+                }
             }
             public void UserPlayerAdvertise(int user, string name)
             {
-                Send(new SendArguments { i = Messages.UserPlayerAdvertise, args = new object[] { user, name } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserPlayerAdvertise, args = new object[] { user, name } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserPlayerAdvertise(user, name);
+                    }
+                }
             }
             public void UserMapRequest(int user)
             {
-                Send(new SendArguments { i = Messages.UserMapRequest, args = new object[] { user } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserMapRequest, args = new object[] { user } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserMapRequest(user);
+                    }
+                }
             }
             public void UserMapResponse(int user, int[] bytes)
             {
-                var args = new object[bytes.Length + 1];
-                args[0] = user;
-                Array.Copy(bytes, 0, args, 1, bytes.Length);
-                Send(new SendArguments { i = Messages.UserMapResponse, args = args });
+                if (this.Send != null)
+                {
+                    var args = new object[bytes.Length + 1];
+                    args[0] = user;
+                    Array.Copy(bytes, 0, args, 1, bytes.Length);
+                    Send(new SendArguments { i = Messages.UserMapResponse, args = args });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserMapResponse(user, bytes);
+                    }
+                }
             }
             public void MapReload(int[] bytes)
             {
-                var args = new object[bytes.Length + 0];
-                Array.Copy(bytes, 0, args, 0, bytes.Length);
-                Send(new SendArguments { i = Messages.MapReload, args = args });
+                if (this.Send != null)
+                {
+                    var args = new object[bytes.Length + 0];
+                    Array.Copy(bytes, 0, args, 0, bytes.Length);
+                    Send(new SendArguments { i = Messages.MapReload, args = args });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.MapReload(bytes);
+                    }
+                }
             }
             public void UserMapReload(int user, int[] bytes)
             {
-                var args = new object[bytes.Length + 1];
-                args[0] = user;
-                Array.Copy(bytes, 0, args, 1, bytes.Length);
-                Send(new SendArguments { i = Messages.UserMapReload, args = args });
+                if (this.Send != null)
+                {
+                    var args = new object[bytes.Length + 1];
+                    args[0] = user;
+                    Array.Copy(bytes, 0, args, 1, bytes.Length);
+                    Send(new SendArguments { i = Messages.UserMapReload, args = args });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserMapReload(user, bytes);
+                    }
+                }
             }
             public void MouseMove(int x, int y)
             {
-                Send(new SendArguments { i = Messages.MouseMove, args = new object[] { x, y } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.MouseMove, args = new object[] { x, y } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.MouseMove(x, y);
+                    }
+                }
             }
             public void UserMouseMove(int user, int x, int y)
             {
-                Send(new SendArguments { i = Messages.UserMouseMove, args = new object[] { user, x, y } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserMouseMove, args = new object[] { user, x, y } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserMouseMove(user, x, y);
+                    }
+                }
             }
             public void MouseOut(int color)
             {
-                Send(new SendArguments { i = Messages.MouseOut, args = new object[] { color } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.MouseOut, args = new object[] { color } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.MouseOut(color);
+                    }
+                }
             }
             public void UserMouseOut(int user, int color)
             {
-                Send(new SendArguments { i = Messages.UserMouseOut, args = new object[] { user, color } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserMouseOut, args = new object[] { user, color } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserMouseOut(user, color);
+                    }
+                }
             }
             public void LevelHasEnded()
             {
-                Send(new SendArguments { i = Messages.LevelHasEnded, args = new object[] {  } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.LevelHasEnded, args = new object[] {  } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.LevelHasEnded();
+                    }
+                }
             }
             public void UserLevelHasEnded(int user)
             {
-                Send(new SendArguments { i = Messages.UserLevelHasEnded, args = new object[] { user } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserLevelHasEnded, args = new object[] { user } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserLevelHasEnded(user);
+                    }
+                }
             }
             public void AddScore(int score)
             {
-                Send(new SendArguments { i = Messages.AddScore, args = new object[] { score } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.AddScore, args = new object[] { score } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.AddScore(score);
+                    }
+                }
             }
             public void AwardAchievementLayoutCompleted()
             {
-                Send(new SendArguments { i = Messages.AwardAchievementLayoutCompleted, args = new object[] {  } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.AwardAchievementLayoutCompleted, args = new object[] {  } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.AwardAchievementLayoutCompleted();
+                    }
+                }
             }
             public void LockGame()
             {
-                Send(new SendArguments { i = Messages.LockGame, args = new object[] {  } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.LockGame, args = new object[] {  } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.LockGame();
+                    }
+                }
             }
             public void UnlockGame()
             {
-                Send(new SendArguments { i = Messages.UnlockGame, args = new object[] {  } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UnlockGame, args = new object[] {  } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UnlockGame();
+                    }
+                }
             }
             public void UserSayLine(int user, string text)
             {
-                Send(new SendArguments { i = Messages.UserSayLine, args = new object[] { user, text } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserSayLine, args = new object[] { user, text } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserSayLine(user, text);
+                    }
+                }
             }
             public void UserLockEnter(int user, int id)
             {
-                Send(new SendArguments { i = Messages.UserLockEnter, args = new object[] { user, id } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserLockEnter, args = new object[] { user, id } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserLockEnter(user, id);
+                    }
+                }
             }
             public void UserLockValidate(int user, int id)
             {
-                Send(new SendArguments { i = Messages.UserLockValidate, args = new object[] { user, id } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserLockValidate, args = new object[] { user, id } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserLockValidate(user, id);
+                    }
+                }
             }
             public void UserLockExit(int user, int id)
             {
-                Send(new SendArguments { i = Messages.UserLockExit, args = new object[] { user, id } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserLockExit, args = new object[] { user, id } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserLockExit(user, id);
+                    }
+                }
             }
             public void RemovePair(int a, int b)
             {
-                Send(new SendArguments { i = Messages.RemovePair, args = new object[] { a, b } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.RemovePair, args = new object[] { a, b } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.RemovePair(a, b);
+                    }
+                }
             }
             public void UserRemovePair(int user, int a, int b)
             {
-                Send(new SendArguments { i = Messages.UserRemovePair, args = new object[] { user, a, b } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserRemovePair, args = new object[] { user, a, b } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserRemovePair(user, a, b);
+                    }
+                }
             }
             public void GoBack()
             {
-                Send(new SendArguments { i = Messages.GoBack, args = new object[] {  } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.GoBack, args = new object[] {  } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.GoBack();
+                    }
+                }
             }
             public void UserGoBack(int user)
             {
-                Send(new SendArguments { i = Messages.UserGoBack, args = new object[] { user } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserGoBack, args = new object[] { user } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserGoBack(user);
+                    }
+                }
             }
             public void GoForward()
             {
-                Send(new SendArguments { i = Messages.GoForward, args = new object[] {  } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.GoForward, args = new object[] {  } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.GoForward();
+                    }
+                }
             }
             public void UserGoForward(int user)
             {
-                Send(new SendArguments { i = Messages.UserGoForward, args = new object[] { user } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserGoForward, args = new object[] { user } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserGoForward(user);
+                    }
+                }
             }
             public void VoteRequest(string text)
             {
-                Send(new SendArguments { i = Messages.VoteRequest, args = new object[] { text } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.VoteRequest, args = new object[] { text } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.VoteRequest(text);
+                    }
+                }
             }
             public void UserVoteRequest(int user, string text)
             {
-                Send(new SendArguments { i = Messages.UserVoteRequest, args = new object[] { user, text } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserVoteRequest, args = new object[] { user, text } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserVoteRequest(user, text);
+                    }
+                }
             }
             public void UserVoteResponse(int user, int value)
             {
-                Send(new SendArguments { i = Messages.UserVoteResponse, args = new object[] { user, value } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserVoteResponse, args = new object[] { user, value } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserVoteResponse(user, value);
+                    }
+                }
             }
             public void VoteAbort()
             {
-                Send(new SendArguments { i = Messages.VoteAbort, args = new object[] {  } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.VoteAbort, args = new object[] {  } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.VoteAbort();
+                    }
+                }
             }
             public void UserVoteAbort(int user)
             {
-                Send(new SendArguments { i = Messages.UserVoteAbort, args = new object[] { user } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserVoteAbort, args = new object[] { user } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserVoteAbort(user);
+                    }
+                }
             }
         }
         #endregion
@@ -1558,4 +1889,4 @@ namespace Mahjong.NetworkCode.Shared
     }
     #endregion
 }
-// 21.09.2008 20:06:09
+// 24.09.2008 14:57:55
