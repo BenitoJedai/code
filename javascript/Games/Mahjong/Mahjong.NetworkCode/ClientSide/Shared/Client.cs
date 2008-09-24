@@ -27,7 +27,11 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 		public const int LagBeforeRespondingToMapRequest = 1;
 		public const int LagBeforeReadingMapResponse = 1;
 		public const int LagBeforeGoingForALock = 1;
-		public const int LagBeforeUsingAcuiredLock = 5000;
+		public const int LagBeforeUsingAcuiredLock = 1;
+
+		const int DeadlockWatchTimeout = 5000;
+		const int DeadlockWatchTimeoutResume = 500;
+
 
 		public Client()
 		{
@@ -50,11 +54,15 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 				Height = Mahjong.Code.MahjongGameControl.DefaultScaledHeight
 			};
 
-			new []
-			{
-				this.InitializeMapDone,
-				this.InitializeEventsDone
-			}.Continue(InitializeVote);
+			var Initialized =
+				new []
+				{
+					this.InitializeMapDone,
+					this.InitializeEventsDone
+				};
+
+			Initialized.Continue(InitializeSynchronize);
+			Initialized.Continue(InitializeVote);
 		}
 	}
 }

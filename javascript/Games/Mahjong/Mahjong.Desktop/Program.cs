@@ -20,8 +20,12 @@ namespace Mahjong.Desktop
 			Height = 200;
 
 			var b = new Button { Content = "Spawn client", Margin = new Thickness(16), Padding = new Thickness(4) }.AttachTo(this);
+			var b3 = new Button { Content = "Spawn 3 clients", Margin = new Thickness(16), Padding = new Thickness(4) }.AttachTo(this);
+
+			Canvas.SetTop(b3, 100);
 
 			b.Click += delegate { SpawnClient(); };
+			b3.Click += delegate { SpawnClient(); SpawnClient(); SpawnClient(); };
 		}
 	}
 
@@ -96,10 +100,32 @@ namespace Mahjong.Desktop
 					c.InitializeMap();
 					c.InitializeEvents();
 
-					c.Element.ToWindow().Show();
+					var w = c.Element.ToWindow();
+						
+						
+					w.Show();
 
 					Server.Users.Add(u);
 					Server.UserJoined(u);
+
+					w.Closed +=
+						delegate
+						{
+							Server.Users.Remove(u);
+							Server.UserLeft(u);
+
+							server_to_client.VirtualLatency =
+								delegate
+								{
+
+								};
+
+							client_to_server.VirtualLatency =
+								delegate
+								{
+
+								};
+						};
 				}
 			).ToWindow().ShowDialog();
 		}
