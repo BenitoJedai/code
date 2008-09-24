@@ -5,17 +5,17 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLib.Shared.Nonoba.Generic
 {
-    [Script]
-    public abstract class ServerPlayerBase<RemoteEvents, RemoteMessages>
-    {
+	[Script]
+	public abstract class ServerPlayerBase<RemoteEvents, RemoteMessages>
+	{
 
-        public RemoteEvents FromPlayer;
+		public RemoteEvents FromPlayer;
 
 
-        public IEventsDispatch FromPlayerDispatch;
+		public IEventsDispatch FromPlayerDispatch;
 
-        public RemoteMessages ToPlayer;
-        public RemoteMessages ToOthers;
+		public RemoteMessages ToPlayer;
+		public RemoteMessages ToOthers;
 
 		/// <summary>
 		/// Adds score to ranking list as a delta
@@ -28,10 +28,28 @@ namespace ScriptCoreLib.Shared.Nonoba.Generic
 		/// </summary>
 		public Action<string, int> AddHighscore;
 
-        // http://nonoba.com/developers/documentation/multiplayerapi/classnonobagameuserserverside#server.nonobagameuser.awardachievement
-        public Func<string, uint> AwardAchievement;
+		// http://nonoba.com/developers/documentation/multiplayerapi/classnonobagameuserserverside#server.nonobagameuser.awardachievement
+		public Func<string, uint> AwardAchievement;
 
-        public int UserId;
-        public string Username;
-    }
+		public int UserId;
+		public string Username;
+
+		public ServerPlayerBase()
+		{
+			AddScore = EmptyAddScore;
+			SetScore = EmptySetScore;
+
+		}
+
+		#region empty
+		public void EmptyAddScore(string key, int value)
+		{
+		}
+
+
+		public void EmptySetScore(string key, int value)
+		{
+		}
+		#endregion
+	}
 }

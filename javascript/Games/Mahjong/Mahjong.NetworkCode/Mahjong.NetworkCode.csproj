@@ -98,6 +98,7 @@
     <Compile Include="ClientSide\Shared\CoPlayer.cs" />
     <Compile Include="ClientSide\Shared\CoPlayerGroup.cs" />
     <Compile Include="ClientSide\Shared\Client.Vote.cs" />
+    <Compile Include="ClientSide\Shared\Client.Synchronize.cs" />
     <Compile Include="ClientSide\Shared\MahjongGameControlForNetwork.cs" />
     <Compile Include="ClientSide\Shared\NumericEmitter.cs" />
     <Compile Include="ClientSide\Shared\NumericOmitter.cs" />

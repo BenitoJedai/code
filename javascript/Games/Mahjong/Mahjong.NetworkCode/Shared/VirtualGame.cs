@@ -126,7 +126,7 @@ namespace Mahjong.NetworkCode.Shared
 			if (this.Settings.GetBoolean(SettingsInfo.vote, false))
 				vote = 0;
 
-			if (this.Settings.GetBoolean(SettingsInfo.hints, false))
+			if (this.Settings.GetBoolean(SettingsInfo.hints, true))
 				hints = 1;
 
 			// let new player know how it is named, also send magic bytes to verify
