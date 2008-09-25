@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-#if !NoAttributes
 using ScriptCoreLib;
-#endif
+using ScriptCoreLib.Shared.Nonoba.Generic;
+
 namespace FlashTowerDefense.Shared
 {
-#if !NoAttributes
     [Script]
-#endif
-    public class Player : Generic.ServerPlayerBase<SharedClass1.IEvents, SharedClass1.IMessages>
+    public class VirtualPlayer : ServerPlayerBase<SharedClass1.IEvents, SharedClass1.IMessages>
     {
         public enum GameEventStatusEnum
         {

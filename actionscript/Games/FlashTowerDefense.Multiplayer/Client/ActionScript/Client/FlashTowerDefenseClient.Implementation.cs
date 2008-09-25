@@ -1,22 +1,19 @@
-﻿using ScriptCoreLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using FlashTowerDefense.ActionScript;
+using FlashTowerDefense.ActionScript.Actors;
+using FlashTowerDefense.ActionScript.Assets;
+using FlashTowerDefense.Shared;
+using ScriptCoreLib;
+using ScriptCoreLib.ActionScript;
+using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.filters;
+using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.Nonoba.api;
-using ScriptCoreLib.ActionScript.Extensions;
-using ScriptCoreLib.ActionScript;
-using System;
-using System.Linq;
-
-using FlashTowerDefense.ActionScript;
-
-using FlashTowerDefense.Shared;
-using FlashTowerDefense.ActionScript.Actors;
-using System.Collections.Generic;
-using FlashTowerDefense.ActionScript.Assets;
-
-using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.Shared.Lambda;
-using ScriptCoreLib.ActionScript.flash.filters;
 
 namespace FlashTowerDefense.ActionScript.Client
 {
@@ -140,7 +137,7 @@ namespace FlashTowerDefense.ActionScript.Client
             {
 
 
-                var FromUser = (SharedClass1.IPairedEventsWithUser)NetworkEvents;
+                var FromUser = /*(SharedClass1.IPairedEventsWithUser)*/ NetworkEvents;
 
                 #region Events
                 // NetworkEvents // NetworkEvents // NetworkEvents // NetworkEvents // NetworkEvents 
