@@ -39,6 +39,8 @@ using ScriptCoreLib;
 
 [assembly:
     Script,
-    ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
-    ScriptTypeFilter(ScriptType.ActionScript, "*.Shared"),
+	ScriptTypeFilter(ScriptType.ActionScript, "FlashTowerDefense.ActionScript"),
+	ScriptTypeFilter(ScriptType.ActionScript, "FlashTowerDefense.Shared"),
+	ScriptTypeFilter(ScriptType.CSharp2, "FlashTowerDefense.Shared"),
+	ScriptTypeFilter(ScriptType.CSharp2, "FlashTowerDefense.ServerSide"),
 ]

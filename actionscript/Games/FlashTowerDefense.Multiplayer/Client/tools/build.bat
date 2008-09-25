@@ -1,8 +1,8 @@
 @echo off
+set TargetFileName=%2
+set ConfigurationName=%3
 
-::goto :skipped
-
-
+if %ConfigurationName%==Debug goto :eof
 
 :: Dll name
 @call :jsc %1
@@ -11,17 +11,21 @@ if '%ERRORLEVEL%' == '-1' (
     echo jsc failed.
     goto :eof
 )
-:: Namespace name, type name
-@call :mxmlc %1/ActionScript %1
 
+:: http://msdn.microsoft.com/en-us/library/ms379563(VS.80).aspx
+call "C:\WINDOWS\Microsoft.NET\Framework\v3.5\csc.exe" /debug /out:"..\bin\%ConfigurationName%\web\%1.NonobaServer.dll" /t:library  /recurse:"..\bin\%ConfigurationName%\web\*.cs"  /lib:.. /r:"..\bin\%ConfigurationName%\Nonoba.GameLibrary.dll"
+
+:: Namespace name, type name
+call :mxmlc "FlashTowerDefense/ActionScript/Client" FlashTowerDefenseClient
 
 
 goto :eof
 
 :jsc
-pushd ..\bin\debug
+pushd ..\bin\%ConfigurationName%
 
-call c:\util\jsc\bin\jsc.exe %1.dll  -as
+::call c:\util\jsc\bin\jsc.exe %TargetFileName%  -as -js
+call c:\util\jsc\bin\jsc.exe %TargetFileName%  -as -cs2
 
 
 popd
@@ -29,14 +33,12 @@ goto :eof
 
 :mxmlc
 @echo off
-pushd ..\bin\debug\web
+pushd ..\bin\%ConfigurationName%\web
 
 
 
-::call :build %1 %2
-call :build "FlashTowerDefense/ActionScript/Client" FlashTowerDefenseClient
+call :build %1 %2
 
-call :build "FlashTowerDefense/ActionScript/Client/Monetized" MochiPreloader
 
 popd
 goto :eof
@@ -46,11 +48,6 @@ echo - %2
 :: http://www.adobe.com/products/flex/sdk/
 :: -compiler.verbose-stacktraces 
 :: call C:\util\flex2\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
-::call C:\util\flex\bin\mxmlc.exe -debug -warnings=false -keep-as3-metadata -incremental=true -output=%2.swf -sp=. %1/%2.as
-::call C:\util\flex\bin\mxmlc.exe -use-network -debug -compiler.verbose-stacktraces -warnings=false -keep-as3-metadata -incremental=true -output=%2.swf -sp=. %1/%2.as
-:: call C:\util\flex\bin\mxmlc.exe -optimize -use-network -warnings=false -incremental=true -output=%2.swf -sp=. %1/%2.as
-call C:\util\flex\bin\mxmlc.exe -debug -use-network -warnings=false -incremental=true -output=%2.swf -sp=. %1/%2.as
+call C:\util\flex\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 goto :eof
-:skipped
-echo Skipped
-goto :eof
+

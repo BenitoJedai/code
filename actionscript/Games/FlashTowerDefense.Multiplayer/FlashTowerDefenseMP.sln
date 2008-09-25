@@ -1,13 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express 2008
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTowerDefense.ServerTest", "ServerTest\FlashTowerDefense.ServerTest.csproj", "{3E6A79B3-2526-4BBE-9EA4-A68F7D0B3C75}"
-	ProjectSection(ProjectDependencies) = postProject
-		{B939002B-9922-4999-B943-6C0DF657D25B} = {B939002B-9922-4999-B943-6C0DF657D25B}
-		{CA433158-64B5-4EB9-B283-22130063DBF4} = {CA433158-64B5-4EB9-B283-22130063DBF4}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTowerDefense.Server", "Server\FlashTowerDefense.Server.csproj", "{79329531-C72A-4868-A10F-5B61FE18B268}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B939002B-9922-4999-B943-6C0DF657D25B} = {B939002B-9922-4999-B943-6C0DF657D25B}
 		{CA433158-64B5-4EB9-B283-22130063DBF4} = {CA433158-64B5-4EB9-B283-22130063DBF4}
@@ -21,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTowerDefense.Shared", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTowerDefense.SplitScreen", "FlashTowerDefense.SplitScreen\FlashTowerDefense.SplitScreen.csproj", "{48213FAD-B475-43EB-B1A2-823CE73DD45A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTowerDefense.Assets", "..\FlashTowerDefense\FlashTowerDefense.Assets\FlashTowerDefense.Assets.csproj", "{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,10 +27,6 @@ Global
 		{3E6A79B3-2526-4BBE-9EA4-A68F7D0B3C75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E6A79B3-2526-4BBE-9EA4-A68F7D0B3C75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E6A79B3-2526-4BBE-9EA4-A68F7D0B3C75}.Release|Any CPU.Build.0 = Release|Any CPU
-		{79329531-C72A-4868-A10F-5B61FE18B268}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79329531-C72A-4868-A10F-5B61FE18B268}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79329531-C72A-4868-A10F-5B61FE18B268}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79329531-C72A-4868-A10F-5B61FE18B268}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CA433158-64B5-4EB9-B283-22130063DBF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CA433158-64B5-4EB9-B283-22130063DBF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA433158-64B5-4EB9-B283-22130063DBF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,6 +43,10 @@ Global
 		{48213FAD-B475-43EB-B1A2-823CE73DD45A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48213FAD-B475-43EB-B1A2-823CE73DD45A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48213FAD-B475-43EB-B1A2-823CE73DD45A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

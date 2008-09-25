@@ -15,7 +15,7 @@ namespace FlashTowerDefense.Client
     public interface IAssemblyReferenceToken :
         ScriptCoreLib.Shared.Query.IAssemblyReferenceToken,
         ScriptCoreLib.Shared.IAssemblyReferenceToken,
-        ScriptCoreLib.Nonoba.IAssemblyReferenceToken
+        ScriptCoreLib.Shared.Nonoba.IAssemblyReferenceToken
     {
     }
 }

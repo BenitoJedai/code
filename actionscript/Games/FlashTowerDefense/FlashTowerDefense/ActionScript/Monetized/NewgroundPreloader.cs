@@ -10,15 +10,15 @@ using ScriptCoreLib.ActionScript.Extensions;
 
 namespace FlashTowerDefense.ActionScript.Monetized
 {
-    [Script, ScriptApplicationEntryPoint(Width = FlashTowerDefense.DefaultWidth, Height = FlashTowerDefense.DefaultHeight)]
-    [SWF(width = FlashTowerDefense.DefaultWidth, height = FlashTowerDefense.DefaultHeight, backgroundColor = FlashTowerDefense.ColorWhite)]
-    class NewgroundsPreloader : MochiPreloader
-    {
+	//[Script, ScriptApplicationEntryPoint(Width = FlashTowerDefense.DefaultWidth, Height = FlashTowerDefense.DefaultHeight)]
+	//[SWF(width = FlashTowerDefense.DefaultWidth, height = FlashTowerDefense.DefaultHeight, backgroundColor = FlashTowerDefense.ColorWhite)]
+	//class NewgroundsPreloader : MochiPreloader
+	//{
 
-        public NewgroundsPreloader()
-        {
-            NewgroundsAPI.linkAPI(this);
-            NewgroundsAPI.connectMovie(1253);
-        }
-    }
+	//    public NewgroundsPreloader()
+	//    {
+	//        NewgroundsAPI.linkAPI(this);
+	//        NewgroundsAPI.connectMovie(1253);
+	//    }
+	//}
 }

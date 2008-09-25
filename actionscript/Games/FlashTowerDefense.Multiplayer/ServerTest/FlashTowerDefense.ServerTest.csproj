@@ -31,9 +31,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Development Server, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Development Server, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <ExecutableExtension>.exe</ExecutableExtension>
+    </Reference>
+    <Reference Include="FlashTowerDefense.Client.NonobaServer, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Server\Library\Development Server.exe</HintPath>
+      <HintPath>..\bin\FlashTowerDefense.Client.NonobaServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Nonoba.GameLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Client\Library\Nonoba.GameLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -45,10 +52,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Server\FlashTowerDefense.Server.csproj">
-      <Project>{79329531-C72A-4868-A10F-5B61FE18B268}</Project>
-      <Name>FlashTowerDefense.Server</Name>
-    </ProjectReference>
+    <Content Include="Library\Development Server.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

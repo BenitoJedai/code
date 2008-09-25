@@ -24,7 +24,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -34,6 +34,10 @@
     <Reference Include="ScriptCoreLib, Version=3.0.3107.21386, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Nonoba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Nonoba.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Query, Version=3.5.3107.21164, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -53,12 +57,8 @@
   <ItemGroup>
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shared\IEventsDispatch.cs" />
-    <Compile Include="Shared\Game.cs" />
-    <Compile Include="Shared\IDispatchHelper.cs" />
-    <Compile Include="Shared\Generic\ServerGameBase.cs" />
-    <Compile Include="Shared\Generic\ServerPlayerBase.cs" />
-    <Compile Include="Shared\Player.cs" />
+    <Compile Include="Shared\VirtualGame.cs" />
+    <Compile Include="Shared\VirtualPlayer.cs" />
     <Compile Include="Shared\SharedClass1.cs" />
     <Compile Include="Shared\SharedClass1.DispatchHelper.cs" />
     <Compile Include="Shared\SharedClass1.Generated.cs" />

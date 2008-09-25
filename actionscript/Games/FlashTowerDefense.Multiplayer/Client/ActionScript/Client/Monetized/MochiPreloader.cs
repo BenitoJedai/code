@@ -12,21 +12,21 @@ using ScriptCoreLib.ActionScript.MochiLibrary;
 
 namespace FlashTowerDefense.ActionScript.Client.Monetized
 {
-    [Script, ScriptApplicationEntryPoint(Width = FlashTowerDefenseClient.Width, Height = FlashTowerDefenseClient.Height)]
-    [SWF(width = FlashTowerDefenseClient.Width, height = FlashTowerDefenseClient.Height, backgroundColor = FlashTowerDefense.ColorWhite)]
-    public class MochiPreloader : MochiAdPreloaderBase
-    {
+	//[Script, ScriptApplicationEntryPoint(Width = FlashTowerDefenseClient.Width, Height = FlashTowerDefenseClient.Height)]
+	//[SWF(width = FlashTowerDefenseClient.Width, height = FlashTowerDefenseClient.Height, backgroundColor = FlashTowerDefense.ColorWhite)]
+	//public class MochiPreloader : MochiAdPreloaderBase
+	//{
 
-        public MochiPreloader()
-        {
-            _mochiads_game_id = "5b0c6187126f195a";
+	//    public MochiPreloader()
+	//    {
+	//        _mochiads_game_id = "5b0c6187126f195a";
 
-            showPreGameAd(
-                delegate
-                {
-                    new FlashTowerDefenseClient().AttachTo(stage);
-                }
-            );
-        }
-    }
+	//        showPreGameAd(
+	//            delegate
+	//            {
+	//                new FlashTowerDefenseClient().AttachTo(stage);
+	//            }
+	//        );
+	//    }
+	//}
 }
