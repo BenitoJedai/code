@@ -328,40 +328,51 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 						c.ToPlayer.UserLockEnter(lock_id);
 					}
 
-					DeadlockWatchTimeout.AtDelay(
+					var WaitForDeadlock = default(Action);
+
+					WaitForDeadlock =
 						delegate
 						{
-							if (LocksThatAreReady == null)
-								return;
-
-							if (LocksThatAreReady.Count > 0)
-							{
-								// maybe we release our locks so we could release deadlocks and try again
-
-								var LocksToBeTakenYetAgain = LocksThatAreReady.ToArray();
-								LocksThatAreReady.Clear();
-
-								foreach (var v in LocksToBeTakenYetAgain)
+							DeadlockWatchTimeout.AtDelay(
+								delegate
 								{
-									v.ToPlayer.UserLockExit(lock_id);
-									n--;
-								}
+									if (LocksThatAreReady == null)
+										return;
 
-								this.Map.DiagnosticsWriteLine("continue after deadlock!");
-
-								DeadlockWatchTimeoutResume.AtDelay(
-									delegate
+									if (LocksThatAreReady.Count > 0)
 									{
-										TakeLocksAndLookForDeadlocks(LocksToBeTakenYetAgain);
+										// maybe we release our locks so we could release deadlocks and try again
+
+										var LocksToBeTakenYetAgain = LocksThatAreReady.ToArray();
+										LocksThatAreReady.Clear();
+
+										foreach (var v in LocksToBeTakenYetAgain)
+										{
+											v.ToPlayer.UserLockExit(lock_id);
+											n--;
+										}
+
+										this.Map.DiagnosticsWriteLine("continue after deadlock!");
+
+										DeadlockWatchTimeoutResume.AtDelay(
+											delegate
+											{
+												TakeLocksAndLookForDeadlocks(LocksToBeTakenYetAgain);
+											}
+										);
 									}
-								);
-							}
-							else
-							{
-								this.Map.DiagnosticsWriteLine("warning: network is probably down!");
-							}
-						}
-					);
+									else
+									{
+										this.Map.DiagnosticsWriteLine("warning: network is probably down! way too slow!");
+
+										WaitForDeadlock();
+									}
+								}
+							);
+						};
+
+					WaitForDeadlock();
+
 				};
 
 			TakeLocksAndLookForDeadlocks(a);
