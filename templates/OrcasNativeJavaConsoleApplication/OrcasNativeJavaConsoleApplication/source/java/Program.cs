@@ -12,7 +12,7 @@ namespace OrcasNativeJavaConsoleApplication.source.java
     {
         public static string Text;
 
-        public static void main(string[] args)
+        public static void Main(string[] args)
         {
             // doubleclicking on the jar will not show the console
 
