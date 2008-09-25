@@ -27,4 +27,66 @@ namespace ScriptCoreLib.Shared.Nonoba
         Converter<uint, double[]> GetDoubleArray { get; set; }
         Converter<uint, string[]> GetStringArray { get; set; }
     }
+
+	[Script]
+	public class DefaultImplementationForIDispatchHelper
+	{
+		public DefaultImplementationForIDispatchHelper(IDispatchHelper e)
+		{
+			e.GetDoubleArray =
+				offset =>
+				{
+					int offseti = (int)offset;
+					int len = e.GetLength(null) - offseti;
+
+					var a = new double[len];
+
+					for (var i = 0; i < a.Length; i++)
+					{
+						uint ii = (uint)i;
+						uint j = ii + offset;
+
+						a[i] = e.GetDouble(j);
+					}
+
+					return a;
+				};
+
+			e.GetInt32Array =
+				offset =>
+				{
+					int offseti = (int)offset;
+					int len = e.GetLength(null) - offseti;
+					var a = new int[len];
+
+					for (var i = 0; i < a.Length; i++)
+					{
+						uint ii = (uint)i;
+						uint j = ii + offset;
+
+						a[i] = e.GetInt32(j);
+					}
+
+					return a;
+				};
+
+			e.GetStringArray =
+				offset =>
+				{
+					int offseti = (int)offset;
+					int len = e.GetLength(null) - offseti;
+					var a = new string[len];
+
+					for (var i = 0; i < a.Length; i++)
+					{
+						uint ii = (uint)i;
+						uint j = ii + offset;
+
+						a[i] = e.GetString(j);
+					}
+
+					return a;
+				};
+		}
+	}
 }
