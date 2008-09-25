@@ -172,6 +172,16 @@
             [static] The Event.UNLOAD constant defines the value of the type property of an unload event object.
             </summary>
         </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.events.Event.preventDefault">
+            <summary>
+            Cancels an event's default behavior if that behavior can be canceled.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.events.Event.stopImmediatePropagation">
+            <summary>
+            Prevents processing of any event listeners in the current node and any subsequent nodes in the event flow.
+            </summary>
+        </member>
         <member name="P:ScriptCoreLib.ActionScript.flash.events.Event.bubbles">
             <summary>
             [read-only] Indicates whether an event is a bubbling event.
@@ -1719,6 +1729,276 @@
             [static][read-only] Gets the current security domain.
             </summary>
         </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.click">
+            <summary>
+            Dispatched when a user presses and releases the main button of the user's pointing device over the same InteractiveObject.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.doubleClick">
+            <summary>
+            Dispatched when a user presses and releases the main button of a pointing device twice in rapid succession over the same InteractiveObject when that object's doubleClickEnabled flag is set to true.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.focusIn">
+            <summary>
+            Dispatched after a display object gains focus.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.focusOut">
+            <summary>
+            Dispatched after a display object loses focus.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.keyDown">
+            <summary>
+            Dispatched when the user presses a key.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.keyFocusChange">
+            <summary>
+            Dispatched when the user attempts to change focus by using keyboard navigation.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.keyUp">
+            <summary>
+            Dispatched when the user releases a key.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.mouseDown">
+            <summary>
+            Dispatched when a user presses the pointing device button over an InteractiveObject instance.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.mouseFocusChange">
+            <summary>
+            Dispatched when the user attempts to change focus by using a pointer device.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.mouseMove">
+            <summary>
+            Dispatched when a user moves the pointing device while it is over an InteractiveObject.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.mouseOut">
+            <summary>
+            Dispatched when the user moves a pointing device away from an InteractiveObject instance.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.mouseOver">
+            <summary>
+            Dispatched when the user moves a pointing device over an InteractiveObject instance.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.mouseUp">
+            <summary>
+            Dispatched when a user releases the pointing device button over an InteractiveObject instance.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.mouseWheel">
+            <summary>
+            Dispatched when a mouse wheel is spun over an InteractiveObject instance.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.rollOut">
+            <summary>
+            Dispatched when the user moves a pointing device away from an InteractiveObject instance.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.rollOver">
+            <summary>
+            Dispatched when the user moves a pointing device over an InteractiveObject instance.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.tabChildrenChange">
+            <summary>
+            Dispatched when the value of the object's tabChildren flag changes.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.tabEnabledChange">
+            <summary>
+            Dispatched when the object's tabEnabled flag changes.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.tabIndexChange">
+            <summary>
+            Dispatched when the value of the object's tabIndex property changes.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.contextMenu">
+            <summary>
+            Specifies the context menu associated with this object.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.doubleClickEnabled">
+            <summary>
+            Specifies whether the object receives doubleClick events.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.focusRect">
+            <summary>
+            Specifies whether this object displays a focus rectangle.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.mouseEnabled">
+            <summary>
+            Specifies whether this object receives mouse messages.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.tabEnabled">
+            <summary>
+            Specifies whether this object is in the tab order.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.tabIndex">
+            <summary>
+            Specifies the tab ordering of objects in a SWF file.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.addChild(ScriptCoreLib.ActionScript.flash.display.DisplayObject)">
+            <summary>
+            Adds a child DisplayObject instance to this DisplayObjectContainer instance.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.addChildAt(ScriptCoreLib.ActionScript.flash.display.DisplayObject,System.Int32)">
+            <summary>
+            Adds a child DisplayObject instance to this DisplayObjectContainer instance.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.areInaccessibleObjectsUnderPoint(ScriptCoreLib.ActionScript.flash.geom.Point)">
+            <summary>
+            Indicates whether the security restrictions would cause any display objects to be omitted from the list returned by calling the DisplayObjectContainer.getObjectsUnderPoint() method with the specified point point.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.contains(ScriptCoreLib.ActionScript.flash.display.DisplayObject)">
+            <summary>
+            Determines whether the specified display object is a child of the DisplayObjectContainer instance or the instance itself.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.getChildAt(System.Int32)">
+            <summary>
+            Returns the child display object instance that exists at the specified index.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.getChildByName(System.String)">
+            <summary>
+            Returns the child display object that exists with the specified name.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.getChildIndex(ScriptCoreLib.ActionScript.flash.display.DisplayObject)">
+            <summary>
+            Returns the index position of a child DisplayObject instance.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.getObjectsUnderPoint(ScriptCoreLib.ActionScript.flash.geom.Point)">
+            <summary>
+            Returns an array of objects that lie under the specified point and are children (or grandchildren, and so on) of this DisplayObjectContainer instance.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.removeChild(ScriptCoreLib.ActionScript.flash.display.DisplayObject)">
+            <summary>
+            Removes the specified child DisplayObject instance from the child list of the DisplayObjectContainer instance.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.removeChildAt(System.Int32)">
+            <summary>
+            Removes a child DisplayObject from the specified index position in the child list of the DisplayObjectContainer.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.setChildIndex(ScriptCoreLib.ActionScript.flash.display.DisplayObject,System.Int32)">
+            <summary>
+            Changes the position of an existing child in the display object container.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.swapChildren(ScriptCoreLib.ActionScript.flash.display.DisplayObject,ScriptCoreLib.ActionScript.flash.display.DisplayObject)">
+            <summary>
+            Swaps the z-order (front-to-back order) of the two specified child objects.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.swapChildrenAt(System.Int32,System.Int32)">
+            <summary>
+            Swaps the z-order (front-to-back order) of the child objects at the two specified index positions in the child list.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.#ctor">
+            <summary>
+            Calling the new DisplayObjectContainer() constructor throws an ArgumentError exception.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.mouseChildren">
+            <summary>
+            Determines whether or not the children of the object are mouse enabled.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.numChildren">
+            <summary>
+            [read-only] Returns the number of children of this object.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.tabChildren">
+            <summary>
+            Determines whether the children of the object are tab enabled.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.textSnapshot">
+            <summary>
+            [read-only] Returns a TextSnapshot object for this DisplayObjectContainer instance.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.Sprite.startDrag(System.Boolean,ScriptCoreLib.ActionScript.flash.geom.Rectangle)">
+            <summary>
+            Lets the user drag the specified sprite.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.Sprite.startDrag(System.Boolean)">
+            <summary>
+            Lets the user drag the specified sprite.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.Sprite.startDrag">
+            <summary>
+            Lets the user drag the specified sprite.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.Sprite.stopDrag">
+            <summary>
+            Ends the startDrag() method.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.Sprite.#ctor">
+            <summary>
+            Creates a new Sprite instance.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.buttonMode">
+            <summary>
+            Specifies the button mode of this sprite.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.dropTarget">
+            <summary>
+            [read-only] Specifies the display object over which the sprite is being dragged, or on which the sprite was dropped.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.graphics">
+            <summary>
+            [read-only] Specifies the Graphics object that belongs to this sprite where vector drawing commands can occur.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.hitArea">
+            <summary>
+            Designates another sprite to serve as the hit area for a sprite.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.soundTransform">
+            <summary>
+            Controls sound within this sprite.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.useHandCursor">
+            <summary>
+            A Boolean value that indicates whether the pointing hand (hand cursor) appears when the mouse rolls over a sprite in which the buttonMode property is set to true.
+            </summary>
+        </member>
         <member name="M:ScriptCoreLib.JavaScript.Runtime.Timer.StartInterval">
             <summary>
             starts the timer with the default timeout (300 ms)
@@ -2571,221 +2851,6 @@
             The volume, ranging from 0 (silent) to 1 (full volume).
             </summary>
         </member>
-        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.click">
-            <summary>
-            Dispatched when a user presses and releases the main button of the user's pointing device over the same InteractiveObject.
-            </summary>
-        </member>
-        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.doubleClick">
-            <summary>
-            Dispatched when a user presses and releases the main button of a pointing device twice in rapid succession over the same InteractiveObject when that object's doubleClickEnabled flag is set to true.
-            </summary>
-        </member>
-        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.focusIn">
-            <summary>
-            Dispatched after a display object gains focus.
-            </summary>
-        </member>
-        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.focusOut">
-            <summary>
-            Dispatched after a display object loses focus.
-            </summary>
-        </member>
-        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.keyDown">
-            <summary>
-            Dispatched when the user presses a key.
-            </summary>
-        </member>
-        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.keyFocusChange">
-            <summary>
-            Dispatched when the user attempts to change focus by using keyboard navigation.
-            </summary>
-        </member>
-        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.keyUp">
-            <summary>
-            Dispatched when the user releases a key.
-            </summary>
-        </member>
-        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.mouseDown">
-            <summary>
-            Dispatched when a user presses the pointing device button over an InteractiveObject instance.
-            </summary>
-        </member>
-        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.mouseFocusChange">
-            <summary>
-            Dispatched when the user attempts to change focus by using a pointer device.
-            </summary>
-        </member>
-        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.mouseMove">
-            <summary>
-            Dispatched when a user moves the pointing device while it is over an InteractiveObject.
-            </summary>
-        </member>
-        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.mouseOut">
-            <summary>
-            Dispatched when the user moves a pointing device away from an InteractiveObject instance.
-            </summary>
-        </member>
-        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.mouseOver">
-            <summary>
-            Dispatched when the user moves a pointing device over an InteractiveObject instance.
-            </summary>
-        </member>
-        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.mouseUp">
-            <summary>
-            Dispatched when a user releases the pointing device button over an InteractiveObject instance.
-            </summary>
-        </member>
-        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.mouseWheel">
-            <summary>
-            Dispatched when a mouse wheel is spun over an InteractiveObject instance.
-            </summary>
-        </member>
-        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.rollOut">
-            <summary>
-            Dispatched when the user moves a pointing device away from an InteractiveObject instance.
-            </summary>
-        </member>
-        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.rollOver">
-            <summary>
-            Dispatched when the user moves a pointing device over an InteractiveObject instance.
-            </summary>
-        </member>
-        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.tabChildrenChange">
-            <summary>
-            Dispatched when the value of the object's tabChildren flag changes.
-            </summary>
-        </member>
-        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.tabEnabledChange">
-            <summary>
-            Dispatched when the object's tabEnabled flag changes.
-            </summary>
-        </member>
-        <member name="E:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.tabIndexChange">
-            <summary>
-            Dispatched when the value of the object's tabIndex property changes.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.contextMenu">
-            <summary>
-            Specifies the context menu associated with this object.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.doubleClickEnabled">
-            <summary>
-            Specifies whether the object receives doubleClick events.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.focusRect">
-            <summary>
-            Specifies whether this object displays a focus rectangle.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.mouseEnabled">
-            <summary>
-            Specifies whether this object receives mouse messages.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.tabEnabled">
-            <summary>
-            Specifies whether this object is in the tab order.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.InteractiveObject.tabIndex">
-            <summary>
-            Specifies the tab ordering of objects in a SWF file.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.addChild(ScriptCoreLib.ActionScript.flash.display.DisplayObject)">
-            <summary>
-            Adds a child DisplayObject instance to this DisplayObjectContainer instance.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.addChildAt(ScriptCoreLib.ActionScript.flash.display.DisplayObject,System.Int32)">
-            <summary>
-            Adds a child DisplayObject instance to this DisplayObjectContainer instance.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.areInaccessibleObjectsUnderPoint(ScriptCoreLib.ActionScript.flash.geom.Point)">
-            <summary>
-            Indicates whether the security restrictions would cause any display objects to be omitted from the list returned by calling the DisplayObjectContainer.getObjectsUnderPoint() method with the specified point point.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.contains(ScriptCoreLib.ActionScript.flash.display.DisplayObject)">
-            <summary>
-            Determines whether the specified display object is a child of the DisplayObjectContainer instance or the instance itself.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.getChildAt(System.Int32)">
-            <summary>
-            Returns the child display object instance that exists at the specified index.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.getChildByName(System.String)">
-            <summary>
-            Returns the child display object that exists with the specified name.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.getChildIndex(ScriptCoreLib.ActionScript.flash.display.DisplayObject)">
-            <summary>
-            Returns the index position of a child DisplayObject instance.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.getObjectsUnderPoint(ScriptCoreLib.ActionScript.flash.geom.Point)">
-            <summary>
-            Returns an array of objects that lie under the specified point and are children (or grandchildren, and so on) of this DisplayObjectContainer instance.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.removeChild(ScriptCoreLib.ActionScript.flash.display.DisplayObject)">
-            <summary>
-            Removes the specified child DisplayObject instance from the child list of the DisplayObjectContainer instance.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.removeChildAt(System.Int32)">
-            <summary>
-            Removes a child DisplayObject from the specified index position in the child list of the DisplayObjectContainer.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.setChildIndex(ScriptCoreLib.ActionScript.flash.display.DisplayObject,System.Int32)">
-            <summary>
-            Changes the position of an existing child in the display object container.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.swapChildren(ScriptCoreLib.ActionScript.flash.display.DisplayObject,ScriptCoreLib.ActionScript.flash.display.DisplayObject)">
-            <summary>
-            Swaps the z-order (front-to-back order) of the two specified child objects.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.swapChildrenAt(System.Int32,System.Int32)">
-            <summary>
-            Swaps the z-order (front-to-back order) of the child objects at the two specified index positions in the child list.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.#ctor">
-            <summary>
-            Calling the new DisplayObjectContainer() constructor throws an ArgumentError exception.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.mouseChildren">
-            <summary>
-            Determines whether or not the children of the object are mouse enabled.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.numChildren">
-            <summary>
-            [read-only] Returns the number of children of this object.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.tabChildren">
-            <summary>
-            Determines whether the children of the object are tab enabled.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.DisplayObjectContainer.textSnapshot">
-            <summary>
-            [read-only] Returns a TextSnapshot object for this DisplayObjectContainer instance.
-            </summary>
-        </member>
         <member name="P:ScriptCoreLib.ActionScript.flash.display.Stage.align">
             <summary>
             A value from the StageAlign class that specifies the alignment of the stage in Flash Player or the browser.
@@ -3299,6 +3364,71 @@
         <member name="M:ScriptCoreLib.ActionScript.flash.utils.IExternalizable.writeExternal(ScriptCoreLib.ActionScript.flash.utils.IDataOutput)">
             <summary>
             A class implements this method to encode itself for a data stream by calling the methods of the IDataOutput interface.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.mx.controls.SWFLoader.autoLoad">
+            <summary>
+            A flag that indictes whether content starts loading automatically or waits for a clal to the load() method.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.mx.controls.SWFLoader.bytesLoaded">
+            <summary>
+            [read-only] The number of bytes of the SWF or image file already loaded.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.mx.controls.SWFLoader.bytesTotal">
+            <summary>
+            [read-only] The total size of the SWF or image file.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.mx.controls.SWFLoader.content">
+            <summary>
+            [read-only] This property contains the object that represents the content that was loaded in the SWFLoader control.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.mx.controls.SWFLoader.contentHeight">
+            <summary>
+            [read-only] Height of the scaled content loaded by the control, in pixels.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.mx.controls.SWFLoader.contentWidth">
+            <summary>
+            [read-only] Width of the scaled content loaded by the control, in pixels.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.mx.controls.SWFLoader.loaderContext">
+            <summary>
+            A LoaderContext object to use to control loading of the content.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.mx.controls.SWFLoader.maintainAspectRatio">
+            <summary>
+            A flag that indicates whether to maintain the aspect ratio of the loaded content.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.mx.controls.SWFLoader.percentLoaded">
+            <summary>
+            [read-only] The percentage of the image or SWF file already loaded.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.mx.controls.SWFLoader.scaleContent">
+            <summary>
+            A flag that indicates whether to scale the content to fit the size of the control or resize the control to the content's size.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.mx.controls.SWFLoader.showBusyCursor">
+            <summary>
+            A flag that indicates whether to show a busy cursor while the content loads.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.mx.controls.SWFLoader.source">
+            <summary>
+            The URL, object, class or string name of a class to load as the content.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.mx.controls.SWFLoader.trustContent">
+            <summary>
+            If true, the content is loaded into your security domain.
             </summary>
         </member>
         <member name="T:ScriptCoreLib.JavaScript.DOM.HTML.IHTMLInput">
@@ -7461,61 +7591,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.Sprite.startDrag(System.Boolean,ScriptCoreLib.ActionScript.flash.geom.Rectangle)">
-            <summary>
-            Lets the user drag the specified sprite.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.Sprite.startDrag(System.Boolean)">
-            <summary>
-            Lets the user drag the specified sprite.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.Sprite.startDrag">
-            <summary>
-            Lets the user drag the specified sprite.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.Sprite.stopDrag">
-            <summary>
-            Ends the startDrag() method.
-            </summary>
-        </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.Sprite.#ctor">
-            <summary>
-            Creates a new Sprite instance.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.buttonMode">
-            <summary>
-            Specifies the button mode of this sprite.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.dropTarget">
-            <summary>
-            [read-only] Specifies the display object over which the sprite is being dragged, or on which the sprite was dropped.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.graphics">
-            <summary>
-            [read-only] Specifies the Graphics object that belongs to this sprite where vector drawing commands can occur.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.hitArea">
-            <summary>
-            Designates another sprite to serve as the hit area for a sprite.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.soundTransform">
-            <summary>
-            Controls sound within this sprite.
-            </summary>
-        </member>
-        <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.useHandCursor">
-            <summary>
-            A Boolean value that indicates whether the pointing hand (hand cursor) appears when the mouse rolls over a sprite in which the buttonMode property is set to true.
-            </summary>
-        </member>
         <member name="M:ScriptCoreLib.ActionScript.flash.display.MovieClip.play">
             <summary>
             Moves the playhead in the timeline of the movie clip.
@@ -7747,6 +7822,8 @@
             firefox: run with -console
             and about:config must be altered
             explorer: activex addin required
+            
+            browser.dom.window.dump.enabled
             
             <see>http://kb.mozillazine.org/Viewing_dump%28%29_output</see>
             </summary>
@@ -9162,7 +9239,7 @@
             Specifies the mime type of the asset.
             Supported values: 
             <example>
-                *  application/octet-stream
+            *  application/octet-stream
             * application/x-font
             * application/x-font-truetype
             * application/x-shockwave-flash
