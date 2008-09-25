@@ -29,7 +29,7 @@ namespace Mahjong.NetworkCode.ClientSide.Shared
 		public const int LagBeforeGoingForALock = 1;
 		public const int LagBeforeUsingAcuiredLock = 1;
 
-		const int DeadlockWatchTimeout = 5000;
+		const int DeadlockWatchTimeout = 1000;
 		const int DeadlockWatchTimeoutResume = 500;
 
 
