@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using ScriptCoreLib.Shared.Nonoba;
 using ScriptCoreLib;
+
 namespace FlashTreasureHunt.Shared
 {
     #region SharedClass1
@@ -100,6 +101,7 @@ namespace FlashTreasureHunt.Shared
         public sealed partial class RemoteMessages : IMessages
         {
             public Action<SendArguments> Send;
+            public Func<IEnumerable<IMessages>> VirtualTargets;
             #region SendArguments
             [Script]
             [CompilerGenerated]
@@ -111,146 +113,436 @@ namespace FlashTreasureHunt.Shared
             #endregion
             public void ServerPlayerHello(int user, string name, int user_with_map, int[] handshake)
             {
-                var args = new object[handshake.Length + 3];
-                args[0] = user;
-                args[1] = name;
-                args[2] = user_with_map;
-                Array.Copy(handshake, 0, args, 3, handshake.Length);
-                Send(new SendArguments { i = Messages.ServerPlayerHello, args = args });
+                if (this.Send != null)
+                {
+                    var args = new object[handshake.Length + 3];
+                    args[0] = user;
+                    args[1] = name;
+                    args[2] = user_with_map;
+                    Array.Copy(handshake, 0, args, 3, handshake.Length);
+                    Send(new SendArguments { i = Messages.ServerPlayerHello, args = args });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.ServerPlayerHello(user, name, user_with_map, handshake);
+                    }
+                }
             }
             public void ServerPlayerJoined(int user, string name)
             {
-                Send(new SendArguments { i = Messages.ServerPlayerJoined, args = new object[] { user, name } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.ServerPlayerJoined, args = new object[] { user, name } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.ServerPlayerJoined(user, name);
+                    }
+                }
             }
             public void ServerPlayerLeft(int user, string name)
             {
-                Send(new SendArguments { i = Messages.ServerPlayerLeft, args = new object[] { user, name } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.ServerPlayerLeft, args = new object[] { user, name } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.ServerPlayerLeft(user, name);
+                    }
+                }
             }
             public void PlayerAdvertise(string name, int[] vector)
             {
-                var args = new object[vector.Length + 1];
-                args[0] = name;
-                Array.Copy(vector, 0, args, 1, vector.Length);
-                Send(new SendArguments { i = Messages.PlayerAdvertise, args = args });
+                if (this.Send != null)
+                {
+                    var args = new object[vector.Length + 1];
+                    args[0] = name;
+                    Array.Copy(vector, 0, args, 1, vector.Length);
+                    Send(new SendArguments { i = Messages.PlayerAdvertise, args = args });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.PlayerAdvertise(name, vector);
+                    }
+                }
             }
             public void UserPlayerAdvertise(int user, string name, int[] vector)
             {
-                var args = new object[vector.Length + 2];
-                args[0] = user;
-                args[1] = name;
-                Array.Copy(vector, 0, args, 2, vector.Length);
-                Send(new SendArguments { i = Messages.UserPlayerAdvertise, args = args });
+                if (this.Send != null)
+                {
+                    var args = new object[vector.Length + 2];
+                    args[0] = user;
+                    args[1] = name;
+                    Array.Copy(vector, 0, args, 2, vector.Length);
+                    Send(new SendArguments { i = Messages.UserPlayerAdvertise, args = args });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserPlayerAdvertise(user, name, vector);
+                    }
+                }
             }
             public void ServerSendMap()
             {
-                Send(new SendArguments { i = Messages.ServerSendMap, args = new object[] {  } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.ServerSendMap, args = new object[] {  } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.ServerSendMap();
+                    }
+                }
             }
             public void SendMap(int[] bytestream)
             {
-                var args = new object[bytestream.Length + 0];
-                Array.Copy(bytestream, 0, args, 0, bytestream.Length);
-                Send(new SendArguments { i = Messages.SendMap, args = args });
+                if (this.Send != null)
+                {
+                    var args = new object[bytestream.Length + 0];
+                    Array.Copy(bytestream, 0, args, 0, bytestream.Length);
+                    Send(new SendArguments { i = Messages.SendMap, args = args });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.SendMap(bytestream);
+                    }
+                }
             }
             public void UserSendMap(int user, int[] bytestream)
             {
-                var args = new object[bytestream.Length + 1];
-                args[0] = user;
-                Array.Copy(bytestream, 0, args, 1, bytestream.Length);
-                Send(new SendArguments { i = Messages.UserSendMap, args = args });
+                if (this.Send != null)
+                {
+                    var args = new object[bytestream.Length + 1];
+                    args[0] = user;
+                    Array.Copy(bytestream, 0, args, 1, bytestream.Length);
+                    Send(new SendArguments { i = Messages.UserSendMap, args = args });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserSendMap(user, bytestream);
+                    }
+                }
             }
             public void TakeAmmo(int index)
             {
-                Send(new SendArguments { i = Messages.TakeAmmo, args = new object[] { index } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.TakeAmmo, args = new object[] { index } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.TakeAmmo(index);
+                    }
+                }
             }
             public void UserTakeAmmo(int user, int index)
             {
-                Send(new SendArguments { i = Messages.UserTakeAmmo, args = new object[] { user, index } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserTakeAmmo, args = new object[] { user, index } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserTakeAmmo(user, index);
+                    }
+                }
             }
             public void TakeGold(int index)
             {
-                Send(new SendArguments { i = Messages.TakeGold, args = new object[] { index } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.TakeGold, args = new object[] { index } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.TakeGold(index);
+                    }
+                }
             }
             public void UserTakeGold(int user, int index)
             {
-                Send(new SendArguments { i = Messages.UserTakeGold, args = new object[] { user, index } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserTakeGold, args = new object[] { user, index } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserTakeGold(user, index);
+                    }
+                }
             }
             public void AddDamageToCoPlayer(int target, double damage)
             {
-                Send(new SendArguments { i = Messages.AddDamageToCoPlayer, args = new object[] { target, damage } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.AddDamageToCoPlayer, args = new object[] { target, damage } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.AddDamageToCoPlayer(target, damage);
+                    }
+                }
             }
             public void UserAddDamageToCoPlayer(int user, int target, double damage)
             {
-                Send(new SendArguments { i = Messages.UserAddDamageToCoPlayer, args = new object[] { user, target, damage } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserAddDamageToCoPlayer, args = new object[] { user, target, damage } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserAddDamageToCoPlayer(user, target, damage);
+                    }
+                }
             }
             public void WalkTo(int[] bytestream)
             {
-                var args = new object[bytestream.Length + 0];
-                Array.Copy(bytestream, 0, args, 0, bytestream.Length);
-                Send(new SendArguments { i = Messages.WalkTo, args = args });
+                if (this.Send != null)
+                {
+                    var args = new object[bytestream.Length + 0];
+                    Array.Copy(bytestream, 0, args, 0, bytestream.Length);
+                    Send(new SendArguments { i = Messages.WalkTo, args = args });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.WalkTo(bytestream);
+                    }
+                }
             }
             public void UserWalkTo(int user, int[] bytestream)
             {
-                var args = new object[bytestream.Length + 1];
-                args[0] = user;
-                Array.Copy(bytestream, 0, args, 1, bytestream.Length);
-                Send(new SendArguments { i = Messages.UserWalkTo, args = args });
+                if (this.Send != null)
+                {
+                    var args = new object[bytestream.Length + 1];
+                    args[0] = user;
+                    Array.Copy(bytestream, 0, args, 1, bytestream.Length);
+                    Send(new SendArguments { i = Messages.UserWalkTo, args = args });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserWalkTo(user, bytestream);
+                    }
+                }
             }
             public void LookAt(double arc)
             {
-                Send(new SendArguments { i = Messages.LookAt, args = new object[] { arc } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.LookAt, args = new object[] { arc } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.LookAt(arc);
+                    }
+                }
             }
             public void UserLookAt(int user, double arc)
             {
-                Send(new SendArguments { i = Messages.UserLookAt, args = new object[] { user, arc } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserLookAt, args = new object[] { user, arc } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserLookAt(user, arc);
+                    }
+                }
             }
             public void FireWeapon()
             {
-                Send(new SendArguments { i = Messages.FireWeapon, args = new object[] {  } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.FireWeapon, args = new object[] {  } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.FireWeapon();
+                    }
+                }
             }
             public void UserFireWeapon(int user)
             {
-                Send(new SendArguments { i = Messages.UserFireWeapon, args = new object[] { user } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserFireWeapon, args = new object[] { user } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserFireWeapon(user);
+                    }
+                }
             }
             public void EnterEndLevelMode()
             {
-                Send(new SendArguments { i = Messages.EnterEndLevelMode, args = new object[] {  } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.EnterEndLevelMode, args = new object[] {  } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.EnterEndLevelMode();
+                    }
+                }
             }
             public void UserEnterEndLevelMode(int user)
             {
-                Send(new SendArguments { i = Messages.UserEnterEndLevelMode, args = new object[] { user } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserEnterEndLevelMode, args = new object[] { user } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserEnterEndLevelMode(user);
+                    }
+                }
             }
             public void GuardWalkTo(int[] bytestream)
             {
-                var args = new object[bytestream.Length + 0];
-                Array.Copy(bytestream, 0, args, 0, bytestream.Length);
-                Send(new SendArguments { i = Messages.GuardWalkTo, args = args });
+                if (this.Send != null)
+                {
+                    var args = new object[bytestream.Length + 0];
+                    Array.Copy(bytestream, 0, args, 0, bytestream.Length);
+                    Send(new SendArguments { i = Messages.GuardWalkTo, args = args });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.GuardWalkTo(bytestream);
+                    }
+                }
             }
             public void UserGuardWalkTo(int user, int[] bytestream)
             {
-                var args = new object[bytestream.Length + 1];
-                args[0] = user;
-                Array.Copy(bytestream, 0, args, 1, bytestream.Length);
-                Send(new SendArguments { i = Messages.UserGuardWalkTo, args = args });
+                if (this.Send != null)
+                {
+                    var args = new object[bytestream.Length + 1];
+                    args[0] = user;
+                    Array.Copy(bytestream, 0, args, 1, bytestream.Length);
+                    Send(new SendArguments { i = Messages.UserGuardWalkTo, args = args });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserGuardWalkTo(user, bytestream);
+                    }
+                }
             }
             public void GuardLookAt(int index, double arc)
             {
-                Send(new SendArguments { i = Messages.GuardLookAt, args = new object[] { index, arc } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.GuardLookAt, args = new object[] { index, arc } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.GuardLookAt(index, arc);
+                    }
+                }
             }
             public void UserGuardLookAt(int user, int index, double arc)
             {
-                Send(new SendArguments { i = Messages.UserGuardLookAt, args = new object[] { user, index, arc } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserGuardLookAt, args = new object[] { user, index, arc } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserGuardLookAt(user, index, arc);
+                    }
+                }
             }
             public void GuardAddDamage(int index, double damage)
             {
-                Send(new SendArguments { i = Messages.GuardAddDamage, args = new object[] { index, damage } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.GuardAddDamage, args = new object[] { index, damage } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.GuardAddDamage(index, damage);
+                    }
+                }
             }
             public void UserGuardAddDamage(int user, int index, double damage)
             {
-                Send(new SendArguments { i = Messages.UserGuardAddDamage, args = new object[] { user, index, damage } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserGuardAddDamage, args = new object[] { user, index, damage } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserGuardAddDamage(user, index, damage);
+                    }
+                }
             }
             public void ReportScore(int level, int score, int kills, int teleports, int fps)
             {
-                Send(new SendArguments { i = Messages.ReportScore, args = new object[] { level, score, kills, teleports, fps } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.ReportScore, args = new object[] { level, score, kills, teleports, fps } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.ReportScore(level, score, kills, teleports, fps);
+                    }
+                }
             }
         }
         #endregion
@@ -262,8 +554,10 @@ namespace FlashTreasureHunt.Shared
         {
             private readonly Dictionary<Messages, Action<IDispatchHelper>> DispatchTable;
             private readonly Dictionary<Messages, Converter<object, Delegate>> DispatchTableDelegates;
-            [AccessedThroughProperty("Router")]
-            private WithUserArgumentsRouter _Router;
+            [AccessedThroughProperty("BroadcastRouter")]
+            private WithUserArgumentsRouter_Broadcast _BroadcastRouter;
+            [AccessedThroughProperty("SinglecastRouter")]
+            private WithUserArgumentsRouter_Singlecast _SinglecastRouter;
             #region DispatchHelper
             [Script]
             [CompilerGenerated]
@@ -294,10 +588,10 @@ namespace FlashTreasureHunt.Shared
                 public int user;
             }
             #endregion
-            #region WithUserArgumentsRouter
+            #region WithUserArgumentsRouter_Broadcast
             [Script]
             [CompilerGenerated]
-            public sealed partial class WithUserArgumentsRouter : WithUserArguments
+            public sealed partial class WithUserArgumentsRouter_Broadcast : WithUserArguments
             {
                 public IMessages Target;
 
@@ -383,6 +677,229 @@ namespace FlashTreasureHunt.Shared
                 public void UserGuardAddDamage(GuardAddDamageArguments e)
                 {
                     Target.UserGuardAddDamage(this.user, e.index, e.damage);
+                }
+                #endregion
+            }
+            #endregion
+            #region WithUserArgumentsRouter_SinglecastView
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class WithUserArgumentsRouter_SinglecastView : WithUserArguments
+            {
+                public IMessages Target;
+                #region Routing
+                public void UserPlayerAdvertise(string name, int[] vector)
+                {
+                    this.Target.UserPlayerAdvertise(this.user, name, vector);
+                }
+                public void UserPlayerAdvertise(UserPlayerAdvertiseArguments e)
+                {
+                    this.Target.UserPlayerAdvertise(this.user, e.name, e.vector);
+                }
+                public void UserSendMap(int[] bytestream)
+                {
+                    this.Target.UserSendMap(this.user, bytestream);
+                }
+                public void UserSendMap(UserSendMapArguments e)
+                {
+                    this.Target.UserSendMap(this.user, e.bytestream);
+                }
+                public void UserTakeAmmo(int index)
+                {
+                    this.Target.UserTakeAmmo(this.user, index);
+                }
+                public void UserTakeAmmo(UserTakeAmmoArguments e)
+                {
+                    this.Target.UserTakeAmmo(this.user, e.index);
+                }
+                public void UserTakeGold(int index)
+                {
+                    this.Target.UserTakeGold(this.user, index);
+                }
+                public void UserTakeGold(UserTakeGoldArguments e)
+                {
+                    this.Target.UserTakeGold(this.user, e.index);
+                }
+                public void UserAddDamageToCoPlayer(int target, double damage)
+                {
+                    this.Target.UserAddDamageToCoPlayer(this.user, target, damage);
+                }
+                public void UserAddDamageToCoPlayer(UserAddDamageToCoPlayerArguments e)
+                {
+                    this.Target.UserAddDamageToCoPlayer(this.user, e.target, e.damage);
+                }
+                public void UserWalkTo(int[] bytestream)
+                {
+                    this.Target.UserWalkTo(this.user, bytestream);
+                }
+                public void UserWalkTo(UserWalkToArguments e)
+                {
+                    this.Target.UserWalkTo(this.user, e.bytestream);
+                }
+                public void UserLookAt(double arc)
+                {
+                    this.Target.UserLookAt(this.user, arc);
+                }
+                public void UserLookAt(UserLookAtArguments e)
+                {
+                    this.Target.UserLookAt(this.user, e.arc);
+                }
+                public void UserFireWeapon()
+                {
+                    this.Target.UserFireWeapon(this.user);
+                }
+                public void UserFireWeapon(UserFireWeaponArguments e)
+                {
+                    this.Target.UserFireWeapon(this.user);
+                }
+                public void UserEnterEndLevelMode()
+                {
+                    this.Target.UserEnterEndLevelMode(this.user);
+                }
+                public void UserEnterEndLevelMode(UserEnterEndLevelModeArguments e)
+                {
+                    this.Target.UserEnterEndLevelMode(this.user);
+                }
+                public void UserGuardWalkTo(int[] bytestream)
+                {
+                    this.Target.UserGuardWalkTo(this.user, bytestream);
+                }
+                public void UserGuardWalkTo(UserGuardWalkToArguments e)
+                {
+                    this.Target.UserGuardWalkTo(this.user, e.bytestream);
+                }
+                public void UserGuardLookAt(int index, double arc)
+                {
+                    this.Target.UserGuardLookAt(this.user, index, arc);
+                }
+                public void UserGuardLookAt(UserGuardLookAtArguments e)
+                {
+                    this.Target.UserGuardLookAt(this.user, e.index, e.arc);
+                }
+                public void UserGuardAddDamage(int index, double damage)
+                {
+                    this.Target.UserGuardAddDamage(this.user, index, damage);
+                }
+                public void UserGuardAddDamage(UserGuardAddDamageArguments e)
+                {
+                    this.Target.UserGuardAddDamage(this.user, e.index, e.damage);
+                }
+                #endregion
+            }
+            #endregion
+            #region WithUserArgumentsRouter_Singlecast
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class WithUserArgumentsRouter_Singlecast : WithUserArguments
+            {
+                public System.Converter<int, IMessages> Target;
+
+                #region Automatic Event Routing
+                public void CombineDelegates(IEvents value)
+                {
+                    value.UserPlayerAdvertise += this.UserPlayerAdvertise;
+                    value.UserSendMap += this.UserSendMap;
+                    value.UserTakeAmmo += this.UserTakeAmmo;
+                    value.UserTakeGold += this.UserTakeGold;
+                    value.UserAddDamageToCoPlayer += this.UserAddDamageToCoPlayer;
+                    value.UserWalkTo += this.UserWalkTo;
+                    value.UserLookAt += this.UserLookAt;
+                    value.UserFireWeapon += this.UserFireWeapon;
+                    value.UserEnterEndLevelMode += this.UserEnterEndLevelMode;
+                    value.UserGuardWalkTo += this.UserGuardWalkTo;
+                    value.UserGuardLookAt += this.UserGuardLookAt;
+                    value.UserGuardAddDamage += this.UserGuardAddDamage;
+                }
+
+                public void RemoveDelegates(IEvents value)
+                {
+                    value.UserPlayerAdvertise -= this.UserPlayerAdvertise;
+                    value.UserSendMap -= this.UserSendMap;
+                    value.UserTakeAmmo -= this.UserTakeAmmo;
+                    value.UserTakeGold -= this.UserTakeGold;
+                    value.UserAddDamageToCoPlayer -= this.UserAddDamageToCoPlayer;
+                    value.UserWalkTo -= this.UserWalkTo;
+                    value.UserLookAt -= this.UserLookAt;
+                    value.UserFireWeapon -= this.UserFireWeapon;
+                    value.UserEnterEndLevelMode -= this.UserEnterEndLevelMode;
+                    value.UserGuardWalkTo -= this.UserGuardWalkTo;
+                    value.UserGuardLookAt -= this.UserGuardLookAt;
+                    value.UserGuardAddDamage -= this.UserGuardAddDamage;
+                }
+                #endregion
+
+                #region Routing
+                public void UserPlayerAdvertise(UserPlayerAdvertiseArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserPlayerAdvertise(this.user, e.name, e.vector);
+                }
+                public void UserSendMap(UserSendMapArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserSendMap(this.user, e.bytestream);
+                }
+                public void UserTakeAmmo(UserTakeAmmoArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserTakeAmmo(this.user, e.index);
+                }
+                public void UserTakeGold(UserTakeGoldArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserTakeGold(this.user, e.index);
+                }
+                public void UserAddDamageToCoPlayer(UserAddDamageToCoPlayerArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserAddDamageToCoPlayer(this.user, e.target, e.damage);
+                }
+                public void UserWalkTo(UserWalkToArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserWalkTo(this.user, e.bytestream);
+                }
+                public void UserLookAt(UserLookAtArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserLookAt(this.user, e.arc);
+                }
+                public void UserFireWeapon(UserFireWeaponArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserFireWeapon(this.user);
+                }
+                public void UserEnterEndLevelMode(UserEnterEndLevelModeArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserEnterEndLevelMode(this.user);
+                }
+                public void UserGuardWalkTo(UserGuardWalkToArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserGuardWalkTo(this.user, e.bytestream);
+                }
+                public void UserGuardLookAt(UserGuardLookAtArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserGuardLookAt(this.user, e.index, e.arc);
+                }
+                public void UserGuardAddDamage(UserGuardAddDamageArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserGuardAddDamage(this.user, e.index, e.damage);
                 }
                 #endregion
             }
@@ -874,25 +1391,47 @@ namespace FlashTreasureHunt.Shared
                         }
                 ;
             }
-            public WithUserArgumentsRouter Router
+            public WithUserArgumentsRouter_Broadcast BroadcastRouter
             {
                 [DebuggerNonUserCode]
                 get
                 {
-                    return this._Router;
+                    return this._BroadcastRouter;
                 }
                 [DebuggerNonUserCode]
                 [MethodImpl(MethodImplOptions.Synchronized)]
                 set
                 {
-                    if(_Router != null)
+                    if(_BroadcastRouter != null)
                     {
-                        _Router.RemoveDelegates(this);
+                        _BroadcastRouter.RemoveDelegates(this);
                     }
-                    _Router = value;
-                    if(_Router != null)
+                    _BroadcastRouter = value;
+                    if(_BroadcastRouter != null)
                     {
-                        _Router.CombineDelegates(this);
+                        _BroadcastRouter.CombineDelegates(this);
+                    }
+                }
+            }
+            public WithUserArgumentsRouter_Singlecast SinglecastRouter
+            {
+                [DebuggerNonUserCode]
+                get
+                {
+                    return this._SinglecastRouter;
+                }
+                [DebuggerNonUserCode]
+                [MethodImpl(MethodImplOptions.Synchronized)]
+                set
+                {
+                    if(_SinglecastRouter != null)
+                    {
+                        _SinglecastRouter.RemoveDelegates(this);
+                    }
+                    _SinglecastRouter = value;
+                    if(_SinglecastRouter != null)
+                    {
+                        _SinglecastRouter.CombineDelegates(this);
                     }
                 }
             }
@@ -1149,4 +1688,4 @@ namespace FlashTreasureHunt.Shared
     }
     #endregion
 }
-// 29.08.2008 20:32:13
+// 25.09.2008 15:19:24

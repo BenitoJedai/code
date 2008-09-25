@@ -95,7 +95,7 @@ namespace FlashTreasureHunt.Server
 			var FromPlayer =
 				  new SharedClass1.RemoteEvents
 				  {
-					  Router = new SharedClass1.RemoteEvents.WithUserArgumentsRouter
+					  BroadcastRouter = new SharedClass1.RemoteEvents.WithUserArgumentsRouter_Broadcast
 					  {
 						  user = user.UserId,
 					  }
@@ -125,7 +125,7 @@ namespace FlashTreasureHunt.Server
 
 				AwardAchievement = user.AwardAchievement,
 			};
-			FromPlayer.Router.Target = user.Virtual.ToOthers;
+			FromPlayer.BroadcastRouter.Target = user.Virtual.ToOthers;
 
 			Virtual.Users.Add(user.Virtual);
 
