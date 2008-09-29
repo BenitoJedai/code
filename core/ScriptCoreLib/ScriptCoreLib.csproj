@@ -166,8 +166,15 @@
     <Compile Include="ActionScript\BCLImplementation\System\Collections\IList.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\ObjectModel\Collection.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Comparison.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\BindingList.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\Component.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ComponentCollection.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\Container.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ISupportInitialize.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ListChangedEventArgs.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ListChangedEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Console.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Convert.cs">
       <SubType>Code</SubType>
