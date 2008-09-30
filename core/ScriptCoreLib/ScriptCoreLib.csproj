@@ -172,6 +172,9 @@
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\Component.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ComponentCollection.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\Container.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ISite.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\IComponent.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\IContainer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ISupportInitialize.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ListChangedEventArgs.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ListChangedEventHandler.cs" />

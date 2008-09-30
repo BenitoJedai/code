@@ -39,11 +39,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.ComponentModel
         }
 
 
-        public __ListChangedEventArgs(ListChangedType listChangedType, int newIndex)
+        public __ListChangedEventArgs(ListChangedType listChangedType, int newIndex) : this(listChangedType, newIndex, -1)
         {
-            this.listChangedType = listChangedType;
-            this.newIndex = newIndex;
-            this.oldIndex = -1;
         }
 
         public __ListChangedEventArgs(ListChangedType listChangedType, int newIndex, int oldIndex)
