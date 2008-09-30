@@ -8,7 +8,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace NavigationButtons.JavaScript
 {
-	using TargetCanvas = global::NavigationButtons.Shared.MyCanvas;
+	using TargetCanvas = global::NavigationButtons.Code.MyCanvas;
 
 	[Script, ScriptApplicationEntryPoint(IsClickOnce=true, ScriptedLoading=true)]
 	public class NavigationButtonsDocument
