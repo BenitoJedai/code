@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavigationButtons", "NavigationButtons\NavigationButtons.csproj", "{9B848308-5AE8-4AF3-B718-DDE82F0EC57A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavigationButtons.XBAP", "NavigationButtons.XBAP\NavigationButtons.XBAP.csproj", "{F5DD985F-1838-4856-9E26-2530F484B2B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{9B848308-5AE8-4AF3-B718-DDE82F0EC57A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B848308-5AE8-4AF3-B718-DDE82F0EC57A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B848308-5AE8-4AF3-B718-DDE82F0EC57A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5DD985F-1838-4856-9E26-2530F484B2B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5DD985F-1838-4856-9E26-2530F484B2B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5DD985F-1838-4856-9E26-2530F484B2B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5DD985F-1838-4856-9E26-2530F484B2B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

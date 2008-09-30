@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Diagnostics;
 using System.Windows.Navigation;
-using BrowserAvalonExample.Code;
+using System.Windows;
+using NavigationButtons.Shared;
 
-namespace XBAPAvalonExample
+namespace NavigationButtons.XBAP
 {
 	public class Program
 	{

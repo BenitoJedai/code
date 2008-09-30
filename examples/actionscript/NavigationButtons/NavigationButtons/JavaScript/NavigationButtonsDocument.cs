@@ -10,10 +10,10 @@ namespace NavigationButtons.JavaScript
 {
 	using TargetCanvas = global::NavigationButtons.Shared.MyCanvas;
 
-	[Script, ScriptApplicationEntryPoint]
-	public class MyCanvasScriptControl
+	[Script, ScriptApplicationEntryPoint(IsClickOnce=true, ScriptedLoading=true)]
+	public class NavigationButtonsDocument
 	{
-		public MyCanvasScriptControl(IHTMLElement e)
+		public NavigationButtonsDocument(IHTMLElement e)
 		{
 			// wpf here
 			var clip = new IHTMLDiv();
@@ -31,9 +31,9 @@ namespace NavigationButtons.JavaScript
 
 		}
 
-		static MyCanvasScriptControl()
+		static NavigationButtonsDocument()
 		{
-			typeof(MyCanvasScriptControl).SpawnTo(i => new MyCanvasScriptControl(i));
+			typeof(NavigationButtonsDocument).SpawnTo(i => new NavigationButtonsDocument(i));
 		}
 
 	}
