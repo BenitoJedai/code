@@ -81,12 +81,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />
+    <EmbeddedResource Include="web\assets\NavigationButtons\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="web\assets\NavigationButtons\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
