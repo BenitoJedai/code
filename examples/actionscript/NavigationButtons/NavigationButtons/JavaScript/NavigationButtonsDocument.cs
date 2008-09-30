@@ -13,6 +13,11 @@ namespace NavigationButtons.JavaScript
 	[Script, ScriptApplicationEntryPoint(IsClickOnce=true, ScriptedLoading=true)]
 	public class NavigationButtonsDocument
 	{
+		public NavigationButtonsDocument() : this(null)
+		{
+			// scripted loading will need a default ctor
+		}
+
 		public NavigationButtonsDocument(IHTMLElement e)
 		{
 			// wpf here
