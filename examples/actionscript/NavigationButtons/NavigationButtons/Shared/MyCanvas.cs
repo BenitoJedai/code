@@ -29,7 +29,7 @@ namespace NavigationButtons.Shared
 					{
 						Fill = new SolidColorBrush(color),
 						Width = DefaultWidth,
-						Height = 4,
+						Height = 5,
 					}.MoveTo(0, i * 4).AttachTo(this)
 			).ToArray();
 
