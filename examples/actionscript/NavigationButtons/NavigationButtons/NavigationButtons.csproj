@@ -71,7 +71,7 @@
   <ItemGroup>
     <Compile Include="ActionScript\NavigationButtons.cs" />
     <Compile Include="ActionScript\MyExtensions.cs" />
-    <Compile Include="JavaScript\MyCanvasScriptControl.cs" />
+    <Compile Include="JavaScript\NavigationButtonsDocument.cs" />
     <Compile Include="JavaScript\MyExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
