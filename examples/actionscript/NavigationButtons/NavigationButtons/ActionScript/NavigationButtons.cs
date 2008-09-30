@@ -8,7 +8,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 
 namespace NavigationButtons.ActionScript
 {
-	using TargetCanvas = global::NavigationButtons.Shared.MyCanvas;
+	using TargetCanvas = global::NavigationButtons.Code.MyCanvas;
 
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.

@@ -10,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using ScriptCoreLib.Shared.Avalon.TiledImageButton;
 
-namespace NavigationButtons.Shared
+namespace NavigationButtons.Code
 {
 	[Script]
 	public class MyCanvas : Canvas
