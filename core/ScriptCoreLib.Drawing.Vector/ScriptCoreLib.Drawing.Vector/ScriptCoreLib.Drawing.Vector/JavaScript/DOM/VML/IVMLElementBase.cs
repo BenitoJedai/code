@@ -67,5 +67,8 @@ namespace ScriptCoreLib.JavaScript.DOM.VML
 
             return (IVMLElementBase)new IHTMLElement("v:" + tag);
         }
+
+		// http://msdn.microsoft.com/en-us/library/bb263877(VS.85).aspx
+		public int rotation;
     }
 }
