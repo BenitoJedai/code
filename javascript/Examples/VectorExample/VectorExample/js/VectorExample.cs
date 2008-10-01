@@ -16,7 +16,7 @@ using global::System.Linq;
 using global::ScriptCoreLib.Shared.Lambda;
 using System;
 
-[assembly: ScriptResources("assets/VectorExample")]
+//[assembly: ScriptResources("assets/VectorExample")]
 
 namespace VectorExample.js
 {
@@ -96,9 +96,21 @@ namespace VectorExample.js
             #endregion
 
 
-            CreateButton(Test1, "svg hello world").disabled = !ISVGElementBase.Settings.IsSupported;
-            CreateButton(Test2, "svg advanced").disabled = !ISVGElementBase.Settings.IsSupported;
-            CreateButton(Test3, "vml (IE) hello world").disabled = !IVMLElementBase.Settings.IsSupported;
+            var b1 = CreateButton(Test1, "svg hello world");
+			b1.disabled = !ISVGElementBase.Settings.IsSupported;
+            var b2 = CreateButton(Test2, "svg advanced");
+			b2.disabled = !ISVGElementBase.Settings.IsSupported;
+            var b3 = CreateButton(Test3, "vml (IE) hello world");
+			b3.disabled = !IVMLElementBase.Settings.IsSupported;
+
+			CreateButton(
+				delegate
+				{
+					b1.disabled = false;
+					b2.disabled = false;
+					b3.disabled = false;
+				}
+			, "Override detection");
         }
 
 
@@ -129,8 +141,8 @@ namespace VectorExample.js
             rect.setAttribute("fillcolor", "red");
             rect.style.left = "10";
             rect.style.top = "10";
-            rect.style.width = "200px";
-            rect.style.height = "200px";
+            rect.style.width = "400px";
+            rect.style.height = "300px";
 
             var fill = new IHTMLElement("v:fill").AttachTo(rect);
 
@@ -138,14 +150,33 @@ namespace VectorExample.js
             fill.setAttribute("type", "gradient");
 
             {
-                var image = new IVMLImage()
-                    {
-                        src = "assets/VectorExample/TILE1436.png"
-                    }.AttachTo(layer);
+                var image = new IVMLImage
+                {
+                    src = "assets/VectorExample/TILE1436.png"
+                };
+				
+				
+				image.AttachTo(layer);
 
+				image.style.top = "100px";
+				image.style.left = "100px";
                 image.style.width = "200px";
                 image.style.height = "200px";
+				var r = 0;
+
+				image.rotation = r;
+
+				(1000 / 20).AtInterval(
+					delegate
+					{
+						r++;
+						image.rotation = r;
+					}
+				);
+				
             }
+
+	
 
             container.onmousemove +=
                 ev =>
@@ -258,11 +289,25 @@ namespace VectorExample.js
 
             img.href = "assets/VectorExample/TILE1436.png";
 
-            img.setAttribute("x", 32);
-            img.setAttribute("y", 32);
+            img.setAttribute("x", 0);
+            img.setAttribute("y", 0);
             img.setAttribute("width", 200);
             img.setAttribute("height", 200);
+			// http://www.svgbasics.com/rotate.html
+			img.setAttribute("transform", "rotate(-45 10 10)");
 
+			var r = 0;
+
+
+			(1000 / 20).AtInterval(
+				delegate
+				{
+					r++;
+
+					img.setAttribute("transform", "rotate(" + r + " 0 0)");
+
+				}
+			);
 
             var rectlayer = new ISVGGElement();
 

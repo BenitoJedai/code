@@ -5,12 +5,24 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace VectorExample.js
 {
     [Script]
     public static class Extensions
     {
+		public static Action AtInterval(this int ms, Action e)
+		{
+			var t = new Timer(
+				tt =>
+				{
+					e();
+				}, 0, ms);
+
+			return t.Stop;
+		}
+
         public static IHTMLElement AsElement(this string tag)
         {
             return new IHTMLElement(tag);
