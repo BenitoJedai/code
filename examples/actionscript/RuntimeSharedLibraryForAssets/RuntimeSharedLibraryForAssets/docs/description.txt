@@ -1,0 +1,1 @@
+﻿RuntimeSharedLibraryForAssets. Crosscompiled from C# to ActionScript.

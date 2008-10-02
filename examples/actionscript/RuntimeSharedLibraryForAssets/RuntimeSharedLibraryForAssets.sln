@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuntimeSharedLibraryForAssets", "RuntimeSharedLibraryForAssets\RuntimeSharedLibraryForAssets.csproj", "{1A65D4D7-2097-4B25-8D57-BCFCEDE88177}"
+	ProjectSection(ProjectDependencies) = postProject
+		{98A32C84-32D0-404F-9AD7-1CB27DCE1287} = {98A32C84-32D0-404F-9AD7-1CB27DCE1287}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SomeGenericAssets", "SomeGenericAssets\SomeGenericAssets.csproj", "{98A32C84-32D0-404F-9AD7-1CB27DCE1287}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A65D4D7-2097-4B25-8D57-BCFCEDE88177}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A65D4D7-2097-4B25-8D57-BCFCEDE88177}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A65D4D7-2097-4B25-8D57-BCFCEDE88177}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A65D4D7-2097-4B25-8D57-BCFCEDE88177}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98A32C84-32D0-404F-9AD7-1CB27DCE1287}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98A32C84-32D0-404F-9AD7-1CB27DCE1287}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98A32C84-32D0-404F-9AD7-1CB27DCE1287}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98A32C84-32D0-404F-9AD7-1CB27DCE1287}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
