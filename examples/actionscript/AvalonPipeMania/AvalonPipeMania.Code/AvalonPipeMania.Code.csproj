@@ -69,6 +69,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AvalonPipeMania.Assets\AvalonPipeMania.Assets.csproj">
+      <Project>{0034D475-940D-46FC-9C9B-022EF1EA484D}</Project>
+      <Name>AvalonPipeMania.Assets</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -3,6 +3,7 @@ set TargetFileName=%2
 set ConfigurationName=%3
 set OutputDir=%4
 
+
 if %ConfigurationName%==Debug goto :eof
 
 :: Dll name
@@ -14,6 +15,7 @@ if '%ERRORLEVEL%' == '-1' (
 )
 :: Namespace name, type name
 @call :mxmlc AvalonPipeMania/Labs/ActionScript LabsFlash
+
 
 goto :eof
 

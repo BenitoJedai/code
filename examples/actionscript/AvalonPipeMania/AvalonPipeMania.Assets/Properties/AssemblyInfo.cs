@@ -41,6 +41,8 @@ using ScriptCoreLib;
 	Script,
 
 	ScriptTypeFilter(ScriptType.ActionScript, "AvalonPipeMania.Assets.ActionScript"),
-	ScriptTypeFilter(ScriptType.JavaScript, "AvalonPipeMania.Assets.JavaScript")
+	ScriptTypeFilter(ScriptType.ActionScript, "AvalonPipeMania.Assets.Shared"),
+	ScriptTypeFilter(ScriptType.JavaScript, "AvalonPipeMania.Assets.JavaScript"),
+	ScriptTypeFilter(ScriptType.JavaScript, "AvalonPipeMania.Assets.Shared")
 
 ]

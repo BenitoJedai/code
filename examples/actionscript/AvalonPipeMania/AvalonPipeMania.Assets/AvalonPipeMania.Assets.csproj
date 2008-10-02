@@ -65,19 +65,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionScript\Assets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
+    <Compile Include="Assets.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="web\assets\OrcasAvalonTemplate\about.txt" />
-    <EmbeddedResource Include="web\assets\OrcasAvalonTemplate\help_idle.png" />
-    <EmbeddedResource Include="web\assets\OrcasAvalonTemplate\help.png" />
-    <EmbeddedResource Include="web\assets\OrcasAvalonTemplate\jsc.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="JavaScript\" />
-    <Folder Include="Shared\" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Assets\about.txt" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Assets\help_idle.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Assets\help.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Assets\jsc.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

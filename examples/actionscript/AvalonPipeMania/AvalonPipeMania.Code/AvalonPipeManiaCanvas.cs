@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Controls;
 using ScriptCoreLib;
 using ScriptCoreLib.Shared.Avalon.Extensions;
+using AvalonPipeMania.Assets.Shared;
 
 namespace AvalonPipeMania.Code
 {
@@ -19,10 +20,18 @@ namespace AvalonPipeMania.Code
 			this.Width = DefaultWidth;
 			this.Height = DefaultHeight;
 
-			new TextBox
+			var t = new TextBox
 			{
-				Text = "hello world"
+				AcceptsReturn = true,
+				Text = "hello world",
+				Width = DefaultWidth,
+				Height = DefaultHeight
 			}.AttachTo(this);
+
+			foreach (var n in KnownAssets.Default.FileNames)
+			{
+				t.AppendTextLine(n);
+			}
 		}
 	}
 }
