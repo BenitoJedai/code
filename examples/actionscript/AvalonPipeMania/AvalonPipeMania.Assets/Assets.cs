@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
+using ScriptCoreLib.ActionScript;
+
+[assembly: ScriptResources(AvalonPipeMania.Assets.Shared.KnownAssets.Path.Data)]
+[assembly: ScriptResources(AvalonPipeMania.Assets.Shared.KnownAssets.Path.Assets)]
 
 namespace AvalonPipeMania.Assets
 {
@@ -14,6 +18,14 @@ namespace AvalonPipeMania.Assets
 		public class KnownAssets : AssetsImplementationDetails
 		{
 			public static readonly KnownAssets Default = new KnownAssets();
+
+			[Script]
+			public static class Path
+			{
+				public const string Assets = "assets/AvalonPipeMania.Assets";
+				public const string Data = "assets/AvalonPipeMania.Data";
+			}
+
 		}
 
 		public class AssetsImplementationDetails
@@ -28,6 +40,7 @@ namespace AvalonPipeMania.Assets
 					return ScriptCoreLib.CSharp.Extensions.EmbeddedResourcesExtensions.GetEmbeddedResources(null, this.GetType().Assembly);
 				}
 			}
+
 		}
 
 	}
@@ -61,6 +74,23 @@ namespace AvalonPipeMania.Assets
 					throw new NotImplementedException();
 				}
 			}
+
 		}
+
+		[Script]
+		public class KnownEmbeddedAssets
+		{
+			[EmbedByFileName]
+			public static Class ByFileName(string e)
+			{
+				throw new NotImplementedException();
+			}
+
+			public static void RegisterTo(List<Converter<string, Class>> Handlers)
+			{
+				Handlers.Add(e => ByFileName(e));
+			}
+		}
+
 	}
 }

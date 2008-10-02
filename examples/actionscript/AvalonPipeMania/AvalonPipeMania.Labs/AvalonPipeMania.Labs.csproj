@@ -75,6 +75,10 @@
     <None Include="tools\build.bat" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AvalonPipeMania.Assets\AvalonPipeMania.Assets.csproj">
+      <Project>{0034D475-940D-46FC-9C9B-022EF1EA484D}</Project>
+      <Name>AvalonPipeMania.Assets</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AvalonPipeMania.Code\AvalonPipeMania.Code.csproj">
       <Project>{2AA2ED89-FDFE-4FB7-9333-0739E77CE584}</Project>
       <Name>AvalonPipeMania.Code</Name>

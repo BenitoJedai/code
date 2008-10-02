@@ -25,8 +25,18 @@ namespace AvalonPipeMania.Code
 				AcceptsReturn = true,
 				Text = "hello world",
 				Width = DefaultWidth,
-				Height = DefaultHeight
+				Height = DefaultHeight / 2
 			}.AttachTo(this);
+
+			new Image
+			{
+				Source = (KnownAssets.Path.Data + "/draft.png").ToSource(),
+			}.MoveTo(0, DefaultHeight / 2).AttachTo(this);
+
+			new Image
+			{
+				Source = (KnownAssets.Path.Data + "/draft.png").ToSource(),
+			}.MoveTo(64, DefaultHeight / 2).AttachTo(this);
 
 			foreach (var n in KnownAssets.Default.FileNames)
 			{
