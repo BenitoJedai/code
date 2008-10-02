@@ -9,6 +9,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 namespace AvalonPipeMania.Labs.ActionScript
 {
 	using TargetCanvas = global::AvalonPipeMania.Code.AvalonPipeManiaCanvas;
+	using AvalonPipeMania.Assets.ActionScript;
 
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
@@ -26,9 +27,8 @@ namespace AvalonPipeMania.Labs.ActionScript
 		static LabsFlash()
 		{
 			// add resources to be found by ImageSource
-			//KnownEmbeddedResources.Default.Handlers.Add(
-			//    e => Assets.Default[e]
-			//);
+			KnownEmbeddedAssets.RegisterTo(KnownEmbeddedResources.Default.Handlers);
+	
 
 		}
 	}
