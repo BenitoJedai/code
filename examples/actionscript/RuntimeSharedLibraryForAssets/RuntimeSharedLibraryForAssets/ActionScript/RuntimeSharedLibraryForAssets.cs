@@ -66,6 +66,7 @@ namespace RuntimeSharedLibraryForAssets.ActionScript
 
 			// http://books.google.ee/books?id=r4Xl06bwKyAC&pg=PA21&lpg=PA21&dq=flex+file-specs&source=web&ots=9ELbZmqKep&sig=1uUN7L-T-xzqW8PHI6Hv1ImhxCU&hl=et&sa=X&oi=book_result&resnum=1&ct=result#PPA32,M1
 			// http://www.nabble.com/Bizarre-link-report-and-load-externs-problems-in-FB3-plugin-td15904495.html
+			// http://livedocs.adobe.com/flex/3/html/help.html?content=rsl_02.html#220679
 
 			t.click +=
 				delegate
