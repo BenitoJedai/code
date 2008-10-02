@@ -93,7 +93,8 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>pushd $(ProjectDir)\tools\
-call build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName) $(OutDir)
-popd</PostBuildEvent>
+call build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName) $(OutDir) "$(SolutionDir)publish"
+popd
+</PostBuildEvent>
   </PropertyGroup>
 </Project>
