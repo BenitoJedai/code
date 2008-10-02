@@ -8,6 +8,7 @@ using ScriptCoreLib.ActionScript;
 
 [assembly: ScriptResources(AvalonPipeMania.Assets.Shared.KnownAssets.Path.Data)]
 [assembly: ScriptResources(AvalonPipeMania.Assets.Shared.KnownAssets.Path.Assets)]
+[assembly: ScriptResources(AvalonPipeMania.Assets.Shared.KnownAssets.Path.Sounds)]
 
 namespace AvalonPipeMania.Assets
 {
@@ -24,6 +25,7 @@ namespace AvalonPipeMania.Assets
 			{
 				public const string Assets = "assets/AvalonPipeMania.Assets";
 				public const string Data = "assets/AvalonPipeMania.Data";
+				public const string Sounds = "assets/AvalonPipeMania.Sounds";
 			}
 
 		}
