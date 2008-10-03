@@ -97,6 +97,13 @@
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\tile0_black.png" />
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\tile0_yellow.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\pipe_brown_tb.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\pipe_glow_tb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\tile0_black_unfocus8.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
