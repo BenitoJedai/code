@@ -68,23 +68,23 @@ namespace AvalonPipeMania.Code
 				Height = DefaultHeight
 			};
 
-			
+			var WaterFlow = new Queue<Action>();
 
 			Enumerable.Range(0, 6).ForEach(
-				x =>
+				ix =>
 				{
 					Enumerable.Range(0, 4).ForEach(
-						y =>
+						iy =>
 						{
 							new Image
 							{
 								Source = (KnownAssets.Path.Data + "/tile0_black_unfocus8.png").ToSource(),
-							}.MoveTo(64 + 64 * x - 8, DefaultHeight / 2 + 52 * y - 8).AttachTo(this);
+							}.MoveTo(64 + 64 * ix - 8, DefaultHeight / 2 + 52 * iy - 8).AttachTo(this);
 
 							new Image
 							{
 								Source = (KnownAssets.Path.Data + "/tile0.png").ToSource(),
-							}.MoveTo(64 + 64 * x, DefaultHeight / 2 + 52 * y).AttachTo(this);
+							}.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy).AttachTo(this);
 
 
 
@@ -92,14 +92,14 @@ namespace AvalonPipeMania.Code
 							{
 								Source = (KnownAssets.Path.Data + "/tile0_black.png").ToSource(),
 								Opacity = rnd.NextDouble() * 0.5
-							}.MoveTo(64 + 64 * x, DefaultHeight / 2 + 52 * y).AttachTo(this);
+							}.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy).AttachTo(this);
 
 							var YellowFilter = new Image
 							{
 								Source = (KnownAssets.Path.Data + "/tile0_yellow.png").ToSource(),
 								Opacity = 0.4,
 								Visibility = System.Windows.Visibility.Hidden,
-							}.MoveTo(64 + 64 * x, DefaultHeight / 2 + 52 * y).AttachTo(this);
+							}.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy).AttachTo(this);
 
 
 							var Overlay = new Rectangle
@@ -109,19 +109,54 @@ namespace AvalonPipeMania.Code
 								Width = 64,
 								Height = 52,
 								Opacity = 0
-							}.MoveTo(64 + 64 * x, DefaultHeight / 2 + 52 * y).AttachTo(OverlayCanvas);
+							}.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy).AttachTo(OverlayCanvas);
 
-							if (x == 2)
+							if (ix == 2)
 							{
 								var Pipe = new Image
 								{
 									Source = (KnownAssets.Path.Data + "/pipe_brown_tb.png").ToSource(),
-								}.MoveTo(64 + 64 * x, DefaultHeight / 2 + 52 * y - 12).AttachTo(this);
+								}.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy - 12).AttachTo(this);
+
+								var Pipe_0_16 = new Image
+								{
+									Source = (KnownAssets.Path.Data + "/pipe_blue_tb_0_16.png").ToSource(),
+									Opacity = 0.5,
+									Visibility = Visibility.Hidden
+								}.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy - 12).AttachTo(this);
+
+								var Pipe_16_32 = new Image
+								{
+									Source = (KnownAssets.Path.Data + "/pipe_blue_tb_16_32.png").ToSource(),
+									Opacity = 0.5,
+									Visibility = Visibility.Hidden
+								}.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy - 12).AttachTo(this);
+
+								var Pipe_32_48 = new Image
+								{
+									Source = (KnownAssets.Path.Data + "/pipe_blue_tb_32_48.png").ToSource(),
+									Opacity = 0.5,
+									Visibility = Visibility.Hidden
+								}.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy - 12).AttachTo(this);
+
+
+								var Pipe_48_64 = new Image
+								{
+									Source = (KnownAssets.Path.Data + "/pipe_blue_tb_48_64.png").ToSource(),
+									Opacity = 0.5,
+									Visibility = Visibility.Hidden
+								}.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy - 12).AttachTo(this);
+
+
+								WaterFlow.Enqueue(() => Pipe_0_16.Visibility = Visibility.Visible);
+								WaterFlow.Enqueue(() => Pipe_16_32.Visibility = Visibility.Visible);
+								WaterFlow.Enqueue(() => Pipe_32_48.Visibility = Visibility.Visible);
+								WaterFlow.Enqueue(() => Pipe_48_64.Visibility = Visibility.Visible);
 
 								var PipeGlow = new Image
 								{
 									Source = (KnownAssets.Path.Data + "/pipe_glow_tb.png").ToSource(),
-								}.MoveTo(64 + 64 * x, DefaultHeight / 2 + 52 * y - 12).AttachTo(this);
+								}.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy - 12).AttachTo(this);
 							}
 
 							Overlay.MouseEnter +=
@@ -176,6 +211,25 @@ namespace AvalonPipeMania.Code
 			{
 				t.AppendTextLine(n);
 			}
+
+
+			3000.AtDelay(
+				delegate
+				{
+					(1000 / 10).AtIntervalWithTimer(
+						ttt =>
+						{
+							if (WaterFlow.Count == 0)
+							{
+								ttt.Stop();
+								return;
+							}
+
+							WaterFlow.Dequeue()();
+						}
+					);
+				}
+			);
 		}
 	}
 }
