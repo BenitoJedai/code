@@ -27,7 +27,9 @@ namespace AvalonPipeMania.Code
 		public readonly Image YellowFilter;
 		
 		public readonly Image Shadow;
-		
+
+		public double MaxBlackFilterOpacity = 0.7;
+
 		public Tile()
 		{
 			this.Container = new Canvas
@@ -51,7 +53,7 @@ namespace AvalonPipeMania.Code
 			var BlackFilter = new Image
 			{
 				Source = (KnownAssets.Path.Data + "/tile0_black.png").ToSource(),
-				Opacity = rnd.NextDouble() * 0.5
+				Opacity = rnd.NextDouble() * MaxBlackFilterOpacity
 			}.AttachTo(this.Container);
 
 			this.YellowFilter = new Image
