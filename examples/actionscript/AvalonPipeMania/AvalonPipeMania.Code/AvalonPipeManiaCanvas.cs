@@ -35,18 +35,15 @@ namespace AvalonPipeMania.Code
 				Colors.Blue,
 				Colors.Red,
 				Colors.Yellow
-			}.ToGradient(DefaultHeight / 4
-			//Colors.White.ToGradient(Colors.Blue, DefaultHeight / 4 / 2).Concat(
-				//Colors.Blue.ToGradient(Colors.Red, DefaultHeight / 4 / 2)
-			).Select(
+			}.ToGradient(DefaultHeight / 4).ForEach(
 				(c, i) =>
 				new Rectangle
 				{
 					Fill = new SolidColorBrush(c),
 					Width = DefaultWidth,
-					Height = 4,
+					Height = 5,
 				}.MoveTo(0, i * 4).AttachTo(this)
-			).ToArray();
+			);
 
 		
 			var t = new TextBox
@@ -60,8 +57,7 @@ namespace AvalonPipeMania.Code
 			}.AttachTo(this).MoveTo(DefaultWidth / 4, 4);
 
 
-			var rnd = new Random();
-
+			
 			var OverlayCanvas = new Canvas
 			{
 				Width = DefaultWidth,
@@ -76,99 +72,37 @@ namespace AvalonPipeMania.Code
 					Enumerable.Range(0, 4).ForEach(
 						iy =>
 						{
-							new Image
-							{
-								Source = (KnownAssets.Path.Data + "/tile0_black_unfocus8.png").ToSource(),
-							}.MoveTo(64 + 64 * ix - 8, DefaultHeight / 2 + 52 * iy - 8).AttachTo(this);
+							var tile = new Tile();
 
-							new Image
-							{
-								Source = (KnownAssets.Path.Data + "/tile0.png").ToSource(),
-							}.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy).AttachTo(this);
-
-
-
-							var BlackFilter = new Image
-							{
-								Source = (KnownAssets.Path.Data + "/tile0_black.png").ToSource(),
-								Opacity = rnd.NextDouble() * 0.5
-							}.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy).AttachTo(this);
-
-							var YellowFilter = new Image
-							{
-								Source = (KnownAssets.Path.Data + "/tile0_yellow.png").ToSource(),
-								Opacity = 0.4,
-								Visibility = System.Windows.Visibility.Hidden,
-							}.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy).AttachTo(this);
-
-
-							var Overlay = new Rectangle
-							{
-								Cursor = Cursors.Hand,
-								Fill = Brushes.Black,
-								Width = 64,
-								Height = 52,
-								Opacity = 0
-							}.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy).AttachTo(OverlayCanvas);
+							tile.Container.MoveTo(64 + 64 * ix - 8, DefaultHeight / 2 + 52 * iy - 8).AttachTo(this);
+							tile.Overlay.MoveTo(64 + 64 * ix , DefaultHeight / 2 + 52 * iy ).AttachTo(OverlayCanvas);
 
 							if (ix == 2)
 							{
-								var Pipe = new Image
-								{
-									Source = (KnownAssets.Path.Data + "/pipe_brown_tb.png").ToSource(),
-								}.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy - 12).AttachTo(this);
-
-								var Pipe_0_16 = new Image
-								{
-									Source = (KnownAssets.Path.Data + "/pipe_blue_tb_0_16.png").ToSource(),
-									Opacity = 0.5,
-									Visibility = Visibility.Hidden
-								}.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy - 12).AttachTo(this);
-
-								var Pipe_16_32 = new Image
-								{
-									Source = (KnownAssets.Path.Data + "/pipe_blue_tb_16_32.png").ToSource(),
-									Opacity = 0.5,
-									Visibility = Visibility.Hidden
-								}.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy - 12).AttachTo(this);
-
-								var Pipe_32_48 = new Image
-								{
-									Source = (KnownAssets.Path.Data + "/pipe_blue_tb_32_48.png").ToSource(),
-									Opacity = 0.5,
-									Visibility = Visibility.Hidden
-								}.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy - 12).AttachTo(this);
+								var pipe = new Pipe.TopToBottom();
 
 
-								var Pipe_48_64 = new Image
-								{
-									Source = (KnownAssets.Path.Data + "/pipe_blue_tb_48_64.png").ToSource(),
-									Opacity = 0.5,
-									Visibility = Visibility.Hidden
-								}.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy - 12).AttachTo(this);
+								pipe.Container.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy - 12).AttachTo(this);
 
 
-								WaterFlow.Enqueue(() => Pipe_0_16.Visibility = Visibility.Visible);
-								WaterFlow.Enqueue(() => Pipe_16_32.Visibility = Visibility.Visible);
-								WaterFlow.Enqueue(() => Pipe_32_48.Visibility = Visibility.Visible);
-								WaterFlow.Enqueue(() => Pipe_48_64.Visibility = Visibility.Visible);
-
-								var PipeGlow = new Image
-								{
-									Source = (KnownAssets.Path.Data + "/pipe_glow_tb.png").ToSource(),
-								}.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy - 12).AttachTo(this);
+								WaterFlow.Enqueue(() => pipe.Pipe_0_16.Visibility = Visibility.Visible);
+								WaterFlow.Enqueue(() => pipe.Pipe_16_32.Visibility = Visibility.Visible);
+								WaterFlow.Enqueue(() => pipe.Pipe_32_48.Visibility = Visibility.Visible);
+								WaterFlow.Enqueue(() => pipe.Pipe_48_64.Visibility = Visibility.Visible);
 							}
 
-							Overlay.MouseEnter +=
+							tile.Overlay.MouseEnter +=
 								delegate
 								{
-									YellowFilter.Visibility = System.Windows.Visibility.Visible;
+									PlaySound("place_tile");
+
+									tile.YellowFilter.Visibility = System.Windows.Visibility.Visible;
 								};
 
-							Overlay.MouseLeave +=
+							tile.Overlay.MouseLeave +=
 								delegate
 								{
-									YellowFilter.Visibility = System.Windows.Visibility.Hidden;
+									tile.YellowFilter.Visibility = System.Windows.Visibility.Hidden;
 								};
 						}
 					);
@@ -182,16 +116,7 @@ namespace AvalonPipeMania.Code
 
 			Navigationbar.Container.MoveTo(4, 4).AttachTo(this);
 
-			//var i2 = new Image
-			//{
-			//    Source = (KnownAssets.Path.Data + "/draft.png").ToSource(),
-			//}.MoveTo(64 * 3, DefaultHeight / 2).AttachTo(this);
-
-			//i2.MouseLeftButtonUp +=
-			//    delegate
-			//    {
-			//        PlaySound("place_tile");
-			//    };
+	
 
 			Enumerable.Range(1, 4).ForEach(
 				i =>
