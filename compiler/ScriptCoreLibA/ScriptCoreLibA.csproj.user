@@ -2,4 +2,16 @@
   <PropertyGroup>
     <LastOpenVersion>8.0.50215</LastOpenVersion>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug with Doc|AnyCPU' ">
+    <StartAction>Program</StartAction>
+    <StartProgram>c:\util\jsc\bin\jsc.exe</StartProgram>
+    <StartArguments>AvalonPipeMania.Assets.dll -ExtractAssets</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\AvalonPipeMania\bin\Release</StartWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <StartAction>Program</StartAction>
+    <StartProgram>c:\util\jsc\bin\jsc.exe</StartProgram>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\AvalonPipeMania\bin\Debug</StartWorkingDirectory>
+    <StartArguments>AvalonPipeMania.Assets.dll -ExtractAssets</StartArguments>
+  </PropertyGroup>
 </Project>

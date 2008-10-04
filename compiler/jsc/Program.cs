@@ -52,6 +52,8 @@ namespace jsc
             a.Options = new CommandLineOptions(args);
 
             TypedMain(a);
+
+			//Thread.Sleep(3000);
         }
 
         public static void TypedMain(CompileSessionInfo sinfo)

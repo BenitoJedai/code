@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using System.IO;
+using ScriptCoreLib.Shared;
 
 namespace ScriptCoreLib.CSharp.Extensions
 {
@@ -73,7 +74,8 @@ namespace ScriptCoreLib.CSharp.Extensions
 
 			var Candidates = from assembly in SharedHelper.LoadReferencedAssemblies(Assembly.GetEntryAssembly(), true)
 							 let name = new AssemblyName(assembly.FullName)
-							 let folders = assembly.GetCustomAttributes(typeof(ScriptResourcesAttribute), false).Cast<ScriptResourcesAttribute>().Concat(GetDefaultPaths(name)).OrderByDescending(k => k.Value.Length).ToArray()
+							 let assembly_resources = GetScriptResourcesAttributes(assembly)
+							 let folders = assembly_resources.Concat(GetDefaultPaths(name)).OrderByDescending(k => k.Value.Length).ToArray()
 							 from resource in assembly.GetManifestResourceNames()
 							 from halfprefix in GetPrefixes(name)
 							 let prefix = halfprefix + ".web."
@@ -124,12 +126,30 @@ namespace ScriptCoreLib.CSharp.Extensions
 
 		}
 
+		public static ScriptResourcesAttribute[] GetScriptResourcesAttributes(Assembly assembly)
+		{
+			var assembly_types = 
+				from assembly_type in assembly.GetTypes()
+				let assembly_type_attribute = assembly_type.GetCustomAttributes(typeof(ScriptResourcesAttribute), false).Cast<ScriptResourcesAttribute>().SingleOrDefault()
+				where assembly_type_attribute != null
+				select assembly_type;
+
+			return assembly.GetCustomAttributes(typeof(ScriptResourcesAttribute), false).Cast<ScriptResourcesAttribute>().Concat(
+								from assembly_type in assembly_types
+								from assembly_type_constant in assembly_type.GetFields()
+								where assembly_type_constant.IsLiteral
+								where assembly_type_constant.IsStatic
+								where assembly_type_constant.FieldType == typeof(string)
+								select new ScriptResourcesAttribute((string)assembly_type_constant.GetValue(assembly_type))
+							 ).ToArray();
+		}
+
 		public static void ExtractEmbeddedResources(DirectoryInfo dir, Assembly e, Action<string, FileInfo, string, string> handler)
 		{
 			var DefaultResources = new ScriptResourcesAttribute("assets/" + e.GetName().Name);
 
 			ScriptResourcesAttribute[] a =
-				((ScriptResourcesAttribute[])e.GetCustomAttributes(typeof(ScriptResourcesAttribute), false))
+				GetScriptResourcesAttributes(e)
 				.Concat(
 				new[] { 
                     // default
