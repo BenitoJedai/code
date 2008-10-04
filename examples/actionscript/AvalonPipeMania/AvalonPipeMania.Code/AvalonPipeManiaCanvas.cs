@@ -64,7 +64,7 @@ namespace AvalonPipeMania.Code
 				Height = DefaultHeight
 			};
 
-			var field = new Field(8, 4);
+			var field = new Field(8, 5);
 			var field_x = 64;
 			var field_y = 120;
 
@@ -82,6 +82,23 @@ namespace AvalonPipeMania.Code
 
 
 					pipe.Container.MoveTo(field_x + Tile.ShadowBorder + Tile.Size * 2, field_y + Tile.ShadowBorder + 52 * iy - 12).AttachTo(this);
+
+
+					WaterFlow.Enqueue(() => pipe.Pipe_0_16.Visibility = Visibility.Visible);
+					WaterFlow.Enqueue(() => pipe.Pipe_16_32.Visibility = Visibility.Visible);
+					WaterFlow.Enqueue(() => pipe.Pipe_32_48.Visibility = Visibility.Visible);
+					WaterFlow.Enqueue(() => pipe.Pipe_48_64.Visibility = Visibility.Visible);
+				}
+			);
+
+			Enumerable.Range(3, 3).ForEach(
+				ix =>
+				{
+
+					var pipe = new Pipe.LeftToRight();
+
+
+					pipe.Container.MoveTo(field_x + Tile.ShadowBorder + Tile.Size * ix, field_y + Tile.ShadowBorder + 52 * 3 - 12).AttachTo(this);
 
 
 					WaterFlow.Enqueue(() => pipe.Pipe_0_16.Visibility = Visibility.Visible);
