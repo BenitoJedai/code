@@ -58,9 +58,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ScriptCoreLibA, Version=3.60.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -146,6 +146,9 @@
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\RightToBottom\brown.png" />
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\RightToBottom\glow.png" />
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\RightToBottom\green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="web\assets\AvalonPipeMania.Pipe\TopToRight\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
