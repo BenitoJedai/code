@@ -111,14 +111,14 @@
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\pipe_blue_tb_48_64.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\pipe_blue_lr_0_16.png" />
-    <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\pipe_blue_lr_16_32.png" />
-    <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\pipe_blue_lr_32_48.png" />
-    <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\pipe_blue_lr_48_64.png" />
-    <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\pipe_brown_lr.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRight\pipe_blue_lr_0_16.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRight\pipe_blue_lr_16_32.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRight\pipe_blue_lr_32_48.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRight\pipe_blue_lr_48_64.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRight\pipe_brown_lr.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\pipe_glow_lr.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRight\pipe_glow_lr.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\pipe_blue_tr_0_16.png" />
@@ -127,6 +127,16 @@
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\pipe_blue_tr_48_64.png" />
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\pipe_brown_tr.png" />
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\pipe_glow_tr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToDrain\0_16.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToDrain\16_32.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToDrain\brown.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToDrain\glow.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToDrain\green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\drain.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
