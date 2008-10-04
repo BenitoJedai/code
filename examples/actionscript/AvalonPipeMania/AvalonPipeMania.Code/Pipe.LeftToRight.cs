@@ -33,21 +33,21 @@ namespace AvalonPipeMania.Code
 				this.Pipe_0_16 = new Image
 				{
 					Source = (KnownAssets.Path.Data + "/pipe_blue_lr_0_16.png").ToSource(),
-					Opacity = 0.5,
+					Opacity = DefaultWaterOpacity,
 					Visibility = Visibility.Hidden
 				}.AttachTo(this.Container);
 
 				this.Pipe_16_32 = new Image
 				{
 					Source = (KnownAssets.Path.Data + "/pipe_blue_lr_16_32.png").ToSource(),
-					Opacity = 0.5,
+					Opacity = DefaultWaterOpacity,
 					Visibility = Visibility.Hidden
 				}.AttachTo(this.Container);
 
 				this.Pipe_32_48 = new Image
 				{
 					Source = (KnownAssets.Path.Data + "/pipe_blue_lr_32_48.png").ToSource(),
-					Opacity = 0.5,
+					Opacity = DefaultWaterOpacity,
 					Visibility = Visibility.Hidden
 				}.AttachTo(this.Container);
 
@@ -55,7 +55,7 @@ namespace AvalonPipeMania.Code
 				this.Pipe_48_64 = new Image
 				{
 					Source = (KnownAssets.Path.Data + "/pipe_blue_lr_48_64.png").ToSource(),
-					Opacity = 0.5,
+					Opacity = DefaultWaterOpacity,
 					Visibility = Visibility.Hidden
 				}.AttachTo(this.Container);
 				#endregion
