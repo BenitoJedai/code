@@ -6,11 +6,13 @@ using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.ActionScript;
 
-[assembly: ScriptResources(AvalonPipeMania.Assets.Shared.KnownAssets.Path.Data)]
-[assembly: ScriptResources(AvalonPipeMania.Assets.Shared.KnownAssets.Path.Assets)]
-[assembly: ScriptResources(AvalonPipeMania.Assets.Shared.KnownAssets.Path.Sounds)]
-[assembly: ScriptResources(AvalonPipeMania.Assets.Shared.KnownAssets.Path.Pipe.LeftToRight)]
-[assembly: ScriptResources(AvalonPipeMania.Assets.Shared.KnownAssets.Path.Pipe.LeftToDrain)]
+//[assembly: ScriptResources(AvalonPipeMania.Assets.Shared.KnownAssets.Path.Data)]
+//[assembly: ScriptResources(AvalonPipeMania.Assets.Shared.KnownAssets.Path.Assets)]
+//[assembly: ScriptResources(AvalonPipeMania.Assets.Shared.KnownAssets.Path.Sounds)]
+//[assembly: ScriptResources(AvalonPipeMania.Assets.Shared.KnownAssets.Path.Pipe.LeftToRight)]
+//[assembly: ScriptResources(AvalonPipeMania.Assets.Shared.KnownAssets.Path.Pipe.LeftToDrain)]
+//[assembly: ScriptResources(AvalonPipeMania.Assets.Shared.KnownAssets.Path.Pipe.TopToBottom)]
+//[assembly: ScriptResources(AvalonPipeMania.Assets.Shared.KnownAssets.Path.Pipe.RightToBottom)]
 
 namespace AvalonPipeMania.Assets
 {
@@ -22,14 +24,14 @@ namespace AvalonPipeMania.Assets
 		{
 			public static readonly KnownAssets Default = new KnownAssets();
 
-			[Script]
+			[Script, ScriptResources]
 			public static class Path
 			{
 				public const string Assets = "assets/AvalonPipeMania.Assets";
 				public const string Data = "assets/AvalonPipeMania.Data";
 				public const string Sounds = "assets/AvalonPipeMania.Sounds";
 
-				[Script]
+				[Script, ScriptResources]
 				public static class Pipe
 				{
 					public const string LeftToRight = "assets/AvalonPipeMania.Pipe.LeftToRight";
