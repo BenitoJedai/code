@@ -118,9 +118,6 @@
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\pipe_brown_lr.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\pipe_glow_lr.pdn" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\pipe_glow_lr.png" />
   </ItemGroup>
   <ItemGroup>
