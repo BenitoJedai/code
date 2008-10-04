@@ -29,7 +29,7 @@ namespace AvalonPipeMania.Code
 			this.Width = DefaultWidth;
 			this.Height = DefaultHeight;
 
-			new []
+			new[]
 			{
 				Colors.White,
 				Colors.Blue,
@@ -45,7 +45,7 @@ namespace AvalonPipeMania.Code
 				}.MoveTo(0, i * 4).AttachTo(this)
 			);
 
-		
+
 			var t = new TextBox
 			{
 				AcceptsReturn = true,
@@ -57,55 +57,37 @@ namespace AvalonPipeMania.Code
 			}.AttachTo(this).MoveTo(DefaultWidth / 4, 4);
 
 
-			
+
 			var OverlayCanvas = new Canvas
 			{
 				Width = DefaultWidth,
 				Height = DefaultHeight
 			};
 
+			var field = new Field(8, 4);
+			var field_x = 64;
+			var field_y = 120;
+
+			field.Container.MoveTo(field_x, field_y).AttachTo(this);
+			field.Overlay.MoveTo(field_x, field_y).AttachTo(OverlayCanvas);
+
+
 			var WaterFlow = new Queue<Action>();
 
-			Enumerable.Range(0, 6).ForEach(
-				ix =>
+			Enumerable.Range(0, 3).ForEach(
+				iy =>
 				{
-					Enumerable.Range(0, 4).ForEach(
-						iy =>
-						{
-							var tile = new Tile();
 
-							tile.Container.MoveTo(64 + 64 * ix - 8, DefaultHeight / 2 + 52 * iy - 8).AttachTo(this);
-							tile.Overlay.MoveTo(64 + 64 * ix , DefaultHeight / 2 + 52 * iy ).AttachTo(OverlayCanvas);
-
-							if (ix == 2)
-							{
-								var pipe = new Pipe.TopToBottom();
+					var pipe = new Pipe.TopToBottom();
 
 
-								pipe.Container.MoveTo(64 + 64 * ix, DefaultHeight / 2 + 52 * iy - 12).AttachTo(this);
+					pipe.Container.MoveTo(field_x + Tile.ShadowBorder + Tile.Size * 2, field_y + Tile.ShadowBorder + 52 * iy - 12).AttachTo(this);
 
 
-								WaterFlow.Enqueue(() => pipe.Pipe_0_16.Visibility = Visibility.Visible);
-								WaterFlow.Enqueue(() => pipe.Pipe_16_32.Visibility = Visibility.Visible);
-								WaterFlow.Enqueue(() => pipe.Pipe_32_48.Visibility = Visibility.Visible);
-								WaterFlow.Enqueue(() => pipe.Pipe_48_64.Visibility = Visibility.Visible);
-							}
-
-							tile.Overlay.MouseEnter +=
-								delegate
-								{
-									PlaySound("place_tile");
-
-									tile.YellowFilter.Visibility = System.Windows.Visibility.Visible;
-								};
-
-							tile.Overlay.MouseLeave +=
-								delegate
-								{
-									tile.YellowFilter.Visibility = System.Windows.Visibility.Hidden;
-								};
-						}
-					);
+					WaterFlow.Enqueue(() => pipe.Pipe_0_16.Visibility = Visibility.Visible);
+					WaterFlow.Enqueue(() => pipe.Pipe_16_32.Visibility = Visibility.Visible);
+					WaterFlow.Enqueue(() => pipe.Pipe_32_48.Visibility = Visibility.Visible);
+					WaterFlow.Enqueue(() => pipe.Pipe_48_64.Visibility = Visibility.Visible);
 				}
 			);
 
@@ -116,7 +98,7 @@ namespace AvalonPipeMania.Code
 
 			Navigationbar.Container.MoveTo(4, 4).AttachTo(this);
 
-	
+
 
 			Enumerable.Range(1, 4).ForEach(
 				i =>
