@@ -20,10 +20,14 @@ namespace AvalonPipeMania.Code
 		public readonly Canvas Container;
 
 		public const int ShadowBorder = 8;
-		public const int Size = 64 + ShadowBorder * 2;
+		public const int Size = 64;
 
 		public readonly Rectangle Overlay;
+
 		public readonly Image YellowFilter;
+		
+		public readonly Image Shadow;
+		
 		public Tile()
 		{
 			this.Container = new Canvas
@@ -32,15 +36,15 @@ namespace AvalonPipeMania.Code
 				Height = Size
 			};
 
-			new Image
+			this.Shadow = new Image
 			{
 				Source = (KnownAssets.Path.Data + "/tile0_black_unfocus8.png").ToSource(),
-			}.AttachTo(this.Container);
+			};
 
 			new Image
 			{
 				Source = (KnownAssets.Path.Data + "/tile0.png").ToSource(),
-			}.MoveTo(ShadowBorder, ShadowBorder).AttachTo(this.Container);
+			}.AttachTo(this.Container);
 
 
 
@@ -48,14 +52,14 @@ namespace AvalonPipeMania.Code
 			{
 				Source = (KnownAssets.Path.Data + "/tile0_black.png").ToSource(),
 				Opacity = rnd.NextDouble() * 0.5
-			}.MoveTo(ShadowBorder, ShadowBorder).AttachTo(this.Container);
+			}.AttachTo(this.Container);
 
 			this.YellowFilter = new Image
 			{
 				Source = (KnownAssets.Path.Data + "/tile0_yellow.png").ToSource(),
 				Opacity = 0.4,
 				Visibility = System.Windows.Visibility.Hidden,
-			}.MoveTo(ShadowBorder, ShadowBorder).AttachTo(this.Container);
+			}.AttachTo(this.Container);
 
 
 			this.Overlay = new Rectangle
