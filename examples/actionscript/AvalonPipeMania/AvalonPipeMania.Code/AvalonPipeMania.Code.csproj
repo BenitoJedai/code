@@ -74,6 +74,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AvalonPipeManiaCanvas.cs" />
+    <Compile Include="Pipe.LeftToRight.cs" />
+    <Compile Include="Pipe.TopToBottom.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="MyExtensions.cs" />
     <Compile Include="Pipe.cs" />
