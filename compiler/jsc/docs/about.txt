@@ -161,3 +161,5 @@ version history:
 	cs2: added trivial support for custom attributes
 22.09.2008
 	javascript: fixed enum as string for ceq opcode
+04.10.2008
+	jsc: upgraded ScriptResources to fetch constants from its type

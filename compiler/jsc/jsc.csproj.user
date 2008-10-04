@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\javascript\Games\Mahjong\Mahjong.SplitScreen\bin\Release</StartWorkingDirectory>
-    <StartArguments>ScriptCoreLib.Avalon.dll -js</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\AvalonPipeMania\bin\Debug</StartWorkingDirectory>
+    <StartArguments>AvalonPipeMania.Assets.dll -ExtractAssets</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
