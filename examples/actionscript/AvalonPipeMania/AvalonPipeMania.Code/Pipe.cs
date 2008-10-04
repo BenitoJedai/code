@@ -16,7 +16,7 @@ namespace AvalonPipeMania.Code
 		// 1. fill color
 		// 2. water
 		// 3. glow
-		public const double DefaultWaterOpacity = 1;
+		public const double DefaultWaterOpacity = 0.9;
 
 
 	
