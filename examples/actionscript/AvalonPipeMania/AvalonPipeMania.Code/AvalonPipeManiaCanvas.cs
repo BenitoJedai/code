@@ -66,7 +66,7 @@ namespace AvalonPipeMania.Code
 
 			var field = new Field(8, 5);
 			var field_x = 64;
-			var field_y = 120;
+			var field_y = 150;
 
 			field.Container.MoveTo(field_x, field_y).AttachTo(this);
 			field.Overlay.MoveTo(field_x, field_y).AttachTo(OverlayCanvas);
@@ -74,7 +74,7 @@ namespace AvalonPipeMania.Code
 
 			var WaterFlow = new Queue<Action>();
 
-			Enumerable.Range(0, 3).ForEach(
+			Enumerable.Range(1, 2).ForEach(
 				iy =>
 				{
 
@@ -121,6 +121,19 @@ namespace AvalonPipeMania.Code
 					WaterFlow.Enqueue(() => pipe.Pipe_48_64.Visibility = Visibility.Visible);
 				}
 			);
+
+			{
+
+				var pipe = new Pipe.LeftToDrain();
+
+				field[6, 3].Drain.Visibility = Visibility.Visible;
+
+				pipe.Container.MoveTo(field_x + Tile.ShadowBorder + Tile.Size * 6, field_y + Tile.ShadowBorder + 52 * 3 - 12).AttachTo(this);
+
+
+				WaterFlow.Enqueue(() => pipe.Pipe_0_16.Visibility = Visibility.Visible);
+				WaterFlow.Enqueue(() => pipe.Pipe_16_32.Visibility = Visibility.Visible);
+			}
 
 			OverlayCanvas.AttachTo(this).MoveTo(0, 0);
 

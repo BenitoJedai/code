@@ -19,6 +19,8 @@ namespace AvalonPipeMania.Code
 		public readonly int Width;
 		public readonly int Height;
 
+		public readonly List<Tile> Tiles = new List<Tile>();
+
 		public Field(int width, int height)
 		{
 			this.Width = Tile.Size * width + Tile.ShadowBorder * 2;
@@ -54,11 +56,17 @@ namespace AvalonPipeMania.Code
 			for (int ix = 0; ix < width; ix++)
 				for (int iy = 0; iy < height; iy++)
 				{
-					var tile = new Tile();
+					var tile = new Tile
+					{
+						IndexX = ix,
+						IndexY = iy
+					};
+
+					Tiles.Add(tile);
 
 					tile.Shadow.MoveTo(64 * ix, 52 * iy).AttachTo(this.Shadow);
-					tile.Container.MoveTo(64 * ix +  Tile.ShadowBorder, 52 * iy+  Tile.ShadowBorder).AttachTo(this.Content);
-					tile.Overlay.MoveTo(64 * ix +  Tile.ShadowBorder, 52 * iy+  Tile.ShadowBorder).AttachTo(this.Overlay);
+					tile.Container.MoveTo(64 * ix + Tile.ShadowBorder, 52 * iy + Tile.ShadowBorder).AttachTo(this.Content);
+					tile.Overlay.MoveTo(64 * ix + Tile.ShadowBorder, 52 * iy + Tile.ShadowBorder).AttachTo(this.Overlay);
 
 					tile.Overlay.MouseEnter +=
 						delegate
@@ -73,6 +81,25 @@ namespace AvalonPipeMania.Code
 						};
 				}
 
+		}
+
+		public Tile this[int x, int y]
+		{
+			get
+			{
+				return this.Tiles.Single(
+					k =>
+					{
+						if (k.IndexX != x)
+							return false;
+
+						if (k.IndexY != y)
+							return false;
+
+						return true;
+					}
+				);
+			}
 		}
 	}
 }

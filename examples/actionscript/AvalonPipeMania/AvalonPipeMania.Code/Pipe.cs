@@ -34,6 +34,8 @@ namespace AvalonPipeMania.Code
 		}
 
 		public Image Glow;
+
+
 	}
 
 

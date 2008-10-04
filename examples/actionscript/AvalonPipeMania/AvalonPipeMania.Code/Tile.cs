@@ -30,6 +30,11 @@ namespace AvalonPipeMania.Code
 
 		public double MaxBlackFilterOpacity = 0.7;
 
+		public readonly Image Drain;
+
+		public int IndexX;
+		public int IndexY;
+
 		public Tile()
 		{
 			this.Container = new Canvas
@@ -55,6 +60,12 @@ namespace AvalonPipeMania.Code
 				Source = (KnownAssets.Path.Data + "/tile0_black.png").ToSource(),
 				Opacity = rnd.NextDouble() * MaxBlackFilterOpacity
 			}.AttachTo(this.Container);
+
+			this.Drain = new Image
+			{
+				Source = (KnownAssets.Path.Data + "/drain.png").ToSource(),
+				Visibility = System.Windows.Visibility.Hidden
+			}.MoveTo(0, -12).AttachTo(this.Container);
 
 			this.YellowFilter = new Image
 			{
