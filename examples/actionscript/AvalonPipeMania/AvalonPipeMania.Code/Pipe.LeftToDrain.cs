@@ -17,39 +17,26 @@ namespace AvalonPipeMania.Code
 		[Script]
 		public class LeftToDrain : Pipe
 		{
-			public Image Pipe_0_16;
-			public Image Pipe_16_32;
 
 
 			public LeftToDrain()
 			{
-				var Pipe = new Image
-				{
-					Source = (KnownAssets.Path.Pipe.LeftToDrain + "/brown.png").ToSource(),
-				}.AttachTo(this.Container);
+				var f = new Factory(KnownAssets.Path.Pipe.LeftToDrain, this.Container);
 
-				#region water
-				this.Pipe_0_16 = new Image
-				{
-					Source = (KnownAssets.Path.Pipe.LeftToDrain + "/0_16.png").ToSource(),
-					Opacity = DefaultWaterOpacity,
-					Visibility = Visibility.Hidden
-				}.AttachTo(this.Container);
+				this.Outline = f.ToImage("outline");
 
-				this.Pipe_16_32 = new Image
-				{
-					Source = (KnownAssets.Path.Pipe.LeftToDrain + "/16_32.png").ToSource(),
-					Opacity = DefaultWaterOpacity,
-					Visibility = Visibility.Hidden
-				}.AttachTo(this.Container);
+				this.Brown = f.ToImage("brown");
 
-				#endregion
+				this.Green = f.ToImage("green");
+				this.Green.Visibility = Visibility.Hidden;
 
+				this.Water = f.ToWaterImages(
+					"0_8",
+					"8_16",
+					"16_24"
+				);
 
-				this.Glow = new Image
-				{
-					Source = (KnownAssets.Path.Pipe.LeftToDrain + "/glow.png").ToSource(),
-				}.AttachTo(this.Container);
+				this.Glow = f.ToImage("glow");
 			}
 		}
 
