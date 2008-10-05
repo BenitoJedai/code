@@ -31,6 +31,7 @@ namespace AvalonPipeMania.Code
 				this.Green = f.ToImage("green");
 				this.Green.Visibility = Visibility.Hidden;
 
+				this.Yellow = f.ToImage("yellow");
 
 				this.Water = f.ToWaterImages(
 					"0_8",
