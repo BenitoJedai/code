@@ -28,7 +28,8 @@ namespace AvalonPipeMania.Code
 		
 		public readonly Image Shadow;
 
-		public double MaxBlackFilterOpacity = 0.7;
+		//public double MaxBlackFilterOpacity = 0.7;
+		public double MaxBlackFilterOpacity = 0.4;
 
 		public readonly Image Drain;
 
@@ -50,7 +51,7 @@ namespace AvalonPipeMania.Code
 
 			new Image
 			{
-				Source = (KnownAssets.Path.Data + "/tile0.png").ToSource(),
+				Source = (KnownAssets.Path.Data + "/tile0_pink.png").ToSource(),
 			}.AttachTo(this.Container);
 
 
