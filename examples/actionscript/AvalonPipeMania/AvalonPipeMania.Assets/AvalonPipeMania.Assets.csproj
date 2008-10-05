@@ -163,6 +163,7 @@
     <None Include="web\assets\AvalonPipeMania.Pipe\PumpToLeft\PumpToLeft.pdn" />
     <None Include="web\assets\AvalonPipeMania.Pipe\PumpToRight\PumpToRight.pdn" />
     <None Include="web\assets\AvalonPipeMania.Pipe\TopToBottom\TopToBottom.pdn" />
+    <None Include="web\assets\AvalonPipeMania.Pipe\TopToLeft\TopToLeft.pdn" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\PumpHandle\1.png" />
@@ -231,6 +232,23 @@
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToBottom\glow.png" />
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToBottom\green.png" />
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToBottom\outline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\TopToLeft\0_8.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\TopToLeft\16_24.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\TopToLeft\24_32.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\TopToLeft\32_40.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\TopToLeft\40_48.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\TopToLeft\48_56.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\TopToLeft\56_64.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\TopToLeft\8_16.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\TopToLeft\brown.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\TopToLeft\glow.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\TopToLeft\green.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\TopToLeft\outline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Data\tile0_pink.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
