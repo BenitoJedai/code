@@ -233,7 +233,7 @@ namespace AvalonPipeMania.Code
 
 			}
 
-			Enumerable.Range(3, 3).ForEach(
+			Enumerable.Range(3, 4).ForEach(
 				ix =>
 				{
 
@@ -241,6 +241,39 @@ namespace AvalonPipeMania.Code
 
 
 					pipe.Container.MoveTo(field_x + Tile.ShadowBorder + Tile.Size * ix, field_y + Tile.ShadowBorder + 52 * 1 - 12).AttachTo(this);
+
+
+					pipe.Water.ForEach(
+						i => WaterFlow.Enqueue(() => i.Visibility = Visibility.Visible)
+					);
+
+
+				}
+			);
+
+			{
+
+				var pipe = new Pipe.LeftToBottom();
+
+
+				pipe.Container.MoveTo(field_x + Tile.ShadowBorder + Tile.Size * 7, field_y + Tile.ShadowBorder + 52 * 1 - 12).AttachTo(this);
+
+
+				pipe.Water.ForEach(
+					i => WaterFlow.Enqueue(() => i.Visibility = Visibility.Visible)
+				);
+
+
+			}
+
+			Enumerable.Range(2, 2).ForEach(
+				iy =>
+				{
+
+					var pipe = new Pipe.TopToBottom();
+
+
+					pipe.Container.MoveTo(field_x + Tile.ShadowBorder + Tile.Size * 7, field_y + Tile.ShadowBorder + 52 * iy - 12).AttachTo(this);
 
 
 					pipe.Water.ForEach(
