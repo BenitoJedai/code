@@ -17,54 +17,33 @@ namespace AvalonPipeMania.Code
 		[Script]
 		public class TopToBottom : Pipe
 		{
-			public Image Pipe_0_16;
-			public Image Pipe_16_32;
-			public Image Pipe_32_48;
-			public Image Pipe_48_64;
+
 
 			public TopToBottom()
 			{
-				var Pipe = new Image
-				{
-					Source = (KnownAssets.Path.Pipe.TopToBottom + "/pipe_brown_tb.png").ToSource(),
-				}.AttachTo(this.Container);
+				var f = new Factory(KnownAssets.Path.Pipe.TopToBottom, this.Container);
 
-				#region water
-				this.Pipe_0_16 = new Image
-				{
-					Source = (KnownAssets.Path.Pipe.TopToBottom + "/pipe_blue_tb_0_16.png").ToSource(),
-					Opacity = DefaultWaterOpacity,
-					Visibility = Visibility.Hidden
-				}.AttachTo(this.Container);
+				this.Outline = f.ToImage("outline");
 
-				this.Pipe_16_32 = new Image
-				{
-					Source = (KnownAssets.Path.Pipe.TopToBottom + "/pipe_blue_tb_16_32.png").ToSource(),
-					Opacity = DefaultWaterOpacity,
-					Visibility = Visibility.Hidden
-				}.AttachTo(this.Container);
+				this.Brown = f.ToImage("brown");
 
-				this.Pipe_32_48 = new Image
-				{
-					Source = (KnownAssets.Path.Pipe.TopToBottom + "/pipe_blue_tb_32_48.png").ToSource(),
-					Opacity = DefaultWaterOpacity,
-					Visibility = Visibility.Hidden
-				}.AttachTo(this.Container);
+				this.Green = f.ToImage("green");
+				this.Green.Visibility = Visibility.Hidden;
 
 
-				this.Pipe_48_64 = new Image
-				{
-					Source = (KnownAssets.Path.Pipe.TopToBottom + "/pipe_blue_tb_48_64.png").ToSource(),
-					Opacity = DefaultWaterOpacity,
-					Visibility = Visibility.Hidden
-				}.AttachTo(this.Container);
-				#endregion
+				this.Water = f.ToWaterImages(
+					"0_8",
+					"8_16",
+					"16_24",
+					"24_32",
+					"32_40",
+					"40_48",
+					"48_56",
+					"56_64"
+				);
 
 
-				this.Glow = new Image
-				{
-					Source = (KnownAssets.Path.Pipe.TopToBottom + "/pipe_glow_tb.png").ToSource(),
-				}.AttachTo(this.Container);
+				this.Glow = f.ToImage("glow");
 			}
 		}
 
