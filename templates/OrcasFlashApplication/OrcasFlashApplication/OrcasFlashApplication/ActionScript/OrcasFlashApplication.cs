@@ -58,5 +58,7 @@ namespace OrcasFlashApplication.ActionScript
 			Assets.Default[Assets.Path + "/Preview.png"].ToBitmapAsset().AttachTo(this).MoveTo(100, 200);
 		}
 
+
+
 	}
 }

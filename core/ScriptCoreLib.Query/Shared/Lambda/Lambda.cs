@@ -376,6 +376,12 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public delegate void ParamsAction<A>(params A[] a);
 
+	[Script]
+	public delegate TReturn ParamsFunc<A, B, TReturn>(A a, params B[] b);
+
+	[Script]
+	public delegate TReturn ParamsFunc<A, TReturn>(params A[] a);
+
 
 	[Script]
 	public delegate System.Action<A> YAction<A>(System.Action<A> e);
