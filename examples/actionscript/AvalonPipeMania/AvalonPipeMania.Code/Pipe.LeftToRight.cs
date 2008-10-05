@@ -24,6 +24,7 @@ namespace AvalonPipeMania.Code
 				this.Outline = f.ToImage("outline");
 
 				this.Brown = f.ToImage("brown");
+				this.Brown.Visibility = Visibility.Hidden;
 
 				this.Green = f.ToImage("green");
 				this.Green.Visibility = Visibility.Hidden;

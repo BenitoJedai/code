@@ -85,7 +85,7 @@ namespace AvalonPipeMania.Code
 					i =>
 						WaterFlow.Enqueue(() => i.Visibility = Visibility.Visible)
 				);
-		
+
 			}
 
 
@@ -135,10 +135,7 @@ namespace AvalonPipeMania.Code
 						i => WaterFlow.Enqueue(() => i.Visibility = Visibility.Visible)
 					);
 
-					//WaterFlow.Enqueue(() => pipe.Pipe_0_16.Visibility = Visibility.Visible);
-					//WaterFlow.Enqueue(() => pipe.Pipe_16_32.Visibility = Visibility.Visible);
-					//WaterFlow.Enqueue(() => pipe.Pipe_32_48.Visibility = Visibility.Visible);
-					//WaterFlow.Enqueue(() => pipe.Pipe_48_64.Visibility = Visibility.Visible);
+
 				}
 			);
 
@@ -190,6 +187,37 @@ namespace AvalonPipeMania.Code
 				);
 
 			}
+
+
+			{
+
+				var pipe = new Pipe.PumpToRight();
+
+
+				pipe.Container.MoveTo(field_x + Tile.ShadowBorder + Tile.Size * 0, field_y + Tile.ShadowBorder + 52 * 1 - 12).AttachTo(this);
+
+				pipe.Water.ForEach(
+					i =>
+						WaterFlow.Enqueue(() => i.Visibility = Visibility.Visible)
+				);
+
+			}
+
+			{
+
+				var pipe = new Pipe.LeftToRight();
+
+
+				pipe.Container.MoveTo(field_x + Tile.ShadowBorder + Tile.Size * 1, field_y + Tile.ShadowBorder + 52 * 1 - 12).AttachTo(this);
+
+
+				pipe.Water.ForEach(
+					i => WaterFlow.Enqueue(() => i.Visibility = Visibility.Visible)
+				);
+
+
+			}
+
 
 			OverlayCanvas.AttachTo(this).MoveTo(0, 0);
 
