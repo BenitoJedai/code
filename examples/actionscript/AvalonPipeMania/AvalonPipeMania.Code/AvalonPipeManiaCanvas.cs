@@ -74,6 +74,24 @@ namespace AvalonPipeMania.Code
 
 			var WaterFlow = new Queue<Action>();
 
+			{
+
+				var pipe = new Pipe.PumpToLeft();
+
+
+				pipe.Container.MoveTo(field_x + Tile.ShadowBorder + Tile.Size * 5, field_y + Tile.ShadowBorder + 52 * 0 - 12).AttachTo(this);
+
+				pipe.Water.ForEach(
+					i =>
+						WaterFlow.Enqueue(() => i.Visibility = Visibility.Visible)
+				);
+				//WaterFlow.Enqueue(() => pipe.Pipe_0_16.Visibility = Visibility.Visible);
+				//WaterFlow.Enqueue(() => pipe.Pipe_16_32.Visibility = Visibility.Visible);
+				//WaterFlow.Enqueue(() => pipe.Pipe_32_48.Visibility = Visibility.Visible);
+				//WaterFlow.Enqueue(() => pipe.Pipe_48_64.Visibility = Visibility.Visible);
+			}
+
+
 			Enumerable.Range(0, 2).ForEach(
 				ix_ =>
 				{
@@ -84,11 +102,13 @@ namespace AvalonPipeMania.Code
 
 					pipe.Container.MoveTo(field_x + Tile.ShadowBorder + Tile.Size * ix, field_y + Tile.ShadowBorder + 52 * 0 - 12).AttachTo(this);
 
+					pipe.Water.ForEachReversed(
+						i => WaterFlow.Enqueue(() => i.Visibility = Visibility.Visible)
+					);
 
-					WaterFlow.Enqueue(() => pipe.Pipe_48_64.Visibility = Visibility.Visible);
-					WaterFlow.Enqueue(() => pipe.Pipe_32_48.Visibility = Visibility.Visible);
-					WaterFlow.Enqueue(() => pipe.Pipe_16_32.Visibility = Visibility.Visible);
-					WaterFlow.Enqueue(() => pipe.Pipe_0_16.Visibility = Visibility.Visible);
+					//WaterFlow.Enqueue(() => pipe.Pipe_32_48.Visibility = Visibility.Visible);
+					//WaterFlow.Enqueue(() => pipe.Pipe_16_32.Visibility = Visibility.Visible);
+					//WaterFlow.Enqueue(() => pipe.Pipe_0_16.Visibility = Visibility.Visible);
 				}
 
 			);
@@ -148,10 +168,14 @@ namespace AvalonPipeMania.Code
 					pipe.Container.MoveTo(field_x + Tile.ShadowBorder + Tile.Size * ix, field_y + Tile.ShadowBorder + 52 * 3 - 12).AttachTo(this);
 
 
-					WaterFlow.Enqueue(() => pipe.Pipe_0_16.Visibility = Visibility.Visible);
-					WaterFlow.Enqueue(() => pipe.Pipe_16_32.Visibility = Visibility.Visible);
-					WaterFlow.Enqueue(() => pipe.Pipe_32_48.Visibility = Visibility.Visible);
-					WaterFlow.Enqueue(() => pipe.Pipe_48_64.Visibility = Visibility.Visible);
+					pipe.Water.ForEach(
+						i => WaterFlow.Enqueue(() => i.Visibility = Visibility.Visible)
+					);
+
+					//WaterFlow.Enqueue(() => pipe.Pipe_0_16.Visibility = Visibility.Visible);
+					//WaterFlow.Enqueue(() => pipe.Pipe_16_32.Visibility = Visibility.Visible);
+					//WaterFlow.Enqueue(() => pipe.Pipe_32_48.Visibility = Visibility.Visible);
+					//WaterFlow.Enqueue(() => pipe.Pipe_48_64.Visibility = Visibility.Visible);
 				}
 			);
 

@@ -2,24 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ScriptCoreLib;
-using ScriptCoreLib.Shared.Avalon.Extensions;
+using System.Windows;
 using System.Windows.Controls;
 using AvalonPipeMania.Assets.Shared;
-using System.Windows;
+using ScriptCoreLib;
+using ScriptCoreLib.Shared.Avalon.Extensions;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace AvalonPipeMania.Code
 {
 	partial class Pipe
 	{
-	
+
 
 		[Script]
-		public class LeftToRight : Pipe
+		public class PumpToLeft : Pipe
 		{
-			public LeftToRight()
+			public PumpToLeft()
 			{
-				var f = new Factory(KnownAssets.Path.Pipe.LeftToRight, this.Container);
+				var f = new Factory(KnownAssets.Path.Pipe.PumpToLeft, this.Container);
 
 				this.Outline = f.ToImage("outline");
 
@@ -31,21 +32,14 @@ namespace AvalonPipeMania.Code
 
 				this.Water = f.ToWaterImages(
 					"0_8",
-					"8_16",
-					"16_24",
-					"24_32",
-					"32_40",
-					"40_48",
-					"48_56",
-					"56_64"
+					"8_16"
 				);
 
-			
 				this.Glow = f.ToImage("glow");
 			}
 		}
 
-		
+
 	}
 
 
