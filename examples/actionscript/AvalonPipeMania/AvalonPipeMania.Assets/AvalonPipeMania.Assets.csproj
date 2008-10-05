@@ -119,8 +119,6 @@
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\TopToRight\pipe_glow_tr.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToDrain\0_16.png" />
-    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToDrain\16_32.png" />
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToDrain\brown.png" />
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToDrain\glow.png" />
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToDrain\green.png" />
@@ -168,6 +166,7 @@
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\PumpToLeft\green.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="web\assets\AvalonPipeMania.Pipe\LeftToDrain\LeftToDrain.pdn" />
     <None Include="web\assets\AvalonPipeMania.Pipe\LeftToRight\LeftToRight.pdn" />
     <None Include="web\assets\AvalonPipeMania.Pipe\PumpToLeft\PumpToLeft.pdn" />
   </ItemGroup>
@@ -178,6 +177,12 @@
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\PumpHandle\4.png" />
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\PumpHandle\5.png" />
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\PumpHandle\6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToDrain\0_8.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToDrain\16_24.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToDrain\8_16.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToDrain\outline.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
