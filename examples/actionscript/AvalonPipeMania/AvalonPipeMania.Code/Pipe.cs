@@ -39,9 +39,19 @@ namespace AvalonPipeMania.Code
 		public Image Glow;
 		
 		public Image[] Water;
-		
+
+
+
+		// yellow:
+		// hue +32
+		// sat +154
+
+		// green:
+		// hue +92
+
 		public Image Brown;
 		public Image Green;
+		public Image Yellow;
 
 		public Image Outline;
 
