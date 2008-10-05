@@ -16,12 +16,12 @@ namespace AvalonPipeMania.Code
 
 
 		[Script]
-		public class PumpToLeft : Pipe
+		public class PumpToRight : Pipe
 		{
-			public PumpToLeft()
+			public PumpToRight()
 			{
 				{
-					var f = new Factory(KnownAssets.Path.Pipe.PumpToLeft, this.Container);
+					var f = new Factory(KnownAssets.Path.Pipe.PumpToRight, this.Container);
 
 					this.Outline = f.ToImage("outline");
 
