@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ScriptCoreLib;
-using ScriptCoreLib.Shared.Avalon.Extensions;
+using System.Windows;
 using System.Windows.Controls;
 using AvalonPipeMania.Assets.Shared;
-using System.Windows;
+using ScriptCoreLib;
+using ScriptCoreLib.Shared.Avalon.Extensions;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace AvalonPipeMania.Code
 {
@@ -22,6 +23,26 @@ namespace AvalonPipeMania.Code
 			public LeftToDrain()
 			{
 				var f = new Factory(KnownAssets.Path.Pipe.LeftToDrain, this.Container);
+
+
+				var WaterDropFrames = f.ToWaterImages(
+					"1",
+					"2"
+				);
+
+				Action Hide = delegate { };
+
+				(1000 / 23).AtIntervalWithCounter(
+					Counter =>
+					{
+						Hide();
+
+						WaterDropFrames.AtModulus(Counter).Visibility = Visibility.Visible;
+
+						Hide = () => WaterDropFrames.AtModulus(Counter).Visibility = Visibility.Hidden;
+					}
+				);
+
 
 				this.Outline = f.ToImage("outline");
 
