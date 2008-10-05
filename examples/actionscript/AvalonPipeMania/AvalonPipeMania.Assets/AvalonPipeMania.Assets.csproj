@@ -156,6 +156,7 @@
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\PumpToLeft\green.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="web\assets\AvalonPipeMania.Pipe\LeftToBottom\LeftToBottom.pdn" />
     <None Include="web\assets\AvalonPipeMania.Pipe\LeftToDrain\LeftToDrain.pdn" />
     <None Include="web\assets\AvalonPipeMania.Pipe\LeftToRightBent\LeftToRightBent.pdn" />
     <None Include="web\assets\AvalonPipeMania.Pipe\LeftToRight\LeftToRight.pdn" />
@@ -216,6 +217,20 @@
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRightBent\glow.png" />
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRightBent\green.png" />
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRightBent\outline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToBottom\0_8.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToBottom\16_24.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToBottom\24_32.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToBottom\32_40.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToBottom\40_48.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToBottom\48_56.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToBottom\56_64.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToBottom\8_16.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToBottom\brown.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToBottom\glow.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToBottom\green.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToBottom\outline.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
