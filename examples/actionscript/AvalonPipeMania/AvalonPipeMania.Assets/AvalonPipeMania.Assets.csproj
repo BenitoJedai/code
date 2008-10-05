@@ -171,6 +171,14 @@
     <None Include="web\assets\AvalonPipeMania.Pipe\LeftToRight\LeftToRight.pdn" />
     <None Include="web\assets\AvalonPipeMania.Pipe\PumpToLeft\PumpToLeft.pdn" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\PumpHandle\1.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\PumpHandle\2.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\PumpHandle\3.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\PumpHandle\4.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\PumpHandle\5.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\PumpHandle\6.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

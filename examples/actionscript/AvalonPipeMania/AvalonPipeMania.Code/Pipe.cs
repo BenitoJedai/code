@@ -50,6 +50,7 @@ namespace AvalonPipeMania.Code
 		{
 			public readonly Func<string, Image> ToImage;
 			public readonly ParamsFunc<string, Image[]> ToWaterImages;
+			public readonly ParamsFunc<string, Image[]> ToHiddenImages;
 
 			public Factory(string Path, IAddChild Container)
 			{
@@ -67,6 +68,16 @@ namespace AvalonPipeMania.Code
 							{
 								Source = (Path + "/" + k + ".png").ToSource(),
 								Opacity = DefaultWaterOpacity,
+								Visibility = Visibility.Hidden
+							}.AttachTo(Container)
+						);
+
+				this.ToHiddenImages =
+					a =>
+						a.ToArray(
+							k => new Image
+							{
+								Source = (Path + "/" + k + ".png").ToSource(),
 								Visibility = Visibility.Hidden
 							}.AttachTo(Container)
 						);
