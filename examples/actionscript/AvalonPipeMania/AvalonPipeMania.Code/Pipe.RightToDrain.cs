@@ -16,13 +16,13 @@ namespace AvalonPipeMania.Code
 	
 
 		[Script]
-		public class LeftToDrain : Pipe
+		public class RightToDrain : Pipe
 		{
 
 
-			public LeftToDrain()
+			public RightToDrain()
 			{
-				var f = new Factory(KnownAssets.Path.Pipe.LeftToDrain, this.Container);
+				var f = new Factory(KnownAssets.Path.Pipe.RightToDrain, this.Container);
 
 
 				var WaterDropFrames = f.ToWaterImages(

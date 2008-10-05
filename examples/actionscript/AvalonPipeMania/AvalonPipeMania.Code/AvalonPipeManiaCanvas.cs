@@ -317,6 +317,24 @@ namespace AvalonPipeMania.Code
 				}
 			);
 
+			{
+
+				var pipe = new Pipe.RightToDrain();
+
+
+				pipe.Container.MoveTo(field_x + Tile.ShadowBorder + Tile.Size * 3, field_y + Tile.ShadowBorder + 52 * 4 - 12).AttachTo(this);
+
+
+				pipe.Water.ForEach(
+					i => WaterFlow.Enqueue(() => i.Visibility = Visibility.Visible)
+				);
+
+
+			}
+
+			field[3, 4].Drain.Visibility = Visibility.Visible;
+
+
 			OverlayCanvas.AttachTo(this).MoveTo(0, 0);
 
 
