@@ -115,10 +115,10 @@ namespace AvalonPipeMania.Code
 				pipe.Container.MoveTo(field_x + Tile.ShadowBorder + Tile.Size * 2, field_y + Tile.ShadowBorder + 52 * 0 - 12).AttachTo(this);
 
 
-				WaterFlow.Enqueue(() => pipe.Pipe_0_16.Visibility = Visibility.Visible);
-				WaterFlow.Enqueue(() => pipe.Pipe_16_32.Visibility = Visibility.Visible);
-				WaterFlow.Enqueue(() => pipe.Pipe_32_48.Visibility = Visibility.Visible);
-				WaterFlow.Enqueue(() => pipe.Pipe_48_64.Visibility = Visibility.Visible);
+				pipe.Water.ForEach(
+					i => WaterFlow.Enqueue(() => i.Visibility = Visibility.Visible)
+				);
+			
 			}
 
 			Enumerable.Range(1, 2).ForEach(

@@ -17,55 +17,37 @@ namespace AvalonPipeMania.Code
 		[Script]
 		public class RightToBottom : Pipe
 		{
-			public Image Pipe_0_16;
-			public Image Pipe_16_32;
-			public Image Pipe_32_48;
-			public Image Pipe_48_64;
+	
 
 
 			public RightToBottom()
 			{
-				var Pipe = new Image
-				{
-					Source = (KnownAssets.Path.Pipe.RightToBottom + "/brown.png").ToSource(),
-				}.AttachTo(this.Container);
+				var f = new Factory(KnownAssets.Path.Pipe.RightToBottom, this.Container);
 
-				#region water
-				this.Pipe_0_16 = new Image
-				{
-					Source = (KnownAssets.Path.Pipe.RightToBottom + "/0_16.png").ToSource(),
-					Opacity = DefaultWaterOpacity,
-					Visibility = Visibility.Hidden
-				}.AttachTo(this.Container);
+				this.Outline = f.ToImage("outline");
 
-				this.Pipe_16_32 = new Image
-				{
-					Source = (KnownAssets.Path.Pipe.RightToBottom + "/16_32.png").ToSource(),
-					Opacity = DefaultWaterOpacity,
-					Visibility = Visibility.Hidden
-				}.AttachTo(this.Container);
+				this.Brown = f.ToImage("brown");
+				this.Brown.Visibility = Visibility.Hidden;
 
-				this.Pipe_32_48 = new Image
-				{
-					Source = (KnownAssets.Path.Pipe.RightToBottom + "/32_48.png").ToSource(),
-					Opacity = DefaultWaterOpacity,
-					Visibility = Visibility.Hidden
-				}.AttachTo(this.Container);
+				this.Green = f.ToImage("green");
+				this.Green.Visibility = Visibility.Hidden;
 
-				this.Pipe_48_64 = new Image
-				{
-					Source = (KnownAssets.Path.Pipe.RightToBottom + "/48_64.png").ToSource(),
-					Opacity = DefaultWaterOpacity,
-					Visibility = Visibility.Hidden
-				}.AttachTo(this.Container);
+				this.Yellow = f.ToImage("yellow");
+				//this.Green.Visibility = Visibility.Hidden;
 
-				#endregion
+				this.Water = f.ToWaterImages(
+					"0_8",
+					"8_16",
+					"16_24",
+					"24_32",
+					"32_40",
+					"40_48",
+					"48_56",
+					"56_64"
+				);
 
 
-				this.Glow = new Image
-				{
-					Source = (KnownAssets.Path.Pipe.RightToBottom + "/glow.png").ToSource(),
-				}.AttachTo(this.Container);
+				this.Glow = f.ToImage("glow");
 			}
 		}
 
