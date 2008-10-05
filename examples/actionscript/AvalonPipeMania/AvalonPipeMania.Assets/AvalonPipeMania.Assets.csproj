@@ -157,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="web\assets\AvalonPipeMania.Pipe\LeftToDrain\LeftToDrain.pdn" />
+    <None Include="web\assets\AvalonPipeMania.Pipe\LeftToRightBent\LeftToRightBent.pdn" />
     <None Include="web\assets\AvalonPipeMania.Pipe\LeftToRight\LeftToRight.pdn" />
     <None Include="web\assets\AvalonPipeMania.Pipe\PumpToLeft\PumpToLeft.pdn" />
     <None Include="web\assets\AvalonPipeMania.Pipe\PumpToRight\PumpToRight.pdn" />
@@ -201,6 +202,20 @@
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\PumpToRight\glow.png" />
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\PumpToRight\green.png" />
     <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\PumpToRight\outline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRightBent\0_8.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRightBent\16_24.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRightBent\24_32.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRightBent\32_40.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRightBent\40_48.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRightBent\48_56.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRightBent\56_64.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRightBent\8_16.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRightBent\brown.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRightBent\glow.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRightBent\green.png" />
+    <EmbeddedResource Include="web\assets\AvalonPipeMania.Pipe\LeftToRightBent\outline.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

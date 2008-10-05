@@ -35,6 +35,7 @@ namespace AvalonPipeMania.Assets
 					public const string PumpToLeft = "assets/AvalonPipeMania.Pipe/PumpToLeft";
 					public const string PumpHandle = "assets/AvalonPipeMania.Pipe/PumpHandle";
 					public const string PumpToRight = "assets/AvalonPipeMania.Pipe/PumpToRight";
+					public const string LeftToRightBent = "assets/AvalonPipeMania.Pipe/LeftToRightBent";
 				}
 			}
 
