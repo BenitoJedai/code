@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-[assembly: ScriptResources(EmbeddedResourcesBrowser.Shared.Assets.Path)]
+//[assembly: ScriptResources(EmbeddedResourcesBrowser.Shared.Assets.Path)]
 
 namespace EmbeddedResourcesBrowser.Shared
 {
