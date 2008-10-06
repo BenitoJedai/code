@@ -5,7 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 
-[assembly: ScriptResources(FlashMouseMaze.ActionScript.Assets.Path)]
+//[assembly: ScriptResources(FlashMouseMaze.ActionScript.Assets.Path)]
 
 namespace FlashMouseMaze.ActionScript
 {
