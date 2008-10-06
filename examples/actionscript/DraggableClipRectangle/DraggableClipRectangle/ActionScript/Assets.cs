@@ -5,7 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 
-[assembly: ScriptResources(DraggableClipRectangle.ActionScript.Assets.Path)]
+//[assembly: ScriptResources(DraggableClipRectangle.ActionScript.Assets.Path)]
 
 namespace DraggableClipRectangle.ActionScript
 {
