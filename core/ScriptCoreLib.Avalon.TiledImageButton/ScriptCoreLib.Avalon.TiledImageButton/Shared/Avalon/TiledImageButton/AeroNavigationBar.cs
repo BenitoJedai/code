@@ -81,7 +81,85 @@ namespace ScriptCoreLib.Shared.Avalon.TiledImageButton
 
 			ButtonGoForward.Enabled = false;
 			ButtonGoForward.Container.MoveTo(27, 0).AttachTo(Container);
+
+			this.History = new HistoryInfo(this);
 		}
+
+
+		public readonly HistoryInfo History;
+
+		[Script]
+		public class HistoryInfo
+		{
+			public readonly AeroNavigationBar Owner;
+
+			public HistoryInfo(AeroNavigationBar Owner)
+			{
+				this.Owner = Owner;
+
+				this.Owner.GoBack +=
+					delegate
+					{
+						GoBack.Pop()();
+					};
+
+
+				this.Owner.GoForward +=
+					delegate
+					{
+						GoForward.Pop()();
+					};
+
+				this.Owner.ButtonGoForward.Enabled = false;
+				this.Owner.ButtonGoBack.Enabled = false;
+			}
+
+			readonly Stack<Action> GoBack = new Stack<Action>();
+			readonly Stack<Action> GoForward = new Stack<Action>();
+
+			public void Add(Action BackHandler, Action ForwardHandler)
+			{
+				this.Owner.ButtonGoForward.Enabled = false;
+				this.GoForward.Clear();
+
+				
+
+				var EnableGoBack = default(Action);
+
+				EnableGoBack = 
+					delegate
+					{
+						this.Owner.ButtonGoBack.Enabled = true;
+						this.GoBack.Push(
+							delegate
+							{
+								if (this.GoBack.Count == 0)
+									this.Owner.ButtonGoBack.Enabled = false;
+
+								BackHandler();
+
+								this.Owner.ButtonGoForward.Enabled = true;
+								GoForward.Push(
+									delegate
+									{
+										if (this.GoBack.Count == 0)
+											this.Owner.ButtonGoForward.Enabled = false;
+
+										ForwardHandler();
+										EnableGoBack();
+									}
+								);
+							}
+						);
+					};
+
+				ForwardHandler();
+				EnableGoBack();
+			}
+		
+		}
+
+		
 	}
 
 }
