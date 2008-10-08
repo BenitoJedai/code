@@ -30,12 +30,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
         }
 
 
+		private T[] ArrayReferenceCloned
+		{
+			get
+			{
+				return (T[])(object)this._items.slice(0);
+			}
+		}
 
-        public T[] ToArray()
-        {
-            return _items.ToArray();
-        }
 
+		public T[] ToArray()
+		{
+			// testme: should return a new array
+
+			return ArrayReferenceCloned;
+		}
 
 
         [Script(Implements = typeof(global::System.Collections.Generic.List<>.Enumerator))]
@@ -277,6 +286,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
         }
 
         #endregion
-    }
+
+
+		public void Reverse()
+		{
+			var clone = this.ToArray();
+
+			for (int i = 0; i < clone.Length; i++)
+			{
+				this[clone.Length - 1 - i] = clone[i];
+			}
+
+
+		}
+	}
 
 }

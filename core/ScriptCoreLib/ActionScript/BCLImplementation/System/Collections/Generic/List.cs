@@ -345,5 +345,18 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
         }
 
         #endregion
-    }
+
+
+		public void Reverse()
+		{
+			var clone = this.ToArray();
+
+			for (int i = 0; i < clone.Length; i++)
+			{
+				this[clone.Length - 1 - i] = clone[i];
+			}
+
+			
+		}
+	}
 }

@@ -9,7 +9,7 @@ namespace ScriptCoreLib.Shared.Lambda
 	public static partial class LambdaExtensions
 	{
 
-		
+
 		public static Action<T> Combine<T>(this IEnumerable<Action<T>> source)
 		{
 			return
@@ -130,7 +130,10 @@ namespace ScriptCoreLib.Shared.Lambda
 		{
 			foreach (var a in e)
 			{
-				a();
+				// some handlers can be null
+
+				if (a != null)
+					a();
 			}
 		}
 
