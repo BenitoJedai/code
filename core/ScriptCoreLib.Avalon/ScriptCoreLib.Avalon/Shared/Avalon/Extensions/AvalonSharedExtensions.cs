@@ -8,18 +8,30 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Windows.Media;
 using System.Windows.Controls.Primitives;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace ScriptCoreLib.Shared.Avalon.Extensions
 {
 	[Script]
 	public static class AvalonSharedExtensions
 	{
+		public static void Show(this UIElement e)
+		{
+			e.Visibility = Visibility.Visible;
+		}
+
+		public static void Hide(this UIElement e)
+		{
+			e.Visibility = Visibility.Hidden;
+		}
+
+
 		public static void ToggleVisible(this UIElement e)
 		{
 			if (e.Visibility == Visibility.Visible)
-				e.Visibility = Visibility.Hidden;
+				e.Hide();
 			else
-				e.Visibility = Visibility.Visible;
+				e.Show();
 
 		}
 
@@ -125,6 +137,9 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 
 		public static DispatcherTimer AtDelay(this int Milliseconds, Action Handler)
 		{
+			if (Handler == null)
+				return null;
+
 			var t = default(DispatcherTimer);
 
 			t = Milliseconds.AtInterval(
@@ -215,6 +230,16 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			Canvas.SetTop(e, y);
 
 			return e;
+		}
+
+		public static void AttachTo<T>(this T[] e, IAddChild c)
+			where T : UIElement
+		{
+			foreach (var k in e)
+			{
+				k.AttachTo(c);
+			}
+
 		}
 
 		public static T AttachTo<T>(this T e, IAddChild c)
