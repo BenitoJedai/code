@@ -21,5 +21,6 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 		public static Color Magenta { get { return (__Color)0xFFFF00FF; } }
 		public static Color Cyan { get { return (__Color)0xFF00FFFF; } }
 		public static Color Yellow { get { return (__Color)0xFFFFFF00; } }
+		public static Color Brown { get { return (__Color)0xFFA52A2A; } }
 	}
 }
