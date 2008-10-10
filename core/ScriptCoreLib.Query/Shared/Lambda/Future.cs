@@ -18,6 +18,9 @@ namespace ScriptCoreLib.Shared.Lambda
 
 		public void InternalContinue(Action e)
 		{
+			if (e == null)
+				return;
+
 			if (_Continue != null)
 			{
 				_Continue.Add(e);
