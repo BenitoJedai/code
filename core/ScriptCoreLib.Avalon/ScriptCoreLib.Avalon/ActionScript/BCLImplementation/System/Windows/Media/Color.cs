@@ -70,5 +70,39 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 			return color;
 		}
 
+		public static bool operator ==(__Color color1, __Color color2)
+		{
+			return Equals(color1, color2);
+		}
+
+		public static bool operator !=(__Color color1, __Color color2)
+		{
+			return !Equals(color1, color2);
+		}
+
+		public static bool Equals(__Color color1, __Color color2)
+		{
+			if (color1.A != color2.A)
+				return false;
+
+			if (color1.R != color2.R)
+				return false;
+
+			if (color1.G != color2.G)
+				return false;
+
+			if (color1.B != color2.B)
+				return false;
+
+			return true;
+
+
+
+		}
+
+ 
+
+ 
+
 	}
 }
