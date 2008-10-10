@@ -15,6 +15,22 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	[Script]
 	public static class AvalonSharedExtensions
 	{
+		public static void ClipTo(this UIElement e, int x, int y, int width, int height)
+		{
+			var c = new RectangleGeometry
+			{
+				Rect = new Rect
+				{
+					X = x,
+					Y = y,
+					Width = width,
+					Height = height
+				}
+			};
+
+			e.Clip = c;
+		}
+
 		public static void Show(this UIElement e)
 		{
 			if (e == null)
