@@ -8,7 +8,37 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static T Take<T>(this IEnumerator<T> e)
+		{
+			if (e.MoveNext())
+				return e.Current;
 
+
+			throw new Exception("source is empty");
+		}
+
+		public static T[] Take<T>(this IEnumerator<T> e, int length)
+		{
+			var a = new T[length];
+
+			for (int i = 0; i < length; i++)
+			{
+				a[i] = e.Take();
+			}
+
+			return a;
+		}
+
+		public static T TakeOrDefault<T>(this IEnumerator<T> e)
+		{
+			var r = default(T);
+
+			if (e.MoveNext())
+				r = e.Current;
+
+
+			return r;
+		}
 
 		public static Action<T> Combine<T>(this IEnumerable<Action<T>> source)
 		{
@@ -424,7 +454,7 @@ namespace ScriptCoreLib.Shared.Lambda
 
 			while (x.Count > 0)
 			{
-				var i = r.Next(x.Count - 1);
+				var i = r.Next() % x.Count;
 
 				y.Add(x[i]);
 				x.RemoveAt(i);
