@@ -23,6 +23,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 		}
 
+		public static byte ToByte(double value)
+		{
+			return (byte)(((int)global::System.Math.Floor(value)) & 0xff);
+		}
+
+
+		public static double ToDouble(int value)
+		{
+			return value;
+		}
+
 
         public static string ToString(char value)
         {
