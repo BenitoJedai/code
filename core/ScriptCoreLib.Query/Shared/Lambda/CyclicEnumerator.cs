@@ -10,6 +10,11 @@ namespace ScriptCoreLib.Shared.Lambda
 	{
 		public static IEnumerable<T> AsCyclicEnumerable<T>(this IEnumerable<T> source)
 		{
+			return new CyclicEnumerator<T>(() => source);
+		}
+
+		public static IEnumerable<T> AsCyclicEnumerable<T>(this Func<IEnumerable<T>> source)
+		{
 			return new CyclicEnumerator<T>(source);
 		}
 	}
@@ -17,13 +22,15 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public class CyclicEnumerator<T> : IEnumerator<T>, IEnumerable<T>
 	{
-		readonly IEnumerable<T> Source;
 
 		IEnumerator<T> Stream;
 
-		public CyclicEnumerator(IEnumerable<T> Source)
+		readonly Func<IEnumerable<T>> GetSource;
+
+		public CyclicEnumerator(Func<IEnumerable<T>> GetSource)
 		{
-			this.Source = Source.AsEnumerable();
+			this.GetSource = GetSource;
+
 		}
 
 		#region IEnumerator<T> Members
@@ -55,12 +62,26 @@ namespace ScriptCoreLib.Shared.Lambda
 		public bool MoveNext()
 		{
 			if (Stream == null)
+			{
+				var Source = GetSource();
+
+				if (Source == null)
+					return false;
+
 				Stream = Source.GetEnumerator();
+			}
 
 			if (Stream.MoveNext())
 				return true;
 
-			Stream = Source.GetEnumerator();
+			{
+				var Source = GetSource();
+
+				if (Source == null)
+					return false;
+
+				Stream = Source.GetEnumerator();
+			}
 
 			if (Stream.MoveNext())
 				return true;
@@ -79,7 +100,7 @@ namespace ScriptCoreLib.Shared.Lambda
 
 		public IEnumerator<T> GetEnumerator()
 		{
-			return new CyclicEnumerator<T>(Source);
+			return new CyclicEnumerator<T>(GetSource);
 		}
 
 		#endregion
