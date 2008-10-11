@@ -15,20 +15,28 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	[Script]
 	public static class AvalonSharedExtensions
 	{
-		public static void ClipTo(this UIElement e, int x, int y, int width, int height)
+		public static void ClipTo(this UIElement e, Rect r)
 		{
 			var c = new RectangleGeometry
 			{
-				Rect = new Rect
+				Rect = r
+			};
+
+			e.Clip = c;
+		}
+
+		public static void ClipTo(this UIElement e, int x, int y, int width, int height)
+		{
+			e.ClipTo(
+				new Rect
 				{
 					X = x,
 					Y = y,
 					Width = width,
 					Height = height
 				}
-			};
+			);
 
-			e.Clip = c;
 		}
 
 		public static void Show(this UIElement e)
@@ -279,6 +287,9 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 		public static T Orphanize<T>(this T e)
 			where T : FrameworkElement
 		{
+			if (e == null)
+				return default(T);
+
 			var Panel = e.Parent as Panel;
 
 			if (Panel == null)
