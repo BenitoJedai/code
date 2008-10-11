@@ -8,6 +8,14 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static void Times(this int count, Action h)
+		{
+			for (int i = 0; i < count; i++)
+			{
+				h();
+			}
+		}
+
 		public static T Take<T>(this IEnumerator<T> e)
 		{
 			if (e.MoveNext())
