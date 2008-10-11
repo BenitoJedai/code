@@ -30,7 +30,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public virtual int Next(int minValue, int maxValue)
         {
-            if (minValue <= maxValue)
+            if (minValue > maxValue)
             {
                 throw new Exception("Argument_MinMaxValue");
             }

@@ -24,6 +24,16 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             return Convert.ToInt32(NextDouble() * int.MaxValue);
         }
 
+		public virtual int Next(int minValue, int maxValue)
+		{
+			if (minValue > maxValue)
+			{
+				throw new Exception("Argument_MinMaxValue");
+			}
+
+			return Next(maxValue - minValue) + minValue;
+		}
+
         public virtual int Next(int maxValue)
         {
             return Convert.ToInt32(NextDouble() * maxValue);
