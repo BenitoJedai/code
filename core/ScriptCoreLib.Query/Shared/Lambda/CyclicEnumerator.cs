@@ -68,7 +68,7 @@ namespace ScriptCoreLib.Shared.Lambda
 				if (Source == null)
 					return false;
 
-				Stream = Source.GetEnumerator();
+				Stream = Source.AsEnumerable().GetEnumerator();
 			}
 
 			if (Stream.MoveNext())
@@ -80,7 +80,7 @@ namespace ScriptCoreLib.Shared.Lambda
 				if (Source == null)
 					return false;
 
-				Stream = Source.GetEnumerator();
+				Stream = Source.AsEnumerable().GetEnumerator();
 			}
 
 			if (Stream.MoveNext())
