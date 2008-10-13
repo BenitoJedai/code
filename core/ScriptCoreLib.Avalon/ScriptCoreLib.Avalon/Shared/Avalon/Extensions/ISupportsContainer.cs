@@ -76,10 +76,10 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			return e;
 		}
 
-		public static T AttachContainerTo<T>(this T e, ISupportsContainer c)
-			where T : ISupportsContainer
+		public static T AttachTo<T>(this T e, ISupportsContainer c)
+			where T : UIElement
 		{
-			e.Container.AttachTo(c.Container);
+			e.AttachTo(c.Container);
 
 			return e;
 		}
