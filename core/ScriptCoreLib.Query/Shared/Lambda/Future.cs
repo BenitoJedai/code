@@ -12,7 +12,7 @@ namespace ScriptCoreLib.Shared.Lambda
 	}
 
 	[Script]
-	public class Future : IFutureContinue
+	public class Future : IFutureContinue, IDisposable
 	{
 		internal List<Action> _Continue = new List<Action>();
 
@@ -63,6 +63,20 @@ namespace ScriptCoreLib.Shared.Lambda
 
 		}
 
+
+		#region IDisposable Members
+
+		public void Dispose()
+		{
+			this.Signal();
+		}
+
+		#endregion
+
+		public static implicit operator Action<Action>(Future e)
+		{
+			return e.Continue;
+		}
 	}
 
 	[Script]
