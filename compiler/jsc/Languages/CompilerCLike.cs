@@ -807,6 +807,24 @@ namespace jsc.Script
 				Emit(p, s[0]);
 				WriteSpace();
 				Write(op);
+
+				#region uint fixup
+				if (s[1].SingleStackInstruction.TargetInteger != null)
+				{
+					// if we are going to AND an uint, the second operator should also be presented
+					if (
+						(s[0].SingleStackInstruction.TargetField != null && s[0].SingleStackInstruction.TargetField.FieldType == typeof(uint)) ||
+						(s[0].SingleStackInstruction.TargetParameter != null && s[0].SingleStackInstruction.TargetParameter.ParameterType == typeof(uint))
+						)
+					{
+						this.MyWriter.Write((uint)s[1].SingleStackInstruction.TargetInteger);
+
+						Write(")");
+						return;
+					}
+				}
+				#endregion
+
 				WriteSpace();
 				Emit(p, s[1]);
 				Write(")");

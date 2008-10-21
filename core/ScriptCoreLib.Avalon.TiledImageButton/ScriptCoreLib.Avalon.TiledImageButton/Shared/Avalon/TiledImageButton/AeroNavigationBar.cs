@@ -10,9 +10,9 @@ using System.Windows;
 namespace ScriptCoreLib.Shared.Avalon.TiledImageButton
 {
 	[Script]
-	public class AeroNavigationBar
+	public class AeroNavigationBar : ISupportsContainer
 	{
-		public readonly Canvas Container;
+		public Canvas Container { get; set; }
 		public readonly Image Background;
 		public readonly TiledImageButtonControl ButtonGoBack;
 		public readonly TiledImageButtonControl ButtonGoForward;

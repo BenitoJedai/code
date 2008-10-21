@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 using ScriptCoreLib;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows;
 using System.Windows.Media;
@@ -17,8 +18,11 @@ namespace AvalonExampleGallery.Shared
 	{
 		public Canvas Container { get; set; }
 
+
 		public TiledBackgroundImage(ImageSource src, int width, int height, int x, int y)
 		{
+
+
 			this.Container = new Canvas
 			{
 				Width = width * x,
@@ -39,6 +43,92 @@ namespace AvalonExampleGallery.Shared
 	}
 
 	[Script]
+	public class OptionWithShadow : ISupportsContainer
+	{
+		public Canvas Container { get; set; }
+
+		public Rectangle Overlay;
+
+		public OptionWithShadow MoveTo(int x, int y)
+		{
+			this.Container.MoveTo(x, y);
+			this.Overlay.MoveTo(x + 9, y + 9);
+
+			return this;
+		}
+
+		public OptionWithShadow(ImageSource src)
+		{
+			this.Overlay = new Rectangle
+			{
+				Fill = Brushes.Black,
+				Width = 120,
+				Height = 90,
+				Opacity = 0
+			};
+
+			this.Container = new Canvas
+			{
+				Width = 196,
+				Height = 90 + 9
+			}.MoveTo(48, 48);
+
+			new Image
+			{
+				Source =
+					"assets/AvalonExampleGallery/PreviewShadow.png".ToSource(),
+				Width = 196,
+				Height = 90
+			}.MoveTo(0, 9).AttachTo(this.Container);
+
+			var PreviewSelection = new Image
+			{
+				Source =
+					"assets/AvalonExampleGallery/PreviewSelection.png".ToSource(),
+				Width = 138,
+				Height = 108,
+				Visibility = Visibility.Hidden
+			}.AttachTo(this.Container);
+
+			this.Overlay.MouseEnter +=
+				delegate
+				{
+					PreviewSelection.Show();
+				};
+
+			this.Overlay.MouseLeave +=
+				delegate
+				{
+					PreviewSelection.Hide();
+				};
+
+			this.Overlay.MouseLeftButtonUp +=
+				delegate
+				{
+					if (this.Target == null)
+						if (this.Initialize != null)
+							this.Initialize();
+					if (this.Click != null)
+						this.Click();
+
+				};
+
+			new Image
+			{
+				Source = src,
+				Width = 120,
+				Height = 90
+			}.MoveTo(9, 9).AttachTo(this.Container);
+		}
+
+		public Canvas Target;
+
+		public event Action Initialize;
+
+		public event Action Click;
+	}
+
+	[Script]
 	public class AvalonExampleGalleryCanvas : Canvas
 	{
 		public const int DefaultWidth = 480;
@@ -49,15 +139,7 @@ namespace AvalonExampleGallery.Shared
 			Width = DefaultWidth;
 			Height = DefaultHeight;
 
-			Colors.Blue.ToGradient(Colors.Red, DefaultHeight / 4).Select(
-				(c, i) =>
-					new Rectangle
-					{
-						Fill = new SolidColorBrush(c),
-						Width = DefaultWidth,
-						Height = 4,
-					}.MoveTo(0, i * 4).AttachTo(this)
-			).ToArray();
+
 
 
 			var navbar = new AeroNavigationBar();
@@ -68,6 +150,20 @@ namespace AvalonExampleGallery.Shared
 				Height = DefaultHeight
 			}.AttachTo(this);
 
+
+			var Pages = new Canvas
+			{
+				Width = DefaultWidth,
+				Height = DefaultHeight
+			}.AttachTo(this);
+
+			var Overlay = new Canvas
+			{
+				Width = DefaultWidth,
+				Height = DefaultHeight
+			}.AttachTo(this);
+
+			#region background
 			var bg = new TiledBackgroundImage(
 				"assets/AvalonExampleGallery/bg.png".ToSource(),
 				96,
@@ -75,63 +171,64 @@ namespace AvalonExampleGallery.Shared
 				5,
 				4
 			).AttachContainerTo(Container);
+			#endregion
 
-			Colors.Black.ToTransparentGradient(32).Select(
+			#region shadow
+			Colors.Black.ToTransparentGradient(40).Select(
 				(c, i) =>
-					new Rectangle
+				{
+					return new Rectangle
 					{
 						Fill = new SolidColorBrush(c),
 						Width = DefaultWidth,
 						Height = 1,
-						Opacity = (double)(c.A) / 255.0
-					}.MoveTo(0, i).AttachTo(this)
+						Opacity = c.A / 255.0
+					}.MoveTo(0, i).AttachTo(this);
+				}
 			).ToArray();
+			#endregion
 
-
-			new Image
-			{
-				Source =
-					"assets/AvalonExampleGallery/PreviewShadow.png".ToSource(),
-				Width = 196,
-				Height = 90
-			}.MoveTo(0, 9).AttachTo(Container);
-
-			new Image
-			{
-				Source =
-					"assets/AvalonExampleGallery/PreviewSelection.png".ToSource(),
-				Width = 138,
-				Height = 108
-			}.AttachTo(Container);
-
-			new Image
-			{
-				Source =
-					//(global::NavigationButtons.Assets.Shared.KnownAssets.Path.Assets + "/Preview.png").ToSource(),
-					(global::TextSuggestions.Shared.KnownAssets.Path.Assets + "/Preview.png").ToSource(),
-				Width = 120,
-				Height = 90
-			}.MoveTo(9, 9).AttachTo(Container);
-
-			//bg.Container.Opacity = 0.5;
-
-			Canvas page1 =
-				//new NavigationButtons.Code.MyCanvas();
-				new global::TextSuggestions.Shared.TextSuggestionsCanvas();
-
-			navbar.History.Add(
-				delegate
+			KnownPages.Value.ForEach(
+				(k, i) =>
 				{
-					page1.Orphanize();
-				},
-				delegate
-				{
-					page1.AttachTo(Container);
+					var o = new OptionWithShadow((k.Key + "/Preview.png").ToSource());
+
+					o.MoveTo(48 + 140 * i, 48).AttachContainerTo(Pages);
+					o.Overlay.AttachTo(Overlay);
+
+					o.Initialize +=
+						delegate
+						{
+							o.Target = (Canvas)Activator.CreateInstance(k.Value);
+						};
+
+					o.Click +=
+						delegate
+						{
+							navbar.History.Add(
+								delegate
+								{
+									o.Target.Orphanize();
+									Pages.Show();
+									Overlay.Show();
+								},
+								delegate
+								{
+									Pages.Hide();
+									Overlay.Hide();
+									o.Target.AttachTo(Container);
+								}
+							);
+						};
 				}
 			);
 
 
-			navbar.Container.AttachTo(this);
+
+
+
+
+			navbar.MoveContainerTo(4, 4).AttachContainerTo(this);
 
 
 		}

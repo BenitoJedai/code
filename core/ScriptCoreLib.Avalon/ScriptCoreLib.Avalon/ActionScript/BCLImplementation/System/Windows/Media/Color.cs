@@ -39,13 +39,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 		public static implicit operator __Color(uint argb)
 		{
 			__Color color = new __Color();
-			color.sRgbColor.a = (byte)((argb & 0xff000000) >> 0x18);
-			color.sRgbColor.r = (byte)((argb & 0xff0000) >> 0x10);
-			color.sRgbColor.g = (byte)((argb & 0xff00) >> 8);
-			color.sRgbColor.b = (byte)(argb & 0xff);
+			color.sRgbColor.a = (byte)((argb  >> 0x18) & 0xff);
+			color.sRgbColor.r = (byte)((argb >> 0x10) & 0xff);
+			color.sRgbColor.g = (byte)((argb >> 8) & 0xff);
+			color.sRgbColor.b = (byte)((argb) & 0xff);
 
 			return color;
 		}
+
 
 		public static implicit operator uint(__Color e)
 		{
@@ -111,9 +112,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 
 		}
 
- 
 
- 
+
+
 
 	}
 }
