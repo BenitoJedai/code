@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="ActionScript\TextSuggestionsFlash.cs" />
     <Compile Include="JavaScript\TextSuggestionsDocument.cs" />
+    <Compile Include="KnownAssets.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
@@ -74,7 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />
-    <Content Include="web\assets\TextSuggestions\Preview.png" />
+    <EmbeddedResource Include="web\assets\TextSuggestions\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
