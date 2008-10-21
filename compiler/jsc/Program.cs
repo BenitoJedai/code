@@ -114,11 +114,14 @@ namespace jsc
                     string name = new AssemblyName(args.Name).Name;
 
 
-                    string file = options.TargetAssembly.DirectoryName + @"\" + name + ".dll";
+					string file_dll = options.TargetAssembly.DirectoryName + @"\" + name + ".dll";
+					string file_exe = options.TargetAssembly.DirectoryName + @"\" + name + ".exe";
 
-                    Console.WriteLine("looking for :" + file);
+					Console.WriteLine("looking for :" + file_dll);
+					Console.WriteLine("looking for :" + file_exe);
 
-                    Assembly x = File.Exists(file) ? Assembly.LoadFile(file) : null;
+					var x = File.Exists(file_dll) ? Assembly.LoadFile(file_dll) :
+									(File.Exists(file_exe) ? Assembly.LoadFile(file_exe) : null);
 
                     return x;
                 };
