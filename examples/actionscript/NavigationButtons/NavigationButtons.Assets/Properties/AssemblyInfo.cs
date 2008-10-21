@@ -6,11 +6,11 @@ using ScriptCoreLib;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("NavigationButtons.Code")]
+[assembly: AssemblyTitle("NavigationButtons.Assets")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("NavigationButtons.Code")]
+[assembly: AssemblyProduct("NavigationButtons.Assets")]
 [assembly: AssemblyCopyright("Copyright ©  2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -21,7 +21,7 @@ using ScriptCoreLib;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9bc2968a-21aa-4519-afbb-ca42577f67a4")]
+[assembly: Guid("4048ec08-20be-4119-a9fb-c7453387149c")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -38,7 +38,8 @@ using ScriptCoreLib;
 
 [assembly:
 	Script,
-	ScriptTypeFilter(ScriptType.ActionScript, "*.Code"),
-	ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
-	ScriptTypeFilter(ScriptType.JavaScript, "*.Code"),
+	ScriptTypeFilter(ScriptType.ActionScript, "NavigationButtons.Assets.Shared"),
+	ScriptTypeFilter(ScriptType.ActionScript, "NavigationButtons.Assets.ActionScript"),
+	ScriptTypeFilter(ScriptType.JavaScript, "NavigationButtons.Assets.Shared"),
+	ScriptTypeFilter(ScriptType.JavaScript, "NavigationButtons.Assets.JavaScript"),
 ]

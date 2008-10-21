@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{04D174D9-2444-4DC7-8F90-87845AEBC560}</ProjectGuid>
+    <ProjectGuid>{8B23E990-6371-45BB-B4C9-DAADD46A7472}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NavigationButtons.Code</RootNamespace>
-    <AssemblyName>NavigationButtons.Code</AssemblyName>
+    <RootNamespace>NavigationButtons.Assets</RootNamespace>
+    <AssemblyName>NavigationButtons.Assets</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,13 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="PresentationFramework">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="ScriptCoreLib, Version=3.0.3195.18410, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ScriptCoreLib, Version=3.0.3207.19787, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
@@ -45,15 +39,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.Avalon.TiledImageButton, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Avalon.TiledImageButton.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLib.Query, Version=3.5.3187.27332, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ScriptCoreLibA, Version=3.60.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
@@ -69,21 +55,14 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionScript\KnownAndReferencedEmbeddedAssets.cs" />
-    <Compile Include="IAssemblyReferenceToken.cs" />
-    <Compile Include="MyCanvas.cs" />
+    <Compile Include="ActionScript\KnownEmbeddedAssets.cs" />
+    <Compile Include="KnownAssets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NavigationButtons.Assets\NavigationButtons.Assets.csproj">
-      <Project>{8B23E990-6371-45BB-B4C9-DAADD46A7472}</Project>
-      <Name>NavigationButtons.Assets</Name>
-    </ProjectReference>
+    <EmbeddedResource Include="web\assets\NavigationButtons.Assets\Preview.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
