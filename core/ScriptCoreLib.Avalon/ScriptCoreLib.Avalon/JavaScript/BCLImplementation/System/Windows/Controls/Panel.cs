@@ -30,19 +30,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 		}
 
 
+		public double InternalWidthValue = 200;
+		public double InternalHeightValue = 200;
+
 		public override double InternalGetWidth()
 		{
-			return InternalSprite.Bounds.Width;
+			return InternalWidthValue;
 		}
 
 		public override double InternalGetHeight()
 		{
-			return InternalSprite.Bounds.Height;
+			return InternalHeightValue;
 		}
 
 		public sealed override void InternalSetHeight(double value)
 		{
 			var height = Convert.ToInt32(value) + "px";
+			InternalHeightValue = value;
 
 			InternalSprite.style.height = height;
 			InternalContent.style.height = height;
@@ -51,6 +55,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 		public sealed override void InternalSetWidth(double value)
 		{
 			var width = Convert.ToInt32(value) + "px";
+			InternalWidthValue = value;
 
 			InternalSprite.style.width = width;
 			InternalContent.style.width = width;
