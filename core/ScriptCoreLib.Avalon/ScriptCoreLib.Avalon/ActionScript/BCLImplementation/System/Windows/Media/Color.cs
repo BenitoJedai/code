@@ -59,6 +59,17 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 			return c;
 		}
 
+		public static Color FromArgb(byte a, byte r, byte g, byte b)
+		{
+			__Color color = new __Color();
+			color.sRgbColor.a = a;
+			color.sRgbColor.r = r;
+			color.sRgbColor.g = g;
+			color.sRgbColor.b = b;
+
+			return color;
+		}
+
 		public static Color FromRgb(byte r, byte g, byte b)
 		{
 			__Color color = new __Color();

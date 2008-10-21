@@ -38,6 +38,11 @@ namespace AvalonExampleGallery.ActionScript
 			global::NavigationButtons.Assets.ActionScript.KnownAndReferencedEmbeddedAssets.RegisterTo(
 				KnownEmbeddedResources.Default.Handlers
 			);
+
+			// assets are in the same library and do not have their own namespace
+			global::TextSuggestions.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				KnownEmbeddedResources.Default.Handlers
+			);
 		}
 
 
