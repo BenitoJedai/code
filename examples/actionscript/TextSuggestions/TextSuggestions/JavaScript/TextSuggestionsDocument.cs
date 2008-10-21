@@ -8,12 +8,12 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace TextSuggestions.JavaScript
 {
-	using TargetCanvas = global::TextSuggestions.Shared.MyCanvas;
+	using TargetCanvas = global::TextSuggestions.Shared.TextSuggestionsCanvas;
 
 	[Script, ScriptApplicationEntryPoint]
-	public class MyCanvasScriptControl
+	public class TextSuggestionsDocument
 	{
-		public MyCanvasScriptControl(IHTMLElement e)
+		public TextSuggestionsDocument(IHTMLElement e)
 		{
 			// wpf here
 			var clip = new IHTMLDiv();
@@ -31,9 +31,9 @@ namespace TextSuggestions.JavaScript
 
 		}
 
-		static MyCanvasScriptControl()
+		static TextSuggestionsDocument()
 		{
-			typeof(MyCanvasScriptControl).SpawnTo(i => new MyCanvasScriptControl(i));
+			typeof(TextSuggestionsDocument).SpawnTo(i => new TextSuggestionsDocument(i));
 		}
 
 	}

@@ -14,12 +14,12 @@ using System.Windows.Input;
 namespace TextSuggestions.Shared
 {
 	[Script]
-	public class MyCanvas : Canvas
+	public class TextSuggestionsCanvas : Canvas
 	{
 		public const int DefaultWidth = 480;
 		public const int DefaultHeight = 320;
 
-		public MyCanvas()
+		public TextSuggestionsCanvas()
 		{
 			Width = DefaultWidth;
 			Height = DefaultHeight;
