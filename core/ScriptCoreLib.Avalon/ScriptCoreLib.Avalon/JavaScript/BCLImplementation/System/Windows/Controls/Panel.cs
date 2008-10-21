@@ -29,7 +29,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			return InternalContent;
 		}
 
-		
+
+		public override double InternalGetWidth()
+		{
+			return InternalSprite.Bounds.Width;
+		}
+
+		public override double InternalGetHeight()
+		{
+			return InternalSprite.Bounds.Height;
+		}
 
 		public sealed override void InternalSetHeight(double value)
 		{

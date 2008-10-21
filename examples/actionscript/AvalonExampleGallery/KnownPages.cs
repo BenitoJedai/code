@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace AvalonExampleGallery
+namespace AvalonExampleGallery.Shared
 {
 	[Script]
 	public static class KnownPages
