@@ -76,6 +76,18 @@ namespace AvalonExampleGallery.Shared
 				4
 			).AttachContainerTo(Container);
 
+			Colors.Black.ToTransparentGradient(32).Select(
+				(c, i) =>
+					new Rectangle
+					{
+						Fill = new SolidColorBrush(c),
+						Width = DefaultWidth,
+						Height = 1,
+						Opacity = (double)(c.A) / 255.0
+					}.MoveTo(0, i).AttachTo(this)
+			).ToArray();
+
+
 			new Image
 			{
 				Source =
@@ -94,14 +106,18 @@ namespace AvalonExampleGallery.Shared
 
 			new Image
 			{
-				Source = (global::NavigationButtons.Assets.Shared.KnownAssets.Path.Assets + "/Preview.png").ToSource(),
+				Source =
+					//(global::NavigationButtons.Assets.Shared.KnownAssets.Path.Assets + "/Preview.png").ToSource(),
+					(global::TextSuggestions.Shared.KnownAssets.Path.Assets + "/Preview.png").ToSource(),
 				Width = 120,
 				Height = 90
 			}.MoveTo(9, 9).AttachTo(Container);
 
 			//bg.Container.Opacity = 0.5;
 
-			var page1 = new NavigationButtons.Code.MyCanvas();
+			Canvas page1 =
+				//new NavigationButtons.Code.MyCanvas();
+				new global::TextSuggestions.Shared.TextSuggestionsCanvas();
 
 			navbar.History.Add(
 				delegate
