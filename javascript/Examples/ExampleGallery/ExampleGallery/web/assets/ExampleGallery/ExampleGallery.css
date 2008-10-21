@@ -1,0 +1,11 @@
+body 
+{
+	background-color: gray;
+
+	color: white;
+}
+
+a.Preview img.PreviewShadow { display: none; }
+
+
+a.Preview:hover img.PreviewShadow { display: block; }
