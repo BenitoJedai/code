@@ -29,18 +29,30 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			_Children = new __UIElementCollection(this) { InternalSprite = InternalSprite };
 		}
 
-		public double InternalWidthValue;
-		public double InternalHeightValue;
+		public double InternalWidthValue = 200;
+		public double InternalHeightValue = 200;
+
+		public override double InternalGetHeight()
+		{
+			return InternalHeightValue;
+		}
+
+		public override double InternalGetWidth()
+		{
+			return InternalWidthValue;
+		}
 
 		public override void InternalSetHeight(double value)
 		{
 			InternalHeightValue = value;
+			//InternalSprite.width = value;
 			InternalUpdateBackground();
 		}
 
 		public override void InternalSetWidth(double value)
 		{
 			InternalWidthValue = value;
+			//InternalSprite.height = value;
 			InternalUpdateBackground();
 		}
 

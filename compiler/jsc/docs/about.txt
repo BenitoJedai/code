@@ -165,3 +165,4 @@ version history:
 	jsc: upgraded ScriptResources to fetch constants from its type
 21.20.2008
 	jsc: added support for finding .exe references
+	jsc: fixed type import for OpCodes.CastClass

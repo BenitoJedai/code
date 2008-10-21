@@ -359,7 +359,8 @@ namespace jsc.Languages.ActionScript
 
                     if (i == OpCodes.Castclass)
                     {
-                        imp.Add(MySession.ResolveImplementation(i.ReferencedType) ?? i.ReferencedType);
+						//imp.Add(MySession.ResolveImplementation(i.ReferencedType) ?? i.ReferencedType);
+						imp.Add(MySession.ResolveImplementation(i.TargetType) ?? i.TargetType);
                         continue;
                     }
 

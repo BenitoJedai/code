@@ -5,7 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 
-[assembly: ScriptResources(TextSuggestions2.ActionScript.Assets.Path)]
+//[assembly: ScriptResources(TextSuggestions2.ActionScript.Assets.Path)]
 
 namespace TextSuggestions2.ActionScript
 {
