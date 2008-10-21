@@ -1,10 +1,12 @@
-﻿using ScriptCoreLib;
-using ScriptCoreLib.ActionScript.flash.display;
-using ScriptCoreLib.ActionScript.flash.text;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.text;
+
+using NavigationButtons.Assets.ActionScript;
 
 namespace NavigationButtons.ActionScript
 {
@@ -25,10 +27,12 @@ namespace NavigationButtons.ActionScript
 
 		static NavigationButtons()
 		{
-			// add resources to be found by ImageSource
-			KnownEmbeddedResources.Default.Handlers.Add(
-				e => ScriptCoreLib.ActionScript.Avalon.TiledImageButton.Assets.Default[e]
-			);
+			KnownAndReferencedEmbeddedAssets.RegisterTo(KnownEmbeddedResources.Default.Handlers);
+
+			//// add resources to be found by ImageSource
+			//KnownEmbeddedResources.Default.Handlers.Add(
+			//    e => ScriptCoreLib.ActionScript.Avalon.TiledImageButton.Assets.Default[e]
+			//);
 
 		}
 	}

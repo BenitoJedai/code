@@ -35,7 +35,13 @@ namespace NavigationButtons.Code
 
 			// http://social.msdn.microsoft.com/forums/en-US/wpf/thread/21504c22-0d79-404e-ba0e-1cee91a02c2a/
 
-			
+			new Image
+			{
+				Source = (Assets.Shared.KnownAssets.Path.Assets + "/Preview.png").ToSource(),
+				Width = 120,
+				Height = 90
+			}.AttachTo(this);
+
 
 			var n1 = new AeroNavigationBar();
 

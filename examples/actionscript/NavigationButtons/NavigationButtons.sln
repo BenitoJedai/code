@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavigationButtons.XBAP", "N
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavigationButtons.Code", "NavigationButtons.Code\NavigationButtons.Code.csproj", "{04D174D9-2444-4DC7-8F90-87845AEBC560}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavigationButtons.Assets", "NavigationButtons.Assets\NavigationButtons.Assets.csproj", "{8B23E990-6371-45BB-B4C9-DAADD46A7472}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{04D174D9-2444-4DC7-8F90-87845AEBC560}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04D174D9-2444-4DC7-8F90-87845AEBC560}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04D174D9-2444-4DC7-8F90-87845AEBC560}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B23E990-6371-45BB-B4C9-DAADD46A7472}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B23E990-6371-45BB-B4C9-DAADD46A7472}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B23E990-6371-45BB-B4C9-DAADD46A7472}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B23E990-6371-45BB-B4C9-DAADD46A7472}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
