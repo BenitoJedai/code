@@ -39,6 +39,6 @@ using ScriptCoreLib;
 [assembly:
 	Script,
 	ScriptTypeFilter(ScriptType.ActionScript, "*.Code"),
-	ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
+	ScriptTypeFilter(ScriptType.ActionScript, "NavigationButtons.Assets.ActionScript"),
 	ScriptTypeFilter(ScriptType.JavaScript, "*.Code"),
 ]
