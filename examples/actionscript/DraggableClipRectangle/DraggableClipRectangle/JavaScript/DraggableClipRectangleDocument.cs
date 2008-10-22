@@ -6,14 +6,14 @@ using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 
-namespace FlashAvalonQueryExample.JavaScript
+namespace DraggableClipRectangle.JavaScript
 {
-	using TargetCanvas = global::FlashAvalonQueryExample.Shared.MyCanvas;
+	using TargetCanvas = global::DraggableClipRectangle.Shared.DraggableClipRectangleCanvas;
 
 	[Script, ScriptApplicationEntryPoint]
-	public class MyCanvasScriptControl
+	public class DraggableClipRectangleDocument
 	{
-		public MyCanvasScriptControl(IHTMLElement e)
+		public DraggableClipRectangleDocument(IHTMLElement e)
 		{
 			// wpf here
 			var clip = new IHTMLDiv();
@@ -31,9 +31,9 @@ namespace FlashAvalonQueryExample.JavaScript
 
 		}
 
-		static MyCanvasScriptControl()
+		static DraggableClipRectangleDocument()
 		{
-			typeof(MyCanvasScriptControl).SpawnTo(i => new MyCanvasScriptControl(i));
+			typeof(DraggableClipRectangleDocument).SpawnTo(i => new DraggableClipRectangleDocument(i));
 		}
 
 	}

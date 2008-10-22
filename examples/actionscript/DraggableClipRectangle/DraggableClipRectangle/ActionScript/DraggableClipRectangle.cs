@@ -8,7 +8,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 
 namespace DraggableClipRectangle.ActionScript
 {
-	using TargetCanvas = global::DraggableClipRectangle.Shared.MyCanvas;
+	using TargetCanvas = global::DraggableClipRectangle.Shared.DraggableClipRectangleCanvas;
 
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
@@ -26,9 +26,29 @@ namespace DraggableClipRectangle.ActionScript
 		static DraggableClipRectangle()
 		{
 			// add resources to be found by ImageSource
-			KnownEmbeddedResources.Default.Handlers.Add(
-				e => Assets.Default[e]
-			);
+			KnownEmbeddedAssets.RegisterTo(KnownEmbeddedResources.Default.Handlers);
+		
+
+		}
+	}
+
+	[Script]
+	public class KnownEmbeddedAssets
+	{
+		[EmbedByFileName]
+		public static Class ByFileName(string e)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static void RegisterTo(List<Converter<string, Class>> Handlers)
+		{
+			// assets from current assembly
+			Handlers.Add(e => ByFileName(e));
+
+			//// assets from referenced assemblies
+			//Handlers.Add(e => global::ScriptCoreLib.ActionScript.Avalon.Cursors.EmbeddedAssets.Default[e]);
+			//Handlers.Add(e => global::ScriptCoreLib.ActionScript.Avalon.TiledImageButton.Assets.Default[e]);
 
 		}
 	}

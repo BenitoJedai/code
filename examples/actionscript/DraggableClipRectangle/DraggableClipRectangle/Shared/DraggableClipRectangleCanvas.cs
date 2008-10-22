@@ -12,12 +12,12 @@ using System.Windows.Shapes;
 namespace DraggableClipRectangle.Shared
 {
 	[Script]
-	public class MyCanvas : Canvas
+	public class DraggableClipRectangleCanvas : Canvas
 	{
 		public const int DefaultWidth = 480;
 		public const int DefaultHeight = 320;
 
-		public MyCanvas()
+		public DraggableClipRectangleCanvas()
 		{
 			Width = DefaultWidth;
 			Height = DefaultHeight;

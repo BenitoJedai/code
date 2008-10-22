@@ -6,25 +6,18 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using FlashMouseMaze.Shared;
+using ScriptCoreLib.CSharp.Avalon.Extensions;
 
 namespace FlashMouseMaze
 {
 	class Program
 	{
-		public static Window ToWindow(Canvas e)
-		{
-			return new Window
-			{
-				Background = Brushes.Black,
-				SizeToContent = SizeToContent.WidthAndHeight,
-				Content = e
-			};
-		}
+	
 
 		[STAThread]
 		static public void Main(string[] args)
 		{
-			ToWindow(new MyCanvas()).ShowDialog();
+			new MouseMazeCanvas().ToWindow().ShowDialog();
 		}
 	}
 }

@@ -18,7 +18,7 @@ namespace AvalonExampleGallery.Shared
 	[Script]
 	public class AvalonExampleGalleryCanvas : Canvas
 	{
-		public const int DefaultWidth = 640;
+		public const int DefaultWidth = 800;
 		public const int DefaultHeight = 640;
 
 		public AvalonExampleGalleryCanvas()
@@ -55,7 +55,7 @@ namespace AvalonExampleGallery.Shared
 				"assets/AvalonExampleGallery/bg.png".ToSource(),
 				96,
 				96,
-				8,
+				9,
 				8
 			).AttachContainerTo(Container);
 			#endregion
@@ -80,7 +80,11 @@ namespace AvalonExampleGallery.Shared
 				{
 					var o = new OptionWithShadowAndType(k.Key, k.Value);
 
-					o.MoveTo(48 + (200) * i, 48).AttachContainerTo(Pages);
+					o.MoveTo(
+						48 + (180) * (i % 4), 
+						48 + Convert.ToInt32( i / 4) * 140
+						
+						).AttachContainerTo(Pages);
 					o.Overlay.AttachTo(Overlay);
 
 					o.TargetInitialized +=
@@ -171,7 +175,14 @@ namespace AvalonExampleGallery.Shared
 						TargetInitialized();
 				};
 
-			this.Caption.Text = t.Name;
+			var Suffix = "Canvas";
+
+			var Name = t.Name;
+
+			if (Name.EndsWith(Suffix))
+				Name = Name.Substring(0, Name.Length - Suffix.Length);
+
+			this.Caption.Text = Name;
 		}
 	}
 

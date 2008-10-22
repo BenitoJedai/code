@@ -14,12 +14,12 @@ using System.Windows.Input;
 namespace BrowserAvalonExample.Code
 {
 	[Script]
-	public class MyCanvas : Canvas
+	public class BrowserAvalonExampleCanvas : Canvas
 	{
 		public const int DefaultWidth = 480;
 		public const int DefaultHeight = 320;
 		
-		public MyCanvas()
+		public BrowserAvalonExampleCanvas()
 		{
 			// jsc:javascript does not work well with structs
 			this.Cursor = Cursors.None;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
+using ScriptCoreLib.Shared;
 
 [assembly: ScriptResources(System_Linq_Enumerable_OrderBy.ActionScript.Assets.Path)]
 

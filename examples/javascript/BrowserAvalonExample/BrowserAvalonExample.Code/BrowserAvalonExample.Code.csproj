@@ -71,7 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IAssemblyReferenceToken.cs" />
-    <Compile Include="MyCanvas.cs" />
+    <Compile Include="BrowserAvalonExampleCanvas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

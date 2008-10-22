@@ -26,7 +26,7 @@ namespace ConsoleAvalonExample
 		[STAThread]
 		public static void Main(string[] args)
 		{
-			ToWindow(new MyCanvas()).ShowDialog();
+			ToWindow(new BrowserAvalonExampleCanvas()).ShowDialog();
 		}
 	}
 }

@@ -5,7 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 
-namespace TextSuggestions2
+namespace DynamicCursor
 {
 	namespace Shared
 	{
@@ -18,7 +18,7 @@ namespace TextSuggestions2
 			[Script, ScriptResources]
 			public static class Path
 			{
-				public const string Assets = "assets/TextSuggestions2";
+				public const string Assets = "assets/DynamicCursor";
 			}
 
 
