@@ -8,12 +8,12 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace OrcasAvalonTemplate.JavaScript
 {
-	using TargetCanvas = global::OrcasAvalonTemplate.Shared.MyCanvas;
+	using TargetCanvas = global::OrcasAvalonTemplate.Shared.OrcasAvalonApplicationCanvas;
 
 	[Script, ScriptApplicationEntryPoint]
-	public class MyCanvasScriptControl
+	public class OrcasAvalonApplicationDocument
 	{
-		public MyCanvasScriptControl(IHTMLElement e)
+		public OrcasAvalonApplicationDocument(IHTMLElement e)
 		{
 			// wpf here
 			var clip = new IHTMLDiv();
@@ -31,9 +31,9 @@ namespace OrcasAvalonTemplate.JavaScript
 
 		}
 
-		static MyCanvasScriptControl()
+		static OrcasAvalonApplicationDocument()
 		{
-			typeof(MyCanvasScriptControl).SpawnTo(i => new MyCanvasScriptControl(i));
+			typeof(OrcasAvalonApplicationDocument).SpawnTo(i => new OrcasAvalonApplicationDocument(i));
 		}
 
 	}
