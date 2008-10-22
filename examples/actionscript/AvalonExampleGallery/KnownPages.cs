@@ -44,6 +44,9 @@ namespace AvalonExampleGallery.Shared
 					{ 
 						pages::BrowserAvalonExample.Shared.KnownAssets.Path.Assets, 
 						typeof(pages::BrowserAvalonExample.Code.BrowserAvalonExampleCanvas) },
+					{ 
+						pages::System_Windows_Input_MouseEventArgs.Shared.KnownAssets.Path.Assets, 
+						typeof(pages::System_Windows_Input_MouseEventArgs.Shared.MouseEventArgsCanvas) },
 				};
 			}
 		}

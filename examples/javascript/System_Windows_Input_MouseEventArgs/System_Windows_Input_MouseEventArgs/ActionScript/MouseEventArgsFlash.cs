@@ -8,7 +8,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 
 namespace System_Windows_Input_MouseEventArgs.ActionScript
 {
-	using TargetCanvas = global::System_Windows_Input_MouseEventArgs.Shared.MyCanvas;
+	using TargetCanvas = global::System_Windows_Input_MouseEventArgs.Shared.MouseEventArgsCanvas;
 
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
@@ -25,10 +25,32 @@ namespace System_Windows_Input_MouseEventArgs.ActionScript
 
 		static System_Windows_Input_MouseEventArgs()
 		{
+			
 			// add resources to be found by ImageSource
-			KnownEmbeddedResources.Default.Handlers.Add(
-				e => Assets.Default[e]
+			KnownEmbeddedAssets.RegisterTo(
+				KnownEmbeddedResources.Default.Handlers
 			);
+
+		}
+	}
+
+	[Script]
+	public class KnownEmbeddedAssets
+	{
+		[EmbedByFileName]
+		public static Class ByFileName(string e)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static void RegisterTo(List<Converter<string, Class>> Handlers)
+		{
+			// assets from current assembly
+			Handlers.Add(e => ByFileName(e));
+
+			//// assets from referenced assemblies
+			//Handlers.Add(e => global::ScriptCoreLib.ActionScript.Avalon.Cursors.EmbeddedAssets.Default[e]);
+			//Handlers.Add(e => global::ScriptCoreLib.ActionScript.Avalon.TiledImageButton.Assets.Default[e]);
 
 		}
 	}

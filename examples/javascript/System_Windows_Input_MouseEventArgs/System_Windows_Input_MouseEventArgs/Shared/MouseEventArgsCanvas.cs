@@ -12,17 +12,17 @@ using System.Windows.Shapes;
 namespace System_Windows_Input_MouseEventArgs.Shared
 {
 	[Script]
-	public class MyCanvas : Canvas
+	public class MouseEventArgsCanvas : Canvas
 	{
 		public const int DefaultWidth = 480;
 		public const int DefaultHeight = 320;
 
-		public MyCanvas()
+		public MouseEventArgsCanvas()
 		{
 			Width = DefaultWidth;
 			Height = DefaultHeight;
 
-			Colors.Blue.ToGradient(Colors.Red, DefaultHeight / 4).Select(
+			Colors.Yellow.ToGradient(Colors.Green, DefaultHeight / 4).Select(
 				(c, i) =>
 					new Rectangle
 					{
