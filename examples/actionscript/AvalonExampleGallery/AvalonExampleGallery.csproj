@@ -72,6 +72,11 @@
       <HintPath>..\NavigationButtons\NavigationButtons\bin\Debug\NavigationButtons.Code.dll</HintPath>
       <Aliases>pages</Aliases>
     </Reference>
+    <Reference Include="NumericTransmitter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NumericTransmitter\NumericTransmitter\bin\Debug\NumericTransmitter.exe</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>

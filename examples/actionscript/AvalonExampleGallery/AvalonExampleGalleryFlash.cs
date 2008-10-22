@@ -74,6 +74,11 @@ namespace AvalonExampleGallery.ActionScript
 			pages::System_Windows_Input_MouseEventArgs.ActionScript.KnownEmbeddedAssets.RegisterTo(
 				KnownEmbeddedResources.Default.Handlers
 			);
+
+
+			pages::NumericTransmitter.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				KnownEmbeddedResources.Default.Handlers
+			);
 		}
 
 

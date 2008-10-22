@@ -15,12 +15,12 @@ using Mahjong.NetworkCode.ClientSide.Shared;
 namespace NumericTransmitter.Shared
 {
 	[Script]
-	public class MyCanvas : Canvas
+	public class NumericTransmitterCanvas : Canvas
 	{
 		public const int DefaultWidth = 480;
 		public const int DefaultHeight = 320;
 
-		public MyCanvas()
+		public NumericTransmitterCanvas()
 		{
 			Width = DefaultWidth;
 			Height = DefaultHeight;

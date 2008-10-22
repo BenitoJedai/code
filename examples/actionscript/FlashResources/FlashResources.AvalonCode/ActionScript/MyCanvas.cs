@@ -19,6 +19,9 @@ namespace FlashResources.ActionScript
 
 		public MyCanvas()
 		{
+			this.Width = 600;
+			this.Height = 400;
+
 			var r = new Rectangle();
 
 			r.Fill = System.Windows.Media.Brushes.GreenYellow;
