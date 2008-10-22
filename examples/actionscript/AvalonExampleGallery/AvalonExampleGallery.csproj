@@ -32,13 +32,45 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BrowserAvalonExample.Assets, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\javascript\BrowserAvalonExample\BrowserAvalonExample.Code\bin\Debug\BrowserAvalonExample.Assets.dll</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
+    <Reference Include="BrowserAvalonExample.Code, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\javascript\BrowserAvalonExample\BrowserAvalonExample.Code\bin\Debug\BrowserAvalonExample.Code.dll</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
+    <Reference Include="DraggableClipRectangle, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DraggableClipRectangle\DraggableClipRectangle\bin\Debug\DraggableClipRectangle.exe</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
+    <Reference Include="DynamicCursor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DynamicCursor\DynamicCursor\bin\Debug\DynamicCursor.exe</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
+    <Reference Include="FlashAvalonQueryExample, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\FlashAvalonQueryExample\FlashAvalonQueryExample\bin\Debug\FlashAvalonQueryExample.exe</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
+    <Reference Include="FlashMouseMaze, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\FlashMouseMaze\FlashMouseMaze\bin\Debug\FlashMouseMaze.exe</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
     <Reference Include="NavigationButtons.Assets, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\NavigationButtons\NavigationButtons\bin\Debug\NavigationButtons.Assets.dll</HintPath>
+      <Aliases>pages</Aliases>
     </Reference>
     <Reference Include="NavigationButtons.Code, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\NavigationButtons\NavigationButtons\bin\Debug\NavigationButtons.Code.dll</HintPath>
+      <Aliases>pages</Aliases>
     </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -75,6 +107,12 @@
     <Reference Include="TextSuggestions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\TextSuggestions\TextSuggestions\bin\Debug\TextSuggestions.exe</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
+    <Reference Include="TextSuggestions2, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\TextSuggestions2\TextSuggestions2\bin\Debug\TextSuggestions2.exe</HintPath>
+      <Aliases>pages</Aliases>
     </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>

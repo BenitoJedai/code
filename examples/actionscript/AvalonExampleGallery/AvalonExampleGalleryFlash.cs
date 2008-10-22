@@ -1,11 +1,12 @@
-﻿using ScriptCoreLib;
+﻿extern alias pages;
+
+using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.text;
 using System.Collections.Generic;
 using System;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
-
 
 
 namespace AvalonExampleGallery.ActionScript
@@ -34,13 +35,38 @@ namespace AvalonExampleGallery.ActionScript
 				KnownEmbeddedResources.Default.Handlers
 			);
 
+			
 			// register assets from referenced assembly
-			global::NavigationButtons.Assets.ActionScript.KnownAndReferencedEmbeddedAssets.RegisterTo(
+			pages::NavigationButtons.Assets.ActionScript.KnownAndReferencedEmbeddedAssets.RegisterTo(
 				KnownEmbeddedResources.Default.Handlers
 			);
 
 			// assets are in the same library and do not have their own namespace
-			global::TextSuggestions.ActionScript.KnownEmbeddedAssets.RegisterTo(
+			pages::TextSuggestions.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				KnownEmbeddedResources.Default.Handlers
+			);
+
+			pages::TextSuggestions2.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				KnownEmbeddedResources.Default.Handlers
+			);
+
+			pages::FlashMouseMaze.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				KnownEmbeddedResources.Default.Handlers
+			);
+
+			pages::FlashAvalonQueryExample.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				KnownEmbeddedResources.Default.Handlers
+			);
+
+			pages::DynamicCursor.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				KnownEmbeddedResources.Default.Handlers
+			);
+
+			pages::DraggableClipRectangle.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				KnownEmbeddedResources.Default.Handlers
+			);
+
+			pages::BrowserAvalonExample.ActionScript.KnownEmbeddedAssets.RegisterTo(
 				KnownEmbeddedResources.Default.Handlers
 			);
 		}
