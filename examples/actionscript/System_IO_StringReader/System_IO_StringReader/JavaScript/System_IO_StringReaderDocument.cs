@@ -8,12 +8,12 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace System_IO_StringReader.JavaScript
 {
-	using TargetCanvas = global::System_IO_StringReader.Shared.MyCanvas;
+	using TargetCanvas = global::System_IO_StringReader.Shared.System_IO_StringReaderCanvas;
 
 	[Script, ScriptApplicationEntryPoint]
-	public class MyCanvasScriptControl
+	public class System_IO_StringReaderDocument
 	{
-		public MyCanvasScriptControl(IHTMLElement e)
+		public System_IO_StringReaderDocument(IHTMLElement e)
 		{
 			// wpf here
 			var clip = new IHTMLDiv();
@@ -31,9 +31,9 @@ namespace System_IO_StringReader.JavaScript
 
 		}
 
-		static MyCanvasScriptControl()
+		static System_IO_StringReaderDocument()
 		{
-			typeof(MyCanvasScriptControl).SpawnTo(i => new MyCanvasScriptControl(i));
+			typeof(System_IO_StringReaderDocument).SpawnTo(i => new System_IO_StringReaderDocument(i));
 		}
 
 	}

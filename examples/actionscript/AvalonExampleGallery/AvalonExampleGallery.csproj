@@ -109,6 +109,11 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="System_IO_StringReader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\System_IO_StringReader\System_IO_StringReader\bin\Debug\System_IO_StringReader.exe</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
     <Reference Include="System_Windows_Input_MouseEventArgs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\javascript\System_Windows_Input_MouseEventArgs\System_Windows_Input_MouseEventArgs\bin\Debug\System_Windows_Input_MouseEventArgs.exe</HintPath>
@@ -144,6 +149,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\AvalonExampleGallery\jsc.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -2,6 +2,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 
 using ScriptCoreLib.PHP;
+using System;
 
 namespace ScriptApplication.source.php
 {

@@ -14,12 +14,12 @@ using System.IO;
 namespace System_IO_StringReader.Shared
 {
 	[Script]
-	public class MyCanvas : Canvas
+	public class System_IO_StringReaderCanvas : Canvas
 	{
 		public const int DefaultWidth = 480;
 		public const int DefaultHeight = 320;
 
-		public MyCanvas()
+		public System_IO_StringReaderCanvas()
 		{
 			Width = DefaultWidth;
 			Height = DefaultHeight;
