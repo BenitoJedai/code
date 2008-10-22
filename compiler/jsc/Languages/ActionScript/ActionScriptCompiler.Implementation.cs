@@ -444,7 +444,9 @@ namespace jsc.Languages.ActionScript
 			while (p != null);
 
 			if (ScriptAttribute.IsAnonymousType(x))
-				s += ("_" + x.MetadataToken);
+			{
+				s = GetSafeLiteral(x.Assembly.ManifestModule.ScopeName) + s + ("_" + x.MetadataToken);
+			}
 
 			return s;
 		}
