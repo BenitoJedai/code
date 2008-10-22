@@ -24,7 +24,7 @@ namespace NumericTransmitter
 		[STAThread]
 		static public void Main(string[] args)
 		{
-			ToWindow(new MyCanvas()).ShowDialog();
+			ToWindow(new NumericTransmitterCanvas()).ShowDialog();
 		}
 	}
 }

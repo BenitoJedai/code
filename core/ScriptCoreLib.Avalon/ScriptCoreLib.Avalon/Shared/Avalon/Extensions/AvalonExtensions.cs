@@ -62,6 +62,8 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 
 		public static ImageSource ToSource(this string e)
 		{
+			// EmbeddedResource?
+
 			return e.ToManifestResourceStream().ToSource();
 		}
 

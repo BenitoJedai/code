@@ -8,12 +8,12 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace NumericTransmitter.JavaScript
 {
-	using TargetCanvas = global::NumericTransmitter.Shared.MyCanvas;
+	using TargetCanvas = global::NumericTransmitter.Shared.NumericTransmitterCanvas;
 
 	[Script, ScriptApplicationEntryPoint]
-	public class MyCanvasScriptControl
+	public class NumericTransmitterDocument
 	{
-		public MyCanvasScriptControl(IHTMLElement e)
+		public NumericTransmitterDocument(IHTMLElement e)
 		{
 			// wpf here
 			var clip = new IHTMLDiv();
@@ -31,9 +31,9 @@ namespace NumericTransmitter.JavaScript
 
 		}
 
-		static MyCanvasScriptControl()
+		static NumericTransmitterDocument()
 		{
-			typeof(MyCanvasScriptControl).SpawnTo(i => new MyCanvasScriptControl(i));
+			typeof(NumericTransmitterDocument).SpawnTo(i => new NumericTransmitterDocument(i));
 		}
 
 	}
