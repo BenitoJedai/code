@@ -12,12 +12,12 @@ using System.Windows.Shapes;
 namespace OrcasAvalonTemplate.Shared
 {
 	[Script]
-	public class MyCanvas : Canvas
+	public class OrcasAvalonApplicationCanvas : Canvas
 	{
 		public const int DefaultWidth = 480;
 		public const int DefaultHeight = 320;
 
-		public MyCanvas()
+		public OrcasAvalonApplicationCanvas()
 		{
 			Width = DefaultWidth;
 			Height = DefaultHeight;
@@ -35,19 +35,19 @@ namespace OrcasAvalonTemplate.Shared
 
 			var help_idle = new Image
 			{
-				Source = "assets/OrcasAvalonTemplate/help_idle.png".ToSource()
+				Source = (KnownAssets.Path.Assets + "/help_idle.png").ToSource()
 			}.AttachTo(this);
 
 			var help = new Image
 			{
-				Source = "assets/OrcasAvalonTemplate/help.png".ToSource()
+				Source = (KnownAssets.Path.Assets +  "/help.png").ToSource()
 			}.AttachTo(this);
 
 			help.Opacity = 0;
 
 			var img = new Image
 			{
-				Source = "assets/OrcasAvalonTemplate/jsc.png".ToSource()
+				Source = (KnownAssets.Path.Assets + "/jsc.png").ToSource()
 			}.MoveTo(DefaultWidth - 128, DefaultHeight - 128).AttachTo(this);
 
 			var t = new TextBox
@@ -90,7 +90,7 @@ namespace OrcasAvalonTemplate.Shared
 				{
 					// load new text from embedded resource
 
-					"assets/OrcasAvalonTemplate/about.txt".ToStringAsset(
+					(KnownAssets.Path.Assets + "/about.txt").ToStringAsset(
 						e =>
 						{
 							t.FontSize = 16;

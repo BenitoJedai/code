@@ -65,23 +65,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionScript\Assets.cs" />
-    <Compile Include="ActionScript\OrcasAvalonTemplate.cs" />
+    <Compile Include="ActionScript\OrcasAvalonApplicationFlash.cs" />
     <Compile Include="ActionScript\MyExtensions.cs" />
-    <Compile Include="JavaScript\MyCanvasScriptControl.cs" />
+    <Compile Include="JavaScript\OrcasAvalonApplicationDocument.cs" />
     <Compile Include="JavaScript\MyExtensions.cs" />
+    <Compile Include="KnownAssets.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
-    <Compile Include="Shared\MyCanvas.cs" />
+    <Compile Include="Shared\OrcasAvalonApplicationCanvas.cs" />
     <Compile Include="Shared\MySharedExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />
-    <EmbeddedResource Include="web\assets\OrcasAvalonTemplate\about.txt" />
-    <EmbeddedResource Include="web\assets\OrcasAvalonTemplate\help_idle.png" />
-    <EmbeddedResource Include="web\assets\OrcasAvalonTemplate\help.png" />
-    <EmbeddedResource Include="web\assets\OrcasAvalonTemplate\jsc.png" />
+    <EmbeddedResource Include="web\assets\OrcasAvalonApplication\about.txt" />
+    <EmbeddedResource Include="web\assets\OrcasAvalonApplication\help_idle.png" />
+    <EmbeddedResource Include="web\assets\OrcasAvalonApplication\help.png" />
+    <EmbeddedResource Include="web\assets\OrcasAvalonApplication\jsc.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
