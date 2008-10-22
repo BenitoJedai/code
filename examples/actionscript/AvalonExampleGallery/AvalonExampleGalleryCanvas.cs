@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using ScriptCoreLib.Shared.Avalon.TiledImageButton;
+using System.Windows.Input;
 
 namespace AvalonExampleGallery.Shared
 {
@@ -77,16 +78,14 @@ namespace AvalonExampleGallery.Shared
 			KnownPages.Value.ForEach(
 				(k, i) =>
 				{
-					var o = new OptionWithShadow((k.Key + "/Preview.png").ToSource());
+					var o = new OptionWithShadowAndType(k.Key, k.Value);
 
-					o.MoveTo(48 + (120 + 32) * i, 48).AttachContainerTo(Pages);
+					o.MoveTo(48 + (200) * i, 48).AttachContainerTo(Pages);
 					o.Overlay.AttachTo(Overlay);
 
-					o.Initialize +=
+					o.TargetInitialized +=
 						delegate
 						{
-							o.Target = (Canvas)Activator.CreateInstance(k.Value);
-
 							o.Target.MoveTo(
 								(DefaultWidth - o.Target.Width) / 2,
 								(DefaultHeight - o.Target.Height) / 2
@@ -157,6 +156,26 @@ namespace AvalonExampleGallery.Shared
 	}
 
 	[Script]
+	public class OptionWithShadowAndType : OptionWithShadow
+	{
+		public event Action TargetInitialized;
+
+		public OptionWithShadowAndType(string src, Type t) : base((src + "/Preview.png").ToSource())
+		{
+			this.Initialize +=
+				delegate
+				{
+					this.Target = (Canvas)Activator.CreateInstance(t);
+
+					if (TargetInitialized != null)
+						TargetInitialized();
+				};
+
+			this.Caption.Text = t.Name;
+		}
+	}
+
+	[Script]
 	public class OptionWithShadow : ISupportsContainer
 	{
 		public Canvas Container { get; set; }
@@ -171,29 +190,42 @@ namespace AvalonExampleGallery.Shared
 			return this;
 		}
 
+		public TextBox Caption { get; set; }
+
 		public OptionWithShadow(ImageSource src)
 		{
 			this.Overlay = new Rectangle
 			{
 				Fill = Brushes.Black,
 				Width = 120,
-				Height = 90,
-				Opacity = 0
+				Height = 90 + 18 + 4 + 20,
+				Opacity = 0,
+				Cursor = Cursors.Hand
 			};
 
 			this.Container = new Canvas
 			{
-				Width = 196,
-				Height = 90 + 9
+				//Background = Brushes.Red,
+				Width = 166 + 9,
+				Height = 90 + 18 + 4 + 20
 			}.MoveTo(48, 48);
+
+			//new Rectangle
+			//{
+			//    Fill = Brushes.Yellow,
+			//    Width = 196,
+			//    Height = 90,
+			//}.AttachTo(this.Container).MoveTo(0, 0); 
 
 			new Image
 			{
+				// no stretch by default
+				//Stretch = Stretch.Fill,
 				Source =
 					"assets/AvalonExampleGallery/PreviewShadow.png".ToSource(),
-				Width = 196,
+				Width = 166,
 				Height = 90
-			}.MoveTo(0, 9).AttachTo(this.Container);
+			}.AttachTo(this.Container).MoveTo(9, 9);
 
 			var PreviewSelection = new Image
 			{
@@ -204,15 +236,29 @@ namespace AvalonExampleGallery.Shared
 				Visibility = Visibility.Hidden
 			}.AttachTo(this.Container);
 
+			this.Caption = new TextBox
+			{
+				Background = Brushes.Transparent,
+				Foreground = Brushes.White,
+				BorderThickness = new Thickness(0),
+				Text = "title",
+				Width = 120 + 9*2,
+				Height = 20,
+				IsReadOnly = true,
+				TextAlignment = TextAlignment.Center
+			}.AttachTo(this.Container).MoveTo(0, 104);
+
 			this.Overlay.MouseEnter +=
 				delegate
 				{
+					Caption.Foreground = Brushes.Blue;
 					PreviewSelection.Show();
 				};
 
 			this.Overlay.MouseLeave +=
 				delegate
 				{
+					Caption.Foreground = Brushes.White;
 					PreviewSelection.Hide();
 				};
 
