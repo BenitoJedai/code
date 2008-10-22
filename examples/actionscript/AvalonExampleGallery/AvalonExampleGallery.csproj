@@ -104,6 +104,11 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="System_Windows_Input_MouseEventArgs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\javascript\System_Windows_Input_MouseEventArgs\System_Windows_Input_MouseEventArgs\bin\Debug\System_Windows_Input_MouseEventArgs.exe</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
     <Reference Include="TextSuggestions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\TextSuggestions\TextSuggestions\bin\Debug\TextSuggestions.exe</HintPath>

@@ -8,12 +8,12 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace System_Windows_Input_MouseEventArgs.JavaScript
 {
-	using TargetCanvas = global::System_Windows_Input_MouseEventArgs.Shared.MyCanvas;
+	using TargetCanvas = global::System_Windows_Input_MouseEventArgs.Shared.MouseEventArgsCanvas;
 
 	[Script, ScriptApplicationEntryPoint]
-	public class MyCanvasScriptControl
+	public class MouseEventArgsDocument
 	{
-		public MyCanvasScriptControl(IHTMLElement e)
+		public MouseEventArgsDocument(IHTMLElement e)
 		{
 			// wpf here
 			var clip = new IHTMLDiv();
@@ -31,9 +31,9 @@ namespace System_Windows_Input_MouseEventArgs.JavaScript
 
 		}
 
-		static MyCanvasScriptControl()
+		static MouseEventArgsDocument()
 		{
-			typeof(MyCanvasScriptControl).SpawnTo(i => new MyCanvasScriptControl(i));
+			typeof(MouseEventArgsDocument).SpawnTo(i => new MouseEventArgsDocument(i));
 		}
 
 	}
