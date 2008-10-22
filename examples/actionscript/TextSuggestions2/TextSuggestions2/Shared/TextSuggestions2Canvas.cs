@@ -14,12 +14,12 @@ using ScriptCoreLib.Shared.Lambda;
 namespace TextSuggestions2.Shared
 {
 	[Script]
-	public class MyCanvas : Canvas
+	public class TextSuggestions2Canvas : Canvas
 	{
 		public const int DefaultWidth = 480;
 		public const int DefaultHeight = 480;
 
-		public MyCanvas()
+		public TextSuggestions2Canvas()
 		{
 			Width = DefaultWidth;
 			Height = DefaultHeight;

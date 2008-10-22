@@ -16,7 +16,7 @@ namespace TextSuggestions2
 		[STAThread]
 		static public void Main(string[] args)
 		{
-			new MyCanvas().ToWindow().ShowDialog();
+			new TextSuggestions2Canvas().ToWindow().ShowDialog();
 		}
 	}
 }
