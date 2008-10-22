@@ -79,6 +79,10 @@ namespace AvalonExampleGallery.ActionScript
 			pages::NumericTransmitter.ActionScript.KnownEmbeddedAssets.RegisterTo(
 				KnownEmbeddedResources.Default.Handlers
 			);
+
+			pages::System_IO_StringReader.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				KnownEmbeddedResources.Default.Handlers
+			);
 		}
 
 

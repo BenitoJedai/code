@@ -50,6 +50,10 @@ namespace AvalonExampleGallery.Shared
 					{ 
 						pages::NumericTransmitter.Shared.KnownAssets.Path.Assets, 
 						typeof(pages::NumericTransmitter.Shared.NumericTransmitterCanvas) },
+					{ 
+						pages::System_IO_StringReader.Shared.KnownAssets.Path.Assets, 
+						typeof(pages::System_IO_StringReader.Shared.System_IO_StringReaderCanvas) },
+
 				};
 			}
 		}

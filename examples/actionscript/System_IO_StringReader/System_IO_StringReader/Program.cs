@@ -6,25 +6,18 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System_IO_StringReader.Shared;
+using ScriptCoreLib.CSharp.Avalon.Extensions;
 
 namespace System_IO_StringReader
 {
 	class Program
 	{
-		public static Window ToWindow(Canvas e)
-		{
-			return new Window
-			{
-				Background = Brushes.Black,
-				SizeToContent = SizeToContent.WidthAndHeight,
-				Content = e
-			};
-		}
+	
 
 		[STAThread]
 		static public void Main(string[] args)
 		{
-			ToWindow(new MyCanvas()).ShowDialog();
+			new System_IO_StringReaderCanvas().ToWindow().ShowDialog();
 		}
 	}
 }

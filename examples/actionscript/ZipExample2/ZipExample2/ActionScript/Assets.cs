@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
+using ScriptCoreLib.Shared;
 
 [assembly: ScriptResources(ZipExample2.ActionScript.Assets.Path)]
 

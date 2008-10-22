@@ -65,19 +65,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionScript\Assets.cs" />
-    <Compile Include="ActionScript\OrcasAvalonTemplate.cs" />
-    <Compile Include="ActionScript\MyExtensions.cs" />
-    <Compile Include="JavaScript\MyCanvasScriptControl.cs" />
-    <Compile Include="JavaScript\MyExtensions.cs" />
+    <Compile Include="ActionScript\System_IO_StringReaderFlash.cs" />
+    <Compile Include="JavaScript\System_IO_StringReaderDocument.cs" />
+    <Compile Include="KnownAssets.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
-    <Compile Include="Shared\MyCanvas.cs" />
-    <Compile Include="Shared\MySharedExtensions.cs" />
+    <Compile Include="Shared\System_IO_StringReaderCanvas.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />
+    <EmbeddedResource Include="web\assets\System_IO_StringReader\Preview.png" />
     <EmbeddedResource Include="web\assets\System_IO_StringReader\data.txt" />
     <EmbeddedResource Include="web\assets\System_IO_StringReader\help_idle.png" />
     <EmbeddedResource Include="web\assets\System_IO_StringReader\help.png" />

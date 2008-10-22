@@ -58,7 +58,16 @@ namespace AvalonExampleGallery.Shared
 				9,
 				8
 			).AttachContainerTo(Container);
+
+			var logo = new Image
+			{
+				Source = "assets/AvalonExampleGallery/jsc.png".ToSource(),
+				Width = 96,
+				Height = 96
+			}.MoveTo(DefaultWidth - 96, DefaultHeight - 96).AttachTo(Container);
 			#endregion
+
+
 
 			#region shadow
 			Colors.Black.ToTransparentGradient(40).Select(
