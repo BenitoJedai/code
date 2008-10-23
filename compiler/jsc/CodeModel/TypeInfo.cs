@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using ScriptCoreLib;
+using jsc.Script;
 
 namespace jsc.CodeModel
 {
@@ -59,17 +60,17 @@ namespace jsc.CodeModel
                 {
                     Type p = Value;
 
-                    string u = Value.Name;
+					string u = CompilerBase.GetSafeLiteral(Value.Name, CompilerBase.DefaultIsSafeLiteralChar);
 
                     while (p.IsNested)
                     {
                         p = p.DeclaringType;
 
-                        u = p.Name + "+" + u;
+                        u = CompilerBase.GetSafeLiteral(p.Name, CompilerBase.DefaultIsSafeLiteralChar) + "+" + u;
                     }
 
                     if (p.Namespace != null)
-                        u = p.Namespace + "." + u;
+						u = CompilerBase.GetSafeLiteral(p.Namespace, CompilerBase.DefaultIsSafeLiteralChar) + "." + u;
 
                     return Helper.GetSafeWin32FileName(u);
                 }
