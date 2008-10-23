@@ -225,7 +225,9 @@ namespace jsc.Script
 
 		public override void WriteParameters(ILBlock.Prestatement p, MethodBase _method, ILFlow.StackItem[] s, int offset, ParameterInfo[] pi, bool pWritten, string op)
 		{
-			DebugBreak(p.Instruction.OwnerMethod.ToScriptAttributeOrDefault());
+			// this statement was generated and does not have an assiocated statement
+			if (p != null)
+				DebugBreak(p.Instruction.OwnerMethod.ToScriptAttributeOrDefault());
 
 			if (s != null)
 			{

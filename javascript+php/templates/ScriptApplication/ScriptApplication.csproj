@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{242BF5DC-4F24-4690-B522-2D7493F9E264}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -66,7 +66,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>call "c:\util\jsc\bin\jsc.exe" "$(TargetFileName)" -z
+    <PostBuildEvent>call "c:\util\jsc\bin\jsc.exe" "$(TargetFileName)" -js -php
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

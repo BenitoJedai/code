@@ -503,6 +503,10 @@
     <Compile Include="JavaScript\Runtime\TweenData.cs" />
     <Compile Include="JavaScript\Runtime\WorkPool.cs" />
     <Compile Include="JavaScript\Serialized\ObjectStreamHelper.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Action.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Collections\Generic\IEqualityComparer.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Environment.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Text\StringBuilder.cs" />
     <Compile Include="PHP\Drawing\Image.API.cs" />
     <Compile Include="PHP\Drawing\Image.cs" />
     <Compile Include="PHP\IO\DirectoryInfo.cs" />
@@ -543,7 +547,7 @@
     <Compile Include="PHP\System\IntPtr.cs" />
     <Compile Include="PHP\System\MulticastDelegate.cs" />
     <Compile Include="PHP\System\Object.cs" />
-    <Compile Include="PHP\System\StringImpl.cs" />
+    <Compile Include="PHP\BCLImplementation\System\String.cs" />
     <Compile Include="PHP\System\Exception.cs" />
     <Compile Include="Shared\Drawing\Color.cs" />
     <Compile Include="Shared\Serialized\DualNotation.cs" />

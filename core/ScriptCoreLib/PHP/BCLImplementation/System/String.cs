@@ -5,7 +5,7 @@ namespace ScriptCoreLib.PHP.System
 {
     [ScriptParameterByVal]
     [Script(Implements = typeof(global::System.String))]
-    public class StringImpl
+    internal class __String
     {
         public class API
         {
@@ -30,7 +30,7 @@ namespace ScriptCoreLib.PHP.System
             /// <param name="_haystack">string haystack</param>
             /// <param name="_needle">mixed needle</param>
             [Script(IsNative = true)]
-            public static int strpos(StringImpl _haystack, object _needle) { return default(int); }
+            public static int strpos(__String _haystack, object _needle) { return default(int); }
 
             #endregion
 
@@ -44,7 +44,7 @@ namespace ScriptCoreLib.PHP.System
             /// <param name="_replace">mixed replace</param>  
             /// <param name="_subject">mixed subject</param>  
             [Script(IsNative = true)]
-            public static StringImpl str_replace(object _search, object _replace, object _subject) { return default(StringImpl); }
+            public static __String str_replace(object _search, object _replace, object _subject) { return default(__String); }
 
             #endregion
 
@@ -58,7 +58,7 @@ namespace ScriptCoreLib.PHP.System
             /// <param name="_start">int start</param>  
             /// <param name="_length">int length</param>  
             [Script(IsNative = true)]
-            public static StringImpl substr(StringImpl _string, int _start, int _length) { return default(StringImpl); }
+            public static __String substr(__String _string, int _start, int _length) { return default(__String); }
 
             #endregion
 
@@ -70,7 +70,7 @@ namespace ScriptCoreLib.PHP.System
             /// <param name="_string">string string</param>  
             /// <param name="_start">int start</param>  
             [Script(IsNative = true)]
-            public static StringImpl substr(StringImpl _string, int _start) { return default(StringImpl); }
+            public static __String substr(__String _string, int _start) { return default(__String); }
 
             #endregion
 
@@ -81,7 +81,7 @@ namespace ScriptCoreLib.PHP.System
             /// </summary>  
             /// <param name="_string">string string</param>  
             [Script(IsNative = true)]
-            public static int strlen(StringImpl _string) { return default(int); }
+            public static int strlen(__String _string) { return default(int); }
 
             #endregion
 
@@ -92,7 +92,7 @@ namespace ScriptCoreLib.PHP.System
             /// </summary>  
             /// <param name="_str">string str</param>  
             [Script(IsNative = true)]
-            public static StringImpl trim(StringImpl _str) { return default(StringImpl); }
+            public static __String trim(__String _str) { return default(__String); }
 
             #endregion
 
@@ -103,7 +103,7 @@ namespace ScriptCoreLib.PHP.System
             /// </summary>  
             /// <param name="_string">string string</param>  
             [Script(IsNative = true)]
-            public static StringImpl strtoupper(StringImpl _string) { return default(StringImpl); }
+            public static __String strtoupper(__String _string) { return default(__String); }
 
             #endregion
 
@@ -114,7 +114,7 @@ namespace ScriptCoreLib.PHP.System
             /// </summary>  
             /// <param name="_str">string str</param>  
             [Script(IsNative = true)]
-            public static StringImpl strtolower(StringImpl _str) { return default(StringImpl); }
+            public static __String strtolower(__String _str) { return default(__String); }
 
             #endregion
 
@@ -126,7 +126,7 @@ namespace ScriptCoreLib.PHP.System
             /// <param name="_str1">string str1</param>  
             /// <param name="_str2">string str2</param>  
             [Script(IsNative = true)]
-            public static int strcmp(StringImpl _str1, StringImpl _str2) { return default(int); }
+            public static int strcmp(__String _str1, __String _str2) { return default(int); }
 
             #endregion
 
@@ -134,25 +134,25 @@ namespace ScriptCoreLib.PHP.System
 
         #region substr
         [Script(DefineAsStatic = true)]
-        public StringImpl Substring(int a0)
+        public __String Substring(int a0)
         {
             return API.substr(this, a0);
         }
 
         [Script(DefineAsStatic = true)]
-        public StringImpl Substring(int a0, int a1)
+        public __String Substring(int a0, int a1)
         {
             return API.substr(this, a0, a1);
         }
 
         [Script(DefineAsStatic = true)]
-        public bool EndsWith(StringImpl a0)
+        public bool EndsWith(__String a0)
         {
             return this.Substring(this.Length - a0.Length) == a0;
         }
 
         [Script(DefineAsStatic = true)]
-        public bool StartsWith(StringImpl a0)
+        public bool StartsWith(__String a0)
         {
             return this.Substring(0, a0.Length) == a0;
         }
@@ -170,13 +170,13 @@ namespace ScriptCoreLib.PHP.System
 
 
         [Script(DefineAsStatic = true)]
-        public StringImpl Replace(StringImpl a0, StringImpl a1)
+        public __String Replace(__String a0, __String a1)
         {
             return API.str_replace(a0, a1, this);
         }
 
         [Script(DefineAsStatic = true)]
-        public StringImpl Trim()
+        public __String Trim()
         {
             return API.trim(this);
         }
@@ -194,19 +194,19 @@ namespace ScriptCoreLib.PHP.System
         }
 
         [Script(DefineAsStatic = true)]
-        public StringImpl ToLower()
+        public __String ToLower()
         {
             return API.strtolower(this);
         }
 
         [Script(DefineAsStatic = true)]
-        public StringImpl ToUpper()
+        public __String ToUpper()
         {
             return API.strtoupper(this);
         }
 
         [Script(DefineAsStatic = true)]
-        public int CompareTo(StringImpl e)
+        public int CompareTo(__String e)
         {
             return API.strcmp(this, e);
 
@@ -228,60 +228,66 @@ namespace ScriptCoreLib.PHP.System
         }
 
         [Script(OptimizedCode = "return $e{$i};")]
-        static internal string InternalCharAt(StringImpl e, int i)
+        static internal string InternalCharAt(__String e, int i)
         {
             return default(string);
         }
 
 
         #region Concat
+		[Script(OptimizedCode = "return implode($a0, '');")]
+		public static __String Concat(string[] a0)
+		{
+			return default(__String);
+		}
+
         [Script(OptimizedCode = "return implode($a0, '');")]
-        public static StringImpl Concat(object[] a0)
+        public static __String Concat(object[] a0)
         {
-            return default(StringImpl);
+            return default(__String);
         }
 
         [Script(OptimizedCode = "return {arg0}.'';",
             UseCompilerConstants = true)]
-        public static StringImpl Concat(object a0)
+        public static __String Concat(object a0)
         {
-            return default(StringImpl);
+            return default(__String);
         }
 
         [Script(OptimizedCode = "return $a0.$a1;")]
-        public static StringImpl Concat(object a0, object a1)
+        public static __String Concat(object a0, object a1)
         {
-            return default(StringImpl);
+            return default(__String);
         }
 
         [Script(OptimizedCode = "return $a0.$a1.$a2;")]
-        public static StringImpl Concat(object a0, object a1, object a2)
+        public static __String Concat(object a0, object a1, object a2)
         {
-            return default(StringImpl);
+            return default(__String);
         }
 
         [Script(OptimizedCode = "return $a0.$a1;")]
-        public static StringImpl Concat(StringImpl a0, StringImpl a1)
+        public static __String Concat(__String a0, __String a1)
         {
-            return default(StringImpl);
+            return default(__String);
         }
 
         [Script(OptimizedCode = "return $a0.$a1.$a2;")]
-        public static StringImpl Concat(StringImpl a0, StringImpl a1, StringImpl a2)
+        public static __String Concat(__String a0, __String a1, __String a2)
         {
-            return default(StringImpl);
+            return default(__String);
         }
 
         [Script(OptimizedCode = "return $a0.$a1.$a2.$a3;")]
-        public static StringImpl Concat(StringImpl a0, StringImpl a1, StringImpl a2, StringImpl a3)
+        public static __String Concat(__String a0, __String a1, __String a2, __String a3)
         {
-            return default(StringImpl);
+            return default(__String);
         } 
         #endregion
 
         #region equal
         [Script(OptimizedCode = "return $a == $b;")]
-        public static bool operator ==(StringImpl a, StringImpl b)
+        public static bool operator ==(__String a, __String b)
         {
             return default(bool);
         }
@@ -289,11 +295,11 @@ namespace ScriptCoreLib.PHP.System
         [Script(DefineAsStatic = true)]
         public override bool Equals(object obj)
         {
-            return this == (StringImpl)obj;
+            return this == (__String)obj;
         }
 
         [Script(OptimizedCode = "return $a != $b;")]
-        public static bool operator !=(StringImpl a, StringImpl b)
+        public static bool operator !=(__String a, __String b)
         {
             return default(bool);
         }
