@@ -69,9 +69,12 @@ namespace jsc.Script.PHP
 
             CIW[OpCodes.Isinst] = delegate(CodeEmitArgs e)
             {
-                throw new NotSupportedException("emitting this opcode isn't directly supported");
+				//throw new NotSupportedException("emitting this opcode isn't directly supported");
+				
+				// instanceof 
+				Write("/* instance of */");
 
-                Write("TryCast(variable, type)");
+				//Write("TryCast(variable, type)");
             };
 
 
@@ -910,7 +913,7 @@ namespace jsc.Script.PHP
                 if (z.IsValueType)
                     Break("ValueType not supported : " + z.FullName);
 
-                ScriptAttribute za = ScriptAttribute.Of(z, true);
+                var za = z.ToScriptAttributeOrDefault();
 
                 if (z.BaseType == typeof(global::System.MulticastDelegate))
                 {
@@ -930,7 +933,7 @@ namespace jsc.Script.PHP
 
 
 
-                if (!za.InternalConstructor)
+                if (!z.ToScriptAttributeOrDefault().InternalConstructor)
                 {
                     WriteTypeSignature(z, za);
 
@@ -981,7 +984,7 @@ namespace jsc.Script.PHP
             WriteSpace();
             WriteDecoratedTypeName(z);
 
-            if (!za.InternalConstructor)
+            if (!z.ToScriptAttributeOrDefault().InternalConstructor)
             {
                 if (!z.IsInterface)
                 {
@@ -1124,7 +1127,17 @@ namespace jsc.Script.PHP
 
             foreach (MethodInfo m in mx)
             {
+				// for now we skip such methods
+				if (z.IsAnonymousType() && m.Name == "Equals")
+					continue;
+
+				if (z.IsAnonymousType() && m.Name == "GetHashCode")
+					continue;
+
                 ScriptAttribute ma = ScriptAttribute.Of(m);
+
+			
+
 
                 bool dStatic = ma != null && ma.DefineAsStatic;
 
