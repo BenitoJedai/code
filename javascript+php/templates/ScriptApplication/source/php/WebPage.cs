@@ -33,7 +33,7 @@ namespace ScriptApplication.source.php
 
             WriteLine("<p><img src='" + shared.Description.gfx_demo.tongue + "' /> hello world (php)</p>");
 
-            Native.Link("see html for javascript DemoControl", js.Controls.DemoControl.Alias + ".htm");
+            Native.Link("see html for javascript DemoControl", "DemoControl.htm");
 
 			Native.API.phpinfo();
 
