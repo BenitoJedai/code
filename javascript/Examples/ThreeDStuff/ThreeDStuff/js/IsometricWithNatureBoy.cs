@@ -534,7 +534,7 @@ namespace ThreeDStuff.js
 
                             var c = GetCenter();
 
-                            var p = new Point { X = (target.X + c.X).ToInt32(), Y = (target.Y + c.Y).ToInt32() };
+                            var p = new Point ( (target.X + c.X).ToInt32(), (target.Y + c.Y).ToInt32() );
 
                             return p;
                         }

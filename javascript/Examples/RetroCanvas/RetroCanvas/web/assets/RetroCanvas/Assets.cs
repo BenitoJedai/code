@@ -1,4 +1,5 @@
 ﻿using ScriptCoreLib;
+using ScriptCoreLib.Shared;
 
 [assembly: ScriptResources(RetroCanvas.js.Assets.Path)]
 

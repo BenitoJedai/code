@@ -193,7 +193,7 @@ namespace ThreeDStuff.js
 
             Func<bool> IsDoneRotatingA = () => RotationA.ToDegrees() == 45;
 
-            Point KnownCanvasPosition = new Point();
+            Point KnownCanvasPosition = new Point(0,0);
 
             Func<Point<double>> UpdateInfo =
                 delegate

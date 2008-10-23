@@ -56,7 +56,6 @@
   <ItemGroup>
     <Compile Include="js\SimpleRollover.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Setup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
