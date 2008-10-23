@@ -1287,7 +1287,7 @@ namespace jsc.Script
 				WriteTypeConstructionVerified(e, t, m, mza);
 			}
 
-		
+
 		}
 
 		public abstract bool EmitTryBlock(ILBlock.Prestatement p);
@@ -1437,7 +1437,7 @@ namespace jsc.Script
 			}
 
 			if (bND)
-				return z.Name;
+				return GetSafeLiteral(z.Name);
 			else
 				return GetDecoratedGUID(z.GUID);
 		}
@@ -1608,12 +1608,22 @@ namespace jsc.Script
 
 		}
 
-		public virtual bool IsSafeLiteralChar(char x)
+		public static bool DefaultIsSafeLiteralChar(char x)
 		{
 			return char.IsLetter(x) || char.IsNumber(x);
 		}
 
+		public virtual bool IsSafeLiteralChar(char x)
+		{
+			return DefaultIsSafeLiteralChar(x);
+		}
+
 		public string GetSafeLiteral(string z)
+		{
+			return GetSafeLiteral(z, IsSafeLiteralChar);
+		}
+
+		public static string GetSafeLiteral(string z, Func<char, bool> IsSafeLiteralChar)
 		{
 			if (z == null)
 				return null;
