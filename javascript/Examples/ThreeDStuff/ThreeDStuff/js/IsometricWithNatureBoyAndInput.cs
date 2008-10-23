@@ -571,7 +571,7 @@ namespace ThreeDStuff.js
 
                                     var c = GetCenter();
 
-                                    var p = new Point { X = (target.X + c.X).ToInt32(), Y = (target.Y + c.Y).ToInt32() };
+                                    var p = new Point ( (target.X + c.X).ToInt32(), (target.Y + c.Y).ToInt32() );
 
                                     return p;
                                 }
@@ -657,7 +657,7 @@ namespace ThreeDStuff.js
                     #endregion
 
 
-                    Point KnownCanvasPosition = new Point();
+                    Point KnownCanvasPosition = new Point(0,0);
 
                     #region GetMapPosition
                     Func<Point<double>> GetMapPosition =
@@ -756,10 +756,10 @@ namespace ThreeDStuff.js
                                 Func<Point<double>, Point> OffsetToCenter =
                                     mcanvas =>
                                         new Point
-                                            {
-                                                X = (mcanvas.X + center.X).ToInt32(),
-                                                Y = (mcanvas.Y + center.Y).ToInt32(),
-                                            };
+                                            (
+                                                 (mcanvas.X + center.X).ToInt32(),
+                                                 (mcanvas.Y + center.Y).ToInt32()
+                                            );
 
                                 var dest =
                                     from index in selection.Length.ToRange()

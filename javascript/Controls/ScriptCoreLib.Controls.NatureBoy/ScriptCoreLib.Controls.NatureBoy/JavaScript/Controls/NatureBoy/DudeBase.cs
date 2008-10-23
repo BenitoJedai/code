@@ -594,7 +594,7 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
         public override void TeleportTo(double x, double y)
         {
             if (CanTeleportTo != null)
-                if (CanTeleportTo(new Point { X = x.ToInt32(), Y = y.ToInt32() }))
+                if (CanTeleportTo(new Point ( x.ToInt32(), y.ToInt32() )))
                     return;
 
             var f = this.Zoom.DynamicZoomFunc;

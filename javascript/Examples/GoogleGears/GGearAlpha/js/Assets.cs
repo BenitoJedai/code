@@ -1,6 +1,7 @@
 ﻿
 
 using ScriptCoreLib;
+using ScriptCoreLib.Shared;
 
 
 [assembly: ScriptResources("assets/GearsDemo1")]

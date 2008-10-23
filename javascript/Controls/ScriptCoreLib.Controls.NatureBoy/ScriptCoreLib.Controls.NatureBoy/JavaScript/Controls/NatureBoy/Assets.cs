@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.Controls.NatureBoy;
+using ScriptCoreLib.Shared;
 
 [assembly:
     ScriptResources(Assets.alpha),
