@@ -543,9 +543,9 @@
     <Compile Include="PHP\Runtime\Expando.cs" />
     <Compile Include="PHP\Runtime\IArray.cs" />
     <Compile Include="PHP\Data\MySQL.cs" />
-    <Compile Include="PHP\System\Delegate.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Delegate.cs" />
     <Compile Include="PHP\System\IntPtr.cs" />
-    <Compile Include="PHP\System\MulticastDelegate.cs" />
+    <Compile Include="PHP\BCLImplementation\System\MulticastDelegate.cs" />
     <Compile Include="PHP\System\Object.cs" />
     <Compile Include="PHP\BCLImplementation\System\String.cs" />
     <Compile Include="PHP\System\Exception.cs" />

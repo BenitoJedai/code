@@ -35,6 +35,8 @@ namespace ScriptApplication.source.php
 
             Native.Link("see html for javascript DemoControl", js.Controls.DemoControl.Alias + ".htm");
 
+			Native.API.phpinfo();
+
             WriteLine("</body>");
             WriteLine("</html>");
         }
