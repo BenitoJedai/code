@@ -168,6 +168,7 @@
     <Compile Include="Languages\Java\JavaCompiler.WriteImportTypes.cs" />
     <Compile Include="Languages\Java\JavaCompiler.KeyWords.cs" />
     <Compile Include="Languages\Java\JavaCompiler.OpCodes.cs" />
+    <Compile Include="Languages\PHP\PHPCompiler.OpCodes.cs" />
     <Compile Include="Languages\PHP\PHPCompiler.CompileType.cs" />
     <Compile Include="Languages\PHP\DelegateImplementationProvider.cs" />
     <Compile Include="Languages\PropertyDetector.cs" />
