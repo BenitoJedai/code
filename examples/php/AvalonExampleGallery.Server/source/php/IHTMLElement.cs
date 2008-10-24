@@ -19,6 +19,7 @@ namespace ScriptApplication.source.php
 		public string height;
 		public string textAlign;
 		public string borderWidth;
+		public string paddingTop;
 		
 		public double opacity = 1;
 
@@ -44,6 +45,7 @@ namespace ScriptApplication.source.php
 			Append("position", position);
 			Append("text-align", textAlign);
 			Append("border-width", borderWidth);
+			Append("padding-top", paddingTop);
 
 			if (opacity >= 0)
 				if (opacity < 1)

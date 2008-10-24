@@ -21,7 +21,21 @@ namespace AvalonExampleGallery.Shared
 		public const int DefaultWidth = 800;
 		public const int DefaultHeight = 640;
 
+		[Script]
+		public class OptionPosition
+		{
+			public int X;
+			public int Y;
+
+			public Action Clear;
+		}
+
 		public AvalonExampleGalleryCanvas()
+			: this(true, null)
+		{
+		}
+
+		public AvalonExampleGalleryCanvas(bool EnableBackground, Func<string, OptionPosition> GetOptionPosition)
 		{
 			Width = DefaultWidth;
 			Height = DefaultHeight;
@@ -37,6 +51,7 @@ namespace AvalonExampleGallery.Shared
 				Height = DefaultHeight
 			}.AttachTo(this);
 
+			Container.ClipTo(0, 0, DefaultWidth, DefaultHeight);
 
 			var Pages = new Canvas
 			{
@@ -50,14 +65,21 @@ namespace AvalonExampleGallery.Shared
 				Height = DefaultHeight
 			}.AttachTo(this);
 
-			#region background
-			var bg = new TiledBackgroundImage(
-				"assets/AvalonExampleGallery/bg.png".ToSource(),
-				96,
-				96,
-				9,
-				8
-			).AttachContainerTo(Container);
+			if (EnableBackground)
+			{
+				#region background
+				var bg = new TiledBackgroundImage(
+					"assets/AvalonExampleGallery/bg.png".ToSource(),
+					96,
+					96,
+					9,
+					8
+				).AttachContainerTo(Container);
+
+	
+				#endregion
+
+			}
 
 			var logo = new Image
 			{
@@ -65,9 +87,17 @@ namespace AvalonExampleGallery.Shared
 				Width = 96,
 				Height = 96
 			}.MoveTo(DefaultWidth - 96, DefaultHeight - 96).AttachTo(Container);
-			#endregion
 
+			var Toolbar = new Canvas
+			{
+				Width = DefaultWidth,
+				Height = navbar.Height,
+				Opacity = 0
+			}.AttachTo(this);
 
+			1000.AtDelay(
+				Toolbar.FadeIn
+			);
 
 			#region shadow
 			Colors.Black.ToTransparentGradient(40).Select(
@@ -79,21 +109,41 @@ namespace AvalonExampleGallery.Shared
 						Width = DefaultWidth,
 						Height = 1,
 						Opacity = c.A / 255.0
-					}.MoveTo(0, i).AttachTo(this);
+					}.MoveTo(0, i).AttachTo(Toolbar);
 				}
 			).ToArray();
 			#endregion
 
+
+			#region Options
 			KnownPages.Value.ForEach(
 				(k, i) =>
 				{
 					var o = new OptionWithShadowAndType(k.Key, k.Value);
 
-					o.MoveTo(
-						48 + (180) * (i % 4), 
-						48 + Convert.ToInt32( i / 4) * 140
-						
-						).AttachContainerTo(Pages);
+					OptionPosition p = null;
+
+					if (GetOptionPosition != null)
+						p = GetOptionPosition(o.Caption.Text);
+
+					if (p == null)
+					{
+						o.MoveTo(
+							48 + (180) * (i % 4),
+							48 + Convert.ToInt32(i / 4) * 140
+						);
+					}
+					else
+					{
+						p.Clear();
+
+						o.MoveTo(
+							p.X,
+							p.Y
+						);
+					}
+
+					o.AttachContainerTo(Pages);
 					o.Overlay.AttachTo(Overlay);
 
 					o.TargetInitialized +=
@@ -127,13 +177,15 @@ namespace AvalonExampleGallery.Shared
 						};
 				}
 			);
+			#endregion
 
 
 
 
 
 
-			navbar.MoveContainerTo(4, 4).AttachContainerTo(this);
+
+			navbar.MoveContainerTo(4, 4).AttachContainerTo(Toolbar);
 
 
 		}
