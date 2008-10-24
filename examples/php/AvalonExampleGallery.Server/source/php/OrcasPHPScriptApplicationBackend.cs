@@ -39,7 +39,9 @@ namespace ScriptApplication.source.php
 			);
 
 			Console.WriteLine(
+				"<a href='AvalonExampleGalleryDocument.htm'>" +
 				"<img src='" + pages::NavigationButtons.Assets.Shared.KnownAssets.Path.Assets + "/Preview.png' />"
+				+ "</a>"
 			);
 
 			
