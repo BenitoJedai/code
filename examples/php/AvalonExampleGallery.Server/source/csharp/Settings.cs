@@ -8,6 +8,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 using System.Reflection;
 using System.IO;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace ScriptApplication.source.csharp
 {
@@ -30,21 +31,37 @@ namespace ScriptApplication.source.csharp
 
 		private static void CreatePHPIndexPage(IEntryPoint e, string file_name, string entryfunction)
 		{
-			var w = new ScriptCoreLib.Shared.TextWriter();
+			{
+				var w = new ScriptCoreLib.Shared.TextWriter();
 
-			w.WriteLine("<?");
+				w.WriteLine("<?");
 
-			SharedHelper.PHPInclude(w, 
+				SharedHelper.PHPInclude(w,
+					SharedHelper.LoadReferencedAssemblies(Assembly.GetExecutingAssembly(), true).Where(
+						a => a.GetCustomAttributes(typeof(ScriptTypeFilterAttribute), false).Cast<ScriptTypeFilterAttribute>().Any(k => k.Type == ScriptType.PHP)
+					).Select(k => new FileInfo(k.Location).Name).ToArray()
+				);
+
+				w.WriteLine(entryfunction + "();");
+
+				w.Write("?>");
+
+				e[file_name] = w.Text;
+			}
+
+			{
+				var w = new StringBuilder();
+
 				SharedHelper.LoadReferencedAssemblies(Assembly.GetExecutingAssembly(), true).Where(
-					a => a.GetCustomAttributes(typeof(ScriptTypeFilterAttribute), false).Cast<ScriptTypeFilterAttribute>().Any(k => k.Type == ScriptType.PHP)
-				).Select(k => new FileInfo(k.Location).Name).ToArray()
-			);
+					a => a.GetCustomAttributes(typeof(ScriptTypeFilterAttribute), false).Cast<ScriptTypeFilterAttribute>().Any(k => k.Type == ScriptType.JavaScript)
+				).Select(k => new FileInfo(k.Location).Name).ForEach(
+					src => w.AppendLine("<script type='text/javascript' src='" + src + ".js'></script>")
+				);
 
-			w.WriteLine(entryfunction + "();");
+				
+				e[file_name + ".js"] = w.ToString();
+			}
 
-			w.Write("?>");
-
-			e[file_name] = w.Text;
 		}
 	}
 

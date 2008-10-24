@@ -34,9 +34,49 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BrowserAvalonExample.Assets, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\javascript\BrowserAvalonExample\BrowserAvalonExample.Code\bin\Debug\BrowserAvalonExample.Assets.dll</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
+    <Reference Include="BrowserAvalonExample.Code, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\javascript\BrowserAvalonExample\BrowserAvalonExample.Code\bin\Debug\BrowserAvalonExample.Code.dll</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
+    <Reference Include="DraggableClipRectangle, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\actionscript\DraggableClipRectangle\DraggableClipRectangle\bin\Debug\DraggableClipRectangle.exe</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
+    <Reference Include="DynamicCursor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\actionscript\DynamicCursor\DynamicCursor\bin\Debug\DynamicCursor.exe</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
+    <Reference Include="FlashAvalonQueryExample, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\actionscript\FlashAvalonQueryExample\FlashAvalonQueryExample\bin\Debug\FlashAvalonQueryExample.exe</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
+    <Reference Include="FlashMouseMaze, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\actionscript\FlashMouseMaze\FlashMouseMaze\bin\Debug\FlashMouseMaze.exe</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
     <Reference Include="NavigationButtons.Assets, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\actionscript\NavigationButtons\NavigationButtons.Assets\bin\Debug\NavigationButtons.Assets.dll</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
+    <Reference Include="NumericTransmitter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\actionscript\NumericTransmitter\NumericTransmitter\bin\Debug\NumericTransmitter.exe</HintPath>
       <Aliases>pages</Aliases>
     </Reference>
     <Reference Include="ScriptCoreLib, Version=3.0.2619.32103, Culture=neutral, processorArchitecture=MSIL">
@@ -57,10 +97,28 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="System_IO_StringReader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\actionscript\System_IO_StringReader\System_IO_StringReader\bin\Debug\System_IO_StringReader.exe</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
+    <Reference Include="System_Windows_Input_MouseEventArgs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\javascript\System_Windows_Input_MouseEventArgs\System_Windows_Input_MouseEventArgs\bin\Debug\System_Windows_Input_MouseEventArgs.exe</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
     <Reference Include="TextSuggestions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <ExecutableExtension>.exe</ExecutableExtension>
       <HintPath>..\..\actionscript\TextSuggestions\TextSuggestions\bin\Debug\TextSuggestions.exe</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
+    <Reference Include="TextSuggestions2, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\actionscript\TextSuggestions2\TextSuggestions2\bin\Debug\TextSuggestions2.exe</HintPath>
       <Aliases>pages</Aliases>
     </Reference>
   </ItemGroup>
@@ -68,8 +126,9 @@
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="source\csharp\Settings.cs" />
-    <Compile Include="source\js\OrcasPHPScriptApplicationDocument.cs" />
+    <Compile Include="source\js\AvalonExampleGalleryContainer.cs" />
     <Compile Include="source\php\IHTMLElement.cs" />
+    <Compile Include="source\php\KnownPages.cs" />
     <Compile Include="source\php\MyExtensions.cs" />
     <Compile Include="source\php\OrcasPHPScriptApplicationBackend.cs" />
   </ItemGroup>

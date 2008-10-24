@@ -116,17 +116,23 @@ namespace ScriptApplication.source.php
 		public IStyle Style;
 
 		public string Content;
+		public string Class;
 
 
 
 		public override string ToString()
 		{
+			var _class = "";
+
+			if (this.Class != null)
+				_class = "class='" + this.Class + "'";
+
 			var style = "";
 
 			if (this.Style != null)
-				style = this.Style.ToString();
+				style = "style='" + this.Style.ToString() + "'";
 
-			return "<" + Name + " style='" + style + "'>" + Content + "</" + Name + ">";
+			return "<" + Name + " " + _class + " " + style + ">" + Content + "</" + Name + ">";
 		}
 
 		public static implicit operator string(IHTMLElement e)
