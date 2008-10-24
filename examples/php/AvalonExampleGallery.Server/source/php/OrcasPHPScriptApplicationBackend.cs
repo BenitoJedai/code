@@ -31,27 +31,61 @@ namespace ScriptApplication.source.php
 			Console.WriteLine("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
 			Console.WriteLine("<html>");
 			Console.WriteLine("<head>");
-			Console.WriteLine("<title>Hello world</title>");
+
+			var EnableJavaScript = Native.QueryString == "javascript";
+
+			if (EnableJavaScript)
+			{
+				Console.WriteLine("<title>AvalonGalleryExample (PHP + JavaScript)</title>");
+
+			
+			}
+			else
+			{
+				Console.WriteLine("<title>AvalonGalleryExample (PHP)</title>");
+			}
+
+			Console.WriteLine("<style> body { background: url('assets/AvalonExampleGallery/bg.png'); } </style>");
+
 
 			Console.WriteLine("</head>");
 			Console.WriteLine("<body>");
 
-			Console.WriteLine("<style> body { background: url('assets/AvalonExampleGallery/bg.png'); } </style>");
+
+
+
+			var Container = CreateOptions();
 
 			Console.WriteLine(
-				new { hello = "world" }
+				new IHTMLElement
+				{
+					Name = "center",
+					Content = Container
+				}
 			);
 
+
+			if (EnableJavaScript)
+				ScriptCoreLib.PHP.IO.FileInfo.OfPath(Filename + ".js").WriteToStream();
+
+
+			Console.WriteLine("</body>");
+			Console.WriteLine("</html>");
+		}
+
+		private static IHTMLElement CreateOptions()
+		{
 			var ShadowSource = "assets/AvalonExampleGallery/PreviewShadow.png";
 
 			var OptionWidth = 166 + 9;
 			var OptionHeight = 90 + 18 + 4 + 20;
 
+			#region CreateOption
 			Func<string, string, IHTMLElement> CreateOption =
 				(Path, Text) =>
 				new IHTMLElement
 				{
-					
+					Class = Text,
 					Content =
 						new IHTMLImage
 						{
@@ -84,27 +118,38 @@ namespace ScriptApplication.source.php
 						}.MoveTo(0, 0).SizeTo(OptionWidth, OptionHeight)
 
 				}.SizeTo(OptionWidth, OptionHeight);
+			#endregion
 
-			Console.WriteLine(
-				CreateOption(pages::NavigationButtons.Assets.Shared.KnownAssets.Path.Assets, "NavigationButtons").MoveTo(300, 200).ToString()
+
+			var Container = new IHTMLElement
+			{
+				Style = new IStyle
+				{
+					//backgroundColor = "red",
+					position = "relative"
+				},
+				Class = "AvalonExampleGalleryContainer",
+				Content = ""
+			}.SizeTo(
+				800,
+				640
 			);
 
-			Console.WriteLine(
-				CreateOption(pages::TextSuggestions.Shared.KnownAssets.Path.Assets, "TextSuggestions").MoveTo(300 + 140, 200).ToString()
+			var i = 0;
+
+			CreateOption.StreamTo(
+				Option =>
+				{
+					Container.Content +=
+						Option.MoveTo(
+							48 + (180) * (i % 4),
+							48 + (int)Math.Floor((double)i / 4) * 140
+						);
+
+					i++;
+				}
 			);
-
-
-			Console.WriteLine(
-
-				"AvalonExampleGalleryDocument.htm".ToLink(
-					(pages::NavigationButtons.Assets.Shared.KnownAssets.Path.Assets + "/Preview.png").ToImage()
-				)
-			);
-
-
-
-			Console.WriteLine("</body>");
-			Console.WriteLine("</html>");
+			return Container;
 		}
 	}
 }
