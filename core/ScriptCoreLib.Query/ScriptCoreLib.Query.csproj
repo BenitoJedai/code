@@ -67,6 +67,7 @@
     <Compile Include="ActionScript\Extensions\QueryExtensions.cs" />
     <Compile Include="CSharp2\BCLImplementation\System\Func.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Func.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Func.cs" />
     <Compile Include="JavaScript\Extensions\QueryExtensions.cs" />
     <Compile Include="Shared\Lambda\CyclicEnumerator.cs" />
     <Compile Include="Shared\Lambda\Future.cs" />

@@ -163,8 +163,10 @@ version history:
 	javascript: fixed enum as string for ceq opcode
 04.10.2008
 	jsc: upgraded ScriptResources to fetch constants from its type
-21.20.2008
+21.10.2008
 	jsc: added support for finding .exe references
 	jsc: fixed type import for OpCodes.CastClass
-22.20.2008
+22.10.2008
 	actionscript: anonymous types are prefixed with assembly scope
+24.10.2008
+	php: added OpCodes.Clt_Un
