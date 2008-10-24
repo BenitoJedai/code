@@ -20,9 +20,25 @@ namespace ScriptCoreLib.Shared.Avalon.TiledImageButton
 		public event Action GoBack;
 		public event Action GoForward;
 
+		public int Height
+		{
+			get
+			{
+				return 27 + 4;
+			}
+		}
+
+		public int Width
+		{
+			get
+			{
+				return 27 * 2 + 6;
+			}
+		}
+
 		public AeroNavigationBar()
 		{
-			Container = new Canvas { Width = 27 * 2 + 6, Height = 27 + 4 };
+			Container = new Canvas { Width = Width, Height = Height };
 
 			Background = new Image
 			{

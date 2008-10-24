@@ -14,6 +14,7 @@ using ScriptCoreLib.Shared.Drawing;
 using System.Linq;
 using ScriptCoreLib.Shared.Lambda;
 using System;
+using System.Collections.Generic;
 
 namespace ScriptApplication.source.js.Controls
 {
@@ -25,14 +26,33 @@ namespace ScriptApplication.source.js.Controls
 
 		public AvalonExampleGalleryContainer(IHTMLElement e)
 		{
+			var lookup = new Dictionary<string, AvalonExampleGallery.Shared.AvalonExampleGalleryCanvas.OptionPosition>();
+
 			e.childNodes.Where(k => k.nodeName.ToLower() == "div").Select(k => (IHTMLDiv)k).ForEach(
 				k =>
 				{
-					Console.WriteLine(k.className);
+					var p = new AvalonExampleGallery.Shared.AvalonExampleGalleryCanvas.OptionPosition
+					{
+						X = k.Bounds.Left,
+						Y = k.Bounds.Top
+					};
 
-					k.style.backgroundColor = Color.Yellow;
+					p.Clear = () => k.Dispose();
+
+					lookup[k.className] = p;
+
 				}
 			);
+
+			new AvalonExampleGallery.Shared.AvalonExampleGalleryCanvas(false,
+				Text =>
+				{
+					if (lookup.ContainsKey(Text))
+						return lookup[Text];
+
+					return null;
+				}
+			).AttachToContainer(e);
 		}
 
 		static AvalonExampleGalleryContainer()

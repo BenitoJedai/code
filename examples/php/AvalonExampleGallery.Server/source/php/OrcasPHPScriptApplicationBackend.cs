@@ -105,7 +105,8 @@ namespace ScriptApplication.source.php
 								textAlign = "center",
 								backgroundColor = "transparent",
 								borderWidth = "0px",
-								color = "white"
+								color = "white",
+								paddingTop = "0"
 							}
 						}.MoveTo(0, 104).SizeTo(120 + 9 * 2, 20)
 						+ new IHTMLElement
