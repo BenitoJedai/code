@@ -32,18 +32,11 @@ namespace ScriptApplication.source.php
 			Console.WriteLine("<html>");
 			Console.WriteLine("<head>");
 
-			var EnableJavaScript = Native.QueryString == "javascript";
 
-			if (EnableJavaScript)
-			{
-				Console.WriteLine("<title>AvalonGalleryExample (PHP + JavaScript)</title>");
 
-			
-			}
-			else
-			{
-				Console.WriteLine("<title>AvalonGalleryExample (PHP)</title>");
-			}
+			Console.WriteLine("<title>AvalonGalleryExample (PHP + JavaScript)</title>");
+
+
 
 			Console.WriteLine("<style> body { background: url('assets/AvalonExampleGallery/bg.png'); } </style>");
 
@@ -65,8 +58,7 @@ namespace ScriptApplication.source.php
 			);
 
 
-			if (EnableJavaScript)
-				ScriptCoreLib.PHP.IO.FileInfo.OfPath(Filename + ".js").WriteToStream();
+			ScriptCoreLib.PHP.IO.FileInfo.OfPath(Filename + ".js").WriteToStream();
 
 
 			Console.WriteLine("</body>");
