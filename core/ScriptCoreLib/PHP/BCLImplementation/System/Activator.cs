@@ -1,9 +1,9 @@
 
 
-namespace ScriptCoreLib.PHP.System
+namespace ScriptCoreLib.PHP.BCLImplementation.System
 {
     [Script(Implements = typeof(global::System.Activator))]
-    internal class ActivatorImpl
+	internal class __Activator
     {
 
     }

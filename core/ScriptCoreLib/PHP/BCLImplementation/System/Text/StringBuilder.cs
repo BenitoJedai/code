@@ -54,7 +54,17 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Text
 		{
 			if (value != null)
 			{
-				_Value += value.ToString();
+				// php strings do not have the __ToString member
+				// fixme: should use the is string operator instead
+
+				if (ScriptCoreLib.PHP.Runtime.Expando.Of(value).IsString)
+				{
+					_Value += (string)value;
+				}
+				else
+				{
+					_Value += value.ToString();
+				}
 			}
 
 			return this;

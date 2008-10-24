@@ -1,7 +1,7 @@
 using ScriptCoreLib;
 using ScriptCoreLib.PHP.Runtime;
 
-namespace ScriptCoreLib.PHP.System
+namespace ScriptCoreLib.PHP.BCLImplementation.System
 {
     [ScriptParameterByVal]
     [Script(Implements = typeof(global::System.String))]
