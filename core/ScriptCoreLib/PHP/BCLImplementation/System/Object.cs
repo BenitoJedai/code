@@ -1,9 +1,9 @@
 using ScriptCoreLib.PHP;
 
-namespace ScriptCoreLib.PHP.System
+namespace ScriptCoreLib.PHP.BCLImplementation.System
 {
     [Script(Implements = typeof(global::System.Object))]
-    internal class Object
+    internal class __Object
     {
 
 

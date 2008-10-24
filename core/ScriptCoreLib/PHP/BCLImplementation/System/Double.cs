@@ -1,10 +1,10 @@
 using ScriptCoreLib;
 using ScriptCoreLib.PHP.Runtime;
 
-namespace ScriptCoreLib.PHP.System
+namespace ScriptCoreLib.PHP.BCLImplementation.System
 {
     [Script(Implements = typeof(global::System.Double))]
-    public class DoubleImpl
+    internal class __Double
     {
         public class API
         {

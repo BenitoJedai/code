@@ -1,12 +1,12 @@
 using ScriptCoreLib;
 using ScriptCoreLib.PHP.Runtime;
 
-namespace ScriptCoreLib.PHP.System
+namespace ScriptCoreLib.PHP.BCLImplementation.System
 {
 
 
     [Script(InternalConstructor = true, Implements = typeof(global::System.Exception))]
-    public class ScriptException : global::System.Exception
+    internal class __Exception : global::System.Exception
     {
 
         public new string Message
@@ -20,12 +20,12 @@ namespace ScriptCoreLib.PHP.System
 
         #region Constructor
 
-        public ScriptException(string message) : base(message) { }
+        public __Exception(string message) : base(message) { }
 
             [Script(OptimizedCode = @"return new Exception($e);")]
-            static ScriptException InternalConstructor(string e)
+            static __Exception InternalConstructor(string e)
             {
-                return default(ScriptException);
+                return default(__Exception);
             }
         
         #endregion
