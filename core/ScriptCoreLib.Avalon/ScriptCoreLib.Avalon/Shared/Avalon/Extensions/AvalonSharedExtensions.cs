@@ -15,6 +15,13 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	[Script]
 	public static class AvalonSharedExtensions
 	{
+		public static void NavigateTo(this Uri e)
+		{
+			// we have no context
+
+			e.NavigateTo(null);
+		}
+
 		public static void ClipTo(this UIElement e, Rect r)
 		{
 			var c = new RectangleGeometry

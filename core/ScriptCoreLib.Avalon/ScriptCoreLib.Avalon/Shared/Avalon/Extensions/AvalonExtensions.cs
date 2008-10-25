@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 using ScriptCoreLib.CSharp.Extensions;
 using System.IO;
 using System.Windows;
+using System.Windows.Navigation;
 
 namespace ScriptCoreLib.Shared.Avalon.Extensions
 {
@@ -16,6 +17,27 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	// reimplement for target languages
 	public static class AvalonExtensions
 	{
+
+
+		public static void NavigateTo(this Uri e, DependencyObject context)
+		{
+			if (context != null)
+			{
+				var s = NavigationService.GetNavigationService(context);
+
+				if (s != null)
+				{
+					s.Navigate(e);
+
+					return;
+				}
+			}
+
+			// http://forums.microsoft.com/MSDN/ShowPost.aspx?PostID=910999&SiteID=1
+			// http://msdn.microsoft.com/en-us/library/system.windows.documents.hyperlink.navigateuri.aspx
+			// http://msdn.microsoft.com/en-us/library/ms750478.aspx
+			global::System.Diagnostics.Process.Start(e.ToString());
+		}
 
 		public static void ToStringAsset(this string e, Action<string> h)
 		{
