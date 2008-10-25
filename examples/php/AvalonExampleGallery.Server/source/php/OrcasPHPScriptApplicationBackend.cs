@@ -57,8 +57,11 @@ namespace ScriptApplication.source.php
 				}
 			);
 
+			var f = ScriptCoreLib.PHP.IO.FileInfo.OfPath(Filename + ".js");
 
-			ScriptCoreLib.PHP.IO.FileInfo.OfPath(Filename + ".js").WriteToStream();
+			Console.WriteLine("<!-- " + f.Size + " -->");
+			
+			f.WriteToStream();
 
 
 			Console.WriteLine("</body>");
