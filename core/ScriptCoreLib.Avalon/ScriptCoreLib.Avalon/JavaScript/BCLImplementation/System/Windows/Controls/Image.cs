@@ -89,19 +89,29 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			}
 		}
 
-		public double InternalWidth;
-		public double InternalHeight;
+		public double InternalWidthValue = 200;
+		public double InternalHeightValue = 200;
+
+		public override double InternalGetHeight()
+		{
+			return InternalHeightValue;
+		}
+
+		public override double InternalGetWidth()
+		{
+			return InternalWidthValue;
+		}
 
 		public override void InternalSetHeight(double value)
 		{
-			InternalHeight = value;
+			InternalHeightValue = value;
 
 			InternalUpdateStrech();
 		}
 
 		public override void InternalSetWidth(double value)
 		{
-			InternalWidth = value;
+			InternalWidthValue = value;
 
 			InternalUpdateStrech();
 		}
@@ -115,8 +125,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 			if (InternalStretch == Stretch.Fill)
 			{
-				this.InternalBitmap.width = Convert.ToInt32(InternalWidth);
-				this.InternalBitmap.height = Convert.ToInt32(InternalHeight);
+				this.InternalBitmap.width = Convert.ToInt32(InternalWidthValue);
+				this.InternalBitmap.height = Convert.ToInt32(InternalHeightValue);
 
 				return;
 			}

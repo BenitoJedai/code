@@ -103,19 +103,30 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			}
 		}
 
-		public double InternalWidth;
-		public double InternalHeight;
+		public double InternalWidthValue = 200;
+		public double InternalHeightValue = 200;
 
+		public override double InternalGetHeight()
+		{
+			return InternalHeightValue;
+		}
+
+		public override double InternalGetWidth()
+		{
+			return InternalWidthValue;
+		}
+
+		
 		public override void InternalSetHeight(double value)
 		{
-			InternalHeight = value;
+			InternalHeightValue = value;
 
 			InternalUpdateStrech();
 		}
 
 		public override void InternalSetWidth(double value)
 		{
-			InternalWidth = value;
+			InternalWidthValue = value;
 
 			InternalUpdateStrech();
 		}
@@ -129,8 +140,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 			if (InternalStretch == Stretch.Fill)
 			{
-				this.InternalBitmap.width = InternalWidth;
-				this.InternalBitmap.height = InternalHeight;
+				this.InternalBitmap.width = InternalWidthValue;
+				this.InternalBitmap.height = InternalHeightValue;
 
 				return;
 			}
