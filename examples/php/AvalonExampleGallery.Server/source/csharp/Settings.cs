@@ -27,6 +27,9 @@ namespace ScriptApplication.source.csharp
 		public static void DefineEntryPoint(IEntryPoint e)
 		{
 			CreatePHPIndexPage(e, php.OrcasPHPScriptApplicationBackend.Filename, php.OrcasPHPScriptApplicationBackend.Entrypoint);
+
+			// http://www.javascriptkit.com/howto/htaccess6.shtml
+			e[".htaccess"] = "DirectoryIndex " + php.OrcasPHPScriptApplicationBackend.Filename;
 		}
 
 		private static void CreatePHPIndexPage(IEntryPoint e, string file_name, string entryfunction)

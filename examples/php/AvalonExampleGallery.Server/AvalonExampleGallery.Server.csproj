@@ -44,6 +44,11 @@
       <HintPath>..\..\javascript\BrowserAvalonExample\BrowserAvalonExample.Code\bin\Debug\BrowserAvalonExample.Code.dll</HintPath>
       <Aliases>pages</Aliases>
     </Reference>
+    <Reference Include="CarouselExample2, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\actionscript\CarouselExample2\CarouselExample2\bin\Debug\CarouselExample2.exe</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
     <Reference Include="DraggableClipRectangle, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <ExecutableExtension>.exe</ExecutableExtension>

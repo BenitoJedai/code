@@ -62,6 +62,9 @@ namespace ScriptApplication.source.php
 
 			c(pages::System_IO_StringReader.Shared.KnownAssets.Path.Assets,
 				"System_IO_StringReader");
+
+			c(pages::CarouselExample2.Shared.KnownAssets.Path.Assets,
+				"CarouselExample2");
 		}
 	}
 }
