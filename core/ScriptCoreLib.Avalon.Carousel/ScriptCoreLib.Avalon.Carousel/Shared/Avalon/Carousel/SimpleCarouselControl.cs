@@ -48,6 +48,18 @@ namespace ScriptCoreLib.Shared.Avalon.Carousel
 
 		public readonly DispatcherTimer Timer;
 
+		public void Hide()
+		{
+			this.Container.Hide();
+			this.Overlay.Hide();
+		}
+
+		public void Show()
+		{
+			this.Container.Show();
+			this.Overlay.Show();
+		}
+
 		public SimpleCarouselControl(int DefaultWidth, int DefaultHeight)
 		{
 			this.Container = new Canvas
@@ -188,7 +200,7 @@ namespace ScriptCoreLib.Shared.Avalon.Carousel
 
 					var MyEntry = new Entry
 						{
-							o = 0,
+							o = 1,
 							cy = 0,
 							pc = (Canvas)pc,
 							ps = (Image)ps,
@@ -229,7 +241,7 @@ namespace ScriptCoreLib.Shared.Avalon.Carousel
 
 							var z = (y + 3) / 4;
 
-							MyEntry.o = (y + 1) / 2;
+							MyEntry.o = z;
 
 							if (!IsHot)
 							{
@@ -255,8 +267,8 @@ namespace ScriptCoreLib.Shared.Avalon.Carousel
 							ps.Width = 138 * z;
 							ps.Height = 108 * z;
 
-							var cx = x * DefaultWidth / 4 + DefaultWidth / 2;
-							var cy = y * DefaultHeight / 6 + DefaultHeight / 2;
+							var cx = x * (DefaultWidth - 160) / 2 + DefaultWidth / 2;
+							var cy = y * (DefaultHeight / 2) / 2 + DefaultHeight / 2;
 
 							MyEntry.cy = cy;
 

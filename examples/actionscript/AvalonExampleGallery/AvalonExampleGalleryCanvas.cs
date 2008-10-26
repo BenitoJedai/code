@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using ScriptCoreLib.Shared.Avalon.TiledImageButton;
 using System.Windows.Input;
+using ScriptCoreLib.Shared.Avalon.Carousel;
+using ScriptCoreLib.Shared.Avalon.TextButton;
 
 namespace AvalonExampleGallery.Shared
 {
@@ -59,6 +61,13 @@ namespace AvalonExampleGallery.Shared
 				Height = DefaultHeight
 			}.AttachTo(this);
 
+
+			var CarouselPages = new Canvas
+			{
+				Width = DefaultWidth,
+				Height = DefaultHeight
+			}.AttachTo(this);
+
 			var Overlay = new Canvas
 			{
 				Width = DefaultWidth,
@@ -81,13 +90,7 @@ namespace AvalonExampleGallery.Shared
 
 			}
 
-			var logo = new Image
-			{
-				Source = "assets/AvalonExampleGallery/jsc.png".ToSource(),
-				Width = 96,
-				Height = 96
-			}.MoveTo(DefaultWidth - 96, DefaultHeight - 96).AttachTo(Container);
-
+	
 			var Toolbar = new Canvas
 			{
 				Width = DefaultWidth,
@@ -114,12 +117,50 @@ namespace AvalonExampleGallery.Shared
 			).ToArray();
 			#endregion
 
+			var cc = new SimpleCarouselControl(DefaultWidth, DefaultHeight);
+
+			cc.Timer.Stop();
 
 			#region Options
-			KnownPages.Value.ForEach(
+			var AllPages = KnownPages.Value;
+
+			AllPages.ForEach(
 				(k, i) =>
 				{
 					var o = new OptionWithShadowAndType(k.Key, k.Value);
+
+
+					var ce = new SimpleCarouselControl.EntryInfo
+					{
+						Source = (k.Key + "/Preview.png").ToSource(),
+						Position = i * Math.PI * 2 / AllPages.Count,
+						Click =
+							delegate
+							{
+								o.InitializeHint();
+
+
+								navbar.History.Add(
+									delegate
+									{
+										cc.Timer.Start();
+										o.Target.Orphanize();
+										CarouselPages.Show();
+										Overlay.Show();
+									},
+									delegate
+									{
+										cc.Timer.Stop();
+										CarouselPages.Hide();
+										Overlay.Hide();
+										o.Target.AttachTo(Container);
+									}
+								);
+							}
+					};
+
+					cc.AddEntry(ce);
+
 
 					OptionPosition p = null;
 
@@ -160,6 +201,7 @@ namespace AvalonExampleGallery.Shared
 					o.Click +=
 						delegate
 						{
+
 							navbar.History.Add(
 								delegate
 								{
@@ -179,11 +221,62 @@ namespace AvalonExampleGallery.Shared
 			);
 			#endregion
 
+			#region btnCarousel
+			var btnCarousel = new TextButtonControl
+			{
+				Width = 200,
+				Height = 32,
+				Text = "View as carousel...",
+				Foreground = Brushes.White
+			}.AttachContainerTo(Overlay).MoveContainerTo(0, DefaultHeight - 32);
+
+			btnCarousel.MouseEnter +=
+				delegate
+				{
+					btnCarousel.Foreground = Brushes.Blue;
+				};
+
+			btnCarousel.MouseLeave +=
+				delegate
+				{
+					btnCarousel.Foreground = Brushes.White;
+				};
+
+			btnCarousel.Click +=
+				delegate
+				{
+					navbar.History.Add(
+						delegate
+						{
+							Pages.Show();
+							btnCarousel.Container.Show();
+							cc.Hide();
+							cc.Timer.Stop();
+						},
+						delegate
+						{
+							Pages.Hide();
+							btnCarousel.Container.Hide();
+							cc.Show();
+							cc.Timer.Start();
+						}
+					);
+				};
+			#endregion
 
 
+			var logo = new Image
+			{
+				Source = "assets/AvalonExampleGallery/jsc.png".ToSource(),
+				Width = 96,
+				Height = 96
+			}.MoveTo(DefaultWidth - 96, DefaultHeight - 96).AttachTo(Container);
 
 
+			cc.Hide();
 
+			cc.AttachContainerTo(CarouselPages);
+			cc.Overlay.AttachTo(Overlay);
 
 			navbar.MoveContainerTo(4, 4).AttachContainerTo(Toolbar);
 
@@ -337,9 +430,8 @@ namespace AvalonExampleGallery.Shared
 			this.Overlay.MouseLeftButtonUp +=
 				delegate
 				{
-					if (this.Target == null)
-						if (this.Initialize != null)
-							this.Initialize();
+					InitializeHint();
+
 					if (this.Click != null)
 						this.Click();
 
@@ -354,6 +446,13 @@ namespace AvalonExampleGallery.Shared
 		}
 
 		public Canvas Target;
+
+		public void InitializeHint()
+		{
+			if (this.Target == null)
+				if (this.Initialize != null)
+					this.Initialize();
+		}
 
 		public event Action Initialize;
 
