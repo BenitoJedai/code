@@ -12,7 +12,7 @@ using System.Windows.Input;
 namespace ScriptCoreLib.Shared.Avalon.TextButton
 {
 	[Script]
-	public class TextButtonControl
+	public class TextButtonControl : ISupportsContainer
 	{
 		public readonly Rectangle Background;
 
@@ -20,7 +20,7 @@ namespace ScriptCoreLib.Shared.Avalon.TextButton
 
 		public readonly Rectangle Overlay;
 
-		public readonly Canvas Container;
+		public Canvas Container { get; set; }
 
 		public TextButtonControl()
 		{
