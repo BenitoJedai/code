@@ -152,11 +152,11 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			t = (1000 / 20).AtInterval(
 				delegate
 				{
-					if (e.Opacity < a)
-					{
-						t.Stop();
-						return;
-					}
+					//if (e.Opacity < a)
+					//{
+					//    t.Stop();
+					//    return;
+					//}
 
 					a += 0.09;
 

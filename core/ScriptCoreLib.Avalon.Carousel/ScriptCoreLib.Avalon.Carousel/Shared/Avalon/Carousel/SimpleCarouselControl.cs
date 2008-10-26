@@ -92,9 +92,15 @@ namespace ScriptCoreLib.Shared.Avalon.Carousel
 			{
 				Width = DefaultWidth,
 				Height = DefaultHeight,
-				Background = Brushes.Black,
-				Opacity = 0
 			};
+
+			var OverlayFill = new Rectangle
+			{
+				Width = DefaultWidth,
+				Height = DefaultHeight,
+				Fill = Brushes.Red,
+				Opacity = 0
+			}.AttachTo(this.Overlay);
 
 			var a = new List<Entry>();
 
