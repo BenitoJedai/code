@@ -9,5 +9,9 @@ namespace CarouselExample.Shared
 	[Script]
 	public static class MySharedExtensions
 	{
+		public static List<T> ToEmptyList<T>(this T e)
+		{
+			return new List<T>();
+		}
 	}
 }
