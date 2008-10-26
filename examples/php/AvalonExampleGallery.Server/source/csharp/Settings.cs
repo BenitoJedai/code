@@ -29,7 +29,9 @@ namespace ScriptApplication.source.csharp
 			CreatePHPIndexPage(e, php.OrcasPHPScriptApplicationBackend.Filename, php.OrcasPHPScriptApplicationBackend.Entrypoint);
 
 			// http://www.javascriptkit.com/howto/htaccess6.shtml
-			e[".htaccess"] = "DirectoryIndex " + php.OrcasPHPScriptApplicationBackend.Filename;
+			e[".htaccess"] =
+				"AddType application/x-ms-xbap xbap" + Environment.NewLine +
+				"DirectoryIndex " + php.OrcasPHPScriptApplicationBackend.Filename;
 		}
 
 		private static void CreatePHPIndexPage(IEntryPoint e, string file_name, string entryfunction)
