@@ -30,18 +30,21 @@ namespace ScriptApplication.source.php
 
 			Console.WriteLine("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
 			Console.WriteLine("<html>");
-			Console.WriteLine("<head>");
+
+			new IHTMLHead
+			{
+				Content =
+					(IHTMLMeta.Description)"Avalon Gallery Example powered by jsc, C#, javascript and php"
+					+ (IHTMLMeta.Keywords)"wpf, avalon, avalonexamplegallery, jsc, csharp, javascript, php"
+					+ (IHTMLMeta.Generator)"jsc"
+					+ new IHTMLMeta { MetaName = "ROBOTS", MetaContent = "ALL" }
+					+ new IHTMLMeta { MetaName = "verify-v1", MetaContent = "daj8Q3pV1gvuI3RZ/5TMzUuZwqmEZDPVNBHrXJZ3sUU=" }
+					+ (IHTMLLink.RSS)"http://zproxy.wordpress.com/feed/"
+					+ (IHTMLTitle)"AvalonGalleryExample (PHP + JavaScript)"
+					+ (IHTMLStyle)"body { background: url('assets/AvalonExampleGallery/bg.png'); }"
+			}.ToConsole();
 
 
-
-			Console.WriteLine("<title>AvalonGalleryExample (PHP + JavaScript)</title>");
-
-
-
-			Console.WriteLine("<style> body { background: url('assets/AvalonExampleGallery/bg.png'); } </style>");
-
-
-			Console.WriteLine("</head>");
 			Console.WriteLine("<body>");
 
 
@@ -60,8 +63,44 @@ namespace ScriptApplication.source.php
 			var f = ScriptCoreLib.PHP.IO.FileInfo.OfPath(Filename + ".js");
 
 			Console.WriteLine("<!-- " + f.Size + " -->");
-			
+
 			f.WriteToStream();
+
+			#region stats
+			new IHTMLScript
+			{
+				Content = @"
+					var sc_project=1795466; 
+					var sc_invisible=0; 
+					var sc_partition=16; 
+					var sc_security=""de368db1""; 
+					var sc_text=3; 
+				"
+			}.ToConsole();
+
+			new IHTMLElement.Hidden
+			{
+				Content = new IHTMLScript { URL = "http://www.statcounter.com/counter/counter.js" }
+			}.ToConsole();
+
+			new IHTMLScript { URL = "http://track2.mybloglog.com/js/jsserv.php?mblID=2006091009424673" }.ToConsole();
+			new IHTMLScript
+			{
+				Content = @"
+					var gaJsHost = ((""https:"" == document.location.protocol) ? ""https://ssl."" : ""http://www."");
+					document.write(unescape(""%3Cscript src='"" + gaJsHost + ""google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E""));
+				"
+			}.ToConsole();
+
+			new IHTMLScript
+			{
+				Content = @"
+					var pageTracker = _gat._getTracker(""UA-578264-1"");
+					pageTracker._trackPageview();
+				"
+			}.ToConsole();
+
+			#endregion
 
 
 			Console.WriteLine("</body>");

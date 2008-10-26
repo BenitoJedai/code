@@ -118,8 +118,17 @@ namespace AvalonExampleGallery.Shared
 			#endregion
 
 			var cc = new SimpleCarouselControl(DefaultWidth, DefaultHeight);
+			const string cc_Caption = "Click on a thumbnail!";
 
+			cc.Caption.Text = cc_Caption;
 			cc.Timer.Stop();
+
+			var btnCarouselCanvas = new Canvas
+			{
+				Width = 128,
+				Height = 32,
+			}.AttachTo(this).MoveTo(DefaultWidth - 128, 4);
+
 
 			#region Options
 			var AllPages = KnownPages.Value;
@@ -142,7 +151,7 @@ namespace AvalonExampleGallery.Shared
 						MouseLeave =
 							delegate
 							{
-								cc.Caption.Clear();
+								cc.Caption.Text = cc_Caption;
 							},
 						Click =
 							delegate
@@ -157,9 +166,11 @@ namespace AvalonExampleGallery.Shared
 										o.Target.Orphanize();
 										CarouselPages.Show();
 										Overlay.Show();
+										btnCarouselCanvas.Show();
 									},
 									delegate
 									{
+										btnCarouselCanvas.Hide();
 										cc.Timer.Stop();
 										CarouselPages.Hide();
 										Overlay.Hide();
@@ -218,9 +229,11 @@ namespace AvalonExampleGallery.Shared
 									o.Target.Orphanize();
 									Pages.Show();
 									Overlay.Show();
+									btnCarouselCanvas.Show();
 								},
 								delegate
 								{
+									btnCarouselCanvas.Hide();
 									Pages.Hide();
 									Overlay.Hide();
 									o.Target.AttachTo(Container);
@@ -232,13 +245,15 @@ namespace AvalonExampleGallery.Shared
 			#endregion
 
 			#region btnCarousel
+
+		
 			var btnCarousel = new TextButtonControl
 			{
-				Width = 200,
-				Height = 32,
+				Width = btnCarouselCanvas.Width,
+				Height = btnCarouselCanvas.Height,
 				Text = "View as carousel...",
 				Foreground = Brushes.White
-			}.AttachContainerTo(Overlay).MoveContainerTo(0, DefaultHeight - 32);
+			}.AttachContainerTo(btnCarouselCanvas);
 
 			btnCarousel.MouseEnter +=
 				delegate

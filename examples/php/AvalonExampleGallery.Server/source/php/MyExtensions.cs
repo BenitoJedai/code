@@ -9,6 +9,11 @@ namespace ScriptApplication.source.php
 	[Script]
 	public static class MyExtensions
 	{
+		public static void ToConsole(this object e)
+		{
+			Console.WriteLine(e);
+		}
+
 		public static T SizeTo<T>(this T e, int x, int y)
 				where T : IHTMLElement
 		{
