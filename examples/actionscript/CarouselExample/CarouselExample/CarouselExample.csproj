@@ -81,10 +81,6 @@
     <EmbeddedResource Include="web\assets\OrcasAvalonApplication\AvalonGalleryExample.png" />
     <EmbeddedResource Include="web\assets\OrcasAvalonApplication\PreviewSelection.png" />
     <EmbeddedResource Include="web\assets\OrcasAvalonApplication\PreviewShadow.png" />
-    <EmbeddedResource Include="web\assets\OrcasAvalonApplication\about.txt" />
-    <EmbeddedResource Include="web\assets\OrcasAvalonApplication\help_idle.png" />
-    <EmbeddedResource Include="web\assets\OrcasAvalonApplication\help.png" />
-    <EmbeddedResource Include="web\assets\OrcasAvalonApplication\jsc.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
