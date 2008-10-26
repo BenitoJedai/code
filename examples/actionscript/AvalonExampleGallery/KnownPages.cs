@@ -54,6 +54,10 @@ namespace AvalonExampleGallery.Shared
 						pages::System_IO_StringReader.Shared.KnownAssets.Path.Assets, 
 						typeof(pages::System_IO_StringReader.Shared.System_IO_StringReaderCanvas) },
 
+					{ 
+						pages::CarouselExample2.Shared.KnownAssets.Path.Assets, 
+						typeof(pages::CarouselExample2.Shared.CarouselExample2Canvas) },
+
 				};
 			}
 		}

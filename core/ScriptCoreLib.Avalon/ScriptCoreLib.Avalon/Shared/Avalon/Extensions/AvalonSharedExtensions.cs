@@ -15,6 +15,11 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	[Script]
 	public static class AvalonSharedExtensions
 	{
+		public static void Toggle(this DispatcherTimer e)
+		{
+			e.IsEnabled = !e.IsEnabled;
+		}
+
 		public static void NavigateTo(this Uri e)
 		{
 			// we have no context

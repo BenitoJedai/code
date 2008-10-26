@@ -36,53 +36,7 @@ namespace AvalonExampleGallery.ActionScript
 			);
 
 			
-			// register assets from referenced assembly
-			pages::NavigationButtons.Assets.ActionScript.KnownAndReferencedEmbeddedAssets.RegisterTo(
-				KnownEmbeddedResources.Default.Handlers
-			);
-
-			// assets are in the same library and do not have their own namespace
-			pages::TextSuggestions.ActionScript.KnownEmbeddedAssets.RegisterTo(
-				KnownEmbeddedResources.Default.Handlers
-			);
-
-			pages::TextSuggestions2.ActionScript.KnownEmbeddedAssets.RegisterTo(
-				KnownEmbeddedResources.Default.Handlers
-			);
-
-			pages::FlashMouseMaze.ActionScript.KnownEmbeddedAssets.RegisterTo(
-				KnownEmbeddedResources.Default.Handlers
-			);
-
-			pages::FlashAvalonQueryExample.ActionScript.KnownEmbeddedAssets.RegisterTo(
-				KnownEmbeddedResources.Default.Handlers
-			);
-
-			pages::DynamicCursor.ActionScript.KnownEmbeddedAssets.RegisterTo(
-				KnownEmbeddedResources.Default.Handlers
-			);
-
-			pages::DraggableClipRectangle.ActionScript.KnownEmbeddedAssets.RegisterTo(
-				KnownEmbeddedResources.Default.Handlers
-			);
-
-			pages::BrowserAvalonExample.ActionScript.KnownEmbeddedAssets.RegisterTo(
-				KnownEmbeddedResources.Default.Handlers
-			);
-
-
-			pages::System_Windows_Input_MouseEventArgs.ActionScript.KnownEmbeddedAssets.RegisterTo(
-				KnownEmbeddedResources.Default.Handlers
-			);
-
-
-			pages::NumericTransmitter.ActionScript.KnownEmbeddedAssets.RegisterTo(
-				KnownEmbeddedResources.Default.Handlers
-			);
-
-			pages::System_IO_StringReader.ActionScript.KnownEmbeddedAssets.RegisterTo(
-				KnownEmbeddedResources.Default.Handlers
-			);
+			
 		}
 
 
@@ -106,10 +60,59 @@ namespace AvalonExampleGallery.ActionScript
 			// assets from current assembly
 			Handlers.Add(e => ByFileName(e));
 
-			//// assets from referenced assemblies
-			//Handlers.Add(e => global::ScriptCoreLib.ActionScript.Avalon.Cursors.EmbeddedAssets.Default[e]);
-			//Handlers.Add(e => global::ScriptCoreLib.ActionScript.Avalon.TiledImageButton.Assets.Default[e]);
+			global::ScriptCoreLib.ActionScript.Avalon.Carousel.KnownEmbeddedAssets.RegisterTo(Handlers);
 
+			// register assets from referenced assembly
+			pages::NavigationButtons.Assets.ActionScript.KnownAndReferencedEmbeddedAssets.RegisterTo(
+				Handlers
+			);
+
+			// assets are in the same library and do not have their own namespace
+			pages::TextSuggestions.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				Handlers
+			);
+
+			pages::TextSuggestions2.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				Handlers
+			);
+
+			pages::FlashMouseMaze.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				Handlers
+			);
+
+			pages::FlashAvalonQueryExample.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				Handlers
+			);
+
+			pages::DynamicCursor.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				Handlers
+			);
+
+			pages::DraggableClipRectangle.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				Handlers
+			);
+
+			pages::BrowserAvalonExample.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				Handlers
+			);
+
+
+			pages::System_Windows_Input_MouseEventArgs.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				Handlers
+			);
+
+
+			pages::NumericTransmitter.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				Handlers
+			);
+
+			pages::System_IO_StringReader.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				Handlers
+			);
+
+			pages::CarouselExample2.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				Handlers
+			);
 		}
 	}
 	
