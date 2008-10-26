@@ -16,6 +16,14 @@ namespace ScriptCoreLib.Shared.Lambda
 			}
 		}
 
+		public static void Times(this int count, Action<int> h)
+		{
+			for (int i = 0; i < count; i++)
+			{
+				h(i);
+			}
+		}
+
 		public static T Take<T>(this IEnumerator<T> e)
 		{
 			if (e.MoveNext())
