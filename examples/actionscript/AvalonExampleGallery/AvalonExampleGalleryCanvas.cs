@@ -50,7 +50,8 @@ namespace AvalonExampleGallery.Shared
 			var Container = new Canvas
 			{
 				Width = DefaultWidth,
-				Height = DefaultHeight
+				Height = DefaultHeight,
+				Name = "AvalonExampleGalleryCanvas_Container"
 			}.AttachTo(this);
 
 			Container.ClipTo(0, 0, DefaultWidth, DefaultHeight);
@@ -58,21 +59,25 @@ namespace AvalonExampleGallery.Shared
 			var Pages = new Canvas
 			{
 				Width = DefaultWidth,
-				Height = DefaultHeight
+				Height = DefaultHeight,
+				Name = "AvalonExampleGalleryCanvas_Pages"
 			}.AttachTo(this);
 
 
 			var CarouselPages = new Canvas
 			{
 				Width = DefaultWidth,
-				Height = DefaultHeight
+				Height = DefaultHeight,
+				Name = "AvalonExampleGalleryCanvas_CarouselPages"
 			}.AttachTo(this);
 
 			var Overlay = new Canvas
 			{
 				Width = DefaultWidth,
-				Height = DefaultHeight
+				Height = DefaultHeight,
+				Name = "AvalonExampleGalleryCanvas_Overlay"
 			}.AttachTo(this);
+
 
 			if (EnableBackground)
 			{
@@ -95,7 +100,8 @@ namespace AvalonExampleGallery.Shared
 			{
 				Width = DefaultWidth,
 				Height = navbar.Height,
-				Opacity = 0
+				Opacity = 0,
+				Name = "Toolbar"
 			}.AttachTo(this);
 
 			1000.AtDelay(
@@ -275,12 +281,15 @@ namespace AvalonExampleGallery.Shared
 						{
 							Pages.Show();
 							btnCarousel.Container.Show();
+							CarouselPages.Hide();
+							
 							cc.Hide();
 							cc.Timer.Stop();
 						},
 						delegate
 						{
 							Pages.Hide();
+							CarouselPages.Show();
 							btnCarousel.Container.Hide();
 							cc.Show();
 							cc.Timer.Start();
@@ -292,10 +301,15 @@ namespace AvalonExampleGallery.Shared
 
 			cc.Hide();
 
+			CarouselPages.Hide();
 			cc.AttachContainerTo(CarouselPages);
+
+			cc.Overlay.Name = "cc_Overlay";
 			cc.Overlay.AttachTo(Overlay);
 
 
+
+			#region logo
 			var logo = new Image
 			{
 				Source = "assets/AvalonExampleGallery/jsc.png".ToSource(),
@@ -331,6 +345,8 @@ namespace AvalonExampleGallery.Shared
 				{
 					new Uri("http://jsc.sourceforge.net").NavigateTo();
 				};
+			#endregion
+
 
 			navbar.MoveContainerTo(4, 4).AttachContainerTo(Toolbar);
 
