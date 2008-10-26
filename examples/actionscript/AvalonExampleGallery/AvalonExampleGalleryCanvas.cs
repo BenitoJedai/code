@@ -134,6 +134,16 @@ namespace AvalonExampleGallery.Shared
 					{
 						Source = (k.Key + "/Preview.png").ToSource(),
 						Position = i * Math.PI * 2 / AllPages.Count,
+						MouseEnter =
+							delegate
+							{
+								cc.Caption.Text = o.Caption.Text;
+							},
+						MouseLeave =
+							delegate
+							{
+								cc.Caption.Clear();
+							},
 						Click =
 							delegate
 							{
@@ -265,6 +275,12 @@ namespace AvalonExampleGallery.Shared
 			#endregion
 
 
+			cc.Hide();
+
+			cc.AttachContainerTo(CarouselPages);
+			cc.Overlay.AttachTo(Overlay);
+
+
 			var logo = new Image
 			{
 				Source = "assets/AvalonExampleGallery/jsc.png".ToSource(),
@@ -272,11 +288,34 @@ namespace AvalonExampleGallery.Shared
 				Height = 96
 			}.MoveTo(DefaultWidth - 96, DefaultHeight - 96).AttachTo(Container);
 
+			var logo_Overlay = new Rectangle
+			{
+				Width = 96,
+				Height = 96,
+				Fill = Brushes.Blue,
+				Opacity = 0,
+				Cursor = Cursors.Hand
+			}.MoveTo(DefaultWidth - 96, DefaultHeight - 96).AttachTo(Overlay);
 
-			cc.Hide();
+			logo_Overlay.MouseEnter +=
+				delegate
+				{
+					Pages.Opacity = 0.5;
+					CarouselPages.Opacity = 0.5;
+				};
 
-			cc.AttachContainerTo(CarouselPages);
-			cc.Overlay.AttachTo(Overlay);
+			logo_Overlay.MouseLeave +=
+				delegate
+				{
+					Pages.Opacity = 1;
+					CarouselPages.Opacity = 1;
+				};
+
+			logo_Overlay.MouseLeftButtonUp +=
+				delegate
+				{
+					new Uri("http://jsc.sourceforge.net").NavigateTo();
+				};
 
 			navbar.MoveContainerTo(4, 4).AttachContainerTo(Toolbar);
 

@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Input;
 using ScriptCoreLib.Shared.Lambda;
 using System.Windows.Threading;
+using System.Windows;
 
 namespace ScriptCoreLib.Shared.Avalon.Carousel
 {
@@ -60,6 +61,8 @@ namespace ScriptCoreLib.Shared.Avalon.Carousel
 			this.Overlay.Show();
 		}
 
+		public TextBox Caption { get; set; }
+
 		public SimpleCarouselControl(int DefaultWidth, int DefaultHeight)
 		{
 			this.Container = new Canvas
@@ -67,6 +70,23 @@ namespace ScriptCoreLib.Shared.Avalon.Carousel
 				Width = DefaultWidth,
 				Height = DefaultHeight
 			};
+
+			var ContentContainer = new Canvas
+			{
+				Width = DefaultWidth,
+				Height = DefaultHeight
+			}.AttachTo(this.Container);
+
+			this.Caption = new TextBox
+			{
+				Width = DefaultWidth,
+				Height = 32,
+				TextAlignment = TextAlignment.Center,
+				Foreground = Brushes.White,
+				BorderThickness = new Thickness(0),
+				Background = Brushes.Transparent,
+				IsReadOnly = true
+			}.MoveTo(0, (DefaultHeight - 32) / 2).AttachTo(this.Container);
 
 			this.Overlay = new Canvas
 			{
@@ -78,6 +98,7 @@ namespace ScriptCoreLib.Shared.Avalon.Carousel
 
 			var a = new List<Entry>();
 
+			#region Timer
 			this.Timer = (1000 / 30).AtInterval(
 				delegate
 				{
@@ -98,6 +119,8 @@ namespace ScriptCoreLib.Shared.Avalon.Carousel
 					);
 				}
 			);
+			#endregion
+
 
 			var s = 0.01;
 
@@ -112,7 +135,7 @@ namespace ScriptCoreLib.Shared.Avalon.Carousel
 						//Background = Brushes.Green,
 						Width = pc_Width,
 						Height = pc_Height
-					}.AttachTo(this.Container);
+					}.AttachTo(ContentContainer);
 
 					const string Assets = "assets/ScriptCoreLib.Avalon.Carousel";
 

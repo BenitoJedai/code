@@ -37,16 +37,7 @@ namespace CarouselExample2.Shared
 
 			var cc = new SimpleCarouselControl(DefaultWidth, DefaultHeight);
 
-			var t = new TextBox
-			{
-				Width = DefaultWidth,
-				Height = 32,
-				TextAlignment = TextAlignment.Center,
-				Foreground = Brushes.White,
-				BorderThickness = new Thickness(0),
-				Background = Brushes.Transparent,
-				IsReadOnly = true
-			}.MoveTo(0, (DefaultHeight - 32) / 2);
+		
 
 			new[]
 			{
@@ -66,12 +57,12 @@ namespace CarouselExample2.Shared
 								MouseEnter =
 									delegate
 									{
-										t.Text = k;
+										cc.Caption.Text = k;
 									},
 								MouseLeave =
 									delegate
 									{
-										t.Text = "";
+										cc.Caption.Clear();
 									}
 							}
 					);
@@ -82,7 +73,6 @@ namespace CarouselExample2.Shared
 
 			cc.AttachContainerTo(this);
 
-			t.AttachTo(this);
 
 			cc.Overlay.AttachTo(this);
 
