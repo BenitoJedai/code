@@ -10,6 +10,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 	[Script(Implements = typeof(global::System.Windows.FrameworkElement))]
 	internal class __FrameworkElement : __UIElement
 	{
+		public string Name
+		{
+			set
+			{
+				this.InternalGetDisplayObjectDirect().name = value;
+			}
+		}
+
 		public virtual void InternalSetWidth(double value)
 		{
 			throw new NotImplementedException();
