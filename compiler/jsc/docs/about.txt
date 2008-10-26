@@ -170,3 +170,5 @@ version history:
 	actionscript: anonymous types are prefixed with assembly scope
 24.10.2008
 	php: added OpCodes.Clt_Un
+26.10.2008
+	actionscript: added ctor default values int to bool fixup

@@ -101,29 +101,43 @@ namespace jsc.Languages.ActionScript
                         // fixme!
                         Write("null");
                     }
-                    else if (DefaultValue.IsLiteral)
-                        EmitInstruction(null, DefaultValue);
-                    else
-                    {
-                        WriteKeywordNull();
+					else if (DefaultValue.IsLiteral)
+					{
+						// int to bool fixup
+						if (ParameterType == typeof(bool) && DefaultValue.TargetInteger == 1)
+						{
+							WriteKeywordTrue();
+						}
+						else if (ParameterType == typeof(bool) && DefaultValue.TargetInteger == 0)
+						{
+							WriteKeywordFalse();
+						}
+						else
+						{
+							EmitInstruction(null, DefaultValue);
+						}
+					}
+					else
+					{
+						WriteKeywordNull();
 
-                        if (AddDefaultVariableInitializer == null)
-                            throw new NullReferenceException("AddDefaultVariableInitializer");
+						if (AddDefaultVariableInitializer == null)
+							throw new NullReferenceException("AddDefaultVariableInitializer");
 
-                        AddDefaultVariableInitializer(
-                            delegate
-                            {
-                                WriteIdent();
-                                Write("if (");
-                                WriteMethodParameter(ParamIndex, p);
-                                Write(" == null) ");
-                                WriteMethodParameter(ParamIndex, p);
-                                WriteAssignment();
-                                EmitInstruction(null, DefaultValue);
-                                WriteLine(";");
-                            }
-                        );
-                    }
+						AddDefaultVariableInitializer(
+							delegate
+							{
+								WriteIdent();
+								Write("if (");
+								WriteMethodParameter(ParamIndex, p);
+								Write(" == null) ");
+								WriteMethodParameter(ParamIndex, p);
+								WriteAssignment();
+								EmitInstruction(null, DefaultValue);
+								WriteLine(";");
+							}
+						);
+					}
                 }
        
 
