@@ -71,7 +71,7 @@ namespace ScriptCoreLib.Shared.Avalon.TiledImageButton
 						this.GoBack();
 				};
 
-			ButtonGoBack.Container.AttachTo(Container);
+			ButtonGoBack.Container.MoveTo(0, 0).AttachTo(Container);
 
 			ButtonGoForward = new TiledImageButtonControl(
 				"assets/ScriptCoreLib.Avalon.TiledImageButton/back-forward-large.png".ToSource(),

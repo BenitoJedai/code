@@ -275,7 +275,7 @@ namespace ScriptCoreLib.Shared.Avalon.Carousel
 							if (!IsHot)
 							{
 								pi.Opacity = MyEntry.o;
-								p.Opacity = MyEntry.o;
+								//p.Opacity = MyEntry.o;
 							}
 
 							e.Position += s * z;
