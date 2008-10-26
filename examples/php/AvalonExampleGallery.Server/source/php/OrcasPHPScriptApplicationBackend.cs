@@ -41,13 +41,29 @@ namespace ScriptApplication.source.php
 					+ new IHTMLMeta { MetaName = "verify-v1", MetaContent = "daj8Q3pV1gvuI3RZ/5TMzUuZwqmEZDPVNBHrXJZ3sUU=" }
 					+ (IHTMLLink.RSS)"http://zproxy.wordpress.com/feed/"
 					+ (IHTMLTitle)"AvalonGalleryExample (PHP + JavaScript)"
-					+ (IHTMLStyle)"body { background: url('assets/AvalonExampleGallery/bg.png'); }"
+					+ (IHTMLStyle)@"
+						body { background: url('assets/AvalonExampleGallery/bg.png'); }
+						a { text-decoration: none; color: white; }
+						a:hover { text-decoration: underline; color: blue; }
+
+					"
 			}.ToConsole();
 
 
 			Console.WriteLine("<body>");
 
 
+			new IHTMLElement
+			{
+				Content = 
+					new IHTMLAnchor { URL = "AvalonExampleGallery.XBAP.xbap", Content = "XBAP Version" } + new IHTMLBreak()
+					+ new IHTMLAnchor { URL = "AvalonExampleGalleryFlash.htm", Content = "Flash Version" } + new IHTMLBreak()
+					+ new IHTMLBreak()
+					+ new IHTMLAnchor { URL = "http://jsc.sourceforge.net", Content = "visit jsc" } + new IHTMLBreak()
+					+ new IHTMLAnchor { URL = "http://zproxy.wordpress.com", Content = "visit blog" } + new IHTMLBreak()
+					+ new IHTMLAnchor { URL = "http://groups.google.com/group/jscsharp?pli=1", Content = "visit groups" } + new IHTMLBreak()
+
+			}.MoveTo(32, 32).ToConsole();
 
 
 			var Container = CreateOptions();

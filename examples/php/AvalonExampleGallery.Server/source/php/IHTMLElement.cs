@@ -205,7 +205,53 @@ namespace ScriptApplication.source.php
 		}
 	}
 
-	
+	[Script]
+	public class IHTMLBreak : IHTMLElement
+	{
+
+
+
+		public IHTMLBreak()
+		{
+			this.Name = "br";
+		}
+
+		
+		public override string ToString()
+		{
+			
+			return "<" + Name + "/>";
+		}
+	}
+
+	[Script]
+	public class IHTMLAnchor : IHTMLElement
+	{
+
+
+
+		public IHTMLAnchor()
+		{
+			this.Name = "a";
+		}
+
+		/// <summary>
+		/// Sets or retrieves the destination URL or anchor point. 
+		/// </summary>
+		public string URL { get; set; }
+
+		public override string ToString()
+		{
+			var href = "";
+			if (this.URL != null)
+				href = "href='" + this.URL + "'";
+
+
+
+			return "<" + Name + " " + href + ">" + this.Content + "</" + Name + ">";
+		}
+	}
+
 
 	[Script]
 	public class IHTMLLink : IHTMLElement
