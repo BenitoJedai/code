@@ -70,6 +70,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 			InternalSprite.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
 
+
+			InternalSprite.style.left = "0px";
+			InternalSprite.style.top = "0px";
+
+
 			InternalSprite.appendChild(InternalContent);
 
 			InternalContent.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;

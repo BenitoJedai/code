@@ -58,6 +58,7 @@ namespace ScriptApplication.source.php
 				Content = 
 					new IHTMLAnchor { URL = "AvalonExampleGallery.XBAP.xbap", Content = "XBAP Version" } + new IHTMLBreak()
 					+ new IHTMLAnchor { URL = "AvalonExampleGalleryFlash.htm", Content = "Flash Version" } + new IHTMLBreak()
+					+ new IHTMLAnchor { URL = "AvalonExampleGalleryDocument.htm", Content = "JavaScript Version" } + new IHTMLBreak()
 					+ new IHTMLBreak()
 					+ new IHTMLAnchor { URL = "http://jsc.sourceforge.net", Content = "visit jsc" } + new IHTMLBreak()
 					+ new IHTMLAnchor { URL = "http://zproxy.wordpress.com", Content = "visit blog" } + new IHTMLBreak()
