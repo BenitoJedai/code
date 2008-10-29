@@ -41,6 +41,8 @@ using ScriptCoreLib;
 [assembly: ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript.Cards")]
 [assembly: ScriptTypeFilter(ScriptType.JavaScript, "*.Shared.Cards")]
 
+[assembly: ScriptTypeFilter(ScriptType.JavaScript, "ScriptCoreLib.Shared.Cards")]
+
 /*
 [assembly: ScriptTypeFilter(ScriptType.PHP, "*.*.PHP")]
 [assembly: ScriptTypeFilter(ScriptType.PHP, "*.*.Shared")]

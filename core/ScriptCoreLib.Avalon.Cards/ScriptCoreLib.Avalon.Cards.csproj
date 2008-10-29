@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{603F85FB-7455-4193-ACBE-7304811A19EE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ScriptCoreLib</RootNamespace>
+    <AssemblyName>ScriptCoreLib.Avalon.Cards</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="ScriptCoreLib, Version=3.0.3175.17424, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Avalon, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Query, Version=3.5.3175.22454, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionScript\Avalon\Cards\KnownEmbeddedAssets.cs" />
+    <Compile Include="KnownAssets.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\Avalon\Cards\IAssemblyReferenceToken.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\1.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\10.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\11.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\12.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\13.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\14.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\15.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\16.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\17.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\18.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\19.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\2.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\20.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\21.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\22.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\23.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\24.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\25.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\26.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\27.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\28.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\29.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\3.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\30.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\31.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\32.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\33.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\34.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\35.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\36.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\37.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\38.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\39.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\4.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\40.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\41.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\42.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\43.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\44.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\45.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\46.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\47.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\48.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\49.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\5.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\50.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\51.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\52.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\53.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\54.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\6.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\7.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\8.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\9.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\b1fh.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\b1fv.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\b1pb.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\b1pl.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\b1pr.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\b1pt.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\b2fh.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\b2fv.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\b2pb.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\b2pl.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\b2pr.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\b2pt.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\spider.empty.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\spider.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin\"</PostBuildEvent>
+  </PropertyGroup>
+</Project>
