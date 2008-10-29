@@ -64,7 +64,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Shared\" />
+    <Folder Include="Shared\Cards\" />
     <Folder Include="web\assets\ScriptCoreLib.Cards\Default\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

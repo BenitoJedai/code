@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio Codename Orcas
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Cards", "ScriptCoreLib.Cards.csproj", "{8D2953BB-4703-4F30-9A5C-D339F6E2284E}"
 EndProject
 Global
