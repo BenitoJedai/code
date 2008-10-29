@@ -73,6 +73,10 @@
     <Compile Include="ActionScript\Avalon\Cards\KnownEmbeddedAssets.cs" />
     <Compile Include="KnownAssets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\Avalon\Cards\Card.cs" />
+    <Compile Include="Shared\Avalon\Cards\CardDeck.cs" />
+    <Compile Include="Shared\Avalon\Cards\CardInfo.cs" />
+    <Compile Include="Shared\Avalon\Cards\CardStack.cs" />
     <Compile Include="Shared\Avalon\Cards\IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <ItemGroup>

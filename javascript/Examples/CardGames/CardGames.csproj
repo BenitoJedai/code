@@ -68,7 +68,6 @@
     <Compile Include="source\js\Controls\FreeCell.cs" />
     <Compile Include="source\js\Controls\Spider.cs" />
     <Compile Include="source\js\Extensions.cs" />
-    <Compile Include="source\js\Settings.cs" />
     <Compile Include="source\js\SoundManager.cs" />
     <Compile Include="source\js\StatusPanel.cs" />
   </ItemGroup>
