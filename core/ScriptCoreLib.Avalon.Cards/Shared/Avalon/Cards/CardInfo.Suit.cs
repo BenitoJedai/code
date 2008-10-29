@@ -5,8 +5,19 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.Avalon.Cards
 {
-	[Script]
-	public class CardStack
+	partial class CardInfo
 	{
+		public enum SuitEnum
+		{
+			Unknown,
+
+			Spade,
+			Club,
+			Heart,
+			Diamond,
+
+		}
+
+		public SuitEnum Suit;
 	}
 }

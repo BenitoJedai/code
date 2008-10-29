@@ -77,6 +77,8 @@
     <Compile Include="Shared\Avalon\Cards\CardDeck.cs" />
     <Compile Include="Shared\Avalon\Cards\CardInfo.cs" />
     <Compile Include="Shared\Avalon\Cards\CardStack.cs" />
+    <Compile Include="Shared\Avalon\Cards\CardInfo.Suit.cs" />
+    <Compile Include="Shared\Avalon\Cards\CardInfo.Rank.cs" />
     <Compile Include="Shared\Avalon\Cards\IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <ItemGroup>
