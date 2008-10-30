@@ -11,5 +11,26 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 		public double X { get; set; }
 		public double Y { get; set; }
 
+		public double Length
+		{
+			get
+			{
+				return global::System.Math.Sqrt(LengthSquared);
+			}
+		}
+
+
+		public double LengthSquared
+		{
+			get
+			{
+				return ((this.X * this.X) + (this.Y * this.Y));
+			}
+		}
+ 
+
+ 
+
+
 	}
 }
