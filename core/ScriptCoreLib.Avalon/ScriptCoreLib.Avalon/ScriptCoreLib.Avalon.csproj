@@ -192,6 +192,9 @@
     <Compile Include="Shared\Avalon\Extensions\AvalonSharedExtensions.cs" />
     <Compile Include="Shared\Avalon\Extensions\ISupportsContainer.cs" />
     <Compile Include="Shared\Avalon\IAssemblyReferenceToken.cs" />
+    <Compile Include="Shared\Avalon\Tween\NumericEmitter.cs" />
+    <Compile Include="Shared\Avalon\Tween\NumericOmitter.cs" />
+    <Compile Include="Shared\Avalon\Tween\NumericTransmitter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\Notes.txt" />
