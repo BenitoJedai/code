@@ -79,6 +79,7 @@
     <Compile Include="Shared\Avalon\Cards\CardStack.cs" />
     <Compile Include="Shared\Avalon\Cards\CardInfo.Suit.cs" />
     <Compile Include="Shared\Avalon\Cards\CardInfo.Rank.cs" />
+    <Compile Include="Shared\Avalon\Cards\Card.AnimatedOpacity.cs" />
     <Compile Include="Shared\Avalon\Cards\IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +151,9 @@
     <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\b2pt.png" />
     <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\spider.empty.png" />
     <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\spider.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Shared\Avalon\Cards\Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
