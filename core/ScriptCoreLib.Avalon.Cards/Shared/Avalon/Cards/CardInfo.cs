@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Media;
+using System.Windows.Controls;
+using ScriptCoreLib.Shared.Avalon.Extensions;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace ScriptCoreLib.Shared.Avalon.Cards
 {
@@ -89,18 +93,8 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 		public static CardInfo[] By(SuitEnum suit, params CardInfo.RankEnum[] rank)
 		{
-			var a = new List<CardInfo>();
+			return rank.ToArray(z => new CardInfo(suit, z));
 
-			foreach (var z in rank)
-			{
-				var c = new CardInfo(suit, z);
-
-
-
-				a.Add(c);
-			}
-
-			return a.ToArray();
 		}
 
 
@@ -126,19 +120,19 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 			foreach (SuitEnum s in suit)
 			{
 				a.AddRange(By(s,
-			   RankEnum.RankAce,
-			   RankEnum.RankKing,
-			   RankEnum.RankQueen,
-			   RankEnum.RankJack,
-			   RankEnum.Rank10,
-			   RankEnum.Rank9,
-			   RankEnum.Rank8,
-			   RankEnum.Rank7,
-			   RankEnum.Rank6,
-			   RankEnum.Rank5,
-			   RankEnum.Rank4,
-			   RankEnum.Rank3,
-			   RankEnum.Rank2
+				   RankEnum.RankAce,
+				   RankEnum.RankKing,
+				   RankEnum.RankQueen,
+				   RankEnum.RankJack,
+				   RankEnum.Rank10,
+				   RankEnum.Rank9,
+				   RankEnum.Rank8,
+				   RankEnum.Rank7,
+				   RankEnum.Rank6,
+				   RankEnum.Rank5,
+				   RankEnum.Rank4,
+				   RankEnum.Rank3,
+				   RankEnum.Rank2
 					//RankEnum.RankJoker
 			   )
 		   );
@@ -161,7 +155,8 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 		public static CardInfo[] FullDeck(bool IsBlackDeck)
 		{
-			var a = By(SuitEnum.Spade,
+			var a = By(
+				SuitEnum.Spade,
 				SuitEnum.Club,
 				SuitEnum.Heart,
 				SuitEnum.Diamond);
@@ -206,14 +201,16 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 			return src;
 		}
 
-		//public IHTMLImage ToImage(string path)
-		//{
-		//    var i = new IHTMLImage(GetImagePath(path));
+		public Image ToImage()
+		{
+			return new Image
+			{
+				Source = GetImagePath(KnownAssets.Path.DefaultCards).ToSource(),
+				Width = CardInfo.Width,
+				Height = CardInfo.Height
+			};
+		}
 
-		//    i.alt = Description;
-
-		//    return i;
-		//}
 
 		public static CardInfo[] FullDeck()
 		{

@@ -80,6 +80,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\TextChangedEventArgs.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\TextChangedEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\UIElementCollection.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Vector.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\DependencyObject.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\FrameworkElement.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Freezable.cs" />
@@ -183,6 +184,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Threading\DispatcherObject.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Threading\DispatcherTimer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\UIElement.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Vector.cs" />
     <Compile Include="JavaScript\Extensions\AvalonExtensions.cs" />
     <Compile Include="JavaScript\UCLImplementation\AvalonExtensions.cs" />
     <Compile Include="Shared\Avalon\Extensions\AvalonExtensions.cs" />
