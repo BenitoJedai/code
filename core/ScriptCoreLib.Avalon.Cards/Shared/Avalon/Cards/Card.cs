@@ -9,7 +9,7 @@ using ScriptCoreLib.Shared.Avalon.Tween;
 namespace ScriptCoreLib.Shared.Avalon.Cards
 {
 	[Script]
-	public class Card : ISupportsContainer
+	public partial class Card : ISupportsContainer
 	{
 		public readonly CardInfo Info;
 
@@ -33,29 +33,36 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 
 
-		internal Action<int, int> AnimatedOpacityEmitter;
 
-		public double AnimatedOpacity
+		public Image ImageTopSide;
+		public Image ImageBackSide;
+
+		public enum SideEnum
+		{
+			TopSide,
+			BackSide
+		}
+
+		SideEnum _VisibleSide;
+		public SideEnum VisibleSide
 		{
 			get
 			{
-				this.Container.Opacity;
+				return _VisibleSide;
 			}
 			set
 			{
-				if (AnimatedOpacityEmitter == null)
+				_VisibleSide = value;
+
+				if (value == SideEnum.TopSide)
 				{
-					AnimatedOpacityEmitter = NumericEmitter.Of(
-						(v, r) =>
-						{
-							this.Container.Opacity = v * 0.01;
-						}
-					);
-
-
+					ImageTopSide.Visibility = System.Windows.Visibility.Visible;
+					ImageBackSide.Visibility = System.Windows.Visibility.Hidden;
+					return;
 				}
 
-				AnimatedOpacityEmitter(Convert.ToInt32(value * 100), 0);
+				ImageTopSide.Visibility = System.Windows.Visibility.Hidden;
+				ImageBackSide.Visibility = System.Windows.Visibility.Visible;
 			}
 		}
 
@@ -67,7 +74,21 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 				Height = CardInfo.Height
 			};
 
-			i.ToImage().AttachTo(this);
+			this.ImageTopSide = new Image
+			{
+				Source = i.GetImagePath(KnownAssets.Path.DefaultCards).ToSource(),
+				Width = CardInfo.Width,
+				Height = CardInfo.Height
+			}.AttachTo(this);
+
+			this.ImageBackSide = new Image
+			{
+				Source = CardInfo.GetImagePath(KnownAssets.Path.DefaultCards, false, 0, null, false).ToSource(),
+				Width = CardInfo.Width,
+				Height = CardInfo.Height,
+			}.AttachTo(this);
+
+			this.VisibleSide = SideEnum.TopSide;
 
 			CurrentDeck = d;
 

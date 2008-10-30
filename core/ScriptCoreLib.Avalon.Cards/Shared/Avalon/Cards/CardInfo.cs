@@ -176,6 +176,12 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 		public string GetImagePath(string path)
 		{
+			return GetImagePath(path, Visible, ResourceIndex, CustomBackground, IsBlackDeck);
+		}
+
+
+		public static string GetImagePath(string path, bool Visible, int ResourceIndex, string CustomBackground, bool IsBlackDeck)
+		{
 			var src = path + "/";
 
 			if (Visible)
@@ -201,16 +207,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 			return src;
 		}
 
-		public Image ToImage()
-		{
-			return new Image
-			{
-				Source = GetImagePath(KnownAssets.Path.DefaultCards).ToSource(),
-				Width = CardInfo.Width,
-				Height = CardInfo.Height
-			};
-		}
-
+	
 
 		public static CardInfo[] FullDeck()
 		{
