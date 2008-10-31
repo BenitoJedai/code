@@ -69,6 +69,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Func.cs" />
     <Compile Include="PHP\BCLImplementation\System\Func.cs" />
     <Compile Include="JavaScript\Extensions\QueryExtensions.cs" />
+    <Compile Include="Shared\Lambda\Lambda.ForEach.cs" />
     <Compile Include="Shared\Lambda\CyclicEnumerator.cs" />
     <Compile Include="Shared\Lambda\Future.cs" />
     <Compile Include="Shared\Query\Enumerable.Methods.cs" />
