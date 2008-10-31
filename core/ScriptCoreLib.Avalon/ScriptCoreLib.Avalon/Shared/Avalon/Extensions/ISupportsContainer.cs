@@ -23,6 +23,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			var x = Canvas.GetLeft(source) + offset.X;
 			var y = Canvas.GetTop(source) + offset.Y;
 
+
 			return e.MoveTo(x, y);
 		}
 
