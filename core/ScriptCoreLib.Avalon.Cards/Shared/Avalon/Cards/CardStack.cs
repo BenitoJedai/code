@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using ScriptCoreLib.Shared.Avalon.Extensions;
-using System.Windows.Controls;
-using System.ComponentModel;
-using ScriptCoreLib.Shared.Lambda;
 using System.Windows;
+using System.Windows.Controls;
+using ScriptCoreLib.Shared.Avalon.Extensions;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace ScriptCoreLib.Shared.Avalon.Cards
 {
@@ -46,9 +46,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 							{
 								value.OrphanizeContainer();
 								value.AttachContainerTo(this.CurrentDeck.Value);
-								value.Container.MoveTo(this.Container,
-									new Vector { Y = 12 * this.Cards.IndexOf(value) }
-								);
+								
 							}
 						);
 							
@@ -56,6 +54,36 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 				};
 		}
 
+		int LocationX;
+		int LocationY;
+
+		public CardStack MoveTo(int x, int y)
+		{
+			LocationX = x;
+			LocationY = y;
+
+			this.Container.MoveTo(x, y);
+
+
+
+			return Update();
+		}
+
+		public CardStack Update()
+		{
+		
+			this.Cards.ForEach(
+				(Card c, int index) =>
+				{
+					c.Container.MoveTo(
+						LocationX + 0, LocationY + 12 * index
+					);
+				}
+			);
+
+
+			return this;
+		}
 
 		public void Add(Card value)
 		{
