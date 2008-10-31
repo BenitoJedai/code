@@ -80,11 +80,17 @@ namespace jsc
             }
             */
 
-            if (options.TargetAssembly == null)
+			if (options.TargetAssembly == null)
             {
                 Console.WriteLine("No assembly specifed. See help for more details.");
                 return;
             }
+
+			if (!options.TargetAssembly.Exists)
+			{
+				Console.WriteLine("File not found {0}.", options.TargetAssembly);
+				return;
+			}
 
             Assembly a = Assembly.GetExecutingAssembly();
 

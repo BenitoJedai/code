@@ -172,3 +172,5 @@ version history:
 	php: added OpCodes.Clt_Un
 26.10.2008
 	actionscript: added ctor default values int to bool fixup
+31.10.2008
+	actionscript: fixed ctor merging bug to detect non-optional params

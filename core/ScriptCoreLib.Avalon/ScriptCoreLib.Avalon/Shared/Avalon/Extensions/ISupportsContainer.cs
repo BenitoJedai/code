@@ -17,6 +17,15 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	[Script]
 	public static class SupportsContainerExtensions
 	{
+		public static T MoveTo<T>(this T e, UIElement source, Vector offset)
+				where T : UIElement
+		{
+			var x = Canvas.GetLeft(source) + offset.X;
+			var y = Canvas.GetTop(source) + offset.Y;
+
+			return e.MoveTo(x, y);
+		}
+
 		public static T MoveTo<T>(this T e, double x, double y)
 					where T : UIElement
 		{
@@ -76,6 +85,14 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			return e;
 		}
 
+		public static T AttachContainerTo<T>(this T e, ISupportsContainer c)
+		where T : ISupportsContainer
+		{
+			e.Container.AttachTo(c.Container);
+
+			return e;
+		}
+
 		public static T AttachTo<T>(this T e, ISupportsContainer c)
 			where T : UIElement
 		{
@@ -90,7 +107,12 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			if (e == null)
 				return default(T);
 
-			var Panel = e.Parent as Panel;
+			var p = e.Parent;
+
+			if (p == null)
+				return e;
+
+			var Panel = p as Panel;
 
 			if (Panel == null)
 				throw new NotImplementedException("Parent should have been a Panel");
