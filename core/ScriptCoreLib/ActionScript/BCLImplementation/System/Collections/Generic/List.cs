@@ -80,7 +80,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
 
         public void Insert(int index, T item)
         {
-            throw new NotImplementedException("");
+			this._items.splice(index, 0, item);
         }
 
         public void RemoveAt(int index)
