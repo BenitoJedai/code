@@ -116,6 +116,26 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			);
 		}
 
+
+		public static IEnumerable<Color> ToGradient(this Color[] source, int count)
+		{
+			var value = new Color[0].AsEnumerable();
+
+			if (source.Length > 1)
+			{
+				var c = count / (source.Length - 1);
+
+				source.ForEachWithPrevious(
+					(previous, item) =>
+					{
+						value = value.Concat(previous.ToGradient(item, c));
+					}
+				);
+			}
+
+			return value;
+		}
+
 		public static void AppendTextLine(this TextBoxBase e, string textData)
 		{
 			e.AppendText(textData + Environment.NewLine);
