@@ -39,7 +39,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 					offset = args.GetPosition(card.Overlay);
 					drag = true;
 
-					
+
 
 					card.SelectedCards.ForEach(
 						k =>
@@ -59,7 +59,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 							v.Overlay.Hide();
 						}
 					}
-					
+
 					card.Overlay.Fill = Brushes.White;
 
 				};
@@ -84,6 +84,11 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 							}
 						);
 
+						if (CandidateStack != null)
+							if (card.ValidateDragStop != null)
+								if (!card.ValidateDragStop(CandidateStack))
+									CandidateStack = null;
+
 						if (CandidateStack == null)
 						{
 							card.AnimatedOpacity = 0.7;
@@ -92,7 +97,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 						else
 						{
 							card.AnimatedOpacity = 1;
-							
+
 							var f = CandidateStack.FreeLocation;
 
 							card.MoveSelectionTo(
@@ -140,7 +145,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 							}
 						);
 
-					
+
 					}
 				};
 		}

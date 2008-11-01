@@ -53,7 +53,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 				this.Moved();
 		}
 
-		public event Func<CardStack, bool> ValidateDragStop;
+		public Func<CardStack, bool> ValidateDragStop;
 
 
 
@@ -136,7 +136,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 			CurrentDeck = deck;
 
-		
+
 
 			this.Overlay.AttachTo(deck.Overlay);
 
@@ -223,15 +223,15 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 			//Control.ondblclick += (e) => Helper.Invoke(DoubleClick);
 
-			this.Container.MouseLeftButtonUp +=
+			this.Overlay.MouseLeftButtonUp +=
 				//Control.onclick += delegate(IEvent e)
 				delegate
 				{
 					if (Click != null)
 						Click();
 
-					//if (CurrentStack != null)
-					//    CurrentStack.RaiseClick(this);
+					if (CurrentStack != null)
+						CurrentStack.RaiseClick(this);
 				};
 
 
@@ -332,6 +332,8 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 		{
 			this.Container.Orphanize();
 			this.Container.AttachTo(this.CurrentDeck.Content);
+
+
 		}
 
 		public IEnumerable<Card> SelectedCards
