@@ -23,7 +23,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 		}
 
 
-		
+
 
 		public bool Visible;
 
@@ -214,6 +214,5 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 	
 
-	
 	}
 }

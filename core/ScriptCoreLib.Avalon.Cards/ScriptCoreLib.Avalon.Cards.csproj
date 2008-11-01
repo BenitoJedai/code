@@ -82,6 +82,7 @@
     <Compile Include="Shared\Avalon\Cards\CardInfo.Rank.cs" />
     <Compile Include="Shared\Avalon\Cards\Card.AnimatedOpacity.cs" />
     <Compile Include="Shared\Avalon\Cards\IAssemblyReferenceToken.cs" />
+    <Compile Include="Shared\Avalon\Cards\Sounds.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\1.png" />
@@ -155,6 +156,14 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\felt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\Sounds\click.mp3" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\Sounds\deal.mp3" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\Sounds\drag.mp3" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\Sounds\hint.mp3" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\Sounds\lose.mp3" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\Sounds\win.mp3" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Shared\Avalon\Cards\Extensions\" />
