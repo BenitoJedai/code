@@ -2,12 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.ComponentModel;
 
 namespace ScriptCoreLib.Shared.Lambda
 {
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static void AddRange<T>(this IList<T> a, params T[] e)
+		{
+			foreach (var v in e)
+			{
+				a.Add(v);
+			}
+		}
 		public static void Times(this int count, Action h)
 		{
 			for (int i = 0; i < count; i++)
@@ -172,7 +180,7 @@ namespace ScriptCoreLib.Shared.Lambda
 		}
 
 		public static T Apply<T>(this T e, Action<T> h)
-			where T:class
+			where T : class
 		{
 			if (e != null)
 				h(e);
@@ -497,6 +505,6 @@ namespace ScriptCoreLib.Shared.Lambda
 			return e.Where(filter).Randomize().First();
 		}
 
-		
+
 	}
 }

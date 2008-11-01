@@ -47,6 +47,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 							k.BringToFront();
 							k.ApprovedLocationX = k.LocationX;
 							k.ApprovedLocationY = k.LocationY;
+							k.AnimatedOpacity = 0.7;
 						}
 					);
 
@@ -58,6 +59,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 							v.Overlay.Hide();
 						}
 					}
+					
 					card.Overlay.Fill = Brushes.White;
 
 				};
@@ -133,6 +135,8 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 									k.CurrentStack.Cards.Remove(k);
 									CandidateStack.Cards.Add(k);
 								}
+
+								k.AnimatedOpacity = 1;
 							}
 						);
 
