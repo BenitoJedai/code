@@ -13,6 +13,14 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 	[Script]
 	public class CardStack : ISupportsContainer, IEnumerable<Card>
 	{
+		public event Action<Card> Click;
+
+		public void RaiseClick(Card c)
+		{
+			if (Click != null)
+				Click(c);
+		}
+
 		public readonly Future<CardDeck> CurrentDeck = new Future<CardDeck>();
 
 		public Canvas Container { get; set; }
@@ -40,14 +48,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 					if (args.ListChangedType == ListChangedType.ItemAdded)
 						this.Cards[args.NewIndex].CurrentStack = this;
 
-					//CurrentDeck.Continue(
-					//    delegate
-					//    {
-
-					//        Update();
-
-					//    }
-					//);
+				
 
 				};
 		}
@@ -83,15 +84,16 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 			this.Container.MoveTo(x, y);
 
 
+			Update();
 
-			return Update();
+			return this;
 		}
 
 		public int HitRange = 32;
 
 		public Vector CardMargin = new Vector { X = 0, Y = 12 };
 
-		public CardStack Update()
+		public void Update()
 		{
 			if (this.CurrentDeck.Value != null)
 			{
@@ -110,8 +112,9 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 			}
 
 
-			return this;
+			return;
 		}
+
 
 		public void Add(Card value)
 		{
