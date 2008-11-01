@@ -171,6 +171,14 @@ namespace ScriptCoreLib.Shared.Lambda
 			return a.ToArray();
 		}
 
+		public static T Apply<T>(this T e, Action<T> h)
+			where T:class
+		{
+			if (e != null)
+				h(e);
+
+			return e;
+		}
 
 		public static void Do(this IEnumerable<Action> e)
 		{

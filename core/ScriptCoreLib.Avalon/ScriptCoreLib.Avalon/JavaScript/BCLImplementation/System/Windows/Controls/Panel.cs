@@ -26,7 +26,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 		public override IHTMLElement InternalGetOpacityTarget()
 		{
-			return InternalContent;
+			return InternalSprite;
 		}
 
 

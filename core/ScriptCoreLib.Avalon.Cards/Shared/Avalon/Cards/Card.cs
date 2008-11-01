@@ -5,6 +5,9 @@ using System.Text;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows.Controls;
 using ScriptCoreLib.Shared.Avalon.Tween;
+using System.Windows.Shapes;
+using System.Windows.Media;
+using System.Windows.Input;
 
 namespace ScriptCoreLib.Shared.Avalon.Cards
 {
@@ -14,6 +17,8 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 		public readonly CardInfo Info;
 
 		public Canvas Container { get; set; }
+
+		public Rectangle Overlay { get; set; }
 
 		public readonly CardDeck CurrentDeck;
 
@@ -58,28 +63,39 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 				{
 					ImageTopSide.Visibility = System.Windows.Visibility.Visible;
 					ImageBackSide.Visibility = System.Windows.Visibility.Hidden;
+					this.Overlay.Cursor = Cursors.Hand;
 					return;
 				}
 
 				ImageTopSide.Visibility = System.Windows.Visibility.Hidden;
 				ImageBackSide.Visibility = System.Windows.Visibility.Visible;
+				this.Overlay.Cursor = Cursors.Arrow;
+
 			}
 		}
 
-		public Card(CardDeck d, CardInfo i)
+		public readonly CardDrag Drag;
+
+		public Card(CardDeck deck, CardInfo i)
 		{
+			if (deck == null)
+				throw new ArgumentNullException("deck");
+
 			this.Container = new Canvas
 			{
 				Width = CardInfo.Width,
 				Height = CardInfo.Height
 			};
 
-			this.ImageTopSide = new Image
+			this.Overlay = new Rectangle
 			{
-				Source = i.GetImagePath(KnownAssets.Path.DefaultCards).ToSource(),
+				Fill = Brushes.White,
 				Width = CardInfo.Width,
 				Height = CardInfo.Height
-			}.AttachTo(this);
+			};
+
+
+		
 
 			this.ImageBackSide = new Image
 			{
@@ -88,9 +104,43 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 				Height = CardInfo.Height,
 			}.AttachTo(this);
 
-			this.VisibleSide = SideEnum.TopSide;
+			i.Visible = true;
+			this.ImageTopSide = new Image
+			{
+				Source = i.GetImagePath(KnownAssets.Path.DefaultCards).ToSource(),
+				Width = CardInfo.Width,
+				Height = CardInfo.Height
+			}.AttachTo(this);
 
-			CurrentDeck = d;
+
+			this.VisibleSide = SideEnum.BackSide;
+
+			CurrentDeck = deck;
+
+			this.Overlay.MouseEnter +=
+				delegate
+				{
+					if (this.VisibleSide == SideEnum.BackSide)
+						return;
+
+					this.AnimatedOpacity = 0.7;
+				};
+
+
+			this.Overlay.MouseLeave +=
+				delegate
+				{
+					if (this.VisibleSide == SideEnum.BackSide)
+						return;
+
+
+					this.AnimatedOpacity = 1;
+				};
+
+
+			this.Overlay.AttachTo(deck.Overlay);
+
+			this.Drag = new CardDrag(this);
 
 			//Drag = new DragHelper(Control);
 			//OpacityHelper = new TweenDataDouble(
@@ -185,10 +235,25 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 				};
 
 
+			this.AnimatedOpacity = 1;
 
 			//Opacity = 1;
 
 			//Enabled = false;
+		}
+
+		public Card MoveTo(int x, int y)
+		{
+			this.Overlay.MoveTo(x, y);
+			this.Container.MoveTo(x, y);
+
+			return this;
+		}
+
+		public void BringToFront()
+		{
+			this.Container.Orphanize();
+			this.Container.AttachTo(this.CurrentDeck.Content);
 		}
 	}
 }
