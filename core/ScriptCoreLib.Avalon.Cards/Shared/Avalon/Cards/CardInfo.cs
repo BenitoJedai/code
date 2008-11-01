@@ -153,6 +153,11 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 
 
+		public static CardInfo[] FullDeck()
+		{
+			return FullDeck(false);
+		}
+
 		public static CardInfo[] FullDeck(bool IsBlackDeck)
 		{
 			var a = By(
@@ -209,9 +214,6 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 	
 
-		public static CardInfo[] FullDeck()
-		{
-			return FullDeck(false);
-		}
+	
 	}
 }

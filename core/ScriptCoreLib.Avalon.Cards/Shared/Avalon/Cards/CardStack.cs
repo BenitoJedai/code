@@ -32,25 +32,21 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 				Width = CardInfo.Width,
 				Height = CardInfo.Height
-			}.AttachTo(Container);
+			}.AttachTo(this);
 
 			this.Cards.ListChanged +=
 				(sender, args) =>
 				{
-					if (args.ListChangedType == ListChangedType.ItemAdded)
-					{
-						var value = this.Cards[args.NewIndex];
 
-						CurrentDeck.Continue(
-							delegate
-							{
-								value.OrphanizeContainer();
-								value.AttachContainerTo(this.CurrentDeck.Value);
-								
-							}
-						);
-							
-					}
+					CurrentDeck.Continue(
+						delegate
+						{
+
+							Update();
+
+						}
+					);
+
 				};
 		}
 
@@ -71,15 +67,19 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 		public CardStack Update()
 		{
-		
-			this.Cards.ForEach(
-				(Card c, int index) =>
-				{
-					c.Container.MoveTo(
-						LocationX + 0, LocationY + 12 * index
-					);
-				}
-			);
+			if (this.CurrentDeck.Value != null)
+			{
+				this.Cards.ForEach(
+					(Card c, int index) =>
+					{
+						c.BringToFront();
+
+						c.MoveTo(
+							LocationX + 0, LocationY + 12 * index
+						);
+					}
+				);
+			}
 
 
 			return this;
@@ -93,6 +93,17 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 		public void Add(Card[] value)
 		{
 			value.ForEach(Add);
+		}
+
+		public void RevealLastCard()
+		{
+			if (this.Cards.Count == 0)
+				return;
+
+			var last = this.Cards.Last();
+
+			if (last.VisibleSide == Card.SideEnum.BackSide)
+				last.VisibleSide = Card.SideEnum.TopSide;
 		}
 
 
