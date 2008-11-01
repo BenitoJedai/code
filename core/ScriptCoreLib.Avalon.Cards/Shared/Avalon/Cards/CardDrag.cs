@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows.Media;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace ScriptCoreLib.Shared.Avalon.Cards
 {
@@ -21,17 +22,33 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 			var OverlayContainer = card.CurrentDeck.Overlay;
 
+
+
 			card.Overlay.MouseLeftButtonDown +=
 				(sender, args) =>
 				{
+					if (drag)
+						return;
+
 					if (card.VisibleSide == Card.SideEnum.BackSide)
+						return;
+
+					if (card.SelectedCards.Any(k => k.AnimatedMoveToActive))
 						return;
 
 					offset = args.GetPosition(card.Overlay);
 					drag = true;
 
-					card.BringToFront();
+					
 
+					card.SelectedCards.ForEach(
+						k =>
+						{
+							k.BringToFront();
+							k.ApprovedLocationX = k.LocationX;
+							k.ApprovedLocationY = k.LocationY;
+						}
+					);
 
 					foreach (var v in card.CurrentDeck.Cards)
 					{
@@ -42,18 +59,46 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 						}
 					}
 					card.Overlay.Fill = Brushes.White;
-					
+
 				};
+
+			var CandidateStack = default(CardStack);
 
 			OverlayContainer.MouseMove +=
 				(sender, args) =>
 				{
 					if (drag)
 					{
-						var p = args.GetPosition(OverlayContainer) - offset;
+						var v = args.GetPosition(OverlayContainer) - offset;
+						var x = Convert.ToInt32(v.X);
+						var y = Convert.ToInt32(v.Y);
+						var p = new Point { X = x, Y = y };
 
 
-						card.MoveTo(Convert.ToInt32(p.X), Convert.ToInt32(p.Y));
+						CandidateStack = card.CurrentDeck.Stacks.Where(k => k != card.CurrentStack).FirstOrDefault(
+							k =>
+							{
+								return (k.FreeLocation - p).Length < k.HitRange;
+							}
+						);
+
+						if (CandidateStack == null)
+						{
+							card.AnimatedOpacity = 0.7;
+							card.MoveSelectionTo(x, y);
+						}
+						else
+						{
+							card.AnimatedOpacity = 1;
+							
+							var f = CandidateStack.FreeLocation;
+
+							card.MoveSelectionTo(
+								Convert.ToInt32(f.X),
+								Convert.ToInt32(f.Y)
+							);
+						}
+
 					}
 				};
 
@@ -73,9 +118,25 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 							}
 						}
 
-						card.Overlay.Orphanize();
-						card.Overlay.AttachTo(OverlayContainer);
+						card.SelectedCards.ForEach(
+							k =>
+							{
+								k.Overlay.Orphanize();
+								k.Overlay.AttachTo(OverlayContainer);
 
+								if (CandidateStack == null)
+								{
+									k.AnimatedMoveTo(k.ApprovedLocationX, k.ApprovedLocationY);
+								}
+								else
+								{
+									k.CurrentStack.Cards.Remove(k);
+									CandidateStack.Cards.Add(k);
+								}
+							}
+						);
+
+					
 					}
 				};
 		}

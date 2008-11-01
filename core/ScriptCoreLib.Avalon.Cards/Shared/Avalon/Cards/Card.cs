@@ -8,6 +8,7 @@ using ScriptCoreLib.Shared.Avalon.Tween;
 using System.Windows.Shapes;
 using System.Windows.Media;
 using System.Windows.Input;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace ScriptCoreLib.Shared.Avalon.Cards
 {
@@ -95,7 +96,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 			};
 
 
-		
+
 
 			this.ImageBackSide = new Image
 			{
@@ -242,18 +243,109 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 			//Enabled = false;
 		}
 
-		public Card MoveTo(int x, int y)
+		public int LocationX;
+		public int LocationY;
+
+		public int ApprovedLocationX;
+		public int ApprovedLocationY;
+
+		public void MoveSelectionTo(int x, int y)
 		{
+			this.MoveTo(x, y);
+
+			this.StackedCards.ForEach(
+				(k, index) =>
+					k.MoveTo(
+						Convert.ToInt32(x + CurrentStack.CardMargin.X * (index + 1)),
+						Convert.ToInt32(y + CurrentStack.CardMargin.Y * (index + 1))
+					)
+			);
+		}
+
+		public void MoveTo(int x, int y)
+		{
+
+			this.LocationX = x;
+			this.LocationY = y;
+
 			this.Overlay.MoveTo(x, y);
 			this.Container.MoveTo(x, y);
 
-			return this;
+		}
+
+		public bool AnimatedMoveToActive = false;
+
+		public void AnimatedMoveTo(int LocationX, int LocationY)
+		{
+			if (AnimatedMoveToActive)
+				return;
+
+			var ox = this.LocationX;
+			var oy = this.LocationY;
+
+			Action<int, int> tween = NumericEmitter.Of(
+				(x, y) =>
+				{
+					if (!AnimatedMoveToActive)
+						return;
+
+					if (ox == this.LocationX)
+						if (oy == this.LocationY)
+						{
+							this.MoveTo(x, y);
+							ox = x;
+							oy = y;
+							if (x == LocationX)
+								if (y == LocationY)
+									AnimatedMoveToActive = false;
+
+							return;
+						}
+
+					AnimatedMoveToActive = false;
+				}
+			);
+
+			AnimatedMoveToActive = true;
+
+			tween(ox, oy);
+			tween(LocationX, LocationY);
 		}
 
 		public void BringToFront()
 		{
 			this.Container.Orphanize();
 			this.Container.AttachTo(this.CurrentDeck.Content);
+		}
+
+		public IEnumerable<Card> SelectedCards
+		{
+			get
+			{
+				return new[] { this }.Concat(StackedCards);
+			}
+		}
+		public Card[] StackedCards
+		{
+			get
+			{
+				var a = new System.Collections.Generic.List<Card>();
+
+				if (CurrentStack != null)
+				{
+					var i = CurrentStack.Cards.IndexOf(this);
+
+					if (i > -1)
+					{
+						for (int j = i + 1; j < CurrentStack.Cards.Count; j++)
+						{
+							a.Add(CurrentStack.Cards[j]);
+						}
+					}
+				}
+
+				return a.ToArray();
+			}
 		}
 	}
 }

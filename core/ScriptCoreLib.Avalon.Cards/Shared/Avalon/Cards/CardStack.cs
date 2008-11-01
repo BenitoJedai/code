@@ -37,6 +37,8 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 			this.Cards.ListChanged +=
 				(sender, args) =>
 				{
+					if (args.ListChangedType == ListChangedType.ItemAdded)
+						this.Cards[args.NewIndex].CurrentStack = this;
 
 					CurrentDeck.Continue(
 						delegate
@@ -50,8 +52,28 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 				};
 		}
 
-		int LocationX;
-		int LocationY;
+		public Point Location
+		{
+			get
+			{
+				return new Point { X = LocationX, Y = LocationY };
+			}
+		}
+
+		public Point FreeLocation
+		{
+			get
+			{
+				return new Point
+				{
+					X = LocationX + CardMargin.X * (Cards.Count ),
+					Y = LocationY + CardMargin.Y * (Cards.Count ),
+				};
+			}
+		}
+
+		public int LocationX;
+		public int LocationY;
 
 		public CardStack MoveTo(int x, int y)
 		{
@@ -65,6 +87,10 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 			return Update();
 		}
 
+		public int HitRange = 32;
+
+		public Vector CardMargin = new Vector { X = 0, Y = 12 };
+
 		public CardStack Update()
 		{
 			if (this.CurrentDeck.Value != null)
@@ -75,7 +101,9 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 						c.BringToFront();
 
 						c.MoveTo(
-							LocationX + 0, LocationY + 12 * index
+							Convert.ToInt32(LocationX + CardMargin.X * index)
+							,
+							Convert.ToInt32(LocationY + CardMargin.Y * index)
 						);
 					}
 				);

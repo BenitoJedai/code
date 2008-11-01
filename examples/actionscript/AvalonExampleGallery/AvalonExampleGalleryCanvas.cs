@@ -13,6 +13,7 @@ using ScriptCoreLib.Shared.Avalon.TiledImageButton;
 using System.Windows.Input;
 using ScriptCoreLib.Shared.Avalon.Carousel;
 using ScriptCoreLib.Shared.Avalon.TextButton;
+using ScriptCoreLib.Shared.Avalon.Controls;
 
 namespace AvalonExampleGallery.Shared
 {
@@ -354,34 +355,6 @@ namespace AvalonExampleGallery.Shared
 		}
 	}
 
-	[Script]
-	public class TiledBackgroundImage : ISupportsContainer
-	{
-		public Canvas Container { get; set; }
-
-
-		public TiledBackgroundImage(ImageSource src, int width, int height, int x, int y)
-		{
-
-
-			this.Container = new Canvas
-			{
-				Width = width * x,
-				Height = height * y
-			};
-
-			for (int i = 0; i < x; i++)
-				for (int j = 0; j < y; j++)
-				{
-					new Image
-					{
-						Source = src,
-						Width = width,
-						Height = height
-					}.MoveTo(i * width, j * height).AttachTo(this.Container);
-				}
-		}
-	}
 
 	[Script]
 	public class OptionWithShadowAndType : OptionWithShadow
