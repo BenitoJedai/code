@@ -234,7 +234,24 @@ namespace ScriptCoreLib.Shared.Query
 
 
 
+		public static TSource LastOrDefault<TSource>(this IEnumerable<TSource> source)
+		{
+			if (source == null)
+			{
+				throw DefinedError.ArgumentNull("source");
+			}
 
+
+			var value = default(TSource);
+
+			foreach (TSource local in source.AsEnumerable())
+			{
+				value = local;
+
+			}
+
+			return value;
+		}
 
 		public static TSource Last<TSource>(this IEnumerable<TSource> source)
 		{

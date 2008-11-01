@@ -38,6 +38,25 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 			}
 		}
 
+		public Card[] FetchCards(int count)
+		{
+			var a = new List<Card>();
+
+			while (count > 0)
+			{
+				var c = FetchCard;
+
+				if (c != null)
+				{
+					a.Add(c);
+				}
+
+				count--;
+			}
+
+			return a.ToArray();
+		}
+
 		/// <summary>
 		/// this event will be invoked at the moment a new card is created
 		/// </summary>

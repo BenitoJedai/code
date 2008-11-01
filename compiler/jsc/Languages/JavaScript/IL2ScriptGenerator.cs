@@ -1049,7 +1049,10 @@ namespace jsc
 					ScriptAttribute.Of(m.DeclaringType, true);
 
 			if (sa == null)
-				Script.CompilerBase.BreakToDebugger("no script attribute for type " + m.DeclaringType.FullName);
+			{
+				Script.CompilerBase.BreakToDebugger("ctor not found or no script attribute for type " + m.DeclaringType.FullName + " at " + i.Location);
+				return;
+			}
 
 
 			if (sa.HasNoPrototype)

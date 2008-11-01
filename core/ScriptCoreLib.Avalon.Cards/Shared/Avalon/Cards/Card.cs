@@ -9,6 +9,7 @@ using System.Windows.Shapes;
 using System.Windows.Media;
 using System.Windows.Input;
 using ScriptCoreLib.Shared.Lambda;
+using System.Windows;
 
 namespace ScriptCoreLib.Shared.Avalon.Cards
 {
@@ -34,6 +35,23 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 		public event Action Click;
 		public event Action DoubleClick;
 		public event Action Moved;
+
+		public void AttachToStack(CardStack s)
+		{
+			var c = this;
+
+			if (c.CurrentStack != null)
+			{
+				c.CurrentStack.Cards.Remove(c);
+			}
+
+			c.CurrentStack = s;
+
+			s.Cards.Add(c);
+
+			if (this.Moved != null)
+				this.Moved();
+		}
 
 		public event Func<CardStack, bool> ValidateDragStop;
 
@@ -118,26 +136,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 			CurrentDeck = deck;
 
-			this.Overlay.MouseEnter +=
-				delegate
-				{
-					if (this.VisibleSide == SideEnum.BackSide)
-						return;
-
-					this.AnimatedOpacity = 0.7;
-				};
-
-
-			this.Overlay.MouseLeave +=
-				delegate
-				{
-					if (this.VisibleSide == SideEnum.BackSide)
-						return;
-
-
-					this.AnimatedOpacity = 1;
-				};
-
+		
 
 			this.Overlay.AttachTo(deck.Overlay);
 
@@ -248,6 +247,23 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 		public int ApprovedLocationX;
 		public int ApprovedLocationY;
+
+		public Point LocationInStack
+		{
+			get
+			{
+				var p = new Point();
+
+				var s = this.CurrentStack;
+
+				if (s != null)
+				{
+					p.X = s.LocationX + s.CardMargin.X * s.Cards.IndexOf(this);
+					p.Y = s.LocationY + s.CardMargin.Y * s.Cards.IndexOf(this);
+				}
+				return p;
+			}
+		}
 
 		public void MoveSelectionTo(int x, int y)
 		{

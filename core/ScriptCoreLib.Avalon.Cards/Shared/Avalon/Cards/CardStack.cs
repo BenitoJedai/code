@@ -40,14 +40,14 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 					if (args.ListChangedType == ListChangedType.ItemAdded)
 						this.Cards[args.NewIndex].CurrentStack = this;
 
-					CurrentDeck.Continue(
-						delegate
-						{
+					//CurrentDeck.Continue(
+					//    delegate
+					//    {
 
-							Update();
+					//        Update();
 
-						}
-					);
+					//    }
+					//);
 
 				};
 		}
