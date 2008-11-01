@@ -36,6 +36,9 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 					if (card.SelectedCards.Any(k => k.AnimatedMoveToActive))
 						return;
 
+					if (!card.ValidateDragStart())
+						return;
+
 					offset = args.GetPosition(card.Overlay);
 					drag = true;
 
@@ -62,6 +65,8 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 					card.Overlay.Fill = Brushes.White;
 
+					card.CurrentDeck.Sounds.drag();
+
 				};
 
 			var CandidateStack = default(CardStack);
@@ -83,6 +88,8 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 								return (k.FreeLocation - p).Length < k.HitRange;
 							}
 						);
+
+						Console.WriteLine(new { x, y, CandidateStack });
 
 						if (CandidateStack != null)
 							if (card.ValidateDragStop != null)

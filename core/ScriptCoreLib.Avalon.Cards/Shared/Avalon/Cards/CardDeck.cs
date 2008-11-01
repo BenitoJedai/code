@@ -14,13 +14,19 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 	[Script]
 	public class CardDeck : ISupportsContainer
 	{
+		public Func<CardInfo.RankEnum, int> GetRank;
+
 		public Canvas Container { get; set; }
 		public Canvas Content { get; set; }
 		public Canvas Overlay { get; set; }
 
+		public Sounds Sounds = new Sounds();
+
 		public readonly BindingList<CardStack> Stacks = new BindingList<CardStack>();
 
 		public readonly List<CardInfo> UnusedCards = new List<CardInfo>();
+
+		public string CardCustomBackground;
 
 		public CardInfo Fetch
 		{
@@ -173,6 +179,6 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 			return p;
 		}
 
-		
+
 	}
 }

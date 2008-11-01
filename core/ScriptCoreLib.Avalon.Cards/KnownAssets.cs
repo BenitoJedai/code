@@ -17,9 +17,9 @@ namespace ScriptCoreLib
 			[Script, ScriptResources]
 			public static class Path
 			{
-				public const string Assets = "assets/ScriptCoreLib.Avalon.Cards";
 
 				public const string DefaultCards = "assets/ScriptCoreLib.Avalon.Cards/DefaultCards";
+				public const string Sounds = "assets/ScriptCoreLib.Avalon.Cards/Sounds";
 			}
 
 

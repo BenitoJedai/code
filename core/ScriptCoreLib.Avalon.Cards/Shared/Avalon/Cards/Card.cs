@@ -53,9 +53,19 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 				this.Moved();
 		}
 
+		public Func<bool> ValidateDragStart;
 		public Func<CardStack, bool> ValidateDragStop;
 
+		public int Rank
+		{
+			get
+			{
+				if (this.CurrentDeck.GetRank == null)
+					return (int)Info.Rank;
 
+				return this.CurrentDeck.GetRank(Info.Rank);
+			}
+		}
 
 
 		public Image ImageTopSide;
@@ -115,10 +125,14 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 
 
+			string ImageBackSideSource = deck.CardCustomBackground;
+
+			if (ImageBackSideSource == null)
+				ImageBackSideSource = CardInfo.GetImagePath(KnownAssets.Path.DefaultCards, false, 0, null, false);
 
 			this.ImageBackSide = new Image
 			{
-				Source = CardInfo.GetImagePath(KnownAssets.Path.DefaultCards, false, 0, null, false).ToSource(),
+				Source = ImageBackSideSource.ToSource(),
 				Width = CardInfo.Width,
 				Height = CardInfo.Height,
 			}.AttachTo(this);
@@ -227,6 +241,8 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 				//Control.onclick += delegate(IEvent e)
 				delegate
 				{
+					this.CurrentDeck.Sounds.click();
+
 					if (Click != null)
 						Click();
 
