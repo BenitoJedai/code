@@ -187,6 +187,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Vector.cs" />
     <Compile Include="JavaScript\Extensions\AvalonExtensions.cs" />
     <Compile Include="JavaScript\UCLImplementation\AvalonExtensions.cs" />
+    <Compile Include="Shared\Avalon\Controls\TiledBackgroundImage.cs" />
     <Compile Include="Shared\Avalon\Extensions\AvalonExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\Avalon\Extensions\AvalonSharedExtensions.cs" />
@@ -202,7 +203,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ActionScript\BCLImplementation\System\Windows\Media\Composition\" />
-    <Folder Include="Shared\Avalon\Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

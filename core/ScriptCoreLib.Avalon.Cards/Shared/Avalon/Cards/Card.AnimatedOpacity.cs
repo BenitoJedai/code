@@ -37,5 +37,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 			}
 		}
 
+
+	
 	}
 }

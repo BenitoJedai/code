@@ -154,6 +154,9 @@
     <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\spider.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Avalon.Cards\DefaultCards\felt.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Shared\Avalon\Cards\Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
