@@ -82,19 +82,25 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 						var p = new Point { X = x, Y = y };
 
 
-						CandidateStack = card.CurrentDeck.Stacks.Where(k => k != card.CurrentStack).FirstOrDefault(
-							k =>
+						var CandidateStack_ = card.CurrentDeck.Stacks.Where(k => k != card.CurrentStack).FirstOrDefault(
+							StackToBeChecked =>
 							{
-								return (k.FreeLocation - p).Length < k.HitRange;
+								var Length = (StackToBeChecked.FreeLocation - p).Length;
+
+								return Length < StackToBeChecked.HitRange;
 							}
 						);
 
-						Console.WriteLine(new { x, y, CandidateStack });
+						if (CandidateStack != null)
+							if (CandidateStack_ != null)
+								if (CandidateStack == CandidateStack_)
+									return;
+
+						CandidateStack = CandidateStack_;
 
 						if (CandidateStack != null)
-							if (card.ValidateDragStop != null)
-								if (!card.ValidateDragStop(CandidateStack))
-									CandidateStack = null;
+							if (!card.ValidateDragStop(CandidateStack))
+								CandidateStack = null;
 
 						if (CandidateStack == null)
 						{
@@ -103,6 +109,8 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 						}
 						else
 						{
+							Console.WriteLine(new { x, y, CandidateStack, card.CurrentStack });
+
 							card.AnimatedOpacity = 1;
 
 							var f = CandidateStack.FreeLocation;

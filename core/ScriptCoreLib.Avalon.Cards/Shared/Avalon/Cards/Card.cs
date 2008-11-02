@@ -307,6 +307,14 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 		public bool AnimatedMoveToActive = false;
 
+		public void AnimatedMoveTo(Point p)
+		{
+			AnimatedMoveTo(
+				Convert.ToInt32( p.X), 
+				Convert.ToInt32(p.Y)
+			);
+		}
+
 		public void AnimatedMoveTo(int LocationX, int LocationY)
 		{
 			if (AnimatedMoveToActive)

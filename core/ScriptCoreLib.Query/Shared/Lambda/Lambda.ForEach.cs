@@ -75,6 +75,12 @@ namespace ScriptCoreLib.Shared.Lambda
 			return array;
 		}
 
+		/// <summary>
+		/// Skips the first element and then passes previous-current pairs to the handler.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="source"></param>
+		/// <param name="handler"></param>
 		public static void ForEachWithPrevious<T>(this IEnumerable<T> source, Action<T, T> handler)
 		{
 			var previous = default(T);

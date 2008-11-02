@@ -155,23 +155,28 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 		public BindingList<CardStack> CreateStackList()
 		{
 			var p = new BindingList<CardStack>();
+			var s = new List<CardStack>();
 
 			p.ListChanged +=
 				(sender, args) =>
 				{
 					if (args.ListChangedType == ListChangedType.ItemAdded)
 					{
-						//System.Diagnostics.Debugger.Break();
-						this.Stacks.Add(p[args.NewIndex]);
+						var c = p[args.NewIndex];
+
+						s.Add(c);
+
+						this.Stacks.Add(c);
 						return;
 					}
 
 					if (args.ListChangedType == ListChangedType.ItemDeleted)
 					{
-						//System.Diagnostics.Debugger.Break();
-						// sync?
+						var c = s[args.NewIndex];
 
-						this.Stacks.RemoveAt(args.NewIndex);
+						s.Remove(c);
+
+						this.Stacks.Remove(c);
 						return;
 					}
 				};
