@@ -13,6 +13,13 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 	[Script]
 	public class CardStack : ISupportsContainer, IEnumerable<Card>
 	{
+		public string Name { get; set; }
+
+		public override string ToString()
+		{
+			return Name;
+		}
+
 		public event Action<Card> Click;
 
 		public void RaiseClick(Card c)

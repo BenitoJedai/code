@@ -9,6 +9,29 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static bool AllWithPrevious<T>(this IEnumerable<T> source, Func<T, T, bool> filter)
+		{
+			var previous = default(T);
+			var ready = false;
+			var value = true;
+
+			foreach (var item in source.AsEnumerable())
+			{
+				if (ready)
+				{
+					value = filter(previous, item);
+
+					if (!value)
+						break;
+				}
+
+				ready = true;
+				previous = item;
+			}
+
+			return value;
+		}
+
 		public static void AddRange<T>(this IList<T> a, params T[] e)
 		{
 			foreach (var v in e)
