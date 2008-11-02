@@ -43,6 +43,8 @@ namespace ScriptCoreLib.Shared.Avalon.Carousel
 
 			public Action MouseEnter;
 			public Action MouseLeave;
+
+			public string Text;
 		}
 
 		public readonly Action<EntryInfo> AddEntry;
@@ -62,6 +64,10 @@ namespace ScriptCoreLib.Shared.Avalon.Carousel
 		}
 
 		public TextBox Caption { get; set; }
+
+		public event Action Idle;
+
+		public event Action<EntryInfo> Hover;
 
 		public SimpleCarouselControl(int DefaultWidth, int DefaultHeight)
 		{
@@ -195,12 +201,28 @@ namespace ScriptCoreLib.Shared.Avalon.Carousel
 
 					var IsHot = false;
 
+					Overlay.MouseLeave +=
+						delegate
+						{
+							if (e.Text != null)
+								this.Caption.Text = "";
+
+							if (Idle != null)
+								Idle();
+
+						};
+
 					Overlay.MouseEnter +=
 						delegate
 						{
 							if (e.MouseEnter != null)
 								e.MouseEnter();
 
+							if (Hover != null)
+								Hover(e);
+
+							if (e.Text != null)
+								this.Caption.Text = e.Text;
 
 							IsHot = true;
 							s = 0.004;
