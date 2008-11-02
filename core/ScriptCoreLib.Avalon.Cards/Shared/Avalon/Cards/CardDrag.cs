@@ -152,8 +152,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 								}
 								else
 								{
-									k.CurrentStack.Cards.Remove(k);
-									CandidateStack.Cards.Add(k);
+									k.AttachToStack(CandidateStack);
 								}
 
 								k.AnimatedOpacity = 1;

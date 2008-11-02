@@ -48,8 +48,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Shapes
 			var g = this.InternalSprite.graphics;
 
 
-			if (_Width <= 0)
-				if (_Height <= 0)
+			if (_Width < 1)
+				if (_Height < 1)
 					return;
 
 			g.clear();
@@ -83,8 +83,17 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Shapes
 
 			if (draw)
 			{
-				g.drawRect(0, 0, _Width, _Height);
-				g.endFill();
+				try
+				{
+					g.drawRect(0, 0, _Width, _Height);
+					g.endFill();
+				}
+				catch (Exception ex)
+				{
+					throw new Exception(
+						new { _Width, _Height }.ToString()
+					);
+				}
 			}
 
 		}
