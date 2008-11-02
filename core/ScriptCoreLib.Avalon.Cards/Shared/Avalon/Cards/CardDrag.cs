@@ -153,6 +153,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 								else
 								{
 									k.AttachToStack(CandidateStack);
+									k.AnimatedMoveTo(k.LocationInStack);
 								}
 
 								k.AnimatedOpacity = 1;
