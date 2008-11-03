@@ -19,5 +19,24 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 		}
 
 		public SuitEnum Suit;
+
+		public enum SuitColorEnum
+		{
+			Black,
+			Red
+		}
+
+		public SuitColorEnum SuitColor
+		{
+			get
+			{
+				if (Suit == SuitEnum.Diamond)
+					return SuitColorEnum.Red;
+				if (Suit == SuitEnum.Heart)
+					return SuitColorEnum.Red;
+
+				return SuitColorEnum.Black;
+			}
+		}
 	}
 }

@@ -36,8 +36,9 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 					if (card.SelectedCards.Any(k => k.AnimatedMoveToActive))
 						return;
 
-					if (!card.ValidateDragStart())
-						return;
+					if (card.ValidateDragStart != null)
+						if (!card.ValidateDragStart())
+							return;
 
 					offset = args.GetPosition(card.Overlay);
 					drag = true;
@@ -99,8 +100,9 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 						CandidateStack = CandidateStack_;
 
 						if (CandidateStack != null)
-							if (!card.ValidateDragStop(CandidateStack))
-								CandidateStack = null;
+							if (card.ValidateDragStop != null)
+								if (!card.ValidateDragStop(CandidateStack))
+									CandidateStack = null;
 
 						if (CandidateStack == null)
 						{
