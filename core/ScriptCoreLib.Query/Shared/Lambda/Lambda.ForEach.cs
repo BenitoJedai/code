@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.ComponentModel;
 
 namespace ScriptCoreLib.Shared.Lambda
 {
 	partial class LambdaExtensions
 	{
-		
+
 		public static IEnumerable<T> ForEach<T>(this IEnumerable<T> array, Action<T, int> action)
 		{
 			if (array == null)
@@ -96,6 +97,20 @@ namespace ScriptCoreLib.Shared.Lambda
 				ready = true;
 				previous = item;
 			}
+		}
+
+		public static BindingList<T> ForEachNewItem<T>(this BindingList<T> source, Action<T> handler)
+		{
+			source.ListChanged +=
+				(sender0, args0) =>
+				{
+					if (args0.ListChangedType == ListChangedType.ItemAdded)
+					{
+						handler(source[args0.NewIndex]);
+					}
+				};
+
+			return source;
 		}
 	}
 }

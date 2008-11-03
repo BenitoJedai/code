@@ -31,6 +31,10 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 			return e.CurrentStack;
 		}
 
+		public override string ToString()
+		{
+			return this.Info.Description;
+		}
 
 		public event Action Click;
 		public event Action DoubleClick;
