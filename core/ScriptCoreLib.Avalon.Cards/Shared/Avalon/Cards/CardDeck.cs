@@ -105,10 +105,23 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 			this.Overlay.Height = y;
 		}
 
+		internal readonly FutureStream AnimatedMoveToChain = new FutureStream();
+
+
 		public CardDeck()
 		{
 			const int DefaultWidth = 200;
 			const int DefaultHeight = 200;
+
+			#region set the chain to be signalled
+			this.AnimatedMoveToChain.Continue(
+				SignalNext =>
+				{
+					SignalNext();
+				}
+			)();
+			#endregion
+
 
 			this.Container = new Canvas { Width = DefaultWidth, Height = DefaultHeight };
 

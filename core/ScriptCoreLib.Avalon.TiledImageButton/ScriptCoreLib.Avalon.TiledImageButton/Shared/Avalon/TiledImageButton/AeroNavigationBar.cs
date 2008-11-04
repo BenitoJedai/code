@@ -116,6 +116,9 @@ namespace ScriptCoreLib.Shared.Avalon.TiledImageButton
 				this.Owner.GoBack +=
 					delegate
 					{
+						if (GoBack.Count == 0)
+							throw new Exception("GoBack is empty");
+
 						GoBack.Pop()();
 					};
 
@@ -123,6 +126,9 @@ namespace ScriptCoreLib.Shared.Avalon.TiledImageButton
 				this.Owner.GoForward +=
 					delegate
 					{
+						if (GoForward.Count == 0)
+							throw new Exception("GoForward is empty");
+
 						GoForward.Pop()();
 					};
 
@@ -158,7 +164,7 @@ namespace ScriptCoreLib.Shared.Avalon.TiledImageButton
 								GoForward.Push(
 									delegate
 									{
-										if (this.GoBack.Count == 0)
+										if (this.GoForward.Count == 0)
 											this.Owner.ButtonGoForward.Enabled = false;
 
 										ForwardHandler();

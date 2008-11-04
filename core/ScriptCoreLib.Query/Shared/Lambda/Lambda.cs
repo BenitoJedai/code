@@ -9,6 +9,25 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		/// <summary>
+		/// Inovocation of the handler is governed by the filter. This extension enables you to skip to a certain index to actually invoke the handler.
+		/// </summary>
+		/// <param name="handler"></param>
+		/// <param name="filter"></param>
+		/// <returns></returns>
+		public static Action WhereCounter(this Action handler, Func<int, bool> filter)
+		{
+			var i = 0;
+
+			return delegate
+			{
+				if (filter(i))
+					handler();
+
+				i++;
+			};
+		}
+
 		public static bool AllWithPrevious<T>(this IEnumerable<T> source, Func<T, T, bool> filter)
 		{
 			var previous = default(T);
