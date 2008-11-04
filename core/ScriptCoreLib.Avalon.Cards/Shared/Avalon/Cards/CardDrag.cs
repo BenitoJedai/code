@@ -142,23 +142,42 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 							}
 						}
 
-						card.SelectedCards.ForEach(
-							k =>
+
+
+						card.CurrentDeck.AnimatedMoveToChain.Continue(
+							SignalNext =>
 							{
-								k.Overlay.Orphanize();
-								k.Overlay.AttachTo(OverlayContainer);
+								var SelectedCards = card.SelectedCards.ToArray();
 
-								if (CandidateStack == null)
-								{
-									k.AnimatedMoveTo(k.ApprovedLocationX, k.ApprovedLocationY);
-								}
-								else
-								{
-									k.AttachToStack(CandidateStack);
-									k.AnimatedMoveTo(k.LocationInStack);
-								}
+								var SignalNextDelayed = SignalNext.WhereCounter(i => i == SelectedCards.Length - 1);
 
-								k.AnimatedOpacity = 1;
+								using (var GroupMovedByLocalPlayer = new Future())
+									SelectedCards.ForEach(
+										(k, index) =>
+										{
+											k.BringToFront();
+											k.BringOverlayToFront();
+
+											if (CandidateStack == null)
+											{
+												k.AnimatedMoveTo(k.ApprovedLocationX, k.ApprovedLocationY, SignalNextDelayed);
+											}
+											else
+											{
+												if (index == 0)
+													k.AttachToStack(CandidateStack, GroupMovedByLocalPlayer);
+												else
+													k.AttachToStack(CandidateStack);
+
+												k.AnimatedMoveTo(
+													k.LocationInStack,
+													SignalNextDelayed
+												);
+											}
+
+											k.AnimatedOpacity = 1;
+										}
+									);
 							}
 						);
 

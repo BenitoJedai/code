@@ -24,7 +24,8 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 		public readonly CardDeck CurrentDeck;
 
-		public CardStack CurrentStack;
+		public CardStack PreviousStack { get; set; }
+		public CardStack CurrentStack { get; set; }
 
 		public static implicit operator CardStack(Card e)
 		{
@@ -39,8 +40,14 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 		public event Action Click;
 		public event Action DoubleClick;
 		public event Action Moved;
+		public event Action MovedByLocalPlayer;
 
 		public void AttachToStack(CardStack s)
+		{
+			AttachToStack(s, null);
+		}
+
+		public void AttachToStack(CardStack s, Future IsLocalPlayer)
 		{
 			var c = this;
 
@@ -49,12 +56,23 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 				c.CurrentStack.Cards.Remove(c);
 			}
 
+			c.PreviousStack = c.CurrentStack;
 			c.CurrentStack = s;
 
 			s.Cards.Add(c);
 
 			if (this.Moved != null)
 				this.Moved();
+
+			// if the IsLocalPlayer is null then we are not meant to raise MovedByLocalPlayer
+			if (IsLocalPlayer != null)
+				IsLocalPlayer.Continue(
+					delegate
+					{
+						if (this.MovedByLocalPlayer != null)
+							this.MovedByLocalPlayer();
+					}
+				);
 		}
 
 		public Func<bool> ValidateDragStart;
@@ -314,15 +332,32 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 		public void AnimatedMoveTo(Point p)
 		{
 			AnimatedMoveTo(
-				Convert.ToInt32( p.X), 
+				Convert.ToInt32(p.X),
 				Convert.ToInt32(p.Y)
+			);
+		}
+
+		public void AnimatedMoveTo(Point p, Action SignalNext)
+		{
+			AnimatedMoveTo(
+				Convert.ToInt32(p.X),
+				Convert.ToInt32(p.Y),
+				SignalNext
 			);
 		}
 
 		public void AnimatedMoveTo(int LocationX, int LocationY)
 		{
-			if (AnimatedMoveToActive)
-				return;
+			this.CurrentDeck.AnimatedMoveToChain.Continue(
+				SignalNext =>
+				{
+					AnimatedMoveTo(LocationX, LocationY, SignalNext);
+				}
+			);
+		}
+
+		public void AnimatedMoveTo(int LocationX, int LocationY, Action SignalNext)
+		{
 
 			var ox = this.LocationX;
 			var oy = this.LocationY;
@@ -341,12 +376,17 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 							oy = y;
 							if (x == LocationX)
 								if (y == LocationY)
+								{
 									AnimatedMoveToActive = false;
+									SignalNext();
+								}
 
 							return;
 						}
 
 					AnimatedMoveToActive = false;
+					SignalNext();
+
 				}
 			);
 
@@ -354,12 +394,21 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 			tween(ox, oy);
 			tween(LocationX, LocationY);
+
 		}
 
 		public void BringToFront()
 		{
 			this.Container.Orphanize();
 			this.Container.AttachTo(this.CurrentDeck.Content);
+
+
+		}
+
+		public void BringOverlayToFront()
+		{
+			this.Overlay.Orphanize();
+			this.Overlay.AttachTo(this.CurrentDeck.Overlay);
 
 
 		}
@@ -392,6 +441,40 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 				return a.ToArray();
 			}
+		}
+
+		public void AnimatedMoveToStack(CardStack CandidateStack, Future GroupMovedByLocalPlayer)
+		{
+			this.CurrentDeck.AnimatedMoveToChain.Continue(
+				SignalNext =>
+				{
+					var SelectedCards = this.SelectedCards.ToArray();
+
+					var SignalNextDelayed = SignalNext.WhereCounter(i => i == SelectedCards.Length - 1);
+
+
+					using (GroupMovedByLocalPlayer)
+						SelectedCards.ForEach(
+							(Card k, int index) =>
+							{
+								k.BringToFront();
+								k.BringOverlayToFront();
+
+								if (index == 0)
+									k.AttachToStack(CandidateStack, GroupMovedByLocalPlayer);
+								else
+									k.AttachToStack(CandidateStack);
+
+								k.AnimatedMoveTo(
+									 k.LocationInStack,
+									SignalNextDelayed
+								);
+
+								k.AnimatedOpacity = 1;
+							}
+						);
+				}
+			);
 		}
 	}
 }
