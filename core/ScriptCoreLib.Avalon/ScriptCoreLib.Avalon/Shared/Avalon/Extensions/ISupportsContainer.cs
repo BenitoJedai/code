@@ -56,6 +56,8 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 		public static void AttachTo<T>(this T[] e, IAddChild c)
 			where T : UIElement
 		{
+			
+
 			foreach (var k in e)
 			{
 				k.AttachTo(c);
@@ -66,6 +68,9 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 		public static T AttachTo<T>(this T e, IAddChild c)
 			where T : UIElement
 		{
+			if (e == null)
+				return e;
+
 			UIElement x = e;
 
 			c.AddChild(x);
@@ -76,6 +81,9 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 		public static T AttachContainerTo<T>(this T e, IAddChild c)
 			where T : ISupportsContainer
 		{
+			if (e == null)
+				return e;
+
 			e.Container.AttachTo(c);
 
 			return e;
@@ -84,6 +92,8 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 		public static T AttachContainerTo<T>(this T e, ISupportsContainer c)
 		where T : ISupportsContainer
 		{
+			if (e == null)
+				return e;
 			e.Container.AttachTo(c.Container);
 
 			return e;
@@ -92,6 +102,8 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 		public static T AttachTo<T>(this T e, ISupportsContainer c)
 			where T : UIElement
 		{
+			if (e == null)
+				return e;
 			e.AttachTo(c.Container);
 
 			return e;
