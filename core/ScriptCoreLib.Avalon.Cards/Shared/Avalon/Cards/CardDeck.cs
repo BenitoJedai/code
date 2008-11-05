@@ -105,7 +105,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 			this.Overlay.Height = y;
 		}
 
-		internal readonly FutureStream AnimatedMoveToChain = new FutureStream();
+		public readonly FutureStream AnimatedMoveToChain = new FutureStream();
 
 
 		public CardDeck()
