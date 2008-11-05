@@ -412,6 +412,20 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 			}
 		}
 
+		// fixme: jsc:actionscript has some issues with overridden virtual methods
+		// it looks like we are using exsessive base keyword
+
+		internal double VirtualGetWidth()
+		{
+			return InternalGetWidth();
+		}
+
+		internal double VirtualGetHeight()
+		{
+			return InternalGetHeight();
+		}
+
+
 		public virtual double InternalGetWidth()
 		{
 			throw new NotImplementedException();
