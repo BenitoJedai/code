@@ -174,3 +174,5 @@ version history:
 	actionscript: added ctor default values int to bool fixup
 31.10.2008
 	actionscript: fixed ctor merging bug to detect non-optional params
+05.11.2008
+	actionscript: ctor initializes Number fields

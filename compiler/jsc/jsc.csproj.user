@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\code.google\avaloncardgames\AvalonCardGames\AvalonCardGames.Spider\bin\Release</StartWorkingDirectory>
-    <StartArguments>AvalonCardGames.Spider.exe -js</StartArguments>
+    <StartWorkingDirectory>C:\work\code.google\avaloncardgames\AvalonCardGames\AvalonCardGames.FreeCell\bin\Release</StartWorkingDirectory>
+    <StartArguments>AvalonCardGames.Menu.dll -as</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

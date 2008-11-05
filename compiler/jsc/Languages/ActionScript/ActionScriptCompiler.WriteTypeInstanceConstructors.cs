@@ -43,6 +43,25 @@ namespace jsc.Languages.ActionScript
 
             var zci = GetAllInstanceConstructors(z);
 
+			Action InitializeFields =
+				delegate
+				{
+					foreach (var CandidateField in z.GetFields(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic))
+					{
+						if (CandidateField.FieldType == typeof(double))
+						{
+							// we need to initialize Number fields for actionscript
+							WriteIdent();
+							WriteKeyword(Keywords._this);
+							Write(".");
+							WriteSafeLiteral(CandidateField.Name);
+							WriteAssignment();
+							Write("0");
+							WriteLine();
+						}
+					}
+				};
+
             if (zci.Length > 1)
             {
                 // visual basic can have optional parameters on its own, its c# that needs some help
@@ -117,7 +136,11 @@ namespace jsc.Languages.ActionScript
                     }
                 ).ToArray();
 
-                Action CustomVariableInitializationForBody = delegate { CustomVariableInitialization(); };
+                Action CustomVariableInitializationForBody = delegate 
+				{
+					InitializeFields();
+					CustomVariableInitialization(); 
+				};
 
                 WriteMethodSignature(target, false, WriteMethodSignatureMode.Delcaring, args, i => CustomVariableInitializationForBody += i, null);
                 WriteMethodBody(target, this.MethodBodyFilter, CustomVariableInitializationForBody);
@@ -135,7 +158,7 @@ namespace jsc.Languages.ActionScript
                     r.Primary = zc;
 
                     WriteMethodSignature(zc, false);
-                    WriteMethodBody(zc);
+					WriteMethodBody(zc, this.MethodBodyFilter, InitializeFields);
 
                 }
             }
