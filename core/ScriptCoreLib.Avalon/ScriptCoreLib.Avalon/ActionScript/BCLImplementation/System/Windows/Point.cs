@@ -12,11 +12,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 		public double X { get; set; }
 		public double Y { get; set; }
 
-		public __Point()
-		{
-			this.X = 0;
-			this.Y = 0;
-		}
+	
 
 		public static Vector operator -(__Point point1, __Point point2)
 		{
