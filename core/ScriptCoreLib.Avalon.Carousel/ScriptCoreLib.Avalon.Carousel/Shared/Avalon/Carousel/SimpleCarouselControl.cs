@@ -110,6 +110,8 @@ namespace ScriptCoreLib.Shared.Avalon.Carousel
 
 			var a = new List<Entry>();
 
+			var OverlayReorderingEnabled = true;
+
 			#region Timer
 			this.Timer = (1000 / 30).AtInterval(
 				delegate
@@ -120,9 +122,15 @@ namespace ScriptCoreLib.Shared.Avalon.Carousel
 						k =>
 						{
 
+							if (OverlayReorderingEnabled)
+							{
+								// in javascript reordering an element under mouse
+								// will leave you without the leave event
+								// we could sort other nodes around it tho
 
-							k.Overlay.Orphanize();
-							k.Overlay.AttachTo(this.Overlay);
+								k.Overlay.Orphanize();
+								k.Overlay.AttachTo(this.Overlay);
+							}
 
 							k.pc.Orphanize();
 							k.pc.AttachTo(this.Container);
@@ -204,6 +212,8 @@ namespace ScriptCoreLib.Shared.Avalon.Carousel
 					Overlay.MouseLeave +=
 						delegate
 						{
+							OverlayReorderingEnabled = true;
+
 							if (e.Text != null)
 								this.Caption.Text = "";
 
@@ -215,6 +225,8 @@ namespace ScriptCoreLib.Shared.Avalon.Carousel
 					Overlay.MouseEnter +=
 						delegate
 						{
+							OverlayReorderingEnabled = false;
+
 							if (e.MouseEnter != null)
 								e.MouseEnter();
 

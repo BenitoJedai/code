@@ -37,7 +37,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 		{
 			get
 			{
-				return InternalGetWidth();
+				return VirtualGetWidth();
 
 			}
 			set
@@ -50,7 +50,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 		{
 			get
 			{
-				return InternalGetHeight();
+				return VirtualGetHeight();
 
 			}
 			set
