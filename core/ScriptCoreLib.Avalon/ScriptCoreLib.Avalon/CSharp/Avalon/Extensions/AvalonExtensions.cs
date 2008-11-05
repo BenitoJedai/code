@@ -20,7 +20,8 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
 				Background = Brushes.Black,
 				SizeToContent = SizeToContent.WidthAndHeight,
 				Content = e,
-				Title = e.GetType().Name
+				Title = e.GetType().Name,
+				SnapsToDevicePixels = true
 			};
 		}
 

@@ -30,15 +30,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 		}
 
 
-		public virtual double InternalGetWidth()
-		{
-			throw new NotImplementedException();
-		}
 
-		public virtual double InternalGetHeight()
-		{
-			throw new NotImplementedException();
-		}
 
 
 		public double Width

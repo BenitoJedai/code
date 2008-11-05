@@ -10,6 +10,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media.Animation;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input;
+using ScriptCoreLib.Shared.Avalon.Extensions;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 {
@@ -302,6 +303,42 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 
 				e.style.clip = rect;
 			}
+		}
+
+		public virtual double InternalGetWidth()
+		{
+			throw new NotImplementedException();
+		}
+
+		public virtual double InternalGetHeight()
+		{
+			throw new NotImplementedException();
+		}
+
+		bool InternalClipToBounds;
+
+		public bool ClipToBounds
+		{
+			get
+			{
+				return InternalClipToBounds;
+			}
+			set
+			{
+				InternalClipToBounds = value;
+
+				// fixme: value = false
+
+				if (value)
+					((UIElement)this).ClipTo(0, 0, Convert.ToInt32(InternalGetWidth()), Convert.ToInt32(InternalGetHeight()));
+
+
+			}
+		}
+
+		public static implicit operator UIElement(__UIElement e)
+		{
+			return (UIElement)(object)e;
 		}
 	}
 }

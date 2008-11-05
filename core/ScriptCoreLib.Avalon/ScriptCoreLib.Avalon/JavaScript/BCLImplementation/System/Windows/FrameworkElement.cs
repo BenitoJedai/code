@@ -28,16 +28,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 			throw new NotImplementedException();
 		}
 
-		public virtual double InternalGetWidth()
-		{
-			throw new NotImplementedException();
-		}
-
-		public virtual double InternalGetHeight()
-		{
-			throw new NotImplementedException();
-		}
-
+	
 
 		public double Width
 		{

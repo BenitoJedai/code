@@ -13,6 +13,7 @@ using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media.Effects;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.events;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.Shared.Avalon.Extensions;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 {
@@ -409,6 +410,42 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 					e.mask = c;
 				}
 			}
+		}
+
+		public virtual double InternalGetWidth()
+		{
+			throw new NotImplementedException();
+		}
+
+		public virtual double InternalGetHeight()
+		{
+			throw new NotImplementedException();
+		}
+
+		bool InternalClipToBounds;
+
+		public bool ClipToBounds
+		{
+			get
+			{
+				return InternalClipToBounds;
+			}
+			set
+			{
+				InternalClipToBounds = value;
+
+				// fixme: value = false
+
+				if (value)
+					((UIElement)this).ClipTo(0, 0, Convert.ToInt32(InternalGetWidth()), Convert.ToInt32(InternalGetHeight()));
+
+
+			}
+		}
+
+		public static implicit operator UIElement(__UIElement e)
+		{
+			return (UIElement)(object)e;
 		}
 	}
 }

@@ -15,6 +15,28 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	[Script]
 	public static class AvalonSharedExtensions
 	{
+		/// <summary>
+		/// Returns an action when raised will delay and raise the source event
+		/// </summary>
+		/// <param name="e"></param>
+		/// <param name="delay"></param>
+		/// <returns></returns>
+		public static Action ToDelayed(this Action source, int delay)
+		{
+			return delegate
+			{
+				delay.AtDelay(source);
+			};
+		}
+
+		public static Action ToDelayed(this Action source, Func<int> delay)
+		{
+			return delegate
+			{
+				delay().AtDelay(source);
+			};
+		}
+
 		public static void Toggle(this DispatcherTimer e)
 		{
 			e.IsEnabled = !e.IsEnabled;
@@ -312,6 +334,6 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			return t;
 		}
 
-		
+
 	}
 }
