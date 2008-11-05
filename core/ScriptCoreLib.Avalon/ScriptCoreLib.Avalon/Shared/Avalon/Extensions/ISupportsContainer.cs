@@ -17,25 +17,10 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	[Script]
 	public static class SupportsContainerExtensions
 	{
-		public static T MoveTo<T>(this T e, UIElement source)
-			where T : UIElement
-		{
-			var x = Canvas.GetLeft(source);
-			var y = Canvas.GetTop(source);
+		// javascript DOM will not reflect the latest position
+		// within the same callstack
 
 
-			return e.MoveTo(x, y);
-		}
-
-		public static T MoveTo<T>(this T e, UIElement source, Vector offset)
-				where T : UIElement
-		{
-			var x = Canvas.GetLeft(source) + offset.X;
-			var y = Canvas.GetTop(source) + offset.Y;
-
-
-			return e.MoveTo(x, y);
-		}
 
 		public static T MoveTo<T>(this T e, double x, double y)
 					where T : UIElement

@@ -9,6 +9,22 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+
+		/// <summary>
+		/// Returns an action when raised call the filter to decide if to raise the source event
+		/// </summary>
+		/// <param name="e"></param>
+		/// <param name="filter"></param>
+		/// <returns></returns>
+		public static Action ToFiltered(this Action source, Func<bool> filter)
+		{
+			return delegate
+			{
+				if (filter())
+					source();
+			};
+		}
+
 		/// <summary>
 		/// Inovocation of the handler is governed by the filter. This extension enables you to skip to a certain index to actually invoke the handler.
 		/// </summary>
