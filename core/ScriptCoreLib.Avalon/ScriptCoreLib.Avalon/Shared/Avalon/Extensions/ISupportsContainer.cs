@@ -104,6 +104,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 		{
 			if (e == null)
 				return e;
+
 			e.AttachTo(c.Container);
 
 			return e;

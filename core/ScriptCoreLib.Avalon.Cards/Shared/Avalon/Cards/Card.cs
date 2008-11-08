@@ -377,15 +377,22 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 							if (x == LocationX)
 								if (y == LocationY)
 								{
+									if (SignalNext != null)
+										SignalNext();
+
 									AnimatedMoveToActive = false;
-									SignalNext();
+
+						
 								}
 
 							return;
 						}
 
+					if (SignalNext != null)
+						SignalNext();
 					AnimatedMoveToActive = false;
-					SignalNext();
+					
+				
 
 				}
 			);
@@ -445,7 +452,13 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 		public void AnimatedMoveToStack(CardStack CandidateStack, Future GroupMovedByLocalPlayer)
 		{
-			this.CurrentDeck.AnimatedMoveToChain.Continue(
+			AnimatedMoveToStack(CandidateStack, GroupMovedByLocalPlayer, this.CurrentDeck.AnimatedMoveToChain);
+		}
+
+		public void AnimatedMoveToStack(CardStack CandidateStack, Future GroupMovedByLocalPlayer, FutureStream Chain)
+		{
+	
+			Chain.Continue(
 				SignalNext =>
 				{
 					var SelectedCards = this.SelectedCards.ToArray();
