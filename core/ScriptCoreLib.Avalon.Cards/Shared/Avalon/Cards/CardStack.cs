@@ -7,6 +7,8 @@ using System.Windows;
 using System.Windows.Controls;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using ScriptCoreLib.Shared.Lambda;
+using System.Windows.Shapes;
+using System.Windows.Media;
 
 namespace ScriptCoreLib.Shared.Avalon.Cards
 {
@@ -33,6 +35,10 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 		public Canvas Container { get; set; }
 		public readonly BindingList<Card> Cards = new BindingList<Card>();
 
+		public readonly Image BackgroundImage;
+
+		public Rectangle Overlay { get; set; }
+
 		public CardStack()
 		{
 			this.Container = new Canvas
@@ -41,7 +47,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 				Height = CardInfo.Height
 			};
 
-			new Image
+			this.BackgroundImage = new Image
 			{
 				Source = CardInfo.GetImagePath(KnownAssets.Path.DefaultCards, false, 0, "spider.empty", false).ToSource(),
 
@@ -49,15 +55,21 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 				Height = CardInfo.Height
 			}.AttachTo(this);
 
-			this.Cards.ListChanged +=
-				(sender, args) =>
-				{
-					if (args.ListChangedType == ListChangedType.ItemAdded)
-						this.Cards[args.NewIndex].CurrentStack = this;
+			this.Overlay = new Rectangle
+			{
+				Fill = Brushes.White,
+				Width = CardInfo.Width,
+				Height = CardInfo.Height
+			};
 
-				
+			this.Overlay.MouseLeftButtonUp +=
+				delegate
+				{
+					if (this.Click != null)
+						this.Click(null);
 
 				};
+			this.Cards.ForEachNewItem(card => card.CurrentStack = this);
 		}
 
 		public Point Location
@@ -74,8 +86,8 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 			{
 				return new Point
 				{
-					X = LocationX + CardMargin.X * (Cards.Count ),
-					Y = LocationY + CardMargin.Y * (Cards.Count ),
+					X = LocationX + CardMargin.X * (Cards.Count),
+					Y = LocationY + CardMargin.Y * (Cards.Count),
 				};
 			}
 		}
@@ -100,14 +112,19 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 		public Vector CardMargin = new Vector { X = 0, Y = 12 };
 
+		public event Action AfterUpdate;
+
 		public void Update()
 		{
 			if (this.CurrentDeck.Value != null)
 			{
+				this.Overlay.Orphanize().AttachTo(this.CurrentDeck.Value.Overlay).MoveTo(this.LocationX, this.LocationY);
+
 				this.Cards.ForEach(
 					(Card c, int index) =>
 					{
 						c.BringToFront();
+						c.BringOverlayToFront();
 
 						c.MoveTo(
 							Convert.ToInt32(LocationX + CardMargin.X * index)
@@ -116,6 +133,9 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 						);
 					}
 				);
+
+				if (AfterUpdate != null)
+					AfterUpdate();
 			}
 
 

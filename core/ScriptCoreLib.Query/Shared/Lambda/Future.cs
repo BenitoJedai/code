@@ -152,7 +152,7 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public class FutureStream
 	{
-		Future Gate;
+		internal Future Gate;
 
 		public FutureStream()
 		{
@@ -161,18 +161,29 @@ namespace ScriptCoreLib.Shared.Lambda
 
 
 
+		
+	}
+
+	[Script]
+	public static class FutureExtensions
+	{
 		/// <summary>
 		/// Returns an action to signal this event
 		/// </summary>
 		/// <param name="PublishSignalNext"></param>
 		/// <returns></returns>
-		public Action Continue(Action<Action> PublishSignalNext)
+		public static Action Continue(this FutureStream s, Action<Action> PublishSignalNext)
 		{
+			if (s == null)
+			{
+				PublishSignalNext(delegate { });
+				return delegate { };
+			}
 
 			var Next = new Future();
-			var Previous = Gate;
+			var Previous = s.Gate;
 
-			Gate = Next;
+			s.Gate = Next;
 
 			Previous.Continue(
 				delegate
@@ -184,11 +195,7 @@ namespace ScriptCoreLib.Shared.Lambda
 
 			return Previous.Signal;
 		}
-	}
 
-	[Script]
-	public static class FutureExtensions
-	{
 		public static void Continue(this IEnumerable<IFutureContinue> source, Action done)
 		{
 			source.ForEach(

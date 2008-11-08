@@ -142,21 +142,15 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 				}.AttachTo(this);
 
 
-			Stacks.ListChanged +=
-				(sender, args) =>
+			Stacks.ForEachNewItem(
+				value =>
 				{
-					if (args.ListChangedType == ListChangedType.ItemAdded)
-					{
-						var value = Stacks[args.NewIndex];
-
-						value.CurrentDeck.Value = this;
-						value.OrphanizeContainer();
-						value.AttachContainerTo(this.Content);
-						value.Update();
-
-						return;
-					}
-				};
+					value.CurrentDeck.Value = this;
+					value.OrphanizeContainer();
+					value.AttachContainerTo(this.Content);
+					value.Update();
+				}
+			);
 		}
 
 

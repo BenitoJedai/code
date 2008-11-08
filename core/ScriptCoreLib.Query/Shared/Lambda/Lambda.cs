@@ -74,6 +74,8 @@ namespace ScriptCoreLib.Shared.Lambda
 				a.Add(v);
 			}
 		}
+
+
 		public static void Times(this int count, Action h)
 		{
 			for (int i = 0; i < count; i++)
@@ -89,6 +91,20 @@ namespace ScriptCoreLib.Shared.Lambda
 				h(i);
 			}
 		}
+
+		public static void Times(this int count, Action<int, Action> HandlerWithIndexAndSignalNext)
+		{
+			Enumerable.Range(0, count).ForEach(HandlerWithIndexAndSignalNext);
+		}
+
+
+		public static void Times(this int count, Action<Action> HandlerWithSignalNext)
+		{
+			Enumerable.Range(0, count).ForEach(
+				(i, SignalNext) => HandlerWithSignalNext(SignalNext)
+			);
+		}
+
 
 		public static T Take<T>(this IEnumerator<T> e)
 		{

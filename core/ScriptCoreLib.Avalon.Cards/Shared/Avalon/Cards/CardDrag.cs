@@ -142,9 +142,11 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 							}
 						}
 
+						FutureStream Chain = card.CurrentDeck.AnimatedMoveToChain;
 
+						Chain = null;
 
-						card.CurrentDeck.AnimatedMoveToChain.Continue(
+						Chain.Continue(
 							SignalNext =>
 							{
 								var SelectedCards = card.SelectedCards.ToArray();
@@ -164,10 +166,13 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 											}
 											else
 											{
+
 												if (index == 0)
+													//k.AnimatedMoveToStack(CandidateStack, GroupMovedByLocalPlayer, null);
 													k.AttachToStack(CandidateStack, GroupMovedByLocalPlayer);
 												else
-													k.AttachToStack(CandidateStack);
+													//k.AnimatedMoveToStack(CandidateStack, null, null);
+													k.AttachToStack(CandidateStack, null);
 
 												k.AnimatedMoveTo(
 													k.LocationInStack,
