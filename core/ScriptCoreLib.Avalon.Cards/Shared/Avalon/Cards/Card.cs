@@ -178,93 +178,34 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 			this.Drag = new CardDrag(this);
 
-			//Drag = new DragHelper(Control);
-			//OpacityHelper = new TweenDataDouble(
-			//    delegate
-			//    {
-			//        foreach (Card v in this.MovableCards)
-			//        {
-			//            v.Control.style.Opacity = Opacity;
-			//        }
-			//    }
-			//    );
+
 
 			Info = i;
 
-			//Control.style.cursor = IStyle.CursorEnum.@default;
-			//Control.style.SetSize(CardInfo.Width, CardInfo.Height);
+			bool CanClick = false;
 
+			this.Overlay.MouseLeftButtonDown +=
+				delegate
+				{
+					CanClick = true;
+				};
 
-
-			//Native.Document.body.appendChild(Control);
-
-			//MoveTo(Drag.Position);
-
-			//Drag.History = new System.Collections.Generic.List<Point>();
-
-			//Drag.DragStop +=
-			//    delegate
-			//    {
-			//        Opacity = 1;
-
-			//        var s = FindStack();
-
-			//        if (s == null)
-			//            MoveTo(Drag.History.First());
-			//        else
-			//        {
-			//            s.AttachCards(this.MovableCards);
-			//        }
-
-			//        Drag.History.Clear();
-			//    };
-
-			//Drag.DragStart +=
-			//    delegate
-			//    {
-			//        Opacity = 0.7;
-
-			//        foreach (Card v in MovableCards)
-			//        {
-			//            v.BringToFront();
-			//        }
-			//    };
-
-			//Drag.DragMove +=
-			//    delegate
-			//    {
-
-
-
-			//        var s = FindStack();
-
-			//        if (s != null)
-			//        {
-			//            Opacity = 1;
-			//            MoveTo(s.NextPosition);
-			//        }
-			//        else
-			//        {
-			//            Opacity = 0.7;
-			//            MoveTo(Drag.Position);
-			//        }
-
-
-
-
-
-			//    };
-
-
-
-			//Control.ondblclick += (e) => Helper.Invoke(DoubleClick);
+			this.Overlay.MouseMove +=
+				delegate
+				{
+					CanClick = false;
+				};
 
 			this.Overlay.MouseLeftButtonUp +=
-				//Control.onclick += delegate(IEvent e)
 				delegate
 				{
 					this.CurrentDeck.Sounds.click();
 
+
+					if (!CanClick)
+						return;
+
+					
 					if (Click != null)
 						Click();
 
@@ -382,7 +323,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 									AnimatedMoveToActive = false;
 
-						
+
 								}
 
 							return;
@@ -391,8 +332,8 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 					if (SignalNext != null)
 						SignalNext();
 					AnimatedMoveToActive = false;
-					
-				
+
+
 
 				}
 			);
@@ -457,7 +398,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 		public void AnimatedMoveToStack(CardStack CandidateStack, Future GroupMovedByLocalPlayer, FutureStream Chain)
 		{
-	
+
 			Chain.Continue(
 				SignalNext =>
 				{
