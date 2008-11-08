@@ -57,6 +57,7 @@ namespace jsc.Languages.ActionScript
 							WriteSafeLiteral(CandidateField.Name);
 							WriteAssignment();
 							Write("0");
+							Write(";");
 							WriteLine();
 						}
 					}
