@@ -22,6 +22,8 @@ namespace OrcasAvalonTemplate.Shared
 			Width = DefaultWidth;
 			Height = DefaultHeight;
 
+			this.ClipToBounds = true;
+
 			Colors.Blue.ToGradient(Colors.Red, DefaultHeight / 4).Select(
 				(c, i) =>
 					new Rectangle
