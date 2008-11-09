@@ -100,6 +100,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 				// emulate wpf stretch
 
 				this.InternalStretch = value;
+
+				InternalUpdateStrech();
 			}
 		}
 
