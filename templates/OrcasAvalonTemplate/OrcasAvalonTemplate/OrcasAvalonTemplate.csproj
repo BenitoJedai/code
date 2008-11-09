@@ -65,16 +65,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionScript\OrcasAvalonApplicationFlash.cs" />
-    <Compile Include="ActionScript\MyExtensions.cs" />
-    <Compile Include="JavaScript\OrcasAvalonApplicationDocument.cs" />
-    <Compile Include="JavaScript\MyExtensions.cs" />
+    <Compile Include="OrcasAvalonApplicationFlash.cs" />
+    <Compile Include="OrcasAvalonApplicationDocument.cs" />
     <Compile Include="KnownAssets.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
-    <Compile Include="Shared\OrcasAvalonApplicationCanvas.cs" />
-    <Compile Include="Shared\MySharedExtensions.cs" />
+    <Compile Include="OrcasAvalonApplicationCanvas.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />

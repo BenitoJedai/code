@@ -39,8 +39,8 @@ using ScriptCoreLib;
 
 [assembly:
 	Script,
-	ScriptTypeFilter(ScriptType.ActionScript, "*.Shared"),
-	ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
-	ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
-	ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),
+	ScriptTypeFilter(ScriptType.ActionScript, typeof(OrcasAvalonTemplate.Shared.OrcasAvalonApplicationCanvas)),
+	ScriptTypeFilter(ScriptType.ActionScript, typeof(OrcasAvalonTemplate.ActionScript.OrcasAvalonApplicationFlash)),
+	ScriptTypeFilter(ScriptType.JavaScript, typeof(OrcasAvalonTemplate.Shared.OrcasAvalonApplicationCanvas)),
+	ScriptTypeFilter(ScriptType.JavaScript, typeof(OrcasAvalonTemplate.JavaScript.OrcasAvalonApplicationDocument)),
 ]
