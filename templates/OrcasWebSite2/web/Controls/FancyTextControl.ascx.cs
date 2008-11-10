@@ -16,7 +16,7 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 
-[assembly: Script, ScriptTypeFilter(ScriptType.JavaScript, "JavaScript")]
+[assembly: Script, ScriptTypeFilter(ScriptType.JavaScript, typeof(JavaScript.FancyTextControl.FancyTextControl))]
 
 namespace JavaScript.FancyTextControl
 {
@@ -65,13 +65,13 @@ namespace JavaScript.FancyTextControl
 		}
 
 		static FancyTextControl()
-        {
+		{
 			Native.Window.onload +=
 				delegate
 				{
 					foreach (var v in Native.Document.getElementsByClassName("FancyTextControl").ToArray())
 					{
-						new FancyTextControl(v);	
+						new FancyTextControl(v);
 					}
 				};
 		}
