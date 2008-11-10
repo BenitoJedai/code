@@ -54,6 +54,7 @@
     <Compile Include="source\csharp\Settings.cs" />
     <Compile Include="source\js\OrcasPHPScriptApplicationDocument.cs" />
     <Compile Include="source\php\OrcasPHPScriptApplicationBackend.cs" />
+    <Compile Include="source\shared\SharedExtensions.cs" />
     <Compile Include="web\Description.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -63,9 +64,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\description.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="source\shared\" />
+    <EmbeddedResource Include="web\assets\OrcasPHPScriptApplication\jsc.png" />
+    <EmbeddedResource Include="web\assets\OrcasPHPScriptApplication\description.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
