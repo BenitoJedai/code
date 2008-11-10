@@ -37,31 +37,32 @@ namespace jsc.Languages.ActionScript
             public Action CustomVariableInitialization;
         }
 
+		public void WriteTypeFieldInitialization(Type z)
+		{
+			foreach (var CandidateField in z.GetFields(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic))
+			{
+				if (CandidateField.FieldType == typeof(double))
+				{
+					// we need to initialize Number fields for actionscript
+					WriteIdent();
+					WriteKeyword(Keywords._this);
+					Write(".");
+					WriteSafeLiteral(CandidateField.Name);
+					WriteAssignment();
+					Write("0");
+					Write(";");
+					WriteLine();
+				}
+			}
+		}
+
         protected ConstructorMergeInfo WriteTypeInstanceConstructorsAndGetPrimary(Type z)
         {
             var r = new ConstructorMergeInfo();
 
             var zci = GetAllInstanceConstructors(z);
 
-			Action InitializeFields =
-				delegate
-				{
-					foreach (var CandidateField in z.GetFields(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic))
-					{
-						if (CandidateField.FieldType == typeof(double))
-						{
-							// we need to initialize Number fields for actionscript
-							WriteIdent();
-							WriteKeyword(Keywords._this);
-							Write(".");
-							WriteSafeLiteral(CandidateField.Name);
-							WriteAssignment();
-							Write("0");
-							Write(";");
-							WriteLine();
-						}
-					}
-				};
+		
 
             if (zci.Length > 1)
             {
@@ -139,7 +140,8 @@ namespace jsc.Languages.ActionScript
 
                 Action CustomVariableInitializationForBody = delegate 
 				{
-					InitializeFields();
+					WriteTypeFieldInitialization(z);
+
 					CustomVariableInitialization(); 
 				};
 
@@ -148,20 +150,29 @@ namespace jsc.Languages.ActionScript
 
                 r.Primary = target;
                 r.Values = args;
-                r.CustomVariableInitialization = CustomVariableInitialization;
+				r.CustomVariableInitialization = CustomVariableInitializationForBody;
 
 
             }
             else
             {
+				Action CustomVariableInitializationForBody = delegate
+				{
+					WriteTypeFieldInitialization(z);
+
+				};
+
                 foreach (var zc in zci)
                 {
                     r.Primary = zc;
 
                     WriteMethodSignature(zc, false);
-					WriteMethodBody(zc, this.MethodBodyFilter, InitializeFields);
+					WriteMethodBody(zc, this.MethodBodyFilter, CustomVariableInitializationForBody);
 
                 }
+
+				r.CustomVariableInitialization = CustomVariableInitializationForBody;
+
             }
 
             WriteLine();

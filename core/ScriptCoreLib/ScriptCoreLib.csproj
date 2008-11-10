@@ -510,6 +510,7 @@
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\IEqualityComparer.cs" />
     <Compile Include="PHP\BCLImplementation\System\Console.cs" />
     <Compile Include="PHP\BCLImplementation\System\Environment.cs" />
+    <Compile Include="PHP\BCLImplementation\System\IO\File.cs" />
     <Compile Include="PHP\BCLImplementation\System\Math.cs" />
     <Compile Include="PHP\BCLImplementation\System\Text\StringBuilder.cs" />
     <Compile Include="PHP\Drawing\Image.API.cs" />

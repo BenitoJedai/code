@@ -71,6 +71,11 @@ namespace ScriptCoreLib.Shared.Lambda
 			return (a, b) => f(a, b, c);
 		}
 
+		public static global::System.Func<A, B, C, T> FixLastParam<A, B, C, D, T>(this global::System.Func<A, B, C, D, T> f, D d)
+		{
+			return (a, b, c) => f(a, b, c, d);
+		}
+
 		public static Action<A, B> FixLastParam<A, B, C>(this Action<A, B, C> f, C c)
 		{
 			return (a, b) => f(a, b, c);
