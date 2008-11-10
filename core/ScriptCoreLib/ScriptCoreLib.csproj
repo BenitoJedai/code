@@ -119,6 +119,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Array.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Char.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Comparer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\Comparer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\Dictionary.cs">
@@ -215,6 +216,7 @@
     <Compile Include="ActionScript\mx\controls\SWFLoader.cs" />
     <Compile Include="ActionScript\mx\core\UIComponent.cs" />
     <Compile Include="ActionScript\mx\core\FlexSprite.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Char.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Queue.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Stack.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Converter.cs" />

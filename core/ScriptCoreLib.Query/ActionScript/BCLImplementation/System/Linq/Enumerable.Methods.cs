@@ -17,6 +17,32 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
 
     internal static partial class __Enumerable
     {
+		public static int Max<TSource>(this IEnumerable<TSource> source, Func<TSource, int> selector)
+		{
+			var value = 0;
+			var dirty = false;
+
+			foreach (var v in source.AsEnumerable())
+			{
+				var x = selector(v);
+
+				if (dirty)
+				{
+					if (value < x)
+						value = x;
+				}
+				else
+				{
+					dirty = true;
+					value = x;
+				}
+			}
+
+			if (!dirty)
+				throw Error.NoElements();
+
+			return value;
+		}
 
 		public static IEnumerable<TSource> Reverse<TSource>(this IEnumerable<TSource> source)
 		{
