@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.flash.ui;
+using OrcasFlashApplication.Shared;
 
 namespace OrcasFlashApplication.ActionScript
 {
@@ -14,6 +15,7 @@ namespace OrcasFlashApplication.ActionScript
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
 	/// </summary>
 	[Script, ScriptApplicationEntryPoint]
+	[SWF]
 	public class OrcasFlashApplication : Sprite
 	{
 
@@ -55,10 +57,41 @@ namespace OrcasFlashApplication.ActionScript
 					alwaysShowSelection = true,
 				}.AttachTo(this);
 
-			Assets.Default[Assets.Path + "/Preview.png"].ToBitmapAsset().AttachTo(this).MoveTo(100, 200);
+			
+			KnownEmbeddedResources.Default[KnownAssets.Path.Assets + "/Preview.png"].ToBitmapAsset().AttachTo(this).MoveTo(100, 200);
 		}
 
-
+		static OrcasFlashApplication()
+		{
+			// add resources to be found by ImageSource
+			KnownEmbeddedAssets.RegisterTo(
+				KnownEmbeddedResources.Default.Handlers
+			);
+		}
 
 	}
+
+	[Script]
+	public class KnownEmbeddedAssets
+	{
+		[EmbedByFileName]
+		public static Class ByFileName(string e)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static void RegisterTo(List<Converter<string, Class>> Handlers)
+		{
+			// assets from current assembly
+			Handlers.Add(e => ByFileName(e));
+
+			//AvalonUgh.Assets.ActionScript.KnownEmbeddedAssets.RegisterTo(Handlers);
+
+			//// assets from referenced assemblies
+			//Handlers.Add(e => global::ScriptCoreLib.ActionScript.Avalon.Cursors.EmbeddedAssets.Default[e]);
+			//Handlers.Add(e => global::ScriptCoreLib.ActionScript.Avalon.TiledImageButton.Assets.Default[e]);
+
+		}
+	}
+
 }
