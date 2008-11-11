@@ -8,6 +8,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Convert))]
     internal class __Convert
     {
+		public static string ToString(char value)
+		{
+			return __String.FromCharCode(value);
+		}
+
 		public static uint ToUInt32(long value)
 		{
 			return ((uint)value & 0xffffffff);
