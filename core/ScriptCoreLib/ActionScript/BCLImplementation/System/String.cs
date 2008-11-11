@@ -12,6 +12,43 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         )]
     internal class __String
     {
+
+		[Script(DefineAsStatic = true)]
+		public string PadRight(int total)
+		{
+
+			return PadRight(total, ' ');
+		}
+
+		[Script(DefineAsStatic = true)]
+		public string PadLeft(int total)
+		{
+
+			return PadLeft(total, ' ');
+		}
+
+		[Script(DefineAsStatic = true)]
+		public string PadRight(int total, char c)
+		{
+			string v = (string)(object)this;
+
+			while (v.Length < total)
+				v += Convert.ToString(c);
+
+			return v;
+		}
+
+		[Script(DefineAsStatic = true)]
+		public string PadLeft(int total, char c)
+		{
+			string v = (string)(object)this;
+
+			while (v.Length < total)
+				v = Convert.ToString(c) + v;
+
+			return v;
+		}
+
         public __String(char[] c)
         {
         }
