@@ -10,6 +10,11 @@ namespace ScriptCoreLib.ActionScript.Extensions
 	{
 		public readonly List<Converter<string, Class>> Handlers = new List<Converter<string, Class>>();
 
+		/// <summary>
+		/// Walks through all the Handlers and returns the first matching Class 
+		/// </summary>
+		/// <param name="e"></param>
+		/// <returns></returns>
 		public Class this[string e]
 		{
 			get

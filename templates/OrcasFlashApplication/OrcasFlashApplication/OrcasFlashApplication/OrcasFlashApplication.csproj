@@ -50,9 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionScript\Assets.cs" />
     <Compile Include="ActionScript\OrcasFlashApplication.cs" />
     <Compile Include="ActionScript\Extensions.cs" />
+    <Compile Include="KnownAssets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>
@@ -61,7 +61,6 @@
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
-    <Content Include="docs\SourceAnalysis.txt" />
     <EmbeddedResource Include="web\assets\OrcasFlashApplication\Preview.png">
     </EmbeddedResource>
     <Resource Include="web\assets\OrcasFlashApplication\rain_1.mp3" />
