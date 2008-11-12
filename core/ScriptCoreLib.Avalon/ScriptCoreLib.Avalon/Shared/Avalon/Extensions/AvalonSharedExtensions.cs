@@ -126,7 +126,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			return Enumerable.Range(0, count).Select(
 				i =>
 				{
-					var j = count - (i + 1);
+					var j = count - i;
 
 					var a = Convert.ToByte((from.A * j + to.A * i) / count);
 					var r = Convert.ToByte((from.R * j + to.R * i) / count);
