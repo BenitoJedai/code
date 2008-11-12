@@ -61,9 +61,13 @@ namespace ScriptCoreLib.Shared.Lambda
 			return (a) => f(a, b);
 		}
 
-		public static Action<A> FixLastParam<A, B>(this Action<A, B> f, B b)
+		public static ActionParams<A> FixLastParamToIndex<A>(this Action<A, int> f)
 		{
-			return (a) => f(a, b);
+			return
+				(a) =>
+				{
+					a.ForEach(f);
+				};
 		}
 
 		public static global::System.Func<A, B, T> FixLastParam<A, B, C, T>(this global::System.Func<A, B, C, T> f, C c)

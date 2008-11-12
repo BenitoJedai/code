@@ -262,6 +262,23 @@ namespace ScriptCoreLib.Shared.Lambda
 			return e;
 		}
 
+		public static T Apply<T>(this T e, Action<T, Action> HandlerWithRetry)
+		where T : class
+		{
+			var Retry = default(Action);
+
+			Retry =
+				delegate
+				{
+					if (e != null)
+						HandlerWithRetry(e, Retry);
+				};
+
+			Retry();
+
+			return e;
+		}
+
 		public static void Do(this IEnumerable<Action> e)
 		{
 			foreach (var a in e)
