@@ -20,6 +20,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			InternalSprite.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
 			InternalSprite.style.left = "0px";
 			InternalSprite.style.top = "0px";
+			InternalSprite.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
 		}
 
 		public override IHTMLElement InternalGetDisplayObject()
@@ -54,6 +55,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 					InternalSprite.removeChildren();
 
 					InternalBitmap = new IHTMLImage(alias);
+					InternalBitmap.style.SetLocation(0, 0);
 
 					InternalSprite.appendChild(InternalBitmap);
 				}
@@ -65,6 +67,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 							InternalSprite.removeChildren();
 
 							InternalBitmap = img;
+							InternalBitmap.style.SetLocation(0, 0);
 
 							InternalSprite.appendChild(InternalBitmap);
 						}
@@ -107,6 +110,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			InternalHeightValue = value;
 
 			InternalUpdateStrech();
+
+			this.InternalSprite.style.height = Convert.ToInt32(value) + "px";
 		}
 
 		public override void InternalSetWidth(double value)
@@ -114,6 +119,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			InternalWidthValue = value;
 
 			InternalUpdateStrech();
+
+			this.InternalSprite.style.width = Convert.ToInt32(value) + "px";
 		}
 
 		private void InternalUpdateStrech()
