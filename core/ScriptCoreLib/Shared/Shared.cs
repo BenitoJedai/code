@@ -15,20 +15,9 @@ namespace ScriptCoreLib.Shared
     [Script]
     public delegate void InternalAction();
     
-
-    /*
-    [Script]
-    public delegate void Action<A>(A a);
-
-    [Script]
-    public delegate void Action<A, B>(A a, B b);
-
-    [Script]
-    public delegate void Action<A, B, C>(A a, B b, C c);
-    */
-
-    [Script]
-    public delegate void ActionParams<T>(params T[] e);
+	// use: ScriptCoreLib.Shared.Lambda.ParamsAction
+	//[Script]
+	//public delegate void ActionParams<T>(params T[] e);
 
     [Script]
     public delegate R FuncParams<T, R>(params T[] e);

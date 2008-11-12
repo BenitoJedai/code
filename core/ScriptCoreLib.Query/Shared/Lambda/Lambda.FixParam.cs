@@ -61,7 +61,7 @@ namespace ScriptCoreLib.Shared.Lambda
 			return (a) => f(a, b);
 		}
 
-		public static ActionParams<A> FixLastParamToIndex<A>(this Action<A, int> f)
+		public static ParamsAction<A> FixLastParamToIndex<A>(this Action<A, int> f)
 		{
 			return
 				(a) =>
