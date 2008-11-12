@@ -23,5 +23,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media
 		public static Color Yellow { get { return (__Color)0xFFFFFF00; } }
 		public static Color Brown { get { return (__Color)0xFFA52A2A; } }
 		public static Color Pink { get { return (__Color)0xFFFFC0CB; } }
+		public static Color DarkCyan { get { return (__Color)0xFF008B8B; } }
 	}
 }
