@@ -313,6 +313,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 			}
 		}
 
+		bool InternalGotFocusSilent;
 		public event RoutedEventHandler GotFocus
 		{
 			add
@@ -321,6 +322,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 				InternalGetDisplayObject().focusIn +=
 					e =>
 					{
+						if (InternalGotFocusSilent)
+							return;
+
 						value(this, null);
 					};
 			}
@@ -335,11 +339,28 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 		{
 			add
 			{
+				var target = InternalGetDisplayObject();
 
-				InternalGetDisplayObject().focusOut +=
+				target.focusOut +=
 					e =>
 					{
+						//var s = target.stage;
+						//var current = s.focus;
+
+						//if (current == null)
+						//    if (!s.isFocusInaccessible())
+						//    {
+						//        InternalGotFocusSilent = true;
+						//        s.focus = current;
+						//        InternalGotFocusSilent = false;
+						//        return;
+						//    }
+
+						//throw new Exception("current: " + current);
+
 						value(this, null);
+
+					
 					};
 			}
 			remove
@@ -351,8 +372,23 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 		public bool Focus()
 		{
 			var k = this.InternalGetDisplayObjectDirect();
+			k.focusRect = false;
 
-			k.stage.focus = k;
+			if (k.stage == null)
+			{
+				k.InvokeWhenStageIsReady(
+					() =>
+					{
+						//k.stage.stageFocusRect =false;
+						k.stage.focus = k;
+					}
+				);
+			}
+			else
+			{
+				//k.stage.stageFocusRect = false;
+				k.stage.focus = k;
+			}
 
 			return true;
 		}
@@ -453,6 +489,21 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 				if (value)
 					((UIElement)this).ClipTo(0, 0, Convert.ToInt32(InternalGetWidth()), Convert.ToInt32(InternalGetHeight()));
 
+
+			}
+		}
+
+		public bool Focusable
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				var x = this.InternalGetDisplayObject();
+
+				x.tabEnabled = true;
 
 			}
 		}

@@ -16,6 +16,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 		Bitmap InternalBitmap;
 
+		public __Image()
+		{
+			
+		}
+
 		public override ScriptCoreLib.ActionScript.flash.display.InteractiveObject InternalGetDisplayObject()
 		{
 			return InternalSprite;
