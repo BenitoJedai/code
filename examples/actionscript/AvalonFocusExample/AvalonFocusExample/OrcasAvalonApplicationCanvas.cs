@@ -50,12 +50,13 @@ namespace AvalonFocusExample.Shared
 
 			var a = new FocusDisplayCanvas(64, 100).AttachTo(this);
 
-			new FocusDisplayCanvas(16, 25).AttachTo(a).MoveTo(8, 20);
-			new FocusDisplayCanvas(16, 25).AttachTo(a).MoveTo(8, 70);
-
-			new FocusDisplayCanvas(64, 100).AttachTo(this).MoveTo(64, 0);
+			var k = new FocusDisplayCanvas(64, 100).AttachTo(this).MoveTo(64, 0);
 
 			// IE and FLASH loose focus on mouse click
+
+			// http://www.filipesilvestrim.com/blog/21/02/2008/flash-player-loose-focus-with-button-removechild/
+
+
 		}
 	}
 
@@ -87,6 +88,12 @@ namespace AvalonFocusExample.Shared
 				{
 					bg.Fill = Brushes.Red;
 
+				};
+
+			this.MouseLeftButtonDown +=
+				(sender, args) =>
+				{
+					this.Focus();
 				};
 		}
 	}

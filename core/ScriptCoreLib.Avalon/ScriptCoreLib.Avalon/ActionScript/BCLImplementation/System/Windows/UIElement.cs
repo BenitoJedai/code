@@ -501,8 +501,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 			}
 			set
 			{
+				if (!value)
+					throw new NotImplementedException();
+
 				var x = this.InternalGetDisplayObject();
 
+				x.focusRect = false;
 				x.tabEnabled = true;
 
 			}
