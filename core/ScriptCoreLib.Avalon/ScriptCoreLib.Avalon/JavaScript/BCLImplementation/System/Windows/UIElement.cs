@@ -332,7 +332,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 				if (value)
 					((UIElement)this).ClipTo(0, 0, Convert.ToInt32(InternalGetWidth()), Convert.ToInt32(InternalGetHeight()));
 
+			}
+		}
 
+		public bool Focusable
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				var x = this.InternalGetDisplayObject();
+
+				x.tabIndex = 0;
+
+				//x.tabEnabled = true;
+				//x.tabIndex
 			}
 		}
 

@@ -142,7 +142,32 @@ namespace ScriptCoreLib.ActionScript.flash.display
 
         #endregion
 
-       
+
+		#region Methods
+	
+
+		/// <summary>
+		/// Calling the invalidate() method signals Flash Player to alert display objects on the next opportunity it has to render the display list (for example, when the playhead advances to a new frame).
+		/// </summary>
+		public void invalidate()
+		{
+		}
+
+		/// <summary>
+		/// Determines whether the Stage.focus property returns null for security reasons.
+		/// </summary>
+		public bool isFocusInaccessible()
+		{
+			return default(bool);
+		}
+
+		
+
+	
+
+		#endregion
+
+	
 
 
     }
