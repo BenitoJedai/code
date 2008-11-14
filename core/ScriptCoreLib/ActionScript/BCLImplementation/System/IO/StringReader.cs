@@ -21,8 +21,29 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 		{
 			if (Position < InputString.Length)
 			{
-				var n = Environment.NewLine;
-				var i = this.InputString.IndexOf(n, Position);
+				const string rn = "\r\n";
+				const string n = "\n";
+
+				// we need to support win32 and unix newlines
+
+				var i = this.InputString.IndexOf(rn, Position);
+				var j = this.InputString.IndexOf(n, Position);
+
+				var x = rn.Length;
+
+				var swap = false;
+
+				if (i < 0)
+					swap = true;
+
+				if (j < i)
+					swap = true;
+
+				if (swap)
+				{
+					i = j;
+					x = n.Length;
+				}
 
 				var p = Position;
 
@@ -34,7 +55,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 				}
 				else
 				{
-					Position = i + n.Length;
+					Position = i + x;
 				}
 
 				return this.InputString.Substring(p, i - p);

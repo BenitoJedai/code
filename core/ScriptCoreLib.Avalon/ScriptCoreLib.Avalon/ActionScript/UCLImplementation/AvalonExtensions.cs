@@ -18,6 +18,14 @@ namespace ScriptCoreLib.ActionScript.UCLImplementation
 	[Script(Implements = typeof(global::ScriptCoreLib.Shared.Avalon.Extensions.AvalonExtensions))]
 	internal static class __AvalonExtensions
 	{
+
+		public static Action PlaySound(this string asset)
+		{
+			var x = KnownEmbeddedResources.Default[asset].ToSoundAsset().play();
+
+			return x.stop;
+		}
+
 		public static void NavigateTo(this Uri e, DependencyObject context)
 		{
 			var _e = (__Uri)(object)e;

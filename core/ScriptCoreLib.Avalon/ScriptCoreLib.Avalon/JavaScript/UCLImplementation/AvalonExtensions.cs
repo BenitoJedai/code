@@ -13,6 +13,11 @@ namespace ScriptCoreLib.JavaScript.UCLImplementation
 	[Script(Implements = typeof(global::ScriptCoreLib.Shared.Avalon.Extensions.AvalonExtensions))]
 	internal static class __AvalonExtensions
 	{
+		public static Action PlaySound(this string asset)
+		{
+			return delegate { };
+		}
+
 		public static void NavigateTo(this Uri e, DependencyObject context)
 		{
 			var _e = (__Uri)(object)e;
@@ -23,7 +28,9 @@ namespace ScriptCoreLib.JavaScript.UCLImplementation
 
 		public static void ToStringAsset(this string e, Action<string> h)
 		{
-			new IXMLHttpRequest(e,
+			new IXMLHttpRequest(
+				ScriptCoreLib.Shared.HTTPMethodEnum.GET,
+				e,
 				r =>
 				{
 					h(r.responseText);

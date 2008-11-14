@@ -56,7 +56,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 		public static void AttachTo<T>(this T[] e, IAddChild c)
 			where T : UIElement
 		{
-			
+
 
 			foreach (var k in e)
 			{
