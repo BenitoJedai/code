@@ -517,8 +517,8 @@ namespace jsc.Languages.ActionScript
 				CIW[OpCodes.Shr,
 					OpCodes.Shr_Un] = f(">>");
 
-				CIW[OpCodes.Clt, OpCodes.Clt_Un] = f("<");
-				CIW[OpCodes.Cgt, OpCodes.Cgt_Un] = f(">");
+				CIW[OpCodes.Clt, OpCodes.Clt_Un, OpCodes.Blt_S] = f("<");
+				CIW[OpCodes.Cgt, OpCodes.Cgt_Un, OpCodes.Bgt_S] = f(">");
 
 				// sho
 				CIW[OpCodes.Or] =
