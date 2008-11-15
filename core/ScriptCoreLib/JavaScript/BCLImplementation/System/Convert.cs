@@ -39,5 +39,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             return __String.FromCharCode(value);
         }
+
+		public static double ToDouble(string value)
+		{
+			return double.Parse(value);
+			
+		}
     }
 }

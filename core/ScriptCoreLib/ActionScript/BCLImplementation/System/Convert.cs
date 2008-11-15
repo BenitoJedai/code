@@ -5,9 +5,9 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
-    [Script(Implements = typeof(global::System.Convert))]
-    internal class __Convert
-    {
+	[Script(Implements = typeof(global::System.Convert))]
+	internal class __Convert
+	{
 		public static string ToString(char value)
 		{
 			return __String.FromCharCode(value);
@@ -31,12 +31,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
 		}
 
-	
 
-        public static int ToInt32(double value)
-        {
-            return (int)global::System.Math.Floor(value);
-        }
+
+		public static int ToInt32(double value)
+		{
+			return (int)global::System.Math.Floor(value);
+		}
 
 		public static byte ToByte(int value)
 		{
@@ -49,10 +49,17 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 			return (byte)(((int)global::System.Math.Floor(value)) & 0xff);
 		}
 
-		
+
 		public static double ToDouble(int value)
 		{
 			return value;
 		}
-    }
+
+		public static double ToDouble(string value)
+		{
+	
+			return double.Parse(value);
+
+		}
+	}
 }
