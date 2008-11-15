@@ -335,6 +335,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 			}
 		}
 
+		public Style FocusVisualStyle
+		{
+			set
+			{
+				if (value != null)
+					throw new NotImplementedException();
+
+				// hide focus rect if possible
+			}
+		}
+
 		public bool Focusable
 		{
 			get

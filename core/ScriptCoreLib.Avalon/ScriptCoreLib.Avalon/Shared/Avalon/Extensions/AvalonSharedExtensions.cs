@@ -15,6 +15,24 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	[Script]
 	public static class AvalonSharedExtensions
 	{
+		public static T ToShowFrame<T>(this IEnumerable<UIElement> source, Func<Action<int>, T> selector)
+		{
+			return selector(source.ToShowFrame());
+		}
+
+		public static Action<int> ToShowFrame(this IEnumerable<UIElement> source)
+		{
+			var c = default(UIElement);
+
+			return
+				i =>
+				{
+					c.Hide();
+					c = source.AtModulus(i);
+					c.Show();
+				};
+		}
+
 		/// <summary>
 		/// Returns an action when raised will delay and raise the source event
 		/// </summary>
@@ -80,6 +98,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 
 			e.Visibility = Visibility.Visible;
 		}
+
 
 		public static void Hide(this UIElement e)
 		{

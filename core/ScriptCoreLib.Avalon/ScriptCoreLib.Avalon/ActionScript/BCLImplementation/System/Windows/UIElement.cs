@@ -493,6 +493,18 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 			}
 		}
 
+		public Style FocusVisualStyle
+		{
+			set
+			{
+				if (value != null)
+					throw new NotImplementedException();
+
+				var x = this.InternalGetDisplayObject();
+				x.focusRect = false;
+			}
+		}
+
 		public bool Focusable
 		{
 			get
@@ -506,7 +518,6 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 
 				var x = this.InternalGetDisplayObject();
 
-				x.focusRect = false;
 				x.tabEnabled = true;
 
 			}
