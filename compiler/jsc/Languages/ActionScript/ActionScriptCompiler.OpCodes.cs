@@ -612,8 +612,8 @@ namespace jsc.Languages.ActionScript
 					};
 
 				CIW[OpCodes.Div, OpCodes.Div_Un] = f("/");
-				CIW[OpCodes.Bge_S, OpCodes.Bge] = f(">=");
-				CIW[OpCodes.Ble_S, OpCodes.Ble] = f("<=");
+				CIW[OpCodes.Bge_S, OpCodes.Bge, OpCodes.Bge_Un, OpCodes.Bge_Un_S] = f(">=");
+				CIW[OpCodes.Ble_S, OpCodes.Ble, OpCodes.Ble_Un, OpCodes.Ble_Un_S] = f("<=");
 				CIW[OpCodes.Bne_Un_S, OpCodes.Bne_Un] = f("!=");
 
 
