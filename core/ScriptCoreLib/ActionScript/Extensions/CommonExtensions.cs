@@ -110,19 +110,7 @@ namespace ScriptCoreLib.ActionScript.Extensions
 		}
 
 
-		public static U AddTo<U, T>(this U e, List<T> a) where U : T
-		{
-			a.Add(e);
-
-			return e;
-		}
-
-		public static T RemoveFrom<T>(this T e, List<T> a)
-		{
-			a.Remove(e);
-
-			return e;
-		}
+	
 
 		public static T MoveTo<T>(this T e, Point i) where T : DisplayObject
 		{

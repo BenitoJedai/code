@@ -89,11 +89,40 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			return e;
 		}
 
-		public static T AttachContainerTo<T>(this T e, ISupportsContainer c)
-		where T : ISupportsContainer
+		public static T[] AttachContainerTo<T>(this T[]  e, ISupportsContainer c)
+			where T : ISupportsContainer
 		{
 			if (e == null)
 				return e;
+
+			foreach (var v in e)
+			{
+				v.Container.AttachTo(c.Container);
+			}
+
+			return e;
+		}
+
+		public static T[] AttachContainerTo<T>(this T[] e, IAddChild c)
+			where T : ISupportsContainer
+		{
+			if (e == null)
+				return e;
+
+			foreach (var v in e)
+			{
+				v.Container.AttachTo(c);
+			}
+
+			return e;
+		}
+
+		public static T AttachContainerTo<T>(this T e, ISupportsContainer c)
+			where T : ISupportsContainer
+		{
+			if (e == null)
+				return e;
+
 			e.Container.AttachTo(c.Container);
 
 			return e;
