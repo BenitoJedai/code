@@ -9,6 +9,19 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static U AddTo<U, T>(this U e, List<T> a) where U : T
+		{
+			a.Add(e);
+
+			return e;
+		}
+
+		public static T RemoveFrom<T>(this T e, List<T> a)
+		{
+			a.Remove(e);
+
+			return e;
+		}
 
 		/// <summary>
 		/// Returns an action when raised call the filter to decide if to raise the source event
