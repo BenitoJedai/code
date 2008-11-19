@@ -9,6 +9,11 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static void Add<TKey, TValue>(this IDictionary<TKey, TValue> e, KeyValuePair<TKey, TValue> value)
+		{
+			e.Add(value.Key, value.Value);
+		}
+
 		public static U AddTo<U, T>(this U e, List<T> a) where U : T
 		{
 			a.Add(e);

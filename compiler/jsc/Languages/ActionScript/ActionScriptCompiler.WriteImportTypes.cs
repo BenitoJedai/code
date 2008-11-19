@@ -124,7 +124,12 @@ namespace jsc.Languages.ActionScript
 
             if (t.BaseType == typeof(MulticastDelegate))
             {
-                imp.Add(MySession.ResolveImplementation(typeof(IntPtr)));
+				imp.Add(MySession.ResolveImplementation(typeof(IntPtr)));
+
+				// keeping the compiler happy
+				// we need to import this so we can say we implement it
+				// even if it is currently just a marker interface
+				imp.Add(MySession.ResolveImplementation(typeof(global::System.Runtime.Serialization.ISerializable)));
 
                 var _Invoke = t.GetMethod("Invoke");
 

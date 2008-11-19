@@ -9,7 +9,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
     [Script(Implements = typeof(Dictionary<,>)
         //, IsDebugCode = true
         )]
-    internal class __Dictionary<TKey, TValue> : IDictionary<TKey, TValue>, IEnumerable
+    internal class __Dictionary<TKey, TValue> : IDictionary<TKey, TValue>, IEnumerable, ICollection
     {
         public __Dictionary()
             : this(null)
@@ -265,5 +265,24 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
             #endregion
         }
 
-    }
+
+		#region ICollection Members
+
+		public void CopyTo(global::System.Array array, int index)
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool IsSynchronized
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		public object SyncRoot
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		#endregion
+	}
 }
