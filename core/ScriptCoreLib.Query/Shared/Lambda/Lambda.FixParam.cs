@@ -25,6 +25,8 @@ namespace ScriptCoreLib.Shared.Lambda
 			return FixParam(f, a);
 		}
 
+		
+
 		public static Action FixParam<A>(this global::System.Action<A> f, A a)
 		{
 			return () => f(a);
