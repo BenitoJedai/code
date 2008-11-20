@@ -22,7 +22,7 @@ goto :eof
 pushd ..\bin\%ConfigurationName%
 
 ::call c:\util\jsc\bin\jsc.exe %TargetFileName%  -as -js
-call c:\util\jsc\bin\jsc.exe %TargetFileName%  -as -js -php
+call c:\util\jsc\bin\jsc.exe %TargetFileName%  -as -js -php -java
 
 
 popd

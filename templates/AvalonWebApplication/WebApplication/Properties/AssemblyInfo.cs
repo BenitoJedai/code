@@ -47,7 +47,7 @@ using ScriptCoreLib;
 	ScriptTypeFilter(ScriptType.ActionScript, typeof(global::WebApplication.Shared.SharedExtensions)),
 
 
-	ScriptTypeFilter(ScriptType.Java, typeof(global::WebApplication.Client.Java.Applet)),
+	ScriptTypeFilter(ScriptType.Java, typeof(global::WebApplication.Client.Java.ApplicationApplet)),
 	ScriptTypeFilter(ScriptType.Java, typeof(global::WebApplication.Shared.SharedExtensions)),
 
 	ScriptTypeFilter(ScriptType.PHP, typeof(global::WebApplication.Server.Application)),
