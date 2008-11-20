@@ -2516,13 +2516,13 @@ namespace jsc
 		}
 
 
-		public bool IsBaseConstructorCall(MethodBase m)
-		{
-			if (TargetConstructor == null)
-				return false;
+		//public bool IsBaseConstructorCall(MethodBase m)
+		//{
+		//    if (TargetConstructor == null)
+		//        return false;
 
-			return m.DeclaringType == this.TargetConstructor.DeclaringType;
-		}
+		//    return m.DeclaringType == this.TargetConstructor.DeclaringType;
+		//}
 
 
 

@@ -37,7 +37,7 @@ namespace jsc.Languages.Java
                 // fixme: update the BCL resolving issue
                 // the super ctor call gets lost otherwise
 
-                if (i.IsBaseConstructorCall(m))
+                if (i.IsBaseConstructorCall(m, k => ResolveImplementationMethod(k.DeclaringType, k), ResolveImplementation))
                 {
 
                     IsBaseCall = true;

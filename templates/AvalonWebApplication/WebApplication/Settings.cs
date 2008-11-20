@@ -9,9 +9,6 @@ using WebApplication.Client.Java;
 using System.IO;
 using System.Linq;
 
-// jsc:php: does not yet support the newest asset inclusing tech
-[assembly: ScriptResources("assets/WebApplication")]
-
 namespace WebApplication
 {
 	static class Settings

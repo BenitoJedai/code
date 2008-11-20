@@ -675,16 +675,18 @@ namespace jsc.Languages.Java
 
 				Write(" extends ");
 
-				ScriptAttribute ba = ScriptAttribute.Of(z.BaseType, true);
+				var _BaseType = ResolveImplementation(z.BaseType) ?? z.BaseType;
+
+				ScriptAttribute ba = ScriptAttribute.Of(_BaseType, true);
 
 				if (ba == null)
 					Break("extending object has no attribute");
 
 
 				if (ba.Implements == null)
-					WriteDecoratedTypeName(z.BaseType);
+					WriteDecoratedTypeName(_BaseType);
 				else
-					Write(GetDecoratedTypeName(z.BaseType, false));
+					Write(GetDecoratedTypeName(_BaseType, false));
 
 			}
 			#endregion
