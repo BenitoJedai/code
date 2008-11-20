@@ -5,6 +5,7 @@ using ScriptCoreLib.PHP;
 using System;
 using System.Text;
 using System.IO;
+using WebApplication.Client.Avalon;
 
 namespace WebApplication.Server
 {
@@ -46,8 +47,46 @@ namespace WebApplication.Server
 
 			Console.WriteLine("<br />");
 
+			Native.Link("See actionscript in action", "?actionscript");
+			Console.WriteLine("<br />");
+			Native.Link("See javascript in action", "?javascript");
+			Console.WriteLine("<br />");
+			Native.Link("See javascript and actionscript in action", "?javascript_actionscript");
+			Console.WriteLine("<br />");
+			Console.WriteLine("<br />");
+
 			Native.Link("See more of this application over here!", "?more");
 
+			Console.WriteLine("<br />");
+
+			Action ShowActionScript =
+				delegate
+				{
+					Console.WriteLine("<iframe style='border: 0;' width='" + AvalonCanvas.DefaultWidth + "' height='" + AvalonCanvas.DefaultHeight + "' src='AvalonFlash.htm' ></iframe>");
+				};
+
+			Action ShowJavaScript =
+				delegate
+				{
+					Console.WriteLine("<iframe style='border: 0;' width='" + AvalonCanvas.DefaultWidth + "' height='" + AvalonCanvas.DefaultHeight + "' src='AvalonDocument.htm' ></iframe>");
+				};
+
+			if (Native.QueryString == "actionscript")
+			{
+				ShowActionScript();
+			}
+
+			if (Native.QueryString == "javascript")
+			{
+				ShowJavaScript();
+			}
+
+			if (Native.QueryString == "javascript_actionscript")
+			{
+				ShowJavaScript();
+				ShowActionScript();
+
+			}
 
 			if (Native.QueryString == "more")
 			{
