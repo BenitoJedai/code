@@ -76,9 +76,15 @@ pluginspage="http://www.macromedia.com/go/getflashplayer">
             foreach (var v in Entries)
                 using (var w = dir.CreateFile(v._Type.Name + ".htm"))
                 {
-                    w.Write(
+					// this allows to include this htm directly into iframe
+					w.WriteLine("<!-- created at " + System.DateTime.Now.ToString() + " -->");
+					w.WriteLine("<body style='margin: 0;'>");
+
+                    w.WriteLine(
                         FlashTag(v._Type.Name + ".swf", v._ScriptApplicationEntryPoint.Width, v._ScriptApplicationEntryPoint.Height)
                     );
+
+					w.WriteLine("</body>");
                 }
 
             foreach (var v in from i in Entries where i._GoogleGadget != null select i)
