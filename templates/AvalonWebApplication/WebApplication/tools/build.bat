@@ -3,6 +3,7 @@ set TargetFileName=%2
 set ConfigurationName=%3
 
 if %ConfigurationName%==Debug (
+  echo Debug mode will not perform post build!
   goto :eof
 )
 
@@ -15,6 +16,7 @@ if '%ERRORLEVEL%' == '-1' (
 )
 :: Namespace name, type name
 @call :mxmlc WebApplication/Client/ActionScript AvalonFlash
+@call compile.java.bat WebApplication/Client/Java ApplicationApplet
 
 goto :eof
 
@@ -32,18 +34,11 @@ goto :eof
 @echo off
 pushd ..\bin\%ConfigurationName%\web
 
-
-
-call :build %1 %2
-
-
-popd
-goto :eof
-
-:build
 echo - %2
 :: http://www.adobe.com/products/flex/sdk/
 :: -compiler.verbose-stacktraces 
 :: call C:\util\flex2\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 call C:\util\flex\bin\mxmlc.exe -debug -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
+
+popd
 goto :eof

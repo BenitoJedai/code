@@ -72,6 +72,8 @@ namespace AppletTemplate.source.csharp
 
             e[settings.AppletWebPage] =
                 new XElement("body",
+					new XAttribute("style", "margin: 0;"),
+
                     ToElementWithAttributes("applet",
                         new AppletElementInfo
                         {
