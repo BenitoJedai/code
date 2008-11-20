@@ -38,14 +38,30 @@ namespace WebApplication.Server
 			Console.WriteLine("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
 			Console.WriteLine("<html>");
 			Console.WriteLine("<head>");
+
+			Console.WriteLine("<meta name='description' content='jsc can convert your C# Application to PHP, JavaScript, Actionscript and Java' />");
+			Console.WriteLine("<meta name='keywords' content='c# decompiler, cross compiler, flash, actionscript, php, java, javascript, ajax, web2, dhtml, jsc' />");
+			Console.WriteLine("<link rel='shortcut icon' href='" + KnownAssets.Path.Assets + "/App.ico" + "' />");
+			Console.WriteLine("<link rel='alternate' type='application/rss+xml' title='RSS 2.0' href='http://zproxy.wordpress.com/feed/' />");
+
+
+			Console.WriteLine("<title>" + "AvalonWebApplication".WithBranding() + "</title>");
+
 			Console.WriteLine("<link rel='stylesheet' type='text/css' href='assets/WebApplication/WebPage.css' />");
 			Console.WriteLine("</head>");
 			Console.WriteLine("<body>");
 
-			Console.WriteLine("<img src='assets/WebApplication/jsc.png' />");
+			(KnownAssets.Path.Assets + "/jsc.png").ToImageToConsole();
+
 			Console.WriteLine("<h1>Congratulations!</h1><h2>You are using jsc compiler to convert your C# Application to PHP, JavaScript, Actionscript and Java!</h2>");
 			Console.WriteLine("<h3>" + "C# To PHP".WithBranding() + "</h3>");
 
+
+			(KnownAssets.Path.Assets + "/diagram_jsc.png").ToImageToConsoleWithStyle(
+				"border: 1px solid gray; background: white; padding: 1em;"
+			);
+
+			Console.WriteLine("<br />");
 
 			Native.Link(SharedExtensions.HomePageText, SharedExtensions.HomePage);
 			Console.WriteLine("<br />");
