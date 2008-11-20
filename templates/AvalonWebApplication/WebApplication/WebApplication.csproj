@@ -71,7 +71,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Client\Applet.cs" />
+    <Compile Include="Client\ApplicationApplet.cs" />
     <Compile Include="Client\AvalonDocument.cs" />
     <Compile Include="Client\AvalonFlash.cs" />
     <Compile Include="Client\Avalon\AvalonExtensions.cs" />
