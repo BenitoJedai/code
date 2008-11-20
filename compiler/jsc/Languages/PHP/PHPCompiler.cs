@@ -122,7 +122,10 @@ namespace jsc.Script.PHP
 
                 if (m.IsConstructor)
                 {
-                    if (m.DeclaringType == i.OwnerMethod.DeclaringType.BaseType)
+					var _BaseType = i.OwnerMethod.DeclaringType.BaseType;
+					_BaseType = ResolveImplementation(_BaseType) ?? _BaseType;
+
+					if (m.DeclaringType == _BaseType)
                     {
 
                         bBase = true;
@@ -387,15 +390,18 @@ namespace jsc.Script.PHP
                 {
                     if (z.BaseType != typeof(object))
                     {
-                        ScriptAttribute ba = ScriptAttribute.Of(z.BaseType, false);
+						var BaseType = ResolveImplementation(z.BaseType) ?? z.BaseType;
+
+
+                        ScriptAttribute ba = ScriptAttribute.Of(BaseType, false);
 
                         if (ba == null)
-                            Break("base class should be for scripting : " + z.BaseType.FullName);
+                            Break("base class should be for scripting : " + BaseType.FullName);
 
                         WriteSpace();
                         Write("extends");
                         WriteSpace();
-                        WriteDecoratedTypeName(z.BaseType);
+                        WriteDecoratedTypeName(BaseType);
 
                     }
                 }

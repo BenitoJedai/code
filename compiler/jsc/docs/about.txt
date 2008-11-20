@@ -176,3 +176,6 @@ version history:
 	actionscript: fixed ctor merging bug to detect non-optional params
 05.11.2008
 	actionscript: ctor initializes Number fields
+20.11.2008
+	php: fixed basetype implementation reroute
+	java: fixed basetype implementation reroute

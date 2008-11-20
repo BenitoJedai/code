@@ -25,10 +25,34 @@ namespace WebApplication.Client.ActionScript
 		static AvalonFlash()
 		{
 			// add resources to be found by ImageSource
-			//KnownEmbeddedAssets.RegisterTo(
-			//    KnownEmbeddedResources.Default.Handlers
-			//);
+			KnownEmbeddedAssets.RegisterTo(
+				KnownEmbeddedResources.Default.Handlers
+			);
 
 		}
 	}
+
+	[Script]
+	public class KnownEmbeddedAssets
+	{
+		[EmbedByFileName]
+		public static Class ByFileName(string e)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static void RegisterTo(List<Converter<string, Class>> Handlers)
+		{
+			// assets from current assembly
+			Handlers.Add(e => ByFileName(e));
+
+			//AvalonUgh.Assets.ActionScript.KnownEmbeddedAssets.RegisterTo(Handlers);
+
+			//// assets from referenced assemblies
+			//Handlers.Add(e => global::ScriptCoreLib.ActionScript.Avalon.Cursors.EmbeddedAssets.Default[e]);
+			//Handlers.Add(e => global::ScriptCoreLib.ActionScript.Avalon.TiledImageButton.Assets.Default[e]);
+
+		}
+	}
+
 }

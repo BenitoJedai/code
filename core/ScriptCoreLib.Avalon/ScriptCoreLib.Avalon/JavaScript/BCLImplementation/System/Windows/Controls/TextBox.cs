@@ -96,7 +96,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 		public override void InternalSetFontSize(double value)
 		{
 			var s = this.InternalGetDisplayObject().style;
-			s.fontSize = Convert.ToInt32(value) + "pt";
+			s.fontSize = Convert.ToInt32(value) + "px";
 		}
 
 		public override void InternalSetBorderThickness(global::System.Windows.Thickness value)

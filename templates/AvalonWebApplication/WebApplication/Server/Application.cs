@@ -46,8 +46,11 @@ namespace WebApplication.Server
 			Console.WriteLine("<h1>Congratulations!</h1><h2>You are using jsc compiler to convert your C# Application to PHP, JavaScript, Actionscript and Java!</h2>");
 			Console.WriteLine("<h3>" + "C# To PHP".WithBranding() + "</h3>");
 
-			Native.Link("Visit jsc.sourceforge.net", "http://jsc.sourceforge.net");
 
+			Native.Link(SharedExtensions.HomePageText, SharedExtensions.HomePage);
+			Console.WriteLine("<br />");
+			Console.WriteLine("<br />");
+			Native.Link("View Source", SharedExtensions.TemplateSourceCode);
 			Console.WriteLine("<hr />");
 
 			Native.Link("See java applet in action", "?javaapplet");
@@ -57,6 +60,8 @@ namespace WebApplication.Server
 			Native.Link("See javascript in action", "?javascript");
 			Console.WriteLine("<br />");
 			Native.Link("See javascript and actionscript in action", "?javascript_actionscript");
+			Console.WriteLine("<br />");
+			Native.Link("See javascript and actionscript, java applet in action", "?javascript_actionscript_javaapplet");
 			Console.WriteLine("<br />");
 			Console.WriteLine("<br />");
 
@@ -92,6 +97,14 @@ namespace WebApplication.Server
 			{
 				ShowJavaScript();
 				ShowActionScript();
+
+			}
+
+			if (Native.QueryString == "javascript_actionscript_javaapplet")
+			{
+				ShowJavaScript();
+				ShowActionScript();
+				ShowJavaApplet();
 
 			}
 
