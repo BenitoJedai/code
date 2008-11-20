@@ -14,5 +14,10 @@ namespace WebApplication.Shared
 		// javascript
 		// php
 		// java
+
+		public static string WithBranding(this string text)
+		{
+			return text + " - powered by jsc";
+		}
 	}
 }

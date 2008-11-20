@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using java.applet;
 using java.awt;
+using WebApplication.Shared;
 
 namespace WebApplication.Client.Java
 {
@@ -43,7 +44,7 @@ namespace WebApplication.Client.Java
 			}
 
 			g.setColor(new Color(0xffffff));
-			g.drawString("hello world, this is the sample applet", 16, 64);
+			g.drawString("C# To Java".WithBranding(), 16, 64);
 		}
 	}
 }

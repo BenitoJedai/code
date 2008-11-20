@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows;
+using WebApplication.Shared;
 
 namespace WebApplication.Client.Avalon
 {
@@ -37,14 +38,14 @@ namespace WebApplication.Client.Avalon
 
 			var t = new TextBox
 			{
-				FontSize = 32,
-				Text = "powered by jsc",
+				FontSize = 20,
+				Text = "C# to JavaScript and ActionScript".WithBranding(),
 				BorderThickness = new Thickness(0),
 				Foreground = 0xffffffff.ToSolidColorBrush(),
 				Background = Brushes.Transparent,
 				IsReadOnly = true,
-				Width = 300
-			}.MoveTo(32, 32).AttachTo(this);
+				Width = DefaultWidth
+			}.MoveTo(0, 32).AttachTo(this);
 		}
 	}
 }

@@ -6,6 +6,8 @@ using System;
 using System.Text;
 using System.IO;
 using WebApplication.Client.Avalon;
+using WebApplication.Client.Java;
+using WebApplication.Shared;
 
 namespace WebApplication.Server
 {
@@ -41,12 +43,15 @@ namespace WebApplication.Server
 			Console.WriteLine("<body>");
 
 			Console.WriteLine("<img src='assets/WebApplication/jsc.png' />");
-			Console.WriteLine("<h1>Congratulations!</h1><h2>You are using jsc compiler to convert your C# Application to PHP Application!</h2>");
+			Console.WriteLine("<h1>Congratulations!</h1><h2>You are using jsc compiler to convert your C# Application to PHP, JavaScript, Actionscript and Java!</h2>");
+			Console.WriteLine("<h3>" + "C# To PHP".WithBranding() + "</h3>");
 
 			Native.Link("Visit jsc.sourceforge.net", "http://jsc.sourceforge.net");
 
-			Console.WriteLine("<br />");
+			Console.WriteLine("<hr />");
 
+			Native.Link("See java applet in action", "?javaapplet");
+			Console.WriteLine("<br />");
 			Native.Link("See actionscript in action", "?actionscript");
 			Console.WriteLine("<br />");
 			Native.Link("See javascript in action", "?javascript");
@@ -57,19 +62,21 @@ namespace WebApplication.Server
 
 			Native.Link("See more of this application over here!", "?more");
 
-			Console.WriteLine("<br />");
+			Console.WriteLine("<hr />");
 
-			Action ShowActionScript =
-				delegate
-				{
-					Console.WriteLine("<iframe style='border: 0;' width='" + AvalonCanvas.DefaultWidth + "' height='" + AvalonCanvas.DefaultHeight + "' src='AvalonFlash.htm' ></iframe>");
-				};
+			Action<int, int, string> CreateIFrame =
+				(w, h, src) => Console.WriteLine("<iframe style='border: 0;' width='" + w + "' height='" + h + "' src='" + src + "' ></iframe>"); ;
 
-			Action ShowJavaScript =
-				delegate
-				{
-					Console.WriteLine("<iframe style='border: 0;' width='" + AvalonCanvas.DefaultWidth + "' height='" + AvalonCanvas.DefaultHeight + "' src='AvalonDocument.htm' ></iframe>");
-				};
+			Action ShowActionScript = () => CreateIFrame(AvalonCanvas.DefaultWidth, AvalonCanvas.DefaultHeight, "AvalonFlash.htm");
+			Action ShowJavaScript = () => CreateIFrame(AvalonCanvas.DefaultWidth, AvalonCanvas.DefaultHeight, "AvalonDocument.htm");
+			Action ShowJavaApplet = () => CreateIFrame(ApplicationApplet.DefaultWidth, ApplicationApplet.DefaultHeight, "ApplicationApplet.htm");
+
+
+
+			if (Native.QueryString == "javaapplet")
+			{
+				ShowJavaApplet();
+			}
 
 			if (Native.QueryString == "actionscript")
 			{
