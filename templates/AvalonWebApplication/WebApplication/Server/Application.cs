@@ -17,8 +17,8 @@ namespace WebApplication.Server
 
 		// http://localhost/jsc/WebApplication
 
-		//Alias /jsc/WebApplication "C:\work\code.google\zproxygames\WebApplication\WebApplication\bin\Release\web"
-		//<Directory "C:\work\code.google\zproxygames\WebApplication\WebApplication\bin\Release\web">
+		//Alias /jsc/WebApplication "C:\work\jsc.svn\templates\AvalonWebApplication\WebApplication\bin\Release\web"
+		//<Directory "C:\work\jsc.svn\templates\AvalonWebApplication\WebApplication\bin\Release\web">
 		//       Options Indexes FollowSymLinks ExecCGI
 		//       AllowOverride All
 		//       Order allow,deny
