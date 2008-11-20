@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 
 using ScriptCoreLib.Shared;
+using System.Reflection;
 
 // jsc:php: does not yet support the newest asset inclusing tech
 [assembly: ScriptResources("assets/WebApplication")]
@@ -25,7 +26,7 @@ namespace WebApplication
 
 			w.WriteLine("<?");
 
-			SharedHelper.PHPInclude(w, SharedHelper.LocalModules);
+			SharedHelper.PHPInclude(w, SharedHelper.LocalModulesOf(Assembly.GetExecutingAssembly(), ScriptType.PHP));
 
 			w.WriteLine(entryfunction.Method.Name + "();");
 
