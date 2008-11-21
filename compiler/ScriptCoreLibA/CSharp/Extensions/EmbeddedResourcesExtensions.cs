@@ -72,6 +72,15 @@ namespace ScriptCoreLib.CSharp.Extensions
 					return GetPrefixes(an).Select(k => new ScriptResourcesAttribute("assets/" + k));
 				};
 
+
+			// to support partial trust - this workaround should be implemented:
+			//Assembly assembly = Assembly.GetEntryAssembly();
+			//AssemblyName[] names = assembly.GetReferencedAssemblies();
+			//foreach (AssemblyName name in names)
+			//{
+			//    MessageBox.Show(name.Name + " " + name.Version.ToString());
+			//}
+
 			var Candidates = from assembly in SharedHelper.LoadReferencedAssemblies(Assembly.GetEntryAssembly(), true)
 							 let name = new AssemblyName(assembly.FullName)
 							 let assembly_resources = GetScriptResourcesAttributes(assembly)
@@ -83,7 +92,7 @@ namespace ScriptCoreLib.CSharp.Extensions
 							 let prefixless = resource.Substring(prefix.Length)
 							 let folderfound = new BooleanProperty()
 							 from folder in folders
-							 where !folderfound.Value 
+							 where !folderfound.Value
 							 let folderprefix = folder.Value.Replace("/", ".")
 							 where prefixless.StartsWith(folderprefix)
 							 //let request = e.Replace("/", ".")
@@ -101,7 +110,7 @@ namespace ScriptCoreLib.CSharp.Extensions
 							 };
 
 			var a = Candidates.ToArray();
-			
+
 
 			foreach (var v in a)
 			{
@@ -113,7 +122,13 @@ namespace ScriptCoreLib.CSharp.Extensions
 
 			// did you embedd the resource?
 
-			return  a.Where(k => k.PrefixlessResourceName == request).Single();
+			var result = a.Where(k => k.PrefixlessResourceName == request).SingleOrDefault();
+
+			if (result == null)
+				throw new ArgumentOutOfRangeException(request);
+
+			return result;
+
 		}
 
 
@@ -122,7 +137,7 @@ namespace ScriptCoreLib.CSharp.Extensions
 		{
 			ExtractEmbeddedResources(dir, e,
 				 (v, tf, Path, File) =>
-					  CopyStream(e.GetManifestResourceStream(v), tf.OpenWrite())
+					  CopyStream(e.GetManifestResourceStream(v), new FileInfo(tf).OpenWrite())
 			);
 
 
@@ -130,7 +145,7 @@ namespace ScriptCoreLib.CSharp.Extensions
 
 		public static ScriptResourcesAttribute[] GetScriptResourcesAttributes(Assembly assembly)
 		{
-			var assembly_types = 
+			var assembly_types =
 				from assembly_type in assembly.GetTypes()
 				let assembly_type_attribute = assembly_type.GetCustomAttributes(typeof(ScriptResourcesAttribute), false).Cast<ScriptResourcesAttribute>().SingleOrDefault()
 				where assembly_type_attribute != null
@@ -146,8 +161,26 @@ namespace ScriptCoreLib.CSharp.Extensions
 							 ).ToArray();
 		}
 
-		public static void ExtractEmbeddedResources(DirectoryInfo dir, Assembly e, Action<string, FileInfo, string, string> handler)
+
+		public static void ExtractEmbeddedResources(DirectoryInfo dir, Assembly e, Action<string, string, string, string> handler)
 		{
+			//System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation. ---> System.Security.SecurityException: Request for the permission of type 'System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089' failed.
+			//   at System.Security.CodeAccessSecurityEngine.Check(Object demand, StackCrawlMark& stackMark, Boolean isPermSet)
+			//   at System.Security.CodeAccessPermission.Demand()
+			//   at System.Reflection.Assembly.VerifyCodeBaseDiscovery(String codeBase)
+			//   at System.Reflection.Assembly.GetName(Boolean copiedName)
+			//   at System.Reflection.Assembly.GetName()
+			//   at ScriptCoreLib.CSharp.Extensions.EmbeddedResourcesExtensions.ExtractEmbeddedResources(DirectoryInfo dir, Assembly e, Action`4 handler)
+
+			// http://social.msdn.microsoft.com/Forums/en-US/wpf/thread/b92c1f6a-9160-42fe-ad2c-4961814d044d/
+
+			// to support partial trust - this workaround should be implemented:
+			//Assembly assembly = Assembly.GetEntryAssembly();
+			//AssemblyName[] names = assembly.GetReferencedAssemblies();
+			//foreach (AssemblyName name in names)
+			//{
+			//    MessageBox.Show(name.Name + " " + name.Version.ToString());
+			//}
 			var DefaultResources = new ScriptResourcesAttribute("assets/" + e.GetName().Name);
 
 			ScriptResourcesAttribute[] a =
@@ -218,7 +251,8 @@ namespace ScriptCoreLib.CSharp.Extensions
 						let NewSubDir = EnsureNotStartsWith("/", z.av.Value)
 						let t = (string.IsNullOrEmpty(NewSubDir) || dir == null) ? dir : dir.CreateSubdirectory(NewSubDir)
 						let f = string.IsNullOrEmpty(NewSubDir) ? v.Substring(z.ap.Length) : v.Substring(z.ap.Length + 1)
-						let tf = new FileInfo((t == null ? "" : t.FullName) + "/" + f)
+						// FileInfo cannot be used in partial trust
+						let tf = (t == null ? "" : t.FullName) + "/" + f
 						select new { v, tf, File = f, Path = z.av.Value };
 
 			foreach (var p in query)
