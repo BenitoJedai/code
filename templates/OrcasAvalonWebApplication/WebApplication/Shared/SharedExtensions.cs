@@ -18,7 +18,7 @@ namespace WebApplication.Shared
 		public const string HomePageText = "Visit jsc.sourceforge.net";
 		public const string HomePage = "http://jsc.sf.net/";
 
-		public const string TemplateSourceCode = "http://jsc.svn.sourceforge.net/viewvc/jsc/templates/AvalonWebApplication/";
+		public const string TemplateSourceCode = "http://jsc.svn.sourceforge.net/viewvc/jsc/templates/OrcasAvalonWebApplication/";
 
 		public static string WithBranding(this string text)
 		{
