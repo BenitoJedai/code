@@ -51,6 +51,7 @@ namespace WebApplication.Server
 			Console.WriteLine("</head>");
 			Console.WriteLine("<body>");
 
+			(KnownAssets.Path.Assets + "/Preview.png").ToImageToConsole();
 			(KnownAssets.Path.Assets + "/jsc.png").ToImageToConsole();
 
 			Console.WriteLine("<h1>Congratulations!</h1><h2>You are using jsc compiler to convert your C# Application to PHP, JavaScript, Actionscript and Java!</h2>");
@@ -69,17 +70,17 @@ namespace WebApplication.Server
 			Native.Link("View Source", SharedExtensions.TemplateSourceCode);
 			Console.WriteLine("<hr />");
 
-			Native.Link("See java applet in action", "?javaapplet");
-			Console.WriteLine("<br />");
-			Native.Link("See actionscript in action", "?actionscript");
-			Console.WriteLine("<br />");
-			Native.Link("See javascript in action", "?javascript");
-			Console.WriteLine("<br />");
-			Native.Link("See javascript and actionscript in action", "?javascript_actionscript");
-			Console.WriteLine("<br />");
-			Native.Link("See javascript and actionscript, java applet in action", "?javascript_actionscript_javaapplet");
-			Console.WriteLine("<br />");
-			Console.WriteLine("<br />");
+			//Native.Link("See java applet in action", "?javaapplet");
+			//Console.WriteLine("<br />");
+			//Native.Link("See actionscript in action", "?actionscript");
+			//Console.WriteLine("<br />");
+			//Native.Link("See javascript in action", "?javascript");
+			//Console.WriteLine("<br />");
+			//Native.Link("See javascript and actionscript in action", "?javascript_actionscript");
+			//Console.WriteLine("<br />");
+			//Native.Link("See javascript and actionscript, java applet in action", "?javascript_actionscript_javaapplet");
+			//Console.WriteLine("<br />");
+			//Console.WriteLine("<br />");
 
 			Native.Link("See more of this application over here!", "?more");
 
@@ -92,73 +93,91 @@ namespace WebApplication.Server
 			Action ShowJavaScript = () => CreateIFrame(AvalonCanvas.DefaultWidth, AvalonCanvas.DefaultHeight, "AvalonDocument.htm");
 			Action ShowJavaApplet = () => CreateIFrame(ApplicationApplet.DefaultWidth, ApplicationApplet.DefaultHeight, "ApplicationApplet.htm");
 
+			//Console.WriteLine("<h3>" + Native.QueryString + "</h3>");
 
 
-			if (Native.QueryString == "javaapplet")
-			{
-				ShowJavaApplet();
-			}
+			//if (Native.QueryString == "javaapplet")
+			//{
+			//    ShowJavaApplet();
+			//}
 
-			if (Native.QueryString == "actionscript")
-			{
-				ShowActionScript();
-			}
+			//if (Native.QueryString == "actionscript")
+			//{
+			//    ShowActionScript();
+			//}
 
-			if (Native.QueryString == "javascript")
-			{
-				ShowJavaScript();
-			}
+			//if (Native.QueryString == "javascript")
+			//{
+			//    ShowJavaScript();
+			//}
 
-			if (Native.QueryString == "javascript_actionscript")
-			{
-				ShowJavaScript();
-				ShowActionScript();
+			//if (Native.QueryString == "javascript_actionscript")
+			//{
+			//    ShowJavaScript();
+			//    ShowActionScript();
 
-			}
+			//}
 
-			if (Native.QueryString == "javascript_actionscript_javaapplet")
-			{
-				ShowJavaScript();
-				ShowActionScript();
-				ShowJavaApplet();
+			// sf.net does not work with querystring for some reason.
 
-			}
+			Console.WriteLine("<h3>Java Applet</h3>");
+			ShowJavaApplet();
 
-			if (Native.QueryString == "more")
-			{
-				var path = "assets/WebApplication/description.txt";
+			Console.WriteLine("<h3>ActionScript</h3>");
+			ShowActionScript();
 
-				Console.WriteLine("<h2>" + path + "</h2>");
-				Console.WriteLine("<p>");
-				if (File.Exists(path))
-				{
-					Console.WriteLine(File.ReadAllText(path));
-				}
-				Console.WriteLine("</p>");
+			Console.WriteLine("<h3>JavaScript</h3>");
+			ShowJavaScript();
 
-				Console.WriteLine("<p><img src='" + "assets/WebApplication/tongue.gif" + "' /> hello world (php)</p>");
-
-				Native.Link("see html for javascript OrcasPHPScriptApplicationDocument", "OrcasPHPScriptApplicationDocument.htm");
-
-				Native.Dump(
-					new { hello = "world" }
-				);
+			Console.WriteLine("<h3>How to deploy this to a site?</h3>");
+			Console.WriteLine("You need to copy the following folders and files from 'bin/Release/web/' folder:");
+			Console.WriteLine(@"
+				<ul>
+					<li>assets/</li>
+					<li>bin/</li>
+					<li>inc/</li>
+					<li>*.htm</li>
+					<li>*.swf</li>
+					<li>*.js</li>
+				</ul>
+			");
 
 
+			//if (Native.QueryString == "more")
+			//{
+			//    var path = "assets/WebApplication/description.txt";
+
+			//    Console.WriteLine("<h2>" + path + "</h2>");
+			//    Console.WriteLine("<p>");
+			//    if (File.Exists(path))
+			//    {
+			//        Console.WriteLine(File.ReadAllText(path));
+			//    }
+			//    Console.WriteLine("</p>");
+
+			//    Console.WriteLine("<p><img src='" + "assets/WebApplication/tongue.gif" + "' /> hello world (php)</p>");
+
+			//    Native.Link("see html for javascript OrcasPHPScriptApplicationDocument", "OrcasPHPScriptApplicationDocument.htm");
+
+			//    Native.Dump(
+			//        new { hello = "world" }
+			//    );
 
 
-				var kk = new StringBuilder();
-				var k = kk.Append("hello").Append(" world");
 
-				Console.WriteLine(
-					k.ToString()
-				);
 
-				Console.WriteLine(
-					new { hello = "world" }
-				);
+			//    var kk = new StringBuilder();
+			//    var k = kk.Append("hello").Append(" world");
 
-			}
+			//    Console.WriteLine(
+			//        k.ToString()
+			//    );
+
+			//    Console.WriteLine(
+			//        new { hello = "world" }
+			//    );
+
+			//}
 
 			Console.WriteLine("<hr />");
 
