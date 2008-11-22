@@ -9,13 +9,11 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
-		public static T ToDefault<T>(this T e)
-		{
-			var value = default(T);
-			
-			// this local value workaround is needed for jsc at this time
 
-			return value;
+
+		public static T ToDefault<T>(this T e) where T : class
+		{
+			return null;
 		}
 
 		public static void Add<TKey, TValue>(this IDictionary<TKey, TValue> e, KeyValuePair<TKey, TValue> value)
@@ -428,7 +426,7 @@ namespace ScriptCoreLib.Shared.Lambda
 			return done;
 		}
 
-	
+
 		public static ParamsAction<A> AsParamsAction<A>(this global::System.Action<A> f)
 		{
 			return
