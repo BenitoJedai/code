@@ -99,6 +99,17 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			e.Visibility = Visibility.Visible;
 		}
 
+		public static void Show(this UIElement e, bool value)
+		{
+			if (e == null)
+				return;
+
+			if (value)
+				e.Visibility = Visibility.Visible;
+			else
+				e.Visibility = Visibility.Hidden;
+		}
+
 
 		public static void Hide(this UIElement e)
 		{

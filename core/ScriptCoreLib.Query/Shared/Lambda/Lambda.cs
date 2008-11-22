@@ -9,6 +9,15 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static T ToDefault<T>(this T e)
+		{
+			var value = default(T);
+			
+			// this local value workaround is needed for jsc at this time
+
+			return value;
+		}
+
 		public static void Add<TKey, TValue>(this IDictionary<TKey, TValue> e, KeyValuePair<TKey, TValue> value)
 		{
 			e.Add(value.Key, value.Value);
