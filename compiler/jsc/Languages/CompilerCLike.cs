@@ -919,7 +919,8 @@ namespace jsc.Script
 				return;
 
 
-			Action<ILFlow.StackItem> WriteReturnValue =
+			var WriteReturnValue = default(Action<ILFlow.StackItem>);
+			WriteReturnValue =
 				left_s =>
 				{
 
@@ -949,13 +950,33 @@ namespace jsc.Script
 
 								if (_i.IsStoreInstruction)
 								{
-									if (_i.StackBeforeStrict.Single().StackInstructions.Length == 1)
-										WriteReturnParameter(_p, _i.StackBeforeStrict.Single().SingleStackInstruction, _i.StackBeforeStrict.Single());
-									else
-										WriteReturnParameter(p, left, left_s);
+									var q = _i.StackBeforeStrict.Single();
+
+									WriteReturnValue(q);
+
+									//if (q.StackInstructions.Length == 1)
+									//{
+									//    if (q.SingleStackInstruction.InlineAssigmentValue)
+									//    WriteReturnParameter(_p, q.SingleStackInstruction, q);
+									//}
+									//else
+									//    WriteReturnParameter(p, left, left_s);
 								}
 								else
+								{
+									if (_i.OpCode == OpCodes.Initobj)
+									{
+										// this is a shortcut
+										// we assume that the user is trying to
+										// return a null object
+
+										WriteKeywordNull();
+
+										return;
+									}
+
 									WriteReturnParameter(_p, _i);
+								}
 
 								return;
 							}
@@ -972,9 +993,7 @@ namespace jsc.Script
 
 			if (s.Length == 1)
 			{
-
 				WriteReturnValue(s[0]);
-
 			}
 			else
 			{

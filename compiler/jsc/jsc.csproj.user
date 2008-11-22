@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\templates\AvalonWebApplication\WebApplication\bin\Release</StartWorkingDirectory>
-    <StartArguments>WebApplication.exe -java</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\core\ScriptCoreLib.Query\bin\Debug</StartWorkingDirectory>
+    <StartArguments>ScriptCoreLib.Query.dll -js</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

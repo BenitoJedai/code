@@ -179,3 +179,5 @@ version history:
 20.11.2008
 	php: fixed basetype implementation reroute
 	java: fixed basetype implementation reroute
+22.11.2008
+	actionscript: fixed return default(T) where T : class
