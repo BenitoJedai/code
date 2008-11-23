@@ -15,18 +15,64 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	}
 
 	[Script]
+	public interface ISupportsLayout<T>
+		where T : UIElement
+	{
+		T Value { get; }
+		double Zoom { get; }
+
+
+	}
+
+	[Script]
 	public static class SupportsContainerExtensions
 	{
 		// javascript DOM will not reflect the latest position
 		// within the same callstack
 
+		[Script]
+		internal class SupportsLayout<T> : ISupportsLayout<T>
+		where T : UIElement
+		{
+			public T Value { get; set; }
+			public double Zoom { get; set; }
 
+			public SupportsLayout(T Value, double Zoom)
+			{
+				this.Value = Value;
+				this.Zoom = Zoom;
+			}
+		}
+
+		public static ISupportsLayout<T> WithZoom<T>(this T e, double Zoom)
+		where T : UIElement
+		{
+			return new SupportsLayout<T>(e, Zoom);
+		}
 
 		public static T MoveTo<T>(this T e, double x, double y)
 					where T : UIElement
 		{
 			Canvas.SetLeft(e, x);
 			Canvas.SetTop(e, y);
+
+			return e;
+		}
+
+		public static ISupportsLayout<T> MoveTo<T>(this ISupportsLayout<T> e, double x, double y)
+				where T : UIElement
+		{
+			Canvas.SetLeft(e.Value, x * e.Zoom);
+			Canvas.SetTop(e.Value, y * e.Zoom);
+
+			return e;
+		}
+
+		public static ISupportsLayout<T> MoveTo<T>(this ISupportsLayout<T> e, int x, int y)
+			where T : UIElement
+		{
+			Canvas.SetLeft(e.Value, x * e.Zoom);
+			Canvas.SetTop(e.Value, y * e.Zoom);
 
 			return e;
 		}
@@ -41,6 +87,46 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			return e;
 		}
 
+		public static T SizeTo<T>(this T e, int w, int h)
+			where T : FrameworkElement
+		{
+			e.Width = w;
+			e.Height = h;
+
+
+			return e;
+		}
+
+
+		public static T SizeTo<T>(this T e, double w, double h)
+			where T : FrameworkElement
+		{
+			e.Width = w;
+			e.Height = h;
+
+
+			return e;
+		}
+
+		public static ISupportsLayout<T> SizeTo<T>(this ISupportsLayout<T> e, double w, double h)
+			where T : FrameworkElement
+		{
+			e.Value.Width = e.Zoom * w;
+			e.Value.Height = e.Zoom * h;
+
+
+			return e;
+		}
+
+		public static ISupportsLayout<T> SizeTo<T>(this ISupportsLayout<T> e, int w, int h)
+		where T : FrameworkElement
+		{
+			e.Value.Width = e.Zoom * w;
+			e.Value.Height = e.Zoom * h;
+
+
+			return e;
+		}
 
 		public static T MoveContainerTo<T>(this T e, int x, int y)
 			where T : ISupportsContainer
@@ -89,7 +175,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			return e;
 		}
 
-		public static T[] AttachContainerTo<T>(this T[]  e, ISupportsContainer c)
+		public static T[] AttachContainerTo<T>(this T[] e, ISupportsContainer c)
 			where T : ISupportsContainer
 		{
 			if (e == null)
