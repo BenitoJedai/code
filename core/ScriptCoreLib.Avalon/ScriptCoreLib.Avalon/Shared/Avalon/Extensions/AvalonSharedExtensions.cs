@@ -110,6 +110,13 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 				e.Visibility = Visibility.Hidden;
 		}
 
+		public static void ToggleVisible(this UIElement e)
+		{
+			if (e.Visibility == Visibility.Visible)
+				e.Hide();
+			else
+				e.Show();
+		}
 
 		public static void Hide(this UIElement e)
 		{
@@ -121,14 +128,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 		}
 
 
-		public static void ToggleVisible(this UIElement e)
-		{
-			if (e.Visibility == Visibility.Visible)
-				e.Hide();
-			else
-				e.Show();
-
-		}
+	
 
 		public static IEnumerable<Brush> ToGradient(this Brush from, Brush to, int count)
 		{
