@@ -193,6 +193,8 @@
     <Compile Include="ActionScript\BCLImplementation\System\IEquatable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\BinaryReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\BinaryWriter.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\IO\StringWriter.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\IO\TextWriter.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\StringReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\TextReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs" />
@@ -234,6 +236,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\IO\MemoryStream.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\Stream.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\StreamWriter.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\IO\StringWriter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\TextReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Predicate.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Double.cs" />
@@ -448,6 +451,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Comparision.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Diagnostics\Debug.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Environment.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\IO\TextWriter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\NotSupportedException.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\DateTime.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Boolean.cs" />
