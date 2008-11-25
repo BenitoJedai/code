@@ -99,6 +99,13 @@ namespace ScriptCoreLib.Shared.Lambda
 			}
 		}
 
+		public static BindingList<T> ForEachNewOrExistingItem<T>(this BindingList<T> source, Action<T> handler)
+		{
+			source.ForEachNewItem(handler).ForEach(handler);
+
+			return source;
+		}
+
 		public static BindingList<T> ForEachNewItem<T>(this BindingList<T> source, Action<T> handler)
 		{
 			source.ListChanged +=
