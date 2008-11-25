@@ -271,5 +271,17 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 		{
 			this.Text = "";
 		}
+
+		public override void InternalSetFontFamily(FontFamily value_)
+		{
+			var value = (__FontFamily)(object)value_;
+
+			this.InternalChangeTextFormat(
+					new TextFormat
+					{
+						font = value.InternalFamilyName
+					}
+			);
+		}
 	}
 }

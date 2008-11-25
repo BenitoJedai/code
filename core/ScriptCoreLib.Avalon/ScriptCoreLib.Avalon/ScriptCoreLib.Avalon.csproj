@@ -80,6 +80,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\TextChangedEventArgs.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\TextChangedEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\UIElementCollection.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\FontFamily.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Style.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Vector.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\DependencyObject.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\TextChangedEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\TextChangedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\UIElementCollection.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\FontFamily.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Style.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\KeyboardEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\KeyEventArgs.cs" />
