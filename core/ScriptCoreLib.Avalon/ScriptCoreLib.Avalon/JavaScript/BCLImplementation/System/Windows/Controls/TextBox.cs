@@ -345,5 +345,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 		{
 			this.Text = "";
 		}
+
+		[Script(HasNoPrototype = true)]
+		internal class IStyle_fontFamily
+		{
+			public string fontFamily;
+		}
+
+		public override void InternalSetFontFamily(FontFamily value_)
+		{
+			var value = ((__FontFamily)(object)value_).InternalFamilyName;
+			var s = (IStyle_fontFamily)(object)this.InternalGetDisplayObjectDirect().style;
+
+			// we could let consolas override courier new
+
+			s.fontFamily = value;
+		
+		}
 	}
 }

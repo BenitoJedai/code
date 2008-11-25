@@ -69,5 +69,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 		public double FontSize { get { return InternalGetFontSize(); } set { InternalSetFontSize(value); } }
 
 		#endregion
+
+		#region FontFamily
+		public virtual FontFamily InternalGetFontFamily()
+		{
+			throw new NotImplementedException();
+		}
+
+		public virtual void InternalSetFontFamily(FontFamily value)
+		{
+			throw new NotImplementedException();
+		}
+
+		public FontFamily FontFamily { get { return InternalGetFontFamily(); } set { InternalSetFontFamily(value); } }
+
+		#endregion
 	}
 }
