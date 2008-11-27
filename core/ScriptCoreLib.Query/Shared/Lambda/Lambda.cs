@@ -9,7 +9,62 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static Func<T> WhereListChanged<T>(this IBindingList[] e, Func<T> h)
+		{
+			var r = default(T);
 
+			var c = e.WhereListChanged(
+				delegate
+				{
+					r = h();
+				}
+			);
+
+			return
+				delegate
+				{
+					c();
+
+					return r;
+				};
+		}
+
+		public static Action WhereListChanged(this IBindingList[] e, Action h)
+		{
+			var dirty = true;
+
+			foreach (var v in e)
+			{
+				v.ListChanged += delegate { dirty = true; };
+			}
+
+			return delegate
+			{
+				if (dirty)
+				{
+					dirty = false;
+
+					h();
+				}
+			};
+		}
+
+		public static Action WhenListChanged(this IBindingList e, Action h)
+		{
+			var dirty = true;
+
+			e.ListChanged += delegate { dirty = true; };
+
+			return delegate
+			{
+				if (dirty)
+				{
+					dirty = false;
+
+					h();
+				}
+			};
+		}
 
 		public static T ToDefault<T>(this T e) where T : class
 		{
