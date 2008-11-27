@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using ScriptCoreLib;
+using ScriptCoreLib.Shared;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -39,8 +40,8 @@ using ScriptCoreLib;
 
 [assembly:
     Script,
-    ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
-    ScriptTypeFilter(ScriptType.ActionScript, "*.Shared.Query"),
+    ScriptTypeFilter(ScriptType.ActionScript, typeof(global::ScriptCoreLib.ActionScript.MochiLibrary.MochiAdPreloaderBase)),
+	//ScriptTypeFilter(ScriptType.ActionScript, "*.Shared.Query"),
 
     // some namespace mangling
     ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
