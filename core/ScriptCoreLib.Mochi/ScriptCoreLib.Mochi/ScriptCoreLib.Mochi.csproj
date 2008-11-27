@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\MochiLibrary\Ad\MochiAd.cs" />
+    <Compile Include="ActionScript\MochiLibrary\MochiAdPreloader.cs" />
     <Compile Include="ActionScript\MochiLibrary\MochiAdOptions.cs" />
     <Compile Include="ActionScript\MochiLibrary\MochiAdPreloaderBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
