@@ -49,7 +49,7 @@ namespace ScriptCoreLib.Shared.Lambda
 			};
 		}
 
-		public static Action WhenListChanged(this IBindingList e, Action h)
+		public static Action WhereListChanged(this IBindingList e, Action h)
 		{
 			var dirty = true;
 
