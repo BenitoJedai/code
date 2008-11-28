@@ -6,7 +6,7 @@ using System.ComponentModel;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel
 {
     [Script(Implements = typeof(global::System.ComponentModel.BindingList<>))]
-    internal class __BindingList<T> : Collections.ObjectModel.__Collection<T>
+	internal class __BindingList<T> : Collections.ObjectModel.__Collection<T>, __IBindingList
     {
         public __BindingList()
         {

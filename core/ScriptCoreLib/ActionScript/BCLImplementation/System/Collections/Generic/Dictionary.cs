@@ -220,8 +220,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
         {
             IEnumerator<KeyValuePair<TKey, TValue>> list;
 
+			public __Enumerator() : this(null) { }
+
             public __Enumerator(__Dictionary<TKey, TValue> e)
             {
+				if (e == null)
+					return;
+
                 var a = new global::System.Collections.Generic.List<KeyValuePair<TKey, TValue>>();
 
                 foreach (var v in e.Keys)

@@ -79,7 +79,9 @@ namespace jsc.Languages.ActionScript
                 var query =
                     from c in zci
                     let code = new ILBlock(c)
-                    let b = code.Prestatements.PrestatementCommands.Where(p => !p.Instruction.IsAnyOpCodeOf(OpCodes.Initobj, OpCodes.Ret, OpCodes.Nop)).ToArray()
+                    let b = code.Prestatements.PrestatementCommands.Where(
+						p => p.Instruction != null && !p.Instruction.IsAnyOpCodeOf(OpCodes.Initobj, OpCodes.Ret, OpCodes.Nop)
+					).ToArray()
                     where (b.Length == 1 && b[0].Instruction == OpCodes.Call)
                     let i = b[0].Instruction
                     let t = i.TargetConstructor

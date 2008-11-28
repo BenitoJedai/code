@@ -96,7 +96,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
         {
             get
             {
-                return this.Values;
+				return this._values;
             }
         }
 
@@ -104,7 +104,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
         {
             get
             {
-                return this.Values;
+				return this._values;
             }
         }
 
@@ -208,8 +208,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
         {
             IEnumerator<KeyValuePair<TKey, TValue>> list;
 
-            public __Enumerator(__Dictionary<TKey, TValue> e)
-            {
+			public __Enumerator() : this(null) { }
+
+			public __Enumerator(__Dictionary<TKey, TValue> e)
+			{
+				if (e == null)
+					return;
+
                 global::System.Collections.Generic.List<KeyValuePair<TKey, TValue>> a = new global::System.Collections.Generic.List<KeyValuePair<TKey, TValue>>();
 
                 foreach (var v in e.Keys)

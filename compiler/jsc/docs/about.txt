@@ -181,3 +181,5 @@ version history:
 	java: fixed basetype implementation reroute
 22.11.2008
 	actionscript: fixed return default(T) where T : class
+28.11.2008
+	actionscript: fixed ctor merging bug that caused a null pointer exception

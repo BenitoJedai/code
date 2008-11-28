@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\core\ScriptCoreLib.Query\bin\Debug</StartWorkingDirectory>
-    <StartArguments>ScriptCoreLib.Query.dll -js</StartArguments>
+    <StartWorkingDirectory>C:\work\code.google\avalonugh\AvalonUgh\AvalonUgh.Labs\bin\Release</StartWorkingDirectory>
+    <StartArguments>AvalonUgh.Code.dll -as</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
