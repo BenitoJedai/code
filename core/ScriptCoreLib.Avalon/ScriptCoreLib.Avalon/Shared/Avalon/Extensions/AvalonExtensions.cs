@@ -17,9 +17,9 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	// reimplement for target languages
 	public static class AvalonExtensions
 	{
-		public static Action PlaySound(this string asset)
+		public static AvalonSoundChannel PlaySound(this string asset)
 		{
-			return delegate { };
+			return new AvalonSoundChannel();
 		}
 
 		public static void NavigateTo(this Uri e, DependencyObject context)

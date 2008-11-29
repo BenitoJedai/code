@@ -7,15 +7,16 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media;
 using ScriptCoreLib.JavaScript.Net;
 using System.Windows;
 using ScriptCoreLib.JavaScript.BCLImplementation.System;
+using ScriptCoreLib.Shared.Avalon;
 
 namespace ScriptCoreLib.JavaScript.UCLImplementation
 {
 	[Script(Implements = typeof(global::ScriptCoreLib.Shared.Avalon.Extensions.AvalonExtensions))]
 	internal static class __AvalonExtensions
 	{
-		public static Action PlaySound(this string asset)
+		public static AvalonSoundChannel PlaySound(this string asset)
 		{
-			return delegate { };
+			return new AvalonSoundChannel();
 		}
 
 		public static void NavigateTo(this Uri e, DependencyObject context)

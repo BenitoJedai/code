@@ -1122,7 +1122,9 @@ namespace jsc
 						}
 						else
 						{
-							if (i.TargetType == typeof(int))
+							if (i.TargetType == typeof(double))
+								w.Write("0.0"); 
+							else if (i.TargetType == typeof(int))
 								w.Write("0");
 							else if (i.TargetType == typeof(sbyte))
 								w.Write("0");

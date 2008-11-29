@@ -3,28 +3,45 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using ScriptCoreLib.ActionScript.BCLImplementation.System;
 using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media;
+using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media.Imaging;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
-using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media.Imaging;
 using ScriptCoreLib.ActionScript.flash.net;
-using System.Windows;
-using ScriptCoreLib.ActionScript.BCLImplementation.System;
+using ScriptCoreLib.Shared.Avalon;
+using ScriptCoreLib.ActionScript.flash.media;
 
 namespace ScriptCoreLib.ActionScript.UCLImplementation
 {
 	[Script(Implements = typeof(global::ScriptCoreLib.Shared.Avalon.Extensions.AvalonExtensions))]
 	internal static class __AvalonExtensions
 	{
-
-		public static Action PlaySound(this string asset)
+		public static AvalonSoundChannel PlaySound(this string asset)
 		{
 			var x = KnownEmbeddedResources.Default[asset].ToSoundAsset().play();
 
-			return x.stop;
+			var c = new AvalonSoundChannel
+			{
+				Stop = x.stop,
+			};
+
+			c.SetVolume = value => x.soundTransform = new SoundTransform(value);
+
+
+			x.soundComplete +=
+				delegate
+				{
+					c.RaisePlaybackComplete();
+				};
+
+			return c;
 		}
+
+
 
 		public static void NavigateTo(this Uri e, DependencyObject context)
 		{
