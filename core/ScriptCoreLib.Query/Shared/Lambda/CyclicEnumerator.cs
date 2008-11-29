@@ -8,6 +8,13 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static class CyclicEnumeratorExtensions
 	{
+
+
+		public static IEnumerator<T> AsCyclicEnumerator<T>(this IEnumerable<T> source)
+		{
+			return source.AsCyclicEnumerable().GetEnumerator();
+		}
+
 		public static IEnumerable<T> AsCyclicEnumerable<T>(this IEnumerable<T> source)
 		{
 			return new CyclicEnumerator<T>(() => source);
