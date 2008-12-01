@@ -137,7 +137,15 @@ namespace ScriptCoreLib.CSharp.Extensions
 		{
 			ExtractEmbeddedResources(dir, e,
 				 (v, tf, Path, File) =>
-					  CopyStream(e.GetManifestResourceStream(v), new FileInfo(tf).OpenWrite())
+				 {
+					 var f = new FileInfo(tf);
+
+					 if (f.Exists)
+						 f.Delete();
+
+					 CopyStream(e.GetManifestResourceStream(v), f.OpenWrite());
+
+				 }
 			);
 
 

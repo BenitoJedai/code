@@ -741,8 +741,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         //     0 x < -1 or x > 1 { throw new NotImplementedException(); } y = PositiveInfinity PositiveInfinity x = 0 { throw new NotImplementedException(); } y < 0 PositiveInfinity
         //     x = 0 { throw new NotImplementedException(); } y > 0 0 x = 1 { throw new NotImplementedException(); } y is any value except NaN 1 x = PositiveInfinity { throw new NotImplementedException(); } y
         //     < 0 0 x = PositiveInfinity { throw new NotImplementedException(); } y > 0 PositiveInfinity
-        public static double Pow(double x, double y) { throw new NotImplementedException(); }
-        //
+		public static double Pow(double x, double y) { return global::ScriptCoreLib.ActionScript.Math.pow(x, y); }
+		//
         // Summary:
         //     Rounds a decimal value to the nearest integer.
         //

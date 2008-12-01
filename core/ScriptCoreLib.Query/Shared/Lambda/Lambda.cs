@@ -9,6 +9,15 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static void InvokeAsEnumerable<T, K>(this Action<T> e, IEnumerable<K> a)
+			where K : T
+		{
+			foreach (var v in a.AsEnumerable())
+			{
+				e(v);
+			}
+		}
+
 		public static Func<T> WhereListChanged<T>(this IBindingList[] e, Func<T> h)
 		{
 			var r = default(T);
@@ -76,14 +85,14 @@ namespace ScriptCoreLib.Shared.Lambda
 			e.Add(value.Key, value.Value);
 		}
 
-		public static U AddTo<U, T>(this U e, List<T> a) where U : T
+		public static U AddTo<U, T>(this U e, IList<T> a) where U : T
 		{
 			a.Add(e);
 
 			return e;
 		}
 
-		public static T RemoveFrom<T>(this T e, List<T> a)
+		public static T RemoveFrom<T>(this T e, IList<T> a)
 		{
 			a.Remove(e);
 
