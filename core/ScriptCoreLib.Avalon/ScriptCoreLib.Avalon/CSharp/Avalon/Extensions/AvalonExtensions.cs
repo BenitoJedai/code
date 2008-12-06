@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ScriptCoreLib.CSharp.Extensions;
 using System.Windows.Navigation;
+using ScriptCoreLib.Shared.Avalon.Extensions;
 
 namespace ScriptCoreLib.CSharp.Avalon.Extensions
 {
@@ -42,6 +43,11 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
 				};
 
 			return a;
+		}
+
+		public static Window ToWindow(this ISupportsContainer e)
+		{
+			return e.Container.ToWindow();
 		}
 
 		public static Window ToWindow(this Canvas e)

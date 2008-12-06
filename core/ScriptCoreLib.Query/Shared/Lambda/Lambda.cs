@@ -133,6 +133,11 @@ namespace ScriptCoreLib.Shared.Lambda
 			};
 		}
 
+		public static Action WhereCounter(this Action handler, int counter)
+		{
+			return WhereCounter(handler, c => c == counter);
+		}
+
 		public static bool AllWithPrevious<T>(this IEnumerable<T> source, Func<T, T, bool> filter)
 		{
 			var previous = default(T);
