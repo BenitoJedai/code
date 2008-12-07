@@ -6,39 +6,42 @@ using ScriptCoreLib.ActionScript.flash.events;
 
 namespace ScriptCoreLib.ActionScript.Nonoba.api
 {
-    [Script(IsNative = true)]
-    public class Connection : EventDispatcher
-    {
-        #region Events
-        /// <summary>
-        /// 
-        /// </summary>
-        [method: Script(NotImplementedHere = true)]
-        public event Action<object> Disconnect;
+	[Script(IsNative = true)]
+	public class Connection : EventDispatcher
+	{
+		#region Events
+		// http://msdn.microsoft.com/en-us/library/858x0ycc.aspx
+#pragma warning disable 0067
+		/// <summary>
+		/// 
+		/// </summary>
+		[method: Script(NotImplementedHere = true)]
+		public event Action<object> Disconnect;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [method: Script(NotImplementedHere = true)]
-        public event Action<object> Init;
+		/// <summary>
+		/// 
+		/// </summary>
+		[method: Script(NotImplementedHere = true)]
+		public event Action<object> Init;
 
-        #endregion
+		#endregion
 
-        #region Events
-        /// <summary>
-        /// 
-        /// </summary>
-        [method: Script(NotImplementedHere = true)]
-        public event Action<MessageEvent> Message;
+		#region Events
+		/// <summary>
+		/// 
+		/// </summary>
+		[method: Script(NotImplementedHere = true)]
+		public event Action<MessageEvent> Message;
 
 
 		[method: Script(NotImplementedHere = true)]
 		public event Action<object> MessageDirect;
-        #endregion
+#pragma warning restore 0067
+		#endregion
 
-        public void Send(/* params */ object args)
-        {
-        }
+		public void Send(/* params */ object args)
+		{
+		}
 
-    }
+	}
 }

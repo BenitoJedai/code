@@ -181,7 +181,8 @@ namespace jsc.Languages.CSharp2
 
                     if (TargetMethod.Name == "get_Item"
                         //   && TargetMethod.DeclaringType.ToScriptAttributeOrDefault().IsNative
-                        && TargetMethod.GetParameters().Length == 1)
+						//&& TargetMethod.GetParameters().Length == 1
+						)
                     {
                         // call with and indexer... possibly an array or xml list
                         Write("[");
@@ -192,6 +193,34 @@ namespace jsc.Languages.CSharp2
 
                         return;
                     }
+
+					if (TargetMethod.Name == "set_Item"
+						//   && TargetMethod.DeclaringType.ToScriptAttributeOrDefault().IsNative
+						//&& TargetMethod.GetParameters().Length == 1
+					   )
+					{
+						// call with and indexer... possibly an array or xml list
+
+						var Indicies = TargetMethod.GetParameters().Length - 1;
+
+						Write("[");
+
+						WriteParameters(p, TargetMethod,
+							s.Take(Indicies + offset).ToArray(), 
+							offset,
+							TargetMethod.GetParameters().Take(Indicies).ToArray(), 
+							false, 
+							","
+						);
+
+						Write("]");
+
+						WriteAssignment();
+
+						Emit(p, s.Last());
+
+						return;
+					}
 
                     if (TargetMethod.Name == "Invoke" && TargetMethod.DeclaringType.IsDelegate())
                     {

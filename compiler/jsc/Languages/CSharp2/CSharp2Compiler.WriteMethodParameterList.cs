@@ -60,85 +60,90 @@ namespace jsc.Languages.CSharp2
 
             DebugBreak(ma);
 
-            for (int mpi = 0; mpi < mp.Length; mpi++)
-            {
-                if (mpi > 0 || bStatic)
-                {
-                    Write(",");
-                    WriteSpace();
-                }
-
-                ParameterInfo p = mp[mpi];
-
-                ScriptAttribute za = ScriptAttribute.Of(m.DeclaringType, true);
-
-
-                var ParamIndex = mpi;
-
-
-                var ParameterType = p.ParameterType;
-
-                // A NativeExtension class should never define a variable to its type rather the native type
-                if (ParameterType == m.DeclaringType && m.DeclaringType.IsNativeTypeExtension())
-                    ParameterType = za.Implements;
-
-
-
-                // fixme: byref supported?
-
-                //if (ParameterType.IsByRef)
-                //    Write("*");
-                //else
-
-                WriteGenericTypeName(m.DeclaringType, ParameterType);
-
-                WriteSpace();
-
-                // Nameless params is used by delegates and these parameters are not used
-                WriteMethodParameter(ParamIndex, p);
-
-                //if (DefaultValues != null && mpi < DefaultValues.Length)
-                //{
-                //    WriteAssignment();
-
-                //    // if the value aint literal we cannot use it with
-                //    // the curent actionscript compiler
-
-                //    var DefaultValue = DefaultValues[mpi].SingleStackInstruction;
-
-                //    if (DefaultValue.IsLiteral)
-                //        EmitInstruction(null, DefaultValue);
-                //    else
-                //    {
-                //        WriteKeywordNull();
-
-                //        //if (AddDefaultVariableInitializer == null)
-                //        //    throw new NullReferenceException("AddDefaultVariableInitializer");
-
-                //        //AddDefaultVariableInitializer(
-                //        //    delegate
-                //        //    {
-                //        //        WriteIdent();
-                //        //        Write("if (");
-                //        //        WriteMethodParameter(ParamIndex, p);
-                //        //        Write(" == null) ");
-                //        //        WriteMethodParameter(ParamIndex, p);
-                //        //        WriteAssignment();
-                //        //        EmitInstruction(null, DefaultValue);
-                //        //        WriteLine(";");
-                //        //    }
-                //        //);
-                //    }
-                //}
-                /*
-                if (za.Implements == null || m.DeclaringType.GUID != p.ParameterType.GUID)
-                    WriteDecoratedTypeName(p.ParameterType);
-                else
-                    WriteDecoratedTypeName(za.Implements);
-                */
-
-            }
+			WriteMethodParameterList(m.DeclaringType, mp, bStatic);
         }
+
+		private void WriteMethodParameterList(Type m_DeclaringType, ParameterInfo[] mp, bool bStatic)
+		{
+			for (int mpi = 0; mpi < mp.Length; mpi++)
+			{
+				if (mpi > 0 || bStatic)
+				{
+					Write(",");
+					WriteSpace();
+				}
+
+				ParameterInfo p = mp[mpi];
+
+				ScriptAttribute za = ScriptAttribute.Of(m_DeclaringType, true);
+
+
+				var ParamIndex = mpi;
+
+
+				var ParameterType = p.ParameterType;
+
+				// A NativeExtension class should never define a variable to its type rather the native type
+				if (ParameterType == m_DeclaringType && m_DeclaringType.IsNativeTypeExtension())
+					ParameterType = za.Implements;
+
+
+
+				// fixme: byref supported?
+
+				//if (ParameterType.IsByRef)
+				//    Write("*");
+				//else
+
+				WriteGenericTypeName(m_DeclaringType, ParameterType);
+
+				WriteSpace();
+
+				// Nameless params is used by delegates and these parameters are not used
+				WriteMethodParameter(ParamIndex, p);
+
+				//if (DefaultValues != null && mpi < DefaultValues.Length)
+				//{
+				//    WriteAssignment();
+
+				//    // if the value aint literal we cannot use it with
+				//    // the curent actionscript compiler
+
+				//    var DefaultValue = DefaultValues[mpi].SingleStackInstruction;
+
+				//    if (DefaultValue.IsLiteral)
+				//        EmitInstruction(null, DefaultValue);
+				//    else
+				//    {
+				//        WriteKeywordNull();
+
+				//        //if (AddDefaultVariableInitializer == null)
+				//        //    throw new NullReferenceException("AddDefaultVariableInitializer");
+
+				//        //AddDefaultVariableInitializer(
+				//        //    delegate
+				//        //    {
+				//        //        WriteIdent();
+				//        //        Write("if (");
+				//        //        WriteMethodParameter(ParamIndex, p);
+				//        //        Write(" == null) ");
+				//        //        WriteMethodParameter(ParamIndex, p);
+				//        //        WriteAssignment();
+				//        //        EmitInstruction(null, DefaultValue);
+				//        //        WriteLine(";");
+				//        //    }
+				//        //);
+				//    }
+				//}
+				/*
+				if (za.Implements == null || m.DeclaringType.GUID != p.ParameterType.GUID)
+					WriteDecoratedTypeName(p.ParameterType);
+				else
+					WriteDecoratedTypeName(za.Implements);
+				*/
+
+			}
+		}
 
         /// <summary>
         /// Some parameters can be nameless which are used by delegates and these parameters are not used

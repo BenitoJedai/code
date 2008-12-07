@@ -41,6 +41,21 @@ namespace ScriptCoreLib.Shared.Nonoba.Generic
 
 		}
 
+		public Action<string, string> SetData;
+		public Func<string, string, string> GetData;
+
+		public DynamicData Data
+		{
+			get
+			{
+				return new DynamicData
+				{
+					GetData = GetData,
+					SetData = SetData,
+				};
+			}
+		}
+
 		#region empty
 		public void EmptyAddScore(string key, int value)
 		{
@@ -52,4 +67,6 @@ namespace ScriptCoreLib.Shared.Nonoba.Generic
 		}
 		#endregion
 	}
+
+	
 }

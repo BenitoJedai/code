@@ -190,6 +190,9 @@ namespace jsc.Languages.CSharp2
 
         public override bool WriteTypeInstanceMethodsFilter(MethodInfo m)
         {
+			if (PropertyDetector.IsProperty(m))
+				return true;
+
             return EventDetector.IsEvent(m);
         }
 
