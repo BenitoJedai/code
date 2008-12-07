@@ -46,6 +46,7 @@ namespace jsc.Languages.CSharp2
 			_readonly,
 			_true,
 			_false,
+			_this,
 
 
         }

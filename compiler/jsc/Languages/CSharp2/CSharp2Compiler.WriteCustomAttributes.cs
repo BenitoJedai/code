@@ -16,6 +16,9 @@ namespace jsc.Languages.CSharp2
 		{
 			foreach (Attribute a in z.GetCustomAttributes(false).Where(k => !(k is ScriptAttribute)))
 			{
+				if (a is DefaultMemberAttribute)
+					continue;
+
 				WriteCustomAttribute(z, a);
 			}
 		}

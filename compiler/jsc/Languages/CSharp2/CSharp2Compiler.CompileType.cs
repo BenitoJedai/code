@@ -249,6 +249,10 @@ namespace jsc.Languages.CSharp2
 
         private void WriteTypeProperties(Type z)
         {
+			var DefaultMember = z.GetCustomAttributes<System.Reflection.DefaultMemberAttribute>().FirstOrDefault();
+			var DefaultMemberName = DefaultMember == null ? null : DefaultMember.MemberName;
+
+			
             foreach (var p in z.GetProperties(
                 BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public
                 ))
@@ -269,25 +273,61 @@ namespace jsc.Languages.CSharp2
                 WriteGenericTypeName(z, p.PropertyType);
                 WriteSpace();
 
-                WriteSafeLiteral(p.Name);
+				if (p.Name == DefaultMemberName)
+				{
+					WriteKeyword(Keywords._this);
+					Write("[");
+					WriteMethodParameterList(z, p.GetIndexParameters(), false);
+
+
+					Write("]");
+				}
+				else
+				{
+					WriteSafeLiteral(p.Name);
+				}
+
                 WriteLine();
 
                 using (CreateScope())
                 {
                     if (Get != null)
                     {
-                        WriteMethodSignature(Get, false);
+						WriteIdent();
+						WriteKeyword(Keywords._get);
+						//WriteMethodSignature(Get, false);
 
-                        if (!Get.IsAbstract)
-                            WriteMethodBody(Get);
+						if (Get.IsAbstract)
+						{
+							WriteLine(";");
+
+						}
+						else
+						{
+							WriteLine();
+							WriteMethodBody(Get);
+						}
                     }
 
                     if (Set != null)
                     {
-                        WriteMethodSignature(Set, false);
+						WriteIdent();
+						WriteKeyword(Keywords._set);
 
-                        if (!Set.IsAbstract)
-                            WriteMethodBody(Set);
+						//WriteMethodSignature(Set, false);
+
+						if (Set.IsAbstract)
+						{
+							WriteLine(";");
+
+						}
+						else
+						{
+							WriteLine();
+							WriteMethodBody(Set);
+						}
+
+             
                     }
                 }
             }
