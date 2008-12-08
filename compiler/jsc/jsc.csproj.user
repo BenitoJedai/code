@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\code.google\avalonugh\AvalonUgh\AvalonUgh.Labs.Multiplayer\bin\Release</StartWorkingDirectory>
-    <StartArguments>AvalonUgh.NetworkCode.dll -cs2</StartArguments>
+    <StartWorkingDirectory>C:\work\code.google\avalonugh\AvalonUgh\AvalonUgh.Comparision\bin\Release</StartWorkingDirectory>
+    <StartArguments>AvalonUgh.Comparision.dll -php</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

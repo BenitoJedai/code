@@ -25,5 +25,9 @@ namespace ScriptCoreLib.Shared
 			// all string constants as paths to resources
 		}
 
+		public override string ToString()
+		{
+			return Value;
+		}
 	}
 }
