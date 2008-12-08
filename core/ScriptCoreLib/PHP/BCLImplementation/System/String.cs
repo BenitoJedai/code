@@ -310,5 +310,27 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
             return base.GetHashCode();
         }
         #endregion
+
+		[Script(DefineAsStatic = true)]
+		public string PadLeft(int total, char c)
+		{
+			string v = (string)(object)this;
+
+			while (v.Length < total)
+				v = Convert.ToString(c) + v;
+
+			return v;
+		}
+
+		public static bool IsNullOrEmpty(string e)
+		{
+			if (e == null)
+				return true;
+
+			if (e == "")
+				return true;
+
+			return false;
+		}
     }
 }

@@ -520,8 +520,11 @@
     <Compile Include="JavaScript\Runtime\WorkPool.cs" />
     <Compile Include="JavaScript\Serialized\ObjectStreamHelper.cs" />
     <Compile Include="PHP\BCLImplementation\System\Action.cs" />
+    <Compile Include="PHP\BCLImplementation\System\ArgumentNullException.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\IEqualityComparer.cs" />
     <Compile Include="PHP\BCLImplementation\System\Console.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Convert.cs" />
+    <Compile Include="PHP\BCLImplementation\System\NotImplementedException.cs" />
     <Compile Include="PHP\BCLImplementation\System\Environment.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\File.cs" />
     <Compile Include="PHP\BCLImplementation\System\Math.cs" />
