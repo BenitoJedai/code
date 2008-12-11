@@ -140,6 +140,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 		private void InternalUpdateStrech()
 		{
+			if (this.InternalBitmap == null)
+				return;
+
 			if (InternalStretch == Stretch.None)
 			{
 				return;
@@ -147,6 +150,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 			if (InternalStretch == Stretch.Fill)
 			{
+				this.InternalBitmap.width = InternalWidthValue;
+				this.InternalBitmap.height = InternalHeightValue;
+
+				return;
+			}
+
+			if (InternalStretch == Stretch.Uniform)
+			{
+				// fixme
 				this.InternalBitmap.width = InternalWidthValue;
 				this.InternalBitmap.height = InternalHeightValue;
 
