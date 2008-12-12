@@ -24,16 +24,16 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			(1000 / 20).AtIntervalWithTimer(
 				t =>
 				{
-					if (e.Opacity < a)
-					{
+					//if (e.Opacity < a)
+					//{
 						
-						if (done != null)
-							done();
+					//    if (done != null)
+					//        done();
 
-						e = null;
-						t.Stop();
-						return;
-					}
+					//    e = null;
+					//    t.Stop();
+					//    return;
+					//}
 
 					a += 0.09;
 
@@ -57,7 +57,10 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			FadeOut(e, null);
 		}
 
+		public static void Fade(this ref UIElement e)
+		{
 
+		}
 		public static void FadeOut(this UIElement e, Action done)
 		{
 			var a = e.Opacity;
@@ -65,15 +68,15 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			(1000 / 20).AtIntervalWithTimer(
 				t =>
 				{
-					if (e.Opacity > a)
-					{
-						if (done != null)
-							done();
+					//if (e.Opacity > a)
+					//{
+					//    if (done != null)
+					//        done();
 
-						e = null;
-						t.Stop();
-						return;
-					}
+					//    e = null;
+					//    t.Stop();
+					//    return;
+					//}
 
 					a -= 0.09;
 
