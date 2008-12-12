@@ -215,60 +215,6 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 		}
 
 
-		public static void FadeIn(this UIElement e)
-		{
-			var a = e.Opacity;
-
-			var t = default(DispatcherTimer);
-
-			t = (1000 / 20).AtInterval(
-				delegate
-				{
-					//if (e.Opacity < a)
-					//{
-					//    t.Stop();
-					//    return;
-					//}
-
-					a += 0.09;
-
-					if (a >= 1)
-					{
-						a = 1;
-						t.Stop();
-					}
-					e.Opacity = a;
-				}
-			);
-		}
-
-		public static void FadeOut(this UIElement e)
-		{
-			var a = e.Opacity;
-
-			var t = default(DispatcherTimer);
-
-			t = (1000 / 20).AtInterval(
-				delegate
-				{
-					if (e.Opacity > a)
-					{
-						t.Stop();
-						return;
-					}
-
-					a -= 0.09;
-
-					if (a <= 0)
-					{
-						a = 0;
-						t.Stop();
-					}
-					e.Opacity = a;
-				}
-			);
-		}
-
 		public static SolidColorBrush ToSolidColorBrush(this int argb)
 		{
 			return ToSolidColorBrush((uint)argb);
