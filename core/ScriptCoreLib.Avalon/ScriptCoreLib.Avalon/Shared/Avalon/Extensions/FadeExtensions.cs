@@ -57,10 +57,6 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			FadeOut(e, null);
 		}
 
-		public static void Fade(this ref UIElement e)
-		{
-
-		}
 		public static void FadeOut(this UIElement e, Action done)
 		{
 			var a = e.Opacity;

@@ -3,12 +3,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.ComponentModel;
+using System.IO;
+using System.Text;
 
 namespace ScriptCoreLib.Shared.Lambda
 {
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static string[] Split(this string e, Func<string, bool> IsSplit)
+		{
+			var a = new List<string>();
+			var y = new StringBuilder();
+
+			using (var s = new StringReader(e))
+			{
+				var x = s.ReadLine();
+
+				while (x != null)
+				{
+					if (IsSplit(x))
+					{
+						a.Add(y.ToString());
+						y = new StringBuilder();
+					}
+					else
+					{
+						y.AppendLine(x);
+					}
+
+					x = s.ReadLine();
+				}
+
+				a.Add(y.ToString());
+				y = null;
+			}
+
+			return a.ToArray();
+		}
+
+		public static IEnumerable<char> AsEnumerable(this string e)
+		{
+			return Enumerable.Range(0, e.Length).Select(i => e[i]);
+		}
+
 		public static void InvokeAsEnumerable<T, K>(this Action<T> e, IEnumerable<K> a)
 			where K : T
 		{
