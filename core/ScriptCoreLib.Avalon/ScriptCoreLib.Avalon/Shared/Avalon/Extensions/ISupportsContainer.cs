@@ -254,6 +254,17 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			return e;
 		}
 
+		public static T[] Orphanize<T>(this T[] e)
+			where T : FrameworkElement
+		{
+			foreach (var v in e)
+			{
+				v.Orphanize();
+			}
+
+			return e;
+		}
+
 		public static IEnumerable<T> Orphanize<T>(this IEnumerable<T> e)
 				where T : FrameworkElement
 		{
