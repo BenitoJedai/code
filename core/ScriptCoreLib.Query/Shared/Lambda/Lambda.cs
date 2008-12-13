@@ -11,6 +11,11 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static string[] Split(this string e, string splitter)
+		{
+			return e.Split(new [] {splitter }, StringSplitOptions.None);
+
+		}
 		public static string[] Split(this string e, Func<string, bool> IsSplit)
 		{
 			var a = new List<string>();
