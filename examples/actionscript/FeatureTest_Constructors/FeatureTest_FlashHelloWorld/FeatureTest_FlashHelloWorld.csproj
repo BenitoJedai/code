@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D06DDCD7-A5D3-43F1-8988-424E0D38225D}</ProjectGuid>
+    <ProjectGuid>{9200ADD0-CA9C-4E19-B28D-A0E6C6A61D3E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FeatureTest_Constructors_A</RootNamespace>
-    <AssemblyName>FeatureTest_Constructors_A</AssemblyName>
+    <RootNamespace>FeatureTest_FlashHelloWorld</RootNamespace>
+    <AssemblyName>FeatureTest_FlashHelloWorld</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,6 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ScriptCoreLib, Version=3.0.2665.39893, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
@@ -47,12 +55,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FreatureTest_Reference1\FeatureTest_Reference1.csproj">
-      <Project>{C6007A76-3882-49E7-8ED5-3F30AFBACDB2}</Project>
-      <Name>FeatureTest_Reference1</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

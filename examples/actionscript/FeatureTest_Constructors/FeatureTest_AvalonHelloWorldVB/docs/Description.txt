@@ -1,0 +1,1 @@
+﻿FeatureTest_AvalonHelloWorldVB. Crosscompiled from Visual Basic to ActionScript and JavaScript.
