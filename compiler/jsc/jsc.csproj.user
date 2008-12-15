@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\code.google\avalonugh\AvalonUgh\AvalonUgh.Comparision\bin\Release</StartWorkingDirectory>
-    <StartArguments>AvalonUgh.Comparision.dll -php</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\templates\OrcasVisualBasicAvalonApplication\OrcasVisualBasicAvalonApplication\bin\Release</StartWorkingDirectory>
+    <StartArguments>OrcasVisualBasicAvalonApplication.exe -js</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

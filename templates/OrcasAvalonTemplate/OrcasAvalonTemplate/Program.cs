@@ -18,5 +18,7 @@ namespace OrcasAvalonTemplate
 		{
 			new OrcasAvalonApplicationCanvas().ToWindow().ShowDialog();
 		}
+
+
 	}
 }

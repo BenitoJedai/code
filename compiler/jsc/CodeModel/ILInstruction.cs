@@ -2642,6 +2642,11 @@ namespace jsc
 
 				// unknown situation
 
+				// ctor of System.Windows.Media.SolidColorBrush
+				// using static property getter
+				if (this == OpCodes.Call)
+					return false;
+
 				if (Debugger.IsAttached)
 					Debugger.Break();
 

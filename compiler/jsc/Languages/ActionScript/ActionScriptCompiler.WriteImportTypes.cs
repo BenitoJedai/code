@@ -36,16 +36,22 @@ namespace jsc.Languages.ActionScript
             {
                 Type p = t[0];
 
+		
                 // optimize me
 
                 t.RemoveAll(
                     delegate(Type x)
                     {
+						if (x == null)
+							return true;
+
                         return x.GUID == z.GUID || x.GUID == p.GUID;
                     }
                 );
 
 
+				if (p == null)
+					continue;
 
                 var a = ScriptAttribute.Of(p, false);
 
@@ -190,13 +196,14 @@ namespace jsc.Languages.ActionScript
 
             var imp_types = new List<Type>();
 
-            imp.RemoveAll(i => i == typeof(void));
-            imp.RemoveAll(i => i == null);
+			imp.RemoveAll(i => i == null);
+			imp.RemoveAll(i => i == typeof(void));
             imp.RemoveAll(i => i.IsGenericParameter);
 
             // todo: import only if used in code...
             imp.Add(GetArrayEnumeratorType());
 
+			imp.RemoveAll(i => i == null);
 
             while (imp.Count > 0)
             {
@@ -309,6 +316,7 @@ namespace jsc.Languages.ActionScript
             );
 
 			imp_types.Add(ResolveImplementation(typeof(object)));
+			imp_types.RemoveAll(w => w == null);
 
             return GetImportTypes_Cache[t] = imp_types;
         }
