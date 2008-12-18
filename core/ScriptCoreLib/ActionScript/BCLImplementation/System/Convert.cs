@@ -55,11 +55,25 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 			return value;
 		}
 
+
 		public static double ToDouble(string value)
 		{
 	
 			return double.Parse(value);
 
+		}
+
+		public static bool ToBoolean(int value)
+		{
+			return value != 0;
+		}
+
+		public static int ToInt32(bool value)
+		{
+			if (value)
+				return 1;
+
+			return 0;
 		}
 	}
 }
