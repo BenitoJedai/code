@@ -11,6 +11,13 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		static readonly Random RandomGenerator = new Random();
+
+		public static int Random(this int e)
+		{
+			return RandomGenerator.Next(e);
+		}
+
 		public static string[] Split(this string e, string splitter)
 		{
 			return e.Split(new [] {splitter }, StringSplitOptions.None);
