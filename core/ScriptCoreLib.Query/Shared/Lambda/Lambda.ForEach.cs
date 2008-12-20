@@ -148,5 +148,46 @@ namespace ScriptCoreLib.Shared.Lambda
 
 			return source;
 		}
+
+
+		public static BindingList<T> ForEachItemDeleted<T>(this BindingList<T> source, Action<T, Action> handler)
+		{
+			var cache = new List<T>();
+
+			cache.AddRange(source);
+
+			ListChangedEventHandler h = null;
+
+			Action Dispose =
+				delegate
+				{
+					source.ListChanged -= h;
+					h = null;
+					cache.Clear();
+					cache = null;
+				};
+
+			h = (sender0, args0) =>
+				{
+					if (args0.ListChangedType == ListChangedType.ItemAdded)
+					{
+						cache.Add(source[args0.NewIndex]);
+						return;
+					}
+
+					if (args0.ListChangedType == ListChangedType.ItemDeleted)
+					{
+						var k = cache[args0.NewIndex];
+
+						cache.RemoveAt(args0.NewIndex);
+
+						handler(k, Dispose);
+					}
+				};
+
+			source.ListChanged += h;
+
+			return source;
+		}
 	}
 }

@@ -10,6 +10,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Array))]
     internal class __Array
     {
+		public static int IndexOf<T>(T[] array, T value)
+		{
+			return ((IArray<T>)(object)(array)).indexOf(value);
+		}
+
 		[Script(OptimizedCode = "d[i] = s[i];")]
 		internal static void InternalCopyElement(global::System.Array s, global::System.Array d, int i)
 		{

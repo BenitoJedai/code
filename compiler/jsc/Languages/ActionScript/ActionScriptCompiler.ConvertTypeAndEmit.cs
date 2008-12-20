@@ -48,17 +48,48 @@ namespace jsc.Languages.ActionScript
             }
             else
             {
-                Write("(");
-                WriteDecoratedTypeNameOrImplementationTypeName(x, true, true, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, x));
-                Write("(");
-                EmitFirstOnStack(e);
-                Write(")");
-                Write(")");
+				if (x.IsArray || x.ToScriptAttributeOrDefault().IsArray)
+				{
+					// http://help.adobe.com/en_US/AS3LCR/Flash_10.0/compilerWarnings.html#1113
+					// Array(x) behaves the same as new Array(x). To cast a value to type
+					// Array use the expression x as Array instead of Array(x).
+					Write("(");
+					EmitFirstOnStack(e);
+					
+					WriteSpace();
+					WriteKeywordSpace(Keywords._as);
+
+					Write("Array");
+					Write(")");
+
+				}
+				else
+				{
+					Write("(");
+					WriteDecoratedTypeNameOrImplementationTypeName(x, true, true, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, x));
+					Write("(");
+					EmitFirstOnStack(e);
+					Write(")");
+					Write(")");
+				}
             }
         }
 
         public override void ConvertTypeAndEmit(CodeEmitArgs e, string x)
         {
+			if (x == "Array")
+			{
+				Write("(");
+				EmitFirstOnStack(e);
+
+				WriteSpace();
+				WriteKeywordSpace(Keywords._as);
+
+				Write("Array");
+				Write(")");
+				return;
+			}
+
             Write("(" + x + "(");
             EmitFirstOnStack(e);
             Write("))");
