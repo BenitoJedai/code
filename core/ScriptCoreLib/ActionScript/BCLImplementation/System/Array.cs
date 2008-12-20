@@ -12,6 +12,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         )]
     internal class __Array
     {
+		public static int IndexOf<T>(T[] array, T value)
+		{
+			return ((Array)(object)(array)).indexOf(value);
+		}
+
         [Script(OptimizedCode = "d[i] = s[i];")]
         internal static void InternalCopyElement(global::System.Array s, global::System.Array d, int i)
         {
