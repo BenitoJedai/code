@@ -161,7 +161,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 				InternalGetDisplayObject().onmousewheel +=
 					e =>
 					{
-						//value(this, (__MouseWheelEventArgs)e);
+						value(this, (__MouseWheelEventArgs)e);
 					};
 			}
 			remove

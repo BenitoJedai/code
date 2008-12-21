@@ -30,6 +30,39 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 		// javascript DOM will not reflect the latest position
 		// within the same callstack
 
+		public static T BringContainerToFront<T>(this T e)
+			where T : ISupportsContainer
+		{
+			if (e == null)
+				return e;
+
+			e.Container.BringToFront();
+
+			return e;
+		}
+
+		public static T BringToFront<T>(this T e)
+			where T : FrameworkElement
+		{
+			if (e == null)
+				return e;
+
+			var p = e.Parent;
+
+			if (p == null)
+				return e;
+
+			var Panel = p as Panel;
+
+			if (Panel == null)
+				throw new NotImplementedException("Parent should have been a Panel");
+
+			Panel.Children.Remove(e);
+			Panel.Children.Add(e);
+
+			return e;
+		}
+
 		[Script]
 		internal class SupportsLayout<T> : ISupportsLayout<T>
 		where T : UIElement
