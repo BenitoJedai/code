@@ -291,6 +291,22 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			return t;
 		}
 
+		public static void AtInterval(this Action handler, Func<int> GetMilliseconds)
+		{
+			var ms = GetMilliseconds();
+
+			if (ms > 0)
+			{
+				ms.AtDelay(
+					delegate
+					{
+						handler();
+
+						AtInterval(handler, GetMilliseconds);
+					}
+				);
+			}
+		}
 
 		public static DispatcherTimer AtInterval(this int Milliseconds, Action Handler)
 		{
