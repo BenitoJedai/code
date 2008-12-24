@@ -11,15 +11,66 @@ using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media;
 using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media.Imaging;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.media;
 using ScriptCoreLib.ActionScript.flash.net;
 using ScriptCoreLib.Shared.Avalon;
-using ScriptCoreLib.ActionScript.flash.media;
 
 namespace ScriptCoreLib.ActionScript.UCLImplementation
 {
 	[Script(Implements = typeof(global::ScriptCoreLib.Shared.Avalon.Extensions.AvalonExtensions))]
 	internal static class __AvalonExtensions
 	{
+		public static AvalonSoundChannel ToSound(this string asset)
+		{
+			var x = KnownEmbeddedResources.Default[asset].ToSoundAsset();
+			double v = 1;
+			var y = default(SoundChannel);
+		
+			var c = new AvalonSoundChannel();
+
+			c.SetVolume =
+				value =>
+				{
+					v = value;
+
+					if (y != null)
+						y.soundTransform = new SoundTransform(value);
+				};
+
+			c.Start =
+				delegate
+				{
+					if (y != null)
+					{
+						y.stop();
+						y = null;
+					}
+
+					y = x.play(0, 0, new SoundTransform(v));
+
+					y.soundComplete +=
+						delegate
+						{
+							c.RaisePlaybackComplete();
+						};
+				};
+
+			c.Stop =
+				delegate
+				{
+					if (y != null)
+					{
+						y.stop();
+						y = null;
+					}
+				};
+
+
+		
+
+			return c;
+		}
+
 		public static AvalonSoundChannel PlaySound(this string asset)
 		{
 			var x = KnownEmbeddedResources.Default[asset].ToSoundAsset().play();

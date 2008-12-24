@@ -14,12 +14,14 @@ namespace ScriptCoreLib.Shared.Avalon
 
 		// do you know how to play mp3 from an embedded resource in WPF?
 
+		public Action Start;
 		public Action Stop;
 
 		public Action<double> SetVolume;
 
 		public AvalonSoundChannel()
 		{
+			this.Start = delegate { };
 			this.Stop = delegate { };
 			this.SetVolume = delegate { };
 		}
