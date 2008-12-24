@@ -14,6 +14,11 @@ namespace ScriptCoreLib.JavaScript.UCLImplementation
 	[Script(Implements = typeof(global::ScriptCoreLib.Shared.Avalon.Extensions.AvalonExtensions))]
 	internal static class __AvalonExtensions
 	{
+		public static AvalonSoundChannel ToSound(this string asset)
+		{
+			return new AvalonSoundChannel();
+		}
+
 		public static AvalonSoundChannel PlaySound(this string asset)
 		{
 			return new AvalonSoundChannel();
