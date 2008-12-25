@@ -15,6 +15,8 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	[Script]
 	public static class AvalonSharedExtensions
 	{
+	
+
 		public static T ToShowFrame<T>(this IEnumerable<UIElement> source, Func<Action<int>, T> selector)
 		{
 			return selector(source.ToShowFrame());
