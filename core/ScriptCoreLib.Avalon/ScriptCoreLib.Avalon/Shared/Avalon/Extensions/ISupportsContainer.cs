@@ -5,6 +5,8 @@ using System.Text;
 using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Controls;
+using System.ComponentModel;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace ScriptCoreLib.Shared.Avalon.Extensions
 {
@@ -29,6 +31,14 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	{
 		// javascript DOM will not reflect the latest position
 		// within the same callstack
+		public static BindingList<T> AttachTo<T>(this BindingList<T> e, IAddChild c)
+			where T : ISupportsContainer
+		{
+			e.ForEachNewOrExistingItem(k => k.AttachContainerTo(c));
+			e.ForEachItemDeleted(k => k.OrphanizeContainer());
+
+			return e;
+		}
 
 		public static T BringContainerToFront<T>(this T e)
 			where T : ISupportsContainer
