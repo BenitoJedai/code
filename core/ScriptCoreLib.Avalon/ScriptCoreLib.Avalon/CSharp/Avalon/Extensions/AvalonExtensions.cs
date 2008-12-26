@@ -52,14 +52,19 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
 
 		public static Window ToWindow(this Canvas e)
 		{
-			return new Window
+			// http://blogs.telerik.com/manoldonev/Posts/08-06-16/WPF_Line_Drawing_and_the_Device-Pixel-_In_dependence.aspx?ReturnURL=%2Fmanoldonev%2Fposts.aspx%3FYear%3D2008%26Month%3D6
+			
+			var w = new Window
 			{
 				Background = Brushes.Black,
 				SizeToContent = SizeToContent.WidthAndHeight,
 				Content = e,
 				Title = e.GetType().Name,
-				SnapsToDevicePixels = true
+				SnapsToDevicePixels = true,
 			};
+
+
+			return w;
 		}
 
 

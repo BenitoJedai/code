@@ -31,6 +31,32 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	{
 		// javascript DOM will not reflect the latest position
 		// within the same callstack
+
+		public static void Show(this ISupportsContainer e)
+		{
+			e.Show(true);
+		}
+
+		public static void Hide(this ISupportsContainer e)
+		{
+			e.Show(false);
+		}
+
+		public static void Show(this ISupportsContainer e, bool value)
+		{
+			e.Container.Show(value);
+		}
+
+	
+		public static BindingList<T> AttachTo<T, K>(this BindingList<T> e, Func<T, K> selector, IAddChild c)
+			where K : ISupportsContainer
+		{
+			e.ForEachNewOrExistingItem(k => selector(k).AttachContainerTo(c));
+			e.ForEachItemDeleted(k => selector(k).OrphanizeContainer());
+
+			return e;
+		}
+
 		public static BindingList<T> AttachTo<T>(this BindingList<T> e, IAddChild c)
 			where T : ISupportsContainer
 		{
