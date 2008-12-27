@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Sum.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Take.MoveNext.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Take.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Concat.cs" />

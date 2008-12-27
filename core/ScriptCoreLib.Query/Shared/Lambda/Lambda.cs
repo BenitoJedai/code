@@ -11,6 +11,38 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static BindingList<T> Remove<T>(this BindingList<T> source, Func<T, bool> filter)
+		{
+			var a = source.Where(filter).ToArray();
+
+			foreach (var v in a)
+			{
+				source.Remove(v);
+			}
+
+			return source;
+		}
+
+		public static TResult SelectByFlags<T, TResult>(this IEnumerable<T> source, Dictionary<int, Func<TResult>> lookup, Func<int, TResult> defaultvalue)
+		{
+			// todo: jsc should mask variable names like keywords that cannot be used in the target language
+
+			var Flags = source.Select(
+				(value, index) =>
+				{
+					if (value == null)
+						return 0;
+
+					return 1 << (index + 1);
+				}
+			).Sum();
+
+			if (lookup.ContainsKey(Flags))
+				return lookup[Flags]();
+
+			return defaultvalue(Flags);
+		}
+
 		static readonly Random RandomGenerator = new Random();
 
 		public static int Random(this int e)
