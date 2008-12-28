@@ -11,6 +11,14 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static BindingList<T> AttachTo<T>(this BindingList<T> source, BindingList<T> target)
+		{
+			source.ForEachNewOrExistingItem(target.Add);
+			source.ForEachItemDeleted(k => target.Remove(k));
+
+			return source;
+		}
+
 		public static BindingList<T> Remove<T>(this BindingList<T> source, Func<T, bool> filter)
 		{
 			var a = source.Where(filter).ToArray();
