@@ -99,6 +99,23 @@ namespace ScriptCoreLib.Shared.Lambda
 			}
 		}
 
+		public static BindingList<T> ForEachNewOrExistingItem<T>(this BindingList<T> source, Action<T, int> handler)
+		{
+			source.ForEach(handler);
+
+			source.ListChanged +=
+				(sender0, args0) =>
+				{
+					if (args0.ListChangedType == ListChangedType.ItemAdded)
+					{
+						handler(source[args0.NewIndex], args0.NewIndex);
+					}
+				};
+
+			return source;
+
+		}
+
 		public static BindingList<T> ForEachNewOrExistingItem<T>(this BindingList<T> source, Action<T> handler)
 		{
 			source.ForEachNewItem(handler).ForEach(handler);
@@ -123,7 +140,7 @@ namespace ScriptCoreLib.Shared.Lambda
 
 		public static BindingList<T> ForEachItemDeleted<T>(this BindingList<T> source, Action<T> handler)
 		{
-			var cache = new List<T> ();
+			var cache = new List<T>();
 
 			cache.AddRange(source);
 

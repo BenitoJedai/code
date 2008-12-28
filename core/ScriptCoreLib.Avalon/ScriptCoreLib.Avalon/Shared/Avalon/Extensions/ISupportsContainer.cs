@@ -77,21 +77,33 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			return e;
 		}
 
+		public static Panel GetParentPanel<T>(this T e)
+			where T : FrameworkElement
+		{
+			var p = e.Parent;
+
+			if (p == null)
+				return null;
+
+			var Panel = p as Panel;
+
+			if (Panel == null)
+				throw new NotImplementedException("Parent should have been a Panel");
+
+			return Panel;
+		}
+
 		public static T BringToFront<T>(this T e)
 			where T : FrameworkElement
 		{
 			if (e == null)
 				return e;
 
-			var p = e.Parent;
 
-			if (p == null)
-				return e;
-
-			var Panel = p as Panel;
+			var Panel = e.GetParentPanel();
 
 			if (Panel == null)
-				throw new NotImplementedException("Parent should have been a Panel");
+				return e;
 
 			Panel.Children.Remove(e);
 			Panel.Children.Add(e);
