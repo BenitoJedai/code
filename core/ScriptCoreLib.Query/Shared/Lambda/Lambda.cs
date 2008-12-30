@@ -31,7 +31,7 @@ namespace ScriptCoreLib.Shared.Lambda
 			return source;
 		}
 
-		public static TResult SelectByFlags<T, TResult>(this IEnumerable<T> source, Dictionary<int, Func<TResult>> lookup, Func<int, TResult> defaultvalue)
+		public static int ToFlags<T>(this IEnumerable<T> source)
 		{
 			// todo: jsc should mask variable names like keywords that cannot be used in the target language
 
@@ -45,10 +45,7 @@ namespace ScriptCoreLib.Shared.Lambda
 				}
 			).Sum();
 
-			if (lookup.ContainsKey(Flags))
-				return lookup[Flags]();
-
-			return defaultvalue(Flags);
+			return Flags;
 		}
 
 		static readonly Random RandomGenerator = new Random();
