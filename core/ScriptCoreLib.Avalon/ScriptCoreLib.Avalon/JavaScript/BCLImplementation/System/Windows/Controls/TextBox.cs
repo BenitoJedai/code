@@ -73,12 +73,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 							wrap = "off"
 						};
 
-
+						this.InternalTextField_MultiLine.style.position = IStyle.PositionEnum.absolute;
 						this.InternalTextField_MultiLine.style.overflow = IStyle.OverflowEnum.hidden;
 
 						var p = this.InternalTextField.parentNode;
 
-						// we should actually just norify our collection about this change
+						// we should actually just notify our collection about this change
 						// but instead we do the exchange here at the moment 
 						if (p != null)
 						{
@@ -86,6 +86,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 							p.removeChild(this.InternalTextField);
 						}
+
 
 						return;
 					}
