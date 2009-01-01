@@ -132,7 +132,7 @@ namespace ScriptCoreLib.Shared.Avalon.Tween
 					var once = default(Action);
 
 
-					once = 
+					once =
 						delegate
 						{
 							done();
@@ -147,6 +147,27 @@ namespace ScriptCoreLib.Shared.Avalon.Tween
 			};
 		}
 
+		public static Action<double, double> OfDouble(Action<double, double> h)
+		{
+			return OfDouble(h, 0.01);
+		}
+
+		public static Action<double, double> OfDouble(Action<double, double> h, double scale)
+		{
+			Action<int, int> u = NumericEmitter.Of(
+				(x, y) =>
+				{
+					h(x * scale, y * scale);
+				}
+			);
+
+			return
+				(x, y) =>
+				{
+					u(Convert.ToInt32(x / scale), Convert.ToInt32(y / scale));
+				};
+
+		}
 	}
 
 }
