@@ -11,6 +11,11 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static IEnumerable<int> ToRange(this int Count)
+		{
+			return Enumerable.Range(0, Count);
+		}
+
 		public static BindingList<T> AttachTo<T>(this BindingList<T> source, BindingList<T> target)
 		{
 			source.ForEachNewOrExistingItem(target.Add);
