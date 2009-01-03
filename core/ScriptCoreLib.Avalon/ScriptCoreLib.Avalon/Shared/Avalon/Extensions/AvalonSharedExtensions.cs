@@ -9,6 +9,7 @@ using System.Windows.Threading;
 using System.Windows.Media;
 using System.Windows.Controls.Primitives;
 using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.Shared.Avalon.Tween;
 
 namespace ScriptCoreLib.Shared.Avalon.Extensions
 {
@@ -16,6 +17,11 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	public static class AvalonSharedExtensions
 	{
 	
+		public static AnimatedOpacity<T> ToAnimatedOpacity<T>(this T e)
+			where T : UIElement
+		{
+			return new AnimatedOpacity<T>(e);
+		}
 
 		public static T ToShowFrame<T>(this IEnumerable<UIElement> source, Func<Action<int>, T> selector)
 		{
