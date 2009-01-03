@@ -195,6 +195,7 @@
     <Compile Include="JavaScript\UCLImplementation\AvalonExtensions.cs" />
     <Compile Include="Shared\Avalon\Controls\DragBehavior.cs" />
     <Compile Include="Shared\Avalon\Controls\TiledBackgroundImage.cs" />
+    <Compile Include="Shared\Avalon\Extensions\AnimatedOpacity.cs" />
     <Compile Include="Shared\Avalon\Extensions\AvalonExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\Avalon\Extensions\AvalonSharedExtensions.cs" />
