@@ -21,6 +21,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
             return r;
         }
 
+		public static double Sum<TSource>(this IEnumerable<TSource> source, Func<TSource, double> selector)
+		{
+			var r = default(double);
+
+			foreach (var i in source.AsEnumerable()) r += selector(i);
+
+			return r;
+		}
+
         public static int Sum(this IEnumerable<int> source)
         {
             var r = default(int);
@@ -29,5 +38,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
 
             return r;
         }
+
+		public static double Sum(this IEnumerable<double> source)
+		{
+			var r = default(double);
+
+			foreach (var i in source.AsEnumerable()) r += i;
+
+			return r;
+		}
     }
 }

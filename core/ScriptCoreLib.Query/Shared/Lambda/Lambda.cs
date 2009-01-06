@@ -715,6 +715,61 @@ namespace ScriptCoreLib.Shared.Lambda
 			return e.Where(filter).Randomize().First();
 		}
 
-	
+		/// <summary>
+		/// The geometric mean, in mathematics, is a type of mean or average, which indicates the central tendency or typical value of a set of numbers. ...
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="source"></param>
+		/// <param name="f"></param>
+		/// <returns></returns>
+		public static double Geomean<T>(this IEnumerable<T> source, Func<T, double> f)
+		{
+			// http://www.buzzardsbay.org/geomean.htm
+			// http://en.wikipedia.org/wiki/Geomean
+
+			double x = 1;
+			var c = 0;
+
+			foreach (var v in source.Select(f))
+			{
+				c++;
+				x *= v;
+			}
+
+			return Math.Pow(x, 1.0 / c); 
+		}
+
+		/// <summary>
+		/// Returns the matrix product of two arrays. The result is an array with the same number of rows as array1 and the same number of columns as array2.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static double MatrixMultiplication(this double[] x, double[] y)
+		{
+			// http://www.techonthenet.com/excel/formulas/mmult.php
+			// http://dada.perl.it/shootout/matrix.html
+			// http://dada.perl.it/shootout/csharp_allsrc.html
+			// http://office.microsoft.com/en-us/excel/HP052091811033.aspx
+			
+			if (x.Length != y.Length)
+				throw new Exception();
+
+			return x.Select(
+				(k, i) => k * y[i]
+			).Sum();
+		}
+
+		public static double Product<T>(this IEnumerable<T> source, Func<T, double> selector)
+		{
+			double x = 1;
+
+			foreach (var v in source.Select(selector))
+			{
+				x *= v;
+			}
+
+			return x;
+		}
 	}
 }
