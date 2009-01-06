@@ -715,6 +715,6 @@ namespace ScriptCoreLib.Shared.Lambda
 			return e.Where(filter).Randomize().First();
 		}
 
-
+	
 	}
 }
