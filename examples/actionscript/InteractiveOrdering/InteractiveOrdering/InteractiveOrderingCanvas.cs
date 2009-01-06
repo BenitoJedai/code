@@ -177,17 +177,22 @@ namespace InteractiveOrdering.Shared
 				{
 					this.Title.Text = "How many images are you willing to compare from '" + Source.Text + "'";
 
+					var UserDefinedValues_extremly_better = new ComparisionValue { Name = "extremly better", Value = 9 };
+					var UserDefinedValues_much_better = new ComparisionValue { Name = "much better", Value = 7 };
+					var UserDefinedValues_better = new ComparisionValue { Name = "better", Value = 5 };
+					var UserDefinedValues_slightly_better = new ComparisionValue { Name = "slightly better", Value = 3 };
+
 					var DefinedValues = new[] 
 					{
-						new ComparisionValue { Name = "extremly better", Value = 9 },
-						new ComparisionValue { Name = "much better", Value =7 },
-						new ComparisionValue { Name = "better", Value =5 },
-						new ComparisionValue { Name = "slightly better", Value =3 },
+						UserDefinedValues_extremly_better,
+						UserDefinedValues_much_better,
+						UserDefinedValues_better,
+						UserDefinedValues_slightly_better,
 						new ComparisionValue { Name = "equal", Value =1 },
-						new ComparisionValue { Name = "slightly worse", Value =1.0 / 3.0 },
-						new ComparisionValue { Name = "worse", Value =1.0 / 5.0 },
-						new ComparisionValue { Name = "much worse", Value =1.0 / 7.0 },
-						new ComparisionValue { Name = "extremly worse", Value =9 },
+						new ComparisionValue { Name = "slightly worse", InverseOf = UserDefinedValues_slightly_better },
+						new ComparisionValue { Name = "worse", InverseOf = UserDefinedValues_better },
+						new ComparisionValue { Name = "much worse", InverseOf = UserDefinedValues_much_better },
+						new ComparisionValue { Name = "extremly worse", InverseOf = UserDefinedValues_extremly_better },
 					};
 
 					Action<int> Handler =
@@ -295,9 +300,14 @@ namespace InteractiveOrdering.Shared
 
 			public double Value;
 
+			public ComparisionValue InverseOf;
+
 			public override string ToString()
 			{
-				return new { Name, Value }.ToString();
+				if (InverseOf == null)
+					return Value.ToString();
+
+				return "1 / " + InverseOf.Value.ToString();
 			}
 		}
 
@@ -345,7 +355,7 @@ namespace InteractiveOrdering.Shared
 					{
 						this.Title.Text = "You are done!";
 
-						
+
 
 
 						return delegate
@@ -417,6 +427,17 @@ namespace InteractiveOrdering.Shared
 													n.Value = Value;
 												}
 
+												if (o.Y == Current.X)
+													if (o.X == Current.Y)
+													{
+														var Inverse = Values.SingleOrDefault(k => k.InverseOf == Value);
+
+														if (Inverse == null)
+															n.Value = Value;
+														else
+															n.Value = Inverse;
+													}
+
 												return n;
 											}
 										);
@@ -461,10 +482,123 @@ namespace InteractiveOrdering.Shared
 
 					this.Title.Text = "The Matrix. You have " + More + " images to compare...";
 
+					#region headers
+					var o = Source.Select<LinkImages.LinkImage, Action>(
+						(k, i) =>
+						{
+							k.SizeTo(0.15);
+							k.AttachContainerTo(this);
+							k.MoveContainerTo(60, 150 + i * 60);
+
+							var kx = new TextButtonControl
+							{
+								Text = "#" + (1 + i),
+								Width = 40,
+								Height = 32
+							};
+
+							kx.AttachContainerTo(this);
+							kx.MoveContainerTo(130, 160 + i * 60);
+							kx.Background.Fill = Brushes.White;
+							kx.Background.Opacity = 0.3;
+
+							var ky = new TextButtonControl
+							{
+								Text = "#" + (1 + i),
+								Width = 40,
+								Height = 32
+							};
+
+							ky.AttachContainerTo(this);
+							ky.MoveContainerTo(200 + i * 60, 100);
+							ky.Background.Fill = Brushes.White;
+							ky.Background.Opacity = 0.3;
+
+							var kxr = new Rectangle
+							{
+								Fill = Brushes.Black,
+								Width = Source.Length * 60 + 140,
+								Height = 1
+							};
+
+							kxr.AttachTo(this);
+							kxr.MoveTo(60, 200 + i * 60);
+
+
+							var kyr = new Rectangle
+							{
+								Fill = Brushes.Black,
+								Height = Source.Length * 60 + 60,
+								Width = 1
+							};
+
+							kyr.AttachTo(this);
+							kyr.MoveTo(250 + i * 60, 100);
+
+							return delegate
+							{
+								k.OrphanizeContainer();
+								kx.OrphanizeContainer();
+								ky.OrphanizeContainer();
+								kxr.Orphanize();
+								kyr.Orphanize();
+							};
+						}
+					).ToArray();
+					#endregion
+
+					#region values
+
+					var v = Comparision.Select<ComparisionInfo, Action>(
+						k =>
+						{
+							var kt = new TextButtonControl
+							{
+								Text = "",
+								Width = 40,
+								Height = 32
+							};
+
+							kt.AttachContainerTo(this);
+							kt.MoveContainerTo(200 + k.X * 60, 160 + k.Y * 60);
+
+							kt.Background.Fill = Brushes.White;
+							kt.Background.Opacity = 0.3;
+
+							if (k.Value == null)
+							{
+								if (k.WaitingForUser)
+								{
+									kt.Background.Fill = Brushes.Yellow;
+									kt.Background.Opacity = 0.5;
+								}
+							}
+							else
+							{
+								kt.Text = k.Value.ToString();
+
+								if (k.Value.Value == 1)
+								{
+									kt.Background.Fill = Brushes.Cyan;
+									kt.Background.Opacity = 0.5;
+								}
+							}
+
+							return delegate
+							{
+								kt.OrphanizeContainer();
+							};
+						}
+					).ToArray();
+
+					#endregion
 
 					return delegate
 					{
 						this.Title.Text = "...";
+
+						o.ForEach(h => h());
+						v.ForEach(h => h());
 					};
 				}
 			);
