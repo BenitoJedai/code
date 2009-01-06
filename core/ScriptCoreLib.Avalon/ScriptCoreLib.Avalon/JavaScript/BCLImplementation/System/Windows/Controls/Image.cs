@@ -35,7 +35,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 			return base.InternalGetOpacityTarget();
 		}
-		
+
 		public ImageSource Source
 		{
 			get
@@ -44,7 +44,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			}
 			set
 			{
-				
+
 				__ImageSource v = value;
 
 				var alias = v.InternalManifestResourceAlias;
@@ -57,6 +57,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 					InternalBitmap = new IHTMLImage(alias);
 					InternalBitmap.style.SetLocation(0, 0);
 
+					InternalBitmap.InvokeOnComplete(
+						img =>
+						{
+							if (InternalWidthValue == 0)
+								if (InternalHeightValue == 0)
+								{
+									InternalSetWidth(img.width);
+									InternalSetHeight(img.height);
+								}
+						}
+					);
+
 					InternalSprite.appendChild(InternalBitmap);
 				}
 				else if (v.InternalBitmap != null)
@@ -68,6 +80,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 							InternalBitmap = img;
 							InternalBitmap.style.SetLocation(0, 0);
+
+							InternalSetWidth(img.width);
+							InternalSetHeight(img.height);
 
 							InternalSprite.appendChild(InternalBitmap);
 						}
@@ -138,6 +153,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 				return;
 			}
 		}
-		
+
 	}
 }
