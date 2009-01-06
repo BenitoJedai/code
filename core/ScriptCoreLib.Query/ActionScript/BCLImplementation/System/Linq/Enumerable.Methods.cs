@@ -74,6 +74,60 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
 			return value;
 		}
 
+		public static double Max<TSource>(this IEnumerable<TSource> source, Func<TSource, double> selector)
+		{
+			double value = 0;
+			var dirty = false;
+
+			foreach (var v in source.AsEnumerable())
+			{
+				var x = selector(v);
+
+				if (dirty)
+				{
+					if (value < x)
+						value = x;
+				}
+				else
+				{
+					dirty = true;
+					value = x;
+				}
+			}
+
+			if (!dirty)
+				throw Error.NoElements();
+
+			return value;
+		}
+
+		public static double Min<TSource>(this IEnumerable<TSource> source, Func<TSource, double> selector)
+		{
+			double value = 0;
+			var dirty = false;
+
+			foreach (var v in source.AsEnumerable())
+			{
+				var x = selector(v);
+
+				if (dirty)
+				{
+					if (value > x)
+						value = x;
+				}
+				else
+				{
+					dirty = true;
+					value = x;
+				}
+			}
+
+			if (!dirty)
+				throw Error.NoElements();
+
+			return value;
+		}
+
 		public static IEnumerable<TSource> Reverse<TSource>(this IEnumerable<TSource> source)
 		{
 			var a = source.ToList();

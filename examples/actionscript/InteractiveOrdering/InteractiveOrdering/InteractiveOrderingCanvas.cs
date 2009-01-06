@@ -69,19 +69,19 @@ namespace InteractiveOrdering.Shared
 			var DataSet2 = new LinkImages { Text = "Bikes" };
 
 			#region wait for all to load
-			var DataSets = new[]
+			DefaultDataSets = new[]
 			{
 				DataSet1,
 				DataSet2
 			};
 
-			DataSets.ForEach(
+			DefaultDataSets.ForEach(
 				k =>
 					k.Loaded +=
 						delegate
 						{
-							if (DataSets.All(q => q.Images.Any()))
-								Step1_ChooseImageSet(History.History, DataSets);
+							if (DefaultDataSets.All(q => q.Images.Any()))
+								Step1_ChooseImageSet(History.History, DefaultDataSets);
 
 						}
 			);
@@ -96,6 +96,8 @@ namespace InteractiveOrdering.Shared
 
 
 		}
+
+		public LinkImages[] DefaultDataSets;
 
 
 		public void Step1_ChooseImageSet(
@@ -196,9 +198,9 @@ namespace InteractiveOrdering.Shared
 					};
 
 					Action<int> Handler =
-						Number =>
+						XNumber =>
 						{
-							var Selection = Source.Select((k, i) => new { k, i }).Where(k => k.i < Number).ToArray(k => k.k);
+							var Selection = Source.Select((k, i) => new { k, i }).Where(k => k.i < XNumber).ToArray(k => k.k);
 
 							var Matrix = Enumerable.Range(0, Selection.Length).SelectMany(
 								x => Enumerable.Range(0, Selection.Length).Select(
@@ -223,7 +225,7 @@ namespace InteractiveOrdering.Shared
 								)
 							).Randomize().ToArray();
 
-							if (Number == 6)
+							if (XNumber == 6)
 							{
 								Action<int, int, double> set =
 									(x, y, value) =>
@@ -264,11 +266,11 @@ namespace InteractiveOrdering.Shared
 
 					#region Options
 					var Options = Enumerable.Range(3, Source.Images.Count - 2).Select(
-						(Number, Index) =>
+						(XNumber, Index) =>
 						{
 							var o7 = new TextButtonControl
 							{
-								Text = "I can only handle " + Number + "  images from '" + Source.Text + "'",
+								Text = "I can only handle " + XNumber + "  images from '" + Source.Text + "'",
 								Width = 400,
 								Height = 40,
 							}.AttachContainerTo(this).MoveContainerTo(100, 100 + 40 * Index);
@@ -292,7 +294,7 @@ namespace InteractiveOrdering.Shared
 							o7.Click +=
 								delegate
 								{
-									Handler(Number);
+									Handler(XNumber);
 								};
 
 							return o7;
@@ -438,56 +440,82 @@ namespace InteractiveOrdering.Shared
 								Step5_ShowMistakeMatrix(History, Source, Comparision, Values);
 							};
 
+						var RestartButton = new TextButtonControl
+						{
+							Text = ">> Restart",
+							Width = 400,
+							Height = 40,
+						}.AttachContainerTo(this).MoveContainerTo(350, 100 + 40 * 11);
 
-						//// step 1 - each row gets a geomean and is seen as a new column
-						//var GeomeanColumn = Enumerable.Range(0, Source.Length).ToArray(
-						//    i => Comparision.Where(k => k.Y == i).Geomean(k => k.GetCurrentValue())
-						//);
+						RestartButton.Content.FontSize = 20;
 
-						//// step 2 - geomean gets a sum
-						//var GeomeanColumnSum = GeomeanColumn.Sum();
+						var RestartButton_bg = RestartButton.Background.ToAnimatedOpacity();
 
-						//// step 3 - each column gets a sum
+
+						RestartButton.Background.Fill = Brushes.White;
+						RestartButton_bg.Opacity = 0;
+
+						RestartButton.Overlay.MouseEnter +=
+							delegate { RestartButton_bg.Opacity = 1; };
+
+
+						RestartButton.Overlay.MouseLeave +=
+							delegate { RestartButton_bg.Opacity = 0; };
+
+
+						RestartButton.Click +=
+							delegate
+							{
+								Step1_ChooseImageSet(History, DefaultDataSets);
+							};
+
+
+						// step 1 - each row gets a geomean and is seen as a new column
+						var GeomeanColumn = Enumerable.Range(0, Source.Length).ToArray(
+							i => Comparision.Where(k => k.Y == i).Geomean(k => k.GetCurrentValue())
+						);
+
+						// step 2 - geomean gets a sum
+						var GeomeanColumnSum = GeomeanColumn.Sum();
+
+						// step 3 - each column gets a sum
 						//var SumRow = Enumerable.Range(0, Source.Length).ToArray(
 						//    i => Comparision.Where(k => k.X == i).Sum(k => k.GetCurrentValue())
 						//);
 
-						//// step 4 - calculate the weights for each row
-						//var GeomeanWeightColumn = GeomeanColumn.ToArray(k => k / GeomeanColumnSum);
+						// step 4 - calculate the weights for each row
+						var GeomeanWeightColumn = GeomeanColumn.ToArray(k => k / GeomeanColumnSum);
 
-						//// step 5 - calculate max selfvalue
+						// step 5 - calculate max selfvalue
 						//var MaxSelfValue = SumRow.MatrixMultiplication(GeomeanWeightColumn);
 
-						//// step 6 - calculate biggest mistake
-						//var Mistakes = Comparision.ToArray(
-						//    q =>
-						//    {
-						//        var x_product =
-						//            Comparision.Where(k => k.X == q.X).Product(k => k.GetCurrentValue());
 
-						//        var y_product =
-						//            Comparision.Where(k => k.Y == q.Y).Product(k => k.GetCurrentValue());
+						var Sorted = GeomeanWeightColumn.
+							Select((weight, i) => new { weight = 1 - weight, i, Source = Source[i] }).
+							OrderBy(k => k.weight).Select((k, i) => new { k.weight, i, k.Source }).ToArray();
 
+						foreach (var v in Sorted)
+						{
+							var zoom = (0.5 + v.weight * 0.5) / 2.0;
 
-						//        var z = Math.Pow(q.GetCurrentValue(), Source.Length);
+							Console.WriteLine(new { v.i, zoom, v.weight }.ToString());
 
-						//        return 1.0 / Math.Pow(x_product * y_product * z, 1.0 / Source.Length - 2);
-						//        /* 
+							v.Source.SizeTo(zoom);
+							v.Source.MoveContainerTo(500 + Convert.ToInt32(-30 * v.i * zoom) * v.i, 100 + Convert.ToInt32(70 * v.i * zoom));
+							v.Source.AttachContainerTo(this);
+						}
+						MatrixButton.BringContainerToFront();
+						MistakeMatrixButton.BringContainerToFront();
 
-						//         1/POWER(PRODUCT(R4C2:R9C2)*PRODUCT(R9C2:R9C7)*POWER(R[-46]C;veerge);1/(veerge-2))
-						//         1/POWER(x_product*y_product*POWER(R[-46]C;veerge);1/(veerge-2))
-						//         1/POWER(x_product*y_product*z;1/(veerge-2))
-
-						//         */
-						//    }
-						//);
 
 						return delegate
 						{
 							this.Title.Text = "...";
 
+							Sorted.ForEach(k => k.Source.OrphanizeContainer());
 							MatrixButton.OrphanizeContainer();
 							MistakeMatrixButton.OrphanizeContainer();
+							RestartButton.OrphanizeContainer();
 						};
 
 
@@ -898,7 +926,7 @@ namespace InteractiveOrdering.Shared
 												WaitingForUser = oo.WaitingForUser,
 												Value = oo.Value,
 												X = oo.X,
-												Y =oo.Y
+												Y = oo.Y
 											};
 
 											if (oo == k.q)
@@ -906,7 +934,7 @@ namespace InteractiveOrdering.Shared
 												n.Value = null;
 											}
 
-									
+
 
 											return n;
 										}
