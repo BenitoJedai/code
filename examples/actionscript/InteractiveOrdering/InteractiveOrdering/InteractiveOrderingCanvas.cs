@@ -223,6 +223,38 @@ namespace InteractiveOrdering.Shared
 								)
 							).Randomize().ToArray();
 
+							if (Number == 6)
+							{
+								Action<int, int, double> set =
+									(x, y, value) =>
+									{
+										Matrix.Single(k => k.X == x && k.Y == y).Value = DefinedValues.Single(k => k.GetCurrentValue() == value);
+										Matrix.Single(k => k.X == y && k.Y == x).Value = DefinedValues.Single(k => k.GetCurrentValue() == 1.0 / value);
+									};
+
+								set(0, 1, 3);
+								set(2, 0, 3);
+								set(3, 0, 5);
+								set(0, 4, 3);
+								set(5, 0, 3);
+
+
+								set(2, 1, 7);
+								set(3, 1, 9);
+								set(4, 1, 1);
+								set(5, 1, 7);
+
+								set(3, 2, 3);
+								set(2, 4, 5);
+								set(5, 2, 1);
+
+								set(3, 4, 9);
+								set(3, 5, 3);
+
+								set(5, 4, 9);
+
+							}
+
 							// we need to have the matrix now
 
 							Step3_Compare(History, Selection, Matrix, DefinedValues);
@@ -231,7 +263,7 @@ namespace InteractiveOrdering.Shared
 						};
 
 					#region Options
-					var Options = Enumerable.Range(2, Source.Images.Count - 1).Select(
+					var Options = Enumerable.Range(3, Source.Images.Count - 2).Select(
 						(Number, Index) =>
 						{
 							var o7 = new TextButtonControl
@@ -291,6 +323,20 @@ namespace InteractiveOrdering.Shared
 			{
 				return new { X, Y, Value, WaitingForUser }.ToString();
 			}
+
+			public string ToVersusString()
+			{
+				return "#" + (X + 1) + " vs #" + (Y + 1);
+			}
+
+			public double GetCurrentValue()
+			{
+				if (Value == null)
+					throw new Exception();
+
+				return Value.GetCurrentValue();
+
+			}
 		}
 
 		[Script]
@@ -301,6 +347,14 @@ namespace InteractiveOrdering.Shared
 			public double Value;
 
 			public ComparisionValue InverseOf;
+
+			public double GetCurrentValue()
+			{
+				if (this.InverseOf == null)
+					return this.Value;
+
+				return 1.0 / this.InverseOf.Value;
+			}
 
 			public override string ToString()
 			{
@@ -355,15 +409,88 @@ namespace InteractiveOrdering.Shared
 					{
 						this.Title.Text = "You are done!";
 
+						var MistakeMatrixButton = new TextButtonControl
+						{
+							Text = ">> Show the mistake matrix",
+							Width = 400,
+							Height = 40,
+						}.AttachContainerTo(this).MoveContainerTo(350, 100 + 40 * 9);
+
+						MistakeMatrixButton.Content.FontSize = 20;
+
+						var MistakeMatrixButton_bg = MistakeMatrixButton.Background.ToAnimatedOpacity();
 
 
+						MistakeMatrixButton.Background.Fill = Brushes.White;
+						MistakeMatrixButton_bg.Opacity = 0;
+
+						MistakeMatrixButton.Overlay.MouseEnter +=
+							delegate { MistakeMatrixButton_bg.Opacity = 1; };
+
+
+						MistakeMatrixButton.Overlay.MouseLeave +=
+							delegate { MistakeMatrixButton_bg.Opacity = 0; };
+
+
+						MistakeMatrixButton.Click +=
+							delegate
+							{
+								Step5_ShowMistakeMatrix(History, Source, Comparision, Values);
+							};
+
+
+						//// step 1 - each row gets a geomean and is seen as a new column
+						//var GeomeanColumn = Enumerable.Range(0, Source.Length).ToArray(
+						//    i => Comparision.Where(k => k.Y == i).Geomean(k => k.GetCurrentValue())
+						//);
+
+						//// step 2 - geomean gets a sum
+						//var GeomeanColumnSum = GeomeanColumn.Sum();
+
+						//// step 3 - each column gets a sum
+						//var SumRow = Enumerable.Range(0, Source.Length).ToArray(
+						//    i => Comparision.Where(k => k.X == i).Sum(k => k.GetCurrentValue())
+						//);
+
+						//// step 4 - calculate the weights for each row
+						//var GeomeanWeightColumn = GeomeanColumn.ToArray(k => k / GeomeanColumnSum);
+
+						//// step 5 - calculate max selfvalue
+						//var MaxSelfValue = SumRow.MatrixMultiplication(GeomeanWeightColumn);
+
+						//// step 6 - calculate biggest mistake
+						//var Mistakes = Comparision.ToArray(
+						//    q =>
+						//    {
+						//        var x_product =
+						//            Comparision.Where(k => k.X == q.X).Product(k => k.GetCurrentValue());
+
+						//        var y_product =
+						//            Comparision.Where(k => k.Y == q.Y).Product(k => k.GetCurrentValue());
+
+
+						//        var z = Math.Pow(q.GetCurrentValue(), Source.Length);
+
+						//        return 1.0 / Math.Pow(x_product * y_product * z, 1.0 / Source.Length - 2);
+						//        /* 
+
+						//         1/POWER(PRODUCT(R4C2:R9C2)*PRODUCT(R9C2:R9C7)*POWER(R[-46]C;veerge);1/(veerge-2))
+						//         1/POWER(x_product*y_product*POWER(R[-46]C;veerge);1/(veerge-2))
+						//         1/POWER(x_product*y_product*z;1/(veerge-2))
+
+						//         */
+						//    }
+						//);
 
 						return delegate
 						{
 							this.Title.Text = "...";
 
 							MatrixButton.OrphanizeContainer();
+							MistakeMatrixButton.OrphanizeContainer();
 						};
+
+
 					}
 					else
 					{
@@ -387,7 +514,7 @@ namespace InteractiveOrdering.Shared
 							{
 								var o7 = new TextButtonControl
 								{
-									Text = "above is " + Value.Name + " than below",
+									Text = "above is " + Value.Name + " than below (" + Value.ToString() + ")",
 									Width = 400,
 									Height = 40,
 								}.AttachContainerTo(this).MoveContainerTo(350, 100 + 40 * Index);
@@ -430,12 +557,17 @@ namespace InteractiveOrdering.Shared
 												if (o.Y == Current.X)
 													if (o.X == Current.Y)
 													{
-														var Inverse = Values.SingleOrDefault(k => k.InverseOf == Value);
-
-														if (Inverse == null)
-															n.Value = Value;
+														if (Value.InverseOf != null)
+															n.Value = Value.InverseOf;
 														else
-															n.Value = Inverse;
+														{
+															var Inverse = Values.SingleOrDefault(k => k.InverseOf == Value);
+
+															if (Inverse == null)
+																n.Value = Value;
+															else
+																n.Value = Inverse;
+														}
 													}
 
 												return n;
@@ -588,6 +720,208 @@ namespace InteractiveOrdering.Shared
 							{
 								kt.OrphanizeContainer();
 							};
+						}
+					).ToArray();
+
+					#endregion
+
+					return delegate
+					{
+						this.Title.Text = "...";
+
+						o.ForEach(h => h());
+						v.ForEach(h => h());
+					};
+				}
+			);
+		}
+
+		public void Step5_ShowMistakeMatrix(
+			AeroNavigationBar.HistoryInfo History,
+			LinkImages.LinkImage[] Source,
+			ComparisionInfo[] Comparision,
+			ComparisionValue[] Values)
+		{
+			History.AddFrame(
+				delegate
+				{
+					var More = Comparision.Count(k => k.WaitingForUser && k.Value == null);
+
+
+
+					#region headers
+					var o = Source.Select<LinkImages.LinkImage, Action>(
+						(k, i) =>
+						{
+							k.SizeTo(0.15);
+							k.AttachContainerTo(this);
+							k.MoveContainerTo(60, 150 + i * 60);
+
+							var kx = new TextButtonControl
+							{
+								Text = "#" + (1 + i),
+								Width = 40,
+								Height = 32
+							};
+
+							kx.AttachContainerTo(this);
+							kx.MoveContainerTo(130, 160 + i * 60);
+							kx.Background.Fill = Brushes.White;
+							kx.Background.Opacity = 0.3;
+
+							var ky = new TextButtonControl
+							{
+								Text = "#" + (1 + i),
+								Width = 40,
+								Height = 32
+							};
+
+							ky.AttachContainerTo(this);
+							ky.MoveContainerTo(200 + i * 60, 100);
+							ky.Background.Fill = Brushes.White;
+							ky.Background.Opacity = 0.3;
+
+							var kxr = new Rectangle
+							{
+								Fill = Brushes.Black,
+								Width = Source.Length * 60 + 140,
+								Height = 1
+							};
+
+							kxr.AttachTo(this);
+							kxr.MoveTo(60, 200 + i * 60);
+
+
+							var kyr = new Rectangle
+							{
+								Fill = Brushes.Black,
+								Height = Source.Length * 60 + 60,
+								Width = 1
+							};
+
+							kyr.AttachTo(this);
+							kyr.MoveTo(250 + i * 60, 100);
+
+							return delegate
+							{
+								k.OrphanizeContainer();
+								kx.OrphanizeContainer();
+								ky.OrphanizeContainer();
+								kxr.Orphanize();
+								kyr.Orphanize();
+							};
+						}
+					).ToArray();
+					#endregion
+
+					#region values
+
+					var Mistakes = Comparision.Where(q => q.WaitingForUser).ToArray(
+						q =>
+						{
+
+							var x_cells =
+								Comparision.Where(k => k.X == q.Y).OrderBy(k => k.Y).ToArray();
+
+							var x_product =
+								x_cells.Product(k => k.GetCurrentValue());
+
+							var y_cells =
+								Comparision.Where(k => k.Y == q.X).OrderBy(k => k.X).ToArray();
+
+							var y_product =
+								y_cells.Product(k => k.GetCurrentValue());
+
+
+							var z = Math.Pow(q.GetCurrentValue(), Source.Length);
+
+							return new { q, Mistake = 1.0 / Math.Pow(x_product * y_product * z, 1.0 / (Source.Length - 2)) };
+
+							/* 
+
+							 1/POWER(PRODUCT(R4C2:R9C2)*PRODUCT(R9C2:R9C7)*POWER(R[-46]C;veerge);1/(veerge-2))
+							 1/POWER(x_product*y_product*POWER(R[-46]C;veerge);1/(veerge-2))
+							 1/POWER(x_product*y_product*z;1/(veerge-2))
+
+							 */
+						}
+					);
+
+					var Mistakes_Max = Mistakes.Max(k => k.Mistake);
+					var Mistakes_Min = Mistakes.Min(k => k.Mistake);
+
+					var Mistake_Value = Mistakes_Min;
+
+					if (Mistakes_Max * Mistakes_Min > 1.0)
+						Mistake_Value = Mistakes_Max;
+
+					var Mistake_Element = Mistakes.Single(k => k.Mistake == Mistake_Value);
+
+					Title.Text = "Biggest mistake was made at " + Mistake_Element.q.ToVersusString() + ". Click on a cell to recompare.";
+
+
+					var v = Mistakes.Select(
+						k =>
+						{
+							var kt = new TextButtonControl
+							{
+								Text = "",
+								Width = 60 - 4,
+								Height = 32
+							};
+
+							kt.AttachContainerTo(this);
+							kt.MoveContainerTo(192 + k.q.X * 60, 160 + k.q.Y * 60);
+
+							if (k == Mistake_Element)
+							{
+								kt.Background.Fill = Brushes.Red;
+								kt.Background.Opacity = 1;
+							}
+							else
+							{
+								kt.Background.Fill = Brushes.White;
+								kt.Background.Opacity = 0.3;
+							}
+
+
+							kt.Text = k.Mistake.ToString();
+
+							kt.Click +=
+								delegate
+								{
+									var NewComparision = Comparision.ToArray(
+										oo =>
+										{
+											var n = new ComparisionInfo
+											{
+												WaitingForUser = oo.WaitingForUser,
+												Value = oo.Value,
+												X = oo.X,
+												Y =oo.Y
+											};
+
+											if (oo == k.q)
+											{
+												n.Value = null;
+											}
+
+									
+
+											return n;
+										}
+									);
+
+
+									Step3_Compare(History, Source, NewComparision, Values);
+								};
+
+							return new Action(
+								delegate
+								{
+									kt.OrphanizeContainer();
+								}
+							);
 						}
 					).ToArray();
 
