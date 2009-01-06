@@ -25,6 +25,7 @@ namespace InteractiveOrdering
 				public const string Assets = "assets/InteractiveOrdering";
 
 				public const string DataSet1 = "assets/InteractiveOrdering.DataSet1";
+				public const string DataSet2 = "assets/InteractiveOrdering.DataSet2";
 			}
 
 

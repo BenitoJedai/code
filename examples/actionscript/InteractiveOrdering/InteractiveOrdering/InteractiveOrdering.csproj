@@ -72,6 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="InteractiveOrderingCanvas.cs" />
+    <Compile Include="Shared\LinkImages.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />
@@ -82,7 +83,15 @@
     <EmbeddedResource Include="web\assets\InteractiveOrdering.DataSet1\4.jpg" />
     <EmbeddedResource Include="web\assets\InteractiveOrdering.DataSet1\5.jpg" />
     <EmbeddedResource Include="web\assets\InteractiveOrdering.DataSet1\6.jpg" />
-    <Content Include="web\assets\InteractiveOrdering.DataSet1\links.txt" />
+    <EmbeddedResource Include="web\assets\InteractiveOrdering.DataSet1\links.txt" />
+    <EmbeddedResource Include="web\assets\InteractiveOrdering.DataSet2\0.jpg" />
+    <EmbeddedResource Include="web\assets\InteractiveOrdering.DataSet2\1.jpg" />
+    <EmbeddedResource Include="web\assets\InteractiveOrdering.DataSet2\2.jpg" />
+    <EmbeddedResource Include="web\assets\InteractiveOrdering.DataSet2\3.jpg" />
+    <EmbeddedResource Include="web\assets\InteractiveOrdering.DataSet2\4.jpg" />
+    <EmbeddedResource Include="web\assets\InteractiveOrdering.DataSet2\5.jpg" />
+    <EmbeddedResource Include="web\assets\InteractiveOrdering.DataSet2\6.jpg" />
+    <EmbeddedResource Include="web\assets\InteractiveOrdering.DataSet2\links.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
