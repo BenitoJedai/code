@@ -90,10 +90,69 @@ namespace InteractiveOrdering.Shared
 			DataSet1.Path = KnownAssets.Path.DataSet1;
 			DataSet2.Path = KnownAssets.Path.DataSet2;
 
+			{
+
+				var GoBackButton = new TextButtonControl
+				{
+					Text = "[Back]",
+					Width = 50,
+					Height = 30,
+				}.AttachContainerTo(this).MoveContainerTo(30, 100 + 40 * 11);
 
 
+				var GoBackButtonBG = GoBackButton.Background.ToAnimatedOpacity();
 
 
+				GoBackButton.Background.Fill = Brushes.White;
+				GoBackButtonBG.Opacity = 0;
+
+				GoBackButton.Overlay.MouseEnter +=
+					delegate { GoBackButtonBG.Opacity = 1; };
+
+
+				GoBackButton.Overlay.MouseLeave +=
+					delegate { GoBackButtonBG.Opacity = 0; };
+
+
+				GoBackButton.Click +=
+					delegate
+					{
+						if (History.History.GoBack.Any())
+							History.History.GoBack.Pop()();
+					};
+			}
+
+			{
+
+				var GoBackButton = new TextButtonControl
+				{
+					Text = "[Forward]",
+					Width = 66,
+					Height = 30,
+				}.AttachContainerTo(this).MoveContainerTo(80, 100 + 40 * 11);
+
+
+				var GoBackButtonBG = GoBackButton.Background.ToAnimatedOpacity();
+
+
+				GoBackButton.Background.Fill = Brushes.White;
+				GoBackButtonBG.Opacity = 0;
+
+				GoBackButton.Overlay.MouseEnter +=
+					delegate { GoBackButtonBG.Opacity = 1; };
+
+
+				GoBackButton.Overlay.MouseLeave +=
+					delegate { GoBackButtonBG.Opacity = 0; };
+
+
+				GoBackButton.Click +=
+					delegate
+					{
+						if (History.History.GoForward.Any())
+							History.History.GoForward.Pop()();
+					};
+			}
 
 		}
 
