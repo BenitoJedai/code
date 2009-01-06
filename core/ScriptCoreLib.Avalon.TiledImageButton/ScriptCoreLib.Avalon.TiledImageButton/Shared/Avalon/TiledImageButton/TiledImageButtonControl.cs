@@ -44,6 +44,7 @@ namespace ScriptCoreLib.Shared.Avalon.TiledImageButton
 
 			this.Tiles = new Image
 			{
+				Stretch = Stretch.Fill,
 				Source = Source,
 
 			}.AttachTo(this.Container);

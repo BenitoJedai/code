@@ -10,13 +10,29 @@ using System.Windows.Media;
 using System.Windows.Controls.Primitives;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Shared.Avalon.Tween;
+using System.IO;
 
 namespace ScriptCoreLib.Shared.Avalon.Extensions
 {
 	[Script]
 	public static class AvalonSharedExtensions
 	{
-	
+		public static int ReadLines(this StringReader s, Action<string, int> h)
+		{
+			var i = -1;
+			var n = s.ReadLine();
+
+			while (n != null)
+			{
+				i++;
+				h(n, i);
+
+				n = s.ReadLine();
+			}
+
+			return i;
+		}
+
 		public static AnimatedOpacity<T> ToAnimatedOpacity<T>(this T e)
 			where T : UIElement
 		{

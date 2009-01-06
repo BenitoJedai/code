@@ -136,19 +136,28 @@ namespace ScriptCoreLib.Shared.Avalon.TiledImageButton
 				this.Owner.ButtonGoBack.Enabled = false;
 			}
 
-			readonly Stack<Action> GoBack = new Stack<Action>();
-			readonly Stack<Action> GoForward = new Stack<Action>();
+			public readonly Stack<Action> GoBack = new Stack<Action>();
+			public readonly Stack<Action> GoForward = new Stack<Action>();
+
+			public void Clear()
+			{
+				this.Owner.ButtonGoForward.Enabled = false;
+				this.GoForward.Clear();
+
+				this.Owner.ButtonGoBack.Enabled = false;
+				this.GoBack.Clear();
+			}
 
 			public void Add(Action BackHandler, Action ForwardHandler)
 			{
 				this.Owner.ButtonGoForward.Enabled = false;
 				this.GoForward.Clear();
 
-				
+
 
 				var EnableGoBack = default(Action);
 
-				EnableGoBack = 
+				EnableGoBack =
 					delegate
 					{
 						this.Owner.ButtonGoBack.Enabled = true;
@@ -178,10 +187,78 @@ namespace ScriptCoreLib.Shared.Avalon.TiledImageButton
 				ForwardHandler();
 				EnableGoBack();
 			}
-		
+
+			[Script]
+			public class FrameInfo
+			{
+				public Func<Action> EnterAndGetExit;
+				public Action Exit;
+			}
+
+			public FrameInfo AddFrame_Current;
+
+			public void AddFrame(Func<Action> EnterAndGetExit)
+			{
+				AddFrame(EnterAndGetExit, false);
+			}
+
+			public void AddFrame(Func<Action> EnterAndGetExit, bool PreserveFuture)
+			{
+				if (!PreserveFuture)
+				{
+					this.GoForward.Clear();
+					
+				}
+				this.Owner.ButtonGoForward.Enabled = this.GoForward.Any();
+
+				if (AddFrame_Current != null)
+				{
+					AddFrame_Current.Exit();
+					var AddFrame_Back = AddFrame_Current;
+
+
+					this.Owner.ButtonGoBack.Enabled = true;
+					this.GoBack.Push(
+						delegate
+						{
+							if (AddFrame_Current != null)
+							{
+								AddFrame_Current.Exit();
+								
+								var AddFrame_Forward = AddFrame_Current;
+
+								this.Owner.ButtonGoForward.Enabled = true;
+								this.GoForward.Push(
+									delegate
+									{
+										AddFrame(AddFrame_Forward.EnterAndGetExit, true);
+										
+
+										
+									}
+								);
+							}
+
+							AddFrame_Current = AddFrame_Back;
+							AddFrame_Current.Exit = AddFrame_Current.EnterAndGetExit();
+
+							this.Owner.ButtonGoBack.Enabled = this.GoBack.Any();
+
+							
+							
+						}
+					);
+				}
+
+				AddFrame_Current = new FrameInfo
+				{
+					EnterAndGetExit = EnterAndGetExit,
+					Exit = EnterAndGetExit()
+				};
+			}
 		}
 
-		
+
 	}
 
 }

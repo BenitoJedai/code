@@ -93,7 +93,7 @@ namespace InteractiveOrdering.Shared
 
 		public readonly BindingList<LinkImage> Images = new BindingList<LinkImage>();
 
-		public event Action<LinkImage> Click;
+		public event Action<LinkImages, LinkImage> Click;
 
 		string InternalPath;
 		public string Path
@@ -126,7 +126,7 @@ namespace InteractiveOrdering.Shared
 											delegate
 											{
 												if (this.Click != null)
-													this.Click(i);
+													this.Click(this, i);
 
 											};
 
