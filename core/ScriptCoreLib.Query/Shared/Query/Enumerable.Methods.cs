@@ -126,6 +126,34 @@ namespace ScriptCoreLib.Shared.Query
 
 			return value;
 		}
+
+		public static int Min<TSource>(this IEnumerable<TSource> source, Func<TSource, int> selector)
+		{
+			int value = 0;
+			var dirty = false;
+
+			foreach (var v in source.AsEnumerable())
+			{
+				var x = selector(v);
+
+				if (dirty)
+				{
+					if (value > x)
+						value = x;
+				}
+				else
+				{
+					dirty = true;
+					value = x;
+				}
+			}
+
+			if (!dirty)
+				throw DefinedError.NoElements();
+
+			return value;
+		}
+
 		public static IEnumerable<TSource> Reverse<TSource>(this IEnumerable<TSource> source)
 		{
 			var a = source.ToList();
