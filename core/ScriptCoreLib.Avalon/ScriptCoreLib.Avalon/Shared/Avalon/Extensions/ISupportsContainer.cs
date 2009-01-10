@@ -47,7 +47,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			e.Container.Show(value);
 		}
 
-	
+
 		public static BindingList<T> AttachTo<T, K>(this BindingList<T> e, Func<T, K> selector, IAddChild c)
 			where K : ISupportsContainer
 		{
@@ -56,6 +56,32 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 
 			return e;
 		}
+
+		public static BindingList<T> AttachTo<T>(this BindingList<T> e,  Func<IAddChild> GetContainer)
+			where T : ISupportsContainer
+		{
+			e.ForEachNewOrExistingItem(
+				k =>
+				{
+					var c = GetContainer();
+
+					if (c != null)
+						k.AttachContainerTo(c);
+				}
+			);
+			e.ForEachItemDeleted(
+				k =>
+				{
+					var c = GetContainer();
+
+					if (c != null)
+						k.OrphanizeContainer();
+				}
+			);
+
+			return e;
+		}
+
 
 		public static BindingList<T> AttachTo<T>(this BindingList<T> e, IAddChild c)
 			where T : ISupportsContainer
