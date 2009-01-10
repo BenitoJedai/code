@@ -34,6 +34,16 @@ namespace ScriptCoreLib.ActionScript.Nonoba.api
             return default(Connection);
         }
 
+		/// <summary>
+		/// Shows the purchase process for item. 
+		/// </summary>
+		/// <param name="stage"></param>
+		/// <param name="item"></param>
+		/// <param name="callback"></param>
+		public static void ShowShop(Stage stage, string item, Function callback)
+		{
+			// http://nonoba.com/developers/documentation/multiplayerapi/classnonobaapi
+		}
         #endregion
 
     }

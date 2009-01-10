@@ -10,9 +10,9 @@ using System.Windows.Media;
 namespace ScriptCoreLib.Shared.Avalon.Cursors
 {
 	[Script]
-	public class ArrowCursorControl
+	public class ArrowCursorControl : ISupportsContainer
 	{
-		public readonly Canvas Container;
+		public Canvas Container { get; set; }
 
 		public readonly Image Background;
 
