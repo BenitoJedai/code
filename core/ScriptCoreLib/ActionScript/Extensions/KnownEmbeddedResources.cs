@@ -23,6 +23,9 @@ namespace ScriptCoreLib.ActionScript.Extensions
 
 				foreach (var h in Handlers)
 				{
+					if (h == null)
+						throw new ArgumentNullException();
+
 					c = h(e);
 
 					if (c != null)

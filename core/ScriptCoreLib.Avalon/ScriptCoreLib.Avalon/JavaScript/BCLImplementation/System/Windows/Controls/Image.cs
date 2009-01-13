@@ -20,6 +20,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			InternalSprite.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
 			InternalSprite.style.left = "0px";
 			InternalSprite.style.top = "0px";
+
+			//InternalSprite.style.background = "red";
+
 			InternalSprite.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
 		}
 
@@ -49,44 +52,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 				var alias = v.InternalManifestResourceAlias;
 
+				Shared.EventHandler<IHTMLImage> Apply =
+					img =>
+					{
+						InternalSprite.removeChildren();
+
+						InternalBitmap = img;
+						InternalBitmap.style.SetLocation(0, 0);
+
+						InternalWidthValue = img.width;
+						InternalHeightValue = img.height;
+
+						InternalSetWidth(img.width);
+						InternalSetHeight(img.height);
+
+						InternalSprite.appendChild(InternalBitmap);
+					};
+
 				if (alias != null)
 				{
-					//InternalSprite.OrphanizeChildren();
-					InternalSprite.removeChildren();
+					new IHTMLImage(alias).InvokeOnComplete(Apply);
 
-					InternalBitmap = new IHTMLImage(alias);
-					InternalBitmap.style.SetLocation(0, 0);
-
-					InternalBitmap.InvokeOnComplete(
-						img =>
-						{
-							if (InternalWidthValue == 0)
-								if (InternalHeightValue == 0)
-								{
-									InternalSetWidth(img.width);
-									InternalSetHeight(img.height);
-								}
-						}
-					);
-
-					InternalSprite.appendChild(InternalBitmap);
 				}
 				else if (v.InternalBitmap != null)
 				{
-					v.InternalBitmap.Continue(
-						img =>
-						{
-							InternalSprite.removeChildren();
+					v.InternalBitmap.Continue(i => i.InvokeOnComplete(Apply));
 
-							InternalBitmap = img;
-							InternalBitmap.style.SetLocation(0, 0);
-
-							InternalSetWidth(img.width);
-							InternalSetHeight(img.height);
-
-							InternalSprite.appendChild(InternalBitmap);
-						}
-					);
 				}
 			}
 		}
@@ -140,18 +131,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 		private void InternalUpdateStrech()
 		{
-			if (InternalStretch == Stretch.None)
-			{
+			if (this.InternalBitmap == null)
 				return;
-			}
 
-			if (InternalStretch == Stretch.Fill)
-			{
-				this.InternalBitmap.width = Convert.ToInt32(InternalWidthValue);
-				this.InternalBitmap.height = Convert.ToInt32(InternalHeightValue);
-
-				return;
-			}
+			this.InternalBitmap.width = Convert.ToInt32(InternalWidthValue);
+			this.InternalBitmap.height = Convert.ToInt32(InternalHeightValue);
 		}
 
 	}
