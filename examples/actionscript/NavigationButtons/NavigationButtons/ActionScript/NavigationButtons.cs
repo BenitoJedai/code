@@ -28,12 +28,6 @@ namespace NavigationButtons.ActionScript
 		static NavigationButtons()
 		{
 			KnownAndReferencedEmbeddedAssets.RegisterTo(KnownEmbeddedResources.Default.Handlers);
-
-			//// add resources to be found by ImageSource
-			//KnownEmbeddedResources.Default.Handlers.Add(
-			//    e => ScriptCoreLib.ActionScript.Avalon.TiledImageButton.Assets.Default[e]
-			//);
-
 		}
 	}
 }
