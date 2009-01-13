@@ -14,6 +14,7 @@ namespace NavigationButtons.Assets.ActionScript
 		{
 			KnownEmbeddedAssets.RegisterTo(Handlers);
 
+		
 			// assets from current assembly
 			//Handlers.Add(e => ByFileName(e));
 
