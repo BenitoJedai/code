@@ -82,6 +82,7 @@
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="InteractiveOrderingCanvas.cs" />
     <Compile Include="Shared\LinkImages.cs" />
+    <Compile Include="Shared\MyExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />

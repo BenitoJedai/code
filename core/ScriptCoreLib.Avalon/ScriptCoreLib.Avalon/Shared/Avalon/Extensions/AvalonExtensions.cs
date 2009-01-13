@@ -41,6 +41,11 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 				}
 			}
 
+			NavigateToViaDefaultBrowser(e);
+		}
+
+		private static void NavigateToViaDefaultBrowser(Uri e)
+		{
 			// http://forums.microsoft.com/MSDN/ShowPost.aspx?PostID=910999&SiteID=1
 			// http://msdn.microsoft.com/en-us/library/system.windows.documents.hyperlink.navigateuri.aspx
 			// http://msdn.microsoft.com/en-us/library/ms750478.aspx

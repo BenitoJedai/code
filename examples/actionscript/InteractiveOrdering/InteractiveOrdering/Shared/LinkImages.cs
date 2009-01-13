@@ -60,9 +60,9 @@ namespace InteractiveOrdering.Shared
 				this.Image = new Image
 				{
 					Stretch = Stretch.Fill,
-					Source = src,
 					Width = ImageWidth,
-					Height = ImageHeight
+					Height = ImageHeight,
+					Source = src,
 				}.AttachTo(this);
 
 				this.Overlay = new Rectangle
@@ -85,7 +85,7 @@ namespace InteractiveOrdering.Shared
 						}
 						else
 						{
-							href.NavigateTo();
+							href.NavigateTo(this.Container);
 						}
 					};
 			}

@@ -60,6 +60,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			InternalSprite.removeChild(_element.InternalGetDisplayObject());
 
 			InternalItems.Remove(element);
+
+			_felement.InternalParent = null;
 		}
 
 		public static implicit operator global::System.Windows.Controls.UIElementCollection(__UIElementCollection e)
