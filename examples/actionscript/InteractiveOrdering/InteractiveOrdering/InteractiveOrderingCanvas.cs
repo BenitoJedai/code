@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using ScriptCoreLib;
 using ScriptCoreLib.Shared.Avalon.Extensions;
+using ScriptCoreLib.Shared.Avalon.TextButton;
 using ScriptCoreLib.Shared.Avalon.TiledImageButton;
 using ScriptCoreLib.Shared.Lambda;
-using ScriptCoreLib.Shared.Avalon.TextButton;
+using System.Windows.Input;
+using System.Collections.Generic;
 
 namespace InteractiveOrdering.Shared
 {
@@ -553,16 +552,67 @@ namespace InteractiveOrdering.Shared
 							Select((weight, i) => new { weight = 1 - weight, i, Source = Source[i] }).
 							OrderBy(k => k.weight).Select((k, i) => new { k.weight, i, k.Source }).ToArray();
 
+						var DisposeSorted = new List<Action>();
+
+
 						foreach (var v in Sorted)
 						{
+							var k = v;
+
 							var zoom = (0.5 + v.weight * 0.5) / 2.0;
 
 							Console.WriteLine(new { v.i, zoom, v.weight }.ToString());
 
+							v.Source.ClickEnabled = false;
 							v.Source.SizeTo(zoom);
-							v.Source.MoveContainerTo(500 + Convert.ToInt32(-30 * v.i * zoom) * v.i, 100 + Convert.ToInt32(70 * v.i * zoom));
+
+							var k_x = 500 + Convert.ToInt32(-30 * v.i * zoom) * v.i;
+							var k_y = 100 + Convert.ToInt32(70 * v.i * zoom);
+
+							v.Source.MoveContainerTo(k_x, k_y);
 							v.Source.AttachContainerTo(this);
+
+
+							var k_Text = new TextBox
+							{
+								Background = Brushes.Black,
+								Width = 60,
+								Height = 22,
+								Foreground = Brushes.Yellow,
+								BorderThickness = new Thickness(0),
+								Text = "" + v.weight,
+								IsReadOnly = true
+							};
+
+
+							bool MouseEnterDisabled = false;
+							MouseEventHandler MouseEnter =
+								delegate
+								{
+									// cannot remove event from MouseEnter yet
+									if (MouseEnterDisabled)
+										return;
+
+									k.Source.BringContainerToFront();
+									k_Text.BringToFront();
+								};
+
+							k.Source.Overlay.MouseEnter += MouseEnter;
+
+							k_Text.MoveTo(k_x - 30, k_y - 11).AttachTo(this);
+
+							DisposeSorted.Add(
+								delegate
+								{
+									k.Source.OrphanizeContainer();
+
+									k_Text.Orphanize();
+
+									MouseEnterDisabled = true;
+								}
+							);
 						}
+
 						MatrixButton.BringContainerToFront();
 						MistakeMatrixButton.BringContainerToFront();
 
@@ -571,7 +621,9 @@ namespace InteractiveOrdering.Shared
 						{
 							this.Title.Text = "...";
 
-							Sorted.ForEach(k => k.Source.OrphanizeContainer());
+							DisposeSorted.ToArray().ForEach(h => h());
+
+
 							MatrixButton.OrphanizeContainer();
 							MistakeMatrixButton.OrphanizeContainer();
 							RestartButton.OrphanizeContainer();
@@ -583,7 +635,7 @@ namespace InteractiveOrdering.Shared
 					{
 						var More = Comparision.Count(k => k.WaitingForUser && k.Value == null);
 
-						this.Title.Text = "Compare images #" + (1 + Current.X) + " above and #" + (1 + Current.Y) + " below. You have " + More + " images to compare...";
+						this.Title.Text = "Compare images #" + (1 + Current.X) + " above and #" + (1 + Current.Y) + " below. You have " + More + " image pairs to compare...";
 
 
 						var X = Source[Current.X];
@@ -699,7 +751,7 @@ namespace InteractiveOrdering.Shared
 				{
 					var More = Comparision.Count(k => k.WaitingForUser && k.Value == null);
 
-					this.Title.Text = "The Matrix. You have " + More + " images to compare...";
+					this.Title.Text = "The Matrix. You have " + More + " image pairs to compare...";
 
 					#region headers
 					var o = Source.Select<LinkImages.LinkImage, Action>(
@@ -932,23 +984,30 @@ namespace InteractiveOrdering.Shared
 
 							 */
 						}
-					);
+					).OrderBy(
+						ContextMistakes =>
+						{
+							var Mistakes_Max = ContextMistakes.Max(k => k.Mistake);
+							var Mistakes_Min = ContextMistakes.Min(k => k.Mistake);
 
-					var Mistakes_Max = Mistakes.Max(k => k.Mistake);
-					var Mistakes_Min = Mistakes.Min(k => k.Mistake);
+							var Mistake_Value = Mistakes_Min;
 
-					var Mistake_Value = Mistakes_Min;
+							if (Mistakes_Max * Mistakes_Min > 1.0)
+								Mistake_Value = Mistakes_Max;
 
-					if (Mistakes_Max * Mistakes_Min > 1.0)
-						Mistake_Value = Mistakes_Max;
+							return ContextMistakes.First(k => k.Mistake == Mistake_Value);
+						}
+					).ToArray();
 
-					var Mistake_Element = Mistakes.Single(k => k.Mistake == Mistake_Value);
+					var Gradient = Colors.Red.ToGradient(Colors.Blue, Mistakes.Length).ToArray();
 
-					Title.Text = "Biggest mistake was made at " + Mistake_Element.q.ToVersusString() + ". Click on a cell to recompare.";
+
+
+					Title.Text = "Biggest mistake was made at " + Mistakes.First().q.ToVersusString() + ". Click on a cell to recompare.";
 
 
 					var v = Mistakes.Select(
-						k =>
+						(k, k_index) =>
 						{
 							var kt = new TextButtonControl
 							{
@@ -960,16 +1019,7 @@ namespace InteractiveOrdering.Shared
 							kt.AttachContainerTo(this);
 							kt.MoveContainerTo(192 + k.q.X * 60, 160 + k.q.Y * 60);
 
-							if (k == Mistake_Element)
-							{
-								kt.Background.Fill = Brushes.Red;
-								kt.Background.Opacity = 1;
-							}
-							else
-							{
-								kt.Background.Fill = Brushes.White;
-								kt.Background.Opacity = 0.3;
-							}
+							kt.Background.Fill = new SolidColorBrush(Gradient[k_index]);
 
 
 							kt.Text = k.Mistake.ToString();

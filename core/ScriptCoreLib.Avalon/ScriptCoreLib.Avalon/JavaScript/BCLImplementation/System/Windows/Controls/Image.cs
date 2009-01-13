@@ -60,13 +60,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 						InternalBitmap = img;
 						InternalBitmap.style.SetLocation(0, 0);
 
-						InternalWidthValue = img.width;
-						InternalHeightValue = img.height;
-
-						InternalSetWidth(img.width);
-						InternalSetHeight(img.height);
-
 						InternalSprite.appendChild(InternalBitmap);
+
+
+						if (!InternalWidthValueSpecified)
+							InternalWidthValue = img.width;
+
+						if (!InternalHeightValueSpecified)
+							InternalHeightValue = img.height;
+
+						InternalSetWidth(InternalWidthValue);
+						InternalSetHeight(InternalHeightValue);
 					};
 
 				if (alias != null)
@@ -111,8 +115,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			return InternalWidthValue;
 		}
 
+		bool InternalWidthValueSpecified;
+		bool InternalHeightValueSpecified;
 		public override void InternalSetHeight(double value)
 		{
+			InternalHeightValueSpecified = true;
 			InternalHeightValue = value;
 
 			InternalUpdateStrech();
@@ -122,6 +129,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 		public override void InternalSetWidth(double value)
 		{
+			InternalWidthValueSpecified = true;
 			InternalWidthValue = value;
 
 			InternalUpdateStrech();

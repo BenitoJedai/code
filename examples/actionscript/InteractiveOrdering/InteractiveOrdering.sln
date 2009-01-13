@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveOrdering", "InteractiveOrdering\InteractiveOrdering.csproj", "{80C5FD42-FCF2-4E04-909A-519E8E562906}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveOrdering.XBAP", "InteractiveOrdering.XBAP\InteractiveOrdering.XBAP.csproj", "{4C0FFA12-11AF-4672-90E0-8A3E98F4465A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveOrdering.XBAP2", "InteractiveOrdering.XBAP2\InteractiveOrdering.XBAP2.csproj", "{87F9161D-1841-4831-A3D5-32DA7F309DAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,10 @@ Global
 		{80C5FD42-FCF2-4E04-909A-519E8E562906}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80C5FD42-FCF2-4E04-909A-519E8E562906}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80C5FD42-FCF2-4E04-909A-519E8E562906}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4C0FFA12-11AF-4672-90E0-8A3E98F4465A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C0FFA12-11AF-4672-90E0-8A3E98F4465A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C0FFA12-11AF-4672-90E0-8A3E98F4465A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C0FFA12-11AF-4672-90E0-8A3E98F4465A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87F9161D-1841-4831-A3D5-32DA7F309DAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87F9161D-1841-4831-A3D5-32DA7F309DAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87F9161D-1841-4831-A3D5-32DA7F309DAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87F9161D-1841-4831-A3D5-32DA7F309DAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
