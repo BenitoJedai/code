@@ -35,6 +35,8 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 
 				if (s != null)
 				{
+					// http://social.msdn.microsoft.com/Forums/en-US/wpf/thread/6810d6f6-ea51-4efd-a9d4-f75319691a3b/
+
 					s.Navigate(e);
 
 					return;

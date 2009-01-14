@@ -173,19 +173,22 @@ namespace jsc.Languages.JavaScript.legacy
 			w.Helper.DefineTypeMemberMethodHeader(z, Invoke);
 			w.WriteBeginScope();
 
+			// we should really not trash the function parameter or local params
 			const string Local_a = "_arguments";
 			const string Local_target = "_target";
+			const string Local_i = "_i";
+			const string Local_f = "_f";
 
 			#region WriteForEach
 			Action<Action> WriteForEach = delegate(Action f)
 			{
 				w.WriteIdent();
-				w.WriteLine(string.Format("for (var i = 0; i < this.{0}.length; i++)", FieldList.Name));
+				w.WriteLine(string.Format("for (var {1} = 0; {1} < this.{0}.length; {1}++)", FieldList.Name, Local_i));
 
 				w.WriteBeginScope();
 
 				w.WriteIdent();
-				w.WriteLine(string.Format("var f = this.{0}[i];", FieldList.Name));
+				w.WriteLine(string.Format("var {2} = this.{0}[{1}];", FieldList.Name, Local_i, Local_f));
 
 				// we need to update arguments
 				#region var Local_a
@@ -210,7 +213,7 @@ namespace jsc.Languages.JavaScript.legacy
 				w.Write("if");
 
 				w.Write("(");
-				w.Write("f");
+				w.Write(Local_f);
 				w.Helper.WriteAccessor();
 				w.Write(IsExtensionMethod);
 				w.Write(")");
@@ -221,7 +224,7 @@ namespace jsc.Languages.JavaScript.legacy
 
 				w.Helper.WriteAccessor();
 				w.Write("splice(0, 0, ");
-				w.Write("f");
+				w.Write(Local_f);
 				w.Helper.WriteAccessor();
 				w.Write(FieldTarget.Name);
 				w.Write(")");
@@ -240,7 +243,7 @@ namespace jsc.Languages.JavaScript.legacy
 				w.Helper.WriteAssignment();
 
 
-				w.Write("f");
+				w.Write(Local_f);
 				w.Helper.WriteAccessor();
 				w.Write(IsExtensionMethod);
 
@@ -256,7 +259,7 @@ namespace jsc.Languages.JavaScript.legacy
 				w.Write(":");
 				w.WriteSpace();
 
-				w.Write("f");
+				w.Write(Local_f);
 				w.Helper.WriteAccessor();
 				w.Write(FieldTarget.Name);
 
@@ -272,7 +275,7 @@ namespace jsc.Languages.JavaScript.legacy
 
 				w.Write(Local_target);
 				w.Write("[");
-				w.Write("f");
+				w.Write(Local_f);
 				w.Helper.WriteAccessor();
 				w.Write(FieldMethod.Name);
 				w.Write("]");
