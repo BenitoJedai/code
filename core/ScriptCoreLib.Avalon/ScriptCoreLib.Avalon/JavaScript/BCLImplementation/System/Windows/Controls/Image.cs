@@ -36,7 +36,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			if (InternalBitmap != null)
 				return InternalBitmap;
 
-			return base.InternalGetOpacityTarget();
+			// beaware of recursion
+			return InternalGetDisplayObject();
 		}
 
 		public ImageSource Source

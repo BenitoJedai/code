@@ -185,3 +185,5 @@ version history:
 	actionscript: fixed ctor merging bug that caused a null pointer exception
 07.12.2008
 	cs2: added type indexer properties support
+14.01.2009
+	javascript: fixed ctor implementation provider from trashing parameters
