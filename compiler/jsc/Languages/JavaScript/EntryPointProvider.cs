@@ -119,7 +119,7 @@ namespace jsc.Languages.JavaScript
         {
             // xxx
 
-            foreach (var v in from i in a.GetTypes()
+            foreach (var v in from i in ScriptAttribute.FindTypes(a, ScriptType.JavaScript)
                               let s = (ScriptAttribute)i.GetCustomAttributes(typeof(ScriptAttribute), false).SingleOrDefault()
                               where s != null
                               select i)

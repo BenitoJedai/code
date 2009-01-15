@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\code.google\avalonugh\AvalonUgh\AvalonUgh.Game\bin\Release</StartWorkingDirectory>
-    <StartArguments>ScriptCoreLib.dll -as</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\php\AvalonExampleGallery.Server\bin\Debug</StartWorkingDirectory>
+    <StartArguments>AvalonExampleGallery.Server.dll -js</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
