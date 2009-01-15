@@ -73,6 +73,11 @@
       <HintPath>..\..\actionscript\FlashMouseMaze\FlashMouseMaze\bin\Debug\FlashMouseMaze.exe</HintPath>
       <Aliases>pages</Aliases>
     </Reference>
+    <Reference Include="InteractiveOrdering, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\actionscript\InteractiveOrdering\InteractiveOrdering\bin\Debug\InteractiveOrdering.exe</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
     <Reference Include="NavigationButtons.Assets, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\actionscript\NavigationButtons\NavigationButtons.Assets\bin\Debug\NavigationButtons.Assets.dll</HintPath>

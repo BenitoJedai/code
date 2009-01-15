@@ -61,6 +61,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 					InternalSprite.OrphanizeChildren();
 					InternalSprite.addChild(InternalBitmap);
+
+					InternalUpdateStrech();
 				}
 				else if (stream != null)
 				{
@@ -72,6 +74,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 							InternalSprite.OrphanizeChildren();
 							InternalSprite.addChild(InternalBitmap);
+
+							InternalUpdateStrech();
 						}
 					);
 				}
@@ -84,6 +88,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 							InternalSprite.OrphanizeChildren();
 							InternalSprite.addChild(InternalBitmap);
+
+							InternalUpdateStrech();
 						}
 					);
 				}
