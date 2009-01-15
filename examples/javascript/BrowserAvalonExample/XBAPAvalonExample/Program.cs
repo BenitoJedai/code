@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using System.Diagnostics;
 using System.Windows.Navigation;
 using BrowserAvalonExample.Code;
-
 namespace XBAPAvalonExample
 {
 	public class Program
@@ -38,7 +37,7 @@ namespace XBAPAvalonExample
 			a.Startup +=
 				delegate
 				{
-					a.MainWindow.Content = new MyCanvas();
+					a.MainWindow.Content = new BrowserAvalonExampleCanvas();
 
 				};
 		}

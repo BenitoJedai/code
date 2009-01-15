@@ -68,6 +68,11 @@
       <HintPath>..\FlashMouseMaze\FlashMouseMaze\bin\Debug\FlashMouseMaze.exe</HintPath>
       <Aliases>pages</Aliases>
     </Reference>
+    <Reference Include="InteractiveOrdering, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\InteractiveOrdering\InteractiveOrdering\bin\Debug\InteractiveOrdering.exe</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
     <Reference Include="NavigationButtons.Assets, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\NavigationButtons\NavigationButtons\bin\Debug\NavigationButtons.Assets.dll</HintPath>
@@ -163,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
+    <None Include="tools\prepare.bat" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="web\assets\AvalonExampleGallery\jsc.png" />
@@ -183,5 +189,7 @@
     <PostBuildEvent>pushd ..\..\tools\
 call build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
 popd</PostBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />
+    <EmbeddedResource Include="web\assets\InteractiveOrdering\Preview.png" />
     <EmbeddedResource Include="web\assets\InteractiveOrdering.DataSet1\0.jpg" />
     <EmbeddedResource Include="web\assets\InteractiveOrdering.DataSet1\1.jpg" />
     <EmbeddedResource Include="web\assets\InteractiveOrdering.DataSet1\2.jpg" />
@@ -105,9 +106,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="web\assets\InteractiveOrdering\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

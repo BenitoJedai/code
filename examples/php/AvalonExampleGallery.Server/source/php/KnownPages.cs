@@ -65,6 +65,9 @@ namespace ScriptApplication.source.php
 
 			c(pages::CarouselExample2.Shared.KnownAssets.Path.Assets,
 				"CarouselExample2");
+
+			c(pages::InteractiveOrdering.Shared.KnownAssets.Path.Assets,
+				"InteractiveOrdering");
 		}
 	}
 }

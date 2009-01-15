@@ -9,6 +9,8 @@ using BrowserAvalonExample.Code;
 
 namespace BrowserAvalonExample.js
 {
+	using TargetCanvas = BrowserAvalonExampleCanvas;
+
 	[Script, ScriptApplicationEntryPoint]
 	public class BrowserAvalonExample
 	{
@@ -18,7 +20,7 @@ namespace BrowserAvalonExample.js
 			var clip = new IHTMLDiv();
 
 			clip.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
-			clip.style.SetSize(MyCanvas.DefaultWidth, MyCanvas.DefaultHeight);
+			clip.style.SetSize(TargetCanvas.DefaultWidth, TargetCanvas.DefaultHeight);
 			clip.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
 
 			if (e == null)
@@ -26,7 +28,7 @@ namespace BrowserAvalonExample.js
 			else
 				e.insertPreviousSibling(clip);
 
-			AvalonExtensions.AttachToContainer(new MyCanvas(), clip);
+			AvalonExtensions.AttachToContainer(new TargetCanvas(), clip);
 
 		}
 

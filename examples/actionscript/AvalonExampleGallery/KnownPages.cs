@@ -58,6 +58,10 @@ namespace AvalonExampleGallery.Shared
 						pages::CarouselExample2.Shared.KnownAssets.Path.Assets, 
 						typeof(pages::CarouselExample2.Shared.CarouselExample2Canvas) },
 
+					{ 
+						pages::InteractiveOrdering.Shared.KnownAssets.Path.Assets, 
+						typeof(pages::InteractiveOrdering.Shared.InteractiveOrderingCanvas) },
+
 				};
 			}
 		}
