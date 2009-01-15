@@ -2851,6 +2851,16 @@
             The volume, ranging from 0 (silent) to 1 (full volume).
             </summary>
         </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.Stage.invalidate">
+            <summary>
+            Calling the invalidate() method signals Flash Player to alert display objects on the next opportunity it has to render the display list (for example, when the playhead advances to a new frame).
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.Stage.isFocusInaccessible">
+            <summary>
+            Determines whether the Stage.focus property returns null for security reasons.
+            </summary>
+        </member>
         <member name="P:ScriptCoreLib.ActionScript.flash.display.Stage.align">
             <summary>
             A value from the StageAlign class that specifies the alignment of the stage in Flash Player or the browser.
@@ -7896,6 +7906,13 @@
             [read-only] The number of frames in the scene.
             </summary>
         </member>
+        <member name="P:ScriptCoreLib.ActionScript.Extensions.KnownEmbeddedResources.Item(System.String)">
+            <summary>
+            Walks through all the Handlers and returns the first matching Class 
+            </summary>
+            <param name="e"></param>
+            <returns></returns>
+        </member>
         <member name="T:ScriptCoreLib.JavaScript.DOM.HTML.IHTMLSelect">
             <summary>
             http://www.htmlcodetutorial.com/forms/_SELECT.html
@@ -9697,6 +9714,76 @@
         <member name="P:ScriptCoreLib.ActionScript.flash.filters.ColorMatrixFilter.matrix">
             <summary>
             An array of 20 items for 4 x 5 color transform.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.LocalConnection.allowDomain(System.Object)">
+            <summary>
+            Specifies one or more domains that can send LocalConnection calls to this LocalConnection instance.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.LocalConnection.allowDomain">
+            <summary>
+            Specifies one or more domains that can send LocalConnection calls to this LocalConnection instance.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.LocalConnection.allowInsecureDomain(System.Object)">
+            <summary>
+            Specifies one or more domains that can send LocalConnection calls to this LocalConnection object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.LocalConnection.allowInsecureDomain">
+            <summary>
+            Specifies one or more domains that can send LocalConnection calls to this LocalConnection object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.LocalConnection.close">
+            <summary>
+            Closes (disconnects) a LocalConnection object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.LocalConnection.connect(System.String)">
+            <summary>
+            Prepares a LocalConnection object to receive commands from a send() command (called the sending LocalConnection object).
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.LocalConnection.send(System.String,System.String,System.Object)">
+            <summary>
+            Invokes the method named methodName on a connection opened with the connect(connectionName) method (the receiving LocalConnection object).
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.LocalConnection.send(System.String,System.String)">
+            <summary>
+            Invokes the method named methodName on a connection opened with the connect(connectionName) method (the receiving LocalConnection object).
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.LocalConnection.#ctor">
+            <summary>
+            Creates a LocalConnection object.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.LocalConnection.client">
+            <summary>
+            Indicates the object on which callback methods are invoked.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.LocalConnection.domain">
+            <summary>
+            [read-only] A string representing the domain of the location of the current file.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.net.LocalConnection.asyncError">
+            <summary>
+            Dispatched when an exception is thrown asynchronously — that is, from native asynchronous code.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.net.LocalConnection.securityError">
+            <summary>
+            Dispatched if a call to LocalConnection.send() attempts to send data to a different security sandbox.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.net.LocalConnection.status">
+            <summary>
+            Dispatched when a LocalConnection object reports its status.
             </summary>
         </member>
         <member name="P:ScriptCoreLib.JavaScript.DOM.IEvent.KeyCode">
