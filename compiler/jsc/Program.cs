@@ -120,8 +120,8 @@ namespace jsc
 					string file_dll = options.TargetAssembly.DirectoryName + @"\" + name + ".dll";
 					string file_exe = options.TargetAssembly.DirectoryName + @"\" + name + ".exe";
 
-					Console.WriteLine("looking for :" + file_dll);
-					Console.WriteLine("looking for :" + file_exe);
+					//Console.WriteLine("looking for :" + file_dll);
+					//Console.WriteLine("looking for :" + file_exe);
 
 					var x = File.Exists(file_dll) ? Assembly.LoadFile(file_dll) :
 									(File.Exists(file_exe) ? Assembly.LoadFile(file_exe) : null);

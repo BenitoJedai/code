@@ -7,6 +7,7 @@ using ScriptCoreLib.Shared;
 using ScriptCoreLib.PHP;
 using System;
 using System.Text;
+using System.IO;
 
 namespace ScriptApplication.source.php
 {
@@ -26,7 +27,7 @@ namespace ScriptApplication.source.php
 		[Script(NoDecoration = true)]
 		public static void WebPageEntry()
 		{
-
+			// http://::1/jsc/AvalonExampleGallery
 
 			Console.WriteLine("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
 			Console.WriteLine("<html>");
@@ -52,12 +53,21 @@ namespace ScriptApplication.source.php
 
 			Console.WriteLine("<body>");
 
+			var VersionXBAP = new IHTMLAnchor { URL = "AvalonExampleGallery.XBAP.xbap", Content = "XBAP Version" };
+			var VersionFlash = new IHTMLAnchor { URL = "AvalonExampleGalleryFlash.htm", Content = "Flash Version" };
+
+			if (!File.Exists(VersionXBAP.URL))
+				VersionXBAP.Content = "<s>" + VersionXBAP.Content + "</s>";
+
+			if (!File.Exists(VersionFlash.URL))
+				VersionFlash.Content = "<s>" + VersionFlash.Content + "</s>";
+
 
 			new IHTMLElement
 			{
-				Content = 
-					new IHTMLAnchor { URL = "AvalonExampleGallery.XBAP.xbap", Content = "XBAP Version" } + new IHTMLBreak()
-					+ new IHTMLAnchor { URL = "AvalonExampleGalleryFlash.htm", Content = "Flash Version" } + new IHTMLBreak()
+				Content =
+					VersionXBAP + new IHTMLBreak()
+					+ VersionFlash + new IHTMLBreak()
 					+ new IHTMLAnchor { URL = "AvalonExampleGalleryDocument.htm", Content = "JavaScript Version" } + new IHTMLBreak()
 					+ new IHTMLBreak()
 					+ new IHTMLAnchor { URL = "http://jsc.sourceforge.net", Content = "visit jsc" } + new IHTMLBreak()
