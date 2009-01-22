@@ -18,7 +18,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 		public __Image()
 		{
-			
+
 		}
 
 		public override ScriptCoreLib.ActionScript.flash.display.InteractiveObject InternalGetDisplayObject()
@@ -33,7 +33,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 			return base.InternalGetOpacityTarget();
 		}
-		
+
 		public ImageSource Source
 		{
 			get
@@ -42,7 +42,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			}
 			set
 			{
-				
+
 				__ImageSource v = value;
 
 
@@ -93,7 +93,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 						}
 					);
 				}
-				
+
 
 			}
 		}
@@ -116,8 +116,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			}
 		}
 
-		public double InternalWidthValue = 200;
-		public double InternalHeightValue = 200;
+		public bool InternalWidthAssigned;
+		public bool InternalHeightAssigned;
+		public double InternalWidthValue = 0;
+		public double InternalHeightValue = 0;
 
 		public override double InternalGetHeight()
 		{
@@ -129,9 +131,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			return InternalWidthValue;
 		}
 
-		
+
 		public override void InternalSetHeight(double value)
 		{
+			InternalHeightAssigned = true;
 			InternalHeightValue = value;
 
 			InternalUpdateStrech();
@@ -139,6 +142,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 		public override void InternalSetWidth(double value)
 		{
+			InternalWidthAssigned = true;
 			InternalWidthValue = value;
 
 			InternalUpdateStrech();
@@ -149,27 +153,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			if (this.InternalBitmap == null)
 				return;
 
-			if (InternalStretch == Stretch.None)
-			{
-				return;
-			}
 
-			if (InternalStretch == Stretch.Fill)
-			{
+			if (InternalWidthAssigned)
 				this.InternalBitmap.width = InternalWidthValue;
+
+			if (InternalHeightAssigned)
 				this.InternalBitmap.height = InternalHeightValue;
 
-				return;
-			}
 
-			if (InternalStretch == Stretch.Uniform)
-			{
-				// fixme
-				this.InternalBitmap.width = InternalWidthValue;
-				this.InternalBitmap.height = InternalHeightValue;
-
-				return;
-			}
 		}
 	}
 }
