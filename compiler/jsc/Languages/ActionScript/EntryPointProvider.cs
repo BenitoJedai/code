@@ -91,14 +91,20 @@ pluginspage="http://www.macromedia.com/go/getflashplayer">
                 using (var w = dir.CreateFile(v._Type.Name + ".GoogleGadget.xml"))
                 {
                     var xw = XmlWriter.Create(w);
+					
+					
+					//xw.Settings.NewLineOnAttributes = true;
+					//xw.Settings.NewLineHandling = NewLineHandling.Replace;
 
                     new XDocument(
                         new XElement("Module",
-                            new XElement("ModulePrefs", v._GoogleGadget.GetPropertiesAsXAttributes()),
+                            new XElement("ModulePrefs", v._GoogleGadget.GetPropertiesAsXAttributes().Where(p => p.Name != "src")),
                             new XElement("Content",
                                 new XAttribute("type", "html"),
                                 new XCData(
-                                    FlashTag(v._Type.Name + ".swf", v._GoogleGadget.width, v._GoogleGadget.height).ToString()
+                                    FlashTag(
+										(string.IsNullOrEmpty(v._GoogleGadget.src) ? v._Type.Name + ".swf" : v._GoogleGadget.src)
+										, v._GoogleGadget.width, v._GoogleGadget.height).ToString()
                                 )
                             )
                         )
