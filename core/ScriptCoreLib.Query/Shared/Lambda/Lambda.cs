@@ -11,6 +11,43 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static void MirrorTo<T>(this BindingList<T> source, BindingList<T> mirror)
+		{
+			// gee, what an overkill :)
+
+			source.ForEachNewOrExistingItem(
+				k =>
+				{
+					if (!mirror.Contains(k))
+						mirror.Add(k);
+				}
+			);
+
+			source.ForEachItemDeleted(
+				k =>
+				{
+					if (!mirror.Contains(k))
+						mirror.Remove(k);
+				}
+			);
+
+			mirror.ForEachNewOrExistingItem(
+				k =>
+				{
+					if (!source.Contains(k))
+						source.Add(k);
+				}
+			);
+
+			mirror.ForEachItemDeleted(
+				k =>
+				{
+					if (!source.Contains(k))
+						source.Remove(k);
+				}
+			);
+		}
+
 		public static IEnumerable<int> ToRange(this int Count)
 		{
 			return Enumerable.Range(0, Count);
@@ -59,6 +96,8 @@ namespace ScriptCoreLib.Shared.Lambda
 		{
 			return RandomGenerator.Next(e);
 		}
+
+		
 
 		public static string[] Split(this string e, string splitter)
 		{
@@ -703,6 +742,13 @@ namespace ScriptCoreLib.Shared.Lambda
 			}
 
 			return y;
+		}
+
+		public static int RandomIndex<T>(this IEnumerable<T> e)
+		{
+			var a = e.ToArray();
+
+			return a.Length.Random();
 		}
 
 		public static T Random<T>(this IEnumerable<T> e)

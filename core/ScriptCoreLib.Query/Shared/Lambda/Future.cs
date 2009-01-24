@@ -167,6 +167,7 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static class FutureExtensions
 	{
+		
 		/// <summary>
 		/// Returns an action to signal this event
 		/// </summary>

@@ -99,6 +99,28 @@ namespace ScriptCoreLib.Shared.Lambda
 			}
 		}
 
+		public static BindingList<T> ForEachNewOrExistingItem<T>(this BindingList<T> source, Action<T, int, Action<Action<Action>>> HandlerWithDelayedWork)
+		{
+			var LazyLoad = new FutureStream();
+
+			var LazyLoadInitialize = LazyLoad.Continue(
+				SignalNext =>
+				{
+					SignalNext();
+				}
+			);
+
+			LazyLoadInitialize();
+
+
+			return source.ForEachNewOrExistingItem(
+				(value, index) =>
+				{
+					HandlerWithDelayedWork(value, index, LazyTask => LazyLoad.Continue(LazyTask));
+				}
+			);
+		}
+
 		public static BindingList<T> ForEachNewOrExistingItem<T>(this BindingList<T> source, Action<T, int> handler)
 		{
 			source.ForEach(handler);

@@ -105,11 +105,17 @@ namespace ScriptCoreLib
         public string author_quote { get; set; }
         #endregion
 
+
+		/// <summary>
+		/// You could override flash embed source by setting this property.
+		/// </summary>
+		public string src { get; set; }
+
         public GoogleGadgetAttribute()
         {
             this.height = 240;
             this.width = 320;
-            this.scaling = true;
+            this.scaling = false;
             this.scrolling = false;
             this.singleton = true;
 
