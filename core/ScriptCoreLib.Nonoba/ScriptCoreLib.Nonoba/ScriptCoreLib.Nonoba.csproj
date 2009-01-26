@@ -60,6 +60,8 @@
     <Compile Include="ActionScript\Nonoba\api\Message.cs" />
     <Compile Include="ActionScript\Nonoba\api\NonobaAPI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\Nonoba\Generic\AvailibleAchievement.cs" />
+    <Compile Include="Shared\Nonoba\Generic\DynamicData.Composed.cs" />
     <Compile Include="Shared\Nonoba\Generic\DynamicData.cs" />
     <Compile Include="Shared\Nonoba\Generic\ServerGameSettings.cs" />
     <Compile Include="Shared\Nonoba\IAssemblyReferenceToken.cs" />

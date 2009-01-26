@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.Nonoba.Generic
 {
 	[Script]
-	public class DynamicData
+	public partial class DynamicData
 	{
 		public DynamicData Parent;
 
@@ -57,7 +57,28 @@ namespace ScriptCoreLib.Shared.Nonoba.Generic
 			}
 		}
 
+		public int ValueInt32
+		{
+			get
+			{
+				var value = 0;
 
+				try
+				{
+					value = int.Parse(this.Value);
+				}
+				catch
+				{
+
+				}
+
+				return value;
+			}
+			set
+			{
+				this.Value = "" + value;
+			}
+		}
 
 		public DynamicData this[int index]
 		{
