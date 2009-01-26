@@ -43,7 +43,7 @@
     </Reference>
     <Reference Include="ScriptCoreLib.Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Net.dll</HintPath>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Net.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Query, Version=3.5.3144.38456, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
