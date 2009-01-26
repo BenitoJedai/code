@@ -20,6 +20,7 @@ call :build core\ScriptCoreLibJava.jni\ScriptCoreLibJava.jni.sln
 
 call :build core\jsc.server\jsc.server.sln
 call :build core\ScriptCoreLib\ScriptCoreLib.sln
+call :build core\ScriptCoreLib.Net\ScriptCoreLib.Net.sln
 call :build core\ScriptCoreLib.Query\ScriptCoreLib.Query.sln
 call :build core\ScriptCoreLib.XLinq\ScriptCoreLib.XLinq.sln
 call :build core\ScriptCoreLib.Cards\ScriptCoreLib.Cards.sln
