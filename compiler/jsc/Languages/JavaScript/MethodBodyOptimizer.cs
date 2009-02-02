@@ -164,7 +164,10 @@ namespace jsc.Languages.JavaScript
 
                 // validate that the local variable is the same
 
-                ILInstruction _3 = _2.Instruction.StackBeforeStrict[0].SingleStackInstruction;
+				if (_2.Instruction.StackBeforeStrict.Length == 0)
+					goto skip;
+
+				ILInstruction _3 = _2.Instruction.StackBeforeStrict[0].SingleStackInstruction;
 
                 if (!_3.IsLoadLocal)
                     goto skip;
