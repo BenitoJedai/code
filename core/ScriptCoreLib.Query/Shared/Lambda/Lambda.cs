@@ -97,11 +97,11 @@ namespace ScriptCoreLib.Shared.Lambda
 			return RandomGenerator.Next(e);
 		}
 
-		
+
 
 		public static string[] Split(this string e, string splitter)
 		{
-			return e.Split(new [] {splitter }, StringSplitOptions.None);
+			return e.Split(new[] { splitter }, StringSplitOptions.None);
 
 		}
 		public static string[] Split(this string e, Func<string, bool> IsSplit)
@@ -659,6 +659,12 @@ namespace ScriptCoreLib.Shared.Lambda
 		{
 			return (ix, iy) => f(ix + x, iy + y);
 		}
+
+
+		public static Func<int, int, T> With<T>(this Func<int, int, T> f, Func<int, int> fx, Func<int, int> fy)
+		{
+			return (ix, iy) => f(fx(ix), fy(iy));
+		}
 	}
 
 	[Script]
@@ -782,7 +788,7 @@ namespace ScriptCoreLib.Shared.Lambda
 				x *= v;
 			}
 
-			return Math.Pow(x, 1.0 / c); 
+			return Math.Pow(x, 1.0 / c);
 		}
 
 		/// <summary>
@@ -797,7 +803,7 @@ namespace ScriptCoreLib.Shared.Lambda
 			// http://dada.perl.it/shootout/matrix.html
 			// http://dada.perl.it/shootout/csharp_allsrc.html
 			// http://office.microsoft.com/en-us/excel/HP052091811033.aspx
-			
+
 			if (x.Length != y.Length)
 				throw new Exception();
 
