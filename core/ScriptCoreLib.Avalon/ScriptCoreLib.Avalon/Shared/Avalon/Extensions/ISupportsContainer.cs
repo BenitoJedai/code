@@ -92,6 +92,15 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			return e;
 		}
 
+		public static BindingList<T> AttachToFrameworkElement<T>(this BindingList<T> e, IAddChild c)
+		where T : FrameworkElement
+		{
+			e.ForEachNewOrExistingItem(k => k.AttachTo(c));
+			e.ForEachItemDeleted(k => k.Orphanize());
+
+			return e;
+		}
+
 		public static T BringContainerToFront<T>(this T e)
 			where T : ISupportsContainer
 		{
