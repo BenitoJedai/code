@@ -216,6 +216,17 @@ namespace ScriptCoreLib.Shared.Lambda
 			e.Add(value.Key, value.Value);
 		}
 
+
+		public static U DistinctAddTo<U, T>(this U e, IList<T> a) where U : T
+		{
+			if (a.Contains(e))
+				return e;
+
+			a.Add(e);
+
+			return e;
+		}
+
 		public static U AddTo<U, T>(this U e, IList<T> a) where U : T
 		{
 			a.Add(e);
