@@ -101,7 +101,8 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			return e;
 		}
 
-		public static void AttachTo<T, F>(this BindingList<T> a, Func<T, BindingList<F>> selector, Func<F, FrameworkElement> GetFrameworkElement, IAddChild c)
+		public static void AttachTo<T, F>(this BindingList<T> a, Func<T, BindingList<F>> selector, IAddChild c)
+			where F : ISupportsContainer
 		{
 			var ea = a.WithEvents();
 			var cache = new List<BindingListWithEvents<F>>();
@@ -114,16 +115,16 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 					x.Added +=
 						(k, j) =>
 						{
-							GetFrameworkElement(k).AttachTo(c);
+							k.AttachContainerTo(c);
 						};
 
 					x.Removed +=
 						(k, j) =>
 						{
-							GetFrameworkElement(k).Orphanize();
+							(k).OrphanizeContainer();
 						};
 
-					x.Source.ForEach(k => GetFrameworkElement(k).AttachTo(c));
+					x.Source.ForEach(k => (k).AttachContainerTo(c));
 
 					cache.Add(x);
 				};
@@ -133,7 +134,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 				{
 					var x = cache[i];
 
-					x.Source.ForEach(k => GetFrameworkElement(k).Orphanize());
+					x.Source.ForEach(k => (k).OrphanizeContainer());
 
 					cache.RemoveAt(i);
 
@@ -285,6 +286,17 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 		}
 
 		public static T MoveContainerTo<T>(this T e, int x, int y)
+			where T : ISupportsContainer
+		{
+			var c = e.Container;
+
+			Canvas.SetLeft(c, x);
+			Canvas.SetTop(c, y);
+
+			return e;
+		}
+
+		public static T MoveContainerTo<T>(this T e, double x, double y)
 			where T : ISupportsContainer
 		{
 			var c = e.Container;
