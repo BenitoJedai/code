@@ -107,7 +107,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			var ea = a.WithEvents();
 			var cache = new List<BindingListWithEvents<F>>();
 
-			ea.Added +=
+			Action<T, int> Added =
 				(n, i) =>
 				{
 					var x = selector(n).WithEvents();
@@ -129,6 +129,8 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 					cache.Add(x);
 				};
 
+			ea.Added += Added;
+				
 			ea.Removed +=
 				(n, i) =>
 				{
@@ -140,6 +142,8 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 
 					x.Dispose();
 				};
+
+			a.ForEach(Added);
 		}
 
 		public static T BringContainerToFront<T>(this T e)
