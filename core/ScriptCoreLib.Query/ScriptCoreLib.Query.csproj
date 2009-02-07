@@ -70,6 +70,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Func.cs" />
     <Compile Include="PHP\BCLImplementation\System\Func.cs" />
     <Compile Include="JavaScript\Extensions\QueryExtensions.cs" />
+    <Compile Include="Shared\Lambda\BindingListWithEvents.cs" />
     <Compile Include="Shared\Lambda\Lambda.ToFlaggable.cs" />
     <Compile Include="Shared\Lambda\Lambda.FixParam.cs" />
     <Compile Include="Shared\Lambda\Lambda.ForEach.cs" />

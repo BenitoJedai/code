@@ -241,6 +241,14 @@ namespace ScriptCoreLib.Shared.Lambda
 			return e;
 		}
 
+		public static void RemoveAll<T>(this IList<T> e)
+		{
+			foreach (var x in e.ToArray())
+			{
+				e.Remove(x);
+			}
+		}
+
 		/// <summary>
 		/// Returns an action when raised call the filter to decide if to raise the source event
 		/// </summary>
