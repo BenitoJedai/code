@@ -159,7 +159,6 @@ namespace ScriptCoreLib.Shared.Lambda
 			return source;
 		}
 
-
 		public static BindingList<T> ForEachItemDeleted<T>(this BindingList<T> source, Action<T> handler)
 		{
 			var cache = new List<T>();
@@ -188,6 +187,11 @@ namespace ScriptCoreLib.Shared.Lambda
 			return source;
 		}
 
+	
+		public static BindingListWithEvents<T> WithEvents<T>(this BindingList<T> source)
+		{
+			return new BindingListWithEvents<T>(source);
+		}
 
 		public static BindingList<T> ForEachItemDeleted<T>(this BindingList<T> source, Action<T, Action> handler)
 		{

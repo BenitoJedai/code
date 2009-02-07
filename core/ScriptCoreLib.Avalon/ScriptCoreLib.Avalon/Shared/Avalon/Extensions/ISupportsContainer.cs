@@ -57,7 +57,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			return e;
 		}
 
-		public static BindingList<T> AttachTo<T>(this BindingList<T> e,  Func<IAddChild> GetContainer)
+		public static BindingList<T> AttachTo<T>(this BindingList<T> e, Func<IAddChild> GetContainer)
 			where T : ISupportsContainer
 		{
 			e.ForEachNewOrExistingItem(
@@ -99,6 +99,46 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			e.ForEachItemDeleted(k => k.Orphanize());
 
 			return e;
+		}
+
+		public static void AttachTo<T, F>(this BindingList<T> a, Func<T, BindingList<F>> selector, Func<F, FrameworkElement> GetFrameworkElement, IAddChild c)
+		{
+			var ea = a.WithEvents();
+			var cache = new List<BindingListWithEvents<F>>();
+
+			ea.Added +=
+				(n, i) =>
+				{
+					var x = selector(n).WithEvents();
+
+					x.Added +=
+						(k, j) =>
+						{
+							GetFrameworkElement(k).AttachTo(c);
+						};
+
+					x.Removed +=
+						(k, j) =>
+						{
+							GetFrameworkElement(k).Orphanize();
+						};
+
+					x.Source.ForEach(k => GetFrameworkElement(k).AttachTo(c));
+
+					cache.Add(x);
+				};
+
+			ea.Removed +=
+				(n, i) =>
+				{
+					var x = cache[i];
+
+					x.Source.ForEach(k => GetFrameworkElement(k).Orphanize());
+
+					cache.RemoveAt(i);
+
+					x.Dispose();
+				};
 		}
 
 		public static T BringContainerToFront<T>(this T e)
