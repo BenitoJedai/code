@@ -365,6 +365,9 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 		public static T OrphanizeContainer<T>(this T e)
 			where T : ISupportsContainer
 		{
+			if (e == null)
+				return e;
+
 			e.Container.Orphanize();
 
 			return e;
