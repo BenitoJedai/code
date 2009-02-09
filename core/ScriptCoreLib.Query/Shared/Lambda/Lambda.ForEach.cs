@@ -187,7 +187,49 @@ namespace ScriptCoreLib.Shared.Lambda
 			return source;
 		}
 
-	
+		public static BindingListWithEvents<T> WithEvents<T>(this BindingList<T> source, Func<T, Action> handler)
+		{
+			return source.WithEvents(
+				(value, index) =>
+				{
+					var h = handler(value);
+
+					return
+						delegate
+						{
+							h();
+						};
+				}
+			);
+		}
+
+		public static BindingListWithEvents<T> WithEvents<T>(this BindingList<T> source, Func<T, int, Action<T, int>> handler)
+		{
+			var e = source.WithEvents();
+			var c = new List<Action<T, int>>();
+
+			Action<T, int> Added =
+				(value, index) =>
+				{
+					c.Add(handler(value, index));
+				};
+
+			e.Added += Added;
+
+			e.Removed +=
+				(value, index) =>
+				{
+					var h = c[index];
+					c.RemoveAt(index);
+					h(value, index);
+				};
+
+			source.ForEach(Added);
+			
+			return e;
+		}
+
+
 		public static BindingListWithEvents<T> WithEvents<T>(this BindingList<T> source)
 		{
 			return new BindingListWithEvents<T>(source);
