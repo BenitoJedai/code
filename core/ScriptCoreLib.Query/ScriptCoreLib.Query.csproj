@@ -76,6 +76,7 @@
     <Compile Include="Shared\Lambda\Lambda.ForEach.cs" />
     <Compile Include="Shared\Lambda\CyclicEnumerator.cs" />
     <Compile Include="Shared\Lambda\Future.cs" />
+    <Compile Include="Shared\Lambda\PackedInt32.cs" />
     <Compile Include="Shared\Query\Enumerable.Methods.cs" />
     <Compile Include="Shared\Query\Enumerable.OrderBy.cs" />
     <Compile Include="Shared\Query\Enumerable.Range.cs" />
