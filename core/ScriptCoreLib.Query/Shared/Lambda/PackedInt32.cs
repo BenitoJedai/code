@@ -21,6 +21,10 @@ namespace ScriptCoreLib.Shared.Lambda
 			this.Value = 0;
 		}
 
+		public void Pop()
+		{
+			this.Value = this.Value >> this.BitsPerElement;
+		}
 		
 		public uint Value
 		{
