@@ -16,6 +16,9 @@ namespace ScriptCoreLib.Shared.Lambda
 		{
 			this.BitsPerElement = BitsPerElement;
 			this.Elements = new uint[Convert.ToInt32(Math.Floor(32.0 / BitsPerElement))];
+			
+			// actionscript does not init the array to zero?
+			this.Value = 0;
 		}
 
 		

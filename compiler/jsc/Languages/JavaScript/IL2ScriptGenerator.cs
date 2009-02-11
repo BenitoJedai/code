@@ -221,6 +221,7 @@ namespace jsc
 			Handlers[OpCodes.Ldelem_Ref,
 				OpCodes.Ldelem_U1,
 				OpCodes.Ldelem_U2,
+				OpCodes.Ldelem_U4,
 				OpCodes.Ldelem_I1,
 				OpCodes.Ldelem_I4,
 				OpCodes.Ldelem_R8,

@@ -2546,6 +2546,7 @@ namespace jsc
 					OpCodes.Ldelem_I1,
 					OpCodes.Ldelem_I2,
 					OpCodes.Ldelem_I4,
+					OpCodes.Ldelem_U4,
 					OpCodes.Ldelem_I8,
 					OpCodes.Ldelem_R4,
 					OpCodes.Ldelem_R8,

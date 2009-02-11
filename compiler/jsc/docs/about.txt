@@ -189,3 +189,5 @@ version history:
 	javascript: fixed ctor implementation provider from trashing parameters
 15.01.2009
 	javascript: fixed EntryPoint html document generation for non javascript entrypoints
+11.02.2009
+	javascript: added ldelem.u4
