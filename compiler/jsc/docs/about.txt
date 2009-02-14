@@ -191,3 +191,5 @@ version history:
 	javascript: fixed EntryPoint html document generation for non javascript entrypoints
 11.02.2009
 	javascript: added ldelem.u4
+14.02.2009
+	jsc: local variable was wrongfully ommited when looking for catch variables
