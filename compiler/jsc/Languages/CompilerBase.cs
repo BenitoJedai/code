@@ -1009,6 +1009,7 @@ namespace jsc.Script
 					}
 
 					if (var.Block.IsHandlerBlock)
+						if (var.Block.Clause.Flags != ExceptionHandlingClauseOptions.Finally)
 					{
 						ILBlock.Prestatement set_exc = var.Block.Prestatements.PrestatementCommands[0];
 

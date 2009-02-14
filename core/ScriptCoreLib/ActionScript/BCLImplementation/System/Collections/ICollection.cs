@@ -23,14 +23,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections
 		// Returns:
 		//     true if access to the System.Collections.ICollection is synchronized (thread
 		//     safe); otherwise, false.
-		bool IsSynchronized { get; }
+		//bool IsSynchronized { get; }
 		//
 		// Summary:
 		//     Gets an object that can be used to synchronize access to the System.Collections.ICollection.
 		//
 		// Returns:
 		//     An object that can be used to synchronize access to the System.Collections.ICollection.
-		object SyncRoot { get; }
+		//object SyncRoot { get; }
 
 		// Summary:
 		//     Copies the elements of the System.Collections.ICollection to an System.Array,
@@ -61,6 +61,6 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections
 		//   System.ArgumentException:
 		//     The type of the source System.Collections.ICollection cannot be cast automatically
 		//     to the type of the destination array.
-		void CopyTo(global::System.Array array, int index);
+		//void CopyTo(global::System.Array array, int index);
 	}
 }

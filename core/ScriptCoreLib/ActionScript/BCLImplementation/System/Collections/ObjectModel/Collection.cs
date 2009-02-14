@@ -264,32 +264,32 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Object
 
 		}
 
-		void __ICollection.CopyTo(global::System.Array array, int index)
-		{
+		//void __ICollection.CopyTo(global::System.Array array, int index)
+		//{
 
-			throw new NotImplementedException();
-
-
-		}
+		//    throw new NotImplementedException();
 
 
-		object __ICollection.SyncRoot
-		{
-			get
-			{
-				throw new NotImplementedException();
-
-			}
-		}
+		//}
 
 
-		bool __ICollection.IsSynchronized
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+		//object __ICollection.SyncRoot
+		//{
+		//    get
+		//    {
+		//        throw new NotImplementedException();
+
+		//    }
+		//}
+
+
+		//bool __ICollection.IsSynchronized
+		//{
+		//    get
+		//    {
+		//        throw new NotImplementedException();
+		//    }
+		//}
 
 		
  
