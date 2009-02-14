@@ -11,6 +11,24 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static int IndexOf<T>(this IEnumerable<T> source, Func<T, bool> filter)
+		{
+			var c = -1;
+			var i = -1;
+			foreach (var item in source.AsEnumerable())
+			{
+				i++;
+
+				if (filter(item))
+				{
+					c = i;
+					break;
+				}
+			}
+
+			return c;
+		}
+
 		public static void MirrorTo<T>(this BindingList<T> source, BindingList<T> mirror)
 		{
 			// gee, what an overkill :)

@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
+using ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.ObjectModel;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.ComponentModel
 {
     [Script(Implements = typeof(global::System.ComponentModel.BindingList<>))]
-    internal class __BindingList<T> : Collections.ObjectModel.__Collection<T>, __IBindingList
+    internal class __BindingList<T> : __Collection<T>, __IBindingList
     {
         public __BindingList()
         {
@@ -88,10 +89,33 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.ComponentModel
             this.FireListChanged(ListChangedType.ItemDeleted, index);
         }
 
- 
-
- 
 
 
-    }
+
+
+
+
+		#region __ICollection Members
+
+
+		public bool IsSynchronized
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		public object SyncRoot
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		public void CopyTo(global::System.Array array, int index)
+		{
+			throw new NotImplementedException();
+		}
+
+		#endregion
+
+	
+
+	}
 }

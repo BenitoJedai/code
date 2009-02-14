@@ -7,7 +7,7 @@ using System.Collections;
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections
 {
     [Script(Implements = typeof(IList))]
-    public interface __IList : ICollection, IEnumerable
+    internal interface __IList : __ICollection, __IEnumerable
     {
         // Summary:
         //     Gets a value indicating whether the System.Collections.IList has a fixed
