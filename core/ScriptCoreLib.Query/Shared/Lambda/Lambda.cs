@@ -11,6 +11,14 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		public static void Dispose(this IDisposable[] e)
+		{
+			foreach (var i in e)
+			{
+				i.Dispose();
+			}
+		}
+
 		public static int IndexOf<T>(this IEnumerable<T> source, Func<T, bool> filter)
 		{
 			var c = -1;

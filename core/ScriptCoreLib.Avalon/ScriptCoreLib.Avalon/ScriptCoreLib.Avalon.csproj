@@ -199,6 +199,7 @@
     <Compile Include="Shared\Avalon\Extensions\AvalonExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\Avalon\Extensions\AvalonSharedExtensions.cs" />
+    <Compile Include="Shared\Avalon\Extensions\AvalonSharedExtensions.Timers.cs" />
     <Compile Include="Shared\Avalon\Extensions\DelayedMouseEvents.cs" />
     <Compile Include="Shared\Avalon\Extensions\FadeExtensions.cs" />
     <Compile Include="Shared\Avalon\Extensions\ISupportsContainer.cs" />

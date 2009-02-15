@@ -15,7 +15,7 @@ using System.IO;
 namespace ScriptCoreLib.Shared.Avalon.Extensions
 {
 	[Script]
-	public static class AvalonSharedExtensions
+	public static partial class AvalonSharedExtensions
 	{
 		public static int ReadLines(this StringReader s, Action<string, int> h)
 		{
@@ -256,64 +256,8 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			return new SolidColorBrush { Color = color };
 		}
 
-		public static DispatcherTimer AtDelay(this int Milliseconds, Action Handler)
-		{
-			if (Handler == null)
-				return null;
 
-			var t = default(DispatcherTimer);
-
-			t = Milliseconds.AtInterval(
-				delegate
-				{
-					Handler();
-
-					t.Stop();
-				}
-			);
-
-			return t;
-		}
-
-		public static DispatcherTimer AtIntervalWithTimer(this int Milliseconds, Action<DispatcherTimer> Handler)
-		{
-			var t = new DispatcherTimer
-			{
-				Interval = TimeSpan.FromMilliseconds(Milliseconds)
-			};
-
-			t.Tick +=
-				delegate
-				{
-					Handler(t);
-				};
-
-			t.Start();
-
-			return t;
-		}
-
-		public static DispatcherTimer AtIntervalWithCounter(this int Milliseconds, Action<int> Handler)
-		{
-			var t = new DispatcherTimer
-			{
-				Interval = TimeSpan.FromMilliseconds(Milliseconds)
-			};
-
-			int Counter = 0;
-
-			t.Tick +=
-				delegate
-				{
-					Handler(Counter);
-
-					Counter++;
-				};
-
-			t.Start();
-
-			return t;
-		}
+	
 
 		public static void AtInterval(this Action handler, Func<int> GetMilliseconds)
 		{
@@ -332,23 +276,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			}
 		}
 
-		public static DispatcherTimer AtInterval(this int Milliseconds, Action Handler)
-		{
-			var t = new DispatcherTimer
-			{
-				Interval = TimeSpan.FromMilliseconds(Milliseconds)
-			};
 
-			t.Tick +=
-				delegate
-				{
-					Handler();
-				};
-
-			t.Start();
-
-			return t;
-		}
 
 
 	}
