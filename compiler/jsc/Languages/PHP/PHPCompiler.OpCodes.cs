@@ -44,6 +44,7 @@ namespace jsc.Script.PHP
 				OpCodes.Unbox_Any,
 				OpCodes.Pop,
 				OpCodes.Conv_I4,
+				OpCodes.Conv_U1,
 				OpCodes.Conv_U2,
 				OpCodes.Conv_R8] = CodeEmitArgs.DelegateEmitFirstOnStack;
 
