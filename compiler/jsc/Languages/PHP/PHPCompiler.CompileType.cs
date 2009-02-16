@@ -61,12 +61,12 @@ namespace jsc.Script.PHP
 
 						//WriteTypeVirtualMethods(z, za);
 
-						//if (!z.IsInterface)
-						//{
-						//    WriteInterfaceMappingMethods(z);
-						//}
+						if (!z.IsInterface)
+						{
+							WriteInterfaceMappingMethods(z);
+						}
 
-						//WriteVirtualMethodOverrides(z);
+						WriteVirtualMethodOverrides(z);
 
 
 					}
