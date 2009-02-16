@@ -59,7 +59,15 @@ namespace jsc.Script.PHP
 						WriteTypeInstanceConstructors(z);
 						WriteTypeInstanceMethods(z, za);
 
-						WriteTypeVirtualMethods(z, za);
+						//WriteTypeVirtualMethods(z, za);
+
+						//if (!z.IsInterface)
+						//{
+						//    WriteInterfaceMappingMethods(z);
+						//}
+
+						//WriteVirtualMethodOverrides(z);
+
 
 					}
 				}
