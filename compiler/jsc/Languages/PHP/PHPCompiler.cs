@@ -13,36 +13,36 @@ using ScriptCoreLib;
 namespace jsc.Script.PHP
 {
 
-    partial class PHPCompiler : jsc.Script.CompilerCLike
-    {
-        public static string FileExtension = "php";
+	partial class PHPCompiler : jsc.Script.CompilerCLike
+	{
+		public static string FileExtension = "php";
 
-        public override ScriptType GetScriptType()
-        {
-            return ScriptType.PHP;
-        }
-
-
-
-
-        public readonly AssamblyTypeInfo MySession;
-
-        public PHPCompiler(TextWriter xw, AssamblyTypeInfo xs)
-            : base(xw)
-        {
-
-            MySession = xs;
-            CreateInstructionHandlers();
-
-        }
+		public override ScriptType GetScriptType()
+		{
+			return ScriptType.PHP;
+		}
 
 
 
 
-        private void WriteTypeStaticAccessor()
-        {
-            Write("::");
-        }
+		public readonly AssamblyTypeInfo MySession;
+
+		public PHPCompiler(TextWriter xw, AssamblyTypeInfo xs)
+			: base(xw)
+		{
+
+			MySession = xs;
+			CreateInstructionHandlers();
+
+		}
+
+
+
+
+		private void WriteTypeStaticAccessor()
+		{
+			Write("::");
+		}
 
 
 
@@ -53,60 +53,56 @@ namespace jsc.Script.PHP
 			return MySession.ResolveImplementation(t);
 		}
 
-        public override MethodBase ResolveImplementationMethod(Type t, MethodBase m)
-        {
-            return MySession.ResolveImplementation(t, m); ;
-        }
+		public override MethodBase ResolveImplementationMethod(Type t, MethodBase m)
+		{
+			return MySession.ResolveImplementation(t, m); ;
+		}
 
-        public override MethodBase ResolveImplementationMethod(Type t, MethodBase m, string alias)
-        {
-            return MySession.ResolveMethod(m, t, alias); ;
+		public override MethodBase ResolveImplementationMethod(Type t, MethodBase m, string alias)
+		{
+			return MySession.ResolveMethod(m, t, alias); ;
 
-        }
-
-
-        public override void WriteExceptionVar()
-        {
-            Write("$__exc");
-        }
+		}
 
 
-
-        public void WriteDecoratedField(FieldInfo z, bool p)
-        {
-            if (p)
-                Write("$");
-
-            bool noDec = false;
-
-            if (z.DeclaringType.IsSerializable)
-                noDec = true;
-
-            ScriptAttribute sa = ScriptAttribute.Of(z.DeclaringType, false);
-
-            if (sa != null && sa.HasNoPrototype)
-                noDec = true;
-
-            // instance members do not clash, nor should they be redefined
-
-            if (!z.IsStatic)
-                noDec = true;
-
-            if (noDec)
-            {
-                
-                WriteSafeLiteral(z.Name);
-            }
-            else
-            {
-                WriteDecoratedFieldVerified(z);
-            }
-
-        }
+		public override void WriteExceptionVar()
+		{
+			Write("$__exc");
+		}
 
 
 
-        
+		public void WriteDecoratedField(FieldInfo z, bool p)
+		{
+			if (p)
+				Write("$");
+
+			bool noDec = false;
+
+			if (z.DeclaringType.IsSerializable)
+				noDec = true;
+
+			ScriptAttribute sa = ScriptAttribute.Of(z.DeclaringType, false);
+
+			if (sa != null && sa.HasNoPrototype)
+				noDec = true;
+
+			// instance members do not clash, nor should they be redefined
+
+			if (!z.IsStatic)
+				noDec = true;
+
+			if (noDec)
+			{
+
+				WriteSafeLiteral(z.Name);
+			}
+			else
+			{
+				WriteDecoratedFieldVerified(z);
+			}
+
+		}
 
 
 
@@ -114,99 +110,103 @@ namespace jsc.Script.PHP
 
 
 
-        public override void WriteMethodCallVerified(ILBlock.Prestatement p, ILInstruction i, MethodBase m)
-        {
-            try
-            {
-                bool bBase = false;
 
-                if (m.IsConstructor)
-                {
+
+
+
+		public override void WriteMethodCallVerified(ILBlock.Prestatement p, ILInstruction i, MethodBase m)
+		{
+			try
+			{
+				bool bBase = false;
+
+				if (m.IsConstructor)
+				{
 					var _BaseType = i.OwnerMethod.DeclaringType.BaseType;
 					_BaseType = ResolveImplementation(_BaseType) ?? _BaseType;
 
 					if (m.DeclaringType == _BaseType)
-                    {
+					{
 
-                        bBase = true;
-                    }
-                    else
-                        Break("If it was a native constructor, it should be remapped via InternalConstructor attribute.Cannot call constructor : " + m + " used at " + i.OwnerMethod.DeclaringType.FullName + "." + i.OwnerMethod.Name + ".");
-                }
+						bBase = true;
+					}
+					else
+						Break("If it was a native constructor, it should be remapped via InternalConstructor attribute.Cannot call constructor : " + m + " used at " + i.OwnerMethod.DeclaringType.FullName + "." + i.OwnerMethod.Name + ".");
+				}
 
-                ScriptAttribute ma = ScriptAttribute.OfProvider(m);
-                bool dStatic = ma != null && ma.DefineAsStatic;
+				ScriptAttribute ma = ScriptAttribute.OfProvider(m);
+				bool dStatic = ma != null && ma.DefineAsStatic;
 
 
 
-                ILFlow.StackItem[] s = i == null ? null : i.StackBeforeStrict;
+				ILFlow.StackItem[] s = i == null ? null : i.StackBeforeStrict;
 
-                int offset = 1;
+				int offset = 1;
 
 
 
-                if (m.IsStatic || dStatic || bBase)
-                {
-                    if (bBase)
-                    {
-                        WriteTypeBaseType();
-                        Write("::");
+				if (m.IsStatic || dStatic || bBase)
+				{
+					if (bBase)
+					{
+						WriteTypeBaseType();
+						Write("::");
 
-                    }
+					}
 
 
 
-                    offset = !m.IsStatic && (dStatic || bBase) ? 1 : 0;
+					offset = !m.IsStatic && (dStatic || bBase) ? 1 : 0;
 
-                }
-                else
-                {
+				}
+				else
+				{
 
 
-                    Emit(p, s[0]);
+					Emit(p, s[0]);
 
-                    Write("->");
-                }
+					Write("->");
+				}
 
 
-                WriteMethodName(m);
-                WriteParameterInfoFromStack(m, p, s, offset);
-            }
-            catch
-            {
-                Break("cannot write method call");
-            }
-        }
+				WriteMethodName(m);
+				WriteParameterInfoFromStack(m, p, s, offset);
+			}
+			catch
+			{
+				Break("cannot write method call");
+			}
+		}
 
-        private void WriteTypeBaseType()
-        {
-            Write("parent");
-        }
+		private void WriteTypeBaseType()
+		{
+			Write("parent");
+		}
 
-        public override void WriteNativeNoExceptionMethodName(MethodBase m)
-        {
-            Write("@");
+		public override void WriteNativeNoExceptionMethodName(MethodBase m)
+		{
+			Write("@");
 
-            base.WriteNativeNoExceptionMethodName(m);
-        }
+			base.WriteNativeNoExceptionMethodName(m);
+		}
 
-        private void WriteMethodName(MethodBase m)
-        {
+		private void WriteMethodName(MethodBase m)
+		{
 
 
-            if (m.IsConstructor)
-                Write("__construct");
-            else
-            {
-                if (IsToStringMethod(m))
-                {
-                    Write("__toString");
-                }
-                else
-                    WriteDecoratedMethodName(m, false);
-            }
+			if (m.IsConstructor)
+				Write("__construct");
+			else
+			{
+				if (IsToStringMethod(m))
+				{
+					Write("__toString");
+				}
+				else
+					WriteDecoratedMethodName(m, false);
+			}
 
-        }
+		}
 
 
 
@@ -219,317 +219,327 @@ namespace jsc.Script.PHP
 
 
 
-        public override Type[] GetActiveTypes()
-        {
-            return MySession.Types;
-        }
+		public override Type[] GetActiveTypes()
+		{
+			return MySession.Types;
+		}
 
-        TypeInfo[] ActiveTypes
-        {
-            get
-            {
-                List<TypeInfo> u = new List<TypeInfo>();
+		TypeInfo[] ActiveTypes
+		{
+			get
+			{
+				List<TypeInfo> u = new List<TypeInfo>();
 
-                foreach (Type z in MySession.Types)
-                {
-                    TypeInfo v = TypeInfoOf(z);
+				foreach (Type z in MySession.Types)
+				{
+					TypeInfo v = TypeInfoOf(z);
 
-                    u.Add(v);
-                }
+					u.Add(v);
+				}
 
-                return u.ToArray();
-            }
-        }
+				return u.ToArray();
+			}
+		}
 
-        public static TypeInfo TypeInfoOf(Type z)
-        {
-            TypeInfo v = new TypeInfo(z);
+		public static TypeInfo TypeInfoOf(Type z)
+		{
+			TypeInfo v = new TypeInfo(z);
 
-            v.TargetFileNameHandler = delegate(TypeInfo a)
-            {
-                return "inc/" + a.AssamblyFileName + "/class." + a.Win32TypeName + ".php";
-            };
+			v.TargetFileNameHandler = delegate(TypeInfo a)
+			{
+				return "inc/" + a.AssamblyFileName + "/class." + a.Win32TypeName + ".php";
+			};
 
-            return v;
-        }
+			return v;
+		}
 
 
 
 
-        /// <summary>
-        /// compiles the main file for the assambly, also compile web/inc/*.dll/class.*.php multithreaded
-        /// </summary>
-        public void Compile(CompileSessionInfo sinfo)
-        {
+		/// <summary>
+		/// compiles the main file for the assambly, also compile web/inc/*.dll/class.*.php multithreaded
+		/// </summary>
+		public void Compile(CompileSessionInfo sinfo)
+		{
 
-            DirectoryInfo web = new DirectoryInfo("web");
+			DirectoryInfo web = new DirectoryInfo("web");
 
-            DirectoryInfo u = web.CreateSubdirectory("inc");
+			DirectoryInfo u = web.CreateSubdirectory("inc");
 
 
-            WriteLine("<?");
+			WriteLine("<?");
 
-            Helper.WorkPool n = new Helper.WorkPool();
+			Helper.WorkPool n = new Helper.WorkPool();
 
-            n.IsThreaded = !Debugger.IsAttached;
+			n.IsThreaded = !Debugger.IsAttached;
 
-            List<TypeInfo> req = new List<TypeInfo>();
+			List<TypeInfo> req = new List<TypeInfo>();
 
-            using (new Helper.ConsoleStopper("php type compiler"))
-            {
-                 n.ForEach(ActiveTypes,
-                    delegate(TypeInfo z)
-                    {
-                        CompilerBase c = new Script.PHP.PHPCompiler(new StringWriter(), this.MySession);
+			using (new Helper.ConsoleStopper("php type compiler"))
+			{
+				n.ForEach(ActiveTypes,
+				   delegate(TypeInfo z)
+				   {
+					   CompilerBase c = new Script.PHP.PHPCompiler(new StringWriter(), this.MySession);
 
-                        c.CurrentJob = null;
-             
-                        Program.AttachXMLDoc(new FileInfo(z.Value.Assembly.ManifestModule.FullyQualifiedName), c);
+					   c.CurrentJob = null;
 
-                        if (c.CompileType(z.Value))
-                        {
-                            c.ToConsole(z.Value, sinfo);
+					   Program.AttachXMLDoc(new FileInfo(z.Value.Assembly.ManifestModule.FullyQualifiedName), c);
 
-                            DirectoryInfo x = u.CreateSubdirectory(z.AssamblyFileName);
+					   if (c.CompileType(z.Value))
+					   {
+						   c.ToConsole(z.Value, sinfo);
 
-                            string content = c.MyWriter.ToString();
+						   DirectoryInfo x = u.CreateSubdirectory(z.AssamblyFileName);
 
+						   string content = c.MyWriter.ToString();
 
-                            StreamWriter sw = new StreamWriter(new FileStream(web.FullName + "/" + z.TargetFileName, FileMode.Create));
 
-                            sw.WriteLine("<?");
-                            sw.Write(content);
-                            sw.WriteLine("?>");
-                            sw.Flush();
+						   StreamWriter sw = new StreamWriter(new FileStream(web.FullName + "/" + z.TargetFileName, FileMode.Create));
 
-                            sw.Close();
+						   sw.WriteLine("<?");
+						   sw.Write(content);
+						   sw.WriteLine("?>");
+						   sw.Flush();
 
-                            req.Add(z);
-                        }
-                    }
-                );
+						   sw.Close();
 
-             }
+						   req.Add(z);
+					   }
+				   }
+			   );
 
-             foreach (TypeInfo z in req)
-             {
-                 WriteImport(z);
-             }
+			}
 
-            WriteLine();
+			foreach (TypeInfo z in req)
+			{
+				WriteImport(z);
+			}
 
-            foreach (Type z in MySession.Types)
-            {
-                WriteTypeStaticConstructor(z, false);
-            }
+			WriteLine();
 
-            WriteLine("?>");
-        }
+			foreach (Type z in MySession.Types)
+			{
+				WriteTypeStaticConstructor(z, false);
+			}
 
-        public void WriteImport(TypeInfo z)
-        {
-            if (z.IsScript || z.IsCompilerGenerated)
-            {
-                WriteLine("require_once '" + z.TargetFileName + "';");
-            }
-        }
+			WriteLine("?>");
+		}
 
-        private void WriteTypeStaticConstructor(Type z, bool defMode)
-        {
-            ConstructorInfo[] ci = z.GetConstructors(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Public);
+		public void WriteImport(TypeInfo z)
+		{
+			if (z.IsScript || z.IsCompilerGenerated)
+			{
+				WriteLine("require_once '" + z.TargetFileName + "';");
+			}
+		}
 
-            foreach (ConstructorInfo m in ci)
-            {
-                if (defMode)
-                {
-                    WriteMethodSignature(z, m, false);
-                    WriteMethodBody(m);
-                    WriteLine();
+		private void WriteTypeStaticConstructor(Type z, bool defMode)
+		{
+			ConstructorInfo[] ci = z.GetConstructors(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Public);
 
-                }
-                else
-                {
-                    WriteIdent();
-                    
-                    WriteHint(m);
+			foreach (ConstructorInfo m in ci)
+			{
+				if (defMode)
+				{
+					WriteMethodSignature(z, m, false);
+					WriteMethodBody(m);
+					WriteLine();
 
-                    WriteMethodCallVerified(null, null, m);
-                    WriteLine(";");
-                    WriteLine();
+				}
+				else
+				{
+					WriteIdent();
 
-                }
+					WriteHint(m);
 
-            }
+					WriteMethodCallVerified(null, null, m);
+					WriteLine(";");
+					WriteLine();
 
+				}
 
-        }
+			}
 
-        private void WriteHint(ConstructorInfo m)
-        {
-            WriteLine("/* " + m.DeclaringType.FullName + " :: " + m.Name + " */");
-        }
 
- 
-        public override void WriteTypeSignature(Type z, ScriptAttribute za)
-        {
-            WriteLine("// " + z.FullName);
+		}
 
-            WriteIdent();
+		private void WriteHint(ConstructorInfo m)
+		{
+			WriteLine("/* " + m.DeclaringType.FullName + " :: " + m.Name + " */");
+		}
 
-            if (z.IsInterface)
-                Write("interface");
-            else
-                Write("class");
 
-            WriteSpace();
-            WriteDecoratedTypeName(z);
+		public override void WriteTypeSignature(Type z, ScriptAttribute za)
+		{
+			WriteLine("// " + z.FullName);
 
-            if (!z.ToScriptAttributeOrDefault().InternalConstructor)
-            {
-                if (!z.IsInterface)
-                {
-                    if (z.BaseType != typeof(object))
-                    {
+			WriteIdent();
+
+
+
+			if (z.IsInterface)
+				Write("interface");
+			else
+			{
+				if (z.IsAbstract)
+					Write("abstract ");
+
+				Write("class");
+			}
+
+			WriteSpace();
+			WriteDecoratedTypeName(z);
+
+			if (!z.ToScriptAttributeOrDefault().InternalConstructor)
+			{
+				if (!z.IsInterface)
+				{
+					if (z.BaseType != typeof(object))
+					{
 						var BaseType = ResolveImplementation(z.BaseType) ?? z.BaseType;
 
 
-                        ScriptAttribute ba = ScriptAttribute.Of(BaseType, false);
+						ScriptAttribute ba = ScriptAttribute.Of(BaseType, false);
 
-                        if (ba == null)
-                            Break("base class should be for scripting : " + BaseType.FullName);
+						if (ba == null)
+							Break("base class should be for scripting : " + BaseType.FullName);
 
-                        WriteSpace();
-                        Write("extends");
-                        WriteSpace();
-                        WriteDecoratedTypeName(BaseType);
+						WriteSpace();
+						Write("extends");
+						WriteSpace();
+						WriteDecoratedTypeName(BaseType);
 
-                    }
-                }
-            }
+					}
+				}
+			}
 
-            WriteLine();
-        }
+			WriteLine();
+		}
 
-        private void WriteTypeVirtualMethods(Type owner, ScriptAttribute za)
-        {
-            // find the virtual name or names
+		private void WriteTypeVirtualMethods(Type owner, ScriptAttribute za)
+		{
+			// find the virtual name or names
 
-            if (za.HasNoPrototype)
-                return;
+			if (za.HasNoPrototype)
+				return;
 
-            List<Type> t =  new List<Type>(owner.GetInterfaces());
-
-
-            bool b = false;
-
-            foreach (Type x in t)
-            {
-
-                InterfaceMapping z = owner.GetInterfaceMap(x);
-
-                int ix = 0;
-
-                foreach (MethodInfo zm in z.TargetMethods)
-                {
-
-                    MethodBase a = z.InterfaceMethods[ix];
-
-                    MethodBase u = z.TargetMethods[ix];
-
-                    // since this is php, we cannot share method bodies, we must clone them
-                    // wrapper? forwarder?
-
-                    WriteMethodSignature(owner, a, false);
-                    WriteMethodBody(u);
-
-                    b = true;
-
-                    ix++;
-                }
+			List<Type> t = new List<Type>(owner.GetInterfaces());
 
 
+			bool b = false;
 
+			foreach (Type x in t)
+			{
 
-            }
+				InterfaceMapping z = owner.GetInterfaceMap(x);
 
-            if (b)
-                WriteLine();
+				int ix = 0;
 
-        }
+				foreach (MethodInfo zm in z.TargetMethods)
+				{
 
-        private void WriteTypeInstanceConstructors(Type z)
-        {
-            ConstructorInfo[] zci = z.GetConstructors(BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
+					MethodBase a = z.InterfaceMethods[ix];
 
-            if (zci.Length > 1)
-            {
-                Break("PHP does not support multiple constructors, type: " + z.FullName);
-            }
+					MethodBase u = z.TargetMethods[ix];
 
-            foreach (ConstructorInfo zc in zci)
-            {
-                WriteIdent();
-                WriteCommentLine(zc.DeclaringType.FullName + ".ctor");
-                WriteMethodSignature(z, zc, false);
-                WriteMethodBody(zc);
+					// since this is php, we cannot share method bodies, we must clone them
+					// wrapper? forwarder?
 
-            }
-            WriteLine();
-        }
+					WriteCommentLine(z.InterfaceType.FullName);
+					WriteCommentLine(a.Name);
+					WriteCommentLine(u.Name);
+					// WriteMethodSignature(owner, a, false);
+					// WriteMethodBody(u);
 
-        public override void WriteTypeFields(Type z, ScriptAttribute za)
-        {
-            FieldInfo[] zf = z.GetFields(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
+					b = true;
 
-            foreach (FieldInfo zfn in zf)
-            {
-                // external class cannot have static variables inside a type
-                // should be defined outside as global static instead
-                if (za.HasNoPrototype && !zfn.IsStatic)
-                    continue;
-
-
-                WriteIdent();
-                WriteTypeFieldModifier(zfn);
+					ix++;
+				}
 
 
 
-                WriteDecoratedField(zfn, true);
-                Write(";");
-                WriteLine();
-            }
 
-            WriteLine();
-        }
+			}
+
+			if (b)
+				WriteLine();
+
+		}
+
+		private void WriteTypeInstanceConstructors(Type z)
+		{
+			ConstructorInfo[] zci = z.GetConstructors(BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
+
+			if (zci.Length > 1)
+			{
+				Break("PHP does not support multiple constructors, type: " + z.FullName);
+			}
+
+			foreach (ConstructorInfo zc in zci)
+			{
+				WriteIdent();
+				WriteCommentLine(zc.DeclaringType.FullName + ".ctor");
+				WriteMethodSignature(z, zc, false);
+				WriteMethodBody(zc);
+
+			}
+			WriteLine();
+		}
+
+		public override void WriteTypeFields(Type z, ScriptAttribute za)
+		{
+			FieldInfo[] zf = z.GetFields(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
+
+			foreach (FieldInfo zfn in zf)
+			{
+				// external class cannot have static variables inside a type
+				// should be defined outside as global static instead
+				if (za.HasNoPrototype && !zfn.IsStatic)
+					continue;
 
 
-        public override void WriteTypeFieldModifier(FieldInfo zfn)
-        {
+				WriteIdent();
+				WriteTypeFieldModifier(zfn);
 
 
-            if (zfn.IsStatic)
-            {
-                Write("static");
-                WriteSpace();
-            }
-            else if (zfn.IsPublic)
-            {
-                Write("public");
-            }
-            else
-            {
-                Write("var");
-            }
 
-            WriteSpace();
-        }
+				WriteDecoratedField(zfn, true);
+				Write(";");
+				WriteLine();
+			}
 
-        public override void WriteTypeInstanceMethods(Type z, ScriptAttribute za)
-        {
-            MethodInfo[] mx = base.GetAllInstanceMethods(z);
+			WriteLine();
+		}
 
-            foreach (MethodInfo m in mx)
-            {
+
+		public override void WriteTypeFieldModifier(FieldInfo zfn)
+		{
+
+
+			if (zfn.IsStatic)
+			{
+				Write("static");
+				WriteSpace();
+			}
+			else if (zfn.IsPublic)
+			{
+				Write("public");
+			}
+			else
+			{
+				Write("var");
+			}
+
+			WriteSpace();
+		}
+
+		public override void WriteTypeInstanceMethods(Type z, ScriptAttribute za)
+		{
+			MethodInfo[] mx = base.GetAllInstanceMethods(z);
+
+			foreach (MethodInfo m in mx)
+			{
 				// for now we skip such methods
 				if (z.IsAnonymousType() && m.Name == "Equals")
 					continue;
@@ -537,35 +547,42 @@ namespace jsc.Script.PHP
 				if (z.IsAnonymousType() && m.Name == "GetHashCode")
 					continue;
 
-                ScriptAttribute ma = ScriptAttribute.Of(m);
+				ScriptAttribute ma = ScriptAttribute.Of(m);
 
-			
 
 
-                bool dStatic = ma != null && ma.DefineAsStatic;
 
-                if (dStatic)
-                {
-                    continue;
-                }
+				bool dStatic = ma != null && ma.DefineAsStatic;
 
-                if (ma != null && ma.IsNative)
-                    continue;
+				if (dStatic)
+				{
+					continue;
+				}
 
+				if (ma != null && ma.IsNative)
+					continue;
 
-                WriteMethodHint(m);
 
+				WriteMethodHint(m);
 
-                WriteMethodSignature(z, m, dStatic);
 
-                if (!z.IsInterface)
-                    WriteMethodBody(m);
+				WriteMethodSignature(z, m, dStatic);
 
-                WriteLine();
-            }
-        }
 
+				if (z.IsInterface ||
+					(m.IsAbstract && !z.IsInterface && z.IsAbstract)
+				)
+				{
+					WriteCommentLine("abstract method");
+				}
+				else
+				{
+					WriteMethodBody(m);
+				}
 
+				WriteLine();
+			}
+		}
 
 
 
@@ -575,307 +592,317 @@ namespace jsc.Script.PHP
 
 
 
-        public override void WriteMethodSignature(Type compiland, MethodBase m, bool dStatic)
-        {
 
-            WriteIdent();
 
-            if (compiland.IsInterface)
-            {
-                if (m.IsPublic)
-                    Write("public ");
-            }
+		public override void WriteMethodSignature(Type compiland, MethodBase m, bool dStatic)
+		{
 
-            Write("function ");
-            WriteMethodName(m);
+			WriteIdent();
 
-            Write("(");
-            WriteMethodParameterList(m);
-            Write(")");
+			if (compiland.IsInterface)
+			{
+				if (m.IsPublic)
+					Write("public ");
+			}
+			else
+			{
+				if (compiland.IsAbstract)
+					if (m.IsAbstract)
+					{
 
-            if (compiland.IsInterface)
-                WriteLine(";");
-            else
-                WriteLine();
-        }
+						Write("abstract ");
+					}
+			}
 
-        public override void WriteMethodSignature(MethodBase m, bool dStatic)
-        {
-            CompilerBase.BreakToDebugger("obsolete");
+			Write("function ");
+			WriteMethodName(m);
 
-        }
+			Write("(");
+			WriteMethodParameterList(m);
+			Write(")");
 
-        public override void WriteMethodParameterList(MethodBase m)
-        {
-            ParameterInfo[] mp = m.GetParameters();
+			if (compiland.IsInterface || 
+				(m.IsAbstract && !compiland.IsInterface && compiland.IsAbstract)
+				)
+				WriteLine(";");
+			else
+				WriteLine();
+		}
 
-            ScriptAttribute ma = ScriptAttribute.Of(m);
+		public override void WriteMethodSignature(MethodBase m, bool dStatic)
+		{
+			CompilerBase.BreakToDebugger("obsolete");
 
-            bool bStatic = (ma != null && ma.DefineAsStatic);
+		}
 
-            if (bStatic)
-            {
-                if (m.IsStatic)
-                {
-                    Break("method is already static, but is marked to be declared out of band : " + m.DeclaringType.FullName + "." + m.Name);
-                }
+		public override void WriteMethodParameterList(MethodBase m)
+		{
+			ParameterInfo[] mp = m.GetParameters();
 
+			ScriptAttribute ma = ScriptAttribute.Of(m);
 
-                if (ScriptParameterByValAttribute.IsDefined(m, typeof(ScriptParameterByValAttribute))
-                    || ScriptParameterByValAttribute.IsDefined(m.DeclaringType, typeof(ScriptParameterByValAttribute)))
-                {
+			bool bStatic = (ma != null && ma.DefineAsStatic);
 
-                }
-                else
-                {
-                    if (ScriptParameterByRefAttribute.IsDefined(m, typeof(ScriptParameterByRefAttribute)))
-                    {
-                        WriteByRef();
-                    }
-                    else
-                    {
-                        if (Debugger.IsAttached)
-                            CompilerBase.WriteVisualStudioMessage(MessageType.warning, 1002, m.DeclaringType.FullName + "." + m.Name + " : consider ScriptParameterByRefAttribute");
+			if (bStatic)
+			{
+				if (m.IsStatic)
+				{
+					Break("method is already static, but is marked to be declared out of band : " + m.DeclaringType.FullName + "." + m.Name);
+				}
 
-                        WriteByRef();
 
-                    }
-                }
+				if (ScriptParameterByValAttribute.IsDefined(m, typeof(ScriptParameterByValAttribute))
+					|| ScriptParameterByValAttribute.IsDefined(m.DeclaringType, typeof(ScriptParameterByValAttribute)))
+				{
 
-                WriteSelf();
-            }
+				}
+				else
+				{
+					if (ScriptParameterByRefAttribute.IsDefined(m, typeof(ScriptParameterByRefAttribute)))
+					{
+						WriteByRef();
+					}
+					else
+					{
+						if (Debugger.IsAttached)
+							CompilerBase.WriteVisualStudioMessage(MessageType.warning, 1002, m.DeclaringType.FullName + "." + m.Name + " : consider ScriptParameterByRefAttribute");
 
-            for (int mpi = 0; mpi < mp.Length; mpi++)
-            {
-                if (mpi > 0 || bStatic)
-                {
-                    Write(",");
-                    WriteSpace();
-                }
+						WriteByRef();
 
-                bool bByRef = false;
+					}
+				}
 
-                if (mp[mpi].ParameterType.IsByRef ||
-                    mp[mpi].ParameterType.IsArray)
-                {
-                    //if (ma.Implements != null)
-                    //{
-                    //    if (ma.Implements.IsByRef)
-                    //    {
-                    bByRef = true;
-                    //    }
-                    //}
-                }
+				WriteSelf();
+			}
 
-                if (ScriptParameterByRefAttribute.IsDefined(mp[mpi], typeof(ScriptParameterByRefAttribute))) bByRef = true;
+			for (int mpi = 0; mpi < mp.Length; mpi++)
+			{
+				if (mpi > 0 || bStatic)
+				{
+					Write(",");
+					WriteSpace();
+				}
 
-                if (bByRef)
-                    WriteByRef();
+				bool bByRef = false;
 
-                if (ma != null && ma.OptimizedCode != null && !ma.UseCompilerConstants)
-                    Write("$" + mp[mpi].Name);
-                else
-                    WriteDecoratedMethodParameter(mp[mpi]);
+				if (mp[mpi].ParameterType.IsByRef ||
+					mp[mpi].ParameterType.IsArray)
+				{
+					//if (ma.Implements != null)
+					//{
+					//    if (ma.Implements.IsByRef)
+					//    {
+					bByRef = true;
+					//    }
+					//}
+				}
 
-            }
-        }
+				if (ScriptParameterByRefAttribute.IsDefined(mp[mpi], typeof(ScriptParameterByRefAttribute))) bByRef = true;
 
-        public override string GetDecoratedMethodParameter(ParameterInfo p)
-        {
-            return "$p" + p.Position;
-        }
+				if (bByRef)
+					WriteByRef();
 
-        private void WriteByRef()
-        {
-            Write("&");
-        }
+				if (ma != null && ma.OptimizedCode != null && !ma.UseCompilerConstants)
+					Write("$" + mp[mpi].Name);
+				else
+					WriteDecoratedMethodParameter(mp[mpi]);
 
-        public override void WriteSelf()
-        {
-            Write("$this");
-        }
+			}
+		}
 
+		public override string GetDecoratedMethodParameter(ParameterInfo p)
+		{
+			return "$p" + p.Position;
+		}
 
+		private void WriteByRef()
+		{
+			Write("&");
+		}
 
+		public override void WriteSelf()
+		{
+			Write("$this");
+		}
 
 
-        public override void EmitPrestatement(ILBlock.Prestatement p)
-        {
 
 
-            #region opt-out
 
+		public override void EmitPrestatement(ILBlock.Prestatement p)
+		{
 
-            if (IsOptOut(p))
-                return;
 
+			#region opt-out
 
-            if (p.Instruction == OpCodes.Ret)
-            {
-                if (p.Next == null)
-                {
-                    if (p.Instruction.StackBeforeStrict.Length == 0)
-                    {
-                        return;
-                    }
-                }
-            }
-            #endregion
 
+			if (IsOptOut(p))
+				return;
 
 
-            #region if
-            ILIfElseConstruct iif = p.Instruction.InlineIfElseConstruct;
+			if (p.Instruction == OpCodes.Ret)
+			{
+				if (p.Next == null)
+				{
+					if (p.Instruction.StackBeforeStrict.Length == 0)
+					{
+						return;
+					}
+				}
+			}
+			#endregion
 
-            if (iif != null)
-            {
-                EmitIfBlock(p, iif);
 
-                return;
-            }
-            #endregion
 
+			#region if
+			ILIfElseConstruct iif = p.Instruction.InlineIfElseConstruct;
 
+			if (iif != null)
+			{
+				EmitIfBlock(p, iif);
 
-            WriteIdent();
-            EmitInstruction(p, p.Instruction);
-            WriteLine(";");
-        }
+				return;
+			}
+			#endregion
 
-        private static bool IsOptOut(ILBlock.Prestatement p)
-        {
-            bool bOptOut = false;
 
-            // nop call wont do any good
-            if (p.Instruction == OpCodes.Nop)
-                bOptOut = true;
 
+			WriteIdent();
+			EmitInstruction(p, p.Instruction);
+			WriteLine(";");
+		}
 
-            if (p.Instruction.OpCode == OpCodes.Call)
-            {
-                if (p.Instruction.TargetConstructor != null)
-                {
-                    // we wont call object() constructor excplicitly
-                    if (p.Instruction.TargetConstructor.DeclaringType == typeof(object))
-                        bOptOut = true;
+		private static bool IsOptOut(ILBlock.Prestatement p)
+		{
+			bool bOptOut = false;
 
+			// nop call wont do any good
+			if (p.Instruction == OpCodes.Nop)
+				bOptOut = true;
 
-                    if (p.Instruction.TargetConstructor.DeclaringType == p.Instruction.OwnerMethod.DeclaringType.BaseType)
-                    {
-                        ScriptAttribute a = ScriptAttribute.Of(p.Instruction.OwnerMethod.DeclaringType, true);
 
-                        // if construct type is equal to current base type and
-                        // we do have script attribute and we are external object
-                        // we skip?
-                        if (a != null && a.InternalConstructor)
-                            bOptOut = true;
+			if (p.Instruction.OpCode == OpCodes.Call)
+			{
+				if (p.Instruction.TargetConstructor != null)
+				{
+					// we wont call object() constructor excplicitly
+					if (p.Instruction.TargetConstructor.DeclaringType == typeof(object))
+						bOptOut = true;
 
-                    }
-                }
-            }
-            return bOptOut;
-        }
 
+					if (p.Instruction.TargetConstructor.DeclaringType == p.Instruction.OwnerMethod.DeclaringType.BaseType)
+					{
+						ScriptAttribute a = ScriptAttribute.Of(p.Instruction.OwnerMethod.DeclaringType, true);
 
+						// if construct type is equal to current base type and
+						// we do have script attribute and we are external object
+						// we skip?
+						if (a != null && a.InternalConstructor)
+							bOptOut = true;
 
+					}
+				}
+			}
+			return bOptOut;
+		}
 
 
-        public override bool EmitTryBlock(ILBlock.Prestatement p)
-        {
 
-            if (p.Block.IsTryBlock)
-            {
 
-                WriteIdent();
-                WriteLine("try");
 
+		public override bool EmitTryBlock(ILBlock.Prestatement p)
+		{
 
-                ILBlock.PrestatementBlock b = p.Block.Prestatements;
+			if (p.Block.IsTryBlock)
+			{
 
-                bool _pop = false;
-                bool _leave = b.Last == OpCodes.Leave_S && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First;
+				WriteIdent();
+				WriteLine("try");
 
-                EmitScope(b.ExtractBlock(_pop ? b.First.Next : b.First, _leave ? b.Last.Prev : b.Last));
 
+				ILBlock.PrestatementBlock b = p.Block.Prestatements;
 
-            }
-            else if (p.Block.IsHandlerBlock)
-            {
+				bool _pop = false;
+				bool _leave = b.Last == OpCodes.Leave_S && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First;
 
+				EmitScope(b.ExtractBlock(_pop ? b.First.Next : b.First, _leave ? b.Last.Prev : b.Last));
 
-                WriteIdent();
 
+			}
+			else if (p.Block.IsHandlerBlock)
+			{
 
 
-                ILBlock.PrestatementBlock b = p.Block.Prestatements;
+				WriteIdent();
 
-                bool _pop = b.First == OpCodes.Pop && (p.Block.Clause.Flags == ExceptionHandlingClauseOptions.Clause);
-                bool _leave =
-                    b.Last == OpCodes.Endfinally
-                ||
-                    (b.Last == OpCodes.Leave_S && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First);
 
-                b = b.ExtractBlock(_pop ? b.First.Next : b.First, _leave ? b.Last.Prev : b.Last);
 
-                b.RemoveNopOpcodes();
+				ILBlock.PrestatementBlock b = p.Block.Prestatements;
 
-                if (p.Block.Clause.Flags == ExceptionHandlingClauseOptions.Clause)
-                {
-                    Write("catch (Exception ");
-                    WriteExceptionVar();
-                    WriteLine(")");
+				bool _pop = b.First == OpCodes.Pop && (p.Block.Clause.Flags == ExceptionHandlingClauseOptions.Clause);
+				bool _leave =
+					b.Last == OpCodes.Endfinally
+				||
+					(b.Last == OpCodes.Leave_S && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First);
 
-                    EmitScope(b);
-                }
-                else
-                {
-                    Write("catch (Exception ");
-                    WriteExceptionVar();
-                    WriteLine(")");
-                    WriteScopeBegin();
+				b = b.ExtractBlock(_pop ? b.First.Next : b.First, _leave ? b.Last.Prev : b.Last);
 
-                    WriteIdent();
-                    Write("$__" + p.Block.Clause.TryOffset);
-                    WriteSpace();
-                    Write("=");
-                    WriteSpace();
-                    WriteExceptionVar();
-                    WriteLine(";");
+				b.RemoveNopOpcodes();
 
-                    WriteScopeEnd();
-                    WriteLine();
+				if (p.Block.Clause.Flags == ExceptionHandlingClauseOptions.Clause)
+				{
+					Write("catch (Exception ");
+					WriteExceptionVar();
+					WriteLine(")");
 
-                    EmitPrestatementBlock(b);
+					EmitScope(b);
+				}
+				else
+				{
+					Write("catch (Exception ");
+					WriteExceptionVar();
+					WriteLine(")");
+					WriteScopeBegin();
 
-                    WriteIdent();
-                    Write("if (isset(");
-                    Write("$__" + p.Block.Clause.TryOffset);
-                    WriteLine("))");
+					WriteIdent();
+					Write("$__" + p.Block.Clause.TryOffset);
+					WriteSpace();
+					Write("=");
+					WriteSpace();
+					WriteExceptionVar();
+					WriteLine(";");
 
-                    WriteScopeBegin();
+					WriteScopeEnd();
+					WriteLine();
 
-                    WriteIdent();
-                    Write("throw ");
-                    Write("$__" + p.Block.Clause.TryOffset);
-                    WriteLine(";");
+					EmitPrestatementBlock(b);
 
-                    WriteScopeEnd();
+					WriteIdent();
+					Write("if (isset(");
+					Write("$__" + p.Block.Clause.TryOffset);
+					WriteLine("))");
 
+					WriteScopeBegin();
 
+					WriteIdent();
+					Write("throw ");
+					Write("$__" + p.Block.Clause.TryOffset);
+					WriteLine(";");
 
-                }
+					WriteScopeEnd();
 
-            }
-            else
-            {
-                return false;
-            }
 
-            return true;
-        }
 
+				}
 
+			}
+			else
+			{
+				return false;
+			}
 
+			return true;
+		}
 
 
 
@@ -884,47 +911,50 @@ namespace jsc.Script.PHP
 
 
 
-        public override bool SupportsInlineArrayInit
-        {
-            get
-            {
-                return true;
-            }
-        }
 
 
 
+		public override bool SupportsInlineArrayInit
+		{
+			get
+			{
+				return true;
+			}
+		}
 
-        public override bool SupportsForStatements
-        {
-            get
-            {
-                return true;
-            }
-        }
 
 
-        public override bool DoWriteStaticMethodHint
-        {
-            get
-            {
-                return true;
-            }
-        }
 
+		public override bool SupportsForStatements
+		{
+			get
+			{
+				return true;
+			}
+		}
 
-        public override void WriteTypeConstructionVerified()
-        {
-            Write("new stdClass()");
-        }
 
-        public override void WriteInstanceOfOperator(ILInstruction value, Type type)
-        {
-            EmitInstruction(null, value);
+		public override bool DoWriteStaticMethodHint
+		{
+			get
+			{
+				return true;
+			}
+		}
 
-            Write(" instanceof ");
 
-            WriteDecoratedTypeName(type);            
-        }
-    }
+		public override void WriteTypeConstructionVerified()
+		{
+			Write("new stdClass()");
+		}
+
+		public override void WriteInstanceOfOperator(ILInstruction value, Type type)
+		{
+			EmitInstruction(null, value);
+
+			Write(" instanceof ");
+
+			WriteDecoratedTypeName(type);
+		}
+	}
 }

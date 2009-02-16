@@ -524,6 +524,15 @@
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\IEqualityComparer.cs" />
     <Compile Include="PHP\BCLImplementation\System\Console.cs" />
     <Compile Include="PHP\BCLImplementation\System\Convert.cs" />
+    <Compile Include="PHP\BCLImplementation\System\IDisposable.cs" />
+    <Compile Include="PHP\BCLImplementation\System\IO\Stream.cs" />
+    <Compile Include="PHP\BCLImplementation\System\IO\StreamReader.cs" />
+    <Compile Include="PHP\BCLImplementation\System\IO\StreamWriter.cs" />
+    <Compile Include="PHP\BCLImplementation\System\IO\TextReader.cs" />
+    <Compile Include="PHP\BCLImplementation\System\IO\TextWriter.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Net\Sockets\Socket.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Net\Sockets\NetworkStream.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Net\Sockets\TcpClient.cs" />
     <Compile Include="PHP\BCLImplementation\System\NotImplementedException.cs" />
     <Compile Include="PHP\BCLImplementation\System\Environment.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\File.cs" />
