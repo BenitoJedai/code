@@ -30,10 +30,17 @@ namespace AbstractMethods.Server
 		[Script(NoDecoration = true)]
 		public static void Application_Entrypoint()
 		{
+			var a = new Abstract3();
 
-
+			a.Interface1Method1("");
+			a.Interface2Method1("");
+			a.Interface3Method1("");
 
 		}
+
+		[Script(IsNative = true)]
+		static public void echo(object e) { }
+
 
 		[Script]
 		public interface Interface1
@@ -67,6 +74,8 @@ namespace AbstractMethods.Server
 
 			public virtual void Interface2Method1(string e)
 			{
+				echo("Abstract1::Interface2Method1 <br />");
+
 				Interface3Method1(e);
 			}
 
@@ -76,6 +85,8 @@ namespace AbstractMethods.Server
 
 			public void Interface1Method1(string e)
 			{
+				echo("Abstract1::Interface1Method1 <br />");
+
 				Interface2Method1(e);
 			}
 
@@ -87,7 +98,7 @@ namespace AbstractMethods.Server
 		{
 			public override void Interface2Method1(string e)
 			{
-				base.Interface2Method1("Abstract2");
+				echo("Abstract2::Interface2Method1 <br />");
 			}
 
 		}
@@ -97,6 +108,7 @@ namespace AbstractMethods.Server
 		{
 			public override void Interface3Method1(string e)
 			{
+				echo("Abstract2::Interface3Method1 <br />");
 			}
 		}
 	}

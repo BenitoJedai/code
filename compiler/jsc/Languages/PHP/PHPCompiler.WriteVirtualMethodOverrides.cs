@@ -109,8 +109,8 @@ namespace jsc.Script.PHP
                         WriteSpace();
                     }
 
-                    WriteThisReference();
-                    Write(".");
+                    Write("$this");
+                    Write("->");
 
                     // tmethod =
                     #region prop
