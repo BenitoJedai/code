@@ -8,10 +8,19 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Reflection.Emit;
 
-namespace jsc.Languages.ActionScript
+namespace jsc.Script.PHP
 {
-	partial class ActionScriptCompiler
-    {
+	partial class PHPCompiler
+	{
+		public enum WriteMethodSignatureMode
+		{
+			Delcaring,
+			Implementing,
+			Overriding,
+			OverridingImplementing,
+			ValueTypeConstructorAlias
+		}
+
 		private void WriteInterfaceMappingMethods(Type z)
 		{
 			DebugBreak(z.ToScriptAttribute());
@@ -25,11 +34,15 @@ namespace jsc.Languages.ActionScript
 
 					var BaseMethod = z.BaseType.GetMethod(_InterfaceMethod);
 
-					WriteMethodSignature(_InterfaceMethod, false,
+					WriteMethodSignature(
+						z,
+						_InterfaceMethod, false
+						,
 						(BaseMethod != null && BaseMethod.IsAbstract) ?
 						WriteMethodSignatureMode.OverridingImplementing :
 						WriteMethodSignatureMode.Implementing
-						, null, null, _ParamSignature);
+						//, null, null, _ParamSignature
+					);
 
 					using (CreateScope())
 					{
@@ -41,40 +54,24 @@ namespace jsc.Languages.ActionScript
 							WriteSpace();
 						}
 
-						WriteThisReference();
-						Write(".");
+						Write("$this");
+						Write("->");
 
 						#region prop
 						{
-							var prop = new PropertyDetector(_TargetMethod);
 
-							if (_InterfaceMethod.GetParameters().Length == 1 && prop.SetProperty != null
-								 && prop.SetProperty.GetSetMethod(true).GetParameters().Length == 1)
+							WriteDecoratedMethodName(_TargetMethod, false);
+							Write("(");
+							for (int i = 0; i < _InterfaceMethod.GetParameters().Length; i++)
 							{
-								Write(prop.SetProperty.Name);
-								WriteAssignment();
-								WriteSafeLiteral(_InterfaceMethod.GetParameters().Single().Name);
-							}
-							else if (prop.GetProperty != null
-								  && prop.GetProperty.GetGetMethod(true).GetParameters().Length == 0)
-							{
-								Write(prop.GetProperty.Name);
-							}
-							else
-							{
-								WriteDecoratedMethodName(_TargetMethod, false);
-								Write("(");
-								for (int i = 0; i < _InterfaceMethod.GetParameters().Length; i++)
+								if (i > 0)
 								{
-									if (i > 0)
-									{
-										Write(",");
-										WriteSpace();
-									}
-									WriteSafeLiteral(_InterfaceMethod.GetParameters()[i].Name);
+									Write(",");
+									WriteSpace();
 								}
-								Write(")");
+								WriteSafeLiteral(_InterfaceMethod.GetParameters()[i].Name);
 							}
+							Write(")");
 						}
 						#endregion
 
@@ -169,5 +166,5 @@ namespace jsc.Languages.ActionScript
 
 		}
 
-    }
+	}
 }

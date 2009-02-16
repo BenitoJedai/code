@@ -370,7 +370,7 @@ namespace jsc.Script.PHP
 		}
 
 
-	
+
 		private void WriteTypeInstanceConstructors(Type z)
 		{
 			ConstructorInfo[] zci = z.GetConstructors(BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
@@ -500,21 +500,26 @@ namespace jsc.Script.PHP
 
 		public override void WriteMethodSignature(Type compiland, MethodBase m, bool dStatic)
 		{
+			WriteMethodSignature(compiland, m, dStatic, WriteMethodSignatureMode.Delcaring);
+		}
+
+		public void WriteMethodSignature(Type compiland, MethodBase m, bool dStatic, WriteMethodSignatureMode Mode)
+		{
 
 			WriteIdent();
 
 			if (compiland.IsInterface)
 			{
 				if (m.IsPublic)
-					Write("public ");
+					WriteKeywordSpace(Keywords._public);
 			}
 			else
 			{
 				if (compiland.IsAbstract)
 					if (m.IsAbstract)
 					{
-
-						Write("abstract ");
+						if (Mode == WriteMethodSignatureMode.Delcaring)
+							WriteKeywordSpace(Keywords._abstract);
 					}
 			}
 
@@ -525,8 +530,9 @@ namespace jsc.Script.PHP
 			WriteMethodParameterList(m);
 			Write(")");
 
+			
 			if (compiland.IsInterface ||
-				(m.IsAbstract && !compiland.IsInterface && compiland.IsAbstract)
+				(m.IsAbstract && !compiland.IsInterface && compiland.IsAbstract) && (Mode == WriteMethodSignatureMode.Delcaring)
 				)
 				WriteLine(";");
 			else

@@ -11,7 +11,7 @@ using System.Reflection.Emit;
 namespace jsc.Script.PHP
 {
 	partial class PHPCompiler
-    {
+	{
 		public override void WriteTypeSignature(Type z, ScriptAttribute za)
 		{
 			WriteLine("// " + z.FullName);
@@ -56,7 +56,7 @@ namespace jsc.Script.PHP
 				}
 
 
-				var Interfaces = z.GetInterfaces();
+				var Interfaces = GetDistinctInterfacesToImplement(z).ToArray();
 
 				for (int i = 0; i < Interfaces.Length; i++)
 				{
@@ -82,6 +82,32 @@ namespace jsc.Script.PHP
 			WriteLine();
 		}
 
+		public static IEnumerable<Type> GetDistinctInterfacesToImplement(Type z)
+		{
+			var c = new List<Type>();
 
-    }
+			Action<Type> AddToCache = null;
+
+			AddToCache =
+				x =>
+				{
+					c.Add(x);
+
+					foreach (var i in x.GetInterfaces())
+					{
+						AddToCache(i);
+					}
+				};
+
+			foreach (var i in z.GetInterfaces())
+			{
+				if (c.Contains(i))
+					continue;
+
+				yield return i;
+
+				AddToCache(i);
+			}
+		}
+	}
 }
