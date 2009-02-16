@@ -23,5 +23,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         {
             return "[DateTime]";
         }
+
+		public long Ticks
+		{
+			get
+			{
+				return 0;
+			}
+		}
     }
 }
