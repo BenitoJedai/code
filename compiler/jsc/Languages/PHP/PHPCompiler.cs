@@ -5,6 +5,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Linq;
 
 using jsc.CodeModel;
 
@@ -224,6 +225,8 @@ namespace jsc.Script.PHP
 			return MySession.Types;
 		}
 
+		
+
 		TypeInfo[] ActiveTypes
 		{
 			get
@@ -236,6 +239,21 @@ namespace jsc.Script.PHP
 
 					u.Add(v);
 				}
+
+
+
+				u.Sort(
+					(x, y) =>
+					{
+						if (x.ReferencedBaseTypes.Contains(y.Value))
+							return -1;
+
+						if (y.ReferencedBaseTypes.Contains(x.Value))
+							return 1;
+
+						return 0;
+					}
+				);
 
 				return u.ToArray();
 			}
@@ -530,7 +548,7 @@ namespace jsc.Script.PHP
 			WriteMethodParameterList(m);
 			Write(")");
 
-			
+
 			if (compiland.IsInterface ||
 				(m.IsAbstract && !compiland.IsInterface && compiland.IsAbstract) && (Mode == WriteMethodSignatureMode.Delcaring)
 				)

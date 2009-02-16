@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 using ScriptCoreLib;
 using jsc.Script;
@@ -15,7 +16,25 @@ namespace jsc.CodeModel
         public TypeInfo(Type e)
         {
             Value = e;
+
+			ReferencedBaseTypes = GetReferencedBaseTypes(e).ToArray();
+
         }
+
+		public readonly Type[] ReferencedBaseTypes;
+
+		static IEnumerable<Type> GetReferencedBaseTypes(Type e)
+		{
+			yield return e.BaseType;
+
+			foreach (var i in e.GetInterfaces())
+			{
+				foreach (var j in GetReferencedBaseTypes(i))
+				{
+					yield return j;
+				}
+			}
+		}
 
         public bool IsCompilerGenerated
         {
