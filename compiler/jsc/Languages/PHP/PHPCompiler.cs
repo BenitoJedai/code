@@ -370,103 +370,7 @@ namespace jsc.Script.PHP
 		}
 
 
-		public override void WriteTypeSignature(Type z, ScriptAttribute za)
-		{
-			WriteLine("// " + z.FullName);
-
-			WriteIdent();
-
-
-
-			if (z.IsInterface)
-				Write("interface");
-			else
-			{
-				if (z.IsAbstract)
-					Write("abstract ");
-
-				Write("class");
-			}
-
-			WriteSpace();
-			WriteDecoratedTypeName(z);
-
-			if (!z.ToScriptAttributeOrDefault().InternalConstructor)
-			{
-				if (!z.IsInterface)
-				{
-					if (z.BaseType != typeof(object))
-					{
-						var BaseType = ResolveImplementation(z.BaseType) ?? z.BaseType;
-
-
-						ScriptAttribute ba = ScriptAttribute.Of(BaseType, false);
-
-						if (ba == null)
-							Break("base class should be for scripting : " + BaseType.FullName);
-
-						WriteSpace();
-						Write("extends");
-						WriteSpace();
-						WriteDecoratedTypeName(BaseType);
-
-					}
-				}
-			}
-
-			WriteLine();
-		}
-
-		private void WriteTypeVirtualMethods(Type owner, ScriptAttribute za)
-		{
-			// find the virtual name or names
-
-			if (za.HasNoPrototype)
-				return;
-
-			List<Type> t = new List<Type>(owner.GetInterfaces());
-
-
-			bool b = false;
-
-			foreach (Type x in t)
-			{
-
-				InterfaceMapping z = owner.GetInterfaceMap(x);
-
-				int ix = 0;
-
-				foreach (MethodInfo zm in z.TargetMethods)
-				{
-
-					MethodBase a = z.InterfaceMethods[ix];
-
-					MethodBase u = z.TargetMethods[ix];
-
-					// since this is php, we cannot share method bodies, we must clone them
-					// wrapper? forwarder?
-
-					WriteCommentLine(z.InterfaceType.FullName);
-					WriteCommentLine(a.Name);
-					WriteCommentLine(u.Name);
-					// WriteMethodSignature(owner, a, false);
-					// WriteMethodBody(u);
-
-					b = true;
-
-					ix++;
-				}
-
-
-
-
-			}
-
-			if (b)
-				WriteLine();
-
-		}
-
+	
 		private void WriteTypeInstanceConstructors(Type z)
 		{
 			ConstructorInfo[] zci = z.GetConstructors(BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
@@ -621,7 +525,7 @@ namespace jsc.Script.PHP
 			WriteMethodParameterList(m);
 			Write(")");
 
-			if (compiland.IsInterface || 
+			if (compiland.IsInterface ||
 				(m.IsAbstract && !compiland.IsInterface && compiland.IsAbstract)
 				)
 				WriteLine(";");

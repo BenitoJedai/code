@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\php\MovieBlog\MovieBlog\bin\Release\</StartWorkingDirectory>
-    <StartArguments>MovieBlog.exe -php</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\php\AbstractMethods\AbstractMethods\bin\Release</StartWorkingDirectory>
+    <StartArguments>AbstractMethods.dll -php</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

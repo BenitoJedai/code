@@ -116,6 +116,7 @@
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.WriteCustomAttributes.cs" />
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.WriteMethodCustomBody.cs" />
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.OpCodes.Isinst.cs" />
+    <Compile Include="Languages\ActionScript\ActionScriptCompiler.WriteInterfaceMappingMethods.cs" />
     <Compile Include="Languages\ActionScript\DelegateImplementationProvider.cs" />
     <Compile Include="Languages\ActionScript\EntryPointProvider.cs" />
     <Compile Include="Languages\CompilerBase.DIA.cs" />
@@ -168,6 +169,9 @@
     <Compile Include="Languages\Java\JavaCompiler.WriteImportTypes.cs" />
     <Compile Include="Languages\Java\JavaCompiler.KeyWords.cs" />
     <Compile Include="Languages\Java\JavaCompiler.OpCodes.cs" />
+    <Compile Include="Languages\PHP\PHPCompiler.WriteTypeSignature.cs" />
+    <Compile Include="Languages\PHP\PHPCompiler.Keywords.cs" />
+    <Compile Include="Languages\PHP\PHPCompiler.WriteTypeVirtualMethods.cs" />
     <Compile Include="Languages\PHP\PHPCompiler.OpCodes.cs" />
     <Compile Include="Languages\PHP\PHPCompiler.CompileType.cs" />
     <Compile Include="Languages\PHP\DelegateImplementationProvider.cs" />
