@@ -25,7 +25,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 
 			var x = Read(buffer, 0, 1);
 
-			if (x == -1)
+			if (x != 1)
 				return -1;
 
 			return (int) buffer[0] & 0xff;

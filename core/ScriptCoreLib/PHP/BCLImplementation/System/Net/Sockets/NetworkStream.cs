@@ -22,28 +22,29 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Net.Sockets
 			if (Native.API.feof(InternalSocket.InternalHandler))
 				return -1;
 
-			for (int i = 0; i < count; i++)
+			var x = Native.API.fread(InternalSocket.InternalHandler, count);
+
+			for (int i = 0; i < x.Length; i++)
 			{
-				buffer[i] = (byte)
-					Native.API.ord(
-						Native.API.fread(InternalSocket.InternalHandler, 1)
-					);
+				buffer[i] = (byte)x[i];
 			}
 
-			return count;
+			return x.Length;
 		}
 
 		public override void Write(byte[] buffer, int offset, int count)
 		{
 			var InternalSocket = (__Socket)(object)this.InternalSocket;
 
-			foreach (byte x in buffer)
+			var data = "";
+
+			for (int i = offset; i < count; i++)
 			{
-				Native.API.fwrite(
-					InternalSocket.InternalHandler,
-					Native.API.chr(x)
-				);
+				data += Native.API.chr(buffer[i]);
 			}
+
+
+			Native.API.fwrite(InternalSocket.InternalHandler, data);
 
 		}
 
