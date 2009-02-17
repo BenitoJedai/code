@@ -36,61 +36,34 @@ namespace MovieBlog.Server
 		[Script(NoDecoration = true)]
 		public static void Application_Entrypoint()
 		{
-			var t = new TcpClient();
+			//ScriptCoreLib.PHP.BCLImplementation.System.IO.__StreamReader_Test.Assert();
 
-			t.Connect("www.google.ee", 80);
+			var crawler = new BasicWebCrawler("example.com", 80);
 
-			var w = new StreamWriter(t.GetStream());
+			var headers = 0;
 
-			w.WriteLine("GET / HTTP/1.0");
-			w.WriteLine("Host: www.google.ee");
-			w.WriteLine("Connection: Close");
-			w.WriteLine();
-			w.Flush();
+			crawler.HeaderReceived += delegate { headers++; };
 
-			//var r = new StreamReader(t.GetStream());
-			var r = t.GetStream();
+			crawler.DataReceived +=
+				document =>
+				{
+					document = document.Replace(
+						"reached this web page",
+						"<b>received " + headers + " HTTP header(s)</b> and you have reached this web page"
+					);
 
-			var i = r.ReadByte();
+					document = document.Replace(
+						"are reserved for use in documentation and",
+						"are reserved for use in documentation <b>including examples</b> and"
+					);
 
-			while (i != -1)
-			{
-
-				var text = new string((char)i, 1);
-
-				Console.Write(text);
-
-				i = r.ReadByte();
-			}
-
-			//Console.WriteLine(r.ReadToEnd());
-
-
-			t.Close();
+					Console.Write(document);
+				};
 
 
 
-			//var fp = Native.API.fsockopen("www.google.ee", 80);
 
-			//if (fp == null)
-			//{
-			//    Console.WriteLine("error");
-			//}
-			//else
-			//{
-			//    Native.API.fwrite(fp, "GET / HTTP/1.0\r\n");
-			//    Native.API.fwrite(fp, "Host: www.google.ee\r\n");
-			//    Native.API.fwrite(fp, "Connection: Close\r\n\r\n");
-
-
-			//    while (!Native.API.feof(fp))
-			//    {
-			//        Console.Write(Native.API.fgets(fp, 128));
-			//    }
-
-			//    Native.API.fclose(fp);
-
-			//}
+			crawler.Crawl("/");
 
 
 			//Console.WriteLine("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");

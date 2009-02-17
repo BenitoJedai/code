@@ -43,6 +43,13 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Text
 			return this;
 		}
 
+		public __StringBuilder Append(char e)
+		{
+			_Value += Native.API.chr(e);
+
+			return this;
+		}
+
 		public __StringBuilder Append(string e)
 		{
 			_Value += e;

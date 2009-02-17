@@ -21,22 +21,28 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 			// flush if any
 		}
 
+
+		public override void Write(string value)
+		{
+			var x = value.Length;
+			var buffer = new byte[x];
+
+			for (int i = 0; i < x; i++)
+			{
+				buffer[i] = (byte)value[i];
+			}
+
+			InternalStream.Write(buffer, 0, buffer.Length);
+		}
+
 		public override void WriteLine()
 		{
-			InternalStream.WriteByte((byte)'\r');
-			InternalStream.WriteByte((byte)'\n');
+			Write("\r\n");
 		}
 
 		public override void WriteLine(string value)
 		{
-			foreach (char c in value)
-			{
-				InternalStream.WriteByte((byte)c);
-			}
-
-			InternalStream.WriteByte((byte)'\r');
-			InternalStream.WriteByte((byte)'\n');
-
+			Write(value + "\r\n");
 		}
 	}
 }
