@@ -48,17 +48,20 @@ namespace MovieBlog
 		private static void CreatePHPIndexPage(IEntryPoint e, string file_name, Action entryfunction)
 		{
 
-			var w = new ScriptCoreLib.Shared.TextWriter();
+			var a = new StringBuilder();
 
-			w.WriteLine("<?");
+			a.AppendLine("<?");
 
-			SharedHelper.PHPInclude(w, SharedHelper.LocalModulesOf(Assembly.GetExecutingAssembly(), ScriptType.PHP));
+			foreach (var u in SharedHelper.LocalModulesOf(Assembly.GetExecutingAssembly(), ScriptType.PHP))
+			{
+				a.AppendLine("require_once '" + u + ".php';");
+			}
 
-			w.WriteLine(entryfunction.Method.Name + "();");
+			a.AppendLine(entryfunction.Method.Name + "();");
+			a.AppendLine("?>");
 
-			w.Write("?>");
 
-			e[file_name] = w.Text;
+			e[file_name] = a.ToString();
 		}
 		#endregion
 

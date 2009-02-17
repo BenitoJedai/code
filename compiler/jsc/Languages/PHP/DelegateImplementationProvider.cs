@@ -17,7 +17,7 @@ namespace jsc.Languages.PHP
             Type MulticastDelegate = w.MySession.ResolveImplementation(z.BaseType);
             Type Delegate = w.MySession.ResolveImplementation(z.BaseType.BaseType);
 
-            w.WriteImport(jsc.Script.PHP.PHPCompiler.TypeInfoOf(MulticastDelegate));
+            w.WriteImport(w.TypeInfoOf(MulticastDelegate));
 
             FieldInfo FieldList = null;
             FieldInfo FieldTarget = null;

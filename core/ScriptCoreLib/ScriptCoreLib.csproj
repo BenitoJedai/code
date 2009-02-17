@@ -521,7 +521,11 @@
     <Compile Include="JavaScript\Serialized\ObjectStreamHelper.cs" />
     <Compile Include="PHP\BCLImplementation\System\Action.cs" />
     <Compile Include="PHP\BCLImplementation\System\ArgumentNullException.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Collections\Generic\IEnumerable.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Collections\Generic\IEnumerator.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\IEqualityComparer.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Collections\IEnumerable.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Collections\IEnumerator.cs" />
     <Compile Include="PHP\BCLImplementation\System\Console.cs" />
     <Compile Include="PHP\BCLImplementation\System\Convert.cs" />
     <Compile Include="PHP\BCLImplementation\System\IDisposable.cs" />

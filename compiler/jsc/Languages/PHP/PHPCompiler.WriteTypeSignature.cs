@@ -75,6 +75,10 @@ namespace jsc.Script.PHP
 					}
 
 					var BaseType = ResolveImplementation(Interfaces[i]) ?? Interfaces[i];
+
+					if (BaseType.ToScriptAttribute() == null)
+						Break("'" + BaseType.Name + "' does not have ScriptAttribute");
+
 					WriteDecoratedTypeName(BaseType);
 				}
 			}

@@ -231,42 +231,34 @@ namespace jsc.Script.PHP
 		{
 			get
 			{
-				var u = new List<TypeInfo>();
+				var u = MySession.Types.Select(k => TypeInfoOf(k)).ToArray();
 
-				foreach (Type z in MySession.Types)
+				var a = new List<TypeInfo>();
+
+				foreach (var i in u)
 				{
-					TypeInfo v = TypeInfoOf(z);
+					// scan from the end to front
 
-					u.Add(v);
+					int j = a.Count - 1;
+
+					for (; j >= 0; j--)
+					{
+						if (i.ResolvedBaseTypes.Contains(a[j].ResolvedValue))
+						{
+							// we found the first dependency
+							break;
+						}
+					}
+
+					// add after last detected dependency
+					a.Insert(j + 1, i);
 				}
 
-
-			
-				u.Sort(
-					(x, y) =>
-					{
-						var iy = ResolveImplementation(y.Value) ?? y.Value;
-						var ix = ResolveImplementation(x.Value) ?? x.Value;
-						var ix_references = x.ReferencedBaseTypes.Select(k => ResolveImplementation(k) ?? k).ToArray();
-
-						if (ix_references.Contains(iy))
-							return 1;
-
-						var iy_references = y.ReferencedBaseTypes.Select(k => ResolveImplementation(k) ?? k).ToArray();
-
-
-						if (iy_references.Contains(ix))
-							return -1;
-
-						return 0;
-					}
-				);
-
-				return u.ToArray();
+				return a.ToArray();
 			}
 		}
 
-		public static TypeInfo TypeInfoOf(Type z)
+		public  TypeInfo TypeInfoOf(Type z)
 		{
 			TypeInfo v = new TypeInfo(z);
 
@@ -274,6 +266,9 @@ namespace jsc.Script.PHP
 			{
 				return "inc/" + a.AssamblyFileName + "/class." + a.Win32TypeName + ".php";
 			};
+
+			v.ResolvedValue = ResolveImplementation(v.Value) ?? v.Value;
+			v.ResolvedBaseTypes = v.ReferencedBaseTypes.Select(k => ResolveImplementation(k) ?? k).ToArray();
 
 			return v;
 		}
