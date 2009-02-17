@@ -225,13 +225,13 @@ namespace jsc.Script.PHP
 			return MySession.Types;
 		}
 
-		
+
 
 		TypeInfo[] ActiveTypes
 		{
 			get
 			{
-				List<TypeInfo> u = new List<TypeInfo>();
+				var u = new List<TypeInfo>();
 
 				foreach (Type z in MySession.Types)
 				{
@@ -241,15 +241,22 @@ namespace jsc.Script.PHP
 				}
 
 
-
+			
 				u.Sort(
 					(x, y) =>
 					{
-						if (x.ReferencedBaseTypes.Contains(y.Value))
-							return -1;
+						var iy = ResolveImplementation(y.Value) ?? y.Value;
+						var ix = ResolveImplementation(x.Value) ?? x.Value;
+						var ix_references = x.ReferencedBaseTypes.Select(k => ResolveImplementation(k) ?? k).ToArray();
 
-						if (y.ReferencedBaseTypes.Contains(x.Value))
+						if (ix_references.Contains(iy))
 							return 1;
+
+						var iy_references = y.ReferencedBaseTypes.Select(k => ResolveImplementation(k) ?? k).ToArray();
+
+
+						if (iy_references.Contains(ix))
+							return -1;
 
 						return 0;
 					}
