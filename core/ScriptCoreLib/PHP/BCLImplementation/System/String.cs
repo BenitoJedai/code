@@ -51,6 +51,9 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 
 			#endregion
 
+			[Script(IsNative = true)]
+			public static int strpos(__String _haystack, object _needle, int start) { return default(int); }
+
 
 			#region mixed str_replace ( mixed search, mixed replace, mixed subject [, int &count] )
 
@@ -202,6 +205,12 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 		public int IndexOf(string e)
 		{
 			return API.strpos(this, e);
+		}
+
+		[Script(DefineAsStatic = true)]
+		public int IndexOf(string e, int start)
+		{
+			return API.strpos(this, e, start);
 		}
 
 		[Script(DefineAsStatic = true)]

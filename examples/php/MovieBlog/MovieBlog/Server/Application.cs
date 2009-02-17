@@ -37,8 +37,9 @@ namespace MovieBlog.Server
 		public static void Application_Entrypoint()
 		{
 			//ScriptCoreLib.PHP.BCLImplementation.System.IO.__StreamReader_Test.Assert();
+			//ShowExampleDotCom();
 
-			var crawler = new BasicWebCrawler("example.com", 80);
+			var crawler = new BasicWebCrawler("thepiratebay.org", 80);
 
 			var headers = 0;
 
@@ -47,23 +48,43 @@ namespace MovieBlog.Server
 			crawler.DataReceived +=
 				document =>
 				{
-					document = document.Replace(
-						"reached this web page",
-						"<b>received " + headers + " HTTP header(s)</b> and you have reached this web page"
-					);
+					var results = document.IndexOf("<table id=\"searchResult\">");
+					var headend = document.IndexOf("</thead>", results);
 
-					document = document.Replace(
-						"are reserved for use in documentation and",
-						"are reserved for use in documentation <b>including examples</b> and"
-					);
+					var itemstart = document.IndexOf("<tr>", headend);
+					var itemend = document.IndexOf("</tr>", itemstart);
 
-					Console.Write(document);
+
+					var itemdata = document.Substring(itemstart, itemend - itemstart);
+
+					// type, name, uploaded, size, se, le
+
+
+					//<tr>
+					//<td class="vertTh"><a href="/browse/205" title="More from this category">Video &gt; TV shows</a></td>
+					//<td><a href="/torrent/4727946/Heroes.S03E16.HDTV.XviD-XOR.avi" class="detLink" title="Details for Heroes.S03E16.HDTV.XviD-XOR.avi">Heroes.S03E16.HDTV.XviD-XOR.avi</a></td>
+					//<td>Today&nbsp;04:55</td>
+					//<td><a href="http://torrents.thepiratebay.org/4727946/Heroes.S03E16.HDTV.XviD-XOR.avi.4727946.TPB.torrent" title="Download this torrent"><img src="http://static.thepiratebay.org/img/dl.gif" class="dl" alt="Download" /></a><img src="http://static.thepiratebay.org/img/icon_comment.gif" alt="This torrent has 22 comments." title="This torrent has 22 comments." /><img src="http://static.thepiratebay.org/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" /></td>
+					//<td align="right">348.97&nbsp;MiB</td>
+					//<td align="right">47773</td>
+					//<td align="right">60267</td>
+
+					Console.WriteLine("<h1>Most Popular video</h1>");
+					Console.WriteLine("<table>");
+
+					Console.WriteLine(itemdata);
+
+					Console.WriteLine("</tr>");
+					Console.WriteLine("</table>");
+
 				};
 
 
 
 
-			crawler.Crawl("/");
+			crawler.Crawl("/top/200");
+
+			// http://thepiratebay.org/top/200
 
 
 			//Console.WriteLine("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
@@ -198,6 +219,36 @@ namespace MovieBlog.Server
 			//Console.WriteLine("</body>");
 			//Console.WriteLine("</html>");
 
+		}
+
+		private static void ShowExampleDotCom()
+		{
+			var crawler = new BasicWebCrawler("example.com", 80);
+
+			var headers = 0;
+
+			crawler.HeaderReceived += delegate { headers++; };
+
+			crawler.DataReceived +=
+				document =>
+				{
+					document = document.Replace(
+						"reached this web page",
+						"<b>received " + headers + " HTTP header(s)</b> and you have reached this web page"
+					);
+
+					document = document.Replace(
+						"are reserved for use in documentation and",
+						"are reserved for use in documentation <b>including examples</b> and"
+					);
+
+					Console.Write(document);
+				};
+
+
+
+
+			crawler.Crawl("/");
 		}
 	}
 }
