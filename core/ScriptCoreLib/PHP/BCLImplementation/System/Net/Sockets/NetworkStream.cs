@@ -17,12 +17,34 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Net.Sockets
 
 		public override int Read(byte[] buffer, int offset, int count)
 		{
-			throw new global::System.NotImplementedException("");
+			var InternalSocket = (__Socket)(object)this.InternalSocket;
+
+			if (Native.API.feof(InternalSocket.InternalHandler))
+				return -1;
+
+			for (int i = 0; i < count; i++)
+			{
+				buffer[i] = (byte)
+					Native.API.ord(
+						Native.API.fread(InternalSocket.InternalHandler, 1)
+					);
+			}
+
+			return count;
 		}
 
 		public override void Write(byte[] buffer, int offset, int count)
 		{
-			throw new global::System.NotImplementedException("");
+			var InternalSocket = (__Socket)(object)this.InternalSocket;
+
+			foreach (byte x in buffer)
+			{
+				Native.API.fwrite(
+					InternalSocket.InternalHandler,
+					Native.API.chr(x)
+				);
+			}
+
 		}
 
 		public override long Length
@@ -38,6 +60,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Net.Sockets
 			}
 			set
 			{
+				// Note: Note that fread() reads from the current position of the 
+				// file pointer. Use ftell() to find the current position of the 
+				// pointer and rewind() to rewind the pointer position. 
+
 				throw new global::System.NotImplementedException("");
 			}
 		}
