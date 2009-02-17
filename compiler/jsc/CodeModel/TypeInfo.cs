@@ -12,6 +12,7 @@ namespace jsc.CodeModel
 	public class TypeInfo
 	{
 		public Type Value;
+		public Type ResolvedValue;
 
 		public TypeInfo(Type e)
 		{
@@ -22,6 +23,7 @@ namespace jsc.CodeModel
 		}
 
 		public readonly Type[] ReferencedBaseTypes;
+		public Type[] ResolvedBaseTypes;
 
 		static IEnumerable<Type> GetReferencedBaseTypes(Type e)
 		{

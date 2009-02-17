@@ -84,9 +84,9 @@ namespace jsc.Script.PHP
 
 				WriteLine();
 			}
-			catch
+			catch (Exception ex)
 			{
-				Break("internal error while compiling type " + z.FullName);
+				Break("internal error while compiling type " + z.FullName + "; " + ex.Message);
 			}
 
 

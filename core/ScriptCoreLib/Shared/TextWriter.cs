@@ -5,7 +5,7 @@ namespace ScriptCoreLib.Shared
 
 
     [Script]
-    public class TextWriter : ITextWriter
+    public class TextWriter //: ITextWriter
     {
         string _text = "";
 
