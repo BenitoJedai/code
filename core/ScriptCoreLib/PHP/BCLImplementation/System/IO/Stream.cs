@@ -23,7 +23,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 		{
 			var buffer = new byte[1];
 
-			Read(buffer, 0, 1);
+			var x = Read(buffer, 0, 1);
+
+			if (x == -1)
+				return -1;
 
 			return (int) buffer[0] & 0xff;
 		}

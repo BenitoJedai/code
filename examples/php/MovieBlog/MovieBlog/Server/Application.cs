@@ -48,36 +48,49 @@ namespace MovieBlog.Server
 			w.WriteLine();
 			w.Flush();
 
-			var r = new StreamReader(t.GetStream());
+			//var r = new StreamReader(t.GetStream());
+			var r = t.GetStream();
 
-			Console.WriteLine(r.ReadToEnd());
+			var i = r.ReadByte();
 
-			
+			while (i != -1)
+			{
+
+				var text = new string((char)i, 1);
+
+				Console.Write(text);
+
+				i = r.ReadByte();
+			}
+
+			//Console.WriteLine(r.ReadToEnd());
+
+
 			t.Close();
 
 
 
-			var fp = Native.API.fsockopen("www.google.ee", 80);
+			//var fp = Native.API.fsockopen("www.google.ee", 80);
 
-			if (fp == null)
-			{
-				Console.WriteLine("error");
-			}
-			else
-			{
-				Native.API.fwrite(fp, "GET / HTTP/1.0\r\n");
-				Native.API.fwrite(fp, "Host: www.google.ee\r\n");
-				Native.API.fwrite(fp, "Connection: Close\r\n\r\n");
+			//if (fp == null)
+			//{
+			//    Console.WriteLine("error");
+			//}
+			//else
+			//{
+			//    Native.API.fwrite(fp, "GET / HTTP/1.0\r\n");
+			//    Native.API.fwrite(fp, "Host: www.google.ee\r\n");
+			//    Native.API.fwrite(fp, "Connection: Close\r\n\r\n");
 
 
-				while (!Native.API.feof(fp))
-				{
-					Console.Write(Native.API.fgets(fp, 128));
-				}
+			//    while (!Native.API.feof(fp))
+			//    {
+			//        Console.Write(Native.API.fgets(fp, 128));
+			//    }
 
-				Native.API.fclose(fp);
+			//    Native.API.fclose(fp);
 
-			}
+			//}
 
 
 			//Console.WriteLine("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");

@@ -136,7 +136,8 @@ namespace jsc.Script.PHP
                                     Write(",");
                                     WriteSpace();
                                 }
-                                WriteSafeLiteral(iparams[i].Name);
+								WriteDecoratedMethodParameter(iparams[i]);
+								//WriteSafeLiteral(iparams[i].Name);
                             }
                             Write(")");
 						//}

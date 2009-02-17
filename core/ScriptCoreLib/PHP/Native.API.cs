@@ -647,6 +647,9 @@ namespace ScriptCoreLib.PHP
 			[Script(IsNative = true)]
 			public static string fgets(object _handle, int _length) { return default(string); }
 
+			[Script(IsNative = true)]
+			public static string fread(object _handle, int _length) { return default(string); }
+
 
 			[Script(IsNative = true)]
 			public static bool feof(object _handle) { return default(bool); }
