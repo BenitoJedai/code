@@ -1437,6 +1437,9 @@ namespace jsc.Script
 
 			}
 
+			if (z.IsAnonymousType())
+				return GetDecoratedGUID(z.GUID);
+
 			if (bND)
 				return GetSafeLiteral(z.Name);
 			else

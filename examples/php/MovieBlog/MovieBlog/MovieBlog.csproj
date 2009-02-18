@@ -84,6 +84,7 @@
     <Compile Include="KnownAssets.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\BasicElementParser.cs" />
     <Compile Include="Server\BasicWebCrawler.cs" />
     <Compile Include="Server\ServerExtensions.cs" />
     <Compile Include="Settings.cs" />

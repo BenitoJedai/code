@@ -36,18 +36,38 @@ namespace MovieBlog.Server
 		[Script(NoDecoration = true)]
 		public static void Application_Entrypoint()
 		{
+			Native.API.set_time_limit(3);
+
 			//ScriptCoreLib.PHP.BCLImplementation.System.IO.__StreamReader_Test.Assert();
+			var start = Native.API.microtime(true);
+
+			Console.WriteLine("start: " + Native.API.time());
+
 			//ShowExampleDotCom();
+
+
+
 
 			var crawler = new BasicWebCrawler("thepiratebay.org", 80);
 
 			var headers = 0;
 
-			crawler.HeaderReceived += delegate { headers++; };
+			crawler.HeaderReceived += delegate
+			{
+				headers++;
+				Console.WriteLine(".");
+
+				Native.API.set_time_limit(6);
+			};
+
+
 
 			crawler.DataReceived +=
 				document =>
 				{
+					Console.WriteLine(document.Length + " bytes");
+
+
 					var results = document.IndexOf("<table id=\"searchResult\">");
 					var headend = document.IndexOf("</thead>", results);
 
@@ -57,7 +77,6 @@ namespace MovieBlog.Server
 
 					var itemdata = document.Substring(itemstart, itemend - itemstart);
 
-					// type, name, uploaded, size, se, le
 
 
 					//<tr>
@@ -69,13 +88,57 @@ namespace MovieBlog.Server
 					//<td align="right">47773</td>
 					//<td align="right">60267</td>
 
-					Console.WriteLine("<h1>Most Popular video</h1>");
-					Console.WriteLine("<table>");
+					//Console.WriteLine("<h1>Most Popular video</h1>");
+					//Console.WriteLine("<table>");
 
-					Console.WriteLine(itemdata);
+					// type, name, uploaded, links, size, se, le
 
-					Console.WriteLine("</tr>");
-					Console.WriteLine("</table>");
+					var Fields = new
+					{
+						Type = "",
+						Name = "",
+						Time = "",
+						Links = "",
+						Size = "",
+						Seeders = "",
+						Leechers = "",
+					};
+
+					Action<string> SetField = null;
+
+					SetField = Type =>
+					SetField = Name =>
+					SetField = Time =>
+					SetField = Links =>
+					SetField = Size =>
+					SetField = Seeders =>
+					SetField = Leechers =>
+					{
+						Fields = new { Type, Name, Time, Links, Size, Seeders, Leechers };
+
+
+						SetField = delegate { };
+					};
+
+
+					var ep = new BasicElementParser();
+
+					ep.AddContent +=
+						(value, index) =>
+						{
+							//Console.WriteLine("AddContent start #" + index);
+							SetField(value);
+							//Console.WriteLine("AddContent stop #" + index);
+						};
+
+					ep.Parse(itemdata, "td");
+
+					Console.WriteLine("<p>");
+					Console.WriteLine(Fields.Name + "<br />");
+					Console.WriteLine(Fields.Size + "<br />");
+					Console.WriteLine(Fields.Seeders + "<br />");
+					Console.WriteLine(Fields.Leechers + "<br />");
+					Console.WriteLine("</p>");
 
 				};
 
@@ -83,6 +146,12 @@ namespace MovieBlog.Server
 
 
 			crawler.Crawl("/top/200");
+
+			var stop = Native.API.microtime(true);
+
+			Console.WriteLine("stop: " + stop);
+			Console.WriteLine("elapsed: " + (stop - start));
+
 
 			// http://thepiratebay.org/top/200
 
