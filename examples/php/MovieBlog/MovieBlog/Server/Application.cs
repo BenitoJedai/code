@@ -36,7 +36,7 @@ namespace MovieBlog.Server
 		[Script(NoDecoration = true)]
 		public static void Application_Entrypoint()
 		{
-			Native.API.set_time_limit(3);
+			Native.API.set_time_limit(6);
 
 			//ScriptCoreLib.PHP.BCLImplementation.System.IO.__StreamReader_Test.Assert();
 			var start = Native.API.microtime(true);
@@ -45,127 +45,74 @@ namespace MovieBlog.Server
 
 			//ShowExampleDotCom();
 
+			var DefaultLink = new { Link = "", Title = "", Text = "" };
 
-
-			
-			var crawler = new BasicWebCrawler("thepiratebay.org", 80);
-
-			var headers = 0;
-
-			crawler.HeaderReceived += delegate
-			{
-				headers++;
-				Console.WriteLine(".");
-
-			};
-
-			crawler.AllHeadersReceived +=
-				delegate
+			var ParseLink = DefaultLink.ToAnonymousConstructor(
+				(string element) =>
 				{
-					Native.API.set_time_limit(6);
+					var Link = "";
+					var Title = "";
+					var Text = "";
 
-					{
-						var stop = Native.API.microtime(true);
+					element.
+						ParseAttribute("href", value => Link = value).
+						ParseAttribute("title", value => Title = value).
+						ParseContent(value => Text = value).
+						Parse();
 
-						Console.WriteLine("header stop: " + stop);
-						Console.WriteLine("header elapsed: " + (stop - start));
+					return new { Link, Title, Text };
+				}
+			);
 
-						start = Native.API.microtime(true);
-					}
+			var crawler = new BasicWebCrawler("thepiratebay.org", 80);
+			var search = new BasicPirateBaySearch(crawler);
+
+			search.AddEntry +=
+				entry =>
+				{
+
+					var Type = ParseLink(entry.Type);
+					var Name = ParseLink(entry.Name);
+
+					Console.WriteLine("<li>");
+					Console.WriteLine("<div>");
+
+					Console.WriteLine(Type.Text.ToLink("http://thepiratebay.org" + Type.Link) + "<br />");
+					Console.WriteLine(Name.Text.ToLink("http://thepiratebay.org" + Name.Link) + "<br />");
+					Console.WriteLine(entry.Links + "<br />");
+					Console.WriteLine(entry.Size + "<br />");
+					Console.WriteLine(entry.Seeders + "<br />");
+					Console.WriteLine(entry.Leechers + "<br />");
+					Console.WriteLine("</div>");
+					Console.WriteLine("</li>");
+
 				};
 
-			crawler.DataReceived +=
-				document =>
+			search.Loaded +=
+				AddEntries =>
 				{
-					Console.WriteLine(document.Length + " bytes");
+					Console.WriteLine("<hr />");
 
-
-					var results = document.IndexOf("<table id=\"searchResult\">");
-					var headend = document.IndexOf("</thead>", results);
-
-					var DefaultFields = new
-					{
-						Type = "",
-						Name = "",
-						Time = "",
-						Links = "",
-						Size = "",
-						Seeders = "",
-						Leechers = "",
-					};
-
-					Func<int, int> ScanSingleResult =
-						offset => 
-						{
-							var itemstart = document.IndexOf("<tr>", offset);
-							var itemend = document.IndexOf("</tr>", itemstart);
-
-
-							var itemdata = document.Substring(itemstart, itemend - itemstart);
-
-
-
-							//<tr>
-							//<td class="vertTh"><a href="/browse/205" title="More from this category">Video &gt; TV shows</a></td>
-							//<td><a href="/torrent/4727946/Heroes.S03E16.HDTV.XviD-XOR.avi" class="detLink" title="Details for Heroes.S03E16.HDTV.XviD-XOR.avi">Heroes.S03E16.HDTV.XviD-XOR.avi</a></td>
-							//<td>Today&nbsp;04:55</td>
-							//<td><a href="http://torrents.thepiratebay.org/4727946/Heroes.S03E16.HDTV.XviD-XOR.avi.4727946.TPB.torrent" title="Download this torrent"><img src="http://static.thepiratebay.org/img/dl.gif" class="dl" alt="Download" /></a><img src="http://static.thepiratebay.org/img/icon_comment.gif" alt="This torrent has 22 comments." title="This torrent has 22 comments." /><img src="http://static.thepiratebay.org/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" /></td>
-							//<td align="right">348.97&nbsp;MiB</td>
-							//<td align="right">47773</td>
-							//<td align="right">60267</td>
-
-							//Console.WriteLine("<h1>Most Popular video</h1>");
-							//Console.WriteLine("<table>");
-
-							// type, name, uploaded, links, size, se, le
-
-							var Fields = DefaultFields;
-
-							Action<string> SetField = null;
-
-							SetField = Type =>
-							SetField = Name =>
-							SetField = Time =>
-							SetField = Links =>
-							SetField = Size =>
-							SetField = Seeders =>
-							SetField = Leechers =>
-							{
-								Fields = new { Type, Name, Time, Links, Size, Seeders, Leechers };
-
-								SetField = delegate { };
-							};
-
-
-							var ep = new BasicElementParser();
-
-							ep.AddContent +=
-								(value, index) =>
-								{
-									//Console.WriteLine("AddContent start #" + index);
-									SetField(value);
-									//Console.WriteLine("AddContent stop #" + index);
-								};
-
-							ep.Parse(itemdata, "td");
-
-							Console.WriteLine("<p>");
-							Console.WriteLine(Fields.Name + "<br />");
-							Console.WriteLine(Fields.Size + "<br />");
-							Console.WriteLine(Fields.Seeders + "<br />");
-							Console.WriteLine(Fields.Leechers + "<br />");
-							Console.WriteLine("</p>");
-
-							return itemend + 5;
-						};
-
+					"http://static.thepiratebay.org/img/tpblogo_sm_ny.gif".ToImageToConsole();
 
 					Console.WriteLine("<h2>Top Movies</h2>");
+					Console.WriteLine("<ol>");
 
-					var resultend = ScanSingleResult.ToChainedFunc(3)(headend);
+					AddEntries();
 
-
+					Console.WriteLine("</ol>");
 				};
+
+			//var headers = 0;
+
+			//crawler.HeaderReceived += delegate
+			//{
+			//    headers++;
+			//    Console.WriteLine(".");
+
+			//};
+
+			
 
 
 
