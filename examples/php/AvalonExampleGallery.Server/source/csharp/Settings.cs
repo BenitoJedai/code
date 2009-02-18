@@ -26,7 +26,7 @@ namespace ScriptApplication.source.csharp
 
 		public static void DefineEntryPoint(IEntryPoint e)
 		{
-			CreatePHPIndexPage(e, php.OrcasPHPScriptApplicationBackend.Filename, php.OrcasPHPScriptApplicationBackend.Entrypoint);
+			CreatePHPIndexPage(e, php.OrcasPHPScriptApplicationBackend.Filename, php.OrcasPHPScriptApplicationBackend.WebPageEntry);
 
 			// http://www.javascriptkit.com/howto/htaccess6.shtml
 			e[".htaccess"] =
@@ -34,24 +34,23 @@ namespace ScriptApplication.source.csharp
 				"DirectoryIndex " + php.OrcasPHPScriptApplicationBackend.Filename;
 		}
 
-		private static void CreatePHPIndexPage(IEntryPoint e, string file_name, string entryfunction)
+		private static void CreatePHPIndexPage(IEntryPoint e, string file_name, Action entryfunction)
 		{
 			{
-				var w = new ScriptCoreLib.Shared.TextWriter();
+				var a = new StringBuilder();
 
-				w.WriteLine("<?");
+				a.AppendLine("<?");
 
-				SharedHelper.PHPInclude(w,
-					SharedHelper.LoadReferencedAssemblies(Assembly.GetExecutingAssembly(), true).Where(
-						a => a.GetCustomAttributes(typeof(ScriptTypeFilterAttribute), false).Cast<ScriptTypeFilterAttribute>().Any(k => k.Type == ScriptType.PHP)
-					).Select(k => new FileInfo(k.Location).Name).ToArray()
-				);
+				foreach (var u in SharedHelper.LocalModulesOf(Assembly.GetExecutingAssembly(), ScriptType.PHP))
+				{
+					a.AppendLine("require_once '" + u + ".php';");
+				}
 
-				w.WriteLine(entryfunction + "();");
+				a.AppendLine(entryfunction.Method.Name + "();");
+				a.AppendLine("?>");
 
-				w.Write("?>");
 
-				e[file_name] = w.Text;
+				e[file_name] = a.ToString();
 			}
 
 			{

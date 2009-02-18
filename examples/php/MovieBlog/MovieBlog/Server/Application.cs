@@ -95,7 +95,7 @@ namespace MovieBlog.Server
 					};
 
 					Func<int, int> ScanSingleResult =
-						offset =>
+						offset => 
 						{
 							var itemstart = document.IndexOf("<tr>", offset);
 							var itemend = document.IndexOf("</tr>", itemstart);
