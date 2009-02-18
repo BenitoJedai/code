@@ -13,6 +13,9 @@ namespace MovieBlog.Server
 	public class BasicWebCrawler
 	{
 		public event Action<string> HeaderReceived;
+
+		public event Action AllHeadersReceived;
+
 		public event Action<string> DataReceived;
 
 		public readonly string Host;
@@ -39,6 +42,7 @@ namespace MovieBlog.Server
 			w.WriteLine();
 			w.Flush();
 
+
 			var r = new StreamReader(t.GetStream());
 
 			var ReadingHeaders = true;
@@ -53,6 +57,9 @@ namespace MovieBlog.Server
 					if (this.HeaderReceived != null)
 						this.HeaderReceived(Header);
 			}
+
+			if (AllHeadersReceived != null)
+				AllHeadersReceived();
 
 			var Data = r.ReadToEnd();
 
