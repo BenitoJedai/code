@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using System.Net.Sockets;
 using System.IO;
+using System.Diagnostics;
 
 namespace MovieBlog.Server
 {
@@ -25,6 +26,7 @@ namespace MovieBlog.Server
 
 		public void Crawl(string path)
 		{
+			
 			var t = new TcpClient();
 
 			t.Connect(this.Host, this.Port);

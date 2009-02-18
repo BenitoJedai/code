@@ -7,12 +7,12 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 	[Script(Implements = typeof(global::System.String), InternalConstructor = true)]
 	internal class __String
 	{
-        public __String(char c, int count)
-        {
-        }
+		public __String(char c, int count)
+		{
+		}
 
-        public static string InternalConstructor(char c, int count)
-        {
+		public static string InternalConstructor(char c, int count)
+		{
 			var x = Native.API.chr(c);
 			var y = "";
 
@@ -20,9 +20,9 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 			{
 				y += x;
 			}
-			
-            return y;
-        }
+
+			return y;
+		}
 
 		public class API
 		{
@@ -54,7 +54,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 			[Script(IsNative = true)]
 			public static int strpos(__String _haystack, object _needle, int start) { return default(int); }
 
-
+			
 			#region mixed str_replace ( mixed search, mixed replace, mixed subject [, int &count] )
 
 			/// <summary>  
@@ -201,16 +201,20 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 			return API.trim(this);
 		}
 
+		[Script(OptimizedCode = @"$_0 = strpos({arg0}, {arg1}, {arg2}); return $_0 === false ? -1 : $_0;", UseCompilerConstants = true)]
+		public static int API_strpos(__String _haystack, object _needle, int start) { return default(int); }
+
+
 		[Script(DefineAsStatic = true)]
 		public int IndexOf(string e)
 		{
-			return API.strpos(this, e);
+			return API_strpos(this, e, 0);
 		}
 
 		[Script(DefineAsStatic = true)]
 		public int IndexOf(string e, int start)
 		{
-			return API.strpos(this, e, start);
+			return API_strpos(this, e, start);
 		}
 
 		[Script(DefineAsStatic = true)]

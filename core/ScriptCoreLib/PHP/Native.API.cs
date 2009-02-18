@@ -285,6 +285,8 @@ namespace ScriptCoreLib.PHP
 
 			#endregion
 
+			[Script(IsNative = true)]
+			public static double microtime(bool _get_as_float) { return default(int); }
 
 			#region mixed preg_replace ( mixed pattern, mixed replacement, mixed subject [, int limit [, int &count]] )
 

@@ -26,7 +26,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 		Stream InternalStream;
 
 		const int buffer_uninitialized = -2;
-		const int buffer_maxsize = 4;
+		const int buffer_maxsize = 0x1000;
 		byte[] buffer = new byte[buffer_maxsize];
 		int buffer_datasize = buffer_uninitialized;
 

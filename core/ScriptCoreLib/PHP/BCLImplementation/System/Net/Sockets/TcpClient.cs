@@ -1,4 +1,5 @@
 using System.Net.Sockets;
+using System;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.Net.Sockets
 {
@@ -19,6 +20,9 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Net.Sockets
 			{
 				InternalHandler = Native.API.fsockopen(hostname, port)
 			};
+
+			if (Client.InternalHandler == null)
+				throw new Exception("Native.API.fsockopen failed");
 
 			this.Client = (Socket)(object)Client;
 		}

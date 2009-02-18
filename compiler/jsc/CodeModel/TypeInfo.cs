@@ -82,15 +82,27 @@ namespace jsc.CodeModel
 			{
 				//if (Value.FullName == null)
 				{
+
 					Type p = Value;
 
 					string u = CompilerBase.GetSafeLiteral(Value.Name, CompilerBase.DefaultIsSafeLiteralChar);
 
-					while (p.IsNested)
+					if (Value.IsNested)
 					{
-						p = p.DeclaringType;
+						int token = p.MetadataToken;
 
-						u = CompilerBase.GetSafeLiteral(p.Name, CompilerBase.DefaultIsSafeLiteralChar) + "+" + u;
+						while (p.IsNested)
+						{
+							p = p.DeclaringType;
+
+							//token ^= p.MetadataToken;
+
+							if (!p.IsNested)
+							{
+								u = CompilerBase.GetSafeLiteral(p.Name, CompilerBase.DefaultIsSafeLiteralChar) + "_" + token.ToString("x8");
+							}
+						}
+
 					}
 
 					if (p.Namespace != null)
