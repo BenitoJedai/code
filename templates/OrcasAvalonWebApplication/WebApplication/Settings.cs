@@ -47,18 +47,20 @@ namespace WebApplication
 		#region PHP Section
 		private static void CreatePHPIndexPage(IEntryPoint e, string file_name, Action entryfunction)
 		{
+			var a = new StringBuilder();
 
-			var w = new ScriptCoreLib.Shared.TextWriter();
+			a.AppendLine("<?");
 
-			w.WriteLine("<?");
+			foreach (var u in SharedHelper.LocalModulesOf(Assembly.GetExecutingAssembly(), ScriptType.PHP))
+			{
+				a.AppendLine("require_once '" + u + ".php';");
+			}
 
-			SharedHelper.PHPInclude(w, SharedHelper.LocalModulesOf(Assembly.GetExecutingAssembly(), ScriptType.PHP));
+			a.AppendLine(entryfunction.Method.Name + "();");
+			a.AppendLine("?>");
 
-			w.WriteLine(entryfunction.Method.Name + "();");
 
-			w.Write("?>");
-
-			e[file_name] = w.Text;
+			e[file_name] = a.ToString();
 		}
 		#endregion
 
