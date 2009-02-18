@@ -63,7 +63,7 @@ namespace MovieBlog.Server
 		public interface IParseAttributeToken_ParseAttribute : IParseAttributeToken_ParseContent, IParseAttributeToken_Parse
 		{
 			string Name { get; }
-			
+
 
 
 		}
@@ -71,7 +71,7 @@ namespace MovieBlog.Server
 		[Script]
 		public interface IParseAttributeToken_ParseContent : IParseAttributeToken_Parse
 		{
-		
+
 		}
 
 
@@ -150,26 +150,41 @@ namespace MovieBlog.Server
 			var attibutes_end = Source.IndexOf(">", element_start);
 
 			var tag = "";
+			var element_fast_end = -1;
 
 			if (attributes_start < attibutes_end)
 			{
+				if (attributes_start < 0)
+					return;
+
+
 				tag = Source.Substring(element_start + 1, attributes_start - element_start - 1);
 
 				// seek for attributes
 
 				element.AttributeHandler.InternalParseAttributes(Source.Substring(attributes_start, attibutes_end - attributes_start));
+				element_fast_end = Source.IndexOf("/>", attributes_start);
 			}
 			else
 			{
+				if (attibutes_end < 0)
+					return;
+
 				tag = Source.Substring(element_start + 1, attibutes_end - element_start - 1);
 
+				element_fast_end = Source.IndexOf("/>", attibutes_end);
 				// seek for no attributes
 			}
 
 			var element_end = Source.IndexOf("</" + tag, attibutes_end);
 
-			var content = Source.Substring(attibutes_end + 1, element_end - attibutes_end - 1);
+			if (element_fast_end >= 0)
+			{
+				if (element_end < 0)
+					return;
+			}
 
+			var content = Source.Substring(attibutes_end + 1, element_end - attibutes_end - 1);
 			element.SetValue(content);
 		}
 
@@ -229,6 +244,79 @@ namespace MovieBlog.Server
 		public static Func<A, T> ToAnonymousConstructor<T, A>(this T prototype, Func<A, T> ctor)
 		{
 			return ctor;
+		}
+
+		public static int ParseElements(this string Source, Action<string, int, string> AddElement)
+		{
+			var index = -1;
+
+			Func<int, int> ParseSingleElement =
+				offset =>
+				{
+					var element_start = Source.IndexOf("<", offset);
+
+					if (element_start < 0)
+						return offset;
+
+					var attributes_start = Source.IndexOf(" ", element_start);
+					var attibutes_end = Source.IndexOf(">", element_start);
+
+					var tag = "";
+					var element_fast_end = -1;
+
+					if (attributes_start < attibutes_end)
+					{
+						if (attributes_start < 0)
+							return offset;
+
+						tag = Source.Substring(element_start + 1, attributes_start - element_start - 1);
+						element_fast_end = Source.IndexOf("/>", attributes_start);
+						// seek for attributes
+
+					}
+					else
+					{
+						if (attibutes_end < 0)
+							return offset;
+
+						tag = Source.Substring(element_start + 1, attibutes_end - element_start - 1);
+						element_fast_end = Source.IndexOf("/>", attibutes_end);
+						// seek for no attributes
+					}
+
+					var element_end = Source.IndexOf("</" + tag + ">", attibutes_end);
+
+					if (element_fast_end >= 0)
+					{
+						if (element_end < 0)
+						{
+							var next_element = element_fast_end + 2;
+							var element = Source.Substring(element_start, next_element - element_start);
+							index++;
+							AddElement(tag, index, element);
+							return next_element;
+						}
+					}
+
+
+					{
+
+
+
+						if (element_end < 0)
+							return offset;
+
+						var next_element = element_end + 3 + tag.Length;
+						var element = Source.Substring(element_start, next_element - element_start);
+						index++;
+						AddElement(tag, index, element);
+						return next_element;
+					}
+				};
+
+			ParseSingleElement.ToChainedFunc((x, y) => y > x)(0);
+
+			return index;
 		}
 	}
 }
