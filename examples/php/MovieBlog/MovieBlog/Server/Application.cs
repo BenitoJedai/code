@@ -46,6 +46,7 @@ namespace MovieBlog.Server
 			//ShowExampleDotCom();
 
 			var DefaultLink = new { Link = "", Title = "", Text = "" };
+			var DefaultImage = new { Source = "", Alt = "", Title = "" };
 
 			var ParseLink = DefaultLink.ToAnonymousConstructor(
 				(string element) =>
@@ -64,32 +65,30 @@ namespace MovieBlog.Server
 				}
 			);
 
+			var ParseImage = DefaultImage.ToAnonymousConstructor(
+				(string element) =>
+				{
+					var Source = "";
+					var Alt = "";
+					var Title = "";
+
+					element.
+						ParseAttribute("src", value => Source = value).
+						ParseAttribute("alt", value => Alt = value).
+						ParseAttribute("title", value => Title = value).
+						ParseContent(null).
+						Parse();
+
+					return new { Source, Alt, Title };
+				}
+			);
+
+
 			var crawler = new BasicWebCrawler("thepiratebay.org", 80);
 			var search = new BasicPirateBaySearch(crawler);
 
-			search.AddEntry +=
-				entry =>
-				{
-
-					var Type = ParseLink(entry.Type);
-					var Name = ParseLink(entry.Name);
-
-					Console.WriteLine("<li>");
-					Console.WriteLine("<div>");
-
-					Console.WriteLine(Type.Text.ToLink("http://thepiratebay.org" + Type.Link) + "<br />");
-					Console.WriteLine(Name.Text.ToLink("http://thepiratebay.org" + Name.Link) + "<br />");
-					Console.WriteLine(entry.Links + "<br />");
-					Console.WriteLine(entry.Size + "<br />");
-					Console.WriteLine(entry.Seeders + "<br />");
-					Console.WriteLine(entry.Leechers + "<br />");
-					Console.WriteLine("</div>");
-					Console.WriteLine("</li>");
-
-				};
-
 			search.Loaded +=
-				AddEntries =>
+				ForEachEntry =>
 				{
 					Console.WriteLine("<hr />");
 
@@ -98,24 +97,47 @@ namespace MovieBlog.Server
 					Console.WriteLine("<h2>Top Movies</h2>");
 					Console.WriteLine("<ol>");
 
-					AddEntries();
+					ForEachEntry(
+						entry =>
+						{
+							var Type = ParseLink(entry.Type);
+							var Name = ParseLink(entry.Name);
+
+							Console.WriteLine("<li>");
+							Console.WriteLine("<div>");
+
+							Console.WriteLine(Type.Text.ToLink("http://thepiratebay.org" + Type.Link) + "<br />");
+							Console.WriteLine(Name.Text.ToLink("http://thepiratebay.org" + Name.Link) + "<br />");
+
+							entry.Links.ParseElements(
+								(tag, index, element) =>
+								{
+									if (tag == "a")
+									{
+										var a = ParseLink(element);
+
+										Console.WriteLine("torrent".ToLink(a.Link) + "<br />");
+									}
+
+									if (tag == "img")
+									{
+										var img = ParseImage(element);
+
+										Console.WriteLine(img.Title + "<br />");
+									}
+								}
+							);
+
+							Console.WriteLine(entry.Size + "<br />");
+							Console.WriteLine(entry.Seeders + "<br />");
+							Console.WriteLine(entry.Leechers + "<br />");
+							Console.WriteLine("</div>");
+							Console.WriteLine("</li>");
+						}
+					);
 
 					Console.WriteLine("</ol>");
 				};
-
-			//var headers = 0;
-
-			//crawler.HeaderReceived += delegate
-			//{
-			//    headers++;
-			//    Console.WriteLine(".");
-
-			//};
-
-			
-
-
-
 
 			crawler.Crawl("/top/200");
 
