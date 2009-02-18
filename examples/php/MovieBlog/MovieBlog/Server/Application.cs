@@ -47,7 +47,7 @@ namespace MovieBlog.Server
 
 
 
-
+			
 			var crawler = new BasicWebCrawler("thepiratebay.org", 80);
 
 			var headers = 0;
@@ -57,10 +57,22 @@ namespace MovieBlog.Server
 				headers++;
 				Console.WriteLine(".");
 
-				Native.API.set_time_limit(6);
 			};
 
+			crawler.AllHeadersReceived +=
+				delegate
+				{
+					Native.API.set_time_limit(6);
 
+					{
+						var stop = Native.API.microtime(true);
+
+						Console.WriteLine("header stop: " + stop);
+						Console.WriteLine("header elapsed: " + (stop - start));
+
+						start = Native.API.microtime(true);
+					}
+				};
 
 			crawler.DataReceived +=
 				document =>
@@ -71,29 +83,7 @@ namespace MovieBlog.Server
 					var results = document.IndexOf("<table id=\"searchResult\">");
 					var headend = document.IndexOf("</thead>", results);
 
-					var itemstart = document.IndexOf("<tr>", headend);
-					var itemend = document.IndexOf("</tr>", itemstart);
-
-
-					var itemdata = document.Substring(itemstart, itemend - itemstart);
-
-
-
-					//<tr>
-					//<td class="vertTh"><a href="/browse/205" title="More from this category">Video &gt; TV shows</a></td>
-					//<td><a href="/torrent/4727946/Heroes.S03E16.HDTV.XviD-XOR.avi" class="detLink" title="Details for Heroes.S03E16.HDTV.XviD-XOR.avi">Heroes.S03E16.HDTV.XviD-XOR.avi</a></td>
-					//<td>Today&nbsp;04:55</td>
-					//<td><a href="http://torrents.thepiratebay.org/4727946/Heroes.S03E16.HDTV.XviD-XOR.avi.4727946.TPB.torrent" title="Download this torrent"><img src="http://static.thepiratebay.org/img/dl.gif" class="dl" alt="Download" /></a><img src="http://static.thepiratebay.org/img/icon_comment.gif" alt="This torrent has 22 comments." title="This torrent has 22 comments." /><img src="http://static.thepiratebay.org/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" /></td>
-					//<td align="right">348.97&nbsp;MiB</td>
-					//<td align="right">47773</td>
-					//<td align="right">60267</td>
-
-					//Console.WriteLine("<h1>Most Popular video</h1>");
-					//Console.WriteLine("<table>");
-
-					// type, name, uploaded, links, size, se, le
-
-					var Fields = new
+					var DefaultFields = new
 					{
 						Type = "",
 						Name = "",
@@ -104,41 +94,76 @@ namespace MovieBlog.Server
 						Leechers = "",
 					};
 
-					Action<string> SetField = null;
-
-					SetField = Type =>
-					SetField = Name =>
-					SetField = Time =>
-					SetField = Links =>
-					SetField = Size =>
-					SetField = Seeders =>
-					SetField = Leechers =>
-					{
-						Fields = new { Type, Name, Time, Links, Size, Seeders, Leechers };
-
-
-						SetField = delegate { };
-					};
-
-
-					var ep = new BasicElementParser();
-
-					ep.AddContent +=
-						(value, index) =>
+					Func<int, int> ScanSingleResult =
+						offset =>
 						{
-							//Console.WriteLine("AddContent start #" + index);
-							SetField(value);
-							//Console.WriteLine("AddContent stop #" + index);
+							var itemstart = document.IndexOf("<tr>", offset);
+							var itemend = document.IndexOf("</tr>", itemstart);
+
+
+							var itemdata = document.Substring(itemstart, itemend - itemstart);
+
+
+
+							//<tr>
+							//<td class="vertTh"><a href="/browse/205" title="More from this category">Video &gt; TV shows</a></td>
+							//<td><a href="/torrent/4727946/Heroes.S03E16.HDTV.XviD-XOR.avi" class="detLink" title="Details for Heroes.S03E16.HDTV.XviD-XOR.avi">Heroes.S03E16.HDTV.XviD-XOR.avi</a></td>
+							//<td>Today&nbsp;04:55</td>
+							//<td><a href="http://torrents.thepiratebay.org/4727946/Heroes.S03E16.HDTV.XviD-XOR.avi.4727946.TPB.torrent" title="Download this torrent"><img src="http://static.thepiratebay.org/img/dl.gif" class="dl" alt="Download" /></a><img src="http://static.thepiratebay.org/img/icon_comment.gif" alt="This torrent has 22 comments." title="This torrent has 22 comments." /><img src="http://static.thepiratebay.org/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" /></td>
+							//<td align="right">348.97&nbsp;MiB</td>
+							//<td align="right">47773</td>
+							//<td align="right">60267</td>
+
+							//Console.WriteLine("<h1>Most Popular video</h1>");
+							//Console.WriteLine("<table>");
+
+							// type, name, uploaded, links, size, se, le
+
+							var Fields = DefaultFields;
+
+							Action<string> SetField = null;
+
+							SetField = Type =>
+							SetField = Name =>
+							SetField = Time =>
+							SetField = Links =>
+							SetField = Size =>
+							SetField = Seeders =>
+							SetField = Leechers =>
+							{
+								Fields = new { Type, Name, Time, Links, Size, Seeders, Leechers };
+
+								SetField = delegate { };
+							};
+
+
+							var ep = new BasicElementParser();
+
+							ep.AddContent +=
+								(value, index) =>
+								{
+									//Console.WriteLine("AddContent start #" + index);
+									SetField(value);
+									//Console.WriteLine("AddContent stop #" + index);
+								};
+
+							ep.Parse(itemdata, "td");
+
+							Console.WriteLine("<p>");
+							Console.WriteLine(Fields.Name + "<br />");
+							Console.WriteLine(Fields.Size + "<br />");
+							Console.WriteLine(Fields.Seeders + "<br />");
+							Console.WriteLine(Fields.Leechers + "<br />");
+							Console.WriteLine("</p>");
+
+							return itemend + 5;
 						};
 
-					ep.Parse(itemdata, "td");
 
-					Console.WriteLine("<p>");
-					Console.WriteLine(Fields.Name + "<br />");
-					Console.WriteLine(Fields.Size + "<br />");
-					Console.WriteLine(Fields.Seeders + "<br />");
-					Console.WriteLine(Fields.Leechers + "<br />");
-					Console.WriteLine("</p>");
+					Console.WriteLine("<h2>Top Movies</h2>");
+
+					var resultend = ScanSingleResult.ToChainedFunc(3)(headend);
+
 
 				};
 
@@ -147,10 +172,12 @@ namespace MovieBlog.Server
 
 			crawler.Crawl("/top/200");
 
-			var stop = Native.API.microtime(true);
+			{
+				var stop = Native.API.microtime(true);
 
-			Console.WriteLine("stop: " + stop);
-			Console.WriteLine("elapsed: " + (stop - start));
+				Console.WriteLine("stop: " + stop);
+				Console.WriteLine("elapsed: " + (stop - start));
+			}
 
 
 			// http://thepiratebay.org/top/200
@@ -314,7 +341,7 @@ namespace MovieBlog.Server
 					Console.Write(document);
 				};
 
-
+		
 
 
 			crawler.Crawl("/");
