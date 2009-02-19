@@ -60,6 +60,15 @@ namespace MovieBlog.Server
 		// Robocop 2 KLAXXON
 		// Seven Pounds[2008]DvDrip[Eng]-FXG
 
+		// to test: 
+		// NCIS S6 E16 HDTV-LOL [VTV]-NoRAR
+		// Pride.And.Glory.DvDrip-aXXo 
+		// Yes.Man.Scr.XViD-BaLD (NO RARS)
+		// Yes.Man.Scr.XViD-BaLD.[Movie-Torrentz]
+		// CSI.New.York.S05E15.HDTV.XviD-0TV.avi
+		// XIII-The.Conspiracy[2008]DvDrip-aXXo
+		// Valkyrie Cam XviD (2008) [NNC] LynksÂ©
+
 		public readonly ColoredText ColoredText;
 
 		public string Year;
@@ -71,16 +80,14 @@ namespace MovieBlog.Server
 			// rule #3 - there may be a year
 			// rule #4 - words with two or more upper case chars may be tags 
 			//           if they do not represent roman numbers
-			//           if they do not appear before season/episode tag
+			//           if they do not appear before season/episode tag (CSI)
 			// rule #5 - a year may come after a tag
 			// rule #6 - a year may be enclosed within brackets
 			// rule #7 - name may start or container a number
 			// rule #8 - name does not span beyond year or tag, or a bracket
 			// rule #9 - imdb may not know about the name
-
-			// to test: 
-			// NCIS S6 E16 HDTV-LOL [VTV]-NoRAR
-			// Pride.And.Glory.DvDrip-aXXo 
+			// rule #10 - episode title may appear after episode tag
+	
 
 			var c = new ColoredText(e);
 			
@@ -138,8 +145,9 @@ namespace MovieBlog.Server
 			e.FindUpperCase(2,
 				(offset, length) =>
 				{
+					// http://en.wikipedia.org/wiki/Roman_numerals
 					// roman numbers may be part of the name
-					if (e.EnsureChars(offset, length, "XIV"))
+					if (e.EnsureChars(offset, length, "IVLCDM"))
 						return offset + length;
 
 					return Discard(offset, length);
