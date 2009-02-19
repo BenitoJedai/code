@@ -265,15 +265,19 @@ namespace MovieBlog.Server
 
 							var SmartName = new BasicFileNameParser(Name.Text);
 
-							Console.WriteLine("<b>" + SmartName.CleanName + "</b>");
+							Console.WriteLine("<b>" + SmartName.CleanName.ToLink(k => "http://www.imdb.com/find?s=tt;site=aka;q=" + k) + "</b>");
 							
 							if (!string.IsNullOrEmpty(SmartName.Year))
 							{
 								Console.WriteLine("<i>" + SmartName.Year + "</i>");
 							}
 
+							Console.WriteLine(" | ");
+							Console.WriteLine("trailer".ToLink("http://video.google.com/videosearch?q=" + SmartName.CleanName + " trailer"));
+
 							Console.WriteLine("<br />");
 
+							Console.WriteLine("<small>");
 							Console.WriteLine(Type.Text.ToLink("http://thepiratebay.org" + Type.Link) + "<br />");
 							Console.WriteLine(SmartName.ColoredText.ToString().ToLink("http://thepiratebay.org" + Name.Link) + "<br />");
 
@@ -297,9 +301,11 @@ namespace MovieBlog.Server
 								}
 							);
 
-							Console.WriteLine(entry.Size + "<br />");
-							Console.WriteLine(entry.Seeders + "<br />");
+							Console.WriteLine(entry.Size + " | ");
+							Console.WriteLine(entry.Seeders + " | ");
 							Console.WriteLine(entry.Leechers + "<br />");
+							Console.WriteLine("</small>");
+
 							Console.WriteLine("</div>");
 							Console.WriteLine("</li>");
 						}

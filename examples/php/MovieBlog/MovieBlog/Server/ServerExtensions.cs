@@ -14,6 +14,11 @@ namespace MovieBlog.Server
 			return (a, b) => f(a, b, c);
 		}
 
+		public static string ToLink(this string text, Func<string, string> gethref)
+		{
+			return "<a href='" + gethref(text) + "'>" + text + "</a>";
+		}
+
 		public static string ToLink(this string text, string href)
 		{
 			return "<a href='" + href + "'>" + text + "</a>";
