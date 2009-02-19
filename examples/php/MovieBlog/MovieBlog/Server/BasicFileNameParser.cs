@@ -7,7 +7,7 @@ using ScriptCoreLib;
 namespace MovieBlog.Server
 {
 	[Script]
-	class BasicFileNameParser
+	public class BasicFileNameParser
 	{
 		// House S05 E15 Unfaithful HDTV XviD-FQM [VTV]-NoRAR
 		// Heroes.S03E16.HDTV.XviD-XOR.avi
@@ -60,10 +60,13 @@ namespace MovieBlog.Server
 		// Robocop 2 KLAXXON
 		// Seven Pounds[2008]DvDrip[Eng]-FXG
 
+		public readonly ColoredText ColoredText;
 
-		public static string GetMovieTitle(string e)
+		public string Year;
+
+		public BasicFileNameParser(string e)
 		{
-			// rule #1 - dots are spaces
+			// rule #1 - dots, underspaces are spaces
 			// rule #2 - there may be season (Season 3, S03) and/or episode tag
 			// rule #3 - there may be a year
 			// rule #4 - words with two or more upper case chars may be tags 
@@ -75,13 +78,19 @@ namespace MovieBlog.Server
 			// rule #8 - name does not span beyond year or tag, or a bracket
 			// rule #9 - imdb may not know about the name
 
+			// to test: 
+			// NCIS S6 E16 HDTV-LOL [VTV]-NoRAR
+			// Pride.And.Glory.DvDrip-aXXo 
+
 			var c = new ColoredText(e);
+			
+			this.ColoredText = c;
 
 			var BackgroundToGray = "#a0a0a0".FixLastParam<int, int, string>(c.SetBackground);
 			var BackgroundToYellow = "yellow".FixLastParam<int, int, string>(c.SetBackground);
 			var BackgroundToCyan = "cyan".FixLastParam<int, int, string>(c.SetBackground);
 
-			// rule # 1
+			#region rule # 1
 			e.FindSubstrings(".",
 				(offset, length) =>
 				{
@@ -91,16 +100,15 @@ namespace MovieBlog.Server
 				}
 			);
 
-			// rule #3 
-			// rule #8 
-			e.FindDigits(4,
+			e.FindSubstrings("_",
 				(offset, length) =>
 				{
-					BackgroundToCyan(offset, length);
+					BackgroundToYellow(offset, length);
 
-					BackgroundToGray(offset + length, e.Length - (offset + length));
+					return offset + length;
 				}
 			);
+			#endregion
 
 			Func<int, int, int> Discard =
 				(offset, length) =>
@@ -110,9 +118,24 @@ namespace MovieBlog.Server
 					return e.Length;
 				};
 
+			// rule #3 
+			// rule #8 
+			e.FindDigits(4,
+				(offset, length) =>
+				{
+					BackgroundToCyan(offset, length);
+
+					this.Year = e.Substring(offset, length);
+
+					 Discard(offset + length, length);
+				}
+			);
+
+	
+
 			// rule #4 
 			// rule #8 
-			e.FindUpperCase(2, 
+			e.FindUpperCase(2,
 				(offset, length) =>
 				{
 					// roman numbers may be part of the name
@@ -126,7 +149,25 @@ namespace MovieBlog.Server
 			e.FindSubstrings("[", Discard);
 			e.FindSubstrings("(", Discard);
 
-			return c.ToString();
+			
+		}
+
+		public string CleanName
+		{
+			get
+			{
+				var w = new StringBuilder();
+
+				for (int i = 0; i < this.ColoredText.Source.Length; i++)
+				{
+					if (!string.IsNullOrEmpty(this.ColoredText.Background[i]))
+						w.Append(" ");
+					else
+						w.Append(this.ColoredText.Source[i]);
+				}
+
+				return w.ToString().Trim();
+			}
 		}
 	}
 }
