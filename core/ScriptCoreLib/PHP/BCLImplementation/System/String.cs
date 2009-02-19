@@ -263,6 +263,11 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 			return default(string);
 		}
 
+		[Script(DefineAsStatic = true)]
+		public bool Contains(string a)
+		{
+			return IndexOf(a) > -1;
+		}
 
 		#region Concat
 		[Script(OptimizedCode = "return implode($a0, '');")]

@@ -36,6 +36,7 @@ namespace MovieBlog.Server
 		[Script(NoDecoration = true)]
 		public static void Application_Entrypoint()
 		{
+			// 5 sec is the limit
 			Native.API.set_time_limit(4);
 
 			//ScriptCoreLib.PHP.BCLImplementation.System.IO.__StreamReader_Test.Assert();
@@ -194,6 +195,10 @@ namespace MovieBlog.Server
 
 		private static void ShowPirateBay()
 		{
+			Console.WriteLine("<style>");
+			Console.WriteLine("img { border: 0; }");
+			Console.WriteLine("</style>");
+
 			var DefaultLink = new { Link = "", Title = "", Text = "" };
 			var DefaultImage = new { Source = "", Alt = "", Title = "" };
 
@@ -245,7 +250,7 @@ namespace MovieBlog.Server
 			search.Loaded +=
 				ForEachEntry =>
 				{
-					
+
 
 					Console.WriteLine("<hr />");
 
@@ -266,7 +271,7 @@ namespace MovieBlog.Server
 							var SmartName = new BasicFileNameParser(Name.Text);
 
 							Console.WriteLine("<b>" + SmartName.CleanName.ToLink(k => "http://www.imdb.com/find?s=tt;site=aka;q=" + k) + "</b>");
-							
+
 							if (!string.IsNullOrEmpty(SmartName.Year))
 							{
 								Console.WriteLine("<i>" + SmartName.Year + "</i>");
@@ -281,7 +286,7 @@ namespace MovieBlog.Server
 							Console.WriteLine(Type.Text.ToLink("http://thepiratebay.org" + Type.Link) + "<br />");
 							Console.WriteLine(SmartName.ColoredText.ToString().ToLink("http://thepiratebay.org" + Name.Link) + "<br />");
 
-						
+
 							entry.Links.ParseElements(
 								(tag, index, element) =>
 								{
@@ -296,7 +301,14 @@ namespace MovieBlog.Server
 									{
 										var img = ParseImage(element);
 
-										Console.WriteLine(img.Title + "<br />");
+										if (img.Title.Contains("comment"))
+										{
+											Console.WriteLine(("http://static.thepiratebay.org/img/comments.gif".ToImage() + img.Title).ToLink("http://thepiratebay.org" + Name.Link) + "<br />");
+										}
+										else
+										{
+											Console.WriteLine(img.Title + "<br />");
+										}
 									}
 								}
 							);
