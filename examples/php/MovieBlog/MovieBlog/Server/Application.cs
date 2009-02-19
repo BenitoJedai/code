@@ -38,6 +38,7 @@ namespace MovieBlog.Server
 		{
 			// 5 sec is the limit
 			Native.API.set_time_limit(4);
+			//Native.API.error_reporting(2048);
 
 			//ScriptCoreLib.PHP.BCLImplementation.System.IO.__StreamReader_Test.Assert();
 			var start = Native.API.microtime(true);
@@ -197,6 +198,33 @@ namespace MovieBlog.Server
 		{
 			Console.WriteLine("<style>");
 			Console.WriteLine("img { border: 0; }");
+			Console.WriteLine("ol { -moz-column-count: 2; }");
+			Console.WriteLine(@"
+body{
+	text-align: center;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:.7em;
+	margin: 10px;
+	color: #000;
+	background: #fff;
+	min-width: 520px;
+}
+
+
+a{
+	color: #009;
+	text-decoration: none;
+	border-bottom: 1px dotted #4040D9;
+}
+a:hover{
+	text-decoration: none;
+	border-bottom: 1px solid #009;
+}
+		li { 
+text-align: left;
+margin: 1em;}	
+			
+			");
 			Console.WriteLine("</style>");
 
 			var DefaultLink = new { Link = "", Title = "", Text = "" };
@@ -254,13 +282,15 @@ namespace MovieBlog.Server
 
 					Console.WriteLine("<hr />");
 
-					"http://static.thepiratebay.org/img/tpblogo_sm_ny.gif".ToImageToConsole();
+					var logo = "http://static.thepiratebay.org/img/tpblogo_sm_ny.gif";
+
+					Console.WriteLine(logo.ToImage().ToLink("http://tineye.com/search?url=" + logo));
 
 					Console.WriteLine("<h2>Top Movies</h2>");
 					Console.WriteLine("<ol>");
 
 					ForEachEntry(
-						entry =>
+						(entry, entryindex) =>
 						{
 							var Type = ParseLink(entry.Type);
 							var Name = ParseLink(entry.Name);
@@ -270,21 +300,39 @@ namespace MovieBlog.Server
 
 							var SmartName = new BasicFileNameParser(Name.Text);
 
-							Console.WriteLine("<b>" + SmartName.CleanName.ToLink(k => "http://www.imdb.com/find?s=tt;site=aka;q=" + k) + "</b>");
+							Console.WriteLine("<b>" + SmartName.Title.ToLink(k => "http://www.imdb.com/find?s=tt;site=aka;q=" + k) + "</b>");
+
+							if (!string.IsNullOrEmpty(SmartName.Season))
+							{
+								Console.WriteLine(" | Season <i>" + SmartName.Season + "</i>");
+							}
+
+							if (!string.IsNullOrEmpty(SmartName.Episode))
+							{
+								Console.WriteLine(" | Episode <i>" + SmartName.Episode + "</i>");
+							}
+
+
+							if (!string.IsNullOrEmpty(SmartName.SubTitle))
+							{
+								Console.WriteLine(" | <b>" + SmartName.SubTitle + "</b>");
+							}
 
 							if (!string.IsNullOrEmpty(SmartName.Year))
 							{
-								Console.WriteLine("<i>" + SmartName.Year + "</i>");
+								Console.WriteLine(" | <i>" + SmartName.Year + "</i>");
 							}
 
 							Console.WriteLine(" | ");
-							Console.WriteLine("trailer".ToLink("http://video.google.com/videosearch?q=" + SmartName.CleanName + " trailer"));
+							Console.WriteLine("trailer".ToLink("http://video.google.com/videosearch?q=" + SmartName.Title + " trailer"));
 
 							Console.WriteLine("<br />");
 
 							Console.WriteLine("<small>");
-							Console.WriteLine(Type.Text.ToLink("http://thepiratebay.org" + Type.Link) + "<br />");
 							Console.WriteLine(SmartName.ColoredText.ToString().ToLink("http://thepiratebay.org" + Name.Link) + "<br />");
+
+
+							Console.WriteLine(Type.Text.ToLink("http://thepiratebay.org" + Type.Link));
 
 
 							entry.Links.ParseElements(
@@ -294,7 +342,7 @@ namespace MovieBlog.Server
 									{
 										var a = ParseLink(element);
 
-										Console.WriteLine("torrent".ToLink(a.Link) + "<br />");
+										Console.WriteLine(" | " + "torrent".ToLink(a.Link));
 									}
 
 									if (tag == "img")
@@ -303,23 +351,27 @@ namespace MovieBlog.Server
 
 										if (img.Title.Contains("comment"))
 										{
-											Console.WriteLine(("http://static.thepiratebay.org/img/comments.gif".ToImage() + img.Title).ToLink("http://thepiratebay.org" + Name.Link) + "<br />");
+											Console.WriteLine(" | " + img.Title.ToLink("http://thepiratebay.org" + Name.Link));
 										}
 										else
 										{
-											Console.WriteLine(img.Title + "<br />");
+											Console.WriteLine(" | " + img.Title);
 										}
 									}
 								}
 							);
 
-							Console.WriteLine(entry.Size + " | ");
-							Console.WriteLine(entry.Seeders + " | ");
-							Console.WriteLine(entry.Leechers + "<br />");
+							Console.WriteLine(" | " + entry.Size);
+							Console.WriteLine(" | " + entry.Seeders);
+							Console.WriteLine(" | " + entry.Leechers + "<br />");
+
+
 							Console.WriteLine("</small>");
 
 							Console.WriteLine("</div>");
 							Console.WriteLine("</li>");
+
+							
 						}
 					);
 
