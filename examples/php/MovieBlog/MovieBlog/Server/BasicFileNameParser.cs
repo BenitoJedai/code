@@ -140,25 +140,6 @@ namespace MovieBlog.Server
 				}
 			);
 
-
-
-			// rule #4 
-			// rule #8 
-			e.FindUpperCase(2,
-				(offset, length) =>
-				{
-					// http://en.wikipedia.org/wiki/Roman_numerals
-					// roman numbers may be part of the name
-					if (e.EnsureChars(offset, length, "IVXLCDM"))
-						return offset + length;
-
-					return Discard(offset, length);
-				}
-			);
-
-			e.FindSubstrings("[", Discard);
-			e.FindSubstrings("(", Discard);
-
 			#region FindEpisodeInfo
 			Action<string, Action<string, int, int>> FindEpisodeInfo =
 				(prefix, handler) =>
@@ -185,40 +166,87 @@ namespace MovieBlog.Server
 					);
 			#endregion
 
-
+			#region season tag
+			var SeasonEndOffset = -1;
 			FindEpisodeInfo("S",
 				(prefix, offset, length) =>
 				{
+					Season = e.Substring(offset + prefix.Length, length - prefix.Length);
+					SeasonEndOffset = offset;
 					BackgroundToRed(offset, length);
 				}
 			);
 
-
+			var EpisodeEndOffset = -1;
 			FindEpisodeInfo("E",
 				(prefix, offset, length) =>
 				{
+					Episode = e.Substring(offset + prefix.Length, length - prefix.Length);
+					EpisodeEndOffset = offset;
 					BackgroundToRed(offset, length);
 				}
 			);
-		}
 
-		public string CleanName
-		{
-			get
-			{
-				var w = new StringBuilder();
+			var SeasonTagEndOffset = EpisodeEndOffset.Max(SeasonEndOffset);
+			#endregion
 
-				for (int i = 0; i < this.ColoredText.Source.Length; i++)
+
+			// rule #4 
+			// rule #8 
+			e.FindUpperCase(2,
+				(offset, length) =>
 				{
-					if (!string.IsNullOrEmpty(this.ColoredText.Background[i]))
-						w.Append(" ");
-					else
-						w.Append(this.ColoredText.Source[i]);
-				}
+					// http://en.wikipedia.org/wiki/Roman_numerals
+					// roman numbers may be part of the name
+					if (e.EnsureChars(offset, length, "IVXLCDM"))
+						return offset + length;
 
-				return w.ToString().Trim();
+					if (SeasonTagEndOffset >= 0)
+						if (offset < SeasonTagEndOffset)
+							return offset + length;
+
+					return Discard(offset, length);
+				}
+			);
+
+			e.FindSubstrings("[", Discard);
+			e.FindSubstrings("(", Discard);
+
+			
+
+		
+			var TitleBuilder = new StringBuilder();
+			var SubTitleBuilder = new StringBuilder();
+
+			Func<int, StringBuilder> GetStream =
+				offset =>
+				{
+					if (SeasonTagEndOffset < 0)
+						return TitleBuilder;
+
+					if (offset < SeasonTagEndOffset)
+						return TitleBuilder;
+
+					return SubTitleBuilder;
+				};
+
+			for (int i = 0; i < this.ColoredText.Source.Length; i++)
+			{
+				if (!string.IsNullOrEmpty(this.ColoredText.Background[i]))
+					GetStream(i).Append(" ");
+				else
+					GetStream(i).Append(this.ColoredText.Source[i]);
 			}
+
+			this.Title = TitleBuilder.ToString().Trim();
+			this.SubTitle = SubTitleBuilder.ToString().Trim();
 		}
+
+		public string Season;
+		public string Episode;
+
+		public string Title;
+		public string SubTitle;
 
 	}
 }

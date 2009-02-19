@@ -423,5 +423,13 @@ namespace MovieBlog.Server
 
 			return false;
 		}
+
+		public static int Max(this int x, int y)
+		{
+			if (x > y)
+				return x;
+
+			return y;
+		}
 	}
 }

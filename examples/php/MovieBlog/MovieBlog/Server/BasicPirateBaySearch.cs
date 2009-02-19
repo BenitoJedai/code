@@ -21,8 +21,10 @@ namespace MovieBlog.Server
 					var results = document.IndexOf("<table id=\"searchResult\">");
 					var headend = document.IndexOf("</thead>", results);
 					var results_end = document.IndexOf("</table>", headend);
-				
-					Action<Action<Entry>> ForEachEntry =
+
+					int entryindex = -1;
+
+					Action<Action<Entry, int>> ForEachEntry =
 						AddEntry =>
 						{
 							#region ScanSingleResultOrReturn
@@ -104,8 +106,10 @@ namespace MovieBlog.Server
 
 									ep.Parse(itemdata, "td");
 
+									entryindex++;
+
 									if (AddEntry != null)
-										AddEntry(Fields);
+										AddEntry(Fields, entryindex);
 
 
 
@@ -143,5 +147,5 @@ namespace MovieBlog.Server
 
 
 	[Script]
-	public delegate void ForEachCallback<T>(Action<Action<T>> ForEach);
+	public delegate void ForEachCallback<T>(Action<Action<T, int>> ForEach);
 }
