@@ -9,6 +9,11 @@ namespace MovieBlog.Server
 	[Script]
 	public static class ServerExtensions
 	{
+		public static Action<A, B> FixLastParam<A, B, C>(this C c, Action<A, B, C> f)
+		{
+			return (a, b) => f(a, b, c);
+		}
+
 		public static string ToLink(this string text, string href)
 		{
 			return "<a href='" + href + "'>" + text + "</a>";
@@ -317,6 +322,96 @@ namespace MovieBlog.Server
 			ParseSingleElement.ToChainedFunc((x, y) => y > x)(0);
 
 			return index;
+		}
+
+		public static void FindSubstrings(this string source, string target, Func<int, int, int> handler)
+		{
+			Func<int, int> FindNext =
+				offset =>
+				{
+					var i = source.IndexOf(target, offset);
+
+					if (i < 0)
+						return offset;
+
+					var nextoffset = handler(i, target.Length);
+
+					return nextoffset;
+				};
+
+			FindNext.ToChainedFunc((x, y) => y > x)(0);
+		}
+
+		public static void FindDigits(this string source, int digits, Action<int, int> handler)
+		{
+			Func<int, int> FindNext =
+				offset =>
+				{
+					// scan to a digit
+
+					for (int i = 0; i < digits; i++)
+					{
+						if (offset + i >= source.Length)
+							return offset;
+
+						var c = source[offset + i];
+
+						if (!char.IsNumber(c))
+							return offset + i + 1;
+
+					}
+
+
+					handler(offset, digits);
+
+					return offset + digits;
+				};
+
+			FindNext.ToChainedFunc((x, y) => y > x)(0);
+		}
+
+		public static void FindUpperCase(this string source, int digits, Func<int, int, int> handler)
+		{
+			Func<int, int> FindNext =
+				offset =>
+				{
+					// scan to a digit
+
+					for (int i = 0; i < digits; i++)
+					{
+						if (offset + i >= source.Length)
+							return offset;
+
+						var c = source.Substring(offset + i, 1);
+
+						if (c.ToUpper() == c.ToLower())
+							return offset + i + 1;
+
+						if (c.ToUpper() != c)
+							return offset + i + 1;
+					}
+
+
+					var nextoffset = handler(offset, digits);
+
+					return nextoffset;
+				};
+
+			FindNext.ToChainedFunc((x, y) => y > x)(0);
+		}
+
+		public static bool EnsureChars(this string source, int offset, int length, string mask)
+		{
+			for (int i = 0; i < length; i++)
+			{
+				if (offset + i >= source.Length)
+					return true;
+
+				if (mask.IndexOf(source.Substring(offset + i, 1)) < 0)
+					return false;
+			}
+
+			return false;
 		}
 	}
 }

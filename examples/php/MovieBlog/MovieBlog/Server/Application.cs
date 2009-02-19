@@ -36,7 +36,7 @@ namespace MovieBlog.Server
 		[Script(NoDecoration = true)]
 		public static void Application_Entrypoint()
 		{
-			Native.API.set_time_limit(6);
+			Native.API.set_time_limit(4);
 
 			//ScriptCoreLib.PHP.BCLImplementation.System.IO.__StreamReader_Test.Assert();
 			var start = Native.API.microtime(true);
@@ -45,101 +45,7 @@ namespace MovieBlog.Server
 
 			//ShowExampleDotCom();
 
-			var DefaultLink = new { Link = "", Title = "", Text = "" };
-			var DefaultImage = new { Source = "", Alt = "", Title = "" };
-
-			var ParseLink = DefaultLink.ToAnonymousConstructor(
-				(string element) =>
-				{
-					var Link = "";
-					var Title = "";
-					var Text = "";
-
-					element.
-						ParseAttribute("href", value => Link = value).
-						ParseAttribute("title", value => Title = value).
-						ParseContent(value => Text = value).
-						Parse();
-
-					return new { Link, Title, Text };
-				}
-			);
-
-			var ParseImage = DefaultImage.ToAnonymousConstructor(
-				(string element) =>
-				{
-					var Source = "";
-					var Alt = "";
-					var Title = "";
-
-					element.
-						ParseAttribute("src", value => Source = value).
-						ParseAttribute("alt", value => Alt = value).
-						ParseAttribute("title", value => Title = value).
-						ParseContent(null).
-						Parse();
-
-					return new { Source, Alt, Title };
-				}
-			);
-
-
-			var crawler = new BasicWebCrawler("thepiratebay.org", 80);
-			var search = new BasicPirateBaySearch(crawler);
-
-			search.Loaded +=
-				ForEachEntry =>
-				{
-					Console.WriteLine("<hr />");
-
-					"http://static.thepiratebay.org/img/tpblogo_sm_ny.gif".ToImageToConsole();
-
-					Console.WriteLine("<h2>Top Movies</h2>");
-					Console.WriteLine("<ol>");
-
-					ForEachEntry(
-						entry =>
-						{
-							var Type = ParseLink(entry.Type);
-							var Name = ParseLink(entry.Name);
-
-							Console.WriteLine("<li>");
-							Console.WriteLine("<div>");
-
-							Console.WriteLine(Type.Text.ToLink("http://thepiratebay.org" + Type.Link) + "<br />");
-							Console.WriteLine(Name.Text.ToLink("http://thepiratebay.org" + Name.Link) + "<br />");
-
-							entry.Links.ParseElements(
-								(tag, index, element) =>
-								{
-									if (tag == "a")
-									{
-										var a = ParseLink(element);
-
-										Console.WriteLine("torrent".ToLink(a.Link) + "<br />");
-									}
-
-									if (tag == "img")
-									{
-										var img = ParseImage(element);
-
-										Console.WriteLine(img.Title + "<br />");
-									}
-								}
-							);
-
-							Console.WriteLine(entry.Size + "<br />");
-							Console.WriteLine(entry.Seeders + "<br />");
-							Console.WriteLine(entry.Leechers + "<br />");
-							Console.WriteLine("</div>");
-							Console.WriteLine("</li>");
-						}
-					);
-
-					Console.WriteLine("</ol>");
-				};
-
-			crawler.Crawl("/top/200");
+			ShowPirateBay();
 
 			{
 				var stop = Native.API.microtime(true);
@@ -286,6 +192,109 @@ namespace MovieBlog.Server
 
 		}
 
+		private static void ShowPirateBay()
+		{
+			var DefaultLink = new { Link = "", Title = "", Text = "" };
+			var DefaultImage = new { Source = "", Alt = "", Title = "" };
+
+			var ParseLink = DefaultLink.ToAnonymousConstructor(
+				(string element) =>
+				{
+					var Link = "";
+					var Title = "";
+					var Text = "";
+
+					element.
+						ParseAttribute("href", value => Link = value).
+						ParseAttribute("title", value => Title = value).
+						ParseContent(value => Text = value).
+						Parse();
+
+					return new { Link, Title, Text };
+				}
+			);
+
+			var ParseImage = DefaultImage.ToAnonymousConstructor(
+				(string element) =>
+				{
+					var Source = "";
+					var Alt = "";
+					var Title = "";
+
+					element.
+						ParseAttribute("src", value => Source = value).
+						ParseAttribute("alt", value => Alt = value).
+						ParseAttribute("title", value => Title = value).
+						ParseContent(null).
+						Parse();
+
+					return new { Source, Alt, Title };
+				}
+			);
+
+
+			var crawler = new BasicWebCrawler("thepiratebay.org", 80);
+			var search = new BasicPirateBaySearch(crawler);
+
+			search.Loaded +=
+				ForEachEntry =>
+				{
+					Native.API.set_time_limit(10);
+
+					Console.WriteLine("<hr />");
+
+					"http://static.thepiratebay.org/img/tpblogo_sm_ny.gif".ToImageToConsole();
+
+					Console.WriteLine("<h2>Top Movies</h2>");
+					Console.WriteLine("<ol>");
+
+					ForEachEntry(
+						entry =>
+						{
+							var Type = ParseLink(entry.Type);
+							var Name = ParseLink(entry.Name);
+
+							Console.WriteLine("<li>");
+							Console.WriteLine("<div>");
+
+							Console.WriteLine(Type.Text.ToLink("http://thepiratebay.org" + Type.Link) + "<br />");
+							Console.WriteLine(Name.Text.ToLink("http://thepiratebay.org" + Name.Link) + "<br />");
+
+							Console.WriteLine(BasicFileNameParser.GetMovieTitle(Name.Text));
+
+							entry.Links.ParseElements(
+								(tag, index, element) =>
+								{
+									if (tag == "a")
+									{
+										var a = ParseLink(element);
+
+										Console.WriteLine("torrent".ToLink(a.Link) + "<br />");
+									}
+
+									if (tag == "img")
+									{
+										var img = ParseImage(element);
+
+										Console.WriteLine(img.Title + "<br />");
+									}
+								}
+							);
+
+							Console.WriteLine(entry.Size + "<br />");
+							Console.WriteLine(entry.Seeders + "<br />");
+							Console.WriteLine(entry.Leechers + "<br />");
+							Console.WriteLine("</div>");
+							Console.WriteLine("</li>");
+						}
+					);
+
+					Console.WriteLine("</ol>");
+				};
+
+			crawler.Crawl("/top/200");
+		}
+
 		private static void ShowExampleDotCom()
 		{
 			var crawler = new BasicWebCrawler("example.com", 80);
@@ -310,10 +319,12 @@ namespace MovieBlog.Server
 					Console.Write(document);
 				};
 
-		
+
 
 
 			crawler.Crawl("/");
 		}
+
+
 	}
 }

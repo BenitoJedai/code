@@ -85,8 +85,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\BasicElementParser.cs" />
+    <Compile Include="Server\BasicFileNameParser.cs" />
     <Compile Include="Server\BasicPirateBaySearch.cs" />
     <Compile Include="Server\BasicWebCrawler.cs" />
+    <Compile Include="Server\ColoredText.cs" />
     <Compile Include="Server\ServerExtensions.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Server\Application.cs" />
