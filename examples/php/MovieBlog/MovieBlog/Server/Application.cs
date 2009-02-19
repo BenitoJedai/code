@@ -236,10 +236,16 @@ namespace MovieBlog.Server
 			var crawler = new BasicWebCrawler("thepiratebay.org", 80);
 			var search = new BasicPirateBaySearch(crawler);
 
+			crawler.AllHeadersReceived +=
+				delegate
+				{
+					Native.API.set_time_limit(10);
+				};
+
 			search.Loaded +=
 				ForEachEntry =>
 				{
-					Native.API.set_time_limit(10);
+					
 
 					Console.WriteLine("<hr />");
 
@@ -257,11 +263,21 @@ namespace MovieBlog.Server
 							Console.WriteLine("<li>");
 							Console.WriteLine("<div>");
 
+							var SmartName = new BasicFileNameParser(Name.Text);
+
+							Console.WriteLine("<b>" + SmartName.CleanName + "</b>");
+							
+							if (!string.IsNullOrEmpty(SmartName.Year))
+							{
+								Console.WriteLine("<i>" + SmartName.Year + "</i>");
+							}
+
+							Console.WriteLine("<br />");
+
 							Console.WriteLine(Type.Text.ToLink("http://thepiratebay.org" + Type.Link) + "<br />");
-							Console.WriteLine(Name.Text.ToLink("http://thepiratebay.org" + Name.Link) + "<br />");
+							Console.WriteLine(SmartName.ColoredText.ToString().ToLink("http://thepiratebay.org" + Name.Link) + "<br />");
 
-							Console.WriteLine(BasicFileNameParser.GetMovieTitle(Name.Text));
-
+						
 							entry.Links.ParseElements(
 								(tag, index, element) =>
 								{
