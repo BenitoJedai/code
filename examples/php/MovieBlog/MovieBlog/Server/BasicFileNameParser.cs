@@ -87,13 +87,14 @@ namespace MovieBlog.Server
 			// rule #8 - name does not span beyond year or tag, or a bracket
 			// rule #9 - imdb may not know about the name
 			// rule #10 - episode title may appear after episode tag
-	
+
 
 			var c = new ColoredText(e);
-			
+
 			this.ColoredText = c;
 
-			var BackgroundToGray = "#a0a0a0".FixLastParam<int, int, string>(c.SetBackground);
+			var BackgroundToGray = "#c0c0c0".FixLastParam<int, int, string>(c.SetBackground);
+			var BackgroundToRed = "red".FixLastParam<int, int, string>(c.SetBackground);
 			var BackgroundToYellow = "yellow".FixLastParam<int, int, string>(c.SetBackground);
 			var BackgroundToCyan = "cyan".FixLastParam<int, int, string>(c.SetBackground);
 
@@ -125,6 +126,7 @@ namespace MovieBlog.Server
 					return e.Length;
 				};
 
+
 			// rule #3 
 			// rule #8 
 			e.FindDigits(4,
@@ -134,11 +136,11 @@ namespace MovieBlog.Server
 
 					this.Year = e.Substring(offset, length);
 
-					 Discard(offset + length, length);
+					Discard(offset + length, length);
 				}
 			);
 
-	
+
 
 			// rule #4 
 			// rule #8 
@@ -147,7 +149,7 @@ namespace MovieBlog.Server
 				{
 					// http://en.wikipedia.org/wiki/Roman_numerals
 					// roman numbers may be part of the name
-					if (e.EnsureChars(offset, length, "IVLCDM"))
+					if (e.EnsureChars(offset, length, "IVXLCDM"))
 						return offset + length;
 
 					return Discard(offset, length);
@@ -157,7 +159,47 @@ namespace MovieBlog.Server
 			e.FindSubstrings("[", Discard);
 			e.FindSubstrings("(", Discard);
 
-			
+			#region FindEpisodeInfo
+			Action<string, Action<string, int, int>> FindEpisodeInfo =
+				(prefix, handler) =>
+					e.FindSubstrings(prefix,
+						(offset, length) =>
+						{
+							int i = 1;
+
+							for (; i + offset < e.Length; i++)
+							{
+								if (!char.IsNumber(e[offset + i]))
+								{
+									break;
+								}
+							}
+
+							if (i > 1)
+							{
+								handler(prefix, offset, i);
+							}
+
+							return offset + i;
+						}
+					);
+			#endregion
+
+
+			FindEpisodeInfo("S",
+				(prefix, offset, length) =>
+				{
+					BackgroundToRed(offset, length);
+				}
+			);
+
+
+			FindEpisodeInfo("E",
+				(prefix, offset, length) =>
+				{
+					BackgroundToRed(offset, length);
+				}
+			);
 		}
 
 		public string CleanName
@@ -177,5 +219,6 @@ namespace MovieBlog.Server
 				return w.ToString().Trim();
 			}
 		}
+
 	}
 }
