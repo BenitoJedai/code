@@ -10,6 +10,7 @@ using MovieBlog.Client.Java;
 using MovieBlog.Shared;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace MovieBlog.Server
 {
@@ -45,6 +46,8 @@ namespace MovieBlog.Server
 
 			Console.WriteLine("start: " + Native.API.time());
 
+			//ShowGoogleVideo();
+
 			//ShowExampleDotCom();
 
 			ShowPirateBay();
@@ -53,6 +56,7 @@ namespace MovieBlog.Server
 				var stop = Native.API.microtime(true);
 
 				Console.WriteLine("stop: " + stop);
+
 				Console.WriteLine("elapsed: " + (stop - start));
 			}
 
@@ -194,20 +198,65 @@ namespace MovieBlog.Server
 
 		}
 
+		private static void ShowGoogleVideo()
+		{
+			var c = new BasicGoogleVideoCrawler();
+
+			c.VideoSourceFound +=
+				(video, src) =>
+				{
+					Console.WriteLine(src.ToLink(src));
+
+				};
+
+			c.Search("terminator+trailer");
+
+
+		}
+
 		private static void ShowPirateBay()
 		{
 			Console.WriteLine("<style>");
 			Console.WriteLine("img { border: 0; }");
-			Console.WriteLine("ol { -moz-column-count: 2; }");
+			//Console.WriteLine("ol { -moz-column-count: 2; }");
 			Console.WriteLine(@"
+embed {
+width: 100%;
+height: 100%;
+position: absolute; 
+left: 0;
+top: 0;
+z-index: 0;
+}
+
+ol
+{
+display: block;
+width: 100%;
+height: 100%;
+position: absolute; 
+left: 0;
+top: 0;
+z-index: 1;
+
+overflow: scroll;
+}
+
+li
+{
+color: white;
+cursor:hand;
+}
+
 body{
 	text-align: center;
 	font-family:Verdana, Arial, Helvetica, sans-serif;
 	font-size:.7em;
 	margin: 10px;
-	color: #000;
+	color: #fff;
 	background: #fff;
 	min-width: 520px;
+	overflow: hidden;
 }
 
 
@@ -280,25 +329,52 @@ margin: 1em;}
 				{
 
 
-					Console.WriteLine("<hr />");
+					//Console.WriteLine("<hr />");
 
-					var logo = "http://static.thepiratebay.org/img/tpblogo_sm_ny.gif";
+					//var logo = "http://static.thepiratebay.org/img/tpblogo_sm_ny.gif";
 
-					Console.WriteLine(logo.ToImage().ToLink("http://tineye.com/search?url=" + logo));
+					//Console.WriteLine(logo.ToImage().ToLink("http://tineye.com/search?url=" + logo));
 
-					Console.WriteLine("<h2>Top Movies</h2>");
+					// http://code.google.com/apis/youtube/chromeless_example_1.html
+					Console.WriteLine("<embed wmode='transparent' id='tv' src='http://www.youtube.com/apiplayer?enablejsapi=1&playerapiid=tv' allowScriptAccess='always' width='400' height='300' />");
+
+					//Console.WriteLine("<h2>Top Movies</h2>");
+
 					Console.WriteLine("<ol>");
 
 					ForEachEntry(
 						(entry, entryindex) =>
 						{
+							//if (entryindex > 2)
+							//    return;
+
 							var Type = ParseLink(entry.Type);
 							var Name = ParseLink(entry.Name);
 
-							Console.WriteLine("<li>");
-							Console.WriteLine("<div>");
-
 							var SmartName = new BasicFileNameParser(Name.Text);
+
+							var c = new BasicGoogleVideoCrawler();
+
+							var Video = "";
+							var VideoSource = "";
+
+							c.VideoSourceFound +=
+								(video, src) =>
+								{
+									Video = video;
+									VideoSource = src;
+
+
+								};
+
+							Native.API.set_time_limit(6);
+
+							//Thread.Sleep(1500);
+
+							c.Search(SmartName.Title + " trailer");
+
+							Console.WriteLine("<li onmouseover='if (getElementById(\"tv\").getPlayerState() != 1) getElementById(\"tv\").loadVideoById(\"" + Video + "\")'>");
+
 
 							Console.WriteLine("<b>" + SmartName.Title.ToLink(k => "http://www.imdb.com/find?s=tt;site=aka;q=" + k) + "</b>");
 
@@ -323,8 +399,16 @@ margin: 1em;}
 								Console.WriteLine(" | <i>" + SmartName.Year + "</i>");
 							}
 
+
+
 							Console.WriteLine(" | ");
-							Console.WriteLine("trailer".ToLink("http://video.google.com/videosearch?q=" + SmartName.Title + " trailer"));
+							Console.WriteLine("<b>");
+							Console.WriteLine("trailer".ToLink(VideoSource, Video));
+							Console.WriteLine("</b>");
+
+
+
+
 
 							Console.WriteLine("<br />");
 
@@ -368,10 +452,10 @@ margin: 1em;}
 
 							Console.WriteLine("</small>");
 
-							Console.WriteLine("</div>");
+							//Console.WriteLine("</div>");
 							Console.WriteLine("</li>");
 
-							
+
 						}
 					);
 

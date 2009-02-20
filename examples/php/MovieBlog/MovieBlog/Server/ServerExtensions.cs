@@ -24,6 +24,11 @@ namespace MovieBlog.Server
 			return "<a href='" + href + "'>" + text + "</a>";
 		}
 
+		public static string ToLink(this string text, string href, string title)
+		{
+			return "<a href='" + href + "' title='" + title +"'>" + text + "</a>";
+		}
+
 		public static string ToImage(this string src)
 		{
 			return "<img src='" + src + "' />";
