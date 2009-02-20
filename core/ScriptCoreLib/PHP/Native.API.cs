@@ -154,6 +154,10 @@ namespace ScriptCoreLib.PHP
 
 			#endregion
 
+			[Script(IsNative = true)]
+			public static string sleep(int seconds) { return default(string); }
+			[Script(IsNative = true)]
+			public static string usleep(int nanoseconds) { return default(string); }
 
 			#region string gmdate ( string format , int timestamp )
 

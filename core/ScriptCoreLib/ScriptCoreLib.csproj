@@ -543,6 +543,7 @@
     <Compile Include="PHP\BCLImplementation\System\IO\File.cs" />
     <Compile Include="PHP\BCLImplementation\System\Math.cs" />
     <Compile Include="PHP\BCLImplementation\System\Text\StringBuilder.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Threading\Thread.cs" />
     <Compile Include="PHP\Drawing\Image.API.cs" />
     <Compile Include="PHP\Drawing\Image.cs" />
     <Compile Include="PHP\IO\DirectoryInfo.cs" />
