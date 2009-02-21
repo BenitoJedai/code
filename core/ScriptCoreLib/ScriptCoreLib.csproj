@@ -530,6 +530,9 @@
     <Compile Include="PHP\BCLImplementation\System\Console.cs" />
     <Compile Include="PHP\BCLImplementation\System\Convert.cs" />
     <Compile Include="PHP\BCLImplementation\System\IDisposable.cs" />
+    <Compile Include="PHP\BCLImplementation\System\IO\Path.cs" />
+    <Compile Include="PHP\BCLImplementation\System\IO\FileSystemInfo.cs" />
+    <Compile Include="PHP\BCLImplementation\System\IO\DirectoryInfo.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\Directory.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\Stream.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\StreamReader.cs" />
