@@ -1000,6 +1000,9 @@ namespace ScriptCoreLib.PHP
 
 			#endregion
 
+			[Script(IsNative = true)]
+			public static int file_put_contents(string _filename, string data) { return default(int); }
+
 
 			#region string serialize ( mixed value )
 
@@ -1131,6 +1134,11 @@ namespace ScriptCoreLib.PHP
 			{
 			}
 
+			[Script(IsNative = true)]
+			public static void session_write_close()
+			{
+			}
+			 
 			[Script(IsNative = true)]
 			public static void unlink(string path)
 			{

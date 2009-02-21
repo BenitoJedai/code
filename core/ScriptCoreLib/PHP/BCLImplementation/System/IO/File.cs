@@ -21,5 +21,11 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 		{
 			return Native.API.file_get_contents(path);
 		}
+
+		public static void WriteAllText(string path, string contents)
+		{
+			Native.API.file_put_contents(path, contents);
+		}
+
 	}
 }
