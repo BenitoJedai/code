@@ -582,6 +582,8 @@ namespace ScriptCoreLib.PHP
 
 			#endregion
 
+			[Script(IsNative = true)]
+			public static string realpath(string path) { return default(string); }
 
 			#region resource opendir ( string path [, resource context] )
 
