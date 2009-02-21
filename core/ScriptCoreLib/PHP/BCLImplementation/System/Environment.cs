@@ -16,5 +16,13 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
                 return "\r\n";
             }
         }
+
+		public static string CurrentDirectory
+		{
+			get
+			{
+				return Native.API.getcwd();
+			}
+		}
     }
 }

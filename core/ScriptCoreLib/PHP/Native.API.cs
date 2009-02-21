@@ -398,6 +398,11 @@ namespace ScriptCoreLib.PHP
 
 			#endregion
 
+			[Script(IsNative = true)]
+			public static string getcwd() { return default(string); }
+
+
+
 
 			#region bool mkdir ( string pathname [, int mode [, bool recursive [, resource context]]] )
 
@@ -1128,6 +1133,12 @@ namespace ScriptCoreLib.PHP
 
 			[Script(IsNative = true)]
 			public static void unlink(string path)
+			{
+
+			}
+
+			[Script(IsNative = true)]
+			public static void rmdir(string path)
 			{
 
 			}
