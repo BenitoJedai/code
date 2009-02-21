@@ -20,12 +20,11 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 
 		public static DirectoryInfo CreateDirectory(string path)
 		{
-			// http://www.webmasterworld.com/forum88/6665.htm
-			// chmod 777
+			//Console.WriteLine("CreateDirectory: " + path + "<br />");
+			var c = new DirectoryInfo(path);
+			c.Create();
 
-			Native.API.mkdir(path);
-
-			return null;
+			return c;
 		}
 
 		public static void Delete(string path)

@@ -9,9 +9,20 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.DirectoryInfo))]
 	internal class __DirectoryInfo : __FileSystemInfo
 	{
-		
+
 		public __DirectoryInfo(string Path)
 		{
+			//Console.WriteLine("__DirectoryInfo: " + Path + "<br />");
+
+			if (Path.Contains(":"))
+				this.FullPath = Path;
+			else if (Path.StartsWith("/"))
+				this.FullPath = Path;
+			else
+				this.FullPath = __Path.Combine(Environment.CurrentDirectory, Path);
+
+			//Console.WriteLine("__DirectoryInfo.FullPath: " + this.FullPath + "<br />");
+
 			this.OriginalPath = Path;
 		}
 
@@ -19,25 +30,33 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 		{
 			get
 			{
-				return Directory.Exists(this.OriginalPath);
+				return Directory.Exists(this.FullPath);
 			}
 		}
 
 		public DirectoryInfo CreateSubdirectory(string path)
 		{
+			var np = Path.Combine(this.FullPath, path);
+
+			//Console.WriteLine("__DirectoryInfo.CreateSubdirectory: " + np + "<br />");
+
 			return Directory.CreateDirectory(
-				Path.Combine(this.OriginalPath, path)
+				np
 			);
 		}
 
 		public void Create()
 		{
-			Directory.CreateDirectory(this.OriginalPath);
+			// http://www.webmasterworld.com/forum88/6665.htm
+			// chmod 777
+			//Console.WriteLine("__DirectoryInfo.Create: " + this.FullPath + "<br />");
+
+			Native.API.mkdir(this.FullPath);
 		}
 
 		public override void Delete()
 		{
-			Directory.Delete(this.OriginalPath);
+			Directory.Delete(this.FullPath);
 		}
 	}
 }
