@@ -530,6 +530,7 @@
     <Compile Include="PHP\BCLImplementation\System\Console.cs" />
     <Compile Include="PHP\BCLImplementation\System\Convert.cs" />
     <Compile Include="PHP\BCLImplementation\System\IDisposable.cs" />
+    <Compile Include="PHP\BCLImplementation\System\IO\Directory.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\Stream.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\StreamReader.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\StreamWriter.cs" />
