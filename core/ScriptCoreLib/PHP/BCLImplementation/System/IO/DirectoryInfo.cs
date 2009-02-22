@@ -60,5 +60,27 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 		{
 			Directory.Delete(this.FullPath);
 		}
+
+		public DirectoryInfo[] GetDirectories()
+		{
+			var x = Directory.GetDirectories(FullPath);
+			var a = new DirectoryInfo[x.Length];
+
+			for (int i = 0; i < x.Length; i++)
+			{
+				a[i] = new DirectoryInfo(x[i]);
+			}
+
+			return a;
+		}
+
+		public override string Name
+		{
+			get
+			{
+				return Native.API.basename(this.FullPath);
+			}
+		}
+
 	}
 }
