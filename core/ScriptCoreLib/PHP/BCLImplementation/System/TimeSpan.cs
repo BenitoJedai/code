@@ -37,5 +37,13 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 				return this.Ticks / TimeSpan.TicksPerSecond;
 			}
 		}
+
+		public double TotalMilliseconds
+		{
+			get
+			{
+				return this.Ticks / TimeSpan.TicksPerMillisecond;
+			}
+		}
 	}
 }
