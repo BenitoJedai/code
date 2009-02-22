@@ -50,6 +50,8 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 			// http://www.webmasterworld.com/forum88/6665.htm
 			// chmod 777
 			//Console.WriteLine("__DirectoryInfo.Create: " + this.FullPath + "<br />");
+			if (Exists)
+				return;
 
 			Native.API.mkdir(this.FullPath);
 		}

@@ -44,6 +44,7 @@ namespace jsc.Script.PHP
 				OpCodes.Unbox_Any,
 				OpCodes.Pop,
 				OpCodes.Conv_I4,
+				OpCodes.Conv_I8,
 				OpCodes.Conv_U1,
 				OpCodes.Conv_U2,
 				OpCodes.Conv_R8] = CodeEmitArgs.DelegateEmitFirstOnStack;
@@ -314,6 +315,12 @@ namespace jsc.Script.PHP
 					WriteNumeric(e.i.OpParamAsDouble);
 				};
 
+			CIW[OpCodes.Ldc_I8] =
+				delegate(CodeEmitArgs e)
+				{
+					WriteNumeric(e.i.OpParamAsLong);
+				};
+
 
 			CIW[OpCodes.Ldc_I4,
 				OpCodes.Ldc_I4_0,
@@ -326,18 +333,17 @@ namespace jsc.Script.PHP
 				OpCodes.Ldc_I4_7,
 				OpCodes.Ldc_I4_8,
 				OpCodes.Ldc_I4_M1,
-				OpCodes.Ldc_I8,
+				
 
 				OpCodes.Ldc_I4_S] =
 			   delegate(CodeEmitArgs e)
 			   {
-				   int? n = e.i.TargetInteger;
+				   int? int32 = e.i.TargetInteger;
 
-
-				   if (n == null)
+				   if (int32 == null)
 					   Break("ldc unresolved");
 
-				   MyWriter.Write(n.Value);
+				   MyWriter.Write(int32.Value);
 			   };
 			#endregion
 
