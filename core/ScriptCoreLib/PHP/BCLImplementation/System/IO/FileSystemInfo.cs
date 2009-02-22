@@ -15,6 +15,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 		public abstract bool Exists { get; }
 
 		public abstract void Delete();
+		public abstract string Name { get; }
 
 		public virtual string FullName { get { return FullPath; } }
 
