@@ -17,6 +17,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 		public static void InternalWrite(string e)
 		{
 			Native.echo(e);
+			Native.API.flush();
 		}
  
         public static void WriteLine(object e)

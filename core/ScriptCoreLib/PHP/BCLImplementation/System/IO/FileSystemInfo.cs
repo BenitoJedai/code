@@ -22,5 +22,20 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 		{
 			Native.API.clearstatcache();
 		}
+
+		public DateTime LastWriteTime
+		{
+			get
+			{
+				var v = new __DateTime
+				{
+					InternalTicks =
+					__DateTime.ticks_1970_1_1 + Native.API.filemtime(this.FullPath) * 100 * __DateTime.TicksPerMillisecond
+				};
+
+
+				return (DateTime)(object)v;
+			}
+		}
 	}
 }
