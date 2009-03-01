@@ -285,7 +285,8 @@ namespace jsc.Languages.Java
                 };
 
             #region conv
-            CIW[OpCodes.Conv_I1] = e => ConvertTypeAndEmit(e, "byte");
+			CIW[OpCodes.Conv_I1] = e => ConvertTypeAndEmit(e, "byte");
+			CIW[OpCodes.Conv_I2] = e => ConvertTypeAndEmit(e, "short");
             CIW[OpCodes.Conv_U2] = e => ConvertTypeAndEmit(e, "char");
             CIW[OpCodes.Conv_I4] = e => ConvertTypeAndEmit(e, "int");
 
