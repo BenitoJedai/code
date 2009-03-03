@@ -187,6 +187,12 @@ namespace jsc.Languages.Java
 
                 }
 
+				if (p.IsEnum)
+				{
+					// we are using the underlying system type
+					continue;
+				}
+
                 if (p == typeof(object)) continue;
                 if (p == typeof(void)) continue;
                 if (p == typeof(string)) continue;

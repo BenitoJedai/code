@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\templates\OrcasJavaCardApplet\OrcasJavaCardApplet\bin\Release</StartWorkingDirectory>
-    <StartArguments>OrcasJavaCardApplet.exe -java</StartArguments>
+    <StartWorkingDirectory>C:\work\mindware.svn\javacard\projects\StorageClient\StorageApplet\bin\Release</StartWorkingDirectory>
+    <StartArguments>StorageApplet.exe -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

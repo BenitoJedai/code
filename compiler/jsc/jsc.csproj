@@ -211,7 +211,6 @@
     <Content Include="Resx\App.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
     <None Include="neutronic.snk" />
   </ItemGroup>
   <ItemGroup>
