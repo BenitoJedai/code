@@ -16,6 +16,8 @@ namespace ScriptCoreLibJavaCard
 
 		public class Info
 		{
+			public readonly List<byte> PackageAIDBytes = new List<byte>();
+
 			public readonly string PackageAID = "";
 			public readonly string AppletAID = "";
 
@@ -29,7 +31,11 @@ namespace ScriptCoreLibJavaCard
 					if (i > 0)
 						this.PackageAID += ":";
 
-					this.PackageAID += string.Format("0x{0:x2}", (PACKAGE_AID.Value >> (8 * (6 - i))) & 0xff);
+					var value = (byte)((PACKAGE_AID.Value >> (8 * (6 - i))) & 0xff);
+
+					this.PackageAIDBytes.Add(value);
+
+					this.PackageAID += string.Format("0x{0:x2}", value);
 
 				}
 
