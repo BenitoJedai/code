@@ -18,6 +18,23 @@ namespace OrcasJavaConsoleApplication.source.java
 			// Use Debug Build to develop on .net
 
             // doubleclicking on the jar will not show the console
+			unchecked
+			{
+				sbyte a = (sbyte)0x7F;
+				sbyte b = (sbyte)0xFF;
+
+				short ax = (short)((a & 0xff) << 8);
+				short bx = (short)((b & 0xff) << 0);
+
+				Console.WriteLine("ax: " + ax);
+				Console.WriteLine("bx: " + bx);
+			}
+
+			// ax: 32512
+			// bx: 255
+
+			//ax: 32512
+			//bx: 255
 
             Text = "Hello World";
 

@@ -23,6 +23,14 @@ namespace jsc.Languages
 
 		public static Info GetProvideImplementation(MethodBase m)
 		{
+			if (m == null)
+				return null;
+
+			if (m.GetMethodBody() == null)
+				return null;
+
+			if (m.DeclaringType.Assembly.ToScriptAttribute() == null)
+				return null;
 
 			// some code is calling to a method, which has no script attribute applied
 			// if that function is now in turn calling to a method with script attribute
@@ -34,8 +42,14 @@ namespace jsc.Languages
 			// the block should only contain a call instruction
 			// we can ignore nop and ret opcodes
 
+			var PrestatementCommands = c.Prestatements.PrestatementCommands;
+
+			if (PrestatementCommands.Any(k => k.Instruction == null))
+				return null;
+
+
 			var i = Enumerable.ToArray(
-				from k in c.Prestatements.PrestatementCommands
+				from k in PrestatementCommands
 				where k.Instruction.OpCode != OpCodes.Nop
 				where k.Instruction.OpCode != OpCodes.Ret
 				select k.Instruction
