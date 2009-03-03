@@ -785,6 +785,12 @@ namespace jsc.Languages.Java
 
 		public string GetDecoratedTypeName(Type type, bool bExternalAllowed, bool bUsePrimitives, bool bChopNestedParents)
 		{
+			if (type.IsEnum)
+			{
+				// http://stackoverflow.com/questions/503806/in-c-can-i-use-reflection-to-determine-if-an-enum-type-is-int-byte-short-etc
+				return GetDecoratedTypeName(Enum.GetUnderlyingType(type), false);
+			}
+
 			if (type.IsArray)
 			{
 				return GetDecoratedTypeName(type.GetElementType(), bExternalAllowed, bUsePrimitives, bChopNestedParents) + "[]";
