@@ -882,6 +882,8 @@ namespace jsc.Languages.Java
 							return "Long";
 						if (type == typeof(sbyte))
 							return "Byte";
+						if (type == typeof(short))
+							return "Short";
 						if (type == typeof(float))
 							return "Float";
 					}
