@@ -380,7 +380,10 @@ namespace jsc.Script
 		{
 			MyWriter.Write(e);
 		}
-
+		public void Write(sbyte e)
+		{
+			MyWriter.Write(e);
+		}
 
 		public bool WriteLine_NewLineEnabled = true;
 
@@ -1138,12 +1141,22 @@ namespace jsc.Script
 			throw new NotImplementedException();
 		}
 
+		public virtual bool StringToSByteArrayProviderImplementation(ILBlock.Prestatement p, ILInstruction i, MethodBase m)
+		{
+			return false;
+		}
+
 		public void WriteMethodCall(ILBlock.Prestatement p, ILInstruction i, MethodBase m)
 		{
 			try
 			{
 				Type t = m.DeclaringType;
 				MethodBase method = m;
+
+			
+					if (StringToSByteArrayProviderImplementation(p, i, m))
+						return;
+				
 
 				if (IsTypeOfOperator(m))
 				{
