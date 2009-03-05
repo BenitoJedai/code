@@ -51,11 +51,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AIDAttribute.cs" />
+    <Compile Include="APDUClassAttribute.cs" />
+    <Compile Include="APDUInstructionAttribute.cs" />
     <Compile Include="javacardx\crypto\Cipher.cs" />
     <Compile Include="javacard\framework\APDU.cs" />
     <Compile Include="javacard\framework\Applet.cs" />
     <Compile Include="javacard\framework\ISO7816.cs" />
     <Compile Include="javacard\framework\ISOException.cs" />
+    <Compile Include="javacard\framework\JCSystem.cs" />
     <Compile Include="javacard\framework\Util.cs" />
     <Compile Include="javacard\security\DESKey.cs" />
     <Compile Include="javacard\security\PublicKey.cs" />
