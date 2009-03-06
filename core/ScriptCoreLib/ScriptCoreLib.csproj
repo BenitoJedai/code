@@ -174,7 +174,9 @@
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\Component.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ComponentCollection.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\Container.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\IRaiseItemChangedEvents.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\IBindingList.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ICancelAddNew.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ISite.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\IComponent.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\IContainer.cs" />

@@ -7,7 +7,7 @@ using ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.ObjectMode
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.ComponentModel
 {
     [Script(Implements = typeof(global::System.ComponentModel.BindingList<>))]
-    internal class __BindingList<T> : __Collection<T>, __IBindingList
+	internal class __BindingList<T> : __Collection<T>, __IBindingList, __ICancelAddNew, __IRaiseItemChangedEvents
     {
         public __BindingList()
         {

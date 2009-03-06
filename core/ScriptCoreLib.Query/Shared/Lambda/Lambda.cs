@@ -11,6 +11,8 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
+		
+
 		public static void Dispose(this IDisposable[] e)
 		{
 			foreach (var i in e)
