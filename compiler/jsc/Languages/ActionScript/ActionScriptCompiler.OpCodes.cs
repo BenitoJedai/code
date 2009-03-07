@@ -687,11 +687,16 @@ namespace jsc.Languages.ActionScript
 								}
 								else
 								{
-									if (e.i.TargetType == typeof(int))
+									var TargetType = e.i.TargetType;
+
+									if (TargetType.IsEnum)
+										TargetType = Enum.GetUnderlyingType(TargetType);
+
+									if (TargetType == typeof(int))
 										Write("0");
-									else if (e.i.TargetType == typeof(sbyte))
+									else if (TargetType == typeof(sbyte))
 										Write("0");
-									else if (e.i.TargetType == typeof(double))
+									else if (TargetType == typeof(double))
 										Write("0");
 									else
 										BreakToDebugger("default for " + e.i.TargetType.FullName + " is unknown");

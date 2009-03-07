@@ -201,3 +201,5 @@ version history:
 	php: fixed Ldc_I8
 03.03.2009
 	java: added enum support via enum type erasure
+07.03.2009
+	actionscript: fixed enum array zero init
