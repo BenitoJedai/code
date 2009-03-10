@@ -16,6 +16,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Net.Sockets
 
 		public void Connect(string hostname, int port)
 		{
+			// http://bugs.php.net/bug.php?id=44335
+			if (hostname == "localhost")
+				hostname = "127.0.0.1";
+
 			var Client = new __Socket
 			{
 				InternalHandler = Native.API.fsockopen(hostname, port)
