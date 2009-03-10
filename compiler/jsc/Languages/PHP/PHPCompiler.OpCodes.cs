@@ -18,6 +18,32 @@ namespace jsc.Script.PHP
 
 		private void CreateInstructionHandlers()
 		{
+			CIW[OpCodes.Leave,
+				OpCodes.Leave_S] =
+				e =>
+				{
+					var b = e.i.Flow.OwnerBlock;
+
+					if (b.Clause == null)
+						b = b.Parent;
+
+
+					if (b.Clause.Flags == ExceptionHandlingClauseOptions.Clause ||
+						b.Clause.Flags == ExceptionHandlingClauseOptions.Finally
+						)
+					{
+						var tx = e.i.IndirectReturnPrestatement;
+						if (tx != null)
+						{
+							EmitPrestatement(tx);
+							return;
+						}
+
+					}
+
+					throw new NotSupportedException("current OpCodes.Leave cannot be understood");
+				};
+
 			#region starg
 			CIW[OpCodes.Starg_S,
 				OpCodes.Starg] =
