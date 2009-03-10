@@ -8,6 +8,11 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.File))]
 	internal class __File
 	{
+		public static void Delete(string path)
+		{
+			Native.API.unlink(path);
+		}
+
 		public static bool Exists(string path)
 		{
 			if (Native.API.is_file(path))
