@@ -66,5 +66,40 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 
 			return (string[])(object)list;
 		}
+
+
+		public static string[] GetFiles(string path)
+		{
+			var list = new IArray();
+
+			if (Native.API.is_readable(path))
+			{
+				object h = Native.API.opendir(path);
+				string p = Native.API.readdir(h);
+
+				while (p != null)
+				{
+
+					if (p != ".")
+						if (p != "..")
+						{
+							string npath = Path.Combine(path, p);
+
+							if (Native.API.is_file(npath))
+								if (Native.API.is_readable(npath))
+								{
+									list.Push(npath);
+								}
+						}
+
+					p = Native.API.readdir(h);
+				}
+
+				Native.API.closedir(h);
+
+			}
+
+			return (string[])(object)list;
+		}
 	}
 }

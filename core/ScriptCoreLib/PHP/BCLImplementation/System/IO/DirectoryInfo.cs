@@ -74,6 +74,20 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 			return a;
 		}
 
+
+		public FileInfo[] GetFiles()
+		{
+			var x = Directory.GetFiles(FullPath);
+			var a = new FileInfo[x.Length];
+
+			for (int i = 0; i < x.Length; i++)
+			{
+				a[i] = new FileInfo(x[i]);
+			}
+
+			return a;
+		}
+
 		public override string Name
 		{
 			get

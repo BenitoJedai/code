@@ -531,6 +531,8 @@
     <Compile Include="PHP\BCLImplementation\System\Collections\IEnumerator.cs" />
     <Compile Include="PHP\BCLImplementation\System\Console.cs" />
     <Compile Include="PHP\BCLImplementation\System\Convert.cs" />
+    <Compile Include="PHP\BCLImplementation\System\IO\FileInfo.cs" />
+    <Compile Include="PHP\BCLImplementation\System\NotSupportedException.cs" />
     <Compile Include="PHP\BCLImplementation\System\TimeSpan.cs" />
     <Compile Include="PHP\BCLImplementation\System\DateTime.cs" />
     <Compile Include="PHP\BCLImplementation\System\IDisposable.cs" />
