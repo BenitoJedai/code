@@ -203,3 +203,5 @@ version history:
 	java: added enum support via enum type erasure
 07.03.2009
 	actionscript: fixed enum array zero init
+10.03.2009
+	php: fixed opcodes.leave
