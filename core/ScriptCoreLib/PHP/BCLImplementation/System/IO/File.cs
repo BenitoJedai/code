@@ -33,9 +33,20 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 		}
 
 
+		[Script(OptimizedCode = @"return call_user_func_array(pack, array_merge(array($v),(array)$a));")]
+		internal static string pack_array(string v, params byte[] a)
+		{
+			return default(string);
+		}
+
 		public static void WriteAllBytes(string path, byte[] contents)
 		{
-			//Native.API.file_put_contents(path, contents);
+			Native.API.file_put_contents(path, pack_array("C*", contents));
+		}
+
+		public static byte[] ReadAllBytes(string path)
+		{
+			return (byte[])Native.API.unpack("C*", Native.API.file_get_contents(path));
 		}
 	}
 }

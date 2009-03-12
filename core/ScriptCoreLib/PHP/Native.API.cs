@@ -9,6 +9,12 @@ namespace ScriptCoreLib.PHP
 	{
 		public static class API
 		{
+			[Script(IsNative = true)]
+			public static object unpack(string format, string data)
+			{
+				return null;
+			}
+
 			#region int rand ( [int min, int max] )
 
 			/// <summary>
@@ -1140,7 +1146,7 @@ namespace ScriptCoreLib.PHP
 			public static void session_write_close()
 			{
 			}
-			 
+
 			[Script(IsNative = true)]
 			public static void unlink(string path)
 			{
