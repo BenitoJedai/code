@@ -39,14 +39,24 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 			return default(string);
 		}
 
+		internal static byte[] ToBytes(string e)
+		{
+			return (byte[])Native.API.unpack("C*", e); ;
+		}
+
+		internal static string FromBytes(byte[] e)
+		{
+			return pack_array("C*", e);
+		}
+
 		public static void WriteAllBytes(string path, byte[] contents)
 		{
-			Native.API.file_put_contents(path, pack_array("C*", contents));
+			Native.API.file_put_contents(path, FromBytes(contents));
 		}
 
 		public static byte[] ReadAllBytes(string path)
 		{
-			return (byte[])Native.API.unpack("C*", Native.API.file_get_contents(path));
+			return ToBytes(Native.API.file_get_contents(path));
 		}
 	}
 }

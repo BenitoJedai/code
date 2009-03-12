@@ -24,10 +24,17 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Net.Sockets
 
 			var x = Native.API.fread(InternalSocket.InternalHandler, count);
 
-			for (int i = 0; i < x.Length; i++)
+			var bytes = __File.ToBytes(x);
+			for (int i = 0; i < bytes.Length; i++)
 			{
-				buffer[i] = (byte)x[i];
+				buffer[i] = bytes[i];
 			}
+
+			// old implementation:
+			//for (int i = 0; i < x.Length; i++)
+			//{
+			//    buffer[i] = (byte)x[i];
+			//}
 
 			return x.Length;
 		}

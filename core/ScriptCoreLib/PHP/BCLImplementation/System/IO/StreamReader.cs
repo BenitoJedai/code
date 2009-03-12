@@ -142,7 +142,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 
 			buffer_datasize = this.InternalStream.Read(buffer, 0, buffer_maxsize);
 
-			while (buffer_datasize >= 0)
+			while (buffer_datasize > 0)
 			{
 				for (int i = 0; i < buffer_datasize; i++)
 					builder.Append((char)buffer[i]);
