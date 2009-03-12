@@ -5,6 +5,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Linq;
 
 using jsc.CodeModel;
 
@@ -109,7 +110,8 @@ namespace jsc.Script.PHP
 			#endregion
 
 			#region Ldftn
-			CIW[OpCodes.Ldftn] =
+			CIW[OpCodes.Ldftn,
+				OpCodes.Ldvirtftn] =
 				delegate(CodeEmitArgs e)
 				{
 					WriteDecoratedMethodName(e.i.TargetMethod, true);
@@ -503,7 +505,109 @@ namespace jsc.Script.PHP
 					}
 					#endregion
 					else
-						Write("array()");
+					{
+						if (e.i.NextInstruction == OpCodes.Dup &&
+													e.i.NextInstruction.NextInstruction == OpCodes.Ldtoken &&
+													e.i.NextInstruction.NextInstruction.NextInstruction == OpCodes.Call)
+						{
+							var Length = (int)e.i.StackBeforeStrict.First().SingleStackInstruction.TargetInteger;
+							var Type = e.i.TargetType;
+
+							// Conversion To IEnumrable
+
+							if (Type == typeof(int))
+							{
+								var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsInt32Array();
+
+								Write("array");
+								Write("(");
+								for (int i = 0; i < Values.Length; i++)
+								{
+									if (i > 0)
+										Write(", ");
+
+									Write(Values[i].ToString());
+								}
+								Write(")");
+							}
+							else if (Type == typeof(uint))
+							{
+								var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsUInt32Array();
+
+								Write("array");
+								Write("(");
+								for (int i = 0; i < Values.Length; i++)
+								{
+									if (i > 0)
+										Write(", ");
+
+									Write(Values[i].ToString());
+								}
+								Write(")");
+							}
+							else if (Type == typeof(byte))
+							{
+								var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsByteArray();
+
+								Write("array");
+								Write("(");
+								for (int i = 0; i < Values.Length; i++)
+								{
+									if (i > 0)
+										Write(", ");
+
+									Write("0x" + Values[i].ToString("x2"));
+								}
+								Write(")");
+							}
+							else if (Type == typeof(double))
+							{
+								var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsDoubleArray();
+
+								Write("array");
+								Write("(");
+								for (int i = 0; i < Values.Length; i++)
+								{
+									if (i > 0)
+										Write(", ");
+
+									Write(Values[i].ToString());
+								}
+								Write(")");
+							}
+							else
+								throw new NotImplementedException(Type.Name);
+
+
+
+
+							//Write("[ /* ? */ ]");
+
+							// todo: implement
+
+
+						}
+						else
+						{
+
+							// Write("[]");
+							// this fix is for javascript too
+
+							if (e.FirstOnStack.SingleStackInstruction == OpCodes.Ldc_I4_0)
+							{
+								Write("array()");
+							}
+							else
+							{
+								Write("array()");
+
+								// fixme
+								//Write("array_fill(");
+								//EmitFirstOnStack(e);
+								//Write(")");
+							}
+						}
+					}
 				};
 
 			#region elem_ref
@@ -562,6 +666,14 @@ namespace jsc.Script.PHP
 				{
 
 					MethodBase m = e.i.ReferencedMethod;
+
+					if (m.DeclaringType == typeof(System.Runtime.CompilerServices.RuntimeHelpers))
+					{
+						if (m.Name == "InitializeArray")
+						{
+							throw new SkipThisPrestatementException();
+						}
+					}
 
 					if (Script.CompilerBase.IsToStringMethod(m))
 					{

@@ -11,7 +11,6 @@ namespace ScriptApplication.source.php
 	[Script]
 	static class OrcasPHPScriptApplicationBackend
 	{
-		public const string Entrypoint = "WebPageEntry";
 		public const string Filename = "index.php";
 
 		//Alias /jsc/OrcasPHPScriptApplication "C:\work\jsc.svn\templates\OrcasPHPScriptApplication\bin\Debug\web"

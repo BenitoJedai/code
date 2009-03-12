@@ -32,5 +32,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 			Native.API.file_put_contents(path, contents);
 		}
 
+
+		public static void WriteAllBytes(string path, byte[] contents)
+		{
+			//Native.API.file_put_contents(path, contents);
+		}
 	}
 }

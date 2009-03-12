@@ -258,7 +258,7 @@ namespace jsc.Script.PHP
 			}
 		}
 
-		public  TypeInfo TypeInfoOf(Type z)
+		public TypeInfo TypeInfoOf(Type z)
 		{
 			TypeInfo v = new TypeInfo(z);
 
@@ -698,8 +698,22 @@ namespace jsc.Script.PHP
 
 
 			WriteIdent();
-			EmitInstruction(p, p.Instruction);
-			WriteLine(";");
+
+
+			try
+			{
+				EmitInstruction(p, p.Instruction);
+				WriteLine(";");
+			}
+			catch (SkipThisPrestatementException exc)
+			{
+				WriteLine();
+			}
+			catch
+			{
+				throw;
+			}
+
 		}
 
 		private static bool IsOptOut(ILBlock.Prestatement p)
