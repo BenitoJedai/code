@@ -445,12 +445,33 @@ namespace jsc.Script.PHP
 			CIW[OpCodes.Newarr] =
 				delegate(CodeEmitArgs e)
 				{
+					Action WriteDefaultElement =
+						delegate
+						{
+							if (!e.i.TargetType.IsValueType)
+							{
+								Write("NULL");
+							}
+							else
+							{
+								if (e.i.TargetType == typeof(int))
+									Write("0");
+								else if (e.i.TargetType == typeof(sbyte))
+									Write("0");
+								else if (e.i.TargetType == typeof(byte))
+									Write("0");
+								else
+									BreakToDebugger("default for " + e.i.TargetType.FullName + " is unknown");
+							}
+						};
+
 					#region inline newarr
 					if (e.p.IsValidInlineArrayInit)
 					{
 						WriteLine("array (");
 						Ident++;
 
+						
 						//using (CreateScope(false))
 						{
 
@@ -470,19 +491,7 @@ namespace jsc.Script.PHP
 
 								if (_stack[si] == null)
 								{
-									if (!e.i.TargetType.IsValueType)
-									{
-										Write("NULL");
-									}
-									else
-									{
-										if (e.i.TargetType == typeof(int))
-											Write("0");
-										else if (e.i.TargetType == typeof(sbyte))
-											Write("0");
-										else
-											BreakToDebugger("default for " + e.i.TargetType.FullName + " is unknown");
-									}
+									WriteDefaultElement();
 								}
 								else
 								{
@@ -599,12 +608,14 @@ namespace jsc.Script.PHP
 							}
 							else
 							{
-								Write("array()");
 
-								// fixme
-								//Write("array_fill(");
-								//EmitFirstOnStack(e);
-								//Write(")");
+								// http://ee.php.net/array_fill
+								Write("array_fill(0");
+								Write(", ");
+								EmitFirstOnStack(e);
+								Write(", ");
+								WriteDefaultElement();
+								Write(")");
 							}
 						}
 					}
