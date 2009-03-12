@@ -205,3 +205,5 @@ version history:
 	actionscript: fixed enum array zero init
 10.03.2009
 	php: fixed opcodes.leave
+12.03.2009
+	php: added InitializeArray support

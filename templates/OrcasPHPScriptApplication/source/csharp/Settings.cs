@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 
 using ScriptCoreLib.Shared;
+using System.Reflection;
 
 namespace ScriptApplication.source.csharp
 {
@@ -12,23 +13,28 @@ namespace ScriptApplication.source.csharp
     {
         public static void DefineEntryPoint(IEntryPoint e)
         {
-            CreatePHPIndexPage(e, php.OrcasPHPScriptApplicationBackend.Filename, php.OrcasPHPScriptApplicationBackend.Entrypoint);
+			CreatePHPIndexPage(e, php.OrcasPHPScriptApplicationBackend.Filename, php.OrcasPHPScriptApplicationBackend.WebPageEntry);
         }
 
-        private static void CreatePHPIndexPage(IEntryPoint e, string file_name, string entryfunction)
-        {
-            var w = new TextWriter();
+		#region PHP Section
+		private static void CreatePHPIndexPage(IEntryPoint e, string file_name, Action entryfunction)
+		{
+			var a = new StringBuilder();
 
-            w.WriteLine("<?");
+			a.AppendLine("<?");
 
-            SharedHelper.PHPInclude(w, SharedHelper.LocalModules);
+			foreach (var u in SharedHelper.LocalModulesOf(Assembly.GetExecutingAssembly(), ScriptType.PHP))
+			{
+				a.AppendLine("require_once '" + u + ".php';");
+			}
 
-            w.WriteLine(entryfunction + "();");
+			a.AppendLine(entryfunction.Method.Name + "();");
+			a.AppendLine("?>");
 
-            w.Write("?>");
 
-            e[file_name] = w.Text;
-        }
+			e[file_name] = a.ToString();
+		}
+		#endregion
     }
 
 }
