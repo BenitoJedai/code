@@ -345,7 +345,10 @@ namespace jsc.Script
 					Write(z.Name);
 				}
 				else
+				{
+
 					MyWriter.Write("{0}_{1:x4}", GetDecoratedGUID(z.DeclaringType.GUID), z.MetadataToken);
+				}
 			}
 
 			if (q)

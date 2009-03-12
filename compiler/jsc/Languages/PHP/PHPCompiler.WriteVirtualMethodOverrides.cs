@@ -10,33 +10,33 @@ using System.Reflection.Emit;
 
 namespace jsc.Script.PHP
 {
-    partial class PHPCompiler
-    {
-        private void WriteVirtualMethodOverrides(Type z)
-        {
-            // override: http://blogs.adobe.com/kiwi/2006/05/as3_language_101_for_cc_coders_1.html
+	partial class PHPCompiler
+	{
+		private void WriteVirtualMethodOverrides(Type z)
+		{
+			// override: http://blogs.adobe.com/kiwi/2006/05/as3_language_101_for_cc_coders_1.html
 
 
-            foreach (var tmethod in z.GetVirtualMethods())
-            {
-                if (tmethod.IsToString())
-                    continue;
+			foreach (var tmethod in z.GetVirtualMethods())
+			{
+				if (tmethod.IsToString())
+					continue;
 
 
 
-                var sa = tmethod.DeclaringType.ToScriptAttribute();
+				var sa = tmethod.DeclaringType.ToScriptAttribute();
 
-                if (sa == null)
-                    continue;
+				if (sa == null)
+					continue;
 
-                if (tmethod.ToScriptAttributeOrDefault().DefineAsStatic)
-                    continue;
+				if (tmethod.ToScriptAttributeOrDefault().DefineAsStatic)
+					continue;
 
-                DebugBreak(tmethod.ToScriptAttributeOrDefault());
+				DebugBreak(tmethod.ToScriptAttributeOrDefault());
 
 
-                var iparams = tmethod.GetParameters();
-                var iparamstypes = tmethod.GetParameters().Select(p => p.ParameterType).ToArray();
+				var iparams = tmethod.GetParameters();
+				var iparamstypes = tmethod.GetParameters().Select(p => p.ParameterType).ToArray();
 
 				//var prop = new PropertyDetector(tmethod);
 				//var IsSet = iparams.Length == 1
@@ -53,11 +53,11 @@ namespace jsc.Script.PHP
 				//    continue;
 				//}
 
-                var InterfaceMethodDeclaringType =
-                    z.BaseType.IsGenericType ?
-                    z.BaseType.GetGenericTypeDefinition() :
-                    z.BaseType
-                    ;
+				var InterfaceMethodDeclaringType =
+					z.BaseType.IsGenericType ?
+					z.BaseType.GetGenericTypeDefinition() :
+					z.BaseType
+					;
 
 				Func<Type, MethodInfo> GetMethod =
 					basetype =>
@@ -82,39 +82,40 @@ namespace jsc.Script.PHP
 
 
 				var InterfaceMethodImplementationSignature = (MethodInfo)MySession.ResolveImplementation(InterfaceMethodDeclaringType, vm,
-                    AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveMethodOnly
-                    //AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveBCLImplementation
-                    ) ?? vm;
+					//AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveMethodOnly
+					// what does this parameter change?
+					AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveBCLImplementation
+					) ?? vm;
 
-                if (vm == null)
-                {
-                    throw new NotImplementedException("cannot find override for " + tmethod.ToString());
-                }
+				if (vm == null)
+				{
+					throw new NotImplementedException("cannot find override for " + tmethod.ToString());
+				}
 
-                WriteIdent();
-                WriteCommentLine("override a virtual member");
+				WriteIdent();
+				WriteCommentLine("override a virtual member: " + InterfaceMethodImplementationSignature.DeclaringType.Name + "." + InterfaceMethodImplementationSignature.Name);
 
-                WriteMethodSignature(z, InterfaceMethodImplementationSignature, false, WriteMethodSignatureMode.Overriding);
+				WriteMethodSignature(z, InterfaceMethodImplementationSignature, false, WriteMethodSignatureMode.Overriding);
 
 				// get correct names for params
 				iparams = InterfaceMethodImplementationSignature.GetParameters();
 
-                using (CreateScope())
-                {
-                    WriteIdent();
+				using (CreateScope())
+				{
+					WriteIdent();
 
-                    if (vm.ReturnType != typeof(void))
-                    {
-                        WriteKeywordReturn();
-                        WriteSpace();
-                    }
+					if (vm.ReturnType != typeof(void))
+					{
+						WriteKeywordReturn();
+						WriteSpace();
+					}
 
-                    Write("$this");
-                    Write("->");
+					Write("$this");
+					Write("->");
 
-                    // tmethod =
-                    #region prop
-                    {
+					// tmethod =
+					#region prop
+					{
 						//if (IsSet)
 						//{
 						//    Write(prop.SetProperty.Name);
@@ -127,29 +128,29 @@ namespace jsc.Script.PHP
 						//}
 						//else
 						//{
-                            WriteDecoratedMethodName(tmethod, false);
-                            Write("(");
-                            for (int i = 0; i < iparams.Length; i++)
-                            {
-                                if (i > 0)
-                                {
-                                    Write(",");
-                                    WriteSpace();
-                                }
-								WriteDecoratedMethodParameter(iparams[i]);
-								//WriteSafeLiteral(iparams[i].Name);
-                            }
-                            Write(")");
+						WriteDecoratedMethodName(tmethod, false);
+						Write("(");
+						for (int i = 0; i < iparams.Length; i++)
+						{
+							if (i > 0)
+							{
+								Write(",");
+								WriteSpace();
+							}
+							WriteDecoratedMethodParameter(iparams[i]);
+							//WriteSafeLiteral(iparams[i].Name);
+						}
+						Write(")");
 						//}
-                    }
-                    #endregion
+					}
+					#endregion
 
-                    Write(";");
-                    WriteLine();
-                }
+					Write(";");
+					WriteLine();
+				}
 
-            }
+			}
 
-        }
-    }
+		}
+	}
 }
