@@ -118,7 +118,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 					// fill buffer
 					buffer_datasize = this.InternalStream.Read(buffer, 0, buffer_maxsize);
 
-					if (buffer_datasize == 0)
+					if (buffer_datasize <= 0)
 					{
 						done = true;
 					}
