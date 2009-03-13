@@ -49,7 +49,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 
 		public override void SetLength(long value)
 		{
-			
+			Native.API.ftruncate(this.InternalHandler, (int)value);
 		}
 
 		public override long Seek(long offset, SeekOrigin origin)
