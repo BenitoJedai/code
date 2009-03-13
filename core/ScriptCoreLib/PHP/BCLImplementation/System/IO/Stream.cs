@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 {
@@ -12,10 +13,24 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 
 		public void Dispose()
 		{
-
+			this.Close();
 		}
 
 		#endregion
+
+		public virtual void Close()
+		{
+	
+		}
+
+ 
+
+ 
+
+
+		public abstract long Seek(long offset, SeekOrigin origin);
+
+		public abstract void SetLength(long value);
 
 		public abstract int Read(byte[] buffer, int offset, int count);
 

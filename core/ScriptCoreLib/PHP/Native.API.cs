@@ -686,7 +686,8 @@ namespace ScriptCoreLib.PHP
 			[Script(IsNative = true)]
 			public static object fopen(string _filename, string _mode) { return default(object); }
 
-
+			[Script(IsNative = true)]
+			public static int fseek(object _handle, int _offset, int _whence) { return default(int); }
 
 
 			#endregion

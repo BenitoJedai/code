@@ -75,5 +75,15 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Net.Sockets
 				throw new global::System.NotImplementedException("");
 			}
 		}
+
+		public override void SetLength(long value)
+		{
+			throw new global::System.NotImplementedException("");
+		}
+
+		public override long Seek(long offset, global::System.IO.SeekOrigin origin)
+		{
+			throw new global::System.NotImplementedException("");
+		}
 	}
 }

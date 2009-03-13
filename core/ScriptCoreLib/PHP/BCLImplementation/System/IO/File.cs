@@ -2,12 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 {
 	[Script(Implements = typeof(global::System.IO.File))]
 	internal class __File
 	{
+		public static FileStream OpenWrite(string path)
+		{
+			return new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+		}
+
 		public static void Delete(string path)
 		{
 			Native.API.unlink(path);
