@@ -661,7 +661,8 @@ namespace ScriptCoreLib.PHP
 
 			#endregion
 
-
+			[Script(IsNative = true)]
+			public static bool ftruncate(object _handle, int _size) { return default(bool); }
 
 			[Script(IsNative = true)]
 			public static string fgets(object _handle, int _length) { return default(string); }
