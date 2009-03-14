@@ -170,6 +170,8 @@
     <Compile Include="Languages\Java\JavaCompiler.WriteImportTypes.cs" />
     <Compile Include="Languages\Java\JavaCompiler.KeyWords.cs" />
     <Compile Include="Languages\Java\JavaCompiler.OpCodes.cs" />
+    <Compile Include="Languages\PHP\PHPCompiler.ActiveTypes.cs" />
+    <Compile Include="Languages\PHP\PHPCompiler.Compile.cs" />
     <Compile Include="Languages\PHP\PHPCompiler.WriteLocalVariableDefinition.cs" />
     <Compile Include="Languages\PHP\PHPCompiler.WriteVirtualMethodOverrides.cs" />
     <Compile Include="Languages\PHP\PHPCompiler.WriteInterfaceMappingMethods.cs" />
