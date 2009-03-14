@@ -6,6 +6,12 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
     internal class __Object
     {
 
+		[Script(OptimizedCode = "return {arg0} === {arg0};", UseCompilerConstants = true)]
+		public static bool ReferenceEquals(object a, object b)
+		{
+			return default(bool);
+		}
+
 
         public new virtual bool Equals(object obj)
         {

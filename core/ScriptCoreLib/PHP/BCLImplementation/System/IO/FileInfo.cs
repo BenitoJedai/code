@@ -9,6 +9,11 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.FileInfo))]
 	internal class __FileInfo : __FileSystemInfo
 	{
+		public FileStream OpenWrite()
+		{
+			return File.OpenWrite(this.FullPath);
+		}
+
 		public __FileInfo(string Path)
 		{
 			//Console.WriteLine("__DirectoryInfo: " + Path + "<br />");

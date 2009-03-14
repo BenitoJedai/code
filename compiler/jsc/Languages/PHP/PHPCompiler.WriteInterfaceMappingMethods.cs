@@ -69,7 +69,8 @@ namespace jsc.Script.PHP
 									Write(",");
 									WriteSpace();
 								}
-								WriteSafeLiteral(_InterfaceMethod.GetParameters()[i].Name);
+								Write("$p" + i);
+								//WriteSafeLiteral(_InterfaceMethod.GetParameters()[i].Name);
 							}
 							Write(")");
 						}
