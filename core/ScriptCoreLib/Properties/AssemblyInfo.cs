@@ -12,7 +12,7 @@ using ScriptCoreLib;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("neutronic")]
 [assembly: AssemblyProduct("ScriptCoreLib")]
-[assembly: AssemblyCopyright("Copyright © zporxy.wordpress.com 2008")]
+[assembly: AssemblyCopyright("Copyright © zporxy.wordpress.com 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -41,7 +41,7 @@ using ScriptCoreLib;
 ]
 
 [assembly:
-    ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
+    ScriptTypeFilter(ScriptType.ActionScript, typeof(global::ScriptCoreLib.ActionScript.Function)),
     ScriptTypeFilter(ScriptType.ActionScript, "*.Shared.Query"),
 
     // some namespace mangling
@@ -49,7 +49,7 @@ using ScriptCoreLib;
     ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = ""),
 ]
 
-[assembly: ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript")]
+[assembly: ScriptTypeFilter(ScriptType.JavaScript, typeof(global::ScriptCoreLib.JavaScript.Native))]
 [assembly: ScriptTypeFilter(ScriptType.JavaScript, "*.Shared")]
 
 [assembly: ScriptTypeFilter(ScriptType.PHP, "*.PHP")]
