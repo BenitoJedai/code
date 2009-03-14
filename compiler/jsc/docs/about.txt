@@ -207,3 +207,7 @@ version history:
 	php: fixed opcodes.leave
 12.03.2009
 	php: added InitializeArray support
+14.03.2009
+	php: fixed interface mapping code
+	php: added List<>
+	php: todo: Optional params, Extension Method Delegate, Array Autocast to Enumerable
