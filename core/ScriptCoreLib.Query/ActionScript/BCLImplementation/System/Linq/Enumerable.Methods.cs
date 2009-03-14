@@ -12,7 +12,8 @@ using System.Linq;
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
 {
 
-    using Error = __DefinedError;
+    using Error = ScriptCoreLib.Shared.BCLImplementation.System.Linq.__DefinedError;
+	using ScriptCoreLib.Shared.BCLImplementation.System.Linq;
 
 
     internal static partial class __Enumerable

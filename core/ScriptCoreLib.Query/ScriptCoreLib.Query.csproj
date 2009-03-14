@@ -57,19 +57,17 @@
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Concat.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.OrderBy.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\OrderedEnumerable.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Func.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Methods.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Select.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.SelectMany.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Where.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Linq\DefinedError.cs" />
+    <Compile Include="Shared\BCLImplementation\System\DefinedError.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\IOrderedEnumerable.cs" />
     <Compile Include="ActionScript\Extensions\QueryExtensions.cs" />
     <Compile Include="CSharp2\BCLImplementation\System\Func.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Func.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Func.cs" />
     <Compile Include="JavaScript\Extensions\QueryExtensions.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Func.cs" />
     <Compile Include="Shared\Lambda\BindingListWithEvents.cs" />
     <Compile Include="Shared\Lambda\Lambda.Concat.cs" />
     <Compile Include="Shared\Lambda\Lambda.ToFlaggable.cs" />
@@ -96,12 +94,16 @@
     <Compile Include="Shared\Lambda\IdentityFunction.cs" />
     <Compile Include="Shared\Query\Enumerable.SelectMany.cs" />
     <Compile Include="Shared\Query\Enumerable.Concat.cs" />
-    <Compile Include="Shared\Query\DefinedError.cs" />
     <Compile Include="Shared\Query\Enumerable.Select.cs" />
     <Compile Include="Shared\Query\Enumerable.Where.cs" />
     <Compile Include="Shared\Query\Enumerable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\Query\LocalInternalEnumerable.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="JavaScript\BCLImplementation\System\" />
+    <Folder Include="PHP\BCLImplementation\System\" />
+    <Folder Include="Shared\BCLImplementation\System\Linq\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

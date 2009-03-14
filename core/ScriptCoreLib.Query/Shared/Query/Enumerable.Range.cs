@@ -5,6 +5,7 @@ using global::System.Collections;
 using global::System.Collections.Generic;
 
 using IDisposable = global::System.IDisposable;
+using ScriptCoreLib.Shared.BCLImplementation.System.Linq;
 
 namespace ScriptCoreLib.Shared.Query
 {
@@ -25,7 +26,7 @@ namespace ScriptCoreLib.Shared.Query
                 return RangeIterator(start, count);
             }
 
-            throw DefinedError.ArgumentOutOfRange("count");
+			throw __DefinedError.ArgumentOutOfRange("count");
         }
 
 
@@ -127,7 +128,7 @@ namespace ScriptCoreLib.Shared.Query
 
             public void Reset()
             {
-                throw DefinedError.NotImplemented();
+				throw __DefinedError.NotImplemented();
             }
 
             #endregion
