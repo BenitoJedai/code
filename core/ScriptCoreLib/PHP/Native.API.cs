@@ -10,6 +10,12 @@ namespace ScriptCoreLib.PHP
 		public static class API
 		{
 			[Script(IsNative = true)]
+			public static object array_values(object input)
+			{
+				return null;
+			}
+
+			[Script(IsNative = true)]
 			public static object unpack(string format, string data)
 			{
 				return null;
@@ -687,11 +693,14 @@ namespace ScriptCoreLib.PHP
 			[Script(IsNative = true)]
 			public static object fopen(string _filename, string _mode) { return default(object); }
 
+		
+			#endregion
+
+			[Script(IsNative = true)]
+			public static int ftell(object _handle) { return default(int); }
+
 			[Script(IsNative = true)]
 			public static int fseek(object _handle, int _offset, int _whence) { return default(int); }
-
-
-			#endregion
 
 			#region int fwrite ( resource handle, string string [, int length] )
 

@@ -19,10 +19,14 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 
 		public __FileStream(string path, FileMode mode, FileAccess access, FileShare share)
 		{
-			InternalHandler = Native.API.fopen(path, ToString(mode, access, share));
+			InternalHandler = Native.API.fopen(path, ToString(path, mode, access, share));
+
+			if (InternalHandler == null)
+				throw new Exception("Unable to open the file.");
+
 		}
 
-		static internal string ToString(FileMode mode, FileAccess access, FileShare share)
+		static internal string ToString(string path, FileMode mode, FileAccess access, FileShare share)
 		{
 			// http://ee.php.net/fopen
 
@@ -39,7 +43,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 			{
 				if (access == FileAccess.Write)
 				{
-					return "wb";
+					if (File.Exists(path))
+						return "r+b";
+					else
+						return "x+b";
 				}
 			}
 
@@ -64,13 +71,13 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 
 		public override void Write(byte[] buffer, int offset, int count)
 		{
-			var data = "";
-
-			for (int i = offset; i < count; i++)
+			var bytes = new byte[count];
+			for (int i = 0; i < count; i++)
 			{
-				data += Native.API.chr(buffer[i]);
+				bytes[i] = buffer[i + offset];
 			}
 
+			var data = __File.FromBytes(bytes);
 
 			Native.API.fwrite(this.InternalHandler, data);
 		}
@@ -84,11 +91,11 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 		{
 			get
 			{
-				throw new NotImplementedException("");
+				return Native.API.ftell(this.InternalHandler);
 			}
 			set
 			{
-				throw new NotImplementedException("");
+				this.Seek(value, SeekOrigin.Begin);
 			}
 		}
 

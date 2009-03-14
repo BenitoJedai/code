@@ -47,7 +47,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 
 		internal static byte[] ToBytes(string e)
 		{
-			return (byte[])Native.API.unpack("C*", e); ;
+			return (byte[])Native.API.array_values(Native.API.unpack("C*", e));
 		}
 
 		internal static string FromBytes(byte[] e)
