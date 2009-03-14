@@ -1,5 +1,6 @@
 using System.Net.Sockets;
 using ScriptCoreLib.PHP.BCLImplementation.System.IO;
+using System;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.Net.Sockets
 {
@@ -25,9 +26,13 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Net.Sockets
 			var x = Native.API.fread(InternalSocket.InternalHandler, count);
 
 			var bytes = __File.ToBytes(x);
+
 			for (int i = 0; i < bytes.Length; i++)
 			{
-				buffer[i] = bytes[i];
+				var v = bytes[i];
+				//Console.WriteLine("__NetworkStream.Read: " + new { i, v });
+
+				buffer[i] = v;
 			}
 
 			// old implementation:
