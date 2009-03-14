@@ -227,37 +227,6 @@ namespace jsc.Script.PHP
 
 
 
-		TypeInfo[] ActiveTypes
-		{
-			get
-			{
-				var u = MySession.Types.Select(k => TypeInfoOf(k)).ToArray();
-
-				var a = new List<TypeInfo>();
-
-				foreach (var i in u)
-				{
-					// scan from the end to front
-
-					int j = a.Count - 1;
-
-					for (; j >= 0; j--)
-					{
-						if (i.ResolvedBaseTypes.Contains(a[j].ResolvedValue))
-						{
-							// we found the first dependency
-							break;
-						}
-					}
-
-					// add after last detected dependency
-					a.Insert(j + 1, i);
-				}
-
-				return a.ToArray();
-			}
-		}
-
 		public TypeInfo TypeInfoOf(Type z)
 		{
 			TypeInfo v = new TypeInfo(z);
@@ -268,7 +237,11 @@ namespace jsc.Script.PHP
 			};
 
 			v.ResolvedValue = ResolveImplementation(v.Value) ?? v.Value;
-			v.ResolvedBaseTypes = v.ReferencedBaseTypes.Select(k => ResolveImplementation(k) ?? k).ToArray();
+			v.ResolvedBaseTypes = Enumerable.ToArray(
+				from k in v.ReferencedBaseTypes
+				let r = ResolveImplementation(k) ?? k
+				select r.IsGenericType ? r.GetGenericTypeDefinition() : r
+			).ToArray();
 
 			return v;
 		}
@@ -276,75 +249,6 @@ namespace jsc.Script.PHP
 
 
 
-		/// <summary>
-		/// compiles the main file for the assambly, also compile web/inc/*.dll/class.*.php multithreaded
-		/// </summary>
-		public void Compile(CompileSessionInfo sinfo)
-		{
-
-			DirectoryInfo web = new DirectoryInfo("web");
-
-			DirectoryInfo u = web.CreateSubdirectory("inc");
-
-
-			WriteLine("<?");
-
-			Helper.WorkPool n = new Helper.WorkPool();
-
-			n.IsThreaded = !Debugger.IsAttached;
-
-			List<TypeInfo> req = new List<TypeInfo>();
-
-			using (new Helper.ConsoleStopper("php type compiler"))
-			{
-				n.ForEach(ActiveTypes,
-				   delegate(TypeInfo z)
-				   {
-					   CompilerBase c = new Script.PHP.PHPCompiler(new StringWriter(), this.MySession);
-
-					   c.CurrentJob = null;
-
-					   Program.AttachXMLDoc(new FileInfo(z.Value.Assembly.ManifestModule.FullyQualifiedName), c);
-
-					   if (c.CompileType(z.Value))
-					   {
-						   c.ToConsole(z.Value, sinfo);
-
-						   DirectoryInfo x = u.CreateSubdirectory(z.AssamblyFileName);
-
-						   string content = c.MyWriter.ToString();
-
-
-						   StreamWriter sw = new StreamWriter(new FileStream(web.FullName + "/" + z.TargetFileName, FileMode.Create));
-
-						   sw.WriteLine("<?");
-						   sw.Write(content);
-						   sw.WriteLine("?>");
-						   sw.Flush();
-
-						   sw.Close();
-
-						   req.Add(z);
-					   }
-				   }
-			   );
-
-			}
-
-			foreach (TypeInfo z in req)
-			{
-				WriteImport(z);
-			}
-
-			WriteLine();
-
-			foreach (Type z in MySession.Types)
-			{
-				WriteTypeStaticConstructor(z, false);
-			}
-
-			WriteLine("?>");
-		}
 
 		public void WriteImport(TypeInfo z)
 		{

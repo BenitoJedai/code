@@ -211,3 +211,4 @@ version history:
 	php: fixed interface mapping code
 	php: added List<>
 	php: todo: Optional params, Extension Method Delegate, Array Autocast to Enumerable
+	php: fixed generic type dependecy ordering

@@ -6,7 +6,7 @@ using System.Collections;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections
 {
-    [Script(Implements = typeof(IList))]
+	[Script(Implements = typeof(global::System.Collections.IList))]
     internal interface __IList : __ICollection, __IEnumerable
     {
         // Summary:
