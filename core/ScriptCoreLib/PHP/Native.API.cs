@@ -16,6 +16,12 @@ namespace ScriptCoreLib.PHP
 			}
 
 			[Script(IsNative = true)]
+			public static object array()
+			{
+				return null;
+			}
+
+			[Script(IsNative = true)]
 			public static object array_values(object input)
 			{
 				return null;
