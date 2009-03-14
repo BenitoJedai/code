@@ -32,7 +32,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Net.Sockets
 				var v = bytes[i];
 				//Console.WriteLine("__NetworkStream.Read: " + new { i, v });
 
-				buffer[i] = v;
+				buffer[i + offset] = v;
 			}
 
 			// old implementation:
@@ -41,7 +41,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Net.Sockets
 			//    buffer[i] = (byte)x[i];
 			//}
 
-			return x.Length;
+			return bytes.Length;
 		}
 
 		public override void Write(byte[] buffer, int offset, int count)

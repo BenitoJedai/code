@@ -19,6 +19,9 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Net.Sockets
 			// http://bugs.php.net/bug.php?id=44335
 			if (hostname == "localhost")
 				hostname = "127.0.0.1";
+			else
+				hostname = Native.API.gethostbyname(hostname);
+
 
 			var Client = new __Socket
 			{

@@ -10,6 +10,12 @@ namespace ScriptCoreLib.PHP
 		public static class API
 		{
 			[Script(IsNative = true)]
+			public static string gethostbyname(string _host)
+			{
+				return null;
+			}
+
+			[Script(IsNative = true)]
 			public static object array_values(object input)
 			{
 				return null;
