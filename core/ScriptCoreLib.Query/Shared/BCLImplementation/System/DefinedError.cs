@@ -8,11 +8,11 @@ using IDisposable = global::System.IDisposable;
 
 using System;
 
-namespace ScriptCoreLib.Shared.Query
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 {
 
     [Script]
-    internal static class DefinedError
+    internal static class __DefinedError
     {
         internal static Exception ArgumentOutOfRange(string paramName)
         {
@@ -29,19 +29,12 @@ namespace ScriptCoreLib.Shared.Query
             return new Exception("Sequence contains no elements");
         }
 
-        internal static Exception MoreThanOneElement()
+        public static Exception MoreThanOneElement()
         {
             return new Exception("Sequence contains more than one element");
         }
 
-
-
-
-
-
-
-
-        internal static Exception NotImplemented()
+        public static Exception NotImplemented()
         {
             throw new Exception("The method or operation is not implemented.");
         }

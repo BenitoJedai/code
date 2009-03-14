@@ -6,6 +6,7 @@ using global::System.Collections.Generic;
 
 using IDisposable = global::System.IDisposable;
 using ScriptCoreLib.Shared.Query;
+using ScriptCoreLib.Shared.BCLImplementation.System.Linq;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
 {

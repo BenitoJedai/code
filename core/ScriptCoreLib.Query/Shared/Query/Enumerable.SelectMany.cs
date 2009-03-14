@@ -7,6 +7,7 @@ using global::System.Collections.Generic;
 using IDisposable = global::System.IDisposable;
 
 using System;
+using ScriptCoreLib.Shared.BCLImplementation.System.Linq;
 
 namespace ScriptCoreLib.Shared.Query
 {
@@ -18,15 +19,15 @@ namespace ScriptCoreLib.Shared.Query
         {
             if (source == null)
             {
-                throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
             }
             if (collectionSelector == null)
             {
-                throw DefinedError.ArgumentNull("collectionSelector");
+				throw __DefinedError.ArgumentNull("collectionSelector");
             }
             if (resultSelector == null)
             {
-                throw DefinedError.ArgumentNull("resultSelector");
+				throw __DefinedError.ArgumentNull("resultSelector");
             }
 
             return SelectManyIterator<TSource, TCollection, TResult>(source, collectionSelector, resultSelector);
@@ -213,11 +214,11 @@ namespace ScriptCoreLib.Shared.Query
         {
             if (source == null)
             {
-                throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
             }
             if (selector == null)
             {
-                throw DefinedError.ArgumentNull("selector");
+				throw __DefinedError.ArgumentNull("selector");
             }
             return SelectManyIterator<TSource, TResult>(source, selector);
         }

@@ -6,6 +6,7 @@ using global::System.Collections.Generic;
 
 using IDisposable = global::System.IDisposable;
 using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.Shared.BCLImplementation.System.Linq;
 
 namespace ScriptCoreLib.Shared.Query
 {
@@ -31,15 +32,15 @@ namespace ScriptCoreLib.Shared.Query
         {
             if (source == null)
             {
-                throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
             }
             if (keySelector == null)
             {
-                throw DefinedError.ArgumentNull("keySelector");
+				throw __DefinedError.ArgumentNull("keySelector");
             }
             if (elementSelector == null)
             {
-                throw DefinedError.ArgumentNull("elementSelector");
+				throw __DefinedError.ArgumentNull("elementSelector");
             }
             Dictionary<TKey, TElement> dictionary = new Dictionary<TKey, TElement>(comparer);
             foreach (TSource local in source.AsEnumerable())

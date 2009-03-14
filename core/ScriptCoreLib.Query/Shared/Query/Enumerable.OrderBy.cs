@@ -7,6 +7,7 @@ using global::System.Collections.Generic;
 using IDisposable = global::System.IDisposable;
 using System.Linq;
 using System;
+using ScriptCoreLib.Shared.BCLImplementation.System.Linq;
 
 namespace ScriptCoreLib.Shared.Query
 {
@@ -49,7 +50,7 @@ namespace ScriptCoreLib.Shared.Query
         {
             if (source == null)
             {
-                throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
             }
             return source.CreateOrderedEnumerable<TKey>(keySelector, comparer, false);
         }
@@ -58,7 +59,7 @@ namespace ScriptCoreLib.Shared.Query
         {
             if (source == null)
             {
-                throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
             }
             return source.CreateOrderedEnumerable<TKey>(keySelector, null, true);
         }
@@ -68,7 +69,7 @@ namespace ScriptCoreLib.Shared.Query
         {
             if (source == null)
             {
-                throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
             }
             return source.CreateOrderedEnumerable<TKey>(keySelector, comparer, true);
         }

@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 using ScriptCoreLib;
+using ScriptCoreLib.Shared.BCLImplementation.System;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -44,9 +45,16 @@ using ScriptCoreLib;
 
     ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
     ScriptTypeFilter(ScriptType.ActionScript, "*.Shared.Lambda"),
+	ScriptTypeFilter(ScriptType.ActionScript, typeof(__Func<>)),
+
     ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),
     ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
+	ScriptTypeFilter(ScriptType.JavaScript, typeof(__Func<>)),
+
     ScriptTypeFilter(ScriptType.CSharp2, "*.CSharp2"),
-    ScriptTypeFilter(ScriptType.PHP, "*.PHP")
+
+	ScriptTypeFilter(ScriptType.PHP, "*.PHP"),
+	ScriptTypeFilter(ScriptType.PHP, typeof(__Func<>)),
+
 ]
 

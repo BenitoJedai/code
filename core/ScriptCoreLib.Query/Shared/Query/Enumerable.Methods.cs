@@ -8,6 +8,7 @@ using global::System.Collections.Generic;
 using IDisposable = global::System.IDisposable;
 using System;
 using System.Linq;
+using ScriptCoreLib.Shared.BCLImplementation.System.Linq;
 
 namespace ScriptCoreLib.Shared.Query
 {
@@ -28,7 +29,7 @@ namespace ScriptCoreLib.Shared.Query
 		{
 			if (source == null)
 			{
-				throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
 			}
 			long num = 0L;
 			long num2 = 0L;
@@ -39,7 +40,7 @@ namespace ScriptCoreLib.Shared.Query
 			}
 			if (num2 <= 0L)
 			{
-				throw DefinedError.NoElements();
+				throw __DefinedError.NoElements();
 			}
 			return (((double)num) / ((double)num2));
 		}
@@ -67,7 +68,7 @@ namespace ScriptCoreLib.Shared.Query
 			}
 
 			if (!dirty)
-				throw DefinedError.NoElements();
+				throw __DefinedError.NoElements();
 
 			return value;
 		}
@@ -94,7 +95,7 @@ namespace ScriptCoreLib.Shared.Query
 			}
 
 			if (!dirty)
-				throw DefinedError.NoElements();
+				throw __DefinedError.NoElements();
 
 			return value;
 		}
@@ -122,7 +123,7 @@ namespace ScriptCoreLib.Shared.Query
 			}
 
 			if (!dirty)
-				throw DefinedError.NoElements();
+				throw __DefinedError.NoElements();
 
 			return value;
 		}
@@ -149,7 +150,7 @@ namespace ScriptCoreLib.Shared.Query
 			}
 
 			if (!dirty)
-				throw DefinedError.NoElements();
+				throw __DefinedError.NoElements();
 
 			return value;
 		}
@@ -168,7 +169,7 @@ namespace ScriptCoreLib.Shared.Query
 		{
 			if (source == null)
 			{
-				throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
 			}
 
 
@@ -188,12 +189,12 @@ namespace ScriptCoreLib.Shared.Query
 		{
 			if (source == null)
 			{
-				throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
 			}
 
 			if (predicate == null)
 			{
-				throw DefinedError.ArgumentNull("predicate");
+				throw __DefinedError.ArgumentNull("predicate");
 			}
 
 			var r = false;
@@ -215,12 +216,12 @@ namespace ScriptCoreLib.Shared.Query
 		{
 			if (source == null)
 			{
-				throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
 			}
 
 			if (predicate == null)
 			{
-				throw DefinedError.ArgumentNull("predicate");
+				throw __DefinedError.ArgumentNull("predicate");
 			}
 
 			var r = true;
@@ -242,7 +243,7 @@ namespace ScriptCoreLib.Shared.Query
 		{
 			if (source == null)
 			{
-				throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
 			}
 
 
@@ -266,7 +267,7 @@ namespace ScriptCoreLib.Shared.Query
 		{
 			if (source == null)
 			{
-				throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
 			}
 			int num2 = 0;
 			bool flag2 = false;
@@ -285,7 +286,7 @@ namespace ScriptCoreLib.Shared.Query
 			}
 			if (!flag2)
 			{
-				throw DefinedError.NoElements();
+				throw __DefinedError.NoElements();
 			}
 			return num2;
 		}
@@ -304,7 +305,7 @@ namespace ScriptCoreLib.Shared.Query
 		{
 			if (source == null)
 			{
-				throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
 			}
 			int num2 = 0;
 			bool flag2 = false;
@@ -323,7 +324,7 @@ namespace ScriptCoreLib.Shared.Query
 			}
 			if (!flag2)
 			{
-				throw DefinedError.NoElements();
+				throw __DefinedError.NoElements();
 			}
 			return num2;
 		}
@@ -375,7 +376,7 @@ namespace ScriptCoreLib.Shared.Query
 		{
 			if (source == null)
 			{
-				throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
 			}
 
 
@@ -394,7 +395,7 @@ namespace ScriptCoreLib.Shared.Query
 		{
 			if (source == null)
 			{
-				throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
 			}
 
 			TSource current;
@@ -412,7 +413,7 @@ namespace ScriptCoreLib.Shared.Query
 
 				}
 				else
-					throw DefinedError.NoElements();
+					throw __DefinedError.NoElements();
 			}
 
 			return current;
@@ -428,7 +429,7 @@ namespace ScriptCoreLib.Shared.Query
 		{
 			if (source == null)
 			{
-				throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
 			}
 
 			TSource current;
@@ -441,7 +442,7 @@ namespace ScriptCoreLib.Shared.Query
 					current = enumerator.Current;
 				}
 				else
-					throw DefinedError.NoElements();
+					throw __DefinedError.NoElements();
 
 			}
 
@@ -453,7 +454,7 @@ namespace ScriptCoreLib.Shared.Query
 		{
 			if (source == null)
 			{
-				throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
 			}
 
 			var current = default(TSource);
@@ -473,11 +474,11 @@ namespace ScriptCoreLib.Shared.Query
 		{
 			if (source == null)
 			{
-				throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
 			}
 			if (predicate == null)
 			{
-				throw DefinedError.ArgumentNull("predicate");
+				throw __DefinedError.ArgumentNull("predicate");
 			}
 
 			var value = default(TSource);
@@ -506,7 +507,7 @@ namespace ScriptCoreLib.Shared.Query
 		{
 			if (source == null)
 			{
-				throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
 			}
 
 			TSource current;
@@ -515,13 +516,13 @@ namespace ScriptCoreLib.Shared.Query
 			{
 				if (!enumerator.MoveNext())
 				{
-					throw DefinedError.NoElements();
+					throw __DefinedError.NoElements();
 				}
 				current = enumerator.Current;
 
 				if (enumerator.MoveNext())
 				{
-					throw DefinedError.MoreThanOneElement();
+					throw __DefinedError.MoreThanOneElement();
 
 
 				}
@@ -540,7 +541,7 @@ namespace ScriptCoreLib.Shared.Query
 		{
 			if (source == null)
 			{
-				throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
 			}
 
 			var current = default(TSource);
@@ -576,7 +577,7 @@ namespace ScriptCoreLib.Shared.Query
 		{
 			if (source == null)
 			{
-				throw DefinedError.ArgumentNull("source");
+				throw __DefinedError.ArgumentNull("source");
 			}
 			return new List<TSource>(source);
 		}

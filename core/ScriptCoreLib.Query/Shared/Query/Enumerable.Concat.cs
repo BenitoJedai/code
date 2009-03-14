@@ -6,6 +6,7 @@ using global::System.Collections.Generic;
 
 using IDisposable = global::System.IDisposable;
 using System;
+using ScriptCoreLib.Shared.BCLImplementation.System.Linq;
 
 namespace ScriptCoreLib.Shared.Query
 {
@@ -16,11 +17,11 @@ namespace ScriptCoreLib.Shared.Query
         {
             if (first == null)
             {
-                throw DefinedError.ArgumentNull("first");
+                throw __DefinedError.ArgumentNull("first");
             }
             if (second == null)
             {
-                throw DefinedError.ArgumentNull("second");
+				throw __DefinedError.ArgumentNull("second");
             }
             return ConcatIterator<TSource>(first, second);
         }
