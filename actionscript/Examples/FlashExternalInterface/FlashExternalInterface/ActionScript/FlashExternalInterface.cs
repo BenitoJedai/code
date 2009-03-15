@@ -15,6 +15,20 @@ namespace FlashExternalInterface.ActionScript
     [Script, ScriptApplicationEntryPoint]
     public class FlashExternalInterface : Sprite
     {
+		// change: C:\util\xampplite\apache\conf\httpd.conf
+
+		// http://localhost/jsc/FlashExternalInterface
+
+		//Alias /jsc/FlashExternalInterface "C:\work\jsc.svn\actionscript\Examples\FlashExternalInterface\FlashExternalInterface\bin\Debug\web"
+		//<Directory "C:\work\jsc.svn\actionscript\Examples\FlashExternalInterface\FlashExternalInterface\bin\Debug\web">
+		//       Options Indexes FollowSymLinks ExecCGI
+		//       AllowOverride All
+		//       Order allow,deny
+		//       Allow from all
+		//</Directory>
+
+		// http://curtismorley.com/2008/11/01/actionscript-security-error-2060-security-sandbox-violation/
+
         public FlashExternalInterface()
         {
             addChild(
@@ -92,7 +106,17 @@ namespace FlashExternalInterface.ActionScript
                 delegate
                 {
                     status.text = "click!";
-                    status.text = ExternalInterface.call("function1", "hello world").ToString();
+
+					try
+					{
+
+						ExternalInterface.call("setTimeout", "document.title = 'flashed';", 0);
+						status.text = ExternalInterface.call("function1", "hello world").ToString();
+					}
+					catch (Exception ex)
+					{
+						status.text = ex.Message;
+					}
                 }
             );
 
@@ -124,6 +148,9 @@ namespace FlashExternalInterface.ActionScript
 
 
             b.x = 204;
+
+			//ExternalInterface.call("setTimeout", "document.title = 'ready';", 0);
+
         }
     }
 
