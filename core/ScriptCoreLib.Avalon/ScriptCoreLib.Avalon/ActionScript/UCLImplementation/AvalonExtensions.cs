@@ -96,10 +96,10 @@ namespace ScriptCoreLib.ActionScript.UCLImplementation
 
 		public static void NavigateTo(this Uri e, DependencyObject context)
 		{
-			var _e = (__Uri)(object)e;
+			//var _e = (__Uri)(object)e;
 
 			global::ScriptCoreLib.ActionScript.Extensions.CommonExtensions.NavigateTo(
-				new URLRequest(_e.OriginalString),
+				new URLRequest(e.OriginalString),
 				"_blank"
 			);
 		}

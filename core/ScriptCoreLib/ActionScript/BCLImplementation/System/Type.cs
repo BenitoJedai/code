@@ -128,8 +128,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             // e.GetType() has no <factory />
             if (f.length() == 1)
             {
-                x = this.TypeDescription;
-                v = x.child("variable");
+				//x = this.TypeDescription;
+                v = f.child("variable");
                 for (int i = 0; i < v.length(); i++)
                 {
                     a.Add(new __FieldInfo { _FieldDescription = v[i] });
