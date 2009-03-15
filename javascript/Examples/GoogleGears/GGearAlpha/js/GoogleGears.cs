@@ -281,6 +281,16 @@ namespace GGearAlpha.js
                 {
                     var s = new IFunction("return !!navigator.mimeTypes['application/x-googlegears']").apply(null);
 
+	  //                  if ((typeof navigator.mimeTypes != 'undefined')
+	  //     && navigator.mimeTypes["application/x-googlegears"]) {
+	  //  factory = document.createElement("object");
+	  //  factory.style.display = "none";
+	  //  factory.width = 0;
+	  //  factory.height = 0;
+	  //  factory.type = "application/x-googlegears";
+	  //  document.documentElement.appendChild(factory);
+	  //}
+
 
                     error = "Google Gears for safari is not yet supported (June 2007); plugin installed: " + s;
                 }

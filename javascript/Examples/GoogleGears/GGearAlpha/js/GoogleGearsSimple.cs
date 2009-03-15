@@ -53,12 +53,9 @@ namespace GGearAlpha.js
             // this ctor creates a new div which has a text and a button element
             // on mouseover over the color text is changed
             // on pressing the button the next message in text element is displayed
-
-
             IHTMLDiv Control = new IHTMLDiv();
 
             Control.AttachToDocument();
-
 
             Func<string, string, IHTMLElement> link = (href, text) => new IHTMLDiv(new IHTMLAnchor(href, text));
 

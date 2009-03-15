@@ -51,26 +51,73 @@ pluginspage="http://www.macromedia.com/go/getflashplayer">
 </object>             
              */
 
-            Func<string, int, int, XElement> FlashTag =
-                (href, width, height) =>
-                    new XElement("object",
-                        new
-                        {
-                            type = "application/x-shockwave-flash",
-                            data = href,
-                            width,
-                            height,
-                            allowFullScreen = true,
+	  //<embed 
+	  //    src="MovieAgentGadget.swf" 
+	  //    quality="high"
+	  //    bgcolor="#869ca7"
+	  //    width="500" height="375" name="MovieAgentGadget" align="middle"
+	  //    play="true" loop="false" allowScriptAccess="always"
+	  //    type="application/x-shockwave-flash"
+	  //    pluginspage="http://www.macromedia.com/go/getflashplayer">
+	  //</embed>
+
+
+			//Func<string, int, int, XElement> FlashTag =
+			//    (href, width, height) =>
+			//    {
+			//        var id = "id" + DateTime.Now.Ticks;
+
+			//        return new XElement("embed",
+			//            new
+			//            {
+			//                type = "application/x-shockwave-flash",
+			//                src = href,
+			//                id,
+			//                name = id,
+			//                width,
+			//                height,
+			//                allowFullScreen = true,
+			//                allowNetworking = "all",
+			//                allowScriptAccess = "always",
+			//            }.GetPropertiesAsXAttributes()
+			//            //new XElement("param", 
+			//            //    new {
+			//            //        name = "movie",
+			//            //        value = href
+			//            //    }.GetPropertiesAsXAttributes()
+			//            //)
+			//        );
+			//    };
+
+
+			Func<string, int, int, XElement> FlashTag =
+				(href, width, height) =>
+				{
+					var id = "id" + DateTime.Now.Ticks;
+
+					return new XElement("object",
+						new
+						{
+							type = "application/x-shockwave-flash",
+							data = href,
+							id,
+							name = id,
+							width,
+							height,
+							allowFullScreen = true,
 							allowNetworking = "all",
 							allowScriptAccess = "always",
-                        }.GetPropertiesAsXAttributes(),
-                        new XElement("param", 
-                            new {
-                                name = "movie",
-                                value = href
-                            }.GetPropertiesAsXAttributes()
-                        )
-                    );
+						}.GetPropertiesAsXAttributes(),
+						new XElement("param",
+							new
+							{
+								name = "movie",
+								value = href
+							}.GetPropertiesAsXAttributes()
+						)
+					);
+				};
+
 			//<object width="800" height="500"><param name="movie" value="http://nonoba.com/zproxy/mahjong-multiplayer/embed"></param><param name="allowScriptAccess" value="always" ></param><param name="allowNetworking" value="all" ></param><embed src="http://nonoba.com/zproxy/mahjong-multiplayer/embed" allowNetworking="all" allowScriptAccess="always" type="application/x-shockwave-flash" width="800" height="500"></embed></object>
 
             foreach (var v in Entries)
@@ -78,6 +125,10 @@ pluginspage="http://www.macromedia.com/go/getflashplayer">
                 {
 					// this allows to include this htm directly into iframe
 					w.WriteLine("<!-- created at " + System.DateTime.Now.ToString() + " -->");
+
+					w.WriteLine("<head>");
+					w.WriteLine("<title>" + v._Type.Name + "</title>");
+					w.WriteLine("</head>");
 					w.WriteLine("<body style='margin: 0;'>");
 
                     w.WriteLine(

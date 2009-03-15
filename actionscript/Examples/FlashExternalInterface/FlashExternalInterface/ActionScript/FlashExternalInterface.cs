@@ -28,6 +28,8 @@ namespace FlashExternalInterface.ActionScript
 		//</Directory>
 
 		// http://curtismorley.com/2008/11/01/actionscript-security-error-2060-security-sandbox-violation/
+		// http://blog.deconcept.com/code/externalinterface.html
+		// http://blog.warptube.com/2008/12/2/oddities-with-externalinterface-and-ie
 
         public FlashExternalInterface()
         {

@@ -202,6 +202,12 @@
     <Compile Include="ActionScript\BCLImplementation\System\IO\TextReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\Serialization\ISerializable.cs" />
+    <Compile Include="ActionScript\DOM\ExternalContext.cs" />
+    <Compile Include="ActionScript\DOM\HTML\IHTMLElement.cs" />
+    <Compile Include="ActionScript\DOM\HTML\IHTMLStyle.cs" />
+    <Compile Include="ActionScript\DOM\HTML\IHTMLDocument.cs" />
+    <Compile Include="ActionScript\DOM\HTML\IHTMLObject.cs" />
+    <Compile Include="ActionScript\Extensions\ExternalExtensions.cs" />
     <Compile Include="ActionScript\Extensions\flash\display\DisplayObject.cs" />
     <Compile Include="ActionScript\Extensions\flash\display\InteractiveObject.cs" />
     <Compile Include="ActionScript\Extensions\flash\display\LoaderInfo.cs" />
