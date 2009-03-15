@@ -304,7 +304,6 @@
     <Compile Include="ActionScript\BCLImplementation\System\Type.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ActionScript\BCLImplementation\System\Uri.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\WeakReference.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -490,7 +489,6 @@
     <Compile Include="JavaScript\BCLImplementation\System\Text\StringBuilder.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\TimeSpan.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Type.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Uri.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\WeakReference.cs" />
     <Compile Include="JavaScript\Controls\DragHelper.cs" />
     <Compile Include="JavaScript\Controls\Effects\OpacityTween.cs" />
@@ -578,6 +576,7 @@
     <Compile Include="PHP\Runtime\PHPMailer.cs" />
     <Compile Include="PHP\Runtime\Properties.cs" />
     <Compile Include="PHP\Serialized\ObjectStreamHelper.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Uri.cs" />
     <Compile Include="Shared\IAssemblyReferenceToken.cs" />
     <Compile Include="Shared\Helper.cs" />
     <Compile Include="Shared\IAssemblyInfo.cs" />

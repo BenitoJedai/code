@@ -17,7 +17,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Text
 
 		public __StringBuilder Append(bool e)
 		{
-			_Value += e;
+			if (e)
+				_Value += "true";
+			else
+				_Value += "false";
 
 			return this;
 		}
@@ -64,6 +67,12 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Text
 				_Value += (int)value;
 
 				return this;
+			}
+
+			if (ScriptCoreLib.PHP.Runtime.Expando.Of(value).IsBoolean)
+			{
+
+				return this.Append((bool)value);
 			}
 
 			if (value != null)
