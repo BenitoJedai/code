@@ -14,8 +14,8 @@ using ScriptCoreLib;
 namespace jsc.Script.PHP
 {
 
-    partial class PHPCompiler 
-    {
+	partial class PHPCompiler
+	{
 
 		private void CreateInstructionHandlers()
 		{
@@ -191,7 +191,9 @@ namespace jsc.Script.PHP
 				{
 					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
 
-					WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
+					var FieldContext = e.i.TargetField.DeclaringType;
+
+					WriteDecoratedTypeName(ResolveImplementation(FieldContext) ?? FieldContext);
 					WriteTypeStaticAccessor();
 					WriteDecoratedField(e.i.TargetField, true);
 				};
@@ -361,7 +363,7 @@ namespace jsc.Script.PHP
 				OpCodes.Ldc_I4_7,
 				OpCodes.Ldc_I4_8,
 				OpCodes.Ldc_I4_M1,
-				
+
 
 				OpCodes.Ldc_I4_S] =
 			   delegate(CodeEmitArgs e)
@@ -471,7 +473,7 @@ namespace jsc.Script.PHP
 						WriteLine("array (");
 						Ident++;
 
-						
+
 						//using (CreateScope(false))
 						{
 
@@ -709,5 +711,5 @@ namespace jsc.Script.PHP
 			#endregion
 		}
 
-    }
+	}
 }
