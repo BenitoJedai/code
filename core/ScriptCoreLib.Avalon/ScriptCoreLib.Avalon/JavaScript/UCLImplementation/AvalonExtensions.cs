@@ -26,9 +26,9 @@ namespace ScriptCoreLib.JavaScript.UCLImplementation
 
 		public static void NavigateTo(this Uri e, DependencyObject context)
 		{
-			var _e = (__Uri)(object)e;
+			//var _e = (__Uri)(object)e;
 
-			var w = Native.Window.open(_e.OriginalString, "_blank");
+			var w = Native.Window.open(e.OriginalString, "_blank");
 
 		}
 

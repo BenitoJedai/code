@@ -68,12 +68,12 @@ namespace ScriptCoreLib.ActionScript.DOM
 			#endregion
 
 
-			this.SetElementPropertyString = ToExternal(
+			this.SetElementPropertyString = ToExternal<string, string, string>(
 				"_id", "_key", "_value",
 				"document.getElementById(_id)[_key] = _value;"
 			);
 
-			this.SetGlobalPropertyString = ToExternal(
+			this.SetGlobalPropertyString = ToExternal<string, string, string>(
 				"_id", "_key", "_value",
 				"window[_id][_key] = _value;"
 			);
@@ -91,7 +91,7 @@ namespace ScriptCoreLib.ActionScript.DOM
 			return f;
 		}
 
-		public Converter<string, string> ToExternalConverter(string a0, string code)
+		public Converter<T0, T1> ToExternalConverter<T0, T1>(string a0, string code)
 		{
 			var f = CreateToken();
 
@@ -99,7 +99,7 @@ namespace ScriptCoreLib.ActionScript.DOM
 				"window['" + f + @"'] = function (" + a0 + @") { " + code + @" };"
 			);
 
-			return (x0) => (string)f.External(x0);
+			return (x0) => (T1)f.External(x0);
 		}
 
 
@@ -129,7 +129,7 @@ namespace ScriptCoreLib.ActionScript.DOM
 			return (x0, x1) => f.External(x0, x1);
 		}
 
-		public Action<string, string, string> ToExternal(string a0, string a1, string a2, string code)
+		public Action<A0, A1, A2> ToExternal<A0, A1, A2>(string a0, string a1, string a2, string code)
 		{
 			var f = CreateToken();
 
