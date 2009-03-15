@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.flash.external
 {
-    //http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/external/ExternalInterface.html
+    // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/external/ExternalInterface.html
     [Script(IsNative = true)]
     public static class ExternalInterface
     {
@@ -40,11 +40,30 @@ namespace ScriptCoreLib.ActionScript.flash.external
         /// <param name="functionName"></param>
         /// <param name="arguments"></param>
         /// <returns></returns>
+		public static object call(string functionName)
+        {
+            return default(object);
+        }
+
         public static object call(string functionName, object arguments)
         {
             return default(object);
         }
 
+		public static object call(string functionName, object arg0, object arg1)
+		{
+			return default(object);
+		}
+
+		public static object call(string functionName, object arg0, object arg1, object arg2)
+		{
+			return default(object);
+		}
+
+		public static object call(string functionName, object arg0, object arg1, object arg2, object arg3)
+		{
+			return default(object);
+		}
     }
 
 }

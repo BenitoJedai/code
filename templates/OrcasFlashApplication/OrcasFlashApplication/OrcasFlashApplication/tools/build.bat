@@ -1,6 +1,13 @@
 :mxmlc
 @echo off
 
+set TargetFileName=%2
+set ConfigurationName=%3
+
+if %ConfigurationName%==Debug (
+  echo Debug mode will not perform post build!
+  goto :eof
+)
 
 
 :: Dll name
