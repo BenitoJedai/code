@@ -210,6 +210,7 @@
     <Compile Include="ActionScript\DOM\HTML\IHTMLDocument.cs" />
     <Compile Include="ActionScript\DOM\HTML\IHTMLObject.cs" />
     <Compile Include="ActionScript\DOM\INode.cs" />
+    <Compile Include="ActionScript\Extensions\DOMExtensions.cs" />
     <Compile Include="ActionScript\Extensions\ExternalExtensions.cs" />
     <Compile Include="ActionScript\Extensions\flash\display\DisplayObject.cs" />
     <Compile Include="ActionScript\Extensions\flash\display\InteractiveObject.cs" />

@@ -10,6 +10,11 @@ namespace ScriptCoreLib.ActionScript.DOM
 	[Script]
 	public partial class ExternalContext
 	{
+		// dom objects should be referenced by id once they are on the dom
+		// if they are taken from the dom
+		// they can be stored on the cache to be referenced later
+		// when disposing a dom tree, the references shall be removed
+
 		readonly string a;
 		readonly string b;
 		int c;
