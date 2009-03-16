@@ -9,6 +9,11 @@ namespace ScriptCoreLib.ActionScript.Extensions
 	[Script]
 	public static class ExternalExtensions
 	{
+		public static void ExternalAtDelayAndAlertErrors(this int e, string f)
+		{
+			e.ExternalAtDelay("try { " + f + " } catch (_ex) { alert(_ex.message + ' : ' + _ex); }");
+		}
+
 		public static void ExternalAtDelay(this int e, string f)
 		{
 			"setTimeout".External(f, e);

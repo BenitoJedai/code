@@ -8,7 +8,10 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 	[Script]
 	public class IHTMLObject : IHTMLElement
 	{
-
+		public IHTMLObject()
+		{
+			this.tag = "object";
+		}
 
 		public int width
 		{
