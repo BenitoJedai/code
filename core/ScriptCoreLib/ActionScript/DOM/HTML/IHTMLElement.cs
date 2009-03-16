@@ -46,24 +46,6 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 			}
 		}
 
-		public string innerHTML2
-		{
-			set
-			{
-				if (context == null)
-				{
-					_innerHTML = value;
-					return;
-				}
-
-				if (token == null)
-					throw new Exception("token");
-
-				context.ExternalContext_IHTMLElement_set_innerHTML(value, token);
-			}
-		}
-
-
 		protected override void INode_appendChild(INode child)
 		{
 			var childelement = child as IHTMLElement;

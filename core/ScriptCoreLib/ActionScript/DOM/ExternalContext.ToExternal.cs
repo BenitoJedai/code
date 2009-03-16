@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.DOM.HTML;
+using ScriptCoreLib.Shared;
 
 namespace ScriptCoreLib.ActionScript.DOM
 {
 	partial class ExternalContext
 	{
-		
+
 
 		#region ToExternalConverter
 		public Converter<T0, T1> ToExternalConverter<T0, T1>(string a0, string code)
@@ -79,9 +80,25 @@ namespace ScriptCoreLib.ActionScript.DOM
 
 			return (x0, x1, x2, x3) => f.External(x0, x1, x2, x3);
 		}
+
+		public Converter<A0, A1, A2, A3, R> ToExternalConverter<A0, A1, A2, A3, R>(string a0, string a1, string a2, string a3, string code)
+		{
+			var f = CreateToken();
+
+			RaiseTrace(f + ": " + code);
+
+			1.ExternalAtDelay(
+				"window['" + f + @"'] = function (" + a0 + ", " + a1 + ", " + a2 + ", " + a3 + @") { " + code + @" };"
+			);
+
+			return (x0, x1, x2, x3) => (R)f.External(x0, x1, x2, x3);
+		}
+
 		#endregion
 
-		
+
+		[Script]
+		public delegate T Converter<A, B, C, D, T>(A a, B b, C c, D d);
 	}
 
 }
