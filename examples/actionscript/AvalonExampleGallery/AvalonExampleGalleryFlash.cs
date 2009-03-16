@@ -68,6 +68,10 @@ namespace AvalonExampleGallery.ActionScript
 			);
 
 			// assets are in the same library and do not have their own namespace
+			pages::InteractiveOrdering.ActionScript.KnownEmbeddedAssets.RegisterTo(
+				Handlers
+			);
+
 			pages::TextSuggestions.ActionScript.KnownEmbeddedAssets.RegisterTo(
 				Handlers
 			);
