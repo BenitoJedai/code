@@ -781,7 +781,8 @@ namespace jsc
                     return;
 
                 // indirect return (special)
-                if (Next.Instruction.IsAnyOpCodeOf(OpCodes.Br, OpCodes.Br_S) &&
+                if (this.Instruction.IsStoreLocal &&
+					Next.Instruction.IsAnyOpCodeOf(OpCodes.Br, OpCodes.Br_S) &&
                     Next.Instruction.TargetFlow.Branch == OpCodes.Ret)
                     goto skip;
 
