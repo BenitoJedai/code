@@ -30,6 +30,10 @@ namespace ScriptCoreLib.Shared
     [Script]
     public delegate T InternalFunc<A, B, T>(A a, B b);
 
+	[Script]
+	public delegate T InternalFunc<A, B, C, T>(A a, B b, C c);
+
+	
 /*
     [Script]
     internal delegate T Func<T>();
