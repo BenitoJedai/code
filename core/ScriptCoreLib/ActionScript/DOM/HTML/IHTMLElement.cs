@@ -34,6 +34,24 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 			{
 				if (context == null)
 				{
+					var v = value;
+					_innerHTML = v;
+					return;
+				}
+
+				if (token == null)
+					throw new Exception("token");
+
+				context.ExternalContext_IHTMLElement_set_innerHTML(value, token);
+			}
+		}
+
+		public string innerHTML2
+		{
+			set
+			{
+				if (context == null)
+				{
 					_innerHTML = value;
 					return;
 				}
@@ -44,6 +62,7 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 				context.ExternalContext_IHTMLElement_set_innerHTML(value, token);
 			}
 		}
+
 
 		protected override void INode_appendChild(INode child)
 		{
