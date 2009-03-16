@@ -8,7 +8,7 @@ using ScriptCoreLib.ActionScript.DOM.HTML;
 namespace ScriptCoreLib.ActionScript.DOM
 {
 	[Script]
-	public class ExternalContext
+	public partial class ExternalContext
 	{
 		readonly string a;
 		readonly string b;
@@ -26,6 +26,21 @@ namespace ScriptCoreLib.ActionScript.DOM
 			}
 		}
 
+		public IHTMLDocument Document
+		{
+			get
+			{
+				return Element.ownerDocument;
+			}
+		}
+
+		public event Action<string> Trace;
+
+		public void RaiseTrace(string e)
+		{
+			if (Trace != null)
+				Trace(e);
+		}
 
 		public ExternalContext()
 		{
@@ -78,8 +93,25 @@ namespace ScriptCoreLib.ActionScript.DOM
 				"window[_id][_key] = _value;"
 			);
 
+			this.ExternalContext_IHTMLDocument_createElement = ToExternal<string, string>(
+				"_tag", "_i",
+				"window[_i] = document.createElement(_tag);"
+			);
 
+			this.ExternalContext_IHTMLDocument_get_body = ToExternal<string>(
+				"_i",
+				"window[_i] = document.body;"
+			);
 
+			this.ExternalContext_IHTMLElement_set_innerHTML = ToExternal<string, string>(
+				"_value", "_i",
+				"window[_i].innerHTML = _value;"
+			);
+
+			this.ExternalContext_IHTMLElement_appendChild = ToExternal<string, string>(
+				"_parent", "_child",
+				"window[_parent].appendChild(window[_child]);"
+			);
 		}
 
 		public string CreateToken()
@@ -91,66 +123,7 @@ namespace ScriptCoreLib.ActionScript.DOM
 			return f;
 		}
 
-		public Converter<T0, T1> ToExternalConverter<T0, T1>(string a0, string code)
-		{
-			var f = CreateToken();
-
-			1.ExternalAtDelay(
-				"window['" + f + @"'] = function (" + a0 + @") { " + code + @" };"
-			);
-
-			return (x0) => (T1)f.External(x0);
-		}
-
-
-
-
-		public Action<string> ToExternal(string a0, string code)
-		{
-			var f = CreateToken();
-
-			1.ExternalAtDelay(
-				"window['" + f + @"'] =  function (" + a0 + @") { " + code + @" };"
-			);
-
-			return (x0) => f.External(x0);
-		}
-
-		public Action<string, string> ToExternal(string a0, string a1, string code)
-		{
-			c++;
-
-			var f = a + "_" + c;
-
-			1.ExternalAtDelay(
-				"window['" + f + @"'] =  function (" + a0 + ", " + a1 + @") { " + code + @" };"
-			);
-
-			return (x0, x1) => f.External(x0, x1);
-		}
-
-		public Action<A0, A1, A2> ToExternal<A0, A1, A2>(string a0, string a1, string a2, string code)
-		{
-			var f = CreateToken();
-
-			1.ExternalAtDelay(
-				"window['" + f + @"'] = function (" + a0 + ", " + a1 + ", " + a2 + @") { " + code + @" };"
-			);
-
-			return (x0, x1, x2) => f.External(x0, x1, x2);
-		}
-
-		public Action<A0, A1, A2, A3> ToExternal<A0, A1, A2, A3>(string a0, string a1, string a2, string a3, string code)
-		{
-			var f = CreateToken();
-
-			1.ExternalAtDelay(
-				"window['" + f + @"'] = function (" + a0 + ", " + a1 + ", " + a2 + ", " + a3 + @") { " + code + @" };"
-			);
-
-			return (x0, x1, x2, x3) => f.External(x0, x1, x2, x3);
-		}
-
+	
 		public void ExternalAuthentication()
 		{
 			if (InternalId != null)
@@ -190,6 +163,10 @@ namespace ScriptCoreLib.ActionScript.DOM
 		public readonly Action<string, string, string> SetElementPropertyString;
 		public readonly Action<string, string, string> SetGlobalPropertyString;
 
+		public readonly Action<string, string> ExternalContext_IHTMLDocument_createElement;
+		public readonly Action<string> ExternalContext_IHTMLDocument_get_body;
+		public readonly Action<string, string> ExternalContext_IHTMLElement_set_innerHTML;
+		public readonly Action<string, string> ExternalContext_IHTMLElement_appendChild;
 	}
 
 }
