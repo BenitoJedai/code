@@ -48,6 +48,14 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 					else
 						return "x+b";
 				}
+
+				if (access == FileAccess.Read)
+				{
+					if (File.Exists(path))
+						return "rb";
+					else
+						return "xb";
+				}
 			}
 
 			var e = new { mode, access, share };
@@ -66,7 +74,15 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 
 		public override int Read(byte[] buffer, int offset, int count)
 		{
-			throw new NotImplementedException("");
+			var data = Native.API.fread(this.InternalHandler, count);
+			var bytes = __File.ToBytes(data);
+
+			for (int i = 0; i < bytes.Length; i++)
+			{
+				buffer[i + offset] = bytes[i];
+			}
+
+			return bytes.Length;
 		}
 
 		public override void Write(byte[] buffer, int offset, int count)

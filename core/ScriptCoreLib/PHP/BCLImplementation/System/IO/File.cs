@@ -9,6 +9,12 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.File))]
 	internal class __File
 	{
+		public static FileStream OpenRead(string path)
+		{
+			return new FileStream(path, FileMode.OpenOrCreate, FileAccess.Read, FileShare.None);
+		}
+
+
 		public static FileStream OpenWrite(string path)
 		{
 			return new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);

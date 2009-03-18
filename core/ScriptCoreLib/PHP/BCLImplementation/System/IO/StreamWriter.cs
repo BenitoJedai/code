@@ -9,12 +9,14 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.StreamWriter))]
 	internal class __StreamWriter : __TextWriter
 	{
-		Stream InternalStream;
+		public virtual Stream BaseStream { get; set; }
 
 		public __StreamWriter(Stream stream)
 		{
-			InternalStream = stream;
+			BaseStream = stream;
 		}
+
+		public virtual bool AutoFlush { get; set; }
 
 		public override void Flush()
 		{
@@ -32,7 +34,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 				buffer[i] = (byte)value[i];
 			}
 
-			InternalStream.Write(buffer, 0, buffer.Length);
+			BaseStream.Write(buffer, 0, buffer.Length);
 		}
 
 		public override void WriteLine()

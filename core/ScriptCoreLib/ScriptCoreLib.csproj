@@ -202,8 +202,10 @@
     <Compile Include="ActionScript\BCLImplementation\System\IO\TextReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\Serialization\ISerializable.cs" />
+    <Compile Include="ActionScript\DOM\ExternalContext.ToPlugin.cs" />
     <Compile Include="ActionScript\DOM\ExternalContext.ToExternal.cs" />
     <Compile Include="ActionScript\DOM\ExternalContext.cs" />
+    <Compile Include="ActionScript\DOM\HTML\IHTMLSpan.cs" />
     <Compile Include="ActionScript\DOM\HTML\IHTMLDiv.cs" />
     <Compile Include="ActionScript\DOM\HTML\IHTMLElement.cs" />
     <Compile Include="ActionScript\DOM\HTML\IHTMLStyle.cs" />
@@ -549,6 +551,7 @@
     <Compile Include="PHP\BCLImplementation\System\IO\FileStream.cs" />
     <Compile Include="PHP\BCLImplementation\System\NotSupportedException.cs" />
     <Compile Include="PHP\BCLImplementation\System\Predicate.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Random.cs" />
     <Compile Include="PHP\BCLImplementation\System\TimeSpan.cs" />
     <Compile Include="PHP\BCLImplementation\System\DateTime.cs" />
     <Compile Include="PHP\BCLImplementation\System\IDisposable.cs" />
