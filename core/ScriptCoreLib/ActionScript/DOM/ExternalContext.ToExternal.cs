@@ -11,6 +11,23 @@ namespace ScriptCoreLib.ActionScript.DOM
 	partial class ExternalContext
 	{
 
+		public string ToExternal(Action h)
+		{
+			var Token = this.CreateToken();
+
+			Token.External(h);
+
+			return Token;
+		}
+
+		public string ToExternalConverter<T0, T1>(Converter<T0, T1> h)
+		{
+			var Token = this.CreateToken();
+
+			Token.External(h);
+
+			return Token;
+		}
 
 		#region ToExternalConverter
 		public Converter<T0, T1> ToExternalConverter<T0, T1>(string a0, string code)
@@ -94,11 +111,27 @@ namespace ScriptCoreLib.ActionScript.DOM
 			return (x0, x1, x2, x3) => (R)f.External(x0, x1, x2, x3);
 		}
 
+		public Converter<A0, A1, R> ToExternalConverter<A0, A1, R>(string a0, string a1, string code)
+		{
+			var f = CreateToken();
+
+			RaiseTrace(f + ": " + code);
+
+			1.ExternalAtDelay(
+				"window['" + f + @"'] = function (" + a0 + ", " + a1 + @") { " + code + @" };"
+			);
+
+			return (x0, x1) => (R)f.External(x0, x1);
+		}
+
 		#endregion
 
 
 		[Script]
 		public delegate T Converter<A, B, C, D, T>(A a, B b, C c, D d);
+
+		[Script]
+		public delegate T Converter<A, B, T>(A a, B b);
 	}
 
 }

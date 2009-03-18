@@ -49,5 +49,10 @@ namespace ScriptCoreLib.ActionScript.Extensions
 		{
 			ExternalInterface.addCallback(f, h.ToFunction());
 		}
+
+		public static void External(this string f, Action h)
+		{
+			ExternalInterface.addCallback(f, h.ToFunction());
+		}
 	}
 }

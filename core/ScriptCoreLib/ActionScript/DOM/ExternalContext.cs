@@ -93,6 +93,11 @@ namespace ScriptCoreLib.ActionScript.DOM
 				"document.getElementById(_id)[_key] = _value;"
 			);
 
+			this.GetGlobalPropertyString = ToExternalConverter<string, string, string>(
+				"_id", "_key",
+				"return window[_id][_key];"
+			);
+
 			this.SetGlobalPropertyString = ToExternal<string, string, string>(
 				"_id", "_key", "_value",
 				"window[_id][_key] = _value;"
@@ -128,7 +133,7 @@ namespace ScriptCoreLib.ActionScript.DOM
 			return f;
 		}
 
-	
+
 		public void ExternalAuthentication()
 		{
 			if (InternalId != null)
@@ -167,6 +172,7 @@ namespace ScriptCoreLib.ActionScript.DOM
 
 		public readonly Action<string, string, string> SetElementPropertyString;
 		public readonly Action<string, string, string> SetGlobalPropertyString;
+		public readonly Converter<string, string, string> GetGlobalPropertyString;
 
 		public readonly Action<string, string> ExternalContext_IHTMLDocument_createElement;
 		public readonly Action<string> ExternalContext_IHTMLDocument_get_body;

@@ -28,6 +28,9 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 			if (tag == "div")
 				n = new IHTMLDiv();
 
+			if (tag == "span")
+				n = new IHTMLSpan();
+
 			createElement(n);
 
 			return n;

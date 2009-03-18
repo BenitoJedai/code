@@ -177,6 +177,15 @@ namespace ScriptCoreLib.Shared.Lambda
 			}
 		}
 
+		public static void InvokeAsParams<T, K>(this Action<T> e, params K[] a)
+			where K : T
+		{
+			foreach (var v in a)
+			{
+				e(v);
+			}
+		}
+
 		public static Func<T> WhereListChanged<T>(this IBindingList[] e, Func<T> h)
 		{
 			var r = default(T);
