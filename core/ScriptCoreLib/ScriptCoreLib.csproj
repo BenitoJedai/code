@@ -205,6 +205,7 @@
     <Compile Include="ActionScript\DOM\ExternalContext.ToPlugin.cs" />
     <Compile Include="ActionScript\DOM\ExternalContext.ToExternal.cs" />
     <Compile Include="ActionScript\DOM\ExternalContext.cs" />
+    <Compile Include="ActionScript\DOM\HTML\IHTMLButton.cs" />
     <Compile Include="ActionScript\DOM\HTML\IHTMLSpan.cs" />
     <Compile Include="ActionScript\DOM\HTML\IHTMLDiv.cs" />
     <Compile Include="ActionScript\DOM\HTML\IHTMLElement.cs" />

@@ -122,7 +122,60 @@ namespace ScriptCoreLib.ActionScript.DOM
 				"_parent", "_child",
 				"window[_parent].appendChild(window[_child]);"
 			);
+
+			this.ExternalContext_getElementById_call_string = ToExternal<string, string, string>(
+				"_i", "_f", "_a0",
+				"document.getElementById(_i)[_f](_a0);"
+			);
+
+			this.ExternalContext_getElementById_call = ToExternal<string, string>(
+				"_i", "_f", 
+				"document.getElementById(_i)[_f]();"
+			);
+
+
+			// http://mihai.bazon.net/blog/flash-s-externalinterface-and-ie
+			// http://swfupload.org/forum/generaldiscussion/985
+
+			// ie is unable to load flash external interface if the object was created by innerHTML
+			this.ExternalContext_getElementById_add_event = ToExternal<string, string, string, string>(
+				"_i", "_f", "_j", "_h",
+				// attachEvent = on
+//                @"
+//				var _element = document.getElementById(_i); 
+//				if ('attachEvent' in _element) alert('ie event');
+//				else if ('addEventListener' in _element) alert('ff event');
+//				"
+				@"
+				var _element = document.getElementById(_i); 
+				if ('addEventListener' in _element) 
+				{
+					_element.addEventListener(_f,
+						function ()
+						{
+							document.getElementById(_j)[_h](); 
+						}, false	
+					);
+				}
+				"
+			);
 		}
+
+		
+		public readonly Action<string, string, string> SetElementPropertyString;
+		public readonly Action<string, string, string> SetGlobalPropertyString;
+		public readonly Converter<string, string, string> GetGlobalPropertyString;
+
+		public readonly Action<string, string> ExternalContext_IHTMLDocument_createElement;
+		public readonly Action<string> ExternalContext_IHTMLDocument_get_body;
+		public readonly Action<string, string> ExternalContext_IHTMLElement_set_innerHTML;
+		public readonly Action<string, string> ExternalContext_IHTMLElement_appendChild;
+
+
+		public readonly Action<string, string> ExternalContext_getElementById_call;
+		public readonly Action<string, string, string> ExternalContext_getElementById_call_string;
+
+		public readonly Action<string, string, string, string> ExternalContext_getElementById_add_event;
 
 		public string CreateToken()
 		{
@@ -170,14 +223,6 @@ namespace ScriptCoreLib.ActionScript.DOM
 		}
 
 
-		public readonly Action<string, string, string> SetElementPropertyString;
-		public readonly Action<string, string, string> SetGlobalPropertyString;
-		public readonly Converter<string, string, string> GetGlobalPropertyString;
-
-		public readonly Action<string, string> ExternalContext_IHTMLDocument_createElement;
-		public readonly Action<string> ExternalContext_IHTMLDocument_get_body;
-		public readonly Action<string, string> ExternalContext_IHTMLElement_set_innerHTML;
-		public readonly Action<string, string> ExternalContext_IHTMLElement_appendChild;
 	}
 
 }

@@ -31,6 +31,9 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 			if (tag == "span")
 				n = new IHTMLSpan();
 
+			if (tag == "button")
+				n = new IHTMLButton();
+
 			createElement(n);
 
 			return n;
@@ -52,6 +55,9 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 			// update properties
 			if (n._innerHTML != null)
 				n.innerHTML = n._innerHTML;
+
+			if (!string.IsNullOrEmpty(n.id))
+				context.SetGlobalPropertyString(n.token, "id", n.id);
 		}
 
 		IHTMLElement _body;
