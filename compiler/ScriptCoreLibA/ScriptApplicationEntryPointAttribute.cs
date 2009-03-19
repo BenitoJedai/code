@@ -21,6 +21,8 @@ namespace ScriptCoreLib
     [global::System.AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public sealed class ScriptApplicationEntryPointAttribute : Attribute
     {
+		public string Feed;
+
         /// <summary>
         /// Application will be loaded from a href
         /// </summary>

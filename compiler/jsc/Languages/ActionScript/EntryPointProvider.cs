@@ -128,6 +128,11 @@ pluginspage="http://www.macromedia.com/go/getflashplayer">
 
 					w.WriteLine("<head>");
 					w.WriteLine("<title>" + v._Type.Name + "</title>");
+
+					w.WriteLine(
+						"<link rel='alternate' href='" + v._ScriptApplicationEntryPoint.Feed + "' type='application/rss+xml' title='feed' id='' />"
+					);
+
 					w.WriteLine("</head>");
 					w.WriteLine("<body style='margin: 0;'>");
 
