@@ -59,7 +59,6 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 							this.ownerDocument.createElement(childelement);
 
 						this.context.ExternalContext_IHTMLElement_appendChild(this.token, childelement.token);
-
 						return;
 					}
 					else
@@ -79,6 +78,30 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 
 
 			throw new Exception("INode_appendChild failed");
+		}
+
+
+		public event Action onclick
+		{
+			add
+			{
+				if (this.context == null)
+					throw new ArgumentNullException("context");
+
+				var FlashToken = this.context.ToExternal(
+					delegate
+					{
+						value();
+					}
+				);
+
+				// now we need to bind elemen.onclick...
+				this.context.ExternalContext_getElementById_add_event(this.id, "click", this.context.Element.id, FlashToken);
+			}
+			remove
+			{
+				throw new NotSupportedException("cannot remove remote events");
+			}
 		}
 	}
 }
