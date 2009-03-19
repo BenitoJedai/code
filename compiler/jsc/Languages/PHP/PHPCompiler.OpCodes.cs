@@ -610,14 +610,24 @@ namespace jsc.Script.PHP
 							}
 							else
 							{
-
 								// http://ee.php.net/array_fill
+								// Warning: array_fill() [function.array-fill]: Number of elements must be positive 
+
+								Write("(($_newarr = ");
+								EmitFirstOnStack(e);
+								Write(") > 0 ? ");
+
 								Write("array_fill(0");
 								Write(", ");
-								EmitFirstOnStack(e);
+								Write("$_newarr");
 								Write(", ");
 								WriteDefaultElement();
 								Write(")");
+								Write(" : ");
+								Write("array()");
+								Write(")");
+
+						
 							}
 						}
 					}
