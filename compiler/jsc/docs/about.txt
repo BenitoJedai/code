@@ -214,3 +214,5 @@ version history:
 	php: fixed generic type dependecy ordering
 16.03.2009
 	jsc: fixed optimization where stfld was being mistaken to ret cache variable
+19.03.2009
+	php: fixed newarr for php array_fill
