@@ -11,7 +11,20 @@ namespace ScriptCoreLib.Shared.Lambda
 	[Script]
 	public static partial class LambdaExtensions
 	{
-		
+		public static void InvokeAsParams<T0, T1>(this Action<T0, T1> e, Func<int, T1> selector, params T0[] a)
+		{
+			a.ForEach(
+				(k, i) => e(k, selector(i))
+			);
+		}
+
+		public static void InvokeAsParams<T0, T1>(this Action<T0, T1> e, Func<T0, int, T1> selector, params T0[] a)
+		{
+			a.ForEach(
+				(k, i) => e(k, selector(k, i))
+			);
+		}
+
 
 		public static void Dispose(this IDisposable[] e)
 		{

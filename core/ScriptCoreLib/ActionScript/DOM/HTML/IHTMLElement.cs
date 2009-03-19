@@ -88,6 +88,9 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 				if (this.context == null)
 					throw new ArgumentNullException("context");
 
+				if (this.token == null)
+					throw new ArgumentNullException("token");
+
 				var FlashToken = this.context.ToExternal(
 					delegate
 					{
@@ -96,7 +99,7 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 				);
 
 				// now we need to bind elemen.onclick...
-				this.context.ExternalContext_getElementById_add_event(this.id, "click", this.context.Element.id, FlashToken);
+				this.context.ExternalContext_token_add_event(this.token, "click", this.context.Element.id, FlashToken);
 			}
 			remove
 			{

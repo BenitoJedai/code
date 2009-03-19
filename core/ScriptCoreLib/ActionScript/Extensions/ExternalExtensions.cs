@@ -44,6 +44,15 @@ namespace ScriptCoreLib.ActionScript.Extensions
 			return ExternalInterface.call(f, a0, a1, a2, a3);
 		}
 
+		public static object External(this string f, object a0, object a1, object a2, object a3, object a4)
+		{
+			return ExternalInterface.call(f, a0, a1, a2, a3, a4);
+		}
+
+		public static object External(this string f, object a0, object a1, object a2, object a3, object a4, object a5)
+		{
+			return ExternalInterface.call(f, a0, a1, a2, a3, a4, a5);
+		}
 
 		public static void External<T, R>(this string f, Converter<T, R> h)
 		{
@@ -51,6 +60,11 @@ namespace ScriptCoreLib.ActionScript.Extensions
 		}
 
 		public static void External(this string f, Action h)
+		{
+			ExternalInterface.addCallback(f, h.ToFunction());
+		}
+
+		public static void External<A0>(this string f, Action<A0> h)
 		{
 			ExternalInterface.addCallback(f, h.ToFunction());
 		}

@@ -64,6 +64,16 @@ namespace ScriptCoreLib.ActionScript.flash.external
 		{
 			return default(object);
 		}
+
+		public static object call(string functionName, object arg0, object arg1, object arg2, object arg3, object arg4)
+		{
+			return default(object);
+		}
+
+		public static object call(string functionName, object arg0, object arg1, object arg2, object arg3, object arg4, object arg5)
+		{
+			return default(object);
+		}
     }
 
 }
