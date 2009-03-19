@@ -128,12 +128,39 @@ namespace ScriptCoreLib.ActionScript.DOM
 				"document.getElementById(_i)[_f](_a0);"
 			);
 
+			this.ExternalContext_getElementById_call_string_string = ToExternal<string, string, string, string>(
+				"_i", "_f", "_a0", "_a1",
+				"document.getElementById(_i)[_f](_a0, _a1);"
+			);
+
+			this.ExternalContext_getElementById_call_string_string_string = ToExternal<string, string, string, string, string>(
+				"_i", "_f", "_a0", "_a1", "_a2",
+				"document.getElementById(_i)[_f](_a0, _a1, _a2);"
+			);
+
+			this.ExternalContext_token_call_string = ToExternal<string, string, string>(
+				"_i", "_f", "_a0",
+				"window[_i][_f](_a0);"
+			);
+
+			this.ExternalContext_token_call_string_string_string = ToExternal<string, string, string, string, string>(
+				"_i", "_f", "_a0", "_a1", "_a2",
+				"window[_i][_f](_a0, _a1, _a2);"
+			);
+
 			this.ExternalContext_getElementById_call = ToExternal<string, string>(
-				"_i", "_f", 
+				"_i", "_f",
 				"document.getElementById(_i)[_f]();"
 			);
 
+			this.ExternalContext_token_call = ToExternal<string, string>(
+				"_i", "_f",
+				"window[_i][_f]();"
+			);
 
+
+
+			#region add_event
 			// http://mihai.bazon.net/blog/flash-s-externalinterface-and-ie
 			// http://swfupload.org/forum/generaldiscussion/985
 
@@ -141,11 +168,11 @@ namespace ScriptCoreLib.ActionScript.DOM
 			this.ExternalContext_getElementById_add_event = ToExternal<string, string, string, string>(
 				"_i", "_f", "_j", "_h",
 				// attachEvent = on
-//                @"
-//				var _element = document.getElementById(_i); 
-//				if ('attachEvent' in _element) alert('ie event');
-//				else if ('addEventListener' in _element) alert('ff event');
-//				"
+				//                @"
+				//				var _element = document.getElementById(_i); 
+				//				if ('attachEvent' in _element) alert('ie event');
+				//				else if ('addEventListener' in _element) alert('ff event');
+				//				"
 				@"
 				var _element = document.getElementById(_i); 
 				if ('addEventListener' in _element) 
@@ -159,9 +186,36 @@ namespace ScriptCoreLib.ActionScript.DOM
 				}
 				"
 			);
+
+			
+
+
+			this.ExternalContext_token_add_event = ToExternal<string, string, string, string>(
+				"_i", "_f", "_j", "_h",
+				// attachEvent = on
+				//                @"
+				//				var _element = document.getElementById(_i); 
+				//				if ('attachEvent' in _element) alert('ie event');
+				//				else if ('addEventListener' in _element) alert('ff event');
+				//				"
+				@"
+				var _element = window[_i]; 
+				if ('addEventListener' in _element) 
+				{
+					_element.addEventListener(_f,
+						function ()
+						{
+							document.getElementById(_j)[_h](); 
+						}, false	
+					);
+				}
+				"
+			);
+			#endregion
+
 		}
 
-		
+
 		public readonly Action<string, string, string> SetElementPropertyString;
 		public readonly Action<string, string, string> SetGlobalPropertyString;
 		public readonly Converter<string, string, string> GetGlobalPropertyString;
@@ -173,9 +227,17 @@ namespace ScriptCoreLib.ActionScript.DOM
 
 
 		public readonly Action<string, string> ExternalContext_getElementById_call;
+		public readonly Action<string, string> ExternalContext_token_call;
 		public readonly Action<string, string, string> ExternalContext_getElementById_call_string;
+		public readonly Action<string, string, string, string> ExternalContext_getElementById_call_string_string;
+		public readonly Action<string, string, string, string, string> ExternalContext_getElementById_call_string_string_string;
+		public readonly Action<string, string, string> ExternalContext_token_call_string;
+		public readonly Action<string, string, string, string, string> ExternalContext_token_call_string_string_string;
 
 		public readonly Action<string, string, string, string> ExternalContext_getElementById_add_event;
+		public readonly Action<string, string, string, string> ExternalContext_token_add_event;
+
+
 
 		public string CreateToken()
 		{
