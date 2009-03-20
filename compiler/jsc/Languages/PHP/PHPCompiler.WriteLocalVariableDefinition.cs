@@ -56,6 +56,14 @@ namespace jsc.Script.PHP
 					return;
 				}
 
+				if (LocalType == typeof(uint))
+				{
+					Break("uint is not supported yet. see: http://ee2.php.net/manual/en/language.types.php");
+
+					Write("0");
+					return;
+				}
+
 				if (LocalType == typeof(byte))
 				{
 					Write("0");

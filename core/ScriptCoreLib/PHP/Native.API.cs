@@ -10,6 +10,12 @@ namespace ScriptCoreLib.PHP
 		public static class API
 		{
 			[Script(IsNative = true)]
+			public static string base_convert(string _number, int _frombase, int _tobase)
+			{
+				return null;
+			}
+
+			[Script(IsNative = true)]
 			public static string gethostbyname(string _host)
 			{
 				return null;
@@ -558,6 +564,9 @@ namespace ScriptCoreLib.PHP
 
 			#endregion
 
+			[Script(IsNative = true)]
+			public static string md5(string _str, bool raw_output) { return default(string); }
+
 
 			#region string basename ( string path [, string suffix] )
 
@@ -705,7 +714,7 @@ namespace ScriptCoreLib.PHP
 			[Script(IsNative = true)]
 			public static object fopen(string _filename, string _mode) { return default(object); }
 
-		
+
 			#endregion
 
 			[Script(IsNative = true)]
@@ -749,6 +758,9 @@ namespace ScriptCoreLib.PHP
 			public static int intval(object _var) { return default(int); }
 
 			#endregion
+
+			[Script(IsNative = true)]
+			public static int intval(object _var, int _base) { return default(int); }
 
 
 			#region bool phpinfo ( [int what] )
