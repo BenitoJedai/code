@@ -72,6 +72,7 @@ namespace jsc.Script.PHP
 				OpCodes.Pop,
 				OpCodes.Conv_I4,
 				OpCodes.Conv_I8,
+				OpCodes.Conv_U,
 				OpCodes.Conv_U1,
 				OpCodes.Conv_U2,
 				OpCodes.Conv_R8] = CodeEmitArgs.DelegateEmitFirstOnStack;
@@ -257,7 +258,8 @@ namespace jsc.Script.PHP
 			CIW[OpCodes.Dup] = delegate(CodeEmitArgs e) { EmitFirstOnStack(e); };
 
 			CIW[OpCodes.Shl] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<<"); };
-			CIW[OpCodes.Shr] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">>"); };
+			CIW[OpCodes.Shr,
+				OpCodes.Shr_Un] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">>"); };
 			CIW[OpCodes.And] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "&"); };
 			CIW[OpCodes.Or] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "|"); };
 			CIW[OpCodes.Rem] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "%"); };
@@ -637,7 +639,9 @@ namespace jsc.Script.PHP
 			CIW[OpCodes.Ldelem_Ref,
 				OpCodes.Ldelem_U1,
 				OpCodes.Ldelem_U2,
+				OpCodes.Ldelem_U4,
 				OpCodes.Ldelem_I1,
+				OpCodes.Ldelem_I2,
 				OpCodes.Ldelem_I4,
 				OpCodes.Ldelem
 				] =
