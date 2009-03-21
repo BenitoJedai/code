@@ -611,7 +611,7 @@ namespace ScriptCoreLib.PHP
 			/// </summary>
 			/// <param name="_dir_handle">resource dir_handle</param>
 			[Script(IsNative = true)]
-			public static string readdir(object _dir_handle) { return default(string); }
+			public static object readdir(object _dir_handle) { return default(string); }
 
 			#endregion
 

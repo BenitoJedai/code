@@ -19,6 +19,16 @@ namespace jsc.Script.PHP
 
 		private void CreateInstructionHandlers()
 		{
+			CIW[OpCodes.Constrained] =
+				e =>
+				{
+					if (e.i.StackBeforeStrict.Length == 0)
+						// throw skip statement instead?
+						return;
+
+					EmitFirstOnStack(e);
+				};
+
 			CIW[OpCodes.Leave,
 				OpCodes.Leave_S] =
 				e =>
@@ -270,7 +280,7 @@ namespace jsc.Script.PHP
 			CIW[OpCodes.Ble_S,
 				OpCodes.Ble] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<="); };
 			CIW[OpCodes.Bne_Un_S,
-				OpCodes.Bne_Un] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "!="); };
+				OpCodes.Bne_Un] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "!=="); };
 			CIW[OpCodes.Neg] =
 				delegate(CodeEmitArgs e)
 				{
@@ -308,7 +318,12 @@ namespace jsc.Script.PHP
 						Emit(e.p, e.i.StackBeforeStrict[0]);
 					}
 					else
-						WriteInlineOperator(e.p, e.i, "==");
+					{
+						//if (e.i.StackBeforeStrict[1].SingleStackInstruction.OpCode == OpCodes.Ldnull)
+							WriteInlineOperator(e.p, e.i, "===");
+						//else
+						//    WriteInlineOperator(e.p, e.i, "==");
+					}
 				};
 			#endregion
 
@@ -629,7 +644,7 @@ namespace jsc.Script.PHP
 								Write("array()");
 								Write(")");
 
-						
+
 							}
 						}
 					}
