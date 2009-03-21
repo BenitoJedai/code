@@ -13,17 +13,16 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 		}
 
 		public long Ticks { get; set; }
-		//public double TotalMilliseconds { get; set; }
 
 		public static TimeSpan Parse(string e)
 		{
 			return default(TimeSpan);
 		}
 
-		//public static TimeSpan FromMilliseconds(double value)
-		//{
-		//    return new __TimeSpan { TotalMilliseconds = value };
-		//}
+		public static __TimeSpan FromMilliseconds(double value)
+		{
+			return new __TimeSpan { Ticks = global::System.Convert.ToInt64(value * TimeSpan.TicksPerMillisecond) };
+		}
 
 		public static implicit operator TimeSpan(__TimeSpan e)
 		{
@@ -44,6 +43,45 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 			{
 				return this.Ticks / TimeSpan.TicksPerMillisecond;
 			}
+		}
+
+
+		public int Hours
+		{
+			get
+			{
+				var v = global::System.Convert.ToInt32((double)this.Ticks / TimeSpan.TicksPerHour);
+
+				return v % 24;
+			}
+		}
+
+		public int Minutes
+		{
+			get
+			{
+				var v = global::System.Convert.ToInt32((double)this.Ticks / TimeSpan.TicksPerMinute);
+
+				return v % 60;
+			}
+		}
+
+		public int Seconds
+		{
+			get
+			{
+				var v = global::System.Convert.ToInt32((double)this.Ticks / TimeSpan.TicksPerSecond);
+
+				return v % 60;
+			}
+		}
+
+		public override string ToString()
+		{
+			return
+				("" + Hours).PadLeft(2, '0') + ":" +
+				("" + Minutes).PadLeft(2, '0') + ":" + 
+				("" + Seconds).PadLeft(2, '0');
 		}
 	}
 }
