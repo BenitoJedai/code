@@ -352,7 +352,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 			string v = (string)(object)this;
 
 			while (v.Length < total)
-				v = Convert.ToString(c) + v;
+				v = InternalConstructor(c, 1) + v;
 
 			return v;
 		}

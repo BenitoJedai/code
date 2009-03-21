@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.PHP.BCLImplementation.System
 {
 	[Script(Implements = typeof(global::System.Random))]
-	public class Random
+	internal class __Random
 	{
 		public virtual int Next(int maxValue)
 		{
