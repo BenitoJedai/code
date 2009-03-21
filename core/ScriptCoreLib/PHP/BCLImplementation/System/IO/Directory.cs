@@ -40,15 +40,16 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 			if (Native.API.is_readable(path))
 			{
 				object h = Native.API.opendir(path);
-				string p = Native.API.readdir(h);
+				object p = Native.API.readdir(h);
 
-				while (p != null)
+				while ((bool)p)
 				{
+					var ps = (string)p;
 
-					if (p != ".")
-						if (p != "..")
+					if (ps != ".")
+						if (ps != "..")
 						{
-							string npath = Path.Combine(path, p);
+							string npath = Path.Combine(path, ps);
 
 							if (Native.API.is_dir(npath))
 								if (Native.API.is_readable(npath))
@@ -75,15 +76,16 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 			if (Native.API.is_readable(path))
 			{
 				object h = Native.API.opendir(path);
-				string p = Native.API.readdir(h);
+				object p = Native.API.readdir(h);
 
-				while (p != null)
+				while ((bool)p)
 				{
+					var ps = (string)p;
 
-					if (p != ".")
-						if (p != "..")
+					if (ps != ".")
+						if (ps != "..")
 						{
-							string npath = Path.Combine(path, p);
+							string npath = Path.Combine(path, ps);
 
 							if (Native.API.is_file(npath))
 								if (Native.API.is_readable(npath))
