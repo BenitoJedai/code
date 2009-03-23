@@ -284,6 +284,14 @@ namespace ScriptCoreLib.ActionScript.DOM
 			");
 		}
 
+		public static void ExternalAuthentication(Action<ExternalContext> e)
+		{
+			var x = new ExternalContext();
+
+			x.ElementChanged += () => e(x);
+
+			x.ExternalAuthentication();
+		}
 
 	}
 
