@@ -143,10 +143,22 @@ namespace ScriptCoreLib.ActionScript.DOM
 				"window[_i][_f](_a0);"
 			);
 
+			this.ExternalContext_token_call_token = ToExternal<string, string, string>(
+				"_i", "_f", "_j",
+				"window[_i][_f](window[_j]);"
+			);
+
 			this.ExternalContext_token_call_string_string_string = ToExternal<string, string, string, string, string>(
 				"_i", "_f", "_a0", "_a1", "_a2",
 				"window[_i][_f](_a0, _a1, _a2);"
 			);
+
+
+			this.ExternalContext_token_set_property = ToExternal<string, string, object>(
+				"_i", "_f", "_v",
+				"window[_i][_f] = _v;"
+			);
+
 
 			this.ExternalContext_getElementById_call = ToExternal<string, string>(
 				"_i", "_f",
@@ -226,12 +238,15 @@ namespace ScriptCoreLib.ActionScript.DOM
 		public readonly Action<string, string> ExternalContext_IHTMLElement_appendChild;
 
 
+		public readonly Action<string, string, object> ExternalContext_token_set_property;
+
 		public readonly Action<string, string> ExternalContext_getElementById_call;
 		public readonly Action<string, string> ExternalContext_token_call;
 		public readonly Action<string, string, string> ExternalContext_getElementById_call_string;
 		public readonly Action<string, string, string, string> ExternalContext_getElementById_call_string_string;
 		public readonly Action<string, string, string, string, string> ExternalContext_getElementById_call_string_string_string;
 		public readonly Action<string, string, string> ExternalContext_token_call_string;
+		public readonly Action<string, string, string> ExternalContext_token_call_token;
 		public readonly Action<string, string, string, string, string> ExternalContext_token_call_string_string_string;
 
 		public readonly Action<string, string, string, string> ExternalContext_getElementById_add_event;

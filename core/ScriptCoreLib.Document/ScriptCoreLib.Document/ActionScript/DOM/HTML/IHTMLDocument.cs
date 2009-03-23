@@ -34,6 +34,9 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 			if (tag == "button")
 				n = new IHTMLButton();
 
+			if (n == null)
+				throw new NotImplementedException(tag);
+
 			createElement(n);
 
 			return n;
@@ -48,13 +51,13 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 				throw new Exception("context");
 
 			n.context = this.context;
-			n.token = this.context.CreateToken();
+			var token = this.context.CreateToken();
 
-			context.ExternalContext_IHTMLDocument_createElement(n.tag, n.token);
+			context.ExternalContext_IHTMLDocument_createElement(n.tag, token);
 
-			// update properties
-			if (n._innerHTML != null)
-				n.innerHTML = n._innerHTML;
+			n.token = token;
+
+
 
 			if (!string.IsNullOrEmpty(n.id))
 				context.SetGlobalPropertyString(n.token, "id", n.id);
@@ -68,7 +71,7 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 			{
 				if (_body == null)
 				{
-					_body = new IHTMLElement();
+					_body = new IHTMLBody();
 
 					if (this.context != null)
 					{

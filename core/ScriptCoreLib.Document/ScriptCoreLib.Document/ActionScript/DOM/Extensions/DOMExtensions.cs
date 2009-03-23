@@ -9,15 +9,17 @@ namespace ScriptCoreLib.ActionScript.DOM.Extensions
 	[Script]
 	public static class DOMExtensions
 	{
-		public static void AttachAsSpan(this string e, ExternalContext c)
+	
+
+		public static IHTMLSpan AttachAsSpan(this string e, ExternalContext c)
 		{
-			new IHTMLSpan { innerHTML = e }.AttachTo(c);
+			return new IHTMLSpan { innerHTML = e }.AttachTo(c);
 		}
 
 
-		public static void AttachAsDiv(this string e, ExternalContext c)
+		public static IHTMLDiv AttachAsDiv(this string e, ExternalContext c)
 		{
-			new IHTMLDiv { innerHTML = e }.AttachTo(c);
+			return new IHTMLDiv { innerHTML = e }.AttachTo(c);
 		}
 
 		public static T AttachTo<T>(this T e, ExternalContext c)
