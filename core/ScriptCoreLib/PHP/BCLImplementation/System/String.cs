@@ -1,5 +1,6 @@
 using ScriptCoreLib;
 using ScriptCoreLib.PHP.Runtime;
+using System;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System
 {
@@ -366,6 +367,17 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 				return true;
 
 			return false;
+		}
+
+		static public string Join(string a0, string[] a1)
+		{
+			return Native.API.implode(a0, a1);
+		}
+
+		[Script(DefineAsStatic = true)]
+		public string[] Split(char[] separator, StringSplitOptions options)
+		{
+			return Native.API.explode(new string(separator[0], 1), this);
 		}
 	}
 }
