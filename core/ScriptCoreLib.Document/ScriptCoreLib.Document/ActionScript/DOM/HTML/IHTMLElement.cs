@@ -6,14 +6,39 @@ using System.Text;
 namespace ScriptCoreLib.ActionScript.DOM.HTML
 {
 	[Script]
-	public class IHTMLElement : INode
+	public abstract class IHTMLElement : INode
 	{
-		public string token { get; set; }
+		protected event Action tokenChanged;
+
+		string _token;
+		public string token
+		{
+			get
+			{
+				return _token;
+			}
+			set
+			{
+				_token = value;
+				if (tokenChanged != null)
+					tokenChanged();
+			}
+		}
 
 		public string id { get; set; }
 
 		public ExternalContext context { get; set; }
 
+		public IHTMLElement()
+		{
+			this.tokenChanged +=
+				delegate
+				{
+					// update properties
+					if (this._innerHTML != null)
+						this.innerHTML = this._innerHTML;
+				};
+		}
 
 		IHTMLDocument _ownerDocument;
 		public IHTMLDocument ownerDocument
@@ -42,7 +67,7 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 				if (token == null)
 					throw new Exception("token");
 
-				context.ExternalContext_IHTMLElement_set_innerHTML(value, token);
+				context.ExternalContext_token_set_property(token, "innerHTML", value);
 			}
 		}
 
@@ -80,6 +105,24 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 			throw new Exception("INode_appendChild failed");
 		}
 
+		protected override void INode_removeChild(INode child)
+		{
+			if (token == null)
+				throw new Exception("token");
+
+			var childelement = child as IHTMLElement;
+			if (childelement != null)
+			{
+				if (childelement.token == null)
+					throw new Exception("childelement.token");
+
+				this.context.ExternalContext_token_call_token(this.token, "removeChild", childelement.token);
+
+				return;
+			}
+
+			throw new Exception("INode_removeChild failed");
+		}
 
 		public event Action onclick
 		{

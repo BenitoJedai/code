@@ -102,7 +102,7 @@ namespace FlashBrowserDocument.ActionScript
 						};
 					#endregion
 
-					@"
+					var Content = @"
 					<hr />
 					<blockqoute>
 						<h1>This application was written in c# and was compiled to actionscript with <a href='http://jsc.sf.net'>jsc compiler</a>.</h1>
@@ -116,6 +116,34 @@ namespace FlashBrowserDocument.ActionScript
 					</blockqoute>
 					".AttachAsDiv(context);
 
+					var DynamicChild = new IHTMLSpan { innerHTML = "hello world" }.AttachTo(Content);
+
+					DynamicChild.innerHTML = "click on the image to remove it!";
+
+					var DynamicChildImage = new IHTMLImage { src = "http://jsc.sourceforge.net/jsc.png" }.AttachTo(DynamicChild);
+
+
+					DynamicChildImage.onclick +=
+						delegate
+						{
+							DynamicChild.removeChild(DynamicChildImage);
+							DynamicChild.innerHTML = "you have removed that image!";
+
+							var Undo = new IHTMLButton { innerHTML = "undo" }.AttachTo(DynamicChild);
+
+							Undo.onclick +=
+								delegate
+								{
+									DynamicChildImage.AttachTo(DynamicChild);
+									DynamicChild.removeChild(Undo);
+								};
+						};
+
+					DynamicChild.onclick +=
+						delegate
+						{
+
+						};
 				}
 			);
 

@@ -18,5 +18,15 @@ namespace ScriptCoreLib.ActionScript.DOM
 		{
 			INode_appendChild(child);
 		}
+
+
+		protected virtual void INode_removeChild(INode child)
+		{
+		}
+
+		public void removeChild(INode child)
+		{
+			INode_removeChild(child);
+		}
 	}
 }

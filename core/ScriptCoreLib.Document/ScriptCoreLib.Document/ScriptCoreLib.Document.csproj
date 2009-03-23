@@ -61,6 +61,7 @@
     <Compile Include="ActionScript\DOM\ExternalContext.cs" />
     <Compile Include="ActionScript\DOM\ExternalContext.ToExternal.cs" />
     <Compile Include="ActionScript\DOM\ExternalContext.ToPlugin.cs" />
+    <Compile Include="ActionScript\DOM\HTML\IHTMLBody.cs" />
     <Compile Include="ActionScript\DOM\HTML\IHTMLImage.cs" />
     <Compile Include="ActionScript\DOM\HTML\IHTMLButton.cs" />
     <Compile Include="ActionScript\DOM\HTML\IHTMLDiv.cs" />
