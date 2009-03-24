@@ -71,6 +71,9 @@ namespace FlashBrowserDocument.ActionScript
 			ExternalContext.ExternalAuthentication(
 				context =>
 				{
+					context.Document.body.style.backgroundColor = "#afafff";
+					context.Document.body.style.color = "#000080";
+
 					t.appendText("\nflash element was found within html document");
 
 					context.Document.title = "hello world";
@@ -118,10 +121,16 @@ namespace FlashBrowserDocument.ActionScript
 
 					var DynamicChild = new IHTMLSpan { innerHTML = "hello world" }.AttachTo(Content);
 
+					DynamicChild.style.color = "red";
 					DynamicChild.innerHTML = "click on the image to remove it!";
 
-					var DynamicChildImage = new IHTMLImage { src = "http://jsc.sourceforge.net/jsc.png" }.AttachTo(DynamicChild);
+					var DynamicChildImage = new IHTMLImage
+					{
+						title = "jsc diagram",
+						src = "http://jsc.sourceforge.net/jsc.png"
+					}.AttachTo(DynamicChild);
 
+					DynamicChildImage.style.backgroundColor = "white";
 
 					DynamicChildImage.onclick +=
 						delegate

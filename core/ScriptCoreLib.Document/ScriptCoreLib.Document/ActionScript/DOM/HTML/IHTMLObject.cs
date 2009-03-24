@@ -11,29 +11,30 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 		public IHTMLObject()
 		{
 			this.tag = "object";
+
+			this.__width = new ExternalContext.Token.Property(this.Token, "width");
+			this.__height = new ExternalContext.Token.Property(this.Token, "height");
+		
 		}
 
 		public int width
 		{
 			set
 			{
-				if (context != null)
-				{
-					context.SetElementPropertyString(id, "width", "" + value);
-				}
+				this.__width.PropertyValue = value;
+
 			}
 		}
+		internal readonly ExternalContext.Token.Property __width;
 
 		public int height
 		{
 			set
 			{
-				if (context != null)
-				{
-					context.SetElementPropertyString(id, "height", "" + value);
-				}
+				this.__height.PropertyValue = value;
 			}
 		}
+		internal readonly ExternalContext.Token.Property __height;
 
 	}
 }
