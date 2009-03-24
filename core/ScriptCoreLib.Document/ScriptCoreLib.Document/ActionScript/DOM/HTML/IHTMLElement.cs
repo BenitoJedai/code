@@ -8,7 +8,7 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 	[Script]
 	public abstract class IHTMLElement : INode
 	{
-		internal readonly ExternalContext.Token Token;
+		public readonly ExternalContext.Token Token;
 
 
 
