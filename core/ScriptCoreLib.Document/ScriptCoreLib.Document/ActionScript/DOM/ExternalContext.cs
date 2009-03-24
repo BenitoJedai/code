@@ -65,7 +65,9 @@ namespace ScriptCoreLib.ActionScript.DOM
 							id =>
 							{
 								InternalId = id;
-								InternalElement = new IHTMLObject { context = this, id = id };
+								InternalElement = new IHTMLObject { id = id };
+								InternalElement.Token.Context = this;
+
 
 								Handler = e => "";
 
@@ -170,6 +172,15 @@ namespace ScriptCoreLib.ActionScript.DOM
 				"window[_i][_f]();"
 			);
 
+			this.ExternalContext_token_set_getElementById = ToExternal<string, string>(
+				"_r", "_i",
+				"window[_r] = document.getElementById(_i);"
+			);
+
+			this.ExternalContext_let_token_get_property = ToExternal<string, string, string>(
+				"_r", "_i", "_p",
+				"window[_r] = window[_i][_p];"
+			);
 
 
 			#region add_event
@@ -199,7 +210,7 @@ namespace ScriptCoreLib.ActionScript.DOM
 				"
 			);
 
-			
+
 
 
 			this.ExternalContext_token_add_event = ToExternal<string, string, string, string>(
@@ -239,7 +250,9 @@ namespace ScriptCoreLib.ActionScript.DOM
 
 
 		public readonly Action<string, string, object> ExternalContext_token_set_property;
+		public readonly Action<string, string, string> ExternalContext_let_token_get_property;
 
+		public readonly Action<string, string> ExternalContext_token_set_getElementById;
 		public readonly Action<string, string> ExternalContext_getElementById_call;
 		public readonly Action<string, string> ExternalContext_token_call;
 		public readonly Action<string, string, string> ExternalContext_getElementById_call_string;

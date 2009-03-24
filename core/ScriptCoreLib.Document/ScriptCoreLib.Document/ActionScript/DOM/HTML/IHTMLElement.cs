@@ -8,36 +8,25 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 	[Script]
 	public abstract class IHTMLElement : INode
 	{
-		protected event Action tokenChanged;
+		internal readonly ExternalContext.Token Token;
 
-		string _token;
-		public string token
-		{
-			get
-			{
-				return _token;
-			}
-			set
-			{
-				_token = value;
-				if (tokenChanged != null)
-					tokenChanged();
-			}
-		}
+
 
 		public string id { get; set; }
 
-		public ExternalContext context { get; set; }
 
 		public IHTMLElement()
 		{
-			this.tokenChanged +=
+			this.Token = new ExternalContext.Token();
+			this.Token.RequestToken =
 				delegate
 				{
-					// update properties
-					if (this._innerHTML != null)
-						this.innerHTML = this._innerHTML;
+					this.Token.TokenValue = this.Token.Context.CreateToken();
+					this.Token.Context.ExternalContext_token_set_getElementById(this.Token.TokenValue, this.id);
 				};
+
+			this.__innerHTML = new ExternalContext.Token.Property(this.Token, "innerHTML");
+			this.__title = new ExternalContext.Token.Property(this.Token, "title");
 		}
 
 		IHTMLDocument _ownerDocument;
@@ -46,44 +35,50 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 			get
 			{
 				if (_ownerDocument == null)
-					_ownerDocument = new IHTMLDocument { context = context };
+				{
+					_ownerDocument = new IHTMLDocument { };
+					_ownerDocument.context = this.Token.Context;
+				}
 
 				return _ownerDocument;
 			}
 		}
 
-		internal string _innerHTML;
 		public string innerHTML
 		{
 			set
 			{
-				if (context == null)
-				{
-					var v = value;
-					_innerHTML = v;
-					return;
-				}
-
-				if (token == null)
-					throw new Exception("token");
-
-				context.ExternalContext_token_set_property(token, "innerHTML", value);
+				this.__innerHTML.PropertyValue = value;
 			}
 		}
+		internal readonly ExternalContext.Token.Property __innerHTML;
+
+		/// <summary>
+		/// Used to give specific elements a title which may appear as a tooltip in some browsers when the mouse is held at or near the element. 
+		/// </summary>
+		public string title
+		{
+			set
+			{
+				this.__title.PropertyValue = value;
+			}
+		}
+		internal readonly ExternalContext.Token.Property __title;
+
 
 		protected override void INode_appendChild(INode child)
 		{
 			var childelement = child as IHTMLElement;
 			if (childelement != null)
 			{
-				if (this.token != null)
+				if (this.Token.TokenValue != null)
 				{
-					if (this.context != null)
+					if (this.Token.Context != null)
 					{
-						if (childelement.context == null)
+						if (childelement.Token.Context == null)
 							this.ownerDocument.createElement(childelement);
 
-						this.context.ExternalContext_IHTMLElement_appendChild(this.token, childelement.token);
+						this.Token.Context.ExternalContext_IHTMLElement_appendChild(this.Token.TokenValue, childelement.Token.TokenValue);
 						return;
 					}
 					else
@@ -107,16 +102,16 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 
 		protected override void INode_removeChild(INode child)
 		{
-			if (token == null)
+			if (this.Token.TokenValue == null)
 				throw new Exception("token");
 
 			var childelement = child as IHTMLElement;
 			if (childelement != null)
 			{
-				if (childelement.token == null)
+				if (childelement.Token.TokenValue == null)
 					throw new Exception("childelement.token");
 
-				this.context.ExternalContext_token_call_token(this.token, "removeChild", childelement.token);
+				this.Token.Context.ExternalContext_token_call_token(this.Token.TokenValue, "removeChild", childelement.Token.TokenValue);
 
 				return;
 			}
@@ -128,13 +123,13 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 		{
 			add
 			{
-				if (this.context == null)
+				if (this.Token.Context == null)
 					throw new ArgumentNullException("context");
 
-				if (this.token == null)
+				if (this.Token.TokenValue == null)
 					throw new ArgumentNullException("token");
 
-				var FlashToken = this.context.ToExternal(
+				var FlashToken = this.Token.Context.ToExternal(
 					delegate
 					{
 						value();
@@ -142,11 +137,29 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 				);
 
 				// now we need to bind elemen.onclick...
-				this.context.ExternalContext_token_add_event(this.token, "click", this.context.Element.id, FlashToken);
+				this.Token.Context.ExternalContext_token_add_event(this.Token.TokenValue, "click", this.Token.Context.Element.id, FlashToken);
 			}
 			remove
 			{
 				throw new NotSupportedException("cannot remove remote events");
+			}
+		}
+
+		IHTMLStyle _style;
+		public IHTMLStyle style
+		{
+			get
+			{
+				if (this._style == null)
+				{
+					this._style = new IHTMLStyle();
+					this._style.Token.Context = this.Token.Context;
+					this._style.Token.TokenValue = this.Token.Context.CreateToken();
+
+					this._style.Token.Context.ExternalContext_let_token_get_property(this._style.Token.TokenValue, this.Token.TokenValue, "style");
+				}
+
+				return this._style;
 			}
 		}
 	}

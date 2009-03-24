@@ -50,17 +50,17 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 			if (this.context == null)
 				throw new Exception("context");
 
-			n.context = this.context;
+			n.Token.Context = this.context;
 			var token = this.context.CreateToken();
 
 			context.ExternalContext_IHTMLDocument_createElement(n.tag, token);
 
-			n.token = token;
+			n.Token.TokenValue = token;
 
 
 
 			if (!string.IsNullOrEmpty(n.id))
-				context.SetGlobalPropertyString(n.token, "id", n.id);
+				context.SetGlobalPropertyString(n.Token.TokenValue, "id", n.id);
 		}
 
 		IHTMLElement _body;
@@ -75,10 +75,10 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 
 					if (this.context != null)
 					{
-						_body.context = context;
-						_body.token = context.CreateToken();
+						_body.Token.Context = context;
+						_body.Token.TokenValue = context.CreateToken();
 
-						context.ExternalContext_IHTMLDocument_get_body(_body.token);
+						context.ExternalContext_IHTMLDocument_get_body(_body.Token.TokenValue);
 					}
 				}
 
