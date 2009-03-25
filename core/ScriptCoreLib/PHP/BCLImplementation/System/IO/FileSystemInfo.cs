@@ -30,8 +30,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 			{
 				var v = new __DateTime
 				{
-					InternalTicks =
-					__DateTime.ticks_1970_1_1 + Native.API.filemtime(this.FullPath) * 100 * __DateTime.TicksPerMillisecond
+					InternalTotalSeconds = Native.API.filemtime(this.FullPath)
+
+					//InternalTicks =
+					//__DateTime.ticks_1970_1_1 + Native.API.filemtime(this.FullPath) * 100 * __DateTime.TicksPerMillisecond
 				};
 
 

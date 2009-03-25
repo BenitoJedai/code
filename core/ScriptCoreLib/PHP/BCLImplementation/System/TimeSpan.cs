@@ -7,12 +7,14 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 	[Script(Implements = typeof(global::System.TimeSpan))]
 	internal class __TimeSpan
 	{
+		internal double InternalTotalSeconds;
+
 		public __TimeSpan()
 		{
 
 		}
 
-		public long Ticks { get; set; }
+		//public long Ticks { get; set; }
 
 		public static TimeSpan Parse(string e)
 		{
@@ -21,7 +23,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 
 		public static __TimeSpan FromMilliseconds(double value)
 		{
-			return new __TimeSpan { Ticks = global::System.Convert.ToInt64(value * TimeSpan.TicksPerMillisecond) };
+			return new __TimeSpan { InternalTotalSeconds = value * 0.001 };
 		}
 
 		public static implicit operator TimeSpan(__TimeSpan e)
@@ -33,7 +35,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 		{
 			get
 			{
-				return this.Ticks / TimeSpan.TicksPerSecond;
+				return InternalTotalSeconds;
 			}
 		}
 
@@ -41,28 +43,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 		{
 			get
 			{
-				return this.Ticks / TimeSpan.TicksPerMillisecond;
-			}
-		}
-
-
-		public int Hours
-		{
-			get
-			{
-				var v = global::System.Convert.ToInt32((double)this.Ticks / TimeSpan.TicksPerHour);
-
-				return v % 24;
-			}
-		}
-
-		public int Minutes
-		{
-			get
-			{
-				var v = global::System.Convert.ToInt32((double)this.Ticks / TimeSpan.TicksPerMinute);
-
-				return v % 60;
+				return global::System.Convert.ToInt32(this.InternalTotalSeconds * 1000) % 1000;
 			}
 		}
 
@@ -70,9 +51,23 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 		{
 			get
 			{
-				var v = global::System.Convert.ToInt32((double)this.Ticks / TimeSpan.TicksPerSecond);
+				return global::System.Convert.ToInt32(this.InternalTotalSeconds) % 60;
+			}
+		}
 
-				return v % 60;
+		public int Minutes
+		{
+			get
+			{
+				return global::System.Convert.ToInt32(this.InternalTotalSeconds / 60) % 60;
+			}
+		}
+
+		public int Hours
+		{
+			get
+			{
+				return global::System.Convert.ToInt32(this.InternalTotalSeconds / (60 * 60)) % 24;
 			}
 		}
 
@@ -80,7 +75,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 		{
 			return
 				("" + Hours).PadLeft(2, '0') + ":" +
-				("" + Minutes).PadLeft(2, '0') + ":" + 
+				("" + Minutes).PadLeft(2, '0') + ":" +
 				("" + Seconds).PadLeft(2, '0');
 		}
 	}
