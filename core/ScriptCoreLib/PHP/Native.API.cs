@@ -10,6 +10,18 @@ namespace ScriptCoreLib.PHP
 		public static class API
 		{
 			[Script(IsNative = true)]
+			public static bool date_default_timezone_set(string _timezone_identifier)
+			{
+				return default(bool);
+			}
+
+			[Script(IsNative = true)]
+			public static string date_default_timezone_get()
+			{
+				return null;
+			}
+
+			[Script(IsNative = true)]
 			public static string base_convert(string _number, int _frombase, int _tobase)
 			{
 				return null;

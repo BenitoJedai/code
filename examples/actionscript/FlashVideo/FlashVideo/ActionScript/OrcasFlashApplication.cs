@@ -34,7 +34,8 @@ namespace FlashVideo.ActionScript
 			// col: 30 Error: Type was not found or was not a compile-time constant: FLVPlayback.
             // var flv:fl.video.FLVPlayback;
 			// http://www.flashcomguru.com/index.cfm/2007/4/17/Flex-Builder-2-to-write-AS3-code-for-Flash
-			
+			// http://www.kirupa.com/forum/showthread.php?p=2450954
+
 			// ...this doesnt seem to be supported yet
 
 			flv.AttachTo(this);
