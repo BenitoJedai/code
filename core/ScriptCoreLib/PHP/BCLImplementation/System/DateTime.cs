@@ -7,6 +7,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 	[Script(Implements = typeof(global::System.DateTime))]
 	internal class __DateTime
 	{
+		// int64 is really not supported, shall use bignumber instead?
 		internal long InternalTicks;
 
 		public long Ticks
@@ -43,6 +44,40 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 			return new __TimeSpan { Ticks = t };
 		}
 
-	
+
+
+		public int Minute
+		{
+			get
+			{
+				return (int)((this.InternalTicks / 0x23c34600L) % 60L);
+			}
+		}
+ 
+
+ 
+
+
+		public int Second
+		{
+			get
+			{
+				return (int)((this.InternalTicks / 0x989680L) % 60L);
+			}
+		}
+
+		public int Hour
+		{
+			get
+			{
+				return (int)((this.InternalTicks / 0x861c46800L) % 0x18L);
+			}
+		}
+ 
+
+ 
+
+ 
+
 	}
 }
