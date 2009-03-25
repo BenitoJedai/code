@@ -224,6 +224,9 @@
     <Compile Include="ActionScript\flash\events\SyncEvent.cs" />
     <Compile Include="ActionScript\flash\net\LocalConnection.cs" />
     <Compile Include="ActionScript\flash\net\SharedObject.cs" />
+    <Compile Include="ActionScript\fl\video\FLVPlayback.cs" />
+    <Compile Include="ActionScript\fl\video\INCManager.cs" />
+    <Compile Include="ActionScript\fl\video\VideoPlayer.cs" />
     <Compile Include="ActionScript\mx\controls\SWFLoader.cs" />
     <Compile Include="ActionScript\mx\core\UIComponent.cs" />
     <Compile Include="ActionScript\mx\core\FlexSprite.cs" />
