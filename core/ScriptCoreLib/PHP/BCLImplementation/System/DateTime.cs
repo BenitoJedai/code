@@ -7,6 +7,8 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 	[Script(Implements = typeof(global::System.DateTime))]
 	internal class __DateTime
 	{
+		// http://aidanlister.com/repos/v/Duration.php
+
 		internal double InternalTotalSeconds;
 
 		public double TotalSeconds

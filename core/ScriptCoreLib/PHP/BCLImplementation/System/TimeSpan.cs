@@ -43,7 +43,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 		{
 			get
 			{
-				return global::System.Convert.ToInt32(this.InternalTotalSeconds * 1000) % 1000;
+				return global::System.Convert.ToInt32(this.InternalTotalSeconds * 1000);
 			}
 		}
 
