@@ -653,6 +653,9 @@ namespace ScriptCoreLib.PHP
 
 			#endregion
 
+			[Script(IsNative = true)]
+			public static IArray<string> getdate(int _timestamp) { return default(IArray<string>); }
+
 
 			#region string chr ( int ascii )
 
