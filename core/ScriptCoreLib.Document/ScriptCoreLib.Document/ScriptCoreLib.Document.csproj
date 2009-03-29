@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\DOM\ExternalContext.Token.Property.cs" />
     <Compile Include="ActionScript\DOM\ExternalContext.Token.cs" />
     <Compile Include="ActionScript\DOM\Extensions\DOMExtensions.cs" />
     <Compile Include="ActionScript\DOM\ExternalContext.cs" />
