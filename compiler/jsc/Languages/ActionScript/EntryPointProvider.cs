@@ -10,19 +10,19 @@ using System.Xml;
 
 namespace jsc.Languages.ActionScript
 {
-    static class EntryPointProvider
-    {
-        static public void WriteEntryPoints(this Assembly a, DirectoryInfo dir, Type[] KnownTypes)
-        {
+	static class EntryPointProvider
+	{
+		static public void WriteEntryPoints(this Assembly a, DirectoryInfo dir, Type[] KnownTypes)
+		{
 			var Entries = from _Type in KnownTypes
-                          let _Script = _Type.GetCustomAttributes<ScriptAttribute>().SingleOrDefault()
-                          where _Script != null
-                          let _ScriptApplicationEntryPoint = _Type.GetCustomAttributes<ScriptApplicationEntryPointAttribute>().SingleOrDefault()
-                          where _ScriptApplicationEntryPoint != null
-                          let _GoogleGadget = _Type.GetCustomAttributes<GoogleGadgetAttribute>().SingleOrDefault()
-                          select new { _Type, _Script, _ScriptApplicationEntryPoint, _GoogleGadget };
+						  let _Script = _Type.GetCustomAttributes<ScriptAttribute>().SingleOrDefault()
+						  where _Script != null
+						  let _ScriptApplicationEntryPoint = _Type.GetCustomAttributes<ScriptApplicationEntryPointAttribute>().SingleOrDefault()
+						  where _ScriptApplicationEntryPoint != null
+						  let _GoogleGadget = _Type.GetCustomAttributes<GoogleGadgetAttribute>().SingleOrDefault()
+						  select new { _Type, _Script, _ScriptApplicationEntryPoint, _GoogleGadget };
 
-            /*
+			/*
 <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
 width="160" height="160"
 codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">
@@ -37,29 +37,29 @@ type="application/x-shockwave-flash"
 pluginspage="http://www.macromedia.com/go/getflashplayer">
 </embed>
 </object>              
-             */
+			 */
 
-            // http://kb.adobe.com/selfservice/viewContent.do?externalId=tn_4150
-            // http://www.joostdevalk.nl/code/valid-flash-embedding.html
+			// http://kb.adobe.com/selfservice/viewContent.do?externalId=tn_4150
+			// http://www.joostdevalk.nl/code/valid-flash-embedding.html
 
-            /*
+			/*
 <object type="application/x-shockwave-flash" 
 	data="music/sound.swf" 
 	width="0" height="0">
 	<param name="movie" value="music/sound.swf" />
 	<param name="quality" value="high"/>
 </object>             
-             */
+			 */
 
-	  //<embed 
-	  //    src="MovieAgentGadget.swf" 
-	  //    quality="high"
-	  //    bgcolor="#869ca7"
-	  //    width="500" height="375" name="MovieAgentGadget" align="middle"
-	  //    play="true" loop="false" allowScriptAccess="always"
-	  //    type="application/x-shockwave-flash"
-	  //    pluginspage="http://www.macromedia.com/go/getflashplayer">
-	  //</embed>
+			//<embed 
+			//    src="MovieAgentGadget.swf" 
+			//    quality="high"
+			//    bgcolor="#869ca7"
+			//    width="500" height="375" name="MovieAgentGadget" align="middle"
+			//    play="true" loop="false" allowScriptAccess="always"
+			//    type="application/x-shockwave-flash"
+			//    pluginspage="http://www.macromedia.com/go/getflashplayer">
+			//</embed>
 
 
 			//Func<string, int, int, XElement> FlashTag =
@@ -120,55 +120,69 @@ pluginspage="http://www.macromedia.com/go/getflashplayer">
 
 			//<object width="800" height="500"><param name="movie" value="http://nonoba.com/zproxy/mahjong-multiplayer/embed"></param><param name="allowScriptAccess" value="always" ></param><param name="allowNetworking" value="all" ></param><embed src="http://nonoba.com/zproxy/mahjong-multiplayer/embed" allowNetworking="all" allowScriptAccess="always" type="application/x-shockwave-flash" width="800" height="500"></embed></object>
 
-            foreach (var v in Entries)
-                using (var w = dir.CreateFile(v._Type.Name + ".htm"))
-                {
-					// this allows to include this htm directly into iframe
-					w.WriteLine("<!-- created at " + System.DateTime.Now.ToString() + " -->");
+			foreach (var v in Entries)
+			{
+				Func<bool, StringWriter> ToWriter =
+					src =>
+					{
+						var ww = new StringWriter();
 
-					w.WriteLine("<head>");
-					w.WriteLine("<title>" + v._Type.Name + "</title>");
+						ww.WriteLine("<!-- created at " + System.DateTime.Now.ToString() + " -->");
+						ww.WriteLine("<head>");
+						ww.WriteLine("<title>" + v._Type.Name + "</title>");
+						ww.WriteLine(
+							"<link rel='alternate' href='" + v._ScriptApplicationEntryPoint.Feed + "' type='application/rss+xml' title='feed' id='' />"
+						);
 
-					w.WriteLine(
-						"<link rel='alternate' href='" + v._ScriptApplicationEntryPoint.Feed + "' type='application/rss+xml' title='feed' id='' />"
-					);
+						ww.WriteLine("</head>");
+						// this allows to include this htm directly into iframe
+						ww.Write("<body style='margin: 0; overflow: hidden;'>");
+						ww.Write(
+							FlashTag(
+							(src && v._GoogleGadget != null && !string.IsNullOrEmpty(v._GoogleGadget.src)) ? v._GoogleGadget.src : 
+							v._Type.Name + ".swf"
+							, v._ScriptApplicationEntryPoint.Width, v._ScriptApplicationEntryPoint.Height)
+						);
 
-					w.WriteLine("</head>");
-					w.WriteLine("<body style='margin: 0;'>");
+						ww.Write("</body>");
+						return ww;
+					};
 
-                    w.WriteLine(
-                        FlashTag(v._Type.Name + ".swf", v._ScriptApplicationEntryPoint.Width, v._ScriptApplicationEntryPoint.Height)
-                    );
+				using (var w = dir.CreateFile(v._Type.Name + ".htm"))
+				{
+					w.Write(ToWriter(false).ToString());
+				}
 
-					w.WriteLine("</body>");
-                }
-
-            foreach (var v in from i in Entries where i._GoogleGadget != null select i)
-                using (var w = dir.CreateFile(v._Type.Name + ".GoogleGadget.xml"))
-                {
-                    var xw = XmlWriter.Create(w);
+				if (v._GoogleGadget != null)
+				{
 					
-					
-					//xw.Settings.NewLineOnAttributes = true;
-					//xw.Settings.NewLineHandling = NewLineHandling.Replace;
+					using (var w = dir.CreateFile(v._Type.Name + ".GoogleGadget.xml"))
+					{
+						var xw = XmlWriter.Create(w);
 
-                    new XDocument(
-                        new XElement("Module",
-                            new XElement("ModulePrefs", v._GoogleGadget.GetPropertiesAsXAttributes().Where(p => p.Name != "src")),
-                            new XElement("Content",
-                                new XAttribute("type", "html"),
-                                new XCData(
-                                    FlashTag(
-										(string.IsNullOrEmpty(v._GoogleGadget.src) ? v._Type.Name + ".swf" : v._GoogleGadget.src)
-										, v._GoogleGadget.width, v._GoogleGadget.height).ToString()
-                                )
-                            )
-                        )
-                    ).WriteTo(xw);
 
-                    xw.Flush();
-                }
+						//xw.Settings.NewLineOnAttributes = true;
+						//xw.Settings.NewLineHandling = NewLineHandling.Replace;
 
-        }
-    }
+						new XDocument(
+							new XElement("Module",
+								new XElement("ModulePrefs", v._GoogleGadget.GetPropertiesAsXAttributes().Where(p => p.Name != "src")),
+								new XElement("Content",
+									new XAttribute("type", "html"),
+									new XCData(
+										ToWriter(true).ToString()
+									)
+								)
+							)
+						).WriteTo(xw);
+
+						xw.Flush();
+					}
+				}
+			}
+
+
+
+		}
+	}
 }
