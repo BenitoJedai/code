@@ -21,6 +21,9 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 			this.Token.RequestToken =
 				delegate
 				{
+					if (string.IsNullOrEmpty(this.id))
+						throw new Exception("id is missing");
+
 					this.Token.TokenValue = this.Token.Context.CreateToken();
 					this.Token.Context.ExternalContext_token_set_getElementById(this.Token.TokenValue, this.id);
 				};

@@ -15,6 +15,14 @@ namespace ScriptCoreLib.ActionScript.DOM
 		// they can be stored on the cache to be referenced later
 		// when disposing a dom tree, the references shall be removed
 
+		public string PrivateKey
+		{
+			get
+			{
+				return a;
+			}
+		}
+
 		readonly string a;
 		readonly string b;
 		int c;
@@ -47,8 +55,15 @@ namespace ScriptCoreLib.ActionScript.DOM
 				Trace(e);
 		}
 
+		static bool ExternalContextCreated;
+
 		public ExternalContext()
 		{
+			if (ExternalContextCreated)
+				throw new Exception("ExternalContextCreated");
+
+			ExternalContextCreated = true;
+
 			var r = new Random();
 			a = "_" + r.Next(0x7ffffff);
 			b = "_" + r.Next(0x7ffffff);
@@ -64,6 +79,9 @@ namespace ScriptCoreLib.ActionScript.DOM
 						Handler =
 							id =>
 							{
+								if (InternalId != null)
+									throw new Exception("already has id");
+
 								InternalId = id;
 								InternalElement = new IHTMLObject { id = id };
 								InternalElement.Token.Context = this;
@@ -71,8 +89,16 @@ namespace ScriptCoreLib.ActionScript.DOM
 
 								Handler = e => "";
 
-								if (ElementChanged != null)
-									ElementChanged();
+								var t = new ScriptCoreLib.ActionScript.flash.utils.Timer(1, 1);
+
+								t.timerComplete +=
+									delegate
+									{
+										if (ElementChanged != null)
+											ElementChanged();
+									};
+
+								t.start();
 
 								return "";
 							};
@@ -286,29 +312,29 @@ namespace ScriptCoreLib.ActionScript.DOM
 
 
 			1.ExternalAtDelay(@"
-
-
+				var _x = document.getElementsByTagName('object');
 				
-				var x = document.getElementsByTagName('object');
 
-				for (var i = 0; i < x.length; i++)
+				for (var _i = 0; _i < _x.length; _i++)
 				{
 					try
 					{
-						var h = x[i]['" + a + @"']('" + a + @"');
+						var _h = _x[_i]['" + a + @"']('" + a + @"');
 
-						if (h == '" + b + @"')
+						if (_h == '" + b + @"')
 						{
-							x[i]['" + a + @"'](x[i].id);
+							_x[_i]['" + a + @"'](_x[_i].id);
 							break;
 						}
 					}
-					catch (ex)
+					catch (_ex)
 					{
 						
 
 					}
 				}
+
+				_x = null;
 			");
 		}
 
