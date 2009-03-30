@@ -14,7 +14,7 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 
 		// use code generator...
 		// open Class View, select CodeGenerator, Invoke Static Method
-		// "display, color, cursor, backgroundColor, textAlign, position, width, height, left, top, overflow, opacity, filter, border, marginTop, marginLeft"
+		// "display, color, cursor, background, backgroundColor, textAlign, position, width, height, left, top, overflow, opacity, filter, border, marginTop, marginLeft"
 
 		public IHTMLStyle()
 		{
@@ -30,6 +30,7 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 			this.__display = new ExternalContext.Token.Property(this.Token, "display");
 			this.__color = new ExternalContext.Token.Property(this.Token, "color");
 			this.__cursor = new ExternalContext.Token.Property(this.Token, "cursor");
+			this.__background = new ExternalContext.Token.Property(this.Token, "background");
 			this.__backgroundColor = new ExternalContext.Token.Property(this.Token, "backgroundColor");
 			this.__textAlign = new ExternalContext.Token.Property(this.Token, "textAlign");
 			this.__position = new ExternalContext.Token.Property(this.Token, "position");
@@ -74,6 +75,16 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 			}
 		}
 		internal ExternalContext.Token.Property __cursor;
+
+
+		public string background
+		{
+			set
+			{
+				this.__background.PropertyValue = value;
+			}
+		}
+		internal ExternalContext.Token.Property __background;
 
 
 		public string backgroundColor
