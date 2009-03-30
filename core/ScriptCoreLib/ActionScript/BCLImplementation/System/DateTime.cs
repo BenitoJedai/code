@@ -11,11 +11,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     ]
     internal class __DateTime
     {
+		internal Date InternalDate;
+
         public static __DateTime Now
         {
             get
             {
-                return new __DateTime {  };
+				return new __DateTime { InternalDate = new Date() };
             }
         }
 
@@ -29,6 +31,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 			get
 			{
 				return 0;
+			}
+		}
+
+		public int Year
+		{
+			get
+			{
+				return Convert.ToInt32(this.InternalDate.getFullYear());
 			}
 		}
     }
