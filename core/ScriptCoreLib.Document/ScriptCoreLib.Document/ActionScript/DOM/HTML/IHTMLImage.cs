@@ -15,6 +15,7 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 			this.tag = "img";
 
 			this.__src = new ExternalContext.Token.Property(this.Token, "src");
+			this.__alt = new ExternalContext.Token.Property(this.Token, "alt");
 		}
 
 
@@ -27,8 +28,15 @@ namespace ScriptCoreLib.ActionScript.DOM.HTML
 			}
 		}
 
-		
 
+		internal readonly ExternalContext.Token.Property __alt;
+		public string alt
+		{
+			set
+			{
+				this.__alt.PropertyValue = value;
+			}
+		}
 		
 	}
 }
