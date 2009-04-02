@@ -48,7 +48,7 @@ namespace ScriptCoreLib
 
 
 
-			string[] a = Filter.Split('.');
+			string[] a = Filter == null ? new string[0] : Filter.Split('.');
 
 			string[] b = new string[] { };
 

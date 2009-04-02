@@ -31,7 +31,7 @@ namespace OrcasScriptApplication.js
 			}
 
 			var btn = new IHTMLButton("Hello World!").AttachToDocument();
-
+			
 			var counter = new IHTMLSpan().AttachTo(btn);
 
 			counter.style.margin = "1em";
