@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\code.google\zmovies\MovieAgent\MovieAgentGadget\bin\Release</StartWorkingDirectory>
-    <StartArguments>ScriptCoreLib.dll -as</StartArguments>
+    <StartWorkingDirectory>C:\Users\arvo\Desktop\test1</StartWorkingDirectory>
+    <StartArguments>demo1.exe -js</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
