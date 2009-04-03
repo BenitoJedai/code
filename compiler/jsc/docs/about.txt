@@ -216,3 +216,5 @@ version history:
 	jsc: fixed optimization where stfld was being mistaken to ret cache variable
 19.03.2009
 	php: fixed newarr for php array_fill
+03.04.2009
+	c: fixed ldnull for ret obcode optimization

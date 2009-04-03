@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\Users\arvo\Desktop\test1</StartWorkingDirectory>
-    <StartArguments>demo1.exe -js</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\templates\OrcasNativeApplication\OrcasNativeApplication\bin\Release\</StartWorkingDirectory>
+    <StartArguments>OrcasNativeApplication.exe -x</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
