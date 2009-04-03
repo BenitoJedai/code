@@ -247,8 +247,8 @@ namespace jsc.Script
 
 					if (parameter == null)
 					{
-						if (AlwaysDoTypeCastOnParameters)
-							WriteTypeCast(_method.DeclaringType);
+						//if (AlwaysDoTypeCastOnParameters)
+						//    WriteTypeCast(_method.DeclaringType);
 
 						Emit(p, s[si]);
 					}

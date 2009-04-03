@@ -7,6 +7,21 @@ namespace OrcasNativeApplication
 {
 	using IntPtr = global::System.IntPtr;
 
+	[Script(IsNative = true, Header = "math.h", IsSystemHeader = true)]
+	public static class math_h
+	{
+
+		public static double sin(double e)
+		{
+			return default(double);
+		}
+
+		public static double cos(double e)
+		{
+			return default(double);
+		}
+	}
+
 
 	[Script(IsNative = true, Header = "crtdbg.h", IsSystemHeader = true)]
 	public static class crtdbg_h
