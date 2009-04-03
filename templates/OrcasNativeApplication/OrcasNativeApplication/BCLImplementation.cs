@@ -6,6 +6,20 @@ using ScriptCoreLib;
 
 namespace OrcasNativeApplication
 {
+	[Script(Implements = typeof(global::System.Math))]
+	internal class __Math
+	{
+		public static double Sin(double e)
+		{
+			return math_h.sin(e);
+		}
+
+		public static double Cos(double e)
+		{
+			return math_h.cos(e);
+		}
+	}
+
 	[Script(Implements = typeof(global::System.IO.File))]
 	internal class __File
 	{
@@ -55,6 +69,11 @@ namespace OrcasNativeApplication
 		public static void Beep(int f, int d)
 		{
 			windows_h.Beep(f, d);
+		}
+
+		public static void Write(double i)
+		{
+			stdio_h.printf("%g", __arglist(i));
 		}
 
 		public static void Write(int i)
