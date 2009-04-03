@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using System.Threading;
+using System.IO;
 
 namespace OrcasNativeApplication
 {
@@ -13,7 +14,11 @@ namespace OrcasNativeApplication
 		[Script(NoDecoration = true)]
 		public static int main()
 		{
-			Console.WriteLine("hello world");
+			Console.ForegroundColor = ConsoleColor.Red;
+			Console.WriteLine("[NativeClass1]");
+			Console.ForegroundColor = ConsoleColor.Yellow;
+
+			File.WriteAllText("log.txt", "this is the result");
 
 			var music = new List<int>
 			{
@@ -29,6 +34,8 @@ namespace OrcasNativeApplication
 				600
 			};
 
+
+			
 
 			foreach (char c in "hello world. c# code has been converted to c code. and you are running it!")
 			{

@@ -218,3 +218,4 @@ version history:
 	php: fixed newarr for php array_fill
 03.04.2009
 	c: fixed ldnull for ret obcode optimization
+	c: fixed enum type detection
