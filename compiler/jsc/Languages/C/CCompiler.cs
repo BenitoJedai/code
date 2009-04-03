@@ -1343,6 +1343,9 @@ namespace jsc.Languages.C
 
         public string GetDecoratedTypeName(Type z, bool bExternalAllowed, bool bPointer)
         {
+			if (z.IsEnum)
+				return GetDecoratedTypeName(Enum.GetUnderlyingType(z), bExternalAllowed);
+
             if (z.IsArray)
             {
                 return GetDecoratedTypeName(z.GetElementType(), true) + "*";
@@ -1360,6 +1363,9 @@ namespace jsc.Languages.C
             if (z == typeof(long)) return "signed long";
 
             ScriptAttribute t = ScriptAttribute.Of(z);
+
+			if (ScriptAttribute.IsAnonymousType(z))
+				t = new ScriptAttribute();
 
             if (t != null)
             {

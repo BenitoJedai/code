@@ -6,6 +6,19 @@ using ScriptCoreLib;
 
 namespace OrcasNativeApplication
 {
+	[Script(Implements = typeof(global::System.IO.File))]
+	internal class __File
+	{
+		// http://www.cplusplus.com/reference/clibrary/cstdio/fopen.html
+
+		public static void WriteAllText(string path, string contents)
+		{
+			var handle = stdio_h.fopen(path, "w+");
+			stdio_h.fputs(contents, handle);
+			stdio_h.fclose(handle);
+		}
+	}
+
 	[Script(Implements = typeof(global::System.String))]
 	internal class __String
 	{
@@ -32,6 +45,13 @@ namespace OrcasNativeApplication
 	[Script(Implements = typeof(global::System.Console))]
 	internal class __Console
 	{
+		public static ConsoleColor ForegroundColor
+		{
+			set
+			{
+				windows_h.SetConsoleTextAttribute(windows_h.GetStdHandle(windows_h.STD_OUTPUT_HANDLE), (int)value);
+			}
+		}
 		public static void Beep(int f, int d)
 		{
 			windows_h.Beep(f, d);
