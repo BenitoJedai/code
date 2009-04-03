@@ -33,7 +33,7 @@ namespace jsc.Languages.C
             CreateInstructionHandlers();
         }
 
-
+		
         private void CreateInstructionHandlers()
         {
             #region Ldftn
@@ -597,12 +597,12 @@ namespace jsc.Languages.C
             ScriptAttribute za = ScriptAttribute.Of(z);
 
   
-            if (za.Implements == null)
-            {
+			//if (za.Implements == null)
+			//{
                 // not all impl types can have ctors...
 
                 WriteTypeInstanceConstructors(z);
-            }
+			//}
 
 
             if (!IsHeaderOnlyMode)
@@ -1432,6 +1432,11 @@ namespace jsc.Languages.C
         {
             throw new Exception("The method or operation is not implemented.");
         }
+
+		public override void WriteKeywordNull()
+		{
+			this.Write("NULL");
+		}
     }
 
 

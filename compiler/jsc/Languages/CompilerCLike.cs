@@ -390,7 +390,7 @@ namespace jsc.Script
 			Write("false");
 		}
 
-		public void WriteKeywordNull()
+		public virtual void WriteKeywordNull()
 		{
 			Write("null");
 		}
