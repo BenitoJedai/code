@@ -32,5 +32,49 @@ namespace ScriptCoreLib.ActionScript.Extensions
                 SetValue(Subject, Key, value);
             }
         }
+
+		[Script]
+		public class Delegates : DynamicContainer, IEnumerable<object>
+		{
+			public Delegates()
+			{
+				this.Subject = new object();
+
+				// remember in actionscript the object is extendable aka dynamic
+			}
+
+			public void Add<T>(string name, Action<T> handler)
+			{
+				Add(name, (Delegate)handler);
+			}
+
+			public void Add<T, R>(string name, Converter<T, R> handler)
+			{
+				Add(name, (Delegate)handler);
+
+			}
+			public void Add(string name, Delegate handler)
+			{
+				this[name] = handler.ToFunction();
+			}
+
+			#region IEnumerable<object> Members
+
+			public IEnumerator<object> GetEnumerator()
+			{
+				throw new NotImplementedException();
+			}
+
+			#endregion
+
+			#region IEnumerable Members
+
+			System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+			{
+				throw new NotImplementedException();
+			}
+
+			#endregion
+		}
     }
 }
