@@ -38,7 +38,7 @@ namespace ScriptCoreLib.ActionScript.flash.net
 		public bool checkPolicyFile { get; set; }
 
 		/// <summary>
-		/// Specifies the object on which callback methods are invoked.
+		/// Specifies the object on which callback methods are invoked to handle streaming or FLV file data.
 		/// </summary>
 		public object client { get; set; }
 
@@ -48,14 +48,44 @@ namespace ScriptCoreLib.ActionScript.flash.net
 		public double currentFPS { get; private set; }
 
 		/// <summary>
+		/// [read-only] The identifier of the far end that is connected to this NetStream instance.
+		/// </summary>
+		public string farID { get; private set; }
+
+		/// <summary>
+		/// [read-only] A value chosen substantially by the other end of this stream, unique to this connection.
+		/// </summary>
+		public string farNonce { get; private set; }
+
+		/// <summary>
+		/// [read-only] Returns a NetStreamInfo object whose properties contain statistics about the quality of service.
+		/// </summary>
+		public NetStreamInfo info { get; private set; }
+
+		/// <summary>
 		/// [read-only] The number of seconds of data in the subscribing stream's buffer in live (unbuffered) mode.
 		/// </summary>
 		public double liveDelay { get; private set; }
 
 		/// <summary>
+		/// Specifies how long to buffer messages during pause mode, in seconds.
+		/// </summary>
+		public double maxPauseBufferTime { get; set; }
+
+		/// <summary>
+		/// [read-only] A value chosen substantially by this end of the stream, unique to this connection.
+		/// </summary>
+		public string nearNonce { get; private set; }
+
+		/// <summary>
 		/// [read-only] The object encoding (AMF version) for this NetStream object.
 		/// </summary>
 		public uint objectEncoding { get; private set; }
+
+		/// <summary>
+		/// [read-only] An object that holds all of the subscribing NetStream instances that are listening to this publishing NetStream instance.
+		/// </summary>
+		public NetStream[] peerStreams { get; private set; }
 
 		/// <summary>
 		/// Controls sound in this NetStream object.

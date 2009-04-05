@@ -223,6 +223,7 @@
     <Compile Include="ActionScript\Extensions\flash\util\Timer.cs" />
     <Compile Include="ActionScript\flash\events\SyncEvent.cs" />
     <Compile Include="ActionScript\flash\net\LocalConnection.cs" />
+    <Compile Include="ActionScript\flash\net\NetStreamInfo.cs" />
     <Compile Include="ActionScript\flash\net\SharedObject.cs" />
     <Compile Include="ActionScript\fl\video\FLVPlayback.cs" />
     <Compile Include="ActionScript\fl\video\INCManager.cs" />
