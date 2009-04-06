@@ -195,6 +195,18 @@ namespace jsc.Languages.C
 			CIW[OpCodes.Newobj] =
 				delegate(CodeEmitArgs e)
 				{
+					var Target = e.i.TargetConstructor.DeclaringType;
+
+					if (Target.IsDelegate())
+					{
+						if (Target.DeclaringType != null)
+							if (Target.DeclaringType.ToScriptAttributeOrDefault().IsNative)
+							{
+								Emit(e.p, e.i.StackBeforeStrict[1]);
+								return;
+							}
+					}
+
 					WriteTypeConstruction(e);
 
 				};
@@ -594,7 +606,17 @@ namespace jsc.Languages.C
 
 		public override bool CompileType(Type z)
 		{
+			if (z.IsDelegate())
+			{
+				// native function pointers 
+
+				if (z.DeclaringType != null)
+					if (z.DeclaringType.ToScriptAttributeOrDefault().IsNative)
+						return false;
+			}
+
 			Console.WriteLine(z.FullName);
+
 
 			ScriptAttribute za = ScriptAttribute.Of(z);
 

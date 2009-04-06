@@ -54,6 +54,7 @@
     <Compile Include="ActionScript\Extensions.cs" />
     <Compile Include="Alchemy\Program.cs" />
     <Compile Include="Alchemy\System\AS3.cs" />
+    <Compile Include="Alchemy\System\math.cs" />
     <Compile Include="Alchemy\System\stdio.cs" />
     <Compile Include="Alchemy\System\stdlib.cs" />
     <Compile Include="KnownAssets.cs" />
