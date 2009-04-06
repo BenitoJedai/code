@@ -58,6 +58,20 @@ namespace ScriptCoreLib.ActionScript.Extensions
 				this[name] = handler.ToFunction();
 			}
 
+
+			public Converter<T, R> ToConverter<T, R>(string name)
+			{
+				return 
+					t =>
+					{
+						var f = this[name] as Function;
+
+						var a = new ScriptCoreLib.ActionScript.Array();
+						a.push(t);
+						return (R)f.apply(this.Subject, a); 
+					};
+			}
+
 			#region IEnumerable<object> Members
 
 			public IEnumerator<object> GetEnumerator()

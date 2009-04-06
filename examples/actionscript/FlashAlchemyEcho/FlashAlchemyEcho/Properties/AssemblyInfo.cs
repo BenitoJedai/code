@@ -39,6 +39,6 @@ using ScriptCoreLib;
 
 [assembly:
 	Script,
-	//ScriptTypeFilter(ScriptType.ActionScript, typeof(FlashAlchemyEcho.ActionScript.FlashAlchemyEcho)),
+	ScriptTypeFilter(ScriptType.ActionScript, typeof(FlashAlchemyEcho.ActionScript.FlashAlchemyEcho)),
 	ScriptTypeFilter(ScriptType.C, typeof(FlashAlchemyEcho.Alchemy.Program))
 ]
