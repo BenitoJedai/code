@@ -62,6 +62,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Select.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.SelectMany.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Where.cs" />
+    <Compile Include="ActionScript\Extensions\DynamicContainer.cs" />
     <Compile Include="Shared\BCLImplementation\System\DefinedError.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\IOrderedEnumerable.cs" />
     <Compile Include="ActionScript\Extensions\QueryExtensions.cs" />

@@ -219,3 +219,5 @@ version history:
 03.04.2009
 	c: fixed ldnull for ret obcode optimization
 	c: fixed enum type detection
+06.04.2009
+	c: added Stsfld

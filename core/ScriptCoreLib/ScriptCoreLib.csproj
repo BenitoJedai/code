@@ -202,6 +202,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\IO\TextReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\Serialization\ISerializable.cs" />
+    <Compile Include="ActionScript\Extensions\DynamicContainer.cs" />
     <Compile Include="ActionScript\Extensions\ExternalExtensions.cs" />
     <Compile Include="ActionScript\Extensions\flash\display\DisplayObject.cs" />
     <Compile Include="ActionScript\Extensions\flash\display\InteractiveObject.cs" />
@@ -336,7 +337,6 @@
     <Compile Include="ActionScript\QName.cs" />
     <Compile Include="ActionScript\uint.cs" />
     <Compile Include="ActionScript\Date.cs" />
-    <Compile Include="ActionScript\Extensions\DynamicContainer.cs" />
     <Compile Include="ActionScript\Extensions\Class.cs" />
     <Compile Include="ActionScript\flash\display\Shape.cs" />
     <Compile Include="ActionScript\flash\display\StageAlign.cs" />

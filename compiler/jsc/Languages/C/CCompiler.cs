@@ -59,8 +59,19 @@ namespace jsc.Languages.C
 					};
 			#endregion
 
+			CIW[OpCodes.Conv_U] =
+			   delegate(CodeEmitArgs e)
+			   {
+				   if (e.FirstOnStack.SingleStackInstruction.IsAnyOpCodeOf(OpCodes.Ldloca_S, OpCodes.Ldloca))
+					   EmitFirstOnStack(e);
+				   else
+					   ConvertTypeAndEmit(e, "unsigned int");
+			   };
+
 			CIW[OpCodes.Conv_U2] =
 			   delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "unsigned char"); };
+			CIW[OpCodes.Conv_U4] =
+			   delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "unsigned int"); };
 
 			CIW[OpCodes.Conv_I4] =
 				delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "signed int"); };
@@ -103,6 +114,7 @@ namespace jsc.Languages.C
 			CIW[OpCodes.Ldelem_Ref,
 				OpCodes.Ldelem_U1,
 				OpCodes.Ldelem_U2,
+				OpCodes.Ldelem_U4,
 				OpCodes.Ldelem_I1,
 				OpCodes.Ldelem_I4,
 				OpCodes.Ldelem
@@ -285,6 +297,32 @@ namespace jsc.Languages.C
 					Write(e.i.TargetField.Name);
 				};
 
+			CIW[OpCodes.Stsfld] =
+				delegate(CodeEmitArgs e)
+				{
+					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+
+					WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
+					Write("_");
+					Write(e.i.TargetField.Name);
+
+					WriteAssignment();
+
+					EmitFirstOnStack(e);
+				};
+
+			CIW[OpCodes.Ldsflda] =
+				delegate(CodeEmitArgs e)
+				{
+					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+
+					Write("&");
+					WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
+					Write("_");
+					Write(e.i.TargetField.Name);
+				};
+
+
 			//#region sfld
 			//CIW[OpCodes.Ldsfld] =
 			//    delegate(CodeEmitArgs e)
@@ -320,6 +358,8 @@ namespace jsc.Languages.C
 			//#endregion
 
 			#region  operands
+			CIW[OpCodes.Rem,
+				OpCodes.Rem_Un] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "%"); };
 			CIW[OpCodes.Xor] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "^"); };
 			CIW[OpCodes.Shl] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<<"); };
 			CIW[OpCodes.Shr] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">>"); };
@@ -393,14 +433,22 @@ namespace jsc.Languages.C
 
 
 			#region Ldloc
+			CIW[
+				OpCodes.Ldloca,
+				OpCodes.Ldloca_S] =
+				 delegate(CodeEmitArgs e)
+				 {
+					 Write("&");
+					 WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.TargetVariable);
+
+				 };
+
 			CIW[OpCodes.Ldloc_0,
 				OpCodes.Ldloc_1,
 				OpCodes.Ldloc_2,
 				OpCodes.Ldloc_3,
 				OpCodes.Ldloc_S,
-				OpCodes.Ldloc,
-				OpCodes.Ldloca,
-				OpCodes.Ldloca_S] =
+				OpCodes.Ldloc] =
 			   delegate(CodeEmitArgs e)
 			   {
 				   #region inline assigment
@@ -625,7 +673,14 @@ namespace jsc.Languages.C
 			{
 				// not all impl types can have ctors...
 
-				WriteTypeInstanceConstructors(z);
+				if (z.IsAbstract && z.IsSealed)
+				{
+					// skip em
+				}
+				else
+				{
+					WriteTypeInstanceConstructors(z);
+				}
 			}
 
 
@@ -698,7 +753,6 @@ namespace jsc.Languages.C
 
 				if (a == null || !a.HasNoPrototype)
 				{
-
 					WriteIdent();
 					Write("typedef struct tag_" + GetDecoratedTypeName(e, false));
 
@@ -1299,7 +1353,14 @@ namespace jsc.Languages.C
 				if (s == null || s.IsNative)
 					continue;
 
-				WriteTypeDefPrototype(u);
+				if (u.IsSealed && u.IsAbstract)
+				{
+					// skip
+				}
+				else
+				{
+					WriteTypeDefPrototype(u);
+				}
 			}
 
 			foreach (Type u in this.MySession.Types)

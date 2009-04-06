@@ -63,7 +63,7 @@ echo - %2
 :: -compiler.verbose-stacktraces 
 :: call C:\util\flex2\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 :: mxmlc.exe -library-path+=stringecho.swc -target-player=10.0.0 as3/EchoTest.as
-dir
+::dir
 ::call C:\util\flex33\bin\mxmlc.exe -debug -library-path+=%TargetFileName%.swc -target-player=10.0.0 -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 call C:\util\flex33\bin\mxmlc.exe -optimize -library-path+=%TargetFileName%.swc -target-player=10.0.0 -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 goto :eof

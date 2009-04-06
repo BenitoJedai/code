@@ -29,8 +29,8 @@ namespace FlashPlasma.ActionScript
 
 		// http://www.unitzeroone.com/blog/2009/04/06/more-play-with-alchemy-lookup-table-effects/
 
-		public const int DefaultWidth = 600;
-		public const int DefaultHeight = 600;
+		public const int DefaultWidth = 800;
+		public const int DefaultHeight = 800;
 
 		/**
 		 * Contains the generated plasma pattern
