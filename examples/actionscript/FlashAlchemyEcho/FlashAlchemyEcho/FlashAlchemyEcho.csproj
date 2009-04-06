@@ -50,8 +50,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\Alchemy\CLibInit.cs" />
     <Compile Include="ActionScript\OrcasFlashApplication.cs" />
     <Compile Include="ActionScript\Extensions.cs" />
+    <Compile Include="Alchemy\Program.echo.cs" />
     <Compile Include="Alchemy\Program.cs" />
     <Compile Include="Alchemy\System\AS3.cs" />
     <Compile Include="Alchemy\System\math.cs" />
@@ -65,7 +67,7 @@
     <Content Include="docs\about.txt" />
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
-    <EmbeddedResource Include="web\assets\OrcasFlashApplication\Preview.png">
+    <EmbeddedResource Include="web\assets\FlashAlchemyEcho\Preview.png">
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

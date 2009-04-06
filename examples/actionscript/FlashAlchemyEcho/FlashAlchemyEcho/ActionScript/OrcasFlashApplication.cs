@@ -20,43 +20,40 @@ namespace FlashAlchemyEcho.ActionScript
 	{
 
 
-
 		/// <summary>
 		/// Default constructor
 		/// </summary>
 		public FlashAlchemyEcho()
 		{
 
-			for (var j = 0.0; j < 1; j += 0.1)
-			{
-				this.graphics.beginFill(0xff0000, j);
-				this.graphics.drawCircle(40, 40, 40 * (1.0 - j));
-				this.graphics.endFill();
-			}
+			var c = new cmodule.FlashAlchemyEcho.CLibInit();
 
-			var step = 100;
-			for (int i = 0; i < 4; i++)
-			{
-				addChild(
-				   new TextField
-				   {
-					   text = "hello world",
-					   x = step * i,
-					   y = 20,
-					   textColor = 0x00ff00,
-					   sharpness = 400
-				   });
-			}
+			var x = new DynamicContainer.Delegates { Subject = c.init() };
 
+			
 			var t = new TextField
-				{
-					text = "powered by jsc",
-					background = true,
-					x = 20,
-					y = 40,
-					alwaysShowSelection = true,
-				}.AttachTo(this);
+			{
+				multiline = true,
+				text = "powered by jsc",
+				background = true,
+				x = 20,
+				y = 40,
+				width = 300,
+				alwaysShowSelection = true,
+			}.AttachTo(this);
 
+			t.text = x.ToConverter<string, string>("echo")("goo");
+
+
+			//var echo = x["echo"] as Function;
+
+			//var a = new ScriptCoreLib.ActionScript.Array();
+			//a.push("yo");
+			//t.text = (string)echo.apply(x.Subject, a); 
+			//t.text = echo.GetType().ToString();
+
+
+			//t.text = x.Invoke<string, string>("echo", "foo");
 
 			KnownEmbeddedResources.Default[KnownAssets.Path.Assets + "/Preview.png"].ToBitmapAsset().AttachTo(this).MoveTo(100, 200);
 		}

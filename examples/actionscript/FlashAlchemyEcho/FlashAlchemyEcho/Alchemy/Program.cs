@@ -10,15 +10,8 @@ namespace FlashAlchemyEcho.Alchemy
 	using AS3_Val = AS3_h._AS3_Val;
 
 	[Script]
-	public static class Program
+	public static partial class Program
 	{
-		[Script(NoDecoration = true)]
-		static AS3_Val echo(object self, AS3_Val args)
-		{
-			var nullString2 = "alchemy via c# via jsc";
-
-			return AS3_h.AS3_String(nullString2);
-		}
 
 		[Script(NoDecoration = true)]
 		static int main()
