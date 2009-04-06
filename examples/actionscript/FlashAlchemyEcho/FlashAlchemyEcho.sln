@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashAlchemyEcho", "FlashAlchemyEcho\FlashAlchemyEcho.csproj", "{C8198F57-1CE2-4C68-B012-0E438821EDC5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C8198F57-1CE2-4C68-B012-0E438821EDC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8198F57-1CE2-4C68-B012-0E438821EDC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8198F57-1CE2-4C68-B012-0E438821EDC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8198F57-1CE2-4C68-B012-0E438821EDC5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
