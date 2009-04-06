@@ -29,8 +29,8 @@ namespace FlashPlasma.ActionScript
 
 		// http://www.unitzeroone.com/blog/2009/04/06/more-play-with-alchemy-lookup-table-effects/
 
-		public const int DefaultWidth = 800;
-		public const int DefaultHeight = 800;
+		public const int DefaultWidth = 600;
+		public const int DefaultHeight = 600;
 
 		/**
 		 * Contains the generated plasma pattern
@@ -106,23 +106,26 @@ namespace FlashPlasma.ActionScript
 							enterFrame2();
 						};
 
-					var img = KnownEmbeddedResources.Default[KnownAssets.Path.Assets + "/Preview.png"].ToBitmapAsset();
+					KnownEmbeddedResources.Default[KnownAssets.Path.Assets + "/jsc.png"].ToBitmapAsset().AttachTo(this).MoveTo(DefaultWidth - 128, DefaultHeight - 128);
+
+
+					//var img = KnownEmbeddedResources.Default[KnownAssets.Path.Assets + "/Preview.png"].ToBitmapAsset();
 					
-					var imgs = new Sprite().AttachTo(this).MoveTo(100, 200);
+					//var imgs = new Sprite().AttachTo(this).MoveTo(100, 200);
 
-					img.AttachTo(imgs);
+					//img.AttachTo(imgs);
 
-					imgs.mouseOver +=
-						delegate
-						{
-							bitmap.filters = new BitmapFilter[] { new BlurFilter() };
-						};
+					//imgs.mouseOver +=
+					//    delegate
+					//    {
+					//        bitmap.filters = new BitmapFilter[] { new BlurFilter() };
+					//    };
 
-					imgs.mouseOut +=
-						delegate
-						{
-							bitmap.filters = null;
-						};
+					//imgs.mouseOut +=
+					//    delegate
+					//    {
+					//        bitmap.filters = null;
+					//    };
 
 					
 				}
