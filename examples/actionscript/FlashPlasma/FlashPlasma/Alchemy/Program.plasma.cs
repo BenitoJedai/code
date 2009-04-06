@@ -19,22 +19,19 @@ namespace FlashPlasma.Alchemy
 		static uint[] newPlasma;
 
 
-		//[Script(NoDecoration = true)]
 		static AS3_Val generatePlasma(object self, AS3_Val args)
 		{
-			int x, y, r, g, b, index = 0;
-
 			AS3_h.AS3_ArrayValue(args, "IntType, IntType", __arglist(ref width, ref height));
 
 			palette = new uint[256];
 			plasma = new uint[width * height];
 			newPlasma = new uint[width * height];
 
-			for (x = 0; x < 256; x++)
+			for (var x = 0; x < 256; x++)
 			{
-				r = (int)(128.0 + 128 * math_h.sin(Math.PI * x / 16.0));
-				g = (int)(128.0 + 128 * math_h.sin(Math.PI * x / 128.0));
-				b = 0;
+				var r = (int)(128.0 + 128 * Math.Sin(Math.PI * x / 16.0));
+				var g = (int)(128.0 + 128 * Math.Sin(Math.PI * x / 128.0));
+				var b = 0;
 
 				uint color = (uint)(r << 16 | g << 8 | b);
 
@@ -43,15 +40,17 @@ namespace FlashPlasma.Alchemy
 				palette[x] = color;
 			}
 
-			for (x = 0; x < width; x++)
+			int index = 0;
+
+			for (var x = 0; x < width; x++)
 			{
-				for (y = 0; y < height; y++)
+				for (var y = 0; y < height; y++)
 				{
 					uint color = (uint)((
-						128.0 + (128.0 * math_h.sin(x / 16.0)) +
-						128.0 + (128.0 * math_h.sin(y / 8.0)) +
-						128.0 + (128.0 * math_h.sin((x + y) / 16.0)) +
-						128.0 + (128.0 * math_h.sin(math_h.sqrt(x * x + y * y) / 8.0))
+						128.0 + (128.0 * Math.Sin(x / 16.0)) +
+						128.0 + (128.0 * Math.Sin(y / 8.0)) +
+						128.0 + (128.0 * Math.Sin((x + y) / 16.0)) +
+						128.0 + (128.0 * Math.Sin(math_h.sqrt(x * x + y * y) / 8.0))
 					) / 4);
 
 
@@ -65,17 +64,18 @@ namespace FlashPlasma.Alchemy
 			return AS3_h.AS3_Ptr(plasma);
 		}
 
-		//[Script(NoDecoration = true)]
 		static AS3_Val shiftPlasma(object self, AS3_Val args)
 		{
-			int shift = 0, x, y, index = 0, paletteIndex;
-			AS3_h.AS3_ArrayValue(args, "IntType", __arglist( &shift));
+			var shift = 0;
+			var index = 0;
 
-			for (x = 0; x < width; x++)
+			AS3_h.AS3_ArrayValue(args, "IntType", __arglist( ref shift));
+
+			for (var x = 0; x < width; x++)
 			{
-				for (y = 0; y < height; y++)
+				for (var y = 0; y < height; y++)
 				{
-					paletteIndex = (int)( (uint)(plasma[index] + shift) % 256);
+					var paletteIndex = (int)( (uint)(plasma[index] + shift) % 256);
 					newPlasma[index] = palette[paletteIndex];
 					index++;
 				}

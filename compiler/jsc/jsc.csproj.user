@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\FlashAlchemyEcho\FlashAlchemyEcho\bin\Release</StartWorkingDirectory>
-    <StartArguments>FlashAlchemyEcho.dll -x</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\FlashPlasma\FlashPlasma\bin\Phase1\</StartWorkingDirectory>
+    <StartArguments>FlashPlasma.dll -x</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
