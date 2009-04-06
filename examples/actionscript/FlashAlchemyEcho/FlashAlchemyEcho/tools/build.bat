@@ -19,6 +19,11 @@ if '%ERRORLEVEL%' == '-1' (
 )
 :: Namespace name, type name
 ::@call :mxmlc %1/ActionScript %1
+echo running bash...
+::call c:\cygwin\bin\bash.exe -login -c "where gcc"
+set bash_path=/cygdrive/c/work/jsc.svn/examples/actionscript/FlashAlchemyEcho/FlashAlchemyEcho/bin/Release/web
+call c:\cygwin\bin\bash.exe -login -c "cd %bash_path% && gcc %TargetFileName%.c -O3 -Wall -swc -o %TargetFileName%.swc"
+:: gcc FlashAlchemyEcho.dll.c -O3 -Wall -swc -o stringecho.swc
 
 goto :eof
 
