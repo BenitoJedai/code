@@ -7,7 +7,7 @@ using ScriptCoreLib;
 namespace FlashAlchemyEcho.Alchemy.System
 {
 	/// <summary>
-	/// http://www.unet.univie.ac.at/aix/libs/basetrf1/malloc.htm
+	/// http://www.opengroup.org/onlinepubs/009695399/functions/malloc.html
 	/// </summary>
 	/// 
 	[Script(IsNative = true, Header = "stdlib.h", IsSystemHeader = true)]
