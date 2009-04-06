@@ -29,9 +29,9 @@ namespace FlashPlasma.Alchemy
 
 			for (var x = 0; x < 256; x++)
 			{
-				var r = (int)(128.0 + 128 * Math.Sin(Math.PI * x / 16.0));
+				var b = (int)(128.0 + 128 * Math.Sin(Math.PI * x / 16.0));
 				var g = (int)(128.0 + 128 * Math.Sin(Math.PI * x / 128.0));
-				var b = 0;
+				var r = 0;
 
 				uint color = (uint)(r << 16 | g << 8 | b);
 

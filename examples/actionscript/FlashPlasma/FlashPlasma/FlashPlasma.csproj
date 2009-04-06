@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\FlashPlasma\jsc.png" />
     <EmbeddedResource Include="web\assets\FlashPlasma\Preview.png">
     </EmbeddedResource>
   </ItemGroup>
