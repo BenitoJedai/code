@@ -18,9 +18,19 @@ rem 2003
 set _toolkit=c:\Program Files\Microsoft Visual Studio 9.0\VC
 set _init=%_toolkit%\vcvarsall.bat
 
+if exist %_init% goto :found
+
 rem 2005
-rem set _toolkit=X:\util\vs2005re\VC
-rem set _init=%_toolkit%\vcvarsall.bat
+
+set _toolkit=D:\Program Files\Microsoft Visual Studio 9.0\VC
+set _init=%_toolkit%\vcvarsall.bat
+
+if exist "%_init%" goto :found
+
+echo vcvarsall.bat not found
+goto :eof
+
+:found
 
 echo - setting vars
 call "%_init%" >nul
