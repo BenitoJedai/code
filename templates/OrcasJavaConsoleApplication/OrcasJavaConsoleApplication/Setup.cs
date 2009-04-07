@@ -8,24 +8,8 @@ using System.Xml.Linq;
 
 using ScriptCoreLib;
 
-using EntryPointProgram = OrcasJavaConsoleApplication.source.java.Program;
-using EntryPointSettings = OrcasJavaConsoleApplication.source.java.Settings;
-
-
-
-namespace AppletTemplate.source.csharp
+namespace OrcasJavaConsoleApplication
 {
-    /*
-    class SettingsInfo
-    {
-        public string ProjectName { get; set; }
-        public string CompilandNamespace0 { get; set; }
-        public string CompilandNamespace1 { get; set; }
-        public string CompilandType { get; set; }
-        public string CompilandFullName { get; set; }
-        public string PackageName { get; set; }
-    }*/
-
     class Setup
     {
         public const string SettingsFileName = "setup.settings.cmd";
@@ -35,12 +19,12 @@ namespace AppletTemplate.source.csharp
 
             var settings = new 
             {
-                ProjectName = EntryPointSettings.Alias,
-                CompilandNamespace0 = EntryPointSettings.AliasNamespace.Replace(".", "/"),
-                CompilandNamespace1 = EntryPointSettings.AliasNamespace,
-                CompilandType = typeof(EntryPointProgram).Name,
-                CompilandFullName = EntryPointSettings.AliasNamespace + "." + typeof(EntryPointProgram).Name,
-                PackageName = EntryPointSettings.Alias + ".jar",
+				PackageName = Path.GetFileNameWithoutExtension( typeof(Program).Assembly.Location) + ".jar",
+				ProjectName = typeof(Program).Name,
+				CompilandNamespace0 = typeof(Program).Namespace.Replace(".", "/"),
+				CompilandNamespace1 = typeof(Program).Namespace,
+				CompilandType = typeof(Program).Name,
+				CompilandFullName = typeof(Program).Namespace + "." + typeof(Program).Name,
             };
 
             using (var w = new StringWriter())
