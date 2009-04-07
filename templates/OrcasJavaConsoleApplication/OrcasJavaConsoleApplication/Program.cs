@@ -4,7 +4,7 @@ using System;
 using ScriptCoreLib;
 
 
-namespace OrcasJavaConsoleApplication.source.java
+namespace OrcasJavaConsoleApplication
 {
     [Script]
     public class Program
@@ -45,7 +45,7 @@ namespace OrcasJavaConsoleApplication.source.java
                 Thread.Sleep(500);
 
                 Console.Write(dot);
-                Console.Beep();
+				//Console.Beep();
             }
 
             Console.WriteLine(Text);

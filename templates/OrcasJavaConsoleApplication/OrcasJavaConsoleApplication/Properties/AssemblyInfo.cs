@@ -1,35 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-
 using ScriptCoreLib;
-
-using EntryPointProgram = OrcasJavaConsoleApplication.source.java.Program;
-using EntryPointSettings = OrcasJavaConsoleApplication.source.java.Settings;
-
-
-[assembly:
-    Script,
-    ScriptTypeFilter(ScriptType.Java, "*.source.java")
-]
-
-[assembly:
-    /*
-     todo: if a referenced assembly already defines renames then they must be merged
-     
-    ScriptNamespaceRename(
-        NativeNamespaceName = "javax.common.runtime",
-        VirtualNamespaceName = EntryPointSettings.AliasNamespace + ".util"
-    ),
-    ScriptNamespaceRename(
-        NativeNamespaceName = "javax.common.wrapper",
-        VirtualNamespaceName = EntryPointSettings.AliasNamespace + ".util"
-    ),*/
-    ScriptNamespaceRename(
-        NativeNamespaceName = "OrcasJavaConsoleApplication.source.java",
-        VirtualNamespaceName = EntryPointSettings.AliasNamespace
-    )
-]
 
 
 // General Information about an assembly is controlled through the following 
@@ -63,3 +35,9 @@ using EntryPointSettings = OrcasJavaConsoleApplication.source.java.Settings;
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+[assembly:
+	Script,
+	ScriptTypeFilter(ScriptType.Java, typeof(OrcasJavaConsoleApplication.Program))
+]
+
