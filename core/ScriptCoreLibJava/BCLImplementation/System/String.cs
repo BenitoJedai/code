@@ -6,269 +6,282 @@ using javax.common.runtime;
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
 
-    [Script(
-        Implements = typeof(global::System.String),
-        ImplementationType = typeof(global::java.lang.String))]
-    internal class __String
-    {
-        [Script(ExternalTarget = "charAt")]
-        public char get_Chars(int i)
-        {
-            return default(char);
-        }
+	[Script(
+		Implements = typeof(global::System.String),
+		ImplementationType = typeof(global::java.lang.String),
+		InternalConstructor = true
+		)]
+	internal class __String
+	{
+		public __String(char[] c)
+		{
+		}
 
-        [Script(ExternalTarget = "trim")]
-        public string Trim()
-        {
-            return default(string);
-        }
+		public static string InternalConstructor(char[] c)
+		{
+			var w = new java.lang.String(c);
 
-        [Script(DefineAsStatic = true)]
-        public string PadLeft(int totalWidth, char paddingChar)
-        {
-            string u = (string)(object)this;
-            string p = Convert.ToString(paddingChar);
+			return (string)(object)w;
+		}
 
-            while (u.Length < totalWidth)
-                u = p + u;
+		[Script(ExternalTarget = "charAt")]
+		public char get_Chars(int i)
+		{
+			return default(char);
+		}
 
-            return u;
-        }
+		[Script(ExternalTarget = "trim")]
+		public string Trim()
+		{
+			return default(string);
+		}
+
+		[Script(DefineAsStatic = true)]
+		public string PadLeft(int totalWidth, char paddingChar)
+		{
+			string u = (string)(object)this;
+			string p = Convert.ToString(paddingChar);
+
+			while (u.Length < totalWidth)
+				u = p + u;
+
+			return u;
+		}
 
 
-        [Script(ExternalTarget = "substring")]
-        public string Substring(int start)
-        {
-            return default(string);
-        }
+		[Script(ExternalTarget = "substring")]
+		public string Substring(int start)
+		{
+			return default(string);
+		}
 
-        [Script(DefineAsStatic = true)]
-        public string Substring(int start, int len)
-        {
-            global::java.lang.String s = (global::java.lang.String)(object)this;
+		[Script(DefineAsStatic = true)]
+		public string Substring(int start, int len)
+		{
+			global::java.lang.String s = (global::java.lang.String)(object)this;
 
 
 
-            return s.substring(start, start + len);
-        }
+			return s.substring(start, start + len);
+		}
 
 #if JAVA5
 
         [Script(ExternalTarget = "replace")]
 #else
-        [Script(DefineAsStatic = true)]
+		[Script(DefineAsStatic = true)]
 #endif
-        public string Replace(string a, string b)
-        {
-            return Convert.ReplaceString((string)(object)this, a, b);
-        }
+		public string Replace(string a, string b)
+		{
+			return Convert.ReplaceString((string)(object)this, a, b);
+		}
 
-        [Script(ExternalTarget = "replace")]
-        public string Replace(char a, char b)
-        {
-            return default(string);
-        }
+		[Script(ExternalTarget = "replace")]
+		public string Replace(char a, char b)
+		{
+			return default(string);
+		}
 
-        [Script(DefineAsStatic = true)]
-        public bool Contains(string a)
-        {
-            return IndexOf(a) > -1;
-        }
-
-
-        [Script(ExternalTarget = "indexOf")]
-        public int IndexOf(string str)
-        {
-            return default(int);
-        }
+		[Script(DefineAsStatic = true)]
+		public bool Contains(string a)
+		{
+			return IndexOf(a) > -1;
+		}
 
 
-        [Script(ExternalTarget = "indexOf")]
-        public int IndexOf(string str, int pos)
-        {
-            return default(int);
-        }
-
-        [Script(ExternalTarget = "indexOf")]
-        public int IndexOf(char str)
-        {
-            return default(int);
-        }
-
-        [Script(ExternalTarget = "indexOf")]
-        public int IndexOf(char str, int pos)
-        {
-            return default(int);
-        }
-
-        [Script(ExternalTarget = "lastIndexOf")]
-        public int LastIndexOf(string str)
-        {
-            return default(int);
-        }
-
-        [Script(ExternalTarget = "lastIndexOf")]
-        public int LastIndexOf(char str)
-        {
-            return default(int);
-        }
-
-        [Script(DefineAsStatic = true)]
-        public string[] Split(char[] e)
-        {
-            object a = (object)this;
-            return Convert.SplitStringByChar((string)a, e[0]);
-        }
-
-        [Script(ExternalTarget = "startsWith")]
-        public bool StartsWith(string prefix)
-        {
-            return default(bool);
-        }
-
-        [Script(ExternalTarget = "endsWith")]
-        public bool EndsWith(string suffix)
-        {
-            return default(bool);
-        }
-
-        [Script(ExternalTarget = "equals")]
-        public bool Equals(string e)
-        {
-            return default(bool);
-        }
-
-        [Script(ExternalTarget = "compareTo")]
-        public int CompareTo(string e)
-        {
-            return default(int);
-        }
-
-        [Script(ExternalTarget = "toUpperCase")]
-        public string ToUpper()
-        {
-            return default(string);
-        }
-
-        [Script(ExternalTarget = "toLowerCase")]
-        public string ToLower()
-        {
-            return default(string);
-        }
-
-        [Script(ExternalTarget = "equals", DefineAsInstance = true)]
-        public static bool operator ==(__String a, __String b)
-        {
-            return default(bool);
-        }
+		[Script(ExternalTarget = "indexOf")]
+		public int IndexOf(string str)
+		{
+			return default(int);
+		}
 
 
-        public static bool operator !=(__String a, __String b)
-        {
-            return !(a == b);
-        }
+		[Script(ExternalTarget = "indexOf")]
+		public int IndexOf(string str, int pos)
+		{
+			return default(int);
+		}
 
-        public int Length
-        {
-            [Script(ExternalTarget = "length")]
-            get
-            {
-                return default(int);
-            }
-        }
+		[Script(ExternalTarget = "indexOf")]
+		public int IndexOf(char str)
+		{
+			return default(int);
+		}
+
+		[Script(ExternalTarget = "indexOf")]
+		public int IndexOf(char str, int pos)
+		{
+			return default(int);
+		}
+
+		[Script(ExternalTarget = "lastIndexOf")]
+		public int LastIndexOf(string str)
+		{
+			return default(int);
+		}
+
+		[Script(ExternalTarget = "lastIndexOf")]
+		public int LastIndexOf(char str)
+		{
+			return default(int);
+		}
+
+		[Script(DefineAsStatic = true)]
+		public string[] Split(char[] e)
+		{
+			object a = (object)this;
+			return Convert.SplitStringByChar((string)a, e[0]);
+		}
+
+		[Script(ExternalTarget = "startsWith")]
+		public bool StartsWith(string prefix)
+		{
+			return default(bool);
+		}
+
+		[Script(ExternalTarget = "endsWith")]
+		public bool EndsWith(string suffix)
+		{
+			return default(bool);
+		}
+
+		[Script(ExternalTarget = "equals")]
+		public bool Equals(string e)
+		{
+			return default(bool);
+		}
+
+		[Script(ExternalTarget = "compareTo")]
+		public int CompareTo(string e)
+		{
+			return default(int);
+		}
+
+		[Script(ExternalTarget = "toUpperCase")]
+		public string ToUpper()
+		{
+			return default(string);
+		}
+
+		[Script(ExternalTarget = "toLowerCase")]
+		public string ToLower()
+		{
+			return default(string);
+		}
+
+		[Script(ExternalTarget = "equals", DefineAsInstance = true)]
+		public static bool operator ==(__String a, __String b)
+		{
+			return default(bool);
+		}
 
 
-        public static string Concat(params object[] e)
-        {
-            var b = new global::java.lang.StringBuffer();
+		public static bool operator !=(__String a, __String b)
+		{
+			return !(a == b);
+		}
 
-            foreach (object v in e)
-            {
-                b.append(v);
-            }
-
-            return b.ToString();
-        }
-
-
-        public static string Concat(params string[] e)
-        {
-            var b = new global::java.lang.StringBuffer();
-
-            foreach (object v in e)
-            {
-                b.append(v);
-            }
-
-            return b.ToString();
-        }
-
-        //[Script(DefineAsStatic = true)]
-        public static string Concat(object a)
-        {
-            if (a == null)
-            {
-
-                return null;
-            }
+		public int Length
+		{
+			[Script(ExternalTarget = "length")]
+			get
+			{
+				return default(int);
+			}
+		}
 
 
+		public static string Concat(params object[] e)
+		{
+			var b = new global::java.lang.StringBuffer();
+
+			foreach (object v in e)
+			{
+				b.append(v);
+			}
+
+			return b.ToString();
+		}
 
 
-            return a.ToString();
-        }
+		public static string Concat(params string[] e)
+		{
+			var b = new global::java.lang.StringBuffer();
 
-        [Script(
-            StringConcatOperator = "+")]
-        public static string Concat(object a, object b)
-        {
-            if (a == null)
-            {
-                if (b == null)
-                    return null;
+			foreach (object v in e)
+			{
+				b.append(v);
+			}
 
-                return b.ToString();
-            }
-            else
-            {
-                if (b == null)
-                    return a.ToString();
-            }
+			return b.ToString();
+		}
+
+		//[Script(DefineAsStatic = true)]
+		public static string Concat(object a)
+		{
+			if (a == null)
+			{
+
+				return null;
+			}
 
 
 
-            return a.ToString() + b.ToString();
-        }
 
-        [Script(
-            StringConcatOperator = "+"
-            )]
-        public static string Concat(string a, string b)
-        {
-            return default(string);
-        }
+			return a.ToString();
+		}
 
-        [Script(
-            StringConcatOperator = "+"
-            )]
-        public static string Concat(string a, string b, string c)
-        {
-            return default(string);
-        }
+		[Script(
+			StringConcatOperator = "+")]
+		public static string Concat(object a, object b)
+		{
+			if (a == null)
+			{
+				if (b == null)
+					return null;
 
-        [Script(
-            StringConcatOperator = "+")]
-        public static string Concat(string a, string b, string c, string d)
-        {
-            return default(string);
-        }
+				return b.ToString();
+			}
+			else
+			{
+				if (b == null)
+					return a.ToString();
+			}
 
-        [Script(
-            StringConcatOperator = "+")]
-        public static string Concat(object a, object b, object c)
-        {
-            return default(string);
-        }
-    }
+
+
+			return a.ToString() + b.ToString();
+		}
+
+		[Script(
+			StringConcatOperator = "+"
+			)]
+		public static string Concat(string a, string b)
+		{
+			return default(string);
+		}
+
+		[Script(
+			StringConcatOperator = "+"
+			)]
+		public static string Concat(string a, string b, string c)
+		{
+			return default(string);
+		}
+
+		[Script(
+			StringConcatOperator = "+")]
+		public static string Concat(string a, string b, string c, string d)
+		{
+			return default(string);
+		}
+
+		[Script(
+			StringConcatOperator = "+")]
+		public static string Concat(object a, object b, object c)
+		{
+			return default(string);
+		}
+	}
 
 }

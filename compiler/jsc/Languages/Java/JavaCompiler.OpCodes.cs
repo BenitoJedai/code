@@ -122,6 +122,11 @@ namespace jsc.Languages.Java
 						Write("(byte)");
 					}
 
+					if (TargetFieldElement == typeof(char))
+					{
+						Write("(char)");
+					}
+
 					Emit(e.p, s[2]);
 				};
 
@@ -518,6 +523,21 @@ namespace jsc.Languages.Java
 											   if (i > 0)
 												   Write(", ");
 
+											   Write(Values[i].ToString());
+										   }
+
+									   }
+									   else if (Type == typeof(byte))
+									   {
+										   var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsByteArray();
+
+
+										   for (int i = 0; i < Values.Length; i++)
+										   {
+											   if (i > 0)
+												   Write(", ");
+
+											   Write("(byte)");
 											   Write(Values[i].ToString());
 										   }
 
