@@ -869,6 +869,8 @@ namespace jsc.Languages.Java
 						{
 							if (type.GetElementType() == typeof(sbyte))
 								return "byte[]";
+							if (type.GetElementType() == typeof(byte))
+								return "byte[]";
 							else if (type.GetElementType() == typeof(float))
 								return "float[]";
 						}

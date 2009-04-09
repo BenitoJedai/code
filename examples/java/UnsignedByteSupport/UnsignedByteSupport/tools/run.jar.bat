@@ -26,11 +26,14 @@ pushd bin
 %TargetPath% -cp "%PATH%;%PackageName%" %CompilandFullName% %*
 
 popd
-popd
 
 echo + run .net
-pushd ..\bin\Release\
-call UnsignedByteSupport.exe
+pushd bin
+call ..\..\UnsignedByteSupport.exe
 popd
+
+popd
+
+
 
 endlocal
