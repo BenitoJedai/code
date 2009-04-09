@@ -204,7 +204,7 @@ namespace jsc.Languages.Java
 
 				if (p == typeof(byte))
 				{
-					Break("use SByte instead - java does not support unsigned bytes at " + t.FullName);
+					//Break("use SByte instead - java does not support unsigned bytes at " + t.FullName);
 
 					continue;
 				}
