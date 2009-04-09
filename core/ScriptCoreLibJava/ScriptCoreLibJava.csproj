@@ -67,6 +67,7 @@
     <Compile Include="BCLImplementation\System\Math.cs" />
     <Compile Include="BCLImplementation\System\Random.cs" />
     <Compile Include="BCLImplementation\System\String.cs" />
+    <Compile Include="BCLImplementation\System\Text\StringBuilder.cs" />
     <Compile Include="BCLImplementation\System\Threading\Thread.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="javax.common\runtime\WrappedBigDecimal.cs" />
@@ -74,6 +75,8 @@
     <Compile Include="javax.common\runtime\Expando.cs" />
     <Compile Include="javax.common\runtime\Timer.cs" />
     <Compile Include="javax.common\runtime\VariantValue.cs" />
+    <Compile Include="javax\xml\parsers\DocumentBuilder.cs" />
+    <Compile Include="javax\xml\parsers\DocumentBuilderFactory.cs" />
     <Compile Include="java\applet\Applet.cs" />
     <Compile Include="java\applet\AppletStub.cs" />
     <Compile Include="java\applet\AppletContext.cs" />
@@ -103,6 +106,7 @@
     <Compile Include="java\awt\Panel.cs" />
     <Compile Include="java\awt\Toolkit.cs" />
     <Compile Include="java\io\BufferedReader.cs" />
+    <Compile Include="java\io\ByteArrayInputStream.cs" />
     <Compile Include="java\io\ByteArrayOutputStream.cs" />
     <Compile Include="java\io\PrintWriter.cs" />
     <Compile Include="java\io\Writer.cs" />
@@ -226,6 +230,10 @@
     <Compile Include="java\util\HashMap.cs" />
     <Compile Include="java\util\Hashtable.cs" />
     <Compile Include="java\util\Set.cs" />
+    <Compile Include="org\w3c\dom\NamedNodeMap.cs" />
+    <Compile Include="org\w3c\dom\Node.cs" />
+    <Compile Include="org\w3c\dom\Document.cs" />
+    <Compile Include="org\w3c\dom\NodeList.cs" />
     <Compile Include="org\xml\sax\ContentHandler.cs" />
     <Compile Include="org\xml\sax\Attributes.cs" />
     <Compile Include="org\xml\sax\Locator.cs" />
