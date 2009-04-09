@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="BCLImplementation\System\Console.cs" />
     <Compile Include="BCLImplementation\System\Convert.cs" />
+    <Compile Include="BCLImplementation\System\IO\File.cs" />
     <Compile Include="BCLImplementation\System\NotImplementedException.cs" />
     <Compile Include="BCLImplementation\System\Exception.cs" />
     <Compile Include="BCLImplementation\System\IDisposable.cs" />

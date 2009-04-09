@@ -19,79 +19,111 @@ using jsc.Script;
 namespace jsc.Languages.Java
 {
 
-    partial class JavaCompiler
-    {
-        private void CreateInstructionHandlers()
-        {
-            Action<CodeEmitArgs> WriteCall_DebugTrace_Assign_Load =
-                e =>
-                {
-                    #region WriteCall_DebugTrace_Assign_Active
-                    if (WriteCall_DebugTrace_Assign_Active)
-                    {
-                        var ok = false;
+	partial class JavaCompiler
+	{
+		private void CreateInstructionHandlers()
+		{
+			Action<CodeEmitArgs> WriteCall_DebugTrace_Assign_Load =
+				e =>
+				{
+					#region WriteCall_DebugTrace_Assign_Active
+					if (WriteCall_DebugTrace_Assign_Active)
+					{
+						var ok = false;
 
-                        Action<Type> check = t => ok |= (t != null && t.IsValueType);
+						Action<Type> check = t => ok |= (t != null && t.IsValueType);
 
-                        check(e.i.TargetField == null ? null : e.i.TargetField.FieldType);
-                        check(e.i.TargetVariable == null ? null : e.i.TargetVariable.LocalType);
-                        check(e.i.TargetParameter == null ? null : e.i.TargetParameter.ParameterType);
+						check(e.i.TargetField == null ? null : e.i.TargetField.FieldType);
+						check(e.i.TargetVariable == null ? null : e.i.TargetVariable.LocalType);
+						check(e.i.TargetParameter == null ? null : e.i.TargetParameter.ParameterType);
 
-                        if (ok)
-                        {
-                            Write(" [ \" + ");
-                            WriteCall_DebugTrace_Assign_Active = false;
+						if (ok)
+						{
+							Write(" [ \" + ");
+							WriteCall_DebugTrace_Assign_Active = false;
 
-                            CIW[e.OpCode](e);
+							CIW[e.OpCode](e);
 
-                            WriteCall_DebugTrace_Assign_Active = true;
-                            Write(" + \" ] ");
-                        }
-                    }
-                    #endregion
-                };
+							WriteCall_DebugTrace_Assign_Active = true;
+							Write(" + \" ] ");
+						}
+					}
+					#endregion
+				};
 
-            #region elem_ref
-            CIW[OpCodes.Ldelem_Ref,
-                OpCodes.Ldelem_U1,
-                OpCodes.Ldelem_U2,
-                OpCodes.Ldelem_I1,
-                OpCodes.Ldelem_I4,
-                OpCodes.Ldelem_I8,
-                OpCodes.Ldelem_R4,
-                OpCodes.Ldelem_R8,
+			#region elem_ref
+			CIW[OpCodes.Ldelem_U1] =
+				e =>
+				{
+					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+
+			
+					Write("(short)");
+					Write("(");
+
+					Emit(e.p, s[0]);
+					Write("[");
+					Emit(e.p, s[1]);
+					Write("]");
+
+					// this operator is either 16bit or 32bit, depends on VM
+					Write(" & 0xff");
+					Write(")");
+
+				
+				};
+
+			CIW[OpCodes.Ldelem_Ref,
+				OpCodes.Ldelem_U2,
+				OpCodes.Ldelem_I1,
+				OpCodes.Ldelem_I4,
+				OpCodes.Ldelem_I8,
+				OpCodes.Ldelem_R4,
+				OpCodes.Ldelem_R8,
 				OpCodes.Ldelema,
-                OpCodes.Ldelem
-                ] =
-                e =>
-                {
-                    ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+				OpCodes.Ldelem
+				] =
+				e =>
+				{
+					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
 
-                    Emit(e.p, s[0]);
-                    Write("[");
-                    Emit(e.p, s[1]);
-                    Write("]");
-                };
+			
 
-            CIW[OpCodes.Stelem_Ref,
-                OpCodes.Stelem_I1,
-                OpCodes.Stelem_I2,
-                OpCodes.Stelem_I4,
-                OpCodes.Stelem_R4,
-                OpCodes.Stelem_R8
-                ] =
-                e =>
-                {
-                    ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					Emit(e.p, s[0]);
+					Write("[");
+					Emit(e.p, s[1]);
+					Write("]");
+				};
 
-                    Emit(e.p, s[0]);
-                    Write("[");
-                    Emit(e.p, s[1]);
-                    Write("]");
-                    WriteAssignment();
+			CIW[OpCodes.Stelem_Ref,
+				OpCodes.Stelem_I1,
+				OpCodes.Stelem_I2,
+				OpCodes.Stelem_I4,
+				OpCodes.Stelem_R4,
+				OpCodes.Stelem_R8
+				] =
+				e =>
+				{
+					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
 
-                    Emit(e.p, s[2]);
-                };
+
+
+					Emit(e.p, s[0]);
+					Write("[");
+					Emit(e.p, s[1]);
+					Write("]");
+					WriteAssignment();
+
+					
+					var TargetFieldElement = s[0].SingleStackInstruction.ReferencedType.GetElementType();
+
+					if (TargetFieldElement == typeof(byte))
+					{
+						Write("(byte)");
+					}
+
+					Emit(e.p, s[2]);
+				};
 
 
 			CIW[OpCodes.Ldobj] =
@@ -100,7 +132,7 @@ namespace jsc.Languages.Java
 					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
 
 					Emit(e.p, s[0]);
-				
+
 				};
 
 			CIW[OpCodes.Stobj] =
@@ -114,167 +146,188 @@ namespace jsc.Languages.Java
 
 					Emit(e.p, s[1]);
 				};
-            #endregion
+			#endregion
 
-            CIW[OpCodes.Leave,
-                OpCodes.Leave_S] = delegate { BreakToDebugger("return from within try block not yet supported"); };
-
-
-            CIW[
-                OpCodes.Br_S,
-                OpCodes.Br] =
-                delegate(CodeEmitArgs e)
-                {
-                    // adjusted for inline assigment
-
-                    if (e.i.TargetFlow.Branch == OpCodes.Ret)
-                    {
-                        WriteReturn(e.p, e.i);
-                    }
-                    else Break("invalid br opcode");
-                };
+			CIW[OpCodes.Leave,
+				OpCodes.Leave_S] = delegate { BreakToDebugger("return from within try block not yet supported"); };
 
 
-            CIW[OpCodes.Neg] =
-                delegate(CodeEmitArgs e)
-                {
-                    Write("(-(");
-                    EmitFirstOnStack(e);
-                    Write("))");
-                };
+			CIW[
+				OpCodes.Br_S,
+				OpCodes.Br] =
+				delegate(CodeEmitArgs e)
+				{
+					// adjusted for inline assigment
 
-            #region Unbox_Any
-            CIW[OpCodes.Unbox_Any] =
-                e =>
-                {
-                    if (e.i.TargetType == typeof(int))
-                    {
-                        Write("((Integer)");
-                        EmitFirstOnStack(e);
-                        Write(").intValue()");
-
-                        return;
-                    }
-
-                    if (e.i.TargetType == typeof(long))
-                    {
-                        Write("((Long)");
-                        EmitFirstOnStack(e);
-                        Write(").longValue()");
-
-                        return;
-                    }
-
-                    if (e.i.TargetType == typeof(double))
-                    {
-                        Write("((Double)");
-                        EmitFirstOnStack(e);
-                        Write(").doubleValue()");
-
-                        return;
-                    }
-
-                    if (e.i.TargetType == typeof(bool))
-                    {
-                        Write("((Boolean)");
-                        EmitFirstOnStack(e);
-                        Write(").booleanValue()");
-                        return;
-                    }
+					if (e.i.TargetFlow.Branch == OpCodes.Ret)
+					{
+						WriteReturn(e.p, e.i);
+					}
+					else Break("invalid br opcode");
+				};
 
 
-                    WriteBoxedComment("unbox " + e.i.TargetType.Name);
-                    EmitFirstOnStack(e);
-                };
-            #endregion
+			CIW[OpCodes.Neg] =
+				delegate(CodeEmitArgs e)
+				{
+					Write("(-(");
+					EmitFirstOnStack(e);
+					Write("))");
+				};
 
-            #region passthru
+			#region Unbox_Any
+			CIW[OpCodes.Unbox_Any] =
+				e =>
+				{
+					if (e.i.TargetType == typeof(int))
+					{
+						Write("((Integer)");
+						EmitFirstOnStack(e);
+						Write(").intValue()");
 
-            CIW[
-                OpCodes.Pop] = CodeEmitArgs.DelegateEmitFirstOnStack;
+						return;
+					}
 
-            CIW[
-                OpCodes.Ldtoken] = delegate(CodeEmitArgs e)
-                {
-                    if (e.i.TargetType == null)
-                        throw new NotSupportedException("ldtoken");
+					if (e.i.TargetType == typeof(long))
+					{
+						Write("((Long)");
+						EmitFirstOnStack(e);
+						Write(").longValue()");
 
-                    WriteDecoratedTypeName(e.i.TargetType);
-                };
+						return;
+					}
 
-            CIW[OpCodes.Isinst] = delegate(CodeEmitArgs e)
-            {
-                throw new NotSupportedException("a custom TryCast is not yet implemented");
-            };
+					if (e.i.TargetType == typeof(double))
+					{
+						Write("((Double)");
+						EmitFirstOnStack(e);
+						Write(").doubleValue()");
 
-            #endregion
+						return;
+					}
 
-            CIW[OpCodes.Dup] = delegate(CodeEmitArgs e) { EmitFirstOnStack(e); };
-
-            #region fld
-            CIW[OpCodes.Ldfld] =
-                e =>
-                {
-
-                    WriteCall_DebugTrace_Assign_Load(e);
-
-                    Emit(e.p, e.FirstOnStack);
-                    Write(".");
-                    WriteSafeLiteral(e.i.TargetField.Name);
-
-                };
-
-            CIW[OpCodes.Stfld] =
-                e =>
-                {
+					if (e.i.TargetType == typeof(bool))
+					{
+						Write("((Boolean)");
+						EmitFirstOnStack(e);
+						Write(").booleanValue()");
+						return;
+					}
 
 
-                    ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					WriteBoxedComment("unbox " + e.i.TargetType.Name);
+					EmitFirstOnStack(e);
+				};
+			#endregion
 
-                    Emit(e.p, s[0]);
-                    Write(".");
+			#region passthru
+
+			CIW[
+				OpCodes.Pop] = CodeEmitArgs.DelegateEmitFirstOnStack;
+
+			CIW[
+				OpCodes.Ldtoken] = delegate(CodeEmitArgs e)
+				{
+					if (e.i.TargetType == null)
+						throw new NotSupportedException("ldtoken");
+
+					WriteDecoratedTypeName(e.i.TargetType);
+				};
+
+			CIW[OpCodes.Isinst] = delegate(CodeEmitArgs e)
+			{
+				throw new NotSupportedException("a custom TryCast is not yet implemented");
+			};
+
+			#endregion
+
+			CIW[OpCodes.Dup] = delegate(CodeEmitArgs e) { EmitFirstOnStack(e); };
+
+			#region fld
+			CIW[OpCodes.Ldfld] =
+				e =>
+				{
+
+					WriteCall_DebugTrace_Assign_Load(e);
+
+					if (e.i.TargetField.FieldType == typeof(byte))
+					{
+						Write("(short)");
+						Write("(");
+						Emit(e.p, e.FirstOnStack);
+						Write(".");
+						WriteSafeLiteral(e.i.TargetField.Name);
+
+						// this operator is either 16bit or 32bit, depends on VM
+						Write(" & 0xff");
+						Write(")");
+
+						return;
+					}
+
+					Emit(e.p, e.FirstOnStack);
+					Write(".");
 					WriteSafeLiteral(e.i.TargetField.Name);
-                    WriteAssignment();
 
-                    #region  assign boolean literal
-                    if (e.i.TargetField.FieldType == typeof(bool))
-                    {
-                        if (e.i.StackBeforeStrict[1].StackInstructions.Length == 1)
-                        {
-                            if (e.i.StackBeforeStrict[1].SingleStackInstruction.TargetInteger != null)
-                            {
-                                if (e.i.StackBeforeStrict[1].SingleStackInstruction.TargetInteger == 0)
-                                    Write("false");
-                                else
-                                    Write("true");
+				};
 
-                                return;
-                            }
-                        }
-                    }
-                    #endregion
+			CIW[OpCodes.Stfld] =
+				e =>
+				{
 
-                    Emit(e.p, s[1]);
-                };
-            #endregion
 
-            CIW[OpCodes.Castclass] =
-                    delegate(CodeEmitArgs e)
-                    {
-                        //EmitFirstOnStack(e);
-                        ConvertTypeAndEmit(e, GetDecoratedTypeName(e.i.TargetType, true, false));
-                        //Write("((");
+					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
 
-                        //WriteDecoratedTypeName(e.i.TargetType);
-                        //Write(")");
-                        //EmitFirstOnStack(e);
-                        //Write(")");
+					Emit(e.p, s[0]);
+					Write(".");
+					WriteSafeLiteral(e.i.TargetField.Name);
+					WriteAssignment();
 
-                    };
+					#region  assign boolean literal
+					if (e.i.TargetField.FieldType == typeof(bool))
+					{
+						if (e.i.StackBeforeStrict[1].StackInstructions.Length == 1)
+						{
+							if (e.i.StackBeforeStrict[1].SingleStackInstruction.TargetInteger != null)
+							{
+								if (e.i.StackBeforeStrict[1].SingleStackInstruction.TargetInteger == 0)
+									Write("false");
+								else
+									Write("true");
 
-            CIW[OpCodes.Box] =
-                delegate(CodeEmitArgs e)
-                {
+								return;
+							}
+						}
+					}
+					#endregion
+
+					if (e.i.TargetField.FieldType == typeof(byte))
+					{
+						// we will store ubyte as sbyte
+						Write("(byte)");
+					}
+
+					Emit(e.p, s[1]);
+				};
+			#endregion
+
+			CIW[OpCodes.Castclass] =
+					delegate(CodeEmitArgs e)
+					{
+						//EmitFirstOnStack(e);
+						ConvertTypeAndEmit(e, GetDecoratedTypeName(e.i.TargetType, true, false));
+						//Write("((");
+
+						//WriteDecoratedTypeName(e.i.TargetType);
+						//Write(")");
+						//EmitFirstOnStack(e);
+						//Write(")");
+
+					};
+
+			CIW[OpCodes.Box] =
+				delegate(CodeEmitArgs e)
+				{
 					if (e.i.TargetType == typeof(byte))
 					{
 						// short has 15 unsigned bits, we need 8
@@ -282,207 +335,219 @@ namespace jsc.Languages.Java
 						Write(GetDecoratedTypeName(typeof(short), true, false));
 						Write("(");
 
-						Write("(short)");
-						Write("(");
-						EmitFirstOnStack(e);
-						
-						// this operator is either 16bit or 32bit, depends on VM
-						Write(" & 0xff");
+						if (e.FirstOnStack.SingleStackInstruction.IsLoadLocal)
+						{
+							EmitFirstOnStack(e);
+						}
+						else
+						{
+							Write("(short)");
+							Write("(");
+							EmitFirstOnStack(e);
 
-						Write(")");
+							// this operator is either 16bit or 32bit, depends on VM
+							Write(" & 0xff");
+							Write(")");
+						}
+
 						Write(")");
 						return;
 					}
 
-                    Write("new ");
-                    Write(GetDecoratedTypeName(e.i.TargetType, true, false));
-                    Write("(");
-                    EmitFirstOnStack(e);
-                    Write(")");
-                };
+					Write("new ");
+					Write(GetDecoratedTypeName(e.i.TargetType, true, false));
+					Write("(");
+					EmitFirstOnStack(e);
+					Write(")");
+				};
 
-            #region conv
+			#region conv
 			CIW[OpCodes.Conv_I1] = e => ConvertTypeAndEmit(e, "byte");
 			CIW[OpCodes.Conv_I2] = e => ConvertTypeAndEmit(e, "short");
-            CIW[OpCodes.Conv_U2] = e => ConvertTypeAndEmit(e, "char");
-            CIW[OpCodes.Conv_I4] = e => ConvertTypeAndEmit(e, "int");
+			CIW[OpCodes.Conv_U2] = e => ConvertTypeAndEmit(e, "char");
+			CIW[OpCodes.Conv_I4] = e => ConvertTypeAndEmit(e, "int");
 
-            CIW[OpCodes.Conv_I8] = e => ConvertTypeAndEmit(e, "long");
-            CIW[OpCodes.Conv_U8] = e => ConvertTypeAndEmit(e, "long");
+			CIW[OpCodes.Conv_I8] = e => ConvertTypeAndEmit(e, "long");
+			CIW[OpCodes.Conv_U8] = e => ConvertTypeAndEmit(e, "long");
 
-            CIW[OpCodes.Conv_R4] = e => ConvertTypeAndEmit(e, "float");
-            CIW[OpCodes.Conv_R8] = e => ConvertTypeAndEmit(e, "double");
+			CIW[OpCodes.Conv_R4] = e => ConvertTypeAndEmit(e, "float");
+			CIW[OpCodes.Conv_R8] = e => ConvertTypeAndEmit(e, "double");
 
-            CIW[OpCodes.Conv_U1] = e => ConvertTypeAndEmit(e, "byte");
-            CIW[OpCodes.Conv_Ovf_I] = e => ConvertTypeAndEmit(e, "int");
-            #endregion
+			CIW[OpCodes.Conv_U1] = e => ConvertTypeAndEmit(e, "byte");
+			CIW[OpCodes.Conv_Ovf_I] = e => ConvertTypeAndEmit(e, "int");
+			#endregion
 
-            #region Ldlen
-            CIW[OpCodes.Ldlen] =
-                delegate(CodeEmitArgs e)
-                {
-                    EmitFirstOnStack(e);
+			#region Ldlen
+			CIW[OpCodes.Ldlen] =
+				delegate(CodeEmitArgs e)
+				{
+					EmitFirstOnStack(e);
 
-                    Write(".length");
-                };
-            #endregion
+					Write(".length");
+				};
+			#endregion
 
-            #region Newarr
-            CIW[OpCodes.Newarr] =
-                e =>
-                {
-                    #region CreateArray
-                    Action<Action> CreateArray =
-                       a =>
-                       {
-                           WriteKeywordSpace(Keywords._new);
-                           WriteDecoratedTypeName(e.i.TargetType);
-                           //WriteGenericTypeName(e.i.OwnerMethod.DeclaringType, e.i.TargetType);
+			#region Newarr
+			CIW[OpCodes.Newarr] =
+				e =>
+				{
+					#region CreateArray
+					Action<Action> CreateArray =
+					   a =>
+					   {
+						   WriteKeywordSpace(Keywords._new);
+						   WriteDecoratedTypeName(e.i.TargetType);
+						   //WriteGenericTypeName(e.i.OwnerMethod.DeclaringType, e.i.TargetType);
 
-                           Write("[]");
-                           WriteSpace();
+						   Write("[]");
+						   WriteSpace();
 
-                           if (a == null)
-                           {
-                               Write("{");
-                               Write("}");
-                           }
-                           else
-                           {
-                               WriteLine("{");
+						   if (a == null)
+						   {
+							   Write("{");
+							   Write("}");
+						   }
+						   else
+						   {
+							   WriteLine("{");
 
-                               a();
+							   a();
 
-                               WriteIdent();
-                               Write("}");
-                           }
-                       };
-                    #endregion
-
-
-                    #region inline newarr
-                    if (e.p != null && e.p.IsValidInlineArrayInit)
-                    {
-                        CreateArray(
-                            delegate
-                            {
-                                Ident++;
-
-                                ILFlow.StackItem[] _stack = e.p.InlineArrayInitElements;
-
-                                for (int si = 0; si < _stack.Length; si++)
-                                {
+							   WriteIdent();
+							   Write("}");
+						   }
+					   };
+					#endregion
 
 
-                                    if (si > 0)
-                                    {
-                                        Write(",");
-                                        WriteLine();
-                                    }
+					#region inline newarr
+					if (e.p != null && e.p.IsValidInlineArrayInit)
+					{
+						CreateArray(
+							delegate
+							{
+								Ident++;
 
-                                    WriteIdent();
+								ILFlow.StackItem[] _stack = e.p.InlineArrayInitElements;
 
-                                    if (_stack[si] == null)
-                                    {
-                                        if (!e.i.TargetType.IsValueType)
-                                        {
-                                            Write("null");
-                                        }
-                                        else
-                                        {
-                                            if (e.i.TargetType == typeof(int))
-                                                Write("0");
-                                            else if (e.i.TargetType == typeof(sbyte))
-                                                Write("0");
-                                            else
-                                                BreakToDebugger("default for " + e.i.TargetType.FullName + " is unknown");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        Emit(e.p, _stack[si]);
-                                    }
-
-                                }
-
-                                WriteLine();
-
-                                Ident--;
-                            }
-                        );
-                    }
-                    #endregion
-                    else
-                    {
-
-                        if (e.i.NextInstruction == OpCodes.Dup &&
-                            e.i.NextInstruction.NextInstruction == OpCodes.Ldtoken &&
-                            e.i.NextInstruction.NextInstruction.NextInstruction == OpCodes.Call)
-                        {
-                            var Length = (int)e.i.StackBeforeStrict.First().SingleStackInstruction.TargetInteger;
-                            var Type = e.i.TargetType;
-
-                            // Conversion To IEnumrable
-
-                            CreateArray(
-                                   delegate
-                                   {
-                                       WriteIdent();
-
-                                       if (Type == typeof(int))
-                                       {
-                                           var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsInt32Array();
+								for (int si = 0; si < _stack.Length; si++)
+								{
 
 
-                                           for (int i = 0; i < Values.Length; i++)
-                                           {
-                                               if (i > 0)
-                                                   Write(", ");
+									if (si > 0)
+									{
+										Write(",");
+										WriteLine();
+									}
 
-                                               Write(Values[i].ToString());
-                                           }
+									WriteIdent();
 
-                                       }
-                                       else if (Type == typeof(uint))
-                                       {
-                                           var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsUInt32Array();
+									if (_stack[si] == null)
+									{
+										if (!e.i.TargetType.IsValueType)
+										{
+											Write("null");
+										}
+										else
+										{
+											if (e.i.TargetType == typeof(int))
+												Write("0");
+											else if (e.i.TargetType == typeof(byte))
+												Write("0");
+											else if (e.i.TargetType == typeof(sbyte))
+												Write("0");
+											else
+												BreakToDebugger("default for " + e.i.TargetType.FullName + " is unknown");
+										}
+									}
+									else
+									{
+										if (e.i.TargetType == typeof(byte))
+											Write("(byte)");
+
+										Emit(e.p, _stack[si]);
+									}
+
+								}
+
+								WriteLine();
+
+								Ident--;
+							}
+						);
+					}
+					#endregion
+					else
+					{
+
+						if (e.i.NextInstruction == OpCodes.Dup &&
+							e.i.NextInstruction.NextInstruction == OpCodes.Ldtoken &&
+							e.i.NextInstruction.NextInstruction.NextInstruction == OpCodes.Call)
+						{
+							var Length = (int)e.i.StackBeforeStrict.First().SingleStackInstruction.TargetInteger;
+							var Type = e.i.TargetType;
+
+							// Conversion To IEnumrable
+
+							CreateArray(
+								   delegate
+								   {
+									   WriteIdent();
+
+									   if (Type == typeof(int))
+									   {
+										   var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsInt32Array();
 
 
-                                           for (int i = 0; i < Values.Length; i++)
-                                           {
-                                               if (i > 0)
-                                                   Write(", ");
+										   for (int i = 0; i < Values.Length; i++)
+										   {
+											   if (i > 0)
+												   Write(", ");
 
-                                               Write(Values[i].ToString());
-                                           }
+											   Write(Values[i].ToString());
+										   }
 
-                                       }
-                                       else
-                                           throw new NotImplementedException();
-                                   }
-                           );
-
-
-                            //Write("[ /* ? */ ]");
-
-                            // todo: implement
+									   }
+									   else if (Type == typeof(uint))
+									   {
+										   var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsUInt32Array();
 
 
-                        }
-                        else
-                        {
+										   for (int i = 0; i < Values.Length; i++)
+										   {
+											   if (i > 0)
+												   Write(", ");
 
-                            // Write("[]");
-                            // this fix is for javascript too
+											   Write(Values[i].ToString());
+										   }
 
-                            if (e.FirstOnStack.SingleStackInstruction == OpCodes.Ldc_I4_0)
-                            {
-                                CreateArray(null);
-                            }
-                            else
-                            {
-                                WriteKeywordSpace(Keywords._new);
-                                // WriteGenericTypeName(e.i.OwnerMethod.DeclaringType, e.i.TargetType);
+									   }
+									   else
+										   throw new NotImplementedException();
+								   }
+						   );
+
+
+							//Write("[ /* ? */ ]");
+
+							// todo: implement
+
+
+						}
+						else
+						{
+
+							// Write("[]");
+							// this fix is for javascript too
+
+							if (e.FirstOnStack.SingleStackInstruction == OpCodes.Ldc_I4_0)
+							{
+								CreateArray(null);
+							}
+							else
+							{
+								WriteKeywordSpace(Keywords._new);
+								// WriteGenericTypeName(e.i.OwnerMethod.DeclaringType, e.i.TargetType);
 
 								var ElementType = e.i.TargetType;
 								var ElementRank = 0;
@@ -503,355 +568,397 @@ namespace jsc.Languages.Java
 										EmitFirstOnStack(e);
 									Write("]");
 								}
-                           
-
-								
-
-                            }
-                        }
-
-                    }
-
-                    //Write("new ");
 
 
-                    //#region inline newarr
-                    //if (e.p.IsValidInlineArrayInit)
-                    //{
-                    //    WriteDecoratedTypeName(e.i.TargetType);
-                    //    WriteLine("[]");
-                    //    Ident++;
-
-                    //    using (CreateScope(false))
-                    //    {
-
-                    //        ILFlow.StackItem[] _stack = e.p.InlineArrayInitElements;
-
-                    //        for (int si = 0; si < _stack.Length; si++)
-                    //        {
 
 
-                    //            if (si > 0)
-                    //            {
-                    //                Write(",");
-                    //                WriteLine();
-                    //            }
+							}
+						}
 
-                    //            WriteIdent();
+					}
 
-                    //            if (_stack[si] == null)
-                    //            {
-                    //                if (!e.i.TargetType.IsValueType)
-                    //                {
-                    //                    Write("null");
-                    //                }
-                    //                else
-                    //                {
-                    //                    if (e.i.TargetType == typeof(int))
-                    //                        Write("0");
-                    //                    else if (e.i.TargetType == typeof(sbyte))
-                    //                        Write("0");
-                    //                    else
-                    //                        BreakToDebugger("default for " + e.i.TargetType.FullName + " is unknown");
-                    //                }
-                    //            }
-                    //            else
-                    //            {
-                    //                Emit(e.p, _stack[si]);
-                    //            }
+					//Write("new ");
 
-                    //        }
 
-                    //        WriteLine();
-                    //    };
-                    //    Ident--;
-                    //}
-                    //#endregion
-                    //else
-                    //{
-                    //    int rank = 0;
-                    //    Type type = e.i.TargetType;
+					//#region inline newarr
+					//if (e.p.IsValidInlineArrayInit)
+					//{
+					//    WriteDecoratedTypeName(e.i.TargetType);
+					//    WriteLine("[]");
+					//    Ident++;
 
-                    //    while (type.IsArray)
-                    //    {
-                    //        type = type.GetElementType();
-                    //        rank++;
-                    //    }
+					//    using (CreateScope(false))
+					//    {
 
-                    //    WriteDecoratedTypeName(type);
-                    //    Write("[");
-                    //    EmitFirstOnStack(e);
-                    //    Write("]");
+					//        ILFlow.StackItem[] _stack = e.p.InlineArrayInitElements;
 
-                    //    while (rank-- > 0)
-                    //    {
-                    //        Write("[");
-                    //        Write("]");
-                    //    }
-                    //}
-                };
-            #endregion
+					//        for (int si = 0; si < _stack.Length; si++)
+					//        {
 
-            CIW[OpCodes.Ldnull] =
-                delegate(CodeEmitArgs e)
-                {
-                    Write("null");
-                };
 
-            #region Throw
-            CIW[OpCodes.Throw] =
-                delegate(CodeEmitArgs e)
-                {
-                    Write("throw");
-                    WriteSpace();
+					//            if (si > 0)
+					//            {
+					//                Write(",");
+					//                WriteLine();
+					//            }
 
-                    Emit(e.p, e.FirstOnStack);
-                };
-            #endregion
+					//            WriteIdent();
 
-            #region Rethrow
-            CIW[OpCodes.Rethrow] =
-                delegate(CodeEmitArgs e)
-                {
-                    Write("throw");
-                    WriteSpace();
-                    WriteExceptionVar();
-                };
-            #endregion
+					//            if (_stack[si] == null)
+					//            {
+					//                if (!e.i.TargetType.IsValueType)
+					//                {
+					//                    Write("null");
+					//                }
+					//                else
+					//                {
+					//                    if (e.i.TargetType == typeof(int))
+					//                        Write("0");
+					//                    else if (e.i.TargetType == typeof(sbyte))
+					//                        Write("0");
+					//                    else
+					//                        BreakToDebugger("default for " + e.i.TargetType.FullName + " is unknown");
+					//                }
+					//            }
+					//            else
+					//            {
+					//                Emit(e.p, _stack[si]);
+					//            }
 
-            #region Ldarg
-            CIW[OpCodes.Ldarg_0,
-                OpCodes.Ldarg_1,
-                OpCodes.Ldarg_2,
-                OpCodes.Ldarg_3,
-                OpCodes.Ldarg_S,
-                OpCodes.Ldarg] =
-                e =>
-                {
-                    WriteCall_DebugTrace_Assign_Load(e);
+					//        }
 
-                    WriteMethodParameterOrSelf(e.i);
-                };
-            #endregion
+					//        WriteLine();
+					//    };
+					//    Ident--;
+					//}
+					//#endregion
+					//else
+					//{
+					//    int rank = 0;
+					//    Type type = e.i.TargetType;
 
-            #region starg
-            CIW[OpCodes.Starg_S,
-                OpCodes.Starg] =
-                e =>
-                {
-                    WriteMethodParameterOrSelf(e.i);
-                    WriteAssignment();
-                    if (EmitEnumAsStringSafe(e))
-                        return;
+					//    while (type.IsArray)
+					//    {
+					//        type = type.GetElementType();
+					//        rank++;
+					//    }
 
-                    Emit(e.p, e.FirstOnStack);
-                };
-            #endregion
+					//    WriteDecoratedTypeName(type);
+					//    Write("[");
+					//    EmitFirstOnStack(e);
+					//    Write("]");
 
-            #region Stsfld
-            CIW[OpCodes.Stsfld] =
-               delegate(CodeEmitArgs e)
-               {
-                   try
-                   {
-                       bool _b_skip_classname = false;
+					//    while (rank-- > 0)
+					//    {
+					//        Write("[");
+					//        Write("]");
+					//    }
+					//}
+				};
+			#endregion
 
-                       if (e.Method.IsStatic && e.Method.MemberType == MemberTypes.Constructor)
-                       {
-                           if (e.i.TargetField.IsInitOnly)
-                           {
-                               // javac workaround
+			CIW[OpCodes.Ldnull] =
+				delegate(CodeEmitArgs e)
+				{
+					Write("null");
+				};
 
-                               _b_skip_classname = true;
-                           }
-                       }
+			#region Throw
+			CIW[OpCodes.Throw] =
+				delegate(CodeEmitArgs e)
+				{
+					Write("throw");
+					WriteSpace();
 
-                       if (!_b_skip_classname)
-                       {
-                           WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
-                           WriteTypeStaticAccessor();
-                       }
+					Emit(e.p, e.FirstOnStack);
+				};
+			#endregion
+
+			#region Rethrow
+			CIW[OpCodes.Rethrow] =
+				delegate(CodeEmitArgs e)
+				{
+					Write("throw");
+					WriteSpace();
+					WriteExceptionVar();
+				};
+			#endregion
+
+			#region Ldarg
+			CIW[OpCodes.Ldarg_0,
+				OpCodes.Ldarg_1,
+				OpCodes.Ldarg_2,
+				OpCodes.Ldarg_3,
+				OpCodes.Ldarg_S,
+				OpCodes.Ldarg] =
+				e =>
+				{
+					WriteCall_DebugTrace_Assign_Load(e);
+
+					// loading this pointer
+					if (e.i.TargetParameter != null)
+						if (e.i.TargetParameter.ParameterType == typeof(byte))
+						{
+							Write("(short)");
+							Write("(");
+							WriteMethodParameterOrSelf(e.i);
+
+							// this operator is either 16bit or 32bit, depends on VM
+							Write(" & 0xff");
+							Write(")");
+
+							return;
+						}
+
+					WriteMethodParameterOrSelf(e.i);
+				};
+			#endregion
+
+			#region starg
+			CIW[OpCodes.Starg_S,
+				OpCodes.Starg] =
+				e =>
+				{
+					WriteMethodParameterOrSelf(e.i);
+					WriteAssignment();
+					if (EmitEnumAsStringSafe(e))
+						return;
+
+					if (e.i.TargetParameter.ParameterType == typeof(byte))
+					{
+						// we will store ubyte as sbyte
+						Write("(byte)");
+					}
+
+					Emit(e.p, e.FirstOnStack);
+				};
+			#endregion
+
+			#region Stsfld
+			CIW[OpCodes.Stsfld] =
+			   delegate(CodeEmitArgs e)
+			   {
+				   try
+				   {
+					   bool _b_skip_classname = false;
+
+					   if (e.Method.IsStatic && e.Method.MemberType == MemberTypes.Constructor)
+					   {
+						   if (e.i.TargetField.IsInitOnly)
+						   {
+							   // javac workaround
+
+							   _b_skip_classname = true;
+						   }
+					   }
+
+					   if (!_b_skip_classname)
+					   {
+						   WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
+						   WriteTypeStaticAccessor();
+					   }
 
 					   WriteSafeLiteral(e.i.TargetField.Name);
-                       WriteAssignment();
+					   WriteAssignment();
 
-                       if (EmitEnumAsStringSafe(e))
-                           return;
+					   if (EmitEnumAsStringSafe(e))
+						   return;
 
-                       #region  assign boolean literal
-                       if (e.i.TargetField.FieldType == typeof(bool))
-                       {
-                           if (e.i.StackBeforeStrict[0].StackInstructions.Length == 1)
-                           {
-                               if (e.i.StackBeforeStrict[0].SingleStackInstruction.TargetInteger != null)
-                               {
-                                   if (e.i.StackBeforeStrict[0].SingleStackInstruction.TargetInteger == 0)
-                                       Write("false");
-                                   else
-                                       Write("true");
+					   #region  assign boolean literal
+					   if (e.i.TargetField.FieldType == typeof(bool))
+					   {
+						   if (e.i.StackBeforeStrict[0].StackInstructions.Length == 1)
+						   {
+							   if (e.i.StackBeforeStrict[0].SingleStackInstruction.TargetInteger != null)
+							   {
+								   if (e.i.StackBeforeStrict[0].SingleStackInstruction.TargetInteger == 0)
+									   Write("false");
+								   else
+									   Write("true");
 
-                                   return;
-                               }
-                           }
-                       }
-                       #endregion
+								   return;
+							   }
+						   }
+					   }
+					   #endregion
 
-                       Emit(e.p, e.FirstOnStack);
-                   }
-                   catch (Exception exc)
-                   {
-                       throw exc;
-                   }
-               };
-            #endregion
+					   if (e.i.TargetField.FieldType == typeof(byte))
+					   {
+						   // we will store ubyte as sbyte
+						   Write("(byte)");
+					   }
+
+					   Emit(e.p, e.FirstOnStack);
+				   }
+				   catch (Exception exc)
+				   {
+					   throw exc;
+				   }
+			   };
+			#endregion
 
 
-            CIW[OpCodes.Ldsfld] =
-                delegate(CodeEmitArgs e)
-                {
-                    ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+			CIW[OpCodes.Ldsfld] =
+				delegate(CodeEmitArgs e)
+				{
+					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
 
-                    WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
-                    WriteTypeStaticAccessor();
+					if (e.i.TargetField.FieldType == typeof(byte))
+					{
+						Write("(short)");
+						Write("(");
+						WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
+						WriteTypeStaticAccessor();
+						WriteSafeLiteral(e.i.TargetField.Name);
+
+						// this operator is either 16bit or 32bit, depends on VM
+						Write(" & 0xff");
+						Write(")");
+
+						return;
+					}
+
+					WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
+					WriteTypeStaticAccessor();
 					WriteSafeLiteral(e.i.TargetField.Name);
-                };
+				};
 
-            CIW[OpCodes.Callvirt] =
-                delegate(CodeEmitArgs e)
-                {
-                    WriteMethodCall(e.p, e.i, e.i.TargetMethod);
-                };
+			CIW[OpCodes.Callvirt] =
+				delegate(CodeEmitArgs e)
+				{
+					WriteMethodCall(e.p, e.i, e.i.TargetMethod);
+				};
 
-            #region call
-            CIW[OpCodes.Call] =
-                delegate(CodeEmitArgs e)
-                {
-                    MethodBase m = e.i.ReferencedMethod;
+			#region call
+			CIW[OpCodes.Call] =
+				delegate(CodeEmitArgs e)
+				{
+					MethodBase m = e.i.ReferencedMethod;
 
-                    MethodBase mi = MySession.ResolveImplementation(m.DeclaringType, m);
+					MethodBase mi = MySession.ResolveImplementation(m.DeclaringType, m);
 
-                    if (m.DeclaringType == typeof(System.Runtime.CompilerServices.RuntimeHelpers))
-                    {
-                        if (m.Name == "InitializeArray")
-                        {
-                            throw new SkipThisPrestatementException();
-                        }
-                    }
-
-
-                    if (mi != null)
-                    {
-                        WriteMethodCall(e.p, e.i, mi);
-
-                        return;
-                    }
-
-                    if (m.Name == "op_Implicit")
-                    {
-                        ScriptAttribute sa = ScriptAttribute.Of(m.DeclaringType, false);
-
-                        if (sa != null && sa.IsNative)
-                        {
-                            // that implicit call is only for to help c# conversions
-                            // so we must emit first parameter
-
-                            EmitFirstOnStack(e);
-                            return;
-                        }
-                    }
-
-                    WriteMethodCall(e.p, e.i, m);
-                };
-            #endregion
+					if (m.DeclaringType == typeof(System.Runtime.CompilerServices.RuntimeHelpers))
+					{
+						if (m.Name == "InitializeArray")
+						{
+							throw new SkipThisPrestatementException();
+						}
+					}
 
 
+					if (mi != null)
+					{
+						WriteMethodCall(e.p, e.i, mi);
 
-            #region Ret
-            CIW[OpCodes.Ret] =
-                e =>
-                {
-                    WriteReturn(e.p, e.i);
-                };
-            #endregion
+						return;
+					}
 
-            #region Newobj
-            CIW[OpCodes.Newobj] =
-                e =>
-                {
-                    WriteTypeConstruction(e);
-                };
-            #endregion
+					if (m.Name == "op_Implicit")
+					{
+						ScriptAttribute sa = ScriptAttribute.Of(m.DeclaringType, false);
 
-            #region Stloc
-            CIW[OpCodes.Stloc_0,
-                OpCodes.Stloc_1,
-                OpCodes.Stloc_2,
-                OpCodes.Stloc_3,
-                OpCodes.Stloc_S,
-                OpCodes.Stloc] =
-                e =>
-                {
-                    WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.TargetVariable);
+						if (sa != null && sa.IsNative)
+						{
+							// that implicit call is only for to help c# conversions
+							// so we must emit first parameter
 
-                    #region ++ --
-                    if (e.FirstOnStack.StackInstructions.Length == 1)
-                    {
-                        ILInstruction i = e.FirstOnStack.SingleStackInstruction;
+							EmitFirstOnStack(e);
+							return;
+						}
+					}
 
-                        if (i == OpCodes.Add)
-                        {
-                            if (i.StackBeforeStrict[1].SingleStackInstruction.TargetInteger == 1)
-                            {
-                                if (i.StackBeforeStrict[0].SingleStackInstruction.IsEqualVariable(e.i.TargetVariable))
-                                {
-                                    Write("++");
-                                    return;
-                                }
-                            }
-                        }
+					WriteMethodCall(e.p, e.i, m);
+				};
+			#endregion
 
-                        if (i == OpCodes.Sub)
-                        {
-                            if (i.StackBeforeStrict[1].SingleStackInstruction.TargetInteger == 1)
-                            {
-                                if (i.StackBeforeStrict[0].SingleStackInstruction.IsEqualVariable(e.i.TargetVariable))
-                                {
-                                    Write("--");
-                                    return;
-                                }
-                            }
-                        }
-                    }
-                    #endregion
 
-                    WriteAssignment();
 
-                    if (e.i.IsFirstInFlow && e.i.Flow.OwnerBlock.IsHandlerBlock)
-                    {
-                        WriteExceptionVar();
-                        return;
-                    }
+			#region Ret
+			CIW[OpCodes.Ret] =
+				e =>
+				{
+					WriteReturn(e.p, e.i);
+				};
+			#endregion
 
-                    if (EmitEnumAsStringSafe(e))
-                        return;
+			#region Newobj
+			CIW[OpCodes.Newobj] =
+				e =>
+				{
+					WriteTypeConstruction(e);
+				};
+			#endregion
 
-                    #region  assign boolean literal
-                    if (e.i.TargetVariable.LocalType == typeof(bool))
-                    {
-                        if (e.i.StackBeforeStrict[0].IsSingle)
-                        {
-                            if (e.i.StackBeforeStrict[0].SingleStackInstruction.TargetInteger != null)
-                            {
-                                if (e.i.StackBeforeStrict[0].SingleStackInstruction.TargetInteger == 0)
-                                    WriteKeywordFalse();
-                                else
-                                    WriteKeywordTrue();
+			#region Stloc
+			CIW[OpCodes.Stloc_0,
+				OpCodes.Stloc_1,
+				OpCodes.Stloc_2,
+				OpCodes.Stloc_3,
+				OpCodes.Stloc_S,
+				OpCodes.Stloc] =
+				e =>
+				{
+					WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.TargetVariable);
 
-                                return;
-                            }
-                        }
-                    }
-                    #endregion
+					#region ++ --
+					if (e.FirstOnStack.StackInstructions.Length == 1)
+					{
+						ILInstruction i = e.FirstOnStack.SingleStackInstruction;
+
+						if (i == OpCodes.Add)
+						{
+							if (i.StackBeforeStrict[1].SingleStackInstruction.TargetInteger == 1)
+							{
+								if (i.StackBeforeStrict[0].SingleStackInstruction.IsEqualVariable(e.i.TargetVariable))
+								{
+									Write("++");
+									return;
+								}
+							}
+						}
+
+						if (i == OpCodes.Sub)
+						{
+							if (i.StackBeforeStrict[1].SingleStackInstruction.TargetInteger == 1)
+							{
+								if (i.StackBeforeStrict[0].SingleStackInstruction.IsEqualVariable(e.i.TargetVariable))
+								{
+									Write("--");
+									return;
+								}
+							}
+						}
+					}
+					#endregion
+
+					WriteAssignment();
+
+					if (e.i.IsFirstInFlow && e.i.Flow.OwnerBlock.IsHandlerBlock)
+					{
+						WriteExceptionVar();
+						return;
+					}
+
+					if (EmitEnumAsStringSafe(e))
+						return;
+
+					#region  assign boolean literal
+					if (e.i.TargetVariable.LocalType == typeof(bool))
+					{
+						if (e.i.StackBeforeStrict[0].IsSingle)
+						{
+							if (e.i.StackBeforeStrict[0].SingleStackInstruction.TargetInteger != null)
+							{
+								if (e.i.StackBeforeStrict[0].SingleStackInstruction.TargetInteger == 0)
+									WriteKeywordFalse();
+								else
+									WriteKeywordTrue();
+
+								return;
+							}
+						}
+					}
+					#endregion
 
 					if (e.i.TargetVariable.LocalType == typeof(byte))
 					{
@@ -859,194 +966,212 @@ namespace jsc.Languages.Java
 						Write("(byte)");
 					}
 
-                    EmitFirstOnStack(e);
-                };
-            #endregion
+					EmitFirstOnStack(e);
+				};
+			#endregion
 
 
-            #region Ldloc
-            CIW[OpCodes.Ldloc_0,
-                OpCodes.Ldloc_1,
-                OpCodes.Ldloc_2,
-                OpCodes.Ldloc_3,
-                OpCodes.Ldloc_S,
-                OpCodes.Ldloc,
-                OpCodes.Ldloca,
-                OpCodes.Ldloca_S] =
-               e =>
-               {
-                   WriteCall_DebugTrace_Assign_Load(e);
+			#region Ldloc
+			CIW[OpCodes.Ldloc_0,
+				OpCodes.Ldloc_1,
+				OpCodes.Ldloc_2,
+				OpCodes.Ldloc_3,
+				OpCodes.Ldloc_S,
+				OpCodes.Ldloc,
+				OpCodes.Ldloca,
+				OpCodes.Ldloca_S] =
+			   e =>
+			   {
+				   WriteCall_DebugTrace_Assign_Load(e);
 
-                   #region inline assigment
-                   if (e.i.InlineAssigmentValue != null)
-                   {
-                       //WriteBoxedComment("inline");
+				   #region inline assigment
+				   if (e.i.InlineAssigmentValue != null)
+				   {
+					   //WriteBoxedComment("inline");
 
-                       Emit(e.i.InlineAssigmentValue,
-                           e.i.InlineAssigmentValue.Instruction.StackBeforeStrict[0]);
-
-
-                       return;
-                   }
-                   #endregion
-
-                   if (e.p != null)
-                       if (e.p.Owner != null)
-                           if (e.p.Owner.IsCompound)
-                           {
-                               ILBlock.Prestatement sp = e.p.Owner.SourcePrestatement(e.p, e.i);
-
-                               if (sp != null)
-                               {
-                                   EmitInstruction(sp, sp.Instruction);
-
-                                   return;
-                               }
-                           }
-
-                   WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.TargetVariable);
+					   Emit(e.i.InlineAssigmentValue,
+						   e.i.InlineAssigmentValue.Instruction.StackBeforeStrict[0]);
 
 
-                   if (e.i.IsInlinePostSub) Write("--");
-                   if (e.i.IsInlinePostAdd) Write("++");
-               };
-            #endregion
+					   return;
+				   }
+				   #endregion
+
+				   #region IsCompound
+				   if (e.p != null)
+					   if (e.p.Owner != null)
+						   if (e.p.Owner.IsCompound)
+						   {
+							   ILBlock.Prestatement sp = e.p.Owner.SourcePrestatement(e.p, e.i);
+
+							   if (sp != null)
+							   {
+								   EmitInstruction(sp, sp.Instruction);
+
+								   return;
+							   }
+						   }
+				   #endregion
+
+				   if (e.i.TargetVariable.LocalType == typeof(byte))
+				   {
+					   Write("(short)");
+					   Write("(");
+					   WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.TargetVariable);
+
+					   // this operator is either 16bit or 32bit, depends on VM
+					   Write(" & 0xff");
+					   Write(")");
+				   }
+				   else
+				   {
+					   WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.TargetVariable);
+				   }
+
+				   if (e.i.IsInlinePostSub) Write("--");
+				   if (e.i.IsInlinePostAdd) Write("++");
+			   };
+			#endregion
 
 
-            CIW[OpCodes.Ldstr] =
-                e =>
-                {
-                    if (WriteCall_DebugTrace_Assign_Active)
-                        Write("\\\"");
-                    else
-                        Write("\"");
-                    WriteDecoratedLiteralString(e.i.TargetLiteral);
+			CIW[OpCodes.Ldstr] =
+				e =>
+				{
+					if (WriteCall_DebugTrace_Assign_Active)
+						Write("\\\"");
+					else
+						Write("\"");
+					WriteDecoratedLiteralString(e.i.TargetLiteral);
 
-                    if (WriteCall_DebugTrace_Assign_Active)
-                        Write("\\\"");
-                    else
-                        Write("\"");
-                };
-
-
-            #region ldc
-            CIW[OpCodes.Ldc_R4] =
-                delegate(CodeEmitArgs e)
-                {
-                    WriteNumeric(e.i.OpParamAsFloat);
-                };
-
-            CIW[OpCodes.Ldc_R8] =
-                delegate(CodeEmitArgs e)
-                {
-                    WriteNumeric(e.i.OpParamAsDouble);
-                };
+					if (WriteCall_DebugTrace_Assign_Active)
+						Write("\\\"");
+					else
+						Write("\"");
+				};
 
 
-            CIW[OpCodes.Ldc_I4,
-                OpCodes.Ldc_I4_0,
-                OpCodes.Ldc_I4_1,
-                OpCodes.Ldc_I4_2,
-                OpCodes.Ldc_I4_3,
-                OpCodes.Ldc_I4_4,
-                OpCodes.Ldc_I4_5,
-                OpCodes.Ldc_I4_6,
-                OpCodes.Ldc_I4_7,
-                OpCodes.Ldc_I4_8,
-                OpCodes.Ldc_I4_M1,
-                OpCodes.Ldc_I8,
+			#region ldc
+			CIW[OpCodes.Ldc_R4] =
+				delegate(CodeEmitArgs e)
+				{
+					WriteNumeric(e.i.OpParamAsFloat);
+				};
 
-                OpCodes.Ldc_I4_S] =
-               delegate(CodeEmitArgs e)
-               {
-                   int? n = e.i.TargetInteger;
-
-                   if (n == null)
-                   {
-                       // long fix
-
-                       long? x = e.i.TargetLong;
-
-                       if (x == null)
-                       {
-                           Break("ldc unresolved");
-                       }
-                       else
-                       {
-                           MyWriter.Write(x.Value);
-                       }
-                   }
-                   else
-                   {
-                       MyWriter.Write(n.Value);
-                   }
-               };
-            #endregion
+			CIW[OpCodes.Ldc_R8] =
+				delegate(CodeEmitArgs e)
+				{
+					WriteNumeric(e.i.OpParamAsDouble);
+				};
 
 
-            #region  operands
+			CIW[OpCodes.Ldc_I4,
+				OpCodes.Ldc_I4_0,
+				OpCodes.Ldc_I4_1,
+				OpCodes.Ldc_I4_2,
+				OpCodes.Ldc_I4_3,
+				OpCodes.Ldc_I4_4,
+				OpCodes.Ldc_I4_5,
+				OpCodes.Ldc_I4_6,
+				OpCodes.Ldc_I4_7,
+				OpCodes.Ldc_I4_8,
+				OpCodes.Ldc_I4_M1,
+				OpCodes.Ldc_I8,
+
+				OpCodes.Ldc_I4_S] =
+			   delegate(CodeEmitArgs e)
+			   {
+				   int? n = e.i.TargetInteger;
+
+				   if (n == null)
+				   {
+					   // long fix
+
+					   long? x = e.i.TargetLong;
+
+					   if (x == null)
+					   {
+						   Break("ldc unresolved");
+					   }
+					   else
+					   {
+						   MyWriter.Write(x.Value);
+					   }
+				   }
+				   else
+				   {
+					   MyWriter.Write(n.Value);
+				   }
+			   };
+			#endregion
+
+
+			#region  operands
 			CIW[OpCodes.Not] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "~"); };
 			CIW[OpCodes.Xor] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "^"); };
-            CIW[OpCodes.Shl] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<<"); };
-            CIW[OpCodes.Shr] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">>"); };
+			CIW[OpCodes.Shl] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<<"); };
+			CIW[OpCodes.Shr] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">>"); };
 
-            CIW[OpCodes.Clt, OpCodes.Clt_Un, OpCodes.Blt, OpCodes.Blt_S] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<"); };
-            CIW[OpCodes.Cgt, OpCodes.Cgt_Un, OpCodes.Bgt, OpCodes.Bgt_S] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">"); };
+			CIW[OpCodes.Clt, OpCodes.Clt_Un, OpCodes.Blt, OpCodes.Blt_S] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<"); };
+			CIW[OpCodes.Cgt, OpCodes.Cgt_Un, OpCodes.Bgt, OpCodes.Bgt_S] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">"); };
 
-            CIW[OpCodes.Add] =
-                delegate(CodeEmitArgs e)
-                {
-                    if (e.i.IsInlinePrefixOperator(OpCodes.Add))
-                    {
-                        Write("++");
-                        Emit(e.p, e.FirstOnStack);
-                        return;
-                    }
+			CIW[OpCodes.Add] =
+				delegate(CodeEmitArgs e)
+				{
+					if (e.i.IsInlinePrefixOperator(OpCodes.Add))
+					{
+						Write("++");
+						Emit(e.p, e.FirstOnStack);
+						return;
+					}
 
-                    WriteInlineOperator(e.p, e.i, "+");
-                };
+					WriteInlineOperator(e.p, e.i, "+");
+				};
 
-            CIW[OpCodes.Sub] =
-                delegate(CodeEmitArgs e)
-                {
-                    if (e.i.IsInlinePrefixOperator(OpCodes.Sub))
-                    {
-                        Write("--");
-                        EmitFirstOnStack(e);
-                        return;
-                    }
+			CIW[OpCodes.Sub] =
+				delegate(CodeEmitArgs e)
+				{
+					if (e.i.IsInlinePrefixOperator(OpCodes.Sub))
+					{
+						Write("--");
+						EmitFirstOnStack(e);
+						return;
+					}
 
-                    WriteInlineOperator(e.p, e.i, "-");
-                };
+					WriteInlineOperator(e.p, e.i, "-");
+				};
 
-            CIW[OpCodes.Or] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "|"); };
-            CIW[OpCodes.And] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "&"); };
-            CIW[OpCodes.Rem] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "%"); };
-            CIW[OpCodes.Mul] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "*"); };
-            CIW[OpCodes.Div] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "/"); };
-            CIW[OpCodes.Bge_S,
-                OpCodes.Bge] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">="); };
-            CIW[OpCodes.Ble_S,
-                OpCodes.Ble] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<="); };
-            CIW[OpCodes.Bne_Un_S,
-                OpCodes.Bne_Un] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "!="); };
-            CIW[OpCodes.Ceq, 
-                OpCodes.Beq, 
-                OpCodes.Beq_S] =
-                delegate(CodeEmitArgs e)
-                {
-                    if (e.i.IsNegativeOperator)
-                    {
-                        Write("!");
-                        Emit(e.p, e.i.StackBeforeStrict[0]);
-                    }
-                    else
-                        WriteInlineOperator(e.p, e.i, "==");
-                };
-            #endregion
+			CIW[OpCodes.Or] = delegate(CodeEmitArgs e)
+			{
+				WriteInlineOperator(e.p, e.i, "|");
+			};
 
-        }
+			CIW[OpCodes.And] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "&"); };
+			CIW[OpCodes.Rem] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "%"); };
+			CIW[OpCodes.Mul] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "*"); };
+			CIW[OpCodes.Div] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "/"); };
+			CIW[OpCodes.Bge_S,
+				OpCodes.Bge] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">="); };
+			CIW[OpCodes.Ble_S,
+				OpCodes.Ble] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<="); };
+			CIW[OpCodes.Bne_Un_S,
+				OpCodes.Bne_Un] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "!="); };
+			CIW[OpCodes.Ceq,
+				OpCodes.Beq,
+				OpCodes.Beq_S] =
+				delegate(CodeEmitArgs e)
+				{
+					if (e.i.IsNegativeOperator)
+					{
+						Write("!");
+						Emit(e.p, e.i.StackBeforeStrict[0]);
+					}
+					else
+						WriteInlineOperator(e.p, e.i, "==");
+				};
+			#endregion
+
+		}
 
 
-    }
+	}
 }

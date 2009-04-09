@@ -221,3 +221,5 @@ version history:
 	c: fixed enum type detection
 06.04.2009
 	c: added Stsfld
+09.04.2009
+	java: added unsigned byte support

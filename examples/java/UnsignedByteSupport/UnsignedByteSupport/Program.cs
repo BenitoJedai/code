@@ -2,6 +2,7 @@ using System.Threading;
 using System;
 
 using ScriptCoreLib;
+using System.IO;
 
 
 namespace UnsignedByteSupport
@@ -22,6 +23,13 @@ namespace UnsignedByteSupport
 			SignedByte();
 
 			UnsignedByte();
+
+			var bytes = File.ReadAllBytes("binary.bin");
+
+			foreach (var k in bytes)
+			{
+				Console.WriteLine("byte: " + k);
+			}
 		}
 
 		private static void SignedByte()
@@ -42,18 +50,77 @@ namespace UnsignedByteSupport
 
 		private static void UnsignedByte()
 		{
-			// 1. stloc
-			// 1. box u8
+			// stloc
+			// ldloc
+			// box u8
 
 			byte byte_MinValue = byte.MinValue;
 			byte byte_MaxValue = byte.MaxValue;
 
 			Console.WriteLine("byte_MinValue: " + byte_MinValue);
 			Console.WriteLine("byte_MaxValue: " + byte_MaxValue);
+			Console.WriteLine("(sbyte)byte_MaxValue: " + (sbyte)byte_MaxValue);
 
+			// addition/subtraction 	
 			byte_MaxValue--;
 			Console.WriteLine("byte_MaxValue - 1: " + byte_MaxValue);
 
+			byte_MinValue--;
+			Console.WriteLine("byte_MinValue - 1: " + byte_MinValue);
+
+			// multiplication/division
+			byte x200 = 200;
+			byte x201 = 201;
+			byte x4 = 4;
+
+			byte x50 = (byte)(x200 / x4);
+
+			Console.WriteLine("200 / 4 = 50: " + x50);
+
+			byte x800 = (byte)(x200 * x4);
+
+			Console.WriteLine("200 * 4 = 800: " + x800);
+
+			// remainder
+			Console.WriteLine("201 % 4 = 1: " + ((byte)(x201 % x4)));
+
+			// equality
+			if (x200 == (x201 -1 ))
+				Console.WriteLine("200 == 201 - 1");
+			else
+				Console.WriteLine("200 != 201 - 1");
+
+			// comparison
+			if (x200 < x201 )
+				Console.WriteLine("200 < 201");
+			else
+				Console.WriteLine("200 >= 201");
+
+			// shift
+			byte x128 = 1 << 7;
+
+			Console.WriteLine("128: " + x128);
+			Console.WriteLine("128 - 1: " + (x128 - 1));
+
+			// bitwise
+			byte x128_x8 = (byte)(x128 | (1 << 3));
+			Console.WriteLine("via box and ldloc: 128 | 8: " + x128_x8);
+			Console.WriteLine("via box: 128 | 8: " + (byte)(x128 | (1 << 3)));
+
+			UnsignedByteField = byte.MaxValue;
+			UnsignedByteArray[0] = byte.MinValue;
+			UnsignedByteArray[2] = 2;
+
+			UnsignedByte(2);
+		}
+
+		public static byte UnsignedByteField;
+		public static byte[] UnsignedByteArray = new byte[4];
+
+		public static void UnsignedByte(byte value)
+		{
+			Console.WriteLine("255 + 2 = 1: " + (byte)(value + UnsignedByteField));
+			Console.WriteLine("0 - 2 = 254: " + (byte)(UnsignedByteArray[0] - UnsignedByteArray[2]));
 		}
 	}
 }
