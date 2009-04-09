@@ -856,7 +856,9 @@ namespace jsc.Languages.Java
 						else if (type == typeof(double)) return "double";
 						else if (type == typeof(bool)) return "boolean";
 						else if (type == typeof(long)) return "long";
-						else if (type == typeof(byte)) Break("java does not support unsigned bytes");
+						else if (type == typeof(byte)) 
+							//Break("java does not support unsigned bytes");
+							return "byte";
 						else if (type == typeof(sbyte)) return "byte";
 						else if (type == typeof(char)) return "char";
 						else if (type == typeof(short)) return "short";

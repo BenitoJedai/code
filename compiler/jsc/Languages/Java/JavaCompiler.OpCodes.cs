@@ -275,12 +275,29 @@ namespace jsc.Languages.Java
             CIW[OpCodes.Box] =
                 delegate(CodeEmitArgs e)
                 {
+					if (e.i.TargetType == typeof(byte))
+					{
+						// short has 15 unsigned bits, we need 8
+						Write("new ");
+						Write(GetDecoratedTypeName(typeof(short), true, false));
+						Write("(");
+
+						Write("(short)");
+						Write("(");
+						EmitFirstOnStack(e);
+						
+						// this operator is either 16bit or 32bit, depends on VM
+						Write(" & 0xff");
+
+						Write(")");
+						Write(")");
+						return;
+					}
+
                     Write("new ");
                     Write(GetDecoratedTypeName(e.i.TargetType, true, false));
                     Write("(");
-
                     EmitFirstOnStack(e);
-
                     Write(")");
                 };
 
@@ -836,7 +853,11 @@ namespace jsc.Languages.Java
                     }
                     #endregion
 
-
+					if (e.i.TargetVariable.LocalType == typeof(byte))
+					{
+						// we will store ubyte as sbyte
+						Write("(byte)");
+					}
 
                     EmitFirstOnStack(e);
                 };

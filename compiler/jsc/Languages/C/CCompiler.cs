@@ -598,7 +598,9 @@ namespace jsc.Languages.C
 					//}
 					//#endregion
 
+
 					WriteTypeCastAndEmit(e, e.i.TargetVariable.LocalType);
+
 				};
 			#endregion
 
