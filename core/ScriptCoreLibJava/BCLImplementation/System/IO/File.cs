@@ -22,12 +22,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 		}
 
 		// http://www.java-tips.org/java-se-tips/java.io/reading-a-file-into-a-byte-array.html
-		static sbyte[] getBytesFromFile(java.io.File file)
+		static sbyte[] getBytesFromFile(global::java.io.File file)
 		{
 			try
 			{
 
-				var istream = new java.io.FileInputStream(file);
+				var istream = new global::java.io.FileInputStream(file);
 
 				// Get the size of the file
 				long length = file.length();

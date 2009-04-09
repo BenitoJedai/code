@@ -3,12 +3,13 @@ using System;
 
 using ScriptCoreLib;
 using System.IO;
+using System.Text;
 
 
 namespace UnsignedByteSupport
 {
 	[Script]
-	public class Program
+	public static class Program
 	{
 		// http://www.jguru.com/faq/view.jsp?EID=13647
 		// http://www.lykkenborg.no/java/2005/03/how-do-i-read-unsigned-byte-in-java.html
@@ -30,6 +31,9 @@ namespace UnsignedByteSupport
 			{
 				Console.WriteLine("byte: " + k);
 			}
+
+
+			Console.WriteLine(bytes.ToHexString());
 		}
 
 		private static void SignedByte()
@@ -121,6 +125,57 @@ namespace UnsignedByteSupport
 		{
 			Console.WriteLine("255 + 2 = 1: " + (byte)(value + UnsignedByteField));
 			Console.WriteLine("0 - 2 = 254: " + (byte)(UnsignedByteArray[0] - UnsignedByteArray[2]));
+
+			SignedByte((sbyte)value);
+			((sbyte)value).SignedByte();
+		}
+
+		public static void SignedByte(this sbyte e)
+		{
+			UnsignedByte2((byte)e);
+		}
+
+		public static void UnsignedByte2(this byte e)
+		{
+
+		}
+
+		public static string ToHexString(this byte[] e)
+		{
+			var w = new StringBuilder();
+
+			foreach (var v in e)
+			{
+				var x = v.ToHexString();
+				w.Append(x);
+			}
+
+			return w.ToString();
+		}
+
+		public static string ToHexString(this byte e)
+		{
+			const string u = "0123456789abcdef";
+
+			return u.Substring((e >> 4) & 0xF, 1) + u.Substring((e >> 0) & 0xF, 1);
+		}
+	}
+
+	[Script]
+	public static class Extensions2
+	{
+		public static string ToHexString(this sbyte[] e)
+		{
+			var w = new StringBuilder();
+
+			foreach (var v in e)
+			{
+				var x = (byte)v;
+
+				w.Append(x.ToHexString());
+			}
+
+			return w.ToString();
 		}
 	}
 }

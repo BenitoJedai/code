@@ -236,8 +236,22 @@ namespace jsc.Languages.Java
 			}
 		}
 
+		protected override bool IsTypeCastRequired(Type e, ILFlow.StackItem s)
+		{
+			if (e == typeof(byte))
+				return true;
+
+			return false;
+		}
+
 		public override void MethodCallParameterTypeCast(Type context, Type p)
 		{
+			if (p == typeof(byte))
+			{
+				Write("(byte)");
+				return;
+			}
+
 			Write("(");
 			WriteDecoratedTypeName(p);
 			Write(")");
