@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\java\UnsignedByteSupport\UnsignedByteSupport\bin\Release</StartWorkingDirectory>
-    <StartArguments>UnsignedByteSupport.exe -java</StartArguments>
+    <StartWorkingDirectory>c:\util\jsc\bin</StartWorkingDirectory>
+    <StartArguments>ScriptCoreLibJava.dll -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
