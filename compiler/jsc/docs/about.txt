@@ -223,3 +223,4 @@ version history:
 	c: added Stsfld
 09.04.2009
 	java: added unsigned byte support
+	java: reenabled BCLImplementation ctor emitting

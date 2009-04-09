@@ -68,11 +68,12 @@ namespace jsc.Languages.Java
                 WriteTypeStaticConstructor(z, za);
                 WriteLine();
 
-                if (za.Implements == null)
-                {
+				// why was this check here?
+				//if (za.Implements == null)
+				//{
                     WriteTypeInstanceConstructors(z);
                     WriteLine();
-                }
+				//}
 
                 WriteTypeInstanceMethods(z, za);
                 WriteLine();
