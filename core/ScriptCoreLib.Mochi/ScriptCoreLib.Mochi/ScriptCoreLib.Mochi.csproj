@@ -54,9 +54,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="web\MochiAd.as" />
-    <EmbeddedResource Include="web\mochi\MochiScores.as" />
-    <EmbeddedResource Include="web\mochi\MochiServices.as" />
+    <EmbeddedResource Include="web\mochi\as3\MochiAd.as" />
+    <EmbeddedResource Include="web\mochi\as3\MochiDigits.as" />
+    <EmbeddedResource Include="web\mochi\as3\MochiScores.as" />
+    <EmbeddedResource Include="web\mochi\as3\MochiServices.as" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ActionScript\MochiLibrary\Score\" />
