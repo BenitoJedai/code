@@ -47,9 +47,9 @@ using ScriptCoreLib.Shared;
     ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
     //ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = ""),
 
-    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript.MochiLibrary.Score", VirtualNamespaceName = "mochi"),
-    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript.MochiLibrary.Ad", VirtualNamespaceName = ""),
+    //ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript.MochiLibrary.Score", VirtualNamespaceName = "mochi"),
+    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript.MochiLibrary.Ad", VirtualNamespaceName = "mochi.as3"),
 
-    ScriptResources("mochi"),
+    ScriptResources("mochi/as3"),
     ScriptResources(""),
 ]
