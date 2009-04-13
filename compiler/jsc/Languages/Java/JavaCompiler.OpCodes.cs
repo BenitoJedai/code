@@ -1114,7 +1114,11 @@ namespace jsc.Languages.Java
 					   }
 					   else
 					   {
+						   // long literal has the suffix L
+						   // http://www.java2s.com/Tutorial/Java/0040__Data-Type/Ahexadecimalliteraloftypelong.htm
+
 						   MyWriter.Write(x.Value);
+						   MyWriter.Write("L");
 					   }
 				   }
 				   else

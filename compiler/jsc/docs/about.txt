@@ -224,3 +224,5 @@ version history:
 09.04.2009
 	java: added unsigned byte support
 	java: reenabled BCLImplementation ctor emitting
+13.04.2009
+	java: added long suffix L for ldc_i8
