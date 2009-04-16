@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\code.google\avalonugh\AvalonUgh\AvalonUgh.Labs\bin\ReleaseWithJavaScript</StartWorkingDirectory>
-    <StartArguments>AvalonUgh.Labs.exe -js</StartArguments>
+    <StartWorkingDirectory>C:\util\jsc\bin</StartWorkingDirectory>
+    <StartArguments>ScriptCoreLibJava.dll -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

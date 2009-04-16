@@ -8,6 +8,24 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.File))]
 	internal class __File
 	{
+		public static void WriteAllBytes(string path, byte[] value)
+		{
+
+			try
+			{
+				var stream = new java.io.RandomAccessFile(path, "rw");
+
+				stream.setLength(0);
+				stream.write(InternalByteArrayToSByteArray(value));
+
+				stream.close();
+			}
+			catch
+			{
+				throw new csharp.RuntimeException();
+			}
+		}
+
 		public static byte[] ReadAllBytes(string path)
 		{
 			var x = getBytesFromFile(new java.io.File(path));
@@ -19,6 +37,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 		internal static byte[] InternalSByteArrayToByteArray(sbyte[] e)
 		{
 			return default(byte[]);
+		}
+
+		[Script(OptimizedCode = @"return e;")]
+		internal static sbyte[] InternalByteArrayToSByteArray(byte[] e)
+		{
+			return default(sbyte[]);
 		}
 
 		// http://www.java-tips.org/java-se-tips/java.io/reading-a-file-into-a-byte-array.html

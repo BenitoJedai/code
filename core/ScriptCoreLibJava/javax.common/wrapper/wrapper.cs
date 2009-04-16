@@ -70,11 +70,7 @@ namespace csharp
 
 namespace javax.common.wrapper
 {
-    [Script(Implements = typeof(global::System.Array))]
-    public class ArrayImpl
-    {
 
-    }
 
 #if known
     [Script(Implements = typeof(global::System.RuntimeFieldHandle))]
@@ -98,16 +94,7 @@ namespace javax.common.wrapper
 
 
 
-    [Script(Implements = typeof(global::System.Object),
-        ImplementationType = typeof(object))]
-    public class ObjectImpl
-    {
-        [Script(ExternalTarget = "toString")]
-        public new string ToString()
-        {
-            return default(string);
-        }
-    }
+
 
     [Script(IsNative = true, Implements = typeof(global::System.Type))]
     public class TypeImplementation
@@ -263,20 +250,4 @@ namespace javax.common.wrapper
 
 
 
-namespace java.lang
-{
-    using java.io;
 
-    [Script(IsNative = true, ExternalTarget = "System")]
-    public static class JavaSystem
-    {
-        public static PrintStream @out;
-        public static PrintStream @err;
-        public static InputStream @in;
-
-        public static void loadLibrary(string p)
-        {
-
-        }
-    }
-}

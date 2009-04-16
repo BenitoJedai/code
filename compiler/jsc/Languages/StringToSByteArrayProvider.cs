@@ -29,6 +29,9 @@ namespace jsc.Languages
 			if (m.GetMethodBody() == null)
 				return null;
 
+			if (m.DeclaringType.ToScriptAttribute() != null)
+				return null;
+
 			if (m.DeclaringType.Assembly.ToScriptAttribute() == null)
 				return null;
 
