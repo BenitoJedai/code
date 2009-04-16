@@ -10,6 +10,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		Implements = typeof(global::System.String),
 		ImplementationType = typeof(global::java.lang.String),
 		InternalConstructor = true
+
 		)]
 	internal class __String
 	{
@@ -59,6 +60,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		public string Substring(int start, int len)
 		{
 			global::java.lang.String s = (global::java.lang.String)(object)this;
+
+
 
 
 

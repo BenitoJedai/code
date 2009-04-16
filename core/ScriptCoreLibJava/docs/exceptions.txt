@@ -1,0 +1,3 @@
+﻿1. we have java exceptions, they are not treated as exceptions in c#
+2. we have shim exception types that point to those java exceptions
+3. we should have separate .net exceptions that point all to runtime exception

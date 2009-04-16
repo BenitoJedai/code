@@ -1,0 +1,1 @@
+﻿MemoryStreamTester. Crosscompiled from C# to Java.

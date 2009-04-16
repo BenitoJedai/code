@@ -226,3 +226,4 @@ version history:
 	java: reenabled BCLImplementation ctor emitting
 13.04.2009
 	java: added long suffix L for ldc_i8
+	java: fixed string to sbyte implementation provider

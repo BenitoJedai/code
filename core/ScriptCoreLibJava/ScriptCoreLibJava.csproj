@@ -58,9 +58,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BCLImplementation\System\Array.cs" />
     <Compile Include="BCLImplementation\System\Console.cs" />
     <Compile Include="BCLImplementation\System\Convert.cs" />
+    <Compile Include="BCLImplementation\System\Object.cs" />
+    <Compile Include="BCLImplementation\System\Environment.cs" />
     <Compile Include="BCLImplementation\System\IO\File.cs" />
+    <Compile Include="BCLImplementation\System\IO\MemoryStream.cs" />
+    <Compile Include="BCLImplementation\System\IO\Stream.cs" />
     <Compile Include="BCLImplementation\System\NotImplementedException.cs" />
     <Compile Include="BCLImplementation\System\Exception.cs" />
     <Compile Include="BCLImplementation\System\IDisposable.cs" />
@@ -141,6 +146,7 @@
     <Compile Include="java\lang\NullPointerException.cs" />
     <Compile Include="java\lang\IndexOutOfBoundsException.cs" />
     <Compile Include="java\lang\OutOfMemoryError.cs" />
+    <Compile Include="java\lang\System.cs" />
     <Compile Include="java\lang\UnsatisfiedLinkError.cs" />
     <Compile Include="java\lang\RuntimeException.cs" />
     <Compile Include="java\lang\Object.cs" />
@@ -253,6 +259,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\about.txt" />
+    <Content Include="docs\exceptions.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="javax\microedition\lcdui\" />

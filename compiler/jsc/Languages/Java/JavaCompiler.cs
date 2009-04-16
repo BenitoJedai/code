@@ -520,10 +520,26 @@ namespace jsc.Languages.Java
 
 				ScriptAttribute za = ScriptAttribute.Of(m.DeclaringType, true);
 
-				if (za.Implements == null || m.DeclaringType.GUID != p.ParameterType.GUID)
-					WriteVariableType(p.ParameterType, true);
+				// why would we want to write the actual typename of BCL type?
+				// it wont be around!
+				// maybe for strings and such?
+				// but they have to define implementation type then
+
+				var pz = ResolveImplementation(p.ParameterType) ?? p.ParameterType;
+
+				if (pz.ToScriptAttributeOrDefault().Implements == typeof(System.Array))
+					Write("Object ");
 				else
-					WriteVariableType(za.Implements, true);
+				{
+					if (za.Implements == null || m.DeclaringType.GUID != p.ParameterType.GUID)
+						WriteVariableType(p.ParameterType, true);
+					else
+						WriteVariableType(za.Implements, true);
+
+				}
+
+				//else
+				//    WriteVariableType(za.Implements, true);
 
 				Write(p.Name);
 			}
@@ -870,7 +886,7 @@ namespace jsc.Languages.Java
 						else if (type == typeof(double)) return "double";
 						else if (type == typeof(bool)) return "boolean";
 						else if (type == typeof(long)) return "long";
-						else if (type == typeof(byte)) 
+						else if (type == typeof(byte))
 							//Break("java does not support unsigned bytes");
 							return "byte";
 						else if (type == typeof(sbyte)) return "byte";
