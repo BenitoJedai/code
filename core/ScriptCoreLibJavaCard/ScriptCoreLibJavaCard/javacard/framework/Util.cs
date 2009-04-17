@@ -20,8 +20,39 @@ namespace ScriptCoreLibJavaCard.javacard.framework
 		/// <returns></returns>
 		public static short arrayCopyNonAtomic(sbyte[] src, short srcOff, sbyte[] dest, short destOff, short length)
 		{
-			return default(short);
+			for (int i = 0; i < length; i++)
+			{
+				dest[destOff + i] = (sbyte)src[srcOff + i];
+			}
+
+			return length;
 		}
-          
+
+		public static short arrayCopyNonAtomic(byte[] src, short srcOff, byte[] dest, short destOff, short length)
+		{
+			for (int i = 0; i < length; i++)
+			{
+				dest[destOff + i] = (byte)src[srcOff + i];
+			}
+			return length;
+		}
+
+		public static short arrayCopyNonAtomic(sbyte[] src, short srcOff, byte[] dest, short destOff, short length)
+		{
+			for (int i = 0; i < length; i++)
+			{
+				dest[destOff + i] = (byte)src[srcOff + i];
+			}
+			return length;
+		}
+
+		public static short arrayCopyNonAtomic(byte[] src, short srcOff, sbyte[] dest, short destOff, short length)
+		{
+			for (int i = 0; i < length; i++)
+			{
+				dest[destOff + i] = (sbyte)src[srcOff + i];
+			}
+			return length;
+		}
 	}
 }

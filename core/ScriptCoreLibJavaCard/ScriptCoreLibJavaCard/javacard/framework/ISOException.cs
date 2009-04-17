@@ -15,10 +15,19 @@ namespace ScriptCoreLibJavaCard.javacard.framework
 		/// <param name="sw"></param>
 		public static void throwIt(short sw)
 		{
-
+			throw new __ISOException(sw);
 		}
 
-          
-
+	 
 	}
+
+	public sealed class __ISOException : Exception
+	{
+		public readonly short sw;
+
+		public __ISOException(short sw)
+		{
+			sw = sw;
+		}
+	} 
 }
