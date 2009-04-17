@@ -7,14 +7,14 @@ namespace ScriptCoreLibJavaCard
 {
 	public sealed class APDUInstructionAttribute : Attribute
 	{
-		public sbyte INS;
+		public byte INS;
 
 		public APDUInstructionAttribute()
 		{
-			INS = -1;
+			INS = 0;
 		}
 
-		public APDUInstructionAttribute(sbyte INS)
+		public APDUInstructionAttribute(byte INS)
 		{
 			this.INS = INS;
 		}

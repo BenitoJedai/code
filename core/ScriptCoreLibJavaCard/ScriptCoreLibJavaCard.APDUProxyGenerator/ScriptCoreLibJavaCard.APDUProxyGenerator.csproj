@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A7C8711B-FD50-414C-8BD9-C006A4D6B8C9}</ProjectGuid>
+    <ProjectGuid>{F1758D5D-AB80-46F1-A595-D12A2A0E9CB0}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OrcasJavaCardApplet</RootNamespace>
-    <AssemblyName>OrcasJavaCardApplet</AssemblyName>
+    <RootNamespace>ScriptCoreLibJavaCard.APDUProxyGenerator</RootNamespace>
+    <AssemblyName>ScriptCoreLibJavaCard.APDUProxyGenerator</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -24,41 +24,36 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ScriptCoreLibA, Version=3.60.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLibJavaCard, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibJavaCard.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cafebabe.cs" />
-    <Compile Include="Cafebabe.FileSystem.cs" />
-    <Compile Include="Cafebabe.Storage.cs" />
+    <Compile Include="CodeWriter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="tools\build.bat" />
-    <None Include="tools\build.cap.bat" />
-    <None Include="tools\compile.java.bat" />
-    <None Include="tools\find.java.bat" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="docs\description.txt" />
+    <ProjectReference Include="..\ScriptCoreLibJavaCard\ScriptCoreLibJavaCard.csproj">
+      <Project>{953608DA-BB44-448E-80A5-1B76745D14B0}</Project>
+      <Name>ScriptCoreLibJavaCard</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -69,8 +64,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>pushd ..\..\tools\
-call build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
-popd</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin\"</PostBuildEvent>
   </PropertyGroup>
 </Project>

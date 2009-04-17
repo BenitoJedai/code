@@ -12,7 +12,7 @@ namespace OrcasJavaCardApplet
 	{
 		private Cafebabe(sbyte[] bArray, short bOffset, sbyte bLength)
 		{
-			InitializeCrypto();
+			//InitializeCrypto();
 		}
 
 
