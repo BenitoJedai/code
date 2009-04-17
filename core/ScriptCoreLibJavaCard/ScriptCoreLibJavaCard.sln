@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibJavaCard", "ScriptCoreLibJavaCard\ScriptCoreLibJavaCard.csproj", "{953608DA-BB44-448E-80A5-1B76745D14B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibJavaCard.APDUProxyGenerator", "ScriptCoreLibJavaCard.APDUProxyGenerator\ScriptCoreLibJavaCard.APDUProxyGenerator.csproj", "{F1758D5D-AB80-46F1-A595-D12A2A0E9CB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{953608DA-BB44-448E-80A5-1B76745D14B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{953608DA-BB44-448E-80A5-1B76745D14B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{953608DA-BB44-448E-80A5-1B76745D14B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1758D5D-AB80-46F1-A595-D12A2A0E9CB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1758D5D-AB80-46F1-A595-D12A2A0E9CB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1758D5D-AB80-46F1-A595-D12A2A0E9CB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1758D5D-AB80-46F1-A595-D12A2A0E9CB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,9 +7,9 @@ namespace ScriptCoreLibJavaCard
 {
 	public sealed class AIDAttribute : Attribute
 	{
-		public ulong Value;
+		public long Value;
 
-		public AIDAttribute(ulong Value)
+		public AIDAttribute(long Value)
 		{
 			this.Value = Value;
 		}
@@ -17,6 +17,7 @@ namespace ScriptCoreLibJavaCard
 		public class Info
 		{
 			public readonly List<byte> PackageAIDBytes = new List<byte>();
+			public readonly List<byte> AppletAIDBytes = new List<byte>();
 
 			public readonly string PackageAID = "";
 			public readonly string AppletAID = "";
@@ -51,9 +52,17 @@ namespace ScriptCoreLibJavaCard
 					if (i > 0)
 						this.AppletAID += ":";
 
-					this.AppletAID += string.Format("0x{0:x2}", (APPLET_AID.Value >> (8 * (0 - i))) & 0xff);
+					var value =  (byte)((APPLET_AID.Value >> (8 * (0 - i))) & 0xff);
+
+					this.AppletAIDBytes.Add(value);
+					this.AppletAID += string.Format("0x{0:x2}", value);
 
 				}
+			}
+
+			public byte[] ToArray()
+			{
+				return this.PackageAIDBytes.Concat(this.AppletAIDBytes).ToArray();
 			}
 		}
 	}

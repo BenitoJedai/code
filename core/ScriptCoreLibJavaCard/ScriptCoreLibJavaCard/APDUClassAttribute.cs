@@ -7,9 +7,9 @@ namespace ScriptCoreLibJavaCard
 {
 	public sealed class APDUClassAttribute : Attribute
 	{
-		public sbyte CLA;
+		public byte CLA;
 
-		public APDUClassAttribute(sbyte CLA)
+		public APDUClassAttribute(byte CLA)
 		{
 			this.CLA = CLA;
 		}
