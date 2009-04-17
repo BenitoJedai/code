@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\util\jsc\bin</StartWorkingDirectory>
-    <StartArguments>ScriptCoreLibJava.dll -java</StartArguments>
+    <StartWorkingDirectory>C:\work\mindware.svn\Nespresso\trunk\Nespresso.CardApplet1\Nespresso.CardApplet1\bin\Release</StartWorkingDirectory>
+    <StartArguments>Nespresso.CardApplet1.exe -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

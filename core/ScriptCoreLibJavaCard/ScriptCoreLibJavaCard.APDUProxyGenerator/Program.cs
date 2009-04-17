@@ -51,21 +51,27 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 									w.Statement("var CLA = (byte)buffer[ISO7816Constants.OFFSET_CLA];");
 									w.Statement("var INS = (byte)buffer[ISO7816Constants.OFFSET_INS];");
 
-
+									w.Statement("var P1 = buffer[ISO7816Constants.OFFSET_P1];");
+									w.Statement("var P2 = buffer[ISO7816Constants.OFFSET_P2];");
+									w.Statement("var Pi8 = (short)(((P1 & 0xff) << 8) + (P2 & 0xff));");
 
 									foreach (var k in source)
 									{
 										w.Block("if (CLA == " + k.Key.CLA + ")",
 											delegate
 											{
-												foreach (var i in k)
+												foreach (var i in k.Select((q, i) => new { q.k, q.CLA, INS = q.CLA.AutoAssignInstructions ? (byte)i : q.INS.INS }))
 												{
-													w.Block("if (INS == " + i.INS.INS + ")",
+													Console.WriteLine(i.k.Name);
+
+													w.Block("if (INS == " + i.INS + ")",
 														delegate
 														{
 															// default calling convention...
 															// could be extended
-															w.Statement("this." + i.k.Name + "(e);");
+
+															DispatcherInvoke(w, i.k);
+
 															w.Statement("return true;");
 														}
 													);
@@ -87,63 +93,137 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 
 					w.Statement("using ScriptCoreLib;");
 
-					w.PartialTypeBlock(TargetType,
+					w.Block("namespace " + TargetType.Namespace,
 						delegate
 						{
 							w.Statement("[System.Runtime.CompilerServices.CompilerGeneratedAttribute]");
 							w.Statement("[Script]");
-						},
-						delegate
-						{
-							w.Statement("[Script]");
-							w.Block("public interface ITransmitter",
+
+							w.Block("public partial class " + TargetType.Name + "Proxy",
 								delegate
 								{
-									w.Statement("byte[] Transmit(params byte[] e);");
-								}
-							);
 
-							w.Statement("public ITransmitter Transmitter;");
-
-							//w.Statement("public const long ApplicationAID = " + TargetAssembly.GetCustomAttributes(typeof(AIDAttribute), false).Cast<AIDAttribute>().First().Value + "L;");
-							//w.Statement("public const long DefaultInstallationSuffix = " + TargetType.GetCustomAttributes(typeof(AIDAttribute), false).Cast<AIDAttribute>().First().Value + "L;");
-
-							Action<byte[]> Transmit =
-								c =>
-								{
-									w.Statement("return this.Transmitter.Transmit(" + c.Aggregate("",
-										(seed, value) =>
+									w.Statement("[Script]");
+									w.Block("public interface ITransmitter",
+										delegate
 										{
-											if (string.IsNullOrEmpty(seed))
-												return "0x" + value.ToString("x2");
-
-											return seed + ", 0x" + value.ToString("x2");
+											w.Statement("byte[] Transmit(params byte[] e);");
 										}
-									) + ");");
-								};
+									);
 
-							w.Block("public byte[] SelectApplet()",
-								delegate
-								{
-									var c = new byte[] { 0x00, 0xA4, 0x04, 0x00, 0x08 }
-										.Concat(new AIDAttribute.Info(TargetType).ToArray()).ToArray();
+									w.Statement("public ITransmitter Transmitter;");
 
-									Transmit(c);
+									//w.Statement("public const long ApplicationAID = " + TargetAssembly.GetCustomAttributes(typeof(AIDAttribute), false).Cast<AIDAttribute>().First().Value + "L;");
+									//w.Statement("public const long DefaultInstallationSuffix = " + TargetType.GetCustomAttributes(typeof(AIDAttribute), false).Cast<AIDAttribute>().First().Value + "L;");
+
+									Action<object[]> Transmit =
+										c =>
+										{
+											w.Statement("return this.Transmitter.Transmit(" + c.Aggregate("",
+												(seed, value) =>
+												{
+													var x = value is byte ? "0x" + ((byte)value).ToString("x2") :
+														value is int ? "0x" + (((int)value) & 0xFF).ToString("x2") :
+														value.ToString();
+
+													if (string.IsNullOrEmpty(seed))
+														return x;
+
+													return seed + ", " + x;
+												}
+											) + ");");
+										};
+
+									w.Block("public byte[] SelectApplet()",
+										delegate
+										{
+											var c = new byte[] { 0x00, 0xA4, 0x04, 0x00, 0x08 }
+												.Concat(new AIDAttribute.Info(TargetType).ToArray()).Select(k => (object)k).ToArray();
+
+											Transmit(c);
+										}
+									);
+
+									foreach (var i in source.SelectMany(k => k).Select((q, i) => new { q.k, q.CLA, INS = q.CLA.AutoAssignInstructions ? (byte)i : q.INS.INS }))
+									{
+										var ik = i.k;
+										var CLA = i.CLA.CLA;
+
+										ProxyInvoke(w, Transmit, ik, CLA, i.INS);
+									}
 								}
 							);
-
-							foreach (var i in source.SelectMany(k => k))
-							{
-								w.Block("public byte[] " + i.k.Name + "()",
-									delegate
-									{
-										Transmit(new byte[] { i.CLA.CLA, i.INS.INS, 0, 0, 0 });
-									}
-								);
-							}
 						}
 					);
+
+				
 				}
+			}
+
+		}
+
+		private static void ProxyInvoke(CodeWriter w, Action<object[]> Transmit, MethodInfo ik, byte CLA, byte INS)
+		{
+			var p = ik.GetParameters();
+
+			if (p.Length == 1)
+			{
+				w.Statement("[System.Diagnostics.DebuggerNonUserCode]");
+				w.Block("public byte[] " + ik.Name + "(params byte[] data)",
+					delegate
+					{
+						w.Statement("var c = new System.IO.MemoryStream();");
+						w.Statement("c.WriteByte(" + CLA + ");");
+						w.Statement("c.WriteByte(" + INS + ");");
+						w.Statement("c.WriteByte(" + 0 + ");");
+						w.Statement("c.WriteByte(" + 0 + ");");
+						w.Statement("c.WriteByte((byte)data.Length);");
+						w.Statement("c.Write(data, 0, data.Length);");
+
+						w.Statement("return this.Transmitter.Transmit(c.ToArray());");
+					}
+				);
+				return;
+			}
+
+			if (p.Length == 2 && p[1].ParameterType == typeof(short))
+			{
+				var Pi8 = p[1];
+
+				w.Statement("[System.Diagnostics.DebuggerNonUserCode]");
+				w.Block("public byte[] " + ik.Name + "(short " + Pi8.Name + ", params byte[] data)",
+					delegate
+					{
+						w.Statement("var c = new System.IO.MemoryStream();");
+						w.Statement("c.WriteByte(" + CLA + ");");
+						w.Statement("c.WriteByte(" + INS + ");");
+						w.Statement("c.WriteByte(" + "(byte)((" + Pi8.Name + " >> 8) & 0xff)" + ");");
+						w.Statement("c.WriteByte(" + "(byte)(" + Pi8.Name + " & 0xff)" + ");");
+						w.Statement("c.WriteByte((byte)data.Length);");
+						w.Statement("c.Write(data, 0, data.Length);");
+
+						w.Statement("return this.Transmitter.Transmit(c.ToArray());");
+
+					}
+				);
+				return;
+			}
+		}
+
+		private static void DispatcherInvoke(CodeWriter w, MethodInfo ik)
+		{
+			var p = ik.GetParameters();
+
+			if (p.Length == 1)
+			{
+				w.Statement("this." + ik.Name + "(e);");
+				return;
+			}
+
+			if (p.Length == 2 && p[1].ParameterType == typeof(short))
+			{
+				w.Statement("this." + ik.Name + "(e, Pi8);");
+				return;
 			}
 
 		}

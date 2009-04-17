@@ -9,6 +9,9 @@ namespace ScriptCoreLibJavaCard.javacard.framework
 	[Script(IsNative = true)]
 	public sealed class APDU
 	{
+		public short __setOutgoingAndSend_bOff;
+		public short __setOutgoingAndSend_len;
+
 		/// <summary>
 		/// This is the "convenience" send method. 
 		/// </summary>
@@ -16,6 +19,8 @@ namespace ScriptCoreLibJavaCard.javacard.framework
 		/// <param name="len"></param>
 		public void setOutgoingAndSend(short bOff, short len)
 		{
+			__setOutgoingAndSend_bOff = bOff;
+			__setOutgoingAndSend_len = len;
 		}
 
 		/// <summary>
@@ -24,7 +29,7 @@ namespace ScriptCoreLibJavaCard.javacard.framework
 		/// <returns></returns>
 		public sbyte[] getBuffer()
 		{
-			return default(sbyte[]);
+			return __buffer;
 		}
 
 		/// <summary>
@@ -36,6 +41,7 @@ namespace ScriptCoreLibJavaCard.javacard.framework
 			return default(short);
 		}
 
-
+		sbyte[] __buffer = new sbyte[0xff + 0xf];
+	
 	}
 }
