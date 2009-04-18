@@ -114,17 +114,19 @@ namespace jsc.Languages.Java
 					Write("]");
 					WriteAssignment();
 
-					
-					var TargetFieldElement = s[0].SingleStackInstruction.ReferencedType.GetElementType();
-
-					if (TargetFieldElement == typeof(byte))
+					if (s[0].SingleStackInstruction.ReferencedType != null)
 					{
-						Write("(byte)");
-					}
+						var TargetFieldElement = s[0].SingleStackInstruction.ReferencedType.GetElementType();
 
-					if (TargetFieldElement == typeof(char))
-					{
-						Write("(char)");
+						if (TargetFieldElement == typeof(byte))
+						{
+							Write("(byte)");
+						}
+
+						if (TargetFieldElement == typeof(char))
+						{
+							Write("(char)");
+						}
 					}
 
 					Emit(e.p, s[2]);
