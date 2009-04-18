@@ -60,7 +60,9 @@ namespace DemoApplet.source.java
 
         public void Button1_Clicked()
         {
-            EvaluateJavaScript(this, "alert('script was evaluated!');");
+			EvaluateJavaScript(this, "document.title = 'powered by jsc';");
+
+			EvaluateJavaScript(this, "alert('script was evaluated!');");
 
         }
     }
