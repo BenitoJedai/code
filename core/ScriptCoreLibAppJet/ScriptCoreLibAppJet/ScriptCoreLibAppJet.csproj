@@ -49,9 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JavaScript\AppJet\HttpResponse.cs" />
     <Compile Include="JavaScript\AppJet\Page.cs" />
     <Compile Include="JavaScript\AppJet\Request.cs" />
     <Compile Include="JavaScript\AppJet\Response.cs" />
+    <Compile Include="JavaScript\AppJet\StorableCollection.cs" />
     <Compile Include="JavaScript\AppJet\Storage.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\String.cs" />
     <Compile Include="JavaScript\Library\Extensions.cs" />

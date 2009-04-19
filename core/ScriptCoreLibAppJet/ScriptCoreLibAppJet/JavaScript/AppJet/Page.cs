@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace ScriptCoreLibAppJet.AppJet
+namespace ScriptCoreLibAppJet.JavaScript.AppJet
 {
 	[Script(HasNoPrototype = true)]
 	public class Page
