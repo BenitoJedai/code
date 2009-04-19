@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
-using ScriptCoreLibAppJet.AppJet;
+using ScriptCoreLibAppJet.JavaScript.AppJet;
 
 namespace ScriptCoreLibAppJet
 {
@@ -37,5 +37,25 @@ namespace ScriptCoreLibAppJet
 		public static void import(object p)
 		{
 		}
+
+		/// <summary>
+		/// Fetches the text of a URL and returns it as a string.
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="p"></param>
+		/// <param name="?"></param>
+		[Script(OptimizedCode = "return wget(url, p, options);")]
+		public static HttpResponse wget(string url, object p, WebRequestOptions options)
+		{
+			return default(HttpResponse);
+		}
+	}
+
+	[Script, Serializable]
+	public sealed class WebRequestOptions
+	{
+		public object headers;
+		public bool followRedirects;
+		public bool complete = true;
 	}
 }
