@@ -18,5 +18,18 @@ namespace ScriptCoreLibJavaCard
 		{
 			this.INS = INS;
 		}
+
+		public Type InputParameterType;
+		public Type OutputParameterType;
+
+		public override string ToString()
+		{
+			return "" + INS;
+		}
+
+		public APDUInstructionAttribute ToINS(byte p)
+		{
+			return new APDUInstructionAttribute(p) { InputParameterType = InputParameterType, OutputParameterType = OutputParameterType };
+		}
 	}
 }
