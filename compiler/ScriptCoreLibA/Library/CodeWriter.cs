@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace ScriptCoreLibJavaCard.APDUProxyGenerator
+namespace ScriptCoreLib.Library
 {
 	public class CodeWriter : IDisposable
 	{

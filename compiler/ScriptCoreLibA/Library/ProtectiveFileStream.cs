@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace ScriptCoreLibJavaCard.APDUProxyGenerator
+namespace ScriptCoreLib.Library
 {
 	/// <summary>
 	/// ProtectiveFileStream protects against modifing a file when no changes were actually made
