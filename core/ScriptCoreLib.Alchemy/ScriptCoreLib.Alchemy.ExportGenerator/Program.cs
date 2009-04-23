@@ -70,7 +70,8 @@ namespace ScriptCoreLib.Alchemy.ExportGenerator
 							delegate
 							{
 								var source =
-									from m in TargetType.GetMethods(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public)
+									from SomeType in TargetAssembly.GetTypes()
+									from m in SomeType.GetMethods(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public)
 									let ms = m.GetCustomAttributes(typeof(AlchemyAttribute), false).Cast<AlchemyAttribute>().FirstOrDefault()
 									where ms != null
 									let Parameters = m.GetParameters()
@@ -113,7 +114,7 @@ namespace ScriptCoreLib.Alchemy.ExportGenerator
 													)
 													+ "));");
 
-											w.Statement("var __value = " + k.m.Name + "(" +
+											w.Statement("var __value = " + k.m.DeclaringType.FullName + "." + k.m.Name + "(" +
 												string.Join(", ",
 													k.Parameters.Select(
 														Parameter =>
@@ -169,16 +170,16 @@ namespace ScriptCoreLib.Alchemy.ExportGenerator
 														return m.m.Name + ": AS3ValType";
 													}
 												).ToArray()
-											) 
-											+ "\", __arglist(" + 
+											)
+											+ "\", __arglist(" +
 											string.Join(",",
 												source.Select(
 													m =>
 													{
-														return "__" + m.m.Name ;
+														return "__" + m.m.Name;
 													}
 												).ToArray()
-											) 
+											)
 											+ "));");
 
 
