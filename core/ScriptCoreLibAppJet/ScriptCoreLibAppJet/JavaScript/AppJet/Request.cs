@@ -10,6 +10,9 @@ namespace ScriptCoreLibAppJet.JavaScript.AppJet
 	[Script(HasNoPrototype = true)]
 	public class Request
 	{
+		// sed to access the HTTP headers of the current request. Properties are header names, and each value is either a string (typically) or an array of strings (if the header occurs multiple times in the request).
+		public object headers;
+
 		/// <summary>
 		/// Whether the curent HTTP request is a GET request.
 		/// </summary>

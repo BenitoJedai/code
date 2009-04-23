@@ -227,3 +227,5 @@ version history:
 13.04.2009
 	java: added long suffix L for ldc_i8
 	java: fixed string to sbyte implementation provider
+21.04.2009
+	java: added some isiinst opcode support

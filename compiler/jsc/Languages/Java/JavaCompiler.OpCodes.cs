@@ -57,7 +57,7 @@ namespace jsc.Languages.Java
 				{
 					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
 
-			
+
 					Write("(short)");
 					Write("(");
 
@@ -70,7 +70,7 @@ namespace jsc.Languages.Java
 					Write(" & 0xff");
 					Write(")");
 
-				
+
 				};
 
 			CIW[OpCodes.Ldelem_Ref,
@@ -87,7 +87,7 @@ namespace jsc.Languages.Java
 				{
 					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
 
-			
+
 
 					Emit(e.p, s[0]);
 					Write("[");
@@ -243,6 +243,50 @@ namespace jsc.Languages.Java
 
 			CIW[OpCodes.Isinst] = delegate(CodeEmitArgs e)
 			{
+				if (e.i.StackBeforeStrict.Length == 1)
+					if (e.i.StackBeforeStrict[0].SingleStackInstruction.IsLoadInstruction)
+					{
+						// expression is type ? (type)expression : (type)null
+						Write("(");
+						EmitFirstOnStack(e);
+
+						WriteSpace();
+						WriteKeywordSpace(Keywords._is);
+						WriteSpace();
+
+						WriteDecoratedTypeNameOrImplementationTypeName(
+							e.i.TargetType, false, false
+							//IsFullyQualifiedNamesRequired(e.Method.DeclaringType, e.i.TargetType)
+						);
+
+						WriteSpace();
+						Write("?");
+						WriteSpace();
+
+						Write("(");
+						WriteDecoratedTypeNameOrImplementationTypeName(
+							e.i.TargetType, false, false
+							//IsFullyQualifiedNamesRequired(e.Method.DeclaringType, e.i.TargetType)
+						);
+						Write(")");
+						EmitFirstOnStack(e);
+
+						WriteSpace();
+						Write(":");
+						WriteSpace();
+
+						Write("(");
+						WriteDecoratedTypeNameOrImplementationTypeName(
+							e.i.TargetType, false, false
+							//IsFullyQualifiedNamesRequired(e.Method.DeclaringType, e.i.TargetType)
+						);
+						Write(")");
+						WriteKeywordNull();
+
+						Write(")");
+						return;
+					}
+
 				throw new NotSupportedException("a custom TryCast is not yet implemented");
 			};
 

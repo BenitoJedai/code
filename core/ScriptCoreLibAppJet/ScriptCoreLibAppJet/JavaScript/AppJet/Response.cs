@@ -11,6 +11,14 @@ namespace ScriptCoreLibAppJet.JavaScript.AppJet
 	public class Response
 	{
 		/// <summary>
+		/// Sets the status code in the HTTP response.
+		/// </summary>
+		/// <param name="newCode"></param>
+		public void setStatusCode(int newCode)
+		{
+		}
+
+		/// <summary>
 		/// Sets the Content-Type header of the response. If the content-type includes a charset, that charset is used to send the response.
 		/// </summary>
 		/// <param name="e"></param>
