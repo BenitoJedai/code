@@ -4,6 +4,8 @@
 set TargetFileName=%2
 set ConfigurationName=%3
 
+@call :createproxy
+
 if %ConfigurationName%==Debug (
   echo Debug mode will not perform post build!
   goto :eof
@@ -66,4 +68,10 @@ echo - %2
 ::dir
 ::call C:\util\flex33\bin\mxmlc.exe -debug -library-path+=%TargetFileName%.swc -target-player=10.0.0 -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 call C:\util\flex33\bin\mxmlc.exe -optimize -library-path+=%TargetFileName%.swc -target-player=10.0.0 -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
+goto :eof
+:createproxy
+
+call c:\util\jsc\bin\ScriptCoreLib.Alchemy.ExportGenerator.exe "..\bin\%ConfigurationName%\%TargetFileName%" "FlashPlasma.Alchemy.Program" "..\Alchemy\Program.Dispatch.cs"
+
+
 goto :eof

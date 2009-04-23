@@ -64,9 +64,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionScript\Alchemy\CLibInit.cs" />
     <Compile Include="ActionScript\OrcasFlashApplication.cs" />
     <Compile Include="ActionScript\Extensions.cs" />
+    <Compile Include="Alchemy\Program.Dispatch.cs" />
     <Compile Include="Alchemy\Program.plasma.cs" />
     <Compile Include="Alchemy\Program.echo.cs" />
     <Compile Include="Alchemy\Program.cs" />

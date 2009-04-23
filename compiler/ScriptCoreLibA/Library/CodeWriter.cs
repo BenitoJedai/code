@@ -30,7 +30,8 @@ namespace ScriptCoreLib.Library
 					Statement(header);
 					Statement("{");
 					Indent++;
-					body();
+					if (body != null)
+						body();
 					Indent--;
 					Statement("}");
 				};
