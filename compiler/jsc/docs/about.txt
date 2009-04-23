@@ -231,3 +231,4 @@ version history:
 	java: added some isiinst opcode support
 23.04.2009
 	c: added multiple assembly to single file renderer
+	actionscript: added rem_un opcode
