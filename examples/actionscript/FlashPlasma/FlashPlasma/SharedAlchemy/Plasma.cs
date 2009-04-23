@@ -15,7 +15,7 @@ namespace FlashPlasma.SharedAlchemy
 
 		static uint[] palette;
 		static uint[] plasma;
-		static uint[] newPlasma;
+		public static uint[] newPlasma;
 
 		[Alchemy]
 		public static string echo()

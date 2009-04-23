@@ -551,7 +551,7 @@ namespace jsc.Languages.ActionScript
 						WriteInlineOperator(e.p, e.i, "&");
 					};
 
-				CIW[OpCodes.Rem] = f("%");
+				CIW[OpCodes.Rem, OpCodes.Rem_Un] = f("%");
 
 
 

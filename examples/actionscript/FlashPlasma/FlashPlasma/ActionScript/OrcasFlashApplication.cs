@@ -10,6 +10,7 @@ using ScriptCoreLib.ActionScript.flash.ui;
 using FlashPlasma.Shared;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.flash.filters;
+using FlashPlasma.SharedAlchemy;
 
 namespace FlashPlasma.ActionScript
 {
@@ -32,15 +33,7 @@ namespace FlashPlasma.ActionScript
 		public const int DefaultWidth = 600;
 		public const int DefaultHeight = 600;
 
-		/**
-		 * Contains the generated plasma pattern
-		 */
-		protected int[][] plasma;
 
-		/**
-		 * Contains the palette (256 colors)  
-		 */
-		protected uint[] palette;
 		/**
 		 * The bitmapdata which will be used to draw
 		 * the plasma on 
@@ -60,7 +53,7 @@ namespace FlashPlasma.ActionScript
 		 * Boolean that indicates if we should use
 		 * Alchemy rendering
 		 */
-		protected bool renderAlchemy;
+		protected int renderAlchemy;
 
 		[Script(OptimizedCode = @"return (ns::gstate).ds")]
 		public static ByteArray get_ds(Namespace ns)
@@ -72,32 +65,21 @@ namespace FlashPlasma.ActionScript
 		/// </summary>
 		public FlashPlasma()
 		{
-			//{
 
-				
-
-			//}
-
-		
 			this.InvokeWhenStageIsReady(
 				delegate
 				{
-
-					// -- used only with normal rendering
-					plasma = new int[DefaultWidth][];
-					palette = new uint[DefaultWidth];
-
 					bmd = new BitmapData(DefaultWidth, DefaultHeight, false);
 					var bitmap = new Bitmap(bmd);
 					addChild(bitmap);
 
 					generatePlasma();
-					renderAlchemy = true;
+					renderAlchemy = 0;
 
 					stage.click +=
 						delegate
 						{
-							renderAlchemy = !renderAlchemy;
+							renderAlchemy++;
 						};
 
 					stage.enterFrame +=
@@ -109,25 +91,7 @@ namespace FlashPlasma.ActionScript
 					KnownEmbeddedResources.Default[KnownAssets.Path.Assets + "/jsc.png"].ToBitmapAsset().AttachTo(this).MoveTo(DefaultWidth - 128, DefaultHeight - 128);
 
 
-					//var img = KnownEmbeddedResources.Default[KnownAssets.Path.Assets + "/Preview.png"].ToBitmapAsset();
-					
-					//var imgs = new Sprite().AttachTo(this).MoveTo(100, 200);
 
-					//img.AttachTo(imgs);
-
-					//imgs.mouseOver +=
-					//    delegate
-					//    {
-					//        bitmap.filters = new BitmapFilter[] { new BlurFilter() };
-					//    };
-
-					//imgs.mouseOut +=
-					//    delegate
-					//    {
-					//        bitmap.filters = null;
-					//    };
-
-					
 				}
 			);
 		}
@@ -138,7 +102,7 @@ namespace FlashPlasma.ActionScript
 
 			bmd.@lock();
 
-			if (renderAlchemy)
+			if (renderAlchemy % 3 == 0)
 			{
 				// -- Alchemy palette shifting
 				alchemyMemory.position = plasmaLib.ToFunc<int, uint>("shiftPlasma")(shift);
@@ -147,15 +111,32 @@ namespace FlashPlasma.ActionScript
 			}
 			else
 			{
-				// -- AS3.0 palette shifting
-				for (var x = 0; x < DefaultWidth; x++)
-					for (var y = 0; y < DefaultHeight; y++)
-					{
-						//bmd.setPixel(x, y, 0xff00ff00);
-						uint c = palette[(plasma[x][y] + shift) % 256];
+				Plasma.shiftPlasma(shift);
 
-						bmd.setPixel(x, y, c);
+				if (renderAlchemy % 3 == 1)
+				{
+					var m = new ByteArray();
+					foreach (var i in Plasma.newPlasma)
+					{
+						m.writeUnsignedInt(i);
 					}
+					m.position = 0;
+					bmd.setPixels(bmd.rect, m);
+
+				}
+				else
+				{
+					// -- AS3.0 palette shifting
+					for (var x = 0; x < DefaultWidth; x++)
+						for (var y = 0; y < DefaultHeight; y++)
+						{
+							//bmd.setPixel(x, y, 0xff00ff00);
+							//uint c = palette[(plasma[x][y] + shift) % 256];
+
+
+							bmd.setPixel(x, y, Plasma.newPlasma[x + y * DefaultWidth] | 0xff000000u);
+						}
+				}
 			}
 
 			bmd.unlock();
@@ -175,32 +156,7 @@ namespace FlashPlasma.ActionScript
 			var plasmaPointer = plasmaLib.ToFunc<int, int, uint>("generatePlasma")(DefaultWidth, DefaultHeight);
 			alchemyMemory.position = plasmaPointer;
 
-			// -- generate the palette & plasma pattern 
-			//    and get the memory position (AS3.0)
-			for (var x = 0; x < 256; x++)
-			{
-				var r = (int)(128.0 + 128.0 * Math.Sin(3.1415 * x / 16.0));
-				var g = (int)(128.0 + 128.0 * Math.Sin(3.1415 * x / 128.0));
-				var b = 0;
-
-				palette[x] = (uint)(r << 16 | g << 8 | b);
-				//palette[x] = 0xff00ff00;
-			}
-
-			for (var x = 0; x < DefaultWidth; x++)
-			{
-				plasma[x] = new int[DefaultHeight];
-				for (var y = 0; y < DefaultHeight; y++)
-				{
-					var color = (int)(
-						  128 + (128.0 * Math.Sin(x / 16))
-						+ 128 + (128.0 * Math.Sin(y / 8))
-						+ 128 + (128.0 * Math.Sin((x + y) / 16))
-						+ 128 + (128.0 * Math.Sin(Math.Sqrt(x * x + y * y) / 8))
-					) / 4;
-					plasma[x][y] = color;
-				}
-			}
+			Plasma.generatePlasma(DefaultWidth, DefaultHeight);
 		}
 
 		static FlashPlasma()
