@@ -112,12 +112,80 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 							w.Block("public partial class " + TargetType.Name + "Proxy",
 								delegate
 								{
+									#region Tokens
 									foreach (var Token in source.SelectMany(k => k).SelectMany(k => new[] { k.INS.InputParameterType, k.INS.OutputParameterType }).Where(k => k != null).Distinct())
 									{
+										Func<MethodInfo, string> GetCleanName =
+											m =>
+											{
+												var Prefix = Token.Name + "_";
+
+												if (m.Name.StartsWith(Prefix))
+													return m.Name.Substring(Prefix.Length);
+
+												return m.Name;
+											};
 										w.Statement("[Script]");
 										w.Block("public partial class " + Token.Name,
 											delegate
 											{
+												foreach (var enumerator in source.SelectMany(k => k).Where(k => k.INS.InputParameterType == Token && k.INS.OutputParameterType == Token))
+												{
+													w.Statement("[Script]");
+													w.Block("public partial class " + GetCleanName(enumerator.k) + "Enumerator",
+														delegate
+														{
+															w.Statement("private readonly " + TargetType.Name + "Proxy Host;");
+
+															w.Block("public " + GetCleanName(enumerator.k) + "Enumerator(" + TargetType.Name + "Proxy Host)",
+																delegate
+																{
+																	w.Statement("this.Host = Host;");
+																}
+															);
+
+															w.Block("public bool MoveNext()",
+																delegate
+																{
+																	w.Statement("this.Current = " + Token.Name + "." + GetCleanName(enumerator.k) + "(this.Host, this.Current);"); 
+																	w.Statement("return Current != null;");
+																}
+															);
+
+															w.Block("public " + Token.Name + " Current",
+																delegate
+																{
+																	w.Statement("get;");
+																	w.Statement("private set;");
+																}
+															);
+														}
+													);
+
+													w.Statement("[Script]");
+													w.Block("public partial class " + GetCleanName(enumerator.k) + "Enumerable",
+														delegate
+														{
+															w.Statement("private readonly " + TargetType.Name + "Proxy Host;");
+
+															w.Block("public " + GetCleanName(enumerator.k) + "Enumerable(" + TargetType.Name + "Proxy Host)",
+																delegate
+																{
+																	w.Statement("this.Host = Host;");
+																}
+															);
+
+															w.Block("public " + GetCleanName(enumerator.k) + "Enumerator GetEnumerator()",
+																delegate
+																{
+																	w.Statement("return new " + GetCleanName(enumerator.k) + "Enumerator(this.Host);");
+																}
+															);
+
+														}
+													);
+												}
+
 												w.Statement("public " + TargetType.Name + "Proxy Host { get; set; }");
 												w.Statement("public short Token { get; set; }");
 
@@ -151,6 +219,8 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 										);
 									}
 
+									#endregion
+
 									w.Statement("[Script]");
 									w.Block("public interface ITransmitter",
 										delegate
@@ -160,6 +230,8 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 									);
 
 									w.Statement("public ITransmitter Transmitter;");
+
+
 
 									//w.Statement("public const long ApplicationAID = " + TargetAssembly.GetCustomAttributes(typeof(AIDAttribute), false).Cast<AIDAttribute>().First().Value + "L;");
 									//w.Statement("public const long DefaultInstallationSuffix = " + TargetType.GetCustomAttributes(typeof(AIDAttribute), false).Cast<AIDAttribute>().First().Value + "L;");
@@ -248,12 +320,23 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 									}
 								);
 							else
+							{
 								w.Block("public byte[] " + CleanName + "(params byte[] data)",
 									delegate
 									{
 										w.Statement("return this.Host." + ik.Name + "(this.Token, data);");
 									}
 								);
+
+								// jsc has a nasty bug for nested params method invocation... could cause out of stack error
+								w.Block("public byte[] " + CleanName + "()",
+									delegate
+									{
+										w.Statement("var data = new byte[0];");
+										w.Statement("return this.Host." + ik.Name + "(this.Token, data);");
+									}
+								);
+							}
 						}
 					}
 				);

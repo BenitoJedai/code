@@ -57,30 +57,30 @@ namespace ScriptCoreLibAppJet.BCLImplementation.System
 		//}
 
 
-		//public static bool IsNullOrEmpty(string e)
-		//{
-		//    if (e == null)
-		//        return true;
+		public static bool IsNullOrEmpty(string e)
+		{
+			if (e == null)
+				return true;
 
-		//    if (e == "")
-		//        return true;
+			if (e == "")
+				return true;
 
-		//    return false;
-		//}
+			return false;
+		}
 
-		//// http://www.pageresource.com/jscript/jstring2.htm
+		// http://www.pageresource.com/jscript/jstring2.htm
 
-		//[Script(OptimizedCode = "return e.charCodeAt(o);")]
-		//public static int GetCharCodeAt(string e, int o)
-		//{
-		//    return default(int);
-		//}
+		[Script(OptimizedCode = "return e.charCodeAt(o);")]
+		public static int GetCharCodeAt(string e, int o)
+		{
+			return default(int);
+		}
 
-		//[Script(OptimizedCode = "return String.fromCharCode(i);")]
-		//public static string FromCharCode(int i)
-		//{
-		//    return default(string);
-		//}
+		[Script(OptimizedCode = "return String.fromCharCode(i);")]
+		public static string FromCharCode(int i)
+		{
+			return default(string);
+		}
 
 
 		//[Script(DefineAsStatic = true)]
@@ -90,11 +90,11 @@ namespace ScriptCoreLibAppJet.BCLImplementation.System
 
 		//}
 
-		//[Script(OptimizedCode = "return e.charAt(i);")]
-		//static internal char InternalCharAt(__String e, int i)
-		//{
-		//    return default(char);
-		//}
+		[Script(OptimizedCode = "return e.charAt(i);")]
+		static internal char InternalCharAt(__String e, int i)
+		{
+			return default(char);
+		}
 
 
 
@@ -104,47 +104,47 @@ namespace ScriptCoreLibAppJet.BCLImplementation.System
 			return default(int);
 		}
 
-		//[Script(OptimizedCode = "return e.lastIndexOf(c);")]
-		//static internal int InternalLastIndexOf(__String e, object c)
-		//{
-		//    return default(int);
-		//}
+		[Script(OptimizedCode = "return e.lastIndexOf(c);")]
+		static internal int InternalLastIndexOf(__String e, object c)
+		{
+			return default(int);
+		}
 
-		//[Script(OptimizedCode = "return e.indexOf(c);")]
-		//static internal int InternalIndexOf(__String e, object c)
-		//{
-		//    return default(int);
-		//}
+		[Script(OptimizedCode = "return e.indexOf(c);")]
+		static internal int InternalIndexOf(__String e, object c)
+		{
+			return default(int);
+		}
 
-		//[Script(OptimizedCode = "return e.indexOf(c, pos);")]
-		//static internal int InternalIndexOf(__String e, object c, int pos)
-		//{
-		//    return default(int);
-		//}
+		[Script(OptimizedCode = "return e.indexOf(c, pos);")]
+		static internal int InternalIndexOf(__String e, object c, int pos)
+		{
+			return default(int);
+		}
 
-		//[Script(DefineAsStatic = true)]
-		//public int LastIndexOf(string c)
-		//{
-		//    return InternalLastIndexOf(this, c);
-		//}
+		[Script(DefineAsStatic = true)]
+		public int LastIndexOf(string c)
+		{
+			return InternalLastIndexOf(this, c);
+		}
 
-		//[Script(DefineAsStatic = true)]
-		//public int IndexOf(char c)
-		//{
-		//    return InternalIndexOf(this, c);
-		//}
+		[Script(DefineAsStatic = true)]
+		public int IndexOf(char c)
+		{
+			return InternalIndexOf(this, c);
+		}
 
-		//[Script(DefineAsStatic = true)]
-		//public int IndexOf(string c)
-		//{
-		//    return InternalIndexOf(this, c);
-		//}
+		[Script(DefineAsStatic = true)]
+		public int IndexOf(string c)
+		{
+			return InternalIndexOf(this, c);
+		}
 
-		//[Script(DefineAsStatic = true)]
-		//public int IndexOf(string c, int pos)
-		//{
-		//    return InternalIndexOf(this, c, pos);
-		//}
+		[Script(DefineAsStatic = true)]
+		public int IndexOf(string c, int pos)
+		{
+			return InternalIndexOf(this, c, pos);
+		}
 
 		public int Length
 		{
@@ -155,17 +155,17 @@ namespace ScriptCoreLibAppJet.BCLImplementation.System
 			}
 		}
 
-		//[Script(DefineAsStatic = true)]
-		//public char get_Chars(int i)
-		//{
-		//    return (char)GetCharCodeAt((string)(object)this, i);
-		//}
+		[Script(DefineAsStatic = true)]
+		public char get_Chars(int i)
+		{
+			return (char)GetCharCodeAt((string)(object)this, i);
+		}
 
-		//[Script(DefineAsStatic = true)]
-		//public bool Contains(string a)
-		//{
-		//    return InternalIndexOf(this, a) > -1;
-		//}
+		[Script(DefineAsStatic = true)]
+		public bool Contains(string a)
+		{
+			return InternalIndexOf(this, a) > -1;
+		}
 
 		//#region concat
 		[Script(OptimizedCode = "return a0.join('');")]
@@ -218,47 +218,47 @@ namespace ScriptCoreLibAppJet.BCLImplementation.System
 		}
 
 		//#endregion
-		//[Script(DefineAsStatic = true, OptimizedCode = "return a0.split(a1).join(a2)")]
-		//internal object InternalReplace(object a0, object a1, object a2)
-		//{
-		//    return default(object);
-		//}
+		[Script(DefineAsStatic = true, OptimizedCode = "return a0.split(a1).join(a2)")]
+		internal object InternalReplace(object a0, object a1, object a2)
+		{
+		    return default(object);
+		}
 
-		//[Script(DefineAsStatic = true)]
-		//public __String Replace(__String a0, __String a1)
-		//{
-		//    return (__String)InternalReplace(this, a0, a1);
-		//}
+		[Script(DefineAsStatic = true)]
+		public __String Replace(__String a0, __String a1)
+		{
+		    return (__String)InternalReplace(this, a0, a1);
+		}
 
-		//[Script(OptimizedCode = @"return a1.join(a0);")]
-		//static public __String Join(__String a0, __String[] a1)
-		//{
-		//    return default(__String);
-		//}
+		[Script(OptimizedCode = @"return a1.join(a0);")]
+		static public __String Join(__String a0, __String[] a1)
+		{
+		    return default(__String);
+		}
 
-		//[Script(NoDecoration = true)]
-		//internal __String toLowerCase()
-		//{
-		//    return default(__String);
-		//}
+		[Script(NoDecoration = true)]
+		internal __String toLowerCase()
+		{
+		    return default(__String);
+		}
 
-		//[Script(NoDecoration = true)]
-		//internal __String toUpperCase()
-		//{
-		//    return default(__String);
-		//}
+		[Script(NoDecoration = true)]
+		internal __String toUpperCase()
+		{
+		    return default(__String);
+		}
 
-		//[Script(DefineAsStatic = true)]
-		//public __String ToLower()
-		//{
-		//    return toLowerCase();
-		//}
+		[Script(DefineAsStatic = true)]
+		public __String ToLower()
+		{
+		    return toLowerCase();
+		}
 
-		//[Script(DefineAsStatic = true)]
-		//public __String ToUpper()
-		//{
-		//    return toUpperCase();
-		//}
+		[Script(DefineAsStatic = true)]
+		public __String ToUpper()
+		{
+		    return toUpperCase();
+		}
 
 		//[Script(DefineAsStatic = true)]
 		//public __String Trim()
@@ -318,18 +318,18 @@ namespace ScriptCoreLibAppJet.BCLImplementation.System
 			return default(__String);
 		}
 
-		//[Script(DefineAsStatic = true)]
-		//public __String Substring(int a0)
-		//{
-		//    return InternalSubstring(this, a0);
-		//}
+		[Script(DefineAsStatic = true)]
+		public __String Substring(int a0)
+		{
+			return InternalSubstring(this, a0);
+		}
 
 
-		//[Script(DefineAsStatic = true)]
-		//public __String Substring(int a0, int a1)
-		//{
-		//    return InternalSubstring(this, a0, a1);
-		//}
+		[Script(DefineAsStatic = true)]
+		public __String Substring(int a0, int a1)
+		{
+			return InternalSubstring(this, a0, a1);
+		}
 
 		//[Script(DefineAsStatic = true)]
 		//public string[] Split(params char[] e)
