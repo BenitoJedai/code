@@ -126,6 +126,7 @@
     <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteCustomAttributes.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteTypeInstanceConstructors.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteTypeStaticConstructor.cs" />
+    <Compile Include="Languages\C\CompilerJob.cs" />
     <Compile Include="Languages\EventDetector.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteTypeFields.cs" />
     <Compile Include="Languages\CSharp2\Csharp2Compiler.EmitTryBlock.cs" />

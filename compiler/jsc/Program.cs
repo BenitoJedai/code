@@ -212,6 +212,8 @@ namespace jsc
 
                         foreach (string v in m)
                         {
+							Console.WriteLine(v);
+
                             //ConvertAssamblySpawned(v, ScriptType.C, sinfo);
 
                             if (options.IsJavaScript)
@@ -228,22 +230,12 @@ namespace jsc
 
                             if (options.IsCSharp2)
                                 Languages.CompilerJob.Compile(v, sinfo);
+
+							if (options.IsC)
+								Languages.CompilerJob.Compile(v, sinfo);
                         }
 
-                        //ScriptType t = ScriptType.Unknown;
-
-                        //if (options.IsJavascript)
-                        //    t = ScriptType.JavaScript;
-
-                        //if (options.IsPHP)
-                        //    t = ScriptType.PHP;
-
-                        //if (options.IsJava)
-                        //    t = ScriptType.Java;
-
-
-
-                        //ConvertAssambly(options.TargetAssembly.FullName, t,  sinfo);
+                  
                     }
                     #endregion
 
@@ -462,13 +454,13 @@ namespace jsc
                 c.HeaderFileName = AssamblyFileName + ".h";
 
                 // .c
-                c.Compile();
+				c.Compile(_assambly_loaded);
 
                 // .h
                 c.IsHeaderOnlyMode = true;
                 c.MyWriter = new StringWriter();
 
-                c.Compile();
+				c.Compile(_assambly_loaded);
 
 
                 StreamWriter _stream = new StreamWriter(new FileStream(TargetDirectory.FullName + "/" + c.HeaderFileName, FileMode.Create));

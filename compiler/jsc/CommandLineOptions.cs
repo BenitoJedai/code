@@ -77,6 +77,9 @@ namespace jsc
         [CommandLineOption(Flag = "cs2")]
         public bool IsCSharp2;
 
+		[CommandLineOption(Flag = "c")]
+		public bool IsC;
+
 
         [CommandLineOption(Flag = "trim", Description = "Unused types will be ommited")]
         public bool Trim;

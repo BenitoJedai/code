@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace FlashPlasma.Alchemy.System
+namespace ScriptCoreLib.Alchemy.Headers
 {
 	/// <summary>
 	/// http://www.cplusplus.com/ref/cstdio/

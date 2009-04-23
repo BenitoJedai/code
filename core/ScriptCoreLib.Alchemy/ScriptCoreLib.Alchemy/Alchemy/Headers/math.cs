@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace FlashPlasma.Alchemy.System
+namespace ScriptCoreLib.Alchemy.Headers
 {
 	[Script(IsNative = true, Header = "math.h", IsSystemHeader = true)]
 	public static class math_h

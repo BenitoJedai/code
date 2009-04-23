@@ -44,6 +44,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Alchemy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Alchemy.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
@@ -63,14 +67,9 @@
     <Compile Include="ActionScript\Alchemy\CLibInit.cs" />
     <Compile Include="ActionScript\OrcasFlashApplication.cs" />
     <Compile Include="ActionScript\Extensions.cs" />
-    <Compile Include="Alchemy\BCLImplementation\System\Math.cs" />
     <Compile Include="Alchemy\Program.plasma.cs" />
     <Compile Include="Alchemy\Program.echo.cs" />
     <Compile Include="Alchemy\Program.cs" />
-    <Compile Include="Alchemy\Headers\AS3.cs" />
-    <Compile Include="Alchemy\Headers\math.cs" />
-    <Compile Include="Alchemy\Headers\stdio.cs" />
-    <Compile Include="Alchemy\Headers\stdlib.cs" />
     <Compile Include="KnownAssets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
