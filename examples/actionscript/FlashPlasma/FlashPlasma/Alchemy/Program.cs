@@ -12,8 +12,30 @@ namespace FlashPlasma.Alchemy
 	[Script]
 	public static  partial class Program
 	{
-	
 
+		[global::System.Runtime.CompilerServices.CompilerGenerated]
+		static AS3_Val generatePlasma(object self, AS3_Val args)
+		{
+			int width;
+			int height;
+			AS3_h.AS3_ArrayValue(args, "IntType, IntType", __arglist(out width, out height));
+			var value = generatePlasma(width, height);
+			width = default(int);
+			height = default(int);
+			return AS3_h.AS3_Ptr(value);
+		}
+
+		[global::System.Runtime.CompilerServices.CompilerGenerated]
+		static AS3_Val shiftPlasma(object self, AS3_Val args)
+		{
+			int shift;
+			AS3_h.AS3_ArrayValue(args, "IntType", __arglist(out shift));
+			var value = shiftPlasma(shift);
+			shift = default(int);
+			return AS3_h.AS3_Ptr(value);
+		}
+
+		[global::System.Runtime.CompilerServices.CompilerGenerated]
 		[Script(NoDecoration = true)]
 		static int main()
 		{
