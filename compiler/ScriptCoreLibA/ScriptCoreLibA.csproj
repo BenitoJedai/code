@@ -57,6 +57,8 @@
     <Compile Include="ActionScript\EmbedByFileNameAttribute.cs" />
     <Compile Include="ActionScript\EmbedFieldsAttribute.cs" />
     <Compile Include="CSharp\Extensions\StringToSByteArray.cs" />
+    <Compile Include="Library\CodeWriter.cs" />
+    <Compile Include="Library\ProtectiveFileStream.cs" />
     <Compile Include="ScriptTypeFilterAttribute.cs" />
     <Compile Include="Shared\EmbedGetFileNamesAttribute.cs" />
     <Compile Include="ActionScript\EmbedMimeTypes.cs" />
