@@ -229,3 +229,5 @@ version history:
 	java: fixed string to sbyte implementation provider
 21.04.2009
 	java: added some isiinst opcode support
+23.04.2009
+	c: added multiple assembly to single file renderer

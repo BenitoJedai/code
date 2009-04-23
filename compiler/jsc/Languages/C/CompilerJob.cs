@@ -96,52 +96,48 @@ namespace jsc.Languages
 			using (new Helper.ConsoleStopper("C type compiler"))
 			{
 
-				var g = xw.Session.Types.GroupBy(k => k.Assembly).Select(k => k.Key).ToArray();
 
-				n.ForEach(g,
-					delegate(Assembly xx)
-					{
+				var xx = j.AssamblyInfo;
 
+				if (Path.GetFullPath(xx.Location) == sinfo.Options.TargetAssembly.FullName)
+				{
 
+					#region c
+					jsc.Languages.C.CCompiler c = new jsc.Languages.C.CCompiler(new StringWriter(), xw.Session);
 
-						#region c
-						jsc.Languages.C.CCompiler c = new jsc.Languages.C.CCompiler(new StringWriter(), xw.Session);
+					AttachXMLDoc(new FileInfo(xx.Location), c);
 
-						AttachXMLDoc(new FileInfo(xx.Location), c);
+					c.HeaderFileName = Path.GetFileName(xx.Location) + ".h";
 
-						c.HeaderFileName = Path.GetFileName(xx.Location) + ".h";
+					// .c
+					c.Compile(xx);
 
-						// .c
-						c.Compile(xx);
+					StreamWriter _stream2 = new StreamWriter(new FileStream(TargetDirectory.FullName + "/" + Path.GetFileName(xx.Location) + ".c", FileMode.Create));
 
-						StreamWriter _stream2 = new StreamWriter(new FileStream(TargetDirectory.FullName + "/" + Path.GetFileName(xx.Location) + ".c", FileMode.Create));
+					_stream2.Write(c.MyWriter.ToString());
+					_stream2.Flush();
+					_stream2.Close();
 
-						_stream2.Write(c.MyWriter.ToString());
-						_stream2.Flush();
-						_stream2.Close();
+					// .h
+					c.IsHeaderOnlyMode = true;
+					c.MyWriter = new StringWriter();
 
-						// .h
-						c.IsHeaderOnlyMode = true;
-						c.MyWriter = new StringWriter();
-
-						c.Compile(xx);
+					c.Compile(xx);
 
 
-						StreamWriter _stream = new StreamWriter(new FileStream(TargetDirectory.FullName + "/" + c.HeaderFileName, FileMode.Create));
+					StreamWriter _stream = new StreamWriter(new FileStream(TargetDirectory.FullName + "/" + c.HeaderFileName, FileMode.Create));
 
-						_stream.Write(c.MyWriter.ToString());
-						_stream.Flush();
+					_stream.Write(c.MyWriter.ToString());
+					_stream.Flush();
 
-						_stream.Close();
-						#endregion
+					_stream.Close();
+					#endregion
+
+				
 
 
-
-
-					}
-				);
-
-				Languages.CompilerJob.InvokeEntryPoints(TargetDirectory, j.AssamblyInfo);
+					Languages.CompilerJob.InvokeEntryPoints(TargetDirectory, j.AssamblyInfo);
+				}
 
 			}
 

@@ -1322,19 +1322,19 @@ namespace jsc.Languages.C
 
 			if (IsHeaderOnlyMode)
 			{
-				foreach (var h in SharedHelper.LoadReferencedAssemblies(a, false))
-				{
-					if (h.GetCustomAttributes<ScriptTypeFilterAttribute>().Any(k => k.Type == ScriptType.C))
-						WriteLine("#include \"" + Path.GetFileName(h.Location) + ".h\"");
-				}
+				//foreach (var h in SharedHelper.LoadReferencedAssemblies(a, false))
+				//{
+				//    if (h.GetCustomAttributes<ScriptTypeFilterAttribute>().Any(k => k.Type == ScriptType.C))
+				//        WriteLine("#include \"" + Path.GetFileName(h.Location) + ".h\"");
+				//}
 
 				WriteLine();
 
 				#region write include headers
 				foreach (Type u in this.MySession.Types)
 				{
-					if (u.Assembly != a)
-						continue;
+					//if (u.Assembly != a)
+					//    continue;
 
 					ScriptAttribute s = ScriptAttribute.Of(u);
 
@@ -1364,8 +1364,8 @@ namespace jsc.Languages.C
 
 			foreach (Type u in this.MySession.Types)
 			{
-				if (u.Assembly != a)
-					continue;
+				//if (u.Assembly != a)
+				//    continue;
 
 
 				ScriptAttribute s = ScriptAttribute.Of(u);
@@ -1386,8 +1386,8 @@ namespace jsc.Languages.C
 
 			foreach (Type u in this.MySession.Types)
 			{
-				if (u.Assembly != a)
-					continue;
+				//if (u.Assembly != a)
+				//    continue;
 
 				ScriptAttribute s = ScriptAttribute.Of(u);
 
@@ -1402,8 +1402,8 @@ namespace jsc.Languages.C
 
 			foreach (Type u in this.MySession.Types)
 			{
-				if (u.Assembly != a)
-					continue;
+				//if (u.Assembly != a)
+				//    continue;
 
 				ScriptAttribute s = ScriptAttribute.Of(u);
 

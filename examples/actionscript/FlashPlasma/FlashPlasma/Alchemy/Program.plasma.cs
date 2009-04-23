@@ -19,16 +19,7 @@ namespace FlashPlasma.Alchemy
 		static uint[] plasma;
 		static uint[] newPlasma;
 
-		[global::System.Runtime.CompilerServices.CompilerGenerated]
-		static AS3_Val generatePlasma(object self, AS3_Val args)
-		{
-			int width;
-			int height;
-			AS3_h.AS3_ArrayValue(args, "IntType, IntType", __arglist(out width, out height));
-			var value = generatePlasma(width, height);
-			return AS3_h.AS3_Ptr(value);
-		}
-
+	
 		[Alchemy]
 		static uint[] generatePlasma(int width, int height)
 		{
@@ -77,14 +68,7 @@ namespace FlashPlasma.Alchemy
 			return plasma;
 		}
 
-		[global::System.Runtime.CompilerServices.CompilerGenerated]
-		static AS3_Val shiftPlasma(object self, AS3_Val args)
-		{
-			int shift;
-			AS3_h.AS3_ArrayValue(args, "IntType", __arglist(out shift));
-			var value = shiftPlasma(shift);
-			return AS3_h.AS3_Ptr(value);
-		}
+		
 
 		[Alchemy]
 		static uint[] shiftPlasma(int shift)
