@@ -107,6 +107,10 @@ namespace jsc.Languages
                 if (j.GetTypeFilterListByType(ScriptType.CSharp2).Any())
                     CompileCSharp2(j, sinfo);
 
+			if (sinfo.Options.IsC || sinfo.Options.IsAllModulesAllLanguages)
+				if (j.GetTypeFilterListByType(ScriptType.C).Any())
+					CompileC(j, sinfo);
+
         }
 
 

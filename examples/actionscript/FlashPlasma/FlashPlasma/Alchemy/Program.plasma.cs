@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
-using FlashPlasma.Alchemy.System;
+using ScriptCoreLib.Alchemy;
+using ScriptCoreLib.Alchemy.Headers;
 
 namespace FlashPlasma.Alchemy
 {
@@ -18,10 +19,23 @@ namespace FlashPlasma.Alchemy
 		static uint[] plasma;
 		static uint[] newPlasma;
 
-
+		[global::System.Runtime.CompilerServices.CompilerGenerated]
 		static AS3_Val generatePlasma(object self, AS3_Val args)
 		{
-			AS3_h.AS3_ArrayValue(args, "IntType, IntType", __arglist(ref width, ref height));
+			int width;
+			int height;
+			AS3_h.AS3_ArrayValue(args, "IntType, IntType", __arglist(out width, out height));
+			var value = generatePlasma(width, height);
+			return AS3_h.AS3_Ptr(value);
+		}
+
+		[Alchemy]
+		static uint[] generatePlasma(int width, int height)
+		{
+			Program.width = width;
+			Program.height = height;
+
+
 
 			palette = new uint[256];
 			plasma = new uint[width * height];
@@ -50,7 +64,7 @@ namespace FlashPlasma.Alchemy
 						128.0 + (128.0 * Math.Sin(x / 16.0)) +
 						128.0 + (128.0 * Math.Sin(y / 8.0)) +
 						128.0 + (128.0 * Math.Sin((x + y) / 16.0)) +
-						128.0 + (128.0 * Math.Sin(math_h.sqrt(x * x + y * y) / 8.0))
+						128.0 + (128.0 * Math.Sin(Math.Sqrt(x * x + y * y) / 8.0))
 					) / 4);
 
 
@@ -60,16 +74,23 @@ namespace FlashPlasma.Alchemy
 				}
 			}
 
-
-			return AS3_h.AS3_Ptr(plasma);
+			return plasma;
 		}
 
+		[global::System.Runtime.CompilerServices.CompilerGenerated]
 		static AS3_Val shiftPlasma(object self, AS3_Val args)
 		{
-			var shift = 0;
+			int shift;
+			AS3_h.AS3_ArrayValue(args, "IntType", __arglist(out shift));
+			var value = shiftPlasma(shift);
+			return AS3_h.AS3_Ptr(value);
+		}
+
+		[Alchemy]
+		static uint[] shiftPlasma(int shift)
+		{
 			var index = 0;
 
-			AS3_h.AS3_ArrayValue(args, "IntType", __arglist( ref shift));
 
 			for (var x = 0; x < width; x++)
 			{
@@ -81,7 +102,7 @@ namespace FlashPlasma.Alchemy
 				}
 			}
 
-			return AS3_h.AS3_Ptr(newPlasma);
+			return newPlasma;
 		}
 	}
 }

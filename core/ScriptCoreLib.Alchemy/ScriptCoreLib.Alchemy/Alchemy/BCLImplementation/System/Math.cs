@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FlashPlasma.Alchemy.System;
 using ScriptCoreLib;
+using ScriptCoreLib.Alchemy.Headers;
 
-namespace FlashPlasma.Alchemy.BCLImplementation.System
+namespace ScriptCoreLib.Alchemy.BCLImplementation.System
 {
 	[Script(Implements = typeof(global::System.Math))]
 	internal static class __Math

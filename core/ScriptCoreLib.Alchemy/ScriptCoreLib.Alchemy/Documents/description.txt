@@ -1,0 +1,6 @@
+﻿http://forums.adobe.com/thread/421296;jsessionid=A2DF46A5E29FBEE33D0C98BAD75E4151.node0?tstart=0
+
+jsc will convert your C# code to C and ActionScript.
+
+The c/c++ code is converted to bytecode via llvm, and then the llvm bytecode is written into 
+an actionscript sourcefile, which is then compiled using the actionscript compiler bundled with Alchemy.

@@ -17,6 +17,7 @@ namespace jsc
         public Type[] Types;
 
 
+		
 
         public List<Type> ImplementationTypes = new List<Type>();
 

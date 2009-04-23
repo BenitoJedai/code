@@ -38,8 +38,8 @@ goto :eof
 :jsc
 pushd ..\bin\%ConfigurationName%
 
-call c:\util\jsc\bin\jsc.exe %1.dll  -x 
-call c:\util\jsc\bin\jsc.exe %1.dll -as
+call c:\util\jsc\bin\jsc.exe %1.dll -c -as
+::call c:\util\jsc\bin\jsc.exe %1.dll -as
 
 
 popd

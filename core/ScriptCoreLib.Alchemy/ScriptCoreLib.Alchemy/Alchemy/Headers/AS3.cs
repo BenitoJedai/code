@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace FlashPlasma.Alchemy.System
+namespace ScriptCoreLib.Alchemy.Headers
 {
 	using AS3_Val = AS3_h._AS3_Val;
 	using AS3_ThunkProc = AS3_h._AS3_ThunkProc;

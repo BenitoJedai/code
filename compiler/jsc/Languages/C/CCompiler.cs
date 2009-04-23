@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Xml;
+using System.Linq;
 
 using IntPtr = global::System.IntPtr;
 
@@ -18,6 +19,9 @@ namespace jsc.Languages.C
 {
 	class CCompiler : CompilerCLike
 	{
+		public static string FileExtension = "c";
+
+
 		public string HeaderFileName;
 
 		public bool IsHeaderOnlyMode;
@@ -1310,7 +1314,7 @@ namespace jsc.Languages.C
 		}
 
 
-		public void Compile()
+		public void Compile(Assembly a)
 		{
 			WriteMachineGeneratedWarning();
 
@@ -1318,9 +1322,20 @@ namespace jsc.Languages.C
 
 			if (IsHeaderOnlyMode)
 			{
+				foreach (var h in SharedHelper.LoadReferencedAssemblies(a, false))
+				{
+					if (h.GetCustomAttributes<ScriptTypeFilterAttribute>().Any(k => k.Type == ScriptType.C))
+						WriteLine("#include \"" + Path.GetFileName(h.Location) + ".h\"");
+				}
+
+				WriteLine();
+
 				#region write include headers
 				foreach (Type u in this.MySession.Types)
 				{
+					if (u.Assembly != a)
+						continue;
+
 					ScriptAttribute s = ScriptAttribute.Of(u);
 
 					if (s == null)
@@ -1349,6 +1364,10 @@ namespace jsc.Languages.C
 
 			foreach (Type u in this.MySession.Types)
 			{
+				if (u.Assembly != a)
+					continue;
+
+
 				ScriptAttribute s = ScriptAttribute.Of(u);
 
 				// native types are just a placehodlers, so we skip em
@@ -1367,6 +1386,9 @@ namespace jsc.Languages.C
 
 			foreach (Type u in this.MySession.Types)
 			{
+				if (u.Assembly != a)
+					continue;
+
 				ScriptAttribute s = ScriptAttribute.Of(u);
 
 				// native types are just a placehodlers, so we skip em
@@ -1380,6 +1402,9 @@ namespace jsc.Languages.C
 
 			foreach (Type u in this.MySession.Types)
 			{
+				if (u.Assembly != a)
+					continue;
+
 				ScriptAttribute s = ScriptAttribute.Of(u);
 
 				// native types are just a placehodlers, so we skip em
