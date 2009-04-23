@@ -67,12 +67,11 @@
     <Compile Include="ActionScript\OrcasFlashApplication.cs" />
     <Compile Include="ActionScript\Extensions.cs" />
     <Compile Include="Alchemy\Program.Dispatch.cs" />
-    <Compile Include="Alchemy\Program.plasma.cs" />
-    <Compile Include="Alchemy\Program.echo.cs" />
     <Compile Include="Alchemy\Program.cs" />
     <Compile Include="KnownAssets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
+    <Compile Include="SharedAlchemy\Plasma.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\description.txt" />
