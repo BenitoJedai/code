@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Alchemy", "ScriptCoreLib.Alchemy\ScriptCoreLib.Alchemy.csproj", "{0C1030AE-1B87-45E7-8F3E-AE4846343746}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Alchemy.ExportGenerator", "ScriptCoreLib.Alchemy.ExportGenerator\ScriptCoreLib.Alchemy.ExportGenerator.csproj", "{4A268722-DD20-4296-850F-E63115F2AAD2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{0C1030AE-1B87-45E7-8F3E-AE4846343746}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C1030AE-1B87-45E7-8F3E-AE4846343746}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C1030AE-1B87-45E7-8F3E-AE4846343746}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A268722-DD20-4296-850F-E63115F2AAD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A268722-DD20-4296-850F-E63115F2AAD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A268722-DD20-4296-850F-E63115F2AAD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A268722-DD20-4296-850F-E63115F2AAD2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

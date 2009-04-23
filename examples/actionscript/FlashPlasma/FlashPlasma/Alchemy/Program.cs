@@ -3,67 +3,98 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using ScriptCoreLib.Alchemy;
 using ScriptCoreLib.Alchemy.Headers;
+
 
 namespace FlashPlasma.Alchemy
 {
 	using AS3_Val = AS3_h._AS3_Val;
 
 	[Script]
-	public static  partial class Program
+	public static partial class Program
 	{
 
-		[global::System.Runtime.CompilerServices.CompilerGenerated]
-		static AS3_Val generatePlasma(object self, AS3_Val args)
+		static int width;
+		static int height;
+
+		static uint[] palette;
+		static uint[] plasma;
+		static uint[] newPlasma;
+
+		[Alchemy]
+		static string echo()
 		{
-			int width;
-			int height;
-			AS3_h.AS3_ArrayValue(args, "IntType, IntType", __arglist(out width, out height));
-			var value = generatePlasma(width, height);
-			width = default(int);
-			height = default(int);
-			return AS3_h.AS3_Ptr(value);
+			return "alchemy via c# via jsc";
 		}
 
-		[global::System.Runtime.CompilerServices.CompilerGenerated]
-		static AS3_Val shiftPlasma(object self, AS3_Val args)
+		[Alchemy]
+		static uint[] generatePlasma(int width, int height)
 		{
-			int shift;
-			AS3_h.AS3_ArrayValue(args, "IntType", __arglist(out shift));
-			var value = shiftPlasma(shift);
-			shift = default(int);
-			return AS3_h.AS3_Ptr(value);
+			Program.width = width;
+			Program.height = height;
+
+
+
+			palette = new uint[256];
+			plasma = new uint[width * height];
+			newPlasma = new uint[width * height];
+
+			for (var x = 0; x < 256; x++)
+			{
+				var b = (int)(128.0 + 128 * Math.Sin(Math.PI * x / 16.0));
+				var g = (int)(128.0 + 128 * Math.Sin(Math.PI * x / 128.0));
+				var r = 0;
+
+				uint color = (uint)(r << 16 | g << 8 | b);
+
+				color |= 0xff000000u;
+
+				palette[x] = color;
+			}
+
+			int index = 0;
+
+			for (var x = 0; x < width; x++)
+			{
+				for (var y = 0; y < height; y++)
+				{
+					uint color = (uint)((
+						128.0 + (128.0 * Math.Sin(x / 16.0)) +
+						128.0 + (128.0 * Math.Sin(y / 8.0)) +
+						128.0 + (128.0 * Math.Sin((x + y) / 16.0)) +
+						128.0 + (128.0 * Math.Sin(Math.Sqrt(x * x + y * y) / 8.0))
+					) / 4);
+
+
+					color |= 0xff000000u;
+
+					plasma[index++] = color;
+				}
+			}
+
+			return plasma;
 		}
 
-		[global::System.Runtime.CompilerServices.CompilerGenerated]
-		[Script(NoDecoration = true)]
-		static int main()
+
+
+		[Alchemy]
+		static uint[] shiftPlasma(int shift)
 		{
+			var index = 0;
 
 
+			for (var x = 0; x < width; x++)
+			{
+				for (var y = 0; y < height; y++)
+				{
+					var paletteIndex = (int)((uint)(plasma[index] + shift) % 256);
+					newPlasma[index] = palette[paletteIndex];
+					index++;
+				}
+			}
 
-
-			//define the methods exposed to ActionScript
-			//typed as an ActionScript Function instance
-			var echoMethod = AS3_h.AS3_Function(null, echo);
-			var generatePlasmaMethod = AS3_h.AS3_Function(null, generatePlasma);
-			var shiftPlasmaMethod = AS3_h.AS3_Function(null, shiftPlasma);
-
-			// construct an object that holds references to the functions
-			var result = AS3_h.AS3_Object("echo: AS3ValType,generatePlasma: AS3ValType,shiftPlasma: AS3ValType",
-				__arglist(echoMethod, generatePlasmaMethod, shiftPlasmaMethod)
-			);
-
-			// Release
-			AS3_h.AS3_Release(echoMethod);
-			AS3_h.AS3_Release(generatePlasmaMethod);
-			AS3_h.AS3_Release(shiftPlasmaMethod);
-
-			// notify that we initialized -- THIS DOES NOT RETURN!
-			AS3_h.AS3_LibInit(result);
-
-			// should never get here!
-			return 0;
+			return newPlasma;
 		}
 	}
 }
