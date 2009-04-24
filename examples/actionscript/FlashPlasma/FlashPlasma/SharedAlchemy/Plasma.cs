@@ -17,13 +17,6 @@ namespace FlashPlasma.SharedAlchemy
 		static uint[] plasma;
 		public static uint[] newPlasma;
 
-		[Alchemy]
-		public static string echo()
-		{
-			return "alchemy via c# via jsc";
-		}
-
-		[Alchemy]
 		public static uint[] generatePlasma(int width, int height)
 		{
 			Plasma.width = width;
@@ -71,9 +64,6 @@ namespace FlashPlasma.SharedAlchemy
 			return plasma;
 		}
 
-
-
-		[Alchemy]
 		public static uint[] shiftPlasma(int shift)
 		{
 			var index = 0;

@@ -40,7 +40,7 @@ using ScriptCoreLib;
 [assembly:
 	Script,
 	ScriptTypeFilter(ScriptType.ActionScript, typeof(FlashPlasma.ActionScript.FlashPlasma)),
-	ScriptTypeFilter(ScriptType.C, typeof(FlashPlasma.Alchemy.Program)),
+	ScriptTypeFilter(ScriptType.C, typeof(FlashPlasma.Alchemy.AlchemyProgram)),
 	ScriptTypeFilter(ScriptType.ActionScript, typeof(FlashPlasma.SharedAlchemy.Plasma)),
 	ScriptTypeFilter(ScriptType.C, typeof(FlashPlasma.SharedAlchemy.Plasma))
 ]

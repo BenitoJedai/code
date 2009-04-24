@@ -7,14 +7,15 @@ using ScriptCoreLib.Alchemy;
 using ScriptCoreLib.Alchemy.Headers;
 
 
+
 namespace FlashPlasma.Alchemy
 {
-	using AS3_Val = AS3_h._AS3_Val;
 
 	[Script]
-	public static partial class Program
+	[Alchemy(typeof(global::FlashPlasma.SharedAlchemy.Plasma))]
+	public static partial class AlchemyProgram
 	{
 
-	
+
 	}
 }

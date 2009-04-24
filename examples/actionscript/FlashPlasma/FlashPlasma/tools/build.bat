@@ -40,7 +40,7 @@ goto :eof
 :jsc
 pushd ..\bin\%ConfigurationName%
 
-call c:\util\jsc\bin\jsc.exe %1.dll -c -as
+call c:\util\jsc\bin\jsc.exe %TargetFileName% -c -as
 ::call c:\util\jsc\bin\jsc.exe %1.dll -as
 
 
@@ -71,7 +71,7 @@ call C:\util\flex33\bin\mxmlc.exe -optimize -library-path+=%TargetFileName%.swc 
 goto :eof
 :createproxy
 
-call c:\util\jsc\bin\ScriptCoreLib.Alchemy.ExportGenerator.exe "..\bin\%ConfigurationName%\%TargetFileName%" "FlashPlasma.Alchemy.Program" "..\Alchemy\Program.Dispatch.cs"
+call c:\util\jsc\bin\ScriptCoreLib.Alchemy.ExportGenerator.exe "..\bin\%ConfigurationName%\%TargetFileName%" "FlashPlasma.Alchemy.AlchemyProgram" "..\Alchemy\AlchemyProgram.Dispatch.cs" "FlashPlasma.ActionScript.PlasmaProxy"
 
 
 goto :eof

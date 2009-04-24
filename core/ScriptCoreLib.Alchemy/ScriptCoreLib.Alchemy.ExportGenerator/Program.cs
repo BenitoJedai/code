@@ -16,6 +16,17 @@ namespace ScriptCoreLib.Alchemy.ExportGenerator
 			var TargetAssembly = Assembly.LoadFile(Path.GetFullPath(args[0]));
 			var TargetType = TargetAssembly.GetType(args[1], true);
 			var TargetFile = args[2];
+			var ProxyFullname = args[3];
+			var ProxyNamespace = ProxyFullname.Substring(0, ProxyFullname.LastIndexOf("."));
+			var ProxyName = ProxyFullname.Substring(ProxyFullname.LastIndexOf(".") + 1);
+
+			var ExportedMethods =
+							from SomeType in TargetType.GetCustomAttributes(typeof(AlchemyAttribute), false).Cast<AlchemyAttribute>()
+							from m in SomeType.TargetType.GetMethods(BindingFlags.Static | BindingFlags.Public)
+							let Parameters = m.GetParameters()
+							select new { m, Parameters };
+
+			var CModuleNamespace = "cmodule." + Path.GetFileNameWithoutExtension(TargetAssembly.Location);
 
 			using (var p = new ProtectiveFileStream(new FileInfo(TargetFile)))
 			using (var s = new StreamWriter(p))
@@ -33,7 +44,7 @@ namespace ScriptCoreLib.Alchemy.ExportGenerator
 				w.Statement("// Clear this file to force code generation.");
 
 				#region cmodule
-				w.Namespace("cmodule." + Path.GetFileNameWithoutExtension(TargetAssembly.Location),
+				w.Namespace(CModuleNamespace,
 					delegate
 					{
 						w.Using("ScriptCoreLib");
@@ -61,6 +72,7 @@ namespace ScriptCoreLib.Alchemy.ExportGenerator
 				);
 				#endregion
 
+				#region exported methods and main
 				w.Namespace(TargetType.Namespace,
 					delegate
 					{
@@ -69,16 +81,10 @@ namespace ScriptCoreLib.Alchemy.ExportGenerator
 						w.Block("partial class " + TargetType.Name,
 							delegate
 							{
-								var source =
-									from SomeType in TargetAssembly.GetTypes()
-									from m in SomeType.GetMethods(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public)
-									let ms = m.GetCustomAttributes(typeof(AlchemyAttribute), false).Cast<AlchemyAttribute>().FirstOrDefault()
-									where ms != null
-									let Parameters = m.GetParameters()
-									select new { m, ms, Parameters };
+
 
 								#region exposed methods
-								foreach (var k in source)
+								foreach (var k in ExportedMethods)
 								{
 
 									w.Statement("[global::System.Runtime.CompilerServices.CompilerGenerated]");
@@ -157,14 +163,14 @@ namespace ScriptCoreLib.Alchemy.ExportGenerator
 								w.Block("static int main()",
 									delegate
 									{
-										foreach (var k in source)
+										foreach (var k in ExportedMethods)
 										{
 											w.Statement("var __" + k.m.Name + " = AS3_h.AS3_Function(null, " + k.m.Name + ");");
 										}
 
 										w.Statement("var __result = AS3_h.AS3_Object(\"" +
 											string.Join(",",
-												source.Select(
+												ExportedMethods.Select(
 													m =>
 													{
 														return m.m.Name + ": AS3ValType";
@@ -173,7 +179,7 @@ namespace ScriptCoreLib.Alchemy.ExportGenerator
 											)
 											+ "\", __arglist(" +
 											string.Join(",",
-												source.Select(
+												ExportedMethods.Select(
 													m =>
 													{
 														return "__" + m.m.Name;
@@ -183,7 +189,7 @@ namespace ScriptCoreLib.Alchemy.ExportGenerator
 											+ "));");
 
 
-										foreach (var k in source)
+										foreach (var k in ExportedMethods)
 										{
 											w.Statement("AS3_h.AS3_Release(__" + k.m.Name + ");");
 										}
@@ -191,6 +197,87 @@ namespace ScriptCoreLib.Alchemy.ExportGenerator
 										w.Statement("AS3_h.AS3_LibInit(__result);");
 										w.Statement("return 0;");
 
+									}
+								);
+							}
+						);
+					}
+				);
+				#endregion
+
+				w.Namespace(ProxyNamespace,
+					delegate
+					{
+						w.Using("System");
+						w.Using("ScriptCoreLib");
+						w.Using("ScriptCoreLib.ActionScript");
+						w.Using("ScriptCoreLib.ActionScript.Extensions");
+						w.Using("ScriptCoreLib.ActionScript.flash.utils");
+
+						w.Statement("[global::System.Runtime.CompilerServices.CompilerGenerated]");
+						w.Statement("[Script]");
+						w.Block("public static class " + ProxyName,
+							delegate
+							{
+								w.Statement("public static ByteArray Memory;");
+
+								w.Statement("[Script(OptimizedCode = @\"return (ns::gstate).ds\")]");
+								w.Block("public static ByteArray get_ds(Namespace ns)",
+									delegate
+									{
+										w.Statement("return default(ByteArray);");
+									}
+								);
+
+								Func<MethodInfo, string> GetGenericTypes =
+									m =>
+									{
+										var ReturnType = "";
+
+										// a pointer
+										if (m.ReturnType.IsArray)
+											ReturnType = "uint";
+										else if (m.ReturnType == typeof(string))
+											ReturnType = "string";
+										else if (m.ReturnType == typeof(int))
+											ReturnType = "int";
+										else throw new NotSupportedException();
+
+										return string.Join(", ",
+											m.GetParameters().Select(
+												Parameter =>
+												{
+													if (Parameter.ParameterType == typeof(int))
+														return "int";
+
+													if (Parameter.ParameterType == typeof(string))
+														return "string";
+
+													throw new NotSupportedException();
+												}
+											).ToArray()
+										)
+										+ (m.GetParameters().Any() ? ", " : "")
+										+ ReturnType;
+									};
+
+
+								foreach (var k in ExportedMethods)
+								{
+									w.Statement("public static readonly Func<" + GetGenericTypes(k.m) + "> " + k.m.Name + ";");
+								}
+
+								w.Block("static " + ProxyName + "()",
+									delegate
+									{
+										w.Statement("var __loader = new " + CModuleNamespace + ".CLibInit();");
+										w.Statement("var __lib = new DynamicDelegatesContainer { Subject = __loader.init() };");
+										w.Statement(ProxyName + ".Memory = get_ds(new Namespace(\"" + CModuleNamespace + "\"));");
+
+										foreach (var k in ExportedMethods)
+										{
+											w.Statement(ProxyName + "." + k.m.Name + " = __lib.ToFunc<" + GetGenericTypes(k.m) + ">(\"" + k.m.Name + "\");");
+										}
 									}
 								);
 							}

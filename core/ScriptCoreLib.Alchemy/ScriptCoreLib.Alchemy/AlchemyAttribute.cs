@@ -7,5 +7,11 @@ namespace ScriptCoreLib.Alchemy
 {
 	public class AlchemyAttribute : Attribute
 	{
+		public Type TargetType;
+		
+		public AlchemyAttribute(Type t)
+		{
+			this.TargetType = t;
+		}
 	}
 }
