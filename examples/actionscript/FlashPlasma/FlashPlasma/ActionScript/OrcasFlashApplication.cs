@@ -38,28 +38,11 @@ namespace FlashPlasma.ActionScript
 		 * The bitmapdata which will be used to draw
 		 * the plasma on 
 		 */
-		protected BitmapData bmd;
-		/**
-		 * The ByteArray that holds Alchemy's memory.
-		 * We will use this to access the generated
-		 * palette and plasma data
-		 */
-		protected ByteArray alchemyMemory;
-		/**
-		 * The Alchemy object 
-		 */
-		protected DynamicDelegatesContainer plasmaLib;
-		/**
-		 * Boolean that indicates if we should use
-		 * Alchemy rendering
-		 */
-		protected int renderAlchemy;
+		protected BitmapData Buffer;
+	
+		protected int RenderMode;
 
-		[Script(OptimizedCode = @"return (ns::gstate).ds")]
-		public static ByteArray get_ds(Namespace ns)
-		{
-			return null;
-		}
+	
 		/// <summary>
 		/// Default constructor
 		/// </summary>
@@ -69,17 +52,18 @@ namespace FlashPlasma.ActionScript
 			this.InvokeWhenStageIsReady(
 				delegate
 				{
-					bmd = new BitmapData(DefaultWidth, DefaultHeight, false);
-					var bitmap = new Bitmap(bmd);
+					Buffer = new BitmapData(DefaultWidth, DefaultHeight, false);
+					var bitmap = new Bitmap(Buffer);
 					addChild(bitmap);
 
 					generatePlasma();
-					renderAlchemy = 0;
+
+					RenderMode = 0;
 
 					stage.click +=
 						delegate
 						{
-							renderAlchemy++;
+							RenderMode++;
 						};
 
 					stage.enterFrame +=
@@ -100,20 +84,22 @@ namespace FlashPlasma.ActionScript
 		{
 			var shift = getTimer() / 10;
 
-			bmd.@lock();
+			Buffer.@lock();
 
-			if (renderAlchemy % 3 == 0)
+			if (RenderMode % 3 == 0)
 			{
+				PlasmaProxy.Memory.position = PlasmaProxy.shiftPlasma(shift);
+
 				// -- Alchemy palette shifting
-				alchemyMemory.position = plasmaLib.ToFunc<int, uint>("shiftPlasma")(shift);
+				//alchemyMemory.position = plasmaLib.ToFunc<int, uint>("shiftPlasma")(shift);
 				// -- write the ByteArray straight to the bitmap data 
-				bmd.setPixels(bmd.rect, alchemyMemory);
+				Buffer.setPixels(Buffer.rect, PlasmaProxy.Memory);
 			}
 			else
 			{
 				Plasma.shiftPlasma(shift);
 
-				if (renderAlchemy % 3 == 1)
+				if (RenderMode % 3 == 1)
 				{
 					var m = new ByteArray();
 					foreach (var i in Plasma.newPlasma)
@@ -121,7 +107,7 @@ namespace FlashPlasma.ActionScript
 						m.writeUnsignedInt(i);
 					}
 					m.position = 0;
-					bmd.setPixels(bmd.rect, m);
+					Buffer.setPixels(Buffer.rect, m);
 
 				}
 				else
@@ -134,28 +120,17 @@ namespace FlashPlasma.ActionScript
 							//uint c = palette[(plasma[x][y] + shift) % 256];
 
 
-							bmd.setPixel(x, y, Plasma.newPlasma[x + y * DefaultWidth] | 0xff000000u);
+							Buffer.setPixel(x, y, Plasma.newPlasma[x + y * DefaultWidth] | 0xff000000u);
 						}
 				}
 			}
 
-			bmd.unlock();
+			Buffer.unlock();
 		}
 
 		private void generatePlasma()
 		{
-			var loader = new cmodule.FlashPlasma.CLibInit();
-			plasmaLib = new DynamicDelegatesContainer { Subject = loader.init() };
-
-			// -- get Alchemy's memory ByteArray
-			var ns = new Namespace("cmodule.FlashPlasma");
-			alchemyMemory = get_ds(ns);
-
-			// -- generate the palette & plasma pattern 
-			//    and get the memory position (Alchemy)
-			var plasmaPointer = plasmaLib.ToFunc<int, int, uint>("generatePlasma")(DefaultWidth, DefaultHeight);
-			alchemyMemory.position = plasmaPointer;
-
+			PlasmaProxy.Memory.position = PlasmaProxy.generatePlasma(DefaultWidth, DefaultHeight);
 			Plasma.generatePlasma(DefaultWidth, DefaultHeight);
 		}
 

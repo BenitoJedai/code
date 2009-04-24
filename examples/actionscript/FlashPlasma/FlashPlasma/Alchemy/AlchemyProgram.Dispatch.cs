@@ -28,14 +28,8 @@ namespace FlashPlasma.Alchemy
 {
 	using ScriptCoreLib;
 	using ScriptCoreLib.Alchemy.Headers;
-	partial class Program
+	partial class AlchemyProgram
 	{
-		[global::System.Runtime.CompilerServices.CompilerGenerated]
-		static AS3_h._AS3_Val echo(object self, AS3_h._AS3_Val args)
-		{
-			var __value = FlashPlasma.SharedAlchemy.Plasma.echo();
-			return AS3_h.AS3_Ptr(__value);
-		}
 		[global::System.Runtime.CompilerServices.CompilerGenerated]
 		static AS3_h._AS3_Val generatePlasma(object self, AS3_h._AS3_Val args)
 		{
@@ -60,15 +54,42 @@ namespace FlashPlasma.Alchemy
 		[Script(NoDecoration = true)]
 		static int main()
 		{
-			var __echo = AS3_h.AS3_Function(null, echo);
 			var __generatePlasma = AS3_h.AS3_Function(null, generatePlasma);
 			var __shiftPlasma = AS3_h.AS3_Function(null, shiftPlasma);
-			var __result = AS3_h.AS3_Object("echo: AS3ValType,generatePlasma: AS3ValType,shiftPlasma: AS3ValType", __arglist(__echo,__generatePlasma,__shiftPlasma));
-			AS3_h.AS3_Release(__echo);
+			var __result = AS3_h.AS3_Object("generatePlasma: AS3ValType,shiftPlasma: AS3ValType", __arglist(__generatePlasma,__shiftPlasma));
 			AS3_h.AS3_Release(__generatePlasma);
 			AS3_h.AS3_Release(__shiftPlasma);
 			AS3_h.AS3_LibInit(__result);
 			return 0;
+		}
+	}
+}
+namespace FlashPlasma.ActionScript
+{
+	using System;
+	using ScriptCoreLib;
+	using ScriptCoreLib.ActionScript;
+	using ScriptCoreLib.ActionScript.Extensions;
+	using ScriptCoreLib.ActionScript.flash.utils;
+	[global::System.Runtime.CompilerServices.CompilerGenerated]
+	[Script]
+	public static class PlasmaProxy
+	{
+		public static ByteArray Memory;
+		[Script(OptimizedCode = @"return (ns::gstate).ds")]
+		public static ByteArray get_ds(Namespace ns)
+		{
+			return default(ByteArray);
+		}
+		public static readonly Func<int, int, uint> generatePlasma;
+		public static readonly Func<int, uint> shiftPlasma;
+		static PlasmaProxy()
+		{
+			var __loader = new cmodule.FlashPlasma.CLibInit();
+			var __lib = new DynamicDelegatesContainer { Subject = __loader.init() };
+			PlasmaProxy.Memory = get_ds(new Namespace("cmodule.FlashPlasma"));
+			PlasmaProxy.generatePlasma = __lib.ToFunc<int, int, uint>("generatePlasma");
+			PlasmaProxy.shiftPlasma = __lib.ToFunc<int, uint>("shiftPlasma");
 		}
 	}
 }
