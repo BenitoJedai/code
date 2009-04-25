@@ -4,7 +4,7 @@ using java.lang;
 
 using System;
 
-namespace DemoApplet.source.java
+namespace DemoApplet.Java
 {
     partial class DemoApplet
     {

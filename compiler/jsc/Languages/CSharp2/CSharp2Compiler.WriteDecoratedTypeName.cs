@@ -91,7 +91,7 @@ namespace jsc.Languages.CSharp2
                     }
                     else
                     {
-                        var ns = NamespaceFixup(t.Namespace);
+                        var ns = NamespaceFixup(t.Namespace, t);
 
                         if (UseFullyQualifiedName && !string.IsNullOrEmpty(ns))
                         {

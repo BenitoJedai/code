@@ -37,7 +37,7 @@ namespace jsc.Languages.Java
             if (z.Namespace != null)
             {
                 WriteIdent();
-                Write("package " + NamespaceFixup(z.Namespace) + ";");
+                Write("package " + NamespaceFixup(z.Namespace, z) + ";");
                 WriteLine();
                 WriteLine();
             }

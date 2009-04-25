@@ -26,7 +26,7 @@ namespace jsc.Languages.CSharp2
 
             WriteImportTypes(z);
 
-            WriteNamespaceAndDeclaringTypes(NamespaceFixup(z.Namespace), z,
+            WriteNamespaceAndDeclaringTypes(NamespaceFixup(z.Namespace, z), z,
                 delegate
                 {
 					// attributes

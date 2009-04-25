@@ -234,3 +234,4 @@ version history:
 	actionscript: added rem_un opcode
 25.04.2009
 	java: added usigned int support
+	jsc: renaming can be filtered to native types now

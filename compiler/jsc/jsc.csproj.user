@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\java\SinePlasma\SinePlasma\bin\Release</StartWorkingDirectory>
-    <StartArguments>SinePlasma.dll -java</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\FlashPlasma\FlashPlasmaApplet\bin\Release</StartWorkingDirectory>
+    <StartArguments>FlashPlasmaApplet.dll -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

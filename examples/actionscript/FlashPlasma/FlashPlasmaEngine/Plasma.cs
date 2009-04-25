@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
-using ScriptCoreLib.Alchemy;
 
-namespace FlashPlasma.SharedAlchemy
+namespace FlashPlasmaEngine
 {
 	[Script]
 	public static class Plasma
@@ -73,8 +72,7 @@ namespace FlashPlasma.SharedAlchemy
 			{
 				for (var y = 0; y < height; y++)
 				{
-					var paletteIndex = (int)((uint)(plasma[index] + shift) % 256);
-					newPlasma[index] = palette[paletteIndex];
+					newPlasma[index] = palette[(plasma[index] + (uint)shift) % 256];
 					index++;
 				}
 			}

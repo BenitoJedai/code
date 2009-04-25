@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 
 using ScriptCoreLib;
 
-//using PrimaryAppletSettings = DemoApplet.source.java.DemoApplet.Settings;
+//using PrimaryAppletSettings = FlashPlasmaApplet.source.java.FlashPlasmaApplet.Settings;
 
 [assembly:
-    Script,
-    ScriptTypeFilter(ScriptType.Java, typeof(DemoApplet.Java.DemoApplet))
+	Script,
+	ScriptTypeFilter(ScriptType.Java, typeof(FlashPlasmaApplet.Java.FlashPlasmaApplet))
 ]
 
 //[assembly:
@@ -21,7 +21,7 @@ using ScriptCoreLib;
 //    //    VirtualNamespaceName = PrimaryAppletSettings.AliasNamespace + ".util"
 //    //),
 //    //ScriptNamespaceRename(
-//    //    NativeNamespaceName = "DemoApplet.source.java",
+//    //    NativeNamespaceName = "FlashPlasmaApplet.source.java",
 //    //    VirtualNamespaceName = PrimaryAppletSettings.AliasNamespace
 //    //)
 //]
@@ -29,11 +29,11 @@ using ScriptCoreLib;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DemoApplet")]
+[assembly: AssemblyTitle("FlashPlasmaApplet")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DemoApplet")]
+[assembly: AssemblyProduct("FlashPlasmaApplet")]
 [assembly: AssemblyCopyright("Copyright ?  2005")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

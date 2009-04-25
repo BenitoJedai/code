@@ -5,7 +5,7 @@ using java.applet;
 
 using reflect = global::java.lang.reflect;
 
-namespace DemoApplet.source.java
+namespace DemoApplet.Java
 {
     partial class DemoApplet
     {

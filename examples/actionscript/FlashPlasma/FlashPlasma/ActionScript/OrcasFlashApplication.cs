@@ -10,7 +10,7 @@ using ScriptCoreLib.ActionScript.flash.ui;
 using FlashPlasma.Shared;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.flash.filters;
-using FlashPlasma.SharedAlchemy;
+using FlashPlasmaEngine;
 
 namespace FlashPlasma.ActionScript
 {
@@ -39,10 +39,10 @@ namespace FlashPlasma.ActionScript
 		 * the plasma on 
 		 */
 		protected BitmapData Buffer;
-	
+
 		protected int RenderMode;
 
-	
+
 		/// <summary>
 		/// Default constructor
 		/// </summary>
@@ -88,12 +88,14 @@ namespace FlashPlasma.ActionScript
 
 			if (RenderMode % 3 == 0)
 			{
+#if !CODEGEN
 				PlasmaProxy.Memory.position = PlasmaProxy.shiftPlasma(shift);
 
 				// -- Alchemy palette shifting
 				//alchemyMemory.position = plasmaLib.ToFunc<int, uint>("shiftPlasma")(shift);
 				// -- write the ByteArray straight to the bitmap data 
 				Buffer.setPixels(Buffer.rect, PlasmaProxy.Memory);
+#endif
 			}
 			else
 			{
@@ -130,8 +132,11 @@ namespace FlashPlasma.ActionScript
 
 		private void generatePlasma()
 		{
+#if !CODEGEN
 			PlasmaProxy.Memory.position = PlasmaProxy.generatePlasma(DefaultWidth, DefaultHeight);
+#endif
 			Plasma.generatePlasma(DefaultWidth, DefaultHeight);
+
 		}
 
 		static FlashPlasma()

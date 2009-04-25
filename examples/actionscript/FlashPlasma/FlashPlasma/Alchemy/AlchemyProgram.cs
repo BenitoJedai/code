@@ -12,7 +12,7 @@ namespace FlashPlasma.Alchemy
 {
 
 	[Script]
-	[Alchemy(typeof(global::FlashPlasma.SharedAlchemy.Plasma))]
+	[Alchemy(typeof(global::FlashPlasmaEngine.Plasma))]
 	public static partial class AlchemyProgram
 	{
 

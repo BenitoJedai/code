@@ -24,7 +24,7 @@ namespace jsc.Languages
 
             //sinfo.Logging.LogMessage("loading types");
 
-            Type[] alltypes = j.LoadTypes(ScriptType.ActionScript);
+			Type[] alltypes = j.LoadTypes(ScriptType.ActionScript, Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName)); 
 
 
             xw.Session.Types = /*JustMyCodeFilter(sinfo.Options.JustMyCode,*/ alltypes/*, j.AssamblyInfo)*/;
@@ -73,7 +73,7 @@ namespace jsc.Languages
 
             Helper.WorkPool n = new Helper.WorkPool();
 
-            n.IsThreaded = !Debugger.IsAttached && !sinfo.Options.IsNoThreads;
+			//n.IsThreaded = !Debugger.IsAttached && !sinfo.Options.IsNoThreads;
 
             using (new Helper.ConsoleStopper("actionscript type compiler"))
             {

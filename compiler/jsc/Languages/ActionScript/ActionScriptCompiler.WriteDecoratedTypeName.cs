@@ -73,7 +73,7 @@ namespace jsc.Languages.ActionScript
 					// Top Level.Array
 					if (!t.IsArray)
 					{
-						var ns = NamespaceFixup(t.Namespace);
+						var ns = NamespaceFixup(t.Namespace, t);
 
 						if (UseFullyQualifiedName && !string.IsNullOrEmpty(ns))
 						{

@@ -38,20 +38,21 @@ using ScriptCoreLib.Shared.BCLImplementation.System;
 [assembly: AssemblyFileVersion("3.5.*")]
 
 [assembly:
-    Script,
+	Script,
 
-    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
-    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = ""),
+	// we are not defining any native types to be renamed...
+	//ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = "", FilterToIsNative),
+	//ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = ""),
 
-    ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
-    ScriptTypeFilter(ScriptType.ActionScript, "*.Shared.Lambda"),
+	ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
+	ScriptTypeFilter(ScriptType.ActionScript, "*.Shared.Lambda"),
 	ScriptTypeFilter(ScriptType.ActionScript, typeof(__Func<>)),
 
-    ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),
-    ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
+	ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),
+	ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
 	ScriptTypeFilter(ScriptType.JavaScript, typeof(__Func<>)),
 
-    ScriptTypeFilter(ScriptType.CSharp2, "*.CSharp2"),
+	ScriptTypeFilter(ScriptType.CSharp2, "*.CSharp2"),
 
 	ScriptTypeFilter(ScriptType.PHP, "*.PHP"),
 	ScriptTypeFilter(ScriptType.PHP, typeof(__Func<>)),

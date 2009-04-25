@@ -9,8 +9,8 @@ using System.Reflection;
 using ScriptCoreLib;
 
 
-using PrimaryApplet = DemoApplet.source.java.DemoApplet;
-using PrimaryAppletSettings = DemoApplet.source.java.DemoApplet.Settings;
+using PrimaryApplet = DemoApplet.Java.DemoApplet;
+using PrimaryAppletSettings = DemoApplet.Java.DemoApplet.Settings;
 using System.Xml.Linq;
 
 
@@ -53,11 +53,11 @@ namespace AppletTemplate.source.csharp
             var settings = new SettingsInfo
             {
                 ProjectName = PrimaryAppletSettings.Alias,
-                CompilandNamespace0 = PrimaryAppletSettings.AliasNamespace.Replace(".", "/"),
-                CompilandNamespace1 = PrimaryAppletSettings.AliasNamespace,
+                CompilandNamespace0 = typeof(PrimaryApplet).Namespace.Replace(".", "/"),
+				CompilandNamespace1 = typeof(PrimaryApplet).Namespace,
                 AppletWebPage =  PrimaryAppletSettings.Alias + ".htm",
                 CompilandType = typeof(PrimaryApplet).Name,
-                CompilandFullName = PrimaryAppletSettings.AliasNamespace + "." + typeof(PrimaryApplet).Name,
+				CompilandFullName = typeof(PrimaryApplet).Namespace + "." + typeof(PrimaryApplet).Name,
                 PackageName = typeof(PrimaryApplet).Name + "Package.jar",
             };
 

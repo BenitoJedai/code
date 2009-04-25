@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashPlasma", "FlashPlasma\FlashPlasma.csproj", "{AEAD4629-D28D-430C-8401-03EEB9656F9E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashPlasmaApplet", "FlashPlasmaApplet\FlashPlasmaApplet.csproj", "{73FEDB4F-BC57-46D4-8DEF-2133598FEFFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashPlasmaEngine", "FlashPlasmaEngine\FlashPlasmaEngine.csproj", "{1292AE82-DDCE-4371-8271-54BAAFE75F22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -16,6 +20,18 @@ Global
 		{AEAD4629-D28D-430C-8401-03EEB9656F9E}.Phase1|Any CPU.Build.0 = Phase1|Any CPU
 		{AEAD4629-D28D-430C-8401-03EEB9656F9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEAD4629-D28D-430C-8401-03EEB9656F9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73FEDB4F-BC57-46D4-8DEF-2133598FEFFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73FEDB4F-BC57-46D4-8DEF-2133598FEFFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73FEDB4F-BC57-46D4-8DEF-2133598FEFFA}.Phase1|Any CPU.ActiveCfg = Release|Any CPU
+		{73FEDB4F-BC57-46D4-8DEF-2133598FEFFA}.Phase1|Any CPU.Build.0 = Release|Any CPU
+		{73FEDB4F-BC57-46D4-8DEF-2133598FEFFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73FEDB4F-BC57-46D4-8DEF-2133598FEFFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1292AE82-DDCE-4371-8271-54BAAFE75F22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1292AE82-DDCE-4371-8271-54BAAFE75F22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1292AE82-DDCE-4371-8271-54BAAFE75F22}.Phase1|Any CPU.ActiveCfg = Release|Any CPU
+		{1292AE82-DDCE-4371-8271-54BAAFE75F22}.Phase1|Any CPU.Build.0 = Release|Any CPU
+		{1292AE82-DDCE-4371-8271-54BAAFE75F22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1292AE82-DDCE-4371-8271-54BAAFE75F22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
