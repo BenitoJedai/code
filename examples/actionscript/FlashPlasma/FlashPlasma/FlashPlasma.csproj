@@ -35,7 +35,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Phase1|AnyCPU' ">
     <OutputPath>bin\Phase1\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;CODEGEN</DefineConstants>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -76,7 +76,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
-    <Compile Include="SharedAlchemy\Plasma.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\description.txt" />
@@ -86,6 +85,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FlashPlasmaEngine\FlashPlasmaEngine.csproj">
+      <Project>{1292AE82-DDCE-4371-8271-54BAAFE75F22}</Project>
+      <Name>FlashPlasmaEngine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

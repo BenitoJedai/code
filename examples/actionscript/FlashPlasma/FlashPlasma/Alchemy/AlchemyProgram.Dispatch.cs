@@ -36,7 +36,7 @@ namespace FlashPlasma.Alchemy
 			int width;
 			int height;
 			AS3_h.AS3_ArrayValue(args, "IntType, IntType", __arglist(out width, out height));
-			var __value = FlashPlasma.SharedAlchemy.Plasma.generatePlasma(width, height);
+			var __value = FlashPlasmaEngine.Plasma.generatePlasma(width, height);
 			width = default(int);
 			height = default(int);
 			return AS3_h.AS3_Ptr(__value);
@@ -46,7 +46,7 @@ namespace FlashPlasma.Alchemy
 		{
 			int shift;
 			AS3_h.AS3_ArrayValue(args, "IntType", __arglist(out shift));
-			var __value = FlashPlasma.SharedAlchemy.Plasma.shiftPlasma(shift);
+			var __value = FlashPlasmaEngine.Plasma.shiftPlasma(shift);
 			shift = default(int);
 			return AS3_h.AS3_Ptr(__value);
 		}

@@ -11,6 +11,10 @@ if %ConfigurationName%==Debug (
   goto :eof
 )
 
+if %ConfigurationName%==Phase1 (
+  echo Phase1: code generation done.
+  goto :eof
+)
 
 :: Dll name
 @call :jsc %1

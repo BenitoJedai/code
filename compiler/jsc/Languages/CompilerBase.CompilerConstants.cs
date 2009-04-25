@@ -65,17 +65,18 @@ namespace jsc.Script
 
 
 
-        public string NamespaceFixup(string p)
+
+        public string NamespaceFixup(string p, Type context)
         {
             if (this.CurrentJob != null)
-                return this.CurrentJob.NamespaceFixup(p);
+                return this.CurrentJob.NamespaceFixup(p, context);
 
             return p;
         }
 
         internal void ToConsole(Type xx, CompileSessionInfo sinfo)
         {
-            string u = NamespaceFixup(xx.FullName);
+            string u = NamespaceFixup(xx.FullName, xx);
 
             if (u == xx.FullName)
                 sinfo.Logging.LogMessage(u);

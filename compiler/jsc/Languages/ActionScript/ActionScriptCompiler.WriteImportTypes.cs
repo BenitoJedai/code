@@ -55,7 +55,7 @@ namespace jsc.Languages.ActionScript
 
                 var a = ScriptAttribute.Of(p, false);
 
-                var n = NamespaceFixup(p.Namespace) ?? "";
+                var n = NamespaceFixup(p.Namespace, p) ?? "";
 
                 if (n != "")
                 {

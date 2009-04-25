@@ -1171,7 +1171,7 @@ namespace jsc.Script
 						// override
 						var Type_GetType = (MethodInfo)this.ResolveImplementationMethod(typeof(Type), typeof(Type).GetMethod("GetType", new[] { typeof(string) }));
 
-						WriteCustomMethodCall(i.OwnerMethod.DeclaringType, Type_GetType, NamespaceFixup(TypeOfParameter.FullName));
+						WriteCustomMethodCall(i.OwnerMethod.DeclaringType, Type_GetType, NamespaceFixup(TypeOfParameter.FullName, TypeOfParameter));
 
 						return;
 					}

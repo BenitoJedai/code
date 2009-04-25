@@ -22,7 +22,7 @@ namespace jsc.Languages.ActionScript
 			CompileType_WriteAdditionalMembers = delegate { };
 
             WriteIdent();
-            Write("package " + NamespaceFixup(z.Namespace));
+            Write("package " + NamespaceFixup(z.Namespace, z));
             WriteLine();
 
             using (CreateScope())

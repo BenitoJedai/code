@@ -1,4 +1,1 @@
-﻿http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/operators.html#instanceof
-http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/operators.html#as
-http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/operators.html#is
-
+﻿...

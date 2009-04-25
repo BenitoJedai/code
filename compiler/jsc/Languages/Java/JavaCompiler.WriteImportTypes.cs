@@ -101,7 +101,7 @@ namespace jsc.Languages.Java
 
 
 				WriteKeywordImport();
-				Write(NamespaceFixup(var));
+				Write(NamespaceFixup(var, null));
 				WriteLine(";");
 
 			}

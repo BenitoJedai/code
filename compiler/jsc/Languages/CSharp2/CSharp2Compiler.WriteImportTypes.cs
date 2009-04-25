@@ -42,7 +42,7 @@ namespace jsc.Languages.CSharp2
 
                 var a = ScriptAttribute.Of(p, false);
 
-                var n = NamespaceFixup(p.Namespace) ?? "";
+                var n = NamespaceFixup(p.Namespace, p) ?? "";
 
                 if (n != "")
                 {

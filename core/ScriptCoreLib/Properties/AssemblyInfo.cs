@@ -54,8 +54,8 @@ using ScriptCoreLib;
 	ScriptTypeFilter(ScriptType.CSharp2, "*.CSharp2"),
 
 	// some namespace mangling
-	ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
-	ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = ""),
+	ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = "", FilterToIsNative = true),
+	//ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = ""),
 ]
 
 

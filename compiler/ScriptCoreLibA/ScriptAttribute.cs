@@ -102,6 +102,11 @@ namespace ScriptCoreLib
         public string NativeNamespaceName;
         public string VirtualNamespaceName;
 
+		/// <summary>
+		/// Only native classes shall be considered while renaming
+		/// </summary>
+		public bool FilterToIsNative;
+
         public ScriptNamespaceRenameAttribute()
         {
 

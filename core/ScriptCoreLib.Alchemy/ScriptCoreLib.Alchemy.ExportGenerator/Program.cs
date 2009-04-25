@@ -13,12 +13,30 @@ namespace ScriptCoreLib.Alchemy.ExportGenerator
 	{
 		static void Main(string[] args)
 		{
+
+
 			var TargetAssembly = Assembly.LoadFile(Path.GetFullPath(args[0]));
 			var TargetType = TargetAssembly.GetType(args[1], true);
 			var TargetFile = args[2];
 			var ProxyFullname = args[3];
 			var ProxyNamespace = ProxyFullname.Substring(0, ProxyFullname.LastIndexOf("."));
 			var ProxyName = ProxyFullname.Substring(ProxyFullname.LastIndexOf(".") + 1);
+
+			AppDomain.CurrentDomain.AssemblyResolve += delegate(object sender, ResolveEventArgs args_)
+			{
+
+				string name = new AssemblyName(args_.Name).Name;
+
+
+				string file_dll = new FileInfo(TargetAssembly.Location).Directory.FullName + @"\" + name + ".dll";
+				string file_exe = new FileInfo(TargetAssembly.Location).Directory.FullName + @"\" + name + ".exe";
+
+
+				var x = File.Exists(file_dll) ? Assembly.LoadFile(file_dll) :
+								(File.Exists(file_exe) ? Assembly.LoadFile(file_exe) : null);
+
+				return x;
+			};
 
 			var ExportedMethods =
 							from SomeType in TargetType.GetCustomAttributes(typeof(AlchemyAttribute), false).Cast<AlchemyAttribute>()

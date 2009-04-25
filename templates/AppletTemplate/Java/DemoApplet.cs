@@ -6,7 +6,7 @@ using java.awt;
 using java.awt.@event;
 using javax.common.runtime;
 
-namespace DemoApplet.source.java
+namespace DemoApplet.Java
 {
     [Script]
     public partial class DemoApplet : Applet

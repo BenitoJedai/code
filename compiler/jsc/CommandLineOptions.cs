@@ -49,18 +49,18 @@ namespace jsc
         public FileInfo TargetAssembly;
 
         // [CommandLineOption(Flag = "nothreads", Description = "Multithreading will be disabled")]
-        public bool IsNoThreads = true;
+		//public bool IsNoThreads = true;
 
-        [CommandLineOption(Flag = "q",
-            Description = "Will load java only job.")]
-        public bool IsJavaOnly;
+		//[CommandLineOption(Flag = "q",
+		//    Description = "Will load java only job.")]
+		//public bool IsJavaOnly;
 
-        [CommandLineOption(Flag = "x")]
-        public bool IsSmart;
+		//[CommandLineOption(Flag = "x")]
+		//public bool IsSmart;
 
-        [CommandLineOption(Flag = "z",
-            Description = "Will load all modules and compile all languages")]
-        public bool IsAllModulesAllLanguages;
+		//[CommandLineOption(Flag = "z",
+		//    Description = "Will load all modules and compile all languages")]
+		//public bool IsAllModulesAllLanguages;
 
         [CommandLineOption(Flag = "java")]
         public bool IsJava;
@@ -81,8 +81,8 @@ namespace jsc
 		public bool IsC;
 
 
-        [CommandLineOption(Flag = "trim", Description = "Unused types will be ommited")]
-        public bool Trim;
+		//[CommandLineOption(Flag = "trim", Description = "Unused types will be ommited")]
+		//public bool Trim;
 
 
         [CommandLineOption(Flag = "ShowReferences")]
