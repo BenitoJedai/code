@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Reflection.Emit;
 using System.IO;
+using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc.Languages.CSharp2
 {

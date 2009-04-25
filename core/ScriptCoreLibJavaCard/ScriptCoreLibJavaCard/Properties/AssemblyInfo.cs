@@ -41,6 +41,7 @@ using ScriptCoreLib;
 	ScriptTypeFilter(ScriptType.Java, "*"),
 	ScriptNamespaceRename(
 		NativeNamespaceName = "ScriptCoreLibJavaCard",
-		VirtualNamespaceName = ""
+		VirtualNamespaceName = "",
+		FilterToIsNative = true
 	)
 ]

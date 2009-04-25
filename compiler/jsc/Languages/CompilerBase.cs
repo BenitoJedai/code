@@ -12,6 +12,7 @@ using System.Linq;
 
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
+using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc.Script
 {

@@ -9,6 +9,7 @@ using ScriptCoreLib.Shared;
 using System.Reflection.Emit;
 using jsc.Script;
 using System.Runtime.InteropServices;
+using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc.Languages.ActionScript
 {

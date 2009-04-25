@@ -13,6 +13,7 @@ using IntPtr = global::System.IntPtr;
 using ScriptCoreLib;
 
 using jsc.Script;
+using ScriptCoreLib.CSharp.Extensions;
 
 
 namespace jsc.Languages.C

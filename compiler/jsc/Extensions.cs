@@ -9,6 +9,7 @@ using System.Xml;
 using ScriptCoreLib;
 using System.Xml.Linq;
 using System.Runtime.InteropServices;
+using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc //.Extensions
 {
@@ -262,15 +263,7 @@ namespace jsc //.Extensions
 
 	
 
-		public static ScriptAttribute ToScriptAttribute(this ICustomAttributeProvider p)
-		{
-			return ScriptAttribute.OfProvider(p);
-		}
 
-		public static ScriptAttribute ToScriptAttributeOrDefault(this ICustomAttributeProvider p)
-		{
-			return ScriptAttribute.OfProvider(p) ?? new ScriptAttribute();
-		}
 
 		public static bool IsDelegate(this Type z)
 		{

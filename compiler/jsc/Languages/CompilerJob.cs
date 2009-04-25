@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 using System.Reflection;
+using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc.Languages
 {

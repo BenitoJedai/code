@@ -4,7 +4,7 @@ using System;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Text;
-
+using ScriptCoreLib.CSharp.Extensions;
 
 namespace ScriptCoreLib
 {
@@ -238,6 +238,14 @@ namespace ScriptCoreLib
 
         public bool IsCoreLib;
 
+		/// <summary>
+		/// All types are now implicitly being attached to a default [Script]. 
+		/// Every type referenced in this assembly must have a BCL implementation
+		/// in its target language. Every defined type in this shall be converted
+		/// to its target language
+		/// </summary>
+		public bool IsScriptLibrary;
+
         /// <summary>
         /// supports the ldlen opcode
         /// </summary>
@@ -333,7 +341,13 @@ namespace ScriptCoreLib
             {
                 ScriptAttribute[] s = m.GetCustomAttributes(typeof(ScriptAttribute), false) as ScriptAttribute[];
 
-                return s.Length == 0 ? null : s[0];
+                var x = s.Length == 0 ? null : s[0];
+
+				var t = m as Type;
+				if (t != null && t.Assembly.ToScriptAttributeOrDefault().IsScriptLibrary)
+					x = new ScriptAttribute();
+
+				return x;
             }
             catch (Exception exc)
             {

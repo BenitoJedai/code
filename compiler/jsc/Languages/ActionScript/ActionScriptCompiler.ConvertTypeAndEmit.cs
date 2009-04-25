@@ -8,6 +8,8 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Reflection.Emit;
 using jsc.Script;
+using ScriptCoreLib.CSharp.Extensions;
+
 
 namespace jsc.Languages.ActionScript
 {

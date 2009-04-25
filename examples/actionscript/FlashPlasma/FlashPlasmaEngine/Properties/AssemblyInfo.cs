@@ -37,7 +37,7 @@ using ScriptCoreLib;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly: 
-	Script,
+	Script(IsScriptLibrary = true),
 	ScriptTypeFilter(ScriptType.Java),
 	ScriptTypeFilter(ScriptType.C),
 	ScriptTypeFilter(ScriptType.ActionScript),

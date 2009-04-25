@@ -99,6 +99,7 @@ namespace jsc.Languages.Java
 				};
 			#endregion
 
+			#region Ldelem
 			CIW[OpCodes.Ldelem_Ref,
 				OpCodes.Ldelem_U2,
 				OpCodes.Ldelem_I1,
@@ -120,6 +121,8 @@ namespace jsc.Languages.Java
 					Emit(e.p, s[1]);
 					Write("]");
 				};
+			#endregion
+
 
 			#region Stelem
 			CIW[OpCodes.Stelem_Ref,
@@ -288,16 +291,20 @@ namespace jsc.Languages.Java
 					{
 						// expression is type ? (type)expression : (type)null
 						Write("(");
+
+						Write("(");
 						EmitFirstOnStack(e);
 
 						WriteSpace();
-						WriteKeywordSpace(Keywords._is);
+						WriteKeywordSpace(Keywords._instanceof);
 						WriteSpace();
 
 						WriteDecoratedTypeNameOrImplementationTypeName(
 							e.i.TargetType, false, false
 							//IsFullyQualifiedNamesRequired(e.Method.DeclaringType, e.i.TargetType)
 						);
+
+						Write(")");
 
 						WriteSpace();
 						Write("?");
