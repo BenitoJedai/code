@@ -18,7 +18,7 @@ rem 2003
 set _toolkit=c:\Program Files\Microsoft Visual Studio 9.0\VC
 set _init=%_toolkit%\vcvarsall.bat
 
-if exist %_init% goto :found
+if exist "%_init%" goto :found
 
 rem 2005
 
