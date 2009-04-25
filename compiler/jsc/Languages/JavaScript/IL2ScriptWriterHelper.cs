@@ -4,6 +4,8 @@ using System.Text;
 using System.Threading;
 using System.Reflection;
 using System.Diagnostics;
+using ScriptCoreLib.CSharp.Extensions;
+
 
 namespace jsc
 {

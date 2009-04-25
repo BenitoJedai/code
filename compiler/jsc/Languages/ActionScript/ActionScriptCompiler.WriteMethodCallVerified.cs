@@ -7,6 +7,7 @@ using System.Xml;
 using System.Reflection;
 using System.Diagnostics;
 using System.Reflection.Emit;
+using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc.Languages.ActionScript
 {

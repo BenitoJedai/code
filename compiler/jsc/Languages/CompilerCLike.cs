@@ -10,7 +10,7 @@ using System.Reflection.Emit;
 using ScriptCoreLib;
 using System.Collections;
 using jsc.Languages;
-
+using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc.Script
 {

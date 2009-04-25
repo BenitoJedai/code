@@ -25,7 +25,7 @@ namespace jsc.Languages.Java
             _this,
             _super,
 			_as,
-			_is,
+			_instanceof,
             _base,
             _event,
             _virtual,

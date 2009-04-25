@@ -7,6 +7,7 @@ using System.Text;
 
 
 using ScriptCoreLib;
+using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc
 {

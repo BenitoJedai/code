@@ -9,6 +9,7 @@ using System.Reflection.Emit;
 using jsc.CodeModel;
 
 using ScriptCoreLib;
+using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc.Script.PHP
 {

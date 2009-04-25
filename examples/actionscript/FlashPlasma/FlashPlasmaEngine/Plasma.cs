@@ -6,7 +6,6 @@ using ScriptCoreLib;
 
 namespace FlashPlasmaEngine
 {
-	[Script]
 	public static class Plasma
 	{
 		static int width;

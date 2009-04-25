@@ -13,6 +13,8 @@ using ScriptCoreLib;
 
 using jsc.Script;
 using jsc.Languages.JavaScript;
+using ScriptCoreLib.CSharp.Extensions;
+
 
 namespace jsc
 {

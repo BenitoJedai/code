@@ -8,7 +8,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Xml;
 using ScriptCoreLib;
-
+using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc.Languages.CSharp2
 {

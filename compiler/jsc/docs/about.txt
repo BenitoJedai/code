@@ -235,3 +235,4 @@ version history:
 25.04.2009
 	java: added usigned int support
 	jsc: renaming can be filtered to native types now
+	java: fixed as keyword implementation
