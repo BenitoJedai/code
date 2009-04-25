@@ -27,7 +27,7 @@ goto :eof
 :jsc
 pushd ..\bin\%ConfigurationName%
 
-call c:\util\jsc\bin\jsc.exe %TargetFileName% -x
+call c:\util\jsc\bin\jsc.exe %TargetFileName% -c
 
 
 popd
