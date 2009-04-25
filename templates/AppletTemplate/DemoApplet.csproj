@@ -78,10 +78,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>C:\util\jsc\bin\jsc.exe "$(TargetFileName)" -java
-pushd ..\..\tools\
-call build.bat $(ProjectName)
-popd
-</PostBuildEvent>
+    <PostBuildEvent>pushd ..\..\tools\
+call build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
+popd</PostBuildEvent>
   </PropertyGroup>
 </Project>

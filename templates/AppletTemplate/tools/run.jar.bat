@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-call build
+
 
 call find.java java.exe
 set TargetPath=%ReturnValue%
@@ -12,7 +12,7 @@ if '%TargetPath%' == '' (
 )
 
 
-pushd ..\bin\debug\web
+pushd ..\bin\release\web
 
 :: import primary applet settings
 call setup.settings.cmd
