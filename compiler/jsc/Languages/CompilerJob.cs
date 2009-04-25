@@ -120,7 +120,7 @@ namespace jsc.Languages
 		//    return LoadTypes(scriptType, this.AssamblyInfo);
 		//}
 
-		private Type[] LoadTypes(ScriptType scriptType, Assembly assembly)
+		public static Type[] LoadTypes(ScriptType scriptType, Assembly assembly)
 		{
 			List<Type> a = new List<Type>();
 

@@ -120,6 +120,7 @@ namespace jsc
 					 OpCodes.Div_Un,
 					 OpCodes.Mul,
 					 OpCodes.Rem,
+					 OpCodes.Rem_Un,
 					 OpCodes.And,
 					 OpCodes.Or,
 					 OpCodes.Xor,
@@ -181,6 +182,7 @@ namespace jsc
 					OpCodes.Conv_R4,
 					OpCodes.Conv_U4,
 					OpCodes.Conv_U2,
+					OpCodes.Conv_U,
 					 OpCodes.Conv_U1,
 					 OpCodes.Conv_Ovf_I
 					] = new OpCodeHandler(OpCode_conv);
@@ -1444,7 +1446,8 @@ namespace jsc
 			if (i == OpCodes.Ceq) w.Write("==");
 			if (i == OpCodes.Clt) w.Write("<");
 			if (i == OpCodes.Clt_Un) w.Write("<");
-			if (i == OpCodes.Rem) w.Write("%");
+
+			if (i.IsAnyOpCodeOf(OpCodes.Rem, OpCodes.Rem_Un)) w.Write("%");
 
 			w.WriteSpace();
 
