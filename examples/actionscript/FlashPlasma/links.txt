@@ -1,0 +1,7 @@
+http://stackoverflow.com/questions/721375/how-can-i-use-non-silverlight-assemblies-in-a-silverlight-app
+http://www.netfxharmonics.com/2008/12/Reusing-NET-Assemblies-in-Silverlight
+http://biofractal.blogspot.com/2009/03/convert-dotnet-assemblies-to.html
+http://subversion.assembla.com/svn/biofractal/Silverlighter/Silverlighter.WPF/MainWindow.xaml.cs
+
+http://www.whatwg.org/specs/web-apps/current-work/#dfnReturnLink-2
+http://www.permadi.com/tutorial/jsCanvasGrayscale/index.html
