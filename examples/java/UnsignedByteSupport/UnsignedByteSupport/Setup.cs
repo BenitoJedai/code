@@ -50,5 +50,12 @@ namespace UnsignedByteSupport
 				w.WriteLine("set {0}={1}", z.Name, z.GetValue(v, null));
 			}
 		}
+
+		public static void Main(string[] args)
+		{
+			Environment.CurrentDirectory = Path.Combine(Environment.CurrentDirectory, "web/bin");
+
+			Program.Main(args);
+		}
 	}
 }

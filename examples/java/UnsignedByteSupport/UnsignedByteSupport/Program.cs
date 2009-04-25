@@ -18,6 +18,26 @@ namespace UnsignedByteSupport
 
 		public static void Main(string[] args)
 		{
+			uint x = uint.MaxValue;
+
+
+			Console.WriteLine("uint.MaxValue: " + x);
+			Console.WriteLine();
+
+
+			foreach (var xx in UnsignedUInt32Array)
+			{
+				Console.WriteLine("xx: " + xx.ToBytes().ToHexString());
+			}
+
+
+			var z = UnsignedUInt32Array;
+			var zz = SignedInt32Array;
+			for (int i = 0; i < z.Length; i++)
+			{
+				zz[i] = (int)z[i];
+			}
+
 			// VM only manages 32 bit numbers
 			// or 16bit if you are a javascard2 vm
 
@@ -89,13 +109,13 @@ namespace UnsignedByteSupport
 			Console.WriteLine("201 % 4 = 1: " + ((byte)(x201 % x4)));
 
 			// equality
-			if (x200 == (x201 -1 ))
+			if (x200 == (x201 - 1))
 				Console.WriteLine("200 == 201 - 1");
 			else
 				Console.WriteLine("200 != 201 - 1");
 
 			// comparison
-			if (x200 < x201 )
+			if (x200 < x201)
 				Console.WriteLine("200 < 201");
 			else
 				Console.WriteLine("200 >= 201");
@@ -120,6 +140,8 @@ namespace UnsignedByteSupport
 
 		public static byte UnsignedByteField;
 		public static byte[] UnsignedByteArray = new byte[4];
+		public static uint[] UnsignedUInt32Array = new uint[] { 0xDEADBEEF };
+		public static int[] SignedInt32Array = new int[] { 0x7EADBEEF };
 
 		public static void UnsignedByte(byte value)
 		{
@@ -164,6 +186,17 @@ namespace UnsignedByteSupport
 	[Script]
 	public static class Extensions2
 	{
+		public static byte[] ToBytes(this uint e)
+		{
+			return new[]
+			{
+				(byte)((e >> (3 * 8)) & 0xff),
+				(byte)((e >> (2 * 8)) & 0xff),
+				(byte)((e >> (1 * 8)) & 0xff),
+				(byte)((e >> (0 * 8)) & 0xff),
+			};
+		}
+
 		public static string ToHexString(this sbyte[] e)
 		{
 			var w = new StringBuilder();

@@ -34,6 +34,16 @@ namespace java.awt
         {
         }
 
+		/// <summary>
+		/// Creates an image from the specified image producer.
+		/// </summary>
+		/// <param name="producer"></param>
+		/// <returns></returns>
+		public Image createImage(ImageProducer producer)
+		{
+			return default(Image);
+		}
+          
 
         public Image createImage(int width, int height)
         {
