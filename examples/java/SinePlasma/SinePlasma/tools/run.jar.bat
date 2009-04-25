@@ -1,8 +1,7 @@
 @echo off
 setlocal
 
-::build is part of msbuild now
-::call build
+
 
 call find.java java.exe
 set TargetPath=%ReturnValue%
@@ -13,13 +12,13 @@ if '%TargetPath%' == '' (
 )
 
 
-pushd ..\bin\Release
-pushd web
+pushd ..\bin\release\web
+
 :: import primary applet settings
 call setup.settings.cmd
 
 
-echo + run java [%ProjectName%]
+echo + run [%ProjectName%]
 
 pushd bin
 
@@ -27,11 +26,4 @@ pushd bin
 
 popd
 popd
-
-echo + run .net
-call UnsignedByteSupport.exe
-popd
-
-
-
 endlocal

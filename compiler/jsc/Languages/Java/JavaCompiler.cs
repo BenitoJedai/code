@@ -241,11 +241,20 @@ namespace jsc.Languages.Java
 			if (e == typeof(byte))
 				return true;
 
+			if (e == typeof(uint))
+				return true;
+
 			return false;
 		}
 
 		public override void MethodCallParameterTypeCast(Type context, Type p)
 		{
+			if (p == typeof(uint))
+			{
+				Write("(int)");
+				return;
+			}
+
 			if (p == typeof(byte))
 			{
 				Write("(byte)");
@@ -882,14 +891,19 @@ namespace jsc.Languages.Java
 					if (bUsePrimitives)
 					{
 						if (type == typeof(void)) return "void";
+
 						else if (type == typeof(int)) return "int";
+						else if (type == typeof(uint)) return "int";
+
+						else if (type == typeof(byte)) return "byte";
+						else if (type == typeof(sbyte)) return "byte";
+
 						else if (type == typeof(double)) return "double";
 						else if (type == typeof(bool)) return "boolean";
 						else if (type == typeof(long)) return "long";
-						else if (type == typeof(byte))
-							//Break("java does not support unsigned bytes");
-							return "byte";
-						else if (type == typeof(sbyte)) return "byte";
+						
+				
+
 						else if (type == typeof(char)) return "char";
 						else if (type == typeof(short)) return "short";
 						else if (type == typeof(float)) return "float";
@@ -901,6 +915,10 @@ namespace jsc.Languages.Java
 								return "byte[]";
 							if (type.GetElementType() == typeof(byte))
 								return "byte[]";
+							if (type.GetElementType() == typeof(int))
+								return "int[]";
+							if (type.GetElementType() == typeof(uint))
+								return "int[]";
 							else if (type.GetElementType() == typeof(float))
 								return "float[]";
 						}

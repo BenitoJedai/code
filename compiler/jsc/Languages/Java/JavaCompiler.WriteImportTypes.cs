@@ -197,18 +197,13 @@ namespace jsc.Languages.Java
 				if (p == typeof(void)) continue;
 				if (p == typeof(string)) continue;
 				if (p == typeof(int)) continue;
+				if (p == typeof(uint)) continue;
 				if (p == typeof(short)) continue;
 				if (p == typeof(long)) continue;
 				if (p == typeof(float)) continue;
 				if (p == typeof(double)) continue;
 
-				if (p == typeof(byte))
-				{
-					//Break("use SByte instead - java does not support unsigned bytes at " + t.FullName);
-
-					continue;
-				}
-
+				if (p == typeof(byte)) continue;
 				if (p == typeof(sbyte)) continue;
 				if (p == typeof(bool)) continue;
 				if (p == typeof(char)) continue;

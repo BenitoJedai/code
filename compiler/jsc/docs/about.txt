@@ -232,3 +232,5 @@ version history:
 23.04.2009
 	c: added multiple assembly to single file renderer
 	actionscript: added rem_un opcode
+25.04.2009
+	java: added usigned int support

@@ -52,6 +52,8 @@ namespace jsc.Languages.Java
 				};
 
 			#region elem_ref
+
+			#region byte
 			CIW[OpCodes.Ldelem_U1] =
 				e =>
 				{
@@ -72,6 +74,30 @@ namespace jsc.Languages.Java
 
 
 				};
+			#endregion
+
+
+			#region uint
+			CIW[OpCodes.Ldelem_U4] =
+				e =>
+				{
+					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+
+
+					Write("(long)");
+					Write("(");
+
+					Emit(e.p, s[0]);
+					Write("[");
+					Emit(e.p, s[1]);
+					Write("]");
+
+					Write(" & 0xffffffffL");
+					Write(")");
+
+
+				};
+			#endregion
 
 			CIW[OpCodes.Ldelem_Ref,
 				OpCodes.Ldelem_U2,
@@ -95,6 +121,7 @@ namespace jsc.Languages.Java
 					Write("]");
 				};
 
+			#region Stelem
 			CIW[OpCodes.Stelem_Ref,
 				OpCodes.Stelem_I1,
 				OpCodes.Stelem_I2,
@@ -123,6 +150,16 @@ namespace jsc.Languages.Java
 							Write("(byte)");
 						}
 
+						if (TargetFieldElement == typeof(int))
+							if (s[2].SingleStackInstruction.OpCode == OpCodes.Ldelem_U4)
+								Write("(int)");
+						
+						if (TargetFieldElement == typeof(uint))
+						{
+							Write("(int)");
+						}
+
+
 						if (TargetFieldElement == typeof(char))
 						{
 							Write("(char)");
@@ -131,6 +168,7 @@ namespace jsc.Languages.Java
 
 					Emit(e.p, s[2]);
 				};
+			#endregion
 
 
 			CIW[OpCodes.Ldobj] =
@@ -240,7 +278,9 @@ namespace jsc.Languages.Java
 
 					WriteDecoratedTypeName(e.i.TargetType);
 				};
+			#endregion
 
+			#region Isinst
 			CIW[OpCodes.Isinst] = delegate(CodeEmitArgs e)
 			{
 				if (e.i.StackBeforeStrict.Length == 1)
@@ -289,8 +329,9 @@ namespace jsc.Languages.Java
 
 				throw new NotSupportedException("a custom TryCast is not yet implemented");
 			};
-
 			#endregion
+
+
 
 			CIW[OpCodes.Dup] = delegate(CodeEmitArgs e) { EmitFirstOnStack(e); };
 
@@ -301,6 +342,7 @@ namespace jsc.Languages.Java
 
 					WriteCall_DebugTrace_Assign_Load(e);
 
+					#region byte
 					if (e.i.TargetField.FieldType == typeof(byte))
 					{
 						Write("(short)");
@@ -315,6 +357,23 @@ namespace jsc.Languages.Java
 
 						return;
 					}
+					#endregion
+
+					#region uint
+					if (e.i.TargetField.FieldType == typeof(uint))
+					{
+						Write("(long)");
+						Write("(");
+						Emit(e.p, e.FirstOnStack);
+						Write(".");
+						WriteSafeLiteral(e.i.TargetField.Name);
+
+						Write(" & 0xffffffffL");
+						Write(")");
+
+						return;
+					}
+					#endregion
 
 					Emit(e.p, e.FirstOnStack);
 					Write(".");
@@ -358,6 +417,13 @@ namespace jsc.Languages.Java
 						Write("(byte)");
 					}
 
+					if (e.i.TargetField.FieldType == typeof(uint))
+					{
+						Write("(int)");
+					}
+
+				
+
 					Emit(e.p, s[1]);
 				};
 			#endregion
@@ -379,6 +445,7 @@ namespace jsc.Languages.Java
 			CIW[OpCodes.Box] =
 				delegate(CodeEmitArgs e)
 				{
+					#region byte
 					if (e.i.TargetType == typeof(byte))
 					{
 						// short has 15 unsigned bits, we need 8
@@ -404,6 +471,35 @@ namespace jsc.Languages.Java
 						Write(")");
 						return;
 					}
+					#endregion
+
+					#region uint
+					if (e.i.TargetType == typeof(uint))
+					{
+						// short has 15 unsigned bits, we need 8
+						Write("new ");
+						Write(GetDecoratedTypeName(typeof(long), true, false));
+						Write("(");
+
+						if (e.FirstOnStack.SingleStackInstruction.IsLoadLocal)
+						{
+							EmitFirstOnStack(e);
+						}
+						else
+						{
+							Write("(long)");
+							Write("(");
+							EmitFirstOnStack(e);
+
+							Write(" & 0xffffffffL");
+							Write(")");
+						}
+
+						Write(")");
+						return;
+					}
+					#endregion
+
 
 					Write("new ");
 					Write(GetDecoratedTypeName(e.i.TargetType, true, false));
@@ -413,10 +509,19 @@ namespace jsc.Languages.Java
 				};
 
 			#region conv
-			CIW[OpCodes.Conv_I1] = e => ConvertTypeAndEmit(e, "byte");
+			CIW[OpCodes.Conv_I1,
+				OpCodes.Conv_U1] = e => ConvertTypeAndEmit(e, "byte");
+
+			CIW[OpCodes.Conv_I4,
+				OpCodes.Conv_U,
+				OpCodes.Conv_Ovf_I,
+				OpCodes.Conv_U4] = e => ConvertTypeAndEmit(e, "int");
+
+
 			CIW[OpCodes.Conv_I2] = e => ConvertTypeAndEmit(e, "short");
 			CIW[OpCodes.Conv_U2] = e => ConvertTypeAndEmit(e, "char");
-			CIW[OpCodes.Conv_I4] = e => ConvertTypeAndEmit(e, "int");
+
+
 
 			CIW[OpCodes.Conv_I8] = e => ConvertTypeAndEmit(e, "long");
 			CIW[OpCodes.Conv_U8] = e => ConvertTypeAndEmit(e, "long");
@@ -424,8 +529,6 @@ namespace jsc.Languages.Java
 			CIW[OpCodes.Conv_R4] = e => ConvertTypeAndEmit(e, "float");
 			CIW[OpCodes.Conv_R8] = e => ConvertTypeAndEmit(e, "double");
 
-			CIW[OpCodes.Conv_U1] = e => ConvertTypeAndEmit(e, "byte");
-			CIW[OpCodes.Conv_Ovf_I] = e => ConvertTypeAndEmit(e, "int");
 			#endregion
 
 			#region Ldlen
@@ -503,6 +606,8 @@ namespace jsc.Languages.Java
 										{
 											if (e.i.TargetType == typeof(int))
 												Write("0");
+											else if (e.i.TargetType == typeof(uint))
+												Write("0");
 											else if (e.i.TargetType == typeof(byte))
 												Write("0");
 											else if (e.i.TargetType == typeof(sbyte))
@@ -515,6 +620,9 @@ namespace jsc.Languages.Java
 									{
 										if (e.i.TargetType == typeof(byte))
 											Write("(byte)");
+
+										if (e.i.TargetType == typeof(uint))
+											Write("(int)");
 
 										Emit(e.p, _stack[si]);
 									}
@@ -569,6 +677,7 @@ namespace jsc.Languages.Java
 											   if (i > 0)
 												   Write(", ");
 
+											   Write("(int)");
 											   Write(Values[i].ToString());
 										   }
 
@@ -761,8 +870,11 @@ namespace jsc.Languages.Java
 				{
 					WriteCall_DebugTrace_Assign_Load(e);
 
+
 					// loading this pointer
 					if (e.i.TargetParameter != null)
+					{
+						#region byte
 						if (e.i.TargetParameter.ParameterType == typeof(byte))
 						{
 							Write("(short)");
@@ -775,6 +887,23 @@ namespace jsc.Languages.Java
 
 							return;
 						}
+						#endregion
+
+						#region uint
+						if (e.i.TargetParameter.ParameterType == typeof(uint))
+						{
+							Write("(long)");
+							Write("(");
+							WriteMethodParameterOrSelf(e.i);
+
+							// this operator is either 16bit or 32bit, depends on VM
+							Write(" & 0xffffffffL");
+							Write(")");
+
+							return;
+						}
+						#endregion
+					}
 
 					WriteMethodParameterOrSelf(e.i);
 				};
@@ -794,6 +923,12 @@ namespace jsc.Languages.Java
 					{
 						// we will store ubyte as sbyte
 						Write("(byte)");
+					}
+
+					if (e.i.TargetParameter.ParameterType == typeof(uint))
+					{
+						// we will store ubyte as sbyte
+						Write("(int)");
 					}
 
 					Emit(e.p, e.FirstOnStack);
@@ -854,6 +989,12 @@ namespace jsc.Languages.Java
 						   Write("(byte)");
 					   }
 
+					   if (e.i.TargetField.FieldType == typeof(uint))
+					   {
+						   // we will store ubyte as sbyte
+						   Write("(int)");
+					   }
+
 					   Emit(e.p, e.FirstOnStack);
 				   }
 				   catch (Exception exc)
@@ -864,11 +1005,13 @@ namespace jsc.Languages.Java
 			#endregion
 
 
+			#region Ldsfld
 			CIW[OpCodes.Ldsfld] =
 				delegate(CodeEmitArgs e)
 				{
 					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
 
+					#region byte
 					if (e.i.TargetField.FieldType == typeof(byte))
 					{
 						Write("(short)");
@@ -883,11 +1026,30 @@ namespace jsc.Languages.Java
 
 						return;
 					}
+					#endregion
+
+					#region byte
+					if (e.i.TargetField.FieldType == typeof(uint))
+					{
+						Write("(long)");
+						Write("(");
+						WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
+						WriteTypeStaticAccessor();
+						WriteSafeLiteral(e.i.TargetField.Name);
+
+						// this operator is either 16bit or 32bit, depends on VM
+						Write(" & 0xffffffL");
+						Write(")");
+
+						return;
+					}
+					#endregion
 
 					WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
 					WriteTypeStaticAccessor();
 					WriteSafeLiteral(e.i.TargetField.Name);
 				};
+			#endregion
 
 			CIW[OpCodes.Callvirt] =
 				delegate(CodeEmitArgs e)
@@ -1032,6 +1194,12 @@ namespace jsc.Languages.Java
 						Write("(byte)");
 					}
 
+					if (e.i.TargetVariable.LocalType == typeof(uint))
+					{
+						// we will store ubyte as sbyte
+						Write("(int)");
+					}
+
 					EmitFirstOnStack(e);
 				};
 			#endregion
@@ -1087,6 +1255,15 @@ namespace jsc.Languages.Java
 
 					   // this operator is either 16bit or 32bit, depends on VM
 					   Write(" & 0xff");
+					   Write(")");
+				   }
+				   else if (e.i.TargetVariable.LocalType == typeof(uint))
+				   {
+					   Write("(long)");
+					   Write("(");
+					   WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.TargetVariable);
+
+					   Write(" & 0xffffffffL");
 					   Write(")");
 				   }
 				   else
@@ -1179,7 +1356,9 @@ namespace jsc.Languages.Java
 			CIW[OpCodes.Not] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "~"); };
 			CIW[OpCodes.Xor] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "^"); };
 			CIW[OpCodes.Shl] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<<"); };
-			CIW[OpCodes.Shr] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">>"); };
+			// are we missing something important in implementation?
+			CIW[OpCodes.Shr,
+				OpCodes.Shr_Un] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">>"); };
 
 			CIW[OpCodes.Clt, OpCodes.Clt_Un, OpCodes.Blt, OpCodes.Blt_S] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<"); };
 			CIW[OpCodes.Cgt, OpCodes.Cgt_Un, OpCodes.Bgt, OpCodes.Bgt_S] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">"); };
@@ -1216,7 +1395,8 @@ namespace jsc.Languages.Java
 			};
 
 			CIW[OpCodes.And] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "&"); };
-			CIW[OpCodes.Rem] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "%"); };
+			CIW[OpCodes.Rem,
+				OpCodes.Rem_Un] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "%"); };
 			CIW[OpCodes.Mul] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "*"); };
 			CIW[OpCodes.Div] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "/"); };
 			CIW[OpCodes.Bge_S,
