@@ -21,6 +21,7 @@ namespace jsc
 	using jsc.Languages.JavaScript;
 	using Script;
 	using ScriptCoreLib.CSharp.Extensions;
+	using jsc.Languages;
 
 
 	public class Program
@@ -360,7 +361,9 @@ namespace jsc
 				return;
 			}
 
-			xw.Session.ImplementationTypes.AddRange(xw.Session.Types);
+			Type[] alltypes = CompilerJob.LoadTypes(type, Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName));
+
+			xw.Session.ImplementationTypes.AddRange(alltypes);
 
 			LoadReferencedAssamblies(type, ta, xw, _assambly_loaded);
 			#endregion

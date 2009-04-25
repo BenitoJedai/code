@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashPlasmaPinkAvalon", "Fl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashPlasmaPurpleAvalon", "FlashPlasmaPurpleAvalon\FlashPlasmaPurpleAvalon.csproj", "{E2B04B69-801B-4FB6-91BC-83014D484A0C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashPlasmaDocument", "FlashPlasmaDocument\FlashPlasmaDocument.csproj", "{6FECF200-4FE4-47CF-8302-55A12C539B3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,12 @@ Global
 		{E2B04B69-801B-4FB6-91BC-83014D484A0C}.Phase1|Any CPU.Build.0 = Release|Any CPU
 		{E2B04B69-801B-4FB6-91BC-83014D484A0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2B04B69-801B-4FB6-91BC-83014D484A0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FECF200-4FE4-47CF-8302-55A12C539B3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FECF200-4FE4-47CF-8302-55A12C539B3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FECF200-4FE4-47CF-8302-55A12C539B3D}.Phase1|Any CPU.ActiveCfg = Release|Any CPU
+		{6FECF200-4FE4-47CF-8302-55A12C539B3D}.Phase1|Any CPU.Build.0 = Release|Any CPU
+		{6FECF200-4FE4-47CF-8302-55A12C539B3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FECF200-4FE4-47CF-8302-55A12C539B3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

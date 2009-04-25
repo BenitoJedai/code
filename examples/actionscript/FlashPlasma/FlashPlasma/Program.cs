@@ -71,7 +71,7 @@ namespace FlashPlasma
 
 					for (int i = 0; i < buffer.Length; i++)
 					{
-						Marshal.WriteInt32(data.Scan0, i * 4, unchecked((int)buffer[i]));
+						Marshal.WriteInt32(data.Scan0, i * 4, unchecked((int)(buffer[i] | 0xff000000)));
 					}
 
 
