@@ -10,7 +10,7 @@ if '%TargetPath%' == '' (
 )
 
 
-pushd ..\bin\Debug\web
+pushd ..\bin\%ConfigurationName%\web
 
 call setup.settings.cmd
 

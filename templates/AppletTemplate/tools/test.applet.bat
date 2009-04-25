@@ -1,7 +1,6 @@
 @echo off
 setlocal
 
-call build
 
 call find.java appletviewer.exe
 set TargetPath=%ReturnValue%
@@ -11,7 +10,7 @@ if '%TargetPath%' == '' (
     goto :eof
 )
 
-pushd ..\bin\Debug\web
+pushd ..\bin\release\web
 
 :: import primary applet settings
 call setup.settings.cmd

@@ -10,7 +10,7 @@ if '%TargetPath%' == '' (
 )
 
 
-pushd ..\bin\debug\web
+pushd ..\bin\%ConfigurationName%\web
 
 :: import primary applet settings
 call setup.settings.cmd
