@@ -439,7 +439,9 @@ namespace jsc.Languages.Java
 					delegate(CodeEmitArgs e)
 					{
 						//EmitFirstOnStack(e);
-						ConvertTypeAndEmit(e, GetDecoratedTypeName(e.i.TargetType, true, false));
+						var TargetType = this.ResolveImplementation(e.i.TargetType) ?? e.i.TargetType;
+
+						ConvertTypeAndEmit(e, GetDecoratedTypeName(TargetType, true, false));
 						//Write("((");
 
 						//WriteDecoratedTypeName(e.i.TargetType);

@@ -38,6 +38,7 @@ using ScriptCoreLib;
 [assembly: ScriptTypeFilter(ScriptType.Java, "*")]
 [assembly: Script(IsCoreLib=true)]
 
+[assembly: InternalsVisibleTo("ScriptCoreLibJava.Threading")]
 //[assembly:
 	// why?
 	//ScriptNamespaceRename(
