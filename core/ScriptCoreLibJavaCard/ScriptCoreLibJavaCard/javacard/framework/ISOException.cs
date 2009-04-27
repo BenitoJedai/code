@@ -27,7 +27,7 @@ namespace ScriptCoreLibJavaCard.javacard.framework
 
 		public __ISOException(short sw)
 		{
-			sw = sw;
+			this.sw = sw;
 		}
 	} 
 }
