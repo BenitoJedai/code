@@ -236,3 +236,5 @@ version history:
 	java: added usigned int support
 	jsc: renaming can be filtered to native types now
 	java: fixed as keyword implementation
+27.04.2009
+	java: fixed namespace rename while importing

@@ -60,17 +60,17 @@ namespace jsc.Languages.Java
 					if (p != z)
 					{
 
-						imports.Add(n + GetDecoratedTypeName(p, false, false, false));
+						imports.Add(NamespaceFixup(n + GetDecoratedTypeName(p, false, false, false), p));
 					}
 
-					imports.Add(GetDecoratedTypeName(p, true, false, false));
+					imports.Add(NamespaceFixup(GetDecoratedTypeName(p, true, false, false), p));
 
 
 				}
 				else
 				{
 
-					imports.Add(n + GetDecoratedTypeName(p, true, false, false));
+					imports.Add(NamespaceFixup(n + GetDecoratedTypeName(p, true, false, false), p));
 
 
 
@@ -93,7 +93,8 @@ namespace jsc.Languages.Java
 				   return x.CompareTo(y);
 			   });
 
-			foreach (string var in imports)
+
+			foreach (var Namespace in imports)
 			{
 				// exclude onl
 				//if (var.StartsWith("java.lang"))
@@ -102,7 +103,7 @@ namespace jsc.Languages.Java
 
 
 				WriteKeywordImport();
-				Write(NamespaceFixup(var, null));
+				Write(Namespace);
 				WriteLine(";");
 
 			}

@@ -191,6 +191,9 @@ namespace OrcasNativeApplication
 		[Script(NoDecoration = true)]
 		public static int main()
 		{
+			// you really should not use headphones with PC speakers
+			Console.Beep();
+
 			var m = new MusicalNotes();
 
 			var intro1 = new GuitarTabs(m,
