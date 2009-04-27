@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibJava.Threading", "ScriptCoreLibJava.Threading\ScriptCoreLibJava.Threading.csproj", "{99881944-7C8A-43C9-B268-727B5DABE0FA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{99881944-7C8A-43C9-B268-727B5DABE0FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99881944-7C8A-43C9-B268-727B5DABE0FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99881944-7C8A-43C9-B268-727B5DABE0FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99881944-7C8A-43C9-B268-727B5DABE0FA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
