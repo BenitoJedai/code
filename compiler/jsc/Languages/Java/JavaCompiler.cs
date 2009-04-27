@@ -845,6 +845,7 @@ namespace jsc.Languages.Java
 			{
 				a = ScriptAttribute.Of(__impl);
 			}
+		
 
 			if (bExternalAllowed && a != null && a.ExternalTarget != null)
 			{
@@ -852,8 +853,10 @@ namespace jsc.Languages.Java
 			}
 			else
 			{
+
 				if (type.IsNested)
 				{
+					#region nested
 					List<string> x = new List<string>();
 
 					Type p = type;
@@ -886,6 +889,8 @@ namespace jsc.Languages.Java
 						a.IsNative
 						? "."
 						: "_", x.ToArray());
+					#endregion
+
 				}
 				else
 				{
