@@ -1,36 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Net;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
+using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using System.Runtime.InteropServices;
+using System.Windows.Media.Imaging;
 using FlashPlasmaEngine;
+using System.Runtime.InteropServices;
 using System.Windows.Threading;
 
-namespace FlashPlasmaPurpleAvalon
+namespace FlashPlasmaBlueAvalon
 {
-	/// <summary>
-	/// Interaction logic for Page1.xaml
-	/// </summary>
-	public partial class Page1 : Page
+	public partial class MainPage : UserControl
 	{
-		public Page1()
+		public MainPage()
 		{
-			// Request for the permission of type 'System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089' failed.
-
 			InitializeComponent();
+
+			this.Width = 600;
+			this.Height = 600;
 
 			var i = new Image();
 
-			var s = new WriteableBitmap(600, 600, 96, 96, PixelFormats.Pbgra32, null);
+			//var s = new WriteableBitmap(600, 600, 96, 96, PixelFormats.Pbgra32, null);
+			var s = new WriteableBitmap(600, 600, PixelFormats.Pbgra32);
+
 			Plasma.generatePlasma(600, 600);
 			var shift = 0;
 
@@ -45,11 +44,15 @@ namespace FlashPlasmaPurpleAvalon
 
 					for (int j = 0; j < buffer.Length; j++)
 					{
-						Marshal.WriteInt32(s.BackBuffer, j * 4, unchecked((int)(buffer[j] | 0xff000000)));
+						//Marshal.WriteInt32(s.BackBuffer, j * 4, unchecked((int)(buffer[j] | 0xff000000)));
+						s[j] = unchecked((int)(buffer[j] | 0xff000000));
 					}
 
-					s.AddDirtyRect(new Int32Rect(0, 0, 600, 600));
+					//s.AddDirtyRect(new Int32Rect(0, 0, 600, 600));
+					s.Invalidate();
 					s.Unlock();
+					
+					
 				};
 
 			var t = new DispatcherTimer();
@@ -62,13 +65,14 @@ namespace FlashPlasmaPurpleAvalon
 
 				};
 
-			t.Interval = TimeSpan.FromMilliseconds(10);
+			t.Interval = TimeSpan.FromMilliseconds(50);
 			t.Start();
 
 			Refresh();
 
 			i.Source = s;
 
+			
 			this.Content = i;
 		}
 	}
