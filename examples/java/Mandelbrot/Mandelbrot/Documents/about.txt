@@ -1,0 +1,8 @@
+﻿This document will show you how this solution was built.
+
+2009.04.29
+1. Find an interesting algorithm. We found Mandelbrot.
+2. Create .net assembly to implement that assembly.
+3. Create a form assembly for basic visualization.
+4. The algorithm implementation shall be defined as static.
+5. Verify the visulation and commit to svn.
