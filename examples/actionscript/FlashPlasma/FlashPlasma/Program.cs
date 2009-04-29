@@ -47,8 +47,6 @@ namespace FlashPlasma
 			f.Paint +=
 				(object sender, PaintEventArgs e) =>
 				{
-
-
 					e.Graphics.DrawImage(bitmap, new Rectangle(0, 0, bitmap.Width, bitmap.Height));
 				};
 

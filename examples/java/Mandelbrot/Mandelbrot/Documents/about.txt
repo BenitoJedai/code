@@ -1,5 +1,7 @@
 ﻿This document will show you how this solution was built.
 
+These notes could be used to create a more elaborate tutorial on creating such a solution.
+
 2009.04.29
 1. Find an interesting algorithm. We found Mandelbrot.
 2. Create .net assembly to implement that assembly.
