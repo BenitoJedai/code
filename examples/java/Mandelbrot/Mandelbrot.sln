@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.BlueAvalon", "Ma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.BlueAvalon.Web", "Mandelbrot.BlueAvalon.Web\Mandelbrot.BlueAvalon.Web.csproj", "{F2CDD396-96BF-4716-8BCF-5EE5B3108165}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.PinkApplet", "Mandelbrot.PinkApplet\Mandelbrot.PinkApplet.csproj", "{C03D019F-8614-482F-9697-5ACC59F3C724}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,10 @@ Global
 		{F2CDD396-96BF-4716-8BCF-5EE5B3108165}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2CDD396-96BF-4716-8BCF-5EE5B3108165}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2CDD396-96BF-4716-8BCF-5EE5B3108165}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C03D019F-8614-482F-9697-5ACC59F3C724}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C03D019F-8614-482F-9697-5ACC59F3C724}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C03D019F-8614-482F-9697-5ACC59F3C724}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C03D019F-8614-482F-9697-5ACC59F3C724}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
