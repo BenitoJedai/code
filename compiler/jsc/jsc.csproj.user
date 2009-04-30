@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\java\Mandelbrot\Mandelbrot.BlueAvalonLibrary\bin\Release</StartWorkingDirectory>
-    <StartArguments>Mandelbrot.BlueAvalonLibrary.dll -cs2</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\java\Mandelbrot\Mandelbrot.PinkApplet\bin\Release</StartWorkingDirectory>
+    <StartArguments>Mandelbrot.PinkApplet.dll -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

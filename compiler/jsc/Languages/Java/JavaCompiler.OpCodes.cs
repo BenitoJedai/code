@@ -12,6 +12,7 @@ using System.Xml;
 using System.Threading;
 
 using jsc.CodeModel;
+using ScriptCoreLib.CSharp.Extensions;
 
 using ScriptCoreLib;
 using jsc.Script;
@@ -440,6 +441,8 @@ namespace jsc.Languages.Java
 					{
 						//EmitFirstOnStack(e);
 						var TargetType = this.ResolveImplementation(e.i.TargetType) ?? e.i.TargetType;
+
+						TargetType = TargetType.ToScriptAttributeOrDefault().ImplementationType ?? TargetType;
 
 						ConvertTypeAndEmit(e, GetDecoratedTypeName(TargetType, true, false));
 						//Write("((");

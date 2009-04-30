@@ -154,6 +154,8 @@ namespace jsc.Languages.CSharp2
                             }
                             else
                             {
+								WriteConstants(z);
+
                                 WriteTypeInstanceConstructors(z);
                                 WriteTypeStaticConstructor(z, z.ToScriptAttributeOrDefault());
 
