@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\core\ScriptCoreLibJava.Threading\ScriptCoreLibJava.Threading\bin\Debug</StartWorkingDirectory>
-    <StartArguments>ScriptCoreLibJava.Threading.dll -java</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\java\Mandelbrot\Mandelbrot.BlueAvalonLibrary\bin\Release</StartWorkingDirectory>
+    <StartArguments>Mandelbrot.BlueAvalonLibrary.dll -cs2</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

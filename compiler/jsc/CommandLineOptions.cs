@@ -48,6 +48,7 @@ namespace jsc
             Description = "Target assembly filename in the working directory.")]
         public FileInfo TargetAssembly;
 
+
         // [CommandLineOption(Flag = "nothreads", Description = "Multithreading will be disabled")]
 		//public bool IsNoThreads = true;
 

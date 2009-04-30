@@ -35,7 +35,7 @@ namespace jsc.Languages
 
 		public ScriptTypeFilterAttribute[] GetTypeFilterListByType(ScriptType e)
 		{
-			List<ScriptTypeFilterAttribute> u = new List<ScriptTypeFilterAttribute>();
+			var u = new List<ScriptTypeFilterAttribute>();
 
 			foreach (ScriptTypeFilterAttribute var in GetTypeFilterList())
 			{
@@ -46,7 +46,18 @@ namespace jsc.Languages
 			return u.ToArray();
 		}
 
+		public ScriptTypeFilterAttribute[] GetTypeFilterListByType(ScriptType e, Assembly context)
+		{
+			var u = GetTypeFilterListByType(e);
 
+			if (u.Length == 0)
+				if (ScriptAttribute.OfProvider(context).ScriptLibraries.Any(k => k.Assembly == this.AssamblyInfo))
+					return new[] { new ScriptTypeFilterAttribute(e) };
+
+
+
+			return u;
+		}
 
 
 		public static void Compile(string p, CompileSessionInfo sinfo)
@@ -105,7 +116,7 @@ namespace jsc.Languages
 					CompileActionScript(j, sinfo);
 
 			if (sinfo.Options.IsCSharp2)
-				if (j.GetTypeFilterListByType(ScriptType.CSharp2).Any())
+				if (j.GetTypeFilterListByType(ScriptType.CSharp2, Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName)).Any())
 					CompileCSharp2(j, sinfo);
 
 			if (sinfo.Options.IsC)
@@ -120,13 +131,19 @@ namespace jsc.Languages
 		//    return LoadTypes(scriptType, this.AssamblyInfo);
 		//}
 
-		public static Type[] LoadTypes(ScriptType scriptType, Assembly assembly)
+		public static Type[] LoadTypes(ScriptType scriptType, Assembly context)
 		{
 			List<Type> a = new List<Type>();
 
-			foreach (Assembly x in SharedHelper.LoadReferencedAssemblies(assembly, true))
+			foreach (Assembly x in SharedHelper.LoadReferencedAssemblies(context, true))
 			{
-				a.AddRange(ScriptAttribute.FindTypes(x, scriptType));
+				if (ScriptAttribute.OfProvider(x) == null)
+				{
+					// it better be a script library
+					a.AddRange(x.GetTypes());
+				}
+				else
+					a.AddRange(ScriptAttribute.FindTypes(x, scriptType));
 
 			}
 
@@ -134,7 +151,8 @@ namespace jsc.Languages
 			return a.ToArray();
 		}
 
-		
+
+
 
 		internal string NamespaceFixup(string _ns, Type context)
 		{
