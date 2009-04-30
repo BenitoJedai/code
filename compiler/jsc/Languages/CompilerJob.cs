@@ -108,8 +108,9 @@ namespace jsc.Languages
 			// compile for language # java
 
 			if (sinfo.Options.IsJava)
-				if (j.GetTypeFilterListByType(ScriptType.Java).Any())
-					CompileJava(j, sinfo);
+				using (var c = new ScriptAttribute.ScriptLibraryContext(Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName)))
+					if (j.GetTypeFilterListByType(ScriptType.Java, c.Context).Any())
+						CompileJava(j, sinfo);
 
 			if (sinfo.Options.IsActionScript)
 				if (j.GetTypeFilterListByType(ScriptType.ActionScript).Any())

@@ -14,7 +14,8 @@ namespace jsc.Languages.CSharp2
     {
         public enum Keywords
         {
-            _lock,
+			_const,
+			_lock,
             _as,
             _base,
             _event,

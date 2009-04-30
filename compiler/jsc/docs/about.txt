@@ -239,3 +239,5 @@ version history:
 27.04.2009
 	java: fixed namespace rename while importing
 	java: fixed BCL name resolving for opcodes.cast
+30.04.2009
+	cs2: added const fields
