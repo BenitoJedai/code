@@ -24,15 +24,15 @@ namespace Mandelbrot.Forms
 				MaximizeBox = false,
 				FormBorderStyle = FormBorderStyle.FixedDialog,
 				ClientSize = new Size(
-					600,
-					600
+					MandelbrotProvider.DefaultWidth,
+					MandelbrotProvider.DefaultHeight
 				)
 
 			};
 
 			var bitmap = new Bitmap(
-				600,
-				600
+				MandelbrotProvider.DefaultWidth,
+				MandelbrotProvider.DefaultHeight
 			);
 
 			f.Paint +=
@@ -41,17 +41,18 @@ namespace Mandelbrot.Forms
 					e.Graphics.DrawImage(bitmap, new Rectangle(0, 0, bitmap.Width, bitmap.Height));
 				};
 
+			var shift = 0;
+
 			Action Refresh =
 				delegate
 				{
-					Mandelbrot.MandelbrotProvider.DrawMandelbrotSet();
+					var buffer = Mandelbrot.MandelbrotProvider.DrawMandelbrotSet(shift);
 
 					var data = bitmap.LockBits(
 						new Rectangle(0, 0, bitmap.Width, bitmap.Height),
 						System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb
 					);
 
-					var buffer = Mandelbrot.MandelbrotProvider.bitmap;
 
 					for (int i = 0; i < buffer.Length; i++)
 					{
@@ -61,9 +62,22 @@ namespace Mandelbrot.Forms
 
 
 					bitmap.UnlockBits(data);
+					f.Invalidate();
 				};
 
 			Refresh();
+
+			var t = new Timer();
+
+			t.Interval = 1;
+			t.Tick +=
+				delegate
+				{
+					shift += 1;
+					Refresh();
+				};
+
+			t.Start();
 
 			Application.Run(f);
 		}
