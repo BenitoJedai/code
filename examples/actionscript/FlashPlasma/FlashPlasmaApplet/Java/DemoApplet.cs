@@ -78,7 +78,12 @@ namespace FlashPlasmaApplet.Java
 			while (!that.__stop)
 			{
 				that.shift++;
-				Plasma.shiftPlasma(that.shift);
+				var a = Plasma.shiftPlasma(that.shift);
+
+				for (int i = 0; i < a.Length; i++)
+				{
+					a[i] = 0xFF000000u | a[i];
+				}
 
 				that.buffer.newPixels();
 				that.paint(that.getGraphics());

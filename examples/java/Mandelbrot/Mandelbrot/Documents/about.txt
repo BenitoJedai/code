@@ -12,3 +12,4 @@ These notes could be used to create a more elaborate tutorial on creating such a
 2009.04.30
 1. Add animation
 2. Add desktop avalon project
+3. Disable optimize code

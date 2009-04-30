@@ -40,7 +40,7 @@ using ScriptCoreLib;
 [assembly:
 	Script(
 		IsScriptLibrary = true,
-		ScriptLibraryReferences = new[] 
+		ScriptLibraries = new[] 
 		{ 
 			typeof(Mandelbrot.MandelbrotProvider), 
 			typeof(Mandelbrot.Core.MandelbrotCore) 

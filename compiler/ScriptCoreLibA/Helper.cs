@@ -73,6 +73,7 @@ namespace ScriptCoreLib
 				foreach (Assembly c in LoadReferencedAssemblies(x))
 					yield return c;
 			}
+
 		}
 
 		class LoadDependenciesValue
@@ -100,7 +101,7 @@ namespace ScriptCoreLib
 
 		}
 
-		static IEnumerable<LoadDependenciesValue> LoadDependencies(Assembly a, bool includethis, Action<Assembly> h)
+		static IEnumerable<LoadDependenciesValue> LoadDependencies(Assembly context, Assembly a, bool includethis, Action<Assembly> h)
 		{
 			var r = new LoadDependenciesValue();
 
@@ -115,18 +116,37 @@ namespace ScriptCoreLib
 						h(n);
 				};
 
+			var ReferencedAssemblies = a.GetReferencedAssemblies().Select(k => AppDomain.CurrentDomain.Load(k));
+
+			var _as = ScriptAttribute.OfProvider(a);
+			if (_as != null)
+				if (_as.ScriptLibraries != null)
+					ReferencedAssemblies = ReferencedAssemblies.Concat(_as.ScriptLibraries.Select(k => k.Assembly));
 
 
-			foreach (AssemblyName z in a.GetReferencedAssemblies())
+
+
+			foreach (var x in ReferencedAssemblies)
 			{
-				var x = AppDomain.CurrentDomain.Load(z);
-
 				if (ScriptAttribute.Of(x) == null)
-					continue;
+				{
+					// either it is not a script library
+					// or it is in regards to context
 
+					var cs = ScriptAttribute.OfProvider(context);
+
+					if (cs != null)
+						if (cs.ScriptLibraries != null)
+							if (cs.ScriptLibraries.Any(k => k.Assembly == x))
+								goto ContinueAdd;
+
+					continue;
+				}
+
+			ContinueAdd:
 				Add(x);
 
-				foreach (var v in LoadDependencies(x, true, Add))
+				foreach (var v in LoadDependencies(context, x, true, Add))
 				{
 					yield return v;
 				}
@@ -140,7 +160,7 @@ namespace ScriptCoreLib
 
 		public static Assembly[] LoadReferencedAssemblies(Assembly a, bool includethis)
 		{
-			var r = LoadDependencies(a, includethis, null).Distinct(
+			var r = LoadDependencies(a, a, includethis, null).Distinct(
 				new LoadDependenciesValue.EqualityComparer()
 			).ToArray().ToDictionary(i => i.Assembly, i => i.Dependencies.Distinct().ToArray());
 			var k = r.Keys.ToArray();

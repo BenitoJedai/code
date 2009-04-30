@@ -246,6 +246,11 @@ namespace ScriptCoreLib
 		/// </summary>
 		public bool IsScriptLibrary;
 
+		/// <summary>
+		/// Assemblies referenced with these types shall be treated as script libraries
+		/// </summary>
+		public Type[] ScriptLibraries;
+
         /// <summary>
         /// supports the ldlen opcode
         /// </summary>
