@@ -13,3 +13,5 @@ These notes could be used to create a more elaborate tutorial on creating such a
 1. Add animation
 2. Add desktop avalon project
 3. Disable optimize code
+4. Add code generation for silverlight 
+5. Add silverlight project as blue avalon

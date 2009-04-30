@@ -11,6 +11,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.Core", "Mandelbr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.BlueAvalonLibrary", "Mandelbrot.BlueAvalonLibrary\Mandelbrot.BlueAvalonLibrary.csproj", "{09ACC09D-7B82-4077-84AE-454861F8856F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.BlueAvalon", "Mandelbrot.BlueAvalon\Mandelbrot.BlueAvalon.csproj", "{2D60B002-CB8B-49D1-9C53-4BFEBDE1F9D5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{09ACC09D-7B82-4077-84AE-454861F8856F} = {09ACC09D-7B82-4077-84AE-454861F8856F}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.BlueAvalon.Web", "Mandelbrot.BlueAvalon.Web\Mandelbrot.BlueAvalon.Web.csproj", "{F2CDD396-96BF-4716-8BCF-5EE5B3108165}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +44,14 @@ Global
 		{09ACC09D-7B82-4077-84AE-454861F8856F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09ACC09D-7B82-4077-84AE-454861F8856F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09ACC09D-7B82-4077-84AE-454861F8856F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D60B002-CB8B-49D1-9C53-4BFEBDE1F9D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D60B002-CB8B-49D1-9C53-4BFEBDE1F9D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D60B002-CB8B-49D1-9C53-4BFEBDE1F9D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D60B002-CB8B-49D1-9C53-4BFEBDE1F9D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2CDD396-96BF-4716-8BCF-5EE5B3108165}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2CDD396-96BF-4716-8BCF-5EE5B3108165}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2CDD396-96BF-4716-8BCF-5EE5B3108165}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2CDD396-96BF-4716-8BCF-5EE5B3108165}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
