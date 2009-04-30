@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{EB1123DC-6BE8-439C-98CC-E5AFF14B5A0B}</ProjectGuid>
+    <ProjectGuid>{E53E9410-D39A-408C-A792-A38C13E7B2DD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mandelbrot</RootNamespace>
-    <AssemblyName>Mandelbrot</AssemblyName>
+    <RootNamespace>Mandelbrot.Core</RootNamespace>
+    <AssemblyName>Mandelbrot.Core</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -45,17 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MandelbrotProvider.cs" />
+    <Compile Include="MandelbrotCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Documents\about.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Mandelbrot.Core\Mandelbrot.Core.csproj">
-      <Project>{E53E9410-D39A-408C-A792-A38C13E7B2DD}</Project>
-      <Name>Mandelbrot.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
