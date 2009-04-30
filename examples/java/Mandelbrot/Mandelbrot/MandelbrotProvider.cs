@@ -8,10 +8,13 @@ namespace Mandelbrot
 {
 	public static class MandelbrotProvider
 	{
-		public const int DefaultWidth = 320;
-		public const int DefaultHeight = 200;
+		//public const int DefaultWidth = 320;
+		//public const int DefaultHeight = 200;
 
+		public const int DefaultWidth = 128;
+		public const int DefaultHeight = 128;
 		// javascript wont support uint at this time
+		// javascript needs power of 2 ?
 
 		static int[] bitmap = new int[DefaultWidth * DefaultHeight];
 
@@ -27,6 +30,10 @@ namespace Mandelbrot
 			return bitmap;
 		}
 
+		static MandelbrotProvider()
+		{
+
+		}
 
 	}
 }

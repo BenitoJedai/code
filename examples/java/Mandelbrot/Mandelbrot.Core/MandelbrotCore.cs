@@ -43,7 +43,9 @@ namespace Mandelbrot.Core
 
 						if (zr2 + zi2 > _escape)
 						{
-							bitmap[(y * width) + x] = ((int)Math.Pow(count + 1, 5) % 0xFFFFFF);
+							var index = (y * width) + x;
+							var value = ((int)Math.Pow(count + 1, 5) % 0xFFFFFF);
+							bitmap[index] = value;
 							break;
 						}
 						zi = ci + (2.0 * zr * zi);
@@ -52,7 +54,10 @@ namespace Mandelbrot.Core
 					}
 
 					if (count == _max)
-						bitmap[(y * width) + x] = 0; // Black
+					{
+						var index = (y * width) + x;
+						bitmap[index] = 0; // Black
+					}
 				}
 			}
 
