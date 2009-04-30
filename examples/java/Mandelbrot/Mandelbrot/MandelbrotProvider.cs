@@ -5,8 +5,11 @@ using System.Text;
 
 namespace Mandelbrot
 {
-	public class MandelbrotProvider
+	public static class MandelbrotProvider
 	{
+		public const int DefaultWidth = 320;
+		public const int DefaultHeight = 200;
+
 		static int _max = 30;
 		static int _escape = 20;
 
@@ -17,22 +20,30 @@ namespace Mandelbrot
 
 		// javascript wont support uint at this time
 
-		public static int[] bitmap = new int[600 * 600];
+		static int[] bitmap = new int[DefaultWidth * DefaultHeight];
 
-		public static void DrawMandelbrotSet()
+		public static int[] DrawMandelbrotSet(int shift)
 		{
-			DrawMandelbrotSet(rmin, rmax, imin, imax, 600, 600);
+			var rmin = MandelbrotProvider.rmin - .002 * (double)shift;
+			var rmax = MandelbrotProvider.rmax + .002 * (double)shift;
+			var imin = MandelbrotProvider.imin - .002 * (double)shift;
+			var imax = MandelbrotProvider.imax + .002 * (double)shift;
+
+
+			DrawMandelbrotSet(rmin, rmax, imin, imax, DefaultWidth, DefaultHeight);
+
+			return bitmap;
 		}
 
-		public static void DrawMandelbrotSet(double rmin, double rmax,
-							 double imin, double imax, int width, int height)
+		static void DrawMandelbrotSet(double rmin, double rmax,
+							double imin, double imax, int width, int height)
 		{
 			// http://www.eggheadcafe.com/tutorials/aspnet/05748429-75a4-449a-9aab-82758cfb13df/animating-mandelbrot-frac.aspx
 
 			// uncomment next line and 3 lines at bottom to see rendering time in output window
 			//  DateTime start = DateTime.Now;
 			// Silverlight 2 - you can use Joe Stegner's WriteableBitmap class separately
-		
+
 			double dr = (rmax - rmin) / (width - 1);
 			double di = (imax - imin) / (height - 1);
 
@@ -66,7 +77,7 @@ namespace Mandelbrot
 				}
 			}
 
-	
+
 			//   DateTime end = DateTime.Now;
 			//  TimeSpan elapsed = end - start;
 			// System.Diagnostics.Debug.WriteLine( elapsed.TotalMilliseconds.ToString() );
