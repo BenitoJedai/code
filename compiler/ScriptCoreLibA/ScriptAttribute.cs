@@ -365,37 +365,39 @@ namespace ScriptCoreLib
 		internal static List<ScriptLibraryContext> OfProviderContext = new List<ScriptLibraryContext>();
 
 		public static ScriptAttribute OfProvider(ICustomAttributeProvider m)
-        {
-            if (m == null)
-                return null;
+		{
+			if (m == null)
+				return null;
 
-            try
-            {
-                ScriptAttribute[] s = m.GetCustomAttributes(typeof(ScriptAttribute), false) as ScriptAttribute[];
+			try
+			{
+				ScriptAttribute[] s = m.GetCustomAttributes(typeof(ScriptAttribute), false) as ScriptAttribute[];
 
-                var x = s.Length == 0 ? null : s[0];
+				var x = s.Length == 0 ? null : s[0];
 
 				var t = m as Type;
 				if (t != null && t.Assembly.ToScriptAttributeOrDefault().IsScriptLibrary)
 					x = new ScriptAttribute();
 
 				if (t != null)
-				if (Enumerable.Any(
-					from p in OfProviderContext
-					from l in p.Context.ToScriptAttributeOrDefault().ScriptLibraries
-					where l.Assembly == t.Assembly
-					select new { p, l }
-					))
-					x = new ScriptAttribute();
+					if (Enumerable.Any(
+						from p in OfProviderContext
+						let ScriptLibraries = p.Context.ToScriptAttributeOrDefault().ScriptLibraries
+						where ScriptLibraries != null
+						from l in ScriptLibraries
+						where l.Assembly == t.Assembly
+						select new { p, l }
+						))
+						x = new ScriptAttribute();
 
 
 				return x;
-            }
-            catch (Exception exc)
-            {
-                throw exc;
-            }
-        }
+			}
+			catch (Exception exc)
+			{
+				throw exc;
+			}
+		}
 
 
 		public static bool IsAnonymousType(Type z)
