@@ -8,6 +8,8 @@ namespace Mandelbrot
 {
 	public static class MandelbrotProvider
 	{
+		// only these public functions shall be exported via alchemy
+
 		// // alcemy does not seem to work with type definitions yet?
 
 		//public const int DefaultWidth = 320;
@@ -19,6 +21,16 @@ namespace Mandelbrot
 		// javascript needs power of 2 ?
 
 		static int[] bitmap = new int[DefaultWidth * DefaultHeight];
+
+
+		public static int InitializeMandelbrotProvider()
+		{
+			bitmap = new int[DefaultWidth * DefaultHeight];
+
+			MandelbrotCore.InitializeMandelbrotCore();
+
+			return 0;
+		}
 
 		public static int[] DrawMandelbrotSet(int shift)
 		{
@@ -32,10 +44,7 @@ namespace Mandelbrot
 			return bitmap;
 		}
 
-		static MandelbrotProvider()
-		{
-
-		}
+		
 
 	}
 }

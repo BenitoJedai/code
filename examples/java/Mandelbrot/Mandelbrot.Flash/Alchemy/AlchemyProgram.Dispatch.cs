@@ -31,6 +31,12 @@ namespace Mandelbrot.Flash.Alchemy
 	partial class AlchemyProgram
 	{
 		[global::System.Runtime.CompilerServices.CompilerGenerated]
+		static AS3_h._AS3_Val InitializeMandelbrotProvider(object self, AS3_h._AS3_Val args)
+		{
+			var __value = Mandelbrot.MandelbrotProvider.InitializeMandelbrotProvider();
+			return AS3_h.AS3_Ptr(__value);
+		}
+		[global::System.Runtime.CompilerServices.CompilerGenerated]
 		static AS3_h._AS3_Val DrawMandelbrotSet(object self, AS3_h._AS3_Val args)
 		{
 			int shift;
@@ -43,8 +49,10 @@ namespace Mandelbrot.Flash.Alchemy
 		[Script(NoDecoration = true)]
 		static int main()
 		{
+			var __InitializeMandelbrotProvider = AS3_h.AS3_Function(null, InitializeMandelbrotProvider);
 			var __DrawMandelbrotSet = AS3_h.AS3_Function(null, DrawMandelbrotSet);
-			var __result = AS3_h.AS3_Object("DrawMandelbrotSet: AS3ValType", __arglist(__DrawMandelbrotSet));
+			var __result = AS3_h.AS3_Object("InitializeMandelbrotProvider: AS3ValType,DrawMandelbrotSet: AS3ValType", __arglist(__InitializeMandelbrotProvider,__DrawMandelbrotSet));
+			AS3_h.AS3_Release(__InitializeMandelbrotProvider);
 			AS3_h.AS3_Release(__DrawMandelbrotSet);
 			AS3_h.AS3_LibInit(__result);
 			return 0;
@@ -68,12 +76,14 @@ namespace Mandelbrot.Flash.ActionScript
 		{
 			return default(ByteArray);
 		}
+		public static readonly Func<int> InitializeMandelbrotProvider;
 		public static readonly Func<int, uint> DrawMandelbrotSet;
 		static MandelbrotProxy()
 		{
 			var __loader = new cmodule.Mandelbrot.CLibInit();
 			var __lib = new DynamicDelegatesContainer { Subject = __loader.init() };
 			MandelbrotProxy.Memory = get_ds(new Namespace("cmodule.Mandelbrot"));
+			MandelbrotProxy.InitializeMandelbrotProvider = __lib.ToFunc<int>("InitializeMandelbrotProvider");
 			MandelbrotProxy.DrawMandelbrotSet = __lib.ToFunc<int, uint>("DrawMandelbrotSet");
 		}
 	}
