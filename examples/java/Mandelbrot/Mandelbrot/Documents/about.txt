@@ -15,3 +15,8 @@ These notes could be used to create a more elaborate tutorial on creating such a
 3. Disable optimize code
 4. Add code generation for silverlight 
 5. Add silverlight project as blue avalon
+
+2009.05.01
+1. Add javascript version
+2. Add java version
+3. Add flash version
