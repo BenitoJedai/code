@@ -31,6 +31,18 @@ namespace ScriptCoreLib.ActionScript.Extensions
 		}
 
 
+		public Func<R> ToFunc<R>(string name)
+		{
+			return
+				() =>
+				{
+					var f = this[name] as Function;
+
+					var a = new ScriptCoreLib.ActionScript.Array();
+					return (R)f.apply(this.Subject, a);
+				};
+		}
+
 		public Func<T, R> ToFunc<T, R>(string name)
 		{
 			return

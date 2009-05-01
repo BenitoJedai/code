@@ -17,7 +17,23 @@ namespace Mandelbrot.Core
 		public static double imin = -.65;
 		public static double imax = -.50;
 
-	
+		public static int InitializeMandelbrotCore()
+		{
+			_max = 30;
+			_escape = 20;
+
+
+			rmin = -.75;
+			rmax = -.46;
+			imin = -.65;
+			imax = -.50;
+
+
+
+
+			return 0;
+		}
+
 		public static void DrawMandelbrotSet(int[] bitmap, double rmin, double rmax,
 							double imin, double imax, int width, int height)
 		{
@@ -46,7 +62,8 @@ namespace Mandelbrot.Core
 						{
 							var index = (y * width) + x;
 							var value = ((int)Math.Pow(count + 1, 5) % 0xFFFFFF);
-							bitmap[index] = (int)(value | 0xFF000000u);
+							//bitmap[index] = (int)(value | 0xFF000000u);
+							bitmap[index] = value;
 							break;
 						}
 						zi = ci + (2.0 * zr * zi);

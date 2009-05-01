@@ -264,7 +264,7 @@ namespace ScriptCoreLib.Alchemy.ExportGenerator
 											ReturnType = "string";
 										else if (m.ReturnType == typeof(int))
 											ReturnType = "int";
-										else throw new NotSupportedException();
+										else throw new NotSupportedException(m.ReturnType.FullName);
 
 										return string.Join(", ",
 											m.GetParameters().Select(

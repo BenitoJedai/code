@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{25C11821-6AAF-4AED-95D1-8B60431A0585}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -62,7 +62,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Select.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.SelectMany.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Where.cs" />
-    <Compile Include="ActionScript\Extensions\DynamicContainer.cs" />
+    <Compile Include="ActionScript\Extensions\DynamicDelegatesContainer.cs" />
     <Compile Include="Shared\BCLImplementation\System\DefinedError.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\IOrderedEnumerable.cs" />
     <Compile Include="ActionScript\Extensions\QueryExtensions.cs" />
