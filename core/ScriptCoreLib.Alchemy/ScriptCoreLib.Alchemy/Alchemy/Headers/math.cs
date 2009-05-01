@@ -24,6 +24,11 @@ namespace ScriptCoreLib.Alchemy.Headers
 		{
 			return default(double);
 		}
+
+		public static double pow(double x, double y)
+		{
+			return default(double);
+		}
 	}
 
 }

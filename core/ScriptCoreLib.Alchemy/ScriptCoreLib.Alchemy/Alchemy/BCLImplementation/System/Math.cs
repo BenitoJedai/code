@@ -24,6 +24,11 @@ namespace ScriptCoreLib.Alchemy.BCLImplementation.System
 		{
 			return math_h.sqrt(e);
 		}
+
+		public static double Pow(double x, double y)
+		{
+			return math_h.pow(x, y);
+		}
 	}
 
 }

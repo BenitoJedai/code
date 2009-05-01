@@ -8,6 +8,8 @@ namespace Mandelbrot
 {
 	public static class MandelbrotProvider
 	{
+		// // alcemy does not seem to work with type definitions yet?
+
 		//public const int DefaultWidth = 320;
 		//public const int DefaultHeight = 200;
 

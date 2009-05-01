@@ -44,7 +44,12 @@ namespace ScriptCoreLib.Alchemy.ExportGenerator
 							let Parameters = m.GetParameters()
 							select new { m, Parameters };
 
-			var CModuleNamespace = "cmodule." + Path.GetFileNameWithoutExtension(TargetAssembly.Location);
+			var CModuleNamespacePartial = Path.GetFileNameWithoutExtension(TargetAssembly.Location);
+
+			if (CModuleNamespacePartial.IndexOf(".") > -1)
+				CModuleNamespacePartial = CModuleNamespacePartial.Substring(0, CModuleNamespacePartial.IndexOf("."));
+
+			var CModuleNamespace = "cmodule." + CModuleNamespacePartial;
 
 			using (var p = new ProtectiveFileStream(new FileInfo(TargetFile)))
 			using (var s = new StreamWriter(p))

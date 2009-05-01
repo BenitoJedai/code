@@ -65,7 +65,7 @@ namespace Mandelbrot.Document.js
 		{
 
 			var shift = 0;
-			Debugger.Break();
+			//Debugger.Break();
 			var buffer = MandelbrotProvider.DrawMandelbrotSet(shift);
 			for (int i = 0; i < buffer.Length; i++)
 			{
