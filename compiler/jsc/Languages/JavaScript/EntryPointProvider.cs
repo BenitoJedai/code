@@ -91,7 +91,7 @@ namespace jsc.Languages.JavaScript
             w.WriteLine("<script></script>");
 
             w.WriteLine("</head>");
-			w.WriteLine("<body style='margin: 0;'>");
+			w.WriteLine("<body style='margin: 0; overflow: hidden;'>");
             w.WriteLine("<noscript>ScriptApplication cannot run without JavaScript!</noscript>");
 
 
