@@ -5,8 +5,9 @@ using System.Text;
 
 namespace Mandelbrot.Core
 {
-	public class MandelbrotCore
+	public static class MandelbrotCore
 	{
+		// alcemy does not seem to work with type definitions yet?
 
 		static int _max = 30;
 		static int _escape = 20;
@@ -45,7 +46,7 @@ namespace Mandelbrot.Core
 						{
 							var index = (y * width) + x;
 							var value = ((int)Math.Pow(count + 1, 5) % 0xFFFFFF);
-							bitmap[index] = value;
+							bitmap[index] = (int)(value | 0xFF000000u);
 							break;
 						}
 						zi = ci + (2.0 * zr * zi);

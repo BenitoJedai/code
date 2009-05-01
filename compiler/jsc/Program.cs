@@ -333,14 +333,14 @@ namespace jsc
 
 
 
-			#region allow only assamblies with script attribute
-			if (ScriptAttribute.OfProvider(_assambly_loaded) == null)
-			{
-				Console.WriteLine("*** asambly not prepared for script compiler");
+			//#region allow only assamblies with script attribute
+			//if (ScriptAttribute.OfProvider(_assambly_loaded) == null)
+			//{
+			//    Console.WriteLine("*** asambly not prepared for script compiler");
 
-				return;
-			}
-			#endregion
+			//    return;
+			//}
+			//#endregion
 
 
 			bool WillWriteFile = true;
@@ -352,7 +352,9 @@ namespace jsc
 
 
 			#region loading types
-			xw.Session.Types = ScriptAttribute.FindTypes(_assambly_loaded, type);
+			xw.Session.Types = CompilerJob.LoadTypes(ScriptType.JavaScript, Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName));
+
+			//xw.Session.Types = ScriptAttribute.FindTypes(_assambly_loaded, type);
 
 			if (xw.Session.Types.Length == 0)
 			{
@@ -361,9 +363,9 @@ namespace jsc
 				return;
 			}
 
-			Type[] alltypes = CompilerJob.LoadTypes(type, Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName));
+			//Type[] alltypes = CompilerJob.LoadTypes(type, Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName));
 
-			xw.Session.ImplementationTypes.AddRange(alltypes);
+			xw.Session.ImplementationTypes.AddRange(xw.Session.Types);
 
 			LoadReferencedAssamblies(type, ta, xw, _assambly_loaded);
 			#endregion
@@ -380,7 +382,7 @@ namespace jsc
 
 
 
-			ScriptAttribute AssamblyS = ScriptAttribute.Of(_assambly_loaded);
+			var AssamblyS = ScriptAttribute.OfProvider(_assambly_loaded);
 
 
 			//WriteAssamblyAttributes(target_assambly, xw, _assambly_loaded);
@@ -390,37 +392,10 @@ namespace jsc
 			{
 				new jsc.Script.PHP.PHPCompiler(xw, xw.Session).Compile(sinfo);
 			}
-			//else if (type == ScriptType.C)
-			//{
-			//    #region c
-			//    jsc.Languages.C.CCompiler c = new jsc.Languages.C.CCompiler(xw, xw.Session);
-
-			//    AttachXMLDoc(TargetAssamblyFile, c);
-
-			//    c.HeaderFileName = AssamblyFileName + ".h";
-
-			//    // .c
-			//    c.Compile(_assambly_loaded);
-
-			//    // .h
-			//    c.IsHeaderOnlyMode = true;
-			//    c.MyWriter = new StringWriter();
-
-			//    c.Compile(_assambly_loaded);
-
-
-			//    StreamWriter _stream = new StreamWriter(new FileStream(TargetDirectory.FullName + "/" + c.HeaderFileName, FileMode.Create));
-
-			//    _stream.Write(c.MyWriter.ToString());
-			//    _stream.Flush();
-
-			//    _stream.Close();
-			//    #endregion
-
-			//}
 			else if (type == ScriptType.JavaScript)
 			{
-				IL2Script.DeclareTypes(xw, xw.Session.Types, false, AssamblyS, _assambly_loaded);
+				using (new ScriptAttribute.ScriptLibraryContext(Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName)))
+				IL2Script.DeclareTypes(xw, xw.Session.Types.Where(k => k.Assembly == _assambly_loaded).ToArray(), false, AssamblyS, _assambly_loaded);
 
 				_assambly_loaded.WriteEntryPoints(TargetDirectory);
 			}

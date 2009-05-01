@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Reflection.Emit;
 
 using ScriptCoreLib;
+using ScriptCoreLib.CSharp.Extensions;
 
 using jsc.Script;
 using jsc.Languages.JavaScript;
@@ -636,18 +637,14 @@ namespace jsc
 				if (!z.IsClass)
 					continue;
 
+				var sa = z.ToScriptAttribute();
 
-				object[] o = z.GetCustomAttributes(typeof(ScriptAttribute), true);
-
-				if (o.Length == 1)
-				{
-					ScriptAttribute sa = o[0] as ScriptAttribute;
-
-					if (!sa.IsDebugCode && debug)
-						continue;
-				}
-				else
+				if (sa == null)
 					continue;
+
+
+			
+
 
 				ConstructorInfo[] ci = z.GetConstructors(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Public);
 				foreach (ConstructorInfo zc in ci)
@@ -1414,13 +1411,14 @@ namespace jsc
 
 			w.Ident++;
 
-			if (attribute.IsCoreLib)
-			{
-				// declare file scoped inheritance class builder
-				//w.WriteLine(new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("jsc.Languages.JavaScript.$ctor$.js")).ReadToEnd());
-				w.WriteLine("jsc.Languages.JavaScript.$ctor$.js".GetResourceFileContent());
+			if (attribute != null)
+				if (attribute.IsCoreLib)
+				{
+					// declare file scoped inheritance class builder
+					//w.WriteLine(new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("jsc.Languages.JavaScript.$ctor$.js")).ReadToEnd());
+					w.WriteLine("jsc.Languages.JavaScript.$ctor$.js".GetResourceFileContent());
 
-			}
+				}
 
 
 			w.WriteVariableAssignment(

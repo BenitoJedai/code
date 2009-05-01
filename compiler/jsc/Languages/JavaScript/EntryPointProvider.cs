@@ -117,6 +117,9 @@ namespace jsc.Languages.JavaScript
 
         static public void WriteEntryPoints(this Assembly a, DirectoryInfo dir)
         {
+			if (ScriptAttribute.OfProvider(a) == null)
+				return;
+
             // xxx
 
             foreach (var v in from i in ScriptAttribute.FindTypes(a, ScriptType.JavaScript)

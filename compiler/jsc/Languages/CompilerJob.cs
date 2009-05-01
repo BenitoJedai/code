@@ -113,16 +113,19 @@ namespace jsc.Languages
 						CompileJava(j, sinfo);
 
 			if (sinfo.Options.IsActionScript)
-				if (j.GetTypeFilterListByType(ScriptType.ActionScript).Any())
-					CompileActionScript(j, sinfo);
+				using (var c = new ScriptAttribute.ScriptLibraryContext(Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName)))
+					if (j.GetTypeFilterListByType(ScriptType.ActionScript, c.Context).Any())
+						CompileActionScript(j, sinfo);
 
 			if (sinfo.Options.IsCSharp2)
-				if (j.GetTypeFilterListByType(ScriptType.CSharp2, Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName)).Any())
-					CompileCSharp2(j, sinfo);
+				using (var c = new ScriptAttribute.ScriptLibraryContext(Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName)))
+					if (j.GetTypeFilterListByType(ScriptType.CSharp2, c.Context).Any())
+						CompileCSharp2(j, sinfo);
 
 			if (sinfo.Options.IsC)
-				if (j.GetTypeFilterListByType(ScriptType.C).Any())
-					CompileC(j, sinfo);
+				using (var c = new ScriptAttribute.ScriptLibraryContext(Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName)))
+					if (j.GetTypeFilterListByType(ScriptType.C, c.Context).Any())
+						CompileC(j, sinfo);
 
 		}
 

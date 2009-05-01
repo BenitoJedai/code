@@ -427,8 +427,8 @@ namespace jsc
 
 		static void OpCode_call_override(IdentWriter w, ilbp p, ili i, ilfsi[] s, MethodBase m)
 		{
-			ScriptAttribute sq = ScriptAttribute.Of(m);
-			ScriptAttribute sqt = ScriptAttribute.Of(m.DeclaringType);
+			ScriptAttribute sq = ScriptAttribute.OfProvider(m);
+			ScriptAttribute sqt = ScriptAttribute.OfProvider(m.DeclaringType);
 
 			if (sqt == null && ScriptAttribute.IsAnonymousType(m.DeclaringType))
 				sqt = new ScriptAttribute();
