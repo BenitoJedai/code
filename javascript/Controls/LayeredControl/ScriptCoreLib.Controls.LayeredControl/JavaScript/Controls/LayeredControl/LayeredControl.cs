@@ -73,11 +73,11 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
             // safari not supported: something wrong with zIndex
             // also check http://unixpapa.com/js/mouse.html
 
-			//Layers.User.name = "Layers.User";
+			Layers.User.name = "Layers.User";
 
 			Layers.User.style.backgroundColor = Color.Yellow;
-			Layers.User.style.Opacity = 0;
-			Layers.User.style.zIndex = 99999;
+			Layers.User.style.Opacity = 0.5;
+			//Layers.User.style.zIndex = 99999;
 
 			//Layers.User.style.backgroundImage = "url(" + Assets.Path + "/empty.gif)";
         }
