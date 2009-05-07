@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\javascript\BrowserAvalonExample\BrowserAvalonExample\bin\Debug</StartWorkingDirectory>
-    <StartArguments>BrowserAvalonExample.dll -js</StartArguments>
+    <StartWorkingDirectory>C:\work\code.google\avalontycoonmansion\AvalonTycoonMansion\AvalonTycoonMansion\bin\Release</StartWorkingDirectory>
+    <StartArguments>AvalonTycoonMansion.exe  -js -as</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

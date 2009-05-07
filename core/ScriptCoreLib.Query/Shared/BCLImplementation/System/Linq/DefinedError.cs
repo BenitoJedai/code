@@ -14,7 +14,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
     [Script]
     internal static class __DefinedError
     {
-        internal static Exception ArgumentOutOfRange(string paramName)
+		public static Exception ArgumentOutOfRange(string paramName)
         {
             return new Exception("ArgumentOutOfRange: " + paramName);
         }

@@ -44,6 +44,6 @@ using ScriptCoreLib;
 	ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),
 	ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
 	// ScriptTypeFilter(ScriptType.CSharp2, "*.CSharp"),
-    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
-    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = "")
-]    // some namespace mangling
+	//ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
+	//ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = "")
+]    // some namespace mangling, why bother?

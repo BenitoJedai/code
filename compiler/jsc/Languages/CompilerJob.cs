@@ -51,8 +51,13 @@ namespace jsc.Languages
 			var u = GetTypeFilterListByType(e);
 
 			if (u.Length == 0)
-				if (ScriptAttribute.OfProvider(context).ScriptLibraries.Any(k => k.Assembly == this.AssamblyInfo))
-					return new[] { new ScriptTypeFilterAttribute(e) };
+			{
+				var ScriptLibraries = ScriptAttribute.OfProvider(context).ScriptLibraries;
+
+				if (ScriptLibraries != null)
+					if (ScriptLibraries.Any(k => k.Assembly == this.AssamblyInfo))
+						return new[] { new ScriptTypeFilterAttribute(e) };
+			}
 
 
 
