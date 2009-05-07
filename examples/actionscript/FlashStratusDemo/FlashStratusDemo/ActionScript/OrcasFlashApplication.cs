@@ -101,7 +101,7 @@ namespace FlashStratusDemo.ActionScript
 										t.appendText("\nr.netStatus: " + get_Code(r_status));
 									};
 
-								r.client = new DynamicContainer.Delegates
+								r.client = new DynamicDelegatesContainer
 									{
 										{"handler1", 
 											(string x) =>
@@ -119,7 +119,7 @@ namespace FlashStratusDemo.ActionScript
 						// yay! we are online
 						var s = new NetStream(c, NetStream.DIRECT_CONNECTIONS);
 
-						s.client = new DynamicContainer.Delegates
+						s.client = new DynamicDelegatesContainer
 						{
 							{"onPeerConnect", 
 								(NetStream x) =>
