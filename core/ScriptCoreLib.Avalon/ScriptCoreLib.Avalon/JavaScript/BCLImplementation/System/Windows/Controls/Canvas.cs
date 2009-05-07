@@ -9,6 +9,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 	[Script(Implements = typeof(global::System.Windows.Controls.Canvas))]
 	internal class __Canvas : __Panel
 	{
+	
 		public static double GetLeft(UIElement element)
 		{
 			__UIElement _element = element;

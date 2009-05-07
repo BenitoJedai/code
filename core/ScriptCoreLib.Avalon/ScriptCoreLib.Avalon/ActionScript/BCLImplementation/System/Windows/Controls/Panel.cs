@@ -115,5 +115,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 		}
 
 		#endregion
+
+		public static void SetZIndex(UIElement element, int value)
+		{
+			__UIElement _element = element;
+			// this will only apply for 3d...
+			// we need to emulate zindex
+			_element.InternalGetDisplayObject().z = value;
+		}
 	}
 }

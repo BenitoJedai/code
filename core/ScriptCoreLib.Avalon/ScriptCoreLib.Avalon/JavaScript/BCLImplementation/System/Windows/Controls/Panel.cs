@@ -133,5 +133,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 		}
 
 		#endregion
+
+		public static void SetZIndex(UIElement element, int value)
+		{
+			__UIElement _element = element;
+
+			var n = _element.InternalGetDisplayObject();
+
+			n.style.zIndex = value;
+		}
+
 	}
 }

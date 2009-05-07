@@ -185,6 +185,12 @@ namespace ScriptCoreLib.ActionScript.flash.display
         /// </summary>
         public double y { get; set; }
 
+		/// <summary>
+		/// Indicates the z coordinate position along the z-axis of the DisplayObject instance relative to the 3D parent container.
+		/// </summary>
+		public double z { get; set; }
+
+
         #endregion
 
         #region Methods
