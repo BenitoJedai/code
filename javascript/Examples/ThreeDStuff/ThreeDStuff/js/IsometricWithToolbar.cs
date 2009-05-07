@@ -212,20 +212,7 @@ namespace ThreeDStuff.js
             #endregion
 
 
-            #region CreateDiv
-            Func<double, double, IHTMLDiv> CreateDiv =
-                (_x, _y) =>
-                {
-
-                    var _div = new IHTMLDiv();
-
-                    _div.style.backgroundColor = Color.Red;
-
-                    ApplyPosition(_x, _y, _div);
-
-                    return _div;
-                };
-            #endregion
+		
 
 
             var TileColor = Color.Gray;

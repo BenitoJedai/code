@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express Codename Orcas
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Controls.TextEditor", "ScriptCoreLib.Controls.TextEditor.csproj", "{75283E07-D796-4215-9C1F-B9B01ED73D76}"
 EndProject
 Global
