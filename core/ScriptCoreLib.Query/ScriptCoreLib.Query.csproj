@@ -63,7 +63,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.SelectMany.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Where.cs" />
     <Compile Include="ActionScript\Extensions\DynamicDelegatesContainer.cs" />
-    <Compile Include="Shared\BCLImplementation\System\DefinedError.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\DefinedError.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\IOrderedEnumerable.cs" />
     <Compile Include="ActionScript\Extensions\QueryExtensions.cs" />
     <Compile Include="CSharp2\BCLImplementation\System\Func.cs" />
@@ -104,7 +104,6 @@
   <ItemGroup>
     <Folder Include="JavaScript\BCLImplementation\System\" />
     <Folder Include="PHP\BCLImplementation\System\" />
-    <Folder Include="Shared\BCLImplementation\System\Linq\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
