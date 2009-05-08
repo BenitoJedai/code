@@ -10,6 +10,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 	[Script(Implements = typeof(global::System.Windows.FrameworkElement))]
 	internal class __FrameworkElement : __UIElement
 	{
+		public int InternalZIndex;
 
 		public string Name
 		{
@@ -118,6 +119,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 		public static implicit operator global::System.Windows.FrameworkElement(__FrameworkElement e)
 		{
 			return (global::System.Windows.FrameworkElement)(object)e;
+		}
+
+		public static implicit operator __FrameworkElement(global::System.Windows.FrameworkElement e)
+		{
+			return (__FrameworkElement)(object)e;
 		}
 	}
 }

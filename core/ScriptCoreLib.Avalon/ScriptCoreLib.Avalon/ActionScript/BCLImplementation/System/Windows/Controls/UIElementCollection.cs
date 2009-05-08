@@ -10,7 +10,7 @@ using System.Windows.Controls;
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 {
 	[Script(Implements = typeof(global::System.Windows.Controls.UIElementCollection))]
-	internal class __UIElementCollection
+	internal class __UIElementCollection : IEnumerable
 	{
 		public Sprite InternalSprite;
 
@@ -62,5 +62,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 		{
 			return (global::System.Windows.Controls.UIElementCollection)(object)e;
 		}
+
+		#region IEnumerable Members
+
+		public IEnumerator GetEnumerator()
+		{
+			return this.InternalItems.GetEnumerator();
+		}
+
+		#endregion
 	}
 }
