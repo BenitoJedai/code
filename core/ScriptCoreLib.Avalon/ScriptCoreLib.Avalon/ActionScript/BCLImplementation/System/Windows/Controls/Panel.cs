@@ -22,7 +22,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			return InternalSprite;
 		}
 
-		
+
 
 		public __Panel()
 		{
@@ -118,10 +118,57 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 		public static void SetZIndex(UIElement element, int value)
 		{
-			__UIElement _element = element;
+			var f = element as FrameworkElement;
+
+			if (f == null)
+				throw new Exception("SetZIndex expects element to be FrameworkElement");
+
+			var Parent = f.Parent as Panel;
+
+			if (Parent == null)
+				throw new Exception("SetZIndex expects element.Parent to be Panel");
+
+			__FrameworkElement _f = f;
+
+
+			_f.InternalZIndex = value;
+
+			// so how many guys have the zindex less or equal than our value?
+
+			var zIndex = 0;
+
+			foreach (UIElement Child in Parent.Children)
+			{
+				if (Child != element)
+				{
+					var ChildFrameworkElement = Child as FrameworkElement;
+
+					if (ChildFrameworkElement != null)
+					{
+						__FrameworkElement _ChildFrameworkElement = ChildFrameworkElement;
+
+						if (_ChildFrameworkElement.InternalZIndex <= value)
+							zIndex++;
+					}
+				}
+			}
+
+
+
+			__Panel _Parent = Parent;
+
+			//// http://livedocs.adobe.com/flex/3/langref/flash/display/DisplayObjectContainer.html#setChildIndex()
+			var c = (DisplayObjectContainer)_Parent.InternalGetDisplayObjectDirect();
+
+
+			c.setChildIndex(_f.InternalGetDisplayObjectDirect(), zIndex);
+
+			//__UIElement _element = element;
 			// this will only apply for 3d...
 			// we need to emulate zindex
-			_element.InternalGetDisplayObject().z = value;
+			//_element.InternalGetDisplayObject().z = value;
+
+
 		}
 	}
 }
