@@ -200,7 +200,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 		//     The smallest integer greater than or equal to a. If a is equal to System.Double.NaN,
 		//     System.Double.NegativeInfinity, or System.Double.PositiveInfinity, that value
 		//     is returned.
-		public static double Ceiling(double a) { throw new NotImplementedException(); }
+		public static double Ceiling(double a) { return Math.ceil(a); }
 		//
 		// Summary:
 		//     Returns the cosine of the specified angle.

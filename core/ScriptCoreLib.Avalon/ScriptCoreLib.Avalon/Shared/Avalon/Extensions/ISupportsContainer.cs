@@ -238,6 +238,14 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			return e;
 		}
 
+		public static T MoveTo<T>(this T e, Point p)
+		where T : UIElement
+		{
+			Canvas.SetLeft(e, p.X);
+			Canvas.SetTop(e, p.Y);
+
+			return e;
+		}
 
 		public static T MoveTo<T>(this T e, int x, int y)
 			where T : UIElement
