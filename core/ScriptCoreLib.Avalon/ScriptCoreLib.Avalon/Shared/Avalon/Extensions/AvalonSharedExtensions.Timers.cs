@@ -84,7 +84,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 				{
 					var mark = DateTime.Now.Ticks;
 
-				
+
 
 					Handler(Counter);
 
@@ -99,6 +99,24 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			return t;
 		}
 
+		public static DispatcherTimer AtInterval(this int Milliseconds, IEnumerable<Action> Handler)
+		{
+			var e = Handler.GetEnumerator();
+			return Milliseconds.AtIntervalWithTimer(
+				t =>
+				{
+					if (e.MoveNext())
+					{
+						e.Current();
+						return;
+					}
+					e.Dispose();
+					e = null;
+					t.Stop();
+				}
+			);
+		}
+
 		public static DispatcherTimer AtInterval(this int Milliseconds, Action Handler)
 		{
 			var t = new DispatcherTimer
@@ -110,7 +128,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 				delegate
 				{
 					var mark = DateTime.Now.Ticks;
-				
+
 					Handler();
 
 					if (TimerEvent != null)

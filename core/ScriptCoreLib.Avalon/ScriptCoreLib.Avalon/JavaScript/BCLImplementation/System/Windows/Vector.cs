@@ -11,6 +11,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 		public double X { get; set; }
 		public double Y { get; set; }
 
+		public __Vector() : this(0, 0)
+		{
+
+		}
+
+		public __Vector(double X, double Y)
+		{
+			this.X = X;
+			this.Y = Y;
+		}
+
 		public double Length
 		{
 			get

@@ -143,13 +143,17 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 				{
 					var ChildFrameworkElement = Child as FrameworkElement;
 
+					var InternalZIndex = 0;
+
 					if (ChildFrameworkElement != null)
 					{
 						__FrameworkElement _ChildFrameworkElement = ChildFrameworkElement;
 
-						if (_ChildFrameworkElement.InternalZIndex <= value)
-							zIndex++;
+						InternalZIndex = _ChildFrameworkElement.InternalZIndex;
 					}
+
+					if (InternalZIndex <= value)
+						zIndex++;
 				}
 			}
 

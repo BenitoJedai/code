@@ -802,15 +802,19 @@ namespace ScriptCoreLib.Shared.Lambda
 			return e;
 		}
 
+		static System.Random RandomizeRandom;
+
 		public static IEnumerable<TSource> Randomize<TSource>(this IEnumerable<TSource> u)
 		{
 			var x = u.ToList();
 			var y = new List<TSource>();
-			var r = new System.Random();
+
+			if (RandomizeRandom == null)
+				RandomizeRandom = new System.Random();
 
 			while (x.Count > 0)
 			{
-				var i = r.Next() % x.Count;
+				var i = RandomizeRandom.Next() % x.Count;
 
 				y.Add(x[i]);
 				x.RemoveAt(i);
