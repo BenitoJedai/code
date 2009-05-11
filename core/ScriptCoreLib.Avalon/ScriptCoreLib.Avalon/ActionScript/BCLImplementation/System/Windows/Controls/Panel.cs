@@ -137,8 +137,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 			var zIndex = 0;
 
-			foreach (UIElement Child in Parent.Children)
+			var Children = (__UIElementCollection)(object)Parent.Children;
+			var InternalItems = Children.InternalItems;
+
+			for (int i = 0; i < InternalItems.Count; i++)
 			{
+				var Child = InternalItems[i];
+			
 				if (Child != element)
 				{
 					var ChildFrameworkElement = Child as FrameworkElement;

@@ -21,7 +21,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			this.InternalVisualParent = VisualParent;
 		}
 
-		readonly List<UIElement> InternalItems = new List<UIElement>();
+		public readonly List<UIElement> InternalItems = new List<UIElement>();
 
 		public virtual int Add(UIElement element)
 		{
