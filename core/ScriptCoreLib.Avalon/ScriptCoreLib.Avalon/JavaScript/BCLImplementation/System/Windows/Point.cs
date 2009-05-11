@@ -18,9 +18,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 		}
 
 
-		public static __Point operator -(__Point point1, __Vector point2)
-		{
-			return new __Point { X = point1.X - point2.X, Y = point1.Y - point2.Y };
-		}
+		//public static __Point operator -(__Point point1, __Vector point2)
+		//{
+		//    return new __Point { X = point1.X - point2.X, Y = point1.Y - point2.Y };
+		//}
 	}
 }
