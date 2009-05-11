@@ -9,6 +9,7 @@ using ScriptCoreLib.ActionScript.flash.events;
 using System.Windows.Media;
 using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media;
 using System.Windows;
+using ScriptCoreLib.ActionScript.flash.display;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 {
@@ -16,28 +17,35 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 	internal class __TextBox : __TextBoxBase
 	{
 		public readonly TextField InternalTextField;
+		public readonly Sprite InternalTextFieldContainer;
 
 		public __TextBox()
 		{
 
 			InternalTextField = new TextField
-				{
-					autoSize = TextFieldAutoSize.LEFT,
-					type = TextFieldType.INPUT,
-					background = true,
-					backgroundColor = 0xffffffff,
-					alwaysShowSelection = true,
-					border = true,
-					borderColor = 0x808080
-					// http://code.hellokeita.in/public/trunk/as3/br/hellokeita/utils/TextFieldColor.as
+			{
+				autoSize = TextFieldAutoSize.LEFT,
+				type = TextFieldType.INPUT,
+				background = true,
+				backgroundColor = 0xffffffff,
+				alwaysShowSelection = true,
+				border = true,
+				borderColor = 0x808080
+				// http://code.hellokeita.in/public/trunk/as3/br/hellokeita/utils/TextFieldColor.as
 
-				};
+			};
 
+			InternalTextField.y = InternalOffsetY;
 
 			// http://www.typetester.org/
 			InternalTextField.defaultTextFormat.font = "Verdana";
 
+			InternalTextFieldContainer = new Sprite();
+			InternalTextFieldContainer.addChild(InternalTextField);
 		}
+
+		// this is needed for small fonts...
+		const int InternalOffsetY = -3;
 
 		public override void InternalSetWidth(double value)
 		{
@@ -48,7 +56,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 		public override void InternalSetHeight(double value)
 		{
 			this.InternalTextField.autoSize = TextFieldAutoSize.NONE;
-			this.InternalTextField.height = value;
+			this.InternalTextField.height = value - InternalOffsetY;
 		}
 
 		public override double InternalGetWidth()
@@ -162,7 +170,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 		public override ScriptCoreLib.ActionScript.flash.display.InteractiveObject InternalGetDisplayObject()
 		{
-			return InternalTextField;
+			return InternalTextFieldContainer;
 		}
 
 

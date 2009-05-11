@@ -72,7 +72,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 							readOnly = this.InternalTextField.readOnly,
 							wrap = "off"
 						};
-
+						this.InternalTextField_MultiLine.style.paddingTop = "0";
+						this.InternalTextField_MultiLine.style.paddingBottom = "0";
 						this.InternalTextField_MultiLine.style.position = IStyle.PositionEnum.absolute;
 						this.InternalTextField_MultiLine.style.overflow = IStyle.OverflowEnum.hidden;
 
