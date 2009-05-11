@@ -76,6 +76,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 						this.InternalTextField_MultiLine.style.paddingBottom = "0";
 						this.InternalTextField_MultiLine.style.position = IStyle.PositionEnum.absolute;
 						this.InternalTextField_MultiLine.style.overflow = IStyle.OverflowEnum.hidden;
+						this.InternalTextField_MultiLine.style.resize = "none";
 
 						var p = this.InternalTextField.parentNode;
 
