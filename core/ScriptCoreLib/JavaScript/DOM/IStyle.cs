@@ -302,8 +302,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-
-        public string right;
+		// http://dolfo.org/2008/07/disable-safaris-textarea-grip/
+		public string resize;
+		public string right;
         public string bottom;
         public string left;
         public string top;
