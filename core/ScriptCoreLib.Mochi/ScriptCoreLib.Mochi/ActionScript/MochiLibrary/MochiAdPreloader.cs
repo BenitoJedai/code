@@ -23,6 +23,10 @@ namespace ScriptCoreLib.ActionScript.MochiLibrary
 			return false;
 		}
 
+		public virtual void InitializeBackground()
+		{
+
+		}
 
 		public MochiAdPreloader(string Key)
 		{
@@ -50,6 +54,8 @@ namespace ScriptCoreLib.ActionScript.MochiLibrary
 					stage.align = StageAlign.TOP_LEFT;
 
 					_mochiads_game_id = Key;
+
+					InitializeBackground();
 
 					showPreGameAd(
 						() => Ready()

@@ -42,6 +42,11 @@ namespace ScriptCoreLib.ActionScript.MochiLibrary
 			showPreGameAd(a, Convert.ToInt32(width), Convert.ToInt32(height));
 		}
 
+		public virtual bool IsBackgroundVisible()
+		{
+			return true;
+		}
+
 		public void showPreGameAd(Action a, int width, int height)
 		{
 			var Options = new MochiAdOptions();
@@ -50,6 +55,7 @@ namespace ScriptCoreLib.ActionScript.MochiLibrary
 			Options.id = _mochiads_game_id;
 			Options.res = width + "x" + height;
 			Options.ad_finished = a;
+			Options.no_bg = !IsBackgroundVisible();
 			Options.showPreGameAd();
 		}
 

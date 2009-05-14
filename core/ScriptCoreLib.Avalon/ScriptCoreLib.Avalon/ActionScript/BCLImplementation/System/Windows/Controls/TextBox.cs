@@ -45,7 +45,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 		}
 
 		// this is needed for small fonts...
-		const int InternalOffsetY = -3;
+		//const int InternalOffsetY = -3;
+		const int InternalOffsetY = -1;
 
 		public override void InternalSetWidth(double value)
 		{
@@ -76,7 +77,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 		public override void InternalSetFontSize(double value)
 		{
-			InternalChangeTextFormat(new TextFormat { size = Convert.ToInt32(value) });
+			InternalChangeTextFormat(new TextFormat { size = Convert.ToInt32(value - 1) });
 		}
 
 		void InternalChangeTextFormat(TextFormat e)
