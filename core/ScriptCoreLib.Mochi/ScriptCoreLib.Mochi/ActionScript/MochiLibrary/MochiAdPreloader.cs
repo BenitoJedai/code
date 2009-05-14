@@ -28,8 +28,15 @@ namespace ScriptCoreLib.ActionScript.MochiLibrary
 
 		}
 
+		public virtual bool AdsEnabled()
+		{
+			return true;
+		}
+
 		public MochiAdPreloader(string Key)
 		{
+		
+
 			var Ready = default(Action);
 
 			Ready = delegate
@@ -56,6 +63,17 @@ namespace ScriptCoreLib.ActionScript.MochiLibrary
 					_mochiads_game_id = Key;
 
 					InitializeBackground();
+
+					if (!AdsEnabled())
+					{
+						this.LoadingComplete +=
+							delegate
+							{
+								CreateInstance().AttachTo(this);
+							};
+
+						return;
+					}
 
 					showPreGameAd(
 						() => Ready()
