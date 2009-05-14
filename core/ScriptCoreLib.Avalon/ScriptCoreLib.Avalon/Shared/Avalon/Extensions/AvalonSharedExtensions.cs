@@ -134,6 +134,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 				e.Visibility = Visibility.Hidden;
 		}
 
+
 		public static void ToggleVisible(this UIElement e)
 		{
 			if (e.Visibility == Visibility.Visible)
