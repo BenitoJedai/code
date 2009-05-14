@@ -8,7 +8,14 @@ using System.Windows;
 namespace ScriptCoreLib.Shared.Avalon.Extensions
 {
 	[Script]
-	public class AnimatedOpacity<T>
+	public abstract class AnimatedOpacity
+	{
+		public abstract double Opacity { get; set; }
+		public abstract void SetOpacity(double value, Action done);
+	}
+
+	[Script]
+	public class AnimatedOpacity<T> : AnimatedOpacity
 		where T : UIElement
 	{
 		public readonly T Element;
@@ -37,7 +44,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 		double InternalOpacity;
 
 		public event Action OpacityChanged;
-		public double Opacity
+		public override double Opacity
 		{
 			get
 			{
@@ -50,7 +57,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			}
 		}
 
-		public void SetOpacity(double value, Action done)
+		public override void SetOpacity(double value, Action done)
 		{
 			Action handler = null;
 
