@@ -20,6 +20,11 @@ namespace ScriptCoreLib.ActionScript.MochiLibrary
             ad_started = delegate { };
         }
 
+		public bool no_bg
+		{
+			set { Data["no_bg"] = value; }
+		}
+
         public string id
         {
             set { Data["id"] = value; }

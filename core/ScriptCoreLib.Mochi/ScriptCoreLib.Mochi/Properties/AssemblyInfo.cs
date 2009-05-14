@@ -44,7 +44,7 @@ using ScriptCoreLib.Shared;
 	//ScriptTypeFilter(ScriptType.ActionScript, "*.Shared.Query"),
 
     // some namespace mangling
-    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
+	//ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
     //ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = ""),
 
     //ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript.MochiLibrary.Score", VirtualNamespaceName = "mochi"),
