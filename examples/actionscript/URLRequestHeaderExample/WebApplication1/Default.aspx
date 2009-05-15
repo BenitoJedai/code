@@ -10,7 +10,7 @@
     <form id="form1" runat="server">
     <div>
         iframe:
-        <iframe src="URLRequestHeaderExample.htm" width="500" height="380"></iframe>
+        <iframe src="Generated/URLRequestHeaderExample.htm" width="500" height="380"></iframe>
     </div>
     </form>
 </body>

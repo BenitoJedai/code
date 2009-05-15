@@ -22,7 +22,7 @@ if '%ERRORLEVEL%' == '-1' (
 
 ::dir "..\bin\%ConfigurationName%\web\%1.*"
 ::dir "..\..\WebApplication1\"
-copy  "..\bin\%ConfigurationName%\web\%1.*" "..\..\WebApplication1\"
+copy  "..\bin\%ConfigurationName%\web\%1.*" "..\..\WebApplication1\Generated\"
 
 goto :eof
 
