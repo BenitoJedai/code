@@ -46,8 +46,9 @@ namespace URLRequestHeaderExample.ActionScript
 			var header = new URLRequestHeader("XMyHeader", "got milk?");
 
 			t.appendText("\n" + this.loaderInfo.url);
+			t.appendText("\nUsing relative path...");
 
-			var request = new URLRequest("http://localhost:58229/WebForm1.aspx");
+			var request = new URLRequest("../WebForm1.aspx");
 			var data = new DynamicContainer { Subject = new URLVariables("name=John+Doe") };
 			data["age"] = 23;
 

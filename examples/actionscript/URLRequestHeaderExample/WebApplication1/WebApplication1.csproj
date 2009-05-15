@@ -54,8 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Default.aspx" />
-    <Content Include="URLRequestHeaderExample.htm" />
-    <Content Include="URLRequestHeaderExample.swf" />
+    <Content Include="Generated\placeholder.txt" />
+    <Content Include="Generated\URLRequestHeaderExample.htm" />
+    <Content Include="Generated\URLRequestHeaderExample.swf" />
     <Content Include="Web.config" />
     <Content Include="WebForm1.aspx" />
   </ItemGroup>
