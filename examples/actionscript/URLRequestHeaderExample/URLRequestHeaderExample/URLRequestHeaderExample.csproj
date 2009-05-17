@@ -57,14 +57,14 @@
     <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="docs\about.txt" />
-    <Content Include="docs\browser.txt" />
-    <Content Include="docs\description.txt" />
     <EmbeddedResource Include="web\assets\URLRequestHeaderExample\Preview.png">
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="docs\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
