@@ -54,6 +54,11 @@ namespace ScriptCoreLib
             Width = DefaultWidth;
             Height = DefaultHeight;
         }
+
+		public bool Background;
+		public uint BackgroundColor;
+
+		public bool AlignToCenter;
     }
 
 }

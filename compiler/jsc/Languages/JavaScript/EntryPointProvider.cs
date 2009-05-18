@@ -73,7 +73,7 @@ namespace jsc.Languages.JavaScript
                 .Replace("$done$", code);
         }
 
-        static void WriteEntryPointHTMLTemplate(StreamWriter w, string Title, Action WriteScript, Action WriteBody)
+		static void WriteEntryPointHTMLTemplate(StreamWriter w, ScriptApplicationEntryPointAttribute _ScriptApplicationEntryPoint, string Title, Action WriteScript, Action WriteBody)
         {
             w.WriteLine("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
             w.WriteLine("<html>");
@@ -91,11 +91,31 @@ namespace jsc.Languages.JavaScript
             w.WriteLine("<script></script>");
 
             w.WriteLine("</head>");
-			w.WriteLine("<body style='margin: 0; overflow: hidden;'>");
+
+			if (_ScriptApplicationEntryPoint.Background)
+				w.Write("<body style='margin: 0; overflow: hidden; background: #" + _ScriptApplicationEntryPoint.BackgroundColor.ToString("X6") + ";'>");
+			else
+				w.Write("<body style='margin: 0; overflow: hidden;'>");
+
             w.WriteLine("<noscript>ScriptApplication cannot run without JavaScript!</noscript>");
 
 
-            WriteBody();
+			if (_ScriptApplicationEntryPoint.AlignToCenter)
+			{
+				w.WriteLine("<div style='width: 100%; height: 100%; overflow: hidden;'>");
+				w.WriteLine("<div style='position:absolute; top: 50%; left: 50%; width: " + _ScriptApplicationEntryPoint.Width + "px; height: " + _ScriptApplicationEntryPoint.Height + "px; margin-left: -" + (_ScriptApplicationEntryPoint.Width / 2) + "px; margin-top: -" + (_ScriptApplicationEntryPoint.Height / 2) + "px;'>");
+				WriteBody();
+
+				w.WriteLine("</div>");
+				w.WriteLine("</div>");
+
+			}
+			else
+			{
+				WriteBody();
+			}
+
+           
 
 
             w.WriteLine("</body>");
@@ -103,9 +123,9 @@ namespace jsc.Languages.JavaScript
         }
 
 
-        static void DefineSpawnPoint(this Assembly ass, StreamWriter w, string alias, string mime, string data)
+        static void DefineSpawnPoint(this Assembly ass, ScriptApplicationEntryPointAttribute s, StreamWriter w, string alias, string mime, string data)
         {
-            WriteEntryPointHTMLTemplate(w,
+            WriteEntryPointHTMLTemplate(w, s,
 				ass.GetName().Name,
                 () => SharedHelper.DefineScript(w, SharedHelper.LocalModulesOf(ass)),
                 () => w.WriteLine("<script type='" + mime + "' class='" + alias + "'>" + (string.IsNullOrEmpty(data) ? "" : "\n" + data + "\n") + "</script>")
@@ -185,7 +205,7 @@ namespace jsc.Languages.JavaScript
 
 
                             WriteEntryPointHTMLTemplate(
-                                w,
+                                w, s,
 								a.GetName().Name,
 								() => { },
                                 delegate
@@ -201,7 +221,8 @@ namespace jsc.Languages.JavaScript
                     }
                     #endregion
 
-                    if (s.ScriptedLoading)
+					#region ScriptedLoading
+					if (s.ScriptedLoading)
                     {
                         using (var w = dir.CreateFile(v.Name + ".htm"))
                         {
@@ -243,7 +264,7 @@ namespace jsc.Languages.JavaScript
 
 
                             WriteEntryPointHTMLTemplate(
-                                w,
+                                w, s,
 								a.GetName().Name,
 								() => { },
                                 delegate
@@ -256,9 +277,10 @@ namespace jsc.Languages.JavaScript
                         }
 
                         // ...
-                    }
+					}
+					#endregion
 
-                    // ScriptedLoading uses defalu html file name
+					// ScriptedLoading uses defalu html file name
 
                     Func<string, StreamWriter> CreateFile =
                         suffix => dir.CreateFile(v.Name + (string.IsNullOrEmpty(suffix) ? "" : "." + suffix) + ".htm");
@@ -267,13 +289,13 @@ namespace jsc.Languages.JavaScript
                     if ((s.Format & SerializedDataFormat.xml) == SerializedDataFormat.xml)
                         using (var w = CreateFile(!s.ScriptedLoading && SerializedDataFormat.xml == s.DefaultFormat ? "" : "xml"))
                         {
-                            a.DefineSpawnPoint(w, v.Name, "text/xml", data.SerializeToXML());
+                            a.DefineSpawnPoint(s, w,  v.Name, "text/xml", data.SerializeToXML());
                         }
 
                     if ((s.Format & SerializedDataFormat.json) == SerializedDataFormat.json)
                         using (var w = CreateFile(!s.ScriptedLoading && SerializedDataFormat.json == s.DefaultFormat ? "" : "json"))
                         {
-                            a.DefineSpawnPoint(w, v.Name, "text/json", data == null ? null : data.SerializeToJSON());
+                            a.DefineSpawnPoint(s, w, v.Name, "text/json", data == null ? null : data.SerializeToJSON());
                         }
                 }
             }
