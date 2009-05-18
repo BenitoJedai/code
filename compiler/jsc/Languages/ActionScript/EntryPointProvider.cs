@@ -123,28 +123,79 @@ pluginspage="http://www.macromedia.com/go/getflashplayer">
 			foreach (var v in Entries)
 			{
 				Func<bool, StringWriter> ToWriter =
-					src =>
+					InsideGoogleGadget =>
 					{
 						var ww = new StringWriter();
 
 						ww.WriteLine("<!-- created at " + System.DateTime.Now.ToString() + " -->");
-						ww.WriteLine("<head>");
-						ww.WriteLine("<title>" + v._Type.Name + "</title>");
-						ww.WriteLine(
-							"<link rel='alternate' href='" + v._ScriptApplicationEntryPoint.Feed + "' type='application/rss+xml' title='feed' id='' />"
-						);
 
-						ww.WriteLine("</head>");
+						if (!InsideGoogleGadget)
+						{
+							ww.WriteLine("<head>");
+							ww.WriteLine("<title>" + v._Type.Name + "</title>");
+
+							if (!string.IsNullOrEmpty(v._ScriptApplicationEntryPoint.Feed))
+								ww.WriteLine(
+									"<link rel='alternate' href='" + v._ScriptApplicationEntryPoint.Feed + "' type='application/rss+xml' title='feed' id='' />"
+								);
+
+							ww.WriteLine("</head>");
+						}
 						// this allows to include this htm directly into iframe
-						ww.Write("<body style='margin: 0; overflow: hidden;'>");
-						ww.Write(
-							FlashTag(
-							(src && v._GoogleGadget != null && !string.IsNullOrEmpty(v._GoogleGadget.src)) ? v._GoogleGadget.src : 
-							v._Type.Name + ".swf"
-							, v._ScriptApplicationEntryPoint.Width, v._ScriptApplicationEntryPoint.Height)
-						);
 
-						ww.Write("</body>");
+						if (!InsideGoogleGadget)
+						{
+							if (v._ScriptApplicationEntryPoint.Background)
+								ww.Write("<body style='margin: 0; overflow: hidden; background: #" + v._ScriptApplicationEntryPoint.BackgroundColor.ToString("X6") + ";'>");
+							else
+								ww.Write("<body style='margin: 0; overflow: hidden;'>");
+						}
+
+						#region WriteObject
+						Action WriteObject =
+							delegate
+							{
+								ww.Write(
+									FlashTag(
+									(InsideGoogleGadget && v._GoogleGadget != null && !string.IsNullOrEmpty(v._GoogleGadget.src)) ? v._GoogleGadget.src :
+									v._Type.Name + ".swf"
+									, v._ScriptApplicationEntryPoint.Width, v._ScriptApplicationEntryPoint.Height)
+								);
+							};
+						#endregion
+
+						if (v._ScriptApplicationEntryPoint.AlignToCenter)
+						{
+							if (InsideGoogleGadget)
+							{
+								if (v._ScriptApplicationEntryPoint.Background)
+									ww.WriteLine("<div style='width: 100%; height: 100%; overflow: hidden; background: #" + v._ScriptApplicationEntryPoint.BackgroundColor.ToString("X6") + ";'>");
+								else
+									ww.WriteLine("<div style='width: 100%; height: 100%; overflow: hidden;'>");
+							}
+							else
+							{
+								ww.WriteLine("<div style='width: 100%; height: 100%; overflow: hidden;'>");
+
+							}
+
+							ww.WriteLine("<div style='position:absolute; top: 50%; left: 50%; width: " + v._ScriptApplicationEntryPoint.Width + "px; height: " + v._ScriptApplicationEntryPoint.Height + "px; margin-left: -" + (v._ScriptApplicationEntryPoint.Width / 2) + "px; margin-top: -" + (v._ScriptApplicationEntryPoint.Height / 2) + "px;'>");
+							WriteObject();
+
+							ww.WriteLine("</div>");
+							ww.WriteLine("</div>");
+
+						}
+						else
+						{
+							WriteObject();
+						}
+
+						if (!InsideGoogleGadget)
+						{
+							ww.Write("</body>");
+						}
+
 						return ww;
 					};
 
@@ -155,7 +206,7 @@ pluginspage="http://www.macromedia.com/go/getflashplayer">
 
 				if (v._GoogleGadget != null)
 				{
-					
+
 					using (var w = dir.CreateFile(v._Type.Name + ".GoogleGadget.xml"))
 					{
 						var xw = XmlWriter.Create(w);

@@ -241,3 +241,5 @@ version history:
 	java: fixed BCL name resolving for opcodes.cast
 30.04.2009
 	cs2: added const fields
+18.05.2009
+	jsc: added background color and aligntocenter support for entrypoints
