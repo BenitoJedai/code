@@ -1476,7 +1476,7 @@ namespace jsc
 					}
 					else
 					{
-						w.WriteCommentLine("Closure type");
+						w.WriteCommentLine("Closure type for " + z.FullName);
 					}
 
 					w.Helper.DOMDefineNamedType(z);

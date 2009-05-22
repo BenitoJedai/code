@@ -243,3 +243,5 @@ version history:
 	cs2: added const fields
 18.05.2009
 	jsc: added background color and aligntocenter support for entrypoints
+22.05.2009
+	js: added Delegate.InternalGetGlobalObject support

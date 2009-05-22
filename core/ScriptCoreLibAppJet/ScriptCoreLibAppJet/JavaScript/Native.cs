@@ -5,7 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLibAppJet.JavaScript.AppJet;
 
-namespace ScriptCoreLibAppJet
+namespace ScriptCoreLibAppJet.JavaScript
 {
 	[Script(HasNoPrototype = true)]
 	public static class Native
