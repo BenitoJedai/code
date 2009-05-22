@@ -6,6 +6,7 @@ using ScriptCoreLib;
 using ScriptCoreLibAppJet;
 using ScriptCoreLibAppJet.JavaScript.Library;
 using OrcasAppJetApplication.Library;
+using System.Dynamic;
 
 namespace OrcasAppJetApplication
 {
@@ -31,13 +32,43 @@ namespace OrcasAppJetApplication
 		}
 
 
+        public static void OptionalAndNamedParameters(string Language , string Platform = "CLR 4")
+        {
+            ("<p>This application was written in <b>" + Language + "</b> within Microsoft Visual Studio 2010 on  <b>" + Platform + "</b></p>").ToConsole();
+
+        }
+
+
+        public static void DynamicKeyword(Func<bool> header)
+        {
+            if (header())
+                return;
+
+            //dynamic k = new ExpandoObject();
+
+            //k.Language = "C#";
+
+            //OptionalAndNamedParameters(k.Language);
+
+        }
+
 		public static void Render()
 		{
 			// /* appjet:version 0.1 */ 
 
 			Native.page.setMode("plain");
 
-			
+            DynamicKeyword(
+                delegate
+                {
+                    OptionalAndNamedParameters("C#");
+
+                    return false;
+                }
+            );
+
+
+
 
 			var c = "stream1".ToStorableCollection();
 
@@ -80,7 +111,7 @@ namespace OrcasAppJetApplication
 				}
 				else
 				{
-					"<a href='/x'>Go left</a>".ToConsole();
+                    " | <a href='/x'>Go left</a>".ToConsole();
 				}
 
 				if (Native.request.path.StartsWith("/y"))
@@ -89,11 +120,11 @@ namespace OrcasAppJetApplication
 				}
 				else
 				{
-					"<a href='/y0'>Go right</a>".ToConsole();
+					" | <a href='/y0'>Go right</a>".ToConsole();
 
 				}
 
-				"<a href='/'>Home</a>".ToConsole();
+                " | <a href='/'>Home</a>".ToConsole();
 			}
 
 

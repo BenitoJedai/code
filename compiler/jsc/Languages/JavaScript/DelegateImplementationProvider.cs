@@ -89,6 +89,13 @@ namespace jsc.Languages.JavaScript.legacy
 			Type MulticastDelegate = w.Session.ResolveImplementation(z.BaseType);
 			Type Delegate = w.Session.ResolveImplementation(z.BaseType.BaseType);
 
+			if (MulticastDelegate == null)
+				throw new Exception("ResolveImplementation failed. Did you reimplement MulticastDelegate?");
+
+			if (Delegate == null)
+				throw new Exception("ResolveImplementation failed. Did you reimplement Delegate?");
+
+
 			FieldInfo FieldList = null;
 			FieldInfo FieldTarget = null;
 			FieldInfo FieldMethod = null;
@@ -251,9 +258,18 @@ namespace jsc.Languages.JavaScript.legacy
 				w.Write("?");
 				w.WriteSpace();
 
+				var InternalGetGlobalObject = Delegate.GetMethod("InternalGetGlobalObject", BindingFlags.Public | BindingFlags.Static);
 
-				// static functions live in the window at the moment cuz it is the global object
-				w.Write("window");
+				if (InternalGetGlobalObject == null)
+				{
+					// static functions live in the window at the moment cuz it is the global object
+					w.Write("window");
+				}
+				else
+				{
+					w.WriteDecoratedMethodName(InternalGetGlobalObject);
+					w.Write("()");
+				}
 
 				w.WriteSpace();
 				w.Write(":");

@@ -60,8 +60,16 @@ namespace jsc
 			Console.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
 			CommandLineOptions options = sinfo.Options;
 
+			if (options.IsAttachDebugger)
+				Debugger.Launch();
+
 			if (!options.IsNoLogo || options.IsHelp)
 				ShowLogo();
+
+			//Console.WriteLine("ImageRuntimeVersion: " + Assembly.GetExecutingAssembly().ImageRuntimeVersion);
+			Console.WriteLine("CLR: " + typeof(object).Assembly.ImageRuntimeVersion);
+			Console.WriteLine();
+
 
 			if (options.IsHelp)
 			{
@@ -69,6 +77,7 @@ namespace jsc
 
 				return;
 			}
+
 
 			/*
 			if (options.IsTrace)
