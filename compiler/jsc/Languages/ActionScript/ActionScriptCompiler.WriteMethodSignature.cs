@@ -128,7 +128,7 @@ namespace jsc.Languages.ActionScript
 
             WriteKeywordSpace(Keywords._function);
 
-            if (m.IsConstructor && !(mode == WriteMethodSignatureMode.ValueTypeConstructorAlias))
+            if (m.IsConstructor && !(mode == WriteMethodSignatureMode.ValueTypeConstructorAlias) && !m.IsStatic)
                 Write(GetDecoratedTypeName(m.DeclaringType, false));
             else
             {
