@@ -218,6 +218,7 @@
     <Content Include="Resx\App.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="neutronic.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -237,6 +238,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)*.exe" "c:\util\jsc\bin" /y
+copy "$(TargetDir)*.exe.config" "c:\util\jsc\bin" /y
 copy "$(TargetDir)*.pdb" "c:\util\jsc\bin" /y
 copy "$(TargetDir)*.dll" "c:\util\jsc\bin" /y
 ::copy "$(TargetDir)*.txt" "c:\util\jsc\bin" /y</PostBuildEvent>

@@ -81,6 +81,8 @@ namespace jsc
 		[CommandLineOption(Flag = "c")]
 		public bool IsC;
 
+		[CommandLineOption(Flag = "attachdebugger")]
+		public bool IsAttachDebugger;
 
 		//[CommandLineOption(Flag = "trim", Description = "Unused types will be ommited")]
 		//public bool Trim;

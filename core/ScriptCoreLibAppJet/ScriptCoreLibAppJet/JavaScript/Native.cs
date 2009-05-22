@@ -10,6 +10,8 @@ namespace ScriptCoreLibAppJet
 	[Script(HasNoPrototype = true)]
 	public static class Native
 	{
+   
+
 		[Script(ExternalTarget = "page")]
 		static public Page page;
 
