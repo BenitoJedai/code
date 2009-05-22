@@ -483,14 +483,16 @@ namespace ScriptCoreLibAppJet.JavaScript.Runtime
             return InternalIsInstanceOf(this, e);
         }
 
-        //public bool IsArray
-        //{
-        //    [Script(DefineAsStatic = true)]
-        //    get
-        //    {
-        //        return IsObject && this.IsInstanceOf(Native.Window.Array);
-        //    }
-        //}
+        public bool IsArray
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                object x = this;
+
+                return IsObject && x is IArray<object>;
+            }
+        }
 
 
         //[Script(DefineAsStatic = true)]

@@ -16,6 +16,8 @@ namespace ScriptCoreLibAppJet.JavaScript.BCLImplementation.System.Runtime.Compil
     [Script(Implements = typeof(global::System.Runtime.CompilerServices.CallSite<>))]
     internal class __CallSite<T>
     {
+        public T Target;
+
         public static __CallSite<T> Create(CallSiteBinder binder)
         {
             return null;

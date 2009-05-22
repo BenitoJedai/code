@@ -816,6 +816,9 @@ namespace jsc
 				if (TargetFieldType != TargetFieldTypeImplementation)
 				{
 					TargetField = TargetFieldTypeImplementation.GetField(TargetField.Name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+
+					if (TargetField == null)
+						throw new Exception("BCL implementation does not implement a field: " + i.TargetField.Name + " at " + TargetFieldType.ToString());
 				}
 
 			// static fields live on the global scope

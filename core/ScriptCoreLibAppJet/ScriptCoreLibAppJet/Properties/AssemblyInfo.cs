@@ -35,4 +35,8 @@ using ScriptCoreLib;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: Script(IsCoreLib = true), ScriptTypeFilter(ScriptType.JavaScript, typeof(ScriptCoreLibAppJet.Native))]
+[assembly: 
+    Script(IsCoreLib = true), 
+    ScriptTypeFilter(ScriptType.JavaScript, typeof(ScriptCoreLibAppJet.JavaScript.Native)),
+    ScriptTypeFilter(ScriptType.JavaScript, typeof(ScriptCoreLibAppJet.Shared.Query.InternalSequence))
+]
