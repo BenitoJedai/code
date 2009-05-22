@@ -296,7 +296,11 @@ namespace jsc.Languages.ActionScript
                         //    continue;
                         //}
 
-                        Break("class import: no implementation for " + p.ToString() + " at " + t.FullName);
+						//CompilerBase.
+						WriteVisualStudioMessage(MessageType.warning, 1002,
+							"Are you running on a newer CLR? class import: no implementation for " + p.ToString() + " at " + t.FullName
+						);
+						continue;
                     }
 
                     p = p_impl;
