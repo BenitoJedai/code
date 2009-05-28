@@ -211,14 +211,14 @@ namespace ScriptCoreLibAppJet.JavaScript.BCLImplementation.System
 			return default(string);
 		}
 
-		[Script(OptimizedCode = "return a0+a1+a2+a3")]
+		[Script(OptimizedCode = "return a0+a1+a2+a3;")]
 		public static string Concat(string a0, string a1, string a2, string a3)
 		{
 			return default(string);
 		}
 
 		//#endregion
-		[Script(DefineAsStatic = true, OptimizedCode = "return a0.split(a1).join(a2)")]
+		[Script(DefineAsStatic = true, OptimizedCode = "return a0.split(a1).join(a2);")]
 		internal object InternalReplace(object a0, object a1, object a2)
 		{
 		    return default(object);
