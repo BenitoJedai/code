@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.ActionScript.flash.display;
@@ -10,6 +9,7 @@ using FlintExplodeImage.ActionScript.Flint.org.flintparticles.common.activities;
 using ScriptCoreLib.ActionScript;
 using FlintExplodeImage.ActionScript.Flint.org.flintparticles.common.initializers;
 using FlintExplodeImage.ActionScript.Flint.org.flintparticles.common.events;
+using FlintExplodeImage.ActionScript.Flint.org.flintparticles.common.actions;
 
 namespace FlintExplodeImage.ActionScript.Flint.org.flintparticles.common.emitters
 {
@@ -232,31 +232,31 @@ namespace FlintExplodeImage.ActionScript.Flint.org.flintparticles.common.emitter
 		/// Dispatched when an emitter attempts to update the particles' state but it contains no particles.
 		/// </summary>
 		[method: Script(NotImplementedHere = true)]
-		public event Action<EmitterEvent> emitterEmpty;
+		public event System.Action<EmitterEvent> emitterEmpty;
 
 		/// <summary>
 		/// Dispatched when the particle system has updated and the state of the particles has changed.
 		/// </summary>
 		[method: Script(NotImplementedHere = true)]
-		public event Action<EmitterEvent> emitterUpdated;
+		public event System.Action<EmitterEvent> emitterUpdated;
 
 		/// <summary>
 		/// Dispatched when a pre-existing particle is added to the emitter.
 		/// </summary>
 		[method: Script(NotImplementedHere = true)]
-		public event Action<ParticleEvent> particleAdded;
+		public event System.Action<ParticleEvent> particleAdded;
 
 		/// <summary>
 		/// Dispatched when a particle is created and has just been added to the emitter.
 		/// </summary>
 		[method: Script(NotImplementedHere = true)]
-		public event Action<ParticleEvent> particleCreated;
+		public event System.Action<ParticleEvent> particleCreated;
 
 		/// <summary>
 		/// Dispatched when a particle dies and is about to be removed from the system.
 		/// </summary>
 		[method: Script(NotImplementedHere = true)]
-		public event Action<ParticleEvent> particleDead;
+		public event System.Action<ParticleEvent> particleDead;
 
 		#endregion
 

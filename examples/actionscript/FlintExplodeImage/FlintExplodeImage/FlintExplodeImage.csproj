@@ -51,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\FlintExtensions\org\flintparticles\common\emitters\Emitter.cs" />
+    <Compile Include="ActionScript\Flint\org\flintparticles\common\actions\Action.cs" />
+    <Compile Include="ActionScript\Flint\org\flintparticles\common\actions\ActionBase.cs" />
     <Compile Include="ActionScript\Flint\org\flintparticles\common\activities\Activity.cs" />
     <Compile Include="ActionScript\Flint\org\flintparticles\common\counters\Counter.cs" />
     <Compile Include="ActionScript\Flint\org\flintparticles\common\emitters\Emitter.cs" />
@@ -59,7 +61,20 @@
     <Compile Include="ActionScript\Flint\org\flintparticles\common\initializers\Initializer.cs" />
     <Compile Include="ActionScript\Flint\org\flintparticles\common\particles\Particle.cs" />
     <Compile Include="ActionScript\Flint\org\flintparticles\common\particles\ParticleFactory.cs" />
+    <Compile Include="ActionScript\Flint\org\flintparticles\common\renderers\Camera.cs" />
+    <Compile Include="ActionScript\Flint\org\flintparticles\common\renderers\Renderer.cs" />
+    <Compile Include="ActionScript\Flint\org\flintparticles\common\renderers\SpriteRendererBase.cs" />
+    <Compile Include="ActionScript\Flint\org\flintparticles\threeD\actions\DeathZone.cs" />
+    <Compile Include="ActionScript\Flint\org\flintparticles\threeD\actions\Explosion.cs" />
+    <Compile Include="ActionScript\Flint\org\flintparticles\threeD\actions\Move.cs" />
     <Compile Include="ActionScript\Flint\org\flintparticles\threeD\emitters\Emitter3D.cs" />
+    <Compile Include="ActionScript\Flint\org\flintparticles\threeD\geom\Matrix3D.cs" />
+    <Compile Include="ActionScript\Flint\org\flintparticles\threeD\geom\Quaternion.cs" />
+    <Compile Include="ActionScript\Flint\org\flintparticles\threeD\geom\Vector3D.cs" />
+    <Compile Include="ActionScript\Flint\org\flintparticles\threeD\particles\Particle3DUtils.cs" />
+    <Compile Include="ActionScript\Flint\org\flintparticles\threeD\renderers\DisplayObjectRenderer.cs" />
+    <Compile Include="ActionScript\Flint\org\flintparticles\threeD\zones\FrustrumZone.cs" />
+    <Compile Include="ActionScript\Flint\org\flintparticles\threeD\zones\Zone3d.cs" />
     <Compile Include="ActionScript\OrcasFlashApplication.cs" />
     <Compile Include="ActionScript\Extensions.cs" />
     <Compile Include="KnownAssets.cs" />
