@@ -85,6 +85,7 @@
     <Content Include="docs\about.txt" />
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\FlintExplodeImage\jsc.png" />
     <EmbeddedResource Include="web\assets\FlintExplodeImage\184098.jpg" />
     <EmbeddedResource Include="web\assets\FlintExplodeImage\Preview.png">
     </EmbeddedResource>

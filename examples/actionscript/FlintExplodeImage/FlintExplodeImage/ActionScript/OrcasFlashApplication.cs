@@ -58,6 +58,8 @@ namespace FlintExplodeImage.ActionScript
 			emitter.start();
 
 			stage.click += explode;
+
+			KnownEmbeddedResources.Default[KnownAssets.Path.Assets + "/jsc.png"].ToBitmapAsset().AttachTo(this).MoveTo(100, 100);
 		}
 
 		public void explode(MouseEvent ev)
