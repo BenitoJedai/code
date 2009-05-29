@@ -29,19 +29,24 @@ namespace FlashGoogleMapsExample.ActionScript
         /// </summary>
         public FlashGoogleMapsExample()
         {
+			var MyMap = this;
+
             // based on http://code.google.com/p/gmaps-samples-flash/source/browse/trunk/samplecode/com/google/maps/examples/HelloWorld.as
 
-           
+
+			//MyMap.width = 500;
+			//MyMap.height = 400;
+
                 // This key is good for all URLs in this directory:
                 // http://jsc.sourceforge.net/
-            this.key = "ABQIAAAAP8RnR45oCW_IQn841NsRUxTWTeJzEP4t7om06_BG8dFdNnzkzRSRwPJSLIikpLP_90z2Fvj1rJhFWw";
-           
-            
+			MyMap.key = "ABQIAAAAP8RnR45oCW_IQn841NsRUxTWTeJzEP4t7om06_BG8dFdNnzkzRSRwPJSLIikpLP_90z2Fvj1rJhFWw";
 
-            this.MapReady +=
+
+
+			MyMap.MapReady +=
                 delegate
                 {
-                    this.setCenter(new LatLng(40.736072, -73.992062), 14, MapType.HYBRID_MAP_TYPE);
+					MyMap.setCenter(new LatLng(40.736072, -73.992062), 14, MapType.HYBRID_MAP_TYPE);
 
                     var status = new TextField
                     {
@@ -55,21 +60,21 @@ namespace FlashGoogleMapsExample.ActionScript
                         filters = new [] { new GlowFilter(ColorBlack) }
                     }.AttachTo(this);
 
-                    this.MapMoveStep += e =>
+					MyMap.MapMoveStep += e =>
                         {
                             status.text = "move: " + e.latLng.ToString();
                         };
 
-                    this.MapClick += e =>
+					MyMap.MapClick += e =>
                         {
                             status.text = "click: " + e.latLng.ToString();
                         };
                 };
 
-            
-            addControl(new ZoomControl());
-            addControl(new PositionControl());
-            addControl(new MapTypeControl());
+
+			MyMap.addControl(new ZoomControl());
+			MyMap.addControl(new PositionControl());
+			MyMap.addControl(new MapTypeControl());
             
 
             this.contextMenu = new ContextMenu();
@@ -95,8 +100,8 @@ namespace FlashGoogleMapsExample.ActionScript
                 textColor = ColorWhite
             }.AttachTo(this);
 
-            
-            this.MapReady +=
+
+			MyMap.MapReady +=
                 delegate
                 {
                     powered_by_jsc.AttachTo(this);
