@@ -8,6 +8,8 @@ using System.IO;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.flash.ui;
 using FlintExplodeImage.Shared;
+using ScriptCoreLib.ActionScript.flash.events;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace FlintExplodeImage.ActionScript
 {
@@ -18,19 +20,48 @@ namespace FlintExplodeImage.ActionScript
 	[SWF]
 	public class FlintExplodeImage : Sprite
 	{
+		private Emitter3D emitter;
+		private Bitmap bitmap;
+		private DisplayObjectRenderer renderer;
 
-
-
-		/// <summary>
-		/// Default constructor
-		/// </summary>
 		public FlintExplodeImage()
 		{
+			var txt = new TextField();
+			txt.text = "Click on the image";
+			txt.textColor = 0xFFFFFF;
+			addChild( txt );
 
+			bitmap =  KnownEmbeddedResources.Default[KnownAssets.Path.Assets + "/184098.jpg"].ToBitmapAsset();
+			
+			renderer = new DisplayObjectRenderer();
+			renderer.camera.dolly( -400 );
+			renderer.camera.projectionDistance = 400;
+			renderer.y = 175;
+			renderer.x = 250;
+			addChild( renderer );
+			
+			emitter = new Emitter3D();
+			emitter.addAction( new Move() );
+			emitter.addAction( new DeathZone( new FrustrumZone( renderer.camera, new Rectangle( -290, -215, 580, 430 ) ), true ) );
+			emitter.position = new Vector3D( 0, 0, 0, 1 );
 
+			var particles = Particle3DUtils.createRectangleParticlesFromBitmapData( bitmap.bitmapData, 20, emitter.particleFactory, new Vector3D( -192, 127, 0 ) );
+			emitter.addExistingParticles( particles, false );
+									
+			renderer.addEmitter( emitter );
+			emitter.start();
 
-			KnownEmbeddedResources.Default[KnownAssets.Path.Assets + "/184098.jpg"].ToBitmapAsset().AttachTo(this).MoveTo(10, 20);
+			stage.click += explode;
 		}
+
+		public void explode(MouseEvent ev)
+		{
+			var p = renderer.globalToLocal(new Point(ev.stageX, ev.stageY));
+			emitter.addAction(new Explosion(8, new Vector3D(p.x, -p.y, 50), 500));
+			stage.click -= explode;
+		}
+
+
 
 		static FlintExplodeImage()
 		{
