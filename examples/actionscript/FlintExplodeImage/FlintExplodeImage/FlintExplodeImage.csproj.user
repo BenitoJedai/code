@@ -5,4 +5,7 @@
     </StartProgram>
     <StartURL>file://C:\work\jsc.svn\examples\actionscript\FlintExplodeImage\FlintExplodeImage\bin\Release\web\FlintExplodeImage.swf</StartURL>
   </PropertyGroup>
+  <PropertyGroup>
+    <ProjectView>ShowAllFiles</ProjectView>
+  </PropertyGroup>
 </Project>
