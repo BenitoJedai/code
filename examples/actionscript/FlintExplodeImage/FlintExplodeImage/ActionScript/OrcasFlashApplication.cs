@@ -10,6 +10,7 @@ using ScriptCoreLib.ActionScript.flash.ui;
 using FlintExplodeImage.Shared;
 using ScriptCoreLib.ActionScript.flash.events;
 using ScriptCoreLib.ActionScript.flash.geom;
+using FlintExplodeImage.ActionScript.Flint.org.flintparticles.threeD.emitters;
 
 namespace FlintExplodeImage.ActionScript
 {
@@ -22,43 +23,43 @@ namespace FlintExplodeImage.ActionScript
 	{
 		private Emitter3D emitter;
 		private Bitmap bitmap;
-		private DisplayObjectRenderer renderer;
+		//private DisplayObjectRenderer renderer;
 
 		public FlintExplodeImage()
 		{
-			var txt = new TextField();
-			txt.text = "Click on the image";
-			txt.textColor = 0xFFFFFF;
-			addChild( txt );
+			//var txt = new TextField();
+			//txt.text = "Click on the image";
+			//txt.textColor = 0xFFFFFF;
+			//addChild( txt );
 
-			bitmap =  KnownEmbeddedResources.Default[KnownAssets.Path.Assets + "/184098.jpg"].ToBitmapAsset();
+			//bitmap =  KnownEmbeddedResources.Default[KnownAssets.Path.Assets + "/184098.jpg"].ToBitmapAsset();
 			
-			renderer = new DisplayObjectRenderer();
-			renderer.camera.dolly( -400 );
-			renderer.camera.projectionDistance = 400;
-			renderer.y = 175;
-			renderer.x = 250;
-			addChild( renderer );
+			//renderer = new DisplayObjectRenderer();
+			//renderer.camera.dolly( -400 );
+			//renderer.camera.projectionDistance = 400;
+			//renderer.y = 175;
+			//renderer.x = 250;
+			//addChild( renderer );
 			
-			emitter = new Emitter3D();
-			emitter.addAction( new Move() );
-			emitter.addAction( new DeathZone( new FrustrumZone( renderer.camera, new Rectangle( -290, -215, 580, 430 ) ), true ) );
-			emitter.position = new Vector3D( 0, 0, 0, 1 );
+			//emitter = new Emitter3D();
+			//emitter.addAction( new Move() );
+			//emitter.addAction( new DeathZone( new FrustrumZone( renderer.camera, new Rectangle( -290, -215, 580, 430 ) ), true ) );
+			//emitter.position = new Vector3D( 0, 0, 0, 1 );
 
-			var particles = Particle3DUtils.createRectangleParticlesFromBitmapData( bitmap.bitmapData, 20, emitter.particleFactory, new Vector3D( -192, 127, 0 ) );
-			emitter.addExistingParticles( particles, false );
+			//var particles = Particle3DUtils.createRectangleParticlesFromBitmapData( bitmap.bitmapData, 20, emitter.particleFactory, new Vector3D( -192, 127, 0 ) );
+			//emitter.addExistingParticles( particles, false );
 									
-			renderer.addEmitter( emitter );
-			emitter.start();
+			//renderer.addEmitter( emitter );
+			//emitter.start();
 
-			stage.click += explode;
+			//stage.click += explode;
 		}
 
 		public void explode(MouseEvent ev)
 		{
-			var p = renderer.globalToLocal(new Point(ev.stageX, ev.stageY));
-			emitter.addAction(new Explosion(8, new Vector3D(p.x, -p.y, 50), 500));
-			stage.click -= explode;
+			//var p = renderer.globalToLocal(new Point(ev.stageX, ev.stageY));
+			//emitter.addAction(new Explosion(8, new Vector3D(p.x, -p.y, 50), 500));
+			//stage.click -= explode;
 		}
 
 
