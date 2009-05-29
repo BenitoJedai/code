@@ -60,11 +60,13 @@
     <Content Include="docs\about.txt" />
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\FlintExplodeImage\184098.jpg" />
     <EmbeddedResource Include="web\assets\FlintExplodeImage\Preview.png">
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
+    <EmbeddedResource Include="web\assets\FlintExplodeImage\Flint_2_0_1.swc" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
