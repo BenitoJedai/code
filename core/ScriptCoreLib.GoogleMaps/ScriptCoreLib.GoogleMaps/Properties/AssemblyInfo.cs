@@ -46,5 +46,5 @@ using ScriptCoreLib.Shared;
     ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
 
     // some namespace mangling
-    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
+	//ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
 ]

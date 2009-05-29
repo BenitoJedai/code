@@ -1,5 +1,8 @@
 ﻿This assembly is derived from:
 
 http://code.google.com/apis/maps/documentation/flash/reference.html
+http://code.google.com/apis/maps/documentation/flash/intro.html#SWC_File
 
-This assembly only defines native types witchin 'map_flex_1_4.swc'.
+This assembly only defines native types within 'map_1_9a.swc'.
+
+In the future there should be a tool to create this 'Introp Assembly' automatically.

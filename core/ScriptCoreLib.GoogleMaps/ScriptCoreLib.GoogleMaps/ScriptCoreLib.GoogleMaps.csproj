@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{D703FBB0-BE08-404A-81C2-6C6457CDA738}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -85,7 +85,7 @@
     <Content Include="Documents\about.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="web\assets\ScriptCoreLib.GoogleMaps\map_flex_1_4.swc" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.GoogleMaps\map_1_9a.swc" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
