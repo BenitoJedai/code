@@ -223,12 +223,15 @@
     <Compile Include="ActionScript\Extensions\flash\ui\ContextMenuItem.cs" />
     <Compile Include="ActionScript\Extensions\flash\util\Timer.cs" />
     <Compile Include="ActionScript\flash\events\SyncEvent.cs" />
+    <Compile Include="ActionScript\flash\geom\Matrix3D.cs" />
+    <Compile Include="ActionScript\flash\geom\Vector3D.cs" />
     <Compile Include="ActionScript\flash\net\LocalConnection.cs" />
     <Compile Include="ActionScript\flash\net\NetStreamInfo.cs" />
     <Compile Include="ActionScript\flash\net\SharedObject.cs" />
     <Compile Include="ActionScript\flash\net\URLRequestHeader.cs" />
     <Compile Include="ActionScript\flash\net\URLRequestMethod.cs" />
     <Compile Include="ActionScript\flash\net\URLVariables.cs" />
+    <Compile Include="ActionScript\flash\utils\Dictionary.cs" />
     <Compile Include="ActionScript\fl\video\FLVPlayback.cs" />
     <Compile Include="ActionScript\fl\video\INCManager.cs" />
     <Compile Include="ActionScript\fl\video\VideoPlayer.cs" />
