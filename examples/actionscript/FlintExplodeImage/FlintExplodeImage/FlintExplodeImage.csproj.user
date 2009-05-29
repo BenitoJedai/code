@@ -1,0 +1,8 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <StartAction>URL</StartAction>
+    <StartProgram>
+    </StartProgram>
+    <StartURL>file://C:\work\jsc.svn\examples\actionscript\FlintExplodeImage\FlintExplodeImage\bin\Release\web\FlintExplodeImage.swf</StartURL>
+  </PropertyGroup>
+</Project>
