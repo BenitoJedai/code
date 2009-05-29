@@ -39,4 +39,10 @@ using ScriptCoreLib;
 
 [assembly:
 	Script,
-	ScriptTypeFilter(ScriptType.ActionScript, typeof(FlintExplodeImage.ActionScript.FlintExplodeImage))]
+	ScriptTypeFilter(ScriptType.ActionScript, typeof(FlintExplodeImage.ActionScript.FlintExplodeImage)),
+	ScriptNamespaceRename(
+		NativeNamespaceName = "FlintExplodeImage.ActionScript.Flint", 
+		VirtualNamespaceName = "", 
+		FilterToIsNative = true
+	),
+]
