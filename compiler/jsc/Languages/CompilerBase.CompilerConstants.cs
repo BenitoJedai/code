@@ -76,12 +76,12 @@ namespace jsc.Script
 
         internal void ToConsole(Type xx, CompileSessionInfo sinfo)
         {
-            string u = NamespaceFixup(xx.FullName, xx);
+            string u = NamespaceFixup(xx.FullName ?? "", xx);
 
             if (u == xx.FullName)
-                sinfo.Logging.LogMessage(u);
+                sinfo.Logging.LogMessage("{0}", xx.FullName ?? "");
             else
-                sinfo.Logging.LogMessage("{0} -> {1}", xx.FullName, u);
+                sinfo.Logging.LogMessage("{0} -> {1}", xx.FullName ?? "", u);
         }
     }
 }

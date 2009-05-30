@@ -535,7 +535,15 @@ namespace jsc
 
 		static void OpCode_call(IdentWriter w, ilbp p, ili i, ilfsi[] s)
 		{
+			MethodBase mm = i.ReferencedMethod;
 
+			if (mm.DeclaringType == typeof(System.Runtime.CompilerServices.RuntimeHelpers))
+			{
+				if (mm.Name == "InitializeArray")
+				{
+					throw new SkipThisPrestatementException();
+				}
+			}
 
 			#region fetch method
 			MethodBase m = (MethodBase)i.TargetMethod ?? (MethodBase)i.TargetConstructor;
@@ -1131,7 +1139,7 @@ namespace jsc
 						else
 						{
 							if (i.TargetType == typeof(double))
-								w.Write("0.0"); 
+								w.Write("0.0");
 							else if (i.TargetType == typeof(int))
 								w.Write("0");
 							else if (i.TargetType == typeof(sbyte))
@@ -1158,16 +1166,91 @@ namespace jsc
 			}
 			#endregion
 			else
-				if (s.First().SingleStackInstruction == OpCodes.Ldc_I4_0)
+			{
+				if (i.NextInstruction == OpCodes.Dup &&
+											i.NextInstruction.NextInstruction == OpCodes.Ldtoken &&
+											i.NextInstruction.NextInstruction.NextInstruction == OpCodes.Call)
 				{
-					w.Write("[]");
+					var Length = (int)i.StackBeforeStrict.First().SingleStackInstruction.TargetInteger;
+					var Type = i.TargetType;
+
+					// Conversion To IEnumrable
+
+					if (Type == typeof(int))
+					{
+						var Values = i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsInt32Array();
+
+						w.Write("[");
+						for (int j = 0; j < Values.Length; j++)
+						{
+							if (j > 0)
+								w.Write(", ");
+
+							w.Write(Values[j].ToString());
+						}
+						w.Write("]");
+					}
+					else if (Type == typeof(uint))
+					{
+						var Values = i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsUInt32Array();
+
+						w.Write("[");
+						for (int j = 0; j < Values.Length; j++)
+						{
+							if (j > 0)
+								w.Write(", ");
+
+							w.Write(Values[j].ToString());
+						}
+						w.Write("]");
+					}
+					else if (Type == typeof(double))
+					{
+						var Values = i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsDoubleArray();
+
+						w.Write("[");
+						for (int j = 0; j < Values.Length; j++)
+						{
+							if (j > 0)
+								w.Write(", ");
+
+							w.Write(Values[j].ToString());
+						}
+						w.Write("]");
+					}
+					else
+						throw new NotImplementedException(Type.Name);
+
+
+
+
+					//Write("[ /* ? */ ]");
+
+					// todo: implement
+
+
 				}
 				else
 				{
-					w.Write("new Array(");
-					IL2ScriptGenerator.OpCodeHandler(w, p, i, s[0]);
-					w.Write(")");
+
+					// Write("[]");
+					// this fix is for javascript too
+
+					if (i.StackBeforeStrict[0].SingleStackInstruction == OpCodes.Ldc_I4_0)
+					{
+						w.Write("[]");
+					}
+					else
+					{
+						w.Write("new Array(");
+
+
+						IL2ScriptGenerator.OpCodeHandler(w, p, i, i.StackBeforeStrict[0]);
+
+						w.Write(")");
+					}
 				}
+			}
 
 
 

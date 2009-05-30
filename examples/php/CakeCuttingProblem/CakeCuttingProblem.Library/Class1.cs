@@ -7,7 +7,7 @@ namespace CakeCuttingProblem.Library
 {
 	public class DemoSituation
 	{
-		public static void Demo(
+		public static Host Demo(
 			Action<string> ColorsGreen,
 			Action<string> ColorsBlue,
 			Action<string> ColorsRed,
@@ -36,6 +36,8 @@ namespace CakeCuttingProblem.Library
 			}.PrintPreferenceList();
 
 			h.Decide();
+
+			return h;
 		}
 	}
 
@@ -64,7 +66,7 @@ namespace CakeCuttingProblem.Library
 
 		public class Tuple1
 		{
-			public int Target;
+			public int Wish;
 			public int TotalCost;
 			public int Difference;
 			public int Compensation;
@@ -77,6 +79,9 @@ namespace CakeCuttingProblem.Library
 			public int ClientIndex;
 			public int Cost;
 		}
+
+		public Tuple2[] Decide_Compensation;
+		public Tuple1[] Decide_Results;
 
 		public void Decide()
 		{
@@ -109,12 +114,12 @@ namespace CakeCuttingProblem.Library
 
 							}
 
-							Results[ClientIndex].Target += v;
+							Results[ClientIndex].Wish += v;
 						}
 					);
 
 
-					Results[ClientIndex].Target /= this.Clients.Length;
+					Results[ClientIndex].Wish /= this.Clients.Length;
 				}
 			);
 
@@ -137,7 +142,7 @@ namespace CakeCuttingProblem.Library
 				{
 
 
-					value.Difference = value.Target - value.TotalCost;
+					value.Difference = (int)Math.Round((double) value.Wish - value.TotalCost);
 
 
 					fond -= value.Difference;
@@ -178,6 +183,8 @@ namespace CakeCuttingProblem.Library
 			);
 
 
+			Decide_Compensation = Compensation;
+			Decide_Results = Results;
 		}
 
 

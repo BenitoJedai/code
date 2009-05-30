@@ -13,11 +13,11 @@ using jsc.CodeModel;
 namespace jsc.Script.PHP
 {
 	partial class PHPCompiler
-    {
+	{
 		/// <summary>
 		/// compiles the main file for the assambly, also compile web/inc/*.dll/class.*.php multithreaded
 		/// </summary>
-		public void Compile(CompileSessionInfo sinfo)
+		public void Compile(Assembly ja, CompileSessionInfo sinfo)
 		{
 
 			var web = new DirectoryInfo("web");
@@ -35,37 +35,39 @@ namespace jsc.Script.PHP
 
 			using (new Helper.ConsoleStopper("php type compiler"))
 			{
-				n.ForEach(ActiveTypes,
-				   delegate(TypeInfo z)
-				   {
-					   CompilerBase c = new Script.PHP.PHPCompiler(new StringWriter(), this.MySession);
+				foreach (var z in ActiveTypes)
+				{
 
-					   c.CurrentJob = null;
+					if (z.Value.Assembly != ja)
+						continue;
 
-					   Program.AttachXMLDoc(new FileInfo(z.Value.Assembly.ManifestModule.FullyQualifiedName), c);
+					CompilerBase c = new Script.PHP.PHPCompiler(new StringWriter(), this.MySession);
 
-					   if (c.CompileType(z.Value))
-					   {
-						   c.ToConsole(z.Value, sinfo);
+					c.CurrentJob = null;
 
-						   DirectoryInfo x = u.CreateSubdirectory(z.AssamblyFileName);
+					Program.AttachXMLDoc(new FileInfo(z.Value.Assembly.ManifestModule.FullyQualifiedName), c);
 
-						   string content = c.MyWriter.ToString();
+					if (c.CompileType(z.Value))
+					{
+						c.ToConsole(z.Value, sinfo);
+
+						DirectoryInfo x = u.CreateSubdirectory(z.AssamblyFileName);
+
+						string content = c.MyWriter.ToString();
 
 
-						   StreamWriter sw = new StreamWriter(new FileStream(web.FullName + "/" + z.TargetFileName, FileMode.Create));
+						StreamWriter sw = new StreamWriter(new FileStream(web.FullName + "/" + z.TargetFileName, FileMode.Create));
 
-						   sw.WriteLine("<?");
-						   sw.Write(content);
-						   sw.WriteLine("?>");
-						   sw.Flush();
+						sw.WriteLine("<?");
+						sw.Write(content);
+						sw.WriteLine("?>");
+						sw.Flush();
 
-						   sw.Close();
+						sw.Close();
 
-						   req.Add(z);
-					   }
-				   }
-			   );
+						req.Add(z);
+					}
+				}
 
 			}
 
@@ -84,5 +86,5 @@ namespace jsc.Script.PHP
 			WriteLine("?>");
 		}
 
-    }
+	}
 }

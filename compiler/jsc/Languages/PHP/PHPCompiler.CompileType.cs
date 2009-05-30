@@ -27,7 +27,16 @@ namespace jsc.Script.PHP
 					return false;
 
 				if (z.IsValueType)
-					Break("ValueType not supported : " + z.FullName);
+				{
+					if (z.Name.Contains("PrivateImplementationDetails"))
+						return false;
+
+					if (z.DeclaringType != null)
+						if (z.DeclaringType.Name.Contains("PrivateImplementationDetails"))
+							return false;
+
+					Break("ValueType not supported : " + z.FullName + ", " + z.Name);
+				}
 
 				var za = z.ToScriptAttributeOrDefault();
 
