@@ -643,7 +643,7 @@ namespace jsc
 					continue;
 
 
-			
+
 
 
 				ConstructorInfo[] ci = z.GetConstructors(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Public);
@@ -1442,6 +1442,16 @@ namespace jsc
 			{
 				Console.WriteLine(z.FullName);
 				////w.WriteCommentLine(z.FullName);
+
+				if (z.Name.Contains("<PrivateImplementationDetails>"))
+					continue;
+
+				if (z.IsValueType)
+				{
+					if (z.DeclaringType != null)
+						if (z.DeclaringType.Name.Contains("<PrivateImplementationDetails>"))
+							continue;
+				}
 
 				if (!z.IsClass)
 					continue;

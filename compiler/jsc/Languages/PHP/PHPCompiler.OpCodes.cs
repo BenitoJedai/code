@@ -658,6 +658,7 @@ namespace jsc.Script.PHP
 				OpCodes.Ldelem_I1,
 				OpCodes.Ldelem_I2,
 				OpCodes.Ldelem_I4,
+				OpCodes.Ldelem_R8,
 				OpCodes.Ldelem
 				] =
 				delegate(CodeEmitArgs e)

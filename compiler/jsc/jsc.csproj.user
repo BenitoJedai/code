@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\code.google\avalontycoonmansion\AvalonTycoonMansion\AvalonTycoonMansion\bin\Release</StartWorkingDirectory>
-    <StartArguments>AvalonTycoonMansion.exe  -as</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\php\CakeCuttingProblem\CakeCuttingProblemPHP\bin\Debug</StartWorkingDirectory>
+    <StartArguments>CakeCuttingProblemPHP.dll  -php</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

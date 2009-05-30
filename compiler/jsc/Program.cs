@@ -361,7 +361,7 @@ namespace jsc
 
 
 			#region loading types
-			xw.Session.Types = CompilerJob.LoadTypes(ScriptType.JavaScript, Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName));
+			xw.Session.Types = CompilerJob.LoadTypes(type, Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName));
 
 			//xw.Session.Types = ScriptAttribute.FindTypes(_assambly_loaded, type);
 
@@ -386,7 +386,6 @@ namespace jsc
 			FileInfo TargetAssamblyFile = new FileInfo(target_assambly);
 
 
-			Console.WriteLine("will compile " + xw.Session.Types.Length + " types");
 
 
 
@@ -399,12 +398,13 @@ namespace jsc
 
 			if (type == ScriptType.PHP)
 			{
-				new jsc.Script.PHP.PHPCompiler(xw, xw.Session).Compile(sinfo);
+				using (var c = new ScriptAttribute.ScriptLibraryContext(Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName)))
+					new jsc.Script.PHP.PHPCompiler(xw, xw.Session).Compile(_assambly_loaded, sinfo);
 			}
 			else if (type == ScriptType.JavaScript)
 			{
 				using (new ScriptAttribute.ScriptLibraryContext(Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName)))
-				IL2Script.DeclareTypes(xw, xw.Session.Types.Where(k => k.Assembly == _assambly_loaded).ToArray(), false, AssamblyS, _assambly_loaded);
+					IL2Script.DeclareTypes(xw, xw.Session.Types.Where(k => k.Assembly == _assambly_loaded).ToArray(), false, AssamblyS, _assambly_loaded);
 
 				_assambly_loaded.WriteEntryPoints(TargetDirectory);
 			}
