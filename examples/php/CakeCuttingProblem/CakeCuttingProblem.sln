@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CakeCuttingProblem", "CakeCuttingProblem\CakeCuttingProblem.csproj", "{9E90DDA2-34C0-481D-B8A0-FF9454036C0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CakeCuttingProblem.Library", "CakeCuttingProblem.Library\CakeCuttingProblem.Library.csproj", "{A5F1B3E8-D305-473F-A865-269678DD5D62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CakeCuttingProblemPHP", "CakeCuttingProblemPHP\CakeCuttingProblemPHP.csproj", "{3F37352C-5FE3-4A56-83F6-D679A9C07771}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CakeCuttingProblemDocument", "CakeCuttingProblemDocument\CakeCuttingProblemDocument.csproj", "{8CF3DFE9-E3CB-4102-97A8-D462A05EDEC9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E90DDA2-34C0-481D-B8A0-FF9454036C0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E90DDA2-34C0-481D-B8A0-FF9454036C0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E90DDA2-34C0-481D-B8A0-FF9454036C0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E90DDA2-34C0-481D-B8A0-FF9454036C0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5F1B3E8-D305-473F-A865-269678DD5D62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5F1B3E8-D305-473F-A865-269678DD5D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5F1B3E8-D305-473F-A865-269678DD5D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5F1B3E8-D305-473F-A865-269678DD5D62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F37352C-5FE3-4A56-83F6-D679A9C07771}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F37352C-5FE3-4A56-83F6-D679A9C07771}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F37352C-5FE3-4A56-83F6-D679A9C07771}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F37352C-5FE3-4A56-83F6-D679A9C07771}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CF3DFE9-E3CB-4102-97A8-D462A05EDEC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CF3DFE9-E3CB-4102-97A8-D462A05EDEC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CF3DFE9-E3CB-4102-97A8-D462A05EDEC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CF3DFE9-E3CB-4102-97A8-D462A05EDEC9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
