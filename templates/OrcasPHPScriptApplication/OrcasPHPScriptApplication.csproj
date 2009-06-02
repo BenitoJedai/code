@@ -2,13 +2,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{242BF5DC-4F24-4690-B522-2D7493F9E264}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScriptApplication</RootNamespace>
-    <AssemblyName>ScriptApplication</AssemblyName>
+    <RootNamespace>OrcasPHPScriptApplication</RootNamespace>
+    <AssemblyName>OrcasPHPScriptApplication</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>
@@ -51,10 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="source\csharp\Settings.cs" />
-    <Compile Include="source\js\OrcasPHPScriptApplicationDocument.cs" />
-    <Compile Include="source\php\OrcasPHPScriptApplicationBackend.cs" />
-    <Compile Include="source\shared\SharedExtensions.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Server\Application.cs" />
     <Compile Include="web\Description.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -69,7 +67,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>call "c:\util\jsc\bin\jsc.exe" "$(TargetFileName)" -js -php
+    <PostBuildEvent>call "c:\util\jsc\bin\jsc.exe" "$(TargetFileName)" -php
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

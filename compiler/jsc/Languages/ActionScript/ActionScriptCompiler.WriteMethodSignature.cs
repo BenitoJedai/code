@@ -54,7 +54,7 @@ namespace jsc.Languages.ActionScript
             else
             {
                 // as3: A constructor can only be declared public.
-                if (m.IsPublic || m.IsConstructor)
+				if (m.IsPublic || m.IsInstanceConstructor())
                     WriteKeywordSpace(Keywords._public);
                 else
                     if (m.IsFamily)
@@ -128,7 +128,7 @@ namespace jsc.Languages.ActionScript
 
             WriteKeywordSpace(Keywords._function);
 
-            if (m.IsConstructor && !(mode == WriteMethodSignatureMode.ValueTypeConstructorAlias) && !m.IsStatic)
+			if (m.IsInstanceConstructor() && !(mode == WriteMethodSignatureMode.ValueTypeConstructorAlias) && !m.IsStatic)
                 Write(GetDecoratedTypeName(m.DeclaringType, false));
             else
             {

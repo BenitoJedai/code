@@ -80,7 +80,7 @@ namespace jsc.Languages.CSharp2
                 }
                 else
                 {
-                    if (m.IsPublic || m.IsConstructor)
+					if (m.IsPublic || m.IsInstanceConstructor())
                         WriteKeywordSpace(Keywords._public);
                     else
                         if (m.IsFamily)
@@ -186,7 +186,7 @@ namespace jsc.Languages.CSharp2
 
             var MethodHasParameterList = true;
 
-            if (m.IsConstructor)
+			if (m.IsInstanceConstructor())
                 Write(GetShortName(m.DeclaringType));
             else
             {
