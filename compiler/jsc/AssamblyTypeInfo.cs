@@ -126,7 +126,7 @@ namespace jsc
 
             MethodBase b = null;
 
-            if (src_method.IsConstructor)
+			if (src_method.IsInstanceConstructor())
             {
                 b = impl_type.GetConstructor(pt);
             }
@@ -191,7 +191,7 @@ namespace jsc
 
 
             #region IsConstructor
-            if (src_method.IsConstructor)
+			if (src_method.IsInstanceConstructor())
             {
                 // b = timpl.GetConstructor(t);
 

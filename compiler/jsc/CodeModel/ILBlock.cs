@@ -55,7 +55,7 @@ namespace jsc
                         x++;
                 }
 
-                if (this.OwnerMethod.IsConstructor)
+				if (this.OwnerMethod.IsInstanceConstructor())
                 {
                     if (this.OwnerMethod.DeclaringType.BaseType == typeof(object))
                     {

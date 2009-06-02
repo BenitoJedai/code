@@ -245,3 +245,5 @@ version history:
 	jsc: added background color and aligntocenter support for entrypoints
 22.05.2009
 	js: added Delegate.InternalGetGlobalObject support
+02.06.2009
+	jsc: fixed IsConstructor usage when running on CLR 4	

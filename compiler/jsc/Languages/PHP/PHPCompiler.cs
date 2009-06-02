@@ -121,19 +121,21 @@ namespace jsc.Script.PHP
 			{
 				bool bBase = false;
 
-				if (m.IsConstructor)
-				{
-					var _BaseType = i.OwnerMethod.DeclaringType.BaseType;
-					_BaseType = ResolveImplementation(_BaseType) ?? _BaseType;
-
-					if (m.DeclaringType == _BaseType)
+				if (m.IsInstanceConstructor())
+					if (i != null) 
+					// CLR 4 seems to now tell that static ctor IsConstructor
 					{
+						var _BaseType = i.OwnerMethod.DeclaringType.BaseType;
+						_BaseType = ResolveImplementation(_BaseType) ?? _BaseType;
 
-						bBase = true;
+						if (m.DeclaringType == _BaseType)
+						{
+
+							bBase = true;
+						}
+						else
+							Break("If it was a native constructor, it should be remapped via InternalConstructor attribute.Cannot call constructor : " + m + " used at " + i.OwnerMethod.DeclaringType.FullName + "." + i.OwnerMethod.Name + ".");
 					}
-					else
-						Break("If it was a native constructor, it should be remapped via InternalConstructor attribute.Cannot call constructor : " + m + " used at " + i.OwnerMethod.DeclaringType.FullName + "." + i.OwnerMethod.Name + ".");
-				}
 
 				ScriptAttribute ma = ScriptAttribute.OfProvider(m);
 				bool dStatic = ma != null && ma.DefineAsStatic;
@@ -195,7 +197,7 @@ namespace jsc.Script.PHP
 		{
 
 
-			if (m.IsConstructor)
+			if (m.IsInstanceConstructor())
 				Write("__construct");
 			else
 			{

@@ -1516,7 +1516,7 @@ namespace jsc.Script
 
 		public bool IsOverloadedMethod(MethodBase m)
 		{
-			if (m.IsConstructor)
+			if (m.IsInstanceConstructor())
 				return true;
 
 			MethodInfo[] x = m.DeclaringType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy);

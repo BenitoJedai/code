@@ -38,52 +38,6 @@ using ScriptCoreLib;
 
 [assembly:
 	Script,
-	ScriptTypeFilter(ScriptType.JavaScript, typeof(global::ScriptApplication.source.js.Controls.OrcasPHPScriptApplicationDocument)),
-	ScriptTypeFilter(ScriptType.JavaScript, typeof(global::ScriptApplication.source.shared.SharedExtensions)),
-	ScriptTypeFilter(ScriptType.PHP, typeof(global::ScriptApplication.source.php.OrcasPHPScriptApplicationBackend)),
-   ScriptTypeFilter(ScriptType.PHP, typeof(global::ScriptApplication.source.shared.SharedExtensions))
+	ScriptTypeFilter(ScriptType.PHP, typeof(global::OrcasPHPScriptApplication.Server.Application)),
 ]
 
-namespace ScriptApplication.source.shared
-{
-	using ScriptCoreLib.Shared;
-
-	[Script]
-	public class AssemblyInfo : IAssemblyInfo
-	{
-		public static AssemblyInfo Current = new AssemblyInfo();
-
-		#region BuildDateTimeString
-		/// <summary>
-		/// date when library was compiled
-		/// </summary>
-		public string BuildDateTimeString
-		{
-			[Script(
-				UseCompilerConstants = true,
-				OptimizedCode = @"return '{BuildDate} UTC';"
-				)]
-			get
-			{
-				return default(string);
-			}
-		}
-		#endregion
-
-		#region ModuleName
-		public string ModuleName
-		{
-			[Script(
-				UseCompilerConstants = true,
-				OptimizedCode = @"return '{Module.Name}';"
-				)]
-			get
-			{
-				return default(string);
-			}
-		}
-		#endregion
-
-	}
-
-}

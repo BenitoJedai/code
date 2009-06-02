@@ -32,7 +32,7 @@ namespace jsc.Languages.Java
             bool IsBaseCall = false;
             bool IsDefineAsStatic = ma != null && ma.DefineAsStatic;
 
-            if (m.IsConstructor)
+			if (m.IsInstanceConstructor())
             {
                 // fixme: update the BCL resolving issue
                 // the super ctor call gets lost otherwise

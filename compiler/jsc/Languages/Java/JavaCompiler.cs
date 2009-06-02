@@ -179,7 +179,7 @@ namespace jsc.Languages.Java
 				WriteSpace();
 			}
 
-			if (m.IsConstructor)
+			if (m.IsInstanceConstructor())
 				Write(GetDecoratedTypeName(m.DeclaringType, false));
 			else
 				WriteDecoratedMethodName(m, false);

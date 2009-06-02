@@ -13,7 +13,7 @@ namespace jsc.Languages
 
         public EventDetector(MethodBase m)
         {
-            if (m.IsConstructor)
+			if (m.IsInstanceConstructor())
                 return;
 
             var any = BindingFlags.Static | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;

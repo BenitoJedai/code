@@ -1,20 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
 using System.IO;
-using System.Xml.Serialization;
-using System.Xml;
-using ScriptCoreLib;
-using System.Xml.Linq;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Serialization;
+using ScriptCoreLib;
 using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc //.Extensions
 {
 	static class Extensions
 	{
+		public static bool IsInstanceConstructor(this MethodBase e)
+		{
+			return e.IsConstructor && !e.IsStatic;
+		}
+
 		public static Action<T> And<T>(this Action<T> a, Action<T> b)
 		{
 			return i =>

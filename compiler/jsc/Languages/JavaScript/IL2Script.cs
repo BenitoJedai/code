@@ -61,7 +61,7 @@ namespace jsc
 					{
 						if (p.Instruction.NextInstruction == null)
 						{
-							if (p.Instruction.OwnerMethod.IsConstructor)
+							if (p.Instruction.OwnerMethod.IsInstanceConstructor())
 								return;
 
 
@@ -555,7 +555,7 @@ namespace jsc
 				{
 					ILInstruction _base = b.PrestatementCommands[0].Instruction;
 
-					bool _ctor = i.IsConstructor;
+					bool _ctor = i.IsInstanceConstructor();
 					bool _ctor_objbase = _ctor && _base == OpCodes.Call && _base.TargetConstructor.DeclaringType == typeof(object);
 
 					EmitPrestatementBlock(w, b.ExtractBlock(_ctor_objbase ? _base.Next : b.First, b.Last));

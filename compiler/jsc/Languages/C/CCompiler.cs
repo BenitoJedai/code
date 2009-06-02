@@ -993,7 +993,7 @@ namespace jsc.Languages.C
 						 if (p.Instruction == OpCodes.Ret)
 							 if (p.Instruction.Next == null)
 								 if (p.Instruction.StackBeforeStrict.Length == 0)
-									 if (!p.Instruction.OwnerMethod.IsConstructor)
+									 if (!p.Instruction.OwnerMethod.IsInstanceConstructor())
 									 {
 										 return true;
 									 }
