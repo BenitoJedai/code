@@ -381,6 +381,16 @@ namespace ScriptCoreLib.Tools
 
                     goto ArrayNextOrUp;
                 }
+				else if (xx.ElementType == typeof(string))
+				{
+					Expect(c, '"');
+
+					xx.List.Add(GetQuotedString());
+					
+					c = GetNonSpaceChar();
+
+					goto ArrayNextOrUp;
+				}
                 else if (xx.ElementType.IsClass)
                 {
                     Expect(c, '{');
