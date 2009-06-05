@@ -16,9 +16,32 @@ namespace ScriptCoreLib.CSharp.Avalon.Controls
 		
 		// at 2009.06.05 silverlight cannot use save file dialog
 
-		public void Open()
-		{
+		// Only one file browsing session may be performed at a time.
 
+		public void Open(Action<MemoryStream> handler)
+		{
+			1.AtDelay(
+				delegate
+				{
+					var s = new Microsoft.Win32.OpenFileDialog();
+
+					if (s.ShowDialog() ?? false)
+					{
+						var m = new MemoryStream();
+
+						using (var r = s.OpenFile())
+						{
+							var buffer = new byte[r.Length];
+
+							r.Read(buffer, 0, buffer.Length);
+
+							m.Write(buffer, 0, buffer.Length);
+						}
+
+						handler(m);
+					}
+				}
+			);
 		}
 
 		public void Save(MemoryStream data, string FileName)
