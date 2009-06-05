@@ -11,7 +11,7 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.net
     // which is marked with NotImplementedHere applies
 
     [Script(Implements = typeof(LocalConnection))]
-	public static class __LocalConnection
+	internal static class __LocalConnection
     {
 
 		#region Implementation for methods marked with [Script(NotImplementedHere = true)]

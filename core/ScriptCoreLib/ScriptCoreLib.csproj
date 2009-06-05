@@ -213,6 +213,7 @@
     <Compile Include="ActionScript\Extensions\flash\media\Camera.cs" />
     <Compile Include="ActionScript\Extensions\flash\media\Microphone.cs" />
     <Compile Include="ActionScript\Extensions\flash\media\SoundChannel.cs" />
+    <Compile Include="ActionScript\Extensions\flash\net\FileReference.cs" />
     <Compile Include="ActionScript\Extensions\flash\net\LocalConnection.cs" />
     <Compile Include="ActionScript\Extensions\flash\net\SharedObject.cs" />
     <Compile Include="ActionScript\Extensions\flash\net\NetConnection.cs" />
@@ -222,9 +223,12 @@
     <Compile Include="ActionScript\Extensions\flash\ui\ContextMenu.cs" />
     <Compile Include="ActionScript\Extensions\flash\ui\ContextMenuItem.cs" />
     <Compile Include="ActionScript\Extensions\flash\util\Timer.cs" />
+    <Compile Include="ActionScript\flash\events\DataEvent.cs" />
     <Compile Include="ActionScript\flash\events\SyncEvent.cs" />
     <Compile Include="ActionScript\flash\geom\Matrix3D.cs" />
     <Compile Include="ActionScript\flash\geom\Vector3D.cs" />
+    <Compile Include="ActionScript\flash\net\FileFilter.cs" />
+    <Compile Include="ActionScript\flash\net\FileReference.cs" />
     <Compile Include="ActionScript\flash\net\LocalConnection.cs" />
     <Compile Include="ActionScript\flash\net\NetStreamInfo.cs" />
     <Compile Include="ActionScript\flash\net\SharedObject.cs" />
