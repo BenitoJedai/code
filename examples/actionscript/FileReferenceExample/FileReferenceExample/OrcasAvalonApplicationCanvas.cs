@@ -114,23 +114,41 @@ namespace FileReferenceExample.Shared
 			//    }
 			//);
 
+			var cc = 0;
+
 			this.MouseLeftButtonUp +=
 				delegate
 				{
-					t.Text = "saving...";
+					cc++;
 
-					var r = new FileDialog();
+					if (cc % 2 == 0)
+					{
+						t.Text = "saving...";
 
-					var m = new MemoryStream();
+						var r = new FileDialog();
 
-					m.WriteByte(0);
-					m.WriteByte(3);
-					m.WriteByte(0xf0);
-					m.WriteByte(0xff);
+						var m = new MemoryStream();
 
-					r.Save(m, "demo2.out");
+						m.WriteByte(0);
+						m.WriteByte(3);
+						m.WriteByte(0xf0);
+						m.WriteByte(0xff);
 
-					t.Text = "saving... ok";
+						r.Save(m, "demo2.out");
+					}
+					else
+					{
+						t.Text = "loading...";
+
+						var r = new FileDialog();
+
+						r.Open(
+							m =>
+							{
+								t.Text = "bytes:" + m.Length;
+							}
+						);
+					}
 
 				};
 

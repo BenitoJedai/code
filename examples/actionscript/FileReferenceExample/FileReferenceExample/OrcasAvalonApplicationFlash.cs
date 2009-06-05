@@ -23,7 +23,6 @@ namespace FileReferenceExample.ActionScript
 		{
 			// spawn the wpf control
 			AvalonExtensions.AttachToContainer(new TargetCanvas(), this);
-
 		}
 
 		static OrcasAvalonApplicationFlash()
