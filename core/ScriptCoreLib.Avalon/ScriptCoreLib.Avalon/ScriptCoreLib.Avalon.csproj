@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0910EC49-6697-4664-8A71-F09CAEC02E88}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -109,6 +109,8 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\RoutedEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Thickness.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Threading\DispatcherTimer.cs" />
+    <Compile Include="ActionScript\UCLImplementation\CSharp\Avalon\Controls\FileDialog.cs" />
+    <Compile Include="CSharp\Avalon\Controls\FileDialog.cs" />
     <Compile Include="CSharp\Avalon\Extensions\AvalonExtensions.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Canvas.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Control.cs" />
