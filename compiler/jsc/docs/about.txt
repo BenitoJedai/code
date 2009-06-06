@@ -247,3 +247,5 @@ version history:
 	js: added Delegate.InternalGetGlobalObject support
 02.06.2009
 	jsc: fixed IsConstructor usage when running on CLR 4	
+06.06.2009
+	java: fixed WriteMethodParameterList parameter BCL type resolving

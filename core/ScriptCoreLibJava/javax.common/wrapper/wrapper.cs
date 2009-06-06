@@ -127,18 +127,7 @@ namespace javax.common.wrapper
     {
     }
 
-    [Script(Implements = typeof(global::System.Int32)
-        // native type cast conflict: ,ExternalTarget="java.lang.Integer"
-        , ImplementationType = typeof(java.lang.Integer)
-        )]
-    public class Int32Impl
-    {
-        [Script(ExternalTarget = "parseInt")]
-        public static int Parse(string e)
-        {
-            return default(int);
-        }
-    }
+
 
     [Script(Implements = typeof(global::System.SByte)
         , ImplementationType = typeof(java.lang.Byte)

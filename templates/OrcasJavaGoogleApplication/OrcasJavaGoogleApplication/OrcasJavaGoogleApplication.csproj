@@ -60,6 +60,7 @@
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\HelloAppEngineServlet.cs" />
+    <Compile Include="Server\Library\Extensions.cs" />
     <Compile Include="Setup.cs" />
   </ItemGroup>
   <ItemGroup>

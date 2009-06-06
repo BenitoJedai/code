@@ -61,6 +61,7 @@
     <Compile Include="BCLImplementation\System\Array.cs" />
     <Compile Include="BCLImplementation\System\Console.cs" />
     <Compile Include="BCLImplementation\System\Convert.cs" />
+    <Compile Include="BCLImplementation\System\Int32.cs" />
     <Compile Include="BCLImplementation\System\Object.cs" />
     <Compile Include="BCLImplementation\System\Environment.cs" />
     <Compile Include="BCLImplementation\System\IO\File.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="BCLImplementation\System\String.cs" />
     <Compile Include="BCLImplementation\System\Text\StringBuilder.cs" />
     <Compile Include="BCLImplementation\System\Threading\Thread.cs" />
+    <Compile Include="BCLImplementation\System\Uri.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="javax.common\runtime\WrappedBigDecimal.cs" />
     <Compile Include="javax.common\runtime\Helper.cs" />
