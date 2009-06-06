@@ -6,12 +6,20 @@ using java.lang;
  
 namespace java.net
 {
-    /// <summary>
-    /// public final class URL
-    /// </summary>
+	// http://java.sun.com/j2se/1.4.2/docs/api/java/net/URL.html
     [Script(IsNative = true)]
     public class URL
     {
+		/// <summary>
+		/// Returns a URLConnection object that represents a connection to the remote object referred to by the URL.
+		/// </summary>
+		/// <returns></returns>
+		public URLConnection openConnection()
+		{
+			return default(URLConnection);
+		}
+          
+
         // Constructor Summary
         /// <summary>
         /// Creates a

@@ -5,7 +5,7 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{A9087C4E-132D-4E9B-85BB-B3FFD7DFF0D9}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OrcasJavaGoogleApplication</RootNamespace>
     <AssemblyName>OrcasJavaGoogleApplication</AssemblyName>

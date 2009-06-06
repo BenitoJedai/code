@@ -20,12 +20,11 @@ namespace OrcasJavaGoogleApplication.Server
 			{
 				resp.setContentType("text/html");
 
-				var w = new StringBuilder();
+				var Path = req.getServletPath();
+				var Query = req.getQueryString();
+				var PathAndQuery = Path + "?" + Query;
 
-				doGet(w);
-
-
-				resp.getWriter().println(w.ToString());
+				resp.getWriter().println(Launch(PathAndQuery));
 			}
 			catch
 			{
@@ -34,17 +33,22 @@ namespace OrcasJavaGoogleApplication.Server
 		}
 
 
-		private static void doGet(StringBuilder w)
+		private static string Launch(string PathAndQuery)
 		{
+			var w = new StringBuilder();
+
 			w.AppendLine("<p>This application was written in C# and was crosscompiled to java by <a href='http://jsc.sf.net'>jsc</a>.</p>");
 			w.AppendLine("<p>Visit <a href='http://zproxy.wordpress.com'>author's blog</a>.</p>");
 			w.AppendLine("<p>Look at the <a href='http://jsc.svn.sourceforge.net/viewvc/jsc/templates/OrcasJavaGoogleApplication/OrcasJavaGoogleApplication/'>source code</a>.</p>");
 
 
+			w.AppendLine("<pre>PathAndQuery: " + PathAndQuery + "</pre>");
+
 			var x = new Uri("http://example.com/").ToWebString();
 
 			w.AppendLine(x);
 
+			return w.ToString();
 		}
 	}
 }
