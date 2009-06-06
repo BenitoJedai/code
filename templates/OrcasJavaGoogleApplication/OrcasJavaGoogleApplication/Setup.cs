@@ -17,29 +17,29 @@ namespace OrcasJavaGoogleApplication
 		public static void DefineEntryPoint(IEntryPoint e)
 		{
 
-			var settings = new
-			{
-				PackageName = Path.GetFileNameWithoutExtension(typeof(Program).Assembly.Location) + ".jar",
-				ProjectName = typeof(Program).Name,
-				CompilandNamespace0 = typeof(Program).Namespace.Replace(".", "/"),
-				CompilandNamespace1 = typeof(Program).Namespace,
-				CompilandType = typeof(Program).Name,
-				CompilandFullName = typeof(Program).Namespace + "." + typeof(Program).Name,
-			};
+			//var settings = new
+			//{
+			//    PackageName = Path.GetFileNameWithoutExtension(typeof(Program).Assembly.Location) + ".jar",
+			//    ProjectName = typeof(Program).Name,
+			//    CompilandNamespace0 = typeof(Program).Namespace.Replace(".", "/"),
+			//    CompilandNamespace1 = typeof(Program).Namespace,
+			//    CompilandType = typeof(Program).Name,
+			//    CompilandFullName = typeof(Program).Namespace + "." + typeof(Program).Name,
+			//};
 
-			using (var w = new StringWriter())
-			{
-				w.WriteLine(":: settings for current project modified at " + DateTime.Now);
+			//using (var w = new StringWriter())
+			//{
+			//    w.WriteLine(":: settings for current project modified at " + DateTime.Now);
 
-				WriteSettings(w, settings);
+			//    WriteSettings(w, settings);
 
-				e[SettingsFileName] = w.ToString();
-			}
+			//    e[SettingsFileName] = w.ToString();
+			//}
 
 
-			e["release/META-INF/MANIFEST.MF"] =
-				"Main-Class: " + settings.CompilandFullName + Environment.NewLine +
-				"Created-By: jsc.sf.net";
+			//e["release/META-INF/MANIFEST.MF"] =
+			//    "Main-Class: " + settings.CompilandFullName + Environment.NewLine +
+			//    "Created-By: jsc.sf.net";
 		}
 
 

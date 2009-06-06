@@ -5,7 +5,7 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{A9087C4E-132D-4E9B-85BB-B3FFD7DFF0D9}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OrcasJavaGoogleApplication</RootNamespace>
     <AssemblyName>OrcasJavaGoogleApplication</AssemblyName>
@@ -59,21 +59,34 @@
   <ItemGroup>
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\HelloAppEngineServlet.cs" />
     <Compile Include="Setup.cs" />
-    <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\description.txt" />
+    <Content Include="web\build.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\java\META-INF\jdoconfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\java\org\example\HelloAppEngineServlet.java">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\java\WEB-INF\appengine-web.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\java\WEB-INF\web.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
-    <None Include="tools\compile.java.bat" />
     <None Include="tools\find.java.bat" />
-    <None Include="tools\create.jar.bat" />
-    <None Include="tools\run.jar.bat" />
-    <None Include="web\release\META-INF\MANIFEST.MF">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="tools\run.bat" />
+    <None Include="tools\update.bat" />
+    <None Include="web\java\log4j.properties" />
+    <None Include="web\java\logging.properties" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="web\assets\" />

@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using ScriptCoreLib;
+using OrcasJavaGoogleApplication.Server;
 
 
 // General Information about an assembly is controlled through the following 
@@ -38,6 +39,6 @@ using ScriptCoreLib;
 
 [assembly:
 	Script,
-	ScriptTypeFilter(ScriptType.Java, typeof(OrcasJavaGoogleApplication.Program))
+	ScriptTypeFilter(ScriptType.Java, typeof(HelloAppEngineServlet))
 ]
 
