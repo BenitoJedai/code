@@ -14,6 +14,13 @@ namespace javax.servlet.http
 		/// </summary>
 		/// <param name="location"></param>
 		void sendRedirect(string location);
-          
+
+		/// <summary>
+		/// Sets a response header with the given name and value.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="value"></param>
+		void setHeader(string name, string value);
+
 	}
 }

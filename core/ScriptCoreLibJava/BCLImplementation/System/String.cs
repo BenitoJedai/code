@@ -74,9 +74,36 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 #else
 		[Script(DefineAsStatic = true)]
 #endif
-		public string Replace(string a, string b)
+		public string Replace(string what, string with)
 		{
-			return Convert.ReplaceString((string)(object)this, a, b);
+			//return Convert.ReplaceString((string)(object)this, a, b);
+			var whom = (string)(object)this;
+
+			int j = -1;
+			int i = whom.IndexOf(what);
+
+			if (i == -1)
+				return whom;
+
+			var b = "";
+
+
+
+
+			while (i > -1)
+			{
+				if (j < 0)
+					b += whom.Substring(0, i) + with;
+				else
+					b += whom.Substring(j + what.Length, i - j - what.Length) + with;
+
+				j = i;
+				i = whom.IndexOf(what, i + what.Length);
+			}
+
+			b += whom.Substring(j + what.Length);
+
+			return b;
 		}
 
 		[Script(ExternalTarget = "replace")]
