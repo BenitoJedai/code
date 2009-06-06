@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Xml.Linq;
 
 using ScriptCoreLib;
+using OrcasJavaGoogleApplication.Server;
 
 namespace OrcasJavaGoogleApplication
 {
@@ -16,30 +17,29 @@ namespace OrcasJavaGoogleApplication
 
 		public static void DefineEntryPoint(IEntryPoint e)
 		{
+			e["java/WEB-INF/web.xml"] =
+@"<?xml version='1.0' encoding='ISO-8859-1'?>
+<web-app 
+   xmlns='http://java.sun.com/xml/ns/javaee' 
+   xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+   xsi:schemaLocation='http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd'
+   version='2.5'> 
+  <display-name>{ProjectName}</display-name>
+  <servlet>
+    <servlet-name>{ServletName}</servlet-name>
+    <servlet-class>{ServletNamespace}.{ServletName}</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>{ServletName}</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+</web-app>
+"
+.Replace("{ProjectName}", Path.GetFileNameWithoutExtension(typeof(HelloAppEngineServlet).Assembly.Location))
+.Replace("{ServletName}", typeof(HelloAppEngineServlet).Name)
+.Replace("{ServletNamespace}", typeof(HelloAppEngineServlet).Namespace)
+;
 
-			//var settings = new
-			//{
-			//    PackageName = Path.GetFileNameWithoutExtension(typeof(Program).Assembly.Location) + ".jar",
-			//    ProjectName = typeof(Program).Name,
-			//    CompilandNamespace0 = typeof(Program).Namespace.Replace(".", "/"),
-			//    CompilandNamespace1 = typeof(Program).Namespace,
-			//    CompilandType = typeof(Program).Name,
-			//    CompilandFullName = typeof(Program).Namespace + "." + typeof(Program).Name,
-			//};
-
-			//using (var w = new StringWriter())
-			//{
-			//    w.WriteLine(":: settings for current project modified at " + DateTime.Now);
-
-			//    WriteSettings(w, settings);
-
-			//    e[SettingsFileName] = w.ToString();
-			//}
-
-
-			//e["release/META-INF/MANIFEST.MF"] =
-			//    "Main-Class: " + settings.CompilandFullName + Environment.NewLine +
-			//    "Created-By: jsc.sf.net";
 		}
 
 
@@ -49,6 +49,11 @@ namespace OrcasJavaGoogleApplication
 			{
 				w.WriteLine("set {0}={1}", z.Name, z.GetValue(v, null));
 			}
+		}
+
+		public static void Main(string[] e)
+		{
+
 		}
 	}
 }

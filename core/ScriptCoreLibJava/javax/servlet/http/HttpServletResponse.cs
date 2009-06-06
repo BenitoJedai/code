@@ -9,5 +9,11 @@ namespace javax.servlet.http
 	[Script(IsNative = true)]
 	public interface HttpServletResponse : ServletResponse
 	{
+		/// <summary>
+		/// Sends a temporary redirect response to the client using the specified redirect location URL.
+		/// </summary>
+		/// <param name="location"></param>
+		void sendRedirect(string location);
+          
 	}
 }

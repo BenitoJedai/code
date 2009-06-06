@@ -82,6 +82,8 @@
     <Compile Include="javax.common\runtime\Expando.cs" />
     <Compile Include="javax.common\runtime\Timer.cs" />
     <Compile Include="javax.common\runtime\VariantValue.cs" />
+    <Compile Include="java\net\URLConnection.cs" />
+    <Compile Include="java\net\HttpURLConnection.cs" />
     <Compile Include="javax\servlet\http\HttpServletResponse.cs" />
     <Compile Include="javax\servlet\http\HttpServletRequest.cs" />
     <Compile Include="javax\servlet\http\HttpServlet.cs" />
