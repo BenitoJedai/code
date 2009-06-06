@@ -9,6 +9,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 	[Script(Implements = typeof(global::System.Environment))]
 	internal class __Environment
 	{
+		public static string NewLine
+		{
+			get
+			{
+				return "\r\n";
+			}
+		}
+
 		public static string CurrentDirectory
 		{
 			get

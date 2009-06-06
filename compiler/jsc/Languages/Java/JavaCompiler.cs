@@ -541,10 +541,16 @@ namespace jsc.Languages.Java
 					Write("Object ");
 				else
 				{
-					if (za.Implements == null || m.DeclaringType.GUID != p.ParameterType.GUID)
-						WriteVariableType(p.ParameterType, true);
+				
+
+					if (za.Implements != null && m.DeclaringType == p.ParameterType)
+						WriteDecoratedTypeNameOrImplementationTypeName(za.Implements, true, true);
 					else
-						WriteVariableType(za.Implements, true);
+						WriteDecoratedTypeNameOrImplementationTypeName(p.ParameterType, true, true);
+
+
+					WriteSpace();
+
 
 				}
 
@@ -845,7 +851,7 @@ namespace jsc.Languages.Java
 			{
 				a = ScriptAttribute.Of(__impl);
 			}
-		
+
 
 			if (bExternalAllowed && a != null && a.ExternalTarget != null)
 			{
@@ -907,8 +913,8 @@ namespace jsc.Languages.Java
 						else if (type == typeof(double)) return "double";
 						else if (type == typeof(bool)) return "boolean";
 						else if (type == typeof(long)) return "long";
-						
-				
+
+
 
 						else if (type == typeof(char)) return "char";
 						else if (type == typeof(short)) return "short";
