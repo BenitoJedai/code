@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ScriptCoreLib;
-using javax.servlet.http;
-using java.net;
 using java.io;
-
+using java.net;
+using javax.servlet.http;
 using OrcasJavaGoogleApplication.Server.Library;
+using ScriptCoreLib;
+using ScriptCoreLibJava.Extensions;
 
 namespace OrcasJavaGoogleApplication.Server
 {
 	[Script]
+	[ConfigurationProvider.UrlPattern("/OrcasJavaGoogleApplication/*")]
 	public class HelloAppEngineServlet : HttpServlet
 	{
 		protected override void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -19,12 +20,7 @@ namespace OrcasJavaGoogleApplication.Server
 			try
 			{
 				resp.setContentType("text/html");
-
-				var Path = req.getServletPath();
-				var Query = req.getQueryString();
-				var PathAndQuery = Path + "?" + Query;
-
-				resp.getWriter().println(Launch(PathAndQuery));
+				resp.getWriter().println(Launch(req.GetPathAndQuery()));
 			}
 			catch
 			{
@@ -35,6 +31,9 @@ namespace OrcasJavaGoogleApplication.Server
 
 		private static string Launch(string PathAndQuery)
 		{
+			// published at:
+			// http://jsc-project.appspot.com/OrcasJavaGoogleApplication/
+
 			var w = new StringBuilder();
 
 			w.AppendLine("<p>This application was written in C# and was crosscompiled to java by <a href='http://jsc.sf.net'>jsc</a>.</p>");

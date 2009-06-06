@@ -39,10 +39,3 @@ using ScriptCoreLib;
 [assembly: Script(IsCoreLib=true)]
 
 [assembly: InternalsVisibleTo("ScriptCoreLibJava.Threading")]
-//[assembly:
-	// why?
-	//ScriptNamespaceRename(
-	//    NativeNamespaceName = "ScriptCoreLibJava.BCLImplementation",
-	//    VirtualNamespaceName = "javax.common.wrapper.BCLImplementation"
-	//)
-//]

@@ -17,5 +17,6 @@ namespace javax.servlet.http
 		protected virtual void doGet(HttpServletRequest req, HttpServletResponse resp)
 		{
 		}
-	}
+
+}
 }

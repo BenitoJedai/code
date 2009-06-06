@@ -15,7 +15,7 @@
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
   </PropertyGroup>
@@ -54,6 +54,9 @@
       <HintPath>c:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -76,6 +79,7 @@
     <Compile Include="BCLImplementation\System\Text\StringBuilder.cs" />
     <Compile Include="BCLImplementation\System\Threading\Thread.cs" />
     <Compile Include="BCLImplementation\System\Uri.cs" />
+    <Compile Include="Extensions\ConfigurationProvider.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="javax.common\runtime\WrappedBigDecimal.cs" />
     <Compile Include="javax.common\runtime\Helper.cs" />
