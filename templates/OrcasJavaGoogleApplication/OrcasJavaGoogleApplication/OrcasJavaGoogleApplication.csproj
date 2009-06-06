@@ -70,9 +70,6 @@
     <Content Include="web\java\META-INF\jdoconfig.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="web\java\org\example\HelloAppEngineServlet.java">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="web\java\WEB-INF\appengine-web.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

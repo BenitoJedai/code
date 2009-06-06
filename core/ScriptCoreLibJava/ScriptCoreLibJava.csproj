@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{5F295F12-F93F-4347-B417-AA89990652A3}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -80,6 +80,10 @@
     <Compile Include="javax.common\runtime\Expando.cs" />
     <Compile Include="javax.common\runtime\Timer.cs" />
     <Compile Include="javax.common\runtime\VariantValue.cs" />
+    <Compile Include="javax\servlet\http\HttpServletResponse.cs" />
+    <Compile Include="javax\servlet\http\HttpServletRequest.cs" />
+    <Compile Include="javax\servlet\http\HttpServlet.cs" />
+    <Compile Include="javax\servlet\ServletResponse.cs" />
     <Compile Include="javax\xml\parsers\DocumentBuilder.cs" />
     <Compile Include="javax\xml\parsers\DocumentBuilderFactory.cs" />
     <Compile Include="java\applet\Applet.cs" />
