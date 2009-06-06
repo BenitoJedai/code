@@ -20,6 +20,7 @@ namespace OrcasJavaGoogleApplication.Server
 
 				w.Append("<p>This application was written in C# and was crosscompiled to java by <a href='http://jsc.sf.net'>jsc</a>.</p>");
 				w.Append("<p>Visit <a href='http://zproxy.wordpress.com'>author's blog</a>.</p>");
+				w.Append("<p>Look at the <a href='http://jsc.svn.sourceforge.net/viewvc/jsc/templates/OrcasJavaGoogleApplication/OrcasJavaGoogleApplication/'>source code</a>.</p>");
 
 				resp.getWriter().println(w.ToString());
 			}
