@@ -9,6 +9,11 @@ if %ConfigurationName%==Debug goto :eof
 ::@call compile.java
 ::@call create.jar
 
+pushd ..\bin\%ConfigurationName%\web
+set JAVA_HOME=C:\Program Files\Java\jdk1.6.0_14
+call C:\util\apache-ant-1.7.1\bin\ant -f build.xml
+popd
+
 goto :eof
 
 :jsc

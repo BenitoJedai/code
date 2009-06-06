@@ -1,1 +1,1 @@
-﻿OrcasJavaGoogleApplication. Crosscompiled from C# to Java.
+﻿OrcasJavaGoogleApplication. Crosscompiled from C# to Java for Google App Engine.
