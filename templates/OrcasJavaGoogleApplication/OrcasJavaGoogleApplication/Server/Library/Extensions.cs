@@ -39,7 +39,7 @@ namespace OrcasJavaGoogleApplication.Server.Library
 			try
 			{
 				var url = new URL(u.ToString());
-				var i = new InputStreamReader(url.openStream());
+				var i = new InputStreamReader(url.openStream(), "UTF-8");
 				var reader = new BufferedReader(i);
 
 
