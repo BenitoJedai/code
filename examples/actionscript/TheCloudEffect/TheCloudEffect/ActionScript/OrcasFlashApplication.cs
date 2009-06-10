@@ -16,7 +16,7 @@ namespace TheCloudEffect.ActionScript
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
 	/// </summary>
-	[Script, ScriptApplicationEntryPoint]
+	[Script, ScriptApplicationEntryPoint(AlignToCenter = true, Background = true, BackgroundColor = 0, Width = STAGE_W, Height = STAGE_H)]
 	[SWF(width = STAGE_W, height = STAGE_H, backgroundColor = 0)]
 	public class TheCloudEffect : Sprite
 	{
@@ -113,6 +113,12 @@ namespace TheCloudEffect.ActionScript
 
 			// some branding
 			KnownEmbeddedResources.Default[KnownAssets.Path.Assets + "/jsc.png"].ToBitmapAsset().AttachTo(this).MoveTo(STAGE_W - 128, STAGE_H - 128);
+
+			this.stage.click +=
+				delegate
+				{
+					this.stage.SetFullscreen(true);
+				};
 		}
 
 		void TheCloudEffect_enterFrame(ScriptCoreLib.ActionScript.flash.events.Event obj)
