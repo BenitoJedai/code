@@ -45,9 +45,49 @@ namespace ScriptCoreLib.ActionScript.flash.display
         #endregion
 
 
-        public void beginGradientFill(string type, uint[] colors, double[] alphas, int[] ratios)
-        {
-        }
+       
+
+		#region Methods
+		/// <summary>
+		/// Specifies a gradient fill used by subsequent calls to other Graphics methods (such as lineTo() or drawCircle()) for the object.
+		/// </summary>
+		public void beginGradientFill(string type, uint[] colors, double[] alphas, int[] ratios, Matrix matrix, string spreadMethod, string interpolationMethod, double focalPointRatio)
+		{
+		}
+
+		/// <summary>
+		/// Specifies a gradient fill used by subsequent calls to other Graphics methods (such as lineTo() or drawCircle()) for the object.
+		/// </summary>
+		public void beginGradientFill(string type, uint[] colors, double[] alphas, int[] ratios, Matrix matrix, string spreadMethod, string interpolationMethod)
+		{
+		}
+
+		/// <summary>
+		/// Specifies a gradient fill used by subsequent calls to other Graphics methods (such as lineTo() or drawCircle()) for the object.
+		/// </summary>
+		public void beginGradientFill(string type, uint[] colors, double[] alphas, int[] ratios, Matrix matrix, string spreadMethod)
+		{
+		}
+
+		/// <summary>
+		/// Specifies a gradient fill used by subsequent calls to other Graphics methods (such as lineTo() or drawCircle()) for the object.
+		/// </summary>
+		public void beginGradientFill(string type, uint[] colors, double[] alphas, int[] ratios, Matrix matrix)
+		{
+		}
+
+		/// <summary>
+		/// Specifies a gradient fill used by subsequent calls to other Graphics methods (such as lineTo() or drawCircle()) for the object.
+		/// </summary>
+		public void beginGradientFill(string type, uint[] colors, double[] alphas, int[] ratios)
+		{
+		}
+
+		#endregion
+
+		#region Constructors
+		#endregion
+
 
         /// <summary>
         /// Clears the graphics that were drawn to this Graphics object, and resets fill and line style settings.

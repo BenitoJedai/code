@@ -223,8 +223,13 @@
     <Compile Include="ActionScript\Extensions\flash\ui\ContextMenu.cs" />
     <Compile Include="ActionScript\Extensions\flash\ui\ContextMenuItem.cs" />
     <Compile Include="ActionScript\Extensions\flash\util\Timer.cs" />
+    <Compile Include="ActionScript\flash\display\BitmapDataChannel.cs" />
+    <Compile Include="ActionScript\flash\display\BlendMode.cs" />
+    <Compile Include="ActionScript\flash\display\GradientType.cs" />
     <Compile Include="ActionScript\flash\events\DataEvent.cs" />
     <Compile Include="ActionScript\flash\events\SyncEvent.cs" />
+    <Compile Include="ActionScript\flash\filters\DisplacementMapFilter.cs" />
+    <Compile Include="ActionScript\flash\filters\DisplacementMapFilterMode.cs" />
     <Compile Include="ActionScript\flash\geom\Matrix3D.cs" />
     <Compile Include="ActionScript\flash\geom\Vector3D.cs" />
     <Compile Include="ActionScript\flash\net\FileFilter.cs" />

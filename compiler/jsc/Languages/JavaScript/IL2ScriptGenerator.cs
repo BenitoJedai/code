@@ -1214,7 +1214,7 @@ namespace jsc
 							if (j > 0)
 								w.Write(", ");
 
-							w.Write(Values[j].ToString());
+							w.WriteNumeric(Values[j]);
 						}
 						w.Write("]");
 					}
