@@ -599,7 +599,7 @@ namespace jsc.Script.PHP
 									if (i > 0)
 										Write(", ");
 
-									Write(Values[i].ToString());
+									WriteNumeric(Values[i]);
 								}
 								Write(")");
 							}

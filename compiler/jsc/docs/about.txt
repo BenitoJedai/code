@@ -249,3 +249,5 @@ version history:
 	jsc: fixed IsConstructor usage when running on CLR 4	
 06.06.2009
 	java: fixed WriteMethodParameterList parameter BCL type resolving
+10.06.2009
+	jsc: fixed newarr inline double comma issue

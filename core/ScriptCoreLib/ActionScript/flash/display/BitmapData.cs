@@ -288,28 +288,28 @@ namespace ScriptCoreLib.ActionScript.flash.display
         /// <summary>
         /// Remaps the color channel values in an image that has up to four arrays of color palette data, one for each channel.
         /// </summary>
-        public void paletteMap(BitmapData sourceBitmapData, Rectangle sourceRect, Point destPoint, Array redArray, Array greenArray, Array blueArray, Array alphaArray)
+		public void paletteMap(BitmapData sourceBitmapData, Rectangle sourceRect, Point destPoint, uint[] redArray, uint[] greenArray, uint[] blueArray, Array alphaArray)
         {
         }
 
         /// <summary>
         /// Remaps the color channel values in an image that has up to four arrays of color palette data, one for each channel.
         /// </summary>
-        public void paletteMap(BitmapData sourceBitmapData, Rectangle sourceRect, Point destPoint, Array redArray, Array greenArray, Array blueArray)
+		public void paletteMap(BitmapData sourceBitmapData, Rectangle sourceRect, Point destPoint, uint[] redArray, uint[] greenArray, uint[] blueArray)
         {
         }
 
         /// <summary>
         /// Remaps the color channel values in an image that has up to four arrays of color palette data, one for each channel.
         /// </summary>
-        public void paletteMap(BitmapData sourceBitmapData, Rectangle sourceRect, Point destPoint, Array redArray, Array greenArray)
+		public void paletteMap(BitmapData sourceBitmapData, Rectangle sourceRect, Point destPoint, uint[] redArray, uint[] greenArray)
         {
         }
 
         /// <summary>
         /// Remaps the color channel values in an image that has up to four arrays of color palette data, one for each channel.
         /// </summary>
-        public void paletteMap(BitmapData sourceBitmapData, Rectangle sourceRect, Point destPoint, Array redArray)
+		public void paletteMap(BitmapData sourceBitmapData, Rectangle sourceRect, Point destPoint, uint[] redArray)
         {
         }
 
@@ -323,7 +323,7 @@ namespace ScriptCoreLib.ActionScript.flash.display
         /// <summary>
         /// Generates a Perlin noise image.
         /// </summary>
-        public void perlinNoise(double baseX, double baseY, uint numOctaves, int randomSeed, bool stitch, bool fractalNoise, uint channelOptions, bool grayScale, Array offsets)
+        public void perlinNoise(double baseX, double baseY, uint numOctaves, int randomSeed, bool stitch, bool fractalNoise, uint channelOptions, bool grayScale, Point[] offsets)
         {
         }
 
