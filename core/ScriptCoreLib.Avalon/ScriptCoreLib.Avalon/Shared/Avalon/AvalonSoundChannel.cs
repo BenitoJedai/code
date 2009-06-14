@@ -17,6 +17,7 @@ namespace ScriptCoreLib.Shared.Avalon
 		public Action Start;
 		public Action Stop;
 
+
 		public Action<double> SetVolume;
 
 		public AvalonSoundChannel()
@@ -33,5 +34,7 @@ namespace ScriptCoreLib.Shared.Avalon
 			if (PlaybackComplete != null)
 				PlaybackComplete();
 		}
+
+	
 	}
 }
