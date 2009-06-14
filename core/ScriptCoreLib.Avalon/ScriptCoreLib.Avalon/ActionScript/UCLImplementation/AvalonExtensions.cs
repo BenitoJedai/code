@@ -34,7 +34,11 @@ namespace ScriptCoreLib.ActionScript.UCLImplementation
 					v = value;
 
 					if (y != null)
-						y.soundTransform = new SoundTransform(value);
+					{
+						var t = y.soundTransform;
+						t.volume = v;
+						y.soundTransform = t;
+					}
 				};
 
 			c.Start =
@@ -43,7 +47,6 @@ namespace ScriptCoreLib.ActionScript.UCLImplementation
 					if (y != null)
 					{
 						y.stop();
-						y = null;
 					}
 
 					y = x.play(0, 0, new SoundTransform(v));
@@ -53,6 +56,8 @@ namespace ScriptCoreLib.ActionScript.UCLImplementation
 						{
 							c.RaisePlaybackComplete();
 						};
+
+					
 				};
 
 			c.Stop =

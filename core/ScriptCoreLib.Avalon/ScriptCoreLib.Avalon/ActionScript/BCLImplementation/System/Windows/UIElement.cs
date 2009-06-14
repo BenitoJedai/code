@@ -120,6 +120,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 				InternalGetDisplayObject().mouseMove +=
 					e =>
 					{
+						e.updateAfterEvent();
 						value(this, (__MouseEventArgs)e);
 					};
 			}
