@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Reflection;
 using ScriptCoreLib.Library;
+using System.Runtime.InteropServices;
 
 namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 {
@@ -425,16 +426,22 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 			{
 				var P1 = p[1];
 				var P2 = p[2];
+				var P1_HasDefault = (P1.Attributes & ParameterAttributes.HasDefault) == ParameterAttributes.HasDefault;
+				var P2_HasDefault = (P2.Attributes & ParameterAttributes.HasDefault) == ParameterAttributes.HasDefault;
+
 
 				w.Statement("[System.Diagnostics.DebuggerNonUserCode]");
-				w.Block("public byte[] " + ik.Name + "(byte " + P1.Name + ", byte " + P2.Name + ", params byte[] data)",
+				w.Block("public byte[] " + ik.Name + "("
+					+ (P1_HasDefault ? "" : "byte " + P1.Name + ", ")
+					+ (P2_HasDefault ? "" : "byte " + P2.Name + ", ")
+					+ "params byte[] data)",
 					delegate
 					{
 						w.Statement("var c = new System.IO.MemoryStream();");
 						w.Statement("c.WriteByte(" + CLA + ");");
 						w.Statement("c.WriteByte(" + INS + ");");
-						w.Statement("c.WriteByte(" + P1.Name + ");");
-						w.Statement("c.WriteByte(" + P2.Name + ");");
+						w.Statement("c.WriteByte(" + (P1_HasDefault ? P1.DefaultValue : P1.Name) + ");");
+						w.Statement("c.WriteByte(" + (P2_HasDefault ? P2.DefaultValue : P2.Name) + ");");
 						w.Statement("c.WriteByte((byte)data.Length);");
 						w.Statement("c.Write(data, 0, data.Length);");
 
