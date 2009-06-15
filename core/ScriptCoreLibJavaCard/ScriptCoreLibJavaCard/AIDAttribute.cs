@@ -2,17 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace ScriptCoreLibJavaCard
 {
 	public sealed class AIDAttribute : Attribute
 	{
-		public long Value;
+		public byte[] Bytes;
 
-		public AIDAttribute(long Value)
+
+		public AIDAttribute(params byte[] Bytes)
 		{
-			this.Value = Value;
+			this.Bytes = Bytes;
 		}
+
+
 
 		public class Info
 		{
@@ -27,12 +31,12 @@ namespace ScriptCoreLibJavaCard
 				// 0xA0:0xA1:0xA2:0xA3:0xA4:0x00:0x02
 				var PACKAGE_AID = (Target.Assembly.GetCustomAttributes(typeof(AIDAttribute), false) as AIDAttribute[]).FirstOrDefault() ?? new AIDAttribute(0);
 
-				for (int i = 0; i < 7; i++)
+				for (int i = 0; i < PACKAGE_AID.Bytes.Length; i++)
 				{
 					if (i > 0)
 						this.PackageAID += ":";
 
-					var value = (byte)((PACKAGE_AID.Value >> (8 * (6 - i))) & 0xff);
+					var value = PACKAGE_AID.Bytes[i];
 
 					this.PackageAIDBytes.Add(value);
 
@@ -47,12 +51,12 @@ namespace ScriptCoreLibJavaCard
 
 				this.AppletAID = this.PackageAID + ":";
 
-				for (int i = 0; i < 1; i++)
+				for (int i = 0; i < APPLET_AID.Bytes.Length; i++)
 				{
 					if (i > 0)
 						this.AppletAID += ":";
 
-					var value =  (byte)((APPLET_AID.Value >> (8 * (0 - i))) & 0xff);
+					var value = APPLET_AID.Bytes[i];
 
 					this.AppletAIDBytes.Add(value);
 					this.AppletAID += string.Format("0x{0:x2}", value);
