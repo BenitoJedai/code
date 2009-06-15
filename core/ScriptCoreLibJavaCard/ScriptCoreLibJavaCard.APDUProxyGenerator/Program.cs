@@ -116,6 +116,7 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 									#region Tokens
 									foreach (var Token in source.SelectMany(k => k).SelectMany(k => new[] { k.INS.InputParameterType, k.INS.OutputParameterType }).Where(k => k != null).Distinct())
 									{
+										#region GetCleanName
 										Func<MethodInfo, string> GetCleanName =
 											m =>
 											{
@@ -126,6 +127,8 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 
 												return m.Name;
 											};
+										#endregion
+
 										w.Statement("[Script]");
 										w.Block("public partial class " + Token.Name,
 											delegate
@@ -148,7 +151,7 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 															w.Block("public bool MoveNext()",
 																delegate
 																{
-																	w.Statement("this.Current = " + Token.Name + "." + GetCleanName(enumerator.k) + "(this.Host, this.Current);"); 
+																	w.Statement("this.Current = " + Token.Name + "." + GetCleanName(enumerator.k) + "(this.Host, this.Current);");
 																	w.Statement("return Current != null;");
 																}
 															);
@@ -415,6 +418,35 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 
 				return;
 			}
+
+			if (p.Length == 3
+				&& p[1].ParameterType == typeof(byte)
+				&& p[2].ParameterType == typeof(byte))
+			{
+				var P1 = p[1];
+				var P2 = p[2];
+
+				w.Statement("[System.Diagnostics.DebuggerNonUserCode]");
+				w.Block("public byte[] " + ik.Name + "(byte " + P1.Name + ", byte " + P2.Name + ", params byte[] data)",
+					delegate
+					{
+						w.Statement("var c = new System.IO.MemoryStream();");
+						w.Statement("c.WriteByte(" + CLA + ");");
+						w.Statement("c.WriteByte(" + INS + ");");
+						w.Statement("c.WriteByte(" + P1.Name + ");");
+						w.Statement("c.WriteByte(" + P2.Name + ");");
+						w.Statement("c.WriteByte((byte)data.Length);");
+						w.Statement("c.Write(data, 0, data.Length);");
+
+						w.Statement("return this.Transmitter.Transmit(c.ToArray());");
+
+					}
+				);
+
+
+
+				return;
+			}
 		}
 
 		private static void DispatcherInvoke(CodeWriter w, MethodInfo ik)
@@ -433,6 +465,13 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 				return;
 			}
 
+			if (p.Length == 3
+				&& p[1].ParameterType == typeof(byte)
+				&& p[2].ParameterType == typeof(byte))
+			{
+				w.Statement("this." + ik.Name + "(e, (byte)P1, (byte)P2);");
+				return;
+			}
 		}
 	}
 }
