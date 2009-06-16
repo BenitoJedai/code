@@ -1,0 +1,1 @@
+﻿ArrayInitTest. Crosscompiled from C# to Java.
