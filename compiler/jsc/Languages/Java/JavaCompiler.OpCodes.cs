@@ -168,6 +168,11 @@ namespace jsc.Languages.Java
 						{
 							Write("(char)");
 						}
+
+						if (TargetFieldElement == typeof(ushort))
+						{
+							Write("(short)");
+						}
 					}
 
 					Emit(e.p, s[2]);
@@ -430,7 +435,10 @@ namespace jsc.Languages.Java
 						Write("(int)");
 					}
 
-				
+					if (e.i.TargetField.FieldType == typeof(ushort))
+					{
+						Write("(short)");
+					}
 
 					Emit(e.p, s[1]);
 				};
@@ -622,6 +630,8 @@ namespace jsc.Languages.Java
 												Write("0");
 											else if (e.i.TargetType == typeof(byte))
 												Write("0");
+											else if (e.i.TargetType == typeof(ushort))
+												Write("0");
 											else if (e.i.TargetType == typeof(sbyte))
 												Write("0");
 											else
@@ -631,12 +641,30 @@ namespace jsc.Languages.Java
 									else
 									{
 										if (e.i.TargetType == typeof(byte))
+										{
 											Write("(byte)");
+											// bytes should be written in hex
+											if (_stack[si].SingleStackInstruction.TargetInteger != null)
+											{
+												this.Write(
+													string.Format("0x{0:x2}", _stack[si].SingleStackInstruction.TargetInteger)
+												);
+											}
+											else
+											{
+												Emit(e.p, _stack[si]);
+											}
+										}
+										else
+										{
+											if (e.i.TargetType == typeof(uint))
+												Write("(int)");
 
-										if (e.i.TargetType == typeof(uint))
-											Write("(int)");
+											if (e.i.TargetType == typeof(ushort))
+												Write("(short)");
 
-										Emit(e.p, _stack[si]);
+											Emit(e.p, _stack[si]);
+										}
 									}
 
 								}
@@ -1210,6 +1238,12 @@ namespace jsc.Languages.Java
 					{
 						// we will store ubyte as sbyte
 						Write("(int)");
+					}
+
+					if (e.i.TargetVariable.LocalType == typeof(ushort))
+					{
+						// we will store ubyte as sbyte
+						Write("(short)");
 					}
 
 					EmitFirstOnStack(e);

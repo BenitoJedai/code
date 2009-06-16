@@ -17,7 +17,7 @@ namespace jsc
     /// <summary>
     /// denotes to a method, or a methods protected region
     /// </summary>
-    public class ILBlock
+    public partial class ILBlock
     {
         public readonly ILInstruction[] Instructrions;
 
@@ -1005,8 +1005,10 @@ namespace jsc
 
                         // we mus store to this pointer
 
+						// we found an opcode which is not part of
+						// array initialization, so we assume we are done here
                         if (!p.Instruction.IsStoreInstruction)
-                            return null;
+                            return u;
 
                         if (!p.Instruction.StackBeforeStrict[0].SingleStackInstruction.IsEqualStoreLocation(this.Instruction))
                             return null;
@@ -1020,31 +1022,34 @@ namespace jsc
                             return null;
 
                         // the offset must match
+						// 2009.06.16 why?
 
-                        if (_offset == i)
-                            u[i] = p.Instruction.StackBeforeStrict[2];
-                        else
-                        {
-                            if (_offset < xlen && _offset > i)
-                            {
-                                // fill spaces with zeros
+						//if (_offset == i)
 
-                                for (int j = i; j < _offset; j++)
-                                {
-                                    xlen--;
+						u[_offset.Value] = p.Instruction.StackBeforeStrict[2];
 
-                                    u[j] = null;
-                                }
+						//else
+						//{
+							//if (_offset < xlen && _offset > i)
+							//{
+							//    // fill spaces with zeros
 
-                                i = _offset.Value;
+							//    for (int j = i; j < _offset; j++)
+							//    {
+							//        xlen--;
 
-                                u[i] = p.Instruction.StackBeforeStrict[2];
+							//        u[j] = null;
+							//    }
 
-                                continue;
-                            }
-                            else
-                                return null;
-                        }
+							//    i = _offset.Value;
+
+							//    u[i] = p.Instruction.StackBeforeStrict[2];
+
+							//    continue;
+							//}
+							//else
+							//    return null;
+						//}
 
 
                         i++;

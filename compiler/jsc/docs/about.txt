@@ -251,3 +251,7 @@ version history:
 	java: fixed WriteMethodParameterList parameter BCL type resolving
 10.06.2009
 	jsc: fixed newarr inline double comma issue
+16.06.2009
+	java: added ushort to import detection support list
+	java: array init bytes are now shown in hex
+	jsc: fixed new array init element detection
