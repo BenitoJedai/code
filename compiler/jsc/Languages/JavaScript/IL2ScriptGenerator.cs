@@ -1144,10 +1144,12 @@ namespace jsc
 								w.Write("0");
 							else if (i.TargetType == typeof(sbyte))
 								w.Write("0");
+							else if (i.TargetType == typeof(byte))
+								w.Write("0");
 							else if (i.TargetType.IsEnum)
 								w.Write("0");
 							else
-								CompilerBase.BreakToDebugger("default for " + i.TargetType.FullName + " is unknown");
+								CompilerBase.BreakToDebugger("default for " + i.TargetType.FullName + " is unknown at " + i.Location);
 						}
 					}
 					else
