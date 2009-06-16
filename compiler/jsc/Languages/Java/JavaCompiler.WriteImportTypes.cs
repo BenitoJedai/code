@@ -200,7 +200,10 @@ namespace jsc.Languages.Java
 				if (p == typeof(string)) continue;
 				if (p == typeof(int)) continue;
 				if (p == typeof(uint)) continue;
+				
 				if (p == typeof(short)) continue;
+				if (p == typeof(ushort)) continue;
+
 				if (p == typeof(long)) continue;
 				if (p == typeof(float)) continue;
 				if (p == typeof(double)) continue;

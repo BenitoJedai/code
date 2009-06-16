@@ -910,6 +910,10 @@ namespace jsc.Languages.Java
 						else if (type == typeof(byte)) return "byte";
 						else if (type == typeof(sbyte)) return "byte";
 
+						else if (type == typeof(short)) return "short";
+						else if (type == typeof(ushort)) return "short";
+
+
 						else if (type == typeof(double)) return "double";
 						else if (type == typeof(bool)) return "boolean";
 						else if (type == typeof(long)) return "long";
@@ -917,7 +921,6 @@ namespace jsc.Languages.Java
 
 
 						else if (type == typeof(char)) return "char";
-						else if (type == typeof(short)) return "short";
 						else if (type == typeof(float)) return "float";
 						else if (type == typeof(double)) return "double";
 

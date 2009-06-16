@@ -830,11 +830,11 @@ namespace jsc.Script
 
 						ILBlock xb = new ILBlock(m);
 
-						#region scan for inline assigments
+						//#region scan for inline assigments
 
-						ScanInlineAssigments(xb);
+						//ScanInlineAssigments(xb);
 
-						#endregion
+						//#endregion
 
 						// base construcor call must be first...
 
