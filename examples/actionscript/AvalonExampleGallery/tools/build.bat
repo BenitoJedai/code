@@ -21,7 +21,7 @@ pushd ..\bin\%ConfigurationName%
 
 ::call c:\util\jsc\bin\jsc.exe %TargetFileName%  -as -js
 ::call c:\util\jsc\bin\jsc.exe %TargetFileName%  -as -js
-call c:\util\jsc\bin\jsc.exe %TargetFileName%   -js
+call c:\util\jsc\bin\jsc.exe %TargetFileName%  -as -js
 
 
 popd
