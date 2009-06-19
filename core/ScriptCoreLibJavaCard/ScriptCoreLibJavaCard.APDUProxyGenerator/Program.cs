@@ -104,6 +104,7 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 
 					#region proxy for host
 					w.Statement("using ScriptCoreLib;");
+					w.Statement("using System;");
 
 					w.Block("namespace " + TargetType.Namespace,
 						delegate
@@ -114,6 +115,50 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 							w.Block("public partial class " + TargetType.Name + "Proxy",
 								delegate
 								{
+									#region LengthExpected
+									w.Statement("public byte LengthExpected;");
+									w.Statement("public bool IsLengthExpectedSpecified;");
+
+									
+									w.Statement("[Script]");
+									w.Block("class WithLengthExpected_IDisposable : IDisposable",
+										delegate
+										{
+											w.Statement("byte __LengthExpected;");
+											w.Statement("bool __IsLengthExpectedSpecified;");
+											w.Statement(TargetType.Name + "Proxy context;");
+
+											w.Block("public WithLengthExpected_IDisposable(" + TargetType.Name + "Proxy context, byte value)",
+												delegate
+												{
+													w.Statement("__LengthExpected = context.LengthExpected;");
+													w.Statement("__IsLengthExpectedSpecified = context.IsLengthExpectedSpecified;");
+
+ 													w.Statement("context.LengthExpected = value;");
+													w.Statement("context.IsLengthExpectedSpecified = true;");
+													
+													w.Statement("this.context = context;");
+												}
+											);
+
+											w.Block("public void Dispose()",
+												delegate
+												{
+													w.Statement("this.context.LengthExpected = __LengthExpected;");
+													w.Statement("this.context.IsLengthExpectedSpecified = __IsLengthExpectedSpecified;");
+												}
+											);
+										}
+									);
+
+									w.Block("public IDisposable WithLengthExpected(byte value)",
+										delegate
+										{
+											w.Statement("return new WithLengthExpected_IDisposable(this, value);");
+										}
+									);
+									#endregion
+
 									#region Tokens
 									foreach (var Token in source.SelectMany(k => k).SelectMany(k => new[] { k.INS.InputParameterType, k.INS.OutputParameterType }).Where(k => k != null).Distinct())
 									{
@@ -428,8 +473,21 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 						w.Statement("c.WriteByte(" + INS + ");");
 						w.Statement("c.WriteByte(" + "(byte)((" + Pi8.Name + " >> 8) & 0xff)" + ");");
 						w.Statement("c.WriteByte(" + "(byte)(" + Pi8.Name + " & 0xff)" + ");");
-						w.Statement("c.WriteByte((byte)data.Length);");
-						w.Statement("c.Write(data, 0, data.Length);");
+
+						w.Block("if (data.Length > 0)",
+							delegate
+							{
+								w.Statement("c.WriteByte((byte)data.Length);");
+								w.Statement("c.Write(data, 0, data.Length);");
+							}
+						);
+
+						w.Block("if (this.IsLengthExpectedSpecified)",
+							delegate
+							{
+								w.Statement("c.WriteByte(this.LengthExpected);");
+							}
+						);
 
 						w.Statement("return this.Transmitter.Transmit(c.ToArray());");
 
@@ -458,21 +516,21 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 					DataParameters = INS.DataParameters.GetMethod("Invoke").GetParameters();
 				}
 
-				#region Signature
-				var Signature = new StringBuilder();
+				#region ParameterString
+				var ParameterString = new StringBuilder();
 
-				Signature.Append("public byte[] " + ik.Name + "(");
+				ParameterString.Append("public byte[] " + ik.Name + "(");
 
 				if (!P1_HasDefault)
 				{
-					Signature.Append(P1.ParameterType.ToPrimitiveName());
-					Signature.Append(" " + P1.Name + ", ");
+					ParameterString.Append(P1.ParameterType.ToPrimitiveName());
+					ParameterString.Append(" " + P1.Name + ", ");
 				}
 
 				if (!P2_HasDefault)
 				{
-					Signature.Append(P2.ParameterType.ToPrimitiveName());
-					Signature.Append(" " + P2.Name + ", ");
+					ParameterString.Append(P2.ParameterType.ToPrimitiveName());
+					ParameterString.Append(" " + P2.Name + ", ");
 				}
 
 				if (DataParameters.Length > 0)
@@ -480,26 +538,25 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 					for (int i = 0; i < DataParameters.Length; i++)
 					{
 						if (i > 0)
-							Signature.Append(", ");
+							ParameterString.Append(", ");
 
-						Signature.Append(DataParameters[i].ParameterType.ToPrimitiveName());
-						Signature.Append(" ");
-						Signature.Append(DataParameters[i].Name);
+						ParameterString.Append(DataParameters[i].ParameterType.ToPrimitiveName());
+						ParameterString.Append(" ");
+						ParameterString.Append(DataParameters[i].Name);
 					}
 				}
 				else
 				{
-					Signature.Append("params byte[] data");
+					ParameterString.Append("params byte[] data");
 				}
 
-				Signature.Append(")");
-
+				ParameterString.Append(")");
 				#endregion
 
 
 
 				w.Statement("[System.Diagnostics.DebuggerNonUserCode]");
-				w.Block(Signature.ToString(),
+				w.Block(ParameterString.ToString(),
 					delegate
 					{
 						#region datac
@@ -527,8 +584,22 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 						w.Statement("c.WriteByte(" + INS + ");");
 						w.Statement("c.WriteByte((byte)" + (P1_HasDefault ? P1.DefaultValue : P1.Name) + ");");
 						w.Statement("c.WriteByte((byte)" + (P2_HasDefault ? P2.DefaultValue : P2.Name) + ");");
-						w.Statement("c.WriteByte((byte)data.Length);");
-						w.Statement("c.Write(data, 0, data.Length);");
+
+						w.Block("if (data.Length > 0)",
+							delegate
+							{
+								w.Statement("c.WriteByte((byte)data.Length);");
+								w.Statement("c.Write(data, 0, data.Length);");
+							}
+						);
+
+						w.Block("if (this.IsLengthExpectedSpecified)",
+							delegate
+							{
+								w.Statement("c.WriteByte(this.LengthExpected);");
+							}
+						);
+
 
 						w.Statement("return this.Transmitter.Transmit(c.ToArray());");
 
@@ -558,7 +629,7 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 				return;
 			}
 
-		
+
 
 			if (p.Length == 3
 				&& (p[1].ParameterType == typeof(byte) || (p[1].ParameterType.IsEnum && Enum.GetUnderlyingType(p[1].ParameterType) == typeof(byte)))
