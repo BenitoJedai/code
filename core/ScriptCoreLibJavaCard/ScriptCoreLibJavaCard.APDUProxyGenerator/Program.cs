@@ -262,12 +262,33 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 									w.Block("public byte[] SelectApplet()",
 										delegate
 										{
-											var c = new byte[] { 0x00, 0xA4, 0x04, 0x00, 0x08 }
-												.Concat(new AIDAttribute.Info(TargetType).ToArray()).Select(k => (object)k).ToArray();
+											var c = new AIDAttribute.Info(TargetType).ToSelectApplet().Select(k => (object)k).ToArray();
 
 											Transmit(c);
 										}
 									);
+
+									var EnumTypesToDefine = from x in source.SelectMany(k => k)
+															from y in x.k.GetParameters()
+															let yt = y.ParameterType
+															where yt.IsEnum && Enum.GetUnderlyingType(yt) == typeof(byte)
+															select yt;
+
+									foreach (var EnumType in EnumTypesToDefine.Distinct())
+									{
+										w.Block("public enum " + EnumType.Name + " : byte",
+											delegate
+											{
+												var Names = Enum.GetNames(EnumType);
+												var Values = (byte[])Enum.GetValues(EnumType);
+
+												for (int i = 0; i < Names.Length; i++)
+												{
+													w.Statement(Names[i] + " = " + Values[i] + ",");
+												}
+											}
+										);
+									}
 
 									foreach (var i in source.SelectMany(k => k).Select((q, i) => new { q.k, q.CLA, INS = q.CLA.AutoAssignInstructions ? (q.INS.ToINS((byte)i)) : q.INS }))
 									{
@@ -421,27 +442,91 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 			}
 
 			if (p.Length == 3
-				&& p[1].ParameterType == typeof(byte)
-				&& p[2].ParameterType == typeof(byte))
+				&& (p[1].ParameterType == typeof(byte) || (p[1].ParameterType.IsEnum && Enum.GetUnderlyingType(p[1].ParameterType) == typeof(byte)))
+				&& (p[2].ParameterType == typeof(byte) || (p[2].ParameterType.IsEnum && Enum.GetUnderlyingType(p[2].ParameterType) == typeof(byte)))
+				)
 			{
 				var P1 = p[1];
 				var P2 = p[2];
 				var P1_HasDefault = (P1.Attributes & ParameterAttributes.HasDefault) == ParameterAttributes.HasDefault;
 				var P2_HasDefault = (P2.Attributes & ParameterAttributes.HasDefault) == ParameterAttributes.HasDefault;
 
+				var DataParameters = new ParameterInfo[0];
+
+				if (INS.DataParameters != null && INS.DataParameters.BaseType == typeof(MulticastDelegate))
+				{
+					DataParameters = INS.DataParameters.GetMethod("Invoke").GetParameters();
+				}
+
+				#region Signature
+				var Signature = new StringBuilder();
+
+				Signature.Append("public byte[] " + ik.Name + "(");
+
+				if (!P1_HasDefault)
+				{
+					Signature.Append(P1.ParameterType.ToPrimitiveName());
+					Signature.Append(" " + P1.Name + ", ");
+				}
+
+				if (!P2_HasDefault)
+				{
+					Signature.Append(P2.ParameterType.ToPrimitiveName());
+					Signature.Append(" " + P2.Name + ", ");
+				}
+
+				if (DataParameters.Length > 0)
+				{
+					for (int i = 0; i < DataParameters.Length; i++)
+					{
+						if (i > 0)
+							Signature.Append(", ");
+
+						Signature.Append(DataParameters[i].ParameterType.ToPrimitiveName());
+						Signature.Append(" ");
+						Signature.Append(DataParameters[i].Name);
+					}
+				}
+				else
+				{
+					Signature.Append("params byte[] data");
+				}
+
+				Signature.Append(")");
+
+				#endregion
+
+
 
 				w.Statement("[System.Diagnostics.DebuggerNonUserCode]");
-				w.Block("public byte[] " + ik.Name + "("
-					+ (P1_HasDefault ? "" : "byte " + P1.Name + ", ")
-					+ (P2_HasDefault ? "" : "byte " + P2.Name + ", ")
-					+ "params byte[] data)",
+				w.Block(Signature.ToString(),
 					delegate
 					{
+						#region datac
+						if (DataParameters.Length > 0)
+							w.Region("data",
+								delegate
+								{
+									w.Statement("var datac = new System.IO.MemoryStream();");
+
+									foreach (var datap in DataParameters)
+									{
+										if (datap.ParameterType == typeof(string))
+										{
+											w.Statement("foreach (var datap in " + datap.Name + ") datac.WriteByte((byte)datap);");
+										}
+									}
+
+									w.Statement("var data = datac.ToArray();");
+								}
+							);
+						#endregion
+
 						w.Statement("var c = new System.IO.MemoryStream();");
 						w.Statement("c.WriteByte(" + CLA + ");");
 						w.Statement("c.WriteByte(" + INS + ");");
-						w.Statement("c.WriteByte(" + (P1_HasDefault ? P1.DefaultValue : P1.Name) + ");");
-						w.Statement("c.WriteByte(" + (P2_HasDefault ? P2.DefaultValue : P2.Name) + ");");
+						w.Statement("c.WriteByte((byte)" + (P1_HasDefault ? P1.DefaultValue : P1.Name) + ");");
+						w.Statement("c.WriteByte((byte)" + (P2_HasDefault ? P2.DefaultValue : P2.Name) + ");");
 						w.Statement("c.WriteByte((byte)data.Length);");
 						w.Statement("c.Write(data, 0, data.Length);");
 
@@ -449,6 +534,7 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 
 					}
 				);
+
 
 
 
@@ -472,11 +558,13 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 				return;
 			}
 
+		
+
 			if (p.Length == 3
-				&& p[1].ParameterType == typeof(byte)
-				&& p[2].ParameterType == typeof(byte))
+				&& (p[1].ParameterType == typeof(byte) || (p[1].ParameterType.IsEnum && Enum.GetUnderlyingType(p[1].ParameterType) == typeof(byte)))
+				&& (p[2].ParameterType == typeof(byte) || (p[2].ParameterType.IsEnum && Enum.GetUnderlyingType(p[2].ParameterType) == typeof(byte))))
 			{
-				w.Statement("this." + ik.Name + "(e, (byte)P1, (byte)P2);");
+				w.Statement("this." + ik.Name + "(e, (" + p[1].ParameterType.ToPrimitiveName() + ")P1, (" + p[2].ParameterType.ToPrimitiveName() + ")P2);");
 				return;
 			}
 		}

@@ -16,7 +16,13 @@ namespace ScriptCoreLibJavaCard.javacard.framework
 		{
 		}
 
+		/// <summary>
+		/// This member does not exist in javacard API but helps to emulate selectingApplet behavior
+		/// </summary>
+		public APDU apdu;
+
 		public abstract void process(APDU apdu);
+
 
 		/// <summary>
 		/// This method is used by the applet process() method to distinguish the SELECT APDU command which selected this applet, from all other other SELECT APDU commands which may relate to file or internal applet state selection.
@@ -24,10 +30,23 @@ namespace ScriptCoreLibJavaCard.javacard.framework
 		/// <returns></returns>
 		protected bool selectingApplet()
 		{
-			return default(bool);
+			var a = new AIDAttribute.Info(this.GetType()).ToSelectApplet();
+			var x = true;
+			var y = this.apdu.getBuffer();
+
+			for (int i = 0; i < a.Length; i++)
+			{
+				if (y[i] != (sbyte)a[i])
+				{
+					x = false;
+					break;
+				}
+			}
+
+			return x;
 		}
 
-
+		
 
 	}
 }
