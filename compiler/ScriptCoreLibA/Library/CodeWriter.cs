@@ -13,6 +13,7 @@ namespace ScriptCoreLib.Library
 		public readonly Action<Type, Action, Action> PartialTypeBlock;
 		public readonly Action<string, Action> Block;
 		public readonly Action<string> Statement;
+		public readonly Action<string, Action> Region;
 
 		public CodeWriter(StreamWriter s)
 		{
@@ -36,6 +37,15 @@ namespace ScriptCoreLib.Library
 					Statement("}");
 				};
 			#endregion
+
+			this.Region =
+				(header,body) =>
+				{
+					Statement("#region " + header);
+					body();
+					Statement("#endregion");
+				};
+
 
 			#region PartialTypeBlock
 			this.PartialTypeBlock =

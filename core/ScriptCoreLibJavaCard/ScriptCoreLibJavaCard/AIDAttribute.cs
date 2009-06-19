@@ -68,6 +68,17 @@ namespace ScriptCoreLibJavaCard
 			{
 				return this.PackageAIDBytes.Concat(this.AppletAIDBytes).ToArray();
 			}
+
+			public byte[] ToSelectApplet()
+			{
+				var a = this.ToArray();
+
+				var c = new byte[] { 0x00, 0xA4, 0x04, 0x00, (byte)a.Length }
+					.Concat(a).ToArray();
+
+
+				return c;
+			}
 		}
 	}
 }

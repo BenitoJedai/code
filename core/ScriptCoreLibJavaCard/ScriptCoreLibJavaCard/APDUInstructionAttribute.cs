@@ -9,6 +9,8 @@ namespace ScriptCoreLibJavaCard
 	{
 		public byte INS;
 
+		public Type DataParameters;
+
 		public APDUInstructionAttribute()
 		{
 			INS = 0;
