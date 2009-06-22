@@ -13,8 +13,6 @@ namespace DemoApplet.Java
     {
         public override void init()
         {
-            var x = new System.Exception("hello world");
-
             this.InitializeComponents();
 
             base.resize(Settings.DefaultWidth, Settings.DefaultHeight);
@@ -60,10 +58,54 @@ namespace DemoApplet.Java
 
         public void Button1_Clicked()
         {
+			this.Button1.setLabel("Click!");
+
 			EvaluateJavaScript(this, "document.title = 'powered by jsc';");
 
 			EvaluateJavaScript(this, "alert('script was evaluated!');");
 
         }
+
+		#region [this.Button1_MouseEnter]
+		[Script]
+		class Button1_MouseEnter_Handler : MouseListener_MouseEnter
+		{
+			public DemoApplet Target;
+
+			protected override void Invoke()
+			{
+				Target.Button1_MouseEnter();
+			}
+		}
+		#endregion
+
+		public void Button1_MouseEnter()
+		{
+			this.Button1.setLabel("MouseEnter!");
+
+
+		}
+
+
+		
+		#region [this.Button1_MouseExit]
+		[Script]
+		class Button1_MouseExit_Handler : MouseListener_MouseExit
+		{
+			public DemoApplet Target;
+
+			protected override void Invoke()
+			{
+				Target.Button1_MouseExit();
+			}
+		}
+		#endregion
+
+		public void Button1_MouseExit()
+		{
+			this.Button1.setLabel("MouseExit!");
+
+
+		}
     }
 }

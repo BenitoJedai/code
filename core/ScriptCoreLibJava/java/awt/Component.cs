@@ -1,5 +1,6 @@
 using ScriptCoreLib;
 using java.awt.image;
+using java.awt.@event;
 
 namespace java.awt
 {
@@ -7,6 +8,15 @@ namespace java.awt
     [Script(IsNative = true)]
     public class Component : ImageObserver
     {
+		/// <summary>
+		/// Adds the specified mouse listener to receive mouse events from this component.
+		/// </summary>
+		/// <param name="l"></param>
+		public void addMouseListener(MouseListener l)
+		{
+		}
+          
+
         public bool Enabled
         {
             [Script(ExternalTarget = "is*")]

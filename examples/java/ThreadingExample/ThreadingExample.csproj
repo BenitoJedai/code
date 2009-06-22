@@ -1,0 +1,90 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D98210B1-0305-4CC0-8C6C-E4E9374F4A1D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ThreadingExample</RootNamespace>
+    <AssemblyName>ThreadingExample</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibJava, Version=1.2006.222.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibJava.Threading, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibJava.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Java\Businesslayer\LongComputation.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Setup.cs" />
+    <Compile Include="Java\DemoApplet.Script.cs" />
+    <Compile Include="Java\DemoApplet.Designer.cs" />
+    <Compile Include="Java\DemoApplet.Program.cs" />
+    <Compile Include="Java\DemoApplet.Settings.cs" />
+    <Compile Include="Java\DemoApplet.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="docs\about.txt" />
+    <Content Include="docs\description.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tools\build.bat" />
+    <None Include="tools\compile.java.bat" />
+    <None Include="tools\find.java.bat" />
+    <None Include="tools\create.jar.bat" />
+    <None Include="tools\run.jar.bat" />
+    <None Include="tools\test.applet.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="web\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>pushd ..\..\tools\
+call build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
+popd</PostBuildEvent>
+  </PropertyGroup>
+</Project>
