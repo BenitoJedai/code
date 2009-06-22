@@ -26,8 +26,9 @@ namespace jsc.Languages.Java
             if (IsNativeType(z))
                 return false;
 
-            if (IsEmptyImplementationType(z))
-                return false;
+			// why would we do that?
+			//if (IsEmptyImplementationType(z))
+			//    return false;
 
             if (ScriptAttribute.IsAnonymousType(z))
                 return false;

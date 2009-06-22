@@ -29,10 +29,11 @@ namespace jsc.Languages.Java
 			List<Type> t = GetImportTypes(z, true);
 			List<string> imports = new List<string>();
 
-			t.RemoveAll(delegate(Type x)
-			{
-				return IsEmptyImplementationType(x);
-			});
+			// why would we do that?
+			//t.RemoveAll(delegate(Type x)
+			//{
+			//    return IsEmptyImplementationType(x);
+			//});
 
 			while (t.Count > 0)
 			{

@@ -75,6 +75,11 @@
     <Compile Include="BCLImplementation\System\IDisposable.cs" />
     <Compile Include="BCLImplementation\System\Math.cs" />
     <Compile Include="BCLImplementation\System\Random.cs" />
+    <Compile Include="BCLImplementation\System\Security\Cryptography\SHA1CryptoServiceProvider.cs" />
+    <Compile Include="BCLImplementation\System\Security\Cryptography\SHA1.cs" />
+    <Compile Include="BCLImplementation\System\Security\Cryptography\HashAlgorithm.cs" />
+    <Compile Include="BCLImplementation\System\Security\Cryptography\MD5.cs" />
+    <Compile Include="BCLImplementation\System\Security\Cryptography\MD5CryptoServiceProvider.cs" />
     <Compile Include="BCLImplementation\System\String.cs" />
     <Compile Include="BCLImplementation\System\Text\StringBuilder.cs" />
     <Compile Include="BCLImplementation\System\Threading\Thread.cs" />
@@ -209,6 +214,8 @@
     <Compile Include="java\nio\FloatBuffer.cs" />
     <Compile Include="java\nio\DoubleBuffer.cs" />
     <Compile Include="java\security\CodeSource.cs" />
+    <Compile Include="java\security\MessageDigestSpi.cs" />
+    <Compile Include="java\security\MessageDigest.cs" />
     <Compile Include="java\security\PermissionCollection.cs" />
     <Compile Include="java\security\SecureClassLoader.cs" />
     <Compile Include="java\security\ProtectionDomain.cs" />
