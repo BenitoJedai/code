@@ -19,13 +19,29 @@ namespace ThreadingExample.Java.Businesslayer
 			
 			public override void Invoke()
 			{
-				while (true)
+				try
 				{
-					Value++;
+					while (true)
+					{
+						Value++;
 
-					// we should be running on our own thread
-					// which enables us to loop forever and sleep when tired :)
-					Thread.Sleep(100);
+						// we should be running on our own thread
+						// which enables us to loop forever and sleep when tired :)
+						Thread.Sleep(100);
+					}
+				}
+				catch
+				{
+					// there is nothing we should do in case our operation is aborted
+					// catching this exception in java keeps console clean 
+
+					// also note for .net:
+					// 1.
+					// ThreadAbortException is a special exception that can be caught, but 
+					// it will automatically be raised again at the end of the catch block
+					// 2.
+					// you cannot use ThreadAbortException to detect when background threads 
+					// are being terminated by the CLR. 
 				}
 			}
 		}
