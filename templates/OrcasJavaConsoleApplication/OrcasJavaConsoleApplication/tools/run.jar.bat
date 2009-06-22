@@ -23,7 +23,7 @@ echo + run [%ProjectName%]
 
 pushd bin
 
-%TargetPath% -cp "%PATH%;%PackageName%" %CompilandFullName% %*
+start %TargetPath% -cp "%PATH%;%PackageName%" %CompilandFullName% %*
 
 popd
 popd

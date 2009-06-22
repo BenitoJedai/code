@@ -255,3 +255,5 @@ version history:
 	java: added ushort to import detection support list
 	java: array init bytes are now shown in hex
 	jsc: fixed new array init element detection
+22.06.2009
+	java: disabled empty BCL type removal

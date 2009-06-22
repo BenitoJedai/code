@@ -34,13 +34,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 		}
 
 		[Script(OptimizedCode = @"return e;")]
-		internal static byte[] InternalSByteArrayToByteArray(sbyte[] e)
+		public static byte[] InternalSByteArrayToByteArray(sbyte[] e)
 		{
 			return default(byte[]);
 		}
 
 		[Script(OptimizedCode = @"return e;")]
-		internal static sbyte[] InternalByteArrayToSByteArray(byte[] e)
+		public static sbyte[] InternalByteArrayToSByteArray(byte[] e)
 		{
 			return default(sbyte[]);
 		}
