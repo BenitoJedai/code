@@ -1101,9 +1101,11 @@ namespace jsc.Script
 					}
 					else
 					{
-						throw new NotSupportedException("implementation not found for type import : " +
+						throw new NotSupportedException("Implementation not found for type import : " +
 							(method.DeclaringType.FullName
-							?? method.DeclaringType.Name) + " :: " + method);
+							?? method.DeclaringType.Name) + " :: " + method
+							+ "; Did you forget to add the [Script] attribute?");
+
 
 					}
 				}
