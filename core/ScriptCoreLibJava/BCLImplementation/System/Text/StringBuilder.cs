@@ -30,6 +30,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Text
 			return this;
 		}
 
+		public __StringBuilder Append(char e)
+		{
+			var x = new string(new [] {e});
+
+
+			return this.Append(x);
+		}
+
 		public override string ToString()
 		{
 			return InternalBuffer.ToString();
