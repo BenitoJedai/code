@@ -239,10 +239,12 @@ namespace jsc.Languages.Java
 
 		protected override bool IsTypeCastRequired(Type e, ILFlow.StackItem s)
 		{
-			if (e == typeof(byte))
+			// next stop - MethodCallParameterTypeCast
+
+			if (e == typeof(byte) || (e.IsEnum && Enum.GetUnderlyingType(e) == typeof(byte)))
 				return true;
 
-			if (e == typeof(uint))
+			if (e == typeof(uint) || (e.IsEnum && Enum.GetUnderlyingType(e) == typeof(uint)))
 				return true;
 
 			return false;
@@ -250,13 +252,13 @@ namespace jsc.Languages.Java
 
 		public override void MethodCallParameterTypeCast(Type context, Type p)
 		{
-			if (p == typeof(uint))
+			if (p == typeof(uint) || (p.IsEnum && Enum.GetUnderlyingType(p) == typeof(uint)))
 			{
 				Write("(int)");
 				return;
 			}
 
-			if (p == typeof(byte))
+			if (p == typeof(byte) || (p.IsEnum && Enum.GetUnderlyingType(p) == typeof(byte)))
 			{
 				Write("(byte)");
 				return;
@@ -541,7 +543,7 @@ namespace jsc.Languages.Java
 					Write("Object ");
 				else
 				{
-				
+
 
 					if (za.Implements != null && m.DeclaringType == p.ParameterType)
 						WriteDecoratedTypeNameOrImplementationTypeName(za.Implements, true, true);
