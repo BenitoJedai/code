@@ -19,11 +19,10 @@ pushd ..\bin\Release\web
 call setup.settings.cmd
 
 
-echo + run [%ProjectName%]
+echo + run [%ProjectName% @ %TargetPath%]
 
 pushd bin
-
-start %TargetPath% -cp "%PATH%;%PackageName%" %CompilandFullName% %*
+%TargetPath% -cp "%PATH%;%PackageName%" %CompilandFullName% %*
 
 popd
 popd

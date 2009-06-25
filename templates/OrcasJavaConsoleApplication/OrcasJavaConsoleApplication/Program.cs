@@ -6,6 +6,12 @@ using ScriptCoreLib;
 
 namespace OrcasJavaConsoleApplication
 {
+	[Script]
+	public class G<T>
+	{
+		public T FieldT;
+	}
+
     [Script]
     public class Program
     {
@@ -18,7 +24,9 @@ namespace OrcasJavaConsoleApplication
 			// Use Debug Build to develop on .net
 
             // doubleclicking on the jar will not show the console
-			
+
+			var x = new G<string> { FieldT = "zx" };
+
             Text = "Hello World";
 
             var dot = "..";

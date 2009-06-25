@@ -16,8 +16,27 @@ namespace UnsignedByteSupport
 		// http://www.gencoreoperative.co.uk/java-unsigned-bytes.html
 		// http://mindprod.com/jgloss/unsigned.html
 
+		public enum MyEnum : byte
+		{
+			A, B, C
+		}
+
+		public static void UseEnum(MyEnum x)
+		{
+		}
+
+		private static void UseEnumTest()
+		{
+			byte q = 1;
+
+			UseEnum((MyEnum)q);
+		}
+
+
 		public static void Main(string[] args)
 		{
+			UseEnumTest();
+
 			uint x = uint.MaxValue;
 
 
@@ -56,6 +75,7 @@ namespace UnsignedByteSupport
 			Console.WriteLine(bytes.ToHexString());
 		}
 
+	
 		private static void SignedByte()
 		{
 			sbyte sbyte_MinValue = sbyte.MinValue;
