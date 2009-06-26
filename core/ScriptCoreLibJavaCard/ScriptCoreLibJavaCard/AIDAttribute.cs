@@ -74,7 +74,9 @@ namespace ScriptCoreLibJavaCard
 				var a = this.ToArray();
 
 				var c = new byte[] { 0x00, 0xA4, 0x04, 0x00, (byte)a.Length }
-					.Concat(a).ToArray();
+					.Concat(a).Concat(new byte [] { 
+						/* some cards are more forgiving than others
+						 * Le for T=1 */ 0 }).ToArray();
 
 
 				return c;

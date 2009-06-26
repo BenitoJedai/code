@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Reflection.Emit;
 using ScriptCoreLib.CSharp.Extensions;
+using ScriptCoreLib.ActionScript;
 
 namespace jsc.Languages.ActionScript
 {
@@ -126,6 +127,9 @@ namespace jsc.Languages.ActionScript
 
 			if (z.IsSealed)
 				Write("final ");
+
+			if (z.GetCustomAttributes<DynamicTypeAttribute>(true).Any())
+				Write("dynamic ");
 
 			if (z.IsInterface)
 				Write("interface ");

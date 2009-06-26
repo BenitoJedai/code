@@ -8,7 +8,7 @@ using ScriptCoreLib.ActionScript.MochiLibrary.Ad;
 
 namespace ScriptCoreLib.ActionScript.MochiLibrary
 {
-	[Script]
+	[Script, DynamicType]
 	public abstract class MochiAdPreloader : MochiAdPreloaderBase
 	{
 
@@ -51,7 +51,7 @@ namespace ScriptCoreLib.ActionScript.MochiLibrary
 						// nothing
 					};
 
-					CreateInstance().AttachTo(this);
+					MochiAdPreloaderInitialize(Key);
 				};
 			};
 
@@ -70,13 +70,13 @@ namespace ScriptCoreLib.ActionScript.MochiLibrary
 						this.LoadingComplete +=
 							delegate
 							{
-								CreateInstance().AttachTo(this);
+								MochiAdPreloaderInitialize(Key);
+
 							};
 
 						return;
 					}
 
-					MochiServices.connect(Key, stage);
 
 					showPreGameAd(
 						() => Ready()
@@ -86,6 +86,12 @@ namespace ScriptCoreLib.ActionScript.MochiLibrary
 			);
 
 			this.LoadingComplete += () => Ready();
+		}
+
+		private void MochiAdPreloaderInitialize(string Key)
+		{
+			MochiServices.connect(Key, this);
+			CreateInstance().AttachTo(this);
 		}
 	}
 }
