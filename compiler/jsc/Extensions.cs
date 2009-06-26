@@ -297,6 +297,12 @@ namespace jsc //.Extensions
 			return (T[])Attribute.GetCustomAttributes(e, typeof(T), false);
 		}
 
+		public static T[] GetCustomAttributes<T>(this MemberInfo e, bool inherit)
+			where T : System.Attribute
+		{
+			return (T[])Attribute.GetCustomAttributes(e, typeof(T), inherit);
+		}
+
 		public static T[] GetCustomAttributes<T>(this Assembly e)
 			where T : System.Attribute
 		{

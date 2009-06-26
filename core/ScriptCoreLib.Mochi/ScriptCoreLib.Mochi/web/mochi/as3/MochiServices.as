@@ -136,8 +136,9 @@ package mochi.as3 {
                     _connecting = true;
                     init(id, clip);
                 }
+                else throw new Error("Error, 1.");
             } else {
-                trace("Error, MochiServices requires a Sprite, Movieclip or instance of the stage.");
+                throw new Error("Error, MochiServices requires a Sprite, Movieclip or instance of the stage.");
             }
             if (onError != null) {
                 MochiServices.onError = onError;

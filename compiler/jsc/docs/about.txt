@@ -259,3 +259,5 @@ version history:
 	java: disabled empty BCL type removal
 25.06.2009
 	java: fixed uint and byte enum cast problems
+26.06.2009
+	as: added DynamicTypeAttribute
