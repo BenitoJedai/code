@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.ActionScript.MochiLibrary.Ad;
 
 namespace ScriptCoreLib.ActionScript.MochiLibrary
 {
@@ -74,6 +75,8 @@ namespace ScriptCoreLib.ActionScript.MochiLibrary
 
 						return;
 					}
+
+					MochiServices.connect(Key, stage);
 
 					showPreGameAd(
 						() => Ready()

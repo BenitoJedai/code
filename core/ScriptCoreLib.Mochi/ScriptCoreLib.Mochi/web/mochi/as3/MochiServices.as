@@ -2,7 +2,7 @@
 * MochiServices
 * Connection class for all MochiAds Remote Services
 * @author Mochi Media
-* @version 3.0
+* @version 3.0.1
 */
 
 package mochi.as3 {
@@ -29,7 +29,7 @@ package mochi.as3 {
     import flash.utils.ByteArray;
     import flash.utils.Endian;
     import flash.utils.setTimeout;
-    
+
     public class MochiServices {
 
         private static var _id:String;
@@ -37,7 +37,7 @@ package mochi.as3 {
         private static var _clip:MovieClip;
         private static var _loader:Loader;
         private static var _timer:Timer;
-        
+
         private static var _servicesURL:String = "http://www.mochiads.com/static/lib/services/services.swf"
 
         private static var _swfVersion:String;
@@ -46,27 +46,27 @@ package mochi.as3 {
         private static var _listenChannelName:String = "__ms_";
         private static var _sendChannel:LocalConnection;
         private static var _sendChannelName:String;
-        
+
         private static var _connecting:Boolean = false;
         private static var _connected:Boolean = false;
-        
+
         public static var netup:Boolean = true;
         public static var netupAttempted:Boolean = false;
-        
+
         public static var onError:Object;
-        
+
         public static var widget:Boolean = false;
-        
+
         //
         public static function get id ():String {
             return _id;
         }
-        
+
         //
         public static function get clip ():Object {
             return _container;
         }
-        
+
         //
         public static function get childClip ():Object {
             return _clip;
@@ -75,9 +75,9 @@ package mochi.as3 {
         //
         //
         public static function getVersion():String {
-            return "3.0";
+            return "3.02 as3";
         }
-        
+
         //
         //
         public static function allowDomains(server:String):String {
@@ -86,26 +86,26 @@ package mochi.as3 {
                 flash.system.Security.allowDomain("*");
                 flash.system.Security.allowInsecureDomain("*");
             }
-            
+
             if (server.indexOf("http://") != -1) {
                 var hostname:String = server.split("/")[2].split(":")[0];
-    
+
                 if( flash.system.Security.sandboxType != "application" )
                 {
                     flash.system.Security.allowDomain(hostname);
                     flash.system.Security.allowInsecureDomain(hostname);
                 }
             }
-            
+
             return hostname;
         }
-        
+
         //
         //
         public static function isNetworkAvailable():Boolean {
             return Security.sandboxType != "localWithFile";
         }
-        
+
         //
         public static function set comChannelName(val:String):void {
             if (val != null) {
@@ -115,12 +115,12 @@ package mochi.as3 {
                 }
             }
         }
-        
+
         //
         public static function get connected ():Boolean {
             return _connected;
         }
-        
+
         /**
          * Method: connect
          * Connects your game to the MochiServices API
@@ -129,11 +129,12 @@ package mochi.as3 {
          * @param    onError a function to call upon connection or IO error
          */
         public static function connect (id:String, clip:Object, onError:Object = null):void {
+            warnID( id, false );
             if (clip is DisplayObject) {
                 if (!_connected && _clip == null) {
                     trace("MochiServices Connecting...");
                     _connecting = true;
-                    init(id, clip);    
+                    init(id, clip);
                 }
             } else {
                 trace("Error, MochiServices requires a Sprite, Movieclip or instance of the stage.");
@@ -144,7 +145,7 @@ package mochi.as3 {
                 MochiServices.onError = function (errorCode:String):void { trace(errorCode); }
             }
         }
-    
+
         public static function disconnect ():void {
             if (_connected || _connecting) {
                 if (_clip != null) {
@@ -167,7 +168,7 @@ package mochi.as3 {
                 } catch (error:Error) { }
             }
         }
-        
+
         public static function createEmptyMovieClip(parent:Object, name:String, depth:Number, doAdd:Boolean = true):MovieClip {
             var mc:MovieClip = new MovieClip();
             if (doAdd) {
@@ -185,21 +186,21 @@ package mochi.as3 {
             mc["_name"] = name;
             return mc;
         }
-        
+
         public static function stayOnTop ():void {
             _container.addEventListener(Event.ENTER_FRAME, MochiServices.bringToTop, false, 0, true);
             if (_clip != null) { _clip.visible = true; }
         }
-        
-        
+
+
         public static function doClose ():void {
             _container.removeEventListener(Event.ENTER_FRAME, MochiServices.bringToTop);
             if (_clip.parent != null) {
                 Sprite(_clip.parent).removeChild(_clip);
             }
         }
-        
-        
+
+
         public static function bringToTop (e:Event):void {
             if (MochiServices.clip != null) {
                 if (MochiServices.childClip != null) {
@@ -214,7 +215,7 @@ package mochi.as3 {
                 }
             }
         }
-        
+
         //
         //
         private static function init (id:String, clip:Object):void {
@@ -223,57 +224,57 @@ package mochi.as3 {
                 _container = clip;
                 loadCommunicator(id, _container);
             }
-            
+
         }
-        
+
         //
         //
         public static function setContainer (container:Object = null, doAdd:Boolean = true):void {
-            
+
             if (container != null) {
                 if (container is Sprite) _container = container;
             }
-            
+
             if (doAdd) {
                 if (_container is Sprite) {
                     Sprite(_container).addChild(_clip);
                 }
             }
-            
+
         }
-        
-        
+
+
         //
         //
         private static function loadCommunicator (id:String, clip:Object):MovieClip {
             var clipname:String = '_mochiservices_com_' + id;
-            
+
             if (_clip != null) {
                 return _clip;
             }
-            
+
             if (!MochiServices.isNetworkAvailable()) {
                 return null;
             }
-            
+
             if (urlOptions(clip).servicesURL != undefined) {
                 _servicesURL = urlOptions(clip).servicesURL;
             }
-                        
+
             MochiServices.allowDomains(_servicesURL);
-            
+
             _clip = createEmptyMovieClip(clip, clipname, 10336, false);
-             
+
             // load com swf into container
             _loader = new Loader();
 
-            var f:Function = function (ev:Object):void { 
+            var f:Function = function (ev:Object):void {
                 _clip._mochiad_ctr_failed = true;
                 trace("MochiServices could not load.");
                 MochiServices.disconnect();
                 MochiServices.onError("IOError");
             }
-            
+
             _listenChannelName += Math.floor((new Date()).getTime()) + "_" + Math.floor(Math.random() * 99999);
             _loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, f);
 
@@ -290,7 +291,7 @@ package mochi.as3 {
             // Listen before we load (race condition check)
             listen();
             _loader.load(req);
-            
+
             _clip.addChild(_loader);
             _clip._mochiservices_com = _loader;
 
@@ -300,17 +301,17 @@ package mochi.as3 {
             _clip._queue = [];
             _clip._nextcallbackID = 0;
             _clip._callbacks = {};
-            
+
             _timer = new Timer(10000, 1);
             _timer.addEventListener(TimerEvent.TIMER, connectWait);
             _timer.start();
-                
+
             return _clip;
         }
-        
+
         //
         //
-        public static function connectWait (e:TimerEvent):void { 
+        public static function connectWait (e:TimerEvent):void {
             if (!_connected) {
                 _clip._mochiad_ctr_failed = true;
                 trace("MochiServices could not load. (timeout)");
@@ -322,14 +323,14 @@ package mochi.as3 {
         //
         //
         private static function onStatus (event:StatusEvent):void {
-            switch (event.level) {    
+            switch (event.level) {
                 case 'error' :
                     _connected = false;
                     _listenChannel.connect(_listenChannelName);
-                    break;    
+                    break;
             }
         }
-        
+
         //
         //
         private static function listen ():void {
@@ -341,11 +342,11 @@ package mochi.as3 {
             _listenChannel.connect(_listenChannelName);
             trace("Waiting for MochiAds services to connect...");
         }
-        
+
         //
         //
-        private static function initComChannels ():void {    
-            if (!_connected) {    
+        private static function initComChannels ():void {
+            if (!_connected) {
                 _sendChannel.addEventListener(StatusEvent.STATUS, MochiServices.onStatus);
                 _sendChannel.send(_sendChannelName, "onReceive", {methodName: "handshakeDone"});
                 _sendChannel.send(_sendChannelName, "onReceive", { methodName: "registerGame", id: _id, clip: _container, version: getVersion(), parentURL: _container.loaderInfo.loaderURL } );
@@ -366,13 +367,13 @@ package mochi.as3 {
                         }
                     }
                     if (method != undefined) {
-                        try { 
-                            method.apply(obj, pkg.args); 
+                        try {
+                            method.apply(obj, pkg.args);
                         } catch (error:Error) {
                             trace("Error invoking callback method '" + methodName + "': " + error.toString());
                         }
                     } else if (obj != null) {
-                        try { 
+                        try {
                             obj(pkg.args);
                         } catch (error:Error) {
                             trace("Error invoking method on object: " + error.toString());
@@ -387,60 +388,60 @@ package mochi.as3 {
                 while(_clip._queue.length > 0) {
                     _sendChannel.send(_sendChannelName, "onReceive", _clip._queue.shift());
                 }
-            }    
+            }
         }
-        
-            
+
+
         //
         //
         private static function flush (error:Boolean):void {
-            
+
             var request:Object;
             var callback:Object;
-        
+
             if (_clip != null) {
                 if (_clip._queue != null) {
                     while (_clip._queue.length > 0) {
-                        
+
                         request = _clip._queue.shift();
                         callback = null;
-                        
+
                         if (request != null) {
-                            
+
                             if (request.callbackID != null) callback = _clip._callbacks[request.callbackID];
                             delete _clip._callbacks[request.callbackID];
-                            
+
                             if (error && callback != null) {
                                 handleError(request.args, callback.callbackObject, callback.callbackMethod);
                             }
-                        
+
                         }
-                        
-                    }    
+
+                    }
                 }
             }
-            
+
         }
-        
+
         //
         //
         private static function handleError (args:Object, callbackObject:Object, callbackMethod:Object):void {
-            
+
             if (args != null) {
                 if (args.onError != null) {
                     args.onError.apply(null, ["NotConnected"]);
-                } 
+                }
                 if (args.options != null && args.options.onError != null) {
                     args.options.onError.apply(null, ["NotConnected"]);
                 }
             }
-            
+
             if (callbackMethod != null) {
-                
+
                 args = { };
                 args.error = true;
                 args.errorCode = "NotConnected";
-            
+
                 if (callbackObject != null && callbackMethod is String) {
                     try {
                         callbackObject[callbackMethod](args);
@@ -449,12 +450,12 @@ package mochi.as3 {
                     try {
                         callbackMethod.apply(args);
                     } catch (error:Error) { }
-                }    
-                
+                }
+
             }
-            
+
         }
-        
+
         //
         //
         public static function send (methodName:String, args:Object = null, callbackObject:Object = null, callbackMethod:Object = null):void {
@@ -475,7 +476,48 @@ package mochi.as3 {
                 }
             }
         }
-        
+
+        public static function warnID(bid:String, leaderboard:Boolean):void {
+            bid = bid.toLowerCase();
+
+            if( bid.length != 16 )
+            {
+                trace( "WARNING: " + (leaderboard?"board":"game") + " ID is not the appropriate length" );
+                return ;
+            }
+            else if( bid == "1e113c7239048b3f" )
+            {
+                if( leaderboard )
+                    trace( "WARNING: Using testing board ID");
+                else
+                    trace( "WARNING: Using testing board ID as game ID");
+                return ;
+            }
+            else if( bid == "84993a1de4031cd8" )
+            {
+                if( leaderboard )
+                    trace( "WARNING: Using testing game ID as board ID");
+                else
+                    trace( "WARNING: Using testing game ID");
+                return ;
+            }
+
+            for( var i:Number = 0; i < bid.length; i++ )
+            {
+                switch( bid.charAt(i) )
+                {
+                    case "0": case "1": case "2": case "3":
+                    case "4": case "5": case "6": case "7":
+                    case "8": case "9": case "a": case "b":
+                    case "c": case "d": case "e": case "f":
+                        continue ;
+                    default:
+                        trace( "WARNING: Board ID contains illegal characters: " + bid );
+                        return ;
+                }
+            }
+        }
+
         private static function urlOptions(clip:Object):Object {
             var opts:Object = {};
             var options:String = clip.loaderInfo.parameters.mochiad_options;
@@ -488,12 +530,12 @@ package mochi.as3 {
             }
 
             return opts;
-        }        
+        }
 
         public static function addLinkEvent(url:String, burl:String, btn:DisplayObjectContainer, onClick:Function = null):void {
             var vars:Object = new Object();
             var avm1Click:DisplayObject;
-        
+
             vars["mav"] = getVersion();
             vars["swfv"] = "9";
             vars["swfurl"] = btn.loaderInfo.loaderURL;
@@ -501,7 +543,7 @@ package mochi.as3 {
             vars["os"] = Capabilities.os;
             vars["lang"] = Capabilities.language;
             vars["scres"] = (Capabilities.screenResolutionX + "x" + Capabilities.screenResolutionY);
-            
+
             var s:String = "?";
             var i:Number = 0;
             for (var x:String in vars) {
@@ -509,15 +551,15 @@ package mochi.as3 {
                 i++;
                 s = s + x + "=" + escape(vars[x]);
             }
-            
+
             var req:URLRequest = new URLRequest("http://x.mochiads.com/linkping.swf");
             var loader:Loader = new Loader();
-            
-            var setURL:Function = function(url:String):void {                
+
+            var setURL:Function = function(url:String):void {
                 if (avm1Click) {
                     btn.removeChild(avm1Click);
                 }
-                
+
                 avm1Click = clickMovie(url, onClick );
                 var rect:Rectangle = btn.getBounds(btn);
                 btn.addChild(avm1Click);
@@ -526,7 +568,7 @@ package mochi.as3 {
                 avm1Click.scaleX = 0.01 * rect.width;
                 avm1Click.scaleY = 0.01 * rect.height;
             }
-            
+
             var err:Function = function (ev:Object):void {
                 netup = false;
                 ev.target.removeEventListener(ev.type, arguments.callee);
@@ -535,23 +577,23 @@ package mochi.as3 {
             var complete:Function = function(ev:Object):void {
                 ev.target.removeEventListener(ev.type, arguments.callee);
             }
-            
+
             if (netup) {
                 setURL(url + s);
             } else {
                 setURL(burl);
             }
-            
+
             if (! ( netupAttempted || _connected )) {
                 netupAttempted = true;
 
                 loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, err);
                 loader.contentLoaderInfo.addEventListener(Event.COMPLETE, complete);
                 loader.load(req);
-            } 
+            }
         }
-        
-        
+
+
         private static function clickMovie(url:String, cb:Function):MovieClip {
             var avm1_bytecode:Array = [150, 21, 0, 7, 1, 0, 0, 0, 0, 98, 116, 110, 0, 7, 2, 0, 0, 0, 0, 116, 104, 105, 115, 0, 28, 150, 22, 0, 0, 99, 114, 101, 97, 116, 101, 69, 109, 112, 116, 121, 77, 111, 118, 105, 101, 67, 108, 105, 112, 0, 82, 135, 1, 0, 0, 23, 150, 13, 0, 4, 0, 0, 111, 110, 82, 101, 108, 101, 97, 115, 101, 0, 142, 8, 0, 0, 0, 0, 2, 42, 0, 114, 0, 150, 17, 0, 0, 32, 0, 7, 1, 0, 0, 0, 8, 0, 0, 115, 112, 108, 105, 116, 0, 82, 135, 1, 0, 1, 23, 150, 7, 0, 4, 1, 7, 0, 0, 0, 0, 78, 150, 8, 0, 0, 95, 98, 108, 97, 110, 107, 0, 154, 1, 0, 0, 150, 7, 0, 0, 99, 108, 105, 99, 107, 0, 150, 7, 0, 4, 1, 7, 1, 0, 0, 0, 78, 150, 27, 0, 7, 2, 0, 0, 0, 7, 0, 0, 0, 0, 0, 76, 111, 99, 97, 108, 67, 111, 110, 110, 101, 99, 116, 105, 111, 110, 0, 64, 150, 6, 0, 0, 115, 101, 110, 100, 0, 82, 79, 150, 15, 0, 4, 0, 0, 95, 97, 108, 112, 104, 97, 0, 7, 0, 0, 0, 0, 79, 150, 23, 0, 7, 255, 0, 255, 0, 7, 1, 0, 0, 0, 4, 0, 0, 98, 101, 103, 105, 110, 70, 105, 108, 108, 0, 82, 23, 150, 25, 0, 7, 0, 0, 0, 0, 7, 0, 0, 0, 0, 7, 2, 0, 0, 0, 4, 0, 0, 109, 111, 118, 101, 84, 111, 0, 82, 23, 150, 25, 0, 7, 100, 0, 0, 0, 7, 0, 0, 0, 0, 7, 2, 0, 0, 0, 4, 0, 0, 108, 105, 110, 101, 84, 111, 0, 82, 23, 150, 25, 0, 7, 100, 0, 0, 0, 7, 100, 0, 0, 0, 7, 2, 0, 0, 0, 4, 0, 0, 108, 105, 110, 101, 84, 111, 0, 82, 23, 150, 25, 0, 7, 0, 0, 0, 0, 7, 100, 0, 0, 0, 7, 2, 0, 0, 0, 4, 0, 0, 108, 105, 110, 101, 84, 111, 0, 82, 23, 150, 25, 0, 7, 0, 0, 0, 0, 7, 0, 0, 0, 0, 7, 2, 0, 0, 0, 4, 0, 0, 108, 105, 110, 101, 84, 111, 0, 82, 23, 150, 16, 0, 7, 0, 0, 0, 0, 4, 0, 0, 101, 110, 100, 70, 105, 108, 108, 0, 82, 23];
             var b:int;

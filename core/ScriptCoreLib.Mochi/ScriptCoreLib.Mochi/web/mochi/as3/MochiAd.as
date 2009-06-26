@@ -1,5 +1,5 @@
 ﻿/*
-    MochiAds.com ActionScript 3 code, version 3.0
+    MochiAds.com ActionScript 3 code, version 3.0.1
 
     Flash movies should be published for Flash 9 or later.
 
@@ -20,11 +20,11 @@ package mochi.as3 {
     import flash.net.LocalConnection;
     import flash.utils.getTimer;
     import flash.utils.setTimeout;
-    
+
     public class MochiAd {
 
         public static function getVersion():String {
-            return "3.0 as3";
+            return "3.02 as3";
         }
 
         public static function doOnEnterFrame(mc:MovieClip):void {
@@ -34,11 +34,11 @@ package mochi.as3 {
                 } else {
                     ev.target.removeEventListener(ev.type, arguments.callee);
                 }
-                
+
             }
             mc.addEventListener(Event.ENTER_FRAME, f);
         }
-                
+
         public static function createEmptyMovieClip(parent:Object, name:String, depth:Number):MovieClip {
             var mc:MovieClip = new MovieClip();
             if (false && depth) {
@@ -50,7 +50,7 @@ package mochi.as3 {
             mc["_name"] = name;
             return mc;
         }
-        
+
         public static function showPreGameAd(options:Object):void {
             /*
                 This function will stop the clip, load the MochiAd in a
@@ -77,7 +77,7 @@ package mochi.as3 {
 
                     outline is the outline color of the preloader
                     bar as a number (default: 0xD58B3C)
-                    
+
                     no_progress_bar disables the ad's preload/progress bar when set to true
                     (default: false)
 
@@ -95,7 +95,7 @@ package mochi.as3 {
                     ad_failed is called if an ad can not be displayed,
                     this is usually due to the user having ad blocking
                     software installed or issues with retrieving the ad
-                    over the network. If it is called, then it is called 
+                    over the network. If it is called, then it is called
                     before ad_finished.
                     (default: function ():void { }).
 
@@ -103,17 +103,17 @@ package mochi.as3 {
                     with the width and height of the ad. If it is called,
                     it is called after ad_started.
                     (default: function(width:Number, height:Number):void { }).
-                    
-                    ad_skipped is called if the ad was skipped, this is 
+
+                    ad_skipped is called if the ad was skipped, this is
                     usually due to frequency capping, or developer initiated
-                    domain filtering.  If it is called, then it is called 
+                    domain filtering.  If it is called, then it is called
                     before ad_finished.
                     (default: function():void { }).
-                    
+
                     ad_progress is called with the progress of the ad.  The
-                    progress is the percent (represented from 0 to 100) of the 
+                    progress is the percent (represented from 0 to 100) of the
                     ad show time or loading time for the host swf, whichever is more.
-                    (default: function(percent:Number):void { }).                   
+                    (default: function(percent:Number):void { }).
             */
             var DEFAULTS:Object = {
                 ad_timeout: 3000,
@@ -131,12 +131,12 @@ package mochi.as3 {
                         throw new Error("MochiAd.showPreGameAd requires a clip that is a MovieClip or is an instance of a class that extends MovieClip.  If your clip is a Sprite, then you must provide custom ad_started and ad_finished handlers.");
                     }
                 },
-                ad_finished: function ():void { 
+                ad_finished: function ():void {
                     if (this.clip is MovieClip) {
                         this.clip.play();
                     } else {
                         throw new Error("MochiAd.showPreGameAd requires a clip that is a MovieClip or is an instance of a class that extends MovieClip.  If your clip is a Sprite, then you must provide custom ad_started and ad_finished handlers.");
-                    }                    
+                    }
                 },
                 ad_loaded: function (width:Number, height:Number):void { },
                 ad_failed: function ():void { trace("[MochiAd] Couldn't load an ad, make sure your game's local security sandbox is configured for Access Network Only and that you are not using ad blocking software"); },
@@ -145,7 +145,7 @@ package mochi.as3 {
             };
 
             options = MochiAd._parseOptions(options, DEFAULTS);
-            
+
             if ("c862232051e0a94e1c3609b3916ddb17".substr(0) == "dfeada81ac97cde83665f81c12da7def") {
                 options.ad_started();
                 var fn:Function = function ():void {
@@ -161,8 +161,8 @@ package mochi.as3 {
             delete options.ad_timeout;
             var fadeout_time:Number = options.fadeout_time;
             delete options.fadeout_time;
-            
-      
+
+
             /* Load targeting under clip._mochiad */
             if (!MochiAd.load(options)) {
                 options.ad_failed();
@@ -171,7 +171,7 @@ package mochi.as3 {
             }
 
             options.ad_started();
-            
+
             var mc:MovieClip = clip._mochiad;
             mc["onUnload"] = function ():void {
                 MochiAd._cleanup(mc);
@@ -183,12 +183,12 @@ package mochi.as3 {
 
             /* Center the clip */
             var wh:Array = MochiAd._getRes(options, clip);
-            
+
             var w:Number = wh[0];
             var h:Number = wh[1];
             mc.x = w * 0.5;
             mc.y = h * 0.5;
-        
+
             var chk:MovieClip = createEmptyMovieClip(mc, "_mochiad_wait", 3);
             chk.x = w * -0.5;
             chk.y = h * -0.5;
@@ -248,9 +248,9 @@ package mochi.as3 {
             chk.fadeout_time = fadeout_time;
 
             chk.fadeFunction = function ():void {
-                var p:Number = 100 * (1 - 
+                var p:Number = 100 * (1 -
                     ((getTimer() - this.fadeout_start) / this.fadeout_time));
-                
+
                 if (p > 0) {
                     this.parent.alpha = p * 0.01;
                 } else {
@@ -261,21 +261,31 @@ package mochi.as3 {
 
             var complete:Boolean = false;
             var unloaded:Boolean = false;
-            
+
             var f:Function = function(ev:Event):void {
                 ev.target.removeEventListener(ev.type, arguments.callee);
                 complete = true;
-                
+
                 if (unloaded) {
                     MochiAd.unload(clip);
                 }
             };
-            clip.loaderInfo.addEventListener(Event.COMPLETE, f);
-
-            if (clip.root is MovieClip) {
+            
+            if (clip.loaderInfo.bytesLoaded == clip.loaderInfo.bytesTotal)
+            {
+                complete = true;
+            }
+            else if (clip.root is MovieClip) {
                 var r:MovieClip = clip.root as MovieClip;
+                                
                 if (r.framesLoaded >= r.totalFrames)
                     complete = true;
+                else
+                    clip.loaderInfo.addEventListener(Event.COMPLETE, f);
+            }
+            else
+            {
+                clip.loaderInfo.addEventListener(Event.COMPLETE, f);
             }
 
             mc.unloadAd = function ():void {
@@ -302,7 +312,7 @@ package mochi.as3 {
                 trace('[MOCHIAD rpcTestFn] ' + s);
                 return s;
             };
-            
+
             /* Container will call so we know Container LC */
             mc.regContLC = function (lc_name:String):void {
                 mc._containerLCName = lc_name;
@@ -313,7 +323,7 @@ package mochi.as3 {
             mc.sendHostLoadProgress = function (lc_name:String):void {
                 sendHostProgress = true;
             };
-                        
+
             chk["onEnterFrame"] = function ():void {
                 if (!this.parent || !this.parent.parent) {
                     delete this["onEnterFrame"];
@@ -336,18 +346,18 @@ package mochi.as3 {
                 pcnt = Math.max(this.last_pcnt, pcnt);
                 this.last_pcnt = pcnt;
                 _inside.scaleX = pcnt * 0.01;
-                
+
                 options.ad_progress(pcnt);
-                
-                /* Send to our targetting SWF percent of host loaded.  
+
+                /* Send to our targetting SWF percent of host loaded.
                    This is so we can notify the AD SWF when we're loaded.
-                */ 
+                */
                 if (sendHostProgress) {
                     clip._mochiad.lc.send(clip._mochiad._containerLCName, 'notify', {id: 'hostLoadPcnt', pcnt: clip_pcnt});
-                    if (clip_pcnt == 100) 
+                    if (clip_pcnt == 100)
                         sendHostProgress = false;
                 }
-                     
+
                 if (!chk.showing) {
                     var total:Number = this.parent._mochiad_ctr.contentLoaderInfo.bytesTotal;
                     if (total > 0) {
@@ -365,7 +375,7 @@ package mochi.as3 {
                 if (elapsed > chk.ad_msec) {
                     finished = true;
                 }
-                
+
                 if (complete && finished) {
                     if (this.server_control) {
                         delete this.onEnterFrame;
@@ -377,8 +387,8 @@ package mochi.as3 {
             };
             doOnEnterFrame(chk);
         }
-        
-        
+
+
         public static function showClickAwayAd(options:Object):void {
             /*
                 This function will load a MochiAd in the upper left position on the clip.
@@ -402,7 +412,7 @@ package mochi.as3 {
                     ad_failed is called if an ad can not be displayed,
                     this is usually due to the user having ad blocking
                     software installed or issues with retrieving the ad
-                    over the network. If it is called, then it is called 
+                    over the network. If it is called, then it is called
                     before ad_finished.
                     (default: function ():void { }).
 
@@ -410,10 +420,10 @@ package mochi.as3 {
                     with the width and height of the ad. If it is called,
                     it is called after ad_started.
                     (default: function(width:Number, height:Number):void { }).
-                    
-                    ad_skipped is called if the ad was skipped, this is 
+
+                    ad_skipped is called if the ad was skipped, this is
                     usually due to frequency capping, or developer initiated
-                    domain filtering.  If it is called, then it is called 
+                    domain filtering.  If it is called, then it is called
                     before ad_finished.
                     (default: function():void { })
             */
@@ -444,7 +454,7 @@ package mochi.as3 {
             }
 
             options.ad_started();
-        
+
             var mc:MovieClip = clip._mochiad;
             mc["onUnload"] = function ():void {
                 MochiAd._cleanup(mc);
@@ -453,27 +463,27 @@ package mochi.as3 {
 
             /* Peg the 300x250 ad to the upper left of the MC */
             var wh:Array = MochiAd._getRes(options, clip);
-            
+
             var w:Number = wh[0];
             var h:Number = wh[1];
             mc.x = w * 0.5;
             mc.y = h * 0.5;
-        
+
             var chk:MovieClip = createEmptyMovieClip(mc, "_mochiad_wait", 3);
             chk.ad_timeout = ad_timeout;
             chk.started = getTimer();
             chk.showing = false;
-            
+
             mc.unloadAd = function ():void {
                 MochiAd.unload(clip);
             }
-            
+
             mc.adLoaded = options.ad_loaded;
             mc.adSkipped = options.ad_skipped;
             mc.rpc = function (callbackID:Number, arg:Object):void {
                 MochiAd.rpc(clip, callbackID, arg);
             };
-            
+
             /* Container will call so we register LC name */
             var sendHostProgress:Boolean = false;
             mc.regContLC = function (lc_name:String):void {
@@ -515,8 +525,8 @@ package mochi.as3 {
             };
             doOnEnterFrame(chk);
         }
-        
-    
+
+
         public static function showInterLevelAd(options:Object):void {
             /*
                 This function will stop the clip, load the MochiAd in a
@@ -544,7 +554,7 @@ package mochi.as3 {
                     ad_failed is called if an ad can not be displayed,
                     this is usually due to the user having ad blocking
                     software installed or issues with retrieving the ad
-                    over the network. If it is called, then it is called 
+                    over the network. If it is called, then it is called
                     before ad_finished.
                     (default: function ():void { }).
 
@@ -552,10 +562,10 @@ package mochi.as3 {
                     with the width and height of the ad. If it is called,
                     it is called after ad_started.
                     (default: function(width:Number, height:Number):void { }).
-                    
-                    ad_skipped is called if the ad was skipped, this is 
+
+                    ad_skipped is called if the ad was skipped, this is
                     usually due to frequency capping, or developer initiated
-                    domain filtering.  If it is called, then it is called 
+                    domain filtering.  If it is called, then it is called
                     before ad_finished.
                     (default: function():void { })
             */
@@ -571,12 +581,12 @@ package mochi.as3 {
                         throw new Error("MochiAd.showInterLevelAd requires a clip that is a MovieClip or is an instance of a class that extends MovieClip.  If your clip is a Sprite, then you must provide custom ad_started and ad_finished handlers.");
                     }
                 },
-                ad_finished: function ():void { 
+                ad_finished: function ():void {
                     if (this.clip is MovieClip) {
                         this.clip.play();
                     } else {
                         throw new Error("MochiAd.showInterLevelAd requires a clip that is a MovieClip or is an instance of a class that extends MovieClip.  If your clip is a Sprite, then you must provide custom ad_started and ad_finished handlers.");
-                    }                    
+                    }
                 },
                 ad_loaded: function (width:Number, height:Number):void {
                 },
@@ -604,7 +614,7 @@ package mochi.as3 {
             }
 
             options.ad_started();
-        
+
             var mc:MovieClip = clip._mochiad;
             mc["onUnload"] = function ():void {
                 MochiAd._cleanup(mc);
@@ -618,7 +628,7 @@ package mochi.as3 {
             var h:Number = wh[1];
             mc.x = w * 0.5;
             mc.y = h * 0.5;
-        
+
             var chk:MovieClip = createEmptyMovieClip(mc, "_mochiad_wait", 3);
             chk.ad_msec = ad_msec;
             chk.ad_timeout = ad_timeout;
@@ -631,7 +641,7 @@ package mochi.as3 {
                     delete this.fadeFunction;
                     return;
                 }
-                var p:Number = 100 * (1 - 
+                var p:Number = 100 * (1 -
                     ((getTimer() - this.fadeout_start) / this.fadeout_time));
                 if (p > 0) {
                     this.parent.alpha = p * 0.01;
@@ -644,7 +654,7 @@ package mochi.as3 {
             mc.unloadAd = function ():void {
                 MochiAd.unload(clip);
             }
-            
+
             mc.adLoaded = options.ad_loaded;
             mc.adSkipped = options.ad_skipped;
             mc.adjustProgress = function (msec:Number):void {
@@ -725,7 +735,7 @@ package mochi.as3 {
         public static function load(options:Object):MovieClip {
             /*
                 Load a MochiAd into the given MovieClip
-            
+
                 options:
                     An object with keys and values to pass to the server.
 
@@ -755,7 +765,7 @@ package mochi.as3 {
             if (!MochiAd._isNetworkAvailable()) {
                 return null;
             }
-        
+
             try {
                 if (clip._mochiad_loaded) {
                     return null;
@@ -767,7 +777,7 @@ package mochi.as3 {
             var depth:Number = options.depth;
             delete options.depth;
             var mc:MovieClip = createEmptyMovieClip(clip, "_mochiad", depth);
-        
+
             var wh:Array = MochiAd._getRes(options, clip);
             options.res = wh[0] + "x" + wh[1];
 
@@ -808,7 +818,7 @@ package mochi.as3 {
             mc.lcName = name;
             /* register our LocalConnection name with targetting swf */
             lv.lc = name;
-            
+
             lv.st = getTimer();
             var loader:Loader = new Loader();
 
@@ -827,32 +837,32 @@ package mochi.as3 {
             mc.addChild(loader);
             /* load targetting swf */
             mc._mochiad_ctr = loader;
-                        
+
             return mc;
         }
 
         public static function unload(clip:Object):Boolean {
             /*
                 Unload a MochiAd from the given MovieClip
-            
+
                     clip:
                         a MovieClip reference (e.g. this.stage)
-            */            
+            */
             if (clip.clip && clip.clip._mochiad) {
                 clip = clip.clip;
             }
-            
+
             if (clip.origFrameRate != undefined) {
                 clip.stage.frameRate = clip.origFrameRate;
             }
-            
+
             if (!clip._mochiad) {
                 return false;
-            }  
+            }
             if (clip._mochiad._containerLCName != undefined) {
                     clip._mochiad.lc.send( clip._mochiad._containerLCName, 'notify', {id: 'unload'} );
             }
-            
+
             if (clip._mochiad.onUnload) {
                 clip._mochiad.onUnload();
             }
@@ -886,7 +896,7 @@ package mochi.as3 {
         public static function _isNetworkAvailable():Boolean {
             return Security.sandboxType != "localWithFile";
         }
-    
+
         public static function _getRes(options:Object, clip:Object):Array {
             var b:Object = clip.getBounds(clip.root);
             var w:Number = 0;
@@ -935,7 +945,7 @@ package mochi.as3 {
             }
             return optcopy;
         }
-        
+
         public static function rpc(clip:Object, callbackID:Number, arg:Object):void {
             switch (arg.id) {
                 case 'setValue':
@@ -953,10 +963,10 @@ package mochi.as3 {
                     trace('[mochiads rpc] unknown rpc id: ' + arg.id);
             }
         }
-        
+
         public static function setValue(base:Object, objectName:String, value:Object):void {
             var nameArray:Array = objectName.split(".");
-            
+
             // drill down through the base object until we get the parent class of object to modify
             for (var i:Number = 0; i < nameArray.length - 1; i++) {
                 if (base[nameArray[i]] == undefined || base[nameArray[i]] == null) {
@@ -964,13 +974,13 @@ package mochi.as3 {
                 }
                 base = base[nameArray[i]];
             }
-            
+
             base[nameArray[i]] = value;
         }
-        
+
         public static function getValue(base:Object, objectName:String):Object {
             var nameArray:Array = objectName.split(".");
-                        
+
             // drill down through the base object until we get the parent class of object to modify
             for (var i:Number = 0; i < nameArray.length - 1; i++) {
                 if (base[nameArray[i]] == undefined || base[nameArray[i]] == null) {
@@ -978,14 +988,14 @@ package mochi.as3 {
                 }
                 base = base[nameArray[i]];
             }
-            
+
             // return the object requested
             return base[nameArray[i]];
         }
-        
+
         public static function runMethod(base:Object, methodName:String, argsArray:Array):Object {
             var nameArray:Array = methodName.split(".");
-                        
+
             // drill down through the base object until we get the parent class of method to run
             for (var i:Number = 0; i < nameArray.length - 1; i++) {
                 if (base[nameArray[i]] == undefined || base[nameArray[i]] == null) {
@@ -1001,7 +1011,7 @@ package mochi.as3 {
                 return undefined;
             }
         }
-        
+
         public static function adShowing(mc:Object):void {
             // set stage framerate to 30fps for the ad undo this later in the unload
             mc.origFrameRate = mc.stage.frameRate;
