@@ -72,6 +72,9 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetFileName)  -js</PostBuildEvent>
+    <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetFileName)  -js
+echo copying javascript to web application...
+copy $(TargetDir)\web\*.js $(SolutionDir)\WebApplication1\
+</PostBuildEvent>
   </PropertyGroup>
 </Project>
