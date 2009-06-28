@@ -18,6 +18,13 @@ namespace ExposedFunctions.js
 	{
 		public string text;
 		public int index;
+
+
+		public IFunction onclick;
+		public IFunction onmouseover;
+		public IFunction onmouseout;
+
+		public IFunction GetString;
 	}
 
 	[Script, ScriptApplicationEntryPoint]
@@ -25,6 +32,7 @@ namespace ExposedFunctions.js
 	{
 		public const string ExposedFunctions_AddData1_Example1 = "javascript:ExposedFunctions_AddData1({text: 'hello world', index: 100});";
 		public const string ExposedFunctions_AddData1_Example2 = "javascript:ExposedFunctions_AddData1({text: 'the text', index: 42});";
+		public const string ExposedFunctions_AddData1_Example3 = "javascript:ExposedFunctions_AddData1(null);";
 
 		// using NoDecoration will enable us javascript:ExposedFunctions_AddData1({})
 		// this will also work for php code
@@ -35,13 +43,53 @@ namespace ExposedFunctions.js
 			if (e == null)
 			{
 				new IHTMLDiv { innerText = "yay, no data..." }.AttachTo(instructions);
+				return;
 			}
 
-			new IHTMLDiv
+			Func<string> GetString = () => new { e.text, e.index }.ToString();
+
+			// this function can now be used by external API
+			e.GetString = IFunction.OfDelegate(GetString);
+
+			var div = new IHTMLDiv
 			{
 				// using a real anonymous type, we get a nice key value string for display
-				innerText = new { e.text, e.index }.ToString()
-			}.AttachTo(instructions);
+				innerText = GetString()
+			};
+
+			#region attach events
+			if (e.onclick != null)
+			{
+				div.style.cursor = IStyle.CursorEnum.pointer;
+				div.onclick +=
+					delegate
+					{
+						e.onclick.apply(e, div);
+					};
+			}
+
+			if (e.onmouseover != null)
+			{
+				div.style.cursor = IStyle.CursorEnum.pointer;
+				div.onmouseover +=
+					delegate
+					{
+						e.onmouseover.apply(e, div);
+					};
+			}
+
+			if (e.onmouseout != null)
+			{
+				div.style.cursor = IStyle.CursorEnum.pointer;
+				div.onmouseout +=
+					delegate
+					{
+						e.onmouseout.apply(e, div);
+					};
+			}
+			#endregion
+
+			div.AttachTo(instructions);
 		}
 
 		static IHTMLDiv instructions;
@@ -65,16 +113,17 @@ namespace ExposedFunctions.js
 				// as it contains a javascript href
 				+ "<li>" + ExposedFunctions_AddData1_Example1.ToLink() + "</li>"
 				+ "<li>" + ExposedFunctions_AddData1_Example2.ToLink() + "</li>"
+				+ "<li>" + ExposedFunctions_AddData1_Example3.ToLink() + "</li>"
 			+ @"
 </ul>
 			"
 			);
-			
+
 
 			instructions.style.padding = "2em";
 
 
-		
+
 			// previously we defined a static method to be exposed
 			// lets define one dynamically
 

@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>ExposedFunctions</title>
+    <script src="ScriptCoreLib.dll.js" ></script>
+    <script src="ScriptCoreLib.Query.dll.js" ></script>
+    <script src="ExposedFunctions.dll.js"></script>
+</head>
+<body>
+
+    
+    <script type='text/xml' class='ExposedFunctions'></script>
+    <script>
+        function Example1() {
+            var u = {
+                text: 'hey! ',
+                index: 42,
+                onclick: function(container) {
+                    container.style.color = 'blue';
+                    alert(this.text);
+                }
+            };
+
+            u.text += " whatup";
+            u.index += 3;
+            
+            ExposedFunctions_AddData1(u);
+        }
+    </script>
+    <button onclick="Example1()">Example1</button>
+    
+    
+     <script>
+            function Example2() {
+                var u = {
+                    text: 'I know mouse over and out! ',
+                    index: 42,
+                    onclick: function(container) {
+                        container.style.color = 'blue';
+                        alert(this.GetString());
+                    },
+                    onmouseover: function(container) {
+                        container.style.color = 'red';
+                    },
+                    onmouseout: function(container) {
+                        container.style.color = '';
+                    }
+                };
+
+                u.text += " do you?";
+                u.index += 3;
+
+                ExposedFunctions_AddData1(u);
+            }
+    </script>
+    <button onclick="Example2()">Example2</button>
+</body>
+</html>
