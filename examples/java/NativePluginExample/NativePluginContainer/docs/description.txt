@@ -1,0 +1,1 @@
+﻿NativePluginContainer. Crosscompiled from C# to Java.

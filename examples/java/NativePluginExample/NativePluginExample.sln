@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NativePluginExample", "NativePluginExample\NativePluginExample.csproj", "{9E6FFEEC-5B34-48C7-A709-F4AB533F3917}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NativePluginContainer", "NativePluginContainer\NativePluginContainer.csproj", "{D9D7EFFF-393F-4591-B3C2-53A3785B1CFF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E6FFEEC-5B34-48C7-A709-F4AB533F3917}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E6FFEEC-5B34-48C7-A709-F4AB533F3917}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E6FFEEC-5B34-48C7-A709-F4AB533F3917}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E6FFEEC-5B34-48C7-A709-F4AB533F3917}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9D7EFFF-393F-4591-B3C2-53A3785B1CFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9D7EFFF-393F-4591-B3C2-53A3785B1CFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9D7EFFF-393F-4591-B3C2-53A3785B1CFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9D7EFFF-393F-4591-B3C2-53A3785B1CFF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
