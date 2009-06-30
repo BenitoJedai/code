@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnsignedByteSupport", "UnsignedByteSupport\UnsignedByteSupport.csproj", "{F47611A2-5668-4DEC-9DB2-FB420A8538ED}"
 EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = ResponseGenerator2.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
