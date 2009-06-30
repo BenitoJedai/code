@@ -71,8 +71,8 @@ namespace UnsignedByteSupport
 				Console.WriteLine("byte: " + k);
 			}
 
-
 			Console.WriteLine(bytes.ToHexString());
+			Console.WriteLine(Encoding.ASCII.GetString(bytes));
 		}
 
 	
