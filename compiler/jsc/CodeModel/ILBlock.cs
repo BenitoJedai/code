@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Linq;
 
 using ScriptCoreLib;
 
@@ -956,6 +957,9 @@ namespace jsc
 
                     if (InlineArrayInitElements == null)
                         return false;
+
+					if (InlineArrayInitElements.All(k => k == null))
+						return false;
 
                     return true;
                 }

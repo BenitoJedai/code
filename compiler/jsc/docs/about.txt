@@ -261,3 +261,5 @@ version history:
 	java: fixed uint and byte enum cast problems
 26.06.2009
 	as: added DynamicTypeAttribute
+01.07.2009
+	java: fixed inline array detection when no actual load instructions were found
