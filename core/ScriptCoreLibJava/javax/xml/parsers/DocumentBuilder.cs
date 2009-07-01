@@ -4,6 +4,7 @@ using System.Text;
 using ScriptCoreLib;
 using org.w3c.dom;
 using java.io;
+using org.xml.sax;
 
 namespace javax.xml.parsers
 {
@@ -20,7 +21,15 @@ namespace javax.xml.parsers
 		{
 			return default(Document);
 		}
-          
 
+
+		/// <summary>
+		/// Parse the content of the given input source as an XML document
+		/// and return a new DOM <A HREF="../../../org/w3c/dom/Document.html" title="interface in org.w3c.dom"><CODE>Document</CODE></A> object.
+		/// </summary>
+		public Document parse(InputSource @is)
+		{
+			return default(Document);
+		}
 	}
 }

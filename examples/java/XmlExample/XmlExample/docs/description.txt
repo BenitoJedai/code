@@ -1,0 +1,1 @@
+﻿XmlExample. Crosscompiled from C# to Java.
