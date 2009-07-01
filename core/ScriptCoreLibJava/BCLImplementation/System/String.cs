@@ -14,6 +14,17 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		)]
 	internal class __String
 	{
+		public static bool IsNullOrEmpty(string e)
+		{
+			if (e == null)
+				return true;
+
+			if (e == "")
+				return true;
+
+			return false;
+		}
+
 		public __String(char[] c)
 		{
 		}

@@ -1,31 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// This source code was generated for ScriptCoreLib
 using ScriptCoreLib;
+using org.w3c.dom;
 
 namespace org.w3c.dom
 {
-	// http://java.sun.com/j2se/1.5.0/docs/api/org/w3c/dom/NodeList.html
+	// http://java.sun.com/j2se/1.4.2/docs/api/org/w3c/dom/NodeList.html
 	[Script(IsNative = true)]
-	public class NodeList
+	public interface NodeList
 	{
 		/// <summary>
 		/// The number of nodes in the list.
 		/// </summary>
-		/// <returns></returns>
-		public int getLength()
-		{
-			return default(int);
-		}
+		int getLength();
 
 		/// <summary>
-		///  Returns the indexth item in the collection.
+		/// Returns the <code>index</code>th item in the collection.
 		/// </summary>
-		/// <param name="index"></param>
-		/// <returns></returns>
-		public Node item(int index)
-		{
-			return default(Node);
-		}
+		Node item(int @index);
+
 	}
 }
