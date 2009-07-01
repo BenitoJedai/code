@@ -8,6 +8,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.File))]
 	internal class __File
 	{
+		public static string ReadAllText(string path)
+		{
+			return Encoding.ASCII.GetString(ReadAllBytes(path));
+		}
+
 		public static void WriteAllBytes(string path, byte[] value)
 		{
 

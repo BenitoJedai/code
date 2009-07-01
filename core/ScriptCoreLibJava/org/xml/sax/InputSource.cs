@@ -6,7 +6,11 @@ namespace org.xml.sax
     [Script(IsNative = true)]
     public class InputSource
     {
-        public InputSource(java.io.FileReader r)
+		public InputSource(java.io.InputStream r)
+		{
+		}
+
+        public InputSource(java.io.Reader r)
         {
         }
 
