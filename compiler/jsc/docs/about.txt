@@ -263,3 +263,5 @@ version history:
 	as: added DynamicTypeAttribute
 01.07.2009
 	java: fixed inline array detection when no actual load instructions were found
+02.07.2009
+	jsc: added support for [assembly: Obfuscation(Feature = "script")]

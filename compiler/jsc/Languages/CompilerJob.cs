@@ -57,6 +57,13 @@ namespace jsc.Languages
 				if (ScriptLibraries != null)
 					if (ScriptLibraries.Any(k => k.Assembly == this.AssamblyInfo))
 						return new[] { new ScriptTypeFilterAttribute(e) };
+
+				var o = AssamblyInfo.GetCustomAttributes<ObfuscationAttribute>().FirstOrDefault();
+
+				if (o != null)
+					if (o.Feature == "script")
+						return new[] { new ScriptTypeFilterAttribute(e) };
+
 			}
 
 
@@ -146,7 +153,7 @@ namespace jsc.Languages
 
 			foreach (Assembly x in SharedHelper.LoadReferencedAssemblies(context, true))
 			{
-				if (ScriptAttribute.OfProvider(x) == null)
+				if (ScriptAttribute.OfProvider(x) == null || ScriptAttribute.IsScriptLibraryViaObfuscationAttribute(x))
 				{
 					// it better be a script library
 					a.AddRange(x.GetTypes());

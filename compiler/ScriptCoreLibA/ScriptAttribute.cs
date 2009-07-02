@@ -246,11 +246,13 @@ namespace ScriptCoreLib
 		/// in its target language. Every defined type in this shall be converted
 		/// to its target language
 		/// </summary>
+		[Obsolete("You should mark your assembly via [assembly: Obfuscation(Feature = \"script\")] instead")]
 		public bool IsScriptLibrary;
 
 		/// <summary>
 		/// Assemblies referenced with these types shall be treated as script libraries
 		/// </summary>
+		[Obsolete("You should mark your assembly via [assembly: Obfuscation(Feature = \"script\")] instead")]
 		public Type[] ScriptLibraries;
 
 		/// <summary>
@@ -364,6 +366,22 @@ namespace ScriptCoreLib
 
 		internal static List<ScriptLibraryContext> OfProviderContext = new List<ScriptLibraryContext>();
 
+		/// <summary>
+		/// A script library can now be marked via [assembly: Obfuscation(Feature = "script")]
+		/// </summary>
+		/// <param name="m"></param>
+		/// <returns></returns>
+		public static bool IsScriptLibraryViaObfuscationAttribute(ICustomAttributeProvider m)
+		{
+			var o = (ObfuscationAttribute)(m is Type ? (m as Type).Assembly : m).GetCustomAttributes(typeof(ObfuscationAttribute), false).FirstOrDefault();
+
+			if (o != null)
+				if (o.Feature == "script")
+					return true;
+
+			return false;
+		}
+
 		public static ScriptAttribute OfProvider(ICustomAttributeProvider m)
 		{
 			if (m == null)
@@ -376,8 +394,19 @@ namespace ScriptCoreLib
 				var x = s.Length == 0 ? null : s[0];
 
 				var t = m as Type;
-				if (t != null && t.Assembly.ToScriptAttributeOrDefault().IsScriptLibrary)
-					x = new ScriptAttribute();
+				if (t != null)
+				{
+					if (t.Assembly.ToScriptAttributeOrDefault().IsScriptLibrary)
+						x = new ScriptAttribute();
+
+				}
+
+				if (x == null)
+				{
+					if (IsScriptLibraryViaObfuscationAttribute(m))
+							x = new ScriptAttribute();
+				}
+
 
 				if (t != null)
 					if (Enumerable.Any(
