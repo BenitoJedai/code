@@ -39,11 +39,11 @@ using ScriptCoreLib;
 
 [assembly:
 	Script(
-		ScriptLibraries = new[] 
-		{ 
-			typeof(Mandelbrot.MandelbrotProvider), 
-			typeof(Mandelbrot.Core.MandelbrotCore) 
-		}
+		//ScriptLibraries = new[] 
+		//{ 
+		//    typeof(Mandelbrot.MandelbrotProvider), 
+		//    typeof(Mandelbrot.Core.MandelbrotCore) 
+		//}
 	),
 	ScriptTypeFilter(ScriptType.ActionScript, typeof(Mandelbrot.Flash.ActionScript.MandelbrotFlash)),
 	ScriptTypeFilter(ScriptType.C, typeof(Mandelbrot.Flash.Alchemy.AlchemyProgram))
