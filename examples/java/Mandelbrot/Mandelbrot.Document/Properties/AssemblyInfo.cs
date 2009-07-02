@@ -40,11 +40,11 @@ using ScriptCoreLib;
 
 [assembly:
 	Script(
-		ScriptLibraries = new[] 
-		{ 
-			typeof(Mandelbrot.MandelbrotProvider), 
-			typeof(Mandelbrot.Core.MandelbrotCore) 
-		}
+		//ScriptLibraries = new[] 
+		//{ 
+		//    typeof(Mandelbrot.MandelbrotProvider), 
+		//    typeof(Mandelbrot.Core.MandelbrotCore) 
+		//}
 	),
 	ScriptTypeFilter(ScriptType.JavaScript)
 ]
