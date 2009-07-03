@@ -281,6 +281,33 @@ namespace jsc.Languages.Java
 
 			foreach (ILInstruction i in b.Instructrions)
 			{
+				if (i == OpCodes.Ldtoken)
+				{
+					imp.Add(MySession.ResolveImplementation(typeof(RuntimeTypeHandle)));
+
+					// A RuntimeHandle can be a fieldref/fielddef, a methodref/methoddef, or a typeref/typedef.
+					var RuntimeTypeHandle_Type = i.TargetType;
+
+					imp.Add(MySession.ResolveImplementation(RuntimeTypeHandle_Type) ?? RuntimeTypeHandle_Type);
+
+					continue;
+				}
+
+				if (i == OpCodes.Ldvirtftn)
+				{
+					imp.Add(typeof(IntPtr));
+					continue;
+				}
+
+				if (i == OpCodes.Ldftn)
+				{
+					imp.Add(typeof(IntPtr));
+
+					if (i.TargetMethod != null)
+						imp.Add(i.TargetMethod.DeclaringType);
+
+					continue;
+				}
 
 				if (i.ReferencedMethod != null)
 				{

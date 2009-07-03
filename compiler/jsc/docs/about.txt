@@ -265,3 +265,5 @@ version history:
 	java: fixed inline array detection when no actual load instructions were found
 02.07.2009
 	jsc: added support for [assembly: Obfuscation(Feature = "script")]
+03.07.2009
+	java: added support for typeof(Foo).Name
