@@ -57,12 +57,14 @@ namespace ReflectionExample
 				if (Method == null)
 					if (m.Name == MethodName)
 					{
+						var p = m.GetParameters();
+
+
 						Method = m;
 
 						Console.WriteLine("DelegateHint.Methods " + m.Name);
 
 
-						var p = m.GetParameters();
 						for (int i = 0; i < Parameters.Length; i++)
 						{
 							if (!Parameters[i].Equals(p[i].ParameterType))

@@ -80,7 +80,10 @@ namespace jsc.Languages.Java
                 WriteLine();
                 WriteTypeStaticMethods(z, za);
 
-
+				if (z.IsDelegate())
+				{
+					DelegateImplementationProvider.WriteExtensionMethodSupport(this, z);
+				}
             }
 
             //Thread.Sleep(100);
@@ -88,6 +91,32 @@ namespace jsc.Languages.Java
             return true;
         }
 
+		protected override bool WriteMethodCustomBody(MethodBase m)
+		{
+			if (m.DeclaringType.IsDelegate())
+			{
+				if (m.IsConstructor)
+				{
+					DelegateImplementationProvider.WriteConstructor(this, (ConstructorInfo)m);
+					return true;
+				}
 
+				if (m.Name == "BeginInvoke")
+				{
+					DelegateImplementationProvider.WriteBeginInvoke(this, (MethodInfo)m);
+					return true;
+
+				}
+
+				if (m.Name == "Invoke")
+				{
+					DelegateImplementationProvider.WriteInvoke(this, (MethodInfo)m);
+					return true;
+
+				} 
+			}
+
+			return false;
+		}
     }
 }

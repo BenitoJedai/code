@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.Serialization
 {
 	[Script(Implements = typeof(ISerializable))]
-	internal class __ISerializable
+	internal interface __ISerializable
 	{
 		// not implemented yet
 	}

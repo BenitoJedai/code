@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using java.lang.reflect;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
@@ -35,9 +36,44 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		//    return _ptr.FunctionToken;
 		//}
 
+	
+		public java.lang.reflect.Method MethodToken;
 
+		public static __IntPtr Of(java.lang.Class Target, string MethodName, java.lang.Class[] Parameters)
+		{
+			var MethodToken = default(Method);
+			var Methods = Target.getDeclaredMethods();
 
+			foreach (var m in Methods)
+			{
+				if (MethodToken != null)
+					break;
 
+				if (m.getName() == MethodName)
+				{
+
+					var p = m.getParameterTypes();
+
+					if (p.Length == Parameters.Length)
+					{
+						MethodToken = m;
+
+						for (int i = 0; i < Parameters.Length; i++)
+						{
+							if (Parameters[i].getName() != p[i].getName())
+							{
+								MethodToken = null;
+								break;
+							}
+						}
+					}
+				}
+			}
+
+			// should we worry about return type overloads too?
+
+			return new __IntPtr { MethodToken = MethodToken };
+		}
 
 	}
 }

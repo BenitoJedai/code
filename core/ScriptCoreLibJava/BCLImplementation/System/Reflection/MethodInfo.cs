@@ -42,5 +42,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 
 			return n;
 		}
+
+		public static implicit operator MethodInfo(__MethodInfo m)
+		{
+			return (MethodInfo)(object)m;
+		}
 	}
 }

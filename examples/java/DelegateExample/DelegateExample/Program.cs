@@ -10,8 +10,32 @@ namespace DelegateExample
 	public delegate void StringAction(string e);
 
 	[Script]
-	public class Program
+	public delegate void VoidAction();
+
+
+	[Script]
+	public static class Program
 	{
+		public static void Say(this string e)
+		{
+			Console.WriteLine("Say: " + e);
+		}
+
+		public static void Say(this string e, string u)
+		{
+			Console.WriteLine("Say: " + e + "; " + u);
+		}
+
+		public static void Do(VoidAction h)
+		{
+			Console.WriteLine("before");
+
+			h();
+
+			Console.WriteLine("after");
+
+		}
+
 		public static void Main(string[] args)
 		{
 			// Use Release Build to use jsc to generate java program
@@ -19,6 +43,13 @@ namespace DelegateExample
 
 			// doubleclicking on the jar will not show the console
 
+			StringAction h = Say;
+
+			h("hello world2");
+
+			StringAction x = "hey".Say;
+
+			x("hello world7 xxx  1");
 
 		}
 	}
