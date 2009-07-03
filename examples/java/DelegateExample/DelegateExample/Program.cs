@@ -36,6 +36,8 @@ namespace DelegateExample
 
 		}
 
+		static  string prefix = "Me: ";
+
 		public static void Main(string[] args)
 		{
 			// Use Release Build to use jsc to generate java program
@@ -51,7 +53,7 @@ namespace DelegateExample
 
 			x("hello world7x xxx  1");
 
-			var prefix = "Me: " ;
+			
 
 			Do(
 				delegate
