@@ -20,24 +20,20 @@ namespace ThreadingExample.Java
 
 			this.Button1 = new Button();
 			this.Button1.setLabel("Start computing");
-			this.Button1.addActionListener(new Button1_Clicked_Handler { Target = this });
-			//this.Button1.addMouseListener(new Button1_MouseEnter_Handler { Target = this });
-			//this.Button1.addMouseListener(new Button1_MouseExit_Handler { Target = this });
+			this.Button1.WithEvents().Click += this.Button1_Clicked;
 
 			base.add(Button1);
 
 			this.Button2 = new Button { Enabled = false };
 			this.Button2.setLabel("Stop computing");
-			this.Button2.addActionListener(new Button2_Clicked_Handler { Target = this });
-			//this.Button1.addMouseListener(new Button1_MouseEnter_Handler { Target = this });
-			//this.Button1.addMouseListener(new Button1_MouseExit_Handler { Target = this });
+			this.Button2.WithEvents().Click += this.Button2_Clicked;
 
 			base.add(Button2);
 
 			this.Button3 = new Button {};
 			this.Button3.setLabel("Compute");
-			this.Button3.addMouseListener(new Button3_MouseEnter_Handler { Target = this });
-			this.Button3.addMouseListener(new Button3_MouseExit_Handler { Target = this });
+			this.Button3.WithEvents().MouseEnter += this.Button3_MouseEnter;
+			this.Button3.WithEvents().MouseExit += this.Button3_MouseExit;
 
 			base.add(Button3);
 		}

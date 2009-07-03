@@ -43,19 +43,7 @@ namespace DemoApplet.Java
             g.drawString("hello world, this is the sample applet", 16, 64);
         }
 
-        #region [this.Button1_Clicked]
-        [Script]
-        class Button1_Clicked_Handler : AnonymouseDelegate
-        {
-            public DemoApplet Target;
-
-            public override void actionPerformed(ActionEvent e)
-            {
-                Target.Button1_Clicked();
-            }
-        }
-        #endregion
-
+    
         public void Button1_Clicked()
         {
 			this.Button1.setLabel("Click!");
@@ -66,19 +54,7 @@ namespace DemoApplet.Java
 
         }
 
-		#region [this.Button1_MouseEnter]
-		[Script]
-		class Button1_MouseEnter_Handler : MouseListener_MouseEnter
-		{
-			public DemoApplet Target;
-
-			protected override void Invoke()
-			{
-				Target.Button1_MouseEnter();
-			}
-		}
-		#endregion
-
+	
 		public void Button1_MouseEnter()
 		{
 			this.Button1.setLabel("MouseEnter!");
@@ -87,20 +63,7 @@ namespace DemoApplet.Java
 		}
 
 
-		
-		#region [this.Button1_MouseExit]
-		[Script]
-		class Button1_MouseExit_Handler : MouseListener_MouseExit
-		{
-			public DemoApplet Target;
-
-			protected override void Invoke()
-			{
-				Target.Button1_MouseExit();
-			}
-		}
-		#endregion
-
+	
 		public void Button1_MouseExit()
 		{
 			this.Button1.setLabel("MouseExit!");

@@ -46,19 +46,6 @@ namespace ThreadingExample.Java
 
 		readonly LongComputation MyComputation = new LongComputation();
 
-		#region [this.Button1_Clicked]
-		[Script]
-		class Button1_Clicked_Handler : AnonymouseDelegate
-		{
-			public ThreadingExample Target;
-
-			public override void actionPerformed(ActionEvent e)
-			{
-				Target.Button1_Clicked();
-			}
-		}
-		#endregion
-
 		public void Button1_Clicked()
 		{
 			this.Button1.Enabled = false;
@@ -69,19 +56,6 @@ namespace ThreadingExample.Java
 
 			MyComputation.Start();
 		}
-
-		#region [this.Button2_Clicked]
-		[Script]
-		class Button2_Clicked_Handler : AnonymouseDelegate
-		{
-			public ThreadingExample Target;
-
-			public override void actionPerformed(ActionEvent e)
-			{
-				Target.Button2_Clicked();
-			}
-		}
-		#endregion
 
 		public void Button2_Clicked()
 		{
@@ -94,19 +68,7 @@ namespace ThreadingExample.Java
 			this.Button2.setLabel("stop @ " + MyComputation.Current.Value);
 		}
 
-		#region [this.Button3_MouseEnter]
-		[Script]
-		class Button3_MouseEnter_Handler : MouseListener_MouseEnter
-		{
-			public ThreadingExample Target;
-
-			protected override void Invoke()
-			{
-				Target.Button3_MouseEnter();
-			}
-		}
-		#endregion
-
+		
 		public void Button3_MouseEnter()
 		{
 			this.Button1.Enabled = false;
@@ -119,20 +81,6 @@ namespace ThreadingExample.Java
 
 		}
 
-
-
-		#region [this.Button3_MouseExit]
-		[Script]
-		class Button3_MouseExit_Handler : MouseListener_MouseExit
-		{
-			public ThreadingExample Target;
-
-			protected override void Invoke()
-			{
-				Target.Button3_MouseExit();
-			}
-		}
-		#endregion
 
 		public void Button3_MouseExit()
 		{
