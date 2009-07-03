@@ -17,6 +17,15 @@ namespace ReflectionExample
 	}
 
 	[Script]
+	public class CoolClass3
+	{
+		public void Ken(string e)
+		{
+			Console.WriteLine("CoolClass3: " + e);
+		}
+	}
+
+	[Script]
 	public class CoolClass2
 	{
 		public static void StaticInvoke(string e)
@@ -30,7 +39,62 @@ namespace ReflectionExample
 		}
 	}
 
+	[Script]
+	public class DelegateHint
+	{
+		public MethodInfo Method;
 
+		public DelegateHint(Type Context, string MethodName, BindingFlags Flags, params Type[] Parameters)
+		{
+			var Methods = Context.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | Flags);
+
+			Console.WriteLine("DelegateHint.Methods " + Methods.Length);
+
+			foreach (var m in Methods)
+			{
+
+				if (Method == null)
+					if (m.Name == MethodName)
+					{
+						Method = m;
+
+						Console.WriteLine("DelegateHint.Methods " + m.Name);
+
+
+						var p = m.GetParameters();
+						for (int i = 0; i < Parameters.Length; i++)
+						{
+							if (!Parameters[i].Equals(p[i].ParameterType))
+							{
+								Console.WriteLine("DelegateHint.Methods " + Parameters[i].FullName + " vs " + p[i].ParameterType.FullName);
+
+								Method = null;
+								break;
+							}
+						}
+					}
+			}
+		}
+	}
+
+	[Script]
+	public class StringDelegate
+	{
+		public object Target;
+		public MethodInfo Method;
+
+
+		public StringDelegate(object Target, DelegateHint m)
+		{
+			this.Target = Target;
+			this.Method = m.Method;
+		}
+
+		public void Invoke(string e)
+		{
+			Method.Invoke(Target, new object[] { e });
+		}
+	}
 
 	[Script]
 	public class Program
@@ -77,10 +141,10 @@ namespace ReflectionExample
 
 		public static void Main(string[] args)
 		{
-			var t = typeof(CoolClass1);
+			var h = new StringDelegate(new CoolClass3(), new DelegateHint(typeof(CoolClass3), "Ken", BindingFlags.Instance, typeof(string)));
 
-			Console.WriteLine("Name: " + t.Name);
-			Console.WriteLine("Fullname: " + t.FullName);
+			h.Invoke("hello world");
+
 
 			ByInstance(new CoolClass1());
 			ByInstance(new CoolClass2());
