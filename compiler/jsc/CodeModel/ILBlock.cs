@@ -335,6 +335,9 @@ namespace jsc
                     }
                 }
 
+				if (Instructrions == null)
+					return;
+
                 PopulateChildren();
 
                 CreateFlow();

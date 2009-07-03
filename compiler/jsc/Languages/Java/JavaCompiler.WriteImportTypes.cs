@@ -272,84 +272,89 @@ namespace jsc.Languages.Java
 			if (v.IsAbstract)
 				return;
 
-			foreach (LocalVariableInfo l in v.GetMethodBody().LocalVariables)
-			{
-				imp.Add(l.LocalType);
-			}
-
 			ILBlock b = new ILBlock(v);
 
-			foreach (ILInstruction i in b.Instructrions)
+			// do we have IL?
+			if (b.Instructrions != null)
 			{
-				if (i == OpCodes.Ldtoken)
+				foreach (LocalVariableInfo l in v.GetMethodBody().LocalVariables)
 				{
-					imp.Add(MySession.ResolveImplementation(typeof(RuntimeTypeHandle)));
-
-					// A RuntimeHandle can be a fieldref/fielddef, a methodref/methoddef, or a typeref/typedef.
-					var RuntimeTypeHandle_Type = i.TargetType;
-
-					imp.Add(MySession.ResolveImplementation(RuntimeTypeHandle_Type) ?? RuntimeTypeHandle_Type);
-
-					continue;
+					imp.Add(l.LocalType);
 				}
 
-				if (i == OpCodes.Ldvirtftn)
+
+				foreach (ILInstruction i in b.Instructrions)
 				{
-					imp.Add(typeof(IntPtr));
-					continue;
-				}
-
-				if (i == OpCodes.Ldftn)
-				{
-					imp.Add(typeof(IntPtr));
-
-					if (i.TargetMethod != null)
-						imp.Add(i.TargetMethod.DeclaringType);
-
-					continue;
-				}
-
-				if (i.ReferencedMethod != null)
-				{
-					if (i.ReferencedMethod.DeclaringType == typeof(object))
-						imp.Add(MySession.ResolveImplementation(typeof(object)));
-
-					if (!IsTypeOfOperator(i.ReferencedMethod))
-						if (i.ReferencedMethod.DeclaringType != typeof(object))
-						{
-							if (i.ReferencedMethod.DeclaringType == typeof(System.Runtime.CompilerServices.RuntimeHelpers))
-								continue;
-
-							// is that method special to us?
-							if (i.TargetMethod != null)
-								if (i.TargetMethod.DeclaringType.ToScriptAttribute() == null)
-									if (StringToSByteArrayProvider.GetProvideImplementation(i.TargetMethod) != null)
-										continue;
-
-							MethodBase method = GetMethodImplementation(MySession, i);
-							ScriptAttribute method_attribute = ScriptAttribute.OfProvider(method);
-
-
-							if (method.IsConstructor || method.IsStatic || (method_attribute != null && method_attribute.DefineAsStatic))
-							{
-								imp.Add(method.DeclaringType);
-								continue;
-							}
-						}
-				}
-
-				if (i == OpCodes.Box)
-				{
-					imp.Add(i.TargetType);
-					continue;
-				}
-
-				if (i.TargetField != null)
-				{
-					if (i.TargetField.IsStatic)
+					if (i == OpCodes.Ldtoken)
 					{
-						imp.Add(i.TargetField.DeclaringType);
+						imp.Add(MySession.ResolveImplementation(typeof(RuntimeTypeHandle)));
+
+						// A RuntimeHandle can be a fieldref/fielddef, a methodref/methoddef, or a typeref/typedef.
+						var RuntimeTypeHandle_Type = i.TargetType;
+
+						imp.Add(MySession.ResolveImplementation(RuntimeTypeHandle_Type) ?? RuntimeTypeHandle_Type);
+
 						continue;
+					}
+
+					if (i == OpCodes.Ldvirtftn)
+					{
+						imp.Add(typeof(IntPtr));
+						continue;
+					}
+
+					if (i == OpCodes.Ldftn)
+					{
+						imp.Add(typeof(IntPtr));
+
+						if (i.TargetMethod != null)
+							imp.Add(i.TargetMethod.DeclaringType);
+
+						continue;
+					}
+
+					if (i.ReferencedMethod != null)
+					{
+						if (i.ReferencedMethod.DeclaringType == typeof(object))
+							imp.Add(MySession.ResolveImplementation(typeof(object)));
+
+						if (!IsTypeOfOperator(i.ReferencedMethod))
+							if (i.ReferencedMethod.DeclaringType != typeof(object))
+							{
+								if (i.ReferencedMethod.DeclaringType == typeof(System.Runtime.CompilerServices.RuntimeHelpers))
+									continue;
+
+								// is that method special to us?
+								if (i.TargetMethod != null)
+									if (i.TargetMethod.DeclaringType.ToScriptAttribute() == null)
+										if (StringToSByteArrayProvider.GetProvideImplementation(i.TargetMethod) != null)
+											continue;
+
+								MethodBase method = GetMethodImplementation(MySession, i);
+								ScriptAttribute method_attribute = ScriptAttribute.OfProvider(method);
+
+
+								if (method.IsConstructor || method.IsStatic || (method_attribute != null && method_attribute.DefineAsStatic))
+								{
+									imp.Add(method.DeclaringType);
+									continue;
+								}
+							}
+					}
+
+					if (i == OpCodes.Box)
+					{
+						imp.Add(i.TargetType);
+						continue;
+					}
+
+					if (i.TargetField != null)
+					{
+						if (i.TargetField.IsStatic)
+						{
+							imp.Add(i.TargetField.DeclaringType);
+							continue;
+						}
 					}
 				}
 			}

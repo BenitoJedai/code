@@ -64,11 +64,16 @@
     <Compile Include="BCLImplementation\System\Array.cs" />
     <Compile Include="BCLImplementation\System\Console.cs" />
     <Compile Include="BCLImplementation\System\Convert.cs" />
+    <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
+    <Compile Include="BCLImplementation\System\Delegate.cs" />
     <Compile Include="BCLImplementation\System\Double.cs" />
+    <Compile Include="BCLImplementation\System\IAsyncResult.cs" />
+    <Compile Include="BCLImplementation\System\IClonable.cs" />
     <Compile Include="BCLImplementation\System\Int16.cs" />
     <Compile Include="BCLImplementation\System\Int32.cs" />
     <Compile Include="BCLImplementation\System\Int64.cs" />
     <Compile Include="BCLImplementation\System\IntPtr.cs" />
+    <Compile Include="BCLImplementation\System\MulticastDelegate.cs" />
     <Compile Include="BCLImplementation\System\Object.cs" />
     <Compile Include="BCLImplementation\System\Environment.cs" />
     <Compile Include="BCLImplementation\System\IO\File.cs" />
@@ -84,6 +89,7 @@
     <Compile Include="BCLImplementation\System\Reflection\MethodInfo.cs" />
     <Compile Include="BCLImplementation\System\Reflection\ParameterInfo.cs" />
     <Compile Include="BCLImplementation\System\RuntimeTypeHandle.cs" />
+    <Compile Include="BCLImplementation\System\Runtime\Serialization\ISerializable.cs" />
     <Compile Include="BCLImplementation\System\SByte.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\SHA1CryptoServiceProvider.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\SHA1.cs" />

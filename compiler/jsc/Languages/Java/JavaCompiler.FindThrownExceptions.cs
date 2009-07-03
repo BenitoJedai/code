@@ -52,7 +52,9 @@ namespace jsc.Languages.Java
 
         private void FindThrownExceptions(ILBlock b, List<Type> list)
         {
-
+			// this method does not have IL
+			if (b.Instructrions == null)
+				return;
 
 
             foreach (ILBlock.Prestatement x in b.Prestatements.PrestatementCommands)
