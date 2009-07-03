@@ -157,7 +157,7 @@ namespace jsc.Languages.Java
 						if (TargetFieldElement == typeof(int))
 							if (s[2].SingleStackInstruction.OpCode == OpCodes.Ldelem_U4)
 								Write("(int)");
-						
+
 						if (TargetFieldElement == typeof(uint))
 						{
 							Write("(int)");
@@ -276,18 +276,50 @@ namespace jsc.Languages.Java
 
 			#region passthru
 
-			CIW[
-				OpCodes.Pop] = CodeEmitArgs.DelegateEmitFirstOnStack;
+			CIW[OpCodes.Pop] = CodeEmitArgs.DelegateEmitFirstOnStack;
 
-			CIW[
-				OpCodes.Ldtoken] = delegate(CodeEmitArgs e)
+			#endregion
+
+			#region Ldtoken
+			CIW[OpCodes.Ldtoken] =
+				e =>
 				{
-					if (e.i.TargetType == null)
-						throw new NotSupportedException("ldtoken");
+					//if (e.i.TargetType == null)
+					//    throw new NotSupportedException("ldtoken");
 
-					WriteDecoratedTypeName(e.i.TargetType);
+					//WriteDecoratedTypeName(e.i.TargetType);
+
+					var _RuntimeTypeHandle = MySession.ResolveImplementation(typeof(RuntimeTypeHandle));
+					var _IntPtr = MySession.ResolveImplementation(typeof(IntPtr));
+					var _RuntimeTypeHandle_From_Class = _RuntimeTypeHandle.GetExplicitOperators(null, _RuntimeTypeHandle).Single(i => i.ReturnType == _RuntimeTypeHandle);
+
+					var _TargetType = MySession.ResolveImplementation(e.i.TargetType) ?? e.i.TargetType;
+
+
+					#region _RuntimeTypeHandle_From_Class
+					WriteDecoratedTypeNameOrImplementationTypeName(_RuntimeTypeHandle, false, false);
+					Write(".");
+					WriteDecoratedMethodName(_RuntimeTypeHandle_From_Class, false);
+					Write("(");
+
+					if (_TargetType.IsGenericParameter)
+					{
+						// the Type should be passed as an argument?
+						throw new NotSupportedException("typeof(T) not supported yet.");
+					}
+
+					WriteDecoratedTypeNameOrImplementationTypeName(
+						_TargetType, false, false
+					);
+
+					Write(".");
+					WriteKeyword(Keywords._class);
+
+					Write(")");
+					#endregion
 				};
 			#endregion
+
 
 			#region Isinst
 			CIW[OpCodes.Isinst] = delegate(CodeEmitArgs e)
@@ -349,7 +381,8 @@ namespace jsc.Languages.Java
 			CIW[OpCodes.Dup] = delegate(CodeEmitArgs e) { EmitFirstOnStack(e); };
 
 			#region fld
-			CIW[OpCodes.Ldfld] =
+			CIW[OpCodes.Ldfld,
+				OpCodes.Ldflda] =
 				e =>
 				{
 
@@ -520,12 +553,23 @@ namespace jsc.Languages.Java
 					}
 					#endregion
 
+					if (e.i.TargetType == typeof(IntPtr))
+					{
+						// IntPtr should never be boxed, because in our implementation
+						// we only have classes
+						EmitFirstOnStack(e);
+					}
+					else
+					{
+						//var TargetType = this.ResolveImplementation(e.i.TargetType) ?? e.i.TargetType;
 
-					Write("new ");
-					Write(GetDecoratedTypeName(e.i.TargetType, true, false));
-					Write("(");
-					EmitFirstOnStack(e);
-					Write(")");
+
+						Write("new ");
+						Write(GetDecoratedTypeName(e.i.TargetType, true, false));
+						Write("(");
+						EmitFirstOnStack(e);
+						Write(")");
+					}
 				};
 
 			#region conv

@@ -1066,14 +1066,14 @@ namespace jsc.Languages.Java
 		//}
 
 
-		protected override bool WriteTypeOf(ILBlock.Prestatement p, ILInstruction i)
-		{
-			Emit(p, i.StackBeforeStrict[0]);
+		//protected override bool WriteTypeOf(ILBlock.Prestatement p, ILInstruction i)
+		//{
+		//    Emit(p, i.StackBeforeStrict[0]);
 
-			Write(".class");
+		//    Write(".class");
 
-			return true;
-		}
+		//    return true;
+		//}
 
 		/// <summary>
 		/// a special opcode emit mode
@@ -1126,5 +1126,7 @@ namespace jsc.Languages.Java
 			Write(")");
 			WriteLine(";");
 		}
+
+
 	}
 }

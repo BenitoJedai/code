@@ -64,7 +64,11 @@
     <Compile Include="BCLImplementation\System\Array.cs" />
     <Compile Include="BCLImplementation\System\Console.cs" />
     <Compile Include="BCLImplementation\System\Convert.cs" />
+    <Compile Include="BCLImplementation\System\Double.cs" />
+    <Compile Include="BCLImplementation\System\Int16.cs" />
     <Compile Include="BCLImplementation\System\Int32.cs" />
+    <Compile Include="BCLImplementation\System\Int64.cs" />
+    <Compile Include="BCLImplementation\System\IntPtr.cs" />
     <Compile Include="BCLImplementation\System\Object.cs" />
     <Compile Include="BCLImplementation\System\Environment.cs" />
     <Compile Include="BCLImplementation\System\IO\File.cs" />
@@ -75,6 +79,9 @@
     <Compile Include="BCLImplementation\System\IDisposable.cs" />
     <Compile Include="BCLImplementation\System\Math.cs" />
     <Compile Include="BCLImplementation\System\Random.cs" />
+    <Compile Include="BCLImplementation\System\Reflection\MemberInfo.cs" />
+    <Compile Include="BCLImplementation\System\RuntimeTypeHandle.cs" />
+    <Compile Include="BCLImplementation\System\SByte.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\SHA1CryptoServiceProvider.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\SHA1.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\HashAlgorithm.cs" />
@@ -85,6 +92,7 @@
     <Compile Include="BCLImplementation\System\Text\Encoding.cs" />
     <Compile Include="BCLImplementation\System\Text\StringBuilder.cs" />
     <Compile Include="BCLImplementation\System\Threading\Thread.cs" />
+    <Compile Include="BCLImplementation\System\Type.cs" />
     <Compile Include="BCLImplementation\System\Uri.cs" />
     <Compile Include="Extensions\ConfigurationProvider.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />

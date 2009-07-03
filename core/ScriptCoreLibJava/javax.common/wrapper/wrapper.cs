@@ -96,51 +96,8 @@ namespace javax.common.wrapper
 
 
 
-    [Script(IsNative = true, Implements = typeof(global::System.Type))]
-    public class TypeImplementation
-    {
-
-    }
-
-    #region num impl
-
-    [Script(Implements = typeof(global::System.Double),
-        ImplementationType = typeof(java.lang.Double))]
-    public class DoubleImpl
-    {
-        [Script(ExternalTarget = "parseDouble")]
-        public static double Parse(string e)
-        {
-            return default(double);
-        }
-    }
-
-    [Script(Implements = typeof(global::System.Int64),
-        ImplementationType = typeof(java.lang.Long))]
-    public class Int64Impl
-    {
-    }
-
-    [Script(Implements = typeof(global::System.Int16),
-        ImplementationType = typeof(java.lang.Short))]
-    public class Int16Impl
-    {
-    }
 
 
-
-    [Script(Implements = typeof(global::System.SByte)
-        , ImplementationType = typeof(java.lang.Byte)
-        )]
-    public class SByteImpl
-    {
-        [Script(ExternalTarget = "parseByte")]
-        public static sbyte Parse(string e)
-        {
-            return default(sbyte);
-        }
-    }
-    #endregion
 
     [Script(Implements = typeof(global::System.Boolean),
         ImplementationType = typeof(java.lang.Boolean))]
