@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLibJava.BCLImplementation.System.Reflection;
+using System.Reflection;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
@@ -16,6 +17,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		}
 
 		RuntimeTypeHandle _TypeHandle;
+
+		public static Type GetTypeFromValue(object x)
+		{
+			object i = (__RuntimeTypeHandle)java.lang.Object.getClass(x);
+
+			return GetTypeFromHandle((RuntimeTypeHandle)i);
+		}
 
 		public static Type GetTypeFromHandle(RuntimeTypeHandle TypeHandle)
 		{
@@ -52,12 +60,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		{
 			get
 			{
-				var t = this.TypeDescription;
-				var p = t.getPackage();
-
-				if (p != null)
-					return p.getName() + "." + t.getName();
-
 				return this.TypeDescription.getName();
 			}
 		}
@@ -69,7 +71,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 				var t = this.TypeDescription;
 				var p = t.getPackage();
 				var n = t.getName();
-				
+
 				if (p != null)
 				{
 					var x = p.getName();
@@ -82,6 +84,111 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 				return n;
 			}
+		}
+
+
+		public MethodInfo[] GetMethods()
+		{
+			var a = this.TypeDescription.getMethods();
+			var n = new MethodInfo[a.Length];
+
+			for (int i = 0; i < a.Length; i++)
+			{
+				n[i] = (MethodInfo)(object)new __MethodInfo { InternalMethod = a[i] };
+
+			}
+
+			return n;
+		}
+
+		public MethodInfo[] GetMethods(BindingFlags bindingAttr)
+		{
+			var a = GetMethods();
+
+			var that = (Type)(object)this;
+
+			for (int i = 0; i < a.Length; i++)
+			{
+				var IsStatic = (bindingAttr & BindingFlags.Static) == BindingFlags.Static;
+				var IsInstance = (bindingAttr & BindingFlags.Instance) == BindingFlags.Instance;
+				var DeclaredOnly = (bindingAttr & BindingFlags.DeclaredOnly) == BindingFlags.DeclaredOnly;
+				if (!IsInstance)
+					if (IsStatic)
+					{
+						if (!a[i].IsStatic)
+						{
+							a[i] = null;
+						}
+					}
+
+				if (!IsStatic)
+					if (IsInstance)
+					{
+						if (a[i].IsStatic)
+						{
+							a[i] = null;
+						}
+					}
+
+				if (DeclaredOnly)
+				{
+					if (a[i] != null)
+						if (!a[i].DeclaringType.Equals(that))
+						{
+							a[i] = null;
+						}
+				}
+			}
+
+			var c = 0;
+
+			for (int i = 0; i < a.Length; i++)
+			{
+				if (a[i] != null)
+					c++;
+			}
+
+			var m = new MethodInfo[c];
+
+			c = 0;
+
+			for (int i = 0; i < a.Length; i++)
+			{
+				if (a[i] != null)
+				{
+					m[c] = a[i];
+					c++;
+				}
+			}
+
+
+			return m;
+		}
+
+		public override Type DeclaringType
+		{
+			get { return null; }
+		}
+
+		public static implicit operator Type(__Type e)
+		{
+			return (Type)(object)e;
+		}
+
+
+		public static implicit operator __Type(java.lang.Class e)
+		{
+			object i = (__RuntimeTypeHandle)e;
+
+			return GetTypeFromHandle((RuntimeTypeHandle)i);
+		}
+
+		public bool Equals(__Type e)
+		{
+			if (this.TypeDescription.isAssignableFrom(e.TypeDescription))
+				return this.FullName == e.FullName;
+
+			return false;
 		}
 	}
 }

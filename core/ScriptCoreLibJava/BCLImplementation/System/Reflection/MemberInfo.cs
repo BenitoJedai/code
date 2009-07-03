@@ -11,5 +11,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 	internal abstract class __MemberInfo
 	{
 		public abstract string Name { get; }
+
+		public abstract Type DeclaringType { get; }
 	}
 }

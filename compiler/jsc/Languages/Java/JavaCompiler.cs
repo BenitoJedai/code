@@ -957,6 +957,10 @@ namespace jsc.Languages.Java
 							return "Float";
 					}
 
+					if (__impl != null)
+					if (__impl.ToScriptAttributeOrDefault().ImplementationType == null)
+						return ToJavaTypeName(__impl.Name);
+					
 					return ToJavaTypeName(type.Name);
 				}
 			}
