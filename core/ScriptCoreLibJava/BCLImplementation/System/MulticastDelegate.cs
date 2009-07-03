@@ -7,7 +7,11 @@ using ScriptCoreLib;
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
 	[Script(Implements = typeof(global::System.MulticastDelegate))]
-	public class __MulticastDelegate : __Delegate
+	internal class __MulticastDelegate : __Delegate
 	{
+		public __MulticastDelegate(object e, global::System.IntPtr p)
+			: base(e, p)
+		{
+		}
 	}
 }

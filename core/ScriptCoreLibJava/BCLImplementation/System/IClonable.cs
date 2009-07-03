@@ -9,6 +9,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 	[Script(Implements = typeof(global::System.ICloneable))]
 	internal interface __ICloneable
 	{
-		object Clone();
+		//object Clone();
 	}
 }

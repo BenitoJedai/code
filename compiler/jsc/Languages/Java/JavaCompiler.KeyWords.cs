@@ -53,7 +53,9 @@ namespace jsc.Languages.Java
             _new,
             _var,
             _default,
-            _readonly,
+			_readonly,
+			_return,
+			_true,
 
 
         }

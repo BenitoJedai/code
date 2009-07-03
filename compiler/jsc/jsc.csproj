@@ -163,6 +163,7 @@
     <Compile Include="Languages\JavaScript\IL2ScriptGenerator.cs" />
     <Compile Include="Languages\JavaScript\MethodBodyOptimizer.cs" />
     <Compile Include="Languages\Java\CompilerJob.cs" />
+    <Compile Include="Languages\Java\DelegateImplementationProvider.cs" />
     <Compile Include="Languages\Java\JavaCompiler.StringToSByteArray.cs" />
     <Compile Include="Languages\Java\JavaCompiler.WriteTypeStaticConstructor.cs" />
     <Compile Include="Languages\Java\JavaCompiler.WriteMethodCallVerified.cs" />

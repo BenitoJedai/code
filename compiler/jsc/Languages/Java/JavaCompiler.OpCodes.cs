@@ -52,6 +52,130 @@ namespace jsc.Languages.Java
 					#endregion
 				};
 
+			#region Ldftn
+			CIW[OpCodes.Ldftn,
+				OpCodes.Ldvirtftn] =
+				delegate(CodeEmitArgs e)
+				{
+					// we must load it as IntPtr
+					var _IntPtr = MySession.ResolveImplementation(typeof(IntPtr));
+
+					var _IntPtr_Of = _IntPtr.GetMethods().SingleOrDefault(
+						k =>
+						{
+							if (!k.IsStatic)
+								return false;
+
+							if (k.ReturnType != _IntPtr)
+								return false;
+
+							var p = k.GetParameters();
+
+							if (p.Length != 3)
+								return false;
+
+							if (p[1].ParameterType != typeof(string))
+								return false;
+
+							if (!p[2].ParameterType.IsArray)
+								return false;
+
+							if (p[2].ParameterType.GetElementType() != p[0].ParameterType)
+								return false;
+
+							return true;
+						}
+					);
+
+					if (_IntPtr_Of == null)
+						throw new Exception("OpCodes.Ldftn cannot find IntPtr factory method.");
+
+					var _Method = ResolveImplementationMethod(e.i.TargetMethod.DeclaringType, e.i.TargetMethod) ?? e.i.TargetMethod;
+
+					WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false);
+					Write(".");
+					WriteDecoratedMethodName(_IntPtr_Of, false);
+					Write("(");
+
+
+					WriteDecoratedTypeNameOrImplementationTypeName(_Method.DeclaringType, false, true);
+					Write(".");
+					WriteKeyword(Keywords._class);
+
+					Write(", ");
+
+					WriteQuote();
+					WriteDecoratedMethodName(_Method, false);
+					WriteQuote();
+
+					Write(", ");
+
+					WriteKeywordSpace(Keywords._new);
+					WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr_Of.GetParameters()[0].ParameterType, false, false);
+					Write("[");
+					Write("]");
+					Write("{");
+
+					var _MethodParameters = _Method.GetParameters();
+					for (int i = 0; i < _MethodParameters.Length; i++)
+					{
+						if (i > 0)
+							Write(", ");
+
+
+						WriteDecoratedTypeNameOrImplementationTypeName(_MethodParameters[i].ParameterType, false, true);
+						Write(".");
+						WriteKeyword(Keywords._class);
+					}
+
+					Write("}");
+					Write(")");
+
+					//if (_Method.IsStatic)
+					//{
+					//    WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _IntPtr));
+					//    Write(".");
+					//    WriteDecoratedMethodName(_IntPtr_Function, false);
+					//    Write("(");
+					//    WriteDecoratedTypeNameOrImplementationTypeName(_Method.DeclaringType, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _Method.DeclaringType), WriteDecoratedTypeNameOrImplementationTypeNameMode.IgnoreImplementationType);
+					//    Write(".");
+					//    WriteDecoratedMethodName(_Method, false);
+					//    Write(")");
+					//}
+					//else
+					//{
+					//    if (_Method.DeclaringType == e.Method.DeclaringType)
+					//    {
+					//        WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _IntPtr));
+					//        Write(".");
+					//        WriteDecoratedMethodName(_IntPtr_Function, false);
+					//        Write("(");
+					//        // jsc does not tell us the upper instructrion
+					//        // we must  assume that the upper instruction
+					//        // takes a stack of two (target, method)
+
+					//        EmitInstruction(e.p, e.i.Prev);
+					//        Write(".");
+
+					//        WriteDecoratedMethodName(_Method, false);
+					//        Write(")");
+					//    }
+					//    else
+					//    {
+					//        WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _IntPtr));
+					//        Write(".");
+					//        WriteDecoratedMethodName(_IntPtr_string, false);
+					//        Write("(");
+					//        WriteDecoratedMethodName(_Method, true);
+					//        Write(")");
+					//    }
+					//}
+
+
+
+				};
+			#endregion
+
 			#region elem_ref
 
 			#region byte
@@ -1207,6 +1331,20 @@ namespace jsc.Languages.Java
 				e =>
 				{
 					WriteTypeConstruction(e);
+
+					if (e.i.TargetConstructor.DeclaringType.IsDelegate())
+					{
+						var TargetIsNotNull = e.i.StackBeforeStrict[0].SingleStackInstruction != OpCodes.Ldnull;
+						var TargetMethodIsStatic = e.i.StackBeforeStrict[1].SingleStackInstruction.TargetMethod.IsStatic;
+
+						if (TargetMethodIsStatic)
+							if (TargetIsNotNull)
+							{
+								Write(".");
+								Write(DelegateImplementationProvider.AsExtensionMethod);
+								Write("()");
+							}
+					}
 				};
 			#endregion
 

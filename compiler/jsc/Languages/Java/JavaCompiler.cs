@@ -763,7 +763,7 @@ namespace jsc.Languages.Java
 			WriteLine();
 		}
 
-		private void WriteDecoratedTypeNameOrImplementationTypeName(Type timpv)
+		public void WriteDecoratedTypeNameOrImplementationTypeName(Type timpv)
 		{
 			WriteDecoratedTypeNameOrImplementationTypeName(timpv, false, false);
 		}
