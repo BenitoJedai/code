@@ -838,37 +838,40 @@ namespace jsc.Script
 
 						// base construcor call must be first...
 
+						// do we have IL?
+						if (xb.Instructrions != null)
+						{
+							EmitPrestatementBlock(xb.Prestatements,
+								delegate(ILBlock.Prestatement p)
+								{
+									if (!p.IsConstructorCall())
+										return true;
 
-						EmitPrestatementBlock(xb.Prestatements,
-							delegate(ILBlock.Prestatement p)
-							{
-								if (!p.IsConstructorCall())
-									return true;
-
-								return predicate != null && predicate(p);
-							}
-						);
-
-
-						WriteMethodLocalVariables(xb);
-
-						if (CustomVariableInitialization != null)
-							CustomVariableInitialization();
-
-						DebugBreak(a);
+									return predicate != null && predicate(p);
+								}
+							);
 
 
-						EmitPrestatementBlock(xb.Prestatements,
-							delegate(ILBlock.Prestatement p)
-							{
+							WriteMethodLocalVariables(xb);
+
+							if (CustomVariableInitialization != null)
+								CustomVariableInitialization();
+
+							DebugBreak(a);
 
 
-								if (p.IsConstructorCall())
-									return true;
+							EmitPrestatementBlock(xb.Prestatements,
+								delegate(ILBlock.Prestatement p)
+								{
 
-								return predicate != null && predicate(p);
-							}
-						);
+
+									if (p.IsConstructorCall())
+										return true;
+
+									return predicate != null && predicate(p);
+								}
+							);
+						}
 					}
 
 				}

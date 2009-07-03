@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\java\ReflectionExample\ReflectionExample\bin\Release</StartWorkingDirectory>
-    <StartArguments>ReflectionExample.exe -java</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\java\DelegateExample\DelegateExample\bin\Release</StartWorkingDirectory>
+    <StartArguments>DelegateExample.exe -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

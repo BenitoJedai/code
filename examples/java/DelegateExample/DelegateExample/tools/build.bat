@@ -6,6 +6,13 @@ if %ConfigurationName%==Debug goto :eof
 
 @call :jsc
 
+
+if '%ERRORLEVEL%' == '-1' (
+    echo jsc failed.
+    goto :eof
+)
+
+
 @call compile.java
 @call create.jar
 
