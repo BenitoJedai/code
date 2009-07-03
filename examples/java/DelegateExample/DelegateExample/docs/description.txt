@@ -1,0 +1,1 @@
+﻿DelegateExample. Crosscompiled from C# to Java.
