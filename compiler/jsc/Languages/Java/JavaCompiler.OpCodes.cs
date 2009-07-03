@@ -268,6 +268,13 @@ namespace jsc.Languages.Java
 						return;
 					}
 
+					var ResolvedTargetType = ResolveImplementation(e.i.TargetType);
+
+					if (e.i.TargetType.IsValueType && ResolvedTargetType != null)
+					{
+						ConvertTypeAndEmit(e, GetDecoratedTypeName(ResolvedTargetType, true, false));
+						return;
+					}
 
 					WriteBoxedComment("unbox " + e.i.TargetType.Name);
 					EmitFirstOnStack(e);

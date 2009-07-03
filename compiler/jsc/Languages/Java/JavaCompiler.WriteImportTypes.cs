@@ -201,7 +201,7 @@ namespace jsc.Languages.Java
 				if (p == typeof(string)) continue;
 				if (p == typeof(int)) continue;
 				if (p == typeof(uint)) continue;
-				
+
 				if (p == typeof(short)) continue;
 				if (p == typeof(ushort)) continue;
 
@@ -311,6 +311,9 @@ namespace jsc.Languages.Java
 
 				if (i.ReferencedMethod != null)
 				{
+					if (i.ReferencedMethod.DeclaringType == typeof(object))
+						imp.Add(MySession.ResolveImplementation(typeof(object)));
+
 					if (!IsTypeOfOperator(i.ReferencedMethod))
 						if (i.ReferencedMethod.DeclaringType != typeof(object))
 						{

@@ -267,3 +267,4 @@ version history:
 	jsc: added support for [assembly: Obfuscation(Feature = "script")]
 03.07.2009
 	java: added support for typeof(Foo).Name
+	java: fixed OpCodes.Unbox_Any where valuetype object is now converted to the implementation

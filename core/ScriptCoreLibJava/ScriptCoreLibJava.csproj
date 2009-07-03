@@ -79,7 +79,10 @@
     <Compile Include="BCLImplementation\System\IDisposable.cs" />
     <Compile Include="BCLImplementation\System\Math.cs" />
     <Compile Include="BCLImplementation\System\Random.cs" />
+    <Compile Include="BCLImplementation\System\Reflection\MethodBase.cs" />
     <Compile Include="BCLImplementation\System\Reflection\MemberInfo.cs" />
+    <Compile Include="BCLImplementation\System\Reflection\MethodInfo.cs" />
+    <Compile Include="BCLImplementation\System\Reflection\ParameterInfo.cs" />
     <Compile Include="BCLImplementation\System\RuntimeTypeHandle.cs" />
     <Compile Include="BCLImplementation\System\SByte.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\SHA1CryptoServiceProvider.cs" />

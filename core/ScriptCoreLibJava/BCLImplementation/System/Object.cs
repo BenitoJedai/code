@@ -2,6 +2,7 @@
 using System.Text;
 using ScriptCoreLib;
 using javax.common.runtime;
+using System;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
@@ -15,5 +16,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		{
 			return default(string);
 		}
+
+		[Script(DefineAsStatic = true)]
+		new public Type GetType()
+		{
+			return __Type.GetTypeFromValue(this);
+		}
 	}
+
+
 }
