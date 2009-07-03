@@ -3,7 +3,7 @@ using ScriptCoreLib;
 namespace java.lang.reflect
 {
     [Script(IsNative=true)]
-    public class Method
+    public class Method : AccessibleObject
     {
         #region methods
         /// <summary>

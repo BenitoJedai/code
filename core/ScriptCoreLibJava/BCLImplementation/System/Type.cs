@@ -89,11 +89,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 		public MethodInfo[] GetMethods()
 		{
-			var a = this.TypeDescription.getMethods();
+			// http://www.onjava.com/pub/a/onjava/2007/03/15/reflections-on-java-reflection.html?page=3
+
+			var a = this.TypeDescription.getDeclaredMethods();
 			var n = new MethodInfo[a.Length];
 
 			for (int i = 0; i < a.Length; i++)
 			{
+				// suppressing default Java language access control checks
+				a[i].setAccessible(true);
 				n[i] = (MethodInfo)(object)new __MethodInfo { InternalMethod = a[i] };
 
 			}
@@ -109,26 +113,33 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 			for (int i = 0; i < a.Length; i++)
 			{
+				var IsPublic = (bindingAttr & BindingFlags.Public) == BindingFlags.Public;
+				var IsNonPublic = (bindingAttr & BindingFlags.NonPublic) == BindingFlags.NonPublic;
 				var IsStatic = (bindingAttr & BindingFlags.Static) == BindingFlags.Static;
 				var IsInstance = (bindingAttr & BindingFlags.Instance) == BindingFlags.Instance;
 				var DeclaredOnly = (bindingAttr & BindingFlags.DeclaredOnly) == BindingFlags.DeclaredOnly;
+
 				if (!IsInstance)
 					if (IsStatic)
-					{
 						if (!a[i].IsStatic)
-						{
 							a[i] = null;
-						}
-					}
 
 				if (!IsStatic)
 					if (IsInstance)
-					{
 						if (a[i].IsStatic)
-						{
 							a[i] = null;
-						}
-					}
+
+				if (IsPublic)
+					if (!IsNonPublic)
+						if (a[i] != null)
+							if (!a[i].IsPublic)
+								a[i] = null;
+
+				if (!IsPublic)
+					if (IsNonPublic)
+						if (a[i] != null)
+							if (a[i].IsPublic)
+								a[i] = null;
 
 				if (DeclaredOnly)
 				{

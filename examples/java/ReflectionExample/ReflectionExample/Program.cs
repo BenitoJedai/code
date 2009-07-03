@@ -19,7 +19,7 @@ namespace ReflectionExample
 	[Script]
 	public class CoolClass3
 	{
-		public void Ken(string e)
+		private void Ken(string e)
 		{
 			Console.WriteLine("CoolClass3: " + e);
 		}
@@ -46,6 +46,7 @@ namespace ReflectionExample
 
 		public DelegateHint(Type Context, string MethodName, BindingFlags Flags, params Type[] Parameters)
 		{
+			
 			var Methods = Context.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | Flags);
 
 			Console.WriteLine("DelegateHint.Methods " + Methods.Length);
@@ -74,6 +75,8 @@ namespace ReflectionExample
 						}
 					}
 			}
+
+		
 		}
 	}
 
