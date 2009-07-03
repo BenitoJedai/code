@@ -49,8 +49,16 @@ namespace DelegateExample
 
 			StringAction x = "hey".Say;
 
-			x("hello world7 xxx  1");
+			x("hello world7x xxx  1");
 
+			var prefix = "Me: " ;
+
+			Do(
+				delegate
+				{
+					Console.WriteLine(prefix + ":)");
+				}
+			);
 		}
 	}
 }

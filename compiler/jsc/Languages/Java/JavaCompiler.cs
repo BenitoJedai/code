@@ -141,8 +141,10 @@ namespace jsc.Languages.Java
 			if ((flags & (int)MethodImplAttributes.Synchronized) == (int)MethodImplAttributes.Synchronized)
 				Write("synchronized ");
 
-
-			if (m.IsPublic)
+			// it seems delegates cannot call to private or protected
+			// static methods
+			// so we make them public...
+			if (m.IsPublic || m.IsStatic)
 				WriteKeywordPublic();
 			else
 			{
@@ -340,7 +342,7 @@ namespace jsc.Languages.Java
 				}
 				else
 				{
-					Write(z.Name);
+					WriteSafeLiteral(z.Name);
 				}
 
 			}
