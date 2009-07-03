@@ -14,6 +14,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 		public java.lang.reflect.Method InternalMethod;
 
 		public bool IsStatic { get { return Modifier.isStatic(InternalMethod.getModifiers()); } }
+		public bool IsPublic { get { return Modifier.isPublic(InternalMethod.getModifiers()); } }
 
 		public object Invoke(object obj, object[] parameters)
 		{

@@ -109,6 +109,7 @@
     <Compile Include="java\awt\event\MouseEvent.cs" />
     <Compile Include="java\awt\event\MouseListener.cs" />
     <Compile Include="java\io\StringReader.cs" />
+    <Compile Include="java\lang\reflect\AccessibleObject.cs" />
     <Compile Include="java\lang\reflect\InvocationTargetException.cs" />
     <Compile Include="java\net\URLConnection.cs" />
     <Compile Include="java\net\HttpURLConnection.cs" />
