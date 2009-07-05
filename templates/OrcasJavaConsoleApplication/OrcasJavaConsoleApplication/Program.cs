@@ -29,17 +29,38 @@ namespace OrcasJavaConsoleApplication
 
             Text = "Hello World";
 
-            var dot = "..";
 
-            for (int i = 0; i < 2; i++)
-            {
-                Thread.Sleep(500);
+			var w = new Worker { Count = 5, Delay = 300 };
 
-                Console.Write(dot);
-				//Console.Beep();
-            }
+			w.Handler +=
+				delegate
+				{
+					Console.Write(".");
+				};
+
+			w.Invoke();
 
             Console.WriteLine(Text);
         }
+
+		[Script]
+		public class Worker
+		{
+			public event Action Handler;
+
+			public int Count { get; set; }
+			public int Delay { get; set; }
+
+			public void Invoke()
+			{
+				for (int i = 0; i < Count; i++)
+				{
+					Handler();
+					Thread.Sleep(Delay);
+				}
+			}
+		}
     }
+
+
 }
