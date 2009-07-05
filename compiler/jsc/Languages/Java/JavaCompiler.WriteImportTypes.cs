@@ -214,8 +214,11 @@ namespace jsc.Languages.Java
 				if (p == typeof(bool)) continue;
 				if (p == typeof(char)) continue;
 
-				//ScriptAttribute a = ScriptAttribute.Of(p, true);
-				var a = p.ToScriptAttribute();
+				// delegate closures wont have [Script]
+				// but they will be defined within a type having one
+
+				ScriptAttribute a = ScriptAttribute.Of(p, true);
+				//var a = p.ToScriptAttribute();
 
 				if (a == null)
 				{

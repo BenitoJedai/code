@@ -1086,7 +1086,8 @@ namespace jsc.Script
 			MethodBase method = i.ReferencedMethod;
 
 
-			ScriptAttribute method_type_attribute = ScriptAttribute.OfProvider(method.DeclaringType);
+			//ScriptAttribute method_type_attribute = ScriptAttribute.OfProvider(method.DeclaringType);
+			ScriptAttribute method_type_attribute = ScriptAttribute.Of(method.DeclaringType, true);
 
 			if (method_type_attribute == null)
 			{

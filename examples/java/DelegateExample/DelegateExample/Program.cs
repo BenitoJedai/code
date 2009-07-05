@@ -10,8 +10,7 @@ namespace DelegateExample
 	public delegate void StringAction(string e);
 
 	[Script]
-	public delegate void VoidAction();
-
+	public delegate string StringFunc();
 
 	[Script]
 	public static class Program
@@ -26,7 +25,7 @@ namespace DelegateExample
 			Console.WriteLine("Say: " + e + "; " + u);
 		}
 
-		public static void Do(VoidAction h)
+		public static void Do(Action h)
 		{
 			Console.WriteLine("before");
 
@@ -38,6 +37,7 @@ namespace DelegateExample
 
 		static  string prefix = "Me: ";
 
+		
 		public static void Main(string[] args)
 		{
 			// Use Release Build to use jsc to generate java program
@@ -45,22 +45,48 @@ namespace DelegateExample
 
 			// doubleclicking on the jar will not show the console
 
-			StringAction h = Say;
-
-			h("hello world2");
-
-			StringAction x = "hey".Say;
-
-			x("hello world7x xxx  1");
-
-			
-
-			Do(
+			var i = 0;
+			StringFunc GetText = 
 				delegate
 				{
-					Console.WriteLine(prefix + ":)");
+					return "Hello world (" + (i++) + ")"; 
+				};
+
+
+			StringAction h = Say;
+
+			h(GetText());
+
+			StringAction x = "hey!".Say;
+
+			x(GetText());
+
+
+			Do(() => Console.WriteLine(prefix + ":)"));
+
+			WithClosure.Test();
+		}
+	}
+
+	[Script]
+	public class WithClosure
+	{
+		public static void Invoke(Action e)
+		{
+			e();
+		}
+
+		public static void Test()
+		{
+			var x = "WithClosure";
+
+			Invoke(
+				delegate
+				{
+					Console.WriteLine(x);
 				}
 			);
 		}
+
 	}
 }
