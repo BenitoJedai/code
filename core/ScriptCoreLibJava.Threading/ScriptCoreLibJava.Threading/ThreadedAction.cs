@@ -8,6 +8,7 @@ using ScriptCoreLibJava.BCLImplementation.System.Threading;
 namespace ScriptCoreLibJava.Threading
 {
 	[Script]
+	[Obsolete("You can now use new System.Threading.Thread(); instead!")]
 	public abstract class ThreadedAction
 	{
 		public abstract void Invoke();

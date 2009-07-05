@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BCLImplementation\System\Action.cs" />
     <Compile Include="BCLImplementation\System\Array.cs" />
     <Compile Include="BCLImplementation\System\Console.cs" />
     <Compile Include="BCLImplementation\System\Convert.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="BCLImplementation\System\Text\Encoding.cs" />
     <Compile Include="BCLImplementation\System\Text\StringBuilder.cs" />
     <Compile Include="BCLImplementation\System\Threading\Thread.cs" />
+    <Compile Include="BCLImplementation\System\Threading\ThreadStart.cs" />
     <Compile Include="BCLImplementation\System\Type.cs" />
     <Compile Include="BCLImplementation\System\Uri.cs" />
     <Compile Include="Extensions\ConfigurationProvider.cs" />

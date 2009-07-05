@@ -692,8 +692,8 @@ namespace jsc.Languages.Java
 
 
 
-			if (za.Implements != null || z.IsPublic || z.IsNestedPublic)
-				WriteKeywordPublic();
+			//if (za.Implements != null || z.IsPublic || z.IsNestedPublic || z.ToScriptAttribute() == null)
+			WriteKeywordPublic();
 			//else
 			//    WriteKeywordPrivate();
 
@@ -960,9 +960,9 @@ namespace jsc.Languages.Java
 					}
 
 					if (__impl != null)
-					if (__impl.ToScriptAttributeOrDefault().ImplementationType == null)
-						return ToJavaTypeName(__impl.Name);
-					
+						if (__impl.ToScriptAttributeOrDefault().ImplementationType == null)
+							return ToJavaTypeName(__impl.Name);
+
 					return ToJavaTypeName(type.Name);
 				}
 			}

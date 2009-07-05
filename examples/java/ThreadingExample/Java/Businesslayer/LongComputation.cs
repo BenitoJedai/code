@@ -12,12 +12,12 @@ namespace ThreadingExample.Java.Businesslayer
 	public class LongComputation
 	{
 		[Script]
-		public class Implementation : ThreadedAction
+		public class Implementation  
 		{
 			public long Value;
 
 			
-			public override void Invoke()
+			public void Invoke()
 			{
 				try
 				{
@@ -47,14 +47,15 @@ namespace ThreadingExample.Java.Businesslayer
 		}
 
 		public readonly Implementation Current = new Implementation();
-		public ThreadedActionInvoker CurrentThreadedAction;
+		public Thread CurrentThreadedAction;
 
 		public void Start()
 		{
 			if (CurrentThreadedAction != null)
 				Stop();
 
-			CurrentThreadedAction = 0.AtDelay(Current);
+			CurrentThreadedAction = new Thread(Current.Invoke);
+			CurrentThreadedAction.Start();
 			
 		}
 
@@ -64,7 +65,7 @@ namespace ThreadingExample.Java.Businesslayer
 				return;
 
 			// time to abort the managed thread
-			CurrentThreadedAction.Thread.Abort();
+			CurrentThreadedAction.Abort();
 			CurrentThreadedAction = null;
 		}
 	}

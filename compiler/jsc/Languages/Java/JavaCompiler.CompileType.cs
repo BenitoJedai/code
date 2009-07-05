@@ -105,7 +105,12 @@ namespace jsc.Languages.Java
 				{
 					DelegateImplementationProvider.WriteBeginInvoke(this, (MethodInfo)m);
 					return true;
+				}
 
+				if (m.Name == "EndInvoke")
+				{
+					DelegateImplementationProvider.WriteEndInvoke(this, (MethodInfo)m);
+					return true;
 				}
 
 				if (m.Name == "Invoke")

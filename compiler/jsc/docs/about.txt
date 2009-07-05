@@ -268,3 +268,5 @@ version history:
 03.07.2009
 	java: added support for typeof(Foo).Name
 	java: fixed OpCodes.Unbox_Any where valuetype object is now converted to the implementation
+05.07.2009
+	java: delegates now support return type

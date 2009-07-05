@@ -54,11 +54,18 @@ namespace jsc.Languages.Java
 			Action dummy = () => { };
 			Func<object, object[], object> MethodInfo_Invoke = dummy.Method.Invoke;
 
+			w.WriteIdent();
 
+			if (m.ReturnType != typeof(void))
+			{
+				w.WriteKeywordSpace(JavaCompiler.Keywords._return);
+				w.Write("(");
+				w.WriteDecoratedTypeName(m.ReturnType);
+				w.Write(")");
+			}
 	
 
 
-			w.WriteIdent();
 			w.WriteKeyword(JavaCompiler.Keywords._this);
 			w.Write(".");
 			w.WriteSafeLiteral(Method.Name);
@@ -169,6 +176,15 @@ namespace jsc.Languages.Java
 			}
 
 			
+		}
+
+		public static void WriteEndInvoke(JavaCompiler w, MethodInfo m)
+		{
+			w.WriteIdent();
+			w.WriteKeywordSpace(JavaCompiler.Keywords._throw);
+			w.WriteKeywordSpace(JavaCompiler.Keywords._new);
+			w.Write("java.lang.RuntimeException(\"Not implemented\")");
+			w.WriteLine(";");
 		}
 	}
 }

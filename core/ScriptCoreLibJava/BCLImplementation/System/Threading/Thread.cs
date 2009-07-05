@@ -11,6 +11,27 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading
 	{
 		public Thread InternalValue;
 
+		[Script]
+		class RunnableHandler : Runnable
+		{
+			public global::System.Threading.ThreadStart Handler;
+
+			public void run()
+			{
+				Handler();
+			}
+		}
+
+		internal __Thread()
+		{
+
+		}
+
+		public __Thread(global::System.Threading.ThreadStart t)
+		{
+			InternalValue = new java.lang.Thread(new RunnableHandler { Handler = t });
+		}
+
 		public static void Sleep(int millisecondsTimeout)
 		{
 			try
