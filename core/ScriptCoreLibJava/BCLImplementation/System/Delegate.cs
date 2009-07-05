@@ -20,6 +20,47 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			this.Method = new __MethodInfo { InternalMethod = ((__IntPtr)(object)p).MethodToken };
 		}
 
-	
+
+		public static __Delegate Combine(__Delegate a, __Delegate b)
+		{
+			if (a == null)
+			{
+				return b;
+			}
+			if (b == null)
+			{
+				return a;
+			}
+
+			return a.CombineImpl(b);
+		}
+
+		protected virtual __Delegate CombineImpl(__Delegate d)
+		{
+			return default(__Delegate);
+		}
+
+		public static __Delegate Remove(__Delegate source, __Delegate value)
+		{
+			if (source == null)
+			{
+				return null;
+			}
+			if (value == null)
+			{
+				return source;
+			}
+			return source.RemoveImpl(value);
+		}
+
+		protected virtual __Delegate RemoveImpl(__Delegate d)
+		{
+			return default(__Delegate);
+		}
+
+		public virtual __Delegate[] GetInvocationList()
+		{
+			return default(__Delegate[]);
+		}
 	}
 }

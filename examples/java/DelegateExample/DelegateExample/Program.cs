@@ -65,6 +65,15 @@ namespace DelegateExample
 			Do(() => Console.WriteLine(prefix + ":)"));
 
 			WithClosure.Test();
+
+
+			StringAction y = h;
+			y += x;
+			y("Broadcasting!!");
+
+			y -= h;
+			y("Broadcasting once?!!");
+
 		}
 	}
 
