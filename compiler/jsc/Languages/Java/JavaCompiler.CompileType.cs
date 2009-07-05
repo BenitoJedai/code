@@ -80,7 +80,7 @@ namespace jsc.Languages.Java
                 WriteLine();
                 WriteTypeStaticMethods(z, za);
 
-				if (z.IsDelegate())
+				if (za.Implements == typeof(Delegate))
 				{
 					DelegateImplementationProvider.WriteExtensionMethodSupport(this, z);
 				}

@@ -1330,7 +1330,7 @@ namespace jsc.Languages.Java
 			CIW[OpCodes.Newobj] =
 				e =>
 				{
-					WriteTypeConstruction(e);
+					var AsExtensionMethod = false;
 
 					if (e.i.TargetConstructor.DeclaringType.IsDelegate())
 					{
@@ -1340,10 +1340,27 @@ namespace jsc.Languages.Java
 						if (TargetMethodIsStatic)
 							if (TargetIsNotNull)
 							{
-								Write(".");
-								Write(DelegateImplementationProvider.AsExtensionMethod);
-								Write("()");
+								AsExtensionMethod = true;
+
 							}
+					}
+
+					if (AsExtensionMethod)
+					{
+						Write("(");
+						WriteDecoratedTypeNameOrImplementationTypeName(e.i.TargetConstructor.DeclaringType);
+						Write(")");
+					}
+
+					WriteTypeConstruction(e);
+
+
+					if (AsExtensionMethod)
+					{
+
+						Write(".");
+						Write(DelegateImplementationProvider.AsExtensionMethod);
+						Write("()");
 					}
 				};
 			#endregion

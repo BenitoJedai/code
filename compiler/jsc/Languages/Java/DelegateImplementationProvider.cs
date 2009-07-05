@@ -53,97 +53,183 @@ namespace jsc.Languages.Java
 
 			Action dummy = () => { };
 			Func<object, object[], object> MethodInfo_Invoke = dummy.Method.Invoke;
+			Func<Delegate[]> Delegate_GetInvocationList = dummy.GetInvocationList;
 
-			w.WriteIdent();
+			const string __value = "__value";
+			const string __index = "__index";
+			const string __current = "__current";
+			const string __InvocationList = "__InvocationList";
 
 			if (m.ReturnType != typeof(void))
 			{
-				w.WriteKeywordSpace(JavaCompiler.Keywords._return);
-				w.Write("(");
+				w.WriteIdent();
 				w.WriteDecoratedTypeName(m.ReturnType);
-				w.Write(")");
+				w.WriteSpace();
+				w.WriteSafeLiteral(__value);
+				w.WriteLine(";");
 			}
-	
 
-
+			#region var __InvocationList = GetInvocationList();
+			w.WriteIdent();
+			w.WriteDecoratedTypeName(Delegate);
+			w.Write("[]");
+			w.WriteSpace();
+			w.WriteSafeLiteral(__InvocationList);
+			w.WriteAssignment();
 			w.WriteKeyword(JavaCompiler.Keywords._this);
 			w.Write(".");
-			w.WriteSafeLiteral(Method.Name);
-			w.Write(".");
-			w.WriteDecoratedMethodName(MethodInfo_Invoke.Method, false);
-			w.Write("(");
-
-			#region Target
-			w.WriteKeyword(JavaCompiler.Keywords._this);
-			w.Write(".");
-			w.WriteSafeLiteral(IsExtensionMethod);
-
-			w.Write("?");
-
-			w.WriteKeyword(JavaCompiler.Keywords._null);
-
-			w.Write(":");
-
-			w.WriteKeyword(JavaCompiler.Keywords._this);
-			w.Write(".");
-			w.WriteSafeLiteral(Target.Name);
-
+			w.WriteDecoratedMethodName(Delegate_GetInvocationList.Method, false);
+			w.Write("()");
+			w.WriteLine(";");
 			#endregion
 
-			w.Write(", ");
-
-			var p = m.GetParameters();
-
-			#region Parameters
-			w.WriteKeyword(JavaCompiler.Keywords._this);
-			w.Write(".");
-			w.WriteSafeLiteral(IsExtensionMethod);
-
-			w.Write("?");
-
-
-			w.WriteKeywordSpace(JavaCompiler.Keywords._new);
-			w.WriteDecoratedTypeName(typeof(object[]));
+			#region for(int __index = 0; __index < __InvocationList.length; __index++)
+			w.WriteIdent();
+			w.WriteKeyword(JavaCompiler.Keywords._for);
+			w.Write("(");
+			w.Write("int");
 			w.WriteSpace();
-			w.Write("{");
-
-			w.WriteKeyword(JavaCompiler.Keywords._this);
+			w.WriteSafeLiteral(__index);
+			w.WriteAssignment();
+			w.Write("0");
+			w.Write("; ");
+			w.WriteSafeLiteral(__index);
+			w.WriteSpace();
+			w.Write("<");
+			w.WriteSpace();
+			w.WriteSafeLiteral(__InvocationList);
 			w.Write(".");
-			w.WriteSafeLiteral(Target.Name);
-			
+			w.Write("length");
+			w.Write("; ");
+			w.WriteSafeLiteral(__index);
+			w.Write("++");
+			w.Write(")");
+			w.WriteLine();
+			#endregion
 
-			for (int i = 0; i < p.Length; i++)
+			using (w.CreateScope())
 			{
+				w.WriteIdent();
+				w.WriteDecoratedTypeName(Delegate);
+				w.WriteSpace();
+				w.WriteSafeLiteral(__current);
+				w.WriteAssignment();
+				w.WriteSafeLiteral(__InvocationList);
+				w.Write("[");
+				w.WriteSafeLiteral(__index);
+				w.Write("]");
+				
+				w.WriteLine(";");
+
+				#region invoke
+				w.WriteIdent();
+
+				if (m.ReturnType != typeof(void))
+				{
+					w.WriteSafeLiteral(__value);
+					w.WriteAssignment();
+					w.Write("(");
+					w.WriteDecoratedTypeName(m.ReturnType);
+					w.Write(")");
+				}
+
+
+
+				w.WriteSafeLiteral(__current);
+				w.Write(".");
+				w.WriteSafeLiteral(Method.Name);
+				w.Write(".");
+				w.WriteDecoratedMethodName(MethodInfo_Invoke.Method, false);
+				w.Write("(");
+
+				#region Target
+				w.WriteSafeLiteral(__current);
+				w.Write(".");
+				w.WriteSafeLiteral(IsExtensionMethod);
+
+				w.Write("?");
+
+				w.WriteKeyword(JavaCompiler.Keywords._null);
+
+				w.Write(":");
+
+				w.WriteSafeLiteral(__current);
+				w.Write(".");
+				w.WriteSafeLiteral(Target.Name);
+
+				#endregion
+
 				w.Write(", ");
 
-				w.WriteDecoratedMethodParameter(p[i]);
-			}
-			w.Write("}");
+				var p = m.GetParameters();
 
-			w.Write(":");
+				#region Parameters
+				w.WriteSafeLiteral(__current);
+				w.Write(".");
+				w.WriteSafeLiteral(IsExtensionMethod);
 
-			w.WriteKeywordSpace(JavaCompiler.Keywords._new);
-			w.WriteDecoratedTypeName(typeof(object[]));
-			w.WriteSpace();
-			w.Write("{");
+				w.Write("?");
 
-			for (int i = 0; i < p.Length; i++)
-			{
-				if (i > 0)
+
+				w.WriteKeywordSpace(JavaCompiler.Keywords._new);
+				w.WriteDecoratedTypeName(typeof(object[]));
+				w.WriteSpace();
+				w.Write("{");
+
+				w.WriteSafeLiteral(__current);
+				w.Write(".");
+				w.WriteSafeLiteral(Target.Name);
+
+
+				for (int i = 0; i < p.Length; i++)
+				{
 					w.Write(", ");
 
-				w.WriteDecoratedMethodParameter(p[i]);
-			}
-			w.Write("}");
-			#endregion
+					w.WriteDecoratedMethodParameter(p[i]);
+				}
+				w.Write("}");
 
-			w.Write(")");
-			w.WriteLine(";");
+				w.Write(":");
+
+				w.WriteKeywordSpace(JavaCompiler.Keywords._new);
+				w.WriteDecoratedTypeName(typeof(object[]));
+				w.WriteSpace();
+				w.Write("{");
+
+				for (int i = 0; i < p.Length; i++)
+				{
+					if (i > 0)
+						w.Write(", ");
+
+					w.WriteDecoratedMethodParameter(p[i]);
+				}
+				w.Write("}");
+				#endregion
+
+				w.Write(")");
+				w.WriteLine(";");
+				#endregion
+
+			}
+
+		
+
+			
+
+
+			if (m.ReturnType != typeof(void))
+			{
+				w.WriteIdent();
+				w.WriteKeywordSpace(JavaCompiler.Keywords._return);
+				w.WriteSafeLiteral(__value);
+				w.WriteLine(";");
+			}
 		}
 
 		public static void WriteExtensionMethodSupport(JavaCompiler w, Type z)
 		{
 			w.WriteIdent();
+			w.WriteKeywordSpace(JavaCompiler.Keywords._public);
 			w.WriteDecoratedTypeName(typeof(bool));
 
 			w.WriteSpace();
@@ -175,7 +261,7 @@ namespace jsc.Languages.Java
 
 			}
 
-			
+
 		}
 
 		public static void WriteEndInvoke(JavaCompiler w, MethodInfo m)
