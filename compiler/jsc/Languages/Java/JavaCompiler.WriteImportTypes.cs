@@ -166,7 +166,8 @@ namespace jsc.Languages.Java
 				imp.RemoveAll(
 					delegate(Type w)
 					{
-
+						if (w == null)
+							return true;
 
 						if (w.IsArray && p.IsArray)
 						{
