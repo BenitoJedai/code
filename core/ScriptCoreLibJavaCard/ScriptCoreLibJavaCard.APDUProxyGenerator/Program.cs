@@ -138,14 +138,14 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 					Console.WriteLine("will create proxy... " + TargetType.Name);
 
 					#region proxy for host
-					w.Statement("using ScriptCoreLib;");
+					//w.Statement("using ScriptCoreLib;");
 					w.Statement("using System;");
 
 					w.Block("namespace " + TargetType.Namespace,
 						delegate
 						{
 							w.Statement("[System.Runtime.CompilerServices.CompilerGeneratedAttribute]");
-							w.Statement("[Script]");
+							//w.Statement("[Script]");
 
 							w.Block("public partial class " + TargetType.Name + "Proxy",
 								delegate
@@ -155,7 +155,7 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 									w.Statement("public bool IsLengthExpectedSpecified;");
 
 									
-									w.Statement("[Script]");
+									//w.Statement("[Script]");
 									w.Block("class WithLengthExpected_IDisposable : IDisposable",
 										delegate
 										{
@@ -210,13 +210,13 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 											};
 										#endregion
 
-										w.Statement("[Script]");
+										//w.Statement("[Script]");
 										w.Block("public partial class " + Token.Name,
 											delegate
 											{
 												foreach (var enumerator in source.SelectMany(k => k).Where(k => k.INS.InputParameterType == Token && k.INS.OutputParameterType == Token))
 												{
-													w.Statement("[Script]");
+													//w.Statement("[Script]");
 													w.Block("public partial class " + GetCleanName(enumerator.k) + "Enumerator",
 														delegate
 														{
@@ -247,7 +247,7 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 														}
 													);
 
-													w.Statement("[Script]");
+													//w.Statement("[Script]");
 													w.Block("public partial class " + GetCleanName(enumerator.k) + "Enumerable",
 														delegate
 														{
@@ -306,7 +306,7 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 
 									#endregion
 
-									w.Statement("[Script]");
+									//w.Statement("[Script]");
 									w.Block("public interface ITransmitter",
 										delegate
 										{

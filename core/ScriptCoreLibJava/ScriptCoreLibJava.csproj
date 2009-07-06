@@ -66,6 +66,7 @@
     <Compile Include="BCLImplementation\System\Console.cs" />
     <Compile Include="BCLImplementation\System\Convert.cs" />
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
+    <Compile Include="BCLImplementation\System\Attribute.cs" />
     <Compile Include="BCLImplementation\System\Delegate.cs" />
     <Compile Include="BCLImplementation\System\Double.cs" />
     <Compile Include="BCLImplementation\System\IAsyncResult.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="BCLImplementation\System\Reflection\MethodInfo.cs" />
     <Compile Include="BCLImplementation\System\Reflection\ParameterInfo.cs" />
     <Compile Include="BCLImplementation\System\RuntimeTypeHandle.cs" />
+    <Compile Include="BCLImplementation\System\Runtime\InteropServices\_Attribute.cs" />
     <Compile Include="BCLImplementation\System\Runtime\Serialization\ISerializable.cs" />
     <Compile Include="BCLImplementation\System\SByte.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\SHA1CryptoServiceProvider.cs" />
