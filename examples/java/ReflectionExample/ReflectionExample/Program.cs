@@ -7,27 +7,36 @@ using System.Reflection;
 
 namespace ReflectionExample
 {
-	[Script]
+	[Script, Serializable]
 	public class CoolClass1
 	{
+		public string Field1;
+		public string Field2;
+
 		public void Invoke(string e)
 		{
 			Console.WriteLine("CoolClass1: " + e);
 		}
 	}
 
-	[Script]
+	[Script, Serializable]
 	public class CoolClass3
 	{
+		public string Field1;
+		public string Field2;
+
 		private void Ken(string e)
 		{
 			Console.WriteLine("CoolClass3: " + e);
 		}
 	}
 
-	[Script]
+	[Script, Serializable]
 	public class CoolClass2
 	{
+		public string Field1;
+		public string Field2;
+
 		public static void StaticInvoke(string e)
 		{
 			Console.WriteLine("static CoolClass2: " + e);
@@ -39,78 +48,34 @@ namespace ReflectionExample
 		}
 	}
 
-	[Script]
-	public class DelegateHint
-	{
-		public MethodInfo Method;
+	
 
-		public DelegateHint(Type Context, string MethodName, BindingFlags Flags, params Type[] Parameters)
-		{
-			
-			var Methods = Context.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | Flags);
-
-			Console.WriteLine("DelegateHint.Methods " + Methods.Length);
-
-			foreach (var m in Methods)
-			{
-
-				if (Method == null)
-					if (m.Name == MethodName)
-					{
-						var p = m.GetParameters();
-
-
-						Method = m;
-
-						Console.WriteLine("DelegateHint.Methods " + m.Name);
-
-
-						for (int i = 0; i < Parameters.Length; i++)
-						{
-							if (!Parameters[i].Equals(p[i].ParameterType))
-							{
-								Console.WriteLine("DelegateHint.Methods " + Parameters[i].FullName + " vs " + p[i].ParameterType.FullName);
-
-								Method = null;
-								break;
-							}
-						}
-					}
-			}
-
-		
-		}
-	}
-
-	[Script]
-	public class StringDelegate
-	{
-		public object Target;
-		public MethodInfo Method;
-
-
-		public StringDelegate(object Target, DelegateHint m)
-		{
-			this.Target = Target;
-			this.Method = m.Method;
-		}
-
-		public void Invoke(string e)
-		{
-			Method.Invoke(Target, new object[] { e });
-		}
-	}
 
 	[Script]
 	public class Program
 	{
-		public static void ByInstance(object e)
+		public static object ByInstance(object e)
 		{
 			var t = e.GetType();
 
 			Console.WriteLine("ByInstance Name: " + t.Name);
 			Console.WriteLine("ByInstance Fullname: " + t.FullName);
 
+			foreach (var f in t.GetFields())
+			{
+				Console.WriteLine("field: " + f.Name + " as " + f.FieldType.FullName);
+
+				if (f.FieldType.Equals(typeof(string)))
+				{
+					var text = (string)f.GetValue(e);
+
+					Console.WriteLine(" = " + text);
+
+					text += " via reflection";
+
+					f.SetValue(e, text);
+				}
+			}
 
 			foreach (var m in t.GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.DeclaredOnly))
 			{
@@ -142,16 +107,16 @@ namespace ReflectionExample
 					m.Invoke(null, new[] { "reflection!" });
 				}
 			}
+
+			return e;
 		}
 
 		public static void Main(string[] args)
 		{
-			var h = new StringDelegate(new CoolClass3(), new DelegateHint(typeof(CoolClass3), "Ken", BindingFlags.Instance, typeof(string)));
+			
 
-			h.Invoke("hello world");
-
-
-			ByInstance(new CoolClass1());
+			var x = ByInstance(new CoolClass1 { Field1 = "A", Field2 = "B" });
+			ByInstance(x);
 			ByInstance(new CoolClass2());
 		}
 	}
