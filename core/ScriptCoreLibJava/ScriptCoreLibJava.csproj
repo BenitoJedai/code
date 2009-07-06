@@ -86,6 +86,7 @@
     <Compile Include="BCLImplementation\System\IDisposable.cs" />
     <Compile Include="BCLImplementation\System\Math.cs" />
     <Compile Include="BCLImplementation\System\Random.cs" />
+    <Compile Include="BCLImplementation\System\Reflection\FieldInfo.cs" />
     <Compile Include="BCLImplementation\System\Reflection\MethodBase.cs" />
     <Compile Include="BCLImplementation\System\Reflection\MemberInfo.cs" />
     <Compile Include="BCLImplementation\System\Reflection\MethodInfo.cs" />

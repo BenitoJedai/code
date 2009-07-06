@@ -97,6 +97,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			for (int i = 0; i < a.Length; i++)
 			{
 				// suppressing default Java language access control checks
+				// - does it actually do that?
 				a[i].setAccessible(true);
 				n[i] = (MethodInfo)(object)new __MethodInfo { InternalMethod = a[i] };
 
@@ -196,10 +197,26 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 		public bool Equals(__Type e)
 		{
+			// .net 4.0 seems to also add == operator. jsc should choose equals until then?
 			if (this.TypeDescription.isAssignableFrom(e.TypeDescription))
 				return this.FullName == e.FullName;
 
 			return false;
+		}
+
+
+		public __FieldInfo[] GetFields()
+		{
+			var f = this.TypeDescription.getDeclaredFields();
+			var a = new __FieldInfo[f.Length];
+
+			for (int i = 0; i < f.Length; i++)
+			{
+				a[i] = new __FieldInfo { InternalField = f[i] };
+			}
+
+
+			return a;
 		}
 	}
 }
