@@ -97,7 +97,9 @@ namespace jsc.Languages
 
 
 			// we need all the namespace fixups from all assemblies
-			foreach (var reference in ScriptCoreLib.SharedHelper.LoadReferencedAssemblies(j.AssamblyInfo, true))
+			foreach (var reference in ScriptCoreLib.SharedHelper.LoadReferencedAssemblies(
+				Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName)
+				, true))
 			{
 				var n = reference.GetCustomAttributes<ScriptNamespaceRenameAttribute>();
 

@@ -270,3 +270,5 @@ version history:
 	java: fixed OpCodes.Unbox_Any where valuetype object is now converted to the implementation
 05.07.2009
 	java: delegates now support return type
+06.07.2009
+	jsc: NamespaceFixup will now consider all entripoint referenced libraries
