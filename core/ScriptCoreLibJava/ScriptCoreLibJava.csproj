@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="BCLImplementation\System\Action.cs" />
     <Compile Include="BCLImplementation\System\Array.cs" />
+    <Compile Include="BCLImplementation\System\Boolean.cs" />
     <Compile Include="BCLImplementation\System\Console.cs" />
     <Compile Include="BCLImplementation\System\Convert.cs" />
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="BCLImplementation\System\Int32.cs" />
     <Compile Include="BCLImplementation\System\Int64.cs" />
     <Compile Include="BCLImplementation\System\IntPtr.cs" />
+    <Compile Include="BCLImplementation\System\IOException.cs" />
     <Compile Include="BCLImplementation\System\MulticastDelegate.cs" />
     <Compile Include="BCLImplementation\System\Object.cs" />
     <Compile Include="BCLImplementation\System\Environment.cs" />

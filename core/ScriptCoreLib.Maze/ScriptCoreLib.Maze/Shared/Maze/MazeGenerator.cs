@@ -5,7 +5,6 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.Maze
 {
-	[Script]
 	public class BlockMaze
 	{
 		public bool[][] Walls;
@@ -72,17 +71,14 @@ namespace ScriptCoreLib.Shared.Maze
 		}	
 	}
 
-	[Script]
 	public class MazeGenerator
 	{
-		[Script]
 		public class PointInt32
 		{
 			public int X;
 			public int Y;
 		}
 
-		[Script]
 		public class RectInt32
 		{
 			public int X;
@@ -151,7 +147,6 @@ namespace ScriptCoreLib.Shared.Maze
 			//return (int)Math.Ceiling(e);
 		}
 
-		[Script]
 		public interface IFeedback
 		{
 			void Invoke(string e);
