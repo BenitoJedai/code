@@ -66,6 +66,12 @@ namespace OrcasNativeApplication
 				windows_h.SetConsoleTextAttribute(windows_h.GetStdHandle(windows_h.STD_OUTPUT_HANDLE), (int)value);
 			}
 		}
+
+		public static void Beep()
+		{
+			windows_h.Beep(400, 200);
+		}
+
 		public static void Beep(int f, int d)
 		{
 			windows_h.Beep(f, d);

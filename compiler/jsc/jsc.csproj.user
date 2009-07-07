@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\code.google\zproxygames\Bulldog\Bulldog.Client.Promotion\bin\Release</StartWorkingDirectory>
-    <StartArguments>Bulldog.Client.Promotion.dll -as</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\c\SpeakerMusic\SpeakerMusic\bin\Release</StartWorkingDirectory>
+    <StartArguments>SpeakerMusic.exe -c</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

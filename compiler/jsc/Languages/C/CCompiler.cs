@@ -1550,7 +1550,7 @@ namespace jsc.Languages.C
 
 		public override void WriteTypeConstructionVerified()
 		{
-			throw new Exception("The method or operation is not implemented.");
+			this.Write("/*newobj*/ malloc(4)");
 		}
 
 		public override void WriteKeywordNull()

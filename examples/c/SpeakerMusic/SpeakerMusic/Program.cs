@@ -193,6 +193,7 @@ namespace SpeakerMusic
 		{
 			// you really should not use headphones with PC speakers
 			Console.Beep();
+			JaggedArrayTest();
 
 			var m = new MusicalNotes();
 
@@ -321,6 +322,16 @@ namespace SpeakerMusic
 			Console.Beep(1200, 200);
 
 			return 0;
+		}
+
+		private static void JaggedArrayTest()
+		{
+
+			//var aa = new[] 
+			//{
+			//    new object[] { "7", "8", "9" },
+			//    new object[] { "1" },
+			//};
 		}
 
 
