@@ -7,6 +7,8 @@ using ScriptCoreLibJava.BCLImplementation.System;
 
 namespace csharp
 {
+	// exceptions really need to be reworked
+
     #region exceptions from java as c# friendly exceptions
     [global::System.Serializable]
     public class ThrowableException : System.Exception
@@ -70,73 +72,8 @@ namespace csharp
 
 namespace javax.common.wrapper
 {
-
-
-#if known
-    [Script(Implements = typeof(global::System.RuntimeFieldHandle))]
-    public class RuntimeFieldHandleImpl
-    {
-
-    }
-
-    [Script(Implements = typeof(global::System.Runtime.CompilerServices.RuntimeHelpers))]
-    public class RuntimeHelpersImpl
-    {
-        public static void InitializeArray(global::System.Array array, global::System.RuntimeFieldHandle fldHandle)
-        {
-
-        }
-    }
-#endif
-
-
-
-
-
-
-
-
-
-
-
-    [Script(Implements = typeof(global::System.Boolean),
-        ImplementationType = typeof(java.lang.Boolean))]
-    public class BooleanImpl
-    {
-        [Script(ExternalTarget = "parseBoolean")]
-        public static bool Parse(string e)
-        {
-            return java.lang.Boolean.parseBoolean(e);
-        }
-    }
-
-
     [Script(
        HasNoPrototype = true,
-        // ExternalTarget = "java.io.IOException",
-       Implements = typeof(global::System.IO.IOException),
-       ImplementationType = typeof(java.io.IOException))]
-    internal class IOExceptionImpl : __Exception
-    {
-        public IOExceptionImpl()
-        {
-        }
-
-        public IOExceptionImpl(string e)
-        {
-
-        }
-
-
-    }
-
-
-
-
-
-    [Script(
-       HasNoPrototype = true,
-        // ExternalTarget = "java.lang.Throwable",
       Implements = typeof(csharp.ThrowableException),
       ImplementationType = typeof(java.lang.Throwable))]
     internal class ThrowableExceptionImpl : __Exception
@@ -148,7 +85,6 @@ namespace javax.common.wrapper
 
     [Script(
        HasNoPrototype = true,
-        // ExternalTarget = "java.lang.UnsatisfiedLinkError",
        Implements = typeof(csharp.UnsatisfiedLinkError),
        ImplementationType = typeof(java.lang.UnsatisfiedLinkError))]
     internal class UnsatisfiedLinkErrorImpl : __Exception
@@ -161,7 +97,6 @@ namespace javax.common.wrapper
 
     [Script(
         HasNoPrototype = true,
-        // ExternalTarget = "java.lang.OutOfMemoryError",
         Implements = typeof(global::System.OutOfMemoryException),
        ImplementationType = typeof(java.lang.OutOfMemoryError))]
     internal class OutOfMemoryExceptionImpl : __Exception
@@ -173,7 +108,6 @@ namespace javax.common.wrapper
 
     [Script(
         HasNoPrototype = true,
-        // ExternalTarget = "java.lang.IndexOutOfBoundsException",
       Implements = typeof(global::System.IndexOutOfRangeException),
       ImplementationType = typeof(java.lang.IndexOutOfBoundsException))]
     internal class IndexOutOfRangeExceptionImpl : __Exception

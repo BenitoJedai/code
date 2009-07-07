@@ -36,9 +36,4 @@ using ScriptCoreLib;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-[assembly:
-	Script,
-	ScriptTypeFilter(ScriptType.ActionScript),
-	ScriptTypeFilter(ScriptType.JavaScript),
-	ScriptTypeFilter(ScriptType.Java),
-]
+[assembly: Obfuscation(Feature = "script")]

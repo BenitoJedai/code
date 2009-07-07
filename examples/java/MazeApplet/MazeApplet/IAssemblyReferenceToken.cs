@@ -6,8 +6,7 @@ using System.Text;
 namespace MazeApplet
 {
 	internal interface IAssemblyReferenceToken : 
-		ScriptCoreLibJava.IAssemblyReferenceToken,
-		ScriptCoreLib.Shared.Maze.IAssemblyReferenceTokenJava
+		ScriptCoreLibJava.IAssemblyReferenceToken
 	{
 	}
 }

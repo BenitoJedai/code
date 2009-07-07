@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-call build
+::call build
 
 call find.java appletviewer.exe
 set TargetPath=%ReturnValue%
