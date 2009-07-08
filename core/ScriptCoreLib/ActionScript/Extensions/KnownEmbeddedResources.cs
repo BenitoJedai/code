@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace ScriptCoreLib.ActionScript.Extensions
 {
 	[Script]
-	public class KnownEmbeddedResources 
+	[EmbedResources]
+	public class KnownEmbeddedResources
 	{
 		public readonly List<Converter<string, Class>> Handlers = new List<Converter<string, Class>>();
+
+		internal readonly Dictionary<string, Class> Cache = new Dictionary<string, Class>();
 
 		/// <summary>
 		/// Walks through all the Handlers and returns the first matching Class 
@@ -19,6 +23,9 @@ namespace ScriptCoreLib.ActionScript.Extensions
 		{
 			get
 			{
+				if (Cache.ContainsKey(e))
+					return Cache[e];
+
 				var c = default(Class);
 
 				foreach (var h in Handlers)
@@ -34,6 +41,10 @@ namespace ScriptCoreLib.ActionScript.Extensions
 				}
 
 				return c;
+			}
+			set
+			{
+				Cache[e] = value;
 			}
 		}
 

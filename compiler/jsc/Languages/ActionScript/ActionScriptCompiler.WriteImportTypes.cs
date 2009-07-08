@@ -27,6 +27,9 @@ namespace jsc.Languages.ActionScript
                 z.GetCustomAttributes<ScriptImportsTypeAttribute>().Select(i => i.Name)
             );
 
+			if (z.GetCustomAttributes<ScriptApplicationEntryPointAttribute>().Any())
+				t.Add(this.ResolveEmbedResourcesCollector());
+
             /*
             t.RemoveAll(delegate(Type x)
             {

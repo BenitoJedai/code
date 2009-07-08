@@ -13,7 +13,7 @@ namespace jsc.Languages.ActionScript
 {
 	partial class ActionScriptCompiler
 	{
-		class EmbedAttributeStub
+		public class EmbedAttributeStub
 		{
 			public string source;
 			public string mimeType;

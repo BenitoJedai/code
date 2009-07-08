@@ -77,6 +77,8 @@
     <Compile Include="BCLImplementation\System\Int64.cs" />
     <Compile Include="BCLImplementation\System\IntPtr.cs" />
     <Compile Include="BCLImplementation\System\IOException.cs" />
+    <Compile Include="BCLImplementation\System\IO\StringReader.cs" />
+    <Compile Include="BCLImplementation\System\IO\TextReader.cs" />
     <Compile Include="BCLImplementation\System\MulticastDelegate.cs" />
     <Compile Include="BCLImplementation\System\Object.cs" />
     <Compile Include="BCLImplementation\System\Environment.cs" />

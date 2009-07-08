@@ -118,6 +118,7 @@
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.OpCodes.Isinst.cs" />
     <Compile Include="Languages\ActionScript\ActionScriptCompiler.WriteInterfaceMappingMethods.cs" />
     <Compile Include="Languages\ActionScript\DelegateImplementationProvider.cs" />
+    <Compile Include="Languages\ActionScript\EmbedResourcesProvider.cs" />
     <Compile Include="Languages\ActionScript\EntryPointProvider.cs" />
     <Compile Include="Languages\CompilerBase.DIA.cs" />
     <Compile Include="Languages\CompilerBase.CompilerConstants.cs" />

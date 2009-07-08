@@ -31,7 +31,7 @@ namespace jsc.Languages.ActionScript
             }
         }
 
-		private void WriteCustomAttribute(string AttributeName, object AttributeRef, FieldInfo[] AttributeFields)
+		public void WriteCustomAttribute(string AttributeName, object AttributeRef, FieldInfo[] AttributeFields)
 		{
 			WriteIdent();
 
