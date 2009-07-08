@@ -24,7 +24,9 @@ namespace jsc.Languages.ActionScript
 
 				return;
 			}
-	
+
+			if (!z.GetCustomAttributes<ScriptApplicationEntryPointAttribute>().First().WithResources)
+				return;
 
 			// its all fine and dandy that we are ready to register
 			// our resources within this flash application
@@ -51,6 +53,13 @@ namespace jsc.Languages.ActionScript
 			Action<string, string> AddResource =
 				(path, member) =>
 				{
+					if (!path.StartsWith("assets/"))
+					{
+						// The scriptcorelib has embedded actionscript3 source
+						// code. We need to skip them.
+						return;
+					}
+
 					w.CompileType_WriteAdditionalMembers +=
 						delegate
 						{
