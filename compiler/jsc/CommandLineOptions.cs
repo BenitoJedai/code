@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
+using System.Reflection;
 
 
 namespace jsc
@@ -48,6 +49,17 @@ namespace jsc
             Description = "Target assembly filename in the working directory.")]
         public FileInfo TargetAssembly;
 
+		Assembly InternalTargetAssemblyReference;
+		public Assembly TargetAssemblyReference
+		{
+			get
+			{
+				if (InternalTargetAssemblyReference == null)
+					InternalTargetAssemblyReference = Assembly.LoadFile(TargetAssembly.FullName);
+
+				return InternalTargetAssemblyReference;
+			}
+		}
 
         // [CommandLineOption(Flag = "nothreads", Description = "Multithreading will be disabled")]
 		//public bool IsNoThreads = true;

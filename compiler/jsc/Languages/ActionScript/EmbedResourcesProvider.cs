@@ -17,9 +17,14 @@ namespace jsc.Languages.ActionScript
 
 		public static void WriteEmbedResources(this ActionScriptCompiler w, Type z)
 		{
-			// we are probably embedding assets multiple times
-			// if we happen to reference another entrypoint
-			// to avoid that the entrypoints should be never referenced
+			if (z.Assembly != w.MySession.Options.TargetAssemblyReference)
+			{
+				w.WriteIdent();
+				w.WriteCommentLine("there is a superior entrypoint which will embed the assets...");
+
+				return;
+			}
+	
 
 			// its all fine and dandy that we are ready to register
 			// our resources within this flash application
