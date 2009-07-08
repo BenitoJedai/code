@@ -59,6 +59,14 @@ namespace ScriptCoreLib
 		public uint BackgroundColor;
 
 		public bool AlignToCenter;
+
+		/// <summary>
+		/// By setting this property to true, this type will be responsible
+		/// for assets. For ActionScript this would mean registering them with 
+		/// the resource collector. In the future versions this property might
+		/// be true by default.
+		/// </summary>
+		public bool WithResources;
     }
 
 }
