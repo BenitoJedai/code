@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{9139FE8C-65D4-4276-AA59-73464BF6AF31}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -78,9 +78,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />
-    <EmbeddedResource Include="web\assets\OrcasAvalonApplication\AvalonGalleryExample.png" />
-    <EmbeddedResource Include="web\assets\OrcasAvalonApplication\PreviewSelection.png" />
-    <EmbeddedResource Include="web\assets\OrcasAvalonApplication\PreviewShadow.png" />
+    <EmbeddedResource Include="web\assets\CarouselExample\AvalonGalleryExample.png" />
+    <EmbeddedResource Include="web\assets\CarouselExample\PreviewSelection.png" />
+    <EmbeddedResource Include="web\assets\CarouselExample\PreviewShadow.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
