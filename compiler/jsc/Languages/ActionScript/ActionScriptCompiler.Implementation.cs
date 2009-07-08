@@ -66,11 +66,54 @@ namespace jsc.Languages.ActionScript
 			var cctor = z.GetStaticConstructor();
 
 			if (cctor == null)
+			{
+				// guess what - cctor is optional for types
+				// so we need to fabricate one if we feel like it
+				if (z.GetCustomAttributes<ScriptApplicationEntryPointAttribute>().Any())
+				{
+					var _cctor = z.Name + "_cctor";
+
+					WriteIdent();
+					WriteKeywordSpace(Keywords._internal);
+					WriteKeywordSpace(Keywords._static);
+					WriteKeywordSpace(Keywords._function);
+					WriteSafeLiteral(_cctor);
+					Write("()");
+					Write(":");
+					WriteDecoratedTypeName(typeof(void));
+					WriteLine();
+
+					using (CreateScope())
+					{
+						this.WriteEmbedResources(z);
+					}
+
+					return delegate
+					{
+						WriteIdent();
+						WriteDecoratedTypeName(z);
+						Write(".");
+						WriteSafeLiteral(_cctor);
+						Write("();");
+						WriteLine();
+					};
+				}
+
 				return null;
+			}
 
 			WriteXmlDoc(cctor);
 			WriteMethodSignature(z, cctor, false);
-			WriteMethodBody(cctor, MethodBodyFilter);
+			WriteMethodBody(cctor, MethodBodyFilter,
+				delegate
+				{
+					if (z.GetCustomAttributes<ScriptApplicationEntryPointAttribute>().Any())
+					{
+						this.WriteEmbedResources(z);
+					}
+				}
+			);
+
 			WriteLine();
 
 			return delegate
@@ -103,7 +146,7 @@ namespace jsc.Languages.ActionScript
 							: m);
 		}
 
-	
+
 		public override void WriteTypeSignature(Type z, ScriptCoreLib.ScriptAttribute za)
 		{
 			DebugBreak(za);

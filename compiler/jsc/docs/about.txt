@@ -272,3 +272,5 @@ version history:
 	java: delegates now support return type
 06.07.2009
 	jsc: NamespaceFixup will now consider all entripoint referenced libraries
+08.07.2009
+	as: Assets are now somewhat more automatically embedded

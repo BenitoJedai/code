@@ -57,6 +57,7 @@
     <Compile Include="ActionScript\DynamicTypeAttribute.cs" />
     <Compile Include="ActionScript\EmbedByFileNameAttribute.cs" />
     <Compile Include="ActionScript\EmbedFieldsAttribute.cs" />
+    <Compile Include="ActionScript\EmbedResourcesAttribute.cs" />
     <Compile Include="CSharp\Extensions\CodeWriterExtensions.cs" />
     <Compile Include="CSharp\Extensions\ScriptAttributeExtensions.cs" />
     <Compile Include="CSharp\Extensions\StringToSByteArray.cs" />
