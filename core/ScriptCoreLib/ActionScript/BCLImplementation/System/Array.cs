@@ -63,5 +63,16 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
             a.reverse();
         }
+
+		public static global::System.Array CreateInstance(Type elementType, int length)
+		{
+			// in ActionScript we are not yet using vector<>
+			// which would have the element type
+			// this means that at this time we will return typeless array
+
+			var a = new object[length];
+
+			return (global::System.Array)a;
+		}
     }
 }

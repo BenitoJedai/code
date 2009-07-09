@@ -273,8 +273,9 @@ version history:
 06.07.2009
 	jsc: NamespaceFixup will now consider all entrypoint referenced libraries
 08.07.2009
-	as: Assets are now somewhat more automatically embedded
+	actionscript: Assets are now somewhat more automatically embedded
 09.07.2009
 	java: delegate Invoke will now initialize nonvalue return type value to null
 	java: delegate Invoke now unboxes bool types correctly
 	java: System.Array instance type implementation is redirected to java.lang.Object
+	actionscript: no longer try to overload System.Object methods which are not inherited
