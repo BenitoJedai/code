@@ -183,7 +183,7 @@ namespace jsc.Languages.ActionScript
 					if (prop.SetProperty != null && prop.SetProperty.GetSetMethod(true).GetParameters().Length == 1)
 					{
 
-						WriteSafeLiteral(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.SetProperty.Name);
+						WriteSafeLiteralWithoutTypeNameClash(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.SetProperty.Name);
 						WritePropertyAssignment(prop);
 
 						return;
@@ -191,7 +191,7 @@ namespace jsc.Languages.ActionScript
 
 					if (prop.GetProperty != null && prop.GetProperty.GetGetMethod(true).GetParameters().Length == 0)
 					{
-						WriteSafeLiteral(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.GetProperty.Name);
+						WriteSafeLiteralWithoutTypeNameClash(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.GetProperty.Name);
 						return;
 					}
 				}
@@ -254,7 +254,7 @@ namespace jsc.Languages.ActionScript
 								)
 							))
 						{
-							WriteSafeLiteral(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.SetProperty.Name);
+							WriteSafeLiteralWithoutTypeNameClash(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.SetProperty.Name);
 							WritePropertyAssignment(prop);
 							return;
 						}
@@ -266,7 +266,7 @@ namespace jsc.Languages.ActionScript
 								)
 							))
 						{
-							WriteSafeLiteral(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.GetProperty.Name);
+							WriteSafeLiteralWithoutTypeNameClash(HasMethodExternalTarget ? MethodScriptAttribute.ExternalTarget : prop.GetProperty.Name);
 							return;
 						}
 					}

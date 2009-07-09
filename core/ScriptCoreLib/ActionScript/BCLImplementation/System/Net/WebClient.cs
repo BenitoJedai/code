@@ -29,7 +29,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Net
 			loader.ioError +=
 				args =>
 				{
-					var e = new __DownloadStringCompletedEventArgs {  };
+					var e = new __DownloadStringCompletedEventArgs { Error = new Exception("ioError") };
 					DownloadStringCompleted(null, (DownloadStringCompletedEventArgs)(object)e);
 				};
 
@@ -37,7 +37,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Net
 			loader.securityError +=
 				args =>
 				{
-					var e = new __DownloadStringCompletedEventArgs { };
+					var e = new __DownloadStringCompletedEventArgs { Error = new Exception("securityError") };
 					DownloadStringCompleted(null, (DownloadStringCompletedEventArgs)(object)e);
 				};
 

@@ -148,12 +148,12 @@ namespace jsc.Languages.ActionScript
 				if (IsSet)
 				{
 					WriteKeywordSpace(Keywords._set);
-					WriteSafeLiteral(prop.SetProperty.Name);
+					WriteSafeLiteralWithoutTypeNameClash(prop.SetProperty.Name);
 				}
 				else if (IsGet)
 				{
 					WriteKeywordSpace(Keywords._get);
-					WriteSafeLiteral(prop.GetProperty.Name);
+					WriteSafeLiteralWithoutTypeNameClash(prop.GetProperty.Name);
 				}
 				else if (IsNativeTarget)
 				{
