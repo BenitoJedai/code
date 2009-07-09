@@ -70,6 +70,7 @@
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
     <Compile Include="BCLImplementation\System\Attribute.cs" />
     <Compile Include="BCLImplementation\System\Delegate.cs" />
+    <Compile Include="BCLImplementation\System\Diagnostics\Trace.cs" />
     <Compile Include="BCLImplementation\System\Double.cs" />
     <Compile Include="BCLImplementation\System\IAsyncResult.cs" />
     <Compile Include="BCLImplementation\System\IClonable.cs" />
