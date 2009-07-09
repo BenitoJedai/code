@@ -61,17 +61,17 @@ namespace jsc.Languages.Java
 					if (p != z)
 					{
 
-						imports.Add(NamespaceFixup(n + GetDecoratedTypeName(p, false, false, false), p));
+						imports.Add(NamespaceFixup(n + GetDecoratedTypeName(p, false, false, false, true), p));
 					}
 
-					imports.Add(NamespaceFixup(GetDecoratedTypeName(p, true, false, false), p));
+					imports.Add(NamespaceFixup(GetDecoratedTypeName(p, true, false, false, true), p));
 
 
 				}
 				else
 				{
 
-					imports.Add(NamespaceFixup(n + GetDecoratedTypeName(p, true, false, false), p));
+					imports.Add(NamespaceFixup(n + GetDecoratedTypeName(p, true, false, false, true), p));
 
 
 

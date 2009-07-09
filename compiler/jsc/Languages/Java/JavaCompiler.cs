@@ -155,7 +155,7 @@ namespace jsc.Languages.Java
 			}
 
 			if (m.IsStatic || dStatic)
-				WriteKeywordStatic();
+				this.WriteKeywordSpace(Keywords._static);
 			else
 			{
 				if (m is MethodInfo)
@@ -182,7 +182,7 @@ namespace jsc.Languages.Java
 			}
 
 			if (m.IsInstanceConstructor())
-				Write(GetDecoratedTypeName(m.DeclaringType, false));
+				Write(GetDecoratedTypeName(m.DeclaringType, false, true, true, true));
 			else
 				WriteDecoratedMethodName(m, false);
 
@@ -278,7 +278,7 @@ namespace jsc.Languages.Java
 			string x = ScriptGetExternalTarget(m);
 
 			if (x == null)
-				Write(GetDecoratedTypeName(m, false));
+				Write(GetDecoratedTypeName(m, false, true, true, true));
 			else
 				Write(x);
 
@@ -539,27 +539,19 @@ namespace jsc.Languages.Java
 				// maybe for strings and such?
 				// but they have to define implementation type then
 
-				var pz = ResolveImplementation(p.ParameterType) ?? p.ParameterType;
 
-				if (pz.ToScriptAttributeOrDefault().Implements == typeof(System.Array))
-					Write("Object ");
+
+
+				if (za.Implements != null && m.DeclaringType == p.ParameterType)
+					WriteDecoratedTypeNameOrImplementationTypeName(za.Implements, true, true);
 				else
-				{
+					WriteDecoratedTypeNameOrImplementationTypeName(p.ParameterType, true, true);
 
 
-					if (za.Implements != null && m.DeclaringType == p.ParameterType)
-						WriteDecoratedTypeNameOrImplementationTypeName(za.Implements, true, true);
-					else
-						WriteDecoratedTypeNameOrImplementationTypeName(p.ParameterType, true, true);
+				WriteSpace();
 
 
-					WriteSpace();
 
-
-				}
-
-				//else
-				//    WriteVariableType(za.Implements, true);
 
 				Write(p.Name);
 			}
@@ -636,17 +628,14 @@ namespace jsc.Languages.Java
 				WriteKeywordFinal();
 
 			if (zfn.IsStatic)
-				WriteKeywordStatic();
+				this.WriteKeywordSpace(Keywords._static);
 
 			if (zfn.IsNotSerialized)
 				Write("transient ");
 		}
 
 		#region keywords
-		private void WriteKeywordStatic()
-		{
-			Write("static ");
-		}
+
 
 		private void WriteKeywordImport()
 		{
@@ -683,7 +672,7 @@ namespace jsc.Languages.Java
 
 		public override string GetDecoratedTypeNameWithinNestedName(Type z)
 		{
-			return GetDecoratedTypeName(z, false, false, false);
+			return GetDecoratedTypeName(z, false, false, false, true);
 		}
 
 		public override void WriteTypeSignature(Type z, ScriptAttribute za)
@@ -716,7 +705,7 @@ namespace jsc.Languages.Java
 			if (za.Implements == null)
 				Write(GetDecoratedTypeNameWithinNestedName(z));
 			else
-				Write(GetDecoratedTypeName(z, false));
+				Write(GetDecoratedTypeName(z, false, true, true, true));
 
 
 			#region extends
@@ -821,11 +810,7 @@ namespace jsc.Languages.Java
 		// http://www.idevelopment.info/data/Programming/java/miscellaneous_java/Java_Primitive_Types.html
 		public override string GetDecoratedTypeName(Type type, bool bExternalAllowed)
 		{
-			if (type == null)
-				return "null";
-
 			return GetDecoratedTypeName(type, bExternalAllowed, true);
-
 		}
 
 		public string GetDecoratedTypeName(Type type, bool bExternalAllowed, bool bUsePrimitives)
@@ -835,6 +820,14 @@ namespace jsc.Languages.Java
 
 		public string GetDecoratedTypeName(Type type, bool bExternalAllowed, bool bUsePrimitives, bool bChopNestedParents)
 		{
+			return GetDecoratedTypeName(type, bExternalAllowed, bUsePrimitives, bChopNestedParents, false);
+		}
+
+		public string GetDecoratedTypeName(Type type, bool bExternalAllowed, bool bUsePrimitives, bool bChopNestedParents, bool bDisableArrayToObjectRewrite)
+		{
+			if (type == null)
+				return "null";
+
 			if (type.IsEnum)
 			{
 				// http://stackoverflow.com/questions/503806/in-c-can-i-use-reflection-to-determine-if-an-enum-type-is-int-byte-short-etc
@@ -845,6 +838,14 @@ namespace jsc.Languages.Java
 			{
 				return GetDecoratedTypeName(type.GetElementType(), bExternalAllowed, bUsePrimitives, bChopNestedParents) + "[]";
 			}
+
+			if (!bDisableArrayToObjectRewrite)
+			{
+				if (type.ToScriptAttributeOrDefault().Implements == typeof(Array))
+					return GetDecoratedTypeName(typeof(object), false);
+			}
+
+
 
 			ScriptAttribute a = ScriptAttribute.Of(type, true);
 
