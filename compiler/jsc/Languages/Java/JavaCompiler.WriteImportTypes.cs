@@ -292,6 +292,7 @@ namespace jsc.Languages.Java
 					if (i == OpCodes.Ldtoken)
 					{
 						imp.Add(MySession.ResolveImplementation(typeof(RuntimeTypeHandle)));
+						imp.Add(MySession.ResolveImplementation(typeof(Type)));
 
 						// A RuntimeHandle can be a fieldref/fielddef, a methodref/methoddef, or a typeref/typedef.
 						var RuntimeTypeHandle_Type = i.TargetType;
