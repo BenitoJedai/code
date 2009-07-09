@@ -279,3 +279,4 @@ version history:
 	java: delegate Invoke now unboxes bool types correctly
 	java: System.Array instance type implementation is redirected to java.lang.Object
 	actionscript: no longer try to overload System.Object methods which are not inherited
+	actionscript: Property name can now be "Error" and will be translated to "_Error"

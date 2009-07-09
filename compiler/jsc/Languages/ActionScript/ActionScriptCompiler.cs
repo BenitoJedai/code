@@ -153,6 +153,20 @@ namespace jsc.Languages.ActionScript
             Write(")");
             WriteLine(";");
         }
+
+		public void WriteSafeLiteralWithoutTypeNameClash(string e)
+		{
+			// Ideally we would use the escape sign like @ in c#
+			// we need to do that for each keyword and native type it seems...
+
+			if (e == "Error")
+			{
+				WriteSafeLiteral("_" + e);
+				return;
+			}
+
+			WriteSafeLiteral(e);
+		}
     }
 
 
