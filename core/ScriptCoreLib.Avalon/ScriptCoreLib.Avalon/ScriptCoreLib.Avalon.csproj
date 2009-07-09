@@ -82,6 +82,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\UIElementCollection.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\FontFamily.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Style.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Threading\Dispatcher.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Vector.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\DependencyObject.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\FrameworkElement.cs" />
@@ -197,6 +198,7 @@
     <Compile Include="JavaScript\UCLImplementation\AvalonExtensions.cs" />
     <Compile Include="Shared\Avalon\Controls\DragBehavior.cs" />
     <Compile Include="Shared\Avalon\Controls\TiledBackgroundImage.cs" />
+    <Compile Include="Shared\Avalon\Extensions\AnimatedDouble.cs" />
     <Compile Include="Shared\Avalon\Extensions\AnimatedOpacity.cs" />
     <Compile Include="Shared\Avalon\Extensions\AvalonExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

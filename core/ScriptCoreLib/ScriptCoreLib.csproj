@@ -170,6 +170,7 @@
     </Compile>
     <Compile Include="ActionScript\BCLImplementation\System\Collections\ObjectModel\Collection.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Comparison.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\AsyncCompletedEventArgs.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\BindingList.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\Component.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ComponentCollection.cs" />
@@ -201,6 +202,9 @@
     <Compile Include="ActionScript\BCLImplementation\System\IO\TextWriter.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\StringReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\TextReader.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Net\DownloadStringCompletedEventArgs.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Net\DownloadStringCompletedEventHandler.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Net\WebClient.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\Serialization\ISerializable.cs" />
     <Compile Include="ActionScript\Extensions\DynamicContainer.cs" />
