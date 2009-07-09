@@ -9,6 +9,7 @@ using ScriptCoreLib.CSharp.Extensions;
 using System.IO;
 using System.Windows;
 using System.Windows.Navigation;
+using System.Net;
 
 namespace ScriptCoreLib.Shared.Avalon.Extensions
 {
@@ -17,6 +18,8 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	// reimplement for target languages
 	public static class AvalonExtensions
 	{
+
+
 		public static AvalonSoundChannel ToSound(this string asset)
 		{
 			return new AvalonSoundChannel();
