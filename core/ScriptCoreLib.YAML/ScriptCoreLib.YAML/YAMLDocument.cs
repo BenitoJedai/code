@@ -7,9 +7,12 @@ using System.Reflection;
 
 namespace ScriptCoreLib.YAML
 {
+
 	// see: http://yaml.org/spec/current.html
 	public class YAMLDocument
 	{
+		public const string ContentType = "text/x-yaml";
+
 		const string Indent = " ";
 		const string Assignment = ": ";
 

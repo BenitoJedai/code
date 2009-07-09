@@ -14,7 +14,7 @@ namespace OrcasFlashApplication.ActionScript
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
 	/// </summary>
-	[Script, ScriptApplicationEntryPoint]
+	[Script, ScriptApplicationEntryPoint(WithResources = true)]
 	[SWF]
 	public class OrcasFlashApplication : Sprite
 	{
@@ -57,7 +57,7 @@ namespace OrcasFlashApplication.ActionScript
 					alwaysShowSelection = true,
 				}.AttachTo(this);
 
-			
+
 			KnownEmbeddedResources.Default["assets/OrcasFlashApplication/Preview.png"].ToBitmapAsset().AttachTo(this).MoveTo(100, 200);
 		}
 
