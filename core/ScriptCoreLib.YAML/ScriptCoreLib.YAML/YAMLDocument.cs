@@ -60,9 +60,10 @@ namespace ScriptCoreLib.YAML
 
 				if (x == "-")
 				{
-					var b = Array.CreateInstance(t, a.Length + 1);
-					Array.Copy(a, b, a.Length);
-					((object[])b)[a.Length] = FromScalars(t, r, n => next = () => x = n );
+					var length = ((object[])a).Length;
+					var b = Array.CreateInstance(t, length + 1);
+					Array.Copy(a, b, length);
+					((object[])b)[length] = FromScalars(t, r, n => next = () => x = n);
 					a = b;
 				}
 

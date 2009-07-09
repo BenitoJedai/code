@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YAMLExample", "YAMLExample\YAMLExample.csproj", "{A05B7DE5-9F28-483A-B1E2-D1FE27B9003D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A05B7DE5-9F28-483A-B1E2-D1FE27B9003D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A05B7DE5-9F28-483A-B1E2-D1FE27B9003D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A05B7DE5-9F28-483A-B1E2-D1FE27B9003D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A05B7DE5-9F28-483A-B1E2-D1FE27B9003D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
