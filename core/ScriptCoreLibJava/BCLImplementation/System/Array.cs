@@ -22,5 +22,22 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		{
 			java.lang.JavaSystem.arraycopy(sourceArray, sourceIndex, destinationArray, destinationIndex, length);
 		}
+
+		public static Array CreateInstance(Type elementType, int length)
+		{
+			__Type t = elementType;
+			var o = default(Array);
+
+			try
+			{
+				o = (Array)java.lang.reflect.Array.newInstance(t.TypeDescription, length);
+			}
+			catch (csharp.ThrowableException e)
+			{
+				throw new csharp.RuntimeException(e.ToString());
+			}
+
+			return o;
+		}
 	}
 }

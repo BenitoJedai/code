@@ -97,8 +97,9 @@ namespace jsc.Languages.Java
 
                         //WriteTypeOrExternalTargetTypeName(ta.Implements);
 
-                        WriteDecoratedTypeName(ScriptAttribute.Of(m.DeclaringType).ImplementationType);
-                        Write(".");
+						this.Write(GetDecoratedTypeName(ScriptAttribute.Of(m.DeclaringType).ImplementationType, true, true, true, true));
+                        
+						Write(".");
 
                     }
                     else

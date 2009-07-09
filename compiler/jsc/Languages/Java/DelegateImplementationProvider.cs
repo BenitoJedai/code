@@ -66,6 +66,18 @@ namespace jsc.Languages.Java
 				w.WriteDecoratedTypeName(m.ReturnType);
 				w.WriteSpace();
 				w.WriteSafeLiteral(__value);
+
+				if (m.ReturnType == typeof(bool))
+				{
+					w.WriteAssignment();
+					w.WriteKeyword(JavaCompiler.Keywords._false);
+				}
+				else if (m.ReturnType.IsClass | m.ReturnType.IsInterface)
+				{
+					w.WriteAssignment();
+					w.WriteKeyword(JavaCompiler.Keywords._null);
+				}
+
 				w.WriteLine(";");
 			}
 
@@ -118,7 +130,7 @@ namespace jsc.Languages.Java
 				w.Write("[");
 				w.WriteSafeLiteral(__index);
 				w.Write("]");
-				
+
 				w.WriteLine(";");
 
 				#region invoke
@@ -128,9 +140,19 @@ namespace jsc.Languages.Java
 				{
 					w.WriteSafeLiteral(__value);
 					w.WriteAssignment();
-					w.Write("(");
-					w.WriteDecoratedTypeName(m.ReturnType);
-					w.Write(")");
+			
+					// unbox
+
+					if (m.ReturnType == typeof(bool))
+					{
+						w.Write("((Boolean)");
+					}
+					else
+					{
+						w.Write("(");
+						w.WriteDecoratedTypeName(m.ReturnType);
+						w.Write(")");
+					}
 				}
 
 
@@ -207,14 +229,22 @@ namespace jsc.Languages.Java
 				#endregion
 
 				w.Write(")");
+
+				// unbox
+
+				if (m.ReturnType == typeof(bool))
+				{
+					w.Write(").booleanValue()");
+				}
+
 				w.WriteLine(";");
 				#endregion
 
 			}
 
-		
 
-			
+
+
 
 
 			if (m.ReturnType != typeof(void))

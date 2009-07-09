@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BCLImplementation\System\Action.cs" />
+    <Compile Include="BCLImplementation\System\Activator.cs" />
     <Compile Include="BCLImplementation\System\Array.cs" />
     <Compile Include="BCLImplementation\System\Boolean.cs" />
     <Compile Include="BCLImplementation\System\Console.cs" />
