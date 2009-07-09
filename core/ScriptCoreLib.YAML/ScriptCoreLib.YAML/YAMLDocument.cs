@@ -89,7 +89,10 @@ namespace ScriptCoreLib.YAML
 
 				foreach (var i in f)
 				{
-					w.AppendLine(Indent + i.Name + Assignment + i.GetValue(k));
+					var value = i.GetValue(k);
+
+					if (value != null)
+						w.AppendLine(Indent + i.Name + Assignment + value);
 				}
 			}
 
