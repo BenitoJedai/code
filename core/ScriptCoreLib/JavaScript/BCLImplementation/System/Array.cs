@@ -62,5 +62,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             Sort(array, comparer.Compare);
         }
+
+		public static global::System.Array CreateInstance(Type elementType, int length)
+		{
+			var a = new object[length];
+
+			return (global::System.Array)a;
+		}
     }
 }

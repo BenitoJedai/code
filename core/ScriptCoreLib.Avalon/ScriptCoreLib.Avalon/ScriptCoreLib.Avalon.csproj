@@ -190,6 +190,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Shapes\Rectangle.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Shapes\Shape.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Thickness.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Threading\Dispatcher.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Threading\DispatcherObject.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Threading\DispatcherTimer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\UIElement.cs" />
