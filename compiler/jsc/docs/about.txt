@@ -280,3 +280,5 @@ version history:
 	java: System.Array instance type implementation is redirected to java.lang.Object
 	actionscript: no longer try to overload System.Object methods which are not inherited
 	actionscript: Property name can now be "Error" and will be translated to "_Error"
+12.07.2009
+	java: type imports are now also scanned from cctor
