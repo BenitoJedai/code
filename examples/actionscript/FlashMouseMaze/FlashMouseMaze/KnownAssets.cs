@@ -11,11 +11,10 @@ namespace FlashMouseMaze
 	{
 
 		[Script]
-		public class KnownAssets : AssetsImplementationDetails
+		public class KnownAssets
 		{
-			public static readonly KnownAssets Default = new KnownAssets();
 
-			[Script, ScriptResources]
+			[Script]
 			public static class Path
 			{
 				public const string Assets = "assets/FlashMouseMaze";
@@ -24,60 +23,5 @@ namespace FlashMouseMaze
 
 		}
 
-		#region AssetsImplementationDetails
-		public class AssetsImplementationDetails
-		{
-			// This class has the native implementation
-			// JavaScript and ActionScript have their own implementations!
-
-			public string[] FileNames
-			{
-				get
-				{
-					return ScriptCoreLib.CSharp.Extensions.EmbeddedResourcesExtensions.GetEmbeddedResources(null, this.GetType().Assembly);
-				}
-			}
-
-		}
-		#endregion
-
-
 	}
-
-	#region AssetsImplementationDetails
-	namespace JavaScript
-	{
-		[Script(Implements = typeof(Shared.AssetsImplementationDetails))]
-		internal class __AssetsImplementationDetails
-		{
-			public string[] FileNames
-			{
-				[EmbedGetFileNames]
-				get
-				{
-					throw new NotImplementedException();
-				}
-			}
-		}
-	}
-
-	namespace ActionScript
-	{
-		[Script(Implements = typeof(Shared.AssetsImplementationDetails))]
-		internal class __AssetsImplementationDetails
-		{
-			public string[] FileNames
-			{
-				[EmbedGetFileNames]
-				get
-				{
-					throw new NotImplementedException();
-				}
-			}
-
-		}
-
-
-	}
-	#endregion
 }

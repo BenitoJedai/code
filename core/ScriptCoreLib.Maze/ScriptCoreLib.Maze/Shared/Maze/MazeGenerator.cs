@@ -17,7 +17,7 @@ namespace ScriptCoreLib.Shared.Maze
 			var sx = maze.Width * 2 - 3;
 			var sy = maze.Height * 2 - 3;
 
-			this.Width = sy;
+			this.Width = sx;
 			this.Height = sy;
 
 			var w = new bool[sx][];
@@ -121,9 +121,11 @@ namespace ScriptCoreLib.Shared.Maze
 			}
 		}
 
+		static readonly Random random_cache = new Random();
+
 		internal static double random()
 		{
-			return new Random().NextDouble();
+			return random_cache.NextDouble();
 		}
 
 		RectInt32 clip;
