@@ -144,11 +144,12 @@ namespace jsc.Languages.Java
 
 			foreach (MethodBase v in GetAllInstanceConstructors(t))
 			{
-
-
 				GetImportTypesFromMethod(t, imp, v);
 			}
 
+			var cctor = t.GetStaticConstructor();
+			if (cctor != null)
+				GetImportTypesFromMethod(t, imp, cctor);
 
 			foreach (MethodInfo mi in this.GetAllMethods(t))
 			{
