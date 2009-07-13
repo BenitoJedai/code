@@ -20,5 +20,10 @@ namespace ScriptCoreLibJavaCard
 		/// defined by the current implementation and not an external specification.
 		/// </summary>
 		public bool AutoAssignInstructions;
+
+		public override string ToString()
+		{
+			return "0x" + CLA.ToString("x2");
+		}
 	}
 }
