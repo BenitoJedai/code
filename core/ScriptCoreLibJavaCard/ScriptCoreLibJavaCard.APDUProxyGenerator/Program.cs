@@ -87,6 +87,8 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 															if (i.Count() == 1)
 															{
 																DispatcherInvoke(w, i.Single().k);
+
+																w.Statement("return true;");
 															}
 															else
 															{
@@ -115,10 +117,12 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 																	);
 
 																}
+
+																// maybe invoke the one without a default P1?
+																w.Statement("return false;");
 															}
 
-															// maybe invoke the one without a default P1?
-															w.Statement("return false;");
+														
 														}
 													);
 												}
