@@ -26,7 +26,7 @@ namespace ScriptCoreLibJavaCard
 
 		public override string ToString()
 		{
-			return "" + INS;
+			return "0x" + INS.ToString("x2");
 		}
 
 		public APDUInstructionAttribute ToINS(byte p)

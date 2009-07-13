@@ -11,7 +11,7 @@ using ScriptCoreLibJavaCard.APDUProxyGenerator.Library;
 
 namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 {
-	
+
 	class Program
 	{
 
@@ -69,65 +69,80 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 									w.Statement("var P2 = (byte)buffer[ISO7816Constants.OFFSET_P2];");
 									w.Statement("var Pi8 = (short)(((P1 & 0xff) << 8) + (P2 & 0xff));");
 
+									
 									foreach (var k in source)
 									{
-										w.Block("if (CLA == " + k.Key.CLA.ToHexLiteral() + ")",
+										#region CLA
+										w.Region("CLA " + k.Key.CLA.ToHexLiteral(),
 											delegate
 											{
-												var Instructions = k.Select((q, i) => new { q.k, q.CLA, INS = q.CLA.AutoAssignInstructions ? (byte)i : q.INS.INS }).OrderBy(ik => ik.INS);
+												w.Block("if (CLA == " + k.Key.CLA.ToHexLiteral() + ")",
+													delegate
+													{
+														var Instructions = k.Select((q, i) => new { q.k, q.CLA, INS = q.CLA.AutoAssignInstructions ? (byte)i : q.INS.INS }).OrderBy(ik => ik.INS).ToArray();
 
-												foreach (var i in Instructions.GroupBy(ik => ik.INS))
-												{
-													w.Block("if (INS == " + i.Key.ToHexLiteral() + ")",
-														delegate
+														foreach (var i in Instructions.GroupBy(ik => ik.INS))
 														{
-															// default calling convention...
-															// could be extended
+															#region INS
 
-															if (i.Count() == 1)
-															{
-																DispatcherInvoke(w, i.Single().k);
-
-																w.Statement("return true;");
-															}
-															else
-															{
-																// we shall distinguish instructions via
-																// byte P1, yay
-
-																foreach (var jj in
-																	from j in i
-																	let jpp = j.k.GetParameters()
-																	where jpp.Length >= 1
-																	let j_P1 = jpp[1]
-																	where j_P1.ParameterType == typeof(byte)
-																	where (j_P1.Attributes & ParameterAttributes.HasDefault) == ParameterAttributes.HasDefault
-																	let j_P1_value = (byte)j_P1.DefaultValue
-																	orderby j_P1_value
-																	select new { P1 = j_P1_value, j.k, j.CLA, j.INS }
-																	)
+															w.Block("if (INS == " + i.Key.ToHexLiteral() + ")",
+																delegate
 																{
+																	// default calling convention...
+																	// could be extended
 
-																	w.Block("if (P1 == " + jj.P1.ToHexLiteral() + ")",
-																		delegate
+																	if (i.Count() == 1)
+																	{
+																		DispatcherInvoke(w, i.Single().k);
+
+																		w.Statement("return true;");
+																	}
+																	else
+																	{
+																		// we shall distinguish instructions via
+																		// byte P1, yay
+
+																		foreach (var jj in
+																			from j in i
+																			let jpp = j.k.GetParameters()
+																			where jpp.Length >= 1
+																			let j_P1 = jpp[1]
+																			where j_P1.ParameterType == typeof(byte)
+																			where (j_P1.Attributes & ParameterAttributes.HasDefault) == ParameterAttributes.HasDefault
+																			let j_P1_value = (byte)j_P1.DefaultValue
+																			orderby j_P1_value
+																			select new { P1 = j_P1_value, j.k, j.CLA, j.INS }
+																			)
 																		{
-																			DispatcherInvoke(w, jj.k);
-																			w.Statement("return true;");
+
+																			w.Block("if (P1 == " + jj.P1.ToHexLiteral() + ")",
+																				delegate
+																				{
+																					DispatcherInvoke(w, jj.k);
+																					w.Statement("return true;");
+																				}
+																			);
+
 																		}
-																	);
+
+																		// maybe invoke the one without a default P1?
+																		w.Statement("return false;");
+																	}
+
 
 																}
+															);
 
-																// maybe invoke the one without a default P1?
-																w.Statement("return false;");
-															}
-
-														
+															#endregion
 														}
-													);
-												}
+
+
+													}
+												);
 											}
 										);
+										#endregion
+
 									}
 
 									w.Statement("return false;");
@@ -158,7 +173,7 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 									w.Statement("public byte LengthExpected;");
 									w.Statement("public bool IsLengthExpectedSpecified;");
 
-									
+
 									//w.Statement("[Script]");
 									w.Block("class WithLengthExpected_IDisposable : IDisposable",
 										delegate
@@ -173,9 +188,9 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 													w.Statement("__LengthExpected = context.LengthExpected;");
 													w.Statement("__IsLengthExpectedSpecified = context.IsLengthExpectedSpecified;");
 
- 													w.Statement("context.LengthExpected = value;");
+													w.Statement("context.LengthExpected = value;");
 													w.Statement("context.IsLengthExpectedSpecified = true;");
-													
+
 													w.Statement("this.context = context;");
 												}
 											);
@@ -374,7 +389,13 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 										);
 									}
 
-									foreach (var i in source.SelectMany(k => k).Select((q, i) => new { q.k, q.CLA, INS = q.CLA.AutoAssignInstructions ? (q.INS.ToINS((byte)i)) : q.INS }))
+									var ProxyInstructions = source.SelectMany(k => 
+											
+										k.Select((q, i) => new { q.k, q.CLA, INS = q.CLA.AutoAssignInstructions ? (q.INS.ToINS((byte)i)) : q.INS })
+										
+									).ToArray();
+
+									foreach (var i in ProxyInstructions)
 									{
 										var ik = i.k;
 										var CLA = i.CLA.CLA;
@@ -486,8 +507,8 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 					delegate
 					{
 						w.Statement("var c = new System.IO.MemoryStream();");
-						w.Statement("c.WriteByte(" + CLA + ");");
-						w.Statement("c.WriteByte(" + INS + ");");
+						w.Statement("c.WriteByte(" + CLA.ToHexLiteral() + ");");
+						w.Statement("c.WriteByte(" + INS.INS.ToHexLiteral() + ");");
 						w.Statement("c.WriteByte(" + 0 + ");");
 						w.Statement("c.WriteByte(" + 0 + ");");
 						w.Statement("c.WriteByte((byte)data.Length);");
@@ -508,8 +529,8 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 					delegate
 					{
 						w.Statement("var c = new System.IO.MemoryStream();");
-						w.Statement("c.WriteByte(" + CLA + ");");
-						w.Statement("c.WriteByte(" + INS + ");");
+						w.Statement("c.WriteByte(" + CLA.ToHexLiteral() + ");");
+						w.Statement("c.WriteByte(" + INS.INS.ToHexLiteral() + ");");
 						w.Statement("c.WriteByte(" + "(byte)((" + Pi8.Name + " >> 8) & 0xff)" + ");");
 						w.Statement("c.WriteByte(" + "(byte)(" + Pi8.Name + " & 0xff)" + ");");
 
@@ -619,8 +640,8 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 						#endregion
 
 						w.Statement("var c = new System.IO.MemoryStream();");
-						w.Statement("c.WriteByte(" + CLA + ");");
-						w.Statement("c.WriteByte(" + INS + ");");
+						w.Statement("c.WriteByte(" + CLA.ToHexLiteral() + ");");
+						w.Statement("c.WriteByte(" + INS.INS.ToHexLiteral() + ");");
 						w.Statement("c.WriteByte((byte)" + (P1_HasDefault ? P1.DefaultValue : P1.Name) + ");");
 						w.Statement("c.WriteByte((byte)" + (P2_HasDefault ? P2.DefaultValue : P2.Name) + ");");
 
