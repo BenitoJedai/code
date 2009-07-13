@@ -11,11 +11,20 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 	{
 		public double Value;
 
+		public event Action<double> ValueChanged;
 		public readonly Action<double> SetTarget;
 
 		public AnimatedDouble(double value)
 		{
-			var a = NumericEmitter.OfDouble((x, y) => this.Value = x);
+			var a = NumericEmitter.OfDouble(
+				(x, y) =>
+				{
+					this.Value = x;
+
+					if (this.ValueChanged != null)
+						this.ValueChanged(x);
+				}
+			);
 
 
 			SetTarget = x => a(x, 0);
