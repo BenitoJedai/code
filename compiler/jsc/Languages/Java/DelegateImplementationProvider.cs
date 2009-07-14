@@ -67,6 +67,7 @@ namespace jsc.Languages.Java
 				w.WriteSpace();
 				w.WriteSafeLiteral(__value);
 
+				// TODO: more defaults. Maybe even implement something like Write(default(T));
 				if (m.ReturnType == typeof(bool))
 				{
 					w.WriteAssignment();
@@ -207,7 +208,7 @@ namespace jsc.Languages.Java
 				{
 					w.Write(", ");
 
-					w.WriteDecoratedMethodParameter(p[i]);
+					w.WriteDecoratedMethodParameter(p[i], typeof(object));
 				}
 				w.Write("}");
 
@@ -223,7 +224,7 @@ namespace jsc.Languages.Java
 					if (i > 0)
 						w.Write(", ");
 
-					w.WriteDecoratedMethodParameter(p[i]);
+					w.WriteDecoratedMethodParameter(p[i], typeof(object));
 				}
 				w.Write("}");
 				#endregion

@@ -12,9 +12,28 @@ namespace DelegateExample
 	[Script]
 	public delegate string StringFunc();
 
+
+	[Script]
+	public delegate void UShortAction(ushort k);
+
+	[Script]
+	public delegate void UShortAndBytesAction(ushort k, params byte[] p);
+
+
+
 	[Script]
 	public static class Program
 	{
+		public static void SayUShort(ushort value)
+		{
+			Console.WriteLine("Say: " + value);
+		}
+
+		public static void SayUShortAndBytes(ushort value, params byte[] p)
+		{
+			Console.WriteLine("Say: " + value);
+		}
+
 		public static void Say(this string e)
 		{
 			Console.WriteLine("Say: " + e);
@@ -35,11 +54,13 @@ namespace DelegateExample
 
 		}
 
-		static  string prefix = "Me: ";
+		static  string prefix = "Me; ";
 
 		
 		public static void Main(string[] args)
 		{
+			CalllingWithPrimitives();
+
 			// Use Release Build to use jsc to generate java program
 			// Use Debug Build to develop on .net
 
@@ -74,6 +95,17 @@ namespace DelegateExample
 			y -= h;
 			y("Broadcasting once?!!");
 
+		}
+
+		private static void CalllingWithPrimitives()
+		{
+			UShortAction fSayUShort = SayUShort;
+
+			fSayUShort(0xFFFF);
+
+			UShortAndBytesAction fSayUShortAndBytes = SayUShortAndBytes;
+
+			fSayUShortAndBytes(0xFFFF, 1, 2);
 		}
 	}
 

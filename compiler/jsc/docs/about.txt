@@ -282,3 +282,6 @@ version history:
 	actionscript: Property name can now be "Error" and will be translated to "_Error"
 12.07.2009
 	java: type imports are now also scanned from cctor
+14.07.2009
+	java: delegates now support primitive parameter types 
+	java: casting now preferes primitive types
