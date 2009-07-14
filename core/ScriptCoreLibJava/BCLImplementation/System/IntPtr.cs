@@ -60,6 +60,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 						for (int i = 0; i < Parameters.Length; i++)
 						{
+							// name by name comparision... might not be that great!
 							if (Parameters[i].getName() != p[i].getName())
 							{
 								MethodToken = null;
@@ -71,6 +72,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			}
 
 			// should we worry about return type overloads too?
+			MethodToken.setAccessible(true);
 
 			return new __IntPtr { MethodToken = MethodToken };
 		}
