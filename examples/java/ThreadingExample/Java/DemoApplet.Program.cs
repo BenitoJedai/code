@@ -11,6 +11,7 @@ namespace ThreadingExample.Java
 	{
 		public static void Main(string[] args)
 		{
+			
 			Console.WriteLine("This example will show how to write multithreaded console.");
 
 			var MyComputation = new LongComputation();
