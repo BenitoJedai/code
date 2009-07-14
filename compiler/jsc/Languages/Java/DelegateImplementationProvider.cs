@@ -9,6 +9,8 @@ namespace jsc.Languages.Java
 {
 	static class DelegateImplementationProvider
 	{
+		// see: http://www.informit.com/articles/article.aspx?p=26872&seqNum=7
+
 
 		const string IsExtensionMethod = "IsExtensionMethod";
 		public const string AsExtensionMethod = "AsExtensionMethod";

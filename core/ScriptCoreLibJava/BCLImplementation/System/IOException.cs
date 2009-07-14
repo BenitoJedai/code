@@ -12,13 +12,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		// ExternalTarget = "java.io.IOException",
 	   Implements = typeof(global::System.IO.IOException),
 	   ImplementationType = typeof(java.io.IOException))]
-	internal class IOExceptionImpl : __Exception
+	internal class __IOExceptionImpl : __Exception
 	{
-		public IOExceptionImpl()
+		public __IOExceptionImpl()
 		{
 		}
 
-		public IOExceptionImpl(string e)
+		public __IOExceptionImpl(string e)
 		{
 
 		}
