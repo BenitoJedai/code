@@ -14,5 +14,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Text
 		{
 			return (string)(object)new java.lang.String(__File.InternalByteArrayToSByteArray(bytes));
 		}
+
+		public override byte[] GetBytes(string s)
+		{
+			return (byte[])(object)((java.lang.String)(object)s).getBytes();
+		}
 	}
 }

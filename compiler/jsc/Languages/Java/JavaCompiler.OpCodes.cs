@@ -122,8 +122,15 @@ namespace jsc.Languages.Java
 						if (i > 0)
 							Write(", ");
 
+						var pt = _MethodParameters[i].ParameterType;
 
-						WriteDecoratedTypeNameOrImplementationTypeName(_MethodParameters[i].ParameterType, false, true);
+						// step 1 - java does not really have usigned value types
+						if (pt == typeof(ushort)) pt = typeof(short);
+						if (pt == typeof(byte)) pt = typeof(sbyte);
+						if (pt == typeof(uint)) pt = typeof(int);
+
+						// step 2 - we want to reference primitive types if available
+						WriteDecoratedTypeNameOrImplementationTypeName(pt, true, true);
 						Write(".");
 						WriteKeyword(Keywords._class);
 					}
@@ -131,45 +138,6 @@ namespace jsc.Languages.Java
 					Write("}");
 					Write(")");
 
-					//if (_Method.IsStatic)
-					//{
-					//    WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _IntPtr));
-					//    Write(".");
-					//    WriteDecoratedMethodName(_IntPtr_Function, false);
-					//    Write("(");
-					//    WriteDecoratedTypeNameOrImplementationTypeName(_Method.DeclaringType, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _Method.DeclaringType), WriteDecoratedTypeNameOrImplementationTypeNameMode.IgnoreImplementationType);
-					//    Write(".");
-					//    WriteDecoratedMethodName(_Method, false);
-					//    Write(")");
-					//}
-					//else
-					//{
-					//    if (_Method.DeclaringType == e.Method.DeclaringType)
-					//    {
-					//        WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _IntPtr));
-					//        Write(".");
-					//        WriteDecoratedMethodName(_IntPtr_Function, false);
-					//        Write("(");
-					//        // jsc does not tell us the upper instructrion
-					//        // we must  assume that the upper instruction
-					//        // takes a stack of two (target, method)
-
-					//        EmitInstruction(e.p, e.i.Prev);
-					//        Write(".");
-
-					//        WriteDecoratedMethodName(_Method, false);
-					//        Write(")");
-					//    }
-					//    else
-					//    {
-					//        WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false, IsFullyQualifiedNamesRequired(e.Method.DeclaringType, _IntPtr));
-					//        Write(".");
-					//        WriteDecoratedMethodName(_IntPtr_string, false);
-					//        Write("(");
-					//        WriteDecoratedMethodName(_Method, true);
-					//        Write(")");
-					//    }
-					//}
 
 
 
@@ -618,91 +586,24 @@ namespace jsc.Languages.Java
 
 						TargetType = TargetType.ToScriptAttributeOrDefault().ImplementationType ?? TargetType;
 
-						ConvertTypeAndEmit(e, GetDecoratedTypeName(TargetType, true, false));
-						//Write("((");
+						// we shall use primitives whenever we are casting...
+						ConvertTypeAndEmit(e, GetDecoratedTypeName(TargetType, true, true));
 
-						//WriteDecoratedTypeName(e.i.TargetType);
-						//Write(")");
-						//EmitFirstOnStack(e);
-						//Write(")");
+						
 
 					};
 
 			CIW[OpCodes.Box] =
 				delegate(CodeEmitArgs e)
 				{
-					#region byte
-					if (e.i.TargetType == typeof(byte))
-					{
-						// short has 15 unsigned bits, we need 8
-						Write("new ");
-						Write(GetDecoratedTypeName(typeof(short), true, false));
-						Write("(");
-
-						if (e.FirstOnStack.SingleStackInstruction.IsLoadLocal)
-						{
-							EmitFirstOnStack(e);
-						}
-						else
-						{
-							Write("(short)");
-							Write("(");
-							EmitFirstOnStack(e);
-
-							// this operator is either 16bit or 32bit, depends on VM
-							Write(" & 0xff");
-							Write(")");
-						}
-
-						Write(")");
-						return;
-					}
-					#endregion
-
-					#region uint
-					if (e.i.TargetType == typeof(uint))
-					{
-						// short has 15 unsigned bits, we need 8
-						Write("new ");
-						Write(GetDecoratedTypeName(typeof(long), true, false));
-						Write("(");
-
-						if (e.FirstOnStack.SingleStackInstruction.IsLoadLocal)
-						{
-							EmitFirstOnStack(e);
-						}
-						else
-						{
-							Write("(long)");
-							Write("(");
-							EmitFirstOnStack(e);
-
-							Write(" & 0xffffffffL");
-							Write(")");
-						}
-
-						Write(")");
-						return;
-					}
-					#endregion
-
-					if (e.i.TargetType == typeof(IntPtr))
-					{
-						// IntPtr should never be boxed, because in our implementation
-						// we only have classes
-						EmitFirstOnStack(e);
-					}
-					else
-					{
-						//var TargetType = this.ResolveImplementation(e.i.TargetType) ?? e.i.TargetType;
+					this.WriteOpCodesBox(
+						e.i.TargetType, 
+						() => e.FirstOnStack.SingleStackInstruction.IsLoadLocal, 
+						() => EmitFirstOnStack(e),
+						true
+					);
 
 
-						Write("new ");
-						Write(GetDecoratedTypeName(e.i.TargetType, true, false));
-						Write("(");
-						EmitFirstOnStack(e);
-						Write(")");
-					}
 				};
 
 			#region conv

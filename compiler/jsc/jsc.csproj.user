@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\code.google\zproxygames\Bulldog\Bulldog.Promotion.Console\bin\Release</StartWorkingDirectory>
-    <StartArguments>Bulldog.Promotion.Console.exe -java</StartArguments>
+    <StartWorkingDirectory>C:\work\mindware.svn\Nespresso\trunk\Nespresso.ChipXpressPlugin1\Nespresso.ChipXpressPlugin1\bin\Release</StartWorkingDirectory>
+    <StartArguments>ScriptCoreLibJava.dll -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

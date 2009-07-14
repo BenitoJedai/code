@@ -792,6 +792,26 @@ namespace jsc.Languages.Java
 			Write("interface ");
 		}
 
+		public void WriteDecoratedMethodParameter(ParameterInfo p, Type ExpectedType)
+		{
+			if (ExpectedType == typeof(object) && (p.ParameterType.IsEnum || p.ParameterType.IsPrimitive))
+			{
+				this.WriteOpCodesBox(
+					p.ParameterType, 
+					null,
+					delegate
+					{
+						WriteDecoratedMethodParameter(p);
+					}
+					, false
+				);
+
+				return;
+			}
+
+			// revert to common implementation
+			WriteDecoratedMethodParameter(p);
+		}
 
 		public override void WriteDecoratedMethodParameter(ParameterInfo p)
 		{

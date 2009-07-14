@@ -14,6 +14,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Text
 			return default(string);
 		}
 
+		public virtual byte[] GetBytes(string s)
+		{
+			return default(byte[]);
+		}
+
 		public static Encoding ASCII
 		{
 			get
