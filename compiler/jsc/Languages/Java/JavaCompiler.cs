@@ -239,50 +239,59 @@ namespace jsc.Languages.Java
 			}
 		}
 
-		protected override bool IsTypeCastRequired(Type e, ILFlow.StackItem s)
+		protected override bool IsTypeCastRequired(Type ParameterType, ILFlow.StackItem s)
 		{
 			// resolve to .net type if any
-			e = e.ToScriptAttributeOrDefault().Implements ?? e;
+			ParameterType = ParameterType.ToScriptAttributeOrDefault().Implements ?? ParameterType;
 
 			// next stop - MethodCallParameterTypeCast
 
-			if (e == typeof(byte) || (e.IsEnum && Enum.GetUnderlyingType(e) == typeof(byte)))
+			// we might need to infer the type from the opcode...
+			return IsTypeCastRequired(ParameterType) || IsTypeCastRequired(s.SingleStackInstruction.ReferencedType);
+		}
+
+		private static bool IsTypeCastRequired(Type ParameterType)
+		{
+			if (ParameterType == null)
+				return false;
+
+			if (ParameterType == typeof(byte) || (ParameterType.IsEnum && Enum.GetUnderlyingType(ParameterType) == typeof(byte)))
 				return true;
 
-			if (e == typeof(uint) || (e.IsEnum && Enum.GetUnderlyingType(e) == typeof(uint)))
+			if (ParameterType == typeof(uint) || (ParameterType.IsEnum && Enum.GetUnderlyingType(ParameterType) == typeof(uint)))
 				return true;
 
-			if (e == typeof(ushort) || (e.IsEnum && Enum.GetUnderlyingType(e) == typeof(ushort)))
+			if (ParameterType == typeof(ushort) || (ParameterType.IsEnum && Enum.GetUnderlyingType(ParameterType) == typeof(ushort)))
 				return true;
 
 			return false;
 		}
 
-		public override void MethodCallParameterTypeCast(Type context, Type p)
+		public override void MethodCallParameterTypeCast(Type context, Type ParameterType)
 		{
-			p = p.ToScriptAttributeOrDefault().Implements ?? p;
+			ParameterType = ParameterType.ToScriptAttributeOrDefault().Implements ?? ParameterType;
 
 
-			if (p == typeof(uint) || (p.IsEnum && Enum.GetUnderlyingType(p) == typeof(uint)))
+			if (ParameterType == typeof(uint) || (ParameterType.IsEnum && Enum.GetUnderlyingType(ParameterType) == typeof(uint)))
 			{
 				Write("(int)");
 				return;
 			}
 
-			if (p == typeof(ushort) || (p.IsEnum && Enum.GetUnderlyingType(p) == typeof(ushort)))
+			if (ParameterType == typeof(ushort) || (ParameterType.IsEnum && Enum.GetUnderlyingType(ParameterType) == typeof(ushort)))
 			{
 				Write("(short)");
 				return;
 			}
 
-			if (p == typeof(byte) || (p.IsEnum && Enum.GetUnderlyingType(p) == typeof(byte)))
+			if (ParameterType == typeof(byte) || (ParameterType.IsEnum && Enum.GetUnderlyingType(ParameterType) == typeof(byte)))
 			{
 				Write("(byte)");
 				return;
 			}
 
 			Write("(");
-			WriteDecoratedTypeName(p);
+			WriteDecoratedTypeName(ParameterType);
 			Write(")");
 		}
 
