@@ -105,12 +105,19 @@ namespace jsc.Languages.Java
 			{
 				//var TargetType = this.ResolveImplementation(e.i.TargetType) ?? e.i.TargetType;
 
+				if (TargetType.BaseType == typeof(ValueType))
+				{
 
-				Write("new ");
-				Write(GetDecoratedTypeName(TargetType, true, false));
-				Write("(");
-				EmitFirstOnStack();
-				Write(")");
+					EmitFirstOnStack();
+				}
+				else
+				{
+					WriteKeywordSpace(Keywords._new);
+					Write(GetDecoratedTypeName(TargetType, true, false));
+					Write("(");
+					EmitFirstOnStack();
+					Write(")");
+				}
 			}
 			#endregion
 		}

@@ -71,6 +71,7 @@
   <ItemGroup>
     <None Include="tools\build.bat" />
     <None Include="tools\compile.java.bat" />
+    <None Include="tools\run.both.bat" />
     <None Include="tools\find.java.bat" />
     <None Include="tools\create.jar.bat" />
     <None Include="tools\run.jar.bat" />

@@ -91,22 +91,20 @@ namespace jsc.Languages.Java
 
                     if (IsExternalDefined)
                     {
-                        //WriteBoxedComment("impl");
+                        WriteBoxedComment("impl");
 
 
 
-                        //WriteTypeOrExternalTargetTypeName(ta.Implements);
-
-						this.Write(GetDecoratedTypeName(ScriptAttribute.Of(m.DeclaringType).ImplementationType, true, true, true, true));
+						this.Write(GetDecoratedTypeName(ScriptAttribute.Of(m.DeclaringType).ImplementationType, true, false, true, true));
                         
 						Write(".");
 
                     }
                     else
                     {
-                        //WriteBoxedComment("ext");
+                        WriteBoxedComment("ext");
 
-                        WriteTypeOrExternalTargetTypeName(m.DeclaringType);
+                        WriteTypeOrExternalTargetTypeName(m.DeclaringType, false);
                         Write(".");
                     }
                 }
