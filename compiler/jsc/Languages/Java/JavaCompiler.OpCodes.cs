@@ -325,6 +325,15 @@ namespace jsc.Languages.Java
 			CIW[OpCodes.Unbox_Any] =
 				e =>
 				{
+					// skip this if we are inside a BCLImplementation type and we are implementing a value type
+					var Implements = e.Method.DeclaringType.ToScriptAttributeOrDefault().Implements;
+
+					if (e.i.TargetType == Implements)
+					{
+						EmitFirstOnStack(e);
+						return;
+					}
+
 					if (e.i.TargetType == typeof(int))
 					{
 						Write("((Integer)");
@@ -1043,6 +1052,12 @@ namespace jsc.Languages.Java
 						Write("(byte)");
 					}
 
+					if (e.i.TargetParameter.ParameterType == typeof(ushort))
+					{
+						// we will store ubyte as sbyte
+						Write("(short)");
+					}
+
 					if (e.i.TargetParameter.ParameterType == typeof(uint))
 					{
 						// we will store ubyte as sbyte
@@ -1106,6 +1121,13 @@ namespace jsc.Languages.Java
 						   // we will store ubyte as sbyte
 						   Write("(byte)");
 					   }
+
+					   if (e.i.TargetField.FieldType == typeof(ushort))
+					   {
+						   // we will store ubyte as sbyte
+						   Write("(short)");
+					   }
+
 
 					   if (e.i.TargetField.FieldType == typeof(uint))
 					   {

@@ -241,6 +241,9 @@ namespace jsc.Languages.Java
 
 		protected override bool IsTypeCastRequired(Type e, ILFlow.StackItem s)
 		{
+			// resolve to .net type if any
+			e = e.ToScriptAttributeOrDefault().Implements ?? e;
+
 			// next stop - MethodCallParameterTypeCast
 
 			if (e == typeof(byte) || (e.IsEnum && Enum.GetUnderlyingType(e) == typeof(byte)))
@@ -249,14 +252,26 @@ namespace jsc.Languages.Java
 			if (e == typeof(uint) || (e.IsEnum && Enum.GetUnderlyingType(e) == typeof(uint)))
 				return true;
 
+			if (e == typeof(ushort) || (e.IsEnum && Enum.GetUnderlyingType(e) == typeof(ushort)))
+				return true;
+
 			return false;
 		}
 
 		public override void MethodCallParameterTypeCast(Type context, Type p)
 		{
+			p = p.ToScriptAttributeOrDefault().Implements ?? p;
+
+
 			if (p == typeof(uint) || (p.IsEnum && Enum.GetUnderlyingType(p) == typeof(uint)))
 			{
 				Write("(int)");
+				return;
+			}
+
+			if (p == typeof(ushort) || (p.IsEnum && Enum.GetUnderlyingType(p) == typeof(ushort)))
+			{
+				Write("(short)");
 				return;
 			}
 

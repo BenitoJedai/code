@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Xml.Linq;
 
 using ScriptCoreLib;
+using System.Diagnostics;
 
 namespace ArchiveExample
 {
@@ -49,6 +50,14 @@ namespace ArchiveExample
 			{
 				w.WriteLine("set {0}={1}", z.Name, z.GetValue(v, null));
 			}
+		}
+
+		[DebuggerNonUserCode]
+		public static void Main(string[] args)
+		{
+			Environment.CurrentDirectory = Path.Combine(Environment.CurrentDirectory, "web/bin");
+
+			Program.Main(args);
 		}
 	}
 }

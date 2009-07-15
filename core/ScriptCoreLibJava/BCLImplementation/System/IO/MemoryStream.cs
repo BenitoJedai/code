@@ -18,8 +18,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 		long InternalLength;
 
 		public __MemoryStream()
+			: this(null)
 		{
-			Capacity = 0x1000;
+
+		}
+
+		public __MemoryStream(byte[] buffer)
+		{
+			if (buffer != null)
+			{
+				this.Write(buffer, 0, buffer.Length);
+
+				this.InternalPosition = 0;
+			}
 		}
 
 		public override long Length
@@ -28,6 +39,25 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 			{
 				return InternalLength;
 			}
+		}
+
+		public override int Read(byte[] buffer, int offset, int count)
+		{
+			var a = this.Length - this.InternalPosition;
+
+			if (count > a)
+			{
+				if (a < 0)
+					return -1;
+
+				count = (int)a;
+			}
+
+			Array.Copy(this.InternalBuffer, (int)this.InternalPosition, buffer, offset, count);
+
+			this.InternalPosition += count;
+
+			return count;
 		}
 
 		public override void Write(byte[] buffer, int offset, int count)
@@ -60,6 +90,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 		{
 			get
 			{
+				if (InternalBuffer == null)
+					Capacity = 0x1000;
+
 				return InternalBuffer.Length;
 
 			}
@@ -89,6 +122,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 			Array.Copy(InternalBuffer, x, (int)InternalLength);
 
 			return x;
+		}
+
+
+		public override long Position
+		{
+			get
+			{
+				return this.InternalPosition;
+			}
+			set
+			{
+				this.InternalPosition = value;
+			}
 		}
 	}
 }
