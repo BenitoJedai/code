@@ -74,6 +74,8 @@
     <Compile Include="BCLImplementation\System\Convert.cs" />
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
     <Compile Include="BCLImplementation\System\Attribute.cs" />
+    <Compile Include="BCLImplementation\System\InvalidOperationException.cs" />
+    <Compile Include="BCLImplementation\System\SByte.cs" />
     <Compile Include="BCLImplementation\System\Delegate.cs" />
     <Compile Include="BCLImplementation\System\Diagnostics\Trace.cs" />
     <Compile Include="BCLImplementation\System\Double.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="BCLImplementation\System\Int64.cs" />
     <Compile Include="BCLImplementation\System\IntPtr.cs" />
     <Compile Include="BCLImplementation\System\IOException.cs" />
+    <Compile Include="BCLImplementation\System\IO\BinaryReader.cs" />
     <Compile Include="BCLImplementation\System\IO\StringReader.cs" />
     <Compile Include="BCLImplementation\System\IO\TextReader.cs" />
     <Compile Include="BCLImplementation\System\MulticastDelegate.cs" />
@@ -105,7 +108,7 @@
     <Compile Include="BCLImplementation\System\RuntimeTypeHandle.cs" />
     <Compile Include="BCLImplementation\System\Runtime\InteropServices\_Attribute.cs" />
     <Compile Include="BCLImplementation\System\Runtime\Serialization\ISerializable.cs" />
-    <Compile Include="BCLImplementation\System\SByte.cs" />
+    <Compile Include="BCLImplementation\System\Byte.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\SHA1CryptoServiceProvider.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\SHA1.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\HashAlgorithm.cs" />

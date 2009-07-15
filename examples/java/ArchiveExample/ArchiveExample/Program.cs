@@ -3,6 +3,7 @@ using System;
 
 using ScriptCoreLib;
 using System.Collections;
+using System.IO;
 
 
 namespace ArchiveExample
@@ -28,6 +29,11 @@ namespace ArchiveExample
 			{
 				Console.WriteLine(item.Text);
 			}
+
+			var m = new MemoryStream(File.ReadAllBytes("archive.zip"));
+			var r = new BinaryReader(m);
+			Console.WriteLine("first byte:  0x" + r.ReadByte().ToString("x2"));
 		}
+
 	}
 }

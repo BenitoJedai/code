@@ -203,6 +203,11 @@ namespace jsc.Script
 					if (AlwaysDoTypeCastOnParameters)
 						WriteTypeCast(m.DeclaringType);
 
+					if (IsTypeCastRequired(m.DeclaringType, s[0]))
+						MethodCallParameterTypeCast(p.DeclaringMethod.DeclaringType, m.DeclaringType);
+
+
+
 					Emit(p, s[0]);
 				}
 			}

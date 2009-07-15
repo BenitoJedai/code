@@ -287,3 +287,4 @@ version history:
 	java: casting now preferes primitive types
 15.07.2009
 	java: fixed interface inheritance
+	java: fixed unsigned byte support for use with [Script(DefineAsStatic = true)]

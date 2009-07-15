@@ -35,6 +35,9 @@ namespace UnsignedByteSupport
 
 		public static void Main(string[] args)
 		{
+			CallUnsignedByte();
+			CallUnsignedByte2();
+
 			UseEnumTest();
 
 			uint x = uint.MaxValue;
@@ -73,6 +76,20 @@ namespace UnsignedByteSupport
 
 			Console.WriteLine(bytes.ToHexString());
 			Console.WriteLine(Encoding.ASCII.GetString(bytes));
+		}
+
+		private static void CallUnsignedByte2()
+		{
+			byte xxx = 0;
+
+			Console.WriteLine("0x" + xxx.ToHexString());
+		}
+
+		private static void CallUnsignedByte()
+		{
+			byte xxx = 0;
+
+			Console.WriteLine("0x" + xxx.ToString("x2"));
 		}
 
 	
