@@ -288,3 +288,5 @@ version history:
 15.07.2009
 	java: fixed interface inheritance
 	java: fixed unsigned byte support for use with [Script(DefineAsStatic = true)]
+	java: OpCodes.box wont try to box value types anymore
+	java: typeof(int) and other primitives will now be written as int.class and such

@@ -43,6 +43,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 			return n;
 		}
 
+		public virtual Type ReturnType
+		{
+			get
+			{
+				return (__Type)this.InternalMethod.getReturnType();
+			}
+		}
+
 		public static implicit operator MethodInfo(__MethodInfo m)
 		{
 			return (MethodInfo)(object)m;

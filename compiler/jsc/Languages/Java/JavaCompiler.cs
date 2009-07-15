@@ -297,12 +297,17 @@ namespace jsc.Languages.Java
 
 		private void WriteTypeOrExternalTargetTypeName(Type m)
 		{
+			WriteTypeOrExternalTargetTypeName(m, true);
+		}
+
+		private void WriteTypeOrExternalTargetTypeName(Type m, bool bFavorPrimitive)
+		{
 
 
 			string x = ScriptGetExternalTarget(m);
 
 			if (x == null)
-				Write(GetDecoratedTypeName(m, false, true, true, true));
+				Write(GetDecoratedTypeName(m, false, bFavorPrimitive, true, true));
 			else
 				Write(x);
 
@@ -946,39 +951,41 @@ namespace jsc.Languages.Java
 				{
 					if (bUsePrimitives)
 					{
-						if (type == typeof(void)) return "void";
+						var BCLType = this.MySession.ResolveImplementation(type, AssamblyTypeInfo.ResolveImplementationDirectMode.ResolveBCLTypeFromScriptIsNativeType) ?? type;
 
-						else if (type == typeof(int)) return "int";
-						else if (type == typeof(uint)) return "int";
+						if (BCLType == typeof(void)) return "void";
 
-						else if (type == typeof(byte)) return "byte";
-						else if (type == typeof(sbyte)) return "byte";
+						else if (BCLType == typeof(int)) return "int";
+						else if (BCLType == typeof(uint)) return "int";
 
-						else if (type == typeof(short)) return "short";
-						else if (type == typeof(ushort)) return "short";
+						else if (BCLType == typeof(byte)) return "byte";
+						else if (BCLType == typeof(sbyte)) return "byte";
 
-
-						else if (type == typeof(double)) return "double";
-						else if (type == typeof(bool)) return "boolean";
-						else if (type == typeof(long)) return "long";
+						else if (BCLType == typeof(short)) return "short";
+						else if (BCLType == typeof(ushort)) return "short";
 
 
+						else if (BCLType == typeof(double)) return "double";
+						else if (BCLType == typeof(bool)) return "boolean";
+						else if (BCLType == typeof(long)) return "long";
 
-						else if (type == typeof(char)) return "char";
-						else if (type == typeof(float)) return "float";
-						else if (type == typeof(double)) return "double";
 
-						if (type.IsArray)
+
+						else if (BCLType == typeof(char)) return "char";
+						else if (BCLType == typeof(float)) return "float";
+						else if (BCLType == typeof(double)) return "double";
+
+						if (BCLType.IsArray)
 						{
-							if (type.GetElementType() == typeof(sbyte))
+							if (BCLType.GetElementType() == typeof(sbyte))
 								return "byte[]";
-							if (type.GetElementType() == typeof(byte))
+							if (BCLType.GetElementType() == typeof(byte))
 								return "byte[]";
-							if (type.GetElementType() == typeof(int))
+							if (BCLType.GetElementType() == typeof(int))
 								return "int[]";
-							if (type.GetElementType() == typeof(uint))
+							if (BCLType.GetElementType() == typeof(uint))
 								return "int[]";
-							else if (type.GetElementType() == typeof(float))
+							else if (BCLType.GetElementType() == typeof(float))
 								return "float[]";
 						}
 					}

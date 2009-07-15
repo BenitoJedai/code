@@ -459,7 +459,8 @@ namespace jsc
                 return null;
 
 
-            if (Mode == ResolveImplementationDirectMode.ResolveBCLImplementation)
+            if (
+				Mode == ResolveImplementationDirectMode.ResolveBCLImplementation)
             {
                 if (ResolveImplementationDict.ContainsKey(e))
                     return ResolveImplementationDict[e];
@@ -474,7 +475,9 @@ namespace jsc
         {
             ResolveBCLImplementation,
             ResolveNativeImplementationExtension,
-            ResolveMethodOnly
+            ResolveMethodOnly,
+
+			ResolveBCLTypeFromScriptIsNativeType
         }
 
         Type ResolveImplementationDirect(Type e, ResolveImplementationDirectMode Mode)
@@ -486,42 +489,40 @@ namespace jsc
                 if (e.ToScriptAttribute() != null)
                     return null;
 
+			if (Mode == ResolveImplementationDirectMode.ResolveBCLTypeFromScriptIsNativeType)
+				if (e.ToScriptAttribute() == null)
+					return null;
+
 
             Type eg = (e.IsGenericType ? e.GetGenericTypeDefinition() : e);
+
+			if (Mode == ResolveImplementationDirectMode.ResolveBCLTypeFromScriptIsNativeType)
+			{
+				// For java.lang.Integer we shall return global::System.Int32
+				//
+				//    [Script(Implements = typeof(global::System.Int32)
+				//    , ImplementationType = typeof(java.lang.Integer)
+				//    )]
+				//	internal class __Int32
+
+				return Enumerable.FirstOrDefault(
+					from z in ImplementationTypes
+					let sa = ScriptAttribute.OfProvider(z)
+					where sa != null
+					where sa.Implements != null
+					where sa.ImplementationType != null
+					where sa.ImplementationType == e
+					select sa.Implements
+				);
+			}
 
             foreach (var i in
                 from z in ImplementationTypes
                 let sa = ScriptAttribute.OfProvider(z)
                 where sa != null
                 where sa.Implements != null
-                // orderby z.Name
                 select new { z, sa })
             {
-
-                //ScriptAttribute sa = ScriptAttribute.OfProvider(z);
-
-                //if (sa == null)
-                //    continue;
-
-                //if (sa.Implements == null)
-                //    continue;
-
-                //if (e.IsGenericType)
-                //{
-                //    if (z.IsGenericTypeDefinition)
-                //    {
-                //        Type gtd = e.GetGenericTypeDefinition();
-
-                //        if (sa.Implements.GUID.Equals(gtd.GUID))
-                //        {
-                //            Type xt = z.MakeGenericType(e.GetGenericArguments());
-
-                //            return xt;
-                //        }
-                //    }
-                //}
-                //else
-
                 if (i.sa.Implements.GUID.Equals(eg.GUID))
                     return i.z;
 

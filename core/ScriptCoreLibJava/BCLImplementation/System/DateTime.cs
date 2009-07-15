@@ -28,7 +28,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			}
 			else
 			{
-				this.InternalValue.set(year, month, day, hour, minute, second);
+				this.InternalValue.set(year, month - 1, day, hour, minute, second);
 			}
 		}
 
@@ -45,7 +45,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		public int Minute { get { return this.InternalValue.get(java.util.Calendar.MINUTE); } }
 		public int Hour { get { return this.InternalValue.get(java.util.Calendar.HOUR_OF_DAY); } }
 		public int Day { get { return this.InternalValue.get(java.util.Calendar.DAY_OF_MONTH); } }
-		public int Month { get { return this.InternalValue.get(java.util.Calendar.MONTH); } }
+		public int Month { get { return this.InternalValue.get(java.util.Calendar.MONTH) + 1; } }
 		public int Year { get { return this.InternalValue.get(java.util.Calendar.YEAR); } }
 	}
 }

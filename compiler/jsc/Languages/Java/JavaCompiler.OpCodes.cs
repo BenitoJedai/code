@@ -418,8 +418,9 @@ namespace jsc.Languages.Java
 						throw new NotSupportedException("typeof(T) not supported yet.");
 					}
 
+					// we shall favor promitives
 					WriteDecoratedTypeNameOrImplementationTypeName(
-						_TargetType, false, false
+						_TargetType, true, false
 					);
 
 					Write(".");
