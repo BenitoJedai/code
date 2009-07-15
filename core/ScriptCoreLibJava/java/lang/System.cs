@@ -16,6 +16,14 @@ namespace java.lang
 		public static PrintStream @err;
 		public static InputStream @in;
 
+		/// <summary>
+		/// Returns the current time in milliseconds.
+		/// </summary>
+		public static long currentTimeMillis()
+		{
+			return default(long);
+		}
+
 		public static void loadLibrary(string p)
 		{
 

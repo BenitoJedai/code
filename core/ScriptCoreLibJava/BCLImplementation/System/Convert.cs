@@ -9,9 +9,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 	[Script(Implements = typeof(global::System.Convert))]
 	internal class __Convert
 	{
-		public static int ToInt32(int e)
+		public static int ToInt32(long e)
 		{
-			return (int)Math.Floor((double)e);
+			return (int)e;
+		}
+
+		// what about this : public static int ToInt32(int e)
+
+		public static int ToInt32(uint e)
+		{
+			return  (int)e;
 		}
 
 		public static int ToInt32(double e)
