@@ -74,6 +74,7 @@
     <Compile Include="BCLImplementation\System\Convert.cs" />
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
     <Compile Include="BCLImplementation\System\Attribute.cs" />
+    <Compile Include="BCLImplementation\System\DateTime.cs" />
     <Compile Include="BCLImplementation\System\InvalidOperationException.cs" />
     <Compile Include="BCLImplementation\System\SByte.cs" />
     <Compile Include="BCLImplementation\System\Delegate.cs" />

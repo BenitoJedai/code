@@ -63,6 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\description.txt" />
+    <None Include="web\bin\placeholder">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />

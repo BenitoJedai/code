@@ -9,7 +9,7 @@ using System.Collections;
 namespace ArchiveExample
 {
 	[Script]
-	public class ZIPFile
+	public partial class ZIPFile
 	{
 		[Script]
 		public class Entry

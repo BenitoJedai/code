@@ -6,11 +6,6 @@ using ScriptCoreLib;
 
 namespace OrcasJavaConsoleApplication
 {
-	//[Script]
-	//public class G<T>
-	//{
-	//    public T FieldT;
-	//}
 
     [Script]
     public class Program
@@ -23,10 +18,6 @@ namespace OrcasJavaConsoleApplication
 			// Use Release Build to use jsc to generate java program
 			// Use Debug Build to develop on .net
 
-            // doubleclicking on the jar will not show the console
-
-			//var x = new G<string> { FieldT = "zx" };
-
             Text = "Hello World";
 
 
@@ -35,7 +26,9 @@ namespace OrcasJavaConsoleApplication
 			w.Handler +=
 				delegate
 				{
-					Console.Write(".");
+					var n = DateTime.Now;
+
+					Console.WriteLine(n.Hour + ":" + n.Minute + ":" + n.Second);
 				};
 
 			w.Invoke();
