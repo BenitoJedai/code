@@ -285,3 +285,5 @@ version history:
 14.07.2009
 	java: delegates now support primitive parameter types 
 	java: casting now preferes primitive types
+15.07.2009
+	java: fixed interface inheritance

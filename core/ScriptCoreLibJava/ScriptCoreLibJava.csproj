@@ -65,6 +65,11 @@
     <Compile Include="BCLImplementation\System\Activator.cs" />
     <Compile Include="BCLImplementation\System\Array.cs" />
     <Compile Include="BCLImplementation\System\Boolean.cs" />
+    <Compile Include="BCLImplementation\System\Collections\ArrayList.cs" />
+    <Compile Include="BCLImplementation\System\Collections\IEnumerator.cs" />
+    <Compile Include="BCLImplementation\System\Collections\IEnumerable.cs" />
+    <Compile Include="BCLImplementation\System\Collections\ICollection.cs" />
+    <Compile Include="BCLImplementation\System\Collections\IList.cs" />
     <Compile Include="BCLImplementation\System\Console.cs" />
     <Compile Include="BCLImplementation\System\Convert.cs" />
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />

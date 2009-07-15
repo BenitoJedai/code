@@ -131,8 +131,8 @@ namespace jsc.Languages.Java
 
 			WriteIdent();
 
-			if (m.IsAbstract)
-				Write("abstract ");
+			if (m.IsAbstract && !m.DeclaringType.IsInterface)
+				WriteKeywordSpace(Keywords._abstract);
 
 			int flags = (int)m.GetMethodImplementationFlags();
 
@@ -658,11 +658,7 @@ namespace jsc.Languages.Java
 			Write("public ");
 		}
 
-		private void WriteKeywordClass()
-		{
-			Write("class ");
-		}
-
+	
 		private void WriteKeywordThrows()
 		{
 			Write("throws ");
@@ -687,8 +683,8 @@ namespace jsc.Languages.Java
 			//    WriteKeywordPrivate();
 
 
-			if (z.IsAbstract && !z.IsSealed)
-				Write("abstract ");
+			if (z.IsAbstract && !z.IsSealed && !z.IsInterface)
+				WriteKeywordSpace(Keywords._abstract);
 
 			if (z.IsSealed)
 				Write("final ");
@@ -698,9 +694,9 @@ namespace jsc.Languages.Java
 			}
 
 			if (z.IsInterface)
-				WriteKeywordInterface();
+				WriteKeywordSpace(Keywords._interface);
 			else
-				WriteKeywordClass();
+				WriteKeywordSpace(Keywords._class);
 
 			if (za.Implements == null)
 				Write(GetDecoratedTypeNameWithinNestedName(z));
@@ -712,7 +708,8 @@ namespace jsc.Languages.Java
 			if (z.BaseType != typeof(object) && z.BaseType != null)
 			{
 
-				Write(" extends ");
+				WriteSpace();
+				WriteKeywordSpace(Keywords._extends);
 
 				var _BaseType = ResolveImplementation(z.BaseType) ?? z.BaseType;
 
@@ -735,7 +732,8 @@ namespace jsc.Languages.Java
 
 			if (timp.Length > 0)
 			{
-				Write(" implements ");
+				WriteSpace();
+				WriteKeywordSpace(z.IsInterface ? Keywords._extends : Keywords._implements);
 
 				int i = 0;
 
@@ -787,17 +785,14 @@ namespace jsc.Languages.Java
 				Write(GetDecoratedTypeName(iType, true));
 		}
 
-		private void WriteKeywordInterface()
-		{
-			Write("interface ");
-		}
+	
 
 		public void WriteDecoratedMethodParameter(ParameterInfo p, Type ExpectedType)
 		{
 			if (ExpectedType == typeof(object) && (p.ParameterType.IsEnum || p.ParameterType.IsPrimitive))
 			{
 				this.WriteOpCodesBox(
-					p.ParameterType, 
+					p.ParameterType,
 					null,
 					delegate
 					{
