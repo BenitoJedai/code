@@ -32,9 +32,18 @@ namespace UnsignedByteSupport
 			UseEnum((MyEnum)q);
 		}
 
+		public static void IntMethod(int u)
+		{
+
+		}
+
+		static uint UInt32Value;
 
 		public static void Main(string[] args)
 		{
+			UInt32Value = 0xFFFFFFFFu;
+			IntMethod((int)UInt32Value);
+
 			CallUnsignedByte();
 			CallUnsignedByte2();
 
