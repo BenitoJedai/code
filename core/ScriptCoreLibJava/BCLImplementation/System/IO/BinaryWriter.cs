@@ -34,7 +34,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 
 		public virtual void Write(short value)
 		{
-
+			this._buffer[0] = (byte)value;
+			this._buffer[1] = (byte)(value >> 8);
+			this.InternalStream.Write(this._buffer, 0, 2);
 		}
 
 		//public virtual void Write(ushort value)
@@ -48,7 +50,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 			this._buffer[1] = (byte)(value >> 8);
 			this._buffer[2] = (byte)(value >> 0x10);
 			this._buffer[3] = (byte)(value >> 0x18);
-			this.OutStream.Write(this._buffer, 0, 4);
+			this.InternalStream.Write(this._buffer, 0, 4);
 
 		}
 

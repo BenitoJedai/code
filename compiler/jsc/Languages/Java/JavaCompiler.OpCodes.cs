@@ -334,7 +334,19 @@ namespace jsc.Languages.Java
 						return;
 					}
 
-					if (e.i.TargetType == typeof(int))
+				
+					// unsigned integers are stored as a larger integer, and thats why we shall unbox em too like this
+
+					if (e.i.TargetType == typeof(short) || e.i.TargetType == typeof(byte))
+					{
+						Write("((Short)");
+						EmitFirstOnStack(e);
+						Write(").shortValue()");
+
+						return;
+					}
+
+					if (e.i.TargetType == typeof(int) || e.i.TargetType == typeof(ushort))
 					{
 						Write("((Integer)");
 						EmitFirstOnStack(e);
@@ -343,7 +355,7 @@ namespace jsc.Languages.Java
 						return;
 					}
 
-					if (e.i.TargetType == typeof(long))
+					if (e.i.TargetType == typeof(long) || e.i.TargetType == typeof(uint))
 					{
 						Write("((Long)");
 						EmitFirstOnStack(e);
@@ -496,6 +508,7 @@ namespace jsc.Languages.Java
 				OpCodes.Ldflda] =
 				e =>
 				{
+					//WriteBoxedComment("ldfld as " + e.TypeExpectedOrDefault);
 
 					WriteCall_DebugTrace_Assign_Load(e);
 
@@ -600,7 +613,7 @@ namespace jsc.Languages.Java
 						Write("(int)");
 					}
 
-				
+
 
 					Emit(e.p, s[1]);
 				};
@@ -617,7 +630,7 @@ namespace jsc.Languages.Java
 						// we shall use primitives whenever we are casting...
 						ConvertTypeAndEmit(e, GetDecoratedTypeName(TargetType, true, true));
 
-						
+
 
 					};
 
@@ -625,8 +638,8 @@ namespace jsc.Languages.Java
 				delegate(CodeEmitArgs e)
 				{
 					this.WriteOpCodesBox(
-						e.i.TargetType, 
-						() => e.FirstOnStack.SingleStackInstruction.IsLoadLocal, 
+						e.i.TargetType,
+						() => e.FirstOnStack.SingleStackInstruction.IsLoadLocal,
 						() => EmitFirstOnStack(e),
 						true
 					);
@@ -936,6 +949,13 @@ namespace jsc.Languages.Java
 				OpCodes.Ldarg] =
 				e =>
 				{
+					var ResolvedTypeExpectedOrDefault = this.ResolveImplementation(e.TypeExpectedOrDefault) ?? e.TypeExpectedOrDefault;
+					var ResolvedByte = this.ResolveImplementation(typeof(byte));
+					var ResolvedUInt32 = this.ResolveImplementation(typeof(uint));
+					var ResolvedUInt16 = this.ResolveImplementation(typeof(ushort));
+
+					//WriteBoxedComment("ldarg as " + ResolvedTypeExpectedOrDefault);
+
 					WriteCall_DebugTrace_Assign_Load(e);
 
 
@@ -943,7 +963,7 @@ namespace jsc.Languages.Java
 					if (e.i.TargetParameter != null)
 					{
 						#region byte
-						if (e.i.TargetParameter.ParameterType == typeof(byte))
+						if (e.i.TargetParameter.ParameterType == typeof(byte) && (ResolvedTypeExpectedOrDefault != ResolvedByte))
 						{
 							Write("(short)");
 							Write("(");
@@ -958,7 +978,7 @@ namespace jsc.Languages.Java
 						#endregion
 
 						#region ushort
-						if (e.i.TargetParameter.ParameterType == typeof(ushort))
+						if (e.i.TargetParameter.ParameterType == typeof(ushort) && (ResolvedTypeExpectedOrDefault != ResolvedUInt16))
 						{
 							Write("(int)");
 							Write("(");
@@ -973,7 +993,7 @@ namespace jsc.Languages.Java
 						#endregion
 
 						#region uint
-						if (e.i.TargetParameter.ParameterType == typeof(uint))
+						if (e.i.TargetParameter.ParameterType == typeof(uint) && (ResolvedTypeExpectedOrDefault != ResolvedUInt32))
 						{
 							Write("(long)");
 							Write("(");
@@ -1366,6 +1386,14 @@ namespace jsc.Languages.Java
 				OpCodes.Ldloca_S] =
 			   e =>
 			   {
+				   var ResolvedTypeExpectedOrDefault = this.ResolveImplementation(e.TypeExpectedOrDefault) ?? e.TypeExpectedOrDefault;
+				   var ResolvedByte = this.ResolveImplementation(typeof(byte));
+				   var ResolvedUInt32 = this.ResolveImplementation(typeof(uint));
+				   var ResolvedUInt16 = this.ResolveImplementation(typeof(ushort));
+
+
+				   //WriteBoxedComment("ldloc as " + ResolvedTypeExpectedOrDefault);
+
 				   WriteCall_DebugTrace_Assign_Load(e);
 
 				   #region inline assigment
@@ -1397,7 +1425,7 @@ namespace jsc.Languages.Java
 						   }
 				   #endregion
 
-				   if (e.i.TargetVariable.LocalType == typeof(byte))
+				   if (e.i.TargetVariable.LocalType == typeof(byte) && (ResolvedTypeExpectedOrDefault != ResolvedByte))
 				   {
 					   Write("(short)");
 					   Write("(");
@@ -1407,7 +1435,7 @@ namespace jsc.Languages.Java
 					   Write(" & 0xff");
 					   Write(")");
 				   }
-					else if (e.i.TargetVariable.LocalType == typeof(ushort))
+				   else if (e.i.TargetVariable.LocalType == typeof(ushort) && (ResolvedTypeExpectedOrDefault != ResolvedUInt16))
 				   {
 					   Write("(int)");
 					   Write("(");
@@ -1416,7 +1444,7 @@ namespace jsc.Languages.Java
 					   Write(" & 0xffff");
 					   Write(")");
 				   }
-				   else if (e.i.TargetVariable.LocalType == typeof(uint))
+				   else if (e.i.TargetVariable.LocalType == typeof(uint) && (ResolvedTypeExpectedOrDefault != ResolvedUInt32))
 				   {
 					   Write("(long)");
 					   Write("(");
@@ -1506,6 +1534,11 @@ namespace jsc.Languages.Java
 				   else
 				   {
 					   // 7FFFFFFF is the max for int!
+
+					   if (e.TypeExpectedOrDefault == typeof(short))
+					   {
+						   Write("(short)");
+					   }
 
 					   MyWriter.Write(n.Value);
 				   }

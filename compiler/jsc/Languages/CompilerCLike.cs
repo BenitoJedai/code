@@ -147,7 +147,11 @@ namespace jsc.Script
 			}
 		}
 
+		public virtual void MethodCallParameterTypeCast(Type context, Type p, ILFlow.StackItem s)
+		{
+			this.MethodCallParameterTypeCast(context, p);
 
+		}
 
 		public virtual void MethodCallParameterTypeCast(Type context, Type p)
 		{
@@ -208,7 +212,7 @@ namespace jsc.Script
 
 
 
-					Emit(p, s[0]);
+					Emit(p, s[0], m.DeclaringType);
 				}
 			}
 
@@ -318,16 +322,20 @@ namespace jsc.Script
 							// todo: only if types donot comply
 
 							if (IsTypeCastRequired(parameter.ParameterType, s[si]))
-								MethodCallParameterTypeCast(p.DeclaringMethod.DeclaringType, parameter.ParameterType);
+								MethodCallParameterTypeCast(p.DeclaringMethod.DeclaringType, parameter.ParameterType, s[si]);
 
 
 
-
-							Emit(p, s[si], parameter.ParameterType);
+							EmitMethodCallParameter(p, s[si], parameter.ParameterType);
 						}
 					}
 				}
 			}
+		}
+
+		public virtual void EmitMethodCallParameter(ILBlock.Prestatement p, ILFlow.StackItem s, Type ParameterType)
+		{
+			Emit(p, s, ParameterType);
 		}
 
 		public bool AutoCastToEnumerator(ILBlock.Prestatement p, Type ParameterType, ILFlow.StackItem CurrentStack)
@@ -920,7 +928,9 @@ namespace jsc.Script
 				return;
 			}
 
-			if (((MethodInfo)i.OwnerMethod).ReturnType == typeof(void))
+			var ReturnType = ((MethodInfo)i.OwnerMethod).ReturnType;
+
+			if (ReturnType == typeof(void))
 				return;
 
 
@@ -935,7 +945,7 @@ namespace jsc.Script
 					{
 						WriteSpace();
 
-						Emit(p, left_s);
+						Emit(p, left_s, ReturnType);
 					}
 					else
 					{
@@ -980,7 +990,7 @@ namespace jsc.Script
 										return;
 									}
 
-									WriteReturnParameter(_p, _i);
+									WriteReturnParameter(_p, _i, ReturnType);
 								}
 
 								return;
@@ -992,7 +1002,7 @@ namespace jsc.Script
 						WriteSpace();
 						//Emit(p, s[0]);
 
-						WriteReturnParameter(p, left, left_s);
+						WriteReturnParameter(p, left, left_s, ReturnType);
 					}
 				};
 
@@ -1019,6 +1029,11 @@ namespace jsc.Script
 
 		public void WriteReturnParameter(ILBlock.Prestatement p, ILInstruction i, ILFlow.StackItem s)
 		{
+			WriteReturnParameter(p, i, s, null);
+		}
+
+		public void WriteReturnParameter(ILBlock.Prestatement p, ILInstruction i, ILFlow.StackItem s, Type ExpectedType)
+		{
 			if (IsTypeCastRequired(((MethodInfo)p.DeclaringMethod).ReturnType, s))
 			{
 				MethodCallParameterTypeCast(
@@ -1027,10 +1042,15 @@ namespace jsc.Script
 				);
 			}
 
-			WriteReturnParameter(p, i);
+			WriteReturnParameter(p, i, ExpectedType);
 		}
 
 		public virtual void WriteReturnParameter(ILBlock.Prestatement _p, ILInstruction _i)
+		{
+			WriteReturnParameter(_p, _i, (Type)null);
+		}
+
+		public virtual void WriteReturnParameter(ILBlock.Prestatement _p, ILInstruction _i, Type ExpectedType)
 		{
 
 			var m = _i.OwnerMethod as MethodInfo;
@@ -1051,7 +1071,7 @@ namespace jsc.Script
 			}
 
 
-			EmitInstruction(_p, _i);
+			EmitInstruction(_p, _i, ExpectedType);
 		}
 
 		public virtual void WriteExceptionVar()

@@ -18,7 +18,9 @@ namespace ArchiveExample
 			num |= (uint)((dateTime.Hour & 0x1f) << 11);
 			num |= (uint)((dateTime.Day & 0x1f) << 0x10);
 			num |= (uint)((dateTime.Month & 15) << 0x15);
-			return (num | ((uint)(((dateTime.Year - 0x7bc) & 0x7f) << 0x19)));
+			num |= (uint)(((dateTime.Year - 0x7bc) & 0x7f) << 0x19);
+
+			return num;
 		}
 
 		public static DateTime FromMsDosDateTime(uint dosDateTime)
@@ -60,6 +62,9 @@ namespace ArchiveExample
 			#region Local file header:
 			foreach (var v in Items)
 			{
+				// if we box unit, it will actually represent Long 
+				// this is for tostring functionality
+
 				offsets.Enqueue((uint)w.BaseStream.Position);
 
 				//var h = v.Header;
@@ -76,15 +81,15 @@ namespace ArchiveExample
 				w.Write(ZIPFileEntryHeader.UNCOMPRESSED);
 				//        last mod file time              2 bytes
 				//        last mod file date              2 bytes
-				w.Write(ToMsDosDateTime(DateTime.Now));
+				w.WriteUInt32(ToMsDosDateTime(DateTime.Now));
 
 				//        crc-32                          4 bytes
-				w.Write((uint)Crc32Helper.GetCrc32(v.Data.ToArray()));
+				w.WriteUInt32((uint)Crc32Helper.GetCrc32(v.Data.ToArray()));
 
 				//        compressed size                 4 bytes
-				w.Write((uint)v.Data.Length);
+				w.WriteUInt32((uint)v.Data.Length);
 				//        uncompressed size               4 bytes
-				w.Write((uint)v.Data.Length);
+				w.WriteUInt32((uint)v.Data.Length);
 
 
 				//        file name length                2 bytes
@@ -118,36 +123,36 @@ namespace ArchiveExample
 				//       central file header signature   4 bytes  (0x02014b50)
 				w.Write((int)0x02014b50);
 				//       version made by                 2 bytes
-				w.Write((ushort)0x0014);
+				w.WriteUInt16((ushort)0x0014);
 				//       version needed to extract       2 bytes
-				w.Write((ushort)0x000A);
+				w.WriteUInt16((ushort)0x000A);
 				//       general purpose bit flag        2 bytes
-				w.Write((ushort)0x0000);
+				w.WriteUInt16((ushort)0x0000);
 				//       compression method              2 bytes
 				w.Write(ZIPFileEntryHeader.UNCOMPRESSED);
 				//       last mod file time              2 bytes
 				//       last mod file date              2 bytes
-				w.Write(ToMsDosDateTime(DateTime.Now));
+				w.WriteUInt32(ToMsDosDateTime(DateTime.Now));
 				//       crc-32                          4 bytes
-				w.Write((uint)Crc32Helper.GetCrc32(v.Data.ToArray()));
+				w.WriteUInt32((uint)Crc32Helper.GetCrc32(v.Data.ToArray()));
 				//       compressed size                 4 bytes
-				w.Write((uint)v.Data.Length);
+				w.WriteUInt32((uint)v.Data.Length);
 				//       uncompressed size               4 bytes
-				w.Write((uint)v.Data.Length);
+				w.WriteUInt32((uint)v.Data.Length);
 				//       file name length                2 bytes
-				w.Write((ushort)file_name.Length);
+				w.WriteUInt16((ushort)file_name.Length);
 				//       extra field length              2 bytes
-				w.Write((ushort)0x0000);
+				w.WriteUInt16((ushort)0x0000);
 				//       file comment length             2 bytes
-				w.Write((ushort)0x0000);
+				w.WriteUInt16((ushort)0x0000);
 				//       disk number start               2 bytes
-				w.Write((ushort)0x0000);
+				w.WriteUInt16((ushort)0x0000);
 				//       internal file attributes        2 bytes
-				w.Write((ushort)0x0000);
+				w.WriteUInt16((ushort)0x0000);
 				//       external file attributes        4 bytes
 				w.Write((int)0x0000);
 				//       relative offset of local header 4 bytes
-				w.Write((uint)offset);
+				w.WriteUInt32((uint)offset);
 				//       file name (variable size)
 				w.Write(file_name);
 				//       extra field (variable size)
@@ -162,27 +167,27 @@ namespace ArchiveExample
 
 			#region I.  End of central directory record:
 			//end of central dir signature    4 bytes  (0x06054b50)
-			w.Write((uint)0x06054b50);
+			w.WriteUInt32((uint)0x06054b50);
 
 			//number of this disk             2 bytes
-			w.Write((ushort)0);
+			w.WriteUInt16((ushort)0);
 			//number of the disk with the
 			//start of the central directory  2 bytes
-			w.Write((ushort)0);
+			w.WriteUInt16((ushort)0);
 			//total number of entries in the
 			//central directory on this disk  2 bytes
-			w.Write((ushort)Items.Length);
+			w.WriteUInt16((ushort)Items.Length);
 			//total number of entries in
 			//the central directory           2 bytes
-			w.Write((ushort)Items.Length);
+			w.WriteUInt16((ushort)Items.Length);
 			//size of the central directory   4 bytes
-			w.Write((uint)z);
+			w.WriteUInt32((uint)z);
 			//offset of start of central
 			//directory with respect to
 			//the starting disk number        4 bytes
-			w.Write((uint)p);
+			w.WriteUInt32((uint)p);
 			//.ZIP file comment length        2 bytes
-			w.Write((ushort)0);
+			w.WriteUInt16((ushort)0);
 			//.ZIP file comment       (variable size)
 			#endregion
 

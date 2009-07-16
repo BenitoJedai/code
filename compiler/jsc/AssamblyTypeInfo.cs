@@ -477,7 +477,8 @@ namespace jsc
             ResolveNativeImplementationExtension,
             ResolveMethodOnly,
 
-			ResolveBCLTypeFromScriptIsNativeType
+			ResolveBCLTypeFromScriptIsNativeType,
+
         }
 
         Type ResolveImplementationDirect(Type e, ResolveImplementationDirectMode Mode)
