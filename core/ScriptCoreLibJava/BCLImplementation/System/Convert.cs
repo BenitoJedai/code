@@ -18,7 +18,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 		public static int ToInt32(uint e)
 		{
-			return  (int)e;
+			int x = (int)e;
+
+			return x;
 		}
 
 		public static int ToInt32(double e)

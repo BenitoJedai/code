@@ -293,3 +293,4 @@ version history:
 16.07.2009
 	java: fixed new uint[] via InitializeArray to cast java int
 	java: fixed Array conversion to Object while under DefineAsStatic
+	java: PrivateImplementationDetails type shall be ignored

@@ -26,6 +26,9 @@ namespace jsc.Languages.Java
             if (IsNativeType(z))
                 return false;
 
+			if (z.Name.Contains("<PrivateImplementationDetails>") || (z.DeclaringType != null && z.DeclaringType.Name.Contains("<PrivateImplementationDetails>")))
+				return false;
+
 			// why would we do that?
 			//if (IsEmptyImplementationType(z))
 			//    return false;
@@ -34,6 +37,7 @@ namespace jsc.Languages.Java
                 return false;
 
             //WriteMachineGeneratedWarning();
+			WriteCommentLine(Path.GetFileName(z.Assembly.Location) );
 
             if (z.Namespace != null)
             {
