@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ScriptCoreLib;
+using System.IO;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.IO
 {
@@ -136,5 +137,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 				this.InternalPosition = value;
 			}
 		}
+
+		public virtual void WriteTo(Stream stream)
+		{
+			stream.Write(InternalBuffer, 0, (int)InternalLength);
+		}
+
 	}
 }

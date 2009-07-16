@@ -9,7 +9,7 @@ using System.Collections;
 namespace ArchiveExample
 {
 	[Script]
-	public partial class ZIPFile
+	public partial class ZIPFile : IEnumerable
 	{
 		[Script]
 		public class Entry
@@ -86,6 +86,15 @@ namespace ArchiveExample
 		{
 			this.Add(FileName, Encoding.ASCII.GetBytes(text));
 		}
+
+		#region IEnumerable Members
+
+		public IEnumerator GetEnumerator()
+		{
+			return this.Entries.GetEnumerator();
+		}
+
+		#endregion
 	}
 
 }

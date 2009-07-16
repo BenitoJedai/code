@@ -70,12 +70,14 @@
     <Compile Include="BCLImplementation\System\Collections\IEnumerable.cs" />
     <Compile Include="BCLImplementation\System\Collections\ICollection.cs" />
     <Compile Include="BCLImplementation\System\Collections\IList.cs" />
+    <Compile Include="BCLImplementation\System\Collections\Queue.cs" />
     <Compile Include="BCLImplementation\System\Console.cs" />
     <Compile Include="BCLImplementation\System\Convert.cs" />
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
     <Compile Include="BCLImplementation\System\Attribute.cs" />
     <Compile Include="BCLImplementation\System\DateTime.cs" />
     <Compile Include="BCLImplementation\System\InvalidOperationException.cs" />
+    <Compile Include="BCLImplementation\System\IO\BinaryWriter.cs" />
     <Compile Include="BCLImplementation\System\SByte.cs" />
     <Compile Include="BCLImplementation\System\Delegate.cs" />
     <Compile Include="BCLImplementation\System\Diagnostics\Trace.cs" />
