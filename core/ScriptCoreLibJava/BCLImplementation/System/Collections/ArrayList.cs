@@ -40,6 +40,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections
 			}
 		}
 
+		public virtual void RemoveAt(int index)
+		{
+			this.InternalList.remove(index);
+		}
+
 		public virtual object[] ToArray()
 		{
 			return InternalList.toArray();
@@ -54,7 +59,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections
 
 		public global::System.Collections.IEnumerator GetEnumerator()
 		{
-			return new __Enumerator { Target = this };	
+			return new __Enumerator { Target = this };
 		}
 
 		#endregion

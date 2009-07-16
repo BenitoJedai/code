@@ -54,7 +54,7 @@ namespace ArchiveExample
 		{
 			// http://www.pkware.com/documents/casestudies/APPNOTE.TXT
 
-			var offsets = new Queue<uint>();
+			var offsets = new Queue();
 			var Items = this.Entries;
 			
 			#region Local file header:
@@ -63,7 +63,7 @@ namespace ArchiveExample
 				offsets.Enqueue((uint)w.BaseStream.Position);
 
 				//var h = v.Header;
-				var file_name = Encoding.UTF8.GetBytes(v.FileName);
+				var file_name = Encoding.ASCII.GetBytes(v.FileName);
 
 				//        local file header signature     4 bytes  (0x04034b50)
 				w.Write(ZIPFileEntryHeader.FileHeader);
@@ -110,9 +110,9 @@ namespace ArchiveExample
 			foreach (var v in Items)
 			{
 				//var h = v.Header;
-				var offset = offsets.Dequeue();
+				var offset = (uint)offsets.Dequeue();
 
-				var file_name = Encoding.UTF8.GetBytes(v.FileName);
+				var file_name = Encoding.ASCII.GetBytes(v.FileName);
 
 
 				//       central file header signature   4 bytes  (0x02014b50)

@@ -2,12 +2,57 @@
 using System.Collections.Generic;
 using System.Text;
 using ScriptCoreLib;
+using System.Collections;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
 	[Script(Implements = typeof(global::System.Array), IsArray = true)]
 	internal class __Array
 	{
+
+		[Script]
+		class __Enumerator : IEnumerator
+		{
+			public object[] Target;
+
+			object InternalCurrent;
+			int InternalIndex = -1;
+
+			#region __IEnumerator Members
+
+			public object Current
+			{
+				get { return InternalCurrent; }
+			}
+
+			public bool MoveNext()
+			{
+				InternalIndex++;
+
+				if (InternalIndex < Target.Length)
+				{
+					InternalCurrent = Target[InternalIndex];
+					return true;
+				}
+
+				InternalCurrent = null;
+				return false;
+			}
+
+			public void Reset()
+			{
+				throw new NotImplementedException();
+			}
+
+			#endregion
+		}
+
+		[Script(DefineAsStatic = true)]
+		public IEnumerator GetEnumerator()
+		{
+			return new __Enumerator { Target = (object[])(object)this };
+		}
+
 		public static void Sort(Array array)
 		{
 			java.util.Arrays.sort((object[])(object)array);

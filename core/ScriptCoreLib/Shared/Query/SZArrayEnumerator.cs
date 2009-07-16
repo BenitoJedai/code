@@ -9,7 +9,7 @@ using IDisposable = global::System.IDisposable;
 namespace ScriptCoreLib.Shared.Query
 {
 
-
+	// todo: IsArrayEnumerator should be replaced by Array.GetEnumerator<T>
     [Script(IsArrayEnumerator = true
         //, IsDebugCode = true
         )]
