@@ -516,6 +516,22 @@ namespace jsc.Languages.Java
 					}
 					#endregion
 
+					#region ushort
+					if (e.i.TargetField.FieldType == typeof(ushort))
+					{
+						Write("(int)");
+						Write("(");
+						Emit(e.p, e.FirstOnStack);
+						Write(".");
+						WriteSafeLiteral(e.i.TargetField.Name);
+
+						Write(" & 0xffffL");
+						Write(")");
+
+						return;
+					}
+					#endregion
+
 					#region uint
 					if (e.i.TargetField.FieldType == typeof(uint))
 					{
@@ -574,15 +590,17 @@ namespace jsc.Languages.Java
 						Write("(byte)");
 					}
 
+					if (e.i.TargetField.FieldType == typeof(ushort))
+					{
+						Write("(short)");
+					}
+
 					if (e.i.TargetField.FieldType == typeof(uint))
 					{
 						Write("(int)");
 					}
 
-					if (e.i.TargetField.FieldType == typeof(ushort))
-					{
-						Write("(short)");
-					}
+				
 
 					Emit(e.p, s[1]);
 				};
@@ -806,7 +824,7 @@ namespace jsc.Languages.Java
 												   Write(", ");
 
 											   Write("(int)");
-											   Write(Values[i].ToString());
+											   Write(((int)Values[i]).ToString());
 										   }
 
 									   }
@@ -821,7 +839,7 @@ namespace jsc.Languages.Java
 												   Write(", ");
 
 											   Write("(byte)");
-											   Write(Values[i].ToString());
+											   Write(((sbyte)Values[i]).ToString());
 										   }
 
 									   }
@@ -880,83 +898,6 @@ namespace jsc.Languages.Java
 
 					}
 
-					//Write("new ");
-
-
-					//#region inline newarr
-					//if (e.p.IsValidInlineArrayInit)
-					//{
-					//    WriteDecoratedTypeName(e.i.TargetType);
-					//    WriteLine("[]");
-					//    Ident++;
-
-					//    using (CreateScope(false))
-					//    {
-
-					//        ILFlow.StackItem[] _stack = e.p.InlineArrayInitElements;
-
-					//        for (int si = 0; si < _stack.Length; si++)
-					//        {
-
-
-					//            if (si > 0)
-					//            {
-					//                Write(",");
-					//                WriteLine();
-					//            }
-
-					//            WriteIdent();
-
-					//            if (_stack[si] == null)
-					//            {
-					//                if (!e.i.TargetType.IsValueType)
-					//                {
-					//                    Write("null");
-					//                }
-					//                else
-					//                {
-					//                    if (e.i.TargetType == typeof(int))
-					//                        Write("0");
-					//                    else if (e.i.TargetType == typeof(sbyte))
-					//                        Write("0");
-					//                    else
-					//                        BreakToDebugger("default for " + e.i.TargetType.FullName + " is unknown");
-					//                }
-					//            }
-					//            else
-					//            {
-					//                Emit(e.p, _stack[si]);
-					//            }
-
-					//        }
-
-					//        WriteLine();
-					//    };
-					//    Ident--;
-					//}
-					//#endregion
-					//else
-					//{
-					//    int rank = 0;
-					//    Type type = e.i.TargetType;
-
-					//    while (type.IsArray)
-					//    {
-					//        type = type.GetElementType();
-					//        rank++;
-					//    }
-
-					//    WriteDecoratedTypeName(type);
-					//    Write("[");
-					//    EmitFirstOnStack(e);
-					//    Write("]");
-
-					//    while (rank-- > 0)
-					//    {
-					//        Write("[");
-					//        Write("]");
-					//    }
-					//}
 				};
 			#endregion
 
@@ -970,9 +911,7 @@ namespace jsc.Languages.Java
 			CIW[OpCodes.Throw] =
 				delegate(CodeEmitArgs e)
 				{
-					Write("throw");
-					WriteSpace();
-
+					WriteKeywordSpace(Keywords._throw);
 					Emit(e.p, e.FirstOnStack);
 				};
 			#endregion
@@ -981,8 +920,7 @@ namespace jsc.Languages.Java
 			CIW[OpCodes.Rethrow] =
 				delegate(CodeEmitArgs e)
 				{
-					Write("throw");
-					WriteSpace();
+					WriteKeywordSpace(Keywords._throw);
 					WriteExceptionVar();
 				};
 			#endregion
@@ -1013,6 +951,21 @@ namespace jsc.Languages.Java
 
 							// this operator is either 16bit or 32bit, depends on VM
 							Write(" & 0xff");
+							Write(")");
+
+							return;
+						}
+						#endregion
+
+						#region ushort
+						if (e.i.TargetParameter.ParameterType == typeof(ushort))
+						{
+							Write("(int)");
+							Write("(");
+							WriteMethodParameterOrSelf(e.i);
+
+							// this operator is either 16bit or 32bit, depends on VM
+							Write(" & 0xffff");
 							Write(")");
 
 							return;
@@ -1171,6 +1124,23 @@ namespace jsc.Languages.Java
 					}
 					#endregion
 
+					#region ushort
+					if (e.i.TargetField.FieldType == typeof(ushort))
+					{
+						Write("(int)");
+						Write("(");
+						WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
+						WriteTypeStaticAccessor();
+						WriteSafeLiteral(e.i.TargetField.Name);
+
+						// this operator is either 16bit or 32bit, depends on VM
+						Write(" & 0xffffL");
+						Write(")");
+
+						return;
+					}
+					#endregion
+
 					#region byte
 					if (e.i.TargetField.FieldType == typeof(uint))
 					{
@@ -1181,7 +1151,7 @@ namespace jsc.Languages.Java
 						WriteSafeLiteral(e.i.TargetField.Name);
 
 						// this operator is either 16bit or 32bit, depends on VM
-						Write(" & 0xffffffL");
+						Write(" & 0xffffffffL");
 						Write(")");
 
 						return;
@@ -1437,6 +1407,15 @@ namespace jsc.Languages.Java
 					   Write(" & 0xff");
 					   Write(")");
 				   }
+					else if (e.i.TargetVariable.LocalType == typeof(ushort))
+				   {
+					   Write("(int)");
+					   Write("(");
+					   WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.TargetVariable);
+
+					   Write(" & 0xffff");
+					   Write(")");
+				   }
 				   else if (e.i.TargetVariable.LocalType == typeof(uint))
 				   {
 					   Write("(long)");
@@ -1526,6 +1505,8 @@ namespace jsc.Languages.Java
 				   }
 				   else
 				   {
+					   // 7FFFFFFF is the max for int!
+
 					   MyWriter.Write(n.Value);
 				   }
 			   };

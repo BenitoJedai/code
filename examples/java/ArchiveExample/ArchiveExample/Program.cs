@@ -18,6 +18,8 @@ namespace ArchiveExample
 		{
 			Console.WriteLine("ScriptCoreLib.Archive.Zip");
 
+			Console.WriteLine("" + Crc32Helper.GetCrc32(1, 2, 3));
+
 
 			var n = DateTime.Now;
 
@@ -42,6 +44,7 @@ namespace ArchiveExample
 				Console.WriteLine();
 			}
 
+			
 		}
 
 	}
