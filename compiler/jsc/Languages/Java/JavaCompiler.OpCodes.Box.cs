@@ -105,7 +105,7 @@ namespace jsc.Languages.Java
 			{
 				//var TargetType = this.ResolveImplementation(e.i.TargetType) ?? e.i.TargetType;
 
-				if (TargetType.BaseType == typeof(ValueType))
+				if (!TargetType.IsPrimitive && TargetType.BaseType == typeof(ValueType))
 				{
 
 					EmitFirstOnStack();

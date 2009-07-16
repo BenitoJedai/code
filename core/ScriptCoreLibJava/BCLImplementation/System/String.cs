@@ -257,6 +257,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			return b.ToString();
 		}
 
+	
+
 		//[Script(DefineAsStatic = true)]
 		public static string Concat(object a)
 		{

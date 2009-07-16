@@ -290,3 +290,5 @@ version history:
 	java: fixed unsigned byte support for use with [Script(DefineAsStatic = true)]
 	java: OpCodes.box wont try to box value types anymore
 	java: typeof(int) and other primitives will now be written as int.class and such
+16.07.2009
+	java: fixed new uint[] via InitializeArray to cast java int

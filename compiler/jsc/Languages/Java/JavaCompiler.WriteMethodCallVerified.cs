@@ -91,7 +91,7 @@ namespace jsc.Languages.Java
 
                     if (IsExternalDefined)
                     {
-                        WriteBoxedComment("impl");
+						//WriteBoxedComment("impl");
 
 
 
@@ -102,7 +102,7 @@ namespace jsc.Languages.Java
                     }
                     else
                     {
-                        WriteBoxedComment("ext");
+						//WriteBoxedComment("ext");
 
                         WriteTypeOrExternalTargetTypeName(m.DeclaringType, false);
                         Write(".");
