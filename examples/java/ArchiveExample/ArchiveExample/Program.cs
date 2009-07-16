@@ -44,8 +44,17 @@ namespace ArchiveExample
 				Console.WriteLine();
 			}
 
-			
+			var zz = new ZIPFile();
+			zz.Add("dynamic1.txt", "hey");
+			zz.Add("dynamic2.txt", 0x30, 0x31, 0x32, 0xff);
+
+			using (var w = new BinaryWriter(File.OpenWrite("dynamic1.zip")))
+			{
+				zz.WriteTo(w);
+			}
 		}
+
+
 
 	}
 }

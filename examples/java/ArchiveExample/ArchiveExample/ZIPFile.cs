@@ -14,18 +14,37 @@ namespace ArchiveExample
 		[Script]
 		public class Entry
 		{
+			string InternalFileName;
 			public string FileName
 			{
+				set
+				{
+					InternalFileName = value;
+					Header = null;
+				}
 				get
 				{
+					if (Header == null)
+						return InternalFileName;
+
 					return Header.file_name;
 				}
 			}
 
+			MemoryStream InternalData;
 			public MemoryStream Data
 			{
+				set
+				{
+					InternalData = value;
+					Header = null;
+				}
+
 				get
 				{
+					if (Header == null)
+						return InternalData;
+					
 					return Header.file_data;
 				}
 			}
@@ -62,6 +81,11 @@ namespace ArchiveExample
 			return n;
 		}
 
+
+		public void Add(string FileName, string text)
+		{
+			this.Add(FileName, Encoding.ASCII.GetBytes(text));
+		}
 	}
 
 }

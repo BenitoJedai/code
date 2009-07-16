@@ -25,7 +25,7 @@ namespace ArchiveExample
 		{
 			// jsc should prevent javac from reporting possible loss of precision
 
-			long year =  (0x7bc + (((int)(dosDateTime >> 0x19)) & 0x7f));
+			long year = (0x7bc + (((int)(dosDateTime >> 0x19)) & 0x7f));
 			long second = ((int)((dosDateTime & 0x1f) << 1));
 			long minute = (((int)(dosDateTime >> 5)) & 0x3f);
 			long hour = (((int)(dosDateTime >> 11)) & 0x1f);
@@ -34,6 +34,160 @@ namespace ArchiveExample
 			return new DateTime((int)year, (int)month, (int)day, (int)hour, (int)minute, (int)second);
 		}
 
+		public void Add(string FileName, params byte[] Data)
+		{
+			Add(FileName, new MemoryStream(Data));
+		}
+
+		public void Add(string FileName, MemoryStream Data)
+		{
+			this.Add(new Entry { FileName = FileName, Data = Data });
+		}
+
+		private void Add(Entry entry)
+		{
+			this.Items.Add(entry);
+		}
+
+
+		public void WriteTo(BinaryWriter w)
+		{
+			// http://www.pkware.com/documents/casestudies/APPNOTE.TXT
+
+			var offsets = new Queue<uint>();
+			var Items = this.Entries;
+			
+			#region Local file header:
+			foreach (var v in Items)
+			{
+				offsets.Enqueue((uint)w.BaseStream.Position);
+
+				//var h = v.Header;
+				var file_name = Encoding.UTF8.GetBytes(v.FileName);
+
+				//        local file header signature     4 bytes  (0x04034b50)
+				w.Write(ZIPFileEntryHeader.FileHeader);
+				//        version needed to extract       2 bytes
+				w.Write((short)0x000A);
+				//        general purpose bit flag        2 bytes
+				w.Write((short)0);
+
+				//        compression method              2 bytes
+				w.Write(ZIPFileEntryHeader.UNCOMPRESSED);
+				//        last mod file time              2 bytes
+				//        last mod file date              2 bytes
+				w.Write(ToMsDosDateTime(DateTime.Now));
+
+				//        crc-32                          4 bytes
+				w.Write((uint)Crc32Helper.GetCrc32(v.Data.ToArray()));
+
+				//        compressed size                 4 bytes
+				w.Write((uint)v.Data.Length);
+				//        uncompressed size               4 bytes
+				w.Write((uint)v.Data.Length);
+
+
+				//        file name length                2 bytes
+				w.Write((short)file_name.Length);
+
+				//        extra field length              2 bytes
+				w.Write((short)0);
+
+				//        file name (variable size)
+				w.Write(file_name);
+
+				//        extra field (variable size)
+
+				v.Data.WriteTo(w.BaseStream);
+
+			}
+			#endregion
+
+			var p = w.BaseStream.Position;
+
+
+			#region Central directory structure
+			foreach (var v in Items)
+			{
+				//var h = v.Header;
+				var offset = offsets.Dequeue();
+
+				var file_name = Encoding.UTF8.GetBytes(v.FileName);
+
+
+				//       central file header signature   4 bytes  (0x02014b50)
+				w.Write((int)0x02014b50);
+				//       version made by                 2 bytes
+				w.Write((ushort)0x0014);
+				//       version needed to extract       2 bytes
+				w.Write((ushort)0x000A);
+				//       general purpose bit flag        2 bytes
+				w.Write((ushort)0x0000);
+				//       compression method              2 bytes
+				w.Write(ZIPFileEntryHeader.UNCOMPRESSED);
+				//       last mod file time              2 bytes
+				//       last mod file date              2 bytes
+				w.Write(ToMsDosDateTime(DateTime.Now));
+				//       crc-32                          4 bytes
+				w.Write((uint)Crc32Helper.GetCrc32(v.Data.ToArray()));
+				//       compressed size                 4 bytes
+				w.Write((uint)v.Data.Length);
+				//       uncompressed size               4 bytes
+				w.Write((uint)v.Data.Length);
+				//       file name length                2 bytes
+				w.Write((ushort)file_name.Length);
+				//       extra field length              2 bytes
+				w.Write((ushort)0x0000);
+				//       file comment length             2 bytes
+				w.Write((ushort)0x0000);
+				//       disk number start               2 bytes
+				w.Write((ushort)0x0000);
+				//       internal file attributes        2 bytes
+				w.Write((ushort)0x0000);
+				//       external file attributes        4 bytes
+				w.Write((int)0x0000);
+				//       relative offset of local header 4 bytes
+				w.Write((uint)offset);
+				//       file name (variable size)
+				w.Write(file_name);
+				//       extra field (variable size)
+				//       file comment (variable size)
+			}
+			#endregion
+
+			//      
+
+			var q = w.BaseStream.Position;
+			var z = q - p;
+
+			#region I.  End of central directory record:
+			//end of central dir signature    4 bytes  (0x06054b50)
+			w.Write((uint)0x06054b50);
+
+			//number of this disk             2 bytes
+			w.Write((ushort)0);
+			//number of the disk with the
+			//start of the central directory  2 bytes
+			w.Write((ushort)0);
+			//total number of entries in the
+			//central directory on this disk  2 bytes
+			w.Write((ushort)Items.Length);
+			//total number of entries in
+			//the central directory           2 bytes
+			w.Write((ushort)Items.Length);
+			//size of the central directory   4 bytes
+			w.Write((uint)z);
+			//offset of start of central
+			//directory with respect to
+			//the starting disk number        4 bytes
+			w.Write((uint)p);
+			//.ZIP file comment length        2 bytes
+			w.Write((ushort)0);
+			//.ZIP file comment       (variable size)
+			#endregion
+
+
+		}
 
 	}
 
