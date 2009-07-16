@@ -125,81 +125,7 @@ namespace jsc.Languages.Java
 
 
 
-		public override void WriteMethodSignature(MethodBase m, bool dStatic)
-		{
-			DebugBreak(ScriptAttribute.Of(m));
-
-			WriteIdent();
-
-			if (m.IsAbstract && !m.DeclaringType.IsInterface)
-				WriteKeywordSpace(Keywords._abstract);
-
-			int flags = (int)m.GetMethodImplementationFlags();
-
-			// http://blogs.msdn.com/ricom/archive/2004/05/05/126542.aspx
-			// http://msdn2.microsoft.com/en-us/library/system.reflection.methodimplattributes.aspx
-			if ((flags & (int)MethodImplAttributes.Synchronized) == (int)MethodImplAttributes.Synchronized)
-				Write("synchronized ");
-
-			// it seems delegates cannot call to private or protected
-			// static methods
-			// so we make them public...
-			if (m.IsPublic || m.IsStatic)
-				WriteKeywordPublic();
-			else
-			{
-				if (m.IsFamily)
-					Write("protected ");
-				else
-					WriteKeywordPrivate();
-			}
-
-			if (m.IsStatic || dStatic)
-				this.WriteKeywordSpace(Keywords._static);
-			else
-			{
-				if (m is MethodInfo)
-				{
-					if (m.IsFinal || !m.IsVirtual)
-						Write("final ");
-				}
-			}
-
-			if (ScriptIsPInvoke(m))
-			{
-				Write("native ");
-			}
-
-			if (m is MethodInfo)
-			{
-				MethodInfo mi = m as MethodInfo;
-
-				//WriteDecoratedTypeName(mi.ReturnType);
-				WriteDecoratedTypeNameOrImplementationTypeName(mi.ReturnType, true, true);
-
-				//Write(GetDecoratedTypeNameWithinNestedName( mi.ReturnType));
-				WriteSpace();
-			}
-
-			if (m.IsInstanceConstructor())
-				Write(GetDecoratedTypeName(m.DeclaringType, false, true, true, true));
-			else
-				WriteDecoratedMethodName(m, false);
-
-			Write("(");
-			WriteMethodParameterList(m);
-
-			Write(")");
-
-			WriteMethodSignatureThrows(m);
-
-			if (m.IsAbstract || ScriptIsPInvoke(m))
-				WriteLine(";");
-			else
-				WriteLine();
-
-		}
-
+	
 		public override void WriteLocalVariableDefinition(LocalVariableInfo v, MethodBase u)
 		{
 			WriteIdent();
@@ -241,6 +167,8 @@ namespace jsc.Languages.Java
 
 		protected override bool IsTypeCastRequired(Type ParameterType, ILFlow.StackItem s)
 		{
+	
+
 			// resolve to .net type if any
 			ParameterType = ParameterType.ToScriptAttributeOrDefault().Implements ?? ParameterType;
 
@@ -267,10 +195,10 @@ namespace jsc.Languages.Java
 			return false;
 		}
 
-		public override void MethodCallParameterTypeCast(Type context, Type ParameterType)
+		public override void MethodCallParameterTypeCast(Type context, Type ParameterType, ILFlow.StackItem s)
 		{
+			// this is what the variable must be
 			ParameterType = ParameterType.ToScriptAttributeOrDefault().Implements ?? ParameterType;
-
 
 			if (ParameterType == typeof(uint) || (ParameterType.IsEnum && Enum.GetUnderlyingType(ParameterType) == typeof(uint)))
 			{
@@ -513,78 +441,6 @@ namespace jsc.Languages.Java
 		}
 
 
-
-		public override void WriteMethodParameterList(MethodBase m)
-		{
-			ParameterInfo[] mp = m.GetParameters();
-
-			ScriptAttribute ma = ScriptAttribute.Of(m);
-
-			bool bStatic = (ma != null && ma.DefineAsStatic);
-
-			if (bStatic)
-			{
-				if (m.IsStatic)
-				{
-					Break("method is already static, but is marked to be declared out of band : " + m.DeclaringType.FullName + "." + m.Name);
-				}
-
-
-				DebugBreak(ma);
-
-
-				ScriptAttribute sa = ScriptAttribute.Of(m.DeclaringType, false);
-
-				if (sa.Implements == null)
-				{
-					WriteDecoratedTypeName(m.DeclaringType);
-
-				}
-				else
-				{
-					WriteDecoratedTypeName(sa.Implements);
-				}
-
-				// this parameter is on the argument list
-
-				WriteSpace();
-				WriteSelf();
-			}
-
-			for (int mpi = 0; mpi < mp.Length; mpi++)
-			{
-				if (mpi > 0 || bStatic)
-				{
-					Write(",");
-					WriteSpace();
-				}
-
-				ParameterInfo p = mp[mpi];
-
-				ScriptAttribute za = ScriptAttribute.Of(m.DeclaringType, true);
-
-				// why would we want to write the actual typename of BCL type?
-				// it wont be around!
-				// maybe for strings and such?
-				// but they have to define implementation type then
-
-
-
-
-				if (za.Implements != null && m.DeclaringType == p.ParameterType)
-					WriteDecoratedTypeNameOrImplementationTypeName(za.Implements, true, true);
-				else
-					WriteDecoratedTypeNameOrImplementationTypeName(p.ParameterType, true, true);
-
-
-				WriteSpace();
-
-
-
-
-				Write(p.Name);
-			}
-		}
 
 		public void WriteVariableType(Type t, bool bSpace)
 		{

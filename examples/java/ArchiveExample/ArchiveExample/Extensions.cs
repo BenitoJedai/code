@@ -12,6 +12,16 @@ namespace ArchiveExample
 	[Script]
 	public static class Extensions
 	{
+		public static void WriteUInt32(this BinaryWriter w, uint value)
+		{
+			w.Write((int)value);
+		}
+
+		public static void WriteUInt16(this BinaryWriter w, ushort value)
+		{
+			w.Write((short)value);
+		}
+
 		public static MethodInfo[] GetPropertyGetMethodsForType(this Type Context, Type PropertyType)
 		{
 			var a = new ArrayList();

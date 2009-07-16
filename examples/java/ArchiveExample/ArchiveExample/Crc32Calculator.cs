@@ -69,7 +69,9 @@ namespace ArchiveExample
 		{
 			get
 			{
-				return ~this._crc32Value;
+				uint n = ~this._crc32Value;
+
+				return n;
 			}
 		}
 	}

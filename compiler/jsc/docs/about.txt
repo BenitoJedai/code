@@ -292,3 +292,4 @@ version history:
 	java: typeof(int) and other primitives will now be written as int.class and such
 16.07.2009
 	java: fixed new uint[] via InitializeArray to cast java int
+	java: fixed Array conversion to Object while under DefineAsStatic
