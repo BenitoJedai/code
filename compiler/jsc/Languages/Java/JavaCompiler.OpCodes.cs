@@ -955,7 +955,7 @@ namespace jsc.Languages.Java
 					var ResolvedUInt32 = this.ResolveImplementation(typeof(uint));
 					var ResolvedUInt16 = this.ResolveImplementation(typeof(ushort));
 
-					WriteBoxedComment("ldarg as " + ResolvedTypeExpectedOrDefault);
+					//WriteBoxedComment("ldarg as " + ResolvedTypeExpectedOrDefault);
 
 					WriteCall_DebugTrace_Assign_Load(e);
 
