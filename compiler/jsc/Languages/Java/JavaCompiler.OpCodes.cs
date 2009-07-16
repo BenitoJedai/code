@@ -951,10 +951,11 @@ namespace jsc.Languages.Java
 				{
 					var ResolvedTypeExpectedOrDefault = this.ResolveImplementation(e.TypeExpectedOrDefault) ?? e.TypeExpectedOrDefault;
 					var ResolvedByte = this.ResolveImplementation(typeof(byte));
+					var ResolvedInt32 = this.ResolveImplementation(typeof(int));
 					var ResolvedUInt32 = this.ResolveImplementation(typeof(uint));
 					var ResolvedUInt16 = this.ResolveImplementation(typeof(ushort));
 
-					//WriteBoxedComment("ldarg as " + ResolvedTypeExpectedOrDefault);
+					WriteBoxedComment("ldarg as " + ResolvedTypeExpectedOrDefault);
 
 					WriteCall_DebugTrace_Assign_Load(e);
 
@@ -993,7 +994,7 @@ namespace jsc.Languages.Java
 						#endregion
 
 						#region uint
-						if (e.i.TargetParameter.ParameterType == typeof(uint) && (ResolvedTypeExpectedOrDefault != ResolvedUInt32))
+						if (e.i.TargetParameter.ParameterType == typeof(uint) && (ResolvedTypeExpectedOrDefault != ResolvedUInt32) && (ResolvedTypeExpectedOrDefault != ResolvedInt32))
 						{
 							Write("(long)");
 							Write("(");
@@ -1370,7 +1371,7 @@ namespace jsc.Languages.Java
 						Write("(short)");
 					}
 
-					EmitFirstOnStack(e);
+					Emit(e.p, e.FirstOnStack, e.i.TargetVariable.LocalType);
 				};
 			#endregion
 

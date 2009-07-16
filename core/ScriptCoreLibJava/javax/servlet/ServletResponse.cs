@@ -22,5 +22,11 @@ namespace javax.servlet
 		/// <returns></returns>
 		java.io.PrintWriter getWriter();
           
+		/// <summary>
+		/// Returns a ServletOutputStream suitable for writing binary data in the response.
+		/// </summary>
+		/// <returns></returns>
+		 ServletOutputStream 	getOutputStream();
+          
 	}
 }

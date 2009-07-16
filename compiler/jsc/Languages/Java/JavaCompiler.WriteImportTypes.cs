@@ -192,6 +192,9 @@ namespace jsc.Languages.Java
 
 				}
 
+				if (p.Name.Contains("<PrivateImplementationDetails>"))
+					continue;
+
 				if (p.IsEnum)
 				{
 					// we are using the underlying system type
