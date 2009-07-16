@@ -54,11 +54,14 @@ namespace ArchiveExample
 			{
 				return oldCrc;
 			}
+			uint num2 = 0;
 			for (int i = 0; i < length; i++)
 			{
-				oldCrc = Crc32Table[(oldCrc ^ data[i]) & 0xff] ^ ((oldCrc >> 8) & 0xffffff);
+				var index = (byte)(oldCrc ^ data[i]);
+				num2 = Crc32Table[index] ^ ((oldCrc >> 8) & 0xffffff);
+				oldCrc = num2;
 			}
-			return oldCrc;
+			return num2;
 		}
 
 		// Properties

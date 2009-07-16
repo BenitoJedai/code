@@ -10,12 +10,14 @@ namespace ArchiveExample
 	[Script]
 	public class ZIPFileEntryHeader
 	{
+		internal const int FileHeader = 0x04034b50;
+
 		public int file_header_signature;
 		public short required_version;
 		public short general_purpose_bit_flag;
 
-		const short DEFLATE = 8;
-		const short UNCOMPRESSED = 0;
+		internal const short DEFLATE = 8;
+		internal const short UNCOMPRESSED = 0;
 
 		// 2 bytes (8=DEFLATE; 0=UNCOMPRESSED)
 		public short compression_method;
