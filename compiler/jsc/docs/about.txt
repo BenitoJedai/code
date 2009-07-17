@@ -294,3 +294,7 @@ version history:
 	java: fixed new uint[] via InitializeArray to cast java int
 	java: fixed Array conversion to Object while under DefineAsStatic
 	java: PrivateImplementationDetails type shall be ignored
+17.07.2009
+	c: escaped chars in string need special qoute magic
+	c: types are no longer predefined via typedef to avoid circular references
+	c: cast to BCLImplementation of string shall cast to char*

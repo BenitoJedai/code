@@ -31,6 +31,9 @@ namespace SpeakerMusic
 		public MusicalNotes Notes;
 		public readonly List<Tab> Tabs = new List<Tab>();
 
+
+
+
 		[Script]
 		public class Tab
 		{
@@ -38,6 +41,10 @@ namespace SpeakerMusic
 			public string Stream;
 			public int OctaveOffset;
 		}
+
+
+
+
 
 		public string this[MusicalNotes.Notes e, int octaveoffset]
 		{

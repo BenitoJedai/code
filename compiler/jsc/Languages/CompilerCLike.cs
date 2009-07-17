@@ -208,7 +208,7 @@ namespace jsc.Script
 						WriteTypeCast(m.DeclaringType);
 
 					if (IsTypeCastRequired(m.DeclaringType, s[0]))
-						MethodCallParameterTypeCast(p.DeclaringMethod.DeclaringType, m.DeclaringType);
+						MethodCallParameterTypeCast(p.DeclaringMethod.DeclaringType, m.DeclaringType, s[0]);
 
 
 

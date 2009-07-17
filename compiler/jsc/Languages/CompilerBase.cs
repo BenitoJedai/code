@@ -458,7 +458,7 @@ namespace jsc.Script
 			return null;
 		}
 
-		public void WriteDecoratedLiteralString(string z)
+		public virtual void WriteDecoratedLiteralString(string z)
 		{
 			if (IsUTF8SupportedInLiterals())
 			{

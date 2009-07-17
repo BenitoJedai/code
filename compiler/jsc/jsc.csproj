@@ -129,6 +129,12 @@
     <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteTypeInstanceConstructors.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteTypeStaticConstructor.cs" />
     <Compile Include="Languages\C\CompilerJob.cs" />
+    <Compile Include="Languages\C\CCompiler.WriteDecoratedLiteralString.cs" />
+    <Compile Include="Languages\C\CCompiler.CompileType.cs" />
+    <Compile Include="Languages\C\CCompiler.Compile.cs" />
+    <Compile Include="Languages\C\CCompiler.OpCodes.cs" />
+    <Compile Include="Languages\C\CCompiler.MethodCallParameterTypeCast.cs" />
+    <Compile Include="Languages\C\CCompiler.WriteTypeCastAndEmit.cs" />
     <Compile Include="Languages\EventDetector.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteTypeFields.cs" />
     <Compile Include="Languages\CSharp2\Csharp2Compiler.EmitTryBlock.cs" />
