@@ -194,6 +194,15 @@ namespace ScriptCoreLib.Archive.ZIP
 
 		}
 
+
+		public static implicit operator byte[](ZIPFile z)
+		{
+			var m = new MemoryStream();
+			var w = new BinaryWriter(m);
+			z.WriteTo(w);
+
+			return m.ToArray();
+		}
 	}
 
 }
