@@ -1,0 +1,1 @@
+﻿TypelessPointers. Crosscompiled from C# to C.
