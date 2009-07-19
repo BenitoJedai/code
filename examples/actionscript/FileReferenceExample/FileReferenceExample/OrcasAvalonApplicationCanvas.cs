@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using ScriptCoreLib.CSharp.Avalon.Controls;
 using System.IO;
+using ScriptCoreLib.Archive.ZIP;
 
 namespace FileReferenceExample.Shared
 {
@@ -127,14 +128,12 @@ namespace FileReferenceExample.Shared
 
 						var r = new FileDialog();
 
-						var m = new MemoryStream();
+						var z = new ZIPFile
+						{
+							{"default.txt", "hello world"}
+						};
 
-						m.WriteByte(0);
-						m.WriteByte(3);
-						m.WriteByte(0xf0);
-						m.WriteByte(0xff);
-
-						r.Save(m, "demo2.out");
+						r.Save((MemoryStream)z, "demo2.zip");
 					}
 					else
 					{
@@ -145,7 +144,17 @@ namespace FileReferenceExample.Shared
 						r.Open(
 							m =>
 							{
-								t.Text = "bytes:" + m.Length;
+								m.Position = 0;
+								
+								ZIPFile z = m;
+								var w = new StringBuilder();
+
+								foreach (var zf in z.Entries)
+								{
+									w.AppendLine(zf.FileName);
+								}
+
+								t.Text = w.ToString();
 							}
 						);
 					}
