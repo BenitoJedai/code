@@ -10,6 +10,7 @@ using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.ActionScript.flash.media;
+using ScriptCoreLib.Archive.ZIP;
 
 namespace ZIPExample1.ActionScript
 {
@@ -25,7 +26,7 @@ namespace ZIPExample1.ActionScript
         Class MyZipFile;
 
 
-
+	
 
 
         /// <summary>
@@ -37,11 +38,12 @@ namespace ZIPExample1.ActionScript
 
             var Bitmaps = Enumerable.ToArray(
                 from File in
-                    from f in MyZipFile.ToFiles()
+					from f in MyZipFile.ToZIPFile().Entries
+					//from f in MyZipFile.ToFiles()
                     // you can filter your images here
                     where f.FileName.EndsWith(".png")
                     select f
-                select new { File, GetBitmap = File.Bytes.LoadBytes<Bitmap>(i => BitmapsLoaded++) }
+                select new { File, GetBitmap = File.Data.ToByteArray().LoadBytes<Bitmap>(i => BitmapsLoaded++) }
             );
 
     
