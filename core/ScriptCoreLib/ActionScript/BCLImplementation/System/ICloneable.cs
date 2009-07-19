@@ -5,11 +5,9 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
-    /*
     [Script(Implements = typeof(global::System.ICloneable))]
     internal interface __ICloneable
     {
-        object Clone();
+		//object Clone();
     }
-    */
 }

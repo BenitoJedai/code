@@ -11,7 +11,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.BinaryReader))]
 	internal class __BinaryReader
 	{
-		private Stream m_stream;
+		private Stream InternalStream;
 
 		private byte[] m_buffer;
 
@@ -20,7 +20,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 		{
 			get
 			{
-				return m_stream;
+				return InternalStream;
 			}
 		}
 
@@ -31,7 +31,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 			{
 				throw new ArgumentNullException("input");
 			}
-			this.m_stream = input;
+			this.InternalStream = input;
 			this.m_buffer = new byte[0x10];
 
 		}
@@ -39,61 +39,66 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 
 		public virtual uint ReadUInt32()
 		{
-			return m_stream.ToByteArray().readUnsignedInt();
+			return InternalStream.ToByteArray().readUnsignedInt();
 		}
 
 		public virtual byte[] ReadBytes(int length)
 		{
 			var k = new ByteArray();
-			var s = m_stream.ToByteArray();
+			var s = InternalStream.ToByteArray();
 
 			s.readBytes(k, s.position, (uint)length);
 
 			return k.ToArray();
 		}
 
+		public virtual int Read(byte[] buffer, int index, int count)
+		{
+			return this.InternalStream.Read(buffer, index, count);
+		}
+
 		public virtual int ReadInt32()
 		{
-			return m_stream.ToByteArray().readInt();
+			return InternalStream.ToByteArray().readInt();
 		}
 
 		public virtual short ReadInt16()
 		{
-			return m_stream.ToByteArray().readShort();
+			return InternalStream.ToByteArray().readShort();
 		}
 
 		private void FillBuffer(int p)
 		{
-			m_stream.Read(m_buffer, 0, p);
+			InternalStream.Read(m_buffer, 0, p);
 		}
 
 
 		public virtual byte ReadByte()
 		{
-			if (this.m_stream == null)
+			if (this.InternalStream == null)
 			{
 				throw new Exception("FileNotOpen");
 			}
-			int num = this.m_stream.ReadByte();
+			int num = this.InternalStream.ReadByte();
 			if (num == -1)
 			{
-				var ms = this.m_stream as MemoryStream;
+				var ms = this.InternalStream as MemoryStream;
 
 
 				if (ms != null)
 				{
 
-					throw new Exception("MemoryStreamEndOfFile: " + new { this.m_stream.Position, this.m_stream.Length, num, value = ms.ToArray() }.ToString());
+					throw new Exception("MemoryStreamEndOfFile: " + new { this.InternalStream.Position, this.InternalStream.Length, num, value = ms.ToArray() }.ToString());
 				}
 				else
-					throw new Exception("EndOfFile: " + new { this.m_stream.Position, this.m_stream.Length, num }.ToString());
+					throw new Exception("EndOfFile: " + new { this.InternalStream.Position, this.InternalStream.Length, num }.ToString());
 			}
 			return (byte)num;
 		}
 
 		public virtual double ReadDouble()
 		{
-			return m_stream.ToByteArray().readDouble();
+			return InternalStream.ToByteArray().readDouble();
 
 		}
 
@@ -102,7 +107,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 			var length = Read7BitEncodedInt();
 			//var bytes = ReadBytes(length);
 
-			return m_stream.ToByteArray().readUTFBytes((uint)length);
+			return InternalStream.ToByteArray().readUTFBytes((uint)length);
 		}
 
 		protected internal int Read7BitEncodedInt()

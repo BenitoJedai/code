@@ -16,7 +16,7 @@ namespace FlashStratusDemo.ActionScript
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
 	/// </summary>
-	[Script, ScriptApplicationEntryPoint]
+	[Script, ScriptApplicationEntryPoint(WithResources = true)]
 	[SWF]
 	public class FlashStratusDemo : Sprite
 	{
@@ -163,46 +163,23 @@ namespace FlashStratusDemo.ActionScript
 
 
 
-			// "Developer Key" means any license key, activation code, or similar installation, access or usage control codes, including serial numbers and electronic certificates digitally signed by Adobe, designed to uniquely identify your Developer Program and link it to you the Developer.
+			// "Developer Key" means any license key, activation code, or similar 
+			// installation, access or usage control codes, including serial numbers 
+			// and electronic certificates digitally signed by Adobe, designed to 
+			// uniquely identify your Developer Program and link it to you 
+			// the Developer.
+
 			// Attention: You cannot use this key in your applications.
 			//c.connect("rtmfp://stratus.adobe.com/3f37a156abb67621000856d1-08d2970f1b43/");
 			c.connect("rtmfp://stratus.adobe.com/3f37a156abb67621000856d1-08d2970f1b43");
 
 		}
 
-		static FlashStratusDemo()
-		{
-			// add resources to be found by ImageSource
-			KnownEmbeddedAssets.RegisterTo(
-				KnownEmbeddedResources.Default.Handlers
-			);
-		}
 
 	}
 
 
 
-	[Script]
-	public class KnownEmbeddedAssets
-	{
-		[EmbedByFileName]
-		public static Class ByFileName(string e)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static void RegisterTo(List<Converter<string, Class>> Handlers)
-		{
-			// assets from current assembly
-			Handlers.Add(e => ByFileName(e));
-
-			//AvalonUgh.Assets.ActionScript.KnownEmbeddedAssets.RegisterTo(Handlers);
-
-			//// assets from referenced assemblies
-			//Handlers.Add(e => global::ScriptCoreLib.ActionScript.Avalon.Cursors.EmbeddedAssets.Default[e]);
-			//Handlers.Add(e => global::ScriptCoreLib.ActionScript.Avalon.TiledImageButton.Assets.Default[e]);
-
-		}
-	}
+	
 
 }
