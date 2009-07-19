@@ -8,6 +8,8 @@ using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.flash.system;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.Archive.ZIP;
+using System.IO;
 
 namespace ZIPExample1.ActionScript
 {
@@ -17,6 +19,10 @@ namespace ZIPExample1.ActionScript
     [Script]
     public static class MyExtensions
     {
+		public static ZIPFile ToZIPFile(this Class c)
+		{
+			return new BinaryReader(c.ToByteArrayAsset().ToMemoryStream());
+		}
 
 
         public static Func<T> LoadBytes<T>(this ByteArray e, Action<T> done) where T: DisplayObject

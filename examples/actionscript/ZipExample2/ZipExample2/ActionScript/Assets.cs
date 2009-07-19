@@ -6,7 +6,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.Shared;
 
-[assembly: ScriptResources(ZipExample2.ActionScript.Assets.Path)]
+//[assembly: ScriptResources(ZipExample2.ActionScript.Assets.Path)]
 
 namespace ZipExample2.ActionScript
 {
