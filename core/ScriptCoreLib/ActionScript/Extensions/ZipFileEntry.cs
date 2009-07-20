@@ -12,6 +12,7 @@ namespace ScriptCoreLib.ActionScript.Extensions
     /// This class can be used to read a simple zip file
     /// </summary>
     [Script]
+	[Obsolete("Please use ScriptCoreLib.Archive.ZIP assembly instead.")]
     public class ZipFileEntry
     {
         // based on http://livedocs.adobe.com/air/1/devappsflash/help.html?content=ByteArrays_3.html

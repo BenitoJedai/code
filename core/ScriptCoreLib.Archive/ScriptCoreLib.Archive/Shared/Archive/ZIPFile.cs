@@ -7,6 +7,7 @@ using System.IO;
 namespace ScriptCoreLib.Shared.Archive
 {
 	[Script]
+	[Obsolete("Please use ScriptCoreLib.Archive.ZIP assembly instead.")]
 	public class ZIPFile
 	{
 		[Script]
