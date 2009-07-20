@@ -58,7 +58,7 @@ namespace ScriptCoreLib.Archive.ZIP
 
 			var offsets = new Queue();
 			var Items = this.Entries;
-			
+
 			#region Local file header:
 			foreach (var v in Items)
 			{
@@ -204,11 +204,11 @@ namespace ScriptCoreLib.Archive.ZIP
 		}
 
 
-		public static implicit operator byte[](ZIPFile z)
+		public  byte[] ToBytes()
 		{
 			var m = new MemoryStream();
 			var w = new BinaryWriter(m);
-			z.WriteTo(w);
+			this.WriteTo(w);
 
 			return m.ToArray();
 		}
