@@ -4,6 +4,7 @@ using java.lang;
 
 using System;
 using ThreadingExample.Java.Businesslayer;
+using System.Diagnostics;
 
 namespace ThreadingExample.Java
 {
@@ -16,6 +17,8 @@ namespace ThreadingExample.Java
 
 			var MyComputation = new LongComputation();
 
+			var s = new Stopwatch();
+			s.Start();
 			MyComputation.Start();
 
 			Console.WriteLine();
@@ -23,9 +26,10 @@ namespace ThreadingExample.Java
 			Console.ReadLine();
 
 			MyComputation.Stop();
+			s.Stop();
 
 			Console.WriteLine("Value: " + MyComputation.Current.Value);
-
+			Console.WriteLine(s.ToString());
 			Console.WriteLine();
 			Console.WriteLine("Press enter to exit.");
 			Console.ReadLine();

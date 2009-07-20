@@ -52,6 +52,16 @@ namespace jsc.Languages.Java
 					#endregion
 				};
 
+			CIW[OpCodes.Constrained] =
+				e =>
+				{
+					if (e.i.StackBeforeStrict.Length == 0)
+						// throw skip statement instead?
+						return;
+
+					EmitFirstOnStack(e);
+				};
+
 			#region Ldftn
 			CIW[OpCodes.Ldftn,
 				OpCodes.Ldvirtftn] =
@@ -334,7 +344,7 @@ namespace jsc.Languages.Java
 						return;
 					}
 
-				
+
 					// unsigned integers are stored as a larger integer, and thats why we shall unbox em too like this
 
 					if (e.i.TargetType == typeof(short) || e.i.TargetType == typeof(byte))
@@ -1536,7 +1546,12 @@ namespace jsc.Languages.Java
 				   {
 					   // 7FFFFFFF is the max for int!
 
-					   if (e.TypeExpectedOrDefault == typeof(short))
+					   var TypeExpectedOrDefault = 
+						   ((e.TypeExpectedOrDefault != null && e.TypeExpectedOrDefault.IsEnum) 
+						   ? Enum.GetUnderlyingType( e.TypeExpectedOrDefault) : null) 
+						   ?? e.TypeExpectedOrDefault;
+
+					   if (TypeExpectedOrDefault == typeof(short))
 					   {
 						   Write("(short)");
 					   }
