@@ -8,6 +8,7 @@ using ScriptCoreLib.Shared.Archive.Extensions;
 namespace ScriptCoreLib.Shared.Archive
 {
 	[Script]
+	[Obsolete("Please use ScriptCoreLib.Archive.ZIP assembly instead.")]
 	internal class ZIPFileEntryHeader
 	{
 		public int file_header_signature;
