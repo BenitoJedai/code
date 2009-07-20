@@ -8,7 +8,7 @@ namespace ScriptCoreLib.ActionScript.flash.events
 {
 	// http://livedocs.adobe.com/flex/3/langref/flash/events/SampleDataEvent.html
 	[Script(IsNative = true)]
-	public class SampleDataEvent
+	public class SampleDataEvent : Event
 	{
 		#region Properties
 		/// <summary>

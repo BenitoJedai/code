@@ -13,6 +13,7 @@ namespace MP3PitchExample.ActionScript
 	public class MP3Pitch
 	{
 		private const int BLOCK_SIZE = 3072;
+		public double _rate { get; set; }
 
 		public MP3Pitch(string url)
 		{
@@ -22,8 +23,14 @@ namespace MP3PitchExample.ActionScript
 
 			_mp3.load(new URLRequest(url));
 
+			_rate = 0.5;
+			Play(_target, _mp3);
+
+		}
+
+		private void Play(ByteArray _target, Sound _mp3)
+		{
 			var _position = 0.0;
-			var _rate = 1.0;
 
 			var _sound = new Sound();
 
@@ -105,12 +112,13 @@ namespace MP3PitchExample.ActionScript
 					_position += scaledBlockSize;
 				};
 
+
 			_mp3.complete +=
 				e =>
 				{
-					_sound.play();
-				};
+					var c = _sound.play();
 
+				};
 		}
 	}
 }
