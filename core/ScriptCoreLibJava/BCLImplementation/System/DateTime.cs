@@ -47,5 +47,27 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		public int Day { get { return this.InternalValue.get(java.util.Calendar.DAY_OF_MONTH); } }
 		public int Month { get { return this.InternalValue.get(java.util.Calendar.MONTH) + 1; } }
 		public int Year { get { return this.InternalValue.get(java.util.Calendar.YEAR); } }
+
+		public const long ticks_1970_1_1 = 621355968000000000;
+
+
+		public long Ticks
+		{
+			get
+			{
+				// conversion needed
+
+				var ms = this.InternalValue.getTimeInMillis();
+
+				return ms * TimeSpan.TicksPerMillisecond + ticks_1970_1_1;
+			}
+		}
+
+
+
+		public static __TimeSpan operator -(__DateTime d1, __DateTime d2)
+		{
+			return new __TimeSpan { InternalTicks = d1.Ticks - d2.Ticks };
+		}
 	}
 }

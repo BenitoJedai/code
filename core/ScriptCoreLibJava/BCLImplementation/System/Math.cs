@@ -139,9 +139,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			return global::java.lang.Math.min(a, b);
 		}
 
-		public static long Round(double a)
+		public static double Round(double a)
 		{
-			return global::java.lang.Math.round(a);
+			return (double)global::java.lang.Math.round(a);
 		}
 
 		public static int Round(float a)

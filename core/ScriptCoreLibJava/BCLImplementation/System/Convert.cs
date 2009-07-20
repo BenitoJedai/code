@@ -9,6 +9,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 	[Script(Implements = typeof(global::System.Convert))]
 	internal class __Convert
 	{
+		public static long ToInt64(double e)
+		{
+			return (long)Math.Round(e);
+		}
+
 		public static int ToInt32(long e)
 		{
 			return (int)e;

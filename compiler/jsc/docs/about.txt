@@ -298,3 +298,6 @@ version history:
 	c: escaped chars in string need special qoute magic
 	c: types are no longer predefined via typedef to avoid circular references
 	c: cast to BCLImplementation of string shall cast to char*
+20.07.2009
+	java: added OpCodes.Constrained
+	java: OpCodes.ldc now casts to short if passed as method parameter on enum if needed
