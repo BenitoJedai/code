@@ -54,9 +54,9 @@ namespace DelegateExample
 
 		}
 
-		static  string prefix = "Me; ";
+		static string prefix = "Me; ";
 
-		
+
 		public static void Main(string[] args)
 		{
 			CalllingWithPrimitives();
@@ -67,10 +67,10 @@ namespace DelegateExample
 			// doubleclicking on the jar will not show the console
 
 			var i = 0;
-			StringFunc GetText = 
+			StringFunc GetText =
 				delegate
 				{
-					return "Hello world (" + (i++) + ")"; 
+					return "Hello world (" + (i++) + ")";
 				};
 
 
@@ -87,13 +87,16 @@ namespace DelegateExample
 
 			WithClosure.Test();
 
+			using ("Broadcasting...".Measure())
+			{
+				StringAction y = h;
+				y += x;
+				y("Broadcasting!!");
 
-			StringAction y = h;
-			y += x;
-			y("Broadcasting!!");
+				y -= h;
+				y("Broadcasting once?!!");
 
-			y -= h;
-			y("Broadcasting once?!!");
+			}
 
 		}
 
@@ -130,4 +133,6 @@ namespace DelegateExample
 		}
 
 	}
+
+
 }
