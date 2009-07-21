@@ -8,6 +8,24 @@ using System.Diagnostics;
 
 namespace ThreadingExample.Java
 {
+	[Script]
+	public delegate void StopwatchDelegate(TimeSpan Elapsed);
+
+	[Script]
+	public static class StopwatchDelegateExtensions
+	{
+		public static TimeSpan Measure(this StopwatchDelegate e, Action h)
+		{
+			var s = new Stopwatch();
+			s.Start();
+			h();
+			s.Stop();
+			e(s.Elapsed);
+
+			return s.Elapsed;
+		}
+	}
+
 	partial class ThreadingExample
 	{
 		public static void Main(string[] args)
@@ -17,19 +35,27 @@ namespace ThreadingExample.Java
 
 			var MyComputation = new LongComputation();
 
-			var s = new Stopwatch();
-			s.Start();
-			MyComputation.Start();
+			StopwatchDelegate GotTime =
+				e =>
+				{
+					Console.WriteLine("time: " + e.TotalMilliseconds + "ms");
+				};
 
-			Console.WriteLine();
-			Console.WriteLine("Press enter to stop current computation.");
-			Console.ReadLine();
+			GotTime.Measure(
+				delegate
+				{
+					MyComputation.Start();
 
-			MyComputation.Stop();
-			s.Stop();
+					Console.WriteLine();
+					Console.WriteLine("Press enter to stop current computation.");
+					Console.ReadLine();
 
-			Console.WriteLine("Value: " + MyComputation.Current.Value);
-			Console.WriteLine(s.ToString());
+					MyComputation.Stop();
+
+					Console.WriteLine("Value: " + MyComputation.Current.Value);
+				}
+			);
+
 			Console.WriteLine();
 			Console.WriteLine("Press enter to exit.");
 			Console.ReadLine();
