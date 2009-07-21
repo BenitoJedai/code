@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Xml;
 using System.Threading;
+using System.Linq;
 
 using jsc.CodeModel;
 
@@ -319,6 +320,7 @@ namespace jsc.Languages.Java
 						if (i.TargetMethod != null)
 							imp.Add(i.TargetMethod.DeclaringType);
 
+						imp.AddRange(from mp in i.TargetMethod.GetParameters() select mp.ParameterType);
 						continue;
 					}
 
