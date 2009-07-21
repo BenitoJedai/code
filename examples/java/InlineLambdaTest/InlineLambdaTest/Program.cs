@@ -20,6 +20,12 @@ namespace InlineLambdaTest
 
 			Console.WriteLine("InlineLambdaTest. Crosscompiled from C# to Java.");
 
+			/*
+			 * jsc should not emit a ldloc while then also poping it.
+   L_0016: ldloc.0 
+   L_0017: pop 
+			*/
+
 
 			Worker.Invoke(
 				() => new Worker { Count = 0, Delay = 0 }

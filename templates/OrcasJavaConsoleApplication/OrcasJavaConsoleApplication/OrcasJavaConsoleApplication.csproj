@@ -72,6 +72,7 @@
     <None Include="tools\compile.java.bat" />
     <None Include="tools\find.java.bat" />
     <None Include="tools\create.jar.bat" />
+    <None Include="tools\run.both.bat" />
     <None Include="tools\run.jar.bat" />
     <None Include="web\release\META-INF\MANIFEST.MF">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

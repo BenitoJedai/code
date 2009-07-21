@@ -406,7 +406,14 @@ namespace jsc.Languages.Java
 
 			#region passthru
 
-			CIW[OpCodes.Pop] = CodeEmitArgs.DelegateEmitFirstOnStack;
+			CIW[OpCodes.Pop] =
+				e =>
+				{
+					if (e.i.StackBeforeStrict[0].SingleStackInstruction.IsLoadInstruction)
+						throw new SkipThisPrestatementException();
+
+					CodeEmitArgs.DelegateEmitFirstOnStack(e);
+				};
 
 			#endregion
 

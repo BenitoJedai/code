@@ -18,10 +18,13 @@ namespace OrcasJavaConsoleApplication
 			// Use Release Build to use jsc to generate java program
 			// Use Debug Build to develop on .net
 
+			Console.WriteLine("OrcasJavaConsoleApplication. Crosscompiled from C# to Java.");
+			Console.WriteLine("This will take a few seconds...");
+
             Text = "Hello World";
 
 
-			var w = new Worker { Count = 5, Delay = 300 };
+			var w = new Worker { Count = 3, Delay = 1000 };
 
 			w.Handler +=
 				delegate

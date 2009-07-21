@@ -301,3 +301,5 @@ version history:
 20.07.2009
 	java: added OpCodes.Constrained
 	java: OpCodes.ldc now casts to short if passed as method parameter on enum if needed
+21.07.2009
+	java: IsLoadInstruction is skipped if in the context of OpCodes.Pop
