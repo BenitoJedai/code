@@ -80,6 +80,9 @@ namespace ScriptCoreLib.Archive.ZIP
 			this.InternalData = this.GetProperty("Data", InternalProperties);
 			this.InternalDescription = this.GetProperty("Description", InternalProperties);
 			this.InternalIdentity = this.GetProperty("Identity", InternalProperties);
+			this.InternalCounter = this.GetProperty("Counter", InternalProperties);
+			
+			this.Counter = 0;
 
 			Stopwatch.Start();
 		}
@@ -187,6 +190,19 @@ namespace ScriptCoreLib.Archive.ZIP
 			}
 		}
 
+		readonly Property InternalCounter;
+		public uint Counter
+		{
+			get
+			{
+				return this.InternalCounter.ValueUInt32;
+			}
+			set
+			{
+				this.InternalCounter.ValueUInt32 = value;
+			}
+		}
+
 
 		readonly Property InternalData;
 		public byte[] Data
@@ -265,7 +281,7 @@ namespace ScriptCoreLib.Archive.ZIP
 							this.Content[k.FileName].Data = k.Data;
 						}
 					}
-
+					Counter++;
 					InternalArchive.Delete();
 				}
 			}
