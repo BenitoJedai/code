@@ -23,6 +23,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             WriteLine("");
         }
 
+		public static void WriteLine(object e)
+		{
+			WriteLine("" + e);
+		}
+
         public static void WriteLine(string e)
         {
             global::java.lang.JavaSystem.@out.println(e);

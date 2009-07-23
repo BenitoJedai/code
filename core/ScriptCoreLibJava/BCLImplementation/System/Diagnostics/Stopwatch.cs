@@ -34,6 +34,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Diagnostics
 		{
 			get
 			{
+				if (IsRunning)
+					InternalStop = DateTime.Now;
+
 				return InternalStop - InternalStart;
 			}
 		}
