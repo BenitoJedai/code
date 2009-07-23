@@ -173,6 +173,19 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 									w.Statement("public byte LengthExpected;");
 									w.Statement("public bool IsLengthExpectedSpecified;");
 
+									w.Statement("public delegate void ByteArrayAction(byte[] e);");
+									w.Statement("public ByteArrayAction Tx;");
+									w.Statement("public ByteArrayAction Rx;");
+
+									w.Block("protected byte[] InternalTransmit(byte[] data)",
+										delegate
+										{
+											w.Statement("if (Tx != null) Tx(data);");
+											w.Statement("var r = this.Transmitter.Transmit(data);");
+											w.Statement("if (Rx != null) Rx(r);");
+											w.Statement("return r;");
+										}
+									);
 
 									//w.Statement("[Script]");
 									w.Block("class WithLengthExpected_IDisposable : IDisposable",
@@ -514,7 +527,7 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 						w.Statement("c.WriteByte((byte)data.Length);");
 						w.Statement("c.Write(data, 0, data.Length);");
 
-						w.Statement("return this.Transmitter.Transmit(c.ToArray());");
+						w.Statement("return InternalTransmit(c.ToArray());");
 					}
 				);
 				return;
@@ -549,7 +562,7 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 							}
 						);
 
-						w.Statement("return this.Transmitter.Transmit(c.ToArray());");
+						w.Statement("return InternalTransmit(c.ToArray());");
 
 					}
 				);
@@ -661,7 +674,7 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 						);
 
 
-						w.Statement("return this.Transmitter.Transmit(c.ToArray());");
+						w.Statement("return InternalTransmit(c.ToArray());");
 
 					}
 				);

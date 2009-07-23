@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using System.IO;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.IO
 {
@@ -17,14 +18,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 		}
 		public override bool Exists
 		{
-			get { return __File.Exists(InternalPath); }
+			get { return __File.Exists(FullName); }
 		}
 
 		public override string FullName
 		{
 			get
 			{
-				return InternalPath;
+				return Path.GetFullPath(InternalPath);
 			}
 		}
 	}

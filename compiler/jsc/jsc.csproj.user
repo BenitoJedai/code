@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\java\DelegateExample\DelegateExample\bin\Release</StartWorkingDirectory>
-    <StartArguments>DelegateExample.exe -java</StartArguments>
+    <StartWorkingDirectory>C:\work\mindware.svn\Nespresso\trunk\Nespresso.ChipXpressPlugin1\Nespresso.ChipXpressPlugin1\bin\Release</StartWorkingDirectory>
+    <StartArguments>Nespresso.ChipXpressPlugin1.exe -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
