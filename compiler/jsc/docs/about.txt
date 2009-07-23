@@ -306,3 +306,4 @@ version history:
 	java: types used by OpCodes.Ldftn are now imported
 23.07.2009
 	java: no longer declare throws on exceptions where ImplementationType.Name == "RuntimeException"
+	as: delegates now correctly import all implemented interface types now

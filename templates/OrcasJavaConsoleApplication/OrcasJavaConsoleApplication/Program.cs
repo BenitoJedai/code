@@ -15,6 +15,7 @@ namespace OrcasJavaConsoleApplication
 
         public static void Main(string[] args)
         {
+
 			// Use Release Build to use jsc to generate java program
 			// Use Debug Build to develop on .net
 

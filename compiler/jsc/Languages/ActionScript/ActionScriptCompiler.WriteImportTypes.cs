@@ -105,7 +105,7 @@ namespace jsc.Languages.ActionScript
 
                 WriteIdent();
 
-                Write("import ");
+				WriteKeywordSpace(Keywords._import);
                 Write(/*NamespaceFixup(*/var/*)*/);
                 WriteLine(";");
 
@@ -133,6 +133,11 @@ namespace jsc.Languages.ActionScript
             if (t == typeof(object))
                 return new Type[] { };
 
+			var tinterfaces = t.GetInterfaces();
+
+            foreach (Type tinterface in tinterfaces)
+                imp.Add(tinterface);
+
             if (t.BaseType == typeof(MulticastDelegate))
             {
 				imp.Add(MySession.ResolveImplementation(typeof(IntPtr)));
@@ -152,10 +157,7 @@ namespace jsc.Languages.ActionScript
                 goto removesome;
             }
 
-            var tinterfaces = t.GetInterfaces();
-
-            foreach (Type tinterface in tinterfaces)
-                imp.Add(tinterface);
+    
 
 
             /*
