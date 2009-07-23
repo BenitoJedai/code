@@ -313,7 +313,7 @@ namespace jsc.Languages.Java
 			DebugBreak(ScriptAttribute.Of(m));
 
 			List<Type> list = GetMethodExceptions(m);
-
+			
 			if (list.Count > 0)
 			{
 				WriteSpace();

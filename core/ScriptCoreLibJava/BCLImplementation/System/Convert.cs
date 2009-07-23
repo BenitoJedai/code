@@ -88,6 +88,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 		public static byte[] FromBase64String(string input)
 		{
+			if (string.IsNullOrEmpty(input))
+				return new byte[0];
+
 			var m = new MemoryStream();
 
 			var length = input.Length;

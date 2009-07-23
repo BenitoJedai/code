@@ -12,43 +12,43 @@ namespace ScriptCoreLib.Archive.ZIP
 	/// This type will provide abstraction to measure the time taken by single tasks, present the opportunity to decide to
 	/// suspend currenct execution of tasks just to be resumed later
 	/// </summary>
-	
+
 	public class ZIPFilePersistance : IDisposable
 	{
-		
+
 		public delegate void StringAction(string e);
 
-		
+
 		public delegate string StringFunc();
 
-		
+
 		public delegate void ByteArrayAction(byte[] e);
 
-		
+
 		public delegate byte[] ByteArrayFunc();
 
-		
+
 		public delegate bool BooleanFunc();
 
-		
+
 		public delegate bool StorageExists();
 
-		
+
 		public delegate byte[] StorageReader();
 
-		
+
 		public delegate void StorageWriter(byte[] bytes);
 
-		
+
 		public delegate bool StorageTargetExists(string Target);
 
-		
+
 		public delegate byte[] StorageTargetReader(string Target);
 
-		
+
 		public delegate void StorageTargetWriter(string Target, byte[] bytes);
 
-		
+
 		public sealed class Storage
 		{
 			public Action Delete;
@@ -81,7 +81,7 @@ namespace ScriptCoreLib.Archive.ZIP
 			this.InternalDescription = this.GetProperty("Description", InternalProperties);
 			this.InternalIdentity = this.GetProperty("Identity", InternalProperties);
 			this.InternalCounter = this.GetProperty("Counter", InternalProperties);
-			
+
 			this.Counter = 0;
 
 			Stopwatch.Start();
@@ -94,7 +94,7 @@ namespace ScriptCoreLib.Archive.ZIP
 		public int CountTaskEnqeued;
 		readonly ArrayList InternalTasks = new ArrayList();
 
-		
+
 		public class TaskInfo
 		{
 			public string TaskName;
@@ -146,13 +146,24 @@ namespace ScriptCoreLib.Archive.ZIP
 
 				var s = new Stopwatch();
 				s.Start();
-				value();
-				s.Stop();
+				try
+				{
+					value();
+				}
+				catch
+				{
+					// in case of errors we will mark this workflow not to be persisted anymore...
+					PersistanceDisabled = true;
+					// we might want to store the current exception...
+					throw new InvalidOperationException();
+				}
 
+				s.Stop();
 				i.Elapsed.ValueUInt32 = (uint)s.ElapsedMilliseconds;
 
 				if (this.TaskCompleted != null)
 					this.TaskCompleted(TaskName);
+
 			}
 		}
 
@@ -247,7 +258,6 @@ namespace ScriptCoreLib.Archive.ZIP
 		{
 			Stopwatch.Stop();
 
-
 			if (PersistanceRequired)
 				this.WriteToStorage();
 		}
@@ -287,10 +297,10 @@ namespace ScriptCoreLib.Archive.ZIP
 			}
 		}
 
-		
+
 		public class Property
 		{
-			
+
 			public class Handlers
 			{
 				public StringAction set_TextHandler;
@@ -377,7 +387,6 @@ namespace ScriptCoreLib.Archive.ZIP
 			};
 
 			return new Property(h);
-
 		}
 	}
 
