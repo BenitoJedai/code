@@ -19,7 +19,9 @@ namespace OrcasJavaConsoleApplication
 			// Use Debug Build to develop on .net
 
 			Console.WriteLine("OrcasJavaConsoleApplication. Crosscompiled from C# to Java.");
-			Console.WriteLine("This will take a few seconds...");
+			
+			// Extension methods...
+			("This will take a few seconds...").ToConsole();
 
             Text = "Hello World";
 

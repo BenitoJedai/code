@@ -54,6 +54,30 @@ namespace ScriptCoreLib.Archive.ZIP
 				}
 			}
 
+			public string Text
+			{
+				set
+				{
+					this.Data = new MemoryStream(Encoding.ASCII.GetBytes(value));
+				}
+				get
+				{
+					return Encoding.ASCII.GetString(Data.ToArray());
+				}
+			}
+
+			public byte[] Bytes
+			{
+				get
+				{
+					return this.Data.ToArray();
+				}
+				set
+				{
+					this.Data = new MemoryStream(value);
+				}
+			}
+
 			public ZIPFileEntryHeader Header;
 		}
 
@@ -106,6 +130,51 @@ namespace ScriptCoreLib.Archive.ZIP
 
 		#endregion
 
+		public bool Contains(string FileName)
+		{
+			var r = false;
+
+			foreach (var k in this.Entries)
+			{
+				if (k.FileName == FileName)
+				{
+					r = true;
+					break;
+				}
+			}
+
+			return r;
+		}
+
+		/// <summary>
+		/// Returns current or creates new file entry
+		/// </summary>
+		/// <param name="FileName"></param>
+		/// <returns></returns>
+		public Entry this[string FileName]
+		{
+			get
+			{
+				var r = default(Entry);
+
+				foreach (var k in this.Entries)
+				{
+					if (k.FileName == FileName)
+					{
+						r = k;
+						break;
+					}
+				}
+
+				if (r == null)
+				{
+					r = new Entry { FileName = FileName };
+					this.Add(r);
+				}
+
+				return r;
+			}
+		}
 
 	}
 

@@ -76,6 +76,10 @@
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
     <Compile Include="BCLImplementation\System\Attribute.cs" />
     <Compile Include="BCLImplementation\System\Diagnostics\Stopwatch.cs" />
+    <Compile Include="BCLImplementation\System\IO\DirectoryInfo.cs" />
+    <Compile Include="BCLImplementation\System\IO\FileInfo.cs" />
+    <Compile Include="BCLImplementation\System\IO\FileSystemInfo.cs" />
+    <Compile Include="BCLImplementation\System\IO\Path.cs" />
     <Compile Include="BCLImplementation\System\TimeSpan.cs" />
     <Compile Include="BCLImplementation\System\ValueType.cs" />
     <Compile Include="BCLImplementation\System\UInt32.cs" />

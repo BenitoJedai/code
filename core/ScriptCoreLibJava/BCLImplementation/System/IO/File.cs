@@ -8,6 +8,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.File))]
 	internal class __File
 	{
+		public static void Delete(string path)
+		{
+			new java.io.File(path).delete();
+		}
+
+		public static bool Exists(string path)
+		{
+			return new java.io.File(path).exists();
+		}
+
 		public static string ReadAllText(string path)
 		{
 			return Encoding.ASCII.GetString(ReadAllBytes(path));

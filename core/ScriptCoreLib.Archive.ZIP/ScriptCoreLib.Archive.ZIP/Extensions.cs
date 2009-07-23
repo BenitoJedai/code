@@ -11,6 +11,15 @@ namespace ScriptCoreLib.Archive.ZIP
 {
 	internal static class Extensions
 	{
+		public static string CombinePath(this string category, string target)
+		{
+			if (string.IsNullOrEmpty(category))
+				return target;
+
+			return Path.Combine(category, target);
+		}
+
+
 		public static void WriteUInt32(this BinaryWriter w, uint value)
 		{
 			w.Write((int)value);
