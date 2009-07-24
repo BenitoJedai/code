@@ -75,7 +75,9 @@ namespace SimpleWorkflowExample
 						File.Delete,
 						File.ReadAllBytes,
 						File.WriteAllBytes
-					)
+					),
+
+					PersistanceDisabled = false
 				}
 			)
 			{
@@ -92,10 +94,16 @@ namespace SimpleWorkflowExample
 							Console.WriteLine("TaskEnqeued: " + n);
 						};
 
-					f.TaskCompleted +=
+					f.TaskFault +=
 						n =>
 						{
-							Console.WriteLine("TaskCompleted: " + n);
+							Console.WriteLine("TaskFault: " + n);
+						};
+
+					f.TaskCompleted +=
+						(n, elapsed) =>
+						{
+							Console.WriteLine("TaskCompleted: " + n + " in " + elapsed.TotalMilliseconds + "ms");
 						};
 
 					f.TaskSkipped +=
@@ -106,6 +114,7 @@ namespace SimpleWorkflowExample
 					#endregion
 
 					var result1 = f.GetProperty("result1");
+					var result1_1 = result1["output"];
 					var result2 = f.GetProperty("result2");
 
 
@@ -116,6 +125,7 @@ namespace SimpleWorkflowExample
 						Thread.Sleep(1200);
 
 						result1.Text = "prep1 result";
+						result1_1.Text = "this is additional output";
 
 						Console.WriteLine("prep1 ends at " + f.Stopwatch.ElapsedMilliseconds + "ms");
 
@@ -135,19 +145,33 @@ namespace SimpleWorkflowExample
 
 					};
 
-					f["prep3"] = delegate
+					var WillFault = true;
+					f["prep3"] = c =>
 					{
 						Console.WriteLine("prep3 at " + f.Stopwatch.ElapsedMilliseconds + "ms");
 
 						Console.WriteLine(result1);
 						Console.WriteLine(result2);
 
+						c.Fault = WillFault;
+						WillFault = false;
+						Thread.Sleep(500);
+
 					};
 
+					uint Total = 0;
 					foreach (var t in f.Tasks)
 					{
+						Total += t.Elapsed.ValueUInt32;
 						Console.WriteLine("Statistics: " + t.TaskName + " completed in " + t.Elapsed.ValueUInt32 + "ms");
 					}
+
+					Console.WriteLine("Statistics: time elapsed at fault " + f.ElapsedAtFault);
+
+					Total += f.ElapsedAtFault;
+
+					Console.WriteLine("Statistics: Personalization completed in " + Total + "ms in " + f.Counter + " iterations");
+
 
 
 					if (f.PersistanceRequired)

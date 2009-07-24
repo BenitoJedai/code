@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\code.google\zproxygames\Bulldog\Bulldog.Client.Promotion.VerticalScroller\bin\Release</StartWorkingDirectory>
-    <StartArguments>Bulldog.Client.Promotion.VerticalScroller.exe -as</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\java\SimpleWorkflowExample\SimpleWorkflowExample\bin\Release</StartWorkingDirectory>
+    <StartArguments>SimpleWorkflowExample.exe -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

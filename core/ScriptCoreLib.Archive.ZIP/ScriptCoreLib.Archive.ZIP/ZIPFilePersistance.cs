@@ -12,10 +12,10 @@ namespace ScriptCoreLib.Archive.ZIP
 	/// This type will provide abstraction to measure the time taken by single tasks, present the opportunity to decide to
 	/// suspend currenct execution of tasks just to be resumed later
 	/// </summary>
-
-	public class ZIPFilePersistance : IDisposable
+	public partial class ZIPFilePersistance : IDisposable
 	{
 
+		public delegate void StringTimeSpanAction(string e, TimeSpan elapsed);
 		public delegate void StringAction(string e);
 
 
@@ -31,42 +31,6 @@ namespace ScriptCoreLib.Archive.ZIP
 		public delegate bool BooleanFunc();
 
 
-		public delegate bool StorageExists();
-
-
-		public delegate byte[] StorageReader();
-
-
-		public delegate void StorageWriter(byte[] bytes);
-
-
-		public delegate bool StorageTargetExists(string Target);
-
-
-		public delegate byte[] StorageTargetReader(string Target);
-
-
-		public delegate void StorageTargetWriter(string Target, byte[] bytes);
-
-
-		public sealed class Storage
-		{
-			public Action Delete;
-			public StorageExists Exists;
-			public StorageReader Reader;
-			public StorageWriter Writer;
-
-			public static Storage Of(string Target, StorageTargetExists Exists, StringAction Delete, StorageTargetReader Reader, StorageTargetWriter Writer)
-			{
-				return new Storage
-				{
-					Delete = () => Delete(Target),
-					Exists = () => Exists(Target),
-					Reader = () => Reader(Target),
-					Writer = bytes => Writer(Target, bytes)
-				};
-			}
-		}
 
 		public int Timeout;
 
@@ -81,15 +45,19 @@ namespace ScriptCoreLib.Archive.ZIP
 			this.InternalDescription = this.GetProperty("Description", InternalProperties);
 			this.InternalIdentity = this.GetProperty("Identity", InternalProperties);
 			this.InternalCounter = this.GetProperty("Counter", InternalProperties);
+			this.InternalElapsedAtFault = this.GetProperty("ElapsedAtFault", InternalProperties);
 
 			this.Counter = 0;
+			this.ElapsedAtFault = 0;
 
 			Stopwatch.Start();
 		}
 
 		public event StringAction TaskSkipped;
 		public event StringAction TaskEnqeued;
-		public event StringAction TaskCompleted;
+		public event StringAction TaskStarted;
+		public event StringAction TaskFault;
+		public event StringTimeSpanAction TaskCompleted;
 
 		public int CountTaskEnqeued;
 		readonly ArrayList InternalTasks = new ArrayList();
@@ -109,18 +77,39 @@ namespace ScriptCoreLib.Archive.ZIP
 			}
 		}
 
-		public Action this[string TaskName]
+		public TaskControlAction this[string TaskName, string SubTask]
+		{
+			set
+			{
+				this[Path.Combine(TaskName, SubTask)] = value;
+			}
+		}
+
+
+		public class TaskControl
+		{
+			public string Name;
+
+			/// <summary>
+			/// When set to true this task is to be retried. The time elapsed will be added to the 
+			/// generic ElapsedAtFault time counter.
+			/// </summary>
+			public bool Fault;
+		}
+
+		public delegate void TaskControlAction(TaskControl c);
+
+		public TaskControlAction this[string TaskName]
 		{
 			set
 			{
 				var Category = "Tasks/" + TaskName;
 
-				var n = Category + "/";
-				var i = new TaskInfo();
+				var TaskHandler = Category + "/";
 
-				if (this.Content.Contains(n))
+				if (this.Content.Contains(TaskHandler))
 				{
-					AddTaskInfo(TaskName, Category, i);
+					AddTaskInfo(TaskName, Category, new TaskInfo());
 
 					if (this.TaskSkipped != null)
 						this.TaskSkipped(TaskName);
@@ -128,43 +117,67 @@ namespace ScriptCoreLib.Archive.ZIP
 					return;
 				}
 
-				if (!this.PersistanceDisabled)
-					if (this.Stopwatch.ElapsedMilliseconds > Timeout)
-					{
-						CountTaskEnqeued++;
-
-						if (this.TaskEnqeued != null)
-							this.TaskEnqeued(TaskName);
-
-						return;
-					}
-
-				this.Content.Add(n);
-
-				AddTaskInfo(TaskName, Category, i);
-
-
-				var s = new Stopwatch();
-				s.Start();
-				try
-				{
-					value();
-				}
-				catch
-				{
-					// in case of errors we will mark this workflow not to be persisted anymore...
-					PersistanceDisabled = true;
-					// we might want to store the current exception...
-					throw new InvalidOperationException();
-				}
-
-				s.Stop();
-				i.Elapsed.ValueUInt32 = (uint)s.ElapsedMilliseconds;
-
-				if (this.TaskCompleted != null)
-					this.TaskCompleted(TaskName);
+				while (InternalInvokeTask(TaskName, value, Category, TaskHandler));
 
 			}
+		}
+
+		private bool InternalInvokeTask(string TaskName, TaskControlAction value, string Category, string TaskHandler)
+		{
+
+			if (!this.PersistanceDisabled)
+				if (this.Stopwatch.ElapsedMilliseconds > Timeout)
+				{
+					CountTaskEnqeued++;
+
+					if (this.TaskEnqeued != null)
+						this.TaskEnqeued(TaskName);
+
+					return false;
+				}
+
+
+
+			if (this.TaskStarted != null)
+				this.TaskStarted(TaskName);
+
+			var c = new TaskControl();
+
+			var s = new Stopwatch();
+			s.Start();
+			try
+			{
+				value(c);
+			}
+			catch
+			{
+				// in case of errors we will mark this workflow not to be persisted anymore...
+				PersistanceDisabled = true;
+				// we might want to store the current exception...
+				throw new InvalidOperationException();
+			}
+
+			s.Stop();
+
+			if (c.Fault)
+			{
+				if (this.TaskFault != null)
+					this.TaskFault(TaskName);
+
+				this.ElapsedAtFault += (uint)s.ElapsedMilliseconds;
+
+				return true;
+			}
+
+			this.Content.Add(TaskHandler);
+			var i = new TaskInfo();
+			AddTaskInfo(TaskName, Category, i);
+			i.Elapsed.ValueUInt32 = (uint)s.ElapsedMilliseconds;
+
+			if (this.TaskCompleted != null)
+				this.TaskCompleted(TaskName, s.Elapsed);
+
+			return false;
 		}
 
 		private void AddTaskInfo(string TaskName, string Category, TaskInfo i)
@@ -211,6 +224,19 @@ namespace ScriptCoreLib.Archive.ZIP
 			set
 			{
 				this.InternalCounter.ValueUInt32 = value;
+			}
+		}
+
+		readonly Property InternalElapsedAtFault;
+		public uint ElapsedAtFault
+		{
+			get
+			{
+				return this.InternalElapsedAtFault.ValueUInt32;
+			}
+			set
+			{
+				this.InternalElapsedAtFault.ValueUInt32 = value;
 			}
 		}
 
@@ -298,96 +324,7 @@ namespace ScriptCoreLib.Archive.ZIP
 		}
 
 
-		public class Property
-		{
-
-			public class Handlers
-			{
-				public StringAction set_TextHandler;
-				public StringFunc get_TextHandler;
-
-				public ByteArrayAction set_BytesHandler;
-				public ByteArrayFunc get_BytesHandler;
-			}
-
-			readonly Handlers InternalHandlers;
-
-			public Property(Handlers h)
-			{
-				this.InternalHandlers = h;
-			}
-
-			public string Text
-			{
-				get
-				{
-					return this.InternalHandlers.get_TextHandler();
-				}
-				set
-				{
-					this.InternalHandlers.set_TextHandler(value);
-				}
-			}
-
-			public byte[] Bytes
-			{
-				get
-				{
-					return this.InternalHandlers.get_BytesHandler();
-				}
-				set
-				{
-					this.InternalHandlers.set_BytesHandler(value);
-				}
-			}
-
-			public uint ValueUInt32
-			{
-				get
-				{
-					var r = new BinaryReader(new MemoryStream(Bytes));
-
-					return r.ReadUInt32();
-				}
-				set
-				{
-					var m = new MemoryStream();
-					var w = new BinaryWriter(m);
-					w.Write((int)value);
-
-					this.Bytes = m.ToArray();
-				}
-			}
-
-			public override string ToString()
-			{
-				return this.Text;
-			}
-		}
-
-		public Property GetProperty(string name)
-		{
-			return GetProperty(name, "Properties");
-		}
-
-		public Property GetProperty(string name, string category)
-		{
-			var TextHandler = category.CombinePath(name + ".txt");
-			var BytesHandler = category.CombinePath(name + ".bin");
-
-			var h = new Property.Handlers
-			{
-				get_TextHandler = () => this.Content[TextHandler].Text,
-				set_TextHandler = value => this.Content[TextHandler].Text = value,
-
-				get_BytesHandler = () => this.Content[BytesHandler].Bytes,
-				set_BytesHandler = value => this.Content[BytesHandler].Bytes = value
-
-
-			};
-
-			return new Property(h);
-		}
+		
 	}
 
 }

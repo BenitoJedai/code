@@ -307,3 +307,6 @@ version history:
 23.07.2009
 	java: no longer declare throws on exceptions where ImplementationType.Name == "RuntimeException"
 	as: delegates now correctly import all implemented interface types now
+24.07.2009
+	jsc: code loop like while (x); should now be detected
+	java: unnamed arguments shall now default to a name
