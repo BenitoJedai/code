@@ -22,7 +22,13 @@ namespace OrcasJavaConsoleApplication
 			Console.WriteLine("OrcasJavaConsoleApplication. Crosscompiled from C# to Java.");
 			
 			// Extension methods...
-			("This will take a few seconds...").ToConsole();
+			(@"   
+
+This will take a few seconds...  
+
+").Trim().ToConsole();
+
+			Console.WriteLine("Trim?");
 
             Text = "Hello World";
 
