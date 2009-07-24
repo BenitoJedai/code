@@ -52,6 +52,30 @@ namespace jsc.Languages.Java
 					#endregion
 				};
 
+			CIW[OpCodes.Initobj] =
+				e =>
+				{
+					// we can only initobj a variable. we cannot init a generic type parameter
+					if (e.i.Prev.TargetVariable == null)
+						throw new SkipThisPrestatementException();
+
+					var target = MySession.ResolveImplementation(e.i.TargetType) ?? e.i.TargetType;
+
+
+					if (target.IsGenericParameter)
+					{
+						throw new SkipThisPrestatementException();
+					}
+
+					WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.Prev.TargetVariable);
+					WriteAssignment();
+
+
+					WriteKeywordSpace(Keywords._new);
+					WriteDecoratedTypeName(e.Method.DeclaringType, target);
+					Write("()");
+				};
+
 			CIW[OpCodes.Constrained] =
 				e =>
 				{
